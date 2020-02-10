@@ -17,7 +17,7 @@ module.exports = {
       jsx: true,
     },
     ecmaVersion: 2018,
-    sourceType: 'module',
+    parser: 'babel-eslint',
   },
   plugins: [
     'import',
@@ -25,6 +25,7 @@ module.exports = {
   ],
 
   rules: {
+    'camelcase': 'off',
     'no-shadow': 'off',
     'import/no-extraneous-dependencies': 'off',
     'max-len': 'off',
@@ -40,6 +41,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'semi': [ 2, 'never' ],
     'unicorn/number-literal-case': 'off',
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "jsx-a11y/media-has-caption": 'off',
   },
 };
