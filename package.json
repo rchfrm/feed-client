@@ -6,6 +6,7 @@
   "description": "",
   "dependencies": {
     "chart.js": "^2.9.3",
+    "dotenv": "^8.2.0",
     "firebase": "^6.2.0",
     "moment": "^2.24.0",
     "next": "^9.2.1",
@@ -17,8 +18,11 @@
     "react-stripe-elements": "^5.0.1"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
+    "eslint-import-resolver-webpack": "^0.12.1",
+    "eslint-loader": "^3.0.3",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.18.3",
