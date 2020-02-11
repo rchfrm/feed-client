@@ -2,7 +2,7 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import NavigationContext from './contexts/Navigation'
+import { NavigationContext } from './contexts/Navigation'
 // IMPORT ELEMENTS
 import Feed from './elements/Feed'
 // IMPORT PAGES
