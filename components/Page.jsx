@@ -1,6 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
@@ -16,7 +16,7 @@ import firebase from './helpers/firebase'
 // IMPORT STYLES
 
 function Page(props) {
-  const router = Router.useRouter()
+  const router = useRouter()
   const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
   const { createUser, noUser, storeUser } = React.useContext(UserContext)
   const { noArtist, storeArtist } = React.useContext(ArtistContext)
