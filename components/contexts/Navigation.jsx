@@ -29,13 +29,13 @@ const reducer = (navState, navAction) => {
   }
 }
 
-function NavMenuProvider(props) {
+const NavMenuProvider = ({ children }) => {
   const [navState, navDispatch] = React.useReducer(reducer, initialState)
   const value = { navState, navDispatch }
 
   return (
     <NavigationContext.Provider value={value}>
-      {props.children}
+      {children}
     </NavigationContext.Provider>
   )
 }
