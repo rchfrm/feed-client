@@ -12,15 +12,7 @@ import Nothing from '../Nothing'
 // IMPORT STYLES
 import './alert.css'
 
-function Alert(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { contents } = props
-  const { responseExpected } = props
-  const { confirmationText } = props
-  const { rejectionText } = props
-  const { setAlert } = props
-  // END REDEFINE PROPS AS VARIABLES
-
+function Alert({ contents, responseExpected, confirmationText, rejectionText, setAlert }) {
   // If there are no contents, display nothing
   if (!contents) {
     return <Nothing />
@@ -43,7 +35,7 @@ function Alert(props) {
       <div className="alert">
 
         <div className="alert-contents">
-          {props.contents}
+          {contents}
         </div>
 
         <AlertButtons
