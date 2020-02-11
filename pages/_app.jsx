@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { StripeProvider } from 'react-stripe-elements'
 // IMPORT COMPONENTS
@@ -19,15 +19,19 @@ import '../assets/styles/index.css'
 
 
 function Feed({ Component, pageProps }) {
-  // console.log('React.useContext(NavigationContext)', React.useContext(NavigationContext))
   const { visible: navVisible } = React.useContext(NavigationContext)
   const backgroundColor = navVisible ? 'black' : 'white'
+  // Setup stripe to use SSR
+  const [stripe, setStripe] = useState(null)
+  useEffect(() => {
+    setStripe(window.Stripe(process.env.stripe_provider))
+  })
 
   return (
 
     <AuthProvider>
 
-      <StripeProvider apiKey={process.env.stripe_provider}>
+      <StripeProvider stripe={stripe}>
 
         <NavMenuProvider>
 
