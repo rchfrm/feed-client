@@ -9,12 +9,12 @@ import React from 'react'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-const NavigationContext = React.createContext()
-NavigationContext.displayName = 'NavigationContext'
-
-const initialState = ({
+const initialState = {
   visible: false,
-})
+}
+
+const NavigationContext = React.createContext(initialState)
+NavigationContext.displayName = 'NavigationContext'
 
 const reducer = (navState, navAction) => {
   switch (navAction.type) {

@@ -7,7 +7,7 @@ import TheHeader from '../components/TheHeader'
 import TheFooter from '../components/TheFooter'
 // IMPORT CONTEXTS
 import { AuthProvider } from '../components/contexts/Auth'
-import { NavigationContext, NavMenuProvider } from '../components/contexts/Navigation'
+import { NavMenuProvider, NavigationContext } from '../components/contexts/Navigation'
 // IMPORT ELEMENTS
 
 // IMPORT PAGES
@@ -19,8 +19,9 @@ import '../assets/styles/index.css'
 
 
 function Feed({ Component, pageProps }) {
-  const { navState } = React.useContext(NavigationContext)
-  const backgroundColor = navState.visible ? 'black' : 'white'
+  // console.log('React.useContext(NavigationContext)', React.useContext(NavigationContext))
+  const { visible: navVisible } = React.useContext(NavigationContext)
+  const backgroundColor = navVisible ? 'black' : 'white'
 
   return (
 
