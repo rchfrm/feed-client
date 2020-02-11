@@ -18,7 +18,6 @@ import { NavMenuProvider, NavigationContext } from '../components/contexts/Navig
 // IMPORT STYLES
 import '../assets/styles/index.css'
 
-
 function Feed({ Component, pageProps }) {
   const { visible: navVisible } = React.useContext(NavigationContext)
   const backgroundColor = navVisible ? 'black' : 'white'
@@ -26,7 +25,7 @@ function Feed({ Component, pageProps }) {
   const [stripe, setStripe] = useState(null)
   useEffect(() => {
     setStripe(window.Stripe(process.env.stripe_provider))
-  })
+  }, [process.env.stripe_provider])
 
   return (
 
