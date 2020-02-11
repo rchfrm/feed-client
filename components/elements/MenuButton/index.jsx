@@ -2,8 +2,8 @@ import React from 'react'
 
 import './menubutton.css'
 
-import MenuIcon from '../../assets/icons/MenuIcon'
-import CrossIcon from '../../assets/icons/CrossIcon'
+import MenuIcon from '../../icons/MenuIcon'
+import CrossIcon from '../../icons/CrossIcon'
 
 function MenuButton(props) {
   // const iconSRC = props.navigation ? closeMenu : openMenu;

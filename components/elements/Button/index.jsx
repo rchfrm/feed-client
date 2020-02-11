@@ -5,7 +5,7 @@ import React from 'react'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS
-import FacebookIcon from '../../assets/icons/FacebookIcon'
+import FacebookIcon from '../../icons/FacebookIcon'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
@@ -30,6 +30,7 @@ function Button(props) {
   }
   return (
     <button
+      type="button"
       disabled={props.disabled}
       className={`button_${version} ${width}`}
       onClick={props.onClick}

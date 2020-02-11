@@ -3,8 +3,8 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import FacebookIcon from '../../assets/icons/FacebookIcon'
-import InstagramIcon from '../../assets/icons/InstagramIcon'
+import FacebookIcon from '../../icons/FacebookIcon'
+import InstagramIcon from '../../icons/InstagramIcon'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS

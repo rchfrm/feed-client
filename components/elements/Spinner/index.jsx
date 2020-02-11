@@ -5,7 +5,7 @@ import React from 'react'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS
-import BrokenCircle from '../../assets/icons/BrokenCircle'
+import BrokenCircle from '../../icons/BrokenCircle'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
