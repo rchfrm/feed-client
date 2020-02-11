@@ -1,6 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { NavigationContext } from '../../contexts/Navigation'
@@ -33,10 +33,9 @@ function Navigation() {
   )
 }
 
-function ArtistOptions(props) {
+function ArtistOptions({ artists, onChange }) {
   const { artist } = React.useContext(ArtistContext)
 
-  const { artists } = props
   const artistOptions = artists.map(artist => {
     return (
       <option key={artist.id} value={artist.id}>{artist.name}</option>
@@ -44,7 +43,7 @@ function ArtistOptions(props) {
   })
 
   return (
-    <select value={artist.id} onChange={props.onChange}>{artistOptions}</select>
+    <select value={artist.id} onChange={onChange}>{artistOptions}</select>
   )
 }
 
@@ -73,19 +72,19 @@ function NavigationAuth() {
           ? <li><ArtistOptions onChange={handleChange} artists={user.artists} /></li>
           : ''}
         <li>
-          <NavLink to={ROUTES.HOME} activeClassName="currentPage">home</NavLink>
+          <Link href={ROUTES.HOME} activeClassName="currentPage">home</Link>
         </li>
         <li>
-          <NavLink to={ROUTES.POSTS} activeClassName="currentPage">your posts</NavLink>
+          <Link href={ROUTES.POSTS} activeClassName="currentPage">your posts</Link>
         </li>
         <li>
-          <NavLink to={ROUTES.RESULTS} activeClassName="currentPage">results</NavLink>
+          <Link href={ROUTES.RESULTS} activeClassName="currentPage">results</Link>
         </li>
         <li>
-          <NavLink to={ROUTES.ACCOUNT} activeClassName="currentPage">account</NavLink>
+          <Link href={ROUTES.ACCOUNT} activeClassName="currentPage">account</Link>
         </li>
         <li>
-          <NavLink to={ROUTES.FAQ} activeClassName="currentPage">faq</NavLink>
+          <Link href={ROUTES.FAQ} activeClassName="currentPage">faq</Link>
         </li>
         <li className="penultimateLi">
           <SignOutLink />
@@ -102,19 +101,19 @@ const NavigationNonAuth = () => (
   <div>
     <ul>
       <li>
-        <NavLink exact to={ROUTES.LOG_IN} activeClassName="currentPage">log in</NavLink>
+        <Link href={ROUTES.LOG_IN} activeClassName="currentPage">log in</Link>
       </li>
       <li>
-        <NavLink to={ROUTES.SIGN_UP} activeClassName="currentPage">sign up</NavLink>
+        <Link href={ROUTES.SIGN_UP} activeClassName="currentPage">sign up</Link>
       </li>
       <li>
-        <NavLink to={ROUTES.PRICES} activeClassName="currentPage">pricing</NavLink>
+        <Link href={ROUTES.PRICES} activeClassName="currentPage">pricing</Link>
       </li>
       <li>
-        <NavLink to={ROUTES.TERMS} activeClassName="currentPage">terms</NavLink>
+        <Link href={ROUTES.TERMS} activeClassName="currentPage">terms</Link>
       </li>
       <li className="penultimateLi">
-        <NavLink to={ROUTES.FAQ} activeClassName="currentPage">faq</NavLink>
+        <Link href={ROUTES.FAQ} activeClassName="currentPage">faq</Link>
       </li>
       <li>
         <a href="http://archform.ltd/">archForm</a>
