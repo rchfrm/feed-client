@@ -2,24 +2,14 @@ import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
-const {
-  firebase_api_key: apiKey,
-  firebase_auth_domain: authDomain,
-  firebase_database_url: databaseURL,
-  firebase_project_id: projectId,
-  firebase_storage_bucket: storageBucket,
-  firebase_messaging_sender_id: messagingSenderId,
-  firebase_app_id: appId,
-} = process.env
-
 const config = {
-  apiKey,
-  authDomain,
-  databaseURL,
-  projectId,
-  storageBucket,
-  messagingSenderId,
-  appId,
+  apiKey: process.env.firebase_api_key,
+  authDomain: process.env.firebase_auth_domain,
+  databaseURL: process.env.firebase_database_url,
+  projectId: process.env.firebase_project_id,
+  storageBucket: process.env.firebase_storage_bucket,
+  messagingSenderId: process.env.firebase_messaging_sender_id,
+  appId: process.env.firebase_app_id,
 }
 
 const provider = new app.auth.FacebookAuthProvider()
