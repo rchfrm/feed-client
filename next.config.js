@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+const dotenv = require('dotenv')
 // Extract environment variables from local .env file
 dotenv.config()
 
