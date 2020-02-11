@@ -43,5 +43,8 @@ module.exports = {
     'unicorn/number-literal-case': 'off',
     "react/react-in-jsx-scope": "off",
     "jsx-a11y/media-has-caption": 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/forbid-prop-types': 'off',
+    'react/prop-types': 'off',
   },
 };
