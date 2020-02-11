@@ -17,7 +17,7 @@ import * as ROUTES from '../../constants/routes'
 import brandColours from '../../constants/brandColours'
 // IMPORT HELPERS
 // IMPORT STYLES
-import './home.css'
+import './Home.module.css'
 
 function HomePage() {
 // SHOW / HIDE NAVIGATION
