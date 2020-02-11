@@ -102,7 +102,7 @@ export default {
   },
 
   getVerifyIdTokenResult: () => {
-    auth.currentUser.getIdTokenResult()
+    return auth.currentUser.getIdTokenResult()
   },
 
   deleteUser: () => {
