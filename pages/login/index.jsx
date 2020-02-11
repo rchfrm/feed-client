@@ -183,7 +183,7 @@ export function LogIn() {
     <h3 className="ninety-wide">
       or log in
       {' '}
-      <Link href={ROUTES.LOG_IN}>here</Link>
+      <Link href={ROUTES.LOG_IN}><a>here</a></Link>
       .
     </h3>
   )

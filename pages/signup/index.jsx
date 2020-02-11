@@ -215,7 +215,7 @@ const SignUpLink = () => (
   <h3 className="ninety-wide">
     or sign up
     {' '}
-    <Link href={ROUTES.SIGN_UP}>here</Link>
+    <Link href={ROUTES.SIGN_UP}><a>here</a></Link>
     .
   </h3>
 )

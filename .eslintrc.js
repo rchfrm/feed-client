@@ -46,5 +46,6 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': 'off',
     'react/prop-types': 'off',
+    'jsx-a11y/anchor-is-valid': 'off'
   },
 };

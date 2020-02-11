@@ -115,7 +115,7 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
 function PasswordForgetLink() {
   return (
     <p>
-      <Link href={ROUTES.PASSWORD_FORGET}>Forgot Password?</Link>
+      <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot Password?</a></Link>
     </p>
   )
 }
