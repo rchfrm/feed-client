@@ -45,7 +45,8 @@ module.exports = {
     "jsx-a11y/media-has-caption": 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': 'off',
-    'react/prop-types': 'off',
-    'jsx-a11y/anchor-is-valid': 'off'
+    'react/prop-types': 'off', // look again
+    'jsx-a11y/anchor-is-valid': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
   },
 };
