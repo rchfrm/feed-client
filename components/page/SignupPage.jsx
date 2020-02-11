@@ -1,26 +1,25 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
-import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { NavigationContext } from '../../components/contexts/Navigation'
-import { AuthContext } from '../../components/contexts/Auth'
-import { UserContext } from '../../components/contexts/User'
-import { ArtistContext } from '../../components/contexts/Artist'
+import { NavigationContext } from '../contexts/Navigation'
+import { AuthContext } from '../contexts/Auth'
+import { UserContext } from '../contexts/User'
+import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
-import PageHeader from '../../components/elements/PageHeader'
-import Error from '../../components/elements/Error'
-import Button from '../../components/elements/Button'
+import PageHeader from '../elements/PageHeader'
+import Error from '../elements/Error'
+import Button from '../elements/Button'
 // IMPORT PAGES
-import SignupFacebook from '../../components/SignupFacebook'
-import SignUpForm from '../../components/SignupEmail'
-import { LogIn } from '../login'
+import SignupPageFacebook from '../SignupPageFacebook'
+import SignupPageEmail from '../SignupPageEmail'
+import LoginPageLink from '../LoginPageLink'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../../constants/routes'
 // IMPORT HELPERS
-import Spinner from '../../components/elements/Spinner'
+import Spinner from '../elements/Spinner'
 import brandColours from '../../constants/brandColours'
 // IMPORT STYLES
 
@@ -32,6 +31,7 @@ const initialSignUpFormState = {
   passwordOne: '',
   passwordTwo: '',
 }
+
 const signUpFormReducer = (signUpState, signUpAction) => {
   switch (signUpAction.type) {
     case 'firstName':
@@ -71,7 +71,7 @@ const signUpFormReducer = (signUpState, signUpAction) => {
   }
 }
 
-function SignUpPage() {
+function SignupPage() {
 // SHOW / HIDE NAVIGATION
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const className = navState.visible ? 'hidden' : ''
@@ -171,7 +171,7 @@ function SignUpPage() {
     <div className={`page-container ${className}`}>
 
       <PageHeader heading="sign up" />
-      <LogIn />
+      <LoginPageLink />
       <p
         className="ninety-wide"
         style={{ marginBottom: '3em' }}
@@ -186,11 +186,11 @@ function SignUpPage() {
         .
       </p>
 
-      <SignupFacebook
+      <SignupPageFacebook
         setError={setError}
       />
 
-      <SignUpForm
+      <SignupPageEmail
         signUpForm={signUpForm}
         setSignUpForm={setSignUpForm}
         error={error}
@@ -211,15 +211,5 @@ function SignUpPage() {
   )
 }
 
-const SignUpLink = () => (
-  <h3 className="ninety-wide">
-    or sign up
-    {' '}
-    <Link href={ROUTES.SIGN_UP}><a>here</a></Link>
-    .
-  </h3>
-)
 
-export default SignUpPage
-
-export { SignUpForm, SignUpLink, SignupFacebook }
+export default SignupPage

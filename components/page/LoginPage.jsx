@@ -1,22 +1,21 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
-import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { NavigationContext } from '../../components/contexts/Navigation'
-import { AuthContext } from '../../components/contexts/Auth'
-import { UserContext } from '../../components/contexts/User'
-import { ArtistContext } from '../../components/contexts/Artist'
+import { NavigationContext } from '../contexts/Navigation'
+import { AuthContext } from '../contexts/Auth'
+import { UserContext } from '../contexts/User'
+import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
-import PageHeader from '../../components/elements/PageHeader'
-import Input from '../../components/elements/Input'
-import Button from '../../components/elements/Button'
-import Error from '../../components/elements/Error'
-import Spinner from '../../components/elements/Spinner'
-// IMPORT PAGES
-import { SignUpLink } from '../signup'
-import { PasswordForgetLink } from '../password-forget'
+import PageHeader from '../elements/PageHeader'
+import Input from '../elements/Input'
+import Button from '../elements/Button'
+import Error from '../elements/Error'
+import Spinner from '../elements/Spinner'
+// IMPORT COMPONENTS
+import SignupPageLink from '../SignupPageLink'
+import LoginPagePasswordForgetLink from '../LoginPagePasswordForgetLink'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../../constants/routes'
@@ -24,7 +23,7 @@ import brandColours from '../../constants/brandColours'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function LogInPage() {
+function LoginPage() {
 // SHOW / HIDE NAVIGATION
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const className = navState.visible ? 'hidden' : ''
@@ -36,17 +35,17 @@ function LogInPage() {
   return (
     <div className={`page-container ${className}`}>
 
-      <LogInForm />
+      <LoginForm />
 
     </div>
   )
 }
 
-export default LogInPage
+export default LoginPage
 
-function LogInForm() {
+function LoginForm() {
 // IMPORT CONTEXTS
-  const { authError, authLoading, continueWithFacebook, logIn } = React.useContext(AuthContext)
+  const { authError, authLoading, continueWithFacebook, login } = React.useContext(AuthContext)
   const { storeUser, userError, userLoading } = React.useContext(UserContext)
   const { artistLoading, noArtist, storeArtist } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
@@ -88,7 +87,7 @@ function LogInForm() {
     e.preventDefault()
     setError(null)
     try {
-      await logIn(email, password)
+      await login(email, password)
       const newUser = await storeUser()
       if (newUser.artists.length > 0) {
         const selectedArtist = newUser.artists[0]
@@ -115,7 +114,7 @@ function LogInForm() {
     <div className="page-container">
 
       <PageHeader heading="log in" />
-      <SignUpLink />
+      <SignupPageLink />
       <p
         className="ninety-wide"
         style={{ marginBottom: '3em' }}
@@ -162,7 +161,7 @@ function LogInForm() {
             width={100}
           />
 
-          <PasswordForgetLink />
+          <LoginPagePasswordForgetLink />
 
           <Error error={authError || userError || error} />
 
@@ -175,16 +174,5 @@ function LogInForm() {
       </div>
 
     </div>
-  )
-}
-
-export function LogIn() {
-  return (
-    <h3 className="ninety-wide">
-      or log in
-      {' '}
-      <Link href={ROUTES.LOG_IN}><a>here</a></Link>
-      .
-    </h3>
   )
 }

@@ -10,23 +10,31 @@ import InstagramIcon from '../../icons/InstagramIcon'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
-pu
 
+const Input = ({
+  float = '',
+  width,
+  paddingRight = '',
+  readonly = false,
+  label,
+  htmlFor = '',
+  name,
+  placeholder,
+  value,
+  onChange,
+  version,
+  type,
+}) => {
+  width = typeof width === 'string' ? width : ''
+  const widthPercentage = typeof width === 'number' ? width : ''
 
-function Input(props) {
-  const float = props.float ? props.float : ''
-  const width = typeof props.width === 'string' ? props.width : ''
-  const widthPercentage = typeof props.width === 'number' ? props.width : ''
-  const paddingRight = props.paddingRight ? props.paddingRight : ''
-  const readonly = props.readonly ? props.readonly : false
-  let label
-  if (props.label === 'none') {
+  if (label === 'none') {
     label = ''
-  } else if (props.label.icon) {
-    switch (props.label.icon) {
+  } else if (label.icon) {
+    switch (label.icon) {
       case 'facebook':
         label = (
-          <label className={`label_${props.label.position}`}>
+          <label htmlFor={htmlFor} className={`label_${label.position}`}>
             <FacebookIcon
               fill="#000000"
               width="20"
@@ -36,7 +44,7 @@ function Input(props) {
         break
       case 'instagram':
         label = (
-          <label className={`label_${props.label.position}`}>
+          <label htmlFor={htmlFor} className={`label_${label.position}`}>
             <InstagramIcon
               fill="#000000"
               width="20"
@@ -47,9 +55,9 @@ function Input(props) {
       default:
         break
     }
-  } else if (props.label) {
+  } else if (label) {
     label = (
-      <label className={`label_${props.label.position}`}>{props.label.text}</label>
+      <label htmlFor={htmlFor} className={`label_${label.position}`}>{label.text}</label>
     )
   }
 
@@ -64,12 +72,12 @@ function Input(props) {
     >
       {label}
       <input
-        name={props.name}
-        placeholder={props.placeholder}
-        value={props.value}
-        onChange={props.onChange}
-        className={props.version}
-        type={props.type}
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className={version}
+        type={type}
         readOnly={readonly}
       />
 

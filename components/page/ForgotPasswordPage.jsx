@@ -1,26 +1,24 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { NavigationContext } from '../../components/contexts/Navigation'
+import { NavigationContext } from '../contexts/Navigation'
 // IMPORT ELEMENTS
-import PageHeader from '../../components/elements/PageHeader'
-import Form from '../../components/elements/Form'
-import Input from '../../components/elements/Input'
-import Button from '../../components/elements/Button'
-import Error from '../../components/elements/Error'
+import PageHeader from '../elements/PageHeader'
+import Form from '../elements/Form'
+import Input from '../elements/Input'
+import Button from '../elements/Button'
+import Error from '../elements/Error'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import * as ROUTES from '../../constants/routes'
 // IMPORT HELPERS
-import firebase from '../../components/helpers/firebase'
+import firebase from '../helpers/firebase'
 // IMPORT STYLES
 
 // TODO: Update Auth Authentication with a display name, so that we can address users by name in emails
 
-function PasswordForgetPage() {
+function ForgotPasswordPage() {
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const className = navState.visible ? 'hidden' : ''
   React.useEffect(() => {
@@ -112,14 +110,6 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
   )
 }
 
-function PasswordForgetLink() {
-  return (
-    <p>
-      <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot Password?</a></Link>
-    </p>
-  )
-}
+export default ForgotPasswordPage
 
-export default PasswordForgetPage
-
-export { PasswordForgetForm, PasswordForgetLink }
+export { PasswordForgetForm }
