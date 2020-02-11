@@ -12,9 +12,12 @@ const config = {
   appId: process.env.firebase_app_id,
 }
 
-const provider = new app.auth.FacebookAuthProvider()
-app.initializeApp(config)
+if (!app.apps.length) {
+  app.initializeApp(config)
+}
+
 const auth = app.auth()
+const provider = new app.auth.FacebookAuthProvider()
 
 // Export firebase functions
 export default {
