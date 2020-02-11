@@ -72,19 +72,19 @@ function NavigationAuth() {
           ? <li><ArtistOptions onChange={handleChange} artists={user.artists} /></li>
           : ''}
         <li>
-          <Link href={ROUTES.HOME} activeClassName="currentPage"><a>home</a></Link>
+          <Link href={ROUTES.HOME}><a>home</a></Link>
         </li>
         <li>
-          <Link href={ROUTES.POSTS} activeClassName="currentPage"><a>your posts</a></Link>
+          <Link href={ROUTES.POSTS}><a>your posts</a></Link>
         </li>
         <li>
-          <Link href={ROUTES.RESULTS} activeClassName="currentPage"><a>results</a></Link>
+          <Link href={ROUTES.RESULTS}><a>results</a></Link>
         </li>
         <li>
-          <Link href={ROUTES.ACCOUNT} activeClassName="currentPage"><a>account</a></Link>
+          <Link href={ROUTES.ACCOUNT}><a>account</a></Link>
         </li>
         <li>
-          <Link href={ROUTES.FAQ} activeClassName="currentPage"><a>faq</a></Link>
+          <Link href={ROUTES.FAQ}><a>faq</a></Link>
         </li>
         <li className="penultimateLi">
           <SignOutLink />
@@ -101,19 +101,19 @@ const NavigationNonAuth = () => (
   <div>
     <ul>
       <li>
-        <Link href={ROUTES.LOG_IN} activeClassName="currentPage">log in</Link>
+        <Link href={ROUTES.LOG_IN}><a>log in</a></Link>
       </li>
       <li>
-        <Link href={ROUTES.SIGN_UP} activeClassName="currentPage">sign up</Link>
+        <Link href={ROUTES.SIGN_UP}><a>sign up</a></Link>
       </li>
       <li>
-        <Link href={ROUTES.PRICES} activeClassName="currentPage">pricing</Link>
+        <Link href={ROUTES.PRICES}><a>pricing</a></Link>
       </li>
       <li>
-        <Link href={ROUTES.TERMS} activeClassName="currentPage">terms</Link>
+        <Link href={ROUTES.TERMS}><a>terms</a></Link>
       </li>
       <li className="penultimateLi">
-        <Link href={ROUTES.FAQ} activeClassName="currentPage">faq</Link>
+        <Link href={ROUTES.FAQ}><a>faq</a></Link>
       </li>
       <li>
         <a href="http://archform.ltd/">archForm</a>
