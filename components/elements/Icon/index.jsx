@@ -4,25 +4,24 @@ import React from 'react'
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
 // IMPORT PAGES
-// IMPORT ASSETS
-import AppleIcon from '../../assets/icons/AppleIcon'
-import BandcampIcon from '../../assets/icons/BandcampIcon'
-import FacebookIcon from '../../assets/icons/FacebookIcon'
-import InstagramIcon from '../../assets/icons/InstagramIcon'
-import SoundCloudIcon from '../../assets/icons/SoundCloudIcon'
-import SpotifyIcon from '../../assets/icons/SpotifyIcon'
-import TwitterIcon from '../../assets/icons/TwitterIcon'
-import YouTubeIcon from '../../assets/icons/YouTubeIcon'
+// IMPORT
+import AppleIcon from '../../icons/AppleIcon'
+import BandcampIcon from '../../icons/BandcampIcon'
+import FacebookIcon from '../../icons/FacebookIcon'
+import InstagramIcon from '../../icons/InstagramIcon'
+import SoundCloudIcon from '../../icons/SoundCloudIcon'
+import SpotifyIcon from '../../icons/SpotifyIcon'
+import TwitterIcon from '../../icons/TwitterIcon'
+import YouTubeIcon from '../../icons/YouTubeIcon'
 //
-import CrossIcon from '../../assets/icons/CrossIcon'
-import GlobeIcon from '../../assets/icons/GlobeIcon'
-import PencilIcon from '../../assets/icons/PencilIcon'
-import TickIcon from '../../assets/icons/TickIcon'
+import CrossIcon from '../../icons/CrossIcon'
+import GlobeIcon from '../../icons/GlobeIcon'
+import PencilIcon from '../../icons/PencilIcon'
+import TickIcon from '../../icons/TickIcon'
 // IMPORT CONSTANTS
-import brandColours from '../../constants/brandColours'
+import brandColours from '../../../constants/brandColours'
 // IMPORT HELPERS
 // IMPORT STYLES
-import './icon.css'
 
 function Icon(props) {
 // REDEFINE PROPS AS VARIABLES

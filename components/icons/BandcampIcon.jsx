@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function BandcampIcon(props) {
-  const name = "Bandcamp";
+  const name = 'Bandcamp'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -20,4 +20,4 @@ function BandcampIcon(props) {
   )
 }
 
-export default BandcampIcon;
+export default BandcampIcon

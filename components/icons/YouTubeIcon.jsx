@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function YouTubeIcon(props) {
-  const name = "YouTube";
+  const name = 'YouTube'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -23,5 +23,4 @@ function YouTubeIcon(props) {
   )
 }
 
-export default YouTubeIcon;
-
+export default YouTubeIcon

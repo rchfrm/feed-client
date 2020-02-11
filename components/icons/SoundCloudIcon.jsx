@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function SoundCloudIcon(props) {
-  const name = "SoundCloud";
+  const name = 'SoundCloud'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -20,5 +20,4 @@ function SoundCloudIcon(props) {
   )
 }
 
-export default SoundCloudIcon;
-
+export default SoundCloudIcon

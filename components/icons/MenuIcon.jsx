@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function MenuIcon(props) {
-  const name = "Menu";
+  const name = 'Menu'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -35,6 +35,6 @@ function MenuIcon(props) {
       />
     </svg>
   )
-};
+}
 
-export default MenuIcon;
+export default MenuIcon

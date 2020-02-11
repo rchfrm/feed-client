@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function PencilIcon(props) {
-  const name = "Pencil";
+  const name = 'Pencil'
 
   return (
     <svg
@@ -35,4 +35,4 @@ function PencilIcon(props) {
   )
 }
 
-export default PencilIcon;
+export default PencilIcon

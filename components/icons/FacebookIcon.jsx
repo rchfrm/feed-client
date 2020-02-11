@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function FacebookIcon(props) {
-  const name = "Facebook";
+  const name = 'Facebook'
 
   return (
     <svg
@@ -19,4 +19,4 @@ function FacebookIcon(props) {
   )
 }
 
-export default FacebookIcon;
+export default FacebookIcon

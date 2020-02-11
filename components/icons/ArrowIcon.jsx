@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
 function ArrowIcon(props) {
-  const name = "Arrow";
-  const platform = props.platform || "";
+  const name = 'Arrow'
+  const platform = props.platform || ''
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,4 +22,4 @@ function ArrowIcon(props) {
   )
 }
 
-export default ArrowIcon;
+export default ArrowIcon

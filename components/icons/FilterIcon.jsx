@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function FilterIcon(props) {
-  const name = "Filter";
+  const name = 'Filter'
   return (
     <svg
       data-name={name}
@@ -37,4 +37,4 @@ function FilterIcon(props) {
   )
 }
 
-export default FilterIcon;
+export default FilterIcon

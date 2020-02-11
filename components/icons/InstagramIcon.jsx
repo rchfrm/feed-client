@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function InstagramIcon(props) {
-  const name = "Instagram";
+  const name = 'Instagram'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,10 +19,12 @@ function InstagramIcon(props) {
       />
       <circle
         fill={props.fill}
-        cx="391" cy="122" r="30"
+        cx="391"
+        cy="122"
+        r="30"
       />
     </svg>
   )
 }
 
-export default InstagramIcon;
+export default InstagramIcon

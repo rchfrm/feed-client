@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function CalendarIcon(props) {
-  const name = "Calendar";
+  const name = 'Calendar'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -62,6 +62,6 @@ function CalendarIcon(props) {
       />
     </svg>
   )
-};
+}
 
-export default CalendarIcon;
+export default CalendarIcon

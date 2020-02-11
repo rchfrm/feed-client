@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function ArchFormLogo(props) {
-  const name = "archForm";
+  const name = 'archForm'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -26,5 +26,4 @@ function ArchFormLogo(props) {
   )
 }
 
-export default ArchFormLogo;
-
+export default ArchFormLogo

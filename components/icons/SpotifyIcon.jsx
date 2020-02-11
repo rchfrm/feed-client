@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function SpotifyIcon(props) {
-  const name = "Spotify";
+  const name = 'Spotify'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,4 +17,4 @@ function SpotifyIcon(props) {
   )
 }
 
-export default SpotifyIcon;
+export default SpotifyIcon

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function BrokenCircle(props) {
   return (
@@ -16,5 +16,4 @@ function BrokenCircle(props) {
   )
 }
 
-export default BrokenCircle;
-
+export default BrokenCircle

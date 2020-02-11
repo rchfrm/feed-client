@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function AppleIcon(props) {
-  const name = "Apple Music";
+  const name = 'Apple Music'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -41,5 +41,4 @@ function AppleIcon(props) {
   )
 }
 
-export default AppleIcon;
-
+export default AppleIcon
