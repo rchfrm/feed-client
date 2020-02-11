@@ -1,0 +1,6 @@
+.loading {
+  width: 100%;
+  font-style: italic;
+  box-sizing: border-box;
+  flex: auto;
+}

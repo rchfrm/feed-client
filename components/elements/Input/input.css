@@ -1,0 +1,53 @@
+input {
+  background-color: transparent;
+}
+
+.box {
+  display: block;
+  border: none;
+  outline: 2px solid black;
+  outline-offset: -2px;
+  margin-bottom: 1.5em;
+  padding: 1.5em;
+  font-family: SpaceGrotesk,sans-serif;
+  font-feature-settings: "ss01";
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.text {
+  display: block;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-bottom: 1px dotted black;
+  margin: 0 0 1em 0;
+  padding: 0 0 0.2em 0;
+  font-size: 1em;
+}
+
+input[readonly] {
+  border-bottom: none;
+}
+
+.text_icon {
+  border: none;
+  border-bottom: 1px dotted black;
+  font-size: 1em;
+  width: calc(100% - 30px);
+  margin: 0 0 1em 0;
+  padding: 0 0 0.2em 0;
+}
+
+.label_top {
+  font-size: 0.667em;
+  display: block;
+  width: 100%;
+  margin-bottom: 0.667em;
+}
+
+.label_icon {
+  vertical-align: middle;
+  margin: 0 0 1em 0;
+  padding: 0 10px 0 0;
+}

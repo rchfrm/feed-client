@@ -12,5 +12,6 @@ module.exports = {
     firebase_storage_bucket: process.env.FIREBASE_STORAGE_BUCKET,
     firebase_messaging_sender_id: process.env.FIREBASE_MESSAGING_SENDER_ID,
     firebase_app_id: process.env.FIREBASE_APP_ID,
+    stripe_provider: process.env.STRIPE_PROVIDER,
   },
 }

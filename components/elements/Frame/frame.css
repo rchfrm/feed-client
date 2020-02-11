@@ -1,0 +1,11 @@
+.frame {
+  display: flex;
+  margin: 1em 0 2.5em 0;
+  padding: 2.778% 0;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.frame-nav {
+
+}

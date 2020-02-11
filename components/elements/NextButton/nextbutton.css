@@ -1,0 +1,12 @@
+.nextbutton {
+  background-color: transparent;
+  border: none;
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+
+.nextbutton:disabled {
+  color: #E5E5E5;
+  background-color: transparent;
+}
