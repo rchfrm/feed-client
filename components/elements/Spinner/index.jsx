@@ -8,8 +8,6 @@ import React from 'react'
 import BrokenCircle from '../../icons/BrokenCircle'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-// IMPORT STYLES
-import './spinner.css'
 
 function Spinner(props) {
 // REDEFINE PROPS AS VARIABLES

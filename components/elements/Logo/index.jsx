@@ -13,7 +13,7 @@ import ArchFormLogo from '../../icons/ArchFormLogo'
 function Logo(props) {
   const fill = props.navigation ? '#ffffff' : '#000000'
   return (
-    <button className="logoButton" onClick={props.onClick}>
+    <button type="button" className="logoButton" onClick={props.onClick}>
       <ArchFormLogo
         fill={fill}
         width="100%"

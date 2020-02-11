@@ -9,7 +9,6 @@ import moment from 'moment'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
-import './frame.css'
 
 function Frame(props) {
 // DEFINE TILE DETAILS

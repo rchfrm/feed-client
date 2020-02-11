@@ -1,7 +1,5 @@
 import React from 'react'
 
-import './nextbutton.css'
-
 function NextButton(props) {
   return (
     <button

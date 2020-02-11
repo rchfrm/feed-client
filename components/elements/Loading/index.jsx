@@ -1,5 +1,4 @@
 import React from 'react'
-import './loading.css'
 
 function Loading(props) {
   const padding = props.noPadding ? '0' : '0 5%'

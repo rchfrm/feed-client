@@ -7,8 +7,6 @@ import React from 'react'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-// IMPORT STYLES
-import './square-image.css'
 
 function SquareImage(props) {
   const { media } = props

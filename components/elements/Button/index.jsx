@@ -9,7 +9,6 @@ import FacebookIcon from '../../icons/FacebookIcon'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
-import './button.css'
 
 function Button(props) {
   const version = props.version || ''

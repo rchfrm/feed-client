@@ -12,10 +12,9 @@ import SignOutLink from '../SignOut'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import * as ROUTES from '../../constants/routes'
+import * as ROUTES from '../../../constants/routes'
 // IMPORT HELPERS
 // IMPORT STYLES
-import './navigation.css'
 
 function Navigation() {
   const { navState } = React.useContext(NavigationContext)

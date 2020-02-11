@@ -6,10 +6,9 @@ import React from 'react'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import brandColours from '../../constants/brandColours'
+import brandColours from '../../../constants/brandColours'
 // IMPORT HELPERS
 // IMPORT STYLES
-import './checkbox.css'
 
 function Checkbox(props) {
   const bgColour = props.selected ? props.colour : brandColours.lightGrey.hex

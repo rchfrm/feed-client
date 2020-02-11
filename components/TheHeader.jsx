@@ -8,7 +8,7 @@ import Logo from './elements/Logo'
 import MenuButton from './elements/MenuButton'
 import Clear from './elements/Clear'
 // IMPORT STYLES
-// import './header.css'
+// ader.css'
 
 function Header() {
   const { navState, navDispatch } = React.useContext(NavigationContext)

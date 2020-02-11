@@ -9,8 +9,6 @@ import Nothing from '../Nothing'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-// IMPORT STYLES
-import './alert.css'
 
 function Alert({ contents, responseExpected, confirmationText, rejectionText, setAlert }) {
   // If there are no contents, display nothing

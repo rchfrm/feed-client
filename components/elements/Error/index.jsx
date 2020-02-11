@@ -8,7 +8,6 @@ import React from 'react'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
-import './error.css'
 
 function Error(props) {
   if (props.error) {

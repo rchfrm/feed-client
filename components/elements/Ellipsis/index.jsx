@@ -8,7 +8,7 @@ import React from 'react'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
-import './ellipsis.css'
+
 
 function Ellipsis() {
   return (

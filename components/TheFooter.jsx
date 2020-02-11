@@ -10,7 +10,7 @@ import Feed from './elements/Feed'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
-// import './footer.css'
+// oter.css'
 
 // GET CURRENT YEAR
 const thisYear = new Date().getFullYear()

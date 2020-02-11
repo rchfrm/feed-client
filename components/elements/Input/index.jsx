@@ -10,7 +10,7 @@ import InstagramIcon from '../../icons/InstagramIcon'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
-import './input.css'
+pu
 
 
 function Input(props) {

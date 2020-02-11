@@ -10,9 +10,10 @@ import Button from '../Button'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import * as ROUTES from '../../constants/routes'
+import * as ROUTES from '../../../constants/routes'
 // IMPORT HELPERS
-import { history, firebase } from '../../helpers'
+import history from '../../helpers/history'
+import firebase from '../../helpers/firebase'
 // IMPORT STYLES
 
 function SignOutLink() {
