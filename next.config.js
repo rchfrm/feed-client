@@ -14,4 +14,9 @@ module.exports = {
     firebase_app_id: process.env.FIREBASE_APP_ID,
     stripe_provider: process.env.STRIPE_PROVIDER,
   },
+  // Don't show if page can be optimised automatically
+  // https://nextjs.org/docs/api-reference/next.config.js/static-optimization-indicator
+  devIndicators: {
+    autoPrerender: false,
+  },
 }
