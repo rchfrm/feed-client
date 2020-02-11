@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import Router from 'next/router'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
@@ -15,7 +16,6 @@ import Spinner from '../elements/Spinner'
 import * as ROUTES from '../../constants/routes'
 import brandColours from '../../constants/brandColours'
 // IMPORT HELPERS
-import history from '../helpers/history'
 // IMPORT STYLES
 import './home.css'
 
@@ -83,7 +83,7 @@ export function PromotePostsButton() {
   // HANDLE BUTTON CLICK
   const handleClick = e => {
     e.preventDefault()
-    history.push(ROUTES[destination])
+    Router.push(ROUTES[destination])
   }
   // END HANDLE BUTTON CLICK
 

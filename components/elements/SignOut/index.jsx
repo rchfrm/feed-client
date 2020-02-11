@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import Router from 'next/router'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from '../../contexts/Auth'
@@ -12,7 +13,6 @@ import Button from '../Button'
 // IMPORT CONSTANTS
 import * as ROUTES from '../../../constants/routes'
 // IMPORT HELPERS
-import history from '../../helpers/history'
 import firebase from '../../helpers/firebase'
 // IMPORT STYLES
 
@@ -26,7 +26,7 @@ function SignOutLink() {
     noAuth()
     noUser()
     noArtist()
-    history.push(ROUTES.LOG_IN)
+    Router.push(ROUTES.LOG_IN)
     try {
       await firebase.doSignOut()
     } catch (err) {

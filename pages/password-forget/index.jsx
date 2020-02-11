@@ -1,6 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { NavigationContext } from '../../components/contexts/Navigation'
@@ -115,7 +115,7 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
 function PasswordForgetLink() {
   return (
     <p>
-      <Link to={ROUTES.PASSWORD_FORGET}>Forgot Password?</Link>
+      <Link href={ROUTES.PASSWORD_FORGET}>Forgot Password?</Link>
     </p>
   )
 }

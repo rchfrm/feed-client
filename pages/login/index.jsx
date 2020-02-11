@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Router from 'next/router'
+import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { NavigationContext } from '../../components/contexts/Navigation'
@@ -21,7 +22,6 @@ import { PasswordForgetLink } from '../password-forget'
 import * as ROUTES from '../../constants/routes'
 import brandColours from '../../constants/brandColours'
 // IMPORT HELPERS
-import history from '../../components/helpers/history'
 // IMPORT STYLES
 
 function LogInPage() {
@@ -93,10 +93,10 @@ function LogInForm() {
       if (newUser.artists.length > 0) {
         const selectedArtist = newUser.artists[0]
         await storeArtist(selectedArtist.id)
-        history.push(ROUTES.HOME)
+        Router.push(ROUTES.HOME)
       } else {
         noArtist()
-        history.push(ROUTES.CONNECT_ARTIST)
+        Router.push(ROUTES.CONNECT_ARTIST)
       }
     } catch (err) {
       setEmail('')
@@ -183,7 +183,7 @@ export function LogIn() {
     <h3 className="ninety-wide">
       or log in
       {' '}
-      <Link to={ROUTES.LOG_IN}>here</Link>
+      <Link href={ROUTES.LOG_IN}>here</Link>
       .
     </h3>
   )

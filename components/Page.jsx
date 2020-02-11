@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import Router from 'next/router'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
@@ -11,11 +12,11 @@ import { AuthContext } from './contexts/Auth'
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
-import history from './helpers/history'
 import firebase from './helpers/firebase'
 // IMPORT STYLES
 
 function Page(props) {
+  const router = Router.useRouter()
   const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
   const { createUser, noUser, storeUser } = React.useContext(UserContext)
   const { noArtist, storeArtist } = React.useContext(ArtistContext)
@@ -29,7 +30,7 @@ function Page(props) {
     // Check if they have artists connected to their account or not,
     // if they don't, set noArtist, and push them to the Connect Artist page
     if (newUser.artists.length === 0) {
-      history.push(ROUTES.CONNECT_ARTIST)
+      Router.push(ROUTES.CONNECT_ARTIST)
       noArtist()
       return
     }
@@ -61,9 +62,9 @@ function Page(props) {
 
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
-    const { pathname } = history.location
+    const { pathname } = router
     if (pathname === '/' || pathname === '/sign-up') {
-      history.push(ROUTES.HOME)
+      Router.push(ROUTES.HOME)
     }
   }, [noArtist, storeArtist, storeUser])
   // END HANDLE EXISTING USERS
@@ -72,9 +73,9 @@ function Page(props) {
   const handleNoAuthUser = React.useCallback(async () => {
     // Check if the user is on an auth only page,
     // if they are push to log in page
-    const { pathname } = history.location
+    const { pathname } = router
     if (pathname !== '/' || pathname !== '/sign-up') {
-      history.push(ROUTES.LOG_IN)
+      Router.push(ROUTES.LOG_IN)
     }
 
     // Reset all contexts
@@ -104,7 +105,7 @@ function Page(props) {
       await createUser(firstName, lastName)
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
-      history.push(ROUTES.CONNECT_ARTIST)
+      Router.push(ROUTES.CONNECT_ARTIST)
     } else {
       await handleExistingUser()
     }

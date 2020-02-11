@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Router from 'next/router'
+import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { NavigationContext } from '../../components/contexts/Navigation'
@@ -19,7 +20,6 @@ import { LogIn } from '../login'
 // IMPORT CONSTANTS
 import * as ROUTES from '../../constants/routes'
 // IMPORT HELPERS
-import history from '../../components/helpers/history'
 import Spinner from '../../components/elements/Spinner'
 import brandColours from '../../constants/brandColours'
 // IMPORT STYLES
@@ -157,7 +157,7 @@ function SignUpPage() {
     try {
       await signUp(signUpForm.email, signUpForm.passwordOne)
       await createUser(signUpForm.firstName, signUpForm.lastName)
-      history.push(ROUTES.CONNECT_ARTIST)
+      Router.push(ROUTES.CONNECT_ARTIST)
     } catch (error) {
       setError(error)
     }
@@ -215,7 +215,7 @@ const SignUpLink = () => (
   <h3 className="ninety-wide">
     or sign up
     {' '}
-    <Link to={ROUTES.SIGN_UP}>here</Link>
+    <Link href={ROUTES.SIGN_UP}>here</Link>
     .
   </h3>
 )
