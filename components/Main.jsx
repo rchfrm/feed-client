@@ -16,7 +16,6 @@ import Navigation from './elements/Navigation'
 function Main({ children }) {
   const { navState } = React.useContext(NavigationContext)
   const backgroundColor = navState.visible ? 'black' : 'white'
-
   return (
     <main style={{ backgroundColor }}>
       <UserProvider>
@@ -34,5 +33,5 @@ function Main({ children }) {
 export default Main
 
 Main.propTypes = {
-  children: PropTypes.elementType.isRequired,
+  children: PropTypes.element.isRequired,
 }
