@@ -2,7 +2,7 @@ const dotenv = require('dotenv')
 // Extract environment variables from local .env file
 dotenv.config()
 
-module.exports = {
+const nextConfig = {
   // Save environment variables
   env: {
     firebase_api_key: process.env.FIREBASE_API_KEY,
@@ -19,4 +19,8 @@ module.exports = {
   devIndicators: {
     autoPrerender: false,
   },
+}
+
+module.exports = {
+  ...nextConfig,
 }
