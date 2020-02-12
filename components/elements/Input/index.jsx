@@ -13,7 +13,7 @@ import InstagramIcon from '../../icons/InstagramIcon'
 
 const Input = ({
   float = '',
-  width,
+  width: widthProp,
   paddingRight = '',
   readonly = false,
   label,
@@ -25,9 +25,8 @@ const Input = ({
   version,
   type,
 }) => {
-  width = typeof width === 'string' ? width : ''
-  const widthPercentage = typeof width === 'number' ? width : ''
-
+  const width = typeof widthProp === 'string' ? widthProp : ''
+  const widthPercentage = typeof widthProp === 'number' ? widthProp : ''
   if (label === 'none') {
     label = ''
   } else if (label.icon) {
