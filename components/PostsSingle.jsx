@@ -119,7 +119,7 @@ function Post({ index, post, singular: isSingular, setPosts, togglePromotion }) 
 
       {/* Media */}
       <div style={{ flex: 'auto' }}>
-        <div className="post-media">
+        <div className={styles['post-media']}>
           <SquareImage media={media} />
           {/* TODO : Adjust font size of post message so it always fills three lines in height */}
           <PostMessage message={post.short_message} />
@@ -127,7 +127,7 @@ function Post({ index, post, singular: isSingular, setPosts, togglePromotion }) 
       </div>
 
       {/* Post Link */}
-      <div className="post-link" style={{ backgroundColor: brandColours.grey.hex }}>
+      <div className={styles['post-link']} style={{ backgroundColor: brandColours.grey.hex }}>
 
         <p>Where should people go when they click this post?</p>
 
@@ -180,7 +180,7 @@ function PermalinkAndToggle(props) {
     >
 
       {/* Display platform icon, publish date and time, linking to post permalink */}
-      <div className="post-meta">
+      <div className={styles['post-meta']}>
 
         <Icon
           version={post.platform}
@@ -188,6 +188,7 @@ function PermalinkAndToggle(props) {
           width="20"
         />
         <a
+          className={styles.a}
           href={post.permalink_url}
           target="_blank"
           rel="noopener noreferrer"
@@ -198,7 +199,7 @@ function PermalinkAndToggle(props) {
       </div>
 
       {/* Display toggle option for posts */}
-      <div className="post-toggle">
+      <div className={styles['post-toggle']}>
         <Button
           version="toggle"
           onClick={togglePromotion}
@@ -225,8 +226,8 @@ function PostMessage(props) {
 
   if (message.length > 0) {
     return (
-      <div className="post-message">
-        <p>
+      <div className={styles['post-message']}>
+        <p className={styles.p}>
           "
           {message.join('\n')}
           "
@@ -245,16 +246,16 @@ function PostMetrics(props) {
   // END REDEFINE PROPS AS VARIABLES
 
   return (
-    <div className="post-metrics">
+    <div className={styles['post-metrics']}>
 
-      <div className="post-insights">
+      <div className={styles['post-insights']}>
 
         <PostInsight title={orderedInsights[0].name} number={orderedInsights[0].value} />
         <PostInsight title={orderedInsights[1].name} number={orderedInsights[1].value} />
 
       </div>
 
-      <div className="post-es">
+      <div className={styles['post-es']}>
 
         {helper.abbreviateNumber(es)}
 

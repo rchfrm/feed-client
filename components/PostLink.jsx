@@ -22,8 +22,8 @@ function SaveButton({ state, disabled, handleClick }) {
   // If a request is in progress, show a spinning broken circle
   if (state === 'saving') {
     return (
-      <div className="broken-circle">
-        <BrokenCircle width={25} fill="#6edcd3" />
+      <div className={styles['broken-circle']}>
+        <BrokenCircle className={styles.svg} width={25} fill="#6edcd3" />
       </div>
     )
   }
@@ -179,7 +179,7 @@ export function LinkOptions(props) {
   return (
     <div>
 
-      <div className="link-selection">
+      <div className={styles['link-selection']}>
 
         <select onChange={handleChange} value={chosenLink}>
           {links}
@@ -356,8 +356,8 @@ export function AddUrl(props) {
           width={100}
         />
 
-        <label className="label_top">Select the type:</label>
-        <div className="link-selection" style={{ width: '100%' }}>
+        <label className="label-top">Select the type:</label>
+        <div className={styles['link-selection']} style={{ width: '100%' }}>
 
           <select onChange={handleSelect}>
             {links}

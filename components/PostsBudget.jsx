@@ -109,10 +109,11 @@ function Budget({ currency }) {
 
         <h3>Enter the amount you'd like to spend each day:</h3>
 
-        <div className="budget-form">
+        <div className={styles['budget-form']}>
 
           <Input
             name="budget"
+            className={styles.box}
             placeholder={currency}
             value={budget.amount === 0 ? '' : budget.amount}
             onChange={handleChange}

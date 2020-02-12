@@ -8,7 +8,7 @@ import PageHeader from './elements/PageHeader'
 import Feed from './elements/Feed'
 import LastItem from './elements/LastItem'
 // IMPORT PAGES
-import Post from './PostsSingle'
+import PostsSingle from './PostsSingle'
 import PostsNone from './PostsNone'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -129,12 +129,12 @@ function Posts(props) {
   }
 
   return (
-    <div className="posts-section">
+    <div className={styles['posts-section']}>
 
       <PageHeader heading="review your posts" punctuation="," />
 
-      <h4>
-        Below are your most recent posts.
+      <h4 className={styles.h4}>
+        Below are your most recent posts.&nbsp;
         <Feed />
         {' '}
         works best if they're all selected, but if there are any you'd rather not promote just untick them.
@@ -164,7 +164,7 @@ function PostList(props) {
   // CREATE ARRAY OF POSTS
   const postList = posts.map((post, index) => {
     return (
-      <Post
+      <PostsSingle
         key={post.id}
         index={index}
         post={post}
@@ -179,7 +179,7 @@ function PostList(props) {
   // END CREATE ARRAY OF POSTS
 
   return (
-    <ul className="posts frame" onScroll={handleScroll}>
+    <ul className={`frame posts ${styles.posts}`} onScroll={handleScroll}>
       {postList}
     </ul>
   )

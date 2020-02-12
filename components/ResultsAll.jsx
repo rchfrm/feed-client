@@ -279,10 +279,10 @@ function Days({ days, active }) {
     const phrase = phraseParts(firstDate, lastDate)
     return (
       <p>
-        From
+        From&nbsp;
         {phrase.a}
         {' '}
-        to
+        to&nbsp;
         {phrase.b}
         ...
       </p>

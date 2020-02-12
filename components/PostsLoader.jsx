@@ -10,7 +10,7 @@ import Button from './elements/Button'
 import Spinner from './elements/Spinner'
 import Error from './elements/Error'
 // IMPORT PAGES
-import Posts from './PostsAll'
+import PostsAll from './PostsAll'
 import Budget from './PostsBudget'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -200,9 +200,9 @@ function Loader() {
     return <Spinner width={50} colour={brandColours.green.hex} />
   }
   return (
-    <div className="posts-page">
+    <div className={styles['posts-page']}>
 
-      <Posts
+      <PostsAll
         posts={posts}
         numberOfPosts={numberOfPosts}
         visiblePost={visiblePost}
