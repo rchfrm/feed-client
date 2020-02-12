@@ -19,6 +19,7 @@ import Error from './elements/Error'
 import PageHeader from './elements/PageHeader'
 import Alert from './elements/Alert'
 // IMPORT STYLES
+import styles from './PostsPage.module.css'
 
 const initialAlertState = {
   contents: undefined,

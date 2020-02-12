@@ -1,6 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import moment from 'moment'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
@@ -24,6 +24,14 @@ import brandColours from '../constants/brandColours'
 import helper from './helpers/helper'
 import server from './helpers/server'
 // IMPORT STYLES
+import resultsStyles from './Results.module.css'
+import postStyles from './PostsPage.module.css'
+
+const styles = {
+  ...resultsStyles,
+  ...postStyles,
+}
+// import styles from './Results.module.css'
 
 const calculateSummary = (ads, isActive) => {
   const adValues = Object.values(ads)
@@ -128,7 +136,7 @@ function Results({ posts: postsObject, active, setPosts }) {
   return (
     <div style={{ width: '100%' }}>
       <h2 className="ninety-wide">{title}</h2>
-      <ul className="results">{listResults}</ul>
+      <ul className={styles.results}>{listResults}</ul>
       <DisabledResults disabledResults={disabledResults} />
     </div>
   )
@@ -182,15 +190,18 @@ const Result = ({
   }, [attachments, renderMedia])
 
   return (
-    <li key={id}>
+    <li key={id} className={styles.li}>
 
       <div className="flex-row">
 
-        <div className="result-media">
-          <SquareImage media={media} />
+        <div className={styles['result-media']}>
+          <SquareImage
+            className={styles.img}
+            media={media}
+          />
         </div>
 
-        <div className="result-insights">
+        <div className={styles['result-insights']}>
           <Days days={summary.days} active={active} />
           <Insight days={summary.days} number={summary.amountSpent} statement="spent," />
           <Insight days={summary.days} number={summary.impressions} statement="people reached," />
@@ -198,10 +209,9 @@ const Result = ({
           <Insight days={summary.days} number={summary.clicks} statement="clicks." />
         </div>
 
-        <div className="result-toggle-saes">
+        <div className={styles['result-toggle-saes']}>
           <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
-
-          <h2>{summary.SAES}</h2>
+          <h2 className={styles.h2}>{summary.SAES}</h2>
         </div>
 
       </div>
@@ -218,11 +228,11 @@ function Insight({ days: daysArray, statement, number }) {
     return <Nothing />
   }
   return (
-    <div className="result-insight">
-      <div className="insight-number" title={`${currency}${helper.formatNumber(number)}`}>
+    <div className={styles['result-insight']}>
+      <div className={styles['insight-number']} title={`${currency}${helper.formatNumber(number)}`}>
         {currency + numberAbbr}
       </div>
-      <div className="insight-statement">
+      <div className={styles['insight-statement']}>
         {statement}
       </div>
     </div>
@@ -320,8 +330,8 @@ function NoActive() {
       <h3>
         <Feed />
         {' '}
-        isn't currently promoting any of your posts,
-        <Link to={ROUTES.POSTS}>set a daily budget</Link>
+        isn't currently promoting any of your posts,&nbsp;
+        <Link href={ROUTES.POSTS}><a>set a daily budget</a></Link>
         {' '}
         to get
         it started.
@@ -394,7 +404,8 @@ function Toggle(props) {
         throw (err)
       })
     // return result
-    await server.togglePromotionEnabled(artist.id, id, !promotion_enabled, token)
+    const result = await server.togglePromotionEnabled(artist.id, id, !promotion_enabled, token)
+    return result
   }, [artist.id, getToken, id, promotion_enabled])
 
   // Update post promotion_enabled if there is a positive response from the alert
@@ -427,7 +438,7 @@ function Toggle(props) {
     return <Nothing />
   }
   return (
-    <div className="post-toggle">
+    <div className={styles['post-toggle']}>
 
       <Alert
         confirmationText={alert.confirmationText}
@@ -438,6 +449,7 @@ function Toggle(props) {
       />
 
       <Button
+        className={styles.button}
         version="toggle"
         onClick={showAlert}
       >
@@ -446,6 +458,7 @@ function Toggle(props) {
               ? <Spinner width={20} colour={brandColours.white.hex} />
               : (
                 <Icon
+                  className={styles.button}
                   version={promotion_enabled ? 'cross' : 'tick'}
                   color={promotion_enabled ? brandColours.red.hex : brandColours.green.hex}
                   width="18"
@@ -493,14 +506,14 @@ function DisabledResults(props) {
 
   return (
     <div
-      className="disabled-results"
+      className={styles['disabled-results']}
       style={{
         backgroundColor: helper.hexToRGBA(brandColours.red.hex, 0.1),
       }}
     >
       <h3>The posts below are being turned off...</h3>
       <p>This can take up to 15 minutes, in this time you can turn them back on by clicking the tick in the top right corner.</p>
-      <ul className="results">{disabledResults}</ul>
+      <ul className={styles.results}>{disabledResults}</ul>
     </div>
   )
 }

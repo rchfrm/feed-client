@@ -69,7 +69,9 @@ function UserProvider(props) {
     setUserLoading(true)
     try {
       const token = await getToken()
+      console.log('token', token)
       const newUser = await server.getUser(token)
+      console.log('newUser', newUser)
       setUser({
         type: 'set-user',
         payload: {

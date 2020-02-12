@@ -20,6 +20,7 @@ import helper from './helpers/helper'
 import server from './helpers/server'
 import brandColours from '../constants/brandColours'
 // IMPORT STYLES
+import styles from './PostsPage.module.css'
 
 // Define initial state and reducer for posts
 const postsInitialState = []

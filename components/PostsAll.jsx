@@ -14,6 +14,7 @@ import PostsNone from './PostsNone'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
+import styles from './PostsPage.module.css'
 
 // Render list of posts and track the one that's currently visible
 function Posts(props) {

@@ -46,7 +46,6 @@ export default LoginPage
 function LoginForm() {
 // IMPORT CONTEXTS
   const { authError, authLoading, continueWithFacebook, login } = React.useContext(AuthContext)
-  console.log('login', login)
   const { storeUser, userError, userLoading } = React.useContext(UserContext)
   const { artistLoading, noArtist, storeArtist } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS

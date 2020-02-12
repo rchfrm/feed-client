@@ -21,6 +21,7 @@ import brandColours from '../constants/brandColours'
 import helper from './helpers/helper'
 import MediaFallback from './elements/MediaFallback'
 // IMPORT STYLES
+import styles from './PostsPage.module.css'
 
 function Post({ index, post, singular: isSingular, setPosts, togglePromotion }) {
   // IMPORT CONTEXTS

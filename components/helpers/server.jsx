@@ -28,15 +28,16 @@ export default {
     }
   },
 
-  getUser: async (verify_id_token) => {
+  getUser: async (verifyIdToken) => {
     const endpoint = `${url}users/me`
-
+    console.log('verifyIdToken', verifyIdToken)
     const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${verify_id_token}`,
+        Authorization: `Bearer ${verifyIdToken}`,
       },
     }).catch((err) => {
+      console.log('cannt get user')
       throw (err)
     })
 

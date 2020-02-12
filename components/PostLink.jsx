@@ -16,6 +16,7 @@ import BrokenCircle from './icons/BrokenCircle'
 import helper from './helpers/helper'
 import server from './helpers/server'
 // IMPORT STYLES
+import styles from './PostsPage.module.css'
 
 function SaveButton({ state, disabled, handleClick }) {
   // If a request is in progress, show a spinning broken circle

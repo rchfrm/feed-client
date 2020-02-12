@@ -11,6 +11,7 @@ import PageHeader from './elements/PageHeader'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
+import styles from './PostsPage.module.css'
 
 const PostsNone = () => {
 // IMPORT CONTEXTS
