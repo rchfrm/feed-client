@@ -33,7 +33,7 @@ const authReducer = (authState, authAction) => {
   }
 }
 
-function AuthProvider(props) {
+function AuthProvider({ children }) {
   const [auth, setAuth] = React.useReducer(authReducer, initialAuthState)
   const [authError, setAuthError] = React.useState(null)
   const [accessToken, setAccessToken] = React.useState(null)
@@ -124,7 +124,7 @@ function AuthProvider(props) {
     }
   }
 
-  const logIn = async (email, password) => {
+  const login = async (email, password) => {
     setAuthLoading(true)
     try {
       const authUser = await firebase.doSignInWithEmailAndPassword(email, password)
@@ -172,7 +172,7 @@ function AuthProvider(props) {
     continueWithFacebook,
     getToken,
     linkFacebook,
-    logIn,
+    login,
     noAuth,
     setAccessToken,
     setAuthError,
@@ -182,7 +182,7 @@ function AuthProvider(props) {
 
   return (
     <AuthContext.Provider value={value}>
-      {props.children}
+      {children}
     </AuthContext.Provider>
   )
 }

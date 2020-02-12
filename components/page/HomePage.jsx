@@ -11,13 +11,16 @@ import PageHeader from '../elements/PageHeader'
 import Button from '../elements/Button'
 import Spinner from '../elements/Spinner'
 // IMPORT PAGES
+// // import Phrase from './phrase';
+import SummaryLoader from '../HomePageSummary'
+import ChartLoader from '../HomePageChart'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../../constants/routes'
 import brandColours from '../../constants/brandColours'
 // IMPORT HELPERS
 // IMPORT STYLES
-import './Home.module.css'
+import './HomePage.module.css'
 
 function HomePage() {
 // SHOW / HIDE NAVIGATION
@@ -65,6 +68,10 @@ function Home() {
     <div className="page-container">
 
       <PageHeader heading={`Hey ${user.first_name}`} punctuation="," />
+
+      <SummaryLoader />
+
+      <ChartLoader />
 
       <PromotePostsButton />
 
