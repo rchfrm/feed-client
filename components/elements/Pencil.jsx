@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Pencil(props) {
+function Pencil() {
   return (
     <img className="pencil" src="/images/aF-pencil.svg" alt="Edit Icon" />
   )

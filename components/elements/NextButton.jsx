@@ -3,6 +3,7 @@ import React from 'react'
 function NextButton(props) {
   return (
     <button
+      type="button"
       disabled={props.disabled}
       className="nextbutton"
       onClick={props.onClick}

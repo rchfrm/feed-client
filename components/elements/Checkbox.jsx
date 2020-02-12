@@ -6,7 +6,7 @@ import React from 'react'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import brandColours from '../../../constants/brandColours'
+import brandColours from '../../constants/brandColours'
 // IMPORT HELPERS
 // IMPORT STYLES
 

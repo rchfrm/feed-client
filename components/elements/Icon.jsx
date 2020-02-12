@@ -5,21 +5,21 @@ import React from 'react'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT
-import AppleIcon from '../../icons/AppleIcon'
-import BandcampIcon from '../../icons/BandcampIcon'
-import FacebookIcon from '../../icons/FacebookIcon'
-import InstagramIcon from '../../icons/InstagramIcon'
-import SoundCloudIcon from '../../icons/SoundCloudIcon'
-import SpotifyIcon from '../../icons/SpotifyIcon'
-import TwitterIcon from '../../icons/TwitterIcon'
-import YouTubeIcon from '../../icons/YouTubeIcon'
+import AppleIcon from '../icons/AppleIcon'
+import BandcampIcon from '../icons/BandcampIcon'
+import FacebookIcon from '../icons/FacebookIcon'
+import InstagramIcon from '../icons/InstagramIcon'
+import SoundCloudIcon from '../icons/SoundCloudIcon'
+import SpotifyIcon from '../icons/SpotifyIcon'
+import TwitterIcon from '../icons/TwitterIcon'
+import YouTubeIcon from '../icons/YouTubeIcon'
 //
-import CrossIcon from '../../icons/CrossIcon'
-import GlobeIcon from '../../icons/GlobeIcon'
-import PencilIcon from '../../icons/PencilIcon'
-import TickIcon from '../../icons/TickIcon'
+import CrossIcon from '../icons/CrossIcon'
+import GlobeIcon from '../icons/GlobeIcon'
+import PencilIcon from '../icons/PencilIcon'
+import TickIcon from '../icons/TickIcon'
 // IMPORT CONSTANTS
-import brandColours from '../../../constants/brandColours'
+import brandColours from '../../constants/brandColours'
 // IMPORT HELPERS
 // IMPORT STYLES
 

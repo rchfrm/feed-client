@@ -9,16 +9,16 @@ import React from 'react'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function Error(props) {
-  if (props.error) {
+function Error({ error, success }) {
+  if (error) {
     return (
-      <p className="error">{props.error.message}</p>
+      <p className="error">{error.message}</p>
     )
   }
 
-  if (props.success) {
+  if (success) {
     return (
-      <p className="success">{props.success}</p>
+      <p className="success">{success}</p>
     )
   }
 

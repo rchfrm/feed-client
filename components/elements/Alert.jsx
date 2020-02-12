@@ -3,8 +3,8 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import Button from '../Button'
-import Nothing from '../Nothing'
+import Button from './Button'
+import Nothing from './Nothing'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS

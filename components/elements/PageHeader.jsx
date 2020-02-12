@@ -8,12 +8,10 @@ import React from 'react'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 
-function PageHeader(props) {
-  const punctuation = props.punctuation || '.'
-
+function PageHeader({ punctuation = '.', heading }) {
   return (
     <div className="page-header">
-      <h1>{props.heading + punctuation}</h1>
+      <h1>{heading + punctuation}</h1>
     </div>
   )
 }

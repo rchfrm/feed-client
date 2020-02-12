@@ -5,15 +5,15 @@ import React from 'react'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS
-import ArchFormLogo from '../../icons/ArchFormLogo'
+import ArchFormLogo from '../icons/ArchFormLogo'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function Logo(props) {
-  const fill = props.navigation ? '#ffffff' : '#000000'
+function Logo({ navigation, onClick }) {
+  const fill = navigation ? '#ffffff' : '#000000'
   return (
-    <button type="button" className="logoButton" onClick={props.onClick}>
+    <button type="button" className="logoButton" onClick={onClick}>
       <ArchFormLogo
         fill={fill}
         width="100%"

@@ -5,7 +5,7 @@ import React from 'react'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS
-import FacebookIcon from '../../icons/FacebookIcon'
+import FacebookIcon from '../icons/FacebookIcon'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
