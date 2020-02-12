@@ -11,7 +11,6 @@ import PageHeader from '../elements/PageHeader'
 import Button from '../elements/Button'
 import Spinner from '../elements/Spinner'
 // IMPORT PAGES
-// // import Phrase from './phrase';
 import SummaryLoader from '../HomePageSummary'
 import ChartLoader from '../HomePageChart'
 // IMPORT ASSETS
@@ -20,7 +19,6 @@ import * as ROUTES from '../../constants/routes'
 import brandColours from '../../constants/brandColours'
 // IMPORT HELPERS
 // IMPORT STYLES
-import './HomePage.module.css'
 
 function HomePage() {
 // SHOW / HIDE NAVIGATION
