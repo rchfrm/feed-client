@@ -1,0 +1,107 @@
+.container {
+  flex: auto;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
+/* CHART */
+.chart {
+  display: flex;
+  position: relative;
+}
+
+.chartOverlay {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 1px);
+  border-top: 1px solid #D6D6D6;
+  border-bottom: 1px solid #D6D6D6;
+  display: flex;
+  align-items: center;
+
+  .hr {
+    z-index: 1;
+    border-top: 1px solid #D6D6D6;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    margin: 0;
+  }
+}
+
+
+.chartMax,
+.chartMid,
+.chartMin {
+  position: absolute;
+  left: 2%;
+  background-color: white;
+  padding: 0.25em;
+  z-index: 2;
+  border-radius: 5px;
+}
+
+.chartMax {
+  top: -0.75em;
+}
+
+.chartMin {
+  bottom: -0.75em;
+}
+
+.xAxisLabels {
+  display: flex;
+  position: absolute;
+  bottom: -2em;
+  box-sizing: border-box;
+  padding: 0 5%;
+  width: 100%;
+  justify-content: space-between;
+}
+/* END CHART */
+
+/* CHART FILTER*/
+.chartFilter {
+  flex: initial;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 4em;
+}
+
+.filterOptions {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.platformListItem {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding-bottom: 0.5em;
+}
+
+.dataSourcesList {
+  padding: 1em 5%;
+  
+  .ul {
+    margin-left: 17.129%;
+  }
+  
+  .li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+  }
+
+  .p {
+    margin: 0 0 0 10px;
+  }
+}
+/* END CHART FILTER*/

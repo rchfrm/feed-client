@@ -16,6 +16,7 @@ import brandColours from '../constants/brandColours'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 // IMPORT STYLES
+import styles from './ChartContainer.module.css'
 
 function ChartFilter(props) {
 // REDEFINE PROPS AS VARIABLES
@@ -30,7 +31,7 @@ function ChartFilter(props) {
   // END DEFINE STATES
 
   return (
-    <div className="chart-filter">
+    <div className={styles.chartFilter}>
 
       <PlatformOptions
         availableDataSources={availableDataSources}
@@ -117,7 +118,7 @@ function PlatformOptions(props) {
 
   return (
     <ul
-      className="filter-options"
+      className={styles.filterOptions}
       style={style}
     >
       {options}
@@ -148,7 +149,7 @@ function PlatformOption(props) {
     <li
       key={platform}
       id={platform}
-      className="platform-list-item"
+      className={styles.platformListItem}
       style={{
         borderBottom: `2px solid ${bottomBorderColour}`,
       }}
@@ -202,12 +203,12 @@ function DataSourceOptions(props) {
   })
 
   return (
-    <div className="data-sources-list">
+    <div className={styles.dataSourcesList}>
       <h2>
         {helper.capitalise(visiblePlatform)}
       </h2>
 
-      <ul>
+      <ul className={styles.ul}>
         {dataSourceOptions}
       </ul>
 
@@ -249,7 +250,7 @@ function DataSourceOption(props) {
   }
 
   return (
-    <li key={id}>
+    <li key={id} className={styles.li}>
 
       <Button
         onClick={updateDisplayedData}
@@ -262,7 +263,7 @@ function DataSourceOption(props) {
         />
       </Button>
 
-      <p>
+      <p className={styles.p}>
         {helper.translateDataSourceId(id)}
       </p>
     </li>

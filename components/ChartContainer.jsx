@@ -13,6 +13,7 @@ import ChartDoughnut from './ChartDoughnut'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 // IMPORT STYLES
+import styles from './ChartContainer.module.css'
 
 const ChartContainer = ({
   data,
@@ -22,8 +23,9 @@ const ChartContainer = ({
   setData,
   setDisplayedDataSources,
 }) => {
+  console.log(styles)
   return (
-    <div className="chart-container">
+    <div className={styles.container}>
 
       <Chart
         data={data}

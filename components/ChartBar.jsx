@@ -14,6 +14,7 @@ import dataSourceDetails from '../constants/dataSources'
 import helper from './helpers/helper'
 import brandColours from '../constants/brandColours'
 // IMPORT STYLES
+import styles from './ChartContainer.module.css'
 
 // Set first day of week to Monday
 moment.updateLocale('en', {
@@ -406,7 +407,7 @@ function ChartBar(props) {
   // DEFINE THE OPTIONS
 
   return (
-    <div className="chart">
+    <div className={styles.chart}>
       <Bar
         data={{
           labels: datePeriods.labels,
@@ -417,7 +418,7 @@ function ChartBar(props) {
         height={50}
         id="bar-chart"
       />
-      <style jsx>
+      <style global jsx>
         {`
         #bar-chart {
           padding: 0 5%;
@@ -453,12 +454,12 @@ function BarChartOverlay({ max: maxValue, min: minValue, labels }) {
   })
 
   return (
-    <div className="chart-overlay">
-      <div className="chart-max">{max}</div>
-      <hr />
-      <div className="chart-mid">{mid}</div>
-      <div className="chart-min">{min}</div>
-      <ul className="x-axis-labels">{labelList}</ul>
+    <div className={styles.chartOverlay}>
+      <div className={styles.chartMax}>{max}</div>
+      <hr className={styles.hr} />
+      <div className={styles.chartMid}>{mid}</div>
+      <div className={styles.chartMin}>{min}</div>
+      <ul className={styles.xAxisLabels}>{labelList}</ul>
     </div>
   )
 }

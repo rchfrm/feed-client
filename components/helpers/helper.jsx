@@ -485,7 +485,7 @@ export default {
     return capitalisedArray.join(' ')
   },
 
-  translateDataSourceId: (dataSource, capitalise = true) => {
+  translateDataSourceId: (dataSource, shouldCapitalise = true) => {
     let phrase = dataSource
     const platform = extractDataSourcePlatform(phrase)
     phrase = phrase.slice(platform.length + 1)
@@ -512,7 +512,7 @@ export default {
     phrase = phrase.replace('ad_', 'daily ')
     phrase = phrase.replace('_feed', ' (through Feed)')
     phrase = phrase.replace(/_/g, ' ')
-    if (capitalise) {
+    if (shouldCapitalise) {
       phrase = capitalise(phrase)
     }
     return phrase
