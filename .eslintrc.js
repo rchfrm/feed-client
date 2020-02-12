@@ -48,5 +48,6 @@ module.exports = {
     'react/prop-types': 'off', // look again
     'jsx-a11y/anchor-is-valid': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
+    'react/no-unescaped-entities': 'off',
   },
 };
