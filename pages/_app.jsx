@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Head from 'next/head'
 import PropTypes from 'prop-types'
 import { StripeProvider } from 'react-stripe-elements'
 // IMPORT COMPONENTS
@@ -29,6 +30,11 @@ function Feed({ Component, pageProps }) {
   return (
 
     <AuthProvider>
+
+      {/* Add title */}
+      <Head>
+        <title key="meta-title">Feed</title>
+      </Head>
 
       <StripeProvider stripe={stripe}>
 

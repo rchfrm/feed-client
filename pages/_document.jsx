@@ -10,7 +10,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta charset="utf-8" />
+          <meta charSet="utf-8" />
           {/* Favicon */}
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,8 +19,7 @@ class MyDocument extends Document {
           <link rel="manifest" href="/manifest.json" />
           {/* Include Stripe in the head */}
           <script src="https://js.stripe.com/v3/" />
-          {/* Meta details */}
-          <title key="meta-title">Feed</title>
+          {/* Meta details (title is set in _app.js) */}
           <meta key="meta-description" name="description" content="Audience growth for artists, built by archForm" />
           <meta key="meta-og:title" property="og:title" content="archForm" />
           <meta key="meta-og:url" property="og:url" content="http://archform.ltd" />
