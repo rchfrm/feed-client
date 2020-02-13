@@ -35,6 +35,7 @@ notes.txt
 # Next build
 .next
 out/
+dist/
 # PWA generated things
 public/pwa
 
