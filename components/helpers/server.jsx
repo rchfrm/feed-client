@@ -30,7 +30,6 @@ export default {
 
   getUser: async (verifyIdToken) => {
     const endpoint = `${url}users/me`
-    console.log('verifyIdToken', verifyIdToken)
     const res = await fetch(endpoint, {
       method: 'GET',
       headers: {

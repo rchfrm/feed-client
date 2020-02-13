@@ -31,7 +31,7 @@ const userReducer = (userState, userAction) => {
   }
 }
 
-function UserProvider(props) {
+function UserProvider({ children }) {
   const { getToken } = React.useContext(AuthContext)
 
   // DEFINE USER STATE
@@ -69,9 +69,7 @@ function UserProvider(props) {
     setUserLoading(true)
     try {
       const token = await getToken()
-      console.log('token', token)
       const newUser = await server.getUser(token)
-      console.log('newUser', newUser)
       setUser({
         type: 'set-user',
         payload: {
@@ -99,7 +97,7 @@ function UserProvider(props) {
 
   return (
     <UserContext.Provider value={value}>
-      {props.children}
+      {children}
     </UserContext.Provider>
   )
 }

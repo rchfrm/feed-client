@@ -23,7 +23,6 @@ const ChartContainer = ({
   setData,
   setDisplayedDataSources,
 }) => {
-  console.log(styles)
   return (
     <div className={styles.container}>
 
