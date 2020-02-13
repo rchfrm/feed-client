@@ -310,6 +310,11 @@ function ChartBar(props) {
     legend: {
       display: false,
     },
+    dataset: {
+      barPercentage: 0.8,
+      categoryPercentage: 1,
+      barThickness: 'flex',
+    },
     scales: {
       xAxes: [{
         stacked: true,
@@ -322,9 +327,6 @@ function ChartBar(props) {
           maxRotation: 0,
           display: false,
         },
-        barPercentage: 0.8,
-        categoryPercentage: 1,
-        barThickness: 'flex',
       }],
       yAxes: [{
         stacked: true,
