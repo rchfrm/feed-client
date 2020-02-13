@@ -41,7 +41,7 @@ function Connections(props) {
         artistId={artistId}
         platform={platform}
         priorityDSP={priorityDSP}
-        url={connections[platform].url}
+        url={connections[platform].url || ''}
         valid={connections[platform].valid}
         setConnections={setConnections}
         setPriorityDSP={setPriorityDSP}
@@ -315,15 +315,13 @@ function ConfirmPriorityDSPChange({ platform }) {
   )
 }
 
-function IntegrationLink(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { platform } = props
-  const { setValue } = props
-  const { url } = props
-  const { valid } = props
-  const { value } = props
-  // END REDEFINE PROPS AS VARIABLES
-
+const IntegrationLink = ({
+  platform,
+  setValue,
+  url,
+  valid,
+  value = '',
+}) => {
   // FUNCTIONS
   // Generate phrase for input placeholder
   const placeholder = platform => {
@@ -349,6 +347,7 @@ function IntegrationLink(props) {
   const handleChange = e => {
     e.preventDefault()
     setValue(e.target.value)
+    setValue(e.target.value || '')
   }
   // END FUNCTIONS
 

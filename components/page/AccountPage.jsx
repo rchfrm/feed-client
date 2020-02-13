@@ -8,8 +8,8 @@ import { UserContext } from '../contexts/User'
 import PageHeader from '../elements/PageHeader'
 import Spinner from '../elements/Spinner'
 // IMPORT PAGES
-import Details from '../AccountPageDetails'
-import Integrations from '../AccountPageIntegrations'
+import AccountPageDetails from '../AccountPageDetails'
+import AccountPageIntegrations from '../AccountPageIntegrations'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import brandColours from '../../constants/brandColours'
@@ -37,9 +37,9 @@ function AccountPage() {
 
       <PageHeader heading={user.first_name ? `Hey ${user.first_name}` : 'Hey'} punctuation="," />
 
-      <Details />
+      <AccountPageDetails />
 
-      <Integrations />
+      <AccountPageIntegrations />
 
       {/* <Payments /> */}
 

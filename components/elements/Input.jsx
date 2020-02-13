@@ -20,19 +20,20 @@ const Input = ({
   htmlFor = '',
   name,
   placeholder,
-  value,
+  value = '',
   onChange,
   version,
   type,
 }) => {
   const width = typeof widthProp === 'string' ? widthProp : ''
   const widthPercentage = typeof widthProp === 'number' ? widthProp : ''
+  let labelValue
   if (label === 'none') {
-    label = ''
+    labelValue = ''
   } else if (label.icon) {
     switch (label.icon) {
       case 'facebook':
-        label = (
+        labelValue = (
           <label htmlFor={htmlFor} className={`label_${label.position}`}>
             <FacebookIcon
               fill="#000000"
@@ -42,7 +43,7 @@ const Input = ({
         )
         break
       case 'instagram':
-        label = (
+        labelValue = (
           <label htmlFor={htmlFor} className={`label_${label.position}`}>
             <InstagramIcon
               fill="#000000"
@@ -55,7 +56,7 @@ const Input = ({
         break
     }
   } else if (label) {
-    label = (
+    labelValue = (
       <label htmlFor={htmlFor} className={`label_${label.position}`}>{label.text}</label>
     )
   }
@@ -69,7 +70,7 @@ const Input = ({
         paddingRight: `${paddingRight}%`,
       }}
     >
-      {label}
+      {labelValue}
       <input
         name={name}
         placeholder={placeholder}
