@@ -11,11 +11,10 @@ dotenv.config()
 
 // SETUP FAVICON PLUGIN
 const faviconPlugin = new FaviconsWebpackPlugin({
-  logo: './public/icons/icon.png',
+  logo: './public/icons/icon.svg',
   outputPath: '../public/pwa',
   cache: true,
   inject: false,
-  devMode: 'webapp',
   favicons: {
     appName: 'Feed',
     appDescription: 'Audience growth for artists, built by archForm',
@@ -54,7 +53,6 @@ const nextConfig = {
 }
 
 module.exports = withPlugins([
-
   // add a plugin with specific configuration
   [withPWA, {
     pwa: {
