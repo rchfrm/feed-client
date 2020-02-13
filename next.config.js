@@ -1,12 +1,32 @@
+const path = require('path')
 // Next plugins
 const withPlugins = require('next-compose-plugins')
 const withPWA = require('next-pwa')
-
-// Extract environment variables from local .env file
+// Webpack plugins
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const dotenv = require('dotenv')
 
+// Extract environment variables from local .env file
 dotenv.config()
 
+// SETUP FAVICON PLUGIN
+const faviconPlugin = new FaviconsWebpackPlugin({
+  logo: './public/icons/icon.png',
+  outputPath: '../public/pwa',
+  cache: true,
+  inject: false,
+  devMode: 'webapp',
+  favicons: {
+    appName: 'Feed',
+    appDescription: 'Audience growth for artists, built by archForm',
+    developerName: 'archForm',
+    developerUrl: 'https://archform.ltd',
+    background: '#fff',
+    theme_color: '#000',
+  },
+})
+
+// NEXT CONFIG
 const nextConfig = {
   // Save environment variables
   env: {
@@ -19,10 +39,17 @@ const nextConfig = {
     firebase_app_id: process.env.FIREBASE_APP_ID,
     stripe_provider: process.env.STRIPE_PROVIDER,
   },
+  // https://nextjs.org/docs/api-reference/next.config.js/exportPathMap#adding-a-trailing-slash
+  exportTrailingSlash: true,
   // Don't show if page can be optimised automatically
   // https://nextjs.org/docs/api-reference/next.config.js/static-optimization-indicator
   devIndicators: {
     autoPrerender: false,
+  },
+  // Custom webpack
+  webpack: (config) => {
+    config.plugins.push(faviconPlugin)
+    return config
   },
 }
 
