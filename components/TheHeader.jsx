@@ -1,6 +1,8 @@
 // IMPORT PACKAGES
 import React from 'react'
+import Link from 'next/link'
 // IMPORT COMPONENTS
+import * as ROUTES from '../constants/routes'
 // IMPORT CONTEXTS
 import { NavigationContext } from './contexts/Navigation'
 // IMPORT ELEMENTS
@@ -17,7 +19,11 @@ function Header() {
 
   return (
     <header style={{ backgroundColor }}>
-      <Logo navigation={navState.visible} />
+      <Link href={ROUTES.HOME}>
+        <a>
+          <Logo navigation={navState.visible} />
+        </a>
+      </Link>
       <MenuButton navigation={navState.visible} onClick={toggleNav} />
       <Clear />
     </header>

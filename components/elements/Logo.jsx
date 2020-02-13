@@ -10,15 +10,15 @@ import ArchFormLogo from '../icons/ArchFormLogo'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function Logo({ navigation, onClick }) {
+function Logo({ navigation }) {
   const fill = navigation ? '#ffffff' : '#000000'
   return (
-    <button type="button" className="logoButton" onClick={onClick}>
+    <div className="logoButton">
       <ArchFormLogo
         fill={fill}
         width="100%"
       />
-    </button>
+    </div>
   )
 }
 
