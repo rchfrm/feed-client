@@ -1,5 +1,10 @@
-const dotenv = require('dotenv')
+// Next plugins
+const withPlugins = require('next-compose-plugins')
+const withPWA = require('next-pwa')
+
 // Extract environment variables from local .env file
+const dotenv = require('dotenv')
+
 dotenv.config()
 
 const nextConfig = {
@@ -21,6 +26,13 @@ const nextConfig = {
   },
 }
 
-module.exports = {
-  ...nextConfig,
-}
+module.exports = withPlugins([
+
+  // add a plugin with specific configuration
+  [withPWA, {
+    pwa: {
+      dest: 'public',
+    },
+  }],
+
+], nextConfig)
