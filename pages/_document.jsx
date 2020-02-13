@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Favicons from '../components/Favicons'
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -12,7 +13,7 @@ class MyDocument extends Document {
         <Head>
           <meta charSet="utf-8" />
           {/* Favicon */}
-          <link rel="shortcut icon" href="/favicon.ico" />
+          <Favicons />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#000000" />
           {/* Manifest */}
