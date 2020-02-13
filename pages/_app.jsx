@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Head from 'next/head'
 import { StripeProvider } from 'react-stripe-elements'
 // IMPORT COMPONENTS
 import Main from '../components/Main'
@@ -30,11 +29,6 @@ function Feed({ Component, pageProps }) {
   return (
 
     <AuthProvider>
-
-      <Head>
-        {/* Include Stripe in the head */}
-        <script src="https://js.stripe.com/v3/" />
-      </Head>
 
       <StripeProvider stripe={stripe}>
 
