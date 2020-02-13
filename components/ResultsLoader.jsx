@@ -126,7 +126,6 @@ function Loader() {
 
     getAssets('active')
       .then(assets => {
-        console.log('assets', assets)
         setPosts({
           type: 'add-assets',
           payload: {
