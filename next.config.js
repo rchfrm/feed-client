@@ -13,6 +13,7 @@ dotenv.config()
 const faviconPlugin = new FaviconsWebpackPlugin({
   logo: './public/icons/icon.svg',
   outputPath: '../public/pwa',
+  prefix: 'pwa/',
   cache: true,
   inject: false,
   favicons: {
