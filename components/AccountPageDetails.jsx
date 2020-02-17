@@ -242,7 +242,7 @@ function Details() {
               width="full"
             />
 
-            <div className="flex-row">
+            <div className={`flex-row ${styles.row}`}>
 
               <Input
                 className={styles.input}
