@@ -366,20 +366,24 @@ function PaymentSuccess({ cardDetails }) {
 
         <h4 className={styles.h4}>
           Thanks! You successfully saved your
+          {' '}
           {cardDetails.brand.toUpperCase()}
           {' '}
-          card ending&nbsp;
+          card ending
+          {' '}
           {cardDetails.last4}
           , that expires in
           {moment(cardDetails.exp_month, 'M').format('MMMM')}
           {' '}
           {moment(cardDetails.exp_year, 'YY').format('YYYY')}
-          , to your&nbsp;
+          , to your
+          {' '}
           <Feed />
           &nbsp;account.
         </h4>
         <h4 className={styles.h4}>
-          You can view, and update your payment details at any time from the&nbsp;
+          You can view, and update your payment details at any time from the
+          {' '}
           <Link href={ROUTES.ACCOUNT}><a>account</a></Link>
           {' '}
           page.
