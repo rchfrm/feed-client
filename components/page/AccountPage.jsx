@@ -10,6 +10,7 @@ import Spinner from '../elements/Spinner'
 // IMPORT PAGES
 import AccountPageDetails from '../AccountPageDetails'
 import AccountPageIntegrations from '../AccountPageIntegrations'
+import AccountPagePayments from '../AccountPagePayments'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import brandColours from '../../constants/brandColours'
@@ -38,6 +39,8 @@ function AccountPage() {
       <PageHeader heading={user.first_name ? `Hey ${user.first_name}` : 'Hey'} punctuation="," />
 
       <AccountPageDetails />
+
+      <AccountPagePayments />
 
       <AccountPageIntegrations />
 

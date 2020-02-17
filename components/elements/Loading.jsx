@@ -1,8 +1,9 @@
 import React from 'react'
+import Ellipsis from './Ellipsis'
 
-function Loading(props) {
-  const padding = props.noPadding ? '0' : '0 5%'
-  const what = props.what ? ` ${props.what}` : ''
+function Loading({ noPadding, what }) {
+  const padding = noPadding ? '0' : '0 5%'
+  const whatString = what ? ` ${what}` : ''
   return (
     <div
       className="loading"
@@ -12,8 +13,8 @@ function Loading(props) {
     >
       <p className="full">
         Loading
-        {what}
-        ...
+        {whatString}
+        <Ellipsis />
       </p>
     </div>
   )

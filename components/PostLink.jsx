@@ -356,7 +356,7 @@ export function AddUrl(props) {
           width={100}
         />
 
-        <label className="label-top">Select the type:</label>
+        <label className="label_top">Select the type:</label>
         <div className={styles['link-selection']} style={{ width: '100%' }}>
 
           <select onChange={handleSelect}>

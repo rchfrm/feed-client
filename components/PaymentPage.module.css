@@ -1,0 +1,72 @@
+/* Payment page
+************************************* */
+.payments {
+  width: 90%;
+  margin: 0 5%;
+}
+
+.payments-organisation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.payments-organisation-detail {
+  width: 48.609%;
+}
+
+/* Checkout
+************************************* */
+
+.checkout-page {
+  width: 90%;
+  padding: 0 5%;
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+  align-items: flex-end;
+  
+  .h4 {
+    width: 100%;
+  }
+}
+
+
+.checkout-inputs {
+  flex: auto;
+  width: 100%;
+}
+
+.checkout-inputs-section {
+  margin-bottom: 1.5em;
+}
+
+.city-state {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkout-inputs a {
+  margin-bottom: 1em;
+  display: flex;
+}
+
+.card-input {
+  outline: 2px solid black;
+  outline-offset: -2px;
+  margin-bottom: 1em;
+  padding: 1.333em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.payment-success {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.payment-success-headers {
+  flex: auto;
+}
+
