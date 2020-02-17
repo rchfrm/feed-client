@@ -246,6 +246,10 @@ button:focus {
 .error {
   color: #FF0000;
 
+  & + .error {
+    margin-top: -1em;
+  }
+
 }
 .success {
   color: #6edcd3;
