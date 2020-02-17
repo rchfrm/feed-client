@@ -44,12 +44,12 @@ function Organisations() {
   // ... if there is just one, display the associated payment methods,
   if (orgIDs.length === 1) {
     const orgId = orgIDs[0]
-    return <Organisation key={orgId} multiple={false} organisation={user.organizations[orgId]} />
+    return <Organisation key={orgId} multiple={false} organisationObj={user.organizations[orgId]} />
   }
 
   /* ... if there is more than one, display a list of billing accounts the user has access to,
   with the default default payment method */
-  return orgIDs.map(orgId => <Organisation key={orgId} multiple organisation={user.organizations[orgId]} />)
+  return orgIDs.map(orgId => <Organisation key={orgId} multiple organisationObj={user.organizations[orgId]} />)
 }
 
 function Organisation({ organisationObj, multiple }) {

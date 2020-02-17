@@ -69,7 +69,7 @@ function CheckOutForm(props) {
   // Transform countries array to have name and value keys
   const countryOptions = countries.map(country => {
     return {
-      value: country.iso,
+      value: country.id,
       name: country.name,
     }
   })
@@ -210,9 +210,11 @@ function CheckOutForm(props) {
 
       <h4 className={styles.h4}>Once a month, you'll be charged a small % of what you spend on promotion - a 'service fee' of sorts.</h4>
       <h4 className={styles.h4}>
-        More detail on
+        More details on
+        {' '}
         <Feed />
         's pricing is
+        {' '}
         <Link href={ROUTES.PRICES}><a>here</a></Link>
         .
       </h4>
