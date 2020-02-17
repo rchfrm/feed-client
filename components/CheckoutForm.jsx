@@ -35,7 +35,7 @@ function CheckOutForm(props) {
   // END Contexts
 
   // States
-  const [error, setError] = React.useState(null)
+  const [errors, setErrors] = React.useState([])
   const [addressLine1, setAddressLine1] = React.useState('')
   const [addressLine2, setAddressLine2] = React.useState('')
   const [cardDetails, setCardDetails] = React.useState({})
@@ -112,18 +112,44 @@ function CheckOutForm(props) {
       default:
         break
     }
-    setError(null)
+    setErrors([])
     setSuccess(false)
   }
 
-  // Create Stripe payment method and submit to server
-  const submitPaymentMethod = async (e) => {
-    if (e) {
-      console.log(e)
+  const handleErrors = () => {
+    const errorList = []
+    // Check name
+    if (!name) {
+      errorList.push({ message: 'Please fill in your name' })
     }
-    // If there is no name filled in, return and create an error
-    if (name === '') {
-      setError({ message: 'Please fill in your name' })
+    // Check email
+    if (!email) {
+      errorList.push({ message: 'Please add your billing email' })
+    }
+    // Check address line 1
+    if (!addressLine1) {
+      errorList.push({ message: 'Please fill in the first line of your address' })
+    }
+    // Check city
+    if (!city) {
+      errorList.push({ message: 'Please fill in your city' })
+    }
+    // Check country
+    if (!country) {
+      errorList.push({ message: 'Please select a country' })
+    }
+    // Set any erros
+    setErrors(errorList)
+    return errorList.length
+  }
+
+  // Create Stripe payment method and submit to server
+  const submitPaymentMethod = async () => {
+    // Check for errors and print any
+    const hasErrors = handleErrors()
+    // If errors, stop here and scroll to top
+    if (hasErrors) {
+      document.documentElement.scrollTop = 0
       return
     }
 
@@ -189,7 +215,7 @@ function CheckOutForm(props) {
       setSuccess(true)
       setLoading(false)
     } catch (err) {
-      setError(err)
+      setErrors([err])
       setLoading(false)
     }
   }
@@ -230,7 +256,10 @@ function CheckOutForm(props) {
 
       <div className={styles['checkout-inputs']}>
 
-        <Error error={error} />
+        {/* Show any errors */}
+        {errors.map((error, index) => {
+          return <Error key={`checkout-errors-${index}`} error={error} />
+        })}
 
         <h2>Card details:</h2>
 
@@ -238,9 +267,21 @@ function CheckOutForm(props) {
 
           <CardElement className={styles['card-input']} style={cardElementStyles} />
 
-          <InputNew handleChange={handleChange} name="name" placeholder="Name on card" value={name} version="box" />
+          <InputNew
+            handleChange={handleChange}
+            name="name"
+            placeholder="Name on card*"
+            value={name}
+            version="box"
+          />
 
-          <InputNew handleChange={handleChange} name="email" placeholder="Billing email" value={email} version="box" />
+          <InputNew
+            handleChange={handleChange}
+            name="email"
+            placeholder="Billing email*"
+            value={email}
+            version="box"
+          />
 
         </div>
 
@@ -249,7 +290,7 @@ function CheckOutForm(props) {
         <InputNew
           handleChange={handleChange}
           name="address-line-1"
-          placeholder="Address Line 1"
+          placeholder="Address Line 1*"
           value={addressLine1}
           version="box"
         />
@@ -264,7 +305,14 @@ function CheckOutForm(props) {
 
         <div className={styles['city-state']}>
 
-          <InputNew handleChange={handleChange} name="city" placeholder="City" value={city} version="box" width={48.611} />
+          <InputNew
+            handleChange={handleChange}
+            name="city"
+            placeholder="City*"
+            value={city}
+            version="box"
+            width={48.611}
+          />
 
           <InputNew
             handleChange={handleChange}
@@ -281,7 +329,7 @@ function CheckOutForm(props) {
           handleChange={handleChange}
           name="country"
           options={countryOptions}
-          placeholder="Country"
+          placeholder="Country*"
           selectedValue={country}
           style={{ fontFamily: 'monospace' }}
         />
