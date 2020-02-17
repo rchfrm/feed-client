@@ -313,21 +313,19 @@ function PaymentSuccess(props) {
           Thanks! You successfully saved your
           {cardDetails.brand.toUpperCase()}
           {' '}
-          card ending
+          card ending&nbsp;
           {cardDetails.last4}
           , that expires in
           {moment(cardDetails.exp_month, 'M').format('MMMM')}
           {' '}
           {moment(cardDetails.exp_year, 'YY').format('YYYY')}
-          , to your
-          {' '}
+          , to your&nbsp;
           <Feed />
-          {' '}
-          account.
+          &nbsp;account.
         </h4>
         <h4 className={styles.h4}>
-          You can view, and update your payment details at any time from the
-          <Link to={ROUTES.ACCOUNT}>account</Link>
+          You can view, and update your payment details at any time from the&nbsp;
+          <Link href={ROUTES.ACCOUNT}><a>account</a></Link>
           {' '}
           page.
         </h4>
