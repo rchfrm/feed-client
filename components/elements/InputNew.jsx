@@ -4,19 +4,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 
-function InputNew(props) {
-// Redefine props as variables
-  const {
-    handleChange,
-    name,
-    placeholder,
-    value,
-    version,
-    width,
-    readOnly,
-  } = props
-  // END Redefine props as variables
-
+const InputNew = ({
+  handleChange,
+  name,
+  placeholder,
+  value,
+  version,
+  width,
+  readOnly,
+  required,
+}) => {
   return (
     <input
       className={version}
@@ -28,6 +25,7 @@ function InputNew(props) {
       }}
       value={value}
       readOnly={readOnly}
+      required={required}
     />
   )
 }
@@ -56,6 +54,8 @@ InputNew.propTypes = {
 
   // If there is a width prop, it should be a number
   width: PropTypes.number,
+
+  required: PropTypes.bool,
 }
 
 InputNew.defaultProps = {
@@ -64,6 +64,7 @@ InputNew.defaultProps = {
   readOnly: false,
   value: '',
   width: 100,
+  required: false,
 }
 
 export default InputNew

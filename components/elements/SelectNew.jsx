@@ -3,17 +3,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const SelectNew = (props) => {
-  const {
-    handleChange,
-    name,
-    options,
-    placeholder,
-    selectedValue,
-    style,
-    version = '',
-  } = props
-
+const SelectNew = ({
+  handleChange,
+  name,
+  options,
+  placeholder,
+  selectedValue,
+  style,
+  version = '',
+  required,
+}) => {
   // Transform options into array of <option> elements
   const optionElements = options.map(option => {
     return <option key={option.value} value={option.value}>{option.name}</option>
@@ -21,7 +20,14 @@ const SelectNew = (props) => {
   // END Transform options into array of <option> elements
 
   return (
-    <select className={version} name={name} onChange={handleChange} required style={style} value={selectedValue}>
+    <select
+      className={version}
+      name={name}
+      onChange={handleChange}
+      style={style}
+      value={selectedValue}
+      required={required}
+    >
       {[
         <option key="placeholder" value="" hidden>{placeholder}</option>,
         ...optionElements,
@@ -68,11 +74,14 @@ SelectNew.propTypes = {
 
   // If there is version prop, it should be a string
   version: PropTypes.string,
+
+  required: PropTypes.bool,
 }
 
 SelectNew.defaultProps = {
   style: {},
   version: '',
+  required: false,
 }
 
 export default SelectNew
