@@ -13,6 +13,7 @@ import * as ROUTES from '../constants/routes'
 import brandColours from '../constants/brandColours'
 import countries from '../constants/countries'
 // IMPORT CONTEXTS
+import { UserContext } from './contexts/User'
 import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
@@ -47,6 +48,14 @@ function CheckOutForm(props) {
   const [state, setState] = React.useState('')
   const [success, setSuccess] = React.useState(false)
   // END States
+
+  // Set email if user already has email
+  const { user } = React.useContext(UserContext)
+  React.useEffect(() => {
+    if (user.email) {
+      setEmail(user.email)
+    }
+  }, [user.email])
 
   // Card element styles
   const cardElementStyles = {
