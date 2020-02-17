@@ -8,11 +8,14 @@ const FaqPageList = [
       <div>
         <p>
           To use
+          {' '}
           <Feed />
           , you'll need to be an admin of a Facebook (business) Page as a minimum. If you are using Instagram, you'll need a
+          {' '}
           <a href="https://help.instagram.com/502981923235522" target="_blank" rel="noopener noreferrer">business profile</a>
           {' '}
           and make sure it's
+          {' '}
           <a href="https://help.instagram.com/399237934150902" target="_blank" rel="noopener noreferrer">linked to your Facebook Page</a>
           .
         </p>
@@ -26,11 +29,18 @@ const FaqPageList = [
       <div>
         <p>
           It's likely that your Facebook Page and Instagram business profile are not quite fully linked. Luckily it’s a quick fix!
+          {' '}
           <a href="https://www.facebook.com/business/help/898752960195806" target="_blank" rel="noopener noreferrer">Adding your Instagram account to your Facebook Page</a>
           {' '}
           only takes a couple of minutes.
         </p>
-        <p>We’re working on something that will then let you refresh your account within Feed, but for now just email us at services@archform.ltd once this is done and we’ll sort everything our end.</p>
+        <p>
+          We’re working on something that will then let you refresh your account within Feed, but for now just email us at
+          {' '}
+          <a href="mailto:services@archform.ltd">services@archform.ltd</a>
+          {' '}
+          once this is done and we’ll sort everything our end.
+        </p>
       </div>
     ),
   },
@@ -40,12 +50,14 @@ const FaqPageList = [
       <div>
         <p>
           If you haven’t run ads on Facebook or Instagram before, to use the beta version of
+          {' '}
           <Feed />
           {' '}
           you’ll have to put your card details into Facebook separately.
         </p>
         <p>
           It only takes a couple of minutes to do this: just add your payment method in
+          {' '}
           <a href="https://www.facebook.com/ads/manager/account_settings/account_billing" target="_blank" rel="noopener noreferrer">the billing section of Facebook’s Ads Manager.</a>
         </p>
       </div>
@@ -57,6 +69,7 @@ const FaqPageList = [
       <div>
         <p>
           Make sure you've added your accounts from the 'accounts' page. You'll start seeing data the day after you do this. Once you've been using
+          {' '}
           <Feed />
           {' '}
           for long enough, we'll show you your follower and engagement data over time.
@@ -80,6 +93,7 @@ const FaqPageList = [
         <p>With digital ads, a higher budget will let you reach more people and can build your audience faster. But even a small ad budget can have a big impact.</p>
         <p>
           We recommend spending £3/day, which lets
+          {' '}
           <Feed />
           {' '}
           find new fans and also remind people who have engaged with you in the past.
@@ -94,6 +108,7 @@ const FaqPageList = [
       <div>
         <p>
           When you've set up your account and entered your budget,
+          {' '}
           <Feed />
           {' '}
           will set up and submit your ads for approval. Your ads should start running within 12 hours, at which point you can see how they are performing on the 'results' page.
@@ -128,6 +143,7 @@ const FaqPageList = [
       <div>
         <p>
           We built
+          {' '}
           <Feed />
           {' '}
           to help artists build an audience of real people, not a bunch of fake followers. These are the people who will stream and download your music and buy gig tickets, merch, CDs and vinyls.
@@ -135,6 +151,7 @@ const FaqPageList = [
         <p>We believe a steady and patient approach pays off in the long-run. Try smoothing your spend out over a longer period, rather than blowing your entire marketing budget in a few days around a release or a gig. You can still increase your spend around key events, just make sure you keep something back for the 'in between' periods.</p>
         <p>
           It's early days, but some of the first artists using
+          {' '}
           <Feed />
           {' '}
           are on track to double their audience across platforms in a matter of months.
