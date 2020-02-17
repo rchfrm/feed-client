@@ -29,7 +29,7 @@ import Overlay from './elements/Overlay'
 // IMPORT STYLES
 import styles from './PaymentPage.module.css'
 
-function CheckOutForm(props) {
+function CheckOutForm({ stripe }) {
 // Contexts
   const { getToken } = React.useContext(AuthContext)
   // END Contexts
@@ -194,9 +194,9 @@ function CheckOutForm(props) {
     }
 
     try {
-      const cardElement = props.elements.getElement('card')
+      const cardElement = stripe.elements('card').getElement()
       // Send the card element to Stripe to receive a payment method
-      const paymentMethod = await props.stripe.createPaymentMethod({
+      const paymentMethod = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
         ...billingDetails,
@@ -353,11 +353,7 @@ function CheckOutForm(props) {
 
 export default injectStripe(CheckOutForm)
 
-function PaymentSuccess(props) {
-// Redefine props as variables
-  const { cardDetails } = props
-  // END Redefine props as variables
-
+function PaymentSuccess({ cardDetails }) {
   const handleClick = e => {
     e.preventDefault()
     Router.push(ROUTES.ACCOUNT)
