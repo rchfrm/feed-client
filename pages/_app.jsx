@@ -1,7 +1,8 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useContext } from 'react'
 import Head from 'next/head'
 import PropTypes from 'prop-types'
 import { StripeProvider } from 'react-stripe-elements'
+import Script from 'react-load-script'
 // IMPORT COMPONENTS
 import Main from '../components/Main'
 import TheHeader from '../components/TheHeader'
@@ -22,18 +23,14 @@ function Feed({ Component, pageProps }) {
   const { visible: navVisible } = useContext(NavigationContext)
   const backgroundColor = navVisible ? 'black' : 'white'
 
-  // Setup stripe to use SSR
   const [stripe, setStripe] = useState(null)
-  useEffect(() => {
+
+  // Setup stripe to use SSR
+  const onStripeLoad = () => {
     if (window.Stripe) {
       setStripe(window.Stripe(process.env.stripe_provider))
-    } else {
-      document.querySelector('#stripe-js').addEventListener('load', () => {
-        // Create Stripe instance once Stripe.js loads
-        setStripe(window.Stripe(process.env.stripe_provider))
-      })
     }
-  }, [process.env.stripe_provider])
+  }
 
   return (
 
@@ -43,6 +40,11 @@ function Feed({ Component, pageProps }) {
       <Head>
         <title key="meta-title">Feed</title>
       </Head>
+
+      <Script
+        url="https://js.stripe.com/v3/"
+        onLoad={onStripeLoad}
+      />
 
       <StripeProvider stripe={stripe}>
 

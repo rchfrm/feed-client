@@ -13,8 +13,6 @@ class MyDocument extends Document {
         <Head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          {/* Include Stripe in the head */}
-          <script id="stripe-js" src="https://js.stripe.com/v3/" async />
           {/* PWA config and Favicons */}
           <Favicons />
           {/* Meta details (title is set in _app.js) */}
