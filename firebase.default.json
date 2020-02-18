@@ -1,12 +1,13 @@
 {
   "hosting": {
-    "site": "scaler",
-    "public": "build",
+    "site": "{{ site_name }}",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
+    "cleanUrls": true,
     "rewrites": [
       {
         "source": "**",

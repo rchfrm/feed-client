@@ -37,6 +37,7 @@ const nextConfig = {
     firebase_messaging_sender_id: process.env.FIREBASE_MESSAGING_SENDER_ID,
     firebase_app_id: process.env.FIREBASE_APP_ID,
     stripe_provider: process.env.STRIPE_PROVIDER,
+    react_app_api_url: process.env.REACT_APP_API_URL,
   },
   // Don't show if page can be optimised automatically
   // https://nextjs.org/docs/api-reference/next.config.js/static-optimization-indicator
