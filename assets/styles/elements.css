@@ -473,16 +473,17 @@ nav option {
   position: relative;
   height: 0;
   overflow: hidden;
+  
+  .center-image {
+    margin-bottom: 0;
+    position: absolute;
+    object-fit: cover;
+    object-position: center;
+    height: 100%;
+    width: 100%;
+  }
 }
 
-.square-image .center-image {
-  margin-bottom: 0;
-  position: absolute;
-  object-fit: cover;
-  object-position: center;
-  height: 100%;
-  width: 100%;
-}
 /* Tile
 ******************/
 .tile {
