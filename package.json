@@ -37,14 +37,14 @@
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "favicons-webpack-plugin": "^3.0.1",
-    "http-server": "^0.12.1"
+    "serve": "^11.3.0"
   },
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start",
     "export": "next build &&  next export -o dist/",
-    "serve": "http-server ./dist -p 3000"
+    "serve": "serve ./dist -l 3000"
   },
   "repository": {
     "type": "git",
