@@ -1,6 +1,6 @@
 // Next plugins
 const withPlugins = require('next-compose-plugins')
-const withPWA = require('next-pwa')
+const withOffline = require('next-offline')
 // Webpack plugins
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const dotenv = require('dotenv')
@@ -51,11 +51,5 @@ const nextConfig = {
 }
 
 module.exports = withPlugins([
-  // add a plugin with specific configuration
-  [withPWA, {
-    pwa: {
-      dest: 'public',
-      scope: '/',
-    },
-  }],
+  [withOffline],
 ], nextConfig)
