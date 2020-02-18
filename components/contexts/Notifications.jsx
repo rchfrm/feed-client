@@ -9,14 +9,15 @@ import { AuthContext } from './Auth'
 import { ArtistContext } from './Artist'
 // IMPORT ELEMENTS
 // IMPORT HELPERS
-import server from '../helpers/server'
 import helper from '../helpers/helper'
+import server from '../helpers/server'
 // IMPORT PAGES
 // IMPORT STYLES
 
 const initialNotificationsState = {}
 const NotificationsContext = React.createContext(initialNotificationsState)
 NotificationsContext.displayName = 'NotificationsContext'
+
 const notificationsReducer = (notificationsState, notificationsAction) => {
   switch (notificationsAction.type) {
     case 'add-notification': {

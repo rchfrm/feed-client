@@ -48,11 +48,16 @@ function NotificationsPage() {
 export default NotificationsPage
 
 function Notifications() {
-  const { notifications } = React.useContext(NotificationsContext)
-
+  const { notifications = {} } = React.useContext(NotificationsContext)
+  const notificationKeys = Object.keys(notifications)
+  if (!notificationKeys.length) {
+    return (
+      <NoNotifications />
+    )
+  }
   // Turn notifications into list
   const notificationsList = []
-  Object.keys(notifications).forEach(id => {
+  notificationKeys.forEach(id => {
     const notification = notifications[id]
     // Only display 'incomplete' notifications
     if (!notification.is_complete) {
@@ -66,6 +71,12 @@ function Notifications() {
     <ul className={styles['notifications-list']}>
       {notificationsList}
     </ul>
+  )
+}
+
+const NoNotifications = () => {
+  return (
+    <p className={styles.noNotifactions}>You have no notifications</p>
   )
 }
 
