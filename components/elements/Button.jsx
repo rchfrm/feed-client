@@ -10,16 +10,22 @@ import FacebookIcon from '../icons/FacebookIcon'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function Button(props) {
-  const version = props.version || ''
-  const width = typeof props.width === 'string' ? props.width : ''
-  const widthPercentage = typeof props.width === 'number' ? props.width : ''
-  const marginBottom = props.marginBottom || 0
-  const textAlign = props.textAlign || ''
-  const textColour = props.textColour || ''
-  const bgColour = props.bgColour || ''
+const Button = ({
+  version = '',
+  width: widthProp,
+  marginBottom = 0,
+  textAlign = '',
+  textColour = '',
+  bgColour = '',
+  disabled,
+  onClick,
+  children,
+  type = 'button',
+}) => {
+  const width = typeof widthProp === 'string' ? widthProp : ''
+  const widthPercentage = typeof widthProp === 'number' ? widthProp : ''
   let fb_icon
-  if (props.version === 'facebook') {
+  if (version === 'facebook') {
     fb_icon = (
       <FacebookIcon
         fill="#ffffff"
@@ -29,10 +35,10 @@ function Button(props) {
   }
   return (
     <button
-      type="button"
-      disabled={props.disabled}
+      type={type}
+      disabled={disabled}
       className={`button_${version} ${width}`}
-      onClick={props.onClick}
+      onClick={onClick}
       style={{
         width: `${widthPercentage}%`,
         color: textColour,
@@ -42,7 +48,7 @@ function Button(props) {
       }}
     >
       {fb_icon}
-      {props.children}
+      {children}
     </button>
   )
 }
