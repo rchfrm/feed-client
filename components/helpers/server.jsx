@@ -1,12 +1,12 @@
 import helper from './helper'
 
-const url = process.env.REACT_APP_API_URL || 'http://localhost:5000/'
+const host = process.env.REACT_APP_API_URL || 'http://localhost:5000/'
 
 export default {
 
   // USER
   createUser: async (first_name, last_name, verify_id_token) => {
-    const endpoint = `${url}accounts/register`
+    const endpoint = `${host}accounts/register`
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -29,14 +29,14 @@ export default {
   },
 
   getUser: async (verifyIdToken) => {
-    const endpoint = `${url}users/me`
+    const endpoint = `${host}users/me`
     const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${verifyIdToken}`,
       },
     }).catch((err) => {
-      console.log('cannt get user')
+      console.log('cant get user')
       throw (err)
     })
 
@@ -48,7 +48,7 @@ export default {
   },
 
   updateUser: async (firstName, lastName, email, verifyIdToken) => {
-    const endpoint = `${url}users/me`
+    const endpoint = `${host}users/me`
     const res = await fetch(endpoint, {
       method: 'PATCH',
       headers: {
@@ -69,7 +69,7 @@ export default {
 
   // ARTIST
   createArtist: async (artist, accessToken, token) => {
-    const endpoint = `${url}artists`
+    const endpoint = `${host}artists`
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -101,7 +101,7 @@ export default {
   },
 
   getArtist: async (artist_id, verify_id_token) => {
-    const endpoint = `${url}artists/${artist_id}`
+    const endpoint = `${host}artists/${artist_id}`
     const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
@@ -121,7 +121,7 @@ export default {
   },
 
   getArtistOnSignUp: async (facebookAccessToken, verifyIdToken) => {
-    const endpoint = `${url}artists/available`
+    const endpoint = `${host}artists/available`
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -140,7 +140,7 @@ export default {
   },
   // UPDATE ARTIST
   updateDailyBudget: async (artistId, dailyBudget, verifyIdToken) => {
-    const endpoint = `${url}artists/${artistId}`
+    const endpoint = `${host}artists/${artistId}`
     const res = await fetch(endpoint, {
       method: 'PATCH',
       headers: {
@@ -158,7 +158,7 @@ export default {
   },
 
   saveLink: async (artistId, link, linkLabel, verifyIdToken) => {
-    const endpoint = `${url}artists/${artistId}`
+    const endpoint = `${host}artists/${artistId}`
     const res = await fetch(endpoint, {
       method: 'PATCH',
       headers: {
@@ -176,7 +176,7 @@ export default {
   },
 
   updatePriorityDSP: async (artistId, priorityDSP, verifyIdToken) => {
-    const endpoint = `${url}artists/${artistId}`
+    const endpoint = `${host}artists/${artistId}`
     const res = await fetch(endpoint, {
       method: 'PATCH',
       headers: {
@@ -195,7 +195,7 @@ export default {
   // DATA SOURCES
   getDataSourceValue: async (dataSources, artistId, verifyIdToken) => {
     const dataSourceString = dataSources.join(',')
-    const endpoint = `${url}artists/${artistId}/data_sources?metrics=${dataSourceString}`
+    const endpoint = `${host}artists/${artistId}/data_sources?metrics=${dataSourceString}`
     const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
@@ -210,7 +210,7 @@ export default {
   },
   // ASSETS
   getUnpromotedPosts: async (offset, limit, artistId, verifyIdToken) => {
-    const endpoint = `${url}artists/${artistId}/assets?promotion_status=inactive&offset=${offset}&limit=${limit}`
+    const endpoint = `${host}artists/${artistId}/assets?promotion_status=inactive&offset=${offset}&limit=${limit}`
     const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
@@ -283,7 +283,7 @@ export default {
 
   getAssets: async (artistId, promotion_status, verifyIdToken) => {
     const query = promotion_status ? `?promotion_status=${promotion_status}` : ''
-    const endpoint = `${url}artists/${artistId}/assets${query}`
+    const endpoint = `${host}artists/${artistId}/assets${query}`
 
     const res = await fetch(endpoint, {
       method: 'GET',
@@ -301,7 +301,7 @@ export default {
   },
 
   togglePromotionEnabled: async (artistId, postId, promotionEnabled, verifyIdToken) => {
-    const endpoint = `${url}artists/${artistId}/assets/${postId}`
+    const endpoint = `${host}artists/${artistId}/assets/${postId}`
 
     const res = await fetch(endpoint, {
       method: 'PATCH',
@@ -322,7 +322,7 @@ export default {
   },
 
   updateAssetLink: async (artistId, postId, link, verifyIdToken) => {
-    const endpoint = `${url}artists/${artistId}/assets/${postId}`
+    const endpoint = `${host}artists/${artistId}/assets/${postId}`
 
     const res = await fetch(endpoint, {
       method: 'PATCH',
@@ -342,8 +342,10 @@ export default {
     throw new Error(res.statusText)
   },
   // PAYMENTS
-  makePayment: async (token, verifyIdToken) => {
-    const endpoint = `${url}users/me/payments`
+  // PAYMENTS
+  submitPaymentMethod: async (paymentMethodId, verifyIdToken) => {
+    // fixme "/organizations/me" is a temporary measure
+    const endpoint = `${host}organizations/me/billing/payments`
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -351,13 +353,12 @@ export default {
         Authorization: `Bearer ${verifyIdToken}`,
       },
       body: JSON.stringify({
-        token,
+        token: paymentMethodId,
       }),
     })
     if (res.ok) {
-      return res.json()
+      return
     }
     throw new Error(res.statusText)
   },
-
 }
