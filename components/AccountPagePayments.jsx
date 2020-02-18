@@ -152,15 +152,20 @@ function OrganisationDetails(props) {
   /* If the user has access to multiple organisations, display the last 4 digits of the card number,
   and the billing email */
   return (
-    <div className={styles['payments-organisation']}>
-      <div className={styles['payments-organisation-detail']}>
-        <label className="label_top">Default card:</label>
-        <InputNew name="default-card" readOnly value={`**** **** **** ${defaultPaymentMethod.card.last4}`} version="text" />
+    <div>
+      <div className={styles['payments-organisation']}>
+        <div className={styles['payments-organisation-detail']}>
+          <label className="label_top">Default card:</label>
+          <InputNew name="default-card" readOnly value={`**** **** **** ${defaultPaymentMethod.card.last4}`} version="text" />
+        </div>
+        <div className={styles['payments-organisation-detail']}>
+          <label className="label_top">Billing email:</label>
+          <InputNew name="billing-email" readOnly value={defaultPaymentMethod.billing_details.email} version="text" />
+        </div>
       </div>
-      <div className={styles['payments-organisation-detail']}>
-        <label className="label_top">Billing email:</label>
-        <InputNew name="billing-email" readOnly value={defaultPaymentMethod.billing_details.email} version="text" />
-      </div>
+      <p className={styles.newPaymentLink}>
+        <Link href={ROUTES.PAYMENT}><a>Add a new payment method</a></Link>
+      </p>
     </div>
   )
 }
