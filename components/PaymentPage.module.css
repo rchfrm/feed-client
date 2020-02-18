@@ -57,6 +57,15 @@
   display: flex;
 }
 
+.cardInputLabel {
+  position: relative;
+
+  .span {
+    /* position: absolute;
+    left: -10000em; */
+  }
+}
+
 .card-input {
   outline: 2px solid black;
   outline-offset: -2px;
@@ -77,3 +86,7 @@
   flex: auto;
 }
 
+.checkoutButtonWrapper {
+  display: flex;
+  justify-content: flex-end;
+}

@@ -47,6 +47,7 @@ module.exports = {
     'react/prop-types': 'off', // look again
     'react/no-unescaped-entities': 'off',
     'react/no-array-index-key': 'off',
+    'react/button-has-type': 'off',
     // A11y things
     'jsx-a11y/click-events-have-key-events': 'off',
     "jsx-a11y/media-has-caption": 'off',
