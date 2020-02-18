@@ -11,7 +11,7 @@ import React from 'react'
 
 function Nothing() {
   return (
-    <div className="nothing" />
+    <></>
   )
 }
 

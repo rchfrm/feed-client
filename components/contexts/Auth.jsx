@@ -124,6 +124,17 @@ function AuthProvider({ children }) {
     }
   }
 
+  const relinkFacebook = async () => {
+    setAuthLoading(true)
+    try {
+      await unlinkFacebook()
+      await firebase.reauthoriseFacebook()
+    } catch (err) {
+      setAuthLoading(false)
+      throw (err)
+    }
+  }
+
   const login = async (email, password) => {
     setAuthLoading(true)
     try {
@@ -174,6 +185,7 @@ function AuthProvider({ children }) {
     linkFacebook,
     login,
     noAuth,
+    relinkFacebook,
     setAccessToken,
     setAuthError,
     signUp,

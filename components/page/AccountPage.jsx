@@ -11,6 +11,7 @@ import Spinner from '../elements/Spinner'
 import AccountPageDetails from '../AccountPageDetails'
 import AccountPageIntegrations from '../AccountPageIntegrations'
 import AccountPagePayments from '../AccountPagePayments'
+import RelinkFacebook from '../RelinkFacebook'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import brandColours from '../../constants/brandColours'
@@ -40,11 +41,11 @@ function AccountPage() {
 
       <AccountPageDetails />
 
+      <RelinkFacebook />
+
       <AccountPagePayments />
 
       <AccountPageIntegrations />
-
-      {/* <Payments /> */}
 
     </div>
   )
