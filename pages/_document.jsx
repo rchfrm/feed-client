@@ -13,8 +13,6 @@ class MyDocument extends Document {
         <Head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          {/* PWA config and Favicons */}
-          <Favicons />
           {/* Meta details (title is set in _app.js) */}
           <meta key="meta-description" name="description" content="Audience growth for artists, built by archForm" />
           <meta key="meta-og:title" property="og:title" content="archForm" />
@@ -31,6 +29,8 @@ class MyDocument extends Document {
           <meta key="meta-twitter:image" name="twitter:image" content="https://s3.eu-west-2.amazonaws.com/archform.ltd/media/Tw_OG.png" />
           <meta key="meta-twitter:image:width" name="twitter:image:width" content="600px" />
           <meta key="meta-twitter:image:height" name="twitter:image:height" content="315px" />
+          {/* PWA config and Favicons */}
+          <Favicons />
         </Head>
         <body>
           <Main />

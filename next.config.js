@@ -11,7 +11,7 @@ dotenv.config()
 // SETUP FAVICON PLUGIN
 const faviconPlugin = new FaviconsWebpackPlugin({
   logo: './public/icons/icon.svg',
-  outputPath: '../public/pwa',
+  outputPath: './pwa',
   prefix: 'pwa/',
   cache: true,
   inject: false,
@@ -55,6 +55,7 @@ module.exports = withPlugins([
   [withPWA, {
     pwa: {
       dest: 'public',
+      scope: '/',
     },
   }],
 ], nextConfig)

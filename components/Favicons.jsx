@@ -22,11 +22,6 @@ export default () => {
       <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" href="/pwa/apple-touch-startup-image-1496x2048.png" />
       <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 1)" href="/pwa/apple-touch-startup-image-768x1004.png" />
       <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" href="/pwa/apple-touch-startup-image-1536x2008.png" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon-16x16.png" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon-32x32.png" />
-      <link rel="icon" type="image/png" sizes="228x228" href="/pwa/coast-228x228.png" />
-      <link rel="manifest" href="/pwa/manifest.json" />
-      <link rel="shortcut icon" href="/pwa/favicon.ico" />
       <link rel="yandex-tableau-widget" href="/pwa/yandex-browser-manifest.json" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -37,6 +32,11 @@ export default () => {
       <meta name="msapplication-TileImage" content="/pwa/mstile-144x144.png" />
       <meta name="msapplication-config" content="/pwa/browserconfig.xml" />
       <meta name="theme-color" content="#fff" />
+      <link rel="manifest" href="/pwa/manifest.json" />
+      <link rel="shortcut icon" href="/pwa/favicon.ico" />
+      <link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon-16x16.png" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon-32x32.png" />
+      <link rel="icon" type="image/png" sizes="228x228" href="/pwa/coast-228x228.png" />
     </>
   )
 }

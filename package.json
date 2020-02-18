@@ -43,7 +43,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "export": "next build &&  next export -o dist/",
+    "copyIcons": "cp -R .next/pwa public/",
+    "export": "rm -rf dist/ && next build && yarn copyIcons && next export -o dist/",
     "serve": "serve ./dist -l 3000"
   },
   "repository": {
