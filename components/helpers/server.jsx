@@ -1,6 +1,8 @@
 import helper from './helper'
 
-const host = process.env.react_app_api_url || 'http://localhost:5000/'
+const host = process.env.node_env === 'development'
+  ? process.env.react_app_api_url_local
+  : process.env.react_app_api_url || 'http://localhost:5000/'
 
 export default {
 
