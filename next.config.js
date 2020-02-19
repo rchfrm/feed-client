@@ -8,6 +8,11 @@ const dotenv = require('dotenv')
 // Extract environment variables from local .env file
 dotenv.config()
 
+// Next phase vars
+const {
+  PHASE_DEVELOPMENT_SERVER,
+} = require('next/constants')
+
 // SETUP FAVICON PLUGIN
 const faviconPlugin = new FaviconsWebpackPlugin({
   logo: './public/icons/icon.svg',
@@ -54,5 +59,6 @@ const nextConfig = {
 }
 
 module.exports = withPlugins([
-  [withOffline],
+  // load and apply a plugin only during development server phase
+  [withOffline, ['!', PHASE_DEVELOPMENT_SERVER]],
 ], nextConfig)
