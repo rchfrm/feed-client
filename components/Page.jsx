@@ -16,12 +16,12 @@ import firebase from './helpers/firebase'
 // IMPORT STYLES
 
 function Page({ children }) {
+  console.log('MOUNT PAGE')
   const router = useRouter()
   const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
   const { createUser, noUser, storeUser } = React.useContext(UserContext)
   const { noArtist, storeArtist } = React.useContext(ArtistContext)
   const [checkedForUser, setCheckedForUser] = React.useState(false)
-  const [redirected, setRedirected] = React.useState(false)
 
   // HANDLE EXISTING USERS
   const handleExistingUser = React.useCallback(async () => {
@@ -31,7 +31,6 @@ function Page({ children }) {
     // Check if they have artists connected to their account or not,
     // if they don't, set noArtist, and push them to the Connect Artist page
     if (newUser.artists.length === 0) {
-      setRedirected(true)
       Router.push(ROUTES.CONNECT_ARTIST)
       console.log('Router.push(ROUTES.CONNECT_ARTIST)')
       noArtist()
@@ -67,7 +66,6 @@ function Page({ children }) {
     // if they are push to the home page
     const { pathname } = router
     if (pathname === ROUTES.LOG_IN || pathname === ROUTES.SIGN_UP) {
-      setRedirected(true)
       Router.push(ROUTES.HOME)
       console.log('Router.push(ROUTES.HOME)')
     }
@@ -81,7 +79,6 @@ function Page({ children }) {
     const { pathname } = router
     console.log('pathname', pathname)
     if (pathname !== ROUTES.LOG_IN) {
-      setRedirected(true)
       Router.push(ROUTES.LOG_IN)
       console.log('Router.push(ROUTES.LOG_IN)')
     }
@@ -113,7 +110,6 @@ function Page({ children }) {
       await createUser(firstName, lastName)
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
-      setRedirected(true)
       Router.push(ROUTES.CONNECT_ARTIST)
       console.log('Router.push(ROUTES.CONNECT_ARTIST)')
     } else {
@@ -181,7 +177,6 @@ function Page({ children }) {
   // END CHECK FOR AN AUTHENTICATED USER WHEN APP FIRST LOADS
 
   // RETURN THE CHILDREN OF THE PAGE COMPONENT
-  if (redirected) return <></>
   return children
   // END RETURN THE CHILDREN OF THE PAGE COMPONENT
 }
