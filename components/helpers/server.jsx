@@ -1,6 +1,6 @@
 import helper from './helper'
 
-const host = process.env.node_env === 'development'
+const host = process.env.build_env === 'development'
   ? process.env.react_app_api_url_local
   : process.env.react_app_api_url || 'http://localhost:5000/'
 

@@ -3,9 +3,9 @@ import * as ROUTES from '../constants/routes'
 
 export default () => (
   <h3 className="ninety-wide">
-    or sign up
+    or
     {' '}
-    <Link href={ROUTES.SIGN_UP}><a>here</a></Link>
+    <Link href={ROUTES.SIGN_UP}><a>sign up here</a></Link>
     .
   </h3>
 )

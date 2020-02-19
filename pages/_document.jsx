@@ -31,6 +31,8 @@ class MyDocument extends Document {
           <meta key="meta-twitter:image:height" name="twitter:image:height" content="315px" />
           {/* PWA config and Favicons */}
           <Favicons />
+          {/* Preconnect to external assets */}
+          <link rel="preconnect" href="https://js.stripe.com/v3" />
         </Head>
         <body>
           <Main />
