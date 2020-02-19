@@ -92,33 +92,37 @@ function ArtistProvider(props) {
 
   const createArtist = async (artistAccounts, accessToken) => {
     setArtistLoading(true)
-    for (const artistAccountId of Object.keys(artistAccounts)) {
-      const artistAccount = artistAccounts[artistAccountId]
-      if (artistAccount.connect && !artistAccount.country_code) {
+    const artistIds = Object.keys(artistAccounts)
+    artistIds.forEach((artistId) => {
+      const artistAccount = artistAccounts[artistId]
+      const { connect, country_code } = artistAccount
+      if (connect && !country_code) {
         throw new Error(`Please select a country for ${artistAccount.name}, or deselect that page from being added to your Feed account`)
       }
-    }
-    try {
-      const token = await getToken()
-      for (const artistAccountId of Object.keys(artistAccounts)) {
-        const artistAccount = artistAccounts[artistAccountId]
+    })
 
-        if (artistAccount.connect) {
-          if (!artistAccount.priority_dsp) {
-            artistAccount.priority_dsp = helper.selectPriorityDSP(artistAccount)
-          }
-
-          await server.createArtist(artistAccount, accessToken, token)
+    const token = await getToken()
+    const createArtistPromises = artistIds.reduce(async (acc, artistId) => {
+      const artistAccount = artistAccounts[artistId]
+      const { connect, priority_dsp } = artistAccount
+      if (connect) {
+        if (!priority_dsp) {
+          artistAccount.priority_dsp = helper.selectPriorityDSP(artistAccount)
         }
+        return [...acc, await server.createArtist(artistAccount, accessToken, token)]
       }
-      const updatedUser = await storeUser()
-      const selectedArtist = updatedUser.artists[0]
-      await storeArtist(selectedArtist.id)
-      setArtistLoading(false)
-    } catch (err) {
-      setArtistLoading(false)
-      throw (err)
-    }
+      return acc
+    }, [])
+    // Wait to connect all artists
+    await Promise.all(createArtistPromises)
+      .catch((err) => {
+        throw (err)
+      })
+    // Update user
+    const updatedUser = await storeUser()
+    const selectedArtist = updatedUser.artists[0]
+    await storeArtist(selectedArtist.id)
+    setArtistLoading(false)
   }
 
   const updateBudget = async (id, currency, amount) => {
