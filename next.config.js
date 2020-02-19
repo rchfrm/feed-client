@@ -39,7 +39,7 @@ const nextConfig = {
     stripe_provider: process.env.STRIPE_PROVIDER,
     react_app_api_url: process.env.REACT_APP_API_URL,
     react_app_api_url_local: process.env.REACT_APP_API_URL_LOCAL,
-    node_env: process.env.NODE_ENV,
+    build_env: process.env.NODE_ENV,
   },
   // Don't show if page can be optimised automatically
   // https://nextjs.org/docs/api-reference/next.config.js/static-optimization-indicator
