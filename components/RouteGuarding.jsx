@@ -8,9 +8,14 @@ import * as ROUTES from '../constants/routes'
 
 import firebase from './helpers/firebase'
 
+
 const RouteGuarding = ({ children }) => {
   const { auth: { token } } = React.useContext(AuthContext)
+  const { createUser, noUser, storeUser, user } = React.useContext(UserContext)
   const [isLoggedIn, setLoggedIn] = React.useState(false)
+  const [userReady, setUserReady] = React.useState(false)
+
+  console.log('user', user)
 
   React.useEffect(() => {
     if (!token) {
