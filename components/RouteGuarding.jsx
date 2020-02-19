@@ -1,5 +1,5 @@
 import React from 'react'
-import Router, { useRouter } from 'next/router'
+import Router from 'next/router'
 import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
