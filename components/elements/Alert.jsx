@@ -51,15 +51,13 @@ function Alert({ contents, responseExpected, confirmationText, rejectionText, se
 
 export default Alert
 
-function AlertButtons(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { responseExpected } = props
-  const confirmationText = props.confirmationText ? props.confirmationText : 'Ok'
-  const rejectionText = props.rejectionText ? props.rejectionText : 'Cancel'
-  const { resetAlert } = props
-  const { positiveResponse } = props
-  // END REDEFINE PROPS AS VARIABLES
-
+const AlertButtons = ({
+  responseExpected,
+  confirmationText = 'Ok',
+  rejectionText = 'Cancel',
+  resetAlert,
+  positiveResponse,
+}) => {
   if (responseExpected) {
     return (
       <div className="alert-buttons">
