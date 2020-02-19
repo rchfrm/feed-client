@@ -50,6 +50,8 @@ const RouteGuarding = ({ children }) => {
   // const [basicTestSuccess, setBasicTestSuccess] = React.useState(false)
   const [authSuccess, setAuthSuccess] = React.useState(false)
 
+  console.log('user', user)
+
   React.useEffect(() => {
     // Based on basic tests, is auth needed
     const basicTestsSuccess = hasToken && userReady && userHasArtists && artistReady
