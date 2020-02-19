@@ -15,12 +15,13 @@ import * as ROUTES from '../constants/routes'
 import firebase from './helpers/firebase'
 // IMPORT STYLES
 
-function Page(props) {
+function Page({ children }) {
   const router = useRouter()
   const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
   const { createUser, noUser, storeUser } = React.useContext(UserContext)
   const { noArtist, storeArtist } = React.useContext(ArtistContext)
   const [checkedForUser, setCheckedForUser] = React.useState(false)
+  const [redirected, setRedirected] = React.useState(false)
 
   // HANDLE EXISTING USERS
   const handleExistingUser = React.useCallback(async () => {
@@ -30,7 +31,9 @@ function Page(props) {
     // Check if they have artists connected to their account or not,
     // if they don't, set noArtist, and push them to the Connect Artist page
     if (newUser.artists.length === 0) {
+      setRedirected(true)
       Router.push(ROUTES.CONNECT_ARTIST)
+      console.log('Router.push(ROUTES.CONNECT_ARTIST)')
       noArtist()
       return
     }
@@ -63,8 +66,10 @@ function Page(props) {
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
     const { pathname } = router
-    if (pathname === '/' || pathname === '/sign-up') {
+    if (pathname === ROUTES.LOG_IN || pathname === ROUTES.SIGN_UP) {
+      setRedirected(true)
       Router.push(ROUTES.HOME)
+      console.log('Router.push(ROUTES.HOME)')
     }
   }, [noArtist, storeArtist, storeUser])
   // END HANDLE EXISTING USERS
@@ -74,8 +79,11 @@ function Page(props) {
     // Check if the user is on an auth only page,
     // if they are push to log in page
     const { pathname } = router
-    if (pathname !== '/' || pathname !== '/sign-up') {
+    console.log('pathname', pathname)
+    if (pathname !== ROUTES.LOG_IN) {
+      setRedirected(true)
       Router.push(ROUTES.LOG_IN)
+      console.log('Router.push(ROUTES.LOG_IN)')
     }
 
     // Reset all contexts
@@ -105,7 +113,9 @@ function Page(props) {
       await createUser(firstName, lastName)
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
+      setRedirected(true)
       Router.push(ROUTES.CONNECT_ARTIST)
+      console.log('Router.push(ROUTES.CONNECT_ARTIST)')
     } else {
       await handleExistingUser()
     }
@@ -171,7 +181,8 @@ function Page(props) {
   // END CHECK FOR AN AUTHENTICATED USER WHEN APP FIRST LOADS
 
   // RETURN THE CHILDREN OF THE PAGE COMPONENT
-  return props.children
+  if (redirected) return <></>
+  return children
   // END RETURN THE CHILDREN OF THE PAGE COMPONENT
 }
 
