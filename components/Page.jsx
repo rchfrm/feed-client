@@ -15,8 +15,7 @@ import * as ROUTES from '../constants/routes'
 import firebase from './helpers/firebase'
 // IMPORT STYLES
 
-function Page({ children }) {
-  console.log('MOUNT PAGE')
+function Page(props) {
   const router = useRouter()
   const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
   const { createUser, noUser, storeUser } = React.useContext(UserContext)
@@ -32,7 +31,6 @@ function Page({ children }) {
     // if they don't, set noArtist, and push them to the Connect Artist page
     if (newUser.artists.length === 0) {
       Router.push(ROUTES.CONNECT_ARTIST)
-      console.log('Router.push(ROUTES.CONNECT_ARTIST)')
       noArtist()
       return
     }
@@ -65,9 +63,8 @@ function Page({ children }) {
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
     const { pathname } = router
-    if (pathname === ROUTES.LOG_IN || pathname === ROUTES.SIGN_UP) {
+    if (pathname === '/' || pathname === '/sign-up') {
       Router.push(ROUTES.HOME)
-      console.log('Router.push(ROUTES.HOME)')
     }
   }, [noArtist, storeArtist, storeUser])
   // END HANDLE EXISTING USERS
@@ -77,10 +74,8 @@ function Page({ children }) {
     // Check if the user is on an auth only page,
     // if they are push to log in page
     const { pathname } = router
-    console.log('pathname', pathname)
-    if (pathname !== ROUTES.LOG_IN) {
+    if (pathname !== '/' || pathname !== '/sign-up') {
       Router.push(ROUTES.LOG_IN)
-      console.log('Router.push(ROUTES.LOG_IN)')
     }
 
     // Reset all contexts
@@ -111,7 +106,6 @@ function Page({ children }) {
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
       Router.push(ROUTES.CONNECT_ARTIST)
-      console.log('Router.push(ROUTES.CONNECT_ARTIST)')
     } else {
       await handleExistingUser()
     }
@@ -177,7 +171,7 @@ function Page({ children }) {
   // END CHECK FOR AN AUTHENTICATED USER WHEN APP FIRST LOADS
 
   // RETURN THE CHILDREN OF THE PAGE COMPONENT
-  return children
+  return props.children
   // END RETURN THE CHILDREN OF THE PAGE COMPONENT
 }
 
