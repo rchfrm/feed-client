@@ -57,8 +57,6 @@ const CardInput = () => {
 }
 
 function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe }) {
-  console.log('stripe', stripe)
-  console.log('elements', elements)
   // Contexts
   const { getToken } = React.useContext(AuthContext)
   // END Contexts
