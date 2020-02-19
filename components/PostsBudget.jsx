@@ -139,6 +139,7 @@ function Budget({ currency }) {
 
         <p>
           We recommend at least
+          {' '}
           {currency}
           3 per day.
         </p>
@@ -171,6 +172,7 @@ function BudgetConfirmation({ budget }) {
       <p>That's all we need from you.</p>
       <p>
         Your daily budget has been set to
+        {' '}
         <span className="bold">
           £
           {budget}
@@ -183,6 +185,7 @@ function BudgetConfirmation({ budget }) {
       </p>
       <p>
         In a few hours, you'll be able to see how they're doing on the
+        {' '}
         <Link href={ROUTES.RESULTS}><a>results page</a></Link>
         .
       </p>

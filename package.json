@@ -47,8 +47,8 @@
     "copyIcons": "cp -R .next/pwa public/",
     "export": "rm -rf dist/ && next build && yarn copyIcons && next export -o dist/",
     "serve": "serve ./dist -l 3000",
-    "deploy": "./deploy production",
-    "stage": "./deploy staging"
+    "stage": "./deploy staging",
+    "deploy-production": "./deploy production"
   },
   "repository": {
     "type": "git",
