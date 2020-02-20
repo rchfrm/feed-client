@@ -26,7 +26,7 @@ function SignOutLink() {
     noAuth()
     noUser()
     noArtist()
-    Router.push(ROUTES.LOG_IN)
+    Router.push(ROUTES.LOGIN)
     try {
       await firebase.doSignOut()
     } catch (err) {
