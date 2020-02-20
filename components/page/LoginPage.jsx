@@ -8,7 +8,7 @@ import { AuthContext } from '../contexts/Auth'
 import { UserContext } from '../contexts/User'
 import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
-import PageHeader from '../elements/PageHeader'
+import PageHeader from '../PageHeader'
 import Input from '../elements/Input'
 import Button from '../elements/Button'
 import Error from '../elements/Error'

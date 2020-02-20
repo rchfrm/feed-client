@@ -4,7 +4,7 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
 // IMPORT ELEMENTS
-import PageHeader from '../elements/PageHeader'
+import PageHeader from '../PageHeader'
 // IMPORT PAGES
 import Loader from '../ResultsLoader'
 // IMPORT ASSETS

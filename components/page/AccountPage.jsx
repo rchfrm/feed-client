@@ -5,7 +5,7 @@ import React from 'react'
 import { NavigationContext } from '../contexts/Navigation'
 import { UserContext } from '../contexts/User'
 // IMPORT ELEMENTS
-import PageHeader from '../elements/PageHeader'
+import PageHeader from '../PageHeader'
 import Spinner from '../elements/Spinner'
 // IMPORT PAGES
 import AccountPageDetails from '../AccountPageDetails'
