@@ -9,7 +9,6 @@ import InitUser from './InitUser'
 
 
 // * KICK TO PAGES
-const kickToLogin = () => Router.push(ROUTES.LOGIN)
 const kickToHome = () => Router.push(ROUTES.HOME)
 
 // * THE BASIC TESTS
@@ -43,7 +42,6 @@ const RouteGuarding = ({ children }) => {
   const { auth: { token } } = React.useContext(AuthContext)
   const { user } = React.useContext(UserContext)
   const { artist } = React.useContext(ArtistContext)
-  const [initialTestsRun, setInitialTestsRun] = React.useState(false)
   const hasToken = testForToken(token)
   const userReady = testForUserReady(user)
   const userHasArtists = testForUserArtists(user)
@@ -53,12 +51,6 @@ const RouteGuarding = ({ children }) => {
   const [authSuccess, setAuthSuccess] = React.useState(false)
 
   React.useEffect(() => {
-    // No token then have to login
-    if (!hasToken && currentPath !== ROUTES.LOGIN) {
-      console.log('kick to login')
-      kickToLogin()
-      return
-    }
     // Based on basic tests, is auth needed
     const basicTestsSuccess = hasToken && userReady && userHasArtists && artistReady
     setAuthSuccess(basicTestsSuccess)
@@ -71,13 +63,9 @@ const RouteGuarding = ({ children }) => {
     }
     // Auth is required if basic tests failed (sets InitUser off)
     setAuthRequired(!basicTestsSuccess)
-    setInitialTestsRun(true)
-    // console.log('authSuccess', authSuccess)
-    // console.log('authRequired', authRequired)
   }, [])
 
   // If login page and we've run the test, show the page
-  if (currentPath === ROUTES.LOGIN && initialTestsRun) return children
   // When all basic tests have passed, show the page
   if (authSuccess) return children
   if (authRequired && !authSuccess) {
