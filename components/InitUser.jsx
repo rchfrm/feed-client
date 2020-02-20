@@ -65,7 +65,7 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   // END HANDLE EXISTING USERS
 
   // HANDLE LACK OF AUTH USER
-  const handleNoAuthUser = React.useCallback(async () => {
+  const handleNoAuthUser = React.useCallback(() => {
     // Check if the user is on an auth only page,
     // if they are push to log in page
     const { pathname } = router
@@ -125,7 +125,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   React.useEffect(() => {
     const checkForAuthUser = async () => {
       setCheckedForUser(true)
-      console.log('checkForAuthUser')
 
       // Check for the result of a redirect from Facebook
       const redirect = await firebase.redirectResult()
@@ -144,7 +143,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
 
       // If there has been a redirect, call handleRedirect
       if (redirect.user) {
-        console.log('handle redirexct')
         handleRedirect(redirect)
         return
       }
