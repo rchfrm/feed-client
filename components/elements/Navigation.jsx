@@ -8,7 +8,7 @@ import { UserContext } from '../contexts/User'
 import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
-import SignOutLink from './SignOut'
+import SignOutLink from '../SignOutLink'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
