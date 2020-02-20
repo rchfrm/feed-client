@@ -1,3 +1,4 @@
 import ThankYouPage from '../../components/page/ThankYouPage'
+import TestPageReady from '../../components/TestPageReady'
 
-export default ThankYouPage
+export default TestPageReady(ThankYouPage)
