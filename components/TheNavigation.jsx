@@ -3,16 +3,16 @@ import React from 'react'
 import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { NavigationContext } from '../contexts/Navigation'
-import { UserContext } from '../contexts/User'
-import { ArtistContext } from '../contexts/Artist'
+import { NavigationContext } from './contexts/Navigation'
+import { UserContext } from './contexts/User'
+import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
-import SignOutLink from '../SignOutLink'
+import SignOutLink from './SignOutLink'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import * as ROUTES from '../../constants/routes'
+import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 // IMPORT STYLES
 
