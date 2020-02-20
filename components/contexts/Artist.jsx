@@ -52,7 +52,7 @@ const artistReducer = (artistState, artistAction) => {
   }
 }
 
-function ArtistProvider(props) {
+function ArtistProvider({ children }) {
   const { getToken } = React.useContext(AuthContext)
 
   const { storeUser } = React.useContext(UserContext)
@@ -190,7 +190,7 @@ function ArtistProvider(props) {
 
   return (
     <ArtistContext.Provider value={value}>
-      {props.children}
+      {children}
     </ArtistContext.Provider>
   )
 }
