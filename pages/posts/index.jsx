@@ -1,3 +1,4 @@
 import PostsPage from '../../components/page/PostsPage'
+import TestPageReady from '../../components/TestPageReady'
 
-export default PostsPage
+export default TestPageReady(PostsPage)

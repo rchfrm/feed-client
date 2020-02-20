@@ -1,27 +1,19 @@
-// IMPORT PACKAGES
 import React from 'react'
 import Router, { useRouter } from 'next/router'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
+import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
-import { AuthContext } from './contexts/Auth'
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
-// IMPORT HELPERS
-import firebase from './helpers/firebase'
-// IMPORT STYLES
 
-function Page(props) {
+import firebase from './helpers/firebase'
+
+const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   const router = useRouter()
   const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
   const { createUser, noUser, storeUser } = React.useContext(UserContext)
   const { noArtist, storeArtist } = React.useContext(ArtistContext)
   const [checkedForUser, setCheckedForUser] = React.useState(false)
-
+  const [finishedInit, setFinishedInit] = React.useState(false)
   // HANDLE EXISTING USERS
   const handleExistingUser = React.useCallback(async () => {
     // If it is a pre-existing user, store their profile in the user context
@@ -63,19 +55,22 @@ function Page(props) {
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
     const { pathname } = router
-    if (pathname === '/' || pathname === '/sign-up') {
+    if (pathname === ROUTES.LOGIN || pathname === ROUTES.SIGN_UP) {
       Router.push(ROUTES.HOME)
+    } else {
+    // Else just report that all went well
+      setAuthSuccess(true)
     }
   }, [noArtist, storeArtist, storeUser])
   // END HANDLE EXISTING USERS
 
   // HANDLE LACK OF AUTH USER
-  const handleNoAuthUser = React.useCallback(async () => {
+  const handleNoAuthUser = React.useCallback(() => {
     // Check if the user is on an auth only page,
     // if they are push to log in page
     const { pathname } = router
-    if (pathname !== '/' || pathname !== '/sign-up') {
-      Router.push(ROUTES.LOG_IN)
+    if (pathname !== ROUTES.LOGIN || pathname !== ROUTES.SIGN_UP) {
+      Router.push(ROUTES.LOGIN)
     }
 
     // Reset all contexts
@@ -126,7 +121,6 @@ function Page(props) {
     }
   }, [handleExistingUser, handleNoAuthUser, storeAuth])
   // END GET THE CURRENTLY AUTHENTICATED USER, IF ANY, FROM FIREBASE
-
   // CHECK FOR AN AUTHENTICATED USER WHEN APP FIRST LOADS
   React.useEffect(() => {
     const checkForAuthUser = async () => {
@@ -159,6 +153,9 @@ function Page(props) {
         // Once Firebase has been checked, unsubscribe from the observer
         unsubscribe()
       })
+
+      // Set finisehd
+      setFinishedInit(true)
     }
 
     // Only start the process of checking for an auth user,
@@ -168,11 +165,9 @@ function Page(props) {
       // TODO: Properly handle errors
     }
   }, [checkedForUser, handleRedirect, handleAuthStateChange, handleNoAuthUser, setAuthError])
-  // END CHECK FOR AN AUTHENTICATED USER WHEN APP FIRST LOADS
 
-  // RETURN THE CHILDREN OF THE PAGE COMPONENT
-  return props.children
-  // END RETURN THE CHILDREN OF THE PAGE COMPONENT
+  if (!finishedInit || !children) return <></>
+  return children
 }
 
-export default Page
+export default InitUser
