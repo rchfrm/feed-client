@@ -20,7 +20,6 @@ function SignOutLink() {
   const { noAuth } = React.useContext(AuthContext)
   const { noUser } = React.useContext(UserContext)
   const { noArtist } = React.useContext(ArtistContext)
-  console.log('firebase.doSignOut', firebase.doSignOut)
 
   const signOut = async e => {
     e.preventDefault()
