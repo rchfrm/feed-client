@@ -4,7 +4,7 @@ import moment from 'moment'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import PageHeader from './elements/PageHeader'
+import PageHeader from './PageHeader'
 import Feed from './elements/Feed'
 import LastItem from './elements/LastItem'
 // IMPORT PAGES

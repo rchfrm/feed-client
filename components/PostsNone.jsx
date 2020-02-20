@@ -5,7 +5,7 @@ import React from 'react'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Feed from './elements/Feed'
-import PageHeader from './elements/PageHeader'
+import PageHeader from './PageHeader'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
