@@ -39,7 +39,7 @@ function Organisations() {
   // Import the user context,
   const { user } = React.useContext(UserContext)
   // ... create an array of keys to count the number of organisations a user has access to,
-  const orgIDs = Object.keys(user.organizations)
+  const orgIDs = user.organizations ? Object.keys(user.organizations) : []
 
   // ... if there is just one, display the associated payment methods,
   if (orgIDs.length === 1) {
