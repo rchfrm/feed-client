@@ -1,3 +1,4 @@
-import LoginPage from '../components/page/LoginPage'
+import HomePage from '../components/page/HomePage'
+import withRouteGuarding from '../components/RouteGuarding'
 
-export default LoginPage
+export default HomePage
