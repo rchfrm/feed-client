@@ -166,7 +166,7 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
     }
   }, [checkedForUser, handleRedirect, handleAuthStateChange, handleNoAuthUser, setAuthError])
 
-  if (!finishedInit) return <></>
+  if (!finishedInit || !children) return <></>
   return children
 }
 
