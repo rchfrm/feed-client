@@ -20,21 +20,18 @@ function SignOutLink() {
   const { noAuth } = React.useContext(AuthContext)
   const { noUser } = React.useContext(UserContext)
   const { noArtist } = React.useContext(ArtistContext)
+  console.log('firebase.doSignOut', firebase.doSignOut)
 
   const signOut = async e => {
     e.preventDefault()
     Router.push(ROUTES.LOGIN)
-    setTimeout(() => {
-      noAuth()
-      noUser()
-      noArtist()
-    }, 0)
-    try {
-      await firebase.doSignOut()
-    } catch (err) {
-      // TODO : Properly handle errors from signOut
-      console.log(err)
-    }
+    await firebase.doSignOut()
+      .catch((err) => {
+        throw (err)
+      })
+    noAuth()
+    noUser()
+    noArtist()
   }
 
   return (
