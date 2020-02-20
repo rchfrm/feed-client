@@ -155,7 +155,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       })
 
       // Set finisehd
-      console.log('finished')
       setFinishedInit(true)
     }
 
