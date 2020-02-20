@@ -2,7 +2,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT COMPONENTS
-import Page from './Page'
 import InitUser from './InitUser'
 // IMPORT CONTEXTS
 import { NavigationContext } from './contexts/Navigation'
