@@ -101,7 +101,7 @@ const displayedDataSourcesReducer = (displayedDataSourcesState, displayedDataSou
   }
 }
 
-function ChartLoader() {
+function HomePageChart() {
 // IMPORT CONTEXTS
   const { getToken } = React.useContext(AuthContext)
   const { artist } = React.useContext(ArtistContext)
@@ -420,4 +420,4 @@ function ChartLoader() {
   )
 }
 
-export default ChartLoader
+export default HomePageChart
