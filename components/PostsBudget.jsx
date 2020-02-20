@@ -179,6 +179,7 @@ function BudgetConfirmation({ budget }) {
         </span>
         {' '}
         and
+        {' '}
         <Feed />
         {' '}
         is promoting your posts.
