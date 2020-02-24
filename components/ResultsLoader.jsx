@@ -137,6 +137,13 @@ function ResultsLoader() {
 
   // RESET STATE IF NEW SELECTED ARTIST
   React.useEffect(() => {
+    // Stop if no artist
+    if (!artist || isEmpty(artist)) return
+    // Stop if no previous artist set
+    if (!previousArtistState) return
+    const { id: artistId } = artist
+    const { id: previousArtistID } = previousArtistState
+    if (artistId === previousArtistID) return
     setActive({
       loading: false,
       complete: false,
@@ -146,39 +153,35 @@ function ResultsLoader() {
       complete: false,
     })
     setPosts({ type: 'reset-posts' })
-  }, [artist.id])
+  }, [artist])
   // END RESET STATE IF NEW SELECTED ARTIST
 
   // RUN THIS TO GET ACTIVE OR ARCHIVE POSTS
   const runGetAssets = async (type, isMounted) => {
     // Stop here if no artist
     if (!artist || isEmpty(artist)) return
-    // Stop here if not mounted
-    if (!isMounted()) return
     const setFunc = type === 'archive' ? setArchive : setActive
     const stateObj = type === 'archive' ? archive : active
     // Stop here if artist ID is the same
     if (previousArtistState) {
       const { id: artistId } = artist
       const { id: previousArtistID } = previousArtistState
-      if (artistId === previousArtistID) return
+      if (artistId === previousArtistID) {
+        return
+      }
     }
     // Return if there is no selected artist
     if (!artist.id) return
     // Return if a request is already happening
-    if (stateObj.loading) return
-    // Return if a request has completed
-    if (stateObj.complete) return
+    if (stateObj.loading || stateObj.complete) return
     // Set loading to true
     setFunc({
-      ...stateObj,
       loading: true,
+      complete: false,
     })
     // Start getting assets
-    const assets = await getAssets(type)
-      // Handle no assets
-      .catch(err => {
-        if (!isMounted()) return
+    const assets = await getAssets(type, artist, getToken)
+      .catch((err) => {
         setPosts({
           type: 'no-assets',
           payload: {
