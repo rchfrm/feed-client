@@ -296,6 +296,7 @@ function Days({ days, active }) {
     return (
       <p>
         Since
+        {' '}
         <span className="strong">{phrase.a}</span>
         ...
       </p>
