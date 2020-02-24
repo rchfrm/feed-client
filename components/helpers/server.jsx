@@ -318,8 +318,8 @@ export default {
     throw new Error(res.statusText)
   },
 
-  getAssets: async (artistId, promotion_status, verifyIdToken) => {
-    const query = promotion_status ? `?promotion_status=${promotion_status}` : ''
+  getAssets: async (artistId, promotionStatus, verifyIdToken) => {
+    const query = promotionStatus ? `?promotion_status=${promotionStatus}` : ''
     const endpoint = `${host}artists/${artistId}/assets${query}`
 
     const res = await fetch(endpoint, {

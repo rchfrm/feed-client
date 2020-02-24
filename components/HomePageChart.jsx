@@ -287,15 +287,11 @@ function HomePageChart() {
   // QUEUE DEFAULT DATA SOURCES TO BE RETRIEVED FROM SERVER
   React.useEffect(() => {
     // Return if there are no available data sources
-    if (Object.keys(availableDataSources).length === 0) {
-      return
-    }
+    if (Object.keys(availableDataSources).length === 0) return
 
     // Return if data sources are already in the queue, requested, or available
     const available = [...data.queued, ...data.requested, ...Object.keys(data.available)]
-    if (available.length > 0) {
-      return
-    }
+    if (available.length > 0) return
 
     // Define array of default data sources
     const defaultDataSources = []
@@ -378,12 +374,10 @@ function HomePageChart() {
     }
 
     // Check that the queued data sources aren't already available or requested
-    const queue = []
     const availableAndRequested = [...data.requested, ...Object.keys(data.available)]
-    data.queued.forEach(dataSource => {
-      if (availableAndRequested.indexOf(dataSource) === -1) {
-        queue.push(dataSource)
-      }
+    const { queued: queuedData } = data
+    const queue = queuedData.filter((dataSource) => {
+      return availableAndRequested.indexOf(dataSource) === -1
     })
 
     // Return if there isn't anything to retrieve and reset queue

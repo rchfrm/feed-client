@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 import moment from 'moment'
+import get from 'lodash/get'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -90,9 +91,9 @@ function Summary(props) {
 
   const calculateImpressions = React.useCallback(async () => {
     const token = await getToken()
-    const tournamentsEndpoint = artist._links.tournaments.href.slice(0, artist._links.tournaments.href.indexOf('?'))
-    const tournaments = await server.getEndpoint(tournamentsEndpoint, token)
-
+    const tournamentsEndpoint = get(artist, ['_links', 'tournaments', 'href'], '')
+    const tournamentsEndpointMod = tournamentsEndpoint ? tournamentsEndpoint.slice(0, tournamentsEndpoint.indexOf('?')) : 0
+    const tournaments = tournamentsEndpointMod ? await server.getEndpoint(tournamentsEndpointMod, token) : []
     const sevenDaysAgo = moment().subtract(7, 'days')
 
     const createAdsPaths = tournaments.reduce((acc, tournament) => {
