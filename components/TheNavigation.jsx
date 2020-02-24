@@ -145,7 +145,7 @@ const NavigationNonAuth = () => {
   )
 }
 
-function Navigation() {
+function TheNavigation() {
   const { navState } = React.useContext(NavigationContext)
   const { user } = React.useContext(UserContext)
 
@@ -162,4 +162,4 @@ function Navigation() {
   )
 }
 
-export default Navigation
+export default TheNavigation
