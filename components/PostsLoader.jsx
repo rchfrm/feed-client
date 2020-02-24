@@ -50,7 +50,7 @@ const postsReducer = (postsState, postsAction) => {
   }
 }
 
-function Loader() {
+function PostsLoader() {
 // DEFINE STATES
   const [pageLoading, setPageLoading] = React.useState(true)
   const [posts, setPosts] = React.useReducer(postsReducer, postsInitialState)
@@ -238,4 +238,4 @@ function Loader() {
 // END RETURN
 }
 
-export default Loader
+export default PostsLoader

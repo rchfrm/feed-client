@@ -2,7 +2,7 @@ import React from 'react'
 
 import { NavigationContext } from '../contexts/Navigation'
 
-import PageHeader from '../elements/PageHeader'
+import PageHeader from '../PageHeader'
 
 function PricesPage() {
   const { navState, navDispatch } = React.useContext(NavigationContext)

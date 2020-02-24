@@ -13,7 +13,7 @@ import { NotificationsContext } from '../contexts/Notifications'
 // IMPORT ELEMENTS
 import Button from '../elements/Button'
 import Nothing from '../elements/Nothing'
-import PageHeader from '../elements/PageHeader'
+import PageHeader from '../PageHeader'
 import Spinner from '../elements/Spinner'
 // IMPORT HELPERS
 // IMPORT PAGES

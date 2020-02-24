@@ -189,8 +189,10 @@ const Result = ({
     setMedia(component)
   }, [attachments, renderMedia])
 
+  const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
+
   return (
-    <li key={id} className={styles.li}>
+    <li key={id} className={[styles.resultItem, styles[enabledClass]].join(' ')}>
 
       <div className="flex-row">
 
@@ -294,6 +296,7 @@ function Days({ days, active }) {
     return (
       <p>
         Since
+        {' '}
         <span className="strong">{phrase.a}</span>
         ...
       </p>
@@ -438,7 +441,7 @@ function Toggle(props) {
     return <Nothing />
   }
   return (
-    <div className={styles['post-toggle']}>
+    <div className={styles['result-toggle']}>
 
       <Alert
         confirmationText={alert.confirmationText}
