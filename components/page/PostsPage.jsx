@@ -5,7 +5,7 @@ import React from 'react'
 import { NavigationContext } from '../contexts/Navigation'
 // IMPORT ELEMENTS
 // IMPORT PAGES
-import Loader from '../PostsLoader'
+import PostsLoader from '../PostsLoader'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
@@ -30,7 +30,7 @@ function PostsPage() {
   return (
     <div className={`page-container ${className}`}>
 
-      <Loader />
+      <PostsLoader />
 
     </div>
   )
