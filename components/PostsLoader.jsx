@@ -99,24 +99,13 @@ function PostsLoader() {
   // GET POSTS FROM SERVER, IF AVAILABLE
   React.useEffect(() => {
     // Return if there is no selected artist
-    if (!artist.id) {
-      return
-    }
-
+    if (!artist.id) return
     // Return if load isn't required
-    if (!loadMore) {
-      return
-    }
-
+    if (!loadMore) return
     // Return if a request to get more posts has already been made
-    if (loadingMore) {
-      return
-    }
-
+    if (loadingMore) return
     // Return if there are no more assets to get
-    if (assets.length < offset) {
-      return
-    }
+    if (assets.length < offset) return
 
     try {
       // Set loading to true
