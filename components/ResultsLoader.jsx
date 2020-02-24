@@ -58,7 +58,49 @@ const postsReducer = (postsState, postsAction) => {
   }
 }
 
-function Loader() {
+function NoResults({ dailyBudget }) {
+  const handleClick = e => {
+    e.preventDefault()
+    Router.push(ROUTES.POSTS)
+  }
+
+  if (dailyBudget > 0) {
+    return (
+      <div
+        className="fill-height ninety-wide"
+        style={{ justifyContent: 'initial' }}
+      >
+        <h3>
+          <Feed />
+          {' '}
+          is setting up your posts for promotion.
+        </h3>
+        <p>
+          There may be a delay whilst posts await approval, once promotions have started you'll be able to see your results here.
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className="fill-height"
+      style={{ justifyContent: 'initial' }}
+    >
+      <h3 className="ninety-wide" style={{ flex: 'auto' }}>
+        <Feed />
+        {' '}
+        hasn't started promoting your posts yet, get started by entering a daily budget&nbsp;
+        <Button version="text" onClick={handleClick}>here</Button>
+        .
+      </h3>
+      <PromotePostsButton dailyBudget={dailyBudget} />
+    </div>
+  )
+}
+
+
+function ResultsLoader() {
 // DEFINE STATES
   const [posts, setPosts] = React.useReducer(postsReducer, initialPostsState)
   const [active, setActive] = React.useState({
@@ -221,7 +263,9 @@ function Loader() {
   // Otherwise, show Results components
   return (
     <div style={{ width: '100%' }}>
+      {/* Active posts */}
       <Results active posts={posts.active} setPosts={setPosts} />
+      {/* Archived posts */}
       <Results active={false} posts={posts.archive} setPosts={setPosts} />
     </div>
   )
@@ -229,45 +273,4 @@ function Loader() {
 // END RETURN
 }
 
-export default Loader
-
-function NoResults({ dailyBudget }) {
-  const handleClick = e => {
-    e.preventDefault()
-    Router.push(ROUTES.POSTS)
-  }
-
-  if (dailyBudget > 0) {
-    return (
-      <div
-        className="fill-height ninety-wide"
-        style={{ justifyContent: 'initial' }}
-      >
-        <h3>
-          <Feed />
-          {' '}
-          is setting up your posts for promotion.
-        </h3>
-        <p>
-          There may be a delay whilst posts await approval, once promotions have started you'll be able to see your results here.
-        </p>
-      </div>
-    )
-  }
-
-  return (
-    <div
-      className="fill-height"
-      style={{ justifyContent: 'initial' }}
-    >
-      <h3 className="ninety-wide" style={{ flex: 'auto' }}>
-        <Feed />
-        {' '}
-        hasn't started promoting your posts yet, get started by entering a daily budget&nbsp;
-        <Button version="text" onClick={handleClick}>here</Button>
-        .
-      </h3>
-      <PromotePostsButton dailyBudget={dailyBudget} />
-    </div>
-  )
-}
+export default ResultsLoader

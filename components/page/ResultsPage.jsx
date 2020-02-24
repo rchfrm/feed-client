@@ -6,7 +6,7 @@ import { NavigationContext } from '../contexts/Navigation'
 // IMPORT ELEMENTS
 import PageHeader from '../PageHeader'
 // IMPORT PAGES
-import Loader from '../ResultsLoader'
+import ResultsLoader from '../ResultsLoader'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
@@ -26,7 +26,7 @@ function ResultsPage() {
 
       <PageHeader heading="results" />
 
-      <Loader />
+      <ResultsLoader />
 
     </div>
   )
