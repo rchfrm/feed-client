@@ -25,18 +25,20 @@ const PostsNone = () => {
   )
 
   return (
-    <div className="no-posts">
+    <div className={styles.noPosts}>
       <PageHeader heading="your posts" punctuation="," />
 
-      <h4>
+      <h4 className={styles.h4}>
         It looks like you haven't posted for a little while, and by default
+        {' '}
         <Feed />
         {' '}
         only promotes posts from the last month.
       </h4>
 
-      <h4>
+      <h4 className={styles.h4}>
         Once you add new posts to
+        {' '}
         {platforms}
         , you'll be able to review them here.
       </h4>
