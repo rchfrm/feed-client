@@ -134,117 +134,74 @@ function ResultsLoader() {
   }, [artist.id])
   // END RESET STATE IF NEW SELECTED ARTIST
 
-  const getAssets = React.useCallback(async promotion_status => {
+  const getAssets = React.useCallback(async (status) => {
+    const promotionStatus = status === 'archive' ? 'archived' : status
     const token = await getToken()
       .catch((err) => {
         throw (err)
       })
     // return result
-    const assets = await server.getAssets(artist.id, promotion_status, token)
+    const assets = await server.getAssets(artist.id, promotionStatus, token)
     return assets
   }, [artist.id, getToken])
 
-  // GET ACTIVE ASSETS FROM SERVER
-  React.useEffect(() => {
+  // Run this to get active or archive posts
+  const runGetAssets = async (type) => {
+    const setFunc = type === 'archive' ? setArchive : setActive
+    const stateObj = type === 'archive' ? archive : active
     // Return if there is no selected artist
-    if (!artist.id) {
-      return
-    }
-
+    if (!artist.id) return
     // Return if a request is already happening
-    if (active.loading) {
-      return
-    }
-
+    if (stateObj.loading) return
     // Return if a request has completed
-    if (active.complete) {
-      return
-    }
-
-    setActive({
-      ...active,
+    if (stateObj.complete) return
+    // Set loading to true
+    setFunc({
+      ...stateObj,
       loading: true,
     })
-
-    getAssets('active')
-      .then(assets => {
-        setPosts({
-          type: 'add-assets',
-          payload: {
-            type: 'active',
-            assets: helper.arrToObjById(assets),
-          },
-        })
-        setActive({
-          loading: false,
-          complete: true,
-        })
-      })
+    // Start getting assets
+    const assets = await getAssets(type)
+      // Handle no assets
       .catch(err => {
         setPosts({
           type: 'no-assets',
           payload: {
-            type: 'active',
+            type,
           },
         })
-        setActive({
+        setFunc({
           loading: false,
           complete: true,
         })
         setError(err)
       })
+    if (assets && assets.length) {
+      setPosts({
+        type: 'add-assets',
+        payload: {
+          type,
+          assets: helper.arrToObjById(assets),
+        },
+      })
+    }
+    setFunc({
+      loading: false,
+      complete: true,
+    })
+  }
+
+  // GET ACTIVE ASSETS FROM SERVER
+  React.useEffect(() => {
+    // Get active assets
+    runGetAssets('active')
   }, [active, artist.id, getAssets, posts.active])
   // END GET ACTIVE ASSETS FROM SERVER
 
   // GET ARCHIVED ASSETS FROM SERVER
   React.useEffect(() => {
-    // Return if there is no selected artist
-    if (!artist.id) {
-      return
-    }
-
-    // Return if a request is already happening
-    if (archive.loading) {
-      return
-    }
-
-    // Return if a request has completed
-    if (archive.complete) {
-      return
-    }
-
-    setArchive({
-      ...archive,
-      loading: true,
-    })
-
-    getAssets('archived')
-      .then(assets => {
-        setPosts({
-          type: 'add-assets',
-          payload: {
-            type: 'archive',
-            assets: helper.arrToObjById(assets),
-          },
-        })
-        setArchive({
-          loading: false,
-          complete: true,
-        })
-      })
-      .catch(err => {
-        setPosts({
-          type: 'no-assets',
-          payload: {
-            type: 'archive',
-          },
-        })
-        setArchive({
-          loading: false,
-          complete: true,
-        })
-        setError(err)
-      })
+    // Get archived assets
+    runGetAssets('archive')
   }, [archive, artist.id, getAssets, posts.archive])
   // END GET ARCHIVED ASSETS FROM SERVER
 
