@@ -130,7 +130,7 @@ function Loader() {
 
     // If there is no auth user, push to log in page
     if (!user.id) {
-      Router.push(ROUTES.LOG_IN)
+      Router.push(ROUTES.LOGIN)
       return
     }
 

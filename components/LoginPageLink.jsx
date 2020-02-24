@@ -6,7 +6,7 @@ export default () => {
     <h3 className="ninety-wide">
       or log in
       {' '}
-      <Link href={ROUTES.LOG_IN}><a>here</a></Link>
+      <Link href={ROUTES.LOGIN}><a>here</a></Link>
       .
     </h3>
   )

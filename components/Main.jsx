@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT COMPONENTS
-import Page from './Page'
+import InitUser from './InitUser'
 // IMPORT CONTEXTS
 import { NavigationContext } from './contexts/Navigation'
 import { UserProvider } from './contexts/User'
@@ -21,9 +21,9 @@ function Main({ children }) {
       <UserProvider>
         <ArtistProvider>
           <Navigation />
-          <Page>
+          <InitUser>
             {children}
-          </Page>
+          </InitUser>
         </ArtistProvider>
       </UserProvider>
     </main>
