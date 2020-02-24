@@ -193,7 +193,7 @@
 }
 
 /* NO POSTS */
-.no-posts {
+.noPosts {
   flex: auto;
   .h4,
   .p {
