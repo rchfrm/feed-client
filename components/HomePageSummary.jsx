@@ -94,7 +94,6 @@ function Summary(props) {
     const tournamentsEndpoint = artist._links.tournaments.href.slice(0, artist._links.tournaments.href.indexOf('?'))
     const tournaments = await server.getEndpoint(tournamentsEndpoint, token)
 
-    // let totalImpressions = 0
     const sevenDaysAgo = moment().subtract(7, 'days')
 
     const createAdsPaths = tournaments.reduce((acc, tournament) => {
