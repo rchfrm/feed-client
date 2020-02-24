@@ -211,14 +211,14 @@ function ResultsLoader() {
   useAsyncEffect(async (isMounted) => {
     // Get active assets
     await runGetAssets('active', isMounted)
-  }, [active, artist, getAssets, posts.active])
+  }, [artist, posts.active])
   // END GET ACTIVE ASSETS FROM SERVER
 
   // GET ARCHIVED ASSETS FROM SERVER
   useAsyncEffect(async (isMounted) => {
     // Get archived assets
     await runGetAssets('archive', isMounted)
-  }, [archive, artist, getAssets, posts.archive])
+  }, [artist, posts.archive])
   // END GET ARCHIVED ASSETS FROM SERVER
 
   // RETURN
