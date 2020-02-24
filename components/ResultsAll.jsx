@@ -189,6 +189,8 @@ const Result = ({
     setMedia(component)
   }, [attachments, renderMedia])
 
+  const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
+
   return (
     <li key={id} className={styles.li}>
 
@@ -209,7 +211,7 @@ const Result = ({
           <Insight days={summary.days} number={summary.clicks} statement="clicks." />
         </div>
 
-        <div className={styles['result-toggle-saes']}>
+        <div className={`${styles['result-toggle-saes']} ${styles[enabledClass]}`}>
           <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
           <h2 className={styles.h2}>{summary.SAES}</h2>
         </div>
@@ -438,7 +440,7 @@ function Toggle(props) {
     return <Nothing />
   }
   return (
-    <div className={styles['post-toggle']}>
+    <div className={styles['result-toggle']}>
 
       <Alert
         confirmationText={alert.confirmationText}
