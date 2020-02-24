@@ -1,6 +1,8 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
+import usePrevious from 'use-previous'
+import isEmpty from 'lodash/isEmpty'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -101,7 +103,11 @@ function NoResults({ dailyBudget }) {
 
 
 function ResultsLoader() {
-// DEFINE STATES
+  // IMPORT CONTEXTS
+  const { getToken } = React.useContext(AuthContext)
+  const { artist, artistLoading } = React.useContext(ArtistContext)
+  // END IMPORT CONTEXTS
+  // DEFINE STATES
   const [posts, setPosts] = React.useReducer(postsReducer, initialPostsState)
   const [active, setActive] = React.useState({
     loading: false,
@@ -111,14 +117,11 @@ function ResultsLoader() {
     loading: false,
     complete: false,
   })
+  // PREVIOUS STATE
+  const previousArtistState = usePrevious(artist)
   const [, setError] = React.useState(null)
   // TODO : Display errors somewhere
   // END DEFINE STATES
-
-  // IMPORT CONTEXTS
-  const { getToken } = React.useContext(AuthContext)
-  const { artist, artistLoading } = React.useContext(ArtistContext)
-  // END IMPORT CONTEXTS
 
   // RESET STATE IF NEW SELECTED ARTIST
   React.useEffect(() => {
@@ -145,10 +148,18 @@ function ResultsLoader() {
     return assets
   }, [artist.id, getToken])
 
-  // Run this to get active or archive posts
+  // RUN THIS TO GET ACTIVE OR ARCHIVE POSTS
   const runGetAssets = async (type) => {
+    // Stop here if no artist
+    if (!artist || isEmpty(artist)) return
     const setFunc = type === 'archive' ? setArchive : setActive
     const stateObj = type === 'archive' ? archive : active
+    // Stop here if artist ID is the same
+    if (previousArtistState) {
+      const { id: artistId } = artist
+      const { id: previousArtistID } = previousArtistState
+      if (artistId === previousArtistID) return
+    }
     // Return if there is no selected artist
     if (!artist.id) return
     // Return if a request is already happening
@@ -195,14 +206,14 @@ function ResultsLoader() {
   React.useEffect(() => {
     // Get active assets
     runGetAssets('active')
-  }, [active, artist.id, getAssets, posts.active])
+  }, [active, artist, getAssets, posts.active])
   // END GET ACTIVE ASSETS FROM SERVER
 
   // GET ARCHIVED ASSETS FROM SERVER
   React.useEffect(() => {
     // Get archived assets
     runGetAssets('archive')
-  }, [archive, artist.id, getAssets, posts.archive])
+  }, [archive, artist, getAssets, posts.archive])
   // END GET ARCHIVED ASSETS FROM SERVER
 
   // RETURN
