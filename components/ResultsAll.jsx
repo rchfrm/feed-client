@@ -189,10 +189,14 @@ const Result = ({
     setMedia(component)
   }, [attachments, renderMedia])
 
+  console.log('active', active)
   const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
 
   return (
-    <li key={id} className={styles.li}>
+    <li
+      key={id}
+      className={[styles.resultItem, styles[enabledClass]].join(' ')}
+    >
 
       <div className="flex-row">
 
@@ -211,7 +215,7 @@ const Result = ({
           <Insight days={summary.days} number={summary.clicks} statement="clicks." />
         </div>
 
-        <div className={`${styles['result-toggle-saes']} ${styles[enabledClass]}`}>
+        <div className={styles['result-toggle-saes']}>
           <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
           <h2 className={styles.h2}>{summary.SAES}</h2>
         </div>
