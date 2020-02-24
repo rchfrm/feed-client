@@ -111,7 +111,7 @@ function Post({ index, post, singular: isSingular, setPosts, togglePromotion }) 
 
   return (
     <li
-      className={`tile ${selected} ${singular}`}
+      className={`tile ${styles[selected]} ${singular}`}
       style={{ padding: 0 }}
     >
 
