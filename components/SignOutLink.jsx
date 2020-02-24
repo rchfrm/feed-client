@@ -3,17 +3,17 @@ import React from 'react'
 import Router from 'next/router'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from '../contexts/Auth'
-import { UserContext } from '../contexts/User'
-import { ArtistContext } from '../contexts/Artist'
+import { AuthContext } from './contexts/Auth'
+import { UserContext } from './contexts/User'
+import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Button from './Button'
+import Button from './elements/Button'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import * as ROUTES from '../../constants/routes'
+import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
-import firebase from '../helpers/firebase'
+import firebase from './helpers/firebase'
 // IMPORT STYLES
 
 function SignOutLink() {
@@ -23,16 +23,14 @@ function SignOutLink() {
 
   const signOut = async e => {
     e.preventDefault()
+    Router.push(ROUTES.LOGIN)
+    await firebase.doSignOut()
+      .catch((err) => {
+        throw (err)
+      })
     noAuth()
     noUser()
     noArtist()
-    Router.push(ROUTES.LOG_IN)
-    try {
-      await firebase.doSignOut()
-    } catch (err) {
-      // TODO : Properly handle errors from signOut
-      console.log(err)
-    }
   }
 
   return (

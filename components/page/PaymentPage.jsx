@@ -61,8 +61,6 @@ const PaymentPage = () => {
     }
   }, [])
 
-  console.log('success', success)
-
   return (
 
     <div className={`page-container ${className}`}>

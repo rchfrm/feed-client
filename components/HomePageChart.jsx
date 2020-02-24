@@ -1,6 +1,8 @@
 // IMPORT PACKAGES
 import React from 'react'
 import moment from 'moment'
+import usePrevious from 'use-previous'
+import isEmpty from 'lodash/isEmpty'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -101,7 +103,7 @@ const displayedDataSourcesReducer = (displayedDataSourcesState, displayedDataSou
   }
 }
 
-function ChartLoader() {
+function HomePageChart() {
 // IMPORT CONTEXTS
   const { getToken } = React.useContext(AuthContext)
   const { artist } = React.useContext(ArtistContext)
@@ -241,14 +243,29 @@ function ChartLoader() {
     return object
   }
 
+  const previousArtistState = usePrevious(artist)
+
   React.useEffect(() => {
+    // Stop here if no artist
+    if (!artist || isEmpty(artist)) return
+    const {
+      priority_social_platform: socialPlatform,
+      _embedded: { data_sources: dataSources },
+    } = artist
     // Return if there are no data sources
-    if (!artist._embedded.data_sources) {
-      return
+    if (!dataSources) return
+    // Stop here if no change in data sources
+    if (previousArtistState) {
+      const {
+        priority_social_platform: previousSocialPlatform,
+        _embedded: { data_sources: perviousDataSources },
+      } = previousArtistState
+      if (dataSources === perviousDataSources) return
+      if (socialPlatform === previousSocialPlatform) return
     }
 
     // Arrange artist's available data sources by platform and type
-    const dataSourcesObject = createDataSourceObject(artist._embedded.data_sources)
+    const dataSourcesObject = createDataSourceObject(dataSources)
 
     setAvailableDataSources(dataSourcesObject)
 
@@ -264,7 +281,7 @@ function ChartLoader() {
         add: dataSourcesForChart,
       },
     })
-  }, [artist._embedded.data_sources, artist.priority_social_platform])
+  }, [artist])
   // END SORT AVAILABLE DATA SOURCES BY PLATFORM AND TYPE
 
   // QUEUE DEFAULT DATA SOURCES TO BE RETRIEVED FROM SERVER
@@ -420,4 +437,4 @@ function ChartLoader() {
   )
 }
 
-export default ChartLoader
+export default HomePageChart

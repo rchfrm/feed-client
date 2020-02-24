@@ -8,7 +8,7 @@ import { UserContext } from '../contexts/User'
 import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
-import SignOutLink from './SignOut'
+import SignOutLink from '../SignOutLink'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -101,7 +101,7 @@ const NavigationNonAuth = () => (
   <div>
     <ul>
       <li>
-        <Link href={ROUTES.LOG_IN}><a>log in</a></Link>
+        <Link href={ROUTES.LOGIN}><a>log in</a></Link>
       </li>
       <li>
         <Link href={ROUTES.SIGN_UP}><a>sign up</a></Link>

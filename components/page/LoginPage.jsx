@@ -83,7 +83,7 @@ function LoginForm() {
   // END HANDLE CHANGES IN FORM
 
   // HANDLE CLICK ON LOG IN BUTTON
-  const handleClick = async e => {
+  const onFormSubmit = async e => {
     e.preventDefault()
     setError(null)
     try {
@@ -167,7 +167,7 @@ function LoginForm() {
 
         </div>
 
-        <Button version="black progress" disabled={false} onClick={handleClick}>
+        <Button version="black progress" disabled={false} onClick={onFormSubmit}>
           log in.
         </Button>
 

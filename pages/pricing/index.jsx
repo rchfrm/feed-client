@@ -1,3 +1,4 @@
 import PricingPage from '../../components/page/PricingPage'
+import TestPageReady from '../../components/TestPageReady'
 
-export default PricingPage
+export default TestPageReady(PricingPage)

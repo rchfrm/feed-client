@@ -1,3 +1,4 @@
 import NotificationsPage from '../../components/page/NotificationsPage'
+import TestPageReady from '../../components/TestPageReady'
 
-export default NotificationsPage
+export default TestPageReady(NotificationsPage)

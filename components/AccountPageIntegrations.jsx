@@ -32,17 +32,17 @@ function IntegrationsSection() {
 export default IntegrationsSection
 
 function Artists() {
-  const { user } = React.useContext(UserContext)
-
+  const { user = {} } = React.useContext(UserContext)
+  const { artists = [] } = user
   // IF THE USER HAS NO ARTISTS, ASK THEM TO CONNECT ONE
   // TODO: Make this look better
-  if (user.artists.length === 0) {
+  if (artists.length === 0) {
     return <p>Please connect your first artist</p>
   }
   // END IF THE USER HAS NO ARTISTS, ASK THEM TO CONNECT ONE
 
   // CREATE LIST OF ARTISTS AND THEIR INTEGRATIONS
-  const artistList = user.artists.map(artist => {
+  const artistList = artists.map(artist => {
     return (
       <li key={artist.id}>
 

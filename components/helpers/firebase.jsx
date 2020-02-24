@@ -25,7 +25,7 @@ export default {
   auth,
 
   doCreateUserWithEmailAndPassword: (email, password) => {
-    auth.createUserWithEmailAndPassword(email, password)
+    return auth.createUserWithEmailAndPassword(email, password)
   },
 
   doSignInWithEmailAndPassword: async (email, password) => {
@@ -36,19 +36,19 @@ export default {
   },
 
   doSignOut: () => {
-    auth.signOut()
+    return auth.signOut()
   },
 
   doPasswordReset: email => {
-    auth.sendPasswordResetEmail(email)
+    return auth.sendPasswordResetEmail(email)
   },
 
   doPasswordUpdate: password => {
-    auth.currentUser.updatePassword(password)
+    return auth.currentUser.updatePassword(password)
   },
 
   doEmailUpdate: email => {
-    auth.currentUser.updateEmail(email)
+    return auth.currentUser.updateEmail(email)
   },
 
   doSignInWithFacebook: () => {
@@ -98,7 +98,7 @@ export default {
   },
 
   getVerifyIdToken: () => {
-    auth.currentUser.getIdToken(/* forceRefresh */ true)
+    return auth.currentUser.getIdToken(/* forceRefresh */ true)
   },
 
   getVerifyIdTokenResult: () => {
@@ -106,6 +106,6 @@ export default {
   },
 
   deleteUser: () => {
-    auth.currentUser.delete()
+    return auth.currentUser.delete()
   },
 }
