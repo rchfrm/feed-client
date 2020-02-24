@@ -189,14 +189,10 @@ const Result = ({
     setMedia(component)
   }, [attachments, renderMedia])
 
-  console.log('active', active)
   const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
 
   return (
-    <li
-      key={id}
-      className={[styles.resultItem, styles[enabledClass]].join(' ')}
-    >
+    <li key={id} className={[styles.resultItem, styles[enabledClass]].join(' ')}>
 
       <div className="flex-row">
 
