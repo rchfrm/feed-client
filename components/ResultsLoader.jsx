@@ -14,7 +14,7 @@ import Button from './elements/Button'
 import Spinner from './elements/Spinner'
 // IMPORT PAGES
 import { PromotePostsButton } from './page/HomePage'
-import Results from './ResultsAll'
+import ResultsAll from './ResultsAll'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import brandColours from '../constants/brandColours'
@@ -237,9 +237,9 @@ function ResultsLoader() {
   return (
     <div style={{ width: '100%' }}>
       {/* Active posts */}
-      <Results active posts={posts.active} setPosts={setPosts} />
+      <ResultsAll active posts={posts.active} setPosts={setPosts} />
       {/* Archived posts */}
-      <Results active={false} posts={posts.archive} setPosts={setPosts} />
+      <ResultsAll active={false} posts={posts.archive} setPosts={setPosts} />
     </div>
   )
 

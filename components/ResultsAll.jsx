@@ -84,66 +84,6 @@ const calculateSummary = (ads, isActive) => {
   }
 }
 
-function Results({ posts: postsObject, active, setPosts }) {
-  const posts = Object.values(postsObject)
-  const title = active ? 'active posts.' : 'archive.'
-
-  const listResults = []
-  const disabledResults = []
-
-  posts.forEach(post => {
-    const summary = calculateSummary(post.ads, active)
-
-    if (summary && active && !post.promotion_enabled) {
-      // If these are 'active' ads, and promotion_enabled is set to false,
-      // add them to a list of disabled results
-      disabledResults.push(
-        <Result
-          key={post.id}
-          active={active}
-          attachments={post.attachments}
-          id={post.id}
-          setPosts={setPosts}
-          summary={summary}
-          thumbnail={post._metadata.thumbnail_url}
-        />,
-      )
-    } else if (summary) {
-      // All archived posts, and active posts with promotion enabled set
-      // to true are added to list results
-      listResults.push(
-        <Result
-          key={post.id}
-          active={active}
-          attachments={post.attachments}
-          id={post.id}
-          promotion_enabled={post.promotion_enabled}
-          setPosts={setPosts}
-          summary={summary}
-          thumbnail={post._metadata.thumbnail_url}
-        />,
-      )
-    }
-  })
-
-  if (listResults.length === 0 && active) {
-    // If there are no active posts, return NoActive
-    return <NoActive />
-  } if (listResults.length === 0 && !active) {
-    // If there are no archived posts, return Nothing
-    return <Nothing />
-  }
-  return (
-    <div style={{ width: '100%' }}>
-      <h2 className="ninety-wide">{title}</h2>
-      <ul className={styles.results}>{listResults}</ul>
-      <DisabledResults disabledResults={disabledResults} />
-    </div>
-  )
-}
-
-export default Results
-
 const Result = ({
   thumbnail: thumbnailProp,
   active,
@@ -520,3 +460,63 @@ function DisabledResults(props) {
     </div>
   )
 }
+
+function ResultsAll({ posts: postsObject, active, setPosts }) {
+  const posts = Object.values(postsObject)
+  const title = active ? 'active posts.' : 'archive.'
+
+  const listResults = []
+  const disabledResults = []
+
+  posts.forEach(post => {
+    const summary = calculateSummary(post.ads, active)
+
+    if (summary && active && !post.promotion_enabled) {
+      // If these are 'active' ads, and promotion_enabled is set to false,
+      // add them to a list of disabled results
+      disabledResults.push(
+        <Result
+          key={post.id}
+          active={active}
+          attachments={post.attachments}
+          id={post.id}
+          setPosts={setPosts}
+          summary={summary}
+          thumbnail={post._metadata.thumbnail_url}
+        />,
+      )
+    } else if (summary) {
+      // All archived posts, and active posts with promotion enabled set
+      // to true are added to list results
+      listResults.push(
+        <Result
+          key={post.id}
+          active={active}
+          attachments={post.attachments}
+          id={post.id}
+          promotion_enabled={post.promotion_enabled}
+          setPosts={setPosts}
+          summary={summary}
+          thumbnail={post._metadata.thumbnail_url}
+        />,
+      )
+    }
+  })
+
+  if (listResults.length === 0 && active) {
+    // If there are no active posts, return NoActive
+    return <NoActive />
+  } if (listResults.length === 0 && !active) {
+    // If there are no archived posts, return Nothing
+    return <Nothing />
+  }
+  return (
+    <div style={{ width: '100%' }}>
+      <h2 className="ninety-wide">{title}</h2>
+      <ul className={styles.results}>{listResults}</ul>
+      <DisabledResults disabledResults={disabledResults} />
+    </div>
+  )
+}
+
+export default ResultsAll
