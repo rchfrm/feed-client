@@ -89,6 +89,7 @@ function Summary(props) {
   const [loading, setLoading] = React.useState(false)
 
   const calculateImpressions = React.useCallback(async () => {
+    let totalImpressions = 0
     const token = await getToken()
     const tournamentsEndpoint = artist._links.tournaments.href.slice(0, artist._links.tournaments.href.indexOf('?'))
     const tournaments = await server.getEndpoint(tournamentsEndpoint, token)
@@ -115,9 +116,8 @@ function Summary(props) {
     const createAdsPromises = createAdsPaths.map(async path => {
       const ad = await server.getPath(path, token)
       Object.keys(ad.metrics).forEach(day => {
-        if (moment(day, 'YYYY-MM-DD').isSameOrAfter(sevenDaysAgo)) {
-          // CONTINUE FROM ADDING DAILY IMPRESSIONS TO TOTAL IMPRESSIONS
-          console.log(day)
+        if (moment(day, 'YYYY-MM-DD').isSameOrAfter(sevenDaysAgo, 'day')) {
+          totalImpressions += Number(ad.metrics[day].impressions)
         }
       })
       return ad
