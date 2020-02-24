@@ -42,12 +42,8 @@
   align-items: center;
   justify-content: flex-end;
   
-  .post-toggle {
-    background-color: transparent;
-    outline: none;
-    margin-top: 17.420%;
-    display: inline-flex;
-    padding: 1px;
+  &.enabled {
+    justify-content: space-between;
   }
 
   .h2 {
@@ -57,6 +53,16 @@
   .alert {
     color: black;
   }
+}
+
+.result-toggle {
+  background-color: transparent;
+  outline: none;
+  margin-top: 17.420%;
+  display: inline-flex;
+  padding: 1px;
+  outline-offset: -2px;
+  justify-self: flex-start;
 }
 
 
