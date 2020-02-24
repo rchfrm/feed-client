@@ -102,6 +102,17 @@ function NoResults({ dailyBudget }) {
   )
 }
 
+const getAssets = async (status, artist, getToken) => {
+  const promotionStatus = status === 'archive' ? 'archived' : status
+  const token = await getToken()
+    .catch((err) => {
+      throw (err)
+    })
+  // return result
+  const assets = await server.getAssets(artist.id, promotionStatus, token)
+  return assets
+}
+
 
 function ResultsLoader() {
   // IMPORT CONTEXTS
@@ -137,17 +148,6 @@ function ResultsLoader() {
     setPosts({ type: 'reset-posts' })
   }, [artist.id])
   // END RESET STATE IF NEW SELECTED ARTIST
-
-  const getAssets = React.useCallback(async (status) => {
-    const promotionStatus = status === 'archive' ? 'archived' : status
-    const token = await getToken()
-      .catch((err) => {
-        throw (err)
-      })
-    // return result
-    const assets = await server.getAssets(artist.id, promotionStatus, token)
-    return assets
-  }, [artist.id, getToken])
 
   // RUN THIS TO GET ACTIVE OR ARCHIVE POSTS
   const runGetAssets = async (type, isMounted) => {
