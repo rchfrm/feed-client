@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
+import useAsyncEffect from 'use-async-effect'
 import usePrevious from 'use-previous'
 import isEmpty from 'lodash/isEmpty'
 // IMPORT COMPONENTS
@@ -149,9 +150,11 @@ function ResultsLoader() {
   }, [artist.id, getToken])
 
   // RUN THIS TO GET ACTIVE OR ARCHIVE POSTS
-  const runGetAssets = async (type) => {
+  const runGetAssets = async (type, isMounted) => {
     // Stop here if no artist
     if (!artist || isEmpty(artist)) return
+    // Stop here if not mounted
+    if (!isMounted()) return
     const setFunc = type === 'archive' ? setArchive : setActive
     const stateObj = type === 'archive' ? archive : active
     // Stop here if artist ID is the same
@@ -175,6 +178,7 @@ function ResultsLoader() {
     const assets = await getAssets(type)
       // Handle no assets
       .catch(err => {
+        if (!isMounted()) return
         setPosts({
           type: 'no-assets',
           payload: {
@@ -187,6 +191,7 @@ function ResultsLoader() {
         })
         setError(err)
       })
+    if (!isMounted()) return
     if (assets && assets.length) {
       setPosts({
         type: 'add-assets',
@@ -203,16 +208,16 @@ function ResultsLoader() {
   }
 
   // GET ACTIVE ASSETS FROM SERVER
-  React.useEffect(() => {
+  useAsyncEffect(async (isMounted) => {
     // Get active assets
-    runGetAssets('active')
+    await runGetAssets('active', isMounted)
   }, [active, artist, getAssets, posts.active])
   // END GET ACTIVE ASSETS FROM SERVER
 
   // GET ARCHIVED ASSETS FROM SERVER
-  React.useEffect(() => {
+  useAsyncEffect(async (isMounted) => {
     // Get archived assets
-    runGetAssets('archive')
+    await runGetAssets('archive', isMounted)
   }, [archive, artist, getAssets, posts.archive])
   // END GET ARCHIVED ASSETS FROM SERVER
 
