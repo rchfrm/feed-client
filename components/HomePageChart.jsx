@@ -374,12 +374,10 @@ function HomePageChart() {
     }
 
     // Check that the queued data sources aren't already available or requested
-    const queue = []
     const availableAndRequested = [...data.requested, ...Object.keys(data.available)]
-    data.queued.forEach(dataSource => {
-      if (availableAndRequested.indexOf(dataSource) === -1) {
-        queue.push(dataSource)
-      }
+    const { queued: queuedData } = data
+    const queue = queuedData.filter((dataSource) => {
+      return availableAndRequested.indexOf(dataSource) === -1
     })
 
     // Return if there isn't anything to retrieve and reset queue
