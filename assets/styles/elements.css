@@ -301,7 +301,7 @@ nav option {
 ******************/
 .page-header {
   width: 90%;
-  padding: 0 5%;
+  margin: 0 5%;
   flex: none;
   margin-bottom: 1em;
 }

@@ -72,7 +72,8 @@ main {
   }
 
 footer {
-  padding: 5%;
+  padding: 5% 0;
+  margin: 0 5%;
 }
 
 
