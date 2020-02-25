@@ -1,0 +1,106 @@
+button {
+  font-family: SpaceGrotesk, sans-serif;
+  display: flex;
+}
+
+button:disabled, button[disabled] {
+  color: #999999;
+  background-color: #E5E5E5;
+}
+
+button:focus {
+  outline: none;
+}
+
+.button_black {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 1.5em;
+  font-weight: bold;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.progress {
+  width: 31.48%;
+}
+
+.button_facebook {
+  background-color: #4267B2;
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 1em;
+  padding: 20px;
+  margin-bottom: 1em;
+  text-align: left;
+  cursor: pointer;
+}
+.button_facebook svg {
+  vertical-align: bottom;
+  padding-right: 10px;
+}
+
+  button p {
+    display: inline;
+  }
+
+.integration-setup {
+  width: 100%;
+  background: transparent;
+  border: none;
+  display: block;
+  outline: 2px solid black;
+  outline-offset: -2px;
+  margin-bottom: 1.5em;
+  font-feature-settings: "ss01";
+  box-sizing: border-box;
+  text-align: left;
+  padding: 1.5em;
+}
+
+.connected {
+  background-color: black;
+  color: white;
+}
+
+.button_sign-out {
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 1.25em;
+  display: inline;
+  padding: 0;
+  margin: 0;
+  text-decoration: underline;
+}
+
+.button_sign-out:hover {
+  text-decoration: none;
+}
+
+.button_text {
+  background-color: transparent;
+  display: inline;
+  color: black;
+  border: none;
+  font-weight: normal;
+  font-size: 1em;
+  padding: 0;
+  margin: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.button_toggle {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.button_toggle svg {
+  vertical-align: middle;
+}
