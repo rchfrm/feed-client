@@ -162,42 +162,17 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
 
     setLoading(true)
 
-    // Create billing details object
-    let billingDetails = {}
-    const states = [{ addressLine1 }, { addressLine2 }, { city }, { country }, { email }, { name }, { state }]
-    // Cycle through each state, and if it has a value,
-    // add it to the billing details object
-    states.forEach(state => {
-      let key = Object.keys(state)[0]
-      const value = Object.values(state)[0]
-
-      // Rename the address states to the key required by Stripe
-      if (key === 'addressLine1') { key = 'line1' }
-      if (key === 'addressLine2') { key = 'line2' }
-
-      if (value && (key === 'email' || key === 'name')) {
-        // Add any value for email to the first level of the object
-        billingDetails = {
-          ...billingDetails,
-          [key]: value,
-        }
-      } else if (value && value !== 'placeholder') {
-        // Add any address values to the object within an address key
-        billingDetails = {
-          ...billingDetails,
-          address: {
-            ...billingDetails.address,
-            [key]: value,
-          },
-        }
-      }
-    })
-    // If the billing details object has key/value pairs in it,
-    // place them within a key called 'billing_details'
-    if (Object.keys(billingDetails).length > 0) {
-      billingDetails = {
-        billing_details: { ...billingDetails },
-      }
+    // Create billing details object for Stripe
+    const billingDetailsStripe = {
+      address: {
+        city,
+        country,
+        line1: addressLine1,
+        line2: addressLine2,
+        state,
+      },
+      email,
+      name,
     }
 
     try {
@@ -206,7 +181,7 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
       const paymentMethod = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
-        ...billingDetails,
+        billing_details: billingDetailsStripe,
       })
 
       // Send the payment method id to the server
