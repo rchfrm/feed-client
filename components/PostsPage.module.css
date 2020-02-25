@@ -70,10 +70,10 @@
 
 .post-media {
   margin: 0 1.5em 1.5em 1.5em;
-}
-
-.deselected .square-image .center-image {
-  filter: grayscale(1);
+  
+  .deselected & {
+    filter: grayscale(1);
+  }
 }
 
 /* POST MESSAGE */
