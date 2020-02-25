@@ -30,7 +30,7 @@ function HomePage() {
   // END SHOW / HIDE NAVIGATION
 
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`${className}`}>
 
       <Loader />
 

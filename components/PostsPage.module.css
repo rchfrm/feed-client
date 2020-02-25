@@ -28,7 +28,7 @@
   align-items: center;
   
   :global(svg) {
-    padding-right: 10px;
+    margin-right: 10px;
     vertical-align: sub;
   }
   

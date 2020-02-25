@@ -427,7 +427,6 @@ function ChartBar(props) {
         {`
         #bar-chart {
           padding: 0 5%;
-          box-sizing: border-box;
           z-index: 2;
         }
       `}
