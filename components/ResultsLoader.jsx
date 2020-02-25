@@ -1,6 +1,9 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
+import useAsyncEffect from 'use-async-effect'
+import usePrevious from 'use-previous'
+import isEmpty from 'lodash/isEmpty'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -11,7 +14,7 @@ import Button from './elements/Button'
 import Spinner from './elements/Spinner'
 // IMPORT PAGES
 import { PromotePostsButton } from './page/HomePage'
-import Results from './ResultsAll'
+import ResultsAll from './ResultsAll'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import brandColours from '../constants/brandColours'
@@ -58,179 +61,6 @@ const postsReducer = (postsState, postsAction) => {
   }
 }
 
-function Loader() {
-// DEFINE STATES
-  const [posts, setPosts] = React.useReducer(postsReducer, initialPostsState)
-  const [active, setActive] = React.useState({
-    loading: false,
-    complete: false,
-  })
-  const [archive, setArchive] = React.useState({
-    loading: false,
-    complete: false,
-  })
-  const [, setError] = React.useState(null)
-  // TODO : Display errors somewhere
-  // END DEFINE STATES
-
-  // IMPORT CONTEXTS
-  const { getToken } = React.useContext(AuthContext)
-  const { artist, artistLoading } = React.useContext(ArtistContext)
-  // END IMPORT CONTEXTS
-
-  // RESET STATE IF NEW SELECTED ARTIST
-  React.useEffect(() => {
-    setActive({
-      loading: false,
-      complete: false,
-    })
-    setArchive({
-      loading: false,
-      complete: false,
-    })
-    setPosts({ type: 'reset-posts' })
-  }, [artist.id])
-  // END RESET STATE IF NEW SELECTED ARTIST
-
-  const getAssets = React.useCallback(async promotion_status => {
-    const token = await getToken()
-      .catch((err) => {
-        throw (err)
-      })
-    // return result
-    const assets = await server.getAssets(artist.id, promotion_status, token)
-    return assets
-  }, [artist.id, getToken])
-
-  // GET ACTIVE ASSETS FROM SERVER
-  React.useEffect(() => {
-    // Return if there is no selected artist
-    if (!artist.id) {
-      return
-    }
-
-    // Return if a request is already happening
-    if (active.loading) {
-      return
-    }
-
-    // Return if a request has completed
-    if (active.complete) {
-      return
-    }
-
-    setActive({
-      ...active,
-      loading: true,
-    })
-
-    getAssets('active')
-      .then(assets => {
-        setPosts({
-          type: 'add-assets',
-          payload: {
-            type: 'active',
-            assets: helper.arrToObjById(assets),
-          },
-        })
-        setActive({
-          loading: false,
-          complete: true,
-        })
-      })
-      .catch(err => {
-        setPosts({
-          type: 'no-assets',
-          payload: {
-            type: 'active',
-          },
-        })
-        setActive({
-          loading: false,
-          complete: true,
-        })
-        setError(err)
-      })
-  }, [active, artist.id, getAssets, posts.active])
-  // END GET ACTIVE ASSETS FROM SERVER
-
-  // GET ARCHIVED ASSETS FROM SERVER
-  React.useEffect(() => {
-    // Return if there is no selected artist
-    if (!artist.id) {
-      return
-    }
-
-    // Return if a request is already happening
-    if (archive.loading) {
-      return
-    }
-
-    // Return if a request has completed
-    if (archive.complete) {
-      return
-    }
-
-    setArchive({
-      ...archive,
-      loading: true,
-    })
-
-    getAssets('archived')
-      .then(assets => {
-        setPosts({
-          type: 'add-assets',
-          payload: {
-            type: 'archive',
-            assets: helper.arrToObjById(assets),
-          },
-        })
-        setArchive({
-          loading: false,
-          complete: true,
-        })
-      })
-      .catch(err => {
-        setPosts({
-          type: 'no-assets',
-          payload: {
-            type: 'archive',
-          },
-        })
-        setArchive({
-          loading: false,
-          complete: true,
-        })
-        setError(err)
-      })
-  }, [archive, artist.id, getAssets, posts.archive])
-  // END GET ARCHIVED ASSETS FROM SERVER
-
-  // RETURN
-  if (artistLoading || active.loading || archive.loading) {
-  // If artist is loading, or both active and archived posts are loading, show spinner
-    return <Spinner width={50} colour={brandColours.green.hex} />
-  } if (
-    Object.keys(posts.active).length === 0
-    && Object.keys(posts.archive).length === 0
-  ) {
-  // If the active and archived endpoints have been called,
-    // but there are no posts, show NoResults
-    return <NoResults dailyBudget={artist.daily_budget} />
-  }
-  // Otherwise, show Results components
-  return (
-    <div style={{ width: '100%' }}>
-      <Results active posts={posts.active} setPosts={setPosts} />
-      <Results active={false} posts={posts.archive} setPosts={setPosts} />
-    </div>
-  )
-
-// END RETURN
-}
-
-export default Loader
-
 function NoResults({ dailyBudget }) {
   const handleClick = e => {
     e.preventDefault()
@@ -271,3 +101,152 @@ function NoResults({ dailyBudget }) {
     </div>
   )
 }
+
+const getAssets = async (status, artist, getToken) => {
+  const promotionStatus = status === 'archive' ? 'archived' : status
+  const token = await getToken()
+    .catch((err) => {
+      throw (err)
+    })
+  // return result
+  const assets = await server.getAssets(artist.id, promotionStatus, token)
+  return assets
+}
+
+
+function ResultsLoader() {
+  // IMPORT CONTEXTS
+  const { getToken } = React.useContext(AuthContext)
+  const { artist, artistLoading } = React.useContext(ArtistContext)
+  // END IMPORT CONTEXTS
+  // DEFINE STATES
+  const [posts, setPosts] = React.useReducer(postsReducer, initialPostsState)
+  const [active, setActive] = React.useState({
+    loading: false,
+    complete: false,
+  })
+  const [archive, setArchive] = React.useState({
+    loading: false,
+    complete: false,
+  })
+  // PREVIOUS STATE
+  const previousArtistState = usePrevious(artist)
+  const [, setError] = React.useState(null)
+  // TODO : Display errors somewhere
+  // END DEFINE STATES
+
+  // RESET STATE IF NEW SELECTED ARTIST
+  React.useEffect(() => {
+    // Stop if no artist
+    if (!artist || isEmpty(artist)) return
+    // Stop if no previous artist set
+    if (!previousArtistState) return
+    const { id: artistId } = artist
+    const { id: previousArtistID } = previousArtistState
+    if (artistId === previousArtistID) return
+    setActive({
+      loading: false,
+      complete: false,
+    })
+    setArchive({
+      loading: false,
+      complete: false,
+    })
+    setPosts({ type: 'reset-posts' })
+  }, [artist])
+  // END RESET STATE IF NEW SELECTED ARTIST
+
+  // RUN THIS TO GET ACTIVE OR ARCHIVE POSTS
+  const runGetAssets = async (type, isMounted) => {
+    // Stop here if no artist
+    if (!artist || isEmpty(artist)) return
+    const setFunc = type === 'archive' ? setArchive : setActive
+    const stateObj = type === 'archive' ? archive : active
+    // Stop here if artist ID is the same
+    if (previousArtistState) {
+      const { id: artistId } = artist
+      const { id: previousArtistID } = previousArtistState
+      if (artistId === previousArtistID) {
+        return
+      }
+    }
+    // Return if there is no selected artist
+    if (!artist.id) return
+    // Return if a request is already happening
+    if (stateObj.loading || stateObj.complete) return
+    // Set loading to true
+    setFunc({
+      loading: true,
+      complete: false,
+    })
+    // Start getting assets
+    const assets = await getAssets(type, artist, getToken)
+      .catch((err) => {
+        setPosts({
+          type: 'no-assets',
+          payload: {
+            type,
+          },
+        })
+        setFunc({
+          loading: false,
+          complete: true,
+        })
+        setError(err)
+      })
+    if (!isMounted()) return
+    if (assets && assets.length) {
+      setPosts({
+        type: 'add-assets',
+        payload: {
+          type,
+          assets: helper.arrToObjById(assets),
+        },
+      })
+    }
+    setFunc({
+      loading: false,
+      complete: true,
+    })
+  }
+
+  // GET ACTIVE ASSETS FROM SERVER
+  useAsyncEffect(async (isMounted) => {
+    // Get active assets
+    await runGetAssets('active', isMounted)
+  }, [artist, posts.active])
+  // END GET ACTIVE ASSETS FROM SERVER
+
+  // GET ARCHIVED ASSETS FROM SERVER
+  useAsyncEffect(async (isMounted) => {
+    // Get archived assets
+    await runGetAssets('archive', isMounted)
+  }, [artist, posts.archive])
+  // END GET ARCHIVED ASSETS FROM SERVER
+
+  // RETURN
+  if (artistLoading || active.loading || archive.loading) {
+  // If artist is loading, or both active and archived posts are loading, show spinner
+    return <Spinner width={50} colour={brandColours.green.hex} />
+  } if (
+    Object.keys(posts.active).length === 0
+    && Object.keys(posts.archive).length === 0
+  ) {
+  // If the active and archived endpoints have been called,
+    // but there are no posts, show NoResults
+    return <NoResults dailyBudget={artist.daily_budget} />
+  }
+  // Otherwise, show Results components
+  return (
+    <div style={{ width: '100%' }}>
+      {/* Active posts */}
+      <ResultsAll active posts={posts.active} setPosts={setPosts} />
+      {/* Archived posts */}
+      <ResultsAll active={false} posts={posts.archive} setPosts={setPosts} />
+    </div>
+  )
+
+// END RETURN
+}
+
+export default ResultsLoader

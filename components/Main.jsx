@@ -2,13 +2,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT COMPONENTS
-import Page from './Page'
+import InitUser from './InitUser'
 // IMPORT CONTEXTS
 import { NavigationContext } from './contexts/Navigation'
 import { UserProvider } from './contexts/User'
 import { ArtistProvider } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Navigation from './elements/Navigation'
+import TheNavigation from './TheNavigation'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT STYLES
@@ -20,10 +20,10 @@ function Main({ children }) {
     <main style={{ backgroundColor }}>
       <UserProvider>
         <ArtistProvider>
-          <Navigation />
-          <Page>
+          <TheNavigation />
+          <InitUser>
             {children}
-          </Page>
+          </InitUser>
         </ArtistProvider>
       </UserProvider>
     </main>

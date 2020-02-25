@@ -172,7 +172,14 @@ export function LinkOptions(props) {
   const checkLink = platform => {
     const priorityDSP = helper.convertPlatformToPriorityDSP(platform)
     return (
-      <a href={artist[priorityDSP]} target="_blank" rel="noopener noreferrer">Preview link</a>
+      <a
+        className={styles.a}
+        href={artist[priorityDSP]}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Preview link
+      </a>
     )
   }
 
@@ -181,7 +188,11 @@ export function LinkOptions(props) {
 
       <div className={styles['link-selection']}>
 
-        <select onChange={handleChange} value={chosenLink}>
+        <select
+          className={styles.select}
+          onChange={handleChange}
+          value={chosenLink}
+        >
           {links}
         </select>
 
@@ -359,7 +370,10 @@ export function AddUrl(props) {
         <label className="label_top">Select the type:</label>
         <div className={styles['link-selection']} style={{ width: '100%' }}>
 
-          <select onChange={handleSelect}>
+          <select
+            className={styles.select}
+            onChange={handleSelect}
+          >
             {links}
           </select>
 

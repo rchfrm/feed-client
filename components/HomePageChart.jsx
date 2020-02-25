@@ -1,6 +1,8 @@
 // IMPORT PACKAGES
 import React from 'react'
 import moment from 'moment'
+import usePrevious from 'use-previous'
+import isEmpty from 'lodash/isEmpty'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -101,7 +103,7 @@ const displayedDataSourcesReducer = (displayedDataSourcesState, displayedDataSou
   }
 }
 
-function ChartLoader() {
+function HomePageChart() {
 // IMPORT CONTEXTS
   const { getToken } = React.useContext(AuthContext)
   const { artist } = React.useContext(ArtistContext)
@@ -241,14 +243,29 @@ function ChartLoader() {
     return object
   }
 
+  const previousArtistState = usePrevious(artist)
+
   React.useEffect(() => {
+    // Stop here if no artist
+    if (!artist || isEmpty(artist)) return
+    const {
+      priority_social_platform: socialPlatform,
+      _embedded: { data_sources: dataSources },
+    } = artist
     // Return if there are no data sources
-    if (!artist._embedded.data_sources) {
-      return
+    if (!dataSources) return
+    // Stop here if no change in data sources
+    if (previousArtistState) {
+      const {
+        priority_social_platform: previousSocialPlatform,
+        _embedded: { data_sources: perviousDataSources },
+      } = previousArtistState
+      if (dataSources === perviousDataSources) return
+      if (socialPlatform === previousSocialPlatform) return
     }
 
     // Arrange artist's available data sources by platform and type
-    const dataSourcesObject = createDataSourceObject(artist._embedded.data_sources)
+    const dataSourcesObject = createDataSourceObject(dataSources)
 
     setAvailableDataSources(dataSourcesObject)
 
@@ -264,21 +281,17 @@ function ChartLoader() {
         add: dataSourcesForChart,
       },
     })
-  }, [artist._embedded.data_sources, artist.priority_social_platform])
+  }, [artist])
   // END SORT AVAILABLE DATA SOURCES BY PLATFORM AND TYPE
 
   // QUEUE DEFAULT DATA SOURCES TO BE RETRIEVED FROM SERVER
   React.useEffect(() => {
     // Return if there are no available data sources
-    if (Object.keys(availableDataSources).length === 0) {
-      return
-    }
+    if (Object.keys(availableDataSources).length === 0) return
 
     // Return if data sources are already in the queue, requested, or available
     const available = [...data.queued, ...data.requested, ...Object.keys(data.available)]
-    if (available.length > 0) {
-      return
-    }
+    if (available.length > 0) return
 
     // Define array of default data sources
     const defaultDataSources = []
@@ -361,12 +374,10 @@ function ChartLoader() {
     }
 
     // Check that the queued data sources aren't already available or requested
-    const queue = []
     const availableAndRequested = [...data.requested, ...Object.keys(data.available)]
-    data.queued.forEach(dataSource => {
-      if (availableAndRequested.indexOf(dataSource) === -1) {
-        queue.push(dataSource)
-      }
+    const { queued: queuedData } = data
+    const queue = queuedData.filter((dataSource) => {
+      return availableAndRequested.indexOf(dataSource) === -1
     })
 
     // Return if there isn't anything to retrieve and reset queue
@@ -420,4 +431,4 @@ function ChartLoader() {
   )
 }
 
-export default ChartLoader
+export default HomePageChart

@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 import moment from 'moment'
+import get from 'lodash/get'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -82,52 +83,53 @@ function SummaryLoader() {
 export default SummaryLoader
 
 function Summary(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { artistId } = props
-  const { spend } = props
-  // END REDEFINE PROPS AS VARIABLES
-
-  // GET TOKEN
+  const { artistId, spend } = props
   const { getToken } = React.useContext(AuthContext)
-  // END GET TOKEN
-
-  // DEFINE STATES
+  const { artist } = React.useContext(ArtistContext)
   const [impressions, setImpressions] = React.useState(undefined)
   const [loading, setLoading] = React.useState(false)
-  // END DEFINE STATES
 
-  const calculateImpressions = React.useCallback(async artistId => {
-    // Get token from auth context and retrieve active and archived posts from the server
+  const calculateImpressions = React.useCallback(async () => {
     const token = await getToken()
-    const activeAssets = await server.getAssets(artistId, 'active', token)
-    const archivedAssets = await server.getAssets(artistId, 'archived', token)
-    // Combine the two objects returned by the server into one
-    const assets = {
-      ...activeAssets,
-      ...archivedAssets,
-    }
-
-    let totalImpressions = 0
+    const tournamentsEndpoint = get(artist, ['_links', 'tournaments', 'href'], '')
+    const tournamentsEndpointMod = tournamentsEndpoint ? tournamentsEndpoint.slice(0, tournamentsEndpoint.indexOf('?')) : 0
+    const tournaments = tournamentsEndpointMod ? await server.getEndpoint(tournamentsEndpointMod, token) : []
     const sevenDaysAgo = moment().subtract(7, 'days')
 
-    // Go through each asset, and each ad to add up the total number
-    // of impressions from last seven days
-    Object.values(assets).forEach(asset => {
-      const ads = Object.values(asset.ads)
-      ads.forEach(ad => {
-        const dates = Object.keys(ad.metrics)
-        if (dates.length > 0) {
-          dates.forEach(date => {
-            const dateMoment = moment(date, 'YYYY-MM-DD')
-            if (dateMoment.isSameOrAfter(sevenDaysAgo, 'day')) {
-              totalImpressions += Number(ad.metrics[date].impressions)
-            }
-          })
-        }
-      })
+    const createAdsPaths = tournaments.reduce((acc, tournament) => {
+      // If the tournament stopped within the last seven days, get the ads that were in it
+      if (moment(tournament.stop_time).isSameOrAfter(sevenDaysAgo, 'day')) {
+        const ads = Object.values(tournament.ads).reduce((acc2, ad) => {
+          // Make sure that the ad hasn't already been added from another tournament
+          if (acc.indexOf(ad.ad.path) === -1) {
+            return [...acc2, ad.ad.path]
+          }
+          return acc2
+        }, [])
+
+        return [...acc, ...ads]
+      }
+      return acc
+    }, [])
+
+    const createAdsPromises = createAdsPaths.map(async path => {
+      return server.getPath(path, token)
     })
 
-    return totalImpressions
+    const ads = await Promise.all(createAdsPromises)
+      .catch(err => {
+        throw (err)
+      })
+
+    return ads.reduce((impressions, { metrics }) => {
+      const adImpressions = Object.keys(metrics).reduce((impressions, day) => {
+        if (moment(day, 'YYYY-MM-DD').isSameOrAfter(sevenDaysAgo, 'day')) {
+          return impressions + Number(metrics[day].impressions)
+        }
+        return impressions
+      }, 0)
+      return impressions + adImpressions
+    }, 0)
   }, [getToken])
 
   React.useEffect(() => {

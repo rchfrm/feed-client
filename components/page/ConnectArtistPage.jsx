@@ -9,7 +9,7 @@ import { AuthContext } from '../contexts/Auth'
 import { UserContext } from '../contexts/User'
 import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
-import PageHeader from '../elements/PageHeader'
+import PageHeader from '../PageHeader'
 import Spinner from '../elements/Spinner'
 import Button from '../elements/Button'
 import Icon from '../elements/Icon'
@@ -130,7 +130,7 @@ function Loader() {
 
     // If there is no auth user, push to log in page
     if (!user.id) {
-      Router.push(ROUTES.LOG_IN)
+      Router.push(ROUTES.LOGIN)
       return
     }
 

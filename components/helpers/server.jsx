@@ -1,7 +1,7 @@
 import helper from './helper'
 
 const host = process.env.build_env === 'development'
-  ? process.env.react_app_api_url_local
+  ? process.env.react_app_api_url_local || 'http://localhost:5000/'
   : process.env.react_app_api_url || 'http://localhost:5000/'
 
 export default {
@@ -140,6 +140,7 @@ export default {
     }
     throw new Error(res.statusText)
   },
+
   // UPDATE ARTIST
   updateDailyBudget: async (artistId, dailyBudget, verifyIdToken) => {
     const endpoint = `${host}artists/${artistId}`
@@ -194,7 +195,40 @@ export default {
     }
     throw new Error(res.statusText)
   },
+
   // DATA SOURCES
+  getEndpoint: async (endpoint, verifyIdToken) => {
+    const res = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${verifyIdToken}`,
+      },
+    })
+    if (res.ok) {
+      return res.json()
+    }
+    throw new Error(res.statusText)
+  },
+
+  getPath: async (path, verifyIdToken) => {
+    const endpoint = `${host}${path}`
+
+    const res = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${verifyIdToken}`,
+      },
+    })
+
+    if (res.ok) {
+      return res.json()
+    }
+
+    throw new Error(res.statusText)
+  },
+
   getDataSourceValue: async (dataSources, artistId, verifyIdToken) => {
     const dataSourceString = dataSources.join(',')
     const endpoint = `${host}artists/${artistId}/data_sources?metrics=${dataSourceString}`
@@ -210,6 +244,7 @@ export default {
     }
     throw new Error(res.statusText)
   },
+
   // ASSETS
   getUnpromotedPosts: async (offset, limit, artistId, verifyIdToken) => {
     const endpoint = `${host}artists/${artistId}/assets?promotion_status=inactive&offset=${offset}&limit=${limit}`
@@ -283,8 +318,8 @@ export default {
     throw new Error(res.statusText)
   },
 
-  getAssets: async (artistId, promotion_status, verifyIdToken) => {
-    const query = promotion_status ? `?promotion_status=${promotion_status}` : ''
+  getAssets: async (artistId, promotionStatus, verifyIdToken) => {
+    const query = promotionStatus ? `?promotion_status=${promotionStatus}` : ''
     const endpoint = `${host}artists/${artistId}/assets${query}`
 
     const res = await fetch(endpoint, {

@@ -7,12 +7,12 @@ import { NavigationContext } from '../contexts/Navigation'
 import { UserContext } from '../contexts/User'
 import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
-import PageHeader from '../elements/PageHeader'
+import PageHeader from '../PageHeader'
 import Button from '../elements/Button'
 import Spinner from '../elements/Spinner'
 // IMPORT PAGES
 import SummaryLoader from '../HomePageSummary'
-import ChartLoader from '../HomePageChart'
+import HomePageChart from '../HomePageChart'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../../constants/routes'
@@ -69,7 +69,7 @@ function Home() {
 
       <SummaryLoader />
 
-      <ChartLoader />
+      <HomePageChart />
 
       <PromotePostsButton />
 

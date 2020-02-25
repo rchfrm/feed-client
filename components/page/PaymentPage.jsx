@@ -10,7 +10,7 @@ import { NavigationContext } from '../contexts/Navigation'
 import Feed from '../elements/Feed'
 import Overlay from '../elements/Overlay'
 import Spinner from '../elements/Spinner'
-import PageHeader from '../elements/PageHeader'
+import PageHeader from '../PageHeader'
 // IMPORT PAGES
 import CheckoutForm from '../CheckoutForm'
 import PaymentPageSuccess from '../PaymentPageSuccess'
@@ -60,7 +60,6 @@ const PaymentPage = () => {
       setOverlayHeight(page.current.offsetHeight)
     }
   }, [])
-
 
   return (
 

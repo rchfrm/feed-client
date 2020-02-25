@@ -6,7 +6,7 @@ import Router from 'next/router'
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
 // IMPORT ELEMENTS
-import PageHeader from '../elements/PageHeader'
+import PageHeader from '../PageHeader'
 import Button from '../elements/Button'
 import Feed from '../elements/Feed'
 // IMPORT PAGES

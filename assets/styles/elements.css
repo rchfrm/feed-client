@@ -377,32 +377,33 @@ input[readonly] {
 
 /* Navigation
 ******************/
-nav {
+.TheNavigation {
   background-color: black;
   color: white;
-}
 
-nav ul {
-  padding-top: 2em;
-  padding-left: 17.129%;
-}
+  a.-active {
+    text-decoration: none;
+    cursor: default;
+  }
+  
+  ul {
+    padding-top: 2em;
+    padding-left: 17.129%;
+  }
 
-nav li {
-  padding-bottom: 1em;
-}
+  li {
+    margin-bottom: 1em;
+    &:last-child {
+      padding-top: 2em;
+      margin-bottom: 0;
+    }
+  }
 
-nav a {
-  font-size: 1.25em;
-  font-weight: 600;
-  color: white;
-}
-
-.currentPage {
-  text-decoration: none;
-}
-
-nav .penultimateLi {
-  padding-bottom: 3em;
+  a {
+    font-size: 1.25em;
+    font-weight: 600;
+    color: white;
+  }
 }
 
 nav select {
@@ -442,6 +443,8 @@ nav option {
   flex: none;
   margin-bottom: 1em;
 }
+
+
 /* Pencil
 ******************/
 .pencil {

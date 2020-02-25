@@ -1,3 +1,4 @@
-import LoginPage from '../components/page/LoginPage'
+import HomePage from '../components/page/HomePage'
+import TestPageReady from '../components/TestPageReady'
 
-export default LoginPage
+export default TestPageReady(HomePage)

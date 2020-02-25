@@ -222,7 +222,7 @@ function ChartBar(props) {
           label: displayedDataSources[0],
           data: carriedArr,
           backgroundColor: helper.hexToRGBA(dataSourceDetails[dataSource].colour, 0.7),
-          barPercentage: 1,
+          barPercentage: 0.8,
           categoryPercentage: 1,
           barThickness: 'flex',
           // maxBarThickness: 8,
@@ -232,7 +232,7 @@ function ChartBar(props) {
           label: `new_${displayedDataSources[0]}`,
           data: increaseArr,
           backgroundColor: dataSourceDetails[dataSource].colour,
-          barPercentage: 1,
+          barPercentage: 0.8,
           categoryPercentage: 1,
           barThickness: 'flex',
           // maxBarThickness: 8,
@@ -260,6 +260,9 @@ function ChartBar(props) {
         label: dataSource,
         data: dataArray,
         backgroundColor: dataSourceDetails[dataSource].colour,
+        barPercentage: 0.8,
+        categoryPercentage: 1,
+        barThickness: 'flex',
       })
     })
 
