@@ -18,26 +18,6 @@
 
 /* FONTS */
 
-@font-face {
-  font-family: SpaceGrotesk;
-  src: url('/fonts/SpaceGrotesk-Regular.woff');
-  font-weight: normal;
-}
-@font-face {
-  font-family: SpaceGrotesk;
-  src: url('/fonts/SpaceGrotesk-Medium.woff');
-  font-weight: 500;
-}
-@font-face {
-  font-family: SpaceGrotesk;
-  src: url('/fonts/SpaceGrotesk-SemiBold.woff');
-  font-weight: 600;
-}
-@font-face {
-  font-family: SpaceGrotesk;
-  src: url('/fonts/SpaceGrotesk-Bold.woff');
-  font-weight: bold;
-}
 
 /* SECTIONS */
 
@@ -47,13 +27,13 @@ body,
 #__next {
   width: 100%;
   height: 100%;
-  font-size: 15px;
-  font-family: SpaceGrotesk,sans-serif;
-  font-feature-settings: "ss01";
 }
 
 body {
-  max-width: 750px;
+  font-family: var(--font);
+  font-feature-settings: "ss01";
+  max-width: var(--max-width);
+  font-size: var(--base-font-size);
   margin: 0 auto;
 }
 
@@ -95,53 +75,6 @@ footer {
   padding: 5%;
 }
 
-/* CHARACTERS */
-
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 0.333em;
-}
-
-h2, h3 {
-  font-size: 1.333em;
-}
-h2 {
-  font-weight: 600;
-}
-
-h4 {
-  font-size: 1.2em;
-}
-
-p {
-  font-size: 1em;
-  font-weight: 500;
-}
-
-.small-p {
-  font-size: 0.667em;
-}
-
-h1, h2, h3, h4, p, .small-p {
-  line-height: 1.2em;
-}
-
-h2, h3, h4, p, .small-p {
-  margin-bottom: 1.2em;
-}
-
-a {
-  color: black;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-.strong {
-  font-weight: bold;
-}
 
 .hidden {
   display: none;

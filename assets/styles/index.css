@@ -2,7 +2,9 @@
 * Base.
 */
 @import "./reset";
+@import "./vars";
 @import "./base";
+@import "./type";
 @import "./flex-rules";
 @import "./box-sizing";
 /**

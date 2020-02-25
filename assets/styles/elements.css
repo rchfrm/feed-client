@@ -179,9 +179,8 @@ input[readonly] {
 
 .box {
   display: block;
-  border: none;
-  outline: 2px solid black;
-  outline-offset: -2px;
+  border: 2px solid black;
+  border-radius: var(--button-radius);
   margin-bottom: 1em;
   padding: 1.333em;
   font-family: monospace;
