@@ -178,22 +178,29 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
     try {
       const cardElement = elements.getElement('card')
       // Send the card element to Stripe to receive a payment method
-      const paymentMethod = await stripe.createPaymentMethod({
+      const { paymentMethod, error } = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
         billing_details: billingDetailsStripe,
       })
 
+      // Stop here if error and show message
+      if (error) {
+        setErrors([{ message: 'Error adding card' }])
+        setLoading(false)
+        return
+      }
+
       // Send the payment method id to the server
       const verifyToken = await getToken()
-      await server.submitPaymentMethod(paymentMethod.paymentMethod.id, verifyToken)
+      await server.submitPaymentMethod(paymentMethod.id, verifyToken)
       // Store key details of the card that was saved in state,
       // and set success to true
       setCardDetails({
-        brand: paymentMethod.paymentMethod.card.brand,
-        exp_month: paymentMethod.paymentMethod.card.exp_month,
-        exp_year: paymentMethod.paymentMethod.card.exp_year,
-        last4: paymentMethod.paymentMethod.card.last4,
+        brand: paymentMethod.card.brand,
+        exp_month: paymentMethod.card.exp_month,
+        exp_year: paymentMethod.card.exp_year,
+        last4: paymentMethod.card.last4,
       })
       setSuccess(true)
       setLoading(false)
