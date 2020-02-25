@@ -8,15 +8,16 @@
 # testing
 /coverage
 
-# production
-/build
-
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
+.env.staging
+.env.bak
 
 npm-debug.log*
 yarn-debug.log*
@@ -31,4 +32,17 @@ notes.txt
 
 # Optional REPL history
 .node_repl_history
+# Next build
 .next
+out/
+dist/
+# PWA generated things
+public/pwa
+
+# Service workers
+/public/workbox-*.js
+/public/sw.js
+
+# Firebase
+.firebase
+firebase.json

@@ -1,0 +1,575 @@
+/* Alert
+******************/
+.alert-container {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: RGBa(0,0,0,0.7);
+  justify-content: space-around;
+  align-items: center;
+  z-index: 10;
+}
+
+.alert {
+  background-color: white;
+  width: 90%;
+  padding: 5%;
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  box-sizing: border-box;
+}
+
+.alert h1 {
+  padding-bottom: 1em;
+}
+
+.alert p {
+  padding-bottom: 1em;
+}
+
+.alert-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.alert-contents {
+  width: 100%;
+  padding-bottom: 1em;
+}
+/* Button
+******************/
+button {
+  font-family: SpaceGrotesk, sans-serif;
+  display: flex;
+}
+
+button:disabled, button[disabled] {
+  color: #999999;
+  background-color: #E5E5E5;
+}
+
+button:focus {
+  outline: none;
+}
+
+.button_black {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 1.5em;
+  font-weight: bold;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.progress {
+  width: 31.48%;
+}
+
+.button_facebook {
+  background-color: #4267B2;
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 1em;
+  padding: 20px;
+  margin-bottom: 1em;
+  text-align: left;
+  cursor: pointer;
+}
+.button_facebook svg {
+  vertical-align: bottom;
+  padding-right: 10px;
+}
+
+  button p {
+    display: inline;
+  }
+
+.integration-setup {
+  width: 100%;
+  background: transparent;
+  border: none;
+  display: block;
+  outline: 2px solid black;
+  outline-offset: -2px;
+  margin-bottom: 1.5em;
+  font-feature-settings: "ss01";
+  box-sizing: border-box;
+  text-align: left;
+  padding: 1.5em;
+}
+
+.connected {
+  background-color: black;
+  color: white;
+}
+
+.button_sign-out {
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 1.25em;
+  display: inline;
+  padding: 0;
+  margin: 0;
+  text-decoration: underline;
+}
+
+.button_sign-out:hover {
+  text-decoration: none;
+}
+
+.button_text {
+  background-color: transparent;
+  display: inline;
+  color: black;
+  border: none;
+  font-weight: normal;
+  font-size: 1em;
+  padding: 0;
+  margin: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.button_toggle {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.button_toggle svg {
+  vertical-align: middle;
+}
+
+
+/* Checkbox
+******************/
+.outer-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1em;
+  height: 1em;
+  outline-offset: -1px;
+}
+
+.inner-checkbox {
+  width: 33%;
+  height: 33%;
+}
+
+/* Clear
+******************/
+.clear {
+  clear: both;
+}
+
+/* Ellipsis
+******************/
+.dot-one {
+  opacity: 0;
+  animation: ellipsis-one 2.5s infinite;
+}
+
+.dot-two {
+  opacity: 0;
+  animation: ellipsis-two 2.5s infinite;
+}
+
+.dot-three {
+  opacity: 0;
+  animation: ellipsis-three 2.5s infinite;
+}
+
+@keyframes ellipsis-one {
+  /* One */
+  0% { opacity: 1; }
+  24% { opacity: 1; }
+  /* Two */
+  25% { opacity: 1; }
+  49% { opacity: 1; }
+  /* Three */
+  50% { opacity: 1; }
+  74% { opacity: 1; }
+  /* Four */
+  75% { opacity: 0; }
+}
+
+@keyframes ellipsis-two {
+  /* One */
+  0% { opacity: 0; }
+  24% { opacity: 0; }
+  /* Two */
+  25% { opacity: 1; }
+  49% { opacity: 1; }
+  /* Three */
+  50% { opacity: 1; }
+  74% { opacity: 1; }
+  /* Four */
+  75% { opacity: 0; }
+}
+
+@keyframes ellipsis-three {
+  /* One */
+  0% { opacity: 0; }
+  24% { opacity: 0; }
+  /* Two */
+  25% { opacity: 0; }
+  49% { opacity: 0; }
+  /* Three */
+  50% { opacity: 1; }
+  74% { opacity: 1; }
+  /* Four */
+  75% { opacity: 0; }
+}
+
+/* Error
+******************/
+.error,
+.success {
+  font-weight: 500;
+  height: 2.5em;
+  width: 100%;
+  text-align: left;
+}
+
+.error {
+  color: #FF0000;
+
+  & + .error {
+    margin-top: -1em;
+  }
+
+}
+.success {
+  color: #6edcd3;
+}
+
+/* Feed
+******************/
+.feed {
+  font-weight: bold;
+}
+
+/* Frame
+******************/
+.frame {
+  display: flex;
+  margin: 1em 0 2.5em 0;
+  padding: 2.778% 0;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.frame-nav {
+
+}
+
+/* Input
+******************/
+input {
+  background-color: transparent;
+}
+
+input[readonly] {
+  border-bottom: none;
+}
+
+.box {
+  display: block;
+  border: none;
+  outline: 2px solid black;
+  outline-offset: -2px;
+  margin-bottom: 1em;
+  padding: 1.333em;
+  font-family: monospace;
+  font-weight: 100;
+  font-size: 1em;
+  box-sizing: border-box;
+  width: 100%;
+  
+  &::placeholder{
+    color: #999999;
+  }
+}
+
+
+.text {
+  display: block;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-bottom: 1px dotted black;
+  margin: 0 0 1em 0;
+  padding: 0 0 0.2em 0;
+  font-size: 1em;
+}
+
+.text_icon {
+  border: none;
+  border-bottom: 1px dotted black;
+  font-size: 1em;
+  width: calc(100% - 30px);
+  margin: 0 0 1em 0;
+  padding: 0 0 0.2em 0;
+}
+
+.label_top {
+  font-size: 0.667em;
+  display: block;
+  width: 100%;
+  margin-bottom: 0.667em;
+}
+
+.label_icon {
+  vertical-align: middle;
+  margin: 0 0 1em 0;
+  padding: 0 10px 0 0;
+}
+
+/* Loading
+******************/
+.loading {
+  width: 100%;
+  font-style: italic;
+  box-sizing: border-box;
+  flex: auto;
+}
+/* Logo
+******************/
+/* MediaFallback
+******************/
+/* MenuButton
+******************/
+.menuButton {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  width: 7.176%;
+  float: right;
+  cursor: pointer;
+}
+
+.logoButton {
+  background-color: transparent;
+  border: none;
+  display: block;
+  float: left;
+  width: 14.351%;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.menuIcon {
+  width: 100%;
+}
+
+/* Navigation
+******************/
+.TheNavigation {
+  background-color: black;
+  color: white;
+
+  a.-active {
+    text-decoration: none;
+    cursor: default;
+  }
+  
+  ul {
+    padding-top: 2em;
+    padding-left: 17.129%;
+  }
+
+  li {
+    margin-bottom: 1em;
+    &:last-child {
+      padding-top: 2em;
+      margin-bottom: 0;
+    }
+  }
+
+  a {
+    font-size: 1.25em;
+    font-weight: 600;
+    color: white;
+  }
+}
+
+nav select {
+  background-color: transparent;
+  color: white;
+  font-size: 1.25em;
+  font-weight: 600;
+  border: 1px solid white;
+  padding: 0;
+  margin: 0;
+  width: 81.190%;
+}
+
+nav option {
+  background-color: black;
+  color: white;
+}
+/* NextButton
+******************/
+.nextbutton {
+  background-color: transparent;
+  border: none;
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+
+.nextbutton:disabled {
+  color: #E5E5E5;
+  background-color: transparent;
+}
+/* PageHeader
+******************/
+.page-header {
+  width: 90%;
+  padding: 0 5%;
+  flex: none;
+  margin-bottom: 1em;
+}
+
+
+/* Pencil
+******************/
+.pencil {
+  height: 1em;
+}
+
+/* Spinner
+******************/
+.spinner {
+  display: flex;
+  flex: auto;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+}
+
+  .spinner svg {
+    animation: spinner-spin 1.25s infinite linear;
+  }
+  @keyframes spinner-spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+  }
+/* SquareImage
+******************/
+.square-image {
+  width: 100%;
+  padding-bottom: 100%;
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  
+  .center-image {
+    margin-bottom: 0;
+    position: absolute;
+    object-fit: cover;
+    object-position: center;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+/* Tile
+******************/
+.tile {
+  width: 74.58%;
+  margin-right: 2.5%;
+  flex: none;
+  padding: 5.556%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+
+.selected {
+  background-color: transparent;
+}
+
+.deselected {
+  background-color: #F4F4F4;
+  border: 1px solid #999999;
+}
+
+.singular {
+  width: 90%;
+  box-shadow: initial;
+  padding: 0;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.readonly {
+  background-color: #20827426;
+}
+
+.frame li:first-child {
+  margin-left: 5%;
+}
+
+.frame li:last-child {
+  margin-left: 2.5%;
+  width: 0;
+}
+
+
+/* Tile
+******************/
+
+.overlay::after {
+  content: '';
+  background-color: rgba(0,0,0,0.8);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.overlay-outer {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.overlay-inner {
+  cursor: wait;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Select
+******************/
+
+select {
+  font-size: 1em;
+}
+
+select:invalid {
+  color: #999999;
+}

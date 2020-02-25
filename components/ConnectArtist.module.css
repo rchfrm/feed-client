@@ -1,0 +1,37 @@
+.artistIntegrations {
+
+  :global(.flex-row) {
+    margin-bottom: 1.5em;
+  }
+}
+
+.profile-picture {
+  min-width: 33%;
+  margin-right: 3.234%;
+
+  :global(.square-image) {
+    margin-top: 0;
+  }
+}
+
+
+.right-of-profile {
+  justify-content: flex-end;
+
+  :global(label) {
+    margin-top: 1.5em;
+  }
+
+  :global(select),
+  :global(input) {
+    margin-bottom: 0;
+  }
+}
+
+
+.adaccount-select {
+  :global(select),
+  :global(input) {
+    margin-bottom: 0;
+  }
+}

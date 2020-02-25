@@ -17,7 +17,7 @@ module.exports = {
       jsx: true,
     },
     ecmaVersion: 2018,
-    sourceType: 'module',
+    parser: 'babel-eslint',
   },
   plugins: [
     'import',
@@ -25,6 +25,7 @@ module.exports = {
   ],
 
   rules: {
+    'camelcase': 'off',
     'no-shadow': 'off',
     'import/no-extraneous-dependencies': 'off',
     'max-len': 'off',
@@ -40,6 +41,19 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'semi': [ 2, 'never' ],
     'unicorn/number-literal-case': 'off',
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    'react/jsx-props-no-spreading': 'off',
+    'react/forbid-prop-types': 'off',
+    'react/prop-types': 'off', // look again
+    'react/no-unescaped-entities': 'off',
+    'react/no-array-index-key': 'off',
+    'react/button-has-type': 'off',
+    // A11y things
+    'jsx-a11y/click-events-have-key-events': 'off',
+    "jsx-a11y/media-has-caption": 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
+    'jsx-a11y/interactive-supports-focus': 'off',
+    'jsx-a11y/img-redundant-alt': 'off',
   },
 };

@@ -1,0 +1,214 @@
+/* POSTS PAGE */
+
+.posts {
+  width: 100%;
+}
+
+.posts-page {
+  width: 100%;
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.posts-section {
+  flex: auto;
+
+  .h4 {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+
+/* POST METADATA AND TOGGLE*/
+.post-meta {
+  flex: auto;
+  display: flex;
+  align-items: center;
+  
+  :global(svg) {
+    padding-right: 10px;
+    vertical-align: sub;
+  }
+  
+  .a {
+    text-decoration: none;
+    font-weight: 500;
+    .deselected & {
+      color: #D6D6D6;
+    }
+  }
+}
+
+
+
+
+.post-meta .a:hover {
+  text-decoration: underline;
+
+  .deselected & {
+    color: #999999;
+  }
+}
+
+
+.post-toggle {
+  outline: 2px solid #6edcd3;
+  outline-offset: -2px;
+  padding: 1px;
+  background-color: #6edcd3;
+
+  .deselected & {
+    outline: 2px solid #D6D6D6;
+    background-color: transparent;
+  }
+}
+
+
+/* POST MEDIA */
+
+.post-media {
+  margin: 0 1.5em 1.5em 1.5em;
+}
+
+.deselected .square-image .center-image {
+  filter: grayscale(1);
+}
+
+/* POST MESSAGE */
+.post-message {
+  padding-top: 1.5em;
+
+  .p {
+    flex: auto;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    font-weight: 500;
+    font-style: italic;
+    white-space: pre-line;
+  }
+}
+
+
+.post-message,
+.post-insights,
+.post-es {
+  .deselected & {
+    color: #D6D6D6;
+  }
+}
+
+/* POST LINK SELECTION */
+
+.post-link {
+  padding: 1.5em;
+
+  .deselected & {
+    color: #999999;
+  }
+
+  .a,
+  .select {
+    .deselected & {
+      color: #999999;
+    }
+  }
+
+  .select {
+    .deselected & {
+      border: 1px dotted #999999;
+      pointer-events: none;
+    }
+  }
+}
+
+.link-selection {
+  display: flex;
+  justify-content: space-between;
+
+  :global(select) {
+    width: 72.5%;
+    height: 35px;
+  }
+
+  :global(button) {
+    padding: 0;
+    height: 35px;
+  }
+}
+
+.broken-circle {
+  width: 25%;
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: center;
+
+  :global(svg) {
+    animation: spin 1.25s infinite linear;
+  }
+}
+
+@keyframes spin {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
+
+/* POST METRICS */
+
+.hr {
+  width: 100%;
+  border: 1px solid #606060;
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+
+  .deselected & {
+    border: 1px solid #E5E5E5;
+  }
+}
+
+
+.post-metrics {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  background-color: black;
+  color: white;
+  padding: 0.75em 1.5em;
+}
+
+.post-insights {
+  width: 50%;
+  font-weight: 600;
+  line-height: 1.25em;
+}
+.post-insight {
+  display: inline-block;
+  width: 60%;
+  font-weight: 400;
+}
+.post-es {
+  font-size: 2.5em;
+  font-weight: 700;
+}
+
+/* NO POSTS */
+.noPosts {
+  flex: auto;
+  .h4,
+  .p {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+
+/* FORM FOR SETTING BUDGET */
+.budget-form {
+  display: flex;
+  justify-content: space-between;
+  .box {
+    margin-bottom: 1em;
+  }
+}

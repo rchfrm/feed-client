@@ -1,5 +1,4 @@
-function HomePage() {
-  return <div>Welcome to Next.js!</div>
-}
+import HomePage from '../components/page/HomePage'
+import TestPageReady from '../components/TestPageReady'
 
-export default HomePage
+export default TestPageReady(HomePage)
