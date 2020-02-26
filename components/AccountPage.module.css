@@ -98,3 +98,24 @@ DETAILS
 .payment-details {
   width: 100%;
 }
+
+/* 
+**************************
+SUMMARIES
+**************************/
+
+.accountPageSection {
+  width: 90%;
+  margin: 0 5%;
+}
+
+.accountPageSection__details {
+  .p {
+    margin-bottom: 0;
+  }
+}
+
+
+.h2 {
+
+}
