@@ -56,6 +56,10 @@ const nextConfig = {
     config.plugins.push(faviconPlugin)
     return config
   },
+  // Customise service worker
+  workboxOpts: {
+    exclude: [/^https:\/\/scontent\.xx\.fbcdn\.net.+/],
+  },
 }
 
 module.exports = withPlugins([
