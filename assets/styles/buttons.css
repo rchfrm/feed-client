@@ -1,20 +1,22 @@
-button {
+.button {
   font-family: var(--font);
   display: flex;
   border-radius: var(--button-radius);
+  
+  &:disabled,
+  &[disabled] {
+    color: #999999;
+    background-color: #E5E5E5;
+  }
+
+  &:focus {
+    outline: none;
+  }
 }
 
-button:disabled,
-button[disabled] {
-  color: #999999;
-  background-color: #E5E5E5;
-}
 
-button:focus {
-  outline: none;
-}
 
-.button_black {
+.button--black {
   background-color: black;
   color: white;
   border: none;

@@ -37,7 +37,7 @@ const Button = ({
     <button
       type={type}
       disabled={disabled}
-      className={`button_${version} ${width}`}
+      className={`button  button--${version}  ${width}`}
       onClick={onClick}
       style={{
         width: `${widthPercentage}%`,
