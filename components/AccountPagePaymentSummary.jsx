@@ -7,23 +7,25 @@ import axios from 'axios'
 import { AuthContext } from './contexts/Auth'
 
 import Ellipsis from './elements/Ellipsis'
+import Feed from './elements/Feed'
 
 import styles from './AccountPage.module.css'
 
 const getOrganizationDetails = (user) => {
   const { organizations = [] } = user
   const organizationsArray = Object.values(organizations)
-  return organizationsArray.map(({ id, name, _links: { self: { href: link } } }) => {
+  return organizationsArray.map(({ id, name, role, _links: { self: { href: link } } }) => {
     return {
       id,
       name,
       link,
+      role,
     }
   })
 }
 
 const fetchOrg = async (org, token) => {
-  const { link } = org
+  const { link, role } = org
   const { data } = await axios(link, {
     method: 'GET',
     headers: {
@@ -34,14 +36,18 @@ const fetchOrg = async (org, token) => {
       return err
     })
 
-  return data
+  return {
+    ...data,
+    role,
+  }
 }
 
-const getPaymentDetails = ({ name, payment_status = 'none', payment: paymentDetails }) => {
+const getPaymentDetails = ({ name, payment_status = 'none', payment: paymentDetails, role }) => {
   // If no payment status setup
   if (payment_status === 'none') {
     return {
       name,
+      role,
       method: false,
     }
   }
@@ -52,6 +58,7 @@ const getPaymentDetails = ({ name, payment_status = 'none', payment: paymentDeta
   const { card: { brand, exp_month, exp_year, last4 } } = method
   return {
     name,
+    role,
     method: {
       brand,
       exp_month,
@@ -59,6 +66,14 @@ const getPaymentDetails = ({ name, payment_status = 'none', payment: paymentDeta
       last4,
     },
   }
+}
+
+// Run this to test if there is no active payment method
+// returns true if no payment
+const testNoPayment = (paymentDetails) => {
+  return paymentDetails.some(({ method, role }) => {
+    return !method && role === 'owner'
+  })
 }
 
 // SUB-COMPONENTS
@@ -71,11 +86,26 @@ const LoadingState = () => {
   )
 }
 
-const NoMethod = ({ name }) => {
+const NoPayment = () => {
+  return (
+    <>
+      In order to keep using
+      {' '}
+      <Feed />
+      , you'll need to enter some payment details.
+    </>
+  )
+}
+
+const NoMethod = ({ name, role }) => {
+  const message = role !== 'owner'
+    ? 'Please ask the owner of the billing account, to add a method of payment.'
+    : <NoPayment />
+
   return (
     <div className={styles.paymentSummaryBlock}>
       <h5 className={styles.paymentSummaryName}>{ name }</h5>
-      <p className={[styles.p, styles.noMethod].join(' ')}>Please ask the owner of the billing account, to add a method of payment.</p>
+      <p className={[styles.p, styles.noMethod].join(' ')}>{ message }</p>
     </div>
   )
 }
@@ -107,7 +137,7 @@ const PaymentItem = ({ name, method }) => {
 }
 
 // MAIN COMPONENT
-const AccountPagePaymentSummary = ({ className, user }) => {
+const AccountPagePaymentSummary = ({ className, user, onReady }) => {
   // Stop here if no user
   if (!user.id) return null
 
@@ -126,6 +156,11 @@ const AccountPagePaymentSummary = ({ className, user }) => {
     const paymentDetails = allOrgsInfo.map(getPaymentDetails)
     setPaymentDetails(paymentDetails)
     setLoading(false)
+    // Test if no payment is set on the owner's org
+    const isNoPayment = testNoPayment(paymentDetails)
+    // Call on ready from parent
+    const buttonText = isNoPayment ? 'Add a payment method' : ''
+    onReady(buttonText)
   }, [])
 
   if (loading) return <LoadingState />
@@ -144,6 +179,7 @@ const AccountPagePaymentSummary = ({ className, user }) => {
 AccountPagePaymentSummary.propTypes = {
   user: PropTypes.object.isRequired,
   className: PropTypes.string,
+  onReady: PropTypes.func.isRequired,
 }
 
 AccountPagePaymentSummary.defaultProps = {

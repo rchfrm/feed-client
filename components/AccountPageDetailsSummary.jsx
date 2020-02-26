@@ -17,11 +17,13 @@ const getDetailsArray = (user) => {
   ]
 }
 
-const AccountPageDetailsSummary = ({ className, user }) => {
+const AccountPageDetailsSummary = ({ className, user, onReady }) => {
   // Stop here if no user
   if (!user.id) return null
 
   const details = getDetailsArray(user)
+
+  onReady()
 
   return (
     <div className={className}>
@@ -40,6 +42,7 @@ const AccountPageDetailsSummary = ({ className, user }) => {
 AccountPageDetailsSummary.propTypes = {
   user: PropTypes.object.isRequired,
   className: PropTypes.string,
+  onReady: PropTypes.func.isRequired,
 }
 
 AccountPageDetailsSummary.defaultProps = {

@@ -6,13 +6,14 @@ import AccountPagePaymentSummary from './AccountPagePaymentSummary'
 
 import styles from './AccountPage.module.css'
 
-const getSection = (type, user) => {
+const getSection = ({ type, user, onReady }) => {
   // Get account section
   if (type === 'account') {
     return (
       <AccountPageDetailsSummary
         className={styles.accountPageSection__details}
         user={user}
+        onReady={onReady}
       />
     )
   }
@@ -22,14 +23,22 @@ const getSection = (type, user) => {
       <AccountPagePaymentSummary
         className={styles.accountPageSection__details}
         user={user}
+        onReady={onReady}
       />
     )
   }
 }
 
 const AccountPageSection = ({ title, type, user, buttonText, onClick }) => {
+  const [sectionReady, setSectionReady] = React.useState(false)
+  const [newButtonText, setNewButtonText] = React.useState('')
 
-  const section = getSection(type, user)
+  const onReady = (buttonText = '') => {
+    setSectionReady(true)
+    setNewButtonText(buttonText)
+  }
+  // Get the section to show
+  const section = getSection({ type, user, onReady })
 
   return (
     <section className={styles.accountPageSection}>
@@ -37,9 +46,9 @@ const AccountPageSection = ({ title, type, user, buttonText, onClick }) => {
 
       {section}
 
-      {buttonText && (
+      {sectionReady && (newButtonText || buttonText) && (
         <button onClick={onClick} className="button  button--black">
-          <span>{ buttonText }</span>
+          <span>{ newButtonText || buttonText }</span>
         </button>
       )}
     </section>
