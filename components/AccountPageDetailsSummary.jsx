@@ -7,11 +7,11 @@ const getDetailsArray = (user) => {
   const { first_name, last_name, email } = user
   return [
     {
-      prop: 'name',
+      prop: 'Name',
       value: `${first_name} ${last_name}`,
     },
     {
-      prop: 'email',
+      prop: 'Email',
       value: email,
     },
   ]

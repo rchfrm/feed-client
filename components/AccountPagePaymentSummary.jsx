@@ -121,15 +121,15 @@ const PaymentItem = ({ name, method }) => {
     <div className={styles.paymentSummaryBlock}>
       <h5 className={styles.paymentSummaryName}>{ name }</h5>
       <p className={styles.p}>
-        <strong>card: </strong>
+        <strong>Card: </strong>
         <span>{ brand }</span>
       </p>
       <p className={styles.p}>
-        <strong>number: </strong>
+        <strong>Number: </strong>
         <span>**** **** **** { last4 }</span>
       </p>
       <p className={styles.p}>
-        <strong>expiry: </strong>
+        <strong>Expiry: </strong>
         <span>{ exp_month.toString().padStart(2, '0') }/{ exp_year }</span>
       </p>
     </div>
