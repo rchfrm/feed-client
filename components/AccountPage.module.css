@@ -112,7 +112,7 @@ SUMMARIES
 }
 
 .accountPageSection__details {
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--bsu);
   .p {
     margin-bottom: 0.3em;
     &:last-child {

@@ -2,6 +2,7 @@
   font-family: var(--font);
   display: flex;
   border-radius: var(--button-radius);
+  border: none;
   
   &:disabled,
   &[disabled] {
@@ -17,14 +18,18 @@
 
 
 .button--black {
-  background-color: black;
-  color: white;
-  border: none;
+  background-color: var(--black);
+  color: var(--white);
   padding: 1.5em;
   padding-top: 1.2em;
   font-weight: bold;
   justify-content: center;
   cursor: pointer;
+}
+
+.button--small {
+  padding: 1em;
+  padding-top: 0.8em;
 }
 
 .progress {
