@@ -107,14 +107,30 @@ SUMMARIES
 .accountPageSection {
   width: 90%;
   margin: 0 5%;
+  margin-top: var(--bsu);
+  margin-bottom: var(--bsu-lg);
 }
 
 .accountPageSection__details {
+  margin-bottom: var(--bsu-md);
   .p {
+    margin-bottom: 0.3em;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.paymentSummaryBlock {
+  margin-bottom: 2em;
+  &:last-child {
     margin-bottom: 0;
   }
 }
 
+.paymentSummaryName {
+  margin-bottom: 0.5em;
+}
 
 .h2 {
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import styles from './AccountPage.module.css'
 
-const getAccountDetailsArray = (user) => {
+const getDetailsArray = (user) => {
   const { first_name, last_name, email } = user
   return [
     {
@@ -17,14 +17,14 @@ const getAccountDetailsArray = (user) => {
   ]
 }
 
-const AccountPageDetailsSummary = ({ user }) => {
+const AccountPageDetailsSummary = ({ className, user }) => {
   // Stop here if no user
   if (!user.id) return null
 
-  const details = getAccountDetailsArray(user)
+  const details = getDetailsArray(user)
 
   return (
-    <div>
+    <div className={className}>
       {details.map(({ prop, value }) => {
         return (
           <p className={styles.p} key={prop}>
@@ -39,6 +39,11 @@ const AccountPageDetailsSummary = ({ user }) => {
 
 AccountPageDetailsSummary.propTypes = {
   user: PropTypes.object.isRequired,
+  className: PropTypes.string,
+}
+
+AccountPageDetailsSummary.defaultProps = {
+  className: '',
 }
 
 export default AccountPageDetailsSummary

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import AccountPageDetailsSummary from './AccountPageDetailsSummary'
+import AccountPagePaymentSummary from './AccountPagePaymentSummary'
 
 import styles from './AccountPage.module.css'
 
@@ -16,6 +17,14 @@ const getSection = (type, user) => {
     )
   }
   // Get payment summary
+  if (type === 'payment') {
+    return (
+      <AccountPagePaymentSummary
+        className={styles.accountPageSection__details}
+        user={user}
+      />
+    )
+  }
 }
 
 const AccountPageSection = ({ title, type, user, buttonText, onClick }) => {

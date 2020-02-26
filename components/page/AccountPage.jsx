@@ -86,6 +86,14 @@ function AccountPage() {
         onClick={() => toggleSidePanel('account')}
       />
 
+      <AccountPageSection
+        title="Payment details"
+        type="payment"
+        user={user}
+        buttonText="Edit payment details"
+        onClick={() => toggleSidePanel('payment')}
+      />
+
       {/* <AccountPageDetails />
 
       <RelinkFacebook />
