@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import AccountPageDetailsSummary from './AccountPageDetailsSummary'
 import AccountPagePaymentSummary from './AccountPagePaymentSummary'
+import AccountConnectionsSummary from './AccountConnectionsSummary'
 
 import styles from './AccountPage.module.css'
 
@@ -21,6 +22,16 @@ const getSection = ({ type, user, onReady }) => {
   if (type === 'payment') {
     return (
       <AccountPagePaymentSummary
+        className={styles.accountPageSection__details}
+        user={user}
+        onReady={onReady}
+      />
+    )
+  }
+  // Get connections summary
+  if (type === 'connections') {
+    return (
+      <AccountConnectionsSummary
         className={styles.accountPageSection__details}
         user={user}
         onReady={onReady}

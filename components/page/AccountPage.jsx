@@ -35,12 +35,10 @@ function AccountPage() {
 
   // IMPORT USER STATE
   const { user, userLoading } = React.useContext(UserContext)
-  console.log('user', user)
   // END IMPORT USER STATE
 
   // Define function to toggle sidepanel
   const toggleSidePanel = (type) => {
-    console.log('togglesidepanel', type)
     if (type === 'close') {
       setSitePanelOpen(false)
       setSidePanelContent(null)
@@ -48,12 +46,18 @@ function AccountPage() {
     }
     if (type === 'account') {
       setSidePanelContent(AccountPageDetailsNew)
-    } else if (type === 'payment') {
-      setSidePanelContent(<p>Payment</p>)
-    } else {
-      setSidePanelContent(<p>Integration</p>)
+      setSitePanelOpen(true)
+      return
     }
-    setSitePanelOpen(true)
+    if (type === 'payment') {
+      setSidePanelContent(<p>Payment</p>)
+      setSitePanelOpen(true)
+      return
+    }
+    if (type === 'connections') {
+      setSidePanelContent(<p>Integration</p>)
+      setSitePanelOpen(true)
+    }
   }
 
   // // FOR DEV
@@ -87,20 +91,22 @@ function AccountPage() {
       />
 
       <AccountPageSection
-        title="Payment details"
+        title="Payment methods"
         type="payment"
         user={user}
-        buttonText="Edit payment details"
+        buttonText="Edit payment methods"
         onClick={() => toggleSidePanel('payment')}
       />
 
-      {/* <AccountPageDetails />
+      <AccountPageSection
+        title="Connections"
+        type="connections"
+        user={user}
+        buttonText="Edit connections"
+        onClick={() => toggleSidePanel('connections')}
+      />
 
       <RelinkFacebook />
-
-      <AccountPagePayments />
-
-      <AccountPageIntegrations /> */}
 
     </div>
   )
