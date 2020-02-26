@@ -162,63 +162,45 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
 
     setLoading(true)
 
-    // Create billing details object
-    let billingDetails = {}
-    const states = [{ addressLine1 }, { addressLine2 }, { city }, { country }, { email }, { name }, { state }]
-    // Cycle through each state, and if it has a value,
-    // add it to the billing details object
-    states.forEach(state => {
-      let key = Object.keys(state)[0]
-      const value = Object.values(state)[0]
-
-      // Rename the address states to the key required by Stripe
-      if (key === 'addressLine1') { key = 'line1' }
-      if (key === 'addressLine2') { key = 'line2' }
-
-      if (value && (key === 'email' || key === 'name')) {
-        // Add any value for email to the first level of the object
-        billingDetails = {
-          ...billingDetails,
-          [key]: value,
-        }
-      } else if (value && value !== 'placeholder') {
-        // Add any address values to the object within an address key
-        billingDetails = {
-          ...billingDetails,
-          address: {
-            ...billingDetails.address,
-            [key]: value,
-          },
-        }
-      }
-    })
-    // If the billing details object has key/value pairs in it,
-    // place them within a key called 'billing_details'
-    if (Object.keys(billingDetails).length > 0) {
-      billingDetails = {
-        billing_details: { ...billingDetails },
-      }
+    // Create billing details object for Stripe
+    const billingDetailsStripe = {
+      address: {
+        city,
+        country,
+        line1: addressLine1,
+        line2: addressLine2,
+        state,
+      },
+      email,
+      name,
     }
 
     try {
       const cardElement = elements.getElement('card')
       // Send the card element to Stripe to receive a payment method
-      const paymentMethod = await stripe.createPaymentMethod({
+      const { paymentMethod, error } = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
-        ...billingDetails,
+        billing_details: billingDetailsStripe,
       })
+
+      // Stop here if error and show message
+      if (error) {
+        setErrors([{ message: 'Error adding card' }])
+        setLoading(false)
+        return
+      }
 
       // Send the payment method id to the server
       const verifyToken = await getToken()
-      await server.submitPaymentMethod(paymentMethod.paymentMethod.id, verifyToken)
+      await server.submitPaymentMethod(paymentMethod.id, verifyToken)
       // Store key details of the card that was saved in state,
       // and set success to true
       setCardDetails({
-        brand: paymentMethod.paymentMethod.card.brand,
-        exp_month: paymentMethod.paymentMethod.card.exp_month,
-        exp_year: paymentMethod.paymentMethod.card.exp_year,
-        last4: paymentMethod.paymentMethod.card.last4,
+        brand: paymentMethod.card.brand,
+        exp_month: paymentMethod.card.exp_month,
+        exp_year: paymentMethod.card.exp_year,
+        last4: paymentMethod.card.last4,
       })
       setSuccess(true)
       setLoading(false)
