@@ -45,6 +45,7 @@
   },
   "scripts": {
     "dev": "next",
+    "ngrok": "ngrok http 3000",
     "build": "next build",
     "start": "next start",
     "copyIcons": "cp -R .next/pwa public/",
