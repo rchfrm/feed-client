@@ -34,8 +34,8 @@ notes.txt
 .node_repl_history
 # Next build
 .next
-out/*
-dist/*
+out/**
+dist/**
 # PWA generated things
 public/pwa/*
 
