@@ -55,7 +55,7 @@ function AccountPage() {
       return
     }
     if (type === 'connections') {
-      setSidePanelContent(<p>Integration</p>)
+      setSidePanelContent(AccountPageIntegrations)
       setSitePanelOpen(true)
     }
   }
