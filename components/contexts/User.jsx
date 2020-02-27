@@ -18,10 +18,15 @@ const userReducer = (userState, userAction) => {
   switch (userAction.type) {
     case 'set-user':
       return userAction.payload.user
+    case 'set-user-details':
+      return userAction.payload.user
     case 'set-daily_budget': {
+      const { first_name, last_name, email } = userAction.payload
       return {
         ...userState,
-        artist_daily_budget: userAction.payload,
+        first_name,
+        last_name,
+        email,
       }
     }
     case 'sign-out':
