@@ -45,7 +45,7 @@ function AccountPage() {
       return
     }
     if (type === 'account') {
-      setSidePanelContent(AccountPageDetailsNew)
+      setSidePanelContent(<AccountPageDetailsNew user={user} closePanel={() => toggleSidePanel('close')} />)
       setSitePanelOpen(true)
       return
     }
