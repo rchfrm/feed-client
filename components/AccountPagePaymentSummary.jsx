@@ -52,7 +52,6 @@ const getbillingDetails = ({ name, payment_status = 'none', billing_details: bil
     }
   }
   // Get default payment method
-  console.log('billingDetails', billingDetails)
   // TODO use better method then first method when API is ready
   const { payment_methods: paymentMethods } = billingDetails
   const [method] = Object.values(paymentMethods)
@@ -154,7 +153,6 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
     const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org, token))
     const allOrgsInfo = await Promise.all(fetchOrgPromises)
     if (!isMounted()) return
-    console.log('allOrgsInfo', allOrgsInfo)
     const billingDetails = allOrgsInfo.map(getbillingDetails)
     setBillingDetails(billingDetails)
     setLoading(false)
