@@ -61,9 +61,10 @@ function AccountPage() {
   }
 
   // // FOR DEV
-  // React.useEffect(() => {
-  //   toggleSidePanel('account')
-  // }, [])
+  React.useEffect(() => {
+    if (userLoading) return
+    toggleSidePanel('account')
+  }, [userLoading])
 
   // While loading
   if (userLoading) {
