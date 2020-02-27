@@ -6,14 +6,6 @@ import { AuthContext } from './contexts/Auth'
 
 const kickToLogin = () => Router.push(ROUTES.HOME)
 
-const deregisterServiceWorker = () => {
-  navigator.serviceWorker.getRegistrations().then((registrations) => {
-    // eslint-disable-next-line
-    for (const registration of registrations) {
-      registration.unregister()
-    }
-  })
-}
 
 const TestPageReady = (Component) => {
   return (props) => {
@@ -21,8 +13,6 @@ const TestPageReady = (Component) => {
     const { auth: { token } } = useContext(AuthContext)
     // If token has gone, kick to login
     useEffect(() => {
-      // Dergister service worker
-      deregisterServiceWorker()
       // Kick to home if no token
       if (!token && !currentPath === ROUTES.LOGIN) {
         kickToLogin()
