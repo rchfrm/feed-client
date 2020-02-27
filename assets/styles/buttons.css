@@ -21,8 +21,6 @@ button {
   }
 }
 
-
-
 .button--black {
   background-color: var(--black);
   color: var(--white);
@@ -31,6 +29,10 @@ button {
   font-weight: bold;
   justify-content: center;
   cursor: pointer;
+}
+
+.button--success {
+  background-color: var(--green);
 }
 
 .button--small {

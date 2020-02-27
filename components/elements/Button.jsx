@@ -21,9 +21,14 @@ const Button = ({
   onClick,
   children,
   type = 'button',
+  success = false,
 }) => {
   const width = typeof widthProp === 'string' ? widthProp : ''
   const widthPercentage = typeof widthProp === 'number' ? widthProp : ''
+  const classes = ['button', `button--${version}`, width]
+  if (success) {
+    classes.push('button--success')
+  }
   let fb_icon
   if (version === 'facebook') {
     fb_icon = (
@@ -37,7 +42,7 @@ const Button = ({
     <button
       type={type}
       disabled={disabled}
-      className={`button  button--${version}  ${width}`}
+      className={classes.join(' ')}
       onClick={onClick}
       style={{
         width: `${widthPercentage}%`,

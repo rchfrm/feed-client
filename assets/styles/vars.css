@@ -5,10 +5,8 @@
 :root {
   /* Colour Palette */
   --white: #fff;
-  --offwhite: #eaeaea;
   --black: #000;
-  --offblack: #000000;
-  --blue: blue;
+  --green: #10E7E0;
 
   /* Font */
   --font: SpaceGrotesk, sans-serif;
