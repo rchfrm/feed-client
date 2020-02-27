@@ -42,20 +42,20 @@ const fetchOrg = async (org, token) => {
   }
 }
 
-const getPaymentDetails = ({ name, payment_status = 'none', payment: paymentDetails, role }) => {
+const getbillingDetails = ({ name, payment_status = 'none', billing_details: billingDetails, role }) => {
   // If no payment status setup
-  if (payment_status === 'none') {
+  if (payment_status === 'none' || !billingDetails) {
     return {
       name,
       role,
       method: false,
     }
   }
-  if (!paymentDetails) return null
   // Get default payment method
+  console.log('billingDetails', billingDetails)
   // TODO use better method then first method when API is ready
-  const { methods: { data: paymentMethods } } = paymentDetails
-  const [method] = paymentMethods
+  const { payment_methods: paymentMethods } = billingDetails
+  const [method] = Object.values(paymentMethods)
   const { card: { brand, exp_month, exp_year, last4 } } = method
   return {
     name,
@@ -71,10 +71,8 @@ const getPaymentDetails = ({ name, payment_status = 'none', payment: paymentDeta
 
 // Run this to test if there is no active payment method
 // returns true if no payment
-const testNoPayment = (paymentDetails) => {
-  return paymentDetails.some((details) => {
-    if (!details) return true
-    const { method, role } = details
+const testNoPayment = (billingDetails) => {
+  return billingDetails.some(({ method, role }) => {
     return !method && role === 'owner'
   })
 }
@@ -146,7 +144,7 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
 
   const { getToken } = React.useContext(AuthContext)
   const [loading, setLoading] = React.useState(true)
-  const [paymentDetails, setPaymentDetails] = React.useState([])
+  const [billingDetails, setBillingDetails] = React.useState([])
   // Get org details in nice array
   const orgDetails = getOrganizationDetails(user)
 
@@ -157,11 +155,11 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
     const allOrgsInfo = await Promise.all(fetchOrgPromises)
     if (!isMounted()) return
     console.log('allOrgsInfo', allOrgsInfo)
-    const paymentDetails = allOrgsInfo.map(getPaymentDetails)
-    setPaymentDetails(paymentDetails)
+    const billingDetails = allOrgsInfo.map(getbillingDetails)
+    setBillingDetails(billingDetails)
     setLoading(false)
     // Test if no payment is set on the owner's org
-    const isNoPayment = testNoPayment(paymentDetails)
+    const isNoPayment = testNoPayment(billingDetails)
     // Call on ready from parent
     const buttonText = isNoPayment ? 'Add a payment method' : ''
     onReady(buttonText)
@@ -171,7 +169,7 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
 
   return (
     <div className={className}>
-      {paymentDetails.map((details) => {
+      {billingDetails.map((details) => {
         if (!details) return null
         const { name, method } = details
         // Handle no method
