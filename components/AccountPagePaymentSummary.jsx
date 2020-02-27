@@ -51,6 +51,7 @@ const getPaymentDetails = ({ name, payment_status = 'none', payment: paymentDeta
       method: false,
     }
   }
+  if (!paymentDetails) return null
   // Get default payment method
   // TODO use better method then first method when API is ready
   const { methods: { data: paymentMethods } } = paymentDetails
@@ -71,7 +72,9 @@ const getPaymentDetails = ({ name, payment_status = 'none', payment: paymentDeta
 // Run this to test if there is no active payment method
 // returns true if no payment
 const testNoPayment = (paymentDetails) => {
-  return paymentDetails.some(({ method, role }) => {
+  return paymentDetails.some((details) => {
+    if (!details) return true
+    const { method, role } = details
     return !method && role === 'owner'
   })
 }
@@ -153,6 +156,7 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
     const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org, token))
     const allOrgsInfo = await Promise.all(fetchOrgPromises)
     if (!isMounted()) return
+    console.log('allOrgsInfo', allOrgsInfo)
     const paymentDetails = allOrgsInfo.map(getPaymentDetails)
     setPaymentDetails(paymentDetails)
     setLoading(false)
@@ -167,7 +171,9 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
 
   return (
     <div className={className}>
-      {paymentDetails.map(({ name, method }) => {
+      {paymentDetails.map((details) => {
+        if (!details) return null
+        const { name, method } = details
         // Handle no method
         if (!method) return <NoMethod name={name} key={slugify(name)} />
         return <PaymentItem name={name} method={method} key={slugify(name)} />
