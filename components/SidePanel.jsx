@@ -8,7 +8,9 @@ function SidePanel({ children, close }) {
     <>
       <div className={styles.panelBg} />
       <div className={styles.panelContainer}>
-        { children }
+        <div className={styles.panelContainer__inner}>
+          { children }
+        </div>
         <button title="Back" className={styles.backButton} onClick={close}>
           <span className={styles.span}>Back</span>
         </button>
