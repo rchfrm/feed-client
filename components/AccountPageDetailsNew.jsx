@@ -160,9 +160,9 @@ function AccountPageDetailsNew({ user, closePanel }) {
   }
 
   return (
-    <section className="accountPageDetails">
+    <section className={styles.accountPageDetails}>
 
-      <h2 className="accountPageDetails__header">Account Page Details</h2>
+      <h2 className={styles.accountPageDetails__header}>Account Page Details</h2>
 
       <form className={styles.accountPageDetails__form} onSubmit={handleSubmit}>
 
@@ -202,21 +202,24 @@ function AccountPageDetailsNew({ user, closePanel }) {
 
         </div>
 
-        <Input
-          className={styles.input}
-          name="email"
-          placeholder=""
-          value={email}
-          onChange={handleChange}
-          type="email"
-          label={{
-            position: 'top',
-            text: 'Email:',
-            icon: null,
-          }}
-          version="text"
-          width="full"
-        />
+        <div className={`flex-row ${styles.row}`}>
+          <Input
+            className={styles.input}
+            name="email"
+            placeholder=""
+            value={email}
+            onChange={handleChange}
+            type="email"
+            label={{
+              position: 'top',
+              text: 'Email:',
+              icon: null,
+            }}
+            version="text"
+            width="full"
+          />
+        </div>
+
 
         <div className={`flex-row ${styles.row}`}>
 
@@ -255,7 +258,7 @@ function AccountPageDetailsNew({ user, closePanel }) {
 
         <Button
           className={styles.submitButton}
-          version="black  progress"
+          version="black"
           type="submit"
           disabled={button.disabled}
           success={button.success}

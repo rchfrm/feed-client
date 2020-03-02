@@ -95,6 +95,19 @@ DETAILS
 **************************
 DETAILS
 **************************/
+.accountPageDetails {
+
+  
+  .row {
+    margin-bottom: var(--bsu);
+    justify-content: space-between;
+  }
+
+  .submitButton {
+    margin-top: var(--bsu);
+  }
+}
+
 .payment-details {
   width: 100%;
 }
