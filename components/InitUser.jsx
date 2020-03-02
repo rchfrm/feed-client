@@ -127,23 +127,25 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       setCheckedForUser(true)
 
       // Check for the result of a redirect from Facebook
-      const redirect = await firebase.redirectResult()
-        .catch(err => {
-        // If there is an error thrown by getting the result of a redirect,
-          // assume there is no authenticated user
-          if (err.code === 'auth/invalid-credential') {
-            const { message } = err
-            const startOfReason = message.indexOf('error_description') + 18
-            const endOfReason = message.indexOf('&', startOfReason)
-            err.message = decodeURI(message.slice(startOfReason, endOfReason))
-          }
-          setAuthError(err)
-          handleNoAuthUser()
-        })
+      const redirectResult = await firebase.redirectResult()
+      console.log('redirectResult', redirectResult)
+      const { error } = redirectResult
+
+      // Handle error
+      if (error) {
+        const { message, code } = error
+        if (code === 'auth/invalid-credential') {
+          const startOfReason = message.indexOf('error_description') + 18
+          const endOfReason = message.indexOf('&', startOfReason)
+          error.message = decodeURI(message.slice(startOfReason, endOfReason))
+        }
+        setAuthError(error)
+        handleNoAuthUser()
+      }
 
       // If there has been a redirect, call handleRedirect
-      if (redirect.user) {
-        handleRedirect(redirect)
+      if (redirectResult.user) {
+        handleRedirect(redirectResult)
         return
       }
 
