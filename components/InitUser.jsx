@@ -61,10 +61,11 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
     // if they are push to the home page
     if (pathname === ROUTES.LOGIN || pathname === ROUTES.SIGN_UP) {
       Router.push(ROUTES.HOME)
-    } else {
-    // Else just report that all went well
-      setAuthSuccess(true)
+      return true
     }
+    // Else just report that all went well
+    setAuthSuccess(true)
+    return false
   }, [noArtist, storeArtist, storeUser])
   // END HANDLE EXISTING USERS
 
@@ -105,9 +106,10 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
       Router.push(ROUTES.CONNECT_ARTIST)
-    } else {
-      await handleExistingUser()
+      return true
     }
+    const res = await handleExistingUser()
+    return res
   }, [createUser, handleExistingUser, noArtist, setAccessToken, storeAuth])
   // END HANDLE ANY REDIRECTS WITH INFORMATION ABOUT AN AUTH USER
 
@@ -148,17 +150,19 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       }
 
       // If there has been a redirect, call handleRedirect
+      let redirected = false
       if (redirectResult.user) {
-        handleRedirect(redirectResult)
-        return
+        redirected = await handleRedirect(redirectResult)
       }
 
       // If there hasn't been a redirect, check with Firebase for an auth user
-      const unsubscribe = firebase.auth.onAuthStateChanged(authUser => {
-        handleAuthStateChange(authUser)
-        // Once Firebase has been checked, unsubscribe from the observer
-        unsubscribe()
-      })
+      if (!redirected) {
+        const unsubscribe = firebase.auth.onAuthStateChanged(authUser => {
+          handleAuthStateChange(authUser)
+          // Once Firebase has been checked, unsubscribe from the observer
+          unsubscribe()
+        })
+      }
 
       // Set finisehd
       setFinishedInit(true)
