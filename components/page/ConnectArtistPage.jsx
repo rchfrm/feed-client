@@ -284,6 +284,8 @@ function Loader() {
 
         <Error error={error} />
 
+        <p>&nbsp;</p>
+
         <Button
           version="black progress"
           onClick={handleClick}
