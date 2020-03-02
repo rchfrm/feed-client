@@ -98,7 +98,7 @@ const artistAccountsReducer = (artistAccountsState, artistAccountsAction) => {
 
 function Loader() {
 // IMPORT CONTEXTS
-  const { accessToken, authLoading, getToken } = React.useContext(AuthContext)
+  const { accessToken, authLoading, getToken, authError } = React.useContext(AuthContext)
   const { user, userLoading } = React.useContext(UserContext)
   const { artist, artistLoading, createArtist, setArtistLoading } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
@@ -262,6 +262,11 @@ function Loader() {
     }
   }
   // END CREATE ARTIST
+
+  // Set initial error (if any)
+  React.useEffect(() => {
+    setError(authError)
+  }, [authError])
 
   if (authLoading || userLoading || artistLoading || pageLoading) {
     return <Spinner width={50} colour={brandColours.green.hex} />
