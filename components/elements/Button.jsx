@@ -22,10 +22,14 @@ const Button = ({
   children,
   type = 'button',
   success = false,
+  className = '',
 }) => {
   const width = typeof widthProp === 'string' ? widthProp : ''
   const widthPercentage = typeof widthProp === 'number' ? widthProp : ''
   const classes = ['button', `button--${version}`, width]
+  if (className) {
+    classes.push(className)
+  }
   if (success) {
     classes.push('button--success')
   }
