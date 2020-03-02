@@ -50,6 +50,8 @@ function ConnectArtistFacebook(props) {
       >
         <Error error={error} messagePrefix="Error: " />
 
+        <p>&nbsp;</p>
+
         <Button
           version="facebook"
           onClick={handleClick}
