@@ -228,7 +228,6 @@ function Loader() {
         return availableArtistsSorted.accounts
       } catch (err) {
         setPageLoading(false)
-        setPageLoading(false)
         throw (err)
       }
     }
