@@ -6,12 +6,14 @@ import { AuthContext } from './contexts/Auth'
 
 const kickToLogin = () => Router.push(ROUTES.HOME)
 
+
 const TestPageReady = (Component) => {
   return (props) => {
     const { pathname: currentPath } = useRouter()
     const { auth: { token } } = useContext(AuthContext)
     // If token has gone, kick to login
     useEffect(() => {
+      // Kick to home if no token
       if (!token && !currentPath === ROUTES.LOGIN) {
         kickToLogin()
       }

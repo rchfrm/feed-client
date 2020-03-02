@@ -304,9 +304,7 @@ export default {
       case 'video_inline':
       case 'video_direct_response':
         return (
-          <video width="100%" controls className="center-image" poster={thumbnail} onError={handleError}>
-            <source src={media} type="video/mp4" />
-          </video>
+          <video width="100%" controls playsinline className="center-image" src={media} type="video/mp4" poster={thumbnail} onError={handleError} />
         )
 
         // If the media is a YouTube video, return an iframe embed of the video
