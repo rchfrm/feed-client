@@ -16,15 +16,20 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   const [finishedInit, setFinishedInit] = React.useState(false)
   // HANDLE EXISTING USERS
   const handleExistingUser = React.useCallback(async () => {
+    // Get current pathanem
+    const { pathname } = router
     // If it is a pre-existing user, store their profile in the user context
     const newUser = await storeUser()
 
     // Check if they have artists connected to their account or not,
     // if they don't, set noArtist, and push them to the Connect Artist page
     if (newUser.artists.length === 0) {
-      Router.push(ROUTES.CONNECT_ARTIST)
       noArtist()
-      return
+      if (pathname !== ROUTES.CONNECT_ARTIST) {
+        Router.push(ROUTES.CONNECT_ARTIST)
+        return true
+      }
+      return false
     }
 
     // If they do have artists, check for a previously selected artist ID in local storage...
@@ -54,7 +59,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
 
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
-    const { pathname } = router
     if (pathname === ROUTES.LOGIN || pathname === ROUTES.SIGN_UP) {
       Router.push(ROUTES.HOME)
     } else {
