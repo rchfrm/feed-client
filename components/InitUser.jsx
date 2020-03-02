@@ -102,12 +102,14 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       // If it's a new user, create their profile on the server
       const firstName = redirect.additionalUserInfo.profile.first_name
       const lastName = redirect.additionalUserInfo.profile.last_name
+      console.log('create user')
       await createUser(firstName, lastName)
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
-      Router.push(ROUTES.CONNECT_ARTIST)
+      window.location.replace(ROUTES.CONNECT_ARTIST)
       return true
     }
+
     const res = await handleExistingUser()
     return res
   }, [createUser, handleExistingUser, noArtist, setAccessToken, storeAuth])
