@@ -13,7 +13,7 @@ const TestPageReady = (Component) => {
     const { auth: { token: initialToken }, getToken } = useContext(AuthContext)
     const [token, setToken] = useState(initialToken)
     useAsyncEffect(async (isMounted) => {
-      if (!token && !currentPath === ROUTES.LOGIN) {
+      if (!initialToken && !currentPath === ROUTES.LOGIN) {
         // Check for new token
         const newToken = await getToken()
         // Stop here if not mounted
@@ -23,9 +23,9 @@ const TestPageReady = (Component) => {
         // Set new token
         setToken(newToken)
       }
-    }, [token])
+    }, [])
     // Stop flash of content if landing on page while not logged in
-    if (!token) return <></>
+    if (!token && !initialToken) return <></>
     // Show the content of the page
     return <Component {...props} />
   }
