@@ -291,7 +291,7 @@ function Loader() {
           onClick={handleClick}
           disabled={false}
         >
-          next,
+          next
         </Button>
 
       </div>
