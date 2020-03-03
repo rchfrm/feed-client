@@ -145,6 +145,10 @@ SUMMARIES
   margin-bottom: 0.5em;
 }
 
+.cardBrand {
+  text-transform: capitalize;
+}
+
 .h2 {
 
 }
