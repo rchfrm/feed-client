@@ -2,6 +2,10 @@ button {
   border: 0;
   outline: 0;
   background: none;
+
+  p {
+    display: inline;
+  }
 }
 
 .button {
@@ -59,10 +63,6 @@ button {
   vertical-align: bottom;
   padding-right: 10px;
 }
-
-  button p {
-    display: inline;
-  }
 
 .integration-setup {
   width: 100%;
