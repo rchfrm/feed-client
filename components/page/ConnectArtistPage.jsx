@@ -106,6 +106,7 @@ function Loader() {
   // DEFINE LOADING
   const [pageLoading, setPageLoading] = React.useState(false)
   const [activeRequest, setActiveRequest] = React.useState(false)
+  const [redirecting, setRedirecting] = React.useState(false)
   // END DEFINE LOADING
 
   // DEFINE ERRORS
@@ -130,6 +131,7 @@ function Loader() {
 
     // If there is no auth user, push to log in page
     if (!user.id) {
+      setRedirecting(true)
       Router.push(ROUTES.LOGIN)
       return
     }
@@ -141,6 +143,7 @@ function Loader() {
 
     // If the artist has artists, push to home page
     if (user.artists.length > 0) {
+      setRedirecting(true)
       Router.push(ROUTES.HOME)
     }
   }, [artist.id, artistLoading, user.artists, user.id, userLoading])
@@ -274,9 +277,11 @@ function Loader() {
   const handleClick = async e => {
     e.preventDefault()
     try {
+      setRedirecting(true)
       await createArtist(artistAccounts, accessToken)
       Router.push(ROUTES.HOME)
     } catch (err) {
+      setRedirecting(false)
       setArtistLoading(false)
       setError(err)
     }
@@ -288,7 +293,7 @@ function Loader() {
     setError(authError)
   }, [authError])
 
-  if (authLoading || userLoading || artistLoading || pageLoading) {
+  if (authLoading || userLoading || artistLoading || pageLoading || redirecting) {
     return <Spinner width={50} colour={brandColours.green.hex} />
   } if (Object.keys(artistAccounts).length === 0) {
     return <ConnectArtistFacebook artistAccounts={artistAccounts} setArtistAccounts={setArtistAccounts} error={error} setError={setError} setPageLoading={setPageLoading} />
