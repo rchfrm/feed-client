@@ -156,7 +156,7 @@ function TheNavigation() {
 
       <PageHeader heading="Feed" />
 
-      {user.id ? <NavigationAuth /> : <NavigationNonAuth />}
+      {user && user.id ? <NavigationAuth /> : <NavigationNonAuth />}
 
     </nav>
   )

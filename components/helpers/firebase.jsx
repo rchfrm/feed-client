@@ -81,8 +81,19 @@ export default {
     return auth.currentUser.linkWithPopup(provider)
   },
 
-  redirectResult: () => {
-    return auth.getRedirectResult()
+  redirectResult: async () => {
+    const redirectTo = await auth.getRedirectResult()
+      .catch((err) => {
+        console.log(err)
+        const { message, code } = err
+        return {
+          error: {
+            message,
+            code,
+          },
+        }
+      })
+    return redirectTo
   },
 
   unlinkFacebook: () => {

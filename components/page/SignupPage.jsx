@@ -10,7 +10,6 @@ import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from '../PageHeader'
 import Error from '../elements/Error'
-import Button from '../elements/Button'
 // IMPORT PAGES
 import SignupPageFacebook from '../SignupPageFacebook'
 import SignupPageEmail from '../SignupPageEmail'
@@ -88,6 +87,7 @@ function SignupPage() {
 
   // DEFINE FORM FIELD STATES
   const [signUpForm, setSignUpForm] = React.useReducer(signUpFormReducer, initialSignUpFormState)
+  const [redirecting, setRedirecting] = React.useState(false)
   const [error, setError] = React.useState('')
   // END DEFINE FORM FIELD STATES
 
@@ -152,11 +152,11 @@ function SignupPage() {
   // END HANDLE CHANGES IN FORM
 
   // HANDLE CLICK ON SIGN-UP BUTTON
-  const handleClick = async e => {
-    e.preventDefault()
+  const signup = async () => {
     try {
       await signUp(signUpForm.email, signUpForm.passwordOne)
       await createUser(signUpForm.firstName, signUpForm.lastName)
+      setRedirecting(true)
       Router.push(ROUTES.CONNECT_ARTIST)
     } catch (error) {
       setError(error)
@@ -164,7 +164,7 @@ function SignupPage() {
   }
   // END HANDLE CLICK ON SIGN-UP BUTTON
 
-  if (authLoading || userLoading || artistLoading) {
+  if (authLoading || userLoading || artistLoading || redirecting) {
     return <Spinner width={50} colour={brandColours.green.hex} />
   }
   return (
@@ -195,17 +195,9 @@ function SignupPage() {
         setSignUpForm={setSignUpForm}
         error={error}
         handleChange={handleChange}
+        signup={signup}
+        isInvalid={isInvalid}
       />
-
-      <div className="ninety-wide" style={{ textAlign: 'right' }}>
-        <Button
-          version="black progress"
-          disabled={isInvalid}
-          onClick={handleClick}
-        >
-          sign up
-        </Button>
-      </div>
 
     </div>
   )

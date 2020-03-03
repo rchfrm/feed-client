@@ -48,6 +48,10 @@ function ConnectArtistFacebook(props) {
         margin: '0 auto',
       }}
       >
+        <Error error={error} messagePrefix="Error: " />
+
+        <p>&nbsp;</p>
+
         <Button
           version="facebook"
           onClick={handleClick}
@@ -59,10 +63,6 @@ function ConnectArtistFacebook(props) {
         <em style={{ fontSize: '0.75em', lineHeight: '1.25em', marginTop: '1em' }}>
           This allows us to connect to Facebook so that we can show you your data and promote posts on your behalf, we'll never post anything without your approval.
         </em>
-
-        <p>&nbsp;</p>
-
-        <Error error={error} />
 
       </div>
 
