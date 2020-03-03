@@ -106,7 +106,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
       Router.push(ROUTES.CONNECT_ARTIST)
-      // window.location.replace(ROUTES.CONNECT_ARTIST)
       return true
     }
 
