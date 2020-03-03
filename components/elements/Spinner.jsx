@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import PropTypes from 'prop-types'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
@@ -7,19 +8,27 @@ import React from 'react'
 // IMPORT ASSETS
 import BrokenCircle from '../icons/BrokenCircle'
 // IMPORT CONSTANTS
+import brandColours from '../../constants/brandColours'
 // IMPORT HELPERS
 
-function Spinner(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { width } = props
-  const { colour } = props
-  // END REDEFINE PROPS AS VARIABLES
-
+function Spinner({ width, colour, className }) {
   return (
-    <div className="spinner">
+    <div className={['spinner', className].join(' ')}>
       <BrokenCircle width={width} fill={colour} />
     </div>
   )
+}
+
+Spinner.propTypes = {
+  colour: PropTypes.string,
+  width: PropTypes.number,
+  className: PropTypes.string,
+}
+
+Spinner.defaultProps = {
+  colour: brandColours.green.hex,
+  width: 50,
+  className: '',
 }
 
 export default Spinner
