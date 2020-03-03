@@ -44,7 +44,7 @@ button {
   width: 31.48%;
 }
 
-.button_facebook {
+.button--facebook {
   background-color: #4267B2;
   color: white;
   border: none;
@@ -55,7 +55,7 @@ button {
   text-align: left;
   cursor: pointer;
 }
-.button_facebook svg {
+.button--facebook svg {
   vertical-align: bottom;
   padding-right: 10px;
 }
