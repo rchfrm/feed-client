@@ -13,6 +13,7 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   const { createUser, noUser, storeUser } = React.useContext(UserContext)
   const { noArtist, storeArtist } = React.useContext(ArtistContext)
   const [checkedForUser, setCheckedForUser] = React.useState(false)
+  const [userRedirected, setUserRedirected] = React.useState(false)
   const [finishedInit, setFinishedInit] = React.useState(false)
   // HANDLE EXISTING USERS
   const handleExistingUser = React.useCallback(async () => {
@@ -88,7 +89,7 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   // HANDLE ANY REDIRECTS WITH INFORMATION ABOUT AN AUTH USER
   const handleRedirect = React.useCallback(async redirect => {
     // Store Firebase's auth user in context, and extract the Facebook access token
-
+    console.log('redirect', redirect)
     await storeAuth(redirect.user)
       .catch((err) => {
         throw (err)
@@ -106,7 +107,9 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       await createUser(firstName, lastName)
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
-      window.location.replace(ROUTES.CONNECT_ARTIST)
+      console.log('NOW SEND TO CONNECT ARTIST PAGE')
+      Router.push(ROUTES.CONNECT_ARTIST)
+      // window.location.replace(ROUTES.CONNECT_ARTIST)
       return true
     }
 
@@ -166,7 +169,20 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
         })
       }
 
-      // Set finisehd
+      // Toggle whether a redirect was called
+      setUserRedirected(redirected)
+      // If redirected, wait until route change is complete
+      if (redirected) {
+        Router.events.on('routeChangeComplete', () => {
+          console.log('routeChangeComplete')
+          // Set finisshed
+          setFinishedInit(true)
+          setUserRedirected(false)
+        })
+        return
+      }
+      console.log('FINISHED ********')
+      // Set finisshed
       setFinishedInit(true)
     }
 
@@ -178,7 +194,7 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
     }
   }, [checkedForUser, handleRedirect, handleAuthStateChange, handleNoAuthUser, setAuthError])
 
-  if (!finishedInit || !children) return <></>
+  if (!finishedInit || !children || userRedirected) return <></>
   return children
 }
 
