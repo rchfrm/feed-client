@@ -1,25 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useAsyncEffect from 'use-async-effect'
 import slugify from 'slugify'
 
-import { AuthContext } from './contexts/Auth'
-
-import paymentHelpers from './helpers/payments'
+import BillingDetails from './BillingDetails'
 
 import Ellipsis from './elements/Ellipsis'
 import Feed from './elements/Feed'
 
 import styles from './AccountPage.module.css'
 
-
-// Run this to test if there is no active payment method
-// returns true if no payment
-const testNoPayment = (billingDetails) => {
-  return billingDetails.some(({ method, role }) => {
-    return !method && role === 'owner'
-  })
-}
 
 // SUB-COMPONENTS
 const LoadingState = () => {
@@ -79,42 +68,49 @@ const PaymentItem = ({ name, method }) => {
   )
 }
 
+
 // MAIN COMPONENT
 const AccountPagePaymentSummary = ({ className, user, onReady }) => {
   // Stop here if no user
   if (!user.id) return null
 
-  const { getToken } = React.useContext(AuthContext)
   const [loading, setLoading] = React.useState(true)
+  const [noPaymentMethod, setNoPaymentMethod] = React.useState(true)
   const [billingDetails, setBillingDetails] = React.useState([])
 
-  // When component mounts, get the payment details
-  useAsyncEffect(async (isMounted) => {
-    const token = await getToken()
-    const allOrgsInfo = await paymentHelpers.getAllOrgsInfo({ user, token })
-    if (!isMounted()) return
-    const billingDetails = allOrgsInfo.map(paymentHelpers.getbillingDetails)
-    setBillingDetails(billingDetails)
-    setLoading(false)
-    // Test if no payment is set on the owner's org
-    const isNoPayment = testNoPayment(billingDetails)
+  // Call this when ready
+  React.useEffect(() => {
+    if (loading) return
     // Call on ready from parent
-    const buttonText = isNoPayment ? 'Add a payment method' : ''
+    const buttonText = noPaymentMethod ? 'Add a payment method' : null
     onReady(buttonText)
-  }, [])
+  }, [loading])
 
-  if (loading) return <LoadingState />
 
   return (
-    <div className={className}>
-      {billingDetails.map((details) => {
-        if (!details) return null
-        const { name, method } = details
-        // Handle no method
-        if (!method) return <NoMethod name={name} key={slugify(name)} />
-        return <PaymentItem name={name} method={method} key={slugify(name)} />
-      })}
-    </div>
+    <BillingDetails
+      user={user}
+      setBillingDetails={setBillingDetails}
+      setNoPaymentMethod={setNoPaymentMethod}
+      setLoading={setLoading}
+    >
+      {
+        loading
+          ? (
+            <LoadingState />
+          ) : (
+            <div className={className}>
+              {billingDetails.map((details) => {
+                if (!details) return null
+                const { name, method } = details
+                // Handle no method
+                if (!method) return <NoMethod name={name} key={slugify(name)} />
+                return <PaymentItem name={name} method={method} key={slugify(name)} />
+              })}
+            </div>
+          )
+      }
+    </BillingDetails>
   )
 }
 

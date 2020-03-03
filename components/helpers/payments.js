@@ -65,6 +65,14 @@ const getbillingDetails = ({ name, payment_status = 'none', billing_details: bil
   }
 }
 
+// Run this to test if there is no active payment method
+// returns true if no payment
+const testNoPayment = (billingDetails) => {
+  return billingDetails.some(({ method, role }) => {
+    return !method && role === 'owner'
+  })
+}
+
 const getAllOrgsInfo = async ({ user, token }) => {
   const orgDetails = getOrganizationDetails(user)
   const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org, token))
@@ -78,4 +86,5 @@ export default {
   fetchOrg,
   getbillingDetails,
   getAllOrgsInfo,
+  testNoPayment,
 }
