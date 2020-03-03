@@ -86,12 +86,10 @@ function Frame(props) {
   // END CLOCK TO REFERENCE WHEN USER STOPS SCROLLING
 
   const handleNext = e => {
-    console.log('handleNext')
     e.preventDefault()
   }
 
   const handlePrev = e => {
-    console.log('handlePrev')
     e.preventDefault()
   }
 
