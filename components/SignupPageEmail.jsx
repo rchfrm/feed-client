@@ -3,20 +3,26 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import Form from './elements/Form'
 import Input from './elements/Input'
+import Button from './elements/Button'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 import Error from './elements/Error'
 // IMPORT STYLES
+import styles from './SignupPage.module.css'
 
-function SignupPageEmail({ signUpForm, handleChange, error }) {
+function SignupPageEmail({ signUpForm, handleChange, isInvalid, error, signup }) {
+  const onSubmit = (e) => {
+    e.preventDefault()
+    signup()
+  }
+
   return (
     <div className="fill-height ninety-wide">
 
-      <Form width="four" position="central">
+      <form className="four  central" onSubmit={onSubmit}>
 
         <p>... or sign-up using your email address</p>
 
@@ -77,7 +83,17 @@ function SignupPageEmail({ signUpForm, handleChange, error }) {
 
         <Error error={error} />
 
-      </Form>
+        <div className={styles.signupButton}>
+          <Button
+            version="black progress"
+            disabled={isInvalid}
+            type="sumbit"
+          >
+            sign up
+          </Button>
+        </div>
+
+      </form>
 
     </div>
 

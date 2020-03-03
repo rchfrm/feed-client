@@ -10,7 +10,6 @@ import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from '../PageHeader'
 import Error from '../elements/Error'
-import Button from '../elements/Button'
 // IMPORT PAGES
 import SignupPageFacebook from '../SignupPageFacebook'
 import SignupPageEmail from '../SignupPageEmail'
@@ -153,8 +152,7 @@ function SignupPage() {
   // END HANDLE CHANGES IN FORM
 
   // HANDLE CLICK ON SIGN-UP BUTTON
-  const handleClick = async e => {
-    e.preventDefault()
+  const signup = async () => {
     try {
       await signUp(signUpForm.email, signUpForm.passwordOne)
       await createUser(signUpForm.firstName, signUpForm.lastName)
@@ -197,17 +195,9 @@ function SignupPage() {
         setSignUpForm={setSignUpForm}
         error={error}
         handleChange={handleChange}
+        signup={signup}
+        isInvalid={isInvalid}
       />
-
-      <div className="ninety-wide" style={{ textAlign: 'right' }}>
-        <Button
-          version="black progress"
-          disabled={isInvalid}
-          onClick={handleClick}
-        >
-          sign up
-        </Button>
-      </div>
 
     </div>
   )
