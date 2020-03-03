@@ -89,7 +89,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   // HANDLE ANY REDIRECTS WITH INFORMATION ABOUT AN AUTH USER
   const handleRedirect = React.useCallback(async redirect => {
     // Store Firebase's auth user in context, and extract the Facebook access token
-    console.log('redirect', redirect)
     await storeAuth(redirect.user)
       .catch((err) => {
         throw (err)
@@ -103,11 +102,9 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       // If it's a new user, create their profile on the server
       const firstName = redirect.additionalUserInfo.profile.first_name
       const lastName = redirect.additionalUserInfo.profile.last_name
-      console.log('create user')
       await createUser(firstName, lastName)
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
-      console.log('NOW SEND TO CONNECT ARTIST PAGE')
       Router.push(ROUTES.CONNECT_ARTIST)
       // window.location.replace(ROUTES.CONNECT_ARTIST)
       return true
@@ -139,7 +136,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
 
       // Check for the result of a redirect from Facebook
       const redirectResult = await firebase.redirectResult()
-      console.log('redirectResult', redirectResult)
       const { error } = redirectResult
 
       // Handle error
@@ -174,14 +170,12 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       // If redirected, wait until route change is complete
       if (redirected) {
         Router.events.on('routeChangeComplete', () => {
-          console.log('routeChangeComplete')
           // Set finisshed
           setFinishedInit(true)
           setUserRedirected(false)
         })
         return
       }
-      console.log('FINISHED ********')
       // Set finisshed
       setFinishedInit(true)
     }
