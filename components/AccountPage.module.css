@@ -97,7 +97,6 @@ DETAILS
 **************************/
 .accountPageDetails {
 
-  
   .row {
     margin-bottom: var(--bsu);
     justify-content: space-between;
@@ -110,6 +109,25 @@ DETAILS
 
 .payment-details {
   width: 100%;
+}
+
+/* 
+**************************
+PAYMENTS
+**************************/
+.accountPagePayments {
+
+}
+
+.paymentsOverview__header {
+
+}
+
+.paymentsOverview__spinner {
+  position: absolute;
+  left: 0;
+  bottom: 50%;
+  transform: translateY(50%);
 }
 
 /* 

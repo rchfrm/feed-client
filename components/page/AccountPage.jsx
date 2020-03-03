@@ -11,7 +11,7 @@ import Spinner from '../elements/Spinner'
 // IMPORT COMPONENTS
 import AccountPageDetailsNew from '../AccountPageDetailsNew'
 import AccountPageIntegrations from '../AccountPageIntegrations'
-import AccountPagePayments from '../AccountPagePayments'
+import AccountPagePaymentsNew from '../AccountPagePaymentsNew'
 import RelinkFacebook from '../RelinkFacebook'
 import AccountPageSection from '../AccountPageSection'
 import SidePanel from '../SidePanel'
@@ -40,8 +40,8 @@ function AccountPage() {
   // Define function to toggle sidepanel
   const toggleSidePanel = (type) => {
     if (type === 'close') {
-      setSitePanelOpen(false)
       setSidePanelContent(null)
+      setSitePanelOpen(false)
       return
     }
     if (type === 'account') {
@@ -50,7 +50,7 @@ function AccountPage() {
       return
     }
     if (type === 'payment') {
-      setSidePanelContent(<p>Payment</p>)
+      setSidePanelContent(<AccountPagePaymentsNew user={user} closePanel={() => toggleSidePanel('close')} />)
       setSitePanelOpen(true)
       return
     }
