@@ -88,6 +88,7 @@ function SignupPage() {
 
   // DEFINE FORM FIELD STATES
   const [signUpForm, setSignUpForm] = React.useReducer(signUpFormReducer, initialSignUpFormState)
+  const [redirecting, setRedirecting] = React.useState(false)
   const [error, setError] = React.useState('')
   // END DEFINE FORM FIELD STATES
 
@@ -157,6 +158,7 @@ function SignupPage() {
     try {
       await signUp(signUpForm.email, signUpForm.passwordOne)
       await createUser(signUpForm.firstName, signUpForm.lastName)
+      setRedirecting(true)
       Router.push(ROUTES.CONNECT_ARTIST)
     } catch (error) {
       setError(error)
@@ -164,7 +166,7 @@ function SignupPage() {
   }
   // END HANDLE CLICK ON SIGN-UP BUTTON
 
-  if (authLoading || userLoading || artistLoading) {
+  if (authLoading || userLoading || artistLoading || redirecting) {
     return <Spinner width={50} colour={brandColours.green.hex} />
   }
   return (
