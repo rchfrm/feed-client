@@ -156,7 +156,7 @@ function AccountPageDetailsNew({ user, closePanel }) {
     // Close the sidebar after three seconds
     setTimeout(() => {
       closePanel()
-    }, 3000)
+    }, 1500)
   }
 
   return (
