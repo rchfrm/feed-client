@@ -42,6 +42,7 @@ const fetchOrg = async (org, token) => {
   }
 }
 
+
 const getbillingDetails = ({ name, payment_status = 'none', billing_details: billingDetails, role }) => {
   // If no payment status setup
   if (payment_status === 'none' || !billingDetails) {
@@ -51,10 +52,16 @@ const getbillingDetails = ({ name, payment_status = 'none', billing_details: bil
       method: false,
     }
   }
+
+
   // Get default payment method
-  // TODO use better method then first method when API is ready
   const { payment_methods: paymentMethods } = billingDetails
-  const [method] = Object.values(paymentMethods)
+  const paymentMethodsArray = Object.values(paymentMethods)
+  // Method is the only method, or the one marked as default
+  const method = paymentMethodsArray.length === 1
+    ? paymentMethodsArray[0]
+    : paymentMethods.find(({ is_default }) => is_default)
+  // Return card details
   const { card: { brand, exp_month, exp_year, last4 } } = method
   return {
     name,
