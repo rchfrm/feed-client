@@ -9,20 +9,14 @@ import React from 'react'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function Error({ error, success }) {
-  if (error) {
-    return (
-      <p className="error">{error.message}</p>
-    )
-  }
-
-  if (success) {
-    return (
-      <p className="success">{success}</p>
-    )
-  }
-
-  return null
+function Error({ error, success, messagePrefix = '' }) {
+  if (!error || success) return null
+  const { message: errorMessage } = error
+  const message = `${messagePrefix}${errorMessage || success}`
+  const className = error ? 'error' : 'success'
+  return (
+    <p className={className}>{message}</p>
+  )
 }
 
 export default Error

@@ -76,8 +76,7 @@ const PaymentPage = () => {
               <Overlay height={overlayHeight}>
                 <Spinner colour={brandColours.green.hex} width={50} />
               </Overlay>
-            )
-            : ''
+            ) : ''
         }
 
         <PaymentPageIntro />

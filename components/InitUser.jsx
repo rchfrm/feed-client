@@ -13,18 +13,24 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   const { createUser, noUser, storeUser } = React.useContext(UserContext)
   const { noArtist, storeArtist } = React.useContext(ArtistContext)
   const [checkedForUser, setCheckedForUser] = React.useState(false)
+  const [userRedirected, setUserRedirected] = React.useState(false)
   const [finishedInit, setFinishedInit] = React.useState(false)
   // HANDLE EXISTING USERS
   const handleExistingUser = React.useCallback(async () => {
+    // Get current pathanem
+    const { pathname } = router
     // If it is a pre-existing user, store their profile in the user context
     const newUser = await storeUser()
 
     // Check if they have artists connected to their account or not,
     // if they don't, set noArtist, and push them to the Connect Artist page
     if (newUser.artists.length === 0) {
-      Router.push(ROUTES.CONNECT_ARTIST)
       noArtist()
-      return
+      if (pathname !== ROUTES.CONNECT_ARTIST) {
+        Router.push(ROUTES.CONNECT_ARTIST)
+        return true
+      }
+      return false
     }
 
     // If they do have artists, check for a previously selected artist ID in local storage...
@@ -54,13 +60,13 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
 
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
-    const { pathname } = router
     if (pathname === ROUTES.LOGIN || pathname === ROUTES.SIGN_UP) {
       Router.push(ROUTES.HOME)
-    } else {
-    // Else just report that all went well
-      setAuthSuccess(true)
+      return true
     }
+    // Else just report that all went well
+    setAuthSuccess(true)
+    return false
   }, [noArtist, storeArtist, storeUser])
   // END HANDLE EXISTING USERS
 
@@ -83,7 +89,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   // HANDLE ANY REDIRECTS WITH INFORMATION ABOUT AN AUTH USER
   const handleRedirect = React.useCallback(async redirect => {
     // Store Firebase's auth user in context, and extract the Facebook access token
-
     await storeAuth(redirect.user)
       .catch((err) => {
         throw (err)
@@ -101,9 +106,11 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
       Router.push(ROUTES.CONNECT_ARTIST)
-    } else {
-      await handleExistingUser()
+      return true
     }
+
+    const res = await handleExistingUser()
+    return res
   }, [createUser, handleExistingUser, noArtist, setAccessToken, storeAuth])
   // END HANDLE ANY REDIRECTS WITH INFORMATION ABOUT AN AUTH USER
 
@@ -127,34 +134,48 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       setCheckedForUser(true)
 
       // Check for the result of a redirect from Facebook
-      const redirect = await firebase.redirectResult()
-        .catch(err => {
-        // If there is an error thrown by getting the result of a redirect,
-          // assume there is no authenticated user
-          if (err.code === 'auth/invalid-credential') {
-            const { message } = err
-            const startOfReason = message.indexOf('error_description') + 18
-            const endOfReason = message.indexOf('&', startOfReason)
-            err.message = decodeURI(message.slice(startOfReason, endOfReason))
-          }
-          setAuthError(err)
-          handleNoAuthUser()
-        })
+      const redirectResult = await firebase.redirectResult()
+      const { error } = redirectResult
+
+      // Handle error
+      if (error) {
+        const { message, code } = error
+        if (code === 'auth/invalid-credential') {
+          const startOfReason = message.indexOf('error_description') + 18
+          const endOfReason = message.indexOf('&', startOfReason)
+          error.message = decodeURI(message.slice(startOfReason, endOfReason))
+        }
+        setAuthError(error)
+        handleNoAuthUser()
+      }
 
       // If there has been a redirect, call handleRedirect
-      if (redirect.user) {
-        handleRedirect(redirect)
-        return
+      let redirected = false
+      if (redirectResult.user) {
+        redirected = await handleRedirect(redirectResult)
       }
 
       // If there hasn't been a redirect, check with Firebase for an auth user
-      const unsubscribe = firebase.auth.onAuthStateChanged(authUser => {
-        handleAuthStateChange(authUser)
-        // Once Firebase has been checked, unsubscribe from the observer
-        unsubscribe()
-      })
+      if (!redirected) {
+        const unsubscribe = firebase.auth.onAuthStateChanged(authUser => {
+          handleAuthStateChange(authUser)
+          // Once Firebase has been checked, unsubscribe from the observer
+          unsubscribe()
+        })
+      }
 
-      // Set finisehd
+      // Toggle whether a redirect was called
+      setUserRedirected(redirected)
+      // If redirected, wait until route change is complete
+      if (redirected) {
+        Router.events.on('routeChangeComplete', () => {
+          // Set finisshed
+          setFinishedInit(true)
+          setUserRedirected(false)
+        })
+        return
+      }
+      // Set finisshed
       setFinishedInit(true)
     }
 
@@ -166,7 +187,7 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
     }
   }, [checkedForUser, handleRedirect, handleAuthStateChange, handleNoAuthUser, setAuthError])
 
-  if (!finishedInit || !children) return <></>
+  if (!finishedInit || !children || userRedirected) return <></>
   return children
 }
 

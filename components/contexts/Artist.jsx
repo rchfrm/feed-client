@@ -102,19 +102,20 @@ function ArtistProvider({ children }) {
     })
 
     const token = await getToken()
-    const createArtistPromises = artistIds.reduce(async (acc, artistId) => {
+    const createArtists = artistIds.reduce(async (acc, artistId) => {
+      const artistAcc = await acc
       const artistAccount = artistAccounts[artistId]
       const { connect, priority_dsp } = artistAccount
       if (connect) {
         if (!priority_dsp) {
           artistAccount.priority_dsp = helper.selectPriorityDSP(artistAccount)
         }
-        return [...acc, await server.createArtist(artistAccount, accessToken, token)]
+        return [...artistAcc, await server.createArtist(artistAccount, accessToken, token)]
       }
-      return acc
+      return [...artistAcc]
     }, [])
     // Wait to connect all artists
-    await Promise.all(createArtistPromises)
+    await createArtists
       .catch((err) => {
         throw (err)
       })

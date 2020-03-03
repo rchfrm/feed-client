@@ -38,7 +38,7 @@ export default {
         Authorization: `Bearer ${verifyIdToken}`,
       },
     }).catch((err) => {
-      console.log('cant get user')
+      console.error('cant get user')
       throw (err)
     })
 

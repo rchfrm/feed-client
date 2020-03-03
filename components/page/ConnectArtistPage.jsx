@@ -98,7 +98,7 @@ const artistAccountsReducer = (artistAccountsState, artistAccountsAction) => {
 
 function Loader() {
 // IMPORT CONTEXTS
-  const { accessToken, authLoading, getToken } = React.useContext(AuthContext)
+  const { accessToken, authLoading, getToken, authError } = React.useContext(AuthContext)
   const { user, userLoading } = React.useContext(UserContext)
   const { artist, artistLoading, createArtist, setArtistLoading } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
@@ -106,6 +106,7 @@ function Loader() {
   // DEFINE LOADING
   const [pageLoading, setPageLoading] = React.useState(false)
   const [activeRequest, setActiveRequest] = React.useState(false)
+  const [redirecting, setRedirecting] = React.useState(false)
   // END DEFINE LOADING
 
   // DEFINE ERRORS
@@ -130,6 +131,7 @@ function Loader() {
 
     // If there is no auth user, push to log in page
     if (!user.id) {
+      setRedirecting(true)
       Router.push(ROUTES.LOGIN)
       return
     }
@@ -141,6 +143,7 @@ function Loader() {
 
     // If the artist has artists, push to home page
     if (user.artists.length > 0) {
+      setRedirecting(true)
       Router.push(ROUTES.HOME)
     }
   }, [artist.id, artistLoading, user.artists, user.id, userLoading])
@@ -168,7 +171,9 @@ function Loader() {
 
       // Find the index of the ad account that has been used to promote the Facebook page before
       const indexOfUsedAdAccount = adaccounts.findIndex(adaccount => adaccount.id === account.adaccount_id)
-
+      if (indexOfUsedAdAccount === -1) {
+        return adaccounts
+      }
       // Remove the ad account that has been used before from the list of ad accounts
       const remainingAdAccounts = [...adaccounts]
       remainingAdAccounts.splice(indexOfUsedAdAccount, 1)
@@ -176,6 +181,58 @@ function Loader() {
       // Return the array of ad accounts, with the one previously used
       // to promote the Facebook page in the first position
       return [adaccounts[indexOfUsedAdAccount], ...remainingAdAccounts]
+    }
+
+    const processAdAccounts = async (accounts, adAccounts) => {
+      const accountsArray = Object.values(accounts)
+      // README: https://gyandeeps.com/array-reduce-async-await/
+      const accountsProcessed = await accountsArray.reduce(async (acc, account) => {
+        const {
+          facebook_page_url,
+          instagram_url,
+          instagram_id,
+          picture,
+        } = account
+        const accountsAcc = await acc
+        const availableAccounts = sortAdAccounts(account, adAccounts)
+
+        // Stop here if no ad accounts
+        if (!availableAccounts || !availableAccounts.length) {
+          return accountsAcc
+        }
+        // Sort available ad accounts, priotising any that have
+        // been used to promote the Facebook page before
+        // Set the first ad account in the array as the default selected ad account
+        const selectedFacebookAdAccount = {
+          id: availableAccounts[0].id,
+          name: availableAccounts[0].name,
+        }
+        // Set a Facebook URL if there isn't one already
+        let facebookUrlFallback
+        if (!facebook_page_url) {
+          facebookUrlFallback = `https://facebook.com/${account.page_id}`
+        }
+        // Set an Instagram URL if there isn't on already
+        let instagramUrlFallback
+        if (!instagram_url && instagram_id) {
+          const instagramUsername = await facebook.getInstagramBusinessUsername(instagram_id, accessToken)
+          if (instagramUsername) {
+            instagramUrlFallback = `https://instagram.com/${instagramUsername}`
+          }
+        }
+
+        const processedAccount = {
+          ...account,
+          available_facebook_ad_accounts: availableAccounts,
+          selected_facebook_ad_account: selectedFacebookAdAccount,
+          facebook_page_url: facebook_page_url || facebookUrlFallback,
+          instagram_url: instagram_url || instagramUrlFallback,
+          connect: true,
+          picture: `${picture}?width=500`,
+        }
+        return [...accountsAcc, processedAccount]
+      }, [])
+      return accountsProcessed
     }
 
     // Define async function to get available artists from the server
@@ -189,45 +246,11 @@ function Loader() {
           ...availableArtists,
           adaccounts: helper.sortArtistsAlphabetically(availableArtists.adaccounts),
         }
-
-        const accounts = Object.values(availableArtistsSorted.accounts)
-        // Process each Facebook page in turn
-        for (let i = 0; i < accounts.length; i += 1) {
-          const accountId = accounts[i].page_id
-          const account = availableArtistsSorted.accounts[accountId]
-          // Sort available ad accounts, priotising any that have
-          // been used to promote the Facebook page before
-          account.available_facebook_ad_accounts = sortAdAccounts(account, availableArtistsSorted.adaccounts)
-
-          // Set the first ad account in the array as the default selected ad account
-          account.selected_facebook_ad_account = {
-            id: account.available_facebook_ad_accounts[0].id,
-            name: account.available_facebook_ad_accounts[0].name,
-          }
-
-          // Set a Facebook URL if there isn't one already
-          if (!account.facebook_page_url) {
-            account.facebook_page_url = `https://facebook.com/${account.page_id}`
-          }
-
-          // Set an Instagram URL if there isn't on already
-          if (!account.instagram_url && account.instagram_id) {
-            const instagramUsername = await facebook.getInstagramBusinessUsername(account.instagram_id, accessToken)
-            if (instagramUsername) {
-              account.instagram_url = `https://instagram.com/${instagramUsername}`
-            }
-          }
-
-          // Add field to mark if artist should be connected or not
-          account.connect = true
-
-          // Use larger version of Facebook profile photo
-          account.picture = `${account.picture}?width=500`
-        }
-
-        return availableArtistsSorted.accounts
+        // Process the ad accounts
+        const { accounts, adaccounts } = availableArtistsSorted
+        const processedAccounts = await processAdAccounts(accounts, adaccounts)
+        return processedAccounts
       } catch (err) {
-        setPageLoading(false)
         setPageLoading(false)
         throw (err)
       }
@@ -254,16 +277,23 @@ function Loader() {
   const handleClick = async e => {
     e.preventDefault()
     try {
+      setRedirecting(true)
       await createArtist(artistAccounts, accessToken)
       Router.push(ROUTES.HOME)
     } catch (err) {
+      setRedirecting(false)
       setArtistLoading(false)
       setError(err)
     }
   }
   // END CREATE ARTIST
 
-  if (authLoading || userLoading || artistLoading || pageLoading) {
+  // Set initial error (if any)
+  React.useEffect(() => {
+    setError(authError)
+  }, [authError])
+
+  if (authLoading || userLoading || artistLoading || pageLoading || redirecting) {
     return <Spinner width={50} colour={brandColours.green.hex} />
   } if (Object.keys(artistAccounts).length === 0) {
     return <ConnectArtistFacebook artistAccounts={artistAccounts} setArtistAccounts={setArtistAccounts} error={error} setError={setError} setPageLoading={setPageLoading} />
@@ -280,12 +310,14 @@ function Loader() {
 
         <Error error={error} />
 
+        <p>&nbsp;</p>
+
         <Button
           version="black progress"
           onClick={handleClick}
           disabled={false}
         >
-          next,
+          next
         </Button>
 
       </div>
