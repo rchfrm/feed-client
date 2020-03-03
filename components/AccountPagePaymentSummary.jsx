@@ -2,78 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import slugify from 'slugify'
-import axios from 'axios'
 
 import { AuthContext } from './contexts/Auth'
+
+import paymentHelpers from './helpers/payments'
 
 import Ellipsis from './elements/Ellipsis'
 import Feed from './elements/Feed'
 
 import styles from './AccountPage.module.css'
 
-const getOrganizationDetails = (user) => {
-  const { organizations = [] } = user
-  const organizationsArray = Object.values(organizations)
-  return organizationsArray.map(({ id, name, role, _links: { self: { href: link } } }) => {
-    return {
-      id,
-      name,
-      link,
-      role,
-    }
-  })
-}
-
-const fetchOrg = async (org, token) => {
-  const { link, role } = org
-  const { data } = await axios(link, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .catch((err) => {
-      return err
-    })
-
-  return {
-    ...data,
-    role,
-  }
-}
-
-
-const getbillingDetails = ({ name, payment_status = 'none', billing_details: billingDetails, role }) => {
-  // If no payment status setup
-  if (payment_status === 'none' || !billingDetails) {
-    return {
-      name,
-      role,
-      method: false,
-    }
-  }
-
-
-  // Get default payment method
-  const { payment_methods: paymentMethods } = billingDetails
-  const paymentMethodsArray = Object.values(paymentMethods)
-  // Method is the only method, or the one marked as default
-  const method = paymentMethodsArray.length === 1
-    ? paymentMethodsArray[0]
-    : paymentMethods.find(({ is_default }) => is_default)
-  // Return card details
-  const { card: { brand, exp_month, exp_year, last4 } } = method
-  return {
-    name,
-    role,
-    method: {
-      brand,
-      exp_month,
-      exp_year,
-      last4,
-    },
-  }
-}
 
 // Run this to test if there is no active payment method
 // returns true if no payment
@@ -149,16 +87,13 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
   const { getToken } = React.useContext(AuthContext)
   const [loading, setLoading] = React.useState(true)
   const [billingDetails, setBillingDetails] = React.useState([])
-  // Get org details in nice array
-  const orgDetails = getOrganizationDetails(user)
 
   // When component mounts, get the payment details
   useAsyncEffect(async (isMounted) => {
     const token = await getToken()
-    const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org, token))
-    const allOrgsInfo = await Promise.all(fetchOrgPromises)
+    const allOrgsInfo = await paymentHelpers.getAllOrgsInfo({ user, token })
     if (!isMounted()) return
-    const billingDetails = allOrgsInfo.map(getbillingDetails)
+    const billingDetails = allOrgsInfo.map(paymentHelpers.getbillingDetails)
     setBillingDetails(billingDetails)
     setLoading(false)
     // Test if no payment is set on the owner's org

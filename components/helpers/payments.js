@@ -1,0 +1,81 @@
+import axios from 'axios'
+
+const getOrganizationDetails = (user) => {
+  const { organizations = [] } = user
+  const organizationsArray = Object.values(organizations)
+  return organizationsArray.map(({ id, name, role, _links: { self: { href: link } } }) => {
+    return {
+      id,
+      name,
+      link,
+      role,
+    }
+  })
+}
+
+
+const fetchOrg = async (org, token) => {
+  const { link, role } = org
+  const { data } = await axios(link, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .catch((err) => {
+      return err
+    })
+
+  return {
+    ...data,
+    role,
+  }
+}
+
+
+const getbillingDetails = ({ name, payment_status = 'none', billing_details: billingDetails, role }) => {
+  // If no payment status setup
+  if (payment_status === 'none' || !billingDetails) {
+    return {
+      name,
+      role,
+      method: false,
+    }
+  }
+
+
+  // Get default payment method
+  const { payment_methods: paymentMethods } = billingDetails
+  const paymentMethodsArray = Object.values(paymentMethods)
+  // Method is the only method, or the one marked as default
+  const method = paymentMethodsArray.length === 1
+    ? paymentMethodsArray[0]
+    : paymentMethods.find(({ is_default }) => is_default)
+  // Return card details
+  const { card: { brand, exp_month, exp_year, last4 } } = method
+  return {
+    name,
+    role,
+    method: {
+      brand,
+      exp_month,
+      exp_year,
+      last4,
+    },
+  }
+}
+
+const getAllOrgsInfo = async ({ user, token }) => {
+  const orgDetails = getOrganizationDetails(user)
+  const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org, token))
+  const allOrgsInfo = await Promise.all(fetchOrgPromises)
+  return allOrgsInfo
+}
+
+
+export default {
+  getOrganizationDetails,
+  fetchOrg,
+  getbillingDetails,
+  getAllOrgsInfo,
+}
