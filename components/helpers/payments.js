@@ -39,7 +39,8 @@ const getbillingDetails = ({ name, payment_status = 'none', billing_details: bil
     return {
       name,
       role,
-      method: false,
+      defaultMethod: false,
+      allPaymentMethods: [],
     }
   }
 
@@ -48,15 +49,16 @@ const getbillingDetails = ({ name, payment_status = 'none', billing_details: bil
   const { payment_methods: paymentMethods } = billingDetails
   const paymentMethodsArray = Object.values(paymentMethods)
   // Method is the only method, or the one marked as default
-  const method = paymentMethodsArray.length === 1
+  const defaultMethod = paymentMethodsArray.length === 1
     ? paymentMethodsArray[0]
     : paymentMethods.find(({ is_default }) => is_default)
   // Return card details
-  const { card: { brand, exp_month, exp_year, last4 } } = method
+  const { card: { brand, exp_month, exp_year, last4 } } = defaultMethod
   return {
     name,
     role,
-    method: {
+    allPaymentMethods: paymentMethodsArray,
+    defaultMethod: {
       brand,
       exp_month,
       exp_year,
@@ -68,8 +70,8 @@ const getbillingDetails = ({ name, payment_status = 'none', billing_details: bil
 // Run this to test if there is no active payment method
 // returns true if no payment
 const testNoPayment = (billingDetails) => {
-  return billingDetails.some(({ method, role }) => {
-    return !method && role === 'owner'
+  return billingDetails.some(({ defaultMethod, role }) => {
+    return !defaultMethod && role === 'owner'
   })
 }
 

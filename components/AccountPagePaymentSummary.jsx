@@ -44,13 +44,13 @@ const NoMethod = ({ name, role }) => {
   )
 }
 
-const PaymentItem = ({ name, method }) => {
+const PaymentItem = ({ name, defaultMethod }) => {
   const {
     brand,
     exp_month,
     exp_year,
     last4,
-  } = method
+  } = defaultMethod
   return (
     <div className={styles.paymentSummaryBlock}>
       <h5 className={styles.paymentSummaryName}>{ name }</h5>
@@ -102,10 +102,11 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
             <div className={className}>
               {billingDetails.map((details) => {
                 if (!details) return null
-                const { name, method } = details
+                console.log('details', details)
+                const { name, defaultMethod } = details
                 // Handle no method
-                if (!method) return <NoMethod name={name} key={slugify(name)} />
-                return <PaymentItem name={name} method={method} key={slugify(name)} />
+                if (!defaultMethod) return <NoMethod name={name} key={slugify(name)} />
+                return <PaymentItem name={name} defaultMethod={defaultMethod} key={slugify(name)} />
               })}
             </div>
           )
@@ -125,7 +126,7 @@ AccountPagePaymentSummary.defaultProps = {
 }
 
 PaymentItem.propTypes = {
-  method: PropTypes.object.isRequired,
+  defaultMethod: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
 }
 
