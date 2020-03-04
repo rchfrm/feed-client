@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-
 import Spinner from './elements/Spinner'
 import BillingDetails from './BillingDetails'
 
@@ -11,6 +10,15 @@ function AccountPagePaymentsNew({ user, closePanel }) {
   const [loading, setLoading] = React.useState(true)
   const [noPaymentMethod, setNoPaymentMethod] = React.useState(true)
   const [billingDetails, setBillingDetails] = React.useState([])
+  const [ownerBillingMethod, setOwnerBillingMethod] = React.useState(null)
+
+
+  // Get owner billing method
+  React.useEffect(() => {
+    if (!billingDetails.length) return
+    const { method } = billingDetails.find(({ role }) => role === 'owner')
+    setOwnerBillingMethod(method)
+  }, [billingDetails.length])
 
 
   return (
