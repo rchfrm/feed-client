@@ -26,7 +26,7 @@ import * as ROUTES from '../../constants/routes'
 import brandColours from '../../constants/brandColours'
 // IMPORT HELPERS
 import server from '../helpers/server'
-import helper from '../helpers/helper'
+import connectArtistHelpers from '../helpers/connectArtistHelpers'
 import facebook from '../helpers/facebook'
 
 
@@ -214,7 +214,7 @@ function Loader() {
         const availableArtists = await server.getArtistOnSignUp(accessToken, token)
         const availableArtistsSorted = {
           ...availableArtists,
-          adaccounts: helper.sortArtistsAlphabetically(availableArtists.adaccounts),
+          adaccounts: connectArtistHelpers.sortArtistsAlphabetically(availableArtists.adaccounts),
         }
         // Process the ad accounts
         const { accounts, adaccounts } = availableArtistsSorted

@@ -1,4 +1,5 @@
 import helper from './helper'
+import connectArtistHelpers from './connectArtistHelpers'
 
 const host = process.env.build_env === 'development'
   ? process.env.react_app_api_url_local || 'http://localhost:5000/'
@@ -25,7 +26,7 @@ export default {
 
     if (res.ok) {
       const jsonResponse = await res.json()
-      jsonResponse.artists = helper.sortArtistsAlphabetically(jsonResponse.artists)
+      jsonResponse.artists = connectArtistHelpers.sortArtistsAlphabetically(jsonResponse.artists)
       return jsonResponse
     }
   },
@@ -44,7 +45,7 @@ export default {
 
     if (res.ok) {
       const jsonResponse = await res.json()
-      jsonResponse.artists = helper.sortArtistsAlphabetically(jsonResponse.artists)
+      jsonResponse.artists = connectArtistHelpers.sortArtistsAlphabetically(jsonResponse.artists)
       return jsonResponse
     }
   },

@@ -14,6 +14,7 @@ import Error from './elements/Error'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 import helper from './helpers/helper'
+import connectArtistHelpers from './helpers/connectArtistHelpers'
 import server from './helpers/server'
 import firebase from './helpers/firebase'
 // IMPORT STYLES
@@ -133,7 +134,7 @@ function Details() {
             await firebase.doEmailUpdate(email)
           }
           if (Object.keys(updatedUser.artists).length > 0) {
-            updatedUser.artists = helper.sortArtistsAlphabetically(user.artists)
+            updatedUser.artists = connectArtistHelpers.sortArtistsAlphabetically(user.artists)
           }
           setUser({
             type: 'set-user',

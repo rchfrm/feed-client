@@ -436,31 +436,6 @@ export default {
     return dates
   },
 
-  sortArtistsAlphabetically: artists => {
-    let artistArr
-    if (Array.isArray(artists)) {
-      artistArr = artists
-    } else {
-      if (Object.keys(artists).length === 0) {
-        return []
-      }
-      artistArr = Object.values(artists)
-    }
-
-    return artistArr.sort((a, b) => {
-      const lowerA = a.name.toLowerCase()
-      const lowerB = b.name.toLowerCase()
-      if (lowerA === lowerB) {
-        return 0
-      }
-      const array = [lowerA, lowerB].sort()
-      if (array[0] === lowerA) {
-        return -1
-      }
-      return 1
-    })
-  },
-
   translate: phrase => {
     let newPhrase = phrase.replace('_count', 's')
     newPhrase = newPhrase.replace('reach', 'reached')
