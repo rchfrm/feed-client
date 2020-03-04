@@ -4,7 +4,6 @@ import Icon from './elements/Icon'
 import Input from './elements/Input'
 import Select from './elements/Select'
 import Button from './elements/Button'
-import LastItem from './elements/LastItem'
 import InstagramIcon from './icons/InstagramIcon'
 
 import helper from './helpers/helper'
@@ -21,30 +20,33 @@ const styles = {
   ...postStyles,
 }
 
-function ConnectedArtist(props) {
+
+function ConnectedArtistPanel({
+  artistAccount,
+  singular,
+  setError,
+  contactUs,
+  updateArtists,
+}) {
   // REDEFINE PROPS AS VARIABLES
-  const { artistAccount } = props
-  const id = artistAccount.page_id
-  const { setArtistAccounts } = props
-  const { singular } = props
+
   const singularClass = singular ? 'singular' : ''
-  const { connect } = artistAccount
+  const { exists, connect } = artistAccount
   const selected = connect ? 'selected' : 'deselected'
-  const { exists } = artistAccount
   const readOnly = exists ? 'readonly' : ''
-  const { setError } = props
-  const { contactUs } = props
-  // END REDEFINE PROPS AS VARIABLES
+  const id = artistAccount.page_id
+
 
   // TOGGLE WHETHER AN ARTIST SHOULD BE CONNECTED OR NOT
   const toggleSelected = e => {
     e.preventDefault()
-    setArtistAccounts({
+    const action = {
       type: 'toggle-connect',
       payload: {
         id,
       },
-    })
+    }
+    updateArtists(action)
   }
   // END TOGGLE WHETHER AN ARTIST SHOULD BE CONNECTED OR NOT
 
@@ -59,6 +61,7 @@ function ConnectedArtist(props) {
 
     // If the updated field is the country code, extract the country code from the fields value
     if (field === 'country_code') {
+      console.log('value', value)
       if (value.indexOf('Choose') !== -1) {
         value = undefined
       } else {
@@ -76,14 +79,15 @@ function ConnectedArtist(props) {
       }
     }
 
-    setArtistAccounts({
+    const action = {
       type: 'update-artist',
       payload: {
         id,
         field,
         value,
       },
-    })
+    }
+    updateArtists(action)
   }
   // END HANDLE CHANGES IN TILE INPUTS
 
@@ -352,46 +356,4 @@ function ConnectedArtist(props) {
   )
 }
 
-function ConnectedArtists(props) {
-  // REDEFINE PROPS AS VARIABLES
-  const { artistAccounts } = props
-  const { setArtistAccounts } = props
-  const { setError } = props
-  // END REDEFINE PROPS AS VARIABLES
-
-  console.log('artistAccounts', artistAccounts)
-
-  // SHOW ERROR IF THE USER ATTEMPTS TO EDIT FACEBOOK PAGE OR INSTAGRAM ACCOUNT
-  const contactUs = e => {
-    setError({
-      message: 'To change your connected Facebook Page or Instagram Account, contact us at support@archform.ltd',
-    })
-    e.preventDefault()
-  }
-  // END SHOW ERROR IF THE USER ATTEMPTS TO EDIT FACEBOOK PAGE OR INSTAGRAM ACCOUNT
-
-  const sortedArtistAccounts = helper.sortArtistsAlphabetically(artistAccounts)
-
-  const artistList = sortedArtistAccounts.map((artistAccount) => {
-    return (
-      <ConnectedArtist
-        key={artistAccount.page_id}
-        artistAccount={artistAccount}
-        setArtistAccounts={setArtistAccounts}
-        setError={setError}
-        singular={artistAccounts.length === 1}
-        contactUs={contactUs}
-      />
-    )
-  })
-  artistList.push(LastItem())
-
-  return (
-    <ul id="artist-integrations" className={`frame ${styles.artistIntegrations}`}>
-      {artistList}
-    </ul>
-  )
-}
-
-
-export default ConnectedArtists
+export default ConnectedArtistPanel
