@@ -10,14 +10,14 @@ function AccountPagePaymentsNew({ user, closePanel }) {
   const [loading, setLoading] = React.useState(true)
   const [noPaymentMethod, setNoPaymentMethod] = React.useState(true)
   const [billingDetails, setBillingDetails] = React.useState([])
-  const [ownerBillingMethod, setOwnerBillingMethod] = React.useState(null)
-
+  const [ownerBillingMethods, setOwnerBillingMethods] = React.useState([])
 
   // Get owner billing method
   React.useEffect(() => {
     if (!billingDetails.length) return
-    const { method } = billingDetails.find(({ role }) => role === 'owner')
-    setOwnerBillingMethod(method)
+    console.log('billingDetails', billingDetails)
+    const { defaultMethod, allPaymentMethods } = billingDetails.find(({ role }) => role === 'owner')
+    setOwnerBillingMethods([...allPaymentMethods])
   }, [billingDetails.length])
 
 
@@ -33,12 +33,12 @@ function AccountPagePaymentsNew({ user, closePanel }) {
         setLoading={setLoading}
       >
         {
-        !loading
+        loading
           ? (
             <Spinner className={styles.paymentsOverview__spinner} />
           ) : (
             <div>
-              hihihi
+              Total billing methods: {ownerBillingMethods.length}
             </div>
           )
       }
