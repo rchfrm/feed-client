@@ -63,7 +63,7 @@ function AccountPage() {
   // // FOR DEV
   React.useEffect(() => {
     if (userLoading) return
-    toggleSidePanel('account')
+    toggleSidePanel('payment')
   }, [userLoading])
 
   // While loading
