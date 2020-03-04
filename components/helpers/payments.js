@@ -52,18 +52,13 @@ const getbillingDetails = ({ name, payment_status = 'none', billing_details: bil
   const defaultMethod = paymentMethodsArray.length === 1
     ? paymentMethodsArray[0]
     : paymentMethods.find(({ is_default }) => is_default)
-  // Return card details
-  const { card: { brand, exp_month, exp_year, last4 } } = defaultMethod
+  // Sort payment methods, putting default method on top
+  const sortedPaymentMethods = sortPaymentMethods(paymentMethodsArray, defaultMethod)
   return {
     name,
     role,
     allPaymentMethods: paymentMethodsArray,
-    defaultMethod: {
-      brand,
-      exp_month,
-      exp_year,
-      last4,
-    },
+    defaultMethod,
   }
 }
 

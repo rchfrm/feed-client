@@ -46,10 +46,12 @@ const NoMethod = ({ name, role }) => {
 
 const PaymentItem = ({ name, defaultMethod }) => {
   const {
-    brand,
-    exp_month,
-    exp_year,
-    last4,
+    card: {
+      brand,
+      exp_month,
+      exp_year,
+      last4,
+    },
   } = defaultMethod
   return (
     <div className={styles.paymentSummaryBlock}>
@@ -102,7 +104,6 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
             <div className={className}>
               {billingDetails.map((details) => {
                 if (!details) return null
-                console.log('details', details)
                 const { name, defaultMethod } = details
                 // Handle no method
                 if (!defaultMethod) return <NoMethod name={name} key={slugify(name)} />
