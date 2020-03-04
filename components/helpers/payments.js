@@ -32,6 +32,13 @@ const fetchOrg = async (org, token) => {
   }
 }
 
+// Sort payment methods, putting the default payment first
+const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
+  if (paymentMethodsArray.length === 1) return paymentMethodsArray
+  const methodsWithoutDefault = paymentMethodsArray.filter(({ is_default }) => !is_default)
+  return [defaultMethod, ...methodsWithoutDefault]
+}
+
 
 const getbillingDetails = ({ name, payment_status = 'none', billing_details: billingDetails, role }) => {
   // If no payment status setup
@@ -44,20 +51,20 @@ const getbillingDetails = ({ name, payment_status = 'none', billing_details: bil
     }
   }
 
-
   // Get default payment method
   const { payment_methods: paymentMethods } = billingDetails
   const paymentMethodsArray = Object.values(paymentMethods)
   // Method is the only method, or the one marked as default
   const defaultMethod = paymentMethodsArray.length === 1
     ? paymentMethodsArray[0]
-    : paymentMethods.find(({ is_default }) => is_default)
+    : paymentMethodsArray.find(({ is_default }) => is_default)
   // Sort payment methods, putting default method on top
   const sortedPaymentMethods = sortPaymentMethods(paymentMethodsArray, defaultMethod)
+  // Return data
   return {
     name,
     role,
-    allPaymentMethods: paymentMethodsArray,
+    allPaymentMethods: sortedPaymentMethods,
     defaultMethod,
   }
 }
