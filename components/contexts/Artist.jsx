@@ -104,7 +104,6 @@ function ArtistProvider({ children }) {
       }
     })
 
-    console.log('accessToken', accessToken)
 
     // Get token
     const token = await getToken()
@@ -115,7 +114,7 @@ function ArtistProvider({ children }) {
         ...artist,
         priority_dsp: priority_dsp || helper.selectPriorityDSP(artist),
       }
-      console.log('artistWithDsp', artistWithDsp)
+
       await artistHelpers.createArtist(artistWithDsp, accessToken, token)
     })
     // Wait to connect all artists
@@ -126,7 +125,6 @@ function ArtistProvider({ children }) {
     // Update user
     const updatedUser = await storeUser()
     const selectedArtist = updatedUser.artists[0]
-    console.log('selectedArtist', selectedArtist)
     await storeArtist(selectedArtist.id)
     setArtistLoading(false)
   }
