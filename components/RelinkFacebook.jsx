@@ -87,15 +87,15 @@ const RelinkFacebook = () => {
 
   // If the selected artist is
   // London Sinfonietta (Y8uCfxBZkAVcpokW4S4b) or
-  // The Gardener (CAHH2BES3ajZjKN2s3iE) or
+  // Bamboo smoke (z86bIwfwlIXwEtmKIML6) or
   // Marcus McCoan (4FwK6p6y9xhpxZSGW2fR) or
   // Rob Godfrey (vpdEYAT65K8gVcIuLpvO),
   // show instructions on relinking Facebook
   if (
     artist.id === 'Y8uCfxBZkAVcpokW4S4b'
-    || artist.id === 'CAHH2BES3ajZjKN2s3iE'
     || artist.id === '4FwK6p6y9xhpxZSGW2fR'
     || artist.id === 'vpdEYAT65K8gVcIuLpvO'
+    || artist.id === 'z86bIwfwlIXwEtmKIML6'
   ) {
     return (
       <div style={divStyle}>
