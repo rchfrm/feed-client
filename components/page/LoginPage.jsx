@@ -9,7 +9,7 @@ import { UserContext } from '../contexts/User'
 import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from '../PageHeader'
-import Input from '../elements/Input'
+import InputNew from '../elements/InputNew'
 import Button from '../elements/Button'
 import Error from '../elements/Error'
 import Spinner from '../elements/Spinner'
@@ -139,24 +139,24 @@ function LoginForm() {
 
           <p>or log in using your email address...</p>
 
-          <Input
+          <InputNew
             name="email"
             placeholder="Email Address"
             value={email || ''}
             onChange={handleChange}
             type="text"
-            label="none"
+            label=""
             version="box"
             width={100}
           />
 
-          <Input
+          <InputNew
             name="password"
             placeholder="Password"
             value={password}
             onChange={handleChange}
             type="password"
-            label="none"
+            label=""
             version="box"
             width={100}
           />
