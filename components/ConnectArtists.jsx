@@ -18,6 +18,7 @@ const styles = {
 function ConnectArtists({
   artistAccounts,
   setArtistAccounts,
+  setButtonDisabled,
   setError,
 }) {
   console.log('artistAccounts', artistAccounts)
@@ -35,7 +36,14 @@ function ConnectArtists({
     setArtistAccounts(newArtistsState)
   }
 
-  // const sortedArtistAccounts = helper.artistHelpers(artistAccounts)
+  // Toggled button disabled based on country select
+  React.useEffect(() => {
+    const allCountriesSet = Object.values(artistAccounts).every(({ country_code }) => {
+      return country_code
+    })
+    setButtonDisabled(!allCountriesSet)
+  }, [artistAccounts])
+
   const artistAccountsArray = Object.values(artistAccounts)
 
   const artistList = artistAccountsArray.map((artistAccount) => {

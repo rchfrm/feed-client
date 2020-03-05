@@ -35,6 +35,9 @@ const LoadContent = () => {
   const [pageLoading, setPageLoading] = React.useState(false)
   const [redirecting, setRedirecting] = React.useState(false)
 
+  // DEFINE BUTTON STATE (disabled if required fields are absent)
+  const [buttonDisabled, setButtonDisabled] = React.useState(true)
+
   // DEFINE ERRORS
   const [error, setError] = React.useState(null)
 
@@ -135,6 +138,7 @@ const LoadContent = () => {
       <ConnectArtists
         artistAccounts={artistAccounts}
         setArtistAccounts={setArtistAccounts}
+        setButtonDisabled={setButtonDisabled}
         setError={setError}
       />
 
@@ -147,7 +151,7 @@ const LoadContent = () => {
         <Button
           version="black progress"
           onClick={runCreateArtist}
-          disabled={false}
+          disabled={buttonDisabled}
         >
           next
         </Button>
