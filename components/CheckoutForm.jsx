@@ -9,7 +9,7 @@ import {
 } from 'react-stripe-elements'
 
 // IMPORT ASSETS
-import Stripe from './icons/Stripe'
+import StripeLogo from './icons/StripeLogo'
 // IMPORT COMPONENTS
 // IMPORT CONSTANTS
 import brandColours from '../constants/brandColours'
