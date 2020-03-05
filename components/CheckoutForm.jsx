@@ -2,9 +2,6 @@
 import React from 'react'
 import {
   CardElement,
-  CardNumberElement,
-  CardExpiryElement,
-  CardCvcElement,
   injectStripe,
 } from 'react-stripe-elements'
 
