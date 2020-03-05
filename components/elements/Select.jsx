@@ -20,7 +20,6 @@ function Select({
   hasError,
 }) {
   const errorClass = hasError ? '_error' : ''
-  console.log('hasError', hasError)
 
   let selectedOptionValue = ''
   if (selectedOption) {

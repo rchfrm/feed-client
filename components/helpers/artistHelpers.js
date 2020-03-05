@@ -33,7 +33,6 @@ export default {
     const { type: actionType, payload } = action
 
     if (actionType === 'add-artist') {
-      console.log('addArtist')
       return {
         ...currentState,
         ...payload.artist,
@@ -41,7 +40,6 @@ export default {
     }
 
     if (actionType === 'add-artists') {
-      console.log('addArtists')
       return {
         ...currentState,
         ...payload.artists,
@@ -97,7 +95,6 @@ export default {
   sortArtistsAlphabetically: (artists) => {
     // Convert object to array
     const artistArr = Array.isArray(artists) ? artists : Object.values(artists)
-    console.log('artistArr', artistArr)
     // Return here if empty or only one entry
     if (artistArr.length <= 1) {
       return artistArr
@@ -120,9 +117,6 @@ export default {
 
   addAdAccountsToArtists: async ({ accounts, adAccounts, accessToken }) => {
     const accountsArray = Object.values(accounts)
-    console.log('addAdAccountsToArtists...')
-    console.log('accounts', accounts)
-    console.log('adAccounts', adAccounts)
     // README: https://gyandeeps.com/array-reduce-async-await/
     const accountsProcessed = await accountsArray.reduce(async (accumulator, account) => {
       const accountsAcc = await accumulator

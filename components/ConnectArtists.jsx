@@ -21,7 +21,6 @@ function ConnectArtists({
   setButtonDisabled,
   setError,
 }) {
-  console.log('artistAccounts', artistAccounts)
   // SHOW ERROR IF THE USER ATTEMPTS TO EDIT FACEBOOK PAGE OR INSTAGRAM ACCOUNT
   const contactUs = e => {
     setError({
@@ -32,7 +31,6 @@ function ConnectArtists({
 
   const updateArtists = (action) => {
     const newArtistsState = artistHelpers.getNewArtistState(artistAccounts, action)
-    console.log('newArtistsState', newArtistsState)
     setArtistAccounts(newArtistsState)
   }
 

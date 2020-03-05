@@ -76,17 +76,14 @@ const LoadContent = () => {
         console.error(err)
         setError(err)
       })
-    console.log('availableArtists', availableArtists)
     // Sort ad accounts alphabetically
     const availableArtistsSorted = {
       ...availableArtists,
       adAccounts: artistHelpers.sortArtistsAlphabetically(availableArtists.adaccounts),
     }
     // Process the ad accounts
-    console.log('availableArtistsSorted', availableArtistsSorted)
     const { accounts, adAccounts } = availableArtistsSorted
     const processedArtists = await artistHelpers.addAdAccountsToArtists({ accounts, adAccounts, accessToken })
-    console.log('processedArtists', processedArtists)
     if (!isMounted) return
     // Now add the artists...
     const action = {
@@ -96,7 +93,6 @@ const LoadContent = () => {
       },
     }
     const newArtistsState = artistHelpers.getNewArtistState(artistAccounts, action)
-    console.log('newArtistsState', newArtistsState)
     setArtistAccounts(newArtistsState)
     setPageLoading(false)
   }, [])
