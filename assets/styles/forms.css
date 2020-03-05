@@ -27,6 +27,7 @@ input[readonly] {
   }
 }
 
+.selectElement_box,
 .input_box {
   display: block;
   border: 2px solid black;
@@ -86,7 +87,7 @@ input[readonly] {
 }
 
 .selectElement_box {
-  @extend .input_box;
+  
 }
 
 .selectElement {

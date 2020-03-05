@@ -21,7 +21,7 @@ const SelectNew = ({
 
   return (
     <select
-      className={version}
+      className={['selectElement', `selectElement_${version}`].join(' ')}
       name={name}
       onChange={handleChange}
       style={style}
