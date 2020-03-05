@@ -306,7 +306,43 @@ export default {
 
     throw new Error(res.statusText)
   },
-  // PAYMENTS
+
+  updateAccessToken: async (artistIds, accessToken, verifyIdToken) => {
+    const response = []
+    for (let i = 0; i < artistIds.length; i += 1) {
+      const artistId = artistIds[i]
+      if (
+        artistId === 'Y8uCfxBZkAVcpokW4S4b'
+        || artistId === '4FwK6p6y9xhpxZSGW2fR'
+        || artistId === 'vpdEYAT65K8gVcIuLpvO'
+        || artistId === 'z86bIwfwlIXwEtmKIML6'
+      ) {
+        const endpoint = `${this.url}artists/${artistId}`
+        const res = await fetch(endpoint, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${verifyIdToken}`,
+          },
+          body: JSON.stringify({
+            integrations: {
+              facebook: {
+                access_token: accessToken,
+              },
+            },
+          }),
+        })
+        if (res.ok) {
+          const res = await res.json()
+          response.push(res)
+        }
+      } else {
+        response.push(`Not updating access token for ${artistId}`)
+      }
+    }
+    return response
+  },
+
   // PAYMENTS
   submitPaymentMethod: async (paymentMethodId, verifyIdToken) => {
     // fixme "/organizations/me" is a temporary measure
