@@ -42,6 +42,7 @@ const nextConfig = {
     react_app_api_url: process.env.REACT_APP_API_URL,
     react_app_api_url_local: process.env.REACT_APP_API_URL_LOCAL,
     build_env: process.env.NODE_ENV,
+    sentry_dsn: 'https://d3ed114866ac498da2fdd9acf2c6bd87@sentry.io/3732610',
   },
   // Don't show if page can be optimised automatically
   // https://nextjs.org/docs/api-reference/next.config.js/static-optimization-indicator

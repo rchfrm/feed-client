@@ -3,6 +3,7 @@ import Head from 'next/head'
 import PropTypes from 'prop-types'
 import { StripeProvider } from 'react-stripe-elements'
 import Script from 'react-load-script'
+import * as Sentry from '@sentry/browser'
 // IMPORT COMPONENTS
 import Main from '../components/Main'
 import TheHeader from '../components/TheHeader'
@@ -18,6 +19,10 @@ import { NavMenuProvider, NavigationContext } from '../components/contexts/Navig
 // IMPORT HELPERS
 // IMPORT STYLES
 import '../assets/styles/index.css'
+
+if (process.env.build_env !== 'development') {
+  Sentry.init({ dsn: process.env.sentry_dsn })
+}
 
 function Feed({ Component, pageProps }) {
   const { visible: navVisible } = useContext(NavigationContext)
