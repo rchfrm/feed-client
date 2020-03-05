@@ -565,6 +565,13 @@ nav option {
 
 /* Select
 ******************/
+.selectElement {
+  &._error {
+    label {
+      color: #FF0000;
+    }
+  }
+}
 
 select {
   font-size: 1em;

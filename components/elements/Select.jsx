@@ -19,8 +19,8 @@ function Select({
   onChange,
   hasError,
 }) {
-
-  const className = hasError ? '_error' : ''
+  const errorClass = hasError ? '_error' : ''
+  console.log('hasError', hasError)
 
   let selectedOptionValue = ''
   if (selectedOption) {
@@ -70,7 +70,7 @@ function Select({
   }
 
   return (
-    <div className={className}>
+    <div className={['selectElement', errorClass].join(' ')}>
       {labelEl}
       {select}
     </div>

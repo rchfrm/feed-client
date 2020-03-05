@@ -28,7 +28,6 @@ function ConnectedArtistPanel({
   contactUs,
   updateArtists,
 }) {
-  // REDEFINE PROPS AS VARIABLES
 
   const singularClass = singular ? 'singular' : ''
   const { exists, connect } = artistAccount
@@ -48,7 +47,16 @@ function ConnectedArtistPanel({
     }
     updateArtists(action)
   }
-  // END TOGGLE WHETHER AN ARTIST SHOULD BE CONNECTED OR NOT
+
+  // Toggle country selector error if selected or not
+  const [countryError, setCountryError] = React.useState(true)
+
+  React.useEffect(() => {
+    const { country_code = null, connect } = artistAccount
+    const hasCountryError = !country_code && connect
+    setCountryError(hasCountryError)
+  }, [artistAccount])
+
 
   // HANDLE CHANGES IN TILE INPUTS
   const handleChange = e => {
@@ -61,7 +69,6 @@ function ConnectedArtistPanel({
 
     // If the updated field is the country code, extract the country code from the fields value
     if (field === 'country_code') {
-      console.log('value', value)
       if (value.indexOf('Choose') !== -1) {
         value = undefined
       } else {
@@ -160,10 +167,11 @@ function ConnectedArtistPanel({
         name="country_code"
         label={{
           position: 'top',
-          text: 'Your country',
+          text: 'Your country *',
         }}
         onChange={handleChange}
         selectedOption={artistAccount.country_code || 'choose'}
+        hasError={countryError}
         options={[
           {
             id: 'choose',
