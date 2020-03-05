@@ -93,30 +93,32 @@ function ArtistProvider({ children }) {
 
   const createArtist = async (artistAccounts, accessToken) => {
     setArtistLoading(true)
-    const artistIds = Object.keys(artistAccounts)
-    artistIds.forEach((artistId) => {
-      const artistAccount = artistAccounts[artistId]
-      const { connect, country_code } = artistAccount
-      if (connect && !country_code) {
-        throw new Error(`Please select a country for ${artistAccount.name}, or deselect that page from being added to your Feed account`)
+    // Conect artist accounts to array
+    const artistAccountsArray = Object.values(artistAccounts)
+    // Filter out non-connected artist accounts
+    const connectedArtistAccounts = artistAccountsArray.filter(({ connect }) => connect)
+    // Check that every account has a country set
+    connectedArtistAccounts.forEach(({ country_code, name }) => {
+      if (!country_code) {
+        throw new Error(`Please select a country for ${name}, or deselect that page from being added to your Feed account`)
       }
     })
 
+
+    // Get token
     const token = await getToken()
-    const createArtists = artistIds.reduce(async (acc, artistId) => {
-      const artistAcc = await acc
-      const artistAccount = artistAccounts[artistId]
-      const { connect, priority_dsp } = artistAccount
-      if (connect) {
-        if (!priority_dsp) {
-          artistAccount.priority_dsp = helper.selectPriorityDSP(artistAccount)
-        }
-        return [...artistAcc, await artistHelpers.createArtist(artistAccount, accessToken, token)]
+    // Create all artists
+    const createAllArtists = connectedArtistAccounts.map(async (artist) => {
+      const { priority_dsp } = artist
+      const artistWithDsp = {
+        ...artist,
+        priority_dsp: priority_dsp || helper.selectPriorityDSP(artist),
       }
-      return [...artistAcc]
-    }, [])
+
+      await artistHelpers.createArtist(artistWithDsp, accessToken, token)
+    })
     // Wait to connect all artists
-    await createArtists
+    await Promise.all(createAllArtists)
       .catch((err) => {
         throw (err)
       })
