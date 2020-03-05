@@ -142,8 +142,13 @@ function OrganisationDetails(props) {
     return (
       <div className={styles['payments-organisation']}>
         <div className={styles['payments-organisation-detail']}>
-          <label className="label_top">Billing email:</label>
-          <InputNew name="billing-email" readOnly value={defaultPaymentMethod.billing_details.email} version="text" />
+          <InputNew
+            name="billing-email"
+            readOnly
+            label="Billing email"
+            value={defaultPaymentMethod.billing_details.email}
+            version="text"
+          />
         </div>
       </div>
     )
@@ -155,12 +160,22 @@ function OrganisationDetails(props) {
     <div>
       <div className={styles['payments-organisation']}>
         <div className={styles['payments-organisation-detail']}>
-          <label className="label_top">Default card:</label>
-          <InputNew name="default-card" readOnly value={`**** **** **** ${defaultPaymentMethod.card.last4}`} version="text" />
+          <InputNew
+            name="default-card"
+            readOnly
+            label="Default card"
+            value={`**** **** **** ${defaultPaymentMethod.card.last4}`}
+            version="text"
+          />
         </div>
         <div className={styles['payments-organisation-detail']}>
-          <label className="label_top">Billing email:</label>
-          <InputNew name="billing-email" readOnly value={defaultPaymentMethod.billing_details.email} version="text" />
+          <InputNew
+            name="billing-email"
+            readOnly
+            label="Billing email:"
+            value={defaultPaymentMethod.billing_details.email}
+            version="text"
+          />
         </div>
       </div>
       <p className={styles.newPaymentLink}>
