@@ -67,6 +67,9 @@ const LoadContent = () => {
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
+    // If no access token, then there will be no way to talk to facebook
+    // so don't set artists accounts
+    if (!accessToken) return
     setPageLoading(true)
     const token = await getToken()
     const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken, token)
