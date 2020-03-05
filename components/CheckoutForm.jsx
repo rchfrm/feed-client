@@ -293,7 +293,7 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
       />
 
       <a href="https://stripe.com/gb" target="_blank" rel="noopener noreferrer">
-        <Stripe />
+        <StripeLogo />
       </a>
 
       <div className={styles.checkoutButtonWrapper}>
