@@ -2,6 +2,8 @@ import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
+const scopeArray = ['read_insights', 'manage_pages', 'pages_show_list', 'ads_management', 'instagram_basic', 'instagram_manage_insights']
+
 const config = {
   apiKey: process.env.firebase_api_key,
   authDomain: process.env.firebase_auth_domain,
@@ -51,32 +53,23 @@ export default {
   },
 
   doSignInWithFacebook: () => {
-    provider.addScope('read_insights')
-    provider.addScope('manage_pages')
-    provider.addScope('pages_show_list')
-    provider.addScope('ads_management')
-    provider.addScope('instagram_basic')
-    provider.addScope('instagram_manage_insights')
+    scopeArray.forEach(scope => {
+      provider.addScope(scope)
+    })
     return auth.signInWithRedirect(provider)
   },
 
   linkFacebookAccount: () => {
-    provider.addScope('read_insights')
-    provider.addScope('manage_pages')
-    provider.addScope('pages_show_list')
-    provider.addScope('ads_management')
-    provider.addScope('instagram_basic')
-    provider.addScope('instagram_manage_insights')
+    scopeArray.forEach(scope => {
+      provider.addScope(scope)
+    })
     return auth.currentUser.linkWithRedirect(provider)
   },
 
   connectFacebookUserWithPopUp: () => {
-    provider.addScope('read_insights')
-    provider.addScope('manage_pages')
-    provider.addScope('pages_show_list')
-    provider.addScope('ads_management')
-    provider.addScope('instagram_basic')
-    provider.addScope('instagram_manage_insights')
+    scopeArray.forEach(scope => {
+      provider.addScope(scope)
+    })
     return auth.currentUser.linkWithPopup(provider)
   },
 
@@ -117,5 +110,13 @@ export default {
 
   deleteUser: () => {
     return auth.currentUser.delete()
+  },
+
+  reauthoriseFacebook: () => {
+    scopeArray.forEach(scope => {
+      provider.addScope(scope)
+    })
+    provider.setCustomParameters({ auth_type: 'rerequest' })
+    return this.auth.currentUser.linkWithRedirect(provider)
   },
 }
