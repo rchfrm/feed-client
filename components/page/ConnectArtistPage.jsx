@@ -58,10 +58,10 @@ const LoadContent = () => {
     }
     // If there is no selected artist, exit
     if (!artist.id) return
-    // If the artist has artists, push to home page
+    // If the artist has artists, push to the thank you page
     if (user.artists.length > 0) {
       setRedirecting(true)
-      Router.push(ROUTES.HOME)
+      Router.push(ROUTES.THANK_YOU)
     }
   }, [artist.id, artistLoading, user.artists, user.id, userLoading])
 
