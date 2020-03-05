@@ -36,12 +36,14 @@ function ConnectArtists({
     setArtistAccounts(newArtistsState)
   }
 
-  // Toggled button disabled based on country select
+  // Toggled button disabled based on country select OR no accounts selected
   React.useEffect(() => {
-    const allCountriesSet = Object.values(artistAccounts).every(({ country_code }) => {
-      return country_code
+    const allAccounts = Object.values(artistAccounts)
+    const allCountriesSet = allAccounts.every(({ country_code, connect }) => {
+      return country_code || !connect
     })
-    setButtonDisabled(!allCountriesSet)
+    const selectedAccounts = allAccounts.filter(({ connect }) => connect)
+    setButtonDisabled(!allCountriesSet || !selectedAccounts.length)
   }, [artistAccounts])
 
   const artistAccountsArray = Object.values(artistAccounts)
