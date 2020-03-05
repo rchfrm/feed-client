@@ -125,11 +125,8 @@ const LoadContent = () => {
   } if (Object.keys(artistAccounts).length === 0) {
     return (
       <ConnectArtistFacebook
-        artistAccounts={artistAccounts}
-        setArtistAccounts={setArtistAccounts}
         error={error}
         setError={setError}
-        setPageLoading={setPageLoading}
       />
     )
   }
