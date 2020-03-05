@@ -21,7 +21,6 @@ import * as ROUTES from '../../constants/routes'
 import brandColours from '../../constants/brandColours'
 
 // IMPORT HELPERS
-import server from '../helpers/server'
 import artistHelpers from '../helpers/artistHelpers'
 
 
@@ -70,7 +69,7 @@ const LoadContent = () => {
   useAsyncEffect(async (isMounted) => {
     setPageLoading(true)
     const token = await getToken()
-    const availableArtists = await server.getArtistOnSignUp(accessToken, token)
+    const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken, token)
       .catch((err) => {
         if (!isMounted) return
         console.error(err)
