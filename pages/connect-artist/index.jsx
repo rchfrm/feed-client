@@ -1,3 +1,3 @@
-import ConnectArtistPage from '../../components/page/ConnectArtistPage'
+import ConnectArtistPage from '../../components/page/ConnectArtistPageNew'
 
 export default ConnectArtistPage

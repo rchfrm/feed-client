@@ -4,29 +4,25 @@ import Router from 'next/router'
 import useAsyncEffect from 'use-async-effect'
 
 // IMPORT CONTEXTS
-import { NavigationContext } from './contexts/Navigation'
-import { AuthContext } from './contexts/Auth'
-import { UserContext } from './contexts/User'
-import { ArtistContext } from './contexts/Artist'
+import { NavigationContext } from '../contexts/Navigation'
+import { AuthContext } from '../contexts/Auth'
+import { UserContext } from '../contexts/User'
+import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
-import ConnectArtists from './ConnectArtists'
-import PageHeader from './PageHeader'
-import Spinner from './elements/Spinner'
-import Button from './elements/Button'
-
-import Error from './elements/Error'
-
-// IMPORT PAGES
-import ConnectArtistFacebook from './ConnectArtistFacebook'
-// IMPORT ASSETS
+import ConnectArtists from '../ConnectArtists'
+import ConnectArtistFacebook from '../ConnectArtistFacebook'
+import PageHeader from '../PageHeader'
+import Spinner from '../elements/Spinner'
+import Button from '../elements/Button'
+import Error from '../elements/Error'
 
 // IMPORT CONSTANTS
-import * as ROUTES from '../constants/routes'
-import brandColours from '../constants/brandColours'
+import * as ROUTES from '../../constants/routes'
+import brandColours from '../../constants/brandColours'
 
 // IMPORT HELPERS
-import server from './helpers/server'
-import artistHelpers from './helpers/artistHelpers'
+import server from '../helpers/server'
+import artistHelpers from '../helpers/artistHelpers'
 
 
 const LoadContent = () => {
@@ -77,15 +73,16 @@ const LoadContent = () => {
         console.error(err)
         setError(err)
       })
+    console.log('availableArtists', availableArtists)
     // Sort ad accounts alphabetically
     const availableArtistsSorted = {
       ...availableArtists,
-      adaccounts: artistHelpers.sortArtistsAlphabetically(availableArtists.adaccounts),
+      adAccounts: artistHelpers.sortArtistsAlphabetically(availableArtists.adaccounts),
     }
     // Process the ad accounts
     console.log('availableArtistsSorted', availableArtistsSorted)
-    const { accounts, adaccounts } = availableArtistsSorted
-    const processedArtists = await artistHelpers.addAdAccountsToArtists(accounts, adaccounts)
+    const { accounts, adAccounts } = availableArtistsSorted
+    const processedArtists = await artistHelpers.addAdAccountsToArtists({ accounts, adAccounts, accessToken })
     console.log('processedArtists', processedArtists)
     if (!isMounted) return
     // Now add the artists...
@@ -165,7 +162,7 @@ const LoadContent = () => {
 }
 
 
-const ConnectArtisPageNew = () => {
+const ConnectArtistPage = () => {
   // SHOW / HIDE NAVIGATION
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const className = navState.visible ? 'hidden' : ''
@@ -185,8 +182,8 @@ const ConnectArtisPageNew = () => {
   )
 }
 
-ConnectArtisPageNew.propTypes = {
+ConnectArtistPage.propTypes = {
 
 }
 
-export default ConnectArtisPageNew
+export default ConnectArtistPage
