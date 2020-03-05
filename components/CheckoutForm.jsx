@@ -63,7 +63,7 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
   const [addressLine1, setAddressLine1] = React.useState('')
   const [addressLine2, setAddressLine2] = React.useState('')
   const [city, setCity] = React.useState('')
-  const [country, setCountry] = React.useState('placeholder')
+  const [country, setCountry] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [name, setName] = React.useState('')
   const [state, setState] = React.useState('')
@@ -223,22 +223,34 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
 
       <div className={styles['checkout-inputs-section']}>
 
-        <CardInput />
+        <div className="input_container">
+          <label className="inputLabel">
+            <span className="inputLabel__text">
+              Card details
+              <span className="asterix">*</span>
+            </span>
+          </label>
+          <CardInput />
+        </div>
 
         <InputNew
           handleChange={handleChange}
           name="name"
-          placeholder="Name on card*"
+          label="Name on card"
+          placeholder=""
           value={name}
           version="box"
+          required
         />
 
         <InputNew
           handleChange={handleChange}
           name="email"
-          placeholder="Billing email*"
+          label="Billing email"
+          placeholder=""
           value={email}
           version="box"
+          required
         />
 
       </div>
@@ -248,47 +260,49 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
       <InputNew
         handleChange={handleChange}
         name="address-line-1"
-        placeholder="Address Line 1*"
+        label="Address Line 1"
+        placeholder="Street and number, P.O. box, c/o."
         value={addressLine1}
         version="box"
+        required
       />
 
       <InputNew
         handleChange={handleChange}
         name="address-line-2"
-        placeholder="Address Line 2"
+        label="Address Line 2"
+        placeholder="Flat, suite, unit, building, floor, etc."
         value={addressLine2}
         version="box"
       />
 
-      <div className={styles['city-state']}>
+      <InputNew
+        handleChange={handleChange}
+        name="city"
+        label="City"
+        placeholder="City"
+        value={city}
+        version="box"
+        required
+      />
 
-        <InputNew
-          handleChange={handleChange}
-          name="city"
-          placeholder="City*"
-          value={city}
-          version="box"
-          width={48.611}
-        />
-
-        <InputNew
-          handleChange={handleChange}
-          name="state"
-          placeholder="State, region, etc."
-          value={state}
-          version="box"
-          width={48.611}
-        />
-
-      </div>
+      <InputNew
+        handleChange={handleChange}
+        name="state"
+        label="State, region, etc."
+        placeholder="State, region, etc."
+        value={state}
+        version="box"
+      />
 
       <SelectNew
         handleChange={handleChange}
         name="country"
         options={countryOptions}
-        placeholder="Country*"
+        label="Country"
+        placeholder="Country"
         selectedValue={country}
+        version="box"
         style={{ fontFamily: 'monospace' }}
       />
 
