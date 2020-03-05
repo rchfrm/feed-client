@@ -1,8 +1,7 @@
+import host from './host'
 import helper from './helper'
+import artistHelpers from './artistHelpers'
 
-const host = process.env.build_env === 'development'
-  ? process.env.react_app_api_url_local || 'http://localhost:5000/'
-  : process.env.react_app_api_url || 'http://localhost:5000/'
 
 export default {
 
@@ -25,7 +24,7 @@ export default {
 
     if (res.ok) {
       const jsonResponse = await res.json()
-      jsonResponse.artists = helper.sortArtistsAlphabetically(jsonResponse.artists)
+      jsonResponse.artists = artistHelpers.sortArtistsAlphabetically(jsonResponse.artists)
       return jsonResponse
     }
   },
@@ -44,7 +43,7 @@ export default {
 
     if (res.ok) {
       const jsonResponse = await res.json()
-      jsonResponse.artists = helper.sortArtistsAlphabetically(jsonResponse.artists)
+      jsonResponse.artists = artistHelpers.sortArtistsAlphabetically(jsonResponse.artists)
       return jsonResponse
     }
   },
@@ -69,77 +68,6 @@ export default {
     throw new Error(res.statusText)
   },
 
-  // ARTIST
-  createArtist: async (artist, accessToken, token) => {
-    const endpoint = `${host}artists`
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        name: artist.name,
-        location: artist.location,
-        country_code: artist.country_code,
-        facebook_page_url: artist.facebook_page_url,
-        spotify_url: helper.cleanSpotifyUrl(artist.spotify_url),
-        instagram_url: artist.instagram_url,
-        integrations: {
-          facebook: {
-            page_id: artist.page_id,
-            access_token: accessToken,
-            instagram_id: artist.instagram_id,
-            adaccount_id: artist.selected_facebook_ad_account.id,
-          },
-        },
-        priority_dsp: artist.priority_dsp,
-      }),
-    })
-    if (res.ok) {
-      return res.json()
-    }
-    throw new Error(res.statusText)
-  },
-
-  getArtist: async (artist_id, verify_id_token) => {
-    const endpoint = `${host}artists/${artist_id}`
-    const res = await fetch(endpoint, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${verify_id_token}`,
-      },
-    })
-    if (res.ok) {
-      const response = await res.json()
-
-      // Filter out links so that they are stored in a specific 'links' key
-      response.URLs = helper.filterArtistUrls(response)
-
-      return response
-    }
-    throw new Error('We were unable to retrieve the selected artist from the server')
-  },
-
-  getArtistOnSignUp: async (facebookAccessToken, verifyIdToken) => {
-    const endpoint = `${host}artists/available`
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${verifyIdToken}`,
-      },
-      body: JSON.stringify({
-        access_token: facebookAccessToken,
-      }),
-    })
-    if (res.ok) {
-      // Convert ad accounts into an array of objects, sorted alphabetically
-      return res.json()
-    }
-    throw new Error(res.statusText)
-  },
 
   // UPDATE ARTIST
   updateDailyBudget: async (artistId, dailyBudget, verifyIdToken) => {

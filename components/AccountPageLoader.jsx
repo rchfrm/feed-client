@@ -11,7 +11,7 @@ import Connections from './AccountPageConnections'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 import helper from './helpers/helper'
-import server from './helpers/server'
+import artistHelpers from './helpers/artistHelpers'
 // IMPORT STYLES
 
 const initialConnectionsState = {}
@@ -75,7 +75,7 @@ function ConnectionsLoader(props) {
         throw (err)
       })
     // Request artist information from the server
-    const artist = await server.getArtist(artistId, token)
+    const artist = await artistHelpers.getArtist(artistId, token)
       .catch((err) => {
         throw (err)
       })

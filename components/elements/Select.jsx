@@ -10,37 +10,44 @@ import Input from './Input'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function Select(props) {
-  let selectedOption
-  if (props.selectedOption) {
-    if (props.selectedOption.length === 2) {
-      selectedOption = props.options.find(option => {
-        return option.id === props.selectedOption
+function Select({
+  selectedOption,
+  label,
+  options,
+  name,
+  contactUs,
+  onChange,
+  hasError,
+}) {
+  const errorClass = hasError ? '_error' : ''
+
+  let selectedOptionValue = ''
+  if (selectedOption) {
+    if (selectedOption.length === 2) {
+      selectedOption = options.find(option => {
+        return option.id === selectedOption
       })
-      selectedOption = `${selectedOption.name} (${selectedOption.id})`
+      selectedOptionValue = `${selectedOption.name} (${selectedOption.id})`
     }
   }
-  let label
-  if (props.label) {
-    label = (
-      <label className={`label_${props.label.position}`}>{props.label.text}</label>
-    )
-  }
+
+  const labelEl = label ? <label className={`label_${label.position}`}>{label.text}</label> : null
+
   let select
-  if (props.options.length === 1) {
+  if (options.length === 1) {
     select = (
       <Input
-        name={props.name}
+        name={name}
         placeholder=""
-        value={`${props.options[0].name} (${props.options[0].id})`}
-        onChange={props.contactUs}
+        value={`${options[0].name} (${options[0].id})`}
+        onChange={contactUs}
         type="text"
         label="none"
         version="text"
       />
     )
   } else {
-    const options = props.options.map(option => {
+    const optionsEl = options.map(option => {
       let text = option.id
       if (option.name && option.name !== '===============') {
         text = `${option.name} (${option.id})`
@@ -52,18 +59,18 @@ function Select(props) {
     })
     select = (
       <select
-        name={props.name}
-        onChange={props.onChange}
-        value={selectedOption}
+        name={name}
+        onChange={onChange}
+        value={selectedOptionValue}
       >
-        {options}
+        {optionsEl}
       </select>
     )
   }
 
   return (
-    <div>
-      {label}
+    <div className={['selectElement', errorClass].join(' ')}>
+      {labelEl}
       {select}
     </div>
   )
