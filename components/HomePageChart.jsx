@@ -293,15 +293,11 @@ function HomePageChart() {
     const available = [...data.queued, ...data.requested, ...Object.keys(data.available)]
     if (available.length > 0) return
 
-    // Define array of default data sources
-    const defaultDataSources = []
-    const platforms = Object.keys(availableDataSources)
-    for (let i = 0; i < platforms.length; i += 1) {
-      const platform = platforms[i]
-      // Add any platforms that have a follower count to the array of defaultDataSources
-      if (availableDataSources[platform].follower_count) {
-        defaultDataSources.push(availableDataSources[platform].follower_count.id)
-      }
+    // Set Instagram follower count as the default data source
+    let defaultDataSources = ['instagram_follower_count']
+    // If Instagram is not connected, use Facebook Likes instead
+    if (!availableDataSources.instagram) {
+      defaultDataSources = ['facebook_likes']
     }
     // Add the default data sources to the queue
     setData({
