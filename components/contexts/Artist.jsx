@@ -11,6 +11,7 @@ import { UserContext } from './User'
 // IMPORT HELPERS
 import helper from '../helpers/helper'
 import server from '../helpers/server'
+import artistHelpers from '../helpers/artistHelpers'
 // IMPORT STYLES
 
 const initialArtistState = {}
@@ -75,7 +76,7 @@ function ArtistProvider({ children }) {
     // Get artist information from server
     try {
       const token = await getToken()
-      const artist = await server.getArtist(id, token)
+      const artist = await artistHelpers.getArtist(id, token)
       setArtist({
         type: 'set-artist',
         payload: {
@@ -110,7 +111,7 @@ function ArtistProvider({ children }) {
         if (!priority_dsp) {
           artistAccount.priority_dsp = helper.selectPriorityDSP(artistAccount)
         }
-        return [...artistAcc, await server.createArtist(artistAccount, accessToken, token)]
+        return [...artistAcc, await artistHelpers.createArtist(artistAccount, accessToken, token)]
       }
       return [...artistAcc]
     }, [])

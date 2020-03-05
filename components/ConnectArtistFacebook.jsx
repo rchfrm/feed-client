@@ -13,13 +13,8 @@ import Button from './elements/Button'
 import Error from './elements/Error'
 // IMPORT STYLES
 
-function ConnectArtistFacebook(props) {
+function ConnectArtistFacebook({ error, setError }) {
   const { linkFacebook } = React.useContext(AuthContext)
-
-  // REDEFINE PROPS AS VARIABLES
-  const { error } = props
-  const { setError } = props
-  // END REDEFINE PROPS AS VARIABLES
 
   // HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
   const handleClick = async e => {
