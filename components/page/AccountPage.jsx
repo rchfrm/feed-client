@@ -12,6 +12,7 @@ import Spinner from '../elements/Spinner'
 import AccountPageDetailsNew from '../AccountPageDetailsNew'
 import AccountPageIntegrations from '../AccountPageIntegrations'
 import AccountPagePaymentsNew from '../AccountPagePaymentsNew'
+import PaymentAdd from '../PaymentAdd'
 import RelinkFacebook from '../RelinkFacebook'
 import AccountPageSection from '../AccountPageSection'
 import SidePanel from '../SidePanel'
@@ -35,10 +36,10 @@ function AccountPage() {
 
   // IMPORT USER STATE
   const { user, userLoading } = React.useContext(UserContext)
-  // END IMPORT USER STATE
 
   // Define function to toggle sidepanel
   const toggleSidePanel = (type) => {
+    console.log('toggleSidePanel', type)
     if (type === 'close') {
       setSidePanelContent(null)
       setSitePanelOpen(false)
@@ -46,6 +47,11 @@ function AccountPage() {
     }
     if (type === 'account') {
       setSidePanelContent(<AccountPageDetailsNew user={user} closePanel={() => toggleSidePanel('close')} />)
+      setSitePanelOpen(true)
+      return
+    }
+    if (type === 'add-payment') {
+      setSidePanelContent(<PaymentAdd user={user} closePanel={() => toggleSidePanel('close')} />)
       setSitePanelOpen(true)
       return
     }
@@ -60,10 +66,10 @@ function AccountPage() {
     }
   }
 
-  // // FOR DEV
+  // FOR DEV
   React.useEffect(() => {
     if (userLoading) return
-    toggleSidePanel('payment')
+    toggleSidePanel('add-payment')
   }, [userLoading])
 
   // While loading
@@ -88,7 +94,7 @@ function AccountPage() {
         type="account"
         user={user}
         buttonText="Edit account details"
-        onClick={() => toggleSidePanel('account')}
+        toggleSidePanel={toggleSidePanel}
       />
 
       <AccountPageSection
@@ -96,7 +102,7 @@ function AccountPage() {
         type="payment"
         user={user}
         buttonText="Edit payment methods"
-        onClick={() => toggleSidePanel('payment')}
+        toggleSidePanel={toggleSidePanel}
       />
 
       <AccountPageSection
@@ -104,7 +110,7 @@ function AccountPage() {
         type="connections"
         user={user}
         buttonText="Edit connections"
-        onClick={() => toggleSidePanel('connections')}
+        toggleSidePanel={toggleSidePanel}
       />
 
       <RelinkFacebook />

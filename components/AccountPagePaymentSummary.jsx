@@ -85,7 +85,8 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
     if (loading) return
     // Call on ready from parent
     const buttonText = noPaymentMethod ? 'Add a payment method' : null
-    onReady(buttonText)
+    const sidePanelType = noPaymentMethod ? 'add-payment' : null
+    onReady(buttonText, sidePanelType)
   }, [loading])
 
 

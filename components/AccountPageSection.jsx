@@ -40,15 +40,26 @@ const getSection = ({ type, user, onReady }) => {
   }
 }
 
-const AccountPageSection = ({ title, type, user, buttonText, onClick }) => {
+const AccountPageSection = ({ title, type, user, buttonText, toggleSidePanel }) => {
   const [sectionReady, setSectionReady] = React.useState(false)
+  // Allows child component to change the button text
   const [newButtonText, setNewButtonText] = React.useState('')
+  // Allows the child component to change the side panel type
+  const [newSidePanelType, setNewSidePanelType] = React.useState('')
 
-  const onReady = (buttonText = '') => {
+  // Call this when the section is ready
+  const onReady = (buttonText = '', sidePanelType = '') => {
+    console.log('onReady', sidePanelType)
     setSectionReady(true)
     setNewButtonText(buttonText)
+    setNewSidePanelType(sidePanelType)
   }
-  // Get the section to show
+
+  const onClick = () => {
+    toggleSidePanel(newSidePanelType || type)
+  }
+
+  // Fetch section to show
   const section = getSection({ type, user, onReady })
 
   return (
@@ -71,13 +82,13 @@ AccountPageSection.propTypes = {
   type: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
   buttonText: PropTypes.string,
-  onClick: PropTypes.func,
+  toggleSidePanel: PropTypes.func,
 }
 
 AccountPageSection.defaultProps = {
   title: '',
   buttonText: '',
-  onClick: () => {},
+  toggleSidePanel: () => {},
 }
 
 export default AccountPageSection
