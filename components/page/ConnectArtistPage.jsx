@@ -63,7 +63,7 @@ const LoadContent = () => {
       setRedirecting(true)
       Router.push(ROUTES.THANK_YOU)
     }
-  }, [artist.id, artistLoading, user.artists, user.id, userLoading])
+  }, [artist.id, artistLoading, user, userLoading])
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
