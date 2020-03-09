@@ -25,7 +25,6 @@ const AccountPageContent = ({ user, className }) => {
 
   // Define function to toggle sidepanel
   const toggleSidePanel = (type) => {
-    console.log('toggleSidePanel', type)
     if (type === 'close') {
       setSidePanelContent(null)
       setSitePanelOpen(false)
@@ -37,7 +36,7 @@ const AccountPageContent = ({ user, className }) => {
       return
     }
     if (type === 'add-payment') {
-      setSidePanelContent(<PaymentAdd user={user} closePanel={() => toggleSidePanel('close')} />)
+      setSidePanelContent(<PaymentAdd closePanel={() => toggleSidePanel('close')} />)
       setSitePanelOpen(true)
       return
     }
