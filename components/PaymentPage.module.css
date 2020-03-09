@@ -21,8 +21,23 @@
   font-size: 0.9em;
 }
 
-/* Checkout
-************************************* */
+/* 
+**************************
+PAYMENT METHOD
+**************************/
+.AccountPagePayments {
+
+}
+
+.AccountPagePayments__allMethods {
+  margin-bottom: var(--bsu-lg);
+}
+
+
+/* 
+**************************
+CHECKOUT PAGE
+**************************/
 
 .checkout-page {
   width: 90%;

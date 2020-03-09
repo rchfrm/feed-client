@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 
 import styles from './PaymentMethodButton.module.css'
 
-const PaymentMethodButton = ({ method, isDefault }) => {
+const PaymentMethodButton = ({ method, isDefault, onClick }) => {
   const {
-    billing_details: { address: { postal_code }, email, name },
+    id,
+    billing_details: { name },
     card: { brand, exp_month, exp_year, last4 },
   } = method
 
@@ -13,10 +14,13 @@ const PaymentMethodButton = ({ method, isDefault }) => {
     ? [styles.PaymentMethodButton, styles.default].join(' ')
     : styles.PaymentMethodButton
 
+  const handleClick = () => onClick(id)
+
   return (
     <a
       className={className}
       role="button"
+      onClick={handleClick}
     >
 
       <div className={styles.buttonIcon}>
@@ -37,6 +41,7 @@ const PaymentMethodButton = ({ method, isDefault }) => {
 PaymentMethodButton.propTypes = {
   method: PropTypes.object.isRequired,
   isDefault: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
 }
 
 PaymentMethodButton.defaultProps = {

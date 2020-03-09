@@ -111,24 +111,6 @@ DETAILS
   width: 100%;
 }
 
-/* 
-**************************
-PAYMENTS
-**************************/
-.accountPagePayments {
-
-}
-
-.paymentsOverview__header {
-
-}
-
-.paymentsOverview__spinner {
-  position: absolute;
-  left: 0;
-  bottom: 50%;
-  transform: translateY(50%);
-}
 
 /* 
 **************************
