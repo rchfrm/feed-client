@@ -58,15 +58,18 @@ const LoadContent = () => {
     }
     // If there is no selected artist, exit
     if (!artist.id) return
-    // If the artist has artists, push to home page
+    // If the artist has artists, push to the thank you page
     if (user.artists.length > 0) {
       setRedirecting(true)
-      Router.push(ROUTES.HOME)
+      Router.push(ROUTES.THANK_YOU)
     }
   }, [artist.id, artistLoading, user.artists, user.id, userLoading])
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
+    // If no access token, then there will be no way to talk to facebook
+    // so don't set artists accounts
+    if (!accessToken) return
     setPageLoading(true)
     const token = await getToken()
     const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken, token)

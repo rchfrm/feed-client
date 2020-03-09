@@ -5,6 +5,7 @@
   "private": true,
   "description": "",
   "dependencies": {
+    "@sentry/browser": "^5.13.2",
     "chart.js": "^2.9.3",
     "dotenv": "^8.2.0",
     "firebase": "^6.2.0",
