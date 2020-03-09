@@ -157,8 +157,8 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
 
       // If there hasn't been a redirect, check with Firebase for an auth user
       if (!redirected) {
-        const unsubscribe = firebase.auth.onAuthStateChanged(authUser => {
-          handleAuthStateChange(authUser)
+        const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
+          await handleAuthStateChange(authUser)
           // Once Firebase has been checked, unsubscribe from the observer
           unsubscribe()
         })
