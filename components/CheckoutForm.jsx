@@ -46,10 +46,19 @@ const CardInput = () => {
   }
 
   return (
-    <CardElement
-      className={styles['card-input']}
-      style={cardElementStyles}
-    />
+    <div className="input_container">
+      <label className="inputLabel">
+        <span className="inputLabel__text">
+          Card details
+          <span className="asterix">*</span>
+        </span>
+      </label>
+      {/* Stripe Card element */}
+      <CardElement
+        className={styles['card-input']}
+        style={cardElementStyles}
+      />
+    </div>
   )
 }
 
@@ -223,15 +232,7 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
 
       <div className={styles['checkout-inputs-section']}>
 
-        <div className="input_container">
-          <label className="inputLabel">
-            <span className="inputLabel__text">
-              Card details
-              <span className="asterix">*</span>
-            </span>
-          </label>
-          <CardInput />
-        </div>
+        <CardInput />
 
         <InputNew
           handleChange={handleChange}
