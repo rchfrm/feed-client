@@ -8,6 +8,7 @@ const InputNew = ({
   handleChange,
   name,
   label,
+  type,
   placeholder,
   value,
   version,
@@ -16,7 +17,6 @@ const InputNew = ({
   required,
   className,
 }) => {
-
   return (
     <div className="input_container">
       <label
@@ -30,6 +30,7 @@ const InputNew = ({
         <input
           className={['input', `input_${version}`].join(' ')}
           name={name}
+          type={type}
           onChange={handleChange}
           placeholder={placeholder}
           style={{
@@ -52,6 +53,8 @@ InputNew.propTypes = {
   name: PropTypes.string.isRequired,
 
   label: PropTypes.string.isRequired,
+
+  type: PropTypes.string,
 
   // Any placeholder should be a string
   placeholder: PropTypes.string,
@@ -80,6 +83,7 @@ InputNew.defaultProps = {
   handleChange: () => {},
   placeholder: '',
   readOnly: false,
+  type: 'text',
   value: '',
   width: 100,
   required: false,
