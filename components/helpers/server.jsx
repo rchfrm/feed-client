@@ -344,9 +344,8 @@ export default {
   },
 
   // PAYMENTS
-  submitPaymentMethod: async (paymentMethodId, verifyIdToken) => {
-    // fixme "/organizations/me" is a temporary measure
-    const endpoint = `${host}organizations/me/billing/payments`
+  submitPaymentMethod: async (paymentMethodId, verifyIdToken, organisationId) => {
+    const endpoint = `${host}organizations/${organisationId}/billing/payments`
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
