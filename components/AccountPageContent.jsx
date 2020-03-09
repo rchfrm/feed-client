@@ -7,7 +7,7 @@ import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
 import AccountPageDetailsNew from './AccountPageDetailsNew'
 import AccountPageIntegrations from './AccountPageIntegrations'
-import AccountPagePaymentsNew from './AccountPagePaymentsNew'
+import AccountPagePayments from './AccountPagePayments'
 import PaymentAdd from './PaymentAdd'
 import RelinkFacebook from './RelinkFacebook'
 import AccountPageSection from './AccountPageSection'
@@ -42,7 +42,7 @@ const AccountPageContent = ({ user, className }) => {
       return
     }
     if (type === 'payment') {
-      setSidePanelContent(<AccountPagePaymentsNew user={user} closePanel={() => toggleSidePanel('close')} />)
+      setSidePanelContent(<AccountPagePayments user={user} closePanel={() => toggleSidePanel('close')} />)
       setSitePanelOpen(true)
       return
     }
