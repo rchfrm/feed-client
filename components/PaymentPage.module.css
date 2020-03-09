@@ -52,11 +52,6 @@
   justify-content: space-between;
 }
 
-.checkout-inputs a {
-  margin-bottom: 1em;
-  display: flex;
-}
-
 .cardInputLabel {
   position: relative;
 
