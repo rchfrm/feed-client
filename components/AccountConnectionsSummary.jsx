@@ -5,7 +5,8 @@ import styles from './AccountPage.module.css'
 
 
 const AccountConnectionsSummary = ({ className, onReady }) => {
-  onReady()
+
+  React.useEffect(onReady, [])
 
   return (
     <div className={className}>

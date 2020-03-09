@@ -23,7 +23,7 @@ const AccountPageDetailsSummary = ({ className, user, onReady }) => {
 
   const details = getDetailsArray(user)
 
-  onReady()
+  React.useEffect(onReady, [])
 
   return (
     <div className={className}>
