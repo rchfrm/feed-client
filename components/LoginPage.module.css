@@ -1,0 +1,12 @@
+.LoginPage__form {
+  padding-top: var(--bsu);
+}
+
+.LoginPage__submit {
+  margin-bottom: var(--bsu);
+}
+
+.forgotPasswordLink {
+  margin-top: -1em;
+  text-align: right;
+}
