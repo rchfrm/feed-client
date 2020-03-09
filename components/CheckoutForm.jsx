@@ -158,6 +158,8 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
   // Create Stripe payment method and submit to server
   const submitPaymentMethod = async (e) => {
     e.preventDefault()
+    // Clear errors
+    setErrors([])
     // Check for errors and print any
     const hasErrors = handleErrors()
     // If errors, stop here and scroll to top
