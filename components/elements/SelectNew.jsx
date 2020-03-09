@@ -92,7 +92,7 @@ SelectNew.propTypes = {
 
   required: PropTypes.bool,
 
-  className: PropTypes.object,
+  className: PropTypes.string,
 }
 
 SelectNew.defaultProps = {

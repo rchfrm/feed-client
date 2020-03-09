@@ -2,23 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import slugify from 'slugify'
 
-import BillingDetails from './BillingDetails'
+import { BillingContext } from './contexts/BillingContext'
 
-import Ellipsis from './elements/Ellipsis'
 import Feed from './elements/Feed'
 
 import styles from './AccountPage.module.css'
 
-
-// SUB-COMPONENTS
-const LoadingState = () => {
-  return (
-    <p className="p">
-      Fetching payment methods
-      <Ellipsis />
-    </p>
-  )
-}
 
 const NoPayment = () => {
   return (
@@ -70,50 +59,31 @@ const PaymentItem = ({ name, defaultMethod }) => {
   )
 }
 
-
 // MAIN COMPONENT
 const AccountPagePaymentSummary = ({ className, user, onReady }) => {
   // Stop here if no user
   if (!user.id) return null
-
-  const [loading, setLoading] = React.useState(true)
-  const [noPaymentMethod, setNoPaymentMethod] = React.useState(true)
-  const [billingDetails, setBillingDetails] = React.useState([])
+  const { hasNoPaymentMethod, billingDetails } = React.useContext(BillingContext)
 
   // Call this when ready
   React.useEffect(() => {
-    if (loading) return
     // Call on ready from parent
-    const buttonText = noPaymentMethod ? 'Add a payment method' : null
-    const sidePanelType = noPaymentMethod ? 'add-payment' : null
+    const buttonText = hasNoPaymentMethod ? 'Add a payment method' : null
+    const sidePanelType = hasNoPaymentMethod ? 'add-payment' : null
     onReady(buttonText, sidePanelType)
-  }, [loading])
+  }, [hasNoPaymentMethod])
 
 
   return (
-    <BillingDetails
-      user={user}
-      setBillingDetails={setBillingDetails}
-      setNoPaymentMethod={setNoPaymentMethod}
-      setLoading={setLoading}
-    >
-      {
-        loading
-          ? (
-            <LoadingState />
-          ) : (
-            <div className={className}>
-              {billingDetails.map((details) => {
-                if (!details) return null
-                const { name, defaultMethod } = details
-                // Handle no method
-                if (!defaultMethod) return <NoMethod name={name} key={slugify(name)} />
-                return <PaymentItem name={name} defaultMethod={defaultMethod} key={slugify(name)} />
-              })}
-            </div>
-          )
-      }
-    </BillingDetails>
+    <div className={className}>
+      {billingDetails.map((details) => {
+        if (!details) return null
+        const { name, defaultMethod } = details
+        // Handle no method
+        if (!defaultMethod) return <NoMethod name={name} key={slugify(name)} />
+        return <PaymentItem name={name} defaultMethod={defaultMethod} key={slugify(name)} />
+      })}
+    </div>
   )
 }
 

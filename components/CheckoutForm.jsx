@@ -1,5 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
+import Link from 'next/link'
+
 import {
   CardElement,
   injectStripe,
@@ -11,10 +13,13 @@ import StripeLogo from './icons/StripeLogo'
 // IMPORT CONSTANTS
 import brandColours from '../constants/brandColours'
 import countries from '../constants/countries'
+import * as ROUTES from '../constants/routes'
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
 import { AuthContext } from './contexts/Auth'
+import { BillingContext } from './contexts/BillingContext'
 // IMPORT ELEMENTS
+import Feed from './elements/Feed'
 import Error from './elements/Error'
 import SelectNew from './elements/SelectNew'
 import Button from './elements/Button'
@@ -62,6 +67,24 @@ const CardInput = () => {
   )
 }
 
+// INTRO
+const PaymentPageIntro = () => {
+  return (
+    <>
+      <h4 className={styles.h4}>Once a month, you'll be charged a small % of what you spend on promotion - a 'service fee' of sorts.</h4>
+      <h4 className={styles.h4}>
+        More details on
+        {' '}
+        <Feed />
+        's pricing is
+        {' '}
+        <Link href={ROUTES.PRICES}><a>here</a></Link>
+        .
+      </h4>
+    </>
+  )
+}
+
 function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe }) {
   // Contexts
   const { getToken } = React.useContext(AuthContext)
@@ -86,6 +109,8 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
     }
   }, [user.email])
 
+  // Get Org ID from context
+  const { organisation: { id: organisationId } } = React.useContext(BillingContext)
 
   // Transform countries array to have name and value keys
   const countryOptions = countries.map(country => {
@@ -201,7 +226,7 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
 
       // Send the payment method id to the server
       const verifyToken = await getToken()
-      await server.submitPaymentMethod(paymentMethod.id, verifyToken)
+      await server.submitPaymentMethod(paymentMethod.id, verifyToken, organisationId)
       // Store key details of the card that was saved in state,
       // and set success to true
       setCardDetails({
@@ -220,110 +245,114 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
   // END Functions
 
   return (
-    <form
-      className={styles['checkout-inputs']}
-      onSubmit={submitPaymentMethod}
-    >
+    <>
+      <PaymentPageIntro />
 
-      {/* Show any errors */}
-      {errors.map((error, index) => {
-        return <Error key={`checkout-errors-${index}`} error={error} />
-      })}
+      <form
+        className={styles['checkout-inputs']}
+        onSubmit={submitPaymentMethod}
+      >
 
-      <h2>Card details:</h2>
+        {/* Show any errors */}
+        {errors.map((error, index) => {
+          return <Error key={`checkout-errors-${index}`} error={error} />
+        })}
 
-      <div className={styles['checkout-inputs-section']}>
+        <h2>Card details:</h2>
 
-        <CardInput />
+        <div className={styles['checkout-inputs-section']}>
+
+          <CardInput />
+
+          <InputNew
+            handleChange={handleChange}
+            name="name"
+            label="Name on card"
+            placeholder=""
+            value={name}
+            version="box"
+            required
+          />
+
+          <InputNew
+            handleChange={handleChange}
+            name="email"
+            label="Billing email"
+            placeholder=""
+            value={email}
+            version="box"
+            required
+          />
+
+        </div>
+
+        <h2>Billing address:</h2>
 
         <InputNew
           handleChange={handleChange}
-          name="name"
-          label="Name on card"
-          placeholder=""
-          value={name}
+          name="address-line-1"
+          label="Address Line 1"
+          placeholder="Street and number, P.O. box, c/o."
+          value={addressLine1}
           version="box"
           required
         />
 
         <InputNew
           handleChange={handleChange}
-          name="email"
-          label="Billing email"
-          placeholder=""
-          value={email}
+          name="address-line-2"
+          label="Address Line 2"
+          placeholder="Flat, suite, unit, building, floor, etc."
+          value={addressLine2}
+          version="box"
+        />
+
+        <InputNew
+          handleChange={handleChange}
+          name="city"
+          label="City"
+          placeholder="City"
+          value={city}
           version="box"
           required
         />
 
-      </div>
+        <InputNew
+          handleChange={handleChange}
+          name="state"
+          label="State, region, etc."
+          placeholder="State, region, etc."
+          value={state}
+          version="box"
+        />
 
-      <h2>Billing address:</h2>
+        <SelectNew
+          handleChange={handleChange}
+          name="country"
+          options={countryOptions}
+          label="Country"
+          placeholder="Select your country"
+          selectedValue={country}
+          version="box"
+          style={{ fontFamily: 'monospace' }}
+        />
 
-      <InputNew
-        handleChange={handleChange}
-        name="address-line-1"
-        label="Address Line 1"
-        placeholder="Street and number, P.O. box, c/o."
-        value={addressLine1}
-        version="box"
-        required
-      />
+        <a href="https://stripe.com/gb" target="_blank" rel="noopener noreferrer">
+          <StripeLogo />
+        </a>
 
-      <InputNew
-        handleChange={handleChange}
-        name="address-line-2"
-        label="Address Line 2"
-        placeholder="Flat, suite, unit, building, floor, etc."
-        value={addressLine2}
-        version="box"
-      />
+        <div className={styles.checkoutButtonWrapper}>
+          <Button
+            version="black progress"
+            type="submit"
+            onClick={submitPaymentMethod}
+          >
+            Submit
+          </Button>
+        </div>
 
-      <InputNew
-        handleChange={handleChange}
-        name="city"
-        label="City"
-        placeholder="City"
-        value={city}
-        version="box"
-        required
-      />
-
-      <InputNew
-        handleChange={handleChange}
-        name="state"
-        label="State, region, etc."
-        placeholder="State, region, etc."
-        value={state}
-        version="box"
-      />
-
-      <SelectNew
-        handleChange={handleChange}
-        name="country"
-        options={countryOptions}
-        label="Country"
-        placeholder="Select your country"
-        selectedValue={country}
-        version="box"
-        style={{ fontFamily: 'monospace' }}
-      />
-
-      <a href="https://stripe.com/gb" target="_blank" rel="noopener noreferrer">
-        <StripeLogo />
-      </a>
-
-      <div className={styles.checkoutButtonWrapper}>
-        <Button
-          version="black progress"
-          type="submit"
-          onClick={submitPaymentMethod}
-        >
-          Submit
-        </Button>
-      </div>
-
-    </form>
+      </form>
+    </>
   )
 }
 

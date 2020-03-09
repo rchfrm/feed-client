@@ -54,11 +54,6 @@
 
 .cardInputLabel {
   position: relative;
-
-  .span {
-    /* position: absolute;
-    left: -10000em; */
-  }
 }
 
 .card-input {
@@ -70,15 +65,17 @@
   box-sizing: border-box;
 }
 
-.payment-success {
+.PaymentPageSuccess {
   flex: auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  justify-content: flex-start;
 }
 
-.payment-success-headers {
+.PaymentPageSuccess__headers {
   flex: auto;
+  width: 100%;
+  margin-bottom: var(--bsu);
 }
 
 .checkoutButtonWrapper {

@@ -9,17 +9,11 @@ import Button from './elements/Button'
 import styles from './PaymentPage.module.css'
 
 // PAYMENT SUCCESS
-const PaymentPageSuccess = ({ cardDetails }) => {
-  const handleClick = e => {
-    e.preventDefault()
-    Router.push(ROUTES.ACCOUNT)
-  }
-
+const PaymentPageSuccess = ({ cardDetails, closePanel }) => {
   return (
-    <div className={`ninety-wide ${styles['payment-success']}`}>
+    <div className={styles.PaymentPageSuccess}>
 
-      <div className={styles['payment-success-headers']}>
-
+      <div className={styles.PaymentPageSuccess__headers}>
         <h4 className={styles.h4}>
           Thanks! You successfully saved your
           {' '}
@@ -44,12 +38,12 @@ const PaymentPageSuccess = ({ cardDetails }) => {
           {' '}
           page.
         </h4>
-
       </div>
 
       <Button
         version="black progress"
-        onClick={handleClick}
+        onClick={closePanel}
+        className={styles.PaymentPageSuccess__button}
       >
         Ok.
       </Button>
