@@ -303,7 +303,7 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
         name="country"
         options={countryOptions}
         label="Country"
-        placeholder="Country"
+        placeholder="Select your country"
         selectedValue={country}
         version="box"
         style={{ fontFamily: 'monospace' }}

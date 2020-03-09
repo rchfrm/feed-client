@@ -63,7 +63,7 @@ const PaymentPage = () => {
 
   return (
 
-    <section>
+    <section className={styles.PaymentAdd}>
 
       <h2>Enter your card details</h2>
 
