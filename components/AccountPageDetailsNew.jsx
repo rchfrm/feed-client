@@ -4,11 +4,10 @@ import PropTypes from 'prop-types'
 import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
 
-import helper from './helpers/helper'
 import server from './helpers/server'
 import firebase from './helpers/firebase'
 
-import Input from './elements/Input'
+import InputNew from './elements/InputNew'
 import Button from './elements/Button'
 
 import styles from './AccountPage.module.css'
@@ -80,6 +79,7 @@ function AccountPageDetailsNew({ user, closePanel }) {
     const { name, value } = target
     if (name === 'name') return setName(value)
     if (name === 'surname') return setSurname(value)
+    if (name === 'email') return setEmail(value)
     if (name === 'passwordOne') return setPasswordOne(value)
     if (name === 'passwordTwo') return setPasswordTwo(value)
   }
@@ -166,95 +166,61 @@ function AccountPageDetailsNew({ user, closePanel }) {
 
       <form className={styles.accountPageDetails__form} onSubmit={handleSubmit}>
 
-        <div className={`flex-row ${styles.row}`}>
+        <InputNew
+          className={styles.input}
+          name="name"
+          label="name"
+          placeholder=""
+          value={name}
+          handleChange={handleChange}
+          type="text"
+          version="text"
+        />
 
-          <Input
-            className={styles.input}
-            name="name"
-            placeholder=""
-            value={name}
-            onChange={handleChange}
-            type="text"
-            label={{
-              position: 'top',
-              text: 'Name:',
-              icon: null,
-            }}
-            width={48.611}
-            version="text"
-          />
+        <InputNew
+          className={styles.input}
+          name="surname"
+          label="Surname"
+          placeholder=""
+          value={surname}
+          handleChange={handleChange}
+          type="text"
+          version="text"
+        />
 
-          <Input
-            className={styles.input}
-            name="surname"
-            placeholder=""
-            value={surname}
-            onChange={handleChange}
-            type="text"
-            label={{
-              position: 'top',
-              text: 'Surname:',
-              icon: null,
-            }}
-            version="text"
-            width={48.611}
-          />
+        <InputNew
+          className={styles.input}
+          name="email"
+          placeholder=""
+          value={email}
+          handleChange={handleChange}
+          type="email"
+          label="email"
+          version="text"
+          width="full"
+        />
 
-        </div>
+        <InputNew
+          className={styles.input}
+          name="passwordOne"
+          placeholder=""
+          value={passwordOne}
+          handleChange={handleChange}
+          type="password"
+          label="password"
+          version="text"
+        />
 
-        <div className={`flex-row ${styles.row}`}>
-          <Input
-            className={styles.input}
-            name="email"
-            placeholder=""
-            value={email}
-            onChange={handleChange}
-            type="email"
-            label={{
-              position: 'top',
-              text: 'Email:',
-              icon: null,
-            }}
-            version="text"
-            width="full"
-          />
-        </div>
-
-
-        <div className={`flex-row ${styles.row}`}>
-
-          <Input
-            className={styles.input}
-            name="passwordOne"
-            placeholder=""
-            value={passwordOne}
-            onChange={handleChange}
-            type="password"
-            label={{
-              position: 'top',
-              text: 'New password:',
-              icon: null,
-            }}
-            version="text"
-            width={48.611}
-          />
-
-          <Input
-            className={styles.input}
-            name="passwordTwo"
-            placeholder=""
-            value={passwordTwo}
-            onChange={handleChange}
-            type="password"
-            label={{
-              position: 'top',
-              text: 'Confirm new password:',
-              icon: null,
-            }}
-            version="text"
-            width={48.611}
-          />
-        </div>
+        <InputNew
+          className={styles.input}
+          name="passwordTwo"
+          placeholder=""
+          value={passwordTwo}
+          handleChange={handleChange}
+          type="password"
+          label="Confirm new password:"
+          version="text"
+        />
 
         <Button
           className={styles.submitButton}
