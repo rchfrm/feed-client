@@ -153,14 +153,16 @@ function SignupPage() {
 
   // HANDLE CLICK ON SIGN-UP BUTTON
   const signup = async () => {
-    try {
-      await signUp(signUpForm.email, signUpForm.passwordOne)
-      await createUser(signUpForm.firstName, signUpForm.lastName)
-      setRedirecting(true)
-      Router.push(ROUTES.CONNECT_ARTIST)
-    } catch (error) {
-      setError(error)
-    }
+    await signUp(signUpForm.email, signUpForm.passwordOne)
+      .catch((error) => {
+        setError(error)
+      })
+    await createUser(signUpForm.firstName, signUpForm.lastName)
+      .catch((error) => {
+        setError(error)
+      })
+    setRedirecting(true)
+    Router.push(ROUTES.CONNECT_ARTIST)
   }
   // END HANDLE CLICK ON SIGN-UP BUTTON
 
