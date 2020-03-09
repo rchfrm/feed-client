@@ -10,6 +10,7 @@
 
   /* Font */
   --font: SpaceGrotesk, sans-serif;
+  --font-mono: monospace;
   --base-font-size: 15px;
 
   /* Base Spacing Units */

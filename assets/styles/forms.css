@@ -34,7 +34,7 @@ input[readonly] {
   border-radius: var(--button-radius);
   margin-bottom: 1em;
   padding: 1.333em;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-weight: 100;
   font-size: 1em;
   box-sizing: border-box;

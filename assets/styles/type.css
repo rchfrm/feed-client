@@ -69,3 +69,7 @@ strong,
 .strong {
   font-weight: bold;
 }
+
+.mono {
+  font-family: var(--font-mono);
+}
