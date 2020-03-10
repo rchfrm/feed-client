@@ -2,14 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { BillingContext } from './contexts/BillingContext'
+import { SidePanelContext } from './contexts/SidePanelContext'
+
+import PaymentAdd from './PaymentAdd'
 
 import Button from './elements/Button'
 import PaymentMethodButton from './PaymentMethodButton'
 
 import styles from './PaymentPage.module.css'
 
-function AccountPagePayments({ closePanel }) {
+function AccountPagePayments() {
+  // Get Billing Context
   const { hasNoPaymentMethod, billingDetails } = React.useContext(BillingContext)
+  // Get Side panel context
+  const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
+  // Get account owner billing details
   const { defaultMethod, allPaymentMethods } = billingDetails.find(({ role }) => role === 'owner')
   // Get all payment methods that aren't the default
   const alternativePaymentMethods = allPaymentMethods.filter(({ is_default }) => !is_default)
@@ -35,7 +42,8 @@ function AccountPagePayments({ closePanel }) {
 
   // GO TO CHECKOUT PAGE
   const goToCheckout = () => {
-    // TODO Trigger checkout in sidepanel
+    const content = <PaymentAdd closePanel={toggleSidePanel} />
+    setSidePanelContent(content)
   }
 
   return (
