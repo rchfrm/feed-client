@@ -30,9 +30,16 @@ PAYMENT METHOD
 }
 
 .AccountPagePayments__allMethods {
+  margin-bottom: var(--bsu-md);
+}
+
+.AccountPagePayments__addPayment {
   margin-bottom: var(--bsu-lg);
 }
 
+.AccountPagePayments__saveDefault {
+
+}
 
 /* 
 **************************

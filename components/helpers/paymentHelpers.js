@@ -25,14 +25,15 @@ const submitPaymentMethod = async (paymentMethodId, organisationId, verifyIdToke
 const setPaymentAsDefault = async (organisationId, paymentId, verifyIdToken) => {
   const endpoint = `${host}organizations/${organisationId}/billing/payments/${paymentId}/default`
   const response = await axios(endpoint, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       Authorization: `Bearer ${verifyIdToken}`,
     },
   })
     .catch(server.catchAxiosError)
 
-  return response.data
+  const { data = null } = response
+  return data
 }
 
 
