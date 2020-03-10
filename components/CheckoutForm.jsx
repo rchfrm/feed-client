@@ -110,7 +110,11 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
   }, [user.email])
 
   // Get Org ID from context
-  const { organisation: { id: organisationId } } = React.useContext(BillingContext)
+  // & get function to set billing details
+  const {
+    organisation: { id: organisationId },
+    fetchBillingDetails,
+  } = React.useContext(BillingContext)
 
   // Transform countries array to have name and value keys
   const countryOptions = countries.map(country => {
@@ -235,6 +239,9 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
         exp_year: paymentMethod.card.exp_year,
         last4: paymentMethod.card.last4,
       })
+      // Update billing details context
+      await fetchBillingDetails()
+      // Then finish
       setSuccess(true)
       setLoading(false)
     } catch (err) {

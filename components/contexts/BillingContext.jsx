@@ -13,24 +13,28 @@ BillingContext.displayName = 'BillingContext'
 // CONTEXT PROVIDER
 const BillingContextProvider = ({ user, children }) => {
   const [loading, setLoading] = React.useState(true)
-  const organisation = React.useRef({})
-  const hasNoPaymentMethod = React.useRef(true)
-  const billingDetails = React.useRef([])
+  const [organisation, setOrganisation] = React.useState({})
+  const [hasNoPaymentMethod, setHasNoPaymentMethod] = React.useState(true)
+  const [billingDetails, setBillingDetails] = React.useState([])
 
   const { getToken } = React.useContext(AuthContext)
 
-  useAsyncEffect(async (isMounted) => {
+  const fetchBillingDetails = async (isMounted) => {
     const token = await getToken()
     const allOrgsInfo = await paymentHelpers.getAllOrgsInfo({ user, token })
-    if (!isMounted()) return
+    if (isMounted && !isMounted()) return
     // Get the owner organisation
     const ownerOrg = allOrgsInfo.find(({ role }) => role === 'owner')
-    organisation.current = ownerOrg
+    setOrganisation(ownerOrg)
     // Set the billing details
-    billingDetails.current = allOrgsInfo.map(paymentHelpers.getbillingDetails)
+    setBillingDetails(allOrgsInfo.map(paymentHelpers.getbillingDetails))
     // Test if no payment is set on the owner's org
-    hasNoPaymentMethod.current = paymentHelpers.testNoPayment(billingDetails.current)
-    // Loading over
+    setHasNoPaymentMethod(paymentHelpers.testNoPayment(billingDetails))
+  }
+
+  useAsyncEffect(async (isMounted) => {
+    await fetchBillingDetails(isMounted)
+    // Set Loading over
     setLoading(false)
   }, [])
 
@@ -38,9 +42,10 @@ const BillingContextProvider = ({ user, children }) => {
     <BillingContext.Provider
       value={{
         billingLoading: loading,
-        organisation: organisation.current,
-        hasNoPaymentMethod: hasNoPaymentMethod.current,
-        billingDetails: billingDetails.current,
+        organisation,
+        hasNoPaymentMethod,
+        billingDetails,
+        fetchBillingDetails,
       }}
     >
       {children}
