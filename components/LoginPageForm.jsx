@@ -10,6 +10,7 @@ import { ArtistContext } from './contexts/Artist'
 import PageHeader from './PageHeader'
 import InputNew from './elements/InputNew'
 import Button from './elements/Button'
+import ButtonFacebook from './elements/ButtonFacebook'
 import Error from './elements/Error'
 import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
@@ -112,9 +113,13 @@ function LoginPageForm() {
 
         <div className="fill-height" style={{ width: '65.738%', margin: '0 auto' }}>
 
-          <Button version="facebook" width={100} marginBottom="1.5em" onClick={facebookClick}>
+          <ButtonFacebook
+            width={100}
+            marginBottom="1.5em"
+            onClick={facebookClick}
+          >
             Log in with Facebook
-          </Button>
+          </ButtonFacebook>
 
           <p>or log in using your email address...</p>
 

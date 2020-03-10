@@ -5,7 +5,7 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
-import Button from './elements/Button'
+import ButtonFacebook from './elements/Button'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -47,13 +47,12 @@ function ConnectArtistFacebook({ error, setError }) {
 
         <p>&nbsp;</p>
 
-        <Button
-          version="facebook"
+        <ButtonFacebook
           onClick={handleClick}
           width={100}
         >
           Continue with Facebook
-        </Button>
+        </ButtonFacebook>
 
         <em style={{ fontSize: '0.75em', lineHeight: '1.25em', marginTop: '1em' }}>
           This allows us to connect to Facebook so that we can show you your data and promote posts on your behalf, we'll never post anything without your approval.
