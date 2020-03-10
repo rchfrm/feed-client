@@ -13,7 +13,7 @@ import styles from './PaymentPage.module.css'
 
 function AccountPagePayments() {
   // Get Billing Context
-  const { hasNoPaymentMethod, billingDetails } = React.useContext(BillingContext)
+  const { billingDetails } = React.useContext(BillingContext)
   // Get Side panel context
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
   // Get account owner billing details
@@ -21,23 +21,17 @@ function AccountPagePayments() {
   // Get all payment methods that aren't the default
   const alternativePaymentMethods = allPaymentMethods.filter(({ is_default }) => !is_default)
   // Put default method first
-  const [paymentMethodsSorted, setPaymentMethodsSorted] = React.useState([defaultMethod, ...alternativePaymentMethods])
+  const paymentMethodsSorted = React.useRef([defaultMethod, ...alternativePaymentMethods])
+  // Get ID of default method
+  const { id: initialDefaultMethodId } = defaultMethod
+  const [defaultMethodId, setDefaultMethodId] = React.useState(initialDefaultMethodId)
   console.log('defaultMethod', defaultMethod)
   console.log('allPaymentMethods', allPaymentMethods)
   console.log('alternativePaymentMethods', alternativePaymentMethods)
 
   // HANDLE CLICK ON METHOD
   const onButtonClick = (clickedId) => {
-    // Turn off default on all methods except clicked one
-    const resetPaymentMethods = paymentMethodsSorted.map((method) => {
-      const { id } = method
-      const is_default = !!(id === clickedId)
-      return {
-        ...method,
-        is_default,
-      }
-    })
-    setPaymentMethodsSorted(resetPaymentMethods)
+    setDefaultMethodId(clickedId)
   }
 
   // GO TO CHECKOUT PAGE
@@ -53,13 +47,14 @@ function AccountPagePayments() {
 
       <div className={styles.AccountPagePayments__allMethods}>
         {/* ALL PAYMENT METHODS */}
-        {paymentMethodsSorted.map((method) => {
+        {paymentMethodsSorted.current.map((method) => {
           const { id, is_default } = method
           return (
             <PaymentMethodButton
               key={id}
               method={method}
               isDefault={is_default}
+              defaultMethodId={defaultMethodId}
               onClick={onButtonClick}
             />
           )
