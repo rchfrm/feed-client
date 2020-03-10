@@ -4,9 +4,17 @@
 
 :root {
   /* Colour Palette */
-  --white: #fff;
-  --black: #000;
-  --green: #10E7E0;
+  --white: #f4f4f4;
+  --black: #0D1311;
+  --green: #03D8B2;
+  --red: #FA5450;
+  --grey-dark: #7F8382;
+  --grey-light: #C8CBCA;
+  /* SM Palette */
+  --color-fb: #26547C;
+  --color-insta: #E75A7C;
+  --color-twitter#: 5BC0EB;
+  --color-sc: #FDE74C;
 
   /* Font */
   --font: SpaceGrotesk, sans-serif;
