@@ -26,7 +26,8 @@ button {
   }
 }
 
-.button--black {
+.button--black,
+.button--green {
   background-color: var(--black);
   color: var(--white);
   padding: 1.5em;
@@ -34,6 +35,12 @@ button {
   font-weight: bold;
   justify-content: center;
   cursor: pointer;
+}
+
+.button--green {
+  font-weight: bold;
+  background-color: var(--green);
+  color: white;
 }
 
 .button--success {
