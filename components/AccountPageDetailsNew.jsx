@@ -11,6 +11,7 @@ import InputNew from './elements/InputNew'
 import Button from './elements/Button'
 
 import styles from './AccountPage.module.css'
+import sidePanelStyles from './SidePanel.module.css'
 
 function AccountPageDetailsNew({ user, closePanel }) {
   // Get user and auth context
@@ -162,7 +163,7 @@ function AccountPageDetailsNew({ user, closePanel }) {
   return (
     <section className={styles.accountPageDetails}>
 
-      <h2 className={styles.accountPageDetails__header}>Account Page Details</h2>
+      <h2 className={sidePanelStyles.SidePanel__Header}>Account Page Details</h2>
 
       <form className={styles.accountPageDetails__form} onSubmit={handleSubmit}>
 

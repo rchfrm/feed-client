@@ -16,6 +16,7 @@ import brandColours from '../constants/brandColours'
 // IMPORT HELPERS
 // IMPORT STYLES
 import styles from './PaymentPage.module.css'
+import sidePanelStyles from './SidePanel.module.css'
 
 const PaymentAdd = ({ closePanel }) => {
   const [loading, setLoading] = useState(false)
@@ -35,7 +36,7 @@ const PaymentAdd = ({ closePanel }) => {
 
     <section className={styles.PaymentAdd}>
 
-      <h2>Enter your card details</h2>
+      <h2 className={sidePanelStyles.SidePanel__Header}>Enter your card details</h2>
 
       <div ref={page}>
 

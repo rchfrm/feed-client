@@ -16,6 +16,7 @@ import PaymentMethodButton from './PaymentMethodButton'
 import paymentHelpers from './helpers/paymentHelpers'
 
 import styles from './PaymentPage.module.css'
+import sidePanelStyles from './SidePanel.module.css'
 
 
 const SidePanelButton = (setAsDefault) => {
@@ -117,7 +118,7 @@ function AccountPagePayments() {
   return (
     <section className={styles.AccountPagePayments}>
 
-      <h2 className={styles.AccountPagePayments__header}>Payment Methods</h2>
+      <h2 className={sidePanelStyles.SidePanel__Header}>Payment Methods</h2>
 
       {error && (
         <div className={styles.AccountPagePayments__error}>

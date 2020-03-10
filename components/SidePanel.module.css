@@ -45,22 +45,28 @@
   }
 }
 
+.SidePanel__Header {
+  padding-right: calc(var(--bsu) + var(--bsu-md));
+  margin-bottom: var(--bsu-md);
+}
+
 .backButton {
   position: absolute;
   z-index: 3;
   width: 50px;
   height: 50px;
-  bottom: var(--bsu-md);
-  left: var(--bsu-md);
+  top: var(--bsu);
+  right: var(--bsu);
 
   &::after {
     content: '';
     position: absolute;
-    width: 30px;
-    height: 30px;
-    top: calc((50px - 30px) * 0.5);
-    left: calc((50px - 30px) * 0.5);
-    background: var(--black);
+    width: 20px;
+    height: 20px;
+    top: calc(((50px - 20px) * 0.5) - 2px);
+    left: calc((50px - 20px) * 0.5);
+    background: url('/icons/close.svg') no-repeat;
+    background-size: 100% auto;
     border-radius: 50%;
   }
 

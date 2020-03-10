@@ -13,11 +13,12 @@ import ConnectionsLoader from './AccountPageLoader'
 // IMPORT HELPERS
 // IMPORT STYLES
 import styles from './AccountPage.module.css'
+import sidePanelStyles from './SidePanel.module.css'
 
 function IntegrationsSection() {
   return (
     <div className={styles['account-integrations']}>
-      <h2 className={styles.h2}>Connections</h2>
+      <h2 className={sidePanelStyles.SidePanel__Header}>Connections</h2>
       <p className={styles.p}>
         The&nbsp;
         <AsteriskIcon width={15} />
