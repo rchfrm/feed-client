@@ -197,7 +197,6 @@ function AccountPageDetailsNew({ user, closePanel }) {
           type="email"
           label="email"
           version="text"
-          width="full"
         />
 
         <InputNew
