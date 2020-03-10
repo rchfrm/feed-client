@@ -1,7 +1,7 @@
-import Router from 'next/router'
 import Link from 'next/link'
 import moment from 'moment'
 import * as ROUTES from '../constants/routes'
+
 // IMPORT ELS
 import Feed from './elements/Feed'
 import Button from './elements/Button'
