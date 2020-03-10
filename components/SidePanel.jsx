@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Spinner from './elements/Spinner'
+
 import styles from './SidePanel.module.css'
 
 // INSERTED via the SidePanelContext.jsx
@@ -9,12 +11,19 @@ function SidePanel({
   content,
   isOpen,
   toggle,
+  isLoading,
 }) {
   const close = () => toggle(false)
   if (!isOpen) return null
   return (
     <>
       <div className={styles.panelBg} />
+      {/* Show loader if loading */}
+      {isLoading && (
+        <div className={styles.panelLoader}>
+          <Spinner className={styles.spinner} />
+        </div>
+      )}
       <div className={styles.panelContainer}>
         <div className={styles.panelContainer__inner}>
           { content }
@@ -31,10 +40,12 @@ SidePanel.propTypes = {
   content: PropTypes.node,
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
 }
 
 SidePanel.defaultProps = {
   content: null,
+  isLoading: false,
 }
 
 export default SidePanel

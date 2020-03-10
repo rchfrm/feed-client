@@ -7,6 +7,8 @@ const initialContext = {
   setSidePanelContent: () => {},
   sidePanelOpen: false,
   toggleSidePanel: () => {},
+  sidePanelLoading: false,
+  setSidePanelLoading: () => {},
 }
 
 const SidePanelContext = React.createContext(initialContext)
@@ -15,6 +17,7 @@ SidePanelContext.displayName = 'SidePanelContext'
 const SidePanelContextProvider = ({ children }) => {
   const [sidePanelContent, setSidePanelContent] = React.useState(null)
   const [sidePanelOpen, setSidePanelOpen] = React.useState(false)
+  const [sidePanelLoading, setSidePanelLoading] = React.useState(false)
 
   const toggleSidePanel = (state) => {
     const newState = typeof state === 'boolean' ? state : !sidePanelOpen
@@ -29,6 +32,8 @@ const SidePanelContextProvider = ({ children }) => {
         setSidePanelContent,
         sidePanelOpen,
         toggleSidePanel,
+        sidePanelLoading,
+        setSidePanelLoading,
       }}
     >
       <>
@@ -38,6 +43,7 @@ const SidePanelContextProvider = ({ children }) => {
           setContent={setSidePanelContent}
           isOpen={sidePanelOpen}
           toggle={toggleSidePanel}
+          isLoading={sidePanelLoading}
         />
         {/* The child content */}
         {children}
