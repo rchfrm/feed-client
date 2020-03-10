@@ -51,7 +51,7 @@ button {
 
 .button--facebook {
   background-color: #4267B2;
-  color: white;
+  color: var(--white);
   border: none;
   font-weight: 600;
   font-size: 1em;

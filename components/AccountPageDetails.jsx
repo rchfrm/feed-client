@@ -289,7 +289,6 @@ function Details() {
       <Button
         version="text"
         width={100}
-        textAlign="left"
         onClick={deleteAccount}
       >
         Delete account

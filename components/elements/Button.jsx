@@ -1,28 +1,18 @@
-// IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-import FacebookIcon from '../icons/FacebookIcon'
-// IMPORT CONSTANTS
-// IMPORT HELPERS
-// IMPORT STYLES
+import PropTypes from 'prop-types'
 
 const Button = ({
-  version = '',
+  version,
   width: widthProp,
-  marginBottom = 0,
-  textAlign = '',
-  textColour = '',
-  bgColour = '',
+  marginBottom,
+  textColour,
+  bgColour,
   disabled,
+  type,
+  success,
+  className,
   onClick,
   children,
-  type = 'button',
-  success = false,
-  className = '',
 }) => {
   const width = typeof widthProp === 'string' ? widthProp : ''
   const widthPercentage = typeof widthProp === 'number' ? widthProp : ''
@@ -33,15 +23,6 @@ const Button = ({
   if (success) {
     classes.push('button--success')
   }
-  let fb_icon
-  if (version === 'facebook') {
-    fb_icon = (
-      <FacebookIcon
-        fill="#ffffff"
-        width="20"
-      />
-    )
-  }
   return (
     <button
       type={type}
@@ -51,15 +32,43 @@ const Button = ({
       style={{
         width: `${widthPercentage}%`,
         color: textColour,
-        textAlign,
         marginBottom,
         backgroundColor: bgColour,
       }}
     >
-      {fb_icon}
       {children}
     </button>
   )
+}
+
+Button.propTypes = {
+  version: PropTypes.string,
+  width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  marginBottom: PropTypes.string,
+  textColour: PropTypes.string,
+  bgColour: PropTypes.string,
+  disabled: PropTypes.bool,
+  type: PropTypes.string,
+  success: PropTypes.bool,
+  className: PropTypes.string,
+  onClick: PropTypes.func,
+  children: PropTypes.node.isRequired,
+}
+
+Button.defaultProps = {
+  version: 'black',
+  width: '',
+  marginBottom: '',
+  textColour: '',
+  bgColour: '',
+  disabled: false,
+  type: 'button',
+  success: false,
+  className: '',
+  onClick: () => {},
 }
 
 export default Button
