@@ -102,6 +102,10 @@ function AccountPagePayments() {
       ? SidePanelButton(setAsDefault)
       : null
     setSidePanelButton(button)
+    // Clean up
+    return () => {
+      setSidePanelButton(null)
+    }
   }, [hasNewMethod])
 
   // GO TO CHECKOUT PAGE
