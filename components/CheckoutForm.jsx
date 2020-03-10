@@ -337,10 +337,6 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
           style={{ fontFamily: 'monospace' }}
         />
 
-        <a href="https://stripe.com/gb" target="_blank" rel="noopener noreferrer">
-          <StripeLogo />
-        </a>
-
         <div className={styles.checkoutButtonWrapper}>
           <Button
             version="black progress"
@@ -349,6 +345,12 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
           >
             Submit
           </Button>
+        </div>
+
+        <div className={styles.checkoutStripeLogo}>
+          <a href="https://stripe.com/gb" target="_blank" rel="noopener noreferrer">
+            <StripeLogo />
+          </a>
         </div>
 
       </form>

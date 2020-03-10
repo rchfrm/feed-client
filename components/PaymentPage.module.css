@@ -80,6 +80,22 @@ CHECKOUT PAGE
   box-sizing: border-box;
 }
 
+.checkoutButtonWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--bsu-md);
+}
+
+.checkoutStripeLogo {
+  text-align: right;
+  width: 100%;
+}
+
+/* 
+**************************
+PAYMET SUCCESS PAGE
+**************************/
+
 .PaymentPageSuccess {
   flex: auto;
   display: flex;
@@ -91,9 +107,4 @@ CHECKOUT PAGE
   flex: auto;
   width: 100%;
   margin-bottom: var(--bsu);
-}
-
-.checkoutButtonWrapper {
-  display: flex;
-  justify-content: flex-end;
 }
