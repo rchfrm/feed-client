@@ -9,10 +9,12 @@ import styles from './SidePanel.module.css'
 // with the props passed in
 function SidePanel({
   content,
+  button,
   isOpen,
   toggle,
   isLoading,
 }) {
+  console.log('side panel mount')
   const close = () => toggle(false)
   if (!isOpen) return null
   return (
@@ -31,6 +33,12 @@ function SidePanel({
         <button title="Back" className={styles.backButton} onClick={close}>
           <span className={styles.span}>Back</span>
         </button>
+        {/* Optional side panel CTA */}
+        {button && (
+          <div className={styles.panelButton}>
+            {button}
+          </div>
+        )}
       </div>
     </>
   )
@@ -38,6 +46,7 @@ function SidePanel({
 
 SidePanel.propTypes = {
   content: PropTypes.node,
+  button: PropTypes.node,
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
@@ -45,6 +54,7 @@ SidePanel.propTypes = {
 
 SidePanel.defaultProps = {
   content: null,
+  button: null,
   isLoading: false,
 }
 

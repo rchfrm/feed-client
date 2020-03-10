@@ -5,6 +5,8 @@ import SidePanel from '../SidePanel'
 const initialContext = {
   sidePanelContent: null,
   setSidePanelContent: () => {},
+  sidePanelButton: null,
+  setSidePanelButton: () => {},
   sidePanelOpen: false,
   toggleSidePanel: () => {},
   sidePanelLoading: false,
@@ -16,6 +18,7 @@ SidePanelContext.displayName = 'SidePanelContext'
 
 const SidePanelContextProvider = ({ children }) => {
   const [sidePanelContent, setSidePanelContent] = React.useState(null)
+  const [sidePanelButton, setSidePanelButton] = React.useState(null)
   const [sidePanelOpen, setSidePanelOpen] = React.useState(false)
   const [sidePanelLoading, setSidePanelLoading] = React.useState(false)
 
@@ -24,12 +27,16 @@ const SidePanelContextProvider = ({ children }) => {
     setSidePanelOpen(newState)
   }
 
+  console.log('side panel context maoun')
+
   return (
     // The context provider
     <SidePanelContext.Provider
       value={{
         sidePanelContent,
         setSidePanelContent,
+        sidePanelButton,
+        setSidePanelButton,
         sidePanelOpen,
         toggleSidePanel,
         sidePanelLoading,
@@ -41,6 +48,7 @@ const SidePanelContextProvider = ({ children }) => {
         <SidePanel
           content={sidePanelContent}
           setContent={setSidePanelContent}
+          button={sidePanelButton}
           isOpen={sidePanelOpen}
           toggle={toggleSidePanel}
           isLoading={sidePanelLoading}

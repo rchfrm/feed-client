@@ -7,12 +7,16 @@
   height: 100%;
   background: var(--black);
   opacity: 0.2;
+
+  @media (--md) {
+    opacity: 0.4;
+  }
 }
 
 .panelContainer {
-  position: absolute;
+  position: fixed;
   width: 95%;
-  left: 5%;
+  right: 0;
   height: 90%;
   top: 5%;
   background: var(--white);
@@ -20,6 +24,10 @@
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   box-shadow: -8px 0px 18px rgba(0, 0, 0, 0.14);
+
+  @media (--md) {
+    width: 50%;
+  }
 }
 
 .panelContainer__inner {
@@ -33,7 +41,7 @@
   z-index: 2;
 
   > * {
-    padding-bottom: var(--bsu-lg);
+    padding-bottom: calc(2 * var(--bsu-lg));
   }
 }
 
@@ -74,5 +82,19 @@
     right: 50%;
     bottom: 50%;
     transform: translate(50%, 50%);
+  }
+}
+
+/* BUTTON */
+.panelButton {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+
+  :global(.button) {
+    width: 100%;
+    border-radius: 0 0 0 var(--dialogue-radius);
   }
 }
