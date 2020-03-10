@@ -71,7 +71,7 @@ const AccountPageContent = ({ user, className }) => {
         type="account"
         user={user}
         buttonText="Edit account details"
-        toggleSidePanel={toggleSidePanel}
+        setSidePanel={setSidePanel}
       />
 
       <AccountPageSection
@@ -79,7 +79,7 @@ const AccountPageContent = ({ user, className }) => {
         type="payment"
         user={user}
         buttonText="Edit payment methods"
-        toggleSidePanel={toggleSidePanel}
+        setSidePanel={setSidePanel}
       />
 
       <AccountPageSection
@@ -87,7 +87,7 @@ const AccountPageContent = ({ user, className }) => {
         type="connections"
         user={user}
         buttonText="Edit connections"
-        toggleSidePanel={toggleSidePanel}
+        setSidePanel={setSidePanel}
       />
 
       <RelinkFacebook />

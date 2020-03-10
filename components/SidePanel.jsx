@@ -28,9 +28,13 @@ function SidePanel({
 }
 
 SidePanel.propTypes = {
-  content: PropTypes.node.isRequired,
+  content: PropTypes.node,
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
+}
+
+SidePanel.defaultProps = {
+  content: null,
 }
 
 export default SidePanel
