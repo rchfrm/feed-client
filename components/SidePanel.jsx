@@ -3,13 +3,21 @@ import PropTypes from 'prop-types'
 
 import styles from './SidePanel.module.css'
 
-function SidePanel({ children, close }) {
+// INSERTED via the SidePanelContext.jsx
+// with the props passed in
+function SidePanel({
+  content,
+  isOpen,
+  toggle,
+}) {
+  const close = () => toggle(false)
+  if (!isOpen) return null
   return (
     <>
       <div className={styles.panelBg} />
       <div className={styles.panelContainer}>
         <div className={styles.panelContainer__inner}>
-          { children }
+          { content }
         </div>
         <button title="Back" className={styles.backButton} onClick={close}>
           <span className={styles.span}>Back</span>
@@ -20,8 +28,9 @@ function SidePanel({ children, close }) {
 }
 
 SidePanel.propTypes = {
-  children: PropTypes.element.isRequired,
-  close: PropTypes.func.isRequired,
+  content: PropTypes.node.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
 }
 
 export default SidePanel
