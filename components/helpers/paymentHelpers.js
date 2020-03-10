@@ -1,8 +1,9 @@
 import axios from 'axios'
 import host from './host'
+import server from './server'
 
 // PAYMENTS
-const submitPaymentMethod = async (paymentMethodId, verifyIdToken, organisationId) => {
+const submitPaymentMethod = async (paymentMethodId, organisationId, verifyIdToken) => {
   const endpoint = `${host}organizations/${organisationId}/billing/payments`
   const res = await fetch(endpoint, {
     method: 'POST',
@@ -18,6 +19,20 @@ const submitPaymentMethod = async (paymentMethodId, verifyIdToken, organisationI
     return
   }
   throw new Error(res.statusText)
+}
+
+
+const setPaymentAsDefault = async (organisationId, paymentId, verifyIdToken) => {
+  const endpoint = `${host}organizations/${organisationId}/billing/payments/${paymentId}/default`
+  const response = await axios(endpoint, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${verifyIdToken}`,
+    },
+  })
+    .catch(server.catchAxiosError)
+
+  return response.data
 }
 
 
@@ -109,6 +124,7 @@ const getAllOrgsInfo = async ({ user, token }) => {
 
 export default {
   submitPaymentMethod,
+  setPaymentAsDefault,
   getOrganizationDetails,
   fetchOrg,
   getbillingDetails,
