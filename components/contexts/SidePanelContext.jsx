@@ -22,6 +22,7 @@ const SidePanelContextProvider = ({ children }) => {
   }
 
   return (
+    // The context provider
     <SidePanelContext.Provider
       value={{
         sidePanelContent,
@@ -31,12 +32,14 @@ const SidePanelContextProvider = ({ children }) => {
       }}
     >
       <>
+        {/* The side panel */}
         <SidePanel
           content={sidePanelContent}
           setContent={setSidePanelContent}
           isOpen={sidePanelOpen}
           toggle={toggleSidePanel}
         />
+        {/* The child content */}
         {children}
       </>
     </SidePanelContext.Provider>
