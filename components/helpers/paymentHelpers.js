@@ -1,4 +1,25 @@
 import axios from 'axios'
+import host from './host'
+
+// PAYMENTS
+const submitPaymentMethod = async (paymentMethodId, verifyIdToken, organisationId) => {
+  const endpoint = `${host}organizations/${organisationId}/billing/payments`
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${verifyIdToken}`,
+    },
+    body: JSON.stringify({
+      token: paymentMethodId,
+    }),
+  })
+  if (res.ok) {
+    return
+  }
+  throw new Error(res.statusText)
+}
+
 
 const getOrganizationDetails = (user) => {
   const { organizations = [] } = user
@@ -31,6 +52,7 @@ const fetchOrg = async (org, token) => {
     role,
   }
 }
+
 
 // Sort payment methods, putting the default payment first
 const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
@@ -86,6 +108,7 @@ const getAllOrgsInfo = async ({ user, token }) => {
 
 
 export default {
+  submitPaymentMethod,
   getOrganizationDetails,
   fetchOrg,
   getbillingDetails,

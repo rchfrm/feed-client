@@ -342,23 +342,4 @@ export default {
     }
     return response
   },
-
-  // PAYMENTS
-  submitPaymentMethod: async (paymentMethodId, verifyIdToken, organisationId) => {
-    const endpoint = `${host}organizations/${organisationId}/billing/payments`
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${verifyIdToken}`,
-      },
-      body: JSON.stringify({
-        token: paymentMethodId,
-      }),
-    })
-    if (res.ok) {
-      return
-    }
-    throw new Error(res.statusText)
-  },
 }

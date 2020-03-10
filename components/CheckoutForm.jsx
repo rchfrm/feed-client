@@ -24,11 +24,11 @@ import Error from './elements/Error'
 import SelectNew from './elements/SelectNew'
 import Button from './elements/Button'
 // IMPORT HELPERS
-import server from './helpers/server'
 import InputNew from './elements/InputNew'
 // IMPORT PAGES
 // IMPORT STYLES
 import styles from './PaymentPage.module.css'
+import paymentHelpers from './helpers/paymentHelpers'
 
 
 // CARD INPUTS
@@ -230,7 +230,7 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
 
       // Send the payment method id to the server
       const verifyToken = await getToken()
-      await server.submitPaymentMethod(paymentMethod.id, verifyToken, organisationId)
+      await paymentHelpers.submitPaymentMethod(paymentMethod.id, verifyToken, organisationId)
       // Store key details of the card that was saved in state,
       // and set success to true
       setCardDetails({
