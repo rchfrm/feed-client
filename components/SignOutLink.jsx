@@ -34,9 +34,9 @@ function SignOutLink() {
   }
 
   return (
-    <Button version="sign-out" onClick={signOut}>
+    <a role="button" version="sign-out" onClick={signOut}>
       sign out
-    </Button>
+    </a>
   )
 }
 
