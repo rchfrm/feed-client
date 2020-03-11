@@ -156,3 +156,7 @@ em {
   font-style: italic;
   opacity: 0.6;
 }
+
+a {
+  text-decoration: underline;
+}
