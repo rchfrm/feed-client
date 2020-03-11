@@ -3,6 +3,10 @@ import PropTypes from 'prop-types'
 
 import usePrevious from 'use-previous'
 
+import Router from 'next/router'
+import * as ROUTES from '../constants/routes'
+
+
 import { AuthContext } from './contexts/Auth'
 import { BillingContext } from './contexts/BillingContext'
 import { SidePanelContext } from './contexts/SidePanelContext'
@@ -10,7 +14,6 @@ import { SidePanelContext } from './contexts/SidePanelContext'
 import Button from './elements/Button'
 import Error from './elements/Error'
 
-import PaymentAdd from './PaymentAdd'
 import PaymentMethodButton from './PaymentMethodButton'
 
 import paymentHelpers from './helpers/paymentHelpers'
@@ -38,7 +41,6 @@ function AccountPagePayments() {
   } = React.useContext(BillingContext)
   // Get Side panel context
   const {
-    setSidePanelContent,
     toggleSidePanel,
     setSidePanelLoading,
     setSidePanelButton,
@@ -114,8 +116,7 @@ function AccountPagePayments() {
 
   // GO TO CHECKOUT PAGE
   const goToCheckout = () => {
-    const content = <PaymentAdd closePanel={toggleSidePanel} />
-    setSidePanelContent(content)
+    Router.push(ROUTES.PAYMENT)
   }
 
   return (

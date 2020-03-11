@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Router, { useRouter } from 'next/router'
+
 import Spinner from './elements/Spinner'
 
 import styles from './SidePanel.module.css'
@@ -13,8 +15,16 @@ function SidePanel({
   toggle,
   isLoading,
 }) {
-  console.log('side panel mount')
-  const close = () => toggle(false)
+  // Get ROUTE info
+  const { query, pathname } = useRouter()
+  const [pageQuery] = Object.keys(query)
+  // Get close method
+  const close = () => {
+    // If there's no page query, then simply close
+    if (!pageQuery) return toggle(false)
+    // If there is a page query, then just remove it
+    Router.push(pathname)
+  }
   return (
     <>
       <div className={styles.panelBg} />

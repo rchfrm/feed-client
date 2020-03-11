@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Router from 'next/router'
+import * as ROUTES from '../constants/routes'
+
 import AccountPageDetailsSummary from './AccountPageDetailsSummary'
 import AccountPagePaymentSummary from './AccountPagePaymentSummary'
 import AccountConnectionsSummary from './AccountConnectionsSummary'
@@ -40,7 +43,7 @@ const getSection = ({ type, user, onReady }) => {
   }
 }
 
-const AccountPageSection = ({ title, type, user, buttonText, setSidePanel }) => {
+const AccountPageSection = ({ title, type, user, buttonText }) => {
   const [sectionReady, setSectionReady] = React.useState(false)
   // Allows child component to change the button text
   const [newButtonText, setNewButtonText] = React.useState('')
@@ -54,8 +57,11 @@ const AccountPageSection = ({ title, type, user, buttonText, setSidePanel }) => 
     setNewSidePanelType(sidePanelType)
   }
 
+  // OPEN SIDE PANEL
+  // Go to account page with query to toggle side panel
   const onClick = () => {
-    setSidePanel(newSidePanelType || type)
+    const query = newSidePanelType || type
+    Router.push(`${ROUTES.ACCOUNT}?${query}`)
   }
 
   // Fetch section to show

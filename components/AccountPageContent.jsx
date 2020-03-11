@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { useRouter } from 'next/router'
+
 import { BillingContext } from './contexts/BillingContext'
 import { SidePanelContext } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
@@ -17,6 +19,9 @@ import AccountPageSection from './AccountPageSection'
 import brandColours from '../constants/brandColours'
 
 const AccountPageContent = ({ user, className }) => {
+  // Get ROUTE info
+  const { query } = useRouter()
+  const [pageQuery] = Object.keys(query)
   // IMPORT BILLING STATE
   const { billingLoading } = React.useContext(BillingContext)
   // IMPORT SIDE PANEL STATE AND SETTERS
@@ -24,23 +29,23 @@ const AccountPageContent = ({ user, className }) => {
 
   // Define function to toggle sidepanel
   const setSidePanel = (type) => {
-    if (type === 'close') {
+    if (!type) {
       setSidePanelContent(null)
       toggleSidePanel(false)
       return
     }
     if (type === 'account') {
-      setSidePanelContent(<AccountPageDetailsNew user={user} closePanel={() => toggleSidePanel(false)} />)
+      setSidePanelContent(<AccountPageDetailsNew user={user} />)
       toggleSidePanel(true)
       return
     }
     if (type === 'add-payment') {
-      setSidePanelContent(<PaymentAdd closePanel={() => toggleSidePanel(false)} />)
+      setSidePanelContent(<PaymentAdd />)
       toggleSidePanel(true)
       return
     }
     if (type === 'payment') {
-      setSidePanelContent(<AccountPagePayments user={user} closePanel={() => toggleSidePanel(false)} />)
+      setSidePanelContent(<AccountPagePayments user={user} />)
       toggleSidePanel(true)
       return
     }
@@ -53,8 +58,8 @@ const AccountPageContent = ({ user, className }) => {
   // * FOR DEV
   React.useEffect(() => {
     if (billingLoading) return
-    setSidePanel('add-payment')
-  }, [billingLoading])
+    setSidePanel(pageQuery)
+  }, [billingLoading, pageQuery])
 
   // While loading
   if (billingLoading) {

@@ -1,6 +1,9 @@
+import React from 'react'
 import Link from 'next/link'
 import moment from 'moment'
 import * as ROUTES from '../constants/routes'
+
+import { SidePanelContext } from './contexts/SidePanelContext'
 
 // IMPORT ELS
 import Feed from './elements/Feed'
@@ -9,7 +12,12 @@ import Button from './elements/Button'
 import styles from './PaymentPage.module.css'
 
 // PAYMENT SUCCESS
-const PaymentPageSuccess = ({ cardDetails, closePanel }) => {
+const PaymentPageSuccess = ({ cardDetails }) => {
+  // Get Side panel context
+  const {
+    toggleSidePanel,
+  } = React.useContext(SidePanelContext)
+
   return (
     <div className={styles.PaymentPageSuccess}>
 
@@ -42,7 +50,7 @@ const PaymentPageSuccess = ({ cardDetails, closePanel }) => {
 
       <Button
         version="black progress"
-        onClick={closePanel}
+        onClick={toggleSidePanel}
         className={styles.PaymentPageSuccess__button}
       >
         Ok.
