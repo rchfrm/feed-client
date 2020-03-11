@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
+import { SidePanelContext } from './contexts/SidePanelContext'
 
 import server from './helpers/server'
 import firebase from './helpers/firebase'
@@ -13,103 +14,46 @@ import Button from './elements/Button'
 import styles from './AccountPage.module.css'
 import sidePanelStyles from './SidePanel.module.css'
 
-function AccountPageDetailsNew({ user, closePanel }) {
+
+const getButton = (buttonOn, handleSubmit) => {
+  return (
+    <Button version="green" onClick={handleSubmit} disabled={!buttonOn}>
+      Save changes
+    </Button>
+  )
+}
+
+function AccountPageDetailsNew({ user }) {
   // Get user and auth context
   const { getToken } = React.useContext(AuthContext)
   const { setUser } = React.useContext(UserContext)
-  const { first_name: userName, last_name: userSurname, email: userEmail } = user
+  // Get Side panel context
+  const {
+    toggleSidePanel,
+    setSidePanelLoading,
+    setSidePanelButton,
+  } = React.useContext(SidePanelContext)
+  // Get initial details from user
+  const { first_name: initialName, last_name: initialSurname, email: initialEmail } = user
 
   const [name, setName] = React.useState('')
   const [surname, setSurname] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [passwordOne, setPasswordOne] = React.useState('')
   const [passwordTwo, setPasswordTwo] = React.useState('')
+  const [buttonOn, setButtonOn] = React.useState(true)
 
-  // DEFINE BUTTON STATE
-  const initialButtonState = {
-    disabled: false,
-    text: 'save changes',
-    success: false,
-  }
-
-  const buttonReducer = (buttonState, buttonAction) => {
-    switch (buttonAction.type) {
-      case 'abled':
-        return {
-          ...buttonState,
-          disabled: false,
-        }
-      case 'disabled':
-        return {
-          ...buttonState,
-          disabled: true,
-        }
-      case 'saving':
-        return {
-          ...buttonState,
-          disabled: true,
-          text: 'saving...',
-        }
-      case 'saved':
-        return {
-          ...buttonState,
-          disabled: true,
-          success: true,
-          text: 'saved!',
-        }
-      case 'reset':
-        return initialButtonState
-      default:
-        throw new Error(`Unable to find ${buttonAction.type} in buttonReducer`)
-    }
-  }
-
-  const [button, setButton] = React.useReducer(buttonReducer, initialButtonState)
-
-  // Set initial values from user
-  React.useEffect(() => {
-    setName(userName)
-    setSurname(userSurname)
-    setEmail(userEmail)
-  }, [])
-
-  // Handle Changes in the form
-  const formUpdated = React.useRef(false)
-  const handleChange = ({ target }) => {
-    formUpdated.current = true
-    const { name, value } = target
-    if (name === 'name') return setName(value)
-    if (name === 'surname') return setSurname(value)
-    if (name === 'email') return setEmail(value)
-    if (name === 'passwordOne') return setPasswordOne(value)
-    if (name === 'passwordTwo') return setPasswordTwo(value)
-  }
-
-  // Watch changes in form data and set button
-  React.useEffect(() => {
-    // Stop here if the form hasn't been updated
-    if (!formUpdated.current) return
-    // Set the button state
-    if (passwordOne !== passwordTwo) {
-      setButton({ type: 'disabled' })
-      return
-    }
-    if (!name || !surname || !email) {
-      setButton({ type: 'disabled' })
-      return
-    }
-    setButton({ type: 'abled' })
-  }, [name, surname, passwordOne, passwordTwo])
-
-  // Submit the form
+  // SUBMIT THE FORM
   const [errors, setErrors] = React.useState([])
-  const handleSubmit = async (e) => {
-    console.log(e)
-    e.preventDefault()
+  const handleSubmit = React.useRef(() => {})
+  handleSubmit.current = async (e) => {
+    if (e) e.preventDefault()
+    // Clear errors
+    setErrors([])
     const passwordChanged = passwordOne || passwordTwo
     // No password set and no name changes, close panel
-    if (!passwordChanged && name === userName && surname === userSurname && email === userEmail) {
-      closePanel()
+    if (!passwordChanged && name === initialName && surname === initialSurname && email === initialEmail) {
+      toggleSidePanel()
       return
     }
 
@@ -130,8 +74,11 @@ function AccountPageDetailsNew({ user, closePanel }) {
 
     // Stop here if errors
     if (errors.length) return
-    // Now we wait...
-    setButton({ type: 'saving' })
+    console.log(name, surname, email)
+    // Hide button
+    setButtonOn(false)
+    // Set loading
+    setSidePanelLoading(true)
     // Update password
     const passwordUpdatePromise = passwordChanged ? firebase.doPasswordUpdate(passwordOne) : null
     // Update user
@@ -152,20 +99,71 @@ function AccountPageDetailsNew({ user, closePanel }) {
     // Clear the passwords
     setPasswordOne('')
     setPasswordTwo('')
-    // Show success message
-    setButton({ type: 'saved' })
-    // Close the sidebar after three seconds
-    setTimeout(() => {
-      closePanel()
-    }, 1500)
+    // Stop loading
+    setSidePanelLoading(false)
+    // Close panel after delay
+    setTimeout(toggleSidePanel, 1500)
   }
+
+
+  // Set initial values from user
+  React.useEffect(() => {
+    setName(initialName)
+    setSurname(initialSurname)
+    setEmail(initialEmail)
+  }, [])
+
+  // Handle Changes in the form
+  const formUpdated = React.useRef(false)
+  const handleChange = ({ target }) => {
+    formUpdated.current = true
+    const { name, value } = target
+    if (name === 'name') return setName(value)
+    if (name === 'surname') return setSurname(value)
+    if (name === 'email') return setEmail(value)
+    if (name === 'passwordOne') return setPasswordOne(value)
+    if (name === 'passwordTwo') return setPasswordTwo(value)
+  }
+
+
+  // UPDATE BUTTON
+  // const [, updateState] = React.useState()
+  // const forceUpdate = React.useCallback(() => updateState({}), [])
+  const [, forceUpdate] = React.useReducer(x => x + 1, 0)
+  React.useEffect(() => {
+    const submit = () => {
+      forceUpdate()
+      handleSubmit.current()
+    }
+    setSidePanelButton(getButton(buttonOn, submit))
+    return () => {
+      setSidePanelButton(null)
+    }
+  }, [buttonOn])
+
+  // Watch changes in form data and set button
+  React.useEffect(() => {
+    // Stop here if the form hasn't been updated
+    if (!formUpdated.current) return
+    // Set the button state
+    if (passwordOne !== passwordTwo) {
+      setButtonOn(false)
+      return
+    }
+    if (!name || !surname || !email) {
+      setButtonOn(false)
+      return
+    }
+    setButtonOn(true)
+  }, [name, surname, passwordOne, passwordTwo])
+
 
   return (
     <section className={styles.accountPageDetails}>
 
       <h2 className={sidePanelStyles.SidePanel__Header}>Account Page Details</h2>
 
-      <form className={styles.accountPageDetails__form} onSubmit={handleSubmit}>
+      <form className={styles.accountPageDetails__form} onSubmit={handleSubmit.current}>
 
         <InputNew
           className={styles.input}
@@ -221,16 +219,6 @@ function AccountPageDetailsNew({ user, closePanel }) {
           label="Confirm new password:"
           version="text"
         />
-
-        <Button
-          className={styles.submitButton}
-          version="black"
-          type="submit"
-          disabled={button.disabled}
-          success={button.success}
-        >
-          {button.text}
-        </Button>
       </form>
     </section>
   )
@@ -238,7 +226,6 @@ function AccountPageDetailsNew({ user, closePanel }) {
 
 AccountPageDetailsNew.propTypes = {
   user: PropTypes.object.isRequired,
-  closePanel: PropTypes.func.isRequired,
 }
 
 export default AccountPageDetailsNew
