@@ -19,6 +19,7 @@ button {
   &[disabled] {
     color: #999999;
     background-color: #E5E5E5;
+    cursor: default;
   }
 
   &:focus {
