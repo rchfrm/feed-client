@@ -10,13 +10,11 @@ import styles from './SidePanel.module.css'
 function SidePanel({
   content,
   button,
-  isOpen,
   toggle,
   isLoading,
 }) {
   console.log('side panel mount')
   const close = () => toggle(false)
-  if (!isOpen) return null
   return (
     <>
       <div className={styles.panelBg} />
@@ -45,15 +43,13 @@ function SidePanel({
 }
 
 SidePanel.propTypes = {
-  content: PropTypes.node,
+  content: PropTypes.node.isRequired,
   button: PropTypes.node,
-  isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
 }
 
 SidePanel.defaultProps = {
-  content: null,
   button: null,
   isLoading: false,
 }

@@ -53,7 +53,7 @@ const AccountPageContent = ({ user, className }) => {
   // FOR DEV
   React.useEffect(() => {
     if (billingLoading) return
-    setSidePanel('payment')
+    setSidePanel('account')
   }, [billingLoading])
 
   // While loading

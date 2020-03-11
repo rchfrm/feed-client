@@ -45,14 +45,16 @@ const SidePanelContextProvider = ({ children }) => {
     >
       <>
         {/* The side panel */}
-        <SidePanel
-          content={sidePanelContent}
-          setContent={setSidePanelContent}
-          button={sidePanelButton}
-          isOpen={sidePanelOpen}
-          toggle={toggleSidePanel}
-          isLoading={sidePanelLoading}
-        />
+        {sidePanelContent && sidePanelOpen && (
+          <SidePanel
+            content={sidePanelContent}
+            setContent={setSidePanelContent}
+            button={sidePanelButton}
+            isOpen={sidePanelOpen}
+            toggle={toggleSidePanel}
+            isLoading={sidePanelLoading}
+          />
+        )}
         {/* The child content */}
         {children}
       </>
