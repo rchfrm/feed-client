@@ -54,7 +54,7 @@ const AccountPageContent = ({ user, className }) => {
     }
   }
 
-  // * FOR DEV
+  // SET INITIAL SIDE PANEL (if any)
   React.useEffect(() => {
     if (billingLoading) return
     setSidePanel(pageQuery)
