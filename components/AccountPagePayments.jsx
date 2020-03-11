@@ -129,6 +129,16 @@ function AccountPagePayments() {
         </div>
       )}
 
+      {/* ADD PAYMENT METHOD BUTTON */}
+      <div className={styles.AccountPagePayments__addPayment}>
+        <Button
+          className="button--small"
+          onClick={goToCheckout}
+        >
+          + Add new payment method
+        </Button>
+      </div>
+
       <div className={styles.AccountPagePayments__allMethods}>
         {/* ALL PAYMENT METHODS */}
         {paymentMethodsSorted.current.map((method) => {
@@ -145,22 +155,8 @@ function AccountPagePayments() {
         })}
       </div>
 
-      {/* ADD PAYMENT METHOD BUTTON */}
-      <div className={styles.AccountPagePayments__addPayment}>
-        <Button
-          className="button--small"
-          onClick={goToCheckout}
-        >
-          + Add new payment method
-        </Button>
-      </div>
-
     </section>
   )
-}
-
-AccountPagePayments.propTypes = {
-  closePanel: PropTypes.func.isRequired,
 }
 
 export default AccountPagePayments

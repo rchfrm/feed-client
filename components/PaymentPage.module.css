@@ -34,7 +34,7 @@ PAYMENT METHOD
 }
 
 .AccountPagePayments__addPayment {
-  margin-bottom: var(--bsu-lg);
+  margin-bottom: var(--bsu-md);
 }
 
 .AccountPagePayments__saveDefault {
