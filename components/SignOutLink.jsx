@@ -6,8 +6,7 @@ import Router from 'next/router'
 import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
-// IMPORT ELEMENTS
-import Button from './elements/Button'
+
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
