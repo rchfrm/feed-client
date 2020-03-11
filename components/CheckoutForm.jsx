@@ -18,6 +18,7 @@ import * as ROUTES from '../constants/routes'
 import { UserContext } from './contexts/User'
 import { AuthContext } from './contexts/Auth'
 import { BillingContext } from './contexts/BillingContext'
+import { SidePanelContext } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import Feed from './elements/Feed'
 import Error from './elements/Error'
@@ -30,6 +31,14 @@ import InputNew from './elements/InputNew'
 import styles from './PaymentPage.module.css'
 import paymentHelpers from './helpers/paymentHelpers'
 
+
+const getButton = (submit) => {
+  return (
+    <Button version="green" onClick={submit}>
+      Submit
+    </Button>
+  )
+}
 
 // CARD INPUTS
 const CardInput = () => {
@@ -85,9 +94,14 @@ const PaymentPageIntro = () => {
   )
 }
 
-function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe }) {
+function CheckoutForm({ setSuccess, setCardDetails, elements, stripe }) {
   // Contexts
   const { getToken } = React.useContext(AuthContext)
+  // Get Side panel context
+  const {
+    setSidePanelLoading,
+    setSidePanelButton,
+  } = React.useContext(SidePanelContext)
   // END Contexts
 
   // States
@@ -108,6 +122,7 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
       setEmail(user.email)
     }
   }, [user.email])
+
 
   // Get Org ID from context
   // & get function to set billing details
@@ -184,9 +199,19 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
     return errorList.length
   }
 
+  const clearForm = () => {
+    setAddressLine1('')
+    setAddressLine2('')
+    setCity('')
+    setCountry('')
+    setName('')
+    setState('')
+  }
+
   // Create Stripe payment method and submit to server
-  const submitPaymentMethod = async (e) => {
-    e.preventDefault()
+  const submitPaymentMethod = React.useRef(() => {})
+  submitPaymentMethod.current = async (e) => {
+    if (e) e.preventDefault()
     // Clear errors
     setErrors([])
     // Check for errors and print any
@@ -197,7 +222,7 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
       return
     }
 
-    setLoading(true)
+    setSidePanelLoading(true)
 
     // Create billing details object for Stripe
     const billingDetailsStripe = {
@@ -221,16 +246,19 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
         billing_details: billingDetailsStripe,
       })
 
+      console.log('billingDetailsStripe', billingDetailsStripe)
+      console.log('paymentMethod', paymentMethod)
+
       // Stop here if error and show message
       if (error) {
         setErrors([{ message: 'Error adding card' }])
-        setLoading(false)
+        setSidePanelLoading(false)
         return
       }
 
       // Send the payment method id to the server
       const verifyToken = await getToken()
-      await paymentHelpers.submitPaymentMethod(paymentMethod.id, verifyToken, organisationId)
+      await paymentHelpers.submitPaymentMethod(organisationId, paymentMethod.id, verifyToken)
       // Store key details of the card that was saved in state,
       // and set success to true
       setCardDetails({
@@ -243,13 +271,28 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
       await fetchBillingDetails()
       // Then finish
       setSuccess(true)
-      setLoading(false)
+      setSidePanelLoading(false)
+      // Clear form
+      clearForm()
     } catch (err) {
       setErrors([err])
-      setLoading(false)
+      setSidePanelLoading(false)
     }
   }
-  // END Functions
+
+  // CREATE SIDE PANEL BUTTON
+  const [, forceUpdate] = React.useReducer(x => x + 1, 0)
+  React.useEffect(() => {
+    const buttonSubmit = () => {
+      forceUpdate()
+      submitPaymentMethod.current()
+    }
+    const button = getButton(buttonSubmit)
+    setSidePanelButton(button)
+    return () => {
+      setSidePanelButton(null)
+    }
+  }, [])
 
   return (
     <>
@@ -257,7 +300,7 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
 
       <form
         className={styles['checkout-inputs']}
-        onSubmit={submitPaymentMethod}
+        onSubmit={submitPaymentMethod.current}
       >
 
         {/* Show any errors */}
@@ -343,16 +386,6 @@ function CheckoutForm({ setLoading, setSuccess, setCardDetails, elements, stripe
           version="box"
           style={{ fontFamily: 'monospace' }}
         />
-
-        <div className={styles.checkoutButtonWrapper}>
-          <Button
-            version="black progress"
-            type="submit"
-            onClick={submitPaymentMethod}
-          >
-            Submit
-          </Button>
-        </div>
 
         <div className={styles.checkoutStripeLogo}>
           <a href="https://stripe.com/gb" target="_blank" rel="noopener noreferrer">

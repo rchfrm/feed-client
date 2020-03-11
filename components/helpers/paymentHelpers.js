@@ -3,7 +3,7 @@ import host from './host'
 import server from './server'
 
 // PAYMENTS
-const submitPaymentMethod = async (paymentMethodId, organisationId, verifyIdToken) => {
+const submitPaymentMethod = async (organisationId, paymentMethodId, verifyIdToken) => {
   const endpoint = `${host}organizations/${organisationId}/billing/payments`
   const res = await fetch(endpoint, {
     method: 'POST',
