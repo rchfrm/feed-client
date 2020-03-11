@@ -25,9 +25,11 @@ function SidePanel({
         </div>
       )}
       <div className={styles.panelContainer}>
+        {/* The content */}
         <div className={styles.panelContainer__inner}>
           { content }
         </div>
+        {/* The close button */}
         <button title="Back" className={styles.backButton} onClick={close}>
           <span className={styles.span}>Back</span>
         </button>
