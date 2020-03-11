@@ -5,6 +5,7 @@ module.exports = {
     'postcss-mixins': {},
     'postcss-calc': {},
     'postcss-nested': {},
+    'postcss-color-mod-function': {},
     'postcss-preset-env': {
       stage: 1,
     },
