@@ -8,7 +8,7 @@ import { SidePanelContext } from './contexts/SidePanelContext'
 import PageHeader from './PageHeader'
 import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
-import AccountPageDetailsNew from './AccountPageDetailsNew'
+import AccountPageDetails from './AccountPageDetails'
 import AccountPageIntegrations from './AccountPageIntegrations'
 import AccountPagePayments from './AccountPagePayments'
 import PaymentAdd from './PaymentAdd'
@@ -35,7 +35,7 @@ const AccountPageContent = ({ user, className }) => {
       return
     }
     if (type === 'account') {
-      setSidePanelContent(<AccountPageDetailsNew user={user} />)
+      setSidePanelContent(<AccountPageDetails user={user} />)
       toggleSidePanel(true)
       return
     }
