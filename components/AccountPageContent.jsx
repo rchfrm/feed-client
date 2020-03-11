@@ -30,7 +30,6 @@ const AccountPageContent = ({ user, className }) => {
   // Define function to toggle sidepanel
   const setSidePanel = (type) => {
     if (!type) {
-      setSidePanelContent(null)
       toggleSidePanel(false)
       return
     }

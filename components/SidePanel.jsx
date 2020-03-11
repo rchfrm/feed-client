@@ -32,8 +32,13 @@ function SidePanel({
   // TOGGLE SHOWING
   const [show, setVisible] = React.useState(false)
   React.useEffect(() => {
+    if (!isOpen) {
+      setVisible(false)
+      return
+    }
     setVisible(isOpen && content)
   }, [isOpen, content])
+
 
   // ANIMATIONS
   const mainTransition = useTransition(show, null, {
@@ -41,6 +46,7 @@ function SidePanel({
     enter: { progress: 0 },
     leave: { progress: 100 },
   })
+
 
   return mainTransition.map(({ item, key, props: { progress } }) => item && (
     <div key={key} className={styles.SidePanel}>
