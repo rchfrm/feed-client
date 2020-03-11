@@ -58,7 +58,7 @@ h2, h3, h4, p, .small-p {
 }
 
 a {
-  color: black;
+  color: var(--black);
 }
 
 a:hover {

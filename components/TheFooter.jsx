@@ -17,15 +17,9 @@ const thisYear = new Date().getFullYear()
 
 function Footer() {
   const { navState } = React.useContext(NavigationContext)
-  const textColor = navState.visible ? 'white' : 'black'
-  const bgColor = navState.visible ? 'black' : 'white'
+  const footerClass = navState.visible ? 'navOn' : 'navOff'
   return (
-    <footer
-      style={{
-        backgroundColor: bgColor,
-        color: textColor,
-      }}
-    >
+    <footer className={['TheFooter', footerClass].join(' ')}>
 
       <p className="small-p no-margin">
         &copy;

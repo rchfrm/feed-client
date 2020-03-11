@@ -14,7 +14,7 @@
 }
 
 .alert {
-  background-color: white;
+  background-color: var(--white);
   width: 90%;
   padding: 5%;
   border: 2px solid black;
@@ -176,8 +176,8 @@
 /* Navigation
 ******************/
 .TheNavigation {
-  background-color: black;
-  color: white;
+  background-color: var(--black);
+  color: var(--white);
 
   a.-active {
     text-decoration: none;
@@ -200,13 +200,13 @@
   a {
     font-size: 1.25em;
     font-weight: 600;
-    color: white;
+    color: var(--white);
   }
 }
 
 nav select {
   background-color: transparent;
-  color: white;
+  color: var(--white);
   font-size: 1.25em;
   font-weight: 600;
   border: 1px solid white;
@@ -216,8 +216,8 @@ nav select {
 }
 
 nav option {
-  background-color: black;
-  color: white;
+  background-color: var(--black);
+  color: var(--white);
 }
 /* NextButton
 ******************/

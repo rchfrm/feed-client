@@ -39,7 +39,7 @@
 .chartMin {
   position: absolute;
   left: 2%;
-  background-color: white;
+  background-color: var(--white);
   padding: 0.25em;
   z-index: 2;
   border-radius: 5px;

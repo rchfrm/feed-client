@@ -27,6 +27,7 @@ body,
 #__next {
   width: 100%;
   height: 100%;
+  background: var(--white);
 }
 
 body {
@@ -34,6 +35,7 @@ body {
   font-feature-settings: "ss01";
   max-width: var(--max-width);
   font-size: var(--base-font-size);
+  color: var(--black);
   margin: 0 auto;
 }
 
@@ -43,37 +45,54 @@ body {
   min-height: 100%;
 }
 
-header {
-  padding: 5%;
-}
-
 main {
   display: flex;
   flex-direction: column;
   flex: auto;
   padding: 5% 0;
   overflow-x: hidden;
+  background: var(--white);
+
+  &.navOn {
+    background: var(--black);
+  }
 }
 
-  .page-container {
-    display: flex;
-    flex-direction: column;
-    flex: auto;
-    align-items: flex-end;
-    width: 100%;
-  }
+.page-container {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+  align-items: flex-end;
+  width: 100%;
+}
 
-  .fill-height {
-    flex: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-  }
+.fill-height {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
 
-footer {
-  padding: 5% 0;
-  margin: 0 5%;
+.TheHeader {
+  padding: 5%;
+  background: var(--white);
+
+  &.navOn {
+    background: var(--black);
+  }
+}
+
+.TheFooter {
+  padding: 5%;
+  color: var(--black);
+  background: var(--white);
+
+
+  &.navOn {
+    color: var(--white);
+    background: var(--black);
+  }
 }
 
 

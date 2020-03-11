@@ -15,10 +15,9 @@ import styles from './TheHeader.module.css'
 function Header() {
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const toggleNav = () => navDispatch({ type: 'toggle' })
-  const backgroundColor = navState.visible ? 'black' : 'white'
-
+  const headerClass = navState.visible ? 'navOn' : 'navOff'
   return (
-    <header style={{ backgroundColor }}>
+    <header className={['TheHeader', headerClass].join(' ')}>
       <Link href={ROUTES.HOME}>
         <a>
           <FeedLogo className={styles.logo} style={{ opacity: 0 }} />

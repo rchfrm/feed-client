@@ -172,8 +172,8 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  background-color: black;
-  color: white;
+  background-color: var(--black);
+  color: var(--white);
   padding: 0.75em 1.5em;
 }
 

@@ -41,7 +41,7 @@ button {
 .button--green {
   font-weight: bold;
   background-color: var(--green);
-  color: white;
+  color: var(--white);
 }
 
 .button--success {
@@ -88,13 +88,13 @@ button {
 }
 
 .connected {
-  background-color: black;
-  color: white;
+  background-color: var(--black);
+  color: var(--white);
 }
 
 .button_sign-out {
   background-color: transparent;
-  color: white;
+  color: var(--white);
   border: none;
   font-weight: 600;
   font-size: 1.25em;
@@ -112,7 +112,7 @@ button {
 .button_text {
   background-color: transparent;
   display: inline;
-  color: black;
+  color: var(--black);
   border: none;
   font-weight: normal;
   font-size: 1em;
