@@ -32,9 +32,9 @@ import styles from './PaymentPage.module.css'
 import paymentHelpers from './helpers/paymentHelpers'
 
 
-const getButton = (submit) => {
+const getButton = (buttonEnabled, submit) => {
   return (
-    <Button version="green" onClick={submit}>
+    <Button version="green" onClick={submit} disabled={!buttonEnabled}>
       Submit
     </Button>
   )
@@ -113,6 +113,7 @@ function CheckoutForm({ setSuccess, setCardDetails, elements, stripe }) {
   const [email, setEmail] = React.useState('')
   const [name, setName] = React.useState('')
   const [state, setState] = React.useState('')
+  const [buttonEnabled, setButtonEnabled] = React.useState(false)
   // END States
 
   // Set email if user already has email
@@ -138,39 +139,28 @@ function CheckoutForm({ setSuccess, setCardDetails, elements, stripe }) {
       name: country.name,
     }
   })
-  // END Transform countries array to have name and value keys
 
-  // Functions
   // Handle input changes
-  const handleChange = e => {
-    switch (e.target.name) {
-      case 'address-line-1':
-        setAddressLine1(e.target.value)
-        break
-      case 'address-line-2':
-        setAddressLine2(e.target.value)
-        break
-      case 'city':
-        setCity(e.target.value)
-        break
-      case 'country':
-        setCountry(e.target.value)
-        break
-      case 'email':
-        setEmail(e.target.value)
-        break
-      case 'name':
-        setName(e.target.value)
-        break
-      case 'state':
-        setState(e.target.value)
-        break
-      default:
-        break
-    }
+  const handleChange = (e) => {
+    const { target } = e
+    const { name, value } = target
+    if (name === 'address-line-1') setAddressLine1(value)
+    else if (name === 'address-line-2') setAddressLine2(value)
+    else if (name === 'city') setCity(value)
+    else if (name === 'country') setCountry(value)
+    else if (name === 'email') setEmail(value)
+    else if (name === 'name') setName(value)
+    else if (name === 'state') setState(value)
     setErrors([])
     setSuccess(false)
   }
+
+  // TOGGLE BUTTON ON and OFF
+  React.useEffect(() => {
+    const enableButton = name && email && addressLine1 && city && country
+    setButtonEnabled(enableButton)
+  }, [email, name, addressLine1, city, country])
+
 
   const handleErrors = () => {
     const errorList = []
@@ -287,12 +277,12 @@ function CheckoutForm({ setSuccess, setCardDetails, elements, stripe }) {
       forceUpdate()
       submitPaymentMethod.current()
     }
-    const button = getButton(buttonSubmit)
+    const button = getButton(buttonEnabled, buttonSubmit)
     setSidePanelButton(button)
     return () => {
       setSidePanelButton(null)
     }
-  }, [])
+  }, [buttonEnabled])
 
   return (
     <>
