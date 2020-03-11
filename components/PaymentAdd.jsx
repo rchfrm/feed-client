@@ -3,7 +3,7 @@ import React from 'react'
 import { Elements } from 'react-stripe-elements'
 
 // IMPORT COMPONENTS
-import CheckoutForm from './CheckoutForm'
+import PaymentAddForm from './PaymentAddForm'
 import PaymentPageSuccess from './PaymentPageSuccess'
 
 import styles from './PaymentPage.module.css'
@@ -24,7 +24,7 @@ const PaymentAdd = ({ closePanel }) => {
           !success
             ? (
               <Elements>
-                <CheckoutForm
+                <PaymentAddForm
                   setSuccess={setSuccess}
                   setCardDetails={setCardDetails}
                 />

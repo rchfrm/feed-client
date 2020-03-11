@@ -94,7 +94,7 @@ const PaymentPageIntro = () => {
   )
 }
 
-function CheckoutForm({ setSuccess, setCardDetails, elements, stripe }) {
+function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
   // Contexts
   const { getToken } = React.useContext(AuthContext)
   // Get Side panel context
@@ -389,4 +389,4 @@ function CheckoutForm({ setSuccess, setCardDetails, elements, stripe }) {
   )
 }
 
-export default injectStripe(CheckoutForm)
+export default injectStripe(PaymentAddForm)
