@@ -385,6 +385,7 @@ function CheckoutForm({ setSuccess, setCardDetails, elements, stripe }) {
           selectedValue={country}
           version="box"
           style={{ fontFamily: 'monospace' }}
+          required
         />
 
         <div className={styles.checkoutStripeLogo}>
