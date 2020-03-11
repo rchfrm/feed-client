@@ -19,12 +19,9 @@ import styles from './PaymentPage.module.css'
 import sidePanelStyles from './SidePanel.module.css'
 
 
-const SidePanelButton = (setAsDefault) => {
+const getButton = (submitChanges) => {
   return (
-    <Button
-      version="green"
-      onClick={setAsDefault}
-    >
+    <Button version="green" onClick={submitChanges}>
       Update default method
     </Button>
   )
@@ -60,11 +57,10 @@ function AccountPagePayments() {
   // Error
   const [error, setError] = React.useState(null)
 
-  console.log('account page mount')
-
 
   // HANDLE SET AS DEFAULT
-  const setAsDefault = async () => {
+  const submitChanges = React.useRef(() => {})
+  submitChanges.current = async () => {
     setError(null)
     setSidePanelLoading(true)
     // Get token
@@ -86,6 +82,8 @@ function AccountPagePayments() {
     setHasNewMethod(false)
     // Stop loading state
     setSidePanelLoading(false)
+    // Close panel after delay
+    setTimeout(toggleSidePanel, 1500)
   }
 
   // HANDLE CLICK ON METHOD
@@ -96,11 +94,16 @@ function AccountPagePayments() {
   }
 
   // TOGGLE SIDEBAR BUTTON based on whether new method is selected
+  const [, forceUpdate] = React.useReducer(x => x + 1, 0)
   React.useEffect(() => {
     if (hasNewMethod === previousHasNewMethod) return
     // If new method selected, show side panel button
+    const submit = () => {
+      forceUpdate()
+      submitChanges.current()
+    }
     const button = hasNewMethod
-      ? SidePanelButton(setAsDefault)
+      ? getButton(submit)
       : null
     setSidePanelButton(button)
     // Clean up
