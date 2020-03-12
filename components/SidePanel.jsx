@@ -29,7 +29,6 @@ function SidePanel({
   }
 
   // TOGGLE SHOWING
-  // const [isAnimating, setIsAnimating] = React.useState(true)
   const [show, setShow] = React.useState(false)
   React.useEffect(() => {
     if (!isOpen) {
@@ -41,14 +40,14 @@ function SidePanel({
 
 
   // ANIMATIONS
-  const mainTransition = useTransition(show, null, {
+  const transition = useTransition(show, null, {
     from: { progress: 100 },
     enter: { progress: 0 },
     leave: { progress: 100 },
   })
 
 
-  return mainTransition.map(({ item, key, props: { progress } }) => item && (
+  return transition.map(({ item, key, props: { progress } }) => item && (
     <div key={key} className={styles.SidePanel}>
       {/* The BG */}
       <animated.a
