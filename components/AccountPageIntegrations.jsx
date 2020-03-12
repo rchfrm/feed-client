@@ -1,6 +1,7 @@
 
 // IMPORT PACKAGES
 import React from 'react'
+import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
@@ -10,6 +11,7 @@ import AsteriskIcon from './icons/AsterixIcon'
 import ConnectionsLoader from './AccountPageLoader'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
+import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 // IMPORT STYLES
 import styles from './AccountPage.module.css'
@@ -20,10 +22,15 @@ function IntegrationsSection() {
     <div className={styles['account-integrations']}>
       <h2 className={sidePanelStyles.SidePanel__Header}>Connections</h2>
       <p className={styles.p}>
-        The&nbsp;
-        <AsteriskIcon width={15} />
+        The default link in your promoted posts is marked by
         {' '}
-        marks the default link used in your post promotions.
+        <AsteriskIcon width={15} />.
+        {' '}
+        You can change the link on each specific post
+        {' '}
+        <Link href={ROUTES.POSTS}>
+          <a>here</a>
+        </Link>
       </p>
       <Artists />
     </div>

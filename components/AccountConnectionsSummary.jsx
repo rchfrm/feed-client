@@ -11,7 +11,7 @@ const AccountConnectionsSummary = ({ className, onReady }) => {
   return (
     <div className={className}>
       <p className={styles.p}>
-        Connections are the links associated with your accounts. You can edit them below.
+        Link your social and streaming accounts here, as well as your website(s). If you have more than one website, you can just put the link in any empty field.
       </p>
     </div>
   )
