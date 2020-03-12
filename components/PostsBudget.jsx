@@ -6,7 +6,7 @@ import Link from 'next/link'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Input from './elements/Input'
+import InputNew from './elements/InputNew'
 import Button from './elements/Button'
 import Feed from './elements/Feed'
 // IMPORT PAGES
@@ -109,16 +109,15 @@ function Budget({ currency }) {
 
         <h3>Enter the amount you'd like to spend each day:</h3>
 
-        <div className={styles['budget-form']}>
+        <div className={styles.BudgetForm}>
 
-          <Input
+          <InputNew
+            className={styles.BudgetForm_input}
             name="budget"
-            className={styles.box}
             placeholder={currency}
             value={budget.amount === 0 ? '' : budget.amount}
-            onChange={handleChange}
+            handleChange={handleChange}
             type="number"
-            label="none"
             version="box"
             width={65.738}
           />

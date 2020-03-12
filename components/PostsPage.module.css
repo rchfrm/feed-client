@@ -202,10 +202,12 @@
 
 
 /* FORM FOR SETTING BUDGET */
-.budget-form {
+.BudgetForm {
   display: flex;
   justify-content: space-between;
-  .box {
-    margin-bottom: 1em;
-  }
+  margin-bottom: var(--bsu);
+}
+
+.BudgetForm_input {
+  margin-bottom: 0;
 }
