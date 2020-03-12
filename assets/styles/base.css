@@ -37,6 +37,10 @@ body {
   font-size: var(--base-font-size);
   color: var(--black);
   margin: 0 auto;
+
+  &.__no-scroll {
+    overflow: hidden;
+  }
 }
 
 #container {

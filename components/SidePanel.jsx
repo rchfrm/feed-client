@@ -8,6 +8,21 @@ import Spinner from './elements/Spinner'
 
 import styles from './SidePanel.module.css'
 
+
+const setBodyScroll = (canScroll, scrollTop) => {
+  const container = document.querySelector('#container')
+  if (!canScroll) {
+    scrollTop.current = window.pageYOffset
+    document.body.classList.add('__no-scroll')
+    container.style.marginTop = `${-1 * scrollTop.current}px`
+    return
+  }
+
+  document.body.classList.remove('__no-scroll')
+  window.pageYOffset = scrollTop.current
+  container.style.marginTop = ''
+}
+
 // * INSERTED via the SidePanelContext.jsx
 // * with the props passed in
 function SidePanel({
@@ -29,13 +44,18 @@ function SidePanel({
   }
 
   // TOGGLE SHOWING
+  // and
+  // TOGGLE BODY SCROLLING
+  const scrollTop = React.useRef(0)
   const [show, setShow] = React.useState(false)
   React.useEffect(() => {
     if (!isOpen) {
       setShow(false)
+      setBodyScroll(true, scrollTop)
       return
     }
     setShow(isOpen && content)
+    setBodyScroll(false, scrollTop)
   }, [isOpen, content])
 
 
