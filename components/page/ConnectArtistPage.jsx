@@ -147,7 +147,7 @@ const LoadContent = () => {
         <p>&nbsp;</p>
 
         <Button
-          version="black progress"
+          version="black"
           onClick={runCreateArtist}
           disabled={buttonDisabled}
         >

@@ -50,7 +50,7 @@ function ThankYou() {
       </div>
 
       <div className="ninety-wide" style={{ textAlign: 'right' }}>
-        <Button version="black progress" onClick={handleClick}>done.</Button>
+        <Button version="black" onClick={handleClick}>done.</Button>
       </div>
 
     </div>

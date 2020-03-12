@@ -85,7 +85,7 @@ function SignupPageEmail({ signUpForm, handleChange, isInvalid, error, signup })
 
         <div className={styles.signupButton}>
           <Button
-            version="black progress"
+            version="black"
             disabled={isInvalid}
             type="sumbit"
           >

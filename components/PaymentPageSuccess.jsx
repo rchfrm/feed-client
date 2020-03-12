@@ -49,7 +49,7 @@ const PaymentPageSuccess = ({ cardDetails }) => {
       </div>
 
       <Button
-        version="black progress"
+        version="black"
         onClick={toggleSidePanel}
         className={styles.PaymentPageSuccess__button}
       >

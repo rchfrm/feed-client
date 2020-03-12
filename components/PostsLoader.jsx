@@ -227,7 +227,7 @@ function PostsLoader() {
         }}
       >
         <Button
-          version="black progress"
+          version="black"
           onClick={returnHome}
         >
           Done
