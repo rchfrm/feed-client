@@ -129,6 +129,7 @@ function LoginPageForm() {
           >
 
             <InputNew
+              className={styles.LoginPage__input}
               name="email"
               placeholder=""
               value={email || ''}
@@ -140,6 +141,7 @@ function LoginPageForm() {
             />
 
             <InputNew
+              className={styles.LoginPage__input}
               name="password"
               placeholder=""
               value={password}
@@ -156,8 +158,7 @@ function LoginPageForm() {
 
             <Button
               className={styles.LoginPage__submit}
-              marginBottom="20px"
-              version="black progress"
+              version="black"
               disabled={false}
               onClick={onFormSubmit}
               type="input"
