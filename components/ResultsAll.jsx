@@ -530,7 +530,9 @@ function ResultsAll({ posts: postsObject, active, setPosts }) {
   }
   return (
     <div style={{ width: '100%' }}>
-      <h2 className="ninety-wide">{title}</h2>
+      <div className="ninety-wide">
+        <h2>{title}</h2>
+      </div>
       <ul className={styles.results}>{listResults}</ul>
       <DisabledResults disabledResults={disabledResults} />
     </div>
