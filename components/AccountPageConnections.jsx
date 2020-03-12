@@ -174,11 +174,11 @@ const IntegrationIcons = ({
   const priority = priorityDSP === platform
 
   // DEFINE DEFAULT COLOUR
-  let defaultColour = brandColours.lightGrey.hex
+  let defaultColour = brandColours.lightGrey
   if (valid && priority) {
-    defaultColour = brandColours.black.hex
+    defaultColour = brandColours.black
   } else if (!valid) {
-    defaultColour = brandColours.white.hex
+    defaultColour = brandColours.white
   }
   // DEFINE DEFAULT COLOUR
 
@@ -205,7 +205,7 @@ const IntegrationIcons = ({
 
   const handleMouseEnter = () => {
     if (valid && !priority) {
-      setColour(brandColours.darkGrey.hex)
+      setColour(brandColours.darkGrey)
     }
   }
 
@@ -273,7 +273,7 @@ const IntegrationIcons = ({
       />
 
       {loading
-        ? <Spinner width={15} colour={brandColours.grey.hex} />
+        ? <Spinner width={15} colour={brandColours.grey} />
         : (
           <div
             role="button"
@@ -376,7 +376,7 @@ function IntegrationEdit(props) {
   // END REDEFINE PROPS AS VARIABLES
 
   if (loading) {
-    return <Spinner width={15} colour={brandColours.grey.hex} />
+    return <Spinner width={15} colour={brandColours.grey} />
   }
 
   if (valid) {
@@ -391,7 +391,7 @@ function IntegrationEdit(props) {
   return (
     <Icon
       version="tick"
-      color={disabled ? [brandColours.grey.hex] : [brandColours.black.hex]}
+      color={disabled ? [brandColours.grey] : [brandColours.black]}
       width={15}
     />
   )

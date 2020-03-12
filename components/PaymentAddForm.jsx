@@ -45,17 +45,17 @@ const CardInput = () => {
   // Card element styles
   const cardElementStyles = {
     base: {
-      color: brandColours.black.hex,
+      color: brandColours.black,
       fontFamily: 'monospace',
       fontSize: '14px',
       fontWeight: '100',
       '::placeholder': {
-        color: brandColours.darkGrey.hex,
+        color: brandColours.darkGrey,
       },
     },
     invalid: {
-      color: brandColours.red.hex,
-      iconColor: brandColours.red.hex,
+      color: brandColours.red,
+      iconColor: brandColours.red,
     },
   }
 

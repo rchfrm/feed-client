@@ -412,12 +412,12 @@ function Toggle(props) {
       >
         {
             loading
-              ? <Spinner width={20} colour={brandColours.white.hex} />
+              ? <Spinner width={20} colour={brandColours.white} />
               : (
                 <Icon
                   className={styles.button}
                   version={promotion_enabled ? 'cross' : 'tick'}
-                  color={promotion_enabled ? brandColours.red.hex : brandColours.green.hex}
+                  color={promotion_enabled ? brandColours.red : brandColours.green}
                   width="18"
                 />
               )
@@ -465,7 +465,7 @@ function DisabledResults(props) {
     <div
       className={styles['disabled-results']}
       style={{
-        backgroundColor: helper.hexToRGBA(brandColours.red.hex, 0.1),
+        backgroundColor: helper.hexToRGBA(brandColours.red, 0.1),
       }}
     >
       <h3>The posts below are being turned off...</h3>

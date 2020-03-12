@@ -143,7 +143,7 @@ function PlatformOption(props) {
     e.preventDefault()
   }
 
-  const bottomBorderColour = visiblePlatform === platform ? dataSourceDetails[visiblePlatform].colour : brandColours.white.hex
+  const bottomBorderColour = visiblePlatform === platform ? dataSourceDetails[visiblePlatform].colour : brandColours.white
 
   return (
     <li

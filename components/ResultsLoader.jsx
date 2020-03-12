@@ -227,7 +227,7 @@ function ResultsLoader() {
   // RETURN
   if (artistLoading || active.loading || archive.loading) {
   // If artist is loading, or both active and archived posts are loading, show spinner
-    return <Spinner width={50} colour={brandColours.green.hex} />
+    return <Spinner width={50} colour={brandColours.green} />
   } if (
     Object.keys(posts.active).length === 0
     && Object.keys(posts.archive).length === 0

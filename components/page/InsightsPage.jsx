@@ -47,7 +47,7 @@ function Loader() {
   // END IMPORT CONTEXTS
 
   if (userLoading || artistLoading) {
-    return <Spinner width={50} colour={brandColours.green.hex} />
+    return <Spinner width={50} colour={brandColours.green} />
   } if (artist === null) {
     // If there is no selected artist after the artist has finished loading,
     // show message to say the user needs to their artist pages

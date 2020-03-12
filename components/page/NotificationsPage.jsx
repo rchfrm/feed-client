@@ -32,7 +32,7 @@ function NotificationsPage() {
   const { loading: notificationsLoading } = React.useContext(NotificationsContext)
 
   if (notificationsLoading) {
-    return <Spinner width={50} colour={brandColours.green.hex} />
+    return <Spinner width={50} colour={brandColours.green} />
   }
   return (
     <div className={`page-container ${className}`}>
@@ -90,7 +90,7 @@ function Notification(props) {
   return (
     <li key={notification.id}>
 
-      <div className={styles['read-border']} style={{ backgroundColor: brandColours.black.hex }} />
+      <div className={styles['read-border']} style={{ backgroundColor: brandColours.black }} />
 
       <div className={styles['notification-content']}>
 

@@ -127,7 +127,7 @@ function Post({ index, post, singular: isSingular, setPosts, togglePromotion }) 
       </div>
 
       {/* Post Link */}
-      <div className={styles['post-link']} style={{ backgroundColor: brandColours.grey.hex }}>
+      <div className={styles['post-link']} style={{ backgroundColor: brandColours.grey }}>
 
         <p>Where should people go when they click this post?</p>
 
@@ -167,9 +167,9 @@ function PermalinkAndToggle(props) {
 
   // ALTER APPEARANCE BASED ON PROMOTION STATUS
   const appearance = {
-    platformIconColour: status ? dataSourceDetails[post.platform].colour : brandColours.grey.hex,
+    platformIconColour: status ? dataSourceDetails[post.platform].colour : brandColours.grey,
     toggleIcon: status ? 'tick' : 'empty',
-    toggleIconColour: status ? brandColours.white.hex : brandColours.grey.hex,
+    toggleIconColour: status ? brandColours.white : brandColours.grey,
   }
   // END ALTER APPEARANCE BASED ON PROMOTION STATUS
 

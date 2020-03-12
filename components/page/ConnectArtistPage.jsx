@@ -122,7 +122,7 @@ const LoadContent = () => {
   }
 
   if (authLoading || userLoading || artistLoading || pageLoading || redirecting) {
-    return <Spinner width={50} colour={brandColours.green.hex} />
+    return <Spinner width={50} colour={brandColours.green} />
   } if (Object.keys(artistAccounts).length === 0) {
     return (
       <ConnectArtistFacebook

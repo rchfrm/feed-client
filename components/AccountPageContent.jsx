@@ -62,7 +62,7 @@ const AccountPageContent = ({ user, className }) => {
 
   // While loading
   if (billingLoading) {
-    return <Spinner width={50} colour={brandColours.green.hex} />
+    return <Spinner width={50} colour={brandColours.green} />
   }
   // The content
   return (

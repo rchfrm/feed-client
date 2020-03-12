@@ -199,7 +199,7 @@ function PostsLoader() {
 
   // RETURN
   if (artistLoading || pageLoading) {
-    return <Spinner width={50} colour={brandColours.green.hex} />
+    return <Spinner width={50} colour={brandColours.green} />
   }
   return (
     <div className={styles['posts-page']}>

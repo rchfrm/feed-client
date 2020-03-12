@@ -74,7 +74,7 @@ const PaymentPage = () => {
           loading
             ? (
               <Overlay height={overlayHeight}>
-                <Spinner colour={brandColours.green.hex} width={50} />
+                <Spinner colour={brandColours.green} width={50} />
               </Overlay>
             ) : ''
         }

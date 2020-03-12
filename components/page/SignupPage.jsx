@@ -167,7 +167,7 @@ function SignupPage() {
   // END HANDLE CLICK ON SIGN-UP BUTTON
 
   if (authLoading || userLoading || artistLoading || redirecting) {
-    return <Spinner width={50} colour={brandColours.green.hex} />
+    return <Spinner width={50} colour={brandColours.green} />
   }
   return (
     <div className={`page-container ${className}`}>

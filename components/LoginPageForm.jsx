@@ -87,7 +87,7 @@ function LoginPageForm() {
 
   if (authLoading || userLoading || artistLoading) {
     return (
-      <Spinner width={50} colour={brandColours.green.hex} />
+      <Spinner width={50} colour={brandColours.green} />
     )
   }
   return (
