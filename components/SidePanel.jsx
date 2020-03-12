@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Router, { useRouter } from 'next/router'
 import { useTransition, animated } from 'react-spring'
 
 import Spinner from './elements/Spinner'
@@ -32,17 +31,6 @@ function SidePanel({
   toggle,
   isLoading,
 }) {
-  // Get ROUTE info
-  const { query, pathname } = useRouter()
-  const [pageQuery] = Object.keys(query)
-  // Get close method
-  const close = () => {
-    // If there's no page query, then simply close
-    if (!pageQuery) return toggle(false)
-    // If there is a page query, then just remove it
-    Router.push(pathname)
-  }
-
   // TOGGLE SHOWING
   // and
   // TOGGLE BODY SCROLLING
@@ -66,6 +54,8 @@ function SidePanel({
     leave: { progress: 100 },
   })
 
+  // Define close function
+  const close = () => toggle(false)
 
   return transition.map(({ item, key, props: { progress } }) => item && (
     <div key={key} className={styles.SidePanel}>

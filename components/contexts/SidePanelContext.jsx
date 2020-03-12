@@ -1,4 +1,5 @@
 import React from 'react'
+import Router, { useRouter } from 'next/router'
 
 import SidePanel from '../SidePanel'
 
@@ -22,8 +23,22 @@ const SidePanelContextProvider = ({ children }) => {
   const [sidePanelOpen, setSidePanelOpen] = React.useState(false)
   const [sidePanelLoading, setSidePanelLoading] = React.useState(false)
 
+  // GET CLOSE METHOD
+  // Get ROUTE info
+  const { query, pathname } = useRouter()
+  const [pageQuery] = Object.keys(query)
+  const closeSidePanel = () => {
+    // If there's no page query, then simply close
+    if (!pageQuery) return setSidePanelOpen(false)
+    // If there is a page query, then just remove it
+    Router.push(pathname)
+  }
+
   const toggleSidePanel = (state) => {
     const newState = typeof state === 'boolean' ? state : !sidePanelOpen
+    // Closing
+    if (!newState) return closeSidePanel()
+    // Opening
     setSidePanelOpen(newState)
   }
 
