@@ -22,7 +22,7 @@ const SelectNew = ({
   // END Transform options into array of <option> elements
 
   return (
-    <div className="input_container">
+    <div className="input--container">
       <label
         className={['inputLabel', className].join(' ')}
         htmlFor={name}

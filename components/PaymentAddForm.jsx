@@ -60,7 +60,7 @@ const CardInput = () => {
   }
 
   return (
-    <div className="input_container">
+    <div className="input--container">
       <label className="inputLabel">
         <span className="inputLabel__text">
           Card details

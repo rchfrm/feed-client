@@ -9,7 +9,7 @@ input[readonly] {
   border-bottom: none;
 }
 
-.input_container {
+.input--container {
   margin-bottom: var(--bsu-md);
 }
 
