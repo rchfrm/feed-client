@@ -2,12 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Router, { useRouter } from 'next/router'
-import { useSpring, useTransition, interpolate, animated } from 'react-spring'
+import { useTransition, animated } from 'react-spring'
 
 import Spinner from './elements/Spinner'
 
 import styles from './SidePanel.module.css'
-
 
 // * INSERTED via the SidePanelContext.jsx
 // * with the props passed in
@@ -30,13 +29,14 @@ function SidePanel({
   }
 
   // TOGGLE SHOWING
-  const [show, setVisible] = React.useState(false)
+  // const [isAnimating, setIsAnimating] = React.useState(true)
+  const [show, setShow] = React.useState(false)
   React.useEffect(() => {
     if (!isOpen) {
-      setVisible(false)
+      setShow(false)
       return
     }
-    setVisible(isOpen && content)
+    setShow(isOpen && content)
   }, [isOpen, content])
 
 
@@ -45,6 +45,8 @@ function SidePanel({
     from: { progress: 100 },
     enter: { progress: 0 },
     leave: { progress: 100 },
+    // onStart: () => setIsAnimating(true),
+    // onRest: () => setIsAnimating(false),
   })
 
 
@@ -90,7 +92,7 @@ function SidePanel({
 
 SidePanel.propTypes = {
   isOpen: PropTypes.bool,
-  content: PropTypes.node.isRequired,
+  content: PropTypes.node,
   button: PropTypes.node,
   toggle: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
