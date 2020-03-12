@@ -18,15 +18,17 @@ const InputNew = ({
   className,
 }) => {
   return (
-    <div className="input_container">
+    <div className={['input--container', className].join(' ')}>
       <label
-        className={['inputLabel', className].join(' ')}
+        className="inputLabel"
         htmlFor={name}
       >
-        <span className="inputLabel__text">
-          {label}
-          {required && <span className="asterix">*</span>}
-        </span>
+        {label && (
+          <span className="inputLabel__text">
+            {label}
+            {required && <span className="asterix">*</span>}
+          </span>
+        )}
         <input
           className={['input', `input_${version}`].join(' ')}
           name={name}
@@ -52,7 +54,7 @@ InputNew.propTypes = {
   // There must be a string set as the name
   name: PropTypes.string.isRequired,
 
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
 
   type: PropTypes.string,
 
@@ -84,6 +86,7 @@ InputNew.defaultProps = {
   placeholder: '',
   readOnly: false,
   type: 'text',
+  label: '',
   value: '',
   width: 100,
   required: false,
