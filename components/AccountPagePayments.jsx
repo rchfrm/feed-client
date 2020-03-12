@@ -59,8 +59,7 @@ function AccountPagePayments() {
   // Error
   const [error, setError] = React.useState(null)
 
-
-  // HANDLE SET AS DEFAULT
+  // SUBMIT CHANGES
   const submitChanges = React.useRef(() => {})
   submitChanges.current = async () => {
     setError(null)
