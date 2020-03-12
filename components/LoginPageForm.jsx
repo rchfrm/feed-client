@@ -130,7 +130,7 @@ function LoginPageForm() {
 
             <InputNew
               name="email"
-              placeholder="Your email"
+              placeholder=""
               value={email || ''}
               handleChange={handleChange}
               type="email"
@@ -141,7 +141,7 @@ function LoginPageForm() {
 
             <InputNew
               name="password"
-              placeholder="Password"
+              placeholder=""
               value={password}
               handleChange={handleChange}
               type="password"
