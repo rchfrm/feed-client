@@ -122,6 +122,7 @@ SUMMARIES
   margin: 0 5%;
   margin-top: var(--bsu);
   margin-bottom: var(--bsu-lg);
+  padding-right: var(--bsu);
 }
 
 .accountPageSection__details {

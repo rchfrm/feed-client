@@ -81,14 +81,16 @@ const PaymentPageIntro = () => {
   return (
     <>
       <h4 className={styles.h4}>Once a month, you'll be charged a small % of what you spend on promotion - a 'service fee' of sorts.</h4>
+      <h4 className={styles.h4}>After your trial period, you’ll need to enter your card details here.</h4>
+      <h4 className={styles.h4}>To keep it simple, the daily budget you set in Feed is the total amount you’ll spend each day - including our service fee. Our fee is 10% of your chosen daily budget, dropping to 5% for spend over £150 in the billing month.</h4>
+
       <h4 className={styles.h4}>
         More details on
         {' '}
         <Feed />
         's pricing is
         {' '}
-        <Link href={ROUTES.PRICES}><a>here</a></Link>
-        .
+        <Link href={ROUTES.PRICES}><a>here</a></Link>.
       </h4>
     </>
   )

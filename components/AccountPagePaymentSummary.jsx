@@ -1,10 +1,13 @@
 import React from 'react'
+import Link from 'next/link'
 import PropTypes from 'prop-types'
 import slugify from 'slugify'
 
 import { BillingContext } from './contexts/BillingContext'
 
 import Feed from './elements/Feed'
+
+import * as ROUTES from '../constants/routes'
 
 import styles from './AccountPage.module.css'
 
@@ -65,6 +68,8 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
   if (!user.id) return null
   const { hasNoPaymentMethod, billingDetails } = React.useContext(BillingContext)
 
+  console.log('billingDetails', billingDetails)
+
   // Call this when ready
   React.useEffect(() => {
     // Call on ready from parent
@@ -76,6 +81,17 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
 
   return (
     <div className={className}>
+      {/* Intro text */}
+      <p>Right now, the beta version of Feed is free to use! In future, you’ll be able to add payment details here.</p>
+      <p>
+        More details on
+        {' '}
+        <Feed />
+        's pricing is
+        {' '}
+        <Link href={ROUTES.PRICES}><a>here</a></Link>.
+      </p>
+      {/* The saved details */}
       {billingDetails.map((details) => {
         if (!details) return null
         const { name, defaultMethod } = details
