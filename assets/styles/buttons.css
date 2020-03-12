@@ -80,9 +80,10 @@ button {
   text-align: left;
   cursor: pointer;
 }
+
 .button--facebook svg {
   vertical-align: bottom;
-  padding-right: 10px;
+  margin-right: var(--bsu);
 }
 
 .integration-setup {
