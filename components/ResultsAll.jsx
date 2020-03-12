@@ -44,7 +44,7 @@ const calculateSummary = (ads, isActive) => {
   const days = []
 
   const checkSAESIsNumber = (engagement, spend) => {
-    if (engagement === 0 && spend === 0) {
+    if (spend === 0) {
       return '-'
     }
     return Math.round(engagement / spend)
