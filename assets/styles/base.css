@@ -62,7 +62,7 @@ main {
   }
 }
 
-.page-container {
+.page--container {
   display: flex;
   flex-direction: column;
   flex: auto;

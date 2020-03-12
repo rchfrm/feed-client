@@ -66,7 +66,7 @@ const AccountPageContent = ({ user, className }) => {
   }
   // The content
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`page--container ${className}`}>
 
       <PageHeader heading="Account" />
 

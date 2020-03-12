@@ -63,7 +63,7 @@ function Home() {
   const { user } = React.useContext(UserContext)
 
   return (
-    <div className="page-container">
+    <div className="page--container">
 
       <PageHeader heading={`Hey ${user.first_name}`} punctuation="," />
 

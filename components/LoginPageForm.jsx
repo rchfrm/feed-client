@@ -91,7 +91,7 @@ function LoginPageForm() {
     )
   }
   return (
-    <div className="page-container">
+    <div className="page--container">
 
       <PageHeader heading="log in" />
       <SignupPageLink />
@@ -109,7 +109,7 @@ function LoginPageForm() {
         .
       </p>
 
-      <div className="ninety-wide page-container">
+      <div className="ninety-wide page--container">
 
         <div className="fill-height" style={{ width: '65.738%', margin: '0 auto' }}>
 

@@ -31,7 +31,7 @@ function ThankYou() {
   }
 
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`page--container ${className}`}>
 
       <PageHeader heading="We're all set" punctuation="!" />
 

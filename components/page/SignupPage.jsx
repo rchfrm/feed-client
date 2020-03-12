@@ -170,7 +170,7 @@ function SignupPage() {
     return <Spinner width={50} colour={brandColours.green} />
   }
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`page--container ${className}`}>
 
       <PageHeader heading="sign up" />
       <LoginPageLink />

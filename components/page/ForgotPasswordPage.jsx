@@ -43,11 +43,11 @@ function ForgotPasswordPage() {
   }
 
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`page--container ${className}`}>
 
       <PageHeader heading="forgotten password" />
 
-      <div className="ninety-wide page-container">
+      <div className="ninety-wide page--container">
 
         <p>Enter your email address below to receive a link, and reset your password.</p>
 

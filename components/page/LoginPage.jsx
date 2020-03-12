@@ -16,7 +16,7 @@ function LoginPage() {
   // END SHOW / HIDE NAVIGATION
 
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`page--container ${className}`}>
 
       <LoginPageForm />
 

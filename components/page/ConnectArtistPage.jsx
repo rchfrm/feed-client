@@ -171,7 +171,7 @@ const ConnectArtistPage = () => {
   // END SHOW / HIDE NAVIGATION
 
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`page--container ${className}`}>
 
       <PageHeader heading="connect artist accounts" />
 
