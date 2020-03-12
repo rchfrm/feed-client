@@ -27,7 +27,8 @@ const BillingContextProvider = ({ user, children }) => {
     const ownerOrg = allOrgsInfo.find(({ role }) => role === 'owner')
     setOrganisation(ownerOrg)
     // Set the billing details
-    setBillingDetails(allOrgsInfo.map(paymentHelpers.getbillingDetails))
+    const billingDetails = allOrgsInfo.map(paymentHelpers.getbillingDetails)
+    setBillingDetails(billingDetails)
     // Test if no payment is set on the owner's org
     setHasNoPaymentMethod(paymentHelpers.testNoPayment(billingDetails))
   }

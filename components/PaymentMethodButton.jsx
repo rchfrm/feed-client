@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import styles from './PaymentMethodButton.module.css'
 
 const PaymentMethodButton = ({ method, defaultMethodId, onClick }) => {
+  // Stop here if no method
+  if (!method) return null
   const {
     id,
     billing_details: { name },
