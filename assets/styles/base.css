@@ -70,6 +70,11 @@ main {
   width: 100%;
 }
 
+.page--content {
+  width: 90%;
+  margin: 0 5%;
+}
+
 .fill-height {
   flex: auto;
   display: flex;

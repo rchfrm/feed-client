@@ -118,8 +118,6 @@ SUMMARIES
 **************************/
 
 .accountPageSection {
-  width: 90%;
-  margin: 0 5%;
   margin-top: var(--bsu);
   margin-bottom: var(--bsu-lg);
   padding-right: var(--bsu);
