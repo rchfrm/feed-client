@@ -43,27 +43,25 @@ function NavigationAuth() {
   const { storeArtist } = React.useContext(ArtistContext)
   const { navDispatch } = React.useContext(NavigationContext)
 
-  const { HOME, POSTS, RESULTS, ACCOUNT, FAQ } = ROUTES
-
   const links = [
     {
-      href: HOME,
-      title: 'home',
+      href: ROUTES.POSTS,
+      title: 'posts & budget',
     },
     {
-      href: POSTS,
-      title: 'your posts',
-    },
-    {
-      href: RESULTS,
+      href: ROUTES.RESULTS,
       title: 'results',
     },
     {
-      href: ACCOUNT,
+      href: ROUTES.INSIGHTS,
+      title: 'insights',
+    },
+    {
+      href: ROUTES.ACCOUNT,
       title: 'account',
     },
     {
-      href: FAQ,
+      href: ROUTES.FAQ,
       title: 'faq',
     },
   ]
