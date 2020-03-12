@@ -10,8 +10,7 @@
   justify-content: space-between;
   margin-bottom: 2em;
   border: 1px solid black;
-  box-sizing: border-box;
-
+  border-radius: var(--dialogue-radius);
 }
 
 .result-media {
