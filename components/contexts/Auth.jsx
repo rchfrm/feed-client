@@ -62,9 +62,11 @@ function AuthProvider({ children }) {
 
     // If there is no token, or it has expired, request a new one
     const result = await firebase.getVerifyIdTokenResult()
-      .catch((err) => {
-        throw (err)
-      })
+      // .catch((err) => {
+      //   throw (err)
+      // })
+    // Stop here if no result
+    if (!result) return
     const expiration = moment(result.expirationTime)
     setTokenExpiration(expiration)
     setAuth({

@@ -5,7 +5,7 @@ import useAsyncEffect from 'use-async-effect'
 import * as ROUTES from '../constants/routes'
 import { AuthContext } from './contexts/Auth'
 
-const kickToLogin = () => Router.push(ROUTES.HOME)
+// const kickToLogin = () => 
 
 const TestPageReady = (Component) => {
   return (props) => {
@@ -13,13 +13,22 @@ const TestPageReady = (Component) => {
     const { auth: { token: initialToken }, getToken } = useContext(AuthContext)
     const [token, setToken] = useState(initialToken)
     useAsyncEffect(async (isMounted) => {
-      if (!initialToken && !currentPath === ROUTES.LOGIN) {
+      console.log('sdflksdjflsdkfj')
+      console.log('currentPath', currentPath)
+      console.log('initialToken', initialToken)
+      if (!initialToken && currentPath !== ROUTES.LOGIN) {
         // Check for new token
+        console.log('sdfs')
         const newToken = await getToken()
+        console.log('newToken', newToken)
         // Stop here if not mounted
-        if (!isMounted()) return
+        // if (!isMounted()) return
         // If new token can't be generated...
-        if (!newToken) return kickToLogin()
+        if (!newToken) {
+          console.log('go home')
+          Router.push(ROUTES.LOGIN)
+          return
+        }
         // Set new token
         setToken(newToken)
       }
