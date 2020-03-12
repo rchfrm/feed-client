@@ -166,7 +166,6 @@ function AccountPageDetails({ user }) {
       <form className={styles.accountPageDetails__form} onSubmit={handleSubmit.current}>
 
         <InputNew
-          className={styles.input}
           name="name"
           label="name"
           placeholder=""
@@ -177,7 +176,6 @@ function AccountPageDetails({ user }) {
         />
 
         <InputNew
-          className={styles.input}
           name="surname"
           label="Surname"
           placeholder=""
@@ -188,7 +186,6 @@ function AccountPageDetails({ user }) {
         />
 
         <InputNew
-          className={styles.input}
           name="email"
           placeholder=""
           value={email}
@@ -199,7 +196,6 @@ function AccountPageDetails({ user }) {
         />
 
         <InputNew
-          className={styles.input}
           name="passwordOne"
           placeholder=""
           value={passwordOne}
@@ -210,7 +206,6 @@ function AccountPageDetails({ user }) {
         />
 
         <InputNew
-          className={styles.input}
           name="passwordTwo"
           placeholder=""
           value={passwordTwo}
