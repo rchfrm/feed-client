@@ -79,18 +79,18 @@ const AccountPageContent = ({ user, className }) => {
       />
 
       <AccountPageSection
-        title="Payment methods"
-        type="payment"
-        user={user}
-        buttonText="Edit payment methods"
-        setSidePanel={setSidePanel}
-      />
-
-      <AccountPageSection
         title="Connections"
         type="connections"
         user={user}
         buttonText="Edit connections"
+        setSidePanel={setSidePanel}
+      />
+
+      <AccountPageSection
+        title="Payment methods"
+        type="payment"
+        user={user}
+        buttonText="Edit payment methods"
         setSidePanel={setSidePanel}
       />
 
