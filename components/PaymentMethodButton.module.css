@@ -9,6 +9,7 @@
   padding: 1em;
   padding-left: 80px;
   margin-bottom: var(--bsu-md);
+  text-decoration: none;
 
   &:last-child {
     margin-bottom: 0;
