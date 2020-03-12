@@ -54,10 +54,7 @@
 
 
 .post-toggle {
-  outline: 2px solid #6edcd3;
-  outline-offset: -2px;
-  padding: 1px;
-  background-color: #6edcd3;
+  background-color: var(--green);
 
   .deselected & {
     outline: 2px solid #D6D6D6;

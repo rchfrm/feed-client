@@ -13,7 +13,9 @@ button {
   font-family: var(--font);
   display: flex;
   border-radius: var(--button-radius);
+  align-items: center;
   border: none;
+  padding: 0;
   
   &:disabled,
   &[disabled] {
@@ -53,8 +55,18 @@ button {
   padding-top: 0.8em;
 }
 
+.button--toggle {
+  padding: 0 1px;
+}
+
 .progress {
   width: 31.48%;
+}
+
+.button--text {
+  display: inline;
+  font-size: inherit;
+  text-decoration: underline;
 }
 
 .button--facebook {
