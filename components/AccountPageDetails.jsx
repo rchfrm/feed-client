@@ -167,7 +167,7 @@ function AccountPageDetails({ user }) {
 
         <InputNew
           name="name"
-          label="name"
+          label="Name"
           placeholder=""
           value={name}
           handleChange={handleChange}
@@ -187,31 +187,31 @@ function AccountPageDetails({ user }) {
 
         <InputNew
           name="email"
+          label="Email"
           placeholder=""
           value={email}
           handleChange={handleChange}
           type="email"
-          label="email"
           version="text"
         />
 
         <InputNew
           name="passwordOne"
+          label="Password"
           placeholder=""
           value={passwordOne}
           handleChange={handleChange}
           type="password"
-          label="password"
           version="text"
         />
 
         <InputNew
           name="passwordTwo"
+          label="Confirm new password:"
           placeholder=""
+          type="password"
           value={passwordTwo}
           handleChange={handleChange}
-          type="password"
-          label="Confirm new password:"
           version="text"
         />
       </form>
