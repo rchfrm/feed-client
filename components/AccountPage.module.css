@@ -24,6 +24,7 @@ CONNECTIONS
   display: flex;
   flex-direction: row;
   margin-bottom: 1em;
+  align-items: flex-start;
 }
 
 .integration-icons {

@@ -25,7 +25,7 @@ import brandColours from '../../constants/brandColours'
 
 function Icon(props) {
 // REDEFINE PROPS AS VARIABLES
-  let { color } = props
+  let { color = brandColours.black } = props
   const { data } = props
   const { status } = props
   const { version } = props

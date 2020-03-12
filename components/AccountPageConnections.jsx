@@ -7,7 +7,7 @@ import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 import Icon from './elements/Icon'
-import Input from './elements/Input'
+import InputNew from './elements/InputNew'
 import Spinner from './elements/Spinner'
 import Alert from './elements/Alert'
 // IMPORT PAGES
@@ -155,7 +155,7 @@ const Connection = ({
       </div>
 
       <div className={styles['integration-edit']}>
-        <Button version="text" onClick={handleClick} disabled={disabled} bgColour="white">
+        <Button version="text" onClick={handleClick} disabled={disabled} bgColour={brandColours.white}>
           <IntegrationEdit disabled={disabled} loading={loading} valid={valid} />
         </Button>
       </div>
@@ -357,10 +357,10 @@ const IntegrationLink = ({
     )
   }
   return (
-    <Input
+    <InputNew
       className={styles.input}
       version="text"
-      label="none"
+      label=""
       placeholder={value || placeholder(platform)}
       value={value}
       onChange={handleChange}
