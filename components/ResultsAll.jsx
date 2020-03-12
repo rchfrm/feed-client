@@ -138,7 +138,7 @@ const Result = ({
   const priorityPage = priority_dsp === 'facebook' ? `${priority_dsp}_page_url` : `${priority_dsp}_url`
   const clicksStatement = (
     <span>
-      {`clicks to `}
+      {'clicks to '}
       <a href={artist[priorityPage]} target="_blank" rel="noopener noreferrer">
         {helper.capitalise(priority_dsp)}
       </a>
@@ -166,8 +166,8 @@ const Result = ({
         </div>
 
         <div className={styles['result-toggle-saes']}>
-          <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
           <h2 className={styles.h2}>{summary.SAES}</h2>
+          <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
         </div>
 
       </div>
