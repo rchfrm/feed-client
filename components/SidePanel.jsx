@@ -51,8 +51,9 @@ function SidePanel({
   return mainTransition.map(({ item, key, props: { progress } }) => item && (
     <div key={key} className={styles.SidePanel}>
       {/* The BG */}
-      <animated.div
+      <animated.a
         className={styles.background}
+        onClick={close}
         style={{
           opacity: progress.interpolate((p) => 1 - (p / 100)),
         }}
