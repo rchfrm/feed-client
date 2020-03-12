@@ -1,11 +1,11 @@
 const brandColours = {
-  red: '#FF0000',
-  green: '#10E7E0',
-  white: '#FFFFFF',
-  lightGrey: '#E5E5E5',
+  white: '#F4F4F4',
+  black: '#0D1311',
+  green: '#03D8B2',
+  red: '#FA5450',
+  lightGrey: '#C8CBCA',
   grey: '#D6D6D6',
-  darkGrey: '#999999',
-  black: '#000000',
+  darkGrey: '#7F8382',
 }
 
 export default brandColours
