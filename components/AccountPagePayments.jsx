@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import usePrevious from 'use-previous'
 
@@ -15,6 +14,7 @@ import Button from './elements/Button'
 import Error from './elements/Error'
 
 import PaymentMethodButton from './PaymentMethodButton'
+import FadeInOut from './FadeInOut'
 
 import paymentHelpers from './helpers/paymentHelpers'
 
@@ -160,4 +160,4 @@ function AccountPagePayments() {
   )
 }
 
-export default AccountPagePayments
+export default FadeInOut(AccountPagePayments)
