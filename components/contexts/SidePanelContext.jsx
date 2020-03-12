@@ -27,8 +27,6 @@ const SidePanelContextProvider = ({ children }) => {
     setSidePanelOpen(newState)
   }
 
-  console.log('side panel context maoun')
-
   return (
     // The context provider
     <SidePanelContext.Provider

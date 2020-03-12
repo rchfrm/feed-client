@@ -45,8 +45,6 @@ function SidePanel({
     from: { progress: 100 },
     enter: { progress: 0 },
     leave: { progress: 100 },
-    // onStart: () => setIsAnimating(true),
-    // onRest: () => setIsAnimating(false),
   })
 
 
