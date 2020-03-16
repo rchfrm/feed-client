@@ -8,7 +8,7 @@ import { UserContext } from './contexts/User'
 // IMPORT ELEMENTS
 import AsteriskIcon from './icons/AsterixIcon'
 // IMPORT PAGES
-import ConnectionsLoader from './AccountPageLoader'
+import IntegrationsLoader from './IntegrationsLoader'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
@@ -56,7 +56,7 @@ function Artists() {
 
         <h3>{artist.name}</h3>
 
-        <ConnectionsLoader
+        <IntegrationsLoader
           artistId={artist.id}
           artistName={artist.name}
         />

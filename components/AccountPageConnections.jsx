@@ -359,6 +359,7 @@ const IntegrationLink = ({
   return (
     <InputNew
       className={styles.input}
+      name="Connection"
       version="text"
       label=""
       placeholder={value || placeholder(platform)}
