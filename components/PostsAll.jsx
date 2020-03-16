@@ -17,22 +17,17 @@ import PostsNone from './PostsNone'
 import styles from './PostsPage.module.css'
 
 // Render list of posts and track the one that's currently visible
-function Posts(props) {
-// SET PROPS AS VARIABLES
-  const { numberOfPosts } = props
-  const { posts } = props
-  const { setVisiblePost } = props
-  const { setPosts } = props
-  const { visiblePost } = props
-  const { togglePromotion } = props
-  // END SET PROPS AS VARIABLES
-
+function Posts({
+  numberOfPosts,
+  posts,
+  setPosts,
+  visiblePost,
+  setVisiblePost,
+  togglePromotion,
+}) {
   // DEFINE POST DETAILS
   const initialPostTrackerState = {
     number: numberOfPosts,
-    timerRunning: false,
-    timeNow: moment().format('x'),
-    updateTime: moment().format('x'),
     scroll: 0,
     width: 1 / numberOfPosts,
   }
@@ -41,19 +36,7 @@ function Posts(props) {
       case 'set-scroll-position':
         return {
           ...postTrackerState,
-          timerRunning: true,
-          updateTime: moment().format('x'),
           scroll: postTrackerAction.payload.scroll,
-        }
-      case 'toggle-timer':
-        return {
-          ...postTrackerState,
-          timerRunning: postTrackerAction.payload,
-        }
-      case 'time-now':
-        return {
-          ...postTrackerState,
-          timeNow: moment().format('x'),
         }
       case 'posts-added':
         return {
@@ -75,27 +58,9 @@ function Posts(props) {
     if (currentTile !== visiblePost) {
       setVisiblePost(currentTile)
     }
-
-    const postsList = document.getElementsByClassName('posts')[0]
-    if (postTracker.timeNow - postTracker.updateTime > 500 && postTracker.timerRunning) {
-      postsList.scrollLeft = postsList.scrollWidth * (visiblePost - 1) * postTracker.width
-      setPostTracker({
-        type: 'toggle-timer',
-        payload: false,
-      })
-    }
   }, [postTracker, visiblePost, setVisiblePost])
   // END TRACK SCROLL POSITION AND UPDATE TILE DETAILS STATE ACCORDINGLY
 
-  // CLOCK TO REFERENCE WHEN USER STOPS SCROLLING
-  React.useEffect(() => {
-    if (postTracker.timerRunning) {
-      setPostTracker({
-        type: 'time-now',
-      })
-    }
-  })
-  // END CLOCK TO REFERENCE WHEN USER STOPS SCROLLING
 
   // KEEP POST TRACKER IN SYNC WITH NUMBER OF POSTS SAVED TO STATE
   React.useEffect(() => {
@@ -117,7 +82,6 @@ function Posts(props) {
     setPostTracker({
       type: 'set-scroll-position',
       payload: {
-        timerRunning: true,
         scroll: scrollPercentage,
       },
     })
@@ -134,17 +98,18 @@ function Posts(props) {
       <PageHeader heading="review your posts" punctuation="," />
 
       <h4 className={styles.h4}>
-        Below are your most recent posts.&nbsp;
+        Below are your most recent posts.
+        {' '}
         <Feed />
         {' '}
         works best if they're all selected, but if there are any you'd rather not promote just untick them.
       </h4>
 
       <PostList
-        handleScroll={handleScroll}
         posts={posts}
         setPosts={setPosts}
         togglePromotion={togglePromotion}
+        handleScroll={handleScroll}
       />
 
     </div>
@@ -153,14 +118,7 @@ function Posts(props) {
 
 export default Posts
 
-function PostList(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { handleScroll } = props
-  const { posts } = props
-  const { setPosts } = props
-  const { togglePromotion } = props
-  // END REDEFINE PROPS AS VARIABLES
-
+function PostList({ posts, setPosts, togglePromotion, handleScroll }) {
   // CREATE ARRAY OF POSTS
   const postList = posts.map((post, index) => {
     return (
