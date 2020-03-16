@@ -5,7 +5,11 @@ module.exports = {
     'postcss-mixins': {},
     'postcss-calc': {},
     'postcss-nested': {},
-    'postcss-color-mod-function': {},
+    'postcss-color-mod-function': {
+      importFrom: [
+        './assets/styles/vars.css',
+      ],
+    },
     'postcss-preset-env': {
       stage: 1,
     },
