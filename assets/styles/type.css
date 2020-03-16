@@ -1,0 +1,75 @@
+@font-face {
+  font-family: SpaceGrotesk;
+  src: url('/fonts/SpaceGrotesk-Regular.woff');
+  font-weight: normal;
+}
+@font-face {
+  font-family: SpaceGrotesk;
+  src: url('/fonts/SpaceGrotesk-Medium.woff');
+  font-weight: 500;
+}
+@font-face {
+  font-family: SpaceGrotesk;
+  src: url('/fonts/SpaceGrotesk-SemiBold.woff');
+  font-weight: 600;
+}
+@font-face {
+  font-family: SpaceGrotesk;
+  src: url('/fonts/SpaceGrotesk-Bold.woff');
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 0.333em;
+}
+
+h2, h3 {
+  font-size: 1.333em;
+}
+h2 {
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-weight: bold;
+}
+
+p {
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.small-p {
+  font-size: 0.667em;
+}
+
+h1, h2, h3, h4, p, .small-p {
+  line-height: 1.2em;
+}
+
+h2, h3, h4, p, .small-p {
+  margin-bottom: 1.2em;
+}
+
+a {
+  color: var(--black);
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+strong,
+.strong {
+  font-weight: bold;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}

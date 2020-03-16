@@ -63,7 +63,7 @@ const LoadContent = () => {
       setRedirecting(true)
       Router.push(ROUTES.THANK_YOU)
     }
-  }, [artist.id, artistLoading, user.artists, user.id, userLoading])
+  }, [artist.id, artistLoading, user, userLoading])
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
@@ -122,7 +122,7 @@ const LoadContent = () => {
   }
 
   if (authLoading || userLoading || artistLoading || pageLoading || redirecting) {
-    return <Spinner width={50} colour={brandColours.green.hex} />
+    return <Spinner width={50} colour={brandColours.green} />
   } if (Object.keys(artistAccounts).length === 0) {
     return (
       <ConnectArtistFacebook
@@ -147,7 +147,7 @@ const LoadContent = () => {
         <p>&nbsp;</p>
 
         <Button
-          version="black progress"
+          version="black"
           onClick={runCreateArtist}
           disabled={buttonDisabled}
         >
@@ -171,7 +171,7 @@ const ConnectArtistPage = () => {
   // END SHOW / HIDE NAVIGATION
 
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`page--container ${className}`}>
 
       <PageHeader heading="connect artist accounts" />
 

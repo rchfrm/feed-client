@@ -1,302 +1,226 @@
-
-// IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
+import PropTypes from 'prop-types'
+
+import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
-// IMPORT ELEMENTS
-import Loading from './elements/Loading'
-import Input from './elements/Input'
-import Button from './elements/Button'
-import Error from './elements/Error'
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
-import helper from './helpers/helper'
-import artistHelpers from './helpers/artistHelpers'
+import { SidePanelContext } from './contexts/SidePanelContext'
+
 import server from './helpers/server'
 import firebase from './helpers/firebase'
-// IMPORT STYLES
-import styles from './AccountPage.module.css'
 
-function Details() {
-// DEFINE LOCAL STATE
+import InputNew from './elements/InputNew'
+import Button from './elements/Button'
+
+import styles from './AccountPage.module.css'
+import sidePanelStyles from './SidePanel.module.css'
+
+
+const getButton = (buttonOn, handleSubmit) => {
+  return (
+    <Button version="green" onClick={handleSubmit} disabled={!buttonOn}>
+      Save changes
+    </Button>
+  )
+}
+
+function AccountPageDetails({ user }) {
+  // Get user and auth context
+  const { getToken } = React.useContext(AuthContext)
+  const { setUser } = React.useContext(UserContext)
+  // Get Side panel context
+  const {
+    toggleSidePanel,
+    setSidePanelLoading,
+    setSidePanelButton,
+  } = React.useContext(SidePanelContext)
+  // Get initial details from user
+  const { first_name: initialName, last_name: initialSurname, email: initialEmail } = user
+
   const [name, setName] = React.useState('')
   const [surname, setSurname] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [passwordOne, setPasswordOne] = React.useState('')
   const [passwordTwo, setPasswordTwo] = React.useState('')
-  // END DEFINE LOCAL STATE
+  const [buttonOn, setButtonOn] = React.useState(true)
 
-  // DEFINE ERROR
-  const [error, setError] = React.useState(null)
-  // END DEFINE ERROR
+  // SUBMIT THE FORM
+  const [errors, setErrors] = React.useState([])
+  const handleSubmit = React.useRef(() => {})
+  handleSubmit.current = async (e) => {
+    if (e) e.preventDefault()
+    // Clear errors
+    setErrors([])
+    const passwordChanged = passwordOne || passwordTwo
+    // No password set and no name changes, close panel
+    if (!passwordChanged && name === initialName && surname === initialSurname && email === initialEmail) {
+      toggleSidePanel()
+      return
+    }
 
-  // SET INITIAL LOCAL STATE BASED ON USER STATE SENT THROUGH PROPS
-  const { user, setUser, userLoading, verifyToken } = React.useContext(UserContext)
+    // No name
+    if (!name || !surname) {
+      setErrors([...errors, 'Please provide a name and surname.'])
+    }
+
+    // No email
+    if (!email) {
+      setErrors([...errors, 'Please provide an email.'])
+    }
+
+    // If not matching passwords
+    if (passwordChanged && passwordOne !== passwordTwo) {
+      setErrors([...errors, 'Passwords do not match.'])
+    }
+
+    // Stop here if errors
+    if (errors.length) return
+    console.log(name, surname, email)
+    // Hide button
+    setButtonOn(false)
+    // Set loading
+    setSidePanelLoading(true)
+    // Update password
+    const passwordUpdatePromise = passwordChanged ? firebase.doPasswordUpdate(passwordOne) : null
+    // Update user
+    const token = await getToken()
+    const userUpdatePromise = server.updateUser(name, surname, email, token)
+    // When all is done...
+    const res = await Promise.all([userUpdatePromise, passwordUpdatePromise])
+      .catch((err) => console.log('err', err))
+    if (!res) return
+    // Update the user details
+    const [updatedUser] = res
+    setUser({
+      type: 'set-user-details',
+      payload: {
+        user: updatedUser,
+      },
+    })
+    // Clear the passwords
+    setPasswordOne('')
+    setPasswordTwo('')
+    // Stop loading
+    setSidePanelLoading(false)
+    // Close panel after delay
+    setTimeout(toggleSidePanel, 1500)
+  }
+
+
+  // Set initial values from user
   React.useEffect(() => {
-    if (user.first_name && user.last_name && user.email) {
-      setName(user.first_name)
-      setSurname(user.last_name)
-      setEmail(user.email)
-    }
-  }, [user.first_name, user.last_name, user.email])
-  // END SET INITIAL LOCAL STATE BASED ON USER STATE SENT THROUGH PROPS
+    setName(initialName)
+    setSurname(initialSurname)
+    setEmail(initialEmail)
+  }, [])
 
-  // DEFINE BUTTON STATE
-  const initialButtonState = {
-    disabled: false,
-    text: 'save changes',
+  // Handle Changes in the form
+  const formUpdated = React.useRef(false)
+  const handleChange = ({ target }) => {
+    formUpdated.current = true
+    const { name, value } = target
+    if (name === 'name') return setName(value)
+    if (name === 'surname') return setSurname(value)
+    if (name === 'email') return setEmail(value)
+    if (name === 'passwordOne') return setPasswordOne(value)
+    if (name === 'passwordTwo') return setPasswordTwo(value)
   }
-  const buttonReducer = (buttonState, buttonAction) => {
-    switch (buttonAction.type) {
-      case 'abled':
-        return {
-          ...buttonState,
-          disabled: false,
-        }
-      case 'disabled':
-        return {
-          ...buttonState,
-          disabled: true,
-        }
-      case 'saving':
-        return {
-          ...buttonState,
-          disabled: true,
-          text: 'saving...',
-        }
-      case 'saved':
-        return {
-          ...buttonState,
-          disabled: true,
-          text: 'saved',
-        }
-      case 'reset':
-        return initialButtonState
-      default:
-        throw new Error(`Unable to find ${buttonAction.type} in buttonReducer`)
-    }
-  }
-  const [button, setButton] = React.useReducer(buttonReducer, initialButtonState)
-  // END DEFINE BUTTON STATE
 
-  // TRACK CHANGES IN FORM
+
+  // UPDATE BUTTON
+  // const [, updateState] = React.useState()
+  // const forceUpdate = React.useCallback(() => updateState({}), [])
+  const [, forceUpdate] = React.useReducer(x => x + 1, 0)
   React.useEffect(() => {
-    const changed = (
-      name !== user.first_name
-      || surname !== user.last_name
-      || email !== user.email
-      || passwordOne !== ''
-      || passwordTwo !== ''
-    )
-
-    if (changed) {
-      setButton({ type: 'abled' })
-    } else {
-      setButton({ type: 'disabled' })
+    const submit = () => {
+      forceUpdate()
+      handleSubmit.current()
     }
-  }, [name, user.first_name, surname, user.last_name, email, user.email, passwordOne, passwordTwo])
-  // END TRACK CHANGES IN FORM
-
-  const handleChange = e => {
-    setError(null)
-    setButton({ type: 'reset' })
-    switch (e.target.name) {
-      case 'name':
-        setName(e.target.value)
-        break
-      case 'surname':
-        setSurname(e.target.value)
-        break
-      case 'email':
-        setEmail(e.target.value)
-        break
-      case 'passwordOne':
-        setPasswordOne(e.target.value)
-        break
-      case 'passwordTwo':
-        setPasswordTwo(e.target.value)
-        break
-      default:
-        break
+    setSidePanelButton(getButton(buttonOn, submit))
+    return () => {
+      setSidePanelButton(null)
     }
-  }
+  }, [buttonOn])
 
-  const handleClick = e => {
-    const saveChanges = async () => {
-      if (name !== user.first_name || surname !== user.last_name || email !== user.email) {
-        try {
-          // TODO : Move this function to user state ?
-          const updatedUser = await server.updateUser(name, surname, email, verifyToken)
-          if (email !== user.email) {
-            await firebase.doEmailUpdate(email)
-          }
-          if (Object.keys(updatedUser.artists).length > 0) {
-            updatedUser.artists = artistHelpers.sortArtistsAlphabetically(user.artists)
-          }
-          setUser({
-            type: 'set-user',
-            payload: {
-              user: updatedUser,
-            },
-          })
-        } catch (err) {
-          setError(err)
-        }
-      }
-      if (passwordOne && passwordOne === passwordTwo) {
-        try {
-          await firebase.doPasswordUpdate(passwordOne)
-          setPasswordOne('')
-          setPasswordTwo('')
-        } catch (err) {
-          setError(err)
-        }
-      }
-      setButton({ type: 'saved' })
-    }
+  // Watch changes in form data and set button
+  React.useEffect(() => {
+    // Stop here if the form hasn't been updated
+    if (!formUpdated.current) return
+    // Set the button state
     if (passwordOne !== passwordTwo) {
-      setError({ message: 'Passwords do not match' })
-    } else if (name === '' || surname === '') {
-      setError({ message: 'Name or surname can not be empty' })
-    } else if (email === '') {
-      setError({ message: 'An email address is needed' })
-    } else {
-      setButton({ type: 'saving' })
-      saveChanges()
+      setButtonOn(false)
+      return
     }
+    if (!name || !surname || !email) {
+      setButtonOn(false)
+      return
+    }
+    setButtonOn(true)
+  }, [name, surname, passwordOne, passwordTwo])
 
-    e.preventDefault()
-  }
-
-  // HANDLE DELETE ACCOUNT
-  const deleteAccount = e => {
-    e.preventDefault()
-    // eslint-disable-next-line
-    window.alert('To delete your Feed account, please contact us at services@archform.ltd')
-  }
-  // END HANDLE DELETE ACCOUNT
 
   return (
-    <div className={styles['account-details']}>
-      <h2 className={styles.h2}>Account Details</h2>
+    <section className={styles.accountPageDetails}>
 
-      {userLoading
-        ? <Loading what="account details" noPadding />
-        : (
-          <div
-            style={{
-              width: '100%',
-            }}
-          >
-            <div className={`flex-row ${styles.row}`}>
+      <h2 className={sidePanelStyles.SidePanel__Header}>Account Page Details</h2>
 
-              <Input
-                className={styles.input}
-                name="name"
-                placeholder=""
-                value={name}
-                onChange={handleChange}
-                type="text"
-                label={{
-                  position: 'top',
-                  text: 'Name:',
-                  icon: null,
-                }}
-                width={48.611}
-                version="text"
-              />
+      <form className={styles.accountPageDetails__form} onSubmit={handleSubmit.current}>
 
-              <Input
-                className={styles.input}
-                name="surname"
-                placeholder=""
-                value={surname}
-                onChange={handleChange}
-                type="text"
-                label={{
-                  position: 'top',
-                  text: 'Surname:',
-                  icon: null,
-                }}
-                version="text"
-                width={48.611}
-              />
+        <InputNew
+          name="name"
+          label="Name"
+          placeholder=""
+          value={name}
+          handleChange={handleChange}
+          type="text"
+          version="text"
+        />
 
-            </div>
+        <InputNew
+          name="surname"
+          label="Surname"
+          placeholder=""
+          value={surname}
+          handleChange={handleChange}
+          type="text"
+          version="text"
+        />
 
-            <Input
-              className={styles.input}
-              name="email"
-              placeholder=""
-              value={email}
-              onChange={handleChange}
-              type="email"
-              label={{
-                position: 'top',
-                text: 'Email:',
-                icon: null,
-              }}
-              version="text"
-              width="full"
-            />
+        <InputNew
+          name="email"
+          label="Email"
+          placeholder=""
+          value={email}
+          handleChange={handleChange}
+          type="email"
+          version="text"
+        />
 
-            <div className={`flex-row ${styles.row}`}>
+        <InputNew
+          name="passwordOne"
+          label="Password"
+          placeholder=""
+          value={passwordOne}
+          handleChange={handleChange}
+          type="password"
+          version="text"
+        />
 
-              <Input
-                className={styles.input}
-                name="passwordOne"
-                placeholder=""
-                value={passwordOne}
-                onChange={handleChange}
-                type="password"
-                label={{
-                  position: 'top',
-                  text: 'New password:',
-                  icon: null,
-                }}
-                version="text"
-                width={48.611}
-              />
-
-              <Input
-                className={styles.input}
-                name="passwordTwo"
-                placeholder=""
-                value={passwordTwo}
-                onChange={handleChange}
-                type="password"
-                label={{
-                  position: 'top',
-                  text: 'Confirm new password:',
-                  icon: null,
-                }}
-                version="text"
-                width={48.611}
-              />
-
-            </div>
-
-          </div>
-        )}
-
-      <Button version="black progress" onClick={handleClick} disabled={button.disabled}>{button.text}</Button>
-
-      <Error error={error} />
-
-      <Button
-        version="text"
-        width={100}
-        textAlign="left"
-        onClick={deleteAccount}
-      >
-        Delete account
-      </Button>
-
-    </div>
+        <InputNew
+          name="passwordTwo"
+          label="Confirm new password:"
+          placeholder=""
+          type="password"
+          value={passwordTwo}
+          handleChange={handleChange}
+          version="text"
+        />
+      </form>
+    </section>
   )
 }
 
-export default Details
+AccountPageDetails.propTypes = {
+  user: PropTypes.object.isRequired,
+}
+
+export default AccountPageDetails

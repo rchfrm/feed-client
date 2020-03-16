@@ -11,11 +11,10 @@ import ArchFormLogo from '../icons/ArchFormLogo'
 // IMPORT STYLES
 
 function Logo({ navigation }) {
-  const fill = navigation ? '#ffffff' : '#000000'
+  const colorClass = navigation ? 'navOn' : 'navOff'
   return (
-    <div className="logoButton">
+    <div className={['LogoButton', colorClass].join(' ')}>
       <ArchFormLogo
-        fill={fill}
         width="100%"
       />
     </div>

@@ -6,7 +6,7 @@ import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
 import Loading from './elements/Loading'
 // IMPORT PAGES
-import Connections from './AccountPageConnections'
+import AccountPageConnections from './AccountPageConnections'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
@@ -133,7 +133,15 @@ function ConnectionsLoader(props) {
   if (artistLoading) {
     return <Loading what={artistName} noPadding />
   }
-  return <Connections artistId={artistId} connections={connections} priorityDSP={priorityDSP} setConnections={setConnections} setPriorityDSP={setPriorityDSP} />
+  return (
+    <AccountPageConnections
+      artistId={artistId}
+      connections={connections}
+      priorityDSP={priorityDSP}
+      setConnections={setConnections}
+      setPriorityDSP={setPriorityDSP}
+    />
+  )
 }
 
 export default ConnectionsLoader

@@ -1,0 +1,75 @@
+import React from 'react'
+import Router, { useRouter } from 'next/router'
+
+import SidePanel from '../SidePanel'
+
+const initialContext = {
+  sidePanelContent: null,
+  setSidePanelContent: () => {},
+  sidePanelButton: null,
+  setSidePanelButton: () => {},
+  sidePanelOpen: false,
+  toggleSidePanel: () => {},
+  sidePanelLoading: false,
+  setSidePanelLoading: () => {},
+}
+
+const SidePanelContext = React.createContext(initialContext)
+SidePanelContext.displayName = 'SidePanelContext'
+
+const SidePanelContextProvider = ({ children }) => {
+  const [sidePanelContent, setSidePanelContent] = React.useState(null)
+  const [sidePanelButton, setSidePanelButton] = React.useState(null)
+  const [sidePanelOpen, setSidePanelOpen] = React.useState(false)
+  const [sidePanelLoading, setSidePanelLoading] = React.useState(false)
+
+  // GET CLOSE METHOD
+  // Get ROUTE info
+  const { query, pathname } = useRouter()
+  const [pageQuery] = Object.keys(query)
+  const closeSidePanel = () => {
+    // If there's no page query, then simply close
+    if (!pageQuery) return setSidePanelOpen(false)
+    // If there is a page query, then just remove it
+    Router.push(pathname)
+  }
+
+  const toggleSidePanel = (state) => {
+    const newState = typeof state === 'boolean' ? state : !sidePanelOpen
+    // Closing
+    if (!newState) return closeSidePanel()
+    // Opening
+    setSidePanelOpen(newState)
+  }
+
+  return (
+    // The context provider
+    <SidePanelContext.Provider
+      value={{
+        sidePanelContent,
+        setSidePanelContent,
+        sidePanelButton,
+        setSidePanelButton,
+        sidePanelOpen,
+        toggleSidePanel,
+        sidePanelLoading,
+        setSidePanelLoading,
+      }}
+    >
+      <>
+        {/* The side panel */}
+        <SidePanel
+          content={sidePanelContent}
+          setContent={setSidePanelContent}
+          button={sidePanelButton}
+          isOpen={sidePanelOpen}
+          toggle={toggleSidePanel}
+          isLoading={sidePanelLoading}
+        />
+        {children}
+      </>
+    </SidePanelContext.Provider>
+  )
+}
+
+export { SidePanelContext, SidePanelContextProvider }

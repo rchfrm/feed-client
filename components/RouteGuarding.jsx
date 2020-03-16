@@ -57,7 +57,6 @@ const RouteGuarding = ({ children }) => {
     // If auth success and you're hitting the login page,
     // kick to the home page
     if (authSuccess && currentPath === ROUTES.LOGIN) {
-      console.log('kick to home')
       kickToHome()
       return
     }

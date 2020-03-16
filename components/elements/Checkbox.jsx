@@ -11,7 +11,7 @@ import brandColours from '../../constants/brandColours'
 // IMPORT STYLES
 
 function Checkbox(props) {
-  const bgColour = props.selected ? props.colour : brandColours.lightGrey.hex
+  const bgColour = props.selected ? props.colour : brandColours.lightGrey
 
   return (
     <div
@@ -19,7 +19,7 @@ function Checkbox(props) {
         width: `${props.width}px`,
         height: `${props.width}px`,
         backgroundColor: bgColour,
-        border: `1px solid ${brandColours.white.hex}`,
+        border: `1px solid ${brandColours.white}`,
         borderRadius: 3,
       }}
     />

@@ -22,6 +22,17 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
     // If it is a pre-existing user, store their profile in the user context
     const newUser = await storeUser()
 
+    // Handle no new user
+    if (!newUser && pathname === ROUTES.LOGIN) {
+      localStorage.clear()
+      return false
+    }
+    if (!newUser && pathname !== ROUTES.LOGIN) {
+      localStorage.clear()
+      Router.push(ROUTES.LOGIN)
+      return true
+    }
+
     // Check if they have artists connected to their account or not,
     // if they don't, set noArtist, and push them to the Connect Artist page
     if (newUser.artists.length === 0) {
@@ -157,8 +168,8 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
 
       // If there hasn't been a redirect, check with Firebase for an auth user
       if (!redirected) {
-        const unsubscribe = firebase.auth.onAuthStateChanged(authUser => {
-          handleAuthStateChange(authUser)
+        const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
+          await handleAuthStateChange(authUser)
           // Once Firebase has been checked, unsubscribe from the observer
           unsubscribe()
         })

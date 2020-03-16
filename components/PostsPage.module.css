@@ -28,7 +28,7 @@
   align-items: center;
   
   :global(svg) {
-    padding-right: 10px;
+    margin-right: 10px;
     vertical-align: sub;
   }
   
@@ -54,10 +54,7 @@
 
 
 .post-toggle {
-  outline: 2px solid #6edcd3;
-  outline-offset: -2px;
-  padding: 1px;
-  background-color: #6edcd3;
+  background-color: var(--green);
 
   .deselected & {
     outline: 2px solid #D6D6D6;
@@ -172,8 +169,8 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  background-color: black;
-  color: white;
+  background-color: var(--black);
+  color: var(--white);
   padding: 0.75em 1.5em;
 }
 
@@ -205,10 +202,14 @@
 
 
 /* FORM FOR SETTING BUDGET */
-.budget-form {
+.BudgetForm {
   display: flex;
   justify-content: space-between;
-  .box {
-    margin-bottom: 1em;
-  }
+  margin-bottom: var(--bsu);
+}
+
+.BudgetForm_inputContainer {
+  margin-bottom: 0 !important;
+  flex: 1 0 auto;
+  padding-right: var(--bsu);
 }

@@ -28,7 +28,7 @@ function PostsPage() {
   // END SHOW / HIDE NAVIGATION
 
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`page--container ${className}`}>
 
       <PostsLoader />
 

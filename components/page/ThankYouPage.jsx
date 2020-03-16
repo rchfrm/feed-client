@@ -31,7 +31,7 @@ function ThankYou() {
   }
 
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`page--container ${className}`}>
 
       <PageHeader heading="We're all set" punctuation="!" />
 
@@ -50,7 +50,7 @@ function ThankYou() {
       </div>
 
       <div className="ninety-wide" style={{ textAlign: 'right' }}>
-        <Button version="black progress" onClick={handleClick}>done.</Button>
+        <Button version="black" onClick={handleClick}>done.</Button>
       </div>
 
     </div>

@@ -65,6 +65,8 @@ function Feed({ Component, pageProps }) {
     }
   }
 
+  // const footerClass = navState.visible ? 'navOn' : 'navOff'
+
   return (
 
     <AuthProvider>
@@ -83,7 +85,7 @@ function Feed({ Component, pageProps }) {
 
         <NavMenuProvider>
 
-          <div id="container" style={{ backgroundColor }}>
+          <div id="container">
 
             <TheHeader />
 

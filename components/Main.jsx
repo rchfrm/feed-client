@@ -15,9 +15,9 @@ import TheNavigation from './TheNavigation'
 
 function Main({ children }) {
   const { navState } = React.useContext(NavigationContext)
-  const backgroundColor = navState.visible ? 'black' : 'white'
+  const mainClass = navState.visible ? 'navOn' : 'navOff'
   return (
-    <main style={{ backgroundColor }}>
+    <main className={[mainClass, 'main'].join(' ')}>
       <UserProvider>
         <ArtistProvider>
           <TheNavigation />

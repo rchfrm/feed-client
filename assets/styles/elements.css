@@ -14,7 +14,7 @@
 }
 
 .alert {
-  background-color: white;
+  background-color: var(--white);
   width: 90%;
   padding: 5%;
   border: 2px solid black;
@@ -22,6 +22,7 @@
   flex-direction: column;
   align-items: flex-end;
   box-sizing: border-box;
+  border-radius: var(--dialogue-radius);
 }
 
 .alert h1 {
@@ -41,114 +42,7 @@
 .alert-contents {
   width: 100%;
   padding-bottom: 1em;
-}
-/* Button
-******************/
-button {
-  font-family: SpaceGrotesk, sans-serif;
-  display: flex;
-}
-
-button:disabled, button[disabled] {
-  color: #999999;
-  background-color: #E5E5E5;
-}
-
-button:focus {
-  outline: none;
-}
-
-.button_black {
-  background-color: black;
-  color: white;
-  border: none;
-  padding: 1.5em;
-  font-weight: bold;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.progress {
-  width: 31.48%;
-}
-
-.button_facebook {
-  background-color: #4267B2;
-  color: white;
-  border: none;
-  font-weight: 600;
-  font-size: 1em;
-  padding: 20px;
-  margin-bottom: 1em;
-  text-align: left;
-  cursor: pointer;
-}
-.button_facebook svg {
-  vertical-align: bottom;
-  padding-right: 10px;
-}
-
-  button p {
-    display: inline;
-  }
-
-.integration-setup {
-  width: 100%;
-  background: transparent;
-  border: none;
-  display: block;
-  outline: 2px solid black;
-  outline-offset: -2px;
-  margin-bottom: 1.5em;
-  font-feature-settings: "ss01";
-  box-sizing: border-box;
-  text-align: left;
-  padding: 1.5em;
-}
-
-.connected {
-  background-color: black;
-  color: white;
-}
-
-.button_sign-out {
-  background-color: transparent;
-  color: white;
-  border: none;
-  font-weight: 600;
-  font-size: 1.25em;
-  display: inline;
-  padding: 0;
-  margin: 0;
-  text-decoration: underline;
-}
-
-.button_sign-out:hover {
-  text-decoration: none;
-}
-
-.button_text {
-  background-color: transparent;
-  display: inline;
-  color: black;
-  border: none;
-  font-weight: normal;
-  font-size: 1em;
-  padding: 0;
-  margin: 0;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.button_toggle {
-  border: none;
-  background-color: transparent;
-  padding: 0;
-  margin: 0;
-}
-
-.button_toggle svg {
-  vertical-align: middle;
+  color: var(--black);
 }
 
 
@@ -271,71 +165,6 @@ button:focus {
   scroll-behavior: smooth;
 }
 
-.frame-nav {
-
-}
-
-/* Input
-******************/
-input {
-  background-color: transparent;
-}
-
-input[readonly] {
-  border-bottom: none;
-}
-
-.box {
-  display: block;
-  border: none;
-  outline: 2px solid black;
-  outline-offset: -2px;
-  margin-bottom: 1em;
-  padding: 1.333em;
-  font-family: monospace;
-  font-weight: 100;
-  font-size: 1em;
-  box-sizing: border-box;
-  width: 100%;
-  
-  &::placeholder{
-    color: #999999;
-  }
-}
-
-
-.text {
-  display: block;
-  width: 100%;
-  outline: none;
-  border: none;
-  border-bottom: 1px dotted black;
-  margin: 0 0 1em 0;
-  padding: 0 0 0.2em 0;
-  font-size: 1em;
-}
-
-.text_icon {
-  border: none;
-  border-bottom: 1px dotted black;
-  font-size: 1em;
-  width: calc(100% - 30px);
-  margin: 0 0 1em 0;
-  padding: 0 0 0.2em 0;
-}
-
-.label_top {
-  font-size: 0.667em;
-  display: block;
-  width: 100%;
-  margin-bottom: 0.667em;
-}
-
-.label_icon {
-  vertical-align: middle;
-  margin: 0 0 1em 0;
-  padding: 0 10px 0 0;
-}
 
 /* Loading
 ******************/
@@ -349,8 +178,8 @@ input[readonly] {
 /* Navigation
 ******************/
 .TheNavigation {
-  background-color: black;
-  color: white;
+  background-color: var(--black);
+  color: var(--white);
 
   a.-active {
     text-decoration: none;
@@ -373,13 +202,13 @@ input[readonly] {
   a {
     font-size: 1.25em;
     font-weight: 600;
-    color: white;
+    color: var(--white);
   }
 }
 
 nav select {
   background-color: transparent;
-  color: white;
+  color: var(--white);
   font-size: 1.25em;
   font-weight: 600;
   border: 1px solid white;
@@ -389,8 +218,8 @@ nav select {
 }
 
 nav option {
-  background-color: black;
-  color: white;
+  background-color: var(--black);
+  color: var(--white);
 }
 /* NextButton
 ******************/
@@ -410,7 +239,7 @@ nav option {
 ******************/
 .page-header {
   width: 90%;
-  padding: 0 5%;
+  margin: 0 5%;
   flex: none;
   margin-bottom: 1em;
 }
@@ -467,8 +296,8 @@ nav option {
   padding: 5.556%;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
   border: 1px solid black;
+  border-radius: var(--dialogue-radius);
 }
 
 .selected {
@@ -532,22 +361,4 @@ nav option {
   left: 0;
   width: 100%;
   z-index: 1;
-}
-
-/* Select
-******************/
-.selectElement {
-  &._error {
-    label {
-      color: #FF0000;
-    }
-  }
-}
-
-select {
-  font-size: 1em;
-}
-
-select:invalid {
-  color: #999999;
 }

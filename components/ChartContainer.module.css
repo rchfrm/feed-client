@@ -39,7 +39,7 @@
 .chartMin {
   position: absolute;
   left: 2%;
-  background-color: white;
+  background-color: var(--white);
   padding: 0.25em;
   z-index: 2;
   border-radius: 5px;
@@ -76,8 +76,10 @@
 .filterOptions {
   display: flex;
   justify-content: space-evenly;
+  justify-content: center;
   padding-top: 1em;
   padding-bottom: 1em;
+  margin: 0 5%;
 }
 
 .platformListItem {
@@ -85,6 +87,8 @@
   align-items: center;
   margin: 0;
   padding-bottom: 0.5em;
+  margin: 1em 0.3em;
+  margin-top: 0;
 }
 
 .dataSourcesList {

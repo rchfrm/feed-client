@@ -1,25 +1,11 @@
 const brandColours = {
-  red: {
-    hex: "#FF0000",
-  },
-  green: {
-    hex: "#10E7E0",
-  },
-  white: {
-    hex: "#FFFFFF",
-  },
-  lightGrey: {
-    hex: "#E5E5E5",
-  },
-  grey: {
-    hex: "#D6D6D6",
-  },
-  darkGrey: {
-    hex: "#999999",
-  },
-  black: {
-    hex: "#000000",
-  },
-};
+  white: '#F4F4F4',
+  black: '#0D1311',
+  green: '#03D8B2',
+  red: '#FA5450',
+  lightGrey: '#C8CBCA',
+  grey: '#D6D6D6',
+  darkGrey: '#7F8382',
+}
 
-export default brandColours;
+export default brandColours

@@ -6,13 +6,17 @@ import CrossIcon from '../icons/CrossIcon'
 import styles from '../TheHeader.module.css'
 
 function MenuButton({ onClick, navigation }) {
-  // const iconSRC = props.navigation ? closeMenu : openMenu;
+  const colorClass = navigation ? 'navOn' : 'navOff'
 
   return (
-    <button type="button" className={styles.menuButton} onClick={onClick}>
+    <button
+      type="button"
+      className={['MenuButton', colorClass, styles.menuButton].join(' ')}
+      onClick={onClick}
+    >
       {navigation
-        ? <CrossIcon fill="#ffffff" width="100%" />
-        : <MenuIcon fill="#000000" width="100%" />}
+        ? <CrossIcon width="100%" />
+        : <MenuIcon width="100%" />}
     </button>
   )
 }

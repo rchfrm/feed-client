@@ -6,7 +6,7 @@ import Link from 'next/link'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Input from './elements/Input'
+import InputNew from './elements/InputNew'
 import Button from './elements/Button'
 import Feed from './elements/Feed'
 // IMPORT PAGES
@@ -29,7 +29,7 @@ const initialAlertState = {
   // response: false,
 }
 
-function Budget({ currency }) {
+function PostsBudget({ currency }) {
   const { artist, updateBudget } = React.useContext(ArtistContext)
 
   // DEFINE STATES
@@ -109,24 +109,21 @@ function Budget({ currency }) {
 
         <h3>Enter the amount you'd like to spend each day:</h3>
 
-        <div className={styles['budget-form']}>
+        <div className={styles.BudgetForm}>
 
-          <Input
+          <InputNew
+            className={styles.BudgetForm_inputContainer}
             name="budget"
-            className={styles.box}
             placeholder={currency}
             value={budget.amount === 0 ? '' : budget.amount}
-            onChange={handleChange}
+            handleChange={handleChange}
             type="number"
-            label="none"
             version="box"
-            width={65.738}
           />
 
           <Button
-            version="black"
+            version="black  wide"
             onClick={handleClick}
-            width={31.48}
             disabled={budget.disabled}
             marginBottom="1em"
             textColour={budget.colour}
@@ -194,4 +191,4 @@ function BudgetConfirmation({ budget }) {
   )
 }
 
-export default Budget
+export default PostsBudget

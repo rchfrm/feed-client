@@ -1,5 +1,9 @@
 .flex-row {
   display: flex;
+
+  .full {
+    width: 100%;
+  }
 }
 
 .flex-column {

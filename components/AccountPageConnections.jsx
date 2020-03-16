@@ -7,7 +7,7 @@ import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 import Icon from './elements/Icon'
-import Input from './elements/Input'
+import InputNew from './elements/InputNew'
 import Spinner from './elements/Spinner'
 import Alert from './elements/Alert'
 // IMPORT PAGES
@@ -155,7 +155,7 @@ const Connection = ({
       </div>
 
       <div className={styles['integration-edit']}>
-        <Button version="text" onClick={handleClick} disabled={disabled} bgColour="white">
+        <Button version="text" onClick={handleClick} disabled={disabled} bgColour={brandColours.white}>
           <IntegrationEdit disabled={disabled} loading={loading} valid={valid} />
         </Button>
       </div>
@@ -174,11 +174,11 @@ const IntegrationIcons = ({
   const priority = priorityDSP === platform
 
   // DEFINE DEFAULT COLOUR
-  let defaultColour = brandColours.lightGrey.hex
+  let defaultColour = brandColours.lightGrey
   if (valid && priority) {
-    defaultColour = brandColours.black.hex
+    defaultColour = brandColours.black
   } else if (!valid) {
-    defaultColour = brandColours.white.hex
+    defaultColour = brandColours.white
   }
   // DEFINE DEFAULT COLOUR
 
@@ -205,7 +205,7 @@ const IntegrationIcons = ({
 
   const handleMouseEnter = () => {
     if (valid && !priority) {
-      setColour(brandColours.darkGrey.hex)
+      setColour(brandColours.darkGrey)
     }
   }
 
@@ -273,7 +273,7 @@ const IntegrationIcons = ({
       />
 
       {loading
-        ? <Spinner width={15} colour={brandColours.grey.hex} />
+        ? <Spinner width={15} colour={brandColours.grey} />
         : (
           <div
             role="button"
@@ -357,10 +357,11 @@ const IntegrationLink = ({
     )
   }
   return (
-    <Input
+    <InputNew
       className={styles.input}
+      name="Connection"
       version="text"
-      label="none"
+      label=""
       placeholder={value || placeholder(platform)}
       value={value}
       onChange={handleChange}
@@ -376,7 +377,7 @@ function IntegrationEdit(props) {
   // END REDEFINE PROPS AS VARIABLES
 
   if (loading) {
-    return <Spinner width={15} colour={brandColours.grey.hex} />
+    return <Spinner width={15} colour={brandColours.grey} />
   }
 
   if (valid) {
@@ -391,7 +392,7 @@ function IntegrationEdit(props) {
   return (
     <Icon
       version="tick"
-      color={disabled ? [brandColours.grey.hex] : [brandColours.black.hex]}
+      color={disabled ? [brandColours.grey] : [brandColours.black]}
       width={15}
     />
   )

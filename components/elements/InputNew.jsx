@@ -7,26 +7,43 @@ import PropTypes from 'prop-types'
 const InputNew = ({
   handleChange,
   name,
+  label,
+  type,
   placeholder,
   value,
   version,
   width,
   readOnly,
   required,
+  className,
 }) => {
   return (
-    <input
-      className={version}
-      name={name}
-      onChange={handleChange}
-      placeholder={placeholder}
-      style={{
-        width: `${width}%`,
-      }}
-      value={value}
-      readOnly={readOnly}
-      required={required}
-    />
+    <div className={['input--container', className].join(' ')}>
+      <label
+        className="inputLabel"
+        htmlFor={name}
+      >
+        {label && (
+          <span className="inputLabel__text">
+            {label}
+            {required && <span className="asterix">*</span>}
+          </span>
+        )}
+        <input
+          className={['input', `input_${version}`].join(' ')}
+          name={name}
+          type={type}
+          onChange={handleChange}
+          placeholder={placeholder}
+          style={{
+            width: `${width}%`,
+          }}
+          value={value}
+          readOnly={readOnly}
+          required={required}
+        />
+      </label>
+    </div>
   )
 }
 
@@ -36,6 +53,10 @@ InputNew.propTypes = {
 
   // There must be a string set as the name
   name: PropTypes.string.isRequired,
+
+  label: PropTypes.string,
+
+  type: PropTypes.string,
 
   // Any placeholder should be a string
   placeholder: PropTypes.string,
@@ -56,15 +77,20 @@ InputNew.propTypes = {
   width: PropTypes.number,
 
   required: PropTypes.bool,
+
+  className: PropTypes.string,
 }
 
 InputNew.defaultProps = {
   handleChange: () => {},
   placeholder: '',
   readOnly: false,
+  type: 'text',
+  label: '',
   value: '',
   width: 100,
   required: false,
+  className: '',
 }
 
 export default InputNew

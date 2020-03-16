@@ -1,12 +1,3 @@
-.menuButton {
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  width: 7.176%;
-  float: right;
-  cursor: pointer;
-}
-
 .logo {
   display: block;
   float: left;
@@ -16,5 +7,26 @@
   :global(svg) {
     width: 100%;
     height: auto;
+  }
+}
+
+
+.menuButton {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  width: 7.176%;
+  float: right;
+  cursor: pointer;
+
+  :global(svg) {
+
+    * {
+      fill: var(--black);
+
+      :global(.navOn) & {
+        fill: var(--white);
+      }
+    }
   }
 }

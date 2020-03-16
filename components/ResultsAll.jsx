@@ -44,7 +44,7 @@ const calculateSummary = (ads, isActive) => {
   const days = []
 
   const checkSAESIsNumber = (engagement, spend) => {
-    if (engagement === 0 && spend === 0) {
+    if (spend === 0) {
       return '-'
     }
     return Math.round(engagement / spend)
@@ -138,7 +138,7 @@ const Result = ({
   const priorityPage = priority_dsp === 'facebook' ? `${priority_dsp}_page_url` : `${priority_dsp}_url`
   const clicksStatement = (
     <span>
-      {`clicks to `}
+      {'clicks to '}
       <a href={artist[priorityPage]} target="_blank" rel="noopener noreferrer">
         {helper.capitalise(priority_dsp)}
       </a>
@@ -166,8 +166,8 @@ const Result = ({
         </div>
 
         <div className={styles['result-toggle-saes']}>
-          <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
           <h2 className={styles.h2}>{summary.SAES}</h2>
+          <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
         </div>
 
       </div>
@@ -412,12 +412,12 @@ function Toggle(props) {
       >
         {
             loading
-              ? <Spinner width={20} colour={brandColours.white.hex} />
+              ? <Spinner width={20} colour={brandColours.white} />
               : (
                 <Icon
                   className={styles.button}
                   version={promotion_enabled ? 'cross' : 'tick'}
-                  color={promotion_enabled ? brandColours.red.hex : brandColours.green.hex}
+                  color={promotion_enabled ? brandColours.red : brandColours.green}
                   width="18"
                 />
               )
@@ -465,7 +465,7 @@ function DisabledResults(props) {
     <div
       className={styles['disabled-results']}
       style={{
-        backgroundColor: helper.hexToRGBA(brandColours.red.hex, 0.1),
+        backgroundColor: helper.hexToRGBA(brandColours.red, 0.1),
       }}
     >
       <h3>The posts below are being turned off...</h3>
@@ -530,7 +530,9 @@ function ResultsAll({ posts: postsObject, active, setPosts }) {
   }
   return (
     <div style={{ width: '100%' }}>
-      <h2 className="ninety-wide">{title}</h2>
+      <div className="ninety-wide">
+        <h2>{title}</h2>
+      </div>
       <ul className={styles.results}>{listResults}</ul>
       <DisabledResults disabledResults={disabledResults} />
     </div>
