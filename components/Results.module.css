@@ -14,11 +14,10 @@
 }
 
 .result-media {
+  display: flex;
   width: 28.702%;
   flex: none;
   padding: 2.778%;
-  display: flex;
-  background-color: var(--white);
 
   .img {
     height: 100%;
