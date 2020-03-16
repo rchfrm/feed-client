@@ -58,7 +58,7 @@ input[readonly] {
   border: none;
   border-bottom: 1px dotted black;
   margin: 0 0 1em 0;
-  padding: 0 0 0.2em 0;
+  padding-bottom: 0.2em;
   font-size: 1em;
 }
 
@@ -68,7 +68,7 @@ input[readonly] {
   font-size: 1em;
   width: calc(100% - 30px);
   margin: 0 0 1em 0;
-  padding: 0 0 0.2em 0;
+  padding-bottom: 0.2em;
 }
 
 .label_top {

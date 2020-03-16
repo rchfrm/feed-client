@@ -24,7 +24,7 @@
     * {
       fill: var(--black);
 
-      .navOn & {
+      :global(.navOn) & {
         fill: var(--white);
       }
     }
