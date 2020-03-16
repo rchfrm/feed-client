@@ -102,7 +102,8 @@ function NavigationAuth() {
 }
 
 const NavigationNonAuth = () => {
-  const { LOGIN, SIGN_UP, PRICES, TERMS, FAQ } = ROUTES
+  const { LOGIN, SIGN_UP, PRICES, FAQ } = ROUTES
+  const termsLink = 'https://archform.ltd/terms/'
 
   const links = [
     {
@@ -118,8 +119,9 @@ const NavigationNonAuth = () => {
       title: 'pricing',
     },
     {
-      href: TERMS,
+      href: termsLink,
       title: 'terms',
+      external: true,
     },
     {
       href: FAQ,
@@ -130,10 +132,12 @@ const NavigationNonAuth = () => {
   return (
     <>
       <ul>
-        {links.map(({ href, title }) => {
+        {links.map(({ href, title, external }) => {
           return (
             <li key={href}>
-              <ActiveLink href={href}><a>{ title }</a></ActiveLink>
+              {external
+                ? <a href={href} target="_blank" rel="noopener noreferrer">{ title }</a>
+                : <ActiveLink href={href}><a>{ title }</a></ActiveLink>}
             </li>
           )
         })}
