@@ -1,24 +1,24 @@
 import React from 'react'
 
-function MenuIcon(props) {
+function MenuIcon({ width, fill }) {
   const name = 'Menu'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       data-name={name}
-      width={props.width}
+      width={width}
       viewBox="0 0 600 600"
     >
       <title>{name}</title>
       <rect
-        fill={props.fill}
+        fill={fill}
         y="274"
         width="441.4"
         height="60"
         transform="translate(441.388 608.063)rotate(180)"
       />
       <rect
-        fill={props.fill}
+        fill={fill}
         x="-0.5"
         y="94"
         width="600"
@@ -26,7 +26,7 @@ function MenuIcon(props) {
         transform="translate(599.081 248.063)rotate(180)"
       />
       <rect
-        fill={props.fill}
+        fill={fill}
         x="-0.5"
         y="454"
         width="600"
