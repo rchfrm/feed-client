@@ -227,7 +227,7 @@ function PostsLoader() {
         }}
       >
         <Button
-          version="black"
+          version="black  wide"
           onClick={returnHome}
         >
           Done

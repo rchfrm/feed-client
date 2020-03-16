@@ -208,6 +208,8 @@
   margin-bottom: var(--bsu);
 }
 
-.BudgetForm_input {
+.BudgetForm_inputContainer {
   margin-bottom: 0;
+  flex: 1 0 auto;
+  padding-right: var(--bsu);
 }

@@ -13,6 +13,11 @@ input[readonly] {
   margin-bottom: var(--bsu-md);
 }
 
+.inputLabel {
+  display: block;
+  width: 100%;
+}
+
 .inputLabel__text {
   width: 100%;
   display: block;

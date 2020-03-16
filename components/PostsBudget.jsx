@@ -112,20 +112,18 @@ function PostsBudget({ currency }) {
         <div className={styles.BudgetForm}>
 
           <InputNew
-            className={styles.BudgetForm_input}
+            className={styles.BudgetForm_inputContainer}
             name="budget"
             placeholder={currency}
             value={budget.amount === 0 ? '' : budget.amount}
             handleChange={handleChange}
             type="number"
             version="box"
-            width={65.738}
           />
 
           <Button
-            version="black"
+            version="black  wide"
             onClick={handleClick}
-            width={31.48}
             disabled={budget.disabled}
             marginBottom="1em"
             textColour={budget.colour}
