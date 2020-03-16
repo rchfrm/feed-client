@@ -4,7 +4,7 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
-import Button from './elements/Button'
+import ButtonFacebook from './elements/ButtonFacebook'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -32,13 +32,12 @@ function FbSignUpForm(props) {
         margin: '0 auto 1.5em auto',
       }}
     >
-      <Button
-        version="facebook"
+      <ButtonFacebook
         width={100}
         onClick={handleClick}
       >
         Sign up with Facebook
-      </Button>
+      </ButtonFacebook>
     </div>
   )
 }

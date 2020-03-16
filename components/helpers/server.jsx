@@ -1,8 +1,7 @@
+import host from './host'
 import helper from './helper'
+import artistHelpers from './artistHelpers'
 
-const host = process.env.build_env === 'development'
-  ? process.env.react_app_api_url_local || 'http://localhost:5000/'
-  : process.env.react_app_api_url || 'http://localhost:5000/'
 
 export default {
 
@@ -25,7 +24,7 @@ export default {
 
     if (res.ok) {
       const jsonResponse = await res.json()
-      jsonResponse.artists = helper.sortArtistsAlphabetically(jsonResponse.artists)
+      jsonResponse.artists = artistHelpers.sortArtistsAlphabetically(jsonResponse.artists)
       return jsonResponse
     }
   },
@@ -38,13 +37,13 @@ export default {
         Authorization: `Bearer ${verifyIdToken}`,
       },
     }).catch((err) => {
-      console.log('cant get user')
+      console.error('cant get user')
       throw (err)
     })
 
     if (res.ok) {
       const jsonResponse = await res.json()
-      jsonResponse.artists = helper.sortArtistsAlphabetically(jsonResponse.artists)
+      jsonResponse.artists = artistHelpers.sortArtistsAlphabetically(jsonResponse.artists)
       return jsonResponse
     }
   },
@@ -69,77 +68,6 @@ export default {
     throw new Error(res.statusText)
   },
 
-  // ARTIST
-  createArtist: async (artist, accessToken, token) => {
-    const endpoint = `${host}artists`
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        name: artist.name,
-        location: artist.location,
-        country_code: artist.country_code,
-        facebook_page_url: artist.facebook_page_url,
-        spotify_url: helper.cleanSpotifyUrl(artist.spotify_url),
-        instagram_url: artist.instagram_url,
-        integrations: {
-          facebook: {
-            page_id: artist.page_id,
-            access_token: accessToken,
-            instagram_id: artist.instagram_id,
-            adaccount_id: artist.selected_facebook_ad_account.id,
-          },
-        },
-        priority_dsp: artist.priority_dsp,
-      }),
-    })
-    if (res.ok) {
-      return res.json()
-    }
-    throw new Error(res.statusText)
-  },
-
-  getArtist: async (artist_id, verify_id_token) => {
-    const endpoint = `${host}artists/${artist_id}`
-    const res = await fetch(endpoint, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${verify_id_token}`,
-      },
-    })
-    if (res.ok) {
-      const response = await res.json()
-
-      // Filter out links so that they are stored in a specific 'links' key
-      response.URLs = helper.filterArtistUrls(response)
-
-      return response
-    }
-    throw new Error('We were unable to retrieve the selected artist from the server')
-  },
-
-  getArtistOnSignUp: async (facebookAccessToken, verifyIdToken) => {
-    const endpoint = `${host}artists/available`
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${verifyIdToken}`,
-      },
-      body: JSON.stringify({
-        access_token: facebookAccessToken,
-      }),
-    })
-    if (res.ok) {
-      // Convert ad accounts into an array of objects, sorted alphabetically
-      return res.json()
-    }
-    throw new Error(res.statusText)
-  },
 
   // UPDATE ARTIST
   updateDailyBudget: async (artistId, dailyBudget, verifyIdToken) => {
@@ -378,24 +306,64 @@ export default {
 
     throw new Error(res.statusText)
   },
-  // PAYMENTS
-  // PAYMENTS
-  submitPaymentMethod: async (paymentMethodId, verifyIdToken) => {
-    // fixme "/organizations/me" is a temporary measure
-    const endpoint = `${host}organizations/me/billing/payments`
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${verifyIdToken}`,
-      },
-      body: JSON.stringify({
-        token: paymentMethodId,
-      }),
-    })
-    if (res.ok) {
-      return
+
+  updateAccessToken: async (artistIds, accessToken, verifyIdToken) => {
+    const response = []
+    for (let i = 0; i < artistIds.length; i += 1) {
+      const artistId = artistIds[i]
+      if (
+        artistId === 'Y8uCfxBZkAVcpokW4S4b'
+        || artistId === '4FwK6p6y9xhpxZSGW2fR'
+        || artistId === 'vpdEYAT65K8gVcIuLpvO'
+        || artistId === 'z86bIwfwlIXwEtmKIML6'
+      ) {
+        const endpoint = `${this.url}artists/${artistId}`
+        const res = await fetch(endpoint, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${verifyIdToken}`,
+          },
+          body: JSON.stringify({
+            integrations: {
+              facebook: {
+                access_token: accessToken,
+              },
+            },
+          }),
+        })
+        if (res.ok) {
+          const res = await res.json()
+          response.push(res)
+        }
+      } else {
+        response.push(`Not updating access token for ${artistId}`)
+      }
     }
-    throw new Error(res.statusText)
+    return response
+  },
+
+  catchAxiosError: (error) => {
+    if (error.response) {
+      /*
+       * The request was made and the server responded with a
+       * status code that falls out of the range of 2xx
+       */
+      console.log('error.response.data', error.response.data)
+      console.log('error.response.status', error.response.status)
+      console.log('error.response.headers', error.response.headers)
+    } else if (error.request) {
+      /*
+       * The request was made but no response was received, `error.request`
+       * is an instance of XMLHttpRequest in the browser and an instance
+       * of http.ClientRequest in Node.js
+       */
+      console.log('error.request', error.request)
+    } else {
+      // Something happened in setting up the request and triggered an Error
+      console.log('Error', error.message)
+    }
+    console.log(error)
+    throw new Error(error.message)
   },
 }

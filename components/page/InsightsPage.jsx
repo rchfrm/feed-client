@@ -30,7 +30,7 @@ function HomePage() {
   // END SHOW / HIDE NAVIGATION
 
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`${className}`}>
 
       <Loader />
 
@@ -47,7 +47,7 @@ function Loader() {
   // END IMPORT CONTEXTS
 
   if (userLoading || artistLoading) {
-    return <Spinner width={50} colour={brandColours.green.hex} />
+    return <Spinner width={50} colour={brandColours.green} />
   } if (artist === null) {
     // If there is no selected artist after the artist has finished loading,
     // show message to say the user needs to their artist pages
@@ -63,7 +63,7 @@ function Home() {
   const { user } = React.useContext(UserContext)
 
   return (
-    <div className="page-container">
+    <div className="page--container">
 
       <PageHeader heading={`Hey ${user.first_name}`} punctuation="," />
 

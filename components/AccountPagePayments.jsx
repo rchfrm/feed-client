@@ -1,171 +1,162 @@
-// IMPORT PACKAGES
 import React from 'react'
-import Link from 'next/link'
 
-// IMPORT ASSETS
-// IMPORT COMPONENTS
-// IMPORT CONSTANTS
+import usePrevious from 'use-previous'
+
+import Router from 'next/router'
 import * as ROUTES from '../constants/routes'
-// IMPORT CONTEXTS
-import { UserContext } from './contexts/User'
-// IMPORT ELEMENTS
+
+
+import { AuthContext } from './contexts/Auth'
+import { BillingContext } from './contexts/BillingContext'
+import { SidePanelContext } from './contexts/SidePanelContext'
+
+import Button from './elements/Button'
 import Error from './elements/Error'
-import Feed from './elements/Feed'
-import InputNew from './elements/InputNew'
-import Loading from './elements/Loading'
-import Nothing from './elements/Nothing'
-// IMPORT HELPERS
-// IMPORT HOOKS
-import useFetch from './hooks/useFetch'
-// IMPORT PAGES
-// IMPORT STYLES
+
+import PaymentMethodButton from './PaymentMethodButton'
+import FadeInOut from './FadeInOut'
+
+import paymentHelpers from './helpers/paymentHelpers'
+
 import styles from './PaymentPage.module.css'
+import sidePanelStyles from './SidePanel.module.css'
+
+
+const getButton = (submitChanges) => {
+  return (
+    <Button version="green" onClick={submitChanges}>
+      Update default method
+    </Button>
+  )
+}
 
 function AccountPagePayments() {
-  return (
-    <div className={styles.payments}>
+  // Get User context
+  const { getToken } = React.useContext(AuthContext)
+  // Get Billing Context
+  const {
+    billingDetails,
+    fetchBillingDetails,
+    organisation: { id: organisationId },
+  } = React.useContext(BillingContext)
+  // Get Side panel context
+  const {
+    toggleSidePanel,
+    setSidePanelLoading,
+    setSidePanelButton,
+  } = React.useContext(SidePanelContext)
+  // Get account owner billing details
+  const { defaultMethod, allPaymentMethods } = billingDetails.find(({ role }) => role === 'owner')
+  // Get all payment methods that aren't the default
+  const alternativePaymentMethods = allPaymentMethods.filter(({ is_default }) => !is_default)
+  // Put default method first
+  const paymentMethodsSorted = React.useRef([defaultMethod, ...alternativePaymentMethods])
+  // Get ID of default method
+  const { id: initialDefaultMethodId } = defaultMethod
+  const [defaultMethodId, setDefaultMethodId] = React.useState(initialDefaultMethodId)
+  // Toggling whether new method is selected
+  const [hasNewMethod, setHasNewMethod] = React.useState(false)
+  // Error
+  const [error, setError] = React.useState(null)
 
-      <h2>Payment Details</h2>
-
-      <Organisations />
-
-    </div>
-  )
-}
-
-export default AccountPagePayments
-
-function Organisations() {
-  // Import the user context,
-  const { user } = React.useContext(UserContext)
-  // ... create an array of keys to count the number of organisations a user has access to,
-  const orgIDs = user.organizations ? Object.keys(user.organizations) : []
-
-  // ... if there is just one, display the associated payment methods,
-  if (orgIDs.length === 1) {
-    const orgId = orgIDs[0]
-    return <Organisation key={orgId} multiple={false} organisationObj={user.organizations[orgId]} />
-  }
-
-  /* ... if there is more than one, display a list of billing accounts the user has access to,
-  with the default default payment method */
-  return orgIDs.map(orgId => <Organisation key={orgId} multiple organisationObj={user.organizations[orgId]} />)
-}
-
-function Organisation({ organisationObj, multiple }) {
-  const orgLink = organisationObj._links.self.href
-  const orgName = multiple ? organisationObj.name : undefined
-
-  const organisation = useFetch(orgLink)
-
-  if (organisation.isLoading) {
-    return <Loading what={orgName} noPadding />
-  }
-
-  if (organisation.error) {
-    return <Error error={organisation.error} />
-  }
-
-  if (!organisation.response) {
-    return <Nothing />
-  }
-
-  const isPaymentMethod = !!organisation.response.payment
-
-  let defaultPaymentMethod
-  if (isPaymentMethod) {
-    const defaultPaymentMethodId = organisation.response.payment.customer.invoice_settings.default_payment_method
-    const paymentMethods = organisation.response.payment.methods.data
-
-    paymentMethods.forEach(method => {
-      if (method.id === defaultPaymentMethodId) {
-        defaultPaymentMethod = method
-      }
-    })
-  }
-
-  return (
-    <div>
-      <OrganisationHeader
-        defaultPaymentMethod={defaultPaymentMethod}
-        isPaymentMethod={isPaymentMethod}
-        multiple={multiple}
-        organisation={organisation.response}
-      />
-      <OrganisationDetails
-        defaultPaymentMethod={defaultPaymentMethod}
-        isPaymentMethod={isPaymentMethod}
-        multiple={multiple}
-        organisation={organisation.response}
-      />
-    </div>
-  )
-}
-
-function OrganisationHeader(props) {
-  const { defaultPaymentMethod, isPaymentMethod, multiple, organisation } = props
-
-  if (multiple) {
-    return <h4 className={styles.h4}>{organisation.name}</h4>
-  }
-
-  if (isPaymentMethod) {
-    return <h4 className={styles.h4}>{`**** **** **** ${defaultPaymentMethod.card.last4}`}</h4>
-  }
-  return <h4 className={styles.h4}>Add a way to pay</h4>
-}
-
-function OrganisationDetails(props) {
-  const { defaultPaymentMethod, isPaymentMethod, multiple, organisation } = props
-  const { user } = React.useContext(UserContext)
-
-  /* If there is no payment method for the organisation, determine if the user is the owner of the organisation,
-  and display the correct course of action accordingly */
-  if (!isPaymentMethod) {
-    const isOwner = user.organizations[organisation.id].role === 'owner'
-    if (!isOwner) {
-      return <p>Please ask the owner of the billing account, to add a method of payment.</p>
+  // SUBMIT CHANGES
+  const submitChanges = React.useRef(() => {})
+  submitChanges.current = async () => {
+    setError(null)
+    setSidePanelLoading(true)
+    // Get token
+    const verifyToken = await getToken()
+    // Set default
+    const updatePaymentResult = await paymentHelpers.setPaymentAsDefault(organisationId, defaultMethodId, verifyToken)
+      // Handle error
+      .catch((err) => {
+        setError(err)
+        setDefaultMethodId(initialDefaultMethodId)
+      })
+    if (!updatePaymentResult) {
+      setSidePanelLoading(false)
+      return
     }
-    return (
-      <p>
-        In order to keep using&nbsp;
-        <Feed />
-        , you'll need to enter some payment details. You can do that&nbsp;
-        <Link href={ROUTES.PAYMENT}><a>here</a></Link>
-        .
-      </p>
-    )
+    // Update billing details context
+    await fetchBillingDetails()
+    // Hide update button
+    setHasNewMethod(false)
+    // Stop loading state
+    setSidePanelLoading(false)
+    // Close panel after delay
+    setTimeout(toggleSidePanel, 1500)
   }
 
-  // If the user has access to just one organisation, display only the billing email
-  if (!multiple) {
-    return (
-      <div className={styles['payments-organisation']}>
-        <div className={styles['payments-organisation-detail']}>
-          <label className="label_top">Billing email:</label>
-          <InputNew name="billing-email" readOnly value={defaultPaymentMethod.billing_details.email} version="text" />
-        </div>
-      </div>
-    )
+  // HANDLE CLICK ON METHOD
+  const previousHasNewMethod = usePrevious(hasNewMethod)
+  const onSelectNewDefault = (clickedId) => {
+    setDefaultMethodId(clickedId)
+    setHasNewMethod(clickedId !== initialDefaultMethodId)
   }
 
-  /* If the user has access to multiple organisations, display the last 4 digits of the card number,
-  and the billing email */
+  // TOGGLE SIDEBAR BUTTON based on whether new method is selected
+  const [, forceUpdate] = React.useReducer(x => x + 1, 0)
+  React.useEffect(() => {
+    if (hasNewMethod === previousHasNewMethod) return
+    // If new method selected, show side panel button
+    const submit = () => {
+      forceUpdate()
+      submitChanges.current()
+    }
+    const button = hasNewMethod
+      ? getButton(submit)
+      : null
+    setSidePanelButton(button)
+    // Clean up
+    return () => {
+      setSidePanelButton(null)
+    }
+  }, [hasNewMethod])
+
+  // GO TO CHECKOUT PAGE
+  const goToCheckout = () => {
+    Router.push(ROUTES.PAYMENT)
+  }
+
   return (
-    <div>
-      <div className={styles['payments-organisation']}>
-        <div className={styles['payments-organisation-detail']}>
-          <label className="label_top">Default card:</label>
-          <InputNew name="default-card" readOnly value={`**** **** **** ${defaultPaymentMethod.card.last4}`} version="text" />
+    <section className={styles.AccountPagePayments}>
+
+      <h2 className={sidePanelStyles.SidePanel__Header}>Payment Methods</h2>
+
+      {error && (
+        <div className={styles.AccountPagePayments__error}>
+          <Error error={error} />
         </div>
-        <div className={styles['payments-organisation-detail']}>
-          <label className="label_top">Billing email:</label>
-          <InputNew name="billing-email" readOnly value={defaultPaymentMethod.billing_details.email} version="text" />
-        </div>
+      )}
+
+      {/* ADD PAYMENT METHOD BUTTON */}
+      <div className={styles.AccountPagePayments__addPayment}>
+        <Button
+          className="button--small"
+          onClick={goToCheckout}
+        >
+          + Add new payment method
+        </Button>
       </div>
-      <p className={styles.newPaymentLink}>
-        <Link href={ROUTES.PAYMENT}><a>Add a new payment method</a></Link>
-      </p>
-    </div>
+
+      <div className={styles.AccountPagePayments__allMethods}>
+        {/* ALL PAYMENT METHODS */}
+        {paymentMethodsSorted.current.map((method) => {
+          const { id, is_default } = method
+          return (
+            <PaymentMethodButton
+              key={id}
+              method={method}
+              isDefault={is_default}
+              defaultMethodId={defaultMethodId}
+              onClick={onSelectNewDefault}
+            />
+          )
+        })}
+      </div>
+
+    </section>
   )
 }
+
+export default FadeInOut(AccountPagePayments)

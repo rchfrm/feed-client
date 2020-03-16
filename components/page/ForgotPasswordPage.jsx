@@ -6,7 +6,7 @@ import { NavigationContext } from '../contexts/Navigation'
 // IMPORT ELEMENTS
 import PageHeader from '../PageHeader'
 import Form from '../elements/Form'
-import Input from '../elements/Input'
+import InputNew from '../elements/InputNew'
 import Button from '../elements/Button'
 import Error from '../elements/Error'
 // IMPORT PAGES
@@ -15,6 +15,7 @@ import Error from '../elements/Error'
 // IMPORT HELPERS
 import firebase from '../helpers/firebase'
 // IMPORT STYLES
+import styles from '../ForgotPasswordPage.module.css'
 
 // TODO: Update Auth Authentication with a display name, so that we can address users by name in emails
 
@@ -31,25 +32,14 @@ function ForgotPasswordPage() {
 
   const isInvalid = email === ''
 
-  const handleClick = async e => {
-    e.preventDefault()
-    try {
-      await firebase.doPasswordReset(email)
-      setSuccess('Please check your email to finish resetting your password.')
-      setEmail('')
-    } catch (err) {
-      setError(err)
-    }
-  }
-
   return (
-    <div className={`page-container ${className}`}>
+    <div className={`page--container ${className}`}>
 
       <PageHeader heading="forgotten password" />
 
-      <div className="ninety-wide page-container">
+      <div className="ninety-wide page--container">
 
-        <p>Enter your email address below to receive a link, and reset your password.</p>
+        <p className={styles.introText}>Enter your email address below to receive a link, and reset your password.</p>
 
         <PasswordForgetForm
           error={error}
@@ -58,15 +48,8 @@ function ForgotPasswordPage() {
           setSuccess={setSuccess}
           email={email}
           setEmail={setEmail}
+          isInvalid={isInvalid}
         />
-
-        <Button
-          disabled={isInvalid}
-          version="black progress"
-          onClick={handleClick}
-        >
-          reset.
-        </Button>
 
       </div>
 
@@ -74,7 +57,7 @@ function ForgotPasswordPage() {
   )
 }
 
-function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, error }) {
+function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, error, isInvalid }) {
   const handleChange = e => {
     setSuccess('')
     setError('')
@@ -87,24 +70,47 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
     }
   }
 
+  const onSumbit = async e => {
+    e.preventDefault()
+    try {
+      await firebase.doPasswordReset(email)
+      setSuccess('Please check your email to finish resetting your password.')
+      setEmail('')
+    } catch (err) {
+      setError(err)
+    }
+  }
+
   return (
     <div className="fill-height">
 
-      <Form width="four" position="central">
+      <form
+        onSumbit={onSumbit}
+        className={styles.form}
+      >
 
-        <Input
+        <InputNew
+          className={styles.input}
           name="email"
-          placeholder="Email Address"
+          label="Email Address"
           value={email}
-          onChange={handleChange}
+          handleChange={handleChange}
           version="box"
           width={100}
-          label="none"
         />
+
+        <Button
+          className={styles.button}
+          disabled={isInvalid}
+          version="black"
+          type="input"
+        >
+          reset.
+        </Button>
 
         <Error error={error} success={success} />
 
-      </Form>
+      </form>
 
     </div>
   )

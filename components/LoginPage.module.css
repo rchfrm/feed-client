@@ -1,0 +1,21 @@
+.LoginPage__form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding-top: var(--bsu);
+}
+
+.LoginPage__input {
+  width: 100%;
+}
+
+.LoginPage__submit {
+  margin-bottom: var(--bsu);
+  align-self: flex-end;
+  width: 31.48%;
+}
+
+.forgotPasswordLink {
+  margin-top: -1em;
+  width: 100%;
+}

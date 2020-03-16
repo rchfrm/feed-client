@@ -6,12 +6,14 @@ import PropTypes from 'prop-types'
 const SelectNew = ({
   handleChange,
   name,
+  label,
   options,
   placeholder,
   selectedValue,
   style,
   version = '',
   required,
+  className,
 }) => {
   // Transform options into array of <option> elements
   const optionElements = options.map(option => {
@@ -20,25 +22,38 @@ const SelectNew = ({
   // END Transform options into array of <option> elements
 
   return (
-    <select
-      className={version}
-      name={name}
-      onChange={handleChange}
-      style={style}
-      value={selectedValue}
-      required={required}
-    >
-      {[
-        <option key="placeholder" value="" hidden>{placeholder}</option>,
-        ...optionElements,
-      ]}
-    </select>
+    <div className="input--container">
+      <label
+        className={['inputLabel', className].join(' ')}
+        htmlFor={name}
+      >
+        <span className="inputLabel__text">
+          {label}
+          {required && <span className="asterix">*</span>}
+        </span>
+        <select
+          className={['selectElement', `selectElement_${version}`].join(' ')}
+          name={name}
+          onChange={handleChange}
+          style={style}
+          value={selectedValue}
+          required={required}
+        >
+          {[
+            <option key="placeholder" value="" hidden>{placeholder}</option>,
+            ...optionElements,
+          ]}
+        </select>
+      </label>
+    </div>
   )
 }
 
 SelectNew.propTypes = {
   // There must be a function set as handleChange
   handleChange: PropTypes.func.isRequired,
+
+  label: PropTypes.string,
 
   // There must be a string set as the name
   name: PropTypes.string.isRequired,
@@ -76,12 +91,16 @@ SelectNew.propTypes = {
   version: PropTypes.string,
 
   required: PropTypes.bool,
+
+  className: PropTypes.string,
 }
 
 SelectNew.defaultProps = {
+  label: '',
   style: {},
   version: '',
   required: false,
+  className: '',
 }
 
 export default SelectNew

@@ -11,6 +11,7 @@ import { UserContext } from './User'
 // IMPORT HELPERS
 import helper from '../helpers/helper'
 import server from '../helpers/server'
+import artistHelpers from '../helpers/artistHelpers'
 // IMPORT STYLES
 
 const initialArtistState = {}
@@ -75,7 +76,7 @@ function ArtistProvider({ children }) {
     // Get artist information from server
     try {
       const token = await getToken()
-      const artist = await server.getArtist(id, token)
+      const artist = await artistHelpers.getArtist(id, token)
       setArtist({
         type: 'set-artist',
         payload: {
@@ -92,29 +93,32 @@ function ArtistProvider({ children }) {
 
   const createArtist = async (artistAccounts, accessToken) => {
     setArtistLoading(true)
-    const artistIds = Object.keys(artistAccounts)
-    artistIds.forEach((artistId) => {
-      const artistAccount = artistAccounts[artistId]
-      const { connect, country_code } = artistAccount
-      if (connect && !country_code) {
-        throw new Error(`Please select a country for ${artistAccount.name}, or deselect that page from being added to your Feed account`)
+    // Conect artist accounts to array
+    const artistAccountsArray = Object.values(artistAccounts)
+    // Filter out non-connected artist accounts
+    const connectedArtistAccounts = artistAccountsArray.filter(({ connect }) => connect)
+    // Check that every account has a country set
+    connectedArtistAccounts.forEach(({ country_code, name }) => {
+      if (!country_code) {
+        throw new Error(`Please select a country for ${name}, or deselect that page from being added to your Feed account`)
       }
     })
 
+
+    // Get token
     const token = await getToken()
-    const createArtistPromises = artistIds.reduce(async (acc, artistId) => {
-      const artistAccount = artistAccounts[artistId]
-      const { connect, priority_dsp } = artistAccount
-      if (connect) {
-        if (!priority_dsp) {
-          artistAccount.priority_dsp = helper.selectPriorityDSP(artistAccount)
-        }
-        return [...acc, await server.createArtist(artistAccount, accessToken, token)]
+    // Create all artists
+    const createAllArtists = connectedArtistAccounts.map(async (artist) => {
+      const { priority_dsp } = artist
+      const artistWithDsp = {
+        ...artist,
+        priority_dsp: priority_dsp || helper.selectPriorityDSP(artist),
       }
-      return acc
-    }, [])
+
+      await artistHelpers.createArtist(artistWithDsp, accessToken, token)
+    })
     // Wait to connect all artists
-    await Promise.all(createArtistPromises)
+    await Promise.all(createAllArtists)
       .catch((err) => {
         throw (err)
       })

@@ -6,12 +6,12 @@ import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
 import Loading from './elements/Loading'
 // IMPORT PAGES
-import Connections from './AccountPageConnections'
+import AccountPageConnections from './AccountPageConnections'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 import helper from './helpers/helper'
-import server from './helpers/server'
+import artistHelpers from './helpers/artistHelpers'
 // IMPORT STYLES
 
 const initialConnectionsState = {}
@@ -75,7 +75,7 @@ function ConnectionsLoader(props) {
         throw (err)
       })
     // Request artist information from the server
-    const artist = await server.getArtist(artistId, token)
+    const artist = await artistHelpers.getArtist(artistId, token)
       .catch((err) => {
         throw (err)
       })
@@ -133,7 +133,15 @@ function ConnectionsLoader(props) {
   if (artistLoading) {
     return <Loading what={artistName} noPadding />
   }
-  return <Connections artistId={artistId} connections={connections} priorityDSP={priorityDSP} setConnections={setConnections} setPriorityDSP={setPriorityDSP} />
+  return (
+    <AccountPageConnections
+      artistId={artistId}
+      connections={connections}
+      priorityDSP={priorityDSP}
+      setConnections={setConnections}
+      setPriorityDSP={setPriorityDSP}
+    />
+  )
 }
 
 export default ConnectionsLoader

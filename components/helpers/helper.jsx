@@ -304,9 +304,7 @@ export default {
       case 'video_inline':
       case 'video_direct_response':
         return (
-          <video width="100%" controls className="center-image" poster={thumbnail} onError={handleError}>
-            <source src={media} type="video/mp4" />
-          </video>
+          <video width="100%" controls playsInline className="center-image" src={media} type="video/mp4" poster={thumbnail} onError={handleError} />
         )
 
         // If the media is a YouTube video, return an iframe embed of the video
@@ -434,31 +432,6 @@ export default {
       })
     }
     return dates
-  },
-
-  sortArtistsAlphabetically: artists => {
-    let artistArr
-    if (Array.isArray(artists)) {
-      artistArr = artists
-    } else {
-      if (Object.keys(artists).length === 0) {
-        return []
-      }
-      artistArr = Object.values(artists)
-    }
-
-    return artistArr.sort((a, b) => {
-      const lowerA = a.name.toLowerCase()
-      const lowerB = b.name.toLowerCase()
-      if (lowerA === lowerB) {
-        return 0
-      }
-      const array = [lowerA, lowerB].sort()
-      if (array[0] === lowerA) {
-        return -1
-      }
-      return 1
-    })
   },
 
   translate: phrase => {

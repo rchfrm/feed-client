@@ -44,7 +44,7 @@ const calculateSummary = (ads, isActive) => {
   const days = []
 
   const checkSAESIsNumber = (engagement, spend) => {
-    if (engagement === 0 && spend === 0) {
+    if (spend === 0) {
       return '-'
     }
     return Math.round(engagement / spend)
@@ -66,7 +66,9 @@ const calculateSummary = (ads, isActive) => {
       impressions += Number(adMetrics.impressions) || 0
       if (adMetrics.actions) {
         engagement += Number(adMetrics.actions.post_engagement) || 0
-        clicks += Number(adMetrics.actions.link_click) || 0
+      }
+      if (adMetrics.outbound_clicks) {
+        clicks += Number(adMetrics.outbound_clicks.outbound_click) || 0
       }
     }
   }
@@ -89,10 +91,12 @@ const Result = ({
   active,
   attachments,
   id,
+  priority_dsp,
   promotion_enabled,
   setPosts,
   summary,
 }) => {
+  const { artist } = React.useContext(ArtistContext)
   // STORE MEDIA COMPONENT AND COMPONENT IN STATE
   const [media, setMedia] = React.useState(<MediaFallback />)
   const [thumbnail, setThumbnail] = React.useState(thumbnailProp)
@@ -131,6 +135,16 @@ const Result = ({
 
   const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
 
+  const priorityPage = priority_dsp === 'facebook' ? `${priority_dsp}_page_url` : `${priority_dsp}_url`
+  const clicksStatement = (
+    <span>
+      {'clicks to '}
+      <a href={artist[priorityPage]} target="_blank" rel="noopener noreferrer">
+        {helper.capitalise(priority_dsp)}
+      </a>
+    </span>
+  )
+
   return (
     <li key={id} className={[styles.resultItem, styles[enabledClass]].join(' ')}>
 
@@ -148,12 +162,12 @@ const Result = ({
           <Insight days={summary.days} number={summary.amountSpent} statement="spent," />
           <Insight days={summary.days} number={summary.impressions} statement="people reached," />
           <Insight days={summary.days} number={summary.engagement} statement="engagements," />
-          <Insight days={summary.days} number={summary.clicks} statement="clicks." />
+          <Insight days={summary.days} number={summary.clicks} statement={clicksStatement} />
         </div>
 
         <div className={styles['result-toggle-saes']}>
-          <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
           <h2 className={styles.h2}>{summary.SAES}</h2>
+          <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
         </div>
 
       </div>
@@ -398,12 +412,12 @@ function Toggle(props) {
       >
         {
             loading
-              ? <Spinner width={20} colour={brandColours.white.hex} />
+              ? <Spinner width={20} colour={brandColours.white} />
               : (
                 <Icon
                   className={styles.button}
                   version={promotion_enabled ? 'cross' : 'tick'}
-                  color={promotion_enabled ? brandColours.red.hex : brandColours.green.hex}
+                  color={promotion_enabled ? brandColours.red : brandColours.green}
                   width="18"
                 />
               )
@@ -451,7 +465,7 @@ function DisabledResults(props) {
     <div
       className={styles['disabled-results']}
       style={{
-        backgroundColor: helper.hexToRGBA(brandColours.red.hex, 0.1),
+        backgroundColor: helper.hexToRGBA(brandColours.red, 0.1),
       }}
     >
       <h3>The posts below are being turned off...</h3>
@@ -462,6 +476,8 @@ function DisabledResults(props) {
 }
 
 function ResultsAll({ posts: postsObject, active, setPosts }) {
+  const { artist } = React.useContext(ArtistContext)
+
   const posts = Object.values(postsObject)
   const title = active ? 'active posts.' : 'archive.'
 
@@ -476,10 +492,11 @@ function ResultsAll({ posts: postsObject, active, setPosts }) {
       // add them to a list of disabled results
       disabledResults.push(
         <Result
-          key={post.id}
           active={active}
           attachments={post.attachments}
           id={post.id}
+          key={post.id}
+          priority_dsp={post.priority_dsp || artist.priority_dsp}
           setPosts={setPosts}
           summary={summary}
           thumbnail={post._metadata.thumbnail_url}
@@ -494,6 +511,7 @@ function ResultsAll({ posts: postsObject, active, setPosts }) {
           active={active}
           attachments={post.attachments}
           id={post.id}
+          priority_dsp={post.priority_dsp || artist.priority_dsp}
           promotion_enabled={post.promotion_enabled}
           setPosts={setPosts}
           summary={summary}
@@ -512,7 +530,9 @@ function ResultsAll({ posts: postsObject, active, setPosts }) {
   }
   return (
     <div style={{ width: '100%' }}>
-      <h2 className="ninety-wide">{title}</h2>
+      <div className="ninety-wide">
+        <h2>{title}</h2>
+      </div>
       <ul className={styles.results}>{listResults}</ul>
       <DisabledResults disabledResults={disabledResults} />
     </div>

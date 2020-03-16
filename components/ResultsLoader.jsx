@@ -13,7 +13,7 @@ import Feed from './elements/Feed'
 import Button from './elements/Button'
 import Spinner from './elements/Spinner'
 // IMPORT PAGES
-import { PromotePostsButton } from './page/HomePage'
+import { PromotePostsButton } from './page/InsightsPage'
 import ResultsAll from './ResultsAll'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -227,7 +227,7 @@ function ResultsLoader() {
   // RETURN
   if (artistLoading || active.loading || archive.loading) {
   // If artist is loading, or both active and archived posts are loading, show spinner
-    return <Spinner width={50} colour={brandColours.green.hex} />
+    return <Spinner width={50} colour={brandColours.green} />
   } if (
     Object.keys(posts.active).length === 0
     && Object.keys(posts.archive).length === 0

@@ -359,14 +359,14 @@ function ChartBar(props) {
       }],
     },
     tooltips: {
-      backgroundColor: helper.hexToRGBA(brandColours.white.hex, 0.9),
+      backgroundColor: helper.hexToRGBA(brandColours.white, 0.9),
       titleFontFamily: "'SpaceGrotesk', 'sans-serif'",
       bodyFontFamily: "'SpaceGrotesk', 'sans-serif'",
       titleFontSize: 18,
       bodyFontSize: 15,
       titleMarginBottom: 9,
-      titleFontColor: brandColours.black.hex,
-      bodyFontColor: brandColours.black.hex,
+      titleFontColor: brandColours.black,
+      bodyFontColor: brandColours.black,
       bodySpacing: 5,
       xPadding: 15,
       yPadding: 15,
@@ -427,7 +427,6 @@ function ChartBar(props) {
         {`
         #bar-chart {
           padding: 0 5%;
-          box-sizing: border-box;
           z-index: 2;
         }
       `}

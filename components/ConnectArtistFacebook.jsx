@@ -5,7 +5,7 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
-import Button from './elements/Button'
+import ButtonFacebook from './elements/Button'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -13,13 +13,8 @@ import Button from './elements/Button'
 import Error from './elements/Error'
 // IMPORT STYLES
 
-function ConnectArtistFacebook(props) {
+function ConnectArtistFacebook({ error, setError }) {
   const { linkFacebook } = React.useContext(AuthContext)
-
-  // REDEFINE PROPS AS VARIABLES
-  const { error } = props
-  const { setError } = props
-  // END REDEFINE PROPS AS VARIABLES
 
   // HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
   const handleClick = async e => {
@@ -48,21 +43,20 @@ function ConnectArtistFacebook(props) {
         margin: '0 auto',
       }}
       >
-        <Button
-          version="facebook"
+        <Error error={error} messagePrefix="Error: " />
+
+        <p>&nbsp;</p>
+
+        <ButtonFacebook
           onClick={handleClick}
           width={100}
         >
           Continue with Facebook
-        </Button>
+        </ButtonFacebook>
 
         <em style={{ fontSize: '0.75em', lineHeight: '1.25em', marginTop: '1em' }}>
           This allows us to connect to Facebook so that we can show you your data and promote posts on your behalf, we'll never post anything without your approval.
         </em>
-
-        <p>&nbsp;</p>
-
-        <Error error={error} />
 
       </div>
 

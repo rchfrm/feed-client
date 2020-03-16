@@ -25,7 +25,7 @@ import brandColours from '../../constants/brandColours'
 
 function Icon(props) {
 // REDEFINE PROPS AS VARIABLES
-  let { color } = props
+  let { color = brandColours.black } = props
   const { data } = props
   const { status } = props
   const { version } = props
@@ -37,17 +37,17 @@ function Icon(props) {
   let bgColor
   let borderColor
   if (status === 'all') {
-    color = brandColours.white.hex
+    color = brandColours.white
     bgColor = props.color
     borderColor = props.color
   } else if (status === 'some') {
     color = props.color
-    bgColor = brandColours.white.hex
+    bgColor = brandColours.white
     borderColor = props.color
   } else if (status === 'none') {
-    color = brandColours.grey.hex
-    bgColor = brandColours.white.hex
-    borderColor = brandColours.grey.hex
+    color = brandColours.grey
+    bgColor = brandColours.white
+    borderColor = brandColours.grey
   }
 
   // Add a wrapper to icons with a status props

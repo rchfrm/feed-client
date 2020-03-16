@@ -12,7 +12,7 @@ import Spinner from './elements/Spinner'
 import Error from './elements/Error'
 // IMPORT PAGES
 import PostsAll from './PostsAll'
-import Budget from './PostsBudget'
+import PostsBudget from './PostsBudget'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
@@ -199,7 +199,7 @@ function PostsLoader() {
 
   // RETURN
   if (artistLoading || pageLoading) {
-    return <Spinner width={50} colour={brandColours.green.hex} />
+    return <Spinner width={50} colour={brandColours.green} />
   }
   return (
     <div className={styles['posts-page']}>
@@ -215,7 +215,7 @@ function PostsLoader() {
 
       <Error error={error} />
 
-      <Budget
+      <PostsBudget
         currency="£"
       />
 
@@ -227,7 +227,7 @@ function PostsLoader() {
         }}
       >
         <Button
-          version="black progress"
+          version="black  wide"
           onClick={returnHome}
         >
           Done

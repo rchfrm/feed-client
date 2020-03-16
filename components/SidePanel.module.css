@@ -1,0 +1,121 @@
+.SidePanel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.loader,
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: color-mod(var(--black) alpha(0.2));
+
+  @media (--md) {
+    background: color-mod(var(--black) alpha(0.4));
+  }
+}
+
+.background {
+  will-change: opacity;
+}
+
+
+.container {
+  position: absolute;
+  width: 95%;
+  right: 0;
+  height: 90%;
+  top: 5%;
+  background: var(--white);
+  border-radius: var(--dialogue-radius);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: -8px 0px 18px rgba(0, 0, 0, 0.14);
+  will-change: transform;
+
+  @media (--md) {
+    width: 50%;
+  }
+}
+
+.container__inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  padding: var(--bsu-md);
+  z-index: 2;
+
+  > * {
+    padding-bottom: calc(2 * var(--bsu-lg));
+  }
+}
+
+.SidePanel__Header {
+  padding-right: calc(var(--bsu) + var(--bsu-md));
+  margin-bottom: var(--bsu-md);
+}
+
+.backButton {
+  position: absolute;
+  z-index: 3;
+  width: 50px;
+  height: 50px;
+  top: var(--bsu);
+  right: var(--bsu);
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: calc(((50px - 20px) * 0.5) - 2px);
+    left: calc((50px - 20px) * 0.5);
+    background: url('/icons/close.svg') no-repeat;
+    background-size: 100% auto;
+    border-radius: 50%;
+  }
+
+  .span {
+    position: absolute;
+    left: -1000em;
+  }
+}
+
+/* LOADER */
+.loader {
+  position: absolute;
+  background: var(--white);
+  z-index: 4;
+  opacity: 0.4;
+
+  .spinner {
+    position: absolute;
+    right: 50%;
+    bottom: 50%;
+    transform: translate(50%, 50%);
+  }
+}
+
+/* BUTTON */
+.ctaButton {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+
+  :global(.button) {
+    width: 100%;
+    border-radius: 0 0 0 var(--dialogue-radius);
+  }
+}

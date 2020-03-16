@@ -100,27 +100,8 @@ function PlatformOptions(props) {
     )
   })
 
-  const setStyle = number => {
-    const col = 12.916
-    const margin = 2.5
-    let width = (number * col) + ((number - 1) * margin)
-    if (width > 90) {
-      width = 90
-    }
-    return {
-      width: `${width}%`,
-      paddingLeft: `${(100 - width) / 2}%`,
-      paddingRight: `${(100 - width) / 2}%`,
-    }
-  }
-
-  const style = setStyle(numberOfPlatforms)
-
   return (
-    <ul
-      className={styles.filterOptions}
-      style={style}
-    >
+    <ul className={styles.filterOptions}>
       {options}
     </ul>
   )
@@ -143,7 +124,7 @@ function PlatformOption(props) {
     e.preventDefault()
   }
 
-  const bottomBorderColour = visiblePlatform === platform ? dataSourceDetails[visiblePlatform].colour : brandColours.white.hex
+  const bottomBorderColour = visiblePlatform === platform ? dataSourceDetails[visiblePlatform].colour : brandColours.white
 
   return (
     <li
@@ -157,7 +138,7 @@ function PlatformOption(props) {
 
       <Button
         onClick={expandDataSources}
-        version="text"
+        version="icon"
       >
         <Icon
           color={dataSourceDetails[platform].colour}

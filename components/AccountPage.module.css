@@ -5,7 +5,7 @@ CONNECTIONS
 
 .account-integrations {
   width: 90%;
-  padding: 0 5%;
+  margin: 0 5%;
   flex: auto;
 
   .p {
@@ -24,12 +24,13 @@ CONNECTIONS
   display: flex;
   flex-direction: row;
   margin-bottom: 1em;
+  align-items: flex-start;
 }
 
 .integration-icons {
   width: 14.351%;
   display: flex;
-  padding-right: 2.778%;
+  margin-right: 2.778%;
   flex: none;
   justify-content: flex-end;
   align-items: center;
@@ -48,10 +49,17 @@ CONNECTIONS
   flex: auto;
   white-space: nowrap;
   overflow: hidden;
+  margin-bottom: 0.2em !important;
+
+  :global(a) {
+    display: inline-block;
+    padding-top: 0.1em;
+    padding-bottom: 0.4em;
+  }
   
-  .input {
+  :global(.input),
+  :global(.input--container) {
     margin: 0;
-    padding: 0;
   }
 }
 
@@ -71,7 +79,7 @@ DETAILS
 .account-details {
   margin: 2em 0;
   width: 90%;
-  padding: 0 5%;
+  margin: 0 5%;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -95,6 +103,59 @@ DETAILS
 **************************
 DETAILS
 **************************/
+.accountPageDetails {
+
+  .row {
+    margin-bottom: var(--bsu);
+    justify-content: space-between;
+  }
+
+  .submitButton {
+    margin-top: var(--bsu);
+  }
+}
+
 .payment-details {
   width: 100%;
+}
+
+
+/* 
+**************************
+SUMMARIES
+**************************/
+
+.accountPageSection {
+  padding-top: var(--bsu);
+  padding-bottom: var(--bsu-lg);
+  padding-right: var(--bsu);
+}
+
+.accountPageSection__details {
+  margin-bottom: var(--bsu);
+  .p {
+    margin-bottom: 0.3em;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.paymentSummaryBlock {
+  margin-bottom: 2em;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.paymentSummaryName {
+  margin-bottom: 0.5em;
+}
+
+.cardBrand {
+  text-transform: capitalize;
+}
+
+.h2 {
+
 }

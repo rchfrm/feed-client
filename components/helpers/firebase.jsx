@@ -2,12 +2,13 @@ import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
+const scopeArray = ['read_insights', 'manage_pages', 'pages_show_list', 'ads_management', 'instagram_basic', 'instagram_manage_insights']
+
 const config = {
   apiKey: process.env.firebase_api_key,
   authDomain: process.env.firebase_auth_domain,
   databaseURL: process.env.firebase_database_url,
   projectId: process.env.firebase_project_id,
-  storageBucket: process.env.firebase_storage_bucket,
   messagingSenderId: process.env.firebase_messaging_sender_id,
   appId: process.env.firebase_app_id,
 }
@@ -52,37 +53,39 @@ export default {
   },
 
   doSignInWithFacebook: () => {
-    provider.addScope('read_insights')
-    provider.addScope('manage_pages')
-    provider.addScope('pages_show_list')
-    provider.addScope('ads_management')
-    provider.addScope('instagram_basic')
-    provider.addScope('instagram_manage_insights')
+    scopeArray.forEach(scope => {
+      provider.addScope(scope)
+    })
     return auth.signInWithRedirect(provider)
   },
 
   linkFacebookAccount: () => {
-    provider.addScope('read_insights')
-    provider.addScope('manage_pages')
-    provider.addScope('pages_show_list')
-    provider.addScope('ads_management')
-    provider.addScope('instagram_basic')
-    provider.addScope('instagram_manage_insights')
+    scopeArray.forEach(scope => {
+      provider.addScope(scope)
+    })
     return auth.currentUser.linkWithRedirect(provider)
   },
 
   connectFacebookUserWithPopUp: () => {
-    provider.addScope('read_insights')
-    provider.addScope('manage_pages')
-    provider.addScope('pages_show_list')
-    provider.addScope('ads_management')
-    provider.addScope('instagram_basic')
-    provider.addScope('instagram_manage_insights')
+    scopeArray.forEach(scope => {
+      provider.addScope(scope)
+    })
     return auth.currentUser.linkWithPopup(provider)
   },
 
-  redirectResult: () => {
-    return auth.getRedirectResult()
+  redirectResult: async () => {
+    const redirectTo = await auth.getRedirectResult()
+      .catch((err) => {
+        console.log(err)
+        const { message, code } = err
+        return {
+          error: {
+            message,
+            code,
+          },
+        }
+      })
+    return redirectTo
   },
 
   unlinkFacebook: () => {
@@ -98,14 +101,26 @@ export default {
   },
 
   getVerifyIdToken: () => {
+    if (!auth || !auth.currentUser) return false
+    console.log('auth', auth)
     return auth.currentUser.getIdToken(/* forceRefresh */ true)
   },
 
   getVerifyIdTokenResult: () => {
+    if (!auth || !auth.currentUser) return false
+    console.log('auth', auth)
     return auth.currentUser.getIdTokenResult()
   },
 
   deleteUser: () => {
     return auth.currentUser.delete()
+  },
+
+  reauthoriseFacebook: () => {
+    scopeArray.forEach(scope => {
+      provider.addScope(scope)
+    })
+    provider.setCustomParameters({ auth_type: 'rerequest' })
+    return this.auth.currentUser.linkWithRedirect(provider)
   },
 }
