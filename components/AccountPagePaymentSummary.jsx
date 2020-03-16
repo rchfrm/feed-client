@@ -94,7 +94,7 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
       {/* The saved details */}
       {billingDetails.map((details) => {
         if (!details) return null
-        const { name, defaultMethod, role } = details
+        const { name = 'no-name', defaultMethod, role } = details
         // Handle no method
         if (!defaultMethod) return <NoMethod name={name} role={role} key={slugify(name)} />
         return <PaymentItem name={name} defaultMethod={defaultMethod} key={slugify(name)} />
