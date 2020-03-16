@@ -29,7 +29,7 @@ const initialAlertState = {
   // response: false,
 }
 
-function Budget({ currency }) {
+function PostsBudget({ currency }) {
   const { artist, updateBudget } = React.useContext(ArtistContext)
 
   // DEFINE STATES
@@ -193,4 +193,4 @@ function BudgetConfirmation({ budget }) {
   )
 }
 
-export default Budget
+export default PostsBudget

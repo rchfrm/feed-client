@@ -12,7 +12,7 @@ import Spinner from './elements/Spinner'
 import Error from './elements/Error'
 // IMPORT PAGES
 import PostsAll from './PostsAll'
-import Budget from './PostsBudget'
+import PostsBudget from './PostsBudget'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
@@ -215,7 +215,7 @@ function PostsLoader() {
 
       <Error error={error} />
 
-      <Budget
+      <PostsBudget
         currency="£"
       />
 
