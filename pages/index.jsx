@@ -1,4 +1,4 @@
-import HomePage from '../components/page/HomePage'
+import PostsPage from '../components/page/PostsPage'
 import TestPageReady from '../components/TestPageReady'
 
-export default TestPageReady(HomePage)
+export default TestPageReady(PostsPage)

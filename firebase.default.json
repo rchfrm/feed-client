@@ -19,6 +19,11 @@
         "source": "/home",
         "destination": "/",
         "type": 301
+      },
+      {
+        "source": "/posts",
+        "destination": "/",
+        "type": 301
       }
     ],
     "headers": [

@@ -13,7 +13,7 @@ import Feed from './elements/Feed'
 import Button from './elements/Button'
 import Spinner from './elements/Spinner'
 // IMPORT PAGES
-import { PromotePostsButton } from './page/HomePage'
+import { PromotePostsButton } from './page/InsightsPage'
 import ResultsAll from './ResultsAll'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
