@@ -6,11 +6,11 @@ import * as ROUTES from '../constants/routes'
 // IMPORT CONTEXTS
 import { NavigationContext } from './contexts/Navigation'
 // IMPORT ELEMENTS
-import Logo from './elements/Logo'
+import FeedLogo from './icons/FeedLogo'
 import MenuButton from './elements/MenuButton'
 import Clear from './elements/Clear'
 // IMPORT STYLES
-// ader.css'
+import styles from './TheHeader.module.css'
 
 function Header() {
   const { navState, navDispatch } = React.useContext(NavigationContext)
@@ -21,7 +21,7 @@ function Header() {
     <header style={{ backgroundColor }}>
       <Link href={ROUTES.HOME}>
         <a>
-          <Logo navigation={navState.visible} />
+          <FeedLogo className={styles.logo} style={{ opacity: 0 }} />
         </a>
       </Link>
       <MenuButton navigation={navState.visible} onClick={toggleNav} />

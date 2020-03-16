@@ -1,9 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 
-const FeedLogo = () => {
+const FeedLogo = ({ className, style }) => {
   return (
-    <div className="FeedLogo">
+    <div className={['FeedLogo', className].join(' ')} style={style}>
       <svg width="1437" height="1188" viewBox="0 0 1437 1188" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="594" cy="594" r="594" fill="#03D8B2" />
         <path d="M850.41 511.458C849.762 440.301 821.03 372.278 770.465 322.19C719.9 272.101 651.594 244 580.408 244C509.222 244 440.916 272.101 390.351 322.19C339.787 372.278 311.055 440.301 310.407 511.458V882.167H850.41V511.458Z" fill="#F4F4F4"/>
@@ -16,5 +17,16 @@ const FeedLogo = () => {
     </div>
   )
 }
+
+FeedLogo.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
+}
+
+FeedLogo.defaultProps = {
+  className: '',
+  style: {},
+}
+
 
 export default FeedLogo
