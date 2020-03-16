@@ -40,6 +40,10 @@ button {
   cursor: pointer;
 }
 
+.button--wide {
+  min-width: 150px;
+}
+
 .button--green {
   font-weight: bold;
   background-color: var(--green);
