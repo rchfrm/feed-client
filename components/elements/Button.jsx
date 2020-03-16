@@ -14,9 +14,12 @@ const Button = ({
   onClick,
   children,
 }) => {
+  const versions = version
+    .split(' ')
+    .map((versionString) => `button--${versionString}`)
   const width = typeof widthProp === 'string' ? widthProp : ''
   const widthPercentage = typeof widthProp === 'number' ? widthProp : ''
-  const classes = ['button', `button--${version}`, width]
+  const classes = ['button', width].concat(versions)
   if (className) {
     classes.push(className)
   }
