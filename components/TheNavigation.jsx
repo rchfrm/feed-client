@@ -16,13 +16,6 @@ import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-const ArchformLinkItem = () => {
-  return (
-    <li>
-      <a href="http://archform.ltd/">archForm</a>
-    </li>
-  )
-}
 
 function ArtistOptions({ artists, onChange }) {
   const { artist } = React.useContext(ArtistContext)
@@ -95,7 +88,6 @@ function NavigationAuth() {
         <li>
           <SignOutLink />
         </li>
-        <ArchformLinkItem />
       </ul>
     </>
   )
@@ -141,7 +133,6 @@ const NavigationNonAuth = () => {
             </li>
           )
         })}
-        <ArchformLinkItem />
       </ul>
     </>
   )
