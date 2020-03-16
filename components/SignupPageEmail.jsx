@@ -83,9 +83,9 @@ function SignupPageEmail({ signUpForm, handleChange, isInvalid, error, signup })
 
         <Error error={error} />
 
-        <div className={styles.signupButton}>
+        <div className={styles.signupButtonContainer}>
           <Button
-            version="black"
+            version="black  wide"
             disabled={isInvalid}
             type="sumbit"
           >
