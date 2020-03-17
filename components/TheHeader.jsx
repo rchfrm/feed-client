@@ -17,7 +17,7 @@ function Header() {
   const toggleNav = () => navDispatch({ type: 'toggle' })
   const headerClass = navState.visible ? 'navOn' : 'navOff'
   return (
-    <header className={['TheHeader', headerClass].join(' ')}>
+    <header className={[styles.TheHeader, styles[headerClass]].join(' ')}>
       <Link href={ROUTES.HOME}>
         <a>
           <FeedLogo className={styles.logo} style={{ opacity: 0 }} />

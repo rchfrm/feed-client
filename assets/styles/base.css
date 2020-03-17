@@ -83,15 +83,6 @@ main {
   width: 100%;
 }
 
-.TheHeader {
-  padding: 5%;
-  background: var(--white);
-
-  &.navOn {
-    background: var(--black);
-  }
-}
-
 .TheFooter {
   padding: 5%;
   color: var(--black);
