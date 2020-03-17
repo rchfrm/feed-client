@@ -12,6 +12,10 @@
   border: 1px solid black;
   border-radius: var(--dialogue-radius);
   overflow: hidden;
+
+  &.disabled {
+    background: var(--grey);
+  }
 }
 
 .result-media {
@@ -22,7 +26,7 @@
   background: var(--white);
 
   .disabled & {
-    background: var(--grey-light);
+    background: var(--grey);
   }
 
   .img {
@@ -34,7 +38,11 @@
 .result-insights {
   padding: 2.778%;
   flex: auto;
-  background-color: var(--grey-light);
+  background: var(--grey-light);
+
+  .disabled & {
+    background: var(--grey);
+  }
 }
 
 .result-toggle-saes {
@@ -42,7 +50,7 @@
   flex-direction: column-reverse;
   justify-content: space-between;
   width: 14.351%;
-  background-color: var(--black);
+  background: var(--black);
   color: var(--white);
 
   .h2 {
@@ -51,10 +59,6 @@
 
   .alert {
     color: var(--black);
-  }
-
-  .resultItem.disabled & {
-    color: var(--grey);
   }
 }
 
