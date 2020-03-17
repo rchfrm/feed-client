@@ -21,17 +21,15 @@ import brandColours from '../constants/brandColours'
 import helper from './helpers/helper'
 import server from './helpers/server'
 // IMPORT STYLES
-import styles from './AccountPage.module.css'
+import styles from './Integrations.module.css'
 
-function Connections(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { artistId } = props
-  const { connections } = props
-  const { priorityDSP } = props
-  const { setConnections } = props
-  const { setPriorityDSP } = props
-  // END REDEFINE PROPS AS VARIABLES
-
+function Connections({
+  artistId,
+  connections,
+  priorityDSP,
+  setConnections,
+  setPriorityDSP,
+}) {
   // LIST INTEGRATIONS
   const platforms = Object.keys(connections)
   const connectionsList = platforms.map(platform => {
@@ -148,15 +146,15 @@ const Connection = ({
   return (
     <li className={styles.li} key={platform}>
 
-      <IntegrationIcons artistId={artistId} platform={platform} priorityDSP={priorityDSP} setConnections={setConnections} setPriorityDSP={setPriorityDSP} valid={valid} />
+      <ConnectionIcons artistId={artistId} platform={platform} priorityDSP={priorityDSP} setConnections={setConnections} setPriorityDSP={setPriorityDSP} valid={valid} />
 
       <div className={styles['integration-link']}>
-        <IntegrationLink platform={platform} setValue={setValue} url={url} valid={valid} value={value} />
+        <ConnectionLink platform={platform} setValue={setValue} url={url} valid={valid} value={value} />
       </div>
 
       <div className={styles['integration-edit']}>
         <Button version="text" onClick={handleClick} disabled={disabled} bgColour={brandColours.white}>
-          <IntegrationEdit disabled={disabled} loading={loading} valid={valid} />
+          <ConnectionEdit disabled={disabled} loading={loading} valid={valid} />
         </Button>
       </div>
 
@@ -164,7 +162,7 @@ const Connection = ({
   )
 }
 
-const IntegrationIcons = ({
+const ConnectionIcons = ({
   artistId,
   platform,
   priorityDSP,
@@ -315,7 +313,7 @@ function ConfirmPriorityDSPChange({ platform }) {
   )
 }
 
-const IntegrationLink = ({
+const ConnectionLink = ({
   platform,
   setValue,
   url,
@@ -369,7 +367,7 @@ const IntegrationLink = ({
   )
 }
 
-function IntegrationEdit(props) {
+function ConnectionEdit(props) {
 // REDEFINE PROPS AS VARIABLES
   const { disabled } = props
   const { loading } = props

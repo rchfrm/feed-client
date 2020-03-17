@@ -6,7 +6,7 @@ import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
 import Loading from './elements/Loading'
 // IMPORT PAGES
-import AccountPageConnections from './AccountPageConnections'
+import Connections from './Connections'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
@@ -50,7 +50,7 @@ const connectionsReducer = (connectionsState, connectionsAction) => {
   }
 }
 
-function ConnectionsLoader(props) {
+function IntegrationsLoader(props) {
 // IMPORT CONTEXTS
   const { getToken } = React.useContext(AuthContext)
   // END IMPORT CONTEXTS
@@ -134,7 +134,7 @@ function ConnectionsLoader(props) {
     return <Loading what={artistName} noPadding />
   }
   return (
-    <AccountPageConnections
+    <Connections
       artistId={artistId}
       connections={connections}
       priorityDSP={priorityDSP}
@@ -144,4 +144,4 @@ function ConnectionsLoader(props) {
   )
 }
 
-export default ConnectionsLoader
+export default IntegrationsLoader
