@@ -31,7 +31,7 @@ const NoMethod = ({ name, role }) => {
   return (
     <div className={styles.paymentSummaryBlock}>
       {name && (
-        <h5 className={styles.paymentSummaryName}>{ name }</h5>
+        <h3 className={styles.paymentSummaryName}>{ name }</h3>
       )}
       <p className={['error', styles.p, styles.noMethod].join(' ')}>{ message }</p>
     </div>
@@ -49,7 +49,7 @@ const PaymentItem = ({ name, defaultMethod }) => {
   } = defaultMethod
   return (
     <div className={styles.paymentSummaryBlock}>
-      <h5 className={styles.paymentSummaryName}>{ name }</h5>
+      <h3 className={styles.paymentSummaryName}>{ name }</h3>
       <p className={styles.p}>
         <span className={styles.cardBrand}>{ brand }</span>
       </p>
@@ -81,16 +81,18 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
 
   return (
     <div className={className}>
-      {/* Intro text */}
-      <p>Right now, the beta version of Feed is free to use! In future, you’ll be able to add payment details here.</p>
-      <p>
-        More details on
-        {' '}
-        <Feed />
-        's pricing is
-        {' '}
-        <Link href={ROUTES.PRICES}><a>here</a></Link>.
-      </p>
+      <div className={styles.accountPage__paymentIntro}>
+        {/* Intro text */}
+        <p>Right now, the beta version of Feed is free to use! In future, you’ll be able to add payment details here.</p>
+        <p>
+          More details on
+          {' '}
+          <Feed />
+          's pricing is
+          {' '}
+          <Link href={ROUTES.PRICES}><a>here</a></Link>.
+        </p>
+      </div>
       {/* The saved details */}
       {billingDetails.map((details, index) => {
         if (!details) return null

@@ -135,10 +135,15 @@ SUMMARIES
   margin-bottom: var(--bsu);
   .p {
     margin-bottom: 0.3em;
+    height: auto !important;
     &:last-child {
       margin-bottom: 0;
     }
   }
+}
+
+.accountPage__paymentIntro {
+  margin-bottom: var(--bsu-md);
 }
 
 .paymentSummaryBlock {
