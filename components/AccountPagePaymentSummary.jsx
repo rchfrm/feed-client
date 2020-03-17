@@ -30,7 +30,9 @@ const NoMethod = ({ name, role }) => {
 
   return (
     <div className={styles.paymentSummaryBlock}>
-      <h5 className={styles.paymentSummaryName}>{ name }</h5>
+      {name && (
+        <h5 className={styles.paymentSummaryName}>{ name }</h5>
+      )}
       <p className={['error', styles.p, styles.noMethod].join(' ')}>{ message }</p>
     </div>
   )
@@ -92,11 +94,11 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
         <Link href={ROUTES.PRICES}><a>here</a></Link>.
       </p>
       {/* The saved details */}
-      {billingDetails.map((details) => {
+      {billingDetails.map((details, index) => {
         if (!details) return null
-        const { name = 'no-name', defaultMethod, role } = details
+        const { name, defaultMethod, role } = details
         // Handle no method
-        if (!defaultMethod) return <NoMethod name={name} role={role} key={slugify(name)} />
+        if (!defaultMethod) return <NoMethod name={name} role={role} key={name ? slugify(name) : index} />
         return <PaymentItem name={name} defaultMethod={defaultMethod} key={slugify(name)} />
       })}
     </div>
