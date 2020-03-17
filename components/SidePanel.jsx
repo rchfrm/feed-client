@@ -12,12 +12,12 @@ const setBodyScroll = (canScroll, scrollTop) => {
   const container = document.querySelector('#container')
   if (!canScroll) {
     scrollTop.current = window.pageYOffset
-    document.body.classList.add('__no-scroll')
+    document.body.classList.add('__body-no-scroll')
     container.style.marginTop = `${-1 * scrollTop.current}px`
     return
   }
 
-  document.body.classList.remove('__no-scroll')
+  document.body.classList.remove('__body-no-scroll')
   window.pageYOffset = scrollTop.current
   container.style.marginTop = ''
 }
@@ -42,17 +42,23 @@ function SidePanel({
       setBodyScroll(true, scrollTop)
       return
     }
-    setShow(isOpen && content)
+    setShow(!!(isOpen && content))
     setBodyScroll(false, scrollTop)
   }, [isOpen, content])
-
 
   // ANIMATIONS
   const transition = useTransition(show, null, {
     from: { progress: 100 },
     enter: { progress: 0 },
     leave: { progress: 100 },
-  })
+    config: () => {
+      return {
+        mass: 1,
+        tension: 174,
+        friction: 25,
+      }
+    },
+  }, [show])
 
   // Define close function
   const close = () => toggle(false)

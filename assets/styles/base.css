@@ -39,7 +39,7 @@ body {
   margin: 0 auto;
   overflow-y: scroll;
 
-  &.__no-scroll {
+  &.__body-no-scroll {
     overflow: hidden;
   }
 }
