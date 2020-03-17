@@ -94,9 +94,10 @@
 /* LOADER */
 .loader {
   position: absolute;
-  background: var(--white);
+  top: 0;
+  left: 0;
   z-index: 4;
-  opacity: 0.4;
+  background: color-mod(var(--white) alpha(0.6));
 
   .spinner {
     position: absolute;
