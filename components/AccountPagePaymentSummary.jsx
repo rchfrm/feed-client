@@ -70,8 +70,6 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
   if (!user.id) return null
   const { hasNoPaymentMethod, billingDetails } = React.useContext(BillingContext)
 
-  console.log('billingDetails', billingDetails)
-
   // Call this when ready
   React.useEffect(() => {
     // Call on ready from parent
