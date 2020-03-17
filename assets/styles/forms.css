@@ -1,8 +1,13 @@
 
 /* Input
 ******************/
+select,
 input {
   background-color: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
 }
 
 input[readonly] {
