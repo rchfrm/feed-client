@@ -59,7 +59,9 @@ input[readonly] {
   border-bottom: 1px dotted black;
   margin: 0 0 1em 0;
   padding-bottom: 0.2em;
+  padding-left: 0;
   font-size: 1em;
+  border-radius: 0;
 }
 
 .input_text_icon {
