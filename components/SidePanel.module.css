@@ -113,9 +113,11 @@
   left: 0;
   bottom: 0;
   z-index: 3;
+  overflow: hidden;
 
   :global(.button) {
     width: 100%;
     border-radius: 0 0 0 var(--dialogue-radius);
+    margin-bottom: 0;
   }
 }
