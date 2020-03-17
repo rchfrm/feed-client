@@ -2,8 +2,8 @@
 import React from 'react'
 import Router from 'next/router'
 import useAsyncEffect from 'use-async-effect'
-import usePrevious from 'use-previous'
 import isEmpty from 'lodash/isEmpty'
+import produce from 'immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -29,31 +29,28 @@ const initialPostsState = {
   archive: {},
 }
 const postsReducer = (postsState, postsAction) => {
-  switch (postsAction.type) {
-    case 'add-assets':
-      return {
-        ...postsState,
-        [postsAction.payload.type]: {
-          ...postsState[postsAction.payload.type],
-          ...postsAction.payload.assets,
-        },
-      }
+  const {
+    type: actionType,
+    payload: {
+      type: postType,
+      assets: newPosts,
+      id: postId,
+      promotion_enabled,
+    },
+  } = postsAction
+  switch (actionType) {
+    case 'replace-assets':
+      return produce(postsState, draft => {
+        draft[postType] = newPosts
+      })
     case 'no-assets':
-      return {
-        ...postsState,
-        [postsAction.payload.type]: {},
-      }
+      return produce(postsState, draft => {
+        draft[postType] = {}
+      })
     case 'set-promotion-enabled':
-      return {
-        ...postsState,
-        [postsAction.payload.type]: {
-          ...postsState[postsAction.payload.type],
-          [postsAction.payload.id]: {
-            ...postsState[postsAction.payload.type][postsAction.payload.id],
-            promotion_enabled: postsAction.payload.promotion_enabled,
-          },
-        },
-      }
+      return produce(postsState, draft => {
+        draft[postType][postId].promotion_enabled = promotion_enabled
+      })
     case 'reset-posts':
       return initialPostsState
     default:
@@ -102,14 +99,10 @@ function NoResults({ dailyBudget }) {
   )
 }
 
-const getAssets = async (status, artist, getToken) => {
+const getAssets = async (status, artistId, token) => {
   const promotionStatus = status === 'archive' ? 'archived' : status
-  const token = await getToken()
-    .catch((err) => {
-      throw (err)
-    })
   // return result
-  const assets = await server.getAssets(artist.id, promotionStatus, token)
+  const assets = await server.getAssets(artistId, promotionStatus, token)
   return assets
 }
 
@@ -121,47 +114,59 @@ function ResultsLoader() {
   // END IMPORT CONTEXTS
   // DEFINE STATES
   const [posts, setPosts] = React.useReducer(postsReducer, initialPostsState)
-  const [active, setActive] = React.useState({
-    loading: false,
-    complete: false,
-  })
-  const [archive, setArchive] = React.useState({
-    loading: false,
-    complete: false,
-  })
+  const [loading, setLoading] = React.useState(false)
   // PREVIOUS STATE
-  const previousArtistState = usePrevious(artist)
+  const previousArtistState = React.useRef(artist)
   const [, setError] = React.useState(null)
   // TODO : Display errors somewhere
-  // END DEFINE STATES
 
-  // RESET STATE IF NEW SELECTED ARTIST
-  React.useEffect(() => {
-    // Stop if no artist
-    if (!artist || isEmpty(artist)) return
-    // Stop if no previous artist set
-    if (!previousArtistState) return
-    const { id: artistId } = artist
-    const { id: previousArtistID } = previousArtistState
-    if (artistId === previousArtistID) return
-    setActive({
-      loading: false,
-      complete: false,
-    })
-    setArchive({
-      loading: false,
-      complete: false,
-    })
-    setPosts({ type: 'reset-posts' })
-  }, [artist])
-  // END RESET STATE IF NEW SELECTED ARTIST
 
-  // RUN THIS TO GET ACTIVE OR ARCHIVE POSTS
-  const runGetAssets = async (type, isMounted) => {
+  const setPostsState = (assets, type) => {
+    if (assets && assets.length) {
+      setPosts({
+        type: 'replace-assets',
+        payload: {
+          type,
+          assets: helper.arrToObjById(assets),
+        },
+      })
+    }
+  }
+
+  const getPostOfType = async (type, token, isMounted) => {
+    // Start getting assets
+    const assets = await getAssets(type, artist.id, token)
+      .catch((err) => {
+        if (!isMounted()) return
+        setPosts({
+          type: 'no-assets',
+          payload: {
+            type,
+          },
+        })
+        setError(err)
+      })
+    return assets
+  }
+
+  const getAllPosts = async (isMounted) => {
     // Stop here if no artist
+    // Get token
+    const token = await getToken()
+      .catch((err) => {
+        throw (err)
+      })
+    // Get assets for active and archive
+    return Promise.all([
+      getPostOfType('active', token, isMounted),
+      getPostOfType('archive', token, isMounted),
+    ])
+  }
+
+  // GET ACTIVE POSTS FROM SERVER when artists changes
+  useAsyncEffect(async (isMounted) => {
+    setLoading(true)
     if (!artist || isEmpty(artist)) return
-    const setFunc = type === 'archive' ? setArchive : setActive
-    const stateObj = type === 'archive' ? archive : active
     // Stop here if artist ID is the same
     if (previousArtistState) {
       const { id: artistId } = artist
@@ -172,60 +177,25 @@ function ResultsLoader() {
     }
     // Return if there is no selected artist
     if (!artist.id) return
-    // Return if a request is already happening
-    if (stateObj.loading || stateObj.complete) return
-    // Set loading to true
-    setFunc({
-      loading: true,
-      complete: false,
-    })
-    // Start getting assets
-    const assets = await getAssets(type, artist, getToken)
+    // Get active assets
+    const [activePosts, archivePosts] = await getAllPosts(isMounted)
       .catch((err) => {
-        setPosts({
-          type: 'no-assets',
-          payload: {
-            type,
-          },
-        })
-        setFunc({
-          loading: false,
-          complete: true,
-        })
-        setError(err)
+        throw (err)
       })
     if (!isMounted()) return
-    if (assets && assets.length) {
-      setPosts({
-        type: 'add-assets',
-        payload: {
-          type,
-          assets: helper.arrToObjById(assets),
-        },
-      })
-    }
-    setFunc({
-      loading: false,
-      complete: true,
-    })
-  }
+    // Set assets
+    setPostsState(activePosts, 'active')
+    setPostsState(archivePosts, 'archive')
+    // Save previous artist state
+    previousArtistState.current = artist
+    if (!isMounted()) return
+    // Set loading to false
+    setLoading(false)
+  }, [artist])
 
-  // GET ACTIVE ASSETS FROM SERVER
-  useAsyncEffect(async (isMounted) => {
-    // Get active assets
-    await runGetAssets('active', isMounted)
-  }, [artist, posts.active])
-  // END GET ACTIVE ASSETS FROM SERVER
-
-  // GET ARCHIVED ASSETS FROM SERVER
-  useAsyncEffect(async (isMounted) => {
-    // Get archived assets
-    await runGetAssets('archive', isMounted)
-  }, [artist, posts.archive])
-  // END GET ARCHIVED ASSETS FROM SERVER
 
   // RETURN
-  if (artistLoading || active.loading || archive.loading) {
+  if (artistLoading || loading) {
   // If artist is loading, or both active and archived posts are loading, show spinner
     return <Spinner width={50} colour={brandColours.green} />
   } if (
