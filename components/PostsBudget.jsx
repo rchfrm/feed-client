@@ -125,7 +125,6 @@ function PostsBudget({ currency }) {
             version="black  wide"
             onClick={handleClick}
             disabled={budget.disabled}
-            marginBottom="1em"
             textColour={budget.colour}
             bgColour={budget.bgColour}
           >

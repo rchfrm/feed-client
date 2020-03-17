@@ -204,12 +204,32 @@
 /* FORM FOR SETTING BUDGET */
 .BudgetForm {
   display: flex;
-  justify-content: space-between;
   margin-bottom: var(--bsu);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+
+  @media (--xs) {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
 }
 
 .BudgetForm_inputContainer {
-  margin-bottom: 0 !important;
-  flex: 1 0 auto;
-  padding-right: var(--bsu);
+  width: 100%;
+  margin-bottom: var(--bsu) !important;
+
+  @media (--xs) {
+    flex: 1 0 auto;
+    width: auto;
+    margin-bottom: 0 !important;
+    padding-right: var(--bsu);
+  }
+
+  :global(.input_box) {
+    margin-bottom: 0 !important;
+  }
+}
+
+.PostBudget__button {
+
 }
