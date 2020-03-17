@@ -355,7 +355,8 @@ function Toggle(props) {
     })
   }
 
-  const togglePromotion = React.useCallback(async () => {
+
+  const togglePromotion = async () => {
     const token = await getToken()
       .catch((err) => {
         throw (err)
@@ -363,33 +364,31 @@ function Toggle(props) {
     // return result
     const result = await server.togglePromotionEnabled(artist.id, id, !promotion_enabled, token)
     return result
-  }, [artist.id, getToken, id, promotion_enabled])
+  }
 
   // Update post promotion_enabled if there is a positive response from the alert
-  React.useEffect(() => {
-    if (!alert.response) {
-      return
-    }
-
+  useAsyncEffect(async (isMounted) => {
+    if (!alert.response) return
+    if (!isMounted()) return
     setLoading(true)
-    togglePromotion()
-      .then(post => {
-        setPosts({
-          type: 'set-promotion-enabled',
-          payload: {
-            type: active ? 'active' : 'archive',
-            id,
-            promotion_enabled: post.promotion_enabled,
-          },
-        })
-        setLoading(false)
-      })
+    const post = await togglePromotion()
       .catch(err => {
         // TODO: PROPERLY HANDLE THIS ERROR
         console.log(err)
+        if (!isMounted()) return
         setLoading(false)
       })
-  }, [active, alert.response, id, setPosts, togglePromotion])
+    if (!isMounted()) return
+    setPosts({
+      type: 'set-promotion-enabled',
+      payload: {
+        type: active ? 'active' : 'archive',
+        id,
+        promotion_enabled: post.promotion_enabled,
+      },
+    })
+    setLoading(false)
+  }, [active, alert.response, id])
 
   if (!active) {
     return <Nothing />
