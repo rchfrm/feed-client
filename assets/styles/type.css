@@ -25,11 +25,13 @@ h1 {
   margin-bottom: 0.333em;
 }
 
-h2, h3 {
-  font-size: 1.333em;
-}
 h2 {
+  font-size: 1.5em;
   font-weight: 600;
+}
+
+h3 {
+  font-size: 1.333em;
 }
 
 h4 {
