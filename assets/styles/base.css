@@ -37,6 +37,7 @@ body {
   font-size: var(--base-font-size);
   color: var(--black);
   margin: 0 auto;
+  overflow-y: scroll;
 
   &.__no-scroll {
     overflow: hidden;
