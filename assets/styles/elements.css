@@ -298,6 +298,7 @@ nav option {
   flex-direction: column;
   border: 1px solid black;
   border-radius: var(--dialogue-radius);
+  overflow: hidden;
 }
 
 .selected {
