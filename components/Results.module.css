@@ -94,6 +94,7 @@
 .disabled-results {
   padding: 2em 5% 0 5%;
   margin-bottom: 2em;
+  border-radius: var(--dialogue-radius);
   
   .results {
     width: 100%;
