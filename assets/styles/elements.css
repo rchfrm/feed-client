@@ -14,10 +14,10 @@
 }
 
 .alert {
-  background-color: var(--white);
+  background-color: var(--bg-color);
   width: 90%;
   padding: 5%;
-  border: 2px solid black;
+  border: 2px solid var(--text-color);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -208,18 +208,18 @@
 
 nav select {
   background-color: transparent;
-  color: var(--white);
+  color: var(--bg-color);
   font-size: 1.25em;
   font-weight: 600;
-  border: 1px solid white;
+  border: 1px solid transparent;
   padding: 0;
   margin: 0;
   width: 81.190%;
 }
 
 nav option {
-  background-color: var(--black);
-  color: var(--white);
+  background-color: var(--text-color);
+  color: var(--bg-color);
 }
 /* NextButton
 ******************/
@@ -296,7 +296,7 @@ nav option {
   padding: 5.556%;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
+  border: 1px solid var(--text-color);
   border-radius: var(--dialogue-radius);
   overflow: hidden;
 }
@@ -319,7 +319,7 @@ nav option {
 }
 
 .readonly {
-  background-color: #20827426;
+  background-color: var(--text-color);
 }
 
 .frame li:first-child {

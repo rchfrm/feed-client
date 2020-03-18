@@ -14,6 +14,7 @@ import countries from '../constants/countries'
 // IMPORT STYLES
 import connectArtistStyles from './ConnectArtist.module.css'
 import postStyles from './PostsPage.module.css'
+import brandColours from '../constants/brandColours'
 
 const styles = {
   ...connectArtistStyles,
@@ -103,7 +104,7 @@ function ConnectedArtistPanel({
     if (exists) {
       return (
         <div className={styles['post-meta']}>
-          <em style={{ color: 'black' }}>
+          <em style={{ color: brandColours.black }}>
             You will be added to
             {artistAccount.name}
             's team

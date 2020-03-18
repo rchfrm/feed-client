@@ -25,8 +25,8 @@ const faviconPlugin = new FaviconsWebpackPlugin({
     appDescription: 'Audience growth for artists, built by archForm',
     developerName: 'archForm',
     developerUrl: 'https://archform.ltd',
-    background: '#fff',
-    theme_color: '#000',
+    background: '#F4F4F4',
+    theme_color: '#0D1311',
   },
 })
 

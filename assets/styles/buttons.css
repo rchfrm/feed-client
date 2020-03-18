@@ -94,7 +94,7 @@ button {
   background: transparent;
   border: none;
   display: block;
-  outline: 2px solid black;
+  outline: 2px solid var(--black);
   outline-offset: -2px;
   margin-bottom: 1.5em;
   font-feature-settings: "ss01";
