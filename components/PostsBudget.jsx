@@ -21,6 +21,9 @@ import Alert from './elements/Alert'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
+import MarkdownText from './elements/MarkdownText'
+import copy from '../copy/PostsPageCopy'
+
 const initialAlertState = {
   contents: undefined,
   // responseExpected: true,
@@ -107,7 +110,7 @@ function PostsBudget({ currency }) {
 
       <div className="ninety-wide" style={{ marginBottom: '2em' }}>
 
-        <h3>Enter the amount you'd like to spend each day:</h3>
+        <MarkdownText className="h3--text" markdown={copy.budgetIntro} />
 
         <div className={styles.BudgetForm}>
 
@@ -133,12 +136,7 @@ function PostsBudget({ currency }) {
 
         </div>
 
-        <p>
-          We recommend at least
-          {' '}
-          {currency}
-          3 per day.
-        </p>
+        <MarkdownText className="" markdown={copy.budgetOutro} />
 
         <Error error={error} />
 
