@@ -138,7 +138,7 @@
 }
 
 .error {
-  color: #FF0000;
+  color: var(--error-color);
 
   & + .error {
     margin-top: -1em;
@@ -146,7 +146,7 @@
 
 }
 .success {
-  color: #6edcd3;
+  color: var(--success-color);
 }
 
 /* Feed
@@ -232,7 +232,7 @@ nav option {
 }
 
 .nextbutton:disabled {
-  color: #E5E5E5;
+  color: var(--disabled-color-text);
   background-color: transparent;
 }
 /* PageHeader

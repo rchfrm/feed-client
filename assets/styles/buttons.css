@@ -20,8 +20,8 @@ button {
   
   &:disabled,
   &[disabled] {
-    color: #999999;
-    background-color: #E5E5E5;
+    color: var(--disabled-color-text);
+    background-color: var(--disabled-color-bg);
     cursor: default;
   }
 
@@ -52,7 +52,8 @@ button {
 }
 
 .button--success {
-  background-color: var(--green);
+  background-color: var(--success-color);
+  color: var(--white);
 }
 
 .button--small {
