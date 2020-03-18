@@ -33,7 +33,7 @@ const AccountPageContent = ({ user, className }) => {
       toggleSidePanel(false)
       return
     }
-    if (type === 'account') {
+    if (type === 'details') {
       setSidePanelContent(<AccountPageDetails user={user} />)
       toggleSidePanel(true)
       return
@@ -72,7 +72,7 @@ const AccountPageContent = ({ user, className }) => {
 
       <AccountPageSection
         title="Account details"
-        type="account"
+        type="details"
         user={user}
         buttonText="Edit account details"
         setSidePanel={setSidePanel}

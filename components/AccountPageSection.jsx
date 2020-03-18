@@ -12,7 +12,7 @@ import styles from './AccountPage.module.css'
 
 const getSection = ({ type, user, onReady }) => {
   // Get account section
-  if (type === 'account') {
+  if (type === 'details') {
     return (
       <AccountPageDetailsSummary
         className={styles.accountPageSection__details}
