@@ -25,6 +25,18 @@ h1 {
   margin-bottom: 0.333em;
 }
 
+h2, h3 {
+  font-size: 1.333em;
+}
+
+.large--text {
+  p {
+    font-size: 1.333em;
+    font-weight: normal;
+  }
+}
+
+
 h2 {
   font-size: 1.5em;
   font-weight: 600;
