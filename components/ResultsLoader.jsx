@@ -188,7 +188,6 @@ function ResultsLoader() {
     setPostsState(archivePosts, 'archive')
     // Save previous artist state
     previousArtistState.current = artist
-    if (!isMounted()) return
     // Set loading to false
     setLoading(false)
   }, [artist])
