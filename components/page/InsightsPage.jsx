@@ -11,8 +11,8 @@ import PageHeader from '../PageHeader'
 import Button from '../elements/Button'
 import Spinner from '../elements/Spinner'
 // IMPORT PAGES
-import SummaryLoader from '../HomePageSummary'
-import HomePageChart from '../HomePageChart'
+import InsightsSummaryLoader from '../InsightsSummaryLoader'
+import InsightsPageChart from '../InsightsPageChart'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../../constants/routes'
@@ -20,7 +20,7 @@ import brandColours from '../../constants/brandColours'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function HomePage() {
+function InsightsPage() {
 // SHOW / HIDE NAVIGATION
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const className = navState.visible ? 'hidden' : ''
@@ -38,7 +38,7 @@ function HomePage() {
   )
 }
 
-export default HomePage
+export default InsightsPage
 
 function Loader() {
 // IMPORT CONTEXTS
@@ -56,10 +56,10 @@ function Loader() {
     )
   }
   // Otherwise, show Home
-  return <Home />
+  return <Insights />
 }
 
-function Home() {
+function Insights() {
   const { user } = React.useContext(UserContext)
 
   return (
@@ -67,9 +67,9 @@ function Home() {
 
       <PageHeader heading={`Hey ${user.first_name}`} punctuation="," />
 
-      <SummaryLoader />
+      <InsightsSummaryLoader />
 
-      <HomePageChart />
+      <InsightsPageChart />
 
       <PromotePostsButton />
 

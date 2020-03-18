@@ -18,7 +18,7 @@ import server from './helpers/server'
 import helper from './helpers/helper'
 // IMPORT STYLES
 
-function SummaryLoader() {
+function InsightsSummaryLoader() {
 // REDEFINE PROPS AS VARIABLES
   const { getToken } = React.useContext(AuthContext)
   const { artist } = React.useContext(ArtistContext)
@@ -80,7 +80,7 @@ function SummaryLoader() {
   return <Summary spend={spend} artistId={artist.id} />
 }
 
-export default SummaryLoader
+export default InsightsSummaryLoader
 
 function Summary(props) {
   const { artistId, spend } = props
