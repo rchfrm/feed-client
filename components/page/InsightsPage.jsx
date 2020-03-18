@@ -11,7 +11,6 @@ import { ArtistContext } from '../contexts/Artist'
 import PageHeader from '../PageHeader'
 import Button from '../elements/Button'
 import Spinner from '../elements/Spinner'
-import MarkdownText from '../elements/MarkdownText'
 // IMPORT PAGES
 import InsightsSummaryLoader from '../InsightsSummaryLoader'
 import InsightsPageChart from '../InsightsPageChart'
@@ -19,6 +18,8 @@ import InsightsPageChart from '../InsightsPageChart'
 // IMPORT CONSTANTS
 import * as ROUTES from '../../constants/routes'
 import brandColours from '../../constants/brandColours'
+
+import MarkdownText from '../elements/MarkdownText'
 import copy from '../../copy/InsightPageCopy'
 // IMPORT HELPERS
 // IMPORT STYLES
