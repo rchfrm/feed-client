@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import * as ROUTES from '../constants/routes'
 
 export default {

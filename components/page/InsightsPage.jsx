@@ -70,7 +70,7 @@ function Insights() {
       <PageHeader heading="Insights" />
 
       {/* INTRO TEXT */}
-      <MarkdownText className="ninety-wide  large--text" markdown={copy.intro} />
+      <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
 
       <div className={styles.chartsContainer}>
         <InsightsSummaryLoader />
@@ -81,7 +81,7 @@ function Insights() {
       </div>
 
       {/* OUTRO TEXT TEXT */}
-      <MarkdownText className="ninety-wide  large--text" markdown={copy.outro} />
+      <MarkdownText className="ninety-wide  h4--text" markdown={copy.outro} />
 
     </div>
   )
