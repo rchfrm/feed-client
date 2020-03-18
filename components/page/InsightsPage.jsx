@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
+import ReactMarkdown from 'react-markdown'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
@@ -17,6 +18,7 @@ import InsightsPageChart from '../InsightsPageChart'
 // IMPORT CONSTANTS
 import * as ROUTES from '../../constants/routes'
 import brandColours from '../../constants/brandColours'
+import copy from '../../copy/InsightPageCopy'
 // IMPORT HELPERS
 // IMPORT STYLES
 
@@ -65,7 +67,11 @@ function Insights() {
   return (
     <div className="page--container">
 
-      <PageHeader heading={`Hey ${user.first_name}`} punctuation="," />
+      <PageHeader heading="Insights" />
+
+      <div className="text--block  large--text  ninety-wide">
+        <ReactMarkdown source={copy.intro} escapeHtml={false} />
+      </div>
 
       <InsightsSummaryLoader />
 

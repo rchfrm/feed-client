@@ -155,17 +155,19 @@ function Summary(props) {
     return <Nothing />
   }
   return (
-    <h3 className="ninety-wide">
-      In the last 7 days, you&apos;ve
-      {' '}
-      <span className="strong">
-        spent £
-        {spend}
-      </span>
-      {loading
-        ? <Ellipsis />
-        : <Impressions impressions={impressions} />}
-    </h3>
+    <div className="ninety-wide  large--text">
+      <p>
+        In the last 7 days, you've
+        {' '}
+        <span className="strong">
+          spent £
+          {spend}
+        </span>
+        {loading
+          ? <Ellipsis />
+          : <Impressions impressions={impressions} />}
+      </p>
+    </div>
   )
 }
 
