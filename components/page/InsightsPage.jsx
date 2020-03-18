@@ -1,7 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
-import ReactMarkdown from 'react-markdown'
+
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
@@ -11,6 +11,7 @@ import { ArtistContext } from '../contexts/Artist'
 import PageHeader from '../PageHeader'
 import Button from '../elements/Button'
 import Spinner from '../elements/Spinner'
+import MarkdownText from '../elements/MarkdownText'
 // IMPORT PAGES
 import InsightsSummaryLoader from '../InsightsSummaryLoader'
 import InsightsPageChart from '../InsightsPageChart'
@@ -21,6 +22,7 @@ import brandColours from '../../constants/brandColours'
 import copy from '../../copy/InsightPageCopy'
 // IMPORT HELPERS
 // IMPORT STYLES
+import styles from '../InsightsPageChart.module.css'
 
 function InsightsPage() {
 // SHOW / HIDE NAVIGATION
@@ -62,22 +64,24 @@ function Loader() {
 }
 
 function Insights() {
-  const { user } = React.useContext(UserContext)
-
   return (
     <div className="page--container">
 
       <PageHeader heading="Insights" />
 
-      <div className="text--block  large--text  ninety-wide">
-        <ReactMarkdown source={copy.intro} escapeHtml={false} />
+      {/* INTRO TEXT */}
+      <MarkdownText className="ninety-wide  large--text" markdown={copy.intro} />
+
+      <div className={styles.chartsContainer}>
+        <InsightsSummaryLoader />
+
+        <InsightsPageChart />
+
+        <PromotePostsButton />
       </div>
 
-      <InsightsSummaryLoader />
-
-      <InsightsPageChart />
-
-      <PromotePostsButton />
+      {/* OUTRO TEXT TEXT */}
+      <MarkdownText className="ninety-wide  large--text" markdown={copy.outro} />
 
     </div>
   )
