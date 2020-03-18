@@ -438,6 +438,7 @@ function DeactivateAdConfirmation(props) {
         <h1>Are you sure?</h1>
         <p>
           Clicking 'Yes' below will mean
+          {' '}
           <Feed />
           {' '}
           starts to promote the post again.
