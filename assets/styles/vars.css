@@ -16,6 +16,13 @@
   --color-insta: #E75A7C;
   --color-twitter: #5BC0EB;
   --color-sc: #FDE74C;
+  /* APP COLORS */
+  --body-bg: var(--white);
+  --text-color: var(--black);
+  --success-color: var(--green);
+  --error-color: var(--red);
+  --disabled-color-bg: var(--grey-light);
+  --disabled-color-text: var(--grey-dark);
 
   /* Font */
   --font: SpaceGrotesk, sans-serif;
