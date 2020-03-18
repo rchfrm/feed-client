@@ -205,24 +205,16 @@
 .BudgetForm {
   display: flex;
   margin-bottom: var(--bsu);
-  flex-wrap: wrap;
-  justify-content: flex-end;
-
-  @media (--xs) {
-    flex-wrap: nowrap;
-    justify-content: space-between;
-  }
+  justify-content: flex-start;
 }
 
 .BudgetForm_inputContainer {
-  width: 100%;
-  margin-bottom: var(--bsu) !important;
+  margin-bottom: 0 !important;
+  padding-right: var(--bsu);
+  flex: 1 1 auto;
 
   @media (--xs) {
     flex: 1 0 auto;
-    width: auto;
-    margin-bottom: 0 !important;
-    padding-right: var(--bsu);
   }
 
   :global(.input_box) {
