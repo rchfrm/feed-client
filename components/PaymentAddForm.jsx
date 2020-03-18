@@ -90,7 +90,7 @@ const PaymentPageIntro = () => {
         <Feed />
         's pricing is
         {' '}
-        <Link href={ROUTES.PRICES}><a>here</a></Link>.
+        <Link href={ROUTES.PRICING}><a>here</a></Link>.
       </h4>
     </>
   )
