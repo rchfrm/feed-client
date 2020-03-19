@@ -126,7 +126,7 @@
   width: 72.5%;
   margin-bottom: 0 !important;
 
-  :global(.selectElement_box) {
+  :global(.select--box) {
     margin-bottom: 0 !important;
   }
 }

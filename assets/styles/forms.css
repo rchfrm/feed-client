@@ -49,7 +49,7 @@ input[readonly] {
   }
 }
 
-.selectElement_box,
+.select--box,
 .input_box {
   display: block;
   border: 2px solid var(--black);
@@ -129,11 +129,11 @@ select {
   background-color: transparent;
 }
 
-.selectElement {
+.select {
 
 }
 
-.selectElement_box {
+.select--box {
   .select--sans & {
     font-family: var(--font);
   }
@@ -143,7 +143,7 @@ select {
   }  
 }
 
-.selectElement {
+.select {
   &._error {
     label {
       color: var(--error-color);
@@ -156,5 +156,5 @@ select {
 }
 
 select:invalid {
-  color: var(--disabled-color-text);
+  
 }
