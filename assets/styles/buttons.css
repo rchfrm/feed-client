@@ -62,7 +62,11 @@ button {
 }
 
 .button--toggle {
-  padding: 0 1px;
+  padding: 0;
+
+  .icon {
+    line-height: 0;
+  }
 }
 
 
