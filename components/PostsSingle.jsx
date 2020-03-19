@@ -11,7 +11,8 @@ import Icon from './elements/Icon'
 import SquareImage from './elements/SquareImage'
 import Error from './elements/Error'
 // IMPORT PAGES
-import { AddUrl, LinkOptions } from './PostLink'
+import PostLinkAddUrl from './PostLinkAddUrl'
+import PostLinkOptions from './PostLinkOptions'
 import PostInsight from './PostInsight'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -94,7 +95,7 @@ function PostSingle({ index, post, singular: isSingular, updateLink, togglePromo
   const returnAddUrl = () => {
     if (addUrl) {
       return (
-        <AddUrl
+        <PostLinkAddUrl
           setError={setError}
           postId={post.id}
           index={index}
@@ -130,7 +131,7 @@ function PostSingle({ index, post, singular: isSingular, updateLink, togglePromo
 
         <p>Where should people go when they click this post?</p>
 
-        <LinkOptions
+        <PostLinkOptions
           setError={setError}
           postId={post.id}
           currentLink={currentLink}
