@@ -535,7 +535,7 @@ function ResultsAll({ posts: postsObject, active, setPosts }) {
   return (
     <div style={{ width: '100%' }}>
 
-      <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
+      {active && <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />}
 
       <div className="ninety-wide">
         <h2>{title}</h2>
