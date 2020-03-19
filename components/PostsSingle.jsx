@@ -175,7 +175,7 @@ function PermalinkAndToggle(props) {
 
   return (
     <div
-      className="flex-row"
+      className={styles.permalinkAndToggle}
       style={{ padding: '1.5em' }}
     >
 
