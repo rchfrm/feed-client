@@ -2,6 +2,9 @@
 import React from 'react'
 import Router from 'next/router'
 import useAsyncEffect from 'use-async-effect'
+import isEmpty from 'lodash/isEmpty'
+import produce from 'immer'
+import usePrevious from 'use-previous'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -26,28 +29,34 @@ import styles from './PostsPage.module.css'
 // Define initial state and reducer for posts
 const postsInitialState = []
 const postsReducer = (postsState, postsAction) => {
-  switch (postsAction.type) {
+  const {
+    type: actionType,
+    payload: {
+      newPosts,
+      postIndex,
+      promotionEnabled,
+      postLink,
+    },
+  } = postsAction
+  switch (actionType) {
     case 'reset-posts':
       return postsInitialState
     case 'add-posts':
-      return [
-        ...postsState,
-        ...postsAction.payload,
-      ]
+      return produce(postsState, draft => {
+        draft.push(...newPosts)
+      })
+    case 'replace-posts':
+      return newPosts
     case 'toggle-promotion':
-      postsState[postsAction.payload.index].promotion_enabled = postsAction.payload.promotion_enabled
-      return [
-        ...postsState,
-      ]
+      return produce(postsState, draft => {
+        draft[postIndex].promotion_enabled = promotionEnabled
+      })
     case 'update-link':
-      postsState[postsAction.payload.index].priority_dsp = postsAction.payload.link
-      return [
-        ...postsState,
-      ]
+      return produce(postsState, draft => {
+        draft[postIndex].priority_dsp = postLink
+      })
     default:
-      return [
-        ...postsState,
-      ]
+      return postsState
   }
 }
 
@@ -62,18 +71,19 @@ const getPosts = async ({ artist, offset, limit, getToken }) => {
   // Sort the returned posts chronologically, latest first
   return helper.sortAssetsChronologically(Object.values(posts))
 }
-// END ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
+
 
 function PostsLoader() {
-// DEFINE STATES
+  // DEFINE STATES
   const [pageLoading, setPageLoading] = React.useState(true)
   const [posts, setPosts] = React.useReducer(postsReducer, postsInitialState)
   const [numberOfPosts, setNumberOfPosts] = React.useState(0)
   const [visiblePost, setVisiblePost] = React.useState(0)
   const [offset, setOffset] = React.useState(0)
-  const [loadMore, setLoadMore] = React.useState(true)
+  const [loadMore, setLoadMore] = React.useState(false)
   const [loadingMore, setLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const postsPerPage = 10
   // END DEFINE STATES
 
   // IMPORT CONTEXTS
@@ -83,47 +93,59 @@ function PostsLoader() {
   if (artist._embedded && artist._embedded.assets) {
     assets = artist._embedded.assets
   }
-  // END IMPORT CONTEXTS
 
-  // // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-  // const getPosts = React.useCallback(async (offset, limit) => {
-  //   const token = await getToken()
-  //   const posts = await server.getUnpromotedPosts(offset, limit, artist.id, token)
-  //     .catch((err) => {
-  //       throw (err)
-  //     })
-
-  //   // Sort the returned posts chronologically, latest first
-  //   return helper.sortAssetsChronologically(Object.values(posts))
-  // }, [artist.id, getToken])
-  // // END ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-
-  // RESET PAGE STATE IF SELECTED ARTIST CHANGES
-  React.useEffect(() => {
-    setPageLoading(true)
-    setPosts({ type: 'reset-posts' })
-    setNumberOfPosts(0)
-    setVisiblePost(0)
-    setOffset(0)
-    setLoadMore(true)
-    setLoadingMore(false)
-  }, [artist.id])
-  // END RESET PAGE STATE IF SELECTED ARTIST CHANGES
-
-  // GET POSTS FROM SERVER, IF AVAILABLE
+  // RESET POSTS STATE IF SELECTED ARTIST CHANGES
+  const previousArtistState = usePrevious(artist)
   useAsyncEffect(async (isMounted) => {
+    if (!artist || isEmpty(artist)) return
+    // Stop here if artist ID is the same
+    if (previousArtistState) {
+      const { id: artistId } = artist
+      const { id: previousArtistID } = previousArtistState
+      if (artistId === previousArtistID) {
+        return
+      }
+    }
     // Return if there is no selected artist
-    if (!artist.id) return setPageLoading(false)
-    // Return if load isn't required
-    if (!loadMore) return setPageLoading(false)
-    // Return if a request to get more posts has already been made
-    if (loadingMore) return setPageLoading(false)
-    // Return if there are no more assets to get
-    if (assets.length < offset) return setPageLoading(false)
+    if (!artist.id) return
+    // Start loading
+    setPageLoading(true)
+    // Reset offset
+    setOffset(0)
+    // GEt posts
+    // Make request to get unpromoted posts
+    const posts = await getPosts({ artist, offset: 0, limit: 10, getToken })
+      .catch((err) => {
+        if (!isMounted()) return
+        setPageLoading(false)
+        setError(err)
+      })
+    if (!isMounted()) return
+    // Replace posts with new artist posts
+    setPosts({
+      type: 'replace-posts',
+      payload: {
+        newPosts: posts,
+      },
+    })
+    // Update offset
+    setOffset(posts.length)
+    // Stop page loading
+    setPageLoading(false)
+  }, [artist])
 
+  // GET EXTRA POSTS FROM SERVER, IF AVAILABLE
+  useAsyncEffect(async (isMounted) => {
+    // Return if load isn't required
+    if (!loadMore) return
+    // Return if a request to get more posts has already been made
+    if (loadingMore) return
+    // Return if there are no more assets to get
+    if (assets.length < offset) return
+    // Stop here if page is loading
+    if (pageLoading) return
     // Set loading to true
     setLoadingMore(true)
-
     // Make request to get unpromoted posts
     const posts = await getPosts({ artist, offset, limit: 10, getToken })
       .catch((err) => {
@@ -136,15 +158,15 @@ function PostsLoader() {
     // Add returned posts to state, and update offset
     setPosts({
       type: 'add-posts',
-      payload: posts,
+      payload: {
+        newPosts: posts,
+      },
     })
     setLoadMore(false)
     setLoadingMore(false)
-    setOffset(offset + 10)
-    if (pageLoading) {
-      setPageLoading(false)
-    }
-  }, [artist.id, assets, loadMore, offset])
+    setOffset(offset + postsPerPage)
+    setPageLoading(false)
+  }, [assets, loadMore, offset])
   // END GET POSTS FROM SERVER, IF AVAILABLE
 
   // IF POSTS CHANGES, UPDATE NUMBER OF POSTS
@@ -179,21 +201,30 @@ function PostsLoader() {
       setPosts({
         type: 'toggle-promotion',
         payload: {
-          postId,
-          index: indexOfId,
           promotion_enabled: res.promotion_enabled,
+          postIndex: indexOfId,
+          promotionEnabled: res.promotion_enabled,
         },
       })
     }
   }
-  // END TOGGLE PROMOTION ENABLED
 
   // GO HOME
   const returnHome = e => {
     Router.push(ROUTES.HOME)
     e.preventDefault()
   }
-  // END GO HOME
+
+  // Define function to update links
+  const updateLink = (postIndex, postLink) => {
+    setPosts({
+      type: 'update-link',
+      payload: {
+        postIndex,
+        postLink,
+      },
+    })
+  }
 
   // RETURN
   if (artistLoading || pageLoading) {
@@ -207,7 +238,7 @@ function PostsLoader() {
         numberOfPosts={numberOfPosts}
         visiblePost={visiblePost}
         setVisiblePost={setVisiblePost}
-        setPosts={setPosts}
+        updateLink={updateLink}
         togglePromotion={togglePromotion}
       />
 

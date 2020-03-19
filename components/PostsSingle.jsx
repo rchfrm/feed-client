@@ -23,7 +23,7 @@ import MediaFallback from './elements/MediaFallback'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
-function PostSingle({ index, post, singular: isSingular, setPosts, togglePromotion }) {
+function PostSingle({ index, post, singular: isSingular, updateLink, togglePromotion }) {
   // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
@@ -102,7 +102,6 @@ function PostSingle({ index, post, singular: isSingular, setPosts, togglePromoti
           setCurrentLink={setCurrentLink}
           setChosenLink={setChosenLink}
           setAddUrl={setAddUrl}
-          setPosts={setPosts}
         />
       )
     }
@@ -140,7 +139,7 @@ function PostSingle({ index, post, singular: isSingular, setPosts, togglePromoti
           setChosenLink={setChosenLink}
           index={index}
           setAddUrl={setAddUrl}
-          setPosts={setPosts}
+          updateLink={updateLink}
         />
 
         {returnAddUrl()}
@@ -204,19 +203,6 @@ function PermalinkAndToggle(props) {
           onClick={() => togglePromotion(post.id)}
           state={status ? 'on' : 'off'}
         />
-        {/* <Button
-          version="toggle"
-          onClick={togglePromotion}
-        >
-          <Icon
-            version={appearance.toggleIcon}
-            color={appearance.toggleIconColor}
-            width="18"
-            data={post.id}
-          />
-
-        </Button> */}
-
       </div>
 
     </div>

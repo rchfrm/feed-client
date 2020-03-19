@@ -46,23 +46,21 @@ function SaveButton({ state, disabled, handleClick }) {
   )
 }
 
-export function LinkOptions(props) {
+export function LinkOptions({
+  setError,
+  currentLink,
+  setCurrentLink,
+  chosenLink,
+  setChosenLink,
+  index,
+  postId,
+  setAddUrl,
+  updateLink,
+}) {
 // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
   const { getToken } = React.useContext(AuthContext)
   // END IMPORT CONTEXTS
-
-  // REDEFINE PROPS AS VARIABLES
-  const { setError } = props
-  const { currentLink } = props
-  const { setCurrentLink } = props
-  const { chosenLink } = props
-  const { setChosenLink } = props
-  const { index } = props
-  const { postId } = props
-  const { setAddUrl } = props
-  const { setPosts } = props
-  // END REDEFINE PROPS AS VARIABLES
 
   // DEFINE STATES
   const [button, setButton] = React.useState('save')
@@ -149,13 +147,7 @@ export function LinkOptions(props) {
       // Send a patch request to the server to update the asset
       const updatedAsset = await server.updateAssetLink(artist.id, postId, chosenLink, token)
       // Update state in the Loader component with the new link
-      setPosts({
-        type: 'update-link',
-        payload: {
-          index,
-          link: updatedAsset.priority_dsp,
-        },
-      })
+      updateLink(index, updatedAsset.priority_dsp)
       // Update the current link to match
       setCurrentLink(updatedAsset.priority_dsp)
       // Mark the button as 'saved'
@@ -205,7 +197,16 @@ export function LinkOptions(props) {
   )
 }
 
-export function AddUrl(props) {
+export function AddUrl({
+  setChosenLink,
+  currentLink,
+  setAddUrl,
+  postId,
+  updateLink,
+  index,
+  setCurrentLink,
+  setError,
+}) {
   // Import contexts
   const { addUrl, artist } = React.useContext(ArtistContext)
   const { getToken } = React.useContext(AuthContext)
@@ -277,8 +278,8 @@ export function AddUrl(props) {
   // Allow user to close the alert without saving a link
   const closeAlert = e => {
     e.preventDefault()
-    props.setChosenLink(props.currentLink)
-    props.setAddUrl(false)
+    setChosenLink(currentLink)
+    setAddUrl(false)
   }
 
   // Handle changes to URL input field
@@ -304,28 +305,22 @@ export function AddUrl(props) {
 
       // Send a patch request to the server to update the asset
       const token = await getToken()
-      const updatedAsset = await server.updateAssetLink(artist.id, props.postId, platform, token)
+      const updatedAsset = await server.updateAssetLink(artist.id, postId, platform, token)
 
       // Update state in the Loader component with the new link
-      props.setPosts({
-        type: 'update-link',
-        payload: {
-          index: props.index,
-          link: updatedAsset.priority_dsp,
-        },
-      })
+      updateLink(index, updatedAsset.priority_dsp)
 
       // Mark the button as 'saved'
       setButton('saved')
 
-      props.setCurrentLink(updatedAsset.priority_dsp)
-      props.setChosenLink(updatedAsset.priority_dsp)
-      props.setAddUrl(false)
+      setCurrentLink(updatedAsset.priority_dsp)
+      setChosenLink(updatedAsset.priority_dsp)
+      setAddUrl(false)
     } catch (err) {
       setButton('save')
-      props.setChosenLink(props.currentLink)
-      props.setAddUrl(false)
-      props.setError(err)
+      setChosenLink(currentLink)
+      setAddUrl(false)
+      setError(err)
     }
   }
 
