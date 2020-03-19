@@ -89,24 +89,6 @@ function PostsAll({
     return <PostsNone />
   }
 
-  return (
-    <div className={styles['posts-section']}>
-
-      <PostList
-        posts={posts}
-        setPosts={setPosts}
-        togglePromotion={togglePromotion}
-        handleScroll={handleScroll}
-      />
-
-    </div>
-  )
-}
-
-export default PostsAll
-
-function PostList({ posts, setPosts, togglePromotion, handleScroll }) {
-  // CREATE ARRAY OF POSTS
   const postList = posts.map((post, index) => {
     return (
       <PostsSingle
@@ -119,13 +101,19 @@ function PostList({ posts, setPosts, togglePromotion, handleScroll }) {
       />
     )
   })
+
   // Push the LastItem component to add blank space to the end of the list
   postList.push(LastItem())
-  // END CREATE ARRAY OF POSTS
 
   return (
-    <ul className={`frame posts ${styles.posts}`} onScroll={handleScroll}>
-      {postList}
-    </ul>
+    <div className={styles['posts-section']}>
+
+      <ul className={`frame posts ${styles.posts}`} onScroll={handleScroll}>
+        {postList}
+      </ul>
+
+    </div>
   )
 }
+
+export default PostsAll
