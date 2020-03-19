@@ -1,3 +1,13 @@
+.TheHeader {
+  width: 100%;
+  padding: 5%;
+  background: var(--white);
+
+  &.navOn {
+    background: var(--black);
+  }
+}
+
 .logo {
   display: block;
   float: left;
@@ -7,6 +17,12 @@
   :global(svg) {
     width: 100%;
     height: auto;
+  }
+
+  .navOn & {
+    :global(.text) {
+      fill: var(--white);
+    }
   }
 }
 
@@ -24,7 +40,7 @@
     * {
       fill: var(--black);
 
-      :global(.navOn) & {
+      .navOn & {
         fill: var(--white);
       }
     }

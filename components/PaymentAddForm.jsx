@@ -353,7 +353,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
           handleChange={handleChange}
           name="city"
           label="City"
-          placeholder="City"
+          placeholder=""
           value={city}
           version="box"
           required
@@ -363,7 +363,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
           handleChange={handleChange}
           name="state"
           label="State, region, etc."
-          placeholder="State, region, etc."
+          placeholder=""
           value={state}
           version="box"
         />

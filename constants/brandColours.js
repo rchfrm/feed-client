@@ -3,8 +3,8 @@ const brandColours = {
   black: '#0D1311',
   green: '#03D8B2',
   red: '#FA5450',
-  lightGrey: '#C8CBCA',
-  grey: '#D6D6D6',
+  lightGrey: '#E7E9E8',
+  grey: '#C8CBCA',
   darkGrey: '#7F8382',
 }
 

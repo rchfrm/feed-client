@@ -33,12 +33,11 @@ body,
 body {
   font-family: var(--font);
   font-feature-settings: "ss01";
-  max-width: var(--max-width);
   font-size: var(--base-font-size);
   color: var(--black);
-  margin: 0 auto;
+  overflow-y: scroll;
 
-  &.__no-scroll {
+  &.__body-no-scroll {
     overflow: hidden;
   }
 }
@@ -47,6 +46,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 main {
@@ -83,15 +84,6 @@ main {
   width: 100%;
 }
 
-.TheHeader {
-  padding: 5%;
-  background: var(--white);
-
-  &.navOn {
-    background: var(--black);
-  }
-}
-
 .TheFooter {
   padding: 5%;
   color: var(--black);
@@ -107,8 +99,6 @@ main {
 
 .hidden {
   display: none;
-  height: 0;
-  padding: 0;
 }
 
 .no-margin {

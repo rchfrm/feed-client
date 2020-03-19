@@ -18,7 +18,13 @@ function PricesPage() {
         <p>We understand that marketing plans are flexible - if there’s a month when you don’t promote posts through Feed, we won’t charge you anything. </p>
         <p>In a month where you do spend money promoting posts, to cover our costs we apply a minimum service fee of £1.99. </p>
         <p>At the end of each billing month, we will charge your card for the relevant service fee, and Facebook will bill you separately for the amount spent on promoting your posts.</p>
-        <p>If you think you’re going to spend more than £300 per month consistently, get in touch at services@archform.ltd to talk about pricing options.</p>
+        <p>
+          If you think you’re going to spend more than £300 per month consistently, get in touch at
+          {' '}
+          <a href="mailto:services@archform.ltd">services@archform.ltd</a>
+          {' '}
+          to talk about pricing options.
+        </p>
       </div>
     </div>
   )
