@@ -14,7 +14,7 @@ fi
 
 if [[ "$target" == "production" ]]; then
     project="archform-1"
-    site_name="scaler"
+    site_name="feed-prod"
     env_file=".env.production"
 else
     project="archform-1-dev"
