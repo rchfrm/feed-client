@@ -172,7 +172,7 @@ const ConnectionIcons = ({
   const priority = priorityDSP === platform
 
   // DEFINE DEFAULT COLOUR
-  let defaultColour = brandColours.lightGrey
+  let defaultColour = brandColours.greyLight
   if (valid && priority) {
     defaultColour = brandColours.black
   } else if (!valid) {
@@ -203,7 +203,7 @@ const ConnectionIcons = ({
 
   const handleMouseEnter = () => {
     if (valid && !priority) {
-      setColour(brandColours.darkGrey)
+      setColour(brandColours.greyDark)
     }
   }
 

@@ -50,7 +50,7 @@ const CardInput = () => {
       fontSize: '14px',
       fontWeight: '100',
       '::placeholder': {
-        color: brandColours.darkGrey,
+        color: brandColours.greyDark,
       },
     },
     invalid: {

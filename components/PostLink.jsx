@@ -16,6 +16,7 @@ import BrokenCircle from './icons/BrokenCircle'
 import helper from './helpers/helper'
 import server from './helpers/server'
 // IMPORT STYLES
+import brandColours from '../constants/brandColours'
 import styles from './PostsPage.module.css'
 
 function SaveButton({ state, disabled, handleClick }) {
@@ -23,7 +24,7 @@ function SaveButton({ state, disabled, handleClick }) {
   if (state === 'saving') {
     return (
       <div className={styles['broken-circle']}>
-        <BrokenCircle className={styles.svg} width={25} fill="#6edcd3" />
+        <BrokenCircle className={styles.svg} width={25} fill={brandColours.loaderColor} />
       </div>
     )
   }
@@ -36,8 +37,8 @@ function SaveButton({ state, disabled, handleClick }) {
       width={25}
       onClick={handleClick}
       disabled={disabled}
-      textColour={state === 'saved' ? 'white' : undefined}
-      bgColour={state === 'saved' ? '#6edcd3' : undefined}
+      textColour={state === 'saved' ? brandColours.white : undefined}
+      bgColour={state === 'saved' ? brandColours.loaderColor : undefined}
     >
       {state[0].toUpperCase() + state.slice(1)}
     </Button>
@@ -349,7 +350,7 @@ export function AddUrl(props) {
           >
             <Icon
               version="cross"
-              color="black"
+              color={brandColours.black}
               width="18"
             />
           </Button>

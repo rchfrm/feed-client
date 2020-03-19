@@ -306,8 +306,8 @@ nav option {
 }
 
 .deselected {
-  background-color: #F4F4F4;
-  border: 1px solid #999999;
+  background-color: var(--grey-light);
+  border: 1px solid var(--grey-dark);
 }
 
 .singular {

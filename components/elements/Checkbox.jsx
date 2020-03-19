@@ -11,7 +11,7 @@ import brandColours from '../../constants/brandColours'
 // IMPORT STYLES
 
 function Checkbox(props) {
-  const bgColour = props.selected ? props.colour : brandColours.lightGrey
+  const bgColour = props.selected ? props.colour : brandColours.greyLight
 
   return (
     <div

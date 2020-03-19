@@ -5,6 +5,7 @@ import React from 'react'
 // IMPORT ELEMENTS
 import FacebookIcon from '../icons/FacebookIcon'
 import InstagramIcon from '../icons/InstagramIcon'
+import brandColours from '../../constants/brandColours'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -36,7 +37,7 @@ const Input = ({
         labelValue = (
           <label htmlFor={htmlFor} className={`label_${label.position}`}>
             <FacebookIcon
-              fill="#000000"
+              fill={brandColours.textColor}
               width="20"
             />
           </label>
@@ -46,7 +47,7 @@ const Input = ({
         labelValue = (
           <label htmlFor={htmlFor} className={`label_${label.position}`}>
             <InstagramIcon
-              fill="#000000"
+              fill={brandColours.textCoolor}
               width="20"
             />
           </label>

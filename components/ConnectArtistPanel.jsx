@@ -127,7 +127,7 @@ function ConnectedArtistPanel({
           >
             <Icon
               version={connect ? 'tick' : 'empty'}
-              color={connect ? 'white' : '#D6D6D6'}
+              color={connect ? 'white' : brandColours.grey}
               width="18"
               data={artistAccount.page_id}
             />
@@ -210,7 +210,7 @@ function ConnectedArtistPanel({
       >
         <label className="label_icon">
           <InstagramIcon
-            fill="#000000"
+            fill={brandColours.textColor}
             width="20"
           />
         </label>
