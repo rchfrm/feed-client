@@ -1,6 +1,6 @@
 .select {
   color: var(--white) !important;
-  width: 81.190%;
+  width: 81.190% !important;
   border: 2px solid var(--white) !important;
   font-weight: bold;
 }
