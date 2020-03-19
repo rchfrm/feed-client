@@ -11,4 +11,8 @@ export default {
 
   Included in this budget is our service fee - you can find more details on the [account page](${ROUTES.ACCOUNT}).
   `,
+
+  noPostsCopy: (platforms) => `It looks like you haven't posted for a little while, and by default **Feed** only promotes posts from the last month.
+  
+  Once you add new posts to ${platforms}, you'll be able to review them here.`,
 }
