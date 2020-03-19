@@ -1,5 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
+
+import debounce from 'lodash/debounce'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
@@ -79,7 +81,7 @@ function PostsAll({
   }, [numberOfPosts])
 
   // HANDLE SCROLL
-  const handleScroll = () => {
+  const handleScroll = debounce(() => {
     const scroller = document.getElementById('PostsAll__scroller')
     const scrollerWidth = scroller.scrollWidth
     const scrollPosition = scroller.scrollLeft
@@ -90,7 +92,7 @@ function PostsAll({
         scroll: scrollPercentage,
       },
     })
-  }
+  }, 100)
 
   if (posts.length === 0) {
     return <PostsNone />
