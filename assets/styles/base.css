@@ -128,17 +128,6 @@ main {
   margin-right: 3.803%;
 }
 
-select {
-  width: 100%;
-  border: 1px dotted var(--text-color);
-  font-family: SpaceGrotesk,sans-serif;
-  font-feature-settings: "ss01";
-  font-size: 1em;
-  margin: 0 0 1em 0;
-  padding: 0.2em;
-  background-color: transparent;
-}
-
 video {
   width: 100%;
 }

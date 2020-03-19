@@ -122,18 +122,18 @@
   }
 }
 
-.link-selection {
+.linkSelection {
   display: flex;
   justify-content: space-between;
+  margin-bottom: var(--bsu);
+}
 
-  :global(select) {
-    width: 72.5%;
-    height: 35px;
-  }
+.linkSelection__select {
+  width: 72.5%;
+  margin-bottom: 0 !important;
 
-  :global(button) {
-    padding: 0;
-    height: 35px;
+  :global(.selectElement_box) {
+    margin-bottom: 0 !important;
   }
 }
 

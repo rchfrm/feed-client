@@ -19,18 +19,23 @@ const SelectNew = ({
   const optionElements = options.map(option => {
     return <option key={option.value} value={option.value}>{option.name}</option>
   })
-  // END Transform options into array of <option> elements
+  // Add optional placeholder
+  if (placeholder) {
+    optionElements.push(<option key="placeholder" value="" hidden>{placeholder}</option>)
+  }
 
   return (
-    <div className="input--container">
+    <div className={['input--container', className].join(' ')}>
       <label
-        className={['inputLabel', className].join(' ')}
+        className="inputLabel"
         htmlFor={name}
       >
-        <span className="inputLabel__text">
-          {label}
-          {required && <span className="asterix">*</span>}
-        </span>
+        {label && (
+          <span className="inputLabel__text">
+            {label}
+            {required && <span className="asterix">*</span>}
+          </span>
+        )}
         <select
           className={['selectElement', `selectElement_${version}`].join(' ')}
           name={name}
@@ -39,10 +44,7 @@ const SelectNew = ({
           value={selectedValue}
           required={required}
         >
-          {[
-            <option key="placeholder" value="" hidden>{placeholder}</option>,
-            ...optionElements,
-          ]}
+          {optionElements}
         </select>
       </label>
     </div>
@@ -76,7 +78,7 @@ SelectNew.propTypes = {
   ).isRequired,
 
   // There must be a string set as the placeholder
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
 
   // There must be a string or number set as the selectedValue
   selectedValue: PropTypes.oneOfType([
@@ -101,6 +103,7 @@ SelectNew.defaultProps = {
   version: '',
   required: false,
   className: '',
+  placeholder: '',
 }
 
 export default SelectNew

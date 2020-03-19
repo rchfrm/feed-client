@@ -8,6 +8,7 @@ import { ArtistContext } from './contexts/Artist'
 import Button from './elements/Button'
 import Icon from './elements/Icon'
 import Input from './elements/Input'
+import SelectNew from './elements/SelectNew'
 // IMPORT PAGES
 // IMPORT ASSETS
 import BrokenCircle from './icons/BrokenCircle'
@@ -75,60 +76,55 @@ export function LinkOptions(props) {
     || button !== 'save'
   )
 
-  // Render link options
-  const listLinks = links => {
-    const linksArr = []
 
-    // Add links to the array prioritised in the following order:
-    if (links.spotify_url) {
-      linksArr.push('spotify')
+  // const links = listLinks(artist.URLs)
+
+  const links = Object.keys(artist.URLs).map((link) => {
+    let name
+    if (link === 'spotify_url') {
+      name = 'spotify'
     }
 
-    if (links.website_url) {
-      linksArr.push('website')
+    if (link === 'website_url') {
+      name = 'website'
     }
 
-    if (links.instagram_url) {
-      linksArr.push('instagram')
+    if (link === 'instagram_url') {
+      name = 'instagram'
     }
 
-    if (links.bandcamp_url) {
-      linksArr.push('bandcamp')
+    if (link === 'bandcamp_url') {
+      name = 'bandcamp'
     }
 
-    if (links.facebook_page_url) {
-      linksArr.push('facebook')
+    if (link === 'facebook_page_url') {
+      name = 'facebook'
     }
 
-    if (links.youtube_url) {
-      linksArr.push('youtube')
+    if (link === 'youtube_url') {
+      name = 'youtube'
     }
 
-    if (links.twitter_url) {
-      linksArr.push('twitter')
+    if (link === 'twitter_url') {
+      name = 'twitter'
     }
 
-    if (links.soundcloud_url) {
-      linksArr.push('soundcloud')
+    if (link === 'soundcloud_url') {
+      name = 'soundcloud'
     }
 
-    if (links.apple_url) {
-      linksArr.push('apple')
+    if (link === 'apple_url') {
+      name = 'apple'
     }
+    return { name, value: name }
+  }, [])
 
-    const options = linksArr.map(linkName => {
-      return (
-        <option key={linkName} value={linkName}>{helper.capitalise(linkName)}</option>
-      )
-    })
-    // Add an option to add a new link to the end of the list
-    options.push(
-      <option key="add-url" value="add-url">+ Add another link</option>,
-    )
-
-    return options
+  // Include add new link option
+  const addNewLink = {
+    name: '+ Add another link',
+    value: 'add-url',
   }
-  const links = listLinks(artist.URLs)
+  links.push(addNewLink)
 
   // Handle changes in the drop down
   const handleChange = e => {
@@ -140,6 +136,7 @@ export function LinkOptions(props) {
     }
     setChosenLink(e.target.value)
     setButton('save')
+    console.log('chosenLink', chosenLink)
   }
 
   // Handle clicks on the save button
@@ -187,15 +184,16 @@ export function LinkOptions(props) {
   return (
     <div>
 
-      <div className={styles['link-selection']}>
+      <div className={styles.linkSelection}>
 
-        <select
-          className={styles.select}
-          onChange={handleChange}
-          value={chosenLink}
-        >
-          {links}
-        </select>
+        <SelectNew
+          className={styles.linkSelection__select}
+          handleChange={handleChange}
+          name="Choose link"
+          options={links}
+          selectedValue={chosenLink}
+          version="box"
+        />
 
         <SaveButton state={button} handleClick={handleClick} disabled={disabled} />
 
