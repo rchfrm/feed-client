@@ -36,7 +36,7 @@
     text-decoration: none;
     font-weight: 500;
     .deselected & {
-      color: #D6D6D6;
+      color: var(--grey);
     }
   }
 }
@@ -48,16 +48,25 @@
   text-decoration: underline;
 
   .deselected & {
-    color: #999999;
+    color: var(--grey-dark);
   }
 }
 
+.permalinkAndToggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .post-toggle {
   background-color: var(--green);
+  border-radius: var(--button-radius);
+  overflow: hidden;
+  line-height: 0;
+  flex: 0 0 auto;
 
   .deselected & {
-    outline: 2px solid #D6D6D6;
+    outline: 2px solid var(--grey);
     background-color: transparent;
   }
 }
@@ -92,7 +101,7 @@
 .post-insights,
 .post-es {
   .deselected & {
-    color: #D6D6D6;
+    color: var(--grey);
   }
 }
 
@@ -102,36 +111,36 @@
   padding: 1.5em;
 
   .deselected & {
-    color: #999999;
+    color: var(--grey-dark);
   }
 
   .a,
   .select {
     .deselected & {
-      color: #999999;
+      color: var(--grey-dark);
     }
   }
 
   .select {
     .deselected & {
-      border: 1px dotted #999999;
+      border: 1px dotted var(--grey-dark);
       pointer-events: none;
     }
   }
 }
 
-.link-selection {
+.linkSelection {
   display: flex;
   justify-content: space-between;
+  margin-bottom: var(--bsu);
+}
 
-  :global(select) {
-    width: 72.5%;
-    height: 35px;
-  }
+.linkSelection__select {
+  width: 72.5%;
+  margin-bottom: 0 !important;
 
-  :global(button) {
-    padding: 0;
-    height: 35px;
+  :global(.selectElement_box) {
+    margin-bottom: 0 !important;
   }
 }
 
@@ -155,12 +164,12 @@
 
 .hr {
   width: 100%;
-  border: 1px solid #606060;
+  border: 1px solid var(--grey-dark);
   margin-top: 1.5em;
   margin-bottom: 1em;
 
   .deselected & {
-    border: 1px solid #E5E5E5;
+    border: 1px solid var(--grey);
   }
 }
 
@@ -204,12 +213,24 @@
 /* FORM FOR SETTING BUDGET */
 .BudgetForm {
   display: flex;
-  justify-content: space-between;
   margin-bottom: var(--bsu);
+  justify-content: flex-start;
 }
 
 .BudgetForm_inputContainer {
   margin-bottom: 0 !important;
-  flex: 1 0 auto;
   padding-right: var(--bsu);
+  flex: 1 1 auto;
+
+  @media (--xs) {
+    flex: 1 0 auto;
+  }
+
+  :global(.input_box) {
+    margin-bottom: 0 !important;
+  }
+}
+
+.PostBudget__button {
+
 }

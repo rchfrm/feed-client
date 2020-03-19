@@ -17,7 +17,7 @@ import ChartContainer from './ChartContainer'
 import helper from './helpers/helper'
 import server from './helpers/server'
 // IMPORT STYLES
-import './HomePageChart.module.css'
+import './InsightsPageChart.module.css'
 
 // Define initial state and reducer to hold data
 const initialDataState = {
@@ -103,7 +103,7 @@ const displayedDataSourcesReducer = (displayedDataSourcesState, displayedDataSou
   }
 }
 
-function HomePageChart() {
+function InsightsPageChart() {
 // IMPORT CONTEXTS
   const { getToken } = React.useContext(AuthContext)
   const { artist } = React.useContext(ArtistContext)
@@ -427,4 +427,4 @@ function HomePageChart() {
   )
 }
 
-export default HomePageChart
+export default InsightsPageChart

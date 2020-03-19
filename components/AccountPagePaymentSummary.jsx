@@ -30,7 +30,9 @@ const NoMethod = ({ name, role }) => {
 
   return (
     <div className={styles.paymentSummaryBlock}>
-      <h5 className={styles.paymentSummaryName}>{ name }</h5>
+      {name && (
+        <h3 className={styles.paymentSummaryName}>{ name }</h3>
+      )}
       <p className={['error', styles.p, styles.noMethod].join(' ')}>{ message }</p>
     </div>
   )
@@ -47,7 +49,7 @@ const PaymentItem = ({ name, defaultMethod }) => {
   } = defaultMethod
   return (
     <div className={styles.paymentSummaryBlock}>
-      <h5 className={styles.paymentSummaryName}>{ name }</h5>
+      <h3 className={styles.paymentSummaryName}>{ name }</h3>
       <p className={styles.p}>
         <span className={styles.cardBrand}>{ brand }</span>
       </p>
@@ -68,8 +70,6 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
   if (!user.id) return null
   const { hasNoPaymentMethod, billingDetails } = React.useContext(BillingContext)
 
-  console.log('billingDetails', billingDetails)
-
   // Call this when ready
   React.useEffect(() => {
     // Call on ready from parent
@@ -89,14 +89,14 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
         <Feed />
         's pricing is
         {' '}
-        <Link href={ROUTES.PRICES}><a>here</a></Link>.
+        <Link href={ROUTES.PRICING}><a>here</a></Link>.
       </p>
       {/* The saved details */}
-      {billingDetails.map((details) => {
+      {billingDetails.map((details, index) => {
         if (!details) return null
-        const { name = 'no-name', defaultMethod, role } = details
+        const { name, defaultMethod, role } = details
         // Handle no method
-        if (!defaultMethod) return <NoMethod name={name} role={role} key={slugify(name)} />
+        if (!defaultMethod) return <NoMethod name={name} role={role} key={name ? slugify(name) : index} />
         return <PaymentItem name={name} defaultMethod={defaultMethod} key={slugify(name)} />
       })}
     </div>

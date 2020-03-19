@@ -19,7 +19,7 @@ import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
@@ -113,13 +113,13 @@ function PostsLoader() {
   // GET POSTS FROM SERVER, IF AVAILABLE
   useAsyncEffect(async (isMounted) => {
     // Return if there is no selected artist
-    if (!artist.id) return
+    if (!artist.id) return setPageLoading(false)
     // Return if load isn't required
-    if (!loadMore) return
+    if (!loadMore) return setPageLoading(false)
     // Return if a request to get more posts has already been made
-    if (loadingMore) return
+    if (loadingMore) return setPageLoading(false)
     // Return if there are no more assets to get
-    if (assets.length < offset) return
+    if (assets.length < offset) return setPageLoading(false)
 
     // Set loading to true
     setLoadingMore(true)
@@ -144,7 +144,7 @@ function PostsLoader() {
     if (pageLoading) {
       setPageLoading(false)
     }
-  }, [artist.id, assets, loadMore, offset, pageLoading])
+  }, [artist.id, assets, loadMore, offset])
   // END GET POSTS FROM SERVER, IF AVAILABLE
 
   // IF POSTS CHANGES, UPDATE NUMBER OF POSTS
@@ -199,7 +199,7 @@ function PostsLoader() {
 
   // RETURN
   if (artistLoading || pageLoading) {
-    return <Spinner width={50} colour={brandColours.green} />
+    return <Spinner width={50} color={brandColors.green} />
   }
   return (
     <div className={styles['posts-page']}>

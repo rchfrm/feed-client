@@ -1,16 +1,15 @@
 
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
 // IMPORT ELEMENTS
 import PageHeader from '../PageHeader'
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-import FaqPageList from '../FaqPageList'
-// IMPORT HELPERS
+
+import MarkdownText from '../elements/MarkdownText'
+import faqs from '../../copy/FaqPageCopy'
+
+
 // IMPORT STYLES
 import styles from '../FaqPage.module.css'
 
@@ -21,37 +20,24 @@ function FAQPage() {
   React.useEffect(() => {
     navDispatch({ type: 'hide' })
   }, [navDispatch])
-  // END SHOW / HIDE NAVIGATION
-
-  const faqsWithIds = FaqPageList.map((faq, index) => {
-    return {
-      ...faq,
-      id: index,
-    }
-  })
-
-  const faqList = faqsWithIds.map(({ question, answer, id }) => {
-    return <FAQ question={question} answer={answer} key={`faq_${id}`} id={`faq_${id}`} />
-  })
 
   return (
-    <div className={`page--container ${className}`}>
+    <div className={`page--container${className}`}>
 
       <PageHeader heading="faq" />
 
-      <ul className={styles['faq-list']}>{faqList}</ul>
+      {/* All the FAQs */}
+      <div className="ninety-wide">
+        {faqs.map(([question, answer], index) => {
+          const markdown = `${question}\n${answer}`
+          return (
+            <MarkdownText className={styles.faqItem} markdown={markdown} key={index} />
+          )
+        })}
+      </div>
 
     </div>
   )
 }
 
 export default FAQPage
-
-function FAQ({ id, question, answer }) {
-  return (
-    <li className={styles.li} key={id}>
-      <h3 className={styles.h3}>{question}</h3>
-      {answer}
-    </li>
-  )
-}

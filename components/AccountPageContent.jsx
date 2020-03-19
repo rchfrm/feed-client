@@ -16,7 +16,7 @@ import RelinkFacebook from './RelinkFacebook'
 import AccountPageSection from './AccountPageSection'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 
 const AccountPageContent = ({ user, className }) => {
   // Get ROUTE info
@@ -33,7 +33,7 @@ const AccountPageContent = ({ user, className }) => {
       toggleSidePanel(false)
       return
     }
-    if (type === 'account') {
+    if (type === 'details') {
       setSidePanelContent(<AccountPageDetails user={user} />)
       toggleSidePanel(true)
       return
@@ -62,7 +62,7 @@ const AccountPageContent = ({ user, className }) => {
 
   // While loading
   if (billingLoading) {
-    return <Spinner width={50} colour={brandColours.green} />
+    return <Spinner width={50} color={brandColors.green} />
   }
   // The content
   return (
@@ -72,7 +72,7 @@ const AccountPageContent = ({ user, className }) => {
 
       <AccountPageSection
         title="Account details"
-        type="account"
+        type="details"
         user={user}
         buttonText="Edit account details"
         setSidePanel={setSidePanel}

@@ -8,25 +8,25 @@ import PropTypes from 'prop-types'
 // IMPORT ASSETS
 import BrokenCircle from '../icons/BrokenCircle'
 // IMPORT CONSTANTS
-import brandColours from '../../constants/brandColours'
+import brandColors from '../../constants/brandColors'
 // IMPORT HELPERS
 
-function Spinner({ width, colour, className }) {
+function Spinner({ width, color, className }) {
   return (
     <div className={['spinner', className].join(' ')}>
-      <BrokenCircle width={width} fill={colour} />
+      <BrokenCircle width={width} fill={color} />
     </div>
   )
 }
 
 Spinner.propTypes = {
-  colour: PropTypes.string,
+  color: PropTypes.string,
   width: PropTypes.number,
   className: PropTypes.string,
 }
 
 Spinner.defaultProps = {
-  colour: brandColours.green,
+  color: brandColors.loaderColor,
   width: 50,
   className: '',
 }
