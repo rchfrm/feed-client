@@ -73,7 +73,7 @@ const AccountPageSection = ({ title, type, user, buttonText }) => {
 
       {section}
 
-      {sectionReady && (newButtonText || buttonText) && (
+      {sectionReady && (newButtonText || buttonText) && newButtonText !== false && (
         <button onClick={onClick} className="button  button--black  button--small">
           <span>{ newButtonText || buttonText }</span>
         </button>
