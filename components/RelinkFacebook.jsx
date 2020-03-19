@@ -5,8 +5,10 @@ import { ArtistContext } from './contexts/Artist'
 import Feed from './elements/Feed'
 import server from './helpers/server'
 // IMPORT ELEMENTS
-import Button from './elements/Button'
+import ButtonFacebook from './elements/ButtonFacebook'
 import Spinner from './elements/Spinner'
+
+import brandColors from '../constants/brandColors'
 
 
 function FacebookButton(props) {
@@ -19,16 +21,15 @@ function FacebookButton(props) {
   }
 
   if (accessToken) {
-    return <Spinner colour="#4267B2" style={spinnerStyle} width={25} />
+    return <Spinner color={brandColors.colorFbButton} style={spinnerStyle} width={25} />
   }
   return (
-    <Button
-      version="facebook"
+    <ButtonFacebook
       onClick={handleClick}
       width={100}
     >
       Continue with Facebook
-    </Button>
+    </ButtonFacebook>
   )
 }
 

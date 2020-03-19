@@ -16,7 +16,7 @@ import PostInsight from './PostInsight'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import dataSourceDetails from '../constants/dataSources'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import MediaFallback from './elements/MediaFallback'
@@ -127,7 +127,7 @@ function Post({ index, post, singular: isSingular, setPosts, togglePromotion }) 
       </div>
 
       {/* Post Link */}
-      <div className={styles['post-link']} style={{ backgroundColor: brandColours.grey.hex }}>
+      <div className={styles['post-link']} style={{ backgroundColor: brandColors.grey }}>
 
         <p>Where should people go when they click this post?</p>
 
@@ -167,15 +167,15 @@ function PermalinkAndToggle(props) {
 
   // ALTER APPEARANCE BASED ON PROMOTION STATUS
   const appearance = {
-    platformIconColour: status ? dataSourceDetails[post.platform].colour : brandColours.grey.hex,
+    platformIconColor: status ? dataSourceDetails[post.platform].color : brandColors.grey,
     toggleIcon: status ? 'tick' : 'empty',
-    toggleIconColour: status ? brandColours.white.hex : brandColours.grey.hex,
+    toggleIconColor: status ? brandColors.white : brandColors.grey,
   }
   // END ALTER APPEARANCE BASED ON PROMOTION STATUS
 
   return (
     <div
-      className="flex-row"
+      className={styles.permalinkAndToggle}
       style={{ padding: '1.5em' }}
     >
 
@@ -184,7 +184,7 @@ function PermalinkAndToggle(props) {
 
         <Icon
           version={post.platform}
-          color={appearance.platformIconColour}
+          color={appearance.platformIconColor}
           width="20"
         />
         <a
@@ -206,7 +206,7 @@ function PermalinkAndToggle(props) {
         >
           <Icon
             version={appearance.toggleIcon}
-            color={appearance.toggleIconColour}
+            color={appearance.toggleIconColor}
             width="18"
             data={post.id}
           />

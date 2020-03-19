@@ -1,0 +1,133 @@
+
+/* Input
+******************/
+select,
+input {
+  background-color: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+}
+
+input[readonly] {
+  border-bottom: none;
+}
+
+.input--container {
+  margin-bottom: var(--bsu-md);
+}
+
+.inputLabel {
+  display: block;
+  width: 100%;
+}
+
+.inputLabel__text {
+  width: 100%;
+  display: block;
+  font-size: 0.9em;
+  margin-bottom: 0.8em;
+
+  .asterix {
+    font-size: 0.8em;
+    margin-left: 0.3em;
+    display: inline-block;
+    transform: translateY(-0.1em);
+  }
+}
+
+.selectElement_box,
+.input_box {
+  display: block;
+  border: 2px solid var(--black);
+  border-radius: var(--button-radius);
+  margin-bottom: 1em;
+  padding: 1.333em;
+  font-family: var(--font-mono);
+  font-weight: 100;
+  font-size: 1em;
+  width: 100%;
+  
+  &::placeholder{
+    color: var(--placeholder-color-text);
+  }
+}
+
+
+.input_text {
+  display: block;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-bottom: 1px dotted var(--black);
+  margin: 0 0 1em 0;
+  padding-bottom: 0.2em;
+  padding-left: 0;
+  font-size: 1em;
+  border-radius: 0;
+}
+
+.input_text_icon {
+  border: none;
+  border-bottom: 1px dotted var(--black);
+  font-size: 1em;
+  width: calc(100% - 30px);
+  margin: 0 0 1em 0;
+  padding-bottom: 0.2em;
+}
+
+.label_top {
+  font-size: 0.667em;
+  display: block;
+  width: 100%;
+  margin-bottom: 0.667em;
+}
+
+.label_icon {
+  vertical-align: middle;
+  margin: 0 0 1em 0;
+  padding: 0 10px 0 0;
+}
+
+
+/* Select
+******************/
+select {
+  width: 100%;
+  border: 1px dotted var(--text-color);
+  font-family: SpaceGrotesk,sans-serif;
+  font-feature-settings: "ss01";
+  font-size: 1em;
+  background-color: transparent;
+}
+
+.selectElement {
+
+}
+
+.selectElement_box {
+  .select--sans & {
+    font-family: var(--font);
+  }
+
+  .select--small & {
+    padding: 1em;
+  }  
+}
+
+.selectElement {
+  &._error {
+    label {
+      color: var(--error-color);
+    }
+  }
+}
+
+select {
+  font-size: 1em;
+}
+
+select:invalid {
+  color: var(--disabled-color-text);
+}

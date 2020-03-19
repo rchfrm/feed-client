@@ -6,7 +6,7 @@ import Link from 'next/link'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Input from './elements/Input'
+import InputNew from './elements/InputNew'
 import Button from './elements/Button'
 import Feed from './elements/Feed'
 // IMPORT PAGES
@@ -21,6 +21,10 @@ import Alert from './elements/Alert'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
+import MarkdownText from './elements/MarkdownText'
+import copy from '../copy/PostsPageCopy'
+import brandColors from '../constants/brandColors'
+
 const initialAlertState = {
   contents: undefined,
   // responseExpected: true,
@@ -29,7 +33,7 @@ const initialAlertState = {
   // response: false,
 }
 
-function Budget({ currency }) {
+function PostsBudget({ currency }) {
   const { artist, updateBudget } = React.useContext(ArtistContext)
 
   // DEFINE STATES
@@ -37,8 +41,8 @@ function Budget({ currency }) {
     amount: artist.daily_budget,
     text: 'Save',
     disabled: true,
-    colour: '#B7B7B7',
-    bgColour: '#E5E5E5',
+    color: brandColors.greyDark,
+    bgColor: brandColors.greyLight,
   }
   const [budget, setBudget] = React.useState(initialBudgetState)
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
@@ -58,8 +62,8 @@ function Budget({ currency }) {
         amount: e.target.value,
         text: 'Save',
         disabled: false,
-        colour: 'white',
-        bgColour: 'black',
+        color: brandColors.bgColor,
+        bgColor: brandColors.textColor,
       })
     }
   }
@@ -70,8 +74,8 @@ function Budget({ currency }) {
       ...budget,
       text: 'Saving...',
       disabled: true,
-      colour: '#B7B7B7',
-      bgColour: '#E5E5E5',
+      color: brandColors.greyDark,
+      bgColor: brandColors.greyLight,
     })
     try {
       const dailyBudget = await updateBudget(artist.id, currency, budget.amount)
@@ -79,8 +83,8 @@ function Budget({ currency }) {
         ...budget,
         text: 'Saved!',
         disabled: true,
-        colour: 'white',
-        bgColour: '#6edcd3',
+        color: brandColors.bgColor,
+        bgColor: brandColors.successColor,
       })
       setAlert({
         type: 'show-alert',
@@ -107,42 +111,33 @@ function Budget({ currency }) {
 
       <div className="ninety-wide" style={{ marginBottom: '2em' }}>
 
-        <h3>Enter the amount you'd like to spend each day:</h3>
+        <MarkdownText className="h3--text" markdown={copy.budgetIntro} />
 
-        <div className={styles['budget-form']}>
+        <div className={styles.BudgetForm}>
 
-          <Input
+          <InputNew
+            className={styles.BudgetForm_inputContainer}
             name="budget"
-            className={styles.box}
             placeholder={currency}
             value={budget.amount === 0 ? '' : budget.amount}
-            onChange={handleChange}
+            handleChange={handleChange}
             type="number"
-            label="none"
             version="box"
-            width={65.738}
           />
 
           <Button
-            version="black"
+            version="black  wide"
             onClick={handleClick}
-            width={31.48}
             disabled={budget.disabled}
-            marginBottom="1em"
-            textColour={budget.colour}
-            bgColour={budget.bgColour}
+            textColor={budget.color}
+            bgColor={budget.bgColor}
           >
             {budget.text}
           </Button>
 
         </div>
 
-        <p>
-          We recommend at least
-          {' '}
-          {currency}
-          3 per day.
-        </p>
+        <MarkdownText className="" markdown={copy.budgetOutro} />
 
         <Error error={error} />
 
@@ -194,4 +189,4 @@ function BudgetConfirmation({ budget }) {
   )
 }
 
-export default Budget
+export default PostsBudget

@@ -101,10 +101,12 @@ export default {
   },
 
   getVerifyIdToken: () => {
+    if (!auth || !auth.currentUser) return false
     return auth.currentUser.getIdToken(/* forceRefresh */ true)
   },
 
   getVerifyIdTokenResult: () => {
+    if (!auth || !auth.currentUser) return false
     return auth.currentUser.getIdTokenResult()
   },
 

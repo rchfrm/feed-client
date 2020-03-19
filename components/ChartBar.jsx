@@ -12,7 +12,7 @@ import { Bar } from 'react-chartjs-2'
 import dataSourceDetails from '../constants/dataSources'
 // IMPORT HELPERS
 import helper from './helpers/helper'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 // IMPORT STYLES
 import styles from './ChartContainer.module.css'
 
@@ -221,7 +221,7 @@ function ChartBar(props) {
         {
           label: displayedDataSources[0],
           data: carriedArr,
-          backgroundColor: helper.hexToRGBA(dataSourceDetails[dataSource].colour, 0.7),
+          backgroundColor: helper.hexToRGBA(dataSourceDetails[dataSource].color, 0.7),
           barPercentage: 0.8,
           categoryPercentage: 1,
           barThickness: 'flex',
@@ -231,7 +231,7 @@ function ChartBar(props) {
         {
           label: `new_${displayedDataSources[0]}`,
           data: increaseArr,
-          backgroundColor: dataSourceDetails[dataSource].colour,
+          backgroundColor: dataSourceDetails[dataSource].color,
           barPercentage: 0.8,
           categoryPercentage: 1,
           barThickness: 'flex',
@@ -259,7 +259,7 @@ function ChartBar(props) {
       datasetsToAdd.push({
         label: dataSource,
         data: dataArray,
-        backgroundColor: dataSourceDetails[dataSource].colour,
+        backgroundColor: dataSourceDetails[dataSource].color,
         barPercentage: 0.8,
         categoryPercentage: 1,
         barThickness: 'flex',
@@ -359,14 +359,14 @@ function ChartBar(props) {
       }],
     },
     tooltips: {
-      backgroundColor: helper.hexToRGBA(brandColours.white.hex, 0.9),
+      backgroundColor: helper.hexToRGBA(brandColors.white, 0.9),
       titleFontFamily: "'SpaceGrotesk', 'sans-serif'",
       bodyFontFamily: "'SpaceGrotesk', 'sans-serif'",
       titleFontSize: 18,
       bodyFontSize: 15,
       titleMarginBottom: 9,
-      titleFontColor: brandColours.black.hex,
-      bodyFontColor: brandColours.black.hex,
+      titleFontColor: brandColors.black,
+      bodyFontColor: brandColors.black,
       bodySpacing: 5,
       xPadding: 15,
       yPadding: 15,
@@ -427,7 +427,6 @@ function ChartBar(props) {
         {`
         #bar-chart {
           padding: 0 5%;
-          box-sizing: border-box;
           z-index: 2;
         }
       `}

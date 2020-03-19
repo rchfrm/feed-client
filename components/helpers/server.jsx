@@ -343,23 +343,27 @@ export default {
     return response
   },
 
-  // PAYMENTS
-  submitPaymentMethod: async (paymentMethodId, verifyIdToken) => {
-    // fixme "/organizations/me" is a temporary measure
-    const endpoint = `${host}organizations/me/billing/payments`
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${verifyIdToken}`,
-      },
-      body: JSON.stringify({
-        token: paymentMethodId,
-      }),
-    })
-    if (res.ok) {
-      return
+  catchAxiosError: (error) => {
+    if (error.response) {
+      /*
+       * The request was made and the server responded with a
+       * status code that falls out of the range of 2xx
+       */
+      console.log('error.response.data', error.response.data)
+      console.log('error.response.status', error.response.status)
+      console.log('error.response.headers', error.response.headers)
+    } else if (error.request) {
+      /*
+       * The request was made but no response was received, `error.request`
+       * is an instance of XMLHttpRequest in the browser and an instance
+       * of http.ClientRequest in Node.js
+       */
+      console.log('error.request', error.request)
+    } else {
+      // Something happened in setting up the request and triggered an Error
+      console.log('Error', error.message)
     }
-    throw new Error(res.statusText)
+    console.log(error)
+    throw new Error(error.message)
   },
 }

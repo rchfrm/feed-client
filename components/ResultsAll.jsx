@@ -1,7 +1,9 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Link from 'next/link'
+import useAsyncEffect from 'use-async-effect'
 import moment from 'moment'
+import produce from 'immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -19,10 +21,13 @@ import MediaFallback from './elements/MediaFallback'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
+// COPY
+import MarkdownText from './elements/MarkdownText'
+import copy from '../copy/ResultsPageCopy'
 // IMPORT STYLES
 import resultsStyles from './Results.module.css'
 import postStyles from './PostsPage.module.css'
@@ -44,7 +49,7 @@ const calculateSummary = (ads, isActive) => {
   const days = []
 
   const checkSAESIsNumber = (engagement, spend) => {
-    if (engagement === 0 && spend === 0) {
+    if (spend === 0) {
       return '-'
     }
     return Math.round(engagement / spend)
@@ -66,7 +71,9 @@ const calculateSummary = (ads, isActive) => {
       impressions += Number(adMetrics.impressions) || 0
       if (adMetrics.actions) {
         engagement += Number(adMetrics.actions.post_engagement) || 0
-        clicks += Number(adMetrics.actions.link_click) || 0
+      }
+      if (adMetrics.outbound_clicks) {
+        clicks += Number(adMetrics.outbound_clicks.outbound_click) || 0
       }
     }
   }
@@ -89,10 +96,12 @@ const Result = ({
   active,
   attachments,
   id,
+  priority_dsp,
   promotion_enabled,
   setPosts,
   summary,
 }) => {
+  const { artist } = React.useContext(ArtistContext)
   // STORE MEDIA COMPONENT AND COMPONENT IN STATE
   const [media, setMedia] = React.useState(<MediaFallback />)
   const [thumbnail, setThumbnail] = React.useState(thumbnailProp)
@@ -131,6 +140,16 @@ const Result = ({
 
   const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
 
+  const priorityPage = priority_dsp === 'facebook' ? `${priority_dsp}_page_url` : `${priority_dsp}_url`
+  const clicksStatement = (
+    <span>
+      {'clicks to '}
+      <a href={artist[priorityPage]} target="_blank" rel="noopener noreferrer">
+        {helper.capitalise(priority_dsp)}
+      </a>
+    </span>
+  )
+
   return (
     <li key={id} className={[styles.resultItem, styles[enabledClass]].join(' ')}>
 
@@ -148,12 +167,12 @@ const Result = ({
           <Insight days={summary.days} number={summary.amountSpent} statement="spent," />
           <Insight days={summary.days} number={summary.impressions} statement="people reached," />
           <Insight days={summary.days} number={summary.engagement} statement="engagements," />
-          <Insight days={summary.days} number={summary.clicks} statement="clicks." />
+          <Insight days={summary.days} number={summary.clicks} statement={clicksStatement} />
         </div>
 
         <div className={styles['result-toggle-saes']}>
-          <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
           <h2 className={styles.h2}>{summary.SAES}</h2>
+          <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
         </div>
 
       </div>
@@ -341,7 +360,8 @@ function Toggle(props) {
     })
   }
 
-  const togglePromotion = React.useCallback(async () => {
+
+  const togglePromotion = async () => {
     const token = await getToken()
       .catch((err) => {
         throw (err)
@@ -349,33 +369,31 @@ function Toggle(props) {
     // return result
     const result = await server.togglePromotionEnabled(artist.id, id, !promotion_enabled, token)
     return result
-  }, [artist.id, getToken, id, promotion_enabled])
+  }
 
   // Update post promotion_enabled if there is a positive response from the alert
-  React.useEffect(() => {
-    if (!alert.response) {
-      return
-    }
-
+  useAsyncEffect(async (isMounted) => {
+    if (!alert.response) return
+    if (!isMounted()) return
     setLoading(true)
-    togglePromotion()
-      .then(post => {
-        setPosts({
-          type: 'set-promotion-enabled',
-          payload: {
-            type: active ? 'active' : 'archive',
-            id,
-            promotion_enabled: post.promotion_enabled,
-          },
-        })
-        setLoading(false)
-      })
+    const post = await togglePromotion()
       .catch(err => {
         // TODO: PROPERLY HANDLE THIS ERROR
         console.log(err)
+        if (!isMounted()) return
         setLoading(false)
       })
-  }, [active, alert.response, id, setPosts, togglePromotion])
+    if (!isMounted()) return
+    setPosts({
+      type: 'set-promotion-enabled',
+      payload: {
+        type: active ? 'active' : 'archive',
+        id,
+        promotion_enabled: post.promotion_enabled,
+      },
+    })
+    setLoading(false)
+  }, [active, alert.response, id])
 
   if (!active) {
     return <Nothing />
@@ -398,12 +416,12 @@ function Toggle(props) {
       >
         {
             loading
-              ? <Spinner width={20} colour={brandColours.white.hex} />
+              ? <Spinner width={20} color={brandColors.white} />
               : (
                 <Icon
                   className={styles.button}
                   version={promotion_enabled ? 'cross' : 'tick'}
-                  color={promotion_enabled ? brandColours.red.hex : brandColours.green.hex}
+                  color={promotion_enabled ? brandColors.red : brandColors.green}
                   width="18"
                 />
               )
@@ -423,6 +441,7 @@ function DeactivateAdConfirmation(props) {
         <h1>Are you sure?</h1>
         <p>
           Clicking 'Yes' below will mean
+          {' '}
           <Feed />
           {' '}
           starts to promote the post again.
@@ -451,7 +470,7 @@ function DisabledResults(props) {
     <div
       className={styles['disabled-results']}
       style={{
-        backgroundColor: helper.hexToRGBA(brandColours.red.hex, 0.1),
+        backgroundColor: helper.hexToRGBA(brandColors.red, 0.1),
       }}
     >
       <h3>The posts below are being turned off...</h3>
@@ -462,59 +481,67 @@ function DisabledResults(props) {
 }
 
 function ResultsAll({ posts: postsObject, active, setPosts }) {
-  const posts = Object.values(postsObject)
+  const { artist } = React.useContext(ArtistContext)
+
   const title = active ? 'active posts.' : 'archive.'
 
-  const listResults = []
-  const disabledResults = []
+  const getResultEl = (post, summary) => {
+    return (
+      <Result
+        key={post.id}
+        active={active}
+        attachments={post.attachments}
+        id={post.id}
+        priority_dsp={post.priority_dsp || artist.priority_dsp}
+        promotion_enabled={post.promotion_enabled}
+        setPosts={setPosts}
+        summary={summary}
+        thumbnail={post._metadata.thumbnail_url}
+      />
+    )
+  }
 
-  posts.forEach(post => {
-    const summary = calculateSummary(post.ads, active)
+  // Sort results into enabled and disabled
+  const allResults = React.useMemo(() => {
+    const posts = Object.values(postsObject)
+    return posts.reduce((postsSorted, post) => {
+      const { ads, promotion_enabled } = post
+      const summary = calculateSummary(ads, active)
+      if (!summary) return postsSorted
+      if (active && !promotion_enabled) {
+        return produce(postsSorted, draft => {
+          const postEl = getResultEl(post, summary)
+          draft.disabled.push(postEl)
+        })
+      }
+      return produce(postsSorted, draft => {
+        const postEl = getResultEl(post, summary)
+        draft.enabled.push(postEl)
+      })
+    }, {
+      enabled: [],
+      disabled: [],
+    })
+  }, [postsObject])
 
-    if (summary && active && !post.promotion_enabled) {
-      // If these are 'active' ads, and promotion_enabled is set to false,
-      // add them to a list of disabled results
-      disabledResults.push(
-        <Result
-          key={post.id}
-          active={active}
-          attachments={post.attachments}
-          id={post.id}
-          setPosts={setPosts}
-          summary={summary}
-          thumbnail={post._metadata.thumbnail_url}
-        />,
-      )
-    } else if (summary) {
-      // All archived posts, and active posts with promotion enabled set
-      // to true are added to list results
-      listResults.push(
-        <Result
-          key={post.id}
-          active={active}
-          attachments={post.attachments}
-          id={post.id}
-          promotion_enabled={post.promotion_enabled}
-          setPosts={setPosts}
-          summary={summary}
-          thumbnail={post._metadata.thumbnail_url}
-        />,
-      )
-    }
-  })
 
-  if (listResults.length === 0 && active) {
+  if (allResults.enabled.length === 0 && active) {
     // If there are no active posts, return NoActive
     return <NoActive />
-  } if (listResults.length === 0 && !active) {
+  } if (allResults.enabled.length === 0 && !active) {
     // If there are no archived posts, return Nothing
     return <Nothing />
   }
   return (
     <div style={{ width: '100%' }}>
-      <h2 className="ninety-wide">{title}</h2>
-      <ul className={styles.results}>{listResults}</ul>
-      <DisabledResults disabledResults={disabledResults} />
+
+      {active && <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />}
+
+      <div className="ninety-wide">
+        <h2>{title}</h2>
+      </div>
+      <ul className={styles.results}>{allResults.enabled}</ul>
+      <DisabledResults disabledResults={allResults.disabled} />
     </div>
   )
 }

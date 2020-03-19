@@ -1,3 +1,5 @@
-.signupButton {
+.signupButtonContainer {
+  display: flex;
+  justify-content: flex-end;
   margin-top: var(--bsu);
 }

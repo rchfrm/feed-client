@@ -21,8 +21,34 @@
   font-size: 0.9em;
 }
 
-/* Checkout
-************************************* */
+/* 
+**************************
+PAYMENT METHOD
+**************************/
+.AccountPagePayments {
+
+}
+
+.AccountPagePayments__intro {
+  margin-bottom: var(--bsu-md);
+}
+
+.AccountPagePayments__allMethods {
+  margin-bottom: var(--bsu-md);
+}
+
+.AccountPagePayments__addPayment {
+  margin-bottom: var(--bsu-md);
+}
+
+.AccountPagePayments__saveDefault {
+
+}
+
+/* 
+**************************
+CHECKOUT PAGE
+**************************/
 
 .checkout-page {
   width: 90%;
@@ -52,18 +78,8 @@
   justify-content: space-between;
 }
 
-.checkout-inputs a {
-  margin-bottom: 1em;
-  display: flex;
-}
-
 .cardInputLabel {
   position: relative;
-
-  .span {
-    /* position: absolute;
-    left: -10000em; */
-  }
 }
 
 .card-input {
@@ -75,18 +91,31 @@
   box-sizing: border-box;
 }
 
-.payment-success {
-  flex: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.payment-success-headers {
-  flex: auto;
-}
-
 .checkoutButtonWrapper {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: var(--bsu-md);
+}
+
+.checkoutStripeLogo {
+  text-align: right;
+  width: 100%;
+}
+
+/* 
+**************************
+PAYMET SUCCESS PAGE
+**************************/
+
+.PaymentPageSuccess {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.PaymentPageSuccess__headers {
+  flex: auto;
+  width: 100%;
+  margin-bottom: var(--bsu);
 }

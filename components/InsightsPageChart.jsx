@@ -17,7 +17,7 @@ import ChartContainer from './ChartContainer'
 import helper from './helpers/helper'
 import server from './helpers/server'
 // IMPORT STYLES
-import './HomePageChart.module.css'
+import './InsightsPageChart.module.css'
 
 // Define initial state and reducer to hold data
 const initialDataState = {
@@ -103,7 +103,7 @@ const displayedDataSourcesReducer = (displayedDataSourcesState, displayedDataSou
   }
 }
 
-function HomePageChart() {
+function InsightsPageChart() {
 // IMPORT CONTEXTS
   const { getToken } = React.useContext(AuthContext)
   const { artist } = React.useContext(ArtistContext)
@@ -293,15 +293,11 @@ function HomePageChart() {
     const available = [...data.queued, ...data.requested, ...Object.keys(data.available)]
     if (available.length > 0) return
 
-    // Define array of default data sources
-    const defaultDataSources = []
-    const platforms = Object.keys(availableDataSources)
-    for (let i = 0; i < platforms.length; i += 1) {
-      const platform = platforms[i]
-      // Add any platforms that have a follower count to the array of defaultDataSources
-      if (availableDataSources[platform].follower_count) {
-        defaultDataSources.push(availableDataSources[platform].follower_count.id)
-      }
+    // Set Instagram follower count as the default data source
+    let defaultDataSources = ['instagram_follower_count']
+    // If Instagram is not connected, use Facebook Likes instead
+    if (!availableDataSources.instagram) {
+      defaultDataSources = ['facebook_likes']
     }
     // Add the default data sources to the queue
     setData({
@@ -431,4 +427,4 @@ function HomePageChart() {
   )
 }
 
-export default HomePageChart
+export default InsightsPageChart

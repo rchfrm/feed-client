@@ -25,8 +25,8 @@ const faviconPlugin = new FaviconsWebpackPlugin({
     appDescription: 'Audience growth for artists, built by archForm',
     developerName: 'archForm',
     developerUrl: 'https://archform.ltd',
-    background: '#fff',
-    theme_color: '#000',
+    background: '#F4F4F4',
+    theme_color: '#0D1311',
   },
 })
 
@@ -54,9 +54,21 @@ const nextConfig = {
     config.plugins.push(faviconPlugin)
     return config
   },
+
+  workboxOpts: {
+    exclude: [/.fbcdn\.net/],
+    runtimeCaching: [
+      {
+        urlPattern: /.fbcdn\.net/,
+        handler: 'NetworkOnly',
+      },
+    ],
+  },
 }
 
 module.exports = withPlugins([
   // load and apply a plugin only during development server phase
-  [withOffline, ['!', PHASE_DEVELOPMENT_SERVER]],
+  [withOffline, {
+    dontAutoRegisterSw: true,
+  }, ['!', PHASE_DEVELOPMENT_SERVER]],
 ], nextConfig)

@@ -2,7 +2,7 @@
 import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
 import dataSourceDetails from '../constants/dataSources'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
@@ -16,28 +16,28 @@ import helper from './helpers/helper'
 const ChartDoughnut = ({ data, displayedDataSources }) => {
   // DEFINE STATES
   const [displayData, setDisplayData] = React.useState([])
-  const [dataColours, setDataColours] = React.useState([])
+  const [dataColors, setDataColors] = React.useState([])
   // DEFINE STATES
 
   React.useEffect(() => {
     // If there are no data sources to display, reset state
     if (displayedDataSources.length === 0) {
       setDisplayData([])
-      setDataColours([])
+      setDataColors([])
       return
     }
 
-    const updatedDataColours = []
+    const updatedDataColors = []
     const updatedDisplayData = []
     displayedDataSources.forEach(dataSource => {
       // Exit if the data source hasn't been returned from the server yet
       if (!data[dataSource]) { return }
 
-      updatedDataColours.push(dataSourceDetails[dataSource].colour)
+      updatedDataColors.push(dataSourceDetails[dataSource].color)
       updatedDisplayData.push(data[dataSource].mostRecent.value)
     })
 
-    setDataColours(updatedDataColours)
+    setDataColors(updatedDataColors)
     setDisplayData(updatedDisplayData)
   }, [data, displayedDataSources])
 
@@ -58,7 +58,7 @@ const ChartDoughnut = ({ data, displayedDataSources }) => {
           labels: displayedDataSources,
           datasets: [
             {
-              backgroundColor: dataColours,
+              backgroundColor: dataColors,
               data: displayData,
             },
           ],
@@ -69,14 +69,14 @@ const ChartDoughnut = ({ data, displayedDataSources }) => {
           },
           cutoutPercentage: 65.738,
           tooltips: {
-            backgroundColor: helper.hexToRGBA(brandColours.white.hex, 0.9),
+            backgroundColor: helper.hexToRGBA(brandColors.white, 0.9),
             titleFontFamily: "'SpaceGrotesk', 'sans-serif'",
             bodyFontFamily: "'SpaceGrotesk', 'sans-serif'",
             titleFontSize: 18,
             bodyFontSize: 15,
             titleMarginBottom: 9,
-            titleFontColor: brandColours.black.hex,
-            bodyFontColor: brandColours.black.hex,
+            titleFontColor: brandColors.black,
+            bodyFontColor: brandColors.black,
             bodySpacing: 5,
             xPadding: 15,
             yPadding: 15,

@@ -1,0 +1,88 @@
+/* ------------------------------------ *\
+  #Global Variables
+\* ------------------------------------ */
+
+:root {
+  /* Color Palette */
+  --white: #F4F4F4;
+  --black: #0D1311;
+  --green: #03D8B2;
+  --red: #FA5450;
+  --grey-light: #E7E9E8;
+  --grey: #C8CBCA;
+  --grey-dark: #7F8382;
+  /* SM Palette */
+  --color-fb-button: #4267B2;
+  --color-fb: #26547C;
+  --color-insta: #E75A7C;
+  --color-twitter: #5BC0EB;
+  --color-sc: #FDE74C;
+  /* APP COLORS */
+  --bg-color: var(--white);
+  --text-color: var(--black);
+  --success-color: var(--green);
+  --error-color: var(--red);
+  --loader-color: var(--green);
+  --disabled-color-bg: var(--grey-light);
+  --disabled-color-text: var(--grey-dark);
+  --placeholder-color-text: var(--grey-dark);
+
+  /* Font */
+  --font: SpaceGrotesk, sans-serif;
+  --font-mono: monospace;
+  --base-font-size: 15px;
+
+  /* Base Spacing Units */
+  --bsu-sm: 10px;
+  --bsu: 20px;
+  --bsu-md: 30px;
+  --bsu-lg: 40px;
+  --bsu-xl: 120px;
+  --bsu-xxl: 180px;
+  --side-padding: 70px;
+
+  /* Scaffold */
+  --gutter: 20px;
+  --column: 60px;
+  --columnInner: calc(1 / 16 * 100%);
+  --max-width: 750px;
+
+  /* Border radius */
+  --button-radius: 3px;
+  --dialogue-radius: 6px;
+
+  /* Transitions */
+  --trans: 0.25s ease;
+
+  /* UI */
+  --logo-ratio: 0.855072463768116;
+}
+
+/**
+ * MIXINS
+ */
+
+/**
+ * Breakpoints.
+ */
+
+@custom-media --xxsMax (width < 400px);
+@custom-media --xxs    (width >= 400px);
+@custom-media --xsMax  (width < 600px);
+@custom-media --xs     (width >= 600px);
+@custom-media --smMax  (width < 800px);
+@custom-media --sm     (width >= 800px);
+@custom-media --mdMax  (width <= 992px);
+@custom-media --md     (width > 992px);
+@custom-media --lgMax  (width < 1200px);
+@custom-media --lg     (width >= 1200px);
+@custom-media --bmwMax (width < 750px);
+@custom-media --bmw    (width >= 750px);
+@custom-media --xl     (width >= 1600px);
+
+/* Breakpoints Heights */
+@custom-media --xxsHeight (height < 440px);
+@custom-media --xsHeight (height < 700px);
+@custom-media --smHeight (height < 800px);
+@custom-media --mdHeight (height < 992px);
+@custom-media --lgHeight (height < 1200px);

@@ -7,7 +7,7 @@ import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 import Icon from './elements/Icon'
-import Input from './elements/Input'
+import InputNew from './elements/InputNew'
 import Spinner from './elements/Spinner'
 import Alert from './elements/Alert'
 // IMPORT PAGES
@@ -16,22 +16,20 @@ import { alertReducer } from './ResultsAll'
 import AsteriskIcon from './icons/AsterixIcon'
 // IMPORT CONSTANTS
 import dataSourceDetails from '../constants/dataSources'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
 // IMPORT STYLES
-import styles from './AccountPage.module.css'
+import styles from './Integrations.module.css'
 
-function Connections(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { artistId } = props
-  const { connections } = props
-  const { priorityDSP } = props
-  const { setConnections } = props
-  const { setPriorityDSP } = props
-  // END REDEFINE PROPS AS VARIABLES
-
+function Connections({
+  artistId,
+  connections,
+  priorityDSP,
+  setConnections,
+  setPriorityDSP,
+}) {
   // LIST INTEGRATIONS
   const platforms = Object.keys(connections)
   const connectionsList = platforms.map(platform => {
@@ -148,15 +146,15 @@ const Connection = ({
   return (
     <li className={styles.li} key={platform}>
 
-      <IntegrationIcons artistId={artistId} platform={platform} priorityDSP={priorityDSP} setConnections={setConnections} setPriorityDSP={setPriorityDSP} valid={valid} />
+      <ConnectionIcons artistId={artistId} platform={platform} priorityDSP={priorityDSP} setConnections={setConnections} setPriorityDSP={setPriorityDSP} valid={valid} />
 
       <div className={styles['integration-link']}>
-        <IntegrationLink platform={platform} setValue={setValue} url={url} valid={valid} value={value} />
+        <ConnectionLink platform={platform} setValue={setValue} url={url} valid={valid} value={value} />
       </div>
 
       <div className={styles['integration-edit']}>
-        <Button version="text" onClick={handleClick} disabled={disabled} bgColour="white">
-          <IntegrationEdit disabled={disabled} loading={loading} valid={valid} />
+        <Button version="text" onClick={handleClick} disabled={disabled} bgColor={brandColors.white}>
+          <ConnectionEdit disabled={disabled} loading={loading} valid={valid} />
         </Button>
       </div>
 
@@ -164,7 +162,7 @@ const Connection = ({
   )
 }
 
-const IntegrationIcons = ({
+const ConnectionIcons = ({
   artistId,
   platform,
   priorityDSP,
@@ -174,11 +172,11 @@ const IntegrationIcons = ({
   const priority = priorityDSP === platform
 
   // DEFINE DEFAULT COLOUR
-  let defaultColour = brandColours.lightGrey.hex
+  let defaultColor = brandColors.greyLight
   if (valid && priority) {
-    defaultColour = brandColours.black.hex
+    defaultColor = brandColors.black
   } else if (!valid) {
-    defaultColour = brandColours.white.hex
+    defaultColor = brandColors.white
   }
   // DEFINE DEFAULT COLOUR
 
@@ -188,7 +186,7 @@ const IntegrationIcons = ({
   // END IMPORT CONTEXTS
 
   // DEFINE STATES
-  const [colour, setColour] = React.useState(defaultColour)
+  const [color, setColor] = React.useState(defaultColor)
   const [loading, setLoading] = React.useState(false)
   // END DEFINE STATES
 
@@ -205,12 +203,12 @@ const IntegrationIcons = ({
 
   const handleMouseEnter = () => {
     if (valid && !priority) {
-      setColour(brandColours.darkGrey.hex)
+      setColor(brandColors.greyDark)
     }
   }
 
   const handleMouseLeave = () => {
-    setColour(defaultColour)
+    setColor(defaultColor)
   }
 
   const handleClick = e => {
@@ -258,8 +256,8 @@ const IntegrationIcons = ({
   }, [alert.response, artistId, platform, setPriorityDSP, updatePriorityDSP])
 
   React.useEffect(() => {
-    setColour(defaultColour)
-  }, [defaultColour, priorityDSP])
+    setColor(defaultColor)
+  }, [defaultColor, priorityDSP])
 
   return (
     <div className={styles['integration-icons']}>
@@ -273,7 +271,7 @@ const IntegrationIcons = ({
       />
 
       {loading
-        ? <Spinner width={15} colour={brandColours.grey.hex} />
+        ? <Spinner width={15} color={brandColors.grey} />
         : (
           <div
             role="button"
@@ -284,7 +282,7 @@ const IntegrationIcons = ({
             style={{ cursor: valid && !priority ? 'pointer' : 'initial' }}
           >
 
-            <AsteriskIcon fill={colour} width={15} />
+            <AsteriskIcon fill={color} width={15} />
 
           </div>
         )}
@@ -292,7 +290,7 @@ const IntegrationIcons = ({
       <div className={styles['integration-platform-icon']}>
         <Icon
           version={platform}
-          color={dataSourceDetails[platform] ? dataSourceDetails[platform].colour : 'black'}
+          color={dataSourceDetails[platform] ? dataSourceDetails[platform].color : 'black'}
           width={20}
         />
       </div>
@@ -315,7 +313,7 @@ function ConfirmPriorityDSPChange({ platform }) {
   )
 }
 
-const IntegrationLink = ({
+const ConnectionLink = ({
   platform,
   setValue,
   url,
@@ -357,10 +355,11 @@ const IntegrationLink = ({
     )
   }
   return (
-    <Input
+    <InputNew
       className={styles.input}
+      name="Connection"
       version="text"
-      label="none"
+      label=""
       placeholder={value || placeholder(platform)}
       value={value}
       onChange={handleChange}
@@ -368,7 +367,7 @@ const IntegrationLink = ({
   )
 }
 
-function IntegrationEdit(props) {
+function ConnectionEdit(props) {
 // REDEFINE PROPS AS VARIABLES
   const { disabled } = props
   const { loading } = props
@@ -376,7 +375,7 @@ function IntegrationEdit(props) {
   // END REDEFINE PROPS AS VARIABLES
 
   if (loading) {
-    return <Spinner width={15} colour={brandColours.grey.hex} />
+    return <Spinner width={15} color={brandColors.grey} />
   }
 
   if (valid) {
@@ -391,7 +390,7 @@ function IntegrationEdit(props) {
   return (
     <Icon
       version="tick"
-      color={disabled ? [brandColours.grey.hex] : [brandColours.black.hex]}
+      color={disabled ? [brandColors.grey] : [brandColors.black]}
       width={15}
     />
   )

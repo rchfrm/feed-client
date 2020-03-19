@@ -62,14 +62,14 @@ const AlertButtons = ({
     return (
       <div className="alert-buttons">
         <Button
-          version="black progress"
+          version="black"
           onClick={resetAlert}
           width={31.48}
         >
           {rejectionText}
         </Button>
         <Button
-          version="black progress"
+          version="black"
           onClick={positiveResponse}
           width={31.48}
         >
@@ -80,7 +80,7 @@ const AlertButtons = ({
   }
   return (
     <Button
-      version="black progress"
+      version="black"
       onClick={resetAlert}
       width={31.48}
     >

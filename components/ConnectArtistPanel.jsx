@@ -14,6 +14,7 @@ import countries from '../constants/countries'
 // IMPORT STYLES
 import connectArtistStyles from './ConnectArtist.module.css'
 import postStyles from './PostsPage.module.css'
+import brandColors from '../constants/brandColors'
 
 const styles = {
   ...connectArtistStyles,
@@ -103,7 +104,7 @@ function ConnectedArtistPanel({
     if (exists) {
       return (
         <div className={styles['post-meta']}>
-          <em style={{ color: 'black' }}>
+          <em style={{ color: brandColors.black }}>
             You will be added to
             {artistAccount.name}
             's team
@@ -126,7 +127,7 @@ function ConnectedArtistPanel({
           >
             <Icon
               version={connect ? 'tick' : 'empty'}
-              color={connect ? 'white' : '#D6D6D6'}
+              color={connect ? 'white' : brandColors.grey}
               width="18"
               data={artistAccount.page_id}
             />
@@ -209,7 +210,7 @@ function ConnectedArtistPanel({
       >
         <label className="label_icon">
           <InstagramIcon
-            fill="#000000"
+            fill={brandColors.textColor}
             width="20"
           />
         </label>

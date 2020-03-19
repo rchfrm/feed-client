@@ -6,39 +6,56 @@ import PropTypes from 'prop-types'
 const SelectNew = ({
   handleChange,
   name,
+  label,
   options,
   placeholder,
   selectedValue,
   style,
   version = '',
   required,
+  className,
 }) => {
   // Transform options into array of <option> elements
   const optionElements = options.map(option => {
     return <option key={option.value} value={option.value}>{option.name}</option>
   })
-  // END Transform options into array of <option> elements
+  // Add optional placeholder
+  if (placeholder) {
+    optionElements.push(<option key="placeholder" value="" hidden>{placeholder}</option>)
+  }
 
   return (
-    <select
-      className={version}
-      name={name}
-      onChange={handleChange}
-      style={style}
-      value={selectedValue}
-      required={required}
-    >
-      {[
-        <option key="placeholder" value="" hidden>{placeholder}</option>,
-        ...optionElements,
-      ]}
-    </select>
+    <div className={['input--container', className].join(' ')}>
+      <label
+        className="inputLabel"
+        htmlFor={name}
+      >
+        {label && (
+          <span className="inputLabel__text">
+            {label}
+            {required && <span className="asterix">*</span>}
+          </span>
+        )}
+        <select
+          className={['selectElement', `selectElement_${version}`].join(' ')}
+          name={name}
+          onChange={handleChange}
+          style={style}
+          value={selectedValue}
+          required={required}
+        >
+          {optionElements}
+        </select>
+      </label>
+    </div>
   )
 }
 
 SelectNew.propTypes = {
   // There must be a function set as handleChange
   handleChange: PropTypes.func.isRequired,
+
+  label: PropTypes.string,
 
   // There must be a string set as the name
   name: PropTypes.string.isRequired,
@@ -61,7 +78,7 @@ SelectNew.propTypes = {
   ).isRequired,
 
   // There must be a string set as the placeholder
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
 
   // There must be a string or number set as the selectedValue
   selectedValue: PropTypes.oneOfType([
@@ -76,12 +93,17 @@ SelectNew.propTypes = {
   version: PropTypes.string,
 
   required: PropTypes.bool,
+
+  className: PropTypes.string,
 }
 
 SelectNew.defaultProps = {
+  label: '',
   style: {},
   version: '',
   required: false,
+  className: '',
+  placeholder: '',
 }
 
 export default SelectNew

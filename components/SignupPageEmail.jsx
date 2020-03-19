@@ -3,7 +3,7 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import Input from './elements/Input'
+import InputNew from './elements/InputNew'
 import Button from './elements/Button'
 // IMPORT PAGES
 // IMPORT ASSETS
@@ -26,66 +26,66 @@ function SignupPageEmail({ signUpForm, handleChange, isInvalid, error, signup })
 
         <p>... or sign-up using your email address</p>
 
-        <Input
+        <InputNew
           name="first_name"
-          placeholder="Name"
+          placeholder=""
           value={signUpForm.firstName}
-          onChange={handleChange}
+          handleChange={handleChange}
           type="text"
-          label="none"
+          label="First name"
           version="box"
-          width="half first"
+          required
         />
 
-        <Input
+        <InputNew
           name="last_name"
-          placeholder="Surname"
+          placeholder=""
           value={signUpForm.lastName}
-          onChange={handleChange}
+          handleChange={handleChange}
           type="text"
-          label="none"
+          label="Surname"
           version="box"
-          width="half"
+          required
         />
 
-        <Input
+        <InputNew
           name="email"
-          placeholder="Email"
+          placeholder=""
           value={signUpForm.email}
-          onChange={handleChange}
-          type="text"
-          label="none"
+          handleChange={handleChange}
+          type="email"
+          label="Email"
           version="box"
-          width="full"
+          required
         />
 
-        <Input
+        <InputNew
           name="passwordOne"
-          placeholder="Password"
+          placeholder=""
           value={signUpForm.passwordOne}
-          onChange={handleChange}
+          handleChange={handleChange}
           type="password"
-          label="none"
+          label="Password"
           version="box"
-          width="full"
+          required
         />
 
-        <Input
+        <InputNew
           name="passwordTwo"
-          placeholder="Confirm Password"
+          placeholder=""
           value={signUpForm.passwordTwo}
-          onChange={handleChange}
+          handleChange={handleChange}
           type="password"
-          label="none"
+          label="Confirm Password"
           version="box"
-          width="full"
+          required
         />
 
         <Error error={error} />
 
-        <div className={styles.signupButton}>
+        <div className={styles.signupButtonContainer}>
           <Button
-            version="black progress"
+            version="black  wide"
             disabled={isInvalid}
             type="sumbit"
           >

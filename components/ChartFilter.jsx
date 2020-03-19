@@ -12,7 +12,7 @@ import Nothing from './elements/Nothing'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import dataSourceDetails from '../constants/dataSources'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 // IMPORT STYLES
@@ -100,27 +100,8 @@ function PlatformOptions(props) {
     )
   })
 
-  const setStyle = number => {
-    const col = 12.916
-    const margin = 2.5
-    let width = (number * col) + ((number - 1) * margin)
-    if (width > 90) {
-      width = 90
-    }
-    return {
-      width: `${width}%`,
-      paddingLeft: `${(100 - width) / 2}%`,
-      paddingRight: `${(100 - width) / 2}%`,
-    }
-  }
-
-  const style = setStyle(numberOfPlatforms)
-
   return (
-    <ul
-      className={styles.filterOptions}
-      style={style}
-    >
+    <ul className={styles.filterOptions}>
       {options}
     </ul>
   )
@@ -143,7 +124,7 @@ function PlatformOption(props) {
     e.preventDefault()
   }
 
-  const bottomBorderColour = visiblePlatform === platform ? dataSourceDetails[visiblePlatform].colour : brandColours.white.hex
+  const bottomBorderColor = visiblePlatform === platform ? dataSourceDetails[visiblePlatform].color : brandColors.white
 
   return (
     <li
@@ -151,16 +132,16 @@ function PlatformOption(props) {
       id={platform}
       className={styles.platformListItem}
       style={{
-        borderBottom: `2px solid ${bottomBorderColour}`,
+        borderBottom: `2px solid ${bottomBorderColor}`,
       }}
     >
 
       <Button
         onClick={expandDataSources}
-        version="text"
+        version="icon"
       >
         <Icon
-          color={dataSourceDetails[platform].colour}
+          color={dataSourceDetails[platform].color}
           status={status}
           version={platform}
           width={30}
@@ -257,7 +238,7 @@ function DataSourceOption(props) {
         version="text"
       >
         <Checkbox
-          colour={dataSourceDetails[id].colour}
+          color={dataSourceDetails[id].color}
           selected={selected}
           width={15}
         />

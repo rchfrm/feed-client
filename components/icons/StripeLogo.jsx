@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Stripe() {
+function StripeLogo() {
   return (
     <svg
-      width="100%"
+      width="119px"
       height="26px"
     >
       <path
@@ -16,4 +16,4 @@ function Stripe() {
   )
 }
 
-export default Stripe
+export default StripeLogo

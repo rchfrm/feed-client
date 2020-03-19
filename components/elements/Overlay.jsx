@@ -12,14 +12,14 @@ import PropTypes from 'prop-types'
 // IMPORT PAGES
 // IMPORT STYLES
 import helper from '../helpers/helper'
-import brandColours from '../../constants/brandColours'
+import brandColors from '../../constants/brandColors'
 
 function Overlay({ children, height }) {
-  const colour = helper.hexToRGBA(brandColours.white.hex, 0.6)
+  const color = helper.hexToRGBA(brandColors.white, 0.6)
 
   return (
     <div className="overlay-outer">
-      <div className="overlay-inner" style={{ backgroundColor: colour, height: height + 1 }}>
+      <div className="overlay-inner" style={{ backgroundColor: color, height: height + 1 }}>
         {children}
       </div>
     </div>
