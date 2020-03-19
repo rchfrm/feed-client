@@ -12,6 +12,7 @@
   --grey: #C8CBCA;
   --grey-dark: #7F8382;
   /* SM Palette */
+  --color-fb-button: #4267B2;
   --color-fb: #26547C;
   --color-insta: #E75A7C;
   --color-twitter: #5BC0EB;
@@ -21,8 +22,10 @@
   --text-color: var(--black);
   --success-color: var(--green);
   --error-color: var(--red);
+  --loader-color: var(--green);
   --disabled-color-bg: var(--grey-light);
   --disabled-color-text: var(--grey-dark);
+  --placeholder-color-text: var(--grey-dark);
 
   /* Font */
   --font: SpaceGrotesk, sans-serif;
