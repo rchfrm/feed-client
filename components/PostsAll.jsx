@@ -3,13 +3,14 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
+import PageHeader from './PageHeader'
 import LastItem from './elements/LastItem'
 // IMPORT PAGES
 import PostsSingle from './PostsSingle'
 import PostsNone from './PostsNone'
 // IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
+import MarkdownText from './elements/MarkdownText'
+import copy from '../copy/PostsPageCopy'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
@@ -107,6 +108,10 @@ function PostsAll({
 
   return (
     <div className={styles['posts-section']}>
+
+      <PageHeader heading="review your posts" punctuation="," />
+
+      <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
 
       <ul className={`frame posts ${styles.posts}`} onScroll={handleScroll}>
         {postList}
