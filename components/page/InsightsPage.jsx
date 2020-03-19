@@ -17,7 +17,7 @@ import InsightsPageChart from '../InsightsPageChart'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../../constants/routes'
-import brandColours from '../../constants/brandColours'
+import brandColors from '../../constants/brandColors'
 
 import MarkdownText from '../elements/MarkdownText'
 import copy from '../../copy/InsightPageCopy'
@@ -52,7 +52,7 @@ function Loader() {
   // END IMPORT CONTEXTS
 
   if (userLoading || artistLoading) {
-    return <Spinner width={50} colour={brandColours.green} />
+    return <Spinner width={50} color={brandColors.green} />
   } if (artist === null) {
     // If there is no selected artist after the artist has finished loading,
     // show message to say the user needs to their artist pages

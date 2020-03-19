@@ -5,7 +5,7 @@ import React from 'react'
 import ThreeDotsIcon from '../icons/ThreeDots'
 // IMPORT COMPONENTS
 // IMPORT CONSTANTS
-import brandColours from '../../constants/brandColours'
+import brandColors from '../../constants/brandColors'
 import NotificationContent from '../NotificationContent'
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
@@ -32,7 +32,7 @@ function NotificationsPage() {
   const { loading: notificationsLoading } = React.useContext(NotificationsContext)
 
   if (notificationsLoading) {
-    return <Spinner width={50} colour={brandColours.green} />
+    return <Spinner width={50} color={brandColors.green} />
   }
   return (
     <div className={`page--container ${className}`}>
@@ -90,7 +90,7 @@ function Notification(props) {
   return (
     <li key={notification.id}>
 
-      <div className={styles['read-border']} style={{ backgroundColor: brandColours.black }} />
+      <div className={styles['read-border']} style={{ backgroundColor: brandColors.black }} />
 
       <div className={styles['notification-content']}>
 

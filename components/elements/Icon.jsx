@@ -19,13 +19,13 @@ import GlobeIcon from '../icons/GlobeIcon'
 import PencilIcon from '../icons/PencilIcon'
 import TickIcon from '../icons/TickIcon'
 // IMPORT CONSTANTS
-import brandColours from '../../constants/brandColours'
+import brandColors from '../../constants/brandColors'
 // IMPORT HELPERS
 // IMPORT STYLES
 
 function Icon(props) {
 // REDEFINE PROPS AS VARIABLES
-  let { color = brandColours.black } = props
+  let { color = brandColors.black } = props
   const { data } = props
   const { status } = props
   const { version } = props
@@ -33,21 +33,21 @@ function Icon(props) {
   // END REDEFINE PROPS AS VARIABLES
 
   // ADAPTATIONS FOR A STATUS PROPS
-  // Adapt colours for different status'
+  // Adapt colors for different status'
   let bgColor
   let borderColor
   if (status === 'all') {
-    color = brandColours.white
+    color = brandColors.white
     bgColor = props.color
     borderColor = props.color
   } else if (status === 'some') {
     color = props.color
-    bgColor = brandColours.white
+    bgColor = brandColors.white
     borderColor = props.color
   } else if (status === 'none') {
-    color = brandColours.grey
-    bgColor = brandColours.white
-    borderColor = brandColours.grey
+    color = brandColors.grey
+    bgColor = brandColors.white
+    borderColor = brandColors.grey
   }
 
   // Add a wrapper to icons with a status props

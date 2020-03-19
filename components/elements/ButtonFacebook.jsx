@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import brandColours from '../../constants/brandColours'
+import brandColors from '../../constants/brandColors'
 
 import FacebookIcon from '../icons/FacebookIcon'
 
@@ -26,7 +26,7 @@ const ButtonFacebook = ({
       }}
     >
       <FacebookIcon
-        fill={brandColours.white}
+        fill={brandColors.white}
         width="20"
       />
       {children}

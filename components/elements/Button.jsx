@@ -5,8 +5,8 @@ const Button = ({
   version,
   width: widthProp,
   marginBottom,
-  textColour,
-  bgColour,
+  textColor,
+  bgColor,
   disabled,
   type,
   success,
@@ -34,9 +34,9 @@ const Button = ({
       onClick={onClick}
       style={{
         width: `${widthPercentage}%`,
-        color: textColour,
+        color: textColor,
         marginBottom,
-        backgroundColor: bgColour,
+        backgroundColor: bgColor,
       }}
     >
       {children}
@@ -51,8 +51,8 @@ Button.propTypes = {
     PropTypes.number,
   ]),
   marginBottom: PropTypes.string,
-  textColour: PropTypes.string,
-  bgColour: PropTypes.string,
+  textColor: PropTypes.string,
+  bgColor: PropTypes.string,
   disabled: PropTypes.bool,
   type: PropTypes.string,
   success: PropTypes.bool,
@@ -65,8 +65,8 @@ Button.defaultProps = {
   version: 'black',
   width: '',
   marginBottom: '',
-  textColour: '',
-  bgColour: '',
+  textColor: '',
+  bgColor: '',
   disabled: false,
   type: 'button',
   success: false,

@@ -12,7 +12,7 @@ import Nothing from './elements/Nothing'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import dataSourceDetails from '../constants/dataSources'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 // IMPORT STYLES
@@ -124,7 +124,7 @@ function PlatformOption(props) {
     e.preventDefault()
   }
 
-  const bottomBorderColour = visiblePlatform === platform ? dataSourceDetails[visiblePlatform].colour : brandColours.white
+  const bottomBorderColor = visiblePlatform === platform ? dataSourceDetails[visiblePlatform].color : brandColors.white
 
   return (
     <li
@@ -132,7 +132,7 @@ function PlatformOption(props) {
       id={platform}
       className={styles.platformListItem}
       style={{
-        borderBottom: `2px solid ${bottomBorderColour}`,
+        borderBottom: `2px solid ${bottomBorderColor}`,
       }}
     >
 
@@ -141,7 +141,7 @@ function PlatformOption(props) {
         version="icon"
       >
         <Icon
-          color={dataSourceDetails[platform].colour}
+          color={dataSourceDetails[platform].color}
           status={status}
           version={platform}
           width={30}
@@ -238,7 +238,7 @@ function DataSourceOption(props) {
         version="text"
       >
         <Checkbox
-          colour={dataSourceDetails[id].colour}
+          color={dataSourceDetails[id].color}
           selected={selected}
           width={15}
         />

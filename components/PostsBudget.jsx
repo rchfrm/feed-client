@@ -23,7 +23,7 @@ import styles from './PostsPage.module.css'
 
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/PostsPageCopy'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 
 const initialAlertState = {
   contents: undefined,
@@ -41,8 +41,8 @@ function PostsBudget({ currency }) {
     amount: artist.daily_budget,
     text: 'Save',
     disabled: true,
-    colour: brandColours.greyDark,
-    bgColour: brandColours.greyLight,
+    color: brandColors.greyDark,
+    bgColor: brandColors.greyLight,
   }
   const [budget, setBudget] = React.useState(initialBudgetState)
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
@@ -62,8 +62,8 @@ function PostsBudget({ currency }) {
         amount: e.target.value,
         text: 'Save',
         disabled: false,
-        colour: brandColours.bgColor,
-        bgColour: brandColours.textColor,
+        color: brandColors.bgColor,
+        bgColor: brandColors.textColor,
       })
     }
   }
@@ -74,8 +74,8 @@ function PostsBudget({ currency }) {
       ...budget,
       text: 'Saving...',
       disabled: true,
-      colour: brandColours.greyDark,
-      bgColour: brandColours.greyLight,
+      color: brandColors.greyDark,
+      bgColor: brandColors.greyLight,
     })
     try {
       const dailyBudget = await updateBudget(artist.id, currency, budget.amount)
@@ -83,8 +83,8 @@ function PostsBudget({ currency }) {
         ...budget,
         text: 'Saved!',
         disabled: true,
-        colour: brandColours.bgColor,
-        bgColour: brandColours.successColor,
+        color: brandColors.bgColor,
+        bgColor: brandColors.successColor,
       })
       setAlert({
         type: 'show-alert',
@@ -129,8 +129,8 @@ function PostsBudget({ currency }) {
             version="black  wide"
             onClick={handleClick}
             disabled={budget.disabled}
-            textColour={budget.colour}
-            bgColour={budget.bgColour}
+            textColor={budget.color}
+            bgColor={budget.bgColor}
           >
             {budget.text}
           </Button>

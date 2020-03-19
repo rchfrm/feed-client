@@ -8,7 +8,7 @@ import server from './helpers/server'
 import ButtonFacebook from './elements/ButtonFacebook'
 import Spinner from './elements/Spinner'
 
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 
 
 function FacebookButton(props) {
@@ -21,7 +21,7 @@ function FacebookButton(props) {
   }
 
   if (accessToken) {
-    return <Spinner colour={brandColours.colorFbButton} style={spinnerStyle} width={25} />
+    return <Spinner color={brandColors.colorFbButton} style={spinnerStyle} width={25} />
   }
   return (
     <ButtonFacebook
