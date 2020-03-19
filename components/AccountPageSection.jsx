@@ -87,13 +87,11 @@ AccountPageSection.propTypes = {
   type: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
   buttonText: PropTypes.string,
-  setSidePanel: PropTypes.func,
 }
 
 AccountPageSection.defaultProps = {
   title: '',
   buttonText: '',
-  setSidePanel: () => {},
 }
 
 export default AccountPageSection
