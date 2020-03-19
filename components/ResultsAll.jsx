@@ -21,7 +21,7 @@ import MediaFallback from './elements/MediaFallback'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
@@ -416,12 +416,12 @@ function Toggle(props) {
       >
         {
             loading
-              ? <Spinner width={20} colour={brandColours.white} />
+              ? <Spinner width={20} color={brandColors.white} />
               : (
                 <Icon
                   className={styles.button}
                   version={promotion_enabled ? 'cross' : 'tick'}
-                  color={promotion_enabled ? brandColours.red : brandColours.green}
+                  color={promotion_enabled ? brandColors.red : brandColors.green}
                   width="18"
                 />
               )
@@ -470,7 +470,7 @@ function DisabledResults(props) {
     <div
       className={styles['disabled-results']}
       style={{
-        backgroundColor: helper.hexToRGBA(brandColours.red, 0.1),
+        backgroundColor: helper.hexToRGBA(brandColors.red, 0.1),
       }}
     >
       <h3>The posts below are being turned off...</h3>

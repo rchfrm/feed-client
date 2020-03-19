@@ -1,177 +1,179 @@
 // https://coolors.co/7a9fff-e85a84-ffc249-aeefa2-1b2f33
+import tinycolor from 'tinycolor2'
+import brandColors from './brandColors'
 
 const dataSourceDetails = {
 
   apple: {
-    colour: "#1B2F33",
-    textColour: "white",
+    color: '#1B2F33',
+    textColor: brandColors.white,
   },
   apple_music_streams_7d: {
-    colour: "#1B2F33",
-    textColour: "white",
+    color: '#1B2F33',
+    textColor: brandColors.white,
   },
 
   bandcamp: {
-    colour: "#477987",
-    textColour: "white",
+    color: '#477987',
+    textColor: brandColors.white,
   },
 
   facebook: {
-    colour: "#7A9FFF",
-    textColour: "white",
+    color: tinycolor(brandColors.colorFb).lighten('5').toString(),
+    textColor: brandColors.white,
   },
   facebook_likes: {
-    colour: "#86A7FF",
-    textColour: "white",
+    color: tinycolor(brandColors.colorFb).lighten('8').toString(),
+    textColor: brandColors.white,
   },
   facebook_page_fans_country: {
-    colour: "#86A7FF",
-    textColour: "white",
+    color: tinycolor(brandColors.colorFb).lighten('8').toString(),
+    textColor: brandColors.white,
   },
   facebook_page_fans_city: {
-    colour: "#86A7FF",
-    textColour: "white",
+    color: tinycolor(brandColors.colorFb).lighten('8').toString(),
+    textColor: brandColors.white,
   },
   facebook_page_fans_gender_age: {
-    colour: "#86A7FF",
-    textColour: "white",
+    color: tinycolor(brandColors.colorFb).lighten('8').toString(),
+    textColor: brandColors.white,
   },
   facebook_engaged_1y: {
-    colour: "#92B0FF",
-    textColour: "white",
+    color: tinycolor(brandColors.colorFb).lighten('11').toString(),
+    textColor: brandColors.white,
   },
   facebook_engaged_28d: {
-    colour: "#92B0FF",
-    textColour: "white",
+    color: tinycolor(brandColors.colorFb).lighten('11').toString(),
+    textColor: brandColors.white,
   },
   facebook_engaged_7d: {
-    colour: "#92B0FF",
-    textColour: "white",
+    color: tinycolor(brandColors.colorFb).lighten('11').toString(),
+    textColor: brandColors.white,
   },
   facebook_ad_spend: {
-    colour: "#6483D1",
-    textColour: "white",
+    color: brandColors.colorFb,
+    textColor: brandColors.white,
   },
   facebook_ad_spend_feed: {
-    colour: "#6483D1",
-    textColour: "white",
+    color: brandColors.colorFb,
+    textColor: brandColors.white,
   },
 
   instagram: {
-    colour: "#E85A84",
-    textColour: "white",
+    color: brandColors.colorInsta,
+    textColor: brandColors.white,
   },
   instagram_follower_count: {
-    colour: "#E85A84",
-    textColour: "white",
+    color: brandColors.colorInsta,
+    textColor: brandColors.white,
   },
   instagram_audience_country: {
-    colour: "#EA698F",
-    textColour: "white",
+    color: tinycolor(brandColors.colorInsta).lighten('5').toString(),
+    textColor: brandColors.white,
   },
   instagram_audience_city: {
-    colour: "#EA698F",
-    textColour: "white",
+    color: tinycolor(brandColors.colorInsta).lighten('5').toString(),
+    textColor: brandColors.white,
   },
   instagram_audience_gender_age: {
-    colour: "#EA698F",
-    textColour: "white",
+    color: tinycolor(brandColors.colorInsta).lighten('5').toString(),
+    textColor: brandColors.white,
   },
   instagram_reach: {
-    colour: "#EC789A",
-    textColour: "white",
+    color: tinycolor(brandColors.colorInsta).lighten('8').toString(),
+    textColor: brandColors.white,
   },
   instagram_reach_7d: {
-    colour: "#EE87A5",
-    textColour: "white",
+    color: tinycolor(brandColors.colorInsta).lighten('11').toString(),
+    textColor: brandColors.white,
   },
   instagram_profile_views: {
-    colour: "#F096B0",
-    textColour: "white",
+    color: tinycolor(brandColors.colorInsta).lighten('14').toString(),
+    textColor: brandColors.white,
   },
   instagram_profile_views_7d: {
-    colour: "#F2A5BB",
-    textColour: "white",
+    color: tinycolor(brandColors.colorInsta).lighten('17').toString(),
+    textColor: brandColors.white,
   },
   instagram_engaged_1y: {
-    colour: "#F4B4C7",
-    textColour: "black",
+    color: tinycolor(brandColors.colorInsta).lighten('20').toString(),
+    textColor: brandColors.textColor,
   },
   instagram_engaged_28d: {
-    colour: "#F4B4C7",
-    textColour: "black",
+    color: tinycolor(brandColors.colorInsta).lighten('20').toString(),
+    textColor: brandColors.textColor,
   },
   instagram_engaged_7d: {
-    colour: "#F4B4C7",
-    textColour: "black",
+    color: tinycolor(brandColors.colorInsta).lighten('20').toString(),
+    textColor: brandColors.textColor,
   },
 
   soundcloud: {
-    colour: "#FFC249",
-    textColour: "white",
+    color: brandColors.colorSoundcloud,
+    textColor: brandColors.white,
   },
   soundcloud_follower_count: {
-    colour: "#FFC249",
-    textColour: "white",
+    color: tinycolor(brandColors.colorSoundcloud).lighten('5').toString(),
+    textColor: brandColors.white,
   },
   soundcloud_listeners_7d: {
-    colour: "#FFCD6A",
-    textColour: "white",
+    color: tinycolor(brandColors.colorSoundcloud).lighten('5').toString(),
+    textColor: brandColors.white,
   },
 
   spotify: {
-    colour: "#AEEFA2",
-    textColour: "black",
+    color: brandColors.colorSpotify,
+    textColor: brandColors.textColor,
   },
   spotify_follower_count: {
-    colour: "#AEEFA2",
-    textColour: "black",
+    color: brandColors.colorSpotify,
+    textColor: brandColors.textColor,
   },
   spotify_streams_7d: {
-    colour: "#BCF1B2",
-    textColour: "black",
+    color: tinycolor(brandColors.colorSpotify).lighten('5').toString(),
+    textColor: brandColors.textColor,
   },
   spotify_listeners_7d: {
-    colour: "#CBF4C3",
-    textColour: "black",
+    color: tinycolor(brandColors.colorSpotify).lighten('8').toString(),
+    textColor: brandColors.textColor,
   },
 
   spotify_listeners_30d: {
-    colour: "#DAF7D4",
-    textColour: "black",
+    color: tinycolor(brandColors.colorSpotify).lighten('11').toString(),
+    textColor: brandColors.textColor,
   },
 
   twitter: {
-    colour: "#A5D8FF",
-    textColour: "black",
+    color: brandColors.colorTwitter,
+    textColor: brandColors.textColor,
   },
   twitter_follower_count: {
-    colour: "#A5D8FF",
-    textColour: "black",
+    color: brandColors.colorTwitter,
+    textColor: brandColors.textColor,
   },
 
   website: {
-    colour: "black",
-    textColour: "white",
+    color: brandColors.textColor,
+    textColor: brandColors.white,
   },
 
   youtube: {
-    colour: "#DB4C56",
-    textColour: "white",
+    color: brandColors.colorYoutube,
+    textColor: brandColors.white,
   },
   youtube_subscriber_count: {
-    colour: "#DB4C56",
-    textColour: "white",
+    color: brandColors.colorYoutube,
+    textColor: brandColors.white,
   },
   youtube_views: {
-    colour: "#E16C74",
-    textColour: "white",
+    color: tinycolor(brandColors.colorYoutube).lighten('5').toString(),
+    textColor: brandColors.white,
   },
   youtube_views_7d: {
-    colour: "#E88D93",
-    textColour: "white",
+    color: tinycolor(brandColors.colorYoutube).lighten('5').toString(),
+    textColor: brandColors.white,
   },
 
-};
+}
 
-export default dataSourceDetails;
+export default dataSourceDetails

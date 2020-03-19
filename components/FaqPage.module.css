@@ -13,7 +13,7 @@
 }
 
 .faqItem {
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid var(--grey-light);
   margin-bottom: var(--bsu-md);
   line-height: 1.3em;
 

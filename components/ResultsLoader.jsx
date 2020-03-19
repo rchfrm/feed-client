@@ -17,7 +17,7 @@ import { PromotePostsButton } from './page/InsightsPage'
 import ResultsAll from './ResultsAll'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 import helper from './helpers/helper'
@@ -196,7 +196,7 @@ function ResultsLoader() {
   // RETURN
   if (artistLoading || loading) {
   // If artist is loading, or both active and archived posts are loading, show spinner
-    return <Spinner width={50} colour={brandColours.green} />
+    return <Spinner width={50} color={brandColors.green} />
   } if (
     Object.keys(posts.active).length === 0
     && Object.keys(posts.archive).length === 0

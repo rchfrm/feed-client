@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import brandColours from '../../constants/brandColours'
+import brandColors from '../../constants/brandColors'
 
-const { green, black, white } = brandColours
+const { green, black, white } = brandColors
 
 const FeedLogo = ({ className, style }) => {
   return (

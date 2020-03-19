@@ -9,7 +9,7 @@
   width: 100%;
   justify-content: space-between;
   margin-bottom: 2em;
-  border: 1px solid black;
+  border: 1px solid var(--text-color);
   border-radius: var(--dialogue-radius);
   overflow: hidden;
 

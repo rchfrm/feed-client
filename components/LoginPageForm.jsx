@@ -19,7 +19,7 @@ import LoginPagePasswordForgetLink from './LoginPagePasswordForgetLink'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 
 import styles from './LoginPage.module.css'
 
@@ -87,7 +87,7 @@ function LoginPageForm() {
 
   if (authLoading || userLoading || artistLoading) {
     return (
-      <Spinner width={50} colour={brandColours.green} />
+      <Spinner width={50} color={brandColors.green} />
     )
   }
   return (

@@ -10,7 +10,7 @@ import {
 import StripeLogo from './icons/StripeLogo'
 // IMPORT COMPONENTS
 // IMPORT CONSTANTS
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 import countries from '../constants/countries'
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
@@ -45,17 +45,17 @@ const CardInput = () => {
   // Card element styles
   const cardElementStyles = {
     base: {
-      color: brandColours.black,
+      color: brandColors.black,
       fontFamily: 'monospace',
       fontSize: '14px',
       fontWeight: '100',
       '::placeholder': {
-        color: brandColours.darkGrey,
+        color: brandColors.greyDark,
       },
     },
     invalid: {
-      color: brandColours.red,
-      iconColor: brandColours.red,
+      color: brandColors.red,
+      iconColor: brandColors.red,
     },
   }
 

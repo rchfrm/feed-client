@@ -16,7 +16,7 @@ import { alertReducer } from './ResultsAll'
 import AsteriskIcon from './icons/AsterixIcon'
 // IMPORT CONSTANTS
 import dataSourceDetails from '../constants/dataSources'
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
@@ -153,7 +153,7 @@ const Connection = ({
       </div>
 
       <div className={styles['integration-edit']}>
-        <Button version="text" onClick={handleClick} disabled={disabled} bgColour={brandColours.white}>
+        <Button version="text" onClick={handleClick} disabled={disabled} bgColor={brandColors.white}>
           <ConnectionEdit disabled={disabled} loading={loading} valid={valid} />
         </Button>
       </div>
@@ -172,11 +172,11 @@ const ConnectionIcons = ({
   const priority = priorityDSP === platform
 
   // DEFINE DEFAULT COLOUR
-  let defaultColour = brandColours.lightGrey
+  let defaultColor = brandColors.greyLight
   if (valid && priority) {
-    defaultColour = brandColours.black
+    defaultColor = brandColors.black
   } else if (!valid) {
-    defaultColour = brandColours.white
+    defaultColor = brandColors.white
   }
   // DEFINE DEFAULT COLOUR
 
@@ -186,7 +186,7 @@ const ConnectionIcons = ({
   // END IMPORT CONTEXTS
 
   // DEFINE STATES
-  const [colour, setColour] = React.useState(defaultColour)
+  const [color, setColor] = React.useState(defaultColor)
   const [loading, setLoading] = React.useState(false)
   // END DEFINE STATES
 
@@ -203,12 +203,12 @@ const ConnectionIcons = ({
 
   const handleMouseEnter = () => {
     if (valid && !priority) {
-      setColour(brandColours.darkGrey)
+      setColor(brandColors.greyDark)
     }
   }
 
   const handleMouseLeave = () => {
-    setColour(defaultColour)
+    setColor(defaultColor)
   }
 
   const handleClick = e => {
@@ -256,8 +256,8 @@ const ConnectionIcons = ({
   }, [alert.response, artistId, platform, setPriorityDSP, updatePriorityDSP])
 
   React.useEffect(() => {
-    setColour(defaultColour)
-  }, [defaultColour, priorityDSP])
+    setColor(defaultColor)
+  }, [defaultColor, priorityDSP])
 
   return (
     <div className={styles['integration-icons']}>
@@ -271,7 +271,7 @@ const ConnectionIcons = ({
       />
 
       {loading
-        ? <Spinner width={15} colour={brandColours.grey} />
+        ? <Spinner width={15} color={brandColors.grey} />
         : (
           <div
             role="button"
@@ -282,7 +282,7 @@ const ConnectionIcons = ({
             style={{ cursor: valid && !priority ? 'pointer' : 'initial' }}
           >
 
-            <AsteriskIcon fill={colour} width={15} />
+            <AsteriskIcon fill={color} width={15} />
 
           </div>
         )}
@@ -290,7 +290,7 @@ const ConnectionIcons = ({
       <div className={styles['integration-platform-icon']}>
         <Icon
           version={platform}
-          color={dataSourceDetails[platform] ? dataSourceDetails[platform].colour : 'black'}
+          color={dataSourceDetails[platform] ? dataSourceDetails[platform].color : 'black'}
           width={20}
         />
       </div>
@@ -375,7 +375,7 @@ function ConnectionEdit(props) {
   // END REDEFINE PROPS AS VARIABLES
 
   if (loading) {
-    return <Spinner width={15} colour={brandColours.grey} />
+    return <Spinner width={15} color={brandColors.grey} />
   }
 
   if (valid) {
@@ -390,7 +390,7 @@ function ConnectionEdit(props) {
   return (
     <Icon
       version="tick"
-      color={disabled ? [brandColours.grey] : [brandColours.black]}
+      color={disabled ? [brandColors.grey] : [brandColors.black]}
       width={15}
     />
   )

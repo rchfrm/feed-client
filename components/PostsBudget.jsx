@@ -23,6 +23,7 @@ import styles from './PostsPage.module.css'
 
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/PostsPageCopy'
+import brandColors from '../constants/brandColors'
 
 const initialAlertState = {
   contents: undefined,
@@ -40,8 +41,8 @@ function PostsBudget({ currency }) {
     amount: artist.daily_budget,
     text: 'Save',
     disabled: true,
-    colour: '#B7B7B7',
-    bgColour: '#E5E5E5',
+    color: brandColors.greyDark,
+    bgColor: brandColors.greyLight,
   }
   const [budget, setBudget] = React.useState(initialBudgetState)
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
@@ -61,8 +62,8 @@ function PostsBudget({ currency }) {
         amount: e.target.value,
         text: 'Save',
         disabled: false,
-        colour: 'white',
-        bgColour: 'black',
+        color: brandColors.bgColor,
+        bgColor: brandColors.textColor,
       })
     }
   }
@@ -73,8 +74,8 @@ function PostsBudget({ currency }) {
       ...budget,
       text: 'Saving...',
       disabled: true,
-      colour: '#B7B7B7',
-      bgColour: '#E5E5E5',
+      color: brandColors.greyDark,
+      bgColor: brandColors.greyLight,
     })
     try {
       const dailyBudget = await updateBudget(artist.id, currency, budget.amount)
@@ -82,8 +83,8 @@ function PostsBudget({ currency }) {
         ...budget,
         text: 'Saved!',
         disabled: true,
-        colour: 'white',
-        bgColour: '#6edcd3',
+        color: brandColors.bgColor,
+        bgColor: brandColors.successColor,
       })
       setAlert({
         type: 'show-alert',
@@ -128,8 +129,8 @@ function PostsBudget({ currency }) {
             version="black  wide"
             onClick={handleClick}
             disabled={budget.disabled}
-            textColour={budget.colour}
-            bgColour={budget.bgColour}
+            textColor={budget.color}
+            bgColor={budget.bgColor}
           >
             {budget.text}
           </Button>

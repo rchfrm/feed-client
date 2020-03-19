@@ -18,14 +18,14 @@
   position: absolute;
   width: 100%;
   height: calc(100% - 1px);
-  border-top: 1px solid #D6D6D6;
-  border-bottom: 1px solid #D6D6D6;
+  border-top: 1px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
   display: flex;
   align-items: center;
 
   .hr {
     z-index: 1;
-    border-top: 1px solid #D6D6D6;
+    border-top: 1px solid var(--grey);
     border-right: none;
     border-bottom: none;
     border-left: none;

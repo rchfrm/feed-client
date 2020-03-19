@@ -16,7 +16,7 @@ import RelinkFacebook from './RelinkFacebook'
 import AccountPageSection from './AccountPageSection'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import brandColours from '../constants/brandColours'
+import brandColors from '../constants/brandColors'
 
 const AccountPageContent = ({ user, className }) => {
   // Get ROUTE info
@@ -62,7 +62,7 @@ const AccountPageContent = ({ user, className }) => {
 
   // While loading
   if (billingLoading) {
-    return <Spinner width={50} colour={brandColours.green} />
+    return <Spinner width={50} color={brandColors.green} />
   }
   // The content
   return (

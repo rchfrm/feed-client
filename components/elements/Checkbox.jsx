@@ -6,20 +6,20 @@ import React from 'react'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import brandColours from '../../constants/brandColours'
+import brandColors from '../../constants/brandColors'
 // IMPORT HELPERS
 // IMPORT STYLES
 
 function Checkbox(props) {
-  const bgColour = props.selected ? props.colour : brandColours.lightGrey
+  const bgColor = props.selected ? props.color : brandColors.greyLight
 
   return (
     <div
       style={{
         width: `${props.width}px`,
         height: `${props.width}px`,
-        backgroundColor: bgColour,
-        border: `1px solid ${brandColours.white}`,
+        backgroundColor: bgColor,
+        border: `1px solid ${brandColors.white}`,
         borderRadius: 3,
       }}
     />

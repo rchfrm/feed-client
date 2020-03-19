@@ -19,7 +19,7 @@ import LoginPageLink from '../LoginPageLink'
 import * as ROUTES from '../../constants/routes'
 // IMPORT HELPERS
 import Spinner from '../elements/Spinner'
-import brandColours from '../../constants/brandColours'
+import brandColors from '../../constants/brandColors'
 // IMPORT STYLES
 
 // Define initial state and reducer of form
@@ -167,7 +167,7 @@ function SignupPage() {
   // END HANDLE CLICK ON SIGN-UP BUTTON
 
   if (authLoading || userLoading || artistLoading || redirecting) {
-    return <Spinner width={50} colour={brandColours.green} />
+    return <Spinner width={50} color={brandColors.green} />
   }
   return (
     <div className={`page--container ${className}`}>
