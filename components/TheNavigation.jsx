@@ -15,6 +15,7 @@ import ActiveLink from './ActiveLink'
 import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 // IMPORT STYLES
+import styles from './TheNavigation.module.css'
 
 
 function ArtistOptions({ artists, onChange }) {
@@ -27,7 +28,15 @@ function ArtistOptions({ artists, onChange }) {
   })
 
   return (
-    <select value={artist.id} onChange={onChange}>{artistOptions}</select>
+    <div className="select--small  select--sans">
+      <select
+        className={['selectElement_box', styles.select].join(' ')}
+        value={artist.id}
+        onChange={onChange}
+      >
+        {artistOptions}
+      </select>
+    </div>
   )
 }
 

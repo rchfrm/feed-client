@@ -206,21 +206,6 @@
   }
 }
 
-nav select {
-  background-color: transparent;
-  color: var(--bg-color);
-  font-size: 1.25em;
-  font-weight: 600;
-  border: 1px solid transparent;
-  padding: 0;
-  margin: 0;
-  width: 81.190%;
-}
-
-nav option {
-  background-color: var(--text-color);
-  color: var(--bg-color);
-}
 /* NextButton
 ******************/
 .nextbutton {
