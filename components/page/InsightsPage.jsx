@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
+
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
@@ -11,16 +12,20 @@ import PageHeader from '../PageHeader'
 import Button from '../elements/Button'
 import Spinner from '../elements/Spinner'
 // IMPORT PAGES
-import SummaryLoader from '../HomePageSummary'
-import HomePageChart from '../HomePageChart'
+import InsightsSummaryLoader from '../InsightsSummaryLoader'
+import InsightsPageChart from '../InsightsPageChart'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../../constants/routes'
 import brandColours from '../../constants/brandColours'
+
+import MarkdownText from '../elements/MarkdownText'
+import copy from '../../copy/InsightPageCopy'
 // IMPORT HELPERS
 // IMPORT STYLES
+import styles from '../InsightsPageChart.module.css'
 
-function HomePage() {
+function InsightsPage() {
 // SHOW / HIDE NAVIGATION
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const className = navState.visible ? 'hidden' : ''
@@ -38,7 +43,7 @@ function HomePage() {
   )
 }
 
-export default HomePage
+export default InsightsPage
 
 function Loader() {
 // IMPORT CONTEXTS
@@ -56,22 +61,28 @@ function Loader() {
     )
   }
   // Otherwise, show Home
-  return <Home />
+  return <Insights />
 }
 
-function Home() {
-  const { user } = React.useContext(UserContext)
-
+function Insights() {
   return (
     <div className="page--container">
 
-      <PageHeader heading={`Hey ${user.first_name}`} punctuation="," />
+      <PageHeader heading="Insights" />
 
-      <SummaryLoader />
+      {/* INTRO TEXT */}
+      <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
 
-      <HomePageChart />
+      <div className={styles.chartsContainer}>
+        <InsightsSummaryLoader />
 
-      <PromotePostsButton />
+        <InsightsPageChart />
+
+        <PromotePostsButton />
+      </div>
+
+      {/* OUTRO TEXT TEXT */}
+      <MarkdownText className="ninety-wide  h4--text" markdown={copy.outro} />
 
     </div>
   )

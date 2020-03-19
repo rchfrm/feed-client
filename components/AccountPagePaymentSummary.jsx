@@ -81,18 +81,16 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
 
   return (
     <div className={className}>
-      <div className={styles.accountPage__paymentIntro}>
-        {/* Intro text */}
-        <p>Right now, the beta version of Feed is free to use! In future, you’ll be able to add payment details here.</p>
-        <p>
-          More details on
-          {' '}
-          <Feed />
-          's pricing is
-          {' '}
-          <Link href={ROUTES.PRICES}><a>here</a></Link>.
-        </p>
-      </div>
+      {/* Intro text */}
+      <p>Right now, the beta version of Feed is free to use! In future, you’ll be able to add payment details here.</p>
+      <p>
+        More details on
+        {' '}
+        <Feed />
+        's pricing is
+        {' '}
+        <Link href={ROUTES.PRICING}><a>here</a></Link>.
+      </p>
       {/* The saved details */}
       {billingDetails.map((details, index) => {
         if (!details) return null

@@ -1,6 +1,5 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Link from 'next/link'
 
 import {
   CardElement,
@@ -13,20 +12,21 @@ import StripeLogo from './icons/StripeLogo'
 // IMPORT CONSTANTS
 import brandColours from '../constants/brandColours'
 import countries from '../constants/countries'
-import * as ROUTES from '../constants/routes'
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
 import { AuthContext } from './contexts/Auth'
 import { BillingContext } from './contexts/BillingContext'
 import { SidePanelContext } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
-import Feed from './elements/Feed'
 import Error from './elements/Error'
 import SelectNew from './elements/SelectNew'
 import Button from './elements/Button'
 // IMPORT HELPERS
 import InputNew from './elements/InputNew'
-// IMPORT PAGES
+
+import MarkdownText from './elements/MarkdownText'
+import copy from '../copy/AccountPageCopy'
+
 // IMPORT STYLES
 import styles from './PaymentPage.module.css'
 import paymentHelpers from './helpers/paymentHelpers'
@@ -76,25 +76,6 @@ const CardInput = () => {
   )
 }
 
-// INTRO
-const PaymentPageIntro = () => {
-  return (
-    <>
-      <h4 className={styles.h4}>Once a month, you'll be charged a small % of what you spend on promotion - a 'service fee' of sorts.</h4>
-      <h4 className={styles.h4}>After your trial period, you’ll need to enter your card details here.</h4>
-      <h4 className={styles.h4}>To keep it simple, the daily budget you set in Feed is the total amount you’ll spend each day - including our service fee. Our fee is 10% of your chosen daily budget, dropping to 5% for spend over £150 in the billing month.</h4>
-
-      <h4 className={styles.h4}>
-        More details on
-        {' '}
-        <Feed />
-        's pricing is
-        {' '}
-        <Link href={ROUTES.PRICES}><a>here</a></Link>.
-      </h4>
-    </>
-  )
-}
 
 function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
   // Contexts
@@ -288,7 +269,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
 
   return (
     <>
-      <PaymentPageIntro />
+      <MarkdownText className="h4--text" markdown={copy.addPaymentIntro} />
 
       <form
         className={styles['checkout-inputs']}

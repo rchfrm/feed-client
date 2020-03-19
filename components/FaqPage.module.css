@@ -3,14 +3,26 @@
   width: 90%;
   
   .li {
-    border-bottom: 1px solid #E5E5E5;
-    margin-bottom: 2em;
+    
   }
 
   .p {
-    line-height: 1.3em;
+    
     text-align: justify;
   }
 }
 
+.faqItem {
+  border-bottom: 1px solid #E5E5E5;
+  margin-bottom: var(--bsu-md);
+  line-height: 1.3em;
 
+  :global(*:last-child) {
+    margin-bottom: var(--bsu-md);
+  }
+
+  /* For making sure the markdown has worked */
+  :global(pre) {
+    color: pink;
+  }
+}

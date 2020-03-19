@@ -18,6 +18,9 @@ import FadeInOut from './FadeInOut'
 
 import paymentHelpers from './helpers/paymentHelpers'
 
+import MarkdownText from './elements/MarkdownText'
+import copy from '../copy/AccountPageCopy'
+
 import styles from './PaymentPage.module.css'
 import sidePanelStyles from './SidePanel.module.css'
 
@@ -123,21 +126,13 @@ function AccountPagePayments() {
 
       <h2 className={sidePanelStyles.SidePanel__Header}>Payment Methods</h2>
 
+      <MarkdownText className={['h4--text', styles.AccountPagePayments__intro].join(' ')} markdown={copy.selectPaymentIntro} />
+
       {error && (
         <div className={styles.AccountPagePayments__error}>
           <Error error={error} />
         </div>
       )}
-
-      {/* ADD PAYMENT METHOD BUTTON */}
-      <div className={styles.AccountPagePayments__addPayment}>
-        <Button
-          className="button--small"
-          onClick={goToCheckout}
-        >
-          + Add new payment method
-        </Button>
-      </div>
 
       <div className={styles.AccountPagePayments__allMethods}>
         {/* ALL PAYMENT METHODS */}
@@ -153,6 +148,17 @@ function AccountPagePayments() {
             />
           )
         })}
+      </div>
+
+
+      {/* ADD PAYMENT METHOD BUTTON */}
+      <div className={styles.AccountPagePayments__addPayment}>
+        <Button
+          className="button--small"
+          onClick={goToCheckout}
+        >
+          + Add new payment method
+        </Button>
       </div>
 
     </section>

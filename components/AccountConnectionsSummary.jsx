@@ -1,18 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import MarkdownText from './elements/MarkdownText'
+import copy from '../copy/AccountPageCopy'
+
 import styles from './AccountPage.module.css'
 
-
 const AccountConnectionsSummary = ({ className, onReady }) => {
-
   React.useEffect(onReady, [])
-
   return (
     <div className={className}>
-      <p className={styles.p}>
-        Link your social and streaming accounts here, as well as your website(s). If you have more than one website, you can just put the link in any empty field.
-      </p>
+      <MarkdownText markdown={copy.connectionsSummary} />
     </div>
   )
 }

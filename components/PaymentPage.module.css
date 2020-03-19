@@ -29,6 +29,10 @@ PAYMENT METHOD
 
 }
 
+.AccountPagePayments__intro {
+  margin-bottom: var(--bsu-md);
+}
+
 .AccountPagePayments__allMethods {
   margin-bottom: var(--bsu-md);
 }

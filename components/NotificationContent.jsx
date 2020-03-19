@@ -19,7 +19,7 @@ const notificationContent = {
           Once a month, you'll be charged a small % of what you spend on promotion - a 'service fee' of sorts.
           More detail on our pricing is available
           &nbsp;
-          <Link href={ROUTES.PRICES}><a>here</a></Link>
+          <Link href={ROUTES.PRICING}><a>here</a></Link>
           .
         </p>
         <p>Click the button below to get started, it won't take a minute.</p>

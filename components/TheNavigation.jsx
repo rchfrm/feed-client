@@ -94,7 +94,7 @@ function NavigationAuth() {
 }
 
 const NavigationNonAuth = () => {
-  const { LOGIN, SIGN_UP, PRICES, FAQ } = ROUTES
+  const { LOGIN, SIGN_UP, PRICING, FAQ } = ROUTES
   const termsLink = 'https://archform.ltd/terms/'
 
   const links = [
@@ -107,7 +107,7 @@ const NavigationNonAuth = () => {
       title: 'sign up',
     },
     {
-      href: PRICES,
+      href: PRICING,
       title: 'pricing',
     },
     {

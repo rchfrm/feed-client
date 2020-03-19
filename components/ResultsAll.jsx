@@ -25,6 +25,9 @@ import brandColours from '../constants/brandColours'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
+// COPY
+import MarkdownText from './elements/MarkdownText'
+import copy from '../copy/ResultsPageCopy'
 // IMPORT STYLES
 import resultsStyles from './Results.module.css'
 import postStyles from './PostsPage.module.css'
@@ -531,6 +534,9 @@ function ResultsAll({ posts: postsObject, active, setPosts }) {
   }
   return (
     <div style={{ width: '100%' }}>
+
+      {active && <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />}
+
       <div className="ninety-wide">
         <h2>{title}</h2>
       </div>

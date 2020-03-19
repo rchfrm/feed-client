@@ -1,18 +1,14 @@
 
 // IMPORT PACKAGES
 import React from 'react'
-import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
-// IMPORT ELEMENTS
-import AsteriskIcon from './icons/AsterixIcon'
 // IMPORT PAGES
 import IntegrationsLoader from './IntegrationsLoader'
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-import * as ROUTES from '../constants/routes'
-// IMPORT HELPERS
+
+import MarkdownText from './elements/MarkdownText'
+import copy from '../copy/AccountPageCopy'
 // IMPORT STYLES
 import styles from './Integrations.module.css'
 import sidePanelStyles from './SidePanel.module.css'
@@ -53,18 +49,9 @@ function AccountPageIntegrations() {
   return (
     <div className={styles['account-integrations']}>
       <h2 className={sidePanelStyles.SidePanel__Header}>Connections</h2>
-      <p className={styles.p}>
-        The default link in your promoted posts is marked by
-        {' '}
-        <AsteriskIcon width={15} />.
-        {' '}
-        You can change the link on each specific post
-        {' '}
-        <Link href={ROUTES.POSTS}>
-          <a>here</a>
-        </Link>
-      </p>
-      {/* SHOW ALL THE ARTISTS... */}
+      {/* COPY */}
+      <MarkdownText markdown={copy.connectionsDialogue} />
+      {/* LINKS */}
       <Artists />
     </div>
   )

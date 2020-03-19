@@ -1,11 +1,8 @@
 // IMPORT PACKAGES
 import React from 'react'
-import moment from 'moment'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import PageHeader from './PageHeader'
-import Feed from './elements/Feed'
 import LastItem from './elements/LastItem'
 // IMPORT PAGES
 import PostsSingle from './PostsSingle'
@@ -94,16 +91,6 @@ function Posts({
 
   return (
     <div className={styles['posts-section']}>
-
-      <PageHeader heading="review your posts" punctuation="," />
-
-      <h4 className={styles.h4}>
-        Below are your most recent posts.
-        {' '}
-        <Feed />
-        {' '}
-        works best if they're all selected, but if there are any you'd rather not promote just untick them.
-      </h4>
 
       <PostList
         posts={posts}
