@@ -47,16 +47,6 @@ function ConnectAccountsPanel({
     updateArtists(action)
   }
 
-  // Toggle country selector error if selected or not
-  const [countryError, setCountryError] = React.useState(true)
-
-  React.useEffect(() => {
-    const { country_code = null, connect } = artistAccount
-    const hasCountryError = !country_code && connect
-    setCountryError(hasCountryError)
-  }, [artistAccount])
-
-
   // HANDLE CHANGES IN TILE INPUTS
   const handleChange = e => {
     e.preventDefault()
