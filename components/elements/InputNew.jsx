@@ -104,13 +104,11 @@ InputNew.propTypes = {
   ]),
 
   // If there is a version prop, it should be a string
-  version: PropTypes.string.isRequired,
+  version: PropTypes.string,
 
   // If there is a width prop, it should be a number
   width: PropTypes.number,
-
   required: PropTypes.bool,
-
   className: PropTypes.string,
   icon: PropTypes.string,
 }
@@ -122,6 +120,7 @@ InputNew.defaultProps = {
   type: 'text',
   label: '',
   value: '',
+  version: 'box',
   width: 100,
   required: false,
   className: '',
