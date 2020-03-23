@@ -57,11 +57,6 @@ const LoadContent = () => {
       setRedirecting(true)
       Router.push(ROUTES.LOGIN)
     }
-    // // If the artist has artists, push to the thank you page
-    // if (user.artists.length > 0) {
-    //   setRedirecting(true)
-    //   Router.push(ROUTES.THANK_YOU)
-    // }
   }, [artist.id, artistLoading, user, userLoading])
 
   // * GET INITIAL DATA FROM SERVER
