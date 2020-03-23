@@ -23,7 +23,7 @@ import MediaFallback from './elements/MediaFallback'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
-function Post({ index, post, singular: isSingular, setPosts, togglePromotion }) {
+function PostSingle({ index, post, singular: isSingular, setPosts, togglePromotion }) {
   // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
@@ -156,7 +156,7 @@ function Post({ index, post, singular: isSingular, setPosts, togglePromotion }) 
   )
 }
 
-export default Post
+export default PostSingle
 
 function PermalinkAndToggle(props) {
 // REDEFINE PROPS AS VARIABLES
