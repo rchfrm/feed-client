@@ -1,9 +1,8 @@
 import React from 'react'
 
-import Icon from './elements/Icon'
 import InputNew from './elements/InputNew'
 import SelectNew from './elements/SelectNew'
-import Button from './elements/Button'
+import ButtonToggle from './elements/ButtonToggle'
 import InstagramIcon from './icons/InstagramIcon'
 
 import helper from './helpers/helper'
@@ -61,8 +60,6 @@ function ConnectAccountsPanel({
     if (field === 'country_code') {
       if (value.indexOf('Choose') !== -1) {
         value = undefined
-      } else {
-        value = value.slice(value.indexOf('(') + 1, value.indexOf(')'))
       }
     }
 
@@ -125,18 +122,11 @@ function ConnectAccountsPanel({
   const returnToggle = () => {
     if (!singular && !exists) {
       return (
-        <Button
-          version="toggle"
+        <ButtonToggle
           onClick={toggleSelected}
           className={styles.postToggle}
-        >
-          <Icon
-            version={connect ? 'tick' : 'empty'}
-            color={connect ? 'white' : brandColors.grey}
-            width="18"
-            data={artistAccount.page_id}
-          />
-        </Button>
+          state={connect ? 'on' : 'off'}
+        />
       )
     }
     return null
@@ -185,7 +175,7 @@ function ConnectAccountsPanel({
           placeholder={artistAccount.instagram_url || 'Enter the URL of your Instagram Page'}
           value={artistAccount.instagram_url || ''}
           handleChange={contactUs}
-          icon="instagram"
+          label="Instagram page URL"
           readOnly={readOnly}
           version={artistAccount.exists ? 'text' : 'box'}
         />
@@ -296,7 +286,7 @@ function ConnectAccountsPanel({
           value={artistAccount.location || ''}
           handleChange={handleChange}
           type="text"
-          label="Enter the town you're based in"
+          label="The town you're based in"
           readOnly={readOnly}
           version={artistAccount.exists ? 'text' : 'box'}
         />
@@ -319,8 +309,8 @@ function ConnectAccountsPanel({
           placeholder={artistAccount.facebook_page_url || 'Enter the URL of your Facebook Page'}
           value={artistAccount.facebook_page_url || ''}
           handleChange={contactUs}
+          label="Facebook Page URL"
           type="text"
-          icon="facebook"
           readOnly={readOnly}
           version={artistAccount.exists ? 'text' : 'box'}
         />
