@@ -5,6 +5,17 @@
   }
 }
 
+.tile {
+  &.readOnly {
+    background-color: var(--grey-light);
+    border: none;
+
+    :global(.input--container) {
+      margin-bottom: 0.2em !important;
+    }
+  }
+}
+
 .profile-picture {
   min-width: 33%;
   margin-right: 3.234%;
@@ -17,15 +28,7 @@
 
 .right-of-profile {
   justify-content: flex-end;
-
-  :global(label) {
-    margin-top: 1.5em;
-  }
-
-  :global(select),
-  :global(input) {
-    margin-bottom: 0;
-  }
+  padding-left: calc(0.5 * var(--bsu));
 }
 
 

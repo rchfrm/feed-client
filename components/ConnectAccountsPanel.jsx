@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Icon from './elements/Icon'
-import Input from './elements/Input'
+import InputNew from './elements/InputNew'
 import Select from './elements/Select'
 import Button from './elements/Button'
 import InstagramIcon from './icons/InstagramIcon'
@@ -20,7 +20,6 @@ const styles = {
   ...postStyles,
 }
 
-
 function ConnectAccountsPanel({
   artistAccount,
   singular,
@@ -31,7 +30,7 @@ function ConnectAccountsPanel({
   const singularClass = singular ? 'singular' : ''
   const { exists, connect } = artistAccount
   const selected = connect ? 'selected' : 'deselected'
-  const readOnly = exists ? 'readonly' : ''
+  const readOnly = exists ? connectAccountsStyles.readOnly : ''
   const id = artistAccount.page_id
 
 
@@ -104,6 +103,7 @@ function ConnectAccountsPanel({
         <div className={styles['post-meta']}>
           <em style={{ color: brandColors.black }}>
             You will be added to
+            {' '}
             {artistAccount.name}
             's team
           </em>
@@ -138,18 +138,14 @@ function ConnectAccountsPanel({
   const returnCountry = () => {
     if (exists) {
       return (
-        <Input
+        <InputNew
           name="country_code"
           placeholder={artistAccount.country_code}
           value={`${helper.findCountryName(artistAccount.country_code)} (${artistAccount.country_code})`}
-          onChange={handleChange}
-          type="text"
-          label={{
-            position: 'top',
-            text: 'Your country',
-          }}
-          version="text"
-          readonly={artistAccount.exists}
+          handleChange={handleChange}
+          label="Your Country"
+          readOnly={artistAccount.exists}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
       )
     }
@@ -185,18 +181,14 @@ function ConnectAccountsPanel({
   const returnInstagramInput = () => {
     if (artistAccount.instagram_url) {
       return (
-        <Input
+        <InputNew
           name="instagram_url"
           placeholder={artistAccount.instagram_url || 'Enter the URL of your Instagram Page'}
           value={artistAccount.instagram_url || ''}
-          onChange={contactUs}
-          type="text"
-          label={{
-            position: 'icon',
-            icon: 'instagram',
-          }}
-          version="text_icon"
-          readonly={artistAccount.exists}
+          handleChange={contactUs}
+          icon="instagram"
+          readOnly={artistAccount.exists}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
       )
     }
@@ -221,18 +213,14 @@ function ConnectAccountsPanel({
   const returnAdAccount = () => {
     if (exists) {
       return (
-        <Input
+        <InputNew
           name="selected_facebook_ad_account"
-          placeholder={artistAccount.selected_facebook_ad_account}
+          placeholder={artistAccount.selected_facebook_ad_account ? artistAccount.selected_facebook_ad_account.name : ''}
           value={`${artistAccount.selected_facebook_ad_account.name} (${artistAccount.selected_facebook_ad_account.id})`}
-          onChange={contactUs}
-          type="text"
-          label={{
-            position: 'top',
-            text: 'Selected Facebook Ad Account',
-          }}
-          version="text"
-          readonly={artistAccount.exists}
+          handleChange={contactUs}
+          label="Selected Facebook Ad Account"
+          readOnly={artistAccount.exists}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
       )
     }
@@ -254,7 +242,7 @@ function ConnectAccountsPanel({
   return (
     <li
       key={artistAccount.page_id}
-      className={`tile ${selected} ${singularClass} ${readOnly}`}
+      className={`tile ${styles.tile} ${selected} ${singularClass} ${readOnly}`}
     >
 
       {/* Warning if artist already exists and toggle */}
@@ -280,22 +268,15 @@ function ConnectAccountsPanel({
         <div className={`flex-column ${styles['right-of-profile']}`}>
 
           {/* Artist Name */}
-          <Input
+          <InputNew
             name="name"
             placeholder={artistAccount.name || 'Enter artist name'}
             value={artistAccount.name || ''}
-            onChange={handleChange}
-            type="text"
-            label={{
-              position: 'top',
-              text: 'Artist Name',
-            }}
-            version="text"
-            readonly={artistAccount.exists}
+            handleChange={handleChange}
+            label="Artist Name"
+            readOnly={artistAccount.exists}
+            version={artistAccount.exists ? 'text' : 'box'}
           />
-
-          {/* Country */}
-          {returnCountry()}
 
         </div>
 
@@ -303,50 +284,44 @@ function ConnectAccountsPanel({
 
       <div className="flex-column" style={{ flex: 'auto', justifyContent: 'space-between' }}>
 
+        {/* Country */}
+        {returnCountry()}
+
         {/* Inputs below profile picture */}
         {/* Home Town */}
-        <Input
+        <InputNew
           name="location"
           placeholder={artistAccount.location || artistAccount.exists ? 'na.' : 'Enter the name of your home town'}
           value={artistAccount.location || ''}
-          onChange={handleChange}
+          handleChange={handleChange}
           type="text"
-          label={{
-            position: 'top',
-            text: 'Home Town',
-          }}
-          version="text"
-          readonly={artistAccount.exists}
+          label="Home Town"
+          readOnly={artistAccount.exists}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
 
         {/* Spotify Page URL */}
-        <Input
+        <InputNew
           name="spotify_url"
           placeholder={artistAccount.spotify_url || artistAccount.exists ? 'na.' : 'Enter the URL of your Spotify Artist Page'}
           value={artistAccount.spotify_url || ''}
-          onChange={handleChange}
+          handleChange={handleChange}
           type="text"
-          label={{
-            position: 'top',
-            text: 'Spotify Artist Page URL',
-          }}
-          version="text"
-          readonly={artistAccount.exists}
+          label="Spotify Artist Page URL"
+          readOnly={artistAccount.exists}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
 
         {/* Facebook Page URL */}
-        <Input
+        <InputNew
           name="facebook_page_url"
           placeholder={artistAccount.facebook_page_url || 'Enter the URL of your Facebook Page'}
           value={artistAccount.facebook_page_url || ''}
-          onChange={contactUs}
+          handleChange={contactUs}
           type="text"
-          label={{
-            position: 'icon',
-            icon: 'facebook',
-          }}
-          version="text_icon"
-          readonly={artistAccount.exists}
+          icon="facebook"
+          readOnly={artistAccount.exists}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
 
         {/* Instagram Page URL */}
