@@ -47,8 +47,7 @@ const CardInput = () => {
     base: {
       color: brandColors.black,
       fontFamily: 'monospace',
-      fontSize: '14px',
-      fontWeight: '100',
+      fontSize: '16px',
       '::placeholder': {
         color: brandColors.greyDark,
       },

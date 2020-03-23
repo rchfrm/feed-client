@@ -83,12 +83,12 @@ CHECKOUT PAGE
 }
 
 .card-input {
-  outline: 2px solid black;
-  outline-offset: -2px;
+  border: 2px solid black;
   margin-bottom: 1em;
-  padding: 1.333em;
+  padding: 1em;
+  padding-left: 0.8em;
   width: 100%;
-  box-sizing: border-box;
+  border-radius: var(--button-radius);
 }
 
 .checkoutButtonWrapper {
