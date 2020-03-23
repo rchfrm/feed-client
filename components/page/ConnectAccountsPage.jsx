@@ -172,7 +172,7 @@ const ConnectAccountsPage = () => {
   return (
     <div className={`page--container ${className}`}>
 
-      <PageHeader heading="connect artist accounts" />
+      <PageHeader heading="connect accounts" />
 
       <LoadContent />
 
