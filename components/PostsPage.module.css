@@ -213,7 +213,7 @@
     flex: 1 0 auto;
   }
 
-  :global(.input_box) {
+  :global(.input--box) {
     margin-bottom: 0 !important;
   }
 }
