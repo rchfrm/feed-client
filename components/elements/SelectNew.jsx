@@ -11,7 +11,7 @@ const SelectNew = ({
   placeholder,
   selectedValue,
   style,
-  version = '',
+  version,
   required,
   className,
 }) => {
@@ -100,7 +100,7 @@ SelectNew.propTypes = {
 SelectNew.defaultProps = {
   label: '',
   style: {},
-  version: '',
+  version: 'box',
   required: false,
   className: '',
   placeholder: '',
