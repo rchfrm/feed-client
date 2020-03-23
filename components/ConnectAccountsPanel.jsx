@@ -2,7 +2,7 @@ import React from 'react'
 
 import Icon from './elements/Icon'
 import InputNew from './elements/InputNew'
-import Select from './elements/Select'
+import SelectNew from './elements/SelectNew'
 import Button from './elements/Button'
 import InstagramIcon from './icons/InstagramIcon'
 
@@ -232,16 +232,20 @@ function ConnectAccountsPanel({
         />
       )
     }
+
+    const adAccountOptions = artistAccount.available_facebook_ad_accounts.map(({ name, id: value }) => {
+      return {
+        name,
+        value,
+      }
+    })
+
     return (
-      <Select
+      <SelectNew
         name="selected_facebook_ad_account"
-        label={{
-          position: 'top',
-          text: 'Which Facebook Ad Account should we use?',
-        }}
-        onChange={handleChange}
-        contactUs={contactUs}
-        options={artistAccount.available_facebook_ad_accounts}
+        label="Which Facebook Ad Account should we use?"
+        handleChange={handleChange}
+        options={adAccountOptions}
       />
     )
   }
