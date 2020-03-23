@@ -98,6 +98,19 @@ function ConnectAccountsPanel({
   // END HANDLE CHANGES IN TILE INPUTS
 
   const returnExistsWarning = () => {
+    // if already connected
+    if (readOnly) {
+      return (
+        <div className={styles['post-meta']}>
+          <em style={{ color: brandColors.black }}>
+            You have already been added to
+            {' '}
+            {artistAccount.name}
+            's team
+          </em>
+        </div>
+      )
+    }
     // Show warning if artist is already in database
     if (exists) {
       return (
