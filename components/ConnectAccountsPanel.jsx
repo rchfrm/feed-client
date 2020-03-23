@@ -10,26 +10,24 @@ import helper from './helpers/helper'
 
 import countries from '../constants/countries'
 
-
 // IMPORT STYLES
-import connectArtistStyles from './ConnectArtist.module.css'
+import connectAccountsStyles from './ConnectAccounts.module.css'
 import postStyles from './PostsPage.module.css'
 import brandColors from '../constants/brandColors'
 
 const styles = {
-  ...connectArtistStyles,
+  ...connectAccountsStyles,
   ...postStyles,
 }
 
 
-function ConnectedArtistPanel({
+function ConnectAccountsPanel({
   artistAccount,
   singular,
   setError,
   contactUs,
   updateArtists,
 }) {
-
   const singularClass = singular ? 'singular' : ''
   const { exists, connect } = artistAccount
   const selected = connect ? 'selected' : 'deselected'
@@ -365,4 +363,4 @@ function ConnectedArtistPanel({
   )
 }
 
-export default ConnectedArtistPanel
+export default ConnectAccountsPanel

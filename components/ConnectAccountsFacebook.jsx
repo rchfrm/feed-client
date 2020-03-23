@@ -13,7 +13,7 @@ import ButtonFacebook from './elements/Button'
 import Error from './elements/Error'
 // IMPORT STYLES
 
-function ConnectArtistFacebook({ error, setError }) {
+function ConnectAccountsFacebook({ error, setError }) {
   const { linkFacebook } = React.useContext(AuthContext)
 
   // HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
@@ -64,4 +64,4 @@ function ConnectArtistFacebook({ error, setError }) {
   )
 }
 
-export default ConnectArtistFacebook
+export default ConnectAccountsFacebook

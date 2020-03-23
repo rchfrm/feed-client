@@ -9,8 +9,8 @@ import { AuthContext } from '../contexts/Auth'
 import { UserContext } from '../contexts/User'
 import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
-import ConnectArtists from '../ConnectArtists'
-import ConnectArtistFacebook from '../ConnectArtistFacebook'
+import ConnectArtists from '../ConnectAccounts'
+import ConnectAccountsFacebook from '../ConnectAccountsFacebook'
 import PageHeader from '../PageHeader'
 import Spinner from '../elements/Spinner'
 import Button from '../elements/Button'
@@ -125,7 +125,7 @@ const LoadContent = () => {
     return <Spinner width={50} color={brandColors.green} />
   } if (Object.keys(artistAccounts).length === 0) {
     return (
-      <ConnectArtistFacebook
+      <ConnectAccountsFacebook
         error={error}
         setError={setError}
       />
@@ -161,7 +161,7 @@ const LoadContent = () => {
 }
 
 
-const ConnectArtistPage = () => {
+const ConnectAccountsPage = () => {
   // SHOW / HIDE NAVIGATION
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const className = navState.visible ? 'hidden' : ''
@@ -181,8 +181,8 @@ const ConnectArtistPage = () => {
   )
 }
 
-ConnectArtistPage.propTypes = {
+ConnectAccountsPage.propTypes = {
 
 }
 
-export default ConnectArtistPage
+export default ConnectAccountsPage

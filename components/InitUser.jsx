@@ -37,8 +37,8 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
     // if they don't, set noArtist, and push them to the Connect Artist page
     if (newUser.artists.length === 0) {
       noArtist()
-      if (pathname !== ROUTES.CONNECT_ARTIST) {
-        Router.push(ROUTES.CONNECT_ARTIST)
+      if (pathname !== ROUTES.CONNECT_ACCOUNTS) {
+        Router.push(ROUTES.CONNECT_ACCOUNTS)
         return true
       }
       return false
@@ -116,7 +116,7 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       await createUser(firstName, lastName)
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
-      Router.push(ROUTES.CONNECT_ARTIST)
+      Router.push(ROUTES.CONNECT_ACCOUNTS)
       return true
     }
 
