@@ -23,6 +23,10 @@ input[readonly] {
     .input {
       padding-left: calc(var(--bsu) * 1.5);
     }
+
+    .input_box {
+      padding-left: calc(16px + (var(--bsu) * 2));
+    }
   }
 }
 
@@ -50,7 +54,6 @@ input[readonly] {
   display: block;
   border: 2px solid var(--black);
   border-radius: var(--button-radius);
-  margin-bottom: 1em;
   padding: 1.333em;
   font-family: var(--font-mono);
   font-weight: 100;
@@ -68,7 +71,6 @@ input[readonly] {
   outline: none;
   border: none;
   border-bottom: 1px dotted var(--black);
-  margin: 0 0 1em 0;
   padding-bottom: 0.2em;
   padding-left: 0;
   font-size: 1em;
@@ -77,10 +79,15 @@ input[readonly] {
 
 .input--icon {
   position: absolute;
-  top: 2px;
+  bottom: 50%;
+  transform: translateY(50%);
   left: 0;
   width: 16px;
   height: 16px;
+
+  .input_box + & {
+    left: var(--bsu);
+  }
 
   svg {
     width: 100%;
