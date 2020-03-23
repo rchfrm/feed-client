@@ -58,19 +58,6 @@
   align-items: center;
 }
 
-.post-toggle {
-  background-color: var(--green);
-  border-radius: var(--button-radius);
-  overflow: hidden;
-  line-height: 0;
-  flex: 0 0 auto;
-
-  .deselected & {
-    outline: 2px solid var(--grey);
-    background-color: transparent;
-  }
-}
-
 
 /* POST MEDIA */
 

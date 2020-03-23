@@ -6,7 +6,7 @@ import moment from 'moment'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Button from './elements/Button'
+import ButtonToggle from './elements/ButtonToggle'
 import Icon from './elements/Icon'
 import SquareImage from './elements/SquareImage'
 import Error from './elements/Error'
@@ -200,7 +200,11 @@ function PermalinkAndToggle(props) {
 
       {/* Display toggle option for posts */}
       <div className={styles['post-toggle']}>
-        <Button
+        <ButtonToggle
+          onClick={() => togglePromotion(post.id)}
+          state={status ? 'on' : 'off'}
+        />
+        {/* <Button
           version="toggle"
           onClick={togglePromotion}
         >
@@ -211,7 +215,7 @@ function PermalinkAndToggle(props) {
             data={post.id}
           />
 
-        </Button>
+        </Button> */}
 
       </div>
 
