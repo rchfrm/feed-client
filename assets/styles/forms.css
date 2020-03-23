@@ -9,6 +9,12 @@ input {
   outline: 0;
 }
 
+input[type=text],
+input[type=email],
+input[type=number] {
+  font-size: 16px;
+}
+
 input[readonly] {
   border-bottom: none;
 }
@@ -37,8 +43,10 @@ input[readonly] {
 .inputLabel__text {
   width: 100%;
   display: block;
-  font-size: 0.9em;
+  font-size: 0.85em;
+  letter-spacing: 0.05em;
   margin-bottom: 0.8em;
+  font-weight: 600;
 
   .asterix {
     font-size: 0.8em;
@@ -53,10 +61,11 @@ input[readonly] {
   display: block;
   border: 2px solid var(--black);
   border-radius: var(--button-radius);
-  padding: 1.333em;
+  margin-bottom: 1em;
+  padding: 1em;
+  padding-left: 0.8em;
   font-family: var(--font-mono);
   font-weight: 100;
-  font-size: 1em;
   width: 100%;
   
   &::placeholder{
@@ -72,9 +81,8 @@ input[readonly] {
   outline: none;
   border: none;
   border-bottom: 1px dotted var(--black);
-  padding-bottom: 0.2em;
+  padding-bottom: 0.4em;
   padding-left: 0;
-  font-size: 1em;
   border-radius: 0;
 }
 
@@ -100,7 +108,6 @@ input[readonly] {
 .input--text_icon {
   border: none;
   border-bottom: 1px dotted var(--black);
-  font-size: 1em;
   width: calc(100% - 30px);
   margin: 0 0 1em 0;
   padding-bottom: 0.2em;
