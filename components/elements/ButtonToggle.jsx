@@ -11,10 +11,7 @@ const ButtonToggle = ({ onClick, state, className }) => {
       onClick={onClick}
       className={classes}
     >
-      <Icon
-        version="tick"
-        width="18"
-      />
+      <Icon version="tick" />
     </Button>
   )
 }
