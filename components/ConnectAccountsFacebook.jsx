@@ -5,7 +5,7 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
-import ButtonFacebook from './elements/Button'
+import ButtonFacebook from './elements/ButtonFacebook'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
