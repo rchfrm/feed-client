@@ -296,7 +296,7 @@ function ConnectAccountsPanel({
           value={artistAccount.location || ''}
           handleChange={handleChange}
           type="text"
-          label="Home Town"
+          label="Enter the town you're based in"
           readOnly={readOnly}
           version={artistAccount.exists ? 'text' : 'box'}
         />
