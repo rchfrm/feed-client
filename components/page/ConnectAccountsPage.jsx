@@ -9,7 +9,7 @@ import { AuthContext } from '../contexts/Auth'
 import { UserContext } from '../contexts/User'
 import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
-import ConnectArtists from '../ConnectAccounts'
+import ConnectAccounts from '../ConnectAccounts'
 import ConnectAccountsFacebook from '../ConnectAccountsFacebook'
 import PageHeader from '../PageHeader'
 import Spinner from '../elements/Spinner'
@@ -127,7 +127,7 @@ const LoadContent = () => {
   }
   return (
     <div style={{ width: '100%' }}>
-      <ConnectArtists
+      <ConnectAccounts
         artistAccounts={artistAccounts}
         setArtistAccounts={setArtistAccounts}
         setButtonDisabled={setButtonDisabled}
