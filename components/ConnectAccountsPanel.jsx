@@ -27,11 +27,12 @@ function ConnectAccountsPanel({
   contactUs,
   updateArtists,
 }) {
-  const { readOnly } = connectAccountsStyles
+  // const { readOnly } = connectAccountsStyles
+  const readOnly = false
   const { exists, connect } = artistAccount
   const singularClass = singular ? 'singular' : ''
   const selectedClass = connect ? 'selected' : 'deselected'
-  const readOnlyClass = exists ? readOnly : ''
+  const readOnlyClass = exists ? connectAccountsStyles.readOnly : ''
   const id = artistAccount.page_id
 
 

@@ -18,8 +18,11 @@
 }
 
 .tileHeader {
-  margin-bottom: var(--bsu);
   padding-right: calc(var(--bsu) * 1.5);
+
+  .readOnly & {
+    padding-right: 0;
+  }
 }
 
 .postToggle {
