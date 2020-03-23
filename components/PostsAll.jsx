@@ -14,7 +14,7 @@ import PostsNone from './PostsNone'
 import styles from './PostsPage.module.css'
 
 // Render list of posts and track the one that's currently visible
-function Posts({
+function PostsAll({
   numberOfPosts,
   posts,
   setPosts,
@@ -103,7 +103,7 @@ function Posts({
   )
 }
 
-export default Posts
+export default PostsAll
 
 function PostList({ posts, setPosts, togglePromotion, handleScroll }) {
   // CREATE ARRAY OF POSTS

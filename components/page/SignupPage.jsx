@@ -162,7 +162,7 @@ function SignupPage() {
         setError(error)
       })
     setRedirecting(true)
-    Router.push(ROUTES.CONNECT_ARTIST)
+    Router.push(ROUTES.CONNECT_ACCOUNTS)
   }
   // END HANDLE CLICK ON SIGN-UP BUTTON
 

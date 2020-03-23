@@ -1,8 +1,29 @@
-
 // IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import FacebookIcon from '../icons/FacebookIcon'
+import InstagramIcon from '../icons/InstagramIcon'
+import brandColors from '../../constants/brandColors'
+
+
+const getIconEl = (icon) => {
+  if (icon === 'facebook') {
+    return (
+      <div className="input--icon">
+        <FacebookIcon fill={brandColors.textColor} width="20" />
+      </div>
+    )
+  }
+  if (icon === 'instagram') {
+    return (
+      <div className="input--icon">
+        <InstagramIcon fill={brandColors.textCoolor} width="20" />
+      </div>
+    )
+  }
+  return null
+}
 
 const InputNew = ({
   handleChange,
@@ -16,19 +37,29 @@ const InputNew = ({
   readOnly,
   required,
   className,
+  icon,
 }) => {
+  // Get icon (if needed)
+  const iconEl = icon ? getIconEl(icon) : null
+  const containerClasses = ['input--container', className]
+  if (iconEl) {
+    containerClasses.push('_hasIcon')
+  }
+
   return (
-    <div className={['input--container', className].join(' ')}>
+    <div className={containerClasses.join(' ')}>
       <label
         className="inputLabel"
         htmlFor={name}
       >
+        {/* LABEL */}
         {label && (
           <span className="inputLabel__text">
             {label}
             {required && <span className="asterix">*</span>}
           </span>
         )}
+        {/* INPUT */}
         <input
           className={['input', `input_${version}`].join(' ')}
           name={name}
@@ -42,6 +73,8 @@ const InputNew = ({
           readOnly={readOnly}
           required={required}
         />
+        {/* ICON */}
+        {iconEl}
       </label>
     </div>
   )
@@ -71,14 +104,13 @@ InputNew.propTypes = {
   ]),
 
   // If there is a version prop, it should be a string
-  version: PropTypes.string.isRequired,
+  version: PropTypes.string,
 
   // If there is a width prop, it should be a number
   width: PropTypes.number,
-
   required: PropTypes.bool,
-
   className: PropTypes.string,
+  icon: PropTypes.string,
 }
 
 InputNew.defaultProps = {
@@ -88,9 +120,11 @@ InputNew.defaultProps = {
   type: 'text',
   label: '',
   value: '',
+  version: 'box',
   width: 100,
   required: false,
   className: '',
+  icon: '',
 }
 
 export default InputNew

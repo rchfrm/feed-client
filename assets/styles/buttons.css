@@ -63,9 +63,30 @@ button {
 
 .button--toggle {
   padding: 0;
+  background-color: var(--success-color);
+  color: var(--white);
+  width: 18px;
+  height: 18px;
 
   .icon {
     line-height: 0;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    * {
+      fill: var(--white);
+    }
+  }
+
+  &._off {
+    background-color: var(--white);
+    border: 2px solid var(--grey);
+
+    svg {
+      opacity: 0;
+    }
   }
 }
 
@@ -142,13 +163,3 @@ button {
   cursor: pointer;
 }
 
-.button_toggle {
-  border: none;
-  background-color: transparent;
-  padding: 0;
-  margin: 0;
-}
-
-.button_toggle svg {
-  vertical-align: middle;
-}

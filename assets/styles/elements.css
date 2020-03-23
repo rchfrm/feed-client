@@ -281,7 +281,7 @@
   padding: 5.556%;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--text-color);
+  border: 2px solid var(--text-color);
   border-radius: var(--dialogue-radius);
   overflow: hidden;
 }
@@ -292,7 +292,7 @@
 
 .deselected {
   background-color: var(--grey-light);
-  border: 1px solid var(--grey-dark);
+  border: 2px solid var(--grey-dark);
 }
 
 .singular {

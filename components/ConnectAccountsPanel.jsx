@@ -1,39 +1,37 @@
 import React from 'react'
 
-import Icon from './elements/Icon'
-import Input from './elements/Input'
-import Select from './elements/Select'
-import Button from './elements/Button'
+import InputNew from './elements/InputNew'
+import SelectNew from './elements/SelectNew'
+import ButtonToggle from './elements/ButtonToggle'
 import InstagramIcon from './icons/InstagramIcon'
 
 import helper from './helpers/helper'
 
 import countries from '../constants/countries'
 
-
 // IMPORT STYLES
-import connectArtistStyles from './ConnectArtist.module.css'
+import connectAccountsStyles from './ConnectAccounts.module.css'
 import postStyles from './PostsPage.module.css'
 import brandColors from '../constants/brandColors'
 
 const styles = {
-  ...connectArtistStyles,
+  ...connectAccountsStyles,
   ...postStyles,
 }
 
-
-function ConnectedArtistPanel({
+function ConnectAccountsPanel({
   artistAccount,
   singular,
   setError,
   contactUs,
   updateArtists,
 }) {
-
-  const singularClass = singular ? 'singular' : ''
+  // const { readOnly } = connectAccountsStyles
+  const readOnly = false
   const { exists, connect } = artistAccount
-  const selected = connect ? 'selected' : 'deselected'
-  const readOnly = exists ? 'readonly' : ''
+  const singularClass = singular ? 'singular' : ''
+  const selectedClass = connect ? 'selected' : 'deselected'
+  const readOnlyClass = exists ? connectAccountsStyles.readOnly : ''
   const id = artistAccount.page_id
 
 
@@ -49,16 +47,6 @@ function ConnectedArtistPanel({
     updateArtists(action)
   }
 
-  // Toggle country selector error if selected or not
-  const [countryError, setCountryError] = React.useState(true)
-
-  React.useEffect(() => {
-    const { country_code = null, connect } = artistAccount
-    const hasCountryError = !country_code && connect
-    setCountryError(hasCountryError)
-  }, [artistAccount])
-
-
   // HANDLE CHANGES IN TILE INPUTS
   const handleChange = e => {
     e.preventDefault()
@@ -72,8 +60,6 @@ function ConnectedArtistPanel({
     if (field === 'country_code') {
       if (value.indexOf('Choose') !== -1) {
         value = undefined
-      } else {
-        value = value.slice(value.indexOf('(') + 1, value.indexOf(')'))
       }
     }
 
@@ -100,86 +86,83 @@ function ConnectedArtistPanel({
   // END HANDLE CHANGES IN TILE INPUTS
 
   const returnExistsWarning = () => {
-    // Show warning if artist is already in database
-    if (exists) {
+    // if already connected
+    if (readOnly) {
       return (
-        <div className={styles['post-meta']}>
-          <em style={{ color: brandColors.black }}>
-            You will be added to
-            {artistAccount.name}
-            's team
-          </em>
+        <div className={`${styles.tileHeader}`}>
+          <p>
+            <em style={{ color: brandColors.black }}>
+              You have already been added to
+              {' '}
+              {artistAccount.name}
+              's team.
+            </em>
+          </p>
         </div>
       )
     }
-    return (
-      <div className={styles['post-meta']} />
-    )
+    // Show warning if artist is already in database
+    if (exists) {
+      return (
+        <div className={`${styles.tileHeader}`}>
+          <p>
+            <em style={{ color: brandColors.black }}>
+              You will be added to
+              {' '}
+              {artistAccount.name}
+              's team.
+            </em>
+          </p>
+        </div>
+      )
+    }
+    return null
   }
 
   const returnToggle = () => {
     if (!singular && !exists) {
       return (
-        <div className={styles['post-toggle']}>
-          <Button
-            version="toggle"
-            onClick={toggleSelected}
-          >
-            <Icon
-              version={connect ? 'tick' : 'empty'}
-              color={connect ? 'white' : brandColors.grey}
-              width="18"
-              data={artistAccount.page_id}
-            />
-          </Button>
-        </div>
+        <ButtonToggle
+          onClick={toggleSelected}
+          className={styles.postToggle}
+          state={connect ? 'on' : 'off'}
+        />
       )
     }
+    return null
   }
 
   const returnCountry = () => {
     if (exists) {
       return (
-        <Input
+        <InputNew
           name="country_code"
           placeholder={artistAccount.country_code}
           value={`${helper.findCountryName(artistAccount.country_code)} (${artistAccount.country_code})`}
-          onChange={handleChange}
-          type="text"
-          label={{
-            position: 'top',
-            text: 'Your country',
-          }}
-          version="text"
-          readonly={artistAccount.exists}
+          handleChange={handleChange}
+          label="Your Country"
+          readOnly={readOnly}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
       )
     }
 
     const countriesArr = countries.map(({ id, name }) => {
       return {
-        id,
+        value: id,
         name,
       }
     })
 
     return (
-      <Select
+      <SelectNew
         name="country_code"
-        label={{
-          position: 'top',
-          text: 'Your country *',
-        }}
-        onChange={handleChange}
-        selectedOption={artistAccount.country_code || 'choose'}
-        hasError={countryError}
-        options={[
-          {
-            id: 'choose',
-            name: 'Choose your country...',
-          },
-          ...countriesArr,
-        ]}
+        label="Your country"
+        handleChange={handleChange}
+        selectedValue={artistAccount.country_code || 'choose'}
+        placeholder="Choose your country..."
+        options={countriesArr}
+        required
       />
     )
   }
@@ -187,18 +170,14 @@ function ConnectedArtistPanel({
   const returnInstagramInput = () => {
     if (artistAccount.instagram_url) {
       return (
-        <Input
+        <InputNew
           name="instagram_url"
           placeholder={artistAccount.instagram_url || 'Enter the URL of your Instagram Page'}
           value={artistAccount.instagram_url || ''}
-          onChange={contactUs}
-          type="text"
-          label={{
-            position: 'icon',
-            icon: 'instagram',
-          }}
-          version="text_icon"
-          readonly={artistAccount.exists}
+          handleChange={contactUs}
+          label="Instagram page URL"
+          readOnly={readOnly}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
       )
     }
@@ -223,31 +202,31 @@ function ConnectedArtistPanel({
   const returnAdAccount = () => {
     if (exists) {
       return (
-        <Input
+        <InputNew
           name="selected_facebook_ad_account"
-          placeholder={artistAccount.selected_facebook_ad_account}
+          placeholder={artistAccount.selected_facebook_ad_account ? artistAccount.selected_facebook_ad_account.name : ''}
           value={`${artistAccount.selected_facebook_ad_account.name} (${artistAccount.selected_facebook_ad_account.id})`}
-          onChange={contactUs}
-          type="text"
-          label={{
-            position: 'top',
-            text: 'Selected Facebook Ad Account',
-          }}
-          version="text"
-          readonly={artistAccount.exists}
+          handleChange={contactUs}
+          label="Selected Facebook Ad Account"
+          readOnly={readOnly}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
       )
     }
+
+    const adAccountOptions = artistAccount.available_facebook_ad_accounts.map(({ name, id: value }) => {
+      return {
+        name,
+        value,
+      }
+    })
+
     return (
-      <Select
+      <SelectNew
         name="selected_facebook_ad_account"
-        label={{
-          position: 'top',
-          text: 'Which Facebook Ad Account should we use?',
-        }}
-        onChange={handleChange}
-        contactUs={contactUs}
-        options={artistAccount.available_facebook_ad_accounts}
+        label="Which Facebook Ad Account should we use?"
+        handleChange={handleChange}
+        options={adAccountOptions}
       />
     )
   }
@@ -256,14 +235,12 @@ function ConnectedArtistPanel({
   return (
     <li
       key={artistAccount.page_id}
-      className={`tile ${selected} ${singularClass} ${readOnly}`}
+      className={`tile ${styles.tile} ${selectedClass} ${singularClass} ${readOnlyClass}`}
     >
-
+      {/* TOGGLE BUTTON */}
+      {returnToggle()}
       {/* Warning if artist already exists and toggle */}
-      <div className={`flex-row ${styles['flex-row']}`}>
-        {returnExistsWarning()}
-        {returnToggle()}
-      </div>
+      {returnExistsWarning()}
 
       <div className={`flex-row ${styles['flex-row']}`}>
 
@@ -282,22 +259,15 @@ function ConnectedArtistPanel({
         <div className={`flex-column ${styles['right-of-profile']}`}>
 
           {/* Artist Name */}
-          <Input
+          <InputNew
             name="name"
             placeholder={artistAccount.name || 'Enter artist name'}
             value={artistAccount.name || ''}
-            onChange={handleChange}
-            type="text"
-            label={{
-              position: 'top',
-              text: 'Artist Name',
-            }}
-            version="text"
-            readonly={artistAccount.exists}
+            handleChange={handleChange}
+            label="Artist Name"
+            readOnly={readOnly}
+            version={artistAccount.exists ? 'text' : 'box'}
           />
-
-          {/* Country */}
-          {returnCountry()}
 
         </div>
 
@@ -305,50 +275,44 @@ function ConnectedArtistPanel({
 
       <div className="flex-column" style={{ flex: 'auto', justifyContent: 'space-between' }}>
 
+        {/* Country */}
+        {returnCountry()}
+
         {/* Inputs below profile picture */}
         {/* Home Town */}
-        <Input
+        <InputNew
           name="location"
           placeholder={artistAccount.location || artistAccount.exists ? 'na.' : 'Enter the name of your home town'}
           value={artistAccount.location || ''}
-          onChange={handleChange}
+          handleChange={handleChange}
           type="text"
-          label={{
-            position: 'top',
-            text: 'Home Town',
-          }}
-          version="text"
-          readonly={artistAccount.exists}
+          label="The town you're based in"
+          readOnly={readOnly}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
 
         {/* Spotify Page URL */}
-        <Input
+        <InputNew
           name="spotify_url"
           placeholder={artistAccount.spotify_url || artistAccount.exists ? 'na.' : 'Enter the URL of your Spotify Artist Page'}
           value={artistAccount.spotify_url || ''}
-          onChange={handleChange}
+          handleChange={handleChange}
           type="text"
-          label={{
-            position: 'top',
-            text: 'Spotify Artist Page URL',
-          }}
-          version="text"
-          readonly={artistAccount.exists}
+          label="Spotify Artist Page URL"
+          readOnly={readOnly}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
 
         {/* Facebook Page URL */}
-        <Input
+        <InputNew
           name="facebook_page_url"
           placeholder={artistAccount.facebook_page_url || 'Enter the URL of your Facebook Page'}
           value={artistAccount.facebook_page_url || ''}
-          onChange={contactUs}
+          handleChange={contactUs}
+          label="Facebook Page URL"
           type="text"
-          label={{
-            position: 'icon',
-            icon: 'facebook',
-          }}
-          version="text_icon"
-          readonly={artistAccount.exists}
+          readOnly={readOnly}
+          version={artistAccount.exists ? 'text' : 'box'}
         />
 
         {/* Instagram Page URL */}
@@ -365,4 +329,4 @@ function ConnectedArtistPanel({
   )
 }
 
-export default ConnectedArtistPanel
+export default ConnectAccountsPanel
