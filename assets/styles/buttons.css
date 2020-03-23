@@ -69,6 +69,22 @@ button {
   .icon {
     line-height: 0;
   }
+
+  svg {
+    * {
+      fill: var(--white);
+    }
+  }
+
+  &._off {
+    background-color: var(--grey-dark);
+
+    svg {
+      * {
+        fill: var(--grey-light);
+      }
+    }
+  }
 }
 
 
@@ -144,13 +160,3 @@ button {
   cursor: pointer;
 }
 
-.button_toggle {
-  border: none;
-  background-color: transparent;
-  padding: 0;
-  margin: 0;
-}
-
-.button_toggle svg {
-  vertical-align: middle;
-}
