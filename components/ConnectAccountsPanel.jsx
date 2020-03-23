@@ -27,10 +27,11 @@ function ConnectAccountsPanel({
   contactUs,
   updateArtists,
 }) {
-  const singularClass = singular ? 'singular' : ''
+  const { readOnly } = connectAccountsStyles
   const { exists, connect } = artistAccount
-  const selected = connect ? 'selected' : 'deselected'
-  const readOnly = exists ? connectAccountsStyles.readOnly : ''
+  const singularClass = singular ? 'singular' : ''
+  const selectedClass = connect ? 'selected' : 'deselected'
+  const readOnlyClass = exists ? readOnly : ''
   const id = artistAccount.page_id
 
 
@@ -144,7 +145,7 @@ function ConnectAccountsPanel({
           value={`${helper.findCountryName(artistAccount.country_code)} (${artistAccount.country_code})`}
           handleChange={handleChange}
           label="Your Country"
-          readOnly={artistAccount.exists}
+          readOnly={readOnly}
           version={artistAccount.exists ? 'text' : 'box'}
         />
       )
@@ -187,7 +188,7 @@ function ConnectAccountsPanel({
           value={artistAccount.instagram_url || ''}
           handleChange={contactUs}
           icon="instagram"
-          readOnly={artistAccount.exists}
+          readOnly={readOnly}
           version={artistAccount.exists ? 'text' : 'box'}
         />
       )
@@ -219,7 +220,7 @@ function ConnectAccountsPanel({
           value={`${artistAccount.selected_facebook_ad_account.name} (${artistAccount.selected_facebook_ad_account.id})`}
           handleChange={contactUs}
           label="Selected Facebook Ad Account"
-          readOnly={artistAccount.exists}
+          readOnly={readOnly}
           version={artistAccount.exists ? 'text' : 'box'}
         />
       )
@@ -242,7 +243,7 @@ function ConnectAccountsPanel({
   return (
     <li
       key={artistAccount.page_id}
-      className={`tile ${styles.tile} ${selected} ${singularClass} ${readOnly}`}
+      className={`tile ${styles.tile} ${selectedClass} ${singularClass} ${readOnlyClass}`}
     >
 
       {/* Warning if artist already exists and toggle */}
@@ -274,7 +275,7 @@ function ConnectAccountsPanel({
             value={artistAccount.name || ''}
             handleChange={handleChange}
             label="Artist Name"
-            readOnly={artistAccount.exists}
+            readOnly={readOnly}
             version={artistAccount.exists ? 'text' : 'box'}
           />
 
@@ -296,7 +297,7 @@ function ConnectAccountsPanel({
           handleChange={handleChange}
           type="text"
           label="Home Town"
-          readOnly={artistAccount.exists}
+          readOnly={readOnly}
           version={artistAccount.exists ? 'text' : 'box'}
         />
 
@@ -308,7 +309,7 @@ function ConnectAccountsPanel({
           handleChange={handleChange}
           type="text"
           label="Spotify Artist Page URL"
-          readOnly={artistAccount.exists}
+          readOnly={readOnly}
           version={artistAccount.exists ? 'text' : 'box'}
         />
 
@@ -320,7 +321,7 @@ function ConnectAccountsPanel({
           handleChange={contactUs}
           type="text"
           icon="facebook"
-          readOnly={artistAccount.exists}
+          readOnly={readOnly}
           version={artistAccount.exists ? 'text' : 'box'}
         />
 

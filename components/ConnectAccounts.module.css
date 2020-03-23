@@ -27,7 +27,8 @@
 
 
 .right-of-profile {
-  justify-content: flex-end;
+  justify-content: flex-start;
+  padding-top: 0.1em;
   padding-left: calc(0.5 * var(--bsu));
 }
 
