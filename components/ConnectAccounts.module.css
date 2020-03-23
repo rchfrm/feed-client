@@ -6,6 +6,7 @@
 }
 
 .tile {
+  position: relative;
   &.readOnly {
     background-color: var(--grey-light);
     border: none;
@@ -14,6 +15,17 @@
       margin-bottom: 0.2em !important;
     }
   }
+}
+
+.tileHeader {
+  margin-bottom: var(--bsu);
+  padding-right: calc(var(--bsu) * 1.5);
+}
+
+.postToggle {
+  position: absolute;
+  top: var(--bsu);
+  right: var(--bsu);
 }
 
 .profile-picture {

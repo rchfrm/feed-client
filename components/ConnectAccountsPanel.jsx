@@ -101,52 +101,54 @@ function ConnectAccountsPanel({
     // if already connected
     if (readOnly) {
       return (
-        <div className={styles['post-meta']}>
-          <em style={{ color: brandColors.black }}>
-            You have already been added to
-            {' '}
-            {artistAccount.name}
-            's team
-          </em>
+        <div className={`${styles.tileHeader}`}>
+          <p>
+            <em style={{ color: brandColors.black }}>
+              You have already been added to
+              {' '}
+              {artistAccount.name}
+              's team.
+            </em>
+          </p>
         </div>
       )
     }
     // Show warning if artist is already in database
     if (exists) {
       return (
-        <div className={styles['post-meta']}>
-          <em style={{ color: brandColors.black }}>
-            You will be added to
-            {' '}
-            {artistAccount.name}
-            's team
-          </em>
+        <div className={`${styles.tileHeader}`}>
+          <p>
+            <em style={{ color: brandColors.black }}>
+              You will be added to
+              {' '}
+              {artistAccount.name}
+              's team.
+            </em>
+          </p>
         </div>
       )
     }
-    return (
-      <div className={styles['post-meta']} />
-    )
+    return null
   }
 
   const returnToggle = () => {
     if (!singular && !exists) {
       return (
-        <div className={styles['post-toggle']}>
-          <Button
-            version="toggle"
-            onClick={toggleSelected}
-          >
-            <Icon
-              version={connect ? 'tick' : 'empty'}
-              color={connect ? 'white' : brandColors.grey}
-              width="18"
-              data={artistAccount.page_id}
-            />
-          </Button>
-        </div>
+        <Button
+          version="toggle"
+          onClick={toggleSelected}
+          className={styles.postToggle}
+        >
+          <Icon
+            version={connect ? 'tick' : 'empty'}
+            color={connect ? 'white' : brandColors.grey}
+            width="18"
+            data={artistAccount.page_id}
+          />
+        </Button>
       )
     }
+    return null
   }
 
   const returnCountry = () => {
@@ -166,28 +168,20 @@ function ConnectAccountsPanel({
 
     const countriesArr = countries.map(({ id, name }) => {
       return {
-        id,
+        value: id,
         name,
       }
     })
 
     return (
-      <Select
+      <SelectNew
         name="country_code"
-        label={{
-          position: 'top',
-          text: 'Your country *',
-        }}
-        onChange={handleChange}
-        selectedOption={artistAccount.country_code || 'choose'}
-        hasError={countryError}
-        options={[
-          {
-            id: 'choose',
-            name: 'Choose your country...',
-          },
-          ...countriesArr,
-        ]}
+        label="Your country"
+        handleChange={handleChange}
+        selectedValue={artistAccount.country_code || 'choose'}
+        placeholder="Choose your country..."
+        options={countriesArr}
+        required
       />
     )
   }
@@ -258,12 +252,10 @@ function ConnectAccountsPanel({
       key={artistAccount.page_id}
       className={`tile ${styles.tile} ${selectedClass} ${singularClass} ${readOnlyClass}`}
     >
-
+      {/* TOGGLE BUTTON */}
+      {returnToggle()}
       {/* Warning if artist already exists and toggle */}
-      <div className={`flex-row ${styles['flex-row']}`}>
-        {returnExistsWarning()}
-        {returnToggle()}
-      </div>
+      {returnExistsWarning()}
 
       <div className={`flex-row ${styles['flex-row']}`}>
 

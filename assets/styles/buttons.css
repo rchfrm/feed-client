@@ -63,6 +63,8 @@ button {
 
 .button--toggle {
   padding: 0;
+  background-color: var(--success-color);
+  color: var(--white);
 
   .icon {
     line-height: 0;
