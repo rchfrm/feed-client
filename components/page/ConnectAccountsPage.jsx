@@ -46,6 +46,8 @@ const LoadContent = () => {
 
   // PUSH TO RELEVANT PAGE IF THERE IS A SIGNED IN USER WITH ARTISTS, OR NO SIGNED IN USER
   React.useLayoutEffect(() => {
+    // If there is no selected artist, exit
+    if (!artist.id) return
     // If user is still loading, exit
     if (userLoading) return
     // If artist is still loading, exit
@@ -54,15 +56,12 @@ const LoadContent = () => {
     if (!user.id) {
       setRedirecting(true)
       Router.push(ROUTES.LOGIN)
-      return
     }
-    // If there is no selected artist, exit
-    if (!artist.id) return
-    // If the artist has artists, push to the thank you page
-    if (user.artists.length > 0) {
-      setRedirecting(true)
-      Router.push(ROUTES.THANK_YOU)
-    }
+    // // If the artist has artists, push to the thank you page
+    // if (user.artists.length > 0) {
+    //   setRedirecting(true)
+    //   Router.push(ROUTES.THANK_YOU)
+    // }
   }, [artist.id, artistLoading, user, userLoading])
 
   // * GET INITIAL DATA FROM SERVER
