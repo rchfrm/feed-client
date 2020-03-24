@@ -165,23 +165,21 @@ function PostsLoader() {
   // END IF USER PASSES 50% MARK IN SCROLL, TRIGGER LOADING OF MORE POSTS
 
   // TOGGLE PROMOTION ENABLED
-  const togglePromotion = async e => {
-    e.preventDefault()
-    const id = e.target.dataset.item
+  const togglePromotion = async (postId) => {
     let indexOfId
     for (let i = 0; i < posts.length; i += 1) {
-      if (posts[i].id === id) {
+      if (posts[i].id === postId) {
         indexOfId = i
         break
       }
     }
     const token = await getToken()
-    const res = await server.togglePromotionEnabled(artist.id, id, !posts[indexOfId].promotion_enabled, token)
+    const res = await server.togglePromotionEnabled(artist.id, postId, !posts[indexOfId].promotion_enabled, token)
     if (res) {
       setPosts({
         type: 'toggle-promotion',
         payload: {
-          id,
+          postId,
           index: indexOfId,
           promotion_enabled: res.promotion_enabled,
         },

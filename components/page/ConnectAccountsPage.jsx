@@ -9,8 +9,8 @@ import { AuthContext } from '../contexts/Auth'
 import { UserContext } from '../contexts/User'
 import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
-import ConnectArtists from '../ConnectArtists'
-import ConnectArtistFacebook from '../ConnectArtistFacebook'
+import ConnectAccounts from '../ConnectAccounts'
+import ConnectAccountsFacebook from '../ConnectAccountsFacebook'
 import PageHeader from '../PageHeader'
 import Spinner from '../elements/Spinner'
 import Button from '../elements/Button'
@@ -46,6 +46,8 @@ const LoadContent = () => {
 
   // PUSH TO RELEVANT PAGE IF THERE IS A SIGNED IN USER WITH ARTISTS, OR NO SIGNED IN USER
   React.useLayoutEffect(() => {
+    // If there is no selected artist, exit
+    if (!artist.id) return
     // If user is still loading, exit
     if (userLoading) return
     // If artist is still loading, exit
@@ -54,14 +56,6 @@ const LoadContent = () => {
     if (!user.id) {
       setRedirecting(true)
       Router.push(ROUTES.LOGIN)
-      return
-    }
-    // If there is no selected artist, exit
-    if (!artist.id) return
-    // If the artist has artists, push to the thank you page
-    if (user.artists.length > 0) {
-      setRedirecting(true)
-      Router.push(ROUTES.THANK_YOU)
     }
   }, [artist.id, artistLoading, user, userLoading])
 
@@ -125,7 +119,7 @@ const LoadContent = () => {
     return <Spinner width={50} color={brandColors.green} />
   } if (Object.keys(artistAccounts).length === 0) {
     return (
-      <ConnectArtistFacebook
+      <ConnectAccountsFacebook
         error={error}
         setError={setError}
       />
@@ -133,7 +127,7 @@ const LoadContent = () => {
   }
   return (
     <div style={{ width: '100%' }}>
-      <ConnectArtists
+      <ConnectAccounts
         artistAccounts={artistAccounts}
         setArtistAccounts={setArtistAccounts}
         setButtonDisabled={setButtonDisabled}
@@ -161,7 +155,7 @@ const LoadContent = () => {
 }
 
 
-const ConnectArtistPage = () => {
+const ConnectAccountsPage = () => {
   // SHOW / HIDE NAVIGATION
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const className = navState.visible ? 'hidden' : ''
@@ -173,7 +167,7 @@ const ConnectArtistPage = () => {
   return (
     <div className={`page--container ${className}`}>
 
-      <PageHeader heading="connect artist accounts" />
+      <PageHeader heading="connect accounts" />
 
       <LoadContent />
 
@@ -181,8 +175,8 @@ const ConnectArtistPage = () => {
   )
 }
 
-ConnectArtistPage.propTypes = {
+ConnectAccountsPage.propTypes = {
 
 }
 
-export default ConnectArtistPage
+export default ConnectAccountsPage

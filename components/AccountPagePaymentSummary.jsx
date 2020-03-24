@@ -75,7 +75,7 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
     // Call on ready from parent
     const buttonText = hasNoPaymentMethod ? 'Add a payment method' : null
     const sidePanelType = hasNoPaymentMethod ? 'add-payment' : null
-    onReady(buttonText, sidePanelType)
+    onReady(false, sidePanelType)
   }, [hasNoPaymentMethod])
 
 
@@ -92,13 +92,13 @@ const AccountPagePaymentSummary = ({ className, user, onReady }) => {
         <Link href={ROUTES.PRICING}><a>here</a></Link>.
       </p>
       {/* The saved details */}
-      {billingDetails.map((details, index) => {
+      {/* {billingDetails.map((details, index) => {
         if (!details) return null
         const { name, defaultMethod, role } = details
         // Handle no method
         if (!defaultMethod) return <NoMethod name={name} role={role} key={name ? slugify(name) : index} />
         return <PaymentItem name={name} defaultMethod={defaultMethod} key={slugify(name)} />
-      })}
+      })} */}
     </div>
   )
 }

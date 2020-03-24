@@ -6,7 +6,7 @@ import moment from 'moment'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Button from './elements/Button'
+import ButtonToggle from './elements/ButtonToggle'
 import Icon from './elements/Icon'
 import SquareImage from './elements/SquareImage'
 import Error from './elements/Error'
@@ -23,7 +23,7 @@ import MediaFallback from './elements/MediaFallback'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
-function Post({ index, post, singular: isSingular, setPosts, togglePromotion }) {
+function PostSingle({ index, post, singular: isSingular, setPosts, togglePromotion }) {
   // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
@@ -156,7 +156,7 @@ function Post({ index, post, singular: isSingular, setPosts, togglePromotion }) 
   )
 }
 
-export default Post
+export default PostSingle
 
 function PermalinkAndToggle(props) {
 // REDEFINE PROPS AS VARIABLES
@@ -200,7 +200,11 @@ function PermalinkAndToggle(props) {
 
       {/* Display toggle option for posts */}
       <div className={styles['post-toggle']}>
-        <Button
+        <ButtonToggle
+          onClick={() => togglePromotion(post.id)}
+          state={status ? 'on' : 'off'}
+        />
+        {/* <Button
           version="toggle"
           onClick={togglePromotion}
         >
@@ -211,7 +215,7 @@ function PermalinkAndToggle(props) {
             data={post.id}
           />
 
-        </Button>
+        </Button> */}
 
       </div>
 

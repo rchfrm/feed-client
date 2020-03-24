@@ -11,7 +11,7 @@ const SelectNew = ({
   placeholder,
   selectedValue,
   style,
-  version = '',
+  version,
   required,
   className,
 }) => {
@@ -21,7 +21,7 @@ const SelectNew = ({
   })
   // Add optional placeholder
   if (placeholder) {
-    optionElements.push(<option key="placeholder" value="" hidden>{placeholder}</option>)
+    optionElements.unshift(<option key="placeholder" value="" hidden>{placeholder}</option>)
   }
 
   return (
@@ -84,7 +84,7 @@ SelectNew.propTypes = {
   selectedValue: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-  ]).isRequired,
+  ]),
 
   // If there is a style prop, it should be an object
   style: PropTypes.object,
@@ -100,10 +100,11 @@ SelectNew.propTypes = {
 SelectNew.defaultProps = {
   label: '',
   style: {},
-  version: '',
+  version: 'box',
   required: false,
   className: '',
   placeholder: '',
+  selectedValue: '',
 }
 
 export default SelectNew

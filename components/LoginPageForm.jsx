@@ -75,7 +75,7 @@ function LoginPageForm() {
         Router.push(ROUTES.HOME)
       } else {
         noArtist()
-        Router.push(ROUTES.CONNECT_ARTIST)
+        Router.push(ROUTES.CONNECT_ACCOUNTS)
       }
     } catch (err) {
       setEmail('')
