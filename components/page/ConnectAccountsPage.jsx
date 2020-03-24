@@ -38,7 +38,7 @@ const LoadContent = () => {
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
 
   // DEFINE ERRORS
-  const [error, setError] = React.useState(null)
+  const [errors, setErrors] = React.useState([])
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}
@@ -55,7 +55,7 @@ const LoadContent = () => {
       .catch((err) => {
         console.error(err)
         if (!isMounted) return
-        setError(err)
+        setErrors([err])
       })
     // Sort ad accounts alphabetically
     const availableArtistsSorted = {
@@ -81,7 +81,7 @@ const LoadContent = () => {
 
   // Set initial error (if any)
   React.useEffect(() => {
-    setError(authError)
+    setErrors([authError])
   }, [authError])
 
 
@@ -96,7 +96,7 @@ const LoadContent = () => {
     } catch (err) {
       setRedirecting(false)
       setArtistLoading(false)
-      setError(err)
+      setErrors([err])
     }
   }
 
@@ -108,8 +108,8 @@ const LoadContent = () => {
   if (Object.keys(artistAccounts).length === 0) {
     return (
       <ConnectAccountsFacebook
-        error={error}
-        setError={setError}
+        errors={errors}
+        setErrors={setErrors}
       />
     )
   }
@@ -120,12 +120,15 @@ const LoadContent = () => {
         artistAccounts={artistAccounts}
         setArtistAccounts={setArtistAccounts}
         setButtonDisabled={setButtonDisabled}
-        setError={setError}
+        setErrors={setErrors}
       />
 
       <div className="ninety-wide" style={{ textAlign: 'right' }}>
 
-        <Error error={error} />
+        {/* Errors */}
+        {errors.map((error, index) => {
+          return <Error error={error} key={index} />
+        })}
 
         <p>&nbsp;</p>
 

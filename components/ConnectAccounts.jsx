@@ -19,13 +19,13 @@ function ConnectAccounts({
   artistAccounts,
   setArtistAccounts,
   setButtonDisabled,
-  setError,
+  setErrors,
 }) {
   // SHOW ERROR IF THE USER ATTEMPTS TO EDIT FACEBOOK PAGE OR INSTAGRAM ACCOUNT
   const contactUs = e => {
-    setError({
+    setErrors([{
       message: 'To change your connected Facebook Page or Instagram Account, contact us at support@archform.ltd',
-    })
+    }])
     e.preventDefault()
   }
 
@@ -52,7 +52,7 @@ function ConnectAccounts({
         key={artistAccount.page_id}
         artistAccount={artistAccount}
         updateArtists={updateArtists}
-        setError={setError}
+        setErrors={setErrors}
         singular={artistAccounts.length === 1}
         contactUs={contactUs}
       />
