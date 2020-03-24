@@ -218,9 +218,6 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
         billing_details: billingDetailsStripe,
       })
 
-      console.log('billingDetailsStripe', billingDetailsStripe)
-      console.log('paymentMethod', paymentMethod)
-
       // Stop here if error and show message
       if (error) {
         setErrors([{ message: 'Error adding card' }])
