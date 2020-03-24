@@ -11,6 +11,7 @@ input {
 
 input[type=text],
 input[type=email],
+input[type=password],
 input[type=number] {
   font-size: 16px;
 }
