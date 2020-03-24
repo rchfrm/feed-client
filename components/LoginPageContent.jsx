@@ -27,6 +27,7 @@ function LoginPageContent() {
   const { userLoading } = React.useContext(UserContext)
   const { artistLoading } = React.useContext(ArtistContext)
 
+  const [pageLoading, setPageLoading] = React.useState(false)
   const [showEmailLogin, setShowEmailLogin] = React.useState(false)
 
   // CONTINUE WITH FACEBOOK
@@ -37,7 +38,7 @@ function LoginPageContent() {
     continueWithFacebook()
   }
 
-  if (authLoading || userLoading || artistLoading) {
+  if (authLoading || userLoading || artistLoading || pageLoading) {
     return (
       <Spinner width={50} color={brandColors.green} />
     )
@@ -74,7 +75,7 @@ function LoginPageContent() {
         </p>
 
         {/* Email login form */}
-        {showEmailLogin && <LoginPageForm />}
+        {showEmailLogin && <LoginPageForm setPageLoading={setPageLoading} />}
       </div>
     </div>
   )

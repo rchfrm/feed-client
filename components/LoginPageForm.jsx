@@ -18,7 +18,7 @@ import * as ROUTES from '../constants/routes'
 
 import styles from './LoginPage.module.css'
 
-function LoginPageForm() {
+function LoginPageForm({ setPageLoading }) {
   // IMPORT CONTEXTS
   const { authError, login } = React.useContext(AuthContext)
   const { storeUser, userError } = React.useContext(UserContext)
@@ -51,6 +51,7 @@ function LoginPageForm() {
   const onFormSubmit = async e => {
     e.preventDefault()
     setError(null)
+    setPageLoading(true)
     try {
       await login(email, password)
       const newUser = await storeUser()
@@ -63,6 +64,7 @@ function LoginPageForm() {
         Router.push(ROUTES.CONNECT_ACCOUNTS)
       }
     } catch (err) {
+      setPageLoading(false)
       setEmail('')
       setPassword('')
       setError(err)
