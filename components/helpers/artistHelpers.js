@@ -88,13 +88,6 @@ export default {
   getNewArtistState: (currentState, action) => {
     const { type: actionType, payload } = action
 
-    if (actionType === 'add-artist') {
-      return {
-        ...currentState,
-        ...payload.artist,
-      }
-    }
-
     if (actionType === 'add-artists') {
       return {
         ...currentState,
