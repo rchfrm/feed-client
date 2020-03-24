@@ -45,7 +45,7 @@ const LoadContent = () => {
   const [artistAccounts, setArtistAccounts] = React.useState(initialArtistAccountsState)
 
   // PUSH TO RELEVANT PAGE IF THERE IS A SIGNED IN USER WITH ARTISTS, OR NO SIGNED IN USER
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     // If there is no selected artist, exit
     if (!artist.id) return
     // If user is still loading, exit
