@@ -68,8 +68,8 @@ const LoadContent = () => {
     const token = await getToken()
     const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken, token)
       .catch((err) => {
-        if (!isMounted) return
         console.error(err)
+        if (!isMounted) return
         setError(err)
       })
     // Sort ad accounts alphabetically
