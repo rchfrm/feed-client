@@ -27,8 +27,8 @@ import artistHelpers from '../helpers/artistHelpers'
 const LoadContent = () => {
   // IMPORT CONTEXTS
   const { accessToken, authLoading, getToken, authError } = React.useContext(AuthContext)
-  const { user, userLoading } = React.useContext(UserContext)
-  const { artist, artistLoading, createArtist, setArtistLoading } = React.useContext(ArtistContext)
+  const { userLoading } = React.useContext(UserContext)
+  const { artistLoading, createArtist, setArtistLoading } = React.useContext(ArtistContext)
 
   // DEFINE LOADING
   const [pageLoading, setPageLoading] = React.useState(false)
@@ -57,15 +57,29 @@ const LoadContent = () => {
         if (!isMounted) return
         setErrors([err])
       })
+    const { adaccounts } = availableArtists
     // Sort ad accounts alphabetically
     const availableArtistsSorted = {
       ...availableArtists,
-      adAccounts: artistHelpers.sortArtistsAlphabetically(availableArtists.adaccounts),
+      adAccounts: artistHelpers.sortArtistsAlphabetically(adaccounts),
     }
     // Process the ad accounts
     const { accounts, adAccounts } = availableArtistsSorted
     const processedArtists = await artistHelpers.addAdAccountsToArtists({ accounts, adAccounts, accessToken })
     if (!isMounted) return
+    // Error if no ad accounts
+    if (!adaccounts.length) {
+      setErrors([...errors, { message: 'No ad accounts were found' }])
+      setPageLoading(false)
+      return
+    }
+
+    // Error if no artist accounts
+    if (Object.keys(accounts).length === 0) {
+      setErrors([...errors, { message: 'No accounts were found' }])
+      setPageLoading(false)
+    }
+
     // Now add the artists...
     const action = {
       type: 'add-artists',
@@ -73,6 +87,7 @@ const LoadContent = () => {
         artists: processedArtists,
       },
     }
+
     const newArtistsState = artistHelpers.getNewArtistState(artistAccounts, action)
     setArtistAccounts(newArtistsState)
     setPageLoading(false)
