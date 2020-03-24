@@ -117,7 +117,10 @@ const LoadContent = () => {
 
   if (authLoading || userLoading || artistLoading || pageLoading || redirecting) {
     return <Spinner width={50} color={brandColors.green} />
-  } if (Object.keys(artistAccounts).length === 0) {
+  }
+
+  // If no artists accounts
+  if (Object.keys(artistAccounts).length === 0) {
     return (
       <ConnectAccountsFacebook
         error={error}
@@ -125,6 +128,7 @@ const LoadContent = () => {
       />
     )
   }
+
   return (
     <div style={{ width: '100%' }}>
       <ConnectAccounts
