@@ -50,12 +50,11 @@ function LoginPageContent() {
 
       <SignupPageLink />
 
-      <div className={['ninety-wide', styles.intro].join(' ')}>
-        <MarkdownText markdown={copy.intro} />
-      </div>
+      <div className="ninety-wide">
 
-      <div className="page--container  ninety-wide">
-
+        <div className={styles.intro}>
+          <MarkdownText markdown={copy.intro} />
+        </div>
 
         <ButtonFacebook
           className={styles.facebookButton}

@@ -1,5 +1,5 @@
 .intro {
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--bsu-lg);
 }
 
 .facebookButton {
@@ -23,7 +23,7 @@
 }
 
 .submit {
-  margin-bottom: var(--bsu);
+  margin-bottom: var(--bsu) !important;
   align-self: flex-end;
   width: 31.48%;
 }
