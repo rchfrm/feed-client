@@ -99,3 +99,10 @@ strong,
 .mono {
   font-family: var(--font-mono);
 }
+
+/* TEXT BLOCK */
+.text--block {
+  *:last-child {
+    margin-bottom: 0;
+  }
+}
