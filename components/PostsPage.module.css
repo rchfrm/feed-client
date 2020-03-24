@@ -196,6 +196,12 @@
   }
 }
 
+/* Adding custom link ./PostLinkAddUrl.jsx */
+.PostLinkAddUrl__input,
+.PostLinkAddUrl__select {
+  width: 100%;
+}
+
 
 /* FORM FOR SETTING BUDGET */
 .BudgetForm {

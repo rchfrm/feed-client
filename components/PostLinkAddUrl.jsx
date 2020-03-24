@@ -6,7 +6,8 @@ import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 import Icon from './elements/Icon'
-import Input from './elements/Input'
+import InputNew from './elements/InputNew'
+import SelectNew from './elements/SelectNew'
 // IMPORT PAGES
 // IMPORT ASSETS
 import PostLinkSaveButton from './PostLinkSaveButton'
@@ -18,74 +19,40 @@ import server from './helpers/server'
 import brandColors from '../constants/brandColors'
 import styles from './PostsPage.module.css'
 
+// Create list of options, based on the links in the artist context
+const getLinkOptions = (links) => {
+  const linksArr = []
+  // Add links to the array prioritised in the following order:
+  if (!links.spotify_url) linksArr.push('spotify')
+  if (!links.website_url) linksArr.push('website')
+  if (!links.instagram_url) linksArr.push('instagram')
+  if (!links.bandcamp_url) linksArr.push('bandcamp')
+  if (!links.facebook_page_url) linksArr.push('facebook')
+  if (!links.youtube_url) linksArr.push('youtube')
+  if (!links.twitter_url) linksArr.push('twitter')
+  if (!links.soundcloud_url) linksArr.push('soundcloud')
+  if (!links.apple_url) linksArr.push('apple')
+  // Return options array
+  return linksArr.map((link) => {
+    return { name: link, value: link }
+  })
+}
+
 function PostLinkAddUrl(props) {
   // Import contexts
   const { addUrl, artist } = React.useContext(ArtistContext)
   const { getToken } = React.useContext(AuthContext)
 
+  const linkOptions = getLinkOptions(artist.URLs)
+  const [initialLinkOption] = linkOptions
+
   // Define states
   const [button, setButton] = React.useState('save')
-  const [url, setUrl] = React.useState(undefined)
-  const [platform, setPlatform] = React.useState(undefined)
-
-  // Create list of options, based on the links in the artist context
-  const listLinks = links => {
-    const linksArr = []
-
-    // Add links to the array prioritised in the following order:
-    if (!links.spotify_url) {
-      linksArr.push('spotify')
-    }
-
-    if (!links.website_url) {
-      linksArr.push('website')
-    }
-
-    if (!links.instagram_url) {
-      linksArr.push('instagram')
-    }
-
-    if (!links.bandcamp_url) {
-      linksArr.push('bandcamp')
-    }
-
-    if (!links.facebook_page_url) {
-      linksArr.push('facebook')
-    }
-
-    if (!links.youtube_url) {
-      linksArr.push('youtube')
-    }
-
-    if (!links.twitter_url) {
-      linksArr.push('twitter')
-    }
-
-    if (!links.soundcloud_url) {
-      linksArr.push('soundcloud')
-    }
-
-    if (!links.apple_url) {
-      linksArr.push('apple')
-    }
-
-    const options = linksArr.map(platform => {
-      return (
-        <option key={platform} value={platform}>{helper.capitalise(platform)}</option>
-      )
-    })
-
-    // Add a default option to the beginning of the list
-    options.unshift(
-      <option key="undefined" value={undefined}> </option>,
-    )
-
-    return options
-  }
-  const links = listLinks(artist.URLs)
+  const [url, setUrl] = React.useState('')
+  const [platform, setPlatform] = React.useState(initialLinkOption.value)
 
   // Disable the save button if the URL is empty, or no url type is selected
-  const disabled = !url || !platform
+  const enabled = url && platform
 
   // Allow user to close the alert without saving a link
   const closeAlert = e => {
@@ -156,7 +123,7 @@ function PostLinkAddUrl(props) {
           <h2 style={{ flex: 'auto' }}>Save a new link.</h2>
 
           <Button
-            version="toggle"
+            version="cross"
             onClick={closeAlert}
           >
             <Icon
@@ -168,30 +135,29 @@ function PostLinkAddUrl(props) {
 
         </div>
 
-        <Input
-          version="text"
-          label={{
-            position: 'top',
-            text: 'Enter the URL:',
-          }}
-          onChange={handleInput}
+        <InputNew
+          className={styles.PostLinkAddUrl__input}
+          placeholder="https://"
+          type="url"
+          version="box"
+          label="Link URL"
+          handleChange={handleInput}
           value={url || ''}
-          width={100}
+          required
         />
 
-        <label className="label_top">Select the type:</label>
-        <div className={styles['link-selection']} style={{ width: '100%' }}>
 
-          <select
-            className={styles.select}
-            onChange={handleSelect}
-          >
-            {links}
-          </select>
+        <SelectNew
+          name="linkVersion"
+          className={styles.PostLinkAddUrl__select}
+          options={linkOptions}
+          handleChange={handleSelect}
+          label="Select the type:"
+          selectedValue={platform}
+          required
+        />
 
-          <PostLinkSaveButton state={button} handleClick={saveLink} disabled={disabled} />
-
-        </div>
+        <PostLinkSaveButton state={button} handleClick={saveLink} disabled={!enabled} />
 
       </div>
     </div>
