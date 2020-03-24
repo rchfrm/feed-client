@@ -411,7 +411,7 @@ function Toggle(props) {
 
       <Button
         className={styles.button}
-        version="toggle"
+        version="cross"
         onClick={showAlert}
       >
         {
