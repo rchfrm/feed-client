@@ -74,7 +74,6 @@ function AccountPageDetails({ user }) {
 
     // Stop here if errors
     if (errors.length) return
-    console.log(name, surname, email)
     // Hide button
     setButtonOn(false)
     // Set loading

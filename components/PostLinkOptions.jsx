@@ -102,7 +102,6 @@ function PostLinkOptions({
     }
     setChosenLink(e.target.value)
     setButton('save')
-    console.log('chosenLink', chosenLink)
   }
 
   // Handle clicks on the save button
