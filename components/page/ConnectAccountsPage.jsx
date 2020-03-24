@@ -47,17 +47,17 @@ const LoadContent = () => {
   // PUSH TO RELEVANT PAGE IF THERE IS A SIGNED IN USER WITH ARTISTS, OR NO SIGNED IN USER
   React.useEffect(() => {
     // If there is no selected artist, exit
-    if (!artist.id) return
+    if (!artist || !artist.id) return
     // If user is still loading, exit
     if (userLoading) return
     // If artist is still loading, exit
     if (artistLoading) return
     // If there is no auth user, push to log in page
-    if (!user.id) {
+    if (!user || !user.id) {
       setRedirecting(true)
       Router.push(ROUTES.LOGIN)
     }
-  }, [artist.id, artistLoading, user, userLoading])
+  }, [artist, artistLoading, user, userLoading])
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
