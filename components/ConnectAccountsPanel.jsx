@@ -47,27 +47,27 @@ function ConnectAccountsPanel({
     updateArtists(action)
   }
 
-  // HANDLE CHANGES IN TILE INPUTS
   const handleChange = e => {
     e.preventDefault()
 
     setError(null)
 
-    const field = e.target.name
-    let { value } = e.target
+    const { target, target: { name: field, value } } = e
+    let payloadValue = value
 
     // If the updated field is the country code, extract the country code from the fields value
     if (field === 'country_code') {
       if (value.indexOf('Choose') !== -1) {
-        value = undefined
+        payloadValue = undefined
       }
     }
 
     // If the updated field is the ad account selector
     if (field === 'selected_facebook_ad_account') {
-      const adAccountName = value.slice(0, value.indexOf('(') - 1)
-      const adAccountId = value.slice(value.indexOf('(') + 1, value.indexOf(')'))
-      value = {
+      const { selectedIndex, options } = target
+      const { text: adAccountName } = options[selectedIndex]
+      const adAccountId = value
+      payloadValue = {
         id: adAccountId,
         name: adAccountName,
       }
@@ -78,11 +78,12 @@ function ConnectAccountsPanel({
       payload: {
         id,
         field,
-        value,
+        value: payloadValue,
       },
     }
     updateArtists(action)
   }
+  // END HANDLE CHANGES IN TILE INPUTS
   // END HANDLE CHANGES IN TILE INPUTS
 
   const returnExistsWarning = () => {
@@ -199,7 +200,7 @@ function ConnectAccountsPanel({
     )
   }
 
-  const returnAdAccount = () => {
+  const returnAdAccountSelector = () => {
     if (exists) {
       return (
         <InputNew
@@ -227,6 +228,7 @@ function ConnectAccountsPanel({
         label="Which Facebook Ad Account should we use?"
         handleChange={handleChange}
         options={adAccountOptions}
+        selectedValue={artistAccount.selected_facebook_ad_account.id}
       />
     )
   }
@@ -320,7 +322,7 @@ function ConnectAccountsPanel({
 
         {/* Select Facebook ad account */}
         <div className={styles['adaccount-select']}>
-          {returnAdAccount()}
+          {returnAdAccountSelector()}
         </div>
 
       </div>
