@@ -73,7 +73,7 @@ const AccountPageSection = ({ title, type, user, buttonText }) => {
 
       {section}
 
-      {sectionReady && (newButtonText || buttonText) && (
+      {sectionReady && (newButtonText || buttonText) && newButtonText !== false && (
         <button onClick={onClick} className="button  button--black  button--small">
           <span>{ newButtonText || buttonText }</span>
         </button>
@@ -87,13 +87,11 @@ AccountPageSection.propTypes = {
   type: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
   buttonText: PropTypes.string,
-  setSidePanel: PropTypes.func,
 }
 
 AccountPageSection.defaultProps = {
   title: '',
   buttonText: '',
-  setSidePanel: () => {},
 }
 
 export default AccountPageSection

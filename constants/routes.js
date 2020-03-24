@@ -1,5 +1,5 @@
 export const SIGN_UP = '/sign-up'
-export const CONNECT_ARTIST = '/connect-artist'
+export const CONNECT_ACCOUNTS = '/connect-accounts'
 export const THANK_YOU = '/thank-you'
 export const LOGIN = '/login'
 export const PASSWORD_FORGET = '/forgot-password'
