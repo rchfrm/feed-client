@@ -53,7 +53,7 @@ const LoadContent = () => {
     // If artist is still loading, exit
     if (artistLoading) return
     // If there is no auth user, push to log in page
-    if (!user || !user.id) {
+    if (!user.id) {
       setRedirecting(true)
       Router.push(ROUTES.LOGIN)
     }
