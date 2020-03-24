@@ -145,8 +145,6 @@ const LoadContent = () => {
           return <Error error={error} key={index} />
         })}
 
-        <p>&nbsp;</p>
-
         <Button
           version="black"
           onClick={runCreateArtist}

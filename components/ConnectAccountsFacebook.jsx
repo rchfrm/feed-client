@@ -49,8 +49,6 @@ function ConnectAccountsFacebook({ errors, setErrors }) {
           return <Error error={error} messagePrefix="Error: " key={index} />
         })}
 
-        <p>&nbsp;</p>
-
         <ButtonFacebook
           onClick={handleClick}
           width={100}
