@@ -92,7 +92,7 @@ function AccountPagePayments() {
 
   // HANDLE CLICK ON METHOD
   const previousHasNewMethod = usePrevious(hasNewMethod)
-  const onSelectNewDefault = (clickedId) => {
+  const onSelectDefault = (clickedId) => {
     setDefaultMethodId(clickedId)
     setHasNewMethod(clickedId !== initialDefaultMethodId)
   }
@@ -144,7 +144,7 @@ function AccountPagePayments() {
               method={method}
               isDefault={is_default}
               defaultMethodId={defaultMethodId}
-              onClick={onSelectNewDefault}
+              onClick={onSelectDefault}
             />
           )
         })}

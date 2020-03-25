@@ -19,10 +19,10 @@ import { BillingContext } from './contexts/BillingContext'
 import { SidePanelContext } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import Error from './elements/Error'
-import SelectNew from './elements/SelectNew'
+import Select from './elements/Select'
 import Button from './elements/Button'
 // IMPORT HELPERS
-import InputNew from './elements/InputNew'
+import Input from './elements/Input'
 
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/AccountPageCopy'
@@ -283,7 +283,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
 
           <CardInput />
 
-          <InputNew
+          <Input
             handleChange={handleChange}
             name="name"
             label="Name on card"
@@ -293,7 +293,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
             required
           />
 
-          <InputNew
+          <Input
             handleChange={handleChange}
             name="email"
             label="Billing email"
@@ -307,7 +307,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
 
         <h2>Billing address:</h2>
 
-        <InputNew
+        <Input
           handleChange={handleChange}
           name="address-line-1"
           label="Address Line 1"
@@ -317,7 +317,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
           required
         />
 
-        <InputNew
+        <Input
           handleChange={handleChange}
           name="address-line-2"
           label="Address Line 2"
@@ -326,7 +326,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
           version="box"
         />
 
-        <InputNew
+        <Input
           handleChange={handleChange}
           name="city"
           label="City"
@@ -336,7 +336,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
           required
         />
 
-        <InputNew
+        <Input
           handleChange={handleChange}
           name="state"
           label="State, region, etc."
@@ -345,7 +345,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
           version="box"
         />
 
-        <SelectNew
+        <Select
           handleChange={handleChange}
           name="country"
           options={countryOptions}

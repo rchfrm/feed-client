@@ -25,7 +25,7 @@ const getIconEl = (icon) => {
   return null
 }
 
-const InputNew = ({
+const Input = ({
   handleChange,
   name,
   label,
@@ -90,7 +90,7 @@ const InputNew = ({
   )
 }
 
-InputNew.propTypes = {
+Input.propTypes = {
   // There must be a function set as handleChange
   handleChange: PropTypes.func,
 
@@ -124,7 +124,7 @@ InputNew.propTypes = {
   autoFocus: PropTypes.bool,
 }
 
-InputNew.defaultProps = {
+Input.defaultProps = {
   handleChange: () => {},
   placeholder: '',
   readOnly: false,
@@ -139,4 +139,4 @@ InputNew.defaultProps = {
   autoFocus: false,
 }
 
-export default InputNew
+export default Input

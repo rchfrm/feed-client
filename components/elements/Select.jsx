@@ -3,7 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const SelectNew = ({
+const Select = ({
   handleChange,
   name,
   label,
@@ -56,7 +56,7 @@ const SelectNew = ({
   )
 }
 
-SelectNew.propTypes = {
+Select.propTypes = {
   // There must be a function set as handleChange
   handleChange: PropTypes.func.isRequired,
 
@@ -102,7 +102,7 @@ SelectNew.propTypes = {
   className: PropTypes.string,
 }
 
-SelectNew.defaultProps = {
+Select.defaultProps = {
   label: '',
   style: {},
   version: 'box',
@@ -112,4 +112,4 @@ SelectNew.defaultProps = {
   selectedValue: '',
 }
 
-export default SelectNew
+export default Select
