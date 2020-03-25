@@ -47,8 +47,7 @@ const CardInput = () => {
     base: {
       color: brandColors.black,
       fontFamily: 'monospace',
-      fontSize: '14px',
-      fontWeight: '100',
+      fontSize: '16px',
       '::placeholder': {
         color: brandColors.greyDark,
       },
@@ -218,9 +217,6 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
         card: cardElement,
         billing_details: billingDetailsStripe,
       })
-
-      console.log('billingDetailsStripe', billingDetailsStripe)
-      console.log('paymentMethod', paymentMethod)
 
       // Stop here if error and show message
       if (error) {

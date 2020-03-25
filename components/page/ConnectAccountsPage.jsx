@@ -27,8 +27,8 @@ import artistHelpers from '../helpers/artistHelpers'
 const LoadContent = () => {
   // IMPORT CONTEXTS
   const { accessToken, authLoading, getToken, authError } = React.useContext(AuthContext)
-  const { user, userLoading } = React.useContext(UserContext)
-  const { artist, artistLoading, createArtist, setArtistLoading } = React.useContext(ArtistContext)
+  const { userLoading } = React.useContext(UserContext)
+  const { artistLoading, createArtist, setArtistLoading } = React.useContext(ArtistContext)
 
   // DEFINE LOADING
   const [pageLoading, setPageLoading] = React.useState(false)
@@ -38,26 +38,11 @@ const LoadContent = () => {
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
 
   // DEFINE ERRORS
-  const [error, setError] = React.useState(null)
+  const [errors, setErrors] = React.useState([])
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}
   const [artistAccounts, setArtistAccounts] = React.useState(initialArtistAccountsState)
-
-  // PUSH TO RELEVANT PAGE IF THERE IS A SIGNED IN USER WITH ARTISTS, OR NO SIGNED IN USER
-  React.useLayoutEffect(() => {
-    // If there is no selected artist, exit
-    if (!artist.id) return
-    // If user is still loading, exit
-    if (userLoading) return
-    // If artist is still loading, exit
-    if (artistLoading) return
-    // If there is no auth user, push to log in page
-    if (!user.id) {
-      setRedirecting(true)
-      Router.push(ROUTES.LOGIN)
-    }
-  }, [artist.id, artistLoading, user, userLoading])
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
@@ -68,19 +53,33 @@ const LoadContent = () => {
     const token = await getToken()
     const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken, token)
       .catch((err) => {
-        if (!isMounted) return
         console.error(err)
-        setError(err)
+        if (!isMounted) return
+        setErrors([err])
       })
+    const { adaccounts } = availableArtists
     // Sort ad accounts alphabetically
     const availableArtistsSorted = {
       ...availableArtists,
-      adAccounts: artistHelpers.sortArtistsAlphabetically(availableArtists.adaccounts),
+      adAccounts: artistHelpers.sortArtistsAlphabetically(adaccounts),
     }
     // Process the ad accounts
     const { accounts, adAccounts } = availableArtistsSorted
     const processedArtists = await artistHelpers.addAdAccountsToArtists({ accounts, adAccounts, accessToken })
     if (!isMounted) return
+    // Error if no ad accounts
+    if (!adaccounts.length) {
+      setErrors([...errors, { message: 'No ad accounts were found' }])
+      setPageLoading(false)
+      return
+    }
+
+    // Error if no artist accounts
+    if (Object.keys(accounts).length === 0) {
+      setErrors([...errors, { message: 'No accounts were found' }])
+      setPageLoading(false)
+    }
+
     // Now add the artists...
     const action = {
       type: 'add-artists',
@@ -88,6 +87,7 @@ const LoadContent = () => {
         artists: processedArtists,
       },
     }
+
     const newArtistsState = artistHelpers.getNewArtistState(artistAccounts, action)
     setArtistAccounts(newArtistsState)
     setPageLoading(false)
@@ -96,7 +96,7 @@ const LoadContent = () => {
 
   // Set initial error (if any)
   React.useEffect(() => {
-    setError(authError)
+    setErrors([authError])
   }, [authError])
 
 
@@ -111,34 +111,39 @@ const LoadContent = () => {
     } catch (err) {
       setRedirecting(false)
       setArtistLoading(false)
-      setError(err)
+      setErrors([err])
     }
   }
 
   if (authLoading || userLoading || artistLoading || pageLoading || redirecting) {
     return <Spinner width={50} color={brandColors.green} />
-  } if (Object.keys(artistAccounts).length === 0) {
+  }
+
+  // If no artists accounts
+  if (Object.keys(artistAccounts).length === 0) {
     return (
       <ConnectAccountsFacebook
-        error={error}
-        setError={setError}
+        errors={errors}
+        setErrors={setErrors}
       />
     )
   }
+
   return (
     <div style={{ width: '100%' }}>
       <ConnectAccounts
         artistAccounts={artistAccounts}
         setArtistAccounts={setArtistAccounts}
         setButtonDisabled={setButtonDisabled}
-        setError={setError}
+        setErrors={setErrors}
       />
 
       <div className="ninety-wide" style={{ textAlign: 'right' }}>
 
-        <Error error={error} />
-
-        <p>&nbsp;</p>
+        {/* Errors */}
+        {errors.map((error, index) => {
+          return <Error error={error} key={index} />
+        })}
 
         <Button
           version="black"

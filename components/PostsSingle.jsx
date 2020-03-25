@@ -11,7 +11,8 @@ import Icon from './elements/Icon'
 import SquareImage from './elements/SquareImage'
 import Error from './elements/Error'
 // IMPORT PAGES
-import { AddUrl, LinkOptions } from './PostLink'
+import PostLinkAddUrl from './PostLinkAddUrl'
+import PostLinkOptions from './PostLinkOptions'
 import PostInsight from './PostInsight'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -23,7 +24,7 @@ import MediaFallback from './elements/MediaFallback'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
-function PostSingle({ index, post, singular: isSingular, setPosts, togglePromotion }) {
+function PostSingle({ index, post, singular: isSingular, updateLink, togglePromotion }) {
   // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
@@ -94,7 +95,7 @@ function PostSingle({ index, post, singular: isSingular, setPosts, togglePromoti
   const returnAddUrl = () => {
     if (addUrl) {
       return (
-        <AddUrl
+        <PostLinkAddUrl
           setError={setError}
           postId={post.id}
           index={index}
@@ -102,7 +103,6 @@ function PostSingle({ index, post, singular: isSingular, setPosts, togglePromoti
           setCurrentLink={setCurrentLink}
           setChosenLink={setChosenLink}
           setAddUrl={setAddUrl}
-          setPosts={setPosts}
         />
       )
     }
@@ -131,7 +131,7 @@ function PostSingle({ index, post, singular: isSingular, setPosts, togglePromoti
 
         <p>Where should people go when they click this post?</p>
 
-        <LinkOptions
+        <PostLinkOptions
           setError={setError}
           postId={post.id}
           currentLink={currentLink}
@@ -140,7 +140,7 @@ function PostSingle({ index, post, singular: isSingular, setPosts, togglePromoti
           setChosenLink={setChosenLink}
           index={index}
           setAddUrl={setAddUrl}
-          setPosts={setPosts}
+          updateLink={updateLink}
         />
 
         {returnAddUrl()}
@@ -204,19 +204,6 @@ function PermalinkAndToggle(props) {
           onClick={() => togglePromotion(post.id)}
           state={status ? 'on' : 'off'}
         />
-        {/* <Button
-          version="toggle"
-          onClick={togglePromotion}
-        >
-          <Icon
-            version={appearance.toggleIcon}
-            color={appearance.toggleIconColor}
-            width="18"
-            data={post.id}
-          />
-
-        </Button> */}
-
       </div>
 
     </div>

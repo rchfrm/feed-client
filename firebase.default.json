@@ -24,6 +24,11 @@
         "source": "/posts",
         "destination": "/",
         "type": 301
+      },
+      {
+        "source": "/connect-artists",
+        "destination": "/connect-accounts",
+        "type": 301
       }
     ],
     "headers": [

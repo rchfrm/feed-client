@@ -5,11 +5,7 @@ import React from 'react'
 import { NavigationContext } from '../contexts/Navigation'
 // IMPORT ELEMENTS
 // IMPORT PAGES
-import PageHeader from '../PageHeader'
 import PostsLoader from '../PostsLoader'
-
-import MarkdownText from '../elements/MarkdownText'
-import copy from '../../copy/PostsPageCopy'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
@@ -33,10 +29,6 @@ function PostsPage() {
 
   return (
     <div className={`page--container ${className}`}>
-
-      <PageHeader heading="review your posts" punctuation="," />
-
-      <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
 
       <PostsLoader />
 
