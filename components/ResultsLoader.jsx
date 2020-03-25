@@ -165,7 +165,6 @@ function ResultsLoader() {
 
   // GET ACTIVE POSTS FROM SERVER when artists changes
   useAsyncEffect(async (isMounted) => {
-    setLoading(true)
     if (!artist || isEmpty(artist)) return
     // Stop here if artist ID is the same
     if (previousArtistState) {
@@ -177,6 +176,8 @@ function ResultsLoader() {
     }
     // Return if there is no selected artist
     if (!artist.id) return
+    // Start loading
+    setLoading(true)
     // Get active assets
     const [activePosts, archivePosts] = await getAllPosts(isMounted)
       .catch((err) => {

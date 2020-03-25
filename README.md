@@ -4,7 +4,7 @@
 
 **Local:** [http://localhost:3000](http://localhost:3000)
 **Staging:** [https://scaler-staging.firebaseapp.com](https://scaler-staging.firebaseapp.com)
-**Live:** [https://scaler.web.app](https://scaler.web.app)
+**Live:** [https://beta.getfed.app](https://beta.getfed.app)
 
 ## Initial setup
 

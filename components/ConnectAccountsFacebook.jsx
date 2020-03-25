@@ -13,7 +13,7 @@ import ButtonFacebook from './elements/ButtonFacebook'
 import Error from './elements/Error'
 // IMPORT STYLES
 
-function ConnectAccountsFacebook({ error, setError }) {
+function ConnectAccountsFacebook({ errors, setErrors }) {
   const { linkFacebook } = React.useContext(AuthContext)
 
   // HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
@@ -22,7 +22,7 @@ function ConnectAccountsFacebook({ error, setError }) {
     try {
       await linkFacebook()
     } catch (err) {
-      setError(err)
+      setErrors([err])
     }
   }
   // END HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
@@ -43,9 +43,11 @@ function ConnectAccountsFacebook({ error, setError }) {
         margin: '0 auto',
       }}
       >
-        <Error error={error} messagePrefix="Error: " />
 
-        <p>&nbsp;</p>
+        {/* Errors */}
+        {errors.map((error, index) => {
+          return <Error error={error} messagePrefix="Error: " key={index} />
+        })}
 
         <ButtonFacebook
           onClick={handleClick}

@@ -1,3 +1,5 @@
+import produce from 'immer'
+
 import host from './host'
 import helper from './helper'
 import facebook from './facebook'
@@ -19,15 +21,23 @@ const sortAdAccounts = (account, adAccounts) => {
   if (indexOfUsedAdAccount === -1) {
     return adAccounts
   }
-  // Remove the ad account that has been used before from the list of ad accounts
-  const remainingAdAccounts = [...adAccounts]
-  remainingAdAccounts.splice(indexOfUsedAdAccount, 1)
 
-  // Return the array of ad accounts, with the one previously used
-  // to promote the Facebook page in the first position
-  return [adAccounts[indexOfUsedAdAccount], ...remainingAdAccounts]
+  // Remove the ad account that has been used before from the list of ad accounts
+  // and put it at front of list
+  const usedAccount = adAccounts[indexOfUsedAdAccount]
+  return produce(adAccounts, draft => {
+    draft.splice(indexOfUsedAdAccount, 1)
+    draft.unshift(usedAccount)
+  })
 }
 
+
+const getInstagramUrl = async ({ instagram_id, accessToken }) => {
+  if (!instagram_id) return
+  const instagramUsername = await facebook.getInstagramBusinessUsername(instagram_id, accessToken)
+  if (!instagramUsername) return
+  return `https://instagram.com/${instagramUsername}`
+}
 
 export default {
 
@@ -87,13 +97,6 @@ export default {
 
   getNewArtistState: (currentState, action) => {
     const { type: actionType, payload } = action
-
-    if (actionType === 'add-artist') {
-      return {
-        ...currentState,
-        ...payload.artist,
-      }
-    }
 
     if (actionType === 'add-artists') {
       return {
@@ -170,56 +173,36 @@ export default {
     })
   },
 
-
   addAdAccountsToArtists: async ({ accounts, adAccounts, accessToken }) => {
     const accountsArray = Object.values(accounts)
-    // README: https://gyandeeps.com/array-reduce-async-await/
-    const accountsProcessed = await accountsArray.reduce(async (accumulator, account) => {
-      const accountsAcc = await accumulator
+    const processAccountsPromise = accountsArray.map(async (account) => {
       const {
         facebook_page_url,
         instagram_url,
         instagram_id,
         picture,
+        page_id,
       } = account
-      const availableAccounts = sortAdAccounts(account, adAccounts)
-
-      // Stop here if no ad accounts
-      if (!availableAccounts || !availableAccounts.length) {
-        return accountsAcc
-      }
-      // Sort available ad accounts, priotising any that have
-      // been used to promote the Facebook page before
-      // Set the first ad account in the array as the default selected ad account
-      const selectedFacebookAdAccount = {
-        id: availableAccounts[0].id,
-        name: availableAccounts[0].name,
-      }
-      // Set a Facebook URL if there isn't one already
-      let facebookUrlFallback
-      if (!facebook_page_url) {
-        facebookUrlFallback = `https://facebook.com/${account.page_id}`
-      }
-      // Set an Instagram URL if there isn't one already
-      let instagramUrlFallback
-      if (!instagram_url && instagram_id) {
-        const instagramUsername = await facebook.getInstagramBusinessUsername(instagram_id, accessToken)
-        if (instagramUsername) {
-          instagramUrlFallback = `https://instagram.com/${instagramUsername}`
-        }
-      }
-
-      const processedAccount = {
+      // Sort the add accounts so that the last used ad for this artists account is placed first
+      const sortedAdAccounts = sortAdAccounts(account, adAccounts)
+      const selectedAdAccount = sortedAdAccounts[0]
+      // Get the FB page url
+      const facebookPageUrl = facebook_page_url || `https://facebook.com/${page_id}`
+      // Get the Insta page url
+      const instaPageUrl = instagram_url || await getInstagramUrl({ instagram_id, accessToken })
+      // Return processed account
+      return {
         ...account,
-        available_facebook_ad_accounts: availableAccounts,
-        selected_facebook_ad_account: selectedFacebookAdAccount,
-        facebook_page_url: facebook_page_url || facebookUrlFallback,
-        instagram_url: instagram_url || instagramUrlFallback,
+        available_facebook_ad_accounts: sortedAdAccounts,
+        selected_facebook_ad_account: selectedAdAccount,
+        facebook_page_url: facebookPageUrl,
+        instagram_url: instaPageUrl || '',
         connect: true,
         picture: `${picture}?width=500`,
       }
-      return [...accountsAcc, processedAccount]
-    }, [])
+    })
+
+    const accountsProcessed = await Promise.all(processAccountsPromise)
 
     // Convert array of accounts back into and object with IDs as keys
     const keyedAccounts = accountsProcessed.reduce((accountObj, account) => {

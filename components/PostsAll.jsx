@@ -1,23 +1,34 @@
 // IMPORT PACKAGES
 import React from 'react'
+
+import debounce from 'lodash/debounce'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
+import PageHeader from './PageHeader'
 import LastItem from './elements/LastItem'
 // IMPORT PAGES
 import PostsSingle from './PostsSingle'
 import PostsNone from './PostsNone'
 // IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
+import MarkdownText from './elements/MarkdownText'
+import copy from '../copy/PostsPageCopy'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
+
+// Reset posts scroll position
+const resetScroll = () => {
+  if (typeof document === 'undefined') return
+  const scroller = document.getElementById('PostsAll__scroller')
+  if (!scroller) return
+  scroller.scrollLeft = 0
+}
 
 // Render list of posts and track the one that's currently visible
 function PostsAll({
   numberOfPosts,
   posts,
-  setPosts,
+  updateLink,
   visiblePost,
   setVisiblePost,
   togglePromotion,
@@ -28,6 +39,7 @@ function PostsAll({
     scroll: 0,
     width: 1 / numberOfPosts,
   }
+
   const postTrackerReducer = (postTrackerState, postTrackerAction) => {
     switch (postTrackerAction.type) {
       case 'set-scroll-position':
@@ -46,8 +58,8 @@ function PostsAll({
         throw new Error(`Unable to find ${postTrackerAction.type} in postTrackerReducer`)
     }
   }
+
   const [postTracker, setPostTracker] = React.useReducer(postTrackerReducer, initialPostTrackerState)
-  // END DEFINE TILE DETAILS
 
   // TRACK SCROLL POSITION AND UPDATE TILE DETAILS STATE ACCORDINGLY
   React.useEffect(() => {
@@ -56,7 +68,6 @@ function PostsAll({
       setVisiblePost(currentTile)
     }
   }, [postTracker, visiblePost, setVisiblePost])
-  // END TRACK SCROLL POSITION AND UPDATE TILE DETAILS STATE ACCORDINGLY
 
 
   // KEEP POST TRACKER IN SYNC WITH NUMBER OF POSTS SAVED TO STATE
@@ -68,64 +79,61 @@ function PostsAll({
       },
     })
   }, [numberOfPosts])
-  // END KEEP POST TRACKER IN SYNC WITH NUMBER OF POSTS SAVED TO STATE
 
   // HANDLE SCROLL
-  const handleScroll = () => {
-    const frame = document.getElementsByClassName('frame')[0]
-    const frameWidth = frame.scrollWidth
-    const scrollPosition = frame.scrollLeft
-    const scrollPercentage = scrollPosition / frameWidth
+  const handleScroll = debounce(() => {
+    const scroller = document.getElementById('PostsAll__scroller')
+    const scrollerWidth = scroller.scrollWidth
+    const scrollPosition = scroller.scrollLeft
+    const scrollPercentage = scrollPosition / scrollerWidth
     setPostTracker({
       type: 'set-scroll-position',
       payload: {
         scroll: scrollPercentage,
       },
     })
-  }
-  // END HANDLE SCROLL
+  }, 100)
 
   if (posts.length === 0) {
     return <PostsNone />
   }
 
-  return (
-    <div className={styles['posts-section']}>
-
-      <PostList
-        posts={posts}
-        setPosts={setPosts}
-        togglePromotion={togglePromotion}
-        handleScroll={handleScroll}
-      />
-
-    </div>
-  )
-}
-
-export default PostsAll
-
-function PostList({ posts, setPosts, togglePromotion, handleScroll }) {
-  // CREATE ARRAY OF POSTS
   const postList = posts.map((post, index) => {
     return (
       <PostsSingle
         key={post.id}
         index={index}
         post={post}
-        setPosts={setPosts}
+        updateLink={updateLink}
         singular={posts.length === 1}
         togglePromotion={togglePromotion}
       />
     )
   })
+
   // Push the LastItem component to add blank space to the end of the list
   postList.push(LastItem())
-  // END CREATE ARRAY OF POSTS
+
+  // Reset the scroll position when this component first mounts
+  React.useEffect(resetScroll, [])
 
   return (
-    <ul className={`frame posts ${styles.posts}`} onScroll={handleScroll}>
-      {postList}
-    </ul>
+    <div className={styles['posts-section']}>
+
+      <PageHeader heading="review your posts" punctuation="," />
+
+      <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
+
+      <ul
+        id="PostsAll__scroller"
+        className={`frame posts ${styles.posts}`}
+        onScroll={handleScroll}
+      >
+        {postList}
+      </ul>
+
+    </div>
   )
 }
+
+export default PostsAll

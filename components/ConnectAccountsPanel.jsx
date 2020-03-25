@@ -22,7 +22,7 @@ const styles = {
 function ConnectAccountsPanel({
   artistAccount,
   singular,
-  setError,
+  setErrors,
   contactUs,
   updateArtists,
 }) {
@@ -50,7 +50,7 @@ function ConnectAccountsPanel({
   const handleChange = e => {
     e.preventDefault()
 
-    setError(null)
+    setErrors([])
 
     const { target, target: { name: field, value } } = e
     let payloadValue = value
