@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -10,10 +11,10 @@ import PageHeader from './PageHeader'
 import ButtonFacebook from './elements/ButtonFacebook'
 import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
-import SignupPageLink from './SignupPageLink'
 import LoginPageForm from './LoginPageForm'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
+import * as ROUTES from '../constants/routes'
 import brandColors from '../constants/brandColors'
 
 import MarkdownText from './elements/MarkdownText'
@@ -46,15 +47,23 @@ function LoginPageContent() {
   return (
     <div className="page--container">
 
-      <PageHeader heading="log in" />
+      <PageHeader heading="log in" className={styles.container} />
 
-      <SignupPageLink />
+      <div className={['ninety-wide', styles.container].join(' ')}>
+        <h3>
+          or
+          {' '}
+          <Link href={ROUTES.SIGN_UP}><a>sign up here</a></Link>
+          .
+        </h3>
+      </div>
 
-      <div className="ninety-wide">
+      <div className={['ninety-wide', styles.container].join(' ')}>
 
         <div className={styles.intro}>
           <MarkdownText markdown={copy.intro} />
         </div>
+
 
         <ButtonFacebook
           className={styles.facebookButton}
@@ -75,6 +84,7 @@ function LoginPageContent() {
 
         {/* Email login form */}
         {showEmailLogin && <LoginPageForm setPageLoading={setPageLoading} />}
+
       </div>
     </div>
   )

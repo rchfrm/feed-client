@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
@@ -9,11 +10,12 @@ import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from '../PageHeader'
 // IMPORT PAGES
-import LoginPageLink from '../LoginPageLink'
+
 // IMPORT HELPERS
 import Spinner from '../elements/Spinner'
 import ButtonFacebook from '../elements/ButtonFacebook'
 
+import * as ROUTES from '../../constants/routes'
 import brandColors from '../../constants/brandColors'
 // IMPORT STYLES
 import MarkdownText from '../elements/MarkdownText'
@@ -49,11 +51,18 @@ function SignupPage() {
   return (
     <div className={`page--container ${className}`}>
 
-      <PageHeader heading="sign up" />
+      <PageHeader heading="sign up" className={styles.container} />
 
-      <LoginPageLink />
+      <div className={['ninety-wide', styles.container].join(' ')}>
+        <h3>
+          or log in
+          {' '}
+          <Link href={ROUTES.LOGIN}><a>here</a></Link>
+          .
+        </h3>
+      </div>
 
-      <div className="ninety-wide">
+      <div className={['ninety-wide', styles.container].join(' ')}>
 
         <div className={styles.intro}>
           <MarkdownText markdown={copy.intro} />
