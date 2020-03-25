@@ -78,7 +78,7 @@ function LoginPageContent() {
             role="button"
             onClick={() => setShowEmailLogin(true)}
           >
-            or log in using your email address...
+            or log in using your email address
           </a>
         </p>
 
