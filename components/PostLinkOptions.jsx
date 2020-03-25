@@ -2,7 +2,6 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import PostLinkSaveButton from './PostLinkSaveButton'
@@ -30,7 +29,6 @@ function PostLinkOptions({
 }) {
   // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
-  const { getToken } = React.useContext(AuthContext)
   // DEFINE STATES
   const [button, setButton] = React.useState('save')
 
@@ -109,10 +107,8 @@ function PostLinkOptions({
     e.preventDefault()
     setButton('saving')
     try {
-      // Get the token from the auth context
-      const token = await getToken()
       // Send a patch request to the server to update the asset
-      const updatedAsset = await server.updateAssetLink(artist.id, postId, chosenLink, token)
+      const updatedAsset = await server.updateAssetLink(artist.id, postId, chosenLink)
       // Update state in the Loader component with the new link
       updateLink(index, updatedAsset.priority_dsp)
       // Update the current link to match

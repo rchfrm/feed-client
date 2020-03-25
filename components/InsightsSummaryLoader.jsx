@@ -20,7 +20,6 @@ import helper from './helpers/helper'
 
 function InsightsSummaryLoader() {
 // REDEFINE PROPS AS VARIABLES
-  const { getToken } = React.useContext(AuthContext)
   const { artist } = React.useContext(ArtistContext)
   // END REDEFINE PROPS AS VARIABLES
 
@@ -41,10 +40,8 @@ function InsightsSummaryLoader() {
 
   // CALCULATE NUMBER OF IMPRESSIONS IN LAST SEVEN DAYS
   const getAdSpend = React.useCallback(async artistId => {
-    // Get token from the auth context
-    const token = await getToken()
     // Get daily data for the 'facebook_ad_spend_feed' data source
-    const feedAdSpend = await server.getDataSourceValue(['facebook_ad_spend_feed'], artistId, token)
+    const feedAdSpend = await server.getDataSourceValue(['facebook_ad_spend_feed'], artistId)
     // If there the server has no data, return 0
     if (!feedAdSpend.facebook_ad_spend_feed) { return 0 }
 
@@ -61,7 +58,7 @@ function InsightsSummaryLoader() {
       }
     })
     return Number(spend.toFixed(2))
-  }, [getToken])
+  }, [])
 
   React.useEffect(() => {
     if (artist.id && loading) {
@@ -84,16 +81,14 @@ export default InsightsSummaryLoader
 
 function Summary(props) {
   const { artistId, spend } = props
-  const { getToken } = React.useContext(AuthContext)
   const { artist } = React.useContext(ArtistContext)
   const [impressions, setImpressions] = React.useState(undefined)
   const [loading, setLoading] = React.useState(false)
 
   const calculateImpressions = React.useCallback(async () => {
-    const token = await getToken()
     const tournamentsEndpoint = get(artist, ['_links', 'tournaments', 'href'], '')
     const tournamentsEndpointMod = tournamentsEndpoint ? tournamentsEndpoint.slice(0, tournamentsEndpoint.indexOf('?')) : 0
-    const tournaments = tournamentsEndpointMod ? await server.getEndpoint(tournamentsEndpointMod, token) : []
+    const tournaments = tournamentsEndpointMod ? await server.getEndpoint(tournamentsEndpointMod) : []
     const sevenDaysAgo = moment().subtract(7, 'days')
 
     const createAdsPaths = tournaments.reduce((acc, tournament) => {
@@ -113,7 +108,7 @@ function Summary(props) {
     }, [])
 
     const createAdsPromises = createAdsPaths.map(async path => {
-      return server.getPath(path, token)
+      return server.getPath(path)
     })
 
     const ads = await Promise.all(createAdsPromises)
@@ -130,7 +125,7 @@ function Summary(props) {
       }, 0)
       return impressions + adImpressions
     }, 0)
-  }, [getToken])
+  }, [])
 
   React.useEffect(() => {
     // Exit if the request to get assets from the server has already started

@@ -342,7 +342,6 @@ function Toggle(props) {
   // END REDEFINE PROPS AS VARIABLES
 
   // IMPORT ARTIST CONTEXT
-  const { getToken } = React.useContext(AuthContext)
   const { artist } = React.useContext(ArtistContext)
   // END IMPORT ARTIST CONTEXT
 
@@ -362,12 +361,8 @@ function Toggle(props) {
 
 
   const togglePromotion = async () => {
-    const token = await getToken()
-      .catch((err) => {
-        throw (err)
-      })
     // return result
-    const result = await server.togglePromotionEnabled(artist.id, id, !promotion_enabled, token)
+    const result = await server.togglePromotionEnabled(artist.id, id, !promotion_enabled)
     return result
   }
 

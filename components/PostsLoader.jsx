@@ -7,7 +7,6 @@ import produce from 'immer'
 import usePrevious from 'use-previous'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
@@ -61,12 +60,8 @@ const postsReducer = (postsState, postsAction) => {
 }
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-const getPosts = async ({ artist, offset, limit, getToken }) => {
-  const token = await getToken()
-  const posts = await server.getUnpromotedPosts(offset, limit, artist.id, token)
-    .catch((err) => {
-      throw (err)
-    })
+const getPosts = async ({ artist, offset, limit }) => {
+  const posts = await server.getUnpromotedPosts(offset, limit, artist.id)
 
   // Sort the returned posts chronologically, latest first
   return helper.sortAssetsChronologically(Object.values(posts))
@@ -87,7 +82,6 @@ function PostsLoader() {
   // END DEFINE STATES
 
   // IMPORT CONTEXTS
-  const { getToken } = React.useContext(AuthContext)
   const { artist, artistLoading } = React.useContext(ArtistContext)
   let assets = []
   if (artist._embedded && artist._embedded.assets) {
@@ -114,7 +108,7 @@ function PostsLoader() {
     setOffset(0)
     // GEt posts
     // Make request to get unpromoted posts
-    const posts = await getPosts({ artist, offset: 0, limit: 10, getToken })
+    const posts = await getPosts({ artist, offset: 0, limit: 10 })
       .catch((err) => {
         if (!isMounted()) return
         setPageLoading(false)
@@ -147,7 +141,7 @@ function PostsLoader() {
     // Set loading to true
     setLoadingMore(true)
     // Make request to get unpromoted posts
-    const posts = await getPosts({ artist, offset, limit: 10, getToken })
+    const posts = await getPosts({ artist, offset, limit: 10 })
       .catch((err) => {
         if (!isMounted()) return
         setLoadMore(false)
@@ -195,8 +189,7 @@ function PostsLoader() {
         break
       }
     }
-    const token = await getToken()
-    const res = await server.togglePromotionEnabled(artist.id, postId, !posts[indexOfId].promotion_enabled, token)
+    const res = await server.togglePromotionEnabled(artist.id, postId, !posts[indexOfId].promotion_enabled)
     if (res) {
       setPosts({
         type: 'toggle-promotion',

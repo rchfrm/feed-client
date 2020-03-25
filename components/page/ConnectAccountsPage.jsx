@@ -26,7 +26,7 @@ import artistHelpers from '../helpers/artistHelpers'
 
 const LoadContent = () => {
   // IMPORT CONTEXTS
-  const { accessToken, authLoading, getToken, authError } = React.useContext(AuthContext)
+  const { accessToken, authLoading, authError } = React.useContext(AuthContext)
   const { userLoading } = React.useContext(UserContext)
   const { artistLoading, createArtist, setArtistLoading } = React.useContext(ArtistContext)
 
@@ -50,8 +50,7 @@ const LoadContent = () => {
     // so don't set artists accounts
     if (!accessToken) return
     setPageLoading(true)
-    const token = await getToken()
-    const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken, token)
+    const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken)
       .catch((err) => {
         console.error(err)
         if (!isMounted) return

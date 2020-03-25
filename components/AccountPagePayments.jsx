@@ -6,7 +6,6 @@ import Router from 'next/router'
 import * as ROUTES from '../constants/routes'
 
 
-import { AuthContext } from './contexts/Auth'
 import { BillingContext } from './contexts/BillingContext'
 import { SidePanelContext } from './contexts/SidePanelContext'
 
@@ -34,8 +33,6 @@ const getButton = (submitChanges) => {
 }
 
 function AccountPagePayments() {
-  // Get User context
-  const { getToken } = React.useContext(AuthContext)
   // Get Billing Context
   const {
     billingDetails,
@@ -67,10 +64,8 @@ function AccountPagePayments() {
   submitChanges.current = async () => {
     setError(null)
     setSidePanelLoading(true)
-    // Get token
-    const verifyToken = await getToken()
     // Set default
-    const updatePaymentResult = await paymentHelpers.setPaymentAsDefault(organisationId, defaultMethodId, verifyToken)
+    const updatePaymentResult = await paymentHelpers.setPaymentAsDefault(organisationId, defaultMethodId)
       // Handle error
       .catch((err) => {
         setError(err)

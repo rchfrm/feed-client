@@ -2,7 +2,6 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
 import Loading from './elements/Loading'
 // IMPORT PAGES
@@ -51,10 +50,6 @@ const connectionsReducer = (connectionsState, connectionsAction) => {
 }
 
 function IntegrationsLoader(props) {
-// IMPORT CONTEXTS
-  const { getToken } = React.useContext(AuthContext)
-  // END IMPORT CONTEXTS
-
   // REDEFINE PROPS AS VARIABLES
   const { artistId } = props
   const { artistName } = props
@@ -69,16 +64,8 @@ function IntegrationsLoader(props) {
 
   // DEFINE FUNCTION TO RETRIEVE ARTIST INFORMATION
   const getArtist = React.useCallback(async () => {
-    // Retrieve Firebase verify ID token
-    const token = await getToken()
-      .catch((err) => {
-        throw (err)
-      })
     // Request artist information from the server
-    const artist = await artistHelpers.getArtist(artistId, token)
-      .catch((err) => {
-        throw (err)
-      })
+    const artist = await artistHelpers.getArtist(artistId)
 
     // Format artist integrations into an object
     let integrationsObj = {}
@@ -102,7 +89,7 @@ function IntegrationsLoader(props) {
     })
 
     return integrationsObj
-  }, [artistId, getToken])
+  }, [artistId])
   // END DEFINE FUNCTION TO RETRIEVE ARTIST INFORMATION
 
   // GET CONNECTION DETAILS

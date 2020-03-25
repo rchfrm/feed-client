@@ -6,7 +6,6 @@ import isEmpty from 'lodash/isEmpty'
 import produce from 'immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Feed from './elements/Feed'
@@ -109,7 +108,6 @@ const getAssets = async (status, artistId, token) => {
 
 function ResultsLoader() {
   // IMPORT CONTEXTS
-  const { getToken } = React.useContext(AuthContext)
   const { artist, artistLoading } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
   // DEFINE STATES
@@ -133,9 +131,9 @@ function ResultsLoader() {
     }
   }
 
-  const getPostOfType = async (type, token, isMounted) => {
+  const getPostOfType = async (type, isMounted) => {
     // Start getting assets
-    const assets = await getAssets(type, artist.id, token)
+    const assets = await getAssets(type, artist.id)
       .catch((err) => {
         if (!isMounted()) return
         setPosts({
@@ -151,15 +149,10 @@ function ResultsLoader() {
 
   const getAllPosts = async (isMounted) => {
     // Stop here if no artist
-    // Get token
-    const token = await getToken()
-      .catch((err) => {
-        throw (err)
-      })
     // Get assets for active and archive
     return Promise.all([
-      getPostOfType('active', token, isMounted),
-      getPostOfType('archive', token, isMounted),
+      getPostOfType('active', isMounted),
+      getPostOfType('archive', isMounted),
     ])
   }
 

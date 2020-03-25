@@ -39,12 +39,11 @@ const getOrganizationDetails = (user) => {
 
 /**
  * @param {object} org
- * @param {string} [token]
  * @returns {Promise<any>}
  */
-const fetchOrg = async (org, token) => {
+const fetchOrg = async (org) => {
   return {
-    ...await api.get(org.link, token),
+    ...await api.get(org.link),
     role: org.role,
   }
 }
@@ -95,9 +94,9 @@ const testNoPayment = (billingDetails) => {
   })
 }
 
-const getAllOrgsInfo = async ({ user, token }) => {
+const getAllOrgsInfo = async ({ user }) => {
   const orgDetails = getOrganizationDetails(user)
-  const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org, token))
+  const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org))
   const allOrgsInfo = await Promise.all(fetchOrgPromises)
   return allOrgsInfo
 }

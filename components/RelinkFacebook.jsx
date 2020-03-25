@@ -35,7 +35,7 @@ function FacebookButton(props) {
 
 
 const RelinkFacebook = () => {
-  const { accessToken, getToken, relinkFacebook } = React.useContext(AuthContext)
+  const { accessToken, relinkFacebook } = React.useContext(AuthContext)
   const { user } = React.useContext(UserContext)
   const { artist } = React.useContext(ArtistContext)
   const [updating, setUpdating] = React.useState(false)
@@ -76,15 +76,12 @@ const RelinkFacebook = () => {
       // If the user is owner of at least one artist,
       // send the updated access token to the server
       setUpdating(true)
-      getToken()
-        .then(token => {
-          server.updateAccessToken(userArtists, accessToken, token)
-            .then(() => {
-              setUpdated(true)
-            })
+      server.updateAccessToken(userArtists, accessToken)
+        .then(() => {
+          setUpdated(true)
         })
     }
-  }, [accessToken, getToken, updating, user.artists])
+  }, [accessToken, updating, user.artists])
 
   // If the selected artist is
   // London Sinfonietta (Y8uCfxBZkAVcpokW4S4b) or
