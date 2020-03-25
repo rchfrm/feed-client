@@ -49,13 +49,12 @@ if (process.env.build_env !== 'development') {
 }
 
 function Feed({ Component, pageProps }) {
-  const { visible: navVisible } = useContext(NavigationContext)
-  const backgroundColor = navVisible ? 'black' : 'white'
-
   const [stripe, setStripe] = useState(null)
 
   useEffect(() => {
-    registerServiceWorker()
+    if (process.env.build_env !== 'development') {
+      registerServiceWorker()
+    }
   }, [])
 
   // Setup stripe to use SSR

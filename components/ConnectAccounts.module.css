@@ -10,10 +10,6 @@
   &.readOnly {
     background-color: var(--grey-light);
     border: none;
-
-    :global(.input--container) {
-      margin-bottom: 0.2em !important;
-    }
   }
 }
 

@@ -70,7 +70,7 @@ const InputNew = ({
         )}
         {/* INPUT */}
         <input
-          className={['input', `input_${version}`].join(' ')}
+          className={['input', `input--${version}`].join(' ')}
           name={name}
           type={type}
           onChange={handleChange}

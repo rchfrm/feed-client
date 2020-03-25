@@ -24,6 +24,11 @@ const SelectNew = ({
     optionElements.unshift(<option key="placeholder" value="" hidden>{placeholder}</option>)
   }
 
+  const versionClasses = version
+    .split(' ')
+    .map((v) => `select--${v}`)
+    .join(' ')
+
   return (
     <div className={['input--container', className].join(' ')}>
       <label
@@ -37,7 +42,7 @@ const SelectNew = ({
           </span>
         )}
         <select
-          className={['selectElement', `selectElement_${version}`].join(' ')}
+          className={['select', versionClasses].join(' ')}
           name={name}
           onChange={handleChange}
           style={style}

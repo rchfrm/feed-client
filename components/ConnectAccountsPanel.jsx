@@ -22,16 +22,15 @@ const styles = {
 function ConnectAccountsPanel({
   artistAccount,
   singular,
-  setError,
+  setErrors,
   contactUs,
   updateArtists,
 }) {
-  // const { readOnly } = connectAccountsStyles
-  const readOnly = false
   const { exists, connect } = artistAccount
   const singularClass = singular ? 'singular' : ''
   const selectedClass = connect ? 'selected' : 'deselected'
-  const readOnlyClass = exists ? connectAccountsStyles.readOnly : ''
+  const readOnly = exists
+  const readOnlyClass = readOnly ? connectAccountsStyles.readOnly : ''
   const id = artistAccount.page_id
 
 
@@ -50,7 +49,7 @@ function ConnectAccountsPanel({
   const handleChange = e => {
     e.preventDefault()
 
-    setError(null)
+    setErrors([])
 
     const { target, target: { name: field, value } } = e
     let payloadValue = value

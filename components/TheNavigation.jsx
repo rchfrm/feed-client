@@ -30,7 +30,7 @@ function ArtistOptions({ artists, onChange }) {
   return (
     <div className="select--small  select--sans">
       <select
-        className={['selectElement_box', styles.select].join(' ')}
+        className={['select--box', styles.select].join(' ')}
         value={artist.id}
         onChange={onChange}
       >

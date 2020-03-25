@@ -24,7 +24,7 @@ export default () => {
       <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" href="/pwa/apple-touch-startup-image-1536x2008.png" />
       <link rel="yandex-tableau-widget" href="/pwa/yandex-browser-manifest.json" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
       <meta name="apple-mobile-web-app-title" />
       <meta name="application-name" />
       <meta name="mobile-web-app-capable" content="yes" />

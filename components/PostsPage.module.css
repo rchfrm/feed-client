@@ -126,7 +126,7 @@
   width: 72.5%;
   margin-bottom: 0 !important;
 
-  :global(.selectElement_box) {
+  :global(.select--box) {
     margin-bottom: 0 !important;
   }
 }
@@ -196,6 +196,12 @@
   }
 }
 
+/* Adding custom link ./PostLinkAddUrl.jsx */
+.PostLinkAddUrl__input,
+.PostLinkAddUrl__select {
+  width: 100%;
+}
+
 
 /* FORM FOR SETTING BUDGET */
 .BudgetForm {
@@ -213,7 +219,7 @@
     flex: 1 0 auto;
   }
 
-  :global(.input_box) {
+  :global(.input--box) {
     margin-bottom: 0 !important;
   }
 }
