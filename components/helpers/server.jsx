@@ -115,9 +115,7 @@ export default {
   getDataSourceValue: async (dataSources, artistId, verifyIdToken) => {
     return api
         .get(`/artists/${artistId}/data_sources`, {
-          query: {
-            metrics: dataSources.join(','),
-          }
+          metrics: dataSources.join(','),
         }, verifyIdToken)
   },
 
@@ -132,11 +130,9 @@ export default {
   getUnpromotedPosts: async (offset, limit, artistId, verifyIdToken) => {
     return api
         .get(`/artists/${artistId}/assets`, {
-          query: {
-            promotion_status: 'inactive',
-            offset,
-            limit,
-          },
+          promotion_status: 'inactive',
+          offset,
+          limit,
         }, verifyIdToken)
     .then(jsonResponse => {
       // Process certain parts of the response to make it easier to handle
