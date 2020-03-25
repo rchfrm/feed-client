@@ -88,6 +88,7 @@ function LoginPageForm({ setPageLoading }) {
         label="Email"
         version="box"
         width={100}
+        autoFocus
       />
 
       <InputNew
