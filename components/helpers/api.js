@@ -86,7 +86,7 @@ export function get(path, query, token) {
 
 /**
  * @param {string} path
- * @param {object} data
+ * @param {object|string|false} data
  * @param {string|false} [token]
  * @returns {Promise<any>}
  */
@@ -103,7 +103,7 @@ export function patch(path, data, token) {
 
 /**
  * @param {string} path
- * @param {object} data
+ * @param {object|string|false} data
  * @param {string|false} [token]
  * @returns {Promise<any>}
  */
