@@ -7,27 +7,22 @@ import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import PageHeader from './PageHeader'
 import InputNew from './elements/InputNew'
 import Button from './elements/Button'
-import ButtonFacebook from './elements/ButtonFacebook'
 import Error from './elements/Error'
-import Spinner from './elements/Spinner'
-// IMPORT COMPONENTS
-import SignupPageLink from './SignupPageLink'
+
 import LoginPagePasswordForgetLink from './LoginPagePasswordForgetLink'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
-import brandColors from '../constants/brandColors'
 
 import styles from './LoginPage.module.css'
 
-function LoginPageForm() {
+function LoginPageForm({ setPageLoading }) {
   // IMPORT CONTEXTS
-  const { authError, authLoading, continueWithFacebook, login } = React.useContext(AuthContext)
-  const { storeUser, userError, userLoading } = React.useContext(UserContext)
-  const { artistLoading, noArtist, storeArtist } = React.useContext(ArtistContext)
+  const { authError, login } = React.useContext(AuthContext)
+  const { storeUser, userError } = React.useContext(UserContext)
+  const { noArtist, storeArtist } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
 
   // DEFINE PAGE STATE
@@ -35,16 +30,6 @@ function LoginPageForm() {
   const [password, setPassword] = React.useState('')
   const [error, setError] = React.useState(null)
   // END DEFINE PAGE STATE
-
-  // CONTINUE WITH FACEBOOK
-  const facebookClick = e => {
-    e.preventDefault()
-    setError(null)
-    // Calls firebase.doSignInWithFacebook using a redirect,
-    // so that when user is returned to log in page handleRedirect is triggered
-    continueWithFacebook()
-  }
-  // END CONTINUE WITH FACEBOOK
 
   // HANDLE CHANGES IN FORM
   const handleChange = e => {
@@ -66,6 +51,7 @@ function LoginPageForm() {
   const onFormSubmit = async e => {
     e.preventDefault()
     setError(null)
+    setPageLoading(true)
     try {
       await login(email, password)
       const newUser = await storeUser()
@@ -78,6 +64,7 @@ function LoginPageForm() {
         Router.push(ROUTES.CONNECT_ACCOUNTS)
       }
     } catch (err) {
+      setPageLoading(false)
       setEmail('')
       setPassword('')
       setError(err)
@@ -85,91 +72,52 @@ function LoginPageForm() {
   }
   // END HANDLE CLICK ON LOG IN BUTTON
 
-  if (authLoading || userLoading || artistLoading) {
-    return (
-      <Spinner width={50} color={brandColors.green} />
-    )
-  }
   return (
-    <div className="page--container">
+    <form
+      onSubmit={onFormSubmit}
+      className={styles.form}
+    >
 
-      <PageHeader heading="log in" />
-      <SignupPageLink />
-      <p
-        className="ninety-wide"
-        style={{ marginBottom: '3em' }}
+      <InputNew
+        className={styles.input}
+        name="email"
+        placeholder=""
+        value={email || ''}
+        handleChange={handleChange}
+        type="email"
+        label="Email"
+        version="box"
+        width={100}
+        autoFocus
+      />
+
+      <InputNew
+        className={styles.input}
+        name="password"
+        placeholder=""
+        value={password}
+        handleChange={handleChange}
+        type="password"
+        label="Password"
+        version="box"
+        width={100}
+      />
+
+      <Error error={authError || userError || error} />
+
+      <LoginPagePasswordForgetLink />
+
+      <Button
+        className={styles.submit}
+        version="black"
+        disabled={false}
+        onClick={onFormSubmit}
+        type="input"
       >
-        By clicking log in, you agree to our
-        {' '}
-        <a href="https://archform.ltd/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-        {' '}
-        and
-        {' '}
-        <a href="https://archform.ltd/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-        .
-      </p>
+        log in.
+      </Button>
 
-      <div className="ninety-wide page--container">
-
-        <div className="fill-height" style={{ width: '65.738%', margin: '0 auto' }}>
-
-          <ButtonFacebook
-            width={100}
-            marginBottom="1.5em"
-            onClick={facebookClick}
-          >
-            Log in with Facebook
-          </ButtonFacebook>
-
-          <p>or log in using your email address...</p>
-
-          <form
-            onSubmit={onFormSubmit}
-            className={styles.LoginPage__form}
-          >
-
-            <InputNew
-              className={styles.LoginPage__input}
-              name="email"
-              placeholder=""
-              value={email || ''}
-              handleChange={handleChange}
-              type="email"
-              label="Email"
-              version="box"
-              width={100}
-            />
-
-            <InputNew
-              className={styles.LoginPage__input}
-              name="password"
-              placeholder=""
-              value={password}
-              handleChange={handleChange}
-              type="password"
-              label="Password"
-              version="box"
-              width={100}
-            />
-
-            <Error error={authError || userError || error} />
-
-            <LoginPagePasswordForgetLink />
-
-            <Button
-              className={styles.LoginPage__submit}
-              version="black"
-              disabled={false}
-              onClick={onFormSubmit}
-              type="input"
-            >
-              log in.
-            </Button>
-
-          </form>
-        </div>
-      </div>
-    </div>
+    </form>
   )
 }
 

@@ -1,19 +1,25 @@
-// IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
+import PropTypes from 'prop-types'
 
-function PageHeader({ punctuation = '.', heading }) {
+function PageHeader({ punctuation = '.', heading, className }) {
+  const classses = ['page-header', className].join(' ')
   return (
-    <div className="page-header">
+    <div className={classses}>
       <h1>{heading + punctuation}</h1>
     </div>
   )
 }
+
+PageHeader.propTypes = {
+  punctuation: PropTypes.string,
+  heading: PropTypes.string.isRequired,
+  className: PropTypes.string,
+}
+
+PageHeader.defaultProps = {
+  punctuation: '.',
+  className: '',
+}
+
 
 export default PageHeader

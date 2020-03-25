@@ -38,6 +38,7 @@ const InputNew = ({
   required,
   className,
   icon,
+  autoFocus,
 }) => {
   // Get icon (if needed)
   const iconEl = icon ? getIconEl(icon) : null
@@ -45,6 +46,14 @@ const InputNew = ({
   if (iconEl) {
     containerClasses.push('_hasIcon')
   }
+  // Auto focus input if needed
+  const inputElement = React.useRef(null)
+  React.useEffect(() => {
+    if (!autoFocus) return
+    if (inputElement.current) {
+      inputElement.current.focus()
+    }
+  }, [])
 
   return (
     <div className={containerClasses.join(' ')}>
@@ -72,6 +81,7 @@ const InputNew = ({
           value={value}
           readOnly={readOnly}
           required={required}
+          ref={inputElement}
         />
         {/* ICON */}
         {iconEl}
@@ -111,6 +121,7 @@ InputNew.propTypes = {
   required: PropTypes.bool,
   className: PropTypes.string,
   icon: PropTypes.string,
+  autoFocus: PropTypes.bool,
 }
 
 InputNew.defaultProps = {
@@ -125,6 +136,7 @@ InputNew.defaultProps = {
   required: false,
   className: '',
   icon: '',
+  autoFocus: false,
 }
 
 export default InputNew
