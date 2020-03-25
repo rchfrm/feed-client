@@ -6,7 +6,7 @@ import { NavigationContext } from '../contexts/Navigation'
 // IMPORT ELEMENTS
 import PageHeader from '../PageHeader'
 import Form from '../elements/Form'
-import InputNew from '../elements/InputNew'
+import Input from '../elements/Input'
 import Button from '../elements/Button'
 import Error from '../elements/Error'
 // IMPORT PAGES
@@ -89,7 +89,7 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
         className={styles.form}
       >
 
-        <InputNew
+        <Input
           className={styles.input}
           name="email"
           label="Email Address"

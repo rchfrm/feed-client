@@ -8,7 +8,7 @@ import { SidePanelContext } from './contexts/SidePanelContext'
 import server from './helpers/server'
 import firebase from './helpers/firebase'
 
-import InputNew from './elements/InputNew'
+import Input from './elements/Input'
 import Button from './elements/Button'
 
 import styles from './AccountPage.module.css'
@@ -164,7 +164,7 @@ function AccountPageDetails({ user }) {
 
       <form className={styles.accountPageDetails__form} onSubmit={handleSubmit.current}>
 
-        <InputNew
+        <Input
           name="name"
           label="Name"
           placeholder=""
@@ -174,7 +174,7 @@ function AccountPageDetails({ user }) {
           version="text"
         />
 
-        <InputNew
+        <Input
           name="surname"
           label="Surname"
           placeholder=""
@@ -184,7 +184,7 @@ function AccountPageDetails({ user }) {
           version="text"
         />
 
-        <InputNew
+        <Input
           name="email"
           label="Email"
           placeholder=""
@@ -194,7 +194,7 @@ function AccountPageDetails({ user }) {
           version="text"
         />
 
-        <InputNew
+        <Input
           name="passwordOne"
           label="Password"
           placeholder=""
@@ -204,7 +204,7 @@ function AccountPageDetails({ user }) {
           version="text"
         />
 
-        <InputNew
+        <Input
           name="passwordTwo"
           label="Confirm new password:"
           placeholder=""

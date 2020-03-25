@@ -7,7 +7,7 @@ import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 import Icon from './elements/Icon'
-import InputNew from './elements/InputNew'
+import Input from './elements/Input'
 import Spinner from './elements/Spinner'
 import Alert from './elements/Alert'
 // IMPORT PAGES
@@ -355,7 +355,7 @@ const ConnectionLink = ({
     )
   }
   return (
-    <InputNew
+    <Input
       className={styles.input}
       name="Connection"
       version="text"

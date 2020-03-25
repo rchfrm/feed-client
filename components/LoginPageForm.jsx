@@ -7,7 +7,7 @@ import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import InputNew from './elements/InputNew'
+import Input from './elements/Input'
 import Button from './elements/Button'
 import Error from './elements/Error'
 
@@ -78,7 +78,7 @@ function LoginPageForm({ setPageLoading }) {
       className={styles.form}
     >
 
-      <InputNew
+      <Input
         className={styles.input}
         name="email"
         placeholder=""
@@ -91,7 +91,7 @@ function LoginPageForm({ setPageLoading }) {
         autoFocus
       />
 
-      <InputNew
+      <Input
         className={styles.input}
         name="password"
         placeholder=""

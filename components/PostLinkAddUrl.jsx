@@ -6,7 +6,7 @@ import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 import Icon from './elements/Icon'
-import InputNew from './elements/InputNew'
+import Input from './elements/Input'
 import Select from './elements/Select'
 // IMPORT PAGES
 // IMPORT ASSETS
@@ -135,7 +135,7 @@ function PostLinkAddUrl(props) {
 
         </div>
 
-        <InputNew
+        <Input
           className={styles.PostLinkAddUrl__input}
           placeholder="https://"
           type="url"
