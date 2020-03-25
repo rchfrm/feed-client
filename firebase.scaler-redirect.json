@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "scaler",
+    "site": "test",
     "public": "dist",
     "ignore": [
       "firebase.json",
@@ -9,7 +9,7 @@
     ],
     "redirects": [
       {
-        "source": "/{,/**}",
+        "source": "/**",
         "destination": "https://beta.getfed.app",
         "type": 301
       }
