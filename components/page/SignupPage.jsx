@@ -41,7 +41,7 @@ function SignupPage() {
   const facebookSignup = async e => {
     e.preventDefault()
     // Calls firebase.doSignInWithFacebook using a redirect,
-    // so that when user is returned to log in page handleRedirect is triggered
+    // so that when user is returned to sign up page handleRedirect is triggered
     continueWithFacebook()
   }
 
