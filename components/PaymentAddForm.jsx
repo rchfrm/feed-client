@@ -19,7 +19,7 @@ import { BillingContext } from './contexts/BillingContext'
 import { SidePanelContext } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import Error from './elements/Error'
-import SelectNew from './elements/SelectNew'
+import Select from './elements/Select'
 import Button from './elements/Button'
 // IMPORT HELPERS
 import InputNew from './elements/InputNew'
@@ -345,7 +345,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
           version="box"
         />
 
-        <SelectNew
+        <Select
           handleChange={handleChange}
           name="country"
           options={countryOptions}

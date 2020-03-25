@@ -1,7 +1,7 @@
 import React from 'react'
 
 import InputNew from './elements/InputNew'
-import SelectNew from './elements/SelectNew'
+import Select from './elements/Select'
 import ButtonToggle from './elements/ButtonToggle'
 import InstagramIcon from './icons/InstagramIcon'
 
@@ -155,7 +155,7 @@ function ConnectAccountsPanel({
     })
 
     return (
-      <SelectNew
+      <Select
         name="country_code"
         label="Your country"
         handleChange={handleChange}
@@ -222,7 +222,7 @@ function ConnectAccountsPanel({
     })
 
     return (
-      <SelectNew
+      <Select
         name="selected_facebook_ad_account"
         label="Which Facebook Ad Account should we use?"
         handleChange={handleChange}

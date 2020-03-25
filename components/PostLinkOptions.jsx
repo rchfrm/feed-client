@@ -6,7 +6,7 @@ import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import PostLinkSaveButton from './PostLinkSaveButton'
-import SelectNew from './elements/SelectNew'
+import Select from './elements/Select'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -145,7 +145,7 @@ function PostLinkOptions({
 
       <div className={styles.linkSelection}>
 
-        <SelectNew
+        <Select
           className={styles.linkSelection__select}
           handleChange={handleChange}
           name="Choose link"

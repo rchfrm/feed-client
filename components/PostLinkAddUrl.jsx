@@ -7,7 +7,7 @@ import { ArtistContext } from './contexts/Artist'
 import Button from './elements/Button'
 import Icon from './elements/Icon'
 import InputNew from './elements/InputNew'
-import SelectNew from './elements/SelectNew'
+import Select from './elements/Select'
 // IMPORT PAGES
 // IMPORT ASSETS
 import PostLinkSaveButton from './PostLinkSaveButton'
@@ -147,7 +147,7 @@ function PostLinkAddUrl(props) {
         />
 
 
-        <SelectNew
+        <Select
           name="linkVersion"
           className={styles.PostLinkAddUrl__select}
           options={linkOptions}
