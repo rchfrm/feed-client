@@ -1,7 +1,6 @@
-import host from './host'
 import helper from './helper'
 import artistHelpers from './artistHelpers'
-import {default as api} from './api'
+import * as api from './api'
 
 
 export default {
