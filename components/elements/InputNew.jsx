@@ -46,6 +46,14 @@ const InputNew = ({
   if (iconEl) {
     containerClasses.push('_hasIcon')
   }
+  // Auto focus input if needed
+  const inputElement = React.useRef(null)
+  React.useEffect(() => {
+    if (!autoFocus) return
+    if (inputElement.current) {
+      inputElement.current.focus()
+    }
+  }, [])
 
   return (
     <div className={containerClasses.join(' ')}>
@@ -73,7 +81,7 @@ const InputNew = ({
           value={value}
           readOnly={readOnly}
           required={required}
-          ref={input => autoFocus && input && input.focus()}
+          ref={inputElement}
         />
         {/* ICON */}
         {iconEl}
