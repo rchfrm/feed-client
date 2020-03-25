@@ -5,7 +5,7 @@ import * as api from './api'
 /**
  * @param {string} organisationId
  * @param {string} paymentMethodId
- * @param {string|false} [verifyIdToken]
+ * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
 const submitPaymentMethod = async (organisationId, paymentMethodId, verifyIdToken) => {
@@ -15,7 +15,7 @@ const submitPaymentMethod = async (organisationId, paymentMethodId, verifyIdToke
 /**
  * @param {string} organisationId
  * @param {string} paymentId
- * @param {string|false} [verifyIdToken]
+ * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
 const setPaymentAsDefault = async (organisationId, paymentId, verifyIdToken) => {
@@ -39,7 +39,7 @@ const getOrganizationDetails = (user) => {
 
 /**
  * @param {object} org
- * @param {string|false} [token]
+ * @param {string} [token]
  * @returns {Promise<any>}
  */
 const fetchOrg = async (org, token) => {

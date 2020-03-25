@@ -33,7 +33,7 @@ export default {
   /**
    * @param {string} artist
    * @param {string} accessToken
-   * @param {string|false} [token]
+   * @param {string} [token]
    * @returns {Promise<any>}
    */
   createArtist: async (artist, accessToken, token) => {
@@ -58,7 +58,7 @@ export default {
 
   /**
    * @param {string} artist_id
-   * @param {string|false} [verify_id_token]
+   * @param {string} [verify_id_token]
    * @returns {Promise<any>}
    */
   getArtist: async (artist_id, verify_id_token) => {
@@ -121,7 +121,7 @@ export default {
 
   /**
    * @param {string} facebookAccessToken
-   * @param {string|false} [verifyIdToken]
+   * @param {string} [verifyIdToken]
    * @returns {Promise<any>}
    */
   getArtistOnSignUp: async (facebookAccessToken, verifyIdToken) => {
