@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import produce from 'immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from './User'
@@ -17,8 +18,14 @@ const initialArtistState = {}
 const ArtistContext = React.createContext(initialArtistState)
 ArtistContext.displayName = 'ArtistContext'
 
+
 const artistReducer = (artistState, artistAction) => {
-  switch (artistAction.type) {
+  const {
+    type: actionType,
+    payload,
+  } = artistAction
+
+  switch (actionType) {
     case 'no-artists': {
       return initialArtistState
     }
@@ -26,26 +33,20 @@ const artistReducer = (artistState, artistAction) => {
       return artistAction.payload.artist
     }
     case 'set-budget': {
-      return {
-        ...artistState,
-        daily_budget: artistAction.payload.budget,
-      }
+      return produce(artistState, draftState => {
+        draftState.daily_budget = payload.budget
+      })
     }
     case 'set-new-url': {
-      return {
-        ...artistState,
-        [artistAction.payload.urlType]: artistAction.payload.url,
-        URLs: {
-          ...artistState.URLs,
-          [artistAction.payload.urlType]: artistAction.payload.url,
-        },
-      }
+      return produce(artistState, draftState => {
+        draftState[payload.urlType] = payload.url
+        draftState.URLs[payload.urlType] = payload.url
+      })
     }
     case 'set-priority-dsp': {
-      return {
-        ...artistState,
-        priority_dsp: artistAction.payload.priority_dsp,
-      }
+      return produce(artistState, draftState => {
+        draftState.priority_dsp = payload.priority_dsp
+      })
     }
     default:
       throw new Error(`Unable to find ${artistAction.type} in artistReducer`)
@@ -184,7 +185,6 @@ function ArtistProvider({ children }) {
     if (artist.id) {
       currentArtistId.current = artist.id
       localStorage.setItem('artistId', artist.id)
-      getIntegrationErrors()
     }
   }, [artist.id])
 
