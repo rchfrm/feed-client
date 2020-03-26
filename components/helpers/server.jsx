@@ -1,5 +1,6 @@
 import helper from './helper'
 import artistHelpers from './artistHelpers'
+import firebase from './firebase'
 import * as api from './api'
 
 
@@ -9,10 +10,11 @@ export default {
   /**
    * @param {string} first_name
    * @param {string} last_name
-   * @param {string} verify_id_token
+   * @param {string} [verify_id_token]
    * @returns {Promise<any>}
    */
-  createUser: (first_name, last_name, verify_id_token) => {
+  createUser: async (first_name, last_name, verify_id_token) => {
+    if (!verify_id_token) verify_id_token = await firebase.getIdTokenOrFail()
     return api
       .post('/accounts/register', {
         first_name,

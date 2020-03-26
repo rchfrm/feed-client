@@ -1,5 +1,5 @@
-import app from 'firebase/app'
 import axios from 'axios'
+import firebase from './firebase'
 import host from './host'
 
 /**
@@ -29,13 +29,7 @@ export async function request(method, path, options, token) {
       throw new Error('token must be a string')
     }
   } else if (token !== false) {
-    const { currentUser } = app.auth()
-    if (currentUser) {
-      token = await currentUser.getIdToken()
-    }
-    if (!token) {
-      throw new Error('no login session found')
-    }
+    token = await firebase.getIdTokenOrFail()
   }
 
   let url = path.match(/^(?:https?:)?\/\//)
