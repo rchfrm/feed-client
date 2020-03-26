@@ -48,6 +48,17 @@ const artistReducer = (artistState, artistAction) => {
         draftState.priority_dsp = payload.priority_dsp
       })
     }
+    case 'set-integration-errors': {
+      return produce(artistState, draftState => {
+        draftState.integrationErrors = payload.errors
+        draftState.showIntegrationErrors = true
+      })
+    }
+    case 'hide-integration-errors': {
+      return produce(artistState, draftState => {
+        draftState.showIntegrationErrors = false
+      })
+    }
     default:
       throw new Error(`Unable to find ${artistAction.type} in artistReducer`)
   }
@@ -165,10 +176,15 @@ function ArtistProvider({ children }) {
   // --------------------
   const setIntegrationErrors = (errors) => {
     console.log('errors', errors)
+    setArtist({
+      type: 'set-integration-errors',
+      payload: {
+        errors,
+      },
+    })
   }
 
   const getIntegrationErrors = async () => {
-    console.log('getIntegrationErrors')
     const errors = await server.getIntegrationErrors(currentArtistId.current)
       .catch((err) => {
         throw (err)
@@ -177,16 +193,15 @@ function ArtistProvider({ children }) {
   }
 
   const hideIntegrationErrors = () => {
-
+    setArtist({ type: 'hide-integration-errors' })
   }
 
   // Store artist id in local storage
   React.useEffect(() => {
-    if (artist.id) {
-      currentArtistId.current = artist.id
-      localStorage.setItem('artistId', artist.id)
-      getIntegrationErrors()
-    }
+    if (!artist.id) return
+    localStorage.setItem('artistId', artist.id)
+    currentArtistId.current = artist.id
+    getIntegrationErrors()
   }, [artist.id])
 
   const value = {
