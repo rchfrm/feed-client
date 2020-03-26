@@ -184,6 +184,7 @@ function ArtistProvider({ children }) {
     if (artist.id) {
       currentArtistId.current = artist.id
       localStorage.setItem('artistId', artist.id)
+      getIntegrationErrors()
     }
   }, [artist.id])
 
