@@ -2,7 +2,6 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './Auth'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS
@@ -37,8 +36,6 @@ const userReducer = (userState, userAction) => {
 }
 
 function UserProvider({ children }) {
-  const { getToken } = React.useContext(AuthContext)
-
   // DEFINE USER STATE
   const [user, setUser] = React.useReducer(userReducer, initialUserState)
   const [userLoading, setUserLoading] = React.useState(true)
@@ -54,8 +51,7 @@ function UserProvider({ children }) {
   const createUser = React.useCallback(async (first_name, last_name) => {
     setUserLoading(true)
     try {
-      const token = await getToken()
-      const newUser = await server.createUser(first_name, last_name, token)
+      const newUser = await server.createUser(first_name, last_name)
       setUser({
         type: 'set-user',
         payload: {
@@ -68,13 +64,12 @@ function UserProvider({ children }) {
       setUserLoading(false)
       throw (err)
     }
-  }, [getToken])
+  }, [])
 
   const storeUser = React.useCallback(async () => {
     setUserLoading(true)
     try {
-      const token = await getToken()
-      const newUser = await server.getUser(token)
+      const newUser = await server.getUser()
       setUser({
         type: 'set-user',
         payload: {
@@ -87,7 +82,7 @@ function UserProvider({ children }) {
       setUserLoading(false)
       throw (err)
     }
-  }, [getToken])
+  }, [])
 
   const value = {
     createUser,

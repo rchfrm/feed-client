@@ -14,7 +14,6 @@ import brandColors from '../constants/brandColors'
 import countries from '../constants/countries'
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
-import { AuthContext } from './contexts/Auth'
 import { BillingContext } from './contexts/BillingContext'
 import { SidePanelContext } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
@@ -77,8 +76,6 @@ const CardInput = () => {
 
 
 function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
-  // Contexts
-  const { getToken } = React.useContext(AuthContext)
   // Get Side panel context
   const {
     setSidePanelLoading,
@@ -226,8 +223,7 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
       }
 
       // Send the payment method id to the server
-      const verifyToken = await getToken()
-      await paymentHelpers.submitPaymentMethod(organisationId, paymentMethod.id, verifyToken)
+      await paymentHelpers.submitPaymentMethod(organisationId, paymentMethod.id)
       // Store key details of the card that was saved in state,
       // and set success to true
       setCardDetails({
