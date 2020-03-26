@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "test",
+    "site": "scaler",
     "public": "dist",
     "ignore": [
       "firebase.json",
