@@ -70,27 +70,20 @@ function IntegrationsLoader(props) {
     // Handle no artist
     if (!artist) return {}
     // Format artist integrations into an object
-    let integrationsObj = {}
     const urlNames = Object.keys(artist.URLs)
-    urlNames.forEach(urlName => {
-      const platform = helper.extractPlatformFromPriorityDSP(urlName)
-      // Check if this platform is set as the priority_dsp
-      if (platform === artist.priority_dsp) {
-        setPriorityDSP(platform)
-      }
-
-      integrationsObj = {
-        ...integrationsObj,
+    return urlNames.reduce((obj, name) => {
+      const platform = helper.extractPlatformFromPriorityDSP(name)
+      const url = artist[name]
+      return {
+        ...obj,
         [platform]: {
           platform,
-          name: urlName,
-          url: artist[urlName],
-          valid: !!artist[urlName],
+          name,
+          url,
+          valid: !!url,
         },
       }
-    })
-
-    return integrationsObj
+    }, {})
   }, [artistId])
   // END DEFINE FUNCTION TO RETRIEVE ARTIST INFORMATION
 
