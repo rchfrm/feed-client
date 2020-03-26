@@ -166,13 +166,14 @@ function ArtistProvider({ children }) {
     console.log('errors', errors)
   }
 
-  const getIntegrationErrors = React.useCallback(async () => {
+  const getIntegrationErrors = async () => {
+    console.log('getIntegrationErrors')
     const errors = await server.getIntegrationErrors(currentArtistId.current)
       .catch((err) => {
         throw (err)
       })
     setIntegrationErrors(errors)
-  }, [artist])
+  }
 
   const hideIntegrationErrors = () => {
 
