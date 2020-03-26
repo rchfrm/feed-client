@@ -102,7 +102,7 @@ export default {
 
   getVerifyIdToken: () => {
     if (!auth || !auth.currentUser) return false
-    return auth.currentUser.getIdToken(/* forceRefresh */ true)
+    return auth.currentUser.getIdToken()
   },
 
   /**
