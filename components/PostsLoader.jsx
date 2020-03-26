@@ -4,7 +4,6 @@ import Router from 'next/router'
 import useAsyncEffect from 'use-async-effect'
 import isEmpty from 'lodash/isEmpty'
 import produce from 'immer'
-import usePrevious from 'use-previous'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
@@ -78,32 +77,25 @@ function PostsLoader() {
   const [loadMore, setLoadMore] = React.useState(false)
   const [loadingMore, setLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const totalAssets = React.useRef(0)
   const postsPerPage = 10
   // END DEFINE STATES
 
   // IMPORT CONTEXTS
-  const { artist, artistLoading } = React.useContext(ArtistContext)
-  let assets = []
-  if (artist._embedded && artist._embedded.assets) {
-    assets = artist._embedded.assets
-  }
+  const { artist = {}, artistLoading } = React.useContext(ArtistContext)
 
   // RESET POSTS STATE IF SELECTED ARTIST CHANGES
-  const previousArtistState = usePrevious(artist)
   useAsyncEffect(async (isMounted) => {
     if (!artist || isEmpty(artist)) return
-    // Stop here if artist ID is the same
-    if (previousArtistState) {
-      const { id: artistId } = artist
-      const { id: previousArtistID } = previousArtistState
-      if (artistId === previousArtistID) {
-        return
-      }
-    }
     // Return if there is no selected artist
     if (!artist.id) return
+    // Count total assets
+    if (artist._embedded && artist._embedded.assets) {
+      totalAssets.current = artist._embedded.assets.length
+    }
     // Start loading
     setPageLoading(true)
+    setLoadMore(false)
     // Reset offset
     setOffset(0)
     // GEt posts
@@ -114,6 +106,8 @@ function PostsLoader() {
         setPageLoading(false)
         setError(err)
       })
+    // console.log('posts', posts)
+    // console.log('isMounted()', isMounted())
     if (!isMounted()) return
     // Replace posts with new artist posts
     setPosts({
@@ -126,7 +120,7 @@ function PostsLoader() {
     setOffset(posts.length)
     // Stop page loading
     setPageLoading(false)
-  }, [artist])
+  }, [artist.id])
 
   // GET EXTRA POSTS FROM SERVER, IF AVAILABLE
   useAsyncEffect(async (isMounted) => {
@@ -135,7 +129,9 @@ function PostsLoader() {
     // Return if a request to get more posts has already been made
     if (loadingMore) return
     // Return if there are no more assets to get
-    if (assets.length < offset) return
+    // console.log('totalAssets.current', totalAssets.current)
+    // console.log('offset', offset)
+    if (totalAssets.current < offset) return
     // Stop here if page is loading
     if (pageLoading) return
     // Set loading to true
@@ -159,8 +155,7 @@ function PostsLoader() {
     setLoadMore(false)
     setLoadingMore(false)
     setOffset(offset + postsPerPage)
-    setPageLoading(false)
-  }, [assets, loadMore, offset])
+  }, [loadMore])
   // END GET POSTS FROM SERVER, IF AVAILABLE
 
   // IF POSTS CHANGES, UPDATE NUMBER OF POSTS
