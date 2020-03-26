@@ -157,10 +157,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       // Set finished
       setFinishedInit(true)
     }
-    // Trigger check for integration errors
-    if (isAuthenticated.current) {
-      getIntegrationErrors()
-    }
   }
 
   // CHECK FOR AN AUTHENTICATED USER WHEN APP FIRST LOADS
