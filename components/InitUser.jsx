@@ -11,7 +11,7 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   const router = useRouter()
   const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
   const { createUser, noUser, storeUser } = React.useContext(UserContext)
-  const { noArtist, storeArtist } = React.useContext(ArtistContext)
+  const { noArtist, storeArtist, getIntegrationErrors } = React.useContext(ArtistContext)
   const [checkedForUser, setCheckedForUser] = React.useState(false)
   const [userRedirected, setUserRedirected] = React.useState(false)
   const [finishedInit, setFinishedInit] = React.useState(false)
@@ -126,19 +126,38 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   // END HANDLE ANY REDIRECTS WITH INFORMATION ABOUT AN AUTH USER
 
   // GET THE CURRENTLY AUTHENTICATED USER, IF ANY, FROM FIREBASE
-  const handleAuthStateChange = React.useCallback(async authUser => {
+  const handleAuthStateChange = async (authUser) => {
     // Check if there is a Firebase auth user
     if (authUser) {
       // If there is, store the user in auth context
       await storeAuth(authUser)
-
       await handleExistingUser()
-    } else {
-      // If there is no auth user, reset all contexts
-      handleNoAuthUser()
+      return false
     }
-  }, [handleExistingUser, handleNoAuthUser, storeAuth])
-  // END GET THE CURRENTLY AUTHENTICATED USER, IF ANY, FROM FIREBASE
+    // If there is no auth user, reset all contexts
+    handleNoAuthUser()
+    return true
+  }
+
+  // CALL THIS AFTER EVERYTHING IS DONE
+  const onFinished = (redirected) => {
+    // Toggle whether a redirect was called
+    setUserRedirected(redirected)
+    // If redirected, wait until route change is complete
+    if (redirected) {
+      Router.events.on('routeChangeComplete', () => {
+        // Set finisshed
+        setFinishedInit(true)
+        setUserRedirected(false)
+      })
+    } else {
+      // Set finished
+      setFinishedInit(true)
+    }
+    // Trigger check for integration errors
+    getIntegrationErrors()
+  }
+
   // CHECK FOR AN AUTHENTICATED USER WHEN APP FIRST LOADS
   React.useEffect(() => {
     const checkForAuthUser = async () => {
@@ -169,25 +188,16 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       // If there hasn't been a redirect, check with Firebase for an auth user
       if (!redirected) {
         const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
-          await handleAuthStateChange(authUser)
+          redirected = await handleAuthStateChange(authUser)
+          // EVERYTHING DONE
+          onFinished(redirected)
           // Once Firebase has been checked, unsubscribe from the observer
           unsubscribe()
         })
-      }
-
-      // Toggle whether a redirect was called
-      setUserRedirected(redirected)
-      // If redirected, wait until route change is complete
-      if (redirected) {
-        Router.events.on('routeChangeComplete', () => {
-          // Set finisshed
-          setFinishedInit(true)
-          setUserRedirected(false)
-        })
         return
       }
-      // Set finisshed
-      setFinishedInit(true)
+      // EVERYTHING DONE
+      onFinished(redirected)
     }
 
     // Only start the process of checking for an auth user,

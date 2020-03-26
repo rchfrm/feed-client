@@ -57,6 +57,7 @@ function ArtistProvider({ children }) {
 
   const [artist, setArtist] = React.useReducer(artistReducer, initialArtistState)
   const [artistLoading, setArtistLoading] = React.useState(true)
+  const currentArtistId = React.useRef('')
 
   const noArtist = React.useCallback(() => {
     setArtistLoading(true)
@@ -80,12 +81,13 @@ function ArtistProvider({ children }) {
         },
       })
       setArtistLoading(false)
+      currentArtistId.current = id
       return artist
     } catch (err) {
       setArtistLoading(false)
       throw (err)
     }
-  }, [])
+  })
 
   const createArtist = async (artistAccounts, accessToken) => {
     setArtistLoading(true)
@@ -158,9 +160,28 @@ function ArtistProvider({ children }) {
     return savedUrl
   }
 
+  // INTEGRATION ERRORS
+  // --------------------
+  const setIntegrationErrors = (errors) => {
+    console.log('errors', errors)
+  }
+
+  const getIntegrationErrors = React.useCallback(async () => {
+    const errors = await server.getIntegrationErrors(currentArtistId.current)
+      .catch((err) => {
+        throw (err)
+      })
+    setIntegrationErrors(errors)
+  }, [artist])
+
+  const hideIntegrationErrors = () => {
+
+  }
+
   // Store artist id in local storage
   React.useEffect(() => {
     if (artist.id) {
+      currentArtistId.current = artist.id
       localStorage.setItem('artistId', artist.id)
     }
   }, [artist.id])
@@ -176,6 +197,8 @@ function ArtistProvider({ children }) {
     setPriorityDSP,
     storeArtist,
     updateBudget,
+    getIntegrationErrors,
+    hideIntegrationErrors,
   }
 
   return (
