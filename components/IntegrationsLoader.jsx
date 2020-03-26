@@ -66,7 +66,9 @@ function IntegrationsLoader(props) {
   const getArtist = React.useCallback(async () => {
     // Request artist information from the server
     const artist = await artistHelpers.getArtist(artistId)
-
+      .catch(err => console.error(err))
+    // Handle no artist
+    if (!artist) return {}
     // Format artist integrations into an object
     let integrationsObj = {}
     const urlNames = Object.keys(artist.URLs)
