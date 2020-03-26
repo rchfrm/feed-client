@@ -6,7 +6,6 @@ import moment from 'moment'
 import produce from 'immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import SquareImage from './elements/SquareImage'
