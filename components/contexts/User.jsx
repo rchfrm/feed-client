@@ -48,10 +48,10 @@ function UserProvider({ children }) {
     setUserLoading(false)
   }, [])
 
-  const createUser = React.useCallback(async (first_name, last_name) => {
+  const createUser = React.useCallback(async (first_name, last_name, accessToken) => {
     setUserLoading(true)
     try {
-      const newUser = await server.createUser(first_name, last_name)
+      const newUser = await server.createUser(first_name, last_name, accessToken)
       setUser({
         type: 'set-user',
         payload: {

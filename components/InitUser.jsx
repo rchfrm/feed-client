@@ -110,10 +110,11 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
     // Determine if this is a new or pre-existing user
     const { isNewUser } = redirect.additionalUserInfo
     if (isNewUser) {
+      const { ma: verifyIdToken } = redirect.user
       // If it's a new user, create their profile on the server
       const firstName = redirect.additionalUserInfo.profile.first_name
       const lastName = redirect.additionalUserInfo.profile.last_name
-      await createUser(firstName, lastName)
+      await createUser(firstName, lastName, verifyIdToken)
       // As this is a new user, set noArtist, and push them to the Connect Artist page
       noArtist()
       Router.push(ROUTES.CONNECT_ACCOUNTS)
