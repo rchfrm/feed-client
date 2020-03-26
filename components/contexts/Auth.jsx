@@ -81,7 +81,7 @@ function AuthProvider({ children }) {
   const storeAuth = React.useCallback(async authUser => {
     setAuthLoading(true)
     try {
-      const token = await getToken()
+      const token = await firebase.getVerifyIdToken()
       setAuth({
         type: 'set-auth-user',
         payload: {
