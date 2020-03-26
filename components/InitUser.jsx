@@ -15,6 +15,7 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   const [checkedForUser, setCheckedForUser] = React.useState(false)
   const [userRedirected, setUserRedirected] = React.useState(false)
   const [finishedInit, setFinishedInit] = React.useState(false)
+  const isAuthenticated = React.useRef(true)
   // HANDLE EXISTING USERS
   const handleExistingUser = React.useCallback(async () => {
     // Get current pathanem
@@ -83,11 +84,13 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
 
   // HANDLE LACK OF AUTH USER
   const handleNoAuthUser = React.useCallback(() => {
+    isAuthenticated.current = false
     // Check if the user is on an auth only page,
     // if they are push to log in page
     const { pathname } = router
     if (pathname !== ROUTES.LOGIN && pathname !== ROUTES.SIGN_UP) {
       Router.push(ROUTES.LOGIN)
+      return true
     }
 
     // Reset all contexts
@@ -136,7 +139,7 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
     }
     // If there is no auth user, reset all contexts
     handleNoAuthUser()
-    return true
+    return false
   }
 
   // CALL THIS AFTER EVERYTHING IS DONE
@@ -155,7 +158,9 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       setFinishedInit(true)
     }
     // Trigger check for integration errors
-    getIntegrationErrors()
+    if (isAuthenticated.current) {
+      getIntegrationErrors()
+    }
   }
 
   // CHECK FOR AN AUTHENTICATED USER WHEN APP FIRST LOADS
@@ -167,6 +172,9 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       const redirectResult = await firebase.redirectResult()
       const { error } = redirectResult
 
+      // If there has been a redirect, call handleRedirect
+      let redirected = false
+
       // Handle error
       if (error) {
         const { message, code } = error
@@ -176,11 +184,9 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
           error.message = decodeURI(message.slice(startOfReason, endOfReason))
         }
         setAuthError(error)
-        handleNoAuthUser()
+        redirected = handleNoAuthUser()
       }
 
-      // If there has been a redirect, call handleRedirect
-      let redirected = false
       if (redirectResult.user) {
         redirected = await handleRedirect(redirectResult)
       }
