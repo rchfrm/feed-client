@@ -92,16 +92,8 @@ function PostLinkAddUrl({
 
       // Send a patch request to the server to update the asset
       const updatedAsset = await server.updateAssetLink(artist.id, postId, platform)
-
       // Update state in the Loader component with the new link
       updateLink(index, updatedAsset.priority_dsp)
-        type: 'update-link',
-        payload: {
-          index: props.index,
-          link: updatedAsset.priority_dsp,
-        },
-      })
-
       // Mark the button as 'saved'
       setButton('saved')
 

@@ -109,6 +109,7 @@ function PostSingle({
           setCurrentLink={setCurrentLink}
           setChosenLink={setChosenLink}
           setAddUrl={setAddUrl}
+          updateLink={updateLink}
         />
       )
     }
