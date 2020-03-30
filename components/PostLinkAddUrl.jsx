@@ -44,7 +44,6 @@ function PostLinkAddUrl({
   setChosenLink,
   setCurrentLink,
   setAddUrl,
-  setPosts,
   setError,
   updateLink,
 }) {
