@@ -49,12 +49,11 @@ const connectionsReducer = (connectionsState, connectionsAction) => {
   }
 }
 
-function IntegrationsLoader(props) {
-  // REDEFINE PROPS AS VARIABLES
-  const { artistId } = props
-  const { artistName } = props
-  // REDEFINE PROPS AS VARIABLES
-
+function IntegrationsLoader({
+  artistId,
+  artistName,
+  setErrors,
+}) {
   // DEFINE STATE
   const [artistLoading, setArtistLoading] = React.useState(true)
   const [gettingArtist, setGettingArtist] = React.useState(false)
@@ -66,7 +65,10 @@ function IntegrationsLoader(props) {
   const getArtist = React.useCallback(async () => {
     // Request artist information from the server
     const artist = await artistHelpers.getArtist(artistId)
-      .catch(err => console.error(err))
+      .catch((error) => {
+        console.error(error)
+        setErrors([error])
+      })
     // Handle no artist
     if (!artist) return {}
     // Format artist integrations into an object

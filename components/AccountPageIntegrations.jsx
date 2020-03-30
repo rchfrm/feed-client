@@ -2,6 +2,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
+import Error from './elements/Error'
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
 // IMPORT PAGES
@@ -17,6 +18,7 @@ import sidePanelStyles from './SidePanel.module.css'
 const Artists = () => {
   const { user = {} } = React.useContext(UserContext)
   const { artists = [] } = user
+  const [errors, setErrors] = React.useState([])
   // IF THE USER HAS NO ARTISTS, ASK THEM TO CONNECT ONE
   // TODO: Make this look better
   if (artists.length === 0) {
@@ -30,9 +32,15 @@ const Artists = () => {
 
         <h3>{artist.name}</h3>
 
+        {/* Errors */}
+        {errors.map((error, index) => {
+          return <Error error={error} messagePrefix="Error: " key={index} />
+        })}
+
         <IntegrationsLoader
           artistId={artist.id}
           artistName={artist.name}
+          setErrors={setErrors}
         />
 
       </li>
