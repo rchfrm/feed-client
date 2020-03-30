@@ -162,9 +162,9 @@ const ConnectionIcons = ({
   // DEFINE DEFAULT COLOUR
   let defaultColor = brandColors.greyLight
   if (valid && priority) {
-    defaultColor = brandColors.black
+    defaultColor = brandColors.textColor
   } else if (!valid) {
-    defaultColor = brandColors.white
+    defaultColor = brandColors.bgColor
   }
   // DEFINE DEFAULT COLOUR
 
