@@ -78,7 +78,8 @@ function PostsBudget({ currency }) {
       bgColor: brandColors.greyLight,
     })
     try {
-      const dailyBudget = await updateBudget(artist.id, currency, budget.amount)
+      const budgetAmount = budget.amount || 0
+      const dailyBudget = await updateBudget(artist.id, currency, budgetAmount)
       setBudget({
         ...budget,
         text: 'Saved!',
