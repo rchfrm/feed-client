@@ -1,4 +1,71 @@
 import produce from 'immer'
+
+import copy from '../../copy/integrationErrorsCopy'
+
+export const getIntegrationErrorResponse = (error, artist) => {
+  const { code, subcode, message: defaultMessage } = error
+
+  if (code === 'expired_access_token') {
+    return {
+      message: copy[code],
+      action: 'fb_reauth',
+    }
+  }
+
+  if (code === 'missing_permission_scope') {
+    return {
+      message: copy[code],
+      action: 'fb_reauth',
+    }
+  }
+
+  if (code === 'ad_account_error' && subcode === 'CLOSED') {
+    return {
+      message: copy.ad_account_closed(artist),
+      action: 'email',
+      buttonText: 'Email us',
+      address: 'help@getfed.app',
+      subject: 'New ad account, old one closed',
+    }
+  }
+
+  if (code === 'ad_account_disabled') {
+    return {
+      message: copy[code](artist),
+      action: 'link',
+      buttonText: 'Facebook Ads Manager',
+      href: 'https://facebook.com/adsmanager/manage/',
+    }
+  }
+
+  if (code === 'ad_account_error' && subcode === 'UNSETTLED') {
+    return {
+      message: copy.unpaid_invoice(artist),
+      action: 'link',
+      buttonText: '‘Facebook Billing',
+      href: 'https://www.facebook.com/ads/manager/billing/',
+    }
+  }
+  if (code === 'instagram_id') {
+    return {
+      message: copy.no_instagram(artist),
+      action: 'link',
+      buttonText: '‘Facebook Billing',
+      href: 'https://www.facebook.com/ads/manager/billing/',
+    }
+  }
+  if (code === 'instagram_page_not_linked') {
+    return {
+      message: copy[code],
+      action: 'link',
+      buttonText: 'Link Instagram Account',
+      href: 'https://www.facebook.com/business/help/898752960195806',
+    }
+  }
+  return defaultMessage
+}
+
+
 const handleInstaErrors = (errors) => {
   const missingInstaIdIndex = errors.findIndex(({ code, subcode }) => code === 'instagram_id' && subcode === 'missing_field')
   const missingInstaBusinessIndex = errors.findIndex(({ code }) => code === 'instagram_page_not_linked')
@@ -31,11 +98,6 @@ const getIntegrationErrorPriority = (error) => {
   if (code === 'instagram_id' && subcode === 'missing_field') return 5
   if (code === 'instagram_page_not_linked') return 6
   return 999
-}
-
-export const getIntegrationErrorMessage = (error) => {
-  console.log('error', error)
-  return 'HELPPP'
 }
 
 // Converts integration errors into an array of errors
