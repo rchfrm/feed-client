@@ -63,6 +63,7 @@ function ArtistProvider({ children }) {
   const { storeUser } = React.useContext(UserContext)
 
   const [artist, setArtist] = useImmerReducer(artistReducer, initialArtistState)
+  const [artistId, setArtistId] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
   const currentArtistId = React.useRef('')
 
@@ -193,15 +194,21 @@ function ArtistProvider({ children }) {
 
   // Store artist id in local storage
   React.useEffect(() => {
-    if (!artist.id) return
+    if (!artist || !artist.id) return
+    setArtistId(artist.id)
+  }, [artist])
+
+  React.useEffect(() => {
+    if (!artistId) return
     localStorage.setItem('artistId', artist.id)
     currentArtistId.current = artist.id
     getIntegrationErrors()
-  }, [artist.id])
+  }, [artistId])
 
   const value = {
     addUrl,
     artist,
+    artistId,
     artistLoading,
     createArtist,
     noArtist,
