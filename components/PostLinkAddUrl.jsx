@@ -143,7 +143,6 @@ function PostLinkAddUrl(props) {
           required
         />
 
-
         <Select
           name="linkVersion"
           className={styles.PostLinkAddUrl__select}
