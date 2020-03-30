@@ -12,6 +12,7 @@ import { UserContext } from './User'
 import helper from '../helpers/helper'
 import server from '../helpers/server'
 import artistHelpers from '../helpers/artistHelpers'
+import * as integrationErrorsHelpers from '../helpers/integrationErrorsHelpers'
 // IMPORT STYLES
 
 const initialArtistState = {}
@@ -171,7 +172,9 @@ function ArtistProvider({ children }) {
   // INTEGRATION ERRORS
   // --------------------
   const setIntegrationErrors = (errors) => {
+    const formattedErrors = integrationErrorsHelpers.formatErrors(errors)
     console.log('errors', errors)
+    console.log('formattedErrors', formattedErrors)
     setArtist({
       type: 'set-integration-errors',
       payload: {
