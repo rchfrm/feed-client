@@ -49,12 +49,11 @@ const connectionsReducer = (connectionsState, connectionsAction) => {
   }
 }
 
-function IntegrationsLoader(props) {
-  // REDEFINE PROPS AS VARIABLES
-  const { artistId } = props
-  const { artistName } = props
-  // REDEFINE PROPS AS VARIABLES
-
+function IntegrationsLoader({
+  artistId,
+  artistName,
+  setErrors,
+}) {
   // DEFINE STATE
   const [artistLoading, setArtistLoading] = React.useState(true)
   const [gettingArtist, setGettingArtist] = React.useState(false)
@@ -66,29 +65,27 @@ function IntegrationsLoader(props) {
   const getArtist = React.useCallback(async () => {
     // Request artist information from the server
     const artist = await artistHelpers.getArtist(artistId)
-
+      .catch((error) => {
+        console.error(error)
+        setErrors([error])
+      })
+    // Handle no artist
+    if (!artist) return {}
     // Format artist integrations into an object
-    let integrationsObj = {}
     const urlNames = Object.keys(artist.URLs)
-    urlNames.forEach(urlName => {
-      const platform = helper.extractPlatformFromPriorityDSP(urlName)
-      // Check if this platform is set as the priority_dsp
-      if (platform === artist.priority_dsp) {
-        setPriorityDSP(platform)
-      }
-
-      integrationsObj = {
-        ...integrationsObj,
+    return urlNames.reduce((obj, name) => {
+      const platform = helper.extractPlatformFromPriorityDSP(name)
+      const url = artist[name]
+      return {
+        ...obj,
         [platform]: {
           platform,
-          name: urlName,
-          url: artist[urlName],
-          valid: !!artist[urlName],
+          name,
+          url,
+          valid: !!url,
         },
       }
-    })
-
-    return integrationsObj
+    }, {})
   }, [artistId])
   // END DEFINE FUNCTION TO RETRIEVE ARTIST INFORMATION
 

@@ -72,18 +72,14 @@ export default {
    * @returns {Promise<any>}
    */
   getArtist: async (artist_id, verify_id_token) => {
-    return api.get(`/artists/${artist_id}`, verify_id_token)
-      .then(res => {
-        // Filter out links so that they are stored in a specific 'links' key
-        res.URLs = helper.filterArtistUrls(res)
-
-        return res
-      })
+    const res = await api.get(`/artists/${artist_id}`, verify_id_token)
       .catch(err => {
         console.error(err)
-
         throw new Error('We were unable to retrieve the selected artist from the server')
       })
+    // Filter out links so that they are stored in a specific 'links' key
+    res.URLs = helper.filterArtistUrls(res)
+    return res
   },
 
 
