@@ -6,7 +6,7 @@ import Link from 'next/link'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import InputNew from './elements/InputNew'
+import Input from './elements/Input'
 import Button from './elements/Button'
 import Feed from './elements/Feed'
 // IMPORT PAGES
@@ -115,7 +115,7 @@ function PostsBudget({ currency }) {
 
         <div className={styles.BudgetForm}>
 
-          <InputNew
+          <Input
             className={styles.BudgetForm_inputContainer}
             name="budget"
             placeholder={currency}

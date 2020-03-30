@@ -102,7 +102,16 @@ export default {
 
   getVerifyIdToken: () => {
     if (!auth || !auth.currentUser) return false
-    return auth.currentUser.getIdToken(/* forceRefresh */ true)
+    return auth.currentUser.getIdToken()
+  },
+
+  /**
+   * @param boolean forceRefresh
+   * @returns {Promise<string>}
+   */
+  getIdTokenOrFail: (forceRefresh = false) => {
+    if (!auth || !auth.currentUser) throw new Error('no login session found')
+    return auth.currentUser.getIdToken(forceRefresh)
   },
 
   getVerifyIdTokenResult: () => {

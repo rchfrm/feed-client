@@ -2,7 +2,6 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
 import Loading from './elements/Loading'
 // IMPORT PAGES
@@ -50,16 +49,11 @@ const connectionsReducer = (connectionsState, connectionsAction) => {
   }
 }
 
-function IntegrationsLoader(props) {
-// IMPORT CONTEXTS
-  const { getToken } = React.useContext(AuthContext)
-  // END IMPORT CONTEXTS
-
-  // REDEFINE PROPS AS VARIABLES
-  const { artistId } = props
-  const { artistName } = props
-  // REDEFINE PROPS AS VARIABLES
-
+function IntegrationsLoader({
+  artistId,
+  artistName,
+  setErrors,
+}) {
   // DEFINE STATE
   const [artistLoading, setArtistLoading] = React.useState(true)
   const [gettingArtist, setGettingArtist] = React.useState(false)
@@ -69,40 +63,30 @@ function IntegrationsLoader(props) {
 
   // DEFINE FUNCTION TO RETRIEVE ARTIST INFORMATION
   const getArtist = React.useCallback(async () => {
-    // Retrieve Firebase verify ID token
-    const token = await getToken()
-      .catch((err) => {
-        throw (err)
-      })
     // Request artist information from the server
-    const artist = await artistHelpers.getArtist(artistId, token)
-      .catch((err) => {
-        throw (err)
+    const artist = await artistHelpers.getArtist(artistId)
+      .catch((error) => {
+        console.error(error)
+        setErrors([error])
       })
-
+    // Handle no artist
+    if (!artist) return {}
     // Format artist integrations into an object
-    let integrationsObj = {}
     const urlNames = Object.keys(artist.URLs)
-    urlNames.forEach(urlName => {
-      const platform = helper.extractPlatformFromPriorityDSP(urlName)
-      // Check if this platform is set as the priority_dsp
-      if (platform === artist.priority_dsp) {
-        setPriorityDSP(platform)
-      }
-
-      integrationsObj = {
-        ...integrationsObj,
+    return urlNames.reduce((obj, name) => {
+      const platform = helper.extractPlatformFromPriorityDSP(name)
+      const url = artist[name]
+      return {
+        ...obj,
         [platform]: {
           platform,
-          name: urlName,
-          url: artist[urlName],
-          valid: !!artist[urlName],
+          name,
+          url,
+          valid: !!url,
         },
       }
-    })
-
-    return integrationsObj
-  }, [artistId, getToken])
+    }, {})
+  }, [artistId])
   // END DEFINE FUNCTION TO RETRIEVE ARTIST INFORMATION
 
   // GET CONNECTION DETAILS

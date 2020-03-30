@@ -3,7 +3,7 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
 // IMPORT COMPONENTS
-import LoginPageForm from '../LoginPageForm'
+import LoginPageContent from '../LoginPageContent'
 
 
 function LoginPage() {
@@ -18,7 +18,7 @@ function LoginPage() {
   return (
     <div className={`page--container ${className}`}>
 
-      <LoginPageForm />
+      <LoginPageContent />
 
     </div>
   )

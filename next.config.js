@@ -1,6 +1,9 @@
 // Next plugins
 const withPlugins = require('next-compose-plugins')
 const withOffline = require('next-offline')
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 // Webpack plugins
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const dotenv = require('dotenv')
@@ -71,4 +74,6 @@ module.exports = withPlugins([
   [withOffline, {
     dontAutoRegisterSw: true,
   }, ['!', PHASE_DEVELOPMENT_SERVER]],
+  // Bundle analyzer
+  withBundleAnalyzer,
 ], nextConfig)

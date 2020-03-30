@@ -1,13 +1,12 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 import Icon from './elements/Icon'
-import InputNew from './elements/InputNew'
-import SelectNew from './elements/SelectNew'
+import Input from './elements/Input'
+import Select from './elements/Select'
 // IMPORT PAGES
 // IMPORT ASSETS
 import PostLinkSaveButton from './PostLinkSaveButton'
@@ -41,7 +40,6 @@ const getLinkOptions = (links) => {
 function PostLinkAddUrl(props) {
   // Import contexts
   const { addUrl, artist } = React.useContext(ArtistContext)
-  const { getToken } = React.useContext(AuthContext)
 
   const linkOptions = getLinkOptions(artist.URLs)
   const [initialLinkOption] = linkOptions
@@ -83,8 +81,7 @@ function PostLinkAddUrl(props) {
       await addUrl(url, urlType)
 
       // Send a patch request to the server to update the asset
-      const token = await getToken()
-      const updatedAsset = await server.updateAssetLink(artist.id, props.postId, platform, token)
+      const updatedAsset = await server.updateAssetLink(artist.id, props.postId, platform)
 
       // Update state in the Loader component with the new link
       props.setPosts({
@@ -135,7 +132,7 @@ function PostLinkAddUrl(props) {
 
         </div>
 
-        <InputNew
+        <Input
           className={styles.PostLinkAddUrl__input}
           placeholder="https://"
           type="url"
@@ -146,8 +143,7 @@ function PostLinkAddUrl(props) {
           required
         />
 
-
-        <SelectNew
+        <Select
           name="linkVersion"
           className={styles.PostLinkAddUrl__select}
           options={linkOptions}

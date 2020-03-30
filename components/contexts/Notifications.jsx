@@ -42,17 +42,15 @@ const notificationsReducer = (notificationsState, notificationsAction) => {
 
 function NotificationsProvider({ children }) {
   const { artist } = React.useContext(ArtistContext)
-  const { getToken } = React.useContext(AuthContext)
 
   const [notifications, setNotifications] = React.useReducer(notificationsReducer, initialNotificationsState)
   const [loading, setLoading] = React.useState(true)
 
   const getOrganisationNotifications = React.useCallback(async organisationId => {
     const path = `organizations/${organisationId}/notifications`
-    const token = await getToken()
-    const result = await server.getRequest(path, token)
+    const result = await server.getPath(path)
     return result
-  }, [getToken])
+  }, [])
 
   React.useEffect(() => {
     // If the dependencies change, set this to false,

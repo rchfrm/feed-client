@@ -24,6 +24,12 @@ Go to the server repo (*automads-server*) and run `npm start`
 
 In the root of this directory, run `yarn export && yarn serve`
 
+## Bundle analysis
+
+To analyze the bundle size using [Next's bundle analyzer](https://github.com/zeit/next.js/tree/canary/packages/next-bundle-analyzer), run:
+
+`ANALYZE=true yarn build`
+
 
 ## Deploying
 

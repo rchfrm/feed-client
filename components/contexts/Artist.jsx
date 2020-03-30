@@ -2,7 +2,6 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './Auth'
 import { UserContext } from './User'
 // IMPORT ELEMENTS
 // IMPORT PAGES
@@ -54,8 +53,6 @@ const artistReducer = (artistState, artistAction) => {
 }
 
 function ArtistProvider({ children }) {
-  const { getToken } = React.useContext(AuthContext)
-
   const { storeUser } = React.useContext(UserContext)
 
   const [artist, setArtist] = React.useReducer(artistReducer, initialArtistState)
@@ -75,8 +72,7 @@ function ArtistProvider({ children }) {
     setArtistLoading(true)
     // Get artist information from server
     try {
-      const token = await getToken()
-      const artist = await artistHelpers.getArtist(id, token)
+      const artist = await artistHelpers.getArtist(id)
       setArtist({
         type: 'set-artist',
         payload: {
@@ -89,7 +85,7 @@ function ArtistProvider({ children }) {
       setArtistLoading(false)
       throw (err)
     }
-  }, [getToken])
+  }, [])
 
   const createArtist = async (artistAccounts, accessToken) => {
     setArtistLoading(true)
@@ -105,8 +101,6 @@ function ArtistProvider({ children }) {
     })
 
 
-    // Get token
-    const token = await getToken()
     // Create all artists
     const createAllArtists = connectedArtistAccounts.map(async (artist) => {
       const { priority_dsp } = artist
@@ -115,7 +109,7 @@ function ArtistProvider({ children }) {
         priority_dsp: priority_dsp || helper.selectPriorityDSP(artist),
       }
 
-      await artistHelpers.createArtist(artistWithDsp, accessToken, token)
+      await artistHelpers.createArtist(artistWithDsp, accessToken)
     })
     // Wait to connect all artists
     await Promise.all(createAllArtists)
@@ -130,11 +124,7 @@ function ArtistProvider({ children }) {
   }
 
   const updateBudget = async (id, currency, amount) => {
-    const token = await getToken()
-    const updatedArtist = await server.updateDailyBudget(id, amount, token)
-      .catch((err) => {
-        throw (err)
-      })
+    const updatedArtist = await server.updateDailyBudget(id, amount)
 
     setArtist({
       type: 'set-budget',
@@ -155,11 +145,7 @@ function ArtistProvider({ children }) {
   }, [])
 
   const addUrl = async (url, urlType) => {
-    const token = await getToken()
-    const updatedArtist = await server.saveLink(artist.id, url, urlType, token)
-      .catch((err) => {
-        throw (err)
-      })
+    const updatedArtist = await server.saveLink(artist.id, url, urlType)
 
     const savedUrl = updatedArtist[urlType]
     setArtist({

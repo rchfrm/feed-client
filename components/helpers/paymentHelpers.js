@@ -1,39 +1,26 @@
-import axios from 'axios'
-import host from './host'
 import server from './server'
+import * as api from './api'
 
 // PAYMENTS
+/**
+ * @param {string} organisationId
+ * @param {string} paymentMethodId
+ * @param {string} [verifyIdToken]
+ * @returns {Promise<any>}
+ */
 const submitPaymentMethod = async (organisationId, paymentMethodId, verifyIdToken) => {
-  const endpoint = `${host}organizations/${organisationId}/billing/payments`
-  const res = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${verifyIdToken}`,
-    },
-    body: JSON.stringify({
-      token: paymentMethodId,
-    }),
-  })
-  if (res.ok) {
-    return
-  }
-  throw new Error(res.statusText)
+  return api.post(`/organizations/${organisationId}/billing/payments`, { token: paymentMethodId }, verifyIdToken)
 }
 
-
+/**
+ * @param {string} organisationId
+ * @param {string} paymentId
+ * @param {string} [verifyIdToken]
+ * @returns {Promise<any>}
+ */
 const setPaymentAsDefault = async (organisationId, paymentId, verifyIdToken) => {
-  const endpoint = `${host}organizations/${organisationId}/billing/payments/${paymentId}/default`
-  const response = await axios(endpoint, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${verifyIdToken}`,
-    },
-  })
+  return api.post(`/organizations/${organisationId}/billing/payments/${paymentId}/default`, verifyIdToken)
     .catch(server.catchAxiosError)
-
-  const { data = null } = response
-  return data
 }
 
 
@@ -50,22 +37,14 @@ const getOrganizationDetails = (user) => {
   })
 }
 
-
-const fetchOrg = async (org, token) => {
-  const { link, role } = org
-  const { data } = await axios(link, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .catch((err) => {
-      return err
-    })
-
+/**
+ * @param {object} org
+ * @returns {Promise<any>}
+ */
+const fetchOrg = async (org) => {
   return {
-    ...data,
-    role,
+    ...await api.get(org.link),
+    role: org.role,
   }
 }
 
@@ -115,9 +94,9 @@ const testNoPayment = (billingDetails) => {
   })
 }
 
-const getAllOrgsInfo = async ({ user, token }) => {
+const getAllOrgsInfo = async ({ user }) => {
   const orgDetails = getOrganizationDetails(user)
-  const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org, token))
+  const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org))
   const allOrgsInfo = await Promise.all(fetchOrgPromises)
   return allOrgsInfo
 }

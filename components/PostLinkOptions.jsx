@@ -2,11 +2,10 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import PostLinkSaveButton from './PostLinkSaveButton'
-import SelectNew from './elements/SelectNew'
+import Select from './elements/Select'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -30,7 +29,6 @@ function PostLinkOptions({
 }) {
   // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
-  const { getToken } = React.useContext(AuthContext)
   // DEFINE STATES
   const [button, setButton] = React.useState('save')
 
@@ -109,10 +107,8 @@ function PostLinkOptions({
     e.preventDefault()
     setButton('saving')
     try {
-      // Get the token from the auth context
-      const token = await getToken()
       // Send a patch request to the server to update the asset
-      const updatedAsset = await server.updateAssetLink(artist.id, postId, chosenLink, token)
+      const updatedAsset = await server.updateAssetLink(artist.id, postId, chosenLink)
       // Update state in the Loader component with the new link
       updateLink(index, updatedAsset.priority_dsp)
       // Update the current link to match
@@ -145,7 +141,7 @@ function PostLinkOptions({
 
       <div className={styles.linkSelection}>
 
-        <SelectNew
+        <Select
           className={styles.linkSelection__select}
           handleChange={handleChange}
           name="Choose link"

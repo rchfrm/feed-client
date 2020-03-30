@@ -38,7 +38,6 @@ function AuthProvider({ children }) {
   const [authError, setAuthError] = React.useState(null)
   const [accessToken, setAccessToken] = React.useState(null)
   const [authLoading, setAuthLoading] = React.useState(true)
-  const [tokenExpiration, setTokenExpiration] = React.useState(undefined)
 
   const noAuth = React.useCallback(() => {
     setAuthLoading(true)
@@ -46,42 +45,10 @@ function AuthProvider({ children }) {
     setAuthLoading(false)
   }, [])
 
-  const getToken = React.useCallback(async () => {
-    let tokenExpired = false
-
-    // If there is a token and expiration set, check that it hasn't expired
-    if (tokenExpiration && auth.token) {
-      const now = moment()
-      tokenExpired = tokenExpiration.isSameOrBefore(now)
-    }
-
-    // Return the stored token if it's still valid
-    if (!tokenExpired && auth.token) {
-      return auth.token
-    }
-
-    // If there is no token, or it has expired, request a new one
-    const result = await firebase.getVerifyIdTokenResult()
-      // .catch((err) => {
-      //   throw (err)
-      // })
-    // Stop here if no result
-    if (!result) return
-    const expiration = moment(result.expirationTime)
-    setTokenExpiration(expiration)
-    setAuth({
-      type: 'set-token',
-      payload: {
-        token: result.token,
-      },
-    })
-    return result.token
-  }, [auth.token, tokenExpiration])
-
   const storeAuth = React.useCallback(async authUser => {
     setAuthLoading(true)
     try {
-      const token = await getToken()
+      const token = await firebase.getVerifyIdToken()
       setAuth({
         type: 'set-auth-user',
         payload: {
@@ -94,7 +61,7 @@ function AuthProvider({ children }) {
       setAuthLoading(false)
       throw (err)
     }
-  }, [getToken])
+  }, [])
 
   const continueWithFacebook = async () => {
     setAuthLoading(true)
@@ -183,7 +150,6 @@ function AuthProvider({ children }) {
     authError,
     authLoading,
     continueWithFacebook,
-    getToken,
     linkFacebook,
     login,
     noAuth,
