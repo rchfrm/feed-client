@@ -132,7 +132,7 @@ const Connection = ({
   // END FUNCTIONS
 
   return (
-    <li className={styles.li} key={platform}>
+    <li className={styles.integrarionsListItem} key={platform}>
 
       <ConnectionIcons artistId={artistId} platform={platform} priorityDSP={priorityDSP} setConnections={setConnections} setPriorityDSP={setPriorityDSP} valid={valid} />
 
