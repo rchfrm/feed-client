@@ -71,9 +71,12 @@ function IntegrationsLoader({
       })
     // Handle no artist
     if (!artist) return {}
+    // Get priority DSP
+    const { priority_dsp } = artist
     // Format artist integrations into an object
     const urlNames = Object.keys(artist.URLs)
-    return urlNames.reduce((obj, name) => {
+
+    const integrations = urlNames.reduce((obj, name) => {
       const platform = helper.extractPlatformFromPriorityDSP(name)
       const url = artist[name]
       return {
@@ -86,6 +89,7 @@ function IntegrationsLoader({
         },
       }
     }, {})
+    return { integrations, priority_dsp }
   }, [artistId])
   // END DEFINE FUNCTION TO RETRIEVE ARTIST INFORMATION
 
@@ -104,7 +108,10 @@ function IntegrationsLoader({
     // Call getArtist
     setGettingArtist(true)
     getArtist()
-      .then(integrations => {
+      .then(({ integrations, priority_dsp }) => {
+        // Set priority DSP
+        setPriorityDSP(priority_dsp)
+        // Set connections
         setConnections({
           type: 'set-all',
           payload: integrations,
