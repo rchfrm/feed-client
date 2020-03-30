@@ -68,7 +68,7 @@ function PostsBudget({ currency }) {
     }
   }
 
-  const handleClick = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     setBudget({
       ...budget,
@@ -113,7 +113,7 @@ function PostsBudget({ currency }) {
 
         <MarkdownText className="h3--text" markdown={copy.budgetIntro} />
 
-        <div className={styles.BudgetForm}>
+        <form onSubmit={onSubmit} className={styles.BudgetForm}>
 
           <Input
             className={styles.BudgetForm_inputContainer}
@@ -127,15 +127,15 @@ function PostsBudget({ currency }) {
 
           <Button
             version="black  wide"
-            onClick={handleClick}
             disabled={budget.disabled}
             textColor={budget.color}
             bgColor={budget.bgColor}
+            type="submit"
           >
             {budget.text}
           </Button>
 
-        </div>
+        </form>
 
         <MarkdownText className="" markdown={copy.budgetOutro} />
 
