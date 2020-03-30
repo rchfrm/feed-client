@@ -24,7 +24,13 @@ import MediaFallback from './elements/MediaFallback'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
-function PostSingle({ index, post, singular: isSingular, updateLink, togglePromotion }) {
+function PostSingle({
+  index,
+  post,
+  singular: isSingular,
+  updateLink,
+  togglePromotion,
+}) {
   // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
