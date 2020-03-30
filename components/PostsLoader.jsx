@@ -82,13 +82,13 @@ function PostsLoader() {
   // END DEFINE STATES
 
   // IMPORT CONTEXTS
-  const { artist = {}, artistLoading } = React.useContext(ArtistContext)
+  const { artist = {}, artistId, artistLoading } = React.useContext(ArtistContext)
 
   // RESET POSTS STATE IF SELECTED ARTIST CHANGES
   useAsyncEffect(async (isMounted) => {
     if (!artist || isEmpty(artist)) return
     // Return if there is no selected artist
-    if (!artist.id) return
+    if (!artistId) return
     // Count total assets
     if (artist._embedded && artist._embedded.assets) {
       totalAssets.current = artist._embedded.assets.length
@@ -120,7 +120,7 @@ function PostsLoader() {
     setOffset(posts.length)
     // Stop page loading
     setPageLoading(false)
-  }, [artist.id])
+  }, [artistId])
 
   // GET EXTRA POSTS FROM SERVER, IF AVAILABLE
   useAsyncEffect(async (isMounted) => {
