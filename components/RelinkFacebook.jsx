@@ -83,17 +83,26 @@ const RelinkFacebook = () => {
     }
   }, [accessToken, updating, user.artists])
 
-  // If the selected artist is
-  // London Sinfonietta (Y8uCfxBZkAVcpokW4S4b) or
-  // Bamboo smoke (z86bIwfwlIXwEtmKIML6) or
-  // Marcus McCoan (4FwK6p6y9xhpxZSGW2fR) or
-  // Rob Godfrey (vpdEYAT65K8gVcIuLpvO),
-  // show instructions on relinking Facebook
+  /*
+  If the selected artist is
+  - Aladar Noko (e1dDjAC5jXjCMk0dhqH1)
+  - Bamboo Smoke (z86bIwfwlIXwEtmKIML6)
+  - Belle Chen (PjUuyt5uJhTRIbv5T4D1)
+  - London Sinfonietta (Y8uCfxBZkAVcpokW4S4b)
+  - Marcus McCoan (4FwK6p6y9xhpxZSGW2fR)
+  - NEU Hoops (dSzNAx3SL1Jo6q6GdM8v)
+  - Rob Godfrey (vpdEYAT65K8gVcIuLpvO)
+  show instructions on relinking Facebook
+  */
+
   if (
-    artist.id === 'Y8uCfxBZkAVcpokW4S4b'
-    || artist.id === '4FwK6p6y9xhpxZSGW2fR'
-    || artist.id === 'vpdEYAT65K8gVcIuLpvO'
+    artist.id === 'e1dDjAC5jXjCMk0dhqH1'
     || artist.id === 'z86bIwfwlIXwEtmKIML6'
+    || artist.id === 'PjUuyt5uJhTRIbv5T4D1'
+    || artist.id === 'Y8uCfxBZkAVcpokW4S4b'
+    || artist.id === '4FwK6p6y9xhpxZSGW2fR'
+    || artist.id === 'dSzNAx3SL1Jo6q6GdM8v'
+    || artist.id === 'vpdEYAT65K8gVcIuLpvO'
   ) {
     return (
       <div style={divStyle}>

@@ -241,10 +241,13 @@ export default {
     for (let i = 0; i < artistIds.length; i += 1) {
       const artistId = artistIds[i]
       if (
-        artistId === 'Y8uCfxBZkAVcpokW4S4b'
-          || artistId === '4FwK6p6y9xhpxZSGW2fR'
-          || artistId === 'vpdEYAT65K8gVcIuLpvO'
-          || artistId === 'z86bIwfwlIXwEtmKIML6'
+        artistId === 'e1dDjAC5jXjCMk0dhqH1'
+        || artistId === 'z86bIwfwlIXwEtmKIML6'
+        || artistId === 'PjUuyt5uJhTRIbv5T4D1'
+        || artistId === 'Y8uCfxBZkAVcpokW4S4b'
+        || artistId === '4FwK6p6y9xhpxZSGW2fR'
+        || artistId === 'dSzNAx3SL1Jo6q6GdM8v'
+        || artistId === 'vpdEYAT65K8gVcIuLpvO'
       ) {
         const res = await api.patch(`/artists/${artistId}`, {
           integrations: {
