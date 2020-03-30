@@ -1,9 +1,8 @@
 import produce from 'immer'
 
-import host from './host'
 import helper from './helper'
 import facebook from './facebook'
-
+import * as api from './api'
 
 // Sort Ad accounts so the previously used one is on top
 const sortAdAccounts = (account, adAccounts) => {
@@ -41,57 +40,46 @@ const getInstagramUrl = async ({ instagram_id, accessToken }) => {
 
 export default {
 
+  /**
+   * @param {string} artist
+   * @param {string} accessToken
+   * @param {string} [token]
+   * @returns {Promise<any>}
+   */
   createArtist: async (artist, accessToken, token) => {
-    const endpoint = `${host}artists`
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        name: artist.name,
-        location: artist.location,
-        country_code: artist.country_code,
-        facebook_page_url: artist.facebook_page_url,
-        spotify_url: helper.cleanSpotifyUrl(artist.spotify_url),
-        instagram_url: artist.instagram_url,
-        integrations: {
-          facebook: {
-            page_id: artist.page_id,
-            access_token: accessToken,
-            instagram_id: artist.instagram_id,
-            adaccount_id: artist.selected_facebook_ad_account.id,
-          },
+    return api.post('/artists', {
+      name: artist.name,
+      location: artist.location,
+      country_code: artist.country_code,
+      facebook_page_url: artist.facebook_page_url,
+      spotify_url: helper.cleanSpotifyUrl(artist.spotify_url),
+      instagram_url: artist.instagram_url,
+      integrations: {
+        facebook: {
+          page_id: artist.page_id,
+          access_token: accessToken,
+          instagram_id: artist.instagram_id,
+          adaccount_id: artist.selected_facebook_ad_account.id,
         },
-        priority_dsp: artist.priority_dsp,
-      }),
-    })
-    if (res.ok) {
-      return res.json()
-    }
-    throw new Error(res.statusText)
+      },
+      priority_dsp: artist.priority_dsp,
+    }, token)
   },
 
-
+  /**
+   * @param {string} artist_id
+   * @param {string} [verify_id_token]
+   * @returns {Promise<any>}
+   */
   getArtist: async (artist_id, verify_id_token) => {
-    const endpoint = `${host}artists/${artist_id}`
-    const res = await fetch(endpoint, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${verify_id_token}`,
-      },
-    })
-    if (res.ok) {
-      const response = await res.json()
-
-      // Filter out links so that they are stored in a specific 'links' key
-      response.URLs = helper.filterArtistUrls(response)
-
-      return response
-    }
-    throw new Error('We were unable to retrieve the selected artist from the server')
+    const res = await api.get(`/artists/${artist_id}`, verify_id_token)
+      .catch(err => {
+        console.error(err)
+        throw new Error('We were unable to retrieve the selected artist from the server')
+      })
+    // Filter out links so that they are stored in a specific 'links' key
+    res.URLs = helper.filterArtistUrls(res)
+    return res
   },
 
 
@@ -130,24 +118,13 @@ export default {
     return currentState
   },
 
-
+  /**
+   * @param {string} facebookAccessToken
+   * @param {string} [verifyIdToken]
+   * @returns {Promise<any>}
+   */
   getArtistOnSignUp: async (facebookAccessToken, verifyIdToken) => {
-    const endpoint = `${host}artists/available`
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${verifyIdToken}`,
-      },
-      body: JSON.stringify({
-        access_token: facebookAccessToken,
-      }),
-    })
-    if (res.ok) {
-      // Convert ad accounts into an array of objects, sorted alphabetically
-      return res.json()
-    }
-    throw new Error(res.statusText)
+    return api.post('/artists/available', { access_token: facebookAccessToken }, verifyIdToken)
   },
 
 

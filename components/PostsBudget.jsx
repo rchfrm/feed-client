@@ -6,7 +6,7 @@ import Link from 'next/link'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import InputNew from './elements/InputNew'
+import Input from './elements/Input'
 import Button from './elements/Button'
 import Feed from './elements/Feed'
 // IMPORT PAGES
@@ -68,7 +68,7 @@ function PostsBudget({ currency }) {
     }
   }
 
-  const handleClick = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     setBudget({
       ...budget,
@@ -78,7 +78,8 @@ function PostsBudget({ currency }) {
       bgColor: brandColors.greyLight,
     })
     try {
-      const dailyBudget = await updateBudget(artist.id, currency, budget.amount)
+      const budgetAmount = budget.amount || 0
+      const dailyBudget = await updateBudget(artist.id, currency, budgetAmount)
       setBudget({
         ...budget,
         text: 'Saved!',
@@ -113,9 +114,9 @@ function PostsBudget({ currency }) {
 
         <MarkdownText className="h3--text" markdown={copy.budgetIntro} />
 
-        <div className={styles.BudgetForm}>
+        <form onSubmit={onSubmit} className={styles.BudgetForm}>
 
-          <InputNew
+          <Input
             className={styles.BudgetForm_inputContainer}
             name="budget"
             placeholder={currency}
@@ -127,15 +128,15 @@ function PostsBudget({ currency }) {
 
           <Button
             version="black  wide"
-            onClick={handleClick}
             disabled={budget.disabled}
             textColor={budget.color}
             bgColor={budget.bgColor}
+            type="submit"
           >
             {budget.text}
           </Button>
 
-        </div>
+        </form>
 
         <MarkdownText className="" markdown={copy.budgetOutro} />
 

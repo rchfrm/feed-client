@@ -1,7 +1,7 @@
 import React from 'react'
 
-import InputNew from './elements/InputNew'
-import SelectNew from './elements/SelectNew'
+import Input from './elements/Input'
+import Select from './elements/Select'
 import ButtonToggle from './elements/ButtonToggle'
 import InstagramIcon from './icons/InstagramIcon'
 
@@ -135,7 +135,7 @@ function ConnectAccountsPanel({
   const returnCountry = () => {
     if (exists) {
       return (
-        <InputNew
+        <Input
           name="country_code"
           placeholder={artistAccount.country_code}
           value={`${helper.findCountryName(artistAccount.country_code)} (${artistAccount.country_code})`}
@@ -155,7 +155,7 @@ function ConnectAccountsPanel({
     })
 
     return (
-      <SelectNew
+      <Select
         name="country_code"
         label="Your country"
         handleChange={handleChange}
@@ -170,7 +170,7 @@ function ConnectAccountsPanel({
   const returnInstagramInput = () => {
     if (artistAccount.instagram_url) {
       return (
-        <InputNew
+        <Input
           name="instagram_url"
           placeholder={artistAccount.instagram_url || 'Enter the URL of your Instagram Page'}
           value={artistAccount.instagram_url || ''}
@@ -202,7 +202,7 @@ function ConnectAccountsPanel({
   const returnAdAccountSelector = () => {
     if (exists) {
       return (
-        <InputNew
+        <Input
           name="selected_facebook_ad_account"
           placeholder={artistAccount.selected_facebook_ad_account ? artistAccount.selected_facebook_ad_account.name : ''}
           value={`${artistAccount.selected_facebook_ad_account.name} (${artistAccount.selected_facebook_ad_account.id})`}
@@ -222,7 +222,7 @@ function ConnectAccountsPanel({
     })
 
     return (
-      <SelectNew
+      <Select
         name="selected_facebook_ad_account"
         label="Which Facebook Ad Account should we use?"
         handleChange={handleChange}
@@ -260,7 +260,7 @@ function ConnectAccountsPanel({
         <div className={`flex-column ${styles['right-of-profile']}`}>
 
           {/* Artist Name */}
-          <InputNew
+          <Input
             name="name"
             placeholder={artistAccount.name || 'Enter artist name'}
             value={artistAccount.name || ''}
@@ -281,7 +281,7 @@ function ConnectAccountsPanel({
 
         {/* Inputs below profile picture */}
         {/* Home Town */}
-        <InputNew
+        <Input
           name="location"
           placeholder={artistAccount.location || artistAccount.exists ? 'na.' : 'Enter the name of your home town'}
           value={artistAccount.location || ''}
@@ -293,7 +293,7 @@ function ConnectAccountsPanel({
         />
 
         {/* Spotify Page URL */}
-        <InputNew
+        <Input
           name="spotify_url"
           placeholder={artistAccount.spotify_url || artistAccount.exists ? 'na.' : 'Enter the URL of your Spotify Artist Page'}
           value={artistAccount.spotify_url || ''}
@@ -305,7 +305,7 @@ function ConnectAccountsPanel({
         />
 
         {/* Facebook Page URL */}
-        <InputNew
+        <Input
           name="facebook_page_url"
           placeholder={artistAccount.facebook_page_url || 'Enter the URL of your Facebook Page'}
           value={artistAccount.facebook_page_url || ''}

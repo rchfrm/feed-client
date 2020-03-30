@@ -6,7 +6,6 @@ import moment from 'moment'
 import produce from 'immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import SquareImage from './elements/SquareImage'
@@ -342,7 +341,6 @@ function Toggle(props) {
   // END REDEFINE PROPS AS VARIABLES
 
   // IMPORT ARTIST CONTEXT
-  const { getToken } = React.useContext(AuthContext)
   const { artist } = React.useContext(ArtistContext)
   // END IMPORT ARTIST CONTEXT
 
@@ -362,12 +360,8 @@ function Toggle(props) {
 
 
   const togglePromotion = async () => {
-    const token = await getToken()
-      .catch((err) => {
-        throw (err)
-      })
     // return result
-    const result = await server.togglePromotionEnabled(artist.id, id, !promotion_enabled, token)
+    const result = await server.togglePromotionEnabled(artist.id, id, !promotion_enabled)
     return result
   }
 

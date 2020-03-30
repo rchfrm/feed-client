@@ -1,13 +1,12 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 import Icon from './elements/Icon'
-import InputNew from './elements/InputNew'
-import SelectNew from './elements/SelectNew'
+import Input from './elements/Input'
+import Select from './elements/Select'
 // IMPORT PAGES
 // IMPORT ASSETS
 import PostLinkSaveButton from './PostLinkSaveButton'
@@ -38,10 +37,18 @@ const getLinkOptions = (links) => {
   })
 }
 
-function PostLinkAddUrl(props) {
+function PostLinkAddUrl({
+  currentLink,
+  postId,
+  index,
+  setChosenLink,
+  setCurrentLink,
+  setAddUrl,
+  setError,
+  updateLink,
+}) {
   // Import contexts
   const { addUrl, artist } = React.useContext(ArtistContext)
-  const { getToken } = React.useContext(AuthContext)
 
   const linkOptions = getLinkOptions(artist.URLs)
   const [initialLinkOption] = linkOptions
@@ -57,8 +64,8 @@ function PostLinkAddUrl(props) {
   // Allow user to close the alert without saving a link
   const closeAlert = e => {
     e.preventDefault()
-    props.setChosenLink(props.currentLink)
-    props.setAddUrl(false)
+    setChosenLink(currentLink)
+    setAddUrl(false)
   }
 
   // Handle changes to URL input field
@@ -83,29 +90,20 @@ function PostLinkAddUrl(props) {
       await addUrl(url, urlType)
 
       // Send a patch request to the server to update the asset
-      const token = await getToken()
-      const updatedAsset = await server.updateAssetLink(artist.id, props.postId, platform, token)
-
+      const updatedAsset = await server.updateAssetLink(artist.id, postId, platform)
       // Update state in the Loader component with the new link
-      props.setPosts({
-        type: 'update-link',
-        payload: {
-          index: props.index,
-          link: updatedAsset.priority_dsp,
-        },
-      })
-
+      updateLink(index, updatedAsset.priority_dsp)
       // Mark the button as 'saved'
       setButton('saved')
 
-      props.setCurrentLink(updatedAsset.priority_dsp)
-      props.setChosenLink(updatedAsset.priority_dsp)
-      props.setAddUrl(false)
+      setCurrentLink(updatedAsset.priority_dsp)
+      setChosenLink(updatedAsset.priority_dsp)
+      setAddUrl(false)
     } catch (err) {
       setButton('save')
-      props.setChosenLink(props.currentLink)
-      props.setAddUrl(false)
-      props.setError(err)
+      setChosenLink(currentLink)
+      setAddUrl(false)
+      setError(err)
     }
   }
 
@@ -135,7 +133,7 @@ function PostLinkAddUrl(props) {
 
         </div>
 
-        <InputNew
+        <Input
           className={styles.PostLinkAddUrl__input}
           placeholder="https://"
           type="url"
@@ -146,8 +144,7 @@ function PostLinkAddUrl(props) {
           required
         />
 
-
-        <SelectNew
+        <Select
           name="linkVersion"
           className={styles.PostLinkAddUrl__select}
           options={linkOptions}

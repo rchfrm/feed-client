@@ -5,7 +5,6 @@ import usePrevious from 'use-previous'
 import isEmpty from 'lodash/isEmpty'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Loading from './elements/Loading'
@@ -105,7 +104,6 @@ const displayedDataSourcesReducer = (displayedDataSourcesState, displayedDataSou
 
 function InsightsPageChart() {
 // IMPORT CONTEXTS
-  const { getToken } = React.useContext(AuthContext)
   const { artist } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
 
@@ -328,14 +326,7 @@ function InsightsPageChart() {
 
 
     // Make a request to the server for the data sources
-    const token = await getToken()
-      .catch((err) => {
-        throw (err)
-      })
-    const data = await server.getDataSourceValue(queue, artist.id, token)
-      .catch((err) => {
-        throw (err)
-      })
+    const data = await server.getDataSourceValue(queue, artist.id)
 
     // Sort through the returned information, and pull out data from relevant dates
     const dataSourceIds = Object.keys(data)
@@ -359,7 +350,7 @@ function InsightsPageChart() {
     })
 
     return data
-  }, [artist.id, dates, getToken])
+  }, [artist.id, dates])
   // END FUNCTION TO RETRIEVE DATA FROM SERVER
 
   // RETRIEVE DATA FROM SERVER FOR QUEUED DATA SOURCES

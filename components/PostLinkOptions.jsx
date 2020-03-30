@@ -2,11 +2,10 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import PostLinkSaveButton from './PostLinkSaveButton'
-import SelectNew from './elements/SelectNew'
+import Select from './elements/Select'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -15,6 +14,19 @@ import helper from './helpers/helper'
 import server from './helpers/server'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
+
+
+const getLinkName = (linkType) => {
+  if (linkType === 'spotify_url') return 'spotify'
+  if (linkType === 'website_url') return 'website'
+  if (linkType === 'instagram_url') return 'instagram'
+  if (linkType === 'bandcamp_url') return 'bandcamp'
+  if (linkType === 'facebook_page_url') return 'facebook'
+  if (linkType === 'youtube_url') return 'youtube'
+  if (linkType === 'twitter_url') return 'twitter'
+  if (linkType === 'soundcloud_url') return 'soundcloud'
+  if (linkType === 'apple_url') return 'apple'
+}
 
 
 function PostLinkOptions({
@@ -30,7 +42,6 @@ function PostLinkOptions({
 }) {
   // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
-  const { getToken } = React.useContext(AuthContext)
   // DEFINE STATES
   const [button, setButton] = React.useState('save')
 
@@ -43,46 +54,11 @@ function PostLinkOptions({
   )
 
 
-  // const links = listLinks(artist.URLs)
-
-  const links = Object.keys(artist.URLs).map((link) => {
-    let name
-    if (link === 'spotify_url') {
-      name = 'spotify'
-    }
-
-    if (link === 'website_url') {
-      name = 'website'
-    }
-
-    if (link === 'instagram_url') {
-      name = 'instagram'
-    }
-
-    if (link === 'bandcamp_url') {
-      name = 'bandcamp'
-    }
-
-    if (link === 'facebook_page_url') {
-      name = 'facebook'
-    }
-
-    if (link === 'youtube_url') {
-      name = 'youtube'
-    }
-
-    if (link === 'twitter_url') {
-      name = 'twitter'
-    }
-
-    if (link === 'soundcloud_url') {
-      name = 'soundcloud'
-    }
-
-    if (link === 'apple_url') {
-      name = 'apple'
-    }
-    return { name, value: name }
+  const links = Object.entries(artist.URLs).reduce((allLinks, [linkType, linkValue]) => {
+    if (!linkValue) return allLinks
+    const linkName = getLinkName(linkType)
+    const link = { name: linkName, value: linkName }
+    return [...allLinks, link]
   }, [])
 
   // Include add new link option
@@ -109,10 +85,8 @@ function PostLinkOptions({
     e.preventDefault()
     setButton('saving')
     try {
-      // Get the token from the auth context
-      const token = await getToken()
       // Send a patch request to the server to update the asset
-      const updatedAsset = await server.updateAssetLink(artist.id, postId, chosenLink, token)
+      const updatedAsset = await server.updateAssetLink(artist.id, postId, chosenLink)
       // Update state in the Loader component with the new link
       updateLink(index, updatedAsset.priority_dsp)
       // Update the current link to match
@@ -126,7 +100,7 @@ function PostLinkOptions({
     }
   }
 
-  const checkLink = platform => {
+  const checkLink = (platform) => {
     const priorityDSP = helper.convertPlatformToPriorityDSP(platform)
     return (
       <a
@@ -145,7 +119,7 @@ function PostLinkOptions({
 
       <div className={styles.linkSelection}>
 
-        <SelectNew
+        <Select
           className={styles.linkSelection__select}
           handleChange={handleChange}
           name="Choose link"

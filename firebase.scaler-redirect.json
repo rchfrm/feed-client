@@ -1,0 +1,18 @@
+{
+  "hosting": {
+    "site": "scaler",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "redirects": [
+      {
+        "source": "/**",
+        "destination": "https://beta.getfed.app",
+        "type": 301
+      }
+    ]
+  }
+}

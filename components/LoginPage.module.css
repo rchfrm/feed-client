@@ -1,16 +1,33 @@
-.LoginPage__form {
+.intro {
+  margin-bottom: var(--bsu-lg);
+}
+
+.container {
+  max-width: 480px;
+}
+
+.facebookButton {
+  width: 100%;
+  margin-bottom: var(--bsu-md) !important;
+}
+
+.emailFormButton {
+  width: 100%;
+}
+
+.form {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   padding-top: var(--bsu);
 }
 
-.LoginPage__input {
+.input {
   width: 100%;
 }
 
-.LoginPage__submit {
-  margin-bottom: var(--bsu);
+.submit {
+  margin-bottom: var(--bsu) !important;
   align-self: flex-end;
   width: 31.48%;
 }

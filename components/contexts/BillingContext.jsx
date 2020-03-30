@@ -2,8 +2,6 @@ import React from 'react'
 
 import useAsyncEffect from 'use-async-effect'
 
-import { AuthContext } from './Auth'
-
 import paymentHelpers from '../helpers/paymentHelpers'
 
 // CREATE CONTEXT
@@ -17,11 +15,8 @@ const BillingContextProvider = ({ user, children }) => {
   const [hasNoPaymentMethod, setHasNoPaymentMethod] = React.useState(true)
   const [billingDetails, setBillingDetails] = React.useState([])
 
-  const { getToken } = React.useContext(AuthContext)
-
   const fetchBillingDetails = async (isMounted) => {
-    const token = await getToken()
-    const allOrgsInfo = await paymentHelpers.getAllOrgsInfo({ user, token })
+    const allOrgsInfo = await paymentHelpers.getAllOrgsInfo({ user })
     if (isMounted && !isMounted()) return
     // Get the owner organisation
     const ownerOrg = allOrgsInfo.find(({ role }) => role === 'owner')

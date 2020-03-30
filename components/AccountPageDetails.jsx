@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
 import { SidePanelContext } from './contexts/SidePanelContext'
 
 import server from './helpers/server'
 import firebase from './helpers/firebase'
 
-import InputNew from './elements/InputNew'
+import Input from './elements/Input'
 import Button from './elements/Button'
 
 import styles from './AccountPage.module.css'
@@ -24,8 +23,7 @@ const getButton = (buttonOn, handleSubmit) => {
 }
 
 function AccountPageDetails({ user }) {
-  // Get user and auth context
-  const { getToken } = React.useContext(AuthContext)
+  // Get user context
   const { setUser } = React.useContext(UserContext)
   // Get Side panel context
   const {
@@ -81,8 +79,7 @@ function AccountPageDetails({ user }) {
     // Update password
     const passwordUpdatePromise = passwordChanged ? firebase.doPasswordUpdate(passwordOne) : null
     // Update user
-    const token = await getToken()
-    const userUpdatePromise = server.updateUser(name, surname, email, token)
+    const userUpdatePromise = server.updateUser(name, surname, email)
     // When all is done...
     const res = await Promise.all([userUpdatePromise, passwordUpdatePromise])
       .catch((err) => console.log('err', err))
@@ -164,7 +161,7 @@ function AccountPageDetails({ user }) {
 
       <form className={styles.accountPageDetails__form} onSubmit={handleSubmit.current}>
 
-        <InputNew
+        <Input
           name="name"
           label="Name"
           placeholder=""
@@ -174,7 +171,7 @@ function AccountPageDetails({ user }) {
           version="text"
         />
 
-        <InputNew
+        <Input
           name="surname"
           label="Surname"
           placeholder=""
@@ -184,7 +181,7 @@ function AccountPageDetails({ user }) {
           version="text"
         />
 
-        <InputNew
+        <Input
           name="email"
           label="Email"
           placeholder=""
@@ -194,7 +191,7 @@ function AccountPageDetails({ user }) {
           version="text"
         />
 
-        <InputNew
+        <Input
           name="passwordOne"
           label="Password"
           placeholder=""
@@ -204,7 +201,7 @@ function AccountPageDetails({ user }) {
           version="text"
         />
 
-        <InputNew
+        <Input
           name="passwordTwo"
           label="Confirm new password:"
           placeholder=""

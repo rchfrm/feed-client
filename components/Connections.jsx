@@ -2,12 +2,11 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 import Icon from './elements/Icon'
-import InputNew from './elements/InputNew'
+import Input from './elements/Input'
 import Spinner from './elements/Spinner'
 import Alert from './elements/Alert'
 // IMPORT PAGES
@@ -64,10 +63,6 @@ const Connection = ({
   setPriorityDSP,
   setConnections,
 }) => {
-// IMPORT CONTEXTS
-  const { getToken } = React.useContext(AuthContext)
-  // END IMPORT CONTEXTS
-
   // DEFINE STATES
   const [value, setValue] = React.useState(url)
   const [loading, setLoading] = React.useState(false)
@@ -93,14 +88,7 @@ const Connection = ({
 
     // Send a patch request to the server to update the artist
     const urlType = helper.convertPlatformToPriorityDSP(platform)
-    const token = await getToken()
-      .catch((err) => {
-        throw (err)
-      })
-    const updatedArtist = await server.saveLink(artistId, value, urlType, token)
-      .catch((err) => {
-        throw (err)
-      })
+    const updatedArtist = await server.saveLink(artistId, value, urlType)
     setConnections({
       type: 'set-platform',
       payload: {
@@ -181,7 +169,6 @@ const ConnectionIcons = ({
   // DEFINE DEFAULT COLOUR
 
   // IMPORT CONTEXTS
-  const { getToken } = React.useContext(AuthContext)
   const { artist, setPriorityDSP: setArtistContextPriority } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
 
@@ -226,17 +213,13 @@ const ConnectionIcons = ({
   }
 
   const updatePriorityDSP = React.useCallback(async (artistId, platform) => {
-    const token = await getToken()
-      .catch((err) => {
-        throw (err)
-      })
     if (artist.id === artistId) {
       setArtistContextPriority(platform)
     }
 
-    const result = await server.updatePriorityDSP(artistId, platform, token)
+    const result = await server.updatePriorityDSP(artistId, platform)
     return result
-  }, [artist.id, getToken, setArtistContextPriority])
+  }, [artist.id, setArtistContextPriority])
 
   React.useEffect(() => {
     if (!alert.response) {
@@ -355,7 +338,7 @@ const ConnectionLink = ({
     )
   }
   return (
-    <InputNew
+    <Input
       className={styles.input}
       name="Connection"
       version="text"
