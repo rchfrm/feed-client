@@ -1,6 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
-import produce from 'immer'
+import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from './User'
@@ -19,55 +19,50 @@ const ArtistContext = React.createContext(initialArtistState)
 ArtistContext.displayName = 'ArtistContext'
 
 
-const artistReducer = (artistState, artistAction) => {
+const artistReducer = (draftState, action) => {
   const {
     type: actionType,
     payload,
-  } = artistAction
+  } = action
 
   switch (actionType) {
     case 'no-artists': {
       return initialArtistState
     }
     case 'set-artist': {
-      return artistAction.payload.artist
+      return payload.artist
     }
     case 'set-budget': {
-      return produce(artistState, draftState => {
-        draftState.daily_budget = payload.budget
-      })
+      draftState.daily_budget = payload.budget
+      break
     }
     case 'set-new-url': {
-      return produce(artistState, draftState => {
-        draftState[payload.urlType] = payload.url
-        draftState.URLs[payload.urlType] = payload.url
-      })
+      draftState[payload.urlType] = payload.url
+      draftState.URLs[payload.urlType] = payload.url
+      break
     }
     case 'set-priority-dsp': {
-      return produce(artistState, draftState => {
-        draftState.priority_dsp = payload.priority_dsp
-      })
+      draftState.priority_dsp = payload.priority_dsp
+      break
     }
     case 'set-integration-errors': {
-      return produce(artistState, draftState => {
-        draftState.integrationErrors = payload.errors
-        draftState.showIntegrationErrors = true
-      })
+      draftState.integrationErrors = payload.errors
+      draftState.showIntegrationErrors = true
+      break
     }
     case 'hide-integration-errors': {
-      return produce(artistState, draftState => {
-        draftState.showIntegrationErrors = false
-      })
+      draftState.showIntegrationErrors = false
+      break
     }
     default:
-      throw new Error(`Unable to find ${artistAction.type} in artistReducer`)
+      throw new Error(`Unable to find ${action.type} in artistReducer`)
   }
 }
 
 function ArtistProvider({ children }) {
   const { storeUser } = React.useContext(UserContext)
 
-  const [artist, setArtist] = React.useReducer(artistReducer, initialArtistState)
+  const [artist, setArtist] = useImmerReducer(artistReducer, initialArtistState)
   const [artistLoading, setArtistLoading] = React.useState(true)
   const currentArtistId = React.useRef('')
 

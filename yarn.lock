@@ -13801,6 +13801,11 @@ use-async-effect@^2.2.2:
   resolved "https://registry.yarnpkg.com/use-async-effect/-/use-async-effect-2.2.2.tgz#a937b6d71e7623406bb85a4d3434be2ced9087b6"
   integrity sha512-zFas5h1jm4FNCk+txUzfMUAQhIFJGdrhAmg2lSA+Q6BZKYFen/yZlHEx5RGWSUV1USjLFZ+yg989fFyzJHW3Zw==
 
+use-immer@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/use-immer/-/use-immer-0.3.5.tgz#e9aa5a4e82ef7eab4fced977d4daa1c3ef466725"
+  integrity sha512-0CNaJ/CtnF8/OmM4NBG7R0rhWMMQtgXPmWbakv8CK5z8dXeMaBYValFDXpkjBnToknjKJZuEPcoUZYd0rnQL2Q==
+
 use-previous@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/use-previous/-/use-previous-1.0.0.tgz#7f466b9e5af65620521a6beeecd32a1cb0d757b2"
