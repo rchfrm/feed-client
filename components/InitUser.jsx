@@ -15,7 +15,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   const [checkedForUser, setCheckedForUser] = React.useState(false)
   const [userRedirected, setUserRedirected] = React.useState(false)
   const [finishedInit, setFinishedInit] = React.useState(false)
-  const isAuthenticated = React.useRef(true)
   // HANDLE EXISTING USERS
   const handleExistingUser = React.useCallback(async () => {
     // Get current pathanem
@@ -84,7 +83,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
 
   // HANDLE LACK OF AUTH USER
   const handleNoAuthUser = React.useCallback(() => {
-    isAuthenticated.current = false
     // Check if the user is on an auth only page,
     // if they are push to log in page
     const { pathname } = router
@@ -129,36 +127,19 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   // END HANDLE ANY REDIRECTS WITH INFORMATION ABOUT AN AUTH USER
 
   // GET THE CURRENTLY AUTHENTICATED USER, IF ANY, FROM FIREBASE
-  const handleAuthStateChange = async (authUser) => {
+  const handleAuthStateChange = React.useCallback(async authUser => {
     // Check if there is a Firebase auth user
     if (authUser) {
       // If there is, store the user in auth context
       await storeAuth(authUser)
+
       await handleExistingUser()
-      return false
-    }
-    // If there is no auth user, reset all contexts
-    handleNoAuthUser()
-    return false
-  }
-
-  // CALL THIS AFTER EVERYTHING IS DONE
-  const onFinished = (redirected) => {
-    // Toggle whether a redirect was called
-    setUserRedirected(redirected)
-    // If redirected, wait until route change is complete
-    if (redirected) {
-      Router.events.on('routeChangeComplete', () => {
-        // Set finisshed
-        setFinishedInit(true)
-        setUserRedirected(false)
-      })
     } else {
-      // Set finished
-      setFinishedInit(true)
+      // If there is no auth user, reset all contexts
+      handleNoAuthUser()
     }
-  }
-
+  }, [handleExistingUser, handleNoAuthUser, storeAuth])
+  // END GET THE CURRENTLY AUTHENTICATED USER, IF ANY, FROM FIREBASE
   // CHECK FOR AN AUTHENTICATED USER WHEN APP FIRST LOADS
   React.useEffect(() => {
     const checkForAuthUser = async () => {
@@ -167,9 +148,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       // Check for the result of a redirect from Facebook
       const redirectResult = await firebase.redirectResult()
       const { error } = redirectResult
-
-      // If there has been a redirect, call handleRedirect
-      let redirected = false
 
       // Handle error
       if (error) {
@@ -180,9 +158,11 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
           error.message = decodeURI(message.slice(startOfReason, endOfReason))
         }
         setAuthError(error)
-        redirected = handleNoAuthUser()
+        handleNoAuthUser()
       }
 
+      // If there has been a redirect, call handleRedirect
+      let redirected = false
       if (redirectResult.user) {
         redirected = await handleRedirect(redirectResult)
       }
@@ -190,16 +170,25 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       // If there hasn't been a redirect, check with Firebase for an auth user
       if (!redirected) {
         const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
-          redirected = await handleAuthStateChange(authUser)
-          // EVERYTHING DONE
-          onFinished(redirected)
+          await handleAuthStateChange(authUser)
           // Once Firebase has been checked, unsubscribe from the observer
           unsubscribe()
         })
+      }
+
+      // Toggle whether a redirect was called
+      setUserRedirected(redirected)
+      // If redirected, wait until route change is complete
+      if (redirected) {
+        Router.events.on('routeChangeComplete', () => {
+          // Set finisshed
+          setFinishedInit(true)
+          setUserRedirected(false)
+        })
         return
       }
-      // EVERYTHING DONE
-      onFinished(redirected)
+      // Set finisshed
+      setFinishedInit(true)
     }
 
     // Only start the process of checking for an auth user,
