@@ -45,6 +45,11 @@ button {
   min-width: 150px;
 }
 
+.button--full {
+  width: 100%;
+  justify-content: center;
+}
+
 .button--green {
   font-weight: bold;
   background-color: var(--green);
