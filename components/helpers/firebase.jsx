@@ -66,6 +66,13 @@ export default {
     return auth.currentUser.linkWithRedirect(provider)
   },
 
+  reauthFacebook: () => {
+    scopeArray.forEach(scope => {
+      provider.addScope(scope)
+    })
+    return auth.currentUser.reauthenticateWithRedirect(provider)
+  },
+
   connectFacebookUserWithPopUp: () => {
     scopeArray.forEach(scope => {
       provider.addScope(scope)
