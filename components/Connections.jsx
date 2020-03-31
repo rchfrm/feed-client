@@ -345,7 +345,7 @@ const ConnectionLink = ({
       label=""
       placeholder={value || placeholder(platform)}
       value={value}
-      onChange={handleChange}
+      handleChange={handleChange}
     />
   )
 }
