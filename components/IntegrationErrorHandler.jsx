@@ -37,22 +37,23 @@ const IntegrationErrorHandler = () => {
   const { role: artistRole } = userArtists.find(({ id }) => id === artistId)
   const artistOwned = artistRole === 'owner' || artistRole === 'sysadmin'
   if (!artistOwned) return null
+  // Handle showing error
+  const [showError, setShowError] = React.useState(false)
   // Run async request for errors
-  const { data: integrationError, error, isPending } = useAsync({
+  const { data: integrationError, error: componentError, isPending } = useAsync({
     promiseFn: fetchError,
     watch: artistId,
     artist,
     artistId,
+    onResolve: (integrationError) => {
+      const { hidden } = integrationError
+      setShowError(!hidden)
+    },
   })
+  // Function to hide integration error
+  const hideIntegrationErrors = () => setShowError(false)
 
-  console.log('user', user)
-
-  console.log('integrationError', integrationError)
-  console.log('isPending', isPending)
-
-  const hideIntegrationErrors = () => {}
-
-  if (!integrationError || isPending) return null
+  if (isPending || componentError || !integrationError || !showError) return null
 
   return (
     <IntegrationErrorContent integrationError={integrationError} dismiss={hideIntegrationErrors} />

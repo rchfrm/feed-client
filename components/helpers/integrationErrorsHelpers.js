@@ -3,13 +3,14 @@ import produce from 'immer'
 import copy from '../../copy/integrationErrorsCopy'
 
 export const getErrorResponse = (error, artist) => {
-  const { code, subcode, message: defaultMessage } = error
+  const { code, subcode, message: defaultMessage, hidden } = error
 
   if (code === 'expired_access_token') {
     return {
       message: copy[code],
       action: 'fb_reauth',
       buttonText: 'Relink with facebook',
+      hidden,
     }
   }
 
@@ -18,6 +19,7 @@ export const getErrorResponse = (error, artist) => {
       message: copy[code],
       action: 'fb_reauth',
       buttonText: 'Relink with facebook',
+      hidden,
     }
   }
 
@@ -36,6 +38,7 @@ export const getErrorResponse = (error, artist) => {
       action: 'link',
       buttonText: 'Facebook Ads Manager',
       href: 'https://facebook.com/adsmanager/manage/',
+      hidden,
     }
   }
 
@@ -45,6 +48,7 @@ export const getErrorResponse = (error, artist) => {
       action: 'link',
       buttonText: '‘Facebook Billing',
       href: 'https://www.facebook.com/ads/manager/billing/',
+      hidden,
     }
   }
   if (code === 'instagram_id') {
@@ -53,6 +57,7 @@ export const getErrorResponse = (error, artist) => {
       action: 'link',
       buttonText: '‘Facebook Billing',
       href: 'https://www.facebook.com/ads/manager/billing/',
+      hidden,
     }
   }
   if (code === 'instagram_page_not_linked') {
@@ -61,6 +66,7 @@ export const getErrorResponse = (error, artist) => {
       action: 'link',
       buttonText: 'Link Instagram Account',
       href: 'https://www.facebook.com/business/help/898752960195806',
+      hidden,
     }
   }
 
@@ -68,6 +74,7 @@ export const getErrorResponse = (error, artist) => {
     message: defaultMessage,
     action: 'dismiss',
     buttonText: 'Ok',
+    hidden,
   }
 }
 
