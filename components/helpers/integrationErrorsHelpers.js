@@ -2,13 +2,14 @@ import produce from 'immer'
 
 import copy from '../../copy/integrationErrorsCopy'
 
-export const getIntegrationErrorResponse = (error, artist) => {
+export const getErrorResponse = (error, artist) => {
   const { code, subcode, message: defaultMessage } = error
 
   if (code === 'expired_access_token') {
     return {
       message: copy[code],
       action: 'fb_reauth',
+      buttonText: 'Relink with facebook',
     }
   }
 
@@ -16,16 +17,16 @@ export const getIntegrationErrorResponse = (error, artist) => {
     return {
       message: copy[code],
       action: 'fb_reauth',
+      buttonText: 'Relink with facebook',
     }
   }
 
   if (code === 'ad_account_error' && subcode === 'CLOSED') {
     return {
       message: copy.ad_account_closed(artist),
-      action: 'email',
+      action: 'link',
       buttonText: 'Email us',
-      address: 'help@getfed.app',
-      subject: 'New ad account, old one closed',
+      href: 'mailto:help@getfed.app?subject=New ad account, old one closed',
     }
   }
 
@@ -107,7 +108,7 @@ const getIntegrationErrorPriority = (error) => {
 // with the platform as part of the error
 export const formatErrors = (errors) => {
   // Loop through all platform error types
-  const formattedErrors = Object.entries(errors).reduce(([platform, platformErrors]) => {
+  const formattedErrors = Object.entries(errors).reduce((acc, [platform, platformErrors]) => {
     // Loop through each error in the platform
     const errorsWithPlatform = platformErrors.map((error) => {
       const priority = getIntegrationErrorPriority(error)
@@ -118,8 +119,8 @@ export const formatErrors = (errors) => {
         hidden: false,
       }
     })
-    return errorsWithPlatform
-  })
+    return [...acc, ...errorsWithPlatform]
+  }, [])
   // Remove instagram busine
   const errorsFiltered = handleInstaErrors(formattedErrors)
   // Sort error by priority
