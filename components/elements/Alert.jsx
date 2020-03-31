@@ -72,7 +72,7 @@ Alert.propTypes = {
   },
   // Function, required if content
   acceptAlert(props, propName, componentName) {
-    if ((props.contents && (props[propName] === undefined || typeof (props[propName]) !== 'function'))) {
+    if ((props.contents && props.button && (props[propName] === undefined || typeof (props[propName]) !== 'function'))) {
       return new Error(`Please provide a ${propName} function to the ${componentName} component!`)
     }
   },
