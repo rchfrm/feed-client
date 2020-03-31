@@ -12,8 +12,6 @@ import { UserContext } from './User'
 import helper from '../helpers/helper'
 import server from '../helpers/server'
 import artistHelpers from '../helpers/artistHelpers'
-import * as integrationErrorsHelpers from '../helpers/integrationErrorsHelpers'
-// IMPORT STYLES
 
 const initialArtistState = {}
 const ArtistContext = React.createContext(initialArtistState)
@@ -44,15 +42,6 @@ const artistReducer = (draftState, action) => {
     }
     case 'set-priority-dsp': {
       draftState.priority_dsp = payload.priority_dsp
-      break
-    }
-    case 'set-integration-errors': {
-      draftState.integrationErrors = payload.errors
-      draftState.showIntegrationErrors = true
-      break
-    }
-    case 'hide-integration-errors': {
-      draftState.showIntegrationErrors = false
       break
     }
     default:
@@ -169,32 +158,6 @@ function ArtistProvider({ children }) {
     return savedUrl
   }
 
-  // INTEGRATION ERRORS
-  // --------------------
-  const setIntegrationErrors = (errors) => {
-    const formattedErrors = integrationErrorsHelpers.formatErrors(errors)
-    console.log('errors', errors)
-    console.log('formattedErrors', formattedErrors)
-    setArtist({
-      type: 'set-integration-errors',
-      payload: {
-        errors,
-      },
-    })
-  }
-
-  const getIntegrationErrors = async () => {
-    const errors = await server.getIntegrationErrors(currentArtistId.current)
-      .catch((err) => {
-        throw (err)
-      })
-    setIntegrationErrors(errors)
-  }
-
-  const hideIntegrationErrors = () => {
-    setArtist({ type: 'hide-integration-errors' })
-  }
-
   // Store artist id in local storage
   React.useEffect(() => {
     if (!artist || !artist.id) return
@@ -205,7 +168,7 @@ function ArtistProvider({ children }) {
     if (!artistId) return
     localStorage.setItem('artistId', artist.id)
     currentArtistId.current = artist.id
-    getIntegrationErrors()
+    // getIntegrationErrors()
   }, [artistId])
 
   const value = {
@@ -220,7 +183,6 @@ function ArtistProvider({ children }) {
     setPriorityDSP,
     storeArtist,
     updateBudget,
-    hideIntegrationErrors,
   }
 
   return (
