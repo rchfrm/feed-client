@@ -55,7 +55,6 @@ function ArtistProvider({ children }) {
   const [artist, setArtist] = useImmerReducer(artistReducer, initialArtistState)
   const [artistId, setArtistId] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
-  const currentArtistId = React.useRef('')
 
   const noArtist = React.useCallback(() => {
     setArtistLoading(true)
@@ -79,7 +78,6 @@ function ArtistProvider({ children }) {
         },
       })
       setArtistLoading(false)
-      currentArtistId.current = id
       return artist
     } catch (err) {
       setArtistLoading(false)
@@ -158,17 +156,16 @@ function ArtistProvider({ children }) {
     return savedUrl
   }
 
-  // Store artist id in local storage
+  // Update artist ID when artist changes
   React.useEffect(() => {
     if (!artist || !artist.id) return
     setArtistId(artist.id)
   }, [artist])
 
+  // Store artist id in local storage
   React.useEffect(() => {
     if (!artistId) return
     localStorage.setItem('artistId', artist.id)
-    currentArtistId.current = artist.id
-    // getIntegrationErrors()
   }, [artistId])
 
   const value = {
