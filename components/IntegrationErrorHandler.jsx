@@ -32,6 +32,7 @@ const IntegrationErrorHandler = () => {
   } = React.useContext(ArtistContext)
   // Import user
   const { user } = React.useContext(UserContext)
+  if (!user.artists) return
   // Does user own artist?
   const { artists: userArtists } = user
   const { role: artistRole } = userArtists.find(({ id }) => id === artistId)
