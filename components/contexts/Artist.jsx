@@ -220,7 +220,6 @@ function ArtistProvider({ children }) {
     setPriorityDSP,
     storeArtist,
     updateBudget,
-    getIntegrationErrors,
     hideIntegrationErrors,
   }
 
