@@ -27,6 +27,7 @@ function Alert(props) {
   const {
     contents,
     buttons,
+    resetAlert,
   } = props
 
   // If there are no contents, display nothing
@@ -38,6 +39,12 @@ function Alert(props) {
 
   return (
     <div className="alert--container">
+
+      <button
+        className="alert--bg"
+        label="Close alert"
+        onClick={resetAlert}
+      />
 
       <div className="alert">
 
