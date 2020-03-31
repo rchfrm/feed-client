@@ -12,7 +12,6 @@ import IntegrationErrorContent from './IntegrationErrorContent'
 // RUN THIS TO FETCH ERRORS
 const fetchError = async ({ artist, artistId }) => {
   if (!artist || !artistId) return
-  console.log('artistId', artistId)
   const errors = await server.getIntegrationErrors(artistId)
     .catch((err) => {
       throw (err)
