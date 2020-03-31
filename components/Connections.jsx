@@ -175,7 +175,6 @@ const ConnectionIcons = ({
   // DEFINE STATES
   const [color, setColor] = React.useState(defaultColor)
   const [loading, setLoading] = React.useState(false)
-  // END DEFINE STATES
 
   // DEFINE ALERT STATE
   const initialAlertState = {
@@ -186,7 +185,10 @@ const ConnectionIcons = ({
     response: false,
   }
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
-  // END DEFINE ALERT STATE
+
+  // DEFINE ALERT REPONSES
+  const resetAlert = () => setAlert({ type: 'reset-alert' })
+  const acceptAlert = () => setAlert({ type: 'set-positive-response' })
 
   const handleMouseEnter = () => {
     if (valid && !priority) {
@@ -250,7 +252,8 @@ const ConnectionIcons = ({
         contents={alert.contents}
         rejectionText={alert.rejectionText}
         responseExpected={alert.responseExpected}
-        setAlert={setAlert}
+        resetAlert={resetAlert}
+        acceptAlert={acceptAlert}
       />
 
       {loading

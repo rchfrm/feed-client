@@ -8,7 +8,7 @@ const AlertButtons = ({
   confirmationText = 'Ok',
   rejectionText = 'Cancel',
   resetAlert,
-  positiveResponse,
+  acceptAlert,
 }) => {
   return (
     <div className="alert--buttons">
@@ -22,7 +22,7 @@ const AlertButtons = ({
       {responseExpected && (
         <Button
           version="black"
-          onClick={positiveResponse || resetAlert}
+          onClick={acceptAlert || resetAlert}
           width={31.48}
         >
           {confirmationText}
@@ -38,14 +38,14 @@ AlertButtons.propTypes = {
   confirmationText: PropTypes.string,
   rejectionText: PropTypes.string,
   resetAlert: PropTypes.func.isRequired,
-  positiveResponse: PropTypes.func,
+  acceptAlert: PropTypes.func,
 }
 
 AlertButtons.defaultProps = {
   responseExpected: false,
   confirmationText: 'Ok',
   rejectionText: 'Cancel',
-  positiveResponse: null,
+  acceptAlert: null,
 }
 
 

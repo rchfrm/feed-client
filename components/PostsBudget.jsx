@@ -46,7 +46,9 @@ function PostsBudget({ currency }) {
   }
   const [budget, setBudget] = React.useState(initialBudgetState)
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
-  // DEFINE STATES
+
+  // DEFINE ALERT REPONSES
+  const resetAlert = () => setAlert({ type: 'reset-alert' })
 
   // DEFINE ERROR
   const [error, setError] = React.useState(null)
@@ -104,7 +106,7 @@ function PostsBudget({ currency }) {
 
       <Alert
         contents={alert.contents}
-        setAlert={setAlert}
+        resetAlert={resetAlert}
       />
 
       <PageHeader heading="set your budget" />

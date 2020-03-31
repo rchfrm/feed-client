@@ -9,24 +9,13 @@ function Alert({
   responseExpected,
   confirmationText,
   rejectionText,
-  setAlert,
+  resetAlert,
+  acceptAlert,
 }) {
   // If there are no contents, display nothing
   if (!contents) {
     return null
   }
-
-  // FUNCTIONS
-  const resetAlert = e => {
-    e.preventDefault()
-    setAlert({ type: 'reset-alert' })
-  }
-
-  const positiveResponse = e => {
-    e.preventDefault()
-    setAlert({ type: 'set-positive-response' })
-  }
-  // END FUNCTIONS
 
   return (
     <div className="alert--container">
@@ -39,7 +28,7 @@ function Alert({
 
         <AlertButtons
           confirmationText={confirmationText}
-          positiveResponse={positiveResponse}
+          acceptAlert={acceptAlert}
           rejectionText={rejectionText}
           resetAlert={resetAlert}
           responseExpected={responseExpected}
@@ -55,7 +44,14 @@ Alert.propTypes = {
   responseExpected: PropTypes.bool,
   confirmationText: PropTypes.string,
   rejectionText: PropTypes.string,
-  setAlert(props, propName, componentName) {
+  // Function, required if content
+  resetAlert(props, propName, componentName) {
+    if ((props.contents && (props[propName] === undefined || typeof (props[propName]) !== 'function'))) {
+      return new Error(`Please provide a ${propName} function to the ${componentName} component!`)
+    }
+  },
+  // Function, required if content
+  acceptAlert(props, propName, componentName) {
     if ((props.contents && (props[propName] === undefined || typeof (props[propName]) !== 'function'))) {
       return new Error(`Please provide a ${propName} function to the ${componentName} component!`)
     }
@@ -67,7 +63,8 @@ Alert.defaultProps = {
   responseExpected: false,
   confirmationText: 'Ok',
   rejectionText: 'Cancel',
-  setAlert: () => {},
+  resetAlert: null,
+  acceptAlert: null,
 }
 
 export default Alert
