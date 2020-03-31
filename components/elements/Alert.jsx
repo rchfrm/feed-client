@@ -1,19 +1,11 @@
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-import Button from './Button'
-import Nothing from './Nothing'
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
+import AlertButtons from './AlertButtons'
 
 function Alert({ contents, responseExpected, confirmationText, rejectionText, setAlert }) {
   // If there are no contents, display nothing
   if (!contents) {
-    return <Nothing />
+    return null
   }
 
   // FUNCTIONS
@@ -29,10 +21,11 @@ function Alert({ contents, responseExpected, confirmationText, rejectionText, se
   // END FUNCTIONS
 
   return (
-    <div className="alert-container">
+    <div className="alert--container">
+
       <div className="alert">
 
-        <div className="alert-contents">
+        <div className="alert--contents">
           {contents}
         </div>
 
@@ -50,41 +43,3 @@ function Alert({ contents, responseExpected, confirmationText, rejectionText, se
 }
 
 export default Alert
-
-const AlertButtons = ({
-  responseExpected,
-  confirmationText = 'Ok',
-  rejectionText = 'Cancel',
-  resetAlert,
-  positiveResponse,
-}) => {
-  if (responseExpected) {
-    return (
-      <div className="alert-buttons">
-        <Button
-          version="black"
-          onClick={resetAlert}
-          width={31.48}
-        >
-          {rejectionText}
-        </Button>
-        <Button
-          version="black"
-          onClick={positiveResponse}
-          width={31.48}
-        >
-          {confirmationText}
-        </Button>
-      </div>
-    )
-  }
-  return (
-    <Button
-      version="black"
-      onClick={resetAlert}
-      width={31.48}
-    >
-      {confirmationText}
-    </Button>
-  )
-}

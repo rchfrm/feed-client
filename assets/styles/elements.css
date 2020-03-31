@@ -1,6 +1,6 @@
 /* Alert
 ******************/
-.alert-container {
+.alert--container {
   display: flex;
   position: fixed;
   width: 100%;
@@ -33,13 +33,14 @@
   padding-bottom: 1em;
 }
 
-.alert-buttons {
+.alert--buttons {
   display: flex;
   justify-content: space-between;
+  flex-direction: row-reverse;
   width: 100%;
 }
 
-.alert-contents {
+.alert--contents {
   width: 100%;
   padding-bottom: 1em;
   color: var(--black);
