@@ -9,15 +9,16 @@ import { ArtistContext } from './contexts/Artist'
 import Input from './elements/Input'
 import Button from './elements/Button'
 import Feed from './elements/Feed'
+import Error from './elements/Error'
+import Alert from './elements/Alert'
 // IMPORT PAGES
 import { alertReducer } from './ResultsAll'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
-import Error from './elements/Error'
 import PageHeader from './PageHeader'
-import Alert from './elements/Alert'
+// import AlertButtons from './elements/AlertButtons'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
@@ -49,6 +50,17 @@ function PostsBudget({ currency }) {
 
   // DEFINE ALERT REPONSES
   const resetAlert = () => setAlert({ type: 'reset-alert' })
+
+  // DEFINE ALERT BUTTONS
+  const AlertButton = () => (
+    <Button
+      version="black"
+      onClick={resetAlert}
+      width={31.48}
+    >
+      Ok
+    </Button>
+  )
 
   // DEFINE ERROR
   const [error, setError] = React.useState(null)
@@ -107,6 +119,7 @@ function PostsBudget({ currency }) {
       <Alert
         contents={alert.contents}
         resetAlert={resetAlert}
+        buttons={<AlertButton />}
       />
 
       <PageHeader heading="set your budget" />

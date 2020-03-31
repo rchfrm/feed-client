@@ -11,7 +11,7 @@ const AlertButtons = ({
   acceptAlert,
 }) => {
   return (
-    <div className="alert--buttons">
+    <>
       <Button
         version="black"
         onClick={resetAlert}
@@ -28,7 +28,7 @@ const AlertButtons = ({
           {confirmationText}
         </Button>
       )}
-    </div>
+    </>
   )
 }
 

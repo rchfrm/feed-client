@@ -4,18 +4,37 @@ import PropTypes from 'prop-types'
 
 import AlertButtons from './AlertButtons'
 
-function Alert({
-  contents,
+const ButtonEls = ({
   responseExpected,
   confirmationText,
   rejectionText,
-  resetAlert,
   acceptAlert,
-}) {
+  resetAlert,
+}) => {
+  return (
+    <AlertButtons
+      responseExpected={responseExpected}
+      confirmationText={confirmationText}
+      rejectionText={rejectionText}
+      acceptAlert={acceptAlert}
+      resetAlert={resetAlert}
+    />
+  )
+}
+
+function Alert(props) {
+  // Extract props
+  const {
+    contents,
+    buttons,
+  } = props
+
   // If there are no contents, display nothing
   if (!contents) {
     return null
   }
+
+  const buttonEls = buttons || <ButtonEls {...props} />
 
   return (
     <div className="alert--container">
@@ -26,13 +45,9 @@ function Alert({
           {contents}
         </div>
 
-        <AlertButtons
-          confirmationText={confirmationText}
-          acceptAlert={acceptAlert}
-          rejectionText={rejectionText}
-          resetAlert={resetAlert}
-          responseExpected={responseExpected}
-        />
+        <div className="alert--buttons">
+          {buttonEls}
+        </div>
 
       </div>
     </div>
@@ -41,9 +56,7 @@ function Alert({
 
 Alert.propTypes = {
   contents: PropTypes.node,
-  responseExpected: PropTypes.bool,
-  confirmationText: PropTypes.string,
-  rejectionText: PropTypes.string,
+  buttons: PropTypes.node,
   // Function, required if content
   resetAlert(props, propName, componentName) {
     if ((props.contents && (props[propName] === undefined || typeof (props[propName]) !== 'function'))) {
@@ -60,9 +73,7 @@ Alert.propTypes = {
 
 Alert.defaultProps = {
   contents: null,
-  responseExpected: false,
-  confirmationText: 'Ok',
-  rejectionText: 'Cancel',
+  buttons: null,
   resetAlert: null,
   acceptAlert: null,
 }

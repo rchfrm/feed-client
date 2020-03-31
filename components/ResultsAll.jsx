@@ -399,8 +399,8 @@ function Toggle(props) {
     <div className={styles['result-toggle']}>
 
       <Alert
-        confirmationText={alert.confirmationText}
         contents={alert.contents}
+        confirmationText={alert.confirmationText}
         rejectionText={alert.rejectionText}
         responseExpected={alert.responseExpected}
         resetAlert={resetAlert}
