@@ -11,7 +11,7 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
   const router = useRouter()
   const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
   const { createUser, noUser, storeUser } = React.useContext(UserContext)
-  const { noArtist, storeArtist, getIntegrationErrors } = React.useContext(ArtistContext)
+  const { noArtist, storeArtist } = React.useContext(ArtistContext)
   const [checkedForUser, setCheckedForUser] = React.useState(false)
   const [userRedirected, setUserRedirected] = React.useState(false)
   const [finishedInit, setFinishedInit] = React.useState(false)
