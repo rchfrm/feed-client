@@ -62,7 +62,12 @@ export const getIntegrationErrorResponse = (error, artist) => {
       href: 'https://www.facebook.com/business/help/898752960195806',
     }
   }
-  return defaultMessage
+
+  return {
+    message: defaultMessage,
+    action: 'dismiss',
+    buttonText: 'Ok',
+  }
 }
 
 
