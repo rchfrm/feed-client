@@ -74,12 +74,8 @@ export const getIntegrationErrorResponse = (error, artist) => {
 const handleInstaErrors = (errors) => {
   const missingInstaIdIndex = errors.findIndex(({ code, subcode }) => code === 'instagram_id' && subcode === 'missing_field')
   const missingInstaBusinessIndex = errors.findIndex(({ code }) => code === 'instagram_page_not_linked')
-  // Do nothing if no insta errors
-  if (missingInstaIdIndex === -1 && missingInstaBusinessIndex === -1) {
-    return errors
-  }
-  // If no missing insta business, just hide insta error
-  if (missingInstaBusinessIndex === -1 && missingInstaIdIndex > -1) {
+  // If no missing insta business, just hide no insta account error
+  if (missingInstaIdIndex > -1 && missingInstaBusinessIndex === -1) {
     return produce(errors, draftErrors => {
       draftErrors[missingInstaIdIndex].hidden = true
     })
@@ -91,6 +87,8 @@ const handleInstaErrors = (errors) => {
       draftErrors[missingInstaBusinessIndex].hidden = true
     })
   }
+  // Else just return unaltered
+  return errors
 }
 
 const getIntegrationErrorPriority = (error) => {
