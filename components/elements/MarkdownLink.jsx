@@ -1,16 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
-
-const getLinkType = (href) => {
-  if (href.startsWith('/')) return 'internal'
-  if (href.startsWith('mailto:')) return 'email'
-  return 'external'
-}
+import helper from '../helpers/helper'
 
 const MarkdownLink = ({ href, children }) => {
   const { props: { value: linkText } } = children[0]
-  const linkType = getLinkType(href)
+  const linkType = helper.getLinkType(href)
   // INTERNAL LINK
   if (linkType === 'internal') {
     return (

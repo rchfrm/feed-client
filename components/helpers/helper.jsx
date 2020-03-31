@@ -490,4 +490,10 @@ export default {
     }
     return phrase
   },
+
+  getLinkType: (href) => {
+    if (href.startsWith('/')) return 'internal'
+    if (href.startsWith('mailto:')) return 'email'
+    return 'external'
+  },
 }
