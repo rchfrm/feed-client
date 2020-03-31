@@ -26,7 +26,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
       const target = linkType === 'external' ? '_blank' : 'self'
       const rel = linkType === 'external' ? 'noopener noreferrer' : ''
       return (
-        <a className="button  button--black  button--full" href={href} target={target} rel={rel}>
+        <a className="button  button--black  button--full" onClick={dismiss} href={href} target={target} rel={rel}>
           {buttonText}
         </a>
       )
@@ -34,8 +34,12 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
     // HANDLE REAUTH ACTION
     if (action === 'fb_reauth') {
       const { reauthFacebook } = firebase
+      const onClick = () => {
+        reauthFacebook()
+        dismiss()
+      }
       return (
-        <ButtonFacebook version="full" onClick={reauthFacebook}>{buttonText}</ButtonFacebook>
+        <ButtonFacebook version="full" onClick={onClick}>{buttonText}</ButtonFacebook>
       )
     }
     // HANDLE DISMISS ACTION
