@@ -108,12 +108,13 @@ const getAssets = async (status, artistId, token) => {
 
 function ResultsLoader() {
   // IMPORT CONTEXTS
-  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
+  const { artist, artistLoading } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
   // DEFINE STATES
   const [posts, setPosts] = React.useReducer(postsReducer, initialPostsState)
   const [loading, setLoading] = React.useState(false)
-  // ERROR
+  // PREVIOUS STATE
+  const previousArtistState = React.useRef(artist)
   const [, setError] = React.useState(null)
   // TODO : Display errors somewhere
 
@@ -132,7 +133,7 @@ function ResultsLoader() {
 
   const getPostOfType = async (type, isMounted) => {
     // Start getting assets
-    const assets = await getAssets(type, artistId)
+    const assets = await getAssets(type, artist.id)
       .catch((err) => {
         if (!isMounted()) return
         setPosts({
@@ -148,7 +149,6 @@ function ResultsLoader() {
 
   const getAllPosts = async (isMounted) => {
     // Stop here if no artist
-    if (!artistId) return
     // Get assets for active and archive
     return Promise.all([
       getPostOfType('active', isMounted),
@@ -158,10 +158,17 @@ function ResultsLoader() {
 
   // GET ACTIVE POSTS FROM SERVER when artists changes
   useAsyncEffect(async (isMounted) => {
-    console.log('ARTIST ID CHANGE', artistId)
     if (!artist || isEmpty(artist)) return
+    // Stop here if artist ID is the same
+    if (previousArtistState) {
+      const { id: artistId } = artist
+      const { id: previousArtistID } = previousArtistState
+      if (artistId === previousArtistID) {
+        return
+      }
+    }
     // Return if there is no selected artist
-    if (!artistId) return
+    if (!artist.id) return
     // Start loading
     setLoading(true)
     // Get active assets
@@ -173,9 +180,11 @@ function ResultsLoader() {
     // Set assets
     setPostsState(activePosts, 'active')
     setPostsState(archivePosts, 'archive')
+    // Save previous artist state
+    previousArtistState.current = artist
     // Set loading to false
     setLoading(false)
-  }, [artistId])
+  }, [artist])
 
 
   // RETURN
