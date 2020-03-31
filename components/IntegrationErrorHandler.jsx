@@ -10,8 +10,14 @@ import IntegrationErrorContent from './IntegrationErrorContent'
 
 
 // RUN THIS TO FETCH ERRORS
-const fetchError = async ({ artist, artistId }) => {
+const fetchError = async ({ user, artist, artistId }) => {
+  if (!user.artists) return
   if (!artist || !artistId) return
+  // Test whether user owns artist
+  const { artists: userArtists } = user
+  const { role: artistRole } = userArtists.find(({ id }) => id === artistId) || {}
+  const artistOwned = artistRole === 'owner' || artistRole === 'sysadmin'
+  if (!artistOwned) return
   const errors = await server.getIntegrationErrors(artistId)
     .catch((err) => {
       throw (err)
@@ -24,6 +30,8 @@ const fetchError = async ({ artist, artistId }) => {
 
 // THE COMPONENT
 const IntegrationErrorHandler = () => {
+  // Handle showing error
+  const [showError, setShowError] = React.useState(false)
   // Import artist context
   const {
     artist,
@@ -31,25 +39,21 @@ const IntegrationErrorHandler = () => {
   } = React.useContext(ArtistContext)
   // Import user
   const { user } = React.useContext(UserContext)
-  if (!user.artists) return
-  // Does user own artist?
-  const { artists: userArtists } = user
-  const { role: artistRole } = userArtists.find(({ id }) => id === artistId)
-  const artistOwned = artistRole === 'owner' || artistRole === 'sysadmin'
-  if (!artistOwned) return null
-  // Handle showing error
-  const [showError, setShowError] = React.useState(false)
   // Run async request for errors
   const { data: integrationError, error: componentError, isPending } = useAsync({
     promiseFn: fetchError,
     watch: artistId,
+    user,
     artist,
     artistId,
-    onResolve: (integrationError) => {
-      const { hidden } = integrationError
-      setShowError(!hidden)
-    },
   })
+  // Decide whether to show integration error
+  React.useEffect(() => {
+    if (!integrationError) return
+    const { hidden } = integrationError
+    setShowError(!hidden)
+  }, [integrationError])
+
   // Function to hide integration error
   const hideIntegrationErrors = () => setShowError(false)
 
