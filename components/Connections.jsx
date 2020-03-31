@@ -84,12 +84,13 @@ const Connection = ({
   }
 
   // Send updated links to the server
-  const saveLink = async () => {
+  const saveLink = async (link) => {
     setLoading(true)
 
     // Send a patch request to the server to update the artist
     const urlType = helper.convertPlatformToPriorityDSP(platform)
-    const updatedArtist = await server.saveLink(artistId, value, urlType)
+    // Make sure the value is a link
+    const updatedArtist = await server.saveLink(artistId, link, urlType)
     setConnections({
       type: 'set-platform',
       payload: {
@@ -112,6 +113,21 @@ const Connection = ({
       return
     }
 
+    const link = value
+      // Strip protocol
+      .replace(/(^\w+:|^)\/\//, '')
+      // Add protocol back in
+      .replace(/^/, 'http://')
+
+    // Don't allow invalid links
+    const linkValid = helper.testValidUrl(link)
+    if (!linkValid) {
+      toggleValid(false)
+      // eslint-disable-next-line
+      window.alert('Please include a valid link')
+      return
+    }
+
     // If there is already a link, set toggle valid to false
     // in order to show the input field
     // If the value of the input field is the same as the pre-existing url,
@@ -122,7 +138,7 @@ const Connection = ({
     }
 
     // Otherwise, send the updated url to the server
-    saveLink()
+    saveLink(link)
       .catch(err => {
         setLoading(false)
         // TODO: Find a way to show errors well
