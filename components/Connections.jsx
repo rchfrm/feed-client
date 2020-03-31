@@ -73,11 +73,12 @@ const Connection = ({
   const disabled = value === ''
 
   // Toggle the value for valid in the integrations state
-  const toggleValid = () => {
+  const toggleValid = (state) => {
     setConnections({
       type: 'toggle-platform-validity',
       payload: {
         platform,
+        state,
       },
     })
   }

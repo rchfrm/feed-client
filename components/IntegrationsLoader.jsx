@@ -33,7 +33,9 @@ const connectionsReducer = (connectionsState, connectionsAction) => {
         ...connectionsState,
         [connectionsAction.payload.platform]: {
           ...connectionsState[connectionsAction.payload.platform],
-          valid: !connectionsState[connectionsAction.payload.platform].valid,
+          valid: typeof connectionsAction.payload.state === 'boolean'
+            ? connectionsAction.payload.state
+            : !connectionsState[connectionsAction.payload.platform].valid,
         },
       }
     case 'update-priority-dsp':
