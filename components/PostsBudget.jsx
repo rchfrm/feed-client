@@ -18,7 +18,6 @@ import { alertReducer } from './ResultsAll'
 import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 import PageHeader from './PageHeader'
-// import AlertButtons from './elements/AlertButtons'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
