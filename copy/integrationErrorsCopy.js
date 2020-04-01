@@ -1,13 +1,25 @@
 /* eslint-disable quotes */
 
+const getMissingPermissionsList = (missingPermissions) => {
+  const permissionsTextArray = missingPermissions.map((permission) => {
+    if (permission === 'email') return '- View your email address'
+    if (permission === 'read_insights') return '- Access your page and app insights'
+    if (permission === 'manage_pages') return '- Manage your pages'
+    if (permission === 'pages_show_list') return '- Show a list of the Pages you manage'
+    if (permission === 'ads_management') return '- Manage your ads'
+    if (permission === 'instagram_basic') return '- Access profile and posts from the Instagram account connect to your page'
+    if (permission === 'instagram_manage_insights') return '- Access insights for the Instagram account connected to your page'
+    return ''
+  })
+  return permissionsTextArray.join('\n')
+}
+
 export default {
   expired_access_token: 'We need to relink your Facebook account, click ‘Continue with Facebook’ to get started.',
 
-  missing_permission_scope: `In order to promote your posts, we need the following permissions from Facebook...the ability to:
+  missing_permission_scope: (missingPermissions) => `In order to promote your posts, we need the following permissions from Facebook...the ability to:
 
-  - view your email address
-  - access profile and posts from the Instagram account connect to your page
-  - access insights for the Instagram account connected to your page
+  ${getMissingPermissionsList(missingPermissions)}
   
   Click ‘Continue with Facebook’ to grant those permissions.`,
 

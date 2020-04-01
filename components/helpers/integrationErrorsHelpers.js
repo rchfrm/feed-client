@@ -3,7 +3,7 @@ import produce from 'immer'
 import copy from '../../copy/integrationErrorsCopy'
 
 export const getErrorResponse = (error, artist) => {
-  const { code, subcode, message: defaultMessage, hidden } = error
+  const { code, subcode, message: defaultMessage, hidden, context } = error
 
   if (code === 'expired_access_token') {
     return {
@@ -15,10 +15,12 @@ export const getErrorResponse = (error, artist) => {
   }
 
   if (code === 'missing_permission_scope') {
+    const missingPermissions = context
     return {
-      message: copy[code],
+      message: copy[code](missingPermissions),
       action: 'fb_reauth',
       buttonText: 'Authorise Facebook',
+      missingPermissions,
       hidden,
     }
   }
