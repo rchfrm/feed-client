@@ -3,7 +3,7 @@ import React from 'react'
 import Router from 'next/router'
 import useAsyncEffect from 'use-async-effect'
 import isEmpty from 'lodash/isEmpty'
-import produce from 'immer'
+import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
@@ -27,7 +27,7 @@ const initialPostsState = {
   active: {},
   archive: {},
 }
-const postsReducer = (postsState, postsAction) => {
+const postsReducer = (draftState, postsAction) => {
   const {
     type: actionType,
     payload: {
@@ -39,19 +39,17 @@ const postsReducer = (postsState, postsAction) => {
   } = postsAction
   switch (actionType) {
     case 'replace-assets':
-      return produce(postsState, draft => {
-        draft[postType] = newPosts
-      })
+      draftState[postType] = newPosts
+      break
     case 'no-assets':
-      return produce(postsState, draft => {
-        draft[postType] = {}
-      })
+      draftState[postType] = {}
+      break
     case 'set-promotion-enabled':
-      return produce(postsState, draft => {
-        draft[postType][postId].promotion_enabled = promotion_enabled
-      })
+      draftState[postType][postId].promotion_enabled = promotion_enabled
+      break
     case 'reset-posts':
-      return initialPostsState
+      draftState = initialPostsState
+      break
     default:
       throw new Error(`Could not find ${postsAction.type} in postsReducer`)
   }
@@ -111,7 +109,7 @@ function ResultsLoader() {
   const { artist, artistLoading } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
   // DEFINE STATES
-  const [posts, setPosts] = React.useReducer(postsReducer, initialPostsState)
+  const [posts, setPosts] = useImmerReducer(postsReducer, initialPostsState)
   const [loading, setLoading] = React.useState(false)
   // PREVIOUS STATE
   const previousArtistState = React.useRef(artist)
