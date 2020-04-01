@@ -3,17 +3,13 @@ import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 import isEmpty from 'lodash/isEmpty'
 import { useImmerReducer } from 'use-immer'
-// IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Spinner from './elements/Spinner'
-// IMPORT PAGES
+// IMPORT COMPONENTS
 import ResultsNoResults from './ResultsNoResults'
 import ResultsAll from './ResultsAll'
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
@@ -140,7 +136,7 @@ function ResultsLoader() {
   // RETURN
   if (artistLoading || loading) {
   // If artist is loading, or both active and archived posts are loading, show spinner
-    return <Spinner width={50} color={brandColors.green} />
+    return <Spinner />
   } if (
     Object.keys(posts.active).length === 0
     && Object.keys(posts.archive).length === 0
