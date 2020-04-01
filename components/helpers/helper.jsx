@@ -316,7 +316,7 @@ export default {
             height="315"
             src={media}
             frameBorder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             className="center-image"
           />
