@@ -51,6 +51,17 @@ export const getErrorResponse = (error, artist) => {
       hidden,
     }
   }
+
+  if (code === 'ad_account_no_funding_source') {
+    return {
+      message: copy[code](artist),
+      action: 'link',
+      buttonText: '‘Facebook Billing',
+      href: 'https://www.facebook.com/ads/manager/billing/',
+      hidden,
+    }
+  }
+
   if (code === 'instagram_id') {
     return {
       message: copy.no_instagram(artist),
@@ -107,7 +118,8 @@ const getIntegrationErrorPriority = (error) => {
   if (code === 'ad_account_disabled') return 3
   if (code === 'ad_account_error' && subcode === 'UNSETTLED') return 4
   if (code === 'instagram_id' && subcode === 'missing_field') return 5
-  if (code === 'instagram_page_not_linked') return 6
+  if (code === 'ad_account_no_funding_source') return 6
+  if (code === 'instagram_page_not_linked') return 7
   return 999
 }
 
