@@ -30,6 +30,7 @@
 .container {
   position: absolute;
   width: 95%;
+  max-width: 720px;
   right: 0;
   height: 90%;
   top: 5%;
@@ -40,9 +41,6 @@
   box-shadow: -8px 0px 18px rgba(0, 0, 0, 0.14);
   will-change: transform;
 
-  @media (--md) {
-    width: 50%;
-  }
 }
 
 .container__inner {

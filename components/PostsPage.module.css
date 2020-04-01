@@ -128,6 +128,7 @@
 
   :global(.select--box) {
     margin-bottom: 0 !important;
+    text-transform: capitalize;
   }
 }
 
@@ -200,6 +201,10 @@
 .PostLinkAddUrl__input,
 .PostLinkAddUrl__select {
   width: 100%;
+
+  :global(.select--box) {
+    text-transform: capitalize;
+  }
 }
 
 

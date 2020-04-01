@@ -16,6 +16,19 @@ import server from './helpers/server'
 import styles from './PostsPage.module.css'
 
 
+const getLinkName = (linkType) => {
+  if (linkType === 'spotify_url') return 'spotify'
+  if (linkType === 'website_url') return 'website'
+  if (linkType === 'instagram_url') return 'instagram'
+  if (linkType === 'bandcamp_url') return 'bandcamp'
+  if (linkType === 'facebook_page_url') return 'facebook'
+  if (linkType === 'youtube_url') return 'youtube'
+  if (linkType === 'twitter_url') return 'twitter'
+  if (linkType === 'soundcloud_url') return 'soundcloud'
+  if (linkType === 'apple_url') return 'apple'
+}
+
+
 function PostLinkOptions({
   setError,
   currentLink,
@@ -41,46 +54,11 @@ function PostLinkOptions({
   )
 
 
-  // const links = listLinks(artist.URLs)
-
-  const links = Object.keys(artist.URLs).map((link) => {
-    let name
-    if (link === 'spotify_url') {
-      name = 'spotify'
-    }
-
-    if (link === 'website_url') {
-      name = 'website'
-    }
-
-    if (link === 'instagram_url') {
-      name = 'instagram'
-    }
-
-    if (link === 'bandcamp_url') {
-      name = 'bandcamp'
-    }
-
-    if (link === 'facebook_page_url') {
-      name = 'facebook'
-    }
-
-    if (link === 'youtube_url') {
-      name = 'youtube'
-    }
-
-    if (link === 'twitter_url') {
-      name = 'twitter'
-    }
-
-    if (link === 'soundcloud_url') {
-      name = 'soundcloud'
-    }
-
-    if (link === 'apple_url') {
-      name = 'apple'
-    }
-    return { name, value: name }
+  const links = Object.entries(artist.URLs).reduce((allLinks, [linkType, linkValue]) => {
+    if (!linkValue) return allLinks
+    const linkName = getLinkName(linkType)
+    const link = { name: linkName, value: linkName }
+    return [...allLinks, link]
   }, [])
 
   // Include add new link option
@@ -122,7 +100,7 @@ function PostLinkOptions({
     }
   }
 
-  const checkLink = platform => {
+  const checkLink = (platform) => {
     const priorityDSP = helper.convertPlatformToPriorityDSP(platform)
     return (
       <a
