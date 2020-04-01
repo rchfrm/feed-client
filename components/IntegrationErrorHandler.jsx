@@ -8,11 +8,14 @@ import { UserContext } from './contexts/User'
 
 import IntegrationErrorContent from './IntegrationErrorContent'
 
+const feedArtistId = '0mpyUFo2OApQnawtH6cB'
 
 // RUN THIS TO FETCH ERRORS
 const fetchError = async ({ user, artist, artistId }) => {
   if (!user.artists) return
   if (!artist || !artistId) return
+  // * FOR TESTING ONLY
+  if (artistId !== feedArtistId) return
   // Test whether user owns artist
   const { artists: userArtists } = user
   const { role: artistRole } = userArtists.find(({ id }) => id === artistId) || {}
@@ -43,6 +46,7 @@ const IntegrationErrorHandler = () => {
   const { data: integrationError, error: componentError, isPending } = useAsync({
     promiseFn: fetchError,
     watch: artistId,
+    // Vars to pass to promiseFn
     user,
     artist,
     artistId,
