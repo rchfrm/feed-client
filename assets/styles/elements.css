@@ -21,27 +21,33 @@
   background: color-mod(var(--black) alpha(0.7));
 }
 
-.alert {
+.alert--inner {
   position: relative;
   z-index: 2;
   background-color: var(--bg-color);
   width: 90%;
   max-width: 720px;
-  padding: 5%;
+  padding: calc(1.5 * var(--bsu-lg));
   border: 2px solid var(--text-color);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   box-sizing: border-box;
   border-radius: var(--dialogue-radius);
+
+  h1 {
+    padding-bottom: 1em;
+  }
+
+  p {
+    padding-bottom: 1em;
+  }
 }
 
-.alert h1 {
-  padding-bottom: 1em;
-}
-
-.alert p {
-  padding-bottom: 1em;
+.alert_close--button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .alert--buttons {

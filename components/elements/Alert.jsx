@@ -2,6 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import CloseCircle from '../icons/CloseCircle'
 import AlertButtons from './AlertButtons'
 
 const ButtonEls = ({
@@ -46,7 +47,16 @@ function Alert(props) {
         onClick={resetAlert}
       />
 
-      <div className="alert">
+      <div className="alert--inner">
+
+        {/* Close button */}
+        <button
+          onClick={resetAlert}
+          className="alert_close--button  button--close"
+          label="Close"
+        >
+          <CloseCircle />
+        </button>
 
         <div className="alert--contents">
           {contents}
