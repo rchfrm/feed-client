@@ -68,27 +68,8 @@
 .backButton {
   position: absolute;
   z-index: 3;
-  width: 50px;
-  height: 50px;
   top: var(--bsu);
   right: var(--bsu);
-
-  &::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: calc(((50px - 20px) * 0.5) - 2px);
-    left: calc((50px - 20px) * 0.5);
-    background: url('/icons/close.svg') no-repeat;
-    background-size: 100% auto;
-    border-radius: 50%;
-  }
-
-  .span {
-    position: absolute;
-    left: -1000em;
-  }
 }
 
 /* LOADER */
