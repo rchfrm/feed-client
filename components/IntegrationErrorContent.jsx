@@ -15,6 +15,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
     action,
     buttonText,
     href,
+    missingPermissions,
   } = integrationError
   // Build alert content
   const AlertContents = <MarkdownText markdown={message} />
@@ -35,7 +36,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
     if (action === 'fb_reauth') {
       const { reauthFacebook } = firebase
       const onClick = () => {
-        reauthFacebook()
+        reauthFacebook(missingPermissions)
         dismiss()
       }
       return (

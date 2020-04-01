@@ -59,18 +59,12 @@ export default {
     return auth.signInWithRedirect(provider)
   },
 
-  linkFacebookAccount: () => {
-    scopeArray.forEach(scope => {
+  linkFacebookAccount: (requestedPermissions) => {
+    const scopeRequests = requestedPermissions || scopeArray
+    scopeRequests.forEach(scope => {
       provider.addScope(scope)
     })
     return auth.currentUser.linkWithRedirect(provider)
-  },
-
-  reauthFacebook: () => {
-    scopeArray.forEach(scope => {
-      provider.addScope(scope)
-    })
-    return auth.currentUser.reauthenticateWithRedirect(provider)
   },
 
   connectFacebookUserWithPopUp: () => {
@@ -130,8 +124,24 @@ export default {
     return auth.currentUser.delete()
   },
 
-  reauthoriseFacebook: () => {
+  /**
+   * @param {array} requestedPermissions optional array of scope requests
+   * @returns {Promise<string>}
+   */
+  reauthFacebook: () => {
     scopeArray.forEach(scope => {
+      provider.addScope(scope)
+    })
+    return auth.currentUser.reauthenticateWithRedirect(provider)
+  },
+
+  /**
+   * @param {array} requestedPermissions optional array of scope requests
+   * @returns {Promise<string>}
+   */
+  reauthoriseFacebook: (requestedPermissions) => {
+    const scopeRequests = requestedPermissions || scopeArray
+    scopeRequests.forEach(scope => {
       provider.addScope(scope)
     })
     provider.setCustomParameters({ auth_type: 'rerequest' })
