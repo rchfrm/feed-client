@@ -7,10 +7,9 @@ import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import MarkdownText from './elements/MarkdownText'
 import Spinner from './elements/Spinner'
 // IMPORT PAGES
-import { PromotePostsButton } from './page/InsightsPage'
+import ResultsNoResults from './ResultsNoResults'
 import ResultsAll from './ResultsAll'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -18,13 +17,12 @@ import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
-// IMPORT COPY
-import copy from '../copy/ResultsPageCopy'
 
 const initialPostsState = {
   active: {},
   archive: {},
 }
+
 const postsReducer = (draftState, postsAction) => {
   const {
     type: actionType,
@@ -48,29 +46,6 @@ const postsReducer = (draftState, postsAction) => {
     default:
       throw new Error(`Could not find ${postsAction.type} in postsReducer`)
   }
-}
-
-function NoResults({ dailyBudget }) {
-  if (dailyBudget > 0) {
-    return (
-      <div
-        className="fill-height ninety-wide"
-        style={{ justifyContent: 'initial' }}
-      >
-        <MarkdownText className="h4--text" markdown={copy.noResultsWithBudget} />
-      </div>
-    )
-  }
-
-  return (
-    <div
-      className="fill-height"
-      style={{ justifyContent: 'space-between' }}
-    >
-      <MarkdownText className="ninety-wide" markdown={copy.noResultsNoBudget} />
-      <PromotePostsButton dailyBudget={dailyBudget} />
-    </div>
-  )
 }
 
 const getAssets = async (status, artistId, token) => {
@@ -170,9 +145,9 @@ function ResultsLoader() {
     Object.keys(posts.active).length === 0
     && Object.keys(posts.archive).length === 0
   ) {
-  // If the active and archived endpoints have been called,
+    // If the active and archived endpoints have been called,
     // but there are no posts, show NoResults
-    return <NoResults dailyBudget={artist.daily_budget} />
+    return <ResultsNoResults dailyBudget={artist.daily_budget} />
   }
   // Otherwise, show Results components
   return (
