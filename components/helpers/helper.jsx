@@ -316,7 +316,7 @@ export default {
             height="315"
             src={media}
             frameBorder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             className="center-image"
           />
@@ -489,5 +489,15 @@ export default {
       phrase = capitalise(phrase)
     }
     return phrase
+  },
+
+  /**
+   * @param {string} url To pass, url must include a protocol (ie, https?://)
+   * @returns {boolean}
+   */
+  testValidUrl: (url) => {
+    const expression = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
+    const regex = new RegExp(expression)
+    return !!url.match(regex)
   },
 }

@@ -35,6 +35,7 @@
     "slugify": "^1.3.6",
     "tinycolor2": "^1.4.1",
     "use-async-effect": "^2.2.2",
+    "use-immer": "^0.3.5",
     "use-previous": "^1.0.0"
   },
   "devDependencies": {

@@ -133,25 +133,10 @@ input[readonly] {
 ******************/
 select {
   width: 100%;
-  border: 1px dotted var(--text-color);
   font-family: SpaceGrotesk,sans-serif;
   font-feature-settings: "ss01";
   font-size: 1em;
   background-color: transparent;
-}
-
-.select {
-
-}
-
-.select--box {
-  .select--sans & {
-    font-family: var(--font);
-  }
-
-  .select--small & {
-    padding: 1em;
-  }  
 }
 
 .select {
@@ -162,9 +147,50 @@ select {
   }
 }
 
-select {
-  font-size: 1em;
+.select--inner {
+  position: relative;
 }
+
+.select--sans {
+  font-family: var(--font);
+}
+
+.select--bold {
+  font-weight: bold;
+}
+
+.select--small & {
+  padding: 1em;
+}
+
+.select--white {
+  color: var(--white);
+  
+  &.select--box {
+    border: 2px solid var(--white);
+  }
+
+  option {
+    color: var(--text-color);
+  }
+}
+
+/* Select arrow */
+.select--arrow {
+  position: absolute;
+  bottom: 50%;
+  right: var(--bsu);
+  transform: translateY(50%);
+  width: 0.45em;
+  height: auto;
+
+  .select--white + & {
+    path {
+      fill: var(--white);
+    }
+  }
+}
+
 
 select:invalid {
   
