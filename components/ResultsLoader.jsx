@@ -47,9 +47,6 @@ const postsReducer = (draftState, postsAction) => {
     case 'set-promotion-enabled':
       draftState[postType][postId].promotion_enabled = promotion_enabled
       break
-    case 'reset-posts':
-      draftState = initialPostsState
-      break
     default:
       throw new Error(`Could not find ${postsAction.type} in postsReducer`)
   }
