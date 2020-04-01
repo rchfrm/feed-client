@@ -1,11 +1,12 @@
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { NavigationContext } from './contexts/Navigation'
 import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
+import Select from './elements/Select'
+// IMPORT COMPONENTS
 import PageHeader from './PageHeader'
 import SignOutLink from './SignOutLink'
 import ActiveLink from './ActiveLink'
@@ -18,31 +19,27 @@ import * as ROUTES from '../constants/routes'
 import styles from './TheNavigation.module.css'
 
 
-function ArtistOptions({ artists, onChange }) {
-  const { artist } = React.useContext(ArtistContext)
-
-  const artistOptions = artists.map(artist => {
-    return (
-      <option key={artist.id} value={artist.id}>{artist.name}</option>
-    )
+function ArtistOptions({ currentArtistId, artists, handleChange }) {
+  const artistOptions = artists.map(({ id: value, name }) => {
+    return { value, name }
   })
 
   return (
-    <div className="select--small  select--sans">
-      <select
-        className={['select--box', styles.select].join(' ')}
-        value={artist.id}
-        onChange={onChange}
-      >
-        {artistOptions}
-      </select>
-    </div>
+    <Select
+      className={styles.select}
+      handleChange={handleChange}
+      selectedValue={currentArtistId}
+      options={artistOptions}
+      name="Selected Artist"
+      label="Selected Artist"
+      version="box white small sans"
+    />
   )
 }
 
 function NavigationAuth() {
   const { user } = React.useContext(UserContext)
-  const { storeArtist } = React.useContext(ArtistContext)
+  const { artist, storeArtist } = React.useContext(ArtistContext)
   const { navDispatch } = React.useContext(NavigationContext)
 
   const links = [
@@ -68,7 +65,9 @@ function NavigationAuth() {
     },
   ]
 
-  const handleChange = e => {
+  const handleChange = (e) => {
+    const { value: artist } = e.target
+    console.log('artist', artist)
     storeArtist(e.target.value)
       .then(() => {
         navDispatch({
@@ -85,8 +84,16 @@ function NavigationAuth() {
     <>
       <ul>
         {user.artists.length > 1
-          ? <li><ArtistOptions onChange={handleChange} artists={user.artists} /></li>
-          : ''}
+          ? (
+            <li>
+              <ArtistOptions
+                handleChange={handleChange}
+                artists={user.artists}
+                currentArtistId={artist.id}
+              />
+            </li>
+          )
+          : null}
         {links.map(({ href, title }) => {
           return (
             <li key={href}>
