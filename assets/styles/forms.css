@@ -133,7 +133,6 @@ input[readonly] {
 ******************/
 select {
   width: 100%;
-  border: 1px dotted var(--text-color);
   font-family: SpaceGrotesk,sans-serif;
   font-feature-settings: "ss01";
   font-size: 1em;
@@ -144,14 +143,29 @@ select {
 
 }
 
-.select--box {
-  .select--sans & {
-    font-family: var(--font);
+
+.select--sans {
+  font-family: var(--font);
+}
+
+.select--bold {
+  font-weight: bold;
+}
+
+.select--small & {
+  padding: 1em;
+}
+
+.select--white {
+  color: var(--white);
+  
+  &.select--box {
+    border: 2px solid var(--white);
   }
 
-  .select--small & {
-    padding: 1em;
-  }  
+  option {
+    color: var(--text-color);
+  }
 }
 
 .select {

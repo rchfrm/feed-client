@@ -26,7 +26,7 @@ const Select = ({
 
   const versionClasses = version
     .split(' ')
-    .map((v) => `select--${v}`)
+    .map((versionName) => `select--${versionName}`)
     .join(' ')
 
   return (
@@ -82,7 +82,7 @@ Select.propTypes = {
     }),
   ).isRequired,
 
-  // There must be a string set as the placeholder
+  // Optional placeholder when no default selected value
   placeholder: PropTypes.string,
 
   // There must be a string or number set as the selectedValue
