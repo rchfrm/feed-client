@@ -66,11 +66,12 @@ const Connection = ({
   // DEFINE STATES
   const [value, setValue] = React.useState(url)
   const [loading, setLoading] = React.useState(false)
-  // END DEFINE STATES
+  const [disabled, setDisabled] = React.useState()
 
-  // FUNCTIONS
-  // If the value field is empty, the 'tick' button should be disabled
-  const disabled = value === ''
+  // Set initial disabled state
+  React.useEffect(() => {
+    setDisabled(!!(value === ''))
+  }, [])
 
   // Toggle the value for valid in the integrations state
   const toggleValid = (state) => {
@@ -102,8 +103,17 @@ const Connection = ({
     setLoading(false)
   }
 
+  const addProtocol = (link) => {
+    const linkWithProtocol = link
+      // Strip protocol
+      .replace(/(^\w+:|^)\/\//, '')
+      // Add protocol back in
+      .replace(/^/, 'http://')
+    return linkWithProtocol
+  }
+
   // Handle clicks on the integrations edit button(s)
-  const handleClick = e => {
+  const handleClick = async (e) => {
     e.preventDefault()
 
     // Show an alert if the user tries to edit the Facebook or Instagram URLs
@@ -113,14 +123,10 @@ const Connection = ({
       return
     }
 
-    const link = value
-      // Strip protocol
-      .replace(/(^\w+:|^)\/\//, '')
-      // Add protocol back in
-      .replace(/^/, 'http://')
+    const link = value === '' ? value : addProtocol(value)
 
     // Don't allow invalid links
-    const linkValid = helper.testValidUrl(link)
+    const linkValid = link === '' ? true : helper.testValidUrl(link)
     if (!linkValid) {
       toggleValid(false)
       // eslint-disable-next-line
@@ -138,12 +144,17 @@ const Connection = ({
     }
 
     // Otherwise, send the updated url to the server
-    saveLink(link)
+    await saveLink(link)
       .catch(err => {
         setLoading(false)
         // TODO: Find a way to show errors well
         console.log(err)
       })
+
+    // Reset to disabled if empty
+    if (!link) {
+      setDisabled(true)
+    }
   }
 
   // END FUNCTIONS
@@ -154,7 +165,7 @@ const Connection = ({
       <ConnectionIcons artistId={artistId} platform={platform} priorityDSP={priorityDSP} setConnections={setConnections} setPriorityDSP={setPriorityDSP} valid={valid} />
 
       <div className={styles['integration-link']}>
-        <ConnectionLink platform={platform} setValue={setValue} url={url} valid={valid} value={value} />
+        <ConnectionLink platform={platform} setValue={setValue} setDisabled={setDisabled} url={url} valid={valid} value={value} />
       </div>
 
       <div className={styles['integration-edit']}>
@@ -316,6 +327,7 @@ function ConfirmPriorityDSPChange({ platform }) {
 const ConnectionLink = ({
   platform,
   setValue,
+  setDisabled,
   url,
   valid,
   value = '',
@@ -344,6 +356,7 @@ const ConnectionLink = ({
   // Handle changes in the input field
   const handleChange = e => {
     e.preventDefault()
+    setDisabled(false)
     setValue(e.target.value)
     setValue(e.target.value || '')
   }
