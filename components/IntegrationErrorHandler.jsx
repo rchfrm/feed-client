@@ -5,6 +5,7 @@ import * as integrationErrorsHelpers from './helpers/integrationErrorsHelpers'
 import server from './helpers/server'
 import { ArtistContext } from './contexts/Artist'
 import { UserContext } from './contexts/User'
+import { AuthContext } from './contexts/Auth'
 
 import IntegrationErrorContent from './IntegrationErrorContent'
 
@@ -40,8 +41,10 @@ const IntegrationErrorHandler = () => {
     artist,
     artistId,
   } = React.useContext(ArtistContext)
-  // Import user
-  const { user } = React.useContext(UserContext)
+  // Import user context
+  const { user, userLoading } = React.useContext(UserContext)
+  // Import Auth context
+  const { accessToken } = React.useContext(AuthContext)
   // Run async request for errors
   const { data: integrationError, error: componentError, isPending } = useAsync({
     promiseFn: fetchError,
@@ -57,6 +60,22 @@ const IntegrationErrorHandler = () => {
     const { hidden } = integrationError
     setShowError(!hidden)
   }, [integrationError])
+
+  // Store new access token when coming back from a redirect
+  const accessTokenUpdated = React.useRef(false)
+  React.useEffect(() => {
+    // Stop here is user is loading, there is no new access token, or it's already run once
+    if (userLoading || !accessToken || accessTokenUpdated.current) return
+    const { artists: userArtists = [] } = user
+    const userArtistIds = userArtists.reduce((ids, { role, id }) => {
+      if (role !== 'owner') return ids
+      return [...ids, id]
+    }, [])
+    if (!userArtistIds.length) return
+    // Update access token
+    accessTokenUpdated.current = true
+    server.updateAccessToken(userArtists, accessToken)
+  }, [userLoading, accessToken])
 
   // Function to hide integration error
   const hideIntegrationErrors = () => setShowError(false)
