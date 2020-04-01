@@ -66,7 +66,7 @@ export const getErrorResponse = (error, artist) => {
 
   if (code === 'instagram_id') {
     return {
-      message: copy.no_instagram(artist),
+      message: copy.instagram_page_not_linked,
       action: 'link',
       buttonText: '‘Link Instagram Account',
       href: 'https://www.facebook.com/business/help/898752960195806',
@@ -93,8 +93,8 @@ export const getErrorResponse = (error, artist) => {
 
 
 const handleInstaErrors = (errors) => {
-  const missingInstaIdIndex = errors.findIndex(({ code, subcode }) => code === 'instagram_id' && subcode === 'missing_field')
-  const missingInstaBusinessIndex = errors.findIndex(({ code }) => code === 'instagram_page_not_linked')
+  const missingInstaBusinessIndex = errors.findIndex(({ code, subcode }) => code === 'instagram_id' && subcode === 'missing_field')
+  const missingInstaIdIndex = errors.findIndex(({ code }) => code === 'instagram_page_not_linked')
   // If no missing insta business, just hide no insta account error
   if (missingInstaIdIndex > -1 && missingInstaBusinessIndex === -1) {
     return produce(errors, draftErrors => {
