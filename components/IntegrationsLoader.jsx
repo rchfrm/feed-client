@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
@@ -14,42 +15,32 @@ import artistHelpers from './helpers/artistHelpers'
 // IMPORT STYLES
 
 const initialConnectionsState = {}
-const connectionsReducer = (connectionsState, connectionsAction) => {
-  switch (connectionsAction.type) {
+
+const connectionsReducer = (draftState, action) => {
+  const { type: actionType, payload } = action
+  switch (actionType) {
     case 'set-all':
-      return connectionsAction.payload
+      return payload
     case 'set-platform':
-      return {
-        ...connectionsState,
-        [connectionsAction.payload.platform]: {
-          platform: connectionsAction.payload.platform,
-          name: connectionsAction.payload.name,
-          url: connectionsAction.payload.url,
-          valid: !!connectionsAction.payload.url,
-        },
-      }
+      draftState[payload.platform].platform = payload.platform
+      draftState[payload.platform].name = payload.name
+      draftState[payload.platform].url = payload.url
+      draftState[payload.platform].valid = !!payload.url
+      break
     case 'toggle-platform-validity':
-      return {
-        ...connectionsState,
-        [connectionsAction.payload.platform]: {
-          ...connectionsState[connectionsAction.payload.platform],
-          valid: typeof connectionsAction.payload.state === 'boolean'
-            ? connectionsAction.payload.state
-            : !connectionsState[connectionsAction.payload.platform].valid,
-        },
-      }
+      // Either set validity explicity or switch boolean
+      draftState[payload.platform].valid = typeof payload.state === 'boolean'
+        ? payload.state
+        : !draftState[payload.platform].valid
+      break
     case 'update-priority-dsp':
-      return {
-        ...connectionsState,
-        [connectionsAction.payload.platform]: {
-          ...connectionsState[connectionsAction.payload.platform],
-          priority: connectionsAction.payload.priority,
-        },
-      }
+      draftState[payload.platform].priority = payload.priority
+      break
     default:
-      throw new Error(`Could not find ${connectionsAction.type} in integrationDetailsReducer`)
+      throw new Error(`Could not find ${actionType} in integrationDetailsReducer`)
   }
 }
+
 
 function IntegrationsLoader({
   artistId,
