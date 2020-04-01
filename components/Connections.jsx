@@ -367,13 +367,11 @@ const ConnectionLink = ({
   )
 }
 
-function ConnectionEdit(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { disabled } = props
-  const { loading } = props
-  const { valid } = props
-  // END REDEFINE PROPS AS VARIABLES
-
+function ConnectionEdit({
+  disabled,
+  loading,
+  valid,
+}) {
   if (loading) {
     return <Spinner width={15} color={brandColors.grey} />
   }
@@ -390,7 +388,7 @@ function ConnectionEdit(props) {
   return (
     <Icon
       version="tick"
-      color={disabled ? [brandColors.grey] : [brandColors.black]}
+      color={disabled ? [brandColors.disabledColorText] : [brandColors.textColor]}
       width={15}
     />
   )
