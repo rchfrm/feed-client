@@ -140,9 +140,16 @@ select {
 }
 
 .select {
-
+  &._error {
+    label {
+      color: var(--error-color);
+    }
+  }
 }
 
+.select--inner {
+  position: relative;
+}
 
 .select--sans {
   font-family: var(--font);
@@ -168,17 +175,22 @@ select {
   }
 }
 
-.select {
-  &._error {
-    label {
-      color: var(--error-color);
+/* Select arrow */
+.select--arrow {
+  position: absolute;
+  bottom: 50%;
+  right: var(--bsu);
+  transform: translateY(50%);
+  width: 0.45em;
+  height: auto;
+
+  .select--white + & {
+    path {
+      fill: var(--white);
     }
   }
 }
 
-select {
-  font-size: 1em;
-}
 
 select:invalid {
   

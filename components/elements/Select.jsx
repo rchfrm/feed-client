@@ -3,6 +3,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import ArrowIcon from '../icons/ArrowIcon'
+
 const Select = ({
   handleChange,
   name,
@@ -30,7 +32,7 @@ const Select = ({
     .join(' ')
 
   return (
-    <div className={['input--container', className].join(' ')}>
+    <div className={['input--container', 'select--container', className].join(' ')}>
       <label
         className="inputLabel"
         htmlFor={name}
@@ -41,16 +43,20 @@ const Select = ({
             {required && <span className="asterix">*</span>}
           </span>
         )}
-        <select
-          className={['select', versionClasses].join(' ')}
-          name={name}
-          onChange={handleChange}
-          style={style}
-          value={selectedValue}
-          required={required}
-        >
-          {optionElements}
-        </select>
+        <div className="select--inner">
+          <select
+            className={['select', versionClasses].join(' ')}
+            name={name}
+            onChange={handleChange}
+            style={style}
+            value={selectedValue}
+            required={required}
+          >
+            {optionElements}
+          </select>
+          {/* Arrow Icon */}
+          <ArrowIcon className="select--arrow" />
+        </div>
       </label>
     </div>
   )
