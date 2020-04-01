@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
@@ -14,40 +15,32 @@ import artistHelpers from './helpers/artistHelpers'
 // IMPORT STYLES
 
 const initialConnectionsState = {}
-const connectionsReducer = (connectionsState, connectionsAction) => {
-  switch (connectionsAction.type) {
+
+const connectionsReducer = (draftState, action) => {
+  const { type: actionType, payload } = action
+  switch (actionType) {
     case 'set-all':
-      return connectionsAction.payload
+      return payload
     case 'set-platform':
-      return {
-        ...connectionsState,
-        [connectionsAction.payload.platform]: {
-          platform: connectionsAction.payload.platform,
-          name: connectionsAction.payload.name,
-          url: connectionsAction.payload.url,
-          valid: !!connectionsAction.payload.url,
-        },
-      }
+      draftState[payload.platform].platform = payload.platform
+      draftState[payload.platform].name = payload.name
+      draftState[payload.platform].url = payload.url
+      draftState[payload.platform].valid = !!payload.url
+      break
     case 'toggle-platform-validity':
-      return {
-        ...connectionsState,
-        [connectionsAction.payload.platform]: {
-          ...connectionsState[connectionsAction.payload.platform],
-          valid: !connectionsState[connectionsAction.payload.platform].valid,
-        },
-      }
+      // Either set validity explicity or switch boolean
+      draftState[payload.platform].valid = typeof payload.state === 'boolean'
+        ? payload.state
+        : !draftState[payload.platform].valid
+      break
     case 'update-priority-dsp':
-      return {
-        ...connectionsState,
-        [connectionsAction.payload.platform]: {
-          ...connectionsState[connectionsAction.payload.platform],
-          priority: connectionsAction.payload.priority,
-        },
-      }
+      draftState[payload.platform].priority = payload.priority
+      break
     default:
-      throw new Error(`Could not find ${connectionsAction.type} in integrationDetailsReducer`)
+      throw new Error(`Could not find ${actionType} in integrationDetailsReducer`)
   }
 }
+
 
 function IntegrationsLoader({
   artistId,
@@ -58,7 +51,8 @@ function IntegrationsLoader({
   const [artistLoading, setArtistLoading] = React.useState(true)
   const [gettingArtist, setGettingArtist] = React.useState(false)
   const [priorityDSP, setPriorityDSP] = React.useState(undefined)
-  const [connections, setConnections] = React.useReducer(connectionsReducer, initialConnectionsState)
+  const [connections, setConnections] = useImmerReducer(connectionsReducer, initialConnectionsState)
+  const [connectionPlatforms, setConnectionPlatforms] = React.useState([])
   // END DEFINE STATE
 
   // DEFINE FUNCTION TO RETRIEVE ARTIST INFORMATION
@@ -71,9 +65,11 @@ function IntegrationsLoader({
       })
     // Handle no artist
     if (!artist) return {}
+    // Get priority DSP
+    const { priority_dsp } = artist
     // Format artist integrations into an object
     const urlNames = Object.keys(artist.URLs)
-    return urlNames.reduce((obj, name) => {
+    const integrations = urlNames.reduce((obj, name, index) => {
       const platform = helper.extractPlatformFromPriorityDSP(name)
       const url = artist[name]
       return {
@@ -83,11 +79,20 @@ function IntegrationsLoader({
           name,
           url,
           valid: !!url,
+          index,
         },
       }
     }, {})
+    return { integrations, priority_dsp }
   }, [artistId])
-  // END DEFINE FUNCTION TO RETRIEVE ARTIST INFORMATION
+
+  // Create array of connection platforms, sorted
+  const getConnectionPlatforms = (integrations) => {
+    return Object.values(integrations).reduce((arr, { platform, index }) => {
+      arr[index] = platform
+      return arr
+    }, [])
+  }
 
   // GET CONNECTION DETAILS
   React.useEffect(() => {
@@ -104,7 +109,13 @@ function IntegrationsLoader({
     // Call getArtist
     setGettingArtist(true)
     getArtist()
-      .then(integrations => {
+      .then(({ integrations, priority_dsp }) => {
+        // Set priority DSP
+        setPriorityDSP(priority_dsp)
+        // Set connection platforms
+        const platforms = getConnectionPlatforms(integrations)
+        setConnectionPlatforms(platforms)
+        // Set connections
         setConnections({
           type: 'set-all',
           payload: integrations,
@@ -121,6 +132,7 @@ function IntegrationsLoader({
     <Connections
       artistId={artistId}
       connections={connections}
+      connectionPlatforms={connectionPlatforms}
       priorityDSP={priorityDSP}
       setConnections={setConnections}
       setPriorityDSP={setPriorityDSP}

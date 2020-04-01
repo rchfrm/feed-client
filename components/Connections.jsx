@@ -25,13 +25,13 @@ import styles from './Integrations.module.css'
 function Connections({
   artistId,
   connections,
+  connectionPlatforms,
   priorityDSP,
   setConnections,
   setPriorityDSP,
 }) {
   // LIST INTEGRATIONS
-  const platforms = Object.keys(connections)
-  const connectionsList = platforms.map(platform => {
+  const connectionsList = connectionPlatforms.map(platform => {
     return (
       <Connection
         key={platform}
@@ -66,29 +66,32 @@ const Connection = ({
   // DEFINE STATES
   const [value, setValue] = React.useState(url)
   const [loading, setLoading] = React.useState(false)
-  // END DEFINE STATES
+  const [disabled, setDisabled] = React.useState()
 
-  // FUNCTIONS
-  // If the value field is empty, the 'tick' button should be disabled
-  const disabled = value === ''
+  // Set initial disabled state
+  React.useEffect(() => {
+    setDisabled(!!(value === ''))
+  }, [])
 
   // Toggle the value for valid in the integrations state
-  const toggleValid = () => {
+  const toggleValid = (state) => {
     setConnections({
       type: 'toggle-platform-validity',
       payload: {
         platform,
+        state,
       },
     })
   }
 
   // Send updated links to the server
-  const saveLink = async () => {
+  const saveLink = async (link) => {
     setLoading(true)
 
     // Send a patch request to the server to update the artist
     const urlType = helper.convertPlatformToPriorityDSP(platform)
-    const updatedArtist = await server.saveLink(artistId, value, urlType)
+    // Make sure the value is a link
+    const updatedArtist = await server.saveLink(artistId, link, urlType)
     setConnections({
       type: 'set-platform',
       payload: {
@@ -100,14 +103,34 @@ const Connection = ({
     setLoading(false)
   }
 
+  const addProtocol = (link) => {
+    const linkWithProtocol = link
+      // Strip protocol
+      .replace(/(^\w+:|^)\/\//, '')
+      // Add protocol back in
+      .replace(/^/, 'http://')
+    return linkWithProtocol
+  }
+
   // Handle clicks on the integrations edit button(s)
-  const handleClick = e => {
+  const handleClick = async (e) => {
     e.preventDefault()
 
     // Show an alert if the user tries to edit the Facebook or Instagram URLs
     if (platform === 'facebook' || platform === 'instagram') {
       // eslint-disable-next-line
       window.alert(`To connect a ${helper.capitalise(platform)} page, please contact us at services@archform.ltd`)
+      return
+    }
+
+    const link = value === '' ? value : addProtocol(value)
+
+    // Don't allow invalid links
+    const linkValid = link === '' ? true : helper.testValidUrl(link)
+    if (!linkValid) {
+      toggleValid(false)
+      // eslint-disable-next-line
+      window.alert('Please include a valid link')
       return
     }
 
@@ -121,23 +144,28 @@ const Connection = ({
     }
 
     // Otherwise, send the updated url to the server
-    saveLink()
+    await saveLink(link)
       .catch(err => {
         setLoading(false)
         // TODO: Find a way to show errors well
         console.log(err)
       })
+
+    // Reset to disabled if empty
+    if (!link) {
+      setDisabled(true)
+    }
   }
 
   // END FUNCTIONS
 
   return (
-    <li className={styles.li} key={platform}>
+    <li className={styles.integrarionsListItem} key={platform}>
 
       <ConnectionIcons artistId={artistId} platform={platform} priorityDSP={priorityDSP} setConnections={setConnections} setPriorityDSP={setPriorityDSP} valid={valid} />
 
       <div className={styles['integration-link']}>
-        <ConnectionLink platform={platform} setValue={setValue} url={url} valid={valid} value={value} />
+        <ConnectionLink platform={platform} setValue={setValue} setDisabled={setDisabled} url={url} valid={valid} value={value} />
       </div>
 
       <div className={styles['integration-edit']}>
@@ -162,9 +190,9 @@ const ConnectionIcons = ({
   // DEFINE DEFAULT COLOUR
   let defaultColor = brandColors.greyLight
   if (valid && priority) {
-    defaultColor = brandColors.black
+    defaultColor = brandColors.textColor
   } else if (!valid) {
-    defaultColor = brandColors.white
+    defaultColor = brandColors.bgColor
   }
   // DEFINE DEFAULT COLOUR
 
@@ -299,6 +327,7 @@ function ConfirmPriorityDSPChange({ platform }) {
 const ConnectionLink = ({
   platform,
   setValue,
+  setDisabled,
   url,
   valid,
   value = '',
@@ -327,6 +356,7 @@ const ConnectionLink = ({
   // Handle changes in the input field
   const handleChange = e => {
     e.preventDefault()
+    setDisabled(false)
     setValue(e.target.value)
     setValue(e.target.value || '')
   }
@@ -345,18 +375,16 @@ const ConnectionLink = ({
       label=""
       placeholder={value || placeholder(platform)}
       value={value}
-      onChange={handleChange}
+      handleChange={handleChange}
     />
   )
 }
 
-function ConnectionEdit(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { disabled } = props
-  const { loading } = props
-  const { valid } = props
-  // END REDEFINE PROPS AS VARIABLES
-
+function ConnectionEdit({
+  disabled,
+  loading,
+  valid,
+}) {
   if (loading) {
     return <Spinner width={15} color={brandColors.grey} />
   }
@@ -373,7 +401,7 @@ function ConnectionEdit(props) {
   return (
     <Icon
       version="tick"
-      color={disabled ? [brandColors.grey] : [brandColors.black]}
+      color={disabled ? [brandColors.disabledColorText] : [brandColors.textColor]}
       width={15}
     />
   )

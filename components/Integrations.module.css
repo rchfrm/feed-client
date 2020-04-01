@@ -11,19 +11,12 @@ CONNECTIONS
   .p {
     font-weight: 400;
   }
-
-  .li {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1em;
-  }
 }
 
-
-.integrations-list .li {
+.integrarionsListItem {
   display: flex;
   flex-direction: row;
-  margin-bottom: 1em;
+  margin-bottom: var(--bsu);
   align-items: flex-start;
 }
 
@@ -49,7 +42,6 @@ CONNECTIONS
   flex: auto;
   white-space: nowrap;
   overflow: hidden;
-  margin-bottom: 0.2em !important;
 
   :global(a) {
     display: inline-block;
