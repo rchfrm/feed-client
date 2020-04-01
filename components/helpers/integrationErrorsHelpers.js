@@ -9,7 +9,7 @@ export const getErrorResponse = (error, artist) => {
     return {
       message: copy[code],
       action: 'fb_reauth',
-      buttonText: 'Relink with facebook',
+      buttonText: 'Relink Facebook',
       hidden,
     }
   }
