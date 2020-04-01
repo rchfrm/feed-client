@@ -69,7 +69,7 @@ export const getErrorResponse = (error, artist) => {
       message: copy.no_instagram(artist),
       action: 'link',
       buttonText: '‘Link Instagram Account',
-      href: 'https://www.facebook.com/business/help/898752960195806,
+      href: 'https://www.facebook.com/business/help/898752960195806',
       hidden,
     }
   }
