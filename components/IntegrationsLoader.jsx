@@ -51,7 +51,8 @@ function IntegrationsLoader({
   const [artistLoading, setArtistLoading] = React.useState(true)
   const [gettingArtist, setGettingArtist] = React.useState(false)
   const [priorityDSP, setPriorityDSP] = React.useState(undefined)
-  const [connections, setConnections] = React.useReducer(connectionsReducer, initialConnectionsState)
+  const [connections, setConnections] = useImmerReducer(connectionsReducer, initialConnectionsState)
+  const [connectionPlatforms, setConnectionPlatforms] = React.useState([])
   // END DEFINE STATE
 
   // DEFINE FUNCTION TO RETRIEVE ARTIST INFORMATION
@@ -68,8 +69,7 @@ function IntegrationsLoader({
     const { priority_dsp } = artist
     // Format artist integrations into an object
     const urlNames = Object.keys(artist.URLs)
-
-    const integrations = urlNames.reduce((obj, name) => {
+    const integrations = urlNames.reduce((obj, name, index) => {
       const platform = helper.extractPlatformFromPriorityDSP(name)
       const url = artist[name]
       return {
@@ -79,12 +79,20 @@ function IntegrationsLoader({
           name,
           url,
           valid: !!url,
+          index,
         },
       }
     }, {})
     return { integrations, priority_dsp }
   }, [artistId])
-  // END DEFINE FUNCTION TO RETRIEVE ARTIST INFORMATION
+
+  // Create array of connection platforms, sorted
+  const getConnectionPlatforms = (integrations) => {
+    return Object.values(integrations).reduce((arr, { platform, index }) => {
+      arr[index] = platform
+      return arr
+    }, [])
+  }
 
   // GET CONNECTION DETAILS
   React.useEffect(() => {
@@ -104,6 +112,9 @@ function IntegrationsLoader({
       .then(({ integrations, priority_dsp }) => {
         // Set priority DSP
         setPriorityDSP(priority_dsp)
+        // Set connection platforms
+        const platforms = getConnectionPlatforms(integrations)
+        setConnectionPlatforms(platforms)
         // Set connections
         setConnections({
           type: 'set-all',
@@ -121,6 +132,7 @@ function IntegrationsLoader({
     <Connections
       artistId={artistId}
       connections={connections}
+      connectionPlatforms={connectionPlatforms}
       priorityDSP={priorityDSP}
       setConnections={setConnections}
       setPriorityDSP={setPriorityDSP}

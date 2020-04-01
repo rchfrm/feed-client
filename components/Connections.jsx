@@ -25,13 +25,13 @@ import styles from './Integrations.module.css'
 function Connections({
   artistId,
   connections,
+  connectionPlatforms,
   priorityDSP,
   setConnections,
   setPriorityDSP,
 }) {
   // LIST INTEGRATIONS
-  const platforms = Object.keys(connections)
-  const connectionsList = platforms.map(platform => {
+  const connectionsList = connectionPlatforms.map(platform => {
     return (
       <Connection
         key={platform}
