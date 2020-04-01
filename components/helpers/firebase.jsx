@@ -134,17 +134,4 @@ export default {
     })
     return auth.currentUser.reauthenticateWithRedirect(provider)
   },
-
-  /**
-   * @param {array} requestedPermissions optional array of scope requests
-   * @returns {Promise<string>}
-   */
-  reauthoriseFacebook: (requestedPermissions) => {
-    const scopeRequests = requestedPermissions || scopeArray
-    scopeRequests.forEach(scope => {
-      provider.addScope(scope)
-    })
-    provider.setCustomParameters({ auth_type: 'rerequest' })
-    return this.auth.currentUser.linkWithRedirect(provider)
-  },
 }

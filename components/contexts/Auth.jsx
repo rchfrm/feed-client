@@ -96,8 +96,7 @@ function AuthProvider({ children }) {
   const relinkFacebook = async () => {
     setAuthLoading(true)
     try {
-      await unlinkFacebook()
-      await firebase.reauthoriseFacebook()
+      await firebase.reauthFacebook()
     } catch (err) {
       setAuthLoading(false)
       throw (err)
