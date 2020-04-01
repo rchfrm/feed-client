@@ -2,6 +2,52 @@ import axios from 'axios'
 import firebase from './firebase'
 import host from './host'
 
+const axiosInstance = axios.create()
+
+const retryConfig = {
+  retry: 10,
+  retryDelay: 200,
+  httpMethodsToRetry: ['OPTIONS', 'GET', 'PATCH', 'POST', 'DELETE'],
+  statusCodesToRetry: [[503, 503]],
+}
+
+/**
+ * @param {AxiosRequestConfig} req
+ */
+async function requestWithRetries(req) {
+  for (let attempt = 0; attempt < retryConfig.retry; attempt += 1) {
+    try {
+      if (attempt > 0) {
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise(resolve => setTimeout(resolve, retryConfig.retryDelay))
+      }
+      // eslint-disable-next-line no-await-in-loop
+      return await axiosInstance.request(req)
+    } catch (err) {
+      // rethrow the error if there's no request
+      if (!err.request) throw err
+
+      // rethrow the error if it's not an allowable retry method
+      if (retryConfig.httpMethodsToRetry.indexOf(req.method.toUpperCase()) === -1) throw err
+
+      // if response is undefined a pre-flight check may have failed
+      // ideally OPTIONS requests will always resolve correctly but
+      // this is an issue in the current GCP configuration, allow the
+      // retry attempt only if the request method is idempotent
+      if (req.method.toUpperCase() !== 'OPTIONS' && req.method.toUpperCase() !== 'GET') throw err
+
+      // assume the server response status is a 503 Service Unavailable
+      // error if there's no response
+      const status = err.response ? err.response.status : 503
+      const isStatusMatch = retryConfig.statusCodesToRetry.filter(([min, max]) => min <= status && status <= max).length > 0
+      if (!isStatusMatch) throw err
+
+      // rethrow the error if it's the last attempt
+      if (attempt === retryConfig.retry - 1) throw err
+    }
+  }
+}
+
 /**
  * @param {string} method
  * @param {string} path
@@ -56,7 +102,7 @@ export async function request(method, path, options, token) {
     req.data = options.data
   }
 
-  const res = await axios.request(req)
+  const res = await requestWithRetries(req)
 
   return res.data
 }
