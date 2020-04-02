@@ -128,8 +128,9 @@ export default {
    * @param {array} requestedPermissions optional array of scope requests
    * @returns {Promise<string>}
    */
-  reauthFacebook: () => {
-    scopeArray.forEach(scope => {
+  reauthFacebook: (requestedPermissions) => {
+    const scopeRequests = requestedPermissions || scopeArray
+    scopeRequests.forEach(scope => {
       provider.addScope(scope)
     })
     return auth.currentUser.reauthenticateWithRedirect(provider)
