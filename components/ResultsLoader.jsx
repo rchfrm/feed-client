@@ -96,6 +96,14 @@ function ResultsLoader() {
     },
   })
 
+  // Define function for toggling posts
+  const togglePost = ({ type, id, promotion_enabled }) => {
+    setPosts({
+      type: 'set-promotion-enabled',
+      payload: { type, id, promotion_enabled },
+    })
+  }
+
   // If artist or results are loading
   if (artistLoading || isPending) return <Spinner />
 
@@ -113,10 +121,17 @@ function ResultsLoader() {
   // Otherwise, show Results components
   return (
     <div>
-      {/* Active posts */}
-      <ResultsAll active posts={posts.active} setPosts={setPosts} />
-      {/* Archived posts */}
-      <ResultsAll active={false} posts={posts.archived} setPosts={setPosts} />
+      {Object.entries(posts).map(([postType, posts]) => {
+        const isActive = !!(postType === 'active')
+        return (
+          <ResultsAll
+            key={postType}
+            active={isActive}
+            posts={posts}
+            togglePost={togglePost}
+          />
+        )
+      })}
     </div>
   )
 }

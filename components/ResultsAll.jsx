@@ -129,7 +129,7 @@ function DisabledResults({ disabledResults }) {
   )
 }
 
-function ResultsAll({ posts: postsObject, active, setPosts }) {
+function ResultsAll({ posts: postsObject, active, togglePost }) {
   const { artist } = React.useContext(ArtistContext)
 
   const title = active ? 'active posts.' : 'archive.'
@@ -143,7 +143,7 @@ function ResultsAll({ posts: postsObject, active, setPosts }) {
         id={post.id}
         priority_dsp={post.priority_dsp || artist.priority_dsp}
         promotion_enabled={post.promotion_enabled}
-        setPosts={setPosts}
+        togglePost={togglePost}
         summary={summary}
         thumbnail={post._metadata.thumbnail_url}
       />

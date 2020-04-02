@@ -36,7 +36,7 @@ const ResultsToggle = ({
   active,
   id,
   promotion_enabled,
-  setPosts,
+  togglePost,
 }) => {
   // Import artist context
   const { artistId } = React.useContext(ArtistContext)
@@ -74,14 +74,9 @@ const ResultsToggle = ({
     // When promise resolves
     onResolve: (post) => {
       if (!post) return
-      setPosts({
-        type: 'set-promotion-enabled',
-        payload: {
-          type: active ? 'active' : 'archived',
-          id,
-          promotion_enabled: post.promotion_enabled,
-        },
-      })
+      const type = active ? 'active' : 'archived'
+      const { promotion_enabled } = post
+      togglePost({ type, id, promotion_enabled })
     },
   })
 
@@ -126,7 +121,7 @@ ResultsToggle.propTypes = {
   active: PropTypes.bool,
   id: PropTypes.string.isRequired,
   promotion_enabled: PropTypes.bool,
-  setPosts: PropTypes.func.isRequired,
+  togglePost: PropTypes.func.isRequired,
 }
 
 ResultsToggle.defaultProps = {

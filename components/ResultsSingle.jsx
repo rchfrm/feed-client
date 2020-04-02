@@ -117,7 +117,7 @@ const ResultsSingle = ({
   id,
   priority_dsp,
   promotion_enabled,
-  setPosts,
+  togglePost,
   summary,
 }) => {
   const { artist } = React.useContext(ArtistContext)
@@ -190,7 +190,12 @@ const ResultsSingle = ({
 
         <div className={styles['result-toggle-saes']}>
           <h2 className={styles.h2}>{summary.SAES}</h2>
-          <ResultsToggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
+          <ResultsToggle
+            active={active}
+            id={id}
+            promotion_enabled={promotion_enabled}
+            togglePost={togglePost}
+          />
         </div>
 
       </div>
@@ -206,7 +211,7 @@ ResultsSingle.propTypes = {
   id: PropTypes.string.isRequired,
   priority_dsp: PropTypes.string.isRequired,
   promotion_enabled: PropTypes.bool,
-  setPosts: PropTypes.func.isRequired,
+  togglePost: PropTypes.func.isRequired,
   summary: PropTypes.object.isRequired,
 }
 
