@@ -15,7 +15,7 @@ const feedArtistId = '0mpyUFo2OApQnawtH6cB'
 const fetchError = async ({ user, artist, artistId }) => {
   if (!user.artists) return
   if (!artist || !artistId) return
-  // * FOR TESTING ONLY
+  // * FOR TESTING (ONLY USE FOR FEED ID)
   if (artistId !== feedArtistId) return
   // Test whether user owns artist
   const { artists: userArtists } = user
@@ -64,6 +64,8 @@ const IntegrationErrorHandler = () => {
   // Store new access token when coming back from a redirect
   const accessTokenUpdated = React.useRef(false)
   React.useEffect(() => {
+    // * FOR TESTING (ONLY USE FOR FEED ID)
+    if (artistId !== feedArtistId) return
     // Stop here is user is loading, there is no new access token, or it's already run once
     if (userLoading || !accessToken || accessTokenUpdated.current) return
     const { artists: userArtists = [] } = user
