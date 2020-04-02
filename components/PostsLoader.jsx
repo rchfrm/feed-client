@@ -2,8 +2,9 @@
 import React from 'react'
 import Router from 'next/router'
 import useAsyncEffect from 'use-async-effect'
+
 import isEmpty from 'lodash/isEmpty'
-import produce from 'immer'
+import { useImmerReducer } from 'use-immer'
 import usePrevious from 'use-previous'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
@@ -27,7 +28,7 @@ import styles from './PostsPage.module.css'
 
 // Define initial state and reducer for posts
 const postsInitialState = []
-const postsReducer = (postsState, postsAction) => {
+const postsReducer = (draftState, postsAction) => {
   const {
     type: actionType,
     payload: {
@@ -41,21 +42,18 @@ const postsReducer = (postsState, postsAction) => {
     case 'reset-posts':
       return postsInitialState
     case 'add-posts':
-      return produce(postsState, draft => {
-        draft.push(...newPosts)
-      })
+      draftState.push(...newPosts)
+      break
     case 'replace-posts':
       return newPosts
     case 'toggle-promotion':
-      return produce(postsState, draft => {
-        draft[postIndex].promotion_enabled = promotionEnabled
-      })
+      draftState[postIndex].promotion_enabled = promotionEnabled
+      break
     case 'update-link':
-      return produce(postsState, draft => {
-        draft[postIndex].priority_dsp = postLink
-      })
+      draftState[postIndex].priority_dsp = postLink
+      break
     default:
-      return postsState
+      return draftState
   }
 }
 
@@ -71,7 +69,7 @@ const getPosts = async ({ artist, offset, limit }) => {
 function PostsLoader() {
   // DEFINE STATES
   const [pageLoading, setPageLoading] = React.useState(true)
-  const [posts, setPosts] = React.useReducer(postsReducer, postsInitialState)
+  const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [numberOfPosts, setNumberOfPosts] = React.useState(0)
   const [visiblePost, setVisiblePost] = React.useState(0)
   const [offset, setOffset] = React.useState(0)
