@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useAsyncEffect from 'use-async-effect'
+import { useAsync } from 'react-async'
 
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Feed from './elements/Feed'
 import Button from './elements/Button'
 import Spinner from './elements/Spinner'
 import Alert, { alertReducer, initialAlertState } from './elements/Alert'
@@ -27,26 +26,34 @@ const styles = {
 }
 
 
-function ResultsToggle({
+const setToggleState = ({ alertResponse, artistId, postId, promotion_enabled }) => {
+  if (!alertResponse) return
+  return server.togglePromotionEnabled(artistId, postId, !promotion_enabled)
+}
+
+
+const ResultsToggle = ({
   active,
   id,
   promotion_enabled,
   setPosts,
-}) {
-  // IMPORT ARTIST CONTEXT
-  const { artist } = React.useContext(ArtistContext)
-  // END IMPORT ARTIST CONTEXT
-
-  // DEFINE STATE
-  const [loading, setLoading] = React.useState(false)
-
-
+}) => {
+  // Import artist context
+  const { artistId } = React.useContext(ArtistContext)
   // Handle alert
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
-  const resetAlert = () => setAlert({ type: 'reset-alert' })
-  const acceptAlert = () => setAlert({ type: 'set-positive-response' })
+  const [alertResponse, setAlertResponse] = React.useState(false)
+  const resetAlert = () => {
+    setAlert({ type: 'reset-alert' })
+    setAlertResponse(false)
+  }
+  const acceptAlert = () => {
+    setAlert({ type: 'set-positive-response' })
+    setAlertResponse(true)
+  }
 
   const showAlert = () => {
+    const alertCopy = copy.resultToggleWarning(promotion_enabled)
     setAlert({
       type: 'show-alert',
       payload: {
@@ -55,36 +62,28 @@ function ResultsToggle({
     })
   }
 
-
-  const togglePromotion = async () => {
-    // return result
-    const result = await server.togglePromotionEnabled(artist.id, id, !promotion_enabled)
-    return result
-  }
-
-  // Update post promotion_enabled if there is a positive response from the alert
-  useAsyncEffect(async (isMounted) => {
-    if (!alert.response) return
-    if (!isMounted()) return
-    setLoading(true)
-    const post = await togglePromotion()
-      .catch(err => {
-        // TODO: PROPERLY HANDLE THIS ERROR
-        console.log(err)
-        if (!isMounted()) return
-        setLoading(false)
+  // Run this to fetch posts when the artist changes
+  const { isPending } = useAsync({
+    promiseFn: setToggleState,
+    watch: alertResponse,
+    // The variable(s) to pass to promiseFn
+    alertResponse,
+    artistId,
+    postId: id,
+    promotion_enabled,
+    // When promise resolves
+    onResolve: (post) => {
+      if (!post) return
+      setPosts({
+        type: 'set-promotion-enabled',
+        payload: {
+          type: active ? 'active' : 'archived',
+          id,
+          promotion_enabled: post.promotion_enabled,
+        },
       })
-    if (!isMounted()) return
-    setPosts({
-      type: 'set-promotion-enabled',
-      payload: {
-        type: active ? 'active' : 'archived',
-        id,
-        promotion_enabled: post.promotion_enabled,
-      },
-    })
-    setLoading(false)
-  }, [active, alert.response, id])
+    },
+  })
 
   if (!active) return null
 
@@ -106,7 +105,7 @@ function ResultsToggle({
         onClick={showAlert}
       >
         {
-              loading
+              isPending
                 ? <Spinner width={20} color={brandColors.white} />
                 : (
                   <Icon
