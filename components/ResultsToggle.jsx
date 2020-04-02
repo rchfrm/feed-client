@@ -15,6 +15,8 @@ import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import server from './helpers/server'
 // COPY
+import MarkdownText from './elements/MarkdownText'
+import copy from '../copy/ResultsPageCopy'
 // IMPORT STYLES
 import resultsStyles from './Results.module.css'
 import postStyles from './PostsPage.module.css'
@@ -24,28 +26,6 @@ const styles = {
   ...postStyles,
 }
 
-function DeactivateAdConfirmation({ promotion_enabled }) {
-  if (!promotion_enabled) {
-    return (
-      <div>
-        <h1>Are you sure?</h1>
-        <p>
-          Clicking 'Yes' below will mean
-          {' '}
-          <Feed />
-          {' '}
-          starts to promote the post again.
-        </p>
-      </div>
-    )
-  }
-  return (
-    <div>
-      <h1>Are you sure?</h1>
-      <p>Just to double check, are you sure you want this post to stop being promoted?</p>
-    </div>
-  )
-}
 
 function ResultsToggle({
   active,
@@ -70,7 +50,7 @@ function ResultsToggle({
     setAlert({
       type: 'show-alert',
       payload: {
-        contents: <DeactivateAdConfirmation promotion_enabled={promotion_enabled} />,
+        contents: <MarkdownText markdown={alertCopy} />,
       },
     })
   }

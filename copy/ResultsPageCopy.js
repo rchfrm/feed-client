@@ -10,4 +10,15 @@ export default {
   `,
 
   noResultsNoBudget: `### **Feed** hasn't started promoting your posts yet, get started by entering a daily budget [here](${ROUTES.POSTS}).`,
+
+  resultToggleWarning: (promotion_enabled) => {
+    if (promotion_enabled) {
+      return `# Are you sure?
+
+Clicking 'Yes' below will mean **Feed** starts to promote the post again.`
+    }
+    return `# Are you sure?
+    
+Just to double check, are you sure you want this post to stop being promoted?`
+  },
 }
