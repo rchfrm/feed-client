@@ -14,7 +14,7 @@ export const getErrorResponse = (error, artist) => {
 
   if (code === 'expired_access_token') {
     return {
-      message: copy[code],
+      message: copy[code](),
       action: 'fb_reauth',
       buttonText: 'Relink Facebook',
       hidden,
@@ -73,7 +73,7 @@ export const getErrorResponse = (error, artist) => {
 
   if (code === 'missing_field' && field === 'instagram_id') {
     return {
-      message: copy.no_instagram_business,
+      message: copy.no_instagram_business(),
       action: 'dismiss',
       buttonText: 'Ok',
       hidden: true,
@@ -81,7 +81,7 @@ export const getErrorResponse = (error, artist) => {
   }
   if (code === 'instagram_page_not_linked') {
     return {
-      message: copy[code],
+      message: copy[code](),
       action: 'link',
       buttonText: 'Link Instagram Account',
       href: 'https://www.facebook.com/business/help/898752960195806',
