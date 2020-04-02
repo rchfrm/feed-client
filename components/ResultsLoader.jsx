@@ -35,9 +35,6 @@ const postsReducer = (draftState, postsAction) => {
         draftState[type] = posts
       })
       break
-    case 'no-assets':
-      draftState[postType] = {}
-      break
     case 'set-promotion-enabled':
       draftState[postType][postId].promotion_enabled = promotion_enabled
       break
