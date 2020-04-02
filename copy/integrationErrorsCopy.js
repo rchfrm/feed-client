@@ -46,6 +46,8 @@ export default {
 
   ad_account_no_funding_source: (artist) => `There are no payment details on your ad account (with the ID ${artist.integrations.facebook.adaccount_id}). So that Feed can promote your posts, click ‘Add payment details’ below to add a card or another method of payment to your Facebook ad account.`,
 
+  no_instagram_business: `There is no Instagram business ID associated with this account`,
+
   instagram_page_not_linked: `Your Facebook page and Instagram account are not quite fully linked. It’s a quick fix, and you can [add your Instagram account to your Facebook page](https://www.facebook.com/business/help/898752960195806) in just a few minutes.`,
 
 }

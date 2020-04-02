@@ -3,7 +3,14 @@ import produce from 'immer'
 import copy from '../../copy/integrationErrorsCopy'
 
 export const getErrorResponse = (error, artist) => {
-  const { code, subcode, message: defaultMessage, hidden, context } = error
+  const {
+    code,
+    subcode, message:
+    defaultMessage,
+    hidden,
+    context,
+    field,
+  } = error
 
   if (code === 'expired_access_token') {
     return {
@@ -64,13 +71,12 @@ export const getErrorResponse = (error, artist) => {
     }
   }
 
-  if (code === 'instagram_id') {
+  if (code === 'missing_field' && field === 'instagram_id') {
     return {
-      message: copy.instagram_page_not_linked,
-      action: 'link',
-      buttonText: '‘Link Instagram Account',
-      href: 'https://www.facebook.com/business/help/898752960195806',
-      hidden,
+      message: copy.no_instagram_business,
+      action: 'dismiss',
+      buttonText: 'Ok',
+      hidden: true,
     }
   }
   if (code === 'instagram_page_not_linked') {
@@ -93,7 +99,7 @@ export const getErrorResponse = (error, artist) => {
 
 
 const handleInstaErrors = (errors) => {
-  const missingInstaBusinessIndex = errors.findIndex(({ code, subcode }) => code === 'instagram_id' && subcode === 'missing_field')
+  const missingInstaBusinessIndex = errors.findIndex(({ code, field }) => code === 'missing_field' && field === 'instagram_id')
   const missingInstaIdIndex = errors.findIndex(({ code }) => code === 'instagram_page_not_linked')
   // If no missing insta business, just hide no insta account error
   if (missingInstaIdIndex > -1 && missingInstaBusinessIndex === -1) {
