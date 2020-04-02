@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
+import { useAsync } from 'react-async'
 import isEmpty from 'lodash/isEmpty'
 import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
@@ -44,6 +45,18 @@ const postsReducer = (draftState, postsAction) => {
   }
 }
 
+// RUN THIS TO FETCH THE POSTS
+// ---------------------------
+const fetchAllPosts = async ({ artistId }) => {
+  if (!artistId) return
+  const postTypes = ['active', 'archived']
+  const getPostsPromise = postTypes.map(async (postType) => {
+    return server.getAssets(artistId, postType)
+  })
+  const [activePosts, archivedPosts] = await Promise.all(getPostsPromise)
+  return { activePosts, archivedPosts }
+}
+
 const getAssets = async (status, artistId, token) => {
   const promotionStatus = status === 'archive' ? 'archived' : status
   // return result
@@ -51,11 +64,11 @@ const getAssets = async (status, artistId, token) => {
   return assets
 }
 
-
+// THE COMPONENT
+// ------------------
 function ResultsLoader() {
-  // IMPORT CONTEXTS
+  // Artist context
   const { artist, artistLoading } = React.useContext(ArtistContext)
-  // END IMPORT CONTEXTS
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, initialPostsState)
   const [loading, setLoading] = React.useState(false)
@@ -64,6 +77,16 @@ function ResultsLoader() {
   const [, setError] = React.useState(null)
   // TODO : Display errors somewhere
 
+  // Run this to fetch posts when the artist changes
+  const { error, isPending } = useAsync({
+    promiseFn: fetchAllPosts,
+    watch: artist.id,
+    artistId: artist.id,
+    onResolve: ({ activePosts, archivedPosts }) => {
+      console.log('activePosts', activePosts)
+      console.log('archivedPosts', archivedPosts)
+    },
+  })
 
   const setPostsState = (assets, type) => {
     if (assets && assets.length) {
