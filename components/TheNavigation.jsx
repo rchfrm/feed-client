@@ -66,8 +66,6 @@ function NavigationAuth() {
   ]
 
   const handleChange = (e) => {
-    const { value: artist } = e.target
-    console.log('artist', artist)
     storeArtist(e.target.value)
       .then(() => {
         navDispatch({
