@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from './User'
@@ -11,51 +12,48 @@ import { UserContext } from './User'
 import helper from '../helpers/helper'
 import server from '../helpers/server'
 import artistHelpers from '../helpers/artistHelpers'
-// IMPORT STYLES
 
 const initialArtistState = {}
 const ArtistContext = React.createContext(initialArtistState)
 ArtistContext.displayName = 'ArtistContext'
 
-const artistReducer = (artistState, artistAction) => {
-  switch (artistAction.type) {
+
+const artistReducer = (draftState, action) => {
+  const {
+    type: actionType,
+    payload,
+  } = action
+
+  switch (actionType) {
     case 'no-artists': {
       return initialArtistState
     }
     case 'set-artist': {
-      return artistAction.payload.artist
+      return payload.artist
     }
     case 'set-budget': {
-      return {
-        ...artistState,
-        daily_budget: artistAction.payload.budget,
-      }
+      draftState.daily_budget = payload.budget
+      break
     }
     case 'set-new-url': {
-      return {
-        ...artistState,
-        [artistAction.payload.urlType]: artistAction.payload.url,
-        URLs: {
-          ...artistState.URLs,
-          [artistAction.payload.urlType]: artistAction.payload.url,
-        },
-      }
+      draftState[payload.urlType] = payload.url
+      draftState.URLs[payload.urlType] = payload.url
+      break
     }
     case 'set-priority-dsp': {
-      return {
-        ...artistState,
-        priority_dsp: artistAction.payload.priority_dsp,
-      }
+      draftState.priority_dsp = payload.priority_dsp
+      break
     }
     default:
-      throw new Error(`Unable to find ${artistAction.type} in artistReducer`)
+      throw new Error(`Unable to find ${action.type} in artistReducer`)
   }
 }
 
 function ArtistProvider({ children }) {
   const { storeUser } = React.useContext(UserContext)
 
-  const [artist, setArtist] = React.useReducer(artistReducer, initialArtistState)
+  const [artist, setArtist] = useImmerReducer(artistReducer, initialArtistState)
+  const [artistId, setArtistId] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
 
   const noArtist = React.useCallback(() => {
@@ -85,7 +83,7 @@ function ArtistProvider({ children }) {
       setArtistLoading(false)
       throw (err)
     }
-  }, [])
+  })
 
   const createArtist = async (artistAccounts, accessToken) => {
     setArtistLoading(true)
@@ -158,16 +156,22 @@ function ArtistProvider({ children }) {
     return savedUrl
   }
 
+  // Update artist ID when artist changes
+  React.useEffect(() => {
+    if (!artist || !artist.id) return
+    setArtistId(artist.id)
+  }, [artist])
+
   // Store artist id in local storage
   React.useEffect(() => {
-    if (artist.id) {
-      localStorage.setItem('artistId', artist.id)
-    }
-  }, [artist.id])
+    if (!artistId) return
+    localStorage.setItem('artistId', artist.id)
+  }, [artistId])
 
   const value = {
     addUrl,
     artist,
+    artistId,
     artistLoading,
     createArtist,
     noArtist,
