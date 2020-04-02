@@ -90,7 +90,6 @@ const RelinkFacebook = () => {
   - Belle Chen (PjUuyt5uJhTRIbv5T4D1)
   - London Sinfonietta (Y8uCfxBZkAVcpokW4S4b)
   - Marcus McCoan (4FwK6p6y9xhpxZSGW2fR)
-  - NEU Hoops (dSzNAx3SL1Jo6q6GdM8v)
   - Rob Godfrey (vpdEYAT65K8gVcIuLpvO)
   show instructions on relinking Facebook
   */
@@ -101,7 +100,6 @@ const RelinkFacebook = () => {
     || artist.id === 'PjUuyt5uJhTRIbv5T4D1'
     || artist.id === 'Y8uCfxBZkAVcpokW4S4b'
     || artist.id === '4FwK6p6y9xhpxZSGW2fR'
-    || artist.id === 'dSzNAx3SL1Jo6q6GdM8v'
     || artist.id === 'vpdEYAT65K8gVcIuLpvO'
   ) {
     return (
