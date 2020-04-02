@@ -22,7 +22,6 @@ import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
-import brandColors from '../constants/brandColors'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
@@ -219,7 +218,7 @@ function PostsLoader() {
 
   // RETURN
   if (artistLoading || pageLoading) {
-    return <Spinner width={50} color={brandColors.green} />
+    return <Spinner />
   }
   return (
     <div className={styles['posts-page']}>
