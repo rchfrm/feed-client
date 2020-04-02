@@ -85,6 +85,10 @@ function ResultsLoader() {
     onResolve: ({ activePosts, archivedPosts }) => {
       console.log('activePosts', activePosts)
       console.log('archivedPosts', archivedPosts)
+      const activePostsObj = helper.arrToObjById(activePosts)
+      const archivedPostsObj = helper.arrToObjById(archivedPosts)
+      console.log('activePostsObj', activePostsObj)
+      console.log('archivedPostsObj', archivedPostsObj)
     },
   })
 

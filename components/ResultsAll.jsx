@@ -1,29 +1,18 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Link from 'next/link'
-import useAsyncEffect from 'use-async-effect'
-import moment from 'moment'
 import produce from 'immer'
 // IMPORT COMPONENTS
+import ResultsSingle from './ResultsSingle'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import SquareImage from './elements/SquareImage'
 import Feed from './elements/Feed'
-import Button from './elements/Button'
-import Nothing from './elements/Nothing'
-import Spinner from './elements/Spinner'
-import Alert from './elements/Alert'
-import Icon from './elements/Icon'
-import MediaFallback from './elements/MediaFallback'
-// IMPORT PAGES
-// IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
-import server from './helpers/server'
 // COPY
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/ResultsPageCopy'
@@ -90,184 +79,6 @@ const calculateSummary = (ads, isActive) => {
   }
 }
 
-const Result = ({
-  thumbnail: thumbnailProp,
-  active,
-  attachments,
-  id,
-  priority_dsp,
-  promotion_enabled,
-  setPosts,
-  summary,
-}) => {
-  const { artist } = React.useContext(ArtistContext)
-  // STORE MEDIA COMPONENT AND COMPONENT IN STATE
-  const [media, setMedia] = React.useState(<MediaFallback />)
-  const [thumbnail, setThumbnail] = React.useState(thumbnailProp)
-  // END STORE MEDIA COMPONENT IN STATE
-
-  const handleError = () => {
-    setMedia(<MediaFallback />)
-  }
-
-  // DISPLAY CORRECT MEDIA
-  const renderMedia = React.useCallback(attachments => {
-    let mediaLink
-    // If there are attachments, find the relevant media file,
-    // and update the thumbnail if there isn't one already
-    if (attachments.length > 0) {
-      mediaLink = helper.findPostMedia(attachments[0])
-      if (!thumbnail) {
-        setThumbnail(helper.findPostThumbnail(attachments[0]))
-      }
-    }
-
-    // If there is no mediaLink, but there is a thumbnail, use that instead
-    if (!mediaLink && thumbnail) {
-      mediaLink = thumbnail
-    }
-
-    let message // TODO : Implement a way to dispay title and alt attributes
-    return helper.generateMediaHTML(mediaLink, thumbnail, message, handleError)
-  }, [thumbnail])
-  // END DISPLAY CORRECT MEDIA
-
-  React.useEffect(() => {
-    const component = renderMedia(attachments)
-    setMedia(component)
-  }, [attachments, renderMedia])
-
-  const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
-
-  const priorityPage = priority_dsp === 'facebook' ? `${priority_dsp}_page_url` : `${priority_dsp}_url`
-  const clicksStatement = (
-    <span>
-      {'clicks to '}
-      <a href={artist[priorityPage]} target="_blank" rel="noopener noreferrer">
-        {helper.capitalise(priority_dsp)}
-      </a>
-    </span>
-  )
-
-  return (
-    <li key={id} className={[styles.resultItem, styles[enabledClass]].join(' ')}>
-
-      <div className="flex-row">
-
-        <div className={styles['result-media']}>
-          <SquareImage
-            className={styles.img}
-            media={media}
-          />
-        </div>
-
-        <div className={styles['result-insights']}>
-          <Days days={summary.days} active={active} />
-          <Insight days={summary.days} number={summary.amountSpent} statement="spent," />
-          <Insight days={summary.days} number={summary.impressions} statement="people reached," />
-          <Insight days={summary.days} number={summary.engagement} statement="engagements," />
-          <Insight days={summary.days} number={summary.clicks} statement={clicksStatement} />
-        </div>
-
-        <div className={styles['result-toggle-saes']}>
-          <h2 className={styles.h2}>{summary.SAES}</h2>
-          <Toggle active={active} id={id} promotion_enabled={promotion_enabled} setPosts={setPosts} />
-        </div>
-
-      </div>
-
-    </li>
-  )
-}
-
-function Insight({ days: daysArray, statement, number }) {
-  const days = daysArray.length
-  const currency = statement === 'spent,' ? '£' : ''
-  const numberAbbr = helper.abbreviateNumber(number)
-  if (days === 0) {
-    return <Nothing />
-  }
-  return (
-    <div className={styles['result-insight']}>
-      <div className={styles['insight-number']} title={`${currency}${helper.formatNumber(number)}`}>
-        {currency + numberAbbr}
-      </div>
-      <div className={styles['insight-statement']}>
-        {statement}
-      </div>
-    </div>
-  )
-}
-
-function Days({ days, active }) {
-// REDEFINE PROPS AS VARIABLES
-  const sortedDates = helper.sortDatesChronologically(days)
-  // END REDEFINE PROPS AS VARIABLES
-
-  const firstDate = moment(sortedDates[0], 'YYYY-MM-DD').startOf('day')
-  const lastDate = moment(sortedDates[sortedDates.length - 1], 'YYYY-MM-DD').startOf('day')
-  const numberOfDays = lastDate.diff(firstDate, 'days') + 1
-
-  const phraseParts = (firstDate, lastDate) => {
-    const obj = {
-      a: undefined,
-      b: undefined,
-    }
-    if (moment(firstDate).isSame(lastDate, 'month')) {
-      obj.a = moment(firstDate).format('D')
-      obj.b = moment(lastDate).format('D MMM')
-    } else if (moment(firstDate).isSame(lastDate, 'year')) {
-      obj.a = moment(firstDate).format('D MMM')
-      obj.b = moment(lastDate).format('D MMM')
-    } else {
-      obj.a = moment(firstDate).format("D MMM 'YY")
-      obj.b = moment(lastDate).format("D MMM 'YY")
-    }
-
-    if (active) {
-      obj.a = moment(firstDate).format('D MMM')
-      obj.b = moment(lastDate).format('D MMM')
-    }
-
-    return {
-      a: <span className="strong">{obj.a}</span>,
-      b: <span className="strong">{obj.b}</span>,
-    }
-  }
-
-  if (!active) {
-    const phrase = phraseParts(firstDate, lastDate)
-    return (
-      <p>
-        From&nbsp;
-        {phrase.a}
-        {' '}
-        to&nbsp;
-        {phrase.b}
-        ...
-      </p>
-    )
-  }
-
-  if (numberOfDays > 1) {
-    const phrase = phraseParts(firstDate, moment())
-    return (
-      <p>
-        Since
-        {' '}
-        <span className="strong">{phrase.a}</span>
-        ...
-      </p>
-    )
-  } if (numberOfDays === 1) {
-    return (
-      <p>In the last day, there has been...</p>
-    )
-  }
-  return (
-    <p>This post has just begun to be promoted, results will appear soon.</p>
-  )
-}
 
 function NoActive() {
   const { artist } = React.useContext(ArtistContext)
@@ -301,7 +112,7 @@ function NoActive() {
   )
 }
 
-const initialAlertState = {
+export const initialAlertState = {
   contents: undefined,
   responseExpected: true,
   confirmationText: 'Yes.',
@@ -332,137 +143,9 @@ export const alertReducer = (alertState, alertAction) => {
   }
 }
 
-function Toggle(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { active } = props
-  const { id } = props
-  const { promotion_enabled } = props
-  const { setPosts } = props
-  // END REDEFINE PROPS AS VARIABLES
 
-  // IMPORT ARTIST CONTEXT
-  const { artist } = React.useContext(ArtistContext)
-  // END IMPORT ARTIST CONTEXT
-
-  // DEFINE STATE
-  const [loading, setLoading] = React.useState(false)
-  const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
-
-  // DEFINE ALERT REPONSES
-  const resetAlert = () => setAlert({ type: 'reset-alert' })
-  const acceptAlert = () => setAlert({ type: 'set-positive-response' })
-
-  const showAlert = () => {
-    setAlert({
-      type: 'show-alert',
-      payload: {
-        contents: <DeactivateAdConfirmation promotion_enabled={promotion_enabled} />,
-      },
-    })
-  }
-
-
-  const togglePromotion = async () => {
-    // return result
-    const result = await server.togglePromotionEnabled(artist.id, id, !promotion_enabled)
-    return result
-  }
-
-  // Update post promotion_enabled if there is a positive response from the alert
-  useAsyncEffect(async (isMounted) => {
-    if (!alert.response) return
-    if (!isMounted()) return
-    setLoading(true)
-    const post = await togglePromotion()
-      .catch(err => {
-        // TODO: PROPERLY HANDLE THIS ERROR
-        console.log(err)
-        if (!isMounted()) return
-        setLoading(false)
-      })
-    if (!isMounted()) return
-    setPosts({
-      type: 'set-promotion-enabled',
-      payload: {
-        type: active ? 'active' : 'archive',
-        id,
-        promotion_enabled: post.promotion_enabled,
-      },
-    })
-    setLoading(false)
-  }, [active, alert.response, id])
-
-  if (!active) {
-    return <Nothing />
-  }
-  return (
-    <div className={styles['result-toggle']}>
-
-      <Alert
-        contents={alert.contents}
-        confirmationText={alert.confirmationText}
-        rejectionText={alert.rejectionText}
-        responseExpected={alert.responseExpected}
-        resetAlert={resetAlert}
-        acceptAlert={acceptAlert}
-      />
-
-      <Button
-        className={styles.button}
-        version="cross"
-        onClick={showAlert}
-      >
-        {
-            loading
-              ? <Spinner width={20} color={brandColors.white} />
-              : (
-                <Icon
-                  className={styles.button}
-                  version={promotion_enabled ? 'cross' : 'tick'}
-                  color={promotion_enabled ? brandColors.red : brandColors.green}
-                  width="18"
-                />
-              )
-          }
-      </Button>
-
-    </div>
-  )
-}
-
-function DeactivateAdConfirmation(props) {
-  const { promotion_enabled } = props
-
-  if (!promotion_enabled) {
-    return (
-      <div>
-        <h1>Are you sure?</h1>
-        <p>
-          Clicking 'Yes' below will mean
-          {' '}
-          <Feed />
-          {' '}
-          starts to promote the post again.
-        </p>
-      </div>
-    )
-  }
-  return (
-    <div>
-      <h1>Are you sure?</h1>
-      <p>Just to double check, are you sure you want this post to stop being promoted?</p>
-    </div>
-  )
-}
-
-function DisabledResults(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { disabledResults } = props
-  // END REDEFINE PROPS AS VARIABLES
-
-  if (disabledResults.length === 0) {
-    return <Nothing />
-  }
+function DisabledResults({ disabledResults }) {
+  if (!disabledResults.length) return null
 
   return (
     <div
@@ -485,7 +168,7 @@ function ResultsAll({ posts: postsObject, active, setPosts }) {
 
   const getResultEl = (post, summary) => {
     return (
-      <Result
+      <ResultsSingle
         key={post.id}
         active={active}
         attachments={post.attachments}
@@ -523,22 +206,27 @@ function ResultsAll({ posts: postsObject, active, setPosts }) {
   }, [postsObject])
 
 
-  if (allResults.enabled.length === 0 && active) {
-    // If there are no active posts, return NoActive
+  // If there are no active posts, return NoActive
+  if (!allResults.enabled.length && active) {
     return <NoActive />
-  } if (allResults.enabled.length === 0 && !active) {
-    // If there are no archived posts, return Nothing
-    return <Nothing />
+  }
+
+  // If there are no archived posts, return Nothing
+  if (!allResults.enabled.length && !active) {
+    return null
   }
   return (
     <div style={{ width: '100%' }}>
 
+      {/* Show Active Posts intro copy */}
       {active && <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />}
 
       <div className="ninety-wide">
         <h2>{title}</h2>
       </div>
+
       <ul className={styles.results}>{allResults.enabled}</ul>
+
       <DisabledResults disabledResults={allResults.disabled} />
     </div>
   )
