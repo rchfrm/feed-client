@@ -126,13 +126,14 @@ export default {
 
   /**
    * @param {array} requestedPermissions optional array of scope requests
-   * @returns {Promise<string>}
+   * @returns {Promise<void>}
    */
   reauthFacebook: (requestedPermissions) => {
     const scopeRequests = requestedPermissions || scopeArray
     scopeRequests.forEach(scope => {
       provider.addScope(scope)
     })
+    provider.setCustomParameters({ auth_type: 'rerequest' })
     return auth.currentUser.reauthenticateWithRedirect(provider)
   },
 }
