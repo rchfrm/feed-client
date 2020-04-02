@@ -80,10 +80,12 @@ function Days({ days, active }) {
     const phrase = phraseParts(firstDate, lastDate)
     return (
       <p>
-        From&nbsp;
+        from
+        {' '}
         {phrase.a}
         {' '}
-        to&nbsp;
+        to
+        {' '}
         {phrase.b}
         ...
       </p>
@@ -149,12 +151,11 @@ const ResultsSingle = ({
     let message // TODO : Implement a way to dispay title and alt attributes
     return helper.generateMediaHTML(mediaLink, thumbnailMedia, message, handleError)
   }, [thumbnailMedia])
-  // END DISPLAY CORRECT MEDIA
 
   React.useEffect(() => {
     const component = renderMedia(attachments)
     setMedia(component)
-  }, [attachments, renderMedia])
+  }, [attachments])
 
   const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
 
@@ -167,6 +168,15 @@ const ResultsSingle = ({
       </a>
     </span>
   )
+
+  const {
+    days,
+    amountSpent,
+    impressions,
+    engagement,
+    clicks,
+    SAES,
+  } = summary
 
   return (
     <li key={id} className={[styles.resultItem, styles[enabledClass]].join(' ')}>
@@ -181,15 +191,15 @@ const ResultsSingle = ({
         </div>
 
         <div className={styles['result-insights']}>
-          <Days days={summary.days} active={active} />
-          <Insight days={summary.days} number={summary.amountSpent} statement="spent," />
-          <Insight days={summary.days} number={summary.impressions} statement="people reached," />
-          <Insight days={summary.days} number={summary.engagement} statement="engagements," />
-          <Insight days={summary.days} number={summary.clicks} statement={clicksStatement} />
+          <Days days={days} active={active} />
+          <Insight days={days} number={amountSpent} statement="spent," />
+          <Insight days={days} number={impressions} statement="people reached," />
+          <Insight days={days} number={engagement} statement="engagements," />
+          <Insight days={days} number={clicks} statement={clicksStatement} />
         </div>
 
         <div className={styles['result-toggle-saes']}>
-          <h2 className={styles.h2}>{summary.SAES}</h2>
+          <h2 className={styles.h2}>{SAES}</h2>
           <ResultsToggle
             active={active}
             id={id}

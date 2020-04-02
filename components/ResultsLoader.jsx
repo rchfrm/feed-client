@@ -72,12 +72,8 @@ function ResultsLoader() {
     artistId,
     // When promise resolves
     onResolve: ({ activePosts, archivedPosts }) => {
-      console.log('activePosts', activePosts)
-      console.log('archivedPosts', archivedPosts)
       const activePostsObj = activePosts.length ? helper.arrToObjById(activePosts) : {}
       const archivedPostsObj = archivedPosts.length ? helper.arrToObjById(archivedPosts) : {}
-      console.log('activePostsObj', activePostsObj)
-      console.log('archivedPostsObj', archivedPostsObj)
       setPosts({
         type: 'replace-assets',
         payload: {
