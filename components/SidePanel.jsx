@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { useTransition, animated } from 'react-spring'
 
 import Spinner from './elements/Spinner'
+import CloseCircle from './icons/CloseCircle'
 
 import styles from './SidePanel.module.css'
 
@@ -89,9 +90,13 @@ function SidePanel({
         <div className={styles.container__inner}>
           { content }
         </div>
-        {/* The close button */}
-        <button title="Back" className={styles.backButton} onClick={close}>
-          <span className={styles.span}>Back</span>
+        {/* Close button */}
+        <button
+          onClick={close}
+          className={['button--close', styles.backButton].join(' ')}
+          label="Back"
+        >
+          <CloseCircle />
         </button>
         {/* Optional side panel CTA */}
         {button && (

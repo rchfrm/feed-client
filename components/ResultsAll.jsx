@@ -347,7 +347,10 @@ function Toggle(props) {
   // DEFINE STATE
   const [loading, setLoading] = React.useState(false)
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
-  // END DEFINE STATE
+
+  // DEFINE ALERT REPONSES
+  const resetAlert = () => setAlert({ type: 'reset-alert' })
+  const acceptAlert = () => setAlert({ type: 'set-positive-response' })
 
   const showAlert = () => {
     setAlert({
@@ -396,11 +399,12 @@ function Toggle(props) {
     <div className={styles['result-toggle']}>
 
       <Alert
-        confirmationText={alert.confirmationText}
         contents={alert.contents}
+        confirmationText={alert.confirmationText}
         rejectionText={alert.rejectionText}
         responseExpected={alert.responseExpected}
-        setAlert={setAlert}
+        resetAlert={resetAlert}
+        acceptAlert={acceptAlert}
       />
 
       <Button

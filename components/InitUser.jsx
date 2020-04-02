@@ -86,8 +86,9 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
     // Check if the user is on an auth only page,
     // if they are push to log in page
     const { pathname } = router
-    if (pathname !== ROUTES.LOGIN || pathname !== ROUTES.SIGN_UP) {
+    if (pathname !== ROUTES.LOGIN && pathname !== ROUTES.SIGN_UP) {
       Router.push(ROUTES.LOGIN)
+      return true
     }
 
     // Reset all contexts

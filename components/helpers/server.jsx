@@ -264,6 +264,18 @@ export default {
     return response
   },
 
+
+  /**
+   * @param {string} artistId
+   * @param {string} postId
+   * @param {string} link
+   * @param {string} [verifyIdToken]
+   * @returns {Promise<any>}
+   */
+  getIntegrationErrors: async (artistId) => {
+    return api.get(`/artists/${artistId}/integrations/errors`)
+  },
+
   catchAxiosError: (error) => {
     if (error.response) {
       /*

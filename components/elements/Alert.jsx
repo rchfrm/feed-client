@@ -1,90 +1,98 @@
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-import Button from './Button'
-import Nothing from './Nothing'
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
+import PropTypes from 'prop-types'
 
-function Alert({ contents, responseExpected, confirmationText, rejectionText, setAlert }) {
+import CloseCircle from '../icons/CloseCircle'
+import AlertButtons from './AlertButtons'
+
+const ButtonEls = ({
+  responseExpected,
+  confirmationText,
+  rejectionText,
+  acceptAlert,
+  resetAlert,
+}) => {
+  return (
+    <AlertButtons
+      responseExpected={responseExpected}
+      confirmationText={confirmationText}
+      rejectionText={rejectionText}
+      acceptAlert={acceptAlert}
+      resetAlert={resetAlert}
+    />
+  )
+}
+
+function Alert(props) {
+  // Extract props
+  const {
+    contents,
+    buttons,
+    resetAlert,
+  } = props
+
   // If there are no contents, display nothing
   if (!contents) {
-    return <Nothing />
+    return null
   }
 
-  // FUNCTIONS
-  const resetAlert = e => {
-    e.preventDefault()
-    setAlert({ type: 'reset-alert' })
-  }
-
-  const positiveResponse = e => {
-    e.preventDefault()
-    setAlert({ type: 'set-positive-response' })
-  }
-  // END FUNCTIONS
+  const buttonEls = buttons || <ButtonEls {...props} />
 
   return (
-    <div className="alert-container">
-      <div className="alert">
+    <div className="alert--container">
 
-        <div className="alert-contents">
+      <button
+        className="alert--bg"
+        label="Close alert"
+        onClick={resetAlert}
+      />
+
+      <div className="alert--inner">
+
+        {/* Close button */}
+        <button
+          onClick={resetAlert}
+          className="alert_close--button  button--close"
+          label="Close"
+        >
+          <CloseCircle />
+        </button>
+
+        <div className="alert--contents">
           {contents}
         </div>
 
-        <AlertButtons
-          confirmationText={confirmationText}
-          positiveResponse={positiveResponse}
-          rejectionText={rejectionText}
-          resetAlert={resetAlert}
-          responseExpected={responseExpected}
-        />
+        <div className="alert--buttons">
+          {buttonEls}
+        </div>
 
       </div>
     </div>
   )
 }
 
-export default Alert
-
-const AlertButtons = ({
-  responseExpected,
-  confirmationText = 'Ok',
-  rejectionText = 'Cancel',
-  resetAlert,
-  positiveResponse,
-}) => {
-  if (responseExpected) {
-    return (
-      <div className="alert-buttons">
-        <Button
-          version="black"
-          onClick={resetAlert}
-          width={31.48}
-        >
-          {rejectionText}
-        </Button>
-        <Button
-          version="black"
-          onClick={positiveResponse}
-          width={31.48}
-        >
-          {confirmationText}
-        </Button>
-      </div>
-    )
-  }
-  return (
-    <Button
-      version="black"
-      onClick={resetAlert}
-      width={31.48}
-    >
-      {confirmationText}
-    </Button>
-  )
+Alert.propTypes = {
+  contents: PropTypes.node,
+  buttons: PropTypes.node,
+  // Function, required if content
+  resetAlert(props, propName, componentName) {
+    if ((props.contents && (props[propName] === undefined || typeof (props[propName]) !== 'function'))) {
+      return new Error(`Please provide a ${propName} function to the ${componentName} component!`)
+    }
+  },
+  // Function, required if content
+  acceptAlert(props, propName, componentName) {
+    if ((props.contents && props.button && (props[propName] === undefined || typeof (props[propName]) !== 'function'))) {
+      return new Error(`Please provide a ${propName} function to the ${componentName} component!`)
+    }
+  },
 }
+
+Alert.defaultProps = {
+  contents: null,
+  buttons: null,
+  resetAlert: null,
+  acceptAlert: null,
+}
+
+export default Alert
