@@ -10,9 +10,7 @@ import Input from './elements/Input'
 import Button from './elements/Button'
 import Feed from './elements/Feed'
 import Error from './elements/Error'
-import Alert from './elements/Alert'
-// IMPORT PAGES
-import { alertReducer } from './ResultsAll'
+import Alert, { alertReducer } from './elements/Alert'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
@@ -27,10 +25,6 @@ import brandColors from '../constants/brandColors'
 
 const initialAlertState = {
   contents: undefined,
-  // responseExpected: true,
-  // confirmationText: "Yes.",
-  // rejectionText: "No.",
-  // response: false,
 }
 
 function PostsBudget({ currency }) {

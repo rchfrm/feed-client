@@ -8,9 +8,8 @@ import { ArtistContext } from './contexts/Artist'
 import Feed from './elements/Feed'
 import Button from './elements/Button'
 import Spinner from './elements/Spinner'
-import Alert from './elements/Alert'
+import Alert, { alertReducer, initialAlertState } from './elements/Alert'
 import Icon from './elements/Icon'
-import { alertReducer, initialAlertState } from './ResultsAll'
 // IMPORT CONSTANTS
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
