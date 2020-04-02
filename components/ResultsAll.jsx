@@ -184,7 +184,7 @@ function ResultsAll({ posts: postsObject, active, setPosts }) {
     return null
   }
   return (
-    <div style={{ width: '100%' }}>
+    <div>
 
       {/* Show Active Posts intro copy */}
       {active && <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />}

@@ -112,7 +112,7 @@ function ResultsLoader() {
 
   // Otherwise, show Results components
   return (
-    <div style={{ width: '100%' }}>
+    <div>
       {/* Active posts */}
       <ResultsAll active posts={posts.active} setPosts={setPosts} />
       {/* Archived posts */}
