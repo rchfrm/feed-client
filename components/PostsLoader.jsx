@@ -48,12 +48,20 @@ const postsReducer = (draftState, postsAction) => {
   }
 }
 
+
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-const fetchPosts = async ({ artistId, offset, limit, totalArtistPosts }) => {
+const fetchPosts = async ({ artistId, offset, limit, isEndOfAssets, afterCursor }) => {
   if (!artistId) return
   // Stop here if at end of posts
-  if (offset.current >= totalArtistPosts) return
-  const posts = await server.getUnpromotedPosts(offset.current, limit, artistId)
+  if (isEndOfAssets.current) return
+  console.log('afterCursor', afterCursor)
+  // Get posts
+  let posts
+  if (afterCursor) {
+    posts = await server.getUnpromotedPostsAfter(afterCursor.href)
+  } else {
+    posts = await server.getUnpromotedPosts(offset.current, limit, artistId)
+  }
   // Sort the returned posts chronologically, latest first
   return helper.sortAssetsChronologically(Object.values(posts))
 }
@@ -65,16 +73,15 @@ function PostsLoader() {
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
   const offset = React.useRef(0)
+  const [afterCursor, setAfterCursor] = React.useState(null)
   const [initialLoad, setInitialLoad] = React.useState(true)
   const [loadingMore, setLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const isEndOfAssets = React.useRef(false)
   const postsPerPage = 10
 
   // Import artist context
-  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
-
-  // For counting how many posts an artist has
-  const [totalArtistPosts, setTotalArtistPosts] = React.useState(Infinity)
+  const { artistId, artistLoading } = React.useContext(ArtistContext)
 
   // When changing artist...
   React.useEffect(() => {
@@ -83,11 +90,8 @@ function PostsLoader() {
     setInitialLoad(true)
     // Reset offset
     offset.current = 0
-    // Update total artist posts
-    if (artist._embedded && artist._embedded.assets) {
-      const allPosts = artist._embedded.assets
-      setTotalArtistPosts(allPosts.length)
-    }
+    // Update end of assets state
+    isEndOfAssets.current = false
   }, [artistId])
 
   // Run this to fetch posts when the artist changes
@@ -104,16 +108,28 @@ function PostsLoader() {
     artistId,
     offset,
     limit: postsPerPage,
-    totalArtistPosts,
+    isEndOfAssets,
     loadingMore,
+    afterCursor,
     // When fetch finishes
     onResolve: (posts) => {
       if (!posts) return
+      if (!posts.length) {
+        isEndOfAssets.current = true
+        return
+      }
       // Update offset
       offset.current += posts.length
       // If loading extra posts
       if (loadingMore) {
+        // Stop loading
         setLoadingMore(false)
+        // Update afterCursor
+        const lastPost = posts[posts.length - 1]
+        if (lastPost._links.after) {
+          setAfterCursor(posts[posts.length - 1]._links.after)
+        }
+        // Update posts
         setPosts({
           type: 'add-posts',
           payload: {
