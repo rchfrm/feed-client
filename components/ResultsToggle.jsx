@@ -99,7 +99,7 @@ function ResultsToggle({
     setPosts({
       type: 'set-promotion-enabled',
       payload: {
-        type: active ? 'active' : 'archive',
+        type: active ? 'active' : 'archived',
         id,
         promotion_enabled: post.promotion_enabled,
       },

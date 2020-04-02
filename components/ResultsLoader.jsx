@@ -16,7 +16,7 @@ import server from './helpers/server'
 
 const initialPostsState = {
   active: {},
-  archive: {},
+  archived: {},
 }
 
 const postsReducer = (draftState, postsAction) => {
@@ -84,7 +84,7 @@ function ResultsLoader() {
           newPosts: [
             {
               type: 'active',
-              posts: archivedPostsObj,
+              posts: activePostsObj,
             },
             {
               type: 'archived',
@@ -104,9 +104,11 @@ function ResultsLoader() {
 
   // If the active and archived endpoints have been called,
   // but there are no posts, show NoResults
-  if (!Object.keys(posts.active).length && !Object.keys(posts.archive).length) {
+  if (!Object.keys(posts.active).length && !Object.keys(posts.archived).length) {
     return <ResultsNoResults dailyBudget={artist.daily_budget} />
   }
+
+  console.log('posts', posts)
 
   // Otherwise, show Results components
   return (
@@ -114,7 +116,7 @@ function ResultsLoader() {
       {/* Active posts */}
       <ResultsAll active posts={posts.active} setPosts={setPosts} />
       {/* Archived posts */}
-      <ResultsAll active={false} posts={posts.archive} setPosts={setPosts} />
+      <ResultsAll active={false} posts={posts.archived} setPosts={setPosts} />
     </div>
   )
 }
