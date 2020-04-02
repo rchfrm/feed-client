@@ -491,6 +491,13 @@ export default {
     return phrase
   },
 
+
+  getLinkType: (href) => {
+    if (href.startsWith('/')) return 'internal'
+    if (href.startsWith('mailto:')) return 'email'
+    return 'external'
+  },
+
   /**
    * @param {string} url To pass, url must include a protocol (ie, https?://)
    * @returns {boolean}

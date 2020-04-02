@@ -8,6 +8,7 @@ import { NavigationContext } from './contexts/Navigation'
 import { UserProvider } from './contexts/User'
 import { ArtistProvider } from './contexts/Artist'
 // IMPORT ELEMENTS
+import IntegrationErrorHandler from './IntegrationErrorHandler'
 import TheNavigation from './TheNavigation'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -23,6 +24,7 @@ function Main({ children }) {
           <TheNavigation />
           <InitUser>
             {children}
+            <IntegrationErrorHandler />
           </InitUser>
         </ArtistProvider>
       </UserProvider>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import brandColors from '../../constants/brandColors'
 
+import Button from './Button'
 import FacebookIcon from '../icons/FacebookIcon'
 
 const ButtonFacebook = ({
@@ -11,26 +12,24 @@ const ButtonFacebook = ({
   className,
   onClick,
   children,
+  version,
 }) => {
   const width = typeof widthProp === 'string' ? widthProp : ''
-  const widthPercentage = typeof widthProp === 'number' ? widthProp : ''
-  const classes = ['button', 'button--facebook', width, className]
 
   return (
-    <button
-      className={classes.join(' ')}
+    <Button
+      className={className}
       onClick={onClick}
-      style={{
-        width: `${widthPercentage}%`,
-        marginBottom,
-      }}
+      width={width}
+      marginBottom={marginBottom}
+      version={['facebook', version].join(' ')}
     >
       <FacebookIcon
         fill={brandColors.white}
         width="20"
       />
       {children}
-    </button>
+    </Button>
   )
 }
 
@@ -43,6 +42,7 @@ ButtonFacebook.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
   children: PropTypes.node.isRequired,
+  version: PropTypes.string,
 }
 
 ButtonFacebook.defaultProps = {
@@ -50,6 +50,7 @@ ButtonFacebook.defaultProps = {
   marginBottom: '',
   onClick: () => {},
   className: '',
+  version: '',
 }
 
 

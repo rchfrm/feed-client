@@ -1,45 +1,63 @@
 /* Alert
 ******************/
-.alert-container {
+.alert--container {
   display: flex;
   position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  background-color: RGBa(0,0,0,0.7);
   justify-content: space-around;
   align-items: center;
   z-index: 10;
 }
 
-.alert {
+.alert--bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: color-mod(var(--black) alpha(0.7));
+}
+
+.alert--inner {
+  position: relative;
+  z-index: 2;
   background-color: var(--bg-color);
   width: 90%;
-  padding: 5%;
+  max-width: 720px;
+  padding: calc(1.5 * var(--bsu-lg));
   border: 2px solid var(--text-color);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   box-sizing: border-box;
   border-radius: var(--dialogue-radius);
+
+  h1 {
+    padding-bottom: 1em;
+  }
+
+  p {
+    padding-bottom: 1em;
+  }
 }
 
-.alert h1 {
-  padding-bottom: 1em;
+.alert_close--button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-.alert p {
-  padding-bottom: 1em;
-}
-
-.alert-buttons {
+.alert--buttons {
   display: flex;
   justify-content: space-between;
+  flex-direction: row-reverse;
   width: 100%;
 }
 
-.alert-contents {
+.alert--contents {
   width: 100%;
   padding-bottom: 1em;
   color: var(--black);

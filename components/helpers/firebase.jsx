@@ -59,8 +59,9 @@ export default {
     return auth.signInWithRedirect(provider)
   },
 
-  linkFacebookAccount: () => {
-    scopeArray.forEach(scope => {
+  linkFacebookAccount: (requestedPermissions) => {
+    const scopeRequests = requestedPermissions || scopeArray
+    scopeRequests.forEach(scope => {
       provider.addScope(scope)
     })
     return auth.currentUser.linkWithRedirect(provider)
@@ -123,11 +124,16 @@ export default {
     return auth.currentUser.delete()
   },
 
-  reauthoriseFacebook: () => {
-    scopeArray.forEach(scope => {
+  /**
+   * @param {array} requestedPermissions optional array of scope requests
+   * @returns {Promise<void>}
+   */
+  reauthFacebook: (requestedPermissions) => {
+    const scopeRequests = requestedPermissions || scopeArray
+    scopeRequests.forEach(scope => {
       provider.addScope(scope)
     })
     provider.setCustomParameters({ auth_type: 'rerequest' })
-    return this.auth.currentUser.linkWithRedirect(provider)
+    return auth.currentUser.reauthenticateWithRedirect(provider)
   },
 }
