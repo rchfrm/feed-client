@@ -216,6 +216,11 @@ function PostsLoader() {
     })
   }
 
+  // // GO HOME
+  // const returnHome = e => {
+  //   Router.push(ROUTES.HOME)
+  //   e.preventDefault()
+  // }
   // RETURN
   if (artistLoading || pageLoading) {
     return <Spinner />
@@ -238,7 +243,7 @@ function PostsLoader() {
         currency="£"
       />
 
-      <div
+      {/* <div
         className="ninety-wide"
         style={{
           display: 'flex',
@@ -251,7 +256,7 @@ function PostsLoader() {
         >
           Done
         </Button>
-      </div>
+      </div> */}
 
     </div>
   )
