@@ -14,11 +14,11 @@ export default {
   resultToggleWarning: (promotion_enabled) => {
     if (promotion_enabled) {
       return `# Are you sure?
-
-Clicking 'Yes' below will mean **Feed** starts to promote the post again.`
-    }
-    return `# Are you sure?
     
 Just to double check, are you sure you want this post to stop being promoted?`
+    }
+    return `# Are you sure?
+
+Clicking 'Yes' below will mean **Feed** starts to promote the post again.`
   },
 }
