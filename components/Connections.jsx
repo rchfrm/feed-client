@@ -310,6 +310,7 @@ function ConfirmPriorityDSPChange({ platform }) {
       <h1>Are you sure?</h1>
       <p>
         Clicking 'Yes' will change the default link in your promoted posts to your
+        {' '}
         {helper.capitalise(platform)}
         {' '}
         page.
