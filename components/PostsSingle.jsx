@@ -1,21 +1,18 @@
 // IMPORT PACKAGES
 import React from 'react'
-import moment from 'moment'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import ButtonToggle from './elements/ButtonToggle'
-import Icon from './elements/Icon'
 import SquareImage from './elements/SquareImage'
 import Error from './elements/Error'
 // IMPORT PAGES
+import PostToggle from './PostToggle'
 import PostLinkAddUrl from './PostLinkAddUrl'
 import PostLinkOptions from './PostLinkOptions'
 import PostInsight from './PostInsight'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import dataSourceDetails from '../constants/dataSources'
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
@@ -23,55 +20,6 @@ import MediaFallback from './elements/MediaFallback'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
-
-function PermalinkAndToggle({
-  post,
-  togglePromotion,
-}) {
-  // Alter appearance based on promotion status
-  const { promotion_enabled } = post
-  const appearance = {
-    platformIconColor: promotion_enabled ? dataSourceDetails[post.platform].color : brandColors.grey,
-    toggleIcon: promotion_enabled ? 'tick' : 'empty',
-    toggleIconColor: promotion_enabled ? brandColors.white : brandColors.grey,
-  }
-
-  return (
-    <div
-      className={styles.permalinkAndToggle}
-      style={{ padding: '1.5em' }}
-    >
-
-      {/* Display platform icon, publish date and time, linking to post permalink */}
-      <div className={styles['post-meta']}>
-
-        <Icon
-          version={post.platform}
-          color={appearance.platformIconColor}
-          width="20"
-        />
-        <a
-          className={styles.a}
-          href={post.permalink_url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {moment(post.published_time).format('D MMM YYYY [at] HH[:]mm')}
-        </a>
-
-      </div>
-
-      {/* Display toggle option for posts */}
-      <div className={styles['post-toggle']}>
-        <ButtonToggle
-          onClick={() => togglePromotion(post.id)}
-          state={promotion_enabled ? 'on' : 'off'}
-        />
-      </div>
-
-    </div>
-  )
-}
 
 function PostMessage({
   message,
@@ -183,7 +131,7 @@ function PostSingle({
       style={{ padding: 0 }}
     >
 
-      <PermalinkAndToggle post={post} togglePromotion={togglePromotion} />
+      <PostToggle post={post} togglePromotion={togglePromotion} />
 
       {/* Media */}
       <div style={{ flex: 'auto' }}>
