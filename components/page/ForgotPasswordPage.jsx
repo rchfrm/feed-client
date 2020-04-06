@@ -5,10 +5,10 @@ import React from 'react'
 import { NavigationContext } from '../contexts/Navigation'
 // IMPORT ELEMENTS
 import PageHeader from '../PageHeader'
-import Form from '../elements/Form'
 import Input from '../elements/Input'
 import Button from '../elements/Button'
 import Error from '../elements/Error'
+import Success from '../elements/Success'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -28,7 +28,7 @@ function ForgotPasswordPage() {
 
   const [email, setEmail] = React.useState('')
   const [success, setSuccess] = React.useState('')
-  const [error, setError] = React.useState('')
+  const [error, setError] = React.useState(null)
 
   const isInvalid = email === ''
 
@@ -58,9 +58,10 @@ function ForgotPasswordPage() {
 }
 
 function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, error, isInvalid }) {
+  const [loading, setLoading] = React.useState(false)
   const handleChange = e => {
     setSuccess('')
-    setError('')
+    setError(null)
     switch (e.target.name) {
       case 'email':
         setEmail(e.target.value)
@@ -70,48 +71,55 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
     }
   }
 
-  const onSumbit = async e => {
+  const onFormSubmit = async (e) => {
     e.preventDefault()
-    try {
-      await firebase.doPasswordReset(email)
-      setSuccess('Please check your email to finish resetting your password.')
-      setEmail('')
-    } catch (err) {
-      setError(err)
-    }
+    await firebase.doPasswordReset(email)
+      .catch((err) => {
+        setError(err)
+        setLoading(false)
+      })
+    setSuccess(`Thanks! Instructions for resetting your password have been sent to ${email}`)
+    setEmail('')
+    setLoading(false)
   }
 
   return (
-    <div className="fill-height">
+    <div className={styles.formContainer}>
 
-      <form
-        onSumbit={onSumbit}
-        className={styles.form}
-      >
+      {success ? (
+        <Success className={styles.successMessage} message={success} />
+      )
+        : (
+          <form
+            onSubmit={onFormSubmit}
+            className={styles.form}
+          >
 
-        <Input
-          className={styles.input}
-          name="email"
-          label="Email Address"
-          value={email}
-          handleChange={handleChange}
-          version="box"
-          width={100}
-        />
+            <Input
+              className={styles.input}
+              name="email"
+              label="Email Address"
+              value={email}
+              handleChange={handleChange}
+              version="box"
+              type="email"
+              width={100}
+            />
 
-        <Button
-          className={styles.button}
-          disabled={isInvalid}
-          version="black"
-          type="input"
-        >
-          reset.
-        </Button>
+            <Button
+              className={styles.button}
+              disabled={isInvalid}
+              version="black"
+              type="input"
+              loading={loading}
+            >
+              reset.
+            </Button>
 
-        <Error error={error} success={success} />
+            <Error error={error} />
 
-      </form>
-
+          </form>
+        )}
     </div>
   )
 }
