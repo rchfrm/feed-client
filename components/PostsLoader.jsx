@@ -54,8 +54,11 @@ const postsReducer = (draftState, postsAction) => {
 }
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-const fetchPosts = async ({ artistId, offset, limit }) => {
-  const posts = await server.getUnpromotedPosts(offset, limit, artistId)
+const fetchPosts = async ({ artistId, offset, limit, totalArtistPosts }) => {
+  if (!artistId) return
+  // Stop here if at end of posts
+  if (offset.current >= totalArtistPosts) return
+  const posts = await server.getUnpromotedPosts(offset.current, limit, artistId)
   // Sort the returned posts chronologically, latest first
   return helper.sortAssetsChronologically(Object.values(posts))
 }
@@ -64,7 +67,7 @@ function PostsLoader() {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
-  const [offset, setOffset] = React.useState(0)
+  const offset = React.useRef(0)
   // const [loadMore, setLoadMore] = React.useState(false)
   const [initialLoad, setInitialLoad] = React.useState(true)
   const [loadingMore, setLoadingMore] = React.useState(false)
@@ -76,7 +79,7 @@ function PostsLoader() {
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
 
   // For counting how many posts an artist has
-  const [totalArtistPosts, setTotalArtistPosts] = React.useState(0)
+  const [totalArtistPosts, setTotalArtistPosts] = React.useState(Infinity)
 
   // When changing artist...
   React.useEffect(() => {
@@ -84,12 +87,11 @@ function PostsLoader() {
     // Reset initial load
     setInitialLoad(true)
     // Reset offset
-    setOffset(0)
+    offset.current = 0
     // Update total artist posts
     if (artist._embedded && artist._embedded.assets) {
       const allPosts = artist._embedded.assets
       setTotalArtistPosts(allPosts.length)
-      console.log('total posts', allPosts.length)
     }
   }, [artistId])
 
@@ -100,6 +102,8 @@ function PostsLoader() {
     watchFn: (newProps, oldProps) => {
       const { artistId: newArtistId, loadingMore } = newProps
       const { artistId: oldArtistId, loadingMore: alreadyLoadingMore } = oldProps
+      // console.log('newArtistId', newArtistId)
+      // console.log('oldArtistId', oldArtistId)
       if (loadingMore && !alreadyLoadingMore) return true
       if (newArtistId !== oldArtistId) return true
       return false
@@ -108,17 +112,12 @@ function PostsLoader() {
     artistId,
     offset,
     limit: postsPerPage,
+    totalArtistPosts,
     loadingMore,
     // When fetch finishes
-    onResolve: (posts) => {
-      // Stop here if no posts
-      if (!posts) return
-      // Stop here if at end of posts
-      if (offset >= totalArtistPosts) return
-      // Define initial load
-      setInitialLoad(false)
+    onResolve: (posts = []) => {
       // Update offset
-      setOffset(offset + posts.length)
+      offset.current += posts.length
       // If loading extra posts
       if (loadingMore) {
         setLoadingMore(false)
@@ -137,6 +136,8 @@ function PostsLoader() {
           newPosts: posts,
         },
       })
+      // Define initial load
+      setInitialLoad(false)
     },
     // Handle errors
     onReject(error) {

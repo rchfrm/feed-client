@@ -24,6 +24,14 @@ const resetScroll = () => {
   scroller.scrollLeft = 0
 }
 
+const getPostsWithLoader = (posts, loadAtIndex) => {
+  if (!posts.length || posts.length < loadAtIndex) return posts
+  return produce(posts, draft => {
+    const insertLoaderAt = posts.length - loadAtIndex + 1
+    draft.splice(insertLoaderAt, 0, 'loader')
+  })
+}
+
 // Render list of posts and track the one that's currently visible
 function PostsAll({
   posts,
@@ -37,14 +45,7 @@ function PostsAll({
 
   // Add load trigger el at 5th from end
   const loadAtIndex = 5
-  const postsWithLoader = React.useMemo(() => {
-    if (!posts.length || posts.length < loadAtIndex) return posts
-    return produce(posts, draft => {
-      const insertLoaderAt = posts.length - loadAtIndex + 1
-      draft.splice(insertLoaderAt, 0, 'loader')
-    })
-  }, [posts.length])
-
+  const postsWithLoader = getPostsWithLoader(posts, loadAtIndex)
   // Create ref for intersection root
   const intersectionRoot = React.useRef(null)
   // Create ref for watching intersection
