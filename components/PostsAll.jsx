@@ -1,12 +1,8 @@
 // IMPORT PACKAGES
 import React from 'react'
 import produce from 'immer'
-import debounce from 'lodash/debounce'
 // IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
 import PageHeader from './PageHeader'
-import LastItem from './elements/LastItem'
 // IMPORT PAGES
 import PostsSingle from './PostsSingle'
 import PostsNone from './PostsNone'
