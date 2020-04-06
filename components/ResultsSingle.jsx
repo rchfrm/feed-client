@@ -195,7 +195,7 @@ const ResultsSingle = ({
           <Insight days={days} number={amountSpent} statement="spent," />
           <Insight days={days} number={impressions} statement="people reached," />
           <Insight days={days} number={engagement} statement="engagements," />
-          <Insight days={days} number={clicks} statement={clicksStatement} />
+          <Insight days={days} number={clicks} statement="clicks." />
         </div>
 
         <div className={styles['result-toggle-saes']}>
