@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Spinner from './Spinner'
+
 const Button = ({
   version,
   width: widthProp,
@@ -10,6 +12,7 @@ const Button = ({
   disabled,
   type,
   success,
+  loading,
   className,
   onClick,
   children,
@@ -39,7 +42,7 @@ const Button = ({
         backgroundColor: bgColor,
       }}
     >
-      {children}
+      {loading ? <Spinner className="button--spinner" /> : children}
     </button>
   )
 }
@@ -55,6 +58,7 @@ Button.propTypes = {
   bgColor: PropTypes.string,
   disabled: PropTypes.bool,
   type: PropTypes.string,
+  loading: PropTypes.bool,
   success: PropTypes.bool,
   className: PropTypes.string,
   onClick: PropTypes.func,
@@ -69,6 +73,7 @@ Button.defaultProps = {
   bgColor: '',
   disabled: false,
   type: 'button',
+  loading: false,
   success: false,
   className: '',
   onClick: () => {},

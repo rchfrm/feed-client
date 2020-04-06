@@ -28,10 +28,21 @@ button {
   &:focus {
     outline: none;
   }
+
+  /* The spinner in a button */
+  .button--spinner {
+    height: var(--bsu);
+    width: auto;
+    svg {
+      height: 100%;
+      width: auto;
+    }
+  }
 }
 
 .button--black,
-.button--green {
+.button--green,
+.button--success {
   background-color: var(--black);
   color: var(--white);
   padding: 1.5em;
@@ -50,15 +61,17 @@ button {
   justify-content: center;
 }
 
-.button--green {
-  font-weight: bold;
-  background-color: var(--green);
-  color: var(--white);
-}
-
+.button--green,
 .button--success {
+  font-weight: bold;
   background-color: var(--success-color);
   color: var(--white);
+
+  &:disabled,
+  &[disabled] {
+    background-color: var(--success-color);
+    color: var(--white);
+  }
 }
 
 .button--small {
@@ -185,4 +198,3 @@ button {
   text-decoration: underline;
   cursor: pointer;
 }
-
