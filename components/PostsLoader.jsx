@@ -70,12 +70,10 @@ function PostsLoader() {
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
   const offset = React.useRef(0)
-  // const [loadMore, setLoadMore] = React.useState(false)
   const [initialLoad, setInitialLoad] = React.useState(true)
   const [loadingMore, setLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
   const postsPerPage = 10
-  // END DEFINE STATES
 
   // Import artist context
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
@@ -100,7 +98,6 @@ function PostsLoader() {
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({
     promiseFn: fetchPosts,
-    // watch: artistId,
     watchFn: (newProps, oldProps) => {
       const { artistId: newArtistId, loadingMore } = newProps
       const { artistId: oldArtistId, loadingMore: alreadyLoadingMore } = oldProps
