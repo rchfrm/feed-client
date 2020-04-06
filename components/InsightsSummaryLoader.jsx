@@ -149,7 +149,7 @@ function Summary(props) {
     return <Nothing />
   }
   return (
-    <div className="ninety-wide  h3--text">
+    <div className="ninety-wide  h4--text">
       <p>
         In the last 7 days, you've
         {' '}
