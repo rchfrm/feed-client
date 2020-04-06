@@ -63,6 +63,8 @@ const fetchPosts = async ({ artistId, offset, limit, totalArtistPosts }) => {
   return helper.sortAssetsChronologically(Object.values(posts))
 }
 
+// THE COMPONENT
+// ------------------
 function PostsLoader() {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
@@ -102,8 +104,6 @@ function PostsLoader() {
     watchFn: (newProps, oldProps) => {
       const { artistId: newArtistId, loadingMore } = newProps
       const { artistId: oldArtistId, loadingMore: alreadyLoadingMore } = oldProps
-      // console.log('newArtistId', newArtistId)
-      // console.log('oldArtistId', oldArtistId)
       if (loadingMore && !alreadyLoadingMore) return true
       if (newArtistId !== oldArtistId) return true
       return false

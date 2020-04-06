@@ -24,20 +24,17 @@ import MediaFallback from './elements/MediaFallback'
 import styles from './PostsPage.module.css'
 
 
-function PermalinkAndToggle(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { post } = props
-  const { togglePromotion } = props
-  const status = post.promotion_enabled
-  // END REDEFINE PROPS AS VARIABLES
-
-  // ALTER APPEARANCE BASED ON PROMOTION STATUS
+function PermalinkAndToggle({
+  post,
+  togglePromotion,
+}) {
+  // Alter appearance based on promotion status
+  const { promotion_enabled } = post
   const appearance = {
-    platformIconColor: status ? dataSourceDetails[post.platform].color : brandColors.grey,
-    toggleIcon: status ? 'tick' : 'empty',
-    toggleIconColor: status ? brandColors.white : brandColors.grey,
+    platformIconColor: promotion_enabled ? dataSourceDetails[post.platform].color : brandColors.grey,
+    toggleIcon: promotion_enabled ? 'tick' : 'empty',
+    toggleIconColor: promotion_enabled ? brandColors.white : brandColors.grey,
   }
-  // END ALTER APPEARANCE BASED ON PROMOTION STATUS
 
   return (
     <div
@@ -68,7 +65,7 @@ function PermalinkAndToggle(props) {
       <div className={styles['post-toggle']}>
         <ButtonToggle
           onClick={() => togglePromotion(post.id)}
-          state={status ? 'on' : 'off'}
+          state={promotion_enabled ? 'on' : 'off'}
         />
       </div>
 
@@ -76,48 +73,35 @@ function PermalinkAndToggle(props) {
   )
 }
 
-function PostMessage(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { message } = props
-  // END REDEFINE PROPS AS VARIABLES
-
-  if (message.length > 0) {
-    return (
-      <div className={styles['post-message']}>
-        <p className={styles.p}>
-          "
-          {message.join('\n')}
-          "
-        </p>
-      </div>
-    )
-  }
-
-  return null
+function PostMessage({
+  message,
+}) {
+  if (!message.length) return null
+  return (
+    <div className={styles['post-message']}>
+      <p className={styles.p}>
+        "
+        {message.join('\n')}
+        "
+      </p>
+    </div>
+  )
 }
 
-function PostMetrics(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { orderedInsights } = props
-  const { es } = props
-  // END REDEFINE PROPS AS VARIABLES
-
+function PostMetrics({
+  orderedInsights,
+  es,
+}) {
   return (
     <div className={styles['post-metrics']}>
-
       <div className={styles['post-insights']}>
-
         <PostInsight title={orderedInsights[0].name} number={orderedInsights[0].value} />
         <PostInsight title={orderedInsights[1].name} number={orderedInsights[1].value} />
-
       </div>
 
       <div className={styles['post-es']}>
-
         {helper.abbreviateNumber(es)}
-
       </div>
-
     </div>
   )
 }
@@ -137,7 +121,6 @@ function PostSingle({
   const selected = post.promotion_enabled ? 'selected' : 'deselected'
   // Is there just one post
   const singular = isSingular ? 'singular' : ''
-  // END REDEFINE PROPS AS VARIABLES
 
   // DEFINE STATES
   // Track the link that will be ads using the asset, if there isn't a
