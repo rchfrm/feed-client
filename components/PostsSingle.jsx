@@ -196,25 +196,6 @@ function PostSingle({
   }
   const orderedInsights = orderInsights(post.insights)
 
-  // Show AddUrl component if addUrl is true
-  const returnAddUrl = () => {
-    if (addUrl) {
-      return (
-        <PostLinkAddUrl
-          setError={setError}
-          postId={post.id}
-          index={index}
-          currentLink={currentLink}
-          setCurrentLink={setCurrentLink}
-          setChosenLink={setChosenLink}
-          setAddUrl={setAddUrl}
-          updateLink={updateLink}
-        />
-      )
-    }
-  }
-  // END FUNCTIONS
-
   return (
     <li
       className={`tile ${styles[selected]} ${singular}`}
@@ -249,7 +230,19 @@ function PostSingle({
           updateLink={updateLink}
         />
 
-        {returnAddUrl()}
+        {/* Show add URL dialogue if triggered */}
+        {addUrl && (
+          <PostLinkAddUrl
+            setError={setError}
+            postId={post.id}
+            index={index}
+            currentLink={currentLink}
+            setCurrentLink={setCurrentLink}
+            setChosenLink={setChosenLink}
+            setAddUrl={setAddUrl}
+            updateLink={updateLink}
+          />
+        )}
 
         <Error error={error} />
 
