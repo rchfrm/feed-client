@@ -83,7 +83,7 @@ function PostsLoader() {
     // Reset offset
     setOffset(0)
     // Update total artist posts
-    if (artist._embedded && !artist._embedded.assets) {
+    if (artist._embedded && artist._embedded.assets) {
       const allPosts = artist._embedded.assets
       setTotalPosts(allPosts.length)
     }
