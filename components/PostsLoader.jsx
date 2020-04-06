@@ -1,21 +1,16 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Router from 'next/router'
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Button from './elements/Button'
 import Spinner from './elements/Spinner'
 import Error from './elements/Error'
 // IMPORT PAGES
 import PostsAll from './PostsAll'
 import PostsBudget from './PostsBudget'
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
@@ -176,12 +171,6 @@ function PostsLoader() {
     })
   }
 
-  // // GO HOME
-  // const returnHome = e => {
-  //   Router.push(ROUTES.HOME)
-  //   e.preventDefault()
-  // }
-
   // RETURN
   if (artistLoading || (isPending && initialLoad)) {
     return <Spinner />
@@ -201,29 +190,10 @@ function PostsLoader() {
 
       <Error error={error} />
 
-      <PostsBudget
-        currency="£"
-      />
-
-      {/* <div
-        className="ninety-wide"
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-        }}
-      >
-        <Button
-          version="black  wide"
-          onClick={returnHome}
-        >
-          Done
-        </Button>
-      </div> */}
+      <PostsBudget currency="£" />
 
     </div>
   )
-
-// END RETURN
 }
 
 export default PostsLoader
