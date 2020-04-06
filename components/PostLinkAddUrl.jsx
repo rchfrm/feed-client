@@ -93,10 +93,12 @@ function PostLinkAddUrl({
       updateLink(index, updatedAsset.priority_dsp)
       // Mark the button as 'saved'
       setButtonState('saved')
-
       setCurrentLink(updatedAsset.priority_dsp)
       setChosenLink(updatedAsset.priority_dsp)
-      setAddUrl(false)
+      // Wait a second then close dialogue
+      setTimeout(() => {
+        setAddUrl(false)
+      }, 1000)
     } catch (err) {
       setButtonState('save')
       setChosenLink(currentLink)
@@ -133,10 +135,10 @@ function PostLinkAddUrl({
 
   const AlertButton = () => (
     <PostLinkSaveButton
-      version="black  full"
       buttonState={buttonState}
       handleClick={saveLink}
       disabled={!enabled}
+      width={100}
     />
   )
 
