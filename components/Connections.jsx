@@ -8,9 +8,7 @@ import Button from './elements/Button'
 import Icon from './elements/Icon'
 import Input from './elements/Input'
 import Spinner from './elements/Spinner'
-import Alert from './elements/Alert'
-// IMPORT PAGES
-import { alertReducer } from './ResultsAll'
+import Alert, { alertReducer, initialAlertState } from './elements/Alert'
 // IMPORT ASSETS
 import AsteriskIcon from './icons/AsterixIcon'
 // IMPORT CONSTANTS
@@ -205,13 +203,6 @@ const ConnectionIcons = ({
   const [loading, setLoading] = React.useState(false)
 
   // DEFINE ALERT STATE
-  const initialAlertState = {
-    contents: undefined,
-    responseExpected: true,
-    confirmationText: 'Yes.',
-    rejectionText: 'No.',
-    response: false,
-  }
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
 
   // DEFINE ALERT REPONSES
@@ -319,6 +310,7 @@ function ConfirmPriorityDSPChange({ platform }) {
       <h1>Are you sure?</h1>
       <p>
         Clicking 'Yes' will change the default link in your promoted posts to your
+        {' '}
         {helper.capitalise(platform)}
         {' '}
         page.
