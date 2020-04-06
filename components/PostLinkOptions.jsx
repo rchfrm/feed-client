@@ -44,15 +44,7 @@ function PostLinkOptions({
   const { artist } = React.useContext(ArtistContext)
   // DEFINE STATES
   const [buttonState, setButtonState] = React.useState('save')
-
-  // Disable the save button if the selected link is the same as the one already set,
-  // or it's set to default or add-url, or it the button state is not 'save'
-  const disabled = (
-    chosenLink === currentLink
-      || chosenLink === 'add-url'
-      || buttonState !== 'save'
-  )
-
+  const [buttonDisabled, setButtonDisabled] = React.useState(true)
 
   const links = Object.entries(artist.URLs).reduce((allLinks, [linkType, linkValue]) => {
     if (!linkValue) return allLinks
@@ -69,20 +61,26 @@ function PostLinkOptions({
   links.push(addNewLink)
 
   // Handle changes in the drop down
-  const handleChange = e => {
+  const handleChange = (e) => {
+    const chosenLink = e.target.value
     setError(null)
-    if (e.target.value === 'add-url') {
-      setAddUrl(true)
-    } else {
-      setAddUrl(false)
-    }
-    setChosenLink(e.target.value)
+    // Update button state
+    setButtonState('save')
+    // Update chosen link
+    setChosenLink(chosenLink)
+    // Update disabled state
+    const disabled = !!(chosenLink === currentLink)
+    setButtonDisabled(disabled)
+    // Toggle choose link dialogue
+    const showChooseLink = !!(chosenLink === 'add-url')
+    setAddUrl(showChooseLink)
   }
 
   // Handle clicks on the save button
   const handleClick = async e => {
     e.preventDefault()
     setButtonState('saving')
+    setButtonDisabled(true)
     try {
       // Send a patch request to the server to update the asset
       const updatedAsset = await server.updateAssetLink(artist.id, postId, chosenLink)
@@ -93,6 +91,7 @@ function PostLinkOptions({
       // Mark the button as 'saved'
       setButtonState('saved')
     } catch (err) {
+      setButtonDisabled(false)
       setChosenLink(currentLink)
       setError(err)
       setButtonState('save')
@@ -128,10 +127,9 @@ function PostLinkOptions({
         />
 
         <PostLinkSaveButton
-          version="black"
           buttonState={buttonState}
           handleClick={handleClick}
-          disabled={disabled}
+          disabled={buttonDisabled}
           width={25}
         />
 
