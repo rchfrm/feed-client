@@ -66,6 +66,7 @@ function PostsLoader() {
   const [visiblePost, setVisiblePost] = React.useState(0)
   const [offset, setOffset] = React.useState(0)
   // const [loadMore, setLoadMore] = React.useState(false)
+  const [initialLoad, setInitialLoad] = React.useState(true)
   const [loadingMore, setLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
   const postsPerPage = 10
@@ -80,12 +81,15 @@ function PostsLoader() {
   // When changing artist...
   React.useEffect(() => {
     if (!artistId) return
+    // Reset initial load
+    setInitialLoad(true)
     // Reset offset
     setOffset(0)
     // Update total artist posts
     if (artist._embedded && artist._embedded.assets) {
       const allPosts = artist._embedded.assets
       setTotalPosts(allPosts.length)
+      console.log('total posts', allPosts.length)
     }
   }, [artistId])
 
@@ -95,10 +99,8 @@ function PostsLoader() {
     // watch: artistId,
     watchFn: (newProps, oldProps) => {
       const { artistId: newArtistId, loadingMore } = newProps
-      const { artistId: oldArtistId } = oldProps
-      console.log('new', newProps)
-      console.log('old', oldProps)
-      if (loadingMore) return true
+      const { artistId: oldArtistId, loadingMore: alreadyLoadingMore } = oldProps
+      if (loadingMore && !alreadyLoadingMore) return true
       if (newArtistId !== oldArtistId) return true
       return false
     },
@@ -110,6 +112,8 @@ function PostsLoader() {
     // When fetch finishes
     onResolve: (posts) => {
       if (!posts) return
+      // Define initial load
+      setInitialLoad(false)
       // Update offset
       setOffset(offset + posts.length)
       // If loading extra posts
@@ -182,7 +186,7 @@ function PostsLoader() {
   // }
 
   // RETURN
-  if (artistLoading || isPending) {
+  if (artistLoading || (isPending && initialLoad)) {
     return <Spinner />
   }
   return (
@@ -195,6 +199,7 @@ function PostsLoader() {
         updateLink={updateLink}
         togglePromotion={togglePromotion}
         loadMorePosts={loadMorePosts}
+        loadingMore={loadingMore}
       />
 
       <Error error={error} />

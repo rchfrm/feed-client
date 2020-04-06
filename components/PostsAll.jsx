@@ -1,6 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
-
+import produce from 'immer'
 import debounce from 'lodash/debounce'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
@@ -30,37 +30,60 @@ function PostsAll({
   updateLink,
   togglePromotion,
   loadMorePosts,
+  loadingMore,
 }) {
-  // HANDLE SCROLL
-  const handleScroll = debounce(() => {
-    const scroller = document.getElementById('PostsAll__scroller')
-    const scrollerWidth = scroller.scrollWidth
-    const scrollPosition = scroller.scrollLeft
-    const scrollPercentage = scrollPosition / scrollerWidth
-  }, 100)
+  // Reset the scroll position when this component first mounts
+  React.useEffect(resetScroll, [])
 
+  // Add load trigger el at 5th from end
+  const loadAtIndex = 5
+  const postsWithLoader = React.useMemo(() => {
+    if (!posts.length || posts.length < loadAtIndex) return posts
+    return produce(posts, draft => {
+      const insertLoaderAt = posts.length - loadAtIndex + 1
+      draft.splice(insertLoaderAt, 0, 'loader')
+    })
+  }, [posts.length])
+
+  // Create ref for intersection root
+  const intersectionRoot = React.useRef(null)
+  // Create ref for watching intersection
+  const loadTrigger = React.useRef(null)
+  // Watch the load trigger for intersection
+  const loadMore = React.useCallback((entries) => {
+    const target = entries[0]
+    if (target.isIntersecting && !loadingMore) {
+      // console.log('load more posts')
+      loadMorePosts()
+    }
+  }, [loadingMore, loadMorePosts])
+
+  // Setup intersection observer
+  React.useEffect(() => {
+    // Observer options
+    const options = {
+      root: intersectionRoot.current, // window by default
+      rootMargin: '0px',
+      threshold: 0,
+    }
+    // Create observer
+    const observer = new IntersectionObserver(loadMore, options)
+    // observe the loader
+    if (loadTrigger && loadTrigger.current) {
+      observer.observe(loadTrigger.current)
+    }
+    // clean up
+    return () => {
+      if (loadTrigger.current) {
+        observer.unobserve(loadTrigger.current)
+      }
+    }
+  }, [posts.length])
+
+  // Stop here if no posts
   if (posts.length === 0) {
     return <PostsNone />
   }
-
-  const postList = posts.map((post, index) => {
-    return (
-      <PostsSingle
-        key={post.id}
-        index={index}
-        post={post}
-        updateLink={updateLink}
-        singular={posts.length === 1}
-        togglePromotion={togglePromotion}
-      />
-    )
-  })
-
-  // Push the LastItem component to add blank space to the end of the list
-  postList.push(LastItem())
-
-  // Reset the scroll position when this component first mounts
-  React.useEffect(resetScroll, [])
 
   return (
     <div className={styles['posts-section']}>
@@ -72,8 +95,25 @@ function PostsAll({
       <ul
         id="PostsAll__scroller"
         className={`frame posts ${styles.posts}`}
+        ref={intersectionRoot}
       >
-        {postList}
+        {postsWithLoader.map((post, index) => {
+          if (post === 'loader') {
+            return (
+              <div key="loader" ref={loadTrigger} className={styles.postLoadTrigger} />
+            )
+          }
+          return (
+            <PostsSingle
+              key={post.id}
+              index={index}
+              post={post}
+              updateLink={updateLink}
+              singular={posts.length === 1}
+              togglePromotion={togglePromotion}
+            />
+          )
+        })}
       </ul>
 
     </div>
