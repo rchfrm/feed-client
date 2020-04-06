@@ -11,9 +11,15 @@ import BrokenCircle from './icons/BrokenCircle'
 import brandColors from '../constants/brandColors'
 import styles from './PostsPage.module.css'
 
-function PostLinkSaveButton({ state, disabled, handleClick }) {
+function PostLinkSaveButton({
+  buttonState,
+  disabled,
+  handleClick,
+  version,
+  width,
+}) {
   // If a request is in progress, show a spinning broken circle
-  if (state === 'saving') {
+  if (buttonState === 'saving') {
     return (
       <div className={styles['broken-circle']}>
         <BrokenCircle className={styles.svg} width={25} fill={brandColors.loaderColor} />
@@ -25,14 +31,14 @@ function PostLinkSaveButton({ state, disabled, handleClick }) {
   // or has been saved
   return (
     <Button
-      version="black"
-      width={25}
+      version={version}
+      width={width}
       onClick={handleClick}
       disabled={disabled}
-      textColor={state === 'saved' ? brandColors.white : undefined}
-      bgColor={state === 'saved' ? brandColors.loaderColor : undefined}
+      textColor={buttonState === 'saved' ? brandColors.white : undefined}
+      bgColor={buttonState === 'saved' ? brandColors.loaderColor : undefined}
     >
-      {state[0].toUpperCase() + state.slice(1)}
+      {buttonState[0].toUpperCase() + buttonState.slice(1)}
     </Button>
   )
 }

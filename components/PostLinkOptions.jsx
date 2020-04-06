@@ -43,14 +43,14 @@ function PostLinkOptions({
   // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
   // DEFINE STATES
-  const [button, setButton] = React.useState('save')
+  const [buttonState, setButtonState] = React.useState('save')
 
   // Disable the save button if the selected link is the same as the one already set,
   // or it's set to default or add-url, or it the button state is not 'save'
   const disabled = (
     chosenLink === currentLink
       || chosenLink === 'add-url'
-      || button !== 'save'
+      || buttonState !== 'save'
   )
 
 
@@ -77,13 +77,12 @@ function PostLinkOptions({
       setAddUrl(false)
     }
     setChosenLink(e.target.value)
-    setButton('save')
   }
 
   // Handle clicks on the save button
   const handleClick = async e => {
     e.preventDefault()
-    setButton('saving')
+    setButtonState('saving')
     try {
       // Send a patch request to the server to update the asset
       const updatedAsset = await server.updateAssetLink(artist.id, postId, chosenLink)
@@ -92,11 +91,11 @@ function PostLinkOptions({
       // Update the current link to match
       setCurrentLink(updatedAsset.priority_dsp)
       // Mark the button as 'saved'
-      setButton('saved')
+      setButtonState('saved')
     } catch (err) {
       setChosenLink(currentLink)
       setError(err)
-      setButton('save')
+      setButtonState('save')
     }
   }
 
@@ -128,7 +127,13 @@ function PostLinkOptions({
           version="box"
         />
 
-        <PostLinkSaveButton state={button} handleClick={handleClick} disabled={disabled} />
+        <PostLinkSaveButton
+          version="black"
+          buttonState={buttonState}
+          handleClick={handleClick}
+          disabled={disabled}
+          width={25}
+        />
 
       </div>
 
