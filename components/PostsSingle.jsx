@@ -1,4 +1,3 @@
-
 // IMPORT PACKAGES
 import React from 'react'
 import moment from 'moment'
@@ -23,6 +22,106 @@ import helper from './helpers/helper'
 import MediaFallback from './elements/MediaFallback'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
+
+
+function PermalinkAndToggle(props) {
+// REDEFINE PROPS AS VARIABLES
+  const { post } = props
+  const { togglePromotion } = props
+  const status = post.promotion_enabled
+  // END REDEFINE PROPS AS VARIABLES
+
+  // ALTER APPEARANCE BASED ON PROMOTION STATUS
+  const appearance = {
+    platformIconColor: status ? dataSourceDetails[post.platform].color : brandColors.grey,
+    toggleIcon: status ? 'tick' : 'empty',
+    toggleIconColor: status ? brandColors.white : brandColors.grey,
+  }
+  // END ALTER APPEARANCE BASED ON PROMOTION STATUS
+
+  return (
+    <div
+      className={styles.permalinkAndToggle}
+      style={{ padding: '1.5em' }}
+    >
+
+      {/* Display platform icon, publish date and time, linking to post permalink */}
+      <div className={styles['post-meta']}>
+
+        <Icon
+          version={post.platform}
+          color={appearance.platformIconColor}
+          width="20"
+        />
+        <a
+          className={styles.a}
+          href={post.permalink_url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {moment(post.published_time).format('D MMM YYYY [at] HH[:]mm')}
+        </a>
+
+      </div>
+
+      {/* Display toggle option for posts */}
+      <div className={styles['post-toggle']}>
+        <ButtonToggle
+          onClick={() => togglePromotion(post.id)}
+          state={status ? 'on' : 'off'}
+        />
+      </div>
+
+    </div>
+  )
+}
+
+function PostMessage(props) {
+// REDEFINE PROPS AS VARIABLES
+  const { message } = props
+  // END REDEFINE PROPS AS VARIABLES
+
+  if (message.length > 0) {
+    return (
+      <div className={styles['post-message']}>
+        <p className={styles.p}>
+          "
+          {message.join('\n')}
+          "
+        </p>
+      </div>
+    )
+  }
+
+  return null
+}
+
+function PostMetrics(props) {
+// REDEFINE PROPS AS VARIABLES
+  const { orderedInsights } = props
+  const { es } = props
+  // END REDEFINE PROPS AS VARIABLES
+
+  return (
+    <div className={styles['post-metrics']}>
+
+      <div className={styles['post-insights']}>
+
+        <PostInsight title={orderedInsights[0].name} number={orderedInsights[0].value} />
+        <PostInsight title={orderedInsights[1].name} number={orderedInsights[1].value} />
+
+      </div>
+
+      <div className={styles['post-es']}>
+
+        {helper.abbreviateNumber(es)}
+
+      </div>
+
+    </div>
+  )
+}
+
 
 function PostSingle({
   index,
@@ -164,101 +263,3 @@ function PostSingle({
 }
 
 export default PostSingle
-
-function PermalinkAndToggle(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { post } = props
-  const { togglePromotion } = props
-  const status = post.promotion_enabled
-  // END REDEFINE PROPS AS VARIABLES
-
-  // ALTER APPEARANCE BASED ON PROMOTION STATUS
-  const appearance = {
-    platformIconColor: status ? dataSourceDetails[post.platform].color : brandColors.grey,
-    toggleIcon: status ? 'tick' : 'empty',
-    toggleIconColor: status ? brandColors.white : brandColors.grey,
-  }
-  // END ALTER APPEARANCE BASED ON PROMOTION STATUS
-
-  return (
-    <div
-      className={styles.permalinkAndToggle}
-      style={{ padding: '1.5em' }}
-    >
-
-      {/* Display platform icon, publish date and time, linking to post permalink */}
-      <div className={styles['post-meta']}>
-
-        <Icon
-          version={post.platform}
-          color={appearance.platformIconColor}
-          width="20"
-        />
-        <a
-          className={styles.a}
-          href={post.permalink_url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {moment(post.published_time).format('D MMM YYYY [at] HH[:]mm')}
-        </a>
-
-      </div>
-
-      {/* Display toggle option for posts */}
-      <div className={styles['post-toggle']}>
-        <ButtonToggle
-          onClick={() => togglePromotion(post.id)}
-          state={status ? 'on' : 'off'}
-        />
-      </div>
-
-    </div>
-  )
-}
-
-function PostMessage(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { message } = props
-  // END REDEFINE PROPS AS VARIABLES
-
-  if (message.length > 0) {
-    return (
-      <div className={styles['post-message']}>
-        <p className={styles.p}>
-          "
-          {message.join('\n')}
-          "
-        </p>
-      </div>
-    )
-  }
-
-  return null
-}
-
-function PostMetrics(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { orderedInsights } = props
-  const { es } = props
-  // END REDEFINE PROPS AS VARIABLES
-
-  return (
-    <div className={styles['post-metrics']}>
-
-      <div className={styles['post-insights']}>
-
-        <PostInsight title={orderedInsights[0].name} number={orderedInsights[0].value} />
-        <PostInsight title={orderedInsights[1].name} number={orderedInsights[1].value} />
-
-      </div>
-
-      <div className={styles['post-es']}>
-
-        {helper.abbreviateNumber(es)}
-
-      </div>
-
-    </div>
-  )
-}
