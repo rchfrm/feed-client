@@ -50,7 +50,6 @@ function PostsAll({
   const loadMore = React.useCallback((entries) => {
     const target = entries[0]
     if (target.isIntersecting && !loadingMore) {
-      // console.log('load more posts')
       loadMorePosts()
     }
   }, [loadingMore, loadMorePosts])
