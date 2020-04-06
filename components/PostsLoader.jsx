@@ -76,7 +76,7 @@ function PostsLoader() {
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
 
   // For counting how many posts an artist has
-  const [totalPosts, setTotalPosts] = React.useState(0)
+  const [totalArtistPosts, setTotalArtistPosts] = React.useState(0)
 
   // When changing artist...
   React.useEffect(() => {
@@ -88,7 +88,7 @@ function PostsLoader() {
     // Update total artist posts
     if (artist._embedded && artist._embedded.assets) {
       const allPosts = artist._embedded.assets
-      setTotalPosts(allPosts.length)
+      setTotalArtistPosts(allPosts.length)
       console.log('total posts', allPosts.length)
     }
   }, [artistId])
@@ -111,7 +111,10 @@ function PostsLoader() {
     loadingMore,
     // When fetch finishes
     onResolve: (posts) => {
+      // Stop here if no posts
       if (!posts) return
+      // Stop here if at end of posts
+      if (offset >= totalArtistPosts) return
       // Define initial load
       setInitialLoad(false)
       // Update offset
