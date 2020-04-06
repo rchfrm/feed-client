@@ -30,7 +30,7 @@ const postsReducer = (draftState, postsAction) => {
     payload: {
       newPosts,
       postIndex,
-      promotionEnabled,
+      promotion_enabled,
       postLink,
     },
   } = postsAction
@@ -43,7 +43,7 @@ const postsReducer = (draftState, postsAction) => {
       draftState.push(...newPosts)
       break
     case 'toggle-promotion':
-      draftState[postIndex].promotion_enabled = promotionEnabled
+      draftState[postIndex].promotion_enabled = promotion_enabled
       break
     case 'update-link':
       draftState[postIndex].priority_dsp = postLink
@@ -147,21 +147,17 @@ function PostsLoader() {
 
   // Define function for toggling promotion
   const togglePromotion = async (postId) => {
-    let indexOfId
-    for (let i = 0; i < posts.length; i += 1) {
-      if (posts[i].id === postId) {
-        indexOfId = i
-        break
-      }
-    }
-    const res = await server.togglePromotionEnabled(artist.id, postId, !posts[indexOfId].promotion_enabled)
+    const indexOfId = posts.findIndex(({ id }) => postId === id)
+    const currentPromotionState = posts[indexOfId].promotion_enabled
+    const newPromotionState = !currentPromotionState
+    const res = await server.togglePromotionEnabled(artistId, postId, newPromotionState)
+
     if (res) {
       setPosts({
         type: 'toggle-promotion',
         payload: {
           promotion_enabled: res.promotion_enabled,
           postIndex: indexOfId,
-          promotionEnabled: res.promotion_enabled,
         },
       })
     }
