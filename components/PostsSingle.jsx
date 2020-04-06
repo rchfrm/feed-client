@@ -155,23 +155,21 @@ function PostSingle({
   }, [post.media, renderMedia])
 
   // Oder post insights, so that highest figures are shown first
-  const orderInsights = insights => {
+  const orderInsights = (insights) => {
     const insightNames = Object.keys(insights)
-    const insightsArr = []
-
-    for (let i = 0; i < insightNames.length; i += 1) {
-      const insightName = insightNames[i]
+    const insightsArr = insightNames.reduce((arr, name) => {
       if (
-        insightName.indexOf('impression') === -1
-        && insightName !== 'engagement_score'
-        && insightName.indexOf('post') === -1
+        name.indexOf('impression') === -1
+        && name !== 'engagement_score'
+        && name.indexOf('post') === -1
       ) {
-        insightsArr.push({
-          name: insightName,
-          value: insights[insightName],
-        })
+        return [...arr, {
+          name,
+          value: insights[name],
+        }]
       }
-    }
+      return arr
+    }, [])
 
     return insightsArr.sort((a, b) => {
       return b.value - a.value
