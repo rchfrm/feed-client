@@ -53,12 +53,14 @@ function PostLinkOptions({
     return [...allLinks, link]
   }, [])
 
-  // Include add new link option
-  const addNewLink = {
-    name: '+ Add another link',
-    value: 'add-url',
+  // Include add new link option (if necessary)
+  const allLinkComplete = Object.values(artist.URLs).every((value) => value)
+  if (!allLinkComplete) {
+    links.push({
+      name: '+ Add another link',
+      value: 'add-url',
+    })
   }
-  links.push(addNewLink)
 
   // Handle changes in the drop down
   const handleChange = (e) => {
