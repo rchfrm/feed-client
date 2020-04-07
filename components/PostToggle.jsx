@@ -24,6 +24,14 @@ const PostToggle = ({
     toggleIconColor: promotion_enabled ? brandColors.white : brandColors.grey,
   }
 
+  const [buttonState, setButtonState] = React.useState(promotion_enabled ? 'on' : 'off')
+
+  const handleClick = async () => {
+    setButtonState('loading')
+    const newPromtionState = await togglePromotion(post.id)
+    setButtonState(newPromtionState ? 'on' : 'off')
+  }
+
   return (
     <div
       className={styles.permalinkAndToggle}
@@ -52,8 +60,8 @@ const PostToggle = ({
       {/* Display toggle option for posts */}
       <div className={styles['post-toggle']}>
         <ButtonToggle
-          onClick={() => togglePromotion(post.id)}
-          state={promotion_enabled ? 'on' : 'off'}
+          onClick={handleClick}
+          state={buttonState}
         />
       </div>
 
