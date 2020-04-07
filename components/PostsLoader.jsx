@@ -143,16 +143,15 @@ function PostsLoader() {
     const currentPromotionState = posts[indexOfId].promotion_enabled
     const newPromotionState = !currentPromotionState
     const res = await server.togglePromotionEnabled(artistId, postId, newPromotionState)
-
-    if (res) {
-      setPosts({
-        type: 'toggle-promotion',
-        payload: {
-          promotion_enabled: res.promotion_enabled,
-          postIndex: indexOfId,
-        },
-      })
-    }
+    if (!res) return currentPromotionState
+    setPosts({
+      type: 'toggle-promotion',
+      payload: {
+        promotion_enabled: res.promotion_enabled,
+        postIndex: indexOfId,
+      },
+    })
+    return newPromotionState
   }
 
   // Define function for loading more posts
