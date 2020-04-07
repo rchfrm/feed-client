@@ -26,7 +26,7 @@ function PostLinkSaveButton({
       width={width}
       onClick={handleClick}
       disabled={disabled}
-      loading={!!(buttonState === 'saving')}
+      loading={buttonState === 'saving'}
     >
       {buttonState[0].toUpperCase() + buttonState.slice(1)}
     </Button>
