@@ -3,8 +3,7 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Button from './elements/Button'
-import Icon from './elements/Icon'
+import Alert from './elements/Alert'
 import Input from './elements/Input'
 import Select from './elements/Select'
 // IMPORT PAGES
@@ -15,7 +14,6 @@ import PostLinkSaveButton from './PostLinkSaveButton'
 import helper from './helpers/helper'
 import server from './helpers/server'
 // IMPORT STYLES
-import brandColors from '../constants/brandColors'
 import styles from './PostsPage.module.css'
 
 // Create list of options, based on the links in the artist context
@@ -54,7 +52,7 @@ function PostLinkAddUrl({
   const [initialLinkOption] = linkOptions
 
   // Define states
-  const [button, setButton] = React.useState('save')
+  const [buttonState, setButtonState] = React.useState('save')
   const [url, setUrl] = React.useState('')
   const [platform, setPlatform] = React.useState(initialLinkOption.value)
 
@@ -83,7 +81,7 @@ function PostLinkAddUrl({
   // Send patch request with new link to server
   const saveLink = async e => {
     e.preventDefault()
-    setButton('saving')
+    setButtonState('saving')
     try {
       // Send a patch request to the server to update the artist
       const urlType = helper.convertPlatformToPriorityDSP(platform)
@@ -94,70 +92,62 @@ function PostLinkAddUrl({
       // Update state in the Loader component with the new link
       updateLink(index, updatedAsset.priority_dsp)
       // Mark the button as 'saved'
-      setButton('saved')
-
+      setButtonState('saved')
       setCurrentLink(updatedAsset.priority_dsp)
       setChosenLink(updatedAsset.priority_dsp)
-      setAddUrl(false)
+      // Wait a second then close dialogue
+      setTimeout(() => {
+        setAddUrl(false)
+      }, 1000)
     } catch (err) {
-      setButton('save')
+      setButtonState('save')
       setChosenLink(currentLink)
       setAddUrl(false)
       setError(err)
     }
   }
 
+  const AlertContents = () => (
+    <>
+      <h2 style={{ flex: 'auto' }}>Save a new link.</h2>
+      <Input
+        className={styles.PostLinkAddUrl__input}
+        placeholder="https://"
+        type="url"
+        version="box"
+        label="Link URL"
+        handleChange={handleInput}
+        value={url || ''}
+        required
+      />
+
+      <Select
+        name="linkVersion"
+        className={styles.PostLinkAddUrl__select}
+        options={linkOptions}
+        handleChange={handleSelect}
+        label="Select the type:"
+        selectedValue={platform}
+        required
+      />
+    </>
+  )
+
+  const AlertButton = () => (
+    <PostLinkSaveButton
+      buttonState={buttonState}
+      handleClick={saveLink}
+      disabled={!enabled}
+      width={100}
+    />
+  )
+
   return (
-    <div className="alert-container">
-      <div className="alert">
-
-        <div style={{
-          display: 'flex',
-          width: '100%',
-          alignItems: 'flex-start',
-        }}
-        >
-
-          <h2 style={{ flex: 'auto' }}>Save a new link.</h2>
-
-          <Button
-            version="cross"
-            onClick={closeAlert}
-          >
-            <Icon
-              version="cross"
-              color={brandColors.black}
-              width="18"
-            />
-          </Button>
-
-        </div>
-
-        <Input
-          className={styles.PostLinkAddUrl__input}
-          placeholder="https://"
-          type="url"
-          version="box"
-          label="Link URL"
-          handleChange={handleInput}
-          value={url || ''}
-          required
-        />
-
-        <Select
-          name="linkVersion"
-          className={styles.PostLinkAddUrl__select}
-          options={linkOptions}
-          handleChange={handleSelect}
-          label="Select the type:"
-          selectedValue={platform}
-          required
-        />
-
-        <PostLinkSaveButton state={button} handleClick={saveLink} disabled={!enabled} />
-
-      </div>
-    </div>
+    <Alert
+      contents={AlertContents()}
+      resetAlert={closeAlert}
+      buttons={AlertButton()}
+    />
   )
 }
 
