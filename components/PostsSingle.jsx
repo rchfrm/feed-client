@@ -1,28 +1,59 @@
-
 // IMPORT PACKAGES
 import React from 'react'
-import moment from 'moment'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import ButtonToggle from './elements/ButtonToggle'
-import Icon from './elements/Icon'
 import SquareImage from './elements/SquareImage'
 import Error from './elements/Error'
 // IMPORT PAGES
+import PostToggle from './PostToggle'
 import PostLinkAddUrl from './PostLinkAddUrl'
 import PostLinkOptions from './PostLinkOptions'
 import PostInsight from './PostInsight'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import dataSourceDetails from '../constants/dataSources'
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import MediaFallback from './elements/MediaFallback'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
+
+
+function PostMessage({
+  message,
+}) {
+  if (!message.length) return null
+  return (
+    <div className={styles['post-message']}>
+      <p className={styles.p}>
+        "
+        {message.join('\n')}
+        "
+      </p>
+    </div>
+  )
+}
+
+function PostMetrics({
+  orderedInsights,
+  es,
+}) {
+  return (
+    <div className={styles['post-metrics']}>
+      <div className={styles['post-insights']}>
+        <PostInsight title={orderedInsights[0].name} number={orderedInsights[0].value} />
+        <PostInsight title={orderedInsights[1].name} number={orderedInsights[1].value} />
+      </div>
+
+      <div className={styles['post-es']}>
+        {helper.abbreviateNumber(es)}
+      </div>
+    </div>
+  )
+}
+
 
 function PostSingle({
   index,
@@ -38,7 +69,6 @@ function PostSingle({
   const selected = post.promotion_enabled ? 'selected' : 'deselected'
   // Is there just one post
   const singular = isSingular ? 'singular' : ''
-  // END REDEFINE PROPS AS VARIABLES
 
   // DEFINE STATES
   // Track the link that will be ads using the asset, if there isn't a
@@ -73,23 +103,21 @@ function PostSingle({
   }, [post.media, renderMedia])
 
   // Oder post insights, so that highest figures are shown first
-  const orderInsights = insights => {
+  const orderInsights = (insights) => {
     const insightNames = Object.keys(insights)
-    const insightsArr = []
-
-    for (let i = 0; i < insightNames.length; i += 1) {
-      const insightName = insightNames[i]
+    const insightsArr = insightNames.reduce((arr, name) => {
       if (
-        insightName.indexOf('impression') === -1
-        && insightName !== 'engagement_score'
-        && insightName.indexOf('post') === -1
+        name.indexOf('impression') === -1
+        && name !== 'engagement_score'
+        && name.indexOf('post') === -1
       ) {
-        insightsArr.push({
-          name: insightName,
-          value: insights[insightName],
-        })
+        return [...arr, {
+          name,
+          value: insights[name],
+        }]
       }
-    }
+      return arr
+    }, [])
 
     return insightsArr.sort((a, b) => {
       return b.value - a.value
@@ -97,32 +125,13 @@ function PostSingle({
   }
   const orderedInsights = orderInsights(post.insights)
 
-  // Show AddUrl component if addUrl is true
-  const returnAddUrl = () => {
-    if (addUrl) {
-      return (
-        <PostLinkAddUrl
-          setError={setError}
-          postId={post.id}
-          index={index}
-          currentLink={currentLink}
-          setCurrentLink={setCurrentLink}
-          setChosenLink={setChosenLink}
-          setAddUrl={setAddUrl}
-          updateLink={updateLink}
-        />
-      )
-    }
-  }
-  // END FUNCTIONS
-
   return (
     <li
       className={`tile ${styles[selected]} ${singular}`}
       style={{ padding: 0 }}
     >
 
-      <PermalinkAndToggle post={post} togglePromotion={togglePromotion} />
+      <PostToggle post={post} togglePromotion={togglePromotion} />
 
       {/* Media */}
       <div style={{ flex: 'auto' }}>
@@ -150,7 +159,19 @@ function PostSingle({
           updateLink={updateLink}
         />
 
-        {returnAddUrl()}
+        {/* Show add URL dialogue if triggered */}
+        {addUrl && (
+          <PostLinkAddUrl
+            setError={setError}
+            postId={post.id}
+            index={index}
+            currentLink={currentLink}
+            setCurrentLink={setCurrentLink}
+            setChosenLink={setChosenLink}
+            setAddUrl={setAddUrl}
+            updateLink={updateLink}
+          />
+        )}
 
         <Error error={error} />
 
@@ -164,101 +185,3 @@ function PostSingle({
 }
 
 export default PostSingle
-
-function PermalinkAndToggle(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { post } = props
-  const { togglePromotion } = props
-  const status = post.promotion_enabled
-  // END REDEFINE PROPS AS VARIABLES
-
-  // ALTER APPEARANCE BASED ON PROMOTION STATUS
-  const appearance = {
-    platformIconColor: status ? dataSourceDetails[post.platform].color : brandColors.grey,
-    toggleIcon: status ? 'tick' : 'empty',
-    toggleIconColor: status ? brandColors.white : brandColors.grey,
-  }
-  // END ALTER APPEARANCE BASED ON PROMOTION STATUS
-
-  return (
-    <div
-      className={styles.permalinkAndToggle}
-      style={{ padding: '1.5em' }}
-    >
-
-      {/* Display platform icon, publish date and time, linking to post permalink */}
-      <div className={styles['post-meta']}>
-
-        <Icon
-          version={post.platform}
-          color={appearance.platformIconColor}
-          width="20"
-        />
-        <a
-          className={styles.a}
-          href={post.permalink_url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {moment(post.published_time).format('D MMM YYYY [at] HH[:]mm')}
-        </a>
-
-      </div>
-
-      {/* Display toggle option for posts */}
-      <div className={styles['post-toggle']}>
-        <ButtonToggle
-          onClick={() => togglePromotion(post.id)}
-          state={status ? 'on' : 'off'}
-        />
-      </div>
-
-    </div>
-  )
-}
-
-function PostMessage(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { message } = props
-  // END REDEFINE PROPS AS VARIABLES
-
-  if (message.length > 0) {
-    return (
-      <div className={styles['post-message']}>
-        <p className={styles.p}>
-          "
-          {message.join('\n')}
-          "
-        </p>
-      </div>
-    )
-  }
-
-  return null
-}
-
-function PostMetrics(props) {
-// REDEFINE PROPS AS VARIABLES
-  const { orderedInsights } = props
-  const { es } = props
-  // END REDEFINE PROPS AS VARIABLES
-
-  return (
-    <div className={styles['post-metrics']}>
-
-      <div className={styles['post-insights']}>
-
-        <PostInsight title={orderedInsights[0].name} number={orderedInsights[0].value} />
-        <PostInsight title={orderedInsights[1].name} number={orderedInsights[1].value} />
-
-      </div>
-
-      <div className={styles['post-es']}>
-
-        {helper.abbreviateNumber(es)}
-
-      </div>
-
-    </div>
-  )
-}

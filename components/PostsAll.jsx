@@ -1,12 +1,9 @@
 // IMPORT PACKAGES
 import React from 'react'
-
-import debounce from 'lodash/debounce'
+import produce from 'immer'
 // IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
 import PageHeader from './PageHeader'
-import LastItem from './elements/LastItem'
+import Spinner from './elements/Spinner'
 // IMPORT PAGES
 import PostsSingle from './PostsSingle'
 import PostsNone from './PostsNone'
@@ -24,98 +21,67 @@ const resetScroll = () => {
   scroller.scrollLeft = 0
 }
 
+const getPostsWithLoadingTrigger = (posts, loadAtIndex) => {
+  if (!posts.length || posts.length < loadAtIndex) return posts
+  return produce(posts, draft => {
+    const insertLoaderAt = posts.length - loadAtIndex + 1
+    draft.splice(insertLoaderAt, 0, 'loader')
+  })
+}
+
 // Render list of posts and track the one that's currently visible
 function PostsAll({
-  numberOfPosts,
   posts,
   updateLink,
-  visiblePost,
-  setVisiblePost,
   togglePromotion,
+  loadMorePosts,
+  loadingMore,
 }) {
-  // DEFINE POST DETAILS
-  const initialPostTrackerState = {
-    number: numberOfPosts,
-    scroll: 0,
-    width: 1 / numberOfPosts,
-  }
+  // Reset the scroll position when this component first mounts
+  React.useEffect(resetScroll, [])
 
-  const postTrackerReducer = (postTrackerState, postTrackerAction) => {
-    switch (postTrackerAction.type) {
-      case 'set-scroll-position':
-        return {
-          ...postTrackerState,
-          scroll: postTrackerAction.payload.scroll,
-        }
-      case 'posts-added':
-        return {
-          ...postTrackerState,
-          number: postTrackerAction.payload.number,
-          scroll: visiblePost * (1 / postTrackerAction.payload.number),
-          width: 1 / postTrackerAction.payload.number,
-        }
-      default:
-        throw new Error(`Unable to find ${postTrackerAction.type} in postTrackerReducer`)
+  // Add load trigger el at 5th from end
+  const loadAtIndex = 5
+  const postsWithLoadingTrigger = getPostsWithLoadingTrigger(posts, loadAtIndex)
+  // Create ref for intersection root
+  const intersectionRoot = React.useRef(null)
+  // Create ref for watching intersection
+  const loadTrigger = React.useRef(null)
+
+  // LOAD MORE Watch the load trigger for intersection
+  const loadMore = React.useCallback((entries) => {
+    const target = entries[0]
+    if (target.isIntersecting && !loadingMore) {
+      loadMorePosts()
     }
-  }
+  }, [loadingMore, loadMorePosts])
 
-  const [postTracker, setPostTracker] = React.useReducer(postTrackerReducer, initialPostTrackerState)
-
-  // TRACK SCROLL POSITION AND UPDATE TILE DETAILS STATE ACCORDINGLY
+  // Setup intersection observer
   React.useEffect(() => {
-    const currentTile = Math.floor((postTracker.scroll + postTracker.width / 2) / postTracker.width) + 1
-    if (currentTile !== visiblePost) {
-      setVisiblePost(currentTile)
+    // Observer options
+    const options = {
+      root: intersectionRoot.current, // window by default
+      rootMargin: '0px',
+      threshold: 0,
     }
-  }, [postTracker, visiblePost, setVisiblePost])
+    // Create observer
+    const observer = new IntersectionObserver(loadMore, options)
+    // observe the loader
+    if (loadTrigger && loadTrigger.current) {
+      observer.observe(loadTrigger.current)
+    }
+    // clean up
+    return () => {
+      if (loadTrigger.current) {
+        observer.unobserve(loadTrigger.current)
+      }
+    }
+  }, [posts.length])
 
-
-  // KEEP POST TRACKER IN SYNC WITH NUMBER OF POSTS SAVED TO STATE
-  React.useEffect(() => {
-    setPostTracker({
-      type: 'posts-added',
-      payload: {
-        number: numberOfPosts,
-      },
-    })
-  }, [numberOfPosts])
-
-  // HANDLE SCROLL
-  const handleScroll = debounce(() => {
-    const scroller = document.getElementById('PostsAll__scroller')
-    const scrollerWidth = scroller.scrollWidth
-    const scrollPosition = scroller.scrollLeft
-    const scrollPercentage = scrollPosition / scrollerWidth
-    setPostTracker({
-      type: 'set-scroll-position',
-      payload: {
-        scroll: scrollPercentage,
-      },
-    })
-  }, 100)
-
+  // Stop here if no posts
   if (posts.length === 0) {
     return <PostsNone />
   }
-
-  const postList = posts.map((post, index) => {
-    return (
-      <PostsSingle
-        key={post.id}
-        index={index}
-        post={post}
-        updateLink={updateLink}
-        singular={posts.length === 1}
-        togglePromotion={togglePromotion}
-      />
-    )
-  })
-
-  // Push the LastItem component to add blank space to the end of the list
-  postList.push(LastItem())
-
-  // Reset the scroll position when this component first mounts
-  React.useEffect(resetScroll, [])
 
   return (
     <div className={styles['posts-section']}>
@@ -127,10 +93,33 @@ function PostsAll({
       <ul
         id="PostsAll__scroller"
         className={`frame posts ${styles.posts}`}
-        onScroll={handleScroll}
+        ref={intersectionRoot}
       >
-        {postList}
+        {postsWithLoadingTrigger.map((post, index) => {
+          if (post === 'loader') {
+            return (
+              <div key="loader" ref={loadTrigger} className={styles.postLoadTrigger} />
+            )
+          }
+          return (
+            <PostsSingle
+              key={post.id}
+              index={index}
+              post={post}
+              updateLink={updateLink}
+              singular={posts.length === 1}
+              togglePromotion={togglePromotion}
+            />
+          )
+        })}
+        {/* Loading spinner */}
+        {loadingMore && (
+          <div className={styles.postsSpinner}>
+            <Spinner />
+          </div>
+        )}
       </ul>
+
 
     </div>
   )

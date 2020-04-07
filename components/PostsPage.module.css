@@ -186,6 +186,13 @@
   font-weight: 700;
 }
 
+
+/* POSTS SPINNER */
+.postsSpinner {
+  display: flex;
+  padding: 0 var(--bsu-lg);
+}
+
 /* NO POSTS */
 .noPosts {
   flex: auto;
