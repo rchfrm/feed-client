@@ -45,7 +45,10 @@ const registerServiceWorker = () => {
 }
 
 if (process.env.build_env !== 'development') {
-  Sentry.init({ dsn: process.env.sentry_dsn })
+  Sentry.init({
+    dsn: process.env.sentry_dsn,
+    release: `feed-client@${(process.env.release_version || 'dev')}`,
+  })
 }
 
 function Feed({ Component, pageProps }) {
