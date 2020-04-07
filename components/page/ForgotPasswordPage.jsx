@@ -73,6 +73,7 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
     await firebase.doPasswordReset(email)
       .catch((err) => {
         setError(err)
@@ -106,15 +107,15 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
               width={100}
             />
 
-            <Button
-              className={styles.button}
-              disabled={isInvalid}
-              version="black"
-              type="input"
-              loading={loading}
-            >
-              reset.
-            </Button>
+        <Button
+          className={styles.button}
+          disabled={isInvalid || loading}
+          version="black"
+          type="input"
+          loading={loading}
+        >
+          reset.
+        </Button>
 
             <Error error={error} />
 
