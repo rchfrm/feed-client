@@ -66,6 +66,7 @@
     "serve": "serve ./dist -l 3000",
     "stage": "./deploy staging",
     "deploy-production": "./deploy production"
+    "analyze-bundle": "ANALYZE=true yarn build"
   },
   "repository": {
     "type": "git",
