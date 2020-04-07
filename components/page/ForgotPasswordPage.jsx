@@ -39,17 +39,21 @@ function ForgotPasswordPage() {
 
       <div className="ninety-wide page--container">
 
-        <p className={styles.introText}>Enter your email address below to receive a link, and reset your password.</p>
+        {success ? <Success className={styles.successMessage} message={success} /> : (
+          <>
+            <p className={styles.introText}>Enter your email address below to receive a link, and reset your password.</p>
 
-        <PasswordForgetForm
-          error={error}
-          setError={setError}
-          success={success}
-          setSuccess={setSuccess}
-          email={email}
-          setEmail={setEmail}
-          isInvalid={isInvalid}
-        />
+            <PasswordForgetForm
+              error={error}
+              setError={setError}
+              success={success}
+              setSuccess={setSuccess}
+              email={email}
+              setEmail={setEmail}
+              isInvalid={isInvalid}
+            />
+          </>
+        )}
 
       </div>
 
@@ -57,7 +61,7 @@ function ForgotPasswordPage() {
   )
 }
 
-function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, error, isInvalid }) {
+function PasswordForgetForm({ setSuccess, setError, setEmail, email, error, isInvalid }) {
   const [loading, setLoading] = React.useState(false)
   const handleChange = e => {
     setSuccess('')
@@ -79,7 +83,7 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
         setError(err)
         setLoading(false)
       })
-    setSuccess(`Thanks! Instructions for resetting your password have been sent to ${email}`)
+    setSuccess(`Instructions for resetting your password have been sent to ${email}`)
     setEmail('')
     setLoading(false)
   }
@@ -87,25 +91,21 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
   return (
     <div className={styles.formContainer}>
 
-      {success ? (
-        <Success className={styles.successMessage} message={success} />
-      )
-        : (
-          <form
-            onSubmit={onFormSubmit}
-            className={styles.form}
-          >
+      <form
+        onSubmit={onFormSubmit}
+        className={styles.form}
+      >
 
-            <Input
-              className={styles.input}
-              name="email"
-              label="Email Address"
-              value={email}
-              handleChange={handleChange}
-              version="box"
-              type="email"
-              width={100}
-            />
+        <Input
+          className={styles.input}
+          name="email"
+          label="Email Address"
+          value={email}
+          handleChange={handleChange}
+          version="box"
+          type="email"
+          width={100}
+        />
 
         <Button
           className={styles.button}
@@ -117,10 +117,9 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
           reset.
         </Button>
 
-            <Error error={error} />
+        <Error error={error} />
 
-          </form>
-        )}
+      </form>
     </div>
   )
 }
