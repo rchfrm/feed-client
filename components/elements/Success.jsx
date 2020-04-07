@@ -2,12 +2,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TickIcon from '../icons/TickIcon'
+
+import brandColors from '../../constants/brandColors'
+
 const Success = ({ message, messagePrefix, className }) => {
   if (!message) return null
   const fullMessage = `${messagePrefix}${message}`
-  const classes = ['success', className].join(' ')
+  const classes = ['success--message', className].join(' ')
   return (
-    <p className={classes}>{fullMessage}</p>
+    <p className={classes}>
+      <span className="success-message_icon">
+        <TickIcon fill={brandColors.successColor} />
+      </span>
+      {fullMessage}
+    </p>
   )
 }
 

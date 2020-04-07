@@ -181,11 +181,8 @@
   margin: 1em 0 2.5em 0;
   padding: 2.778% 0;
   overflow-x: auto;
-
-  li:first-child {
-    margin-left: 5%;
-  }
 }
+
 
 /* Loading
 ******************/
@@ -195,6 +192,30 @@
   box-sizing: border-box;
   flex: auto;
 }
+
+
+/* Success message
+******************/
+.success--message {
+  position: relative;
+  line-height: 1.5;
+  padding-left: var(--bsu-lg);
+}
+
+.success-message_icon {
+  position: absolute;
+  left: 0;
+  bottom: 50%;
+  transform: translateY(50%);
+  display: inline-block;
+  height: 1.4em;
+
+  svg {
+    height: 100%;
+    width: auto;
+  }
+}
+
 
 /* Navigation
 ******************/
@@ -326,6 +347,15 @@
 
 .readonly {
   background-color: var(--text-color);
+}
+
+.frame li:first-child {
+  margin-left: 5%;
+}
+
+.frame li:last-child {
+  margin-left: 2.5%;
+  width: 0;
 }
 
 
