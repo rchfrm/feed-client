@@ -181,6 +181,11 @@
   margin: 1em 0 2.5em 0;
   padding: 2.778% 0;
   overflow-x: auto;
+
+  li:first-child {
+    margin-left: 5%;
+  }
+
 }
 
 
@@ -351,11 +356,6 @@
 
 .frame li:first-child {
   margin-left: 5%;
-}
-
-.frame li:last-child {
-  margin-left: 2.5%;
-  width: 0;
 }
 
 
