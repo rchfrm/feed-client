@@ -3,6 +3,7 @@ import React from 'react'
 import produce from 'immer'
 // IMPORT COMPONENTS
 import PageHeader from './PageHeader'
+import Spinner from './elements/Spinner'
 // IMPORT PAGES
 import PostsSingle from './PostsSingle'
 import PostsNone from './PostsNone'
@@ -46,7 +47,8 @@ function PostsAll({
   const intersectionRoot = React.useRef(null)
   // Create ref for watching intersection
   const loadTrigger = React.useRef(null)
-  // Watch the load trigger for intersection
+
+  // LOAD MORE Watch the load trigger for intersection
   const loadMore = React.useCallback((entries) => {
     const target = entries[0]
     if (target.isIntersecting && !loadingMore) {
@@ -110,7 +112,14 @@ function PostsAll({
             />
           )
         })}
+        {/* Loading spinner */}
+        {loadingMore && (
+          <div className={styles.postsSpinner}>
+            <Spinner />
+          </div>
+        )}
       </ul>
+
 
     </div>
   )
