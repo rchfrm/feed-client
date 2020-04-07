@@ -116,13 +116,15 @@ button {
     }
   }
 
+  .spinner {
+    svg {
+      width: 70%;
+    }
+  }
+
   &._off {
     background-color: var(--white);
     border: 2px solid var(--grey);
-
-    svg {
-      opacity: 0;
-    }
   }
 }
 
