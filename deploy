@@ -16,10 +16,12 @@ if [[ "$target" == "production" ]]; then
     project="archform-1"
     site_name="feed-prod"
     env_file=".env.production"
+    export_command="yarn export:production"
 else
     project="archform-1-dev"
     site_name="scaler-staging"
     env_file=".env.staging"
+    export_command="yarn export:staging"
 fi
 
 sed "s/{{ site_name }}/$site_name/g" firebase.default.json > firebase.json
@@ -33,7 +35,7 @@ fi
 cp "$env_file" .env
 
 # Build the site
-yarn export
+yarn "$export_command"
 
 if [[ -f .env.bak ]]; then
     rm -f .env
