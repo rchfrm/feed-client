@@ -8,6 +8,8 @@ import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
+import Button from './elements/Button'
+import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
 import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
@@ -64,23 +66,24 @@ function LoginPageContent() {
           <MarkdownText markdown={copy.intro} />
         </div>
 
-
-        <ButtonFacebook
-          className={styles.facebookButton}
-          onClick={facebookClick}
-        >
-          Log in with Facebook
-        </ButtonFacebook>
-
-        <p className={styles.emailFormButton}>
-          <a
-            className={styles.a}
-            role="button"
-            onClick={() => setShowEmailLogin(true)}
+        <div className={styles.loginButtons}>
+          {/* FB button */}
+          <ButtonFacebook
+            className={styles.facebookButton}
+            onClick={facebookClick}
           >
-            or log in using your email address
-          </a>
-        </p>
+            Log in with Facebook
+          </ButtonFacebook>
+          {/* Email button */}
+          <Button
+            className={styles.emailButton}
+            onClick={() => setShowEmailLogin(true)}
+            version="black icon"
+          >
+            <EmailIcon color="white" />
+            Log in with email
+          </Button>
+        </div>
 
         {/* Email login form */}
         {showEmailLogin && <LoginPageForm setPageLoading={setPageLoading} />}

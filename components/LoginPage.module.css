@@ -6,6 +6,20 @@
   max-width: 480px;
 }
 
+.loginButtons {
+  width: 100%;
+
+  :global(.button) {
+    width: 100%;
+    margin-bottom: var(--bsu-md) !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+}
+
 .facebookButton {
   width: 100%;
   margin-bottom: var(--bsu-md) !important;
