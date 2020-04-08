@@ -10,7 +10,8 @@ import * as ROUTES from '../../constants/routes'
 import firebase from '../helpers/firebase'
 
 const kickToLogin = (pathname) => {
-  if (pathname !== ROUTES.LOGIN || pathname !== ROUTES.SIGN_UP) {
+  // Only kick to login if use is on restricted page
+  if (ROUTES.restrictedPages.includes(pathname)) {
     Router.push(ROUTES.LOGIN)
   }
 }
