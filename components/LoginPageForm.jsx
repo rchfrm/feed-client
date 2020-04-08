@@ -33,7 +33,7 @@ function LoginPageForm({ setPageLoading }) {
 
   // HANDLE CHANGES IN FORM
   const handleChange = e => {
-    setError('')
+    setError(null)
     switch (e.target.name) {
       case 'email':
         setEmail(e.target.value)
