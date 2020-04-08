@@ -5,10 +5,10 @@ import React from 'react'
 import { NavigationContext } from '../contexts/Navigation'
 // IMPORT ELEMENTS
 import PageHeader from '../PageHeader'
-import Form from '../elements/Form'
 import Input from '../elements/Input'
 import Button from '../elements/Button'
 import Error from '../elements/Error'
+import Success from '../elements/Success'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -28,7 +28,7 @@ function ForgotPasswordPage() {
 
   const [email, setEmail] = React.useState('')
   const [success, setSuccess] = React.useState('')
-  const [error, setError] = React.useState('')
+  const [error, setError] = React.useState(null)
 
   const isInvalid = email === ''
 
@@ -39,17 +39,21 @@ function ForgotPasswordPage() {
 
       <div className="ninety-wide page--container">
 
-        <p className={styles.introText}>Enter your email address below to receive a link, and reset your password.</p>
+        {success ? <Success className={styles.successMessage} message={success} /> : (
+          <>
+            <p className={styles.introText}>Enter your email address below to receive a link, and reset your password.</p>
 
-        <PasswordForgetForm
-          error={error}
-          setError={setError}
-          success={success}
-          setSuccess={setSuccess}
-          email={email}
-          setEmail={setEmail}
-          isInvalid={isInvalid}
-        />
+            <PasswordForgetForm
+              error={error}
+              setError={setError}
+              success={success}
+              setSuccess={setSuccess}
+              email={email}
+              setEmail={setEmail}
+              isInvalid={isInvalid}
+            />
+          </>
+        )}
 
       </div>
 
@@ -57,10 +61,11 @@ function ForgotPasswordPage() {
   )
 }
 
-function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, error, isInvalid }) {
+function PasswordForgetForm({ setSuccess, setError, setEmail, email, error, isInvalid }) {
+  const [loading, setLoading] = React.useState(false)
   const handleChange = e => {
     setSuccess('')
-    setError('')
+    setError(null)
     switch (e.target.name) {
       case 'email':
         setEmail(e.target.value)
@@ -70,22 +75,24 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
     }
   }
 
-  const onSumbit = async e => {
+  const onFormSubmit = async (e) => {
     e.preventDefault()
-    try {
-      await firebase.doPasswordReset(email)
-      setSuccess('Please check your email to finish resetting your password.')
-      setEmail('')
-    } catch (err) {
-      setError(err)
-    }
+    setLoading(true)
+    await firebase.doPasswordReset(email)
+      .catch((err) => {
+        setError(err)
+        setLoading(false)
+      })
+    setSuccess(`Instructions for resetting your password have been sent to ${email}`)
+    setEmail('')
+    setLoading(false)
   }
 
   return (
-    <div className="fill-height">
+    <div className={styles.formContainer}>
 
       <form
-        onSumbit={onSumbit}
+        onSubmit={onFormSubmit}
         className={styles.form}
       >
 
@@ -96,22 +103,23 @@ function PasswordForgetForm({ setSuccess, setError, setEmail, email, success, er
           value={email}
           handleChange={handleChange}
           version="box"
+          type="email"
           width={100}
         />
 
         <Button
           className={styles.button}
-          disabled={isInvalid}
+          disabled={isInvalid || loading}
           version="black"
           type="input"
+          loading={loading}
         >
           reset.
         </Button>
 
-        <Error error={error} success={success} />
+        <Error error={error} />
 
       </form>
-
     </div>
   )
 }
