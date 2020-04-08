@@ -9,20 +9,22 @@ import * as ROUTES from '../../constants/routes'
 
 import firebase from '../helpers/firebase'
 
+// CALL REDIRECT
+let userRedirected = false
+const redirectPage = (pathname) => {
+  userRedirected = true
+  Router.push(pathname)
+}
+
 const kickToLogin = (pathname) => {
   // Only kick to login if use is on restricted page
   if (ROUTES.restrictedPages.includes(pathname)) {
-    Router.push(ROUTES.LOGIN)
+    redirectPage(ROUTES.LOGIN)
   }
 }
 
-
 // HANDLE NO AUTH USER
-const handleNoAuthUser = ({ message, pathname, setAuthError, noArtist, noAuth, noUser }) => {
-  const startOfReason = message.indexOf('error_description') + 18
-  const endOfReason = message.indexOf('&', startOfReason)
-  const decodedMessage = decodeURI(message.slice(startOfReason, endOfReason))
-  setAuthError({ message: decodedMessage })
+const handleNoAuthUser = ({ pathname, noArtist, noAuth, noUser }) => {
   // Check if the user is on an auth only page,
   // if they are push to log in page
   kickToLogin(pathname)
@@ -30,6 +32,17 @@ const handleNoAuthUser = ({ message, pathname, setAuthError, noArtist, noAuth, n
   noAuth()
   noUser()
   noArtist()
+}
+
+// HANDLE Invalid FB credential
+const handleFbInvalidCredential = ({ message, pathname, setAuthError, noArtist, noAuth, noUser }) => {
+  const startOfReason = message.indexOf('error_description') + 18
+  const endOfReason = message.indexOf('&', startOfReason)
+  const decodedMessage = decodeURI(message.slice(startOfReason, endOfReason))
+  // Show error
+  setAuthError({ message: decodedMessage })
+  // Handle no auth error
+  handleNoAuthUser({ pathname, noArtist, noAuth, noUser })
 }
 
 
@@ -41,7 +54,7 @@ const handleNewUser = async ({ additionalUserInfo, createUser, noArtist }) => {
   await createUser(firstName, lastName)
   // As this is a new user, set noArtist, and push them to the Connect Artist page
   noArtist()
-  Router.push(ROUTES.CONNECT_ACCOUNTS)
+  redirectPage(ROUTES.CONNECT_ACCOUNTS)
 }
 
 
@@ -54,8 +67,9 @@ const handleExistingUser = async ({ storeUser, noArtist, storeArtist, pathname }
   if (artists.length === 0) {
     noArtist()
     if (pathname !== ROUTES.CONNECT_ACCOUNTS) {
-      Router.push(ROUTES.CONNECT_ACCOUNTS)
+      redirectPage(ROUTES.CONNECT_ACCOUNTS)
     }
+    return
   }
   // If they do have artists, check for a previously selected artist ID in local storage...
   const storedArtistId = localStorage.getItem('artistId')
@@ -65,15 +79,24 @@ const handleExistingUser = async ({ storeUser, noArtist, storeArtist, pathname }
   if (!hasAccess) {
     localStorage.clear()
   }
-  // If they do set it as the selectedArtistId, otherwise use the first artist
-  // (sorted alphabetically) the user has access to
+  // If they do have accessset it as the selectedArtistId,
+  // otherwise use the first related artist (sorted alphabetically)
   const selectedArtistId = hasAccess ? storedArtistId : artists[0].id
   await storeArtist(selectedArtistId)
   // Check if they are on either the log-in or sign-up page,
   // if they are push to the home page
   if (pathname === ROUTES.LOGIN || pathname === ROUTES.SIGN_UP) {
-    Router.push(ROUTES.HOME)
+    redirectPage(ROUTES.HOME)
   }
+}
+
+// HANDLE INITIAL LOGGED IN TEST
+const handleInitialAuthCheck = async ({ authUser, storeAuth, handleExistingUser, handleNoAuthUser }) => {
+  // If no auth user, handle that
+  if (!authUser) return handleNoAuthUser()
+  // If there is, store the user in auth context
+  await storeAuth(authUser)
+  await handleExistingUser()
 }
 
 const HandleFbRedirect = (Component) => {
@@ -88,15 +111,33 @@ const HandleFbRedirect = (Component) => {
   return (props) => {
     const [ready, setReady] = React.useState(false)
     // Call when ready to show content
-    const showContent = (isMounted) => {
-      if (!isMounted()) return
+    const showContent = () => {
+      // If user has been redirected, wait for redirect
+      // before showing content
+      if (userRedirected) {
+        userRedirected = false
+        Router.events.on('routeChangeComplete', showContent)
+        return
+      }
+      // Unsubscribe from route change listener
+      Router.events.off('routeChangeComplete', showContent)
+      // Show the content
       setReady(true)
     }
+
     useAsyncEffect(async (isMounted) => {
       // Check for the result of a redirect from Facebook
       const redirectResult = await firebase.redirectResult()
       // Destructur redirect result
       const { user, error, credential, additionalUserInfo } = redirectResult
+      // * Handle no redirect
+      if (!user && !error) {
+        firebase.auth.onAuthStateChanged(async (authUser) => {
+          await handleInitialAuthCheck({ authUser, storeAuth, handleExistingUser, handleNoAuthUser })
+          showContent(isMounted)
+        })
+        return
+      }
       // * Handle errors
       if (error) {
         const { message, type, code } = error
@@ -106,7 +147,7 @@ const HandleFbRedirect = (Component) => {
         console.log('code', code)
         // Handle auth error
         if (code === 'auth/invalid-credential') {
-          handleNoAuthUser({ pathname, message, setAuthError, noArtist, noAuth, noUser })
+          handleFbInvalidCredential({ pathname, message, setAuthError, noArtist, noAuth, noUser })
           return
         }
         // Handle generic error
