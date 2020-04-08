@@ -18,7 +18,7 @@ import server from './helpers/server'
 import styles from './PostsPage.module.css'
 
 // Define initial state and reducer for posts
-const postsInitialState = []
+const postsInitialState = null
 const postsReducer = (draftState, postsAction) => {
   const {
     type: actionType,
@@ -107,7 +107,8 @@ function PostsLoader() {
     totalArtistPosts,
     loadingMore,
     // When fetch finishes
-    onResolve: (posts = []) => {
+    onResolve: (posts) => {
+      if (!posts) return
       // Update offset
       offset.current += posts.length
       // If loading extra posts
@@ -171,7 +172,7 @@ function PostsLoader() {
   }
 
   // RETURN
-  if (artistLoading || (isPending && initialLoad)) {
+  if (artistLoading || (isPending && initialLoad) || !posts) {
     return <Spinner />
   }
   return (
