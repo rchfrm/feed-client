@@ -50,15 +50,24 @@ const SignupEmailForm = ({ setLoading }) => {
   }
   const [signupDetails, setSignupDetails] = useImmerReducer(reducer, initialSignupState)
   // Test passwords match
-  const passwordError = React.useMemo(() => {
+  const passwordStatus = React.useMemo(() => {
     const { passwordOne, passwordTwo } = signupDetails
-    if (!passwordTwo) return false
-    return !(passwordOne === passwordTwo)
+    if (!passwordTwo) {
+      return {
+        success: false,
+        error: false,
+      }
+    }
+    const success = passwordOne === passwordTwo
+    return {
+      success,
+      error: !success,
+    }
   }, [signupDetails])
   // Test form complete
   const formComplete = React.useMemo(() => {
     const { email, firstName, lastName, passwordOne } = signupDetails
-    if (passwordError) return false
+    if (passwordStatus.error) return false
     if (!passwordOne) return false
     if (email && firstName && lastName) return true
     return false
@@ -76,12 +85,16 @@ const SignupEmailForm = ({ setLoading }) => {
     return Object.entries(signupDetails).map(([key, value]) => {
       const inputType = getInputType(key)
       const label = getInputLabel(key)
+      const success = key === 'passwordOne' || key === 'passwordTwo' ? passwordStatus.success : false
+      const error = key === 'passwordOne' || key === 'passwordTwo' ? passwordStatus.error : false
       const name = key
       return {
         inputType,
         name,
         value,
         label,
+        success,
+        error,
       }
     })
   }, [signupDetails])
@@ -112,7 +125,7 @@ const SignupEmailForm = ({ setLoading }) => {
       <Error error={error} />
 
       {/* All form inputs */}
-      {formInputs.map(({ inputType, name, value, label }) => {
+      {formInputs.map(({ inputType, name, value, label, success, error }) => {
         return (
           <Input
             key={name}
@@ -121,6 +134,8 @@ const SignupEmailForm = ({ setLoading }) => {
             name={name}
             value={value}
             type={inputType}
+            success={success}
+            error={error}
             label={label}
           />
         )
