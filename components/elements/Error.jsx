@@ -1,22 +1,24 @@
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
-// IMPORT STYLES
+import PropTypes from 'prop-types'
 
-function Error({ error, success, messagePrefix = '' }) {
-  if (!error || success) return null
+const Error = ({ error, messagePrefix }) => {
+  if (!error) return null
   const { message: errorMessage } = error
-  const message = `${messagePrefix}${errorMessage || success}`
-  const className = error ? 'error' : 'success'
+  const message = `${messagePrefix}${errorMessage}`
   return (
-    <p className={className}>{message}</p>
+    <p className="error">{message}</p>
   )
+}
+
+Error.propTypes = {
+  error: PropTypes.object,
+  messagePrefix: PropTypes.string,
+}
+
+Error.defaultProps = {
+  error: null,
+  messagePrefix: '',
 }
 
 export default Error

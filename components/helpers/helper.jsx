@@ -87,21 +87,16 @@ export default {
   },
 
 
-  arrToObjById: array => {
-    if (array.length === 0) {
-      return array
-    }
-
-    let obj = {}
-
-    array.forEach(item => {
-      obj = {
+  arrToObjById: (array) => {
+    // Stop here if no array or empty array
+    if (!array || !array.length) return array
+    return array.reduce((obj, item) => {
+      const { id } = item
+      return {
         ...obj,
-        [item.id]: item,
+        [id]: item,
       }
-    })
-
-    return obj
+    }, {})
   },
 
   assignDataSourceType: string => {

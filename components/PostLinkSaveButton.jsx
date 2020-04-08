@@ -3,36 +3,32 @@ import React from 'react'
 
 // IMPORT ELEMENTS
 import Button from './elements/Button'
-import BrokenCircle from './icons/BrokenCircle'
-// IMPORT PAGES
-// IMPORT ASSETS
 
-// IMPORT STYLES
-import brandColors from '../constants/brandColors'
-import styles from './PostsPage.module.css'
+const getButtonVersion = (buttonState) => {
+  if (buttonState === 'save') return 'black'
+  if (buttonState === 'saving') return 'loading'
+  if (buttonState === 'disabled') return 'black'
+  if (buttonState === 'saved') return 'success'
+}
 
-function PostLinkSaveButton({ state, disabled, handleClick }) {
-  // If a request is in progress, show a spinning broken circle
-  if (state === 'saving') {
-    return (
-      <div className={styles['broken-circle']}>
-        <BrokenCircle className={styles.svg} width={25} fill={brandColors.loaderColor} />
-      </div>
-    )
-  }
-
-  // Otherwise show a button, indicating that the information can be saved,
-  // or has been saved
+function PostLinkSaveButton({
+  buttonState,
+  disabled,
+  handleClick,
+  width,
+}) {
+  // Get button version
+  const version = getButtonVersion(buttonState)
+  // Output button
   return (
     <Button
-      version="black"
-      width={25}
+      version={version}
+      width={width}
       onClick={handleClick}
       disabled={disabled}
-      textColor={state === 'saved' ? brandColors.white : undefined}
-      bgColor={state === 'saved' ? brandColors.loaderColor : undefined}
+      loading={buttonState === 'saving'}
     >
-      {state[0].toUpperCase() + state.slice(1)}
+      {buttonState[0].toUpperCase() + buttonState.slice(1)}
     </Button>
   )
 }

@@ -59,13 +59,15 @@
     "dev": "next",
     "dev:ssl": "run-p dev ssl",
     "ssl": "dev-proxy --proxy 3000:3001",
-    "build": "next build",
     "start": "next start",
     "copyIcons": "cp -R .next/pwa public/",
-    "export": "rm -rf dist/ && next build && yarn copyIcons && next export -o dist/",
+    "build": "RELEASE_VERSION=$(git rev-parse --short HEAD) next build",
+    "export:staging": "rm -rf dist/ && BUILD_ENV=staging yarn build && yarn copyIcons && next export -o dist/",
+    "export:production": "rm -rf dist/ && BUILD_ENV=production yarn build && yarn copyIcons && next export -o dist/",
     "serve": "serve ./dist -l 3000",
     "stage": "./deploy staging",
-    "deploy-production": "./deploy production"
+    "deploy-production": "./deploy production",
+    "analyze-bundle": "ANALYZE=true yarn build"
   },
   "repository": {
     "type": "git",

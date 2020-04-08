@@ -56,6 +56,10 @@ const LoadContent = () => {
         if (!isMounted) return
         setErrors([err])
       })
+    if (!availableArtists) {
+      setPageLoading(false)
+      return
+    }
     const { adaccounts } = availableArtists
     // Sort ad accounts alphabetically
     const availableArtistsSorted = {

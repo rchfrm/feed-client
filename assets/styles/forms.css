@@ -13,7 +13,8 @@ input[type=text],
 input[type=email],
 input[type=password],
 input[type=url],
-input[type=number] {
+input[type=number],
+select {
   font-size: 16px;
 }
 
@@ -133,9 +134,8 @@ input[readonly] {
 ******************/
 select {
   width: 100%;
-  font-family: SpaceGrotesk,sans-serif;
+  font-family: var(--font);
   font-feature-settings: "ss01";
-  font-size: 1em;
   background-color: transparent;
 }
 

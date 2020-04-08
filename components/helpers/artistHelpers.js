@@ -52,7 +52,7 @@ export default {
       location: artist.location,
       country_code: artist.country_code,
       facebook_page_url: artist.facebook_page_url,
-      spotify_url: helper.cleanSpotifyUrl(artist.spotify_url),
+      spotify_url: helper.cleanSpotifyUrl(artist.spotify_url) || null,
       instagram_url: artist.instagram_url,
       integrations: {
         facebook: {

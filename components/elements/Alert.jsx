@@ -96,3 +96,37 @@ Alert.defaultProps = {
 }
 
 export default Alert
+
+
+// EXTRA EXPORTS
+// -------------
+export const initialAlertState = {
+  contents: undefined,
+  responseExpected: true,
+  confirmationText: 'Yes.',
+  rejectionText: 'No.',
+  response: false,
+}
+
+export const alertReducer = (alertState, alertAction) => {
+  switch (alertAction.type) {
+    case 'show-alert':
+      return {
+        ...alertState,
+        contents: alertAction.payload.contents,
+      }
+
+    case 'reset-alert':
+      return initialAlertState
+
+    case 'set-positive-response':
+      return {
+        ...alertState,
+        contents: undefined,
+        response: true,
+      }
+
+    default:
+      throw new Error(`Could not find ${alertAction.type} in alertReducer`)
+  }
+}
