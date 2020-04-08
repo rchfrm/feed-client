@@ -2,25 +2,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Error = ({ error, success, messagePrefix }) => {
-  if (!error || success) return null
+const Error = ({ error, messagePrefix }) => {
+  if (!error) return null
   const { message: errorMessage } = error
-  const message = `${messagePrefix}${errorMessage || success}`
-  const className = error ? 'error' : 'success'
+  const message = `${messagePrefix}${errorMessage}`
   return (
-    <p className={className}>{message}</p>
+    <p className="error">{message}</p>
   )
 }
 
 Error.propTypes = {
   error: PropTypes.object,
-  success: PropTypes.bool,
   messagePrefix: PropTypes.string,
 }
 
 Error.defaultProps = {
   error: null,
-  success: false,
   messagePrefix: '',
 }
 

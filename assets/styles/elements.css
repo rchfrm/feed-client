@@ -163,6 +163,7 @@
   }
 
 }
+
 .success {
   color: var(--success-color);
 }
@@ -184,7 +185,9 @@
   li:first-child {
     margin-left: 5%;
   }
+
 }
+
 
 /* Loading
 ******************/
@@ -194,6 +197,30 @@
   box-sizing: border-box;
   flex: auto;
 }
+
+
+/* Success message
+******************/
+.success--message {
+  position: relative;
+  line-height: 1.5;
+  padding-left: var(--bsu-lg);
+}
+
+.success-message_icon {
+  position: absolute;
+  left: 0;
+  bottom: 50%;
+  transform: translateY(50%);
+  display: inline-block;
+  height: 1.4em;
+
+  svg {
+    height: 100%;
+    width: auto;
+  }
+}
+
 
 /* Navigation
 ******************/
@@ -325,6 +352,10 @@
 
 .readonly {
   background-color: var(--text-color);
+}
+
+.frame li:first-child {
+  margin-left: 5%;
 }
 
 
