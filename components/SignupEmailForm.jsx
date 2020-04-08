@@ -37,7 +37,6 @@ const reducer = (draftState, action) => {
 const SignupEmailForm = ({ setLoading }) => {
   // Define component state
   const [error, setError] = React.useState(null)
-  const [validForm, setValidForm] = React.useState(false)
   // Get contexts
   const { signUp } = React.useContext(AuthContext)
   const { createUser } = React.useContext(UserContext)
@@ -50,14 +49,31 @@ const SignupEmailForm = ({ setLoading }) => {
     passwordTwo: '',
   }
   const [signupDetails, setSignupDetails] = useImmerReducer(reducer, initialSignupState)
+  // Test passwords match
+  const passwordError = React.useMemo(() => {
+    const { passwordOne, passwordTwo } = signupDetails
+    if (!passwordTwo) return false
+    return !(passwordOne === passwordTwo)
+  }, [signupDetails])
+  // Test form complete
+  const formComplete = React.useMemo(() => {
+    const { email, firstName, lastName, passwordOne } = signupDetails
+    if (passwordError) return false
+    if (!passwordOne) return false
+    if (email && firstName && lastName) return true
+    return false
+  }, [signupDetails])
   // Handle input changes
   const onInputChange = (e) => {
-    console.log(e)
-    // setSignupDetails()
+    const { name: key, value } = e.target
+    console.log(e.target.name)
+    console.log(e.target.value)
+    // Update signup details
+    setSignupDetails({ key, value })
   }
   // Define array of form inputs
   const formInputs = React.useMemo(() => {
-    Object.entries(initialSignupState).map(([key, value]) => {
+    return Object.entries(signupDetails).map(([key, value]) => {
       const inputType = getInputType(key)
       const label = getInputLabel(key)
       const name = key
@@ -69,6 +85,7 @@ const SignupEmailForm = ({ setLoading }) => {
       }
     })
   }, [signupDetails])
+
   // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -112,7 +129,7 @@ const SignupEmailForm = ({ setLoading }) => {
       <Button
         className={styles.signupButton}
         version="black  wide"
-        disabled={!validForm}
+        disabled={!formComplete}
         type="sumbit"
       >
         sign up
