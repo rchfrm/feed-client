@@ -13,13 +13,10 @@ function LoginPage() {
   React.useEffect(() => {
     navDispatch({ type: 'hide' })
   }, [navDispatch])
-  // END SHOW / HIDE NAVIGATION
 
   return (
     <div className={`page--container ${className}`}>
-
       <LoginPageContent />
-
     </div>
   )
 }
