@@ -48,6 +48,12 @@ p {
   font-weight: 500;
 }
 
+.small--text {
+  p {
+    font-size: 0.75em;
+  }
+}
+
 .h3--text {
   p {
     font-size: 1.333em;

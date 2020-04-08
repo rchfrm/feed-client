@@ -18,7 +18,7 @@ import * as ROUTES from '../constants/routes'
 
 import styles from './LoginPage.module.css'
 
-function LoginPageForm({ setPageLoading }) {
+function LoginPageForm({ className, setPageLoading }) {
   // IMPORT CONTEXTS
   const { authError, login } = React.useContext(AuthContext)
   const { storeUser, userError } = React.useContext(UserContext)
@@ -33,7 +33,7 @@ function LoginPageForm({ setPageLoading }) {
 
   // HANDLE CHANGES IN FORM
   const handleChange = e => {
-    setError('')
+    setError(null)
     switch (e.target.name) {
       case 'email':
         setEmail(e.target.value)
@@ -75,7 +75,7 @@ function LoginPageForm({ setPageLoading }) {
   return (
     <form
       onSubmit={onFormSubmit}
-      className={styles.form}
+      className={className}
     >
 
       <Input

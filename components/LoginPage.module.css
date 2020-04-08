@@ -3,11 +3,23 @@
 }
 
 .container {
+  
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+  width: 90%;
   max-width: 480px;
+  margin: 0 auto;
+}
+
+.header {
+  width: 100% !important;
+  margin-bottom: var(--bsu-lg) !important;
 }
 
 .loginButtons {
   width: 100%;
+  margin-bottom: var(--bsu);
 
   :global(.button) {
     width: 100%;
@@ -20,20 +32,17 @@
   }
 }
 
-.facebookButton {
+.tcText {
   width: 100%;
-  margin-bottom: var(--bsu-md) !important;
-}
-
-.emailFormButton {
-  width: 100%;
+  margin-top: auto;
+  margin-bottom: 0 !important;
 }
 
 .form {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  padding-top: var(--bsu);
+  margin-bottom: var(--bsu);
 }
 
 .input {

@@ -47,48 +47,42 @@ function LoginPageContent() {
     )
   }
   return (
-    <div className="page--container">
+    <div className={styles.container}>
 
-      <PageHeader heading="log in" className={styles.container} />
+      <PageHeader className={styles.header} heading="log in" />
 
-      <div className={['ninety-wide', styles.container].join(' ')}>
-        <h3>
-          or
-          {' '}
-          <Link href={ROUTES.SIGN_UP}><a>sign up here</a></Link>
-          .
-        </h3>
-      </div>
+      {/* Email login form */}
+      {showEmailLogin ? (
+        // EMAIL LOGIN FORM
+        <LoginPageForm className={styles.form} setPageLoading={setPageLoading} />
+      )
+        : (
+          // LOGIN BUTTONS
+          <div className={styles.loginButtons}>
+            <ButtonFacebook
+              className={styles.facebookButton}
+              onClick={facebookClick}
+            >
+              Log in with Facebook
+            </ButtonFacebook>
+            <Button
+              className={styles.emailButton}
+              onClick={() => setShowEmailLogin(true)}
+              version="black icon"
+            >
+              <EmailIcon color="white" />
+              Log in with email
+            </Button>
+          </div>
+        )}
 
-      <div className={['ninety-wide', styles.container].join(' ')}>
 
-        <div className={styles.intro}>
-          <MarkdownText markdown={copy.intro} />
-        </div>
+      {/* Link to signup page */}
+      <MarkdownText markdown={copy.signupReminder} />
 
-        <div className={styles.loginButtons}>
-          {/* FB button */}
-          <ButtonFacebook
-            className={styles.facebookButton}
-            onClick={facebookClick}
-          >
-            Log in with Facebook
-          </ButtonFacebook>
-          {/* Email button */}
-          <Button
-            className={styles.emailButton}
-            onClick={() => setShowEmailLogin(true)}
-            version="black icon"
-          >
-            <EmailIcon color="white" />
-            Log in with email
-          </Button>
-        </div>
+      {/* T&C text */}
+      <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText} />
 
-        {/* Email login form */}
-        {showEmailLogin && <LoginPageForm setPageLoading={setPageLoading} />}
-
-      </div>
     </div>
   )
 }
