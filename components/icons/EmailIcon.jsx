@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import brandColors from '../../constants/brandColors'
 
-const Email = ({ color }) => {
+const EmailIcon = ({ color }) => {
   return (
     <svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -16,12 +16,12 @@ const Email = ({ color }) => {
   )
 }
 
-Email.propTypes = {
+EmailIcon.propTypes = {
   color: PropTypes.string,
 }
 
-Email.defaultProps = {
+EmailIcon.defaultProps = {
   color: brandColors.textColor,
 }
 
-export default Email
+export default EmailIcon
