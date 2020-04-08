@@ -14,3 +14,16 @@ export const PRICING = '/pricing'
 export const TERMS = '/terms'
 export const NOTIFICATIONS = '/notifications'
 export const HOME = POSTS
+// Array of restricted pages
+export const restrictedPages = [
+  CONNECT_ACCOUNTS,
+  THANK_YOU,
+  POSTS,
+  INSIGHTS,
+  ACCOUNT,
+  PAYMENT,
+  CONNECTIONS,
+  RESULTS,
+  NOTIFICATIONS,
+  HOME,
+]
