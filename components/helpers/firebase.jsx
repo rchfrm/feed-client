@@ -18,7 +18,7 @@ if (!app.apps.length) {
 }
 
 const auth = app.auth()
-const provider = new app.auth.FacebookAuthProvider()
+const fbProvider = new app.auth.FacebookAuthProvider()
 
 // Export firebase functions
 export default {
@@ -54,24 +54,24 @@ export default {
 
   doSignInWithFacebook: () => {
     scopeArray.forEach(scope => {
-      provider.addScope(scope)
+      fbProvider.addScope(scope)
     })
-    return auth.signInWithRedirect(provider)
+    return auth.signInWithRedirect(fbProvider)
   },
 
   linkFacebookAccount: (requestedPermissions) => {
     const scopeRequests = requestedPermissions || scopeArray
     scopeRequests.forEach(scope => {
-      provider.addScope(scope)
+      fbProvider.addScope(scope)
     })
-    return auth.currentUser.linkWithRedirect(provider)
+    return auth.currentUser.linkWithRedirect(fbProvider)
   },
 
   connectFacebookUserWithPopUp: () => {
     scopeArray.forEach(scope => {
-      provider.addScope(scope)
+      fbProvider.addScope(scope)
     })
-    return auth.currentUser.linkWithPopup(provider)
+    return auth.currentUser.linkWithPopup(fbProvider)
   },
 
   redirectResult: async () => {
@@ -131,9 +131,9 @@ export default {
   reauthFacebook: (requestedPermissions) => {
     const scopeRequests = requestedPermissions || scopeArray
     scopeRequests.forEach(scope => {
-      provider.addScope(scope)
+      fbProvider.addScope(scope)
     })
-    provider.setCustomParameters({ auth_type: 'rerequest' })
-    return auth.currentUser.reauthenticateWithRedirect(provider)
+    fbProvider.setCustomParameters({ auth_type: 'rerequest' })
+    return auth.currentUser.reauthenticateWithRedirect(fbProvider)
   },
 }
