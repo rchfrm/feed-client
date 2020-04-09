@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
+import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -11,7 +12,6 @@ import Input from './elements/Input'
 import Button from './elements/Button'
 import Error from './elements/Error'
 
-import LoginPagePasswordForgetLink from './LoginPagePasswordForgetLink'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
@@ -105,7 +105,9 @@ function LoginPageForm({ className, setPageLoading }) {
 
       <Error error={authError || userError || error} />
 
-      <LoginPagePasswordForgetLink />
+      <p className={['small--p', styles.forgotPasswordLink].join(' ')}>
+        <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot Password?</a></Link>
+      </p>
 
       <Button
         className={styles.submit}
