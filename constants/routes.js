@@ -1,5 +1,5 @@
-export const SIGN_UP = '/sign-up'
-export const SIGN_UP_ERRORS = '/sign-up-errors'
+export const SIGN_UP = '/join'
+export const SIGN_UP_ERRORS = '/join-errors'
 export const CONNECT_ACCOUNTS = '/connect-accounts'
 export const THANK_YOU = '/thank-you'
 export const LOGIN = '/login'
