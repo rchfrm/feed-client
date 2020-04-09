@@ -56,6 +56,6 @@
 }
 
 .forgotPasswordLink {
-  margin-top: calc(-1 * var(--bsu));
+  margin-top: calc(-0.5 * var(--bsu));
   width: 100%;
 }

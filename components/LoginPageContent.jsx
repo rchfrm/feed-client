@@ -1,6 +1,5 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -16,7 +15,6 @@ import Spinner from './elements/Spinner'
 import LoginPageForm from './LoginPageForm'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import * as ROUTES from '../constants/routes'
 import brandColors from '../constants/brandColors'
 
 import MarkdownText from './elements/MarkdownText'
@@ -57,28 +55,28 @@ function LoginPageContent() {
         <LoginPageForm className={styles.form} setPageLoading={setPageLoading} />
       )
         : (
-          // LOGIN BUTTONS
-          <div className={styles.loginButtons}>
-            <ButtonFacebook
-              className={styles.facebookButton}
-              onClick={facebookClick}
-            >
-              Log in with Facebook
-            </ButtonFacebook>
-            <Button
-              className={styles.emailButton}
-              onClick={() => setShowEmailLogin(true)}
-              version="black icon"
-            >
-              <EmailIcon color="white" />
-              Log in with email
-            </Button>
-          </div>
+          <>
+            {/* LOGIN BUTTONS */}
+            <div className={styles.loginButtons}>
+              <ButtonFacebook
+                className={styles.facebookButton}
+                onClick={facebookClick}
+              >
+                Log in with Facebook
+              </ButtonFacebook>
+              <Button
+                className={styles.emailButton}
+                onClick={() => setShowEmailLogin(true)}
+                version="black icon"
+              >
+                <EmailIcon color="white" />
+                Log in with email
+              </Button>
+            </div>
+            {/* Link to signup page */}
+            <MarkdownText markdown={copy.signupReminder} />
+          </>
         )}
-
-
-      {/* Link to signup page */}
-      <MarkdownText markdown={copy.signupReminder} />
 
       {/* T&C text */}
       <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText} />

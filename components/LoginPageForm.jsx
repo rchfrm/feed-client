@@ -12,7 +12,6 @@ import Input from './elements/Input'
 import Button from './elements/Button'
 import Error from './elements/Error'
 
-// IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
 
@@ -105,6 +104,7 @@ function LoginPageForm({ className, setPageLoading }) {
 
       <Error error={authError || userError || error} />
 
+      {/* Forgot password link */}
       <p className={['small--p', styles.forgotPasswordLink].join(' ')}>
         <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot Password?</a></Link>
       </p>
