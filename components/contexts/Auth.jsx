@@ -1,40 +1,40 @@
-// IMPORT PACKAGES
 import React from 'react'
-import moment from 'moment'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
+import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import firebase from '../helpers/firebase'
-// IMPORT STYLES
 
-const initialAuthState = {}
-const AuthContext = React.createContext(initialAuthState)
-AuthContext.displayName = 'AuthContext'
-const authReducer = (authState, authAction) => {
-  switch (authAction.type) {
+const initialAuthState = {
+  token: '',
+  email: '',
+}
+
+const authReducer = (draftState, action) => {
+  const {
+    type: actionType,
+    payload: { email, token } = {},
+  } = action
+
+  switch (actionType) {
     case 'no-auth-user':
       return initialAuthState
     case 'set-auth-user':
       return {
-        email: authAction.payload.email,
-        token: authAction.payload.token,
+        email,
+        token,
       }
     case 'set-token':
-      return {
-        ...authState,
-        token: authAction.payload.token,
-      }
+      draftState.token = token
+      break
     default:
-      throw new Error(`Unable to find ${authAction.type} in authReducer`)
+      throw new Error(`Unable to find ${actionType} in authReducer`)
   }
 }
 
+const AuthContext = React.createContext(initialAuthState)
+AuthContext.displayName = 'AuthContext'
+
 function AuthProvider({ children }) {
-  const [auth, setAuth] = React.useReducer(authReducer, initialAuthState)
+  const [auth, setAuth] = useImmerReducer(authReducer, initialAuthState)
   const [authError, setAuthError] = React.useState(null)
   const [accessToken, setAccessToken] = React.useState(null)
   const [authLoading, setAuthLoading] = React.useState(true)
