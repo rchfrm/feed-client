@@ -17,11 +17,13 @@ const getMissingPermissionsList = (missingPermissions) => {
 export default {
   expired_access_token: () => 'We need to relink your Facebook account, click ‘Continue with Facebook’ to get started.',
 
-  missing_permission_scope: (missingPermissions) => `In order to promote your posts, we need the following permissions from Facebook...the ability to:
+  missing_permission_scope: (missingPermissions) => `In order to promote your posts, we need the following permissions from Facebook...
+  
+  The ability to:
 
   ${getMissingPermissionsList(missingPermissions)}
   
-  Click ‘Continue with Facebook’ to grant those permissions.`,
+Click ‘Continue with Facebook’ to grant those permissions.`,
 
   ad_account_closed: (artist) => `Your ad account (with the ID ${artist.integrations.facebook.adaccount_id}) is marked as closed. So that Feed can promote your posts, you’ll need to create a new ad account on Facebook.
 
