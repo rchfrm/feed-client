@@ -11,6 +11,7 @@ import ButtonFacebook from './elements/ButtonFacebook'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 import Error from './elements/Error'
+import styles from './ConnectAccounts.module.css'
 // IMPORT STYLES
 
 function ConnectAccountsFacebook({ errors, setErrors }) {
@@ -28,40 +29,25 @@ function ConnectAccountsFacebook({ errors, setErrors }) {
   // END HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
 
   return (
-    <div
-      className="full"
-      style={{
-        overflow: 'initial',
-        marginTop: '1.25em',
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-
-      <div style={{
-        width: '65.738%',
-        margin: '0 auto',
-      }}
-      >
-
+    <div className="ninety-wide">
+      <div className={styles.facebookConnectContainer}>
         {/* Errors */}
         {errors.map((error, index) => {
           return <Error error={error} messagePrefix="Error: " key={index} />
         })}
 
         <ButtonFacebook
+          className={styles.fbButton}
           onClick={handleClick}
-          width={100}
         >
           Continue with Facebook
         </ButtonFacebook>
 
-        <em style={{ fontSize: '0.75em', lineHeight: '1.25em', marginTop: '1em' }}>
+        <em className={[styles.fbLegalText, 'xsmall--p'].join(' ')}>
           This allows us to connect to Facebook so that we can show you your data and promote posts on your behalf, we'll never post anything without your approval.
         </em>
 
       </div>
-
     </div>
   )
 }

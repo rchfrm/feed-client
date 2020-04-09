@@ -1,3 +1,17 @@
+/* ConnectAccountsFacebook */
+
+.facebookConnectContainer {
+  padding-top: var(--bsu);
+  max-width: 480px;
+}
+
+.fbButton  {
+  width: 100%;
+  margin-bottom: var(--bsu);
+}
+
+
+/* Connect Artist panels */
 .artistIntegrations {
 
   :global(.flex-row) {
