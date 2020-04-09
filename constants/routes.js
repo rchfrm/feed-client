@@ -1,4 +1,5 @@
 export const SIGN_UP = '/sign-up'
+export const SIGN_UP_ERRORS = '/sign-up-errors'
 export const CONNECT_ACCOUNTS = '/connect-accounts'
 export const THANK_YOU = '/thank-you'
 export const LOGIN = '/login'
@@ -16,6 +17,7 @@ export const NOTIFICATIONS = '/notifications'
 export const HOME = POSTS
 // Array of restricted pages
 export const restrictedPages = [
+  SIGN_UP_ERRORS,
   CONNECT_ACCOUNTS,
   THANK_YOU,
   POSTS,
