@@ -38,7 +38,7 @@ const SignupPageContent = () => {
   return (
     <div className={styles.container}>
 
-      <PageHeader className={styles.header} heading="log in" />
+      <PageHeader className={styles.header} heading="sign up" />
 
       <div className={styles.loginButtons}>
         <ButtonFacebook
