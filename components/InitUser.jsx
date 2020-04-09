@@ -136,10 +136,11 @@ const InitUser = ({ children }) => {
     const { user, error, credential, additionalUserInfo } = redirectResult
     // * Handle no redirect
     if (!user && !error) {
-      firebase.auth.onAuthStateChanged(async (authUser) => {
+      const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
         await handleInitialAuthCheck(authUser)
         if (!isMounted()) return
         showContent(isMounted)
+        unsubscribe()
       })
       return
     }
