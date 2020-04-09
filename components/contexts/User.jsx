@@ -1,43 +1,40 @@
-// IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
+import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import server from '../helpers/server'
-// IMPORT STYLES
 
 const initialUserState = {}
-const UserContext = React.createContext(initialUserState)
-UserContext.displayName = 'UserContext'
-const userReducer = (userState, userAction) => {
-  switch (userAction.type) {
+
+const userReducer = (draftState, action) => {
+  const {
+    type: actionType,
+    payload,
+  } = action
+  switch (actionType) {
     case 'set-user':
-      return userAction.payload.user
+      return payload.user
     case 'set-user-details':
-      return userAction.payload.user
+      return payload.user
     case 'set-daily_budget': {
-      const { first_name, last_name, email } = userAction.payload
-      return {
-        ...userState,
-        first_name,
-        last_name,
-        email,
-      }
+      const { first_name, last_name, email } = payload
+      draftState.first_name = first_name
+      draftState.last_name = last_name
+      draftState.email = email
+      break
     }
     case 'sign-out':
       return initialUserState
     default:
-      throw new Error(`Unable to find ${userAction.type} in userReducer`)
+      throw new Error(`Unable to find ${actionType} in userReducer`)
   }
 }
 
+const UserContext = React.createContext(initialUserState)
+UserContext.displayName = 'UserContext'
+
 function UserProvider({ children }) {
   // DEFINE USER STATE
-  const [user, setUser] = React.useReducer(userReducer, initialUserState)
+  const [user, setUser] = useImmerReducer(userReducer, initialUserState)
   const [userLoading, setUserLoading] = React.useState(true)
   const [userError, setUserError] = React.useState(null)
   // END DEFINE USER STATE
