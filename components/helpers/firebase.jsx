@@ -56,7 +56,7 @@ export default {
     return auth.signInWithRedirect(fbProvider)
   },
 
-  doSignInWithFacebook: () => {
+  signUpWithFacebook: () => {
     scopeArray.forEach(scope => {
       fbProvider.addScope(scope)
     })
