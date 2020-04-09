@@ -135,21 +135,21 @@ button {
   text-decoration: underline;
 }
 
+.button--icon {
+  font-weight: 600;
+  font-size: 1em;
+  padding: 20px;
+  svg {
+    vertical-align: bottom;
+    margin-right: var(--bsu);
+  }
+}
+
 .button--facebook {
   background-color: var(--color-fb-button);
   color: var(--white);
   border: none;
-  font-weight: 600;
-  font-size: 1em;
-  padding: 20px;
-  margin-bottom: 1em;
   text-align: left;
-  cursor: pointer;
-}
-
-.button--facebook svg {
-  vertical-align: bottom;
-  margin-right: var(--bsu);
 }
 
 .integration-setup {

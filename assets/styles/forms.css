@@ -64,7 +64,6 @@ input[readonly] {
   display: block;
   border: 2px solid var(--black);
   border-radius: var(--button-radius);
-  margin-bottom: 1em;
   padding: 1em;
   padding-left: 0.8em;
   font-family: var(--font-mono);
