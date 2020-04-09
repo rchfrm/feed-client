@@ -38,6 +38,10 @@
   margin-bottom: 0 !important;
 }
 
+.error {
+  margin-bottom: var(--bsu-md);
+}
+
 .form {
   display: flex;
   flex-wrap: wrap;

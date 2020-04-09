@@ -113,7 +113,7 @@ const SignupEmailForm = () => {
     })
   }, [signupDetails])
 
-  // Handle form submit
+  // * HANDLE FORM SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault()
     const { email, passwordOne, firstName, lastName } = signupDetails
@@ -121,16 +121,18 @@ const SignupEmailForm = () => {
     const signupRes = await signUp(email, passwordOne)
       .catch((error) => {
         setError(error)
+        scrollTop()
         setPageLoading(false)
       })
+    if (!signupRes) return
     const userRes = await createUser(firstName, lastName)
       .catch((error) => {
         setError(error)
+        scrollTop()
         setPageLoading(false)
       })
-    console.log('signupRes', signupRes)
-    console.log('userRes', userRes)
-    // Router.push(ROUTES.CONNECT_ACCOUNTS)
+    if (!userRes) return
+    Router.push(ROUTES.CONNECT_ACCOUNTS)
   }
 
   if (pageLoading) {
@@ -142,7 +144,7 @@ const SignupEmailForm = () => {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
 
-      <Error error={error} />
+      <Error className={styles.error} error={error} />
 
       {/* All form inputs */}
       {formInputs.map(({ inputType, name, value, label, success, error }) => {
