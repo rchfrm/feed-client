@@ -38,13 +38,10 @@ const InitUser = ({ children }) => {
 
   // CALL WHEN READY TO SHOW CONTENT
   const showContent = () => {
-    console.log('showContent')
-    console.log('userRedirected', userRedirected)
     // If user has been redirected, wait for redirect
     // before showing content
     if (userRedirected) {
       userRedirected = false
-      console.log('Wait for route change')
       Router.events.on('routeChangeComplete', showContent)
       return
     }
@@ -149,10 +146,6 @@ const InitUser = ({ children }) => {
     // * Handle errors
     if (error) {
       const { message, type, code } = error
-      console.log('***** REDIRECT RESULT')
-      console.log('message', message)
-      console.log('type', type)
-      console.log('code', code)
       // Handle auth error
       if (code === 'auth/invalid-credential') {
         handleFbInvalidCredential(message)
