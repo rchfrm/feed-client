@@ -39,13 +39,13 @@ function AuthProvider({ children }) {
   const [accessToken, setAccessToken] = React.useState(null)
   const [authLoading, setAuthLoading] = React.useState(true)
 
-  const noAuth = React.useCallback(() => {
+  const noAuth = () => {
     setAuthLoading(true)
     setAuth({ type: 'no-auth-user' })
     setAuthLoading(false)
-  }, [])
+  }
 
-  const storeAuth = React.useCallback(async authUser => {
+  const storeAuth = async authUser => {
     setAuthLoading(true)
     try {
       const token = await firebase.getVerifyIdToken()
@@ -61,7 +61,7 @@ function AuthProvider({ children }) {
       setAuthLoading(false)
       throw (err)
     }
-  }, [])
+  }
 
   const continueWithFacebook = async () => {
     setAuthLoading(true)
