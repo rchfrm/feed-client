@@ -14,7 +14,7 @@
 
 .header {
   width: 100% !important;
-  margin-bottom: var(--bsu-lg) !important;
+  margin-bottom: calc(1.5 * var(--bsu-lg)) !important;
 }
 
 .loginButtons {
