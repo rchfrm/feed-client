@@ -21,8 +21,7 @@ function LoginPageForm({ className, setPageLoading }) {
   // IMPORT CONTEXTS
   const { authError, login } = React.useContext(AuthContext)
   const { storeUser, userError } = React.useContext(UserContext)
-  const { noArtist, storeArtist } = React.useContext(ArtistContext)
-  // END IMPORT CONTEXTS
+  const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   // DEFINE PAGE STATE
   const [email, setEmail] = React.useState('')
@@ -59,7 +58,7 @@ function LoginPageForm({ className, setPageLoading }) {
         await storeArtist(selectedArtist.id)
         Router.push(ROUTES.HOME)
       } else {
-        noArtist()
+        setNoArtist()
         Router.push(ROUTES.CONNECT_ACCOUNTS)
       }
     } catch (err) {

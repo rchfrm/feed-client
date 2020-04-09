@@ -56,12 +56,12 @@ function ArtistProvider({ children }) {
   const [artistId, setArtistId] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
 
-  const noArtist = React.useCallback(() => {
+  const setNoArtist = () => {
     setArtistLoading(true)
     localStorage.clear()
     setArtist({ type: 'no-artists' })
     setArtistLoading(false)
-  }, [])
+  }
 
   const storeArtist = React.useCallback(async id => {
     // TODO : Store previously selected artists in state,
@@ -174,7 +174,7 @@ function ArtistProvider({ children }) {
     artistId,
     artistLoading,
     createArtist,
-    noArtist,
+    setNoArtist,
     setArtist,
     setArtistLoading,
     setPriorityDSP,
