@@ -116,6 +116,8 @@ const SignupEmailForm = () => {
   // * HANDLE FORM SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault()
+    // Stop here if not complete
+    if (!formComplete) return
     const { email, passwordOne, firstName, lastName } = signupDetails
     setPageLoading(true)
     const signupRes = await signUp(email, passwordOne)
