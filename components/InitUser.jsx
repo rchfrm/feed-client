@@ -32,7 +32,7 @@ const InitUser = ({ children }) => {
   const { pathname } = router
   // Import contexts
   const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
-  const { createUser, noUser, storeUser } = React.useContext(UserContext)
+  const { createUser, setNoUser, storeUser } = React.useContext(UserContext)
   const { noArtist, storeArtist } = React.useContext(ArtistContext)
   const [ready, setReady] = React.useState(false)
 
@@ -58,7 +58,7 @@ const InitUser = ({ children }) => {
     kickToLogin(pathname)
     // Reset all contexts
     noAuth()
-    noUser()
+    setNoUser()
     noArtist()
   }
 

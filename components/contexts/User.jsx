@@ -32,11 +32,11 @@ function UserProvider({ children }) {
   const [userError, setUserError] = React.useState(null)
   // END DEFINE USER STATE
 
-  const noUser = React.useCallback(() => {
+  const setNoUser = () => {
     setUserLoading(true)
     setUser({ type: 'sign-out' })
     setUserLoading(false)
-  }, [])
+  }
 
   const createUser = React.useCallback(async (first_name, last_name) => {
     setUserLoading(true)
@@ -76,7 +76,7 @@ function UserProvider({ children }) {
 
   const value = {
     createUser,
-    noUser,
+    setNoUser,
     setUser,
     setUserError,
     storeUser,

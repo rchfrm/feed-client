@@ -17,7 +17,7 @@ import firebase from './helpers/firebase'
 
 function SignOutLink() {
   const { noAuth } = React.useContext(AuthContext)
-  const { noUser } = React.useContext(UserContext)
+  const { setNoUser } = React.useContext(UserContext)
   const { noArtist } = React.useContext(ArtistContext)
 
   const signOut = async e => {
@@ -28,7 +28,7 @@ function SignOutLink() {
         throw (err)
       })
     noAuth()
-    noUser()
+    setNoUser()
     noArtist()
   }
 
