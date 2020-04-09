@@ -39,7 +39,7 @@ function AuthProvider({ children }) {
   const [accessToken, setAccessToken] = React.useState(null)
   const [authLoading, setAuthLoading] = React.useState(true)
 
-  const noAuth = () => {
+  const setNoAuth = () => {
     setAuthLoading(true)
     setAuth({ type: 'no-auth-user' })
     setAuthLoading(false)
@@ -151,7 +151,7 @@ function AuthProvider({ children }) {
     continueWithFacebook,
     linkFacebook,
     login,
-    noAuth,
+    setNoAuth,
     relinkFacebook,
     setAccessToken,
     setAuthError,

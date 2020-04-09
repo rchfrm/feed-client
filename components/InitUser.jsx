@@ -31,7 +31,7 @@ const InitUser = ({ children }) => {
   const router = useRouter()
   const { pathname } = router
   // Import contexts
-  const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
+  const { setNoAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
   const { createUser, setNoUser, storeUser } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
   const [ready, setReady] = React.useState(false)
@@ -57,7 +57,7 @@ const InitUser = ({ children }) => {
   // if they are push to log in page
     kickToLogin(pathname)
     // Reset all contexts
-    noAuth()
+    setNoAuth()
     setNoUser()
     setNoArtist()
   }
