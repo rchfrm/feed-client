@@ -68,16 +68,21 @@ p {
   }
 }
 
+.small--p {
+  font-size: 0.75em;
+}
 
-.small-p {
+.xsmall--p {
   font-size: 0.667em;
 }
 
-h1, h2, h3, h4, p, .small-p {
+
+
+h1, h2, h3, h4, p, .small--p, .xsmall--p {
   line-height: 1.2em;
 }
 
-h2, h3, h4, p, .small-p {
+h2, h3, h4, p, .small--p {
   margin-bottom: 1.2em;
 }
 
