@@ -1,6 +1,5 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -8,13 +7,14 @@ import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
+import Button from './elements/Button'
+import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
 import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
 import LoginPageForm from './LoginPageForm'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import * as ROUTES from '../constants/routes'
 import brandColors from '../constants/brandColors'
 
 import MarkdownText from './elements/MarkdownText'
@@ -45,47 +45,42 @@ function LoginPageContent() {
     )
   }
   return (
-    <div className="page--container">
+    <div className={styles.container}>
 
-      <PageHeader heading="log in" className={styles.container} />
+      <PageHeader className={styles.header} heading="log in" />
 
-      <div className={['ninety-wide', styles.container].join(' ')}>
-        <h3>
-          or
-          {' '}
-          <Link href={ROUTES.SIGN_UP}><a>sign up here</a></Link>
-          .
-        </h3>
-      </div>
+      {/* Email login form */}
+      {showEmailLogin ? (
+        // EMAIL LOGIN FORM
+        <LoginPageForm className={styles.form} setPageLoading={setPageLoading} />
+      )
+        : (
+          <>
+            {/* LOGIN BUTTONS */}
+            <div className={styles.loginButtons}>
+              <ButtonFacebook
+                className={styles.facebookButton}
+                onClick={facebookClick}
+              >
+                Log in with Facebook
+              </ButtonFacebook>
+              <Button
+                className={styles.emailButton}
+                onClick={() => setShowEmailLogin(true)}
+                version="black icon"
+              >
+                <EmailIcon color="white" />
+                Log in with email
+              </Button>
+            </div>
+            {/* Link to signup page */}
+            <MarkdownText markdown={copy.signupReminder} />
+          </>
+        )}
 
-      <div className={['ninety-wide', styles.container].join(' ')}>
+      {/* T&C text */}
+      <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText} />
 
-        <div className={styles.intro}>
-          <MarkdownText markdown={copy.intro} />
-        </div>
-
-
-        <ButtonFacebook
-          className={styles.facebookButton}
-          onClick={facebookClick}
-        >
-          Log in with Facebook
-        </ButtonFacebook>
-
-        <p className={styles.emailFormButton}>
-          <a
-            className={styles.a}
-            role="button"
-            onClick={() => setShowEmailLogin(true)}
-          >
-            or log in using your email address
-          </a>
-        </p>
-
-        {/* Email login form */}
-        {showEmailLogin && <LoginPageForm setPageLoading={setPageLoading} />}
-
-      </div>
     </div>
   )
 }

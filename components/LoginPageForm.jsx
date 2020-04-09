@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
+import Link from 'next/link'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
@@ -11,14 +12,12 @@ import Input from './elements/Input'
 import Button from './elements/Button'
 import Error from './elements/Error'
 
-import LoginPagePasswordForgetLink from './LoginPagePasswordForgetLink'
-// IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
 
 import styles from './LoginPage.module.css'
 
-function LoginPageForm({ setPageLoading }) {
+function LoginPageForm({ className, setPageLoading }) {
   // IMPORT CONTEXTS
   const { authError, login } = React.useContext(AuthContext)
   const { storeUser, userError } = React.useContext(UserContext)
@@ -33,7 +32,7 @@ function LoginPageForm({ setPageLoading }) {
 
   // HANDLE CHANGES IN FORM
   const handleChange = e => {
-    setError('')
+    setError(null)
     switch (e.target.name) {
       case 'email':
         setEmail(e.target.value)
@@ -75,7 +74,7 @@ function LoginPageForm({ setPageLoading }) {
   return (
     <form
       onSubmit={onFormSubmit}
-      className={styles.form}
+      className={className}
     >
 
       <Input
@@ -105,7 +104,10 @@ function LoginPageForm({ setPageLoading }) {
 
       <Error error={authError || userError || error} />
 
-      <LoginPagePasswordForgetLink />
+      {/* Forgot password link */}
+      <p className={['small--p', styles.forgotPasswordLink].join(' ')}>
+        <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot Password?</a></Link>
+      </p>
 
       <Button
         className={styles.submit}
