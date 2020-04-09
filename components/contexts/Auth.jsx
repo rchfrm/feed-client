@@ -67,8 +67,10 @@ function AuthProvider({ children }) {
     setAuthLoading(true)
     await firebase.loginWithFacebook()
   }
+
+  const signUpWithFacebook = async () => {
     setAuthLoading(true)
-    await firebase.doSignInWithFacebook()
+    await firebase.signUpWithFacebook()
   }
 
   const unlinkFacebook = async () => {
@@ -151,7 +153,7 @@ function AuthProvider({ children }) {
     auth,
     authError,
     authLoading,
-    continueWithFacebook,
+    signUpWithFacebook,
     loginWithFacebook,
     linkFacebook,
     login,

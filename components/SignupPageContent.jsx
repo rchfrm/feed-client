@@ -18,13 +18,14 @@ import styles from './LoginPage.module.css'
 
 const SignupPageContent = () => {
   const [showEmailSignup, setShowEmailSignup] = React.useState(false)
+
   // IMPORT CONTEXTS
-  const { continueWithFacebook } = React.useContext(AuthContext)
+  const { signUpWithFacebook } = React.useContext(AuthContext)
 
   // Calls firebase.doSignInWithFacebook using a redirect,
   // so that when user is returned to log in page handleRedirect is triggered
   const facebookSignup = async () => {
-    continueWithFacebook()
+    signUpWithFacebook()
   }
 
   return (
