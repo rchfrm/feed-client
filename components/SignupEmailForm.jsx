@@ -49,6 +49,8 @@ const SignupEmailForm = ({ setLoading }) => {
     passwordTwo: '',
   }
   const [signupDetails, setSignupDetails] = useImmerReducer(reducer, initialSignupState)
+  // Test valid email
+  const [hasEmailError, setHasEmailError] = React.useState(false)
   // Test passwords match
   const passwordStatus = React.useMemo(() => {
     const { passwordOne, passwordTwo } = signupDetails
@@ -67,6 +69,7 @@ const SignupEmailForm = ({ setLoading }) => {
   // Test form complete
   const formComplete = React.useMemo(() => {
     const { email, firstName, lastName, passwordOne } = signupDetails
+    if (hasEmailError) return false
     if (passwordStatus.error) return false
     if (!passwordOne) return false
     if (email && firstName && lastName) return true
@@ -75,8 +78,11 @@ const SignupEmailForm = ({ setLoading }) => {
   // Handle input changes
   const onInputChange = (e) => {
     const { name: key, value } = e.target
-    console.log(e.target.name)
-    console.log(e.target.value)
+    // Test for valid email
+    if (key === 'email') {
+      const hasValidEmail = helpers.testValidEmail(value)
+      setHasEmailError(!hasValidEmail)
+    }
     // Update signup details
     setSignupDetails({ key, value })
   }
@@ -85,8 +91,13 @@ const SignupEmailForm = ({ setLoading }) => {
     return Object.entries(signupDetails).map(([key, value]) => {
       const inputType = getInputType(key)
       const label = getInputLabel(key)
-      const success = key === 'passwordOne' || key === 'passwordTwo' ? passwordStatus.success : false
-      const error = key === 'passwordOne' || key === 'passwordTwo' ? passwordStatus.error : false
+      const isPassword = key === 'passwordOne' || key === 'passwordTwo'
+      const success = isPassword ? passwordStatus.success : false
+      // eslint-disable-next-line
+      const error = isPassword
+        ? passwordStatus.error
+        : key === 'email' ? hasEmailError
+          : false
       const name = key
       return {
         inputType,
