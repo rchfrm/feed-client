@@ -29,13 +29,13 @@ const getInputLabel = (key) => {
   return helpers.capitalise(key)
 }
 
-
 const reducer = (draftState, action) => {
   const { key, value } = action
   draftState[key] = value
 }
 
 const scrollTop = () => window.scrollTo(0, 0)
+
 const SignupEmailForm = () => {
   const [pageLoading, setPageLoading] = React.useState(false)
   // Define component state
@@ -142,7 +142,7 @@ const SignupEmailForm = () => {
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit} noValidate>
 
       <Error className={styles.error} error={error} />
 
