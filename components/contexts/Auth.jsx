@@ -6,24 +6,27 @@ import firebase from '../helpers/firebase'
 const initialAuthState = {
   token: '',
   email: '',
+  missingScopes: [],
 }
 
 const authReducer = (draftState, action) => {
   const {
     type: actionType,
-    payload: { email, token } = {},
+    payload: { email, token, scopes } = {},
   } = action
 
   switch (actionType) {
     case 'no-auth-user':
       return initialAuthState
     case 'set-auth-user':
-      return {
-        email,
-        token,
-      }
+      draftState.email = email
+      draftState.token = token
+      break
     case 'set-token':
       draftState.token = token
+      break
+    case 'set-missing-scopes':
+      draftState.missingScopes = scopes
       break
     default:
       throw new Error(`Unable to find ${actionType} in authReducer`)
@@ -37,10 +40,17 @@ function AuthProvider({ children }) {
   const [auth, setAuth] = useImmerReducer(authReducer, initialAuthState)
   const [authError, setAuthError] = React.useState(null)
   const [accessToken, setAccessToken] = React.useState(null)
-  const [authLoading, setAuthLoading] = React.useState(true)
+  const [authLoading, setAuthLoading] = React.useState(false)
 
   const setNoAuth = () => {
     setAuthLoading(false)
+  }
+
+  const setMissingScopes = (scopes) => {
+    setAuth({
+      type: 'set-missing-scopes',
+      payload: { scopes },
+    })
   }
 
   const storeAuth = async authUser => {
@@ -161,6 +171,7 @@ function AuthProvider({ children }) {
     setAuthError,
     signUp,
     storeAuth,
+    setMissingScopes,
   }
 
   return (

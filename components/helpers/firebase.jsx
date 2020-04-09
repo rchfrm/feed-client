@@ -2,7 +2,7 @@ import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
-const scopeArray = ['read_insights', 'manage_pages', 'pages_show_list', 'ads_management', 'instagram_basic', 'instagram_manage_insights']
+const requiredScopes = ['read_insights', 'manage_pages', 'pages_show_list', 'ads_management', 'instagram_basic', 'instagram_manage_insights']
 
 const config = {
   apiKey: process.env.firebase_api_key,
@@ -24,6 +24,8 @@ const fbProvider = new app.auth.FacebookAuthProvider()
 export default {
 
   auth,
+
+  requiredScopes,
 
   doCreateUserWithEmailAndPassword: (email, password) => {
     return auth.createUserWithEmailAndPassword(email, password)
@@ -57,14 +59,14 @@ export default {
   },
 
   signUpWithFacebook: () => {
-    scopeArray.forEach(scope => {
+    requiredScopes.forEach(scope => {
       fbProvider.addScope(scope)
     })
     return auth.signInWithRedirect(fbProvider)
   },
 
   linkFacebookAccount: (requestedPermissions) => {
-    const scopeRequests = requestedPermissions || scopeArray
+    const scopeRequests = requestedPermissions || requiredScopes
     scopeRequests.forEach(scope => {
       fbProvider.addScope(scope)
     })
@@ -72,7 +74,7 @@ export default {
   },
 
   connectFacebookUserWithPopUp: () => {
-    scopeArray.forEach(scope => {
+    requiredScopes.forEach(scope => {
       fbProvider.addScope(scope)
     })
     return auth.currentUser.linkWithPopup(fbProvider)
@@ -133,7 +135,7 @@ export default {
    * @returns {Promise<void>}
    */
   reauthFacebook: (requestedPermissions) => {
-    const scopeRequests = requestedPermissions || scopeArray
+    const scopeRequests = requestedPermissions || requiredScopes
     scopeRequests.forEach(scope => {
       fbProvider.addScope(scope)
     })

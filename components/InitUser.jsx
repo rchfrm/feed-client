@@ -31,7 +31,7 @@ const InitUser = ({ children }) => {
   const router = useRouter()
   const { pathname } = router
   // Import contexts
-  const { setNoAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
+  const { setNoAuth, setAccessToken, setAuthError, storeAuth, setMissingScopes } = React.useContext(AuthContext)
   const { createUser, setNoUser, storeUser } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
   const [ready, setReady] = React.useState(false)
@@ -76,10 +76,21 @@ const InitUser = ({ children }) => {
 
   // HANDLE NEW USER
   const handleNewUser = async (additionalUserInfo) => {
+    const { profile: { first_name, last_name, granted_scopes } } = additionalUserInfo
     // If it's a new user, create their profile on the server
-    const firstName = additionalUserInfo.profile.first_name
-    const lastName = additionalUserInfo.profile.last_name
-    await createUser(firstName, lastName)
+    await createUser(first_name, last_name)
+    // Check whether the new user has missing scopes
+    const { requiredScopes } = firebase
+    const missingScopes = requiredScopes.reduce((arr, scope) => {
+      const scopeGranted = granted_scopes.includes(scope)
+      if (scopeGranted) return arr
+      return [...arr, scope]
+    }, [])
+    if (missingScopes.length) {
+      setMissingScopes(missingScopes)
+      redirectPage(ROUTES.SIGN_UP_ERRORS)
+      return
+    }
     // As this is a new user, run setNoArtist, and push them to the Connect Artist page
     setNoArtist()
     redirectPage(ROUTES.CONNECT_ACCOUNTS)
@@ -172,10 +183,10 @@ const InitUser = ({ children }) => {
       const { isNewUser } = additionalUserInfo
       if (isNewUser) {
         await handleNewUser(additionalUserInfo)
-        return
+      } else {
+        // Handle existing user
+        await handleExistingUser()
       }
-      // Handle existing user
-      await handleExistingUser()
     }
     // * Show content
     showContent(isMounted)
