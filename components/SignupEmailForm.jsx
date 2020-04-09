@@ -23,7 +23,7 @@ const getInputType = (key) => {
 const getInputLabel = (key) => {
   if (key === 'firstName') return 'First name'
   if (key === 'lastName') return 'Last name'
-  if (key === 'passwordOne') return 'Password'
+  if (key === 'passwordOne') return 'Password (at least 6 characters)'
   if (key === 'passwordTwo') return 'Confirm password'
   return helpers.capitalise(key)
 }
@@ -51,7 +51,7 @@ const SignupEmailForm = ({ setPageLoading }) => {
   const [signupDetails, setSignupDetails] = useImmerReducer(reducer, initialSignupState)
   // Test valid email
   const [hasEmailError, setHasEmailError] = React.useState(false)
-  // Test passwords match
+  // Test passwords match and are long enough
   const passwordStatus = React.useMemo(() => {
     const { passwordOne, passwordTwo } = signupDetails
     if (!passwordTwo) {
@@ -60,7 +60,7 @@ const SignupEmailForm = ({ setPageLoading }) => {
         error: false,
       }
     }
-    const success = passwordOne === passwordTwo
+    const success = passwordOne === passwordTwo && passwordOne.length >= 6
     return {
       success,
       error: !success,
@@ -148,6 +148,7 @@ const SignupEmailForm = ({ setPageLoading }) => {
             success={success}
             error={error}
             label={label}
+            required
           />
         )
       })}
