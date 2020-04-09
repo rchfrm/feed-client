@@ -110,7 +110,7 @@ const InitUser = ({ children }) => {
     if (!hasAccess) {
       localStorage.clear()
     }
-    // If they do have accessset it as the selectedArtistId,
+    // If they do have access set it as the selectedArtistId,
     // otherwise use the first related artist (sorted alphabetically)
     const selectedArtistId = hasAccess ? storedArtistId : artists[0].id
     await storeArtist(selectedArtistId)
