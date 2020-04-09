@@ -125,22 +125,23 @@ function AuthProvider({ children }) {
 
   const signUp = async (email, password) => {
     setAuthLoading(true)
-    try {
-      const authUser = await firebase.doCreateUserWithEmailAndPassword(email, password)
-      const token = await authUser.user.getIdToken()
-      setAuth({
-        type: 'set-auth-user',
-        payload: {
-          email: authUser.user.email,
-          token,
-        },
+    const authUser = await firebase.doCreateUserWithEmailAndPassword(email, password)
+    console.log('auth authUser', authUser)
+    if (!authUser) return
+    const token = await authUser.user.getIdToken()
+      .catch((error) => {
+        setAuthLoading(false)
+        throw new Error(error.message)
       })
-      setAuthLoading(false)
-      return token
-    } catch (err) {
-      setAuthLoading(false)
-      throw (err)
-    }
+    setAuth({
+      type: 'set-auth-user',
+      payload: {
+        email: authUser.user.email,
+        token,
+      },
+    })
+    setAuthLoading(false)
+    return token
   }
 
   const value = {
