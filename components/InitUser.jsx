@@ -33,7 +33,7 @@ const InitUser = ({ children }) => {
   // Import contexts
   const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
   const { createUser, setNoUser, storeUser } = React.useContext(UserContext)
-  const { noArtist, storeArtist } = React.useContext(ArtistContext)
+  const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
   const [ready, setReady] = React.useState(false)
 
   // CALL WHEN READY TO SHOW CONTENT
@@ -59,7 +59,7 @@ const InitUser = ({ children }) => {
     // Reset all contexts
     noAuth()
     setNoUser()
-    noArtist()
+    setNoArtist()
   }
 
   // HANDLE Invalid FB credential
@@ -80,8 +80,8 @@ const InitUser = ({ children }) => {
     const firstName = additionalUserInfo.profile.first_name
     const lastName = additionalUserInfo.profile.last_name
     await createUser(firstName, lastName)
-    // As this is a new user, set noArtist, and push them to the Connect Artist page
-    noArtist()
+    // As this is a new user, run setNoArtist, and push them to the Connect Artist page
+    setNoArtist()
     redirectPage(ROUTES.CONNECT_ACCOUNTS)
   }
 
@@ -91,9 +91,9 @@ const InitUser = ({ children }) => {
     // If it is a pre-existing user, store their profile in the user context
     const { artists } = await storeUser()
     // Check if they have artists connected to their account or not,
-    // if they don't, set noArtist, and push them to the Connect Artist page
+    // if they don't, set setNoArtist, and push them to the Connect Artist page
     if (artists.length === 0) {
-      noArtist()
+      setNoArtist()
       if (pathname !== ROUTES.CONNECT_ACCOUNTS) {
         redirectPage(ROUTES.CONNECT_ACCOUNTS)
       }
