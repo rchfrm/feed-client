@@ -52,6 +52,10 @@ export default {
     return auth.currentUser.updateEmail(email)
   },
 
+  loginWithFacebook: () => {
+    return auth.signInWithRedirect(fbProvider)
+  },
+
   doSignInWithFacebook: () => {
     scopeArray.forEach(scope => {
       fbProvider.addScope(scope)

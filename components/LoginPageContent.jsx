@@ -21,7 +21,7 @@ import styles from './LoginPage.module.css'
 
 function LoginPageContent() {
   // IMPORT CONTEXTS
-  const { authLoading, continueWithFacebook } = React.useContext(AuthContext)
+  const { authLoading, loginWithFacebook } = React.useContext(AuthContext)
   const { userLoading } = React.useContext(UserContext)
   const { artistLoading } = React.useContext(ArtistContext)
 
@@ -29,11 +29,10 @@ function LoginPageContent() {
   const [showEmailLogin, setShowEmailLogin] = React.useState(false)
 
   // CONTINUE WITH FACEBOOK
-  const facebookClick = e => {
-    e.preventDefault()
-    // Calls firebase.doSignInWithFacebook using a redirect,
-    // so that when user is returned to log in page handleRedirect is triggered
-    continueWithFacebook()
+  // Calls firebase.loginWithFacebook using a redirect,
+  // so that when user is returned to log in page handleRedirect is triggered
+  const facebookClick = () => {
+    loginWithFacebook()
   }
 
   if (authLoading || userLoading || artistLoading || pageLoading) {
