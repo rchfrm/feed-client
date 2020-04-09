@@ -40,8 +40,6 @@ function AuthProvider({ children }) {
   const [authLoading, setAuthLoading] = React.useState(true)
 
   const setNoAuth = () => {
-    setAuthLoading(true)
-    setAuth({ type: 'no-auth-user' })
     setAuthLoading(false)
   }
 
