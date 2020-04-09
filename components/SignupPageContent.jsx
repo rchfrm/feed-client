@@ -52,7 +52,7 @@ const SignupPageContent = () => {
       {/* Link to login page */}
       <MarkdownText markdown={copy.loginReminder} />
 
-      <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText} />
+      <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText('sign up')} />
     </div>
   )
 }

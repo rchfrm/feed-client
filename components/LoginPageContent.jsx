@@ -79,7 +79,7 @@ function LoginPageContent() {
         )}
 
       {/* T&C text */}
-      <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText} />
+      <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText('log in')} />
 
     </div>
   )
