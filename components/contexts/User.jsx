@@ -15,13 +15,6 @@ const userReducer = (draftState, action) => {
       return payload.user
     case 'set-user-details':
       return payload.user
-    case 'set-daily_budget': {
-      const { first_name, last_name, email } = payload
-      draftState.first_name = first_name
-      draftState.last_name = last_name
-      draftState.email = email
-      break
-    }
     case 'sign-out':
       return initialUserState
     default:
