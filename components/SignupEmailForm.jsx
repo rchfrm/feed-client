@@ -6,6 +6,7 @@ import { useImmerReducer } from 'use-immer'
 import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
 
+import Spinner from './elements/Spinner'
 import Input from './elements/Input'
 import Button from './elements/Button'
 import Error from './elements/Error'
@@ -34,7 +35,9 @@ const reducer = (draftState, action) => {
   draftState[key] = value
 }
 
-const SignupEmailForm = ({ setPageLoading }) => {
+const scrollTop = () => window.scrollTo(0, 0)
+const SignupEmailForm = () => {
+  const [pageLoading, setPageLoading] = React.useState(false)
   // Define component state
   const [error, setError] = React.useState(null)
   // Get contexts
@@ -128,6 +131,12 @@ const SignupEmailForm = ({ setPageLoading }) => {
     console.log('signupRes', signupRes)
     console.log('userRes', userRes)
     // Router.push(ROUTES.CONNECT_ACCOUNTS)
+  }
+
+  if (pageLoading) {
+    return (
+      <Spinner />
+    )
   }
 
   return (

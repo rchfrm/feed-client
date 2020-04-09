@@ -3,13 +3,10 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
-import { UserContext } from './contexts/User'
-import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
 import SignupEmailForm from './SignupEmailForm'
 // IMPORT HELPERS
-import Spinner from './elements/Spinner'
 import Button from './elements/Button'
 import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
@@ -20,21 +17,14 @@ import copy from '../copy/LoginPageCopy'
 import styles from './LoginPage.module.css'
 
 const SignupPageContent = () => {
-  const [pageLoading, setPageLoading] = React.useState(false)
   const [showEmailSignup, setShowEmailSignup] = React.useState(false)
   // IMPORT CONTEXTS
-  const { authLoading, continueWithFacebook } = React.useContext(AuthContext)
-  const { userLoading } = React.useContext(UserContext)
-  const { artistLoading } = React.useContext(ArtistContext)
+  const { continueWithFacebook } = React.useContext(AuthContext)
 
+  // Calls firebase.doSignInWithFacebook using a redirect,
+  // so that when user is returned to log in page handleRedirect is triggered
   const facebookSignup = async () => {
-    // Calls firebase.doSignInWithFacebook using a redirect,
-    // so that when user is returned to log in page handleRedirect is triggered
     continueWithFacebook()
-  }
-
-  if (authLoading || userLoading || artistLoading || pageLoading) {
-    return <Spinner />
   }
 
   return (
@@ -45,7 +35,7 @@ const SignupPageContent = () => {
       {/* Email login form */}
       {showEmailSignup ? (
         // EMAIL LOGIN FORM
-        <SignupEmailForm className={styles.form} setPageLoading={setPageLoading} />
+        <SignupEmailForm />
       ) : (
         <>
           <div className={styles.loginButtons}>
