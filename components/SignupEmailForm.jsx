@@ -34,7 +34,7 @@ const reducer = (draftState, action) => {
   draftState[key] = value
 }
 
-const SignupEmailForm = ({ setLoading }) => {
+const SignupEmailForm = ({ setPageLoading }) => {
   // Define component state
   const [error, setError] = React.useState(null)
   // Get contexts
@@ -114,16 +114,16 @@ const SignupEmailForm = ({ setLoading }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const { email, passwordOne, firstName, lastName } = signupDetails
-    setLoading(true)
+    setPageLoading(true)
     const signupRes = await signUp(email, passwordOne)
       .catch((error) => {
         setError(error)
-        setLoading(false)
+        setPageLoading(false)
       })
     const userRes = await createUser(firstName, lastName)
       .catch((error) => {
         setError(error)
-        setLoading(false)
+        setPageLoading(false)
       })
     console.log('signupRes', signupRes)
     console.log('userRes', userRes)
