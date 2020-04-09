@@ -60,8 +60,8 @@ const calculateSummary = (ads, isActive) => {
       if (adMetrics.actions) {
         engagement += Number(adMetrics.actions.post_engagement) || 0
       }
-      if (adMetrics.outbound_clicks) {
-        clicks += Number(adMetrics.outbound_clicks.outbound_click) || 0
+      if (adMetrics.actions) {
+        clicks += Number(adMetrics.actions.link_click) || 0
       }
     }
   }
