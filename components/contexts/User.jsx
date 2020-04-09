@@ -38,7 +38,7 @@ function UserProvider({ children }) {
     setUserLoading(false)
   }
 
-  const createUser = React.useCallback(async (first_name, last_name) => {
+  const createUser = async (first_name, last_name) => {
     setUserLoading(true)
     try {
       const newUser = await server.createUser(first_name, last_name)
@@ -54,9 +54,9 @@ function UserProvider({ children }) {
       setUserLoading(false)
       throw (err)
     }
-  }, [])
+  }
 
-  const storeUser = React.useCallback(async () => {
+  const storeUser = async () => {
     setUserLoading(true)
     const newUser = await server.getUser()
       .catch((err) => {
@@ -72,7 +72,7 @@ function UserProvider({ children }) {
     })
     setUserLoading(false)
     return newUser
-  }, [])
+  }
 
   const value = {
     createUser,
