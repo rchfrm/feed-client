@@ -1,4 +1,5 @@
 export const SIGN_UP = '/join'
+export const SIGN_UP_EMAIL = '/join/email'
 export const CONNECT_ACCOUNTS = '/connect-accounts'
 export const THANK_YOU = '/thank-you'
 export const LOGIN = '/login'

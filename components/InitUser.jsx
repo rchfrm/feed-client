@@ -20,6 +20,11 @@ const redirectPage = (pathname) => {
 
 // KICK TO LOGIN (if necessary)
 const kickToLogin = (pathname) => {
+  // If on signup email page, just go to plain signup
+  if (pathname === ROUTES.SIGN_UP_EMAIL) {
+    redirectPage(ROUTES.SIGN_UP)
+    return
+  }
   // Only kick to login if user is on restricted page
   if (ROUTES.restrictedPages.includes(pathname)) {
     redirectPage(ROUTES.LOGIN)
@@ -48,6 +53,7 @@ const InitUser = ({ children }) => {
 
   // CALL WHEN READY TO SHOW CONTENT
   const showContent = () => {
+    console.log('show content')
     // If user has been redirected, wait for redirect
     // before showing content
     if (userRedirected) {
@@ -58,6 +64,7 @@ const InitUser = ({ children }) => {
     // Unsubscribe from route change listener
     Router.events.off('routeChangeComplete', showContent)
     // Show the content
+    console.log('READYYY')
     setReady(true)
   }
 
@@ -159,6 +166,7 @@ const InitUser = ({ children }) => {
     const redirectResult = await firebase.redirectResult()
     // Destructure redirect result
     const { user, error, credential, additionalUserInfo } = redirectResult
+    console.log('redirectResult', redirectResult)
     // * Handle no redirect
     if (!user && !error) {
       const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
