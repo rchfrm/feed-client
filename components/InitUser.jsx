@@ -45,11 +45,20 @@ const InitUser = ({ children }) => {
   // Get router info
   const router = useRouter()
   const { pathname } = router
+  // Component state
+  const [ready, setReady] = React.useState(false)
+  const [initialUserLoading, setInitialUserLoading] = React.useState(true)
   // Import contexts
   const { setNoAuth, setAccessToken, setAuthError, storeAuth, setMissingScopes } = React.useContext(AuthContext)
   const { createUser, setNoUser, storeUser, userLoading } = React.useContext(UserContext)
-  const { setNoArtist, storeArtist, artistLoading } = React.useContext(ArtistContext)
-  const [ready, setReady] = React.useState(false)
+  const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
+
+  // After user has loaded the first time...
+  React.useEffect(() => {
+    if (!userLoading) {
+      setInitialUserLoading(userLoading)
+    }
+  }, [userLoading])
 
   // CALL WHEN READY TO SHOW CONTENT
   const showContent = () => {
@@ -214,7 +223,7 @@ const InitUser = ({ children }) => {
     showContent(isMounted)
   }, [])
   // Show spinner while waiting
-  if (!ready || userLoading || artistLoading) return <Spinner />
+  if (!ready || initialUserLoading) return <Spinner />
   // Show the page
   return children
 }
