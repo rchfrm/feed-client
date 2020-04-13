@@ -133,7 +133,7 @@ const LoadContent = () => {
     return (
       <>
         <ConnectAccountsFacebook
-          missingScopes={missingScopes}
+          auth={auth}
           errors={errors}
           setErrors={setErrors}
         />
