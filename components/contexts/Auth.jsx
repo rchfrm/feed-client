@@ -70,6 +70,7 @@ function AuthProvider({ children }) {
         },
       })
       setAuthLoading(false)
+      setAuthError(null)
     } catch (err) {
       setAuthLoading(false)
       throw (err)
@@ -133,6 +134,7 @@ function AuthProvider({ children }) {
           token,
         },
       })
+      setAuthError(null)
       setAuthLoading(false)
       return token
     } catch (err) {
