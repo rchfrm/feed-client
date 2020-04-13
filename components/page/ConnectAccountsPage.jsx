@@ -9,8 +9,8 @@ import { AuthContext } from '../contexts/Auth'
 import { UserContext } from '../contexts/User'
 import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
-import ConnectAccounts from '../ConnectAccounts'
 import ConnectAccountsFacebook from '../ConnectAccountsFacebook'
+import ConnectAccounts from '../ConnectAccounts'
 import PageHeader from '../PageHeader'
 import Spinner from '../elements/Spinner'
 import Button from '../elements/Button'
@@ -26,9 +26,11 @@ import artistHelpers from '../helpers/artistHelpers'
 
 const LoadContent = () => {
   // IMPORT CONTEXTS
-  const { accessToken, authLoading, authError } = React.useContext(AuthContext)
+  const { auth, accessToken, authLoading, authError } = React.useContext(AuthContext)
   const { userLoading } = React.useContext(UserContext)
   const { artistLoading, createArtist, setArtistLoading } = React.useContext(ArtistContext)
+  // Get any missing scopes
+  const { missingScopes } = auth
 
   // DEFINE LOADING
   const [pageLoading, setPageLoading] = React.useState(false)
@@ -44,8 +46,11 @@ const LoadContent = () => {
   const initialArtistAccountsState = {}
   const [artistAccounts, setArtistAccounts] = React.useState(initialArtistAccountsState)
 
+
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
+    // If missing scopes, we need to show the connect button
+    if (missingScopes.length) return
     // If no access token, then there will be no way to talk to facebook
     // so don't set artists accounts
     if (!accessToken) return
@@ -122,13 +127,17 @@ const LoadContent = () => {
     return <Spinner width={50} color={brandColors.green} />
   }
 
-  // If no artists accounts
+
+  // If no artists accounts, show FB BUTTON
   if (Object.keys(artistAccounts).length === 0) {
     return (
-      <ConnectAccountsFacebook
-        errors={errors}
-        setErrors={setErrors}
-      />
+      <>
+        <ConnectAccountsFacebook
+          missingScopes={missingScopes}
+          errors={errors}
+          setErrors={setErrors}
+        />
+      </>
     )
   }
 

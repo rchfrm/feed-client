@@ -1,32 +1,25 @@
 
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
+import MissingScopesMessage from './elements/MissingScopesMessage'
 import ButtonFacebook from './elements/ButtonFacebook'
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
 import Error from './elements/Error'
+// IMPORT PAGES
+// IMPORT HELPERS
+import firebase from './helpers/firebase'
 import styles from './ConnectAccounts.module.css'
 // IMPORT STYLES
 
-function ConnectAccountsFacebook({ errors, setErrors }) {
-  const { linkFacebook } = React.useContext(AuthContext)
-
-  // HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
-  const handleClick = async e => {
-    e.preventDefault()
-    try {
-      await linkFacebook()
-    } catch (err) {
-      setErrors([err])
+function ConnectAccountsFacebook({ missingScopes, errors }) {
+  // Define function to link facebook
+  const linkFacebook = React.useCallback(() => {
+    if (missingScopes.length) {
+      firebase.reauthFacebook(missingScopes)
+      return
     }
-  }
-  // END HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
+    firebase.linkFacebookAccount()
+  }, [missingScopes.length])
 
   return (
     <div className="ninety-wide">
@@ -36,9 +29,14 @@ function ConnectAccountsFacebook({ errors, setErrors }) {
           return <Error error={error} messagePrefix="Error: " key={index} />
         })}
 
+        {/* If missing FB permissions, show missing permissions */}
+        {missingScopes.length > 0 && (
+          <MissingScopesMessage scopes={missingScopes} showButton={false} />
+        )}
+
         <ButtonFacebook
           className={styles.fbButton}
-          onClick={handleClick}
+          onClick={linkFacebook}
         >
           Continue with Facebook
         </ButtonFacebook>
