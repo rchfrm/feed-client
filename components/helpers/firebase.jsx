@@ -65,6 +65,10 @@ export default {
     return auth.signInWithRedirect(fbProvider)
   },
 
+  /**
+  * @param {array} requestedPermissions optional array of scope requests
+  * @returns {Promise<void>}
+  */
   linkFacebookAccount: (requestedPermissions) => {
     const scopeRequests = requestedPermissions || requiredScopes
     scopeRequests.forEach(scope => {
@@ -73,11 +77,17 @@ export default {
     return auth.currentUser.linkWithRedirect(fbProvider)
   },
 
-  connectFacebookUserWithPopUp: () => {
-    requiredScopes.forEach(scope => {
+  /**
+   * @param {array} requestedPermissions optional array of scope requests
+   * @returns {Promise<void>}
+   */
+  reauthFacebook: (requestedPermissions) => {
+    const scopeRequests = requestedPermissions || requiredScopes
+    scopeRequests.forEach(scope => {
       fbProvider.addScope(scope)
     })
-    return auth.currentUser.linkWithPopup(fbProvider)
+    fbProvider.setCustomParameters({ auth_type: 'rerequest' })
+    return auth.currentUser.reauthenticateWithRedirect(fbProvider)
   },
 
   redirectResult: async () => {
@@ -93,10 +103,6 @@ export default {
         }
       })
     return redirectTo
-  },
-
-  unlinkFacebook: () => {
-    return auth.currentUser.unlink('facebook.com')
   },
 
   user: uid => {
@@ -128,18 +134,5 @@ export default {
 
   deleteUser: () => {
     return auth.currentUser.delete()
-  },
-
-  /**
-   * @param {array} requestedPermissions optional array of scope requests
-   * @returns {Promise<void>}
-   */
-  reauthFacebook: (requestedPermissions) => {
-    const scopeRequests = requestedPermissions || requiredScopes
-    scopeRequests.forEach(scope => {
-      fbProvider.addScope(scope)
-    })
-    fbProvider.setCustomParameters({ auth_type: 'rerequest' })
-    return auth.currentUser.reauthenticateWithRedirect(fbProvider)
   },
 }
