@@ -11,11 +11,13 @@ import firebase from './helpers/firebase'
 import styles from './ConnectAccounts.module.css'
 // IMPORT STYLES
 
-function ConnectAccountsFacebook({ missingScopes, errors }) {
+function ConnectAccountsFacebook({ auth, errors }) {
+  const { missingScopes, providerId } = auth
   // Define function to link facebook
   const linkFacebook = React.useCallback(() => {
-    if (missingScopes.length) {
-      firebase.reauthFacebook(missingScopes)
+    if (missingScopes.length || providerId === 'facebook.com') {
+      const requestedScopes = missingScopes.length ? missingScopes : null
+      firebase.reauthFacebook(requestedScopes)
       return
     }
     firebase.linkFacebookAccount()
