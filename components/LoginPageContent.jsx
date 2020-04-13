@@ -11,7 +11,8 @@ import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
 // IMPORT COMPONENTS
 import LoginPageForm from './LoginPageForm'
-
+// IMPORT HELPERS
+import firebase from './helpers/firebase'
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
 // Import copy
@@ -25,7 +26,6 @@ function LoginPageContent() {
   const router = useRouter()
   const { pathname } = router
   // IMPORT CONTEXTS
-  const { loginWithFacebook } = React.useContext(AuthContext)
   const [showEmailLogin, setShowEmailLogin] = React.useState(false)
   const { authError } = React.useContext(AuthContext)
 
@@ -47,7 +47,7 @@ function LoginPageContent() {
   // Calls firebase.loginWithFacebook using a redirect,
   // so that when user is returned to log in page handleRedirect is triggered
   const facebookClick = () => {
-    loginWithFacebook()
+    firebase.loginWithFacebook()
   }
 
   return (
