@@ -6,7 +6,6 @@ import useAsyncEffect from 'use-async-effect'
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
 import { AuthContext } from '../contexts/Auth'
-import { UserContext } from '../contexts/User'
 import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
 import ConnectAccountsFacebook from '../ConnectAccountsFacebook'
@@ -25,9 +24,8 @@ import artistHelpers from '../helpers/artistHelpers'
 
 const LoadContent = () => {
   // IMPORT CONTEXTS
-  const { auth, accessToken, authLoading, authError } = React.useContext(AuthContext)
-  const { userLoading } = React.useContext(UserContext)
-  const { artistLoading, createArtist, setArtistLoading } = React.useContext(ArtistContext)
+  const { auth, accessToken, authError } = React.useContext(AuthContext)
+  const { createArtist, setArtistLoading } = React.useContext(ArtistContext)
   // Get any missing scopes
   const { missingScopes } = auth
 
@@ -45,6 +43,8 @@ const LoadContent = () => {
   const initialArtistAccountsState = {}
   const [artistAccounts, setArtistAccounts] = React.useState(initialArtistAccountsState)
 
+  console.log('auth', auth)
+  console.log('accessToken', accessToken)
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
@@ -122,7 +122,7 @@ const LoadContent = () => {
     }
   }
 
-  if (authLoading || userLoading || artistLoading || pageLoading || redirecting) {
+  if (pageLoading || redirecting) {
     return <Spinner />
   }
 
