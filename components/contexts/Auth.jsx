@@ -77,30 +77,6 @@ function AuthProvider({ children }) {
     }
   }
 
-  const unlinkFacebook = async () => {
-    setAuthLoading(true)
-    await firebase.unlinkFacebook()
-      .catch((err) => {
-        throw (err)
-      })
-  }
-
-  const linkFacebook = async () => {
-    setAuthLoading(true)
-    try {
-      await firebase.linkFacebookAccount()
-    } catch (err) {
-      // If the users Facebook account is already linked, unlink and then try again
-      if (err.code === 'auth/provider-already-linked') {
-        await unlinkFacebook()
-        await firebase.linkFacebookAccount()
-        return
-      }
-      // If it's another error, stop loading
-      setAuthLoading(false)
-      throw (err)
-    }
-  }
 
   const relinkFacebook = async () => {
     setAuthLoading(true)
@@ -158,7 +134,6 @@ function AuthProvider({ children }) {
     auth,
     authError,
     authLoading,
-    linkFacebook,
     login,
     setNoAuth,
     relinkFacebook,
