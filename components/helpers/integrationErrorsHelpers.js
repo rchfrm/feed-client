@@ -26,7 +26,7 @@ export const getErrorResponse = (error, artist) => {
     return {
       message: copy[code](missingPermissions),
       action: 'fb_reauth',
-      buttonText: 'Authorise Facebook',
+      buttonText: 'Continue with Facebook',
       missingPermissions,
       hidden,
     }
