@@ -26,6 +26,16 @@ const kickToLogin = (pathname) => {
   }
 }
 
+// GET MISSING SCOPES
+const getMissingScopes = (grantedScopes) => {
+  const { requiredScopes } = firebase
+  return requiredScopes.reduce((arr, scope) => {
+    const scopeGranted = grantedScopes.includes(scope)
+    if (scopeGranted) return arr
+    return [...arr, scope]
+  }, [])
+}
+
 const InitUser = ({ children }) => {
   // Get router info
   const router = useRouter()
@@ -80,12 +90,7 @@ const InitUser = ({ children }) => {
     // If it's a new user, create their profile on the server
     await createUser(first_name, last_name)
     // Check whether the new user has missing scopes
-    const { requiredScopes } = firebase
-    const missingScopes = requiredScopes.reduce((arr, scope) => {
-      const scopeGranted = granted_scopes.includes(scope)
-      if (scopeGranted) return arr
-      return [...arr, scope]
-    }, [])
+    const missingScopes = getMissingScopes(granted_scopes)
     // Set missing scopes
     if (missingScopes.length) {
       setMissingScopes(missingScopes) // from Auth context
@@ -97,9 +102,19 @@ const InitUser = ({ children }) => {
 
 
   // HANDLE EXISTING USERS
-  const handleExistingUser = async () => {
+  const handleExistingUser = async (additionalUserInfo) => {
     // If it is a pre-existing user, store their profile in the user context
     const { artists } = await storeUser()
+    // If there is additional info from a FB redirect...
+    if (additionalUserInfo) {
+      // Check whether the new user has missing scopes
+      const { profile: { granted_scopes } } = additionalUserInfo
+      const missingScopes = getMissingScopes(granted_scopes)
+      // Set missing scopes
+      if (missingScopes.length) {
+        setMissingScopes(missingScopes) // from Auth context
+      }
+    }
     // Check if they have artists connected to their account or not,
     // if they don't, set setNoArtist, and push them to the Connect Artist page
     if (artists.length === 0) {
@@ -184,7 +199,7 @@ const InitUser = ({ children }) => {
         await handleNewUser(additionalUserInfo)
       } else {
         // Handle existing user
-        await handleExistingUser()
+        await handleExistingUser(additionalUserInfo)
       }
     }
     // * Show content
