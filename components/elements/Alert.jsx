@@ -58,12 +58,14 @@ function Alert(props) {
           <CloseCircle />
         </button>
 
-        <div className="alert--contents">
-          {contents}
-        </div>
+        <div className="alert--inner_content">
+          <div className="alert--contents">
+            {contents}
+          </div>
 
-        <div className="alert--buttons">
-          {buttonEls}
+          <div className="alert--buttons">
+            {buttonEls}
+          </div>
         </div>
 
       </div>
