@@ -20,7 +20,7 @@ import styles from './LoginPage.module.css'
 
 function LoginPageForm({ className }) {
   // IMPORT CONTEXTS
-  const { authError, login } = React.useContext(AuthContext)
+  const { emailLogin } = React.useContext(AuthContext)
   const { storeUser, userError } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
@@ -52,7 +52,7 @@ function LoginPageForm({ className }) {
     setError(null)
     setPageLoading(true)
     try {
-      await login(email, password)
+      await emailLogin(email, password)
       const newUser = await storeUser()
       if (newUser.artists.length > 0) {
         const selectedArtist = newUser.artists[0]
