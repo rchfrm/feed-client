@@ -11,23 +11,24 @@ import { ArtistContext } from './contexts/Artist'
 import Input from './elements/Input'
 import Button from './elements/Button'
 import Error from './elements/Error'
+import Spinner from './elements/Spinner'
 
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
 
 import styles from './LoginPage.module.css'
 
-function LoginPageForm({ className, setPageLoading }) {
+function LoginPageForm({ className }) {
   // IMPORT CONTEXTS
   const { authError, login } = React.useContext(AuthContext)
   const { storeUser, userError } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   // DEFINE PAGE STATE
+  const [pageLoading, setPageLoading] = React.useState(false)
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [error, setError] = React.useState(null)
-  // END DEFINE PAGE STATE
 
   // HANDLE CHANGES IN FORM
   const handleChange = e => {
@@ -62,6 +63,7 @@ function LoginPageForm({ className, setPageLoading }) {
         Router.push(ROUTES.CONNECT_ACCOUNTS)
       }
     } catch (err) {
+      console.log('err', err)
       setPageLoading(false)
       setEmail('')
       setPassword('')
@@ -70,11 +72,19 @@ function LoginPageForm({ className, setPageLoading }) {
   }
   // END HANDLE CLICK ON LOG IN BUTTON
 
+  if (pageLoading) {
+    return (
+      <Spinner />
+    )
+  }
+
   return (
     <form
       onSubmit={onFormSubmit}
       className={className}
     >
+
+      <Error error={authError || userError || error} />
 
       <Input
         className={styles.input}
@@ -100,8 +110,6 @@ function LoginPageForm({ className, setPageLoading }) {
         version="box"
         width={100}
       />
-
-      <Error error={authError || userError || error} />
 
       {/* Forgot password link */}
       <p className={['small--p', styles.forgotPasswordLink].join(' ')}>
