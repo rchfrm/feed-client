@@ -3,14 +3,11 @@ import React from 'react'
 import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
-import { UserContext } from './contexts/User'
-import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
 import Button from './elements/Button'
 import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
-import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
 import LoginPageForm from './LoginPageForm'
 
@@ -27,11 +24,7 @@ function LoginPageContent() {
   const router = useRouter()
   const { pathname } = router
   // IMPORT CONTEXTS
-  const { authLoading, loginWithFacebook } = React.useContext(AuthContext)
-  const { userLoading } = React.useContext(UserContext)
-  const { artistLoading } = React.useContext(ArtistContext)
-
-  const [pageLoading, setPageLoading] = React.useState(false)
+  const { loginWithFacebook } = React.useContext(AuthContext)
   const [showEmailLogin, setShowEmailLogin] = React.useState(false)
 
   // Show email login when route changes
@@ -55,11 +48,6 @@ function LoginPageContent() {
     loginWithFacebook()
   }
 
-  if (authLoading || userLoading || artistLoading || pageLoading) {
-    return (
-      <Spinner />
-    )
-  }
   return (
     <div className={styles.container}>
 
@@ -68,7 +56,7 @@ function LoginPageContent() {
       {/* Email login form */}
       {showEmailLogin ? (
         // EMAIL LOGIN FORM
-        <LoginPageForm className={styles.form} setPageLoading={setPageLoading} />
+        <LoginPageForm className={styles.form} />
       )
         : (
           <>
