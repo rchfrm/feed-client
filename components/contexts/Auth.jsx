@@ -12,7 +12,7 @@ const initialAuthState = {
 const authReducer = (draftState, action) => {
   const {
     type: actionType,
-    payload: { email, token, scopes } = {},
+    payload: { email, token, providerId, scopes } = {},
   } = action
 
   switch (actionType) {
@@ -21,6 +21,7 @@ const authReducer = (draftState, action) => {
     case 'set-auth-user':
       draftState.email = email
       draftState.token = token
+      draftState.providerId = providerId
       break
     case 'set-token':
       draftState.token = token
@@ -53,14 +54,18 @@ function AuthProvider({ children }) {
     })
   }
 
-  const storeAuth = async authUser => {
+  const storeAuth = async (authUser) => {
     setAuthLoading(true)
+    // Get auth type
+    const [provider] = authUser.providerData
+    const { providerId } = provider
     try {
       const token = await firebase.getVerifyIdToken()
       setAuth({
         type: 'set-auth-user',
         payload: {
           email: authUser.email,
+          providerId,
           token,
         },
       })
