@@ -86,10 +86,9 @@ const InitUser = ({ children }) => {
       if (scopeGranted) return arr
       return [...arr, scope]
     }, [])
+    // Set missing scopes
     if (missingScopes.length) {
-      setMissingScopes(missingScopes)
-      redirectPage(ROUTES.SIGN_UP_ERRORS)
-      return
+      setMissingScopes(missingScopes) // from Auth context
     }
     // As this is a new user, run setNoArtist, and push them to the Connect Artist page
     setNoArtist()
