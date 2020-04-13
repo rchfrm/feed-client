@@ -10,7 +10,7 @@ import PageHeader from '../PageHeader'
 import InsightsLoader from '../InsightsLoader'
 // IMPORT ASSETS
 import MarkdownText from '../elements/MarkdownText'
-import copy from '../../copy/InsightPageCopy'
+import copy from '../../copy/global'
 // IMPORT HELPERS
 
 function InsightsPage() {
@@ -21,11 +21,19 @@ function InsightsPage() {
     navDispatch({ type: 'hide' })
   }, [navDispatch])
 
+  // Get user context
+  const { user } = React.useContext(UserContext)
+
   return (
     <div className={`${className}`}>
 
       <PageHeader heading="Insights" />
-      <InsightsLoader />
+
+      {user.artists.length === 0 ? (
+        <MarkdownText className="ninety-wide  h4--text" markdown={copy.noArtists} />
+      ) : (
+        <InsightsLoader />
+      )}
 
     </div>
   )
