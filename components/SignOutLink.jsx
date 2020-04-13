@@ -20,6 +20,13 @@ function SignOutLink() {
   const { setNoUser } = React.useContext(UserContext)
   const { setNoArtist } = React.useContext(ArtistContext)
 
+  const clearContexts = () => {
+    Router.events.off('routeChangeComplete', clearContexts)
+    setNoAuth()
+    setNoUser()
+    setNoArtist()
+  }
+
   const signOut = async e => {
     e.preventDefault()
     Router.push(ROUTES.LOGIN)
@@ -28,11 +35,7 @@ function SignOutLink() {
         throw (err)
       })
     // After redirect...
-    Router.events.on('routeChangeComplete', () => {
-      setNoAuth()
-      setNoUser()
-      setNoArtist()
-    })
+    Router.events.on('routeChangeComplete', clearContexts)
   }
 
   return (
