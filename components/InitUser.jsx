@@ -83,6 +83,10 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
 
   // HANDLE LACK OF AUTH USER
   const handleNoAuthUser = React.useCallback(() => {
+    // Reset all contexts
+    noAuth()
+    noUser()
+    noArtist()
     // Check if the user is on an auth only page,
     // if they are push to log in page
     const { pathname } = router
@@ -90,11 +94,6 @@ const InitUser = ({ children, setAuthSuccess = () => {} }) => {
       Router.push(ROUTES.LOGIN)
       return true
     }
-
-    // Reset all contexts
-    noAuth()
-    noUser()
-    noArtist()
   }, [noArtist, noAuth, noUser])
   // END HANDLE LACK OF AUTH USER
 
