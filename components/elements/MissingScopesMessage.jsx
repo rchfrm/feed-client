@@ -8,7 +8,7 @@ import ButtonFacebook from './ButtonFacebook'
 
 import copy from '../../copy/integrationErrorsCopy'
 
-const MissingScopesMessage = ({ scopes, className }) => {
+const MissingScopesMessage = ({ scopes, showButton, className }) => {
   const classes = ['missing--scopes', className].join(' ')
   const markdown = copy.missing_permission_scope(scopes)
 
@@ -19,11 +19,13 @@ const MissingScopesMessage = ({ scopes, className }) => {
   return (
     <div className={classes}>
       <MarkdownText markdown={markdown} />
-      <ButtonFacebook
-        onClick={reauthFb}
-      >
-        Continue to Facebook
-      </ButtonFacebook>
+      {showButton && (
+        <ButtonFacebook
+          onClick={reauthFb}
+        >
+          Continue with Facebook
+        </ButtonFacebook>
+      )}
     </div>
   )
 }
@@ -31,10 +33,12 @@ const MissingScopesMessage = ({ scopes, className }) => {
 MissingScopesMessage.propTypes = {
   scopes: PropTypes.array.isRequired,
   className: PropTypes.string,
+  showButton: PropTypes.bool,
 }
 
 MissingScopesMessage.defaultProps = {
   className: '',
+  showButton: true,
 }
 
 
