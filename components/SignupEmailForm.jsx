@@ -91,7 +91,8 @@ const SignupEmailForm = () => {
   }
   // Define array of form inputs
   const formInputs = React.useMemo(() => {
-    return Object.entries(signupDetails).map(([key, value]) => {
+    return Object.entries(signupDetails).map(([key, value], index) => {
+      const autoFocus = index === 0
       const inputType = getInputType(key)
       const label = getInputLabel(key)
       const isPassword = key === 'passwordOne' || key === 'passwordTwo'
@@ -109,6 +110,7 @@ const SignupEmailForm = () => {
         label,
         success,
         error,
+        autoFocus,
       }
     })
   }, [signupDetails])
@@ -149,7 +151,7 @@ const SignupEmailForm = () => {
       <Error className={styles.error} error={error} />
 
       {/* All form inputs */}
-      {formInputs.map(({ inputType, name, value, label, success, error }) => {
+      {formInputs.map(({ inputType, name, value, label, success, error, autoFocus }) => {
         return (
           <Input
             key={name}
@@ -161,6 +163,7 @@ const SignupEmailForm = () => {
             success={success}
             error={error}
             label={label}
+            autoFocus={autoFocus}
             required
           />
         )
