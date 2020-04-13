@@ -2,7 +2,14 @@ import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
-const requiredScopes = ['read_insights', 'manage_pages', 'pages_show_list', 'ads_management', 'instagram_basic', 'instagram_manage_insights']
+const requiredScopes = [
+  'read_insights',
+  'manage_pages',
+  'pages_show_list',
+  'ads_management',
+  'instagram_basic',
+  'instagram_manage_insights',
+]
 
 const config = {
   apiKey: process.env.firebase_api_key,
