@@ -27,9 +27,12 @@ function SignOutLink() {
       .catch((err) => {
         throw (err)
       })
-    setNoAuth()
-    setNoUser()
-    setNoArtist()
+    // After redirect...
+    Router.events.on('routeChangeComplete', () => {
+      setNoAuth()
+      setNoUser()
+      setNoArtist()
+    })
   }
 
   return (
