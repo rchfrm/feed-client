@@ -43,9 +43,6 @@ const LoadContent = () => {
   const initialArtistAccountsState = {}
   const [artistAccounts, setArtistAccounts] = React.useState(initialArtistAccountsState)
 
-  console.log('auth', auth)
-  console.log('accessToken', accessToken)
-
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
     // If missing scopes, we need to show the connect button
