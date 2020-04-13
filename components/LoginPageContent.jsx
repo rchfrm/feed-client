@@ -13,9 +13,6 @@ import ButtonFacebook from './elements/ButtonFacebook'
 import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
 import LoginPageForm from './LoginPageForm'
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
 
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/LoginPageCopy'
@@ -41,7 +38,7 @@ function LoginPageContent() {
 
   if (authLoading || userLoading || artistLoading || pageLoading) {
     return (
-      <Spinner width={50} color={brandColors.green} />
+      <Spinner />
     )
   }
   return (
@@ -79,7 +76,7 @@ function LoginPageContent() {
         )}
 
       {/* T&C text */}
-      <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText} />
+      <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText('log in')} />
 
     </div>
   )

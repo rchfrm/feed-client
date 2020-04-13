@@ -76,7 +76,7 @@ const InitUser = ({ children }) => {
 
   // HANDLE NEW USER
   const handleNewUser = async (additionalUserInfo) => {
-  // If it's a new user, create their profile on the server
+    // If it's a new user, create their profile on the server
     const firstName = additionalUserInfo.profile.first_name
     const lastName = additionalUserInfo.profile.last_name
     await createUser(firstName, lastName)
@@ -88,7 +88,7 @@ const InitUser = ({ children }) => {
 
   // HANDLE EXISTING USERS
   const handleExistingUser = async () => {
-  // If it is a pre-existing user, store their profile in the user context
+    // If it is a pre-existing user, store their profile in the user context
     const { artists } = await storeUser()
     // Check if they have artists connected to their account or not,
     // if they don't, set noArtist, and push them to the Connect Artist page
@@ -120,7 +120,7 @@ const InitUser = ({ children }) => {
 
   // HANDLE INITIAL LOGGED IN TEST
   const handleInitialAuthCheck = async (authUser) => {
-  // If no auth user, handle that
+    // If no auth user, handle that
     if (!authUser) return handleNoAuthUser()
     // If there is, store the user in auth context
     await storeAuth(authUser)
@@ -136,16 +136,17 @@ const InitUser = ({ children }) => {
     const { user, error, credential, additionalUserInfo } = redirectResult
     // * Handle no redirect
     if (!user && !error) {
-      firebase.auth.onAuthStateChanged(async (authUser) => {
+      const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
         await handleInitialAuthCheck(authUser)
         if (!isMounted()) return
         showContent(isMounted)
+        unsubscribe()
       })
       return
     }
     // * Handle errors
     if (error) {
-      const { message, type, code } = error
+      const { message, code } = error
       // Handle auth error
       if (code === 'auth/invalid-credential') {
         handleFbInvalidCredential(message)

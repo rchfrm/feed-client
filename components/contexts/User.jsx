@@ -68,20 +68,20 @@ function UserProvider({ children }) {
 
   const storeUser = React.useCallback(async () => {
     setUserLoading(true)
-    try {
-      const newUser = await server.getUser()
-      setUser({
-        type: 'set-user',
-        payload: {
-          user: newUser,
-        },
+    const newUser = await server.getUser()
+      .catch((err) => {
+        setUserLoading(false)
+        throw (err)
       })
-      setUserLoading(false)
-      return newUser
-    } catch (err) {
-      setUserLoading(false)
-      throw (err)
-    }
+    if (!newUser) return
+    setUser({
+      type: 'set-user',
+      payload: {
+        user: newUser,
+      },
+    })
+    setUserLoading(false)
+    return newUser
   }, [])
 
   const value = {
