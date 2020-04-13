@@ -53,13 +53,13 @@ const InitUser = ({ children }) => {
 
   // HANDLE NO AUTH USER
   const handleNoAuthUser = () => {
-  // Check if the user is on an auth only page,
-  // if they are push to log in page
-    kickToLogin(pathname)
     // Reset all contexts
     setNoAuth()
     setNoUser()
     setNoArtist()
+    // Check if the user is on an auth only page,
+    // if they are push to log in page
+    kickToLogin(pathname)
   }
 
   // HANDLE Invalid FB credential
