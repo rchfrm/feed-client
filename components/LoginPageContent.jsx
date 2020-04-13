@@ -5,6 +5,7 @@ import Router, { useRouter } from 'next/router'
 import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
+import Error from './elements/Error'
 import Button from './elements/Button'
 import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
@@ -26,6 +27,7 @@ function LoginPageContent() {
   // IMPORT CONTEXTS
   const { loginWithFacebook } = React.useContext(AuthContext)
   const [showEmailLogin, setShowEmailLogin] = React.useState(false)
+  const { authError } = React.useContext(AuthContext)
 
   // Show email login when route changes
   React.useEffect(() => {
@@ -52,6 +54,8 @@ function LoginPageContent() {
     <div className={styles.container}>
 
       <PageHeader className={styles.header} heading="log in" />
+
+      <Error error={authError} />
 
       {/* Email login form */}
       {showEmailLogin ? (

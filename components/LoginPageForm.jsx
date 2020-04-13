@@ -84,7 +84,7 @@ function LoginPageForm({ className }) {
       className={className}
     >
 
-      <Error error={authError || userError || error} />
+      <Error error={userError || error} />
 
       <Input
         className={styles.input}
