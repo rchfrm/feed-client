@@ -88,7 +88,7 @@ function AuthProvider({ children }) {
     }
   }
 
-  const login = async (email, password) => {
+  const emailLogin = async (email, password) => {
     setAuthLoading(true)
     try {
       const authUser = await firebase.doSignInWithEmailAndPassword(email, password)
@@ -134,7 +134,7 @@ function AuthProvider({ children }) {
     auth,
     authError,
     authLoading,
-    login,
+    emailLogin,
     setNoAuth,
     relinkFacebook,
     setAccessToken,
