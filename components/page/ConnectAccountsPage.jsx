@@ -18,7 +18,6 @@ import Error from '../elements/Error'
 
 // IMPORT CONSTANTS
 import * as ROUTES from '../../constants/routes'
-import brandColors from '../../constants/brandColors'
 
 // IMPORT HELPERS
 import artistHelpers from '../helpers/artistHelpers'
@@ -124,7 +123,7 @@ const LoadContent = () => {
   }
 
   if (authLoading || userLoading || artistLoading || pageLoading || redirecting) {
-    return <Spinner width={50} color={brandColors.green} />
+    return <Spinner />
   }
 
 
