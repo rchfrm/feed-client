@@ -3,11 +3,12 @@ import React from 'react'
 import Router, { useRouter } from 'next/router'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
 import SignupEmailForm from './SignupEmailForm'
 // IMPORT HELPERS
+import firebase from './helpers/firebase'
+// IMPORT ELEMENTS
 import Button from './elements/Button'
 import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
@@ -24,8 +25,6 @@ const SignupPageContent = () => {
   // Get router info
   const router = useRouter()
   const { pathname } = router
-  // IMPORT CONTEXTS
-  const { signUpWithFacebook } = React.useContext(AuthContext)
   // Show email login when route changes
   React.useEffect(() => {
     if (pathname === ROUTES.SIGN_UP_EMAIL) {
@@ -43,7 +42,7 @@ const SignupPageContent = () => {
   // Calls firebase.signupWithFacebook using a redirect,
   // so that when user is returned to log in page handleRedirect is triggered
   const facebookSignup = async () => {
-    signUpWithFacebook()
+    firebase.signUpWithFacebook()
   }
 
   return (
