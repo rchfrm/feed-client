@@ -1,7 +1,5 @@
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-import Spinner from '../elements/Spinner'
 // IMPORT CONTEXTS
 
 import { NavigationContext } from '../contexts/Navigation'
