@@ -62,7 +62,6 @@ const InitUser = ({ children }) => {
 
   // CALL WHEN READY TO SHOW CONTENT
   const showContent = () => {
-    console.log('show content')
     // If user has been redirected, wait for redirect
     // before showing content
     if (userRedirected) {
@@ -73,7 +72,6 @@ const InitUser = ({ children }) => {
     // Unsubscribe from route change listener
     Router.events.off('routeChangeComplete', showContent)
     // Show the content
-    console.log('READYYY')
     setReady(true)
   }
 
