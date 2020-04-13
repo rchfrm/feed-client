@@ -3,7 +3,6 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Spinner from './elements/Spinner'
@@ -46,10 +45,9 @@ function Insights() {
 
 function InsightsLoader() {
 // IMPORT CONTEXTS
-  const { userLoading } = React.useContext(UserContext)
   const { artist, artistLoading } = React.useContext(ArtistContext)
 
-  if (userLoading || artistLoading) {
+  if (artistLoading) {
     return <Spinner width={50} color={brandColors.green} />
   } if (artist === null) {
     // If there is no selected artist after the artist has finished loading,
