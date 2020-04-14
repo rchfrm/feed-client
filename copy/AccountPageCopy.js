@@ -5,7 +5,7 @@ export default {
   connectionsSummary: `Add links for your social profiles and any other website(s) you manage here. If you have more than one website, you can just put the link in any empty field.`,
   connectionsDialogue: `The default link in your promoted posts is marked by *. You can change the link on each specific post [here](${ROUTES.POSTS}).
   
-  When you enter a link, make sure it starts with "https://".
+When you enter a link, make sure it starts with "https://".
   `,
   paymentsSummary: `Right now, the beta version of Feed is free to use! In the future, you’ll be able to add payment details here. 
 
