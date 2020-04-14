@@ -73,6 +73,7 @@ function UserProvider({ children }) {
         setUserLoading(false)
         throw (err)
       })
+    // TODO If 404, then call /accounts/register
     if (!user) return
     setUser({
       type: 'set-user',
