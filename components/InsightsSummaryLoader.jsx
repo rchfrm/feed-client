@@ -35,7 +35,8 @@ function InsightsSummaryLoader() {
     setLoading(true)
     setSpend(null)
   }, [artist.id])
-  // END RESET EVERYTHING IF THE SELECTED ARTIST CHANGES
+
+  const daysToInclude = 20
 
   // CALCULATE NUMBER OF IMPRESSIONS IN LAST SEVEN DAYS
   const getAdSpend = React.useCallback(async artistId => {
@@ -78,8 +79,10 @@ function InsightsSummaryLoader() {
 
 export default InsightsSummaryLoader
 
-function Summary(props) {
-  const { artistId, spend } = props
+function Summary({
+  artistId,
+  spend,
+}) {
   const { artist } = React.useContext(ArtistContext)
   const [impressions, setImpressions] = React.useState(undefined)
   const [loading, setLoading] = React.useState(false)
