@@ -70,14 +70,14 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     if (!isMounted) return
     // Error if no ad accounts
     if (!adaccounts.length) {
-      setErrors([...errors, { message: 'We couldn't find any ad accounts connected to your Facebook account' }])
+      setErrors([...errors, { message: 'We couldn\'t find any ad accounts connected to your Facebook account' }])
       setPageLoading(false)
       return
     }
 
     // Error if no artist accounts
     if (Object.keys(accounts).length === 0) {
-      setErrors([...errors, { message: 'We couldn't find any pages connected to your Facebook account' }])
+      setErrors([...errors, { message: 'We couldn\'t find any pages connected to your Facebook account' }])
       setPageLoading(false)
     }
 
