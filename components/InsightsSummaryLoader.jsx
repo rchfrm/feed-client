@@ -49,15 +49,14 @@ function InsightsSummaryLoader() {
     // dates that fall within the last seven days
     const dailyData = feedAdSpend.facebook_ad_spend_feed.daily_data
     const historicalPeriod = moment().subtract(daysToInclude, 'days')
-    let spend = 0
-    const dates = Object.keys(dailyData)
-    dates.forEach(date => {
+    const spend = Object.entries(dailyData).reduce((totalSpend, [date, spend]) => {
       const dateMoment = moment(date, 'YYYY-MM-DD')
       if (dateMoment.isSameOrAfter(historicalPeriod, 'day')) {
-        console.log('dailyData[date]', dailyData[date])
-        spend += dailyData[date]
+        totalSpend += spend
+        return totalSpend
       }
-    })
+      return totalSpend
+    }, 0)
     return Number(spend.toFixed(2))
   }, [])
 
@@ -145,9 +144,12 @@ function Summary({
       })
   }, [artistId, calculateImpressions, impressions, spend, loading])
 
+  console.log('spend', spend)
+
   if (spend === 0) {
     return <Nothing />
   }
+
   return (
     <div className="ninety-wide  h4--text">
       <p>
