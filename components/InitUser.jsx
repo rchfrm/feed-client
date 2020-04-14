@@ -112,7 +112,7 @@ const InitUser = ({ children }) => {
     }
     // As this is a new user, run setNoArtist, and push them to the Connect Artist page
     setNoArtist()
-    redirectPage(ROUTES.CONNECT_ACCOUNTS, pathname)
+    redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
   }
 
 
@@ -134,7 +134,7 @@ const InitUser = ({ children }) => {
     // if they don't, set setNoArtist, and push them to the Connect Artist page
     if (artists.length === 0) {
       setNoArtist()
-      redirectPage(ROUTES.CONNECT_ACCOUNTS, pathname)
+      redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
       return
     }
     // If they do have artists, check for a previously selected artist ID in local storage...
