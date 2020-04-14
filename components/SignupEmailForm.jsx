@@ -125,6 +125,15 @@ const SignupEmailForm = () => {
     if (!formComplete) return
     const { email, passwordOne, firstName, lastName } = signupDetails
     setPageLoading(true)
+
+    track({
+      category: 'sign up',
+      action: 'submit sign up form',
+      label: email,
+      breadcrumb: true,
+      ga: false,
+    })
+
     const signupRes = await signUp(email, passwordOne)
       .catch((error) => {
         setError(error)

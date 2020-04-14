@@ -18,12 +18,26 @@ export const fireSentryError = ({ category, action, label, description }) => {
   Sentry.captureException(new Error(message))
 }
 
+export const fireSentryBreadcrumb = ({ category, action, label, description }) => {
+  let message = ''
+  if (description) message += `${description}\n`
+  if (action) message += `action: ${action}\n`
+  if (label) message += `label: ${label}\n`
+  Sentry.addBreadcrumb({
+    category,
+    message,
+    level: Sentry.Severity.Info,
+  })
+}
+
+
 /**
  * @param {string} hitType
  * @param {string} category
  * @param {string} action
  * @param {string} label
  * @param {string} description
+ * @param {boolean} breadcrumb
  * @param {boolean} error
  */
 export const track = ({
@@ -32,7 +46,9 @@ export const track = ({
   action,
   label,
   description,
+  breadcrumb = false,
   error = false,
+  ga = true,
 }) => {
   // Stop here if not browser
   const isBrowser = typeof window !== 'undefined'
@@ -45,7 +61,12 @@ export const track = ({
     eventLabel: label,
   }
   // Send off event to GA
-  fireGAEvent(gaPayload)
+  if (ga) {
+    fireGAEvent(gaPayload)
+  }
+  if (breadcrumb) {
+    fireSentryBreadcrumb({ category, action, label, description })
+  }
   // If error, fire in sentry also
   if (error) {
     fireSentryError({ category, action, label, description })

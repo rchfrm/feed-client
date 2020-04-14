@@ -53,6 +53,14 @@ function LoginWithEmail({ className }) {
     setError(null)
     setPageLoading(true)
 
+    track({
+      category: 'login',
+      action: 'submit login form',
+      label: email,
+      breadcrumb: true,
+      ga: false,
+    })
+
     // Login with email
     const token = await emailLogin(email, password)
       .catch((error) => {
@@ -92,6 +100,7 @@ function LoginWithEmail({ className }) {
         category: 'login',
         action: 'logged in via email',
         label: email,
+        breadcrumb: true,
       })
     } else {
       setNoArtist()
