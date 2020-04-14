@@ -58,20 +58,20 @@ function UserProvider({ children }) {
 
   const storeUser = async () => {
     setUserLoading(true)
-    const newUser = await server.getUser()
+    const user = await server.getUser()
       .catch((err) => {
         setUserLoading(false)
         throw (err)
       })
-    if (!newUser) return
+    if (!user) return
     setUser({
       type: 'set-user',
       payload: {
-        user: newUser,
+        user,
       },
     })
     setUserLoading(false)
-    return newUser
+    return user
   }
 
   const value = {
