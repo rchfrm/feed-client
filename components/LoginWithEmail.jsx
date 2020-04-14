@@ -66,7 +66,7 @@ function LoginWithEmail({ className }) {
       Router.push(ROUTES.HOME)
     } else {
       setNoArtist()
-      Router.push(ROUTES.CONNECT_ACCOUNTS)
+      Router.push(ROUTES.SIGN_UP_CONTINUE)
     }
   }
   // END HANDLE CLICK ON LOG IN BUTTON

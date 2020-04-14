@@ -136,7 +136,7 @@ const SignupEmailForm = () => {
         setPageLoading(false)
       })
     if (!userRes) return
-    Router.push(ROUTES.CONNECT_ACCOUNTS)
+    Router.push(ROUTES.SIGN_UP_CONTINUE)
   }
 
   if (pageLoading) {
