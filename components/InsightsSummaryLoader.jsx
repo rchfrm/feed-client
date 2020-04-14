@@ -128,14 +128,9 @@ function Summary(props) {
 
   React.useEffect(() => {
     // Exit if the request to get assets from the server has already started
-    if (loading) {
-      return
-    }
-
+    if (loading) return
     // Exit if impressions is greater than or equal to 0
-    if (impressions >= 0) {
-      return
-    }
+    if (impressions >= 0) return
 
     setLoading(true)
     calculateImpressions(artistId)
