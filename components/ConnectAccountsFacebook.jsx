@@ -1,17 +1,18 @@
-
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT ELEMENTS
 import MissingScopesMessage from './elements/MissingScopesMessage'
 import ButtonFacebook from './elements/ButtonFacebook'
 import Error from './elements/Error'
-// IMPORT PAGES
+import MarkdownText from './elements/MarkdownText'
 // IMPORT HELPERS
 import firebase from './helpers/firebase'
-import styles from './ConnectAccounts.module.css'
 // IMPORT STYLES
+import styles from './ConnectAccounts.module.css'
+// IMPORT COPY
+import copy from '../copy/ConnectAccountsCopy'
 
-function ConnectAccountsFacebook({ auth, errors }) {
+function ConnectAccountsFacebook({ auth, errors, onSignUp }) {
   const { missingScopes, providerId } = auth
   // Define function to link facebook
   const linkFacebook = React.useCallback(() => {
@@ -23,6 +24,8 @@ function ConnectAccountsFacebook({ auth, errors }) {
     firebase.linkFacebookAccount()
   }, [missingScopes.length])
 
+  const showSignupIntro = (missingScopes.length === 0) && onSignUp
+
   return (
     <div className="ninety-wide">
       <div className={styles.facebookConnectContainer}>
@@ -30,6 +33,11 @@ function ConnectAccountsFacebook({ auth, errors }) {
         {errors.map((error, index) => {
           return <Error error={error} messagePrefix="Error: " key={index} />
         })}
+
+        {/* Singup intro text */}
+        {showSignupIntro && (
+          <MarkdownText className={styles.introText} markdown={copy.signupIntro} />
+        )}
 
         {/* If missing FB permissions, show missing permissions */}
         {missingScopes.length > 0 && (
@@ -43,9 +51,11 @@ function ConnectAccountsFacebook({ auth, errors }) {
           Continue with Facebook
         </ButtonFacebook>
 
-        <em className={[styles.fbLegalText, 'xsmall--p'].join(' ')}>
-          This allows us to connect to Facebook so that we can show you your data and promote posts on your behalf, we'll never post anything without your approval.
-        </em>
+        {!showSignupIntro && (
+          <em className={[styles.fbLegalText, 'xsmall--p'].join(' ')}>
+            {copy.smallLegalText}
+          </em>
+        )}
 
       </div>
     </div>

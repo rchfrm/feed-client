@@ -5,6 +5,10 @@
   max-width: 480px;
 }
 
+.introText {
+  margin-bottom: var(--bsu-md);
+}
+
 .fbButton  {
   width: 100%;
   margin-bottom: var(--bsu);

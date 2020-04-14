@@ -19,7 +19,7 @@ import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 import artistHelpers from './helpers/artistHelpers'
 
-const ConnectAccountsLoader = () => {
+const ConnectAccountsLoader = ({ onSignUp }) => {
   // IMPORT CONTEXTS
   const { auth, accessToken, authError } = React.useContext(AuthContext)
   const { createArtist, setArtistLoading } = React.useContext(ArtistContext)
@@ -124,13 +124,12 @@ const ConnectAccountsLoader = () => {
   // If no artists accounts, show FB BUTTON
   if (Object.keys(artistAccounts).length === 0) {
     return (
-      <>
-        <ConnectAccountsFacebook
-          auth={auth}
-          errors={errors}
-          setErrors={setErrors}
-        />
-      </>
+      <ConnectAccountsFacebook
+        auth={auth}
+        errors={errors}
+        setErrors={setErrors}
+        onSignUp={onSignUp}
+      />
     )
   }
 
