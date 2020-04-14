@@ -1,5 +1,6 @@
 export const SIGN_UP = '/join'
 export const SIGN_UP_EMAIL = '/join/email'
+export const SIGN_UP_CONTINUE = '/join/final-step'
 export const CONNECT_ACCOUNTS = '/connect-accounts'
 export const THANK_YOU = '/thank-you'
 export const LOGIN = '/login'
@@ -19,6 +20,7 @@ export const HOME = POSTS
 // Array of restricted pages
 export const restrictedPages = [
   LOGIN_EMAIL,
+  SIGN_UP_CONTINUE,
   CONNECT_ACCOUNTS,
   THANK_YOU,
   POSTS,
