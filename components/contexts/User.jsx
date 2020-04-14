@@ -3,7 +3,17 @@ import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import server from '../helpers/server'
 
-const initialUserState = {}
+const initialUserState = {
+  id: '',
+  created_at: '',
+  updated_at: '',
+  first_name: '',
+  last_name: '',
+  email: '',
+  last_login: '',
+  artists: [],
+  organizations: {},
+}
 
 const userReducer = (draftState, action) => {
   const {
