@@ -48,12 +48,13 @@ function InsightsSummaryLoader() {
     // Cycle through the daily data, and add up the values of all
     // dates that fall within the last seven days
     const dailyData = feedAdSpend.facebook_ad_spend_feed.daily_data
-    const sevenDaysAgo = moment().subtract('7', 'days')
+    const historicalPeriod = moment().subtract(daysToInclude, 'days')
     let spend = 0
     const dates = Object.keys(dailyData)
     dates.forEach(date => {
       const dateMoment = moment(date, 'YYYY-MM-DD')
-      if (dateMoment.isSameOrAfter(sevenDaysAgo, 'day')) {
+      if (dateMoment.isSameOrAfter(historicalPeriod, 'day')) {
+        console.log('dailyData[date]', dailyData[date])
         spend += dailyData[date]
       }
     })
@@ -74,7 +75,7 @@ function InsightsSummaryLoader() {
   if (loading) {
     return <Loading />
   }
-  return <Summary spend={spend} artistId={artist.id} />
+  return <Summary spend={spend} artistId={artist.id} days={daysToInclude} />
 }
 
 export default InsightsSummaryLoader
@@ -82,6 +83,7 @@ export default InsightsSummaryLoader
 function Summary({
   artistId,
   spend,
+  days,
 }) {
   const { artist } = React.useContext(ArtistContext)
   const [impressions, setImpressions] = React.useState(undefined)
@@ -91,11 +93,11 @@ function Summary({
     const tournamentsEndpoint = get(artist, ['_links', 'tournaments', 'href'], '')
     const tournamentsEndpointMod = tournamentsEndpoint ? tournamentsEndpoint.slice(0, tournamentsEndpoint.indexOf('?')) : 0
     const tournaments = tournamentsEndpointMod ? await server.getEndpoint(tournamentsEndpointMod) : []
-    const sevenDaysAgo = moment().subtract(7, 'days')
+    const historicalPeriod = moment().subtract(days, 'days')
 
     const createAdsPaths = tournaments.reduce((acc, tournament) => {
       // If the tournament stopped within the last seven days, get the ads that were in it
-      if (moment(tournament.stop_time).isSameOrAfter(sevenDaysAgo, 'day')) {
+      if (moment(tournament.stop_time).isSameOrAfter(historicalPeriod, 'day')) {
         const ads = Object.values(tournament.ads).reduce((acc2, ad) => {
           // Make sure that the ad hasn't already been added from another tournament
           if (acc.indexOf(ad.ad.path) === -1) {
@@ -120,7 +122,7 @@ function Summary({
 
     return ads.reduce((impressions, { metrics }) => {
       const adImpressions = Object.keys(metrics).reduce((impressions, day) => {
-        if (moment(day, 'YYYY-MM-DD').isSameOrAfter(sevenDaysAgo, 'day')) {
+        if (moment(day, 'YYYY-MM-DD').isSameOrAfter(historicalPeriod, 'day')) {
           return impressions + Number(metrics[day].impressions)
         }
         return impressions
@@ -149,7 +151,7 @@ function Summary({
   return (
     <div className="ninety-wide  h4--text">
       <p>
-        In the last 7 days, you've
+        In the last {days} days, you've
         {' '}
         <span className="strong">
           spent £
