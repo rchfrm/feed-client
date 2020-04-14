@@ -51,23 +51,22 @@ function LoginWithEmail({ className }) {
     e.preventDefault()
     setError(null)
     setPageLoading(true)
-    try {
-      await emailLogin(email, password)
-      const newUser = await storeUser()
-      if (newUser.artists.length > 0) {
-        const selectedArtist = newUser.artists[0]
-        await storeArtist(selectedArtist.id)
-        Router.push(ROUTES.HOME)
-      } else {
-        setNoArtist()
-        Router.push(ROUTES.CONNECT_ACCOUNTS)
-      }
-    } catch (err) {
-      console.log('err', err)
-      setPageLoading(false)
-      setEmail('')
-      setPassword('')
-      setError(err)
+    const token = await emailLogin(email, password)
+      .catch((err) => {
+        setPageLoading(false)
+        setEmail('')
+        setPassword('')
+        setError(err)
+      })
+    if (!token) return
+    const newUser = await storeUser()
+    if (newUser.artists.length > 0) {
+      const selectedArtist = newUser.artists[0]
+      await storeArtist(selectedArtist.id)
+      Router.push(ROUTES.HOME)
+    } else {
+      setNoArtist()
+      Router.push(ROUTES.CONNECT_ACCOUNTS)
     }
   }
   // END HANDLE CLICK ON LOG IN BUTTON
