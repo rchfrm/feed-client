@@ -18,7 +18,7 @@ import * as ROUTES from '../constants/routes'
 
 import styles from './LoginPage.module.css'
 
-function LoginPageForm({ className }) {
+function LoginWithEmail({ className }) {
   // IMPORT CONTEXTS
   const { emailLogin } = React.useContext(AuthContext)
   const { storeUser, userError } = React.useContext(UserContext)
@@ -130,4 +130,4 @@ function LoginPageForm({ className }) {
   )
 }
 
-export default LoginPageForm
+export default LoginWithEmail
