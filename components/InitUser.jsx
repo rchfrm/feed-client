@@ -10,6 +10,7 @@ import * as ROUTES from '../constants/routes'
 import Spinner from './elements/Spinner'
 
 import firebase from './helpers/firebase'
+import { track } from './helpers/trackingHelpers'
 
 // CALL REDIRECT
 let userRedirected = false
@@ -96,6 +97,13 @@ const InitUser = ({ children }) => {
     setAuthError({ message: decodedMessage })
     // Handle no auth error
     handleNoAuthUser()
+    // Track
+    track({
+      category: 'login',
+      action: 'Invalid FB credential (InitUser)',
+      description: decodedMessage,
+      error: true,
+    })
   }
 
 
@@ -113,13 +121,29 @@ const InitUser = ({ children }) => {
     // As this is a new user, run setNoArtist, and push them to the Connect Artist page
     setNoArtist()
     redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
+    // Track
+    track({
+      category: 'login',
+      action: 'Handle new user from FB (InitUser)',
+      label: `${first_name} ${last_name}${missingScopes.length ? ' (with missing scopes)' : ''}`,
+    })
   }
 
 
   // HANDLE EXISTING USERS
   const handleExistingUser = async (additionalUserInfo) => {
     // If it is a pre-existing user, store their profile in the user context
-    const { artists } = await storeUser()
+    const user = await storeUser()
+    if (!user) {
+      track({
+        category: 'sign up',
+        action: 'handleExistingUser (InitUser)',
+        label: 'No user',
+        description: 'No user returned from store user',
+        error: true,
+      })
+    }
+    const { artists } = user
     // If there is additional info from a FB redirect...
     if (additionalUserInfo) {
       // Check whether the new user has missing scopes
@@ -195,6 +219,13 @@ const InitUser = ({ children }) => {
       setAuthError({ message })
       // Show content
       showContent(isMounted)
+      // Track
+      track({
+        category: 'login',
+        action: 'Other FB redirect error (InitUser)',
+        description: message,
+        error: true,
+      })
       return
     }
     // * Handle succesful redirect
@@ -202,6 +233,11 @@ const InitUser = ({ children }) => {
       // Store Firebase's auth user in context
       await storeAuth(user)
         .catch((err) => {
+          track({
+            category: 'sign up',
+            action: 'Error storing firebase auth with storeAuth() (InitUser)',
+            error: true,
+          })
           throw (err)
         })
         // Extract and set the Facebook access token
