@@ -10,7 +10,7 @@ import Button from './elements/Button'
 import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
 // IMPORT COMPONENTS
-import LoginPageForm from './LoginPageForm'
+import LoginWithEmail from './LoginWithEmail'
 // IMPORT HELPERS
 import firebase from './helpers/firebase'
 // IMPORT CONSTANTS
@@ -60,7 +60,7 @@ function LoginPageContent() {
       {/* Email login form */}
       {showEmailLogin ? (
         // EMAIL LOGIN FORM
-        <LoginPageForm className={styles.form} />
+        <LoginWithEmail className={styles.form} />
       )
         : (
           <>
