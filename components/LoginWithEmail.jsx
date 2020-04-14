@@ -59,9 +59,9 @@ function LoginWithEmail({ className }) {
         setError(err)
       })
     if (!token) return
-    const newUser = await storeUser()
-    if (newUser.artists.length > 0) {
-      const selectedArtist = newUser.artists[0]
+    const user = await storeUser()
+    if (user.artists.length > 0) {
+      const selectedArtist = user.artists[0]
       await storeArtist(selectedArtist.id)
       Router.push(ROUTES.HOME)
     } else {
