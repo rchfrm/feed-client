@@ -50,9 +50,10 @@
 }
 
 .alert--inner_content {
-  overflow-y: scroll;
+  width: 100%;
+  padding-right: var(--bsu);
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-
 }
 
 .alert_close--button {
