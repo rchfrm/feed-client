@@ -47,7 +47,7 @@ function LoginWithEmail({ className }) {
   }
   // END HANDLE CHANGES IN FORM
 
-  // HANDLE CLICK ON LOG IN BUTTON
+  // * HANDLE FORM SUBMIT
   const onFormSubmit = async e => {
     e.preventDefault()
     setError(null)
@@ -55,37 +55,35 @@ function LoginWithEmail({ className }) {
 
     // Login with email
     const token = await emailLogin(email, password)
-      .catch((err) => {
+      .catch((error) => {
         setPageLoading(false)
         setEmail('')
         setPassword('')
-        setError(err)
+        setError(error)
+        track({
+          category: 'login',
+          action: 'no token returned from emailLogin',
+          label: email,
+          description: error.message,
+          error: true,
+        })
       })
-    if (!token) {
-      track({
-        category: 'login',
-        action: 'no token returned from emailLogin',
-        label: email,
-        error: true,
-      })
-      return
-    }
+    if (!token) return
     const user = await storeUser()
-      .catch((err) => {
+      .catch((error) => {
         setPageLoading(false)
         setEmail('')
         setPassword('')
-        setError(err)
+        setError(error)
+        track({
+          category: 'login',
+          action: 'error storing user',
+          label: email,
+          description: error.message,
+          error: true,
+        })
       })
-    if (!user) {
-      track({
-        category: 'login',
-        action: 'error storing user',
-        label: email,
-        error: true,
-      })
-      return
-    }
+    if (!user) return
     if (user.artists.length > 0) {
       const selectedArtist = user.artists[0]
       await storeArtist(selectedArtist.id)
