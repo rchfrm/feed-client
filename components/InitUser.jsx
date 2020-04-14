@@ -13,21 +13,22 @@ import firebase from './helpers/firebase'
 
 // CALL REDIRECT
 let userRedirected = false
-const redirectPage = (pathname) => {
+const redirectPage = (newPathname, currentPathname) => {
+  if (newPathname === currentPathname) return
   userRedirected = true
-  Router.push(pathname)
+  Router.push(newPathname)
 }
 
 // KICK TO LOGIN (if necessary)
-const kickToLogin = (pathname) => {
+const kickToLogin = (currentPathname) => {
   // If on signup email page, just go to plain signup
-  if (pathname === ROUTES.SIGN_UP_EMAIL) {
-    redirectPage(ROUTES.SIGN_UP)
+  if (currentPathname === ROUTES.SIGN_UP_EMAIL) {
+    redirectPage(ROUTES.SIGN_UP, currentPathname)
     return
   }
   // Only kick to login if user is on restricted page
-  if (ROUTES.restrictedPages.includes(pathname)) {
-    redirectPage(ROUTES.LOGIN)
+  if (ROUTES.restrictedPages.includes(currentPathname)) {
+    redirectPage(ROUTES.LOGIN, currentPathname)
   }
 }
 
@@ -111,7 +112,7 @@ const InitUser = ({ children }) => {
     }
     // As this is a new user, run setNoArtist, and push them to the Connect Artist page
     setNoArtist()
-    redirectPage(ROUTES.CONNECT_ACCOUNTS)
+    redirectPage(ROUTES.CONNECT_ACCOUNTS, pathname)
   }
 
 
@@ -133,9 +134,7 @@ const InitUser = ({ children }) => {
     // if they don't, set setNoArtist, and push them to the Connect Artist page
     if (artists.length === 0) {
       setNoArtist()
-      if (pathname !== ROUTES.CONNECT_ACCOUNTS) {
-        redirectPage(ROUTES.CONNECT_ACCOUNTS)
-      }
+      redirectPage(ROUTES.CONNECT_ACCOUNTS, pathname)
       return
     }
     // If they do have artists, check for a previously selected artist ID in local storage...
@@ -153,7 +152,7 @@ const InitUser = ({ children }) => {
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
     if (pathname === ROUTES.LOGIN || pathname === ROUTES.SIGN_UP) {
-      redirectPage(ROUTES.HOME)
+      redirectPage(ROUTES.HOME, pathname)
     }
   }
 
