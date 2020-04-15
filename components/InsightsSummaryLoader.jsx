@@ -10,6 +10,7 @@ import { ArtistContext } from './contexts/Artist'
 import MarkdownText from './elements/MarkdownText'
 // IMPORT HELPERS
 import server from './helpers/server'
+import helper from './helpers/helper'
 // IMPORT COPY
 import copy from '../copy/InsightPageCopy'
 
@@ -111,7 +112,7 @@ function InsightsSummaryLoader() {
   if (!spend) return null
 
   const spendSummary = copy.spendSummary(daysToInclude, spend, '£')
-  const impressionSummary = copy.impressionSummary(impressions)
+  const impressionSummary = copy.impressionSummary(helper.formatNumber(impressions))
   const markdown = `${spendSummary}${impressionSummary}`
 
   return <MarkdownText className="ninety-wide  h4--text" markdown={markdown} />
