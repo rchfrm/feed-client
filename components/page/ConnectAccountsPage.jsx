@@ -1,169 +1,13 @@
 import React from 'react'
-import Router from 'next/router'
-
-import useAsyncEffect from 'use-async-effect'
+import PropTypes from 'prop-types'
 
 // IMPORT CONTEXTS
 import { NavigationContext } from '../contexts/Navigation'
-import { AuthContext } from '../contexts/Auth'
-import { UserContext } from '../contexts/User'
-import { ArtistContext } from '../contexts/Artist'
 // IMPORT ELEMENTS
-import ConnectAccounts from '../ConnectAccounts'
-import ConnectAccountsFacebook from '../ConnectAccountsFacebook'
+import ConnectAccountsLoader from '../ConnectAccountsLoader'
 import PageHeader from '../PageHeader'
-import Spinner from '../elements/Spinner'
-import Button from '../elements/Button'
-import Error from '../elements/Error'
 
-// IMPORT CONSTANTS
-import * as ROUTES from '../../constants/routes'
-import brandColors from '../../constants/brandColors'
-
-// IMPORT HELPERS
-import artistHelpers from '../helpers/artistHelpers'
-
-
-const LoadContent = () => {
-  // IMPORT CONTEXTS
-  const { accessToken, authLoading, authError } = React.useContext(AuthContext)
-  const { userLoading } = React.useContext(UserContext)
-  const { artistLoading, createArtist, setArtistLoading } = React.useContext(ArtistContext)
-
-  // DEFINE LOADING
-  const [pageLoading, setPageLoading] = React.useState(false)
-  const [redirecting, setRedirecting] = React.useState(false)
-
-  // DEFINE BUTTON STATE (disabled if required fields are absent)
-  const [buttonDisabled, setButtonDisabled] = React.useState(true)
-
-  // DEFINE ERRORS
-  const [errors, setErrors] = React.useState([])
-
-  // DEFINE ARTIST INTEGRATIONS
-  const initialArtistAccountsState = {}
-  const [artistAccounts, setArtistAccounts] = React.useState(initialArtistAccountsState)
-
-  // * GET INITIAL DATA FROM SERVER
-  useAsyncEffect(async (isMounted) => {
-    // If no access token, then there will be no way to talk to facebook
-    // so don't set artists accounts
-    if (!accessToken) return
-    setPageLoading(true)
-    const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken)
-      .catch((err) => {
-        console.error(err)
-        if (!isMounted) return
-        setErrors([err])
-      })
-    if (!availableArtists) {
-      setPageLoading(false)
-      return
-    }
-    const { adaccounts } = availableArtists
-    // Sort ad accounts alphabetically
-    const availableArtistsSorted = {
-      ...availableArtists,
-      adAccounts: artistHelpers.sortArtistsAlphabetically(adaccounts),
-    }
-    // Process the ad accounts
-    const { accounts, adAccounts } = availableArtistsSorted
-    const processedArtists = await artistHelpers.addAdAccountsToArtists({ accounts, adAccounts, accessToken })
-    if (!isMounted) return
-    // Error if no ad accounts
-    if (!adaccounts.length) {
-      setErrors([...errors, { message: 'No ad accounts were found' }])
-      setPageLoading(false)
-      return
-    }
-
-    // Error if no artist accounts
-    if (Object.keys(accounts).length === 0) {
-      setErrors([...errors, { message: 'No accounts were found' }])
-      setPageLoading(false)
-    }
-
-    // Now add the artists...
-    const action = {
-      type: 'add-artists',
-      payload: {
-        artists: processedArtists,
-      },
-    }
-
-    const newArtistsState = artistHelpers.getNewArtistState(artistAccounts, action)
-    setArtistAccounts(newArtistsState)
-    setPageLoading(false)
-  }, [])
-
-
-  // Set initial error (if any)
-  React.useEffect(() => {
-    setErrors([authError])
-  }, [authError])
-
-
-  // Run this to create artist
-  const runCreateArtist = async e => {
-    e.preventDefault()
-
-    try {
-      setRedirecting(true)
-      await createArtist(artistAccounts, accessToken)
-      Router.push(ROUTES.HOME)
-    } catch (err) {
-      setRedirecting(false)
-      setArtistLoading(false)
-      setErrors([err])
-    }
-  }
-
-  if (authLoading || userLoading || artistLoading || pageLoading || redirecting) {
-    return <Spinner width={50} color={brandColors.green} />
-  }
-
-  // If no artists accounts
-  if (Object.keys(artistAccounts).length === 0) {
-    return (
-      <ConnectAccountsFacebook
-        errors={errors}
-        setErrors={setErrors}
-      />
-    )
-  }
-
-  return (
-    <div style={{ width: '100%' }}>
-      <ConnectAccounts
-        artistAccounts={artistAccounts}
-        setArtistAccounts={setArtistAccounts}
-        setButtonDisabled={setButtonDisabled}
-        setErrors={setErrors}
-      />
-
-      <div className="ninety-wide" style={{ textAlign: 'right' }}>
-
-        {/* Errors */}
-        {errors.map((error, index) => {
-          return <Error error={error} key={index} />
-        })}
-
-        <Button
-          version="black"
-          onClick={runCreateArtist}
-          disabled={buttonDisabled}
-        >
-          next
-        </Button>
-
-      </div>
-
-    </div>
-  )
-}
-
-
-const ConnectAccountsPage = () => {
+const ConnectAccountsPage = ({ heading, punctuation, onSignUp }) => {
   // SHOW / HIDE NAVIGATION
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const className = navState.visible ? 'hidden' : ''
@@ -175,16 +19,25 @@ const ConnectAccountsPage = () => {
   return (
     <div className={`page--container ${className}`}>
 
-      <PageHeader heading="connect accounts" />
+      <PageHeader heading={heading} punctuation={punctuation} />
 
-      <LoadContent />
+      <ConnectAccountsLoader onSignUp={onSignUp} />
 
     </div>
   )
 }
 
 ConnectAccountsPage.propTypes = {
-
+  heading: PropTypes.string,
+  punctuation: PropTypes.string,
+  onSignUp: PropTypes.bool,
 }
+
+ConnectAccountsPage.defaultProps = {
+  heading: 'connect accounts',
+  punctuation: '.',
+  onSignUp: false,
+}
+
 
 export default ConnectAccountsPage

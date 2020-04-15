@@ -26,6 +26,11 @@
         "type": 301
       },
       {
+        "source": "/sign-up",
+        "destination": "/join",
+        "type": 301
+      },
+      {
         "source": "/connect-artists",
         "destination": "/connect-accounts",
         "type": 301

@@ -2,12 +2,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TickIcon from '../icons/TickIcon'
+import CrossIcon from '../icons/CrossIcon'
 import FacebookIcon from '../icons/FacebookIcon'
 import InstagramIcon from '../icons/InstagramIcon'
 import brandColors from '../../constants/brandColors'
 
 
-const getIconEl = (icon) => {
+const getIconEl = (icon, error, success) => {
+  if (error) {
+    return (
+      <div className="input--icon">
+        <CrossIcon fill={brandColors.errorColor} width="20" />
+      </div>
+    )
+  }
+  if (success) {
+    return (
+      <div className="input--icon">
+        <TickIcon fill={brandColors.successColor} width="20" />
+      </div>
+    )
+  }
   if (icon === 'facebook') {
     return (
       <div className="input--icon">
@@ -38,11 +54,20 @@ const Input = ({
   required,
   className,
   icon,
+  error,
+  success,
   autoFocus,
 }) => {
-  // Get icon (if needed)
-  const iconEl = icon ? getIconEl(icon) : null
   const containerClasses = ['input--container', className]
+  // Handle error and success states
+  if (error) {
+    containerClasses.push('_error')
+  }
+  if (success) {
+    containerClasses.push('_success')
+  }
+  // Get icon (if needed)
+  const iconEl = getIconEl(icon, error, success)
   if (iconEl) {
     containerClasses.push('_hasIcon')
   }
@@ -69,63 +94,51 @@ const Input = ({
           </span>
         )}
         {/* INPUT */}
-        <input
-          className={['input', `input--${version}`].join(' ')}
-          name={name}
-          type={type}
-          onChange={handleChange}
-          placeholder={placeholder}
-          style={{
-            width: `${width}%`,
-          }}
-          value={value}
-          readOnly={readOnly}
-          required={required}
-          ref={inputElement}
-        />
-        {/* ICON */}
-        {iconEl}
+        <div className="input--inner">
+          <input
+            className={['input', `input--${version}`].join(' ')}
+            name={name}
+            type={type}
+            onChange={handleChange}
+            placeholder={placeholder}
+            style={{
+              width: `${width}%`,
+            }}
+            value={value}
+            readOnly={readOnly}
+            required={required}
+            ref={inputElement}
+          />
+          {/* ICON */}
+          {iconEl}
+        </div>
       </label>
     </div>
   )
 }
 
 Input.propTypes = {
-  // There must be a function set as handleChange
-  handleChange: PropTypes.func,
-
-  // There must be a string set as the name
+  handleChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-
   label: PropTypes.string,
-
   type: PropTypes.string,
-
-  // Any placeholder should be a string
   placeholder: PropTypes.string,
-
-  // readOnly should be boolean
   readOnly: PropTypes.bool,
-
-  // There must be a value prop, that is either a string or number
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]),
-
-  // If there is a version prop, it should be a string
   version: PropTypes.string,
-
-  // If there is a width prop, it should be a number
   width: PropTypes.number,
   required: PropTypes.bool,
   className: PropTypes.string,
   icon: PropTypes.string,
+  error: PropTypes.bool,
+  success: PropTypes.bool,
   autoFocus: PropTypes.bool,
 }
 
 Input.defaultProps = {
-  handleChange: () => {},
   placeholder: '',
   readOnly: false,
   type: 'text',
@@ -136,6 +149,8 @@ Input.defaultProps = {
   required: false,
   className: '',
   icon: '',
+  error: false,
+  success: false,
   autoFocus: false,
 }
 

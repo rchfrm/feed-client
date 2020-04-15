@@ -1,91 +1,94 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Link from 'next/link'
-// IMPORT COMPONENTS
+import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
-import { UserContext } from './contexts/User'
-import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
+import Error from './elements/Error'
+import Button from './elements/Button'
+import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
-import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
-import LoginPageForm from './LoginPageForm'
-// IMPORT ASSETS
+import LoginWithEmail from './LoginWithEmail'
+// IMPORT HELPERS
+import firebase from './helpers/firebase'
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
-import brandColors from '../constants/brandColors'
-
+// Import copy
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/LoginPageCopy'
-
+// Import styles
 import styles from './LoginPage.module.css'
 
 function LoginPageContent() {
+  // Get router info
+  const router = useRouter()
+  const { pathname } = router
   // IMPORT CONTEXTS
-  const { authLoading, continueWithFacebook } = React.useContext(AuthContext)
-  const { userLoading } = React.useContext(UserContext)
-  const { artistLoading } = React.useContext(ArtistContext)
-
-  const [pageLoading, setPageLoading] = React.useState(false)
   const [showEmailLogin, setShowEmailLogin] = React.useState(false)
+  const { authError } = React.useContext(AuthContext)
+
+  // Show email login when route changes
+  React.useEffect(() => {
+    if (pathname === ROUTES.LOGIN_EMAIL) {
+      setShowEmailLogin(true)
+      return
+    }
+    setShowEmailLogin(false)
+  }, [pathname])
+
+  // Change route when clicking on facebook button
+  const goToEmailLogin = () => {
+    Router.push(ROUTES.LOGIN_EMAIL)
+  }
 
   // CONTINUE WITH FACEBOOK
-  const facebookClick = e => {
-    e.preventDefault()
-    // Calls firebase.doSignInWithFacebook using a redirect,
-    // so that when user is returned to log in page handleRedirect is triggered
-    continueWithFacebook()
+  // Calls firebase.loginWithFacebook using a redirect,
+  // so that when user is returned to log in page handleRedirect is triggered
+  const facebookClick = () => {
+    firebase.loginWithFacebook()
   }
 
-  if (authLoading || userLoading || artistLoading || pageLoading) {
-    return (
-      <Spinner width={50} color={brandColors.green} />
-    )
-  }
   return (
-    <div className="page--container">
+    <div className={styles.container}>
 
-      <PageHeader heading="log in" className={styles.container} />
+      <PageHeader className={styles.header} heading="log in" />
 
-      <div className={['ninety-wide', styles.container].join(' ')}>
-        <h3>
-          or
-          {' '}
-          <Link href={ROUTES.SIGN_UP}><a>sign up here</a></Link>
-          .
-        </h3>
-      </div>
+      <Error error={authError} />
 
-      <div className={['ninety-wide', styles.container].join(' ')}>
+      {/* Email login form */}
+      {showEmailLogin ? (
+        // EMAIL LOGIN FORM
+        <LoginWithEmail className={styles.form} />
+      )
+        : (
+          <>
+            {/* LOGIN BUTTONS */}
+            <div className={styles.loginButtons}>
+              <ButtonFacebook
+                className={styles.facebookButton}
+                onClick={facebookClick}
+              >
+                Log in with Facebook
+              </ButtonFacebook>
+              <Button
+                className={styles.emailButton}
+                onClick={goToEmailLogin}
+                version="black icon"
+              >
+                <EmailIcon color="white" />
+                Log in with email
+              </Button>
+            </div>
+            {/* Link to signup page */}
+            <MarkdownText markdown={copy.signupReminder} />
+          </>
+        )}
 
-        <div className={styles.intro}>
-          <MarkdownText markdown={copy.intro} />
-        </div>
+      {/* T&C text */}
+      <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText('log in')} />
 
-
-        <ButtonFacebook
-          className={styles.facebookButton}
-          onClick={facebookClick}
-        >
-          Log in with Facebook
-        </ButtonFacebook>
-
-        <p className={styles.emailFormButton}>
-          <a
-            className={styles.a}
-            role="button"
-            onClick={() => setShowEmailLogin(true)}
-          >
-            or log in using your email address
-          </a>
-        </p>
-
-        {/* Email login form */}
-        {showEmailLogin && <LoginPageForm setPageLoading={setPageLoading} />}
-
-      </div>
     </div>
   )
 }

@@ -48,6 +48,12 @@ p {
   font-weight: 500;
 }
 
+.small--text {
+  p {
+    font-size: 0.75em;
+  }
+}
+
 .h3--text {
   p {
     font-size: 1.333em;
@@ -62,16 +68,21 @@ p {
   }
 }
 
+.small--p {
+  font-size: 0.75em;
+}
 
-.small-p {
+.xsmall--p {
   font-size: 0.667em;
 }
 
-h1, h2, h3, h4, p, .small-p {
+
+
+h1, h2, h3, h4, p, .small--p, .xsmall--p {
   line-height: 1.2em;
 }
 
-h2, h3, h4, p, .small-p {
+h2, h3, h4, p, .small--p {
   margin-bottom: 1.2em;
 }
 
@@ -98,5 +109,18 @@ strong,
 
   *:last-child {
     margin-bottom: 0;
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 1em;
+    margin-bottom: var(--bsu);
+
+    li {
+      margin-bottom: 0.5em;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 }

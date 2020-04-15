@@ -2,7 +2,14 @@ import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
-const scopeArray = ['read_insights', 'manage_pages', 'pages_show_list', 'ads_management', 'instagram_basic', 'instagram_manage_insights']
+const requiredScopes = [
+  'read_insights',
+  'manage_pages',
+  'pages_show_list',
+  'ads_management',
+  'instagram_basic',
+  'instagram_manage_insights',
+]
 
 const config = {
   apiKey: process.env.firebase_api_key,
@@ -18,12 +25,14 @@ if (!app.apps.length) {
 }
 
 const auth = app.auth()
-const provider = new app.auth.FacebookAuthProvider()
+const fbProvider = new app.auth.FacebookAuthProvider()
 
 // Export firebase functions
 export default {
 
   auth,
+
+  requiredScopes,
 
   doCreateUserWithEmailAndPassword: (email, password) => {
     return auth.createUserWithEmailAndPassword(email, password)
@@ -52,26 +61,40 @@ export default {
     return auth.currentUser.updateEmail(email)
   },
 
-  doSignInWithFacebook: () => {
-    scopeArray.forEach(scope => {
-      provider.addScope(scope)
-    })
-    return auth.signInWithRedirect(provider)
+  loginWithFacebook: () => {
+    return auth.signInWithRedirect(fbProvider)
   },
 
+  signUpWithFacebook: () => {
+    requiredScopes.forEach(scope => {
+      fbProvider.addScope(scope)
+    })
+    return auth.signInWithRedirect(fbProvider)
+  },
+
+  /**
+  * @param {array} requestedPermissions optional array of scope requests
+  * @returns {Promise<void>}
+  */
   linkFacebookAccount: (requestedPermissions) => {
-    const scopeRequests = requestedPermissions || scopeArray
+    const scopeRequests = requestedPermissions || requiredScopes
     scopeRequests.forEach(scope => {
-      provider.addScope(scope)
+      fbProvider.addScope(scope)
     })
-    return auth.currentUser.linkWithRedirect(provider)
+    return auth.currentUser.linkWithRedirect(fbProvider)
   },
 
-  connectFacebookUserWithPopUp: () => {
-    scopeArray.forEach(scope => {
-      provider.addScope(scope)
+  /**
+   * @param {array} requestedPermissions optional array of scope requests
+   * @returns {Promise<void>}
+   */
+  reauthFacebook: (requestedPermissions) => {
+    const scopeRequests = requestedPermissions || requiredScopes
+    scopeRequests.forEach(scope => {
+      fbProvider.addScope(scope)
     })
-    return auth.currentUser.linkWithPopup(provider)
+    fbProvider.setCustomParameters({ auth_type: 'rerequest' })
+    return auth.currentUser.reauthenticateWithRedirect(fbProvider)
   },
 
   redirectResult: async () => {
@@ -87,10 +110,6 @@ export default {
         }
       })
     return redirectTo
-  },
-
-  unlinkFacebook: () => {
-    return auth.currentUser.unlink('facebook.com')
   },
 
   user: uid => {
@@ -122,18 +141,5 @@ export default {
 
   deleteUser: () => {
     return auth.currentUser.delete()
-  },
-
-  /**
-   * @param {array} requestedPermissions optional array of scope requests
-   * @returns {Promise<void>}
-   */
-  reauthFacebook: (requestedPermissions) => {
-    const scopeRequests = requestedPermissions || scopeArray
-    scopeRequests.forEach(scope => {
-      provider.addScope(scope)
-    })
-    provider.setCustomParameters({ auth_type: 'rerequest' })
-    return auth.currentUser.reauthenticateWithRedirect(provider)
   },
 }

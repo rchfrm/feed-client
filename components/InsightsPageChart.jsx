@@ -16,7 +16,7 @@ import ChartContainer from './ChartContainer'
 import helper from './helpers/helper'
 import server from './helpers/server'
 // IMPORT STYLES
-import './InsightsPageChart.module.css'
+import './InsightsPage.module.css'
 
 // Define initial state and reducer to hold data
 const initialDataState = {

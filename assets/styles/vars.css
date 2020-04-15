@@ -12,7 +12,6 @@
   --grey: #C8CBCA;
   --grey-dark: #7F8382;
   /* SM Palette */
-  --color-fb-button: #4267B2;
   --color-fb: #26547C;
   --color-insta: #E75A7C;
   --color-twitter: #5BC0EB;
@@ -26,6 +25,7 @@
   --disabled-color-bg: var(--grey-light);
   --disabled-color-text: var(--grey-dark);
   --placeholder-color-text: var(--grey-dark);
+  --color-fb-button: var(--color-fb);
 
   /* Font */
   --font: SpaceGrotesk, sans-serif;

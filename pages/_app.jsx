@@ -1,4 +1,6 @@
 import { useState, useContext, useEffect } from 'react'
+import Router from 'next/router'
+import withGA from 'next-ga'
 import Head from 'next/head'
 import PropTypes from 'prop-types'
 import { StripeProvider } from 'react-stripe-elements'
@@ -108,7 +110,8 @@ function Feed({ Component, pageProps }) {
   )
 }
 
-export default Feed
+
+export default withGA('UA-202769999-1', Router)(Feed)
 
 Feed.propTypes = {
   Component: PropTypes.elementType.isRequired,
