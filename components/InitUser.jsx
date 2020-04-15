@@ -142,7 +142,7 @@ const InitUser = ({ children }) => {
     track({
       category: 'login',
       action: 'Handle new user from FB (InitUser)',
-      label: `${first_name} ${last_name}${missingScopes.length ? ' (with missing scopes)' : ''}`,
+      label: `user ID: ${user.id}${missingScopes.length ? ' (with missing scopes)' : ''}`,
     })
   }
 
