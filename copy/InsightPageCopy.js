@@ -10,4 +10,11 @@ export default {
 
   We’ll show you historical data for the platforms you’ve selected once you’ve been using the app long enough. Think there should be historical data? Try selecting only the platform you want to see.
   `,
+
+  spendSummary: (days, spend, currencySymbol) => `In the last ${days} days, you've **spent ${currencySymbol}${spend}**`,
+
+  impressionSummary: (totalImpressions) => {
+    if (totalImpressions === 0) return '.'
+    return `, and your posts were seen **${totalImpressions}** times.`
+  },
 }
