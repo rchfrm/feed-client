@@ -7,12 +7,9 @@ import get from 'lodash/get'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Ellipsis from './elements/Ellipsis'
-import Loading from './elements/Loading'
 import MarkdownText from './elements/MarkdownText'
 // IMPORT HELPERS
 import server from './helpers/server'
-import helper from './helpers/helper'
 // IMPORT COPY
 import copy from '../copy/InsightPageCopy'
 
