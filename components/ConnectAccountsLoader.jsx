@@ -17,6 +17,7 @@ import Error from './elements/Error'
 import * as ROUTES from '../constants/routes'
 
 // IMPORT HELPERS
+import { track } from './helpers/trackingHelpers'
 import artistHelpers from './helpers/artistHelpers'
 
 const ConnectAccountsLoader = ({ onSignUp }) => {
@@ -49,10 +50,16 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     if (!accessToken) return
     setPageLoading(true)
     const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken)
-      .catch((err) => {
-        console.error(err)
+      .catch((error) => {
+        // Track
+        track({
+          category: 'sign up',
+          action: 'Error with artistHelpers.getArtistOnSignUp()',
+          description: error.message,
+          error: true,
+        })
         if (!isMounted) return
-        setErrors([err])
+        setErrors([error])
       })
     if (!availableArtists) {
       setPageLoading(false)
@@ -72,6 +79,12 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     if (!adaccounts.length) {
       setErrors([...errors, { message: 'No ad accounts were found' }])
       setPageLoading(false)
+      // Track
+      track({
+        category: 'sign up',
+        action: 'No add accounts were found after running artistHelpers.getArtistOnSignUp()',
+        error: true,
+      })
       return
     }
 
@@ -79,6 +92,12 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     if (Object.keys(accounts).length === 0) {
       setErrors([...errors, { message: 'No accounts were found' }])
       setPageLoading(false)
+      // Track
+      track({
+        category: 'sign up',
+        action: 'No accounts were found after running artistHelpers.getArtistOnSignUp()',
+        error: true,
+      })
     }
 
     // Now add the artists...
