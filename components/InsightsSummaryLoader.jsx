@@ -8,11 +8,14 @@ import get from 'lodash/get'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import MarkdownText from './elements/MarkdownText'
+import Spinner from './elements/Spinner'
 // IMPORT HELPERS
 import server from './helpers/server'
 import helper from './helpers/helper'
 // IMPORT COPY
 import copy from '../copy/InsightPageCopy'
+// IMPORT STYLES
+import styles from './InsightsPage.module.css'
 
 const calculateSpendOverPeriod = (dailyData, historicalPeriod) => {
   const spend = Object.entries(dailyData).reduce((totalSpend, [date, spend]) => {
@@ -104,7 +107,15 @@ function InsightsSummaryLoader() {
     daysToInclude,
   })
 
-  if (isPending || error) return null
+  if (error) return null
+
+  if (isPending) {
+    return (
+      <div className="ninety-wide">
+        <Spinner className={styles.summaryLoader} />
+      </div>
+    )
+  }
 
   const { spend, impressions } = data
 
