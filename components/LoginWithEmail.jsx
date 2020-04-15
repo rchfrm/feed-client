@@ -2,7 +2,6 @@
 import React from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
-// IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
@@ -13,10 +12,12 @@ import Button from './elements/Button'
 import Error from './elements/Error'
 import Spinner from './elements/Spinner'
 
-// IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
 
+import { track } from './helpers/trackingHelpers'
+
 import styles from './LoginPage.module.css'
+
 
 function LoginWithEmail({ className }) {
   // IMPORT CONTEXTS
@@ -51,6 +52,8 @@ function LoginWithEmail({ className }) {
     e.preventDefault()
     setError(null)
     setPageLoading(true)
+
+    // Login with email
     const token = await emailLogin(email, password)
       .catch((err) => {
         setPageLoading(false)
@@ -58,15 +61,48 @@ function LoginWithEmail({ className }) {
         setPassword('')
         setError(err)
       })
-    if (!token) return
+    if (!token) {
+      track({
+        category: 'login',
+        action: 'no token returned from emailLogin',
+        label: email,
+        error: true,
+      })
+      return
+    }
     const user = await storeUser()
+      .catch((err) => {
+        setPageLoading(false)
+        setEmail('')
+        setPassword('')
+        setError(err)
+      })
+    if (!user) {
+      track({
+        category: 'login',
+        action: 'error storing user',
+        label: email,
+        error: true,
+      })
+      return
+    }
     if (user.artists.length > 0) {
       const selectedArtist = user.artists[0]
       await storeArtist(selectedArtist.id)
       Router.push(ROUTES.HOME)
+      track({
+        category: 'login',
+        action: 'logged in via email',
+        label: email,
+      })
     } else {
       setNoArtist()
       Router.push(ROUTES.SIGN_UP_CONTINUE)
+      track({
+        category: 'login',
+        action: 'succesful login via email with no artists',
+        label: email,
+      })
     }
   }
   // END HANDLE CLICK ON LOG IN BUTTON
