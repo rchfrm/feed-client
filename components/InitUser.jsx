@@ -254,7 +254,6 @@ const InitUser = ({ children }) => {
     const redirectResult = await firebase.redirectResult()
     // Destructure redirect result
     const { user, error, credential, additionalUserInfo } = redirectResult
-    console.log('redirectResult', redirectResult)
     // * Handle no redirect
     if (!user && !error) {
       track({
