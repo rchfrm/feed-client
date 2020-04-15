@@ -11,8 +11,11 @@ import Input from './elements/Input'
 import Button from './elements/Button'
 import Error from './elements/Error'
 
-import * as ROUTES from '../constants/routes'
 import helpers from './helpers/helper'
+import { track } from './helpers/trackingHelpers'
+
+import * as ROUTES from '../constants/routes'
+
 import styles from './LoginPage.module.css'
 
 const getInputType = (key) => {
@@ -122,11 +125,27 @@ const SignupEmailForm = () => {
     if (!formComplete) return
     const { email, passwordOne, firstName, lastName } = signupDetails
     setPageLoading(true)
+
+    track({
+      category: 'sign up',
+      action: 'submit sign up form',
+      label: email,
+      breadcrumb: true,
+      ga: false,
+    })
+
     const signupRes = await signUp(email, passwordOne)
       .catch((error) => {
         setError(error)
         scrollTop()
         setPageLoading(false)
+        track({
+          category: 'sign up',
+          action: 'signUp() with email failed',
+          description: error.message,
+          label: email,
+          error: true,
+        })
       })
     if (!signupRes) return
     const userRes = await createUser(firstName, lastName)
@@ -134,6 +153,13 @@ const SignupEmailForm = () => {
         setError(error)
         scrollTop()
         setPageLoading(false)
+        track({
+          category: 'sign up',
+          action: 'createUser() with email failed',
+          description: error.message,
+          label: email,
+          error: true,
+        })
       })
     if (!userRes) return
     Router.push(ROUTES.SIGN_UP_CONTINUE)

@@ -17,6 +17,7 @@ import Error from './elements/Error'
 import * as ROUTES from '../constants/routes'
 
 // IMPORT HELPERS
+import { track } from './helpers/trackingHelpers'
 import artistHelpers from './helpers/artistHelpers'
 
 const ConnectAccountsLoader = ({ onSignUp }) => {
@@ -49,9 +50,16 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     if (!accessToken) return
     setPageLoading(true)
     const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken)
-      .catch((err) => {
+      .catch((error) => {
+        // Track
+        track({
+          category: 'sign up',
+          action: 'Error with artistHelpers.getArtistOnSignUp()',
+          description: error.message,
+          error: true,
+        })
         if (!isMounted) return
-        setErrors([err])
+        setErrors([error])
       })
     if (!availableArtists) {
       setPageLoading(false)
@@ -69,15 +77,27 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     if (!isMounted) return
     // Error if no ad accounts
     if (!adaccounts.length) {
-      setErrors([...errors, { message: 'We couldn\'t find any ad accounts connected to your Facebook account' }])
+      setErrors([...errors, { message: 'No ad accounts were found' }])
       setPageLoading(false)
+      // Track
+      track({
+        category: 'sign up',
+        action: 'No add accounts were found after running artistHelpers.getArtistOnSignUp()',
+        error: true,
+      })
       return
     }
 
     // Error if no artist accounts
     if (Object.keys(accounts).length === 0) {
-      setErrors([...errors, { message: 'We couldn\'t find any pages connected to your Facebook account' }])
+      setErrors([...errors, { message: 'No accounts were found' }])
       setPageLoading(false)
+      // Track
+      track({
+        category: 'sign up',
+        action: 'No accounts were found after running artistHelpers.getArtistOnSignUp()',
+        error: true,
+      })
     }
 
     // Now add the artists...
