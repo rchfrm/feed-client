@@ -94,7 +94,7 @@ function InsightsSummaryLoader() {
   // Get artist ID from context
   const { artist, artistId } = React.useContext(ArtistContext)
   // Define total days to include in summary
-  const daysToInclude = 20
+  const daysToInclude = 7
   // Run this to fetch summary when the artist changes
   const { data, error, isPending } = useAsync({
     promiseFn: fetchSummary,
