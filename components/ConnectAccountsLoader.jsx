@@ -50,7 +50,6 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     setPageLoading(true)
     const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken)
       .catch((err) => {
-        console.error(err)
         if (!isMounted) return
         setErrors([err])
       })
