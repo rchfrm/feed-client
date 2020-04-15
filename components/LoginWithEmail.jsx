@@ -65,7 +65,6 @@ function LoginWithEmail({ className }) {
       track({
         category: 'login',
         action: 'no token returned from emailLogin',
-        label: email,
         error: true,
       })
       return
@@ -77,15 +76,7 @@ function LoginWithEmail({ className }) {
         setPassword('')
         setError(err)
       })
-    if (!user) {
-      track({
-        category: 'login',
-        action: 'error storing user',
-        label: email,
-        error: true,
-      })
-      return
-    }
+    if (!user) return
     if (user.artists.length > 0) {
       const selectedArtist = user.artists[0]
       await storeArtist(selectedArtist.id)
@@ -93,7 +84,6 @@ function LoginWithEmail({ className }) {
       track({
         category: 'login',
         action: 'logged in via email',
-        label: email,
       })
     } else {
       setNoArtist()
@@ -101,7 +91,6 @@ function LoginWithEmail({ className }) {
       track({
         category: 'login',
         action: 'succesful login via email with no artists',
-        label: email,
       })
     }
   }
