@@ -18,7 +18,7 @@ import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/InsightPageCopy'
 // IMPORT HELPERS
 // IMPORT STYLES
-import styles from './InsightsPageChart.module.css'
+import styles from './InsightsPage.module.css'
 
 
 function Insights() {
