@@ -54,7 +54,6 @@ const fetchPosts = async ({ artistId, offset, limit, isEndOfAssets, afterCursor 
   if (!artistId) return
   // Stop here if at end of posts
   if (isEndOfAssets.current) return
-  console.log('afterCursor', afterCursor)
   // Get posts
   let posts
   if (afterCursor) {
