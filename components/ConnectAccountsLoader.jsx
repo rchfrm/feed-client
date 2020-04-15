@@ -36,6 +36,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
 
   // DEFINE ERRORS
   const [errors, setErrors] = React.useState([])
+  const [errors, setErrors] = React.useState([authError])
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}

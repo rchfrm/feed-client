@@ -233,7 +233,7 @@ const InitUser = ({ children }) => {
   }
 
   // HANDLE INITIAL LOGGED IN TEST
-  const handleInitialAuthCheck = async (authUser) => {
+  const handleInitialAuthCheck = async (authUser, error) => {
     track({
       category: 'login',
       action: 'handleInitialAuthCheck',
@@ -243,8 +243,30 @@ const InitUser = ({ children }) => {
     // If no auth user, handle that
     if (!authUser) return handleNoAuthUser()
     // If there is, store the user in auth context
-    await storeAuth(authUser)
+    await storeAuth(authUser, error)
     await handleExistingUser()
+  }
+
+
+  const detectSignedInUser = (isMounted, redirectError) => {
+    track({
+      category: 'login',
+      action: 'handle no FB redirect',
+      breadcrumb: true,
+      ga: false,
+    })
+    const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
+      track({
+        category: 'login',
+        action: 'firebase.auth.onAuthStateChanged',
+        breadcrumb: true,
+        ga: false,
+      })
+      await handleInitialAuthCheck(authUser, redirectError)
+      if (!isMounted()) return
+      showContent(isMounted)
+      unsubscribe()
+    })
   }
 
 
@@ -256,24 +278,7 @@ const InitUser = ({ children }) => {
     const { user, error, credential, additionalUserInfo } = redirectResult
     // * Handle no redirect
     if (!user && !error) {
-      track({
-        category: 'login',
-        action: 'handle no FB redirect',
-        breadcrumb: true,
-        ga: false,
-      })
-      const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
-        track({
-          category: 'login',
-          action: 'firebase.auth.onAuthStateChanged',
-          breadcrumb: true,
-          ga: false,
-        })
-        await handleInitialAuthCheck(authUser)
-        if (!isMounted()) return
-        showContent(isMounted)
-        unsubscribe()
-      })
+      detectSignedInUser(isMounted)
       return
     }
     // * Handle errors
@@ -284,10 +289,6 @@ const InitUser = ({ children }) => {
         handleFbInvalidCredential(message)
         return
       }
-      // Handle generic error
-      setAuthError({ message })
-      // Show content
-      showContent(isMounted)
       // Track
       track({
         category: 'login',
@@ -295,6 +296,8 @@ const InitUser = ({ children }) => {
         description: message,
         error: true,
       })
+      // Detect for already logged in user
+      detectSignedInUser(isMounted, error)
       return
     }
     // * Handle succesful redirect

@@ -54,7 +54,7 @@ function AuthProvider({ children }) {
     })
   }
 
-  const storeAuth = async (authUser) => {
+  const storeAuth = async (authUser, error = null) => {
     setAuthLoading(true)
     // Get auth type
     const [provider] = authUser.providerData
@@ -70,7 +70,7 @@ function AuthProvider({ children }) {
         },
       })
       setAuthLoading(false)
-      setAuthError(null)
+      setAuthError(error)
     } catch (err) {
       setAuthLoading(false)
       throw (err)
@@ -128,6 +128,8 @@ function AuthProvider({ children }) {
     setAuthLoading(false)
     return token
   }
+
+  console.log('authError in auth', authError)
 
   const value = {
     accessToken,
