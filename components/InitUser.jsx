@@ -208,7 +208,7 @@ const InitUser = ({ children }) => {
       track({
         category: 'login',
         action: 'handleExistingUser',
-        label: 'no access too artist',
+        label: `no access to artist (id:${storedArtistId})`,
         breadcrumb: true,
         ga: false,
       })
