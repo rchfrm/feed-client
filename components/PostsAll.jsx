@@ -86,7 +86,7 @@ function PostsAll({
   return (
     <div className={styles['posts-section']}>
 
-      <PageHeader heading="review your posts" punctuation="," />
+      <PageHeader heading="review posts and set a budget" />
 
       <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
 

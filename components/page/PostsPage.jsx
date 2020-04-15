@@ -12,7 +12,6 @@ import PostsLoader from '../PostsLoader'
 import MarkdownText from '../elements/MarkdownText'
 import copy from '../../copy/global'
 
-// TODO: Create promotion_enabled checkbox loading state
 // TODO: Split out loading states so that, non-dynamic parts of the page display straight away
 // TODO: Click on image to pop up uncropped larger version
 // TODO: Show more of truncated text on post
