@@ -65,7 +65,6 @@ function LoginWithEmail({ className }) {
       track({
         category: 'login',
         action: 'no token returned from emailLogin',
-        label: email,
         error: true,
       })
       return
@@ -93,7 +92,6 @@ function LoginWithEmail({ className }) {
       track({
         category: 'login',
         action: 'logged in via email',
-        label: email,
       })
     } else {
       setNoArtist()
@@ -101,7 +99,6 @@ function LoginWithEmail({ className }) {
       track({
         category: 'login',
         action: 'succesful login via email with no artists',
-        label: email,
       })
     }
   }
