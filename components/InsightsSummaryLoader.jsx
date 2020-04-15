@@ -82,6 +82,7 @@ const fetchSummary = async ({ artist, artistId, daysToInclude }) => {
   const historicalPeriod = moment().subtract(daysToInclude, 'days')
   const { daily_data: dailyData } = facebook_ad_spend_feed
   const spend = calculateSpendOverPeriod(dailyData, historicalPeriod)
+  if (!spend) return { spend }
   // * GET SUMMARY
   const tournaments = await getArtistTournaments(artist)
   const ads = await getAds(tournaments, historicalPeriod)
@@ -108,6 +109,10 @@ function InsightsSummaryLoader() {
   if (isPending || error) return null
 
   const { spend, impressions } = data
+
+  // Stop here if not spend
+  if (!spend) return null
+
   const spendSummary = copy.spendSummary(daysToInclude, spend, '£')
   const impressionSummary = copy.impressionSummary(impressions)
   const markdown = `${spendSummary}${impressionSummary}`
