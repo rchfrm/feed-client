@@ -1,32 +1,30 @@
-
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
+import MissingScopesMessage from './elements/MissingScopesMessage'
 import ButtonFacebook from './elements/ButtonFacebook'
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
 import Error from './elements/Error'
-import styles from './ConnectAccounts.module.css'
+import MarkdownText from './elements/MarkdownText'
+// IMPORT HELPERS
+import firebase from './helpers/firebase'
 // IMPORT STYLES
+import styles from './ConnectAccounts.module.css'
+// IMPORT COPY
+import copy from '../copy/ConnectAccountsCopy'
 
-function ConnectAccountsFacebook({ errors, setErrors }) {
-  const { linkFacebook } = React.useContext(AuthContext)
-
-  // HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
-  const handleClick = async e => {
-    e.preventDefault()
-    try {
-      await linkFacebook()
-    } catch (err) {
-      setErrors([err])
+function ConnectAccountsFacebook({ auth, errors, onSignUp }) {
+  const { missingScopes, providerId } = auth
+  // Define function to link facebook
+  const linkFacebook = React.useCallback(() => {
+    if (missingScopes.length || providerId === 'facebook.com') {
+      const requestedScopes = missingScopes.length ? missingScopes : null
+      firebase.reauthFacebook(requestedScopes)
+      return
     }
-  }
-  // END HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
+    firebase.linkFacebookAccount()
+  }, [missingScopes.length])
+
+  const showSignupIntro = (missingScopes.length === 0) && onSignUp
 
   return (
     <div className="ninety-wide">
@@ -36,16 +34,28 @@ function ConnectAccountsFacebook({ errors, setErrors }) {
           return <Error error={error} messagePrefix="Error: " key={index} />
         })}
 
+        {/* Singup intro text */}
+        {showSignupIntro && (
+          <MarkdownText className={styles.introText} markdown={copy.signupIntro} />
+        )}
+
+        {/* If missing FB permissions, show missing permissions */}
+        {missingScopes.length > 0 && (
+          <MissingScopesMessage scopes={missingScopes} showButton={false} />
+        )}
+
         <ButtonFacebook
           className={styles.fbButton}
-          onClick={handleClick}
+          onClick={linkFacebook}
         >
           Continue with Facebook
         </ButtonFacebook>
 
-        <em className={[styles.fbLegalText, 'xsmall--p'].join(' ')}>
-          This allows us to connect to Facebook so that we can show you your data and promote posts on your behalf, we'll never post anything without your approval.
-        </em>
+        {!showSignupIntro && (
+          <em className={[styles.fbLegalText, 'xsmall--p'].join(' ')}>
+            {copy.smallLegalText}
+          </em>
+        )}
 
       </div>
     </div>

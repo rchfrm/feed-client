@@ -112,8 +112,6 @@ function ResultsLoader() {
     return <ResultsNoResults dailyBudget={artist.daily_budget} />
   }
 
-  console.log('posts', posts)
-
   // Otherwise, show Results components
   return (
     <div>

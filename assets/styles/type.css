@@ -110,4 +110,17 @@ strong,
   *:last-child {
     margin-bottom: 0;
   }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 1em;
+    margin-bottom: var(--bsu);
+
+    li {
+      margin-bottom: 0.5em;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
 }

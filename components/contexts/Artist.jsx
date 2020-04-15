@@ -56,14 +56,14 @@ function ArtistProvider({ children }) {
   const [artistId, setArtistId] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
 
-  const noArtist = React.useCallback(() => {
+  const setNoArtist = () => {
     setArtistLoading(true)
     localStorage.clear()
     setArtist({ type: 'no-artists' })
     setArtistLoading(false)
-  }, [])
+  }
 
-  const storeArtist = React.useCallback(async id => {
+  const storeArtist = async (id) => {
     // TODO : Store previously selected artists in state,
     //  then if the user switches back to that artist, there doesn't need to be a new server call
 
@@ -83,7 +83,7 @@ function ArtistProvider({ children }) {
       setArtistLoading(false)
       throw (err)
     }
-  })
+  }
 
   const createArtist = async (artistAccounts, accessToken) => {
     setArtistLoading(true)
@@ -133,14 +133,14 @@ function ArtistProvider({ children }) {
     return updatedArtist.daily_budget
   }
 
-  const setPriorityDSP = React.useCallback(priorityDSP => {
+  const setPriorityDSP = (priorityDSP) => {
     setArtist({
       type: 'set-priority-dsp',
       payload: {
         priority_dsp: priorityDSP,
       },
     })
-  }, [])
+  }
 
   const addUrl = async (url, urlType) => {
     const updatedArtist = await server.saveLink(artist.id, url, urlType)
@@ -174,7 +174,7 @@ function ArtistProvider({ children }) {
     artistId,
     artistLoading,
     createArtist,
-    noArtist,
+    setNoArtist,
     setArtist,
     setArtistLoading,
     setPriorityDSP,

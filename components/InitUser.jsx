@@ -13,28 +13,53 @@ import firebase from './helpers/firebase'
 
 // CALL REDIRECT
 let userRedirected = false
-const redirectPage = (pathname) => {
+const redirectPage = (newPathname, currentPathname) => {
+  if (newPathname === currentPathname) return
   userRedirected = true
-  Router.push(pathname)
+  Router.push(newPathname)
 }
 
 // KICK TO LOGIN (if necessary)
-const kickToLogin = (pathname) => {
-  // Only kick to login if user is on restricted page
-  if (ROUTES.restrictedPages.includes(pathname)) {
-    redirectPage(ROUTES.LOGIN)
+const kickToLogin = (currentPathname) => {
+  // If on signup email page, just go to plain signup
+  if (currentPathname === ROUTES.SIGN_UP_EMAIL) {
+    redirectPage(ROUTES.SIGN_UP, currentPathname)
+    return
   }
+  // Only kick to login if user is on restricted page
+  if (ROUTES.restrictedPages.includes(currentPathname)) {
+    redirectPage(ROUTES.LOGIN, currentPathname)
+  }
+}
+
+// GET MISSING SCOPES
+const getMissingScopes = (grantedScopes) => {
+  const { requiredScopes } = firebase
+  return requiredScopes.reduce((arr, scope) => {
+    const scopeGranted = grantedScopes.includes(scope)
+    if (scopeGranted) return arr
+    return [...arr, scope]
+  }, [])
 }
 
 const InitUser = ({ children }) => {
   // Get router info
   const router = useRouter()
   const { pathname } = router
-  // Import contexts
-  const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
-  const { createUser, noUser, storeUser } = React.useContext(UserContext)
-  const { noArtist, storeArtist } = React.useContext(ArtistContext)
+  // Component state
   const [ready, setReady] = React.useState(false)
+  const [initialUserLoading, setInitialUserLoading] = React.useState(true)
+  // Import contexts
+  const { setNoAuth, setAccessToken, setAuthError, storeAuth, setMissingScopes } = React.useContext(AuthContext)
+  const { createUser, setNoUser, storeUser, userLoading } = React.useContext(UserContext)
+  const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
+
+  // After user has loaded the first time...
+  React.useEffect(() => {
+    if (!userLoading) {
+      setInitialUserLoading(userLoading)
+    }
+  }, [userLoading])
 
   // CALL WHEN READY TO SHOW CONTENT
   const showContent = () => {
@@ -53,13 +78,13 @@ const InitUser = ({ children }) => {
 
   // HANDLE NO AUTH USER
   const handleNoAuthUser = () => {
-  // Check if the user is on an auth only page,
-  // if they are push to log in page
-    kickToLogin(pathname)
     // Reset all contexts
-    noAuth()
-    noUser()
-    noArtist()
+    setNoAuth()
+    setNoUser()
+    setNoArtist()
+    // Check if the user is on an auth only page,
+    // if they are push to log in page
+    kickToLogin(pathname)
   }
 
   // HANDLE Invalid FB credential
@@ -76,27 +101,40 @@ const InitUser = ({ children }) => {
 
   // HANDLE NEW USER
   const handleNewUser = async (additionalUserInfo) => {
+    const { profile: { first_name, last_name, granted_scopes } } = additionalUserInfo
     // If it's a new user, create their profile on the server
-    const firstName = additionalUserInfo.profile.first_name
-    const lastName = additionalUserInfo.profile.last_name
-    await createUser(firstName, lastName)
-    // As this is a new user, set noArtist, and push them to the Connect Artist page
-    noArtist()
-    redirectPage(ROUTES.CONNECT_ACCOUNTS)
+    await createUser(first_name, last_name)
+    // Check whether the new user has missing scopes
+    const missingScopes = getMissingScopes(granted_scopes)
+    // Set missing scopes
+    if (missingScopes.length) {
+      setMissingScopes(missingScopes) // from Auth context
+    }
+    // As this is a new user, run setNoArtist, and push them to the Connect Artist page
+    setNoArtist()
+    redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
   }
 
 
   // HANDLE EXISTING USERS
-  const handleExistingUser = async () => {
+  const handleExistingUser = async (additionalUserInfo) => {
     // If it is a pre-existing user, store their profile in the user context
     const { artists } = await storeUser()
-    // Check if they have artists connected to their account or not,
-    // if they don't, set noArtist, and push them to the Connect Artist page
-    if (artists.length === 0) {
-      noArtist()
-      if (pathname !== ROUTES.CONNECT_ACCOUNTS) {
-        redirectPage(ROUTES.CONNECT_ACCOUNTS)
+    // If there is additional info from a FB redirect...
+    if (additionalUserInfo) {
+      // Check whether the new user has missing scopes
+      const { profile: { granted_scopes } } = additionalUserInfo
+      const missingScopes = getMissingScopes(granted_scopes)
+      // Set missing scopes
+      if (missingScopes.length) {
+        setMissingScopes(missingScopes) // from Auth context
       }
+    }
+    // Check if they have artists connected to their account or not,
+    // if they don't, set setNoArtist, and push them to the Connect Artist page
+    if (artists.length === 0) {
+      setNoArtist()
+      redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
       return
     }
     // If they do have artists, check for a previously selected artist ID in local storage...
@@ -114,7 +152,7 @@ const InitUser = ({ children }) => {
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
     if (pathname === ROUTES.LOGIN || pathname === ROUTES.SIGN_UP) {
-      redirectPage(ROUTES.HOME)
+      redirectPage(ROUTES.HOME, pathname)
     }
   }
 
@@ -172,16 +210,16 @@ const InitUser = ({ children }) => {
       const { isNewUser } = additionalUserInfo
       if (isNewUser) {
         await handleNewUser(additionalUserInfo)
-        return
+      } else {
+        // Handle existing user
+        await handleExistingUser(additionalUserInfo)
       }
-      // Handle existing user
-      await handleExistingUser()
     }
     // * Show content
     showContent(isMounted)
   }, [])
   // Show spinner while waiting
-  if (!ready) return <Spinner />
+  if (!ready || initialUserLoading) return <Spinner />
   // Show the page
   return children
 }

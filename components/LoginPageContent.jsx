@@ -1,55 +1,66 @@
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
+import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
-import { UserContext } from './contexts/User'
-import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
+import Error from './elements/Error'
 import Button from './elements/Button'
 import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
-import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
-import LoginPageForm from './LoginPageForm'
-
+import LoginWithEmail from './LoginWithEmail'
+// IMPORT HELPERS
+import firebase from './helpers/firebase'
+// IMPORT CONSTANTS
+import * as ROUTES from '../constants/routes'
+// Import copy
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/LoginPageCopy'
-
+// Import styles
 import styles from './LoginPage.module.css'
 
 function LoginPageContent() {
+  // Get router info
+  const router = useRouter()
+  const { pathname } = router
   // IMPORT CONTEXTS
-  const { authLoading, continueWithFacebook } = React.useContext(AuthContext)
-  const { userLoading } = React.useContext(UserContext)
-  const { artistLoading } = React.useContext(ArtistContext)
-
-  const [pageLoading, setPageLoading] = React.useState(false)
   const [showEmailLogin, setShowEmailLogin] = React.useState(false)
+  const { authError } = React.useContext(AuthContext)
+
+  // Show email login when route changes
+  React.useEffect(() => {
+    if (pathname === ROUTES.LOGIN_EMAIL) {
+      setShowEmailLogin(true)
+      return
+    }
+    setShowEmailLogin(false)
+  }, [pathname])
+
+  // Change route when clicking on facebook button
+  const goToEmailLogin = () => {
+    Router.push(ROUTES.LOGIN_EMAIL)
+  }
 
   // CONTINUE WITH FACEBOOK
-  const facebookClick = e => {
-    e.preventDefault()
-    // Calls firebase.doSignInWithFacebook using a redirect,
-    // so that when user is returned to log in page handleRedirect is triggered
-    continueWithFacebook()
+  // Calls firebase.loginWithFacebook using a redirect,
+  // so that when user is returned to log in page handleRedirect is triggered
+  const facebookClick = () => {
+    firebase.loginWithFacebook()
   }
 
-  if (authLoading || userLoading || artistLoading || pageLoading) {
-    return (
-      <Spinner />
-    )
-  }
   return (
     <div className={styles.container}>
 
       <PageHeader className={styles.header} heading="log in" />
 
+      <Error error={authError} />
+
       {/* Email login form */}
       {showEmailLogin ? (
         // EMAIL LOGIN FORM
-        <LoginPageForm className={styles.form} setPageLoading={setPageLoading} />
+        <LoginWithEmail className={styles.form} />
       )
         : (
           <>
@@ -63,7 +74,7 @@ function LoginPageContent() {
               </ButtonFacebook>
               <Button
                 className={styles.emailButton}
-                onClick={() => setShowEmailLogin(true)}
+                onClick={goToEmailLogin}
                 version="black icon"
               >
                 <EmailIcon color="white" />

@@ -10,6 +10,7 @@ import IntegrationsLoader from './IntegrationsLoader'
 
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/AccountPageCopy'
+import globalCopy from '../copy/global'
 // IMPORT STYLES
 import styles from './Integrations.module.css'
 import sidePanelStyles from './SidePanel.module.css'
@@ -22,7 +23,7 @@ const Artists = () => {
   // IF THE USER HAS NO ARTISTS, ASK THEM TO CONNECT ONE
   // TODO: Make this look better
   if (artists.length === 0) {
-    return <p>Please connect your first artist</p>
+    return <MarkdownText markdown={globalCopy.noArtists} />
   }
 
   // CREATE LIST OF ARTISTS AND THEIR INTEGRATIONS

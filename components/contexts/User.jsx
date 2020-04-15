@@ -1,54 +1,54 @@
-// IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
+import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import server from '../helpers/server'
-// IMPORT STYLES
 
-const initialUserState = {}
-const UserContext = React.createContext(initialUserState)
-UserContext.displayName = 'UserContext'
-const userReducer = (userState, userAction) => {
-  switch (userAction.type) {
+const initialUserState = {
+  id: '',
+  created_at: '',
+  updated_at: '',
+  first_name: '',
+  last_name: '',
+  email: '',
+  last_login: '',
+  artists: [],
+  organizations: {},
+}
+
+const userReducer = (draftState, action) => {
+  const {
+    type: actionType,
+    payload,
+  } = action
+  switch (actionType) {
     case 'set-user':
-      return userAction.payload.user
+      return payload.user
     case 'set-user-details':
-      return userAction.payload.user
-    case 'set-daily_budget': {
-      const { first_name, last_name, email } = userAction.payload
-      return {
-        ...userState,
-        first_name,
-        last_name,
-        email,
-      }
-    }
+      return payload.user
     case 'sign-out':
       return initialUserState
     default:
-      throw new Error(`Unable to find ${userAction.type} in userReducer`)
+      throw new Error(`Unable to find ${actionType} in userReducer`)
   }
 }
 
+const UserContext = React.createContext(initialUserState)
+UserContext.displayName = 'UserContext'
+
 function UserProvider({ children }) {
   // DEFINE USER STATE
-  const [user, setUser] = React.useReducer(userReducer, initialUserState)
+  const [user, setUser] = useImmerReducer(userReducer, initialUserState)
   const [userLoading, setUserLoading] = React.useState(true)
   const [userError, setUserError] = React.useState(null)
   // END DEFINE USER STATE
 
-  const noUser = React.useCallback(() => {
+  const setNoUser = () => {
     setUserLoading(true)
     setUser({ type: 'sign-out' })
     setUserLoading(false)
-  }, [])
+  }
 
-  const createUser = React.useCallback(async (first_name, last_name) => {
+  const createUser = async (first_name, last_name) => {
     setUserLoading(true)
     try {
       const newUser = await server.createUser(first_name, last_name)
@@ -64,29 +64,30 @@ function UserProvider({ children }) {
       setUserLoading(false)
       throw (err)
     }
-  }, [])
+  }
 
-  const storeUser = React.useCallback(async () => {
+  const storeUser = async () => {
     setUserLoading(true)
-    const newUser = await server.getUser()
+    const user = await server.getUser()
       .catch((err) => {
         setUserLoading(false)
         throw (err)
       })
-    if (!newUser) return
+    // TODO If 404, then call /accounts/register
+    if (!user) return
     setUser({
       type: 'set-user',
       payload: {
-        user: newUser,
+        user,
       },
     })
     setUserLoading(false)
-    return newUser
-  }, [])
+    return user
+  }
 
   const value = {
     createUser,
-    noUser,
+    setNoUser,
     setUser,
     setUserError,
     storeUser,
