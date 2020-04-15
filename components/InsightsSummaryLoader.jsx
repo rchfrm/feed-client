@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import { useAsync } from 'react-async'
 import moment from 'moment'
 import get from 'lodash/get'
 // IMPORT COMPONENTS
@@ -8,188 +9,110 @@ import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Ellipsis from './elements/Ellipsis'
 import Loading from './elements/Loading'
-import Nothing from './elements/Nothing'
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
+import MarkdownText from './elements/MarkdownText'
 // IMPORT HELPERS
 import server from './helpers/server'
 import helper from './helpers/helper'
-// IMPORT STYLES
+// IMPORT COPY
+import copy from '../copy/InsightPageCopy'
 
-function InsightsSummaryLoader() {
-// REDEFINE PROPS AS VARIABLES
-  const { artist } = React.useContext(ArtistContext)
-  // END REDEFINE PROPS AS VARIABLES
-
-  // DEFINE LOADING STATE
-  const [loading, setLoading] = React.useState(true)
-  // END DEFINE LOADING STATE
-
-  // DEFINE SEVEN DAY SPENDING TOTAL
-  const [spend, setSpend] = React.useState(null)
-  // END DEFINE SEVEN DAY SPENDING TOTAL
-
-  // RESET EVERYTHING IF THE SELECTED ARTIST CHANGES
-  React.useEffect(() => {
-    setLoading(true)
-    setSpend(null)
-  }, [artist.id])
-
-  const daysToInclude = 20
-
-  // CALCULATE NUMBER OF IMPRESSIONS IN LAST SEVEN DAYS
-  const getAdSpend = React.useCallback(async artistId => {
-    // Get daily data for the 'facebook_ad_spend_feed' data source
-    const feedAdSpend = await server.getDataSourceValue(['facebook_ad_spend_feed'], artistId)
-    // If there the server has no data, return 0
-    if (!feedAdSpend.facebook_ad_spend_feed) { return 0 }
-
-    // Cycle through the daily data, and add up the values of all
-    // dates that fall within the last seven days
-    const dailyData = feedAdSpend.facebook_ad_spend_feed.daily_data
-    const historicalPeriod = moment().subtract(daysToInclude, 'days')
-    const spend = Object.entries(dailyData).reduce((totalSpend, [date, spend]) => {
-      const dateMoment = moment(date, 'YYYY-MM-DD')
-      if (dateMoment.isSameOrAfter(historicalPeriod, 'day')) {
-        totalSpend += spend
-        return totalSpend
-      }
+const calculateSpendOverPeriod = (dailyData, historicalPeriod) => {
+  const spend = Object.entries(dailyData).reduce((totalSpend, [date, spend]) => {
+    const dateMoment = moment(date, 'YYYY-MM-DD')
+    if (dateMoment.isSameOrAfter(historicalPeriod, 'day')) {
+      totalSpend += spend
       return totalSpend
-    }, 0)
-    return Number(spend.toFixed(2))
+    }
+    return totalSpend
+  }, 0)
+  // Return spend formatted
+  return Number(spend.toFixed(2))
+}
+
+const getArtistTournaments = async (artist) => {
+  const tournamentsEndpoint = get(artist, ['_links', 'tournaments', 'href'], '')
+  const tournamentsEndpointMod = tournamentsEndpoint ? tournamentsEndpoint.slice(0, tournamentsEndpoint.indexOf('?')) : 0
+  const tournaments = tournamentsEndpointMod ? await server.getEndpoint(tournamentsEndpointMod) : []
+  return tournaments
+}
+
+const getAds = async (tournaments, historicalPeriod) => {
+  const adsPaths = tournaments.reduce((acc, tournament) => {
+    // If the tournament stopped within the last seven days, get the ads that were in it
+    if (moment(tournament.stop_time).isSameOrAfter(historicalPeriod, 'day')) {
+      const ads = Object.values(tournament.ads).reduce((acc2, ad) => {
+        // Make sure that the ad hasn't already been added from another tournament
+        if (acc.indexOf(ad.ad.path) === -1) {
+          return [...acc2, ad.ad.path]
+        }
+        return acc2
+      }, [])
+
+      return [...acc, ...ads]
+    }
+    return acc
   }, [])
 
-  React.useEffect(() => {
-    if (artist.id && loading) {
-      getAdSpend(artist.id)
-        .then(adSpend => {
-          setSpend(adSpend)
-          setLoading(false)
-        })
-    }
-  }, [artist.id, getAdSpend, loading])
-  // END CALCULATE NUMBER OF IMPRESSIONS IN LAST SEVEN DAYS
+  const createAdsPromises = adsPaths.map(async path => {
+    return server.getPath(path)
+  })
 
-  if (loading) {
-    return <Loading />
-  }
-  return <Summary spend={spend} artistId={artist.id} days={daysToInclude} />
+  return Promise.all(createAdsPromises)
+}
+
+const calculateImpressions = (ads, historicalPeriod) => {
+  return ads.reduce((impressions, { metrics }) => {
+    const adImpressions = Object.keys(metrics).reduce((impressions, day) => {
+      if (moment(day, 'YYYY-MM-DD').isSameOrAfter(historicalPeriod, 'day')) {
+        return impressions + Number(metrics[day].impressions)
+      }
+      return impressions
+    }, 0)
+    return impressions + adImpressions
+  }, 0)
+}
+
+// ASYNC FUNCTION TO FETCH SUMMARY
+const fetchSummary = async ({ artist, artistId, daysToInclude }) => {
+  if (!artistId) return
+  // * GET SPEND
+  const { facebook_ad_spend_feed } = await server.getDataSourceValue(['facebook_ad_spend_feed'], artistId) || {}
+  // If there the server has no data, return 0
+  if (!facebook_ad_spend_feed) return 0
+  const historicalPeriod = moment().subtract(daysToInclude, 'days')
+  const { daily_data: dailyData } = facebook_ad_spend_feed
+  const spend = calculateSpendOverPeriod(dailyData, historicalPeriod)
+  // * GET SUMMARY
+  const tournaments = await getArtistTournaments(artist)
+  const ads = await getAds(tournaments, historicalPeriod)
+  const impressions = calculateImpressions(ads, historicalPeriod)
+  // Return result
+  return { spend, impressions }
+}
+
+function InsightsSummaryLoader() {
+  // Get artist ID from context
+  const { artist, artistId } = React.useContext(ArtistContext)
+  // Define total days to include in summary
+  const daysToInclude = 20
+  // Run this to fetch summary when the artist changes
+  const { data, error, isPending } = useAsync({
+    promiseFn: fetchSummary,
+    watch: artistId,
+    // The variable(s) to pass to promiseFn
+    artist,
+    artistId,
+    daysToInclude,
+  })
+
+  if (isPending || error) return null
+
+  const { spend, impressions } = data
+  const spendSummary = copy.spendSummary(daysToInclude, spend, '£')
+  const impressionSummary = copy.impressionSummary(impressions)
+  const markdown = `${spendSummary}${impressionSummary}`
+
+  return <MarkdownText className="ninety-wide  h4--text" markdown={markdown} />
 }
 
 export default InsightsSummaryLoader
-
-function Summary({
-  artistId,
-  spend,
-  days,
-}) {
-  const { artist } = React.useContext(ArtistContext)
-  const [impressions, setImpressions] = React.useState(undefined)
-  const [loading, setLoading] = React.useState(false)
-
-  const calculateImpressions = React.useCallback(async () => {
-    const tournamentsEndpoint = get(artist, ['_links', 'tournaments', 'href'], '')
-    const tournamentsEndpointMod = tournamentsEndpoint ? tournamentsEndpoint.slice(0, tournamentsEndpoint.indexOf('?')) : 0
-    const tournaments = tournamentsEndpointMod ? await server.getEndpoint(tournamentsEndpointMod) : []
-    const historicalPeriod = moment().subtract(days, 'days')
-
-    const createAdsPaths = tournaments.reduce((acc, tournament) => {
-      // If the tournament stopped within the last seven days, get the ads that were in it
-      if (moment(tournament.stop_time).isSameOrAfter(historicalPeriod, 'day')) {
-        const ads = Object.values(tournament.ads).reduce((acc2, ad) => {
-          // Make sure that the ad hasn't already been added from another tournament
-          if (acc.indexOf(ad.ad.path) === -1) {
-            return [...acc2, ad.ad.path]
-          }
-          return acc2
-        }, [])
-
-        return [...acc, ...ads]
-      }
-      return acc
-    }, [])
-
-    const createAdsPromises = createAdsPaths.map(async path => {
-      return server.getPath(path)
-    })
-
-    const ads = await Promise.all(createAdsPromises)
-      .catch(err => {
-        throw (err)
-      })
-
-    return ads.reduce((impressions, { metrics }) => {
-      const adImpressions = Object.keys(metrics).reduce((impressions, day) => {
-        if (moment(day, 'YYYY-MM-DD').isSameOrAfter(historicalPeriod, 'day')) {
-          return impressions + Number(metrics[day].impressions)
-        }
-        return impressions
-      }, 0)
-      return impressions + adImpressions
-    }, 0)
-  }, [])
-
-  React.useEffect(() => {
-    // Exit if the request to get assets from the server has already started
-    if (loading) return
-    // Exit if impressions is greater than or equal to 0
-    if (impressions >= 0) return
-
-    setLoading(true)
-    calculateImpressions(artistId)
-      .then(sevenDayImpressions => {
-        setImpressions(sevenDayImpressions)
-        setLoading(false)
-      })
-  }, [artistId, calculateImpressions, impressions, spend, loading])
-
-  console.log('spend', spend)
-
-  if (spend === 0) {
-    return <Nothing />
-  }
-
-  return (
-    <div className="ninety-wide  h4--text">
-      <p>
-        In the last {days} days, you've
-        {' '}
-        <span className="strong">
-          spent £
-          {spend}
-        </span>
-        {loading
-          ? <Ellipsis />
-          : <Impressions impressions={impressions} />}
-      </p>
-    </div>
-  )
-}
-
-function Impressions(props) {
-  const { impressions } = props
-
-  const prefix = ', and your posts were seen'
-
-  if (impressions === 0) {
-    return <span>.</span>
-  } if (impressions === 1) {
-    return (
-      <span>
-        {prefix}
-        {' '}
-        <span className="strong">once</span>
-      </span>
-    )
-  }
-  return (
-    <span>
-      {prefix}
-      {' '}
-      <span className="strong">{helper.formatNumber(impressions)}</span>
-      {' '}
-      times.
-    </span>
-  )
-}
