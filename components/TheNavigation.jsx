@@ -30,8 +30,8 @@ function ArtistOptions({ currentArtistId, artists, handleChange }) {
       handleChange={handleChange}
       selectedValue={currentArtistId}
       options={artistOptions}
-      name="Selected Artist"
-      label="Selected Artist"
+      name="Selected Profile"
+      label="Selected Profile"
       version="box white small sans"
     />
   )

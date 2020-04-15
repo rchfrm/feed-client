@@ -6,7 +6,7 @@ export default {
 
   We understand that marketing plans are flexible - if there’s a month when you don’t promote posts through **Feed**, we won’t charge you anything. 
   
-  In a month where you do spend money promoting posts, to cover our costs we apply a minimum service fee of £1.99. 
+  In a month where you do spend money promoting posts, to cover our costs we apply a minimum service fee of £2.49. 
   
   At the end of each billing month, we will charge our service fee to your card and send you an invoice by email. Facebook will bill you separately for the amount spent on promoting your posts.
   

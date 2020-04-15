@@ -57,7 +57,7 @@ function Loader() {
     // If there is no selected artist after the artist has finished loading,
     // show message to say the user needs to their artist pages
     return (
-      <p>Please connect some artists</p>
+      <p>Please connect a Facebook page</p>
     )
   }
   // Otherwise, show Home
