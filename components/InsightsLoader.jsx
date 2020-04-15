@@ -10,15 +10,11 @@ import Spinner from './elements/Spinner'
 import InsightsSummaryLoader from './InsightsSummaryLoader'
 import InsightsPageChart from './InsightsPageChart'
 import PromotePostsButton from './PromotePostsButton'
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
-
+// IMPORT TEXT
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/InsightPageCopy'
-// IMPORT HELPERS
 // IMPORT STYLES
-import styles from './InsightsPageChart.module.css'
+import styles from './InsightsPage.module.css'
 
 
 function Insights() {
@@ -45,18 +41,9 @@ function Insights() {
 
 function InsightsLoader() {
 // IMPORT CONTEXTS
-  const { artist, artistLoading } = React.useContext(ArtistContext)
-
-  if (artistLoading) {
-    return <Spinner width={50} color={brandColors.green} />
-  } if (artist === null) {
-    // If there is no selected artist after the artist has finished loading,
-    // show message to say the user needs to their artist pages
-    return (
-      <p>Please connect some artists</p>
-    )
-  }
-  // Otherwise, show Home
+  const { artistLoading } = React.useContext(ArtistContext)
+  if (artistLoading) return <Spinner />
+  // Otherwise, show page
   return <Insights />
 }
 

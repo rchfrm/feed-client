@@ -8,10 +8,9 @@ import { UserContext } from '../contexts/User'
 import PageHeader from '../PageHeader'
 // IMPORT PAGES
 import InsightsLoader from '../InsightsLoader'
-// IMPORT ASSETS
+// IMPORT TEXT
 import MarkdownText from '../elements/MarkdownText'
 import copy from '../../copy/global'
-// IMPORT HELPERS
 
 function InsightsPage() {
   // SHOW / HIDE NAVIGATION
