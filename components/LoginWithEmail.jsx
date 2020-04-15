@@ -76,15 +76,7 @@ function LoginWithEmail({ className }) {
         setPassword('')
         setError(err)
       })
-    if (!user) {
-      track({
-        category: 'login',
-        action: 'error storing user',
-        label: email,
-        error: true,
-      })
-      return
-    }
+    if (!user) return
     if (user.artists.length > 0) {
       const selectedArtist = user.artists[0]
       await storeArtist(selectedArtist.id)

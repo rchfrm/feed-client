@@ -2,6 +2,7 @@ import React from 'react'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import server from '../helpers/server'
+import { track } from '../helpers/trackingHelpers'
 
 const initialUserState = {
   id: '',
@@ -69,9 +70,15 @@ function UserProvider({ children }) {
   const storeUser = async () => {
     setUserLoading(true)
     const user = await server.getUser()
-      .catch((err) => {
+      .catch((error) => {
+        track({
+          category: 'login',
+          action: 'store user',
+          description: `${error.response.status} ${error.message}`,
+          error: true,
+        })
         setUserLoading(false)
-        throw (err)
+        throw (error)
       })
     // TODO If 404, then call /accounts/register
     if (!user) return
