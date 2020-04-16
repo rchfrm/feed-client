@@ -27,7 +27,7 @@ function LoginPageContent() {
   const { pathname } = router
   // IMPORT CONTEXTS
   const [showEmailLogin, setShowEmailLogin] = React.useState(false)
-  const { authError } = React.useContext(AuthContext)
+  const { authError, setAuthError } = React.useContext(AuthContext)
 
   // Show email login when route changes
   React.useEffect(() => {
@@ -42,6 +42,13 @@ function LoginPageContent() {
   const goToEmailLogin = () => {
     Router.push(ROUTES.LOGIN_EMAIL)
   }
+
+  // Clear auth error when leaving page
+  React.useEffect(() => {
+    return () => {
+      setAuthError(null)
+    }
+  }, [])
 
   // CONTINUE WITH FACEBOOK
   // Calls firebase.loginWithFacebook using a redirect,

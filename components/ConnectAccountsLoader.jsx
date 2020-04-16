@@ -22,7 +22,7 @@ import artistHelpers from './helpers/artistHelpers'
 
 const ConnectAccountsLoader = ({ onSignUp }) => {
   // IMPORT CONTEXTS
-  const { auth, accessToken, authError } = React.useContext(AuthContext)
+  const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
   const { createArtist, setArtistLoading } = React.useContext(ArtistContext)
   // Get any missing scopes
   const { missingScopes } = auth
@@ -35,8 +35,14 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
 
   // DEFINE ERRORS
-  const [errors, setErrors] = React.useState([])
   const [errors, setErrors] = React.useState([authError])
+
+  // Clear auth error when leaving page
+  React.useEffect(() => {
+    return () => {
+      setAuthError(null)
+    }
+  }, [])
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}

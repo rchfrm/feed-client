@@ -40,6 +40,13 @@ const SignupPageContent = () => {
     Router.push(ROUTES.SIGN_UP_EMAIL)
   }
 
+  // Clear auth error when leaving page
+  React.useEffect(() => {
+    return () => {
+      setAuthError(null)
+    }
+  }, [])
+
   // Calls firebase.signupWithFacebook using a redirect,
   // so that when user is returned to log in page handleRedirect is triggered
   const facebookSignup = async () => {
