@@ -129,8 +129,6 @@ function AuthProvider({ children }) {
     return token
   }
 
-  console.log('authError in auth', authError)
-
   const value = {
     accessToken,
     auth,
