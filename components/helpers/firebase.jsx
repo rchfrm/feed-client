@@ -3,6 +3,7 @@ import 'firebase/auth'
 import 'firebase/firestore'
 
 const requiredScopes = [
+  'email',
   'read_insights',
   'manage_pages',
   'pages_show_list',
