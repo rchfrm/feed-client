@@ -12,6 +12,7 @@ import firebase from './helpers/firebase'
 import Button from './elements/Button'
 import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
+import Error from './elements/Error'
 import MarkdownText from './elements/MarkdownText'
 // Constants
 import * as ROUTES from '../constants/routes'
