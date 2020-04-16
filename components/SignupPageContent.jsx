@@ -1,9 +1,9 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router, { useRouter } from 'next/router'
-// IMPORT COMPONENTS
 // IMPORT CONTEXTS
-// IMPORT ELEMENTS
+import { AuthContext } from './contexts/Auth'
+// IMPORT COMPONENTS
 import PageHeader from './PageHeader'
 import SignupEmailForm from './SignupEmailForm'
 // IMPORT HELPERS
@@ -22,6 +22,7 @@ import styles from './LoginPage.module.css'
 
 const SignupPageContent = () => {
   const [showEmailSignup, setShowEmailSignup] = React.useState(false)
+  const { authError, setAuthError } = React.useContext(AuthContext)
   // Get router info
   const router = useRouter()
   const { pathname } = router
@@ -49,6 +50,8 @@ const SignupPageContent = () => {
     <div className={styles.container}>
 
       <PageHeader className={styles.header} heading="sign up" />
+
+      <Error error={authError} />
 
       {/* Email login form */}
       {showEmailSignup ? (
