@@ -53,7 +53,7 @@ const InitUser = ({ children }) => {
   const [initialUserLoading, setInitialUserLoading] = React.useState(true)
   // Import contexts
   const { setNoAuth, setAccessToken, setAuthError, storeAuth, setMissingScopes } = React.useContext(AuthContext)
-  const { createUser, setNoUser, storeUser, userLoading } = React.useContext(UserContext)
+  const { createUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   // After user has loaded the first time...
@@ -110,7 +110,28 @@ const InitUser = ({ children }) => {
 
   // HANDLE NEW USER
   const handleNewUser = async (additionalUserInfo) => {
-    const { profile: { first_name, last_name, granted_scopes } } = additionalUserInfo
+    const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
+    // * If no email...
+    // Delete from firebase
+    // Send back to login
+    // Show error
+    if (!email) {
+      await firebase.deleteUser()
+      const error = {
+        message: 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.',
+      }
+      setAuthError(error)
+      setUserLoading(false)
+      track({
+        category: 'sign up',
+        action: 'handleNewUser',
+        label: 'No email provided from FB',
+        description: error.message,
+        error: true,
+      })
+      return
+    }
+    // return
     // If it's a new user, create their profile on the server
     const user = await createUser(first_name, last_name)
       .catch((error) => {

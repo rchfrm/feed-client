@@ -101,6 +101,7 @@ function UserProvider({ children }) {
     user,
     userError,
     userLoading,
+    setUserLoading,
   }
 
   return (

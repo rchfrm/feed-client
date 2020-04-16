@@ -71,7 +71,7 @@ const SignupPageContent = () => {
 
       <PageHeader className={styles.header} heading="sign up" />
 
-      <Error error={error || authError} />
+      <Error className={styles.error} error={error || authError} />
 
       {/* Email login form */}
       {showEmailSignup ? (
