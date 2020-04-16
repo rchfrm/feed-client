@@ -43,15 +43,17 @@ function AuthProvider({ children }) {
   const [accessToken, setAccessToken] = React.useState(null)
   const [authLoading, setAuthLoading] = React.useState(false)
 
-  const setNoAuth = () => {
-    setAuthLoading(false)
-  }
 
   const setMissingScopes = (scopes) => {
     setAuth({
       type: 'set-missing-scopes',
       payload: { scopes },
     })
+  }
+
+  const setNoAuth = () => {
+    setAuth({ type: 'no-auth-user' })
+    setAuthLoading(false)
   }
 
   const storeAuth = async (authUser, error = null) => {
