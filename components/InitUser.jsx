@@ -9,6 +9,7 @@ import * as ROUTES from '../constants/routes'
 
 import Spinner from './elements/Spinner'
 
+import helper from './helpers/helper'
 import firebase from './helpers/firebase'
 import { track } from './helpers/trackingHelpers'
 
@@ -200,7 +201,7 @@ const InitUser = ({ children }) => {
       return
     }
     // If they do have artists, check for a previously selected artist ID in local storage...
-    const storedArtistId = localStorage.getItem('artistId')
+    const storedArtistId = helper.testLocalStorage() ? localStorage.getItem('artistId') : ''
     // Check that the storedArtistId is one the user has access to...
     const hasAccess = artists.find(({ id }) => id === storedArtistId)
     // if they don't have access, clear localStorage
@@ -212,7 +213,9 @@ const InitUser = ({ children }) => {
         breadcrumb: true,
         ga: false,
       })
-      localStorage.clear()
+      if (helper.testLocalStorage()) {
+        localStorage.clear()
+      }
     }
     // If they do have access set it as the selectedArtistId,
     // otherwise use the first related artist (sorted alphabetically)

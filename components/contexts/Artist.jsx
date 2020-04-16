@@ -59,7 +59,9 @@ function ArtistProvider({ children }) {
 
   const setNoArtist = () => {
     setArtistLoading(true)
-    localStorage.clear()
+    if (helper.testLocalStorage()) {
+      localStorage.clear()
+    }
     setArtist({ type: 'no-artists' })
     setArtistLoading(false)
   }
@@ -193,7 +195,9 @@ function ArtistProvider({ children }) {
   // Store artist id in local storage
   React.useEffect(() => {
     if (!artistId) return
-    localStorage.setItem('artistId', artist.id)
+    if (helper.testLocalStorage()) {
+      localStorage.setItem('artistId', artist.id)
+    }
   }, [artistId])
 
   const value = {
