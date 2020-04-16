@@ -19,6 +19,7 @@ import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 import { track } from './helpers/trackingHelpers'
 import artistHelpers from './helpers/artistHelpers'
+import copy from '../copy/ConnectAccountsCopy'
 
 const ConnectAccountsLoader = ({ onSignUp }) => {
   // IMPORT CONTEXTS
@@ -84,7 +85,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     if (!isMounted) return
     // Error if no ad accounts
     if (!adaccounts.length) {
-      setErrors([...errors, { message: 'No ad accounts were found' }])
+      setErrors([...errors, { message: copy.noAdAccountsError }])
       setPageLoading(false)
       // Track
       track({
