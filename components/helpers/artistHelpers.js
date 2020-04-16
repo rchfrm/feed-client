@@ -192,4 +192,26 @@ export default {
 
     return keyedAccounts
   },
+
+  /**
+   * Receives object of keyed artist accounts by ID
+   * Converts empty strings to null
+   * Returns newly formed artist account
+   * @param {object} artistAccounts
+   * @returns {object}
+   */
+  sanitiseArtistAccountUrls: (artistAccounts) => {
+    return produce(artistAccounts, draft => {
+      // Loop over artists
+      Object.values(draft).forEach((artist) => {
+        // Loop over artist props
+        Object.entries(artist).forEach(([key, value]) => {
+          if (value === '') {
+            artist[key] = null
+          }
+        })
+      })
+      return draft
+    })
+  },
 }

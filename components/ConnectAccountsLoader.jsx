@@ -131,9 +131,12 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
   const runCreateArtist = async e => {
     e.preventDefault()
 
+    // Santise URLs
+    const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistAccounts)
+
     try {
       setRedirecting(true)
-      await createArtist(artistAccounts, accessToken)
+      await createArtist(artistAccountsSanitised, accessToken)
       Router.push(ROUTES.HOME)
     } catch (err) {
       setRedirecting(false)
