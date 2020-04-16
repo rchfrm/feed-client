@@ -8,6 +8,7 @@ import PageHeader from './PageHeader'
 import SignupEmailForm from './SignupEmailForm'
 // IMPORT HELPERS
 import firebase from './helpers/firebase'
+import { track } from './helpers/trackingHelpers'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 import EmailIcon from './icons/EmailIcon'
@@ -24,6 +25,8 @@ import styles from './LoginPage.module.css'
 const SignupPageContent = () => {
   const [showEmailSignup, setShowEmailSignup] = React.useState(false)
   const { authError, setAuthError } = React.useContext(AuthContext)
+  // Handle error
+  const [error, setError] = React.useState(null)
   // Get router info
   const router = useRouter()
   const { pathname } = router
@@ -38,6 +41,7 @@ const SignupPageContent = () => {
 
   // Change route when clicking on facebook button
   const goToEmailSignup = () => {
+    setError(null)
     Router.push(ROUTES.SIGN_UP_EMAIL)
   }
 
@@ -52,6 +56,14 @@ const SignupPageContent = () => {
   // so that when user is returned to log in page handleRedirect is triggered
   const facebookSignup = async () => {
     firebase.signUpWithFacebook()
+      .catch((error) => {
+        setError(error)
+        track({
+          category: 'sign up',
+          action: 'error clicking on FB button',
+          error: true,
+        })
+      })
   }
 
   return (
@@ -59,7 +71,7 @@ const SignupPageContent = () => {
 
       <PageHeader className={styles.header} heading="sign up" />
 
-      <Error error={authError} />
+      <Error error={error || authError} />
 
       {/* Email login form */}
       {showEmailSignup ? (
