@@ -187,6 +187,7 @@ const InitUser = ({ children }) => {
           description: error.message,
           error: true,
         })
+        setAuthError({ message: 'No user was found in the database' })
       })
     if (!user) return
     const { artists } = user
