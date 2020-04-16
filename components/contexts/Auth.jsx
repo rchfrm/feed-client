@@ -112,6 +112,10 @@ function AuthProvider({ children }) {
   const signUp = async (email, password) => {
     setAuthLoading(true)
     const authUser = await firebase.doCreateUserWithEmailAndPassword(email, password)
+      .catch((error) => {
+        setAuthLoading(false)
+        throw new Error(error.message)
+      })
     if (!authUser) return
     const token = await authUser.user.getIdToken()
       .catch((error) => {
