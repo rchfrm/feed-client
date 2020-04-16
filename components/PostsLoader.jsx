@@ -119,15 +119,15 @@ function PostsLoader() {
       }
       // Update offset
       offset.current += posts.length
+      // Update afterCursor
+      const lastPost = posts[posts.length - 1]
+      if (lastPost._links.after) {
+        setAfterCursor(posts[posts.length - 1]._links.after)
+      }
       // If loading extra posts
       if (loadingMore) {
         // Stop loading
         setLoadingMore(false)
-        // Update afterCursor
-        const lastPost = posts[posts.length - 1]
-        if (lastPost._links.after) {
-          setAfterCursor(posts[posts.length - 1]._links.after)
-        }
         // Update posts
         setPosts({
           type: 'add-posts',
