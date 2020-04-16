@@ -79,9 +79,9 @@ const InitUser = ({ children }) => {
   }
 
   // HANDLE NO AUTH USER
-  const handleNoAuthUser = () => {
+  const handleNoAuthUser = (authError) => {
     // Reset all contexts
-    setNoAuth()
+    setNoAuth(authError)
     setNoUser()
     setNoArtist()
     // Check if the user is on an auth only page,
@@ -258,7 +258,7 @@ const InitUser = ({ children }) => {
   }
 
   // HANDLE INITIAL LOGGED IN TEST
-  const handleInitialAuthCheck = async (authUser, error) => {
+  const handleInitialAuthCheck = async (authUser, authError) => {
     track({
       category: 'login',
       action: 'handleInitialAuthCheck',
@@ -266,14 +266,14 @@ const InitUser = ({ children }) => {
       ga: false,
     })
     // If no auth user, handle that
-    if (!authUser) return handleNoAuthUser()
+    if (!authUser) return handleNoAuthUser(authError)
     // If there is, store the user in auth context
-    await storeAuth(authUser, error)
+    await storeAuth(authUser, authError)
     await handleExistingUser()
   }
 
 
-  const detectSignedInUser = (isMounted, redirectError) => {
+  const detectSignedInUser = (isMounted, fbRedirectError) => {
     track({
       category: 'login',
       action: 'handle no FB redirect',
@@ -287,7 +287,7 @@ const InitUser = ({ children }) => {
         breadcrumb: true,
         ga: false,
       })
-      await handleInitialAuthCheck(authUser, redirectError)
+      await handleInitialAuthCheck(authUser, fbRedirectError)
       if (!isMounted()) return
       showContent(isMounted)
       unsubscribe()

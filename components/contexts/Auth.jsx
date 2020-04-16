@@ -51,8 +51,9 @@ function AuthProvider({ children }) {
     })
   }
 
-  const setNoAuth = () => {
+  const setNoAuth = (authError = null) => {
     setAuth({ type: 'no-auth-user' })
+    setAuthError(authError)
     setAuthLoading(false)
   }
 
