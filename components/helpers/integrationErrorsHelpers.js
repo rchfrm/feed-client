@@ -2,6 +2,17 @@ import produce from 'immer'
 
 import copy from '../../copy/integrationErrorsCopy'
 
+export const testForMissingPages = (scopes) => {
+  if (scopes.length > 2) return false
+  if (
+    scopes.includes('manage_pages')
+    && scopes.includes('pages_show_list')
+  ) {
+    return true
+  }
+  return false
+}
+
 export const getErrorResponse = (error, artist) => {
   const {
     code,
@@ -23,8 +34,9 @@ export const getErrorResponse = (error, artist) => {
 
   if (code === 'missing_permission_scope') {
     const missingPermissions = context
+    const hasOnlyMissingPages = testForMissingPages(missingPermissions)
     return {
-      message: copy[code](missingPermissions),
+      message: copy[code](missingPermissions, hasOnlyMissingPages),
       action: 'fb_reauth',
       buttonText: 'Continue with Facebook',
       missingPermissions,

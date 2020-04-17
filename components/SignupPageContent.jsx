@@ -1,17 +1,19 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router, { useRouter } from 'next/router'
-// IMPORT COMPONENTS
 // IMPORT CONTEXTS
-// IMPORT ELEMENTS
+import { AuthContext } from './contexts/Auth'
+// IMPORT COMPONENTS
 import PageHeader from './PageHeader'
 import SignupEmailForm from './SignupEmailForm'
 // IMPORT HELPERS
 import firebase from './helpers/firebase'
+import { track } from './helpers/trackingHelpers'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 import EmailIcon from './icons/EmailIcon'
 import ButtonFacebook from './elements/ButtonFacebook'
+import Error from './elements/Error'
 import MarkdownText from './elements/MarkdownText'
 // Constants
 import * as ROUTES from '../constants/routes'
@@ -22,6 +24,9 @@ import styles from './LoginPage.module.css'
 
 const SignupPageContent = () => {
   const [showEmailSignup, setShowEmailSignup] = React.useState(false)
+  const { authError, setAuthError } = React.useContext(AuthContext)
+  // Handle error
+  const [error, setError] = React.useState(null)
   // Get router info
   const router = useRouter()
   const { pathname } = router
@@ -36,19 +41,37 @@ const SignupPageContent = () => {
 
   // Change route when clicking on facebook button
   const goToEmailSignup = () => {
+    setError(null)
     Router.push(ROUTES.SIGN_UP_EMAIL)
   }
+
+  // Clear auth error when leaving page
+  React.useEffect(() => {
+    return () => {
+      setAuthError(null)
+    }
+  }, [])
 
   // Calls firebase.signupWithFacebook using a redirect,
   // so that when user is returned to log in page handleRedirect is triggered
   const facebookSignup = async () => {
     firebase.signUpWithFacebook()
+      .catch((error) => {
+        setError(error)
+        track({
+          category: 'sign up',
+          action: 'error clicking on FB button',
+          error: true,
+        })
+      })
   }
 
   return (
     <div className={styles.container}>
 
       <PageHeader className={styles.header} heading="sign up" />
+
+      <Error className={styles.error} error={error || authError} />
 
       {/* Email login form */}
       {showEmailSignup ? (

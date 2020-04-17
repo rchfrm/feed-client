@@ -39,7 +39,7 @@
 }
 
 .error {
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--bsu-md) !important;
 }
 
 .form {

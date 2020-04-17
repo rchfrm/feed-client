@@ -102,7 +102,7 @@ export default {
   assignDataSourceType: string => {
     if (string.indexOf('follower_count') !== -1 || string.indexOf('facebook_likes') !== -1 || string.indexOf('subscriber_count') !== -1) {
       return 'cumulative'
-    } if (string.indexOf('reach') !== -1 || string.indexOf('profile_views') !== -1 || string.indexOf('profile_view_count') !== -1 || string.indexOf('ad_spend') !== -1) {
+    } if (string.indexOf('reach') !== -1 || string.indexOf('impressions') !== -1 || string.indexOf('profile_views') !== -1 || string.indexOf('profile_view_count') !== -1 || string.indexOf('ad_spend') !== -1) {
       return 'daily'
     }
     if (string.indexOf('7d') !== -1) {
@@ -507,5 +507,38 @@ export default {
     // eslint-disable-next-line
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(String(email).toLowerCase())
+  },
+
+  /**
+   * @param {string} key
+   * @returns {string} value
+   */
+  setLocalStorage: (key, value) => {
+    try {
+      localStorage.setItem(key, value)
+      return true
+    } catch (e) {
+      return false
+    }
+  },
+
+  /**
+   * @param {string} key
+   */
+  getLocalStorage: (key) => {
+    try {
+      return localStorage.getItem(key)
+    } catch (e) {
+      return null
+    }
+  },
+
+  clearLocalStorage: () => {
+    try {
+      localStorage.clear()
+      return true
+    } catch (e) {
+      return false
+    }
   },
 }

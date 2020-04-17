@@ -9,6 +9,7 @@ import * as ROUTES from '../constants/routes'
 
 import Spinner from './elements/Spinner'
 
+import helper from './helpers/helper'
 import firebase from './helpers/firebase'
 import { track } from './helpers/trackingHelpers'
 
@@ -52,7 +53,7 @@ const InitUser = ({ children }) => {
   const [initialUserLoading, setInitialUserLoading] = React.useState(true)
   // Import contexts
   const { setNoAuth, setAccessToken, setAuthError, storeAuth, setMissingScopes } = React.useContext(AuthContext)
-  const { createUser, setNoUser, storeUser, userLoading } = React.useContext(UserContext)
+  const { createUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   // After user has loaded the first time...
@@ -78,9 +79,9 @@ const InitUser = ({ children }) => {
   }
 
   // HANDLE NO AUTH USER
-  const handleNoAuthUser = () => {
+  const handleNoAuthUser = (authError) => {
     // Reset all contexts
-    setNoAuth()
+    setNoAuth(authError)
     setNoUser()
     setNoArtist()
     // Check if the user is on an auth only page,
@@ -109,7 +110,28 @@ const InitUser = ({ children }) => {
 
   // HANDLE NEW USER
   const handleNewUser = async (additionalUserInfo) => {
-    const { profile: { first_name, last_name, granted_scopes } } = additionalUserInfo
+    const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
+    // * If no email...
+    // Delete from firebase
+    // Send back to login
+    // Show error
+    if (!email) {
+      await firebase.deleteUser()
+      const error = {
+        message: 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.',
+      }
+      setAuthError(error)
+      setUserLoading(false)
+      track({
+        category: 'sign up',
+        action: 'handleNewUser',
+        label: 'No email provided from FB',
+        description: error.message,
+        error: true,
+      })
+      return
+    }
+    // return
     // If it's a new user, create their profile on the server
     const user = await createUser(first_name, last_name)
       .catch((error) => {
@@ -165,6 +187,7 @@ const InitUser = ({ children }) => {
           description: error.message,
           error: true,
         })
+        setAuthError({ message: 'No user was found in the database' })
       })
     if (!user) return
     const { artists } = user
@@ -200,11 +223,12 @@ const InitUser = ({ children }) => {
       return
     }
     // If they do have artists, check for a previously selected artist ID in local storage...
-    const storedArtistId = localStorage.getItem('artistId')
+    const storedArtistId = helper.getLocalStorage('artistId')
     // Check that the storedArtistId is one the user has access to...
     const hasAccess = artists.find(({ id }) => id === storedArtistId)
     // if they don't have access, clear localStorage
     if (!hasAccess) {
+      helper.clearLocalStorage()
       track({
         category: 'login',
         action: 'handleExistingUser',
@@ -212,7 +236,6 @@ const InitUser = ({ children }) => {
         breadcrumb: true,
         ga: false,
       })
-      localStorage.clear()
     }
     // If they do have access set it as the selectedArtistId,
     // otherwise use the first related artist (sorted alphabetically)
@@ -233,7 +256,7 @@ const InitUser = ({ children }) => {
   }
 
   // HANDLE INITIAL LOGGED IN TEST
-  const handleInitialAuthCheck = async (authUser) => {
+  const handleInitialAuthCheck = async (authUser, authError) => {
     track({
       category: 'login',
       action: 'handleInitialAuthCheck',
@@ -241,10 +264,32 @@ const InitUser = ({ children }) => {
       ga: false,
     })
     // If no auth user, handle that
-    if (!authUser) return handleNoAuthUser()
+    if (!authUser) return handleNoAuthUser(authError)
     // If there is, store the user in auth context
-    await storeAuth(authUser)
+    await storeAuth(authUser, authError)
     await handleExistingUser()
+  }
+
+
+  const detectSignedInUser = (isMounted, fbRedirectError) => {
+    track({
+      category: 'login',
+      action: 'handle no FB redirect',
+      breadcrumb: true,
+      ga: false,
+    })
+    const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
+      track({
+        category: 'login',
+        action: 'firebase.auth.onAuthStateChanged',
+        breadcrumb: true,
+        ga: false,
+      })
+      await handleInitialAuthCheck(authUser, fbRedirectError)
+      if (!isMounted()) return
+      showContent(isMounted)
+      unsubscribe()
+    })
   }
 
 
@@ -256,24 +301,7 @@ const InitUser = ({ children }) => {
     const { user, error, credential, additionalUserInfo } = redirectResult
     // * Handle no redirect
     if (!user && !error) {
-      track({
-        category: 'login',
-        action: 'handle no FB redirect',
-        breadcrumb: true,
-        ga: false,
-      })
-      const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
-        track({
-          category: 'login',
-          action: 'firebase.auth.onAuthStateChanged',
-          breadcrumb: true,
-          ga: false,
-        })
-        await handleInitialAuthCheck(authUser)
-        if (!isMounted()) return
-        showContent(isMounted)
-        unsubscribe()
-      })
+      detectSignedInUser(isMounted)
       return
     }
     // * Handle errors
@@ -284,10 +312,6 @@ const InitUser = ({ children }) => {
         handleFbInvalidCredential(message)
         return
       }
-      // Handle generic error
-      setAuthError({ message })
-      // Show content
-      showContent(isMounted)
       // Track
       track({
         category: 'login',
@@ -295,6 +319,11 @@ const InitUser = ({ children }) => {
         description: message,
         error: true,
       })
+      const customError = code === 'auth/account-exists-with-different-credential' ? {
+        message: 'An account already exists with the same email address but different sign-in credentials. Please sign in using your email address'
+      } : error
+      // Detect for already logged in user
+      detectSignedInUser(isMounted, customError)
       return
     }
     // * Handle succesful redirect
