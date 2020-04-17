@@ -1,97 +1,85 @@
-// IMPORT PACKAGES
 import React from 'react'
-import moment from 'moment'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
+import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import firebase from '../helpers/firebase'
-// IMPORT STYLES
 
-const initialAuthState = {}
-const AuthContext = React.createContext(initialAuthState)
-AuthContext.displayName = 'AuthContext'
-const authReducer = (authState, authAction) => {
-  switch (authAction.type) {
+const initialAuthState = {
+  token: '',
+  email: '',
+  missingScopes: [],
+}
+
+const authReducer = (draftState, action) => {
+  const {
+    type: actionType,
+    payload: { email, token, providerId, scopes } = {},
+  } = action
+
+  switch (actionType) {
     case 'no-auth-user':
       return initialAuthState
     case 'set-auth-user':
-      return {
-        email: authAction.payload.email,
-        token: authAction.payload.token,
-      }
+      draftState.email = email
+      draftState.token = token
+      draftState.providerId = providerId
+      break
     case 'set-token':
-      return {
-        ...authState,
-        token: authAction.payload.token,
-      }
+      draftState.token = token
+      break
+    case 'set-missing-scopes':
+      draftState.missingScopes = scopes
+      break
     default:
-      throw new Error(`Unable to find ${authAction.type} in authReducer`)
+      throw new Error(`Unable to find ${actionType} in authReducer`)
   }
 }
 
+const AuthContext = React.createContext(initialAuthState)
+AuthContext.displayName = 'AuthContext'
+
 function AuthProvider({ children }) {
-  const [auth, setAuth] = React.useReducer(authReducer, initialAuthState)
+  const [auth, setAuth] = useImmerReducer(authReducer, initialAuthState)
   const [authError, setAuthError] = React.useState(null)
   const [accessToken, setAccessToken] = React.useState(null)
-  const [authLoading, setAuthLoading] = React.useState(true)
+  const [authLoading, setAuthLoading] = React.useState(false)
 
-  const noAuth = React.useCallback(() => {
-    setAuthLoading(true)
+
+  const setMissingScopes = (scopes) => {
+    setAuth({
+      type: 'set-missing-scopes',
+      payload: { scopes },
+    })
+  }
+
+  const setNoAuth = (authError = null) => {
     setAuth({ type: 'no-auth-user' })
+    setAuthError(authError)
     setAuthLoading(false)
-  }, [])
+  }
 
-  const storeAuth = React.useCallback(async authUser => {
+  const storeAuth = async (authUser, error = null) => {
     setAuthLoading(true)
+    // Get auth type
+    const [provider] = authUser.providerData
+    const { providerId } = provider
     try {
       const token = await firebase.getVerifyIdToken()
       setAuth({
         type: 'set-auth-user',
         payload: {
           email: authUser.email,
+          providerId,
           token,
         },
       })
       setAuthLoading(false)
+      setAuthError(error)
     } catch (err) {
       setAuthLoading(false)
       throw (err)
     }
-  }, [])
-
-  const continueWithFacebook = async () => {
-    setAuthLoading(true)
-    await firebase.doSignInWithFacebook()
   }
 
-  const unlinkFacebook = async () => {
-    setAuthLoading(true)
-    await firebase.unlinkFacebook()
-      .catch((err) => {
-        throw (err)
-      })
-  }
-
-  const linkFacebook = async () => {
-    setAuthLoading(true)
-    try {
-      await firebase.linkFacebookAccount()
-    } catch (err) {
-      // If the users Facebook account is already linked, unlink and then try again
-      if (err.code === 'auth/provider-already-linked') {
-        await unlinkFacebook()
-        await firebase.linkFacebookAccount()
-        return
-      }
-      // If it's another error, stop loading
-      setAuthLoading(false)
-      throw (err)
-    }
-  }
 
   const relinkFacebook = async () => {
     setAuthLoading(true)
@@ -103,7 +91,7 @@ function AuthProvider({ children }) {
     }
   }
 
-  const login = async (email, password) => {
+  const emailLogin = async (email, password) => {
     setAuthLoading(true)
     try {
       const authUser = await firebase.doSignInWithEmailAndPassword(email, password)
@@ -115,6 +103,7 @@ function AuthProvider({ children }) {
           token,
         },
       })
+      setAuthError(null)
       setAuthLoading(false)
       return token
     } catch (err) {
@@ -125,22 +114,26 @@ function AuthProvider({ children }) {
 
   const signUp = async (email, password) => {
     setAuthLoading(true)
-    try {
-      const authUser = await firebase.doCreateUserWithEmailAndPassword(email, password)
-      const token = await authUser.user.getIdToken()
-      setAuth({
-        type: 'set-auth-user',
-        payload: {
-          email: authUser.user.email,
-          token,
-        },
+    const authUser = await firebase.doCreateUserWithEmailAndPassword(email, password)
+      .catch((error) => {
+        setAuthLoading(false)
+        throw new Error(error.message)
       })
-      setAuthLoading(false)
-      return token
-    } catch (err) {
-      setAuthLoading(false)
-      throw (err)
-    }
+    if (!authUser) return
+    const token = await authUser.user.getIdToken()
+      .catch((error) => {
+        setAuthLoading(false)
+        throw new Error(error.message)
+      })
+    setAuth({
+      type: 'set-auth-user',
+      payload: {
+        email: authUser.user.email,
+        token,
+      },
+    })
+    setAuthLoading(false)
+    return token
   }
 
   const value = {
@@ -148,15 +141,14 @@ function AuthProvider({ children }) {
     auth,
     authError,
     authLoading,
-    continueWithFacebook,
-    linkFacebook,
-    login,
-    noAuth,
+    emailLogin,
+    setNoAuth,
     relinkFacebook,
     setAccessToken,
     setAuthError,
     signUp,
     storeAuth,
+    setMissingScopes,
   }
 
   return (

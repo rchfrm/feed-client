@@ -22,7 +22,7 @@ const ButtonFacebook = ({
       onClick={onClick}
       width={width}
       marginBottom={marginBottom}
-      version={['facebook', version].join(' ')}
+      version={['facebook', 'icon', version].join(' ')}
     >
       <FacebookIcon
         fill={brandColors.white}

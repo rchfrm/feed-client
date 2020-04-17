@@ -59,9 +59,8 @@ function Icon(props) {
         backgroundColor: bgColor,
         display: 'flex',
         justifyContent: 'center',
-        borderRadius: 5,
+        borderRadius: 3,
         border: `1px solid ${borderColor}`,
-        boxSizing: 'border-box',
       }
       : {}
   )

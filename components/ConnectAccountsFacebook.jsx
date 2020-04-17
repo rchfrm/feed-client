@@ -1,67 +1,69 @@
-
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
+import MissingScopesMessage from './elements/MissingScopesMessage'
 import ButtonFacebook from './elements/ButtonFacebook'
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
 import Error from './elements/Error'
+import MarkdownText from './elements/MarkdownText'
+// IMPORT HELPERS
+import firebase from './helpers/firebase'
 // IMPORT STYLES
+import styles from './ConnectAccounts.module.css'
+// IMPORT COPY
+import copy from '../copy/ConnectAccountsCopy'
 
-function ConnectAccountsFacebook({ errors, setErrors }) {
-  const { linkFacebook } = React.useContext(AuthContext)
-
-  // HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
-  const handleClick = async e => {
-    e.preventDefault()
-    try {
-      await linkFacebook()
-    } catch (err) {
-      setErrors([err])
+function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
+  const { missingScopes, providerId } = auth
+  // Define function to link facebook
+  const linkFacebook = React.useCallback(() => {
+    if (missingScopes.length || providerId === 'facebook.com') {
+      const requestedScopes = missingScopes.length ? missingScopes : null
+      firebase.reauthFacebook(requestedScopes)
+        .catch((error) => {
+          setErrors([...errors, error.message])
+        })
+      return
     }
-  }
-  // END HANDLE CLICK ON 'CONNECT FACEBOOK PAGE'
+    firebase.linkFacebookAccount()
+      .catch((error) => {
+        setErrors([...errors, error.message])
+      })
+  }, [missingScopes.length])
+
+  const showSignupIntro = (missingScopes.length === 0) && onSignUp
 
   return (
-    <div
-      className="full"
-      style={{
-        overflow: 'initial',
-        marginTop: '1.25em',
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-
-      <div style={{
-        width: '65.738%',
-        margin: '0 auto',
-      }}
-      >
-
+    <div className="ninety-wide">
+      <div className={styles.facebookConnectContainer}>
         {/* Errors */}
         {errors.map((error, index) => {
           return <Error error={error} messagePrefix="Error: " key={index} />
         })}
 
+        {/* Singup intro text */}
+        {showSignupIntro && (
+          <MarkdownText className={styles.introText} markdown={copy.signupIntro} />
+        )}
+
+        {/* If missing FB permissions, show missing permissions */}
+        {missingScopes.length > 0 && (
+          <MissingScopesMessage scopes={missingScopes} showButton={false} />
+        )}
+
         <ButtonFacebook
-          onClick={handleClick}
-          width={100}
+          className={styles.fbButton}
+          onClick={linkFacebook}
         >
           Continue with Facebook
         </ButtonFacebook>
 
-        <em style={{ fontSize: '0.75em', lineHeight: '1.25em', marginTop: '1em' }}>
-          This allows us to connect to Facebook so that we can show you your data and promote posts on your behalf, we'll never post anything without your approval.
-        </em>
+        {!showSignupIntro && (
+          <em className={[styles.fbLegalText, 'xsmall--p'].join(' ')}>
+            {copy.smallLegalText}
+          </em>
+        )}
 
       </div>
-
     </div>
   )
 }

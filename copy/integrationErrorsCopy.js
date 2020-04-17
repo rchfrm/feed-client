@@ -14,14 +14,25 @@ const getMissingPermissionsList = (missingPermissions) => {
   return permissionsTextArray.join('\n')
 }
 
+const getMissingPagesCopy = () => `It might also be that you don't have any pages on Facebook yet, create those first and come back to Feed in order to connect them.`
+
 export default {
   expired_access_token: () => 'We need to relink your Facebook account, click ‘Continue with Facebook’ to get started.',
 
-  missing_permission_scope: (missingPermissions) => `In order to promote your posts, we need the following permissions from Facebook...the ability to:
-
-  ${getMissingPermissionsList(missingPermissions)}
+  missing_permission_scope: (missingPermissions, hasOnlyMissingPages) => {
+    const permissionList = getMissingPermissionsList(missingPermissions, hasOnlyMissingPages)
+    const missingPagesText = hasOnlyMissingPages ? getMissingPagesCopy() : ''
+    return `In order to promote your posts, we need the following permissions from Facebook...
   
-  Click ‘Continue with Facebook’ to grant those permissions.`,
+The ability to:
+    
+${permissionList}
+
+${missingPagesText}
+    
+Click ‘Continue with Facebook’ to grant those permissions.`
+  },
+
 
   ad_account_closed: (artist) => `Your ad account (with the ID ${artist.integrations.facebook.adaccount_id}) is marked as closed. So that Feed can promote your posts, you’ll need to create a new ad account on Facebook.
 

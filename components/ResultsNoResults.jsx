@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { PromotePostsButton } from './page/InsightsPage'
+import PromotePostsButton from './PromotePostsButton'
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/ResultsPageCopy'
 

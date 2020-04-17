@@ -12,7 +12,19 @@ import IntegrationErrorContent from './IntegrationErrorContent'
 const feedArtistId = '0mpyUFo2OApQnawtH6cB'
 
 // RUN THIS TO FETCH ERRORS
-const fetchError = async ({ user, artist, artistId }) => {
+const fetchError = async ({ auth, user, artist, artistId }) => {
+  // Get any missing permissions from the FB redirect response
+  const { missingScopes = [] } = auth
+  // Handle missing scopes from FB
+  if (missingScopes.length) {
+    const error = {
+      code: 'missing_permission_scope',
+      context: missingScopes,
+    }
+    const errorResponse = integrationErrorsHelpers.getErrorResponse(error)
+    return errorResponse
+  }
+  // If no missing scopes from FB, get error from server...
   if (!user.artists) return
   if (!artist || !artistId) return
   // * FOR TESTING (ONLY USE FOR FEED ID)
@@ -42,14 +54,15 @@ const IntegrationErrorHandler = () => {
     artistId,
   } = React.useContext(ArtistContext)
   // Import user context
-  const { user, userLoading } = React.useContext(UserContext)
+  const { user } = React.useContext(UserContext)
   // Import Auth context
-  const { accessToken } = React.useContext(AuthContext)
+  const { auth, accessToken } = React.useContext(AuthContext)
   // Run async request for errors
   const { data: integrationError, error: componentError, isPending } = useAsync({
     promiseFn: fetchError,
     watch: artistId,
     // Vars to pass to promiseFn
+    auth,
     user,
     artist,
     artistId,
@@ -67,7 +80,7 @@ const IntegrationErrorHandler = () => {
     // * FOR TESTING (ONLY USE FOR FEED ID)
     if (artistId !== feedArtistId) return
     // Stop here is user is loading, there is no new access token, or it's already run once
-    if (userLoading || !accessToken || accessTokenUpdated.current) return
+    if (!accessToken || accessTokenUpdated.current) return
     const { artists: userArtists = [] } = user
     const userArtistIds = userArtists.reduce((ids, { role, id }) => {
       if (role !== 'owner') return ids
@@ -77,7 +90,7 @@ const IntegrationErrorHandler = () => {
     // Update access token
     accessTokenUpdated.current = true
     server.updateAccessToken(userArtists, accessToken)
-  }, [userLoading, accessToken])
+  }, [accessToken])
 
   // Function to hide integration error
   const hideIntegrationErrors = () => setShowError(false)
@@ -85,7 +98,10 @@ const IntegrationErrorHandler = () => {
   if (isPending || componentError || !integrationError || !showError) return null
 
   return (
-    <IntegrationErrorContent integrationError={integrationError} dismiss={hideIntegrationErrors} />
+    <IntegrationErrorContent
+      integrationError={integrationError}
+      dismiss={hideIntegrationErrors}
+    />
   )
 }
 

@@ -21,7 +21,7 @@ function Footer() {
   return (
     <footer className={['TheFooter', footerClass].join(' ')}>
 
-      <p className="small-p no-margin">
+      <p className="xsmall--p no-margin">
         &copy;
         {thisYear}
         {' '}

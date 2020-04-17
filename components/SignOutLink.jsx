@@ -16,9 +16,16 @@ import firebase from './helpers/firebase'
 // IMPORT STYLES
 
 function SignOutLink() {
-  const { noAuth } = React.useContext(AuthContext)
-  const { noUser } = React.useContext(UserContext)
-  const { noArtist } = React.useContext(ArtistContext)
+  const { setNoAuth } = React.useContext(AuthContext)
+  const { setNoUser } = React.useContext(UserContext)
+  const { setNoArtist } = React.useContext(ArtistContext)
+
+  const clearContexts = () => {
+    Router.events.off('routeChangeComplete', clearContexts)
+    setNoAuth()
+    setNoUser()
+    setNoArtist()
+  }
 
   const signOut = async e => {
     e.preventDefault()
@@ -27,9 +34,8 @@ function SignOutLink() {
       .catch((err) => {
         throw (err)
       })
-    noAuth()
-    noUser()
-    noArtist()
+    // After redirect...
+    Router.events.on('routeChangeComplete', clearContexts)
   }
 
   return (

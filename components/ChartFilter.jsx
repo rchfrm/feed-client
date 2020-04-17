@@ -138,7 +138,7 @@ function PlatformOption(props) {
 
       <Button
         onClick={expandDataSources}
-        version="icon"
+        version="square"
       >
         <Icon
           color={dataSourceDetails[platform].color}

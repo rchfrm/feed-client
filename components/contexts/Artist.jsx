@@ -11,6 +11,7 @@ import { UserContext } from './User'
 // IMPORT HELPERS
 import helper from '../helpers/helper'
 import server from '../helpers/server'
+import { track } from '../helpers/trackingHelpers'
 import artistHelpers from '../helpers/artistHelpers'
 
 const initialArtistState = {}
@@ -56,34 +57,41 @@ function ArtistProvider({ children }) {
   const [artistId, setArtistId] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
 
-  const noArtist = React.useCallback(() => {
+  const setNoArtist = () => {
     setArtistLoading(true)
-    localStorage.clear()
+    helper.clearLocalStorage()
     setArtist({ type: 'no-artists' })
     setArtistLoading(false)
-  }, [])
+  }
 
-  const storeArtist = React.useCallback(async id => {
+  const storeArtist = async (id) => {
     // TODO : Store previously selected artists in state,
     //  then if the user switches back to that artist, there doesn't need to be a new server call
-
     setArtistLoading(true)
     // Get artist information from server
-    try {
-      const artist = await artistHelpers.getArtist(id)
-      setArtist({
-        type: 'set-artist',
-        payload: {
-          artist,
-        },
+    const artist = await artistHelpers.getArtist(id)
+      .catch((error) => {
+        setArtistLoading(false)
+        // Track
+        track({
+          category: 'sign up',
+          action: 'Could not get artist using artistHelpers.getArtist(id)',
+          description: error.message,
+          label: id,
+          error: true,
+        })
+        throw (error)
       })
-      setArtistLoading(false)
-      return artist
-    } catch (err) {
-      setArtistLoading(false)
-      throw (err)
-    }
-  }, [])
+    if (!artist) return
+    setArtist({
+      type: 'set-artist',
+      payload: {
+        artist,
+      },
+    })
+    setArtistLoading(false)
+    return artist
+  }
 
   const createArtist = async (artistAccounts, accessToken) => {
     setArtistLoading(true)
@@ -97,8 +105,6 @@ function ArtistProvider({ children }) {
         throw new Error(`Please select a country for ${name}, or deselect that page from being added to your Feed account`)
       }
     })
-
-
     // Create all artists
     const createAllArtists = connectedArtistAccounts.map(async (artist) => {
       const { priority_dsp } = artist
@@ -111,11 +117,33 @@ function ArtistProvider({ children }) {
     })
     // Wait to connect all artists
     await Promise.all(createAllArtists)
-      .catch((err) => {
-        throw (err)
+      .catch((error) => {
+        // Track
+        track({
+          category: 'sign up',
+          action: 'Problem creating artists in Artist context createArtist()',
+          description: error.message,
+          error: true,
+        })
+        throw (error)
       })
     // Update user
     const updatedUser = await storeUser()
+      .catch((error) => {
+        // Track
+        track({
+          category: 'sign up',
+          action: 'Problem updating user in Artist context createArtist()',
+          description: error.message,
+          error: true,
+        })
+        throw (error)
+      })
+    // Stop here if no user returned
+    if (!updatedUser) {
+      setArtistLoading(false)
+      return
+    }
     const selectedArtist = updatedUser.artists[0]
     await storeArtist(selectedArtist.id)
     setArtistLoading(false)
@@ -133,14 +161,14 @@ function ArtistProvider({ children }) {
     return updatedArtist.daily_budget
   }
 
-  const setPriorityDSP = React.useCallback(priorityDSP => {
+  const setPriorityDSP = (priorityDSP) => {
     setArtist({
       type: 'set-priority-dsp',
       payload: {
         priority_dsp: priorityDSP,
       },
     })
-  }, [])
+  }
 
   const addUrl = async (url, urlType) => {
     const updatedArtist = await server.saveLink(artist.id, url, urlType)
@@ -165,7 +193,7 @@ function ArtistProvider({ children }) {
   // Store artist id in local storage
   React.useEffect(() => {
     if (!artistId) return
-    localStorage.setItem('artistId', artist.id)
+    helper.setLocalStorage('artistId', artist.id)
   }, [artistId])
 
   const value = {
@@ -174,7 +202,7 @@ function ArtistProvider({ children }) {
     artistId,
     artistLoading,
     createArtist,
-    noArtist,
+    setNoArtist,
     setArtist,
     setArtistLoading,
     setPriorityDSP,

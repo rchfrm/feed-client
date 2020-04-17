@@ -35,6 +35,14 @@ input[readonly] {
     .input--box {
       padding-left: calc(16px + (var(--bsu) * 2));
     }
+
+    &._success,
+    &._error {
+      .input--box {
+        padding-left: 0.8em;
+        padding-right: calc(16px + (var(--bsu) * 2));
+      }
+    }
   }
 }
 
@@ -64,9 +72,7 @@ input[readonly] {
   display: block;
   border: 2px solid var(--black);
   border-radius: var(--button-radius);
-  margin-bottom: 1em;
-  padding: 1em;
-  padding-left: 0.8em;
+  padding: 1em 0.8em;
   font-family: var(--font-mono);
   font-weight: 100;
   width: 100%;
@@ -76,7 +82,10 @@ input[readonly] {
   }
 }
 
-
+.input--inner,
+.select--inner {
+  position: relative;
+}
 
 .input--text {
   display: block;
@@ -99,6 +108,12 @@ input[readonly] {
 
   .input--box + & {
     left: var(--bsu);
+  }
+
+  .input--container._success &,
+  .input--container._error & {
+    left: auto;
+    right: var(--bsu); 
   }
 
   svg {
@@ -145,10 +160,6 @@ select {
       color: var(--error-color);
     }
   }
-}
-
-.select--inner {
-  position: relative;
 }
 
 .select--sans {

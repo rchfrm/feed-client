@@ -1,204 +1,379 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
+import useAsyncEffect from 'use-async-effect'
+
 import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
 import * as ROUTES from '../constants/routes'
 
+import Spinner from './elements/Spinner'
+
+import helper from './helpers/helper'
 import firebase from './helpers/firebase'
+import { track } from './helpers/trackingHelpers'
 
-const InitUser = ({ children, setAuthSuccess = () => {} }) => {
+// CALL REDIRECT
+let userRedirected = false
+const redirectPage = (newPathname, currentPathname) => {
+  if (newPathname === currentPathname) return
+  userRedirected = true
+  Router.push(newPathname)
+}
+
+// KICK TO LOGIN (if necessary)
+const kickToLogin = (currentPathname) => {
+  // If on signup email page, just go to plain signup
+  if (currentPathname === ROUTES.SIGN_UP_EMAIL) {
+    redirectPage(ROUTES.SIGN_UP, currentPathname)
+    return
+  }
+  // Only kick to login if user is on restricted page
+  if (ROUTES.restrictedPages.includes(currentPathname)) {
+    redirectPage(ROUTES.LOGIN, currentPathname)
+  }
+}
+
+// GET MISSING SCOPES
+const getMissingScopes = (grantedScopes) => {
+  const { requiredScopes } = firebase
+  return requiredScopes.reduce((arr, scope) => {
+    const scopeGranted = grantedScopes.includes(scope)
+    if (scopeGranted) return arr
+    return [...arr, scope]
+  }, [])
+}
+
+const InitUser = ({ children }) => {
+  // Get router info
   const router = useRouter()
-  const { noAuth, setAccessToken, setAuthError, storeAuth } = React.useContext(AuthContext)
-  const { createUser, noUser, storeUser } = React.useContext(UserContext)
-  const { noArtist, storeArtist } = React.useContext(ArtistContext)
-  const [checkedForUser, setCheckedForUser] = React.useState(false)
-  const [userRedirected, setUserRedirected] = React.useState(false)
-  const [finishedInit, setFinishedInit] = React.useState(false)
+  const { pathname } = router
+  // Component state
+  const [ready, setReady] = React.useState(false)
+  const [initialUserLoading, setInitialUserLoading] = React.useState(true)
+  // Import contexts
+  const { setNoAuth, setAccessToken, setAuthError, storeAuth, setMissingScopes } = React.useContext(AuthContext)
+  const { createUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
+  const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
+
+  // After user has loaded the first time...
+  React.useEffect(() => {
+    if (!userLoading) {
+      setInitialUserLoading(userLoading)
+    }
+  }, [userLoading])
+
+  // CALL WHEN READY TO SHOW CONTENT
+  const showContent = () => {
+    // If user has been redirected, wait for redirect
+    // before showing content
+    if (userRedirected) {
+      userRedirected = false
+      Router.events.on('routeChangeComplete', showContent)
+      return
+    }
+    // Unsubscribe from route change listener
+    Router.events.off('routeChangeComplete', showContent)
+    // Show the content
+    setReady(true)
+  }
+
+  // HANDLE NO AUTH USER
+  const handleNoAuthUser = (authError) => {
+    // Reset all contexts
+    setNoAuth(authError)
+    setNoUser()
+    setNoArtist()
+    // Check if the user is on an auth only page,
+    // if they are push to log in page
+    kickToLogin(pathname)
+  }
+
+  // HANDLE Invalid FB credential
+  const handleFbInvalidCredential = (message) => {
+    const startOfReason = message.indexOf('error_description') + 18
+    const endOfReason = message.indexOf('&', startOfReason)
+    const decodedMessage = decodeURI(message.slice(startOfReason, endOfReason))
+    // Show error
+    setAuthError({ message: decodedMessage })
+    // Handle no auth error
+    handleNoAuthUser()
+    // Track
+    track({
+      category: 'login',
+      action: 'Invalid FB credential (InitUser)',
+      description: decodedMessage,
+      error: true,
+    })
+  }
+
+
+  // HANDLE NEW USER
+  const handleNewUser = async (additionalUserInfo) => {
+    const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
+    // * If no email...
+    // Delete from firebase
+    // Send back to login
+    // Show error
+    if (!email) {
+      await firebase.deleteUser()
+      const error = {
+        message: 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.',
+      }
+      setAuthError(error)
+      setUserLoading(false)
+      track({
+        category: 'sign up',
+        action: 'handleNewUser',
+        label: 'No email provided from FB',
+        description: error.message,
+        error: true,
+      })
+      return
+    }
+    // return
+    // If it's a new user, create their profile on the server
+    const user = await createUser(first_name, last_name)
+      .catch((error) => {
+        track({
+          category: 'sign up',
+          action: 'handleNewUser',
+          label: 'Error in createUser()',
+          description: error.message,
+          error: true,
+        })
+      })
+    if (!user) return
+    // Check whether the new user has missing scopes
+    const missingScopes = getMissingScopes(granted_scopes)
+    // Set missing scopes
+    if (missingScopes.length) {
+      setMissingScopes(missingScopes) // from Auth context
+      track({
+        category: 'sign up',
+        action: 'Handle new FB user',
+        label: 'missing scopes',
+        breadcrumb: true,
+        ga: false,
+      })
+    }
+    // As this is a new user, run setNoArtist, and push them to the Connect Artist page
+    setNoArtist()
+    redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
+    // Track
+    track({
+      category: 'login',
+      action: 'Handle new user from FB (InitUser)',
+      label: `user ID: ${user.id}${missingScopes.length ? ' (with missing scopes)' : ''}`,
+    })
+  }
+
+
   // HANDLE EXISTING USERS
-  const handleExistingUser = React.useCallback(async () => {
-    // Get current pathanem
-    const { pathname } = router
+  const handleExistingUser = async (additionalUserInfo) => {
+    track({
+      category: 'login',
+      action: 'handleExistingUser',
+      breadcrumb: true,
+      ga: false,
+    })
     // If it is a pre-existing user, store their profile in the user context
-    const newUser = await storeUser()
-
-    // Handle no new user
-    if (!newUser && pathname === ROUTES.LOGIN) {
-      localStorage.clear()
-      return false
+    const user = await storeUser()
+      .catch((error) => {
+        track({
+          category: 'sign up',
+          action: 'handleExistingUser (InitUser)',
+          label: 'No user returned from storeUser()',
+          description: error.message,
+          error: true,
+        })
+        setAuthError({ message: 'No user was found in the database' })
+      })
+    if (!user) return
+    const { artists } = user
+    // If there is additional info from a FB redirect...
+    if (additionalUserInfo) {
+      // Check whether the new user has missing scopes
+      const { profile: { granted_scopes } } = additionalUserInfo
+      const missingScopes = getMissingScopes(granted_scopes)
+      // Set missing scopes
+      if (missingScopes.length) {
+        setMissingScopes(missingScopes) // from Auth context
+        track({
+          category: 'login',
+          action: 'handleExistingUser',
+          label: 'missing scopes',
+          breadcrumb: true,
+          ga: false,
+        })
+      }
     }
-    if (!newUser && pathname !== ROUTES.LOGIN) {
-      localStorage.clear()
-      Router.push(ROUTES.LOGIN)
-      return true
-    }
-
     // Check if they have artists connected to their account or not,
-    // if they don't, set noArtist, and push them to the Connect Artist page
-    if (newUser.artists.length === 0) {
-      noArtist()
-      if (pathname !== ROUTES.CONNECT_ACCOUNTS) {
-        Router.push(ROUTES.CONNECT_ACCOUNTS)
-        return true
-      }
-      return false
+    // if they don't, set setNoArtist, and push them to the Connect Artist page
+    if (artists.length === 0) {
+      track({
+        category: 'login',
+        action: 'handleExistingUser',
+        label: 'no artists',
+        breadcrumb: true,
+        ga: false,
+      })
+      setNoArtist()
+      redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
+      return
     }
-
     // If they do have artists, check for a previously selected artist ID in local storage...
-    const storedArtistId = localStorage.getItem('artistId')
-    let selectedArtistId = newUser.artists[0].id
+    const storedArtistId = helper.getLocalStorage('artistId')
     // Check that the storedArtistId is one the user has access to...
-    const { artists } = newUser
-    let hasAccess = false
-    let i = 0
-    while (!hasAccess && i < artists.length) {
-      if (artists[i].id === storedArtistId) {
-        hasAccess = true
-      }
-      i += 1
+    const hasAccess = artists.find(({ id }) => id === storedArtistId)
+    // if they don't have access, clear localStorage
+    if (!hasAccess) {
+      helper.clearLocalStorage()
+      track({
+        category: 'login',
+        action: 'handleExistingUser',
+        label: `no access to artist (id:${storedArtistId})`,
+        breadcrumb: true,
+        ga: false,
+      })
     }
-
-    if (hasAccess) {
-      // If they do set it as the selectedArtistId, otherwise use the first artist
-      // (sorted alphabetically) the user has access to
-      selectedArtistId = storedArtistId
-    } else {
-      // if they don't have access, clear localStorage
-      localStorage.clear()
-    }
-
+    // If they do have access set it as the selectedArtistId,
+    // otherwise use the first related artist (sorted alphabetically)
+    const selectedArtistId = hasAccess ? storedArtistId : artists[0].id
     await storeArtist(selectedArtistId)
-
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
     if (pathname === ROUTES.LOGIN || pathname === ROUTES.SIGN_UP) {
-      Router.push(ROUTES.HOME)
-      return true
-    }
-    // Else just report that all went well
-    setAuthSuccess(true)
-    return false
-  }, [noArtist, storeArtist, storeUser])
-  // END HANDLE EXISTING USERS
-
-  // HANDLE LACK OF AUTH USER
-  const handleNoAuthUser = React.useCallback(() => {
-    // Reset all contexts
-    noAuth()
-    noUser()
-    noArtist()
-    // Check if the user is on an auth only page,
-    // if they are push to log in page
-    const { pathname } = router
-    if (pathname !== ROUTES.LOGIN && pathname !== ROUTES.SIGN_UP && pathname !== ROUTES.PASSWORD_FORGET) {
-      Router.push(ROUTES.LOGIN)
-      return true
-    }
-  }, [noArtist, noAuth, noUser])
-  // END HANDLE LACK OF AUTH USER
-
-  // HANDLE ANY REDIRECTS WITH INFORMATION ABOUT AN AUTH USER
-  const handleRedirect = React.useCallback(async redirect => {
-    // Store Firebase's auth user in context, and extract the Facebook access token
-    await storeAuth(redirect.user)
-      .catch((err) => {
-        throw (err)
+      track({
+        category: 'login',
+        action: 'handleExistingUser',
+        label: 'go to home page',
+        breadcrumb: true,
+        ga: false,
       })
-    const { accessToken } = redirect.credential
-    setAccessToken(accessToken)
-
-    // Determine if this is a new or pre-existing user
-    const { isNewUser } = redirect.additionalUserInfo
-    if (isNewUser) {
-      // If it's a new user, create their profile on the server
-      const firstName = redirect.additionalUserInfo.profile.first_name
-      const lastName = redirect.additionalUserInfo.profile.last_name
-      await createUser(firstName, lastName)
-      // As this is a new user, set noArtist, and push them to the Connect Artist page
-      noArtist()
-      Router.push(ROUTES.CONNECT_ACCOUNTS)
-      return true
+      redirectPage(ROUTES.HOME, pathname)
     }
+  }
 
-    const res = await handleExistingUser()
-    return res
-  }, [createUser, handleExistingUser, noArtist, setAccessToken, storeAuth])
-  // END HANDLE ANY REDIRECTS WITH INFORMATION ABOUT AN AUTH USER
+  // HANDLE INITIAL LOGGED IN TEST
+  const handleInitialAuthCheck = async (authUser, authError) => {
+    track({
+      category: 'login',
+      action: 'handleInitialAuthCheck',
+      breadcrumb: true,
+      ga: false,
+    })
+    // If no auth user, handle that
+    if (!authUser) return handleNoAuthUser(authError)
+    // If there is, store the user in auth context
+    await storeAuth(authUser, authError)
+    await handleExistingUser()
+  }
 
-  // GET THE CURRENTLY AUTHENTICATED USER, IF ANY, FROM FIREBASE
-  const handleAuthStateChange = React.useCallback(async authUser => {
-    // Check if there is a Firebase auth user
-    if (authUser) {
-      // If there is, store the user in auth context
-      await storeAuth(authUser)
 
-      await handleExistingUser()
-    } else {
-      // If there is no auth user, reset all contexts
-      handleNoAuthUser()
+  const detectSignedInUser = (isMounted, fbRedirectError) => {
+    track({
+      category: 'login',
+      action: 'handle no FB redirect',
+      breadcrumb: true,
+      ga: false,
+    })
+    const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
+      track({
+        category: 'login',
+        action: 'firebase.auth.onAuthStateChanged',
+        breadcrumb: true,
+        ga: false,
+      })
+      await handleInitialAuthCheck(authUser, fbRedirectError)
+      if (!isMounted()) return
+      showContent(isMounted)
+      unsubscribe()
+    })
+  }
+
+
+  // RUN ON INTIAL MOUNT
+  useAsyncEffect(async (isMounted) => {
+    // Check for the result of a redirect from Facebook
+    const redirectResult = await firebase.redirectResult()
+    // Destructure redirect result
+    const { user, error, credential, additionalUserInfo } = redirectResult
+    // * Handle no redirect
+    if (!user && !error) {
+      detectSignedInUser(isMounted)
+      return
     }
-  }, [handleExistingUser, handleNoAuthUser, storeAuth])
-  // END GET THE CURRENTLY AUTHENTICATED USER, IF ANY, FROM FIREBASE
-  // CHECK FOR AN AUTHENTICATED USER WHEN APP FIRST LOADS
-  React.useEffect(() => {
-    const checkForAuthUser = async () => {
-      setCheckedForUser(true)
-
-      // Check for the result of a redirect from Facebook
-      const redirectResult = await firebase.redirectResult()
-      const { error } = redirectResult
-
-      // Handle error
-      if (error) {
-        const { message, code } = error
-        if (code === 'auth/invalid-credential') {
-          const startOfReason = message.indexOf('error_description') + 18
-          const endOfReason = message.indexOf('&', startOfReason)
-          error.message = decodeURI(message.slice(startOfReason, endOfReason))
-        }
-        setAuthError(error)
-        handleNoAuthUser()
-      }
-
-      // If there has been a redirect, call handleRedirect
-      let redirected = false
-      if (redirectResult.user) {
-        redirected = await handleRedirect(redirectResult)
-      }
-
-      // If there hasn't been a redirect, check with Firebase for an auth user
-      if (!redirected) {
-        const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
-          await handleAuthStateChange(authUser)
-          // Once Firebase has been checked, unsubscribe from the observer
-          unsubscribe()
-        })
-      }
-
-      // Toggle whether a redirect was called
-      setUserRedirected(redirected)
-      // If redirected, wait until route change is complete
-      if (redirected) {
-        Router.events.on('routeChangeComplete', () => {
-          // Set finisshed
-          setFinishedInit(true)
-          setUserRedirected(false)
-        })
+    // * Handle errors
+    if (error) {
+      const { message, code } = error
+      // Handle auth error
+      if (code === 'auth/invalid-credential') {
+        handleFbInvalidCredential(message)
         return
       }
-      // Set finisshed
-      setFinishedInit(true)
+      // Track
+      track({
+        category: 'login',
+        action: 'Other FB redirect error (InitUser)',
+        description: message,
+        error: true,
+      })
+      const customError = code === 'auth/account-exists-with-different-credential' ? {
+        message: 'An account already exists with the same email address but different sign-in credentials. Please sign in using your email address'
+      } : error
+      // Detect for already logged in user
+      detectSignedInUser(isMounted, customError)
+      return
     }
-
-    // Only start the process of checking for an auth user,
-    // if it hasn't already been called
-    if (!checkedForUser) {
-      checkForAuthUser().catch(err => console.log(err))
-      // TODO: Properly handle errors
+    // * Handle succesful redirect
+    if (user) {
+      track({
+        category: 'login',
+        action: 'Handle successful FB redirect',
+        breadcrumb: true,
+        ga: false,
+      })
+      // Store Firebase's auth user in context
+      await storeAuth(user)
+        .catch((err) => {
+          track({
+            category: 'sign up',
+            action: 'Error storing firebase auth with storeAuth() (InitUser)',
+            error: true,
+          })
+          throw (err)
+        })
+        // Extract and set the Facebook access token
+      const { accessToken } = credential
+      setAccessToken(accessToken)
+      // Handle new user
+      const { isNewUser } = additionalUserInfo
+      if (isNewUser) {
+        track({
+          category: 'sign up',
+          action: 'Handle new FB user',
+          breadcrumb: true,
+          ga: false,
+        })
+        await handleNewUser(additionalUserInfo)
+      } else {
+        // Handle existing user
+        track({
+          category: 'login',
+          action: 'Handle existing FB user',
+          breadcrumb: true,
+          ga: false,
+        })
+        await handleExistingUser(additionalUserInfo)
+      }
     }
-  }, [checkedForUser, handleRedirect, handleAuthStateChange, handleNoAuthUser, setAuthError])
-
-  if (!finishedInit || !children || userRedirected) return <></>
+    // * Show content
+    showContent(isMounted)
+  }, [])
+  // Show spinner while waiting
+  if (!ready || initialUserLoading) return <Spinner />
+  // Show the page
   return children
 }
 

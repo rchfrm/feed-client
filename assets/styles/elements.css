@@ -27,13 +27,18 @@
   background-color: var(--bg-color);
   width: 90%;
   max-width: 720px;
-  padding: calc(1.5 * var(--bsu-lg));
+  max-height: 80%;
+  padding: calc(1.5 * var(--bsu-md));
   border: 2px solid var(--text-color);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   box-sizing: border-box;
   border-radius: var(--dialogue-radius);
+
+  @media (--md) {
+    padding: calc(1.5 * var(--bsu-lg));
+  }
 
   h1 {
     padding-bottom: 1em;
@@ -42,6 +47,13 @@
   p {
     padding-bottom: 1em;
   }
+}
+
+.alert--inner_content {
+  width: 100%;
+  padding-right: var(--bsu);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .alert_close--button {
@@ -150,7 +162,6 @@
 .error,
 .success {
   font-weight: 500;
-  height: 2.5em;
   width: 100%;
   text-align: left;
 }
@@ -389,4 +400,12 @@
   left: 0;
   width: 100%;
   z-index: 1;
+}
+
+/* MISSING SCOPES
+**********************/
+.missing--scopes {
+  .button {
+    width: 100%;
+  }
 }
