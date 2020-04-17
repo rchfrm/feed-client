@@ -1,5 +1,4 @@
 import produce from 'immer'
-
 import helper from './helper'
 import facebook from './facebook'
 import * as api from './api'
@@ -72,11 +71,34 @@ export default {
    * @returns {Promise<any>}
    */
   getArtist: async (artist_id, verify_id_token) => {
-    const res = await api.get(`/artists/${artist_id}`, verify_id_token)
+    // Optimized query when api next deployed
+    /*
+    const [artist, dataSources] = await Promise.all(
+      api.get(`/artists/${artist_id}`, verify_id_token),
+      api.get(`/artists/${artist_id}/data_sources`, { fields: 'id', limit: 100 }, verify_id_token),
+    )
+
+    artist._embedded = { data_sources: dataSources }
+    artist.URLs = helper.filterArtistUrls(artist)
+    */
+
+    let res = await api.get(`/artists/${artist_id}`, verify_id_token)
       .catch(err => {
         console.error(err)
         throw new Error('We were unable to retrieve the selected artist from the server')
       })
+
+    // this if condition won't get triggered with the existing api, which is ok
+    // it exists in case api next is deployed before the client is updated to
+    // use the new format where embedded will not exist
+    if (!res._embedded || !res._embedded.data_sources) {
+      res = Object.assign(res, {
+        _embedded: {
+          data_sources: await api.get(`/artists/${artist_id}/data_sources`, { fields: 'id', limit: 100 }, verify_id_token),
+        },
+      })
+    }
+
     // Filter out links so that they are stored in a specific 'links' key
     res.URLs = helper.filterArtistUrls(res)
     return res
