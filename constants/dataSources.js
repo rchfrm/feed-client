@@ -58,6 +58,10 @@ const dataSourceDetails = {
     color: brandColors.colorFb,
     textColor: brandColors.white,
   },
+  facebook_ad_impressions_feed: {
+    color: tinycolor(brandColors.colorFb).lighten('14').toString(),
+    textColor: brandColors.white,
+  },
 
   instagram: {
     color: brandColors.colorInsta,
