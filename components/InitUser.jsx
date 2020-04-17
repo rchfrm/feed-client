@@ -223,11 +223,12 @@ const InitUser = ({ children }) => {
       return
     }
     // If they do have artists, check for a previously selected artist ID in local storage...
-    const storedArtistId = helper.testLocalStorage() ? localStorage.getItem('artistId') : ''
+    const storedArtistId = helper.getLocalStorage('artistId')
     // Check that the storedArtistId is one the user has access to...
     const hasAccess = artists.find(({ id }) => id === storedArtistId)
     // if they don't have access, clear localStorage
     if (!hasAccess) {
+      helper.clearLocalStorage()
       track({
         category: 'login',
         action: 'handleExistingUser',
@@ -235,9 +236,6 @@ const InitUser = ({ children }) => {
         breadcrumb: true,
         ga: false,
       })
-      if (helper.testLocalStorage()) {
-        localStorage.clear()
-      }
     }
     // If they do have access set it as the selectedArtistId,
     // otherwise use the first related artist (sorted alphabetically)

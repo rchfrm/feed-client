@@ -19,9 +19,7 @@ const TestPageReady = (Component) => {
       if (authLoading) return
       if (!initialToken) {
         if (currentPath !== ROUTES.LOGIN) kickToLogin()
-        if (helper.testLocalStorage()) {
-          localStorage.clear()
-        }
+        helper.clearLocalStorage()
       }
     }, [authLoading])
 

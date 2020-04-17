@@ -509,11 +509,33 @@ export default {
     return re.test(String(email).toLowerCase())
   },
 
-  testLocalStorage: () => {
-    const test = 'test'
+  /**
+   * @param {string} key
+   * @returns {string} value
+   */
+  setLocalStorage: (key, value) => {
     try {
-      localStorage.setItem(test, test)
-      localStorage.removeItem(test)
+      localStorage.setItem(key, value)
+      return true
+    } catch (e) {
+      return false
+    }
+  },
+
+  /**
+   * @param {string} key
+   */
+  getLocalStorage: (key) => {
+    try {
+      return localStorage.getItem(key)
+    } catch (e) {
+      return null
+    }
+  },
+
+  clearLocalStorage: () => {
+    try {
+      localStorage.clear()
       return true
     } catch (e) {
       return false
