@@ -508,4 +508,37 @@ export default {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(String(email).toLowerCase())
   },
+
+  /**
+   * @param {string} key
+   * @returns {string} value
+   */
+  setLocalStorage: (key, value) => {
+    try {
+      localStorage.setItem(key, value)
+      return true
+    } catch (e) {
+      return false
+    }
+  },
+
+  /**
+   * @param {string} key
+   */
+  getLocalStorage: (key) => {
+    try {
+      return localStorage.getItem(key)
+    } catch (e) {
+      return null
+    }
+  },
+
+  clearLocalStorage: () => {
+    try {
+      localStorage.clear()
+      return true
+    } catch (e) {
+      return false
+    }
+  },
 }

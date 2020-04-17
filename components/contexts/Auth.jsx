@@ -43,9 +43,6 @@ function AuthProvider({ children }) {
   const [accessToken, setAccessToken] = React.useState(null)
   const [authLoading, setAuthLoading] = React.useState(false)
 
-  const setNoAuth = () => {
-    setAuthLoading(false)
-  }
 
   const setMissingScopes = (scopes) => {
     setAuth({
@@ -54,7 +51,13 @@ function AuthProvider({ children }) {
     })
   }
 
-  const storeAuth = async (authUser) => {
+  const setNoAuth = (authError = null) => {
+    setAuth({ type: 'no-auth-user' })
+    setAuthError(authError)
+    setAuthLoading(false)
+  }
+
+  const storeAuth = async (authUser, error = null) => {
     setAuthLoading(true)
     // Get auth type
     const [provider] = authUser.providerData
@@ -70,7 +73,7 @@ function AuthProvider({ children }) {
         },
       })
       setAuthLoading(false)
-      setAuthError(null)
+      setAuthError(error)
     } catch (err) {
       setAuthLoading(false)
       throw (err)
@@ -112,6 +115,10 @@ function AuthProvider({ children }) {
   const signUp = async (email, password) => {
     setAuthLoading(true)
     const authUser = await firebase.doCreateUserWithEmailAndPassword(email, password)
+      .catch((error) => {
+        setAuthLoading(false)
+        throw new Error(error.message)
+      })
     if (!authUser) return
     const token = await authUser.user.getIdToken()
       .catch((error) => {

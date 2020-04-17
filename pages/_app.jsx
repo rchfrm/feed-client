@@ -111,7 +111,7 @@ function Feed({ Component, pageProps }) {
 }
 
 
-export default withGA('UA-202769999-1', Router)(Feed)
+export default withGA('UA-162381148-2', Router)(Feed)
 
 Feed.propTypes = {
   Component: PropTypes.elementType.isRequired,
