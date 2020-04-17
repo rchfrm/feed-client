@@ -102,7 +102,7 @@ export default {
   assignDataSourceType: string => {
     if (string.indexOf('follower_count') !== -1 || string.indexOf('facebook_likes') !== -1 || string.indexOf('subscriber_count') !== -1) {
       return 'cumulative'
-    } if (string.indexOf('reach') !== -1 || string.indexOf('profile_views') !== -1 || string.indexOf('profile_view_count') !== -1 || string.indexOf('ad_spend') !== -1) {
+    } if (string.indexOf('reach') !== -1 || string.indexOf('impressions') !== -1 || string.indexOf('profile_views') !== -1 || string.indexOf('profile_view_count') !== -1 || string.indexOf('ad_spend') !== -1) {
       return 'daily'
     }
     if (string.indexOf('7d') !== -1) {
