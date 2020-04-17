@@ -3,11 +3,11 @@
 export default {
   signupIntro: `Thank you for signing up to **Feed**!
 
-In order for Feed to promote your posts and show you the results, we need permission to manage your business profiles.
+In order for Feed to promote your posts and show you the results, we need permission to manage your Facebook pages and ad account.
 
-To continue, click on the button below. We'll never promote your posts without your approval first.
+Please make sure you opt in to all permissions shown, as Feed needs these to work properly. You'll remain in control of all your promoted posts.
   
-Please make sure you opt in to all permissions shown, as Feed needs these to work properly.`,
+To continue, click on the button below.`,
 
   smallLegalText: `This allows us to connect to Facebook so that we can show you your data and promote posts on your behalf, we'll never post anything without your approval.`,
 
