@@ -3,9 +3,9 @@
 export default {
   signupIntro: `Thank you for signing up to **Feed**!
 
-In order for Feed to promote your posts and show you the results, we need permission to manage your Facebook pages and ad account.
+In order for Feed to promote your posts and show you the results, we need permission to manage your pages on Facebook and Instagram, as well as your ad account.
 
-Please make sure you opt in to all permissions shown, as Feed needs these to work properly. You'll remain in control of all your promoted posts.
+Please make sure you opt in to all permissions shown, as Feed needs them to work properly. You'll remain in control of all ads and posts.
   
 To continue, click on the button below.`,
 
