@@ -2,13 +2,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import MarkdownText from './MarkdownText'
+
 const Error = ({ error, messagePrefix, className }) => {
   if (!error) return null
   const { message: errorMessage } = error
   const message = `${messagePrefix}${errorMessage}`
   const classes = ['error', className].join(' ')
   return (
-    <p className={classes}>{message}</p>
+    <MarkdownText className={classes} markdown={message} />
   )
 }
 
