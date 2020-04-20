@@ -28,7 +28,8 @@
   --color-fb-button: var(--color-fb);
 
   /* Font */
-  --font: SpaceGrotesk, sans-serif;
+  --font: 'Inter', serif;
+  --font-display: 'SpaceGrotesk';
   --font-mono: monospace;
   --base-font-size: 15px;
 
