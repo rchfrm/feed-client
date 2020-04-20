@@ -1,14 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import PageHeader from './PageHeader'
 // IMPORT CONTEXTS
 import { NavigationContext } from './contexts/Navigation'
 import { UserContext } from './contexts/User'
 // IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT COPY
+import PageHeader from './PageHeader'
 import MarkdownText from './elements/MarkdownText'
+// IMPORT COPY
 import copy from '../copy/global'
 
 
@@ -24,9 +22,8 @@ const BasePage = ({
   artistRequired,
   children,
 }) => {
-  // SHOW / HIDE NAVIGATION
-  const { navState, navDispatch } = React.useContext(NavigationContext)
-  const className = navState.visible ? 'hidden' : ''
+  // Hide nav when page mounts
+  const { navDispatch } = React.useContext(NavigationContext)
   React.useEffect(() => {
     navDispatch({ type: 'hide' })
   }, [navDispatch])
@@ -35,23 +32,23 @@ const BasePage = ({
   const { user } = React.useContext(UserContext)
 
   return (
-    <div className={`page--container ${className}`}>
+    <>
       {user.artists.length === 0 && artistRequired ? (
         <>
-          {/* Header */}
+          {/* HEADER */}
           <BasePageHeader header={noArtistHeader} />
-          {/* No artist copy */}
+          {/* NO ARTIST COPY */}
           <MarkdownText className="ninety-wide  h4--text" markdown={copy.noArtists} />
         </>
       ) : (
         <>
-          {/* Header */}
+          {/* HEADER */}
           <BasePageHeader header={header} />
-          {/* Page content */}
+          {/* PAGE CONTENT */}
           {children}
         </>
       )}
-    </div>
+    </>
   )
 }
 
