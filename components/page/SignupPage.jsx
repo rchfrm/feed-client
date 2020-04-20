@@ -1,26 +1,11 @@
-// IMPORT PACKAGES
-import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-import { NavigationContext } from '../contexts/Navigation'
-// IMPORT PAGES
+import BasePage from '../BasePage'
 import SignupPageContent from '../SignupPageContent'
 
-
-function SignupPage() {
-// SHOW / HIDE NAVIGATION
-  const { navState, navDispatch } = React.useContext(NavigationContext)
-  const className = navState.visible ? 'hidden' : ''
-  React.useEffect(() => {
-    navDispatch({ type: 'hide' })
-  }, [navDispatch])
-
-  return (
-    <div className={`page--container ${className}`}>
-      <SignupPageContent />
-    </div>
-  )
-}
+const page = () => (
+  <BasePage>
+    <SignupPageContent />
+  </BasePage>
+)
 
 
-export default SignupPage
+export default page

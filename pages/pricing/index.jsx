@@ -1,3 +1,16 @@
-import PricingPage from '../../components/page/PricingPage'
+import BasePage from '../../components/BasePage'
+import PricingPageContent from '../../components/PricingPageContent'
 
-export default PricingPage
+const header = {
+  heading: 'pricing',
+}
+
+const Page = () => (
+  <BasePage
+    header={header}
+  >
+    <PricingPageContent />
+  </BasePage>
+)
+
+export default Page

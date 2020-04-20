@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import { BillingContext } from './contexts/BillingContext'
 import { SidePanelContext } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
-import PageHeader from './PageHeader'
 import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
 import AccountPageDetails from './AccountPageDetails'
@@ -16,9 +15,8 @@ import RelinkFacebook from './RelinkFacebook'
 import AccountPageSection from './AccountPageSection'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
 
-const AccountPageContent = ({ user, className }) => {
+const AccountPageContent = ({ user }) => {
   // Get ROUTE info
   const { query } = useRouter()
   const [pageQuery] = Object.keys(query)
@@ -62,13 +60,11 @@ const AccountPageContent = ({ user, className }) => {
 
   // While loading
   if (billingLoading) {
-    return <Spinner width={50} color={brandColors.green} />
+    return <Spinner />
   }
   // The content
   return (
-    <div className={`page--container ${className}`}>
-
-      <PageHeader heading="Account" />
+    <>
 
       <AccountPageSection
         title="Account details"
@@ -96,7 +92,7 @@ const AccountPageContent = ({ user, className }) => {
 
       <RelinkFacebook />
 
-    </div>
+    </>
   )
 }
 

@@ -1,3 +1,16 @@
-import FaqPage from '../../components/page/FaqPage'
+import BasePage from '../../components/BasePage'
+import FaqContent from '../../components/FaqContent'
 
-export default FaqPage
+const header = {
+  heading: 'FAQs',
+}
+
+const Page = () => (
+  <BasePage
+    header={header}
+  >
+    <FaqContent />
+  </BasePage>
+)
+
+export default Page
