@@ -14,7 +14,6 @@ export const CONNECTIONS = '/account?connections'
 export const RESULTS = '/results'
 export const FAQ = '/faq'
 export const PRICING = '/pricing'
-export const TERMS = '/terms'
 export const NOTIFICATIONS = '/notifications'
 export const HOME = POSTS
 // Array of restricted pages
