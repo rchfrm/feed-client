@@ -1,8 +1,11 @@
 import React from 'react'
 
+// IMPORT CONTEXTS
+import { SidePanelContext } from './contexts/SidePanelContext'
+// IMPORT ELEMENTS
 import MarkdownText from './elements/MarkdownText'
 import RadioButtons from './elements/RadioButtons'
-
+import Button from './elements/Button'
 
 import copy from '../copy/PostsPageCopy'
 
@@ -23,11 +26,40 @@ const postSettingOptions = [
 ]
 
 const PostsSettings = () => {
-  // Update post settings
-  const [currentPostsSetting, setCurrentPostsSetting] = React.useState(true)
+  // Get side panel context
+  const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
+  // Define initial post settings
+  const initialPostSettings = React.useRef({
+    globalPostSettings: true,
+  })
+  // Update post status settings
+  const [globalPostSettings, setGlobalPostSettings] = React.useState(initialPostSettings.current.globalPostSettings)
   const updateGlobalStatus = (value) => {
-    setCurrentPostsSetting(value)
+    setGlobalPostSettings(value)
   }
+  // Define submit function
+  const handleSubmit = React.useCallback(() => {
+    console.log('globalPostSettings', globalPostSettings)
+    // If nothing has changed, just close the side panel
+    const { globalPostSettings: initialGlobalPostSettings } = initialPostSettings.current
+    if (initialGlobalPostSettings === globalPostSettings) {
+      toggleSidePanel()
+      return
+    }
+    console.log('loading')
+  }, [globalPostSettings])
+  // Define sidepanel button
+  const SidepanelButton = () => {
+    return (
+      <Button version="green" onClick={handleSubmit}>
+        Save changes
+      </Button>
+    )
+  }
+  // Update sidepanel button when global post settings change
+  React.useEffect(() => {
+    setSidePanelButton(SidepanelButton)
+  }, [globalPostSettings])
 
   return (
     <section>
@@ -40,7 +72,7 @@ const PostsSettings = () => {
             className="settingSection__options"
             buttonOptions={postSettingOptions}
             onChange={updateGlobalStatus}
-            selectedValue={currentPostsSetting}
+            selectedValue={globalPostSettings}
           />
         </div>
       </div>
