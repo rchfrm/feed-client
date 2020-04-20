@@ -2,7 +2,6 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
 import { BillingContextProvider } from './contexts/BillingContext'
-import { SidePanelContextProvider } from './contexts/SidePanelContext'
 // IMPORT COMPONENTS
 import AccountPageContent from './AccountPageContent'
 
@@ -12,9 +11,7 @@ function AccountPageLoader() {
 
   return (
     <BillingContextProvider user={user}>
-      <SidePanelContextProvider>
-        <AccountPageContent user={user} />
-      </SidePanelContextProvider>
+      <AccountPageContent user={user} />
     </BillingContextProvider>
   )
 }
