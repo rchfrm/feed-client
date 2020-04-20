@@ -1,10 +1,13 @@
 // IMPORT PACKAGES
 import React from 'react'
 import produce from 'immer'
-// IMPORT COMPONENTS
+// IMPORT CONTEXTS
+import { SidePanelContext } from './contexts/SidePanelContext'
+// IMPORT ELEMENTS
 import PageHeader from './PageHeader'
 import Spinner from './elements/Spinner'
-// IMPORT PAGES
+// IMPORT COMPONENTS
+import PostsSettings from './PostsSettings'
 import PostsSingle from './PostsSingle'
 import PostsNone from './PostsNone'
 // IMPORT ASSETS
@@ -12,6 +15,7 @@ import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/PostsPageCopy'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
+import Button from './elements/Button'
 
 // Reset posts scroll position
 const resetScroll = () => {
@@ -78,6 +82,13 @@ function PostsAll({
     }
   }, [posts.length])
 
+  // Open the post settings side panel
+  const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
+  const togglePostsSettings = () => {
+    setSidePanelContent(<PostsSettings />)
+    toggleSidePanel(true)
+  }
+
   // Stop here if no posts
   if (posts.length === 0) {
     return <PostsNone />
@@ -89,6 +100,13 @@ function PostsAll({
       <PageHeader heading="review posts and set a budget" />
 
       <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
+
+      {/* POST SETTINGS BUTTON */}
+      <div className="ninety-wide">
+        <Button className={styles.postSettingsButton} onClick={togglePostsSettings}>
+          Post Settings
+        </Button>
+      </div>
 
       <ul
         id="PostsAll__scroller"
