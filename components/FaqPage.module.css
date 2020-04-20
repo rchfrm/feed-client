@@ -14,12 +14,9 @@
 
 .faqItem {
   border-bottom: 1px solid var(--grey-light);
+  padding-bottom: var(--bsu-md);
   margin-bottom: var(--bsu-md);
   line-height: 1.3em;
-
-  :global(*:last-child) {
-    margin-bottom: var(--bsu-md);
-  }
 
   /* For making sure the markdown has worked */
   :global(pre) {
