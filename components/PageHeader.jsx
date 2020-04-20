@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 function PageHeader({ punctuation = '.', heading, className }) {
-  const classses = ['page-header', className].join(' ')
+  const classses = ['page--header', className].join(' ')
   return (
     <div className={classses}>
       <h1>{heading + punctuation}</h1>

@@ -280,11 +280,11 @@
 }
 /* PageHeader
 ******************/
-.page-header {
+.page--header {
   width: 90%;
   margin: 0 auto;
+  margin-bottom: var(--bsu-md);
   flex: none;
-  margin-bottom: 1em;
 }
 
 
