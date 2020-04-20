@@ -50,14 +50,14 @@ const postsReducer = (draftState, postsAction) => {
 
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-const fetchPosts = async ({ artistId, offset, limit, isEndOfAssets, afterCursor }) => {
+const fetchPosts = async ({ artistId, offset, limit, isEndOfAssets, cursor }) => {
   if (!artistId) return
   // Stop here if at end of posts
   if (isEndOfAssets.current) return
   // Get posts
   let posts
-  if (afterCursor) {
-    posts = await server.getUnpromotedPostsAfter(afterCursor.href)
+  if (cursor.current) {
+    posts = await server.getUnpromotedPostsAfter(cursor.current.href)
   } else {
     posts = await server.getUnpromotedPosts(offset.current, limit, artistId)
   }
@@ -72,7 +72,7 @@ function PostsLoader() {
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
   const offset = React.useRef(0)
-  const [afterCursor, setAfterCursor] = React.useState(null)
+  const cursor = React.useRef(null)
   const [initialLoad, setInitialLoad] = React.useState(true)
   const [loadingMore, setLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -87,6 +87,8 @@ function PostsLoader() {
     if (!artistId) return
     // Reset initial load
     setInitialLoad(true)
+    // Remove after cursor
+    cursor.current = null
     // Reset offset
     offset.current = 0
     // Update end of assets state
@@ -109,7 +111,7 @@ function PostsLoader() {
     limit: postsPerPage,
     isEndOfAssets,
     loadingMore,
-    afterCursor,
+    cursor,
     // When fetch finishes
     onResolve: (posts) => {
       if (!posts) return
@@ -122,7 +124,7 @@ function PostsLoader() {
       // Update afterCursor
       const lastPost = posts[posts.length - 1]
       if (lastPost._links.after) {
-        setAfterCursor(posts[posts.length - 1]._links.after)
+        cursor.current = posts[posts.length - 1]._links.after
       }
       // If loading extra posts
       if (loadingMore) {
