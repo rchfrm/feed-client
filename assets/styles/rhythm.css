@@ -1,0 +1,21 @@
+/* ------------------------------------ *\
+  #Shared conisitent spacing
+\* ------------------------------------ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote,
+p,
+table,
+legend,
+pre,
+ul,
+ol,
+.button,
+.media {
+  margin-bottom: var(--bsu);
+}

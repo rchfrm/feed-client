@@ -5,6 +5,7 @@
 */
 @import "./reset";
 @import "./vars";
+@import "./rhythm";
 @import "./base";
 @import "./type";
 @import "./flex-rules";
