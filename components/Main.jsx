@@ -17,13 +17,17 @@ import TheNavigation from './TheNavigation'
 function Main({ children }) {
   const { navState } = React.useContext(NavigationContext)
   const mainClass = navState.visible ? 'navOn' : 'navOff'
+  const pageContainerClass = navState.visible ? 'hidden' : ''
+
   return (
     <main className={[mainClass, 'main'].join(' ')}>
       <UserProvider>
         <ArtistProvider>
           <TheNavigation />
           <InitUser>
-            {children}
+            <div className={`page--container sdfsdfskj ${pageContainerClass}`}>
+              {children}
+            </div>
             <IntegrationErrorHandler />
           </InitUser>
         </ArtistProvider>
