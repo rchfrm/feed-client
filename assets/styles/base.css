@@ -31,11 +31,6 @@ body,
 }
 
 body {
-  font-family: var(--font);
-  font-feature-settings: "ss01";
-  font-size: var(--base-font-size);
-  color: var(--text-color);
-
   overflow-y: scroll;
 
   &.__body-no-scroll {

@@ -1,7 +1,9 @@
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 0.333em;
+/* BODY */
+body {
+  font-family: var(--font);
+  font-size: var(--base-font-size);
+  color: var(--text-color);
+  line-height: 1.4;
 }
 
 
