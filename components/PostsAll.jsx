@@ -104,7 +104,7 @@ function PostsAll({
       {/* POST SETTINGS BUTTON */}
       <div className="ninety-wide">
         <Button className={styles.postSettingsButton} onClick={togglePostsSettings}>
-          Post Settings
+          Global Post Settings
         </Button>
       </div>
 
