@@ -1,4 +1,17 @@
-import ThankYouPage from '../../components/page/ThankYouPage'
+import BasePage from '../../components/BasePage'
 import TestPageReady from '../../components/TestPageReady'
+import ThankYouPage from '../../components/ThankYouPageContent'
 
-export default TestPageReady(ThankYouPage)
+const header = {
+  heading: 'results',
+}
+
+const Page = () => (
+  <BasePage
+    header={header}
+  >
+    <ThankYouPage />
+  </BasePage>
+)
+
+export default TestPageReady(Page)

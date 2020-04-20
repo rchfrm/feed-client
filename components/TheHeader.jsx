@@ -12,7 +12,7 @@ import Clear from './elements/Clear'
 // IMPORT STYLES
 import styles from './TheHeader.module.css'
 
-function Header() {
+function TheHeader() {
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const toggleNav = () => navDispatch({ type: 'toggle' })
   const headerClass = navState.visible ? 'navOn' : 'navOff'
@@ -29,4 +29,4 @@ function Header() {
   )
 }
 
-export default Header
+export default TheHeader

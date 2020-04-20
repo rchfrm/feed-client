@@ -1,5 +1,19 @@
-
-import InsightsPage from '../../components/page/InsightsPage'
+import BasePage from '../../components/BasePage'
 import TestPageReady from '../../components/TestPageReady'
+import InsightsLoader from '../../components/InsightsLoader'
 
-export default TestPageReady(InsightsPage)
+const header = {
+  heading: 'insights',
+}
+
+const Page = () => (
+  <BasePage
+    header={header}
+    noArtistHeader={header}
+    artistRequired
+  >
+    <InsightsLoader />
+  </BasePage>
+)
+
+export default TestPageReady(Page)

@@ -1,4 +1,19 @@
-import ResultsPage from '../../components/page/ResultsPage'
+import BasePage from '../../components/BasePage'
 import TestPageReady from '../../components/TestPageReady'
+import ResultsLoader from '../../components/ResultsLoader'
 
-export default TestPageReady(ResultsPage)
+const header = {
+  heading: 'results',
+}
+
+const Page = () => (
+  <BasePage
+    header={header}
+    noArtistHeader={header}
+    artistRequired
+  >
+    <ResultsLoader />
+  </BasePage>
+)
+
+export default TestPageReady(Page)
