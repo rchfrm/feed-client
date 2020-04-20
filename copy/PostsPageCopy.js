@@ -12,4 +12,8 @@ export default {
   noPostsCopy: (platforms) => `It looks like you haven't posted for a little while, and by default **Feed** only promotes posts from the last month.
   
   Once you add new posts to ${platforms}, you'll be able to review them here.`,
+
+  globalToggleIntro: `Choose whether posts should be enabled or disabled by default.
+  
+(Warning: changing this will change the status of all current posts)`,
 }
