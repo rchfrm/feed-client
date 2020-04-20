@@ -33,7 +33,6 @@ const RadioButton = ({ value, name, label, checked, onChange }) => {
 
 const RadioButtons = ({ buttonOptions, selectedValue, onChange, className }) => {
   const classNames = ['radio--buttons', className].join(' ')
-  console.log('selectedValue', selectedValue)
   return (
     <div
       className={classNames}
