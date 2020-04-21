@@ -103,6 +103,7 @@
   .select {
     .deselected & {
       color: var(--grey-dark);
+      text-decoration: none;
     }
   }
 
