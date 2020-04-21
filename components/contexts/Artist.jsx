@@ -45,6 +45,11 @@ const artistReducer = (draftState, action) => {
       draftState.priority_dsp = payload.priority_dsp
       break
     }
+    case 'set-connection': {
+      draftState.URLs[payload.platform] = payload.url
+      draftState[payload.platform] = payload.url
+      break
+    }
     default:
       throw new Error(`Unable to find ${action.type} in artistReducer`)
   }
@@ -170,6 +175,16 @@ function ArtistProvider({ children }) {
     })
   }
 
+  const setConnection = ({ platform, url }) => {
+    setArtist({
+      type: 'set-connection',
+      payload: {
+        platform,
+        url,
+      },
+    })
+  }
+
   const addUrl = async (url, urlType) => {
     const updatedArtist = await server.saveLink(artist.id, url, urlType)
 
@@ -206,6 +221,7 @@ function ArtistProvider({ children }) {
     setArtist,
     setArtistLoading,
     setPriorityDSP,
+    setConnection,
     storeArtist,
     updateBudget,
   }

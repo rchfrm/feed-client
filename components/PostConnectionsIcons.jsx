@@ -38,7 +38,7 @@ const PostConnectionsIcons = ({
   artistId,
   platform,
   priorityDSP,
-  setPriorityDSP,
+  udpatePriorityDSP,
   valid,
 }) => {
   // DEFINE DEFAULT COLOUR
@@ -98,14 +98,14 @@ const PostConnectionsIcons = ({
     setLoading(true)
     updatePriorityDSP(artistId, platform)
       .then(res => {
-        setPriorityDSP(res.priority_dsp)
+        udpatePriorityDSP(res.priority_dsp)
         setLoading(false)
       }).catch(err => {
         // TODO: PROPERLY HANDLE THIS ERROR
         console.log(err)
         setLoading(false)
       })
-  }, [alert.response, artistId, platform, setPriorityDSP, updatePriorityDSP])
+  }, [alert.response, artistId, platform, udpatePriorityDSP, updatePriorityDSP])
 
   React.useEffect(() => {
     setColor(defaultColor)

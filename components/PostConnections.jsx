@@ -64,7 +64,12 @@ const connectionsReducer = (draftState, action) => {
 
 function PostConnections({ className }) {
   // Get artist context
-  const { artist, artistId, setPriorityDSP: setArtistPriorityDSP } = React.useContext(ArtistContext)
+  const {
+    artist,
+    artistId,
+    setPriorityDSP: setArtistPriorityDSP,
+    setConnection,
+  } = React.useContext(ArtistContext)
   const initialConnections = getConnections(artist)
   const [connections, setConnections] = useImmerReducer(connectionsReducer, initialConnections)
   const connectionPlatforms = getConnectionPlatforms(initialConnections)
@@ -73,6 +78,16 @@ function PostConnections({ className }) {
   const udpatePriorityDSP = React.useCallback((dsp) => {
     setPriorityDSP(dsp)
     setArtistPriorityDSP(dsp)
+  }, [])
+
+  const udpateConnections = React.useCallback(({ type, payload }) => {
+    setConnections({ type, payload })
+    // If updating connection, also update artist context
+    if (type === 'set-platform') {
+      const { platform, url } = payload
+      const adjustedPlatform = helper.convertPlatformToPriorityDSP(platform)
+      setConnection({ platform: adjustedPlatform, url })
+    }
   }, [])
 
   // LIST INTEGRATIONS
@@ -85,8 +100,8 @@ function PostConnections({ className }) {
         priorityDSP={priorityDSP}
         url={connections[platform].url || ''}
         valid={connections[platform].valid}
-        setConnections={setConnections}
-        setPriorityDSP={udpatePriorityDSP}
+        udpateConnections={udpateConnections}
+        udpatePriorityDSP={udpatePriorityDSP}
       />
     )
   })

@@ -24,8 +24,8 @@ const PostConnectionsConnection = ({
   artistId,
   valid,
   priorityDSP,
-  setPriorityDSP,
-  setConnections,
+  udpatePriorityDSP,
+  udpateConnections,
 }) => {
   // DEFINE STATES
   const [value, setValue] = React.useState(url)
@@ -39,7 +39,7 @@ const PostConnectionsConnection = ({
 
   // Toggle the value for valid in the integrations state
   const toggleValid = (state) => {
-    setConnections({
+    udpateConnections({
       type: 'toggle-platform-validity',
       payload: {
         platform,
@@ -56,7 +56,7 @@ const PostConnectionsConnection = ({
     const urlType = helper.convertPlatformToPriorityDSP(platform)
     // Make sure the value is a link
     const updatedArtist = await server.saveLink(artistId, link, urlType)
-    setConnections({
+    udpateConnections({
       type: 'set-platform',
       payload: {
         platform,
@@ -128,8 +128,8 @@ const PostConnectionsConnection = ({
         artistId={artistId}
         platform={platform}
         priorityDSP={priorityDSP}
-        setConnections={setConnections}
-        setPriorityDSP={setPriorityDSP}
+        udpateConnections={udpateConnections}
+        udpatePriorityDSP={udpatePriorityDSP}
         valid={valid}
       />
 
