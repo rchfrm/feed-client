@@ -16,4 +16,9 @@ export default {
   globalToggleIntro: `Make all posts eligible for promotion by default:`,
 
   globalConnectionsIntro: `The default link in your promoted posts is marked by *. You can change the link on each specific post here.`,
+
+  globalStatusConfirmation: `Changing this will update the current status on all your current and future posts.
+  
+Do you wish to proceed?
+  `,
 }

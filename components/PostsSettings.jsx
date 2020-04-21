@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAsync } from 'react-async'
 
 // IMPORT CONTEXTS
 import { SidePanelContext } from './contexts/SidePanelContext'
@@ -7,6 +8,7 @@ import MarkdownText from './elements/MarkdownText'
 import RadioButtons from './elements/RadioButtons'
 import Button from './elements/Button'
 // IMPORT COMPONENTS
+import PostSettingsStatusConfirmation from './PostSettingsStatusConfirmation'
 import PostConnections from './PostConnections'
 // IMPORT COPY
 import copy from '../copy/PostsPageCopy'
@@ -27,41 +29,68 @@ const postSettingOptions = [
   },
 ]
 
-const PostsSettings = () => {
-  // Get side panel context
-  const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
-  // Define initial post settings
-  const initialPostSettings = React.useRef({
-    globalPostSettings: true,
+// Call the server with the new post status
+const updatePostSettings = ({ defaultPostStatus }) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(defaultPostStatus)
+    }, 1000)
   })
-  // Update post status settings
-  const [globalPostSettings, setGlobalPostSettings] = React.useState(initialPostSettings.current.globalPostSettings)
-  const updateGlobalStatus = (value) => {
-    setGlobalPostSettings(value)
-  }
-  // Define submit function
-  const handleSubmit = React.useCallback(() => {
-    console.log('globalPostSettings', globalPostSettings)
-    // If nothing has changed, just close the side panel
-    const { globalPostSettings: initialGlobalPostSettings } = initialPostSettings.current
-    if (initialGlobalPostSettings === globalPostSettings) {
-      toggleSidePanel()
-      return
-    }
-    console.log('loading')
-  }, [globalPostSettings])
-  // Define sidepanel button
+}
+
+const PostsSettings = () => {
+  // GET SIDE PANEL CONTEXT
+  const { setSidePanelButton, toggleSidePanel, setSidePanelLoading } = React.useContext(SidePanelContext)
+  // DEFINE INITIAL POST SETTINGS
+  const initialPostSettings = React.useRef({
+    defaultPostStatus: true,
+  })
+
+  // UPDATE POST STATUS SETTINGS
+  const [defaultPostStatus, setDefaultPostStatus] = React.useState(initialPostSettings.current.defaultPostStatus)
+  const [pendingDefaultPostStatus, setPendingDefaultPostStatus] = React.useState(initialPostSettings.current.defaultPostStatus)
+  const [showPostStatusConfirmation, setShowPostStatusConfirmation] = React.useState(false)
+  // Call this from the radio buttons...
+  const updateGlobalStatus = React.useCallback((value) => {
+    // Update pending status
+    setPendingDefaultPostStatus(value)
+    // Show confirmation
+    setShowPostStatusConfirmation(true)
+  }, [])
+
+  // UPDATE POST STATUS SETTINGS ON SERVER
+  // Run this to fetch posts when the artist changes
+  const { error, isPending, cancel: cancelUpdatePostSettings } = useAsync({
+    promiseFn: updatePostSettings,
+    initialValue: initialPostSettings.current.defaultPostStatus,
+    watch: defaultPostStatus,
+    // The variable(s) to pass to promiseFn
+    defaultPostStatus,
+    // When promise resolves
+    onResolve: (newDefaultPostStatus) => {
+      setDefaultPostStatus(newDefaultPostStatus)
+    },
+  })
+  // Cancel initial run
+  React.useEffect(() => {
+    cancelUpdatePostSettings()
+  }, [])
+  // Update loading state on panel while fetching from server
+  React.useEffect(() => {
+    setSidePanelLoading(isPending)
+  }, [isPending])
+
+  // DEFINE SIDEPANEL BUTTON
   const SidepanelButton = () => {
     return (
-      <Button version="green" onClick={handleSubmit}>
-        Save changes
+      <Button version="green" onClick={toggleSidePanel}>
+        Done
       </Button>
     )
   }
-  // Update sidepanel button when global post settings change
   React.useEffect(() => {
     setSidePanelButton(SidepanelButton)
-  }, [globalPostSettings])
+  }, [])
 
   return (
     <section>
@@ -75,7 +104,7 @@ const PostsSettings = () => {
             className="settingSection__options"
             buttonOptions={postSettingOptions}
             onChange={updateGlobalStatus}
-            selectedValue={globalPostSettings}
+            selectedValue={defaultPostStatus}
           />
         </div>
         {/* CONNECTIONS */}
@@ -85,6 +114,14 @@ const PostsSettings = () => {
           <PostConnections className={styles.connectionsList} />
         </div>
       </div>
+      {/* POST STATE CHANGE CONFIRMATION */}
+      {showPostStatusConfirmation && (
+        <PostSettingsStatusConfirmation
+          newStatus={pendingDefaultPostStatus}
+          setStatus={setDefaultPostStatus}
+          setConfirmation={setShowPostStatusConfirmation}
+        />
+      )}
     </section>
   )
 }
