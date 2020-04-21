@@ -21,6 +21,7 @@ import * as ROUTES from '../constants/routes'
 import copy from '../copy/LoginPageCopy'
 // IMPORT STYLES
 import styles from './LoginPage.module.css'
+import brandColors from '../constants/brandColors'
 
 const SignupPageContent = () => {
   const [showEmailSignup, setShowEmailSignup] = React.useState(false)
@@ -91,7 +92,7 @@ const SignupPageContent = () => {
               onClick={goToEmailSignup}
               version="black icon"
             >
-              <EmailIcon color="white" />
+              <EmailIcon color={brandColors.bgColor} />
               Sign up with email
             </Button>
           </div>
