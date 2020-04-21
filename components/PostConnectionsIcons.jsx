@@ -21,7 +21,7 @@ import styles from './Integrations.module.css'
 function ConfirmPriorityDSPChange({ platform }) {
   return (
     <div>
-      <h1>Are you sure?</h1>
+      <h2>Are you sure?</h2>
       <p>
         Clicking 'Yes' will change the default link in your promoted posts to your
         {' '}
@@ -57,7 +57,7 @@ const PostConnectionsIcons = ({
   // DEFINE ALERT STATE
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
 
-  // DEFINE ALERT REPONSES
+  // DEFINE ALERT RESPONSES
   const resetAlert = () => setAlert({ type: 'reset-alert' })
   const acceptAlert = () => setAlert({ type: 'set-positive-response' })
 
