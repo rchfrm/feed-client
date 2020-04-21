@@ -71,7 +71,8 @@ const PostsSettings = () => {
       <h2 className={sidePanelStyles.SidePanel__Header}>Post Settings</h2>
       <div className="content">
         {/* GLOBAL POST STATE SELECTOR */}
-        <div className="settingSection">
+        <div className={styles.settingSection}>
+          <h3 className="settingSection__header">Post Status</h3>
           <MarkdownText className="settingSection__intro" markdown={copy.globalToggleIntro} />
           <RadioButtons
             className="settingSection__options"
@@ -80,9 +81,12 @@ const PostsSettings = () => {
             selectedValue={globalPostSettings}
           />
         </div>
-      </div>
-      <div className="content">
-        <PostConnections artist={artist} />
+        {/* CONNECTIONS */}
+        <div className={styles.settingSection}>
+          <h3 className="settingSection__header">Connections</h3>
+          <MarkdownText className="settingSection__intro" markdown={copy.globalConnectionsIntro} />
+          <PostConnections className={styles.connectionsList} artist={artist} />
+        </div>
       </div>
     </section>
   )

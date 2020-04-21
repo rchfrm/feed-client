@@ -1,5 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 import PostConnectionsConnection from './PostConnectionsConnection'
@@ -60,7 +62,7 @@ const connectionsReducer = (draftState, action) => {
   }
 }
 
-function PostConnections({ artist }) {
+function PostConnections({ artist, className }) {
   const { id: artistId } = artist
   const initialConnections = getConnections(artist)
   const [connections, setConnections] = useImmerReducer(connectionsReducer, initialConnections)
@@ -84,8 +86,18 @@ function PostConnections({ artist }) {
   })
 
   return (
-    <ul className={styles['integrations-list']}>{connectionsList}</ul>
+    <ul className={[styles['integrations-list'], className].join(' ')}>{connectionsList}</ul>
   )
 }
+
+PostConnections.propTypes = {
+  artist: PropTypes.object.isRequired,
+  className: PropTypes.string,
+}
+
+PostConnections.defaultProps = {
+  className: '',
+}
+
 
 export default PostConnections

@@ -14,4 +14,6 @@ export default {
   Once you add new posts to ${platforms}, you'll be able to review them here.`,
 
   globalToggleIntro: `Make all posts eligible for promotion by default:`,
+
+  globalConnectionsIntro: `The default link in your promoted posts is marked by *. You can change the link on each specific post here.`,
 }
