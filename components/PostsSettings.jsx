@@ -69,7 +69,7 @@ const PostsSettings = () => {
       <div className="content">
         {/* GLOBAL POST STATE SELECTOR */}
         <div className={styles.settingSection}>
-          <h3 className="settingSection__header">Post Status</h3>
+          <h3 className="settingSection__header">Default Status</h3>
           <MarkdownText className="settingSection__intro" markdown={copy.globalToggleIntro} />
           <RadioButtons
             className="settingSection__options"
