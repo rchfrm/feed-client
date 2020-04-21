@@ -161,7 +161,7 @@
 ******************/
 .error,
 .success {
-  font-weight: 500;
+  font-weight: var(--bold);
   width: 100%;
   text-align: left;
 }
@@ -182,7 +182,7 @@
 /* Feed
 ******************/
 .feed {
-  font-weight: bold;
+  font-weight: var(--bold);
 }
 
 /* Frame
@@ -259,7 +259,7 @@
 
   a {
     font-size: 1.25em;
-    font-weight: 600;
+    font-weight: var(--bold);
     color: var(--white);
   }
 }
