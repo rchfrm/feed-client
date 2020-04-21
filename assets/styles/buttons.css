@@ -153,10 +153,15 @@ button {
   svg {
     width: var(--bsu);
     height: auto;
-    vertical-align: bottom;
-    margin-right: var(--bsu);
+    margin-right: 1em;
     transform: translateY(1px);
+    vertical-align: bottom;
   }
+}
+
+.button--small {
+  padding: 1em;
+  padding-top: 0.8em;
 }
 
 .button--facebook {
