@@ -2,7 +2,7 @@
 import React from 'react'
 // IMPORT COMPONENTS
 import PostConnectionsLink from './PostConnectionsLink'
-import PostConnectionsIcons from './PostConnectionsIcons'
+import PostConnectionsEdit from './PostConnectionsEdit'
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
 import Button from './elements/Button'
@@ -125,7 +125,7 @@ const PostConnectionsConnection = ({
   return (
     <li className={styles.integrarionsListItem} key={platform}>
 
-      <PostConnectionsIcons
+      <PostConnectionsEdit
         artistId={artistId}
         platform={platform}
         priorityDSP={priorityDSP}

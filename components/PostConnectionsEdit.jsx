@@ -34,7 +34,7 @@ function ConfirmPriorityDSPChange({ platform }) {
 }
 
 
-const PostConnectionsIcons = ({
+const PostConnectionsEdit = ({
   artistId,
   platform,
   priorityDSP,
@@ -152,4 +152,4 @@ const PostConnectionsIcons = ({
   )
 }
 
-export default PostConnectionsIcons
+export default PostConnectionsEdit
