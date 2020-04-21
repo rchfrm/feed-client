@@ -232,38 +232,6 @@
   }
 }
 
-
-/* Navigation
-******************/
-.TheNavigation {
-  background-color: var(--black);
-  color: var(--white);
-
-  a.-active {
-    text-decoration: none;
-    cursor: default;
-  }
-  
-  ul {
-    padding-top: 2em;
-    padding-left: 17.129%;
-  }
-
-  li {
-    margin-bottom: 1em;
-    &:last-child {
-      padding-top: 2em;
-      margin-bottom: 0;
-    }
-  }
-
-  a {
-    font-size: 1.25em;
-    font-weight: var(--bold);
-    color: var(--white);
-  }
-}
-
 /* NextButton
 ******************/
 .nextbutton {

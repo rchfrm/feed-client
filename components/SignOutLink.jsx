@@ -15,7 +15,7 @@ import * as ROUTES from '../constants/routes'
 import firebase from './helpers/firebase'
 // IMPORT STYLES
 
-function SignOutLink() {
+function SignOutLink({ className = '' }) {
   const { setNoAuth } = React.useContext(AuthContext)
   const { setNoUser } = React.useContext(UserContext)
   const { setNoArtist } = React.useContext(ArtistContext)
@@ -39,7 +39,7 @@ function SignOutLink() {
   }
 
   return (
-    <a role="button" version="sign-out" onClick={signOut}>
+    <a className={className} role="button" version="sign-out" onClick={signOut}>
       sign out
     </a>
   )
