@@ -272,7 +272,6 @@ export default {
         || artistId === 'PjUuyt5uJhTRIbv5T4D1'
         || artistId === 'Y8uCfxBZkAVcpokW4S4b'
         || artistId === '4FwK6p6y9xhpxZSGW2fR'
-        || artistId === 'dSzNAx3SL1Jo6q6GdM8v'
         || artistId === 'vpdEYAT65K8gVcIuLpvO'
       ) {
         const res = await api.patch(`/artists/${artistId}`, {

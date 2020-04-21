@@ -41,7 +41,6 @@ const connectionsReducer = (draftState, action) => {
   }
 }
 
-
 function IntegrationsLoader({
   artistId,
   artistName,

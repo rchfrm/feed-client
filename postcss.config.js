@@ -12,6 +12,10 @@ module.exports = {
     },
     'postcss-preset-env': {
       stage: 1,
+      preserve: false,
+      importFrom: [
+        './assets/styles/vars.css',
+      ],
     },
   },
 }
