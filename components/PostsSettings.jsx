@@ -1,7 +1,6 @@
 import React from 'react'
 
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
 import { SidePanelContext } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import MarkdownText from './elements/MarkdownText'
@@ -29,8 +28,6 @@ const postSettingOptions = [
 ]
 
 const PostsSettings = () => {
-  // Get artist context
-  const { artist } = React.useContext(ArtistContext)
   // Get side panel context
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
   // Define initial post settings
@@ -85,7 +82,7 @@ const PostsSettings = () => {
         <div className={styles.settingSection}>
           <h3 className="settingSection__header">Connections</h3>
           <MarkdownText className="settingSection__intro" markdown={copy.globalConnectionsIntro} />
-          <PostConnections className={styles.connectionsList} artist={artist} />
+          <PostConnections className={styles.connectionsList} />
         </div>
       </div>
     </section>

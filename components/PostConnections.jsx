@@ -1,11 +1,11 @@
 // IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { useImmerReducer } from 'use-immer'
+// IMPORT CONTEXTS
+import { ArtistContext } from './contexts/Artist'
 // IMPORT COMPONENTS
 import PostConnectionsConnection from './PostConnectionsConnection'
-// IMPORT CONTEXTS
 // IMPORT HELPERS
 import helper from './helpers/helper'
 // IMPORT STYLES
@@ -62,12 +62,18 @@ const connectionsReducer = (draftState, action) => {
   }
 }
 
-function PostConnections({ artist, className }) {
-  const { id: artistId } = artist
+function PostConnections({ className }) {
+  // Get artist context
+  const { artist, artistId, setPriorityDSP: setArtistPriorityDSP } = React.useContext(ArtistContext)
   const initialConnections = getConnections(artist)
   const [connections, setConnections] = useImmerReducer(connectionsReducer, initialConnections)
   const connectionPlatforms = getConnectionPlatforms(initialConnections)
   const [priorityDSP, setPriorityDSP] = React.useState(artist.priority_dsp)
+
+  const udpatePriorityDSP = React.useCallback((dsp) => {
+    setPriorityDSP(dsp)
+    setArtistPriorityDSP(dsp)
+  }, [])
 
   // LIST INTEGRATIONS
   const connectionsList = connectionPlatforms.map(platform => {
@@ -80,7 +86,7 @@ function PostConnections({ artist, className }) {
         url={connections[platform].url || ''}
         valid={connections[platform].valid}
         setConnections={setConnections}
-        setPriorityDSP={setPriorityDSP}
+        setPriorityDSP={udpatePriorityDSP}
       />
     )
   })
@@ -91,7 +97,6 @@ function PostConnections({ artist, className }) {
 }
 
 PostConnections.propTypes = {
-  artist: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 
