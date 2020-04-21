@@ -6,6 +6,8 @@ import { SidePanelContext } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import PageHeader from './PageHeader'
 import Spinner from './elements/Spinner'
+import Button from './elements/Button'
+import GearIcon from './icons/GearIcon'
 // IMPORT COMPONENTS
 import PostsSettings from './PostsSettings'
 import PostsSingle from './PostsSingle'
@@ -15,7 +17,7 @@ import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/PostsPageCopy'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
-import Button from './elements/Button'
+import brandColors from '../constants/brandColors'
 
 // Reset posts scroll position
 const resetScroll = () => {
@@ -99,12 +101,17 @@ function PostsAll({
 
       <PageHeader heading="review posts and set a budget" />
 
-      <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
+      <MarkdownText className={['ninety-wide', 'h4--text', styles.introText].join(' ')} markdown={copy.intro} />
 
       {/* POST SETTINGS BUTTON */}
       <div className="ninety-wide">
-        <Button className={styles.postSettingsButton} onClick={togglePostsSettings}>
-          Global Post Settings
+        <Button
+          className={styles.postSettingsButton}
+          onClick={togglePostsSettings}
+          version="black small icon"
+        >
+          <GearIcon color={brandColors.bgColor} />
+          Post Settings
         </Button>
       </div>
 

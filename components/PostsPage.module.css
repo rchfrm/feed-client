@@ -2,6 +2,8 @@
 
 .posts {
   width: 100%;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .posts-page {
@@ -18,6 +20,14 @@
     margin-left: 5%;
     margin-right: 5%;
   }
+}
+
+.introText {
+  margin-bottom: var(--bsu-md) !important;
+}
+
+.postSettingsButton {
+  margin-bottom: var(--bsu-md);
 }
 
 
