@@ -8,9 +8,9 @@ CONNECTIONS
   margin: 0 5%;
   flex: auto;
 
-  .p {
-    font-weight: 400;
-  }
+.accountTitle {
+  margin-bottom: var(--bsu-md) !important;
+}
 }
 
 .integrarionsListItem {

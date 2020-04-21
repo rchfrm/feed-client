@@ -27,10 +27,6 @@
 
 .notification-content-top {
   display: flex;
-
-  :global(p) {
-    font-weight: 400;
-  }
 }
 
 

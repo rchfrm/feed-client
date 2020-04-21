@@ -74,7 +74,6 @@ input[readonly] {
   border-radius: var(--button-radius);
   padding: 1em 0.8em;
   font-family: var(--font-mono);
-  font-weight: 100;
   width: 100%;
   
   &::placeholder{
@@ -167,7 +166,7 @@ select {
 }
 
 .select--bold {
-  font-weight: bold;
+  font-weight: var(--bold);
 }
 
 .select--small & {
