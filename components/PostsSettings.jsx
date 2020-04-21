@@ -1,12 +1,15 @@
 import React from 'react'
 
 // IMPORT CONTEXTS
+import { ArtistContext } from './contexts/Artist'
 import { SidePanelContext } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import MarkdownText from './elements/MarkdownText'
 import RadioButtons from './elements/RadioButtons'
 import Button from './elements/Button'
-
+// IMPORT COMPONENTS
+import PostConnections from './PostConnections'
+// IMPORT COPY
 import copy from '../copy/PostsPageCopy'
 
 import styles from './PostSettings.module.css'
@@ -26,6 +29,8 @@ const postSettingOptions = [
 ]
 
 const PostsSettings = () => {
+  // Get artist context
+  const { artist } = React.useContext(ArtistContext)
   // Get side panel context
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
   // Define initial post settings
@@ -75,6 +80,9 @@ const PostsSettings = () => {
             selectedValue={globalPostSettings}
           />
         </div>
+      </div>
+      <div className="content">
+        <PostConnections artist={artist} />
       </div>
     </section>
   )
