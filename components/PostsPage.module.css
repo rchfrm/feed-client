@@ -99,11 +99,24 @@
     color: var(--grey-dark);
   }
 
+
   .a,
   .select {
     .deselected & {
       color: var(--grey-dark);
       text-decoration: none;
+    }
+  }
+
+  .a {
+    @media(hover: hover) {
+      &:hover {
+        color: var(--color-fb);
+      }
+    }
+
+    .deselected & {
+      pointer-events: none;
     }
   }
 
