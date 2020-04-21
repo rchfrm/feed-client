@@ -76,7 +76,6 @@
     flex: auto;
     margin-bottom: 0;
     padding-bottom: 0;
-    font-weight: var(--bold);
     font-style: italic;
     white-space: pre-line;
   }
