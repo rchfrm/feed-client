@@ -51,11 +51,12 @@ const PostConnectionsConnection = ({
   // Send updated links to the server
   const saveLink = async (link) => {
     setLoading(true)
-
+    // Convert empty strings to null
+    const linkSantised = link || null
     // Send a patch request to the server to update the artist
     const urlType = helper.convertPlatformToPriorityDSP(platform)
     // Make sure the value is a link
-    const updatedArtist = await server.saveLink(artistId, link, urlType)
+    const updatedArtist = await server.saveLink(artistId, linkSantised, urlType)
     udpateConnections({
       type: 'set-platform',
       payload: {
