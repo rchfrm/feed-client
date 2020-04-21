@@ -32,6 +32,8 @@
   --font-display: 'SpaceGrotesk';
   --font-mono: monospace;
   --base-font-size: 15px;
+  --bold: 700;
+  --bold-display: 600;
 
   /* Base Spacing Units */
   --bsu-sm: 10px;

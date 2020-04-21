@@ -47,7 +47,7 @@ button {
   color: var(--white);
   padding: 1.5em;
   padding-top: 1.2em;
-  font-weight: bold;
+  font-weight: var(--bold);
   justify-content: center;
   cursor: pointer;
 }
@@ -63,7 +63,7 @@ button {
 
 .button--green,
 .button--success {
-  font-weight: bold;
+  font-weight: var(--bold);
   background-color: var(--success-color);
   color: var(--white);
 
