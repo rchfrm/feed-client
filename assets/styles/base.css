@@ -81,6 +81,7 @@ main {
 }
 
 .TheFooter {
+  font-family: var(--font-display);
   padding: 5%;
   color: var(--black);
   background: var(--white);
