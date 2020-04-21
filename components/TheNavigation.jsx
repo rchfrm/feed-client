@@ -37,6 +37,18 @@ function ArtistOptions({ currentArtistId, artists, handleChange }) {
   )
 }
 
+function NavigationLinks({ links }) {
+  return links.map(({ href, title, external }) => {
+    return (
+      <li key={href}>
+        {external
+          ? <a href={href} target="_blank" rel="noopener noreferrer">{ title }</a>
+          : <ActiveLink href={href}><a>{ title }</a></ActiveLink>}
+      </li>
+    )
+  })
+}
+
 function NavigationAuth() {
   const { user } = React.useContext(UserContext)
   const { artist, storeArtist } = React.useContext(ArtistContext)
@@ -92,13 +104,9 @@ function NavigationAuth() {
             </li>
           )
           : null}
-        {links.map(({ href, title }) => {
-          return (
-            <li key={href}>
-              <ActiveLink href={href}><a>{ title }</a></ActiveLink>
-            </li>
-          )
-        })}
+
+        <NavigationLinks links={links} />
+
         <li>
           <SignOutLink />
         </li>
@@ -138,15 +146,7 @@ const NavigationNonAuth = () => {
   return (
     <>
       <ul>
-        {links.map(({ href, title, external }) => {
-          return (
-            <li key={href}>
-              {external
-                ? <a href={href} target="_blank" rel="noopener noreferrer">{ title }</a>
-                : <ActiveLink href={href}><a>{ title }</a></ActiveLink>}
-            </li>
-          )
-        })}
+        <NavigationLinks links={links} />
       </ul>
     </>
   )
