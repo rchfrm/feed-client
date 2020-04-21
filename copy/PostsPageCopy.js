@@ -13,7 +13,5 @@ export default {
   
   Once you add new posts to ${platforms}, you'll be able to review them here.`,
 
-  globalToggleIntro: `Choose whether posts should be enabled or disabled by default.
-  
-(Warning: changing this will change the status of all current posts)`,
+  globalToggleIntro: `Make all posts eligible for promotion by default:`,
 }

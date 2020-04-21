@@ -15,12 +15,12 @@ import sidePanelStyles from './SidePanel.module.css'
 const postSettingOptions = [
   {
     value: true,
-    label: 'All posts enabled',
+    label: 'Yes',
     name: 'posts-enabled',
   },
   {
     value: false,
-    label: 'All posts disabled',
+    label: 'No',
     name: 'posts-disabled',
   },
 ]
