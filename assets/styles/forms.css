@@ -73,7 +73,7 @@ input[readonly] {
   border: 2px solid var(--black);
   border-radius: var(--button-radius);
   padding: 1em 0.8em;
-  font-family: var(--font-mono);
+  font-family: var(--font);
   width: 100%;
   
   &::placeholder{

@@ -23,10 +23,6 @@ strong,
   font-weight: var(--bold);
 }
 
-.mono {
-  font-family: var(--font-mono);
-}
-
 .display {
   font-family: var(--font-display);
   font-feature-settings: "ss01";
