@@ -287,7 +287,7 @@ const ConnectionIcons = ({
             style={{ cursor: valid && !priority ? 'pointer' : 'initial' }}
           >
 
-            <AsteriskIcon fill={color} width={15} />
+            <AsteriskIcon className={styles.asteriskIcon} fill={color} width={15} />
 
           </div>
         )}

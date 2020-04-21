@@ -31,7 +31,7 @@ const Artists = () => {
     return (
       <li key={artist.id}>
 
-        <h3>{artist.name}</h3>
+        <h3 className={styles.accountTitle}>{artist.name}</h3>
 
         {/* Errors */}
         {errors.map((error, index) => {

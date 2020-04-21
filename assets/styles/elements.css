@@ -285,6 +285,10 @@
   margin: 0 auto;
   margin-bottom: var(--bsu-md);
   flex: none;
+
+  h1 {
+    margin-bottom: 0;
+  }
 }
 
 
