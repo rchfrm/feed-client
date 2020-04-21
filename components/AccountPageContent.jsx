@@ -8,7 +8,6 @@ import { SidePanelContext } from './contexts/SidePanelContext'
 import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
 import AccountPageDetails from './AccountPageDetails'
-import AccountPageIntegrations from './AccountPageIntegrations'
 import AccountPagePayments from './AccountPagePayments'
 import PaymentAdd from './PaymentAdd'
 import RelinkFacebook from './RelinkFacebook'
@@ -44,11 +43,6 @@ const AccountPageContent = ({ user }) => {
     if (type === 'payment') {
       setSidePanelContent(<AccountPagePayments user={user} />)
       toggleSidePanel(true)
-      return
-    }
-    if (type === 'connections') {
-      setSidePanelContent(AccountPageIntegrations)
-      toggleSidePanel(true)
     }
   }
 
@@ -62,6 +56,7 @@ const AccountPageContent = ({ user }) => {
   if (billingLoading) {
     return <Spinner />
   }
+
   // The content
   return (
     <>
@@ -71,14 +66,6 @@ const AccountPageContent = ({ user }) => {
         type="details"
         user={user}
         buttonText="Edit account details"
-        setSidePanel={setSidePanel}
-      />
-
-      <AccountPageSection
-        title="Connections"
-        type="connections"
-        user={user}
-        buttonText="Edit connections"
         setSidePanel={setSidePanel}
       />
 
