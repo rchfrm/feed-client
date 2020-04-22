@@ -14,7 +14,16 @@ import server from '../helpers/server'
 import { track } from '../helpers/trackingHelpers'
 import artistHelpers from '../helpers/artistHelpers'
 
-const initialArtistState = {}
+const initialArtistState = {
+  id: '',
+  URLs: {},
+  preferences: {
+    posts: {},
+  },
+  priority_dsp: '',
+  users: {},
+}
+
 const ArtistContext = React.createContext(initialArtistState)
 ArtistContext.displayName = 'ArtistContext'
 
