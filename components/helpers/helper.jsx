@@ -293,6 +293,7 @@ export default {
 
   generateMediaHTML: (media, thumbnail, message, handleError) => {
     const mediaType = findPostMediaType(media)
+    // Remove autoplay on youtube embed
     switch (mediaType) {
       // If the media is a video, return an HTML5 video element
       case 'video':
@@ -309,7 +310,7 @@ export default {
             title={message}
             width="100%"
             height="315"
-            src={media}
+            src={media.replace('autoplay=1', 'autoplay=0')}
             frameBorder="0"
             allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
