@@ -23,27 +23,25 @@ import brandColors from '../../constants/brandColors'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function Icon(props) {
-// REDEFINE PROPS AS VARIABLES
-  let { color = brandColors.black } = props
-  const { data } = props
-  const { status } = props
-  const { version } = props
-  const { width } = props
-  // END REDEFINE PROPS AS VARIABLES
-
+function Icon({
+  color = brandColors.black,
+  data,
+  status,
+  version,
+  width,
+  className = '',
+}) {
   // ADAPTATIONS FOR A STATUS PROPS
   // Adapt colors for different status'
   let bgColor
   let borderColor
   if (status === 'all') {
     color = brandColors.white
-    bgColor = props.color
-    borderColor = props.color
+    bgColor = color
+    borderColor = color
   } else if (status === 'some') {
-    color = props.color
     bgColor = brandColors.white
-    borderColor = props.color
+    borderColor = color
   } else if (status === 'none') {
     color = brandColors.grey
     bgColor = brandColors.white
@@ -101,8 +99,9 @@ function Icon(props) {
       default:
         return (
           <div
-            style={{ display: 'block', width: `${props.width}px`, height: `${props.width}px` }}
-            data-item={props.data}
+            className={className}
+            style={{ display: 'block', width: `${width}px`, height: `${width}px` }}
+            data-item={data}
           >
             &nbsp;
           </div>
@@ -110,11 +109,10 @@ function Icon(props) {
     }
   }
   const icon = selectIcon(version, color, width, data)
-  // END SELECT CORRECT ICON
 
 
   return (
-    <div className="icon" style={iconWrapper}>
+    <div className={['icon', className].join(' ')} style={iconWrapper}>
       {icon}
     </div>
   )
