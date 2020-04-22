@@ -37,7 +37,7 @@ CONNECTIONS
   padding-left: 10px;
 }
 
-.asteriskIcon {
+.asterixIcon {
   margin-right: 0.5em;
 }
 
@@ -65,4 +65,8 @@ CONNECTIONS
   text-align: center;
   padding-right: 2.778%;
   flex: none;
+}
+
+.saveIcon {
+  transform: translateY(0.3em);
 }

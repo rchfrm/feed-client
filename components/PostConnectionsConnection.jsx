@@ -146,8 +146,12 @@ const PostConnectionsConnection = ({
       </div>
 
       <div className={styles['integration-edit']}>
-        <Button version="text" onClick={handleClick} disabled={disabled} bgColor={brandColors.white}>
-          <ConnectionEdit disabled={disabled} loading={loading} valid={valid} />
+        <Button version="none" onClick={handleClick} disabled={disabled} bgColor={brandColors.white}>
+          <ConnectionEdit
+            disabled={disabled}
+            loading={loading}
+            valid={valid}
+          />
         </Button>
       </div>
 
@@ -178,6 +182,7 @@ function ConnectionEdit({
   }
   return (
     <Icon
+      className={styles.saveIcon}
       version="tick"
       color={disabled ? [brandColors.disabledColorText] : [brandColors.textColor]}
       width={15}

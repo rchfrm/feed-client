@@ -7,7 +7,7 @@ import Icon from './elements/Icon'
 import Spinner from './elements/Spinner'
 import Alert, { alertReducer, initialAlertState } from './elements/Alert'
 // IMPORT ASSETS
-import AsteriskIcon from './icons/AsterixIcon'
+import AsterixIcon from './icons/AsterixIcon'
 // IMPORT CONSTANTS
 import dataSourceDetails from '../constants/dataSources'
 import brandColors from '../constants/brandColors'
@@ -135,7 +135,7 @@ const PostConnectionsEdit = ({
             style={{ cursor: valid && !priority ? 'pointer' : 'initial' }}
           >
 
-            <AsteriskIcon fill={color} width={15} />
+            <AsterixIcon className={styles.asterixIcon} fill={color} width={15} />
 
           </div>
         )}
