@@ -83,7 +83,7 @@
        url("/fonts/Inter-MediumItalic.woff?v=3.13") format("woff");
 } */
 
-/* @font-face {
+@font-face {
   font-family: 'Inter';
   font-style:  normal;
   font-weight: 600;
@@ -98,9 +98,9 @@
   font-display: swap;
   src: url("/fonts/Inter-SemiBoldItalic.woff2?v=3.13") format("woff2"),
        url("/fonts/Inter-SemiBoldItalic.woff?v=3.13") format("woff");
-} */
+}
 
-@font-face {
+/* @font-face {
   font-family: 'Inter';
   font-style:  normal;
   font-weight: 700;
@@ -115,7 +115,7 @@
   font-display: swap;
   src: url("/fonts/Inter-BoldItalic.woff2?v=3.13") format("woff2"),
        url("/fonts/Inter-BoldItalic.woff?v=3.13") format("woff");
-}
+} */
 
 /* @font-face {
   font-family: 'Inter';
