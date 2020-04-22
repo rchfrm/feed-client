@@ -72,7 +72,8 @@ input[readonly] {
   display: block;
   border: 2px solid var(--black);
   border-radius: var(--button-radius);
-  padding: 1em 0.8em;
+  padding: 0 0.8em;
+  height: var(--button-height);
   font-family: var(--font);
   width: 100%;
   

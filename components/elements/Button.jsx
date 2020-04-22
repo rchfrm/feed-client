@@ -42,7 +42,9 @@ const Button = ({
         backgroundColor: bgColor,
       }}
     >
-      {loading ? <Spinner className="button--spinner" /> : children}
+      <span className="button--innerText">
+        {loading ? <Spinner className="button--spinner" /> : children}
+      </span>
     </button>
   )
 }

@@ -11,11 +11,9 @@ button {
 
 .button {
   font-family: var(--font);
-  display: flex;
-  border-radius: var(--button-radius);
-  align-items: center;
-  border: none;
   padding: 0;
+  border: none;
+  border-radius: var(--button-radius);
   font-size: 1.1em;
   
   &:disabled,
@@ -40,13 +38,20 @@ button {
   }
 }
 
+.button--innerText {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  transform: translateY(-0.1em);
+}
+
 .button--black,
 .button--green,
 .button--success {
   background-color: var(--black);
   color: var(--white);
-  padding: 1.1em 1.3em;
-  padding-top: 0.9em;
+  padding: 0 1.3em;
+  height: var(--button-height);
   font-weight: var(--bold);
   justify-content: center;
   cursor: pointer;
@@ -76,8 +81,8 @@ button {
 
 .button--small {
   font-size: 1em;
-  padding: 1em 1.2em;
-  padding-top: 0.8em;
+  padding: 0 1.2em;
+  height: var(--button-height-small);
 }
 
 .button--cross,
@@ -111,6 +116,10 @@ button {
   background-color: var(--success-color);
   color: var(--white);
 
+  .button--innerText {
+    transform: none;
+  }
+
   svg {
     * {
       fill: var(--white);
@@ -138,18 +147,25 @@ button {
 
 .button--icon {
   font-weight: var(--bold);
-  padding: 20px;
+  padding: 0 var(--bsu);
+  height: var(--button-height);
+
   svg {
+    width: var(--bsu);
+    height: auto;
     vertical-align: bottom;
     margin-right: var(--bsu);
+    transform: translateY(1px);
   }
 }
 
 .button--facebook {
   background-color: var(--color-fb-button);
   color: var(--white);
-  border: none;
-  text-align: left;
+  
+  .button--innerText {
+    justify-content: flex-start;
+  }
 }
 
 .integration-setup {
