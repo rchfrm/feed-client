@@ -247,6 +247,15 @@ export default {
 
   /**
    * @param {string} artistId
+   * @param {boolean} enabled
+   * @returns {Promise<any>}
+   */
+  toggleDefaultPromotionStatus: async (artistId, enabled) => {
+    return api.patch('/actions/batchSetPromotionEnabled', { artist_id: artistId, enabled })
+  },
+
+  /**
+   * @param {string} artistId
    * @param {string} postId
    * @param {string} link
    * @param {string} [verifyIdToken]
