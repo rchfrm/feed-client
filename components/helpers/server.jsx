@@ -251,7 +251,7 @@ export default {
    * @returns {Promise<any>}
    */
   toggleDefaultPromotionStatus: async (artistId, enabled) => {
-    return api.patch('/actions/batchSetPromotionEnabled', { artist_id: artistId, enabled })
+    return api.post('/actions/batchSetPromotionEnabled', { artist_id: artistId, enabled })
   },
 
   /**
