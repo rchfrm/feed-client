@@ -18,8 +18,7 @@ function ConfirmationContent() {
 
 const PostSettingsStatusConfirmation = ({
   setConfirmation,
-  newStatus,
-  setStatus,
+  triggerStatusUpdate,
 }) => {
   // DEFINE ALERT STATE
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
@@ -34,9 +33,10 @@ const PostSettingsStatusConfirmation = ({
   // DEFINE ALERT RESPONSES
   const resetAlert = () => {
     setConfirmation(false)
+    triggerStatusUpdate(false)
   }
   const acceptAlert = () => {
-    setStatus(newStatus)
+    triggerStatusUpdate(true)
     setConfirmation(false)
   }
 
@@ -54,8 +54,7 @@ const PostSettingsStatusConfirmation = ({
 
 PostSettingsStatusConfirmation.propTypes = {
   setConfirmation: PropTypes.func.isRequired,
-  newStatus: PropTypes.bool.isRequired,
-  setStatus: PropTypes.func.isRequired,
+  triggerStatusUpdate: PropTypes.func.isRequired,
 }
 
 export default PostSettingsStatusConfirmation

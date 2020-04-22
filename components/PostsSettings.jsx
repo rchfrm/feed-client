@@ -17,6 +17,7 @@ import copy from '../copy/PostsPageCopy'
 
 import styles from './PostSettings.module.css'
 import sidePanelStyles from './SidePanel.module.css'
+import server from './helpers/server'
 
 const postSettingOptions = [
   {
@@ -32,12 +33,12 @@ const postSettingOptions = [
 ]
 
 // Call the server with the new post status
-const updatePostSettings = ({ defaultPostStatus }) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(defaultPostStatus)
-    }, 1000)
-  })
+const updatePostSettings = async ({ updatePostStatus, artistId, pendingDefaultPostStatus }) => {
+  if (!updatePostStatus) return
+  const { success } = await server.toggleDefaultPromotionStatus(artistId, pendingDefaultPostStatus)
+  console.log('success', success)
+  if (!success) return
+  return pendingDefaultPostStatus
 }
 
 const PostsSettings = () => {
@@ -45,13 +46,11 @@ const PostsSettings = () => {
   const { artist, artistId } = React.useContext(ArtistContext)
   const { setSidePanelButton, toggleSidePanel, setSidePanelLoading } = React.useContext(SidePanelContext)
   // DEFINE INITIAL POST SETTINGS
-  const initialPostSettings = React.useRef({
-    defaultPostStatus: true,
-  })
-
+  const { promotion_enabled_default: initialPostSettings } = artist.preferences.posts
   // UPDATE POST STATUS SETTINGS
-  const [defaultPostStatus, setDefaultPostStatus] = React.useState(initialPostSettings.current.defaultPostStatus)
-  const [pendingDefaultPostStatus, setPendingDefaultPostStatus] = React.useState(initialPostSettings.current.defaultPostStatus)
+  const [defaultPostStatus, setDefaultPostStatus] = React.useState(initialPostSettings)
+  const [pendingDefaultPostStatus, setPendingDefaultPostStatus] = React.useState(initialPostSettings)
+  const [updatePostStatus, triggerStatusUpdate] = React.useState(false)
   const [showPostStatusConfirmation, setShowPostStatusConfirmation] = React.useState(false)
   // Call this from the radio buttons...
   const updateGlobalStatus = React.useCallback((value) => {
@@ -65,13 +64,17 @@ const PostsSettings = () => {
   // Run this to fetch posts when the artist changes
   const { error, isPending, cancel: cancelUpdatePostSettings } = useAsync({
     promiseFn: updatePostSettings,
-    initialValue: initialPostSettings.current.defaultPostStatus,
-    watch: defaultPostStatus,
+    watch: updatePostStatus,
     // The variable(s) to pass to promiseFn
-    defaultPostStatus,
+    updatePostStatus,
+    pendingDefaultPostStatus,
+    artistId,
     // When promise resolves
     onResolve: (newDefaultPostStatus) => {
-      setDefaultPostStatus(newDefaultPostStatus)
+      triggerStatusUpdate(false)
+      if (typeof newDefaultPostStatus === 'boolean') {
+        setDefaultPostStatus(newDefaultPostStatus)
+      }
     },
   })
   // Cancel initial run
@@ -97,9 +100,9 @@ const PostsSettings = () => {
 
   return (
     <section>
-      <Error error={error} />
       <h2 className={sidePanelStyles.SidePanel__Header}>Post Settings</h2>
       <div className="content">
+        <Error error={error} />
         {/* GLOBAL POST STATE SELECTOR */}
         <div className={styles.settingSection}>
           <h3 className="settingSection__header">Default Status</h3>
@@ -121,9 +124,10 @@ const PostsSettings = () => {
       {/* POST STATE CHANGE CONFIRMATION */}
       {showPostStatusConfirmation && (
         <PostSettingsStatusConfirmation
-          newStatus={pendingDefaultPostStatus}
-          setStatus={setDefaultPostStatus}
           setConfirmation={setShowPostStatusConfirmation}
+          newStatus={pendingDefaultPostStatus}
+          triggerStatusUpdate={triggerStatusUpdate}
+          setStatus={setDefaultPostStatus}
         />
       )}
     </section>
