@@ -1,6 +1,6 @@
 /* Import fonts */
-@import "./fonts/space-grotesk";
-@import "./fonts/inter";
+@import "./font-face/space-grotesk";
+@import "./font-face/inter";
 /**
 * Base.
 */
