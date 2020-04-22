@@ -45,7 +45,7 @@ function PostsBudget({ currency }) {
     const budgetFormatted = helper.formatCurrency(Number(artist.daily_budget))
     const placeholder = `Current Budget: ${budgetFormatted}`
     setBudgetPlaceholder(placeholder)
-  }, [])
+  }, [artist.daily_budget])
 
   // Call this to reset the input
   const resetBudgetState = () => setBudget(initialBudgetState)
@@ -77,17 +77,13 @@ function PostsBudget({ currency }) {
   const handleChange = e => {
     e.preventDefault()
     setError(null)
-    if (Number(e.target.value) === artist.daily_budget) {
-      setBudget(initialBudgetState)
-    } else if (e.target.value >= 0) {
-      setBudget({
-        amount: e.target.value,
-        text: 'Save',
-        disabled: false,
-        color: brandColors.bgColor,
-        bgColor: brandColors.textColor,
-      })
-    }
+    setBudget({
+      amount: e.target.value,
+      text: 'Save',
+      disabled: false,
+      color: brandColors.bgColor,
+      bgColor: brandColors.textColor,
+    })
   }
 
   const onSubmit = async (e) => {
