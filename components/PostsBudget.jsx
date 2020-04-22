@@ -1,26 +1,24 @@
 
 // IMPORT PACKAGES
 import React from 'react'
-import Link from 'next/link'
 // IMPORT COMPONENTS
+import PageHeader from './PageHeader'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Input from './elements/Input'
 import Button from './elements/Button'
-import Feed from './elements/Feed'
 import Error from './elements/Error'
 import Alert, { alertReducer } from './elements/Alert'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
-import PageHeader from './PageHeader'
+import helper from './helpers/helper'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
 import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/PostsPageCopy'
+import copy from '../copy/BudgetCopy'
 import brandColors from '../constants/brandColors'
 
 const initialAlertState = {
@@ -32,7 +30,7 @@ function PostsBudget({ currency }) {
 
   // DEFINE STATES
   const initialBudgetState = {
-    amount: artist.daily_budget,
+    amount: '',
     text: 'Save',
     disabled: true,
     color: brandColors.greyDark,
@@ -41,8 +39,25 @@ function PostsBudget({ currency }) {
   const [budget, setBudget] = React.useState(initialBudgetState)
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
 
-  // DEFINE ALERT REPONSES
-  const resetAlert = () => setAlert({ type: 'reset-alert' })
+  // Define input placeholder
+  const [budgetPlaceholder, setBudgetPlaceholder] = React.useState('')
+  React.useEffect(() => {
+    const budgetFormatted = helper.formatCurrency(Number(artist.daily_budget))
+    const placeholder = `Current Budget: ${budgetFormatted}`
+    setBudgetPlaceholder(placeholder)
+  }, [artist.daily_budget])
+
+  // Call this to reset the input
+  const resetBudgetState = () => setBudget(initialBudgetState)
+
+  // CLEAR ALERT
+  const resetAlert = () => {
+    setAlert({ type: 'reset-alert' })
+    // Ater closing alert, wait a second then reset budget state
+    setTimeout(() => {
+      resetBudgetState()
+    }, 1000)
+  }
 
   // DEFINE ALERT BUTTONS
   const AlertButton = () => (
@@ -62,17 +77,13 @@ function PostsBudget({ currency }) {
   const handleChange = e => {
     e.preventDefault()
     setError(null)
-    if (Number(e.target.value) === artist.daily_budget) {
-      setBudget(initialBudgetState)
-    } else if (e.target.value >= 0) {
-      setBudget({
-        amount: e.target.value,
-        text: 'Save',
-        disabled: false,
-        color: brandColors.bgColor,
-        bgColor: brandColors.textColor,
-      })
-    }
+    setBudget({
+      amount: e.target.value,
+      text: 'Save',
+      disabled: false,
+      color: brandColors.bgColor,
+      bgColor: brandColors.textColor,
+    })
   }
 
   const onSubmit = async (e) => {
@@ -84,27 +95,26 @@ function PostsBudget({ currency }) {
       color: brandColors.greyDark,
       bgColor: brandColors.greyLight,
     })
-    try {
-      const budgetAmount = budget.amount || 0
-      const dailyBudget = await updateBudget(artist.id, currency, budgetAmount)
-      setBudget({
-        ...budget,
-        text: 'Saved!',
-        disabled: true,
-        color: brandColors.bgColor,
-        bgColor: brandColors.successColor,
+    const budgetAmount = budget.amount || 0
+    const dailyBudget = await updateBudget(artist.id, currency, budgetAmount)
+      .catch((error) => {
+        setError(error)
+        setBudget(initialBudgetState)
+        setAlert({ type: 'reset-alert' })
       })
-      setAlert({
-        type: 'show-alert',
-        payload: {
-          contents: <BudgetConfirmation budget={dailyBudget} />,
-        },
-      })
-    } catch (err) {
-      setError(err)
-      setBudget(initialBudgetState)
-      setAlert({ type: 'reset-alert' })
-    }
+    setBudget({
+      ...budget,
+      text: 'Saved!',
+      disabled: true,
+      color: brandColors.bgColor,
+      bgColor: brandColors.successColor,
+    })
+    setAlert({
+      type: 'show-alert',
+      payload: {
+        contents: <BudgetConfirmation budget={dailyBudget} />,
+      },
+    })
   }
 
   return (
@@ -127,8 +137,8 @@ function PostsBudget({ currency }) {
           <Input
             className={styles.BudgetForm_inputContainer}
             name="budget"
-            placeholder={currency}
-            value={budget.amount === 0 ? '' : budget.amount}
+            placeholder={budgetPlaceholder}
+            value={budget.amount}
             handleChange={handleChange}
             type="number"
             version="box"
@@ -158,44 +168,14 @@ function PostsBudget({ currency }) {
 function BudgetConfirmation({ budget }) {
   const budgetInt = Number(budget)
 
+  // Message for setting budget to 0
   if (budgetInt === 0) {
-    return (
-      <div style={{ width: '100%', paddingBottom: '1em' }}>
-        <h1>
-          <Feed />
-          {' '}
-          is paused.
-        </h1>
-        <p>Your posts are no longer being promoted. When you're ready, just update your daily budget to resume.</p>
-      </div>
-    )
+    return <MarkdownText markdown={copy.pauseBudget} />
   }
-  return (
-    <div style={{ width: '100%', paddingBottom: '1em' }}>
-      <h1>Thanks!</h1>
-      <p>That's all we need from you.</p>
-      <p>
-        Your daily budget has been set to
-        {' '}
-        <span className="bold">
-          £
-          {budget}
-        </span>
-        {' '}
-        and
-        {' '}
-        <Feed />
-        {' '}
-        is promoting your posts.
-      </p>
-      <p>
-        In a few hours, you'll be able to see how they're doing on the
-        {' '}
-        <Link href={ROUTES.RESULTS}><a>results page</a></Link>
-        .
-      </p>
-    </div>
-  )
+
+  // Message for setting budget to positive number
+  const budgetFormatted = helper.formatCurrency(budget)
+  return <MarkdownText markdown={copy.setBudget(budgetFormatted)} />
 }
 
 export default PostsBudget
