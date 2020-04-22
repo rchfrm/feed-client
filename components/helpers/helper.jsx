@@ -494,6 +494,16 @@ export default {
   },
 
   /**
+  * @param {number} value
+  * @param {string} locale
+  * @param {string} currency
+  * @returns {string}
+  */
+  formatCurrency: (value, locale = 'en-GB', currency = 'GBP') => {
+    value.toLocaleString(locale, { style: 'currency', currency })
+  },
+
+  /**
    * @param {string} url To pass, url must include a protocol (ie, https?://)
    * @returns {boolean}
    */
