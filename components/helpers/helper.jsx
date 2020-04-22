@@ -500,7 +500,7 @@ export default {
   * @returns {string}
   */
   formatCurrency: (value, locale = 'en-GB', currency = 'GBP') => {
-    value.toLocaleString(locale, { style: 'currency', currency })
+    return value.toLocaleString(locale, { style: 'currency', currency })
   },
 
   /**
