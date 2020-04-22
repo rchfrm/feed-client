@@ -2,22 +2,34 @@
   display: flex;
   margin-bottom: var(--bsu);
   justify-content: flex-start;
+  flex-wrap: wrap;
+
+  @media (--xs) {
+    flex-wrap: no-wrap;
+  }
 }
 
 .inputContainer {
-  margin-bottom: 0 !important;
-  padding-right: var(--bsu);
+  width: 100%;
+  margin-bottom: var(--bsu) !important;
   flex: 1 1 auto;
 
-  @media (--xs) {
-    flex: 1 0 auto;
+  :global(.input--box) {
+    margin-bottom: 0 !important;
   }
 
-  :global(.input--box) {
+  @media (--xs) {
+    width: auto;
+    flex: 1 0 auto;
+    padding-right: var(--bsu);
     margin-bottom: 0 !important;
   }
 }
 
 .submitButton {
+  width: 100%;
 
+  @media (--xs) {
+    width: auto;
+  }
 }

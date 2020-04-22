@@ -59,6 +59,7 @@
   /* UI */
   --button-height: 60px;
   --button-height-small: 48px;
+  --button-width-wide: 150px;
   --logo-ratio: 0.855072463768116;
 }
 
@@ -70,8 +71,8 @@
  * Breakpoints.
  */
 
-@custom-media --xxsMax (width < 400px);
-@custom-media --xxs    (width >= 400px);
+@custom-media --xxsMax (width < 450px);
+@custom-media --xxs    (width >= 450px);
 @custom-media --xsMax  (width < 600px);
 @custom-media --xs     (width >= 600px);
 @custom-media --smMax  (width < 800px);
