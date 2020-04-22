@@ -28,6 +28,14 @@
 
 .postSettingsButton {
   margin-bottom: var(--bsu-md);
+
+  :global(.button--innerText) {
+    align-items: center;
+  }
+
+  :global(svg) {
+    transform: none;
+  }
 }
 
 

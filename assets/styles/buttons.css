@@ -79,11 +79,6 @@ button {
   }
 }
 
-.button--small {
-  font-size: 1em;
-  padding: 0 1.2em;
-  height: var(--button-height-small);
-}
 
 .button--cross,
 .button--toggle,
@@ -160,8 +155,9 @@ button {
 }
 
 .button--small {
-  padding: 1em;
-  padding-top: 0.8em;
+  font-size: 1em;
+  padding: 0 1.2em;
+  height: var(--button-height-small);
 }
 
 .button--facebook {
