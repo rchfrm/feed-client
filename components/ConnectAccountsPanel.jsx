@@ -159,10 +159,11 @@ function ConnectAccountsPanel({
         name="country_code"
         label="Your country"
         handleChange={handleChange}
-        selectedValue={artistAccount.country_code || 'choose'}
+        selectedValue={artistAccount.country_code}
         placeholder="Choose your country..."
         options={countriesArr}
         required
+        highlight
       />
     )
   }
