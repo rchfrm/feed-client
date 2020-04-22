@@ -23,6 +23,7 @@ function Footer() {
 
       <p className="xsmall--p no-margin">
         &copy;
+        {' '}
         {thisYear}
         {' '}
         <Feed />

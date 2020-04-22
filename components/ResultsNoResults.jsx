@@ -22,7 +22,7 @@ const ResultsNoResults = ({ dailyBudget }) => {
       className="fill-height"
       style={{ justifyContent: 'space-between' }}
     >
-      <MarkdownText className="ninety-wide" markdown={copy.noResultsNoBudget} />
+      <MarkdownText className="ninety-wide  h4--text" markdown={copy.noResultsNoBudget} />
       <PromotePostsButton dailyBudget={dailyBudget} />
     </div>
   )

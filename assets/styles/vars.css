@@ -28,9 +28,11 @@
   --color-fb-button: var(--color-fb);
 
   /* Font */
-  --font: SpaceGrotesk, sans-serif;
-  --font-mono: monospace;
+  --font: 'Inter', serif;
+  --font-display: 'SpaceGrotesk';
   --base-font-size: 15px;
+  --bold: 600;
+  --bold-display: 600;
 
   /* Base Spacing Units */
   --bsu-sm: 10px;
@@ -55,6 +57,8 @@
   --trans: 0.25s ease;
 
   /* UI */
+  --button-height: 60px;
+  --button-height-small: 48px;
   --logo-ratio: 0.855072463768116;
 }
 

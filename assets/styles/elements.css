@@ -161,7 +161,7 @@
 ******************/
 .error,
 .success {
-  font-weight: 500;
+  font-weight: var(--bold);
   width: 100%;
   text-align: left;
 }
@@ -182,7 +182,7 @@
 /* Feed
 ******************/
 .feed {
-  font-weight: bold;
+  font-weight: var(--bold);
 }
 
 /* Frame
@@ -232,38 +232,6 @@
   }
 }
 
-
-/* Navigation
-******************/
-.TheNavigation {
-  background-color: var(--black);
-  color: var(--white);
-
-  a.-active {
-    text-decoration: none;
-    cursor: default;
-  }
-  
-  ul {
-    padding-top: 2em;
-    padding-left: 17.129%;
-  }
-
-  li {
-    margin-bottom: 1em;
-    &:last-child {
-      padding-top: 2em;
-      margin-bottom: 0;
-    }
-  }
-
-  a {
-    font-size: 1.25em;
-    font-weight: 600;
-    color: var(--white);
-  }
-}
-
 /* NextButton
 ******************/
 .nextbutton {
@@ -280,11 +248,15 @@
 }
 /* PageHeader
 ******************/
-.page-header {
+.page--header {
   width: 90%;
   margin: 0 auto;
+  margin-bottom: var(--bsu-md);
   flex: none;
-  margin-bottom: 1em;
+
+  h1 {
+    margin-bottom: 0;
+  }
 }
 
 

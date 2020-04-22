@@ -1,8 +1,12 @@
+/* Import fonts */
+@import "./font-face/space-grotesk";
+@import "./font-face/inter";
 /**
 * Base.
 */
 @import "./reset";
 @import "./vars";
+@import "./rhythm";
 @import "./base";
 @import "./type";
 @import "./flex-rules";

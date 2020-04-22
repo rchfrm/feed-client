@@ -7,10 +7,10 @@ CONNECTIONS
   width: 90%;
   margin: 0 5%;
   flex: auto;
+}
 
-  .p {
-    font-weight: 400;
-  }
+.accountTitle {
+  margin-bottom: var(--bsu-md) !important;
 }
 
 .integrarionsListItem {
@@ -37,11 +37,15 @@ CONNECTIONS
   padding-left: 10px;
 }
 
+.asteriskIcon {
+  margin-right: 0.5em;
+}
 
 .integration-link {
   flex: auto;
   white-space: nowrap;
   overflow: hidden;
+  line-height: 1;
 
   :global(a) {
     display: inline-block;

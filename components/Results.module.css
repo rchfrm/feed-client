@@ -73,7 +73,7 @@
   .insight-number {
     width: 21.831%;
     text-align: right;
-    font-weight: bold;
+    font-weight: var(--bold);
   }
   .insight-statement {
     width: 73.943%;

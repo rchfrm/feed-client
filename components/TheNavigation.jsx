@@ -37,6 +37,18 @@ function ArtistOptions({ currentArtistId, artists, handleChange }) {
   )
 }
 
+function NavigationLinks({ links }) {
+  return links.map(({ href, title, external }) => {
+    return (
+      <li className={['display', styles.linkItem].join(' ')} key={href}>
+        {external
+          ? <a className={styles.a} href={href} target="_blank" rel="noopener noreferrer">{ title }</a>
+          : <ActiveLink href={href}><a className={styles.a}>{ title }</a></ActiveLink>}
+      </li>
+    )
+  })
+}
+
 function NavigationAuth() {
   const { user } = React.useContext(UserContext)
   const { artist, storeArtist } = React.useContext(ArtistContext)
@@ -80,7 +92,7 @@ function NavigationAuth() {
 
   return (
     <>
-      <ul>
+      <ul className={styles.list}>
         {user.artists.length > 1
           ? (
             <li>
@@ -92,15 +104,11 @@ function NavigationAuth() {
             </li>
           )
           : null}
-        {links.map(({ href, title }) => {
-          return (
-            <li key={href}>
-              <ActiveLink href={href}><a>{ title }</a></ActiveLink>
-            </li>
-          )
-        })}
-        <li>
-          <SignOutLink />
+
+        <NavigationLinks links={links} />
+
+        <li className={['display', styles.linkItem].join(' ')}>
+          <SignOutLink className={styles.a} />
         </li>
       </ul>
     </>
@@ -137,16 +145,8 @@ const NavigationNonAuth = () => {
 
   return (
     <>
-      <ul>
-        {links.map(({ href, title, external }) => {
-          return (
-            <li key={href}>
-              {external
-                ? <a href={href} target="_blank" rel="noopener noreferrer">{ title }</a>
-                : <ActiveLink href={href}><a>{ title }</a></ActiveLink>}
-            </li>
-          )
-        })}
+      <ul className={styles.list}>
+        <NavigationLinks links={links} />
       </ul>
     </>
   )
@@ -156,7 +156,7 @@ function TheNavigation() {
   const { navState } = React.useContext(NavigationContext)
   const { user } = React.useContext(UserContext)
 
-  const className = navState.visible ? 'TheNavigation' : 'TheNavigation hidden'
+  const className = navState.visible ? styles.nav : `${styles.nav} hidden`
 
   return (
     <nav className={className}>
