@@ -269,6 +269,7 @@ function ConnectAccountsPanel({
             label="Artist Name"
             readOnly={readOnly}
             version={artistAccount.exists ? 'text' : 'box'}
+            autoComplete={false}
           />
 
         </div>
