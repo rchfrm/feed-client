@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  margin-bottom: var(--bsu);
+  justify-content: flex-start;
+}
+
+.inputContainer {
+  margin-bottom: 0 !important;
+  padding-right: var(--bsu);
+  flex: 1 1 auto;
+
+  @media (--xs) {
+    flex: 1 0 auto;
+  }
+
+  :global(.input--box) {
+    margin-bottom: 0 !important;
+  }
+}
+
+.submitButton {
+
+}
