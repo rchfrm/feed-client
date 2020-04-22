@@ -19,6 +19,7 @@ import * as ROUTES from '../constants/routes'
 // IMPORT HELPERS
 import { track } from './helpers/trackingHelpers'
 import artistHelpers from './helpers/artistHelpers'
+import styles from './ConnectAccounts.module.css'
 import copy from '../copy/ConnectAccountsCopy'
 
 const ConnectAccountsLoader = ({ onSignUp }) => {
@@ -34,6 +35,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
 
   // DEFINE BUTTON STATE (disabled if required fields are absent)
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
+  const [disabledReason, setDisabledReason] = React.useState('')
 
   // DEFINE ERRORS
   const [errors, setErrors] = React.useState([authError])
@@ -169,6 +171,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
         artistAccounts={artistAccounts}
         setArtistAccounts={setArtistAccounts}
         setButtonDisabled={setButtonDisabled}
+        setDisabledReason={setDisabledReason}
         setErrors={setErrors}
       />
 
@@ -178,6 +181,10 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
         {errors.map((error, index) => {
           return <Error error={error} key={index} />
         })}
+
+        {disabledReason && (
+          <p className={styles.disabledReason}>{disabledReason}</p>
+        )}
 
         <Button
           version="black"

@@ -19,6 +19,7 @@ function ConnectAccounts({
   artistAccounts,
   setArtistAccounts,
   setButtonDisabled,
+  setDisabledReason,
   setErrors,
 }) {
   // SHOW ERROR IF THE USER ATTEMPTS TO EDIT FACEBOOK PAGE OR INSTAGRAM ACCOUNT
@@ -41,7 +42,22 @@ function ConnectAccounts({
       return country_code || !connect
     })
     const selectedAccounts = allAccounts.filter(({ connect }) => connect)
-    setButtonDisabled(!allCountriesSet || !selectedAccounts.length)
+
+    const disableButton = !allCountriesSet || !selectedAccounts.length
+
+    if (!allCountriesSet) {
+      setDisabledReason('Please select a country for each account')
+    }
+
+    if (!selectedAccounts.length) {
+      setDisabledReason('Please select at least one account')
+    }
+
+    if (!disableButton) {
+      setDisabledReason('')
+    }
+
+    setButtonDisabled(disableButton)
   }, [artistAccounts])
 
   const artistAccountsArray = Object.values(artistAccounts)
