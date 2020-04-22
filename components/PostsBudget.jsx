@@ -47,8 +47,17 @@ function PostsBudget({ currency }) {
     setBudgetPlaceholder(placeholder)
   }, [])
 
-  // DEFINE ALERT REPONSES
-  const resetAlert = () => setAlert({ type: 'reset-alert' })
+  // Call this to reset the input
+  const resetBudgetState = () => setBudget(initialBudgetState)
+
+  // CLEAR ALERT
+  const resetAlert = () => {
+    setAlert({ type: 'reset-alert' })
+    // Ater closing alert, wait a second then reset budget state
+    setTimeout(() => {
+      resetBudgetState()
+    }, 1000)
+  }
 
   // DEFINE ALERT BUTTONS
   const AlertButton = () => (
