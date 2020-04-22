@@ -2,6 +2,7 @@ import React from 'react'
 import { useAsync } from 'react-async'
 
 // IMPORT CONTEXTS
+import { ArtistContext } from './contexts/Artist'
 import { SidePanelContext } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import MarkdownText from './elements/MarkdownText'
@@ -40,7 +41,8 @@ const updatePostSettings = ({ defaultPostStatus }) => {
 }
 
 const PostsSettings = () => {
-  // GET SIDE PANEL CONTEXT
+  // GET CONTEXTS
+  const { artist, artistId } = React.useContext(ArtistContext)
   const { setSidePanelButton, toggleSidePanel, setSidePanelLoading } = React.useContext(SidePanelContext)
   // DEFINE INITIAL POST SETTINGS
   const initialPostSettings = React.useRef({
