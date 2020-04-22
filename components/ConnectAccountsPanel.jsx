@@ -292,18 +292,6 @@ function ConnectAccountsPanel({
           version={artistAccount.exists ? 'text' : 'box'}
         />
 
-        {/* Spotify Page URL */}
-        <Input
-          name="spotify_url"
-          placeholder={artistAccount.spotify_url || artistAccount.exists ? 'na.' : 'Enter the URL of your Spotify Artist Page'}
-          value={artistAccount.spotify_url || ''}
-          handleChange={handleChange}
-          type="text"
-          label="Spotify Artist Page URL"
-          readOnly={readOnly}
-          version={artistAccount.exists ? 'text' : 'box'}
-        />
-
         {/* Facebook Page URL */}
         <Input
           name="facebook_page_url"
