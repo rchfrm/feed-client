@@ -16,6 +16,7 @@ input[type=url],
 input[type=number],
 select {
   font-size: 16px;
+  letter-spacing: 0.05em;
 }
 
 input[readonly] {
