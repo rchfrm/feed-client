@@ -15,8 +15,11 @@ const Select = ({
   style,
   version,
   required,
+  highlight, // show red if empty
   className,
 }) => {
+  // Define class array
+  const classes = ['input--container', 'select--container', className]
   // Transform options into array of <option> elements
   const optionElements = options.map(option => {
     return <option key={option.value} value={option.value}>{option.name}</option>
@@ -25,6 +28,10 @@ const Select = ({
   if (placeholder) {
     optionElements.unshift(<option key="placeholder" value="" hidden>{placeholder}</option>)
   }
+  // Add error class
+  if (highlight && !selectedValue) {
+    classes.push('_error')
+  }
 
   const versionClasses = version
     .split(' ')
@@ -32,7 +39,7 @@ const Select = ({
     .join(' ')
 
   return (
-    <div className={['input--container', 'select--container', className].join(' ')}>
+    <div className={classes.join(' ')}>
       <label
         className="inputLabel"
         htmlFor={name}
@@ -104,7 +111,7 @@ Select.propTypes = {
   version: PropTypes.string,
 
   required: PropTypes.bool,
-
+  highlight: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -113,6 +120,7 @@ Select.defaultProps = {
   style: {},
   version: 'box',
   required: false,
+  highlight: false,
   className: '',
   placeholder: '',
   selectedValue: '',
