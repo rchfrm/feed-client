@@ -275,7 +275,12 @@ function ConnectAccountsPanel({
 
       </div>
 
-      <div className="flex-column" style={{ flex: 'auto', justifyContent: 'space-between' }}>
+      <form
+        className="flex-column"
+        style={{ flex: 'auto', justifyContent: 'space-between' }}
+        onSubmit={(e) => e.preventDefault()}
+        autoComplete="off"
+      >
 
         {/* Country */}
         {returnCountry()}
@@ -313,7 +318,7 @@ function ConnectAccountsPanel({
           {returnAdAccountSelector()}
         </div>
 
-      </div>
+      </form>
 
     </li>
   )
