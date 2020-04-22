@@ -16,6 +16,7 @@ const Select = ({
   version,
   required,
   highlight, // show red if empty
+  autoComplete,
   className,
 }) => {
   // Define class array
@@ -58,6 +59,7 @@ const Select = ({
             style={style}
             value={selectedValue}
             required={required}
+            autoComplete={!autoComplete ? 'off' : ''}
           >
             {optionElements}
           </select>
@@ -112,6 +114,7 @@ Select.propTypes = {
 
   required: PropTypes.bool,
   highlight: PropTypes.bool,
+  autoComplete: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -121,6 +124,7 @@ Select.defaultProps = {
   version: 'box',
   required: false,
   highlight: false,
+  autoComplete: true,
   className: '',
   placeholder: '',
   selectedValue: '',
