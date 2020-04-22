@@ -36,14 +36,13 @@ const postSettingOptions = [
 const updatePostSettings = async ({ updatePostStatus, artistId, pendingDefaultPostStatus }) => {
   if (!updatePostStatus) return
   const { success } = await server.toggleDefaultPromotionStatus(artistId, pendingDefaultPostStatus)
-  console.log('success', success)
   if (!success) return
   return pendingDefaultPostStatus
 }
 
 const PostsSettings = () => {
   // GET CONTEXTS
-  const { artist, artistId } = React.useContext(ArtistContext)
+  const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { setSidePanelButton, toggleSidePanel, setSidePanelLoading } = React.useContext(SidePanelContext)
   // DEFINE INITIAL POST SETTINGS
   const { promotion_enabled_default: initialPostSettings } = artist.preferences.posts
@@ -73,7 +72,10 @@ const PostsSettings = () => {
     onResolve: (newDefaultPostStatus) => {
       triggerStatusUpdate(false)
       if (typeof newDefaultPostStatus === 'boolean') {
+        // Update Component status
         setDefaultPostStatus(newDefaultPostStatus)
+        // Update artist status
+        setPostPreferences('promotion_enabled_default', newDefaultPostStatus)
       }
     },
   })

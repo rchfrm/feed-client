@@ -18,7 +18,9 @@ const initialArtistState = {
   id: '',
   URLs: {},
   preferences: {
-    posts: {},
+    posts: {
+      promotion_enabled_default: true,
+    },
   },
   priority_dsp: '',
   users: {},
@@ -57,6 +59,10 @@ const artistReducer = (draftState, action) => {
     case 'set-connection': {
       draftState.URLs[payload.platform] = payload.url
       draftState[payload.platform] = payload.url
+      break
+    }
+    case 'update-post-preferences': {
+      draftState.preferences.posts[payload.preferenceType] = payload.value
       break
     }
     default:
@@ -194,6 +200,16 @@ function ArtistProvider({ children }) {
     })
   }
 
+  const setPostPreferences = (preferenceType, value) => {
+    setArtist({
+      type: 'update-post-preferences',
+      payload: {
+        preferenceType,
+        value,
+      },
+    })
+  }
+
   const addUrl = async (url, urlType) => {
     const updatedArtist = await server.saveLink(artist.id, url, urlType)
 
@@ -221,7 +237,6 @@ function ArtistProvider({ children }) {
   }, [artistId])
 
   const value = {
-    addUrl,
     artist,
     artistId,
     artistLoading,
@@ -231,6 +246,8 @@ function ArtistProvider({ children }) {
     setArtistLoading,
     setPriorityDSP,
     setConnection,
+    setPostPreferences,
+    addUrl,
     storeArtist,
     updateBudget,
   }
