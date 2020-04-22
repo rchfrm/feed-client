@@ -161,18 +161,18 @@ function BudgetConfirmation({ budget }) {
   if (budgetInt === 0) {
     return (
       <div style={{ width: '100%', paddingBottom: '1em' }}>
-        <h1>
+        <h3 className="h1">
           <Feed />
           {' '}
           is paused.
-        </h1>
+        </h3>
         <p>Your posts are no longer being promoted. When you're ready, just update your daily budget to resume.</p>
       </div>
     )
   }
   return (
     <div style={{ width: '100%', paddingBottom: '1em' }}>
-      <h1>Thanks!</h1>
+      <h3 className="h1">Thanks!</h3>
       <p>That's all we need from you.</p>
       <p>
         Your daily budget has been set to
