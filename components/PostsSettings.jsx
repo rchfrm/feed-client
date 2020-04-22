@@ -7,6 +7,7 @@ import { SidePanelContext } from './contexts/SidePanelContext'
 import MarkdownText from './elements/MarkdownText'
 import RadioButtons from './elements/RadioButtons'
 import Button from './elements/Button'
+import Error from './elements/Error'
 // IMPORT COMPONENTS
 import PostSettingsStatusConfirmation from './PostSettingsStatusConfirmation'
 import PostConnections from './PostConnections'
@@ -94,6 +95,7 @@ const PostsSettings = () => {
 
   return (
     <section>
+      <Error error={error} />
       <h2 className={sidePanelStyles.SidePanel__Header}>Post Settings</h2>
       <div className="content">
         {/* GLOBAL POST STATE SELECTOR */}
