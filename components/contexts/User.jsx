@@ -2,7 +2,7 @@ import React from 'react'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import server from '../helpers/server'
-import { track } from '../helpers/trackingHelpers'
+import { track, setUserType } from '../helpers/trackingHelpers'
 
 const initialUserState = {
   id: '',
@@ -82,6 +82,10 @@ function UserProvider({ children }) {
       })
     // TODO If 404, then call /accounts/register
     if (!user) return
+    // Update user type in track helpers
+    console.log('user', user)
+    setUserType(user)
+    // Update user state
     setUser({
       type: 'set-user',
       payload: {

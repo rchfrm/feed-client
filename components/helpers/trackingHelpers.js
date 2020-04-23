@@ -1,6 +1,16 @@
 import * as Sentry from '@sentry/browser'
 
+let userType = null
+export const setUserType = (user) => {
+  const { artists } = user
+  if (!artists.length) return
+  const { role } = artists[0]
+  userType = role
+}
+
 export const fireGAEvent = (payload) => {
+  // Stop here if sysadmin
+  if (userType === 'sysadmin') return
   const { ga } = window
   if (!ga) {
     console.info('GA SEND', payload)
