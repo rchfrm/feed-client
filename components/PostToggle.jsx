@@ -58,12 +58,10 @@ const PostToggle = ({
       </div>
 
       {/* Display toggle option for posts */}
-      <div className={styles['post-toggle']}>
-        <ButtonToggle
-          onClick={handleClick}
-          state={buttonState}
-        />
-      </div>
+      <ButtonToggle
+        onClick={handleClick}
+        state={buttonState}
+      />
 
     </div>
   )
