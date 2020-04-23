@@ -1,12 +1,13 @@
 
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Spinner from './elements/Spinner'
-// IMPORT PAGES
+
+// IMPORT COMPONENTS
+import InsightPlatformSelectors from './InsightPlatformSelectors'
 import InsightsPageChart from './InsightsPageChart'
 import PromotePostsButton from './PromotePostsButton'
 // IMPORT TEXT
@@ -22,6 +23,9 @@ function Insights() {
 
       {/* INTRO TEXT */}
       <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
+
+      {/* PLATFORM SELECTORS */}
+      <InsightPlatformSelectors />
 
       <div className={styles.chartsContainer}>
         <InsightsPageChart />
