@@ -117,6 +117,7 @@ function PostsLoader() {
       if (!posts) return
       if (!posts.length) {
         isEndOfAssets.current = true
+        setLoadingMore(false)
         return
       }
       // Update offset

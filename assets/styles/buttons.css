@@ -58,7 +58,7 @@ button {
 }
 
 .button--wide {
-  min-width: 150px;
+  min-width: var(--button-width-wide);
 }
 
 .button--full {
