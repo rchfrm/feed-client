@@ -114,7 +114,6 @@ function PostsLoader() {
     cursor,
     // When fetch finishes
     onResolve: (posts) => {
-      console.log('posts', posts)
       if (!posts) return
       if (!posts.length) {
         isEndOfAssets.current = true
