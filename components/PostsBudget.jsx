@@ -15,7 +15,7 @@ import Alert, { alertReducer } from './elements/Alert'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 // IMPORT STYLES
-import styles from './PostsPage.module.css'
+import styles from './Budget.module.css'
 
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/BudgetCopy'
@@ -130,12 +130,12 @@ function PostsBudget({ currency }) {
 
       <div className="ninety-wide" style={{ marginBottom: '2em' }}>
 
-        <MarkdownText className="h3--text" markdown={copy.budgetIntro} />
+        <MarkdownText className="h3--text" markdown={copy.introText} />
 
-        <form onSubmit={onSubmit} className={styles.BudgetForm}>
+        <form onSubmit={onSubmit} className={styles.form}>
 
           <Input
-            className={styles.BudgetForm_inputContainer}
+            className={styles.inputContainer}
             name="budget"
             placeholder={budgetPlaceholder}
             value={budget.amount}
@@ -145,6 +145,7 @@ function PostsBudget({ currency }) {
           />
 
           <Button
+            className={styles.submitButton}
             version="black  wide"
             disabled={budget.disabled}
             textColor={budget.color}

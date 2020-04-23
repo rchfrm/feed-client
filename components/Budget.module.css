@@ -1,0 +1,35 @@
+.form {
+  display: flex;
+  margin-bottom: var(--bsu);
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  @media (--xxs) {
+    flex-wrap: no-wrap;
+  }
+}
+
+.inputContainer {
+  width: 100%;
+  margin-bottom: var(--bsu) !important;
+  flex: 1 1 auto;
+
+  :global(.input--box) {
+    margin-bottom: 0 !important;
+  }
+
+  @media (--xxs) {
+    width: auto;
+    flex: 1 0 auto;
+    padding-right: var(--bsu);
+    margin-bottom: 0 !important;
+  }
+}
+
+.submitButton {
+  width: 100%;
+
+  @media (--xxs) {
+    width: auto;
+  }
+}
