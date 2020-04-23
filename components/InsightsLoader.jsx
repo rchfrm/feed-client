@@ -43,13 +43,9 @@ function Insights() {
         setCurrentDataSource={setCurrentDataSource}
       />
 
-      {/* DATA SOURCE SELECTORS */}
-
-
       {currentPlatform && currentDataSource && (
         <div className={styles.chartsContainer}>
           <InsightsPageChart />
-
           <PromotePostsButton />
         </div>
       )}
