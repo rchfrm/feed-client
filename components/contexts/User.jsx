@@ -83,7 +83,6 @@ function UserProvider({ children }) {
     // TODO If 404, then call /accounts/register
     if (!user) return
     // Update user type in track helpers
-    console.log('user', user)
     setUserType(user)
     // Update user state
     setUser({
