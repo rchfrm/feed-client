@@ -26,6 +26,7 @@ function ConnectAccountsPanel({
   contactUs,
   updateArtists,
 }) {
+  // artistAccount.exists = false
   const { exists, connect } = artistAccount
   const singularClass = singular ? 'singular' : ''
   const selectedClass = connect ? 'selected' : 'deselected'
@@ -35,15 +36,9 @@ function ConnectAccountsPanel({
 
 
   // TOGGLE WHETHER AN ARTIST SHOULD BE CONNECTED OR NOT
-  const toggleSelected = e => {
-    e.preventDefault()
-    const action = {
-      type: 'toggle-connect',
-      payload: {
-        id,
-      },
-    }
-    updateArtists(action)
+  const toggleSelected = () => {
+    const payload = { id }
+    updateArtists('toggle-connect', payload)
   }
 
   const handleChange = e => {
@@ -71,19 +66,11 @@ function ConnectAccountsPanel({
         name: adAccountName,
       }
     }
-
-    const action = {
-      type: 'update-artist',
-      payload: {
-        id,
-        field,
-        value: payloadValue,
-      },
-    }
-    updateArtists(action)
+    // Update artists
+    const payload = { id, field, value: payloadValue }
+    updateArtists('update-artist', payload)
   }
-  // END HANDLE CHANGES IN TILE INPUTS
-  // END HANDLE CHANGES IN TILE INPUTS
+
 
   const returnExistsWarning = () => {
     // if already connected

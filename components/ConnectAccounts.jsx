@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 import LastItem from './elements/LastItem'
 import ConnectAccountsPanel from './ConnectAccountsPanel'
 import artistHelpers from './helpers/artistHelpers'
@@ -17,7 +16,7 @@ const styles = {
 
 function ConnectAccounts({
   artistAccounts,
-  setArtistAccounts,
+  updateArtists,
   setButtonDisabled,
   setDisabledReason,
   setErrors,
@@ -30,11 +29,6 @@ function ConnectAccounts({
     e.preventDefault()
   }
 
-  const updateArtists = (action) => {
-    const newArtistsState = artistHelpers.getNewArtistState(artistAccounts, action)
-    setArtistAccounts(newArtistsState)
-  }
-
   // Toggled button disabled based on country select OR no accounts selected
   React.useEffect(() => {
     const allAccounts = Object.values(artistAccounts)
@@ -44,6 +38,12 @@ function ConnectAccounts({
     const selectedAccounts = allAccounts.filter(({ connect }) => connect)
 
     const disableButton = !allCountriesSet || !selectedAccounts.length
+    setButtonDisabled(disableButton)
+
+    if (!disableButton) {
+      setDisabledReason('')
+      return
+    }
 
     if (!allCountriesSet) {
       setDisabledReason('Please select a country for each account')
@@ -52,15 +52,11 @@ function ConnectAccounts({
     if (!selectedAccounts.length) {
       setDisabledReason('Please select at least one account')
     }
-
-    if (!disableButton) {
-      setDisabledReason('')
-    }
-
-    setButtonDisabled(disableButton)
   }, [artistAccounts])
 
-  const artistAccountsArray = Object.values(artistAccounts)
+  const artistAccountsArray = React.useMemo(() => {
+    return artistHelpers.getSortedArtistAccountsArray(artistAccounts)
+  }, [artistAccounts])
 
   const artistList = artistAccountsArray.map((artistAccount) => {
     return (

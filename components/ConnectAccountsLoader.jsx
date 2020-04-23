@@ -1,6 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
-
+import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
 
 // IMPORT CONTEXTS
@@ -21,6 +21,26 @@ import { track } from './helpers/trackingHelpers'
 import artistHelpers from './helpers/artistHelpers'
 import styles from './ConnectAccounts.module.css'
 import copy from '../copy/ConnectAccountsCopy'
+
+const artistsReducer = (draftState, action) => {
+  const { type: actionType, payload } = action
+
+  switch (actionType) {
+    case 'add-artists':
+      Object.entries(payload.artists).forEach(([key, value]) => {
+        draftState[key] = value
+      })
+      break
+    case 'toggle-connect':
+      draftState[payload.id].connect = !draftState[payload.id].connect
+      break
+    case 'update-artist':
+      draftState[payload.id][payload.field] = payload.value
+      break
+    default:
+      throw new Error(`Could not find ${actionType} in artistsReducer`)
+  }
+}
 
 const ConnectAccountsLoader = ({ onSignUp }) => {
   // IMPORT CONTEXTS
@@ -49,7 +69,15 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}
-  const [artistAccounts, setArtistAccounts] = React.useState(initialArtistAccountsState)
+  const [artistAccounts, setArtistAccounts] = useImmerReducer(artistsReducer, initialArtistAccountsState)
+  // Function to update artist state
+  const updateArtists = React.useCallback((actionType, payload) => {
+    setArtistAccounts({
+      type: actionType,
+      payload,
+    })
+  }, [])
+
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
@@ -110,16 +138,12 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
       })
     }
 
-    // Now add the artists...
-    const action = {
+    setArtistAccounts({
       type: 'add-artists',
       payload: {
         artists: processedArtists,
       },
-    }
-
-    const newArtistsState = artistHelpers.getNewArtistState(artistAccounts, action)
-    setArtistAccounts(newArtistsState)
+    })
     setPageLoading(false)
   }, [])
 
@@ -152,6 +176,8 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     return <Spinner />
   }
 
+  console.log('artistAccounts', artistAccounts)
+
 
   // If no artists accounts, show FB BUTTON
   if (Object.keys(artistAccounts).length === 0) {
@@ -169,7 +195,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     <div style={{ width: '100%' }}>
       <ConnectAccounts
         artistAccounts={artistAccounts}
-        setArtistAccounts={setArtistAccounts}
+        updateArtists={updateArtists}
         setButtonDisabled={setButtonDisabled}
         setDisabledReason={setDisabledReason}
         setErrors={setErrors}
