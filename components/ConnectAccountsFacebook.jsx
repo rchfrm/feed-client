@@ -21,12 +21,14 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
       firebase.reauthFacebook(requestedScopes)
         .catch((error) => {
           setErrors([...errors, error.message])
+          setErrors([...errors, error])
         })
       return
     }
     firebase.linkFacebookAccount()
       .catch((error) => {
-        setErrors([...errors, error.message])
+        console.log('error', error)
+        setErrors([...errors, error])
       })
   }, [missingScopes.length])
 

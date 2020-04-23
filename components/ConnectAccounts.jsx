@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 import LastItem from './elements/LastItem'
 import ConnectAccountsPanel from './ConnectAccountsPanel'
 import artistHelpers from './helpers/artistHelpers'
@@ -17,8 +16,9 @@ const styles = {
 
 function ConnectAccounts({
   artistAccounts,
-  setArtistAccounts,
+  updateArtists,
   setButtonDisabled,
+  setDisabledReason,
   setErrors,
 }) {
   // SHOW ERROR IF THE USER ATTEMPTS TO EDIT FACEBOOK PAGE OR INSTAGRAM ACCOUNT
@@ -29,22 +29,36 @@ function ConnectAccounts({
     e.preventDefault()
   }
 
-  const updateArtists = (action) => {
-    const newArtistsState = artistHelpers.getNewArtistState(artistAccounts, action)
-    setArtistAccounts(newArtistsState)
-  }
-
   // Toggled button disabled based on country select OR no accounts selected
   React.useEffect(() => {
     const allAccounts = Object.values(artistAccounts)
+    // Make sure every every connected account has a country set
     const allCountriesSet = allAccounts.every(({ country_code, connect }) => {
       return country_code || !connect
     })
-    const selectedAccounts = allAccounts.filter(({ connect }) => connect)
-    setButtonDisabled(!allCountriesSet || !selectedAccounts.length)
+    // Find all accounts that don't yet exist but are selected to connect
+    const selectedAccounts = allAccounts.filter(({ connect, exists }) => connect && !exists)
+    // Disable button if country is not set, or no selected accounts
+    const disableButton = !allCountriesSet || !selectedAccounts.length
+    setButtonDisabled(disableButton)
+
+    if (!disableButton) {
+      setDisabledReason('')
+      return
+    }
+
+    if (!allCountriesSet) {
+      setDisabledReason('Please select a country for each account')
+    }
+
+    if (!selectedAccounts.length) {
+      setDisabledReason('Please select at least one account')
+    }
   }, [artistAccounts])
 
-  const artistAccountsArray = Object.values(artistAccounts)
+  const artistAccountsArray = React.useMemo(() => {
+    return artistHelpers.getSortedArtistAccountsArray(artistAccounts)
+  }, [artistAccounts])
 
   const artistList = artistAccountsArray.map((artistAccount) => {
     return (

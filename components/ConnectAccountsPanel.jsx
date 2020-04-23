@@ -26,6 +26,7 @@ function ConnectAccountsPanel({
   contactUs,
   updateArtists,
 }) {
+  // artistAccount.exists = false
   const { exists, connect } = artistAccount
   const singularClass = singular ? 'singular' : ''
   const selectedClass = connect ? 'selected' : 'deselected'
@@ -35,15 +36,9 @@ function ConnectAccountsPanel({
 
 
   // TOGGLE WHETHER AN ARTIST SHOULD BE CONNECTED OR NOT
-  const toggleSelected = e => {
-    e.preventDefault()
-    const action = {
-      type: 'toggle-connect',
-      payload: {
-        id,
-      },
-    }
-    updateArtists(action)
+  const toggleSelected = () => {
+    const payload = { id }
+    updateArtists('toggle-connect', payload)
   }
 
   const handleChange = e => {
@@ -71,19 +66,11 @@ function ConnectAccountsPanel({
         name: adAccountName,
       }
     }
-
-    const action = {
-      type: 'update-artist',
-      payload: {
-        id,
-        field,
-        value: payloadValue,
-      },
-    }
-    updateArtists(action)
+    // Update artists
+    const payload = { id, field, value: payloadValue }
+    updateArtists('update-artist', payload)
   }
-  // END HANDLE CHANGES IN TILE INPUTS
-  // END HANDLE CHANGES IN TILE INPUTS
+
 
   const returnExistsWarning = () => {
     // if already connected
@@ -159,10 +146,11 @@ function ConnectAccountsPanel({
         name="country_code"
         label="Your country"
         handleChange={handleChange}
-        selectedValue={artistAccount.country_code || 'choose'}
+        selectedValue={artistAccount.country_code}
         placeholder="Choose your country..."
         options={countriesArr}
         required
+        highlight
       />
     )
   }
@@ -268,13 +256,19 @@ function ConnectAccountsPanel({
             label="Artist Name"
             readOnly={readOnly}
             version={artistAccount.exists ? 'text' : 'box'}
+            autoComplete={false}
           />
 
         </div>
 
       </div>
 
-      <div className="flex-column" style={{ flex: 'auto', justifyContent: 'space-between' }}>
+      <form
+        className="flex-column"
+        style={{ flex: 'auto', justifyContent: 'space-between' }}
+        onSubmit={(e) => e.preventDefault()}
+        autoComplete="off"
+      >
 
         {/* Country */}
         {returnCountry()}
@@ -312,7 +306,7 @@ function ConnectAccountsPanel({
           {returnAdAccountSelector()}
         </div>
 
-      </div>
+      </form>
 
     </li>
   )
