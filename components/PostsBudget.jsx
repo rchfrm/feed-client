@@ -130,7 +130,7 @@ function PostsBudget({ currency }) {
 
       <div className="ninety-wide" style={{ marginBottom: '2em' }}>
 
-        <MarkdownText className="h3--text" markdown={copy.introText} />
+        <MarkdownText className="h3--text" markdown={copy.budgetIntro} />
 
         <form onSubmit={onSubmit} className={styles.form}>
 
