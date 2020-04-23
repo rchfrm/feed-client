@@ -124,7 +124,7 @@ const PostConnectionsEdit = ({
       />
 
       {loading
-        ? <Spinner width={15} color={brandColors.grey} />
+        ? <Spinner className={styles.asteriskIcon} width={15} color={brandColors.grey} />
         : (
           <div
             role="button"
