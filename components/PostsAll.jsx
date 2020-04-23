@@ -1,10 +1,15 @@
 // IMPORT PACKAGES
 import React from 'react'
 import produce from 'immer'
-// IMPORT COMPONENTS
+// IMPORT CONTEXTS
+import { SidePanelContext } from './contexts/SidePanelContext'
+// IMPORT ELEMENTS
 import PageHeader from './PageHeader'
 import Spinner from './elements/Spinner'
-// IMPORT PAGES
+import Button from './elements/Button'
+import GearIcon from './icons/GearIcon'
+// IMPORT COMPONENTS
+import PostsSettings from './PostsSettings'
 import PostsSingle from './PostsSingle'
 import PostsNone from './PostsNone'
 // IMPORT ASSETS
@@ -12,6 +17,7 @@ import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/PostsPageCopy'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
+import brandColors from '../constants/brandColors'
 
 // Reset posts scroll position
 const resetScroll = () => {
@@ -34,6 +40,7 @@ function PostsAll({
   posts,
   updateLink,
   togglePromotion,
+  togglePromotionGlobal,
   loadMorePosts,
   loadingMore,
 }) {
@@ -78,6 +85,13 @@ function PostsAll({
     }
   }, [posts.length])
 
+  // Open the post settings side panel
+  const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
+  const togglePostsSettings = () => {
+    setSidePanelContent(<PostsSettings togglePromotionGlobal={togglePromotionGlobal} />)
+    toggleSidePanel(true)
+  }
+
   // Stop here if no posts
   if (posts.length === 0) {
     return <PostsNone />
@@ -88,7 +102,19 @@ function PostsAll({
 
       <PageHeader heading="review posts and set a budget" />
 
-      <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
+      <MarkdownText className={['ninety-wide', 'h4--text', styles.introText].join(' ')} markdown={copy.intro} />
+
+      {/* POST SETTINGS BUTTON */}
+      <div className="ninety-wide">
+        <Button
+          className={styles.postSettingsButton}
+          onClick={togglePostsSettings}
+          version="black small icon"
+        >
+          <GearIcon color={brandColors.bgColor} />
+          Post Settings
+        </Button>
+      </div>
 
       <ul
         id="PostsAll__scroller"

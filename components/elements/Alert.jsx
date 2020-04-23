@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Portal } from 'react-portal'
 
 import CloseCircle from '../icons/CloseCircle'
 import AlertButtons from './AlertButtons'
@@ -39,37 +40,39 @@ function Alert(props) {
   const buttonEls = buttons || <ButtonEls {...props} />
 
   return (
-    <div className="alert--container">
+    <Portal>
+      <div className="alert--container">
 
-      <button
-        className="alert--bg"
-        label="Close alert"
-        onClick={resetAlert}
-      />
-
-      <div className="alert--inner">
-
-        {/* Close button */}
         <button
+          className="alert--bg"
+          label="Close alert"
           onClick={resetAlert}
-          className="alert_close--button  button--close"
-          label="Close"
-        >
-          <CloseCircle />
-        </button>
+        />
 
-        <div className="alert--inner_content">
-          <div className="alert--contents">
-            {contents}
+        <div className="alert--inner">
+
+          {/* Close button */}
+          <button
+            onClick={resetAlert}
+            className="alert_close--button  button--close"
+            label="Close"
+          >
+            <CloseCircle />
+          </button>
+
+          <div className="alert--inner_content">
+            <div className="alert--contents">
+              {contents}
+            </div>
+
+            <div className="alert--buttons">
+              {buttonEls}
+            </div>
           </div>
 
-          <div className="alert--buttons">
-            {buttonEls}
-          </div>
         </div>
-
       </div>
-    </div>
+    </Portal>
   )
 }
 
@@ -97,8 +100,8 @@ Alert.defaultProps = {
   acceptAlert: null,
 }
 
-export default Alert
 
+export default Alert
 
 // EXTRA EXPORTS
 // -------------

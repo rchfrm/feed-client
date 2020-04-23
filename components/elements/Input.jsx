@@ -91,7 +91,7 @@ const Input = ({
         {label && (
           <span className="inputLabel__text">
             {label}
-            {required && <span className="asterix">*</span>}
+            {required && <span className="asterisk">*</span>}
           </span>
         )}
         {/* INPUT */}

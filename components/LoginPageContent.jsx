@@ -21,6 +21,7 @@ import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/LoginPageCopy'
 // Import styles
 import styles from './LoginPage.module.css'
+import brandColors from '../constants/brandColors'
 
 function LoginPageContent() {
   // Get router info
@@ -96,7 +97,7 @@ function LoginPageContent() {
                 onClick={goToEmailLogin}
                 version="black icon"
               >
-                <EmailIcon color="white" />
+                <EmailIcon color={brandColors.bgColor} />
                 Log in with email
               </Button>
             </div>

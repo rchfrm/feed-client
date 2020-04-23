@@ -62,7 +62,7 @@ const CardInput = () => {
       <label className="inputLabel">
         <span className="inputLabel__text">
           Card details
-          <span className="asterix">*</span>
+          <span className="asterisk">*</span>
         </span>
       </label>
       {/* Stripe Card element */}
