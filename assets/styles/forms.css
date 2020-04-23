@@ -60,7 +60,7 @@ input[readonly] {
   margin-bottom: 0.7em;
   font-weight: var(--bold);
 
-  .asterix {
+  .asterisk {
     font-size: 0.8em;
     margin-left: 0.3em;
     display: inline-block;
