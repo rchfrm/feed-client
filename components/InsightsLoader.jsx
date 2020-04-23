@@ -18,6 +18,9 @@ import styles from './InsightsPage.module.css'
 
 
 function Insights() {
+  // Define states
+  const [currentPlatform, setCurrentPlatform] = React.useState('')
+
   return (
     <div className="page--container">
 
@@ -25,13 +28,19 @@ function Insights() {
       <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
 
       {/* PLATFORM SELECTORS */}
-      <InsightPlatformSelectors />
+      <InsightPlatformSelectors
+        currentPlatform={currentPlatform}
+        setCurrentPlatform={setCurrentPlatform}
+      />
 
-      <div className={styles.chartsContainer}>
-        <InsightsPageChart />
 
-        <PromotePostsButton />
-      </div>
+      {currentPlatform && (
+        <div className={styles.chartsContainer}>
+          <InsightsPageChart />
+
+          <PromotePostsButton />
+        </div>
+      )}
 
       {/* OUTRO TEXT TEXT */}
       <MarkdownText className="ninety-wide  h4--text" markdown={copy.outro} />
