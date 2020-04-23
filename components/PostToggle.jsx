@@ -14,23 +14,28 @@ import styles from './PostsPage.module.css'
 
 const PostToggle = ({
   post,
+  promotionEnabled,
   togglePromotion,
 }) => {
   // Alter appearance based on promotion status
-  const { promotion_enabled } = post
   const appearance = {
-    platformIconColor: promotion_enabled ? dataSourceDetails[post.platform].color : brandColors.grey,
-    toggleIcon: promotion_enabled ? 'tick' : 'empty',
-    toggleIconColor: promotion_enabled ? brandColors.white : brandColors.grey,
+    platformIconColor: promotionEnabled ? dataSourceDetails[post.platform].color : brandColors.grey,
+    toggleIcon: promotionEnabled ? 'tick' : 'empty',
+    toggleIconColor: promotionEnabled ? brandColors.white : brandColors.grey,
   }
 
-  const [buttonState, setButtonState] = React.useState(promotion_enabled ? 'on' : 'off')
+  const [buttonState, setButtonState] = React.useState(promotionEnabled ? 'on' : 'off')
 
   const handleClick = async () => {
     setButtonState('loading')
     const newPromtionState = await togglePromotion(post.id)
     setButtonState(newPromtionState ? 'on' : 'off')
   }
+
+  // Change button state when post status changes
+  React.useEffect(() => {
+    setButtonState(promotionEnabled ? 'on' : 'off')
+  }, [promotionEnabled])
 
   return (
     <div

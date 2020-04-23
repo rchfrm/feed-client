@@ -40,6 +40,7 @@ function PostsAll({
   posts,
   updateLink,
   togglePromotion,
+  togglePromotionGlobal,
   loadMorePosts,
   loadingMore,
 }) {
@@ -87,7 +88,7 @@ function PostsAll({
   // Open the post settings side panel
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
   const togglePostsSettings = () => {
-    setSidePanelContent(<PostsSettings />)
+    setSidePanelContent(<PostsSettings togglePromotionGlobal={togglePromotionGlobal} />)
     toggleSidePanel(true)
   }
 
