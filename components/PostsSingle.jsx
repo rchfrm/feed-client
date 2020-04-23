@@ -131,7 +131,11 @@ function PostSingle({
       style={{ padding: 0 }}
     >
 
-      <PostToggle post={post} togglePromotion={togglePromotion} />
+      <PostToggle
+        post={post}
+        togglePromotion={togglePromotion}
+        promotionEnabled={post.promotion_enabled}
+      />
 
       {/* Media */}
       <div style={{ flex: 'auto' }}>

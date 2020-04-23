@@ -14,7 +14,18 @@ import server from '../helpers/server'
 import { track } from '../helpers/trackingHelpers'
 import artistHelpers from '../helpers/artistHelpers'
 
-const initialArtistState = {}
+const initialArtistState = {
+  id: '',
+  URLs: {},
+  preferences: {
+    posts: {
+      promotion_enabled_default: true,
+    },
+  },
+  priority_dsp: '',
+  users: {},
+}
+
 const ArtistContext = React.createContext(initialArtistState)
 ArtistContext.displayName = 'ArtistContext'
 
@@ -43,6 +54,15 @@ const artistReducer = (draftState, action) => {
     }
     case 'set-priority-dsp': {
       draftState.priority_dsp = payload.priority_dsp
+      break
+    }
+    case 'set-connection': {
+      draftState.URLs[payload.platform] = payload.url
+      draftState[payload.platform] = payload.url
+      break
+    }
+    case 'update-post-preferences': {
+      draftState.preferences.posts[payload.preferenceType] = payload.value
       break
     }
     default:
@@ -170,6 +190,26 @@ function ArtistProvider({ children }) {
     })
   }
 
+  const setConnection = ({ platform, url }) => {
+    setArtist({
+      type: 'set-connection',
+      payload: {
+        platform,
+        url,
+      },
+    })
+  }
+
+  const setPostPreferences = (preferenceType, value) => {
+    setArtist({
+      type: 'update-post-preferences',
+      payload: {
+        preferenceType,
+        value,
+      },
+    })
+  }
+
   const addUrl = async (url, urlType) => {
     const updatedArtist = await server.saveLink(artist.id, url, urlType)
 
@@ -197,7 +237,6 @@ function ArtistProvider({ children }) {
   }, [artistId])
 
   const value = {
-    addUrl,
     artist,
     artistId,
     artistLoading,
@@ -206,6 +245,9 @@ function ArtistProvider({ children }) {
     setArtist,
     setArtistLoading,
     setPriorityDSP,
+    setConnection,
+    setPostPreferences,
+    addUrl,
     storeArtist,
     updateBudget,
   }

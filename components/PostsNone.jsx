@@ -26,7 +26,7 @@ const PostsNone = () => {
     <div className={styles.noPosts}>
       <PageHeader heading="your posts" punctuation="," />
 
-      <MarkdownText className="ninety-wide  h4--text" markdown={copy.noPostsCopy(platforms)} />
+      <MarkdownText className={['ninety-wide', 'h4--text', styles.introText].join(' ')} markdown={copy.noPostsCopy(platforms)} />
 
     </div>
   )
