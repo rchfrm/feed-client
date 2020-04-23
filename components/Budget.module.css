@@ -4,7 +4,7 @@
   justify-content: flex-start;
   flex-wrap: wrap;
 
-  @media (--xs) {
+  @media (--xxs) {
     flex-wrap: no-wrap;
   }
 }
@@ -18,7 +18,7 @@
     margin-bottom: 0 !important;
   }
 
-  @media (--xs) {
+  @media (--xxs) {
     width: auto;
     flex: 1 0 auto;
     padding-right: var(--bsu);
@@ -29,7 +29,7 @@
 .submitButton {
   width: 100%;
 
-  @media (--xs) {
+  @media (--xxs) {
     width: auto;
   }
 }
