@@ -56,6 +56,7 @@ const Input = ({
   icon,
   error,
   success,
+  autoComplete,
   autoFocus,
 }) => {
   const containerClasses = ['input--container', className]
@@ -108,6 +109,7 @@ const Input = ({
             readOnly={readOnly}
             required={required}
             ref={inputElement}
+            autoComplete={!autoComplete ? 'off' : ''}
           />
           {/* ICON */}
           {iconEl}
@@ -135,6 +137,7 @@ Input.propTypes = {
   icon: PropTypes.string,
   error: PropTypes.bool,
   success: PropTypes.bool,
+  autoComplete: PropTypes.bool,
   autoFocus: PropTypes.bool,
 }
 
@@ -151,6 +154,7 @@ Input.defaultProps = {
   icon: '',
   error: false,
   success: false,
+  autoComplete: true,
   autoFocus: false,
 }
 

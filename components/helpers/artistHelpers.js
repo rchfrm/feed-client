@@ -105,39 +105,20 @@ export default {
   },
 
 
-  getNewArtistState: (currentState, action) => {
-    const { type: actionType, payload } = action
-
-    if (actionType === 'add-artists') {
-      return {
-        ...currentState,
-        ...payload.artists,
-      }
-    }
-    if (actionType === 'toggle-connect') {
-      return {
-        ...currentState,
-        [payload.id]: {
-          ...currentState[payload.id],
-          connect: !currentState[payload.id].connect,
-        },
-      }
-    }
-    if (actionType === 'update-artist') {
-      const targetedAccount = currentState[payload.id]
-      const updatedAccount = {
-        ...targetedAccount,
-        [payload.field]: payload.value,
-      }
-      return {
-        ...currentState,
-        [payload.id]: {
-          ...updatedAccount,
-        },
-      }
-    }
-
-    return currentState
+  /**
+   * Create array of artist accounts, sorted alphabetically
+   * @param {object} artistAccounts
+   * @returns {array}
+   */
+  getSortedArtistAccountsArray: (artistAccounts) => {
+    const accountsArray = Object.values(artistAccounts)
+    // Return sorted array
+    const sortedArray = accountsArray.sort((a, b) => {
+      if (a.name < b.name) return -1
+      if (a.name > b.name) return 1
+      return 0
+    })
+    return sortedArray
   },
 
   /**
