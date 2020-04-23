@@ -254,6 +254,16 @@ export default {
     return api.post('/actions/batchSetPromotionEnabled', { artist_id: artistId, enabled })
   },
 
+
+  /**
+   * @param {string} artistId
+   * @param {boolean} enabled
+   * @returns {Promise<any>}
+   */
+  patchArtistPromotionStatus: async (artistId, enabled) => {
+    return api.patch(`/artists/${artistId}`, { preferences: { posts: { promotion_enabled_default: enabled } } })
+  },
+
   /**
    * @param {string} artistId
    * @param {string} postId

@@ -35,8 +35,11 @@ const postSettingOptions = [
 // Call the server with the new post status
 const updatePostSettings = async ({ updatePostStatus, artistId, pendingDefaultPostStatus }) => {
   if (!updatePostStatus) return
+  // Toggle all posts on server
   const { success } = await server.toggleDefaultPromotionStatus(artistId, pendingDefaultPostStatus)
   if (!success) return
+  // Patch artist post preferences
+  await server.patchArtistPromotionStatus(artistId, pendingDefaultPostStatus)
   return pendingDefaultPostStatus
 }
 
