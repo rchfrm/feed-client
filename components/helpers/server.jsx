@@ -181,12 +181,9 @@ export default {
   getDataSourceValue: async (dataSources, artistId, verifyIdToken) => {
     return api
       .get(`/artists/${artistId}/data_sources`, {
-        // todo metrics should be renamed to name after "new" endpoint deployed to master
-        metrics: dataSources.join(','),
+        name: dataSources.join(','),
       }, verifyIdToken)
       .then(res => {
-        // todo array cast is temporary while the API returns a non-standard object the this endpoint
-        if (!Array.isArray(res)) res = Object.values(res)
         // convert array to object with data source name as keys
         return res.reduce((obj, dataSource) => {
           obj[dataSource.name] = dataSource
