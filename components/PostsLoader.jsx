@@ -85,7 +85,7 @@ function PostsLoader() {
   const postsPerPage = 10
 
   // Import artist context
-  const { artistId, artistLoading } = React.useContext(ArtistContext)
+  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
 
   // When changing artist...
   React.useEffect(() => {
@@ -223,7 +223,7 @@ function PostsLoader() {
 
       <Error error={error} />
 
-      <PostsBudget currency="£" />
+      <PostsBudget currency={artist.currency} />
 
     </div>
   )
