@@ -170,7 +170,7 @@ function ArtistProvider({ children }) {
     setArtistLoading(false)
   }
 
-  const updateBudget = async (id, currency, amount) => {
+  const updateBudget = async (id, amount) => {
     const updatedArtist = await server.updateDailyBudget(id, amount)
 
     setArtist({
