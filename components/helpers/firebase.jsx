@@ -62,8 +62,12 @@ export default {
     if (res) return res
   },
 
-  doEmailUpdate: email => {
-    return auth.currentUser.updateEmail(email)
+  doEmailUpdate: async (email) => {
+    const res = await auth.currentUser.updateEmail(email)
+      .catch((error) => {
+        return { error }
+      })
+    if (res) return res
   },
 
   loginWithFacebook: () => {

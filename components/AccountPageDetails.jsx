@@ -48,9 +48,11 @@ function AccountPageDetails({ user }) {
   handleSubmit.current = async (e) => {
     if (e) e.preventDefault()
     // Clear errors
+    let error = false
     setErrors([])
     const passwordChanged = passwordOne || passwordTwo
-    const namesChanged = (initialName !== name) || (initialSurname !== surname) || (email !== initialEmail)
+    const emailChanged = email !== initialEmail
+    const accountDetailsChanged = (initialName !== name) || (initialSurname !== surname) || emailChanged
     // No password set and no name changes, close panel
     if (!passwordChanged && name === initialName && surname === initialSurname && email === initialEmail) {
       toggleSidePanel()
@@ -60,39 +62,38 @@ function AccountPageDetails({ user }) {
     // No name
     if (!name || !surname) {
       setErrors([...errors, 'Please provide a name and surname.'])
+      error = true
     }
 
     // No email
     if (!email) {
       setErrors([...errors, 'Please provide an email.'])
+      error = true
     }
 
     // If not matching passwords
     if (passwordChanged && passwordOne !== passwordTwo) {
       setErrors([...errors, 'Passwords do not match.'])
+      error = true
     }
 
     // Stop here if errors
-    if (errors.length) return
+    if (error) return
     // Hide button
     setButtonOn(false)
     // Set loading
     setSidePanelLoading(true)
     // Update password
     const passwordUpdatePromise = passwordChanged ? firebase.doPasswordUpdate(passwordOne) : null
-      .catch((error) => {
-        setErrors([...errors, error])
-      })
     // Update user
-    console.log('namesChanged', namesChanged)
-    const userUpdatePromise = namesChanged ? server.updateUser(name, surname, email) : null
+    const userUpdatePromise = accountDetailsChanged ? server.updateUser(name, surname, email) : null
+    // Update email in firebase
+    const emailUpdatePromise = emailChanged ? firebase.doEmailUpdate(email) : null
     // When all is done...
-    const [accountChangedRes, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
-    console.log('accountChangedRes', accountChangedRes)
-    console.log('passwordChangedRes', passwordChangedRes)
+    const [accountChangedRes, emailChangedRes, passwordChangedRes] = await Promise.all([userUpdatePromise, emailUpdatePromise, passwordUpdatePromise])
     if (accountChangedRes) {
       // Update the user details
-      const [updatedUser] = accountChangedRes
+      const updatedUser = accountChangedRes
       setUser({
         type: 'set-user-details',
         payload: {
@@ -105,13 +106,20 @@ function AccountPageDetails({ user }) {
     setPasswordTwo('')
     // Stop loading
     setSidePanelLoading(false)
-    // Handle error in changin password
-    if (passwordChangedRes.error) {
+    // Handle error in changing email
+    if (emailChangedRes && emailChangedRes.error) {
+      setErrors([...errors, emailChangedRes.error])
+      error = true
+    }
+    // Handle error in changing password
+    if (passwordChangedRes && passwordChangedRes.error) {
       setErrors([...errors, passwordChangedRes.error])
-      return
+      error = true
     }
     // Close panel after delay
-    setTimeout(toggleSidePanel, 1500)
+    if (!error) {
+      setTimeout(toggleSidePanel, 1500)
+    }
   }
 
 
