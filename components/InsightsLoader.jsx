@@ -49,7 +49,7 @@ function Insights() {
       {/* DATA SOURCE SELECTORS */}
 
 
-      {currentPlatform && (
+      {currentPlatform && currentDataSource && (
         <div className={styles.chartsContainer}>
           <InsightsPageChart />
 
