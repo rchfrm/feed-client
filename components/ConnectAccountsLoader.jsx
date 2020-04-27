@@ -176,9 +176,6 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     return <Spinner />
   }
 
-  console.log('artistAccounts', artistAccounts)
-
-
   // If no artists accounts, show FB BUTTON
   if (Object.keys(artistAccounts).length === 0) {
     return (
