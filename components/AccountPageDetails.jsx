@@ -9,6 +9,7 @@ import firebase from './helpers/firebase'
 
 import Input from './elements/Input'
 import Button from './elements/Button'
+import Error from './elements/Error'
 
 import styles from './AccountPage.module.css'
 import sidePanelStyles from './SidePanel.module.css'
@@ -47,8 +48,11 @@ function AccountPageDetails({ user }) {
   handleSubmit.current = async (e) => {
     if (e) e.preventDefault()
     // Clear errors
+    let error = false
     setErrors([])
     const passwordChanged = passwordOne || passwordTwo
+    const emailChanged = email !== initialEmail
+    const accountDetailsChanged = (initialName !== name) || (initialSurname !== surname) || emailChanged
     // No password set and no name changes, close panel
     if (!passwordChanged && name === initialName && surname === initialSurname && email === initialEmail) {
       toggleSidePanel()
@@ -57,48 +61,67 @@ function AccountPageDetails({ user }) {
 
     // No name
     if (!name || !surname) {
-      setErrors([...errors, 'Please provide a name and surname.'])
+      setErrors([...errors, { message: 'Please provide a name and surname.' }])
+      error = true
     }
 
     // No email
     if (!email) {
-      setErrors([...errors, 'Please provide an email.'])
+      setErrors([...errors, { message: 'Please provide an email.' }])
+      error = true
     }
 
     // If not matching passwords
     if (passwordChanged && passwordOne !== passwordTwo) {
-      setErrors([...errors, 'Passwords do not match.'])
+      setErrors([...errors, { message: 'Passwords do not match.' }])
+      error = true
     }
 
     // Stop here if errors
-    if (errors.length) return
+    if (error) return
     // Hide button
     setButtonOn(false)
     // Set loading
     setSidePanelLoading(true)
     // Update password
     const passwordUpdatePromise = passwordChanged ? firebase.doPasswordUpdate(passwordOne) : null
+    // Update email in firebase
+    const emailChangedRes = emailChanged ? await firebase.doEmailUpdate(email) : null
+    // Handle error in changing email
+    if (emailChangedRes && emailChangedRes.error) {
+      setErrors([...errors, emailChangedRes.error])
+      error = true
+      setSidePanelLoading(false)
+      return
+    }
     // Update user
-    const userUpdatePromise = server.updateUser(name, surname, email)
+    const userUpdatePromise = accountDetailsChanged ? server.updateUser(name, surname, email) : null
     // When all is done...
-    const res = await Promise.all([userUpdatePromise, passwordUpdatePromise])
-      .catch((err) => console.log('err', err))
-    if (!res) return
-    // Update the user details
-    const [updatedUser] = res
-    setUser({
-      type: 'set-user-details',
-      payload: {
-        user: updatedUser,
-      },
-    })
+    const [accountChangedRes, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
+    if (accountChangedRes) {
+      // Update the user details
+      const updatedUser = accountChangedRes
+      setUser({
+        type: 'set-user-details',
+        payload: {
+          user: updatedUser,
+        },
+      })
+    }
     // Clear the passwords
     setPasswordOne('')
     setPasswordTwo('')
     // Stop loading
     setSidePanelLoading(false)
+    // Handle error in changing password
+    if (passwordChangedRes && passwordChangedRes.error) {
+      setErrors([...errors, passwordChangedRes.error])
+      error = true
+    }
     // Close panel after delay
-    setTimeout(toggleSidePanel, 1500)
+    if (!error) {
+      setTimeout(toggleSidePanel, 1500)
+    }
   }
 
 
@@ -161,6 +184,10 @@ function AccountPageDetails({ user }) {
 
       <form className={styles.accountPageDetails__form} onSubmit={handleSubmit.current}>
 
+        {errors.map((error, index) => {
+          return <Error error={error} key={index} />
+        })}
+
         <Input
           name="name"
           label="Name"
@@ -209,6 +236,15 @@ function AccountPageDetails({ user }) {
           value={passwordTwo}
           handleChange={handleChange}
           version="text"
+        />
+
+        <input
+          type="submit"
+          value="submit"
+          style={{
+            position: 'absolute',
+            left: '-1000em',
+          }}
         />
       </form>
     </section>

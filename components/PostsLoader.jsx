@@ -123,6 +123,7 @@ function PostsLoader() {
       if (!posts.length) {
         isEndOfAssets.current = true
         setLoadingMore(false)
+        setInitialLoad(false)
         return
       }
       // Update offset
