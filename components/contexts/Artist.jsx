@@ -23,6 +23,7 @@ const initialArtistState = {
     },
   },
   priority_dsp: '',
+  currency: '',
   users: {},
 }
 
