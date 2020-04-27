@@ -19,7 +19,6 @@ const InsightPlatformSelectors = ({
 }) => {
   // GET ALL AVAILABLE PLATFORMS
   const availablePlatforms = React.useMemo(() => {
-    if (!artistId) return []
     // Get name of platform from data source
     const dataSourcePlatforms = dataSources.map(({ id: source }) => {
       const platformName = source.split('_')[0]
