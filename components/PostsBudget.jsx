@@ -91,8 +91,6 @@ function PostsBudget({ currency }) {
       ...budget,
       text: 'Saving...',
       disabled: true,
-      color: brandColors.greyDark,
-      bgColor: brandColors.greyLight,
     })
     const budgetAmount = budget.amount || 0
     const dailyBudget = await updateBudget(artist.id, budgetAmount)
@@ -105,8 +103,6 @@ function PostsBudget({ currency }) {
       ...budget,
       text: 'Saved!',
       disabled: true,
-      color: brandColors.bgColor,
-      bgColor: brandColors.successColor,
     })
     setAlert({
       type: 'show-alert',
@@ -147,8 +143,6 @@ function PostsBudget({ currency }) {
             className={styles.submitButton}
             version="black  wide"
             disabled={budget.disabled}
-            textColor={budget.color}
-            bgColor={budget.bgColor}
             type="submit"
           >
             {budget.text}

@@ -7,13 +7,12 @@ const Button = ({
   version,
   width: widthProp,
   marginBottom,
-  textColor,
-  bgColor,
   disabled,
   type,
   success,
   loading,
   className,
+  style,
   onClick,
   children,
 }) => {
@@ -37,9 +36,7 @@ const Button = ({
       onClick={onClick}
       style={{
         width: `${widthPercentage}%`,
-        color: textColor,
         marginBottom,
-        backgroundColor: bgColor,
       }}
     >
       <span className="button--innerText">
@@ -56,12 +53,11 @@ Button.propTypes = {
     PropTypes.number,
   ]),
   marginBottom: PropTypes.string,
-  textColor: PropTypes.string,
-  bgColor: PropTypes.string,
   disabled: PropTypes.bool,
   type: PropTypes.string,
   loading: PropTypes.bool,
   success: PropTypes.bool,
+  style: PropTypes.object,
   className: PropTypes.string,
   onClick: PropTypes.func,
   children: PropTypes.node.isRequired,
@@ -71,12 +67,11 @@ Button.defaultProps = {
   version: 'black',
   width: '',
   marginBottom: '',
-  textColor: '',
-  bgColor: '',
   disabled: false,
   type: 'button',
   loading: false,
   success: false,
+  style: {},
   className: '',
   onClick: () => {},
 }
