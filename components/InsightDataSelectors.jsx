@@ -62,10 +62,9 @@ const InsightDataSelectors = ({
 
 InsightDataSelectors.propTypes = {
   artist: PropTypes.object.isRequired,
-  artistId: PropTypes.string.isRequired,
   currentPlatform: PropTypes.string.isRequired,
   currentDataSource: PropTypes.string.isRequired,
-  setCurrentDataSource: PropTypes.string.isRequired,
+  setCurrentDataSource: PropTypes.func.isRequired,
 }
 
 export default InsightDataSelectors
