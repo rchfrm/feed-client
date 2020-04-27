@@ -6,6 +6,7 @@
 */
 @import "./reset";
 @import "./vars";
+@import "./mixins";
 @import "./rhythm";
 @import "./base";
 @import "./type";
