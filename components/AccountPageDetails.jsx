@@ -80,27 +80,36 @@ function AccountPageDetails({ user }) {
     setSidePanelLoading(true)
     // Update password
     const passwordUpdatePromise = passwordChanged ? firebase.doPasswordUpdate(passwordOne) : null
-    // Update user
-    const userUpdatePromise = server.updateUser(name, surname, email)
-    // When all is done...
-    const res = await Promise.all([userUpdatePromise, passwordUpdatePromise])
       .catch((error) => {
         setErrors([...errors, error])
       })
-    if (!res) return
-    // Update the user details
-    const [updatedUser] = res
-    setUser({
-      type: 'set-user-details',
-      payload: {
-        user: updatedUser,
-      },
-    })
+    // Update user
+    console.log('namesChanged', namesChanged)
+    const userUpdatePromise = namesChanged ? server.updateUser(name, surname, email) : null
+    // When all is done...
+    const [accountChangedRes, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
+    console.log('accountChangedRes', accountChangedRes)
+    console.log('passwordChangedRes', passwordChangedRes)
+    if (accountChangedRes) {
+      // Update the user details
+      const [updatedUser] = accountChangedRes
+      setUser({
+        type: 'set-user-details',
+        payload: {
+          user: updatedUser,
+        },
+      })
+    }
     // Clear the passwords
     setPasswordOne('')
     setPasswordTwo('')
     // Stop loading
     setSidePanelLoading(false)
+    // Handle error in changin password
+    if (passwordChangedRes.error) {
+      setErrors([...errors, passwordChangedRes.error])
+      return
+    }
     // Close panel after delay
     setTimeout(toggleSidePanel, 1500)
   }

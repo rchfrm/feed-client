@@ -54,8 +54,12 @@ export default {
     return auth.sendPasswordResetEmail(email)
   },
 
-  doPasswordUpdate: password => {
-    return auth.currentUser.updatePassword(password)
+  doPasswordUpdate: async (password) => {
+    const res = await auth.currentUser.updatePassword(password)
+      .catch((error) => {
+        return { error }
+      })
+    if (res) return res
   },
 
   doEmailUpdate: email => {
