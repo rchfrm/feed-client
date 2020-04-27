@@ -61,19 +61,19 @@ function AccountPageDetails({ user }) {
 
     // No name
     if (!name || !surname) {
-      setErrors([...errors, 'Please provide a name and surname.'])
+      setErrors([...errors, { message: 'Please provide a name and surname.' }])
       error = true
     }
 
     // No email
     if (!email) {
-      setErrors([...errors, 'Please provide an email.'])
+      setErrors([...errors, { message: 'Please provide an email.' }])
       error = true
     }
 
     // If not matching passwords
     if (passwordChanged && passwordOne !== passwordTwo) {
-      setErrors([...errors, 'Passwords do not match.'])
+      setErrors([...errors, { message: 'Passwords do not match.' }])
       error = true
     }
 
@@ -182,8 +182,8 @@ function AccountPageDetails({ user }) {
 
       <form className={styles.accountPageDetails__form} onSubmit={handleSubmit.current}>
 
-        {errors.map((error) => {
-          return <Error error={error} key={error.code} />
+        {errors.map((error, index) => {
+          return <Error error={error} key={index} />
         })}
 
         <Input
