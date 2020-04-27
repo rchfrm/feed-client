@@ -509,9 +509,8 @@ export default {
   * @param {string} locale
   * @returns {string}
   */
-  formatCurrency: (value, currency = 'GBP', locale = 'en-GB') => {
-    const revisedLocale = currency === 'USD' ? 'en-US' : locale
-    return value.toLocaleString(revisedLocale, { style: 'currency', currency })
+  formatCurrency: (value, currency = 'GBP', locale = navigator.language) => {
+    return value.toLocaleString(locale, { style: 'currency', currency })
   },
 
   /**
