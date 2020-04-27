@@ -55,29 +55,35 @@ const InsightPlatformSelectors = ({
   if (!availablePlatforms.length) return null
 
   return (
-    <div className={[styles.platformSelectors, 'ninety-wide'].join(' ')}>
-      {availablePlatforms.map((platform) => {
-        const { color: platformColor } = dataSourceDetails[platform]
-        const active = platform === currentPlatform
-        const iconColor = active ? brandColors.bgColor : platformColor
-        const buttonColor = active ? platformColor : 'transparent'
-        const buttonStyle = {
-          backgroundColor: buttonColor,
-        }
-        return (
-          <div className={styles.platformButtonContainer} key={platform}>
-            <Button
-              className={styles.platformButton}
-              version="black small icon"
-              style={buttonStyle}
-              onClick={() => setCurrentPlatform(platform)}
-            >
-              <Icon color={iconColor} version={platform} />
-              {platform}
-            </Button>
-          </div>
-        )
-      })}
+    <div className="ninety-wide">
+      <p className={['inputLabel__text', styles.platformSelectors__label].join(' ')}>Select a platform</p>
+      <div className={styles.platformSelectors}>
+        {availablePlatforms.map((platform) => {
+          const { color: platformColor } = dataSourceDetails[platform]
+          const active = platform === currentPlatform
+          const iconColor = platformColor
+          const borderColor = active ? platformColor : 'transparent'
+          const { textColor } = brandColors
+          const buttonStyle = {
+            backgroundColor: 'transparent',
+            border: `2px solid ${borderColor}`,
+            color: textColor,
+          }
+          return (
+            <div className={styles.platformButtonContainer} key={platform}>
+              <Button
+                className={styles.platformButton}
+                version="black small icon"
+                style={buttonStyle}
+                onClick={() => setCurrentPlatform(platform)}
+              >
+                <Icon color={iconColor} version={platform} />
+                {platform}
+              </Button>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

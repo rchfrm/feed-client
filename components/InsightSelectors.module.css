@@ -1,21 +1,22 @@
 .platformSelectors {
   display: flex;
-  padding: var(--bsu) 0;
+  padding: calc(0.5 * var(--bsu)) 0;
   padding-right: var(--bsu-md);
-  border-top: 1px solid var(--text-color);
-  border-bottom: 1px solid var(--text-color);
+  border-top: 2px solid var(--text-color);
+  border-bottom: 2px solid var(--text-color);
   overflow-x: auto;
   margin-bottom: var(--bsu);
 
   /* For desktops */
   @media (hover: hover) {
     flex-wrap: wrap;
+    padding: var(--bsu) 0;
     padding-bottom: 0;
   }
 }
 
 .platformButtonContainer {
-  margin-right: var(--bsu);
+  margin-right: calc(0.5 * var(--bsu));
 
   &:last-child {
     margin-right: 0;
