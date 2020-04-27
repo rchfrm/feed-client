@@ -85,12 +85,19 @@ function AccountPageDetails({ user }) {
     setSidePanelLoading(true)
     // Update password
     const passwordUpdatePromise = passwordChanged ? firebase.doPasswordUpdate(passwordOne) : null
+    // Update email in firebase
+    const emailChangedRes = emailChanged ? await firebase.doEmailUpdate(email) : null
+    // Handle error in changing email
+    if (emailChangedRes && emailChangedRes.error) {
+      setErrors([...errors, emailChangedRes.error])
+      error = true
+      setSidePanelLoading(false)
+      return
+    }
     // Update user
     const userUpdatePromise = accountDetailsChanged ? server.updateUser(name, surname, email) : null
-    // Update email in firebase
-    const emailUpdatePromise = emailChanged ? firebase.doEmailUpdate(email) : null
     // When all is done...
-    const [accountChangedRes, emailChangedRes, passwordChangedRes] = await Promise.all([userUpdatePromise, emailUpdatePromise, passwordUpdatePromise])
+    const [accountChangedRes, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
     if (accountChangedRes) {
       // Update the user details
       const updatedUser = accountChangedRes
@@ -106,11 +113,6 @@ function AccountPageDetails({ user }) {
     setPasswordTwo('')
     // Stop loading
     setSidePanelLoading(false)
-    // Handle error in changing email
-    if (emailChangedRes && emailChangedRes.error) {
-      setErrors([...errors, emailChangedRes.error])
-      error = true
-    }
     // Handle error in changing password
     if (passwordChangedRes && passwordChangedRes.error) {
       setErrors([...errors, passwordChangedRes.error])
