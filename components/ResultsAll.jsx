@@ -3,6 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import produce from 'immer'
 // IMPORT COMPONENTS
+import InsightsSummaryLoader from './InsightsSummaryLoader'
 import ResultsSingle from './ResultsSingle'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
@@ -187,7 +188,12 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
     <div>
 
       {/* Show Active Posts intro copy */}
-      {active && <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />}
+      {active && (
+        <>
+          <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
+          <InsightsSummaryLoader />
+        </>
+      )}
 
       <div className="ninety-wide">
         <h2>{title}</h2>
