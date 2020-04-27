@@ -6,7 +6,6 @@ import Spinner from './Spinner'
 const Button = ({
   version,
   width: widthProp,
-  marginBottom,
   disabled,
   type,
   success,
@@ -19,8 +18,10 @@ const Button = ({
   const versions = version
     .split(' ')
     .map((versionString) => `button--${versionString}`)
+  // Define inline style
   const width = typeof widthProp === 'string' ? widthProp : ''
   const widthPercentage = typeof widthProp === 'number' ? widthProp : ''
+  // Define classes
   const classes = ['button', width].concat(versions)
   if (className) {
     classes.push(className)
@@ -28,6 +29,7 @@ const Button = ({
   if (success) {
     classes.push('button--success')
   }
+  // OUTPUT BUTTON
   return (
     <button
       type={type}
@@ -36,7 +38,6 @@ const Button = ({
       onClick={onClick}
       style={{
         width: `${widthPercentage}%`,
-        marginBottom,
       }}
     >
       <span className="button--innerText">
@@ -52,7 +53,6 @@ Button.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]),
-  marginBottom: PropTypes.string,
   disabled: PropTypes.bool,
   type: PropTypes.string,
   loading: PropTypes.bool,
@@ -66,7 +66,6 @@ Button.propTypes = {
 Button.defaultProps = {
   version: 'black',
   width: '',
-  marginBottom: '',
   disabled: false,
   type: 'button',
   loading: false,

@@ -8,7 +8,6 @@ import FacebookIcon from '../icons/FacebookIcon'
 
 const ButtonFacebook = ({
   width: widthProp,
-  marginBottom,
   className,
   onClick,
   children,
@@ -21,7 +20,6 @@ const ButtonFacebook = ({
       className={className}
       onClick={onClick}
       width={width}
-      marginBottom={marginBottom}
       version={['facebook', 'icon', version].join(' ')}
     >
       <FacebookIcon
@@ -38,7 +36,6 @@ ButtonFacebook.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]),
-  marginBottom: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func,
   children: PropTypes.node.isRequired,
