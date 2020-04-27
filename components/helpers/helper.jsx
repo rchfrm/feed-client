@@ -510,7 +510,8 @@ export default {
   * @returns {string}
   */
   formatCurrency: (value, currency = 'GBP', locale = 'en-GB') => {
-    return value.toLocaleString(locale, { style: 'currency', currency })
+    const revisedLocale = currency === 'USD' ? 'en-US' : locale
+    return value.toLocaleString(revisedLocale, { style: 'currency', currency })
   },
 
   /**
