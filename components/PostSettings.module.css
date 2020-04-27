@@ -1,0 +1,11 @@
+.settingSection {
+  margin-bottom: var(--bsu-md);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.connectionsList {
+  padding-top: var(--bsu);
+}

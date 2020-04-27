@@ -1,11 +1,28 @@
+const white = '#F4F4F4'
+const black = '#0D1311'
+const green = '#03D8B2'
+const red = '#FA5450'
+const greyLight = '#E7E9E8'
+const grey = '#C8CBCA'
+const greyDark = '#7F8382'
+
 const brandColors = {
-  white: '#F4F4F4',
-  black: '#0D1311',
-  green: '#03D8B2',
-  red: '#FA5450',
-  greyLight: '#E7E9E8',
-  grey: '#C8CBCA',
-  greyDark: '#7F8382',
+  // Base colors
+  white,
+  black,
+  green,
+  red,
+  greyLight,
+  grey,
+  greyDark,
+  // Interface colors
+  bgColor: white,
+  textColor: black,
+  successColor: green,
+  loaderColor: green,
+  errorColor: red,
+  disabledColorBg: greyLight,
+  disabledColorText: greyDark,
   // SM colors
   colorFb: '#26547C',
   colorInsta: '#E75A7C',
@@ -15,14 +32,5 @@ const brandColors = {
   colorYoutube: '#FA5450',
   colorFbButton: '#4267B2',
 }
-
-// APP COLORS
-brandColors.bgColor = brandColors.white
-brandColors.textColor = brandColors.black
-brandColors.successColor = brandColors.green
-brandColors.loaderColor = brandColors.green
-brandColors.errorColor = brandColors.red
-brandColors.disabledColorBg = brandColors.greyLight
-brandColors.disabledColorText = brandColors.greyDark
 
 export default brandColors

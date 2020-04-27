@@ -66,3 +66,7 @@ CONNECTIONS
   padding-right: 2.778%;
   flex: none;
 }
+
+.saveIcon {
+  transform: translateY(0.3em);
+}

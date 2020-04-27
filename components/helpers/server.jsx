@@ -181,12 +181,9 @@ export default {
   getDataSourceValue: async (dataSources, artistId, verifyIdToken) => {
     return api
       .get(`/artists/${artistId}/data_sources`, {
-        // todo metrics should be renamed to name after "new" endpoint deployed to master
-        metrics: dataSources.join(','),
+        name: dataSources.join(','),
       }, verifyIdToken)
       .then(res => {
-        // todo array cast is temporary while the API returns a non-standard object the this endpoint
-        if (!Array.isArray(res)) res = Object.values(res)
         // convert array to object with data source name as keys
         return res.reduce((obj, dataSource) => {
           obj[dataSource.name] = dataSource
@@ -243,6 +240,25 @@ export default {
    */
   togglePromotionEnabled: async (artistId, postId, promotionEnabled, verifyIdToken) => {
     return api.patch(`/artists/${artistId}/assets/${postId}`, { promotion_enabled: promotionEnabled }, verifyIdToken)
+  },
+
+  /**
+   * @param {string} artistId
+   * @param {boolean} enabled
+   * @returns {Promise<any>}
+   */
+  toggleDefaultPromotionStatus: async (artistId, enabled) => {
+    return api.post('/actions/batchSetPromotionEnabled', { artist_id: artistId, enabled })
+  },
+
+
+  /**
+   * @param {string} artistId
+   * @param {boolean} enabled
+   * @returns {Promise<any>}
+   */
+  patchArtistPromotionStatus: async (artistId, enabled) => {
+    return api.patch(`/artists/${artistId}`, { preferences: { posts: { promotion_enabled_default: enabled } } })
   },
 
   /**

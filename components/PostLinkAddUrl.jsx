@@ -116,6 +116,7 @@ function PostLinkAddUrl({
         type="url"
         version="box"
         label="Link URL"
+        name="link-url"
         handleChange={handleInput}
         value={url || ''}
         required

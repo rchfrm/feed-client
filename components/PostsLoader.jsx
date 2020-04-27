@@ -40,6 +40,11 @@ const postsReducer = (draftState, postsAction) => {
     case 'toggle-promotion':
       draftState[postIndex].promotion_enabled = promotion_enabled
       break
+    case 'toggle-promotion-global':
+      draftState.forEach((post) => {
+        post.promotion_enabled = promotion_enabled
+      })
+      break
     case 'update-link':
       draftState[postIndex].priority_dsp = postLink
       break
@@ -80,7 +85,7 @@ function PostsLoader() {
   const postsPerPage = 10
 
   // Import artist context
-  const { artistId, artistLoading } = React.useContext(ArtistContext)
+  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
 
   // When changing artist...
   React.useEffect(() => {
@@ -158,7 +163,7 @@ function PostsLoader() {
   })
 
   // Define function for toggling promotion
-  const togglePromotion = async (postId) => {
+  const togglePromotion = React.useCallback(async (postId) => {
     const indexOfId = posts.findIndex(({ id }) => postId === id)
     const currentPromotionState = posts[indexOfId].promotion_enabled
     const newPromotionState = !currentPromotionState
@@ -172,7 +177,16 @@ function PostsLoader() {
       },
     })
     return newPromotionState
-  }
+  }, [posts])
+  // Define function to batch toggle all posts
+  const togglePromotionGlobal = React.useCallback((promotion_enabled) => {
+    setPosts({
+      type: 'toggle-promotion-global',
+      payload: {
+        promotion_enabled,
+      },
+    })
+  }, [posts])
 
   // Define function for loading more posts
   const loadMorePosts = () => {
@@ -203,13 +217,14 @@ function PostsLoader() {
         setVisiblePost={setVisiblePost}
         updateLink={updateLink}
         togglePromotion={togglePromotion}
+        togglePromotionGlobal={togglePromotionGlobal}
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
       />
 
       <Error error={error} />
 
-      <PostsBudget currency="£" />
+      <PostsBudget currency={artist.currency} />
 
     </div>
   )

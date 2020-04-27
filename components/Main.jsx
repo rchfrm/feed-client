@@ -7,6 +7,7 @@ import InitUser from './InitUser'
 import { NavigationContext } from './contexts/Navigation'
 import { UserProvider } from './contexts/User'
 import { ArtistProvider } from './contexts/Artist'
+import { SidePanelContextProvider } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import IntegrationErrorHandler from './IntegrationErrorHandler'
 import TheNavigation from './TheNavigation'
@@ -25,12 +26,14 @@ function Main({ children }) {
       <UserProvider>
         <ArtistProvider>
           <TheNavigation />
-          <InitUser>
-            <div className={pageContainerClasses}>
-              {children}
-            </div>
-            <IntegrationErrorHandler />
-          </InitUser>
+          <SidePanelContextProvider>
+            <InitUser>
+              <div className={pageContainerClasses}>
+                {children}
+              </div>
+              <IntegrationErrorHandler />
+            </InitUser>
+          </SidePanelContextProvider>
         </ArtistProvider>
       </UserProvider>
     </main>

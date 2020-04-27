@@ -49,9 +49,9 @@ function SidePanel({
 
   // ANIMATIONS
   const transition = useTransition(show, null, {
-    from: { progress: 100 },
+    from: { progress: 105 },
     enter: { progress: 0 },
-    leave: { progress: 100 },
+    leave: { progress: 105 },
     config: () => {
       return {
         mass: 1,
