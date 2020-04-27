@@ -8,6 +8,7 @@ import Spinner from './elements/Spinner'
 
 // IMPORT COMPONENTS
 import InsightPlatformSelectors from './InsightPlatformSelectors'
+import InsightDataSelectors from './InsightDataSelectors'
 import InsightsPageChart from './InsightsPageChart'
 import PromotePostsButton from './PromotePostsButton'
 // IMPORT TEXT
@@ -22,6 +23,7 @@ function Insights() {
   const { artist, artistId } = React.useContext(ArtistContext)
   // Define states
   const [currentPlatform, setCurrentPlatform] = React.useState('')
+  const [currentDataSource, setCurrentDataSource] = React.useState('')
 
   return (
     <div className="page--container">
@@ -36,6 +38,15 @@ function Insights() {
         currentPlatform={currentPlatform}
         setCurrentPlatform={setCurrentPlatform}
       />
+      {/* DATASOURCE SELECTORS */}
+      <InsightDataSelectors
+        artist={artist}
+        currentPlatform={currentPlatform}
+        currentDataSource={currentDataSource}
+        setCurrentDataSource={setCurrentDataSource}
+      />
+
+      {/* DATA SOURCE SELECTORS */}
 
 
       {currentPlatform && (

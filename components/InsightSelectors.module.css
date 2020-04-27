@@ -1,11 +1,12 @@
 @import "../assets/styles/mixins";
 
-.platformSelectors {
+.platformSelectors,
+.dataSelectors {
   display: flex;
   padding: calc(0.5 * var(--bsu)) 0;
   padding-right: var(--bsu-md);
   border-top: 2px solid var(--text-color);
-  border-bottom: 2px solid var(--text-color);
+  /* border-bottom: 2px solid var(--text-color); */
   overflow-x: auto;
   margin-bottom: var(--bsu);
 
@@ -17,7 +18,8 @@
   }
 }
 
-.platformButtonContainer {
+.platformButtonContainer,
+.dataButtonContainer {
   margin-right: calc(0.5 * var(--bsu));
 
   &:last-child {
@@ -27,5 +29,14 @@
   /* For desktops */
   @mixin canHover {
     margin-bottom: var(--bsu);
+  }
+}
+
+.dataButtonContainer {
+  text-decoration: none;
+  margin-right: var(--bsu);
+
+  &._active {
+    font-weight: var(--bold);
   }
 }
