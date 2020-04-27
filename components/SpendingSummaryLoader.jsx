@@ -92,7 +92,7 @@ const fetchSummary = async ({ artist, artistId, daysToInclude }) => {
   return { spend, impressions }
 }
 
-function InsightsSummaryLoader() {
+function SpendingSummaryLoader() {
   // Get artist ID from context
   const { artist, artistId } = React.useContext(ArtistContext)
   // Define total days to include in summary
@@ -129,4 +129,4 @@ function InsightsSummaryLoader() {
   return <MarkdownText className="ninety-wide  h4--text" markdown={markdown} />
 }
 
-export default InsightsSummaryLoader
+export default SpendingSummaryLoader
