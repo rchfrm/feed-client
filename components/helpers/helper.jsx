@@ -502,13 +502,14 @@ export default {
   getCurrencySymbol: (currency = 'GBP') => {
     return getSymbolFromCurrency(currency)
   },
+
   /**
   * @param {number} value
-  * @param {string} locale
   * @param {string} currency
+  * @param {string} locale
   * @returns {string}
   */
-  formatCurrency: (value, locale = 'en-GB', currency = 'GBP') => {
+  formatCurrency: (value, currency = 'GBP', locale = 'en-GB') => {
     return value.toLocaleString(locale, { style: 'currency', currency })
   },
 

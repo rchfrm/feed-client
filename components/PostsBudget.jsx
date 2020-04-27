@@ -27,7 +27,6 @@ const initialAlertState = {
 
 function PostsBudget({ currency }) {
   const { artist, updateBudget } = React.useContext(ArtistContext)
-
   // DEFINE STATES
   const initialBudgetState = {
     amount: '',
@@ -42,7 +41,7 @@ function PostsBudget({ currency }) {
   // Define input placeholder
   const [budgetPlaceholder, setBudgetPlaceholder] = React.useState('')
   React.useEffect(() => {
-    const budgetFormatted = helper.formatCurrency(Number(artist.daily_budget))
+    const budgetFormatted = helper.formatCurrency(Number(artist.daily_budget), currency)
     const placeholder = `Current Budget: ${budgetFormatted}`
     setBudgetPlaceholder(placeholder)
   }, [artist.daily_budget])
@@ -96,7 +95,7 @@ function PostsBudget({ currency }) {
       bgColor: brandColors.greyLight,
     })
     const budgetAmount = budget.amount || 0
-    const dailyBudget = await updateBudget(artist.id, currency, budgetAmount)
+    const dailyBudget = await updateBudget(artist.id, budgetAmount)
       .catch((error) => {
         setError(error)
         setBudget(initialBudgetState)
