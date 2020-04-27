@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 // import React from 'react'
 import moment from 'moment'
+import getSymbolFromCurrency from 'currency-symbol-map'
 import countries from '../../constants/countries'
 
 
@@ -494,6 +495,13 @@ export default {
     return 'external'
   },
 
+  /**
+  * @param {string} currency
+  * @returns {string}
+  */
+  getCurrencySymbol: (currency = 'GBP') => {
+    return getSymbolFromCurrency(currency)
+  },
   /**
   * @param {number} value
   * @param {string} locale
