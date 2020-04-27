@@ -7,19 +7,17 @@ import Button from './Button'
 import FacebookIcon from '../icons/FacebookIcon'
 
 const ButtonFacebook = ({
-  width: widthProp,
+  version,
   className,
+  style,
   onClick,
   children,
-  version,
 }) => {
-  const width = typeof widthProp === 'string' ? widthProp : ''
-
   return (
     <Button
       className={className}
       onClick={onClick}
-      width={width}
+      style={style}
       version={['facebook', 'icon', version].join(' ')}
     >
       <FacebookIcon
@@ -32,22 +30,18 @@ const ButtonFacebook = ({
 }
 
 ButtonFacebook.propTypes = {
-  width: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  version: PropTypes.string,
   className: PropTypes.string,
+  style: PropTypes.object,
   onClick: PropTypes.func,
   children: PropTypes.node.isRequired,
-  version: PropTypes.string,
 }
 
 ButtonFacebook.defaultProps = {
-  width: '',
-  marginBottom: '',
-  onClick: () => {},
-  className: '',
   version: '',
+  className: '',
+  style: {},
+  onClick: () => {},
 }
 
 

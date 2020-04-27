@@ -57,16 +57,22 @@ const InsightPlatformSelectors = ({
   return (
     <div className={[styles.platformSelectors, 'ninety-wide'].join(' ')}>
       {availablePlatforms.map((platform) => {
-        const { color } = dataSourceDetails[platform]
+        const { color: platformColor } = dataSourceDetails[platform]
         const active = platform === currentPlatform
+        const iconColor = active ? brandColors.bgColor : platformColor
+        const buttonColor = active ? platformColor : 'transparent'
+        const buttonStyle = {
+          backgroundColor: buttonColor,
+        }
         return (
           <div className={styles.platformButtonContainer} key={platform}>
             <Button
               className={styles.platformButton}
               version="black small icon"
+              style={buttonStyle}
               onClick={() => setCurrentPlatform(platform)}
             >
-              <Icon color={color} version={platform} />
+              <Icon color={iconColor} version={platform} />
               {platform}
             </Button>
           </div>

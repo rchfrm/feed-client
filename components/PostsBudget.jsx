@@ -63,7 +63,9 @@ function PostsBudget({ currency }) {
     <Button
       version="black"
       onClick={resetAlert}
-      width={31.48}
+      style={{
+        width: '31.48%',
+      }}
     >
       Ok
     </Button>
