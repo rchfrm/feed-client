@@ -9,6 +9,7 @@ import firebase from './helpers/firebase'
 
 import Input from './elements/Input'
 import Button from './elements/Button'
+import Error from './elements/Error'
 
 import styles from './AccountPage.module.css'
 import sidePanelStyles from './SidePanel.module.css'
@@ -49,6 +50,7 @@ function AccountPageDetails({ user }) {
     // Clear errors
     setErrors([])
     const passwordChanged = passwordOne || passwordTwo
+    const namesChanged = (initialName !== name) || (initialSurname !== surname) || (email !== initialEmail)
     // No password set and no name changes, close panel
     if (!passwordChanged && name === initialName && surname === initialSurname && email === initialEmail) {
       toggleSidePanel()
@@ -162,6 +164,10 @@ function AccountPageDetails({ user }) {
       <h2 className={sidePanelStyles.SidePanel__Header}>Account Page Details</h2>
 
       <form className={styles.accountPageDetails__form} onSubmit={handleSubmit.current}>
+
+        {errors.map((error) => {
+          return <Error error={error} key={error.code} />
+        })}
 
         <Input
           name="name"
