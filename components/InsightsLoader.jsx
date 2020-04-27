@@ -18,6 +18,8 @@ import styles from './InsightsPage.module.css'
 
 
 function Insights() {
+  // Import artist context
+  const { artist, artistId } = React.useContext(ArtistContext)
   // Define states
   const [currentPlatform, setCurrentPlatform] = React.useState('')
 
@@ -29,6 +31,8 @@ function Insights() {
 
       {/* PLATFORM SELECTORS */}
       <InsightPlatformSelectors
+        artist={artist}
+        artistId={artistId}
         currentPlatform={currentPlatform}
         setCurrentPlatform={setCurrentPlatform}
       />

@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ArtistContext } from './contexts/Artist'
-
 import Button from './elements/Button'
 import Icon from './elements/Icon'
 
@@ -12,18 +10,18 @@ import brandColors from '../constants/brandColors'
 import styles from './InsightSelectors.module.css'
 
 const InsightPlatformSelectors = ({
+  artist,
+  artistId,
   currentPlatform,
   setCurrentPlatform,
 }) => {
-  const { artist, artistId } = React.useContext(ArtistContext)
+  // Get platforms
   const {
     priority_social_platform: socialPlatform,
     _embedded: { data_sources: dataSources },
   } = artist
-
   // GET ALL AVAILABLE PLATFORMS
   const availablePlatforms = React.useMemo(() => {
-    if (!artistId) return []
     // Get name of platform from data source
     const dataSourcePlatforms = dataSources.map(({ id: source }) => {
       const platformName = source.split('_')[0]
@@ -79,6 +77,8 @@ const InsightPlatformSelectors = ({
 }
 
 InsightPlatformSelectors.propTypes = {
+  artist: PropTypes.object.isRequired,
+  artistId: PropTypes.string.isRequired,
   currentPlatform: PropTypes.string,
   setCurrentPlatform: PropTypes.func.isRequired,
 }
