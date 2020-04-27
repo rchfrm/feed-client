@@ -235,6 +235,15 @@ function AccountPageDetails({ user }) {
           handleChange={handleChange}
           version="text"
         />
+
+        <input
+          type="submit"
+          value="submit"
+          style={{
+            position: 'absolute',
+            left: '-1000em',
+          }}
+        />
       </form>
     </section>
   )
