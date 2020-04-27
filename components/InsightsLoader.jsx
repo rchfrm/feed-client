@@ -7,7 +7,6 @@ import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Spinner from './elements/Spinner'
 // IMPORT PAGES
-import InsightsSummaryLoader from './InsightsSummaryLoader'
 import InsightsPageChart from './InsightsPageChart'
 import PromotePostsButton from './PromotePostsButton'
 // IMPORT TEXT
@@ -25,8 +24,6 @@ function Insights() {
       <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
 
       <div className={styles.chartsContainer}>
-        <InsightsSummaryLoader />
-
         <InsightsPageChart />
 
         <PromotePostsButton />

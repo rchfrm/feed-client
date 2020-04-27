@@ -1,11 +1,3 @@
-.summaryLoader {
-  justify-content: flex-start !important;
-  :global(svg) {
-    height: 1.2em;
-    width: auto;
-  } 
-}
-
 .chartsContainer {
   width: 100%;
   margin-bottom: var(--bsu-lg);

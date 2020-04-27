@@ -1,3 +1,13 @@
+/* Summary text */
+.summaryLoader {
+  justify-content: flex-start !important;
+  margin-bottom: var(--bsu);
+  :global(svg) {
+    height: 1.2em;
+    width: auto;
+  } 
+}
+
 .results {
   width: 90%;
   margin: 0 5%;
