@@ -82,7 +82,9 @@ function AccountPageDetails({ user }) {
     const userUpdatePromise = server.updateUser(name, surname, email)
     // When all is done...
     const res = await Promise.all([userUpdatePromise, passwordUpdatePromise])
-      .catch((err) => console.log('err', err))
+      .catch((error) => {
+        setErrors([...errors, error])
+      })
     if (!res) return
     // Update the user details
     const [updatedUser] = res
