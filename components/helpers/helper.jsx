@@ -510,6 +510,7 @@ export default {
   * @returns {string}
   */
   formatCurrency: (value, currency = 'GBP', locale = navigator.language) => {
+    currency = currency === null ? 'GBP' : currency
     return value.toLocaleString(locale, { style: 'currency', currency })
   },
 

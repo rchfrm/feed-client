@@ -10,7 +10,6 @@ import Spinner from './elements/Spinner'
 import AccountPageDetails from './AccountPageDetails'
 import AccountPagePayments from './AccountPagePayments'
 import PaymentAdd from './PaymentAdd'
-import RelinkFacebook from './RelinkFacebook'
 import AccountPageSection from './AccountPageSection'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -60,7 +59,6 @@ const AccountPageContent = ({ user }) => {
   // The content
   return (
     <>
-
       <AccountPageSection
         title="Account details"
         type="details"
@@ -76,9 +74,6 @@ const AccountPageContent = ({ user }) => {
         buttonText="Edit payment methods"
         setSidePanel={setSidePanel}
       />
-
-      <RelinkFacebook />
-
     </>
   )
 }
