@@ -18,6 +18,10 @@
   }
 }
 
+.platformSelectors {
+  scroll-behavior: smooth;
+}
+
 .platformButtonContainer,
 .dataButtonContainer {
   margin-right: calc(0.5 * var(--bsu));

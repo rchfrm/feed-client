@@ -20,6 +20,11 @@ const InsightPlatformSelectors = ({
     priority_social_platform: socialPlatform,
     _embedded: { data_sources: dataSources },
   } = artist
+  // REFS
+  // Define array of button refs
+  const [buttonRefs, setButtonRefs] = React.useState([])
+  // Container ref
+  const buttonContainer = React.useRef(null)
   // GET ALL AVAILABLE PLATFORMS
   const availablePlatforms = React.useMemo(() => {
     // Get name of platform from data source
@@ -45,7 +50,25 @@ const InsightPlatformSelectors = ({
     if (!availablePlatforms.length) return
     // Set the current platform to the first
     setCurrentPlatform(availablePlatforms[0])
+    // Update buttons refs
+    setButtonRefs(buttonRefs => (
+      Array(availablePlatforms.length).fill().map((_, i) => buttonRefs[i] || React.createRef())
+    ))
   }, [availablePlatforms])
+
+  // SCROLL TO SELECTED BUTTON when changing platform
+  React.useEffect(() => {
+    const buttonIndex = availablePlatforms.indexOf(currentPlatform)
+    const { current: button } = buttonRefs[buttonIndex] || {}
+    if (!button) return
+    const { current: container } = buttonContainer
+    const { width: containerWidth, left: containerLeft } = container.getBoundingClientRect()
+    const { width: buttonWidth, left: buttonLeft } = button.getBoundingClientRect()
+    const buttonOffset = buttonLeft - containerLeft
+    const newButtonOffset = (containerWidth / 2) - (buttonWidth / 2)
+    const offsetMod = buttonOffset - newButtonOffset
+    container.scrollLeft += offsetMod
+  }, [currentPlatform])
 
   // console.log('artist', artist)
   // console.log('socialPlatform', socialPlatform)
@@ -57,8 +80,8 @@ const InsightPlatformSelectors = ({
   return (
     <div className="ninety-wide">
       <p className={['inputLabel__text', styles.platformSelectors__label].join(' ')}>Select a platform</p>
-      <div className={styles.platformSelectors}>
-        {availablePlatforms.map((platform) => {
+      <div className={styles.platformSelectors} ref={buttonContainer}>
+        {availablePlatforms.map((platform, i) => {
           const { color: platformColor } = dataSourceDetails[platform]
           const active = platform === currentPlatform
           const iconColor = platformColor
@@ -70,7 +93,7 @@ const InsightPlatformSelectors = ({
             color: textColor,
           }
           return (
-            <div className={styles.platformButtonContainer} key={platform}>
+            <div className={styles.platformButtonContainer} key={platform} ref={buttonRefs[i]}>
               <Button
                 className={styles.platformButton}
                 version="black small icon"
