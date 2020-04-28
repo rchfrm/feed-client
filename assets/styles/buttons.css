@@ -41,8 +41,8 @@ button {
 .button--innerText {
   display: flex;
   justify-content: center;
-  align-items: baseline;
-  transform: translateY(-0.1em);
+  align-items: center;
+  transform: translateY(-0.05em);
 }
 
 .button--black,
@@ -149,7 +149,6 @@ button {
     width: var(--bsu);
     height: auto;
     margin-right: 1em;
-    transform: translateY(1px);
     vertical-align: bottom;
   }
 }
