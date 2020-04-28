@@ -6,9 +6,9 @@
   padding: calc(0.5 * var(--bsu)) 0;
   padding-right: var(--bsu-md);
   border-top: 2px solid var(--text-color);
-  /* border-bottom: 2px solid var(--text-color); */
   overflow-x: auto;
   margin-bottom: var(--bsu);
+  scroll-behavior: smooth;
 
   /* For desktops */
   @mixin canHover {
@@ -16,10 +16,6 @@
     padding: var(--bsu) 0;
     padding-bottom: 0;
   }
-}
-
-.platformSelectors {
-  scroll-behavior: smooth;
 }
 
 .platformButtonContainer,
@@ -40,8 +36,10 @@
   position: relative;
   text-decoration: none;
   margin-right: var(--bsu-lg);
-  /* flex: 0 0 10em; */
+  flex-shrink: 0;
+  min-width: 8em;
   line-height: 1.5;
+
 
   &::after {
     content: '';
@@ -77,5 +75,5 @@
 }
 
 .dataButton_subtitle {
-  /* font-weight: var(--bold); */
+
 }
