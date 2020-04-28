@@ -33,10 +33,35 @@
 }
 
 .dataButtonContainer {
+  position: relative;
   text-decoration: none;
-  margin-right: var(--bsu);
+  margin-right: var(--bsu-md);
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.2em;
+    width: 100%;
+    height: 2px;
+    background: black;
+    opacity: 0;
+  }
+
+  @mixin canHover {
+    &:hover {
+      color: var(--text-color);
+      &::after {
+        opacity: 1;
+        background: var(--green);
+      }
+    }
+  }
 
   &._active {
-    font-weight: var(--bold);
+    &::after {
+      opacity: 1;
+      background: var(--text-color);
+    }
   }
 }
