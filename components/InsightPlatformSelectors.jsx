@@ -47,10 +47,10 @@ const InsightPlatformSelectors = ({
     setCurrentPlatform(availablePlatforms[0])
   }, [availablePlatforms])
 
-  console.log('artist', artist)
-  console.log('socialPlatform', socialPlatform)
+  // console.log('artist', artist)
+  // console.log('socialPlatform', socialPlatform)
   console.log('dataSources', dataSources)
-  console.log('availablePlatforms', availablePlatforms)
+  // console.log('availablePlatforms', availablePlatforms)
 
   if (!availablePlatforms.length) return null
 

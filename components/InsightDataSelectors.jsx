@@ -10,7 +10,6 @@ const InsightDataSelectors = ({
   currentDataSource,
   setCurrentDataSource,
 }) => {
-  console.log('artist', artist)
   // Get platforms
   const {
     _embedded: { data_sources: allDataSources },
