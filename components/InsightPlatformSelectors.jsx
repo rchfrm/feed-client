@@ -18,6 +18,7 @@ const InsightPlatformSelectors = ({
   setCurrentPlatform,
 }) => {
   // GET ALL AVAILABLE PLATFORMS
+  const { _embedded: { data_sources: dataSources } } = artist
   const availablePlatforms = React.useMemo(() => {
     // Get name of platform from data source
     const dataSourcePlatforms = dataSources.map(({ id: source }) => {
