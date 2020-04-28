@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useScrollToButton from './hooks/useScrollToButton'
+
 import styles from './InsightSelectors.module.css'
 import insightDataSources from '../constants/insightDataSources'
 
@@ -43,16 +45,20 @@ const InsightDataSelectors = ({
     setCurrentDataSource(id)
   }, [currentPlatform])
 
+  // SETUP SCROLL TO BUTTON
+  const [buttonRefs, containerRef] = useScrollToButton(availableSources, currentDataSource)
+
   return (
     <div className="ninety-wide">
       <p className={['inputLabel__text', styles.dataSelectors__label].join(' ')}>Select a data set</p>
-      <div className={styles.dataSelectors}>
-        {availableSources.map(({ title, subtitle, id }) => {
+      <div className={styles.dataSelectors} ref={containerRef}>
+        {availableSources.map(({ title, subtitle, id }, i) => {
           const activeClass = currentDataSource === id ? styles._active : ''
           return (
             <a
               role="button"
               key={id}
+              ref={buttonRefs[i]}
               className={[styles.dataButtonContainer, activeClass].join(' ')}
               onClick={() => setCurrentDataSource(id)}
             >

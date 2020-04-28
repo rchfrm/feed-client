@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import Button from './elements/Button'
 import Icon from './elements/Icon'
 
+import useScrollToButton from './hooks/useScrollToButton'
+
 import dataSourceDetails from '../constants/dataSources'
 import brandColors from '../constants/brandColors'
 
@@ -15,17 +17,8 @@ const InsightPlatformSelectors = ({
   currentPlatform,
   setCurrentPlatform,
 }) => {
-  // Get platforms
-  const {
-    priority_social_platform: socialPlatform,
-    _embedded: { data_sources: dataSources },
-  } = artist
-  // REFS
-  // Define array of button refs
-  const [buttonRefs, setButtonRefs] = React.useState([])
-  // Container ref
-  const buttonContainer = React.useRef(null)
   // GET ALL AVAILABLE PLATFORMS
+  const { _embedded: { data_sources: dataSources } } = artist
   const availablePlatforms = React.useMemo(() => {
     // Get name of platform from data source
     const dataSourcePlatforms = dataSources.map(({ id: source }) => {
@@ -37,38 +30,27 @@ const InsightPlatformSelectors = ({
       // Ignore apple source
       if (platformName === 'apple') return platforms
       // Ignore platform if already included
-      if (platforms.includes(platformName)) return platforms
+      if (platforms.find(({ id }) => id === platformName)) return platforms
       // Add platform to array
-      return [...platforms, platformName]
+      return [...platforms, {
+        id: platformName,
+        title: platformName,
+      }]
     }, [])
     // return results
     return allPlatforms
   }, [artistId])
+
+  // SETUP SCROLL TO BUTTON
+  const [buttonRefs, containerRef] = useScrollToButton(availablePlatforms, currentPlatform)
 
   // SET FIRST PLATFORM AS CURRENT
   React.useEffect(() => {
     if (!availablePlatforms.length) return
     // Set the current platform to the first
     setCurrentPlatform(availablePlatforms[0])
-    // Update buttons refs
-    setButtonRefs(buttonRefs => (
-      Array(availablePlatforms.length).fill().map((_, i) => buttonRefs[i] || React.createRef())
-    ))
   }, [availablePlatforms])
 
-  // SCROLL TO SELECTED BUTTON when changing platform
-  React.useEffect(() => {
-    const buttonIndex = availablePlatforms.indexOf(currentPlatform)
-    const { current: button } = buttonRefs[buttonIndex] || {}
-    if (!button) return
-    const { current: container } = buttonContainer
-    const { width: containerWidth, left: containerLeft } = container.getBoundingClientRect()
-    const { width: buttonWidth, left: buttonLeft } = button.getBoundingClientRect()
-    const buttonOffset = buttonLeft - containerLeft
-    const newButtonOffset = (containerWidth / 2) - (buttonWidth / 2)
-    const offsetMod = buttonOffset - newButtonOffset
-    container.scrollLeft += offsetMod
-  }, [currentPlatform])
 
   // console.log('artist', artist)
   // console.log('socialPlatform', socialPlatform)
@@ -80,10 +62,10 @@ const InsightPlatformSelectors = ({
   return (
     <div className="ninety-wide">
       <p className={['inputLabel__text', styles.platformSelectors__label].join(' ')}>Select a platform</p>
-      <div className={styles.platformSelectors} ref={buttonContainer}>
-        {availablePlatforms.map((platform, i) => {
-          const { color: platformColor } = dataSourceDetails[platform]
-          const active = platform === currentPlatform
+      <div className={styles.platformSelectors} ref={containerRef}>
+        {availablePlatforms.map(({ title, id }, i) => {
+          const { color: platformColor } = dataSourceDetails[id]
+          const active = id === currentPlatform
           const iconColor = platformColor
           const borderColor = active ? platformColor : 'transparent'
           const { textColor } = brandColors
@@ -93,15 +75,15 @@ const InsightPlatformSelectors = ({
             color: textColor,
           }
           return (
-            <div className={styles.platformButtonContainer} key={platform} ref={buttonRefs[i]}>
+            <div className={styles.platformButtonContainer} key={id} ref={buttonRefs[i]}>
               <Button
                 className={styles.platformButton}
                 version="black small icon"
                 style={buttonStyle}
-                onClick={() => setCurrentPlatform(platform)}
+                onClick={() => setCurrentPlatform(id)}
               >
-                <Icon color={iconColor} version={platform} />
-                {platform}
+                <Icon color={iconColor} version={id} />
+                {title}
               </Button>
             </div>
           )
