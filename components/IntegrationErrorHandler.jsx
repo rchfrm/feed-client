@@ -12,7 +12,7 @@ import IntegrationErrorContent from './IntegrationErrorContent'
 const feedArtistId = '0mpyUFo2OApQnawtH6cB'
 
 // RUN THIS TO FETCH ERRORS
-const fetchError = async ({ auth, user, artist, artistId }) => {
+const fetchError = async ({ auth, user, artist, artistId, accessToken }) => {
   // Get any missing permissions from the FB redirect response
   const { missingScopes = [] } = auth
   // Handle missing scopes from FB
@@ -24,6 +24,9 @@ const fetchError = async ({ auth, user, artist, artistId }) => {
     const errorResponse = integrationErrorsHelpers.getErrorResponse(error)
     return errorResponse
   }
+  // Stop here if there is an access token
+  // (because it will be sent to server to fix error)
+  if (accessToken) return
   // If no missing scopes from FB, get error from server...
   if (!user.artists) return
   if (!artist || !artistId) return
@@ -68,9 +71,12 @@ const IntegrationErrorHandler = () => {
     user,
     artist,
     artistId,
+    accessToken,
   })
+
   // Decide whether to show integration error
   React.useEffect(() => {
+    // Don't show error message if no error
     if (!integrationError) return
     const { hidden } = integrationError
     setShowError(!hidden)
