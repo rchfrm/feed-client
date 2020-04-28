@@ -89,7 +89,7 @@ const IntegrationErrorHandler = () => {
     if (!userArtistIds.length) return
     // Update access token
     accessTokenUpdated.current = true
-    server.updateAccessToken(userArtists, accessToken)
+    server.updateAccessToken(userArtistIds, accessToken)
   }, [accessToken])
 
   // Function to hide integration error
