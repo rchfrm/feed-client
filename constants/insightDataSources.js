@@ -204,7 +204,7 @@ export default {
   instagram_profile_views: {
     id: 'instagram_profile_views',
     platform: 'instagram',
-    visible: false,
+    visible: true,
     breakdown: false,
     title: 'profile views',
     subtitle: 'total',
@@ -225,7 +225,7 @@ export default {
   instagram_reach: {
     id: 'instagram_reach',
     platform: 'instagram',
-    visible: false,
+    visible: true,
     breakdown: false,
     title: 'reach',
     subtitle: '',
