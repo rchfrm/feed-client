@@ -45,10 +45,6 @@
   padding-top: var(--bsu);
 }
 
-.platformSelectors {
-  scroll-behavior: smooth;
-}
-
 .platformButtonContainer,
 .dataButtonContainer {
   /* For desktops */
@@ -94,6 +90,7 @@
   line-height: 1.5;
   padding-bottom: var(--bsu);
   margin-bottom: 0;
+
 
   &::after {
     content: '';
