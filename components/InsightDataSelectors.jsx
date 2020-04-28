@@ -2,28 +2,35 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import styles from './InsightSelectors.module.css'
-import helper from './helpers/helper'
+import insightDataSources from '../constants/insightDataSources'
 
 const InsightDataSelectors = ({
-  artist,
   currentPlatform,
   currentDataSource,
   setCurrentDataSource,
 }) => {
-  // Get platforms
-  const {
-    _embedded: { data_sources: allDataSources },
-  } = artist
-
   // Return array of data sources that match the current platform
   const availableSources = React.useMemo(() => {
     if (!currentPlatform) return []
-    return Object.values(allDataSources).reduce((sources, { id: source }) => {
-      const platform = source.split('_')[0]
+    console.log('insightDataSources', insightDataSources)
+    console.log('Object.values(insightDataSources)', Object.values(insightDataSources))
+    return Object.values(insightDataSources).reduce((sources, {
+      id,
+      title,
+      visible,
+      breakdown,
+      subtitle,
+      period,
+      platform,
+    }) => {
+      // Ignore if not related to current platform
       if (platform !== currentPlatform) return sources
+      // Ignore is not visible or a breakdown
+      if (!visible || breakdown) return sources
       return [...sources, {
-        name: helper.translateDataSourceId(source),
-        id: source,
+        title,
+        id,
+        subtitle: subtitle || period,
       }]
     }, [])
   }, [currentPlatform])
@@ -40,7 +47,7 @@ const InsightDataSelectors = ({
     <div className="ninety-wide">
       <p className={['inputLabel__text', styles.dataSelectors__label].join(' ')}>Select a data set</p>
       <div className={styles.dataSelectors}>
-        {availableSources.map(({ name, id }) => {
+        {availableSources.map(({ title, subtitle, id }) => {
           const activeClass = currentDataSource === id ? styles._active : ''
           return (
             <a
@@ -49,7 +56,13 @@ const InsightDataSelectors = ({
               className={[styles.dataButtonContainer, activeClass].join(' ')}
               onClick={() => setCurrentDataSource(id)}
             >
-              {name}
+              <span className={styles.dataButton_title}>{title}</span>
+              {subtitle && (
+                <>
+                  <br />
+                  <span className={[styles.dataButton_subtitle, 'small--p'].join(' ')}>{subtitle}</span>
+                </>
+              )}
             </a>
           )
         })}
@@ -60,7 +73,6 @@ const InsightDataSelectors = ({
 }
 
 InsightDataSelectors.propTypes = {
-  artist: PropTypes.object.isRequired,
   currentPlatform: PropTypes.string.isRequired,
   currentDataSource: PropTypes.string.isRequired,
   setCurrentDataSource: PropTypes.func.isRequired,

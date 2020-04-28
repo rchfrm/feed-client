@@ -39,8 +39,8 @@
 .dataButtonContainer {
   position: relative;
   text-decoration: none;
-  margin-right: var(--bsu-md);
-  flex: 0 0 10em;
+  margin-right: var(--bsu-lg);
+  /* flex: 0 0 10em; */
   line-height: 1.5;
 
   &::after {
@@ -70,4 +70,12 @@
       background: var(--text-color);
     }
   }
+}
+
+.dataButton_title {
+  font-weight: var(--bold);
+}
+
+.dataButton_subtitle {
+  /* font-weight: var(--bold); */
 }

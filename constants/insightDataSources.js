@@ -6,9 +6,9 @@ export default {
     platform: 'apple',
     visible: false,
     breakdown: false,
-    period: '',
     title: 'streams',
     subtitle: '',
+    period: '',
   },
 
   // FACEBOOK
@@ -18,9 +18,9 @@ export default {
     platform: 'facebook',
     visible: true,
     breakdown: false,
+    title: 'daily impressions',
+    subtitle: 'through feed',
     period: '',
-    title: 'ad impressions',
-    subtitle: '(through feed)',
   },
 
   facebook_ad_spend: {
@@ -28,9 +28,9 @@ export default {
     platform: 'facebook',
     visible: false,
     breakdown: false,
-    period: '',
-    title: 'ad spend',
+    title: 'daily spend',
     subtitle: '',
+    period: '',
   },
 
   facebook_ad_spend_feed: {
@@ -38,9 +38,9 @@ export default {
     platform: 'facebook',
     visible: true,
     breakdown: false,
+    title: 'daily spend',
+    subtitle: 'through feed',
     period: '',
-    title: 'ad spend',
-    subtitle: '(through feed)',
   },
 
   facebook_engaged_1y: {
@@ -48,9 +48,9 @@ export default {
     platform: 'facebook',
     visible: true,
     breakdown: false,
-    period: 'yearly',
     title: 'engagement',
     subtitle: '',
+    period: 'yearly',
   },
 
   facebook_engaged_28d: {
@@ -58,9 +58,9 @@ export default {
     platform: 'facebook',
     visible: false,
     breakdown: false,
-    period: 'monthly',
     title: 'engagement',
     subtitle: '',
+    period: 'monthly',
   },
 
   facebook_engaged_7d: {
@@ -68,9 +68,9 @@ export default {
     platform: 'facebook',
     visible: false,
     breakdown: false,
-    period: 'weekly',
     title: 'engagement',
     subtitle: '',
+    period: 'weekly',
   },
 
   facebook_likes: {
@@ -78,9 +78,9 @@ export default {
     platform: 'facebook',
     visible: true,
     breakdown: false,
-    period: '',
     title: 'likes',
-    subtitle: '',
+    subtitle: 'total',
+    period: '',
   },
 
   facebook_page_fans_city: {
@@ -88,9 +88,9 @@ export default {
     platform: 'facebook',
     visible: true,
     breakdown: true,
-    period: '',
     title: 'fans',
     subtitle: '',
+    period: '',
     breakdownType: 'city',
   },
 
@@ -99,9 +99,9 @@ export default {
     platform: 'facebook',
     visible: true,
     breakdown: true,
-    period: '',
     title: 'fans',
     breakdownType: 'country',
+    period: '',
     subtitle: '',
   },
 
@@ -110,9 +110,9 @@ export default {
     platform: 'facebook',
     visible: true,
     breakdown: true,
-    period: '',
     title: 'fans',
     breakdownType: 'gender/age',
+    period: '',
     subtitle: '',
   },
 
@@ -123,9 +123,9 @@ export default {
     platform: 'instagram',
     visible: true,
     breakdown: true,
-    period: '',
     title: 'audience',
     breakdownType: 'city',
+    period: '',
     subtitle: '',
   },
 
@@ -134,9 +134,9 @@ export default {
     platform: 'instagram',
     visible: true,
     breakdown: true,
-    period: '',
     title: 'audience',
     breakdownType: 'country',
+    period: '',
     subtitle: '',
   },
 
@@ -145,9 +145,9 @@ export default {
     platform: 'instagram',
     visible: true,
     breakdown: true,
-    period: '',
     title: 'audience',
     breakdownType: 'city',
+    period: '',
     subtitle: '',
   },
 
@@ -156,9 +156,9 @@ export default {
     platform: 'instagram',
     visible: true,
     breakdown: false,
-    period: 'yearly',
     title: 'engagement',
     subtitle: '',
+    period: 'yearly',
   },
 
   instagram_engaged_28d: {
@@ -166,9 +166,9 @@ export default {
     platform: 'instagram',
     visible: false,
     breakdown: false,
-    period: 'monthly',
     title: 'engagement',
     subtitle: '',
+    period: 'monthly',
   },
 
   instagram_engaged_7d: {
@@ -176,9 +176,9 @@ export default {
     platform: 'instagram',
     visible: false,
     breakdown: false,
-    period: 'weekly',
     title: 'engagement',
     subtitle: '',
+    period: 'weekly',
   },
 
   instagram_follower_count: {
@@ -186,19 +186,19 @@ export default {
     platform: 'instagram',
     visible: true,
     breakdown: false,
-    period: '',
     title: 'followers',
-    subtitle: '',
+    subtitle: 'total',
+    period: '',
   },
 
   instagram_profile_views: {
     id: 'instagram_profile_views',
     platform: 'instagram',
-    visible: false,
+    visible: true,
     breakdown: false,
-    period: '',
     title: 'profile views',
-    subtitle: '',
+    subtitle: 'total',
+    period: '',
   },
 
   instagram_profile_views_7d: {
@@ -206,19 +206,19 @@ export default {
     platform: 'instagram',
     visible: false,
     breakdown: false,
-    period: 'weekly',
     title: 'profile views',
     subtitle: '',
+    period: 'weekly',
   },
 
   instagram_reach: {
     id: 'instagram_reach',
     platform: 'instagram',
-    visible: false,
+    visible: true,
     breakdown: false,
-    period: '',
     title: 'reach',
     subtitle: '',
+    period: 'daily',
   },
 
   instagram_reach_7d: {
@@ -226,9 +226,9 @@ export default {
     platform: 'instagram',
     visible: false,
     breakdown: false,
-    period: 'weekly',
     title: 'reach',
     subtitle: '',
+    period: 'weekly',
   },
 
   // SOUNDCLOUD
@@ -238,9 +238,9 @@ export default {
     platform: 'soundcloud',
     visible: true,
     breakdown: false,
-    period: '',
     title: 'followers',
-    subtitle: '',
+    subtitle: 'total',
+    period: '',
   },
 
   soundcloud_listeners_7d: {
@@ -248,9 +248,9 @@ export default {
     platform: 'soundcloud',
     visible: true,
     breakdown: false,
-    period: '',
     title: 'listeners',
-    subtitle: '(rolling weekly total)',
+    subtitle: 'rolling weekly total',
+    period: '',
   },
 
   // SPOTIFY
@@ -260,19 +260,9 @@ export default {
     platform: 'spotify',
     visible: true,
     breakdown: false,
-    period: '',
     title: 'followers',
-    subtitle: '',
-  },
-
-  spotify_listeners_30d: {
-    id: 'spotify_listeners_30d',
-    platform: 'spotify',
-    visible: true,
-    breakdown: false,
+    subtitle: 'total',
     period: '',
-    title: 'listeners',
-    subtitle: '(rolling monthly total)',
   },
 
   spotify_listeners_7d: {
@@ -280,9 +270,19 @@ export default {
     platform: 'spotify',
     visible: true,
     breakdown: false,
-    period: '',
     title: 'listeners',
-    subtitle: '(rolling weekly total)',
+    subtitle: '',
+    period: 'weekly',
+  },
+
+  spotify_listeners_30d: {
+    id: 'spotify_listeners_30d',
+    platform: 'spotify',
+    visible: true,
+    breakdown: false,
+    title: 'listeners',
+    subtitle: '',
+    period: 'monthly',
   },
 
   spotify_streams_7d: {
@@ -290,9 +290,9 @@ export default {
     platform: 'spotify',
     visible: true,
     breakdown: false,
-    period: '',
     title: 'streams',
-    subtitle: '(rolling monthly total)',
+    subtitle: '',
+    period: 'weekly',
   },
 
   // TWITTER
@@ -302,9 +302,9 @@ export default {
     platform: 'twitter',
     visible: true,
     breakdown: false,
-    period: '',
     title: 'followers',
-    subtitle: '',
+    subtitle: 'total',
+    period: '',
   },
 
   // YOUTUBE
@@ -314,9 +314,9 @@ export default {
     platform: 'youtube',
     visible: true,
     breakdown: false,
-    period: '',
     title: 'subscribers',
-    subtitle: '',
+    subtitle: 'total',
+    period: '',
   },
 
   youtube_views: {
@@ -324,9 +324,9 @@ export default {
     platform: 'youtube',
     visible: true,
     breakdown: false,
-    period: '',
     title: 'views',
-    subtitle: '',
+    subtitle: 'total',
+    period: '',
   },
 
   youtube_views_7d: {
@@ -334,9 +334,9 @@ export default {
     platform: 'youtube',
     visible: true,
     breakdown: true,
-    period: 'weekly',
     title: 'views',
     subtitle: '',
+    period: 'weekly',
   },
 
 }
