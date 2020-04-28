@@ -33,7 +33,9 @@ const fetchError = async ({ auth, user, artist, artistId }) => {
   const { artists: userArtists } = user
   const { role: artistRole } = userArtists.find(({ id }) => id === artistId) || {}
   const artistOwned = artistRole === 'owner' || artistRole === 'sysadmin'
+  // Stop here if artist is now owned
   if (!artistOwned) return
+  // Fetch errors from server
   const errors = await server.getIntegrationErrors(artistId)
     .catch((err) => {
       throw (err)
@@ -79,7 +81,7 @@ const IntegrationErrorHandler = () => {
   React.useEffect(() => {
     // * FOR TESTING (ONLY USE FOR FEED ID)
     if (artistId !== feedArtistId) return
-    // Stop here is user is loading, there is no new access token, or it's already run once
+    // Stop here if user is loading, there is no new access token, or it's already run once
     if (!accessToken || accessTokenUpdated.current) return
     const { artists: userArtists = [] } = user
     const userArtistIds = userArtists.reduce((ids, { role, id }) => {
