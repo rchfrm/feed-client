@@ -15,8 +15,6 @@ const InsightDataSelectors = ({
   // Return array of data sources that match the current platform
   const availableSources = React.useMemo(() => {
     if (!currentPlatform) return []
-    console.log('insightDataSources', insightDataSources)
-    console.log('Object.values(insightDataSources)', Object.values(insightDataSources))
     return Object.values(insightDataSources).reduce((sources, {
       id,
       title,
