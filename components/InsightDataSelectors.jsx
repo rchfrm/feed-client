@@ -5,6 +5,7 @@ import useScrollToButton from './hooks/useScrollToButton'
 
 import styles from './InsightSelectors.module.css'
 import insightDataSources from '../constants/insightDataSources'
+import dataSourceDetails from '../constants/dataSources'
 
 const InsightDataSelectors = ({
   currentPlatform,
@@ -41,8 +42,13 @@ const InsightDataSelectors = ({
   React.useEffect(() => {
     const firstSource = availableSources[0]
     if (!firstSource) return
-    const { id } = firstSource
-    setCurrentDataSource(id)
+    const { id: sourceId } = firstSource
+    // Set current source
+    setCurrentDataSource(sourceId)
+    // Set hover color
+    const { color: platformColor } = dataSourceDetails[currentPlatform]
+    const dataSelectors = document.getElementById('dataSelectors')
+    dataSelectors.style.setProperty('--active-color', platformColor)
   }, [currentPlatform])
 
   // SETUP SCROLL TO BUTTON
@@ -51,7 +57,7 @@ const InsightDataSelectors = ({
   return (
     <div className="ninety-wide">
       <p className={['inputLabel__text', styles.dataSelectors__label].join(' ')}>Select a data set</p>
-      <div className={styles.dataSelectors} ref={containerRef}>
+      <div id="dataSelectors" className={styles.dataSelectors} ref={containerRef}>
         {availableSources.map(({ title, subtitle, id }, i) => {
           const activeClass = currentDataSource === id ? styles._active : ''
           return (

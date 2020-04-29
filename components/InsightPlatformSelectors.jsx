@@ -51,6 +51,15 @@ const InsightPlatformSelectors = ({
     setCurrentPlatform(availablePlatforms[0].id)
   }, [availablePlatforms])
 
+  // CHANGE ACTIVE COLOR
+  React.useEffect(() => {
+    if (!currentPlatform) return
+    // Set hover color
+    const { color: platformColor } = dataSourceDetails[currentPlatform]
+    const dataSelectors = document.getElementById('platformSelectors')
+    dataSelectors.style.setProperty('--active-color', platformColor)
+  }, [currentPlatform])
+
 
   // console.log('artist', artist)
   // console.log('socialPlatform', socialPlatform)
@@ -62,10 +71,11 @@ const InsightPlatformSelectors = ({
   return (
     <div className="ninety-wide">
       <p className={['inputLabel__text', styles.platformSelectors__label].join(' ')}>Select a platform</p>
-      <div className={styles.platformSelectors} ref={containerRef}>
+      <div id="platformSelectors" className={styles.platformSelectors} ref={containerRef}>
         {availablePlatforms.map(({ title, id }, i) => {
           const { color: platformColor } = dataSourceDetails[id]
           const active = id === currentPlatform
+          const activeClass = active ? styles._active : ''
           const iconColor = platformColor
           const borderColor = active ? platformColor : 'transparent'
           const { textColor } = brandColors
@@ -75,7 +85,11 @@ const InsightPlatformSelectors = ({
             color: textColor,
           }
           return (
-            <div className={styles.platformButtonContainer} key={id} ref={buttonRefs[i]}>
+            <div
+              key={id}
+              ref={buttonRefs[i]}
+              className={[styles.platformButtonContainer, activeClass].join(' ')}
+            >
               <Button
                 className={styles.platformButton}
                 version="black small icon"
