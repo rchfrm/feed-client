@@ -36,6 +36,8 @@
 }
 
 .platformButton {
+  text-transform: capitalize;
+
   @supports (color: var(--)) { 
     .platformButtonContainer._active & {
       border: 2px solid var(--black) !important;
@@ -91,6 +93,7 @@
 
 .dataButton_title {
   font-weight: var(--bold);
+  text-transform: capitalize;
 }
 
 .dataButton_subtitle {
