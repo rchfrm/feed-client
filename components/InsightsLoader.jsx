@@ -9,7 +9,7 @@ import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
 import InsightPlatformSelectors from './InsightPlatformSelectors'
 import InsightDataSelectors from './InsightDataSelectors'
-import InsightsPageChart from './InsightsPageChart'
+import InsightsPageChart from './InsightsPageChartNew'
 import PromotePostsButton from './PromotePostsButton'
 // IMPORT TEXT
 import MarkdownText from './elements/MarkdownText'
