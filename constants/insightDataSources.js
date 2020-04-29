@@ -8,7 +8,7 @@ export default {
     breakdown: false,
     title: 'streams',
     subtitle: '',
-    period: '',
+    period: 'weekly',
   },
 
   // FACEBOOK
