@@ -23,14 +23,14 @@ const brandColors = {
   errorColor: red,
   disabledColorBg: greyLight,
   disabledColorText: greyDark,
-  // SM colors
-  colorFb: '#26547C',
-  colorInsta: '#E75A7C',
-  colorTwitter: '#5BC0EB',
-  colorSpotify: '#03D8B2',
-  colorSoundcloud: '#FDE74C',
-  colorYoutube: '#FA5450',
-  colorFbButton: '#4267B2',
+  // Platform colors
+  facebook: '#26547C',
+  instagram: '#E75A7C',
+  twitter: '#5BC0EB',
+  spotify: '#03D8B2',
+  soundcloud: '#FDE74C',
+  youtube: '#FA5450',
+  facebookButton: '#4267B2',
 }
 
 export default brandColors
