@@ -337,6 +337,7 @@ export default {
     platform: 'youtube',
     visible: true,
     breakdown: true,
+    breakdownOf: 'youtube_views',
     title: 'views',
     subtitle: '',
     period: 'weekly',
