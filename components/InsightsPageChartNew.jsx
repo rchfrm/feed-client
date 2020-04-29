@@ -38,7 +38,7 @@ const formatData = (dailyData, currentDataSource, dates) => {
   const earliestData = dataArray[0]
   // Output formatted data
   return {
-    ...dailyData,
+    dailyData,
     title: `${title} (${subtitle || period})`,
     dataType,
     mostRecent: {

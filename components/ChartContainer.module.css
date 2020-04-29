@@ -9,10 +9,16 @@
 }
 
 /* CHART */
-.chart {
+.chartContainer {
   display: flex;
   position: relative;
+
+  :global(#bar-chart) {
+    padding: 0 5%;
+    z-index: 2;
+  }
 }
+
 
 .chartOverlay {
   position: absolute;
