@@ -15,7 +15,6 @@ import ChartContainer from './ChartContainerNew'
 // IMPORT CONSTANTS
 import insightDataSources from '../constants/insightDataSources'
 // IMPORT HELPERS
-import helper from './helpers/helper'
 import server from './helpers/server'
 // IMPORT STYLES
 import './InsightsPage.module.css'
@@ -32,6 +31,7 @@ const formatData = (dailyData, currentDataSource, dates) => {
     title,
     subtitle,
     period,
+    dataType,
   } = insightDataSources[currentDataSource]
   // Get most recent and earliest data
   const mostRecentData = dataArray[dataArray.length - 1]
@@ -39,7 +39,8 @@ const formatData = (dailyData, currentDataSource, dates) => {
   // Output formatted data
   return {
     ...dailyData,
-    type: `${title} (${subtitle || period})`,
+    title: `${title} (${subtitle || period})`,
+    dataType,
     mostRecent: {
       date: mostRecentData[0],
       value: mostRecentData[1],
