@@ -48,7 +48,7 @@ const InsightPlatformSelectors = ({
   React.useEffect(() => {
     if (!availablePlatforms.length) return
     // Set the current platform to the first
-    setCurrentPlatform(availablePlatforms[0])
+    setCurrentPlatform(availablePlatforms[0].id)
   }, [availablePlatforms])
 
 
