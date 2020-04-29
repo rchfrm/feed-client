@@ -195,7 +195,7 @@ function ChartBar({
       {
         label: `new_${currentDataSource}`,
         data: increaseArr,
-        backgroundColor: helper.hexToRGBA(chartColor, 0.7),
+        backgroundColor: helper.hexToRGBA(chartColor, 0.8),
         barPercentage: 0.8,
         categoryPercentage: 1,
         barThickness: 'flex',
