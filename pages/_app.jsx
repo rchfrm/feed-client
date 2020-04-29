@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Router from 'next/router'
 import withGA from 'next-ga'
 import Head from 'next/head'
@@ -6,13 +6,13 @@ import PropTypes from 'prop-types'
 import { StripeProvider } from 'react-stripe-elements'
 import Script from 'react-load-script'
 import * as Sentry from '@sentry/browser'
+// GLOBAL STYLES
+import '../assets/styles/index.css'
 // IMPORT COMPONENTS
-import Main from '../components/Main'
-import TheHeader from '../components/TheHeader'
-import TheFooter from '../components/TheFooter'
+import AppContents from '../components/AppContents'
 // IMPORT CONTEXTS
 import { AuthProvider } from '../components/contexts/Auth'
-import { NavMenuProvider, NavigationContext } from '../components/contexts/Navigation'
+import { NavMenuProvider } from '../components/contexts/Navigation'
 // IMPORT ELEMENTS
 
 // IMPORT PAGES
@@ -20,7 +20,6 @@ import { NavMenuProvider, NavigationContext } from '../components/contexts/Navig
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES
-import '../assets/styles/index.css'
 
 const registerServiceWorker = () => {
   window.addEventListener('load', () => {
@@ -90,17 +89,9 @@ function Feed({ Component, pageProps }) {
 
         <NavMenuProvider>
 
-          <div id="container">
-
-            <TheHeader />
-
-            <Main>
-              <Component {...pageProps} />
-            </Main>
-
-            <TheFooter />
-
-          </div>
+          <AppContents>
+            <Component {...pageProps} />
+          </AppContents>
 
         </NavMenuProvider>
 
