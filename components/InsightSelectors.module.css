@@ -80,6 +80,21 @@
   }
 }
 
+.platformButton {
+  @supports (color: var(--)) { 
+    .platformButtonContainer._active & {
+      border: 2px solid var(--black) !important;
+      border: 2px solid var(--active-color) !important;
+    }
+  }
+  
+  @mixin canHover {
+    &:hover {
+      border: 2px solid var(--grey) !important;
+    }
+  }
+}
+
 .dataButtonContainer {
   position: relative;
   text-decoration: none;
