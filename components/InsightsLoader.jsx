@@ -28,9 +28,6 @@ function Insights() {
   return (
     <div className="page--container">
 
-      {/* INTRO TEXT */}
-      <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
-
       {/* PLATFORM SELECTORS */}
       <InsightPlatformSelectors
         artist={artist}
