@@ -35,6 +35,11 @@ CONNECTIONS
 
 .integration-platform-icon {
   padding-left: 10px;
+
+  :global(svg) {
+    width: var(--bsu);
+    height: auto;
+  }
 }
 
 .asteriskIcon {
