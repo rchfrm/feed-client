@@ -106,7 +106,6 @@
   padding-bottom: var(--bsu);
   margin-bottom: 0;
 
-
   &::after {
     content: '';
     position: absolute;
