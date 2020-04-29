@@ -75,7 +75,7 @@ function InsightsPageChart({
   currentDataSource,
 }) {
   // IMPORT CONTEXTS
-  const { artist, artistId } = React.useContext(ArtistContext)
+  const { artistId } = React.useContext(ArtistContext)
   // Storage of data returned from the server
   const [data, setData] = React.useState(null)
 
@@ -110,7 +110,6 @@ function InsightsPageChart({
     // When fetch finishes
     onResolve: (data) => {
       if (!data) return
-      console.log('finishded fetching data', data)
       setData(data)
     },
   })

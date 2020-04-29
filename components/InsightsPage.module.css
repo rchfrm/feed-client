@@ -1,4 +1,9 @@
-.chartsContainer {
+.pageContent {
   width: 100%;
   margin-bottom: var(--bsu-lg);
+}
+
+.chartWrapper {
+  margin-top: var(--bsu-lg);
+  margin-bottom: calc(var(--bsu-lg) * 2.5);
 }
