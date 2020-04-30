@@ -40,7 +40,9 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
       const rel = linkType === 'external' ? 'noopener noreferrer' : ''
       return (
         <a className="button  button--black  button--full" onClick={dismiss} href={href} target={target} rel={rel}>
-          {buttonText}
+          <span className="button--innerText">
+            {buttonText}
+          </span>
         </a>
       )
     }
