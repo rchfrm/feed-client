@@ -1,10 +1,27 @@
 @import "../assets/styles/mixins";
 
+.selectorsOuter {
+  width: 100%;
+
+  @media(--bmw) {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
+.selectorsLabel {
+  padding-left: 5%;
+
+  @media(--bmw) {
+    padding-left: 0;
+  }
+}
+
 .platformSelectors,
 .dataSelectors {
   display: flex;
   padding: calc(0.5 * var(--bsu)) 0;
-  padding-right: var(--bsu-md);
+  padding-left: 5%;
   border-top: 2px solid var(--text-color);
   overflow-x: auto;
   margin-bottom: var(--bsu);
@@ -17,21 +34,32 @@
     padding-bottom: 0;
   }
 
-  --active-color: var(--text-color);
+  @media(--bmw) {
+    padding-left: 0;
+  }
 
+  --active-color: var(--text-color);
+}
+
+.dataSelectors {
+  padding-top: var(--bsu);
 }
 
 .platformButtonContainer,
 .dataButtonContainer {
-  margin-right: calc(0.5 * var(--bsu));
-
-  &:last-child {
-    margin-right: 0;
-  }
-
   /* For desktops */
   @mixin canHover {
     margin-bottom: var(--bsu);
+  }
+}
+
+.platformButtonContainer {
+  padding-right: var(--bsu);
+
+  @media(--bmw) {
+    &:last-child {
+      padding-right: 0;
+    }
   }
 }
 
@@ -55,9 +83,10 @@
 .dataButtonContainer {
   position: relative;
   text-decoration: none;
-  margin-right: var(--bsu-lg);
+  margin-right: calc(0.5 * var(--bsu));
+  padding-right: var(--bsu-lg);
   flex-shrink: 0;
-  min-width: 8em;
+  min-width: 10em;
   line-height: 1.5;
   padding-bottom: var(--bsu);
   margin-bottom: 0;
@@ -67,7 +96,7 @@
     position: absolute;
     left: 0;
     bottom: 0.5em;
-    width: 100%;
+    width: calc(100% - var(--bsu-lg));
     height: 2px;
     background-color: var(--grey);
     opacity: 0;

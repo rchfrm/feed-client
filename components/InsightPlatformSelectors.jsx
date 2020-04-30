@@ -64,8 +64,8 @@ const InsightPlatformSelectors = ({
   if (!availablePlatforms.length) return null
 
   return (
-    <div className="ninety-wide">
-      <p className={['inputLabel__text', styles.platformSelectors__label].join(' ')}>Select a platform</p>
+    <div className={styles.selectorsOuter}>
+      <p className={['inputLabel__text', styles.selectorsLabel].join(' ')}>Select a platform</p>
       <div id="platformSelectors" className={styles.platformSelectors} ref={containerRef}>
         {availablePlatforms.map(({ title, id }, i) => {
           const { color: platformColor } = dataSourceDetails[id]

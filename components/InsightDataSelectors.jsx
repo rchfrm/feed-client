@@ -53,8 +53,8 @@ const InsightDataSelectors = ({
   const [buttonRefs, containerRef] = useScrollToButton(availableSources, currentDataSource)
 
   return (
-    <div className="ninety-wide">
-      <p className={['inputLabel__text', styles.dataSelectors__label].join(' ')}>Select a data set</p>
+    <div className={styles.selectorsOuter}>
+      <p className={['inputLabel__text', styles.selectorsLabel].join(' ')}>Select a data set</p>
       <div id="dataSelectors" className={styles.dataSelectors} ref={containerRef}>
         {availableSources.map(({ title, subtitle, id }, i) => {
           const activeClass = currentDataSource === id ? styles._active : ''
