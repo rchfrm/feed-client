@@ -71,9 +71,7 @@ function AuthProvider({ children }) {
     const { email, providerData } = authUser
     // Get provider IDs
     const providerIds = providerData.map(({ providerId }) => providerId)
-    // * FOR TESTING
-    console.log('*** storeAuth ***')
-    console.log('auth: providerIds', providerIds)
+    // Set auth
     setAuth({
       type: 'set-auth-user',
       payload: {
