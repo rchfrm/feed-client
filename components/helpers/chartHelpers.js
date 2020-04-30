@@ -1,5 +1,8 @@
 import moment from 'moment'
 
+// IMPORT CONSTANTS
+import insightDataSources from '../../constants/insightDataSources'
+
 // CONFIGURE MOMENT
 // Set first day of week to Monday
 moment.updateLocale('en', {
@@ -7,6 +10,48 @@ moment.updateLocale('en', {
     dow: 1,
   },
 })
+
+export const formatServerData = ({ dailyData, dates, currentDataSource, currentPlatform }) => {
+  // Convert dates object to array
+  const dataArray = Object.entries(dailyData)
+    // Sort by dates, chronologically
+    .sort(([dateA], [dateB]) => {
+      return moment(dateA) - moment(dateB)
+    })
+  // Get details about data source
+  const {
+    title,
+    subtitle,
+    period,
+    dataType,
+  } = insightDataSources[currentDataSource]
+  // Get most recent and earliest data
+  const mostRecentData = dataArray[dataArray.length - 1]
+  const earliestData = dataArray[0]
+  // Output formatted data
+  return {
+    dailyData,
+    title: `${title} (${subtitle || period})`,
+    source: currentDataSource,
+    platform: currentPlatform,
+    dataType,
+    mostRecent: {
+      date: mostRecentData[0],
+      value: mostRecentData[1],
+    },
+    earliest: {
+      date: earliestData[0],
+      value: earliestData[1],
+    },
+    today: dailyData[dates.today],
+    yesterday: dailyData[dates.yesterday],
+    twoDaysBefore: dailyData[dates.twoDaysBefore],
+    sevenDaysBefore: dailyData[dates.sevenDaysBefore],
+    oneMonthBefore: dailyData[dates.oneMonthBefore],
+    startOfYear: dailyData[dates.startOfYear],
+  }
+}
+
 
 export const calcGranularity = (earliestMoment, latestMoment) => {
   // Find out number of weeks between earliest and latest dates

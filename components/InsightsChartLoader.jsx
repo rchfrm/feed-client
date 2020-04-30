@@ -12,53 +12,11 @@ import Error from './elements/Error'
 // IMPORT PAGES
 import ChartContainer from './ChartContainer'
 // IMPORT ASSETS
-// IMPORT CONSTANTS
-import insightDataSources from '../constants/insightDataSources'
 // IMPORT HELPERS
+import { formatServerData } from './helpers/chartHelpers'
 import server from './helpers/server'
 // IMPORT STYLES
 import './InsightsPage.module.css'
-
-const formatData = ({ dailyData, dates, currentDataSource, currentPlatform }) => {
-  // Convert dates object to array
-  const dataArray = Object.entries(dailyData)
-    // Sort by dates, chronologically
-    .sort(([dateA], [dateB]) => {
-      return moment(dateA) - moment(dateB)
-    })
-  // Get details about data source
-  const {
-    title,
-    subtitle,
-    period,
-    dataType,
-  } = insightDataSources[currentDataSource]
-  // Get most recent and earliest data
-  const mostRecentData = dataArray[dataArray.length - 1]
-  const earliestData = dataArray[0]
-  // Output formatted data
-  return {
-    dailyData,
-    title: `${title} (${subtitle || period})`,
-    source: currentDataSource,
-    platform: currentPlatform,
-    dataType,
-    mostRecent: {
-      date: mostRecentData[0],
-      value: mostRecentData[1],
-    },
-    earliest: {
-      date: earliestData[0],
-      value: earliestData[1],
-    },
-    today: dailyData[dates.today],
-    yesterday: dailyData[dates.yesterday],
-    twoDaysBefore: dailyData[dates.twoDaysBefore],
-    sevenDaysBefore: dailyData[dates.sevenDaysBefore],
-    oneMonthBefore: dailyData[dates.oneMonthBefore],
-    startOfYear: dailyData[dates.startOfYear],
-  }
-}
 
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
@@ -68,11 +26,9 @@ const fetchData = async ({ currentDataSource, currentPlatform, artistId, dates }
   if (!data || !Object.keys(data).length) return 'no-data'
   // Get the actual data for the requested source
   const { daily_data: dailyData } = data[currentDataSource]
-  const formattedData = formatData({ dailyData, dates, currentDataSource, currentPlatform })
-  console.log('get data')
+  const formattedData = formatServerData({ dailyData, dates, currentDataSource, currentPlatform })
   return formattedData
 }
-
 
 function InsightsChartLoader({
   currentPlatform,
