@@ -11,7 +11,6 @@ import copy from '../../copy/integrationErrorsCopy'
 
 
 const MissingScopesMessage = ({ scopes, showButton, className }) => {
-  console.log('scopes', scopes)
   const classes = ['missing--scopes', className].join(' ')
   // Does the missing permission list only involve access to pages?
   const hasOnlyMissingPages = testForMissingPages(scopes)

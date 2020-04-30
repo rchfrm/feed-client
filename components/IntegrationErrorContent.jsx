@@ -19,8 +19,8 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
     buttonText,
     href,
   } = integrationError
-  // Import auth error
-  const { authError } = React.useContext(AuthContext)
+  // Import auth and auth error
+  const { auth, authError } = React.useContext(AuthContext)
   // Build alert content
   const getAlertContents = () => {
     return (
@@ -48,7 +48,13 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
     if (action === 'fb_reauth') {
       const { missingPermissions } = integrationError
       const onClick = () => {
-        firebase.reauthFacebook(missingPermissions)
+        const { providerIds } = auth
+        // Which facebook function
+        if (providerIds.includes('facebook.com')) {
+          firebase.reauthFacebook(missingPermissions)
+        } else {
+          firebase.linkFacebookAccount()
+        }
       }
       return (
         <ButtonFacebook version="full" onClick={onClick}>{buttonText}</ButtonFacebook>

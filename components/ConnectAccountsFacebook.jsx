@@ -13,24 +13,22 @@ import styles from './ConnectAccounts.module.css'
 import copy from '../copy/ConnectAccountsCopy'
 
 function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
-  const { missingScopes, providerId } = auth
+  const { missingScopes, providerIds } = auth
   // Define function to link facebook
   const linkFacebook = React.useCallback(() => {
-    if (missingScopes.length || providerId === 'facebook.com') {
+    if (missingScopes.length || providerIds.includes('facebook.com')) {
       const requestedScopes = missingScopes.length ? missingScopes : null
       firebase.reauthFacebook(requestedScopes)
         .catch((error) => {
-          setErrors([...errors, error.message])
           setErrors([...errors, error])
         })
       return
     }
     firebase.linkFacebookAccount()
       .catch((error) => {
-        console.log('error', error)
         setErrors([...errors, error])
       })
-  }, [missingScopes.length])
+  }, [missingScopes.length, providerIds])
 
   const showSignupIntro = (missingScopes.length === 0) && onSignUp
 

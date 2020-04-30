@@ -266,7 +266,17 @@ const InitUser = ({ children }) => {
     // If no auth user, handle that
     if (!authUser) return handleNoAuthUser(authError)
     // If there is, store the user in auth context
-    await storeAuth(authUser, authError)
+    const authToken = await firebase.getVerifyIdToken()
+      .catch((error) => {
+        storeAuth({ authError: error })
+        track({
+          category: 'login',
+          action: 'InitUser: HANDLE INITIAL LOGGED IN TEST',
+          description: `Error with firebase.getVerifyIdToken(): ${error.message}`,
+          error: true,
+        })
+      })
+    await storeAuth({ authUser, authToken, authError })
     await handleExistingUser()
   }
 
@@ -304,7 +314,7 @@ const InitUser = ({ children }) => {
       detectSignedInUser(isMounted)
       return
     }
-    // * Handle errors
+    // * Handle REDIRECT errors
     if (error) {
       const { message, code } = error
       // Handle auth error
@@ -320,13 +330,13 @@ const InitUser = ({ children }) => {
         error: true,
       })
       const customError = code === 'auth/account-exists-with-different-credential' ? {
-        message: 'An account already exists with the same email address but different sign-in credentials. Please sign in using your email address'
+        message: 'An account already exists with the same email address but different sign-in credentials. Please sign in using your email address',
       } : error
       // Detect for already logged in user
       detectSignedInUser(isMounted, customError)
       return
     }
-    // * Handle succesful redirect
+    // * Handle REDIRECT success
     if (user) {
       track({
         category: 'login',
@@ -336,6 +346,18 @@ const InitUser = ({ children }) => {
       })
       // Store Firebase's auth user in context
       await storeAuth(user)
+      const authToken = await firebase.getVerifyIdToken()
+        .catch((error) => {
+          storeAuth({ authError: error })
+          track({
+            category: 'login',
+            action: 'InitUser: Handle REDIRECT success',
+            description: `Error with firebase.getVerifyIdToken(): ${error.message}`,
+            error: true,
+          })
+        })
+      if (!authToken) return
+      await storeAuth({ authUser: user, authToken })
         .catch((err) => {
           track({
             category: 'sign up',
