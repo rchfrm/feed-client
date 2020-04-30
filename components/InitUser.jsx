@@ -320,7 +320,7 @@ const InitUser = ({ children }) => {
         error: true,
       })
       const customError = code === 'auth/account-exists-with-different-credential' ? {
-        message: 'An account already exists with the same email address but different sign-in credentials. Please sign in using your email address'
+        message: 'An account already exists with the same email address but different sign-in credentials. Please sign in using your email address',
       } : error
       // Detect for already logged in user
       detectSignedInUser(isMounted, customError)
