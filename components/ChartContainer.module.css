@@ -7,6 +7,10 @@
 }
 
 /* CHART */
+.chartContainer__doughnut {
+  width: 80%;
+  margin: 0 auto;
+}
 .chartContainer {
   display: flex;
   position: relative;
