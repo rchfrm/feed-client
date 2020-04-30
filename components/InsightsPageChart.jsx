@@ -64,6 +64,8 @@ const formatData = ({ dailyData, dates, currentDataSource, currentPlatform }) =>
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
 const fetchData = async ({ currentDataSource, currentPlatform, artistId, dates }) => {
   const data = await server.getDataSourceValue([currentDataSource], artistId)
+  // Stop here if no data
+  if (!data || !Object.keys(data).length) return 'no-data'
   // Get the actual data for the requested source
   const { daily_data: dailyData } = data[currentDataSource]
   const formattedData = formatData({ dailyData, dates, currentDataSource, currentPlatform })
@@ -112,17 +114,26 @@ function InsightsPageChart({
 
   if (chartLoading) return <Spinner />
 
+  if (!data) return null
+
+  if (data === 'no-data') {
+    return (
+      <div className="ninety-wide">
+        <Error error={error} />
+        <p>Insufficent Data</p>
+      </div>
+    )
+  }
+
   return (
     <>
       <Error error={error} />
-      {data && (
-        <ChartContainer
-          currentPlatform={currentPlatform}
-          currentDataSource={currentDataSource}
-          dates={dates}
-          data={data}
-        />
-      )}
+      <ChartContainer
+        currentPlatform={currentPlatform}
+        currentDataSource={currentDataSource}
+        dates={dates}
+        data={data}
+      />
     </>
   )
 }
