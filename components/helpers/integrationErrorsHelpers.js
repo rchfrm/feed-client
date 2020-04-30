@@ -67,7 +67,7 @@ export const getErrorResponse = (error, artist) => {
     return {
       message: copy.unpaid_invoice(artist),
       action: 'link',
-      buttonText: '‘Facebook Billing',
+      buttonText: 'Facebook Billing',
       href: 'https://www.facebook.com/ads/manager/billing/',
       hidden,
     }
@@ -77,7 +77,7 @@ export const getErrorResponse = (error, artist) => {
     return {
       message: copy[code](artist),
       action: 'link',
-      buttonText: '‘Facebook Billing',
+      buttonText: 'Add payment details',
       href: 'https://www.facebook.com/ads/manager/billing/',
       hidden,
     }
