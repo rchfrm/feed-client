@@ -304,7 +304,7 @@ const InitUser = ({ children }) => {
       detectSignedInUser(isMounted)
       return
     }
-    // * Handle errors
+    // * Handle REDIRECT errors
     if (error) {
       const { message, code } = error
       // Handle auth error
@@ -326,7 +326,7 @@ const InitUser = ({ children }) => {
       detectSignedInUser(isMounted, customError)
       return
     }
-    // * Handle succesful redirect
+    // * Handle REDIRECT success
     if (user) {
       track({
         category: 'login',
