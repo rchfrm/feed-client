@@ -275,34 +275,19 @@ export default {
   /**
    * @param {string[]} artistIds
    * @param {string} accessToken
-   * @param {string} [verifyIdToken]
    * @returns {Promise<any>}
    */
-  updateAccessToken: async (artistIds, accessToken, verifyIdToken) => {
-    const response = []
-    for (let i = 0; i < artistIds.length; i += 1) {
-      const artistId = artistIds[i]
-      if (
-        artistId === 'e1dDjAC5jXjCMk0dhqH1'
-        || artistId === 'z86bIwfwlIXwEtmKIML6'
-        || artistId === 'PjUuyt5uJhTRIbv5T4D1'
-        || artistId === 'Y8uCfxBZkAVcpokW4S4b'
-        || artistId === '4FwK6p6y9xhpxZSGW2fR'
-        || artistId === 'vpdEYAT65K8gVcIuLpvO'
-      ) {
-        const res = await api.patch(`/artists/${artistId}`, {
-          integrations: {
-            facebook: {
-              access_token: accessToken,
-            },
+  updateAccessToken: async (artistIds, accessToken) => {
+    const artistUpdates = artistIds.map((id) => {
+      return api.patch(`/artists/${id}`, {
+        integrations: {
+          facebook: {
+            access_token: accessToken,
           },
-        }, verifyIdToken)
-        response.push(res)
-      } else {
-        response.push(`Not updating access token for ${artistId}`)
-      }
-    }
-    return response
+        },
+      })
+    })
+    return Promise.all(artistUpdates)
   },
 
 

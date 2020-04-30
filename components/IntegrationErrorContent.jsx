@@ -4,10 +4,13 @@ import PropTypes from 'prop-types'
 import helper from './helpers/helper'
 import firebase from './helpers/firebase'
 
+import { AuthContext } from './contexts/Auth'
+
 import MarkdownText from './elements/MarkdownText'
 import Button from './elements/Button'
 import ButtonFacebook from './elements/ButtonFacebook'
 import Alert from './elements/Alert'
+import Error from './elements/Error'
 
 const IntegrationErrorContent = ({ integrationError, dismiss }) => {
   const {
@@ -16,8 +19,18 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
     buttonText,
     href,
   } = integrationError
+  // Import auth and auth error
+  const { auth, authError } = React.useContext(AuthContext)
   // Build alert content
-  const AlertContents = <MarkdownText markdown={message} />
+  const getAlertContents = () => {
+    return (
+      <>
+        <Error error={authError} />
+        <MarkdownText markdown={message} />
+      </>
+    )
+  }
+
   // Build alert button
   const AlertButton = () => {
     // HANDLE LINK ACTION
@@ -35,7 +48,13 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
     if (action === 'fb_reauth') {
       const { missingPermissions } = integrationError
       const onClick = () => {
-        firebase.reauthFacebook(missingPermissions)
+        const { providerIds } = auth
+        // Which facebook function
+        if (providerIds.includes('facebook.com')) {
+          firebase.reauthFacebook(missingPermissions)
+        } else {
+          firebase.linkFacebookAccount()
+        }
       }
       return (
         <ButtonFacebook version="full" onClick={onClick}>{buttonText}</ButtonFacebook>
@@ -52,7 +71,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
   return (
     <Alert
       buttons={<AlertButton />}
-      contents={AlertContents}
+      contents={getAlertContents()}
       resetAlert={dismiss}
     />
   )

@@ -21,17 +21,16 @@ const styles = {
   ...postStyles,
 }
 
-function Insight({ days: daysArray, statement, number }) {
+function Insight({ days: daysArray, statement, number, currency }) {
   const days = daysArray.length
-  const currency = statement === 'spent,' ? '£' : ''
-  const numberAbbr = helper.abbreviateNumber(number)
-  if (days === 0) {
-    return null
-  }
+  const numberFormatted = statement === 'spent,'
+    ? helper.formatCurrency(Number(number), currency)
+    : helper.abbreviateNumber(number)
+  if (days === 0) return null
   return (
     <div className={styles['result-insight']}>
-      <div className={styles['insight-number']} title={`${currency}${helper.formatNumber(number)}`}>
-        {currency + numberAbbr}
+      <div className={styles['insight-number']}>
+        {numberFormatted}
       </div>
       <div className={styles['insight-statement']}>
         {statement}
@@ -192,7 +191,7 @@ const ResultsSingle = ({
 
         <div className={styles['result-insights']}>
           <Days days={days} active={active} />
-          <Insight days={days} number={amountSpent} statement="spent," />
+          <Insight days={days} number={amountSpent} statement="spent," currency={artist.currency} />
           <Insight days={days} number={impressions} statement="people reached," />
           <Insight days={days} number={engagement} statement="engagements," />
           <Insight days={days} number={clicks} statement="clicks." />

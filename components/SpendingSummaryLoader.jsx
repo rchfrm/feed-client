@@ -122,7 +122,8 @@ function SpendingSummaryLoader() {
   // Stop here if not spend
   if (!spend) return null
 
-  const spendSummary = copy.spendSummary(daysToInclude, spend, '£')
+  const spendingFormatted = helper.formatCurrency(spend, artist.currency)
+  const spendSummary = copy.spendSummary(daysToInclude, spendingFormatted)
   const impressionSummary = copy.impressionSummary(helper.formatNumber(impressions))
   const markdown = `${spendSummary}${impressionSummary}`
 
