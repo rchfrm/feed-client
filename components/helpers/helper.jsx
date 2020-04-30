@@ -100,70 +100,11 @@ export default {
     }, {})
   },
 
-  assignDataSourceType: string => {
-    if (string.indexOf('follower_count') !== -1 || string.indexOf('facebook_likes') !== -1 || string.indexOf('subscriber_count') !== -1) {
-      return 'cumulative'
-    } if (string.indexOf('reach') !== -1 || string.indexOf('impressions') !== -1 || string.indexOf('profile_views') !== -1 || string.indexOf('profile_view_count') !== -1 || string.indexOf('ad_spend') !== -1) {
-      return 'daily'
-    }
-    if (string.indexOf('7d') !== -1) {
-      return 'weekly'
-    } if (string.indexOf('28d') !== -1) {
-      return 'monthly'
-    } if (string.indexOf('1y') !== -1) {
-      return 'yearly'
-    }
-  },
-
   cleanSpotifyUrl: url => {
     if (!url) {
       return url
     }
     return url.slice(0, url.indexOf('?si='))
-  },
-
-  returnUniformDataSourceId: string => {
-    let dataSourceId = string
-    dataSourceId = dataSourceId.replace('likes', 'follower_count')
-    dataSourceId = dataSourceId.replace('page_fans', 'follower_count')
-    dataSourceId = dataSourceId.replace('audience', 'follower_count')
-    dataSourceId = dataSourceId.replace('subscriber_count', 'follower_count')
-    dataSourceId = dataSourceId.replace('views', 'view_count')
-    return dataSourceId
-  },
-
-  extractDataSourceBreakdown: string => {
-    let dataSourceBreakdown
-    if (string.indexOf('city') !== -1) {
-      dataSourceBreakdown = 'city'
-    } else if (string.indexOf('country') !== -1) {
-      dataSourceBreakdown = 'country'
-    } else if (string.indexOf('gender_age') !== -1) {
-      dataSourceBreakdown = 'gender_age'
-    } else if (string.indexOf('1y') !== -1) {
-      dataSourceBreakdown = 'year'
-    } else if (string.indexOf('28d') !== -1) {
-      dataSourceBreakdown = 'month'
-    } else if (string.indexOf('7d') !== -1) {
-      dataSourceBreakdown = 'week'
-    } else if (string.indexOf('reach_7d') !== -1) {
-      dataSourceBreakdown = 'week'
-    }
-    return dataSourceBreakdown
-  },
-
-  extractDataSourceName: (id, platform, breakdown) => {
-    let endOfName
-    if (breakdown === 'year') {
-      endOfName = id.indexOf('1y') - 1
-    } else if (breakdown === 'month') {
-      endOfName = id.indexOf('28d') - 1
-    } else if (breakdown === 'week') {
-      endOfName = id.indexOf('7d') - 1
-    } else if (breakdown) {
-      endOfName = id.indexOf(breakdown) - 1
-    }
-    return id.slice(platform.length + 1, endOfName)
   },
 
   convertPlatformToPriorityDSP: platform => {
