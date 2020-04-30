@@ -19,7 +19,7 @@ import server from './helpers/server'
 // IMPORT STYLES
 import './InsightsPage.module.css'
 
-const formatData = (dailyData, currentDataSource, dates) => {
+const formatData = ({ dailyData, dates, currentDataSource, currentPlatform }) => {
   // Convert dates object to array
   const dataArray = Object.entries(dailyData)
     // Sort by dates, chronologically
@@ -40,6 +40,8 @@ const formatData = (dailyData, currentDataSource, dates) => {
   return {
     dailyData,
     title: `${title} (${subtitle || period})`,
+    source: currentDataSource,
+    platform: currentPlatform,
     dataType,
     mostRecent: {
       date: mostRecentData[0],
@@ -60,11 +62,11 @@ const formatData = (dailyData, currentDataSource, dates) => {
 
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-const fetchData = async ({ currentDataSource, artistId, dates }) => {
+const fetchData = async ({ currentDataSource, currentPlatform, artistId, dates }) => {
   const data = await server.getDataSourceValue([currentDataSource], artistId)
   // Get the actual data for the requested source
   const { daily_data: dailyData } = data[currentDataSource]
-  const formattedData = formatData(dailyData, currentDataSource, dates)
+  const formattedData = formatData({ dailyData, dates, currentDataSource, currentPlatform })
   console.log('get data')
   return formattedData
 }
@@ -76,8 +78,6 @@ function InsightsPageChart({
 }) {
   // IMPORT CONTEXTS
   const { artistId } = React.useContext(ArtistContext)
-  // Storage of data returned from the server
-  const [data, setData] = React.useState(null)
 
   // List of relevant dates
   const dates = React.useMemo(() => {
@@ -93,7 +93,7 @@ function InsightsPageChart({
   }, [])
 
   // RETRIEVE DATA FROM SERVER
-  const { isPending: chartLoading, error } = useAsync({
+  const { data, isPending: chartLoading, error } = useAsync({
     promiseFn: fetchData,
     watchFn: (newProps, oldProps) => {
       const { artistId, currentPlatform, currentDataSource } = newProps
@@ -105,13 +105,9 @@ function InsightsPageChart({
     },
     // The variable(s) to pass to promiseFn
     currentDataSource,
+    currentPlatform,
     artistId,
     dates,
-    // When fetch finishes
-    onResolve: (data) => {
-      if (!data) return
-      setData(data)
-    },
   })
 
   if (chartLoading) return <Spinner />

@@ -1,6 +1,7 @@
-
 // IMPORT PACKAGES
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import moment from 'moment'
 import { Bar } from 'react-chartjs-2'
 // IMPORT COMPONENTS
@@ -21,19 +22,18 @@ moment.updateLocale('en', {
 
 function ChartBar({
   data,
-  currentPlatform,
-  currentDataSource,
   earliestDataPoint,
   latestDataPoint,
 }) {
   // DEFINE STATES
+  const [currentPlatform] = React.useState(data.platform)
+  const [currentDataSource] = React.useState(data.source)
   const [dateLabels, setDateLabels] = React.useState([])
   const [chartLimit, setChartLimit] = React.useState({
     max: undefined,
     min: undefined,
   })
   const [chartDataSets, setChartDataSets] = React.useState([])
-
   // DEFINE DATE PERIODS TO DISPLAY ON CHART
   React.useEffect(() => {
     if (!currentDataSource) return
@@ -235,6 +235,12 @@ function ChartBar({
 }
 
 export default ChartBar
+
+ChartBar.propTypes = {
+  data: PropTypes.object.isRequired,
+  earliestDataPoint: PropTypes.string.isRequired,
+  latestDataPoint: PropTypes.string.isRequired,
+}
 
 function BarChartOverlay({ max: maxValue, min: minValue, labels }) {
   const max = helper.abbreviateNumber(maxValue)
