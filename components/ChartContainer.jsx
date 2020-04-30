@@ -22,7 +22,7 @@ const ChartContainer = ({
   // If there is no data before the last week, display a doughnut chart
   const earliestMoment = moment(earliestDataPoint, 'YYYY-MM-DD')
   const chartType = !earliestDataPoint || earliestMoment.isAfter(moment(dates.sevenDaysBefore, 'YYYY-MM-DD'))
-    ? 'donut'
+    ? 'doughnut'
     : 'bar'
 
   return (
@@ -38,7 +38,7 @@ const ChartContainer = ({
         />
       )}
 
-      {chartType === 'donut' && (
+      {chartType === 'doughnut' && (
         <ChartDoughnut
           data={data}
           currentPlatform={currentPlatform}

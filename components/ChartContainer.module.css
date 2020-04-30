@@ -1,8 +1,8 @@
 .container {
-  flex: auto;
   display: flex;
   width: 100%;
   justify-content: center;
+  align-items: flex-end;
   flex-direction: column;
 }
 
@@ -11,42 +11,42 @@
   width: 80%;
   margin: 0 auto;
 }
-.chartContainer {
-  display: flex;
-  position: relative;
 
-  :global(#bar-chart) {
-    padding: 0 5%;
-    z-index: 2;
-  }
+.chartContainer__bar {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  width: calc(90% - 40px);
+  margin-right: 5%;
 }
 
 
 .chartOverlay {
   position: absolute;
   width: 100%;
-  height: calc(100% - 1px);
+  height: 100%;
   border-top: 1px solid var(--grey);
   border-bottom: 1px solid var(--grey);
   display: flex;
   align-items: center;
-
-  .hr {
-    z-index: 1;
-    border-top: 1px solid var(--grey);
-    border-right: none;
-    border-bottom: none;
-    border-left: none;
-    margin: 0;
-  }
+  pointer-events: none;
 }
 
+.chartMidline {
+  z-index: 0;
+  border-top: 1px solid var(--grey);
+  border-right: none;
+  border-bottom: none;
+  border-left: none;
+  margin: 0;
+  width: 100%;
+}
 
 .chartMax,
 .chartMid,
 .chartMin {
   position: absolute;
-  left: 2%;
+  left: -40px;
   background-color: var(--white);
   padding: 0.25em;
   z-index: 2;
@@ -65,8 +65,6 @@
   display: flex;
   position: absolute;
   bottom: -3.5em;
-  box-sizing: border-box;
-  padding: 0 5%;
   width: 100%;
   justify-content: space-between;
 }

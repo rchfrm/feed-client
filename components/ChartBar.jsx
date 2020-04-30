@@ -42,7 +42,7 @@ function BarChartOverlay({ max: maxValue, min: minValue, labels }) {
   return (
     <div className={styles.chartOverlay}>
       <div className={styles.chartMax}>{max}</div>
-      <hr className={styles.hr} />
+      <div className={styles.chartMidline} />
       <div className={styles.chartMid}>{mid}</div>
       <div className={styles.chartMin}>{min}</div>
       <ul className={styles.xAxisLabels}>{labelList}</ul>
@@ -249,9 +249,8 @@ function ChartBar({
   // DEFINE THE OPTIONS
 
   return (
-    <div className={styles.chartContainer}>
+    <div className={styles.chartContainer__bar}>
       <Bar
-        id="bar-chart"
         data={{
           labels: dateLabels,
           datasets: chartDataSets,
