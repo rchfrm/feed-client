@@ -9,7 +9,7 @@ import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
 import InsightPlatformSelectors from './InsightPlatformSelectors'
 import InsightDataSelectors from './InsightDataSelectors'
-import InsightsPageChart from './InsightsPageChart'
+import InsightsChartLoader from './InsightsChartLoader'
 import PromotePostsButton from './PromotePostsButton'
 // IMPORT TEXT
 import MarkdownText from './elements/MarkdownText'
@@ -45,7 +45,7 @@ function Insights() {
 
       {currentPlatform && currentDataSource && (
         <div className={styles.chartsContainer}>
-          <InsightsPageChart />
+          <InsightsChartLoader />
           <PromotePostsButton />
         </div>
       )}
@@ -57,7 +57,7 @@ function Insights() {
   )
 }
 
-function InsightsLoader() {
+function InsightsContent() {
 // IMPORT CONTEXTS
   const { artistLoading } = React.useContext(ArtistContext)
   if (artistLoading) return <Spinner />
@@ -65,4 +65,4 @@ function InsightsLoader() {
   return <Insights />
 }
 
-export default InsightsLoader
+export default InsightsContent

@@ -1,6 +1,6 @@
 import BasePage from '../../components/BasePage'
 import TestPageReady from '../../components/TestPageReady'
-import InsightsLoader from '../../components/InsightsLoader'
+import InsightsContent from '../../components/InsightsContent'
 
 const header = {
   heading: 'insights',
@@ -12,7 +12,7 @@ const Page = () => (
     noArtistHeader={header}
     artistRequired
   >
-    <InsightsLoader />
+    <InsightsContent />
   </BasePage>
 )
 

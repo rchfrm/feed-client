@@ -74,7 +74,7 @@ const fetchData = async ({ currentDataSource, currentPlatform, artistId, dates }
 }
 
 
-function InsightsPageChart({
+function InsightsChartLoader({
   currentPlatform,
   currentDataSource,
 }) {
@@ -138,9 +138,9 @@ function InsightsPageChart({
   )
 }
 
-InsightsPageChart.propTypes = {
+InsightsChartLoader.propTypes = {
   currentPlatform: PropTypes.string.isRequired,
   currentDataSource: PropTypes.string.isRequired,
 }
 
-export default InsightsPageChart
+export default InsightsChartLoader
