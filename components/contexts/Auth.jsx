@@ -2,7 +2,6 @@ import React from 'react'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import firebase from '../helpers/firebase'
-import { track } from '../helpers/trackingHelpers'
 
 const initialAuthState = {
   token: '',
@@ -59,36 +58,31 @@ function AuthProvider({ children }) {
     setAuthLoading(false)
   }
 
-  const storeAuth = async ({ email, providerData, authToken }, authError = null) => {
+  const storeAuth = async ({ authUser, authToken, authError = null }) => {
+    if (authError) {
+      setAuthError(authError)
+      return
+    }
+    if (!authToken) {
+      console.error('Missing auth token')
+      return
+    }
     setAuthLoading(true)
+    const { email, providerData } = authUser
     // Get provider IDs
     const providerIds = providerData.map(({ providerId }) => providerId)
     // * FOR TESTING
     console.log('*** storeAuth ***')
     console.log('auth: providerIds', providerIds)
-
-    const token = !authToken ? await firebase.getVerifyIdToken() : authToken
-      .catch((error) => {
-        setAuthError(error)
-        setAuthLoading(false)
-        track({
-          category: 'login',
-          action: 'storeAuth',
-          description: `Error with firebase.getVerifyIdToken(): ${error.message}`,
-          error: true,
-        })
-      })
-    if (!token) return
     setAuth({
       type: 'set-auth-user',
       payload: {
         email,
         providerIds,
-        token,
+        token: authToken,
       },
     })
     setAuthLoading(false)
-    setAuthError(authError)
   }
 
 
@@ -108,7 +102,7 @@ function AuthProvider({ children }) {
       const authUser = await firebase.doSignInWithEmailAndPassword(email, password)
       const token = await authUser.user.getIdToken()
       const { user } = authUser
-      storeAuth(user)
+      storeAuth({ authUser: user, authToken: token })
       return token
     } catch (err) {
       setAuthLoading(false)
@@ -129,14 +123,8 @@ function AuthProvider({ children }) {
         setAuthLoading(false)
         throw new Error(error.message)
       })
-    setAuth({
-      type: 'set-auth-user',
-      payload: {
-        email: authUser.user.email,
-        token,
-      },
-    })
-    setAuthLoading(false)
+    const { user } = authUser
+    storeAuth({ authUser: user, authToken: token })
     return token
   }
 

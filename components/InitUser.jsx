@@ -266,7 +266,17 @@ const InitUser = ({ children }) => {
     // If no auth user, handle that
     if (!authUser) return handleNoAuthUser(authError)
     // If there is, store the user in auth context
-    await storeAuth(authUser, authError)
+    const authToken = await firebase.getVerifyIdToken()
+      .catch((error) => {
+        storeAuth({ authError: error })
+        track({
+          category: 'login',
+          action: 'InitUser: HANDLE INITIAL LOGGED IN TEST',
+          description: `Error with firebase.getVerifyIdToken(): ${error.message}`,
+          error: true,
+        })
+      })
+    await storeAuth({ authUser, authToken, authError })
     await handleExistingUser()
   }
 
@@ -336,6 +346,18 @@ const InitUser = ({ children }) => {
       })
       // Store Firebase's auth user in context
       await storeAuth(user)
+      const authToken = await firebase.getVerifyIdToken()
+        .catch((error) => {
+          storeAuth({ authError: error })
+          track({
+            category: 'login',
+            action: 'InitUser: Handle REDIRECT success',
+            description: `Error with firebase.getVerifyIdToken(): ${error.message}`,
+            error: true,
+          })
+        })
+      if (!authToken) return
+      await storeAuth({ authUser: user, authToken })
         .catch((err) => {
           track({
             category: 'sign up',
