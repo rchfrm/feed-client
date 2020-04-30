@@ -20,17 +20,15 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
       const requestedScopes = missingScopes.length ? missingScopes : null
       firebase.reauthFacebook(requestedScopes)
         .catch((error) => {
-          setErrors([...errors, error.message])
           setErrors([...errors, error])
         })
       return
     }
     firebase.linkFacebookAccount()
       .catch((error) => {
-        console.log('error', error)
         setErrors([...errors, error])
       })
-  }, [missingScopes.length])
+  }, [missingScopes.length, providerId])
 
   const showSignupIntro = (missingScopes.length === 0) && onSignUp
 
