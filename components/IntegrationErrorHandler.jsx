@@ -22,6 +22,8 @@ const fetchError = async ({ auth, user, artist, artistId, accessToken }) => {
     const errorResponse = integrationErrorsHelpers.getErrorResponse(error)
     return errorResponse
   }
+  // Stop here if running locally
+  if (process.env.build_env === 'development') return
   // Stop here if there is an access token
   // (because it will be sent to server to fix error)
   if (accessToken) return
