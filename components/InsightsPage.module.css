@@ -45,6 +45,46 @@
   }
 }
 
+/* NUMBER CHART */
+.chartNumber__container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: calc(-1 * var(--bsu-lg));
+  text-align: center;
+}
+
+.chartNumber__number {
+  font-size: 20vw;
+  font-feature-settings: 'kern' 1, 'ss01' 1;
+  letter-spacing: -0.05em;
+  margin-bottom: -0.1em !important;
+
+  @media (--bmw) {
+    font-size: 150px;
+  }
+}
+
+.chartNumber__title {
+  font-size: 0.8em;
+  width: 100%;
+
+  .title {
+    font-weight: var(--bold);
+    text-transform: capitalize;
+  }
+
+  @media (--xxs) {
+    font-size: 0.9em;
+  }
+
+  @media (--xs) {
+    font-size: 1em;
+  }
+}
+
 /* LOADING SPINNER */
 .chartSpinner {
   position: absolute;

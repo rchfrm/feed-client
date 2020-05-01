@@ -32,6 +32,8 @@ export const formatServerData = ({ dailyData, dates, currentDataSource, currentP
   return {
     dailyData,
     title: `${title} (${subtitle || period})`,
+    shortTitle: title,
+    subtitle,
     cumulative: dataType === 'cumulative',
     source: currentDataSource,
     platform: currentPlatform,

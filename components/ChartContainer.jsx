@@ -4,14 +4,13 @@ import React from 'react'
 import moment from 'moment'
 // IMPORT COMPONENTS
 import ChartBar from './ChartBar'
-import ChartDoughnut from './ChartDoughnut'
+import ChartNumber from './ChartNumber'
 // IMPORT STYLES
 import styles from './InsightsPage.module.css'
 
 const ChartContainer = ({
   currentPlatform,
   currentDataSource,
-  dates,
   data,
   loading,
 }) => {
@@ -28,8 +27,10 @@ const ChartContainer = ({
   // DETECT CHART TYPE
   // If there is no data before the last week, display a doughnut chart
   const earliestMoment = moment(earliestDataPoint, 'YYYY-MM-DD')
-  const chartType = !earliestDataPoint || earliestMoment.isAfter(moment(dates.sevenDaysBefore, 'YYYY-MM-DD'))
-    ? 'doughnut'
+  const minDaysData = 4
+  const minDaysDate = moment().subtract(minDaysData, 'days').format('YYYY-MM-DD')
+  const chartType = !earliestDataPoint || earliestMoment.isAfter(moment(minDaysDate, 'YYYY-MM-DD'))
+    ? 'number'
     : 'bar'
 
   return (
@@ -46,12 +47,9 @@ const ChartContainer = ({
         />
       )}
 
-      {chartType === 'doughnut' && (
-        <ChartDoughnut
+      {chartType === 'number' && (
+        <ChartNumber
           data={data}
-          currentPlatform={currentPlatform}
-          currentDataSource={currentDataSource}
-          loading={loading}
         />
       )}
 

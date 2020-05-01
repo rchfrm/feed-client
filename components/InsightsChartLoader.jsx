@@ -83,7 +83,6 @@ function InsightsChartLoader({
       <ChartContainer
         currentPlatform={currentPlatform}
         currentDataSource={currentDataSource}
-        dates={dates}
         data={data}
         loading={chartLoading}
       />
