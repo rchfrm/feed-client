@@ -160,3 +160,11 @@ export const createDataArray = (datePeriods, dataSource, data) => {
   })
   return dataArray
 }
+
+export const getDummyData = () => {
+  return {
+    dataArray: [505, 505, 509, 512, 515, 524, 525, 527, 532, 538, 541, 548, 552, 559, 566],
+    periodLabels: Array(15).fill().map((_, i) => i),
+    chartLimit: { max: 579, min: 500 },
+  }
+}

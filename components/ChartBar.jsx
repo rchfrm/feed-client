@@ -22,12 +22,13 @@ moment.updateLocale('en', {
 })
 
 
-
 function ChartBar({
   data,
+  loading = true,
   earliestDataPoint,
   latestDataPoint,
 }) {
+  console.log('data', data)
   // DEFINE STATES
   const [currentPlatform] = React.useState(data.platform)
   const [currentDataSource] = React.useState(data.source)
@@ -37,8 +38,43 @@ function ChartBar({
     min: undefined,
   })
   const [chartDataSets, setChartDataSets] = React.useState([])
-  // DEFINE DATE PERIODS TO DISPLAY ON CHART
+  // PLACEHOLDER CHART BUILDER
+  const showPlaceholder = () => {
+    // Get dummy data
+    const {
+      dataArray,
+      periodLabels,
+      chartLimit,
+    } = chartHelpers.getDummyData()
+    // Setup chart
+    setDateLabels(periodLabels)
+    setChartLimit(chartLimit)
+    setChartDataSets([{
+      label: 'loading',
+      data: dataArray,
+      backgroundColor: brandColors.grey,
+      barPercentage: 0.8,
+      categoryPercentage: 1,
+      barThickness: 'flex',
+    }])
+  }
+  // UPDATE CHART CLASSES BASED ON STATE
+  const [chartClasses, setChartClasses] = React.useState([])
   React.useEffect(() => {
+    if (loading) {
+      setChartClasses([styles.chartContainer__bar, styles.chartContainer__loading])
+      return
+    }
+    setChartClasses([styles.chartContainer__bar])
+  }, [loading])
+  // UPDATE CHART BASED ON STATE
+  React.useEffect(() => {
+    // HANDLE LOADING
+    if (loading) {
+      showPlaceholder()
+      return
+    }
+    // Stop if no data source
     if (!currentDataSource) return
     // Define relevant moments
     const earliestMoment = moment(earliestDataPoint, 'YYYY-MM-DD')
@@ -52,6 +88,7 @@ function ChartBar({
     const periodDates = chartHelpers.getPeriodDates(granularity, start, end)
     // Cycle through the dates and add the relevant labels
     const periodLabels = chartHelpers.getPeriodLabels(granularity, periodDates)
+    console.log('periodLabels', periodLabels)
     setDateLabels(periodLabels)
 
     // DEFINE THE DATASET(S) TO DISPLAY
@@ -91,6 +128,9 @@ function ChartBar({
         // minBarLength: 2,
       },
     ]
+
+    console.log('carriedArr', carriedArr)
+
     // If data is cumulative, show increase
     if (cumulative) {
       const increaseData = {
@@ -105,7 +145,7 @@ function ChartBar({
     }
     // Set the datasets to display on the chart
     setChartDataSets(chartData)
-  }, [currentDataSource, earliestDataPoint, latestDataPoint])
+  }, [currentDataSource, earliestDataPoint, latestDataPoint, loading])
 
   // MAKE SURE RANGE IS AN EVEN NUMBER
   React.useEffect(() => {
@@ -196,6 +236,7 @@ function ChartBar({
       yPadding: 15,
       callbacks: {
         beforeBody(tooltipItem, chart) {
+          if (loading) return
           const dataIndex = tooltipItem[0].index
           const { datasetIndex } = tooltipItem[0]
           const datasetName = chart.datasets[datasetIndex].label
@@ -208,6 +249,7 @@ function ChartBar({
           }
         },
         label(tooltipItem, chart) {
+          if (loading) return
           const { datasetIndex } = tooltipItem
           const datasetName = chart.datasets[datasetIndex].label
           // If there is just one data source displayed, and the tooltip relates to value added since last period,
@@ -224,10 +266,9 @@ function ChartBar({
       },
     },
   }
-  // DEFINE THE OPTIONS
 
   return (
-    <div className={styles.chartContainer__bar}>
+    <div className={chartClasses.join(' ')}>
       <Bar
         data={{
           labels: dateLabels,
