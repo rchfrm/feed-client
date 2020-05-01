@@ -27,6 +27,7 @@ function ChartBar({
   earliestDataPoint,
   latestDataPoint,
   loading,
+  error,
 }) {
   // DEFINE STATES
   const [currentPlatform, setCurrentPlaform] = React.useState(data.platform)
@@ -57,6 +58,7 @@ function ChartBar({
       barThickness: 'flex',
     }])
   }
+
   // UPDATE DATA SOURCE
   React.useEffect(() => {
     const { source, platform } = data
@@ -64,19 +66,21 @@ function ChartBar({
     setCurrentDataSource(source)
     setCurrentPlaform(platform)
   }, [data.source])
+
   // UPDATE CHART CLASSES BASED ON STATE
   const [chartClasses, setChartClasses] = React.useState([])
   React.useEffect(() => {
-    if (loading) {
+    if (loading || error) {
       setChartClasses([styles.chartContainer__bar, styles.chartContainer__loading])
       return
     }
     setChartClasses([styles.chartContainer__bar])
-  }, [loading])
+  }, [loading, error])
+
   // UPDATE CHART BASED ON STATE
   React.useEffect(() => {
-    // HANDLE LOADING
-    if (loading) {
+    // Handle loading
+    if (loading || error) {
       showPlaceholder()
       return
     }
@@ -148,7 +152,7 @@ function ChartBar({
     }
     // Set the datasets to display on the chart
     setChartDataSets(chartData)
-  }, [currentDataSource, earliestDataPoint, latestDataPoint, loading])
+  }, [currentDataSource, earliestDataPoint, latestDataPoint, loading, error])
 
   // MAKE SURE RANGE IS AN EVEN NUMBER
   React.useEffect(() => {
@@ -274,6 +278,8 @@ function ChartBar({
     <div className={chartClasses.join(' ')}>
       {/* Loading spinner */}
       {loading && <Spinner className={styles.chartSpinner} />}
+      {/* No data warning */}
+      {error && <p className={styles.chartError}>Insufficent Data</p>}
       {/* CHART */}
       <div className={styles.chartContainer__inner}>
         <Bar
@@ -300,7 +306,17 @@ function ChartBar({
 export default ChartBar
 
 ChartBar.propTypes = {
-  data: PropTypes.object.isRequired,
-  earliestDataPoint: PropTypes.string.isRequired,
-  latestDataPoint: PropTypes.string.isRequired,
+  data: PropTypes.object,
+  earliestDataPoint: PropTypes.string,
+  latestDataPoint: PropTypes.string,
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
+}
+
+ChartBar.defaultProps = {
+  data: {},
+  earliestDataPoint: '',
+  latestDataPoint: '',
+  loading: false,
+  error: false,
 }

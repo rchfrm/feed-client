@@ -7,14 +7,16 @@ import moment from 'moment'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Spinner from './elements/Spinner'
 import Error from './elements/Error'
 // IMPORT PAGES
 import ChartContainer from './ChartContainer'
+import ChartBar from './ChartBar'
 // IMPORT ASSETS
 // IMPORT HELPERS
 import { formatServerData } from './helpers/chartHelpers'
 import server from './helpers/server'
+
+import styles from './InsightsPage.module.css'
 
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
@@ -70,9 +72,13 @@ function InsightsChartLoader({
 
   if (data === 'no-data') {
     return (
-      <div className="ninety-wide">
+      <div className={styles.chartOuter}>
         <Error error={error} />
-        <p>Insufficent Data</p>
+        <ChartBar
+          currentPlatform={currentPlatform}
+          currentDataSource={currentDataSource}
+          error
+        />
       </div>
     )
   }

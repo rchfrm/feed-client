@@ -85,7 +85,8 @@
   }
 }
 
-/* LOADING SPINNER */
+/* LOADING SPINNER & ERROR */
+.chartError,
 .chartSpinner {
   position: absolute;
   z-index: 2;
@@ -93,6 +94,13 @@
   right: 50%;
   transform: translate(50%, 50%);
   width: 30px;
+}
+
+.chartError {
+  width: 100%;
+  text-align: center;
+  font-weight: var(--bold);
+  font-size: 1.2em;
 }
 
 /* CHART OVERLAY */
