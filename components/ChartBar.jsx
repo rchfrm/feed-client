@@ -275,15 +275,17 @@ function ChartBar({
       {/* Loading spinner */}
       {loading && <Spinner className={styles.chartSpinner} />}
       {/* CHART */}
-      <Bar
-        data={{
-          labels: dateLabels,
-          datasets: chartDataSets,
-        }}
-        options={options}
-        width={75}
-        height={50}
-      />
+      <div className={styles.chartContainer__inner}>
+        <Bar
+          data={{
+            labels: dateLabels,
+            datasets: chartDataSets,
+          }}
+          options={options}
+          width={75}
+          height={50}
+        />
+      </div>
       {/* THE OVERLAY */}
       <ChartBarOverlay
         max={chartLimit.max}

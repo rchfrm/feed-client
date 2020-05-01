@@ -19,15 +19,29 @@
 }
 
 .chartContainer__bar {
-  display: flex;
-  justify-content: flex-end;
+  
   position: relative;
-  width: calc(90% - 40px);
-  margin-right: 5%;
+  width: 100%;
+
+  @media (--bmw) {
+    width: 90%;
+    margin-right: 5%;
+  }
 
   :global(canvas) {
     position: relative;
     z-index: 2;
+  }
+}
+
+.chartContainer__inner {
+  display: flex;
+  justify-content: flex-end;
+  width: 90%;
+  margin: 0 auto;
+
+  @media (--bmw) {
+    width: 100%;
   }
 }
 
@@ -42,8 +56,11 @@
 }
 
 /* CHART OVERLAY */
+.chartBackground,
 .chartOverlay {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   border-top: 1px solid var(--grey);
@@ -51,6 +68,10 @@
   display: flex;
   align-items: center;
   pointer-events: none;
+  z-index: 2;
+}
+
+.chartBackground {
   z-index: 0;
 }
 
@@ -68,15 +89,24 @@
 .chartMid,
 .chartMin {
   position: absolute;
-  left: -40px;
+  left: 1em;
   background-color: var(--white);
   padding: 0.25em;
-  z-index: 2;
+  z-index: 3;
   border-radius: 5px;
+
+  @media (--bmw) {
+    left: 0;
+  }
 
   .chartContainer__loading & {
     opacity: 0;
   }
+}
+
+.chartMax,
+.chartMid {
+  transform: translateY(-0.15em);
 }
 
 .chartMax {
@@ -90,12 +120,17 @@
 .xAxisLabels {
   display: flex;
   position: absolute;
-  bottom: -3.5em;
+  padding: 0 1em;
+  bottom: -4em;
   width: 100%;
   justify-content: space-between;
 
   .chartContainer__loading & {
     opacity: 0;
+  }
+
+  @media (--bmw) {
+    padding: 0;
   }
 }
 

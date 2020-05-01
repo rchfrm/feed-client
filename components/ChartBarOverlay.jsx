@@ -26,13 +26,17 @@ const ChartBarOverlay = ({ max: maxValue, min: minValue, labels }) => {
   })
 
   return (
-    <div className={styles.chartOverlay}>
-      <div className={styles.chartMax}>{max}</div>
-      <div className={styles.chartMidline} />
-      <div className={styles.chartMid}>{mid}</div>
-      <div className={styles.chartMin}>{min}</div>
-      <ul className={styles.xAxisLabels}>{labelList}</ul>
-    </div>
+    <>
+      <div className={styles.chartOverlay}>
+        <div className={styles.chartMax}>{max}</div>
+        <div className={styles.chartMid}>{mid}</div>
+        <div className={styles.chartMin}>{min}</div>
+        <ul className={styles.xAxisLabels}>{labelList}</ul>
+      </div>
+      <div className={styles.chartBackground}>
+        <div className={styles.chartMidline} />
+      </div>
+    </>
   )
 }
 
