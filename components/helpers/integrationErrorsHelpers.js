@@ -59,6 +59,7 @@ export const getErrorResponse = (error, artist) => {
       action: 'link',
       buttonText: 'Facebook Ads Manager',
       href: 'https://facebook.com/adsmanager/manage/',
+      fbLink: true,
       hidden,
     }
   }
@@ -69,6 +70,7 @@ export const getErrorResponse = (error, artist) => {
       action: 'link',
       buttonText: 'Facebook Billing',
       href: 'https://www.facebook.com/ads/manager/billing/',
+      fbLink: true,
       hidden,
     }
   }
@@ -79,6 +81,7 @@ export const getErrorResponse = (error, artist) => {
       action: 'link',
       buttonText: 'Add payment details',
       href: 'https://www.facebook.com/ads/manager/billing/',
+      fbLink: true,
       hidden,
     }
   }
@@ -97,6 +100,7 @@ export const getErrorResponse = (error, artist) => {
       action: 'link',
       buttonText: 'Link Instagram Account',
       href: 'https://www.facebook.com/business/help/898752960195806',
+      fbLink: true,
       hidden,
     }
   }
