@@ -6,6 +6,7 @@ import tinycolor from 'tinycolor2'
 import moment from 'moment'
 import { Bar } from 'react-chartjs-2'
 // IMPORT COMPONENTS
+import Spinner from './elements/Spinner'
 import ChartBarOverlay from './ChartBarOverlay'
 // IMPORT HELPERS
 import helper from './helpers/helper'
@@ -269,6 +270,9 @@ function ChartBar({
 
   return (
     <div className={chartClasses.join(' ')}>
+      {/* Loading spinner */}
+      {loading && <Spinner className={styles.chartSpinner} />}
+      {/* CHART */}
       <Bar
         data={{
           labels: dateLabels,
