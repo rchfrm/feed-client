@@ -15,7 +15,7 @@ function PostLinkSaveButton({
   buttonState,
   disabled,
   handleClick,
-  width,
+  style,
 }) {
   // Get button version
   const version = getButtonVersion(buttonState)
@@ -23,7 +23,7 @@ function PostLinkSaveButton({
   return (
     <Button
       version={version}
-      width={width}
+      style={style}
       onClick={handleClick}
       disabled={disabled}
       loading={buttonState === 'saving'}

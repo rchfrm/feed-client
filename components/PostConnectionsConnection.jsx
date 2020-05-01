@@ -145,8 +145,14 @@ const PostConnectionsConnection = ({
         />
       </div>
 
-      <div className={styles['integration-edit']}>
-        <Button version="none" onClick={handleClick} disabled={disabled} bgColor={brandColors.white}>
+      <div className={styles.integrationEdit}>
+        <Button
+          className={styles.integrationEditButton}
+          version="none"
+          onClick={handleClick}
+          disabled={disabled}
+          bgColor={brandColors.white}
+        >
           <ConnectionEdit
             disabled={disabled}
             loading={loading}

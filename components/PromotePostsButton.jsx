@@ -28,7 +28,9 @@ function PromotePostsButton() {
     <div className="ninety-wide">
       <Button
         version="black"
-        width={100}
+        style={{
+          width: '100%',
+        }}
         onClick={handleClick}
       >
         {text}

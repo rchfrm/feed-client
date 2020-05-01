@@ -1,12 +1,14 @@
 
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Spinner from './elements/Spinner'
-// IMPORT PAGES
+
+// IMPORT COMPONENTS
+import InsightPlatformSelectors from './InsightPlatformSelectors'
+import InsightDataSelectors from './InsightDataSelectors'
 import InsightsPageChart from './InsightsPageChart'
 import PromotePostsButton from './PromotePostsButton'
 // IMPORT TEXT
@@ -17,17 +19,40 @@ import styles from './InsightsPage.module.css'
 
 
 function Insights() {
+  // Import artist context
+  const { artist, artistId } = React.useContext(ArtistContext)
+  // Define states
+  const [currentPlatform, setCurrentPlatform] = React.useState('')
+  const [currentDataSource, setCurrentDataSource] = React.useState('')
+
   return (
     <div className="page--container">
 
-      {/* INTRO TEXT */}
-      <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
+      {/* PLATFORM SELECTORS */}
+      <InsightPlatformSelectors
+        artist={artist}
+        artistId={artistId}
+        currentPlatform={currentPlatform}
+        setCurrentPlatform={setCurrentPlatform}
+      />
+      {/* DATASOURCE SELECTORS */}
+      <InsightDataSelectors
+        artist={artist}
+        currentPlatform={currentPlatform}
+        currentDataSource={currentDataSource}
+        setCurrentDataSource={setCurrentDataSource}
+      />
 
-      <div className={styles.chartsContainer}>
-        <InsightsPageChart />
+      {/* DATA SOURCE SELECTORS */}
 
-        <PromotePostsButton />
-      </div>
+
+      {currentPlatform && currentDataSource && (
+        <div className={styles.chartsContainer}>
+          <InsightsPageChart />
+
+          <PromotePostsButton />
+        </div>
+      )}
 
       {/* OUTRO TEXT TEXT */}
       <MarkdownText className="ninety-wide  h4--text" markdown={copy.outro} />
