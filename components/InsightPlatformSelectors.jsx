@@ -43,10 +43,17 @@ const InsightPlatformSelectors = ({
   // SETUP SCROLL TO BUTTON
   const [buttonRefs, containerRef] = useScrollToButton(availablePlatforms, currentPlatform)
 
-  // SET FIRST PLATFORM AS CURRENT
+  // SET INITIAL PLATFORM
   React.useEffect(() => {
     if (!availablePlatforms.length) return
-    // Set the current platform to the first
+    // Does the artist have insta
+    const instaIndex = availablePlatforms.findIndex(({ id: platformId }) => platformId === 'instagram')
+    // If the artist has insta, use this
+    if (instaIndex > -1) {
+      setCurrentPlatform(availablePlatforms[instaIndex].id)
+      return
+    }
+    // Else just use the first one
     setCurrentPlatform(availablePlatforms[0].id)
   }, [availablePlatforms])
 
