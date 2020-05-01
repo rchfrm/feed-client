@@ -104,13 +104,15 @@ function ChartBar({
       return datum - increaseArr[index]
     })
 
+    const { cumulative } = data
     const chartColor = brandColors[currentPlatform]
+    const lightColor = tinycolor(chartColor).lighten('12').toString()
 
     const chartData = [
       {
         label: currentDataSource,
         data: carriedArr,
-        backgroundColor: chartColor,
+        backgroundColor: cumulative ? lightColor : chartColor,
         barPercentage: 0.8,
         categoryPercentage: 1,
         barThickness: 'flex',
@@ -119,12 +121,11 @@ function ChartBar({
       },
     ]
     // If data is cumulative, show increase
-    const { cumulative } = data
     if (cumulative) {
       const increaseData = {
         label: `new_${currentDataSource}`,
         data: increaseArr,
-        backgroundColor: tinycolor(chartColor).lighten('12').toString(),
+        backgroundColor: chartColor,
         barPercentage: 0.8,
         categoryPercentage: 1,
         barThickness: 'flex',
