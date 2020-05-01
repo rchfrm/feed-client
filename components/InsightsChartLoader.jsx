@@ -15,8 +15,6 @@ import ChartContainer from './ChartContainer'
 // IMPORT HELPERS
 import { formatServerData } from './helpers/chartHelpers'
 import server from './helpers/server'
-// IMPORT STYLES
-import './InsightsPage.module.css'
 
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS

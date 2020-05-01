@@ -5,7 +5,7 @@ import brandColors from '../constants/brandColors'
 // IMPORT STYLES
 import helper from './helpers/helper'
 // IMPORT STYLES
-import styles from './ChartContainer.module.css'
+import styles from './InsightsPage.module.css'
 
 const ChartDoughnut = ({
   data,

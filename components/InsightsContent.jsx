@@ -44,9 +44,16 @@ function Insights() {
       />
 
       {currentPlatform && currentDataSource && (
-        <div className={styles.chartsContainer}>
-          <InsightsChartLoader />
-          <PromotePostsButton />
+        <div className={styles.dataContent}>
+          <InsightsChartLoader
+            currentPlatform={currentPlatform}
+            currentDataSource={currentDataSource}
+          />
+          <PromotePostsButton
+            artist={artist}
+            artistId={artistId}
+            className={styles.promotePostsButton}
+          />
         </div>
       )}
 

@@ -6,7 +6,7 @@ import moment from 'moment'
 import ChartBar from './ChartBar'
 import ChartDoughnut from './ChartDoughnut'
 // IMPORT STYLES
-import styles from './ChartContainer.module.css'
+import styles from './InsightsPage.module.css'
 
 const ChartContainer = ({
   currentPlatform,
@@ -26,7 +26,7 @@ const ChartContainer = ({
     : 'bar'
 
   return (
-    <div className={styles.container}>
+    <div className={styles.chartOuter}>
 
       {chartType === 'bar' && (
         <ChartBar

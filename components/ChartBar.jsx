@@ -10,7 +10,7 @@ import helper from './helpers/helper'
 import * as chartHelpers from './helpers/chartHelpers'
 import brandColors from '../constants/brandColors'
 // IMPORT STYLES
-import styles from './ChartContainer.module.css'
+import styles from './InsightsPage.module.css'
 
 // Set first day of week to Monday
 moment.updateLocale('en', {
