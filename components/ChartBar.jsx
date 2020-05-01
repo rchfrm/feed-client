@@ -2,6 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import tinycolor from 'tinycolor2'
 import moment from 'moment'
 import { Bar } from 'react-chartjs-2'
 // IMPORT COMPONENTS
@@ -110,7 +111,7 @@ function ChartBar({
       {
         label: currentDataSource,
         data: carriedArr,
-        backgroundColor: helper.hexToRGBA(chartColor, 0.7),
+        backgroundColor: chartColor,
         barPercentage: 0.8,
         categoryPercentage: 1,
         barThickness: 'flex',
@@ -120,7 +121,7 @@ function ChartBar({
       {
         label: `new_${currentDataSource}`,
         data: increaseArr,
-        backgroundColor: helper.hexToRGBA(chartColor, 0.8),
+        backgroundColor: tinycolor(chartColor).lighten('12').toString(),
         barPercentage: 0.8,
         categoryPercentage: 1,
         barThickness: 'flex',
@@ -153,6 +154,7 @@ function ChartBar({
   const options = {
     maintainAspectRatio: true,
     responsive: true,
+    backgroundColor: 'transparent',
     layout: {
       padding: 0,
     },
