@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import Spinner from './Spinner'
 
+import helper from '../helpers/helper'
+
 const Button = ({
   version,
   disabled,
@@ -12,6 +14,7 @@ const Button = ({
   className,
   style,
   onClick,
+  href,
   children,
 }) => {
   const versions = version
@@ -25,19 +28,30 @@ const Button = ({
   if (success) {
     classes.push('button--success')
   }
+
+  // Define wrapper type based on href or not
+  const Wrapper = href ? 'a' : 'button'
+  // Handle hrefs
+  const linkType = href ? helper.getLinkType(href) : ''
+  const target = linkType === 'external' ? '_blank' : 'self'
+  const rel = linkType === 'external' ? 'noopener noreferrer' : ''
+
   // OUTPUT BUTTON
   return (
-    <button
+    <Wrapper
       type={type}
       disabled={disabled}
       className={classes.join(' ')}
       onClick={onClick}
+      href={href}
+      target={href ? target : ''}
+      rel={href ? rel : ''}
       style={style}
     >
       <span className="button--innerText">
         {loading ? <Spinner className="button--spinner" /> : children}
       </span>
-    </button>
+    </Wrapper>
   )
 }
 
@@ -50,6 +64,7 @@ Button.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   onClick: PropTypes.func,
+  href: PropTypes.string,
   children: PropTypes.node.isRequired,
 }
 
@@ -61,6 +76,7 @@ Button.defaultProps = {
   loading: false,
   style: {},
   className: '',
+  href: null,
   onClick: () => {},
 }
 

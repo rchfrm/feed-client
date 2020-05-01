@@ -11,9 +11,9 @@ a {
   color: var(--black);
 
   @mixin canHover {
-    &:hover {
+    &:not(.button):hover {
       color: var(--green);
-    }
+    } 
   }
 }
 

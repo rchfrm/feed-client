@@ -1,23 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import brandColors from '../../constants/brandColors'
 
 import Button from './Button'
 import FacebookIcon from '../icons/FacebookIcon'
 
-const ButtonFacebook = ({
-  version,
-  className,
-  style,
-  onClick,
-  children,
-}) => {
+
+const ButtonFacebook = (props) => {
+  const { version, children } = props
   return (
     <Button
-      className={className}
-      onClick={onClick}
-      style={style}
+      {...props}
       version={['facebook', 'icon', version].join(' ')}
     >
       <FacebookIcon
@@ -28,21 +21,5 @@ const ButtonFacebook = ({
     </Button>
   )
 }
-
-ButtonFacebook.propTypes = {
-  version: PropTypes.string,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  onClick: PropTypes.func,
-  children: PropTypes.node.isRequired,
-}
-
-ButtonFacebook.defaultProps = {
-  version: '',
-  className: '',
-  style: {},
-  onClick: () => {},
-}
-
 
 export default ButtonFacebook
