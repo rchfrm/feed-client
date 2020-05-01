@@ -7,6 +7,14 @@ import styles from './InsightSelectors.module.css'
 import insightDataSources from '../constants/insightDataSources'
 import dataSourceDetails from '../constants/dataSources'
 
+const getDefaultSource = (sources) => {
+  const followersSourceIndex = sources.findIndex(({ id: sourceId }) => {
+    return sourceId.includes('follower')
+  })
+  if (followersSourceIndex > -1) return sources[followersSourceIndex]
+  return sources[0]
+}
+
 const InsightDataSelectors = ({
   availableDataSources,
   currentPlatform,
@@ -40,9 +48,8 @@ const InsightDataSelectors = ({
 
   // Set first data sources as active when platfrorm changes
   React.useEffect(() => {
-    const firstSource = availableSources[0]
-    if (!firstSource) return
-    const { id: sourceId } = firstSource
+    if (!availableSources.length) return
+    const { id: sourceId } = getDefaultSource(availableSources)
     // Set current source
     setCurrentDataSource(sourceId)
     // Set hover color
