@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import Spinner from './Spinner'
 
+import helper from '../helpers/helper'
+
 const Button = ({
   version,
   width: widthProp,
@@ -15,6 +17,7 @@ const Button = ({
   loading,
   className,
   onClick,
+  href,
   children,
 }) => {
   const versions = version
@@ -29,12 +32,23 @@ const Button = ({
   if (success) {
     classes.push('button--success')
   }
+
+  // Define wrapper type based on href or not
+  const Wrapper = href ? 'a' : 'button'
+  // Handle hrefs
+  const linkType = href ? helper.getLinkType(href) : ''
+  const target = linkType === 'external' ? '_blank' : 'self'
+  const rel = linkType === 'external' ? 'noopener noreferrer' : ''
+
   return (
-    <button
+    <Wrapper
       type={type}
       disabled={disabled}
       className={classes.join(' ')}
       onClick={onClick}
+      href={href}
+      target={href ? target : ''}
+      rel={href ? rel : ''}
       style={{
         width: `${widthPercentage}%`,
         color: textColor,
@@ -45,7 +59,7 @@ const Button = ({
       <span className="button--innerText">
         {loading ? <Spinner className="button--spinner" /> : children}
       </span>
-    </button>
+    </Wrapper>
   )
 }
 
@@ -64,6 +78,7 @@ Button.propTypes = {
   success: PropTypes.bool,
   className: PropTypes.string,
   onClick: PropTypes.func,
+  href: PropTypes.string,
   children: PropTypes.node.isRequired,
 }
 
@@ -78,6 +93,7 @@ Button.defaultProps = {
   loading: false,
   success: false,
   className: '',
+  href: null,
   onClick: () => {},
 }
 

@@ -18,6 +18,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
     action,
     buttonText,
     href,
+    fbLink,
   } = integrationError
   // Import auth and auth error
   const { auth, authError } = React.useContext(AuthContext)
@@ -35,13 +36,16 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
   const AlertButton = () => {
     // HANDLE LINK ACTION
     if (action === 'link') {
-      const linkType = helper.getLinkType(href)
-      const target = linkType === 'external' ? '_blank' : 'self'
-      const rel = linkType === 'external' ? 'noopener noreferrer' : ''
+      const ButtonType = fbLink ? ButtonFacebook : Button
+      const buttonVersion = fbLink ? 'full' : 'black full'
       return (
-        <a className="button  button--black  button--full" onClick={dismiss} href={href} target={target} rel={rel}>
+        <ButtonType
+          version={buttonVersion}
+          onClick={dismiss}
+          href={href}
+        >
           {buttonText}
-        </a>
+        </ButtonType>
       )
     }
     // HANDLE REAUTH ACTION
