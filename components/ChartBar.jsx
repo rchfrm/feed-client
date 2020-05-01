@@ -6,6 +6,7 @@ import tinycolor from 'tinycolor2'
 import moment from 'moment'
 import { Bar } from 'react-chartjs-2'
 // IMPORT COMPONENTS
+import ChartBarOverlay from './ChartBarOverlay'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import * as chartHelpers from './helpers/chartHelpers'
@@ -20,36 +21,6 @@ moment.updateLocale('en', {
   },
 })
 
-
-function BarChartOverlay({ max: maxValue, min: minValue, labels }) {
-  const max = helper.abbreviateNumber(maxValue)
-  const min = helper.abbreviateNumber(minValue)
-  const mid = helper.abbreviateNumber(((maxValue - minValue) / 2) + minValue)
-
-  const labelList = []
-
-  labels.forEach((label, index) => {
-    if (
-      index === 0
-      || index === labels.length - 1
-      || index === Math.round((labels.length - 1) / 2)
-    ) {
-      labelList.push(
-        <li key={label}>{label}</li>,
-      )
-    }
-  })
-
-  return (
-    <div className={styles.chartOverlay}>
-      <div className={styles.chartMax}>{max}</div>
-      <div className={styles.chartMidline} />
-      <div className={styles.chartMid}>{mid}</div>
-      <div className={styles.chartMin}>{min}</div>
-      <ul className={styles.xAxisLabels}>{labelList}</ul>
-    </div>
-  )
-}
 
 
 function ChartBar({
@@ -266,7 +237,13 @@ function ChartBar({
         width={75}
         height={50}
       />
-      <BarChartOverlay max={chartLimit.max} min={chartLimit.min} labels={dateLabels} />
+      {/* THE OVERLAY */}
+      <ChartBarOverlay
+        max={chartLimit.max}
+        min={chartLimit.min}
+        labels={dateLabels}
+        loading={loading}
+      />
     </div>
   )
 }
