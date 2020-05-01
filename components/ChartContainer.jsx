@@ -13,10 +13,17 @@ const ChartContainer = ({
   currentDataSource,
   dates,
   data,
+  loading,
 }) => {
   // DEFINE STATE
-  const [earliestDataPoint] = React.useState(data.earliest.date)
-  const [latestDataPoint] = React.useState(data.mostRecent.date)
+  const [earliestDataPoint, setEarliestDataPoint] = React.useState(data.earliest.date)
+  const [latestDataPoint, setLatestDataPoints] = React.useState(data.mostRecent.date)
+  React.useEffect(() => {
+    if (!data) return
+    const { earliest: { date: earliestDate }, mostRecent: { date: latestDate } } = data
+    setEarliestDataPoint(earliestDate)
+    setLatestDataPoints(latestDate)
+  }, [data])
 
   // DETECT CHART TYPE
   // If there is no data before the last week, display a doughnut chart
@@ -28,13 +35,14 @@ const ChartContainer = ({
   return (
     <div className={styles.chartOuter}>
 
-      {chartType === 'bar' && (
+      {(chartType === 'bar' || loading) && (
         <ChartBar
           data={data}
           currentPlatform={currentPlatform}
           currentDataSource={currentDataSource}
           earliestDataPoint={earliestDataPoint}
           latestDataPoint={latestDataPoint}
+          loading={loading}
         />
       )}
 
@@ -43,6 +51,7 @@ const ChartContainer = ({
           data={data}
           currentPlatform={currentPlatform}
           currentDataSource={currentDataSource}
+          loading={loading}
         />
       )}
 

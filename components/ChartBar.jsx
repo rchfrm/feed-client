@@ -22,17 +22,15 @@ moment.updateLocale('en', {
   },
 })
 
-
 function ChartBar({
   data,
-  loading = true,
   earliestDataPoint,
   latestDataPoint,
+  loading,
 }) {
-  console.log('data', data)
   // DEFINE STATES
-  const [currentPlatform] = React.useState(data.platform)
-  const [currentDataSource] = React.useState(data.source)
+  const [currentPlatform, setCurrentPlaform] = React.useState(data.platform)
+  const [currentDataSource, setCurrentDataSource] = React.useState(data.source)
   const [dateLabels, setDateLabels] = React.useState([])
   const [chartLimit, setChartLimit] = React.useState({
     max: undefined,
@@ -59,6 +57,13 @@ function ChartBar({
       barThickness: 'flex',
     }])
   }
+  // UPDATE DATA SOURCE
+  React.useEffect(() => {
+    const { source, platform } = data
+    if (!data) return
+    setCurrentDataSource(source)
+    setCurrentPlaform(platform)
+  }, [data.source])
   // UPDATE CHART CLASSES BASED ON STATE
   const [chartClasses, setChartClasses] = React.useState([])
   React.useEffect(() => {
@@ -89,7 +94,6 @@ function ChartBar({
     const periodDates = chartHelpers.getPeriodDates(granularity, start, end)
     // Cycle through the dates and add the relevant labels
     const periodLabels = chartHelpers.getPeriodLabels(granularity, periodDates)
-    console.log('periodLabels', periodLabels)
     setDateLabels(periodLabels)
 
     // DEFINE THE DATASET(S) TO DISPLAY
@@ -129,8 +133,6 @@ function ChartBar({
         // minBarLength: 2,
       },
     ]
-
-    console.log('carriedArr', carriedArr)
 
     // If data is cumulative, show increase
     if (cumulative) {

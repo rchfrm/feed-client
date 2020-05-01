@@ -66,8 +66,6 @@ function InsightsChartLoader({
     dates,
   })
 
-  if (chartLoading) return <Spinner />
-
   if (!data) return null
 
   if (data === 'no-data') {
@@ -87,6 +85,7 @@ function InsightsChartLoader({
         currentDataSource={currentDataSource}
         dates={dates}
         data={data}
+        loading={chartLoading}
       />
     </>
   )
