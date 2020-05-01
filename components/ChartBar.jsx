@@ -106,8 +106,7 @@ function ChartBar({
 
     const chartColor = brandColors[currentPlatform]
 
-    // Set the datasets to display on the chart
-    setChartDataSets([
+    const chartData = [
       {
         label: currentDataSource,
         data: carriedArr,
@@ -118,17 +117,22 @@ function ChartBar({
         // maxBarThickness: 8,
         // minBarLength: 2,
       },
-      {
+    ]
+    // If data is cumulative, show increase
+    const { cumulative } = data
+    if (cumulative) {
+      const increaseData = {
         label: `new_${currentDataSource}`,
         data: increaseArr,
         backgroundColor: tinycolor(chartColor).lighten('12').toString(),
         barPercentage: 0.8,
         categoryPercentage: 1,
         barThickness: 'flex',
-        // maxBarThickness: 8,
-        // minBarLength: 2,
-      },
-    ])
+      }
+      chartData.push(increaseData)
+    }
+    // Set the datasets to display on the chart
+    setChartDataSets(chartData)
   }, [currentDataSource, earliestDataPoint, latestDataPoint])
 
   // MAKE SURE RANGE IS AN EVEN NUMBER
