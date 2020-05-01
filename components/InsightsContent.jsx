@@ -25,19 +25,24 @@ function Insights() {
   const [currentPlatform, setCurrentPlatform] = React.useState('')
   const [currentDataSource, setCurrentDataSource] = React.useState('')
 
+  const availableDataSources = React.useMemo(() => {
+    const { _embedded: { data_sources: dataSources } } = artist
+    return Object.values(dataSources).map(({ id }) => id)
+  }, [artistId])
+
   return (
     <div className="page--container">
 
       {/* PLATFORM SELECTORS */}
       <InsightPlatformSelectors
-        artist={artist}
         artistId={artistId}
+        availableDataSources={availableDataSources}
         currentPlatform={currentPlatform}
         setCurrentPlatform={setCurrentPlatform}
       />
       {/* DATASOURCE SELECTORS */}
       <InsightDataSelectors
-        artist={artist}
+        availableDataSources={availableDataSources}
         currentPlatform={currentPlatform}
         currentDataSource={currentDataSource}
         setCurrentDataSource={setCurrentDataSource}

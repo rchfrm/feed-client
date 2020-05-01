@@ -8,6 +8,7 @@ import insightDataSources from '../constants/insightDataSources'
 import dataSourceDetails from '../constants/dataSources'
 
 const InsightDataSelectors = ({
+  availableDataSources,
   currentPlatform,
   currentDataSource,
   setCurrentDataSource,
@@ -15,15 +16,16 @@ const InsightDataSelectors = ({
   // Return array of data sources that match the current platform
   const availableSources = React.useMemo(() => {
     if (!currentPlatform) return []
-    return Object.values(insightDataSources).reduce((sources, {
-      id,
-      title,
-      visible,
-      breakdown,
-      subtitle,
-      period,
-      platform,
-    }) => {
+    return availableDataSources.reduce((sources, sourceId) => {
+      const {
+        id,
+        title,
+        visible,
+        breakdown,
+        subtitle,
+        period,
+        platform,
+      } = insightDataSources[sourceId]
       // Ignore if not related to current platform
       if (platform !== currentPlatform) return sources
       // Ignore is not visible or a breakdown
@@ -83,6 +85,7 @@ const InsightDataSelectors = ({
 }
 
 InsightDataSelectors.propTypes = {
+  availableDataSources: PropTypes.array.isRequired,
   currentPlatform: PropTypes.string.isRequired,
   currentDataSource: PropTypes.string.isRequired,
   setCurrentDataSource: PropTypes.func.isRequired,
