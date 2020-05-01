@@ -11,9 +11,9 @@ a {
   color: var(--black);
 
   @media (hover: hover) {
-    &:hover {
+    &:not(.button):hover {
       color: var(--green);
-    }
+    } 
   }
 }
 

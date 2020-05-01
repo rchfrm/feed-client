@@ -25,6 +25,7 @@
     width: 100%;
     margin-bottom: var(--bsu-md) !important;
     align-items: baseline;
+    justify-content: flex-start !important;
     &:last-child {
       margin-bottom: 0 !important;
     }
