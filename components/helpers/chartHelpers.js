@@ -24,6 +24,7 @@ export const formatServerData = ({ dailyData, dates, currentDataSource, currentP
     subtitle,
     period,
     dataType,
+    currency,
   } = insightDataSources[currentDataSource]
   // Get most recent and earliest data
   const mostRecentData = dataArray[dataArray.length - 1]
@@ -38,6 +39,7 @@ export const formatServerData = ({ dailyData, dates, currentDataSource, currentP
     source: currentDataSource,
     platform: currentPlatform,
     dataType,
+    currency,
     mostRecent: {
       date: mostRecentData[0],
       value: mostRecentData[1],

@@ -33,6 +33,7 @@ export default {
     subtitle: '',
     period: '',
     dataType: 'daily',
+    currency: true,
   },
 
   facebook_ad_spend_feed: {
@@ -44,6 +45,7 @@ export default {
     subtitle: 'through feed',
     period: '',
     dataType: 'daily',
+    currency: true,
   },
 
   facebook_engaged_1y: {

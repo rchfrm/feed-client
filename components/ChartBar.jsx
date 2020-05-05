@@ -9,6 +9,7 @@ import { Bar } from 'react-chartjs-2'
 // IMPORT COMPONENTS
 import Spinner from './elements/Spinner'
 import ChartBarOverlay from './ChartBarOverlay'
+import { ArtistContext } from './contexts/Artist'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import * as chartHelpers from './helpers/chartHelpers'
@@ -94,6 +95,8 @@ function ChartBar({
   loading,
   error,
 }) {
+  // Get artist currency
+  const { artistCurrency } = React.useContext(ArtistContext)
   // DEFINE STATES
   const [currentPlatform, setCurrentPlaform] = React.useState(data.platform)
   const [currentDataSource, setCurrentDataSource] = React.useState(data.source)
@@ -234,7 +237,7 @@ function ChartBar({
     const newChartOptions = produce(baseChartConfig, draftConfig => {
       // Edit Y axes
       draftConfig.scales.yAxes[0].ticks.max = newChartLimit.max
-      draftConfig.scales.yAxes[0].ticks.min = newChartLimit.minx
+      draftConfig.scales.yAxes[0].ticks.min = newChartLimit.min
       draftConfig.scales.yAxes[0].ticks.callback = (tickValue) => {
         const mid = (newChartLimit.max - newChartLimit.min) / 2
         if (
@@ -255,9 +258,10 @@ function ChartBar({
           // If the visible tooltip relates to value added since last period,
           // display the total value on the relevant date in 'beforeBody'
           if (datasetName.indexOf('new_') > -1) {
-            const total = helper.formatNumber(sumPreviousAndNewValues(chartData, dataIndex))
+            const total = sumPreviousAndNewValues(chartData, dataIndex)
+            const totalFormatted = data.currency ? helper.formatCurrency(total, artistCurrency) : helper.formatNumber(total)
             const platform = helper.capitalise(currentPlatform)
-            return `${total}: ${platform} ${data.title}`
+            return `${totalFormatted}: ${platform} ${data.title}`
           }
         },
         label(tooltipItem, chart) {
@@ -272,8 +276,9 @@ function ChartBar({
             return ` ${helper.formatNumber(tooltipItem.value)} more than ${previousDate}`
           }
           const total = sumPreviousAndNewValues(chartData, dataIndex)
+          const totalFormatted = data.currency ? helper.formatCurrency(total, artistCurrency) : helper.formatNumber(total)
           const platform = helper.capitalise(currentPlatform)
-          return ` ${helper.formatNumber(total)}: ${platform} ${data.title}`
+          return ` ${totalFormatted}: ${platform} ${data.title}`
         },
       }
     })
@@ -302,6 +307,7 @@ function ChartBar({
       <ChartBarOverlay
         max={chartLimit.max}
         min={chartLimit.min}
+        currency={data.currency ? artistCurrency : ''}
         labels={dateLabels}
         loading={loading}
       />
