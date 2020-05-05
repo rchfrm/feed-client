@@ -54,17 +54,22 @@ function LoginWithEmail({ className }) {
     setPageLoading(true)
 
     // Login with email
-    const token = await emailLogin(email, password)
-      .catch((err) => {
-        setPageLoading(false)
-        setEmail('')
-        setPassword('')
-        setError(err)
-      })
-    if (!token) {
+    const { loginError, tokenError } = await emailLogin(email, password)
+    if (loginError) {
+      setPageLoading(false)
+      setEmail('')
+      setPassword('')
+      setError(loginError)
       track({
         category: 'login',
-        action: 'no token returned from emailLogin',
+        action: loginError.message,
+      })
+      return
+    }
+    if (tokenError) {
+      track({
+        category: 'login',
+        action: `no token returned from emailLogin: ${tokenError.message}`,
         error: true,
       })
       return
