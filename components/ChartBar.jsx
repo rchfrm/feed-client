@@ -180,6 +180,7 @@ function ChartBar({
 
     // DEFINE THE DATASET(S) TO DISPLAY
     const dataArray = chartHelpers.createDataArray(periodDates, currentDataSource, data)
+    console.log('dataArray', dataArray)
     // Set the limits of the charts y axis
     const max = helper.maxArrayValue(dataArray)
     const min = helper.minArrayValue(dataArray)
@@ -190,6 +191,7 @@ function ChartBar({
       max: Math.round(max * 1.01) + maxLimitModifier,
       min: Math.round(min * 0.99),
     }
+    console.log('newChartLimit', newChartLimit)
     setChartLimit(newChartLimit)
     const increaseArr = dataArray.map((datum, index) => {
       const value = datum - dataArray[index - 1]
@@ -212,7 +214,7 @@ function ChartBar({
       {
         ...baseBarConfig,
         label: currentDataSource,
-        data: carriedArr,
+        data: cumulative ? carriedArr : dataArray,
         backgroundColor: cumulative ? lightColor : chartColor,
       },
     ]
