@@ -31,7 +31,7 @@ const ChartNumber = ({ data }) => {
       </p>
       <p className={styles.chartNumber__title}>
         <span className={styles.title}>{data.shortTitle}</span>
-        <span className={styles.subtitle}> ({data.subtitle})</span>
+        <span className={styles.subtitle}> ({data.subtitle || data.period})</span>
       </p>
     </div>
   )
