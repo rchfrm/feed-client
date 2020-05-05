@@ -2,6 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import produce from 'immer'
 import tinycolor from 'tinycolor2'
 import moment from 'moment'
 import { Bar } from 'react-chartjs-2'
@@ -22,6 +23,70 @@ moment.updateLocale('en', {
   },
 })
 
+// DEFINE BASE CHART CONFIG
+const baseBarConfig = {
+  barPercentage: 0.8,
+  categoryPercentage: 1,
+  barThickness: 'flex',
+}
+
+const baseChartConfig = {
+  maintainAspectRatio: true,
+  responsive: true,
+  backgroundColor: 'transparent',
+  layout: {
+    padding: 0,
+  },
+  legend: {
+    display: false,
+  },
+  scales: {
+    xAxes: [{
+      stacked: true,
+      gridLines: {
+        drawBorder: false,
+        drawTicks: false,
+        display: false,
+      },
+      ticks: {
+        maxRotation: 0,
+        display: false,
+      },
+    }],
+    yAxes: [{
+      stacked: true,
+      gridLines: {
+        drawBorder: false,
+        drawTicks: false,
+        display: false,
+      },
+      dataset: {
+        barPercentage: 0.8,
+        categoryPercentage: 1,
+        barThickness: 'flex',
+      },
+      ticks: {
+        beginAtZero: false,
+        display: false,
+        stepSize: 1,
+        padding: 5,
+      },
+    }],
+  },
+  tooltips: {
+    backgroundColor: helper.hexToRGBA(brandColors.bgColor, 0.9),
+    titleFontFamily: "'Inter', 'sans-serif'",
+    bodyFontFamily: "'Inter', 'sans-serif'",
+    titleFontSize: 18,
+    bodyFontSize: 15,
+    titleMarginBottom: 9,
+    titleFontColor: brandColors.textColor,
+    bodyFontColor: brandColors.textColor,
+    bodySpacing: 5,
+    xPadding: 15,
+    yPadding: 15,
+  },
+}
 function ChartBar({
   data,
   earliestDataPoint,
@@ -38,6 +103,7 @@ function ChartBar({
     min: undefined,
   })
   const [chartDataSets, setChartDataSets] = React.useState([])
+  const [chartOptions, setChartOptions] = React.useState({})
   // PLACEHOLDER CHART BUILDER
   const showPlaceholder = (loading) => {
     // Get dummy data
@@ -52,11 +118,9 @@ function ChartBar({
     // DEFINE DATA SET
     // If loading, use previous. If error show dummy
     const dataSet = loading ? chartDataSets[0] : {
+      ...baseBarConfig,
       label: 'loading',
       data: dataArray,
-      barPercentage: 0.8,
-      categoryPercentage: 1,
-      barThickness: 'flex',
     }
 
     setChartDataSets([{
@@ -111,10 +175,14 @@ function ChartBar({
     // Set the limits of the charts y axis
     const max = helper.maxArrayValue(dataArray)
     const min = helper.minArrayValue(dataArray)
-    setChartLimit({
-      max: Math.round(max * 1.01),
+    // Ensure range is even number
+    const range = max - min
+    const maxLimitModifier = (range % 2) > 0 ? 1 : 0
+    const newChartLimit = {
+      max: Math.round(max * 1.01) + maxLimitModifier,
       min: Math.round(min * 0.99),
-    })
+    }
+    setChartLimit(newChartLimit)
     const increaseArr = dataArray.map((datum, index) => {
       const value = datum - dataArray[index - 1]
       if (index === 0 || value < 0) {
@@ -127,136 +195,68 @@ function ChartBar({
       return datum - increaseArr[index]
     })
 
+    // DEFINE CHART DATA
     const { cumulative } = data
     const chartColor = brandColors[currentPlatform]
     const lightColor = tinycolor(chartColor).lighten('12').toString()
 
     const chartData = [
       {
+        ...baseBarConfig,
         label: currentDataSource,
         data: carriedArr,
         backgroundColor: cumulative ? lightColor : chartColor,
-        barPercentage: 0.8,
-        categoryPercentage: 1,
-        barThickness: 'flex',
-        // maxBarThickness: 8,
-        // minBarLength: 2,
       },
     ]
 
     // If data is cumulative, show increase
     if (cumulative) {
       const increaseData = {
+        ...baseBarConfig,
         label: `new_${currentDataSource}`,
         data: increaseArr,
         backgroundColor: chartColor,
-        barPercentage: 0.8,
-        categoryPercentage: 1,
-        barThickness: 'flex',
       }
       chartData.push(increaseData)
     }
     // Set the datasets to display on the chart
     setChartDataSets(chartData)
-  }, [currentDataSource, earliestDataPoint, latestDataPoint, loading, error])
 
-  // MAKE SURE RANGE IS AN EVEN NUMBER
-  React.useEffect(() => {
-    const range = chartLimit.max - chartLimit.min
-    if (range % 2 > 0) {
-      setChartLimit({
-        max: chartLimit.max + 1,
-        min: chartLimit.min,
+    // DEFINE CHART OPTIONS
+    const sumPreviousAndNewValues = (chartData, index) => {
+      let total = 0
+      chartData.forEach(dataset => {
+        total += dataset.data[index]
       })
+      return total
     }
-  }, [chartLimit])
 
-  const sumPreviousAndNewValues = index => {
-    let total = 0
-    chartDataSets.forEach(dataset => {
-      total += dataset.data[index]
-    })
-    return total
-  }
-
-  // DEFINE THE OPTIONS
-  const options = {
-    maintainAspectRatio: true,
-    responsive: true,
-    backgroundColor: 'transparent',
-    layout: {
-      padding: 0,
-    },
-    legend: {
-      display: false,
-    },
-    scales: {
-      xAxes: [{
-        stacked: true,
-        gridLines: {
-          drawBorder: false,
-          drawTicks: false,
-          display: false,
-        },
-        ticks: {
-          maxRotation: 0,
-          display: false,
-        },
-      }],
-      yAxes: [{
-        stacked: true,
-        gridLines: {
-          drawBorder: false,
-          drawTicks: false,
-          display: false,
-        },
-        dataset: {
-          barPercentage: 0.8,
-          categoryPercentage: 1,
-          barThickness: 'flex',
-        },
-        ticks: {
-          beginAtZero: false,
-          display: false,
-          max: chartLimit.max,
-          min: chartLimit.min,
-          stepSize: 1,
-          callback(tickValue /* index, ticks */) {
-            const mid = (chartLimit.max - chartLimit.min) / 2
-            if (
-              tickValue === chartLimit.min + mid
-              || tickValue === chartLimit.max
-              || tickValue === chartLimit.min
-            ) {
-              return tickValue
-            }
-          },
-          padding: 5,
-        },
-      }],
-    },
-    tooltips: {
-      backgroundColor: helper.hexToRGBA(brandColors.bgColor, 0.9),
-      titleFontFamily: "'Inter', 'sans-serif'",
-      bodyFontFamily: "'Inter', 'sans-serif'",
-      titleFontSize: 18,
-      bodyFontSize: 15,
-      titleMarginBottom: 9,
-      titleFontColor: brandColors.textColor,
-      bodyFontColor: brandColors.textColor,
-      bodySpacing: 5,
-      xPadding: 15,
-      yPadding: 15,
-      callbacks: {
+    const newChartOptions = produce(baseChartConfig, draftConfig => {
+      // Edit Y axes
+      draftConfig.scales.yAxes[0].ticks.max = newChartLimit.max
+      draftConfig.scales.yAxes[0].ticks.min = newChartLimit.minx
+      draftConfig.scales.yAxes[0].ticks.callback = (tickValue) => {
+        const mid = (newChartLimit.max - newChartLimit.min) / 2
+        if (
+          tickValue === newChartLimit.min + mid
+            || tickValue === newChartLimit.max
+            || tickValue === newChartLimit.min
+        ) {
+          return tickValue
+        }
+      }
+      // Edit callbacks
+      draftConfig.tooltips.callbacks = {
         beforeBody(tooltipItem, chart) {
           if (loading) return
+          console.log('tooltipItem', tooltipItem)
           const dataIndex = tooltipItem[0].index
           const { datasetIndex } = tooltipItem[0]
           const datasetName = chart.datasets[datasetIndex].label
           // If the visible tooltip relates to value added since last period,
           // display the total value on the relevant date in 'beforeBody'
           if (datasetName.indexOf('new_') > -1) {
-            const total = helper.formatNumber(sumPreviousAndNewValues(dataIndex))
+            const total = helper.formatNumber(sumPreviousAndNewValues(chartData, dataIndex))
             const platform = helper.capitalise(currentPlatform)
             return `${total}: ${platform} ${data.title}`
           }
@@ -272,13 +272,14 @@ function ChartBar({
             const previousDate = chart.labels[dataIndex - 1]
             return ` ${helper.formatNumber(tooltipItem.value)} more than ${previousDate}`
           }
-          const total = sumPreviousAndNewValues(dataIndex)
+          const total = sumPreviousAndNewValues(chartData, dataIndex)
           const platform = helper.capitalise(currentPlatform)
           return ` ${helper.formatNumber(total)}: ${platform} ${data.title}`
         },
-      },
-    },
-  }
+      }
+    })
+    setChartOptions(newChartOptions)
+  }, [currentDataSource, earliestDataPoint, latestDataPoint, loading, error])
 
   return (
     <div className={chartClasses.join(' ')}>
@@ -293,7 +294,7 @@ function ChartBar({
             labels: dateLabels,
             datasets: chartDataSets,
           }}
-          options={options}
+          options={chartOptions}
           width={75}
           height={50}
         />
