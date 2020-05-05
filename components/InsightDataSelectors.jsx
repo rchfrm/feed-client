@@ -11,7 +11,11 @@ const getDefaultSource = (sources) => {
   const followersSourceIndex = sources.findIndex(({ id: sourceId }) => {
     return sourceId.includes('follower')
   })
+  const likesSourceIndex = sources.findIndex(({ id: sourceId }) => {
+    return sourceId.includes('likes')
+  })
   if (followersSourceIndex > -1) return sources[followersSourceIndex]
+  if (likesSourceIndex > -1) return sources[likesSourceIndex]
   return sources[0]
 }
 
