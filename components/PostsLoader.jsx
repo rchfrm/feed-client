@@ -211,6 +211,12 @@ function PostsLoader() {
         postLink,
       },
     })
+    track({
+      category: 'Posts',
+      action: 'Post link changed',
+      description: `New link: ${postLink}`,
+      label: artistId,
+    })
   }
 
   // RETURN
