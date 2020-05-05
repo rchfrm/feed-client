@@ -114,7 +114,7 @@ function ArtistProvider({ children }) {
     return artist
   }
 
-  const createArtist = async (artistAccounts, accessToken) => {
+  const createArtist = async (artistAccounts, accessToken, oldUser) => {
     setArtistLoading(true)
     // Conect artist accounts to array
     const artistAccountsArray = Object.values(artistAccounts)
@@ -175,6 +175,15 @@ function ArtistProvider({ children }) {
       description: `Pages connected: ${connectedArtistAccounts.length}`,
       label: updatedUser.id,
     })
+    // Track first time connecting accounits
+    if (!oldUser.artists.length) {
+      track({
+        category: 'sign up',
+        action: 'User completed sign up',
+        description: `Pages connected: ${connectedArtistAccounts.length}`,
+        label: updatedUser.id,
+      })
+    }
   }
 
   const updateBudget = async (id, amount) => {
