@@ -6,16 +6,12 @@ import styles from './InsightsPage.module.css'
 
 const ChartNumber = ({ data }) => {
   // DEFINE STATES
-  const [currentPlatform, setCurrentPlaform] = React.useState(data.platform)
-  const [currentDataSource, setCurrentDataSource] = React.useState(data.source)
   const [displayData, setDisplayData] = React.useState('')
   const [dataColor, setDataColor] = React.useState('')
   // UPDATE ON DATA CHANGE
   React.useEffect(() => {
     const { source, platform } = data
     if (!source) return
-    setCurrentDataSource(source)
-    setCurrentPlaform(platform)
     const { mostRecent: { value } } = data
     const color = brandColors[platform]
     setDisplayData(value)
