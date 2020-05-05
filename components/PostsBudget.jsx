@@ -101,6 +101,7 @@ function PostsBudget({ currency }) {
         setBudget(initialBudgetState)
         setAlert({ type: 'reset-alert' })
       })
+    if (!dailyBudget) return
     setBudget({
       ...budget,
       text: 'Saved!',
