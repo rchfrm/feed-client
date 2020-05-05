@@ -14,6 +14,7 @@ import Alert, { alertReducer } from './elements/Alert'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 import helper from './helpers/helper'
+import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from './Budget.module.css'
 
@@ -26,7 +27,7 @@ const initialAlertState = {
 }
 
 function PostsBudget({ currency }) {
-  const { artist, updateBudget } = React.useContext(ArtistContext)
+  const { artist, artistId, updateBudget } = React.useContext(ArtistContext)
   // DEFINE STATES
   const initialBudgetState = {
     amount: '',
@@ -112,7 +113,7 @@ function PostsBudget({ currency }) {
     setAlert({
       type: 'show-alert',
       payload: {
-        contents: <BudgetConfirmation budget={dailyBudget} />,
+        contents: <BudgetConfirmation budget={dailyBudget} artistId={artistId} />,
       },
     })
   }
@@ -166,16 +167,29 @@ function PostsBudget({ currency }) {
   )
 }
 
-function BudgetConfirmation({ budget }) {
+function BudgetConfirmation({ budget, artistId }) {
   const budgetInt = Number(budget)
+  // Message for setting budget to positive number
+  const budgetFormatted = helper.formatCurrency(budget)
 
   // Message for setting budget to 0
   if (budgetInt === 0) {
+    track({
+      category: 'Budget',
+      action: 'Ads turn off',
+      description: `Budget: ${budgetFormatted}`,
+      label: artistId,
+    })
     return <MarkdownText markdown={copy.pauseBudget} />
   }
 
-  // Message for setting budget to positive number
-  const budgetFormatted = helper.formatCurrency(budget)
+  track({
+    category: 'Budget',
+    action: 'Ads turn on',
+    description: `Budget: ${budgetFormatted}`,
+    label: artistId,
+  })
+
   return <MarkdownText markdown={copy.setBudget(budgetFormatted)} />
 }
 
