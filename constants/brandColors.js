@@ -30,7 +30,6 @@ const brandColors = {
   spotify: '#03D8B2',
   soundcloud: '#FDE74C',
   youtube: '#FA5450',
-  facebookButton: '#4267B2',
 }
 
 export default brandColors
