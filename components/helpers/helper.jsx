@@ -208,29 +208,14 @@ export default {
     return thumbnail
   },
 
-  formatNumber: (number) => {
+  /**
+   * @param {number} number
+   * @param {string} locale
+   * @returns {string} value
+   */
+  formatNumber: (number, locale = navigator.language) => {
     if (!number) { return number }
-    const string = number.toString()
-    if (string.length > 6) {
-      const formattedString = []
-      for (let i = 0; i < string.length; i += 1) {
-        if (i === string.length - 3 || i === string.length - 6) {
-          formattedString.push(',')
-        }
-        formattedString.push(string[i])
-      }
-      return formattedString.join('')
-    } if (string.length > 3) {
-      const formattedString = []
-      for (let i = 0; i < string.length; i += 1) {
-        if (i === string.length - 3) {
-          formattedString.push(',')
-        }
-        formattedString.push(string[i])
-      }
-      return formattedString.join('')
-    }
-    return string
+    return new Intl.NumberFormat(locale).format(number)
   },
 
   generateMediaHTML: (media, thumbnail, message, handleError) => {
