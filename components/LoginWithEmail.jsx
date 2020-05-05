@@ -62,6 +62,7 @@ function LoginWithEmail({ className }) {
       setError(loginError)
       track({
         category: 'login',
+        label: 'failure',
         action: loginError.message,
       })
       return
@@ -69,6 +70,7 @@ function LoginWithEmail({ className }) {
     if (tokenError) {
       track({
         category: 'login',
+        label: 'failure',
         action: `no token returned from emailLogin: ${tokenError.message}`,
         error: true,
       })
@@ -88,14 +90,16 @@ function LoginWithEmail({ className }) {
       Router.push(ROUTES.HOME)
       track({
         category: 'login',
-        action: 'logged in via email',
+        label: user.id,
+        action: 'Logged in via password',
       })
     } else {
       setNoArtist()
       Router.push(ROUTES.SIGN_UP_CONTINUE)
       track({
         category: 'login',
-        action: 'succesful login via email with no artists',
+        label: user.id,
+        action: 'Logged in via password, with no artists',
       })
     }
   }
