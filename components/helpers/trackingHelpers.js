@@ -1,8 +1,10 @@
 import * as Sentry from '@sentry/browser'
 
 let userType = null
+let userId = null
 export const setUserType = (user) => {
-  const { role } = user
+  const { role, id } = user
+  userId = id
   userType = role
 }
 
@@ -85,4 +87,28 @@ export const track = ({
   if (error) {
     fireSentryError({ category, action, label, description })
   }
+}
+
+
+// Setup PWA install tracker
+export const trackPWA = () => {
+  const isBrowser = typeof window !== 'undefined'
+  if (!isBrowser) return
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.userChoice.then((result) => {
+      if (result.outcome === 'dismissed') {
+        track({
+          category: 'PWA',
+          action: 'Declined PWA install',
+          label: `userId: ${userId}`,
+        })
+      } else {
+        track({
+          category: 'PWA',
+          action: 'Installed PWA',
+          label: `userId: ${userId}`,
+        })
+      }
+    })
+  })
 }
