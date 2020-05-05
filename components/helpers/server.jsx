@@ -191,6 +191,15 @@ export default {
       })
   },
 
+  /**
+   * @param {string} dataSource
+   * @param {string} artistId
+   * @returns {Promise<any>}
+   */
+  getDataSourceGrowth: async (dataSource, artistId) => {
+    return api.get(`/artists/${artistId}/data_sources/${dataSource}/annualized`)
+  },
+
   // ASSETS
   /**
    * @param {number} offset
