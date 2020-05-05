@@ -28,7 +28,6 @@ const initialAlertState = {
 
 function PostsBudget({ currency }) {
   const { artist, artistId, updateBudget } = React.useContext(ArtistContext)
-  console.log('artist', artist)
   // DEFINE STATES
   const initialBudgetState = {
     amount: '',
