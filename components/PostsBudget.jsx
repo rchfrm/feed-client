@@ -3,6 +3,7 @@
 import React from 'react'
 // IMPORT COMPONENTS
 import PageHeader from './PageHeader'
+import BudgetConfirmation from './BudgetConfirmation'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
@@ -14,7 +15,6 @@ import Alert, { alertReducer } from './elements/Alert'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 import helper from './helpers/helper'
-import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from './Budget.module.css'
 
@@ -28,6 +28,7 @@ const initialAlertState = {
 
 function PostsBudget({ currency }) {
   const { artist, artistId, updateBudget } = React.useContext(ArtistContext)
+  console.log('artist', artist)
   // DEFINE STATES
   const initialBudgetState = {
     amount: '',
@@ -96,6 +97,7 @@ function PostsBudget({ currency }) {
       bgColor: brandColors.greyLight,
     })
     const budgetAmount = budget.amount || 0
+    const previousBudget = artist.daily_budget
     const dailyBudget = await updateBudget(artist.id, budgetAmount)
       .catch((error) => {
         setError(error)
@@ -113,7 +115,7 @@ function PostsBudget({ currency }) {
     setAlert({
       type: 'show-alert',
       payload: {
-        contents: <BudgetConfirmation budget={dailyBudget} artistId={artistId} />,
+        contents: <BudgetConfirmation budget={dailyBudget} previousBudget={previousBudget} artistId={artistId} />,
       },
     })
   }
@@ -165,32 +167,6 @@ function PostsBudget({ currency }) {
       </div>
     </div>
   )
-}
-
-function BudgetConfirmation({ budget, artistId }) {
-  const budgetInt = Number(budget)
-  // Message for setting budget to positive number
-  const budgetFormatted = helper.formatCurrency(budget)
-
-  // Message for setting budget to 0
-  if (budgetInt === 0) {
-    track({
-      category: 'Budget',
-      action: 'Ads turn off',
-      description: `Budget: ${budgetFormatted}`,
-      label: artistId,
-    })
-    return <MarkdownText markdown={copy.pauseBudget} />
-  }
-
-  track({
-    category: 'Budget',
-    action: 'Ads turn on',
-    description: `Budget: ${budgetFormatted}`,
-    label: artistId,
-  })
-
-  return <MarkdownText markdown={copy.setBudget(budgetFormatted)} />
 }
 
 export default PostsBudget
