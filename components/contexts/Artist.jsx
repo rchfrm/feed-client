@@ -76,6 +76,7 @@ function ArtistProvider({ children }) {
 
   const [artist, setArtist] = useImmerReducer(artistReducer, initialArtistState)
   const [artistId, setArtistId] = React.useState('')
+  const [artistCurrency, setArtistCurrency] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
 
   const setNoArtist = () => {
@@ -234,12 +235,16 @@ function ArtistProvider({ children }) {
   // Store artist id in local storage
   React.useEffect(() => {
     if (!artistId) return
+    // Set currency
+    setArtistCurrency(artist.currency)
+    // Update local storage
     helper.setLocalStorage('artistId', artist.id)
   }, [artistId])
 
   const value = {
     artist,
     artistId,
+    artistCurrency,
     artistLoading,
     createArtist,
     setNoArtist,
