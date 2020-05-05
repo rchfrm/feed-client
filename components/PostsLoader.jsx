@@ -14,6 +14,7 @@ import PostsBudget from './PostsBudget'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
+import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
@@ -175,6 +176,14 @@ function PostsLoader() {
         promotion_enabled: res.promotion_enabled,
         postIndex: indexOfId,
       },
+    })
+    // Track
+    const status = newPromotionState ? 'enabled' : 'disabled'
+    track({
+      category: 'Posts',
+      action: `Promotion ${status} for post`,
+      description: `Post ID: ${postId}`,
+      label: artistId,
     })
     return newPromotionState
   }, [posts])
