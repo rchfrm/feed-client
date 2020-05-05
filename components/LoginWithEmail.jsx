@@ -93,6 +93,11 @@ function LoginWithEmail({ className }) {
         label: user.id,
         action: 'Logged in via password',
       })
+      track({
+        category: 'login',
+        label: user.id,
+        action: 'Logged in',
+      })
     } else {
       setNoArtist()
       Router.push(ROUTES.SIGN_UP_CONTINUE)

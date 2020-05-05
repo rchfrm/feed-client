@@ -251,6 +251,16 @@ const InitUser = ({ children }) => {
         breadcrumb: true,
         ga: false,
       })
+      track({
+        category: 'login',
+        label: user.id,
+        action: 'Logged in using facebook',
+      })
+      track({
+        category: 'login',
+        label: user.id,
+        action: 'Logged in',
+      })
       redirectPage(ROUTES.HOME, pathname)
     }
   }
