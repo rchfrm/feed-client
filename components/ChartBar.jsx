@@ -109,6 +109,7 @@ function ChartBar({
   const [chartOptions, setChartOptions] = React.useState({})
   // PLACEHOLDER CHART BUILDER
   const showPlaceholder = (loading) => {
+    const buildDummyChart = !loading || !chartDataSets.length
     // Get dummy data
     const {
       dataArray,
@@ -120,16 +121,20 @@ function ChartBar({
     setChartLimit(chartLimit)
     // DEFINE DATA SET
     // If loading, use previous. If error show dummy
-    const dataSet = loading ? chartDataSets[0] : {
+    const dataSet = !buildDummyChart ? chartDataSets[0] : {
       ...baseBarConfig,
       label: 'loading',
       data: dataArray,
     }
-
+    // Set chart data
     setChartDataSets([{
       ...dataSet,
       backgroundColor: brandColors.grey,
     }])
+    // Configure chart
+    if (buildDummyChart) {
+      setChartOptions(baseChartConfig)
+    }
   }
 
   // UPDATE DATA SOURCE
