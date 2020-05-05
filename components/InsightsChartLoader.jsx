@@ -26,6 +26,7 @@ const fetchData = async ({ currentDataSource, currentPlatform, artistId, dates }
   if (!data || !Object.keys(data).length) return 'no-data'
   // Get the actual data for the requested source
   const { daily_data: dailyData } = data[currentDataSource]
+  if (!dailyData || !Object.keys(dailyData).length) return 'no-data'
   const formattedData = formatServerData({ dailyData, dates, currentDataSource, currentPlatform })
   return formattedData
 }
