@@ -226,7 +226,7 @@ export default {
     title: 'profile views',
     subtitle: 'total',
     period: '',
-    dataType: 'cumulative',
+    dataType: 'daily',
   },
 
   instagram_profile_views_7d: {
