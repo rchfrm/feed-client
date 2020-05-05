@@ -98,7 +98,7 @@ function ArtistProvider({ children }) {
           category: 'sign up',
           action: 'Could not get artist using artistHelpers.getArtist(id)',
           description: error.message,
-          label: id,
+          label: `artistId: ${id}`,
           error: true,
         })
         throw (error)
@@ -173,7 +173,7 @@ function ArtistProvider({ children }) {
       category: 'sign up',
       action: 'User connected Facebook Pages',
       description: `Pages connected: ${connectedArtistAccounts.length}`,
-      label: updatedUser.id,
+      label: `User ID: ${updatedUser.id}`,
     })
     // Track first time connecting accounits
     if (!oldUser.artists.length) {
@@ -181,7 +181,7 @@ function ArtistProvider({ children }) {
         category: 'sign up',
         action: 'User completed sign up',
         description: `Pages connected: ${connectedArtistAccounts.length}`,
-        label: updatedUser.id,
+        label: `User ID: ${updatedUser.id}`,
       })
     }
   }

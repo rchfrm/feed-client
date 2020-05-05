@@ -7,14 +7,20 @@ export const setUserType = (user) => {
 }
 
 export const fireGAEvent = (payload) => {
+  const { label, description = '' } = payload
+  const newLabel = `${description} ${label}`
+  const updatedPayload = {
+    ...payload,
+    label: newLabel,
+  }
   // Stop here if sysadmin
   if (userType === 'admin') return
   const { ga } = window
   if (!ga) {
-    console.info('GA SEND', payload)
+    console.info('GA SEND', updatedPayload)
     return
   }
-  ga('send', payload)
+  ga('send', updatedPayload)
 }
 
 export const fireSentryError = ({ category, action, label, description }) => {

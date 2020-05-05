@@ -183,7 +183,7 @@ function PostsLoader() {
       category: 'Posts',
       action: `Promotion ${status} for post`,
       description: `Post ID: ${postId}`,
-      label: artistId,
+      label: `artistId: ${artistId}`,
     })
     return newPromotionState
   }, [posts])
@@ -215,7 +215,7 @@ function PostsLoader() {
       category: 'Posts',
       action: 'Post link changed',
       description: `New link: ${postLink}`,
-      label: artistId,
+      label: `artistId: ${artistId}`,
     })
   }
 

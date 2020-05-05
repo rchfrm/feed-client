@@ -88,7 +88,7 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
         track({
           category: 'Posts',
           action: `Post promotion by default ${actionType}`,
-          label: artistId,
+          label: `artistId: ${artistId}`,
         })
       }
     },

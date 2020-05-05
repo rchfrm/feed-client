@@ -27,7 +27,7 @@ function BudgetConfirmation({ budget, previousBudget, artistId }) {
       category: 'Budget',
       action: 'Ads turn off',
       description: `New budget: ${budgetFormatted}`,
-      label: artistId,
+      label: `artistId: ${artistId}`,
     })
     return <MarkdownText markdown={copy.pauseBudget} />
   }
@@ -37,7 +37,7 @@ function BudgetConfirmation({ budget, previousBudget, artistId }) {
     category: 'Budget',
     action: budgetAction,
     description: `New nudget: ${budgetFormatted}`,
-    label: artistId,
+    label: `artistId: ${artistId}`,
   })
 
   return <MarkdownText markdown={copy.setBudget(budgetFormatted)} />
