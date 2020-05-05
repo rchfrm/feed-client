@@ -5,6 +5,8 @@ import { useAsync } from 'react-async'
 
 import server from './helpers/server'
 
+import styles from './InsightsPage.module.css'
+
 const fetchData = async ({ artistId, currentDataSource }) => {
   const data = await server.getDataSourceGrowth(currentDataSource, artistId)
   console.log('data', data)
@@ -30,8 +32,14 @@ const InsightsProjection = ({
     currentDataSource,
   })
 
+  // Define clases
+  const containerClasses = [styles.projectionContainer]
+  if (pending) {
+    containerClasses.push(styles._loading)
+  }
+
   return (
-    <div>
+    <div className={containerClasses.join(' ')}>
       Data
     </div>
   )
