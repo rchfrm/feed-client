@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import helper from './helpers/helper'
+
 import brandColors from '../constants/brandColors'
 import styles from './InsightsPage.module.css'
 
@@ -10,11 +12,13 @@ const ChartNumber = ({ data }) => {
   const [dataColor, setDataColor] = React.useState('')
   // UPDATE ON DATA CHANGE
   React.useEffect(() => {
+    console.log('data', data)
     const { source, platform } = data
     if (!source) return
     const { mostRecent: { value } } = data
     const color = brandColors[platform]
-    setDisplayData(value)
+    const valueFormatted = helper.abbreviateNumber(value)
+    setDisplayData(valueFormatted)
     setDataColor(color)
   }, [data.source])
   return (
