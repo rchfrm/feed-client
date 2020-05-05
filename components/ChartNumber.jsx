@@ -12,7 +12,6 @@ const ChartNumber = ({ data }) => {
   const [dataColor, setDataColor] = React.useState('')
   // UPDATE ON DATA CHANGE
   React.useEffect(() => {
-    console.log('data', data)
     const { source, platform } = data
     if (!source) return
     const { mostRecent: { value } } = data
