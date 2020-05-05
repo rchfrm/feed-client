@@ -186,7 +186,7 @@ function ChartBar({
     const maxLimitModifier = (range % 2) > 0 ? 1 : 0
     const newChartLimit = {
       max: Math.round(max * 1.01) + maxLimitModifier,
-      min: Math.round(min * 0.99),
+      min: currentDataSource === 'facebook_ad_spend_feed' ? 0 : Math.round(min * 0.99),
     }
     setChartLimit(newChartLimit)
     const increaseArr = dataArray.map((datum, index) => {
