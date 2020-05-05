@@ -5,6 +5,7 @@ import moment from 'moment'
 // IMPORT COMPONENTS
 import ChartBar from './ChartBar'
 import ChartNumber from './ChartNumber'
+import { ArtistContext } from './contexts/Artist'
 // IMPORT STYLES
 import styles from './InsightsPage.module.css'
 
@@ -14,6 +15,8 @@ const ChartContainer = ({
   data,
   loading,
 }) => {
+  // GET ARTIST CURRENCY
+  const { artistCurrency } = React.useContext(ArtistContext)
   // DEFINE STATE
   const [earliestDataPoint, setEarliestDataPoint] = React.useState(data.earliest.date)
   const [latestDataPoint, setLatestDataPoints] = React.useState(data.mostRecent.date)
@@ -43,6 +46,7 @@ const ChartContainer = ({
           currentDataSource={currentDataSource}
           earliestDataPoint={earliestDataPoint}
           latestDataPoint={latestDataPoint}
+          artistCurrency={artistCurrency}
           loading={loading}
         />
       )}
@@ -50,6 +54,7 @@ const ChartContainer = ({
       {chartType === 'number' && (
         <ChartNumber
           data={data}
+          artistCurrency={artistCurrency}
         />
       )}
 

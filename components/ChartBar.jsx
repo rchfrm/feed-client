@@ -9,7 +9,6 @@ import { Bar } from 'react-chartjs-2'
 // IMPORT COMPONENTS
 import Spinner from './elements/Spinner'
 import ChartBarOverlay from './ChartBarOverlay'
-import { ArtistContext } from './contexts/Artist'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import * as chartHelpers from './helpers/chartHelpers'
@@ -93,10 +92,9 @@ function ChartBar({
   earliestDataPoint,
   latestDataPoint,
   loading,
+  artistCurrency,
   error,
 }) {
-  // Get artist currency
-  const { artistCurrency } = React.useContext(ArtistContext)
   // DEFINE STATES
   const [currentPlatform, setCurrentPlaform] = React.useState(data.platform)
   const [currentDataSource, setCurrentDataSource] = React.useState(data.source)
@@ -327,6 +325,7 @@ ChartBar.propTypes = {
   earliestDataPoint: PropTypes.string,
   latestDataPoint: PropTypes.string,
   loading: PropTypes.bool,
+  artistCurrency: PropTypes.string.isRequired,
   error: PropTypes.bool,
 }
 

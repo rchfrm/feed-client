@@ -6,17 +6,18 @@ import helper from './helpers/helper'
 import brandColors from '../constants/brandColors'
 import styles from './InsightsPage.module.css'
 
-const ChartNumber = ({ data }) => {
+const ChartNumber = ({ data, artistCurrency }) => {
   // DEFINE STATES
   const [displayData, setDisplayData] = React.useState('')
   const [dataColor, setDataColor] = React.useState('')
   // UPDATE ON DATA CHANGE
   React.useEffect(() => {
-    const { source, platform } = data
+    console.log('data', data)
+    const { source, platform, currency } = data
     if (!source) return
     const { mostRecent: { value } } = data
     const color = brandColors[platform]
-    const valueFormatted = helper.abbreviateNumber(value)
+    const valueFormatted = currency ? helper.formatCurrency(value, artistCurrency) : helper.abbreviateNumber(value)
     setDisplayData(valueFormatted)
     setDataColor(color)
   }, [data.source])
@@ -38,6 +39,7 @@ const ChartNumber = ({ data }) => {
 
 ChartNumber.propTypes = {
   data: PropTypes.object,
+  artistCurrency: PropTypes.string.isRequired,
 }
 
 ChartNumber.defaultProps = {
