@@ -39,7 +39,7 @@ function ChartBar({
   })
   const [chartDataSets, setChartDataSets] = React.useState([])
   // PLACEHOLDER CHART BUILDER
-  const showPlaceholder = () => {
+  const showPlaceholder = (loading) => {
     // Get dummy data
     const {
       dataArray,
@@ -49,13 +49,19 @@ function ChartBar({
     // Setup chart
     setDateLabels(periodLabels)
     setChartLimit(chartLimit)
-    setChartDataSets([{
+    // DEFINE DATA SET
+    // If loading, use previous. If error show dummy
+    const dataSet = loading ? chartDataSets[0] : {
       label: 'loading',
       data: dataArray,
-      backgroundColor: brandColors.grey,
       barPercentage: 0.8,
       categoryPercentage: 1,
       barThickness: 'flex',
+    }
+
+    setChartDataSets([{
+      ...dataSet,
+      backgroundColor: brandColors.grey,
     }])
   }
 
@@ -81,7 +87,7 @@ function ChartBar({
   React.useEffect(() => {
     // Handle loading
     if (loading || error) {
-      showPlaceholder()
+      showPlaceholder(loading)
       return
     }
     // Stop if no data source
