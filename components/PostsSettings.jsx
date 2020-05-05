@@ -14,10 +14,12 @@ import PostSettingsStatusConfirmation from './PostSettingsStatusConfirmation'
 import PostConnections from './PostConnections'
 // IMPORT COPY
 import copy from '../copy/PostsPageCopy'
+// IMPORT HELPERS
+import server from './helpers/server'
+import { track } from './helpers/trackingHelpers'
 
 import styles from './PostSettings.module.css'
 import sidePanelStyles from './SidePanel.module.css'
-import server from './helpers/server'
 
 const postSettingOptions = [
   {
@@ -81,6 +83,13 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
         setPostPreferences('promotion_enabled_default', newDefaultPostStatus)
         // Update status on all posts
         togglePromotionGlobal(newDefaultPostStatus)
+        // Track
+        const actionType = newDefaultPostStatus ? 'enabled' : 'disabled'
+        track({
+          category: 'Posts',
+          action: `Post promotion by default ${actionType}`,
+          label: artistId,
+        })
       }
     },
   })
