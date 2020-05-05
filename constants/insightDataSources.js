@@ -224,8 +224,8 @@ export default {
     visible: true,
     breakdown: false,
     title: 'profile views',
-    subtitle: 'total',
-    period: '',
+    subtitle: '',
+    period: 'daily',
     dataType: 'daily',
   },
 

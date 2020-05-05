@@ -249,7 +249,6 @@ function ChartBar({
       draftConfig.tooltips.callbacks = {
         beforeBody(tooltipItem, chart) {
           if (loading) return
-          console.log('tooltipItem', tooltipItem)
           const dataIndex = tooltipItem[0].index
           const { datasetIndex } = tooltipItem[0]
           const datasetName = chart.datasets[datasetIndex].label
