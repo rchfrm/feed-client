@@ -22,17 +22,12 @@ const InsightsProjection = ({
     const { projection, cumulative, platform, shortTitle } = data
     // If no projection or not cumulative, stop here
     if (!projection || !cumulative) return setSentence('')
-    const { annualized: { change, growth }, data: projectionData } = projection
+    const { annualized: { growth, predicted } } = projection
     // Stop here if negative growth
     if (growth <= 0) return setSentence('')
-    const { value: currentValue } = Object.values(projectionData)[0]
-    const futureValue = currentValue + change
-    const futureValueFormatted = helper.formatNumber(futureValue)
-    const percentageChange = helper.formatNumber(
-      (((futureValue - currentValue) / currentValue) * 100),
-      { maximumFractionDigits: 0 },
-    )
-    const newSentence = `If you keep growing at this rate, in a year you will have **${futureValueFormatted}** ${platform} ${shortTitle}—that’s **+${percentageChange}%**`
+    const predictedFormatted = helper.formatNumber(predicted)
+    const growthFormatted = helper.formatNumber(growth, { maximumFractionDigits: 0 })
+    const newSentence = `If you keep growing at this rate, in a year you will have **${predictedFormatted}** ${platform} ${shortTitle}—that’s **+${growthFormatted}%**`
     setSentence(newSentence)
     const color = brandColors[platform]
     const lightColor = tinycolor(color).lighten('20').toString()
