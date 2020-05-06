@@ -19,12 +19,10 @@ const ChartContainer = ({
   const { artistId, artistCurrency } = React.useContext(ArtistContext)
   // DEFINE STATE
   const [earliestDataPoint, setEarliestDataPoint] = React.useState(data.earliest.date)
-  const [latestDataPoint, setLatestDataPoints] = React.useState(data.mostRecent.date)
   React.useEffect(() => {
     if (!data) return
-    const { earliest: { date: earliestDate }, mostRecent: { date: latestDate } } = data
+    const { earliest: { date: earliestDate } } = data
     setEarliestDataPoint(earliestDate)
-    setLatestDataPoints(latestDate)
   }, [data.dataType])
 
   // DETECT CHART TYPE
@@ -44,9 +42,12 @@ const ChartContainer = ({
     <div className={styles.chartOuter}>
 
       {(chartType === 'bar') && (
-        <ChartBar
-          data={data}
-          artistId={artistId}
+          <ChartBar
+            data={data}
+            artistId={artistId}
+            artistCurrency={artistCurrency}
+            loading={loading}
+          />
           currentPlatform={currentPlatform}
           currentDataSource={currentDataSource}
           earliestDataPoint={earliestDataPoint}

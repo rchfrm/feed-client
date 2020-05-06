@@ -95,8 +95,6 @@ function ChartBar({
   error,
 }) {
   // DEFINE STATES
-  const [currentPlatform, setCurrentPlaform] = React.useState(data.platform)
-  const [currentDataSource, setCurrentDataSource] = React.useState(data.source)
   const [dateLabels, setDateLabels] = React.useState([])
   const [chartLimit, setChartLimit] = React.useState({
     max: undefined,
@@ -134,14 +132,6 @@ function ChartBar({
     }
   }
 
-  // UPDATE DATA SOURCE
-  React.useEffect(() => {
-    const { source, platform } = data
-    if (!data) return
-    setCurrentDataSource(source)
-    setCurrentPlaform(platform)
-  }, [data.source])
-
   // UPDATE CHART CLASSES BASED ON STATE
   const [chartClasses, setChartClasses] = React.useState([])
   React.useEffect(() => {
@@ -159,8 +149,9 @@ function ChartBar({
       showPlaceholder(loading)
       return
     }
+    const { source: currentDataSource, platform: currentPlatform } = data
     // Stop if no data source
-    if (!currentDataSource) return
+    if (!data.source) return
     // Define relevant moments
     const earliestMoment = moment(data.earliest.date, 'YYYY-MM-DD')
     const latestMoment = moment(data.mostRecent.date, 'YYYY-MM-DD')
@@ -283,7 +274,7 @@ function ChartBar({
       }
     })
     setChartOptions(newChartOptions)
-  }, [currentDataSource, artistId, loading, error])
+  }, [data.source, artistId, loading, error])
 
   return (
     <div className={chartClasses.join(' ')}>
