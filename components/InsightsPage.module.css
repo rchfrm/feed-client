@@ -22,6 +22,11 @@
   
   position: relative;
   width: 100%;
+  
+  &._loading {
+    pointer-events: none;
+  }
+
 
   @media (--bmw) {
     width: 90%;
@@ -107,7 +112,7 @@
     left: 0;
   }
 
-  .chartContainer__loading & {
+  .chartContainer__bar._loading & {
     opacity: 0;
   }
 }
@@ -133,7 +138,7 @@
   width: 100%;
   justify-content: space-between;
 
-  .chartContainer__loading & {
+  .chartContainer__bar._loading & {
     opacity: 0;
   }
 

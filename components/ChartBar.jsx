@@ -147,7 +147,7 @@ function ChartBar({
   const [chartClasses, setChartClasses] = React.useState([])
   React.useEffect(() => {
     if (loading || error) {
-      setChartClasses([styles.chartContainer__bar, styles.chartContainer__loading])
+      setChartClasses([styles.chartContainer__bar, styles._loading])
       return
     }
     setChartClasses([styles.chartContainer__bar])
