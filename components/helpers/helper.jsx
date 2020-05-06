@@ -280,6 +280,13 @@ export default {
     return min
   },
 
+  closestNumberInArray: (array, target) => {
+    // https://stackoverflow.com/a/19277804
+    return array.reduce((prev, curr) => {
+      return (Math.abs(curr - target) < Math.abs(prev - target) ? curr : prev)
+    })
+  },
+
   returnArtistNameArray: obj => {
     if (obj === null) {
       return null

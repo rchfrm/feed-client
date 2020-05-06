@@ -25,7 +25,7 @@ const ChartContainer = ({
     const { earliest: { date: earliestDate }, mostRecent: { date: latestDate } } = data
     setEarliestDataPoint(earliestDate)
     setLatestDataPoints(latestDate)
-  }, [data])
+  }, [data.dataType])
 
   // DETECT CHART TYPE
   // If there is no data before the last week, display a doughnut chart

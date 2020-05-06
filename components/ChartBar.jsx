@@ -89,8 +89,6 @@ const baseChartConfig = {
 }
 function ChartBar({
   data,
-  earliestDataPoint,
-  latestDataPoint,
   loading,
   artistCurrency,
   error,
@@ -163,21 +161,19 @@ function ChartBar({
     // Stop if no data source
     if (!currentDataSource) return
     // Define relevant moments
-    const earliestMoment = moment(earliestDataPoint, 'YYYY-MM-DD')
-    const latestMoment = moment(latestDataPoint, 'YYYY-MM-DD')
+    const earliestMoment = moment(data.earliest.date, 'YYYY-MM-DD')
+    const latestMoment = moment(data.mostRecent.date, 'YYYY-MM-DD')
     // Calculate granularity
     const granularity = chartHelpers.calcGranularity(earliestMoment, latestMoment)
-    // Depending on granularity, determine start and end moments
-    const [start, end] = chartHelpers.calcStartAndEnd(granularity, earliestMoment, latestMoment)
     // Cycle through from start to end dates, adding
     // each period to the labels and dates array
-    const periodDates = chartHelpers.getPeriodDates(granularity, start, end)
+    const periodDates = chartHelpers.getPeriodDates(data, granularity)
     // Cycle through the dates and add the relevant labels
     const periodLabels = chartHelpers.getPeriodLabels(granularity, periodDates)
     setDateLabels(periodLabels)
 
     // DEFINE THE DATASET(S) TO DISPLAY
-    const dataArray = chartHelpers.createDataArray(periodDates, currentDataSource, data)
+    const dataArray = chartHelpers.createDataArray(periodDates, data)
     // Set the limits of the charts y axis
     const max = helper.maxArrayValue(dataArray)
     const min = helper.minArrayValue(dataArray)
@@ -286,7 +282,7 @@ function ChartBar({
       }
     })
     setChartOptions(newChartOptions)
-  }, [currentDataSource, earliestDataPoint, latestDataPoint, loading, error])
+  }, [currentDataSource, loading, error])
 
   return (
     <div className={chartClasses.join(' ')}>
@@ -322,8 +318,6 @@ export default ChartBar
 
 ChartBar.propTypes = {
   data: PropTypes.object,
-  earliestDataPoint: PropTypes.string,
-  latestDataPoint: PropTypes.string,
   loading: PropTypes.bool,
   artistCurrency: PropTypes.string.isRequired,
   error: PropTypes.bool,
@@ -331,8 +325,6 @@ ChartBar.propTypes = {
 
 ChartBar.defaultProps = {
   data: {},
-  earliestDataPoint: '',
-  latestDataPoint: '',
   loading: false,
   error: false,
 }

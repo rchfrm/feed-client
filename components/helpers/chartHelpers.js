@@ -1,4 +1,5 @@
 import moment from 'moment'
+import helpers from './helper'
 
 // IMPORT CONSTANTS
 import insightDataSources from '../../constants/insightDataSources'
@@ -87,15 +88,41 @@ export const calcStartAndEnd = (granularity, earliestMoment, latestMoment) => {
 }
 
 // CREATE ARRAY OF PERIOD DATES
-export const getPeriodDates = (granularity, start, end) => {
-  const periodDates = []
-  let periodToAdd = start
-  while (periodToAdd.isBefore(end, 'day')) {
-    periodDates.push(periodToAdd.format('YYYY-MM-DD'))
-    periodToAdd = periodToAdd.add(1, granularity).endOf(granularity)
-  }
-  // Add the final period to the array
-  periodDates.push(end.format('YYYY-MM-DD'))
+const getClosestDate = (dailyDataSeconds, targetDate) => {
+  // Get date (in seconds)
+  const date = helpers.closestNumberInArray(dailyDataSeconds, targetDate)
+  // return moment object
+  return moment.unix(date)
+}
+
+export const getPeriodDates = (data, granularity) => {
+  const { dailyData, mostRecent: { date: lastDate } } = data
+  // Create array of momments that correspond to daily data dates
+  const dailyDataMoments = Object.keys(dailyData).map((date) => {
+    return moment(date, 'YYYY-MM-DD')
+  })
+  // Create an array of these momements, but in seconds
+  const dailyDataSeconds = dailyDataMoments.map((day) => day.unix())
+  // Get moment of last date with data
+  const lastMoment = moment(lastDate, 'YYYY-MM-DD')
+  // CREATE REDUCED ARRAY OF MOMENTS, SPACED BY GRANULARITY
+  const periodMoments = dailyDataMoments.reduce((moments, moment, index) => {
+    // First date just return the date
+    if (index === 0) return [...moments, moment]
+    // Add granularity...
+    const adjustedMoment = moment.add(1, granularity)
+    // If modified date is beyond the date range of the data, just return array
+    if (adjustedMoment.isAfter(lastMoment)) return moments
+    // Find the closest date in the data to the modified date
+    const closestMoment = getClosestDate(dailyDataSeconds, adjustedMoment.unix())
+    // If closest date is too close, ignore it
+    const previousMoment = moments[moments.length - 1]
+    if (closestMoment.diff(previousMoment, granularity) < 1) return moments
+    // Else add the date to the array
+    return [...moments, closestMoment]
+  }, [])
+  // Convert the moments to dates and return
+  const periodDates = periodMoments.map((period) => period.format('YYYY-MM-DD'))
   return periodDates
 }
 
@@ -109,61 +136,9 @@ export const getPeriodLabels = (granularity, periodDates) => {
 }
 
 // CREATE DATA ARRAY
-export const createDataArray = (datePeriods, dataSource, data) => {
-  const dataArray = []
-  datePeriods.forEach((date, index) => {
-    const { dailyData, dataType } = data
-    // If there is a value for the date, return it
-    if (dailyData[date]) {
-      dataArray.push(dailyData[date])
-      return
-    }
-
-    // If the data type is not cumulative, return 0
-    if (dataType !== 'cumulative') {
-      dataArray.push(0)
-      return
-    }
-
-    // Check if there are earlier data points available for the data source
-    const dateMoment = moment(date, 'YYYY-MM-DD')
-    const firstDate = Object.keys(dailyData)[0]
-    const firstDateMoment = moment(firstDate, 'YYYY-MM-DD')
-    let daysBetween = dateMoment.diff(firstDateMoment, 'days')
-
-    // If there are earlier data values available, return the most recent
-    if (daysBetween > 0) {
-      let value
-      let lastDateChecked = date
-
-      while (daysBetween > 0 && !value) {
-        const newMomentToCheck = moment(lastDateChecked, 'YYYY-MM-DD').subtract(1, 'days')
-        const newDateToCheck = newMomentToCheck.format('YYYY-MM-DD')
-
-        if (dailyData[newDateToCheck]) {
-          value = dailyData[newDateToCheck]
-        } else {
-          lastDateChecked = newDateToCheck
-          daysBetween -= 1
-        }
-      }
-
-      if (value) {
-        dataArray.push(value)
-        return
-      }
-    }
-
-    // If there was a value returned by the previous date, return that
-    if (dataArray[index - 1]) {
-      dataArray.push(dataArray[index - 1])
-      return
-    }
-
-    // And if there is still nothing, return 0
-    dataArray.push(0)
-  })
-  return dataArray
+export const createDataArray = (datePeriods, data) => {
+  const { dailyData } = data
+  return datePeriods.map((date) => dailyData[date])
 }
 
 export const getDummyData = () => {
