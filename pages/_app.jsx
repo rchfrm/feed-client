@@ -13,12 +13,8 @@ import AppContents from '../components/AppContents'
 // IMPORT CONTEXTS
 import { AuthProvider } from '../components/contexts/Auth'
 import { NavMenuProvider } from '../components/contexts/Navigation'
-// IMPORT ELEMENTS
-
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
 // IMPORT HELPERS
+import { trackPWA } from '../components/helpers/trackingHelpers'
 // IMPORT STYLES
 
 const registerServiceWorker = () => {
@@ -46,6 +42,7 @@ const registerServiceWorker = () => {
 }
 
 if (process.env.build_env !== 'development') {
+  // INIT SENTRY
   Sentry.init({
     dsn: process.env.sentry_dsn,
     release: `feed-client@${(process.env.release_version || 'dev')}`,
@@ -59,6 +56,7 @@ function Feed({ Component, pageProps }) {
   useEffect(() => {
     if (process.env.build_env !== 'development') {
       registerServiceWorker()
+      trackPWA()
     }
   }, [])
 

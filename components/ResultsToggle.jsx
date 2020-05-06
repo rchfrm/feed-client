@@ -13,6 +13,7 @@ import Icon from './elements/Icon'
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import server from './helpers/server'
+import { track } from './helpers/trackingHelpers'
 // COPY
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/ResultsPageCopy'
@@ -77,6 +78,14 @@ const ResultsToggle = ({
       const type = active ? 'active' : 'archived'
       const { promotion_enabled } = post
       togglePost({ type, id, promotion_enabled })
+      // Track
+      const actionType = promotion_enabled ? 'back on' : 'off'
+      track({
+        category: 'Results Page',
+        action: `Turn ad ${actionType}`,
+        description: `Post ID: ${id}`,
+        label: `artistId: ${artistId}`,
+      })
     },
   })
 

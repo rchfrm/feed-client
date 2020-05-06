@@ -3,6 +3,7 @@
 import React from 'react'
 // IMPORT COMPONENTS
 import PageHeader from './PageHeader'
+import BudgetConfirmation from './BudgetConfirmation'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
@@ -26,7 +27,7 @@ const initialAlertState = {
 }
 
 function PostsBudget({ currency }) {
-  const { artist, updateBudget } = React.useContext(ArtistContext)
+  const { artist, artistId, updateBudget } = React.useContext(ArtistContext)
   // DEFINE STATES
   const initialBudgetState = {
     amount: '',
@@ -95,12 +96,14 @@ function PostsBudget({ currency }) {
       bgColor: brandColors.greyLight,
     })
     const budgetAmount = budget.amount || 0
+    const previousBudget = artist.daily_budget
     const dailyBudget = await updateBudget(artist.id, budgetAmount)
       .catch((error) => {
         setError(error)
         setBudget(initialBudgetState)
         setAlert({ type: 'reset-alert' })
       })
+    if (typeof dailyBudget !== 'number') return
     setBudget({
       ...budget,
       text: 'Saved!',
@@ -111,7 +114,7 @@ function PostsBudget({ currency }) {
     setAlert({
       type: 'show-alert',
       payload: {
-        contents: <BudgetConfirmation budget={dailyBudget} />,
+        contents: <BudgetConfirmation budget={dailyBudget} previousBudget={previousBudget} artistId={artistId} />,
       },
     })
   }
@@ -163,19 +166,6 @@ function PostsBudget({ currency }) {
       </div>
     </div>
   )
-}
-
-function BudgetConfirmation({ budget }) {
-  const budgetInt = Number(budget)
-
-  // Message for setting budget to 0
-  if (budgetInt === 0) {
-    return <MarkdownText markdown={copy.pauseBudget} />
-  }
-
-  // Message for setting budget to positive number
-  const budgetFormatted = helper.formatCurrency(budget)
-  return <MarkdownText markdown={copy.setBudget(budgetFormatted)} />
 }
 
 export default PostsBudget

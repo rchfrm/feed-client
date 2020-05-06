@@ -162,9 +162,14 @@ const InitUser = ({ children }) => {
     redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
     // Track
     track({
-      category: 'login',
-      action: 'Handle new user from FB (InitUser)',
-      label: `user ID: ${user.id}${missingScopes.length ? ' (with missing scopes)' : ''}`,
+      category: 'sign up',
+      action: 'User account created',
+      label: user.id,
+    })
+    track({
+      category: 'sign up',
+      action: `User account created (facebook)${missingScopes.length ? ' (with missing scopes)' : ''}`,
+      label: user.id,
     })
   }
 
@@ -250,6 +255,16 @@ const InitUser = ({ children }) => {
         label: 'go to home page',
         breadcrumb: true,
         ga: false,
+      })
+      track({
+        category: 'login',
+        label: user.id,
+        action: 'Logged in using facebook',
+      })
+      track({
+        category: 'login',
+        label: user.id,
+        action: 'Logged in',
       })
       redirectPage(ROUTES.HOME, pathname)
     }
