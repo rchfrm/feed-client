@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import tinycolor from 'tinycolor2'
 
+import helper from './helpers/helper'
+
 import MarkdownText from './elements/MarkdownText'
 
 import brandColors from '../constants/brandColors'
@@ -17,6 +19,7 @@ const InsightsProjection = ({
   const [sentence, setSentence] = React.useState('')
   const [backgroundColor, setBackgroundColor] = React.useState('')
   React.useEffect(() => {
+    console.log('data', data)
     const { platform, shortTitle, projection, source } = data
     console.log('source', source)
     console.log('projection', projection)
@@ -24,12 +27,19 @@ const InsightsProjection = ({
       setSentence('')
       return
     }
-    const { annualized: { change, growth } } = projection
+    const { annualized: { change, growth }, data: projectionData } = projection
     if (growth <= 0) {
       setSentence('')
       return
     }
-    const newSentence = `If you keep up your recent trend, in a year you’ll add **+${change}** ${platform} ${shortTitle}—that’s **+${growth}%**. Nice one!`
+    const { value: currentValue } = Object.values(projectionData)[0]
+    const futureValue = currentValue + change
+    const futureValueFormatted = helper.formatNumber(futureValue)
+    const percentageChange = helper.formatNumber(
+      (((futureValue - currentValue) / currentValue) * 100),
+      { maximumFractionDigits: 0 },
+    )
+    const newSentence = `If you keep growing at this rate, in a year you will have ${futureValueFormatted} ${platform} ${shortTitle}—that’s +${percentageChange}%`
     setSentence(newSentence)
     const color = brandColors[platform]
     const lightColor = tinycolor(color).lighten('20').toString()
