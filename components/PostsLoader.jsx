@@ -10,6 +10,7 @@ import Spinner from './elements/Spinner'
 import Error from './elements/Error'
 // IMPORT PAGES
 import PostsAll from './PostsAll'
+import PostsNone from './PostsNone'
 import PostsBudget from './PostsBudget'
 // IMPORT HELPERS
 import helper from './helpers/helper'
@@ -119,8 +120,7 @@ function PostsLoader() {
     cursor,
     // When fetch finishes
     onResolve: (posts) => {
-      if (!posts) return
-      if (!posts.length) {
+      if (!posts || !posts.length) {
         isEndOfAssets.current = true
         setLoadingMore(false)
         setInitialLoad(false)
@@ -204,10 +204,16 @@ function PostsLoader() {
     })
   }
 
-  // RETURN
-  if (artistLoading || (isPending && initialLoad) || !posts) {
+  // Spinner if loading
+  if (artistLoading || (isPending && initialLoad)) {
     return <Spinner />
   }
+
+  // No posts if none
+  if (!posts || !posts.length) {
+    return <PostsNone />
+  }
+
   return (
     <div className={styles['posts-page']}>
 
