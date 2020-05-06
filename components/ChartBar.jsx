@@ -93,6 +93,7 @@ function ChartBar({
   artistCurrency,
   error,
 }) {
+  console.log('artistCurrency', artistCurrency)
   // DEFINE STATES
   const [currentPlatform, setCurrentPlaform] = React.useState(data.platform)
   const [currentDataSource, setCurrentDataSource] = React.useState(data.source)
@@ -319,12 +320,13 @@ export default ChartBar
 ChartBar.propTypes = {
   data: PropTypes.object,
   loading: PropTypes.bool,
-  artistCurrency: PropTypes.string.isRequired,
+  artistCurrency: PropTypes.string,
   error: PropTypes.bool,
 }
 
 ChartBar.defaultProps = {
   data: {},
   loading: false,
+  artistCurrency: '',
   error: false,
 }
