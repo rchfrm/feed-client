@@ -103,13 +103,13 @@ export const getPeriodDates = (data, granularity) => {
   })
   // Create an array of these momements, but in seconds
   const dailyDataSeconds = dailyDataMoments.map((day) => day.unix())
-  // Get moment of last date with data
+  // Get moment of last date of data
   const lastMoment = moment(lastDate, 'YYYY-MM-DD')
   // CREATE REDUCED ARRAY OF MOMENTS, SPACED BY GRANULARITY
   const periodMoments = dailyDataMoments.reduce((moments, moment, index) => {
-    // First date just return the date
+    // First date: just return the date
     if (index === 0) return [...moments, moment]
-    // Add granularity...
+    // Add period of granularity...
     const adjustedMoment = moment.add(1, granularity)
     // If modified date is beyond the date range of the data, just return array
     if (adjustedMoment.isAfter(lastMoment)) return moments
