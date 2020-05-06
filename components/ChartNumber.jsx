@@ -14,7 +14,12 @@ const combineDailyData = (dailyData) => {
   }, 0)
 }
 
-const ChartNumber = ({ data, artistCurrency, loading }) => {
+const ChartNumber = ({
+  data,
+  artistId,
+  artistCurrency,
+  loading,
+}) => {
   // DEFINE STATES
   const [displayData, setDisplayData] = React.useState('')
   const [dataColor, setDataColor] = React.useState('')
@@ -44,7 +49,7 @@ const ChartNumber = ({ data, artistCurrency, loading }) => {
     const newSubtitle = dataType === 'daily' ? `${basicSubtitle} so far` : basicSubtitle
     setTitle(newTitle)
     setSubtitle(newSubtitle)
-  }, [data.source])
+  }, [data.source, artistId])
 
   const classes = [styles.chartNumber__container]
   if (loading) {
@@ -69,6 +74,7 @@ const ChartNumber = ({ data, artistCurrency, loading }) => {
 
 ChartNumber.propTypes = {
   data: PropTypes.object,
+  artistId: PropTypes.string.isRequired,
   artistCurrency: PropTypes.string.isRequired,
   loading: PropTypes.bool,
 }

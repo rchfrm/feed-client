@@ -16,7 +16,7 @@ const ChartContainer = ({
   loading,
 }) => {
   // GET ARTIST CURRENCY
-  const { artistCurrency } = React.useContext(ArtistContext)
+  const { artistId, artistCurrency } = React.useContext(ArtistContext)
   // DEFINE STATE
   const [earliestDataPoint, setEarliestDataPoint] = React.useState(data.earliest.date)
   const [latestDataPoint, setLatestDataPoints] = React.useState(data.mostRecent.date)
@@ -46,6 +46,7 @@ const ChartContainer = ({
       {(chartType === 'bar') && (
         <ChartBar
           data={data}
+          artistId={artistId}
           currentPlatform={currentPlatform}
           currentDataSource={currentDataSource}
           earliestDataPoint={earliestDataPoint}
@@ -58,6 +59,7 @@ const ChartContainer = ({
       {chartType === 'number' && (
         <ChartNumber
           data={data}
+          artistId={artistId}
           artistCurrency={artistCurrency}
           loading={loading}
         />

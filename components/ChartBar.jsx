@@ -89,6 +89,7 @@ const baseChartConfig = {
 }
 function ChartBar({
   data,
+  artistId,
   loading,
   artistCurrency,
   error,
@@ -282,7 +283,7 @@ function ChartBar({
       }
     })
     setChartOptions(newChartOptions)
-  }, [currentDataSource, loading, error])
+  }, [currentDataSource, artistId, loading, error])
 
   return (
     <div className={chartClasses.join(' ')}>
@@ -318,6 +319,7 @@ export default ChartBar
 
 ChartBar.propTypes = {
   data: PropTypes.object,
+  artistId: PropTypes.string,
   loading: PropTypes.bool,
   artistCurrency: PropTypes.string,
   error: PropTypes.bool,
@@ -325,6 +327,7 @@ ChartBar.propTypes = {
 
 ChartBar.defaultProps = {
   data: {},
+  artistId: '',
   loading: false,
   artistCurrency: '',
   error: false,
