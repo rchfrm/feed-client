@@ -19,19 +19,12 @@ const InsightsProjection = ({
   const [sentence, setSentence] = React.useState('')
   const [backgroundColor, setBackgroundColor] = React.useState('')
   React.useEffect(() => {
-    console.log('data', data)
-    const { platform, shortTitle, projection, source } = data
-    console.log('source', source)
-    console.log('projection', projection)
-    if (!projection) {
-      setSentence('')
-      return
-    }
+    const { projection, cumulative, platform, shortTitle } = data
+    // If no projection or not cumulative, stop here
+    if (!projection || !cumulative) return setSentence('')
     const { annualized: { change, growth }, data: projectionData } = projection
-    if (growth <= 0) {
-      setSentence('')
-      return
-    }
+    // Stop here if negative growth
+    if (growth <= 0) return setSentence('')
     const { value: currentValue } = Object.values(projectionData)[0]
     const futureValue = currentValue + change
     const futureValueFormatted = helper.formatNumber(futureValue)
@@ -39,7 +32,7 @@ const InsightsProjection = ({
       (((futureValue - currentValue) / currentValue) * 100),
       { maximumFractionDigits: 0 },
     )
-    const newSentence = `If you keep growing at this rate, in a year you will have ${futureValueFormatted} ${platform} ${shortTitle}—that’s +${percentageChange}%`
+    const newSentence = `If you keep growing at this rate, in a year you will have **${futureValueFormatted}** ${platform} ${shortTitle}—that’s **+${percentageChange}%**`
     setSentence(newSentence)
     const color = brandColors[platform]
     const lightColor = tinycolor(color).lighten('20').toString()
