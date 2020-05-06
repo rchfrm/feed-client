@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: flex-end;
   flex-direction: column;
-  margin-bottom: calc(var(--bsu-lg) * 2.5);
+  margin-bottom: calc(var(--bsu-lg) * 2);
 }
 
 /* CHARTS */
@@ -22,6 +22,7 @@
   
   position: relative;
   width: 100%;
+  margin-bottom: var(--bsu-md);
   
   &._loading {
     pointer-events: none;
@@ -212,5 +213,12 @@
 
 /* PROJECTION SENTENCE */
 .projectionContainer {
-  
+  margin-top: calc(var(--bsu-lg) * 2);
+  /* margin-bottom: calc(-1 * var(--bsu)); */
+}
+
+.projectionText {
+  padding: var(--bsu);
+  border-radius: var(--dialogue-radius);
+  background-color: var(--green);
 }

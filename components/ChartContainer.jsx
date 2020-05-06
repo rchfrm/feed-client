@@ -5,6 +5,7 @@ import moment from 'moment'
 // IMPORT COMPONENTS
 import ChartBar from './ChartBar'
 import ChartNumber from './ChartNumber'
+import InsightsProjection from './InsightsProjection'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT STYLES
 import styles from './InsightsPage.module.css'
@@ -42,19 +43,21 @@ const ChartContainer = ({
     <div className={styles.chartOuter}>
 
       {(chartType === 'bar') && (
+        <>
           <ChartBar
             data={data}
             artistId={artistId}
             artistCurrency={artistCurrency}
             loading={loading}
           />
-          currentPlatform={currentPlatform}
-          currentDataSource={currentDataSource}
-          earliestDataPoint={earliestDataPoint}
-          latestDataPoint={latestDataPoint}
-          artistCurrency={artistCurrency}
-          loading={loading}
-        />
+          <InsightsProjection
+            data={data}
+            artistId={artistId}
+            currentPlatform={currentPlatform}
+            currentDataSource={currentDataSource}
+            loading={loading}
+          />
+        </>
       )}
 
       {chartType === 'number' && (

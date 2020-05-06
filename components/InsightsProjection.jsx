@@ -1,54 +1,63 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { useAsync } from 'react-async'
+import tinycolor from 'tinycolor2'
 
-import server from './helpers/server'
+import MarkdownText from './elements/MarkdownText'
 
+import brandColors from '../constants/brandColors'
 import styles from './InsightsPage.module.css'
 
-const fetchData = async ({ artistId, currentDataSource }) => {
-  const data = await server.getDataSourceGrowth(currentDataSource, artistId)
-  console.log('data', data)
-  return data
-}
 
 const InsightsProjection = ({
+  data,
   artistId,
-  currentPlatform,
-  currentDataSource,
+  loading,
 }) => {
-  const { data, error, pending } = useAsync({
-    promiseFn: fetchData,
-    watchFn: (newProps, oldProps) => {
-      const { artistId, currentDataSource } = newProps
-      const { artistId: prevArtistId, currentDataSource: previousDataSource } = oldProps
-      if (artistId !== !prevArtistId) return true
-      if (currentDataSource !== previousDataSource) return true
-      return false
-    },
-    // The variable(s) to pass to promiseFn
-    artistId,
-    currentDataSource,
-  })
+  const [sentence, setSentence] = React.useState('')
+  const [backgroundColor, setBackgroundColor] = React.useState('')
+  React.useEffect(() => {
+    const { platform, shortTitle, projection, source } = data
+    console.log('source', source)
+    console.log('projection', projection)
+    if (!projection) {
+      setSentence('')
+      return
+    }
+    const { annualized: { change, growth } } = projection
+    if (growth <= 0) {
+      setSentence('')
+      return
+    }
+    const newSentence = `If you keep up your recent trend, in a year you’ll add **+${change}** ${platform} ${shortTitle}—that’s **+${growth}%**. Nice one!`
+    setSentence(newSentence)
+    const color = brandColors[platform]
+    const lightColor = tinycolor(color).lighten('20').toString()
+    setBackgroundColor(lightColor)
+  }, [artistId, data.source])
 
-  // Define clases
-  const containerClasses = [styles.projectionContainer]
-  if (pending) {
-    containerClasses.push(styles._loading)
-  }
+  if (loading || !sentence) return null
 
   return (
-    <div className={containerClasses.join(' ')}>
-      Data
+    <div className={['ninety-wide', styles.projectionContainer].join(' ')}>
+      <MarkdownText
+        className={['h3--text', styles.projectionText].join(' ')}
+        markdown={sentence}
+        style={{ backgroundColor }}
+      />
     </div>
   )
 }
 
 InsightsProjection.propTypes = {
+  data: PropTypes.object.isRequired,
   artistId: PropTypes.string.isRequired,
-  currentPlatform: PropTypes.string.isRequired,
-  currentDataSource: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
 }
+
+InsightsProjection.defaultProps = {
+  loading: false,
+}
+
 
 export default InsightsProjection
