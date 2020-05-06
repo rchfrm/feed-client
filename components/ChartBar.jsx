@@ -93,7 +93,6 @@ function ChartBar({
   artistCurrency,
   error,
 }) {
-  console.log('artistCurrency', artistCurrency)
   // DEFINE STATES
   const [currentPlatform, setCurrentPlaform] = React.useState(data.platform)
   const [currentDataSource, setCurrentDataSource] = React.useState(data.source)
