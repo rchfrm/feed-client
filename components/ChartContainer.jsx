@@ -32,14 +32,18 @@ const ChartContainer = ({
   const earliestMoment = moment(earliestDataPoint, 'YYYY-MM-DD')
   const minDaysData = 4
   const minDaysDate = moment().subtract(minDaysData, 'days').format('YYYY-MM-DD')
-  const chartType = !earliestDataPoint || earliestMoment.isAfter(moment(minDaysDate, 'YYYY-MM-DD'))
-    ? 'number'
-    : 'bar'
+  const [chartType, setChartType] = React.useState('bar')
+  React.useEffect(() => {
+    const chartType = !earliestDataPoint || earliestMoment.isAfter(moment(minDaysDate, 'YYYY-MM-DD'))
+      ? 'number'
+      : 'bar'
+    setChartType(chartType)
+  }, [earliestDataPoint])
 
   return (
     <div className={styles.chartOuter}>
 
-      {(chartType === 'bar' || loading) && (
+      {(chartType === 'bar') && (
         <ChartBar
           data={data}
           currentPlatform={currentPlatform}
@@ -55,6 +59,7 @@ const ChartContainer = ({
         <ChartNumber
           data={data}
           artistCurrency={artistCurrency}
+          loading={loading}
         />
       )}
 

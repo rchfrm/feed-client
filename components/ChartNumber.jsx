@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import helper from './helpers/helper'
 
+import Spinner from './elements/Spinner'
+
 import brandColors from '../constants/brandColors'
 import styles from './InsightsPage.module.css'
 
@@ -12,7 +14,7 @@ const combineDailyData = (dailyData) => {
   }, 0)
 }
 
-const ChartNumber = ({ data, artistCurrency }) => {
+const ChartNumber = ({ data, artistCurrency, loading }) => {
   // DEFINE STATES
   const [displayData, setDisplayData] = React.useState('')
   const [dataColor, setDataColor] = React.useState('')
@@ -20,6 +22,13 @@ const ChartNumber = ({ data, artistCurrency }) => {
   const [subtitle, setSubtitle] = React.useState('')
   // UPDATE ON DATA CHANGE
   React.useEffect(() => {
+    if (loading) {
+      if (title) return
+      setDisplayData('***')
+      setTitle('loading')
+      setSubtitle('')
+      return
+    }
     const { source, platform, currency, dataType } = data
     if (!source) return
     const { mostRecent: { value: mostRecentValue }, dailyData } = data
@@ -30,14 +39,20 @@ const ChartNumber = ({ data, artistCurrency }) => {
     setDisplayData(valueFormatted)
     setDataColor(color)
     // Set titles
-    const title = dataType === 'daily' ? `Total ${data.shortTitle}` : data.shortTitle
+    const newTitle = dataType === 'daily' ? `Total ${data.shortTitle}` : data.shortTitle
     const basicSubtitle = `(${data.subtitle || data.period})`
-    const subtitle = dataType === 'daily' ? `${basicSubtitle} so far` : basicSubtitle
-    setTitle(title)
-    setSubtitle(subtitle)
+    const newSubtitle = dataType === 'daily' ? `${basicSubtitle} so far` : basicSubtitle
+    setTitle(newTitle)
+    setSubtitle(newSubtitle)
   }, [data.source])
+
+  const classes = [styles.chartNumber__container]
+  if (loading) {
+    classes.push(styles._loading)
+  }
   return (
-    <div className={styles.chartNumber__container}>
+    <div className={classes.join(' ')}>
+      {loading && <Spinner className={styles.chartNumber__spinner} />}
       <p
         className={styles.chartNumber__number}
         style={{ color: dataColor }}
@@ -55,10 +70,12 @@ const ChartNumber = ({ data, artistCurrency }) => {
 ChartNumber.propTypes = {
   data: PropTypes.object,
   artistCurrency: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
 }
 
 ChartNumber.defaultProps = {
   data: {},
+  loading: false,
 }
 
 
