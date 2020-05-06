@@ -7,7 +7,20 @@ import styles from './InsightSelectors.module.css'
 import insightDataSources from '../constants/insightDataSources'
 import dataSourceDetails from '../constants/dataSources'
 
+const getDefaultSource = (sources) => {
+  const followersSourceIndex = sources.findIndex(({ id: sourceId }) => {
+    return sourceId.includes('follower')
+  })
+  const likesSourceIndex = sources.findIndex(({ id: sourceId }) => {
+    return sourceId.includes('likes')
+  })
+  if (followersSourceIndex > -1) return sources[followersSourceIndex]
+  if (likesSourceIndex > -1) return sources[likesSourceIndex]
+  return sources[0]
+}
+
 const InsightDataSelectors = ({
+  availableDataSources,
   currentPlatform,
   currentDataSource,
   setCurrentDataSource,
@@ -15,15 +28,16 @@ const InsightDataSelectors = ({
   // Return array of data sources that match the current platform
   const availableSources = React.useMemo(() => {
     if (!currentPlatform) return []
-    return Object.values(insightDataSources).reduce((sources, {
-      id,
-      title,
-      visible,
-      breakdown,
-      subtitle,
-      period,
-      platform,
-    }) => {
+    return availableDataSources.reduce((sources, sourceId) => {
+      const {
+        id,
+        title,
+        visible,
+        breakdown,
+        subtitle,
+        period,
+        platform,
+      } = insightDataSources[sourceId]
       // Ignore if not related to current platform
       if (platform !== currentPlatform) return sources
       // Ignore is not visible or a breakdown
@@ -38,9 +52,8 @@ const InsightDataSelectors = ({
 
   // Set first data sources as active when platfrorm changes
   React.useEffect(() => {
-    const firstSource = availableSources[0]
-    if (!firstSource) return
-    const { id: sourceId } = firstSource
+    if (!availableSources.length) return
+    const { id: sourceId } = getDefaultSource(availableSources)
     // Set current source
     setCurrentDataSource(sourceId)
     // Set hover color
@@ -83,6 +96,7 @@ const InsightDataSelectors = ({
 }
 
 InsightDataSelectors.propTypes = {
+  availableDataSources: PropTypes.array.isRequired,
   currentPlatform: PropTypes.string.isRequired,
   currentDataSource: PropTypes.string.isRequired,
   setCurrentDataSource: PropTypes.func.isRequired,

@@ -9,7 +9,7 @@ import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
 import InsightPlatformSelectors from './InsightPlatformSelectors'
 import InsightDataSelectors from './InsightDataSelectors'
-import InsightsPageChart from './InsightsPageChart'
+import InsightsChartLoader from './InsightsChartLoader'
 import PromotePostsButton from './PromotePostsButton'
 // IMPORT TEXT
 import MarkdownText from './elements/MarkdownText'
@@ -25,32 +25,40 @@ function Insights() {
   const [currentPlatform, setCurrentPlatform] = React.useState('')
   const [currentDataSource, setCurrentDataSource] = React.useState('')
 
+  const availableDataSources = React.useMemo(() => {
+    const { _embedded: { data_sources: dataSources } } = artist
+    return Object.values(dataSources).map(({ id }) => id)
+  }, [artistId])
+
   return (
     <div className="page--container">
 
       {/* PLATFORM SELECTORS */}
       <InsightPlatformSelectors
-        artist={artist}
         artistId={artistId}
+        availableDataSources={availableDataSources}
         currentPlatform={currentPlatform}
         setCurrentPlatform={setCurrentPlatform}
       />
       {/* DATASOURCE SELECTORS */}
       <InsightDataSelectors
-        artist={artist}
+        availableDataSources={availableDataSources}
         currentPlatform={currentPlatform}
         currentDataSource={currentDataSource}
         setCurrentDataSource={setCurrentDataSource}
       />
 
-      {/* DATA SOURCE SELECTORS */}
-
-
       {currentPlatform && currentDataSource && (
-        <div className={styles.chartsContainer}>
-          <InsightsPageChart />
-
-          <PromotePostsButton />
+        <div className={styles.dataContent}>
+          <InsightsChartLoader
+            currentPlatform={currentPlatform}
+            currentDataSource={currentDataSource}
+          />
+          <PromotePostsButton
+            artist={artist}
+            artistId={artistId}
+            className={styles.promotePostsButton}
+          />
         </div>
       )}
 
@@ -61,7 +69,7 @@ function Insights() {
   )
 }
 
-function InsightsLoader() {
+function InsightsContent() {
 // IMPORT CONTEXTS
   const { artistLoading } = React.useContext(ArtistContext)
   if (artistLoading) return <Spinner />
@@ -69,4 +77,4 @@ function InsightsLoader() {
   return <Insights />
 }
 
-export default InsightsLoader
+export default InsightsContent

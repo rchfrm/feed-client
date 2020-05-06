@@ -19,8 +19,9 @@ export default {
     visible: true,
     breakdown: false,
     title: 'daily impressions',
-    subtitle: 'through feed',
+    subtitle: 'through Feed',
     period: '',
+    dataType: 'daily',
   },
 
   facebook_ad_spend: {
@@ -31,6 +32,8 @@ export default {
     title: 'daily spend',
     subtitle: '',
     period: '',
+    dataType: 'daily',
+    currency: true,
   },
 
   facebook_ad_spend_feed: {
@@ -39,8 +42,10 @@ export default {
     visible: true,
     breakdown: false,
     title: 'daily spend',
-    subtitle: 'through feed',
+    subtitle: 'through Feed',
     period: '',
+    dataType: 'daily',
+    currency: true,
   },
 
   facebook_engaged_1y: {
@@ -51,6 +56,7 @@ export default {
     title: 'engagement',
     subtitle: '',
     period: 'yearly',
+    dataType: 'yearly',
   },
 
   facebook_engaged_28d: {
@@ -62,6 +68,7 @@ export default {
     title: 'engagement',
     subtitle: '',
     period: 'monthly',
+    dataType: 'monthly',
   },
 
   facebook_engaged_7d: {
@@ -73,6 +80,7 @@ export default {
     title: 'engagement',
     subtitle: '',
     period: 'weekly',
+    dataType: 'weekly',
   },
 
   facebook_likes: {
@@ -83,6 +91,7 @@ export default {
     title: 'likes',
     subtitle: 'total',
     period: '',
+    dataType: 'cumulative',
   },
 
   facebook_page_fans_city: {
@@ -95,6 +104,7 @@ export default {
     subtitle: '',
     period: '',
     breakdownType: 'city',
+    dataType: 'cumulative',
   },
 
   facebook_page_fans_country: {
@@ -107,6 +117,7 @@ export default {
     breakdownType: 'country',
     period: '',
     subtitle: '',
+    dataType: 'cumulative',
   },
 
   facebook_page_fans_gender_age: {
@@ -119,6 +130,7 @@ export default {
     breakdownType: 'gender/age',
     period: '',
     subtitle: '',
+    dataType: 'cumulative',
   },
 
   // INSTAGRAM
@@ -133,6 +145,7 @@ export default {
     breakdownType: 'city',
     period: '',
     subtitle: '',
+    dataType: 'cumulative',
   },
 
   instagram_audience_country: {
@@ -145,6 +158,7 @@ export default {
     breakdownType: 'country',
     period: '',
     subtitle: '',
+    dataType: 'cumulative',
   },
 
   instagram_audience_gender_age: {
@@ -157,6 +171,7 @@ export default {
     breakdownType: 'city',
     period: '',
     subtitle: '',
+    dataType: 'cumulative',
   },
 
   instagram_engaged_1y: {
@@ -167,6 +182,7 @@ export default {
     title: 'engagement',
     subtitle: '',
     period: 'yearly',
+    dataType: 'yearly',
   },
 
   instagram_engaged_28d: {
@@ -178,6 +194,7 @@ export default {
     title: 'engagement',
     subtitle: '',
     period: 'monthly',
+    dataType: 'monthly',
   },
 
   instagram_engaged_7d: {
@@ -189,6 +206,7 @@ export default {
     title: 'engagement',
     subtitle: '',
     period: 'weekly',
+    dataType: 'weekly',
   },
 
   instagram_follower_count: {
@@ -199,6 +217,7 @@ export default {
     title: 'followers',
     subtitle: 'total',
     period: '',
+    dataType: 'cumulative',
   },
 
   instagram_profile_views: {
@@ -207,8 +226,9 @@ export default {
     visible: true,
     breakdown: false,
     title: 'profile views',
-    subtitle: 'total',
-    period: '',
+    subtitle: '',
+    period: 'daily',
+    dataType: 'daily',
   },
 
   instagram_profile_views_7d: {
@@ -220,6 +240,7 @@ export default {
     title: 'profile views',
     subtitle: '',
     period: 'weekly',
+    dataType: 'weekly',
   },
 
   instagram_reach: {
@@ -230,6 +251,7 @@ export default {
     title: 'reach',
     subtitle: '',
     period: 'daily',
+    dataType: 'daily',
   },
 
   instagram_reach_7d: {
@@ -241,6 +263,7 @@ export default {
     title: 'reach',
     subtitle: '',
     period: 'weekly',
+    dataType: 'weekly',
   },
 
   // SOUNDCLOUD
@@ -253,6 +276,7 @@ export default {
     title: 'followers',
     subtitle: 'total',
     period: '',
+    dataType: 'cumulative',
   },
 
   soundcloud_listeners_7d: {
@@ -261,8 +285,9 @@ export default {
     visible: true,
     breakdown: false,
     title: 'listeners',
-    subtitle: 'rolling weekly total',
-    period: '',
+    subtitle: '',
+    period: 'weekly',
+    dataType: 'weekly',
   },
 
   // SPOTIFY
@@ -275,6 +300,7 @@ export default {
     title: 'followers',
     subtitle: 'total',
     period: '',
+    dataType: 'cumulative',
   },
 
   spotify_listeners_7d: {
@@ -286,6 +312,7 @@ export default {
     title: 'listeners',
     subtitle: '',
     period: 'weekly',
+    dataType: 'weekly',
   },
 
   spotify_listeners_30d: {
@@ -296,6 +323,7 @@ export default {
     title: 'listeners',
     subtitle: '',
     period: 'monthly',
+    dataType: 'monthly',
   },
 
   spotify_streams_7d: {
@@ -306,6 +334,7 @@ export default {
     title: 'streams',
     subtitle: '',
     period: 'weekly',
+    dataType: 'weekly',
   },
 
   // TWITTER
@@ -318,6 +347,7 @@ export default {
     title: 'followers',
     subtitle: 'total',
     period: '',
+    dataType: 'cumulative',
   },
 
   // YOUTUBE
@@ -330,6 +360,7 @@ export default {
     title: 'subscribers',
     subtitle: 'total',
     period: '',
+    dataType: 'cumulative',
   },
 
   youtube_views: {
@@ -340,6 +371,7 @@ export default {
     title: 'views',
     subtitle: 'total',
     period: '',
+    dataType: 'cumulative',
   },
 
   youtube_views_7d: {
@@ -351,6 +383,7 @@ export default {
     title: 'views',
     subtitle: '',
     period: 'weekly',
+    dataType: 'weekly',
   },
 
 }

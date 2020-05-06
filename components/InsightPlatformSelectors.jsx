@@ -6,24 +6,23 @@ import Icon from './elements/Icon'
 
 import useScrollToButton from './hooks/useScrollToButton'
 
-import dataSourceDetails from '../constants/dataSources'
+import insightDataSources from '../constants/insightDataSources'
 import brandColors from '../constants/brandColors'
 
 import styles from './InsightSelectors.module.css'
 
 const InsightPlatformSelectors = ({
-  artist,
   artistId,
+  availableDataSources,
   currentPlatform,
   setCurrentPlatform,
 }) => {
   // GET ALL AVAILABLE PLATFORMS
-  const { _embedded: { data_sources: dataSources } } = artist
   const availablePlatforms = React.useMemo(() => {
     // Get name of platform from data source
-    const dataSourcePlatforms = dataSources.map(({ id: source }) => {
-      const platformName = source.split('_')[0]
-      return platformName
+    const dataSourcePlatforms = availableDataSources.map((source) => {
+      const { platform } = insightDataSources[source]
+      return platform
     })
     // Get platforms by removing duplicates from above
     const allPlatforms = dataSourcePlatforms.reduce((platforms, platformName) => {
@@ -44,10 +43,17 @@ const InsightPlatformSelectors = ({
   // SETUP SCROLL TO BUTTON
   const [buttonRefs, containerRef] = useScrollToButton(availablePlatforms, currentPlatform)
 
-  // SET FIRST PLATFORM AS CURRENT
+  // SET INITIAL PLATFORM
   React.useEffect(() => {
     if (!availablePlatforms.length) return
-    // Set the current platform to the first
+    // Does the artist have insta
+    const instaIndex = availablePlatforms.findIndex(({ id: platformId }) => platformId === 'instagram')
+    // If the artist has insta, use this
+    if (instaIndex > -1) {
+      setCurrentPlatform(availablePlatforms[instaIndex].id)
+      return
+    }
+    // Else just use the first one
     setCurrentPlatform(availablePlatforms[0].id)
   }, [availablePlatforms])
 
@@ -55,7 +61,7 @@ const InsightPlatformSelectors = ({
   React.useEffect(() => {
     if (!currentPlatform) return
     // Set hover color
-    const { color: platformColor } = dataSourceDetails[currentPlatform]
+    const platformColor = brandColors[currentPlatform]
     const dataSelectors = document.getElementById('platformSelectors')
     dataSelectors.style.setProperty('--active-color', platformColor)
   }, [currentPlatform])
@@ -68,7 +74,7 @@ const InsightPlatformSelectors = ({
       <p className={['inputLabel__text', styles.selectorsLabel].join(' ')}>Select a platform</p>
       <div id="platformSelectors" className={styles.platformSelectors} ref={containerRef}>
         {availablePlatforms.map(({ title, id }, i) => {
-          const { color: platformColor } = dataSourceDetails[id]
+          const platformColor = brandColors[id]
           const active = id === currentPlatform
           const activeClass = active ? styles._active : ''
           const iconColor = platformColor
@@ -103,8 +109,8 @@ const InsightPlatformSelectors = ({
 }
 
 InsightPlatformSelectors.propTypes = {
-  artist: PropTypes.object.isRequired,
   artistId: PropTypes.string.isRequired,
+  availableDataSources: PropTypes.array.isRequired,
   currentPlatform: PropTypes.string,
   setCurrentPlatform: PropTypes.func.isRequired,
 }

@@ -9,31 +9,35 @@ import Button from './elements/Button'
 // IMPORT CONSTANTS
 import * as ROUTES from '../constants/routes'
 
-function PromotePostsButton() {
-  // DEFINE PROPS AS VARIABLES
-  const { artist } = React.useContext(ArtistContext)
-  const budget = artist.daily_budget
-  const text = budget > 0 ? 'View results from posts' : 'Start promoting posts'
-  const destination = budget > 0 ? 'RESULTS' : 'POSTS'
-  // END DEFINE PROPS AS VARIABLES
+function PromotePostsButton({
+  artist,
+  artistId,
+  className,
+}) {
+  // DEFINE BUTTON TEXT AND DESTINATION
+  const [linkText, setLinkText] = React.useState('')
+  const [linkDestination, setLinkDestination] = React.useState('')
+  React.useEffect(() => {
+    const budget = artist.daily_budget
+    const text = budget > 0 ? 'View results from posts' : 'Start promoting posts'
+    const destination = budget > 0 ? 'RESULTS' : 'POSTS'
+    setLinkText(text)
+    setLinkDestination(destination)
+  }, [artistId])
 
   // HANDLE BUTTON CLICK
   const handleClick = e => {
     e.preventDefault()
-    Router.push(ROUTES[destination])
+    Router.push(ROUTES[linkDestination])
   }
-  // END HANDLE BUTTON CLICK
 
   return (
-    <div className="ninety-wide">
+    <div className={[className, 'ninety-wide'].join(' ')}>
       <Button
-        version="black"
-        style={{
-          width: '100%',
-        }}
+        version="black full"
         onClick={handleClick}
       >
-        {text}
+        {linkText}
       </Button>
     </div>
   )
