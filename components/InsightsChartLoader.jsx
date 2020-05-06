@@ -13,7 +13,7 @@ import ChartContainer from './ChartContainer'
 import ChartBar from './ChartBar'
 // IMPORT ASSETS
 // IMPORT HELPERS
-import { formatServerData } from './helpers/chartHelpers'
+import { formatServerData, formatProjection } from './helpers/chartHelpers'
 import server from './helpers/server'
 
 import styles from './InsightsPage.module.css'
@@ -21,13 +21,24 @@ import styles from './InsightsPage.module.css'
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
 const fetchData = async ({ currentDataSource, currentPlatform, artistId, dates }) => {
-  const data = await server.getDataSourceValue([currentDataSource], artistId)
+  // Get data source data
+  const dataPromise = server.getDataSourceValue([currentDataSource], artistId)
+  // Get future projections
+  const projectionPromise = server.getDataSourceProjection(currentDataSource, artistId)
+  const [data, projections] = await Promise.all([dataPromise, projectionPromise])
   // Stop here if no data
   if (!data || !Object.keys(data).length) return 'no-data'
   // Get the actual data for the requested source
   const { daily_data: dailyData } = data[currentDataSource]
   if (!dailyData || !Object.keys(dailyData).length) return 'no-data'
-  const formattedData = formatServerData({ dailyData, dates, currentDataSource, currentPlatform })
+  const projection = formatProjection(projections)
+  const formattedData = formatServerData({
+    dailyData,
+    dates,
+    currentDataSource,
+    currentPlatform,
+    projection,
+  })
   return formattedData
 }
 
