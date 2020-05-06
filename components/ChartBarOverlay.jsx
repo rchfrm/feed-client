@@ -7,10 +7,16 @@ import helper from './helpers/helper'
 import styles from './InsightsPage.module.css'
 
 const ChartBarOverlay = ({ max: maxValue, min: minValue, currency, labels }) => {
-  const max = helper.abbreviateNumber(maxValue)
-  const min = helper.abbreviateNumber(minValue)
-  const mid = helper.abbreviateNumber(((maxValue - minValue) / 2) + minValue)
-  const labelPrefix = currency ? helper.getCurrencySymbol(currency) : ''
+  const midValue = ((maxValue - minValue) / 2) + minValue
+  const max = currency
+    ? helper.formatCurrency(Math.round(maxValue), currency).replace('.00', '')
+    : helper.abbreviateNumber(maxValue)
+  const min = currency
+    ? helper.formatCurrency(Math.round(minValue), currency).replace('.00', '')
+    : helper.abbreviateNumber(minValue)
+  const mid = currency
+    ? helper.formatCurrency(Math.round(midValue), currency).replace('.00', '')
+    : helper.abbreviateNumber(midValue)
 
   const labelList = []
 
@@ -29,9 +35,9 @@ const ChartBarOverlay = ({ max: maxValue, min: minValue, currency, labels }) => 
   return (
     <>
       <div className={styles.chartOverlay}>
-        <div className={styles.chartMax}>{labelPrefix}{max}</div>
-        <div className={styles.chartMid}>{labelPrefix}{mid}</div>
-        <div className={styles.chartMin}>{labelPrefix}{min}</div>
+        <div className={styles.chartMax}>{max}</div>
+        <div className={styles.chartMid}>{mid}</div>
+        <div className={styles.chartMin}>{min}</div>
         <ul className={styles.xAxisLabels}>{labelList}</ul>
       </div>
       <div className={styles.chartBackground}>
