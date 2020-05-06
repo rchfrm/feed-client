@@ -45,64 +45,6 @@
   }
 }
 
-/* NUMBER CHART */
-.chartNumber__container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-  margin-bottom: calc(-1 * var(--bsu-lg));
-  text-align: center;
-}
-
-.chartNumber__number {
-  font-size: 20vw;
-  font-feature-settings: 'kern' 1, 'ss01' 1;
-  letter-spacing: -0.05em;
-  margin-bottom: -0.1em !important;
-  transition: opacity 250ms ease;
-
-  .chartNumber__container._loading & {
-    opacity: 0;
-  }
-
-  @media (--bmw) {
-    font-size: 150px;
-  }
-}
-
-.chartNumber__title {
-  font-size: 0.8em;
-  width: 100%;
-  transition: opacity 250ms ease;
-
-  .title {
-    font-weight: var(--bold);
-    text-transform: capitalize;
-  }
-
-  .chartNumber__container._loading & {
-    opacity: 0;
-  }
-
-  @media (--xxs) {
-    font-size: 0.9em;
-  }
-
-  @media (--xs) {
-    font-size: 1em;
-  }
-}
-
-.chartNumber__spinner {
-  position: absolute;
-  bottom: 50%;
-  right: 50%;
-  transform: translate(50%, 50%);
-}
-
 /* BAR CHART LOADING SPINNER & ERROR */
 .chartError,
 .chartSpinner {
@@ -203,4 +145,62 @@
 /* CONTENT UNDER CHART */
 .promotePostsButton {
   margin-bottom: var(--bsu-lg);
+}
+
+/* NUMBER CHART */
+.chartNumber__container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  margin-bottom: calc(-1 * var(--bsu-lg));
+  text-align: center;
+}
+
+.chartNumber__number {
+  font-size: 20vw;
+  font-feature-settings: 'kern' 1, 'ss01' 1;
+  letter-spacing: -0.05em;
+  margin-bottom: -0.1em !important;
+  transition: opacity 250ms ease;
+
+  .chartNumber__container._loading & {
+    opacity: 0;
+  }
+
+  @media (--bmw) {
+    font-size: 150px;
+  }
+}
+
+.chartNumber__title {
+  font-size: 0.8em;
+  width: 100%;
+  transition: opacity 250ms ease;
+
+  .title {
+    font-weight: var(--bold);
+    text-transform: capitalize;
+  }
+
+  .chartNumber__container._loading & {
+    opacity: 0;
+  }
+
+  @media (--xxs) {
+    font-size: 0.9em;
+  }
+
+  @media (--xs) {
+    font-size: 1em;
+  }
+}
+
+.chartNumber__spinner {
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
 }
