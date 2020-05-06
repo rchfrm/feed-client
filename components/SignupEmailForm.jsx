@@ -148,7 +148,7 @@ const SignupEmailForm = () => {
         })
       })
     if (!signupRes) return
-    const userRes = await createUser(firstName, lastName)
+    const user = await createUser(firstName, lastName)
       .catch((error) => {
         setError(error)
         scrollTop()
@@ -161,7 +161,17 @@ const SignupEmailForm = () => {
           error: true,
         })
       })
-    if (!userRes) return
+    if (!user) return
+    track({
+      category: 'sign up',
+      action: 'User account created',
+      label: user.id,
+    })
+    track({
+      category: 'sign up',
+      action: 'User account created (email)',
+      label: user.id,
+    })
     Router.push(ROUTES.SIGN_UP_CONTINUE)
   }
 

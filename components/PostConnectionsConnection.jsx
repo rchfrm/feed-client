@@ -14,6 +14,7 @@ import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
+import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from './Integrations.module.css'
 
@@ -21,7 +22,7 @@ import styles from './Integrations.module.css'
 const PostConnectionsConnection = ({
   url = '',
   platform,
-  artistId,
+  artist,
   valid,
   priorityDSP,
   udpatePriorityDSP,
@@ -55,8 +56,10 @@ const PostConnectionsConnection = ({
     const linkSantised = link || null
     // Send a patch request to the server to update the artist
     const urlType = helper.convertPlatformToPriorityDSP(platform)
+    // Test whether the link has been added or updated
+    const linkEdited = artist[urlType]
     // Make sure the value is a link
-    const updatedArtist = await server.saveLink(artistId, linkSantised, urlType)
+    const updatedArtist = await server.saveLink(artist.id, linkSantised, urlType)
     udpateConnections({
       type: 'set-platform',
       payload: {
@@ -65,7 +68,25 @@ const PostConnectionsConnection = ({
         url: updatedArtist[urlType],
       },
     })
+    // Stop loading
     setLoading(false)
+    // Track
+    if (linkSantised) {
+      const actionType = linkEdited ? 'edited' : 'added'
+      track({
+        category: 'Connections',
+        action: `Platform connection ${actionType}`,
+        description: `Platform: ${platform}`,
+        label: `artistId: ${artist.id}`,
+      })
+    } else {
+      track({
+        category: 'Connections',
+        action: 'Platform connection removed',
+        description: `Platform: ${platform}`,
+        label: `artistId: ${artist.id}`,
+      })
+    }
   }
 
   const addProtocol = (link) => {
@@ -126,7 +147,7 @@ const PostConnectionsConnection = ({
     <li className={styles.integrarionsListItem} key={platform}>
 
       <PostConnectionsEdit
-        artistId={artistId}
+        artistId={artist.id}
         platform={platform}
         priorityDSP={priorityDSP}
         udpateConnections={udpateConnections}

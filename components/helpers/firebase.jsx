@@ -40,10 +40,12 @@ export default {
   },
 
   doSignInWithEmailAndPassword: async (email, password) => {
-    return auth.signInWithEmailAndPassword(email, password)
-      .catch((err) => {
-        throw (err)
+    const res = await auth.signInWithEmailAndPassword(email, password)
+      .catch((error) => {
+        return { error }
       })
+    if (res.error) return { error: res.error }
+    return { authUser: res }
   },
 
   doSignOut: () => {

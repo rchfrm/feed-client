@@ -14,6 +14,7 @@ import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
+import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from './Integrations.module.css'
 
@@ -87,6 +88,12 @@ const PostConnectionsEdit = ({
 
   const updatePriorityDSP = React.useCallback(async (artistId, platform) => {
     const result = await server.updatePriorityDSP(artistId, platform)
+    track({
+      category: 'Connections',
+      action: 'Ad default link updated',
+      description: `Platform: ${platform}`,
+      label: `artistId: ${artistId}`,
+    })
     return result
   }, [])
 

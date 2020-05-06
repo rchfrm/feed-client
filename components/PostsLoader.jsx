@@ -14,6 +14,7 @@ import PostsBudget from './PostsBudget'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
+import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
@@ -176,6 +177,14 @@ function PostsLoader() {
         postIndex: indexOfId,
       },
     })
+    // Track
+    const status = newPromotionState ? 'enabled' : 'disabled'
+    track({
+      category: 'Posts',
+      action: `Promotion ${status} for post`,
+      description: `Post ID: ${postId}`,
+      label: `artistId: ${artistId}`,
+    })
     return newPromotionState
   }, [posts])
   // Define function to batch toggle all posts
@@ -201,6 +210,12 @@ function PostsLoader() {
         postIndex,
         postLink,
       },
+    })
+    track({
+      category: 'Posts',
+      action: 'Post link changed',
+      description: `New link: ${postLink}`,
+      label: `artistId: ${artistId}`,
     })
   }
 
