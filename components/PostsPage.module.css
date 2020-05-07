@@ -1,3 +1,5 @@
+@import "../assets/styles/mixins";
+
 /* POSTS PAGE */
 
 .posts {
@@ -126,7 +128,7 @@
   }
 
   .a {
-    @media(hover: hover) {
+    @mixin canHover {
       &:hover {
         color: var(--color-fb);
       }

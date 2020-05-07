@@ -9,7 +9,6 @@ import Alert, { alertReducer, initialAlertState } from './elements/Alert'
 // IMPORT ASSETS
 import AsteriskIcon from './icons/AsteriskIcon'
 // IMPORT CONSTANTS
-import dataSourceDetails from '../constants/dataSources'
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
@@ -150,7 +149,7 @@ const PostConnectionsEdit = ({
       <div className={styles['integration-platform-icon']}>
         <Icon
           version={platform}
-          color={dataSourceDetails[platform] ? dataSourceDetails[platform].color : 'black'}
+          color={brandColors[platform] ? brandColors[platform].bg : brandColors.textColor}
           width={20}
         />
       </div>

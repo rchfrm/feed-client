@@ -1,3 +1,5 @@
+@import "../assets/styles/mixins";
+
 .nav {
   background-color: var(--black);
   color: var(--white);
@@ -21,7 +23,7 @@
   .a {
     color: var(--white);
 
-    @media (hover: hover) {
+    @mixin canHover {
       &:hover {
         color: var(--green);
       }

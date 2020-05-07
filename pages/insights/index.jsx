@@ -1,18 +1,12 @@
 import BasePage from '../../components/BasePage'
 import TestPageReady from '../../components/TestPageReady'
-import InsightsLoader from '../../components/InsightsLoader'
-
-const header = {
-  heading: 'insights',
-}
+import InsightsContent from '../../components/InsightsContent'
 
 const Page = () => (
   <BasePage
-    header={header}
-    noArtistHeader={header}
     artistRequired
   >
-    <InsightsLoader />
+    <InsightsContent />
   </BasePage>
 )
 
