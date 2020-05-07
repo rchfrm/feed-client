@@ -24,7 +24,11 @@
   align-items: flex-end;
   flex-direction: column;
   min-height: 300px;
-  margin-bottom: calc(var(--bsu-lg) * 2);
+  margin-bottom: var(--bsu-lg);
+
+  @media (--xxs) {
+    margin-bottom: calc(var(--bsu-lg) * 2);
+  }
 }
 
 .chartContainer__doughnut {
@@ -33,7 +37,6 @@
 }
 
 .chartContainer__bar {
-  
   position: relative;
   width: 100%;
   margin-bottom: var(--bsu-md);
@@ -227,8 +230,11 @@
 
 /* PROJECTION SENTENCE */
 .projectionContainer {
-  margin-top: calc(var(--bsu-lg) * 2);
-  /* margin-bottom: calc(-1 * var(--bsu)); */
+  margin-top: var(--bsu-lg);
+
+  @media (--xxs) {
+    margin-top: calc(var(--bsu-lg) * 2);
+  }
 }
 
 .projectionText {
