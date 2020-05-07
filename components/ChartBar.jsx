@@ -191,7 +191,7 @@ function ChartBar({
 
     // DEFINE CHART DATA
     const { cumulative } = data
-    const chartColor = brandColors[currentPlatform]
+    const { bg: chartColor } = brandColors[currentPlatform]
     const lightColor = tinycolor(chartColor).lighten('12').toString()
 
     const chartData = [

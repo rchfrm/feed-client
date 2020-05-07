@@ -5,7 +5,7 @@ import useScrollToButton from './hooks/useScrollToButton'
 
 import styles from './InsightSelectors.module.css'
 import insightDataSources from '../constants/insightDataSources'
-import dataSourceDetails from '../constants/dataSources'
+import brandColors from '../constants/brandColors'
 
 const getDefaultSource = (sources) => {
   const followersSourceIndex = sources.findIndex(({ id: sourceId }) => {
@@ -58,7 +58,7 @@ const InsightDataSelectors = ({
     // Set current source
     setCurrentDataSource(sourceId)
     // Set hover color
-    const { color: platformColor } = dataSourceDetails[currentPlatform]
+    const { bg: platformColor } = brandColors[currentPlatform]
     const dataSelectors = document.getElementById('dataSelectors')
     if (!dataSelectors) return
     dataSelectors.style.setProperty('--active-color', platformColor)

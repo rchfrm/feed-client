@@ -38,7 +38,7 @@ const ChartNumber = ({
     if (!source) return
     const { mostRecent: { value: mostRecentValue }, dailyData } = data
     const calculatedValue = dataType === 'daily' ? combineDailyData(dailyData) : mostRecentValue
-    const color = brandColors[platform]
+    const { bg: color } = brandColors[platform]
     const valueFormatted = currency ? helper.formatCurrency(calculatedValue, artistCurrency) : helper.abbreviateNumber(calculatedValue)
     // Set data viz
     setDisplayData(valueFormatted)

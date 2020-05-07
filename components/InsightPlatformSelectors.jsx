@@ -62,7 +62,7 @@ const InsightPlatformSelectors = ({
   React.useEffect(() => {
     if (!currentPlatform) return
     // Set hover color
-    const platformColor = brandColors[currentPlatform]
+    const { bg: platformColor } = brandColors[currentPlatform]
     const dataSelectors = document.getElementById('platformSelectors')
     if (!dataSelectors) return
     dataSelectors.style.setProperty('--active-color', platformColor)
@@ -78,7 +78,7 @@ const InsightPlatformSelectors = ({
       <p className={['inputLabel__text', styles.selectorsLabel].join(' ')}>Select a platform</p>
       <div id="platformSelectors" className={styles.platformSelectors} ref={containerRef}>
         {availablePlatforms.map(({ title, id }, i) => {
-          const platformColor = brandColors[id]
+          const { bg: platformColor } = brandColors[id]
           const active = id === currentPlatform
           const activeClass = active ? styles._active : ''
           const iconColor = platformColor

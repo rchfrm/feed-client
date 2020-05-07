@@ -24,12 +24,30 @@ const brandColors = {
   disabledColorBg: greyLight,
   disabledColorText: greyDark,
   // Platform colors
-  facebook: '#26547C',
-  instagram: '#E75A7C',
-  twitter: '#5BC0EB',
-  spotify: '#03D8B2',
-  soundcloud: '#FDE74C',
-  youtube: '#FA5450',
+  facebook: {
+    bg: '#26547C',
+    text: white,
+  },
+  instagram: {
+    bg: '#E75A7C',
+    text: white,
+  },
+  twitter: {
+    bg: '#5BC0EB',
+    text: black,
+  },
+  spotify: {
+    bg: '#03D8B2',
+    text: black,
+  },
+  soundcloud: {
+    bg: '#FDE74C',
+    text: black,
+  },
+  youtube: {
+    bg: '#FA5450',
+    text: white,
+  },
 }
 
 export default brandColors
