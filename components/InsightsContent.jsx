@@ -7,6 +7,7 @@ import { ArtistContext } from './contexts/Artist'
 import Spinner from './elements/Spinner'
 
 // IMPORT COMPONENTS
+import PageHeader from './PageHeader'
 import InsightPlatformSelectors from './InsightPlatformSelectors'
 import InsightDataSelectors from './InsightDataSelectors'
 import InsightsChartLoader from './InsightsChartLoader'
@@ -65,6 +66,8 @@ function InsightsContent() {
 
   return (
     <div className={containerClasses.join(' ')}>
+
+      <PageHeader className={styles.pageHeader} heading="insights" />
 
       {/* PLATFORM SELECTORS */}
       <InsightPlatformSelectors
