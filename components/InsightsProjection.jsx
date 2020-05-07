@@ -18,7 +18,7 @@ const buildSentence = (predicted, growth, { platform, shortTitle }) => {
   const growthFormatted = helper.formatNumber(growthAmount, { maximumFractionDigits: growthDecimals })
   // Now build the sentence
   let sentence = 'If this growth continues, in a year you will have '
-  sentence += `**${predictedFormatted}** ${platform} ${shortTitle}—that’s `
+  sentence += `**${predictedFormatted}** ${helper.capitalise(platform)} ${shortTitle}—that’s `
   if (growthType === 'multiplier') {
     sentence += `**${growthFormatted}x** the size it is now`
   } else {
