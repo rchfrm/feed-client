@@ -33,7 +33,7 @@ function InsightsContent() {
     if (!initialLoading) {
       setTimeout(() => {
         setPageReady(true)
-      }, 200)
+      }, 300)
     }
   }, [initialLoading])
 
