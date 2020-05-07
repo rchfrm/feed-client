@@ -12,6 +12,8 @@ import InsightPlatformSelectors from './InsightPlatformSelectors'
 import InsightDataSelectors from './InsightDataSelectors'
 import InsightsChartLoader from './InsightsChartLoader'
 import PromotePostsButton from './PromotePostsButton'
+// IMPORT HELPERS
+import { getAvailablePlatforms, getInitialPlatform, getInitialDataSource } from './helpers/chartHelpers'
 // IMPORT TEXT
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/InsightPageCopy'
@@ -28,22 +30,41 @@ function InsightsContent() {
   const [initialLoading, setInitialLoading] = React.useState(true)
   const [pageReady, setPageReady] = React.useState(false)
 
-  // Set page ready after page has loaded
-  React.useEffect(() => {
-    if (!initialLoading) {
-      setTimeout(() => {
-        setPageReady(true)
-      }, 300)
-    }
-  }, [initialLoading])
-
+  // GET AVAILABLE DATA SOURCES
   const availableDataSources = React.useMemo(() => {
     if (artistLoading) return []
     const { _embedded: { data_sources: dataSources } } = artist
     return Object.values(dataSources).map(({ id }) => id)
   }, [artistLoading, artistId])
 
-  if (artistLoading) return <Spinner />
+  // GET ALL AVAILABLE PLATFORMS
+  const availablePlatforms = React.useMemo(() => {
+    if (artistLoading) return []
+    return getAvailablePlatforms(availableDataSources)
+  }, [artistLoading, artistId])
+
+  // GET INITIAL PLATFORM AND DATA SOURCE
+  React.useEffect(() => {
+    if (!availablePlatforms.length) return
+    // Get and set initial platform
+    const platform = getInitialPlatform(availablePlatforms)
+    setCurrentPlatform(platform)
+    // Get and set initial data source
+    const source = getInitialDataSource(availableDataSources, platform)
+    setCurrentDataSource(source)
+  }, [availablePlatforms])
+
+  // Set page ready after page has loaded
+  React.useEffect(() => {
+    if (!initialLoading) {
+      setTimeout(() => {
+        setPageReady(true)
+      }, 200)
+    }
+  }, [initialLoading])
+
+
+  if (artistLoading || !(currentPlatform || currentDataSource)) return <Spinner />
 
   if (initialLoading) {
     return (
@@ -72,7 +93,7 @@ function InsightsContent() {
       {/* PLATFORM SELECTORS */}
       <InsightPlatformSelectors
         artistId={artistId}
-        availableDataSources={availableDataSources}
+        availablePlatforms={availablePlatforms}
         currentPlatform={currentPlatform}
         setCurrentPlatform={setCurrentPlatform}
         initialLoading={initialLoading}

@@ -12,6 +12,57 @@ moment.updateLocale('en', {
   },
 })
 
+export const getAvailablePlatforms = (availableDataSources) => {
+  // Get name of platform from data source
+  const dataSourcePlatforms = availableDataSources.map((source) => {
+    const { platform } = insightDataSources[source]
+    return platform
+  })
+  // Get platforms by removing duplicates from above
+  const allPlatforms = dataSourcePlatforms.reduce((platforms, platformName) => {
+    // Ignore apple source
+    if (platformName === 'apple') return platforms
+    // Ignore platform if already included
+    if (platforms.find(({ id }) => id === platformName)) return platforms
+    // Add platform to array
+    return [...platforms, {
+      id: platformName,
+      title: platformName,
+    }]
+  }, [])
+  // return results
+  return allPlatforms
+}
+
+export const getInitialPlatform = (availablePlatforms) => {
+  // Does the artist have insta
+  const instaIndex = availablePlatforms.findIndex(({ id: platformId }) => platformId === 'instagram')
+  // If the artist has insta, use this
+  if (instaIndex > -1) {
+    return availablePlatforms[instaIndex].id
+  }
+  // Else just use the first one
+  return availablePlatforms[0].id
+}
+
+export const getInitialDataSource = (availableDataSources, currentPlatform) => {
+  // Filter out non-platform related sources
+  const filteredSources = availableDataSources.filter((source) => {
+    const { platform } = insightDataSources[source]
+    return platform === currentPlatform
+  })
+  // Find first filter that matches the
+  const followersSourceIndex = filteredSources.findIndex((sourceId) => {
+    return sourceId.includes('follower')
+  })
+  const likesSourceIndex = filteredSources.findIndex((sourceId) => {
+    return sourceId.includes('likes')
+  })
+  if (followersSourceIndex > -1) return filteredSources[followersSourceIndex]
+  if (likesSourceIndex > -1) return filteredSources[likesSourceIndex]
+  return filteredSources[0]
+}
+
 export const formatProjection = (projections) => {
   return projections.find(({ period }) => {
     return period === '90d' || period === 'lifetime'
