@@ -30,7 +30,8 @@
   /* For desktops */
   @mixin canHover {
     flex-wrap: wrap;
-    padding: var(--bsu) 0;
+    padding-top: var(--bsu);
+    padding-left: 5%;
     padding-bottom: 0;
   }
 
