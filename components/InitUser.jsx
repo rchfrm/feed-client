@@ -9,7 +9,7 @@ import * as ROUTES from '../constants/routes'
 
 import Spinner from './elements/Spinner'
 
-import helper from './helpers/helper'
+import utils from './helpers/utils'
 import firebase from './helpers/firebase'
 import { track } from './helpers/trackingHelpers'
 
@@ -228,12 +228,12 @@ const InitUser = ({ children }) => {
       return
     }
     // If they do have artists, check for a previously selected artist ID in local storage...
-    const storedArtistId = helper.getLocalStorage('artistId')
+    const storedArtistId = utils.getLocalStorage('artistId')
     // Check that the storedArtistId is one the user has access to...
     const hasAccess = artists.find(({ id }) => id === storedArtistId)
     // if they don't have access, clear localStorage
     if (!hasAccess) {
-      helper.clearLocalStorage()
+      utils.clearLocalStorage()
       track({
         category: 'login',
         action: 'handleExistingUser',

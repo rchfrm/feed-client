@@ -9,7 +9,7 @@ import { AuthContext } from './Auth'
 import { ArtistContext } from './Artist'
 // IMPORT ELEMENTS
 // IMPORT HELPERS
-import helper from '../helpers/helper'
+import utils from '../helpers/helper'
 import server from '../helpers/server'
 // IMPORT PAGES
 // IMPORT STYLES
@@ -68,7 +68,7 @@ function NotificationsProvider({ children }) {
           setNotifications({
             type: 'add-notifications',
             payload: {
-              notifications: helper.arrToObjById(res),
+              notifications: utils.arrToObjById(res),
             },
           })
         }

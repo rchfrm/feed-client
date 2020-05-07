@@ -1,5 +1,5 @@
 import React from 'react'
-import helper from './helpers/helper'
+import utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
@@ -24,7 +24,7 @@ function PostInsight({ title, number }) {
     <div>
       <span className={styles['post-insight']}>{titleTranslated}</span>
       {' '}
-      {helper.abbreviateNumber(number)}
+      {utils.abbreviateNumber(number)}
     </div>
   )
 }

@@ -11,7 +11,7 @@ import Select from './elements/Select'
 import PostLinkSaveButton from './PostLinkSaveButton'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import utils from './helpers/utils'
 import server from './helpers/server'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
@@ -84,7 +84,7 @@ function PostLinkAddUrl({
     setButtonState('saving')
     try {
       // Send a patch request to the server to update the artist
-      const urlType = helper.convertPlatformToPriorityDSP(platform)
+      const urlType = utils.convertPlatformToPriorityDSP(platform)
       await addUrl(url, urlType)
 
       // Send a patch request to the server to update the asset

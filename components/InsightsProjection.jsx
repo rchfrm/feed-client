@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import helper from './helpers/helper'
+import utils from './helpers/utils'
 
 import MarkdownText from './elements/MarkdownText'
 
@@ -9,14 +9,14 @@ import brandColors from '../constants/brandColors'
 import styles from './InsightsPage.module.css'
 
 const buildSentence = (predicted, growth, { platform, shortTitle }) => {
-  const predictedFormatted = helper.formatNumber(predicted)
+  const predictedFormatted = utils.formatNumber(predicted)
   const growthType = growth >= 100 ? 'multiplier' : 'fraction'
   const growthAmount = growthType === 'multiplier' ? ((growth / 100) + 1) : growth
   const growthDecimals = growthType === 'multiplier' ? 1 : 0
-  const growthFormatted = helper.formatNumber(growthAmount, { maximumFractionDigits: growthDecimals })
+  const growthFormatted = utils.formatNumber(growthAmount, { maximumFractionDigits: growthDecimals })
   // Now build the sentence
   let sentence = 'If this growth continues, in a year you will have '
-  sentence += `**${predictedFormatted}** ${helper.capitalise(platform)} ${shortTitle}—that’s `
+  sentence += `**${predictedFormatted}** ${utils.capitalise(platform)} ${shortTitle}—that’s `
   if (growthType === 'multiplier') {
     sentence += `**${growthFormatted}x** the number today`
   } else {

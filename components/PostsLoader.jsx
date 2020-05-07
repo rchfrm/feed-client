@@ -13,7 +13,7 @@ import PostsAll from './PostsAll'
 import PostsNone from './PostsNone'
 import PostsBudget from './PostsBudget'
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import utils from './helpers/utils'
 import server from './helpers/server'
 import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
@@ -69,7 +69,7 @@ const fetchPosts = async ({ artistId, offset, limit, isEndOfAssets, cursor }) =>
     posts = await server.getUnpromotedPosts(offset.current, limit, artistId)
   }
   // Sort the returned posts chronologically, latest first
-  return helper.sortAssetsChronologically(Object.values(posts))
+  return utils.sortAssetsChronologically(Object.values(posts))
 }
 
 // THE COMPONENT

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import helper from './helpers/helper'
+import utils from './helpers/utils'
 
 import Spinner from './elements/Spinner'
 
@@ -39,7 +39,7 @@ const ChartNumber = ({
     const { mostRecent: { value: mostRecentValue }, dailyData } = data
     const calculatedValue = dataType === 'daily' ? combineDailyData(dailyData) : mostRecentValue
     const { bg: color } = brandColors[platform]
-    const valueFormatted = currency ? helper.formatCurrency(calculatedValue, artistCurrency) : helper.abbreviateNumber(calculatedValue)
+    const valueFormatted = currency ? utils.formatCurrency(calculatedValue, artistCurrency) : utils.abbreviateNumber(calculatedValue)
     // Set data viz
     setDisplayData(valueFormatted)
     setDataColor(color)

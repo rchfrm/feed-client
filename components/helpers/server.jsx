@@ -1,6 +1,6 @@
 import produce from 'immer'
 
-import helper from './helper'
+import utils from './utils'
 import artistHelpers from './artistHelpers'
 import firebase from './firebase'
 import * as api from './api'
@@ -10,14 +10,14 @@ const formatPostsResponse = (posts) => {
   // Process certain parts of the response to make it easier to handle
   posts.forEach(post => {
     // Abbreviate text to <100 characters long
-    post.short_message = helper.abbreviatePostText(post.message)
+    post.short_message = utils.abbreviatePostText(post.message)
 
     // Find the correct media source
-    post.media = helper.findPostMedia(post.attachments[0])
+    post.media = utils.findPostMedia(post.attachments[0])
 
     // Set the thumbnail
     if (!post._metadata.thumbnail_url) {
-      post._metadata.thumbnail_url = helper.findPostThumbnail(post.attachments[0])
+      post._metadata.thumbnail_url = utils.findPostThumbnail(post.attachments[0])
     }
 
     // Use thumbnail as media if attachments are empty
@@ -39,7 +39,7 @@ const formatPostsResponse = (posts) => {
     // If there are 0 'views', but post metrics has information for video_views,
     // use that instead
     if (insights.video_views === 0 && post.metrics.video_views) {
-      insights.video_views = helper.returnLatestValue(post.metrics.video_views.data)
+      insights.video_views = utils.returnLatestValue(post.metrics.video_views.data)
     }
 
     // Look for other available insights in the metrics field
@@ -51,7 +51,7 @@ const formatPostsResponse = (posts) => {
       if (insightNames.indexOf(metric) === -1 && metric !== 'engagement') {
         metricsToAdd = {
           ...metricsToAdd,
-          [metric]: helper.returnLatestValue(post.metrics[metric].data),
+          [metric]: utils.returnLatestValue(post.metrics[metric].data),
         }
       }
     }

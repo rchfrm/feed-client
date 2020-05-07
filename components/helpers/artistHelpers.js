@@ -1,5 +1,5 @@
 import produce from 'immer'
-import helper from './helper'
+import utils from './utils'
 import facebook from './facebook'
 import * as api from './api'
 
@@ -51,7 +51,7 @@ export default {
       location: artist.location,
       country_code: artist.country_code,
       facebook_page_url: artist.facebook_page_url,
-      spotify_url: helper.cleanSpotifyUrl(artist.spotify_url) || null,
+      spotify_url: utils.cleanSpotifyUrl(artist.spotify_url) || null,
       instagram_url: artist.instagram_url,
       integrations: {
         facebook: {
@@ -77,7 +77,7 @@ export default {
         api.get(`/artists/${artist_id}/data_sources`, { fields: 'id', limit: 100 }, verify_id_token),
       ])
       artist._embedded = { data_sources: dataSources }
-      artist.URLs = helper.filterArtistUrls(artist)
+      artist.URLs = utils.filterArtistUrls(artist)
       return artist
     } catch (err) {
       console.error(err)

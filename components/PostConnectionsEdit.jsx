@@ -11,7 +11,7 @@ import AsteriskIcon from './icons/AsteriskIcon'
 // IMPORT CONSTANTS
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import utils from './helpers/utils'
 import server from './helpers/server'
 import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
@@ -25,7 +25,7 @@ function ConfirmPriorityDSPChange({ platform }) {
       <p>
         Clicking 'Yes' will change the default link in your promoted posts to your
         {' '}
-        {helper.capitalise(platform)}
+        {utils.capitalise(platform)}
         {' '}
         page.
       </p>

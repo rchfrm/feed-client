@@ -11,7 +11,7 @@ import SquareImage from './elements/SquareImage'
 import MediaFallback from './elements/MediaFallback'
 // IMPORT PAGES
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import utils from './helpers/utils'
 // IMPORT STYLES
 import resultsStyles from './Results.module.css'
 import postStyles from './PostsPage.module.css'
@@ -24,8 +24,8 @@ const styles = {
 function Insight({ days: daysArray, statement, number, currency }) {
   const days = daysArray.length
   const numberFormatted = statement === 'spent,'
-    ? helper.formatCurrency(Number(number), currency)
-    : helper.abbreviateNumber(number)
+    ? utils.formatCurrency(Number(number), currency)
+    : utils.abbreviateNumber(number)
   if (days === 0) return null
   return (
     <div className={styles['result-insight']}>
@@ -41,7 +41,7 @@ function Insight({ days: daysArray, statement, number, currency }) {
 
 function Days({ days, active }) {
 // REDEFINE PROPS AS VARIABLES
-  const sortedDates = helper.sortDatesChronologically(days)
+  const sortedDates = utils.sortDatesChronologically(days)
   // END REDEFINE PROPS AS VARIABLES
 
   const firstDate = moment(sortedDates[0], 'YYYY-MM-DD').startOf('day')
@@ -136,9 +136,9 @@ const ResultsSingle = ({
     // If there are attachments, find the relevant media file,
     // and update the thumbnail if there isn't one already
     if (attachments.length > 0) {
-      mediaLink = helper.findPostMedia(attachments[0])
+      mediaLink = utils.findPostMedia(attachments[0])
       if (!thumbnailMedia) {
-        setThumbnailMedia(helper.findPostThumbnail(attachments[0]))
+        setThumbnailMedia(utils.findPostThumbnail(attachments[0]))
       }
     }
 
@@ -148,7 +148,7 @@ const ResultsSingle = ({
     }
 
     let message // TODO : Implement a way to dispay title and alt attributes
-    return helper.generateMediaHTML(mediaLink, thumbnailMedia, message, handleError)
+    return utils.generateMediaHTML(mediaLink, thumbnailMedia, message, handleError)
   }, [thumbnailMedia])
 
   React.useEffect(() => {
@@ -163,7 +163,7 @@ const ResultsSingle = ({
     <span>
       {'clicks to '}
       <a href={artist[priorityPage]} target="_blank" rel="noopener noreferrer">
-        {helper.capitalise(priority_dsp)}
+        {utils.capitalise(priority_dsp)}
       </a>
     </span>
   )

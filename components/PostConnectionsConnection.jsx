@@ -12,7 +12,7 @@ import Spinner from './elements/Spinner'
 // IMPORT CONSTANTS
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import utils from './helpers/utils'
 import server from './helpers/server'
 import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
@@ -55,7 +55,7 @@ const PostConnectionsConnection = ({
     // Convert empty strings to null
     const linkSantised = link || null
     // Send a patch request to the server to update the artist
-    const urlType = helper.convertPlatformToPriorityDSP(platform)
+    const urlType = utils.convertPlatformToPriorityDSP(platform)
     // Test whether the link has been added or updated
     const linkEdited = artist[urlType]
     // Make sure the value is a link
@@ -105,14 +105,14 @@ const PostConnectionsConnection = ({
     // Show an alert if the user tries to edit the Facebook or Instagram URLs
     if (platform === 'facebook' || platform === 'instagram') {
       // eslint-disable-next-line
-      window.alert(`To connect a ${helper.capitalise(platform)} page, please contact us at services@archform.ltd`)
+      window.alert(`To connect a ${utils.capitalise(platform)} page, please contact us at services@archform.ltd`)
       return
     }
 
     const link = value === '' ? value : addProtocol(value)
 
     // Don't allow invalid links
-    const linkValid = link === '' ? true : helper.testValidUrl(link)
+    const linkValid = link === '' ? true : utils.testValidUrl(link)
     if (!linkValid) {
       toggleValid(false)
       // eslint-disable-next-line

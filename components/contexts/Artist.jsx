@@ -9,7 +9,7 @@ import { UserContext } from './User'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import helper from '../helpers/helper'
+import utils from '../helpers/utils'
 import server from '../helpers/server'
 import { track } from '../helpers/trackingHelpers'
 import artistHelpers from '../helpers/artistHelpers'
@@ -81,7 +81,7 @@ function ArtistProvider({ children }) {
 
   const setNoArtist = () => {
     setArtistLoading(true)
-    helper.clearLocalStorage()
+    utils.clearLocalStorage()
     setArtist({ type: 'no-artists' })
     setArtistLoading(false)
   }
@@ -132,7 +132,7 @@ function ArtistProvider({ children }) {
       const { priority_dsp } = artist
       const artistWithDsp = {
         ...artist,
-        priority_dsp: priority_dsp || helper.selectPriorityDSP(artist),
+        priority_dsp: priority_dsp || utils.selectPriorityDSP(artist),
       }
 
       await artistHelpers.createArtist(artistWithDsp, accessToken)
@@ -254,7 +254,7 @@ function ArtistProvider({ children }) {
     // Set currency
     setArtistCurrency(artist.currency)
     // Update local storage
-    helper.setLocalStorage('artistId', artist.id)
+    utils.setLocalStorage('artistId', artist.id)
   }, [artistId])
 
   const value = {

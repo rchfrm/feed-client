@@ -4,7 +4,7 @@ import Router, { useRouter } from 'next/router'
 import * as ROUTES from '../constants/routes'
 import { AuthContext } from './contexts/Auth'
 
-import helper from './helpers/helper'
+import utils from './helpers/utils'
 
 import Spinner from './elements/Spinner'
 
@@ -19,7 +19,7 @@ const TestPageReady = (Component) => {
       if (authLoading) return
       if (!initialToken) {
         if (currentPath !== ROUTES.LOGIN) kickToLogin()
-        helper.clearLocalStorage()
+        utils.clearLocalStorage()
       }
     }, [authLoading])
 

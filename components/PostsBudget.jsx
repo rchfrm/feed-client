@@ -14,7 +14,7 @@ import Alert, { alertReducer } from './elements/Alert'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './Budget.module.css'
 
@@ -42,7 +42,7 @@ function PostsBudget({ currency }) {
   // Define input placeholder
   const [budgetPlaceholder, setBudgetPlaceholder] = React.useState('')
   React.useEffect(() => {
-    const budgetFormatted = helper.formatCurrency(Number(artist.daily_budget), currency)
+    const budgetFormatted = utils.formatCurrency(Number(artist.daily_budget), currency)
     const placeholder = `Current Budget: ${budgetFormatted}`
     setBudgetPlaceholder(placeholder)
   }, [artist.daily_budget])

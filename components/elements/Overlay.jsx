@@ -11,11 +11,11 @@ import PropTypes from 'prop-types'
 // IMPORT HELPERS
 // IMPORT PAGES
 // IMPORT STYLES
-import helper from '../helpers/helper'
+import utils from '../helpers/utils'
 import brandColors from '../../constants/brandColors'
 
 function Overlay({ children, height }) {
-  const color = helper.hexToRGBA(brandColors.white, 0.6)
+  const color = utils.hexToRGBA(brandColors.white, 0.6)
 
   return (
     <div className="overlay-outer">
