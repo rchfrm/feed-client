@@ -1,0 +1,156 @@
+import moment from 'moment'
+import helpers from './helper'
+
+// IMPORT CONSTANTS
+import insightDataSources from '../../constants/insightDataSources'
+
+// CONFIGURE MOMENT
+// Set first day of week to Monday
+moment.updateLocale('en', {
+  week: {
+    dow: 1,
+  },
+})
+
+export const formatProjection = (projections) => {
+  return projections.find(({ period }) => {
+    return period === '90d' || period === 'lifetime'
+  })
+}
+
+export const formatServerData = ({ dailyData, dates, currentDataSource, currentPlatform, projection }) => {
+  // Convert dates object to array
+  const dataArray = Object.entries(dailyData)
+    // Sort by dates, chronologically
+    .sort(([dateA], [dateB]) => {
+      return moment(dateA) - moment(dateB)
+    })
+  // Get details about data source
+  const {
+    title,
+    subtitle,
+    period,
+    dataType,
+    currency,
+  } = insightDataSources[currentDataSource]
+  // Get most recent and earliest data
+  const mostRecentData = dataArray[dataArray.length - 1]
+  const earliestData = dataArray[0]
+  // Output formatted data
+  return {
+    dailyData,
+    title: `${title} (${subtitle || period})`,
+    shortTitle: title,
+    subtitle,
+    period,
+    cumulative: dataType === 'cumulative',
+    source: currentDataSource,
+    platform: currentPlatform,
+    dataType,
+    currency,
+    mostRecent: {
+      date: mostRecentData[0],
+      value: mostRecentData[1],
+    },
+    earliest: {
+      date: earliestData[0],
+      value: earliestData[1],
+    },
+    today: dailyData[dates.today],
+    yesterday: dailyData[dates.yesterday],
+    twoDaysBefore: dailyData[dates.twoDaysBefore],
+    sevenDaysBefore: dailyData[dates.sevenDaysBefore],
+    oneMonthBefore: dailyData[dates.oneMonthBefore],
+    startOfYear: dailyData[dates.startOfYear],
+    projection,
+  }
+}
+
+export const calcGranularity = (earliestMoment, latestMoment) => {
+  // Find out number of weeks between earliest and latest dates
+  const weeks = latestMoment.diff(earliestMoment, 'weeks', true)
+  // If there is less than 4 weeks of data, set granularity to 'days'
+  if (weeks < 4) return 'days'
+  // If there is less than 26 weeks (0.5 year) of data, set granularity to 'weeks'
+  if (weeks < 26) return 'weeks'
+  // Otherwise set granularity to 'months'
+  return 'months'
+}
+
+export const calcStartAndEnd = (granularity, earliestMoment, latestMoment) => {
+  // If displaying daily data, periods will start from earliest moment,
+  // up to and including the latest
+  if (granularity === 'days') {
+    return [earliestMoment, latestMoment]
+  }
+  // If displaying weekly data, periods will start from Sunday after earliest moment,
+  // up to Sunday before latest moment
+  if (granularity === 'weeks') {
+    return [earliestMoment.endOf('week'), latestMoment.startOf('week').subtract(1, 'day')]
+  }
+  // If it's monthly data, periods will be from end of month of earliest moment,
+  // up to latest moment
+  return [earliestMoment.endOf('month'), latestMoment]
+}
+
+// CREATE ARRAY OF PERIOD DATES
+const getClosestDate = (dailyDataSeconds, targetDate) => {
+  // Get date (in seconds)
+  const date = helpers.closestNumberInArray(dailyDataSeconds, targetDate)
+  // return moment object
+  return moment.unix(date)
+}
+
+export const getPeriodDates = (data, granularity) => {
+  const { dailyData, mostRecent: { date: lastDate } } = data
+  // Create array of momments that correspond to daily data dates
+  const dailyDataMoments = Object.keys(dailyData).map((date) => {
+    return moment(date, 'YYYY-MM-DD')
+  })
+  // Create an array of these momements, but in seconds
+  const dailyDataSeconds = dailyDataMoments.map((day) => day.unix())
+  // Get moment of last date of data
+  const lastMoment = moment(lastDate, 'YYYY-MM-DD')
+  // CREATE REDUCED ARRAY OF MOMENTS, SPACED BY GRANULARITY
+  const periodMoments = dailyDataMoments.reduce((moments, moment, index) => {
+    // First date: just return the date
+    if (index === 0) return [...moments, moment]
+    // Add period of granularity...
+    const adjustedMoment = moment.add(1, granularity)
+    // If modified date is beyond the date range of the data, just return array
+    if (adjustedMoment.isAfter(lastMoment)) return moments
+    // Find the closest date in the data to the modified date
+    const closestMoment = getClosestDate(dailyDataSeconds, adjustedMoment.unix())
+    // If closest date is too close, ignore it
+    const previousMoment = moments[moments.length - 1]
+    if (closestMoment.diff(previousMoment, granularity) < 1) return moments
+    // Else add the date to the array
+    return [...moments, closestMoment]
+  }, [])
+  // Convert the moments to dates and return
+  const periodDates = periodMoments.map((period) => period.format('YYYY-MM-DD'))
+  return periodDates
+}
+
+// CREATE ARRAY OF PERIOD LABELS
+export const getPeriodLabels = (granularity, periodDates) => {
+  return periodDates.map((date) => {
+    const labelFormat = granularity === 'months' ? 'MMM' : 'DD MMM'
+    const dateMoment = moment(date, 'YYYY-MM-DD')
+    return dateMoment.format(labelFormat)
+  })
+}
+
+// CREATE DATA ARRAY
+export const createDataArray = (datePeriods, data) => {
+  const { dailyData } = data
+  return datePeriods.map((date) => dailyData[date])
+}
+
+export const getDummyData = () => {
+  return {
+    dataArray: [505, 505, 509, 512, 515, 524, 525, 527, 532, 538, 541, 548, 552, 559, 566],
+    periodLabels: Array(15).fill().map((_, i) => i),
+    chartLimit: { max: 579, min: 500 },
+  }
+}

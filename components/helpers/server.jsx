@@ -173,16 +173,15 @@ export default {
   },
 
   /**
-   * @param {string[]} dataSources
+   * @param {array} dataSources
    * @param {string} artistId
-   * @param {string} [verifyIdToken]
    * @returns {Promise<any>}
    */
-  getDataSourceValue: async (dataSources, artistId, verifyIdToken) => {
+  getDataSourceValue: async (dataSources, artistId) => {
     return api
       .get(`/artists/${artistId}/data_sources`, {
         name: dataSources.join(','),
-      }, verifyIdToken)
+      })
       .then(res => {
         // convert array to object with data source name as keys
         return res.reduce((obj, dataSource) => {
@@ -190,6 +189,15 @@ export default {
           return obj
         }, {})
       })
+  },
+
+  /**
+   * @param {string} dataSource
+   * @param {string} artistId
+   * @returns {Promise<any>}
+   */
+  getDataSourceProjection: async (dataSource, artistId) => {
+    return api.get(`/artists/${artistId}/data_sources/${dataSource}/annualized`)
   },
 
   // ASSETS

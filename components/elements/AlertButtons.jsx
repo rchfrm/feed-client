@@ -15,7 +15,9 @@ const AlertButtons = ({
       <Button
         version="black"
         onClick={resetAlert}
-        width={31.48}
+        style={{
+          width: '31.48%',
+        }}
       >
         {responseExpected ? rejectionText : confirmationText}
       </Button>
@@ -23,7 +25,9 @@ const AlertButtons = ({
         <Button
           version="black"
           onClick={acceptAlert || resetAlert}
-          width={31.48}
+          style={{
+            width: '31.48%',
+          }}
         >
           {confirmationText}
         </Button>

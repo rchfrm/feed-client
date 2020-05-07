@@ -1,61 +1,35 @@
 // IMPORT PACKAGES
 import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
-import dataSourceDetails from '../constants/dataSources'
 import brandColors from '../constants/brandColors'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
 // IMPORT STYLES
 import helper from './helpers/helper'
+// IMPORT STYLES
+import styles from './InsightsPage.module.css'
 
-const ChartDoughnut = ({ data, displayedDataSources }) => {
+const ChartDoughnut = ({
+  data,
+}) => {
   // DEFINE STATES
+  const [currentPlatform] = React.useState(data.platform)
+  const [currentDataSource] = React.useState(data.source)
   const [displayData, setDisplayData] = React.useState([])
   const [dataColors, setDataColors] = React.useState([])
-  // DEFINE STATES
-
+  // UPDATE DATA
   React.useEffect(() => {
-    // If there are no data sources to display, reset state
-    if (displayedDataSources.length === 0) {
-      setDisplayData([])
-      setDataColors([])
-      return
-    }
-
-    const updatedDataColors = []
-    const updatedDisplayData = []
-    displayedDataSources.forEach(dataSource => {
-      // Exit if the data source hasn't been returned from the server yet
-      if (!data[dataSource]) { return }
-
-      updatedDataColors.push(dataSourceDetails[dataSource].color)
-      updatedDisplayData.push(data[dataSource].mostRecent.value)
-    })
-
-    setDataColors(updatedDataColors)
-    setDisplayData(updatedDisplayData)
-  }, [data, displayedDataSources])
+    const { mostRecent: { value } } = data
+    const { bg: color } = brandColors[currentPlatform]
+    setDisplayData([value])
+    setDataColors([color])
+  }, [currentDataSource])
 
   return (
-    <div id="doughnut-chart">
-      <style jsx>
-        {`
-        #doughnut-chart {
-          width: 90%;
-          margin: 0 5%;
-        }
-      `}
-      </style>
+    <div className={styles.chartContainer__doughnut}>
       <Doughnut
         width={100}
         height={100}
         data={{
-          labels: displayedDataSources,
+          labels: [currentDataSource],
           datasets: [
             {
               backgroundColor: dataColors,
@@ -69,24 +43,23 @@ const ChartDoughnut = ({ data, displayedDataSources }) => {
           },
           cutoutPercentage: 65.738,
           tooltips: {
-            backgroundColor: helper.hexToRGBA(brandColors.white, 0.9),
-            titleFontFamily: "'SpaceGrotesk', 'sans-serif'",
-            bodyFontFamily: "'SpaceGrotesk', 'sans-serif'",
+            backgroundColor: helper.hexToRGBA(brandColors.bgColor, 0.9),
+            borderColor: brandColors.textColor,
+            titleFontFamily: "'Inter', 'sans-serif'",
+            bodyFontFamily: "'Inter', 'sans-serif'",
             titleFontSize: 18,
             bodyFontSize: 15,
             titleMarginBottom: 9,
-            titleFontColor: brandColors.black,
-            bodyFontColor: brandColors.black,
+            titleFontColor: brandColors.textColor,
+            bodyFontColor: brandColors.textColor,
             bodySpacing: 5,
             xPadding: 15,
             yPadding: 15,
             callbacks: {
               label(tooltipItem, chart) {
                 const dataSourceIndex = tooltipItem.index
-                const dataSourceName = chart.labels[dataSourceIndex]
-                const platform = helper.extractDataSourcePlatform(dataSourceName)
                 const dataSourceValue = chart.datasets[0].data[dataSourceIndex]
-                return ` ${helper.formatNumber(dataSourceValue)}: ${helper.capitalise(platform)} ${helper.translateDataSourceId(dataSourceName)}`
+                return ` ${helper.formatNumber(dataSourceValue)}: ${helper.capitalise(data.title)}`
               },
             },
           },

@@ -139,7 +139,9 @@ function PostLinkAddUrl({
       buttonState={buttonState}
       handleClick={saveLink}
       disabled={!enabled}
-      width={100}
+      style={{
+        width: '100%',
+      }}
     />
   )
 

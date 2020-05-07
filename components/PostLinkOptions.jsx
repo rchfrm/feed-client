@@ -132,7 +132,9 @@ function PostLinkOptions({
           buttonState={buttonState}
           handleClick={handleClick}
           disabled={buttonDisabled}
-          width={25}
+          style={{
+            width: '25%',
+          }}
         />
 
       </div>

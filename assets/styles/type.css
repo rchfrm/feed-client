@@ -10,7 +10,7 @@ body {
 a {
   color: var(--black);
 
-  @media (hover: hover) {
+  @mixin canHover {
     &:not(.button):hover {
       color: var(--green);
     } 
