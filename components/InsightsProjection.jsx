@@ -18,7 +18,7 @@ const buildSentence = (predicted, growth, { platform, shortTitle }) => {
   let sentence = 'If this growth continues, in a year you will have '
   sentence += `**${predictedFormatted}** ${helper.capitalise(platform)} ${shortTitle}—that’s `
   if (growthType === 'multiplier') {
-    sentence += `**${growthFormatted}x** the size it is now`
+    sentence += `**${growthFormatted}x** the number today`
   } else {
     sentence += `**${growthFormatted}%** more than today.`
   }
