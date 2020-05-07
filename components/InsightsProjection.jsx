@@ -22,7 +22,7 @@ const buildSentence = (predicted, growth, { platform, shortTitle }) => {
   if (growthType === 'multiplier') {
     sentence += `**${growthFormatted}x** the size it is now`
   } else {
-    sentence += `**${growthFormatted}%** more than today`
+    sentence += `**${growthFormatted}%** more than today.`
   }
   return sentence
 }
