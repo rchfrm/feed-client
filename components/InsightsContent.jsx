@@ -13,7 +13,7 @@ import InsightDataSelectors from './InsightDataSelectors'
 import InsightsChartLoader from './InsightsChartLoader'
 import PromotePostsButton from './PromotePostsButton'
 // IMPORT HELPERS
-import { getAvailablePlatforms, getInitialPlatform, getInitialDataSource } from './helpers/chartHelpers'
+import * as chartHelpers from './helpers/chartHelpers'
 // IMPORT TEXT
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/InsightPageCopy'
@@ -32,27 +32,28 @@ function InsightsContent() {
 
   // GET AVAILABLE DATA SOURCES
   const availableDataSources = React.useMemo(() => {
-    if (artistLoading) return []
+    if (!artistId) return []
     const { _embedded: { data_sources: dataSources } } = artist
-    return Object.values(dataSources).map(({ id }) => id)
-  }, [artistLoading, artistId])
+    const allSources = Object.values(dataSources).map(({ id }) => id)
+    return chartHelpers.getAvailableSources(allSources)
+  }, [artistId])
 
   // GET ALL AVAILABLE PLATFORMS
   const availablePlatforms = React.useMemo(() => {
-    if (artistLoading) return []
-    return getAvailablePlatforms(availableDataSources)
-  }, [artistLoading, artistId])
+    if (!availableDataSources.length) return []
+    return chartHelpers.getAvailablePlatforms(availableDataSources)
+  }, [artistId, availableDataSources.length])
 
-  // GET INITIAL PLATFORM AND DATA SOURCE
+  // SET INITIAL PLATFORM AND DATA SOURCE
   React.useEffect(() => {
     if (!availablePlatforms.length) return
     // Get and set initial platform
-    const platform = getInitialPlatform(availablePlatforms)
+    const platform = chartHelpers.getInitialPlatform(availablePlatforms)
     setCurrentPlatform(platform)
     // Get and set initial data source
-    const source = getInitialDataSource(availableDataSources, platform)
+    const source = chartHelpers.getInitialDataSource(availableDataSources, platform)
     setCurrentDataSource(source)
-  }, [availablePlatforms])
+  }, [artistId, availablePlatforms.length])
 
   // Set page ready after page has loaded
   React.useEffect(() => {

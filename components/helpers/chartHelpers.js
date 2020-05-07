@@ -14,8 +14,8 @@ moment.updateLocale('en', {
 
 export const getAvailablePlatforms = (availableDataSources) => {
   // Get name of platform from data source
-  const dataSourcePlatforms = availableDataSources.map((source) => {
-    const { platform } = insightDataSources[source]
+  const dataSourcePlatforms = availableDataSources.map(({ id: sourceId }) => {
+    const { platform } = insightDataSources[sourceId]
     return platform
   })
   // Get platforms by removing duplicates from above
@@ -45,22 +45,51 @@ export const getInitialPlatform = (availablePlatforms) => {
   return availablePlatforms[0].id
 }
 
+export const getAvailableSources = (allSources) => {
+  return allSources.reduce((sources, sourceId) => {
+    const {
+      id,
+      title,
+      visible,
+      breakdown,
+      subtitle,
+      period,
+      platform,
+    } = insightDataSources[sourceId]
+    // Ignore is not visible or a breakdown
+    if (!visible || breakdown) return sources
+    return [...sources, {
+      title,
+      id,
+      subtitle: subtitle || period,
+      platform,
+    }]
+  }, [])
+}
+
 export const getInitialDataSource = (availableDataSources, currentPlatform) => {
   // Filter out non-platform related sources
-  const filteredSources = availableDataSources.filter((source) => {
-    const { platform } = insightDataSources[source]
+  const filteredSources = availableDataSources.filter(({ id: sourceId }) => {
+    const { platform } = insightDataSources[sourceId]
     return platform === currentPlatform
   })
   // Find first filter that matches the
-  const followersSourceIndex = filteredSources.findIndex((sourceId) => {
+  const followersSourceIndex = filteredSources.findIndex(({ id: sourceId }) => {
     return sourceId.includes('follower')
   })
-  const likesSourceIndex = filteredSources.findIndex((sourceId) => {
+  const likesSourceIndex = filteredSources.findIndex(({ id: sourceId }) => {
     return sourceId.includes('likes')
   })
-  if (followersSourceIndex > -1) return filteredSources[followersSourceIndex]
-  if (likesSourceIndex > -1) return filteredSources[likesSourceIndex]
-  return filteredSources[0]
+  if (followersSourceIndex > -1) return filteredSources[followersSourceIndex].id
+  if (likesSourceIndex > -1) return filteredSources[likesSourceIndex].id
+  return filteredSources[0].id
+}
+
+export const getPlatformSources = (availableDataSources, currentPlatform) => {
+  return availableDataSources.filter((sourceData) => {
+    const { platform } = sourceData
+    return platform === currentPlatform
+  })
 }
 
 export const formatProjection = (projections) => {

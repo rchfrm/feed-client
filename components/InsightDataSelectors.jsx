@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import * as chartHelpers from './helpers/chartHelpers'
+
 import useScrollToButton from './hooks/useScrollToButton'
 
 import styles from './InsightSelectors.module.css'
@@ -15,42 +17,26 @@ const InsightDataSelectors = ({
   initialLoading,
 }) => {
   // Return array of data sources that match the current platform
-  const availableSources = React.useMemo(() => {
+  const platformSources = React.useMemo(() => {
     if (!currentPlatform) return []
-    return availableDataSources.reduce((sources, sourceId) => {
-      const {
-        id,
-        title,
-        visible,
-        breakdown,
-        subtitle,
-        period,
-        platform,
-      } = insightDataSources[sourceId]
-      // Ignore if not related to current platform
-      if (platform !== currentPlatform) return sources
-      // Ignore is not visible or a breakdown
-      if (!visible || breakdown) return sources
-      return [...sources, {
-        title,
-        id,
-        subtitle: subtitle || period,
-      }]
-    }, [])
+    return chartHelpers.getPlatformSources(availableDataSources, currentPlatform)
   }, [currentPlatform])
 
   // Set first data sources as active when platfrorm changes
   React.useEffect(() => {
-    if (!availableSources.length) return
+    if (!platformSources.length) return
+    // Get and set initial data source
+    const source = chartHelpers.getInitialDataSource(platformSources, currentPlatform)
+    setCurrentDataSource(source)
     // Set hover color
     const { bg: platformColor } = brandColors[currentPlatform]
     const dataSelectors = document.getElementById('dataSelectors')
     if (!dataSelectors) return
     dataSelectors.style.setProperty('--active-color', platformColor)
-  }, [currentPlatform])
+  }, [platformSources])
 
   // SETUP SCROLL TO BUTTON
-  const [buttonRefs, containerRef] = useScrollToButton(availableSources, currentDataSource)
+  const [buttonRefs, containerRef] = useScrollToButton(platformSources, currentDataSource)
 
   if (initialLoading) return null
 
@@ -58,7 +44,7 @@ const InsightDataSelectors = ({
     <div className={styles.selectorsOuter}>
       <p className={['inputLabel__text', styles.selectorsLabel].join(' ')}>Select a data set</p>
       <div id="dataSelectors" className={styles.dataSelectors} ref={containerRef}>
-        {availableSources.map(({ title, subtitle, id }, i) => {
+        {platformSources.map(({ title, subtitle, id }, i) => {
           const activeClass = currentDataSource === id ? styles._active : ''
           return (
             <a
@@ -78,7 +64,6 @@ const InsightDataSelectors = ({
             </a>
           )
         })}
-
       </div>
     </div>
   )
