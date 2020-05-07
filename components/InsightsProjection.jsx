@@ -10,6 +10,23 @@ import MarkdownText from './elements/MarkdownText'
 import brandColors from '../constants/brandColors'
 import styles from './InsightsPage.module.css'
 
+const buildSentence = (predicted, growth, { platform, shortTitle }) => {
+  const predictedFormatted = helper.formatNumber(predicted)
+  const growthType = growth >= 100 ? 'multiplier' : 'fraction'
+  const growthAmount = growthType === 'multiplier' ? ((growth / 100) + 1) : growth
+  const growthDecimals = growthType === 'multiplier' ? 1 : 0
+  const growthFormatted = helper.formatNumber(growthAmount, { maximumFractionDigits: growthDecimals })
+  // Now build the sentence
+  let sentence = 'If this growth continues, in a year you will have '
+  sentence += `**${predictedFormatted}** ${platform} ${shortTitle}—that’s `
+  if (growthType === 'multiplier') {
+    sentence += `**${growthFormatted}x** the size it is now`
+  } else {
+    sentence += `**${growthFormatted}%** more than today`
+  }
+  return sentence
+}
+
 
 const InsightsProjection = ({
   data,
@@ -19,16 +36,16 @@ const InsightsProjection = ({
   const [sentence, setSentence] = React.useState('')
   const [backgroundColor, setBackgroundColor] = React.useState('')
   React.useEffect(() => {
-    const { projection, cumulative, platform, shortTitle } = data
+    const { projection, cumulative, platform } = data
     // If no projection or not cumulative, stop here
     if (!projection || !cumulative) return setSentence('')
-    const { annualized: { growth, predicted } } = projection
+    const { annualized: { predicted, growth } } = projection
     // Stop here if negative growth
     if (growth <= 0) return setSentence('')
-    const predictedFormatted = helper.formatNumber(predicted)
-    const growthFormatted = helper.formatNumber(growth, { maximumFractionDigits: 0 })
-    const newSentence = `If you keep growing at this rate, in a year you will have **${predictedFormatted}** ${platform} ${shortTitle}—that’s **+${growthFormatted}%**`
+    // Build and set sentence
+    const newSentence = buildSentence(predicted, growth, data)
     setSentence(newSentence)
+    // Set color
     const color = brandColors[platform]
     const lightColor = tinycolor(color).lighten('20').toString()
     setBackgroundColor(lightColor)
