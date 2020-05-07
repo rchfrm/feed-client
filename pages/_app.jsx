@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Router from 'next/router'
 import withGA from 'next-ga'
 import Head from 'next/head'
@@ -6,21 +6,16 @@ import PropTypes from 'prop-types'
 import { StripeProvider } from 'react-stripe-elements'
 import Script from 'react-load-script'
 import * as Sentry from '@sentry/browser'
+// GLOBAL STYLES
+import '../assets/styles/index.css'
 // IMPORT COMPONENTS
-import Main from '../components/Main'
-import TheHeader from '../components/TheHeader'
-import TheFooter from '../components/TheFooter'
+import AppContents from '../components/AppContents'
 // IMPORT CONTEXTS
 import { AuthProvider } from '../components/contexts/Auth'
-import { NavMenuProvider, NavigationContext } from '../components/contexts/Navigation'
-// IMPORT ELEMENTS
-
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
+import { NavMenuProvider } from '../components/contexts/Navigation'
 // IMPORT HELPERS
+import { trackPWA } from '../components/helpers/trackingHelpers'
 // IMPORT STYLES
-import '../assets/styles/index.css'
 
 const registerServiceWorker = () => {
   window.addEventListener('load', () => {
@@ -47,6 +42,7 @@ const registerServiceWorker = () => {
 }
 
 if (process.env.build_env !== 'development') {
+  // INIT SENTRY
   Sentry.init({
     dsn: process.env.sentry_dsn,
     release: `feed-client@${(process.env.release_version || 'dev')}`,
@@ -60,6 +56,7 @@ function Feed({ Component, pageProps }) {
   useEffect(() => {
     if (process.env.build_env !== 'development') {
       registerServiceWorker()
+      trackPWA()
     }
   }, [])
 
@@ -90,17 +87,9 @@ function Feed({ Component, pageProps }) {
 
         <NavMenuProvider>
 
-          <div id="container">
-
-            <TheHeader />
-
-            <Main>
-              <Component {...pageProps} />
-            </Main>
-
-            <TheFooter />
-
-          </div>
+          <AppContents>
+            <Component {...pageProps} />
+          </AppContents>
 
         </NavMenuProvider>
 

@@ -96,16 +96,15 @@ function AuthProvider({ children }) {
 
   const emailLogin = async (email, password) => {
     setAuthLoading(true)
-    try {
-      const authUser = await firebase.doSignInWithEmailAndPassword(email, password)
-      const token = await authUser.user.getIdToken()
-      const { user } = authUser
-      storeAuth({ authUser: user, authToken: token })
-      return token
-    } catch (err) {
-      setAuthLoading(false)
-      throw (err)
-    }
+    const { authUser, error: loginError } = await firebase.doSignInWithEmailAndPassword(email, password)
+    if (loginError) return { loginError }
+    const { user } = authUser
+    const token = await user.getIdToken()
+      .catch((error) => {
+        return { error }
+      })
+    storeAuth({ authUser: user, authToken: token })
+    return { tokenError: token.error }
   }
 
   const signUp = async (email, password) => {

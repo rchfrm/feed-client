@@ -95,7 +95,7 @@ function PostConnections({ className }) {
     return (
       <PostConnectionsConnection
         key={platform}
-        artistId={artistId}
+        artist={artist}
         platform={platform}
         priorityDSP={priorityDSP}
         url={connections[platform].url || ''}

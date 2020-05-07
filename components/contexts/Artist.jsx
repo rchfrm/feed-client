@@ -76,6 +76,7 @@ function ArtistProvider({ children }) {
 
   const [artist, setArtist] = useImmerReducer(artistReducer, initialArtistState)
   const [artistId, setArtistId] = React.useState('')
+  const [artistCurrency, setArtistCurrency] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
 
   const setNoArtist = () => {
@@ -98,7 +99,7 @@ function ArtistProvider({ children }) {
           category: 'sign up',
           action: 'Could not get artist using artistHelpers.getArtist(id)',
           description: error.message,
-          label: id,
+          label: `artistId: ${id}`,
           error: true,
         })
         throw (error)
@@ -114,7 +115,7 @@ function ArtistProvider({ children }) {
     return artist
   }
 
-  const createArtist = async (artistAccounts, accessToken) => {
+  const createArtist = async (artistAccounts, accessToken, oldUser) => {
     setArtistLoading(true)
     // Conect artist accounts to array
     const artistAccountsArray = Object.values(artistAccounts)
@@ -168,6 +169,22 @@ function ArtistProvider({ children }) {
     const selectedArtist = updatedUser.artists[0]
     await storeArtist(selectedArtist.id)
     setArtistLoading(false)
+    // Track
+    track({
+      category: 'sign up',
+      action: 'User connected Facebook Pages',
+      description: `Pages connected: ${connectedArtistAccounts.length}`,
+      label: `User ID: ${updatedUser.id}`,
+    })
+    // Track first time connecting accounits
+    if (!oldUser.artists.length) {
+      track({
+        category: 'sign up',
+        action: 'User completed sign up',
+        description: `Pages connected: ${connectedArtistAccounts.length}`,
+        label: `User ID: ${updatedUser.id}`,
+      })
+    }
   }
 
   const updateBudget = async (id, amount) => {
@@ -234,12 +251,16 @@ function ArtistProvider({ children }) {
   // Store artist id in local storage
   React.useEffect(() => {
     if (!artistId) return
+    // Set currency
+    setArtistCurrency(artist.currency)
+    // Update local storage
     helper.setLocalStorage('artistId', artist.id)
   }, [artistId])
 
   const value = {
     artist,
     artistId,
+    artistCurrency,
     artistLoading,
     createArtist,
     setNoArtist,

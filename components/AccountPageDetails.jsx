@@ -6,6 +6,7 @@ import { SidePanelContext } from './contexts/SidePanelContext'
 
 import server from './helpers/server'
 import firebase from './helpers/firebase'
+import { track } from './helpers/trackingHelpers'
 
 import Input from './elements/Input'
 import Button from './elements/Button'
@@ -93,6 +94,21 @@ function AccountPageDetails({ user }) {
       error = true
       setSidePanelLoading(false)
       return
+    }
+    // TRACK
+    if (emailChanged) {
+      track({
+        category: 'Account Page',
+        action: 'Update email address',
+        label: `User ID: ${user.id}`,
+      })
+    }
+    if (passwordChanged) {
+      track({
+        category: 'Account Page',
+        action: 'Update password',
+        label: `User ID: ${user.id}`,
+      })
     }
     // Update user
     const userUpdatePromise = accountDetailsChanged ? server.updateUser(name, surname, email) : null

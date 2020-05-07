@@ -7,6 +7,7 @@ import Error from './elements/Error'
 import Success from './elements/Success'
 // IMPORT HELPERS
 import firebase from './helpers/firebase'
+import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from './ForgotPasswordPage.module.css'
 
@@ -28,14 +29,20 @@ function ForgotPasswordForm({ setSuccess, setError, setEmail, email, error, isIn
   const onFormSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    await firebase.doPasswordReset(email)
-      .catch((err) => {
-        setError(err)
+    const res = await firebase.doPasswordReset(email)
+      .catch((error) => {
+        setError(error)
         setLoading(false)
+        return { error }
       })
+    if (res.error) return
     setSuccess(`Instructions for resetting your password have been sent to ${email}`)
     setEmail('')
     setLoading(false)
+    track({
+      category: 'login',
+      action: 'Requested password reset',
+    })
   }
 
   return (
