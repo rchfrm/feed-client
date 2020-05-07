@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import tinycolor from 'tinycolor2'
-
 import helper from './helpers/helper'
 
 import MarkdownText from './elements/MarkdownText'
@@ -35,6 +33,7 @@ const InsightsProjection = ({
 }) => {
   const [sentence, setSentence] = React.useState('')
   const [backgroundColor, setBackgroundColor] = React.useState('')
+  const [textColor, setTextColor] = React.useState('')
   React.useEffect(() => {
     const { projection, cumulative, platform } = data
     // If no projection or not cumulative, stop here
@@ -46,9 +45,9 @@ const InsightsProjection = ({
     const newSentence = buildSentence(predicted, growth, data)
     setSentence(newSentence)
     // Set color
-    const color = brandColors[platform]
-    const lightColor = tinycolor(color).lighten('20').toString()
-    setBackgroundColor(lightColor)
+    const { bg: bgColor, text: textColor } = brandColors[platform]
+    setBackgroundColor(bgColor)
+    setTextColor(textColor)
   }, [artistId, data.source])
 
   if (loading || !sentence) return null
@@ -58,7 +57,7 @@ const InsightsProjection = ({
       <MarkdownText
         className={['h3--text', styles.projectionText].join(' ')}
         markdown={sentence}
-        style={{ backgroundColor }}
+        style={{ backgroundColor, color: textColor }}
       />
     </div>
   )
