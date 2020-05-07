@@ -8,6 +8,7 @@ import moment from 'moment'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Error from './elements/Error'
+import Spinner from './elements/Spinner'
 // IMPORT PAGES
 import ChartContainer from './ChartContainer'
 import ChartBar from './ChartBar'
@@ -45,6 +46,8 @@ const fetchData = async ({ currentDataSource, currentPlatform, artistId, dates }
 function InsightsChartLoader({
   currentPlatform,
   currentDataSource,
+  initialLoading,
+  setInitialLoading,
 }) {
   // IMPORT CONTEXTS
   const { artistId } = React.useContext(ArtistContext)
@@ -80,6 +83,15 @@ function InsightsChartLoader({
     dates,
   })
 
+  // Set initial page loading after first data is retrieved
+  React.useEffect(() => {
+    if (!chartLoading) {
+      setInitialLoading(chartLoading)
+    }
+  }, [chartLoading])
+
+  if (initialLoading) return null
+
   if (!data) return null
 
   if (data === 'no-data') {
@@ -111,6 +123,8 @@ function InsightsChartLoader({
 InsightsChartLoader.propTypes = {
   currentPlatform: PropTypes.string.isRequired,
   currentDataSource: PropTypes.string.isRequired,
+  initialLoading: PropTypes.bool.isRequired,
+  setInitialLoading: PropTypes.func.isRequired,
 }
 
 export default InsightsChartLoader

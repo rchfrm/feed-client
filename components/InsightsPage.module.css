@@ -1,3 +1,13 @@
+.pageContainer {
+  opacity: 0;
+  transition: opacity var(--trans);
+
+  &._ready {
+    opacity: 1;
+  }
+}
+
+/* CHARTS */
 .dataContent {
   width: 100%;
   margin-top: var(--bsu-md);
@@ -12,7 +22,6 @@
   margin-bottom: calc(var(--bsu-lg) * 2);
 }
 
-/* CHARTS */
 .chartContainer__doughnut {
   width: 80%;
   margin: 0 auto;

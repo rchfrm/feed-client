@@ -16,6 +16,7 @@ const InsightPlatformSelectors = ({
   availableDataSources,
   currentPlatform,
   setCurrentPlatform,
+  initialLoading,
 }) => {
   // GET ALL AVAILABLE PLATFORMS
   const availablePlatforms = React.useMemo(() => {
@@ -63,11 +64,14 @@ const InsightPlatformSelectors = ({
     // Set hover color
     const platformColor = brandColors[currentPlatform]
     const dataSelectors = document.getElementById('platformSelectors')
+    if (!dataSelectors) return
     dataSelectors.style.setProperty('--active-color', platformColor)
   }, [currentPlatform])
 
 
   if (!availablePlatforms.length) return null
+
+  if (initialLoading) return null
 
   return (
     <div className={styles.selectorsOuter}>
@@ -113,6 +117,7 @@ InsightPlatformSelectors.propTypes = {
   availableDataSources: PropTypes.array.isRequired,
   currentPlatform: PropTypes.string,
   setCurrentPlatform: PropTypes.func.isRequired,
+  initialLoading: PropTypes.bool.isRequired,
 }
 
 InsightPlatformSelectors.defaultProps = {

@@ -18,20 +18,53 @@ import copy from '../copy/InsightPageCopy'
 import styles from './InsightsPage.module.css'
 
 
-function Insights() {
+function InsightsContent() {
   // Import artist context
-  const { artist, artistId } = React.useContext(ArtistContext)
+  const { artistLoading, artist, artistId } = React.useContext(ArtistContext)
   // Define states
   const [currentPlatform, setCurrentPlatform] = React.useState('')
   const [currentDataSource, setCurrentDataSource] = React.useState('')
+  const [initialLoading, setInitialLoading] = React.useState(true)
+  const [pageReady, setPageReady] = React.useState(false)
+
+  // Set page ready after page has loaded
+  React.useEffect(() => {
+    if (!initialLoading) {
+      setTimeout(() => {
+        setPageReady(true)
+      }, 200)
+    }
+  }, [initialLoading])
 
   const availableDataSources = React.useMemo(() => {
+    if (artistLoading) return []
     const { _embedded: { data_sources: dataSources } } = artist
     return Object.values(dataSources).map(({ id }) => id)
-  }, [artistId])
+  }, [artistLoading, artistId])
+
+  if (artistLoading) return <Spinner />
+
+  if (initialLoading) {
+    return (
+      <>
+        <Spinner />
+        <InsightsChartLoader
+          currentPlatform={currentPlatform}
+          currentDataSource={currentDataSource}
+          initialLoading={initialLoading}
+          setInitialLoading={setInitialLoading}
+        />
+      </>
+    )
+  }
+
+  const containerClasses = ['page--container', styles.pageContainer]
+  if (pageReady) {
+    containerClasses.push(styles._ready)
+  }
 
   return (
-    <div className="page--container">
+    <div className={containerClasses.join(' ')}>
 
       {/* PLATFORM SELECTORS */}
       <InsightPlatformSelectors
@@ -39,6 +72,7 @@ function Insights() {
         availableDataSources={availableDataSources}
         currentPlatform={currentPlatform}
         setCurrentPlatform={setCurrentPlatform}
+        initialLoading={initialLoading}
       />
       {/* DATASOURCE SELECTORS */}
       <InsightDataSelectors
@@ -46,6 +80,7 @@ function Insights() {
         currentPlatform={currentPlatform}
         currentDataSource={currentDataSource}
         setCurrentDataSource={setCurrentDataSource}
+        initialLoading={initialLoading}
       />
 
       {currentPlatform && currentDataSource && (
@@ -53,28 +88,26 @@ function Insights() {
           <InsightsChartLoader
             currentPlatform={currentPlatform}
             currentDataSource={currentDataSource}
+            initialLoading={initialLoading}
+            setInitialLoading={setInitialLoading}
           />
-          <PromotePostsButton
-            artist={artist}
-            artistId={artistId}
-            className={styles.promotePostsButton}
-          />
+          {!initialLoading && (
+            <PromotePostsButton
+              artist={artist}
+              artistId={artistId}
+              className={styles.promotePostsButton}
+            />
+          )}
         </div>
       )}
 
       {/* OUTRO TEXT TEXT */}
-      <MarkdownText className="ninety-wide  h4--text" markdown={copy.outro} />
+      {!initialLoading && (
+        <MarkdownText className="ninety-wide  h4--text" markdown={copy.outro} />
+      )}
 
     </div>
   )
-}
-
-function InsightsContent() {
-// IMPORT CONTEXTS
-  const { artistLoading } = React.useContext(ArtistContext)
-  if (artistLoading) return <Spinner />
-  // Otherwise, show page
-  return <Insights />
 }
 
 export default InsightsContent
