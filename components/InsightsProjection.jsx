@@ -55,7 +55,7 @@ const InsightsProjection = ({
   return (
     <div className={['ninety-wide', styles.projectionContainer].join(' ')}>
       <MarkdownText
-        className={['h3--text', styles.projectionText].join(' ')}
+        className={styles.projectionText}
         markdown={sentence}
         style={{ backgroundColor, color: textColor }}
       />

@@ -240,4 +240,12 @@
 .projectionText {
   padding: var(--bsu);
   border-radius: var(--dialogue-radius);
+
+  @media (--xxs) {
+    font-size: 1.2em;
+  }
+
+  @media (--xs) {
+    font-size: 1.333em;
+  }
 }
