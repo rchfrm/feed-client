@@ -16,6 +16,7 @@ const InsightPlatformSelectors = ({
   availableDataSources,
   currentPlatform,
   setCurrentPlatform,
+  initialLoading,
 }) => {
   // GET ALL AVAILABLE PLATFORMS
   const availablePlatforms = React.useMemo(() => {
@@ -61,20 +62,23 @@ const InsightPlatformSelectors = ({
   React.useEffect(() => {
     if (!currentPlatform) return
     // Set hover color
-    const platformColor = brandColors[currentPlatform]
+    const { bg: platformColor } = brandColors[currentPlatform]
     const dataSelectors = document.getElementById('platformSelectors')
+    if (!dataSelectors) return
     dataSelectors.style.setProperty('--active-color', platformColor)
   }, [currentPlatform])
 
 
   if (!availablePlatforms.length) return null
 
+  if (initialLoading) return null
+
   return (
     <div className={styles.selectorsOuter}>
       <p className={['inputLabel__text', styles.selectorsLabel].join(' ')}>Select a platform</p>
       <div id="platformSelectors" className={styles.platformSelectors} ref={containerRef}>
         {availablePlatforms.map(({ title, id }, i) => {
-          const platformColor = brandColors[id]
+          const { bg: platformColor } = brandColors[id]
           const active = id === currentPlatform
           const activeClass = active ? styles._active : ''
           const iconColor = platformColor
@@ -113,6 +117,7 @@ InsightPlatformSelectors.propTypes = {
   availableDataSources: PropTypes.array.isRequired,
   currentPlatform: PropTypes.string,
   setCurrentPlatform: PropTypes.func.isRequired,
+  initialLoading: PropTypes.bool.isRequired,
 }
 
 InsightPlatformSelectors.defaultProps = {

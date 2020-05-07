@@ -5,6 +5,7 @@ import moment from 'moment'
 // IMPORT COMPONENTS
 import ChartBar from './ChartBar'
 import ChartNumber from './ChartNumber'
+import InsightsProjection from './InsightsProjection'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT STYLES
 import styles from './InsightsPage.module.css'
@@ -16,15 +17,13 @@ const ChartContainer = ({
   loading,
 }) => {
   // GET ARTIST CURRENCY
-  const { artistCurrency } = React.useContext(ArtistContext)
+  const { artistId, artistCurrency } = React.useContext(ArtistContext)
   // DEFINE STATE
   const [earliestDataPoint, setEarliestDataPoint] = React.useState(data.earliest.date)
-  const [latestDataPoint, setLatestDataPoints] = React.useState(data.mostRecent.date)
   React.useEffect(() => {
     if (!data) return
-    const { earliest: { date: earliestDate }, mostRecent: { date: latestDate } } = data
+    const { earliest: { date: earliestDate } } = data
     setEarliestDataPoint(earliestDate)
-    setLatestDataPoints(latestDate)
   }, [data.dataType])
 
   // DETECT CHART TYPE
@@ -44,20 +43,27 @@ const ChartContainer = ({
     <div className={styles.chartOuter}>
 
       {(chartType === 'bar') && (
-        <ChartBar
-          data={data}
-          currentPlatform={currentPlatform}
-          currentDataSource={currentDataSource}
-          earliestDataPoint={earliestDataPoint}
-          latestDataPoint={latestDataPoint}
-          artistCurrency={artistCurrency}
-          loading={loading}
-        />
+        <>
+          <ChartBar
+            data={data}
+            artistId={artistId}
+            artistCurrency={artistCurrency}
+            loading={loading}
+          />
+          <InsightsProjection
+            data={data}
+            artistId={artistId}
+            currentPlatform={currentPlatform}
+            currentDataSource={currentDataSource}
+            loading={loading}
+          />
+        </>
       )}
 
       {chartType === 'number' && (
         <ChartNumber
           data={data}
+          artistId={artistId}
           artistCurrency={artistCurrency}
           loading={loading}
         />

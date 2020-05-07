@@ -18,7 +18,7 @@ const ChartDoughnut = ({
   // UPDATE DATA
   React.useEffect(() => {
     const { mostRecent: { value } } = data
-    const color = brandColors[currentPlatform]
+    const { bg: color } = brandColors[currentPlatform]
     setDisplayData([value])
     setDataColors([color])
   }, [currentDataSource])

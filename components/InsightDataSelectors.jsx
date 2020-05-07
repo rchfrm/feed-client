@@ -5,7 +5,7 @@ import useScrollToButton from './hooks/useScrollToButton'
 
 import styles from './InsightSelectors.module.css'
 import insightDataSources from '../constants/insightDataSources'
-import dataSourceDetails from '../constants/dataSources'
+import brandColors from '../constants/brandColors'
 
 const getDefaultSource = (sources) => {
   const followersSourceIndex = sources.findIndex(({ id: sourceId }) => {
@@ -24,6 +24,7 @@ const InsightDataSelectors = ({
   currentPlatform,
   currentDataSource,
   setCurrentDataSource,
+  initialLoading,
 }) => {
   // Return array of data sources that match the current platform
   const availableSources = React.useMemo(() => {
@@ -57,13 +58,16 @@ const InsightDataSelectors = ({
     // Set current source
     setCurrentDataSource(sourceId)
     // Set hover color
-    const { color: platformColor } = dataSourceDetails[currentPlatform]
+    const { bg: platformColor } = brandColors[currentPlatform]
     const dataSelectors = document.getElementById('dataSelectors')
+    if (!dataSelectors) return
     dataSelectors.style.setProperty('--active-color', platformColor)
   }, [currentPlatform])
 
   // SETUP SCROLL TO BUTTON
   const [buttonRefs, containerRef] = useScrollToButton(availableSources, currentDataSource)
+
+  if (initialLoading) return null
 
   return (
     <div className={styles.selectorsOuter}>
@@ -100,6 +104,7 @@ InsightDataSelectors.propTypes = {
   currentPlatform: PropTypes.string.isRequired,
   currentDataSource: PropTypes.string.isRequired,
   setCurrentDataSource: PropTypes.func.isRequired,
+  initialLoading: PropTypes.bool.isRequired,
 }
 
 export default InsightDataSelectors

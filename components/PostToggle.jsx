@@ -7,7 +7,6 @@ import ButtonToggle from './elements/ButtonToggle'
 import Icon from './elements/Icon'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import dataSourceDetails from '../constants/dataSources'
 import brandColors from '../constants/brandColors'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
@@ -19,7 +18,7 @@ const PostToggle = ({
 }) => {
   // Alter appearance based on promotion status
   const appearance = {
-    platformIconColor: promotionEnabled ? dataSourceDetails[post.platform].color : brandColors.grey,
+    platformIconColor: promotionEnabled ? brandColors[post.platform].bg : brandColors.grey,
     toggleIcon: promotionEnabled ? 'tick' : 'empty',
     toggleIconColor: promotionEnabled ? brandColors.white : brandColors.grey,
   }

@@ -210,12 +210,13 @@ export default {
 
   /**
    * @param {number} number
+   * @param {object} options https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
    * @param {string} locale
    * @returns {string} value
    */
-  formatNumber: (number, locale = navigator.language) => {
+  formatNumber: (number, options = {}, locale = navigator.language) => {
     if (!number) { return number }
-    return new Intl.NumberFormat(locale).format(number)
+    return new Intl.NumberFormat(locale, options).format(number)
   },
 
   generateMediaHTML: (media, thumbnail, message, handleError) => {

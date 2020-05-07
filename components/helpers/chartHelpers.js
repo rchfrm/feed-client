@@ -12,7 +12,13 @@ moment.updateLocale('en', {
   },
 })
 
-export const formatServerData = ({ dailyData, dates, currentDataSource, currentPlatform }) => {
+export const formatProjection = (projections) => {
+  return projections.find(({ period }) => {
+    return period === '90d' || period === 'lifetime'
+  })
+}
+
+export const formatServerData = ({ dailyData, dates, currentDataSource, currentPlatform, projection }) => {
   // Convert dates object to array
   const dataArray = Object.entries(dailyData)
     // Sort by dates, chronologically
@@ -56,9 +62,9 @@ export const formatServerData = ({ dailyData, dates, currentDataSource, currentP
     sevenDaysBefore: dailyData[dates.sevenDaysBefore],
     oneMonthBefore: dailyData[dates.oneMonthBefore],
     startOfYear: dailyData[dates.startOfYear],
+    projection,
   }
 }
-
 
 export const calcGranularity = (earliestMoment, latestMoment) => {
   // Find out number of weeks between earliest and latest dates
