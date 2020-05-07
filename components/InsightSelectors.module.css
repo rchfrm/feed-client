@@ -119,7 +119,7 @@
 
   @mixin canHover {
     &:hover {
-      color: var(--text-color);
+      color: var(--text-color) !important;
       &::after {
         opacity: 1;
       }
