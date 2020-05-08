@@ -109,7 +109,7 @@ function ResultsLoader() {
   // If the active and archived endpoints have been called,
   // but there are no posts, show NoResults
   if (!Object.keys(posts.active).length && !Object.keys(posts.archived).length) {
-    return <ResultsNoResults dailyBudget={artist.daily_budget} />
+    return <ResultsNoResults artist={artist} />
   }
 
   // Otherwise, show Results components
