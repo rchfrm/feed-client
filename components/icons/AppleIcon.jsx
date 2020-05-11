@@ -1,18 +1,18 @@
 import React from 'react'
 
-function AppleIcon(props) {
+function AppleIcon({ width, fill }) {
   const name = 'Apple Music'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      width={width}
       viewBox="0 0 28.188 28.195"
-      width={props.width}
       name={name}
     >
       <title>{name}</title>
 
       <path
-        fill={props.fill}
+        fill={fill}
         d="M28.187,7.195c-0.001-0.867-0.076-1.728-0.282-2.574c-0.372-1.536-1.247-2.713-2.561-3.573
         C24.67,0.607,23.93,0.335,23.14,0.193c-0.608-0.109-1.221-0.159-1.838-0.177c-0.048-0.002-0.098-0.009-0.146-0.014H7.032
         c-0.178,0.01-0.356,0.02-0.534,0.03c-0.878,0.05-1.75,0.146-2.575,0.472C2.351,1.126,1.219,2.21,0.555,3.768

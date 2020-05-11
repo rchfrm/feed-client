@@ -33,6 +33,24 @@ const getAllFacebookAdAccounts = async (fb_user_id, fb_access_token) => {
   }
 }
 
+
+const getInstagramBusinessUsername = async (ig_business_id, fb_access_token) => {
+  const endpoint = `${url + ig_business_id}?fields=username&access_token=${fb_access_token}`
+  try {
+    const res = await fetch(endpoint, {
+      method: 'GET',
+    })
+    if (res.ok) {
+      const jsonResponse = await res.json()
+      return jsonResponse.username
+    }
+    throw new Error('Request to GET Instagram Username failed')
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+
 const getFacebookPropertyIDs = async (fb_user_id, fb_access_token) => {
   const facebook_pages = await getFacebookPages(fb_user_id, fb_access_token)
   const properties = {}
@@ -84,22 +102,6 @@ const getFacebookAdAccounts = async (fb_user_id, fb_access_token, fb_page_id) =>
       return adaccounts
     }
     throw new Error('Request to GET Facebook Ad Accounts failed')
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-const getInstagramBusinessUsername = async (ig_business_id, fb_access_token) => {
-  const endpoint = `${url + ig_business_id}?fields=username&access_token=${fb_access_token}`
-  try {
-    const res = await fetch(endpoint, {
-      method: 'GET',
-    })
-    if (res.ok) {
-      const jsonResponse = await res.json()
-      return jsonResponse.username
-    }
-    throw new Error('Request to GET Instagram Username failed')
   } catch (err) {
     console.log(err)
   }

@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
-import slugify from 'slugify'
 
 import { BillingContext } from './contexts/BillingContext'
 
@@ -12,31 +11,31 @@ import * as ROUTES from '../constants/routes'
 import styles from './AccountPage.module.css'
 
 
-const NoPayment = () => {
-  return (
-    <>
-      In order to keep using
-      {' '}
-      <Feed />
-      , you'll need to enter some payment details.
-    </>
-  )
-}
+// const NoPayment = () => {
+//   return (
+//     <>
+//       In order to keep using
+//       {' '}
+//       <Feed />
+//       , you'll need to enter some payment details.
+//     </>
+//   )
+// }
 
-const NoMethod = ({ name, role }) => {
-  const message = role !== 'owner'
-    ? 'Please ask the owner of the billing account, to add a method of payment.'
-    : <NoPayment />
+// const NoMethod = ({ name, role }) => {
+//   const message = role !== 'owner'
+//     ? 'Please ask the owner of the billing account, to add a method of payment.'
+//     : <NoPayment />
 
-  return (
-    <div className={styles.paymentSummaryBlock}>
-      {name && (
-        <h3 className={styles.paymentSummaryName}>{ name }</h3>
-      )}
-      <p className={['error', styles.p, styles.noMethod].join(' ')}>{ message }</p>
-    </div>
-  )
-}
+//   return (
+//     <div className={styles.paymentSummaryBlock}>
+//       {name && (
+//         <h3 className={styles.paymentSummaryName}>{ name }</h3>
+//       )}
+//       <p className={['error', styles.p, styles.noMethod].join(' ')}>{ message }</p>
+//     </div>
+//   )
+// }
 
 const PaymentItem = ({ name, defaultMethod }) => {
   const {
@@ -68,12 +67,11 @@ const PaymentItem = ({ name, defaultMethod }) => {
 const AccountPagePaymentSummary = ({ className, user, onReady }) => {
   // Stop here if no user
   if (!user.id) return null
-  const { hasNoPaymentMethod, billingDetails } = React.useContext(BillingContext)
+  const { hasNoPaymentMethod } = React.useContext(BillingContext)
 
   // Call this when ready
   React.useEffect(() => {
     // Call on ready from parent
-    const buttonText = hasNoPaymentMethod ? 'Add a payment method' : null
     const sidePanelType = hasNoPaymentMethod ? 'add-payment' : null
     onReady(false, sidePanelType)
   }, [hasNoPaymentMethod])

@@ -5,7 +5,7 @@ import Select from './elements/Select'
 import ButtonToggle from './elements/ButtonToggle'
 import InstagramIcon from './icons/InstagramIcon'
 
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 
 import countries from '../constants/countries'
 
@@ -125,7 +125,7 @@ function ConnectAccountsPanel({
         <Input
           name="country_code"
           placeholder={artistAccount.country_code}
-          value={`${helper.findCountryName(artistAccount.country_code)} (${artistAccount.country_code})`}
+          value={`${utils.findCountryName(artistAccount.country_code)} (${artistAccount.country_code})`}
           handleChange={handleChange}
           label="Your Country"
           readOnly={readOnly}

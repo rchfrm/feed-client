@@ -10,7 +10,7 @@ import { Bar } from 'react-chartjs-2'
 import Spinner from './elements/Spinner'
 import ChartBarOverlay from './ChartBarOverlay'
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 import * as chartHelpers from './helpers/chartHelpers'
 import brandColors from '../constants/brandColors'
 // IMPORT STYLES
@@ -74,7 +74,7 @@ const baseChartConfig = {
     }],
   },
   tooltips: {
-    backgroundColor: helper.hexToRGBA(brandColors.bgColor, 0.9),
+    backgroundColor: utils.hexToRGBA(brandColors.bgColor, 0.9),
     titleFontFamily: "'Inter', 'sans-serif'",
     bodyFontFamily: "'Inter', 'sans-serif'",
     titleFontSize: 18,
@@ -167,8 +167,8 @@ function ChartBar({
     // DEFINE THE DATASET(S) TO DISPLAY
     const dataArray = chartHelpers.createDataArray(periodDates, data)
     // Set the limits of the charts y axis
-    const max = helper.maxArrayValue(dataArray)
-    const min = helper.minArrayValue(dataArray)
+    const max = utils.maxArrayValue(dataArray)
+    const min = utils.minArrayValue(dataArray)
     // Ensure range is even number
     const range = max - min
     const maxLimitModifier = (range % 2) > 0 ? 1 : 2
@@ -250,8 +250,8 @@ function ChartBar({
           // display the total value on the relevant date in 'beforeBody'
           if (datasetName.indexOf('new_') > -1) {
             const total = sumPreviousAndNewValues(chartData, dataIndex)
-            const totalFormatted = data.currency ? helper.formatCurrency(total, artistCurrency) : helper.formatNumber(total)
-            const platform = helper.capitalise(currentPlatform)
+            const totalFormatted = data.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
+            const platform = utils.capitalise(currentPlatform)
             return `${totalFormatted}: ${platform} ${data.title}`
           }
         },
@@ -264,11 +264,11 @@ function ChartBar({
           const dataIndex = tooltipItem.index
           if (datasetName.indexOf('new_') > -1) {
             const previousDate = chart.labels[dataIndex - 1]
-            return ` ${helper.formatNumber(tooltipItem.value)} more than ${previousDate}`
+            return ` ${utils.formatNumber(tooltipItem.value)} more than ${previousDate}`
           }
           const total = sumPreviousAndNewValues(chartData, dataIndex)
-          const totalFormatted = data.currency ? helper.formatCurrency(total, artistCurrency) : helper.formatNumber(total)
-          const platform = helper.capitalise(currentPlatform)
+          const totalFormatted = data.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
+          const platform = utils.capitalise(currentPlatform)
           return ` ${totalFormatted}: ${platform} ${data.title}`
         },
       }

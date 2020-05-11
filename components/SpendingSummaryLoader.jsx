@@ -11,7 +11,7 @@ import MarkdownText from './elements/MarkdownText'
 import Spinner from './elements/Spinner'
 // IMPORT HELPERS
 import server from './helpers/server'
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 // IMPORT COPY
 import copy from '../copy/InsightPageCopy'
 // IMPORT STYLES
@@ -122,9 +122,9 @@ function SpendingSummaryLoader() {
   // Stop here if not spend
   if (!spend) return null
 
-  const spendingFormatted = helper.formatCurrency(spend, artist.currency)
+  const spendingFormatted = utils.formatCurrency(spend, artist.currency)
   const spendSummary = copy.spendSummary(daysToInclude, spendingFormatted)
-  const impressionSummary = copy.impressionSummary(helper.formatNumber(impressions))
+  const impressionSummary = copy.impressionSummary(utils.formatNumber(impressions))
   const markdown = `${spendSummary}${impressionSummary}`
 
   return <MarkdownText className="ninety-wide  h4--text" markdown={markdown} />

@@ -1,15 +1,15 @@
 import React from 'react'
 
-function GlobeIcon(props) {
+function GlobeIcon({ width, fill }) {
   const name = 'Website'
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      width={props.width}
+      width={width}
       name={name}
       fill="none"
-      stroke={props.fill}
+      stroke={fill}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"

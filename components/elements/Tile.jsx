@@ -9,14 +9,14 @@ import React from 'react'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function Tile(props) {
+function Tile({ id, isArrayLengthOne, selected, readOnly, children }) {
   return (
     <li
-      key={props.id}
-      id={props.id}
-      className={`tile ${props.isArrayLengthOne ? 'singular' : ''} ${props.selected ? 'selected' : 'deselected'} ${props.readOnly ? 'readonly' : ''}`}
+      key={id}
+      id={id}
+      className={`tile ${isArrayLengthOne ? 'singular' : ''} ${selected ? 'selected' : 'deselected'} ${readOnly ? 'readonly' : ''}`}
     >
-      {props.children}
+      {children}
     </li>
   )
 }

@@ -1,17 +1,17 @@
 import React from 'react'
 
-function NextButton(props) {
+function NextButton({ disabled, onClick, position, children }) {
   return (
     <button
       type="button"
-      disabled={props.disabled}
+      disabled={disabled}
       className="nextbutton"
-      onClick={props.onClick}
+      onClick={onClick}
       style={{
-        float: props.position,
+        float: position,
       }}
     >
-      {props.children}
+      {children}
     </button>
   )
 }

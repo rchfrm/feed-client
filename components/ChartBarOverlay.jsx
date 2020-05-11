@@ -2,21 +2,21 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './InsightsPage.module.css'
 
 const ChartBarOverlay = ({ max: maxValue, min: minValue, currency, labels }) => {
   const midValue = ((maxValue - minValue) / 2) + minValue
   const max = currency
-    ? helper.formatCurrency(Math.round(maxValue), currency).replace('.00', '')
-    : helper.abbreviateNumber(maxValue)
+    ? utils.formatCurrency(Math.round(maxValue), currency).replace('.00', '')
+    : utils.abbreviateNumber(maxValue)
   const min = currency
-    ? helper.formatCurrency(Math.round(minValue), currency).replace('.00', '')
-    : helper.abbreviateNumber(minValue)
+    ? utils.formatCurrency(Math.round(minValue), currency).replace('.00', '')
+    : utils.abbreviateNumber(minValue)
   const mid = currency
-    ? helper.formatCurrency(Math.round(midValue), currency).replace('.00', '')
-    : helper.abbreviateNumber(midValue)
+    ? utils.formatCurrency(Math.round(midValue), currency).replace('.00', '')
+    : utils.abbreviateNumber(midValue)
 
   const labelList = []
 

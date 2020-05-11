@@ -10,16 +10,11 @@ import Clear from './Clear'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function Form(props) {
-  const width = props.width || ''
-  const position = props.position || ''
+function Form({ width = '', position = '', children }) {
   return (
     <form className={`${width} ${position}`}>
-
-      {props.children}
-
+      {children}
       <Clear />
-
     </form>
   )
 }

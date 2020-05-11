@@ -11,7 +11,7 @@ import Error from './elements/Error'
 import ResultsNoResults from './ResultsNoResults'
 import ResultsAll from './ResultsAll'
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 import server from './helpers/server'
 
 const initialPostsState = {
@@ -72,8 +72,8 @@ function ResultsLoader() {
     artistId,
     // When promise resolves
     onResolve: ({ activePosts, archivedPosts }) => {
-      const activePostsObj = activePosts.length ? helper.arrToObjById(activePosts) : {}
-      const archivedPostsObj = archivedPosts.length ? helper.arrToObjById(archivedPosts) : {}
+      const activePostsObj = activePosts.length ? utils.arrToObjById(activePosts) : {}
+      const archivedPostsObj = archivedPosts.length ? utils.arrToObjById(archivedPosts) : {}
       setPosts({
         type: 'replace-assets',
         payload: {

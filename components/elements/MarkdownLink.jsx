@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
-import helper from '../helpers/helper'
+import * as utils from '../helpers/utils'
 
 const MarkdownLink = ({ href, children }) => {
   const { props: { value: linkText } } = children[0]
-  const linkType = helper.getLinkType(href)
+  const linkType = utils.getLinkType(href)
   // INTERNAL LINK
   if (linkType === 'internal') {
     return (
