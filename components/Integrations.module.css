@@ -35,6 +35,11 @@ CONNECTIONS
 
 .integration-platform-icon {
   padding-left: 10px;
+
+  :global(svg) {
+    width: var(--bsu);
+    height: auto;
+  }
 }
 
 .asteriskIcon {
@@ -60,11 +65,14 @@ CONNECTIONS
 }
 
 
-.integration-edit {
+.integrationEdit {
   width: 14.351%;
   text-align: center;
   padding-right: 2.778%;
   flex: none;
+  :global(.button:disabled) {
+    background-color: transparent !important;
+  }
 }
 
 .saveIcon {

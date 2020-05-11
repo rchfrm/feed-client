@@ -6,6 +6,7 @@ import useAsyncEffect from 'use-async-effect'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
+import { UserContext } from './contexts/User'
 // IMPORT ELEMENTS
 import ConnectAccountsFacebook from './ConnectAccountsFacebook'
 import ConnectAccounts from './ConnectAccounts'
@@ -46,6 +47,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
   // IMPORT CONTEXTS
   const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
   const { createArtist, setArtistLoading } = React.useContext(ArtistContext)
+  const { user } = React.useContext(UserContext)
   // Get any missing scopes
   const { missingScopes } = auth
 
@@ -163,7 +165,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
 
     try {
       setRedirecting(true)
-      await createArtist(artistAccountsSanitised, accessToken)
+      await createArtist(artistAccountsSanitised, accessToken, user)
       Router.push(ROUTES.HOME)
     } catch (err) {
       setRedirecting(false)
@@ -175,9 +177,6 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
   if (pageLoading || redirecting) {
     return <Spinner />
   }
-
-  console.log('artistAccounts', artistAccounts)
-
 
   // If no artists accounts, show FB BUTTON
   if (Object.keys(artistAccounts).length === 0) {

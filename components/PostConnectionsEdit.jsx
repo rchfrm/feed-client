@@ -9,11 +9,11 @@ import Alert, { alertReducer, initialAlertState } from './elements/Alert'
 // IMPORT ASSETS
 import AsteriskIcon from './icons/AsteriskIcon'
 // IMPORT CONSTANTS
-import dataSourceDetails from '../constants/dataSources'
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
+import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from './Integrations.module.css'
 
@@ -87,6 +87,12 @@ const PostConnectionsEdit = ({
 
   const updatePriorityDSP = React.useCallback(async (artistId, platform) => {
     const result = await server.updatePriorityDSP(artistId, platform)
+    track({
+      category: 'Connections',
+      action: 'Ad default link updated',
+      description: `Platform: ${platform}`,
+      label: `artistId: ${artistId}`,
+    })
     return result
   }, [])
 
@@ -143,7 +149,7 @@ const PostConnectionsEdit = ({
       <div className={styles['integration-platform-icon']}>
         <Icon
           version={platform}
-          color={dataSourceDetails[platform] ? dataSourceDetails[platform].color : 'black'}
+          color={brandColors[platform] ? brandColors[platform].bg : brandColors.textColor}
           width={20}
         />
       </div>

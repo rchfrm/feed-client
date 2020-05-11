@@ -173,26 +173,31 @@ export default {
   },
 
   /**
-   * @param {string[]} dataSources
+   * @param {array} dataSources
    * @param {string} artistId
-   * @param {string} [verifyIdToken]
    * @returns {Promise<any>}
    */
-  getDataSourceValue: async (dataSources, artistId, verifyIdToken) => {
+  getDataSourceValue: async (dataSources, artistId) => {
     return api
       .get(`/artists/${artistId}/data_sources`, {
-        // todo metrics should be renamed to name after "new" endpoint deployed to master
-        metrics: dataSources.join(','),
-      }, verifyIdToken)
+        name: dataSources.join(','),
+      })
       .then(res => {
-        // todo array cast is temporary while the API returns a non-standard object the this endpoint
-        if (!Array.isArray(res)) res = Object.values(res)
         // convert array to object with data source name as keys
         return res.reduce((obj, dataSource) => {
           obj[dataSource.name] = dataSource
           return obj
         }, {})
       })
+  },
+
+  /**
+   * @param {string} dataSource
+   * @param {string} artistId
+   * @returns {Promise<any>}
+   */
+  getDataSourceProjection: async (dataSource, artistId) => {
+    return api.get(`/artists/${artistId}/data_sources/${dataSource}/annualized`)
   },
 
   // ASSETS
@@ -278,34 +283,19 @@ export default {
   /**
    * @param {string[]} artistIds
    * @param {string} accessToken
-   * @param {string} [verifyIdToken]
    * @returns {Promise<any>}
    */
-  updateAccessToken: async (artistIds, accessToken, verifyIdToken) => {
-    const response = []
-    for (let i = 0; i < artistIds.length; i += 1) {
-      const artistId = artistIds[i]
-      if (
-        artistId === 'e1dDjAC5jXjCMk0dhqH1'
-        || artistId === 'z86bIwfwlIXwEtmKIML6'
-        || artistId === 'PjUuyt5uJhTRIbv5T4D1'
-        || artistId === 'Y8uCfxBZkAVcpokW4S4b'
-        || artistId === '4FwK6p6y9xhpxZSGW2fR'
-        || artistId === 'vpdEYAT65K8gVcIuLpvO'
-      ) {
-        const res = await api.patch(`/artists/${artistId}`, {
-          integrations: {
-            facebook: {
-              access_token: accessToken,
-            },
+  updateAccessToken: async (artistIds, accessToken) => {
+    const artistUpdates = artistIds.map((id) => {
+      return api.patch(`/artists/${id}`, {
+        integrations: {
+          facebook: {
+            access_token: accessToken,
           },
-        }, verifyIdToken)
-        response.push(res)
-      } else {
-        response.push(`Not updating access token for ${artistId}`)
-      }
-    }
-    return response
+        },
+      })
+    })
+    return Promise.all(artistUpdates)
   },
 
 

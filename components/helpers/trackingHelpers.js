@@ -1,12 +1,36 @@
 import * as Sentry from '@sentry/browser'
 
+const configureSentry = (id) => {
+  Sentry.configureScope((scope) => {
+    scope.setUser({ id })
+  })
+}
+
+let userType = null
+let userId = null
+export const setUserType = (user) => {
+  const { role, id } = user
+  userId = id
+  userType = role
+  // Set user ID into sentry
+  configureSentry(id)
+}
+
 export const fireGAEvent = (payload) => {
+  const { label, description = '' } = payload
+  const newLabel = `${description} ${label}`
+  const updatedPayload = {
+    ...payload,
+    label: newLabel,
+  }
+  // Stop here if sysadmin
+  if (userType === 'admin') return
   const { ga } = window
   if (!ga) {
-    console.info('GA SEND', payload)
+    console.info('GA SEND', updatedPayload)
     return
   }
-  ga('send', payload)
+  ga('send', updatedPayload)
 }
 
 export const fireSentryError = ({ category, action, label, description }) => {
@@ -71,4 +95,28 @@ export const track = ({
   if (error) {
     fireSentryError({ category, action, label, description })
   }
+}
+
+
+// Setup PWA install tracker
+export const trackPWA = () => {
+  const isBrowser = typeof window !== 'undefined'
+  if (!isBrowser) return
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.userChoice.then((result) => {
+      if (result.outcome === 'dismissed') {
+        track({
+          category: 'PWA',
+          action: 'Declined PWA install',
+          label: `userId: ${userId}`,
+        })
+      } else {
+        track({
+          category: 'PWA',
+          action: 'Installed PWA',
+          label: `userId: ${userId}`,
+        })
+      }
+    })
+  })
 }

@@ -40,10 +40,12 @@ export default {
   },
 
   doSignInWithEmailAndPassword: async (email, password) => {
-    return auth.signInWithEmailAndPassword(email, password)
-      .catch((err) => {
-        throw (err)
+    const res = await auth.signInWithEmailAndPassword(email, password)
+      .catch((error) => {
+        return { error }
       })
+    if (res.error) return { error: res.error }
+    return { authUser: res }
   },
 
   doSignOut: () => {
@@ -54,12 +56,20 @@ export default {
     return auth.sendPasswordResetEmail(email)
   },
 
-  doPasswordUpdate: password => {
-    return auth.currentUser.updatePassword(password)
+  doPasswordUpdate: async (password) => {
+    const res = await auth.currentUser.updatePassword(password)
+      .catch((error) => {
+        return { error }
+      })
+    if (res) return res
   },
 
-  doEmailUpdate: email => {
-    return auth.currentUser.updateEmail(email)
+  doEmailUpdate: async (email) => {
+    const res = await auth.currentUser.updateEmail(email)
+      .catch((error) => {
+        return { error }
+      })
+    if (res) return res
   },
 
   loginWithFacebook: () => {

@@ -23,14 +23,31 @@ const brandColors = {
   errorColor: red,
   disabledColorBg: greyLight,
   disabledColorText: greyDark,
-  // SM colors
-  colorFb: '#26547C',
-  colorInsta: '#E75A7C',
-  colorTwitter: '#5BC0EB',
-  colorSpotify: '#03D8B2',
-  colorSoundcloud: '#FDE74C',
-  colorYoutube: '#FA5450',
-  colorFbButton: '#4267B2',
+  // Platform colors
+  facebook: {
+    bg: '#26547C',
+    text: white,
+  },
+  instagram: {
+    bg: '#E75A7C',
+    text: white,
+  },
+  twitter: {
+    bg: '#5BC0EB',
+    text: black,
+  },
+  spotify: {
+    bg: '#03D8B2',
+    text: black,
+  },
+  soundcloud: {
+    bg: '#FDE74C',
+    text: black,
+  },
+  youtube: {
+    bg: '#FA5450',
+    text: white,
+  },
 }
 
 export default brandColors

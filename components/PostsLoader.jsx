@@ -10,10 +10,12 @@ import Spinner from './elements/Spinner'
 import Error from './elements/Error'
 // IMPORT PAGES
 import PostsAll from './PostsAll'
+import PostsNone from './PostsNone'
 import PostsBudget from './PostsBudget'
 // IMPORT HELPERS
 import helper from './helpers/helper'
 import server from './helpers/server'
+import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
@@ -85,7 +87,7 @@ function PostsLoader() {
   const postsPerPage = 10
 
   // Import artist context
-  const { artistId, artistLoading } = React.useContext(ArtistContext)
+  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
 
   // When changing artist...
   React.useEffect(() => {
@@ -119,10 +121,10 @@ function PostsLoader() {
     cursor,
     // When fetch finishes
     onResolve: (posts) => {
-      if (!posts) return
-      if (!posts.length) {
+      if (!posts || !posts.length) {
         isEndOfAssets.current = true
         setLoadingMore(false)
+        setInitialLoad(false)
         return
       }
       // Update offset
@@ -175,6 +177,14 @@ function PostsLoader() {
         postIndex: indexOfId,
       },
     })
+    // Track
+    const status = newPromotionState ? 'enabled' : 'disabled'
+    track({
+      category: 'Posts',
+      action: `Promotion ${status} for post`,
+      description: `Post ID: ${postId}`,
+      label: `artistId: ${artistId}`,
+    })
     return newPromotionState
   }, [posts])
   // Define function to batch toggle all posts
@@ -201,12 +211,24 @@ function PostsLoader() {
         postLink,
       },
     })
+    track({
+      category: 'Posts',
+      action: 'Post link changed',
+      description: `New link: ${postLink}`,
+      label: `artistId: ${artistId}`,
+    })
   }
 
-  // RETURN
-  if (artistLoading || (isPending && initialLoad) || !posts) {
+  // Spinner if loading
+  if (artistLoading || (isPending && initialLoad)) {
     return <Spinner />
   }
+
+  // No posts if none
+  if (!posts || !posts.length) {
+    return <PostsNone />
+  }
+
   return (
     <div className={styles['posts-page']}>
 
@@ -223,7 +245,7 @@ function PostsLoader() {
 
       <Error error={error} />
 
-      <PostsBudget currency="£" />
+      <PostsBudget currency={artist.currency} />
 
     </div>
   )

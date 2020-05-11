@@ -7,12 +7,13 @@ const initialAuthState = {
   token: '',
   email: '',
   missingScopes: [],
+  providerIds: [],
 }
 
 const authReducer = (draftState, action) => {
   const {
     type: actionType,
-    payload: { email, token, providerId, scopes } = {},
+    payload: { email, token, providerIds, scopes } = {},
   } = action
 
   switch (actionType) {
@@ -21,7 +22,7 @@ const authReducer = (draftState, action) => {
     case 'set-auth-user':
       draftState.email = email
       draftState.token = token
-      draftState.providerId = providerId
+      draftState.providerIds = providerIds
       break
     case 'set-token':
       draftState.token = token
@@ -57,27 +58,29 @@ function AuthProvider({ children }) {
     setAuthLoading(false)
   }
 
-  const storeAuth = async (authUser, error = null) => {
-    setAuthLoading(true)
-    // Get auth type
-    const [provider] = authUser.providerData
-    const { providerId } = provider
-    try {
-      const token = await firebase.getVerifyIdToken()
-      setAuth({
-        type: 'set-auth-user',
-        payload: {
-          email: authUser.email,
-          providerId,
-          token,
-        },
-      })
-      setAuthLoading(false)
-      setAuthError(error)
-    } catch (err) {
-      setAuthLoading(false)
-      throw (err)
+  const storeAuth = async ({ authUser, authToken, authError = null }) => {
+    if (authError) {
+      setAuthError(authError)
+      return
     }
+    if (!authToken) {
+      console.error('Missing auth token')
+      return
+    }
+    setAuthLoading(true)
+    const { email, providerData } = authUser
+    // Get provider IDs
+    const providerIds = providerData.map(({ providerId }) => providerId)
+    // Set auth
+    setAuth({
+      type: 'set-auth-user',
+      payload: {
+        email,
+        providerIds,
+        token: authToken,
+      },
+    })
+    setAuthLoading(false)
   }
 
 
@@ -93,23 +96,15 @@ function AuthProvider({ children }) {
 
   const emailLogin = async (email, password) => {
     setAuthLoading(true)
-    try {
-      const authUser = await firebase.doSignInWithEmailAndPassword(email, password)
-      const token = await authUser.user.getIdToken()
-      setAuth({
-        type: 'set-auth-user',
-        payload: {
-          email: authUser.user.email,
-          token,
-        },
+    const { authUser, error: loginError } = await firebase.doSignInWithEmailAndPassword(email, password)
+    if (loginError) return { loginError }
+    const { user } = authUser
+    const token = await user.getIdToken()
+      .catch((error) => {
+        return { error }
       })
-      setAuthError(null)
-      setAuthLoading(false)
-      return token
-    } catch (err) {
-      setAuthLoading(false)
-      throw (err)
-    }
+    storeAuth({ authUser: user, authToken: token })
+    return { tokenError: token.error }
   }
 
   const signUp = async (email, password) => {
@@ -125,14 +120,8 @@ function AuthProvider({ children }) {
         setAuthLoading(false)
         throw new Error(error.message)
       })
-    setAuth({
-      type: 'set-auth-user',
-      payload: {
-        email: authUser.user.email,
-        token,
-      },
-    })
-    setAuthLoading(false)
+    const { user } = authUser
+    storeAuth({ authUser: user, authToken: token })
     return token
   }
 

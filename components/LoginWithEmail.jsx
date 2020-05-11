@@ -54,17 +54,24 @@ function LoginWithEmail({ className }) {
     setPageLoading(true)
 
     // Login with email
-    const token = await emailLogin(email, password)
-      .catch((err) => {
-        setPageLoading(false)
-        setEmail('')
-        setPassword('')
-        setError(err)
-      })
-    if (!token) {
+    const { loginError, tokenError } = await emailLogin(email, password)
+    if (loginError) {
+      setPageLoading(false)
+      setEmail('')
+      setPassword('')
+      setError(loginError)
       track({
         category: 'login',
-        action: 'no token returned from emailLogin',
+        label: 'failure',
+        action: loginError.message,
+      })
+      return
+    }
+    if (tokenError) {
+      track({
+        category: 'login',
+        label: 'failure',
+        action: `no token returned from emailLogin: ${tokenError.message}`,
         error: true,
       })
       return
@@ -83,14 +90,21 @@ function LoginWithEmail({ className }) {
       Router.push(ROUTES.HOME)
       track({
         category: 'login',
-        action: 'logged in via email',
+        label: user.id,
+        action: 'Logged in via password',
+      })
+      track({
+        category: 'login',
+        label: user.id,
+        action: 'Logged in',
       })
     } else {
       setNoArtist()
       Router.push(ROUTES.SIGN_UP_CONTINUE)
       track({
         category: 'login',
-        action: 'succesful login via email with no artists',
+        label: user.id,
+        action: 'Logged in via password, with no artists',
       })
     }
   }
