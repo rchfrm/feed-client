@@ -273,19 +273,7 @@ function ConnectAccountsPanel({
         {/* Country */}
         {returnCountry()}
 
-        {/* Inputs below profile picture */}
-        {/* Home Town */}
-        <Input
-          name="location"
-          placeholder={artistAccount.location || artistAccount.exists ? 'na.' : 'Enter the name of your home town'}
-          value={artistAccount.location || ''}
-          handleChange={handleChange}
-          type="text"
-          label="The town you're based in"
-          readOnly={readOnly}
-          version={artistAccount.exists ? 'text' : 'box'}
-        />
-
+        {/* INPUTS BELOW PROFILE PICTURE */}
         {/* Facebook Page URL */}
         <Input
           name="facebook_page_url"

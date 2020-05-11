@@ -48,7 +48,7 @@ export default {
   createArtist: async (artist, accessToken, token) => {
     return api.post('/artists', {
       name: artist.name,
-      location: artist.location,
+      location: null,
       country_code: artist.country_code,
       facebook_page_url: artist.facebook_page_url,
       spotify_url: utils.cleanSpotifyUrl(artist.spotify_url) || null,
