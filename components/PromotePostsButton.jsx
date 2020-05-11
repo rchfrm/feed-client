@@ -1,9 +1,7 @@
-
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Button from './elements/Button'
 // IMPORT CONSTANTS
