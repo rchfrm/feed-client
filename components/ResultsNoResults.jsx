@@ -5,8 +5,8 @@ import PromotePostsButton from './PromotePostsButton'
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/ResultsPageCopy'
 
-const ResultsNoResults = ({ dailyBudget }) => {
-  if (dailyBudget > 0) {
+const ResultsNoResults = ({ artist }) => {
+  if (artist.daily_budget > 0) {
     return (
       <div
         className="fill-height ninety-wide"
@@ -23,7 +23,10 @@ const ResultsNoResults = ({ dailyBudget }) => {
       style={{ justifyContent: 'space-between' }}
     >
       <MarkdownText className="ninety-wide  h4--text" markdown={copy.noResultsNoBudget} />
-      <PromotePostsButton dailyBudget={dailyBudget} />
+      <PromotePostsButton
+        artist={artist}
+        artistId={artist.id}
+      />
     </div>
   )
 }
