@@ -116,7 +116,6 @@ const ResultsSingle = ({
   active,
   attachments,
   id,
-  priority_dsp,
   promotion_enabled,
   togglePost,
   summary,
@@ -157,16 +156,6 @@ const ResultsSingle = ({
   }, [attachments])
 
   const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
-
-  const priorityPage = priority_dsp === 'facebook' ? `${priority_dsp}_page_url` : `${priority_dsp}_url`
-  const clicksStatement = (
-    <span>
-      {'clicks to '}
-      <a href={artist[priorityPage]} target="_blank" rel="noopener noreferrer">
-        {utils.capitalise(priority_dsp)}
-      </a>
-    </span>
-  )
 
   const {
     days,
@@ -218,7 +207,6 @@ ResultsSingle.propTypes = {
   active: PropTypes.bool,
   attachments: PropTypes.array,
   id: PropTypes.string.isRequired,
-  priority_dsp: PropTypes.string.isRequired,
   promotion_enabled: PropTypes.bool,
   togglePost: PropTypes.func.isRequired,
   summary: PropTypes.object.isRequired,

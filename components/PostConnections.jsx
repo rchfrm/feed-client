@@ -66,7 +66,6 @@ function PostConnections({ className }) {
   // Get artist context
   const {
     artist,
-    artistId,
     setPriorityDSP: setArtistPriorityDSP,
     setConnection,
   } = React.useContext(ArtistContext)
