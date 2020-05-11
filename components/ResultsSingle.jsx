@@ -180,7 +180,7 @@ const ResultsSingle = ({
   return (
     <li key={id} className={[styles.resultItem, styles[enabledClass]].join(' ')}>
 
-      <div className="flex-row">
+      <div className={styles.resultItem__inner}>
 
         <div className={styles['result-media']}>
           <SquareImage
