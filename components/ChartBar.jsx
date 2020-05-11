@@ -10,7 +10,7 @@ import { Bar } from 'react-chartjs-2'
 import Spinner from './elements/Spinner'
 import ChartBarOverlay from './ChartBarOverlay'
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 import * as chartHelpers from './helpers/chartHelpers'
 import brandColors from '../constants/brandColors'
 // IMPORT STYLES

@@ -3,7 +3,7 @@
 import React from 'react'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
 

@@ -9,7 +9,7 @@ import { UserContext } from './User'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import utils from '../helpers/utils'
+import * as utils from '../helpers/utils'
 import server from '../helpers/server'
 import { track } from '../helpers/trackingHelpers'
 import artistHelpers from '../helpers/artistHelpers'

@@ -13,7 +13,7 @@ import PostsAll from './PostsAll'
 import PostsNone from './PostsNone'
 import PostsBudget from './PostsBudget'
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 import server from './helpers/server'
 import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES

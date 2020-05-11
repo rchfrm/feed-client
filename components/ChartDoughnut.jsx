@@ -3,7 +3,7 @@ import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
 import brandColors from '../constants/brandColors'
 // IMPORT STYLES
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './InsightsPage.module.css'
 

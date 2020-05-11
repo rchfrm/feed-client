@@ -9,7 +9,7 @@ import * as ROUTES from '../constants/routes'
 
 import Spinner from './elements/Spinner'
 
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 import firebase from './helpers/firebase'
 import { track } from './helpers/trackingHelpers'
 

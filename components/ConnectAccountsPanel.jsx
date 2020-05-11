@@ -5,7 +5,7 @@ import Select from './elements/Select'
 import ButtonToggle from './elements/ButtonToggle'
 import InstagramIcon from './icons/InstagramIcon'
 
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 
 import countries from '../constants/countries'
 

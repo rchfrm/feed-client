@@ -2,7 +2,7 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './InsightsPage.module.css'
 

@@ -11,7 +11,7 @@ import MarkdownText from './elements/MarkdownText'
 import Spinner from './elements/Spinner'
 // IMPORT HELPERS
 import server from './helpers/server'
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 // IMPORT COPY
 import copy from '../copy/InsightPageCopy'
 // IMPORT STYLES

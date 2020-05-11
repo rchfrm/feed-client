@@ -1,5 +1,5 @@
 import produce from 'immer'
-import utils from './utils'
+import * as utils from './utils'
 import facebook from './facebook'
 import * as api from './api'
 

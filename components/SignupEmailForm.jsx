@@ -11,7 +11,7 @@ import Input from './elements/Input'
 import Button from './elements/Button'
 import Error from './elements/Error'
 
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 import { track } from './helpers/trackingHelpers'
 
 import * as ROUTES from '../constants/routes'

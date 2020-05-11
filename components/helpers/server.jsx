@@ -1,6 +1,6 @@
 import produce from 'immer'
 
-import utils from './utils'
+import * as utils from './utils'
 import artistHelpers from './artistHelpers'
 import firebase from './firebase'
 import * as api from './api'

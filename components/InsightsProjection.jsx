@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 
 import MarkdownText from './elements/MarkdownText'
 

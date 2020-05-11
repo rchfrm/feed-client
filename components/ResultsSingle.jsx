@@ -11,7 +11,7 @@ import SquareImage from './elements/SquareImage'
 import MediaFallback from './elements/MediaFallback'
 // IMPORT PAGES
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import resultsStyles from './Results.module.css'
 import postStyles from './PostsPage.module.css'

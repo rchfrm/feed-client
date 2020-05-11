@@ -14,7 +14,7 @@ import Alert, { alertReducer } from './elements/Alert'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './Budget.module.css'
 

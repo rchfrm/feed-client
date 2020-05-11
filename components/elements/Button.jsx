@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Spinner from './Spinner'
 
-import utils from '../helpers/utils'
+import * as utils from '../helpers/utils'
 
 const Button = ({
   version,

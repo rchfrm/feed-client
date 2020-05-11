@@ -5,7 +5,7 @@ import React from 'react'
 // IMPORT ELEMENTS
 import Input from './elements/Input'
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './Integrations.module.css'
 

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types'
 // IMPORT HELPERS
 // IMPORT PAGES
 // IMPORT STYLES
-import utils from '../helpers/utils'
+import * as utils from '../helpers/utils'
 import brandColors from '../../constants/brandColors'
 
 function Overlay({ children, height }) {

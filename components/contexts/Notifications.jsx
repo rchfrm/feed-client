@@ -8,7 +8,7 @@ import React from 'react'
 import { ArtistContext } from './Artist'
 // IMPORT ELEMENTS
 // IMPORT HELPERS
-import utils from '../helpers/utils'
+import * as utils from '../helpers/utils'
 import server from '../helpers/server'
 // IMPORT PAGES
 // IMPORT STYLES

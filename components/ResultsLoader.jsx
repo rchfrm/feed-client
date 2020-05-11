@@ -11,7 +11,7 @@ import Error from './elements/Error'
 import ResultsNoResults from './ResultsNoResults'
 import ResultsAll from './ResultsAll'
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 import server from './helpers/server'
 
 const initialPostsState = {

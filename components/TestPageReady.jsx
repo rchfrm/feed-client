@@ -4,7 +4,7 @@ import Router, { useRouter } from 'next/router'
 import * as ROUTES from '../constants/routes'
 import { AuthContext } from './contexts/Auth'
 
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 
 import Spinner from './elements/Spinner'
 

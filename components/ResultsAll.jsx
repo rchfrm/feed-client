@@ -13,7 +13,7 @@ import Feed from './elements/Feed'
 import * as ROUTES from '../constants/routes'
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 // COPY
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/ResultsPageCopy'

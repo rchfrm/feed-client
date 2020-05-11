@@ -1,5 +1,5 @@
 import React from 'react'
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 

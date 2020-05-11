@@ -10,7 +10,7 @@ import Select from './elements/Select'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 import server from './helpers/server'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'

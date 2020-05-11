@@ -7,7 +7,7 @@ import { ArtistContext } from './contexts/Artist'
 // IMPORT COMPONENTS
 import PostConnectionsConnection from './PostConnectionsConnection'
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './Integrations.module.css'
 

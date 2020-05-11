@@ -15,7 +15,7 @@ import PostInsight from './PostInsight'
 // IMPORT CONSTANTS
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
-import utils from './helpers/utils'
+import * as utils from './helpers/utils'
 import MediaFallback from './elements/MediaFallback'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
