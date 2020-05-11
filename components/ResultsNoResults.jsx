@@ -32,12 +32,11 @@ const ResultsNoResults = ({ artist }) => {
 }
 
 ResultsNoResults.propTypes = {
-  dailyBudget: PropTypes.number,
+  artist: PropTypes.object,
 }
 
 ResultsNoResults.defaultProps = {
-  dailyBudget: 0,
+  artist: {},
 }
-
 
 export default ResultsNoResults
