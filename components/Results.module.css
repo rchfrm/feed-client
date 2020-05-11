@@ -71,15 +71,16 @@
 
 .result-toggle-saes {
   display: flex;
-  position: relative;
+  justify-content: space-between;
   align-items: center;
+  padding: var(--bsu);
   
   width: 100%;
   background: var(--black);
   color: var(--white);
 
   .h2 {
-    margin: 0.6em auto;
+    margin-bottom: 0;
   }
 
   .alert {
@@ -87,21 +88,23 @@
   }
 
   @media (--xs) {
+    padding: 0;
     width: 14.351%;
     flex-direction: column-reverse;
     justify-content: space-between;
+
+    .h2 {
+      margin: 0.6em auto;
+    }
   }
 }
 
 .result-toggle {
-  position: absolute;
-  right: var(--bsu);
   background-color: transparent;
   outline: none;
-  margin: 0 auto;
 
   @media (--xs) {
-    position: static;
+    margin: 0 auto;
     margin-top: 17.420%;
   }
 }
