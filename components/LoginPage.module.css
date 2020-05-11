@@ -24,7 +24,7 @@
   :global(.button) {
     width: 100%;
     margin-bottom: var(--bsu-md) !important;
-    align-items: baseline;
+    align-items: center !important;
     justify-content: flex-start !important;
     &:last-child {
       margin-bottom: 0 !important;
@@ -32,7 +32,8 @@
   }
 
   :global(.button--innerText) {
-    justify-content: flex-start;
+    justify-content: flex-start !important;
+    align-items: baseline !important;
   }
 }
 
