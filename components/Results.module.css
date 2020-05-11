@@ -71,8 +71,8 @@
 
 .result-toggle-saes {
   display: flex;
+  position: relative;
   align-items: center;
-  /* flex: none; */
   
   width: 100%;
   background: var(--black);
@@ -94,11 +94,14 @@
 }
 
 .result-toggle {
+  position: absolute;
+  right: var(--bsu);
   background-color: transparent;
   outline: none;
   margin: 0 auto;
 
   @media (--xs) {
+    position: static;
     margin-top: 17.420%;
   }
 }
@@ -106,18 +109,30 @@
 
 .result-insight {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 0.5em;
+
+  @media (--xs) {
+    justify-content: space-between;
+  }
 }
   
-  .insight-number {
+.insight-number {
+  
+  text-align: right;
+  font-weight: var(--bold);
+  padding-right: 0.5em;
+
+  @media (--xs) {
+    padding-right: 0;
     width: 21.831%;
-    text-align: right;
-    font-weight: var(--bold);
   }
-  .insight-statement {
+}
+.insight-statement {
+  @media (--xs) {
     width: 73.943%;
   }
+}
 
 .result-score {
   margin-top: 1em;
