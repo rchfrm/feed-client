@@ -48,11 +48,11 @@ export default {
   createArtist: async (artist, accessToken, token) => {
     return api.post('/artists', {
       name: artist.name,
-      location: artist.location,
+      location: null,
       country_code: artist.country_code,
       facebook_page_url: artist.facebook_page_url,
       spotify_url: helper.cleanSpotifyUrl(artist.spotify_url) || null,
-      instagram_url: artist.instagram_url,
+      instagram_url: artist.instagram_url || null,
       integrations: {
         facebook: {
           page_id: artist.page_id,
