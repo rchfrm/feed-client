@@ -111,7 +111,7 @@ function PostsAll({
           onClick={togglePostsSettings}
           version="black small icon"
         >
-          <GearIcon color={brandColors.bgColor} />
+          <GearIcon fill={brandColors.bgColor} />
           Post Settings
         </Button>
       </div>
