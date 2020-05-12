@@ -15,7 +15,7 @@ import PostInsight from './PostInsight'
 // IMPORT CONSTANTS
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 import MediaFallback from './elements/MediaFallback'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
@@ -48,7 +48,7 @@ function PostMetrics({
       </div>
 
       <div className={styles['post-es']}>
-        {helper.abbreviateNumber(es)}
+        {utils.abbreviateNumber(es)}
       </div>
     </div>
   )
@@ -93,7 +93,7 @@ function PostSingle({
   // DISPLAY CORRECT MEDIA
   const renderMedia = React.useCallback(mediaLink => {
     let message // TODO : Implement a way to display title and alt attributes
-    return helper.generateMediaHTML(mediaLink, post._metadata.thumbnail_url, message, handleError)
+    return utils.generateMediaHTML(mediaLink, post._metadata.thumbnail_url, message, handleError)
   }, [post._metadata.thumbnail_url])
   // END DISPLAY CORRECT MEDIA
 

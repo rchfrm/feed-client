@@ -3,7 +3,7 @@ import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
 import brandColors from '../constants/brandColors'
 // IMPORT STYLES
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './InsightsPage.module.css'
 
@@ -43,7 +43,7 @@ const ChartDoughnut = ({
           },
           cutoutPercentage: 65.738,
           tooltips: {
-            backgroundColor: helper.hexToRGBA(brandColors.bgColor, 0.9),
+            backgroundColor: utils.hexToRGBA(brandColors.bgColor, 0.9),
             borderColor: brandColors.textColor,
             titleFontFamily: "'Inter', 'sans-serif'",
             bodyFontFamily: "'Inter', 'sans-serif'",
@@ -59,7 +59,7 @@ const ChartDoughnut = ({
               label(tooltipItem, chart) {
                 const dataSourceIndex = tooltipItem.index
                 const dataSourceValue = chart.datasets[0].data[dataSourceIndex]
-                return ` ${helper.formatNumber(dataSourceValue)}: ${helper.capitalise(data.title)}`
+                return ` ${utils.formatNumber(dataSourceValue)}: ${utils.capitalise(data.title)}`
               },
             },
           },

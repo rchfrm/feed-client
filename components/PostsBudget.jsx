@@ -14,7 +14,7 @@ import Alert, { alertReducer } from './elements/Alert'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './Budget.module.css'
 
@@ -37,15 +37,34 @@ function PostsBudget({ currency }) {
     bgColor: brandColors.greyLight,
   }
   const [budget, setBudget] = React.useState(initialBudgetState)
+  const [minBudget, setMinBudget] = React.useState('')
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
 
   // Define input placeholder
   const [budgetPlaceholder, setBudgetPlaceholder] = React.useState('')
   React.useEffect(() => {
-    const budgetFormatted = helper.formatCurrency(Number(artist.daily_budget), currency)
+    const budgetFormatted = utils.formatCurrency(Number(artist.daily_budget), currency)
     const placeholder = `Current Budget: ${budgetFormatted}`
     setBudgetPlaceholder(placeholder)
   }, [artist.daily_budget])
+
+  // Define min budget
+  React.useEffect(() => {
+    const { min_daily_budget_info: minBudgetInfo } = artist
+    if (!minBudgetInfo || !artistId) {
+      setMinBudget('£3.00')
+      return
+    }
+    const {
+      amount,
+      currency: {
+        code: currencyCode,
+        offset: currencyOffset,
+      },
+    } = minBudgetInfo
+    const minBudget = utils.getMinBudget(amount, currencyCode, currencyOffset)
+    setMinBudget(minBudget)
+  }, [artistId])
 
   // Call this to reset the input
   const resetBudgetState = () => setBudget(initialBudgetState)
@@ -155,7 +174,7 @@ function PostsBudget({ currency }) {
 
         </form>
 
-        <MarkdownText className="" markdown={copy.budgetOutro} />
+        <MarkdownText className="" markdown={copy.budgetOutro(minBudget)} />
 
         <Error error={error} />
 

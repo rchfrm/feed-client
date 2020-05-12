@@ -10,14 +10,14 @@ import brandColors from '../../constants/brandColors'
 // IMPORT HELPERS
 // IMPORT STYLES
 
-function Checkbox(props) {
-  const bgColor = props.selected ? props.color : brandColors.greyLight
+function Checkbox({ color, selected, width }) {
+  const bgColor = selected ? color : brandColors.greyLight
 
   return (
     <div
       style={{
-        width: `${props.width}px`,
-        height: `${props.width}px`,
+        width: `${width}px`,
+        height: `${width}px`,
         backgroundColor: bgColor,
         border: `1px solid ${brandColors.white}`,
         borderRadius: 3,

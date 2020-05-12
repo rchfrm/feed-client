@@ -71,7 +71,8 @@
     "serve": "serve ./dist -l 3000",
     "stage": "./deploy staging",
     "deploy-production": "./deploy production",
-    "analyze-bundle": "ANALYZE=true yarn build"
+    "analyze-bundle": "ANALYZE=true yarn build",
+    "lint": "eslint -c ./.eslintrc.js --ext .js,.jsx ./components"
   },
   "repository": {
     "type": "git",

@@ -5,11 +5,10 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONSTANTS
 // IMPORT CONTEXTS
-import { AuthContext } from './Auth'
 import { ArtistContext } from './Artist'
 // IMPORT ELEMENTS
 // IMPORT HELPERS
-import helper from '../helpers/helper'
+import * as utils from '../helpers/utils'
 import server from '../helpers/server'
 // IMPORT PAGES
 // IMPORT STYLES
@@ -68,7 +67,7 @@ function NotificationsProvider({ children }) {
           setNotifications({
             type: 'add-notifications',
             payload: {
-              notifications: helper.arrToObjById(res),
+              notifications: utils.arrToObjById(res),
             },
           })
         }

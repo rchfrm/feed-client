@@ -7,14 +7,14 @@ import { ArtistContext } from './contexts/Artist'
 // IMPORT COMPONENTS
 import PostConnectionsConnection from './PostConnectionsConnection'
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './Integrations.module.css'
 
 // Create object of keyed connections
 const getConnections = (artist) => {
   return Object.keys(artist.URLs).reduce((obj, name, index) => {
-    const platform = helper.extractPlatformFromPriorityDSP(name)
+    const platform = utils.extractPlatformFromPriorityDSP(name)
     const url = artist[name]
     return {
       ...obj,
@@ -66,7 +66,6 @@ function PostConnections({ className }) {
   // Get artist context
   const {
     artist,
-    artistId,
     setPriorityDSP: setArtistPriorityDSP,
     setConnection,
   } = React.useContext(ArtistContext)
@@ -85,7 +84,7 @@ function PostConnections({ className }) {
     // If updating connection, also update artist context
     if (type === 'set-platform') {
       const { platform, url } = payload
-      const adjustedPlatform = helper.convertPlatformToPriorityDSP(platform)
+      const adjustedPlatform = utils.convertPlatformToPriorityDSP(platform)
       setConnection({ platform: adjustedPlatform, url })
     }
   }, [])

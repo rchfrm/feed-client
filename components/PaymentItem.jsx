@@ -21,7 +21,16 @@ const PaymentItem = ({ method, onSelect }) => {
       <a className={styles.itemLink} role="button" onClick={onSelect}>
         <div className="radioIcon" />
         <div className="cardDetails">
-          hi
+          <p className={styles.p}>
+            <span className={styles.cardBrand}>{ brand }</span>
+          </p>
+          <p className={['mono', styles.p].join(' ')}>
+            <span>**** **** **** { last4 }</span>
+          </p>
+          <p className={['mono', styles.p].join(' ')}>
+            {/* <strong>Expiry: </strong> */}
+            <span>{ exp_month.toString().padStart(2, '0') }/{ exp_year }</span>
+          </p>
         </div>
       </a>
     </li>
