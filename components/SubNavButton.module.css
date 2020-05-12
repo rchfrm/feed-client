@@ -6,6 +6,7 @@
 .image {
   :global(> *) {
     width: 100%;
+    height: auto;
     overflow: hidden;
   }
 }
