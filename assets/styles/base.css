@@ -1,22 +1,3 @@
-/* Notes
- 6 column layout:
-   Column width = 12.916%
-   Margins = 5%
-   Gutters = 2.5%
-
-12 column layout:
-  Column width = 6.6375%
-  Margins = 2.75%
-  Gutters = 1.35%
-
-18 column layout:
-  Column width = 4.6875%
-  Margins = 2.5%
-  Gutters = 0.625%
-
-*/
-
-/* FONTS */
 
 
 /* SECTIONS */
@@ -40,23 +21,20 @@ body {
 
 #container {
   display: flex;
+  width: 100%;
+  min-height: 100vh;
   flex-direction: column;
-  min-height: 100%;
-  max-width: var(--max-width);
+  max-width: var(--bmw);
   margin: 0 auto;
+  padding: var(--bsu);
+
+  @media (--md) {
+    padding: var(--bsu-md);
+  }
 }
 
 main {
-  display: flex;
-  flex-direction: column;
-  flex: auto;
-  padding: 5% 0;
-  overflow-x: hidden;
-  background: var(--white);
-
-  &.navOn {
-    background: var(--black);
-  }
+  flex: 1;
 }
 
 .page--container {
