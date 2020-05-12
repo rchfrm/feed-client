@@ -1,5 +1,7 @@
 import React from 'react'
-
+// IMPORT CONTEXTS
+import { UserProvider } from './contexts/User'
+import { ArtistProvider } from './contexts/Artist'
 // IMPORT COMPONENTS
 import Main from './Main'
 import TheHeader from './TheHeader'
@@ -9,14 +11,19 @@ const AppContents = ({ children }) => {
   return (
     <div id="container">
 
-      <TheHeader />
+      <UserProvider>
+        <ArtistProvider>
 
-      <Main>
-        {children}
-      </Main>
+          <TheHeader />
 
-      <TheFooter />
+          <Main>
+            {children}
+          </Main>
 
+          <TheFooter />
+
+        </ArtistProvider>
+      </UserProvider>
     </div>
   )
 }

@@ -5,8 +5,6 @@ import PropTypes from 'prop-types'
 import InitUser from './InitUser'
 // IMPORT CONTEXTS
 import { NavigationContext } from './contexts/Navigation'
-import { UserProvider } from './contexts/User'
-import { ArtistProvider } from './contexts/Artist'
 import { SidePanelContextProvider } from './contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import IntegrationErrorHandler from './IntegrationErrorHandler'
@@ -23,19 +21,15 @@ function Main({ children }) {
 
   return (
     <main className={[mainClass, 'main'].join(' ')}>
-      <UserProvider>
-        <ArtistProvider>
-          <TheNavigation />
-          <SidePanelContextProvider>
-            <InitUser>
-              <div className={pageContainerClasses}>
-                {children}
-              </div>
-              <IntegrationErrorHandler />
-            </InitUser>
-          </SidePanelContextProvider>
-        </ArtistProvider>
-      </UserProvider>
+      <TheNavigation />
+      <SidePanelContextProvider>
+        <InitUser>
+          <div className={pageContainerClasses}>
+            {children}
+          </div>
+          <IntegrationErrorHandler />
+        </InitUser>
+      </SidePanelContextProvider>
     </main>
   )
 }
