@@ -24,6 +24,7 @@ const initialArtistState = {
   },
   priority_dsp: '',
   currency: '',
+  min_daily_budget_info: {},
   users: {},
 }
 
