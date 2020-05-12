@@ -50,13 +50,18 @@ function PostsBudget({ currency }) {
 
   // Define min budget
   React.useEffect(() => {
+    const { min_daily_budget_info: minBudgetInfo } = artist
+    if (!minBudgetInfo || !artistId) {
+      setMinBudget('£3.00')
+      return
+    }
     const {
       amount,
       currency: {
         code: currencyCode,
         offset: currencyOffset,
       },
-    } = artist.min_daily_budget_info
+    } = minBudgetInfo
     const minBudget = utils.getMinBudget(amount, currencyCode, currencyOffset)
     setMinBudget(minBudget)
   }, [artistId])
