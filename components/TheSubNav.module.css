@@ -1,0 +1,11 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  background: var(--text-color);
+  color: var(--bg-color);
+
+  padding-top: calc(var(--bsu-lg) + var(--bsu) + var(--bsu-lg));
+}

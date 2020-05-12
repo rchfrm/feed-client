@@ -9,6 +9,7 @@ import { NavigationContext } from './contexts/Navigation'
 import FeedLogo from './icons/FeedLogo'
 import SubNavButton from './SubNavButton'
 import PageHeader from './PageHeader'
+import TheSubNav from './TheSubNav'
 // IMPORT STYLES
 import styles from './TheHeader.module.css'
 
@@ -28,6 +29,8 @@ function TheHeader() {
       <PageHeader className={styles.pageTitle} heading="page title" />
       {/* Subnav button */}
       <SubNavButton className={styles.subNavButton} />
+      {/* THE SUBNAV */}
+      <TheSubNav />
     </header>
   )
 }

@@ -8,6 +8,12 @@
   }
 }
 
+.logo,
+.subNavButton {
+  position: relative;
+  z-index: 3;
+}
+
 .logo {
   width: calc(var(--bsu-lg) / 0.82);
 
@@ -17,13 +23,16 @@
   }
 }
 
-.pageTitle {
-  width: 100%;
-  order: 3;
-  padding-top: var(--bsu-md);
-}
-
 .subNavButton {
   width: var(--bsu-lg);
   height: var(--bsu-lg);
+}
+
+
+.pageTitle {
+  position: relative;
+  width: 100%;
+  order: 3;
+  padding-top: var(--bsu-md);
+  z-index: 1;
 }

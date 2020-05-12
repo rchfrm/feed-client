@@ -24,9 +24,6 @@ body {
   width: 100%;
   min-height: 100vh;
   flex-direction: column;
-  max-width: var(--bmw);
-  margin: 0 auto;
-  padding: var(--bsu);
 
   @media (--md) {
     padding: var(--bsu-md);
@@ -46,8 +43,9 @@ main {
 }
 
 .page--content {
-  width: 90%;
-  margin: 0 5%;
+  max-width: var(--bmw);
+  margin: 0 auto;
+  padding: var(--bsu);
 }
 
 .fill-height {
