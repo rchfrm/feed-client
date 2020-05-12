@@ -4,7 +4,7 @@ import Link from 'next/link'
 // IMPORT COMPONENTS
 import * as ROUTES from '../constants/routes'
 // IMPORT CONTEXTS
-import { NavigationContext } from './contexts/Navigation'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import FeedLogo from './icons/FeedLogo'
 import SubNavButton from './SubNavButton'
@@ -19,9 +19,8 @@ function TheHeader() {
   React.useEffect(() => {
     setLogoOpacity(1)
   }, [])
-  const { navState, navDispatch } = React.useContext(NavigationContext)
-  const toggleNav = () => navDispatch({ type: 'toggle' })
-  const headerClass = navState.visible ? 'navOn' : 'navOff'
+  const { subNavOpen, toggleSubNav } = React.useContext(InterfaceContext)
+  const headerClass = subNavOpen.open ? '_subNavOpen' : ''
   return (
     <header className={[styles.TheHeader, styles[headerClass]].join(' ')}>
       {/* LOGO */}
@@ -34,12 +33,12 @@ function TheHeader() {
       <PageHeader className={styles.pageTitle} heading="page title" />
       {/* Subnav button */}
       <SubNavButton
-        toggleNav={toggleNav}
-        navOn={navState.visible}
+        toggleSubNav={toggleSubNav}
+        navOpen={subNavOpen}
         className={styles.subNavButton}
       />
       {/* THE SUBNAV */}
-      {navState.visible && <TheSubNav />}
+      {subNavOpen && <TheSubNav />}
     </header>
   )
 }
