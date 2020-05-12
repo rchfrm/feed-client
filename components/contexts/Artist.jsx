@@ -25,6 +25,7 @@ const initialArtistState = {
   priority_dsp: '',
   currency: '',
   users: {},
+  min_daily_budget_info: {},
 }
 
 const ArtistContext = React.createContext(initialArtistState)

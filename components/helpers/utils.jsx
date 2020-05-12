@@ -442,6 +442,22 @@ export const formatCurrency = (value, currency = 'GBP', locale = navigator.langu
 }
 
 /**
+* @param {number} amount
+* @param {string} currencyCode
+* @param {number} currencyOffset
+* @returns {string}
+*/
+export const getMinBudget = (amount, currencyCode, currencyOffset) => {
+  const adjustedMin = ((amount / 0.9) * 3) / currencyOffset
+  const exponent = Math.round(adjustedMin).toString().length - 1
+  const multiplier = 10 ** exponent
+  const roundedNumber = Math.ceil(adjustedMin / multiplier) * multiplier
+  // Format and return
+  return formatCurrency(roundedNumber, currencyCode)
+}
+
+
+/**
  * @param {string} url To pass, url must include a protocol (ie, https?://)
  * @returns {boolean}
  */
