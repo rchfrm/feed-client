@@ -6,7 +6,7 @@ import { ArtistContext } from './contexts/Artist'
 
 import styles from './SubNavButton.module.css'
 
-const SubNavButton = ({ className }) => {
+const SubNavButton = ({ toggleNav, navOn, className }) => {
   const { artist, artistId } = React.useContext(ArtistContext)
   const [fbPageId, setFbPageId] = React.useState('')
 
@@ -17,7 +17,7 @@ const SubNavButton = ({ className }) => {
   }, [artistId])
 
   return (
-    <div className={[styles.container, className].join(' ')}>
+    <button className={[styles.container, className].join(' ')} onClick={toggleNav}>
       <div className={styles.inner}>
         <div className={styles.front}>
           <figure className={styles.image}>
@@ -25,11 +25,13 @@ const SubNavButton = ({ className }) => {
           </figure>
         </div>
       </div>
-    </div>
+    </button>
   )
 }
 
 SubNavButton.propTypes = {
+  toggleNav: PropTypes.func.isRequired,
+  navOn: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

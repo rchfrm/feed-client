@@ -12,7 +12,6 @@ import '../assets/styles/index.css'
 import AppContents from '../components/AppContents'
 // IMPORT CONTEXTS
 import { AuthProvider } from '../components/contexts/Auth'
-import { NavMenuProvider } from '../components/contexts/Navigation'
 // IMPORT HELPERS
 import { trackPWA } from '../components/helpers/trackingHelpers'
 // IMPORT STYLES
@@ -85,13 +84,9 @@ function Feed({ Component, pageProps }) {
 
       <StripeProvider stripe={stripe}>
 
-        <NavMenuProvider>
-
-          <AppContents>
-            <Component {...pageProps} />
-          </AppContents>
-
-        </NavMenuProvider>
+        <AppContents>
+          <Component {...pageProps} />
+        </AppContents>
 
       </StripeProvider>
 

@@ -14,6 +14,11 @@ import TheSubNav from './TheSubNav'
 import styles from './TheHeader.module.css'
 
 function TheHeader() {
+  // Handle flash of oversized logo
+  const [logoOpacity, setLogoOpacity] = React.useState(0)
+  React.useEffect(() => {
+    setLogoOpacity(1)
+  }, [])
   const { navState, navDispatch } = React.useContext(NavigationContext)
   const toggleNav = () => navDispatch({ type: 'toggle' })
   const headerClass = navState.visible ? 'navOn' : 'navOff'
@@ -22,15 +27,19 @@ function TheHeader() {
       {/* LOGO */}
       <Link href={ROUTES.HOME}>
         <a>
-          <FeedLogo className={styles.logo} style={{ opacity: 1 }} />
+          <FeedLogo className={styles.logo} style={{ opacity: logoOpacity }} />
         </a>
       </Link>
       {/* Page Header */}
       <PageHeader className={styles.pageTitle} heading="page title" />
       {/* Subnav button */}
-      <SubNavButton className={styles.subNavButton} />
+      <SubNavButton
+        toggleNav={toggleNav}
+        navOn={navState.visible}
+        className={styles.subNavButton}
+      />
       {/* THE SUBNAV */}
-      <TheSubNav />
+      {navState.visible && <TheSubNav />}
     </header>
   )
 }
