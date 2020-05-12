@@ -5,6 +5,7 @@
   "private": true,
   "description": "",
   "dependencies": {
+    "@fullhuman/postcss-purgecss": "^2.2.0",
     "@sentry/browser": "^5.13.2",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^9.3.6",
+    "autoprefixer": "^9.7.6",
     "babel-eslint": "^10.0.3",
     "dev-proxy": "^2.1.2",
     "eslint": "^6.8.0",
@@ -57,6 +59,7 @@
     "postcss-nested": "^4.2.1",
     "postcss-preset-env": "^6.7.0",
     "serve": "^11.3.0",
+    "tailwindcss": "^1.4.6",
     "yarn-run-all": "^3.1.1"
   },
   "scripts": {
