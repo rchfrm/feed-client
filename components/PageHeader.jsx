@@ -1,18 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function PageHeader({ punctuation = '.', heading, className }) {
-  const classses = ['page--header', className].join(' ')
+function PageHeader({ heading, punctuation, className }) {
   return (
-    <div className={classses}>
+    <div className={className}>
       <h1>{heading + punctuation}</h1>
     </div>
   )
 }
 
 PageHeader.propTypes = {
-  punctuation: PropTypes.string,
   heading: PropTypes.string.isRequired,
+  punctuation: PropTypes.string,
   className: PropTypes.string,
 }
 

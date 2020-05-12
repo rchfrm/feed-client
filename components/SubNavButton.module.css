@@ -1,0 +1,11 @@
+.container {
+  border-radius: 9999999px;
+  overflow: hidden;
+}
+
+.image {
+  :global(> *) {
+    width: 100%;
+    overflow: hidden;
+  }
+}

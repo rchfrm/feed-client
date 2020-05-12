@@ -1,48 +1,29 @@
 .TheHeader {
-  width: 100%;
-  padding: 5%;
-  background: var(--white);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
   &.navOn {
-    background: var(--black);
+
   }
 }
 
 .logo {
-  display: block;
-  float: left;
-  width: 17.357%;
-  opacity: 1 !important;
+  width: calc(var(--bsu-lg) / 0.82);
 
   :global(svg) {
     width: 100%;
     height: auto;
   }
-
-  .navOn & {
-    :global(.text) {
-      fill: var(--white);
-    }
-  }
 }
 
+.pageTitle {
+  width: 100%;
+  order: 3;
+  padding-top: var(--bsu-md);
+}
 
-.menuButton {
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  width: 7.176%;
-  float: right;
-  cursor: pointer;
-
-  :global(svg) {
-
-    * {
-      fill: var(--black);
-
-      .navOn & {
-        fill: var(--white);
-      }
-    }
-  }
+.subNavButton {
+  width: var(--bsu-lg);
+  height: var(--bsu-lg);
 }

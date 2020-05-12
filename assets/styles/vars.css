@@ -47,7 +47,7 @@
   --gutter: 20px;
   --column: 60px;
   --columnInner: calc(1 / 16 * 100%);
-  --max-width: 750px;
+  --bmw: 1440px;
 
   /* Border radius */
   --button-radius: 3px;
@@ -57,6 +57,7 @@
   --trans: 0.25s ease;
 
   /* UI */
+  --logo-ratio: 2874 / 3469;
   --button-height: 60px;
   --button-height-small: 48px;
   --button-width-wide: 150px;

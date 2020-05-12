@@ -7,8 +7,8 @@ import * as ROUTES from '../constants/routes'
 import { NavigationContext } from './contexts/Navigation'
 // IMPORT ELEMENTS
 import FeedLogo from './icons/FeedLogo'
-import MenuButton from './elements/MenuButton'
-import Clear from './elements/Clear'
+import SubNavButton from './SubNavButton'
+import PageHeader from './PageHeader'
 // IMPORT STYLES
 import styles from './TheHeader.module.css'
 
@@ -18,13 +18,16 @@ function TheHeader() {
   const headerClass = navState.visible ? 'navOn' : 'navOff'
   return (
     <header className={[styles.TheHeader, styles[headerClass]].join(' ')}>
+      {/* LOGO */}
       <Link href={ROUTES.HOME}>
         <a>
-          <FeedLogo className={styles.logo} style={{ opacity: 0 }} />
+          <FeedLogo className={styles.logo} style={{ opacity: 1 }} />
         </a>
       </Link>
-      <MenuButton navigation={navState.visible} onClick={toggleNav} />
-      <Clear />
+      {/* Page Header */}
+      <PageHeader className={styles.pageTitle} heading="page title" />
+      {/* Subnav button */}
+      <SubNavButton className={styles.subNavButton} />
     </header>
   )
 }
