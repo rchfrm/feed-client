@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Spinner from './Spinner'
 
-import helper from '../helpers/helper'
+import * as utils from '../helpers/utils'
 
 const Button = ({
   version,
@@ -32,7 +32,7 @@ const Button = ({
   // Define wrapper type based on href or not
   const Wrapper = href ? 'a' : 'button'
   // Handle hrefs
-  const linkType = href ? helper.getLinkType(href) : ''
+  const linkType = href ? utils.getLinkType(href) : ''
   const target = linkType === 'external' ? '_blank' : 'self'
   const rel = linkType === 'external' ? 'noopener noreferrer' : ''
 

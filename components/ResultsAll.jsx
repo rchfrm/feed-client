@@ -13,7 +13,7 @@ import Feed from './elements/Feed'
 import * as ROUTES from '../constants/routes'
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 // COPY
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/ResultsPageCopy'
@@ -120,7 +120,7 @@ function DisabledResults({ disabledResults }) {
     <div
       className={styles['disabled-results']}
       style={{
-        backgroundColor: helper.hexToRGBA(brandColors.red, 0.1),
+        backgroundColor: utils.hexToRGBA(brandColors.red, 0.1),
       }}
     >
       <h3>The posts below are being turned off...</h3>

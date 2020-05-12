@@ -3,7 +3,7 @@
 import React from 'react'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 import { track } from './helpers/trackingHelpers'
 // IMPORT STYLES
 
@@ -19,7 +19,7 @@ const getBudgetAction = (previousBudget, newBudget) => {
 function BudgetConfirmation({ budget, previousBudget, artistId }) {
   const budgetInt = Number(budget)
   // Message for setting budget to positive number
-  const budgetFormatted = helper.formatCurrency(budget)
+  const budgetFormatted = utils.formatCurrency(budget)
 
   // Message for setting budget to 0
   if (budgetInt === 0) {

@@ -10,7 +10,7 @@ import Select from './elements/Select'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 import server from './helpers/server'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
@@ -101,7 +101,7 @@ function PostLinkOptions({
   }
 
   const checkLink = (platform) => {
-    const priorityDSP = helper.convertPlatformToPriorityDSP(platform)
+    const priorityDSP = utils.convertPlatformToPriorityDSP(platform)
     return (
       <a
         className={styles.a}

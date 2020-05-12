@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import helper from './helpers/helper'
 import firebase from './helpers/firebase'
 
 import { AuthContext } from './contexts/Auth'

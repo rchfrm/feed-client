@@ -5,7 +5,7 @@ import React from 'react'
 // IMPORT ELEMENTS
 import Input from './elements/Input'
 // IMPORT HELPERS
-import helper from './helpers/helper'
+import * as utils from './helpers/utils'
 // IMPORT STYLES
 import styles from './Integrations.module.css'
 
@@ -25,14 +25,14 @@ const PostConnectionsLink = ({
     if (platform === 'website') {
       return `${beginning} ${platform}`
     } if (platform === 'youtube') {
-      return `${beginning} ${helper.capitalise(platform)} channel`
+      return `${beginning} ${utils.capitalise(platform)} channel`
     }
 
     let correctedPlatform = platform
     if (correctedPlatform === 'apple') {
       correctedPlatform = 'Apple Music'
     } else {
-      correctedPlatform = helper.capitalise(correctedPlatform)
+      correctedPlatform = utils.capitalise(correctedPlatform)
     }
 
     return `${beginning} ${correctedPlatform} page`
@@ -49,7 +49,7 @@ const PostConnectionsLink = ({
 
   if (valid) {
     return (
-      <a className={styles.a} href={url} target="_blank" rel="noopener noreferrer">{helper.shortenUrl(url)}</a>
+      <a className={styles.a} href={url} target="_blank" rel="noopener noreferrer">{utils.shortenUrl(url)}</a>
     )
   }
   return (

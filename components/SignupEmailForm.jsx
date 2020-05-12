@@ -11,7 +11,7 @@ import Input from './elements/Input'
 import Button from './elements/Button'
 import Error from './elements/Error'
 
-import helpers from './helpers/helper'
+import * as utils from './helpers/utils'
 import { track } from './helpers/trackingHelpers'
 
 import * as ROUTES from '../constants/routes'
@@ -29,7 +29,7 @@ const getInputLabel = (key) => {
   if (key === 'lastName') return 'Last name'
   if (key === 'passwordOne') return 'Password (at least 6 characters)'
   if (key === 'passwordTwo') return 'Confirm password'
-  return helpers.capitalise(key)
+  return utils.capitalise(key)
 }
 
 const reducer = (draftState, action) => {
@@ -86,7 +86,7 @@ const SignupEmailForm = () => {
     const { name: key, value } = e.target
     // Test for valid email
     if (key === 'email') {
-      const hasValidEmail = helpers.testValidEmail(value)
+      const hasValidEmail = utils.testValidEmail(value)
       setHasEmailError(!hasValidEmail)
     }
     // Update signup details

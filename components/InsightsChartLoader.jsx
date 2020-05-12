@@ -8,7 +8,6 @@ import moment from 'moment'
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
 import Error from './elements/Error'
-import Spinner from './elements/Spinner'
 // IMPORT PAGES
 import ChartContainer from './ChartContainer'
 import ChartBar from './ChartBar'

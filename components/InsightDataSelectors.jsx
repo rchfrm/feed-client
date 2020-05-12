@@ -6,7 +6,6 @@ import * as chartHelpers from './helpers/chartHelpers'
 import useScrollToButton from './hooks/useScrollToButton'
 
 import styles from './InsightSelectors.module.css'
-import insightDataSources from '../constants/insightDataSources'
 import brandColors from '../constants/brandColors'
 
 const InsightDataSelectors = ({

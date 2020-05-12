@@ -1,5 +1,5 @@
 import moment from 'moment'
-import helpers from './helper'
+import * as utils from './utils'
 
 // IMPORT CONSTANTS
 import insightDataSources from '../../constants/insightDataSources'
@@ -176,7 +176,7 @@ export const calcStartAndEnd = (granularity, earliestMoment, latestMoment) => {
 // CREATE ARRAY OF PERIOD DATES
 const getClosestDate = (dailyDataSeconds, targetDate) => {
   // Get date (in seconds)
-  const date = helpers.closestNumberInArray(dailyDataSeconds, targetDate)
+  const date = utils.closestNumberInArray(dailyDataSeconds, targetDate)
   // return moment object
   return moment.unix(date)
 }
