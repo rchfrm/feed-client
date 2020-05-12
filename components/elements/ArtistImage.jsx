@@ -10,6 +10,7 @@ const ArtistImage = ({ pageId, size, name, className }) => {
   const [error, setError] = React.useState(false)
 
   React.useEffect(() => {
+    if (!pageId) return
     const src = `//graph.facebook.com/${pageId}/picture?type=${size}`
     setSrc(src)
     setError(false)
@@ -19,7 +20,7 @@ const ArtistImage = ({ pageId, size, name, className }) => {
     setError(true)
   }
 
-  if (error) return <ProfileIcon fill={brandColors.greyDark} />
+  if (error || !pageId) return <ProfileIcon className={className} fill={brandColors.greyDark} />
 
   return (
     <img className={className} alt={name} src={src} onError={onError} />
@@ -27,12 +28,13 @@ const ArtistImage = ({ pageId, size, name, className }) => {
 }
 
 ArtistImage.propTypes = {
-  pageId: PropTypes.string.isRequired,
+  pageId: PropTypes.string,
   size: PropTypes.string,
   className: PropTypes.string,
 }
 
 ArtistImage.defaultProps = {
+  pageId: '',
   size: 'normal',
   className: '',
 }

@@ -10,11 +10,13 @@
 
 .logo,
 .subNavButton {
-  position: relative;
+  position: fixed;
+  top: var(--bsu);
   z-index: 3;
 }
 
 .logo {
+  left: var(--bsu);
   width: calc(var(--bsu-lg) / 0.82);
 
   :global(svg) {
@@ -24,6 +26,7 @@
 }
 
 .subNavButton {
+  right: var(--bsu);
   width: var(--bsu-lg);
   height: var(--bsu-lg);
 }
@@ -33,6 +36,6 @@
   position: relative;
   width: 100%;
   order: 3;
-  padding-top: var(--bsu-md);
+  padding-top: calc(var(--bsu-md) + var(--bsu-lg));
   z-index: 1;
 }

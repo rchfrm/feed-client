@@ -1,14 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Div100vh from 'react-div-100vh'
+
+import TheSubNavArtists from './TheSubNavArtists'
+import TheSubNavLinks from './TheSubNavLinks'
+
 import styles from './TheSubNav.module.css'
 
 const TheSubNav = () => {
   return (
-    <nav className={['page--content', styles.container].join(' ')}>
-      <div className={styles.selectArtist}>ARTIST</div>
-      <div className={styles.links}>LINKS</div>
-    </nav>
+    <Div100vh className={['page--content', styles.container].join(' ')}>
+      <TheSubNavArtists />
+      <TheSubNavLinks />
+    </Div100vh>
   )
 }
 
