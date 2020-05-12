@@ -1,6 +1,6 @@
 import React from 'react'
 // IMPORT CONTEXTS
-import { NavMenuProvider } from './contexts/Navigation'
+import { InterfaceContextProvider } from './contexts/InterfaceContext'
 import { UserProvider } from './contexts/User'
 import { ArtistProvider } from './contexts/Artist'
 // IMPORT COMPONENTS
@@ -14,8 +14,7 @@ const AppContents = ({ children }) => {
 
       <UserProvider>
         <ArtistProvider>
-          <NavMenuProvider>
-
+          <InterfaceContextProvider>
             <TheHeader />
 
             <Main>
@@ -23,7 +22,7 @@ const AppContents = ({ children }) => {
             </Main>
 
             <TheFooter />
-          </NavMenuProvider>
+          </InterfaceContextProvider>
         </ArtistProvider>
       </UserProvider>
     </div>
