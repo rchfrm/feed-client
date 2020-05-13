@@ -7,7 +7,7 @@
 .selectorsLabel {
   padding-left: var(--bsu);
 
-  @media(--bmw) {
+  @media(--sm) {
     padding-left: 0;
   }
 }
@@ -31,7 +31,7 @@
     padding-bottom: 0;
   }
 
-  @media(--bmw) {
+  @media(--sm) {
     padding-left: 0;
   }
 
