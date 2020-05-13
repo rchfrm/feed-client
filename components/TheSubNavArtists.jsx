@@ -20,15 +20,17 @@ const ArtistSelectOptions = ({ currentArtistId, artists, updateArtist }) => {
   }
 
   return (
-    <Select
-      className={styles.artistSelect}
-      handleChange={handleChange}
-      selectedValue={currentArtistId}
-      options={artistOptions}
-      name="Selected Profile"
-      label="Selected Profile"
-      version="box white small sans"
-    />
+    <div className={styles.artistsOuter}>
+      <Select
+        className={styles.artistSelect}
+        handleChange={handleChange}
+        selectedValue={currentArtistId}
+        options={artistOptions}
+        name="Selected Profile"
+        label="Selected Profile"
+        version="box white small sans"
+      />
+    </div>
   )
 }
 
@@ -68,24 +70,26 @@ const TheSubNavArtists = () => {
 
   // Else show more explicit selector
   return (
-    <ul className={[styles.artistLinks, 'h4--text'].join(' ')}>
-      {resortedArtists.map(({ id, name }) => {
-        const activeClass = id === artistId ? styles._active : ''
-        return (
-          <li
-            key={id}
-            className={[styles.artistLink, activeClass].join(' ')}
-          >
-            <a className={styles.artistLink_button} role="button" onClick={() => updateArtist(id)}>
-              <figure className={['overflow-hidden', 'rounded-full', styles.artistLink_image].join(' ')}>
-                <ArtistImage className="h-auto w-full" />
-              </figure>
-              <figcaption className={styles.artistLink_name}>{name}</figcaption>
-            </a>
-          </li>
-        )
-      })}
-    </ul>
+    <div className={styles.artistsOuter}>
+      <ul className={[styles.artistLinks, 'h4--text'].join(' ')}>
+        {resortedArtists.map(({ id, name }) => {
+          const activeClass = id === artistId ? styles._active : ''
+          return (
+            <li
+              key={id}
+              className={[styles.artistLink, activeClass].join(' ')}
+            >
+              <a className={styles.artistLink_button} role="button" onClick={() => updateArtist(id)}>
+                <figure className={['overflow-hidden', 'rounded-full', styles.artistLink_image].join(' ')}>
+                  <ArtistImage className="h-auto w-full" />
+                </figure>
+                <figcaption className={styles.artistLink_name}>{name}</figcaption>
+              </a>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
   )
 }
 
