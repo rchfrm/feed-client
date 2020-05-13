@@ -24,10 +24,6 @@ body {
   width: 100%;
   min-height: 100vh;
   flex-direction: column;
-
-  @media (--md) {
-    padding: var(--bsu-md);
-  }
 }
 
 .page--container {
@@ -42,10 +38,19 @@ body {
   }
 }
 
+
 .page--content {
   max-width: var(--bmw);
-  margin: 0 auto;
   padding: var(--bsu);
+  margin: 0 auto;
+
+  @media (--sm) {
+    padding: var(--bsu-md);
+  }
+
+  @media (--md) {
+    padding: var(--bsu-lg);
+  }
 }
 
 .page--content_fixed {
@@ -58,6 +63,11 @@ body {
   width: 100%;
   width: calc(100% + (2 * var(--bsu)));
   margin-left: calc(-1 * var(--bsu));
+
+  @media (--sm) {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 .fill-height {

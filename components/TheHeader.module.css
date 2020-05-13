@@ -1,8 +1,7 @@
 .TheHeader {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-
+  justify-content: flex-start;
   &.navOn {
 
   }
@@ -13,6 +12,14 @@
   position: fixed;
   top: var(--bsu);
   z-index: 6;
+
+  @media (--sm) {
+    top: var(--bsu-md);
+  }
+
+  @media (--md) {
+    top: var(--bsu-lg);
+  }
 }
 
 .logo {
@@ -23,12 +30,28 @@
     width: 100%;
     height: auto;
   }
+
+  @media (--sm) {
+    left: var(--bsu-md);
+  }
+
+  @media (--md) {
+    left: var(--bsu-lg);
+  }
 }
 
 .subNavButton {
   right: var(--bsu);
   width: var(--bsu-lg);
   height: var(--bsu-lg);
+
+  @media (--sm) {
+    right: var(--bsu-md);
+  }
+
+  @media (--md) {
+    right: var(--bsu-lg);
+  }
 }
 
 
@@ -38,4 +61,15 @@
   order: 3;
   padding-top: calc(var(--bsu-md) + var(--bsu-lg));
   z-index: 1;
+  
+  @media (--sm) {
+    padding-top: calc(var(--bsu-lg) + var(--bsu-lg));
+  }
+
+  @media (--md) {
+    width: auto;
+    padding-top: 0;
+    padding-left: calc(var(--bsu-lg) + var(--bsu-lg) + var(--bsu));
+    transform: translateY(0.3em);
+  }
 }
