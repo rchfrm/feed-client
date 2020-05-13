@@ -2,7 +2,6 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { NavigationContext } from './contexts/Navigation'
 // IMPORT ELEMENTS
 import Feed from './elements/Feed'
 // IMPORT PAGES
@@ -16,12 +15,10 @@ import Feed from './elements/Feed'
 const thisYear = new Date().getFullYear()
 
 function Footer() {
-  const { navState } = React.useContext(NavigationContext)
-  const footerClass = navState.visible ? 'navOn' : 'navOff'
   return (
-    <footer className={['TheFooter', footerClass].join(' ')}>
+    <footer className={['TheFooter'].join(' ')}>
 
-      <p className="xsmall--p no-margin">
+      <p className="xsmall--p  no-margin">
         &copy;
         {' '}
         {thisYear}
