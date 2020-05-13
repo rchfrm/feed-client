@@ -39,6 +39,8 @@ const TheSubNavArtists = () => {
   const { artistId, storeArtist } = React.useContext(ArtistContext)
   const maxArtists = 5
 
+  console.log('allArtists', allArtists)
+
   const updateArtist = (artistId) => {
     storeArtist(artistId)
   }
@@ -72,7 +74,7 @@ const TheSubNavArtists = () => {
   return (
     <div className={styles.artistsOuter}>
       <ul className={[styles.artistLinks, 'h4--text'].join(' ')}>
-        {resortedArtists.map(({ id, name }) => {
+        {resortedArtists.map(({ id, name, facebook_page_id }) => {
           const activeClass = id === artistId ? styles._active : ''
           return (
             <li
@@ -81,7 +83,7 @@ const TheSubNavArtists = () => {
             >
               <a className={styles.artistLink_button} role="button" onClick={() => updateArtist(id)}>
                 <figure className={['overflow-hidden', 'rounded-full', styles.artistLink_image].join(' ')}>
-                  <ArtistImage className="h-auto w-full" />
+                  <ArtistImage className="h-auto w-full" pageId={facebook_page_id} />
                 </figure>
                 <figcaption className={styles.artistLink_name}>{name}</figcaption>
               </a>
