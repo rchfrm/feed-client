@@ -23,8 +23,16 @@
   }
 }
 
+.spinner {
+  width: 80%;
+  height: auto;
+}
+
 .frontIcon,
 .backIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -34,12 +42,14 @@
   overflow: hidden;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+
+  :global(svg) {
+    width: 100%;
+    height: auto;
+  }
 }
 
 .backIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border: 2px solid var(--bg-color);
   transform: rotateY(180deg);
 }
@@ -47,9 +57,4 @@
 .backIcon_inner {
   width: 80%;
   height: 80%;
-
-  :global(svg) {
-    width: 100%;
-    height: auto;
-  }
 }
