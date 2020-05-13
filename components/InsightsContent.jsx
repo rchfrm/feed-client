@@ -81,7 +81,7 @@ function InsightsContent() {
     )
   }
 
-  const containerClasses = ['page--container', styles.pageContainer]
+  const containerClasses = [styles.pageContainer]
   if (pageReady) {
     containerClasses.push(styles._ready)
   }
@@ -128,7 +128,7 @@ function InsightsContent() {
 
       {/* OUTRO TEXT TEXT */}
       {!initialLoading && (
-        <MarkdownText className="ninety-wide  h4--text" markdown={copy.outro} />
+        <MarkdownText className="h4--text" markdown={copy.outro} />
       )}
 
     </div>

@@ -200,7 +200,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
         setErrors={setErrors}
       />
 
-      <div className="ninety-wide" style={{ textAlign: 'right' }}>
+      <div style={{ textAlign: 'right' }}>
 
         {/* Errors */}
         {errors.map((error, index) => {

@@ -5,9 +5,9 @@ import copy from '../copy/PricingPageCopy'
 
 function PricingPageContent() {
   return (
-    <div className="page--content">
+    <article>
       <MarkdownText className="h4--text" markdown={copy.copy} />
-    </div>
+    </article>
   )
 }
 

@@ -33,7 +33,7 @@ const InsightPlatformSelectors = ({
   if (initialLoading) return null
 
   return (
-    <div className={styles.selectorsOuter}>
+    <div className={['breakout--width', styles.selectorsOuter].join(' ')}>
       <p className={['inputLabel__text', styles.selectorsLabel].join(' ')}>Select a platform</p>
       <div id="platformSelectors" className={styles.platformSelectors} ref={containerRef}>
         {availablePlatforms.map(({ title, id }, i) => {

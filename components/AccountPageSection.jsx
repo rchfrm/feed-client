@@ -68,7 +68,7 @@ const AccountPageSection = ({ title, type, user, buttonText }) => {
   const section = getSection({ type, user, onReady })
 
   return (
-    <section className={['page--content', styles.accountPageSection].join(' ')}>
+    <section className={[styles.accountPageSection].join(' ')}>
       <h2 className={[styles.h2, 'h2'].join()}>{title}</h2>
 
       {section}

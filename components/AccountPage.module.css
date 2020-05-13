@@ -2,33 +2,6 @@
 **************************
 DETAILS
 **************************/
-.account-details {
-  margin: 2em 0;
-  width: 90%;
-  margin: 0 5%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  flex: auto;
-  
-  .h2 {
-    width: 100%;
-  }
-
-  .row {
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .error {
-    padding-bottom: 0;
-  }
-}
-
-/* 
-**************************
-DETAILS
-**************************/
 .accountPageDetails {
 
   .row {
@@ -54,7 +27,6 @@ SUMMARIES
 .accountPageSection {
   padding-top: var(--bsu);
   padding-bottom: var(--bsu-lg);
-  padding-right: var(--bsu);
 }
 
 .accountPageSection__details {

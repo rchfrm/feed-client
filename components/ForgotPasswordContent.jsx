@@ -90,7 +90,7 @@ function ForgotPasswordContent() {
   const isInvalid = email === ''
 
   return (
-    <div className="ninety-wide">
+    <div>
       {success ? <Success className={styles.successMessage} message={success} /> : (
         <>
           <p className={styles.introText}>Enter your email address below to receive a link, and reset your password.</p>

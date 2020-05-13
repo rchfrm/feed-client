@@ -18,13 +18,12 @@
 }
 
 .chartOuter {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: flex-end;
-  flex-direction: column;
   min-height: 300px;
   margin-bottom: var(--bsu-lg);
+
+  &._numberChart {
+    min-height: 0;
+  }
 
   @media (--xxs) {
     margin-bottom: calc(var(--bsu-lg) * 2);

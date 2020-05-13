@@ -102,10 +102,10 @@ function PostsAll({
 
       <PageHeader heading="review posts and set a budget" />
 
-      <MarkdownText className={['ninety-wide', 'h4--text', styles.introText].join(' ')} markdown={copy.intro} />
+      <MarkdownText className={['h4--text', styles.introText].join(' ')} markdown={copy.intro} />
 
       {/* POST SETTINGS BUTTON */}
-      <div className="ninety-wide">
+      <div>
         <Button
           className={styles.postSettingsButton}
           onClick={togglePostsSettings}

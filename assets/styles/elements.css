@@ -22,13 +22,11 @@
 }
 
 .alert--inner {
-  position: relative;
   z-index: 2;
   background-color: var(--bg-color);
-  width: 90%;
   max-width: 720px;
   max-height: 80%;
-  padding: calc(1.5 * var(--bsu-md));
+  padding: var(--bsu-md);
   border: 2px solid var(--text-color);
   display: flex;
   flex-direction: column;
@@ -37,7 +35,7 @@
   border-radius: var(--dialogue-radius);
 
   @media (--md) {
-    padding: calc(1.5 * var(--bsu-lg));
+    padding: var(--bsu-lg);
   }
 
   h1 {
@@ -51,15 +49,19 @@
 
 .alert--inner_content {
   width: 100%;
-  padding-right: var(--bsu);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 .alert_close--button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: calc(var(--bsu-md) - 20px);
+  right: var(--bsu-md);
+
+  @media (--md) {
+    top: calc(var(--bsu-lg) - 20px);
+    right: var(--bsu-lg);
+  }
 }
 
 .alert--buttons {
@@ -73,6 +75,7 @@
   width: 100%;
   padding-bottom: 1em;
   color: var(--black);
+  padding-right: var(--bsu);
 }
 
 
@@ -192,11 +195,6 @@
   margin: 1em 0 2.5em 0;
   padding: 2.778% 0;
   overflow-x: auto;
-
-  li:first-child {
-    margin-left: 5%;
-  }
-
 }
 
 
@@ -336,11 +334,6 @@
 .readonly {
   background-color: var(--text-color);
 }
-
-.frame li:first-child {
-  margin-left: 5%;
-}
-
 
 /* Tile
 ******************/

@@ -128,7 +128,7 @@ function PostsBudget({ currency }) {
 
       <PageHeader heading="set your budget" />
 
-      <div className="ninety-wide" style={{ marginBottom: '2em' }}>
+      <div>
 
         <MarkdownText className="h3--text" markdown={copy.budgetIntro} />
 

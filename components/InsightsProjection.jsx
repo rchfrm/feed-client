@@ -53,7 +53,7 @@ const InsightsProjection = ({
   if (loading || !sentence) return null
 
   return (
-    <div className={['ninety-wide', styles.projectionContainer].join(' ')}>
+    <div className={[styles.projectionContainer].join(' ')}>
       <MarkdownText
         className={styles.projectionText}
         markdown={sentence}

@@ -33,7 +33,7 @@ const BasePage = ({
           {/* HEADER */}
           <BasePageHeader header={noArtistHeader} />
           {/* NO ARTIST COPY */}
-          <MarkdownText className="ninety-wide  h4--text" markdown={copy.noArtists} />
+          <MarkdownText className="h4--text" markdown={copy.noArtists} />
         </>
       ) : (
         <>
