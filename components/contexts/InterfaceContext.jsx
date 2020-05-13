@@ -66,8 +66,6 @@ const InterfaceContextProvider = ({ children }) => {
     setInterfaceState({ type: 'setSubNav', payload: { state } })
   }, [])
 
-  console.log('header', header)
-
   const setHeader = React.useCallback(({ visible, text, punctuation = '.' }) => {
     setInterfaceState({ type: 'setHeader', payload: { visible, text, punctuation } })
   }, [])
