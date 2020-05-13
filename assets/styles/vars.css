@@ -78,8 +78,8 @@
 @custom-media --md     (width > 992px);
 @custom-media --lgMax  (width < 1200px);
 @custom-media --lg     (width >= 1200px);
-@custom-media --bmwMax (width < 750px);
-@custom-media --bmw    (width >= 750px);
+@custom-media --bmwMax (width < 1440px);
+@custom-media --bmw    (width >= 1440px);
 @custom-media --xl     (width >= 1600px);
 
 /* Breakpoints Heights */
