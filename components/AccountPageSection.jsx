@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import Router from 'next/router'
 import * as ROUTES from '../constants/routes'
 
+import Button from './elements/Button'
+
 import AccountPageDetailsSummary from './AccountPageDetailsSummary'
 import AccountPagePaymentSummary from './AccountPagePaymentSummary'
 import AccountConnectionsSummary from './AccountConnectionsSummary'
@@ -74,9 +76,12 @@ const AccountPageSection = ({ title, type, user, buttonText }) => {
       {section}
 
       {sectionReady && (newButtonText || buttonText) && newButtonText !== false && (
-        <button onClick={onClick} className="button  button--black  button--small">
-          <span>{ newButtonText || buttonText }</span>
-        </button>
+        <Button
+          onClick={onClick}
+          version="black small"
+        >
+          { newButtonText || buttonText }
+        </Button>
       )}
     </section>
   )

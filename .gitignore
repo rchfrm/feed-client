@@ -49,3 +49,5 @@ public/pwa/*
 .firebase
 .firebase/
 firebase.json
+
+firebase-debug.log
