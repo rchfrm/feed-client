@@ -20,17 +20,15 @@ const ArtistSelectOptions = ({ currentArtistId, artists, updateArtist }) => {
   }
 
   return (
-    <div className={styles.artistsOuter}>
-      <Select
-        className={styles.artistSelect}
-        handleChange={handleChange}
-        selectedValue={currentArtistId}
-        options={artistOptions}
-        name="Selected Profile"
-        label="Selected Profile"
-        version="box white small sans"
-      />
-    </div>
+    <Select
+      className={styles.artistSelect}
+      handleChange={handleChange}
+      selectedValue={currentArtistId}
+      options={artistOptions}
+      name="Selected Profile"
+      label="Selected Profile"
+      version="box white small sans"
+    />
   )
 }
 
@@ -52,11 +50,13 @@ const TheSubNavArtists = () => {
   // Show select component if too many artists
   if (sortedArtists.length > maxArtists) {
     return (
-      <ArtistSelectOptions
-        updateArtist={updateArtist}
-        artists={sortedArtists}
-        currentArtistId={artistId}
-      />
+      <div className={[styles.artistsOuter, styles._selectType].join(' ')}>
+        <ArtistSelectOptions
+          updateArtist={updateArtist}
+          artists={sortedArtists}
+          currentArtistId={artistId}
+        />
+      </div>
     )
   }
 

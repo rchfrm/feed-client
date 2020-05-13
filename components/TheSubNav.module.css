@@ -33,6 +33,10 @@
   @media (--md) {
     width: 50%;
     flex-grow: 1;
+
+    &._selectType {
+      width: 65%;
+    }
   }
 }
 
@@ -50,6 +54,13 @@
   @media (--md) {
     max-width: 100%;
     padding: 0 var(--bsu);
+  }
+}
+
+.artistSelect {
+  @media (--md) {
+    padding: 0;
+    max-width: 420px;
   }
 }
 
