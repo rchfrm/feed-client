@@ -16,6 +16,8 @@
   color: var(--bg-color);
   padding-top: calc(var(--bsu-lg) + var(--bsu) + var(--bsu-lg));
 
+  overflow: auto;
+
   :global(a) {
     color: inherit;
     text-decoration: none;
@@ -31,8 +33,17 @@
 
 }
 
+/*
+ ARTISTS
+ **********
+*/
+
 .artistsOuter {
+  display: flex;
+  justify-content: center;
+
   @media (--md) {
+    display: block;
     width: 50%;
     flex-grow: 1;
 
@@ -42,10 +53,6 @@
   }
 }
 
-/*
- ARTISTS
- **********
-*/
 .artistSelect,
 .artistLinks {
   max-width: 420px;
@@ -69,13 +76,16 @@
 .artistLinks {
   position: relative;
   padding-bottom: var(--bsu-lg);
+  width: auto;
 
   &::after {
     content: ' ';
     position: absolute;
     bottom: calc(-1 * var(--bsu-lg) + var(--bsu-md));
-    left: -20%;
+    left: 50%;
+    transform: translate(-50%, 0);
     width: 140%;
+    max-width: 220px;
     height: 1px;
     background-color: var(--bg-color);
   }
@@ -87,7 +97,7 @@
     margin-bottom: 0;
     &::after {
       bottom: 50%;
-      transform: translateY(50%);
+      transform: translate(0, 50%);
       left: 0;
       width: 1px;
       height: 180%;
@@ -159,8 +169,19 @@
   bottom: var(--bsu);
   transform: translateX(50%);
   color: var(--grey-mid);
-  padding: 1em;
   opacity: 0.7;
+  margin-top: auto;
+  text-align: center;
+
+  :global(a) {
+    padding: 1em;
+    padding-bottom: 0;
+  }
+
+  @media (--xsHeight) {
+    position: static;
+    transform: none;
+  }
 
   @mixin canHover {
     &:hover {

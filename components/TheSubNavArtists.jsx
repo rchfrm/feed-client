@@ -44,7 +44,7 @@ const TheSubNavArtists = () => {
   }
 
   const sortedArtists = React.useMemo(() => {
-    return artistHelpers.sortArtistsAlphabetically([...allArtists])
+    return artistHelpers.sortArtistsAlphabetically([...allArtists]).slice(0, 3)
   }, [user])
 
   // Show select component if too many artists
