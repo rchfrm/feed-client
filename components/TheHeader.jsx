@@ -8,7 +8,7 @@ import { AuthContext } from './contexts/Auth'
 import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import FeedLogo from './icons/FeedLogo'
-import SubNavButton from './SubNavButton'
+import TheSubNavButton from './TheSubNavButton'
 import PageHeader from './PageHeader'
 import TheSubNav from './TheSubNav'
 // IMPORT CONSTANTS
@@ -49,7 +49,7 @@ function TheHeader() {
       <PageHeader className={styles.pageTitle} heading="page title" />
       {/* Subnav button */}
       {loggedIn && (
-        <SubNavButton
+        <TheSubNavButton
           toggleSubNav={toggleSubNav}
           navOpen={subNavOpen}
           className={styles.subNavButton}

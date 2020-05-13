@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import ArtistImage from './elements/ArtistImage'
+import CloseCircle from './icons/CloseCircle'
 
 import { ArtistContext } from './contexts/Artist'
 
-import styles from './SubNavButton.module.css'
+import styles from './TheSubNavButton.module.css'
 
-const SubNavButton = ({ toggleSubNav, navOpen, className }) => {
+const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
   const { artist, artistId } = React.useContext(ArtistContext)
   const [fbPageId, setFbPageId] = React.useState('')
 
@@ -17,27 +19,33 @@ const SubNavButton = ({ toggleSubNav, navOpen, className }) => {
   }, [artistId])
 
   return (
-    <button className={[styles.container, className].join(' ')} onClick={toggleSubNav}>
+    <button className={[styles.container, className, navOpen ? styles._navOpen : ''].join(' ')} onClick={toggleSubNav}>
       <div className={styles.inner}>
-        <div className={styles.front}>
+        <div className={styles.frontIcon}>
           <figure className={styles.image}>
             {fbPageId && <ArtistImage pageId={fbPageId} name={artist.name} />}
           </figure>
+        </div>
+        <div className={styles.backIcon}>
+          {/* Close button */}
+          <div className={styles.backIcon_inner}>
+            <CloseCircle />
+          </div>
         </div>
       </div>
     </button>
   )
 }
 
-SubNavButton.propTypes = {
+TheSubNavButton.propTypes = {
   toggleSubNav: PropTypes.func.isRequired,
   navOpen: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
-SubNavButton.defaultProps = {
+TheSubNavButton.defaultProps = {
   className: '',
 }
 
 
-export default SubNavButton
+export default TheSubNavButton
