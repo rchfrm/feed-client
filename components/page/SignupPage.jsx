@@ -2,7 +2,7 @@ import BasePage from '../BasePage'
 import SignupPageContent from '../SignupPageContent'
 
 const headerConfig = {
-  text: 'log in',
+  text: 'sign up',
 }
 
 const page = () => (

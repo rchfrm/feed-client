@@ -4,7 +4,6 @@ import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
 // IMPORT COMPONENTS
-import PageHeader from './PageHeader'
 import SignupEmailForm from './SignupEmailForm'
 // IMPORT HELPERS
 import firebase from './helpers/firebase'

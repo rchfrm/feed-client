@@ -4,7 +4,6 @@ import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
-import PageHeader from './PageHeader'
 import Error from './elements/Error'
 import Button from './elements/Button'
 import EmailIcon from './icons/EmailIcon'
