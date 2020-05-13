@@ -20,6 +20,10 @@
   @media (--md) {
     top: var(--bsu-lg);
   }
+
+  @media (--bmw) {
+    position: static;
+  }
 }
 
 .logo {
@@ -52,13 +56,18 @@
   @media (--md) {
     right: var(--bsu-lg);
   }
+
+  @media (--bmw) {
+    order: 3;
+    margin-left: auto;
+  }
 }
 
 
 .pageTitle {
   position: relative;
   width: 100%;
-  order: 3;
+  order: 2;
   padding-top: calc(var(--bsu-md) + var(--bsu-lg));
   z-index: 1;
   
