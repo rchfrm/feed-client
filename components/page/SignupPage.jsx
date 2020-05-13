@@ -1,8 +1,12 @@
 import BasePage from '../BasePage'
 import SignupPageContent from '../SignupPageContent'
 
+const headerConfig = {
+  text: 'log in',
+}
+
 const page = () => (
-  <BasePage>
+  <BasePage headerConfig={headerConfig}>
     <SignupPageContent />
   </BasePage>
 )

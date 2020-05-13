@@ -2,13 +2,13 @@ import BasePage from '../../components/BasePage'
 import TestPageReady from '../../components/TestPageReady'
 import ThankYouPage from '../../components/ThankYouPageContent'
 
-const header = {
-  heading: 'results',
+const headerConfig = {
+  text: 'results',
 }
 
 const Page = () => (
   <BasePage
-    header={header}
+    headerConfig={headerConfig}
   >
     <ThankYouPage />
   </BasePage>
