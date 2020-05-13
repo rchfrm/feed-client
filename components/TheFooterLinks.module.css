@@ -1,0 +1,11 @@
+.links {
+
+}
+
+.linkItem {
+  margin-right: var(--bsu);
+
+  :global(a._active) {
+    text-decoration: none;
+  }
+}

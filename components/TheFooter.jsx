@@ -1,22 +1,27 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
+import TheFooterLinks from './TheFooterLinks'
 // IMPORT CONTEXTS
+import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
 import Feed from './elements/Feed'
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
-// IMPORT STYLES
-// oter.css'
 
 // GET CURRENT YEAR
 const thisYear = new Date().getFullYear()
 
-function Footer() {
+const Footer = () => {
+  // Check if logged in or not
+  const { auth } = React.useContext(AuthContext)
+  const loggedIn = React.useMemo(() => {
+    return !!auth.token
+  }, [auth.token])
+
   return (
     <footer className={['TheFooter'].join(' ')}>
+      {!loggedIn && (
+        <TheFooterLinks />
+      )}
 
       <p className="xsmall--p  no-margin">
         &copy;
