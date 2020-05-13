@@ -10,6 +10,8 @@ import FeedLogo from './icons/FeedLogo'
 import SubNavButton from './SubNavButton'
 import PageHeader from './PageHeader'
 import TheSubNav from './TheSubNav'
+// IMPORT CONSTANTS
+import brandColors from '../constants/brandColors'
 // IMPORT STYLES
 import styles from './TheHeader.module.css'
 
@@ -20,13 +22,21 @@ function TheHeader() {
     setLogoOpacity(1)
   }, [])
   const { subNavOpen, toggleSubNav } = React.useContext(InterfaceContext)
-  const headerClass = subNavOpen.open ? '_subNavOpen' : ''
+  const [headerClass, setHeaderClass] = React.useState('')
+  const [logoTextColor, setLogoTextColor] = React.useState(brandColors.textColor)
+  React.useEffect(() => {
+    // Toggle header class
+    const headerClass = subNavOpen.open ? '_subNavOpen' : ''
+    setHeaderClass(headerClass)
+    // Toggle logo text
+    setLogoTextColor(subNavOpen ? brandColors.bgColor : brandColors.textColor)
+  }, [subNavOpen])
   return (
     <header className={[styles.TheHeader, styles[headerClass]].join(' ')}>
       {/* LOGO */}
       <Link href={ROUTES.HOME}>
         <a>
-          <FeedLogo className={styles.logo} style={{ opacity: logoOpacity }} />
+          <FeedLogo className={styles.logo} style={{ opacity: logoOpacity }} textColor={logoTextColor} />
         </a>
       </Link>
       {/* Page Header */}
