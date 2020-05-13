@@ -15,11 +15,14 @@ const BasePage = ({
   artistRequired,
   children,
 }) => {
-  // TODO Hide nav when page mounts
   // Get interface context
-  const { setHeader } = React.useContext(InterfaceContext)
+  const { setHeader, setSubNav } = React.useContext(InterfaceContext)
   // Get user context
   const { user } = React.useContext(UserContext)
+  // Hide nav when page mounts
+  React.useEffect(() => {
+    setSubNav(false)
+  }, [])
 
   React.useEffect(() => {
     setHeader(headerConfig)
