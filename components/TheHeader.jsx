@@ -5,6 +5,7 @@ import Link from 'next/link'
 import * as ROUTES from '../constants/routes'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
+import { ArtistContext } from './contexts/Artist'
 import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import FeedLogo from './icons/FeedLogo'
@@ -27,7 +28,8 @@ function TheHeader() {
   React.useEffect(() => {
     setLogoOpacity(1)
   }, [])
-  const { subNavOpen, toggleSubNav } = React.useContext(InterfaceContext)
+  // HANDLE SUB-NAV OPENING AND CLOSING
+  const { subNavOpen, toggleSubNav, setSubNav } = React.useContext(InterfaceContext)
   const [headerClass, setHeaderClass] = React.useState('')
   const [logoTextColor, setLogoTextColor] = React.useState(brandColors.textColor)
   React.useEffect(() => {
@@ -37,6 +39,12 @@ function TheHeader() {
     // Toggle logo text
     setLogoTextColor(subNavOpen ? brandColors.bgColor : brandColors.textColor)
   }, [subNavOpen])
+  // Close sub-nav after artist changes
+  const { artistId, artistLoading } = React.useContext(ArtistContext)
+  React.useEffect(() => {
+    setSubNav(false)
+  }, [artistId, artistLoading])
+
   return (
     <header className={[styles.TheHeader, styles[headerClass]].join(' ')}>
       {/* LOGO */}
