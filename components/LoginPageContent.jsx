@@ -73,8 +73,6 @@ function LoginPageContent() {
   return (
     <div className={styles.container}>
 
-      <PageHeader className={styles.header} heading="log in" />
-
       <Error className={styles.error} error={error || authError} />
 
       {/* Email login form */}

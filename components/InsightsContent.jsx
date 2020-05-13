@@ -89,8 +89,6 @@ function InsightsContent() {
   return (
     <div className={containerClasses.join(' ')}>
 
-      <PageHeader className={styles.pageHeader} heading="insights" />
-
       {/* PLATFORM SELECTORS */}
       <InsightPlatformSelectors
         artistId={artistId}

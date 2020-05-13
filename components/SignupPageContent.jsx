@@ -70,8 +70,6 @@ const SignupPageContent = () => {
   return (
     <div className={styles.container}>
 
-      <PageHeader className={styles.header} heading="sign up" />
-
       <Error className={styles.error} error={error || authError} />
 
       {/* Email login form */}

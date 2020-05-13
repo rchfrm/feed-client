@@ -17,7 +17,7 @@ const BasePage = ({
 }) => {
   // TODO Hide nav when page mounts
   // Get interface context
-  const { header, setHeader } = React.useContext(InterfaceContext)
+  const { setHeader } = React.useContext(InterfaceContext)
   // Get user context
   const { user } = React.useContext(UserContext)
 

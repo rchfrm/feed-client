@@ -3,7 +3,7 @@ import TestPageReady from '../../components/TestPageReady'
 import InsightsContent from '../../components/InsightsContent'
 
 const headerConfig = {
-  text: 'FAQs',
+  text: 'insights',
 }
 
 const Page = () => (
