@@ -4,9 +4,10 @@ import Link from 'next/link'
 // IMPORT COMPONENTS
 import * as ROUTES from '../constants/routes'
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 import { InterfaceContext } from './contexts/InterfaceContext'
+// IMPORT HOOKS
+import useLoggedInTest from './hooks/useLoggedInTest'
 // IMPORT ELEMENTS
 import FeedLogo from './icons/FeedLogo'
 import TheSubNavButton from './TheSubNavButton'
@@ -19,10 +20,7 @@ import styles from './TheHeader.module.css'
 
 function TheHeader() {
   // Check if logged in or not
-  const { auth } = React.useContext(AuthContext)
-  const loggedIn = React.useMemo(() => {
-    return !!auth.token
-  }, [auth.token])
+  const isLoggedIn = useLoggedInTest()
   // Handle flash of oversized logo
   const [logoOpacity, setLogoOpacity] = React.useState(0)
   React.useEffect(() => {
@@ -56,7 +54,7 @@ function TheHeader() {
       {/* Page Header */}
       <PageHeader className={styles.pageTitle} heading="page title" />
       {/* Subnav button */}
-      {loggedIn && (
+      {isLoggedIn && (
         <TheSubNavButton
           toggleSubNav={toggleSubNav}
           navOpen={subNavOpen}
@@ -64,7 +62,7 @@ function TheHeader() {
         />
       )}
       {/* THE SUBNAV */}
-      {subNavOpen && loggedIn && <TheSubNav />}
+      {subNavOpen && isLoggedIn && <TheSubNav />}
     </header>
   )
 }
