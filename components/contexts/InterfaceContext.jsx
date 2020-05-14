@@ -6,8 +6,8 @@ const initialState = {
   globalLoading: false,
   header: {
     visible: true,
-    text: 'page title',
-    punctuation: '.',
+    text: '',
+    punctuation: '',
   },
 }
 
