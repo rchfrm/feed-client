@@ -24,6 +24,7 @@ body {
   width: 100%;
   min-height: 100vh;
   flex-direction: column;
+  padding-bottom: var(--page-buttons-height);
 }
 
 .page--container {
@@ -93,6 +94,10 @@ body {
 .TheFooter {
   padding-top: var(--bsu-md);
   font-family: var(--font-display);
+
+  &._loggedIn {
+    padding-bottom: var(--bsu-md);
+  }
 }
 
 .hidden {

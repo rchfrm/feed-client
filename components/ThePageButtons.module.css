@@ -1,15 +1,68 @@
 .container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  border-top: 1px solid var(--green);
+  background-color: var(--bg-color);
+  box-shadow: 0px -2px 16px rgba(0, 0, 0, 0.07);
 
 }
 
 .inner {
-
+  display: flex;
+  justify-content: space-between;
+  padding: 7px var(--bsu);
+  
+  @media (--xs) {
+    justify-content: center;
+  }
 }
 
 .link {
+  text-align: center;
+  font-size: 12px;
 
+  @media (--xs) {
+    padding: 0 var(--bsu);
+    margin: 0 10px;
+  }
 }
 
 .linkAnchor {
+  display: block;
+  text-decoration: none;
+}
 
+
+.linkIcon {
+  margin: 0 auto;
+  width: 2.5em;
+  margin-bottom: 0.4em;
+  margin-top: 0.2em;
+
+  opacity: 0.3;
+
+  .linkAnchor._active & {
+    opacity: 1;
+  }
+  
+  :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.linkTitle {
+  margin-bottom: 0;
+  width: 100%;
+
+  .linkAnchor._active & {
+    font-weight: var(--bold);
+  }
+
+  :global(a) {
+    
+  }
 }

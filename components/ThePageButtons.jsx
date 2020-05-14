@@ -11,18 +11,22 @@ const links = [
   {
     href: ROUTES.BUDGET,
     title: 'budget',
+    icon: 'budget',
   },
   {
     href: ROUTES.POSTS,
     title: 'posts',
+    icon: 'posts',
   },
   {
     href: ROUTES.RESULTS,
     title: 'results',
+    icon: 'results',
   },
   {
     href: ROUTES.INSIGHTS,
     title: 'insights',
+    icon: 'insights',
   },
 ]
 
@@ -30,12 +34,14 @@ const ThePageButtons = () => {
   return (
     <div className={styles.container}>
       <nav className={styles.inner}>
-        {links.map(({ href, title }) => {
+        {links.map(({ href, title, icon }) => {
           return (
-            <div className={styles.link} key={href}>
-              <ActiveLink href={href}>
-                <ThePageButtonsIcon className={styles.icon} />
-                <a className={styles.linkAnchor}>{ title }</a>
+            <div className={styles.link} key={icon}>
+              <ActiveLink href={href} activeClass={styles._active}>
+                <a className={styles.linkAnchor}>
+                  <ThePageButtonsIcon icon={icon} className={styles.linkIcon} />
+                  <p className={styles.linkTitle}>{ title }</p>
+                </a>
               </ActiveLink>
             </div>
           )

@@ -18,7 +18,7 @@ const Footer = () => {
   }, [auth.token])
 
   return (
-    <footer className={['TheFooter'].join(' ')}>
+    <footer className={['TheFooter', loggedIn ? '_loggedIn' : ''].join(' ')}>
       {!loggedIn && (
         <TheFooterLinks />
       )}
