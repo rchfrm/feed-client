@@ -11,7 +11,6 @@ import Error from './elements/Error'
 // IMPORT PAGES
 import PostsAll from './PostsAll'
 import PostsNone from './PostsNone'
-import PostsBudget from './PostsBudget'
 // IMPORT HELPERS
 import * as utils from './helpers/utils'
 import server from './helpers/server'
@@ -244,8 +243,6 @@ function PostsLoader() {
       />
 
       <Error error={error} />
-
-      <PostsBudget currency={artist.currency} />
 
     </div>
   )
