@@ -29,13 +29,12 @@ function ForgotPasswordForm({ setSuccess, setError, setEmail, email, error, isIn
   const onFormSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    const res = await firebase.doPasswordReset(email)
+    await firebase.doPasswordReset(email)
       .catch((error) => {
         setError(error)
         setLoading(false)
         return { error }
       })
-    if (res.error) return
     setSuccess(`Instructions for resetting your password have been sent to ${email}`)
     setEmail('')
     setLoading(false)
