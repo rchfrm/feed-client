@@ -39,8 +39,6 @@ const TheSubNavArtists = () => {
   const { artistId, storeArtist } = React.useContext(ArtistContext)
   const maxArtists = 5
 
-  console.log('allArtists', allArtists)
-
   const updateArtist = (artistId) => {
     storeArtist(artistId)
   }
