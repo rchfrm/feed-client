@@ -1,5 +1,8 @@
 import React from 'react'
-
+// IMPORT CONTEXTS
+import { InterfaceContextProvider } from './contexts/InterfaceContext'
+import { UserProvider } from './contexts/User'
+import { ArtistProvider } from './contexts/Artist'
 // IMPORT COMPONENTS
 import Main from './Main'
 import TheHeader from './TheHeader'
@@ -7,16 +10,21 @@ import TheFooter from './TheFooter'
 
 const AppContents = ({ children }) => {
   return (
-    <div id="container">
+    <div id="container" className="page--content">
 
-      <TheHeader />
+      <UserProvider>
+        <ArtistProvider>
+          <InterfaceContextProvider>
+            <TheHeader />
 
-      <Main>
-        {children}
-      </Main>
+            <Main>
+              {children}
+            </Main>
 
-      <TheFooter />
-
+            <TheFooter />
+          </InterfaceContextProvider>
+        </ArtistProvider>
+      </UserProvider>
     </div>
   )
 }

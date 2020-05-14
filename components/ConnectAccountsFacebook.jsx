@@ -33,7 +33,7 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
   const showSignupIntro = (missingScopes.length === 0) && onSignUp
 
   return (
-    <div className="ninety-wide">
+    <div>
       <div className={styles.facebookConnectContainer}>
         {/* Errors */}
         {errors.map((error, index) => {

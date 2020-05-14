@@ -8,21 +8,15 @@ import copy from '../copy/ResultsPageCopy'
 const ResultsNoResults = ({ artist }) => {
   if (artist.daily_budget > 0) {
     return (
-      <div
-        className="fill-height ninety-wide"
-        style={{ justifyContent: 'initial' }}
-      >
+      <div className="fill-height">
         <MarkdownText className="h4--text" markdown={copy.noResultsWithBudget} />
       </div>
     )
   }
 
   return (
-    <div
-      className="fill-height"
-      style={{ justifyContent: 'space-between' }}
-    >
-      <MarkdownText className="ninety-wide  h4--text" markdown={copy.noResultsNoBudget} />
+    <div className="fill-height">
+      <MarkdownText className="h4--text" markdown={copy.noResultsNoBudget} />
       <PromotePostsButton
         artist={artist}
         artistId={artist.id}

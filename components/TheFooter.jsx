@@ -1,27 +1,29 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
+import TheFooterLinks from './TheFooterLinks'
 // IMPORT CONTEXTS
-import { NavigationContext } from './contexts/Navigation'
+import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
 import Feed from './elements/Feed'
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
-// IMPORT STYLES
-// oter.css'
 
 // GET CURRENT YEAR
 const thisYear = new Date().getFullYear()
 
-function Footer() {
-  const { navState } = React.useContext(NavigationContext)
-  const footerClass = navState.visible ? 'navOn' : 'navOff'
-  return (
-    <footer className={['TheFooter', footerClass].join(' ')}>
+const Footer = () => {
+  // Check if logged in or not
+  const { auth } = React.useContext(AuthContext)
+  const loggedIn = React.useMemo(() => {
+    return !!auth.token
+  }, [auth.token])
 
-      <p className="xsmall--p no-margin">
+  return (
+    <footer className={['TheFooter'].join(' ')}>
+      {!loggedIn && (
+        <TheFooterLinks />
+      )}
+
+      <p className="xsmall--p  no-margin">
         &copy;
         {' '}
         {thisYear}

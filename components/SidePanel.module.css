@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 2;
+  z-index: 8;
 }
 
 .loader,
@@ -29,17 +29,21 @@
 
 .container {
   position: absolute;
-  width: 95%;
-  max-width: 720px;
   right: 0;
-  height: 90%;
-  top: 5%;
+  left: var(--bsu);
+  top: var(--bsu);
+  bottom: var(--bsu);
   background: var(--white);
   border-radius: var(--dialogue-radius);
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   box-shadow: -8px 0px 18px rgba(0, 0, 0, 0.14);
   will-change: transform;
+
+  @media (--sm) {
+    left: auto;
+    width: 720px;
+  }
 
 }
 
@@ -67,7 +71,7 @@
   position: absolute;
   z-index: 3;
   top: var(--bsu);
-  right: var(--bsu);
+  right: var(--bsu-md);
 }
 
 /* LOADER */

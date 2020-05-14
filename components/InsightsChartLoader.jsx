@@ -95,7 +95,7 @@ function InsightsChartLoader({
 
   if (data === 'no-data') {
     return (
-      <div className={styles.chartOuter}>
+      <div className={['breakout--width', styles.chartOuter].join(' ')}>
         <Error error={error} />
         <ChartBar
           currentPlatform={currentPlatform}

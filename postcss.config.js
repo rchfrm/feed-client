@@ -12,7 +12,6 @@ module.exports = {
     'postcss-import',
     'postcss-mixins',
     'postcss-calc',
-    'postcss-nested',
     'postcss-extend',
     ['postcss-color-mod-function', {
       importFrom: [
@@ -29,5 +28,6 @@ module.exports = {
     'tailwindcss',
     'autoprefixer',
     ...(process.env.NODE_ENV === 'production' ? [purgecss] : []),
+    'postcss-nested',
   ],
 }

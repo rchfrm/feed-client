@@ -145,9 +145,9 @@ function PostsBudget({ currency }) {
         buttons={<AlertButton />}
       />
 
-      <PageHeader heading="set your budget" />
+      <h2 className="h1">set your budget.</h2>
 
-      <div className="ninety-wide" style={{ marginBottom: '2em' }}>
+      <div>
 
         <MarkdownText className="h3--text" markdown={copy.budgetIntro} />
 
