@@ -2,6 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  align-items: center;
   padding-bottom: var(--bsu-lg);
 
   @media (--md) {
@@ -54,6 +55,7 @@
 
   @media (--md) {
     left: var(--bsu-lg);
+    width: calc((var(--bsu-lg) / 0.82) * 1.2);
   }
 
   @media (--bmw) {
@@ -65,7 +67,6 @@
 .subNavButton {
   right: var(--bsu);
   width: var(--bsu-lg);
-  height: var(--bsu-lg);
 
   @media (--sm) {
     right: var(--bsu-md);
@@ -73,6 +74,10 @@
 
   @media (--md) {
     right: var(--bsu-lg);
+  }
+
+  @media (--lg) {
+    width: calc(var(--bsu-lg) * 1.2);
   }
 
   @media (--bmw) {
@@ -93,7 +98,7 @@
     width: auto;
     padding-top: 0;
     padding-left: calc(var(--bsu-lg) + var(--bsu-lg) + var(--bsu));
-    transform: translateY(0.3em);
+    transform: translateY(-0em);
   }
 
   :global(h1) {
