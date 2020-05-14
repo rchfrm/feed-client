@@ -25,6 +25,10 @@ body {
   min-height: 100vh;
   flex-direction: column;
   padding-bottom: var(--page-buttons-height);
+
+  @media (--md) {
+    padding-bottom: 0;
+  }
 }
 
 .page--container {
@@ -33,6 +37,8 @@ body {
   flex: 1;
   align-items: flex-end;
   width: 100%;
+
+  padding-left: calc(2 * var(--bsu-lg) + var(--bsu));
 
   > * {
     width: 100%;
