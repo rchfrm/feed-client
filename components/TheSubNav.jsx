@@ -10,7 +10,7 @@ import styles from './TheSubNav.module.css'
 
 const TheSubNav = () => {
   return (
-    <Div100vh className={['page--content', styles.container].join(' ')}>
+    <Div100vh className={['page--content', '_fixed', styles.container].join(' ')}>
       <TheSubNavArtists />
       <TheSubNavLinks />
     </Div100vh>

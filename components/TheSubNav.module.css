@@ -1,10 +1,7 @@
 @import "../assets/styles/mixins";
 
 .container {
-  position: fixed;
   top: 0;
-  left: 0;
-  width: 100%;
   z-index: 4;
 
   display: flex;
@@ -14,8 +11,8 @@
   font-family: var(--font-display);
   background: var(--text-color);
   color: var(--bg-color);
-  padding-top: calc(var(--bsu-lg) + var(--bsu) + var(--bsu-lg));
 
+  padding-top: calc(var(--bsu-lg) + var(--bsu) + var(--bsu-lg));
   overflow: auto;
 
   :global(a) {
@@ -31,6 +28,9 @@
     padding-top: calc(var(--bsu-lg) + var(--bsu));
   }
 
+  @media (--bmw) {
+    border-radius: 0 0 var(--dialogue-radius) var(--dialogue-radius);
+  }
 }
 
 /*

@@ -11,6 +11,13 @@
   &.navOn {
 
   }
+
+  /* @media (--bmw) {
+    position: fixed;
+    width: var(--bmw);
+    left: 50%;
+    margin-left: calc(-0.5 * var(--bmw));
+  } */
 }
 
 .logo,
@@ -28,7 +35,7 @@
   }
 
   @media (--bmw) {
-    position: static;
+    top: var(--bsu-lg);
   }
 }
 
@@ -48,6 +55,11 @@
   @media (--md) {
     left: var(--bsu-lg);
   }
+
+  @media (--bmw) {
+    left: 50%;
+    margin-left: calc((-0.5 * var(--bmw)) + var(--bsu-lg));
+  }
 }
 
 .subNavButton {
@@ -64,8 +76,8 @@
   }
 
   @media (--bmw) {
-    order: 3;
-    margin-left: auto;
+    right: 50%;
+    margin-right: calc((-0.5 * var(--bmw)) + var(--bsu-lg));
   }
 }
 

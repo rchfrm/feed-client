@@ -51,6 +51,18 @@ body {
   @media (--md) {
     padding: var(--bsu-lg);
   }
+
+
+  &._fixed {
+    position: fixed;
+    left: 0;
+    width: 100%;
+
+    @media (--bmw) {
+      left: 50%;
+      margin-left: calc(-0.5 * var(--bmw));
+    } 
+  }
 }
 
 .page--content_fixed {
