@@ -12,10 +12,11 @@ import { UserContext } from './User'
 import * as utils from '../helpers/utils'
 import server from '../helpers/server'
 import { track } from '../helpers/trackingHelpers'
-import artistHelpers from '../helpers/artistHelpers'
+import * as artistHelpers from '../helpers/artistHelpers'
 
 const initialArtistState = {
   id: '',
+  picture: '',
   URLs: {},
   preferences: {
     posts: {
@@ -106,6 +107,7 @@ function ArtistProvider({ children }) {
         throw (error)
       })
     if (!artist) return
+
     setArtist({
       type: 'set-artist',
       payload: {

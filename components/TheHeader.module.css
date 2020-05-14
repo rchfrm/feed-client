@@ -1,48 +1,107 @@
 .TheHeader {
-  width: 100%;
-  padding: 5%;
-  background: var(--white);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding-bottom: var(--bsu-lg);
+
+  @media (--md) {
+    padding-bottom: calc(var(--bsu-lg) + var(--bsu));
+  }
 
   &.navOn {
-    background: var(--black);
+
+  }
+
+  /* @media (--bmw) {
+    position: fixed;
+    width: var(--bmw);
+    left: 50%;
+    margin-left: calc(-0.5 * var(--bmw));
+  } */
+}
+
+.logo,
+.subNavButton {
+  position: fixed;
+  top: var(--bsu);
+  z-index: 6;
+
+  @media (--sm) {
+    top: var(--bsu-md);
+  }
+
+  @media (--md) {
+    top: var(--bsu-lg);
+  }
+
+  @media (--bmw) {
+    top: var(--bsu-lg);
   }
 }
 
 .logo {
-  display: block;
-  float: left;
-  width: 17.357%;
-  opacity: 1 !important;
+  left: var(--bsu);
+  width: calc(var(--bsu-lg) / 0.82);
 
   :global(svg) {
     width: 100%;
     height: auto;
   }
 
-  .navOn & {
-    :global(.text) {
-      fill: var(--white);
-    }
+  @media (--sm) {
+    left: var(--bsu-md);
+  }
+
+  @media (--md) {
+    left: var(--bsu-lg);
+    width: calc((var(--bsu-lg) / 0.82) * 1.2);
+  }
+
+  @media (--bmw) {
+    left: 50%;
+    margin-left: calc((-0.5 * var(--bmw)) + var(--bsu-lg));
+  }
+}
+
+.subNavButton {
+  right: var(--bsu);
+  width: var(--bsu-lg);
+
+  @media (--sm) {
+    right: var(--bsu-md);
+  }
+
+  @media (--md) {
+    right: var(--bsu-lg);
+  }
+
+  @media (--lg) {
+    width: calc(var(--bsu-lg) * 1.2);
+  }
+
+  @media (--bmw) {
+    right: 50%;
+    margin-right: calc((-0.5 * var(--bmw)) + var(--bsu-lg));
   }
 }
 
 
-.menuButton {
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  width: 7.176%;
-  float: right;
-  cursor: pointer;
+.pageTitle {
+  position: relative;
+  width: 100%;
+  order: 2;
+  padding-top: calc(var(--bsu-md) + var(--bsu-lg));
+  z-index: 1;
 
-  :global(svg) {
+  @media (--min-content) {
+    width: auto;
+    padding-top: 0;
+    padding-left: calc(var(--bsu-lg) + var(--bsu-lg) + var(--bsu));
+    transform: translateY(-0em);
+  }
 
-    * {
-      fill: var(--black);
-
-      .navOn & {
-        fill: var(--white);
-      }
-    }
+  :global(h1) {
+    margin-bottom: 0;
   }
 }

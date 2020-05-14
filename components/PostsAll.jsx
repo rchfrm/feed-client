@@ -3,8 +3,8 @@ import React from 'react'
 import produce from 'immer'
 // IMPORT CONTEXTS
 import { SidePanelContext } from './contexts/SidePanelContext'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import PageHeader from './PageHeader'
 import Spinner from './elements/Spinner'
 import Button from './elements/Button'
 import GearIcon from './icons/GearIcon'
@@ -44,9 +44,13 @@ function PostsAll({
   loadMorePosts,
   loadingMore,
 }) {
+  // Set header
+  const { setHeader } = React.useContext(InterfaceContext)
+  React.useEffect(() => {
+    setHeader({ text: 'review posts and set a budget', punctuation: ',' })
+  }, [])
   // Reset the scroll position when this component first mounts
   React.useEffect(resetScroll, [])
-
   // Add load trigger el at 5th from end
   const loadAtIndex = 5
   const postsWithLoadingTrigger = getPostsWithLoadingTrigger(posts, loadAtIndex)
@@ -100,18 +104,16 @@ function PostsAll({
   return (
     <div className={styles['posts-section']}>
 
-      <PageHeader heading="review posts and set a budget" />
-
-      <MarkdownText className={['ninety-wide', 'h4--text', styles.introText].join(' ')} markdown={copy.intro} />
+      <MarkdownText className={['h4--text', styles.introText].join(' ')} markdown={copy.intro} />
 
       {/* POST SETTINGS BUTTON */}
-      <div className="ninety-wide">
+      <div>
         <Button
           className={styles.postSettingsButton}
           onClick={togglePostsSettings}
           version="black small icon"
         >
-          <GearIcon color={brandColors.bgColor} />
+          <GearIcon fill={brandColors.bgColor} />
           Post Settings
         </Button>
       </div>

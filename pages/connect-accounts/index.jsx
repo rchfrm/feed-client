@@ -2,13 +2,13 @@ import BasePage from '../../components/BasePage'
 import TestPageReady from '../../components/TestPageReady'
 import ConnectAccountsLoader from '../../components/ConnectAccountsLoader'
 
-const header = {
-  heading: 'connect accounts',
+const headerConfig = {
+  text: 'connect accounts',
 }
 
 const Page = () => (
   <BasePage
-    header={header}
+    headerConfig={headerConfig}
   >
     <ConnectAccountsLoader />
   </BasePage>

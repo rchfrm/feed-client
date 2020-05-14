@@ -99,25 +99,29 @@ p,
 
 /* Global para styles inside .text-block containers */
 .h3--text {
-  p {
+  p,
+  li {
     font-size: 1.333em;
   }
 }
 
 .h4--text {
-  p {
+  p,
+  li {
     font-size: 1.2em;
   }
 }
 
 .small--text {
-  p {
+  p,
+  li {
     font-size: 0.75em;
   }
 }
 
 .xsmall--text {
-  p {
+  p,
+  li {
     font-size: 0.667em;
   }
 }

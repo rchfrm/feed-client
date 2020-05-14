@@ -1,49 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT CONTEXTS
-import { NavigationContext } from './contexts/Navigation'
 import { UserContext } from './contexts/User'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import PageHeader from './PageHeader'
 import MarkdownText from './elements/MarkdownText'
 // IMPORT COPY
 import copy from '../copy/global'
 
 
-const BasePageHeader = ({ header }) => {
-  if (!header) return null
-  const { heading, punctuation } = header
-  return <PageHeader heading={heading} punctuation={punctuation} />
-}
-
 const BasePage = ({
-  header, // heading and punctuation
+  headerConfig, // heading and punctuation
   noArtistHeader, // as above, but for user requires artist and no artist present
   artistRequired,
   children,
 }) => {
-  // Hide nav when page mounts
-  const { navDispatch } = React.useContext(NavigationContext)
-  React.useEffect(() => {
-    navDispatch({ type: 'hide' })
-  }, [navDispatch])
-
+  // Get interface context
+  const { setHeader, setSubNav } = React.useContext(InterfaceContext)
   // Get user context
   const { user } = React.useContext(UserContext)
+  // Hide nav when page mounts
+  React.useEffect(() => {
+    setSubNav(false)
+  }, [])
+
+  React.useEffect(() => {
+    setHeader(headerConfig)
+  }, [])
 
   return (
     <>
       {user.artists.length === 0 && artistRequired ? (
         <>
-          {/* HEADER */}
-          <BasePageHeader header={noArtistHeader} />
           {/* NO ARTIST COPY */}
-          <MarkdownText className="ninety-wide  h4--text" markdown={copy.noArtists} />
+          <MarkdownText className="h4--text" markdown={copy.noArtists} />
         </>
       ) : (
         <>
-          {/* HEADER */}
-          <BasePageHeader header={header} />
           {/* PAGE CONTENT */}
           {children}
         </>
@@ -53,14 +46,14 @@ const BasePage = ({
 }
 
 BasePage.propTypes = {
-  header: PropTypes.object,
+  headerConfig: PropTypes.object,
   noArtistHeader: PropTypes.object,
   artistRequired: PropTypes.bool,
   children: PropTypes.node.isRequired,
 }
 
 BasePage.defaultProps = {
-  header: null,
+  headerConfig: null,
   noArtistHeader: null,
   artistRequired: false,
 }

@@ -1,18 +1,13 @@
 @import "../assets/styles/mixins";
 
 .selectorsOuter {
-  width: 100%;
 
-  @media(--bmw) {
-    width: 90%;
-    margin: 0 auto;
-  }
 }
 
 .selectorsLabel {
-  padding-left: 5%;
+  padding-left: var(--bsu);
 
-  @media(--bmw) {
+  @media(--sm) {
     padding-left: 0;
   }
 }
@@ -21,7 +16,8 @@
 .dataSelectors {
   display: flex;
   padding: calc(0.5 * var(--bsu)) 0;
-  padding-left: 5%;
+  width: 100%;
+  padding-left: var(--bsu);
   border-top: 2px solid var(--text-color);
   overflow-x: auto;
   margin-bottom: var(--bsu);
@@ -31,11 +27,11 @@
   @mixin canHover {
     flex-wrap: wrap;
     padding-top: var(--bsu);
-    padding-left: 5%;
+    padding-left: var(--bsu);
     padding-bottom: 0;
   }
 
-  @media(--bmw) {
+  @media(--sm) {
     padding-left: 0;
   }
 

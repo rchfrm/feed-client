@@ -19,7 +19,7 @@ import * as ROUTES from '../constants/routes'
 
 // IMPORT HELPERS
 import { track } from './helpers/trackingHelpers'
-import artistHelpers from './helpers/artistHelpers'
+import * as artistHelpers from './helpers/artistHelpers'
 import styles from './ConnectAccounts.module.css'
 import copy from '../copy/ConnectAccountsCopy'
 
@@ -200,7 +200,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
         setErrors={setErrors}
       />
 
-      <div className="ninety-wide" style={{ textAlign: 'right' }}>
+      <div style={{ textAlign: 'right' }}>
 
         {/* Errors */}
         {errors.map((error, index) => {

@@ -42,16 +42,18 @@ const ChartContainer = ({
   }, [earliestMoment])
 
   return (
-    <div className={styles.chartOuter}>
+    <div className={[styles.chartOuter, chartType === 'number' ? styles._numberChart : ''].join(' ')}>
 
       {chartType === 'bar' && (
         <>
-          <ChartBar
-            data={data}
-            artistId={artistId}
-            artistCurrency={artistCurrency}
-            loading={loading}
-          />
+          <div className="breakout--width">
+            <ChartBar
+              data={data}
+              artistId={artistId}
+              artistCurrency={artistCurrency}
+              loading={loading}
+            />
+          </div>
           <InsightsProjection
             data={data}
             artistId={artistId}

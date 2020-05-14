@@ -1,13 +1,9 @@
 .faq-list {
-  padding: 0 5%;
-  width: 90%;
-  
   .li {
     
   }
 
   .p {
-    
     text-align: justify;
   }
 }

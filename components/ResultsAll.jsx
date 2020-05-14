@@ -86,7 +86,7 @@ function NoActive() {
 
   if (artist.daily_budget > 0) {
     return (
-      <div className="ninety-wide" style={{ marginBottom: '2em' }}>
+      <div style={{ marginBottom: '2em' }}>
         <h3>
           <Feed />
           {' '}
@@ -99,7 +99,7 @@ function NoActive() {
     )
   }
   return (
-    <div className="ninety-wide" style={{ marginBottom: '2em' }}>
+    <div style={{ marginBottom: '2em' }}>
       <h3>
         <Feed />
         {' '}
@@ -190,12 +190,12 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
       {/* Show Active Posts intro copy */}
       {active && (
         <>
-          <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
+          <MarkdownText className="h4--text" markdown={copy.intro} />
           <SpendingSummaryLoader />
         </>
       )}
 
-      <div className="ninety-wide">
+      <div>
         <h2>{title}</h2>
       </div>
 

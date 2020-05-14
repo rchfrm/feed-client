@@ -5,7 +5,7 @@ import React, { Children } from 'react'
 
 const ActiveLink = ({ router, children, ...props }) => {
   const child = Children.only(children)
-  const { href, activeClassName = '-active' } = props
+  const { href, activeClassName = '_active' } = props
 
   let className = child.props.className || ''
   if (router.pathname === href) {
