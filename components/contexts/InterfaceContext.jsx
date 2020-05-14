@@ -3,12 +3,12 @@ import { useImmerReducer } from 'use-immer'
 
 const initialState = {
   subNavOpen: false,
-  globalLoading: false,
   header: {
     visible: true,
     text: '',
     punctuation: '',
   },
+  globalLoading: true,
 }
 
 const initialContext = {
@@ -16,10 +16,11 @@ const initialContext = {
   setSubNav: () => {},
   toggleSubNav: () => {},
   setHeader: () => {},
+  setGlobalLoading: () => {},
   // Getters
   subNavOpen: initialState.subNavOpen,
-  globalLoading: initialState.globalLoading,
   header: initialState.header,
+  globalLoading: initialState.globalLoading,
 }
 
 const InterfaceContext = React.createContext(initialContext)
@@ -37,9 +38,6 @@ const reducer = (draftState, action) => {
     case 'setSubNav':
       draftState.subNavOpen = payload.state
       break
-    case 'toggleGlobalLoading':
-      draftState.globalLoading = !draftState.globalLoading
-      break
     case 'setGlobalLoading':
       draftState.globalLoading = payload.state
       break
@@ -56,7 +54,7 @@ const reducer = (draftState, action) => {
 const InterfaceContextProvider = ({ children }) => {
   const [interfaceState, setInterfaceState] = useImmerReducer(reducer, initialState)
 
-  const { globalLoading, subNavOpen, header } = interfaceState
+  const { subNavOpen, header, globalLoading } = interfaceState
 
   const toggleSubNav = React.useCallback(() => {
     setInterfaceState({ type: 'toggleSubNav' })
@@ -70,13 +68,19 @@ const InterfaceContextProvider = ({ children }) => {
     setInterfaceState({ type: 'setHeader', payload: { visible, text, punctuation } })
   }, [])
 
+  const setGlobalLoading = React.useCallback((state) => {
+    const newState = typeof state !== 'undefined' ? state : !globalLoading
+    setInterfaceState({ type: 'setGlobalLoading', payload: { state: newState } })
+  }, [])
+
   return (
     <InterfaceContext.Provider
       value={{
-      // Setters
+        // Setters
         toggleSubNav,
         setSubNav,
         setHeader,
+        setGlobalLoading,
         // Getters
         globalLoading,
         subNavOpen,
