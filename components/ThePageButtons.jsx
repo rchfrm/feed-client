@@ -5,6 +5,8 @@ import * as ROUTES from '../constants/routes'
 import ThePageButtonsIcon from './ThePageButtonsIcon'
 import ActiveLink from './ActiveLink'
 
+import useLoggedInTest from './hooks/useLoggedInTest'
+
 import styles from './ThePageButtons.module.css'
 
 const links = [
@@ -31,6 +33,10 @@ const links = [
 ]
 
 const ThePageButtons = () => {
+  const isLoggedIn = useLoggedInTest()
+  // Don't show buttons if no logged in
+  if (!isLoggedIn) return null
+
   return (
     <div className={styles.container}>
       <nav className={styles.inner}>
