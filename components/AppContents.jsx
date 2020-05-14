@@ -5,6 +5,7 @@ import { UserProvider } from './contexts/User'
 import { ArtistProvider } from './contexts/Artist'
 // IMPORT COMPONENTS
 import Main from './Main'
+import TheLoadingOverlay from './TheLoadingOverlay'
 import TheHeader from './TheHeader'
 import TheFooter from './TheFooter'
 
@@ -16,6 +17,8 @@ const AppContents = ({ children }) => {
         <ArtistProvider>
           <InterfaceContextProvider>
             <TheHeader />
+
+            <TheLoadingOverlay />
 
             <Main>
               {children}
