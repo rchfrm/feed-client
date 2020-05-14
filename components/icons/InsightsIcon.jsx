@@ -16,8 +16,8 @@ const InsightsIcon = ({ className }) => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <circle cx="192" cy="192" r="192" fill={green} />
-      <rect x="97" y="142" width="50" height="162" fill={bgColor} />
-      <rect x="165" y="109" width="50" height="195" fill={bgColor} />
+      <rect x="97" y="200" width="50" height="104" fill={bgColor} />
+      <rect x="165" y="152" width="50" height="152" fill={bgColor} />
       <rect x="233" y="79" width="50" height="225" fill={bgColor} />
     </svg>
 
