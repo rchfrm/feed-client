@@ -4,6 +4,7 @@ import React from 'react'
 import TheFooterLinks from './TheFooterLinks'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Feed from './elements/Feed'
 
@@ -16,6 +17,10 @@ const Footer = () => {
   const loggedIn = React.useMemo(() => {
     return !!auth.token
   }, [auth.token])
+  // Import interface context
+  const { globalLoading } = React.useContext(InterfaceContext)
+
+  if (globalLoading) return null
 
   return (
     <footer className={['TheFooter'].join(' ')}>
