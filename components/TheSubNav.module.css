@@ -161,6 +161,10 @@
   &:last-child {
     margin-bottom: 0;
   }
+
+  :global(._active) {
+    color: var(--green);
+  }
 }
 
 .signOutLink {
