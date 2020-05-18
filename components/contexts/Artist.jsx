@@ -4,7 +4,7 @@ import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from './User'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { InterfaceContext } from './InterfaceContext'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS
@@ -86,9 +86,11 @@ function ArtistProvider({ children }) {
 
   const setNoArtist = () => {
     setArtistLoading(true)
+    setGlobalLoading(true)
     utils.clearLocalStorage()
     setArtist({ type: 'no-artists' })
     setArtistLoading(false)
+    setGlobalLoading(false)
   }
 
   const storeArtist = async (id) => {
@@ -100,7 +102,6 @@ function ArtistProvider({ children }) {
     const artist = await artistHelpers.getArtist(id)
       .catch((error) => {
         setArtistLoading(false)
-        setGlobalLoading(false)
         // Track
         track({
           category: 'sign up',
@@ -120,7 +121,6 @@ function ArtistProvider({ children }) {
       },
     })
     setArtistLoading(false)
-    setGlobalLoading(false)
     return artist
   }
 
@@ -174,13 +174,11 @@ function ArtistProvider({ children }) {
     // Stop here if no user returned
     if (!updatedUser) {
       setArtistLoading(false)
-      setGlobalLoading(false)
       return
     }
     const selectedArtist = updatedUser.artists[0]
     await storeArtist(selectedArtist.id)
     setArtistLoading(false)
-    setGlobalLoading(false)
     // Track
     track({
       category: 'sign up',

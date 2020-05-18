@@ -13,9 +13,9 @@ const AppContents = ({ children }) => {
   return (
     <div id="container" className="page--content">
 
-      <UserProvider>
-        <ArtistProvider>
-          <InterfaceContextProvider>
+      <InterfaceContextProvider>
+        <UserProvider>
+          <ArtistProvider>
             <TheHeader />
 
             <TheLoadingOverlay />
@@ -25,9 +25,9 @@ const AppContents = ({ children }) => {
             </Main>
 
             <TheFooter />
-          </InterfaceContextProvider>
-        </ArtistProvider>
-      </UserProvider>
+          </ArtistProvider>
+        </UserProvider>
+      </InterfaceContextProvider>
     </div>
   )
 }
