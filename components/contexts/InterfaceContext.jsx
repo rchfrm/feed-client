@@ -1,5 +1,5 @@
 import React from 'react'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 
 import { useImmerReducer } from 'use-immer'
 
@@ -73,12 +73,24 @@ const InterfaceContextProvider = ({ children }) => {
     setInterfaceState({ type: 'setHeader', payload: { visible, text, punctuation } })
   }, [])
 
-  const setGlobalLoading = React.useCallback((state) => {
+  const setGlobalLoading = React.useCallback((state, spinnerState) => {
     const newState = typeof state !== 'undefined' ? state : !globalLoading
-    setInterfaceState({ type: 'setGlobalLoading', payload: { state: newState } })
+    const newSpinnerState = newState === false ? false
+      : typeof spinnerState !== 'undefined' ? spinnerState
+        : showSpinner
+    setInterfaceState({ type: 'setGlobalLoading', payload: { state: newState, spinnerState: newSpinnerState } })
   }, [])
 
   // Set global loading to true when route changes
+  const { pathname } = useRouter()
+  const handleRouteChange = React.useCallback((url) => {
+    // If same page, just close sub-nav
+    if (url === pathname) {
+      setSubNav(false)
+      return
+    }
+    setGlobalLoading(true)
+  }, [pathname])
   React.useEffect(() => {
     Router.events.on('routeChangeStart', handleRouteChange)
   }, [])
