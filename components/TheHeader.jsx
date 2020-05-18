@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import Router, { useRouter } from 'next/router'
 import Link from 'next/link'
 // IMPORT COMPONENTS
 import * as ROUTES from '../constants/routes'
@@ -44,15 +45,19 @@ function TheHeader() {
   React.useEffect(() => {
     setSubNav(false)
   }, [artistId, artistLoading])
+  // Go to home page
+  const { pathname } = useRouter()
+  const goHome = () => {
+    if (pathname === ROUTES.HOME) return
+    Router.push(ROUTES.HOME)
+  }
 
   return (
     <header className={[styles.TheHeader, styles[headerClass]].join(' ')}>
       {/* LOGO */}
-      <Link href={ROUTES.HOME}>
-        <a>
-          <FeedLogo className={styles.logo} style={{ opacity: logoOpacity }} textColor={logoTextColor} />
-        </a>
-      </Link>
+      <a onClick={goHome} role="button" title="home">
+        <FeedLogo className={styles.logo} style={{ opacity: logoOpacity }} textColor={logoTextColor} />
+      </a>
       {/* Page Header */}
       <PageHeader className={styles.pageTitle} heading="page title" />
       {/* Subnav button */}
