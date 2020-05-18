@@ -11,6 +11,7 @@ const initialState = {
     punctuation: '',
   },
   globalLoading: true,
+  showSpinner: false,
 }
 
 const initialContext = {
@@ -23,6 +24,7 @@ const initialContext = {
   subNavOpen: initialState.subNavOpen,
   header: initialState.header,
   globalLoading: initialState.globalLoading,
+  showSpinner: initialState.showSpinner,
 }
 
 const InterfaceContext = React.createContext(initialContext)
@@ -42,6 +44,7 @@ const reducer = (draftState, action) => {
       break
     case 'setGlobalLoading':
       draftState.globalLoading = payload.state
+      draftState.showSpinner = payload.spinnerState
       break
     case 'setHeader':
       draftState.header.visible = typeof payload.visible === 'boolean' ? payload.visible : draftState.header.visible
@@ -56,7 +59,7 @@ const reducer = (draftState, action) => {
 const InterfaceContextProvider = ({ children }) => {
   const [interfaceState, setInterfaceState] = useImmerReducer(reducer, initialState)
 
-  const { subNavOpen, header, globalLoading } = interfaceState
+  const { subNavOpen, header, globalLoading, showSpinner } = interfaceState
 
   const toggleSubNav = React.useCallback(() => {
     setInterfaceState({ type: 'toggleSubNav' })
@@ -77,15 +80,7 @@ const InterfaceContextProvider = ({ children }) => {
 
   // Set global loading to true when route changes
   React.useEffect(() => {
-    let waitForLoad
-    Router.events.on('routeChangeStart', () => {
-      waitForLoad = setTimeout(() => {
-        setGlobalLoading(true)
-      }, 300)
-    })
-    Router.events.on('routeChangeComplete', () => {
-      clearTimeout(waitForLoad)
-    })
+    Router.events.on('routeChangeStart', handleRouteChange)
   }, [])
 
   return (
@@ -98,6 +93,7 @@ const InterfaceContextProvider = ({ children }) => {
         setGlobalLoading,
         // Getters
         globalLoading,
+        showSpinner,
         subNavOpen,
         header,
       }}

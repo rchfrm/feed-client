@@ -41,6 +41,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'semi': [ 2, 'never' ],
     'unicorn/number-literal-case': 'off',
+    'no-nested-ternary': 'off',
     "react/react-in-jsx-scope": "off",
     'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': 'off',
