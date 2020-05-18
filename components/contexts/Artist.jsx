@@ -4,6 +4,7 @@ import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from './User'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS
@@ -75,6 +76,8 @@ const artistReducer = (draftState, action) => {
 
 function ArtistProvider({ children }) {
   const { storeUser } = React.useContext(UserContext)
+  // Import interface context
+  const { setGlobalLoading } = React.useContext(InterfaceContext)
 
   const [artist, setArtist] = useImmerReducer(artistReducer, initialArtistState)
   const [artistId, setArtistId] = React.useState('')
@@ -92,10 +95,12 @@ function ArtistProvider({ children }) {
     // TODO : Store previously selected artists in state,
     //  then if the user switches back to that artist, there doesn't need to be a new server call
     setArtistLoading(true)
+    setGlobalLoading(true)
     // Get artist information from server
     const artist = await artistHelpers.getArtist(id)
       .catch((error) => {
         setArtistLoading(false)
+        setGlobalLoading(false)
         // Track
         track({
           category: 'sign up',
@@ -115,11 +120,13 @@ function ArtistProvider({ children }) {
       },
     })
     setArtistLoading(false)
+    setGlobalLoading(false)
     return artist
   }
 
   const createArtist = async (artistAccounts, accessToken, oldUser) => {
     setArtistLoading(true)
+    setGlobalLoading(true)
     // Conect artist accounts to array
     const artistAccountsArray = Object.values(artistAccounts)
     // Filter out non-connected artist accounts
@@ -167,11 +174,13 @@ function ArtistProvider({ children }) {
     // Stop here if no user returned
     if (!updatedUser) {
       setArtistLoading(false)
+      setGlobalLoading(false)
       return
     }
     const selectedArtist = updatedUser.artists[0]
     await storeArtist(selectedArtist.id)
     setArtistLoading(false)
+    setGlobalLoading(false)
     // Track
     track({
       category: 'sign up',
