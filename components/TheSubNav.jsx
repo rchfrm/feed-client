@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import Div100vh from 'react-div-100vh'
 
@@ -15,10 +14,6 @@ const TheSubNav = () => {
       <TheSubNavLinks />
     </Div100vh>
   )
-}
-
-TheSubNav.propTypes = {
-  
 }
 
 export default TheSubNav
