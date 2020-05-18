@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
@@ -33,18 +34,18 @@ const ARTIST_SELECT_OPTIONS = ({ currentArtistId, artists, updateArtist }) => {
 }
 
 
-const TheSubNavArtists = () => {
+const TheSubNavArtists = ({ className }) => {
   const { user } = React.useContext(UserContext)
   const { artists: allArtists } = user
   const { artistId, storeArtist } = React.useContext(ArtistContext)
-  const maxArtists = 5
+  const maxArtists = 4
 
   const updateArtist = (artistId) => {
     storeArtist(artistId)
   }
 
   const sortedArtists = React.useMemo(() => {
-    return artistHelpers.sortArtistsAlphabetically([...allArtists])
+    return artistHelpers.sortArtistsAlphabetically([...allArtists]).slice(0, 2)
   }, [user])
 
   // Show select component if too many artists
@@ -70,7 +71,7 @@ const TheSubNavArtists = () => {
 
   // Else show more explicit selector
   return (
-    <div className={styles.artistsOuter}>
+    <div className={[styles.artistsOuter, className].join(' ')}>
       <ul className={[styles.artistLinks, 'h4--text'].join(' ')}>
         {resortedArtists.map(({ id, name, facebook_page_id }) => {
           const activeClass = id === artistId ? styles._active : ''
@@ -91,6 +92,14 @@ const TheSubNavArtists = () => {
       </ul>
     </div>
   )
+}
+
+TheSubNavArtists.propTypes = {
+  className: PropTypes.string,
+}
+
+TheSubNavArtists.defaultProps = {
+  className: '',
 }
 
 export default TheSubNavArtists

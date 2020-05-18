@@ -1,6 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import ActiveLink from './ActiveLink'
-import SignOutLink from './SignOutLink'
 
 import * as ROUTES from '../constants/routes'
 
@@ -28,10 +29,10 @@ const links = [
   },
 ]
 
-const TheSubNavLinks = () => {
+const TheSubNavLinks = ({ className }) => {
   return (
     <>
-      <nav className={styles.links}>
+      <nav className={[styles.links, className].join(' ')}>
         <ul className={[styles.linksList, 'h4--text'].join(' ')}>
           {links.map(({ href, title, external }) => {
             return (
@@ -44,15 +45,17 @@ const TheSubNavLinks = () => {
           })}
         </ul>
       </nav>
-      <p className={styles.signOutLink}>
-        <SignOutLink />
-      </p>
     </>
   )
 }
 
 TheSubNavLinks.propTypes = {
-
+  className: PropTypes.string,
 }
+
+TheSubNavLinks.defaultProps = {
+  className: '',
+}
+
 
 export default TheSubNavLinks
