@@ -74,18 +74,18 @@ function SidePanel({
           opacity: progress.interpolate((p) => 1 - (p / 100)),
         }}
       />
-      {/* Show loader if loading */}
-      {isLoading && (
-        <div className={styles.loader}>
-          <Spinner className={styles.spinner} />
-        </div>
-      )}
       <animated.div
         className={styles.container}
         style={{
           transform: progress.interpolate((p) => `translate3d(${p}%, 0, 0)`),
         }}
       >
+        {/* Show loader if loading */}
+        {isLoading && (
+          <div className={styles.loader}>
+            <Spinner className={styles.spinner} />
+          </div>
+        )}
         {/* The content */}
         <div className={styles.container__inner}>
           { content }
