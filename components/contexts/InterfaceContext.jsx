@@ -77,8 +77,14 @@ const InterfaceContextProvider = ({ children }) => {
 
   // Set global loading to true when route changes
   React.useEffect(() => {
+    let waitForLoad
     Router.events.on('routeChangeStart', () => {
-      setGlobalLoading(true)
+      waitForLoad = setTimeout(() => {
+        setGlobalLoading(true)
+      }, 300)
+    })
+    Router.events.on('routeChangeComplete', () => {
+      clearTimeout(waitForLoad)
     })
   }, [])
 
