@@ -10,7 +10,7 @@ import * as artistHelpers from './helpers/artistHelpers'
 
 import styles from './TheSubNav.module.css'
 
-const ArtistSelectOptions = ({ currentArtistId, artists, updateArtist }) => {
+const ARTIST_SELECT_OPTIONS = ({ currentArtistId, artists, updateArtist }) => {
   const artistOptions = artists.map(({ id: value, name }) => {
     return { value, name }
   })
@@ -50,8 +50,8 @@ const TheSubNavArtists = () => {
   // Show select component if too many artists
   if (sortedArtists.length > maxArtists) {
     return (
-      <div className={[styles.artistsOuter, styles._selectType].join(' ')}>
-        <ArtistSelectOptions
+      <div className={[styles.artistsOuter, styles._selectType, className].join(' ')}>
+        <ARTIST_SELECT_OPTIONS
           updateArtist={updateArtist}
           artists={sortedArtists}
           currentArtistId={artistId}
