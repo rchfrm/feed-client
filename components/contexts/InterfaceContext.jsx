@@ -1,4 +1,6 @@
 import React from 'react'
+import Router from 'next/router'
+
 import { useImmerReducer } from 'use-immer'
 
 const initialState = {
@@ -71,6 +73,13 @@ const InterfaceContextProvider = ({ children }) => {
   const setGlobalLoading = React.useCallback((state) => {
     const newState = typeof state !== 'undefined' ? state : !globalLoading
     setInterfaceState({ type: 'setGlobalLoading', payload: { state: newState } })
+  }, [])
+
+  // Set global loading to true when route changes
+  React.useEffect(() => {
+    Router.events.on('routeChangeStart', () => {
+      setGlobalLoading(true)
+    })
   }, [])
 
   return (
