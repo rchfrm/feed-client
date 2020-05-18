@@ -1,5 +1,5 @@
 .settingSection {
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
 
   &:last-child {
     margin-bottom: 0;
@@ -7,5 +7,5 @@
 }
 
 .connectionsList {
-  padding-top: var(--bsu);
+  padding-top: var(--sp-5);
 }

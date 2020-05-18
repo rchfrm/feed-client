@@ -8,8 +8,8 @@
   background: var(--text-color);
   color: var(--bg-color);
 
-  padding-top: calc(var(--bsu) + var(--bsu-lg) + var(--bsu-lg));
-  padding-bottom: var(--bsu-lg);
+  padding-top: calc(var(--sp-5) + var(--sp-10) + var(--sp-10));
+  padding-bottom: var(--sp-10);
   overflow: auto;
 
   :global(a) {
@@ -69,8 +69,8 @@
 
 .artistLinks {
   position: relative;
-  padding-bottom: var(--bsu-lg);
-  margin-bottom: var(--bsu-lg);
+  padding-bottom: var(--sp-10);
+  margin-bottom: var(--sp-10);
   width: auto;
 
   &::after {
@@ -86,7 +86,7 @@
   }
 
   @media (--md) {
-    padding-left: var(--bsu-xl);
+    padding-left: var(--sp-32);
     padding-bottom: 0;
     margin-bottom: 0;
 
@@ -101,7 +101,7 @@
 }
 
 .artistLink {
-  margin-bottom: var(--bsu);
+  margin-bottom: var(--sp-5);
 
   &:last-child {
     margin-bottom: 0;
@@ -118,9 +118,9 @@
 }
 
 .artistLink_image {
-  height: var(--bsu-md);
-  width: var(--bsu-md);
-  margin-right: var(--bsu);
+  height: var(--sp-8);
+  width: var(--sp-8);
+  margin-right: var(--sp-5);
   opacity: 0.7;
   background-color: var(--bg-color);
 
@@ -142,7 +142,7 @@
 .links {
   text-align: center;
   font-weight: var(--bold-display);
-  margin-bottom: var(--bsu);
+  margin-bottom: var(--sp-5);
 
   @media (--md) {
     margin-bottom: 0;
@@ -150,7 +150,7 @@
 }
 
 .linkItem {
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
 
   &:last-child {
     margin-bottom: 0;
@@ -171,7 +171,7 @@
   @media (--md) {
     position: absolute;
     left: 0;
-    bottom: var(--bsu-lg);
+    bottom: var(--sp-10);
     width: 100%;
   }
 

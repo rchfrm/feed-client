@@ -13,7 +13,7 @@
 
   @media (--md) {
     bottom: 50%;
-    left: var(--bsu-lg);
+    left: var(--sp-10);
     width: auto;
     transform: translateY(50%) translateY(51px); /* header height / 2 */
     border-top: none;
@@ -26,7 +26,7 @@
 .inner {
   display: flex;
   justify-content: space-between;
-  padding: 7px var(--bsu);
+  padding: 7px var(--sp-5);
   
   @media (--xs) {
     justify-content: center;
@@ -43,14 +43,14 @@
   font-size: 12px;
 
   @media (--xs) {
-    padding: 0 var(--bsu);
+    padding: 0 var(--sp-5);
     margin: 0 10px;
   }
 
   @media (--md) {
-    margin: var(--bsu) 0;
+    margin: var(--sp-5) 0;
     padding: 0;
-    width: calc(var(--bsu-lg) * 1.2);
+    width: calc(var(--sp-10) * 1.2);
     font-size: 14px;
 
     &:first-child {
