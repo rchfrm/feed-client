@@ -11,22 +11,28 @@ import copy from '../copy/global'
 
 const BasePage = ({
   headerConfig, // heading and punctuation
-  noArtistHeader, // as above, but for user requires artist and no artist present
   artistRequired,
+  staticPage,
   children,
 }) => {
   // Get interface context
-  const { setHeader, setSubNav } = React.useContext(InterfaceContext)
+  const { setHeader, setSubNav, setGlobalLoading } = React.useContext(InterfaceContext)
   // Get user context
   const { user } = React.useContext(UserContext)
   // Hide nav when page mounts
   React.useEffect(() => {
     setSubNav(false)
   }, [])
-
+  // ON MOUNT
   React.useEffect(() => {
+    // Set header when page mounts
     setHeader(headerConfig)
+    // If page is static, stop global loading when mounts
+    if (staticPage) {
+      setGlobalLoading(false)
+    }
   }, [])
+
 
   return (
     <>
@@ -47,14 +53,14 @@ const BasePage = ({
 
 BasePage.propTypes = {
   headerConfig: PropTypes.object,
-  noArtistHeader: PropTypes.object,
   artistRequired: PropTypes.bool,
+  staticPage: PropTypes.bool,
   children: PropTypes.node.isRequired,
 }
 
 BasePage.defaultProps = {
   headerConfig: null,
-  noArtistHeader: null,
+  staticPage: false,
   artistRequired: false,
 }
 

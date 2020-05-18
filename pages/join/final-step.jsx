@@ -10,6 +10,7 @@ const headerConfig = {
 const Page = () => (
   <BasePage
     headerConfig={headerConfig}
+    staticPage
   >
     <ConnectAccountsLoader onSignUp />
   </BasePage>
