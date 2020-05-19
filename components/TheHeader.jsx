@@ -28,6 +28,7 @@ function TheHeader() {
     setLogoOpacity(1)
   }, [])
   // HANDLE SUB-NAV OPENING AND CLOSING
+  const [showSubNav, setShowSubNav] = React.useState(false)
   const { subNavOpen, toggleSubNav, setSubNav } = React.useContext(InterfaceContext)
   const [headerClass, setHeaderClass] = React.useState('')
   const [logoTextColor, setLogoTextColor] = React.useState(brandColors.textColor)
@@ -37,6 +38,9 @@ function TheHeader() {
     setHeaderClass(headerClass)
     // Toggle logo text
     setLogoTextColor(subNavOpen ? brandColors.bgColor : brandColors.textColor)
+    // Toggle sub nav
+    const show = subNavOpen && isLoggedIn
+    setShowSubNav(show)
   }, [subNavOpen])
   // Close sub-nav after artist changes
   const { artistId, artistLoading } = React.useContext(ArtistContext)
@@ -67,7 +71,7 @@ function TheHeader() {
         />
       )}
       {/* THE SUBNAV */}
-      {subNavOpen && isLoggedIn && <TheSubNav />}
+      <TheSubNav show={showSubNav} />
     </header>
   )
 }
