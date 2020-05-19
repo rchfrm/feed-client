@@ -1,7 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router, { useRouter } from 'next/router'
-import Link from 'next/link'
 // IMPORT COMPONENTS
 import * as ROUTES from '../constants/routes'
 // IMPORT CONTEXTS
@@ -71,7 +70,7 @@ function TheHeader() {
         />
       )}
       {/* THE SUBNAV */}
-      <TheSubNav show={showSubNav} />
+      <TheSubNav show={showSubNav} setShow={toggleSubNav} />
     </header>
   )
 }
