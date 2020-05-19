@@ -41,7 +41,6 @@ function SidePanel({
     const opacity = state ? 1 : 0
     const duration = state ? 0.3 : 0.5
     const { current: target } = bgEl
-    console.log('bgEl', bgEl)
     return gsap.to(target, { opacity, duration, ease: Power1.easeOut })
   }
   // Panel animation
@@ -55,7 +54,6 @@ function SidePanel({
   }
   // Run all animations
   const toggleAnimation = (state) => {
-    console.log('animate')
     const bgAnimation = animateBg(state)
     const panelAnimation = animatePanel(state)
     animationInstances.current = {
@@ -70,7 +68,6 @@ function SidePanel({
       return anim.then()
     })
     await Promise.all(animatePromises)
-    console.log('animation done')
     done()
   }
 
