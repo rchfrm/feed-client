@@ -12,6 +12,8 @@
   padding-bottom: var(--sp-10);
   overflow: auto;
 
+  max-height: 720px;
+
   :global(a) {
     color: inherit;
     text-decoration: none;
