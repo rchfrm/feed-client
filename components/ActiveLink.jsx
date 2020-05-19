@@ -5,14 +5,14 @@ import React, { Children } from 'react'
 
 const ActiveLink = ({ router, children, ...props }) => {
   const child = Children.only(children)
-  const { href, activeClassName = '_active' } = props
+  const { href, activeClass = '_active' } = props
 
   let className = child.props.className || ''
   if (router.pathname === href) {
-    className = `${className} ${activeClassName}`.trim()
+    className = `${className} ${activeClass}`.trim()
   }
 
-  return <Link {...props}>{React.cloneElement(child, { className })}</Link>
+  return <Link href={href}>{React.cloneElement(child, { className })}</Link>
 }
 
 export default withRouter(ActiveLink)

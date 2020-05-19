@@ -24,14 +24,21 @@ body {
   width: 100%;
   min-height: 100vh;
   flex-direction: column;
+  padding-bottom: var(--page-buttons-height);
+
+  @media (--md) {
+    padding-bottom: 0;
+  }
 }
 
-.page--container {
+#page--container {
   display: flex;
   flex-direction: column;
   flex: 1;
   align-items: flex-end;
   width: 100%;
+
+  padding-left: calc(2 * var(--sp-10) + var(--sp-5));
 
   > * {
     width: 100%;
@@ -41,15 +48,15 @@ body {
 
 .page--content {
   max-width: var(--bmw);
-  padding: var(--bsu);
+  padding: var(--sp-5);
   margin: 0 auto;
 
   @media (--sm) {
-    padding: var(--bsu-md);
+    padding: var(--sp-8);
   }
 
   @media (--md) {
-    padding: var(--bsu-lg);
+    padding: var(--sp-10);
   }
 
 
@@ -68,13 +75,13 @@ body {
 .page--content_fixed {
   position: fixed;
   width: 90%;
-  width: calc(100% - (2 * var(--bsu)));
+  width: calc(100% - (2 * var(--sp-5)));
 }
 
 .breakout--width {
   width: 100%;
-  width: calc(100% + (2 * var(--bsu)));
-  margin-left: calc(-1 * var(--bsu));
+  width: calc(100% + (2 * var(--sp-5)));
+  margin-left: calc(-1 * var(--sp-5));
 
   @media (--sm) {
     width: 100%;
@@ -91,8 +98,13 @@ body {
 }
 
 .TheFooter {
-  padding-top: var(--bsu-md);
+  padding-top: var(--sp-8);
   font-family: var(--font-display);
+  padding-bottom: var(--sp-5);
+
+  &._loggedIn {
+    padding-bottom: var(--sp-8);
+  }
 }
 
 .hidden {

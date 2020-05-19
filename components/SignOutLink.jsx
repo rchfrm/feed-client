@@ -27,15 +27,13 @@ function SignOutLink({ className = '' }) {
     setNoArtist()
   }
 
-  const signOut = async e => {
-    e.preventDefault()
+  const signOut = async () => {
+    Router.events.on('routeChangeComplete', clearContexts)
     Router.push(ROUTES.LOGIN)
     await firebase.doSignOut()
       .catch((err) => {
         throw (err)
       })
-    // After redirect...
-    Router.events.on('routeChangeComplete', clearContexts)
   }
 
   return (

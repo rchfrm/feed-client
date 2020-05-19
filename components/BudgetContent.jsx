@@ -1,8 +1,6 @@
-
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
-import PageHeader from './PageHeader'
 import BudgetConfirmation from './BudgetConfirmation'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
@@ -26,7 +24,7 @@ const initialAlertState = {
   contents: undefined,
 }
 
-function PostsBudget({ currency }) {
+function BudgetContent({ currency }) {
   const { artist, artistId, updateBudget } = React.useContext(ArtistContext)
   // DEFINE STATES
   const initialBudgetState = {
@@ -145,8 +143,6 @@ function PostsBudget({ currency }) {
         buttons={<AlertButton />}
       />
 
-      <h2 className="h1">set your budget.</h2>
-
       <div>
 
         <MarkdownText className="h3--text" markdown={copy.budgetIntro} />
@@ -183,4 +179,4 @@ function PostsBudget({ currency }) {
   )
 }
 
-export default PostsBudget
+export default BudgetContent

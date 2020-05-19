@@ -3,7 +3,7 @@
 }
 
 .linkItem {
-  margin-right: var(--bsu);
+  margin-right: var(--sp-5);
 
   :global(a._active) {
     text-decoration: none;
