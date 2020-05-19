@@ -4,6 +4,7 @@ import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from './User'
+import { InterfaceContext } from './InterfaceContext'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS
@@ -75,6 +76,8 @@ const artistReducer = (draftState, action) => {
 
 function ArtistProvider({ children }) {
   const { storeUser } = React.useContext(UserContext)
+  // Import interface context
+  const { setGlobalLoading } = React.useContext(InterfaceContext)
 
   const [artist, setArtist] = useImmerReducer(artistReducer, initialArtistState)
   const [artistId, setArtistId] = React.useState('')
@@ -83,15 +86,18 @@ function ArtistProvider({ children }) {
 
   const setNoArtist = () => {
     setArtistLoading(true)
+    setGlobalLoading(true)
     utils.clearLocalStorage()
     setArtist({ type: 'no-artists' })
     setArtistLoading(false)
+    setGlobalLoading(false)
   }
 
   const storeArtist = async (id) => {
     // TODO : Store previously selected artists in state,
     //  then if the user switches back to that artist, there doesn't need to be a new server call
     setArtistLoading(true)
+    setGlobalLoading(true)
     // Get artist information from server
     const artist = await artistHelpers.getArtist(id)
       .catch((error) => {
@@ -120,6 +126,7 @@ function ArtistProvider({ children }) {
 
   const createArtist = async (artistAccounts, accessToken, oldUser) => {
     setArtistLoading(true)
+    setGlobalLoading(true)
     // Conect artist accounts to array
     const artistAccountsArray = Object.values(artistAccounts)
     // Filter out non-connected artist accounts
