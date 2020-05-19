@@ -23,6 +23,7 @@
 }
 
 .background {
+  opacity: 0;
   will-change: opacity;
 }
 
@@ -39,6 +40,7 @@
   border-bottom-right-radius: 0;
   box-shadow: -8px 0px 18px rgba(0, 0, 0, 0.14);
   will-change: transform;
+  transform: translateX(105%);
 
   @media (--sm) {
     left: auto;

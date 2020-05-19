@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { gsap, Power1, Power2 } from 'gsap'
+import { Transition } from 'react-transition-group'
 
-import { useTransition, animated } from 'react-spring'
 
 import Spinner from './elements/Spinner'
 import CloseCircle from './icons/CloseCircle'
@@ -47,66 +48,106 @@ function SidePanel({
     setBodyScroll(false, scrollTop)
   }, [isOpen, content])
 
-  // ANIMATIONS
-  const transition = useTransition(show, null, {
-    from: { progress: 105 },
-    enter: { progress: 0 },
-    leave: { progress: 105 },
-    config: () => {
-      return {
-        mass: 1,
-        tension: 174,
-        friction: 25,
-      }
-    },
-  }, [show])
-
   // Define close function
   const close = () => toggle(false)
 
-  return transition.map(({ item, key, props: { progress } }) => item && (
-    <div key={key} className={styles.SidePanel}>
-      {/* The BG */}
-      <animated.a
-        className={styles.background}
-        onClick={close}
-        style={{
-          opacity: progress.interpolate((p) => 1 - (p / 100)),
-        }}
-      />
-      <animated.div
-        className={styles.container}
-        style={{
-          transform: progress.interpolate((p) => `translate3d(${p}%, 0, 0)`),
-        }}
-      >
-        {/* Show loader if loading */}
-        {isLoading && (
-          <div className={styles.loader}>
-            <Spinner className={styles.spinner} />
-          </div>
-        )}
-        {/* The content */}
-        <div className={styles.container__inner}>
-          { content }
-        </div>
-        {/* Close button */}
-        <button
+  // ANIMATE
+  const animationInstances = React.useRef({
+    bg: null,
+    panel: null,
+  })
+  // Background animation
+  const bgEl = React.useRef()
+  const animateBg = (state) => {
+    const opacity = state ? 1 : 0
+    const duration = state ? 0.3 : 0.5
+    const { current: target } = bgEl
+    console.log('bgEl', bgEl)
+    return gsap.to(target, { opacity, duration, ease: Power1.easeOut })
+  }
+  // Panel animation
+  const panelEl = React.useRef()
+  const animatePanel = (state) => {
+    const { current: target } = panelEl
+    const xPercent = state ? 0 : 105
+    const ease = state ? Power2.easeOut : Power2.easeOut
+    const duration = state ? 0.6 : 0.3
+    return gsap.to(target, { xPercent, x: 0, duration, ease })
+  }
+  // Run all animations
+  const toggleAnimation = (state) => {
+    console.log('animate')
+    const bgAnimation = animateBg(state)
+    const panelAnimation = animatePanel(state)
+    animationInstances.current = {
+      bg: bgAnimation,
+      panel: panelAnimation,
+    }
+  }
+  // Animation complete promise
+  const onAnimationFinished = async (done) => {
+    const animations = Object.values(animationInstances.current)
+    const animatePromises = animations.map((anim) => {
+      return anim.then()
+    })
+    await Promise.all(animatePromises)
+    console.log('animation done')
+    done()
+  }
+
+  return (
+    <Transition
+      in={show}
+      onEnter={() => toggleAnimation(true)}
+      onExit={() => toggleAnimation(false)}
+      addEndListener={(node, done) => {
+        onAnimationFinished(done)
+      }}
+      appear
+      unmountOnExit
+    >
+      <div className={styles.SidePanel}>
+        {/* The BG */}
+        <div
+          className={styles.background}
           onClick={close}
-          className={['button--close', styles.backButton].join(' ')}
-          label="Back"
+          role="button"
+          aria-label="Close panel"
+          ref={bgEl}
+        />
+        {/* PANEL */}
+        <div
+          className={styles.container}
+          ref={panelEl}
         >
-          <CloseCircle />
-        </button>
-        {/* Optional side panel CTA */}
-        {button && (
-          <div className={styles.ctaButton}>
-            {button}
+          {/* Show loader if loading */}
+          {isLoading && (
+            <div className={styles.loader}>
+              <Spinner className={styles.spinner} />
+            </div>
+          )}
+          {/* The content */}
+          <div className={styles.container__inner}>
+            { content }
           </div>
-        )}
-      </animated.div>
-    </div>
-  ))
+          {/* Close button */}
+          <button
+            onClick={close}
+            className={['button--close', styles.backButton].join(' ')}
+            label="Back"
+          >
+            <CloseCircle />
+          </button>
+          {/* Optional side panel CTA */}
+          {button && (
+            <div className={styles.ctaButton}>
+              {button}
+            </div>
+          )}
+        </div>
+      </div>
+    </Transition>
+  )
 }
 
 SidePanel.propTypes = {
@@ -119,6 +160,7 @@ SidePanel.propTypes = {
 
 SidePanel.defaultProps = {
   isOpen: false,
+  content: <></>,
   button: null,
   isLoading: false,
 }
