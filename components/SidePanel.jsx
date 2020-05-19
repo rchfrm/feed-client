@@ -40,9 +40,9 @@ function SidePanel({
   // Background animation
   const bgEl = React.useRef()
   const animateBg = (state) => {
+    const { current: target } = bgEl
     const opacity = state ? 1 : 0
     const duration = state ? 0.3 : 0.5
-    const { current: target } = bgEl
     return gsap.to(target, { opacity, duration, ease: Power1.easeOut })
   }
   // Panel animation
