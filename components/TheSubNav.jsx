@@ -14,18 +14,27 @@ import styles from './TheSubNav.module.css'
 const TheSubNav = ({ show }) => {
   // Get els
   const contentsEl = React.useRef()
-
+  // Set if can hover
+  const isMobile = React.useRef(false)
+  React.useEffect(() => {
+    isMobile.current = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+  }, [])
   // ANIMATE
   const animationPromise = React.useRef()
   // Panel animation
+  const getScales = (state, isMobile) => {
+    if (state) return { scaleX: 1, scaleY: 1 }
+    if (isMobile && !state) return { scaleX: 0, scaleY: 1 }
+    if (!isMobile && !state) return { scaleX: 1, scaleY: 0 }
+  }
   const animateContainer = (state) => {
     const target = document.getElementById('TheSubNav')
     const { height } = target.getBoundingClientRect()
     const windowHeight = window.innerHeight
-    const scaleY = state ? 1 : 0
+    const { scaleX, scaleY } = getScales(state, isMobile.current)
     const ease = height < windowHeight ? Back.easeOut.config(1.2) : Power2.easeOut
     const duration = state ? 0.4 : 0.3
-    return gsap.to(target, { scaleY, duration, ease })
+    return gsap.to(target, { scaleX, scaleY, x: 0, y: 0, duration, ease })
   }
   // Background animation
   const animateContents = (state) => {

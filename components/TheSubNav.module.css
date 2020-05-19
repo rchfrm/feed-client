@@ -16,6 +16,10 @@
   will-change: transform;
   transform: scaleY(0);
   transform-origin: center top;
+  @mixin mobileDevice {
+    transform-origin: right center;
+    transform: scaleX(0);
+  }
 
   @media (--md) {
     max-height: 720px;
