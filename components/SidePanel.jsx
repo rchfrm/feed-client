@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { gsap, Power1, Power2 } from 'gsap'
 import { Transition } from 'react-transition-group'
+import { useDrag } from 'react-use-gesture'
 
 import Spinner from './elements/Spinner'
 import CloseCircle from './icons/CloseCircle'
@@ -47,10 +48,12 @@ function SidePanel({
   const panelEl = React.useRef()
   const animatePanel = (state) => {
     const { current: target } = panelEl
-    const xPercent = state ? 0 : 105
+    const { width } = target.getBoundingClientRect()
+    const xPercent = 0
+    const x = state ? 0 : width * 1.05
     const ease = state ? Power2.easeOut : Power2.easeOut
     const duration = state ? 0.6 : 0.3
-    return gsap.to(target, { xPercent, x: 0, duration, ease })
+    return gsap.to(target, { xPercent, x, duration, ease })
   }
   // Run all animations
   const toggleAnimation = (state) => {
@@ -71,6 +74,39 @@ function SidePanel({
     done()
   }
 
+  // DRAGGING
+  const panelSetter = React.useRef()
+  const dragAnimation = React.useRef()
+  React.useEffect(() => {
+    if (!show) return
+    panelSetter.current = gsap.quickSetter(panelEl.current, 'x', 'px')
+  }, [show])
+  const animateDragEnd = (hide) => {
+    if (hide) return close()
+    dragAnimation.current = animatePanel(true)
+  }
+  const onDrag = (dragState) => {
+    const { current: setter } = panelSetter
+    const { movement, last, velocity } = dragState
+    const [x] = movement
+    if (last) {
+      const { width: panelWidth } = panelEl.current.getBoundingClientRect()
+      const velocityThreshold = 1.2
+      const movementThreshold = 0.7
+      const hidePanel = velocity > velocityThreshold || (x / panelWidth) > movementThreshold
+      animateDragEnd(hidePanel)
+      return
+    }
+    if (x < 0) return
+    // Move panel
+    setter(x)
+  }
+  const dragConfig = {
+    axis: 'x',
+    domTarget: panelEl.current,
+  }
+  const dragBind = useDrag(state => onDrag(state), dragConfig)
+
   return (
     <Transition
       in={show}
@@ -82,7 +118,7 @@ function SidePanel({
       appear
       unmountOnExit
     >
-      <div className={styles.SidePanel}>
+      <div className={styles.SidePanel} {...dragBind()}>
         {/* The BG */}
         <div
           className={styles.background}
