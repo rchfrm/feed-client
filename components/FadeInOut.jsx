@@ -1,6 +1,6 @@
 import React from 'react'
-
-import { useTransition, animated } from 'react-spring'
+import { gsap, Power1 } from 'gsap'
+import { Transition } from 'react-transition-group'
 
 
 const FadeInOut = (Component) => {
@@ -14,29 +14,32 @@ const FadeInOut = (Component) => {
       }
     }, [])
 
-    // Define transition
-    const springConfig = {
-      mass: 5,
-      tension: 500,
-      friction: 30,
-      clamp: true,
+    // Define animation
+    const animationInstance = React.useRef(null)
+    const toggleAnimation = (state, target) => {
+      const opacity = state ? 1 : 0
+      const duration = state ? 0.3 : 0.5
+      animationInstance.current = gsap.to(target, { opacity, duration, ease: Power1.easeOut })
     }
-    const transition = useTransition(show, null, {
-      from: { opacity: 0 },
-      enter: { opacity: 1 },
-      leave: { opacity: 0 },
-      config: springConfig,
-    })
+    const onAnimationFinished = async (done) => {
+      await animationInstance.current.then()
+      done()
+    }
 
-    // Output component
-    return transition.map(({ item, key, props }) => item && (
-      <animated.div
-        key={key}
-        style={props}
+    return (
+      <Transition
+        in={show}
+        onEnter={(target) => toggleAnimation(true, target)}
+        onExit={(target) => toggleAnimation(false, target)}
+        addEndListener={(node, done) => {
+          onAnimationFinished(done)
+        }}
+        appear
+        unmountOnExit
       >
         <Component {...componentProps} />
-      </animated.div>
-    ))
+      </Transition>
+    )
   }
 }
 
