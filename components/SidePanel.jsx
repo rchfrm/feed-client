@@ -5,6 +5,7 @@ import { Transition } from 'react-transition-group'
 import { useDrag } from 'react-use-gesture'
 
 import Spinner from './elements/Spinner'
+import DragIndicator from './elements/DragIndicator'
 import CloseCircle from './icons/CloseCircle'
 
 import styles from './SidePanel.module.css'
@@ -138,6 +139,8 @@ function SidePanel({
               <Spinner className={styles.spinner} />
             </div>
           )}
+          {/* Drag indicator */}
+          <DragIndicator dragDirection="horizontal" className={styles.dragIndicator} />
           {/* The content */}
           <div className={styles.container__inner}>
             { content }
