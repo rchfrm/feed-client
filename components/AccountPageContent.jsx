@@ -4,8 +4,8 @@ import { useRouter } from 'next/router'
 
 import { BillingContext } from './contexts/BillingContext'
 import { SidePanelContext } from './contexts/SidePanelContext'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import Spinner from './elements/Spinner'
 // IMPORT COMPONENTS
 import AccountPageDetails from './AccountPageDetails'
 import AccountPagePayments from './AccountPagePayments'
@@ -20,6 +20,8 @@ const AccountPageContent = ({ user }) => {
   const [pageQuery] = Object.keys(query)
   // IMPORT BILLING STATE
   const { billingLoading } = React.useContext(BillingContext)
+  // Import interface context
+  const { setGlobalLoading } = React.useContext(InterfaceContext)
   // IMPORT SIDE PANEL STATE AND SETTERS
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
 
@@ -49,12 +51,11 @@ const AccountPageContent = ({ user }) => {
   React.useEffect(() => {
     if (billingLoading) return
     setSidePanel(pageQuery)
+    setGlobalLoading(false)
   }, [billingLoading, pageQuery])
 
   // While loading
-  if (billingLoading) {
-    return <Spinner />
-  }
+  if (billingLoading) return null
 
   // The content
   return (

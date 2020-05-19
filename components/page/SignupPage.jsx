@@ -6,7 +6,10 @@ const headerConfig = {
 }
 
 const page = () => (
-  <BasePage headerConfig={headerConfig}>
+  <BasePage
+    headerConfig={headerConfig}
+    staticPage
+  >
     <SignupPageContent />
   </BasePage>
 )

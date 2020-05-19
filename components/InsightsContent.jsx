@@ -4,10 +4,7 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Spinner from './elements/Spinner'
-
 // IMPORT COMPONENTS
-import PageHeader from './PageHeader'
 import InsightPlatformSelectors from './InsightPlatformSelectors'
 import InsightDataSelectors from './InsightDataSelectors'
 import InsightsChartLoader from './InsightsChartLoader'
@@ -65,12 +62,11 @@ function InsightsContent() {
   }, [initialLoading])
 
 
-  if (artistLoading || !(currentPlatform || currentDataSource)) return <Spinner />
+  if (artistLoading || !(currentPlatform || currentDataSource)) return null
 
   if (initialLoading) {
     return (
       <>
-        <Spinner />
         <InsightsChartLoader
           currentPlatform={currentPlatform}
           currentDataSource={currentDataSource}

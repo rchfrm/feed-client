@@ -5,8 +5,8 @@ import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import Spinner from './elements/Spinner'
 import Error from './elements/Error'
 // IMPORT PAGES
 import PostsAll from './PostsAll'
@@ -87,6 +87,8 @@ function PostsLoader() {
 
   // Import artist context
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
+  // Import interface context
+  const { setGlobalLoading } = React.useContext(InterfaceContext)
 
   // When changing artist...
   React.useEffect(() => {
@@ -120,6 +122,9 @@ function PostsLoader() {
     cursor,
     // When fetch finishes
     onResolve: (posts) => {
+      // Turn off global loading
+      setGlobalLoading(false)
+      // Handle result...
       if (!posts || !posts.length) {
         isEndOfAssets.current = true
         setLoadingMore(false)
@@ -220,7 +225,7 @@ function PostsLoader() {
 
   // Spinner if loading
   if (artistLoading || (isPending && initialLoad)) {
-    return <Spinner />
+    return null
   }
 
   // No posts if none

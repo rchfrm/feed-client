@@ -4,8 +4,8 @@ import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import Spinner from './elements/Spinner'
 import Error from './elements/Error'
 // IMPORT COMPONENTS
 import ResultsNoResults from './ResultsNoResults'
@@ -61,6 +61,8 @@ const fetchAllPosts = async ({ artistId }) => {
 function ResultsLoader() {
   // Artist context
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
+  // Import interface context
+  const { setGlobalLoading } = React.useContext(InterfaceContext)
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, initialPostsState)
 
@@ -72,6 +74,9 @@ function ResultsLoader() {
     artistId,
     // When promise resolves
     onResolve: ({ activePosts, archivedPosts }) => {
+      // Turn off global loading
+      setGlobalLoading(false)
+      // Handle results
       const activePostsObj = activePosts.length ? utils.arrToObjById(activePosts) : {}
       const archivedPostsObj = archivedPosts.length ? utils.arrToObjById(archivedPosts) : {}
       setPosts({
@@ -101,7 +106,7 @@ function ResultsLoader() {
   }
 
   // If artist or results are loading
-  if (artistLoading || isPending) return <Spinner />
+  if (artistLoading || isPending) return null
 
   // Handle error
   if (error) return <Error error={error} messagePrefix="Error: " />

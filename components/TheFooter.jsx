@@ -2,6 +2,7 @@
 import React from 'react'
 // IMPORT COMPONENTS
 import TheFooterLinks from './TheFooterLinks'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT HOOKS
 import useLoggedInTest from './hooks/useLoggedInTest'
 // IMPORT ELEMENTS
@@ -12,7 +13,9 @@ const thisYear = new Date().getFullYear()
 
 const Footer = () => {
   const isLoggedIn = useLoggedInTest()
-
+  // Import interface context
+  const { globalLoading } = React.useContext(InterfaceContext)
+  if (globalLoading) return null
   return (
     <footer className={['TheFooter', isLoggedIn ? '_loggedIn' : ''].join(' ')}>
       {!isLoggedIn && (

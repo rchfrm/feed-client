@@ -8,6 +8,7 @@ const headerConfig = {
 const Page = () => (
   <BasePage
     headerConfig={headerConfig}
+    staticPage
   >
     <ForgotPasswordContent />
   </BasePage>
