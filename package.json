@@ -68,6 +68,7 @@
   "scripts": {
     "dev": "next",
     "dev:ssl": "run-p dev ssl",
+    "dev:ben": "next -H ben.local",
     "ssl": "dev-proxy --proxy 3000:3001",
     "start": "next start",
     "copyIcons": "cp -R .next/pwa public/",
