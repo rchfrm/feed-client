@@ -6,6 +6,7 @@ import { ArtistProvider } from './contexts/Artist'
 // IMPORT COMPONENTS
 import Main from './Main'
 import TheHeader from './TheHeader'
+import ThePageButtons from './ThePageButtons'
 import TheFooter from './TheFooter'
 
 const AppContents = ({ children }) => {
@@ -20,6 +21,8 @@ const AppContents = ({ children }) => {
             <Main>
               {children}
             </Main>
+
+            <ThePageButtons />
 
             <TheFooter />
           </InterfaceContextProvider>

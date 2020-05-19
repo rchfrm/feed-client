@@ -24,24 +24,24 @@ input[readonly] {
 }
 
 .input--container {
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
 
   /* Input with icon */
   &._hasIcon {
     position: relative;
     .input {
-      padding-left: calc(var(--bsu) * 1.5);
+      padding-left: calc(var(--sp-5) * 1.5);
     }
 
     .input--box {
-      padding-left: calc(16px + (var(--bsu) * 2));
+      padding-left: calc(16px + (var(--sp-5) * 2));
     }
 
     &._success,
     &._error {
       .input--box {
         padding-left: 0.8em;
-        padding-right: calc(16px + (var(--bsu) * 2));
+        padding-right: calc(16px + (var(--sp-5) * 2));
       }
     }
   }
@@ -112,13 +112,13 @@ input[readonly] {
   height: 16px;
 
   .input--box + & {
-    left: var(--bsu);
+    left: var(--sp-5);
   }
 
   .input--container._success &,
   .input--container._error & {
     left: auto;
-    right: var(--bsu); 
+    right: var(--sp-5); 
   }
 
   svg {
@@ -195,7 +195,7 @@ select {
 .select--arrow {
   position: absolute;
   bottom: 50%;
-  right: var(--bsu);
+  right: var(--sp-5);
   transform: translateY(50%);
   width: 0.45em;
   height: auto;
@@ -219,7 +219,7 @@ select:invalid {
 .checkbox--button {
   position: relative;
   line-height: 1.3;
-  margin-bottom: var(--bsu);
+  margin-bottom: var(--sp-5);
 }
 
 .radio--button_input,

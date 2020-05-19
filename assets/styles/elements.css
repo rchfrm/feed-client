@@ -26,7 +26,7 @@
   background-color: var(--bg-color);
   max-width: 720px;
   max-height: 80%;
-  padding: var(--bsu-md);
+  padding: var(--sp-8);
   border: 2px solid var(--text-color);
   display: flex;
   flex-direction: column;
@@ -35,7 +35,7 @@
   border-radius: var(--dialogue-radius);
 
   @media (--md) {
-    padding: var(--bsu-lg);
+    padding: var(--sp-10);
   }
 
   h1 {
@@ -55,12 +55,12 @@
 
 .alert_close--button {
   position: absolute;
-  top: calc(var(--bsu-md) - 20px);
-  right: var(--bsu-md);
+  top: calc(var(--sp-8) - 20px);
+  right: var(--sp-8);
 
   @media (--md) {
-    top: calc(var(--bsu-lg) - 20px);
-    right: var(--bsu-lg);
+    top: calc(var(--sp-10) - 20px);
+    right: var(--sp-10);
   }
 }
 
@@ -75,7 +75,7 @@
   width: 100%;
   padding-bottom: 1em;
   color: var(--black);
-  padding-right: var(--bsu);
+  padding-right: var(--sp-5);
 }
 
 
@@ -213,7 +213,7 @@
 .success--message {
   position: relative;
   line-height: 1.5;
-  padding-left: var(--bsu-lg);
+  padding-left: var(--sp-10);
 }
 
 .success-message_icon {
@@ -249,7 +249,7 @@
 .page--header {
   width: 90%;
   margin: 0 auto;
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
   flex: none;
 
   h1 {

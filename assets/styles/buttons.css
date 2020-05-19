@@ -31,7 +31,7 @@ button {
 
   /* The spinner in a button */
   .button--spinner {
-    height: var(--bsu);
+    height: var(--sp-5);
     width: auto;
     svg {
       height: 100%;
@@ -86,8 +86,8 @@ button {
 .button--close {
   padding: 0;
 
-  width: var(--bsu);
-  height: var(--bsu);
+  width: var(--sp-5);
+  height: var(--sp-5);
 
   .icon {
     line-height: 0;
@@ -106,8 +106,8 @@ button {
   width: 50px;
   height: 50px;
   svg {
-    width: var(--bsu);
-    height: var(--bsu);
+    width: var(--sp-5);
+    height: var(--sp-5);
   }
 }
 
@@ -146,11 +146,11 @@ button {
 
 .button--icon {
   font-weight: var(--bold);
-  padding: 0 var(--bsu);
+  padding: 0 var(--sp-5);
   height: var(--button-height);
 
   svg {
-    width: var(--bsu);
+    width: var(--sp-5);
     height: auto;
     margin-right: 1em;
     vertical-align: bottom;

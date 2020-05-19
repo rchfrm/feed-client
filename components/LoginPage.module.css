@@ -1,5 +1,5 @@
 .intro {
-  margin-bottom: var(--bsu-lg);
+  margin-bottom: var(--sp-10);
 }
 
 .container {
@@ -13,16 +13,16 @@
 
 .header {
   width: 100% !important;
-  margin-bottom: calc(1.5 * var(--bsu-lg)) !important;
+  margin-bottom: calc(1.5 * var(--sp-10)) !important;
 }
 
 .loginButtons {
   width: 100%;
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
 
   :global(.button) {
     width: 100%;
-    margin-bottom: var(--bsu-md) !important;
+    margin-bottom: var(--sp-8) !important;
     align-items: center !important;
     justify-content: flex-start !important;
     &:last-child {
@@ -38,19 +38,19 @@
 
 .tcText {
   width: 100%;
-  margin-top: var(--bsu-md);
+  margin-top: var(--sp-8);
   margin-bottom: 0 !important;
 }
 
 .error {
-  margin-bottom: var(--bsu-md) !important;
+  margin-bottom: var(--sp-8) !important;
 }
 
 .form {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  margin-bottom: var(--bsu-lg);
+  margin-bottom: var(--sp-10);
 }
 
 .input {
@@ -58,12 +58,12 @@
 }
 
 .submit {
-  margin-bottom: var(--bsu) !important;
+  margin-bottom: var(--sp-5) !important;
   align-self: flex-end;
   width: 31.48%;
 }
 
 .forgotPasswordLink {
-  margin-top: calc(-0.5 * var(--bsu));
+  margin-top: calc(-0.5 * var(--sp-5));
   width: 100%;
 }

@@ -5,7 +5,7 @@
 }
 
 .selectorsLabel {
-  padding-left: var(--bsu);
+  padding-left: var(--sp-5);
 
   @media(--sm) {
     padding-left: 0;
@@ -15,19 +15,19 @@
 .platformSelectors,
 .dataSelectors {
   display: flex;
-  padding: calc(0.5 * var(--bsu)) 0;
+  padding: calc(0.5 * var(--sp-5)) 0;
   width: 100%;
-  padding-left: var(--bsu);
+  padding-left: var(--sp-5);
   border-top: 2px solid var(--text-color);
   overflow-x: auto;
-  margin-bottom: var(--bsu);
+  margin-bottom: var(--sp-5);
   scroll-behavior: smooth;
 
   /* For desktops */
   @mixin canHover {
     flex-wrap: wrap;
-    padding-top: var(--bsu);
-    padding-left: var(--bsu);
+    padding-top: var(--sp-5);
+    padding-left: var(--sp-5);
     padding-bottom: 0;
   }
 
@@ -39,19 +39,19 @@
 }
 
 .dataSelectors {
-  padding-top: var(--bsu);
+  padding-top: var(--sp-5);
 }
 
 .platformButtonContainer,
 .dataButtonContainer {
   /* For desktops */
   @mixin canHover {
-    margin-bottom: var(--bsu);
+    margin-bottom: var(--sp-5);
   }
 }
 
 .platformButtonContainer {
-  padding-right: var(--bsu);
+  padding-right: var(--sp-5);
 
   @media(--bmw) {
     &:last-child {
@@ -95,12 +95,12 @@
 .dataButtonContainer {
   position: relative;
   text-decoration: none;
-  margin-right: calc(0.5 * var(--bsu));
-  padding-right: var(--bsu-lg);
+  margin-right: calc(0.5 * var(--sp-5));
+  padding-right: var(--sp-10);
   flex-shrink: 0;
   min-width: 10em;
   line-height: 1.5;
-  padding-bottom: var(--bsu);
+  padding-bottom: var(--sp-5);
   margin-bottom: 0;
 
   &::after {
@@ -108,7 +108,7 @@
     position: absolute;
     left: 0;
     bottom: 0.5em;
-    width: calc(100% - var(--bsu-lg));
+    width: calc(100% - var(--sp-10));
     height: 2px;
     background-color: var(--grey);
     opacity: 0;
