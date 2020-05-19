@@ -13,7 +13,7 @@ import IntegrationErrorHandler from './IntegrationErrorHandler'
 
 function Main({ children }) {
   return (
-    <main className="page--container">
+    <main id="page--container">
       <SidePanelContextProvider>
         <InitUser>
           {children}

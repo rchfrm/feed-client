@@ -10,8 +10,8 @@
 
 .faqItem {
   border-bottom: 1px solid var(--grey-light);
-  padding-bottom: var(--bsu-md);
-  margin-bottom: var(--bsu-md);
+  padding-bottom: var(--sp-8);
+  margin-bottom: var(--sp-8);
   line-height: 1.3em;
 
   /* For making sure the markdown has worked */

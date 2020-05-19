@@ -5,12 +5,12 @@ DETAILS
 .accountPageDetails {
 
   .row {
-    margin-bottom: var(--bsu);
+    margin-bottom: var(--sp-5);
     justify-content: space-between;
   }
 
   .submitButton {
-    margin-top: var(--bsu);
+    margin-top: var(--sp-5);
   }
 }
 
@@ -25,12 +25,12 @@ SUMMARIES
 **************************/
 
 .accountPageSection {
-  padding-top: var(--bsu);
-  padding-bottom: var(--bsu-lg);
+  padding-top: var(--sp-5);
+  padding-bottom: var(--sp-10);
 }
 
 .accountPageSection__details {
-  margin-bottom: var(--bsu);
+  margin-bottom: var(--sp-5);
   .p {
     margin-bottom: 0.3em;
     height: auto !important;
@@ -41,7 +41,7 @@ SUMMARIES
 }
 
 .accountPage__paymentIntro {
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
 }
 
 .paymentSummaryBlock {

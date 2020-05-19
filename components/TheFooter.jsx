@@ -2,8 +2,8 @@
 import React from 'react'
 // IMPORT COMPONENTS
 import TheFooterLinks from './TheFooterLinks'
-// IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
+// IMPORT HOOKS
+import useLoggedInTest from './hooks/useLoggedInTest'
 // IMPORT ELEMENTS
 import Feed from './elements/Feed'
 
@@ -11,15 +11,11 @@ import Feed from './elements/Feed'
 const thisYear = new Date().getFullYear()
 
 const Footer = () => {
-  // Check if logged in or not
-  const { auth } = React.useContext(AuthContext)
-  const loggedIn = React.useMemo(() => {
-    return !!auth.token
-  }, [auth.token])
+  const isLoggedIn = useLoggedInTest()
 
   return (
-    <footer className={['TheFooter'].join(' ')}>
-      {!loggedIn && (
+    <footer className={['TheFooter', isLoggedIn ? '_loggedIn' : ''].join(' ')}>
+      {!isLoggedIn && (
         <TheFooterLinks />
       )}
 

@@ -1,0 +1,109 @@
+@import "../assets/styles/mixins";
+
+.container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 4;
+
+  border-top: 1px solid var(--green);
+  background-color: var(--bg-color);
+  box-shadow: 0px -2px 16px rgba(0, 0, 0, 0.07);
+
+  @media (--md) {
+    bottom: 50%;
+    left: var(--sp-10);
+    width: auto;
+    transform: translateY(50%) translateY(51px); /* header height / 2 */
+    border-top: none;
+    background-color: none;
+    box-shadow: none;
+  }
+
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px var(--sp-5);
+  
+  @media (--xs) {
+    justify-content: center;
+  }
+
+  @media (--md) {
+    padding: 0;
+    flex-direction: column;
+  }
+}
+
+.link {
+  text-align: center;
+  font-size: 12px;
+
+  @media (--xs) {
+    padding: 0 var(--sp-5);
+    margin: 0 10px;
+  }
+
+  @media (--md) {
+    margin: var(--sp-5) 0;
+    padding: 0;
+    width: calc(var(--sp-10) * 1.2);
+    font-size: 14px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.linkAnchor {
+  display: block;
+  text-decoration: none;
+  color: var(--text-color) !important;
+}
+
+
+.linkIcon {
+  margin: 0 auto;
+  width: 2.5em;
+  margin-bottom: 0.4em;
+  margin-top: 0.2em;
+
+  opacity: 0.5;
+  transition: opacity var(--trans);
+
+  .linkAnchor._active & {
+    opacity: 1;
+  }
+  
+  :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+
+  @media (--md) {
+    margin-top: 0;
+  }
+
+  @mixin canHover {
+    .linkAnchor:hover & {
+      opacity: 1;
+    }
+  }
+}
+
+.linkTitle {
+  margin-bottom: 0;
+  width: 100%;
+
+  .linkAnchor._active & {
+    font-weight: var(--bold);
+  }
+}
