@@ -2,7 +2,6 @@ import React from 'react'
 
 import { gsap, Power1, Power2, Back } from 'gsap'
 import { Transition } from 'react-transition-group'
-import { useDrag } from 'react-use-gesture'
 
 import Div100vh from 'react-div-100vh'
 
@@ -10,25 +9,32 @@ import TheSubNavArtists from './TheSubNavArtists'
 import TheSubNavLinks from './TheSubNavLinks'
 import SignOutLink from './SignOutLink'
 
+import useSwipeDismiss from './hooks/useSwipeDismiss'
+
 import styles from './TheSubNav.module.css'
 
 const TheSubNav = ({ show, setShow }) => {
   // Get els
   const contentsEl = React.useRef()
-  // Set if can hover
+  // Detect if mobile
   const isMobile = React.useRef(false)
   React.useEffect(() => {
     isMobile.current = window.matchMedia('(hover: none) and (pointer: coarse)').matches
   }, [])
+  // INITIAL ANIMATION
+  const setDisplay = (state, node) => {
+    const display = state ? 'block' : 'none'
+    node.style.display = display
+  }
   // ANIMATE
   const animationPromise = React.useRef()
-  // Panel animation
   const getScales = (state, isMobile) => {
     if (state) return { scaleX: 1, scaleY: 1 }
     if (isMobile && !state) return { scaleX: 0, scaleY: 1 }
     if (!isMobile && !state) return { scaleX: 1, scaleY: 0 }
   }
-  const animateContainer = (state) => {
+  // Panel animation
+  const animateContainer = React.useCallback((state) => {
     const target = document.getElementById('TheSubNav')
     const { height } = target.getBoundingClientRect()
     const windowHeight = window.innerHeight
@@ -36,7 +42,7 @@ const TheSubNav = ({ show, setShow }) => {
     const ease = height < windowHeight ? Back.easeOut.config(1.2) : Power2.easeOut
     const duration = state ? 0.4 : 0.3
     return gsap.to(target, { scaleX, scaleY, x: 0, y: 0, duration, ease })
-  }
+  }, [])
   // Background animation
   const animateContents = (state, delay = 0) => {
     const { current: target } = contentsEl
@@ -45,7 +51,11 @@ const TheSubNav = ({ show, setShow }) => {
     return gsap.to(target, { opacity, y: 0, duration, delay, ease: Power1.easeOut })
   }
   // Run all animations
-  const toggleAnimation = async (state) => {
+  const toggleAnimation = async (state, node) => {
+    // Show el before animating in
+    if (state) {
+      setDisplay(state, node)
+    }
     animationPromise.current = new Promise((resolve) => {
       // Define order
       const firstAnimation = state ? animateContainer(state) : animateContents(state)
@@ -62,54 +72,32 @@ const TheSubNav = ({ show, setShow }) => {
   }
 
   // DRAGGING
-  const panelSetter = React.useRef()
-  const dragAnimation = React.useRef()
-  React.useEffect(() => {
-    if (!show) return
-    const target = document.getElementById('TheSubNav')
-    panelSetter.current = gsap.quickSetter(target, 'x', 'px')
-  }, [show])
-  const animateDragEnd = (hide) => {
-    if (hide) return setShow(false)
-    dragAnimation.current = animateContainer(true)
-  }
-  const onDrag = (dragState) => {
-    // Don't listen to drag if desktop
-    if (!isMobile.current) return
-    const { current: setter } = panelSetter
-    const { movement, last, velocity } = dragState
-    const [x] = movement
-    if (last) {
-      const { height: panelHeight } = contentsEl.current.getBoundingClientRect()
-      const velocityThreshold = 1.2
-      const movementThreshold = 0.7
-      const hidePanel = velocity > velocityThreshold || x / panelHeight > movementThreshold
-      animateDragEnd(hidePanel)
-      return
-    }
-    if (x < 0) return
-    // Move panel
-    setter(x)
-  }
-  const dragConfig = {
-    axis: 'x',
-    domTarget: contentsEl.current,
-  }
-  const dragBind = useDrag(state => onDrag(state), dragConfig)
+  const dragBind = useSwipeDismiss({
+    movingTargetId: 'TheSubNav',
+    touchTargetId: 'TheSubNav__contents',
+    visible: show,
+    hide: () => setShow(false),
+    reset: () => animateContainer(true),
+    disableCondition: !isMobile.current,
+  })
 
   return (
     <Transition
       in={show}
-      onEnter={() => toggleAnimation(true)}
+      onEnter={(node) => toggleAnimation(true, node)}
       onExit={() => toggleAnimation(false)}
+      onExited={(node) => setDisplay(false, node)}
       addEndListener={(node, done) => {
         onAnimationFinished(done)
       }}
       appear
-      unmountOnExit
     >
-      <Div100vh id="TheSubNav" className={['page--content', '_fixed', styles.container].join(' ')}>
+      <Div100vh
+        id="TheSubNav"
+        className={['page--content', '_fixed', styles.container].join(' ')}
+      >
         <div
+          id="TheSubNav__contents"
           className={styles.contents}
           ref={contentsEl}
           {...dragBind()}
