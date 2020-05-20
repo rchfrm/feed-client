@@ -6,7 +6,6 @@ import { gsap } from 'gsap'
 /**
  * @param {String} movingTargetId the ID of the node
  * @param {String} touchTargetId the ID of the node
- * @param {Boolean} visible is the element visible
  * @param {Function} hide run this to hide the element
  * @param {Function} reset run this to reset
  * @param {Boolean} disableCondition ignore touch events if true
@@ -15,7 +14,6 @@ import { gsap } from 'gsap'
 const useSwipeDismiss = ({
   movingTargetId,
   touchTargetId,
-  visible,
   hide,
   reset,
   disableCondition,

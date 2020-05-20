@@ -89,7 +89,6 @@ function SidePanel({
   const dragBind = useSwipeDismiss({
     movingTargetId: 'SidePanel__container',
     touchTargetId: 'SidePanel',
-    visible: show,
     hide: () => close(),
     reset: () => animatePanel(true),
   })

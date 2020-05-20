@@ -75,7 +75,6 @@ const TheSubNav = ({ show, setShow }) => {
   const dragBind = useSwipeDismiss({
     movingTargetId: 'TheSubNav',
     touchTargetId: 'TheSubNav__contents',
-    visible: show,
     hide: () => setShow(false),
     reset: () => animateContainer(true),
     disableCondition: !isMobile.current,
