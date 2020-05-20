@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { gsap, Power1, Power2 } from 'gsap'
 import { Transition } from 'react-transition-group'
-import { useDrag } from 'react-use-gesture'
+
+import useSwipeDismiss from './hooks/useSwipeDismiss'
 
 import Spinner from './elements/Spinner'
 import DragIndicator from './elements/DragIndicator'
@@ -32,6 +33,11 @@ function SidePanel({
   // Define close function
   const close = () => toggle(false)
 
+  // INITIAL ANIMATION
+  const setDisplay = (state, node) => {
+    const display = state ? 'block' : 'none'
+    node.style.display = display
+  }
   // ANIMATE
   const animationInstances = React.useRef({
     bg: null,
@@ -57,7 +63,11 @@ function SidePanel({
     return gsap.to(target, { xPercent, x, duration, ease })
   }
   // Run all animations
-  const toggleAnimation = (state) => {
+  const toggleAnimation = (state, node) => {
+    // Show el before animating in
+    if (state) {
+      setDisplay(state, node)
+    }
     const bgAnimation = animateBg(state)
     const panelAnimation = animatePanel(state)
     animationInstances.current = {
@@ -76,50 +86,32 @@ function SidePanel({
   }
 
   // DRAGGING
-  const panelSetter = React.useRef()
-  const dragAnimation = React.useRef()
-  React.useEffect(() => {
-    if (!show) return
-    panelSetter.current = gsap.quickSetter(panelEl.current, 'x', 'px')
-  }, [show])
-  const animateDragEnd = (hide) => {
-    if (hide) return close()
-    dragAnimation.current = animatePanel(true)
-  }
-  const onDrag = (dragState) => {
-    const { current: setter } = panelSetter
-    const { movement, last, velocity } = dragState
-    const [x] = movement
-    if (last) {
-      const { width: panelWidth } = panelEl.current.getBoundingClientRect()
-      const velocityThreshold = 1.2
-      const movementThreshold = 0.7
-      const hidePanel = velocity > velocityThreshold || (x / panelWidth) > movementThreshold
-      animateDragEnd(hidePanel)
-      return
-    }
-    if (x < 0) return
-    // Move panel
-    setter(x)
-  }
-  const dragConfig = {
-    axis: 'x',
-    domTarget: panelEl.current,
-  }
-  const dragBind = useDrag(state => onDrag(state), dragConfig)
+  const dragBind = useSwipeDismiss({
+    movingTargetId: 'SidePanel__container',
+    touchTargetId: 'SidePanel',
+    visible: show,
+    hide: () => close(),
+    reset: () => animatePanel(true),
+  })
+
+  console.log('show', show)
 
   return (
     <Transition
       in={show}
-      onEnter={() => toggleAnimation(true)}
+      onEnter={(node) => toggleAnimation(true, node)}
       onExit={() => toggleAnimation(false)}
+      onExited={(node) => setDisplay(false, node)}
       addEndListener={(node, done) => {
         onAnimationFinished(done)
       }}
       appear
-      unmountOnExit
     >
-      <div className={styles.SidePanel} {...dragBind()}>
+      <div
+        id="SidePanel"
+        className={styles.SidePanel}
+        {...dragBind()}
+      >
         {/* The BG */}
         <div
           className={styles.background}
@@ -130,6 +122,7 @@ function SidePanel({
         />
         {/* PANEL */}
         <div
+          id="SidePanel__container"
           className={styles.container}
           ref={panelEl}
         >
