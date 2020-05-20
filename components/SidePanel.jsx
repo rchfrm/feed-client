@@ -93,8 +93,6 @@ function SidePanel({
     reset: () => animatePanel(true),
   })
 
-  console.log('show', show)
-
   return (
     <Transition
       in={show}
