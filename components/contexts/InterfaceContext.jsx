@@ -84,6 +84,8 @@ const InterfaceContextProvider = ({ children }) => {
   // Set global loading to true when route changes
   const { pathname } = useRouter()
   const handleRouteChange = React.useCallback((url) => {
+    // Don't trigger loading if nav-ing to query path
+    if (url.includes('?')) return
     // If same page, just close sub-nav
     if (url === pathname) {
       setSubNav(false)
