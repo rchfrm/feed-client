@@ -60,7 +60,7 @@ function TheHeader() {
         <FeedLogo className={styles.logo} style={{ opacity: logoOpacity }} textColor={logoTextColor} />
       </a>
       {/* Page Header */}
-      <PageHeader className={styles.pageTitle} heading="page title" />
+      <PageHeader className={styles.pageTitle} />
       {/* Subnav button */}
       {isLoggedIn && (
         <TheSubNavButton
