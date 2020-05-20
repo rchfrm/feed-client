@@ -4,13 +4,17 @@ import Div100vh from 'react-div-100vh'
 
 import { InterfaceContext } from './contexts/InterfaceContext'
 
-import FadeInOut from './FadeInOut'
-
 import Spinner from './elements/Spinner'
+import FadeInOut from './elements/FadeInOut'
+
 
 const TheLoadingOverlay = () => {
   // Get interface context
-  const { setGlobalLoading, globalLoading, showSpinner } = React.useContext(InterfaceContext)
+  const {
+    setGlobalLoading,
+    globalLoading,
+    showSpinner,
+  } = React.useContext(InterfaceContext)
   // If loading lasts more than 300ms show the spinner
   React.useEffect(() => {
     if (!globalLoading) return
@@ -29,13 +33,27 @@ const TheLoadingOverlay = () => {
     setSpinnerClass(spinnerClass)
   }, [showSpinner])
 
-  if (!globalLoading) return null
+  // VISIBLE STATE
+  const [show, setShow] = React.useState(true)
+  const [isAnimating, setIsAnimating] = React.useState(false)
+  React.useEffect(() => {
+    if (isAnimating) return
+    setShow(globalLoading)
+  }, [globalLoading, isAnimating])
 
   return (
-    <Div100vh className="fixed top-0 left-0 z-10 flex items-center justify-center w-full bg-white">
-      <Spinner className={['transition', 'ease-in', 'duration-300', 'transition-opacity', spinnerClass].join(' ')} />
-    </Div100vh>
+    <FadeInOut
+      show={show}
+      onEnter={() => setIsAnimating(true)}
+      onExit={() => setIsAnimating(true)}
+      addEndListener={() => setIsAnimating(false)}
+      unmountOnExit
+    >
+      <Div100vh id="TheLoadingOverlay" className="fixed top-0 left-0 z-10 flex items-center justify-center w-full bg-white opacity-0">
+        <Spinner className={['transition', 'ease-in', 'duration-300', 'transition-opacity', spinnerClass].join(' ')} />
+      </Div100vh>
+    </FadeInOut>
   )
 }
 
-export default FadeInOut(TheLoadingOverlay)
+export default TheLoadingOverlay
