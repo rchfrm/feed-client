@@ -38,26 +38,21 @@ const TheSubNav = ({ show, setShow }) => {
     return gsap.to(target, { scaleX, scaleY, x: 0, y: 0, duration, ease })
   }
   // Background animation
-  const animateContents = (state) => {
+  const animateContents = (state, delay = 0) => {
     const { current: target } = contentsEl
     const opacity = state ? 1 : 0
-    const duration = state ? 0.2 : 0
-    return gsap.to(target, { opacity, duration, ease: Power1.easeOut })
+    const duration = state ? 0.4 : 0
+    return gsap.to(target, { opacity, y: 0, duration, delay, ease: Power1.easeOut })
   }
   // Run all animations
   const toggleAnimation = async (state) => {
     animationPromise.current = new Promise((resolve) => {
       // Define order
       const firstAnimation = state ? animateContainer(state) : animateContents(state)
-      const secondAnimation = state ? animateContents(state) : animateContainer(state)
-      secondAnimation.pause()
-      // RUN
-      firstAnimation
-        .then(() => {
-          secondAnimation
-            .play()
-            .then(resolve)
-        })
+      const { vars: { duration: firstAnimationDuration } } = firstAnimation
+      const delay = firstAnimationDuration * 0.8
+      const secondAnimation = state ? animateContents(state, delay) : animateContainer(state)
+      secondAnimation.then(resolve)
     })
   }
   // Animation complete promise

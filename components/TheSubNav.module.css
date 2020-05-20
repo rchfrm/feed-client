@@ -36,9 +36,9 @@
 }
 
 .contents {
-  will-change: opacity;
-  opacity: 0;
   height: 100%;
+  opacity: 0;
+  will-change: opacity;
 }
 
 .inner {
