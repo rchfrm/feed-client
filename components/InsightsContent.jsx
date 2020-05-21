@@ -103,7 +103,12 @@ function InsightsContent() {
       />
 
       {currentPlatform && currentDataSource && (
-        <div className={styles.dataContent}>
+        <div
+          className={[
+            'lg:grid gap-4 grid-cols-12',
+            styles.dataContent,
+          ].join(' ')}
+        >
           <InsightsChartLoader
             currentPlatform={currentPlatform}
             currentDataSource={currentDataSource}
@@ -114,7 +119,11 @@ function InsightsContent() {
             <PromotePostsButton
               artist={artist}
               artistId={artistId}
-              className={styles.promotePostsButton}
+              className={[
+                'lg:col-span-10',
+                'bmw:col-span-8',
+                styles.promotePostsButton,
+              ].join(' ')}
             />
           )}
         </div>

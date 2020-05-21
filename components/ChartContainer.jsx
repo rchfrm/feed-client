@@ -42,7 +42,13 @@ const ChartContainer = ({
   }, [earliestMoment])
 
   return (
-    <div className={[styles.chartOuter, chartType === 'number' ? styles._numberChart : ''].join(' ')}>
+    <div
+      className={[
+        'lg:col-span-10',
+        'bmw:col-span-8',
+        styles.chartOuter, chartType === 'number' ? styles._numberChart : '',
+      ].join(' ')}
+    >
 
       {chartType === 'bar' && (
         <>
