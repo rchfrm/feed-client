@@ -46,6 +46,10 @@ body {
     padding-left: calc(2 * var(--sp-10) + var(--sp-5));
     padding-right: calc(var(--sp-20));
   }
+
+  @media (--lg) {
+    padding-right: calc(var(--sp-40));
+  }
 }
 
 
