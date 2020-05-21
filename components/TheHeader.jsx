@@ -1,7 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router, { useRouter } from 'next/router'
-import Link from 'next/link'
 // IMPORT COMPONENTS
 import * as ROUTES from '../constants/routes'
 // IMPORT CONTEXTS
@@ -28,6 +27,7 @@ function TheHeader() {
     setLogoOpacity(1)
   }, [])
   // HANDLE SUB-NAV OPENING AND CLOSING
+  const [showSubNav, setShowSubNav] = React.useState(false)
   const { subNavOpen, toggleSubNav, setSubNav } = React.useContext(InterfaceContext)
   const [headerClass, setHeaderClass] = React.useState('')
   const [logoTextColor, setLogoTextColor] = React.useState(brandColors.textColor)
@@ -37,6 +37,9 @@ function TheHeader() {
     setHeaderClass(headerClass)
     // Toggle logo text
     setLogoTextColor(subNavOpen ? brandColors.bgColor : brandColors.textColor)
+    // Toggle sub nav
+    const show = subNavOpen && isLoggedIn
+    setShowSubNav(show)
   }, [subNavOpen])
   // Close sub-nav after artist changes
   const { artistId, artistLoading } = React.useContext(ArtistContext)
@@ -57,7 +60,7 @@ function TheHeader() {
         <FeedLogo className={styles.logo} style={{ opacity: logoOpacity }} textColor={logoTextColor} />
       </a>
       {/* Page Header */}
-      <PageHeader className={styles.pageTitle} heading="page title" />
+      <PageHeader className={styles.pageTitle} />
       {/* Subnav button */}
       {isLoggedIn && (
         <TheSubNavButton
@@ -67,7 +70,7 @@ function TheHeader() {
         />
       )}
       {/* THE SUBNAV */}
-      {subNavOpen && isLoggedIn && <TheSubNav />}
+      <TheSubNav show={showSubNav} setShow={toggleSubNav} />
     </header>
   )
 }

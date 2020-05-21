@@ -13,7 +13,6 @@ import TheFooter from './TheFooter'
 const AppContents = ({ children }) => {
   return (
     <div id="container" className="page--content">
-
       <InterfaceContextProvider>
         <UserProvider>
           <ArtistProvider>

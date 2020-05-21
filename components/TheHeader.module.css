@@ -25,7 +25,6 @@
 .subNavButton {
   position: fixed;
   top: var(--sp-5);
-  z-index: 6;
 
   @media (--sm) {
     top: var(--sp-8);
@@ -43,6 +42,7 @@
 .logo {
   left: var(--sp-5);
   width: calc(var(--sp-10) / 0.82);
+  z-index: 11;
 
   :global(svg) {
     width: 100%;
@@ -67,6 +67,7 @@
 .subNavButton {
   right: var(--sp-5);
   width: var(--sp-10);
+  z-index: 6;
 
   @media (--sm) {
     right: var(--sp-8);
