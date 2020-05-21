@@ -5,7 +5,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 4;
+  z-index: 11;
 
   border-top: 1px solid var(--green);
   background-color: var(--bg-color);
@@ -14,17 +14,28 @@
   @media (--md) {
     bottom: 50%;
     left: var(--sp-10);
+    left: 0;
     width: auto;
     transform: translateY(50%) translateY(51px); /* header height / 2 */
     border-top: none;
     background-color: none;
-    box-shadow: none;
+    box-shadow: 2px 0px 16px rgba(0, 0, 0, 0.07);
+    padding: var(--sp-5) 0;
+    padding-left: var(--sp-5);
+    padding-right: var(--sp-5);
+    border-radius: var(--dialogue-radius);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: 2px solid var(--green);
+    border-left: none;
   }
 
-  @media (--bmw) {
+  /* @media (--bmw) {
     left: 50%;
-    margin-left: calc((-0.5 * var(--bmw)) + var(--sp-10));
-  }
+    margin-left: calc((-0.5 * var(--bmw)) + var(--sp-4));
+    border-radius: var(--dialogue-radius) !important;
+    border-left: 2px solid var(--green);
+  } */
 
 }
 
@@ -32,6 +43,10 @@
   display: flex;
   justify-content: space-between;
   padding: 7px var(--sp-5);
+
+  @media (--xxs) {
+    padding: 7px var(--sp-8);
+  }
   
   @media (--xs) {
     justify-content: center;
@@ -71,17 +86,27 @@
 .linkAnchor {
   display: block;
   text-decoration: none;
-  color: var(--text-color) !important;
+  color: var(--text-color);
+
+  &._active {
+    color: var(--text-color) !important;
+  }
+
+  @mixin canHover {
+    &:hover {
+      color: var(--green);
+    }
+  }
 }
 
 
 .linkIcon {
   margin: 0 auto;
-  width: 2.5em;
-  margin-bottom: 0.4em;
+  width: 1.8em;
+  margin-bottom: 0.5em;
   margin-top: 0.2em;
 
-  opacity: 0.5;
+  opacity: 0.4;
   transition: opacity var(--trans);
 
   .linkAnchor._active & {
@@ -97,11 +122,11 @@
     margin-top: 0;
   }
 
-  @mixin canHover {
+  /* @mixin canHover {
     .linkAnchor:hover & {
       opacity: 1;
     }
-  }
+  } */
 }
 
 .linkTitle {
