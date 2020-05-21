@@ -23,9 +23,9 @@ export const getErrorResponse = (error, artist) => {
     field,
   } = error
 
-  if (code === 'expired_access_token') {
+  if (code === 'expired_access_token' || code === 'page_permission_error') {
     return {
-      message: copy[code](),
+      message: copy.expired_access_token(),
       action: 'fb_reauth',
       buttonText: 'Relink Facebook',
       hidden,
