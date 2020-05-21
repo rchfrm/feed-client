@@ -3,33 +3,33 @@ import PropTypes from 'prop-types'
 
 import brandColors from '../../constants/brandColors'
 
-const { green, bgColor } = brandColors
+const { grey } = brandColors
 
-const InsightsIcon = ({ className }) => {
+const InsightsIcon = ({ className, fill }) => {
   return (
     <svg
       className={className}
-      width="384"
-      height="384"
-      viewBox="0 0 384 384"
+      width="320"
+      height="320"
+      viewBox="0 0 320 320"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="192" cy="192" r="192" fill={green} />
-      <rect x="97" y="200" width="50" height="104" fill={bgColor} />
-      <rect x="165" y="152" width="50" height="152" fill={bgColor} />
-      <rect x="233" y="79" width="50" height="225" fill={bgColor} />
+      <rect x="15" y="171.539" width="71.6859" height="148.223" rx="5" fill={fill} />
+      <rect x="124.418" y="104.089" width="71.6859" height="215.673" rx="5" fill={fill} />
+      <rect x="233.832" width="71.6859" height="319.762" rx="5" fill={fill} />
     </svg>
-
   )
 }
 
 InsightsIcon.propTypes = {
   className: PropTypes.string,
+  fill: PropTypes.string,
 }
 
 InsightsIcon.defaultProps = {
   className: '',
+  fill: grey,
 }
 
 
