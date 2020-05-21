@@ -6,6 +6,8 @@
   height: 100%;
   overflow: hidden;
   z-index: 8;
+
+  display: none;
 }
 
 .loader,
@@ -23,6 +25,7 @@
 }
 
 .background {
+  opacity: 0;
   will-change: opacity;
 }
 
@@ -39,6 +42,7 @@
   border-bottom-right-radius: 0;
   box-shadow: -8px 0px 18px rgba(0, 0, 0, 0.14);
   will-change: transform;
+  transform: translateX(105%);
 
   @media (--sm) {
     left: auto;
@@ -55,11 +59,19 @@
   height: 100%;
   overflow-y: scroll;
   padding: var(--sp-8);
+  padding-left: calc(var(--sp-8) + 5);
   z-index: 2;
 
   > * {
     padding-bottom: calc(2 * var(--sp-10));
   }
+}
+
+.dragIndicator {
+  position: absolute;
+  bottom: 50%;
+  left: var(--bsu-sm);
+  transform: translateY(50%) translateY(calc(-0.5 * var(--button-height)));
 }
 
 .SidePanel__Header {

@@ -12,7 +12,18 @@
   padding-bottom: var(--sp-10);
   overflow: auto;
 
-  max-height: 720px;
+  /* Animation */
+  will-change: transform;
+  transform: scaleY(0);
+  transform-origin: center top;
+  @mixin mobileDevice {
+    transform-origin: right center;
+    transform: scaleX(0);
+  }
+
+  @media (--md) {
+    max-height: 720px;
+  }
 
   :global(a) {
     color: inherit;
@@ -22,6 +33,12 @@
   @media (--bmw) {
     border-radius: 0 0 var(--dialogue-radius) var(--dialogue-radius);
   }
+}
+
+.contents {
+  height: 100%;
+  opacity: 0;
+  will-change: opacity;
 }
 
 .inner {
@@ -63,9 +80,12 @@
 }
 
 .artistSelect {
+  padding: 0 var(--sp-5);
+  margin-bottom: var(--sp-12);
+
   @media (--md) {
     padding: 0;
-    max-width: 420px;
+    margin-bottom: 0;
   }
 }
 

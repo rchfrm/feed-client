@@ -38,10 +38,12 @@ body {
   align-items: flex-end;
   width: 100%;
 
-  padding-left: calc(2 * var(--sp-10) + var(--sp-5));
-
   > * {
     width: 100%;
+  }
+
+  @media (--md) {
+    padding-left: calc(2 * var(--sp-10) + var(--sp-5));
   }
 }
 

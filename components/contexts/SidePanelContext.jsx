@@ -28,6 +28,7 @@ const SidePanelContextProvider = ({ children }) => {
   const { query, pathname } = useRouter()
   const [pageQuery] = Object.keys(query)
   const closeSidePanel = () => {
+    setSidePanelLoading(false)
     // If there's no page query, then simply close
     if (!pageQuery) return setSidePanelOpen(false)
     // If there is a page query, then just remove it

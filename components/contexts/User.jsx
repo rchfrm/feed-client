@@ -74,7 +74,7 @@ function UserProvider({ children }) {
         track({
           category: 'login',
           action: 'store user',
-          description: `${error.response.status} ${error.message}`,
+          description: `${error.message}`,
           error: true,
         })
         setUserLoading(false)
