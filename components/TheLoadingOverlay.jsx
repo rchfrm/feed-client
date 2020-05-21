@@ -21,7 +21,7 @@ const TheLoadingOverlay = () => {
     // Only show spinner if loading page takes longer than 300ms
     const waitForLoad = setTimeout(() => {
       setGlobalLoading(true, true)
-    }, 250)
+    }, 500)
     return () => {
       clearTimeout(waitForLoad)
     }
