@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import brandColors from '../../constants/brandColors'
 
-const { grey } = brandColors
+const { black } = brandColors
 
 const PostsIcon = ({ className, fill }) => {
   return (
@@ -32,7 +32,7 @@ PostsIcon.propTypes = {
 
 PostsIcon.defaultProps = {
   className: '',
-  fill: grey,
+  fill: black,
 }
 
 

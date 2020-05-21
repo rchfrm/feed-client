@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import brandColors from '../../constants/brandColors'
 
-const { grey } = brandColors
+const { black } = brandColors
 
 const InsightsIcon = ({ className, fill }) => {
   return (
@@ -29,7 +29,7 @@ InsightsIcon.propTypes = {
 
 InsightsIcon.defaultProps = {
   className: '',
-  fill: grey,
+  fill: black,
 }
 
 
