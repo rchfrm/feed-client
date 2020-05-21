@@ -83,7 +83,7 @@
 
 @custom-media --xxsMax (width < 450px);
 @custom-media --xxs    (width >= 450px);
-@custom-media --min-content (width >= 520px);
+@custom-media --min-content (width >= 540px);
 @custom-media --xsMax  (width < 600px);
 @custom-media --xs     (width >= 600px);
 @custom-media --smMax  (width < 800px);

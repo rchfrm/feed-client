@@ -3,7 +3,12 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
+  padding-top: var(--sp-5);
   padding-bottom: var(--sp-10);
+
+  @media (--min-content) {
+    padding-top: 0;
+  }
 
   @media (--md) {
     padding-bottom: calc(var(--sp-10) + var(--sp-5));
@@ -24,10 +29,10 @@
 .logo,
 .subNavButton {
   position: fixed;
-  top: var(--sp-5);
+  top: var(--sp-8);
 
-  @media (--sm) {
-    top: var(--sp-8);
+  @media (--min-content) {
+    top: var(--sp-5);
   }
 
   @media (--md) {
@@ -96,6 +101,7 @@
     width: auto;
     padding-top: 0;
     padding-left: calc(var(--sp-10) + var(--sp-10) + var(--sp-5));
+    padding-right: var(--sp-16);
     transform: translateY(-0em);
   }
 
