@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { BillingContext } from './contexts/BillingContext'
 
-import styles from './AccountPage.module.css'
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/BudgetCopy'
 
