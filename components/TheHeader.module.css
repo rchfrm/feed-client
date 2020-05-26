@@ -26,6 +26,7 @@
   } */
 }
 
+.background,
 .logo,
 .subNavButton {
   position: fixed;
@@ -44,6 +45,7 @@
   }
 }
 
+.background,
 .logo {
   left: var(--sp-5);
   width: calc(var(--sp-10) / 0.82);
@@ -66,6 +68,38 @@
   @media (--bmw) {
     left: 50%;
     margin-left: calc((-0.5 * var(--bmw)) + var(--sp-10));
+  }
+}
+
+.background {
+  left: 0;
+  top: 0;
+  height: calc(((var(--sp-10) / 0.82) * 1) + var(--sp-5));
+  width: 100%;
+  z-index: 6;
+  background: color-mod(var(--bg-color) alpha(0.8));
+
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  &::after {
+    content: ' ';
+    position: absolute;
+    bottom: calc(-1 * var(--sp-4));
+    left: 0;
+    width: 100%;
+    height: var(--sp-4);
+    /* background: color-mod(var(--bg-color) alpha(0.8)); */
+    background-image: linear-gradient(to bottom, color-mod(var(--bg-color) alpha(0.8)) 0%, rgba(0,0,0,0) 100%);
+  }
+
+  @media (--md) {
+    height: calc(((var(--sp-10) / 0.82) * 1.2) + var(--sp-10));
+  }
+
+  @media (--bmw) {
+    left: 50%;
+    width: calc(var(--bmw) - var(--sp-20));
   }
 }
 

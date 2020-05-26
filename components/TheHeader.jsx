@@ -55,6 +55,8 @@ function TheHeader() {
 
   return (
     <header className={[styles.TheHeader, styles[headerClass]].join(' ')}>
+      {/* BG */}
+      <div className={[styles.background, styles.scrollHide].join(' ')} />
       {/* LOGO */}
       <a onClick={goHome} role="button" title="home">
         <FeedLogo className={styles.logo} style={{ opacity: logoOpacity }} textColor={logoTextColor} />
