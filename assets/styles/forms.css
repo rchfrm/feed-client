@@ -19,10 +19,6 @@ select {
   letter-spacing: 0.05em;
 }
 
-input[readonly] {
-  border-bottom: none;
-}
-
 .input--container {
   margin-bottom: var(--sp-8);
 
@@ -45,7 +41,19 @@ input[readonly] {
       }
     }
   }
+
+  /* Read only */
+  &._readOnly {
+    border-bottom: none;
+  }
+
+  /* Disabled */
+  &._disabled {
+    opacity: 0.3;
+  }
 }
+
+
 
 .inputLabel {
   display: block;

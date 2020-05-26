@@ -28,6 +28,9 @@ const Button = ({
   if (success) {
     classes.push('button--success')
   }
+  if (loading) {
+    classes.push('_loading')
+  }
 
   // Define wrapper type based on href or not
   const Wrapper = href ? 'a' : 'button'
@@ -48,8 +51,9 @@ const Button = ({
       rel={href ? rel : ''}
       style={style}
     >
+      {loading && <Spinner className="button--spinner" />}
       <span className="button--innerText">
-        {loading ? <Spinner className="button--spinner" /> : children}
+        {children}
       </span>
     </Wrapper>
   )

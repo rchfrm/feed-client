@@ -15,10 +15,12 @@ button {
 
 .button {
   display: flex;
-  font-family: var(--font);
+  position: relative;
   padding: 0;
   border: none;
   border-radius: var(--button-radius);
+
+  font-family: var(--font);
   font-size: 1.1em;
   text-decoration: none;
   
@@ -31,6 +33,10 @@ button {
 
   /* The spinner in a button */
   .button--spinner {
+    position: absolute;
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%);
     height: var(--sp-5);
     width: auto;
     svg {
@@ -45,6 +51,10 @@ button {
   justify-content: center;
   align-items: center;
   transform: translateY(-0.05em);
+
+  .button._loading & {
+    opacity: 0;
+  }
 }
 
 .button--black,

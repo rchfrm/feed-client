@@ -20,4 +20,11 @@ That's all we need from you.
 Your daily budget has been set to **${budget}** and **Feed** is promoting your posts.
 
 In a few hours, you'll be able to see how they're doing on the [Results page](${ROUTES.RESULTS})`,
+
+  paymentIntro: `## Payments
+
+Right now, the beta version of Feed is free to use! In future, you’ll be able to add payment details here.
+
+More details on **Feed's** pricing is [here](${ROUTES.PRICING})
+  `,
 }

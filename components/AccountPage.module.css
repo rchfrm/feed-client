@@ -18,6 +18,10 @@ DETAILS
   width: 100%;
 }
 
+.submitButton {
+  margin-top: var(--sp-20);
+}
+
 
 /* 
 **************************
