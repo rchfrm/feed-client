@@ -3,6 +3,10 @@
 .page-transition-enter-active,
 .page-transition-exit,
 .page-transition-exit-active {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: flex-end;
   width: 100%;
 
   & > * {
