@@ -223,7 +223,7 @@
 
 /* PROJECTION SENTENCE */
 .projectionContainer {
-  margin-top: var(--sp-10);
+  margin-top: var(--sp-24);
 
   @media (--xxs) {
     margin-top: var(--sp-32);
