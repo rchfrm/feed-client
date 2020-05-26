@@ -21,8 +21,8 @@ const getIcon = (icon, currency) => {
   if (icon === 'insights') return <InsightsIcon />
 }
 
-const ThePageButtonsIcon = ({ icon, className }) => {
-  const iconEl = getIcon(icon)
+const ThePageButtonsIcon = ({ icon, className, currency }) => {
+  const iconEl = getIcon(icon, currency.toLowerCase())
   return (
     <figure className={className}>
       {iconEl}
@@ -33,10 +33,12 @@ const ThePageButtonsIcon = ({ icon, className }) => {
 ThePageButtonsIcon.propTypes = {
   icon: PropTypes.string.isRequired,
   className: PropTypes.string,
+  currency: PropTypes.string,
 }
 
 ThePageButtonsIcon.defaultProps = {
   className: '',
+  currency: '',
 }
 
 

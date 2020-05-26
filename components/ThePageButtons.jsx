@@ -5,6 +5,8 @@ import * as ROUTES from '../constants/routes'
 import ThePageButtonsIcon from './ThePageButtonsIcon'
 import ActiveLink from './ActiveLink'
 
+import { ArtistContext } from './contexts/Artist'
+
 import useLoggedInTest from './hooks/useLoggedInTest'
 
 import styles from './ThePageButtons.module.css'
@@ -34,6 +36,14 @@ const links = [
 
 const ThePageButtons = () => {
   const isLoggedIn = useLoggedInTest()
+  // Get currency from artist
+  const { artist, artistId } = React.useContext(ArtistContext)
+  const [currency, setCurrency] = React.useState('')
+  React.useEffect(() => {
+    if (!artistId) return
+    const { currency } = artist
+    setCurrency(currency)
+  }, [artistId])
   // Don't show buttons if no logged in
   if (!isLoggedIn) return null
 
@@ -45,7 +55,7 @@ const ThePageButtons = () => {
             <div className={styles.link} key={icon}>
               <ActiveLink href={href} activeClass={styles._active}>
                 <a className={styles.linkAnchor}>
-                  <ThePageButtonsIcon icon={icon} className={styles.linkIcon} />
+                  <ThePageButtonsIcon icon={icon} className={styles.linkIcon} currency={currency} />
                   <p className={styles.linkTitle}>{ title }</p>
                 </a>
               </ActiveLink>
