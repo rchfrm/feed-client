@@ -3,12 +3,13 @@ import TestPageReady from '../../components/TestPageReady'
 import AccountPageLoader from '../../components/AccountPageLoader'
 
 const headerConfig = {
-  text: 'account',
+  text: 'account details',
 }
 
 const Page = () => (
   <BasePage
     headerConfig={headerConfig}
+    staticPage
   >
     <AccountPageLoader />
   </BasePage>
