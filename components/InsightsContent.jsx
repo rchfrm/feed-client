@@ -105,7 +105,6 @@ function InsightsContent() {
       {currentPlatform && currentDataSource && (
         <div
           className={[
-            'lg:grid gap-4 grid-cols-12',
             styles.dataContent,
           ].join(' ')}
         >

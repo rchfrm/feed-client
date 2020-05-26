@@ -98,9 +98,17 @@ function InsightsChartLoader({
 
   if (data === 'no-data') {
     return (
-      <div className={['breakout--width', styles.chartOuter].join(' ')}>
+      <div
+        className={[
+          'breakout--width',
+          'col-span-12',
+          'lg:grid gap-4 grid-cols-12',
+          styles.chartOuter,
+        ].join(' ')}
+      >
         <Error error={error} />
         <ChartBar
+          className={['col-span-12'].join(' ')}
           currentPlatform={currentPlatform}
           currentDataSource={currentDataSource}
           error

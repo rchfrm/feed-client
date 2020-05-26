@@ -44,29 +44,45 @@ const ChartContainer = ({
   return (
     <div
       className={[
-        'lg:col-span-10',
-        'bmw:col-span-8',
         styles.chartOuter, chartType === 'number' ? styles._numberChart : '',
       ].join(' ')}
     >
 
       {chartType === 'bar' && (
         <>
-          <div className="breakout--width">
+          <div
+            className={[
+              'breakout--width',
+              'col-span-12',
+              'lg:grid gap-4 grid-cols-12',
+            ].join(' ')}
+          >
             <ChartBar
+              className={[
+                'col-span-12',
+                'lg:col-span-6',
+                'bmw:col-span-7',
+              ].join(' ')}
               data={data}
               artistId={artistId}
               artistCurrency={artistCurrency}
               loading={loading}
             />
+            <InsightsProjection
+              className={[
+                'col-span-12',
+                'lg:col-span-5',
+                'lg:col-start-8',
+                'bmw:col-span-5',
+                'bmw:col-start-9',
+              ].join(' ')}
+              data={data}
+              artistId={artistId}
+              currentPlatform={currentPlatform}
+              currentDataSource={currentDataSource}
+              loading={loading}
+            />
           </div>
-          <InsightsProjection
-            data={data}
-            artistId={artistId}
-            currentPlatform={currentPlatform}
-            currentDataSource={currentDataSource}
-            loading={loading}
-          />
         </>
       )}
 

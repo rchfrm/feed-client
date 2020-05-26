@@ -88,6 +88,7 @@ const baseChartConfig = {
   },
 }
 function ChartBar({
+  className,
   data,
   artistId,
   loading,
@@ -133,14 +134,14 @@ function ChartBar({
   }
 
   // UPDATE CHART CLASSES BASED ON STATE
-  const [chartClasses, setChartClasses] = React.useState([])
+  const [chartClasses, setChartClasses] = React.useState([className])
   React.useEffect(() => {
     if (loading || error) {
-      setChartClasses([styles.chartContainer__bar, styles._loading])
+      setChartClasses([className, styles.chartContainer__bar, styles._loading])
       return
     }
-    setChartClasses([styles.chartContainer__bar])
-  }, [loading, error])
+    setChartClasses([className, styles.chartContainer__bar])
+  }, [loading, error, className])
 
   // UPDATE CHART BASED ON STATE
   React.useEffect(() => {
@@ -309,6 +310,7 @@ function ChartBar({
 export default ChartBar
 
 ChartBar.propTypes = {
+  className: PropTypes.string,
   data: PropTypes.object,
   artistId: PropTypes.string,
   loading: PropTypes.bool,
@@ -317,6 +319,7 @@ ChartBar.propTypes = {
 }
 
 ChartBar.defaultProps = {
+  className: '',
   data: {},
   artistId: '',
   loading: false,

@@ -224,9 +224,20 @@
 /* PROJECTION SENTENCE */
 .projectionContainer {
   margin-top: var(--sp-24);
+  margin-left: var(--sp-5);
+  margin-right: var(--sp-5);
 
   @media (--xxs) {
     margin-top: var(--sp-32);
+  }
+
+  @media (--sm) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  @media (--lg) {
+    margin-top: 0;
   }
 }
 
@@ -237,9 +248,5 @@
 
   @media (--xxs) {
     font-size: 1.2em;
-  }
-
-  @media (--xs) {
-    font-size: 1.333em;
   }
 }
