@@ -7,7 +7,6 @@ import * as ROUTES from '../constants/routes'
 import Button from './elements/Button'
 
 import AccountPageDetailsSummary from './AccountPageDetailsSummary'
-import AccountConnectionsSummary from './AccountConnectionsSummary'
 
 import styles from './AccountPage.module.css'
 
@@ -16,16 +15,6 @@ const getSection = ({ type, user, onReady }) => {
   if (type === 'details') {
     return (
       <AccountPageDetailsSummary
-        className={styles.accountPageSection__details}
-        user={user}
-        onReady={onReady}
-      />
-    )
-  }
-  // Get connections summary
-  if (type === 'connections') {
-    return (
-      <AccountConnectionsSummary
         className={styles.accountPageSection__details}
         user={user}
         onReady={onReady}
