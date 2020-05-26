@@ -2,6 +2,7 @@
 import React from 'react'
 // IMPORT COMPONENTS
 import BudgetConfirmation from './BudgetConfirmation'
+import PaymentSummary from './PaymentSummary'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
@@ -175,6 +176,8 @@ function BudgetContent({ currency }) {
         <Error error={error} />
 
       </div>
+
+      <PaymentSummary />
     </div>
   )
 }
