@@ -291,7 +291,7 @@ function ChartBar({
           }}
           options={chartOptions}
           width={75}
-          height={50}
+          height={error ? 25 : 50}
         />
       </div>
       {/* THE OVERLAY */}
