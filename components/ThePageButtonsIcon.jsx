@@ -8,9 +8,11 @@ import PostsIcon from './icons/PostsIcon'
 import ResultsIcon from './icons/ResultsIcon'
 import InsightsIcon from './icons/InsightsIcon'
 
+import styles from './ThePageButtons.module.css'
+
 const getCurrencyIcon = (icon, currency) => {
-  if (currency === 'gbp') return <BudgetPoundIcon />
-  if (currency === 'eur') return <BudgetEuroIcon />
+  if (currency === 'gbp') return <BudgetPoundIcon className={styles.shortIcon} />
+  if (currency === 'eur') return <BudgetEuroIcon className={styles.shortIcon} />
   return <BudgetDollarIcon />
 }
 

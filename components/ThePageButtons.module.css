@@ -110,8 +110,12 @@
 
 
 .linkIcon {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
   margin: 0 auto;
   width: 1.8em;
+  height: 1.8em;
   margin-bottom: 0.5em;
   margin-top: 0.2em;
 
@@ -120,6 +124,10 @@
 
   .linkAnchor._active & {
     opacity: 1;
+  }
+
+  .shortIcon {
+    width: 94%;
   }
   
   svg {
