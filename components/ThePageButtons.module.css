@@ -13,16 +13,16 @@
 
   @media (--md) {
     bottom: 50%;
-    left: var(--sp-10);
+    left: var(--sp-5);
     left: 0;
     width: auto;
     transform: translateY(50%) translateY(51px); /* header height / 2 */
     border-top: none;
     background-color: none;
-    box-shadow: 2px 0px 16px rgba(0, 0, 0, 0.07);
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.07);
     padding: var(--sp-5) 0;
-    padding-left: var(--sp-5);
-    padding-right: var(--sp-5);
+    padding-left: var(--sp-3);
+    padding-right: var(--sp-3);
     border-radius: var(--dialogue-radius);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -71,7 +71,6 @@
     margin: var(--sp-5) 0;
     padding: 0;
     width: calc(var(--sp-10) * 1.2);
-    font-size: 14px;
 
     &:first-child {
       margin-top: 0;
@@ -113,7 +112,7 @@
     opacity: 1;
   }
   
-  :global(svg) {
+  svg {
     width: 100%;
     height: auto;
   }
@@ -121,12 +120,6 @@
   @media (--md) {
     margin-top: 0;
   }
-
-  /* @mixin canHover {
-    .linkAnchor:hover & {
-      opacity: 1;
-    }
-  } */
 }
 
 .linkTitle {
