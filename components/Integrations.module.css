@@ -36,7 +36,7 @@ CONNECTIONS
 .integration-platform-icon {
   padding-left: 10px;
 
-  :global(svg) {
+  svg {
     width: var(--sp-5);
     height: auto;
   }
@@ -52,14 +52,14 @@ CONNECTIONS
   overflow: hidden;
   line-height: 1;
 
-  :global(a) {
+  a {
     display: inline-block;
     padding-top: 0.1em;
     padding-bottom: 0.4em;
   }
   
-  :global(.input),
-  :global(.input--container) {
+  .input,
+  .input--container {
     margin: 0;
   }
 }
