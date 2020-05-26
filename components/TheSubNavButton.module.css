@@ -43,7 +43,7 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 
-  :global(svg) {
+  svg {
     width: 100%;
     height: auto;
   }
@@ -52,9 +52,15 @@
 .backIcon {
   border: 2px solid var(--bg-color);
   transform: rotateY(180deg);
+  background: var(--text-color);
 }
 
 .backIcon_inner {
-  width: 80%;
-  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    width: 80%;
+    height: auto;
+  }
 }
