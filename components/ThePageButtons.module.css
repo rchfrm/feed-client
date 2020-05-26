@@ -11,6 +11,14 @@
   background-color: var(--bg-color);
   box-shadow: 0px -2px 16px rgba(0, 0, 0, 0.07);
 
+  transition: transform var(--trans), opacity var(--trans);
+
+  &._artistLoading {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
   @media (--md) {
     bottom: 50%;
     left: var(--sp-5);
@@ -28,6 +36,10 @@
     border-bottom-left-radius: 0;
     border: 2px solid var(--green);
     border-left: none;
+
+    &._artistLoading {
+      transform: translateX(-100%) translateY(50%) translateY(51px); /* header height / 2 */
+    }
   }
 
   /* @media (--bmw) {

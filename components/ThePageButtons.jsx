@@ -37,7 +37,7 @@ const links = [
 const ThePageButtons = () => {
   const isLoggedIn = useLoggedInTest()
   // Get currency from artist
-  const { artist, artistId } = React.useContext(ArtistContext)
+  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
   const [currency, setCurrency] = React.useState('')
   React.useEffect(() => {
     if (!artistId) return
@@ -48,7 +48,7 @@ const ThePageButtons = () => {
   if (!isLoggedIn) return null
 
   return (
-    <div className={styles.container}>
+    <div className={[styles.container, artistLoading ? styles._artistLoading : ''].join(' ')}>
       <nav className={styles.inner}>
         {links.map(({ href, title, icon }) => {
           return (
