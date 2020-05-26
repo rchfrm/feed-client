@@ -72,7 +72,7 @@
 .subNavButton {
   right: var(--sp-5);
   width: var(--sp-10);
-  z-index: 6;
+  z-index: 7;
 
   @media (--sm) {
     right: var(--sp-8);

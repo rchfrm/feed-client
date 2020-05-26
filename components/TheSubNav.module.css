@@ -2,7 +2,7 @@
 
 .container {
   top: 0;
-  z-index: 5;
+  z-index: 6;
 
   font-family: var(--font-display);
   background: var(--text-color);
