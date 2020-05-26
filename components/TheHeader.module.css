@@ -29,7 +29,7 @@
 .logo,
 .subNavButton {
   position: fixed;
-  top: var(--sp-8);
+  top: var(--sp-5);
 
   @media (--min-content) {
     top: var(--sp-5);
@@ -94,7 +94,7 @@
   position: relative;
   width: 100%;
   order: 2;
-  padding-top: calc(var(--sp-8) + var(--sp-10));
+  padding-top: calc(var(--sp-5) + var(--sp-10));
   z-index: 1;
 
   @media (--min-content) {
