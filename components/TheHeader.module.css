@@ -12,18 +12,12 @@
 
   @media (--md) {
     padding-bottom: calc(var(--sp-10) + var(--sp-5));
+    margin-top: calc(-1 * var(--sp-5));
   }
 
   &.navOn {
 
   }
-
-  /* @media (--bmw) {
-    position: fixed;
-    width: var(--bmw);
-    left: 50%;
-    margin-left: calc(-0.5 * var(--bmw));
-  } */
 }
 
 .background,
@@ -55,20 +49,19 @@
     width: 100%;
     height: auto;
   }
+}
 
-  @media (--sm) {
-    left: var(--sp-8);
-  }
-
+.logo {
   @media (--md) {
-    left: var(--sp-10);
-    width: calc((var(--sp-10) / 0.82) * 1.2);
+    left: var(--sp-5);
+    top: var(--sp-5);
   }
+}
 
-  @media (--bmw) {
-    left: 50%;
-    margin-left: calc((-0.5 * var(--bmw)) + var(--sp-10));
-  }
+.wordmark {
+  width: calc((var(--sp-10) / 0.82) / var(--logo-wordmark-ratio));
+  height: auto;
+  top: var(--sp-5);
 }
 
 .background {
@@ -94,12 +87,7 @@
   }
 
   @media (--md) {
-    height: calc(((var(--sp-10) / 0.82) * 1.2) + var(--sp-10));
-  }
-
-  @media (--bmw) {
-    left: 50%;
-    width: calc(var(--bmw) - var(--sp-20));
+    display: none;
   }
 }
 
@@ -113,13 +101,10 @@
   }
 
   @media (--md) {
-    right: var(--sp-10);
-    width: calc(var(--sp-10) * 1.2);
-  }
-
-  @media (--bmw) {
-    right: 50%;
-    margin-right: calc((-0.5 * var(--bmw)) + var(--sp-10));
+    left: var(--sp-5);
+    top: auto;
+    bottom: var(--sp-5);
+    width: var(--sp-10);
   }
 }
 

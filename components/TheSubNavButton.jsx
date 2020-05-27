@@ -44,6 +44,7 @@ const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
           </div>
         </div>
       </div>
+      <styles className={styles.buttonTitle}>menu</styles>
     </button>
   )
 }
