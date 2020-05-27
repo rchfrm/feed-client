@@ -181,7 +181,22 @@ const getClosestDate = (dailyDataSeconds, targetDate) => {
   return moment.unix(date)
 }
 
+const getFirstMoment = (dailyDataMoments, dailyDataSeconds, granularity) => {
+  const earliestDate = dailyDataMoments[0]
+  const earliestMoment = moment(earliestDate)
+  // If monthly or yearly grain, get last date of period
+  if (granularity === 'months' || granularity === 'years') {
+    const endPeriodType = granularity === 'months' ? 'month' : 'year'
+    const endOfPeriod = earliestMoment.endOf(endPeriodType)
+    const closestMoment = getClosestDate(dailyDataSeconds, endOfPeriod.unix())
+    return closestMoment
+  }
+  // Else just return the earliest moment
+  return earliestMoment
+}
+
 export const getPeriodDates = (data, granularity) => {
+  console.log('granularity', granularity)
   const { dailyData, mostRecent: { date: lastDate } } = data
   // Create array of momments that correspond to daily data dates
   const dailyDataMoments = Object.keys(dailyData).map((date) => {
@@ -189,6 +204,8 @@ export const getPeriodDates = (data, granularity) => {
   })
   // Create an array of these momements, but in seconds
   const dailyDataSeconds = dailyDataMoments.map((day) => day.unix())
+  // Get moment of first date
+  const firstMoment = getFirstMoment(dailyDataMoments, dailyDataSeconds, granularity)
   // Get moment of last date of data
   const lastMoment = moment(lastDate, 'YYYY-MM-DD')
   // CREATE REDUCED ARRAY OF MOMENTS, SPACED BY GRANULARITY
