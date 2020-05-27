@@ -85,10 +85,10 @@
   &::after {
     content: ' ';
     position: absolute;
-    bottom: calc(-1 * var(--sp-4));
+    bottom: calc(-1 * var(--sp-2));
     left: 0;
     width: 100%;
-    height: var(--sp-4);
+    height: var(--sp-2);
     /* background: color-mod(var(--bg-color) alpha(0.8)); */
     background-image: linear-gradient(to bottom, color-mod(var(--bg-color) alpha(0.8)) 0%, rgba(0,0,0,0) 100%);
   }
