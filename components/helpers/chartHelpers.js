@@ -209,11 +209,18 @@ export const getPeriodDates = (data, granularity) => {
   }, [])
   // Convert the moments to dates and return
   const periodDates = periodMoments.map((period) => period.format('YYYY-MM-DD'))
+  // Add last most recent data point to the end
+  const lastPeriodDate = periodDates[periodDates.length - 1]
+  if (lastDate !== lastPeriodDate) {
+    periodDates.push(lastDate)
+  }
+  // Return dates
   return periodDates
 }
 
 // CREATE ARRAY OF PERIOD LABELS
 export const getPeriodLabels = (granularity, periodDates) => {
+  console.log('periodDates', periodDates)
   return periodDates.map((date) => {
     const labelFormat = granularity === 'months' ? 'MMM' : 'DD MMM'
     const dateMoment = moment(date, 'YYYY-MM-DD')
