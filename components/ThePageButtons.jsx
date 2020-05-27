@@ -42,7 +42,7 @@ const ThePageButtons = () => {
   React.useEffect(() => {
     if (!artistId) return
     const { currency } = artist
-    setCurrency(currency)
+    setCurrency(currency || '')
   }, [artistId])
   // Don't show buttons if no logged in
   if (!isLoggedIn) return null
