@@ -13,14 +13,14 @@ import styles from './ThePageButtons.module.css'
 
 const links = [
   {
-    href: ROUTES.BUDGET,
-    title: 'budget',
-    icon: 'budget',
-  },
-  {
     href: ROUTES.POSTS,
     title: 'posts',
     icon: 'posts',
+  },
+  {
+    href: ROUTES.BUDGET,
+    title: 'budget',
+    icon: 'budget',
   },
   {
     href: ROUTES.RESULTS,
