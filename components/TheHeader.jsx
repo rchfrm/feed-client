@@ -58,7 +58,7 @@ function TheHeader() {
       {/* BG */}
       <div className={[styles.background, styles.scrollHide].join(' ')} />
       {/* LOGO */}
-      <a onClick={goHome} role="button" title="home">
+      <a onClick={goHome} role="button" title="home" className={styles.scrollHide}>
         <FeedLogo className={styles.logo} style={{ opacity: logoOpacity }} textColor={logoTextColor} />
       </a>
       {/* Page Header */}
@@ -68,7 +68,7 @@ function TheHeader() {
         <TheSubNavButton
           toggleSubNav={toggleSubNav}
           navOpen={subNavOpen}
-          className={styles.subNavButton}
+          className={[styles.subNavButton, styles.scrollHide].join(' ')}
         />
       )}
       {/* THE SUBNAV */}
