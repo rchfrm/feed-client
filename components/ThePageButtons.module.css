@@ -5,7 +5,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: ;
+  z-index: 13;
 
   border-top: 1px solid var(--green);
   background-color: var(--bg-color);
@@ -31,11 +31,7 @@
     border-top: none;
     border-right: 2px solid var(--green);
     padding-top: var(--sp-32);
-  }
-
-  @media (--lg) {
-    padding-left: var(--sp-5);
-    padding-right: calc(var(--sp-10) + var(--sp-2));
+    will-change: transform, opacity;
   }
 }
 

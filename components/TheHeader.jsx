@@ -58,8 +58,18 @@ function TheHeader() {
       {/* BG */}
       <div className={[styles.background, styles.scrollHide].join(' ')} />
       {/* LOGO */}
-      <a onClick={goHome} role="button" title="home" className={styles.scrollHide}>
-        <FeedLogo className={styles.logo} style={{ opacity: logoOpacity }} textColor={logoTextColor} />
+      <a
+        id="TheLogo"
+        onClick={goHome}
+        role="button"
+        title="home"
+        className={[styles.logoContainer, styles.scrollHide].join(' ')}
+      >
+        <FeedLogo
+          className={styles.logo}
+          style={{ opacity: logoOpacity }}
+          textColor={logoTextColor}
+        />
       </a>
       {/* Page Header */}
       <PageHeader className={styles.pageTitle} />

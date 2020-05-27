@@ -57,7 +57,6 @@ body {
     padding: var(--sp-10);
   }
 
-
   &._fixed {
     position: fixed;
     left: 0;

@@ -48,7 +48,10 @@ const ThePageButtons = () => {
   if (!isLoggedIn) return null
 
   return (
-    <div className={[styles.container, artistLoading ? styles._artistLoading : ''].join(' ')}>
+    <div
+      id="ThePageButtons"
+      className={[styles.container, artistLoading ? styles._artistLoading : ''].join(' ')}
+    >
       <nav className={styles.inner}>
         {links.map(({ href, title, icon }) => {
           return (

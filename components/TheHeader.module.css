@@ -20,11 +20,13 @@
   }
 }
 
+
 .background,
-.logo,
+.logoContainer,
 .subNavButton {
   position: fixed;
   top: var(--sp-5);
+  z-index: 7;
 
   @media (--min-content) {
     top: var(--sp-5);
@@ -40,10 +42,13 @@
 }
 
 .background,
-.logo {
+.logoContainer {
   left: var(--sp-5);
   width: calc(var(--sp-10) / 0.82);
-  z-index: 11;
+
+  .logo {
+    width: 100%;
+  }
 
   svg {
     width: 100%;
@@ -51,17 +56,15 @@
   }
 }
 
-.logo {
+
+.logoContainer {
+  display: block;
+  z-index: 21;
+
   @media (--md) {
     left: var(--sp-5);
     top: var(--sp-5);
   }
-}
-
-.wordmark {
-  width: calc((var(--sp-10) / 0.82) / var(--logo-wordmark-ratio));
-  height: auto;
-  top: var(--sp-5);
 }
 
 .background {
@@ -94,7 +97,7 @@
 .subNavButton {
   right: var(--sp-5);
   width: var(--sp-10);
-  z-index: 7;
+  z-index: 15;
 
   @media (--sm) {
     right: var(--sp-8);
@@ -105,6 +108,7 @@
     top: auto;
     bottom: var(--sp-5);
     width: var(--sp-10);
+    z-index: 16;
   }
 }
 

@@ -49,7 +49,7 @@ const TheLoadingOverlay = () => {
       addEndListener={() => setIsAnimating(false)}
       unmountOnExit
     >
-      <Div100vh id="TheLoadingOverlay" className="fixed top-0 left-0 z-10 flex items-center justify-center w-full bg-white opacity-0">
+      <Div100vh id="TheLoadingOverlay" className="fixed top-0 left-0 z-20 flex items-center justify-center w-full bg-white opacity-0">
         <Spinner className={['transition', 'ease-in', 'duration-300', 'transition-opacity', spinnerClass].join(' ')} />
       </Div100vh>
     </FadeInOut>

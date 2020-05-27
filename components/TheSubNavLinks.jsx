@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import SignOutLink from './SignOutLink'
 import ActiveLink from './ActiveLink'
 
 import * as ROUTES from '../constants/routes'
@@ -43,6 +44,9 @@ const TheSubNavLinks = ({ className }) => {
               </li>
             )
           })}
+          <li className={[styles.linkItem, styles.signOutLink_desktop].join(' ')}>
+            <SignOutLink />
+          </li>
         </ul>
       </nav>
     </>

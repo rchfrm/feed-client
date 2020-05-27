@@ -69,6 +69,7 @@
   font-size: 12px;
   padding-top: 0.5em;
   display: none;
+  margin-bottom: 0;
   
   @media (--md) {
     display: block;
