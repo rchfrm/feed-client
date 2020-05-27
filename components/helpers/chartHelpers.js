@@ -195,8 +195,34 @@ const getFirstMoment = (dailyDataMoments, dailyDataSeconds, granularity) => {
   return earliestMoment
 }
 
-export const getPeriodDates = (data, granularity) => {
-  console.log('granularity', granularity)
+const getNextMoment = (firstMoment, lastMoment, granularity, dailyDataSeconds) => (momentsArray, previousMoment, i, resolve) => {
+  const nextMoment = firstMoment.clone().add(i, granularity)
+  // Stop here if gone beyond date range
+  if (nextMoment.isAfter(lastMoment)) {
+    resolve(momentsArray)
+    return
+  }
+  const newMomentsArray = [...momentsArray]
+  let newPreviousMoment = previousMoment.clone()
+  // Find the closest date in the data to the modified date
+  const closestMoment = getClosestDate(dailyDataSeconds, nextMoment.unix())
+  // If closest date is not too close, add it to array
+  const granularityDifference = closestMoment.diff(newPreviousMoment, granularity, true)
+  if (granularityDifference >= 0.9) {
+    newMomentsArray.push(closestMoment)
+    newPreviousMoment = closestMoment
+  }
+  // Self-invoke to continue
+  getNextMoment(firstMoment, lastMoment, granularity, dailyDataSeconds)(newMomentsArray, newPreviousMoment, i += 1, resolve)
+}
+
+const buildMomentsArray = (firstMoment, lastMoment, granularity, dailyDataSeconds) => {
+  return new Promise((resolve) => {
+    getNextMoment(firstMoment, lastMoment, granularity, dailyDataSeconds)([firstMoment], firstMoment, 1, resolve)
+  })
+}
+
+export const getPeriodDates = async (data, granularity) => {
   const { dailyData, mostRecent: { date: lastDate } } = data
   // Create array of momments that correspond to daily data dates
   const dailyDataMoments = Object.keys(dailyData).map((date) => {
@@ -208,28 +234,23 @@ export const getPeriodDates = (data, granularity) => {
   const firstMoment = getFirstMoment(dailyDataMoments, dailyDataSeconds, granularity)
   // Get moment of last date of data
   const lastMoment = moment(lastDate, 'YYYY-MM-DD')
-  // CREATE REDUCED ARRAY OF MOMENTS, SPACED BY GRANULARITY
-  const periodMoments = dailyDataMoments.reduce((moments, moment, index) => {
-    // First date: just return the date
-    if (index === 0) return [...moments, moment]
-    // Add period of granularity...
-    const adjustedMoment = moment.add(1, granularity)
-    // If modified date is beyond the date range of the data, just return array
-    if (adjustedMoment.isAfter(lastMoment)) return moments
-    // Find the closest date in the data to the modified date
-    const closestMoment = getClosestDate(dailyDataSeconds, adjustedMoment.unix())
-    // If closest date is too close, ignore it
-    const previousMoment = moments[moments.length - 1]
-    if (closestMoment.diff(previousMoment, granularity) < 1) return moments
-    // Else add the date to the array
-    return [...moments, closestMoment]
-  }, [])
+  // CREATE ARRAY OF MOMENTS, SPACED BY GRANULARITY
+  const periodMoments = await buildMomentsArray(firstMoment, lastMoment, granularity, dailyDataSeconds)
   // Convert the moments to dates and return
   const periodDates = periodMoments.map((period) => period.format('YYYY-MM-DD'))
   // Add last most recent data point to the end
-  const lastPeriodDate = periodDates[periodDates.length - 1]
+  const lastDateIndex = periodMoments.length - 1
+  const lastPeriodMoment = periodMoments[lastDateIndex]
+  const lastPeriodDate = periodDates[lastDateIndex]
   if (lastDate !== lastPeriodDate) {
-    periodDates.push(lastDate)
+    const timeDifference = lastMoment.diff(lastPeriodMoment, granularity, true)
+    // If last date is too close to last data point, replace it
+    if (timeDifference < 0.5) {
+      periodDates[lastDateIndex] = lastPeriodDate
+    // Else add to the end
+    } else {
+      periodDates.push(lastDate)
+    }
   }
   // Return dates
   return periodDates
@@ -237,7 +258,6 @@ export const getPeriodDates = (data, granularity) => {
 
 // CREATE ARRAY OF PERIOD LABELS
 export const getPeriodLabels = (granularity, periodDates) => {
-  console.log('periodDates', periodDates)
   return periodDates.map((date) => {
     const labelFormat = granularity === 'months' ? 'MMM' : 'DD MMM'
     const dateMoment = moment(date, 'YYYY-MM-DD')

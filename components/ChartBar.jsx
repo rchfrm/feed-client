@@ -2,6 +2,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useAsyncEffect from 'use-async-effect'
+
 import produce from 'immer'
 import tinycolor from 'tinycolor2'
 import moment from 'moment'
@@ -144,7 +146,7 @@ function ChartBar({
   }, [loading, error, className])
 
   // UPDATE CHART BASED ON STATE
-  React.useEffect(() => {
+  useAsyncEffect(async () => {
     // Handle loading
     if (loading || error) {
       showPlaceholder(loading)
@@ -160,7 +162,7 @@ function ChartBar({
     const granularity = chartHelpers.calcGranularity(earliestMoment, latestMoment)
     // Cycle through from start to end dates, adding
     // each period to the labels and dates array
-    const periodDates = chartHelpers.getPeriodDates(data, granularity)
+    const periodDates = await chartHelpers.getPeriodDates(data, granularity)
     // Cycle through the dates and add the relevant labels
     const periodLabels = chartHelpers.getPeriodLabels(granularity, periodDates)
     setDateLabels(periodLabels)
