@@ -2,6 +2,7 @@ import React from 'react'
 
 import { gsap, Power1, Power2 } from 'gsap'
 import { Transition } from 'react-transition-group'
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
 import Div100vh from 'react-div-100vh'
 
@@ -145,6 +146,18 @@ const TheSubNav = ({ show, setShow }) => {
     reset: () => animateContainer(true),
     disableCondition: !isMobile.current || animationType.current === 'desktop',
   })
+
+  // TOGGLE BODY SCROLL
+  React.useEffect(() => {
+    // Disable for desktops
+    if (!isMobile.current) return
+    const scrollEl = document.getElementById('TheSubNav')
+    if (show) {
+      disableBodyScroll(scrollEl)
+    } else {
+      enableBodyScroll(scrollEl)
+    }
+  }, [show])
 
   return (
     <Transition
