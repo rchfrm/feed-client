@@ -6,11 +6,11 @@ import Link from 'next/link'
 import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Input from './elements/Input'
 import Button from './elements/Button'
 import Error from './elements/Error'
-import Spinner from './elements/Spinner'
 
 import * as ROUTES from '../constants/routes'
 
@@ -24,9 +24,9 @@ function LoginWithEmail({ className }) {
   const { emailLogin } = React.useContext(AuthContext)
   const { storeUser, userError } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
-
+  // GLOBAL LOADING
+  const { setGlobalLoading } = React.useContext(InterfaceContext)
   // DEFINE PAGE STATE
-  const [pageLoading, setPageLoading] = React.useState(false)
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [error, setError] = React.useState(null)
@@ -51,12 +51,12 @@ function LoginWithEmail({ className }) {
   const onFormSubmit = async e => {
     e.preventDefault()
     setError(null)
-    setPageLoading(true)
+    setGlobalLoading(true)
 
     // Login with email
     const { loginError, tokenError } = await emailLogin(email, password)
     if (loginError) {
-      setPageLoading(false)
+      setGlobalLoading(false)
       setEmail('')
       setPassword('')
       setError(loginError)
@@ -78,7 +78,7 @@ function LoginWithEmail({ className }) {
     }
     const user = await storeUser()
       .catch((err) => {
-        setPageLoading(false)
+        setGlobalLoading(false)
         setEmail('')
         setPassword('')
         setError(err)
@@ -107,13 +107,6 @@ function LoginWithEmail({ className }) {
         action: 'Logged in via password, with no artists',
       })
     }
-  }
-  // END HANDLE CLICK ON LOG IN BUTTON
-
-  if (pageLoading) {
-    return (
-      <Spinner />
-    )
   }
 
   return (

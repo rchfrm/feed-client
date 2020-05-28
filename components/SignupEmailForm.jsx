@@ -5,8 +5,8 @@ import { useImmerReducer } from 'use-immer'
 
 import { AuthContext } from './contexts/Auth'
 import { UserContext } from './contexts/User'
+import { InterfaceContext } from './contexts/InterfaceContext'
 
-import Spinner from './elements/Spinner'
 import Input from './elements/Input'
 import Button from './elements/Button'
 import Error from './elements/Error'
@@ -40,12 +40,13 @@ const reducer = (draftState, action) => {
 const scrollTop = () => window.scrollTo(0, 0)
 
 const SignupEmailForm = () => {
-  const [pageLoading, setPageLoading] = React.useState(false)
   // Define component state
   const [error, setError] = React.useState(null)
   // Get contexts
   const { signUp } = React.useContext(AuthContext)
   const { createUser } = React.useContext(UserContext)
+  // GLOBAL LOADING
+  const { setGlobalLoading } = React.useContext(InterfaceContext)
   // Define form state
   const initialSignupState = {
     email: '',
@@ -124,7 +125,7 @@ const SignupEmailForm = () => {
     // Stop here if not complete
     if (!formComplete) return
     const { email, passwordOne, firstName, lastName } = signupDetails
-    setPageLoading(true)
+    setGlobalLoading(true)
 
     track({
       category: 'sign up',
@@ -138,7 +139,7 @@ const SignupEmailForm = () => {
       .catch((error) => {
         setError(error)
         scrollTop()
-        setPageLoading(false)
+        setGlobalLoading(false)
         track({
           category: 'sign up',
           action: 'signUp() with email failed',
@@ -152,7 +153,7 @@ const SignupEmailForm = () => {
       .catch((error) => {
         setError(error)
         scrollTop()
-        setPageLoading(false)
+        setGlobalLoading(false)
         track({
           category: 'sign up',
           action: 'createUser() with email failed',
@@ -173,12 +174,6 @@ const SignupEmailForm = () => {
       label: user.id,
     })
     Router.push(ROUTES.SIGN_UP_CONTINUE)
-  }
-
-  if (pageLoading) {
-    return (
-      <Spinner />
-    )
   }
 
   return (
