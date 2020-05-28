@@ -7,6 +7,8 @@ import useLoggedInTest from './hooks/useLoggedInTest'
 // IMPORT ELEMENTS
 import Feed from './elements/Feed'
 
+import styles from './TheFooter.module.css'
+
 // GET CURRENT YEAR
 const thisYear = new Date().getFullYear()
 
@@ -14,7 +16,7 @@ const Footer = () => {
   const isLoggedIn = useLoggedInTest()
 
   return (
-    <footer className={['TheFooter', isLoggedIn ? '_loggedIn' : ''].join(' ')}>
+    <footer className={[styles.TheFooter, styles.isLoggedIn ? '_loggedIn' : ''].join(' ')}>
       {!isLoggedIn && (
         <TheFooterLinks />
       )}
