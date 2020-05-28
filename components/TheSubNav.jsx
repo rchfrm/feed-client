@@ -48,21 +48,16 @@ const TheSubNav = ({ show, setShow }) => {
   // Panel animation
   const animateContainer = React.useCallback((state) => {
     const target = document.getElementById('TheSubNav')
-    const { height, width: navWidth } = target.getBoundingClientRect()
-    const windowHeight = window.innerHeight
+    const { width: navWidth } = target.getBoundingClientRect()
     const { scaleX } = getScales(state)
     const xPercent = animationType.current === 'desktop' && !state ? -100 : 0
     const ease = Power2.easeOut
     const duration = state ? 0.4 : 0.3
     // Animate page buttons
-    console.log('animationType.current', animationType.current)
     if (animationType.current === 'desktop') {
-      console.log('mobe buttons')
       const ThePageButtons = document.getElementById('ThePageButtons')
       const TheLogo = document.getElementById('TheLogo')
       const TheSubNavButton = document.getElementById('TheSubNavButton')
-      console.log('state', state)
-      console.log('navWidth', navWidth)
       const xMove = state ? navWidth : 0
       gsap.to([ThePageButtons, TheLogo, TheSubNavButton], { x: xMove, duration, ease })
     }
