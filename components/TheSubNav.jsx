@@ -134,7 +134,7 @@ const TheSubNav = ({ show, setShow }) => {
     touchTargetId: 'TheSubNav__contents',
     hide: () => setShow(false),
     reset: () => animateContainer(true),
-    disableCondition: !isMobile.current,
+    disableCondition: !isMobile.current || animationType.current === 'desktop',
   })
 
   return (
