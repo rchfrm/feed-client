@@ -53,13 +53,19 @@ const TheSubNav = ({ show, setShow }) => {
     const xPercent = animationType.current === 'desktop' && !state ? -100 : 0
     const ease = Power2.easeOut
     const duration = state ? 0.4 : 0.3
-    // Animate page buttons
+    // Desktop extra animtations
     if (animationType.current === 'desktop') {
+      // Animate page buttons
       const ThePageButtons = document.getElementById('ThePageButtons')
       const TheLogo = document.getElementById('TheLogo')
       const TheSubNavButton = document.getElementById('TheSubNavButton')
       const xMove = state ? navWidth : 0
       gsap.to([ThePageButtons, TheLogo, TheSubNavButton], { x: xMove, duration, ease })
+      // Fade in sub nav background
+      const TheSubNavBackground = document.getElementById('TheSubNavBackground')
+      TheSubNavBackground.style.display = 'block'
+      const bgOpacity = state ? 1 : 0
+      gsap.to(TheSubNavBackground, { opacity: bgOpacity, duration, ease })
     }
     // Animate container
     return gsap.to(target, { scaleX, x: 0, y: 0, xPercent, duration, ease })
@@ -79,8 +85,13 @@ const TheSubNav = ({ show, setShow }) => {
       const ThePageButtons = document.getElementById('ThePageButtons')
       const TheLogo = document.getElementById('TheLogo')
       const TheSubNavButton = document.getElementById('TheSubNavButton')
+      const TheSubNavBackground = document.getElementById('TheSubNavBackground')
+      // Reset the subnav
       gsap.set(TheSubNav, { x: 0, scaleX: 1, scaleY: 1, xPercent: -100 })
+      // Hide the subnav background
+      TheSubNavBackground.style.display = 'none'
       if (!ThePageButtons || !TheLogo || !TheSubNavButton) return
+      // Reset the side bar
       gsap.set([ThePageButtons, TheLogo, TheSubNavButton], { x: 0 })
       return
     }
@@ -99,8 +110,8 @@ const TheSubNav = ({ show, setShow }) => {
       const delay = firstAnimationDuration * 0.8
       const secondAnimation = state ? animateContents(state, delay) : animateContainer(state)
       secondAnimation.then(() => {
+        // Reset props after hidden animation
         if (!state) {
-          // Reset props
           resetEls()
         }
         resolve()
@@ -143,25 +154,35 @@ const TheSubNav = ({ show, setShow }) => {
       }}
       appear
     >
-      <Div100vh
-        id="TheSubNav"
-        className={['page--content', styles.container].join(' ')}
-      >
-        <div
-          id="TheSubNav__contents"
-          className={styles.contents}
-          ref={contentsEl}
-          {...dragBind()}
+      <>
+        <Div100vh
+          id="TheSubNav"
+          className={['page--content', styles.container].join(' ')}
         >
-          <div className={[styles.inner].join(' ')}>
-            <TheSubNavLinks />
-            <TheSubNavArtists />
+          <div
+            id="TheSubNav__contents"
+            className={styles.contents}
+            ref={contentsEl}
+            {...dragBind()}
+          >
+            <div className={[styles.inner].join(' ')}>
+              <TheSubNavLinks />
+              <TheSubNavArtists />
+            </div>
+            <p className={styles.signOutLink_mobile}>
+              <SignOutLink />
+            </p>
           </div>
-          <p className={styles.signOutLink_mobile}>
-            <SignOutLink />
-          </p>
-        </div>
-      </Div100vh>
+        </Div100vh>
+        {/* The BG */}
+        <div
+          id="TheSubNavBackground"
+          className={styles.background}
+          role="button"
+          aria-label="Close navigation"
+          onClick={() => setShow(false)}
+        />
+      </>
     </Transition>
   )
 }
