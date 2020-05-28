@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
+import { ArtistContext } from './contexts/Artist'
 import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import MarkdownText from './elements/MarkdownText'
@@ -32,6 +33,13 @@ const BasePage = ({
       setGlobalLoading(false)
     }
   }, [])
+  // Turn off global loading when artist finishes loading
+  const { artistLoading } = React.useContext(ArtistContext)
+  React.useEffect(() => {
+    if (!artistLoading && !artistRequired) {
+      setGlobalLoading(false)
+    }
+  }, [artistLoading])
 
 
   return (
