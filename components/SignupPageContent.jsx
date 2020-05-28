@@ -1,6 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Router, { useRouter } from 'next/router'
+import Router from 'next/router'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
 // IMPORT COMPONENTS
@@ -22,23 +22,10 @@ import copy from '../copy/LoginPageCopy'
 import styles from './LoginPage.module.css'
 import brandColors from '../constants/brandColors'
 
-const SignupPageContent = () => {
-  const [showEmailSignup, setShowEmailSignup] = React.useState(false)
+const SignupPageContent = ({ showEmailSignup }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
   // Handle error
   const [error, setError] = React.useState(null)
-  // Get router info
-  const router = useRouter()
-  const { pathname } = router
-  // Show email login when route changes
-  React.useEffect(() => {
-    if (pathname === ROUTES.SIGN_UP_EMAIL) {
-      setShowEmailSignup(true)
-      return
-    }
-    setShowEmailSignup(false)
-  }, [pathname])
-
   // Change route when clicking on facebook button
   const goToEmailSignup = () => {
     setError(null)
