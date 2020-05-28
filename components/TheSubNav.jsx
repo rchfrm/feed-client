@@ -126,13 +126,16 @@ const TheSubNav = ({ show, setShow }) => {
   }
 
   // HANDLE WINDOW RESIZE
+  const { width } = useOnResize({})
   const onResize = () => {
     // Set animation tpye based on screen width
     setAnimationType()
     // Reset inital position of els
     if (!show) resetEls()
   }
-  useOnResize({ callback: onResize })
+  React.useEffect(() => {
+    onResize()
+  }, [width])
 
   // DRAGGING
   const dragBind = useSwipeDismiss({

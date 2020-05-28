@@ -29,8 +29,7 @@ const useOnResize = ({ callback = () => {}, throttle = 100, runOnMount = true })
     }
   }, [])
 
-  const { width, height } = windowSize
-  return [width, height]
+  return windowSize
 }
 
 export default useOnResize
