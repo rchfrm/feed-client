@@ -60,14 +60,16 @@ const useOnScroll = ({
 
   const [scrollProps, setScrollProps] = React.useState(getScrollProps())
   React.useEffect(() => {
+    const scrollProps = getScrollProps()
     // Run initial callback
-    if (runOnMount) callback()
+    if (runOnMount) callback(scrollProps)
     // Set scroll props
-    setScrollProps(getScrollProps())
+    setScrollProps(scrollProps)
     // Setup listener
     const debouncedCallback = debounce(() => {
-      callback()
-      setScrollProps(getScrollProps())
+      const scrollProps = getScrollProps()
+      callback(scrollProps)
+      setScrollProps(scrollProps)
     }, throttle)
     window.addEventListener('scroll', debouncedCallback, { passive: true })
     // Remove listener

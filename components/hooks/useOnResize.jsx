@@ -11,14 +11,16 @@ const useOnResize = ({ callback = () => {}, throttle = 100, runOnMount = true })
   }
   const [windowSize, setWindowSize] = React.useState(getWindowSize())
   React.useEffect(() => {
+    const windowSize = getWindowSize()
     // Run initial callback
-    if (runOnMount) callback()
+    if (runOnMount) callback(windowSize)
     // Set initial window size
-    setWindowSize(getWindowSize())
+    setWindowSize(windowSize)
     // Setup listener
     const debouncedCallback = debounce(() => {
-      callback()
-      setWindowSize(getWindowSize())
+      const windowSize = getWindowSize()
+      callback(windowSize)
+      setWindowSize(windowSize)
     }, throttle)
     window.addEventListener('resize', debouncedCallback, { passive: true })
     // Remove listener
