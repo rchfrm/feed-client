@@ -101,6 +101,10 @@ body {
 
   &._loggedIn {
     padding-bottom: var(--sp-8);
+
+    @media (--md) {
+      padding-left: var(--sp-25);
+    }
   }
 }
 
