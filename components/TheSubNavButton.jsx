@@ -21,7 +21,6 @@ const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
 
   const runToggle = () => {
     if (artistLoading) return
-    console.log('sdfsd')
     toggleSubNav()
   }
 
