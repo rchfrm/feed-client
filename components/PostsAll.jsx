@@ -47,7 +47,7 @@ function PostsAll({
   // Set header
   const { setHeader } = React.useContext(InterfaceContext)
   React.useEffect(() => {
-    setHeader({ text: 'review posts and set a budget', punctuation: ',' })
+    setHeader({ text: 'your posts' })
   }, [])
   // Reset the scroll position when this component first mounts
   React.useEffect(resetScroll, [])
