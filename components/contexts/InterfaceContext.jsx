@@ -87,14 +87,17 @@ const InterfaceContextProvider = ({ children }) => {
   const handleRouteEnd = (url) => {
     previousPathname.current = url
   }
-  const handleRouteChange = React.useCallback((url) => {
+  const handleRouteChange = React.useCallback((newUrl) => {
     const { current: previousUrl } = previousPathname
+    console.log('newUrl', newUrl)
+    console.log('previousUrl', previousUrl)
     // Don't trigger loading if nav-ing to query path
-    if (url.includes('?')) return
+    if (newUrl.includes('?')) return
     // close sub nav
     setSubNav(false)
     // If same page, no loading
-    if (url === previousUrl) return
+    if (newUrl === previousUrl) return
+    // Set global loading
     setGlobalLoading(true)
   }, [pathname])
   React.useEffect(() => {
