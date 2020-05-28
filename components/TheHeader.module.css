@@ -97,7 +97,7 @@
     height: var(--sp-2);
     transform: translateY(100%);
     /* background: color-mod(var(--bg-color) alpha(0.8)); */
-    background-image: linear-gradient(to bottom, color-mod(var(--bg-color) alpha(0.8)) 0%, rgba(0,0,0,0) 100%);
+    background-image: linear-gradient(to bottom, color-mod(var(--bg-color) alpha(0.8)) 0%, rgba(255,255,255,0) 100%);
   }
 
   @media (--md) {
