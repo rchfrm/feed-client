@@ -122,7 +122,7 @@ function TheHeader() {
     ].join(' ')}
     >
       {/* BG */}
-      <div className={[styles.background, styles.scrollHide].join(' ')} />
+      {isLoggedIn && <div className={[styles.background, styles.scrollHide].join(' ')} />}
       {/* LOGO */}
       <a
         id="TheLogo"
