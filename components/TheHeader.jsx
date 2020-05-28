@@ -8,6 +8,8 @@ import { ArtistContext } from './contexts/Artist'
 import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT HOOKS
 import useLoggedInTest from './hooks/useLoggedInTest'
+import useOnResize from './hooks/useOnResize'
+import useOnScroll from './hooks/useOnScroll'
 // IMPORT ELEMENTS
 import FeedLogo from './icons/FeedLogo'
 import TheSubNavButton from './TheSubNavButton'
@@ -29,12 +31,8 @@ function TheHeader() {
   // HANDLE SUB-NAV OPENING AND CLOSING
   const [showSubNav, setShowSubNav] = React.useState(false)
   const { subNavOpen, toggleSubNav, setSubNav } = React.useContext(InterfaceContext)
-  const [headerClass, setHeaderClass] = React.useState('')
   const [logoTextColor, setLogoTextColor] = React.useState(brandColors.textColor)
   React.useEffect(() => {
-    // Toggle header class
-    const headerClass = subNavOpen.open ? '_subNavOpen' : ''
-    setHeaderClass(headerClass)
     // Toggle logo text
     setLogoTextColor(subNavOpen ? brandColors.bgColor : brandColors.textColor)
     // Toggle sub nav
@@ -53,8 +51,76 @@ function TheHeader() {
     Router.push(ROUTES.HOME)
   }
 
+  // SCROLLING
+  // Get layout type
+  const isMobileLayout = React.useRef(true)
+  const setMobileLayout = () => {
+    const isDesktopLayout = window.matchMedia('(min-width: 993px)').matches
+    isMobileLayout.current = !isDesktopLayout
+  }
+  useOnResize({ callback: setMobileLayout })
+  // Cache scroll vars
+  const scrollCache = React.useRef({
+    scrolledBy: 0,
+    startUpscrollAt: 0,
+  })
+  const resetScrollCache = () => {
+    scrollCache.current = {
+      scrolledBy: 0,
+      startUpscrollAt: 0,
+    }
+  }
+  // On scroll toggle header
+  const hiddenHeader = React.useRef(false)
+  const toggleHeader = (state) => {
+    if (state) {
+      resetScrollCache()
+      hiddenHeader.current = false
+      return
+    }
+    hiddenHeader.current = true
+  }
+  const onScroll = React.useCallback(({ scrollTop, direction, delta }) => {
+    // Do nothing if desktop
+    if (!isMobileLayout.current) return
+    // Show full header if scrolled above 40px
+    const shrinkAt = 60
+    if (scrollTop < shrinkAt) {
+      toggleHeader(true)
+      return
+    }
+    // The required amount to show the header
+    const requiredScrollToShow = 30
+    // When scrolling up...
+    if (direction === 'up') {
+      // If scrolling up and it's already visible STOP HERE
+      if (!hiddenHeader.current) return
+      // Else start calcing when it started scrolling
+      scrollCache.current.startUpscrollAt = scrollCache.current.startUpscrollAt || scrollTop
+      scrollCache.current.scrolledBy = scrollCache.current.startUpscrollAt - scrollTop
+    } else {
+      resetScrollCache()
+    }
+    // Show full header if scrolled up by required amount
+    if (scrollCache.current.scrolledBy > requiredScrollToShow) {
+      toggleHeader(true)
+      return
+    }
+    // Else hide header if scrolling down fast enough
+    if (delta > 1) {
+      toggleHeader(false)
+    }
+  }, [])
+  // Listen to scroll
+  useOnScroll({ callback: onScroll, getDirection: true, getDelta: true, throttle: 20 })
+
   return (
-    <header className={[styles.TheHeader, styles[headerClass]].join(' ')}>
+    <header className={[
+      styles.TheHeader,
+      subNavOpen.open ? '_subNavOpen' : '',
+      hiddenHeader.current ? styles._hidden : '',
+    ].join(' ')}
+    >
       {/* BG */}
       <div className={[styles.background, styles.scrollHide].join(' ')} />
       {/* LOGO */}

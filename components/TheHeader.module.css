@@ -14,12 +14,22 @@
     padding-bottom: calc(var(--sp-10) + var(--sp-5));
     margin-top: calc(-1 * var(--sp-5));
   }
-
-  &.navOn {
-
-  }
 }
 
+
+.scrollHide {
+  .TheHeader._hidden & {
+    display: none;
+  }
+
+  .TheHeader._subNavOpen & {
+    display: block;
+  }
+
+  @media (--md) {
+    display: block !important;
+  }
+}
 
 .background,
 .logoContainer,
@@ -91,7 +101,7 @@
   }
 
   @media (--md) {
-    display: none;
+    display: none !important;
   }
 }
 
