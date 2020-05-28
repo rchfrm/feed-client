@@ -71,14 +71,15 @@ function TheHeader() {
     }
   }
   // On scroll toggle header
-  const hiddenHeader = React.useRef(false)
+  // const hiddenHeader = React.useRef(false)
+  const [hiddenHeader, setHiddenHeader] = React.useState(false)
   const toggleHeader = (state) => {
     if (state) {
       resetScrollCache()
-      hiddenHeader.current = false
+      setHiddenHeader(false)
       return
     }
-    hiddenHeader.current = true
+    setHiddenHeader(true)
   }
   const onScroll = React.useCallback(({ scrollTop, direction, delta }) => {
     // Do nothing if desktop
@@ -94,7 +95,7 @@ function TheHeader() {
     // When scrolling up...
     if (direction === 'up') {
       // If scrolling up and it's already visible STOP HERE
-      if (!hiddenHeader.current) return
+      if (!hiddenHeader) return
       // Else start calcing when it started scrolling
       scrollCache.current.startUpscrollAt = scrollCache.current.startUpscrollAt || scrollTop
       scrollCache.current.scrolledBy = scrollCache.current.startUpscrollAt - scrollTop
@@ -112,13 +113,16 @@ function TheHeader() {
     }
   }, [])
   // Listen to scroll
-  useOnScroll({ callback: onScroll, getDirection: true, getDelta: true, throttle: 20 })
+  const { scrollTop, direction, delta } = useOnScroll({ getDirection: true, getDelta: true, throttle: 20 })
+  React.useEffect(() => {
+    onScroll({ scrollTop, direction, delta })
+  }, [scrollTop])
 
   return (
     <header className={[
       styles.TheHeader,
       showSubNav ? styles._subNavOpen : '',
-      hiddenHeader.current ? styles._hidden : '',
+      hiddenHeader ? styles._hidden : '',
     ].join(' ')}
     >
       {/* BG */}
