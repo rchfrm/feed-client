@@ -70,7 +70,7 @@
 .background {
   left: 0;
   top: 0;
-  height: calc(((var(--sp-10) / 0.82) * 1) + var(--sp-5));
+  height: calc(((var(--sp-10) / 0.82) * 1) + var(--sp-6));
   width: 100%;
   z-index: 6;
   background: color-mod(var(--bg-color) alpha(0.8));
@@ -81,10 +81,11 @@
   &::after {
     content: ' ';
     position: absolute;
-    bottom: calc(-1 * var(--sp-2));
+    bottom: 0;
     left: 0;
     width: 100%;
     height: var(--sp-2);
+    transform: translateY(100%);
     /* background: color-mod(var(--bg-color) alpha(0.8)); */
     background-image: linear-gradient(to bottom, color-mod(var(--bg-color) alpha(0.8)) 0%, rgba(0,0,0,0) 100%);
   }
