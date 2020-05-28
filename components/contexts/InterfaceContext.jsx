@@ -91,11 +91,10 @@ const InterfaceContextProvider = ({ children }) => {
     const { current: previousUrl } = previousPathname
     // Don't trigger loading if nav-ing to query path
     if (url.includes('?')) return
-    // If same page, just close sub-nav
-    if (url === previousUrl) {
-      setSubNav(false)
-      return
-    }
+    // close sub nav
+    setSubNav(false)
+    // If same page, no loading
+    if (url === previousUrl) return
     setGlobalLoading(true)
   }, [pathname])
   React.useEffect(() => {
