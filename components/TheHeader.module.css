@@ -125,10 +125,17 @@
     padding-top: 0;
     padding-left: calc(var(--sp-10) + var(--sp-10) + var(--sp-5));
     padding-right: var(--sp-16);
-    transform: translateY(-0em);
   }
 
-  :global(h1) {
+  @media (--sm) {
+    transform: translateY(calc(-1 * var(--sp-5)));
+  }
+
+  @media (--md) {
+    transform: translateY(0);
+  }
+
+  h1 {
     margin-bottom: 0;
   }
 }
