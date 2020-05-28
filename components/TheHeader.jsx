@@ -117,7 +117,7 @@ function TheHeader() {
   return (
     <header className={[
       styles.TheHeader,
-      subNavOpen.open ? '_subNavOpen' : '',
+      showSubNav ? styles._subNavOpen : '',
       hiddenHeader.current ? styles._hidden : '',
     ].join(' ')}
     >
