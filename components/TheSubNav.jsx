@@ -1,9 +1,11 @@
 import React from 'react'
 
-import { gsap, Power1, Power2, Back } from 'gsap'
+import { gsap, Power1, Power2 } from 'gsap'
 import { Transition } from 'react-transition-group'
 
 import Div100vh from 'react-div-100vh'
+
+import useOnResize from './hooks/useOnResize'
 
 import TheSubNavArtists from './TheSubNavArtists'
 import TheSubNavLinks from './TheSubNavLinks'
@@ -19,8 +21,19 @@ const TheSubNav = ({ show, setShow }) => {
   // Detect if mobile
   const isMobile = React.useRef(false)
   React.useEffect(() => {
+    // Set mobile type
     isMobile.current = window.matchMedia('(hover: none) and (pointer: coarse)').matches
   }, [])
+  // Detect animation type
+  const animationType = React.useRef('')
+  const setAnimationType = () => {
+    const isDesktopLayout = window.matchMedia('(min-width: 993px)').matches
+    if (isDesktopLayout) {
+      animationType.current = 'desktop'
+      return
+    }
+    animationType.current = 'mobile'
+  }
   // INITIAL ANIMATION
   const setDisplay = (state, node) => {
     const display = state ? 'block' : 'none'
@@ -28,64 +41,92 @@ const TheSubNav = ({ show, setShow }) => {
   }
   // ANIMATE
   const animationPromise = React.useRef()
-  const getAnimationType = () => {
-    const isDesktopLayout = window.matchMedia('(min-width: 993px)').matches
-    if (isDesktopLayout) return 'desktop'
-    return 'mobile'
-  }
-  const getScales = (state, isMobile, animationType) => {
-    if (animationType === 'desktop' || state) return { scaleX: 1, scaleY: 1 }
-    if (isMobile && !state) return { scaleX: 0, scaleY: 1 }
-    if (!isMobile && !state) return { scaleX: 1, scaleY: 0 }
+  const getScales = (state) => {
+    if (animationType.current === 'desktop' || state) return { scaleX: 1, scaleY: 1 }
+    return { scaleX: 0, scaleY: 1 }
   }
   // Panel animation
-  const animateContainer = React.useCallback((state, animationType) => {
+  const animateContainer = React.useCallback((state) => {
     const target = document.getElementById('TheSubNav')
     const { height, width: navWidth } = target.getBoundingClientRect()
     const windowHeight = window.innerHeight
-    const { scaleX, scaleY } = getScales(state, isMobile.current, animationType)
-    const xPercent = animationType === 'desktop' && !state ? -100 : 0
+    const { scaleX } = getScales(state)
+    const xPercent = animationType.current === 'desktop' && !state ? -100 : 0
     const ease = Power2.easeOut
     const duration = state ? 0.4 : 0.3
     // Animate page buttons
-    if (animationType === 'desktop') {
+    console.log('animationType.current', animationType.current)
+    if (animationType.current === 'desktop') {
+      console.log('mobe buttons')
       const ThePageButtons = document.getElementById('ThePageButtons')
       const TheLogo = document.getElementById('TheLogo')
       const TheSubNavButton = document.getElementById('TheSubNavButton')
+      console.log('state', state)
+      console.log('navWidth', navWidth)
       const xMove = state ? navWidth : 0
       gsap.to([ThePageButtons, TheLogo, TheSubNavButton], { x: xMove, duration, ease })
     }
     // Animate container
-    return gsap.to(target, { scaleX, scaleY, x: 0, y: 0, xPercent, duration, ease })
+    return gsap.to(target, { scaleX, x: 0, y: 0, xPercent, duration, ease })
   }, [])
   // Background animation
-  const animateContents = (state, delay = 0, animationType) => {
+  const animateContents = (state, delay = 0) => {
     const { current: target } = contentsEl
     const opacity = state ? 1 : 0
     const duration = state ? 0.4 : 0
     return gsap.to(target, { opacity, y: 0, duration, delay, ease: Power1.easeOut })
   }
+  // Reset els after animation
+  const resetEls = () => {
+    const TheSubNav = document.getElementById('TheSubNav')
+    if (!TheSubNav) return
+    if (animationType.current === 'desktop') {
+      const ThePageButtons = document.getElementById('ThePageButtons')
+      const TheLogo = document.getElementById('TheLogo')
+      const TheSubNavButton = document.getElementById('TheSubNavButton')
+      gsap.set(TheSubNav, { x: 0, scaleX: 1, scaleY: 1, xPercent: -100 })
+      if (!ThePageButtons || !TheLogo || !TheSubNavButton) return
+      gsap.set([ThePageButtons, TheLogo, TheSubNavButton], { x: 0 })
+      return
+    }
+    gsap.set(TheSubNav, { x: 0, scaleX: 0, scaleY: 1, xPercent: 0 })
+  }
   // Run all animations
   const toggleAnimation = async (state, node) => {
-    const animationType = getAnimationType()
     // Show el before animating in
     if (state) {
       setDisplay(state, node)
     }
     animationPromise.current = new Promise((resolve) => {
       // Define order
-      const firstAnimation = state ? animateContainer(state, animationType) : animateContents(state, animationType)
+      const firstAnimation = state ? animateContainer(state) : animateContents(state)
       const { vars: { duration: firstAnimationDuration } } = firstAnimation
       const delay = firstAnimationDuration * 0.8
-      const secondAnimation = state ? animateContents(state, delay, animationType) : animateContainer(state, animationType)
-      secondAnimation.then(resolve)
+      const secondAnimation = state ? animateContents(state, delay) : animateContainer(state)
+      secondAnimation.then(() => {
+        if (!state) {
+          // Reset props
+          resetEls()
+        }
+        resolve()
+      })
     })
   }
   // Animation complete promise
   const onAnimationFinished = async (done) => {
     await animationPromise.current
+    // Tell component everything is done
     done()
   }
+
+  // HANDLE WINDOW RESIZE
+  const onResize = () => {
+    // Set animation tpye based on screen width
+    setAnimationType()
+    // Reset inital position of els
+    if (!show) resetEls()
+  }
+  useOnResize({ callback: onResize })
 
   // DRAGGING
   const dragBind = useSwipeDismiss({
