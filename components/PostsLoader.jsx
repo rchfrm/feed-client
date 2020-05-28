@@ -86,7 +86,7 @@ function PostsLoader() {
   const postsPerPage = 10
 
   // Import artist context
-  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
+  const { artistId, artistLoading } = React.useContext(ArtistContext)
   // Import interface context
   const { setGlobalLoading } = React.useContext(InterfaceContext)
 
