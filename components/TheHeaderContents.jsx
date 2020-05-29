@@ -18,7 +18,7 @@ import * as ROUTES from '../constants/routes'
 // IMPORT STYLES
 import styles from './TheHeader.module.css'
 
-function TheHeaderContents() {
+function TheHeaderContents({ windowWidth }) {
   // Check if logged in or not
   const isLoggedIn = useLoggedInTest()
   // Handle flash of oversized logo
@@ -49,6 +49,13 @@ function TheHeaderContents() {
     Router.push(ROUTES.HOME)
   }
 
+  // TOGGLE HEADER FOR NARROW
+  const [showHeader, setShowHeader] = React.useState(false)
+  React.useEffect(() => {
+    const showHeader = windowWidth >= 450
+    setShowHeader(showHeader)
+  }, [windowWidth])
+
   return (
     <header className={[
       styles.TheHeader,
@@ -72,7 +79,7 @@ function TheHeaderContents() {
         />
       </a>
       {/* Page Header */}
-      <PageHeader className={styles.pageTitle} />
+      {showHeader && <PageHeader className={styles.pageTitle} />}
       {/* Subnav button */}
       {isLoggedIn && (
       <TheSubNavButton

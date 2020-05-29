@@ -15,8 +15,8 @@ function TheHeader() {
     setMobileHeader(!isDesktopLayout)
   }, [windowWidth])
 
-  if (mobileHeader) return <TheHeaderMobile />
-  return <TheHeaderContents />
+  if (mobileHeader) return <TheHeaderMobile windowWidth={windowWidth} />
+  return <TheHeaderContents windowWidth={windowWidth} />
 }
 
 export default TheHeader
