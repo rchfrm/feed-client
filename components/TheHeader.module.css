@@ -3,6 +3,8 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
+  position: relative;
+
   padding-top: var(--sp-6);
   padding-bottom: var(--sp-10);
 
@@ -11,33 +13,21 @@
   }
 
   @media (--md) {
+    position: static;
     padding-bottom: calc(var(--sp-10) + var(--sp-6));
     margin-top: calc(-1 * var(--sp-6));
   }
 }
 
 
-.scrollHide {
-  .TheHeader._hidden & {
-    display: none;
-  }
-
-  .TheHeader._subNavOpen & {
-    display: block;
-  }
-
-  @media (--md) {
-    display: block !important;
-  }
-}
-
 .background,
 .logoContainer,
 .subNavButton {
-  position: fixed;
-  top: var(--sp-6);
+  position: absolute;
+  top: 0;
 
   @media (--md) {
+    position: fixed;
     top: var(--sp-10);
   }
 
@@ -48,8 +38,12 @@
 
 .background,
 .logoContainer {
-  left: var(--sp-6);
+  left: 0;
   width: calc(var(--sp-10) / 0.82);
+
+  @media (--md) {
+    left: var(--sp-6);
+  }
 
   .logo {
     width: 100%;
@@ -91,7 +85,6 @@
     width: 100%;
     height: var(--sp-2);
     transform: translateY(100%);
-    /* background: color-mod(var(--bg-color) alpha(0.8)); */
     background-image: linear-gradient(to bottom, color-mod(var(--bg-color) alpha(0.8)) 0%, rgba(255,255,255,0) 100%);
   }
 
@@ -101,15 +94,12 @@
 }
 
 .subNavButton {
-  right: var(--sp-6);
+  right: 0;
   width: var(--sp-10);
   z-index: 28;
 
-  @media (--sm) {
-    right: var(--sp-8);
-  }
-
   @media (--md) {
+    right: auto;
     left: var(--sp-5);
     top: auto;
     bottom: var(--sp-5);
