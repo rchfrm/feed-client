@@ -160,3 +160,8 @@ em {
 a {
   text-decoration: underline;
 }
+
+/* Base grid */
+.base--grid {
+  @apply grid-cols-12 gap-5;
+}
