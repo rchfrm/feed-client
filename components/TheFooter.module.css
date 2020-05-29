@@ -9,6 +9,7 @@
 
     @media (--md) {
       padding-left: var(--sp-25);
+      margin-left: var(--sp-1);
       padding-bottom: calc(var(--sp-5) + 1px);
     }
   }

@@ -16,7 +16,7 @@ const Footer = () => {
   const isLoggedIn = useLoggedInTest()
 
   return (
-    <footer className={[styles.TheFooter, styles.isLoggedIn ? '_loggedIn' : ''].join(' ')}>
+    <footer className={[styles.TheFooter, isLoggedIn ? styles._loggedIn : ''].join(' ')}>
       {!isLoggedIn && (
         <TheFooterLinks />
       )}
