@@ -3,41 +3,36 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
+
   padding-top: var(--sp-6);
-  padding-bottom: var(--sp-10);
+  padding-bottom: calc(var(--sp-20) + var(--sp-1));
 
   @media (--min-content) {
     padding-top: 0;
   }
 
   @media (--md) {
+    position: static;
     padding-bottom: calc(var(--sp-10) + var(--sp-6));
-    margin-top: calc(-1 * var(--sp-6));
+    margin-top: calc(-2 * var(--sp-6));
   }
 }
 
-
-.scrollHide {
-  .TheHeader._hidden & {
-    display: none;
-  }
-
-  .TheHeader._subNavOpen & {
-    display: block;
-  }
-
-  @media (--md) {
-    display: block !important;
-  }
-}
 
 .background,
 .logoContainer,
 .subNavButton {
-  position: fixed;
+  position: absolute;
   top: var(--sp-6);
 
+  .TheHeader._subNavOpen & {
+    @media (--mdMax) {
+      position: fixed;
+    }
+  }
+
   @media (--md) {
+    position: fixed;
     top: var(--sp-10);
   }
 
@@ -48,8 +43,12 @@
 
 .background,
 .logoContainer {
-  left: var(--sp-6);
+  left: 0;
   width: calc(var(--sp-10) / 0.82);
+
+  @media (--md) {
+    left: var(--sp-6);
+  }
 
   .logo {
     width: 100%;
@@ -66,6 +65,12 @@
   display: block;
   z-index: 28;
 
+  .TheHeader._subNavOpen & {
+    @media (--mdMax) {
+      left: var(--sp-6);
+    }
+  }
+
   @media (--md) {
     left: var(--sp-5);
     top: var(--sp-5);
@@ -73,10 +78,11 @@
 }
 
 .background {
-  left: 0;
   top: 0;
-  height: calc(((var(--sp-10) / 0.82) * 1) + var(--sp-6));
-  width: 100%;
+  left: 50%;
+  width: 100vw;
+  height: calc(((var(--sp-10) / 0.82) * 1) + var(--sp-6) + var(--sp-3));
+  margin-left: -50vw;
   z-index: 18;
   background: color-mod(var(--bg-color) alpha(0.8));
 
@@ -91,7 +97,6 @@
     width: 100%;
     height: var(--sp-2);
     transform: translateY(100%);
-    /* background: color-mod(var(--bg-color) alpha(0.8)); */
     background-image: linear-gradient(to bottom, color-mod(var(--bg-color) alpha(0.8)) 0%, rgba(255,255,255,0) 100%);
   }
 
@@ -101,15 +106,18 @@
 }
 
 .subNavButton {
-  right: var(--sp-6);
+  right: 0;
   width: var(--sp-10);
   z-index: 28;
 
-  @media (--sm) {
-    right: var(--sp-8);
+  .TheHeader._subNavOpen & {
+    @media (--mdMax) {
+      right: var(--sp-6);
+    }
   }
 
   @media (--md) {
+    right: auto;
     left: var(--sp-5);
     top: auto;
     bottom: var(--sp-5);
@@ -119,28 +127,48 @@
 
 
 .pageTitle {
-  position: relative;
-  width: 100%;
-  order: 2;
-  padding-top: calc(var(--sp-5) + var(--sp-10));
   z-index: 19;
+  margin-bottom: var(--sp-10);
+
+  @media (--xxs) {
+    position: absolute;
+    left: 0;
+    bottom: 0.4em;
+    width: 100%;
+    padding: 0 calc(var(--sp-10) + var(--sp-4));
+    margin-bottom: 0;
+    text-align: center;
+
+    h1 {
+      font-size: 1.5em;
+    }
+  }
 
   @media (--min-content) {
-    width: auto;
-    padding-top: 0;
+    position: static;
+    padding-top: var(--sp-5);
     padding-left: calc(var(--sp-10) + var(--sp-10) + var(--sp-6));
     padding-right: var(--sp-16);
+    text-align: left;
+
+    h1 {
+      font-size: 2em;
+    }
   }
 
-  @media (--sm) {
-    transform: translateY(calc(-1 * var(--sp-3)));
-  }
 
   @media (--md) {
-    transform: translateY(0);
+    transform: translateY(0.2em);
   }
 
   h1 {
     margin-bottom: 0;
+  }
+
+  transition: opacity var(--trans);
+
+  &._hidden {
+    opacity: 0;
+    transition: none;
   }
 }
