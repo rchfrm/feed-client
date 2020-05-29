@@ -6,13 +6,13 @@ module.exports = {
   theme: {
     screens: {
       iphone6: '321px',
-      xxs: '450px',
-      xs: '600px',
-      sm: '800px',
-      md: '992px',
-      lg: '1200px',
-      bmw: '1440px',
-      xl: '1600px',
+      xxs: '451px',
+      xs: '601px',
+      sm: '801px',
+      md: '993px',
+      lg: '1201px',
+      bmw: '1441px',
+      xl: '1601px',
     },
     fontFamily: {
       display: ['SpaceGrotesk', 'sans-serif'],
