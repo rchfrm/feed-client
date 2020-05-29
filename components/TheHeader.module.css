@@ -114,7 +114,6 @@
     top: auto;
     bottom: var(--sp-5);
     width: var(--sp-10);
-    z-index: 16;
   }
 }
 
