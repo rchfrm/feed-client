@@ -54,6 +54,9 @@
   --sp-48: 12rem; /* 192px */
   --sp-56: 14rem; /* 224px */
   --sp-64: 16rem; /* 256px */
+  --sp-80: 20rem; /* 320px */
+  --sp-96: 24rem; /* 384px */
+  --sp-128: 32rem; /* 512px */
   --side-padding: 70px;
   --page-buttons-height: 70px;
 
