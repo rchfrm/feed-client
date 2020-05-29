@@ -9,6 +9,7 @@ const page = () => (
   <BasePage
     headerConfig={headerConfig}
     staticPage
+    authPage
   >
     <LoginPageContent />
   </BasePage>
