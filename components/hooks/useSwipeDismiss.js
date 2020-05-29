@@ -45,8 +45,8 @@ const useSwipeDismiss = ({
     const [x] = movement
     if (last) {
       const { width: panelWidth } = target.getBoundingClientRect()
-      const velocityThreshold = 1.2
-      const movementThreshold = 0.7
+      const velocityThreshold = 0.8
+      const movementThreshold = 0.6
       const hidePanel = velocity > velocityThreshold || x / panelWidth > movementThreshold
       animateDragEnd(hidePanel)
       return
