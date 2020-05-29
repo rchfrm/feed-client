@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  padding-top: var(--sp-5);
+  padding-top: var(--sp-6);
   padding-bottom: var(--sp-10);
 
   @media (--min-content) {
@@ -11,8 +11,8 @@
   }
 
   @media (--md) {
-    padding-bottom: calc(var(--sp-10) + var(--sp-5));
-    margin-top: calc(-1 * var(--sp-5));
+    padding-bottom: calc(var(--sp-10) + var(--sp-6));
+    margin-top: calc(-1 * var(--sp-6));
   }
 }
 
@@ -35,12 +35,8 @@
 .logoContainer,
 .subNavButton {
   position: fixed;
-  top: var(--sp-5);
+  top: var(--sp-6);
   z-index: 7;
-
-  @media (--min-content) {
-    top: var(--sp-5);
-  }
 
   @media (--md) {
     top: var(--sp-10);
@@ -53,7 +49,7 @@
 
 .background,
 .logoContainer {
-  left: var(--sp-5);
+  left: var(--sp-6);
   width: calc(var(--sp-10) / 0.82);
 
   .logo {
@@ -106,7 +102,7 @@
 }
 
 .subNavButton {
-  right: var(--sp-5);
+  right: var(--sp-6);
   width: var(--sp-10);
   z-index: 15;
 
@@ -134,12 +130,12 @@
   @media (--min-content) {
     width: auto;
     padding-top: 0;
-    padding-left: calc(var(--sp-10) + var(--sp-10) + var(--sp-5));
+    padding-left: calc(var(--sp-10) + var(--sp-10) + var(--sp-6));
     padding-right: var(--sp-16);
   }
 
   @media (--sm) {
-    transform: translateY(calc(-1 * var(--sp-5)));
+    transform: translateY(calc(-1 * var(--sp-3)));
   }
 
   @media (--md) {

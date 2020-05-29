@@ -38,7 +38,7 @@
 .inner {
   display: flex;
   justify-content: space-between;
-  padding: 7px var(--sp-5);
+  padding: 7px var(--sp-6);
 
   @media (--xxs) {
     padding: 7px var(--sp-8);
