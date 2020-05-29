@@ -2,17 +2,21 @@
 
 /* POSTS PAGE */
 
-.posts {
-  width: 100%;
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
 .posts-page {
   width: 100%;
   flex: auto;
   display: flex;
   flex-direction: column;
+}
+
+.posts {
+  width: 100%;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+
+  @media (--md) {
+    display: grid !important;
+  }
 }
 
 .posts-section {
@@ -37,6 +41,13 @@
 
   svg {
     transform: none;
+  }
+}
+
+.postSingle {
+  @media (--md) {
+    width: 100% !important;
+    margin-right: 0 !important;
   }
 }
 

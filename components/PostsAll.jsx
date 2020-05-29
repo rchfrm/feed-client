@@ -4,6 +4,8 @@ import produce from 'immer'
 // IMPORT CONTEXTS
 import { SidePanelContext } from './contexts/SidePanelContext'
 import { InterfaceContext } from './contexts/InterfaceContext'
+// IMPORT HOOKS
+import useOnResize from './hooks/useOnResize'
 // IMPORT ELEMENTS
 import Spinner from './elements/Spinner'
 import Button from './elements/Button'
@@ -29,9 +31,9 @@ const resetScroll = () => {
 
 const getPostsWithLoadingTrigger = (posts, loadAtIndex) => {
   if (!posts.length || posts.length < loadAtIndex) return posts
-  return produce(posts, draft => {
+  return produce(posts, draftPosts => {
     const insertLoaderAt = posts.length - loadAtIndex + 1
-    draft.splice(insertLoaderAt, 0, 'loader')
+    draftPosts[insertLoaderAt].loadTrigger = true
   })
 }
 
@@ -68,10 +70,12 @@ function PostsAll({
   }, [loadingMore, loadMorePosts])
 
   // Setup intersection observer
+  const { width: windowWidth } = useOnResize({ throttle: 300 })
   React.useEffect(() => {
+    const root = windowWidth > 992 ? null : intersectionRoot.current
     // Observer options
     const options = {
-      root: intersectionRoot.current, // window by default
+      root,
       rootMargin: '0px',
       threshold: 0,
     }
@@ -87,7 +91,7 @@ function PostsAll({
         observer.unobserve(loadTrigger.current)
       }
     }
-  }, [posts.length])
+  }, [posts.length, windowWidth])
 
   // Open the post settings side panel
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
@@ -120,15 +124,10 @@ function PostsAll({
 
       <ul
         id="PostsAll__scroller"
-        className={`frame posts ${styles.posts}`}
+        className={['frame', styles.posts, 'md:grid grid-cols-12 gap-8 grid-flow-row-dense'].join(' ')}
         ref={intersectionRoot}
       >
         {postsWithLoadingTrigger.map((post, index) => {
-          if (post === 'loader') {
-            return (
-              <div key="loader" ref={loadTrigger} className={styles.postLoadTrigger} />
-            )
-          }
           return (
             <PostsSingle
               key={post.id}
@@ -137,7 +136,15 @@ function PostsAll({
               updateLink={updateLink}
               singular={posts.length === 1}
               togglePromotion={togglePromotion}
-            />
+              className="col-span-6 lg:col-span-4"
+            >
+              {post.loadTrigger && (
+                <div
+                  ref={loadTrigger}
+                  className={[styles.postLoadTrigger].join(' ')}
+                />
+              )}
+            </PostsSingle>
           )
         })}
         {/* Loading spinner */}
