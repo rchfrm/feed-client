@@ -4,15 +4,15 @@ import { gsap, Power1, Power2 } from 'gsap'
 import { Transition } from 'react-transition-group'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
-import Div100vh from 'react-div-100vh'
-
 import useOnResize from './hooks/useOnResize'
+import useSwipeDismiss from './hooks/useSwipeDismiss'
+
+import FullHeight from './elements/FullHeight'
 
 import TheSubNavArtists from './TheSubNavArtists'
 import TheSubNavLinks from './TheSubNavLinks'
 import SignOutLink from './SignOutLink'
 
-import useSwipeDismiss from './hooks/useSwipeDismiss'
 
 import styles from './TheSubNav.module.css'
 
@@ -127,7 +127,7 @@ const TheSubNav = ({ show, setShow }) => {
   }
 
   // HANDLE WINDOW RESIZE
-  const { width } = useOnResize({})
+  const { width, height } = useOnResize({})
   const onResize = () => {
     // Set animation tpye based on screen width
     setAnimationType()
@@ -171,7 +171,7 @@ const TheSubNav = ({ show, setShow }) => {
       appear
     >
       <>
-        <Div100vh
+        <FullHeight
           id="TheSubNav"
           className={['page--content', styles.container].join(' ')}
         >
@@ -189,7 +189,7 @@ const TheSubNav = ({ show, setShow }) => {
               <SignOutLink />
             </p>
           </div>
-        </Div100vh>
+        </FullHeight>
         {/* The BG */}
         <div
           id="TheSubNavBackground"
