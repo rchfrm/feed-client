@@ -89,8 +89,6 @@ const InterfaceContextProvider = ({ children }) => {
   }
   const handleRouteChange = React.useCallback((newUrl) => {
     const { current: previousUrl } = previousPathname
-    console.log('newUrl', newUrl)
-    console.log('previousUrl', previousUrl)
     // Don't trigger loading if nav-ing to query path
     if (newUrl.includes('?')) return
     // close sub nav
