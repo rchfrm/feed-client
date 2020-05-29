@@ -3,7 +3,6 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  position: relative;
 
   padding-top: var(--sp-6);
   padding-bottom: var(--sp-10);
@@ -24,7 +23,13 @@
 .logoContainer,
 .subNavButton {
   position: absolute;
-  top: 0;
+  top: var(--sp-6);
+
+  .TheHeader._subNavOpen & {
+    @media (--mdMax) {
+      position: fixed;
+    }
+  }
 
   @media (--md) {
     position: fixed;
@@ -60,6 +65,12 @@
   display: block;
   z-index: 28;
 
+  .TheHeader._subNavOpen & {
+    @media (--mdMax) {
+      left: var(--sp-6);
+    }
+  }
+
   @media (--md) {
     left: var(--sp-5);
     top: var(--sp-5);
@@ -67,10 +78,11 @@
 }
 
 .background {
-  left: 0;
   top: 0;
-  height: calc(((var(--sp-10) / 0.82) * 1) + var(--sp-6));
-  width: 100%;
+  left: 50%;
+  width: 100vw;
+  height: calc(((var(--sp-10) / 0.82) * 1) + var(--sp-6) + var(--sp-3));
+  margin-left: -50vw;
   z-index: 18;
   background: color-mod(var(--bg-color) alpha(0.8));
 
@@ -98,6 +110,12 @@
   width: var(--sp-10);
   z-index: 28;
 
+  .TheHeader._subNavOpen & {
+    @media (--mdMax) {
+      right: var(--sp-6);
+    }
+  }
+
   @media (--md) {
     right: auto;
     left: var(--sp-5);
@@ -117,14 +135,14 @@
 
   @media (--min-content) {
     width: auto;
-    padding-top: 0;
+    padding-top: var(--sp-5);
     padding-left: calc(var(--sp-10) + var(--sp-10) + var(--sp-6));
     padding-right: var(--sp-16);
   }
 
-  @media (--sm) {
+  /* @media (--sm) {
     transform: translateY(calc(-1 * var(--sp-3)));
-  }
+  } */
 
   @media (--md) {
     transform: translateY(0);
