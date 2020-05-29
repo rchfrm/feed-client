@@ -164,4 +164,11 @@
   h1 {
     margin-bottom: 0;
   }
+
+  transition: opacity var(--trans);
+
+  &._hidden {
+    opacity: 0;
+    transition: none;
+  }
 }

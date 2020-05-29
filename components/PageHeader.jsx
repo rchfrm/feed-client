@@ -2,11 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { InterfaceContext } from './contexts/InterfaceContext'
 
+import styles from './TheHeader.module.css'
+
 const PageHeader = ({ className }) => {
-  const { header } = React.useContext(InterfaceContext)
+  const { header, globalLoading } = React.useContext(InterfaceContext)
   const { text, punctuation, visible } = header
   return (
-    <div className={[className, !visible ? '_hidden' : ''].join(' ')}>
+    <div className={[className, !visible || globalLoading ? styles._hidden : ''].join(' ')}>
       <h1>{text + punctuation}</h1>
     </div>
   )
