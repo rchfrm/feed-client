@@ -9,7 +9,7 @@
   left: 0;
   justify-content: space-around;
   align-items: center;
-  z-index: 12;
+  z-index: 30;
 }
 
 .alert--bg {
@@ -25,7 +25,7 @@
   z-index: 2;
   background-color: var(--bg-color);
   max-width: 720px;
-  max-height: 80%;
+  max-height: 90%;
   padding: var(--sp-8);
   border: 2px solid var(--text-color);
   display: flex;
@@ -39,10 +39,6 @@
   }
 
   h1 {
-    padding-bottom: 1em;
-  }
-
-  p {
     padding-bottom: 1em;
   }
 }
