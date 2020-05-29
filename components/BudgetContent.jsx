@@ -144,11 +144,11 @@ function BudgetContent({ currency }) {
         buttons={<AlertButton />}
       />
 
-      <div>
+      <div className="grid base--grid">
 
-        <MarkdownText className="h3--text" markdown={copy.budgetIntro} />
+        <MarkdownText className="h3--text col-span-12" markdown={copy.budgetIntro} />
 
-        <form onSubmit={onSubmit} className={styles.form}>
+        <form onSubmit={onSubmit} className={[styles.form, 'col-span-12', 'lg:col-span-6'].join(' ')}>
 
           <Input
             className={styles.inputContainer}
@@ -171,13 +171,23 @@ function BudgetContent({ currency }) {
 
         </form>
 
-        <MarkdownText className="" markdown={copy.budgetOutro(minBudget)} />
+        {error && (
+          <div className="col-span-12 lg:col-span-6">
+            <Error error={error} />
+          </div>
+        )}
 
-        <Error error={error} />
+        {/* spacer */}
+        <div className="hidden lg:block col-span-12 lg:col-span-6" />
 
+        <MarkdownText className="col-span-12 lg:col-span-6" markdown={copy.budgetOutro(minBudget)} />
+
+        {/* spacer */}
+        <div className="hidden lg:block col-span-12 lg:col-span-6" />
+
+        <PaymentSummary className="col-span-12 lg:col-span-6" />
       </div>
 
-      <PaymentSummary />
     </div>
   )
 }
