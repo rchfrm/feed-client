@@ -48,6 +48,9 @@ const TheSubNavArtists = ({ className }) => {
     return artistHelpers.sortArtistsAlphabetically([...allArtists])
   }, [user])
 
+  // If no artists, don't show artist links
+  if (sortedArtists.length === 1) return null
+
   // Show select component if too many artists
   if (sortedArtists.length > maxArtists) {
     return (

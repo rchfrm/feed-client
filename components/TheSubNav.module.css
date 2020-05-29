@@ -28,6 +28,7 @@
     padding-top: var(--sp-32);
     transform: translateX(-100%);
     width: auto;
+    min-width: var(--sp-80);
   }
 
   :global(a) {
