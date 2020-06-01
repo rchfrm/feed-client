@@ -75,6 +75,7 @@ const useOnScroll = ({
     // Remove listener
     return () => {
       window.removeEventListener('scroll', debouncedCallback, { passive: true })
+      debouncedCallback.cancel()
     }
   }, [])
 

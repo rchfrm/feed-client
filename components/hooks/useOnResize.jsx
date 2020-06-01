@@ -26,6 +26,7 @@ const useOnResize = ({ callback = () => {}, throttle = 100, runOnMount = true })
     // Remove listener
     return () => {
       window.removeEventListener('resize', debouncedCallback, { passive: true })
+      debouncedCallback.cancel()
     }
   }, [])
 
