@@ -2,8 +2,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useAsyncEffect from 'use-async-effect'
-
 import produce from 'immer'
 import tinycolor from 'tinycolor2'
 import moment from 'moment'
@@ -147,7 +145,7 @@ function ChartBar({
   }, [loading, error, className])
 
   // UPDATE CHART BASED ON STATE
-  useAsyncEffect(async () => {
+  React.useEffect(() => {
     // Handle loading
     if (loading || error) {
       showPlaceholder(loading)
@@ -162,18 +160,16 @@ function ChartBar({
     // Calculate granularity
     const granularity = chartHelpers.calcGranularity(earliestMoment, latestMoment)
     setGranularity(granularity)
-    // Cycle through from start to end dates, adding
-    // each period to the labels and dates array
-    const periodDates = await chartHelpers.getPeriodDates(data, granularity)
+    // Get period dates and values from the data, based on the granularity
+    const [periodDates, periodValues] = chartHelpers.getChartData(data, granularity)
     // Cycle through the dates and add the relevant labels
     const periodLabels = chartHelpers.getPeriodLabels(periodDates)
     setDateLabels(periodLabels)
 
     // DEFINE THE DATASET(S) TO DISPLAY
-    const dataArray = chartHelpers.createDataArray(periodDates, data)
     // Set the limits of the charts y axis
-    const max = utils.maxArrayValue(dataArray)
-    const min = utils.minArrayValue(dataArray)
+    const max = utils.maxArrayValue(periodValues)
+    const min = utils.minArrayValue(periodValues)
     // Ensure range is even number
     const range = max - min
     const maxLimitModifier = (range % 2) > 0 ? 1 : 2
@@ -182,15 +178,15 @@ function ChartBar({
       min: currentDataSource === 'facebook_ad_spend_feed' ? 0 : Math.max(0, Math.round(min * 0.99) - 1),
     }
     setChartLimit(newChartLimit)
-    const increaseArr = dataArray.map((datum, index) => {
-      const value = datum - dataArray[index - 1]
+    const increaseArr = periodValues.map((datum, index) => {
+      const value = datum - periodValues[index - 1]
       if (index === 0 || value < 0) {
         return 0
       }
       return value
     })
 
-    const carriedArr = dataArray.map((datum, index) => {
+    const carriedArr = periodValues.map((datum, index) => {
       return datum - increaseArr[index]
     })
 
@@ -203,7 +199,7 @@ function ChartBar({
       {
         ...baseBarConfig,
         label: currentDataSource,
-        data: cumulative ? carriedArr : dataArray,
+        data: cumulative ? carriedArr : periodValues,
         backgroundColor: cumulative ? lightColor : chartColor,
       },
     ]
