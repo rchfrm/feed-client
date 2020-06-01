@@ -127,7 +127,7 @@ const TheSubNav = ({ show, setShow }) => {
   }
 
   // HANDLE WINDOW RESIZE
-  const { width, height } = useOnResize({})
+  const { width } = useOnResize({})
   const onResize = () => {
     // Set animation tpye based on screen width
     setAnimationType()
