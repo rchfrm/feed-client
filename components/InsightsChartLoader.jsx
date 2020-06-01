@@ -51,7 +51,7 @@ function InsightsChartLoader({
 }) {
   // IMPORT CONTEXTS
   const { artistId } = React.useContext(ArtistContext)
-  const { setGlobalLoading } = React.useContext(InterfaceContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   // List of relevant dates
   const dates = React.useMemo(() => {
@@ -88,7 +88,7 @@ function InsightsChartLoader({
   React.useEffect(() => {
     if (!chartLoading) {
       setInitialLoading(chartLoading)
-      setGlobalLoading(false)
+      toggleGlobalLoading(false)
     }
   }, [chartLoading])
 

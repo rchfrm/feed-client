@@ -62,7 +62,7 @@ function ResultsLoader() {
   // Artist context
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
   // Import interface context
-  const { setGlobalLoading } = React.useContext(InterfaceContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, initialPostsState)
 
@@ -75,7 +75,7 @@ function ResultsLoader() {
     // When promise resolves
     onResolve: ({ activePosts, archivedPosts }) => {
       // Turn off global loading
-      setGlobalLoading(false)
+      toggleGlobalLoading(false)
       // Handle results
       const activePostsObj = activePosts.length ? utils.arrToObjById(activePosts) : {}
       const archivedPostsObj = archivedPosts.length ? utils.arrToObjById(archivedPosts) : {}

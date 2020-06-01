@@ -18,7 +18,7 @@ const BasePage = ({
   children,
 }) => {
   // Get interface context
-  const { setHeader, toggleSubNav, setGlobalLoading } = React.useContext(InterfaceContext)
+  const { setHeader, toggleSubNav, toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get user context
   const { user } = React.useContext(UserContext)
   // Hide nav when page mounts
@@ -31,7 +31,7 @@ const BasePage = ({
     setHeader(headerConfig)
     // If page is static, stop global loading when mounts
     if (staticPage) {
-      setGlobalLoading(false)
+      toggleGlobalLoading(false)
     }
   }, [])
   // Turn off global loading when
@@ -41,7 +41,7 @@ const BasePage = ({
   const { artistLoading } = React.useContext(ArtistContext)
   React.useEffect(() => {
     if (!artistLoading && !artistRequired && !authPage) {
-      setGlobalLoading(false)
+      toggleGlobalLoading(false)
     }
   }, [artistLoading])
 

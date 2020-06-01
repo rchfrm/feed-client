@@ -18,7 +18,7 @@ const initialContext = {
   // Setters
   toggleSubNav: () => {},
   setHeader: () => {},
-  setGlobalLoading: () => {},
+  toggleGlobalLoading: () => {},
   // Getters
   subNavOpen: initialState.subNavOpen,
   header: initialState.header,
@@ -39,7 +39,7 @@ const reducer = (draftState, action) => {
     case 'toggleSubNav':
       draftState.subNavOpen = payload.state
       break
-    case 'setGlobalLoading':
+    case 'toggleGlobalLoading':
       draftState.globalLoading = payload.state
       draftState.showSpinner = payload.spinnerState
       break
@@ -66,12 +66,12 @@ const InterfaceContextProvider = ({ children }) => {
     setInterfaceState({ type: 'setHeader', payload: { visible, text, punctuation } })
   }, [])
 
-  const setGlobalLoading = React.useCallback((state, spinnerState) => {
+  const toggleGlobalLoading = React.useCallback((state, spinnerState) => {
     const newState = typeof state !== 'undefined' ? state : !globalLoading
     const newSpinnerState = newState === false ? false
       : typeof spinnerState !== 'undefined' ? spinnerState
         : showSpinner
-    setInterfaceState({ type: 'setGlobalLoading', payload: { state: newState, spinnerState: newSpinnerState } })
+    setInterfaceState({ type: 'toggleGlobalLoading', payload: { state: newState, spinnerState: newSpinnerState } })
   }, [])
 
   // Set global loading to true when route changes
@@ -89,7 +89,7 @@ const InterfaceContextProvider = ({ children }) => {
     // If same page, no loading
     if (newUrl === previousUrl) return
     // Set global loading
-    setGlobalLoading(true)
+    toggleGlobalLoading(true)
   }, [pathname])
   React.useEffect(() => {
     Router.events.on('routeChangeStart', handleRouteChange)
@@ -102,7 +102,7 @@ const InterfaceContextProvider = ({ children }) => {
         // Setters
         toggleSubNav,
         setHeader,
-        setGlobalLoading,
+        toggleGlobalLoading,
         // Getters
         globalLoading,
         showSpinner,

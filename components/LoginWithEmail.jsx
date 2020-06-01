@@ -25,7 +25,7 @@ function LoginWithEmail({ className }) {
   const { storeUser, userError } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
   // GLOBAL LOADING
-  const { setGlobalLoading } = React.useContext(InterfaceContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // DEFINE PAGE STATE
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
@@ -51,12 +51,12 @@ function LoginWithEmail({ className }) {
   const onFormSubmit = async e => {
     e.preventDefault()
     setError(null)
-    setGlobalLoading(true)
+    toggleGlobalLoading(true)
 
     // Login with email
     const { loginError, tokenError } = await emailLogin(email, password)
     if (loginError) {
-      setGlobalLoading(false)
+      toggleGlobalLoading(false)
       setEmail('')
       setPassword('')
       setError(loginError)
@@ -78,7 +78,7 @@ function LoginWithEmail({ className }) {
     }
     const user = await storeUser()
       .catch((err) => {
-        setGlobalLoading(false)
+        toggleGlobalLoading(false)
         setEmail('')
         setPassword('')
         setError(err)

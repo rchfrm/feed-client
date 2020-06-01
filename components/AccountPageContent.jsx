@@ -16,7 +16,7 @@ import AccountPageSection from './AccountPageSection'
 
 const AccountPageContent = ({ user }) => {
   // Import interface context
-  const { setGlobalLoading } = React.useContext(InterfaceContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   // The content
   return (

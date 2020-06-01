@@ -46,7 +46,7 @@ const SignupEmailForm = () => {
   const { signUp } = React.useContext(AuthContext)
   const { createUser } = React.useContext(UserContext)
   // GLOBAL LOADING
-  const { setGlobalLoading } = React.useContext(InterfaceContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Define form state
   const initialSignupState = {
     email: '',
@@ -125,7 +125,7 @@ const SignupEmailForm = () => {
     // Stop here if not complete
     if (!formComplete) return
     const { email, passwordOne, firstName, lastName } = signupDetails
-    setGlobalLoading(true)
+    toggleGlobalLoading(true)
 
     track({
       category: 'sign up',
@@ -139,7 +139,7 @@ const SignupEmailForm = () => {
       .catch((error) => {
         setError(error)
         scrollTop()
-        setGlobalLoading(false)
+        toggleGlobalLoading(false)
         track({
           category: 'sign up',
           action: 'signUp() with email failed',
@@ -153,7 +153,7 @@ const SignupEmailForm = () => {
       .catch((error) => {
         setError(error)
         scrollTop()
-        setGlobalLoading(false)
+        toggleGlobalLoading(false)
         track({
           category: 'sign up',
           action: 'createUser() with email failed',

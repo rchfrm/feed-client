@@ -10,7 +10,7 @@ import FadeInOut from './elements/FadeInOut'
 const TheLoadingOverlay = () => {
   // Get interface context
   const {
-    setGlobalLoading,
+    toggleGlobalLoading,
     globalLoading,
     showSpinner,
   } = React.useContext(InterfaceContext)
@@ -19,7 +19,7 @@ const TheLoadingOverlay = () => {
     if (!globalLoading) return
     // Only show spinner if loading page takes longer than 300ms
     const waitForLoad = setTimeout(() => {
-      setGlobalLoading(true, true)
+      toggleGlobalLoading(true, true)
     }, 500)
     return () => {
       clearTimeout(waitForLoad)
