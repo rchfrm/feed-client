@@ -174,36 +174,37 @@ export const calcStartAndEnd = (granularity, earliestMoment, latestMoment) => {
 }
 
 //* Get missing data (TBC)
-// const fillInMissingData = (periodValues, granularity) => {
-//   // Add in missing data
-//   return periodValues.reduce((results, data, index) => {
-//     // Do nothing for first entry
-//     if (index === 0) return [data]
-//     const { period } = data
-//     const { period: previousPeriod } = results[index - 1]
-//     const periodDiff = period - previousPeriod
-//     const startPeriod = granularity === 'weeks' ? 1 : 0
-//     const finalPeriod = granularity === 'weeks' ? 52 : 11
-//     // If diff is a gap of 1, or
-//     // diff is -51 and granularity is weeks, or
-//     // diff is -11 and granularity is months,
-//     // then all is well and carry on building array
-//     if (periodDiff === 1
-//       || (periodDiff === -51 && granularity === 'weeks')
-//       || (periodDiff === -11 && granularity === 'months')
-//     ) return [...results, data]
-//     // If diff is
-//   }, [])
-// }
+const fillInMissingData = (periodData, granularity) => {
+  // Add in missing data
+  return periodData.reduce((results, data, index) => {
+    // Do nothing for first entry
+    if (index === 0) return [data]
+    const { dateMoment: currentMoment } = data
+    const { dateMoment: previousMoment } = results[index - 1]
+    const dateGap = currentMoment.diff(previousMoment, granularity, true)
+    // If gap between two periods is small enough, just carry on
+    if (dateGap < 1.5) return [...results, data]
+    // Else add in a missing datapoint
+    const missingPeriodMoment = previousMoment.add(1, granularity)
+    const missingPeriod = granularity === 'months' ? missingPeriodMoment.month() : missingPeriodMoment.isoWeek()
+    const missingDataPayload = {
+      period: missingPeriod,
+      date: missingPeriodMoment.format('YYYY-MM-DD'),
+      value: 0,
+    }
+    return [...results, missingDataPayload, data]
+  }, [])
+}
 
 // * Returns an object of each period (weeks/months) covered by the data.
 // Keys are the period index (week of year/month of year).
 // Value is an array of the [date, value] pair.
 const getPeriodData = (dailyData, granularity) => {
-  return Object.entries(dailyData).reduce((results, [date, value]) => {
+  console.log('granularity', granularity)
+  const periodData = Object.entries(dailyData).reduce((results, [date, value]) => {
     const dateMoment = moment(date, 'YYYY-MM-DD')
     const period = granularity === 'months' ? dateMoment.month() : dateMoment.isoWeek()
-    const payload = { period, date, value }
+    const payload = { period, date, value, dateMoment }
     // Is there already data for this period?
     const storedDatumIndex = results.findIndex(({ period: storedPeriod }) => period === storedPeriod)
     if (storedDatumIndex > -1) {
@@ -221,6 +222,8 @@ const getPeriodData = (dailyData, granularity) => {
     // If no date for this period, add it
     return [...results, payload]
   }, [])
+  // Add in missing data
+  return fillInMissingData(periodData, granularity)
 }
 
 
