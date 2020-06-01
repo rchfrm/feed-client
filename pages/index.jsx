@@ -3,7 +3,7 @@ import TestPageReady from '../components/TestPageReady'
 import PostsLoader from '../components/PostsLoader'
 
 const headerConfig = {
-  text: 'Your posts',
+  text: 'review posts',
 }
 
 const Page = () => (
