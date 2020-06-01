@@ -105,6 +105,7 @@ function ChartBar({
   })
   const [chartDataSets, setChartDataSets] = React.useState([])
   const [chartOptions, setChartOptions] = React.useState({})
+  const [granularity, setGranularity] = React.useState('')
   // PLACEHOLDER CHART BUILDER
   const showPlaceholder = (loading) => {
     const buildDummyChart = !loading || !chartDataSets.length
@@ -160,11 +161,12 @@ function ChartBar({
     const latestMoment = moment(data.mostRecent.date, 'YYYY-MM-DD')
     // Calculate granularity
     const granularity = chartHelpers.calcGranularity(earliestMoment, latestMoment)
+    setGranularity(granularity)
     // Cycle through from start to end dates, adding
     // each period to the labels and dates array
     const periodDates = await chartHelpers.getPeriodDates(data, granularity)
     // Cycle through the dates and add the relevant labels
-    const periodLabels = chartHelpers.getPeriodLabels(granularity, periodDates)
+    const periodLabels = chartHelpers.getPeriodLabels(periodDates)
     setDateLabels(periodLabels)
 
     // DEFINE THE DATASET(S) TO DISPLAY
@@ -304,6 +306,7 @@ function ChartBar({
         currency={data.currency ? artistCurrency : ''}
         labels={dateLabels}
         loading={loading}
+        granularity={granularity}
       />
     </div>
   )

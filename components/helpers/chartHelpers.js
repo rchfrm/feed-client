@@ -257,9 +257,9 @@ export const getPeriodDates = async (data, granularity) => {
 }
 
 // CREATE ARRAY OF PERIOD LABELS
-export const getPeriodLabels = (granularity, periodDates) => {
+export const getPeriodLabels = (periodDates) => {
   return periodDates.map((date) => {
-    const labelFormat = granularity === 'months' ? 'MMM' : 'DD MMM'
+    const labelFormat = 'DD MMM'
     const dateMoment = moment(date, 'YYYY-MM-DD')
     return dateMoment.format(labelFormat)
   })
