@@ -4,7 +4,6 @@ import { gsap, Power1, Power2 } from 'gsap'
 import { Transition } from 'react-transition-group'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
-import useOnResize from './hooks/useOnResize'
 import useSwipeDismiss from './hooks/useSwipeDismiss'
 
 import FullHeight from './elements/FullHeight'
@@ -16,7 +15,7 @@ import SignOutLink from './SignOutLink'
 
 import styles from './TheSubNav.module.css'
 
-const TheSubNav = ({ show, setShow }) => {
+const TheSubNav = ({ open, toggle, windowWidth }) => {
   // Get els
   const contentsEl = React.useRef()
   // Detect if mobile
@@ -127,22 +126,19 @@ const TheSubNav = ({ show, setShow }) => {
   }
 
   // HANDLE WINDOW RESIZE
-  const { width } = useOnResize({})
   const onResize = () => {
     // Set animation tpye based on screen width
     setAnimationType()
     // Reset inital position of els
-    if (!show) resetEls()
+    if (!open) resetEls()
   }
-  React.useEffect(() => {
-    onResize()
-  }, [width])
+  React.useEffect(onResize, [windowWidth])
 
   // DRAGGING
   const dragBind = useSwipeDismiss({
     movingTargetId: 'TheSubNav',
     touchTargetId: 'TheSubNav__contents',
-    hide: () => setShow(false),
+    hide: () => toggle(false),
     reset: () => animateContainer(true),
     disableCondition: !isMobile.current || animationType.current === 'desktop',
   })
@@ -152,16 +148,16 @@ const TheSubNav = ({ show, setShow }) => {
     // Disable for desktops
     if (!isMobile.current) return
     const scrollEl = document.getElementById('TheSubNav')
-    if (show) {
+    if (open) {
       disableBodyScroll(scrollEl)
     } else {
       enableBodyScroll(scrollEl)
     }
-  }, [show])
+  }, [open])
 
   return (
     <Transition
-      in={show}
+      in={open}
       onEnter={(node) => toggleAnimation(true, node)}
       onExit={() => toggleAnimation(false)}
       onExited={(node) => setDisplay(false, node)}
@@ -196,7 +192,7 @@ const TheSubNav = ({ show, setShow }) => {
           className={styles.background}
           role="button"
           aria-label="Close navigation"
-          onClick={() => setShow(false)}
+          onClick={() => toggle(false)}
         />
       </>
     </Transition>

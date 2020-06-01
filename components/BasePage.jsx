@@ -18,12 +18,12 @@ const BasePage = ({
   children,
 }) => {
   // Get interface context
-  const { setHeader, setSubNav, setGlobalLoading } = React.useContext(InterfaceContext)
+  const { setHeader, toggleSubNav, setGlobalLoading } = React.useContext(InterfaceContext)
   // Get user context
   const { user } = React.useContext(UserContext)
   // Hide nav when page mounts
   React.useEffect(() => {
-    setSubNav(false)
+    toggleSubNav(false)
   }, [])
   // ON MOUNT
   React.useEffect(() => {

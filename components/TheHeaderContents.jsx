@@ -11,14 +11,13 @@ import useLoggedInTest from './hooks/useLoggedInTest'
 import FeedLogo from './icons/FeedLogo'
 import TheSubNavButton from './TheSubNavButton'
 import PageHeader from './PageHeader'
-import TheSubNav from './TheSubNav'
 // IMPORT CONSTANTS
 import brandColors from '../constants/brandColors'
 import * as ROUTES from '../constants/routes'
 // IMPORT STYLES
 import styles from './TheHeader.module.css'
 
-function TheHeaderContents({ windowWidth }) {
+function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
   // Check if logged in or not
   const isLoggedIn = useLoggedInTest()
   // Handle flash of oversized logo
@@ -26,21 +25,16 @@ function TheHeaderContents({ windowWidth }) {
   React.useEffect(() => {
     setLogoOpacity(1)
   }, [])
-  // HANDLE SUB-NAV OPENING AND CLOSING
-  const [showSubNav, setShowSubNav] = React.useState(false)
-  const { subNavOpen, toggleSubNav, setSubNav } = React.useContext(InterfaceContext)
+  // Toggle logo text on subnav
   const [logoTextColor, setLogoTextColor] = React.useState(brandColors.textColor)
   React.useEffect(() => {
-    // Toggle logo text
     setLogoTextColor(subNavOpen ? brandColors.bgColor : brandColors.textColor)
-    // Toggle sub nav
-    const show = subNavOpen && isLoggedIn
-    setShowSubNav(show)
   }, [subNavOpen])
   // Close sub-nav after artist changes
   const { artistId, artistLoading } = React.useContext(ArtistContext)
   React.useEffect(() => {
-    setSubNav(false)
+    toggleSubNav(false)
+    toggleSubNav(false)
   }, [artistId, artistLoading])
   // Go to home page
   const { pathname } = useRouter()
@@ -59,18 +53,18 @@ function TheHeaderContents({ windowWidth }) {
   return (
     <header className={[
       styles.TheHeader,
-      showSubNav ? styles._subNavOpen : '',
+      subNavOpen ? styles._subNavOpen : '',
     ].join(' ')}
     >
       {/* BG */}
-      {isLoggedIn && <div className={[styles.background, styles.scrollHide].join(' ')} />}
+      {isLoggedIn && <div className={[styles.background].join(' ')} />}
       {/* LOGO */}
       <a
         id="TheLogo"
         onClick={goHome}
         role="button"
         title="home"
-        className={[styles.logoContainer, styles.scrollHide].join(' ')}
+        className={[styles.logoContainer].join(' ')}
       >
         <FeedLogo
           className={styles.logo}
@@ -85,11 +79,9 @@ function TheHeaderContents({ windowWidth }) {
       <TheSubNavButton
         toggleSubNav={toggleSubNav}
         navOpen={subNavOpen}
-        className={[styles.subNavButton, styles.scrollHide].join(' ')}
+        className={[styles.subNavButton].join(' ')}
       />
       )}
-      {/* THE SUBNAV */}
-      <TheSubNav show={showSubNav} setShow={toggleSubNav} />
     </header>
   )
 }

@@ -16,7 +16,6 @@ const initialState = {
 
 const initialContext = {
   // Setters
-  setSubNav: () => {},
   toggleSubNav: () => {},
   setHeader: () => {},
   setGlobalLoading: () => {},
@@ -35,11 +34,9 @@ const reducer = (draftState, action) => {
     type: actionType,
     payload,
   } = action
+
   switch (actionType) {
     case 'toggleSubNav':
-      draftState.subNavOpen = !draftState.subNavOpen
-      break
-    case 'setSubNav':
       draftState.subNavOpen = payload.state
       break
     case 'setGlobalLoading':
@@ -58,16 +55,12 @@ const reducer = (draftState, action) => {
 
 const InterfaceContextProvider = ({ children }) => {
   const [interfaceState, setInterfaceState] = useImmerReducer(reducer, initialState)
-
   const { subNavOpen, header, globalLoading, showSpinner } = interfaceState
 
-  const toggleSubNav = React.useCallback(() => {
-    setInterfaceState({ type: 'toggleSubNav' })
-  }, [])
-
-  const setSubNav = React.useCallback((state) => {
-    setInterfaceState({ type: 'setSubNav', payload: { state } })
-  }, [])
+  const toggleSubNav = React.useCallback((state) => {
+    const newState = typeof state !== 'undefined' ? state : !subNavOpen
+    setInterfaceState({ type: 'toggleSubNav', payload: { state: newState } })
+  }, [subNavOpen])
 
   const setHeader = React.useCallback(({ visible, text, punctuation = '.' }) => {
     setInterfaceState({ type: 'setHeader', payload: { visible, text, punctuation } })
@@ -92,7 +85,7 @@ const InterfaceContextProvider = ({ children }) => {
     // Don't trigger loading if nav-ing to query path
     if (newUrl.includes('?')) return
     // close sub nav
-    setSubNav(false)
+    toggleSubNav(false)
     // If same page, no loading
     if (newUrl === previousUrl) return
     // Set global loading
@@ -108,7 +101,6 @@ const InterfaceContextProvider = ({ children }) => {
       value={{
         // Setters
         toggleSubNav,
-        setSubNav,
         setHeader,
         setGlobalLoading,
         // Getters

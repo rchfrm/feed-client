@@ -28,7 +28,6 @@ const PeekElement = function(props) {
   const placeHolderRef = useRef()
   const { usePlaceHolder, config } = props
   
-  console.log('config', config)
   const { childProps, parentProps, placeHolderProps } = config || {}
 
   const alreadyHandling = React.useRef()
@@ -158,14 +157,10 @@ const PeekElement = function(props) {
       window.removeEventListener('resize', handleRepositionAction)
     }
   }, [containerRef, handleRepositionAction, positionChild])
-
-  console.log('parentProps?.style', parentProps?.style)
   
   const parentStyle = { ...PARENT_STYLE, ...(parentProps?.style || {}) }
   const childStyle = { ...CHILD_STYLE, ...(childProps?.style || {}) }
   const placeHolderStyle = { ...PLACEHOLDER_STYLE, ...(placeHolderProps?.style || {}) }
-
-  console.log('parentStyle', parentStyle)
   
   return (
     <div ref={containerRef} {...parentProps} style={parentStyle} >
