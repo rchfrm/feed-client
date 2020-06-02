@@ -57,25 +57,12 @@ function InsightsContent() {
     if (!initialLoading) {
       setTimeout(() => {
         setPageReady(true)
-      }, 200)
+      }, 100)
     }
   }, [initialLoading])
 
 
   if (artistLoading || !(currentPlatform || currentDataSource)) return null
-
-  if (initialLoading) {
-    return (
-      <>
-        <InsightsChartLoader
-          currentPlatform={currentPlatform}
-          currentDataSource={currentDataSource}
-          initialLoading={initialLoading}
-          setInitialLoading={setInitialLoading}
-        />
-      </>
-    )
-  }
 
   const containerClasses = [styles.pageContainer]
   if (pageReady) {

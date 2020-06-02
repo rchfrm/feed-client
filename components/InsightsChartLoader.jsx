@@ -22,6 +22,7 @@ import styles from './InsightsPage.module.css'
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
 const fetchData = async ({ currentDataSource, currentPlatform, artistId, dates }) => {
+  console.log('&&&&&&&&&& fetchData')
   // Get data source data
   const dataPromise = server.getDataSourceValue([currentDataSource], artistId)
   // Get future projections
