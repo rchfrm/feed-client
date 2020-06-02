@@ -1,19 +1,23 @@
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-// IMPORT HELPERS
+import PropTypes from 'prop-types'
 
-function SquareImage({ media }) {
+const SquareImage = ({ className, children }) => {
   return (
-    <div className="square--image">
-      {media}
+    <div className={['square--image', className].join(' ')}>
+      {children}
     </div>
   )
 }
+
+SquareImage.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+}
+
+SquareImage.defaultProps = {
+  className: '',
+}
+
 
 export default SquareImage
