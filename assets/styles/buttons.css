@@ -87,7 +87,7 @@ button {
   &:disabled,
   &[disabled] {
     background-color: var(--disabled-color-bg);
-    color: var(--white);
+    color: var(--success-color);
   }
 }
 
