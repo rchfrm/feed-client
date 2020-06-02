@@ -282,16 +282,17 @@
     from {transform:rotate(0deg);}
     to {transform:rotate(360deg);}
   }
-/* SquareImage
+
+/* MEDIA
 ******************/
-.square--image {
+.media {
   width: 100%;
   padding-bottom: 100%;
   position: relative;
   height: 0;
   overflow: hidden;
-  
-  .center-image {
+
+  .center--image {
     position: absolute;
     left: 0;
     bottom: 50%;
@@ -300,6 +301,27 @@
     height: auto;
     margin-bottom: 0;
   }
+
+  .play--icon {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    width: 5%;
+    height: auto;
+    z-index: 2;
+  }
+}
+
+.media--square {
+  padding-bottom: 100%;
+}
+
+.media--landscape {
+  padding-bottom: 75%;
+}
+
+.media--portrait {
+  padding-bottom: 133.333333333%;
 }
 
 /* Tile
