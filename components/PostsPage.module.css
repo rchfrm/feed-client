@@ -60,6 +60,7 @@
   /* Force gap to the right */
   position: relative;
   overflow: visible;
+  max-width: 480px;
 
   &:last-child::after {
     content: ' ';
@@ -72,6 +73,7 @@
 
   @media (--md) {
     width: 100% !important;
+    max-width: none;
     margin-right: 0 !important;
 
     &:last-child::after {
