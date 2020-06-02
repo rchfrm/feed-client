@@ -235,9 +235,9 @@ function ConnectAccountsPanel({
 
         {/* Page Profile Picture */}
         <div className={styles['profile-picture']}>
-          <div className={`square--image ${styles['square--image']}`}>
+          <div className="media media--square">
             <img
-              className={`center-image ${styles['center-image']}`}
+              className={['center--image'].join(' ')}
               src={artistAccount.picture}
               alt={`${artistAccount.name} Facebook profile photo`}
             />

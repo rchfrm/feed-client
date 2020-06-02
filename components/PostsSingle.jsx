@@ -4,7 +4,6 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import SquareImage from './elements/SquareImage'
 import Error from './elements/Error'
 // IMPORT PAGES
 import PostToggle from './PostToggle'
@@ -122,13 +121,11 @@ function PostSingle({
       {/* Media */}
       <div style={{ flex: 'auto' }}>
         <div className={styles['post-media']}>
-          <SquareImage>
-            <ExternalMedia
-              mediaSrc={post.media}
-              thumbnailSrc={post._metadata.thumbnail_url}
-              title={post.short_message}
-            />
-          </SquareImage>
+          <ExternalMedia
+            mediaSrc={post.media}
+            thumbnailSrc={post._metadata.thumbnail_url}
+            title={post.short_message.join('\n')}
+          />
           {/* TODO : Adjust font size of post message so it always fills three lines in height */}
           <PostMessage message={post.short_message} />
         </div>
