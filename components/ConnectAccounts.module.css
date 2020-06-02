@@ -49,7 +49,7 @@
   min-width: 33%;
   margin-right: 3.234%;
 
-  :global(.square-image) {
+  :global(.square--image) {
     margin-top: 0;
   }
 }

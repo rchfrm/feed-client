@@ -10,7 +10,7 @@ import React from 'react'
 
 function SquareImage({ media }) {
   return (
-    <div className="square-image">
+    <div className="square--image">
       {media}
     </div>
   )

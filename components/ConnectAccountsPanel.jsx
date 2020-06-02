@@ -235,7 +235,7 @@ function ConnectAccountsPanel({
 
         {/* Page Profile Picture */}
         <div className={styles['profile-picture']}>
-          <div className={`square-image ${styles['square-image']}`}>
+          <div className={`square--image ${styles['square--image']}`}>
             <img
               className={`center-image ${styles['center-image']}`}
               src={artistAccount.picture}
