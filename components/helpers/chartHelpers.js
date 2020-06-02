@@ -196,9 +196,8 @@ const fillInMissingData = (periodData, granularity) => {
   }, [])
 }
 
-// * Returns an object of each period (weeks/months) covered by the data.
-// Keys are the period index (week of year/month of year).
-// Value is an array of the [date, value] pair.
+// * Returns an array periods (weeks/months) covered by the data.
+// Each entry is an object containing the date, date value, and period index
 const getPeriodData = (dailyData, granularity) => {
   const periodData = Object.entries(dailyData).reduce((results, [date, value]) => {
     const dateMoment = moment(date, 'YYYY-MM-DD')
