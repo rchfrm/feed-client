@@ -167,7 +167,7 @@
 
 
   .a,
-  .select {
+  .select--box {
     .deselected & {
       color: var(--grey-dark);
       text-decoration: none;
@@ -183,13 +183,7 @@
 
     .deselected & {
       pointer-events: none;
-    }
-  }
-
-  .select {
-    .deselected & {
-      border: 1px dotted var(--grey-dark);
-      pointer-events: none;
+      opacity: 0;
     }
   }
 }
@@ -197,7 +191,7 @@
 .linkSelection {
   display: flex;
   justify-content: space-between;
-  margin-bottom: var(--sp-5);
+  margin-bottom: var(--sp-5);  
 }
 
 .linkSelection__select {
@@ -207,6 +201,13 @@
   :global(.select--box) {
     margin-bottom: 0 !important;
     text-transform: capitalize;
+  }
+
+  .deselected & {
+    :global(.select--box) {
+      border: 1px dotted var(--grey-dark);
+      pointer-events: none;
+    }
   }
 }
 
