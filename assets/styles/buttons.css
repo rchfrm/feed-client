@@ -146,6 +146,11 @@ button {
     background-color: var(--white);
     border: 2px solid var(--grey);
   }
+
+  .button--spinner {
+    width: 85%;
+    height: auto;
+  }
 }
 
 
