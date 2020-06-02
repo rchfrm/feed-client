@@ -132,7 +132,7 @@ export const findCountryName = (twoLetterCode) => {
 }
 
 export const findPostMedia = (attachments) => {
-  if (!attachments) { return }
+  if (!attachments) return
 
   let obj
   let link
@@ -158,7 +158,7 @@ export const findPostMedia = (attachments) => {
 }
 
 export const findPostThumbnail = (attachments) => {
-  if (!attachments) { return }
+  if (!attachments) return
 
   let obj
   let thumbnail
