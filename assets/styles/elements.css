@@ -292,12 +292,13 @@
   overflow: hidden;
   
   .center-image {
-    margin-bottom: 0;
     position: absolute;
-    object-fit: cover;
-    object-position: center;
-    height: 100%;
+    left: 0;
+    bottom: 50%;
     width: 100%;
+    transform: translateY(50%);
+    height: auto;
+    margin-bottom: 0;
   }
 }
 
