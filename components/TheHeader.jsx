@@ -1,5 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
+
+import PeekElement from 'react-peek-element'
 // IMPORT HOOKS
 import useOnResize from './hooks/useOnResize'
 import useLoggedInTest from './hooks/useLoggedInTest'
@@ -9,7 +11,6 @@ import { InterfaceContext } from './contexts/InterfaceContext'
 import TheHeaderContents from './TheHeaderContents'
 import TheSubNav from './TheSubNav'
 import PageHeader from './PageHeader'
-import PeekElement from './PeekElement'
 // IMPORT STYLES
 import { pageTitle } from './TheHeader.module.css'
 
