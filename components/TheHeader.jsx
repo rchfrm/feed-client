@@ -8,15 +8,23 @@ import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT COMPONENTS
 import TheHeaderContents from './TheHeaderContents'
 import TheSubNav from './TheSubNav'
+import PageHeader from './PageHeader'
 import PeekElement from './PeekElement'
+// IMPORT STYLES
+import { pageTitle } from './TheHeader.module.css'
 
 function TheHeader() {
   // Toggle mobile header
   const { width: windowWidth } = useOnResize({})
   const [mobileHeader, setMobileHeader] = React.useState(null)
+  const [inlinePageTitle, setInlinePageTitle] = React.useState(true)
   React.useEffect(() => {
+    // Show peek header or not
     const isDesktopLayout = window.matchMedia('(min-width: 993px)').matches
     setMobileHeader(!isDesktopLayout)
+    // Show page title below header, or not
+    const inlinePageTitle = windowWidth < 450
+    setInlinePageTitle(inlinePageTitle)
   }, [windowWidth])
 
   // Check if logged in or not
@@ -40,9 +48,12 @@ function TheHeader() {
   return (
     <>
       {mobileHeader ? (
-        <PeekElement usePlaceHolder config={{ childProps: { style: { zIndex: 28 } } }}>
-          {headerContents}
-        </PeekElement>
+        <>
+          <PeekElement usePlaceHolder config={{ childProps: { style: { zIndex: 28 } } }}>
+            {headerContents}
+          </PeekElement>
+          {inlinePageTitle && <PageHeader className={pageTitle} />}
+        </>
       ) : (
         headerContents
       )}
