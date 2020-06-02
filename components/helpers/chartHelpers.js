@@ -200,7 +200,6 @@ const fillInMissingData = (periodData, granularity) => {
 // Keys are the period index (week of year/month of year).
 // Value is an array of the [date, value] pair.
 const getPeriodData = (dailyData, granularity) => {
-  console.log('granularity', granularity)
   const periodData = Object.entries(dailyData).reduce((results, [date, value]) => {
     const dateMoment = moment(date, 'YYYY-MM-DD')
     const period = granularity === 'months' ? dateMoment.month() : dateMoment.isoWeek()
