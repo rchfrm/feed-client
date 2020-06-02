@@ -179,10 +179,16 @@ function ChartBar({
     }
     setChartLimit(newChartLimit)
     const increaseArr = periodValues.map((datum, index) => {
-      const value = datum - periodValues[index - 1]
-      if (index === 0 || value < 0) {
-        return 0
+      if (index === 0) return 0
+      // Get previous value, skipping gaps
+      let previousValue = null
+      let i = 1
+      while (typeof previousValue !== 'number') {
+        previousValue = periodValues[index - i]
+        i += 1
       }
+      const value = datum - previousValue
+      if (value < 0) return 0
       return value
     })
 

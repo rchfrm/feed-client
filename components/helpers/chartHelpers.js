@@ -190,7 +190,7 @@ const fillInMissingData = (periodData, granularity) => {
     const missingDataPayload = {
       period: missingPeriod,
       date: missingPeriodMoment.format('YYYY-MM-DD'),
-      value: 0,
+      value: null,
     }
     return [...results, missingDataPayload, data]
   }, [])
