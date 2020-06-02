@@ -133,7 +133,7 @@
   @media (--xxs) {
     position: absolute;
     left: 0;
-    bottom: 0.4em;
+    top: 1.6em;
     width: 100%;
     padding: 0 calc(var(--sp-10) + var(--sp-4));
     margin-bottom: 0;
