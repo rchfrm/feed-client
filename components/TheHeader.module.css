@@ -84,7 +84,7 @@
   height: calc(((var(--sp-10) / 0.82) * 1) + var(--sp-6) + var(--sp-3));
   margin-left: -50vw;
   z-index: 18;
-  background: color-mod(var(--bg-color) alpha(0.8));
+  background: color-mod(var(--bg-color) alpha(0.6));
 
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
