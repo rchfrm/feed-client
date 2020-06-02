@@ -240,8 +240,12 @@ export const getChartData = (data, granularity) => {
 
 // CREATE ARRAY OF PERIOD LABELS
 export const getPeriodLabels = (periodDates) => {
+  const [earliestDate] = periodDates
+  const lastDate = periodDates[periodDates.length - 1]
+  const earliestYear = moment(earliestDate, 'YYYY-MM-DD').year()
+  const lastYear = moment(lastDate, 'YYYY-MM-DD').year()
   return periodDates.map((date) => {
-    const labelFormat = 'DD MMM'
+    const labelFormat = earliestYear !== lastYear ? 'DD MMM YYYY' : 'DD MMM'
     const dateMoment = moment(date, 'YYYY-MM-DD')
     return dateMoment.format(labelFormat)
   })
