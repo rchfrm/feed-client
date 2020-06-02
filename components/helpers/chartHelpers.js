@@ -189,6 +189,7 @@ const fillInMissingData = (periodData, granularity) => {
     const missingPeriod = granularity === 'months' ? missingPeriodMoment.month() : missingPeriodMoment.isoWeek()
     const missingDataPayload = {
       period: missingPeriod,
+      year: missingPeriodMoment.year(),
       date: missingPeriodMoment.format('YYYY-MM-DD'),
       value: null,
     }
@@ -201,10 +202,13 @@ const fillInMissingData = (periodData, granularity) => {
 const getPeriodData = (dailyData, granularity) => {
   const periodData = Object.entries(dailyData).reduce((results, [date, value]) => {
     const dateMoment = moment(date, 'YYYY-MM-DD')
+    const year = dateMoment.year()
     const period = granularity === 'months' ? dateMoment.month() : dateMoment.isoWeek()
-    const payload = { period, date, value, dateMoment }
-    // Is there already data for this period?
-    const storedDatumIndex = results.findIndex(({ period: storedPeriod }) => period === storedPeriod)
+    const payload = { period, year, date, value, dateMoment }
+    // Is there already data for this period and year?
+    const storedDatumIndex = results.findIndex(({ period: storedPeriod, year: storedYear }) => {
+      return period === storedPeriod && year === storedYear
+    })
     if (storedDatumIndex > -1) {
       const { date: storedDate } = results[storedDatumIndex]
       const storedDateMoment = moment(storedDate, 'YYYY-MM-DD')
