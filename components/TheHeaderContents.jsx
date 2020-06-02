@@ -4,7 +4,6 @@ import React from 'react'
 import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
-import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT HOOKS
 import useLoggedInTest from './hooks/useLoggedInTest'
 // IMPORT ELEMENTS
