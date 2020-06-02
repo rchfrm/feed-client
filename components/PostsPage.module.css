@@ -71,6 +71,13 @@
   }
 }
 
+.postDate {
+  font-size: 0.8em;
+
+  @media (--xxs) {
+    font-size: 1em;
+  }
+}
 
 
 .post-meta .a:hover {
