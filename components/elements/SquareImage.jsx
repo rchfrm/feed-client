@@ -8,8 +8,7 @@ import React from 'react'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 
-function SquareImage(props) {
-  const { media } = props
+function SquareImage({ media }) {
   return (
     <div className="square-image">
       {media}
