@@ -1,3 +1,19 @@
-import SignupPage from '../../components/page/SignupPage'
+import BasePage from '../../components/BasePage'
+import SignupPageContent from '../../components/SignupPageContent'
 
-export default SignupPage
+const headerConfig = {
+  text: 'sign up',
+}
+
+const page = () => (
+  <BasePage
+    headerConfig={headerConfig}
+    staticPage
+    authPage
+  >
+    <SignupPageContent />
+  </BasePage>
+)
+
+
+export default page

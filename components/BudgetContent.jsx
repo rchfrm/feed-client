@@ -1,9 +1,8 @@
-
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
-import PageHeader from './PageHeader'
 import BudgetConfirmation from './BudgetConfirmation'
+import PaymentSummary from './PaymentSummary'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
@@ -26,7 +25,7 @@ const initialAlertState = {
   contents: undefined,
 }
 
-function PostsBudget({ currency }) {
+function BudgetContent({ currency }) {
   const { artist, artistId, updateBudget } = React.useContext(ArtistContext)
   // DEFINE STATES
   const initialBudgetState = {
@@ -145,13 +144,11 @@ function PostsBudget({ currency }) {
         buttons={<AlertButton />}
       />
 
-      <PageHeader heading="set your budget" />
+      <div className="grid base--grid">
 
-      <div className="ninety-wide" style={{ marginBottom: '2em' }}>
+        <MarkdownText className="h3--text col-span-12" markdown={copy.budgetIntro} />
 
-        <MarkdownText className="h3--text" markdown={copy.budgetIntro} />
-
-        <form onSubmit={onSubmit} className={styles.form}>
+        <form onSubmit={onSubmit} className={[styles.form, 'col-span-12', 'lg:col-span-6'].join(' ')}>
 
           <Input
             className={styles.inputContainer}
@@ -174,13 +171,25 @@ function PostsBudget({ currency }) {
 
         </form>
 
-        <MarkdownText className="" markdown={copy.budgetOutro(minBudget)} />
+        {error && (
+          <div className="col-span-12 lg:col-span-6">
+            <Error error={error} />
+          </div>
+        )}
 
-        <Error error={error} />
+        {/* spacer */}
+        <div className="hidden lg:block col-span-12 lg:col-span-6" />
 
+        <MarkdownText className="col-span-12 lg:col-span-6" markdown={copy.budgetOutro(minBudget)} />
+
+        {/* spacer */}
+        <div className="hidden lg:block col-span-12 lg:col-span-6" />
+
+        <PaymentSummary className="col-span-12 lg:col-span-6" />
       </div>
+
     </div>
   )
 }
 
-export default PostsBudget
+export default BudgetContent

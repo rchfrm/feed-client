@@ -5,13 +5,12 @@ import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import Spinner from './elements/Spinner'
 import Error from './elements/Error'
 // IMPORT PAGES
 import PostsAll from './PostsAll'
 import PostsNone from './PostsNone'
-import PostsBudget from './PostsBudget'
 // IMPORT HELPERS
 import * as utils from './helpers/utils'
 import server from './helpers/server'
@@ -87,7 +86,9 @@ function PostsLoader() {
   const postsPerPage = 10
 
   // Import artist context
-  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
+  const { artistId, artistLoading } = React.useContext(ArtistContext)
+  // Import interface context
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   // When changing artist...
   React.useEffect(() => {
@@ -121,6 +122,9 @@ function PostsLoader() {
     cursor,
     // When fetch finishes
     onResolve: (posts) => {
+      // Turn off global loading
+      toggleGlobalLoading(false)
+      // Handle result...
       if (!posts || !posts.length) {
         isEndOfAssets.current = true
         setLoadingMore(false)
@@ -221,7 +225,7 @@ function PostsLoader() {
 
   // Spinner if loading
   if (artistLoading || (isPending && initialLoad)) {
-    return <Spinner />
+    return null
   }
 
   // No posts if none
@@ -244,8 +248,6 @@ function PostsLoader() {
       />
 
       <Error error={error} />
-
-      <PostsBudget currency={artist.currency} />
 
     </div>
   )

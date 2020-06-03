@@ -20,20 +20,20 @@ const InsightPlatformSelectors = ({
   const [buttonRefs, containerRef] = useScrollToButton(availablePlatforms, currentPlatform)
   // CHANGE ACTIVE COLOR
   React.useEffect(() => {
-    if (!currentPlatform) return
+    if (!currentPlatform || initialLoading) return
     // Set hover color
     const { bg: platformColor } = brandColors[currentPlatform]
     const dataSelectors = document.getElementById('platformSelectors')
     if (!dataSelectors) return
     dataSelectors.style.setProperty('--active-color', platformColor)
-  }, [currentPlatform])
+  }, [currentPlatform, availablePlatforms.length, initialLoading])
 
   if (!availablePlatforms.length) return null
 
   if (initialLoading) return null
 
   return (
-    <div className={styles.selectorsOuter}>
+    <div className={['breakout--width', styles.selectorsOuter].join(' ')}>
       <p className={['inputLabel__text', styles.selectorsLabel].join(' ')}>Select a platform</p>
       <div id="platformSelectors" className={styles.platformSelectors} ref={containerRef}>
         {availablePlatforms.map(({ title, id }, i) => {

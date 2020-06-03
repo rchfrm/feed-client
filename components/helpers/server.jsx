@@ -1,7 +1,4 @@
-import produce from 'immer'
-
 import * as utils from './utils'
-import artistHelpers from './artistHelpers'
 import firebase from './firebase'
 import * as api from './api'
 
@@ -83,10 +80,6 @@ export default {
         last_name,
         token: verify_id_token,
       }, false)
-      .then(res => {
-        res.artists = artistHelpers.sortArtistsAlphabetically(res.artists)
-        return res
-      })
   },
 
   /**
@@ -94,14 +87,7 @@ export default {
    * @returns {Promise<any>}
    */
   getUser: async (verifyIdToken) => {
-    const user = await api.get('/users/me', verifyIdToken)
-    if (!user) return
-    const userSortedArtists = produce(user, draft => {
-      const { artists } = draft
-      draft.artists = artistHelpers.sortArtistsAlphabetically(artists)
-      return draft
-    })
-    return userSortedArtists
+    return api.get('/users/me', verifyIdToken)
   },
 
   /**

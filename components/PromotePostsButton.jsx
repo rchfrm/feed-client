@@ -30,7 +30,7 @@ function PromotePostsButton({
   }
 
   return (
-    <div className={[className, 'ninety-wide'].join(' ')}>
+    <div className={[className].join(' ')}>
       <Button
         version="black full"
         onClick={handleClick}

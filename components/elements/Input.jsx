@@ -58,6 +58,7 @@ const Input = ({
   success,
   autoComplete,
   autoFocus,
+  disabled,
 }) => {
   const containerClasses = ['input--container', className]
   // Handle error and success states
@@ -66,6 +67,12 @@ const Input = ({
   }
   if (success) {
     containerClasses.push('_success')
+  }
+  if (disabled) {
+    containerClasses.push('_disabled')
+  }
+  if (readOnly) {
+    containerClasses.push('_readOnly')
   }
   // Get icon (if needed)
   const iconEl = getIconEl(icon, error, success)
@@ -106,7 +113,7 @@ const Input = ({
               width: `${width}%`,
             }}
             value={value}
-            readOnly={readOnly}
+            readOnly={readOnly || disabled}
             required={required}
             ref={inputElement}
             autoComplete={!autoComplete ? 'off' : ''}
@@ -139,6 +146,7 @@ Input.propTypes = {
   success: PropTypes.bool,
   autoComplete: PropTypes.bool,
   autoFocus: PropTypes.bool,
+  disabled: PropTypes.bool,
 }
 
 Input.defaultProps = {
@@ -156,6 +164,7 @@ Input.defaultProps = {
   success: false,
   autoComplete: true,
   autoFocus: false,
+  disabled: false,
 }
 
 export default Input

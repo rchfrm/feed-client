@@ -49,7 +49,7 @@ function Alert(props) {
           onClick={resetAlert}
         />
 
-        <div className="alert--inner">
+        <div className="alert--inner  page--content_fixed">
 
           {/* Close button */}
           <button
