@@ -74,12 +74,12 @@ const ExternalMedia = ({ mediaSrc, thumbnailSrc, title, className, aspectRatio }
   // Handle media error
   const handleError = React.useCallback(() => {
     // If error with a video, fallback to basic image
-    if (mediaType === 'video') {
+    if (mediaType === 'video' && !videoError) {
       setVideoError(true)
       return
     }
     setThumbError(true)
-  }, [mediaType, mediaSrc])
+  }, [mediaType, mediaSrc, videoError])
 
 
   // Get the media
