@@ -21,10 +21,6 @@ const BasePage = ({
   const { setHeader, toggleSubNav, toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get user context
   const { user } = React.useContext(UserContext)
-  // Hide nav when page mounts
-  React.useEffect(() => {
-    toggleSubNav(false)
-  }, [toggleSubNav])
   // ON MOUNT
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => {
@@ -37,6 +33,11 @@ const BasePage = ({
       toggleGlobalLoading(false)
     }
   }, [mounted, setHeader, toggleGlobalLoading, headerConfig, staticPage])
+  // Hide nav when page mounts
+  React.useEffect(() => {
+    if (mounted) return
+    toggleSubNav(false)
+  }, [toggleSubNav, mounted])
   // Turn off global loading when
   // 1. artist finishes loading
   // 2. page is not artist senstive

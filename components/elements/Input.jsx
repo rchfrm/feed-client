@@ -86,7 +86,7 @@ const Input = ({
     if (inputElement.current) {
       inputElement.current.focus()
     }
-  }, [])
+  }, [autoFocus])
 
   return (
     <div className={containerClasses.join(' ')}>

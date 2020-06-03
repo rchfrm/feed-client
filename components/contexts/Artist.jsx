@@ -255,17 +255,19 @@ function ArtistProvider({ children }) {
   // Update artist ID when artist changes
   React.useEffect(() => {
     if (!artist || !artist.id) return
-    setArtistId(artist.id)
+    const { id, currency } = artist
+    // Set artist
+    setArtistId(id)
+    // Set currency
+    setArtistCurrency(currency)
   }, [artist])
 
   // Store artist id in local storage
   React.useEffect(() => {
     if (!artistId) return
-    // Set currency
-    setArtistCurrency(artist.currency)
     // Update local storage
-    utils.setLocalStorage('artistId', artist.id)
-  }, [artistId])
+    utils.setLocalStorage('artistId', artistId)
+  }, [artistId, artistCurrency])
 
   const value = {
     artist,

@@ -24,7 +24,7 @@ const TheLoadingOverlay = () => {
     return () => {
       clearTimeout(waitForLoad)
     }
-  }, [globalLoading])
+  }, [globalLoading, toggleGlobalLoading])
   // Toggle spinner visibility
   const [spinnerClass, setSpinnerClass] = React.useState('')
   React.useEffect(() => {

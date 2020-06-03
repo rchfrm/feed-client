@@ -37,7 +37,7 @@ const reducer = (draftState, action) => {
 
   switch (actionType) {
     case 'toggleSubNav':
-      draftState.subNavOpen = payload.state
+      draftState.subNavOpen = typeof payload.state === 'boolean' ? payload.state : !draftState.subNavOpen
       break
     case 'toggleGlobalLoading':
       draftState.globalLoading = payload.state
@@ -58,9 +58,8 @@ const InterfaceContextProvider = ({ children }) => {
   const { subNavOpen, header, globalLoading, showSpinner } = interfaceState
 
   const toggleSubNav = React.useCallback((state) => {
-    const newState = typeof state !== 'undefined' ? state : !subNavOpen
-    setInterfaceState({ type: 'toggleSubNav', payload: { state: newState } })
-  }, [subNavOpen, setInterfaceState])
+    setInterfaceState({ type: 'toggleSubNav', payload: { state } })
+  }, [setInterfaceState])
 
   const setHeader = React.useCallback(({ visible, text, punctuation = '.' }) => {
     setInterfaceState({ type: 'setHeader', payload: { visible, text, punctuation } })
