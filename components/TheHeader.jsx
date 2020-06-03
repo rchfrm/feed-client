@@ -16,7 +16,7 @@ import styles from './TheHeader.module.css'
 
 function TheHeader() {
   // Toggle mobile header
-  const { width: windowWidth } = useOnResize({})
+  const { width: windowWidth } = useOnResize()
   const [mobileHeader, setMobileHeader] = React.useState(null)
   const [inlinePageTitle, setInlinePageTitle] = React.useState(true)
   React.useEffect(() => {

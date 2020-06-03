@@ -70,7 +70,7 @@ function PostsAll({
   }, [loadingMore, loadMorePosts])
 
   // Setup intersection observer
-  const { width: windowWidth } = useOnResize({ throttle: 300 })
+  const { width: windowWidth } = useOnResize(300)
   React.useEffect(() => {
     const root = windowWidth > 992 ? null : intersectionRoot.current
     // Observer options
