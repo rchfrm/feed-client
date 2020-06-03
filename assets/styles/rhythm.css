@@ -14,7 +14,6 @@ table,
 legend,
 pre,
 ul,
-ol,
-.media {
+ol {
   margin-bottom: var(--sp-5);
 }
