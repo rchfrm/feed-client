@@ -15,5 +15,5 @@ legend,
 pre,
 ul,
 ol {
-  margin-bottom: var(--bsu);
+  margin-bottom: var(--sp-5);
 }
