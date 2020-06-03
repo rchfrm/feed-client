@@ -57,25 +57,12 @@ function InsightsContent() {
     if (!initialLoading) {
       setTimeout(() => {
         setPageReady(true)
-      }, 200)
+      }, 100)
     }
   }, [initialLoading])
 
 
   if (artistLoading || !(currentPlatform || currentDataSource)) return null
-
-  if (initialLoading) {
-    return (
-      <>
-        <InsightsChartLoader
-          currentPlatform={currentPlatform}
-          currentDataSource={currentDataSource}
-          initialLoading={initialLoading}
-          setInitialLoading={setInitialLoading}
-        />
-      </>
-    )
-  }
 
   const containerClasses = [styles.pageContainer]
   if (pageReady) {
@@ -103,7 +90,11 @@ function InsightsContent() {
       />
 
       {currentPlatform && currentDataSource && (
-        <div className={styles.dataContent}>
+        <div
+          className={[
+            styles.dataContent,
+          ].join(' ')}
+        >
           <InsightsChartLoader
             currentPlatform={currentPlatform}
             currentDataSource={currentDataSource}
@@ -114,7 +105,11 @@ function InsightsContent() {
             <PromotePostsButton
               artist={artist}
               artistId={artistId}
-              className={styles.promotePostsButton}
+              className={[
+                'lg:col-span-10',
+                'bmw:col-span-8',
+                styles.promotePostsButton,
+              ].join(' ')}
             />
           )}
         </div>

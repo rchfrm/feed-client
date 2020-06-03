@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT CONTEXTS
 import { UserContext } from './contexts/User'
+import { ArtistContext } from './contexts/Artist'
 import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import MarkdownText from './elements/MarkdownText'
@@ -13,15 +14,16 @@ const BasePage = ({
   headerConfig, // heading and punctuation
   artistRequired,
   staticPage,
+  authPage,
   children,
 }) => {
   // Get interface context
-  const { setHeader, setSubNav, setGlobalLoading } = React.useContext(InterfaceContext)
+  const { setHeader, toggleSubNav, toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get user context
   const { user } = React.useContext(UserContext)
   // Hide nav when page mounts
   React.useEffect(() => {
-    setSubNav(false)
+    toggleSubNav(false)
   }, [])
   // ON MOUNT
   React.useEffect(() => {
@@ -29,9 +31,19 @@ const BasePage = ({
     setHeader(headerConfig)
     // If page is static, stop global loading when mounts
     if (staticPage) {
-      setGlobalLoading(false)
+      toggleGlobalLoading(false)
     }
   }, [])
+  // Turn off global loading when
+  // 1. artist finishes loading
+  // 2. page is not artist senstive
+  // 3. It's an auth page (ie, login or signup)
+  const { artistLoading } = React.useContext(ArtistContext)
+  React.useEffect(() => {
+    if (!artistLoading && !artistRequired && !authPage) {
+      toggleGlobalLoading(false)
+    }
+  }, [artistLoading])
 
 
   return (
@@ -55,12 +67,14 @@ BasePage.propTypes = {
   headerConfig: PropTypes.object,
   artistRequired: PropTypes.bool,
   staticPage: PropTypes.bool,
+  authPage: PropTypes.bool,
   children: PropTypes.node.isRequired,
 }
 
 BasePage.defaultProps = {
   headerConfig: null,
   staticPage: false,
+  authPage: false,
   artistRequired: false,
 }
 

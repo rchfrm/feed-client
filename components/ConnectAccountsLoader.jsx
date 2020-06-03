@@ -48,7 +48,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
   const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
   const { createArtist, setArtistLoading } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
-  const { setGlobalLoading } = React.useContext(InterfaceContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get any missing scopes
   const { missingScopes } = auth
 
@@ -84,10 +84,10 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
     // If missing scopes, we need to show the connect button
-    if (missingScopes.length) return setGlobalLoading(false)
+    if (missingScopes.length) return toggleGlobalLoading(false)
     // If no access token, then there will be no way to talk to facebook
     // so don't set artists accounts
-    if (!accessToken) return setGlobalLoading(false)
+    if (!accessToken) return toggleGlobalLoading(false)
     setPageLoading(true)
     const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken)
       .catch((error) => {
@@ -103,7 +103,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
       })
     if (!availableArtists) {
       setPageLoading(false)
-      setGlobalLoading(false)
+      toggleGlobalLoading(false)
       return
     }
     const { adaccounts } = availableArtists
@@ -120,7 +120,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     if (!adaccounts.length) {
       setErrors([...errors, { message: copy.noAdAccountsError }])
       setPageLoading(false)
-      setGlobalLoading(false)
+      toggleGlobalLoading(false)
       // Track
       track({
         category: 'sign up',
@@ -134,7 +134,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     if (Object.keys(accounts).length === 0) {
       setErrors([...errors, { message: 'No accounts were found' }])
       setPageLoading(false)
-      setGlobalLoading(false)
+      toggleGlobalLoading(false)
       // Track
       track({
         category: 'sign up',
@@ -150,7 +150,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
       },
     })
     setPageLoading(false)
-    setGlobalLoading(false)
+    toggleGlobalLoading(false)
   }, [])
 
 
@@ -168,11 +168,11 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistAccounts)
 
     try {
-      setGlobalLoading(true)
+      toggleGlobalLoading(true)
       await createArtist(artistAccountsSanitised, accessToken, user)
       Router.push(ROUTES.HOME)
     } catch (err) {
-      setGlobalLoading(false)
+      toggleGlobalLoading(false)
       setArtistLoading(false)
       setErrors([err])
     }

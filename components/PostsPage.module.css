@@ -2,17 +2,33 @@
 
 /* POSTS PAGE */
 
-.posts {
-  width: 100%;
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
 .posts-page {
   width: 100%;
   flex: auto;
   display: flex;
   flex-direction: column;
+}
+
+.posts {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  padding-left: var(--sp-6) !important;
+
+  @media (--sm) {
+    padding-left: var(--sp-8) !important;
+  }  
+
+  @media (--md) {
+    display: grid !important;
+    position: static;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    width: 100%;
+  }
 }
 
 .posts-section {
@@ -35,8 +51,34 @@
     align-items: center;
   }
 
-  :global(svg) {
+  svg {
     transform: none;
+  }
+}
+
+.postSingle {
+  /* Force gap to the right */
+  position: relative;
+  overflow: visible;
+  max-width: 480px;
+
+  &:last-child::after {
+    content: ' ';
+    position: absolute;
+    width: var(--sp-8);
+    height: 100%;
+    background: pink;
+    right: calc(-1 * var(--sp-8));
+  }
+
+  @media (--md) {
+    width: 100% !important;
+    max-width: none;
+    margin-right: 0 !important;
+
+    &:last-child::after {
+      display: none;
+    }
   }
 }
 
@@ -60,6 +102,13 @@
   }
 }
 
+.postDate {
+  font-size: 0.8em;
+
+  @media (--xxs) {
+    font-size: 1em;
+  }
+}
 
 
 .post-meta .a:hover {
@@ -120,7 +169,7 @@
 
 
   .a,
-  .select {
+  .select--box {
     .deselected & {
       color: var(--grey-dark);
       text-decoration: none;
@@ -136,13 +185,7 @@
 
     .deselected & {
       pointer-events: none;
-    }
-  }
-
-  .select {
-    .deselected & {
-      border: 1px dotted var(--grey-dark);
-      pointer-events: none;
+      opacity: 0;
     }
   }
 }
@@ -150,7 +193,7 @@
 .linkSelection {
   display: flex;
   justify-content: space-between;
-  margin-bottom: var(--sp-5);
+  margin-bottom: var(--sp-5);  
 }
 
 .linkSelection__select {
@@ -160,6 +203,13 @@
   :global(.select--box) {
     margin-bottom: 0 !important;
     text-transform: capitalize;
+  }
+
+  .deselected & {
+    :global(.select--box) {
+      border: 1px dotted var(--grey-dark);
+      pointer-events: none;
+    }
   }
 }
 

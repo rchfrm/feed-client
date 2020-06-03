@@ -43,6 +43,14 @@ const SidePanelContextProvider = ({ children }) => {
     setSidePanelOpen(newState)
   }
 
+  // Close side panel when navigating pages
+  React.useEffect(() => {
+    Router.events.on('routeChangeStart', closeSidePanel)
+    return () => {
+      Router.events.off('routeChangeStart', closeSidePanel)
+    }
+  }, [])
+
   return (
     // The context provider
     <SidePanelContext.Provider

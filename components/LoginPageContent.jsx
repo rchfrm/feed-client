@@ -1,6 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Router, { useRouter } from 'next/router'
+import Router from 'next/router'
 // IMPORT CONTEXTS
 import { AuthContext } from './contexts/Auth'
 // IMPORT ELEMENTS
@@ -22,25 +22,11 @@ import copy from '../copy/LoginPageCopy'
 import styles from './LoginPage.module.css'
 import brandColors from '../constants/brandColors'
 
-function LoginPageContent() {
-  // Get router info
-  const router = useRouter()
-  const { pathname } = router
+function LoginPageContent({ showEmailLogin }) {
   // IMPORT CONTEXTS
-  const [showEmailLogin, setShowEmailLogin] = React.useState(false)
   const { authError, setAuthError } = React.useContext(AuthContext)
   // Handle error
   const [error, setError] = React.useState(null)
-
-  // Show email login when route changes
-  React.useEffect(() => {
-    if (pathname === ROUTES.LOGIN_EMAIL) {
-      setShowEmailLogin(true)
-      return
-    }
-    setShowEmailLogin(false)
-  }, [pathname])
-
   // Change route when clicking on facebook button
   const goToEmailLogin = () => {
     setError(null)

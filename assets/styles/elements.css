@@ -9,7 +9,7 @@
   left: 0;
   justify-content: space-around;
   align-items: center;
-  z-index: 10;
+  z-index: 30;
 }
 
 .alert--bg {
@@ -25,7 +25,7 @@
   z-index: 2;
   background-color: var(--bg-color);
   max-width: 720px;
-  max-height: 80%;
+  max-height: 90%;
   padding: var(--sp-8);
   border: 2px solid var(--text-color);
   display: flex;
@@ -41,9 +41,17 @@
   h1 {
     padding-bottom: 1em;
   }
+}
 
-  p {
-    padding-bottom: 1em;
+.alert--contents {
+  width: 100%;
+  color: var(--black);
+  padding-top: var(--sp-5);
+  padding-right: var(--sp-10);
+  padding-bottom: var(--sp-10);
+
+  .text--block {
+    margin-bottom: 0;
   }
 }
 
@@ -55,11 +63,11 @@
 
 .alert_close--button {
   position: absolute;
-  top: calc(var(--sp-8) - 20px);
+  top: calc(var(--sp-8) - var(--sp-4));
   right: var(--sp-8);
 
   @media (--md) {
-    top: calc(var(--sp-10) - 20px);
+    top: calc(var(--sp-10) - var(--sp-4));
     right: var(--sp-10);
   }
 }
@@ -69,13 +77,6 @@
   justify-content: space-between;
   flex-direction: row-reverse;
   width: 100%;
-}
-
-.alert--contents {
-  width: 100%;
-  padding-bottom: 1em;
-  color: var(--black);
-  padding-right: var(--sp-5);
 }
 
 
@@ -303,15 +304,19 @@
 /* Tile
 ******************/
 .tile {
-  width: 74.58%;
-  margin-right: 2.5%;
+  width: 80%;
+  margin-right: var(--sp-4);
   flex: none;
-  padding: 5.556%;
+  padding: var(--sp-4);
   display: flex;
   flex-direction: column;
   border: 2px solid var(--text-color);
   border-radius: var(--dialogue-radius);
   overflow: hidden;
+
+  @media (--md) {
+    padding: var(--sp-5);
+  }
 }
 
 .selected {

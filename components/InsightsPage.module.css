@@ -26,7 +26,7 @@
   }
 
   @media (--xxs) {
-    margin-bottom: calc(var(--sp-10) * 2);
+    margin-bottom: var(--sp-24);
   }
 }
 
@@ -42,12 +42,6 @@
   
   &._loading {
     pointer-events: none;
-  }
-
-
-  @media (--bmw) {
-    width: 90%;
-    margin-right: 5%;
   }
 
   :global(canvas) {
@@ -229,22 +223,30 @@
 
 /* PROJECTION SENTENCE */
 .projectionContainer {
-  margin-top: var(--sp-10);
+  margin-top: var(--sp-24);
+  margin-left: var(--sp-5);
+  margin-right: var(--sp-5);
 
   @media (--xxs) {
-    margin-top: calc(var(--sp-10) * 2);
+    margin-top: var(--sp-32);
+  }
+
+  @media (--sm) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  @media (--lg) {
+    margin-top: 0;
   }
 }
 
 .projectionText {
   padding: var(--sp-5);
   border-radius: var(--dialogue-radius);
+  margin-bottom: 0 !important;
 
   @media (--xxs) {
     font-size: 1.2em;
-  }
-
-  @media (--xs) {
-    font-size: 1.333em;
   }
 }

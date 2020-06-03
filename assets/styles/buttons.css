@@ -19,6 +19,7 @@ button {
   padding: 0;
   border: none;
   border-radius: var(--button-radius);
+  align-items: center;
 
   font-family: var(--font);
   font-size: 1.1em;
@@ -86,7 +87,7 @@ button {
   &:disabled,
   &[disabled] {
     background-color: var(--disabled-color-bg);
-    color: var(--white);
+    color: var(--success-color);
   }
 }
 
@@ -144,6 +145,11 @@ button {
   &._off {
     background-color: var(--white);
     border: 2px solid var(--grey);
+  }
+
+  .button--spinner {
+    width: 85%;
+    height: auto;
   }
 }
 

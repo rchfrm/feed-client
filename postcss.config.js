@@ -1,11 +1,3 @@
-const purgecss = [
-  '@fullhuman/postcss-purgecss',
-  {
-    content: ['./components/**/*.jsx', './pages/**/*.jsx'],
-    defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
-  },
-]
-
 module.exports = {
   plugins: [
     'postcss-flexbugs-fixes',
@@ -27,7 +19,6 @@ module.exports = {
     }],
     'tailwindcss',
     'autoprefixer',
-    ...(process.env.NODE_ENV === 'production' ? [purgecss] : []),
     'postcss-nested',
   ],
 }

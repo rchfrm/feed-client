@@ -25,8 +25,10 @@ body {
   min-height: 100vh;
   flex-direction: column;
   padding-bottom: var(--page-buttons-height);
+  padding-top: 0;
 
   @media (--md) {
+    padding-top: var(--sp-10);
     padding-bottom: 0;
   }
 }
@@ -38,19 +40,16 @@ body {
   align-items: flex-end;
   width: 100%;
 
-  > * {
-    width: 100%;
-  }
-
   @media (--md) {
-    padding-left: calc(2 * var(--sp-10) + var(--sp-5));
+    margin-left: var(--sp-10);
+    padding: 0 var(--sp-16);
   }
 }
 
 
 .page--content {
   max-width: var(--bmw);
-  padding: var(--sp-5);
+  padding: var(--sp-6);
   margin: 0 auto;
 
   @media (--sm) {
@@ -60,7 +59,6 @@ body {
   @media (--md) {
     padding: var(--sp-10);
   }
-
 
   &._fixed {
     position: fixed;
@@ -103,9 +101,15 @@ body {
   padding-top: var(--sp-8);
   font-family: var(--font-display);
   padding-bottom: var(--sp-5);
+  padding-right: var(--sp-5);
 
   &._loggedIn {
     padding-bottom: var(--sp-8);
+
+    @media (--md) {
+      padding-left: var(--sp-25);
+      padding-bottom: calc(var(--sp-5) + 1px);
+    }
   }
 }
 
@@ -155,4 +159,9 @@ em {
 
 a {
   text-decoration: underline;
+}
+
+/* Base grid */
+.base--grid {
+  @apply grid-cols-12 gap-5;
 }

@@ -48,31 +48,17 @@
   --sp-16: 4rem; /* 64px */
   --sp-20: 5rem; /* 80px */
   --sp-24: 6rem; /* 96px */
+  --sp-25: 6.125rem; /* 82px */
   --sp-32: 8rem; /* 128px */
   --sp-40: 10rem; /* 160px */
   --sp-48: 12rem; /* 192px */
   --sp-56: 14rem; /* 224px */
   --sp-64: 16rem; /* 256px */
+  --sp-80: 20rem; /* 320px */
+  --sp-96: 24rem; /* 384px */
+  --sp-128: 32rem; /* 512px */
   --side-padding: 70px;
   --page-buttons-height: 70px;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   /* Scaffold */
   --gutter: 20px;
@@ -99,9 +85,10 @@
  * Breakpoints.
  */
 
+@custom-media --iphone6 (width >= 321px);
 @custom-media --xxsMax (width < 450px);
 @custom-media --xxs    (width >= 450px);
-@custom-media --min-content (width >= 520px);
+@custom-media --min-content (width >= 540px);
 @custom-media --xsMax  (width < 600px);
 @custom-media --xs     (width >= 600px);
 @custom-media --smMax  (width < 800px);

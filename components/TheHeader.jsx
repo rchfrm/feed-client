@@ -1,77 +1,69 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Router, { useRouter } from 'next/router'
-// IMPORT COMPONENTS
-import * as ROUTES from '../constants/routes'
-// IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
-import { InterfaceContext } from './contexts/InterfaceContext'
+
+import PeekElement from 'react-peek-element'
 // IMPORT HOOKS
+import useOnResize from './hooks/useOnResize'
 import useLoggedInTest from './hooks/useLoggedInTest'
-// IMPORT ELEMENTS
-import FeedLogo from './icons/FeedLogo'
-import TheSubNavButton from './TheSubNavButton'
-import PageHeader from './PageHeader'
+// IMPORT CONTEXTS
+import { InterfaceContext } from './contexts/InterfaceContext'
+// IMPORT COMPONENTS
+import TheHeaderContents from './TheHeaderContents'
 import TheSubNav from './TheSubNav'
-// IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
+import PageHeader from './PageHeader'
 // IMPORT STYLES
 import styles from './TheHeader.module.css'
 
 function TheHeader() {
+  // Toggle mobile header
+  const { width: windowWidth } = useOnResize({})
+  const [mobileHeader, setMobileHeader] = React.useState(null)
+  const [inlinePageTitle, setInlinePageTitle] = React.useState(true)
+  React.useEffect(() => {
+    // Show peek header or not
+    const isDesktopLayout = window.matchMedia('(min-width: 993px)').matches
+    setMobileHeader(!isDesktopLayout)
+    // Show page title below header, or not
+    const inlinePageTitle = windowWidth < 450
+    setInlinePageTitle(inlinePageTitle)
+  }, [windowWidth])
+
   // Check if logged in or not
   const isLoggedIn = useLoggedInTest()
-  // Handle flash of oversized logo
-  const [logoOpacity, setLogoOpacity] = React.useState(0)
-  React.useEffect(() => {
-    setLogoOpacity(1)
-  }, [])
+
   // HANDLE SUB-NAV OPENING AND CLOSING
-  const [showSubNav, setShowSubNav] = React.useState(false)
-  const { subNavOpen, toggleSubNav, setSubNav } = React.useContext(InterfaceContext)
-  const [headerClass, setHeaderClass] = React.useState('')
-  const [logoTextColor, setLogoTextColor] = React.useState(brandColors.textColor)
-  React.useEffect(() => {
-    // Toggle header class
-    const headerClass = subNavOpen.open ? '_subNavOpen' : ''
-    setHeaderClass(headerClass)
-    // Toggle logo text
-    setLogoTextColor(subNavOpen ? brandColors.bgColor : brandColors.textColor)
-    // Toggle sub nav
-    const show = subNavOpen && isLoggedIn
-    setShowSubNav(show)
-  }, [subNavOpen])
-  // Close sub-nav after artist changes
-  const { artistId, artistLoading } = React.useContext(ArtistContext)
-  React.useEffect(() => {
-    setSubNav(false)
-  }, [artistId, artistLoading])
-  // Go to home page
-  const { pathname } = useRouter()
-  const goHome = () => {
-    if (pathname === ROUTES.HOME) return
-    Router.push(ROUTES.HOME)
-  }
+  const { subNavOpen, toggleSubNav } = React.useContext(InterfaceContext)
+
+  // Wait until a device type has been defined
+  if (typeof mobileHeader !== 'boolean') return null
+
+  // Define header contents
+  const headerContents = (
+    <>
+      <TheHeaderContents windowWidth={windowWidth} subNavOpen={subNavOpen} toggleSubNav={toggleSubNav} />
+      {/* THE SUBNAV */}
+      <TheSubNav open={subNavOpen && isLoggedIn} toggle={toggleSubNav} windowWidth={windowWidth} />
+    </>
+  )
 
   return (
-    <header className={[styles.TheHeader, styles[headerClass]].join(' ')}>
-      {/* LOGO */}
-      <a onClick={goHome} role="button" title="home">
-        <FeedLogo className={styles.logo} style={{ opacity: logoOpacity }} textColor={logoTextColor} />
-      </a>
-      {/* Page Header */}
-      <PageHeader className={styles.pageTitle} />
-      {/* Subnav button */}
-      {isLoggedIn && (
-        <TheSubNavButton
-          toggleSubNav={toggleSubNav}
-          navOpen={subNavOpen}
-          className={styles.subNavButton}
-        />
+    <>
+      {mobileHeader ? (
+        <>
+          <PeekElement
+            usePlaceHolder
+            config={{
+              childProps: { style: { zIndex: 28 }, className: 'peek-element' },
+            }}
+          >
+            {headerContents}
+          </PeekElement>
+          {inlinePageTitle && <PageHeader className={styles.pageTitle} />}
+        </>
+      ) : (
+        headerContents
       )}
-      {/* THE SUBNAV */}
-      <TheSubNav show={showSubNav} setShow={toggleSubNav} />
-    </header>
+    </>
   )
 }
 

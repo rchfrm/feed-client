@@ -138,6 +138,7 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
   const getResultEl = (post, summary) => {
     return (
       <ResultsSingle
+        className="col-span-6"
         key={post.id}
         active={active}
         attachments={post.attachments}
@@ -199,7 +200,7 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
         <h2>{title}</h2>
       </div>
 
-      <ul className={styles.results}>{allResults.enabled}</ul>
+      <ul className={['lg:grid', 'grid-cols-12', 'gap-8', 'row-gap-0', styles.results].join(' ')}>{allResults.enabled}</ul>
 
       <DisabledResults disabledResults={allResults.disabled} />
     </div>

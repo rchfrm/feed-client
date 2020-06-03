@@ -61,6 +61,8 @@ function PostSingle({
   singular: isSingular,
   updateLink,
   togglePromotion,
+  className = '',
+  children = <></>,
 }) {
   // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
@@ -127,7 +129,7 @@ function PostSingle({
 
   return (
     <li
-      className={`tile ${styles[selected]} ${singular}`}
+      className={['tile', styles[selected], styles.postSingle, singular, className].join(' ')}
       style={{ padding: 0 }}
     >
 
@@ -183,6 +185,8 @@ function PostSingle({
 
       {/* Post Metrics */}
       <PostMetrics es={post.insights.engagement_score} orderedInsights={orderedInsights} />
+
+      {children}
 
     </li>
   )

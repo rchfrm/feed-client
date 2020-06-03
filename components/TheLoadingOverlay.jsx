@@ -1,9 +1,8 @@
 import React from 'react'
 
-import Div100vh from 'react-div-100vh'
-
 import { InterfaceContext } from './contexts/InterfaceContext'
 
+import FullHeight from './elements/FullHeight'
 import Spinner from './elements/Spinner'
 import FadeInOut from './elements/FadeInOut'
 
@@ -11,7 +10,7 @@ import FadeInOut from './elements/FadeInOut'
 const TheLoadingOverlay = () => {
   // Get interface context
   const {
-    setGlobalLoading,
+    toggleGlobalLoading,
     globalLoading,
     showSpinner,
   } = React.useContext(InterfaceContext)
@@ -20,8 +19,8 @@ const TheLoadingOverlay = () => {
     if (!globalLoading) return
     // Only show spinner if loading page takes longer than 300ms
     const waitForLoad = setTimeout(() => {
-      setGlobalLoading(true, true)
-    }, 250)
+      toggleGlobalLoading(true, true)
+    }, 500)
     return () => {
       clearTimeout(waitForLoad)
     }
@@ -49,9 +48,9 @@ const TheLoadingOverlay = () => {
       addEndListener={() => setIsAnimating(false)}
       unmountOnExit
     >
-      <Div100vh id="TheLoadingOverlay" className="fixed top-0 left-0 z-10 flex items-center justify-center w-full bg-white opacity-0">
+      <FullHeight id="TheLoadingOverlay" className="fixed top-0 left-0 z-20 flex items-center justify-center w-full bg-white opacity-0">
         <Spinner className={['transition', 'ease-in', 'duration-300', 'transition-opacity', spinnerClass].join(' ')} />
-      </Div100vh>
+      </FullHeight>
     </FadeInOut>
   )
 }

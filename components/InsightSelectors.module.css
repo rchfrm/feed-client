@@ -21,7 +21,6 @@
   border-top: 2px solid var(--text-color);
   overflow-x: auto;
   margin-bottom: var(--sp-5);
-  scroll-behavior: smooth;
 
   /* For desktops */
   @mixin canHover {

@@ -86,9 +86,9 @@ function PostsLoader() {
   const postsPerPage = 10
 
   // Import artist context
-  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
+  const { artistId, artistLoading } = React.useContext(ArtistContext)
   // Import interface context
-  const { setGlobalLoading } = React.useContext(InterfaceContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   // When changing artist...
   React.useEffect(() => {
@@ -123,7 +123,7 @@ function PostsLoader() {
     // When fetch finishes
     onResolve: (posts) => {
       // Turn off global loading
-      setGlobalLoading(false)
+      toggleGlobalLoading(false)
       // Handle result...
       if (!posts || !posts.length) {
         isEndOfAssets.current = true

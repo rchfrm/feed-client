@@ -25,7 +25,11 @@ const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
   }
 
   return (
-    <button className={[styles.container, className, navOpen ? styles._navOpen : ''].join(' ')} onClick={runToggle}>
+    <button
+      id="TheSubNavButton"
+      className={[styles.container, className, navOpen ? styles._navOpen : ''].join(' ')}
+      onClick={runToggle}
+    >
       <div className={styles.inner}>
         <div className={styles.frontIcon}>
           <figure className={styles.image}>
@@ -44,6 +48,7 @@ const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
           </div>
         </div>
       </div>
+      <p className={styles.buttonTitle}>{navOpen ? 'close' : 'menu'}</p>
     </button>
   )
 }

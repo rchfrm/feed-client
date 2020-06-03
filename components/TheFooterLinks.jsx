@@ -3,7 +3,7 @@ import ActiveLink from './ActiveLink'
 
 import * as ROUTES from '../constants/routes'
 
-import styles from './TheFooterLinks.module.css'
+import styles from './TheFooter.module.css'
 
 const { LOGIN, SIGN_UP, PRICING, FAQ } = ROUTES
 const termsLink = 'https://archform.ltd/terms/'
