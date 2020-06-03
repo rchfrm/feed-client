@@ -292,14 +292,33 @@
   height: 0;
   overflow: hidden;
 
+  /* Aspect ratios */
+  &.media--square {
+    padding-bottom: 100%;
+  }
+
+  &.media--landscape {
+    padding-bottom: 75%;
+  }
+
+  &.media--portrait {
+    padding-bottom: 133.333333333%;
+  }
+
+  /* Img */
+  img,
+  video,
+  iframe {
+    width: 100%;
+    height: auto;
+    margin-bottom: 0;
+  }
+
   .center--image {
     position: absolute;
     left: 0;
     bottom: 50%;
-    width: 100%;
     transform: translateY(50%);
-    height: auto;
-    margin-bottom: 0;
   }
 
   .play--icon {
@@ -330,18 +349,6 @@
      max-width: 4rem;
      height: auto;
    }
-}
-
-.media--square {
-  padding-bottom: 100%;
-}
-
-.media--landscape {
-  padding-bottom: 75%;
-}
-
-.media--portrait {
-  padding-bottom: 133.333333333%;
 }
 
 /* Tile
