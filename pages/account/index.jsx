@@ -1,5 +1,5 @@
 import BasePage from '../../components/BasePage'
-import TestPageReady from '../../components/TestPageReady'
+import testPageReady from '../../components/hoc/testPageReady'
 import AccountPageLoader from '../../components/AccountPageLoader'
 
 const headerConfig = {
@@ -15,4 +15,4 @@ const Page = () => (
   </BasePage>
 )
 
-export default TestPageReady(Page)
+export default testPageReady(Page)

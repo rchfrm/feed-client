@@ -1,16 +1,16 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
 
-import * as ROUTES from '../constants/routes'
-import { AuthContext } from './contexts/Auth'
+import * as ROUTES from '../../constants/routes'
+import { AuthContext } from '../contexts/Auth'
 
-import * as utils from './helpers/utils'
+import * as utils from '../helpers/utils'
 
-import Spinner from './elements/Spinner'
+import Spinner from '../elements/Spinner'
 
 const kickToLogin = () => Router.push(ROUTES.LOGIN)
 
-const TestPageReady = (Component) => {
+const testPageReady = (Component) => {
   return (props) => {
     const { pathname: currentPath } = useRouter()
     const { auth: { token: initialToken }, authLoading } = React.useContext(AuthContext)
@@ -32,4 +32,4 @@ const TestPageReady = (Component) => {
   }
 }
 
-export default TestPageReady
+export default testPageReady
