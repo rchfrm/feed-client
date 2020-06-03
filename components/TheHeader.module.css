@@ -89,19 +89,14 @@
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 
-  &::before {
-    content: ' ';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: var(--sp-2);
-    transform: translateY(100%);
-    background-image: linear-gradient(to bottom, color-mod(var(--bg-color) alpha(0.8)) 0%, color-mod(var(--bg-color) alpha(0)) 100%);
-  }
-
   @media (--md) {
     display: none !important;
+  }
+
+  /* Drop shadow */
+  :global(.peek-element.scrolling-up) &,
+  :global(.peek-element.scrolling-down) & {
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.07);
   }
 }
 

@@ -12,7 +12,7 @@ import TheHeaderContents from './TheHeaderContents'
 import TheSubNav from './TheSubNav'
 import PageHeader from './PageHeader'
 // IMPORT STYLES
-import { pageTitle } from './TheHeader.module.css'
+import styles from './TheHeader.module.css'
 
 function TheHeader() {
   // Toggle mobile header
@@ -50,10 +50,15 @@ function TheHeader() {
     <>
       {mobileHeader ? (
         <>
-          <PeekElement usePlaceHolder config={{ childProps: { style: { zIndex: 28 } } }}>
+          <PeekElement
+            usePlaceHolder
+            config={{
+              childProps: { style: { zIndex: 28 }, className: 'peek-element' },
+            }}
+          >
             {headerContents}
           </PeekElement>
-          {inlinePageTitle && <PageHeader className={pageTitle} />}
+          {inlinePageTitle && <PageHeader className={styles.pageTitle} />}
         </>
       ) : (
         headerContents
