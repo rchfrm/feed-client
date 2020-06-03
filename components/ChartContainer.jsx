@@ -21,13 +21,15 @@ const ChartContainer = ({
   // DEFINE STATE
   const [earliestDataPoint, setEarliestDataPoint] = React.useState(data.earliest.date)
   const [earliestMoment, setEarliestMoment] = React.useState(null)
+  const [initialRender, setInitialRender] = React.useState(true)
   React.useEffect(() => {
-    if (!data) return
+    if (!data || (data.source === currentDataSource && !initialRender)) return
+    setInitialRender(false)
     const { earliest: { date: earliestDate } } = data
     const earliestMoment = moment(earliestDate, 'YYYY-MM-DD')
     setEarliestDataPoint(earliestDate)
     setEarliestMoment(earliestMoment)
-  }, [data.source])
+  }, [initialRender, data, currentDataSource])
 
   // DETECT CHART TYPE
   // If there is no data before the last week, display a doughnut chart
@@ -39,7 +41,7 @@ const ChartContainer = ({
       ? 'number'
       : 'bar'
     return chartType
-  }, [earliestMoment])
+  }, [earliestMoment, earliestDataPoint])
 
   return (
     <div

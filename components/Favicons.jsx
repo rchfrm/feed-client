@@ -1,4 +1,7 @@
-export default () => {
+import React from 'react'
+import PropTypes from 'prop-types'
+
+const Favicons = () => {
   return (
     <>
       <link rel="apple-touch-icon" sizes="57x57" href="/pwa/apple-touch-icon-57x57.png" />
@@ -41,3 +44,5 @@ export default () => {
     </>
   )
 }
+
+export default Favicons

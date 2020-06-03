@@ -50,7 +50,7 @@ function PostsAll({
   const { setHeader } = React.useContext(InterfaceContext)
   React.useEffect(() => {
     setHeader({ text: 'your posts' })
-  }, [])
+  }, [setHeader])
   // Reset the scroll position when this component first mounts
   React.useEffect(resetScroll, [])
   // Add load trigger el at 5th from end
@@ -85,13 +85,15 @@ function PostsAll({
     if (loadTrigger && loadTrigger.current) {
       observer.observe(loadTrigger.current)
     }
+
     // clean up
+    const loadTriggerEl = loadTrigger.current
     return () => {
-      if (loadTrigger.current) {
-        observer.unobserve(loadTrigger.current)
+      if (loadTriggerEl) {
+        observer.unobserve(loadTriggerEl)
       }
     }
-  }, [posts.length, windowWidth])
+  }, [posts.length, windowWidth, loadMore])
 
   // Open the post settings side panel
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)

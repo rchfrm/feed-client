@@ -45,10 +45,11 @@ function BudgetContent({ currency }) {
     const budgetFormatted = utils.formatCurrency(Number(artist.daily_budget), currency)
     const placeholder = `Current Budget: ${budgetFormatted}`
     setBudgetPlaceholder(placeholder)
-  }, [artist.daily_budget])
+  }, [artist.daily_budget, currency])
 
   // Define min budget
   React.useEffect(() => {
+    if (!artist || artistId === artist.id) return
     const { min_daily_budget_info: minBudgetInfo } = artist
     if (!minBudgetInfo || !artistId) {
       setMinBudget('£3.00')
@@ -63,7 +64,7 @@ function BudgetContent({ currency }) {
     } = minBudgetInfo
     const minBudget = utils.getMinBudget(amount, currencyCode, currencyOffset)
     setMinBudget(minBudget)
-  }, [artistId])
+  }, [artist, artistId])
 
   // Call this to reset the input
   const resetBudgetState = () => setBudget(initialBudgetState)
