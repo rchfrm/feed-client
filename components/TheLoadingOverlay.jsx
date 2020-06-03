@@ -11,6 +11,7 @@ const TheLoadingOverlay = () => {
   // Get interface context
   const {
     toggleGlobalLoading,
+    toggleGlobalLoadingSpinner,
     globalLoading,
     showSpinner,
   } = React.useContext(InterfaceContext)
@@ -19,12 +20,12 @@ const TheLoadingOverlay = () => {
     if (!globalLoading) return
     // Only show spinner if loading page takes longer than 300ms
     const waitForLoad = setTimeout(() => {
-      toggleGlobalLoading(true, true)
+      toggleGlobalLoadingSpinner(true)
     }, 500)
     return () => {
       clearTimeout(waitForLoad)
     }
-  }, [globalLoading, toggleGlobalLoading])
+  }, [globalLoading, toggleGlobalLoading, toggleGlobalLoadingSpinner])
   // Toggle spinner visibility
   const [spinnerClass, setSpinnerClass] = React.useState('')
   React.useEffect(() => {
