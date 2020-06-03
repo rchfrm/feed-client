@@ -38,7 +38,6 @@ const getMediaEl = ({
 
   // Handle video
   if (mediaType === 'video' && !videoError) {
-    console.log('return video')
     return (
       <video
         className="center--image"
