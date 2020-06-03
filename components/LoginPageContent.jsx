@@ -38,7 +38,7 @@ function LoginPageContent({ showEmailLogin }) {
     return () => {
       setAuthError(null)
     }
-  }, [])
+  }, [setAuthError])
 
   // CONTINUE WITH FACEBOOK
   // Calls firebase.loginWithFacebook using a redirect,

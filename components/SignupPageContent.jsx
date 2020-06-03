@@ -37,7 +37,7 @@ const SignupPageContent = ({ showEmailSignup }) => {
     return () => {
       setAuthError(null)
     }
-  }, [])
+  }, [setAuthError])
 
   // Calls firebase.signupWithFacebook using a redirect,
   // so that when user is returned to log in page handleRedirect is triggered

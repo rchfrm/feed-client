@@ -81,7 +81,7 @@ const SignupEmailForm = () => {
     if (!passwordOne) return false
     if (email && firstName && lastName) return true
     return false
-  }, [signupDetails])
+  }, [signupDetails, hasEmailError, passwordStatus.error])
   // Handle input changes
   const onInputChange = (e) => {
     const { name: key, value } = e.target
@@ -117,7 +117,7 @@ const SignupEmailForm = () => {
         autoFocus,
       }
     })
-  }, [signupDetails])
+  }, [signupDetails, hasEmailError, passwordStatus.error, passwordStatus.success])
 
   // * HANDLE FORM SUBMIT
   const handleSubmit = async (e) => {

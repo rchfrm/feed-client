@@ -24,7 +24,7 @@ const PostsNone = () => {
   // Update header
   React.useEffect(() => {
     setHeader({ text: 'your posts', punctuation: ',' })
-  }, [])
+  }, [setHeader])
 
   return (
     <div className={styles.noPosts}>
