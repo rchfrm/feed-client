@@ -3,18 +3,17 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import PageHeader from './PageHeader'
-
 import MarkdownText from './elements/MarkdownText'
 import copy from '../copy/PostsPageCopy'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
 const PostsNone = () => {
-// IMPORT CONTEXTS
+  // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
-  // END IMPORT CONTEXTS
+  const { setHeader } = React.useContext(InterfaceContext)
 
   const platforms = (
     artist.facebook_page_url && artist.instagram_url
@@ -22,12 +21,14 @@ const PostsNone = () => {
       : 'Facebook'
   )
 
+  // Update header
+  React.useEffect(() => {
+    setHeader({ text: 'your posts', punctuation: ',' })
+  }, [])
+
   return (
     <div className={styles.noPosts}>
-      <PageHeader heading="your posts" punctuation="," />
-
-      <MarkdownText className={['ninety-wide', 'h4--text', styles.introText].join(' ')} markdown={copy.noPostsCopy(platforms)} />
-
+      <MarkdownText className={['h4--text', styles.introText].join(' ')} markdown={copy.noPostsCopy(platforms)} />
     </div>
   )
 }

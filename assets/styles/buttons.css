@@ -4,6 +4,10 @@ button {
   background: none;
   cursor: pointer;
 
+  &:focus {
+    outline: none;
+  }
+
   p {
     display: inline;
   }
@@ -11,10 +15,13 @@ button {
 
 .button {
   display: flex;
-  font-family: var(--font);
+  position: relative;
   padding: 0;
   border: none;
   border-radius: var(--button-radius);
+  align-items: center;
+
+  font-family: var(--font);
   font-size: 1.1em;
   text-decoration: none;
   
@@ -25,13 +32,13 @@ button {
     cursor: default;
   }
 
-  &:focus {
-    outline: none;
-  }
-
   /* The spinner in a button */
   .button--spinner {
-    height: var(--bsu);
+    position: absolute;
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%);
+    height: var(--sp-5);
     width: auto;
     svg {
       height: 100%;
@@ -45,6 +52,10 @@ button {
   justify-content: center;
   align-items: center;
   transform: translateY(-0.05em);
+
+  .button._loading & {
+    opacity: 0;
+  }
 }
 
 .button--black,
@@ -76,7 +87,7 @@ button {
   &:disabled,
   &[disabled] {
     background-color: var(--disabled-color-bg);
-    color: var(--white);
+    color: var(--success-color);
   }
 }
 
@@ -86,8 +97,8 @@ button {
 .button--close {
   padding: 0;
 
-  width: var(--bsu);
-  height: var(--bsu);
+  width: var(--sp-5);
+  height: var(--sp-5);
 
   .icon {
     line-height: 0;
@@ -100,11 +111,14 @@ button {
 }
 
 .button--close {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   width: 50px;
   height: 50px;
   svg {
-    width: var(--bsu);
-    height: var(--bsu);
+    width: var(--sp-5);
+    height: var(--sp-5);
   }
 }
 
@@ -132,6 +146,11 @@ button {
     background-color: var(--white);
     border: 2px solid var(--grey);
   }
+
+  .button--spinner {
+    width: 85%;
+    height: auto;
+  }
 }
 
 
@@ -143,11 +162,11 @@ button {
 
 .button--icon {
   font-weight: var(--bold);
-  padding: 0 var(--bsu);
+  padding: 0 var(--sp-5);
   height: var(--button-height);
 
   svg {
-    width: var(--bsu);
+    width: var(--sp-5);
     height: auto;
     margin-right: 1em;
     vertical-align: bottom;

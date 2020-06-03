@@ -1,17 +1,17 @@
 /* ConnectAccountsFacebook */
 
 .facebookConnectContainer {
-  padding-top: var(--bsu);
+  padding-top: var(--sp-5);
   max-width: 480px;
 }
 
 .introText {
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
 }
 
 .fbButton  {
   width: 100%;
-  margin-bottom: var(--bsu);
+  margin-bottom: var(--sp-5);
 }
 
 
@@ -32,7 +32,7 @@
 }
 
 .tileHeader {
-  padding-right: calc(var(--bsu) * 1.5);
+  padding-right: calc(var(--sp-5) * 1.5);
 
   .readOnly & {
     padding-right: 0;
@@ -41,8 +41,8 @@
 
 .postToggle {
   position: absolute;
-  top: var(--bsu);
-  right: var(--bsu);
+  top: var(--sp-5);
+  right: var(--sp-5);
 }
 
 .profile-picture {
@@ -58,7 +58,7 @@
 .right-of-profile {
   justify-content: flex-start;
   padding-top: 0.1em;
-  padding-left: calc(0.5 * var(--bsu));
+  padding-left: calc(0.5 * var(--sp-5));
 }
 
 

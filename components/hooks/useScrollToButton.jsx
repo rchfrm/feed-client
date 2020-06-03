@@ -1,9 +1,16 @@
 import React from 'react'
 
+import { gsap } from 'gsap'
+import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin'
+
 const useScrollToButton = (buttonOptions, currentButton) => {
   // DEFINE REFS
   const [buttonRefs, setButtonRefs] = React.useState([])
   const containerRef = React.useRef(null)
+
+  React.useEffect(() => {
+    gsap.registerPlugin(ScrollToPlugin)
+  }, [])
 
   // Update button refs
   React.useEffect(() => {
@@ -24,7 +31,8 @@ const useScrollToButton = (buttonOptions, currentButton) => {
     const buttonOffset = buttonLeft - containerLeft
     const newButtonOffset = containerWidth - buttonWidth
     const offsetMod = buttonOffset - newButtonOffset
-    container.scrollLeft += offsetMod
+    const scrollTo = container.scrollLeft + offsetMod
+    gsap.to(container, { duration: 0.3, scrollTo: { x: scrollTo } })
   }, [currentButton])
 
   // Return refs

@@ -77,7 +77,7 @@ p,
 
 /* TEXT BLOCK */
 .text--block {
-  margin-bottom: var(--bsu);
+  margin-bottom: var(--sp-5);
 
   *:last-child {
     margin-bottom: 0;
@@ -86,7 +86,7 @@ p,
   ul {
     list-style-type: disc;
     padding-left: 1em;
-    margin-bottom: var(--bsu);
+    margin-bottom: var(--sp-5);
 
     li {
       margin-bottom: 0.5em;
@@ -99,25 +99,29 @@ p,
 
 /* Global para styles inside .text-block containers */
 .h3--text {
-  p {
+  p,
+  li {
     font-size: 1.333em;
   }
 }
 
 .h4--text {
-  p {
+  p,
+  li {
     font-size: 1.2em;
   }
 }
 
 .small--text {
-  p {
+  p,
+  li {
     font-size: 0.75em;
   }
 }
 
 .xsmall--text {
-  p {
+  p,
+  li {
     font-size: 0.667em;
   }
 }

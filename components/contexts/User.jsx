@@ -1,7 +1,9 @@
 import React from 'react'
+import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import server from '../helpers/server'
+import * as artistHelpers from '../helpers/artistHelpers'
 import { track, setUserType } from '../helpers/trackingHelpers'
 
 const initialUserState = {
@@ -36,6 +38,14 @@ const userReducer = (draftState, action) => {
 const UserContext = React.createContext(initialUserState)
 UserContext.displayName = 'UserContext'
 
+const sortUserArtists = (user) => {
+  return produce(user, draft => {
+    const { artists } = draft
+    draft.artists = artistHelpers.sortArtistsAlphabetically(artists)
+    return draft
+  })
+}
+
 function UserProvider({ children }) {
   // DEFINE USER STATE
   const [user, setUser] = useImmerReducer(userReducer, initialUserState)
@@ -53,10 +63,11 @@ function UserProvider({ children }) {
     setUserLoading(true)
     try {
       const newUser = await server.createUser(first_name, last_name)
+      const sortedArtistUser = sortUserArtists(newUser)
       setUser({
         type: 'set-user',
         payload: {
-          user: newUser,
+          user: sortedArtistUser,
         },
       })
       setUserLoading(false)
@@ -74,7 +85,7 @@ function UserProvider({ children }) {
         track({
           category: 'login',
           action: 'store user',
-          description: `${error.response.status} ${error.message}`,
+          description: `${error.message}`,
           error: true,
         })
         setUserLoading(false)
@@ -82,18 +93,30 @@ function UserProvider({ children }) {
       })
     // TODO If 404, then call /accounts/register
     if (!user) return
+    const sortedArtistUser = sortUserArtists(user)
     // Update user type in track helpers
     setUserType(user)
     // Update user state
     setUser({
       type: 'set-user',
       payload: {
-        user,
+        user: sortedArtistUser,
       },
     })
     setUserLoading(false)
-    return user
+    return sortedArtistUser
   }
+
+  const updateUser = React.useCallback((user) => {
+    const sortedArtistUser = sortUserArtists(user)
+    setUser({
+      type: 'set-user-details',
+      payload: {
+        user: sortedArtistUser,
+      },
+    })
+    return sortedArtistUser
+  }, [])
 
   const value = {
     createUser,
@@ -101,6 +124,7 @@ function UserProvider({ children }) {
     setUser,
     setUserError,
     storeUser,
+    updateUser,
     user,
     userError,
     userLoading,

@@ -51,7 +51,7 @@ const PostToggle = ({
           width="20"
         />
         <a
-          className={styles.a}
+          className={[styles.a, styles.postDate].join(' ')}
           href={post.permalink_url}
           target="_blank"
           rel="noopener noreferrer"

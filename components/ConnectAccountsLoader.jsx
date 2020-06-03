@@ -7,10 +7,10 @@ import useAsyncEffect from 'use-async-effect'
 import { AuthContext } from './contexts/Auth'
 import { ArtistContext } from './contexts/Artist'
 import { UserContext } from './contexts/User'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import ConnectAccountsFacebook from './ConnectAccountsFacebook'
 import ConnectAccounts from './ConnectAccounts'
-import Spinner from './elements/Spinner'
 import Button from './elements/Button'
 import Error from './elements/Error'
 
@@ -19,7 +19,7 @@ import * as ROUTES from '../constants/routes'
 
 // IMPORT HELPERS
 import { track } from './helpers/trackingHelpers'
-import artistHelpers from './helpers/artistHelpers'
+import * as artistHelpers from './helpers/artistHelpers'
 import styles from './ConnectAccounts.module.css'
 import copy from '../copy/ConnectAccountsCopy'
 
@@ -48,12 +48,12 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
   const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
   const { createArtist, setArtistLoading } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get any missing scopes
   const { missingScopes } = auth
 
   // DEFINE LOADING
   const [pageLoading, setPageLoading] = React.useState(false)
-  const [redirecting, setRedirecting] = React.useState(false)
 
   // DEFINE BUTTON STATE (disabled if required fields are absent)
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
@@ -84,10 +84,10 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
     // If missing scopes, we need to show the connect button
-    if (missingScopes.length) return
+    if (missingScopes.length) return toggleGlobalLoading(false)
     // If no access token, then there will be no way to talk to facebook
     // so don't set artists accounts
-    if (!accessToken) return
+    if (!accessToken) return toggleGlobalLoading(false)
     setPageLoading(true)
     const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken)
       .catch((error) => {
@@ -103,6 +103,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
       })
     if (!availableArtists) {
       setPageLoading(false)
+      toggleGlobalLoading(false)
       return
     }
     const { adaccounts } = availableArtists
@@ -119,6 +120,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     if (!adaccounts.length) {
       setErrors([...errors, { message: copy.noAdAccountsError }])
       setPageLoading(false)
+      toggleGlobalLoading(false)
       // Track
       track({
         category: 'sign up',
@@ -132,6 +134,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     if (Object.keys(accounts).length === 0) {
       setErrors([...errors, { message: 'No accounts were found' }])
       setPageLoading(false)
+      toggleGlobalLoading(false)
       // Track
       track({
         category: 'sign up',
@@ -147,6 +150,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
       },
     })
     setPageLoading(false)
+    toggleGlobalLoading(false)
   }, [])
 
 
@@ -164,19 +168,17 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistAccounts)
 
     try {
-      setRedirecting(true)
+      toggleGlobalLoading(true)
       await createArtist(artistAccountsSanitised, accessToken, user)
       Router.push(ROUTES.HOME)
     } catch (err) {
-      setRedirecting(false)
+      toggleGlobalLoading(false)
       setArtistLoading(false)
       setErrors([err])
     }
   }
 
-  if (pageLoading || redirecting) {
-    return <Spinner />
-  }
+  if (pageLoading) return null
 
   // If no artists accounts, show FB BUTTON
   if (Object.keys(artistAccounts).length === 0) {
@@ -200,7 +202,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
         setErrors={setErrors}
       />
 
-      <div className="ninety-wide" style={{ textAlign: 'right' }}>
+      <div style={{ textAlign: 'right' }}>
 
         {/* Errors */}
         {errors.map((error, index) => {

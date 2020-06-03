@@ -111,7 +111,7 @@ function SpendingSummaryLoader() {
 
   if (isPending) {
     return (
-      <div className="ninety-wide">
+      <div>
         <Spinner className={styles.summaryLoader} />
       </div>
     )
@@ -127,7 +127,7 @@ function SpendingSummaryLoader() {
   const impressionSummary = copy.impressionSummary(utils.formatNumber(impressions))
   const markdown = `${spendSummary}${impressionSummary}`
 
-  return <MarkdownText className="ninety-wide  h4--text" markdown={markdown} />
+  return <MarkdownText className="h4--text" markdown={markdown} />
 }
 
 export default SpendingSummaryLoader

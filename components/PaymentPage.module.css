@@ -30,15 +30,15 @@ PAYMENT METHOD
 }
 
 .AccountPagePayments__intro {
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
 }
 
 .AccountPagePayments__allMethods {
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
 }
 
 .AccountPagePayments__addPayment {
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
 }
 
 .AccountPagePayments__saveDefault {
@@ -94,7 +94,7 @@ CHECKOUT PAGE
 .checkoutButtonWrapper {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
 }
 
 .checkoutStripeLogo {
@@ -117,5 +117,5 @@ PAYMET SUCCESS PAGE
 .PaymentPageSuccess__headers {
   flex: auto;
   width: 100%;
-  margin-bottom: var(--bsu);
+  margin-bottom: var(--sp-5);
 }

@@ -6,6 +6,7 @@ import moment from 'moment'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
+import { InterfaceContext } from './contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Error from './elements/Error'
 // IMPORT PAGES
@@ -50,6 +51,7 @@ function InsightsChartLoader({
 }) {
   // IMPORT CONTEXTS
   const { artistId } = React.useContext(ArtistContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   // List of relevant dates
   const dates = React.useMemo(() => {
@@ -82,10 +84,11 @@ function InsightsChartLoader({
     dates,
   })
 
-  // Set initial page loading after first data is retrieved
+  // Set initial page loading and global loading after first data is retrieved
   React.useEffect(() => {
     if (!chartLoading) {
       setInitialLoading(chartLoading)
+      toggleGlobalLoading(false)
     }
   }, [chartLoading])
 
@@ -95,9 +98,17 @@ function InsightsChartLoader({
 
   if (data === 'no-data') {
     return (
-      <div className={styles.chartOuter}>
+      <div
+        className={[
+          'breakout--width',
+          'col-span-12',
+          'lg:grid gap-4 grid-cols-12',
+          styles.chartOuter,
+        ].join(' ')}
+      >
         <Error error={error} />
         <ChartBar
+          className={['col-span-12'].join(' ')}
           currentPlatform={currentPlatform}
           currentDataSource={currentDataSource}
           error

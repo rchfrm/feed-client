@@ -2,12 +2,15 @@ import BasePage from '../components/BasePage'
 import TestPageReady from '../components/TestPageReady'
 import PostsLoader from '../components/PostsLoader'
 
-const noArtistHeader = {
-  heading: 'Your posts',
+const headerConfig = {
+  text: 'review posts',
 }
 
 const Page = () => (
-  <BasePage artistRequired noArtistHeader={noArtistHeader}>
+  <BasePage
+    headerConfig={headerConfig}
+    artistRequired
+  >
     <PostsLoader />
   </BasePage>
 )

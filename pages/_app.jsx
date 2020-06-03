@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { PageTransition } from 'next-page-transitions'
+import PropTypes from 'prop-types'
+
 import Router from 'next/router'
 import withGA from 'next-ga'
 import Head from 'next/head'
-import PropTypes from 'prop-types'
 import { StripeProvider } from 'react-stripe-elements'
 import Script from 'react-load-script'
 import * as Sentry from '@sentry/browser'
@@ -12,7 +14,6 @@ import '../assets/styles/index.css'
 import AppContents from '../components/AppContents'
 // IMPORT CONTEXTS
 import { AuthProvider } from '../components/contexts/Auth'
-import { NavMenuProvider } from '../components/contexts/Navigation'
 // IMPORT HELPERS
 import { trackPWA } from '../components/helpers/trackingHelpers'
 // IMPORT STYLES
@@ -50,7 +51,7 @@ if (process.env.build_env !== 'development') {
   })
 }
 
-function Feed({ Component, pageProps }) {
+function Feed({ Component, pageProps, router }) {
   const [stripe, setStripe] = useState(null)
 
   useEffect(() => {
@@ -66,8 +67,6 @@ function Feed({ Component, pageProps }) {
       setStripe(window.Stripe(process.env.stripe_provider))
     }
   }
-
-  // const footerClass = navState.visible ? 'navOn' : 'navOff'
 
   return (
 
@@ -85,13 +84,11 @@ function Feed({ Component, pageProps }) {
 
       <StripeProvider stripe={stripe}>
 
-        <NavMenuProvider>
-
-          <AppContents>
-            <Component {...pageProps} />
-          </AppContents>
-
-        </NavMenuProvider>
+        <AppContents>
+          <PageTransition timeout={300} classNames="page-transition">
+            <Component key={router.route} {...pageProps} />
+          </PageTransition>
+        </AppContents>
 
       </StripeProvider>
 
