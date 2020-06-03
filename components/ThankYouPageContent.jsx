@@ -15,7 +15,7 @@ function ThankYouPageContent() {
 
   return (
     <>
-      <div className="fill-height ninety-wide" style={{ justifyContent: 'initial' }}>
+      <div className="fill-height" style={{ justifyContent: 'initial' }}>
 
         <p>
           Thanks so much for signing up to&nbsp;
@@ -29,7 +29,7 @@ function ThankYouPageContent() {
 
       </div>
 
-      <div className="ninety-wide" style={{ textAlign: 'right' }}>
+      <div className="flex justify-end">
         <Button version="black" onClick={goToHomePage}>done.</Button>
       </div>
     </>

@@ -10,20 +10,20 @@ CONNECTIONS
 }
 
 .accountTitle {
-  margin-bottom: var(--bsu-md) !important;
+  margin-bottom: var(--sp-8) !important;
 }
 
 .integrarionsListItem {
   display: flex;
   flex-direction: row;
-  margin-bottom: var(--bsu);
+  margin-bottom: var(--sp-5);
   align-items: flex-start;
 }
 
 .integration-icons {
   width: auto;
   display: flex;
-  margin-right: var(--bsu);
+  margin-right: var(--sp-5);
   flex: none;
   justify-content: flex-end;
   align-items: center;
@@ -36,8 +36,8 @@ CONNECTIONS
 .integration-platform-icon {
   padding-left: 10px;
 
-  :global(svg) {
-    width: var(--bsu);
+  svg {
+    width: var(--sp-5);
     height: auto;
   }
 }
@@ -52,14 +52,14 @@ CONNECTIONS
   overflow: hidden;
   line-height: 1;
 
-  :global(a) {
+  a {
     display: inline-block;
     padding-top: 0.1em;
     padding-bottom: 0.4em;
   }
   
-  :global(.input),
-  :global(.input--container) {
+  .input,
+  .input--container {
     margin: 0;
   }
 }

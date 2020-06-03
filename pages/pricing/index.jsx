@@ -1,13 +1,14 @@
 import BasePage from '../../components/BasePage'
 import PricingPageContent from '../../components/PricingPageContent'
 
-const header = {
-  heading: 'pricing',
+const headerConfig = {
+  text: 'pricing',
 }
 
 const Page = () => (
   <BasePage
-    header={header}
+    headerConfig={headerConfig}
+    staticPage
   >
     <PricingPageContent />
   </BasePage>

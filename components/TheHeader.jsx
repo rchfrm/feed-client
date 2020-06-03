@@ -1,31 +1,69 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Link from 'next/link'
-// IMPORT COMPONENTS
-import * as ROUTES from '../constants/routes'
+
+import PeekElement from 'react-peek-element'
+// IMPORT HOOKS
+import useOnResize from './hooks/useOnResize'
+import useLoggedInTest from './hooks/useLoggedInTest'
 // IMPORT CONTEXTS
-import { NavigationContext } from './contexts/Navigation'
-// IMPORT ELEMENTS
-import FeedLogo from './icons/FeedLogo'
-import MenuButton from './elements/MenuButton'
-import Clear from './elements/Clear'
+import { InterfaceContext } from './contexts/InterfaceContext'
+// IMPORT COMPONENTS
+import TheHeaderContents from './TheHeaderContents'
+import TheSubNav from './TheSubNav'
+import PageHeader from './PageHeader'
 // IMPORT STYLES
 import styles from './TheHeader.module.css'
 
 function TheHeader() {
-  const { navState, navDispatch } = React.useContext(NavigationContext)
-  const toggleNav = () => navDispatch({ type: 'toggle' })
-  const headerClass = navState.visible ? 'navOn' : 'navOff'
+  // Toggle mobile header
+  const { width: windowWidth } = useOnResize({})
+  const [mobileHeader, setMobileHeader] = React.useState(null)
+  const [inlinePageTitle, setInlinePageTitle] = React.useState(true)
+  React.useEffect(() => {
+    // Show peek header or not
+    const isDesktopLayout = window.matchMedia('(min-width: 993px)').matches
+    setMobileHeader(!isDesktopLayout)
+    // Show page title below header, or not
+    const inlinePageTitle = windowWidth < 450
+    setInlinePageTitle(inlinePageTitle)
+  }, [windowWidth])
+
+  // Check if logged in or not
+  const isLoggedIn = useLoggedInTest()
+
+  // HANDLE SUB-NAV OPENING AND CLOSING
+  const { subNavOpen, toggleSubNav } = React.useContext(InterfaceContext)
+
+  // Wait until a device type has been defined
+  if (typeof mobileHeader !== 'boolean') return null
+
+  // Define header contents
+  const headerContents = (
+    <>
+      <TheHeaderContents windowWidth={windowWidth} subNavOpen={subNavOpen} toggleSubNav={toggleSubNav} />
+      {/* THE SUBNAV */}
+      <TheSubNav open={subNavOpen && isLoggedIn} toggle={toggleSubNav} windowWidth={windowWidth} />
+    </>
+  )
+
   return (
-    <header className={[styles.TheHeader, styles[headerClass]].join(' ')}>
-      <Link href={ROUTES.HOME}>
-        <a>
-          <FeedLogo className={styles.logo} style={{ opacity: 0 }} />
-        </a>
-      </Link>
-      <MenuButton navigation={navState.visible} onClick={toggleNav} />
-      <Clear />
-    </header>
+    <>
+      {mobileHeader ? (
+        <>
+          <PeekElement
+            usePlaceHolder
+            config={{
+              childProps: { style: { zIndex: 28 }, className: 'peek-element' },
+            }}
+          >
+            {headerContents}
+          </PeekElement>
+          {inlinePageTitle && <PageHeader className={styles.pageTitle} />}
+        </>
+      ) : (
+        headerContents
+      )}
+    </>
   )
 }
 

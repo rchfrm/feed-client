@@ -86,7 +86,7 @@ function NoActive() {
 
   if (artist.daily_budget > 0) {
     return (
-      <div className="ninety-wide" style={{ marginBottom: '2em' }}>
+      <div style={{ marginBottom: '2em' }}>
         <h3>
           <Feed />
           {' '}
@@ -99,7 +99,7 @@ function NoActive() {
     )
   }
   return (
-    <div className="ninety-wide" style={{ marginBottom: '2em' }}>
+    <div style={{ marginBottom: '2em' }}>
       <h3>
         <Feed />
         {' '}
@@ -138,6 +138,7 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
   const getResultEl = (post, summary) => {
     return (
       <ResultsSingle
+        className="col-span-6"
         key={post.id}
         active={active}
         attachments={post.attachments}
@@ -190,16 +191,16 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
       {/* Show Active Posts intro copy */}
       {active && (
         <>
-          <MarkdownText className="ninety-wide  h4--text" markdown={copy.intro} />
+          <MarkdownText className="h4--text" markdown={copy.intro} />
           <SpendingSummaryLoader />
         </>
       )}
 
-      <div className="ninety-wide">
+      <div>
         <h2>{title}</h2>
       </div>
 
-      <ul className={styles.results}>{allResults.enabled}</ul>
+      <ul className={['lg:grid', 'grid-cols-12', 'gap-8', 'row-gap-0', styles.results].join(' ')}>{allResults.enabled}</ul>
 
       <DisabledResults disabledResults={allResults.disabled} />
     </div>

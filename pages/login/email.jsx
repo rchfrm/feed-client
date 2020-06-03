@@ -1,3 +1,19 @@
-import LoginPage from '../../components/page/LoginPage'
+import BasePage from '../../components/BasePage'
+import LoginPageContent from '../../components/LoginPageContent'
 
-export default LoginPage
+const headerConfig = {
+  text: 'log in',
+}
+
+const page = () => (
+  <BasePage
+    headerConfig={headerConfig}
+    staticPage
+    authPage
+  >
+    <LoginPageContent showEmailLogin />
+  </BasePage>
+)
+
+
+export default page

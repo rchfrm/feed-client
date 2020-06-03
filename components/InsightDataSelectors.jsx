@@ -23,7 +23,7 @@ const InsightDataSelectors = ({
 
   // Set first data sources as active when platfrorm changes
   React.useEffect(() => {
-    if (!platformSources.length) return
+    if (!platformSources.length || initialLoading) return
     // Get and set initial data source
     const source = chartHelpers.getInitialDataSource(platformSources, currentPlatform)
     setCurrentDataSource(source)
@@ -32,7 +32,7 @@ const InsightDataSelectors = ({
     const dataSelectors = document.getElementById('dataSelectors')
     if (!dataSelectors) return
     dataSelectors.style.setProperty('--active-color', platformColor)
-  }, [platformSources])
+  }, [currentPlatform, initialLoading])
 
   // SETUP SCROLL TO BUTTON
   const [buttonRefs, containerRef] = useScrollToButton(platformSources, currentDataSource)
@@ -40,7 +40,7 @@ const InsightDataSelectors = ({
   if (initialLoading) return null
 
   return (
-    <div className={styles.selectorsOuter}>
+    <div className={['breakout--width', styles.selectorsOuter].join(' ')}>
       <p className={['inputLabel__text', styles.selectorsLabel].join(' ')}>Select a data set</p>
       <div id="dataSelectors" className={styles.dataSelectors} ref={containerRef}>
         {platformSources.map(({ title, subtitle, id }, i) => {

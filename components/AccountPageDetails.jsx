@@ -93,6 +93,13 @@ function AccountPageDetails({ user }) {
       setErrors([...errors, emailChangedRes.error])
       error = true
       setSidePanelLoading(false)
+      // Track error
+      track({
+        category: 'Account Page',
+        action: 'Error updating email address in firebase',
+        description: emailChangedRes.error.message,
+        error: true,
+      })
       return
     }
     // TRACK
@@ -114,6 +121,26 @@ function AccountPageDetails({ user }) {
     const userUpdatePromise = accountDetailsChanged ? server.updateUser(name, surname, email) : null
     // When all is done...
     const [accountChangedRes, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
+    // Handle error in updating account
+    if (accountChangedRes && accountChangedRes.error) {
+      // Track error
+      track({
+        category: 'Account Page',
+        action: 'Error updating user in DB',
+        description: accountChangedRes.error.message,
+        error: true,
+      })
+    }
+    // Handle error in changin password
+    if (passwordChangedRes && passwordChangedRes.error) {
+      // Track error
+      track({
+        category: 'Account Page',
+        action: 'Error updating user in DB',
+        description: passwordChangedRes.error.message,
+        error: true,
+      })
+    }
     if (accountChangedRes) {
       // Update the user details
       const updatedUser = accountChangedRes

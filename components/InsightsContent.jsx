@@ -4,10 +4,7 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import Spinner from './elements/Spinner'
-
 // IMPORT COMPONENTS
-import PageHeader from './PageHeader'
 import InsightPlatformSelectors from './InsightPlatformSelectors'
 import InsightDataSelectors from './InsightDataSelectors'
 import InsightsChartLoader from './InsightsChartLoader'
@@ -60,36 +57,20 @@ function InsightsContent() {
     if (!initialLoading) {
       setTimeout(() => {
         setPageReady(true)
-      }, 200)
+      }, 100)
     }
   }, [initialLoading])
 
 
-  if (artistLoading || !(currentPlatform || currentDataSource)) return <Spinner />
+  if (artistLoading || !(currentPlatform || currentDataSource)) return null
 
-  if (initialLoading) {
-    return (
-      <>
-        <Spinner />
-        <InsightsChartLoader
-          currentPlatform={currentPlatform}
-          currentDataSource={currentDataSource}
-          initialLoading={initialLoading}
-          setInitialLoading={setInitialLoading}
-        />
-      </>
-    )
-  }
-
-  const containerClasses = ['page--container', styles.pageContainer]
+  const containerClasses = [styles.pageContainer]
   if (pageReady) {
     containerClasses.push(styles._ready)
   }
 
   return (
     <div className={containerClasses.join(' ')}>
-
-      <PageHeader className={styles.pageHeader} heading="insights" />
 
       {/* PLATFORM SELECTORS */}
       <InsightPlatformSelectors
@@ -109,7 +90,11 @@ function InsightsContent() {
       />
 
       {currentPlatform && currentDataSource && (
-        <div className={styles.dataContent}>
+        <div
+          className={[
+            styles.dataContent,
+          ].join(' ')}
+        >
           <InsightsChartLoader
             currentPlatform={currentPlatform}
             currentDataSource={currentDataSource}
@@ -120,7 +105,11 @@ function InsightsContent() {
             <PromotePostsButton
               artist={artist}
               artistId={artistId}
-              className={styles.promotePostsButton}
+              className={[
+                'lg:col-span-10',
+                'bmw:col-span-8',
+                styles.promotePostsButton,
+              ].join(' ')}
             />
           )}
         </div>
@@ -128,7 +117,7 @@ function InsightsContent() {
 
       {/* OUTRO TEXT TEXT */}
       {!initialLoading && (
-        <MarkdownText className="ninety-wide  h4--text" markdown={copy.outro} />
+        <MarkdownText className="h4--text" markdown={copy.outro} />
       )}
 
     </div>

@@ -8,26 +8,25 @@
 }
 
 .pageHeader {
- margin-bottom: var(--bsu-lg) !important; 
+ margin-bottom: var(--sp-10) !important; 
 }
 
 /* CHARTS */
 .dataContent {
   width: 100%;
-  margin-top: var(--bsu-md);
+  margin-top: var(--sp-8);
 }
 
 .chartOuter {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: flex-end;
-  flex-direction: column;
   min-height: 300px;
-  margin-bottom: var(--bsu-lg);
+  margin-bottom: var(--sp-10);
+
+  &._numberChart {
+    min-height: 0;
+  }
 
   @media (--xxs) {
-    margin-bottom: calc(var(--bsu-lg) * 2);
+    margin-bottom: var(--sp-24);
   }
 }
 
@@ -39,16 +38,10 @@
 .chartContainer__bar {
   position: relative;
   width: 100%;
-  margin-bottom: var(--bsu-md);
+  margin-bottom: var(--sp-8);
   
   &._loading {
     pointer-events: none;
-  }
-
-
-  @media (--bmw) {
-    width: 90%;
-    margin-right: 5%;
   }
 
   :global(canvas) {
@@ -167,7 +160,7 @@
 
 /* CONTENT UNDER CHART */
 .promotePostsButton {
-  margin-bottom: var(--bsu-lg);
+  margin-bottom: var(--sp-10);
 }
 
 /* NUMBER CHART */
@@ -178,7 +171,7 @@
   justify-content: center;
   position: relative;
   width: 100%;
-  margin-bottom: calc(-1 * var(--bsu-lg));
+  margin-bottom: calc(-1 * var(--sp-10));
   text-align: center;
 }
 
@@ -230,22 +223,30 @@
 
 /* PROJECTION SENTENCE */
 .projectionContainer {
-  margin-top: var(--bsu-lg);
+  margin-top: var(--sp-24);
+  margin-left: var(--sp-5);
+  margin-right: var(--sp-5);
 
   @media (--xxs) {
-    margin-top: calc(var(--bsu-lg) * 2);
+    margin-top: var(--sp-32);
+  }
+
+  @media (--sm) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  @media (--lg) {
+    margin-top: 0;
   }
 }
 
 .projectionText {
-  padding: var(--bsu);
+  padding: var(--sp-5);
   border-radius: var(--dialogue-radius);
+  margin-bottom: 0 !important;
 
   @media (--xxs) {
     font-size: 1.2em;
-  }
-
-  @media (--xs) {
-    font-size: 1.333em;
   }
 }

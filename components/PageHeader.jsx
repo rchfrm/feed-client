@@ -1,23 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { InterfaceContext } from './contexts/InterfaceContext'
 
-function PageHeader({ punctuation = '.', heading, className }) {
-  const classses = ['page--header', className].join(' ')
+import styles from './TheHeader.module.css'
+
+const PageHeader = ({ className }) => {
+  const { header, globalLoading } = React.useContext(InterfaceContext)
+  const { text, punctuation, visible } = header
   return (
-    <div className={classses}>
-      <h1>{heading + punctuation}</h1>
+    <div className={[className, !visible || globalLoading ? styles._hidden : ''].join(' ')}>
+      <h1>{text + punctuation}</h1>
     </div>
   )
 }
 
 PageHeader.propTypes = {
-  punctuation: PropTypes.string,
-  heading: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
 PageHeader.defaultProps = {
-  punctuation: '.',
   className: '',
 }
 

@@ -28,6 +28,7 @@ const SidePanelContextProvider = ({ children }) => {
   const { query, pathname } = useRouter()
   const [pageQuery] = Object.keys(query)
   const closeSidePanel = () => {
+    setSidePanelLoading(false)
     // If there's no page query, then simply close
     if (!pageQuery) return setSidePanelOpen(false)
     // If there is a page query, then just remove it
@@ -41,6 +42,14 @@ const SidePanelContextProvider = ({ children }) => {
     // Opening
     setSidePanelOpen(newState)
   }
+
+  // Close side panel when navigating pages
+  React.useEffect(() => {
+    Router.events.on('routeChangeStart', closeSidePanel)
+    return () => {
+      Router.events.off('routeChangeStart', closeSidePanel)
+    }
+  }, [])
 
   return (
     // The context provider

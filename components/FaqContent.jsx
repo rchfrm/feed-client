@@ -10,14 +10,14 @@ import styles from './FaqPage.module.css'
 
 function FaqContent() {
   return (
-    <div className="ninety-wide">
+    <article>
       {faqs.map(([question, answer], index) => {
         const markdown = `${question}\n${answer}`
         return (
           <MarkdownText className={styles.faqItem} markdown={markdown} key={index} />
         )
       })}
-    </div>
+    </article>
   )
 }
 

@@ -27,6 +27,7 @@ const buildSentence = (predicted, growth, { platform, shortTitle }) => {
 
 
 const InsightsProjection = ({
+  className,
   data,
   artistId,
   loading,
@@ -53,7 +54,7 @@ const InsightsProjection = ({
   if (loading || !sentence) return null
 
   return (
-    <div className={['ninety-wide', styles.projectionContainer].join(' ')}>
+    <div className={[className, styles.projectionContainer].join(' ')}>
       <MarkdownText
         className={styles.projectionText}
         markdown={sentence}
@@ -64,12 +65,14 @@ const InsightsProjection = ({
 }
 
 InsightsProjection.propTypes = {
+  className: PropTypes.string,
   data: PropTypes.object.isRequired,
   artistId: PropTypes.string.isRequired,
   loading: PropTypes.bool,
 }
 
 InsightsProjection.defaultProps = {
+  className: '',
   loading: false,
 }
 

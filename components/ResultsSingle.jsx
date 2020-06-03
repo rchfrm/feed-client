@@ -119,6 +119,7 @@ const ResultsSingle = ({
   promotion_enabled,
   togglePost,
   summary,
+  className,
 }) => {
   const { artist } = React.useContext(ArtistContext)
   // STORE MEDIA COMPONENT AND COMPONENT IN STATE
@@ -167,7 +168,7 @@ const ResultsSingle = ({
   } = summary
 
   return (
-    <li key={id} className={[styles.resultItem, styles[enabledClass]].join(' ')}>
+    <li key={id} className={[styles.resultItem, styles[enabledClass], className].join(' ')}>
 
       <div className={styles.resultItem__inner}>
 
