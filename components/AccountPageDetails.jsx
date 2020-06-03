@@ -173,7 +173,7 @@ function AccountPageDetails({ user }) {
     setName(initialName)
     setSurname(initialSurname)
     setEmail(initialEmail)
-  }, [])
+  }, [initialName, initialSurname, initialEmail])
 
   // Handle Changes in the form
   const formUpdated = React.useRef(false)
@@ -201,7 +201,7 @@ function AccountPageDetails({ user }) {
     return () => {
       setSidePanelButton(null)
     }
-  }, [buttonOn])
+  }, [buttonOn, setSidePanelButton])
 
   // Watch changes in form data and set button
   React.useEffect(() => {
@@ -217,7 +217,7 @@ function AccountPageDetails({ user }) {
       return
     }
     setButtonOn(true)
-  }, [name, surname, passwordOne, passwordTwo])
+  }, [name, email, surname, passwordOne, passwordTwo])
 
 
   return (
