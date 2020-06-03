@@ -18,7 +18,7 @@ const getMediaEl = ({
 }) => {
   const src = mediaSrc || thumbnailSrc
   // Handle image error
-  if (thumbError) return <MediaFallback className="center--image" />
+  if (thumbError) return <MediaFallback />
 
   // Handle youtube
   if (mediaType === 'youtube_embed') {
