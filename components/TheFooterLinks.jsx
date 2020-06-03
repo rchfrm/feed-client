@@ -49,8 +49,4 @@ const TheFooterLinks = () => {
   )
 }
 
-TheFooterLinks.propTypes = {
-  
-}
-
 export default TheFooterLinks
