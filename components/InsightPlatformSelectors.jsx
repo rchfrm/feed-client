@@ -20,13 +20,14 @@ const InsightPlatformSelectors = ({
   const [buttonRefs, containerRef] = useScrollToButton(availablePlatforms, currentPlatform)
   // CHANGE ACTIVE COLOR
   React.useEffect(() => {
-    if (!currentPlatform) return
+    if (!currentPlatform || initialLoading) return
     // Set hover color
     const { bg: platformColor } = brandColors[currentPlatform]
     const dataSelectors = document.getElementById('platformSelectors')
     if (!dataSelectors) return
     dataSelectors.style.setProperty('--active-color', platformColor)
   }, [currentPlatform])
+  }, [currentPlatform, availablePlatforms.length, initialLoading])
 
   if (!availablePlatforms.length) return null
 
