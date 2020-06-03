@@ -26,7 +26,6 @@ const InsightPlatformSelectors = ({
     const dataSelectors = document.getElementById('platformSelectors')
     if (!dataSelectors) return
     dataSelectors.style.setProperty('--active-color', platformColor)
-  }, [currentPlatform])
   }, [currentPlatform, availablePlatforms.length, initialLoading])
 
   if (!availablePlatforms.length) return null
