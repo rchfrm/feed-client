@@ -16,6 +16,7 @@ import styles from './SidePanel.module.css'
 function SidePanel({
   isOpen,
   content,
+  setContent,
   button,
   toggle,
   isLoading,
@@ -83,6 +84,8 @@ function SidePanel({
     })
     await Promise.all(animatePromises)
     done()
+    // After closing, empty contents
+    if (!show) setContent(null)
   }
 
   // DRAGGING
@@ -158,6 +161,7 @@ function SidePanel({
 SidePanel.propTypes = {
   isOpen: PropTypes.bool,
   content: PropTypes.node,
+  setContent: PropTypes.func.isRequired,
   button: PropTypes.node,
   toggle: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
