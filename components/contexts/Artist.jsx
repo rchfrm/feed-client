@@ -3,17 +3,17 @@ import React from 'react'
 import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { UserContext } from './User'
-import { InterfaceContext } from './InterfaceContext'
+import { UserContext } from '@/contexts/User'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import * as utils from '../helpers/utils'
-import server from '../helpers/server'
-import { track } from '../helpers/trackingHelpers'
-import * as artistHelpers from '../helpers/artistHelpers'
+import * as utils from '@/helpers/utils'
+import server from '@/helpers/server'
+import { track } from '@/helpers/trackingHelpers'
+import * as artistHelpers from '@/helpers/artistHelpers'
 
 const initialArtistState = {
   id: '',

@@ -1,7 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 
-import BrokenImageIcon from '../icons/BrokenImageIcon'
+import BrokenImageIcon from '@/icons/BrokenImageIcon'
 
 function MediaFallback({ className }) {
   return (

@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PlayIcon from '../icons/PlayIcon'
-import MediaFallback from './MediaFallback'
+import PlayIcon from '@/icons/PlayIcon'
+import MediaFallback from '@/elements/MediaFallback'
 
-import * as utils from '../helpers/utils'
-import brandColors from '../../constants/brandColors'
+import * as utils from '@/helpers/utils'
+import brandColors from '@/constants/brandColors'
 
 const getMediaEl = ({
   mediaSrc,

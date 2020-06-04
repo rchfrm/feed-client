@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Spinner from './Spinner'
+import Spinner from '@/elements/Spinner'
 
-import * as utils from '../helpers/utils'
+import * as utils from '@/helpers/utils'
 
 const Button = ({
   version,

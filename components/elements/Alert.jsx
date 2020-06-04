@@ -3,8 +3,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Portal } from 'react-portal'
 
-import CloseCircle from '../icons/CloseCircle'
-import AlertButtons from './AlertButtons'
+import CloseCircle from '@/icons/CloseCircle'
+import AlertButtons from '@/elements/AlertButtons'
 
 const ButtonEls = ({
   responseExpected,

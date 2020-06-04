@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ProfileIcon from '../icons/ProfileIcon'
+import ProfileIcon from '@/icons/ProfileIcon'
 
-import brandColors from '../../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
 const ArtistImage = ({ pageId, size, name, className }) => {
   const [src, setSrc] = React.useState('')

@@ -1,9 +1,9 @@
 import React from 'react'
 
-import brandColors from '../../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
-import Button from './Button'
-import FacebookIcon from '../icons/FacebookIcon'
+import Button from '@/elements/Button'
+import FacebookIcon from '@/icons/FacebookIcon'
 
 const ButtonFacebook = (props) => {
   const { version, children } = props

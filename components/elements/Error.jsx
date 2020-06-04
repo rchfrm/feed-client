@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import MarkdownText from './MarkdownText'
+import MarkdownText from '@/elements/MarkdownText'
 
 const Error = ({ error, messagePrefix, className }) => {
   if (!error) return null

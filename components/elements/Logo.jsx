@@ -5,7 +5,7 @@ import React from 'react'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS
-import ArchFormLogo from '../icons/ArchFormLogo'
+import ArchFormLogo from '@/icons/ArchFormLogo'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 // IMPORT STYLES

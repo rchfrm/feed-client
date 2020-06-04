@@ -2,7 +2,7 @@ import moment from 'moment'
 import * as utils from '@/helpers/utils'
 
 // IMPORT CONSTANTS
-import insightDataSources from '../../constants/insightDataSources'
+import insightDataSources from '@/constants/insightDataSources'
 
 // CONFIGURE MOMENT
 // Set first day of week to Monday
