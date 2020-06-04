@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Button from './elements/Button'
-import Icon from './elements/Icon'
+import Button from '@/elements/Button'
+import Icon from '@/elements/Icon'
 
-import useScrollToButton from './hooks/useScrollToButton'
+import useScrollToButton from '@/hooks/useScrollToButton'
 
-import brandColors from '../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
-import styles from './InsightSelectors.module.css'
+import styles from '@/InsightSelectors.module.css'
 
 const InsightPlatformSelectors = ({
   availablePlatforms,

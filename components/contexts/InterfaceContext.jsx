@@ -19,6 +19,7 @@ const initialContext = {
   toggleSubNav: () => {},
   setHeader: () => {},
   toggleGlobalLoading: () => {},
+  toggleGlobalLoadingSpinner: () => {},
   // Getters
   subNavOpen: initialState.subNavOpen,
   header: initialState.header,
@@ -37,11 +38,13 @@ const reducer = (draftState, action) => {
 
   switch (actionType) {
     case 'toggleSubNav':
-      draftState.subNavOpen = payload.state
+      draftState.subNavOpen = typeof payload.state === 'boolean' ? payload.state : !draftState.subNavOpen
       break
     case 'toggleGlobalLoading':
-      draftState.globalLoading = payload.state
-      draftState.showSpinner = payload.spinnerState
+      draftState.globalLoading = typeof payload.state === 'boolean' ? payload.state : !draftState.globalLoading
+      break
+    case 'toggleGlobalLoadingSpinner':
+      draftState.showSpinner = typeof payload.state === 'boolean' ? payload.state : !draftState.showSpinner
       break
     case 'setHeader':
       draftState.header.visible = typeof payload.visible === 'boolean' ? payload.visible : draftState.header.visible
@@ -58,21 +61,25 @@ const InterfaceContextProvider = ({ children }) => {
   const { subNavOpen, header, globalLoading, showSpinner } = interfaceState
 
   const toggleSubNav = React.useCallback((state) => {
-    const newState = typeof state !== 'undefined' ? state : !subNavOpen
-    setInterfaceState({ type: 'toggleSubNav', payload: { state: newState } })
-  }, [subNavOpen])
+    setInterfaceState({ type: 'toggleSubNav', payload: { state } })
+  }, [setInterfaceState])
 
   const setHeader = React.useCallback(({ visible, text, punctuation = '.' }) => {
     setInterfaceState({ type: 'setHeader', payload: { visible, text, punctuation } })
-  }, [])
+  }, [setInterfaceState])
 
-  const toggleGlobalLoading = React.useCallback((state, spinnerState) => {
-    const newState = typeof state !== 'undefined' ? state : !globalLoading
-    const newSpinnerState = newState === false ? false
-      : typeof spinnerState !== 'undefined' ? spinnerState
-        : showSpinner
-    setInterfaceState({ type: 'toggleGlobalLoading', payload: { state: newState, spinnerState: newSpinnerState } })
-  }, [])
+  const toggleGlobalLoading = React.useCallback((state) => {
+    setInterfaceState({ type: 'toggleGlobalLoading', payload: { state } })
+  }, [setInterfaceState])
+
+  const toggleGlobalLoadingSpinner = React.useCallback((state) => {
+    setInterfaceState({ type: 'toggleGlobalLoadingSpinner', payload: { state } })
+  }, [setInterfaceState])
+
+  // Hide spinner when global loading is false
+  React.useEffect(() => {
+    if (!globalLoading) toggleGlobalLoadingSpinner(false)
+  }, [globalLoading, toggleGlobalLoadingSpinner])
 
   // Set global loading to true when route changes
   const { pathname } = useRouter()
@@ -90,11 +97,11 @@ const InterfaceContextProvider = ({ children }) => {
     if (newUrl === previousUrl) return
     // Set global loading
     toggleGlobalLoading(true)
-  }, [pathname])
+  }, [toggleGlobalLoading, toggleSubNav])
   React.useEffect(() => {
     Router.events.on('routeChangeStart', handleRouteChange)
     Router.events.on('routeChangeComplete', handleRouteEnd)
-  }, [])
+  }, [handleRouteChange])
 
   return (
     <InterfaceContext.Provider
@@ -103,6 +110,7 @@ const InterfaceContextProvider = ({ children }) => {
         toggleSubNav,
         setHeader,
         toggleGlobalLoading,
+        toggleGlobalLoadingSpinner,
         // Getters
         globalLoading,
         showSpinner,

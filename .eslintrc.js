@@ -1,12 +1,15 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true,
     node: true,
+    es2020: true,
   },
   extends: [
-    'plugin:react/recommended',
     'airbnb',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
   ],
   globals: {
     Atomics: 'readonly',
@@ -16,11 +19,10 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 2018,
     parser: 'babel-eslint',
+    "sourceType": "module",
   },
   plugins: [
-    'import',
     'react',
   ],
 
@@ -42,7 +44,7 @@ module.exports = {
     'semi': [ 2, 'never' ],
     'unicorn/number-literal-case': 'off',
     'no-nested-ternary': 'off',
-    "react/react-in-jsx-scope": "off",
+    'react/react-in-jsx-scope': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': 'off',
     'react/prop-types': 'off', // look again
@@ -52,10 +54,24 @@ module.exports = {
     'react/jsx-one-expression-per-line': 'off',
     // A11y things
     'jsx-a11y/click-events-have-key-events': 'off',
-    "jsx-a11y/media-has-caption": 'off',
+    'jsx-a11y/media-has-caption': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
     'jsx-a11y/interactive-supports-focus': 'off',
     'jsx-a11y/img-redundant-alt': 'off',
+  },
+
+  ignorePatterns: ['node_modules/', '.next/'],
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@/copy', './copy'],
+          ['@/constants', './constants'],
+          ['@', './components'],
+        ],
+        extensions: ['.ts', '.js', '.jsx', '.json', '.css'],
+      },
+    },
   },
 };

@@ -1,7 +1,7 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
 
-import SidePanel from '../SidePanel'
+import SidePanel from '@/SidePanel'
 
 const initialContext = {
   sidePanelContent: null,
@@ -27,21 +27,21 @@ const SidePanelContextProvider = ({ children }) => {
   // Get ROUTE info
   const { query, pathname } = useRouter()
   const [pageQuery] = Object.keys(query)
-  const closeSidePanel = () => {
+  const closeSidePanel = React.useCallback(() => {
     setSidePanelLoading(false)
     // If there's no page query, then simply close
     if (!pageQuery) return setSidePanelOpen(false)
     // If there is a page query, then just remove it
     Router.push(pathname)
-  }
+  }, [pageQuery, pathname])
 
-  const toggleSidePanel = (state) => {
+  const toggleSidePanel = React.useCallback((state) => {
     const newState = typeof state === 'boolean' ? state : !sidePanelOpen
     // Closing
     if (!newState) return closeSidePanel()
     // Opening
     setSidePanelOpen(newState)
-  }
+  }, [setSidePanelOpen, closeSidePanel, sidePanelOpen])
 
   // Close side panel when navigating pages
   React.useEffect(() => {
@@ -49,7 +49,7 @@ const SidePanelContextProvider = ({ children }) => {
     return () => {
       Router.events.off('routeChangeStart', closeSidePanel)
     }
-  }, [])
+  }, [closeSidePanel])
 
   return (
     // The context provider

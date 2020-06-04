@@ -1,8 +1,8 @@
 import moment from 'moment'
-import * as utils from './utils'
+import * as utils from '@/helpers/utils'
 
 // IMPORT CONSTANTS
-import insightDataSources from '../../constants/insightDataSources'
+import insightDataSources from '@/constants/insightDataSources'
 
 // CONFIGURE MOMENT
 // Set first day of week to Monday
@@ -173,64 +173,88 @@ export const calcStartAndEnd = (granularity, earliestMoment, latestMoment) => {
   return [earliestMoment.endOf('month'), latestMoment]
 }
 
-// CREATE ARRAY OF PERIOD DATES
-const getClosestDate = (dailyDataSeconds, targetDate) => {
-  // Get date (in seconds)
-  const date = utils.closestNumberInArray(dailyDataSeconds, targetDate)
-  // return moment object
-  return moment.unix(date)
+//* Get missing data (TBC)
+const fillInMissingData = (periodData, granularity) => {
+  // Add in missing data
+  return periodData.reduce((results, data, index) => {
+    // Do nothing for first entry
+    if (index === 0) return [data]
+    const { dateMoment: currentMoment } = data
+    const { dateMoment: previousMoment } = results[index - 1]
+    const dateGap = currentMoment.diff(previousMoment, granularity, true)
+    // If gap between two periods is small enough, just carry on
+    if (dateGap < 1.5) return [...results, data]
+    // Else add in a missing datapoint
+    const missingPeriodMoment = previousMoment.add(1, granularity)
+    const missingPeriod = granularity === 'months' ? missingPeriodMoment.month() : missingPeriodMoment.isoWeek()
+    const missingDataPayload = {
+      period: missingPeriod,
+      year: missingPeriodMoment.year(),
+      date: missingPeriodMoment.format('YYYY-MM-DD'),
+      value: null,
+    }
+    return [...results, missingDataPayload, data]
+  }, [])
 }
 
-export const getPeriodDates = (data, granularity) => {
-  const { dailyData, mostRecent: { date: lastDate } } = data
-  // Create array of momments that correspond to daily data dates
-  const dailyDataMoments = Object.keys(dailyData).map((date) => {
-    return moment(date, 'YYYY-MM-DD')
-  })
-  // Create an array of these momements, but in seconds
-  const dailyDataSeconds = dailyDataMoments.map((day) => day.unix())
-  // Get moment of last date of data
-  const lastMoment = moment(lastDate, 'YYYY-MM-DD')
-  // CREATE REDUCED ARRAY OF MOMENTS, SPACED BY GRANULARITY
-  const periodMoments = dailyDataMoments.reduce((moments, moment, index) => {
-    // First date: just return the date
-    if (index === 0) return [...moments, moment]
-    // Add period of granularity...
-    const adjustedMoment = moment.add(1, granularity)
-    // If modified date is beyond the date range of the data, just return array
-    if (adjustedMoment.isAfter(lastMoment)) return moments
-    // Find the closest date in the data to the modified date
-    const closestMoment = getClosestDate(dailyDataSeconds, adjustedMoment.unix())
-    // If closest date is too close, ignore it
-    const previousMoment = moments[moments.length - 1]
-    if (closestMoment.diff(previousMoment, granularity) < 1) return moments
-    // Else add the date to the array
-    return [...moments, closestMoment]
+// * Returns an array periods (weeks/months) covered by the data.
+// Each entry is an object containing the date, date value, and period index
+const getPeriodData = (dailyData, granularity) => {
+  const periodData = Object.entries(dailyData).reduce((results, [date, value]) => {
+    const dateMoment = moment(date, 'YYYY-MM-DD')
+    const year = dateMoment.year()
+    const period = granularity === 'months' ? dateMoment.month() : dateMoment.isoWeek()
+    const payload = { period, year, date, value, dateMoment }
+    // Is there already data for this period and year?
+    const storedDatumIndex = results.findIndex(({ period: storedPeriod, year: storedYear }) => {
+      return period === storedPeriod && year === storedYear
+    })
+    if (storedDatumIndex > -1) {
+      const { date: storedDate } = results[storedDatumIndex]
+      const storedDateMoment = moment(storedDate, 'YYYY-MM-DD')
+      // Check if date is more later in time
+      const isNewDateLater = dateMoment.isAfter(storedDateMoment)
+      // If new date is later, replace
+      if (isNewDateLater) {
+        results[storedDatumIndex] = payload
+      }
+      // Else just return the saved value
+      return results
+    }
+    // If no date for this period, add it
+    return [...results, payload]
   }, [])
-  // Convert the moments to dates and return
-  const periodDates = periodMoments.map((period) => period.format('YYYY-MM-DD'))
-  return periodDates
+  // Add in missing data
+  return fillInMissingData(periodData, granularity)
+}
+
+
+// RETURNS AN ARRAY OF DATES and their VALUES
+export const getChartData = (data, granularity) => {
+  const { dailyData } = data
+  const periodData = getPeriodData(dailyData, granularity)
+  const dates = periodData.map(({ date }) => date)
+  const values = periodData.map(({ value }) => value)
+  return [dates, values]
 }
 
 // CREATE ARRAY OF PERIOD LABELS
-export const getPeriodLabels = (granularity, periodDates) => {
+export const getPeriodLabels = (periodDates) => {
+  const [earliestDate] = periodDates
+  const lastDate = periodDates[periodDates.length - 1]
+  const earliestYear = moment(earliestDate, 'YYYY-MM-DD').year()
+  const lastYear = moment(lastDate, 'YYYY-MM-DD').year()
   return periodDates.map((date) => {
-    const labelFormat = granularity === 'months' ? 'MMM' : 'DD MMM'
+    const labelFormat = earliestYear !== lastYear ? 'DD MMM YYYY' : 'DD MMM'
     const dateMoment = moment(date, 'YYYY-MM-DD')
     return dateMoment.format(labelFormat)
   })
 }
 
-// CREATE DATA ARRAY
-export const createDataArray = (datePeriods, data) => {
-  const { dailyData } = data
-  return datePeriods.map((date) => dailyData[date])
-}
-
 export const getDummyData = () => {
   return {
     dataArray: [505, 505, 509, 512, 515, 524, 525, 527, 532, 538, 541, 548, 552, 559, 566],
-    periodLabels: Array(15).fill().map((_, i) => i),
+    periodLabels: Array(15).fill().map((_, i) => i.toString()),
     chartLimit: { max: 579, min: 500 },
   }
 }

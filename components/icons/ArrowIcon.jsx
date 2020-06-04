@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import brandColors from '../../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
 function ArrowIcon({ className }) {
   return (

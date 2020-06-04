@@ -1,5 +1,5 @@
-import BasePage from '../../components/BasePage'
-import PricingPageContent from '../../components/PricingPageContent'
+import BasePage from '@/BasePage'
+import PricingPageContent from '@/PricingPageContent'
 
 const headerConfig = {
   text: 'pricing',

@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ProfileIcon from '../icons/ProfileIcon'
+import ProfileIcon from '@/icons/ProfileIcon'
 
-import brandColors from '../../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
 const ArtistImage = ({ pageId, size, name, className }) => {
   const [src, setSrc] = React.useState('')
@@ -14,7 +14,7 @@ const ArtistImage = ({ pageId, size, name, className }) => {
     const src = `//graph.facebook.com/${pageId}/picture?type=${size}`
     setSrc(src)
     setError(false)
-  }, [pageId])
+  }, [pageId, size])
 
   const onError = () => {
     setError(true)

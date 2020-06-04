@@ -3,9 +3,9 @@ import React from 'react'
 import Router from 'next/router'
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import Button from './elements/Button'
+import Button from '@/elements/Button'
 // IMPORT CONSTANTS
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
 function PromotePostsButton({
   artist,
@@ -21,11 +21,12 @@ function PromotePostsButton({
     const destination = budget > 0 ? 'RESULTS' : 'POSTS'
     setLinkText(text)
     setLinkDestination(destination)
-  }, [artistId])
+  }, [artistId, artist.daily_budget])
 
   // HANDLE BUTTON CLICK
   const handleClick = e => {
     e.preventDefault()
+    // eslint-disable-next-line
     Router.push(ROUTES[linkDestination])
   }
 

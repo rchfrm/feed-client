@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
 export default {
   copy: `To keep it simple, [the daily budget you set](${ROUTES.POSTS}) in **Feed** is the total amount you’ll spend each day - including our service fee. Our service fee is 10% of your chosen daily budget, dropping to 5% for spend over £150 in the billing month. 

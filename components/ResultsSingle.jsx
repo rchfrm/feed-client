@@ -3,18 +3,17 @@ import PropTypes from 'prop-types'
 
 import moment from 'moment'
 
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 
-import ResultsToggle from './ResultsToggle'
+import ResultsToggle from '@/ResultsToggle'
 // IMPORT ELEMENTS
-import SquareImage from './elements/SquareImage'
-import MediaFallback from './elements/MediaFallback'
+import ExternalMedia from '@/elements/ExternalMedia'
 // IMPORT PAGES
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
+import * as utils from '@/helpers/utils'
 // IMPORT STYLES
-import resultsStyles from './Results.module.css'
-import postStyles from './PostsPage.module.css'
+import resultsStyles from '@/Results.module.css'
+import postStyles from '@/PostsPage.module.css'
 
 const styles = {
   ...resultsStyles,
@@ -122,39 +121,19 @@ const ResultsSingle = ({
   className,
 }) => {
   const { artist } = React.useContext(ArtistContext)
-  // STORE MEDIA COMPONENT AND COMPONENT IN STATE
-  const [media, setMedia] = React.useState(<MediaFallback />)
-  const [thumbnailMedia, setThumbnailMedia] = React.useState(thumbnail)
 
-  const handleError = () => {
-    setMedia(<MediaFallback />)
-  }
-
-  // DISPLAY CORRECT MEDIA
-  const renderMedia = React.useCallback(attachments => {
-    let mediaLink
-    // If there are attachments, find the relevant media file,
-    // and update the thumbnail if there isn't one already
-    if (attachments.length > 0) {
-      mediaLink = utils.findPostMedia(attachments[0])
-      if (!thumbnailMedia) {
-        setThumbnailMedia(utils.findPostThumbnail(attachments[0]))
-      }
+  // GET MEDIA PROPS
+  const mediaProps = React.useMemo(() => {
+    const firstAttachment = attachments.length ? attachments[0] : null
+    const mediaSrc = utils.findPostMedia(firstAttachment) || thumbnail
+    const thumbnailSrc = thumbnail || utils.findPostThumbnail(firstAttachment)
+    const title = ''
+    return {
+      mediaSrc,
+      thumbnailSrc,
+      title,
     }
-
-    // If there is no mediaLink, but there is a thumbnail, use that instead
-    if (!mediaLink && thumbnailMedia) {
-      mediaLink = thumbnailMedia
-    }
-
-    let message // TODO : Implement a way to dispay title and alt attributes
-    return utils.generateMediaHTML(mediaLink, thumbnailMedia, message, handleError)
-  }, [thumbnailMedia])
-
-  React.useEffect(() => {
-    const component = renderMedia(attachments)
-    setMedia(component)
-  }, [attachments])
+  }, [attachments, thumbnail])
 
   const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
 
@@ -173,9 +152,10 @@ const ResultsSingle = ({
       <div className={styles.resultItem__inner}>
 
         <div className={styles['result-media']}>
-          <SquareImage
-            className={styles.img}
-            media={media}
+          <ExternalMedia
+            mediaSrc={mediaProps.mediaSrc}
+            thumbnailSrc={mediaProps.thumbnailSrc}
+            title={mediaProps.title}
           />
         </div>
 

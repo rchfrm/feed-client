@@ -1,19 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { UserContext } from './contexts/User'
-import { SidePanelContext } from './contexts/SidePanelContext'
+import { UserContext } from '@/contexts/User'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
-import server from './helpers/server'
-import firebase from './helpers/firebase'
-import { track } from './helpers/trackingHelpers'
+import server from '@/helpers/server'
+import firebase from '@/helpers/firebase'
+import { track } from '@/helpers/trackingHelpers'
 
-import Input from './elements/Input'
-import Button from './elements/Button'
-import Error from './elements/Error'
+import Input from '@/elements/Input'
+import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 
-import styles from './AccountPage.module.css'
-import sidePanelStyles from './SidePanel.module.css'
+import styles from '@/AccountPage.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 
 const getButton = (buttonOn, handleSubmit) => {
@@ -173,7 +173,7 @@ function AccountPageDetails({ user }) {
     setName(initialName)
     setSurname(initialSurname)
     setEmail(initialEmail)
-  }, [])
+  }, [initialName, initialSurname, initialEmail])
 
   // Handle Changes in the form
   const formUpdated = React.useRef(false)
@@ -201,7 +201,7 @@ function AccountPageDetails({ user }) {
     return () => {
       setSidePanelButton(null)
     }
-  }, [buttonOn])
+  }, [buttonOn, setSidePanelButton])
 
   // Watch changes in form data and set button
   React.useEffect(() => {
@@ -217,7 +217,7 @@ function AccountPageDetails({ user }) {
       return
     }
     setButtonOn(true)
-  }, [name, surname, passwordOne, passwordTwo])
+  }, [name, email, surname, passwordOne, passwordTwo])
 
 
   return (

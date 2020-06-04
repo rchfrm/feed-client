@@ -1,16 +1,16 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT ELEMENTS
-import MissingScopesMessage from './elements/MissingScopesMessage'
-import ButtonFacebook from './elements/ButtonFacebook'
-import Error from './elements/Error'
-import MarkdownText from './elements/MarkdownText'
+import MissingScopesMessage from '@/elements/MissingScopesMessage'
+import ButtonFacebook from '@/elements/ButtonFacebook'
+import Error from '@/elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
 // IMPORT HELPERS
-import firebase from './helpers/firebase'
+import firebase from '@/helpers/firebase'
 // IMPORT STYLES
-import styles from './ConnectAccounts.module.css'
+import styles from '@/ConnectAccounts.module.css'
 // IMPORT COPY
-import copy from '../copy/ConnectAccountsCopy'
+import copy from '@/copy/ConnectAccountsCopy'
 
 function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
   const { missingScopes, providerIds } = auth

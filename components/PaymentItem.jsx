@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import styles from './PaymentItem.module.css'
+import styles from '@/PaymentItem.module.css'
 
 const PaymentItem = ({ method, onSelect }) => {
   const { is_default } = method

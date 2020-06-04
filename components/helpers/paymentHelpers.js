@@ -1,5 +1,5 @@
-import server from './server'
-import * as api from './api'
+import server from '@/helpers/server'
+import * as api from '@/helpers/api'
 
 // PAYMENTS
 /**

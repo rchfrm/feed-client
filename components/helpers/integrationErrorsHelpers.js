@@ -1,6 +1,6 @@
 import produce from 'immer'
 
-import copy from '../../copy/integrationErrorsCopy'
+import copy from '@/copy/integrationErrorsCopy'
 
 export const testForMissingPages = (scopes) => {
   if (scopes.length > 2) return false
@@ -23,15 +23,6 @@ export const getErrorResponse = (error, artist) => {
     field,
   } = error
 
-  if (code === 'expired_access_token') {
-    return {
-      message: copy[code](),
-      action: 'fb_reauth',
-      buttonText: 'Relink Facebook',
-      hidden,
-    }
-  }
-
   if (code === 'missing_permission_scope') {
     const missingPermissions = context
     const hasOnlyMissingPages = testForMissingPages(missingPermissions)
@@ -40,6 +31,15 @@ export const getErrorResponse = (error, artist) => {
       action: 'fb_reauth',
       buttonText: 'Continue with Facebook',
       missingPermissions,
+      hidden,
+    }
+  }
+
+  if (code === 'expired_access_token' || code === 'page_permission_error') {
+    return {
+      message: copy.expired_access_token(),
+      action: 'fb_reauth',
+      buttonText: 'Relink Facebook',
       hidden,
     }
   }

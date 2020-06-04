@@ -5,17 +5,17 @@ import moment from 'moment'
 import get from 'lodash/get'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT ELEMENTS
-import MarkdownText from './elements/MarkdownText'
-import Spinner from './elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
+import Spinner from '@/elements/Spinner'
 // IMPORT HELPERS
-import server from './helpers/server'
-import * as utils from './helpers/utils'
+import server from '@/helpers/server'
+import * as utils from '@/helpers/utils'
 // IMPORT COPY
-import copy from '../copy/InsightPageCopy'
+import copy from '@/copy/InsightPageCopy'
 // IMPORT STYLES
-import styles from './Results.module.css'
+import styles from '@/Results.module.css'
 
 const calculateSpendOverPeriod = (dailyData, historicalPeriod) => {
   const spend = Object.entries(dailyData).reduce((totalSpend, [date, spend]) => {

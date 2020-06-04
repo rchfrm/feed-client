@@ -3,12 +3,12 @@
 import React from 'react'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
-import { track } from './helpers/trackingHelpers'
+import * as utils from '@/helpers/utils'
+import { track } from '@/helpers/trackingHelpers'
 // IMPORT STYLES
 
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/BudgetCopy'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/BudgetCopy'
 
 const getBudgetAction = (previousBudget, newBudget) => {
   if (previousBudget === 0) return 'Ads turned on'

@@ -2,18 +2,18 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT ELEMENTS
-import PostLinkSaveButton from './PostLinkSaveButton'
-import Select from './elements/Select'
+import PostLinkSaveButton from '@/PostLinkSaveButton'
+import Select from '@/elements/Select'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
-import server from './helpers/server'
+import * as utils from '@/helpers/utils'
+import server from '@/helpers/server'
 // IMPORT STYLES
-import styles from './PostsPage.module.css'
+import styles from '@/PostsPage.module.css'
 
 
 const getLinkName = (linkType) => {

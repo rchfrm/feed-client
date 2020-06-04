@@ -1,12 +1,12 @@
 import React from 'react'
 
-import LastItem from './elements/LastItem'
-import ConnectAccountsPanel from './ConnectAccountsPanel'
-import * as artistHelpers from './helpers/artistHelpers'
+import LastItem from '@/elements/LastItem'
+import ConnectAccountsPanel from '@/ConnectAccountsPanel'
+import * as artistHelpers from '@/helpers/artistHelpers'
 
 // IMPORT STYLES
-import connectAccountsStyles from './ConnectAccounts.module.css'
-import postStyles from './PostsPage.module.css'
+import connectAccountsStyles from '@/ConnectAccounts.module.css'
+import postStyles from '@/PostsPage.module.css'
 
 const styles = {
   ...connectAccountsStyles,
@@ -56,7 +56,7 @@ function ConnectAccounts({
     if (!selectedAccounts.length) {
       setDisabledReason('Please select at least one account')
     }
-  }, [artistAccounts])
+  }, [artistAccounts, setDisabledReason, setButtonDisabled])
 
   const artistAccountsArray = React.useMemo(() => {
     return artistHelpers.getSortedArtistAccountsArray(artistAccounts)

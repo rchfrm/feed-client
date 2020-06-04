@@ -1,7 +1,7 @@
 import produce from 'immer'
-import * as utils from './utils'
-import facebook from './facebook'
-import * as api from './api'
+import * as utils from '@/helpers/utils'
+import facebook from '@/helpers/facebook'
+import * as api from '@/helpers/api'
 
 // Sort Ad accounts so the previously used one is on top
 const sortAdAccounts = (account, adAccounts) => {

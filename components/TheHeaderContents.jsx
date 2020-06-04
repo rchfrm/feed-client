@@ -3,18 +3,18 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT HOOKS
-import useLoggedInTest from './hooks/useLoggedInTest'
+import useLoggedInTest from '@/hooks/useLoggedInTest'
 // IMPORT ELEMENTS
-import FeedLogo from './icons/FeedLogo'
-import TheSubNavButton from './TheSubNavButton'
-import PageHeader from './PageHeader'
+import FeedLogo from '@/icons/FeedLogo'
+import TheSubNavButton from '@/TheSubNavButton'
+import PageHeader from '@/PageHeader'
 // IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
-import * as ROUTES from '../constants/routes'
+import brandColors from '@/constants/brandColors'
+import * as ROUTES from '@/constants/routes'
 // IMPORT STYLES
-import styles from './TheHeader.module.css'
+import styles from '@/TheHeader.module.css'
 
 function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
   // Check if logged in or not
@@ -33,8 +33,7 @@ function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
   const { artistId, artistLoading } = React.useContext(ArtistContext)
   React.useEffect(() => {
     toggleSubNav(false)
-    toggleSubNav(false)
-  }, [artistId, artistLoading])
+  }, [artistId, artistLoading, toggleSubNav])
   // Go to home page
   const { pathname } = useRouter()
   const goHome = () => {

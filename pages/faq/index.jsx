@@ -1,5 +1,5 @@
-import BasePage from '../../components/BasePage'
-import FaqContent from '../../components/FaqContent'
+import BasePage from '@/BasePage'
+import FaqContent from '@/FaqContent'
 
 const headerConfig = {
   text: 'FAQs',

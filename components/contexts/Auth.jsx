@@ -1,7 +1,7 @@
 import React from 'react'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
-import firebase from '../helpers/firebase'
+import firebase from '@/helpers/firebase'
 
 const initialAuthState = {
   token: '',

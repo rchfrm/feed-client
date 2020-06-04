@@ -1,15 +1,15 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT ELEMENTS
-import Input from './elements/Input'
-import Button from './elements/Button'
-import Error from './elements/Error'
-import Success from './elements/Success'
+import Input from '@/elements/Input'
+import Button from '@/elements/Button'
+import Error from '@/elements/Error'
+import Success from '@/elements/Success'
 // IMPORT HELPERS
-import firebase from './helpers/firebase'
-import { track } from './helpers/trackingHelpers'
+import firebase from '@/helpers/firebase'
+import { track } from '@/helpers/trackingHelpers'
 // IMPORT STYLES
-import styles from './ForgotPasswordPage.module.css'
+import styles from '@/ForgotPasswordPage.module.css'
 
 
 function ForgotPasswordForm({ setSuccess, setError, setEmail, email, error, isInvalid }) {

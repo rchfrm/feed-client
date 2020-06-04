@@ -4,19 +4,19 @@ import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { ArtistContext } from '@/contexts/Artist'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import Error from './elements/Error'
+import Error from '@/elements/Error'
 // IMPORT PAGES
-import PostsAll from './PostsAll'
-import PostsNone from './PostsNone'
+import PostsAll from '@/PostsAll'
+import PostsNone from '@/PostsNone'
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
-import server from './helpers/server'
-import { track } from './helpers/trackingHelpers'
+import * as utils from '@/helpers/utils'
+import server from '@/helpers/server'
+import { track } from '@/helpers/trackingHelpers'
 // IMPORT STYLES
-import styles from './PostsPage.module.css'
+import styles from '@/PostsPage.module.css'
 
 // Define initial state and reducer for posts
 const postsInitialState = null
@@ -190,7 +190,7 @@ function PostsLoader() {
       label: `artistId: ${artistId}`,
     })
     return newPromotionState
-  }, [posts])
+  }, [posts, artistId, setPosts])
   // Define function to batch toggle all posts
   const togglePromotionGlobal = React.useCallback((promotion_enabled) => {
     setPosts({
@@ -199,7 +199,7 @@ function PostsLoader() {
         promotion_enabled,
       },
     })
-  }, [posts])
+  }, [setPosts])
 
   // Define function for loading more posts
   const loadMorePosts = () => {

@@ -1,6 +1,6 @@
-import BasePage from '../../components/BasePage'
-import TestPageReady from '../../components/TestPageReady'
-import AccountPageLoader from '../../components/AccountPageLoader'
+import BasePage from '@/BasePage'
+import testPageReady from '@/hoc/testPageReady'
+import AccountPageLoader from '@/AccountPageLoader'
 
 const headerConfig = {
   text: 'account details',
@@ -15,4 +15,4 @@ const Page = () => (
   </BasePage>
 )
 
-export default TestPageReady(Page)
+export default testPageReady(Page)

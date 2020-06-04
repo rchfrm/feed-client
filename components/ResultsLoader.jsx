@@ -3,16 +3,16 @@ import React from 'react'
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { ArtistContext } from '@/contexts/Artist'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import Error from './elements/Error'
+import Error from '@/elements/Error'
 // IMPORT COMPONENTS
-import ResultsNoResults from './ResultsNoResults'
-import ResultsAll from './ResultsAll'
+import ResultsNoResults from '@/ResultsNoResults'
+import ResultsAll from '@/ResultsAll'
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
-import server from './helpers/server'
+import * as utils from '@/helpers/utils'
+import server from '@/helpers/server'
 
 const initialPostsState = {
   active: {},

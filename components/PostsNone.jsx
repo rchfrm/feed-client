@@ -2,13 +2,13 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { ArtistContext } from '@/contexts/Artist'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/PostsPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/PostsPageCopy'
 // IMPORT STYLES
-import styles from './PostsPage.module.css'
+import styles from '@/PostsPage.module.css'
 
 const PostsNone = () => {
   // IMPORT CONTEXTS
@@ -24,7 +24,7 @@ const PostsNone = () => {
   // Update header
   React.useEffect(() => {
     setHeader({ text: 'your posts', punctuation: ',' })
-  }, [])
+  }, [setHeader])
 
   return (
     <div className={styles.noPosts}>

@@ -1,5 +1,5 @@
-import BasePage from '../../components/BasePage'
-import LoginPageContent from '../../components/LoginPageContent'
+import BasePage from '@/BasePage'
+import LoginPageContent from '@/LoginPageContent'
 
 const headerConfig = {
   text: 'log in',

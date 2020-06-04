@@ -1,6 +1,6 @@
-import * as utils from './utils'
-import firebase from './firebase'
-import * as api from './api'
+import * as utils from '@/helpers/utils'
+import firebase from '@/helpers/firebase'
+import * as api from '@/helpers/api'
 
 
 const formatPostsResponse = (posts) => {

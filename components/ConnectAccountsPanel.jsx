@@ -1,18 +1,18 @@
 import React from 'react'
 
-import Input from './elements/Input'
-import Select from './elements/Select'
-import ButtonToggle from './elements/ButtonToggle'
-import InstagramIcon from './icons/InstagramIcon'
+import Input from '@/elements/Input'
+import Select from '@/elements/Select'
+import ButtonToggle from '@/elements/ButtonToggle'
+import InstagramIcon from '@/icons/InstagramIcon'
 
-import * as utils from './helpers/utils'
+import * as utils from '@/helpers/utils'
 
-import countries from '../constants/countries'
+import countries from '@/constants/countries'
 
 // IMPORT STYLES
-import connectAccountsStyles from './ConnectAccounts.module.css'
-import postStyles from './PostsPage.module.css'
-import brandColors from '../constants/brandColors'
+import connectAccountsStyles from '@/ConnectAccounts.module.css'
+import postStyles from '@/PostsPage.module.css'
+import brandColors from '@/constants/brandColors'
 
 const styles = {
   ...connectAccountsStyles,
@@ -235,9 +235,9 @@ function ConnectAccountsPanel({
 
         {/* Page Profile Picture */}
         <div className={styles['profile-picture']}>
-          <div className={`square-image ${styles['square-image']}`}>
+          <div className="media media--square">
             <img
-              className={`center-image ${styles['center-image']}`}
+              className={['center--image'].join(' ')}
               src={artistAccount.picture}
               alt={`${artistAccount.name} Facebook profile photo`}
             />

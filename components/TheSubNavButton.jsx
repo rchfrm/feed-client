@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Spinner from './elements/Spinner'
-import ArtistImage from './elements/ArtistImage'
-import CloseCircle from './icons/CloseCircle'
+import Spinner from '@/elements/Spinner'
+import ArtistImage from '@/elements/ArtistImage'
+import CloseCircle from '@/icons/CloseCircle'
 
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 
-import styles from './TheSubNavButton.module.css'
+import styles from '@/TheSubNavButton.module.css'
 
 const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
