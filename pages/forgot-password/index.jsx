@@ -1,5 +1,5 @@
-import BasePage from '../../components/BasePage'
-import ForgotPasswordContent from '../../components/ForgotPasswordContent'
+import BasePage from '@/BasePage'
+import ForgotPasswordContent from '@/ForgotPasswordContent'
 
 const headerConfig = {
   text: 'forgotten password',

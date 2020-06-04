@@ -1,6 +1,6 @@
-import BasePage from '../../components/BasePage'
-import testPageReady from '../../components/hoc/testPageReady'
-import ResultsLoader from '../../components/ResultsLoader'
+import BasePage from '@/BasePage'
+import testPageReady from '@/hoc/testPageReady'
+import ResultsLoader from '@/ResultsLoader'
 
 const headerConfig = {
   text: 'results',

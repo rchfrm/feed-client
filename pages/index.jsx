@@ -1,6 +1,6 @@
-import BasePage from '../components/BasePage'
-import testPageReady from '../components/hoc/testPageReady'
-import PostsLoader from '../components/PostsLoader'
+import BasePage from '@/BasePage'
+import TestPageReady from '@/TestPageReady'
+import PostsLoader from '@/PostsLoader'
 
 const headerConfig = {
   text: 'review posts',

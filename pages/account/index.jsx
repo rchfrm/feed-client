@@ -1,6 +1,6 @@
-import BasePage from '../../components/BasePage'
-import testPageReady from '../../components/hoc/testPageReady'
-import AccountPageLoader from '../../components/AccountPageLoader'
+import BasePage from '@/BasePage'
+import testPageReady from '@/hoc/testPageReady'
+import AccountPageLoader from '@/AccountPageLoader'
 
 const headerConfig = {
   text: 'account details',
