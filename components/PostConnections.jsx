@@ -66,13 +66,27 @@ function PostConnections({ className }) {
   // Get artist context
   const {
     artist,
+    artistId,
     setPriorityDSP: setArtistPriorityDSP,
     setConnection,
   } = React.useContext(ArtistContext)
-  const initialConnections = getConnections(artist)
-  const [connections, setConnections] = useImmerReducer(connectionsReducer, initialConnections)
-  const connectionPlatforms = getConnectionPlatforms(initialConnections)
   const [priorityDSP, setPriorityDSP] = React.useState(artist.priority_dsp)
+
+  const initialConnections = React.useMemo(() => {
+    return getConnections(artist)
+  }, [artistId])
+
+  React.useEffect(() => {
+    return () => {
+      console.log('unmount')
+    }
+  }, [])
+
+  const connectionPlatforms = React.useMemo(() => {
+    return getConnectionPlatforms(initialConnections)
+  }, [initialConnections, artistId])
+
+  const [connections, setConnections] = useImmerReducer(connectionsReducer, initialConnections)
 
   const udpatePriorityDSP = React.useCallback((dsp) => {
     setPriorityDSP(dsp)
@@ -89,24 +103,23 @@ function PostConnections({ className }) {
     }
   }, [])
 
-  // LIST INTEGRATIONS
-  const connectionsList = connectionPlatforms.map(platform => {
-    return (
-      <PostConnectionsConnection
-        key={platform}
-        artist={artist}
-        platform={platform}
-        priorityDSP={priorityDSP}
-        url={connections[platform].url || ''}
-        valid={connections[platform].valid}
-        udpateConnections={udpateConnections}
-        udpatePriorityDSP={udpatePriorityDSP}
-      />
-    )
-  })
-
   return (
-    <ul className={[styles['integrations-list'], className].join(' ')}>{connectionsList}</ul>
+    <ul className={[styles['integrations-list'], className].join(' ')}>
+      {connectionPlatforms.map(platform => {
+        return (
+          <PostConnectionsConnection
+            key={platform}
+            artist={artist}
+            platform={platform}
+            priorityDSP={priorityDSP}
+            url={connections[platform].url || ''}
+            valid={connections[platform].valid}
+            udpateConnections={udpateConnections}
+            udpatePriorityDSP={udpatePriorityDSP}
+          />
+        )
+      })}
+    </ul>
   )
 }
 
