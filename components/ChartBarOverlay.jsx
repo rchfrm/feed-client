@@ -6,7 +6,7 @@ import * as utils from '@/helpers/utils'
 // IMPORT STYLES
 import styles from '@/InsightsPage.module.css'
 
-const ChartBarOverlay = ({ max: maxValue, min: minValue, currency, labels }) => {
+const ChartBarOverlay = ({ max: maxValue, min: minValue, currency, labels, granularity }) => {
   const midValue = ((maxValue - minValue) / 2) + minValue
   const max = currency
     ? utils.formatCurrency(Math.round(maxValue), currency).replace('.00', '')
@@ -26,8 +26,10 @@ const ChartBarOverlay = ({ max: maxValue, min: minValue, currency, labels }) => 
       || index === labels.length - 1
       || index === Math.round((labels.length - 1) / 2)
     ) {
+      const [day, month] = label.split(' ')
+      const labelString = granularity === 'months' ? month : `${day} ${month}`
       labelList.push(
-        <li key={label}>{label}</li>,
+        <li key={label}>{labelString}</li>,
       )
     }
   })

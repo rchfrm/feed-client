@@ -1,7 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
-// IMPORT PAGES
 import PostToggle from '@/PostToggle'
 import PostLinkAddUrl from '@/PostLinkAddUrl'
 import PostLinkOptions from '@/PostLinkOptions'
