@@ -2,25 +2,25 @@
 import React from 'react'
 import Router from 'next/router'
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
+import { AuthContext } from '@/contexts/Auth'
 // IMPORT COMPONENTS
-import SignupEmailForm from './SignupEmailForm'
+import SignupEmailForm from '@/SignupEmailForm'
 // IMPORT HELPERS
-import firebase from './helpers/firebase'
-import { track } from './helpers/trackingHelpers'
+import firebase from '@/helpers/firebase'
+import { track } from '@/helpers/trackingHelpers'
 // IMPORT ELEMENTS
-import Button from './elements/Button'
-import EmailIcon from './icons/EmailIcon'
-import ButtonFacebook from './elements/ButtonFacebook'
-import Error from './elements/Error'
-import MarkdownText from './elements/MarkdownText'
+import Button from '@/elements/Button'
+import EmailIcon from '@/icons/EmailIcon'
+import ButtonFacebook from '@/elements/ButtonFacebook'
+import Error from '@/elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
 // Constants
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 // IMPORT COPY
-import copy from '../copy/LoginPageCopy'
+import copy from '@/copy/LoginPageCopy'
 // IMPORT STYLES
-import styles from './LoginPage.module.css'
-import brandColors from '../constants/brandColors'
+import styles from '@/LoginPage.module.css'
+import brandColors from '@/constants/brandColors'
 
 const SignupPageContent = ({ showEmailSignup }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)

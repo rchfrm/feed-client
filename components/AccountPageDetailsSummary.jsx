@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import styles from './AccountPage.module.css'
+import styles from '@/AccountPage.module.css'
 
 const getDetailsArray = (user) => {
   if (!user) return

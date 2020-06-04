@@ -53,10 +53,6 @@ const nextConfig = {
   devIndicators: {
     autoPrerender: false,
   },
-  // Enable react refresh
-  experimental: {
-    reactRefresh: true,
-  },
   // Custom webpack
   webpack: (config) => {
     config.plugins.push(faviconPlugin)

@@ -1,7 +1,7 @@
 import React from 'react'
 
 // IMPORT CONTEXTS
-import { AuthContext } from '../contexts/Auth'
+import { AuthContext } from '@/contexts/Auth'
 
 const useLoggedInTest = () => {
   // Check if logged in or not

@@ -2,9 +2,9 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
+import * as utils from '@/helpers/utils'
 // IMPORT STYLES
-import styles from './InsightsPage.module.css'
+import styles from '@/InsightsPage.module.css'
 
 const ChartBarOverlay = ({ max: maxValue, min: minValue, currency, labels }) => {
   const midValue = ((maxValue - minValue) / 2) + minValue

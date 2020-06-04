@@ -1,6 +1,6 @@
-import BasePage from '../../components/BasePage'
-import testPageReady from '../../components/hoc/testPageReady'
-import ThankYouPage from '../../components/ThankYouPageContent'
+import BasePage from '@/BasePage'
+import testPageReady from '@/hoc/testPageReady'
+import ThankYouPage from '@/ThankYouPageContent'
 
 const headerConfig = {
   text: 'results',

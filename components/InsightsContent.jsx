@@ -2,20 +2,20 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT ELEMENTS
 // IMPORT COMPONENTS
-import InsightPlatformSelectors from './InsightPlatformSelectors'
-import InsightDataSelectors from './InsightDataSelectors'
-import InsightsChartLoader from './InsightsChartLoader'
-import PromotePostsButton from './PromotePostsButton'
+import InsightPlatformSelectors from '@/InsightPlatformSelectors'
+import InsightDataSelectors from '@/InsightDataSelectors'
+import InsightsChartLoader from '@/InsightsChartLoader'
+import PromotePostsButton from '@/PromotePostsButton'
 // IMPORT HELPERS
-import * as chartHelpers from './helpers/chartHelpers'
+import * as chartHelpers from '@/helpers/chartHelpers'
 // IMPORT TEXT
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/InsightPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/InsightPageCopy'
 // IMPORT STYLES
-import styles from './InsightsPage.module.css'
+import styles from '@/InsightsPage.module.css'
 
 
 function InsightsContent() {

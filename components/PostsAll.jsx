@@ -2,24 +2,24 @@
 import React from 'react'
 import produce from 'immer'
 // IMPORT CONTEXTS
-import { SidePanelContext } from './contexts/SidePanelContext'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-import useOnResize from './hooks/useOnResize'
+import useOnResize from '@/hooks/useOnResize'
 // IMPORT ELEMENTS
-import Spinner from './elements/Spinner'
-import Button from './elements/Button'
-import GearIcon from './icons/GearIcon'
+import Spinner from '@/elements/Spinner'
+import Button from '@/elements/Button'
+import GearIcon from '@/icons/GearIcon'
 // IMPORT COMPONENTS
-import PostsSettings from './PostsSettings'
-import PostsSingle from './PostsSingle'
-import PostsNone from './PostsNone'
+import PostsSettings from '@/PostsSettings'
+import PostsSingle from '@/PostsSingle'
+import PostsNone from '@/PostsNone'
 // IMPORT ASSETS
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/PostsPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
 // IMPORT STYLES
-import styles from './PostsPage.module.css'
-import brandColors from '../constants/brandColors'
+import styles from '@/PostsPage.module.css'
+import copy from '@/copy/PostsPageCopy'
+import brandColors from '@/constants/brandColors'
 
 // Reset posts scroll position
 const resetScroll = () => {

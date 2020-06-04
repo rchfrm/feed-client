@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
-import * as utils from '../helpers/utils'
+import * as utils from '@/helpers/utils'
 
 const MarkdownLink = ({ href, children }) => {
   const { props: { value: linkText } } = children[0]

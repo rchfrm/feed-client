@@ -3,10 +3,10 @@
 import React from 'react'
 import Router from 'next/router'
 // IMPORT ELEMENTS
-import Button from './elements/Button'
-import Feed from './elements/Feed'
+import Button from '@/elements/Button'
+import Feed from '@/elements/Feed'
 // IMPORT CONSTANTS
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
 function ThankYouPageContent() {
   const goToHomePage = () => {

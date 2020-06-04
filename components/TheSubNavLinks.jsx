@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import SignOutLink from './SignOutLink'
-import ActiveLink from './ActiveLink'
+import SignOutLink from '@/SignOutLink'
+import ActiveLink from '@/ActiveLink'
 
-import * as ROUTES from '../constants/routes'
+import styles from '@/TheSubNav.module.css'
 
-import styles from './TheSubNav.module.css'
+import * as ROUTES from '@/constants/routes'
+
 
 const { PRICING, FAQ } = ROUTES
 const termsLink = 'https://archform.ltd/terms/'

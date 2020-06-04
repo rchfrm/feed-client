@@ -1,17 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { UserContext } from './contexts/User'
+import { UserContext } from '@/contexts/User'
 
-import server from './helpers/server'
-import firebase from './helpers/firebase'
-import { track } from './helpers/trackingHelpers'
+import server from '@/helpers/server'
+import firebase from '@/helpers/firebase'
+import { track } from '@/helpers/trackingHelpers'
 
-import Input from './elements/Input'
-import Button from './elements/Button'
-import Error from './elements/Error'
+import Input from '@/elements/Input'
+import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 
-import styles from './AccountPage.module.css'
+import styles from '@/AccountPage.module.css'
 
 
 function AccountPageDetailsInline({ user }) {

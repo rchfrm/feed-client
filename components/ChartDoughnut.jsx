@@ -1,11 +1,11 @@
 // IMPORT PACKAGES
 import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
-import brandColors from '../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 // IMPORT STYLES
-import * as utils from './helpers/utils'
+import * as utils from '@/helpers/utils'
 // IMPORT STYLES
-import styles from './InsightsPage.module.css'
+import styles from '@/InsightsPage.module.css'
 
 const ChartDoughnut = ({
   data,

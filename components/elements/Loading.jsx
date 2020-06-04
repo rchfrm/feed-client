@@ -1,5 +1,5 @@
 import React from 'react'
-import Ellipsis from './Ellipsis'
+import Ellipsis from '@/elements/Ellipsis'
 
 function Loading({ noPadding, what }) {
   const padding = noPadding ? '0' : '0 5%'

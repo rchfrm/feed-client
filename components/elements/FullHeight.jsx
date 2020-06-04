@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useOnResize from '../hooks/useOnResize'
+import useOnResize from '@/hooks/useOnResize'
 
 const FullHeight = React.forwardRef(({ id, className, heightPercent, Element, children }, ref) => {
   const { height: windowHeight } = useOnResize()

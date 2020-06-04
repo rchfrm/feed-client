@@ -3,12 +3,12 @@ import React from 'react'
 import { Elements } from 'react-stripe-elements'
 
 // IMPORT COMPONENTS
-import PaymentAddForm from './PaymentAddForm'
-import PaymentPageSuccess from './PaymentPageSuccess'
-import FadeInOut from './FadeInOut'
+import PaymentAddForm from '@/PaymentAddForm'
+import PaymentPageSuccess from '@/PaymentPageSuccess'
+import FadeInOut from '@/FadeInOut'
 
-import styles from './PaymentPage.module.css'
-import sidePanelStyles from './SidePanel.module.css'
+import styles from '@/PaymentPage.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 const PaymentAdd = () => {
   const [success, setSuccess] = React.useState(false)

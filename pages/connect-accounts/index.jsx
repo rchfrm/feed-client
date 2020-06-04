@@ -1,6 +1,6 @@
-import BasePage from '../../components/BasePage'
-import testPageReady from '../../components/hoc/testPageReady'
-import ConnectAccountsLoader from '../../components/ConnectAccountsLoader'
+import BasePage from '@/BasePage'
+import testPageReady from '@/hoc/testPageReady'
+import ConnectAccountsLoader from '@/ConnectAccountsLoader'
 
 const headerConfig = {
   text: 'connect accounts',

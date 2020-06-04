@@ -11,11 +11,11 @@ import * as Sentry from '@sentry/browser'
 // GLOBAL STYLES
 import '../assets/styles/index.css'
 // IMPORT COMPONENTS
-import AppContents from '../components/AppContents'
+import AppContents from '@/AppContents'
 // IMPORT CONTEXTS
-import { AuthProvider } from '../components/contexts/Auth'
+import { AuthProvider } from '@/contexts/Auth'
 // IMPORT HELPERS
-import { trackPWA } from '../components/helpers/trackingHelpers'
+import { trackPWA } from '@/helpers/trackingHelpers'
 // IMPORT STYLES
 
 const registerServiceWorker = () => {

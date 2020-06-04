@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
 
-import MarkdownLink from './MarkdownLink'
+import MarkdownLink from '@/elements/MarkdownLink'
 
 const MarkdownText = ({ markdown, className, style }) => {
   return (

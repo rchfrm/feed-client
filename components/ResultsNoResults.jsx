@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PromotePostsButton from './PromotePostsButton'
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/ResultsPageCopy'
+import PromotePostsButton from '@/PromotePostsButton'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/ResultsPageCopy'
 
 const ResultsNoResults = ({ artist }) => {
   if (artist.daily_budget > 0) {

@@ -1,6 +1,6 @@
-import BasePage from '../../components/BasePage'
-import testPageReady from '../../components/hoc/testPageReady'
-import InsightsContent from '../../components/InsightsContent'
+import BasePage from '@/BasePage'
+import testPageReady from '@/hoc/testPageReady'
+import InsightsContent from '@/InsightsContent'
 
 const headerConfig = {
   text: 'insights',

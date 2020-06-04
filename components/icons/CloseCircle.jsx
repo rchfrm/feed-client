@@ -1,6 +1,6 @@
 import React from 'react'
 
-import brandColors from '../../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
 const CloseCircle = () => {
   return (

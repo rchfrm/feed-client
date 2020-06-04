@@ -7,14 +7,14 @@ import tinycolor from 'tinycolor2'
 import moment from 'moment'
 import { Bar } from 'react-chartjs-2'
 // IMPORT COMPONENTS
-import Spinner from './elements/Spinner'
-import ChartBarOverlay from './ChartBarOverlay'
+import Spinner from '@/elements/Spinner'
+import ChartBarOverlay from '@/ChartBarOverlay'
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
-import * as chartHelpers from './helpers/chartHelpers'
-import brandColors from '../constants/brandColors'
+import * as utils from '@/helpers/utils'
+import * as chartHelpers from '@/helpers/chartHelpers'
+import brandColors from '@/constants/brandColors'
 // IMPORT STYLES
-import styles from './InsightsPage.module.css'
+import styles from '@/InsightsPage.module.css'
 
 // Set first day of week to Monday
 moment.updateLocale('en', {

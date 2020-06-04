@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { gsap, Power1, Power2 } from 'gsap'
 import { Transition } from 'react-transition-group'
 
-import useSwipeDismiss from './hooks/useSwipeDismiss'
+import useSwipeDismiss from '@/hooks/useSwipeDismiss'
 
-import Spinner from './elements/Spinner'
-import DragIndicator from './elements/DragIndicator'
-import CloseCircle from './icons/CloseCircle'
+import Spinner from '@/elements/Spinner'
+import DragIndicator from '@/elements/DragIndicator'
+import CloseCircle from '@/icons/CloseCircle'
 
-import styles from './SidePanel.module.css'
+import styles from '@/SidePanel.module.css'
 
 // * INSERTED via the SidePanelContext.jsx
 // * with the props passed in

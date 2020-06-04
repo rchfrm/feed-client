@@ -5,19 +5,19 @@ import { useAsync } from 'react-async'
 import moment from 'moment'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { ArtistContext } from '@/contexts/Artist'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import Error from './elements/Error'
+import Error from '@/elements/Error'
 // IMPORT PAGES
-import ChartContainer from './ChartContainer'
-import ChartBar from './ChartBar'
+import ChartContainer from '@/ChartContainer'
+import ChartBar from '@/ChartBar'
 // IMPORT ASSETS
 // IMPORT HELPERS
-import { formatServerData, formatProjection } from './helpers/chartHelpers'
-import server from './helpers/server'
+import { formatServerData, formatProjection } from '@/helpers/chartHelpers'
+import server from '@/helpers/server'
 
-import styles from './InsightsPage.module.css'
+import styles from '@/InsightsPage.module.css'
 
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS

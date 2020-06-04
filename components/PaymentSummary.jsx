@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { BillingContext } from './contexts/BillingContext'
+import { BillingContext } from '@/contexts/BillingContext'
 
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/BudgetCopy'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/BudgetCopy'
 
 
 // const NoPayment = () => {

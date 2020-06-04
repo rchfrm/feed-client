@@ -1,23 +1,23 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
-// IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
-// IMPORT ELEMENTS
-import Error from './elements/Error'
 // IMPORT PAGES
-import PostToggle from './PostToggle'
-import PostLinkAddUrl from './PostLinkAddUrl'
-import PostLinkOptions from './PostLinkOptions'
-import PostInsight from './PostInsight'
+import PostToggle from '@/PostToggle'
+import PostLinkAddUrl from '@/PostLinkAddUrl'
+import PostLinkOptions from '@/PostLinkOptions'
+import PostInsight from '@/PostInsight'
+// IMPORT CONTEXTS
+import { ArtistContext } from '@/contexts/Artist'
+// IMPORT ELEMENTS
+import Error from '@/elements/Error'
 // IMPORT ASSETS
-// IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
-import ExternalMedia from './elements/ExternalMedia'
+import * as utils from '@/helpers/utils'
+import ExternalMedia from '@/elements/ExternalMedia'
 // IMPORT STYLES
-import styles from './PostsPage.module.css'
+import styles from '@/PostsPage.module.css'
+// IMPORT CONSTANTS
+import brandColors from '@/constants/brandColors'
 
 
 function PostMessage({

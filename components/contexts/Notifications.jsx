@@ -5,11 +5,11 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONSTANTS
 // IMPORT CONTEXTS
-import { ArtistContext } from './Artist'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT ELEMENTS
 // IMPORT HELPERS
-import * as utils from '../helpers/utils'
-import server from '../helpers/server'
+import * as utils from '@/helpers/utils'
+import server from '@/helpers/server'
 // IMPORT PAGES
 // IMPORT STYLES
 

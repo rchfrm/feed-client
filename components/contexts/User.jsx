@@ -2,9 +2,9 @@ import React from 'react'
 import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
-import server from '../helpers/server'
-import * as artistHelpers from '../helpers/artistHelpers'
-import { track, setUserType } from '../helpers/trackingHelpers'
+import server from '@/helpers/server'
+import * as artistHelpers from '@/helpers/artistHelpers'
+import { track, setUserType } from '@/helpers/trackingHelpers'
 
 const initialUserState = {
   id: '',
