@@ -116,7 +116,7 @@ function AccountPageDetailsInline({ user }) {
     setName(initialName)
     setSurname(initialSurname)
     setEmail(initialEmail)
-  }, [])
+  }, [initialName, initialEmail, initialSurname])
 
   // Handle Changes in the form
   const formUpdated = React.useRef(false)
@@ -145,7 +145,7 @@ function AccountPageDetailsInline({ user }) {
       return
     }
     setButtonOn(true)
-  }, [name, surname, passwordOne, passwordTwo])
+  }, [name, email, surname, passwordOne, passwordTwo])
 
 
   return (

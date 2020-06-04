@@ -190,7 +190,7 @@ function PostsLoader() {
       label: `artistId: ${artistId}`,
     })
     return newPromotionState
-  }, [posts])
+  }, [posts, artistId, setPosts])
   // Define function to batch toggle all posts
   const togglePromotionGlobal = React.useCallback((promotion_enabled) => {
     setPosts({
@@ -199,7 +199,7 @@ function PostsLoader() {
         promotion_enabled,
       },
     })
-  }, [posts])
+  }, [setPosts])
 
   // Define function for loading more posts
   const loadMorePosts = () => {

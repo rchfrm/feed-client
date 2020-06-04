@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import styles from './AccountPage.module.css'
 
 const getDetailsArray = (user) => {
+  if (!user) return
+
   const { first_name, last_name, email } = user
   return [
     {
@@ -18,12 +20,11 @@ const getDetailsArray = (user) => {
 }
 
 const AccountPageDetailsSummary = ({ className, user, onReady }) => {
+  const details = getDetailsArray(user)
+  React.useEffect(onReady, [onReady])
+
   // Stop here if no user
   if (!user.id) return null
-
-  const details = getDetailsArray(user)
-
-  React.useEffect(onReady, [])
 
   return (
     <div className={className}>

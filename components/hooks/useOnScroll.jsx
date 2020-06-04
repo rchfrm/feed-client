@@ -2,9 +2,7 @@ import React from 'react'
 import debounce from 'lodash/debounce'
 
 const useOnScroll = ({
-  callback = () => {},
   throttle = 100,
-  runOnMount = true,
   getDelta = false,
   getDirection = false,
 }) => {
@@ -61,14 +59,11 @@ const useOnScroll = ({
   const [scrollProps, setScrollProps] = React.useState(getScrollProps())
   React.useEffect(() => {
     const scrollProps = getScrollProps()
-    // Run initial callback
-    if (runOnMount) callback(scrollProps)
     // Set scroll props
     setScrollProps(scrollProps)
     // Setup listener
     const debouncedCallback = debounce(() => {
       const scrollProps = getScrollProps()
-      callback(scrollProps)
       setScrollProps(scrollProps)
     }, throttle)
     window.addEventListener('scroll', debouncedCallback, { passive: true })
@@ -77,7 +72,7 @@ const useOnScroll = ({
       window.removeEventListener('scroll', debouncedCallback, { passive: true })
       debouncedCallback.cancel()
     }
-  }, [])
+  }, [throttle])
 
   return scrollProps
 }

@@ -109,7 +109,7 @@ function AccountPagePayments() {
     return () => {
       setSidePanelButton(null)
     }
-  }, [hasNewMethod])
+  }, [hasNewMethod, setSidePanelButton, previousHasNewMethod])
 
   // GO TO CHECKOUT PAGE
   const goToCheckout = () => {

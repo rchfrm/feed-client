@@ -7,8 +7,6 @@ import { UserContext } from './contexts/User'
 import { ArtistContext } from './contexts/Artist'
 import * as ROUTES from '../constants/routes'
 
-import Spinner from './elements/Spinner'
-
 import * as utils from './helpers/utils'
 import firebase from './helpers/firebase'
 import { track } from './helpers/trackingHelpers'

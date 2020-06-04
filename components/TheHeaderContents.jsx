@@ -33,8 +33,7 @@ function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
   const { artistId, artistLoading } = React.useContext(ArtistContext)
   React.useEffect(() => {
     toggleSubNav(false)
-    toggleSubNav(false)
-  }, [artistId, artistLoading])
+  }, [artistId, artistLoading, toggleSubNav])
   // Go to home page
   const { pathname } = useRouter()
   const goHome = () => {

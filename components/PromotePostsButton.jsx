@@ -21,7 +21,7 @@ function PromotePostsButton({
     const destination = budget > 0 ? 'RESULTS' : 'POSTS'
     setLinkText(text)
     setLinkDestination(destination)
-  }, [artistId])
+  }, [artistId, artist.daily_budget])
 
   // HANDLE BUTTON CLICK
   const handleClick = e => {

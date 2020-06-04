@@ -96,23 +96,24 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
   // Cancel initial run
   React.useEffect(() => {
     cancelUpdatePostSettings()
-  }, [])
+  }, [cancelUpdatePostSettings])
   // Update loading state on panel while fetching from server
   React.useEffect(() => {
     setSidePanelLoading(isPending)
-  }, [isPending])
+  }, [isPending, setSidePanelLoading])
 
   // DEFINE SIDEPANEL BUTTON
-  const SidepanelButton = () => {
+  const SidepanelButton = React.useCallback(() => {
     return (
       <Button version="green" onClick={toggleSidePanel}>
         Done
       </Button>
     )
-  }
+  }, [toggleSidePanel])
+
   React.useEffect(() => {
     setSidePanelButton(SidepanelButton)
-  }, [])
+  }, [setSidePanelButton, SidepanelButton])
 
   return (
     <section>

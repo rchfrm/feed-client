@@ -56,7 +56,7 @@ function ConnectAccounts({
     if (!selectedAccounts.length) {
       setDisabledReason('Please select at least one account')
     }
-  }, [artistAccounts])
+  }, [artistAccounts, setDisabledReason, setButtonDisabled])
 
   const artistAccountsArray = React.useMemo(() => {
     return artistHelpers.getSortedArtistAccountsArray(artistAccounts)

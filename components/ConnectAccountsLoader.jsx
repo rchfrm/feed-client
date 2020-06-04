@@ -67,7 +67,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     return () => {
       setAuthError(null)
     }
-  }, [])
+  }, [setAuthError])
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}
@@ -78,7 +78,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
       type: actionType,
       payload,
     })
-  }, [])
+  }, [setArtistAccounts])
 
 
   // * GET INITIAL DATA FROM SERVER

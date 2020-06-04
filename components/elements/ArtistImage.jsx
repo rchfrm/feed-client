@@ -14,7 +14,7 @@ const ArtistImage = ({ pageId, size, name, className }) => {
     const src = `//graph.facebook.com/${pageId}/picture?type=${size}`
     setSrc(src)
     setError(false)
-  }, [pageId])
+  }, [pageId, size])
 
   const onError = () => {
     setError(true)

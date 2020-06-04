@@ -33,7 +33,7 @@ const useScrollToButton = (buttonOptions, currentButton) => {
     const offsetMod = buttonOffset - newButtonOffset
     const scrollTo = container.scrollLeft + offsetMod
     gsap.to(container, { duration: 0.3, scrollTo: { x: scrollTo } })
-  }, [currentButton])
+  }, [currentButton, buttonRefs, buttonOptions])
 
   // Return refs
   return [buttonRefs, containerRef]

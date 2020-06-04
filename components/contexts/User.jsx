@@ -53,13 +53,13 @@ function UserProvider({ children }) {
   const [userError, setUserError] = React.useState(null)
   // END DEFINE USER STATE
 
-  const setNoUser = () => {
+  const setNoUser = React.useCallback(() => {
     setUserLoading(true)
     setUser({ type: 'sign-out' })
     setUserLoading(false)
-  }
+  }, [setUser])
 
-  const createUser = async (first_name, last_name) => {
+  const createUser = React.useCallback(async (first_name, last_name) => {
     setUserLoading(true)
     try {
       const newUser = await server.createUser(first_name, last_name)
@@ -76,9 +76,9 @@ function UserProvider({ children }) {
       setUserLoading(false)
       throw (err)
     }
-  }
+  }, [setUser])
 
-  const storeUser = async () => {
+  const storeUser = React.useCallback(async () => {
     setUserLoading(true)
     const user = await server.getUser()
       .catch((error) => {
@@ -105,7 +105,7 @@ function UserProvider({ children }) {
     })
     setUserLoading(false)
     return sortedArtistUser
-  }
+  }, [setUser])
 
   const updateUser = React.useCallback((user) => {
     const sortedArtistUser = sortUserArtists(user)
@@ -116,7 +116,7 @@ function UserProvider({ children }) {
       },
     })
     return sortedArtistUser
-  }, [])
+  }, [setUser])
 
   const value = {
     createUser,

@@ -1,5 +1,5 @@
 import BasePage from '../components/BasePage'
-import TestPageReady from '../components/TestPageReady'
+import testPageReady from '../components/hoc/testPageReady'
 import PostsLoader from '../components/PostsLoader'
 
 const headerConfig = {
@@ -16,4 +16,4 @@ const Page = () => (
 )
 
 
-export default TestPageReady(Page)
+export default testPageReady(Page)
