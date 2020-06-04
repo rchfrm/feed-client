@@ -1,5 +1,5 @@
 import BasePage from '@/BasePage'
-import TestPageReady from '@/TestPageReady'
+import testPageReady from '@/hoc/testPageReady'
 import PostsLoader from '@/PostsLoader'
 
 const headerConfig = {
