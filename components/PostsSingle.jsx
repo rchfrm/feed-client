@@ -4,7 +4,6 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { ArtistContext } from './contexts/Artist'
 // IMPORT ELEMENTS
-import SquareImage from './elements/SquareImage'
 import Error from './elements/Error'
 // IMPORT PAGES
 import PostToggle from './PostToggle'
@@ -16,7 +15,7 @@ import PostInsight from './PostInsight'
 import brandColors from '../constants/brandColors'
 // IMPORT HELPERS
 import * as utils from './helpers/utils'
-import MediaFallback from './elements/MediaFallback'
+import ExternalMedia from './elements/ExternalMedia'
 // IMPORT STYLES
 import styles from './PostsPage.module.css'
 
@@ -83,26 +82,6 @@ function PostSingle({
   const [chosenLink, setChosenLink] = React.useState(currentLink)
   // Errors
   const [error, setError] = React.useState(null)
-  // Media component and thumbnail
-  const [media, setMedia] = React.useState(<MediaFallback />)
-  // END DEFINE STATES
-
-  // FUNCTIONS
-  const handleError = () => {
-    setMedia(<MediaFallback />)
-  }
-
-  // DISPLAY CORRECT MEDIA
-  const renderMedia = React.useCallback(mediaLink => {
-    let message // TODO : Implement a way to display title and alt attributes
-    return utils.generateMediaHTML(mediaLink, post._metadata.thumbnail_url, message, handleError)
-  }, [post._metadata.thumbnail_url])
-  // END DISPLAY CORRECT MEDIA
-
-  React.useEffect(() => {
-    const component = renderMedia(post.media)
-    setMedia(component)
-  }, [post.media, renderMedia])
 
   // Oder post insights, so that highest figures are shown first
   const orderInsights = (insights) => {
@@ -142,7 +121,11 @@ function PostSingle({
       {/* Media */}
       <div style={{ flex: 'auto' }}>
         <div className={styles['post-media']}>
-          <SquareImage media={media} />
+          <ExternalMedia
+            mediaSrc={post.media}
+            thumbnailSrc={post._metadata.thumbnail_url}
+            title={post.short_message.join('\n')}
+          />
           {/* TODO : Adjust font size of post message so it always fills three lines in height */}
           <PostMessage message={post.short_message} />
         </div>

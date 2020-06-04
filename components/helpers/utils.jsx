@@ -5,24 +5,6 @@ import getSymbolFromCurrency from 'currency-symbol-map'
 import countries from '../../constants/countries'
 
 
-export const findPostMediaType = (link) => {
-  let type
-
-  if (link) {
-    if (link.indexOf('.mp4') >= 0) {
-      type = 'video'
-    } else if (link.indexOf('youtube.com/embed/') >= 0) {
-      const videoIdIndex = link.indexOf('youtube.com/embed/') + 18
-      link = link.slice(videoIdIndex, videoIdIndex + 11)
-      type = 'youtube_embed'
-    } else {
-      type = 'image'
-    }
-  }
-
-  return type
-}
-
 export const removeProtocolFromUrl = (url) => {
   const protocolEnd = url.indexOf('://') >= 0 ? url.indexOf('://') + 3 : 0
   return url.slice(protocolEnd)
@@ -150,7 +132,7 @@ export const findCountryName = (twoLetterCode) => {
 }
 
 export const findPostMedia = (attachments) => {
-  if (!attachments) { return }
+  if (!attachments) return
 
   let obj
   let link
@@ -176,7 +158,7 @@ export const findPostMedia = (attachments) => {
 }
 
 export const findPostThumbnail = (attachments) => {
-  if (!attachments) { return }
+  if (!attachments) return
 
   let obj
   let thumbnail
@@ -212,38 +194,22 @@ export const formatNumber = (number, options = {}, locale = navigator.language) 
   return new Intl.NumberFormat(locale, options).format(number)
 }
 
+export const getPostMediaType = (src) => {
+  let type
 
-export const generateMediaHTML = (media, thumbnail, message, handleError) => {
-  const mediaType = findPostMediaType(media)
-  // Remove autoplay on youtube embed
-  switch (mediaType) {
-    // If the media is a video, return an HTML5 video element
-    case 'video':
-    case 'video_inline':
-    case 'video_direct_response':
-      return (
-        <video width="100%" controls playsInline className="center-image" src={media} type="video/mp4" poster={thumbnail} onError={handleError} />
-      )
-
-      // If the media is a YouTube video, return an iframe embed of the video
-    case 'youtube_embed':
-      return (
-        <iframe
-          title={message}
-          width="100%"
-          height="315"
-          src={media.replace('autoplay=1', 'autoplay=0')}
-          frameBorder="0"
-          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="center-image"
-        />
-      )
-
-      // Otherwise return an image element
-    default:
-      return <img src={media} alt={message} className="center-image" onError={handleError} />
+  if (src) {
+    if (src.indexOf('.mp4') >= 0) {
+      type = 'video'
+    } else if (src.indexOf('youtube.com/embed/') >= 0) {
+      const videoIdIndex = src.indexOf('youtube.com/embed/') + 18
+      src = src.slice(videoIdIndex, videoIdIndex + 11)
+      type = 'youtube_embed'
+    } else {
+      type = 'image'
+    }
   }
+
+  return type
 }
 
 export const hexToRGBA = (hex, opacity) => {
