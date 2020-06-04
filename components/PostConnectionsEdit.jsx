@@ -3,19 +3,19 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import Icon from './elements/Icon'
-import Spinner from './elements/Spinner'
-import Alert, { alertReducer, initialAlertState } from './elements/Alert'
+import Icon from '@/elements/Icon'
+import Spinner from '@/elements/Spinner'
+import Alert, { alertReducer, initialAlertState } from '@/elements/Alert'
 // IMPORT ASSETS
-import AsteriskIcon from './icons/AsteriskIcon'
+import AsteriskIcon from '@/icons/AsteriskIcon'
 // IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
-import server from './helpers/server'
-import { track } from './helpers/trackingHelpers'
+import * as utils from '@/helpers/utils'
+import server from '@/helpers/server'
+import { track } from '@/helpers/trackingHelpers'
 // IMPORT STYLES
-import styles from './Integrations.module.css'
+import styles from '@/Integrations.module.css'
 
 
 function ConfirmPriorityDSPChange({ platform }) {

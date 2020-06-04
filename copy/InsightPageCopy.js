@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
 export default {
   intro: `On this page you can view insights from your following across different platforms 📈.

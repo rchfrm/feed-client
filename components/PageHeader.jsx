@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-import styles from './TheHeader.module.css'
+import styles from '@/TheHeader.module.css'
 
 const PageHeader = ({ className }) => {
   const { header, globalLoading } = React.useContext(InterfaceContext)

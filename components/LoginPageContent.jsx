@@ -2,25 +2,25 @@
 import React from 'react'
 import Router from 'next/router'
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
+import { AuthContext } from '@/contexts/Auth'
 // IMPORT ELEMENTS
-import Error from './elements/Error'
-import Button from './elements/Button'
-import EmailIcon from './icons/EmailIcon'
-import ButtonFacebook from './elements/ButtonFacebook'
+import Error from '@/elements/Error'
+import Button from '@/elements/Button'
+import EmailIcon from '@/icons/EmailIcon'
+import ButtonFacebook from '@/elements/ButtonFacebook'
 // IMPORT COMPONENTS
-import LoginWithEmail from './LoginWithEmail'
+import LoginWithEmail from '@/LoginWithEmail'
 // IMPORT HELPERS
-import firebase from './helpers/firebase'
-import { track } from './helpers/trackingHelpers'
+import firebase from '@/helpers/firebase'
+import { track } from '@/helpers/trackingHelpers'
 // IMPORT CONSTANTS
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 // Import copy
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/LoginPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/LoginPageCopy'
 // Import styles
-import styles from './LoginPage.module.css'
-import brandColors from '../constants/brandColors'
+import styles from '@/LoginPage.module.css'
+import brandColors from '@/constants/brandColors'
 
 function LoginPageContent({ showEmailLogin }) {
   // IMPORT CONTEXTS

@@ -4,24 +4,24 @@ import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
 
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
-import { ArtistContext } from './contexts/Artist'
-import { UserContext } from './contexts/User'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { AuthContext } from '@/contexts/Auth'
+import { ArtistContext } from '@/contexts/Artist'
+import { UserContext } from '@/contexts/User'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import ConnectAccountsFacebook from './ConnectAccountsFacebook'
-import ConnectAccounts from './ConnectAccounts'
-import Button from './elements/Button'
-import Error from './elements/Error'
+import ConnectAccountsFacebook from '@/ConnectAccountsFacebook'
+import ConnectAccounts from '@/ConnectAccounts'
+import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 
 // IMPORT CONSTANTS
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
 // IMPORT HELPERS
-import { track } from './helpers/trackingHelpers'
-import * as artistHelpers from './helpers/artistHelpers'
-import styles from './ConnectAccounts.module.css'
-import copy from '../copy/ConnectAccountsCopy'
+import { track } from '@/helpers/trackingHelpers'
+import * as artistHelpers from '@/helpers/artistHelpers'
+import styles from '@/ConnectAccounts.module.css'
+import copy from '@/copy/ConnectAccountsCopy'
 
 const artistsReducer = (draftState, action) => {
   const { type: actionType, payload } = action

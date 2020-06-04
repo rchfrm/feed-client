@@ -3,12 +3,12 @@
 import React from 'react'
 import moment from 'moment'
 // IMPORT COMPONENTS
-import ChartBar from './ChartBar'
-import ChartNumber from './ChartNumber'
-import InsightsProjection from './InsightsProjection'
-import { ArtistContext } from './contexts/Artist'
+import ChartBar from '@/ChartBar'
+import ChartNumber from '@/ChartNumber'
+import InsightsProjection from '@/InsightsProjection'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT STYLES
-import styles from './InsightsPage.module.css'
+import styles from '@/InsightsPage.module.css'
 
 const ChartContainer = ({
   currentPlatform,

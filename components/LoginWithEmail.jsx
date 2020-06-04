@@ -3,20 +3,20 @@ import React from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
 // IMPORT CONTEXTS
-import { AuthContext } from './contexts/Auth'
-import { UserContext } from './contexts/User'
-import { ArtistContext } from './contexts/Artist'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { AuthContext } from '@/contexts/Auth'
+import { UserContext } from '@/contexts/User'
+import { ArtistContext } from '@/contexts/Artist'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import Input from './elements/Input'
-import Button from './elements/Button'
-import Error from './elements/Error'
+import Input from '@/elements/Input'
+import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
-import { track } from './helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
-import styles from './LoginPage.module.css'
+import styles from '@/LoginPage.module.css'
 
 
 function LoginWithEmail({ className }) {

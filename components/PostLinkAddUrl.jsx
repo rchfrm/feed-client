@@ -1,20 +1,20 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT ELEMENTS
-import Alert from './elements/Alert'
-import Input from './elements/Input'
-import Select from './elements/Select'
+import Alert from '@/elements/Alert'
+import Input from '@/elements/Input'
+import Select from '@/elements/Select'
 // IMPORT PAGES
 // IMPORT ASSETS
-import PostLinkSaveButton from './PostLinkSaveButton'
+import PostLinkSaveButton from '@/PostLinkSaveButton'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
-import server from './helpers/server'
+import * as utils from '@/helpers/utils'
+import server from '@/helpers/server'
 // IMPORT STYLES
-import styles from './PostsPage.module.css'
+import styles from '@/PostsPage.module.css'
 
 // Create list of options, based on the links in the artist context
 const getLinkOptions = (links) => {

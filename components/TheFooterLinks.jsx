@@ -1,9 +1,9 @@
 import React from 'react'
-import ActiveLink from './ActiveLink'
+import ActiveLink from '@/ActiveLink'
 
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
-import styles from './TheFooter.module.css'
+import styles from '@/TheFooter.module.css'
 
 const { LOGIN, SIGN_UP, PRICING, FAQ } = ROUTES
 const termsLink = 'https://archform.ltd/terms/'

@@ -1,25 +1,25 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
-import BudgetConfirmation from './BudgetConfirmation'
-import PaymentSummary from './PaymentSummary'
+import BudgetConfirmation from '@/BudgetConfirmation'
+import PaymentSummary from '@/PaymentSummary'
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT ELEMENTS
-import Input from './elements/Input'
-import Button from './elements/Button'
-import Error from './elements/Error'
-import Alert, { alertReducer } from './elements/Alert'
+import Input from '@/elements/Input'
+import Button from '@/elements/Button'
+import Error from '@/elements/Error'
+import Alert, { alertReducer } from '@/elements/Alert'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
+import * as utils from '@/helpers/utils'
 // IMPORT STYLES
-import styles from './Budget.module.css'
+import styles from '@/Budget.module.css'
 
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/BudgetCopy'
-import brandColors from '../constants/brandColors'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/BudgetCopy'
+import brandColors from '@/constants/brandColors'
 
 const initialAlertState = {
   contents: undefined,

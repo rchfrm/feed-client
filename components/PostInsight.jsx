@@ -1,7 +1,7 @@
 import React from 'react'
-import * as utils from './helpers/utils'
+import * as utils from '@/helpers/utils'
 // IMPORT STYLES
-import styles from './PostsPage.module.css'
+import styles from '@/PostsPage.module.css'
 
 function PostInsight({ title, number }) {
   const translateInsightNames = text => {

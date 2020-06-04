@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-import FullHeight from './elements/FullHeight'
-import Spinner from './elements/Spinner'
-import FadeInOut from './elements/FadeInOut'
+import FullHeight from '@/elements/FullHeight'
+import Spinner from '@/elements/Spinner'
+import FadeInOut from '@/elements/FadeInOut'
 
 
 const TheLoadingOverlay = () => {

@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT CONTEXTS
-import { UserContext } from './contexts/User'
-import { ArtistContext } from './contexts/Artist'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { UserContext } from '@/contexts/User'
+import { ArtistContext } from '@/contexts/Artist'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import MarkdownText from './elements/MarkdownText'
+import MarkdownText from '@/elements/MarkdownText'
 // IMPORT COPY
-import copy from '../copy/global'
+import copy from '@/copy/global'
 
 
 const BasePage = ({

@@ -1,15 +1,15 @@
 import React from 'react'
 
-import * as ROUTES from '../constants/routes'
+import ThePageButtonsIcon from '@/ThePageButtonsIcon'
+import ActiveLink from '@/ActiveLink'
 
-import ThePageButtonsIcon from './ThePageButtonsIcon'
-import ActiveLink from './ActiveLink'
+import { ArtistContext } from '@/contexts/Artist'
 
-import { ArtistContext } from './contexts/Artist'
+import useLoggedInTest from '@/hooks/useLoggedInTest'
 
-import useLoggedInTest from './hooks/useLoggedInTest'
+import styles from '@/ThePageButtons.module.css'
 
-import styles from './ThePageButtons.module.css'
+import * as ROUTES from '@/constants/routes'
 
 const links = [
   {

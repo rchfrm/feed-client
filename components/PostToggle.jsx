@@ -3,13 +3,13 @@ import React from 'react'
 import moment from 'moment'
 // IMPORT COMPONENTS
 // IMPORT ELEMENTS
-import ButtonToggle from './elements/ButtonToggle'
-import Icon from './elements/Icon'
+import ButtonToggle from '@/elements/ButtonToggle'
+import Icon from '@/elements/Icon'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 // IMPORT STYLES
-import styles from './PostsPage.module.css'
+import styles from '@/PostsPage.module.css'
 
 const PostToggle = ({
   post,

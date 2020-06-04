@@ -3,16 +3,16 @@ import React from 'react'
 
 import PeekElement from 'react-peek-element'
 // IMPORT HOOKS
-import useOnResize from './hooks/useOnResize'
-import useLoggedInTest from './hooks/useLoggedInTest'
+import useOnResize from '@/hooks/useOnResize'
+import useLoggedInTest from '@/hooks/useLoggedInTest'
 // IMPORT CONTEXTS
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT COMPONENTS
-import TheHeaderContents from './TheHeaderContents'
-import TheSubNav from './TheSubNav'
-import PageHeader from './PageHeader'
+import TheHeaderContents from '@/TheHeaderContents'
+import TheSubNav from '@/TheSubNav'
+import PageHeader from '@/PageHeader'
 // IMPORT STYLES
-import styles from './TheHeader.module.css'
+import styles from '@/TheHeader.module.css'
 
 function TheHeader() {
   // Toggle mobile header
