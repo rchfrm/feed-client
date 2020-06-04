@@ -1,5 +1,5 @@
 import moment from 'moment'
-import * as utils from './utils'
+import * as utils from '@/helpers/utils'
 
 // IMPORT CONSTANTS
 import insightDataSources from '../../constants/insightDataSources'
