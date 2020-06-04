@@ -199,7 +199,7 @@ function PostsLoader() {
         promotion_enabled,
       },
     })
-  }, [posts])
+  }, [])
 
   // Define function for loading more posts
   const loadMorePosts = () => {
