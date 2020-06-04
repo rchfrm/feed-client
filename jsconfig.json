@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["components/*"],
+      "@/constants/*": ["constants/*"],
+      "@/copy/*": ["copy/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "**/test/",
+    "**/.vscode/",
+    ".next",
+    "dist"
+  ]
+}

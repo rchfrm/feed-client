@@ -60,4 +60,18 @@ module.exports = {
     'jsx-a11y/interactive-supports-focus': 'off',
     'jsx-a11y/img-redundant-alt': 'off',
   },
+
+  ignorePatterns: ['node_modules/', '.next/'],
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@/copy', './copy'],
+          ['@/constants', './constants'],
+          ['@', './components'],
+        ],
+        extensions: ['.ts', '.js', '.jsx', '.json', '.css'],
+      },
+    },
+  },
 };
