@@ -95,10 +95,10 @@ function PostsAll({
 
   // Open the post settings side panel
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
-  const togglePostsSettings = () => {
+  const togglePostsSettings = React.useCallback(() => {
     setSidePanelContent(<PostsSettings togglePromotionGlobal={togglePromotionGlobal} />)
     toggleSidePanel(true)
-  }
+  }, [setSidePanelContent, toggleSidePanel, togglePromotionGlobal])
 
   // Stop here if no posts
   if (posts.length === 0) {
