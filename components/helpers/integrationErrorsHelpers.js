@@ -1,6 +1,6 @@
 import produce from 'immer'
 
-import copy from '../../copy/integrationErrorsCopy'
+import copy from '@/copy/integrationErrorsCopy'
 
 export const testForMissingPages = (scopes) => {
   if (scopes.length > 2) return false
