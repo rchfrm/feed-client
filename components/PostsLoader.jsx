@@ -202,7 +202,9 @@ function PostsLoader() {
   }, [setPosts])
 
   // Define function for loading more posts
-  const loadMorePosts = () => {
+  const loadMorePosts = React.useCallback(() => {
+    setLoadingMore(true)
+  }, [])
     setLoadingMore(true)
   }
 
