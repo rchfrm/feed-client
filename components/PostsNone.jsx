@@ -3,11 +3,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/Artist'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { UserContext } from '@/contexts/User'
+// IMPORT COMPONENTS
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'
+import Button from '@/elements/Button'
 import copy from '@/copy/PostsPageCopy'
 // IMPORT STYLES
 import styles from '@/PostsPage.module.css'
@@ -20,6 +21,8 @@ const testNewUser = (user) => {
   if (hourDiff <= 1) return true
   return false
 }
+
+const PostsNone = ({ refreshPosts }) => {
   // IMPORT CONTEXTS
   const { setHeader } = React.useContext(InterfaceContext)
   const { user } = React.useContext(UserContext)
@@ -34,9 +37,25 @@ const testNewUser = (user) => {
 
   return (
     <div className={styles.noPosts}>
-      <MarkdownText className={['h4--text', styles.introText].join(' ')} markdown={copy.noPostsCopy(platforms)} />
+      <MarkdownText
+        className={['h4--text', styles.introText].join(' ')}
+        markdown={copyMarkdown}
+      />
+      {/* Refresh posts fetch if new user */}
+      {isNewUser && (
+        <Button
+          onClick={refreshPosts}
+        >
+          Refresh posts
+        </Button>
+      )}
     </div>
   )
 }
+
+PostsNone.propTypes = {
+  refreshPosts: PropTypes.func.isRequired,
+}
+
 
 export default PostsNone
