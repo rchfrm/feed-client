@@ -205,8 +205,12 @@ function PostsLoader() {
   const loadMorePosts = React.useCallback(() => {
     setLoadingMore(true)
   }, [])
+
+  // Define function to refresh posts
+  const refreshPosts = React.useCallback(() => {
+    toggleGlobalLoading(true)
     setLoadingMore(true)
-  }
+  }, [toggleGlobalLoading])
 
   // Define function to update links
   const updateLink = (postIndex, postLink) => {
@@ -232,7 +236,7 @@ function PostsLoader() {
 
   // No posts if none
   if (!posts || !posts.length) {
-    return <PostsNone />
+    return <PostsNone refreshPosts={refreshPosts} />
   }
 
   return (
