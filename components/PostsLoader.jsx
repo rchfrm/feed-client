@@ -19,7 +19,7 @@ import { track } from '@/helpers/trackingHelpers'
 import styles from '@/PostsPage.module.css'
 
 // Define initial state and reducer for posts
-const postsInitialState = null
+const postsInitialState = []
 const postsReducer = (draftState, postsAction) => {
   const {
     type: actionType,
