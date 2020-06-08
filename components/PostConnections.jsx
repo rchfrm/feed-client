@@ -76,11 +76,6 @@ function PostConnections({ className }) {
     return getConnections(artist)
   }, [artistId])
 
-  React.useEffect(() => {
-    return () => {
-      console.log('unmount')
-    }
-  }, [])
 
   const connectionPlatforms = React.useMemo(() => {
     return getConnectionPlatforms(initialConnections)
