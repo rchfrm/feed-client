@@ -207,6 +207,7 @@ select {
   transform: translateY(50%);
   width: 0.45em;
   height: auto;
+  pointer-events: none;
 
   .select--white + & {
     path {
