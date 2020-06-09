@@ -25,8 +25,8 @@ const initialAlertState = {
   contents: undefined,
 }
 
-function BudgetContent({ currency }) {
-  const { artist, artistId, updateBudget } = React.useContext(ArtistContext)
+function BudgetContent() {
+  const { artist, artistId, artistCurrency, updateBudget } = React.useContext(ArtistContext)
   // DEFINE STATES
   const initialBudgetState = {
     amount: '',
@@ -42,10 +42,10 @@ function BudgetContent({ currency }) {
   // Define input placeholder
   const [budgetPlaceholder, setBudgetPlaceholder] = React.useState('')
   React.useEffect(() => {
-    const budgetFormatted = utils.formatCurrency(Number(artist.daily_budget), currency)
+    const budgetFormatted = utils.formatCurrency(Number(artist.daily_budget), artistCurrency)
     const placeholder = `Current Budget: ${budgetFormatted}`
     setBudgetPlaceholder(placeholder)
-  }, [artist.daily_budget, currency])
+  }, [artist.daily_budget, artistCurrency])
 
   // Define min budget
   React.useEffect(() => {
