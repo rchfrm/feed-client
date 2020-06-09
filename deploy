@@ -15,7 +15,7 @@ fi
 if [[ "$target" == "production" ]]; then
     project="archform-1"
     site_name="feed-prod"
-    env_file=".env.production"
+    env_file=".env.live"
     export_command="export:production"
 else
     project="archform-1-dev"
@@ -26,21 +26,12 @@ fi
 
 sed "s/{{ site_name }}/$site_name/g" firebase.default.json > firebase.json
 
-# Build the env file
-# backup the env file
-if [[ -f .env ]]; then
-    cp .env .env.bak
-fi
-
-cp "$env_file" .env
+cp "$env_file" .env.production
 
 # Build the site
 yarn "$export_command"
 
-if [[ -f .env.bak ]]; then
-    rm -f .env
-    mv .env.bak .env
-fi
+rm -f .env.production
 
 # Configure deplopy target
 firebase use "$project"
