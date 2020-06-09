@@ -26,12 +26,22 @@ fi
 
 sed "s/{{ site_name }}/$site_name/g" firebase.default.json > firebase.json
 
-cp "$env_file" .env.production
+# Build the env file
+# backup the env file
+if [[ -f .env ]]; then
+    cp .env .env.bak
+fi
+
+cp "$env_file" .env
 
 # Build the site
 yarn "$export_command"
 
-rm -f .env.production
+# Restore the backup
+if [[ -f .env.bak ]]; then
+    rm -f .env
+    mv .env.bak .env
+fi
 
 # Configure deplopy target
 firebase use "$project"
