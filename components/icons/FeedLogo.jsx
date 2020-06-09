@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import brandColors from '../../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
 const { green, textColor: black, bgColor: white } = brandColors
 

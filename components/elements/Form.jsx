@@ -3,7 +3,7 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import Clear from './Clear'
+import Clear from '@/elements/Clear'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS

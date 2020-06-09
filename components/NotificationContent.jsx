@@ -1,8 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
-import * as ROUTES from '../constants/routes'
-import Feed from './elements/Feed'
+import * as ROUTES from '@/constants/routes'
+import Feed from '@/elements/Feed'
 
 const notificationContent = {
   'add-payment-details': {

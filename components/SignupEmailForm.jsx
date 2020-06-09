@@ -3,20 +3,20 @@ import Router from 'next/router'
 
 import { useImmerReducer } from 'use-immer'
 
-import { AuthContext } from './contexts/Auth'
-import { UserContext } from './contexts/User'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { AuthContext } from '@/contexts/Auth'
+import { UserContext } from '@/contexts/User'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-import Input from './elements/Input'
-import Button from './elements/Button'
-import Error from './elements/Error'
+import Input from '@/elements/Input'
+import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 
-import * as utils from './helpers/utils'
-import { track } from './helpers/trackingHelpers'
+import * as utils from '@/helpers/utils'
+import { track } from '@/helpers/trackingHelpers'
 
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
-import styles from './LoginPage.module.css'
+import styles from '@/LoginPage.module.css'
 
 const getInputType = (key) => {
   if (key === 'email') return 'email'
@@ -81,7 +81,7 @@ const SignupEmailForm = () => {
     if (!passwordOne) return false
     if (email && firstName && lastName) return true
     return false
-  }, [signupDetails])
+  }, [signupDetails, hasEmailError, passwordStatus.error])
   // Handle input changes
   const onInputChange = (e) => {
     const { name: key, value } = e.target
@@ -117,7 +117,7 @@ const SignupEmailForm = () => {
         autoFocus,
       }
     })
-  }, [signupDetails])
+  }, [signupDetails, hasEmailError, passwordStatus.error, passwordStatus.success])
 
   // * HANDLE FORM SUBMIT
   const handleSubmit = async (e) => {

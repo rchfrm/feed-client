@@ -1,6 +1,6 @@
 import axios from 'axios'
-import firebase from './firebase'
-import host from './host'
+import firebase from '@/helpers/firebase'
+import host from '@/helpers/host'
 
 const axiosInstance = axios.create()
 

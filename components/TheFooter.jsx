@@ -1,13 +1,13 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
-import TheFooterLinks from './TheFooterLinks'
+import TheFooterLinks from '@/TheFooterLinks'
 // IMPORT HOOKS
-import useLoggedInTest from './hooks/useLoggedInTest'
+import useLoggedInTest from '@/hooks/useLoggedInTest'
 // IMPORT ELEMENTS
-import Feed from './elements/Feed'
+import Feed from '@/elements/Feed'
 
-import styles from './TheFooter.module.css'
+import styles from '@/TheFooter.module.css'
 
 // GET CURRENT YEAR
 const thisYear = new Date().getFullYear()

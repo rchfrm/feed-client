@@ -1,12 +1,12 @@
 
 // IMPORT PACKAGES
 import React from 'react'
-import MarkdownText from './elements/MarkdownText'
-import faqs from '../copy/FaqPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
+import faqs from '@/copy/FaqPageCopy'
 
 
 // IMPORT STYLES
-import styles from './FaqPage.module.css'
+import styles from '@/FaqPage.module.css'
 
 function FaqContent() {
   return (

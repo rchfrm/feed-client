@@ -1,9 +1,9 @@
 import React from 'react'
 // IMPORT CONTEXTS
-import { UserContext } from './contexts/User'
-import { BillingContextProvider } from './contexts/BillingContext'
+import { UserContext } from '@/contexts/User'
+import { BillingContextProvider } from '@/contexts/BillingContext'
 // IMPORT COMPONENTS
-import AccountPageContent from './AccountPageContent'
+import AccountPageContent from '@/AccountPageContent'
 
 function AccountPageLoader() {
   // IMPORT USER STATE

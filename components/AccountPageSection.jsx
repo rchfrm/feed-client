@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Router from 'next/router'
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
-import Button from './elements/Button'
+import Button from '@/elements/Button'
 
-import AccountPageDetailsSummary from './AccountPageDetailsSummary'
+import AccountPageDetailsSummary from '@/AccountPageDetailsSummary'
 
-import styles from './AccountPage.module.css'
+import styles from '@/AccountPage.module.css'
 
 const getSection = ({ type, user, onReady }) => {
   // Get account section
@@ -31,11 +31,11 @@ const AccountPageSection = ({ title, type, user, buttonText }) => {
   const [newSidePanelType, setNewSidePanelType] = React.useState('')
 
   // Call this when the section is ready
-  const onReady = (buttonText = '', sidePanelType = '') => {
+  const onReady = React.useCallback((buttonText = '', sidePanelType = '') => {
     setSectionReady(true)
     setNewButtonText(buttonText)
     setNewSidePanelType(sidePanelType)
-  }
+  }, [])
 
   // OPEN SIDE PANEL
   // Go to account page with query to toggle side panel

@@ -1,25 +1,25 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
-import BudgetConfirmation from './BudgetConfirmation'
-import PaymentSummary from './PaymentSummary'
+import BudgetConfirmation from '@/BudgetConfirmation'
+import PaymentSummary from '@/PaymentSummary'
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT ELEMENTS
-import Input from './elements/Input'
-import Button from './elements/Button'
-import Error from './elements/Error'
-import Alert, { alertReducer } from './elements/Alert'
+import Input from '@/elements/Input'
+import Button from '@/elements/Button'
+import Error from '@/elements/Error'
+import Alert, { alertReducer } from '@/elements/Alert'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
+import * as utils from '@/helpers/utils'
 // IMPORT STYLES
-import styles from './Budget.module.css'
+import styles from '@/Budget.module.css'
 
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/BudgetCopy'
-import brandColors from '../constants/brandColors'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/BudgetCopy'
+import brandColors from '@/constants/brandColors'
 
 const initialAlertState = {
   contents: undefined,
@@ -49,6 +49,7 @@ function BudgetContent() {
 
   // Define min budget
   React.useEffect(() => {
+    if (!artist || artistId === artist.id) return
     const { min_daily_budget_info: minBudgetInfo } = artist
     if (!minBudgetInfo || !artistId) {
       setMinBudget('£3.00')
@@ -63,7 +64,7 @@ function BudgetContent() {
     } = minBudgetInfo
     const minBudget = utils.getMinBudget(amount, currencyCode, currencyOffset)
     setMinBudget(minBudget)
-  }, [artistId])
+  }, [artist, artistId])
 
   // Call this to reset the input
   const resetBudgetState = () => setBudget(initialBudgetState)

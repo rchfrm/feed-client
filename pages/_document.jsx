@@ -1,5 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-import Favicons from '../components/Favicons'
+import Favicons from '@/Favicons'
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {

@@ -2,24 +2,24 @@ import React from 'react'
 import { useAsync } from 'react-async'
 
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
-import { SidePanelContext } from './contexts/SidePanelContext'
+import { ArtistContext } from '@/contexts/Artist'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 // IMPORT ELEMENTS
-import MarkdownText from './elements/MarkdownText'
-import RadioButtons from './elements/RadioButtons'
-import Button from './elements/Button'
-import Error from './elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
+import RadioButtons from '@/elements/RadioButtons'
+import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 // IMPORT COMPONENTS
-import PostSettingsStatusConfirmation from './PostSettingsStatusConfirmation'
-import PostConnections from './PostConnections'
+import PostSettingsStatusConfirmation from '@/PostSettingsStatusConfirmation'
+import PostConnections from '@/PostConnections'
 // IMPORT COPY
-import copy from '../copy/PostsPageCopy'
+import copy from '@/copy/PostsPageCopy'
 // IMPORT HELPERS
-import server from './helpers/server'
-import { track } from './helpers/trackingHelpers'
+import server from '@/helpers/server'
+import { track } from '@/helpers/trackingHelpers'
 
-import styles from './PostSettings.module.css'
-import sidePanelStyles from './SidePanel.module.css'
+import styles from '@/PostSettings.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 const postSettingOptions = [
   {
@@ -96,23 +96,24 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
   // Cancel initial run
   React.useEffect(() => {
     cancelUpdatePostSettings()
-  }, [])
+  }, [cancelUpdatePostSettings])
   // Update loading state on panel while fetching from server
   React.useEffect(() => {
     setSidePanelLoading(isPending)
-  }, [isPending])
+  }, [isPending, setSidePanelLoading])
 
   // DEFINE SIDEPANEL BUTTON
-  const SidepanelButton = () => {
+  const SidepanelButton = React.useCallback(() => {
     return (
       <Button version="green" onClick={toggleSidePanel}>
         Done
       </Button>
     )
-  }
+  }, [toggleSidePanel])
+
   React.useEffect(() => {
     setSidePanelButton(SidepanelButton)
-  }, [])
+  }, [setSidePanelButton, SidepanelButton])
 
   return (
     <section>

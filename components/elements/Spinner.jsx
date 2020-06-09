@@ -6,9 +6,9 @@ import PropTypes from 'prop-types'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS
-import BrokenCircle from '../icons/BrokenCircle'
+import BrokenCircle from '@/icons/BrokenCircle'
 // IMPORT CONSTANTS
-import brandColors from '../../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 // IMPORT HELPERS
 
 function Spinner({ width, color, className }) {

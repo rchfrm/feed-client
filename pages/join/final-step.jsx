@@ -1,6 +1,6 @@
-import BasePage from '../../components/BasePage'
-import TestPageReady from '../../components/TestPageReady'
-import ConnectAccountsLoader from '../../components/ConnectAccountsLoader'
+import BasePage from '@/BasePage'
+import testPageReady from '@/hoc/testPageReady'
+import ConnectAccountsLoader from '@/ConnectAccountsLoader'
 
 const headerConfig = {
   text: 'continue sign up',
@@ -16,4 +16,4 @@ const Page = () => (
   </BasePage>
 )
 
-export default TestPageReady(Page)
+export default testPageReady(Page)

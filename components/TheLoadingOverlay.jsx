@@ -1,16 +1,17 @@
 import React from 'react'
 
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-import FullHeight from './elements/FullHeight'
-import Spinner from './elements/Spinner'
-import FadeInOut from './elements/FadeInOut'
+import FullHeight from '@/elements/FullHeight'
+import Spinner from '@/elements/Spinner'
+import FadeInOut from '@/elements/FadeInOut'
 
 
 const TheLoadingOverlay = () => {
   // Get interface context
   const {
     toggleGlobalLoading,
+    toggleGlobalLoadingSpinner,
     globalLoading,
     showSpinner,
   } = React.useContext(InterfaceContext)
@@ -19,12 +20,12 @@ const TheLoadingOverlay = () => {
     if (!globalLoading) return
     // Only show spinner if loading page takes longer than 300ms
     const waitForLoad = setTimeout(() => {
-      toggleGlobalLoading(true, true)
+      toggleGlobalLoadingSpinner(true)
     }, 500)
     return () => {
       clearTimeout(waitForLoad)
     }
-  }, [globalLoading])
+  }, [globalLoading, toggleGlobalLoading, toggleGlobalLoadingSpinner])
   // Toggle spinner visibility
   const [spinnerClass, setSpinnerClass] = React.useState('')
   React.useEffect(() => {

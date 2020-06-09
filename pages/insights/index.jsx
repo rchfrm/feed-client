@@ -1,6 +1,6 @@
-import BasePage from '../../components/BasePage'
-import TestPageReady from '../../components/TestPageReady'
-import InsightsContent from '../../components/InsightsContent'
+import BasePage from '@/BasePage'
+import testPageReady from '@/hoc/testPageReady'
+import InsightsContent from '@/InsightsContent'
 
 const headerConfig = {
   text: 'insights',
@@ -15,4 +15,4 @@ const Page = () => (
   </BasePage>
 )
 
-export default TestPageReady(Page)
+export default testPageReady(Page)

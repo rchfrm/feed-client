@@ -17,6 +17,12 @@ Go to the server repo (*automads-server*) and run `npm start`
 
 In the root of this directory, run `yarn dev`
 
+### Generating keys
+
+Follow [this guide](https://letsencrypt.org/docs/certificates-for-localhost/) to generate keys
+
+tldr; run `./keyGen`
+
 
 ## Testing static build locally
 

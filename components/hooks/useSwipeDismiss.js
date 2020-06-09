@@ -31,7 +31,7 @@ const useSwipeDismiss = ({
       axis: 'x',
       domTarget: movingTarget.current,
     }
-  }, [])
+  }, [movingTargetId, touchTargetId])
   const animateDragEnd = (dismiss) => {
     if (dismiss) return hide()
     dragAnimation.current = reset()

@@ -3,7 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ArrowIcon from '../icons/ArrowIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 const Select = ({
   handleChange,

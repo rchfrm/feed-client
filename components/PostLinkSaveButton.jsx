@@ -2,7 +2,7 @@
 import React from 'react'
 
 // IMPORT ELEMENTS
-import Button from './elements/Button'
+import Button from '@/elements/Button'
 
 const getButtonVersion = (buttonState) => {
   if (buttonState === 'save') return 'black'

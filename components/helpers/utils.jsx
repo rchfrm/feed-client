@@ -2,7 +2,7 @@
 // import React from 'react'
 import moment from 'moment'
 import getSymbolFromCurrency from 'currency-symbol-map'
-import countries from '../../constants/countries'
+import countries from '@/constants/countries'
 
 
 export const removeProtocolFromUrl = (url) => {

@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
 export default {
   connectionsSummary: `Add links for your social profiles and any other website(s) you manage here. If you have more than one website, you can just put the link in any empty field.`,

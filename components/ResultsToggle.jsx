@@ -3,23 +3,23 @@ import PropTypes from 'prop-types'
 
 import { useAsync } from 'react-async'
 
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT ELEMENTS
-import Button from './elements/Button'
-import Spinner from './elements/Spinner'
-import Alert, { alertReducer, initialAlertState } from './elements/Alert'
-import Icon from './elements/Icon'
+import Button from '@/elements/Button'
+import Spinner from '@/elements/Spinner'
+import Alert, { alertReducer, initialAlertState } from '@/elements/Alert'
+import Icon from '@/elements/Icon'
 // IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 // IMPORT HELPERS
-import server from './helpers/server'
-import { track } from './helpers/trackingHelpers'
+import server from '@/helpers/server'
+import { track } from '@/helpers/trackingHelpers'
 // COPY
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/ResultsPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/ResultsPageCopy'
 // IMPORT STYLES
-import resultsStyles from './Results.module.css'
-import postStyles from './PostsPage.module.css'
+import resultsStyles from '@/Results.module.css'
+import postStyles from '@/PostsPage.module.css'
 
 const styles = {
   ...resultsStyles,

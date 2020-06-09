@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import firebase from '../helpers/firebase'
-import { testForMissingPages } from '../helpers/integrationErrorsHelpers'
+import firebase from '@/helpers/firebase'
+import { testForMissingPages } from '@/helpers/integrationErrorsHelpers'
 
-import MarkdownText from './MarkdownText'
-import ButtonFacebook from './ButtonFacebook'
+import MarkdownText from '@/elements/MarkdownText'
+import ButtonFacebook from '@/elements/ButtonFacebook'
 
-import copy from '../../copy/integrationErrorsCopy'
+import copy from '@/copy/integrationErrorsCopy'
 
 
 const MissingScopesMessage = ({ scopes, showButton, className }) => {

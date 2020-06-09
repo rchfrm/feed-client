@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import firebase from './helpers/firebase'
+import firebase from '@/helpers/firebase'
 
-import { AuthContext } from './contexts/Auth'
+import { AuthContext } from '@/contexts/Auth'
 
-import MarkdownText from './elements/MarkdownText'
-import Button from './elements/Button'
-import ButtonFacebook from './elements/ButtonFacebook'
-import Alert from './elements/Alert'
-import Error from './elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
+import Button from '@/elements/Button'
+import ButtonFacebook from '@/elements/ButtonFacebook'
+import Alert from '@/elements/Alert'
+import Error from '@/elements/Error'
 
 const IntegrationErrorContent = ({ integrationError, dismiss }) => {
   const {
