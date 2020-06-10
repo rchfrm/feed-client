@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Favicons = () => {
+const Favicons = ({ children }) => {
   return (
     <>
       <link rel="manifest" href="/pwa/manifest.json" />
@@ -49,9 +49,7 @@ const Favicons = () => {
       <meta name="msapplication-config" content="/pwa/browserconfig.xml" />
       <link rel="yandex-tableau-widget" href="/pwa/yandex-browser-manifest.json" />
       {/* CUSTOM FAVICON LINKS */}
-      <link rel="shortcut icon" href="/favicon.ico" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+      {children}
     </>
   )
 }
