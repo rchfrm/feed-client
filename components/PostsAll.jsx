@@ -2,24 +2,24 @@
 import React from 'react'
 import produce from 'immer'
 // IMPORT CONTEXTS
-import { SidePanelContext } from './contexts/SidePanelContext'
-import { InterfaceContext } from './contexts/InterfaceContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-import useOnResize from './hooks/useOnResize'
+import useOnResize from '@/hooks/useOnResize'
 // IMPORT ELEMENTS
-import Spinner from './elements/Spinner'
-import Button from './elements/Button'
-import GearIcon from './icons/GearIcon'
+import Spinner from '@/elements/Spinner'
+import Button from '@/elements/Button'
+import GearIcon from '@/icons/GearIcon'
 // IMPORT COMPONENTS
-import PostsSettings from './PostsSettings'
-import PostsSingle from './PostsSingle'
-import PostsNone from './PostsNone'
+import PostsSettings from '@/PostsSettings'
+import PostsSingle from '@/PostsSingle'
+import PostsNone from '@/PostsNone'
 // IMPORT ASSETS
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/PostsPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
 // IMPORT STYLES
-import styles from './PostsPage.module.css'
-import brandColors from '../constants/brandColors'
+import styles from '@/PostsPage.module.css'
+import copy from '@/copy/PostsPageCopy'
+import brandColors from '@/constants/brandColors'
 
 // Reset posts scroll position
 const resetScroll = () => {
@@ -50,7 +50,7 @@ function PostsAll({
   const { setHeader } = React.useContext(InterfaceContext)
   React.useEffect(() => {
     setHeader({ text: 'your posts' })
-  }, [])
+  }, [setHeader])
   // Reset the scroll position when this component first mounts
   React.useEffect(resetScroll, [])
   // Add load trigger el at 5th from end
@@ -70,7 +70,7 @@ function PostsAll({
   }, [loadingMore, loadMorePosts])
 
   // Setup intersection observer
-  const { width: windowWidth } = useOnResize({ throttle: 300 })
+  const { width: windowWidth } = useOnResize(300)
   React.useEffect(() => {
     const root = windowWidth > 992 ? null : intersectionRoot.current
     // Observer options
@@ -85,13 +85,15 @@ function PostsAll({
     if (loadTrigger && loadTrigger.current) {
       observer.observe(loadTrigger.current)
     }
+
     // clean up
+    const loadTriggerEl = loadTrigger.current
     return () => {
-      if (loadTrigger.current) {
-        observer.unobserve(loadTrigger.current)
+      if (loadTriggerEl) {
+        observer.unobserve(loadTriggerEl)
       }
     }
-  }, [posts.length, windowWidth])
+  }, [posts.length, windowWidth, loadMore])
 
   // Open the post settings side panel
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)

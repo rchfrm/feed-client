@@ -2,7 +2,7 @@ import React from 'react'
 
 import useAsyncEffect from 'use-async-effect'
 
-import paymentHelpers from '../helpers/paymentHelpers'
+import paymentHelpers from '@/helpers/paymentHelpers'
 
 // CREATE CONTEXT
 const BillingContext = React.createContext({})

@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { UserContext } from './contexts/User'
-import { ArtistContext } from './contexts/Artist'
+import { UserContext } from '@/contexts/User'
+import { ArtistContext } from '@/contexts/Artist'
 
-import ArtistImage from './elements/ArtistImage'
-import Select from './elements/Select'
+import ArtistImage from '@/elements/ArtistImage'
+import Select from '@/elements/Select'
 
-import * as artistHelpers from './helpers/artistHelpers'
+import * as artistHelpers from '@/helpers/artistHelpers'
 
-import styles from './TheSubNav.module.css'
+import styles from '@/TheSubNav.module.css'
 
 const ARTIST_SELECT_OPTIONS = ({ currentArtistId, artists, updateArtist }) => {
   const artistOptions = artists.map(({ id: value, name }) => {

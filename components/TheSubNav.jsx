@@ -4,16 +4,16 @@ import { gsap, Power1, Power2 } from 'gsap'
 import { Transition } from 'react-transition-group'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
-import useSwipeDismiss from './hooks/useSwipeDismiss'
+import useSwipeDismiss from '@/hooks/useSwipeDismiss'
 
-import FullHeight from './elements/FullHeight'
+import FullHeight from '@/elements/FullHeight'
 
-import TheSubNavArtists from './TheSubNavArtists'
-import TheSubNavLinks from './TheSubNavLinks'
-import SignOutLink from './SignOutLink'
+import TheSubNavArtists from '@/TheSubNavArtists'
+import TheSubNavLinks from '@/TheSubNavLinks'
+import SignOutLink from '@/SignOutLink'
 
 
-import styles from './TheSubNav.module.css'
+import styles from '@/TheSubNav.module.css'
 
 const TheSubNav = ({ open, toggle, windowWidth }) => {
   // Get els

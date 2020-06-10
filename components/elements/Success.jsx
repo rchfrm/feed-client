@@ -2,9 +2,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import TickIcon from '../icons/TickIcon'
+import TickIcon from '@/icons/TickIcon'
 
-import brandColors from '../../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
 const Success = ({ message, messagePrefix, className }) => {
   if (!message) return null

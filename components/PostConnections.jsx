@@ -3,13 +3,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT COMPONENTS
-import PostConnectionsConnection from './PostConnectionsConnection'
+import PostConnectionsConnection from '@/PostConnectionsConnection'
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
+import * as utils from '@/helpers/utils'
 // IMPORT STYLES
-import styles from './Integrations.module.css'
+import styles from '@/Integrations.module.css'
 
 // Create object of keyed connections
 const getConnections = (artist) => {

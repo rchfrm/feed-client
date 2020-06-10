@@ -2,11 +2,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import TickIcon from '../icons/TickIcon'
-import CrossIcon from '../icons/CrossIcon'
-import FacebookIcon from '../icons/FacebookIcon'
-import InstagramIcon from '../icons/InstagramIcon'
-import brandColors from '../../constants/brandColors'
+import TickIcon from '@/icons/TickIcon'
+import CrossIcon from '@/icons/CrossIcon'
+import FacebookIcon from '@/icons/FacebookIcon'
+import InstagramIcon from '@/icons/InstagramIcon'
+import brandColors from '@/constants/brandColors'
 
 
 const getIconEl = (icon, error, success) => {
@@ -86,7 +86,7 @@ const Input = ({
     if (inputElement.current) {
       inputElement.current.focus()
     }
-  }, [])
+  }, [autoFocus])
 
   return (
     <div className={containerClasses.join(' ')}>

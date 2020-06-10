@@ -1,7 +1,7 @@
 
 import React from 'react'
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/PricingPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/PricingPageCopy'
 
 function PricingPageContent() {
   return (

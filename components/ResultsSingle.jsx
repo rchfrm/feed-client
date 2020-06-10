@@ -3,17 +3,17 @@ import PropTypes from 'prop-types'
 
 import moment from 'moment'
 
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 
-import ResultsToggle from './ResultsToggle'
+import ResultsToggle from '@/ResultsToggle'
 // IMPORT ELEMENTS
-import ExternalMedia from './elements/ExternalMedia'
+import ExternalMedia from '@/elements/ExternalMedia'
 // IMPORT PAGES
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
+import * as utils from '@/helpers/utils'
 // IMPORT STYLES
-import resultsStyles from './Results.module.css'
-import postStyles from './PostsPage.module.css'
+import resultsStyles from '@/Results.module.css'
+import postStyles from '@/PostsPage.module.css'
 
 const styles = {
   ...resultsStyles,

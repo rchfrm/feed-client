@@ -1,6 +1,6 @@
-import BasePage from '../../components/BasePage'
-import TestPageReady from '../../components/TestPageReady'
-import BudgetContent from '../../components/BudgetContent'
+import BasePage from '@/BasePage'
+import testPageReady from '@/hoc/testPageReady'
+import BudgetContent from '@/BudgetContent'
 
 const headerConfig = {
   text: 'set your budget',
@@ -16,4 +16,4 @@ const Page = () => (
   </BasePage>
 )
 
-export default TestPageReady(Page)
+export default testPageReady(Page)

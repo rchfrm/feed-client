@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import BudgetEuroIcon from './icons/BudgetEuroIcon'
-import BudgetDollarIcon from './icons/BudgetDollarIcon'
-import BudgetPoundIcon from './icons/BudgetPoundIcon'
-import PostsIcon from './icons/PostsIcon'
-import ResultsIcon from './icons/ResultsIcon'
-import InsightsIcon from './icons/InsightsIcon'
+import BudgetEuroIcon from '@/icons/BudgetEuroIcon'
+import BudgetDollarIcon from '@/icons/BudgetDollarIcon'
+import BudgetPoundIcon from '@/icons/BudgetPoundIcon'
+import PostsIcon from '@/icons/PostsIcon'
+import ResultsIcon from '@/icons/ResultsIcon'
+import InsightsIcon from '@/icons/InsightsIcon'
 
-import styles from './ThePageButtons.module.css'
+import styles from '@/ThePageButtons.module.css'
 
 const getCurrencyIcon = (icon, currency) => {
   if (currency === 'gbp') return <BudgetPoundIcon className={styles.shortIcon} />

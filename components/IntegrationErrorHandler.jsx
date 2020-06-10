@@ -1,13 +1,13 @@
 import React from 'react'
 import { useAsync } from 'react-async'
 
-import * as integrationErrorsHelpers from './helpers/integrationErrorsHelpers'
-import server from './helpers/server'
-import { ArtistContext } from './contexts/Artist'
-import { UserContext } from './contexts/User'
-import { AuthContext } from './contexts/Auth'
+import * as integrationErrorsHelpers from '@/helpers/integrationErrorsHelpers'
+import server from '@/helpers/server'
+import { ArtistContext } from '@/contexts/Artist'
+import { UserContext } from '@/contexts/User'
+import { AuthContext } from '@/contexts/Auth'
 
-import IntegrationErrorContent from './IntegrationErrorContent'
+import IntegrationErrorContent from '@/IntegrationErrorContent'
 
 // RUN THIS TO FETCH ERRORS
 const fetchError = async ({ auth, user, artist, artistId, accessToken }) => {

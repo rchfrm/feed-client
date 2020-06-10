@@ -17,6 +17,7 @@
 .env.production.local
 .env.production
 .env.staging
+.env.live
 .env.bak
 
 npm-debug.log*

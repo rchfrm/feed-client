@@ -7,28 +7,28 @@ import {
 } from 'react-stripe-elements'
 
 // IMPORT ASSETS
-import StripeLogo from './icons/StripeLogo'
+import StripeLogo from '@/icons/StripeLogo'
 // IMPORT COMPONENTS
 // IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
-import countries from '../constants/countries'
+import brandColors from '@/constants/brandColors'
+import countries from '@/constants/countries'
 // IMPORT CONTEXTS
-import { UserContext } from './contexts/User'
-import { BillingContext } from './contexts/BillingContext'
-import { SidePanelContext } from './contexts/SidePanelContext'
+import { UserContext } from '@/contexts/User'
+import { BillingContext } from '@/contexts/BillingContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 // IMPORT ELEMENTS
-import Error from './elements/Error'
-import Select from './elements/Select'
-import Button from './elements/Button'
+import Error from '@/elements/Error'
+import Select from '@/elements/Select'
+import Button from '@/elements/Button'
 // IMPORT HELPERS
-import Input from './elements/Input'
+import Input from '@/elements/Input'
 
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/AccountPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/AccountPageCopy'
 
 // IMPORT STYLES
-import styles from './PaymentPage.module.css'
-import paymentHelpers from './helpers/paymentHelpers'
+import styles from '@/PaymentPage.module.css'
+import paymentHelpers from '@/helpers/paymentHelpers'
 
 
 const getButton = (buttonEnabled, submit) => {

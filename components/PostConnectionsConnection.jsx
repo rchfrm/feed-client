@@ -1,22 +1,22 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
-import PostConnectionsLink from './PostConnectionsLink'
-import PostConnectionsEdit from './PostConnectionsEdit'
+import PostConnectionsLink from '@/PostConnectionsLink'
+import PostConnectionsEdit from '@/PostConnectionsEdit'
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import Button from './elements/Button'
-import Icon from './elements/Icon'
-import Spinner from './elements/Spinner'
+import Button from '@/elements/Button'
+import Icon from '@/elements/Icon'
+import Spinner from '@/elements/Spinner'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import brandColors from '../constants/brandColors'
+import brandColors from '@/constants/brandColors'
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
-import server from './helpers/server'
-import { track } from './helpers/trackingHelpers'
+import * as utils from '@/helpers/utils'
+import server from '@/helpers/server'
+import { track } from '@/helpers/trackingHelpers'
 // IMPORT STYLES
-import styles from './Integrations.module.css'
+import styles from '@/Integrations.module.css'
 
 
 const PostConnectionsConnection = ({

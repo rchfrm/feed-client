@@ -3,29 +3,29 @@ import React from 'react'
 import Link from 'next/link'
 import produce from 'immer'
 // IMPORT COMPONENTS
-import SpendingSummaryLoader from './SpendingSummaryLoader'
-import ResultsSingle from './ResultsSingle'
+import SpendingSummaryLoader from '@/SpendingSummaryLoader'
+import ResultsSingle from '@/ResultsSingle'
 // IMPORT CONTEXTS
-import { ArtistContext } from './contexts/Artist'
+import { ArtistContext } from '@/contexts/Artist'
 // IMPORT ELEMENTS
-import Feed from './elements/Feed'
+import Feed from '@/elements/Feed'
 // IMPORT CONSTANTS
-import * as ROUTES from '../constants/routes'
-import brandColors from '../constants/brandColors'
+import * as ROUTES from '@/constants/routes'
+import brandColors from '@/constants/brandColors'
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
+import * as utils from '@/helpers/utils'
 // COPY
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/ResultsPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/ResultsPageCopy'
 // IMPORT STYLES
-import resultsStyles from './Results.module.css'
-import postStyles from './PostsPage.module.css'
+import resultsStyles from '@/Results.module.css'
+import postStyles from '@/PostsPage.module.css'
 
 const styles = {
   ...resultsStyles,
   ...postStyles,
 }
-// import styles from './Results.module.css'
+// import styles from '@/Results.module.css'
 
 const calculateSummary = (ads, isActive) => {
   const adValues = Object.values(ads)

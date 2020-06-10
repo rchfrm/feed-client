@@ -3,25 +3,25 @@ import React from 'react'
 import usePrevious from 'use-previous'
 
 import Router from 'next/router'
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
 
-import { BillingContext } from './contexts/BillingContext'
-import { SidePanelContext } from './contexts/SidePanelContext'
+import { BillingContext } from '@/contexts/BillingContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
-import Button from './elements/Button'
-import Error from './elements/Error'
+import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 
-import PaymentMethodButton from './PaymentMethodButton'
-import FadeInOut from './FadeInOut'
+import PaymentMethodButton from '@/PaymentMethodButton'
+import FadeInOut from '@/FadeInOut'
 
-import paymentHelpers from './helpers/paymentHelpers'
+import paymentHelpers from '@/helpers/paymentHelpers'
 
-import MarkdownText from './elements/MarkdownText'
-import copy from '../copy/AccountPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/copy/AccountPageCopy'
 
-import styles from './PaymentPage.module.css'
-import sidePanelStyles from './SidePanel.module.css'
+import styles from '@/PaymentPage.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 
 const getButton = (submitChanges) => {
@@ -109,7 +109,7 @@ function AccountPagePayments() {
     return () => {
       setSidePanelButton(null)
     }
-  }, [hasNewMethod])
+  }, [hasNewMethod, setSidePanelButton, previousHasNewMethod])
 
   // GO TO CHECKOUT PAGE
   const goToCheckout = () => {

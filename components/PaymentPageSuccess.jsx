@@ -1,15 +1,15 @@
 import React from 'react'
 import Link from 'next/link'
 import moment from 'moment'
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
-import { SidePanelContext } from './contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 // IMPORT ELS
-import Feed from './elements/Feed'
-import Button from './elements/Button'
+import Feed from '@/elements/Feed'
+import Button from '@/elements/Button'
 // IMPORT STYLES
-import styles from './PaymentPage.module.css'
+import styles from '@/PaymentPage.module.css'
 
 // PAYMENT SUCCESS
 const PaymentPageSuccess = ({ cardDetails }) => {

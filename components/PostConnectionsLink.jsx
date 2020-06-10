@@ -3,11 +3,11 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import Input from './elements/Input'
+import Input from '@/elements/Input'
 // IMPORT HELPERS
-import * as utils from './helpers/utils'
+import * as utils from '@/helpers/utils'
 // IMPORT STYLES
-import styles from './Integrations.module.css'
+import styles from '@/Integrations.module.css'
 
 const PostConnectionsLink = ({
   platform,

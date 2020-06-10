@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import * as ROUTES from '../constants/routes'
+import * as ROUTES from '@/constants/routes'
 
 export default {
   budgetIntro: `Enter the amount you'd like to spend each day:`,

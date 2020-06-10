@@ -2,11 +2,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT COMPONENTS
-import InitUser from './InitUser'
+import InitUser from '@/InitUser'
 // IMPORT CONTEXTS
-import { SidePanelContextProvider } from './contexts/SidePanelContext'
+import { SidePanelContextProvider } from '@/contexts/SidePanelContext'
 // IMPORT ELEMENTS
-import IntegrationErrorHandler from './IntegrationErrorHandler'
+import IntegrationErrorHandler from '@/IntegrationErrorHandler'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT STYLES

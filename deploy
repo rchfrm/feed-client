@@ -15,7 +15,7 @@ fi
 if [[ "$target" == "production" ]]; then
     project="archform-1"
     site_name="feed-prod"
-    env_file=".env.production"
+    env_file=".env.live"
     export_command="export:production"
 else
     project="archform-1-dev"
@@ -37,6 +37,7 @@ cp "$env_file" .env
 # Build the site
 yarn "$export_command"
 
+# Restore the backup
 if [[ -f .env.bak ]]; then
     rm -f .env
     mv .env.bak .env

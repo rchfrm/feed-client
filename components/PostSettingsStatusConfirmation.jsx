@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import MarkdownText from './elements/MarkdownText'
-import Alert, { alertReducer, initialAlertState } from './elements/Alert'
+import MarkdownText from '@/elements/MarkdownText'
+import Alert, { alertReducer, initialAlertState } from '@/elements/Alert'
 
-import copy from '../copy/PostsPageCopy'
+import copy from '@/copy/PostsPageCopy'
 
 function ConfirmationContent() {
   return (

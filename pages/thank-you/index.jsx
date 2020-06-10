@@ -1,6 +1,6 @@
-import BasePage from '../../components/BasePage'
-import TestPageReady from '../../components/TestPageReady'
-import ThankYouPage from '../../components/ThankYouPageContent'
+import BasePage from '@/BasePage'
+import testPageReady from '@/hoc/testPageReady'
+import ThankYouPage from '@/ThankYouPageContent'
 
 const headerConfig = {
   text: 'results',
@@ -15,4 +15,4 @@ const Page = () => (
   </BasePage>
 )
 
-export default TestPageReady(Page)
+export default testPageReady(Page)
