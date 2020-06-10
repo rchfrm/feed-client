@@ -4,12 +4,12 @@ const getMissingPermissionsList = (missingPermissions) => {
   const permissionsTextArray = missingPermissions.map((permission) => {
     if (permission === 'email') return '- View your email address'
     if (permission === 'read_insights') return '- Access your page and app insights'
-    if (
-      permission === 'pages_manage_ads'
-      || permission === 'pages_manage_metadata'
-      || permission === 'pages_read_engagement'
-      || permission === 'pages_read_user_content'
-    ) return '- Manage your pages'
+
+    if (permission === 'pages_manage_ads') return '- Manage ads on your pages'
+    if (permission === 'pages_manage_metadata') return '- Manage metadata on your pages'
+    if (permission === 'pages_read_engagement') return '- Read engagement on your pages'
+    if (permission === 'pages_read_user_content') return '- Read user content on your pages'
+
     if (permission === 'pages_show_list') return '- Show a list of the Pages you manage'
     if (permission === 'ads_management') return '- Manage your ads'
     if (permission === 'instagram_basic') return '- Access profile and posts from the Instagram account connect to your page'
