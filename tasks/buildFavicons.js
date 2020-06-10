@@ -1,9 +1,13 @@
 const favicons = require('favicons')
+const path = require('path')
+const fs = require('fs')
+const mkdirp = require('mkdirp')
 
 const source = 'public/icons/icon.png' // Source image(s). `string`, `buffer` or array of `string`
+const outputDir = './public/pwa/'
 
 const configuration = {
-  path: '/', // Path for overriding default icons path. `string`
+  path: '/pwa/', // Path for overriding default icons path. `string`
   appName: 'Feed', // Your application's name. `string`
   appShortName: null, // Your application's short_name. `string`. Optional. If not set, appName will be used
   appDescription: 'Audience growth for artists, built by archForm',
@@ -37,20 +41,42 @@ const configuration = {
     appleIcon: true, // Create Apple touch icons. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
     appleStartup: true, // Create Apple startup images. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
     coast: true, // Create Opera Coast icon. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
-    favicons: true, // Create regular favicons. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
+    favicons: false, // Create regular favicons. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
     firefox: true, // Create Firefox OS icons. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
     windows: true, // Create Windows 8 tile icons. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
     yandex: true, // Create Yandex browser icon. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
   },
 }
+
+const saveAssets = (images = [], files = []) => {
+  const getDirName = path.dirname
+  const assets = [...images, ...files]
+  assets.forEach((image) => {
+    const { name, contents } = image
+    const outputPath = path.resolve(outputDir, name)
+    mkdirp(getDirName(outputPath), (err) => {
+      if (err) return console.log('err', err)
+      fs.writeFile(outputPath, contents, () => {})
+    })
+  })
+}
+
+const buildMarkup = (htmlNodes = []) => {
+  return htmlNodes.join('\n')
+}
+
 const callback = (error, response) => {
   if (error) {
     console.log(error.message) // Error description e.g. "An unknown error has occurred"
     return
   }
-  console.log(response.images) // Array of { name: string, contents: <buffer> }
-  console.log(response.files) // Array of { name: string, contents: <string> }
-  console.log(response.html) // Array of strings (html elements)
+  const { images, files, html: htmlNodes } = response
+  // Save images and manifest files
+  saveAssets(images, files)
+  // Log html
+  const newFaviconMarkp = buildMarkup(htmlNodes)
+  // Past this into Favicons.jsx
+  console.log(newFaviconMarkp)
 }
 
 favicons(source, configuration, callback)
