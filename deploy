@@ -26,13 +26,7 @@ fi
 
 sed "s/{{ site_name }}/$site_name/g" firebase.default.json > firebase.json
 
-# Build the env file
-# backup the env file
-if [[ -f .env ]]; then
-    cp .env .env.bak
-fi
-
-cp "$env_file" .env
+cp "$env_file" .env.production
 
 # Build the site
 yarn "$export_command"
