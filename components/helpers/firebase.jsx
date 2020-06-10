@@ -5,7 +5,10 @@ import 'firebase/firestore'
 const requiredScopes = [
   'email',
   'read_insights',
-  'manage_pages',
+  'pages_manage_ads',
+  'pages_manage_metadata',
+  'pages_read_engagement',
+  'pages_read_user_content',
   'pages_show_list',
   'ads_management',
   'instagram_basic',
