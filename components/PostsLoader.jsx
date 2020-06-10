@@ -19,7 +19,7 @@ import { track } from '@/helpers/trackingHelpers'
 import styles from '@/PostsPage.module.css'
 
 // Define initial state and reducer for posts
-const postsInitialState = null
+const postsInitialState = []
 const postsReducer = (draftState, postsAction) => {
   const {
     type: actionType,
@@ -202,9 +202,15 @@ function PostsLoader() {
   }, [setPosts])
 
   // Define function for loading more posts
-  const loadMorePosts = () => {
+  const loadMorePosts = React.useCallback(() => {
     setLoadingMore(true)
-  }
+  }, [])
+
+  // Define function to refresh posts
+  const refreshPosts = React.useCallback(() => {
+    toggleGlobalLoading(true)
+    setLoadingMore(true)
+  }, [toggleGlobalLoading])
 
   // Define function to update links
   const updateLink = (postIndex, postLink) => {
@@ -230,7 +236,7 @@ function PostsLoader() {
 
   // No posts if none
   if (!posts || !posts.length) {
-    return <PostsNone />
+    return <PostsNone refreshPosts={refreshPosts} />
   }
 
   return (
