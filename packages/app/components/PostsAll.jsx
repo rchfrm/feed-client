@@ -12,7 +12,7 @@ import Button from '@/elements/Button'
 import GearIcon from '@/icons/GearIcon'
 // IMPORT COMPONENTS
 import PostsSettings from '@/app/PostsSettings'
-import PostsSingle from '@/app/PostsSingle'
+import PostItem from '@/app/PostItem'
 import PostsNone from '@/app/PostsNone'
 // IMPORT ASSETS
 import MarkdownText from '@/elements/MarkdownText'
@@ -131,7 +131,7 @@ function PostsAll({
       >
         {postsWithLoadingTrigger.map((post, index) => {
           return (
-            <PostsSingle
+            <PostItem
               key={post.id}
               index={index}
               post={post}
@@ -146,7 +146,7 @@ function PostsAll({
                   className={[styles.postLoadTrigger].join(' ')}
                 />
               )}
-            </PostsSingle>
+            </PostItem>
           )
         })}
         {/* Loading spinner */}
