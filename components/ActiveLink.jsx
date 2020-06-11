@@ -8,16 +8,16 @@ const ActiveLink = ({ router, children, ...props }) => {
   const { href, activeClass = '_active' } = props
   const [pathname, setPathname] = React.useState(router.pathname)
 
-  const handleRouteChange = (url) => {
+  const handleRouteChange = React.useCallback((url) => {
     setPathname(url)
-  }
+  }, [])
 
   React.useEffect(() => {
     Router.events.on('routeChangeStart', handleRouteChange)
     return () => {
       Router.events.off('routeChangeStart', handleRouteChange)
     }
-  }, [])
+  }, [handleRouteChange])
 
   let className = child.props.className || ''
   if (pathname === href) {
