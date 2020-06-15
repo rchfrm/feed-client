@@ -17,7 +17,6 @@ const TheHead = ({ siteUrl }) => {
       </Favicons>
       {/* Twitter and OG info */}
       <meta key="meta-description" name="description" content="Audience growth for artists, built by archForm" />
-      <meta key="meta-og:title" property="og:title" content="Feed" />
       <meta key="meta-og:url" property="og:url" content={siteUrl} />
       <meta key="meta-og:image" property="og:image" content={ogImageUrl} />
       <meta key="meta-og:site_name" property="og:site_name" content="Feed" />
