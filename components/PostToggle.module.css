@@ -28,7 +28,7 @@
     height: 4px;
     margin-top: -2px;
     border-radius: 50%;
-    transition: transform 250ms ease;
+    /* transition: transform 250ms ease; */
     pointer-events: none;
   }
 
@@ -66,6 +66,7 @@
   top: 2px;
   left: 50%;
   margin-left: -12px;
+  z-index: 3;
   height: 24px;
   width: 24px;
   border-radius: 50%;
