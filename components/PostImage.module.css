@@ -35,4 +35,11 @@
     &._broken {
       opacity: 1;
     }
+
+    ._brokenThumb & {
+      position: absolute;
+      right: var(--sp-5);
+      top: var(--sp-5);
+      filter: drop-shadow(0px 0px 8px var(--grey-dark));
+    }
   }
