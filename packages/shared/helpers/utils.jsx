@@ -2,6 +2,7 @@
 // import React from 'react'
 import moment from 'moment'
 import url from 'url'
+import getVideoId from 'get-video-id'
 import getSymbolFromCurrency from 'currency-symbol-map'
 import countries from '@/constants/countries'
 
@@ -305,6 +306,30 @@ export const shortenUrl = (url) => {
   shortenedUrl = removeWWWFromUrl(shortenedUrl)
   return shortenedUrl
 }
+
+
+/**
+* @param {string} url
+* @returns {Object.<string>} eg: { id: 'eG1uDU0rSLw', service: 'youtube' }
+}
+*/
+export const getVideoDetails = (url) => {
+  return getVideoId(url)
+}
+
+
+/**
+* @param {url} string
+* @param {quality} string
+* @returns {string}
+*/
+export const getVideoThumb = (url, quality = 'hqdefault') => {
+  const { id, service } = getVideoDetails(url)
+  // Thumb types: https://stackoverflow.com/a/2068371/993297
+  if (service === 'youtube') return `https://img.youtube.com/vi/${id}/${quality}.jpg`
+  return ''
+}
+
 
 export const sortAssetsChronologically = (assets) => {
   if (assets) {
