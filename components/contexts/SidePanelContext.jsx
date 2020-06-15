@@ -49,7 +49,7 @@ const SidePanelContextProvider = ({ children }) => {
     return () => {
       Router.events.off('routeChangeStart', closeSidePanel)
     }
-  }, [closeSidePanel])
+  }, [])
 
   return (
     // The context provider
