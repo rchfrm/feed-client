@@ -6,6 +6,7 @@ import { ArtistProvider } from '@/contexts/Artist'
 // IMPORT COMPONENTS
 import Main from '@/Main'
 import TheLoadingOverlay from '@/TheLoadingOverlay'
+import PopupModal from '@/PopupModal'
 import TheHeader from '@/TheHeader'
 import ThePageButtons from '@/ThePageButtons'
 import TheFooter from '@/TheFooter'
@@ -25,6 +26,8 @@ const AppContents = ({ children }) => {
             </Main>
 
             <ThePageButtons />
+
+            <PopupModal />
 
             <TheFooter />
           </ArtistProvider>

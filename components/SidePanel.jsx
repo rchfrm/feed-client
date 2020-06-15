@@ -114,7 +114,10 @@ function SidePanel({
       >
         {/* The BG */}
         <div
-          className={styles.background}
+          className={[
+            'modal--background',
+            styles.background,
+          ].join(' ')}
           onClick={close}
           role="button"
           aria-label="Close panel"
@@ -128,7 +131,7 @@ function SidePanel({
         >
           {/* Show loader if loading */}
           {isLoading && (
-            <div className={styles.loader}>
+            <div className={['modal--background', styles.loader].join(' ')}>
               <Spinner className={styles.spinner} />
             </div>
           )}

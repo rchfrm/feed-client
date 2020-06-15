@@ -41,7 +41,8 @@
     "url": "^0.11.0",
     "use-async-effect": "^2.2.2",
     "use-immer": "^0.3.5",
-    "use-previous": "^1.0.0"
+    "use-previous": "^1.0.0",
+    "zustand": "^2.2.3"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^9.3.6",
