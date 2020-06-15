@@ -12,7 +12,7 @@ const configuration = {
   appShortName: null, // Your application's short_name. `string`. Optional. If not set, appName will be used
   appDescription: 'Simplify the process of growing your audience through automated social media promotion',
   developerName: 'Feed',
-  developerUrl: 'https://getfed.co',
+  developerUrl: 'https://tryfeed.co',
   dir: 'auto', // Primary text direction for name, short_name, and description
   lang: 'en-GB', // Primary language for name and short_name
   background: '#F4F4F4',
