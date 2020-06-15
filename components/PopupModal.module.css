@@ -5,7 +5,8 @@
     padding: var(--sp-10);
   }
 
-  :global(img) {
+  :global(img),
+  :global(video) {
     max-width: 100%;
     max-height: 100%;
     height: auto;

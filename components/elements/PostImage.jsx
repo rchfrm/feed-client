@@ -10,6 +10,8 @@ import brandColors from '@/constants/brandColors'
 
 import popupStore from '@/store/popupStore'
 
+import styles from '@/PostImage.module.css'
+
 const getMediaTest = ({ mediaSrc, handleError }) => {
   return (
     <video
@@ -19,7 +21,7 @@ const getMediaTest = ({ mediaSrc, handleError }) => {
         opacity: 0,
       }}
       src={mediaSrc}
-      onError={handleError}
+      onError={() => handleError('video')}
       width="100%"
       controls
       playsInline
@@ -28,19 +30,13 @@ const getMediaTest = ({ mediaSrc, handleError }) => {
   )
 }
 
-const getMediaEl = ({
+const getPopupMedia = ({
   mediaSrc,
   mediaType,
   thumbnailSrc,
   title,
-  thumbError,
-  videoError,
-  handleError,
 }) => {
   const src = mediaSrc || thumbnailSrc
-  // Handle image error
-  if (thumbError) return <MediaFallback />
-
   // Handle youtube
   if (mediaType === 'youtube_embed') {
     return (
@@ -59,15 +55,14 @@ const getMediaEl = ({
   }
 
   // Handle video
-  if (mediaType === 'video' && !videoError) {
+  if (mediaType === 'video') {
     return (
       <video
         src={src}
         poster={thumbnailSrc}
-        onError={() => handleError('video')}
         width="100%"
         controls
-        playsInline
+        autoPlay
         type="video/mp4"
       />
     )
@@ -78,18 +73,12 @@ const getMediaEl = ({
     <img
       src={thumbnailSrc}
       alt={title}
-      onError={() => handleError('thumb')}
-      onLoad={({ target }) => {
-        // Handle 1px FB safe images
-        if (target.naturalHeight === 1) {
-          handleError('thumb')
-        }
-      }}
     />
   )
 }
 
-const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }) => {
+
+const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }) => {
   // Remove empty and duplicate thumbnail options
   const thumbnails = React.useMemo(() => {
     return thumbnailOptions.reduce((thumbs, thumb) => {
@@ -116,17 +105,17 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
       return
     }
     setThumbError(true)
-  }, [mediaType, videoError])
+  }, [setVideoError])
 
   // Get the thumbnail
   const thumbnailImageSrc = React.useMemo(() => {
     // If there is a thumbnail src, use that
-    if (thumbnailSrc) return thumbnailSrc
+    if (setActiveThumbSrc) return setActiveThumbSrc
     // If youtube, get youtube thumb
     if (mediaType === 'youtube_embed') return utils.getVideoThumb(mediaSrc)
     // If video with no src, then no thumbnail
     if (mediaType === 'video') return null
-  }, [thumbnailSrc, mediaType, mediaSrc])
+  }, [setActiveThumbSrc, mediaType, mediaSrc])
 
 
   // Test for broken videos
@@ -135,60 +124,76 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
     return getMediaTest({ mediaSrc, handleError })
   }, [mediaType, mediaSrc, videoError, handleError])
 
-  // SHOW LARGE IMAGE
+  // Define play icon
+  const playIcon = React.useMemo(() => {
+    if (videoError) {
+      return <PlayBrokenIcon className={[styles.playIcon, styles._broken].join(' ')} color={brandColors.bgColor} />
+    }
+    if ((mediaType === 'video' || mediaType === 'youtube_embed') && !videoError) {
+      return <PlayIcon className={styles.playIcon} color={brandColors.bgColor} />
+    }
+    return null
+  }, [mediaType, videoError])
+
+  // SHOW LARGE IMAGE in Popup
   const setPopupContents = popupStore(state => state.setContent)
   const closePopup = popupStore(state => state.clear)
   const enlargeMedia = React.useCallback(() => {
-    const popupContents = getMediaEl({ mediaSrc, mediaType, thumbnailSrc, title, className, thumbError, videoError, handleError })
+    const popupContents = getPopupMedia({ mediaSrc, mediaType, setActiveThumbSrc, title })
     setPopupContents(popupContents)
-  }, [mediaSrc, mediaType, thumbnailSrc, title, className, thumbError, videoError, handleError])
+  }, [mediaSrc, mediaType, setActiveThumbSrc, title, setPopupContents])
   // Close popup when unmounts
   React.useEffect(() => {
-    return () => {
-      closePopup()
-    }
+    return closePopup
   }, [closePopup])
 
   // Wait here until media is ready
   if (!thumbnailImageSrc) return null
 
   return (
-    <figure className={['media', `media--${aspectRatio}`].join(' ')}>
+    <figure className={['media', `media--${aspectRatio}`, styles.figure, className].join(' ')}>
       {/* Test for broken videos */}
       {mediaTest}
-      {/* Show broken video icon */}
-      {videoError && (
-        <PlayBrokenIcon className="play--icon  -broken" color={brandColors.bgColor} />
-      )}
-      {/* Show play icon videos */}
-      {(mediaType === 'video' || mediaType === 'youtube_embed') && !videoError && (
-        <PlayIcon className="play--icon" color={brandColors.bgColor} />
+      {/* Thumbnail fallback */}
+      {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
+      {/* Show play icon */}
+      {playIcon && (
+        <button
+          className={styles.playIconBg}
+          aria-label="Play video"
+          onClick={enlargeMedia}
+        >
+          {playIcon}
+        </button>
       )}
       {/* Enlarge media button */}
-      {!videoError && !thumbError && (
+      {!videoError && !thumbError && !playIcon && (
         <button
-          className="media--enlarge-trigger"
-          aria-label={mediaType === 'video' || mediaType === 'youtube_embed' ? 'Play video' : 'Enlarge image'}
-          title={mediaType === 'video' || mediaType === 'youtube_embed' ? 'Play video' : 'Enlarge image'}
+          className={styles.enlargeImageButton}
+          aria-label="Enlarge image"
           onClick={enlargeMedia}
         />
       )}
-      {/* Thumbnail fallback */}
-      {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
       {/* Thumbnail */}
       {thumbnailImageSrc && !thumbError && (
         <img
           className="center--image"
           src={thumbnailImageSrc}
           alt={title}
-          onError={handleError}
+          onError={() => handleError('thumb')}
+          onLoad={({ target }) => {
+            // Handle 1px FB safe images
+            if (target.naturalHeight === 1) {
+              handleError('thumb')
+            }
+          }}
         />
       )}
     </figure>
   )
 }
 
-ExternalMedia.propTypes = {
+PostImage.propTypes = {
   mediaSrc: PropTypes.string,
   thumbnailOptions: PropTypes.array,
   title: PropTypes.string,
@@ -196,7 +201,7 @@ ExternalMedia.propTypes = {
   aspectRatio: PropTypes.string,
 }
 
-ExternalMedia.defaultProps = {
+PostImage.defaultProps = {
   mediaSrc: '',
   thumbnailOptions: [],
   title: '',
@@ -205,4 +210,4 @@ ExternalMedia.defaultProps = {
 }
 
 
-export default ExternalMedia
+export default PostImage

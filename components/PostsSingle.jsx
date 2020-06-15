@@ -12,7 +12,7 @@ import Error from '@/elements/Error'
 // IMPORT ASSETS
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import ExternalMedia from '@/elements/ExternalMedia'
+import PostImage from '@/elements/PostImage'
 // IMPORT STYLES
 import styles from '@/PostsPage.module.css'
 // IMPORT CONSTANTS
@@ -120,7 +120,7 @@ function PostSingle({
       {/* Media */}
       <div style={{ flex: 'auto' }}>
         <div className={styles['post-media']}>
-          <ExternalMedia
+          <PostImage
             mediaSrc={post.media}
             thumbnailOptions={[post._metadata.thumbnail_url]}
             title={post.short_message.join('\n')}
