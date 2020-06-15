@@ -34,6 +34,7 @@ const getPopupMedia = ({
   mediaSrc,
   mediaType,
   thumbnailSrc,
+  closePopup,
   title,
 }) => {
   const src = mediaSrc || thumbnailSrc
@@ -70,10 +71,12 @@ const getPopupMedia = ({
 
   // Handle image (default)
   return (
-    <img
-      src={thumbnailSrc}
-      alt={title}
-    />
+    <a role="button" onClick={closePopup} aria-label="close">
+      <img
+        src={thumbnailSrc}
+        alt={title}
+      />
+    </a>
   )
 }
 

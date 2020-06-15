@@ -2,8 +2,10 @@ import create from 'zustand'
 
 const [popupStore] = create(set => ({
   content: null,
+  contentType: '',
   setContent: (content) => set({ content }),
-  clear: () => set({ content: null }),
+  setContentType: (contentType) => set({ contentType }),
+  clear: () => set({ content: null, contentType: '' }),
 }))
 
 export default popupStore
