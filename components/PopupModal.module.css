@@ -18,6 +18,12 @@
   }
 }
 
+.backButton {
+  position: absolute;
+  right: var(--sp-5);
+  z-index: 2;
+}
+
 .background {
   z-index: 0 !important;
   background-color: var(--black);
