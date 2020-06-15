@@ -7,6 +7,24 @@ import MediaFallback from '@/elements/MediaFallback'
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
+const getMediaTest = ({ mediaSrc, handleError }) => {
+  return (
+    <video
+      style={{
+        position: 'absolute',
+        left: '-10000em',
+        opacity: 0,
+      }}
+      src={mediaSrc}
+      onError={handleError}
+      width="100%"
+      controls
+      playsInline
+      type="video/mp4"
+    />
+  )
+}
+
 const getMediaEl = ({
   mediaSrc,
   mediaType,
@@ -111,23 +129,49 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
     }
   }, [thumbError, thumbnails, setThumbError])
 
+  // Get the thumbnail
+  const thumbnailImageSrc = React.useMemo(() => {
+    // If there is a thumbnail src, use that
+    if (thumbnailSrc) return thumbnailSrc
+    // If youtube, get youtube thumb
+    if (mediaType === 'youtube_embed') return utils.getVideoThumb(mediaSrc)
+    // If video with no src, then no thumbnail
+    if (mediaType === 'video') return null
+  }, [thumbnailSrc, mediaType, mediaSrc])
 
-  // Get the media
+
   const media = React.useMemo(() => {
     if (!mediaType) return null
-    return getMediaEl({ mediaSrc, mediaType, thumbnailSrc: activeThumbSrc, title, className, thumbError, videoError, handleError })
-  }, [mediaSrc, mediaType, activeThumbSrc, title, className, thumbError, videoError, handleError])
+    return getMediaEl({ mediaSrc, mediaType, thumbnailSrc, title, className, thumbError, videoError, handleError })
+  }, [mediaSrc, mediaType, videoError, thumbError])
+  // Test for broken videos
+  const mediaTest = React.useMemo(() => {
+    if (mediaType !== 'video' || videoError) return null
+    return getMediaTest({ mediaSrc, handleError })
+  }, [mediaType, mediaSrc, videoError, handleError])
 
   // Wait here until media is ready
   if (!media) return null
 
   return (
     <figure className={['media', `media--${aspectRatio}`].join(' ')}>
-      {/* Show play icon for broken videos */}
-      {mediaType === 'video' && videoError && (
+      {/* Show play icon videos */}
+      {(mediaType === 'video' || mediaType === 'youtube_embed') && !videoError && (
         <PlayIcon className="play--icon" color={brandColors.bgColor} />
       )}
-      {media}
+      {/* Thumbnail fallback */}
+      {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
+      {/* Thumbnail */}
+      {thumbnailImageSrc && (
+        <img
+          className="center--image"
+          src={thumbnailImageSrc}
+          alt={title}
+          onError={handleError}
+          data-text="asdfsd"
+        />
+      )}
+      {mediaTest}
     </figure>
   )
 }
