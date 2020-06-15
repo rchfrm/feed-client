@@ -153,7 +153,15 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
   if (!thumbnailImageSrc) return null
 
   return (
-    <figure className={['media', `media--${aspectRatio}`].join(' ')}>
+    <figure
+      className={[
+        'media',
+        `media--${aspectRatio}`,
+        styles.figure,
+        videoError || thumbError ? styles._brokenThumb : '',
+        className,
+      ].join(' ')}
+    >
       {/* Test for broken videos */}
       {mediaTest}
       {/* Show broken video icon */}
