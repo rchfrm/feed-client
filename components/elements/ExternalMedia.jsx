@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import PlayBrokenIcon from '@/icons/PlayBrokenIcon'
 import PlayIcon from '@/icons/PlayIcon'
 import MediaFallback from '@/elements/MediaFallback'
 
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
+
+import popupStore from '@/store/popupStore'
 
 const getMediaTest = ({ mediaSrc, handleError }) => {
   return (
@@ -41,16 +44,17 @@ const getMediaEl = ({
   // Handle youtube
   if (mediaType === 'youtube_embed') {
     return (
-      <iframe
-        className="center--image"
-        title={title}
-        src={src.replace('autoplay=1', 'autoplay=0')}
-        width="100%"
-        height="315"
-        frameBorder="0"
-        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
+      <div className="popup--iframe">
+        <iframe
+          title={title}
+          src={src.replace('autoplay=1', 'autoplay=0')}
+          width="100%"
+          height="315"
+          frameBorder="0"
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
     )
   }
 
@@ -58,7 +62,6 @@ const getMediaEl = ({
   if (mediaType === 'video' && !videoError) {
     return (
       <video
-        className="center--image"
         src={src}
         poster={thumbnailSrc}
         onError={() => handleError('video')}
@@ -73,7 +76,6 @@ const getMediaEl = ({
   // Handle image (default)
   return (
     <img
-      className="center--image"
       src={thumbnailSrc}
       alt={title}
       onError={() => handleError('thumb')}
@@ -114,20 +116,7 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
       return
     }
     setThumbError(true)
-  }, [])
-
-  // Swap to backup thumb src if first errors
-  React.useEffect(() => {
-    // Stop here if no thumb error
-    if (!thumbError) return
-    // Try swapping thumb src for backup
-    activeThumbIndex.current += 1
-    const nextThumbSrc = thumbnails[activeThumbIndex.current]
-    if (nextThumbSrc) {
-      setActiveThumbSrc(nextThumbSrc)
-      setThumbError(false)
-    }
-  }, [thumbError, thumbnails, setThumbError])
+  }, [mediaType, videoError])
 
   // Get the thumbnail
   const thumbnailImageSrc = React.useMemo(() => {
@@ -140,24 +129,47 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
   }, [thumbnailSrc, mediaType, mediaSrc])
 
 
-  const media = React.useMemo(() => {
-    if (!mediaType) return null
-    return getMediaEl({ mediaSrc, mediaType, thumbnailSrc, title, className, thumbError, videoError, handleError })
-  }, [mediaSrc, mediaType, videoError, thumbError])
   // Test for broken videos
   const mediaTest = React.useMemo(() => {
     if (mediaType !== 'video' || videoError) return null
     return getMediaTest({ mediaSrc, handleError })
   }, [mediaType, mediaSrc, videoError, handleError])
 
+  // SHOW LARGE IMAGE
+  const setPopupContents = popupStore(state => state.setContent)
+  const closePopup = popupStore(state => state.clear)
+  const enlargeMedia = React.useCallback(() => {
+    const popupContents = getMediaEl({ mediaSrc, mediaType, thumbnailSrc, title, className, thumbError, videoError, handleError })
+    setPopupContents(popupContents)
+  }, [mediaSrc, mediaType, thumbnailSrc, title, className, thumbError, videoError, handleError])
+  // Close popup when unmounts
+  React.useEffect(() => {
+    return () => {
+      closePopup()
+    }
+  }, [closePopup])
+
   // Wait here until media is ready
-  if (!media) return null
+  if (!thumbnailImageSrc) return null
 
   return (
     <figure className={['media', `media--${aspectRatio}`].join(' ')}>
+      {/* Show broken video icon */}
+      {videoError && (
+        <PlayBrokenIcon className="play--icon  -broken" color={brandColors.bgColor} />
+      )}
       {/* Show play icon videos */}
       {(mediaType === 'video' || mediaType === 'youtube_embed') && !videoError && (
         <PlayIcon className="play--icon" color={brandColors.bgColor} />
+      )}
+      {/* Enlarge media button */}
+      {!videoError && !thumbError && (
+        <button
+          className="media--enlarge-trigger"
+          aria-label={mediaType === 'video' || mediaType === 'youtube_embed' ? 'Play video' : 'Enlarge image'}
+          title={mediaType === 'video' || mediaType === 'youtube_embed' ? 'Play video' : 'Enlarge image'}
+          onClick={enlargeMedia}
+        />
       )}
       {/* Thumbnail fallback */}
       {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
@@ -168,9 +180,9 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
           src={thumbnailImageSrc}
           alt={title}
           onError={handleError}
-          data-text="asdfsd"
         />
       )}
+      {/* Test for broken videos */}
       {mediaTest}
     </figure>
   )
