@@ -27,6 +27,8 @@ const AppContents = ({ children }) => {
 
             <ThePageButtons />
 
+            <PopupModal />
+
             <TheFooter />
           </ArtistProvider>
         </UserProvider>
