@@ -11,7 +11,7 @@ const configuration = {
   appName: 'Feed', // Your application's name. `string`
   appShortName: null, // Your application's short_name. `string`. Optional. If not set, appName will be used
   appDescription: 'Audience growth for artists, built by archForm',
-  developerName: 'archForm',
+  developerName: 'Feed',
   developerUrl: 'https://archform.ltd',
   dir: 'auto', // Primary text direction for name, short_name, and description
   lang: 'en-GB', // Primary language for name and short_name
