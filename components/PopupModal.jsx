@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import { Portal } from 'react-portal'
 
+import CloseCircle from '@/icons/CloseCircle'
+
 import popupStore from '@/store/popupStore'
 
 import styles from '@/PopupModal.module.css'
@@ -23,6 +25,15 @@ const PopupModal = () => {
           'z-30',
         ].join(' ')}
       >
+        {/* Close button */}
+        {/* Close button */}
+        <button
+          onClick={closePopup}
+          className={['button--close', styles.backButton].join(' ')}
+          label="Close"
+        >
+          <CloseCircle />
+        </button>
         <div
           className={[
             'absolute',
