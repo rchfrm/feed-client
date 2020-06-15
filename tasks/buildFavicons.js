@@ -10,7 +10,7 @@ const configuration = {
   path: '/pwa/', // Path for overriding default icons path. `string`
   appName: 'Feed', // Your application's name. `string`
   appShortName: null, // Your application's short_name. `string`. Optional. If not set, appName will be used
-  appDescription: 'Audience growth for artists, built by archForm',
+  appDescription: 'Simplify the process of growing your audience through automated social media promotion',
   developerName: 'Feed',
   developerUrl: 'https://archform.ltd',
   dir: 'auto', // Primary text direction for name, short_name, and description
