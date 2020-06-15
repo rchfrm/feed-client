@@ -154,6 +154,8 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
 
   return (
     <figure className={['media', `media--${aspectRatio}`].join(' ')}>
+      {/* Test for broken videos */}
+      {mediaTest}
       {/* Show broken video icon */}
       {videoError && (
         <PlayBrokenIcon className="play--icon  -broken" color={brandColors.bgColor} />
@@ -174,7 +176,7 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
       {/* Thumbnail fallback */}
       {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
       {/* Thumbnail */}
-      {thumbnailImageSrc && (
+      {thumbnailImageSrc && !thumbError && (
         <img
           className="center--image"
           src={thumbnailImageSrc}
@@ -182,8 +184,6 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
           onError={handleError}
         />
       )}
-      {/* Test for broken videos */}
-      {mediaTest}
     </figure>
   )
 }
