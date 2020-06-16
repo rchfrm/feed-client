@@ -63,15 +63,26 @@ const getMediaEl = ({
   )
 }
 
-const ExternalMedia = ({ mediaSrc, thumbnailSrc, title, className, aspectRatio }) => {
+const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }) => {
+  // Remove empty and duplicate thumbnail options
+  const thumbnails = React.useMemo(() => {
+    return thumbnailOptions.reduce((thumbs, thumb) => {
+      if (!thumb) return thumbs
+      if (thumbs.includes(thumb)) return thumbs
+      return [...thumbs, thumb]
+    }, [])
+  }, [thumbnailOptions])
+  // Get active thumb src
+  const activeThumbIndex = React.useRef(0)
+  const [activeThumbSrc, setActiveThumbSrc] = React.useState(thumbnails[activeThumbIndex.current])
+  // Define media type
   const mediaType = React.useMemo(() => {
-    return utils.getPostMediaType(mediaSrc || thumbnailSrc)
-  }, [mediaSrc, thumbnailSrc])
-
-  const [videoError, setVideoError] = React.useState(false)
-  const [thumbError, setThumbError] = React.useState(false)
+    return utils.getPostMediaType(mediaSrc || activeThumbSrc)
+  }, [mediaSrc, activeThumbSrc])
 
   // Handle media error
+  const [videoError, setVideoError] = React.useState(false)
+  const [thumbError, setThumbError] = React.useState(false)
   const handleError = React.useCallback(() => {
     // If error with a video, fallback to basic image
     if (mediaType === 'video' && !videoError) {
@@ -79,14 +90,28 @@ const ExternalMedia = ({ mediaSrc, thumbnailSrc, title, className, aspectRatio }
       return
     }
     setThumbError(true)
-  }, [mediaType, mediaSrc, videoError])
+  }, [mediaType, videoError])
+
+  // Swap to backup thumb src if first errors
+  React.useEffect(() => {
+    console.log('thumbnails', thumbnails)
+    // Stop here if no thumb error
+    if (!thumbError) return
+    // Try swapping thumb src for backup
+    activeThumbIndex.current += 1
+    const nextThumbSrc = thumbnails[activeThumbIndex.current]
+    if (nextThumbSrc) {
+      setActiveThumbSrc(nextThumbSrc)
+      setThumbError(false)
+    }
+  }, [thumbError, thumbnails, setThumbError])
 
 
   // Get the media
   const media = React.useMemo(() => {
     if (!mediaType) return null
-    return getMediaEl({ mediaSrc, mediaType, thumbnailSrc, title, className, thumbError, videoError, handleError })
-  }, [mediaSrc, mediaType, videoError, thumbError])
+    return getMediaEl({ mediaSrc, mediaType, thumbnailSrc: activeThumbSrc, title, className, thumbError, videoError, handleError })
+  }, [mediaSrc, mediaType, activeThumbSrc, title, className, thumbError, videoError, handleError])
 
   // Wait here until media is ready
   if (!media) return null
@@ -104,7 +129,7 @@ const ExternalMedia = ({ mediaSrc, thumbnailSrc, title, className, aspectRatio }
 
 ExternalMedia.propTypes = {
   mediaSrc: PropTypes.string,
-  thumbnailSrc: PropTypes.string,
+  thumbnailOptions: PropTypes.array,
   title: PropTypes.string,
   className: PropTypes.string,
   aspectRatio: PropTypes.string,
@@ -112,7 +137,7 @@ ExternalMedia.propTypes = {
 
 ExternalMedia.defaultProps = {
   mediaSrc: '',
-  thumbnailSrc: '',
+  thumbnailOptions: [],
   title: '',
   className: '',
   aspectRatio: 'square',
