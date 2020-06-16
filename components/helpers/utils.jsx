@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 // import React from 'react'
 import moment from 'moment'
+import url from 'url'
 import getSymbolFromCurrency from 'currency-symbol-map'
 import countries from '@/constants/countries'
 
@@ -469,5 +470,42 @@ export const clearLocalStorage = () => {
     return true
   } catch (e) {
     return false
+  }
+}
+
+
+/**
+ * @param {string} urlString
+ * @returns {object} {
+ *  pathname,
+ *  queryString,
+ *  query: {
+ *    queryName: 'queryValue',
+ *    ...
+ *  }
+ * }
+ */
+export const parseUrl = (urlString) => {
+  if (!urlString) return
+  const { pathname, query } = url.parse(urlString)
+  if (!query) {
+    return {
+      pathname,
+      queryString: '',
+      query: null,
+    }
+  }
+  // Format query into key value object
+  const queryValues = query.split('&')
+  const queryObject = queryValues.reduce((result, query) => {
+    const [queryKey, queryValue = ''] = query.split('=')
+    result[queryKey] = queryValue
+    return result
+  }, {})
+  // Return result
+  return {
+    pathname,
+    queryString: query,
+    query: queryObject,
   }
 }

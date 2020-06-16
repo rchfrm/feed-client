@@ -5,6 +5,7 @@ import BudgetConfirmation from '@/BudgetConfirmation'
 import PaymentSummary from '@/PaymentSummary'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/Artist'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
@@ -26,7 +27,8 @@ const initialAlertState = {
 }
 
 function BudgetContent() {
-  const { artist, artistId, artistCurrency, updateBudget } = React.useContext(ArtistContext)
+  const { artist, artistId, artistCurrency, updateBudget, artistLoading } = React.useContext(ArtistContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // DEFINE STATES
   const initialBudgetState = {
     amount: '',
@@ -39,6 +41,11 @@ function BudgetContent() {
   const [minBudget, setMinBudget] = React.useState('')
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
 
+  // Turn off global loading after artist finishes loading
+  React.useEffect(() => {
+    if (!artistLoading) toggleGlobalLoading(false)
+  }, [artistLoading, toggleGlobalLoading])
+
   // Define input placeholder
   const [budgetPlaceholder, setBudgetPlaceholder] = React.useState('')
   React.useEffect(() => {
@@ -49,7 +56,6 @@ function BudgetContent() {
 
   // Define min budget
   React.useEffect(() => {
-    if (!artist || artistId === artist.id) return
     const { min_daily_budget_info: minBudgetInfo } = artist
     if (!minBudgetInfo || !artistId) {
       setMinBudget('£3.00')
@@ -64,7 +70,7 @@ function BudgetContent() {
     } = minBudgetInfo
     const minBudget = utils.getMinBudget(amount, currencyCode, currencyOffset)
     setMinBudget(minBudget)
-  }, [artist, artistId])
+  }, [artistId])
 
   // Call this to reset the input
   const resetBudgetState = () => setBudget(initialBudgetState)
