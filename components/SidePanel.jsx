@@ -109,7 +109,7 @@ function SidePanel({
     >
       <div
         id="SidePanel"
-        className={styles.SidePanel}
+        className={['modal--container', styles.SidePanel].join(' ')}
         {...dragBind()}
       >
         {/* The BG */}
