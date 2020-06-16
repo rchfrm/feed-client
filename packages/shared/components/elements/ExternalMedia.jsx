@@ -158,19 +158,25 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
         'media',
         `media--${aspectRatio}`,
         styles.figure,
-        videoError || thumbError ? styles._brokenThumb : '',
+        thumbError ? styles._brokenThumb : '',
         className,
       ].join(' ')}
     >
       {/* Test for broken videos */}
       {mediaTest}
-      {/* Show broken video icon */}
-      {videoError && (
-        <PlayBrokenIcon className="play--icon  -broken" color={brandColors.bgColor} />
-      )}
-      {/* Show play icon videos */}
-      {(mediaType === 'video' || mediaType === 'youtube_embed') && !videoError && (
-        <PlayIcon className="play--icon" color={brandColors.bgColor} />
+      {/* Thumbnail fallback */}
+      {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
+      {/* Show broken play button */}
+      {videoError && <div className={styles.playIconBg}>{playIcon}</div>}
+      {/* Show play icon */}
+      {(playIcon && !videoError) && (
+        <button
+          className={styles.playIconBg}
+          aria-label="Play video"
+          onClick={enlargeMedia}
+        >
+          {playIcon}
+        </button>
       )}
       {/* Enlarge media button */}
       {!videoError && !thumbError && (
