@@ -9,24 +9,25 @@ import popupStore from '@/store/popupStore'
 import styles from '@/PopupModal.module.css'
 import useOnResize from '@/hooks/useOnResize'
 
-const PopupModal = () => {
-  const content = popupStore(state => state.content)
+const PopupModal = ({ content }) => {
   const contentType = popupStore(state => state.contentType)
   const closePopup = popupStore(state => state.clear)
 
   // Resize iframe container
   const { width: windowWidth, height: windowHeight } = useOnResize()
   const iframeContainer = React.useRef(null)
+  const innerEl = React.useRef(null)
   React.useEffect(() => {
     if (!content || !contentType === 'iframe' || !iframeContainer.current) return
     const ratio = 16 / 9
     const screenRatio = windowWidth / windowHeight
-    const maxWidth = windowWidth * 0.9
-    const maxHeight = windowHeight * 0.9
+    const [paddingY, paddingX] = window.getComputedStyle(innerEl.current).padding.split(' ')
+    const maxWidth = windowWidth - (2 * parseFloat(paddingX))
+    const maxHeight = windowHeight - (2 * parseFloat(paddingY))
     const width = screenRatio >= 1 ? maxHeight * ratio : maxWidth
     const height = screenRatio < 1 ? maxWidth * ratio : maxHeight
-    iframeContainer.current.width = width
-    iframeContainer.current.height = height
+    iframeContainer.current.style.width = `${width}px`
+    iframeContainer.current.style.height = `${height}px`
   }, [windowWidth, windowHeight, content, contentType])
 
   if (!content) return null
@@ -34,11 +35,7 @@ const PopupModal = () => {
     <Portal>
       <div
         className={[
-          'fixed',
-          'top-0',
-          'left-0',
-          'right-0',
-          'bottom-0',
+          'modal--container',
           'z-30',
         ].join(' ')}
       >
@@ -63,6 +60,7 @@ const PopupModal = () => {
             'justify-center',
             styles.inner,
           ].join(' ')}
+          ref={innerEl}
         >
           <button
             className={['modal--background', styles.background].join(' ')}
@@ -73,6 +71,9 @@ const PopupModal = () => {
             <div
               className={styles.iframeContainer}
               ref={iframeContainer}
+              style={{
+                position: 'relative',
+              }}
             >
               {content}
             </div>

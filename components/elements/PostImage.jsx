@@ -11,6 +11,7 @@ import brandColors from '@/constants/brandColors'
 import popupStore from '@/store/popupStore'
 
 import styles from '@/PostImage.module.css'
+import popupStyles from '@/PopupModal.module.css'
 
 const getMediaTest = ({ mediaSrc, handleError }) => {
   return (
@@ -39,19 +40,17 @@ const getPopupMedia = ({
 }) => {
   const src = mediaSrc || thumbnailSrc
   // Handle youtube
-  if (mediaType === 'youtube_embed') {
+  if (mediaType === 'iframe') {
     return (
-      <div className="popup--iframe">
-        <iframe
-          title={title}
-          src={src.replace('autoplay=1', 'autoplay=0')}
-          width="100%"
-          height="315"
-          frameBorder="0"
-          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
+      <iframe
+        title={title}
+        src={src.replace('autoplay=1', 'autoplay=0')}
+        width="100%"
+        height="315"
+        frameBorder="0"
+        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
     )
   }
 
@@ -71,7 +70,7 @@ const getPopupMedia = ({
 
   // Handle image (default)
   return (
-    <a role="button" onClick={closePopup} aria-label="close">
+    <a className={popupStyles.imageButton} role="button" onClick={closePopup} aria-label="close">
       <img
         src={thumbnailSrc}
         alt={title}
@@ -140,11 +139,13 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
 
   // SHOW LARGE IMAGE in Popup
   const setPopupContents = popupStore(state => state.setContent)
+  const setPopupContentType = popupStore(state => state.setContentType)
   const closePopup = popupStore(state => state.clear)
   const enlargeMedia = React.useCallback(() => {
-    const popupContents = getPopupMedia({ mediaSrc, mediaType, setActiveThumbSrc, title })
+    const popupContents = getPopupMedia({ mediaSrc, mediaType, setActiveThumbSrc, closePopup, title })
     setPopupContents(popupContents)
-  }, [mediaSrc, mediaType, setActiveThumbSrc, title, setPopupContents])
+    setPopupContentType(mediaType)
+  }, [mediaSrc, mediaType, title, setPopupContents, setPopupContentType, closePopup])
   // Close popup when unmounts
   React.useEffect(() => {
     return closePopup

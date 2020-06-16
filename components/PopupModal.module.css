@@ -1,7 +1,21 @@
-.inner {
-  padding: var(--sp-5);
+.inner,
+.imageButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  @media (--md) {
+
+.imageButton {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.inner {
+  padding: var(--sp-10);
+
+  @media (--sm) {
     padding: var(--sp-10) var(--sp-20);
   }
 
@@ -13,19 +27,12 @@
     width: auto;
   }
 
-  :global(.popup--iframe) {
-    position: relative;
-    width: 100%;
+  :global(iframe) {
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 100%;
-    max-width: 720px;
-    /* padding-top: calc((9 / 16) * 100%); */
-
-    iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-    }
+    width: 100%;
   }
 
   > * {

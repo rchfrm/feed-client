@@ -205,7 +205,7 @@ export const getPostMediaType = (src) => {
     } else if (src.indexOf('youtube.com/embed/') >= 0) {
       const videoIdIndex = src.indexOf('youtube.com/embed/') + 18
       src = src.slice(videoIdIndex, videoIdIndex + 11)
-      type = 'youtube_embed'
+      type = 'iframe'
     } else {
       type = 'image'
     }

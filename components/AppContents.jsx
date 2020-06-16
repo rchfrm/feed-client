@@ -10,8 +10,12 @@ import PopupModal from '@/PopupModal'
 import TheHeader from '@/TheHeader'
 import ThePageButtons from '@/ThePageButtons'
 import TheFooter from '@/TheFooter'
+// IMPORT LOCAL STATE
+import popupStore from '@/store/popupStore'
+
 
 const AppContents = ({ children }) => {
+  const popupContent = popupStore(state => state.content)
   return (
     <div id="container" className="page--content">
       <InterfaceContextProvider>
@@ -27,7 +31,7 @@ const AppContents = ({ children }) => {
 
             <ThePageButtons />
 
-            <PopupModal />
+            {popupContent && <PopupModal content={popupContent} />}
 
             <TheFooter />
           </ArtistProvider>
