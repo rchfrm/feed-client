@@ -2,14 +2,9 @@
 import * as ROUTES from '@/constants/routes'
 
 export default {
-  intro: `On this page you can view insights from your following across different platforms 📈.
+  outro: `Can’t see one of your accounts? Just add it via ‘Post settings’ on the [posts page](${ROUTES.POSTS}).
 
-  You can view a combination of metrics, or select just one to see more detail.
-  `,
-  outro: `Can’t see one of your accounts? Just add it on the [account page](${ROUTES.CONNECTIONS}).
-
-  We’ll show you historical data for the platforms you’ve selected once you’ve been using the app long enough. Think there should be historical data? Try selecting only the platform you want to see.
-  `,
+We’ll show you historical data once you’ve been using Feed for a week or so.`,
 
   spendSummary: (days, spend) => `In the last ${days} days, you've **spent ${spend}**`,
 
