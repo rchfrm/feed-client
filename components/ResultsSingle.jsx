@@ -7,7 +7,7 @@ import { ArtistContext } from '@/contexts/Artist'
 
 import ResultsToggle from '@/ResultsToggle'
 // IMPORT ELEMENTS
-import PostImage from '@/elements/PostImage'
+import PostImage from '@/PostImage'
 // IMPORT PAGES
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'

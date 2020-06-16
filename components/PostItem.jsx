@@ -6,6 +6,7 @@ import PostToggle from '@/PostToggleNew'
 import PostLinkAddUrl from '@/PostLinkAddUrl'
 import PostLinkOptions from '@/PostLinkOptions'
 import PostInsight from '@/PostInsight'
+import PostImage from '@/PostImage'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/Artist'
 // IMPORT ELEMENTS
@@ -13,7 +14,6 @@ import Error from '@/elements/Error'
 // IMPORT ASSETS
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import PostImage from '@/elements/PostImage'
 // IMPORT STYLES
 import styles from '@/PostsPage.module.css'
 // IMPORT CONSTANTS
