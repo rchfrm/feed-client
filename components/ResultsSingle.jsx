@@ -127,14 +127,14 @@ const ResultsSingle = ({
   // GET MEDIA PROPS
   const mediaProps = React.useMemo(() => {
     const mediaSrc = utils.findPostMedia(media) || thumbnailSrc
-    const title = ''
+    const thumbnailOptions = [thumbnailSrc, utils.findPostThumbnail(media), thumbnailSrcBackup]
     return {
       mediaSrc,
-      thumbnailSrc: thumbnailSrc || thumbnailSrcBackup || utils.findPostThumbnail(media),
+      thumbnailSrc,
       thumbnailOptions,
       title: postCaption,
     }
-  }, [media, thumbnailSrc, thumbnailSrcBackup])
+  }, [media, thumbnailSrc, thumbnailSrcBackup, postCaption])
 
   const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
 
@@ -155,8 +155,7 @@ const ResultsSingle = ({
         <div className={styles['result-media']}>
           <ExternalMedia
             mediaSrc={mediaProps.mediaSrc}
-            thumbnailSrc={mediaProps.thumbnailSrc}
-            thumbnailSrcBackup={thumbnailSrcBackup}
+            thumbnailOptions={mediaProps.thumbnailOptions}
             title={mediaProps.title}
           />
         </div>
@@ -178,29 +177,32 @@ const ResultsSingle = ({
             togglePost={togglePost}
           />
         </div>
-
       </div>
-
     </li>
   )
 }
 
 ResultsSingle.propTypes = {
-  thumbnail: PropTypes.string,
   active: PropTypes.bool,
-  attachments: PropTypes.array,
   id: PropTypes.string.isRequired,
   promotion_enabled: PropTypes.bool,
   togglePost: PropTypes.func.isRequired,
   summary: PropTypes.object.isRequired,
+  className: PropTypes.string,
+  media: PropTypes.object,
+  thumbnailSrc: PropTypes.string,
+  thumbnailSrcBackup: PropTypes.string,
   postCaption: PropTypes.string,
 }
 
 ResultsSingle.defaultProps = {
-  thumbnail: '',
   active: false,
-  attachments: [],
   promotion_enabled: false,
+  className: '',
+  media: '',
+  thumbnailSrc: '',
+  thumbnailSrcBackup: '',
+  postCaption: '',
 }
 
 

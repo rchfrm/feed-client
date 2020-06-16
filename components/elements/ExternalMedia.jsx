@@ -94,7 +94,6 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
 
   // Swap to backup thumb src if first errors
   React.useEffect(() => {
-    console.log('thumbnails', thumbnails)
     // Stop here if no thumb error
     if (!thumbError) return
     // Try swapping thumb src for backup

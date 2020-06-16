@@ -137,10 +137,9 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
 
   const getResultEl = (post, summary) => {
     const { id, promotion_enabled, attachments, adcreative, _metadata, message } = post
-    const { id, promotion_enabled, attachments, adcreative, _metadata } = post
     const media = attachments && attachments.length ? attachments[0] : null
-    const thumbnailSrc = adcreative.thumbnail_url
-    const thumbnailSrcBackup = _metadata.thumbnail_url
+    const thumbnailSrc = _metadata.thumbnail_url
+    const thumbnailSrcBackup = adcreative.thumbnail_url
     return (
       <ResultsSingle
         className="col-span-6"

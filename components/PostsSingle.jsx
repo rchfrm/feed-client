@@ -122,7 +122,7 @@ function PostSingle({
         <div className={styles['post-media']}>
           <ExternalMedia
             mediaSrc={post.media}
-            thumbnailSrc={post._metadata.thumbnail_url}
+            thumbnailOptions={[post._metadata.thumbnail_url]}
             title={post.short_message.join('\n')}
           />
           {/* TODO : Adjust font size of post message so it always fills three lines in height */}
