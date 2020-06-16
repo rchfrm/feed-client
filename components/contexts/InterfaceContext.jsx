@@ -3,6 +3,8 @@ import Router, { useRouter } from 'next/router'
 
 import { useImmerReducer } from 'use-immer'
 
+import * as utils from '@/helpers/utils'
+
 const initialState = {
   subNavOpen: false,
   header: {
@@ -82,26 +84,34 @@ const InterfaceContextProvider = ({ children }) => {
   }, [globalLoading, toggleGlobalLoadingSpinner])
 
   // Set global loading to true when route changes
-  const { pathname } = useRouter()
+  const { asPath: urlString } = useRouter()
+  const { pathname, queryString } = utils.parseUrl(urlString)
   const previousPathname = React.useRef(pathname)
-  const handleRouteEnd = (url) => {
-    previousPathname.current = url
-  }
+  const previousQuery = React.useRef(queryString)
+  const handleRouteEnd = React.useCallback((newUrl) => {
+    const { pathname, queryString } = utils.parseUrl(newUrl)
+    previousPathname.current = pathname
+    previousQuery.current = queryString
+  }, [])
   const handleRouteChange = React.useCallback((newUrl) => {
-    const { current: previousUrl } = previousPathname
+    const { pathname: newPathname } = utils.parseUrl(newUrl)
     // Don't trigger loading if nav-ing to query path
     if (newUrl.includes('?')) return
     // close sub nav
     toggleSubNav(false)
     // If same page, no loading
-    if (newUrl === previousUrl) return
+    if (newPathname === previousPathname.current) return
     // Set global loading
     toggleGlobalLoading(true)
   }, [toggleGlobalLoading, toggleSubNav])
   React.useEffect(() => {
     Router.events.on('routeChangeStart', handleRouteChange)
     Router.events.on('routeChangeComplete', handleRouteEnd)
-  }, [handleRouteChange])
+    return () => {
+      Router.events.off('routeChangeStart', handleRouteChange)
+      Router.events.off('routeChangeComplete', handleRouteEnd)
+    }
+  }, [])
 
   return (
     <InterfaceContext.Provider
