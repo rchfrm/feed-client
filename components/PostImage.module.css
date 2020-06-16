@@ -38,8 +38,9 @@
 
     ._brokenThumb & {
       position: absolute;
+      width: var(--sp-6);
       right: var(--sp-5);
       top: var(--sp-5);
-      filter: drop-shadow(0px 0px 8px var(--grey-dark));
+      filter: drop-shadow(0px 0px 4px var(--grey));
     }
   }
