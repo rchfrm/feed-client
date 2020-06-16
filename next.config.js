@@ -5,7 +5,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 // Webpack plugins
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const dotenv = require('dotenv')
 
 // Extract environment variables from local .env file
@@ -15,23 +14,6 @@ dotenv.config()
 const {
   PHASE_DEVELOPMENT_SERVER,
 } = require('next/constants')
-
-// SETUP FAVICON PLUGIN
-const faviconPlugin = new FaviconsWebpackPlugin({
-  logo: './public/icons/icon.svg',
-  outputPath: './pwa',
-  prefix: 'pwa/',
-  cache: true,
-  inject: false,
-  favicons: {
-    appName: 'Feed',
-    appDescription: 'Audience growth for artists, built by archForm',
-    developerName: 'archForm',
-    developerUrl: 'https://archform.ltd',
-    background: '#F4F4F4',
-    theme_color: '#0D1311',
-  },
-})
 
 // NEXT CONFIG
 const nextConfig = {
@@ -53,12 +35,6 @@ const nextConfig = {
   devIndicators: {
     autoPrerender: false,
   },
-  // Custom webpack
-  webpack: (config) => {
-    config.plugins.push(faviconPlugin)
-    return config
-  },
-
   workboxOpts: {
     exclude: [/.fbcdn\.net/],
     runtimeCaching: [
