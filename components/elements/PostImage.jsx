@@ -159,7 +159,7 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
         'media',
         `media--${aspectRatio}`,
         styles.figure,
-        videoError || thumbError ? styles._brokenThumb : '',
+        thumbError ? styles._brokenThumb : '',
         className,
       ].join(' ')}
     >
@@ -167,8 +167,10 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
       {mediaTest}
       {/* Thumbnail fallback */}
       {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
+      {/* Show broken play button */}
+      {videoError && <div className={styles.playIconBg}>{playIcon}</div>}
       {/* Show play icon */}
-      {playIcon && (
+      {(playIcon && !videoError) && (
         <button
           className={styles.playIconBg}
           aria-label="Play video"
