@@ -3,9 +3,12 @@
 import React from 'react'
 // IMPORT COMPONENTS
 import PostToggle from '@/PostToggleNew'
+import PostMetaData from '@/PostMetaData'
+import PostContents from '@/PostContents'
 import PostLinkAddUrl from '@/PostLinkAddUrl'
 import PostLinkOptions from '@/PostLinkOptions'
 import PostInsight from '@/PostInsight'
+
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/Artist'
 // IMPORT ELEMENTS
@@ -15,7 +18,7 @@ import Error from '@/elements/Error'
 import * as utils from '@/helpers/utils'
 import ExternalMedia from '@/elements/ExternalMedia'
 // IMPORT STYLES
-import styles from '@/PostsPage.module.css'
+import styles from '@/PostItem.module.css'
 // IMPORT CONSTANTS
 import brandColors from '@/constants/brandColors'
 
@@ -57,7 +60,7 @@ function PostMetrics({
 function PostItem({
   index,
   post,
-  singular: isSingular,
+  enabled,
   updateLink,
   togglePromotion,
   className = '',
@@ -66,11 +69,6 @@ function PostItem({
   // IMPORT CONTEXTS
   const { artist } = React.useContext(ArtistContext)
   // END IMPORT CONTEXTS
-  // Is the post selected for promotion
-  const selected = post.promotion_enabled ? 'selected' : 'deselected'
-  // Is there just one post
-  const singular = isSingular ? 'singular' : ''
-
   // DEFINE STATES
   // Track the link that will be ads using the asset, if there isn't a
   // priority set at the asset level, use the artist priority instead
@@ -106,16 +104,34 @@ function PostItem({
   }
   const orderedInsights = orderInsights(post.insights)
 
+  // Selected class
+  const enabledClass = React.useMemo(() => {
+    return enabled ? styles.enabled : styles.disabled
+  }, [enabled])
+
   return (
     <li
-      className={['tile', styles[selected], styles.postItem, singular, className].join(' ')}
-      style={{ padding: 0 }}
+      className={[styles.postItem, enabledClass, className].join(' ')}
     >
+      {/* TOP BAR */}
+      <div className={styles.topBar}>
+        <PostMetaData
+          platform={post.platform}
+          date={post.published_time}
+          permalink={post.permalink_url}
+        />
+        <PostToggle
+          post={post}
+          togglePromotion={togglePromotion}
+          promotionEnabled={post.promotion_enabled}
+        />
+      </div>
 
-      <PostToggle
-        post={post}
-        togglePromotion={togglePromotion}
-        promotionEnabled={post.promotion_enabled}
+      {/* POST CONTENTS */}
+      <PostContents
+        media={post.media}
+        thumbnailSrc={post._metadata.thumbnail_url}
+        caption={post.short_message.join('\n')}
       />
 
       {/* Media */}

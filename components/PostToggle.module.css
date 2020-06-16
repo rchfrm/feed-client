@@ -6,9 +6,6 @@
   border-radius: 50px;
   overflow: hidden;
   transform: translate3d(0, 0, 0);
-  /* backface-visibility: hidden; */
-
-  margin: var(--sp-4)
 }
 
 .background {
