@@ -56,74 +56,7 @@
   }
 }
 
-.postSingle {
-  /* Force gap to the right */
-  position: relative;
-  overflow: visible;
-  max-width: 480px;
 
-  &:last-child::after {
-    content: ' ';
-    position: absolute;
-    width: var(--sp-8);
-    height: 100%;
-    background: pink;
-    right: calc(-1 * var(--sp-8));
-  }
-
-  @media (--md) {
-    width: 100% !important;
-    max-width: none;
-    margin-right: 0 !important;
-
-    &:last-child::after {
-      display: none;
-    }
-  }
-}
-
-
-/* POST METADATA AND TOGGLE*/
-.post-meta {
-  flex: auto;
-  display: flex;
-  align-items: center;
-  
-  :global(svg) {
-    margin-right: 10px;
-    vertical-align: sub;
-  }
-  
-  .a {
-    text-decoration: none;
-    .deselected & {
-      color: var(--grey);
-    }
-  }
-}
-
-.postDate {
-  font-size: 0.8em;
-
-  @media (--xxs) {
-    font-size: 1em;
-  }
-}
-
-
-.post-meta .a:hover {
-  text-decoration: underline;
-
-  .deselected & {
-    color: var(--grey-dark);
-  }
-}
-
-.permalinkAndToggle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 
 /* POST MEDIA */
@@ -131,7 +64,7 @@
 .post-media {
   margin: 0 1.5em 1.5em 1.5em;
   
-  .deselected & {
+  .disabled & {
     filter: grayscale(1);
   }
 }
@@ -153,7 +86,7 @@
 .post-message,
 .post-insights,
 .post-es {
-  .deselected & {
+  .disabled & {
     color: var(--grey);
   }
 }
@@ -163,14 +96,14 @@
 .post-link {
   padding: 1.5em;
 
-  .deselected & {
+  .disabled & {
     color: var(--grey-dark);
   }
 
 
   .a,
   .select--box {
-    .deselected & {
+    .disabled & {
       color: var(--grey-dark);
       text-decoration: none;
     }
@@ -183,7 +116,7 @@
       }
     }
 
-    .deselected & {
+    .disabled & {
       pointer-events: none;
       opacity: 0;
     }
@@ -205,7 +138,7 @@
     text-transform: capitalize;
   }
 
-  .deselected & {
+  .disabled & {
     :global(.select--box) {
       border: 1px dotted var(--grey-dark);
       pointer-events: none;
@@ -237,7 +170,7 @@
   margin-top: 1.5em;
   margin-bottom: 1em;
 
-  .deselected & {
+  .disabled & {
     border: 1px solid var(--grey);
   }
 }
