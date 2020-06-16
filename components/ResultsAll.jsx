@@ -136,7 +136,7 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
   const title = active ? 'active posts.' : 'archive.'
 
   const getResultEl = (post, summary) => {
-    console.log('post', post)
+    const { id, promotion_enabled, attachments, adcreative, _metadata, message } = post
     const { id, promotion_enabled, attachments, adcreative, _metadata } = post
     const media = attachments && attachments.length ? attachments[0] : null
     const thumbnailSrc = adcreative.thumbnail_url
@@ -154,6 +154,7 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
         media={media}
         thumbnailSrc={thumbnailSrc}
         thumbnailSrcBackup={thumbnailSrcBackup}
+        postCaptionn={message}
       />
     )
   }

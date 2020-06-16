@@ -120,6 +120,7 @@ const ResultsSingle = ({
   media,
   thumbnailSrc,
   thumbnailSrcBackup,
+  postCaption,
 }) => {
   const { artist } = React.useContext(ArtistContext)
 
@@ -130,7 +131,8 @@ const ResultsSingle = ({
     return {
       mediaSrc,
       thumbnailSrc: thumbnailSrc || thumbnailSrcBackup || utils.findPostThumbnail(media),
-      title,
+      thumbnailOptions,
+      title: postCaption,
     }
   }, [media, thumbnailSrc, thumbnailSrcBackup])
 
@@ -191,6 +193,7 @@ ResultsSingle.propTypes = {
   promotion_enabled: PropTypes.bool,
   togglePost: PropTypes.func.isRequired,
   summary: PropTypes.object.isRequired,
+  postCaption: PropTypes.string,
 }
 
 ResultsSingle.defaultProps = {
