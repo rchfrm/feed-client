@@ -111,29 +111,28 @@ function Days({ days, active }) {
 }
 
 const ResultsSingle = ({
-  thumbnail,
   active,
-  attachments,
   id,
   promotion_enabled,
   togglePost,
   summary,
   className,
+  media,
+  thumbnailSrc,
+  thumbnailSrcBackup,
 }) => {
   const { artist } = React.useContext(ArtistContext)
 
   // GET MEDIA PROPS
   const mediaProps = React.useMemo(() => {
-    const firstAttachment = attachments.length ? attachments[0] : null
-    const mediaSrc = utils.findPostMedia(firstAttachment) || thumbnail
-    const thumbnailSrc = thumbnail || utils.findPostThumbnail(firstAttachment)
+    const mediaSrc = utils.findPostMedia(media) || thumbnailSrc
     const title = ''
     return {
       mediaSrc,
-      thumbnailSrc,
+      thumbnailSrc: thumbnailSrc || thumbnailSrcBackup || utils.findPostThumbnail(media),
       title,
     }
-  }, [attachments, thumbnail])
+  }, [media, thumbnailSrc, thumbnailSrcBackup])
 
   const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
 
@@ -155,6 +154,7 @@ const ResultsSingle = ({
           <ExternalMedia
             mediaSrc={mediaProps.mediaSrc}
             thumbnailSrc={mediaProps.thumbnailSrc}
+            thumbnailSrcBackup={thumbnailSrcBackup}
             title={mediaProps.title}
           />
         </div>

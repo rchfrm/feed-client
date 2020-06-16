@@ -136,18 +136,24 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
   const title = active ? 'active posts.' : 'archive.'
 
   const getResultEl = (post, summary) => {
+    console.log('post', post)
+    const { id, promotion_enabled, attachments, adcreative, _metadata } = post
+    const media = attachments && attachments.length ? attachments[0] : null
+    const thumbnailSrc = adcreative.thumbnail_url
+    const thumbnailSrcBackup = _metadata.thumbnail_url
     return (
       <ResultsSingle
         className="col-span-6"
-        key={post.id}
+        key={id}
         active={active}
-        attachments={post.attachments}
-        id={post.id}
+        id={id}
         priority_dsp={post.priority_dsp || artist.priority_dsp}
-        promotion_enabled={post.promotion_enabled}
+        promotion_enabled={promotion_enabled}
         togglePost={togglePost}
         summary={summary}
-        thumbnail={post._metadata.thumbnail_url}
+        media={media}
+        thumbnailSrc={thumbnailSrc}
+        thumbnailSrcBackup={thumbnailSrcBackup}
       />
     )
   }
