@@ -75,9 +75,9 @@ It’s easy to change your budget from the posts page. If you want to turn off d
 
   [
     `#### How long will it take to build my audience?`,
-    `It’s early days, but the first people using Feed are on track to double their audience across platforms in less than a year. 
+    `It’s early days, but the first people using **Feed** are on track to double their audience across platforms in less than a year. 
 
-We built Feed to help you build an audience of real people, not a bunch of fake followers. In other words, people who will engage with you and your work, and become followers, fans or customers - whatever is important to you! 
+We built **Feed** to help you build an audience of real people, not a bunch of fake followers. In other words, people who will engage with you and your work, and become followers, fans or customers - whatever is important to you! 
     
 We believe a steady and patient approach pays off in the long-run. Try smoothing your spend out over a longer period, rather than blowing your entire marketing budget in a few days around a key event. You can still increase your spend around these events, just make sure you keep something back for the ‘in between’ periods.`,
   ],
