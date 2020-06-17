@@ -85,7 +85,7 @@
  * Breakpoints.
  */
 
-@custom-media --iphone6 (width >= 321px);
+@custom-media --iphone6 (width >= 320px);
 @custom-media --xxsMax (width < 450px);
 @custom-media --xxs    (width >= 450px);
 @custom-media --min-content (width >= 540px);
@@ -93,8 +93,8 @@
 @custom-media --xs     (width >= 600px);
 @custom-media --smMax  (width < 800px);
 @custom-media --sm     (width >= 800px);
-@custom-media --mdMax  (width <= 992px);
-@custom-media --md     (width > 992px);
+@custom-media --mdMax  (width < 992px);
+@custom-media --md     (width >= 992px);
 @custom-media --lgMax  (width < 1200px);
 @custom-media --lg     (width >= 1200px);
 @custom-media --bmwMax (width < 1440px);
