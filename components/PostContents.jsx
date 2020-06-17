@@ -7,12 +7,19 @@ import styles from '@/PostItem.module.css'
 
 const PostContents = ({ media, thumbnailSrc, caption, className }) => {
   return (
-    <div className={[styles.postContents, className].join(' ')}>
-      <PostImage
-        mediaSrc={media}
-        thumbnailSrc={thumbnailSrc}
-        title={caption}
-      />
+    <div className={[styles.postContents, styles.postSection, className].join(' ')}>
+      <div className={styles.postImageContainer}>
+        <PostImage
+          mediaSrc={media}
+          thumbnailSrc={thumbnailSrc}
+          title={caption}
+        />
+      </div>
+      {caption && (
+        <figcaption className={styles.postCaption}>
+          {caption}
+        </figcaption>
+      )}
     </div>
   )
 }
