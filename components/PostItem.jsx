@@ -5,8 +5,9 @@ import PostToggle from '@/PostToggleNew'
 import PostMetaData from '@/PostMetaData'
 import PostContents from '@/PostContents'
 import PostMetrics from '@/PostMetrics'
+import PostLink from '@/PostLink'
 import PostLinkAddUrl from '@/PostLinkAddUrl'
-import PostLinkOptions from '@/PostLinkOptions'
+import PostLinkOptions from '@/PostLinkOptionsNew'
 // import PostInsight from '@/PostInsight'
 
 // IMPORT CONTEXTS
@@ -18,8 +19,6 @@ import Error from '@/elements/Error'
 import * as utils from '@/helpers/utils'
 // IMPORT STYLES
 import styles from '@/PostItem.module.css'
-// IMPORT CONSTANTS
-import brandColors from '@/constants/brandColors'
 
 
 function PostItem({
@@ -96,7 +95,14 @@ function PostItem({
       />
 
       {/* Post Link */}
-      <div className={styles['post-link']} style={{ backgroundColor: brandColors.grey }}>
+      <PostLink
+        postId={post.id}
+        postIndex={index}
+        priorityDsp={post.priority_dsp}
+        updateLink={updateLink}
+        setError={setError}
+      />
+      {/* <div className={styles['post-link']} style={{ backgroundColor: brandColors.grey }}>
 
         <p>Where should people go when they click this post?</p>
 
@@ -112,7 +118,6 @@ function PostItem({
           updateLink={updateLink}
         />
 
-        {/* Show add URL dialogue if triggered */}
         {addUrl && (
           <PostLinkAddUrl
             setError={setError}
@@ -126,9 +131,10 @@ function PostItem({
           />
         )}
 
-        <Error error={error} />
 
-      </div>
+      </div> */}
+
+      <Error error={error} />
 
       {children}
 
