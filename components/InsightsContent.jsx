@@ -101,17 +101,6 @@ function InsightsContent() {
             initialLoading={initialLoading}
             setInitialLoading={setInitialLoading}
           />
-          {!initialLoading && (
-            <PromotePostsButton
-              artist={artist}
-              artistId={artistId}
-              className={[
-                'lg:col-span-10',
-                'bmw:col-span-8',
-                styles.promotePostsButton,
-              ].join(' ')}
-            />
-          )}
         </div>
       )}
 
