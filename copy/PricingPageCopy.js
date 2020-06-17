@@ -10,5 +10,5 @@ In a month where you do spend money promoting posts, to cover our costs we apply
   
 At the end of each billing month, we will charge our service fee to your card and send you an invoice by email. Facebook will bill you separately for the amount spent on promoting your posts.
   
-If you think you’re going to spend more than £300 per month consistently, get in touch at [team@getfed.app](mailto:team@getfed.app) to talk about pricing options.`,
+If you think you’re going to spend more than £300 per month consistently, get in touch at [help@tryfeed.co](mailto:help@tryfeed.co) to talk about pricing options.`,
 }
