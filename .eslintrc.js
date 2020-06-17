@@ -69,6 +69,7 @@ module.exports = {
           ['@/copy', './copy'],
           ['@/constants', './constants'],
           ['@', './components'],
+          ['~', '.'],
         ],
         extensions: ['.ts', '.js', '.jsx', '.json', '.css'],
       },
