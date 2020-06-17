@@ -104,9 +104,14 @@ function PostItem({
   }
   const orderedInsights = orderInsights(post.insights)
 
-  // Selected class
+  // POST CAPTION
+  const postCaption = React.useMemo(() => {
+    return post.short_message.join('\n')
+  }, [post])
+
+  // SELECTED CLASS
   const enabledClass = React.useMemo(() => {
-    return enabled ? styles.enabled : styles.disabled
+    return enabled ? styles._enabled : styles._disabled
   }, [enabled])
 
   return (
@@ -114,7 +119,7 @@ function PostItem({
       className={[styles.postItem, enabledClass, className].join(' ')}
     >
       {/* TOP BAR */}
-      <div className={styles.topBar}>
+      <div className={[styles.topBar, styles.postSection].join(' ')}>
         <PostMetaData
           platform={post.platform}
           date={post.published_time}
@@ -127,11 +132,13 @@ function PostItem({
         />
       </div>
 
-      {/* POST CONTENTS */}
+      {/* IMAGE AND CONTENTS */}
       <PostContents
         media={post.media}
         thumbnailSrc={post._metadata.thumbnail_url}
-        caption={post.short_message.join('\n')}
+        caption={postCaption}
+        className={!postCaption ? styles._noCaption : ''}
+      />
       />
 
       {/* Media */}
