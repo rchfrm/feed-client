@@ -1,13 +1,13 @@
-
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
 import PostToggle from '@/PostToggleNew'
 import PostMetaData from '@/PostMetaData'
 import PostContents from '@/PostContents'
+import PostMetrics from '@/PostMetrics'
 import PostLinkAddUrl from '@/PostLinkAddUrl'
 import PostLinkOptions from '@/PostLinkOptions'
-import PostInsight from '@/PostInsight'
+// import PostInsight from '@/PostInsight'
 
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/Artist'
@@ -20,40 +20,6 @@ import * as utils from '@/helpers/utils'
 import styles from '@/PostItem.module.css'
 // IMPORT CONSTANTS
 import brandColors from '@/constants/brandColors'
-
-
-function PostMessage({
-  message,
-}) {
-  if (!message.length) return null
-  return (
-    <div className={styles['post-message']}>
-      <p className={styles.p}>
-        "
-        {message.join('\n')}
-        "
-      </p>
-    </div>
-  )
-}
-
-function PostMetrics({
-  orderedInsights,
-  es,
-}) {
-  return (
-    <div className={styles['post-metrics']}>
-      <div className={styles['post-insights']}>
-        <PostInsight title={orderedInsights[0].name} number={orderedInsights[0].value} />
-        <PostInsight title={orderedInsights[1].name} number={orderedInsights[1].value} />
-      </div>
-
-      <div className={styles['post-es']}>
-        {utils.abbreviateNumber(es)}
-      </div>
-    </div>
-  )
-}
 
 
 function PostItem({
@@ -80,28 +46,8 @@ function PostItem({
   // Errors
   const [error, setError] = React.useState(null)
 
-  // Oder post insights, so that highest figures are shown first
-  const orderInsights = (insights) => {
-    const insightNames = Object.keys(insights)
-    const insightsArr = insightNames.reduce((arr, name) => {
-      if (
-        name.indexOf('impression') === -1
-        && name !== 'engagement_score'
-        && name.indexOf('post') === -1
-      ) {
-        return [...arr, {
-          name,
-          value: insights[name],
-        }]
-      }
-      return arr
-    }, [])
-
-    return insightsArr.sort((a, b) => {
-      return b.value - a.value
-    })
-  }
-  const orderedInsights = orderInsights(post.insights)
+  // PROMOTABLE STATE
+  const { is_promotable: postPromotable } = post
 
   // POST CAPTION
   const postCaption = React.useMemo(() => {
@@ -112,6 +58,8 @@ function PostItem({
   const enabledClass = React.useMemo(() => {
     return enabled ? styles._enabled : styles._disabled
   }, [enabled])
+
+  console.log('post', post)
 
   return (
     <li
@@ -138,6 +86,13 @@ function PostItem({
         caption={postCaption}
         className={!postCaption ? styles._noCaption : ''}
       />
+
+      {/* METRICS */}
+      <PostMetrics
+        insights={post.insights}
+        es={post.insights.engagement_score}
+        status={post.promotion_enabled}
+        postPromotable={postPromotable}
       />
 
       {/* Post Link */}
@@ -174,9 +129,6 @@ function PostItem({
         <Error error={error} />
 
       </div>
-
-      {/* Post Metrics */}
-      <PostMetrics es={post.insights.engagement_score} orderedInsights={orderedInsights} />
 
       {children}
 

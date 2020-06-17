@@ -25,7 +25,7 @@ const PostContents = ({ media, thumbnailSrc, caption, className }) => {
 }
 
 PostContents.propTypes = {
-  media: PropTypes.object.isRequired,
+  media: PropTypes.string.isRequired,
   thumbnailSrc: PropTypes.string,
   caption: PropTypes.string,
   className: PropTypes.string,

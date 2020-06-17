@@ -98,3 +98,38 @@
     padding-left: var(--sp-5);
   }
 }
+
+/* METRICS */
+/* **************************** */
+.postMetrics {
+  font-size: 0.9em;
+  margin-bottom: -0.5em !important;
+}
+
+.postMetricsItem {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: baseline;
+  margin-bottom: 0.5em;
+
+  .line {
+    flex-grow: 1;
+    height: 1px;
+    margin: 0 0.3em;
+    background-color: var(--grey);
+    display: none;
+  }
+
+  .title {
+    margin-right: 0.3em;
+  }
+
+  .value {
+    font-weight: var(--bold);
+    transform: translateY(0.02em);
+  }
+}
+
+.postMetricsUnpromotable {
+  color: var(--error-color);
+}
