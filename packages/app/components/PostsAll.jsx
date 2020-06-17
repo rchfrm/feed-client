@@ -72,7 +72,7 @@ function PostsAll({
   // Setup intersection observer
   const { width: windowWidth } = useOnResize(300)
   React.useEffect(() => {
-    const root = windowWidth > 992 ? null : intersectionRoot.current
+    const root = windowWidth >= 992 ? null : intersectionRoot.current
     // Observer options
     const options = {
       root,
@@ -126,7 +126,15 @@ function PostsAll({
 
       <ul
         id="PostsAll__scroller"
-        className={['frame', styles.posts, 'md:grid grid-cols-12 gap-8 grid-flow-row-dense'].join(' ')}
+        className={[
+          'frame',
+          'flex',
+          'md:grid',
+          'grid-cols-12',
+          'gap-8',
+          'grid-flow-row-dense',
+          styles.postsScroller,
+        ].join(' ')}
         ref={intersectionRoot}
       >
         {postsWithLoadingTrigger.map((post, index) => {

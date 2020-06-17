@@ -1,15 +1,7 @@
 @import "../../shared/css/mixins";
 
 /* POSTS PAGE */
-
-.posts-page {
-  width: 100%;
-  flex: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.posts {
+.postsScroller {
   position: relative;
   left: 50%;
   width: 100vw;
@@ -17,6 +9,7 @@
   margin-top: 0 !important;
   padding-top: 0 !important;
   padding-left: var(--sp-6) !important;
+  overflow-x: auto;
 
   @media (--sm) {
     padding-left: var(--sp-8) !important;
