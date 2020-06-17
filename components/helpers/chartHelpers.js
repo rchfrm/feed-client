@@ -202,7 +202,9 @@ const getPeriodData = (dailyData, granularity) => {
   const periodData = Object.entries(dailyData).reduce((results, [date, value]) => {
     const dateMoment = moment(date, 'YYYY-MM-DD')
     const year = dateMoment.year()
-    const period = granularity === 'months' ? dateMoment.month() : dateMoment.isoWeek()
+    const period = granularity === 'months' ? dateMoment.month()
+      : granularity === 'weeks' ? dateMoment.isoWeek()
+        : dateMoment.day()
     const payload = { period, year, date, value, dateMoment }
     // Is there already data for this period and year?
     const storedDatumIndex = results.findIndex(({ period: storedPeriod, year: storedYear }) => {
