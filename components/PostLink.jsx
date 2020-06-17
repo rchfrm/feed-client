@@ -21,6 +21,7 @@ const PostLink = ({ postId, postIndex, priorityDsp, updateLink, setError }) => {
   const postLinkUrl = artist[postLinkKey]
   // SHOULD THE ADD URL 'ALERT' BE SHOWN
   const [addUrl, setAddUrl] = React.useState(false)
+  // Get the height of the main content
 
   return (
     <div className={[styles.postLink, styles.postSection].join(' ')}>
@@ -74,9 +75,14 @@ const PostLink = ({ postId, postIndex, priorityDsp, updateLink, setError }) => {
 PostLink.propTypes = {
   postId: PropTypes.string.isRequired,
   postIndex: PropTypes.number.isRequired,
-  priorityDsp: PropTypes.string.isRequired,
+  priorityDsp: PropTypes.string,
   updateLink: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
 }
+
+PostLink.defaultProps = {
+  priorityDsp: '',
+}
+
 
 export default PostLink
