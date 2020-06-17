@@ -43,7 +43,6 @@
   align-items: center;
   
   border-bottom: 2px solid var(--text-color);
-  box-shadow: 0px 4px 8px color-mod(var(--text-color) alpha(0.2));
 }
 
 /* META */
@@ -74,6 +73,7 @@
 /* **************************** */
 .postContents {
   display: flex;
+  position: relative;
   align-items: center;
   border-bottom: 2px solid var(--text-color);
 
@@ -83,6 +83,25 @@
 
   &._noCaption {
     justify-content: center;
+  }
+
+  /* Gradient */
+  &::before,
+  &::after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--sp-4);
+    background: linear-gradient(to bottom, black, cubic-bezier(0.2, 0.13, 0.49, 0.8), transparent);
+    opacity: 0.08;
+  }
+
+  &::after {
+    top: auto;
+    bottom: 0;
+    transform: rotate(180deg);
   }
 }
 
