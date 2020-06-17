@@ -3,7 +3,7 @@ import * as ROUTES from '@/constants/routes'
 
 export default {
   budgetIntro: `Enter the amount you'd like to spend each day:`,
-  budgetOutro: (minBudget) => `A higher budget lets Feed reach more people, but even a smaller amount can have a big impact. 
+  budgetOutro: (minBudget) => `A higher budget lets **Feed** reach more people, but even a smaller amount can have a big impact. 
 
 We recommend at least ${minBudget}/day, which means Feed can target new people and also retarget those who have engaged with you before.
 
