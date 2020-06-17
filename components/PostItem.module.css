@@ -3,6 +3,8 @@
   position: relative;
   overflow: visible;
   max-width: 480px;
+  width: 110vw;
+  flex-shrink: 0;
 
   border: 2px solid var(--text-color);
   border-radius: var(--dialogue-radius);
@@ -17,7 +19,7 @@
   }
 
   @media (--md) {
-    width: 100% !important;
+    width: 100%;
     max-width: none;
     margin-right: 0 !important;
 
