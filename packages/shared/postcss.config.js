@@ -5,6 +5,7 @@ module.exports = (path) => ({
     'postcss-mixins',
     'postcss-calc',
     'postcss-extend',
+    'postcss-easing-gradients',
     ['postcss-color-mod-function', {
       importFrom: [
         `${path}/css/vars.css`,
