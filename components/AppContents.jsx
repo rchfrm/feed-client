@@ -10,6 +10,7 @@ import PopupModal from '@/PopupModal'
 import TheHeader from '@/TheHeader'
 import ThePageButtons from '@/ThePageButtons'
 import TheFooter from '@/TheFooter'
+import BrowserStoreSetup from '@/BrowserStoreSetup'
 // IMPORT LOCAL STATE
 import popupStore from '@/store/popupStore'
 
@@ -37,6 +38,8 @@ const AppContents = ({ children }) => {
           </ArtistProvider>
         </UserProvider>
       </InterfaceContextProvider>
+      {/* Setup browser store */}
+      <BrowserStoreSetup />
     </div>
   )
 }
