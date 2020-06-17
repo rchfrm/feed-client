@@ -19,8 +19,6 @@ import * as utils from '@/helpers/utils'
 import ExternalMedia from '@/elements/ExternalMedia'
 // IMPORT STYLES
 import styles from '@/PostItem.module.css'
-// IMPORT CONSTANTS
-import brandColors from '@/constants/brandColors'
 
 
 function PostMessage({
@@ -155,7 +153,14 @@ function PostItem({
       </div>
 
       {/* Post Link */}
-      <div className={styles['post-link']} style={{ backgroundColor: brandColors.grey }}>
+      <PostLink
+        postId={post.id}
+        postIndex={index}
+        priorityDsp={post.priority_dsp}
+        updateLink={updateLink}
+        setError={setError}
+      />
+      {/* <div className={styles['post-link']} style={{ backgroundColor: brandColors.grey }}>
 
         <p>Where should people go when they click this post?</p>
 
@@ -171,7 +176,6 @@ function PostItem({
           updateLink={updateLink}
         />
 
-        {/* Show add URL dialogue if triggered */}
         {addUrl && (
           <PostLinkAddUrl
             setError={setError}
@@ -185,9 +189,10 @@ function PostItem({
           />
         )}
 
-        <Error error={error} />
 
-      </div>
+      </div> */}
+
+      <Error error={error} />
 
       {/* Post Metrics */}
       <PostMetrics es={post.insights.engagement_score} orderedInsights={orderedInsights} />

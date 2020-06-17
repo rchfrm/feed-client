@@ -117,3 +117,75 @@
     padding-left: var(--sp-5);
   }
 }
+
+/* METRICS */
+/* **************************** */
+.postMetrics {
+  font-size: 0.9em;
+  margin-bottom: -0.5em !important;
+}
+
+.postMetricsItem {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: baseline;
+  margin-bottom: 0.5em;
+
+  .line {
+    flex-grow: 1;
+    height: 1px;
+    margin: 0 0.3em;
+    background-color: var(--grey);
+    display: none;
+  }
+
+  .title {
+    margin-right: 0.3em;
+  }
+
+  .value {
+    font-weight: var(--bold);
+    transform: translateY(0.02em);
+  }
+}
+
+.postMetricsUnpromotable {
+  color: var(--error-color);
+}
+
+/* LINKS */
+/* ******************** */
+.postLink {
+  border-top: 2px solid var(--text-color);
+  background-color: var(--text-color);
+  color: var(--bg-color);
+
+  a {
+    text-decoration: none;
+    padding-bottom: 0.1em;
+  }
+}
+
+.postLinkTopBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.postLinkAnchor {
+  display: inline-flex;
+  align-items: baseline;
+  padding-left: 0.1em;
+  color: inherit;
+  border-bottom: 1px solid var(--bg-color);
+
+  svg {
+    margin-right: 0.3em;
+    height: 0.75em;
+    width: auto;
+  }
+}
+
+.postLinkEditButton {
+  color: var(--green);
+  border-bottom: 1px solid var(--green);
+}

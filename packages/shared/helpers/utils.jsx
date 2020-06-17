@@ -96,10 +96,7 @@ export const extractPlatformFromPriorityDSP = (priorityDSP) => {
   if (priorityDSP === 'facebook_page_url') {
     return 'facebook'
   }
-
-  const endOfPlatform = priorityDSP.indexOf('_url')
-
-  return priorityDSP.slice(0, endOfPlatform)
+  return priorityDSP.replace('_url', '')
 }
 
 export const filterArtistUrls = (artist) => {
