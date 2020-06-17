@@ -11,7 +11,7 @@ export default [
     `#### My Instagram data and/or posts aren't appearing`,
     `It's likely that your Facebook Page and Instagram business profile are not quite fully linked. Luckily it's a quick fix! [Adding your Instagram account to your Facebook Page](https://www.facebook.com/business/help/898752960195806) only takes a couple of minutes.
 
-We’re working on something that will then let you refresh your account within Feed, but for now just email us at [team@archform.ltd](mailto:team@archform.ltd) once this is done and we’ll sort everything our end.`,
+We’re working on something that will then let you refresh your account within **Feed**, but for now just email us at [help@tryfeed.co](mailto:help@tryfeed.co) once this is done and we’ll sort everything our end.`,
   ],
 
   [
