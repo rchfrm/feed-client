@@ -43,7 +43,7 @@ const getMediaEl = ({
         className="center--image"
         src={src}
         poster={thumbnailSrc}
-        onError={handleError}
+        onError={() => handleError('video')}
         width="100%"
         controls
         playsInline
@@ -58,7 +58,13 @@ const getMediaEl = ({
       className="center--image"
       src={thumbnailSrc}
       alt={title}
-      onError={handleError}
+      onError={() => handleError('thumb')}
+      onLoad={({ target }) => {
+        // Handle 1px FB safe images
+        if (target.naturalHeight === 1) {
+          handleError('thumb')
+        }
+      }}
     />
   )
 }
@@ -83,14 +89,14 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
   // Handle media error
   const [videoError, setVideoError] = React.useState(false)
   const [thumbError, setThumbError] = React.useState(false)
-  const handleError = React.useCallback(() => {
+  const handleError = React.useCallback((errorType) => {
     // If error with a video, fallback to basic image
-    if (mediaType === 'video' && !videoError) {
+    if (errorType === 'video') {
       setVideoError(true)
       return
     }
     setThumbError(true)
-  }, [mediaType, videoError])
+  }, [])
 
   // Swap to backup thumb src if first errors
   React.useEffect(() => {
