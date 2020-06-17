@@ -18,7 +18,7 @@ We’re working on something that will then let you refresh your account within 
     `#### Changing the links shown in my ads`,
     `The experience of a potential fan or customer clicking to an external website is much better than being taken to your Instagram profile when they click ‘Learn more’. People can always navigate to your Instagram profile anyway by clicking on your profile pic on the promoted post.
 
-You can add links from ‘Post settings’ on the [posts page](${ROUTES.POSTS}). From here, you can also change the default link - when you scroll down the list of links, the default link is shown by the asterisk (*) on the left.  Feed will then add this link by default to your future promoted posts. 
+You can add links from ‘Post settings’ on the [posts page](${ROUTES.POSTS}). From here, you can also change the default link - when you scroll down the list of links, the default link is shown by the asterisk (*) on the left.  **Feed** will then add this link by default to your future promoted posts. 
     
 If you want the link on a specific post to be different to the default link, just head to the posts page and change the link on the post itself.  
     `,
