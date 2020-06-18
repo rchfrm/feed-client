@@ -48,6 +48,10 @@
   .text--block {
     margin-bottom: 0;
   }
+
+  .error {
+    margin-bottom: var(--sp-4);
+  }
 }
 
 .alert--inner_content {
@@ -72,6 +76,7 @@
   justify-content: space-between;
   flex-direction: row-reverse;
   width: 100%;
+  padding-right: var(--sp-10);
 }
 
 
