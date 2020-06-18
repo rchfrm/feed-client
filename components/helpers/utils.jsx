@@ -446,6 +446,21 @@ export const getMinBudget = (amount, currencyCode, currencyOffset) => {
 }
 
 
+// EXTERNAL URL helpers
+// ---------------------
+
+// Add a protocol if missing, else leaves the same
+/**
+ * @param {string} url
+ * @returns {string}
+ */
+export const enforceUrlProtocol = (url) => {
+  const protocolTest = /^https?:\/\//i
+  const containsProtocol = protocolTest.test(url)
+  if (containsProtocol) return url
+  return `http://${url}`
+}
+
 /**
  * @param {string} url To pass, url must include a protocol (ie, https?://)
  * @returns {boolean}
@@ -495,7 +510,7 @@ export const clearLocalStorage = () => {
   }
 }
 
-
+// Use this to parse local URLs to get path and queries
 /**
  * @param {string} urlString
  * @returns {object} {
