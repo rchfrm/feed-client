@@ -111,29 +111,30 @@ function Days({ days, active }) {
 }
 
 const ResultsSingle = ({
-  thumbnail,
   active,
-  attachments,
   id,
   promotion_enabled,
   togglePost,
   summary,
   className,
+  media,
+  thumbnailSrc,
+  thumbnailSrcBackup,
+  postCaption,
 }) => {
   const { artist } = React.useContext(ArtistContext)
 
   // GET MEDIA PROPS
   const mediaProps = React.useMemo(() => {
-    const firstAttachment = attachments.length ? attachments[0] : null
-    const mediaSrc = utils.findPostMedia(firstAttachment) || thumbnail
-    const thumbnailSrc = thumbnail || utils.findPostThumbnail(firstAttachment)
-    const title = ''
+    const mediaSrc = utils.findPostMedia(media) || thumbnailSrc
+    const thumbnailOptions = [thumbnailSrc, utils.findPostThumbnail(media), thumbnailSrcBackup]
     return {
       mediaSrc,
       thumbnailSrc,
-      title,
+      thumbnailOptions,
+      title: postCaption,
     }
-  }, [attachments, thumbnail])
+  }, [media, thumbnailSrc, thumbnailSrcBackup, postCaption])
 
   const enabledClass = promotion_enabled ? 'enabled' : 'disabled'
 
@@ -154,7 +155,7 @@ const ResultsSingle = ({
         <div className={styles['result-media']}>
           <ExternalMedia
             mediaSrc={mediaProps.mediaSrc}
-            thumbnailSrc={mediaProps.thumbnailSrc}
+            thumbnailOptions={mediaProps.thumbnailOptions}
             title={mediaProps.title}
           />
         </div>
@@ -176,28 +177,32 @@ const ResultsSingle = ({
             togglePost={togglePost}
           />
         </div>
-
       </div>
-
     </li>
   )
 }
 
 ResultsSingle.propTypes = {
-  thumbnail: PropTypes.string,
   active: PropTypes.bool,
-  attachments: PropTypes.array,
   id: PropTypes.string.isRequired,
   promotion_enabled: PropTypes.bool,
   togglePost: PropTypes.func.isRequired,
   summary: PropTypes.object.isRequired,
+  className: PropTypes.string,
+  media: PropTypes.object,
+  thumbnailSrc: PropTypes.string,
+  thumbnailSrcBackup: PropTypes.string,
+  postCaption: PropTypes.string,
 }
 
 ResultsSingle.defaultProps = {
-  thumbnail: '',
   active: false,
-  attachments: [],
   promotion_enabled: false,
+  className: '',
+  media: '',
+  thumbnailSrc: '',
+  thumbnailSrcBackup: '',
+  postCaption: '',
 }
 
 
