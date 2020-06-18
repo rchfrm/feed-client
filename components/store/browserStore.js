@@ -2,14 +2,15 @@ import create from 'zustand'
 
 import tailwindConfig from '~/tailwind.config'
 
+// GET BREAKPOINTS
 const { theme: { screens } } = tailwindConfig
-
+// Define object of keyed breakpoints breakpointName: { width }
 const breakpointsKeyed = Object.entries(screens).reduce((obj, [name, sizeString]) => {
   const size = parseInt(sizeString, 0)
   obj[size] = name
   return obj
 }, {})
-
+// Define array of size integers
 const breakpointValues = Object.keys(breakpointsKeyed).reduce((arr, size) => {
   return [...arr, parseInt(size, 0)]
 }, [])
@@ -19,6 +20,7 @@ const [useBrowserStore, browserStoreApi] = create(set => ({
     width: 0,
     height: 0,
     breakpoint: '',
+    device: {},
   },
   setDimensions: (width, height) => set((state) =>
     ({ browser: { ...state.browser, width, height } })),
@@ -35,8 +37,8 @@ const [useBrowserStore, browserStoreApi] = create(set => ({
     const breakpoint = breakpointsKeyed[largestMatching]
     return { browser: { ...state.browser, breakpoint } }
   }),
-  setDevice: (contentType) => set({ contentType }),
-  clear: () => set({ content: null, contentType: '' }),
+  setDevice: (device) => set((state) =>
+    ({ browser: { ...state.browser, device } })),
 }))
 
 export default [useBrowserStore, browserStoreApi]
