@@ -218,3 +218,17 @@
     fill: var(--white);
   }
 }
+
+/* Adding custom link ./PostLinkAddUrl.jsx */
+.PostLinkAddUrl__input,
+.PostLinkAddUrl__select {
+  width: 100%;
+
+  &:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  :global(.select--box) {
+    text-transform: capitalize;
+  }
+}

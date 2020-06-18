@@ -189,13 +189,3 @@
     margin-right: 5%;
   }
 }
-
-/* Adding custom link ./PostLinkAddUrl.jsx */
-.PostLinkAddUrl__input,
-.PostLinkAddUrl__select {
-  width: 100%;
-
-  :global(.select--box) {
-    text-transform: capitalize;
-  }
-}
