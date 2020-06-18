@@ -79,7 +79,6 @@ const getPopupMedia = ({
   )
 }
 
-
 const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }) => {
   // Remove empty and duplicate thumbnail options
   const thumbnails = React.useMemo(() => {
@@ -89,9 +88,12 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
       return [...thumbs, thumb]
     }, [])
   }, [thumbnailOptions])
+
   // Get active thumb src
   const activeThumbIndex = React.useRef(0)
   const [activeThumbSrc, setActiveThumbSrc] = React.useState(thumbnails[activeThumbIndex.current])
+
+
   // Define media type
   const mediaType = React.useMemo(() => {
     return utils.getPostMediaType(mediaSrc || activeThumbSrc)
@@ -109,15 +111,28 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
     setThumbError(true)
   }, [setVideoError])
 
+  // Swap to backup thumb src if first errors
+  React.useEffect(() => {
+    // Stop here if no thumb error
+    if (!thumbError) return
+    // Try swapping thumb src for backup
+    activeThumbIndex.current += 1
+    const nextThumbSrc = thumbnails[activeThumbIndex.current]
+    if (nextThumbSrc) {
+      setActiveThumbSrc(nextThumbSrc)
+      setThumbError(false)
+    }
+  }, [thumbError, thumbnails, setThumbError])
+
   // Get the thumbnail
   const thumbnailImageSrc = React.useMemo(() => {
     // If there is a thumbnail src, use that
-    if (setActiveThumbSrc) return setActiveThumbSrc
+    if (activeThumbSrc) return activeThumbSrc
     // If youtube, get youtube thumb
     if (mediaType === 'youtube_embed') return utils.getVideoThumb(mediaSrc)
     // If video with no src, then no thumbnail
     if (mediaType === 'video') return null
-  }, [setActiveThumbSrc, mediaType, mediaSrc])
+  }, [activeThumbSrc, mediaType, mediaSrc])
 
 
   // Test for broken videos
@@ -142,10 +157,11 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
   const setPopupContentType = popupStore(state => state.setContentType)
   const closePopup = popupStore(state => state.clear)
   const enlargeMedia = React.useCallback(() => {
-    const popupContents = getPopupMedia({ mediaSrc, mediaType, setActiveThumbSrc, closePopup, title })
+    const popupContents = getPopupMedia({ mediaSrc, mediaType, thumbnailSrc: thumbnailImageSrc, closePopup, title })
     setPopupContents(popupContents)
     setPopupContentType(mediaType)
-  }, [mediaSrc, mediaType, title, setPopupContents, setPopupContentType, closePopup])
+  }, [mediaSrc, thumbnailImageSrc, mediaType, title, setPopupContents, setPopupContentType, closePopup])
+
   // Close popup when unmounts
   React.useEffect(() => {
     return closePopup

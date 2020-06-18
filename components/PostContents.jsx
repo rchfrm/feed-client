@@ -11,7 +11,7 @@ const PostContents = ({ media, thumbnailSrc, caption, className }) => {
       <div className={styles.postImageContainer}>
         <PostImage
           mediaSrc={media}
-          thumbnailSrc={thumbnailSrc}
+          thumbnailOptions={[thumbnailSrc]}
           title={caption}
         />
       </div>
