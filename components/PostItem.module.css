@@ -45,12 +45,19 @@
   align-items: center;
   
   border-bottom: 2px solid var(--text-color);
+
+
 }
 
 /* META */
 /* ************** */
 .postMeta {
   margin-bottom: 0 !important;
+
+  /* Increase meta height if no toggle button */
+  .postItem._unpromotable & {
+    padding: 5px 0;
+  }
 
   > * {
     display: flex;

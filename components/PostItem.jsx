@@ -90,14 +90,13 @@ function PostItem({
   const postCaption = React.useMemo(() => {
     return post.short_message.join('\n')
   }, [post])
-  // SELECTED CLASS
-  const enabledClass = React.useMemo(() => {
-    return enabled ? styles._enabled : styles._disabled
-  }, [enabled])
+  // CLASSES
+  const enabledClass = enabled ? styles._enabled : styles._disabled
+  const promotableClass = postPromotable ? styles._promotable : styles._unpromotable
 
   return (
     <li
-      className={[styles.postItem, enabledClass, className].join(' ')}
+      className={[styles.postItem, enabledClass, promotableClass, className].join(' ')}
     >
       {/* TOP BAR */}
       <div className={[styles.topBar, styles.postSection].join(' ')}>
