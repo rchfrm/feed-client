@@ -12,7 +12,7 @@ const PostLinkOptions = ({
   artist,
   postLinkPlatform,
   setPostLinkPlatform,
-  setAddUrl,
+  setAdUrlDialogueOpen,
 }) => {
   const links = Object.entries(artist.URLs).reduce((allLinks, [linkType, linkValue]) => {
     if (!linkValue) return allLinks
@@ -37,7 +37,7 @@ const PostLinkOptions = ({
     setPostLinkPlatform(chosenLink)
     // Toggle choose link dialogue
     const showChooseLink = !!(chosenLink === 'add-url')
-    setAddUrl(showChooseLink)
+    setAdUrlDialogueOpen(showChooseLink)
   }
 
   return (

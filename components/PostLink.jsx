@@ -22,13 +22,13 @@ import brandColors from '@/constants/brandColors'
 import styles from '@/PostItem.module.css'
 
 const PostLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink, setError }) => {
-  const { artist } = React.useContext(ArtistContext)
+  const { artist, addArtistUrl } = React.useContext(ArtistContext)
   const [postLinkPlatform, setPostLinkPlatform] = React.useState(priorityDsp || artist.priority_dsp)
   const storedPostLinkPlatform = React.useRef(postLinkPlatform)
   const postLinkKey = utils.convertPlatformToPriorityDSP(postLinkPlatform)
   const postLinkUrl = artist[postLinkKey]
   // SHOULD THE ADD URL 'ALERT' BE SHOWN
-  const [addUrl, setAddUrl] = React.useState(false)
+  const [adUrlDialogueOpen, setAdUrlDialogueOpen] = React.useState(false)
   // TOGGLE LINK CONTENT
   const [linkPanelOpen, setLinkPanelOpen] = React.useState(false)
   const [isAnimating, setIsAnimating] = React.useState(false)
@@ -136,18 +136,20 @@ const PostLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink
             artist={artist}
             postLinkPlatform={postLinkPlatform}
             setPostLinkPlatform={setPostLinkPlatform}
-            setAddUrl={setAddUrl}
+            setAdUrlDialogueOpen={setAdUrlDialogueOpen}
           />
 
           {/* Show add URL dialogue if triggered */}
-          {addUrl && (
+          {adUrlDialogueOpen && (
             <PostLinkAddUrl
-              setError={setError}
               postId={postId}
               postIndex={postIndex}
-              postLinkPlatform={postLinkPlatform}
+              artist={artist}
+              addArtistUrl={addArtistUrl}
               setPostLinkPlatform={setPostLinkPlatform}
-              setAddUrl={setAddUrl}
+              postLinkPlatform={postLinkPlatform}
+              storedPostLinkPlatform={storedPostLinkPlatform.current}
+              setAdUrlDialogueOpen={setAdUrlDialogueOpen}
               updateLink={updateLink}
             />
           )}
