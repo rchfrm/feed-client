@@ -89,7 +89,7 @@ const getMediaEl = ({
   )
 }
 
-const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }) => {
+const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }) => {
   // Remove empty and duplicate thumbnail options
   const thumbnails = React.useMemo(() => {
     return thumbnailOptions.reduce((thumbs, thumb) => {
@@ -98,9 +98,12 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
       return [...thumbs, thumb]
     }, [])
   }, [thumbnailOptions])
+
   // Get active thumb src
   const activeThumbIndex = React.useRef(0)
   const [activeThumbSrc, setActiveThumbSrc] = React.useState(thumbnails[activeThumbIndex.current])
+
+
   // Define media type
   const mediaType = React.useMemo(() => {
     return utils.getPostMediaType(mediaSrc || activeThumbSrc)
@@ -118,15 +121,28 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
     setThumbError(true)
   }, [mediaType, videoError])
 
+  // Swap to backup thumb src if first errors
+  React.useEffect(() => {
+    // Stop here if no thumb error
+    if (!thumbError) return
+    // Try swapping thumb src for backup
+    activeThumbIndex.current += 1
+    const nextThumbSrc = thumbnails[activeThumbIndex.current]
+    if (nextThumbSrc) {
+      setActiveThumbSrc(nextThumbSrc)
+      setThumbError(false)
+    }
+  }, [thumbError, thumbnails, setThumbError])
+
   // Get the thumbnail
   const thumbnailImageSrc = React.useMemo(() => {
     // If there is a thumbnail src, use that
-    if (thumbnailSrc) return thumbnailSrc
+    if (activeThumbSrc) return activeThumbSrc
     // If youtube, get youtube thumb
     if (mediaType === 'youtube_embed') return utils.getVideoThumb(mediaSrc)
     // If video with no src, then no thumbnail
     if (mediaType === 'video') return null
-  }, [thumbnailSrc, mediaType, mediaSrc])
+  }, [activeThumbSrc, mediaType, mediaSrc])
 
 
   // Test for broken videos
@@ -139,9 +155,11 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
   const setPopupContents = popupStore(state => state.setContent)
   const closePopup = popupStore(state => state.clear)
   const enlargeMedia = React.useCallback(() => {
-    const popupContents = getMediaEl({ mediaSrc, mediaType, thumbnailSrc, title, className, thumbError, videoError, handleError })
+    const popupContents = getPopupMedia({ mediaSrc, mediaType, thumbnailSrc: thumbnailImageSrc, closePopup, title })
     setPopupContents(popupContents)
-  }, [mediaSrc, mediaType, thumbnailSrc, title, className, thumbError, videoError, handleError])
+    setPopupContentType(mediaType)
+  }, [mediaSrc, thumbnailImageSrc, mediaType, title, setPopupContents, setPopupContentType, closePopup])
+
   // Close popup when unmounts
   React.useEffect(() => {
     return () => {
