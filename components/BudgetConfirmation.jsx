@@ -16,10 +16,10 @@ const getBudgetAction = (previousBudget, newBudget) => {
   if (previousBudget < newBudget) return 'Daily budget increased'
 }
 
-function BudgetConfirmation({ budget, previousBudget, artistId }) {
+function BudgetConfirmation({ budget, previousBudget, artistId, artistCurrency }) {
   const budgetInt = Number(budget)
   // Message for setting budget to positive number
-  const budgetFormatted = utils.formatCurrency(budget)
+  const budgetFormatted = utils.formatCurrency(budget, artistCurrency)
 
   // Message for setting budget to 0
   if (budgetInt === 0) {

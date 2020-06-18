@@ -137,7 +137,14 @@ function BudgetContent() {
     setAlert({
       type: 'show-alert',
       payload: {
-        contents: <BudgetConfirmation budget={dailyBudget} previousBudget={previousBudget} artistId={artistId} />,
+        contents: (
+          <BudgetConfirmation
+            budget={dailyBudget}
+            previousBudget={previousBudget}
+            artistId={artistId}
+            artistCurrency={artistCurrency}
+          />
+        ),
       },
     })
   }
