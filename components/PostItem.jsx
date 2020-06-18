@@ -5,9 +5,8 @@ import React from 'react'
 import PostToggle from '@/PostToggleNew'
 import PostMetaData from '@/PostMetaData'
 import PostContents from '@/PostContents'
-import PostLinkAddUrl from '@/PostLinkAddUrl'
-import PostLinkOptions from '@/PostLinkOptions'
-import PostInsight from '@/PostInsight'
+import PostMetrics from '@/PostMetrics'
+import PostLink from '@/PostLink'
 
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/Artist'
@@ -165,37 +164,6 @@ function PostItem({
           setError={setError}
         />
       )}
-      {/* <div className={styles['post-link']} style={{ backgroundColor: brandColors.grey }}>
-
-        <p>Where should people go when they click this post?</p>
-
-        <PostLinkOptions
-          setError={setError}
-          postId={post.id}
-          currentLink={currentLink}
-          setCurrentLink={setCurrentLink}
-          chosenLink={chosenLink}
-          setChosenLink={setChosenLink}
-          index={index}
-          setAddUrl={setAddUrl}
-          updateLink={updateLink}
-        />
-
-        {addUrl && (
-          <PostLinkAddUrl
-            setError={setError}
-            postId={post.id}
-            index={index}
-            currentLink={currentLink}
-            setCurrentLink={setCurrentLink}
-            setChosenLink={setChosenLink}
-            setAddUrl={setAddUrl}
-            updateLink={updateLink}
-          />
-        )}
-
-
-      </div> */}
 
       <Error error={error} />
 
