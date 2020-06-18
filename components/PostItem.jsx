@@ -159,6 +159,7 @@ function PostItem({
         <PostLink
           postId={post.id}
           postIndex={index}
+          promotionEnabled={post.promotion_enabled}
           priorityDsp={post.priority_dsp}
           updateLink={updateLink}
           setError={setError}
