@@ -124,11 +124,13 @@ function PostItem({
           date={post.published_time}
           permalink={post.permalink_url}
         />
-        <PostToggle
-          post={post}
-          togglePromotion={togglePromotion}
-          promotionEnabled={post.promotion_enabled}
-        />
+        {postPromotable && (
+          <PostToggle
+            post={post}
+            togglePromotion={togglePromotion}
+            promotionEnabled={post.promotion_enabled}
+          />
+        )}
       </div>
 
       {/* IMAGE AND CONTENTS */}
