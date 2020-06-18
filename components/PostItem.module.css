@@ -159,7 +159,10 @@
 }
 
 .postMetricsUnpromotable {
+  width: 100%;
+  text-align: center;
   color: var(--error-color);
+  justify-content: center;
 }
 
 /* LINKS */
