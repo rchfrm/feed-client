@@ -4,13 +4,33 @@ import { Portal } from 'react-portal'
 
 import CloseCircle from '@/icons/CloseCircle'
 
+import useBrowserStore from '@/hooks/useBrowserStore'
+
 import popupStore from '@/store/popupStore'
 
 import styles from '@/PopupModal.module.css'
 
-const PopupModal = () => {
+const PopupModal = ({ contentType }) => {
   const content = popupStore(state => state.content)
   const closePopup = popupStore(state => state.clear)
+
+  // Resize iframe container
+  const { width: windowWidth, height: windowHeight } = useBrowserStore()
+  const iframeContainer = React.useRef(null)
+  const innerEl = React.useRef(null)
+  React.useEffect(() => {
+    if (!content || !contentType === 'iframe' || !iframeContainer.current) return
+    const ratio = 16 / 9
+    const screenRatio = windowWidth / windowHeight
+    const [paddingY, paddingX] = window.getComputedStyle(innerEl.current).padding.split(' ')
+    const maxWidth = windowWidth - (2 * parseFloat(paddingX))
+    const maxHeight = windowHeight - (2 * parseFloat(paddingY))
+    const width = screenRatio >= 1 ? maxHeight * ratio : maxWidth
+    const height = screenRatio < 1 ? maxWidth * ratio : maxHeight
+    iframeContainer.current.style.width = `${width}px`
+    iframeContainer.current.style.height = `${height}px`
+  }, [windowWidth, windowHeight, content, contentType])
+
   if (!content) return null
   return (
     <Portal>
