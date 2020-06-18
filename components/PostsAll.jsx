@@ -127,7 +127,6 @@ function PostsAll({
       <ul
         id="PostsAll__scroller"
         className={[
-          'frame',
           'flex',
           'md:grid',
           'grid-cols-12',
