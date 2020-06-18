@@ -112,6 +112,8 @@ function PostItem({
     return enabled ? styles._enabled : styles._disabled
   }, [enabled])
 
+  // console.log('post', post)
+
   return (
     <li
       className={[styles.postItem, enabledClass, className].join(' ')}
