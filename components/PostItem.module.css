@@ -182,18 +182,20 @@
   }
 }
 
+.postLinkIcon {
+  display: inline-block;
+  margin-right: 0.4em;
+  height: 0.75em;
+  width: auto;
+  transform: translateY(-0.1em);
+}
+
 .postLinkAnchor {
   display: inline-flex;
   align-items: baseline;
   padding-left: 0.1em;
   color: inherit;
   border-bottom: 1px solid var(--bg-color);
-
-  svg {
-    margin-right: 0.3em;
-    height: 0.75em;
-    width: auto;
-  }
 }
 
 .postLinkEditButton {
@@ -204,7 +206,7 @@
 /* LINKS CONTENT */
 .linkSelection__select {
   width: 100%;
-  margin-bottom: 0 !important;
+  margin-bottom: var(--sp-2) !important;
 
   :global(.select--box) {
     margin-bottom: 0 !important;
