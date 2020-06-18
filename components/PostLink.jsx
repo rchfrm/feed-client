@@ -9,15 +9,12 @@ import { ArtistContext } from '@/contexts/Artist'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
 
+import PostLinkSummary from '@/PostLinkSummary'
 import PostLinkOptions from '@/PostLinkOptions'
 import PostLinkAddUrl from '@/PostLinkAddUrl'
 
-import LinkIcon from '@/icons/LinkIcon'
-
 import * as utils from '@/helpers/utils'
 import server from '@/helpers/server'
-
-import brandColors from '@/constants/brandColors'
 
 import styles from '@/PostItem.module.css'
 
@@ -103,25 +100,13 @@ const PostLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink
       {/* Links section */}
       <div className={[styles.postLink].join(' ')} ref={containerEl}>
         <div className={[styles.postLinkTopBar, styles.postSection].join(' ')} ref={topBarEl}>
-          <p>
-            <LinkIcon fill={brandColors.bgColor} className={styles.postLinkIcon} />
-            Post links to
-            {loading || linkPanelOpen || isAnimating ? (
-              '...'
-            ) : (
-              <>
-                {' '}
-                <a
-                  href={postLinkUrl}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className={styles.postLinkAnchor}
-                >
-                  {postLinkPlatform}
-                </a>
-              </>
-            )}
-          </p>
+          <PostLinkSummary
+            loading={loading}
+            linkPanelOpen={linkPanelOpen}
+            isAnimating={isAnimating}
+            postLinkPlatform={postLinkPlatform}
+            postLinkUrl={postLinkUrl}
+          />
           {promotionEnabled && (
             <p>
               <a role="button" className={styles.postLinkEditButton} onClick={toggleLinkContent}>

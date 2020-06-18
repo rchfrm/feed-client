@@ -208,6 +208,12 @@
   }
 }
 
+.postLinkSummary {
+  display: flex;
+  align-items: baseline;
+  height: 1.4em;
+}
+
 .postLinkIcon {
   display: inline-block;
   margin-right: 0.4em;
@@ -216,10 +222,13 @@
   transform: translateY(-0.1em);
 }
 
+.postLinkEllipsis {
+  border-bottom: 1px solid transparent;
+}
+
 .postLinkAnchor {
-  display: inline-flex;
-  align-items: baseline;
-  padding-left: 0.1em;
+  display: inline-block;
+  margin-left: 0.4em;
   color: inherit;
   border-bottom: 1px solid var(--bg-color);
 }
