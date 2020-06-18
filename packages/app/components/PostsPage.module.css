@@ -16,11 +16,11 @@
   }  
 
   @media (--md) {
-    display: grid !important;
     position: static;
+    align-items: start;
+    width: 100%;
     margin-left: 0 !important;
     padding-left: 0 !important;
-    width: 100%;
   }
 }
 
