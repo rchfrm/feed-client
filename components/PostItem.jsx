@@ -95,13 +95,15 @@ function PostItem({
       />
 
       {/* Post Link */}
-      <PostLink
-        postId={post.id}
-        postIndex={index}
-        priorityDsp={post.priority_dsp}
-        updateLink={updateLink}
-        setError={setError}
-      />
+      {postPromotable && (
+        <PostLink
+          postId={post.id}
+          postIndex={index}
+          priorityDsp={post.priority_dsp}
+          updateLink={updateLink}
+          setError={setError}
+        />
+      )}
       {/* <div className={styles['post-link']} style={{ backgroundColor: brandColors.grey }}>
 
         <p>Where should people go when they click this post?</p>
