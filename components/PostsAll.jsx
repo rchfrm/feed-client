@@ -5,7 +5,7 @@ import produce from 'immer'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-import useOnResize from '@/hooks/useOnResize'
+import useBrowserStore from '@/hooks/useBrowserStore'
 // IMPORT ELEMENTS
 import Spinner from '@/elements/Spinner'
 import Button from '@/elements/Button'
@@ -70,7 +70,7 @@ function PostsAll({
   }, [loadingMore, loadMorePosts])
 
   // Setup intersection observer
-  const { width: windowWidth } = useOnResize(300)
+  const { width: windowWidth } = useBrowserStore()
   React.useEffect(() => {
     const root = windowWidth >= 992 ? null : intersectionRoot.current
     // Observer options

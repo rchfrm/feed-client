@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/Artist'
 
+import useBrowserStore from '@/hooks/useBrowserStore'
+
 import PostLinkOptions from '@/PostLinkOptionsNew'
 import PostLinkAddUrl from '@/PostLinkAddUrl'
 
@@ -14,6 +16,7 @@ import brandColors from '@/constants/brandColors'
 
 import styles from '@/PostItem.module.css'
 
+
 const PostLink = ({ postId, postIndex, priorityDsp, updateLink, setError }) => {
   const { artist } = React.useContext(ArtistContext)
   const [postLinkPlatform, setPostLinkPlatform] = React.useState(priorityDsp || artist.priority_dsp)
@@ -22,6 +25,10 @@ const PostLink = ({ postId, postIndex, priorityDsp, updateLink, setError }) => {
   // SHOULD THE ADD URL 'ALERT' BE SHOWN
   const [addUrl, setAddUrl] = React.useState(false)
   // Get the height of the main content
+  const { width } = useBrowserStore()
+  React.useEffect(() => {
+    console.log('width', width)
+  }, [width])
 
   return (
     <div className={[styles.postLink, styles.postSection].join(' ')}>

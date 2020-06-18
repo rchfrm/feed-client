@@ -4,17 +4,18 @@ import { Portal } from 'react-portal'
 
 import CloseCircle from '@/icons/CloseCircle'
 
+import useBrowserStore from '@/hooks/useBrowserStore'
+
 import popupStore from '@/store/popupStore'
 
 import styles from '@/PopupModal.module.css'
-import useOnResize from '@/hooks/useOnResize'
 
 const PopupModal = ({ content }) => {
   const contentType = popupStore(state => state.contentType)
   const closePopup = popupStore(state => state.clear)
 
   // Resize iframe container
-  const { width: windowWidth, height: windowHeight } = useOnResize()
+  const { width: windowWidth, height: windowHeight } = useBrowserStore()
   const iframeContainer = React.useRef(null)
   const innerEl = React.useRef(null)
   React.useEffect(() => {
