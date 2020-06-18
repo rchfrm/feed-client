@@ -116,29 +116,6 @@
   }
 }
 
-.linkSelection {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: var(--sp-5);  
-}
-
-.linkSelection__select {
-  width: 72.5%;
-  margin-bottom: 0 !important;
-
-  :global(.select--box) {
-    margin-bottom: 0 !important;
-    text-transform: capitalize;
-  }
-
-  .disabled & {
-    :global(.select--box) {
-      border: 1px dotted var(--grey-dark);
-      pointer-events: none;
-    }
-  }
-}
-
 .broken-circle {
   width: 25%;
   margin-bottom: 1em;

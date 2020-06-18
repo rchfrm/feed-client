@@ -200,3 +200,19 @@
   color: var(--green);
   border-bottom: 1px solid var(--green);
 }
+
+/* LINKS CONTENT */
+.linkSelection__select {
+  width: 100%;
+  margin-bottom: 0 !important;
+
+  :global(.select--box) {
+    margin-bottom: 0 !important;
+    text-transform: capitalize;
+    border: 2px solid var(--white);
+  }
+
+  :global(svg path) {
+    fill: var(--white);
+  }
+}
