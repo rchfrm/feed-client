@@ -73,7 +73,7 @@ const PostMetrics = ({ insights, es, status, postPromotable }) => {
         </>
       ) : (
         // Not promotable
-        <li className={[styles.postMetricsItem, styles.postMetricsUnpromotable].join(' ')}>
+        <li className={[styles.postMetricsItem, styles.postMetricsUnpromotable, 'col-span-2'].join(' ')}>
           <strong>Post not promotable</strong>
         </li>
       )}
