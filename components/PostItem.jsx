@@ -1,17 +1,14 @@
 
 // IMPORT PACKAGES
 import React from 'react'
+// IMPORT ELEMENTS
+import Error from '@/elements/Error'
 // IMPORT COMPONENTS
 import PostToggle from '@/PostToggleNew'
 import PostMetaData from '@/PostMetaData'
 import PostContents from '@/PostContents'
 import PostMetrics from '@/PostMetrics'
 import PostLink from '@/PostLink'
-
-// IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/Artist'
-// IMPORT ELEMENTS
-import Error from '@/elements/Error'
 // IMPORT ASSETS
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
@@ -62,19 +59,7 @@ function PostItem({
   togglePromotion,
   className = '',
   children = <></>,
-}) {
-  // IMPORT CONTEXTS
-  const { artist } = React.useContext(ArtistContext)
-  // END IMPORT CONTEXTS
-  // DEFINE STATES
-  // Track the link that will be ads using the asset, if there isn't a
-  // priority set at the asset level, use the artist priority instead
-  const initialCurrentLink = post.priority_dsp || artist.priority_dsp
-  const [currentLink, setCurrentLink] = React.useState(initialCurrentLink)
-  // Should the add url 'alert' be shown
-  const [addUrl, setAddUrl] = React.useState(false)
-  // Define state to store the chosen link
-  const [chosenLink, setChosenLink] = React.useState(currentLink)
+}) => {
   // Errors
   const [error, setError] = React.useState(null)
 
@@ -105,13 +90,10 @@ function PostItem({
   const postCaption = React.useMemo(() => {
     return post.short_message.join('\n')
   }, [post])
-
   // SELECTED CLASS
   const enabledClass = React.useMemo(() => {
     return enabled ? styles._enabled : styles._disabled
   }, [enabled])
-
-  // console.log('post', post)
 
   return (
     <li
