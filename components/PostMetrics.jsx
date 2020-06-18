@@ -50,34 +50,40 @@ const PostMetrics = ({ insights, es, status, postPromotable }) => {
   }, [insights])
 
   return (
-    <ul className={[
-      'grid',
-      'grid-cols-2',
-      'col-gap-4',
-      'md:col-gap-5',
-      styles.postMetrics,
-      styles.postSection,
-    ].join(' ')}
-    >
-      {postPromotable ? (
-        // Promotable
-        <>
-          {/* Status metric */}
-          {/* <METRICS_ITEM title="Status" value={status ? 'Active' : 'Disabled'} className="col-span-2" /> */}
-          {/* Insights metrics */}
-          {insightsArray.map(({ title, value }) => {
-            return <METRICS_ITEM key={title} title={title} value={value} />
-          })}
-          {/* ES metric */}
-          <METRICS_ITEM title="Score" value={es} className="col-span-2" />
-        </>
-      ) : (
-        // Not promotable
-        <li className={[styles.postMetricsItem, styles.postMetricsUnpromotable, 'col-span-2'].join(' ')}>
-          <strong>Post not promotable</strong>
-        </li>
-      )}
-    </ul>
+    <>
+      <ul className={[
+        'grid',
+        'grid-cols-2',
+        'col-gap-4',
+        'md:col-gap-5',
+        styles.postSection,
+        styles.postMetrics,
+      ].join(' ')}
+      >
+        {postPromotable ? (
+          // Promotable
+          <>
+            {/* Status metric */}
+            {/* <METRICS_ITEM title="Status" value={status ? 'Active' : 'Disabled'} className="col-span-2" /> */}
+            {/* Insights metrics */}
+            {insightsArray.map(({ title, value }) => {
+              return <METRICS_ITEM key={title} title={title} value={value} />
+            })}
+          </>
+        ) : (
+          // Not promotable
+          <li className={[styles.postMetricsItem, styles.postMetricsUnpromotable, 'col-span-2'].join(' ')}>
+            <strong>Post not promotable</strong>
+          </li>
+        )}
+      </ul>
+      <div className={[styles.postSection, styles.postEsScore].join(' ')}>
+        <p className={styles.postEsScorePara}>
+          <span>Score:</span>
+          <strong>{es}</strong>
+        </p>
+      </div>
+    </>
   )
 }
 
