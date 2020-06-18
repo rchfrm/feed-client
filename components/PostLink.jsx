@@ -104,6 +104,7 @@ const PostLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink
       <div className={[styles.postLink].join(' ')} ref={containerEl}>
         <div className={[styles.postLinkTopBar, styles.postSection].join(' ')} ref={topBarEl}>
           <p>
+            <LinkIcon fill={brandColors.bgColor} className={styles.postLinkIcon} />
             Post links to
             {loading || linkPanelOpen || isAnimating ? (
               '...'
@@ -116,7 +117,6 @@ const PostLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink
                   rel="noreferrer noopener"
                   className={styles.postLinkAnchor}
                 >
-                  <LinkIcon fill={brandColors.bgColor} />
                   {postLinkPlatform}
                 </a>
               </>
