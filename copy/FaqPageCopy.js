@@ -1,16 +1,27 @@
 /* eslint-disable quotes */
-// import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/constants/routes'
 
 export default [
   [
     `#### What do I need to use **Feed**?`,
     `To use **Feed**, you'll need to be an admin of a Facebook (business) Page as a minimum. If you're using Instagram, you'll need a [business profile](https://help.instagram.com/502981923235522) and make sure it's [linked to your Facebook Page](https://help.instagram.com/399237934150902). You also will need to have added your payment details in Facebook Ads Manager (see below).`,
   ],
+
   [
     `#### My Instagram data and/or posts aren't appearing`,
     `It's likely that your Facebook Page and Instagram business profile are not quite fully linked. Luckily it's a quick fix! [Adding your Instagram account to your Facebook Page](https://www.facebook.com/business/help/898752960195806) only takes a couple of minutes.
 
-We're working on something that will then let you refresh your account within **Feed**, but for now just email us at [services@archform.ltd](mailto:services@archform.ltd) once this is done and we'll sort everything our end.`,
+We’re working on something that will then let you refresh your account within **Feed**, but for now just email us at [help@tryfeed.co](mailto:help@tryfeed.co) once this is done and we’ll sort everything our end.`,
+  ],
+
+  [
+    `#### Changing the links shown in my ads`,
+    `The experience of a potential fan or customer clicking to an external website is much better than being taken to your Instagram profile when they click ‘Learn more’. People can always navigate to your Instagram profile anyway by clicking on your profile pic on the promoted post.
+
+You can add links from ‘Post settings’ on the [posts page](${ROUTES.POSTS}). From here, you can also change the default link - when you scroll down the list of links, the default link is shown by the asterisk (*) on the left.  **Feed** will then add this link by default to your future promoted posts. 
+    
+If you want the link on a specific post to be different to the default link, just head to the posts page and change the link on the post itself.  
+    `,
   ],
 
   [
@@ -21,25 +32,29 @@ It only takes a couple of minutes to do this: just add your payment method in [t
   ],
 
   [
-    `#### How can I see data over time for my social accounts?`,
-    `Make sure you've added your accounts from the ‘accounts' page. You'll start seeing data the day after you do this. Once you've been using **Feed** for long enough, we'll show you your follower and engagement data over time. The same goes for your streaming accounts, if you have them. 
-  
+    `#### How can I see data over time for my online profiles?`,
+    `Make sure you’ve added links from ‘Post settings’ on the posts page. You’ll start seeing data on the insights page the day after you do this. Once you’ve been using Feed for long enough, we’ll show you your follower and engagement data over time.
+
 To see the full history of data we have for you on any one platform (e.g. Instagram), just deselect the other platforms from the home page view.`,
   ],
 
   [
     `#### I want to change the default link shown in my ads`,
-    `You can do this from the ‘account' page - just select the icon to the left of the page you want to send people to by default. If you then want to change the link from the default link on specific posts, just set it on the ‘your posts' page.`,
+    `You can do this from the ‘Post settings’ on the [posts page](${ROUTES.POSTS}) - just select the icon to the left of the page you want to send people to by default. If you then want to change the link from the default link on specific posts, just set it on the ‘your posts’ page.`,
   ],
 
   [
     `#### What budget should I set?`,
     `With digital ads, a higher budget will let you reach more people and can build your audience faster. But even a small ad budget can have a big impact. 
-  
-We recommend spending £3/day, which lets **Feed** find new fans and also remind people who have engaged with you in the past. 
-  
-It's easy to change your budget from the ‘your posts' page. If you want to turn off digital ads for a period, just set the budget to £0. To start running ads again, just enter a budget of at least £1.`,
+
+In the UK we recommend spending £3/day, which lets Feed find new fans through its ‘Entice’ audiences and also (importantly) retarget people who have engaged with you in the past through the ‘Remind’ audience. 
+    
+In the US the recommended daily budget is $4; for Europe it’s €4. Whatever currency you’re using, you can see our recommended budget on the budget page. 
+    
+It’s easy to change your budget from the posts page. If you want to turn off digital ads for a period, just set the budget to 0. To start running ads again, just enter a budget again.
+    `,
   ],
+
 
   [
     `#### When will I start seeing results from my ads?`,
@@ -50,21 +65,21 @@ It's easy to change your budget from the ‘your posts' page. If you want to tur
     `#### I got an email from Facebook saying my ad was disapproved`,
     `This could be for a number of reasons, but isn't anything to worry about. It could be because there's too much text in the image, or there is profanity in the post text.
 
-  **Feed** won't promote the post that wasn't approved, and will simply skip to the next one.`,
+**Feed** won't promote the post that wasn't approved, and will simply skip to the next one.`,
   ],
 
   [
-    `#### Why aren't some of my recent posts showing on the ‘your posts' page?`,
-    `The ‘your posts' page shows posts that are in the queue to be made into ads. As soon as your posts are made into ads, they will disappear from this screen and you will be able to see their performance on the ‘results' page.`,
+    `#### Why aren’t some of my recent posts showing on the posts page?`,
+    `The [posts page]${ROUTES.POSTS} shows posts that are in the queue to be made into ads. As soon as your posts are made into ads, they will disappear from this screen and you will be able to see their performance on the [Results page]${ROUTES.RESULTS}.`,
   ],
 
   [
     `#### How long will it take to build my audience?`,
-    `We built **Feed** to help you build an audience of real people, not a bunch of fake followers. In other words, people who will engage with you and your work, and become followers, fans or customers - whatever is important to you!. 
-  
-We believe a steady and patient approach pays off in the long-run. Try smoothing your spend out over a longer period, rather than blowing your entire marketing budget in a few days around a key event. You can still increase your spend around these events, just make sure you keep something back for the ‘in between' periods.
-  
-It's early days, but some of the first people using **Feed** are on track to double their audience across platforms in a matter of months.`,
+    `It’s early days, but the first people using **Feed** are on track to double their audience across platforms in less than a year. 
+
+We built **Feed** to help you build an audience of real people, not a bunch of fake followers. In other words, people who will engage with you and your work, and become followers, fans or customers - whatever is important to you! 
+    
+We believe a steady and patient approach pays off in the long-run. Try smoothing your spend out over a longer period, rather than blowing your entire marketing budget in a few days around a key event. You can still increase your spend around these events, just make sure you keep something back for the ‘in between’ periods.`,
   ],
 
   [
