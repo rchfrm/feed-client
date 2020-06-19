@@ -3,7 +3,7 @@ import React from 'react'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 // IMPORT COMPONENTS
-import PostToggle from '@/PostToggleNew'
+import PostToggle from '@/PostToggle'
 import PostMetaData from '@/PostMetaData'
 import PostContents from '@/PostContents'
 import PostMetrics from '@/PostMetrics'
