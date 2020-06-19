@@ -77,12 +77,14 @@ const PostMetrics = ({ insights, es, status, postPromotable }) => {
           </li>
         )}
       </ul>
-      <div className={[styles.postSection, styles.postEsScore].join(' ')}>
-        <p className={styles.postEsScorePara}>
-          <span>Score:</span>
-          <strong>{es}</strong>
-        </p>
-      </div>
+      {postPromotable && (
+        <div className={[styles.postSection, styles.postEsScore].join(' ')}>
+          <p className={styles.postEsScorePara}>
+            <span>Score:</span>
+            <strong>{es}</strong>
+          </p>
+        </div>
+      )}
     </>
   )
 }
