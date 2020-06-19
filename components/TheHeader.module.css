@@ -19,6 +19,7 @@
 }
 
 
+.dropShadow,
 .background,
 .logoContainer,
 .subNavButton {
@@ -77,6 +78,7 @@
   }
 }
 
+.dropShadow,
 .background {
   top: 0;
   left: 50%;
@@ -92,11 +94,20 @@
   @media (--md) {
     display: none !important;
   }
+}
+
+.dropShadow {
+  z-index: 17;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
+  visibility: hidden;
 
   /* Drop shadow */
   :global(.peek-element.scrolling-up) &,
   :global(.peek-element.scrolling-down) & {
-    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.07);
+    visibility: visible;
   }
 }
 

@@ -1,4 +1,3 @@
-
 // IMPORT PACKAGES
 import React from 'react'
 import Router, { useRouter } from 'next/router'
@@ -55,7 +54,12 @@ function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
     ].join(' ')}
     >
       {/* BG */}
-      {isLoggedIn && <div className={[styles.background].join(' ')} />}
+      {isLoggedIn && (
+        <>
+          <div className={[styles.background].join(' ')} />
+          <div className={[styles.dropShadow].join(' ')} />
+        </>
+      )}
       {/* LOGO */}
       <a
         id="TheLogo"
