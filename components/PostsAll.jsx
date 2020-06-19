@@ -108,7 +108,7 @@ function PostsAll({
   }
 
   return (
-    <div className={styles['posts-section']}>
+    <section className={styles.postsSection}>
 
       <MarkdownText className={['h4--text', styles.introText].join(' ')} markdown={copy.intro} />
 
@@ -166,7 +166,7 @@ function PostsAll({
       </ul>
 
 
-    </div>
+    </section>
   )
 }
 
