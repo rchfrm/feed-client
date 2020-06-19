@@ -201,14 +201,26 @@ const fillInMissingData = (periodData, granularity) => {
 const getPeriodData = (dailyData, granularity) => {
   const periodData = Object.entries(dailyData).reduce((results, [date, value]) => {
     const dateMoment = moment(date, 'YYYY-MM-DD')
+    const day = dateMoment.day()
+    const week = dateMoment.isoWeek()
+    const month = dateMoment.month()
     const year = dateMoment.year()
-    const period = granularity === 'months' ? dateMoment.month()
-      : granularity === 'weeks' ? dateMoment.isoWeek()
-        : dateMoment.day()
-    const payload = { period, year, date, value, dateMoment }
+    const period = granularity === 'months' ? month
+      : granularity === 'weeks' ? week
+        : day
+    const payload = { period, week, month, year, date, value, dateMoment }
     // Is there already data for this period and year?
-    const storedDatumIndex = results.findIndex(({ period: storedPeriod, year: storedYear }) => {
-      return period === storedPeriod && year === storedYear
+    const storedDatumIndex = results.findIndex(({
+      period: storedPeriod,
+      week: storedWeek,
+      month: storedMonth,
+      year: storedYear,
+    }) => {
+      // Define test for whether date is in the same period
+      const testForOverlappingPeriod = granularity === 'months' ? month === storedMonth && year === storedYear
+        : week === storedWeek && month === storedMonth && year === storedYear
+      // Run same period test
+      return period === storedPeriod && testForOverlappingPeriod
     })
     if (storedDatumIndex > -1) {
       const { date: storedDate } = results[storedDatumIndex]
@@ -222,10 +234,10 @@ const getPeriodData = (dailyData, granularity) => {
       // Else just return the saved value
       return results
     }
-    // If no date for this period, add it
+    // If no date already exists for this period, add it
     return [...results, payload]
   }, [])
-  // Add in missing data
+  // Add in missing data with blanks
   return fillInMissingData(periodData, granularity)
 }
 
