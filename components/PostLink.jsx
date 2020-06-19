@@ -107,13 +107,11 @@ const PostLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink
             postLinkPlatform={postLinkPlatform}
             postLinkUrl={postLinkUrl}
           />
-          {promotionEnabled && (
-            <p>
-              <a role="button" className={styles.postLinkEditButton} onClick={toggleLinkContent}>
-                {linkPanelOpen ? 'Save' : 'Edit'}
-              </a>
-            </p>
-          )}
+          <p>
+            <a role="button" className={styles.postLinkEditButton} onClick={toggleLinkContent}>
+              {linkPanelOpen ? 'Save' : 'Edit'}
+            </a>
+          </p>
         </div>
         {/* Link change content */}
         <div className={[styles.postLinkContent, styles.postSection].join(' ')} ref={mainContentEl}>
