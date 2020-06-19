@@ -20,7 +20,7 @@ import { trackPWA } from '@/helpers/trackingHelpers'
 
 // TRACKING SERVICE IDS
 // Google Analytics
-const gaId = 'UA-162381148-3'
+const gaId = 'UA-162381148-2'
 // Facebook pixel
 // const fbqId = '226820538468408'
 
