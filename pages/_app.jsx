@@ -1,9 +1,9 @@
+import Router from 'next/router'
+
 import { useState, useEffect } from 'react'
 import { PageTransition } from 'next-page-transitions'
 import PropTypes from 'prop-types'
 
-import Router from 'next/router'
-import withGA from 'next-ga'
 import Head from 'next/head'
 import { StripeProvider } from 'react-stripe-elements'
 import Script from 'react-load-script'
@@ -16,7 +16,7 @@ import SetupGtag from '@/SetupGtag'
 // IMPORT CONTEXTS
 import { AuthProvider } from '@/contexts/Auth'
 // IMPORT HELPERS
-import { trackPWA } from '@/helpers/trackingHelpers'
+import { trackPWA, gtagPageView } from '@/helpers/trackingHelpers'
 
 // TRACKING SERVICE IDS
 // Google Analytics
@@ -64,6 +64,14 @@ function Feed({ Component, pageProps, router }) {
     if (process.env.build_env !== 'development') {
       registerServiceWorker()
       trackPWA()
+    }
+
+    // Trigger page view event
+    const handleRouteChange = (url) => gtagPageView(url, gaId)
+    Router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      Router.events.off('routeChangeComplete', handleRouteChange)
     }
   }, [])
 
