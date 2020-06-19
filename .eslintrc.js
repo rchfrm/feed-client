@@ -52,6 +52,7 @@ module.exports = {
     'react/no-array-index-key': 'off',
     'react/button-has-type': 'off',
     'react/jsx-one-expression-per-line': 'off',
+    'react/no-danger': 'off',
     // A11y things
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/media-has-caption': 'off',

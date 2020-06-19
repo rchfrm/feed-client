@@ -12,11 +12,17 @@ import * as Sentry from '@sentry/browser'
 import '../assets/styles/index.css'
 // IMPORT COMPONENTS
 import AppContents from '@/AppContents'
+import SetupGtag from '@/SetupGtag'
 // IMPORT CONTEXTS
 import { AuthProvider } from '@/contexts/Auth'
 // IMPORT HELPERS
 import { trackPWA } from '@/helpers/trackingHelpers'
-// IMPORT STYLES
+
+// TRACKING SERVICE IDS
+// Google Analytics
+const gaId = 'UA-162381148-3'
+// Facebook pixel
+// const fbqId = '226820538468408'
 
 const registerServiceWorker = () => {
   window.addEventListener('load', () => {
@@ -82,6 +88,9 @@ function Feed({ Component, pageProps, router }) {
         onLoad={onStripeLoad}
       />
 
+      {/* GTAG */}
+      <SetupGtag gaId={gaId} />
+
       <StripeProvider stripe={stripe}>
 
         <AppContents>
@@ -97,7 +106,7 @@ function Feed({ Component, pageProps, router }) {
 }
 
 
-export default withGA('UA-162381148-2', Router)(Feed)
+export default Feed
 
 Feed.propTypes = {
   Component: PropTypes.elementType.isRequired,
