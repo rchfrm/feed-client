@@ -47,7 +47,15 @@ export const enableGtag = () => {
   gtagEnabled = true
 }
 
-const gaCrossDomains = ['tryfeed.co', 'blog.tryfeed.co', 'beta.tryfeed.co', 'staging.tryfeed.co']
+const gaCrossDomains = [
+  'tryfeed.co',
+  'blog.tryfeed.co',
+  'beta.tryfeed.co',
+  'staging.tryfeed.co',
+  'getfed.app',
+  'beta.getfed.app',
+  'blog.getfed.app',
+]
 export const gaCrossDomainsString = gaCrossDomains.reduce((str, url, index) => {
   if (index === 0) return `${str}'${url}'`
   const suffix = index === gaCrossDomains.length - 1 ? ']' : ''
