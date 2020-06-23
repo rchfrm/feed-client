@@ -1,9 +1,9 @@
+import Router from 'next/router'
+
 import { useState, useEffect } from 'react'
 import { PageTransition } from 'next-page-transitions'
 import PropTypes from 'prop-types'
 
-import Router from 'next/router'
-import withGA from 'next-ga'
 import Head from 'next/head'
 import { StripeProvider } from 'react-stripe-elements'
 import Script from 'react-load-script'
@@ -12,11 +12,17 @@ import * as Sentry from '@sentry/browser'
 import '../assets/styles/index.css'
 // IMPORT COMPONENTS
 import AppContents from '@/AppContents'
+import SetupGtag from '@/SetupGtag'
 // IMPORT CONTEXTS
 import { AuthProvider } from '@/contexts/Auth'
 // IMPORT HELPERS
-import { trackPWA } from '@/helpers/trackingHelpers'
-// IMPORT STYLES
+import { trackPWA, gtagPageView } from '@/helpers/trackingHelpers'
+
+// TRACKING SERVICE IDS
+// Google Analytics
+const gaId = 'UA-162381148-2'
+// Facebook pixel
+// const fbqId = '226820538468408'
 
 const registerServiceWorker = () => {
   window.addEventListener('load', () => {
@@ -59,6 +65,14 @@ function Feed({ Component, pageProps, router }) {
       registerServiceWorker()
       trackPWA()
     }
+
+    // Trigger page view event
+    const handleRouteChange = (url) => gtagPageView(url, gaId)
+    Router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      Router.events.off('routeChangeComplete', handleRouteChange)
+    }
   }, [])
 
   // Setup stripe to use SSR
@@ -82,6 +96,9 @@ function Feed({ Component, pageProps, router }) {
         onLoad={onStripeLoad}
       />
 
+      {/* GTAG */}
+      <SetupGtag gaId={gaId} />
+
       <StripeProvider stripe={stripe}>
 
         <AppContents>
@@ -97,7 +114,7 @@ function Feed({ Component, pageProps, router }) {
 }
 
 
-export default withGA('UA-162381148-2', Router)(Feed)
+export default Feed
 
 Feed.propTypes = {
   Component: PropTypes.elementType.isRequired,
