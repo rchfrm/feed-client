@@ -6,7 +6,7 @@ import Icon from '@/elements/Icon'
 
 import useScrollToButton from '@/hooks/useScrollToButton'
 
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 
 import styles from '@/InsightSelectors.module.css'
 

@@ -7,12 +7,12 @@ import InstagramIcon from '@/icons/InstagramIcon'
 
 import * as utils from '@/helpers/utils'
 
-import countries from '@/constants/countries'
+import countries from '~/constants/countries'
 
 // IMPORT STYLES
 import connectAccountsStyles from '@/ConnectAccounts.module.css'
 import postStyles from '@/PostsPage.module.css'
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 
 const styles = {
   ...connectAccountsStyles,

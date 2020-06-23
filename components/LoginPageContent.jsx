@@ -14,13 +14,13 @@ import LoginWithEmail from '@/LoginWithEmail'
 import firebase from '@/helpers/firebase'
 import { track } from '@/helpers/trackingHelpers'
 // IMPORT CONSTANTS
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '~/constants/routes'
 // Import copy
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/copy/LoginPageCopy'
 // Import styles
 import styles from '@/LoginPage.module.css'
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 
 function LoginPageContent({ showEmailLogin }) {
   // IMPORT CONTEXTS

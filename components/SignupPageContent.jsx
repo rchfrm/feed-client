@@ -15,12 +15,12 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 // Constants
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '~/constants/routes'
 // IMPORT COPY
 import copy from '@/copy/LoginPageCopy'
 // IMPORT STYLES
 import styles from '@/LoginPage.module.css'
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 
 const SignupPageContent = ({ showEmailSignup }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)

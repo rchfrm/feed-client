@@ -20,7 +20,7 @@ import styles from '@/Budget.module.css'
 
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/copy/BudgetCopy'
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 
 const initialAlertState = {
   contents: undefined,

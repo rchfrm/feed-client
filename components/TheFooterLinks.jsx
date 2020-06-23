@@ -1,7 +1,7 @@
 import React from 'react'
 import ActiveLink from '@/ActiveLink'
 
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '~/constants/routes'
 
 import styles from '@/TheFooter.module.css'
 

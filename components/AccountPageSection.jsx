@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Router from 'next/router'
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '~/constants/routes'
 
 import Button from '@/elements/Button'
 

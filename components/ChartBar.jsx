@@ -12,7 +12,7 @@ import ChartBarOverlay from '@/ChartBarOverlay'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
 import * as chartHelpers from '@/helpers/chartHelpers'
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 // IMPORT STYLES
 import styles from '@/InsightsPage.module.css'
 

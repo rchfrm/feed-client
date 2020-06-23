@@ -10,8 +10,8 @@ import {
 import StripeLogo from '@/icons/StripeLogo'
 // IMPORT COMPONENTS
 // IMPORT CONSTANTS
-import brandColors from '@/constants/brandColors'
-import countries from '@/constants/countries'
+import brandColors from '~/constants/brandColors'
+import countries from '~/constants/countries'
 // IMPORT CONTEXTS
 import { UserContext } from '@/contexts/User'
 import { BillingContext } from '@/contexts/BillingContext'

@@ -68,7 +68,7 @@ module.exports = {
       alias: {
         map: [
           ['@/copy', './copy'],
-          ['@/constants', './constants'],
+          ['~/constants', './constants'],
           ['@', './components'],
         ],
         extensions: ['.ts', '.js', '.jsx', '.json', '.css'],

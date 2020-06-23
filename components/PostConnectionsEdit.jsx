@@ -9,7 +9,7 @@ import Alert, { alertReducer, initialAlertState } from '@/elements/Alert'
 // IMPORT ASSETS
 import AsteriskIcon from '@/icons/AsteriskIcon'
 // IMPORT CONSTANTS
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
 import server from '@/helpers/server'

@@ -10,7 +10,7 @@ import Spinner from '@/elements/Spinner'
 import Alert, { alertReducer, initialAlertState } from '@/elements/Alert'
 import Icon from '@/elements/Icon'
 // IMPORT CONSTANTS
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 // IMPORT HELPERS
 import server from '@/helpers/server'
 import { track } from '@/helpers/trackingHelpers'

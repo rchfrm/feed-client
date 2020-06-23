@@ -10,8 +10,8 @@ import FeedLogo from '@/icons/FeedLogo'
 import TheSubNavButton from '@/TheSubNavButton'
 import PageHeader from '@/PageHeader'
 // IMPORT CONSTANTS
-import brandColors from '@/constants/brandColors'
-import * as ROUTES from '@/constants/routes'
+import brandColors from '~/constants/brandColors'
+import * as ROUTES from '~/constants/routes'
 // IMPORT STYLES
 import styles from '@/TheHeader.module.css'
 

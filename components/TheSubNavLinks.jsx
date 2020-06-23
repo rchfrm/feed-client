@@ -6,7 +6,7 @@ import ActiveLink from '@/ActiveLink'
 
 import styles from '@/TheSubNav.module.css'
 
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '~/constants/routes'
 
 
 const { PRICING, FAQ } = ROUTES

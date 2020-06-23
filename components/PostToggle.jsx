@@ -7,7 +7,7 @@ import ButtonToggle from '@/elements/ButtonToggle'
 import Icon from '@/elements/Icon'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 // IMPORT STYLES
 import styles from '@/PostsPage.module.css'
 

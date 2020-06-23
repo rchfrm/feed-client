@@ -19,7 +19,7 @@ import MarkdownText from '@/elements/MarkdownText'
 // IMPORT STYLES
 import styles from '@/PostsPage.module.css'
 import copy from '@/copy/PostsPageCopy'
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 
 // Reset posts scroll position
 const resetScroll = () => {

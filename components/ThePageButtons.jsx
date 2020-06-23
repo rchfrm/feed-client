@@ -9,7 +9,7 @@ import useLoggedInTest from '@/hooks/useLoggedInTest'
 
 import styles from '@/ThePageButtons.module.css'
 
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '~/constants/routes'
 
 const links = [
   {

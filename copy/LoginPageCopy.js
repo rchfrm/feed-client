@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '~/constants/routes'
 
 export default {
   tcText: (cta) => `By clicking ${cta}, you agree to our [Terms of Service](https://archform.ltd/terms) and [Privacy Policy](https://archform.ltd/privacy).`,

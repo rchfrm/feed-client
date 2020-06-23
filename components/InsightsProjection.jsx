@@ -5,7 +5,7 @@ import * as utils from '@/helpers/utils'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 import styles from '@/InsightsPage.module.css'
 
 const buildSentence = (predicted, growth, { platform, shortTitle }) => {

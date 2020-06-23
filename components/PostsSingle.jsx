@@ -16,7 +16,7 @@ import ExternalMedia from '@/elements/ExternalMedia'
 // IMPORT STYLES
 import styles from '@/PostsPage.module.css'
 // IMPORT CONSTANTS
-import brandColors from '@/constants/brandColors'
+import brandColors from '~/constants/brandColors'
 
 
 function PostMessage({
