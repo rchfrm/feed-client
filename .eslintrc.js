@@ -68,6 +68,7 @@ module.exports = {
       alias: {
         map: [
           ['@/app/copy', './packages/app/copy'],
+          ['@/app/constants', './packages/app/constants'],
           ['@/app', './packages/app/components'],
           // Shared
           ["@/elements", "./packages/shared/components/elements"],

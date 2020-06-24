@@ -1,7 +1,7 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
 
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 import { AuthContext } from '@/app/contexts/Auth'
 
 import * as utils from '@/helpers/utils'

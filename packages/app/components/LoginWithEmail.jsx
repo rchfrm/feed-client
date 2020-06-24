@@ -12,7 +12,7 @@ import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 import { track } from '@/helpers/trackingHelpers'
 

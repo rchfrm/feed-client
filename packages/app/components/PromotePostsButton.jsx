@@ -5,7 +5,7 @@ import Router from 'next/router'
 // IMPORT ELEMENTS
 import Button from '@/elements/Button'
 // IMPORT CONSTANTS
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 function PromotePostsButton({
   artist,

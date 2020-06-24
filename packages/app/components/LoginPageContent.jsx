@@ -14,7 +14,7 @@ import LoginWithEmail from '@/app/LoginWithEmail'
 import firebase from '@/helpers/firebase'
 import { track } from '@/helpers/trackingHelpers'
 // IMPORT CONSTANTS
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 // Import copy
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/LoginPageCopy'

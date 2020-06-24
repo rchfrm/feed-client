@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 export default {
   outro: `Can’t see one of your accounts? Just add it via ‘Post settings’ on the [posts page](${ROUTES.POSTS}).

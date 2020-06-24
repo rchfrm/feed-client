@@ -14,7 +14,7 @@ import Error from '@/elements/Error'
 import * as utils from '@/helpers/utils'
 import { track } from '@/helpers/trackingHelpers'
 
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 import styles from '@/app/LoginPage.module.css'
 

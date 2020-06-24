@@ -5,7 +5,7 @@ import useAsyncEffect from 'use-async-effect'
 import { AuthContext } from '@/app/contexts/Auth'
 import { UserContext } from '@/app/contexts/User'
 import { ArtistContext } from '@/app/contexts/Artist'
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 import * as utils from '@/helpers/utils'
 import firebase from '@/helpers/firebase'

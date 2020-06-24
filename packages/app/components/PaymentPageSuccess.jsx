@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import moment from 'moment'
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 

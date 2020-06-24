@@ -10,7 +10,7 @@ import { ArtistContext } from '@/app/contexts/Artist'
 // IMPORT ELEMENTS
 import Feed from '@/elements/Feed'
 // IMPORT CONSTANTS
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 import brandColors from '@/constants/brandColors'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'

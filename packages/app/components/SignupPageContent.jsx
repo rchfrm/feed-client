@@ -15,7 +15,7 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 // Constants
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 // IMPORT COPY
 import copy from '@/app/copy/LoginPageCopy'
 // IMPORT STYLES

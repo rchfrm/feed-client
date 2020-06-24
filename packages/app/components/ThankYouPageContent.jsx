@@ -6,7 +6,7 @@ import Router from 'next/router'
 import Button from '@/elements/Button'
 import Feed from '@/elements/Feed'
 // IMPORT CONSTANTS
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 function ThankYouPageContent() {
   const goToHomePage = () => {

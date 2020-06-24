@@ -15,7 +15,7 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 // IMPORT CONSTANTS
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 // IMPORT HELPERS
 import { track } from '@/helpers/trackingHelpers'

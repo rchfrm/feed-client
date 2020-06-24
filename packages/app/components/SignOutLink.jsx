@@ -10,7 +10,7 @@ import { ArtistContext } from '@/app/contexts/Artist'
 // IMPORT PAGES
 // IMPORT ASSETS
 // IMPORT CONSTANTS
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
 // IMPORT STYLES

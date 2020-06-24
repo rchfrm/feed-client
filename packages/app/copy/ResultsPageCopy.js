@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 export default {
   intro: `Feed automatically keeps your strongest promoted posts running, and turns off those that don’t do as well. To manually switch off a post just hit the red "X".`,

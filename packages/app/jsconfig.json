@@ -5,8 +5,9 @@
     "rootDir": ".",
     // The app
     "paths": {
-      "@/app/*": ["app/components/*"],
       "@/app/copy/*": ["app/copy/*"],
+      "@/app/constants/*": ["app/constants/*"],
+      "@/app/*": ["app/components/*"],
       // Shared
       "@/elements/*": ["shared/components/elements/*"],
       "@/icons/*": ["shared/components/icons/*"],

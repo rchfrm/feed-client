@@ -3,7 +3,7 @@ import React from 'react'
 import usePrevious from 'use-previous'
 
 import Router from 'next/router'
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 
 import { BillingContext } from '@/app/contexts/BillingContext'

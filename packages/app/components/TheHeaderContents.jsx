@@ -11,7 +11,7 @@ import TheSubNavButton from '@/app/TheSubNavButton'
 import PageHeader from '@/app/PageHeader'
 // IMPORT CONSTANTS
 import brandColors from '@/constants/brandColors'
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 // IMPORT STYLES
 import styles from '@/app/TheHeader.module.css'
 
