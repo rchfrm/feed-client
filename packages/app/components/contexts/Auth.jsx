@@ -44,7 +44,6 @@ function AuthProvider({ children }) {
   const [accessToken, setAccessToken] = React.useState(null)
   const [authLoading, setAuthLoading] = React.useState(false)
 
-
   const setMissingScopes = (scopes) => {
     setAuth({
       type: 'set-missing-scopes',
@@ -82,7 +81,6 @@ function AuthProvider({ children }) {
     })
     setAuthLoading(false)
   }
-
 
   const relinkFacebook = async () => {
     setAuthLoading(true)
