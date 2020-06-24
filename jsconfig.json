@@ -14,10 +14,7 @@
     }
   },
   "exclude": [
-    "node_modules",
-    "packages/app/node_modules",
-    "packages/admin/node_modules",
-    "packages/shared/node_modules",
+    "**/node_modules/*",
     "**/test/",
     "**/.vscode/",
     ".next",
