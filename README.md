@@ -21,7 +21,7 @@ In the root of this directory, run `yarn dev`
 
 Follow [this guide](https://letsencrypt.org/docs/certificates-for-localhost/) to generate keys
 
-tldr; run `./keyGen`
+tldr; run `./bin/keyGen`
 
 
 ## Testing static build locally

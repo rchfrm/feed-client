@@ -2,9 +2,15 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["components/*"],
-      "~/constants/*": ["constants/*"],
-      "@/copy/*": ["copy/*"]
+      // The app
+      "@/app/*": ["packages/app/components/*"],
+      "@/app/copy/*": ["packages/app/copy/*"],
+      // Shared
+      "@/elements/": ["packages/shared/components/elements/*"],
+      "@/icons/": ["packages/shared/components/icons/*"],
+      "@/hooks/": ["packages/shared/components/hooks/*"],
+      "@/constants/*": ["packages/shared/constants/*"],
+      "@/helpers/*": ["packages/shared/helpers/*"]
     }
   },
   "exclude": [

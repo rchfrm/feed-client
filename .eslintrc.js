@@ -67,9 +67,14 @@ module.exports = {
     'import/resolver': {
       alias: {
         map: [
-          ['@/copy', './copy'],
-          ['~/constants', './constants'],
-          ['@', './components'],
+          ['@/app/copy', './packages/app/copy'],
+          ['@/app', './packages/app/components'],
+          // Shared
+          ["@/elements", "./packages/shared/components/elements"],
+          ["@/icons", "./packages/shared/components/icons"],
+          ["@/hooks", "./packages/shared/components/hooks"],
+          ["@/constants", "./packages/shared/constants"],
+          ["@/helpers", "./packages/shared/helpers"]
         ],
         extensions: ['.ts', '.js', '.jsx', '.json', '.css'],
       },
