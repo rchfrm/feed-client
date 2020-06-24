@@ -8,7 +8,7 @@ class MyDocument extends Document {
   }
 
   render() {
-    const siteUrl = 'https://beta.getfed.app'
+    const siteUrl = 'https://beta.tryfeed.co'
     const metaDescription = 'Simplify the process of growing your audience through automated social media promotion'
 
     return (
