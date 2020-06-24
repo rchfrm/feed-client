@@ -15,7 +15,6 @@ import Error from '@/elements/Error'
 import styles from '@/app/AccountPage.module.css'
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
-
 const getButton = (buttonOn, handleSubmit) => {
   return (
     <Button version="green" onClick={handleSubmit} disabled={!buttonOn}>
