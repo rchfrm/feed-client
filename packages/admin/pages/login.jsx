@@ -5,7 +5,10 @@ const page = () => (
   <BasePage
     headerConfig="login"
   >
-    <LoginPageContent showEmailLogin />
+    <LoginPageContent
+      packageType="admin"
+      showEmailLogin
+    />
   </BasePage>
 )
 

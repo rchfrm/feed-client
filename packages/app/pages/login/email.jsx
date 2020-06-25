@@ -11,7 +11,10 @@ const page = () => (
     staticPage
     authPage
   >
-    <LoginPageContent showEmailLogin />
+    <LoginPageContent
+      packageType="app"
+      showEmailLogin
+    />
   </BasePage>
 )
 

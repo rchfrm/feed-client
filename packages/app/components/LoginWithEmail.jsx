@@ -1,22 +1,17 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
-import Link from 'next/link'
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/User'
 import { ArtistContext } from '@/app/contexts/Artist'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-// IMPORT ELEMENTS
-import Input from '@/elements/Input'
-import Button from '@/elements/Button'
-import Error from '@/elements/Error'
+
+import LoginWithEmailForm from '@/LoginWithEmailForm'
 
 import * as ROUTES from '@/app/constants/routes'
 
 import { track } from '@/helpers/trackingHelpers'
-
-import styles from '@/LoginPage.module.css'
 
 
 function LoginWithEmail({ className }) {
@@ -31,24 +26,8 @@ function LoginWithEmail({ className }) {
   const [password, setPassword] = React.useState('')
   const [error, setError] = React.useState(null)
 
-  // HANDLE CHANGES IN FORM
-  const handleChange = e => {
-    setError(null)
-    switch (e.target.name) {
-      case 'email':
-        setEmail(e.target.value)
-        break
-      case 'password':
-        setPassword(e.target.value)
-        break
-      default:
-        break
-    }
-  }
-  // END HANDLE CHANGES IN FORM
-
   // HANDLE CLICK ON LOG IN BUTTON
-  const onFormSubmit = async e => {
+  const onSubmit = React.useCallback(async (e) => {
     e.preventDefault()
     setError(null)
     toggleGlobalLoading(true)
@@ -107,57 +86,20 @@ function LoginWithEmail({ className }) {
         action: 'Logged in via password, with no artists',
       })
     }
-  }
+  // eslint-disable-next-line
+  }, [email, password])
 
   return (
-    <form
-      onSubmit={onFormSubmit}
+    <LoginWithEmailForm
+      email={email}
+      setEmail={setEmail}
+      password={password}
+      setPassword={setPassword}
+      onSubmit={onSubmit}
+      error={error || userError}
+      setError={setError}
       className={className}
-    >
-
-      <Error error={userError || error} />
-
-      <Input
-        className={styles.input}
-        name="email"
-        placeholder=""
-        value={email || ''}
-        handleChange={handleChange}
-        type="email"
-        label="Email"
-        version="box"
-        width={100}
-        autoFocus
-      />
-
-      <Input
-        className={styles.input}
-        name="password"
-        placeholder=""
-        value={password}
-        handleChange={handleChange}
-        type="password"
-        label="Password"
-        version="box"
-        width={100}
-      />
-
-      {/* Forgot password link */}
-      <p className={['small--p', styles.forgotPasswordLink].join(' ')}>
-        <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot Password?</a></Link>
-      </p>
-
-      <Button
-        className={styles.submit}
-        version="black"
-        disabled={false}
-        onClick={onFormSubmit}
-        type="input"
-      >
-        log in.
-      </Button>
-
-    </form>
+    />
   )
 }
 
