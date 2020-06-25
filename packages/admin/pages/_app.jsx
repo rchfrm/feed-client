@@ -10,7 +10,7 @@ import '../../shared/css/index.css'
 // IMPORT COMPONENTS
 import AdminContents from '@/admin/AdminContents'
 // IMPORT CONTEXTS
-import { AuthProvider } from '@/app/contexts/Auth'
+import { AuthProvider } from '@/contexts/AuthContext'
 // IMPORT HELPERS
 
 const registerServiceWorker = () => {

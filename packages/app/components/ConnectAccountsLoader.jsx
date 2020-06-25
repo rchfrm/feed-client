@@ -4,7 +4,7 @@ import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
 
 // IMPORT CONTEXTS
-import { AuthContext } from '@/app/contexts/Auth'
+import { AuthContext } from '@/contexts/AuthContext'
 import { ArtistContext } from '@/app/contexts/Artist'
 import { UserContext } from '@/app/contexts/User'
 import { InterfaceContext } from '@/app/contexts/InterfaceContext'

@@ -3,7 +3,7 @@ import React from 'react'
 import Router from 'next/router'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { AuthContext } from '@/app/contexts/Auth'
+import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/User'
 import { ArtistContext } from '@/app/contexts/Artist'
 

@@ -2,7 +2,7 @@
 import React from 'react'
 import Router from 'next/router'
 // IMPORT CONTEXTS
-import { AuthContext } from '@/app/contexts/Auth'
+import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT COMPONENTS
 import SignupEmailForm from '@/app/SignupEmailForm'
 // IMPORT HELPERS

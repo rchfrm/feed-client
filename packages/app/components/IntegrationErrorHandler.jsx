@@ -5,7 +5,7 @@ import * as integrationErrorsHelpers from '@/helpers/integrationErrorsHelpers'
 import server from '@/helpers/server'
 import { ArtistContext } from '@/app/contexts/Artist'
 import { UserContext } from '@/app/contexts/User'
-import { AuthContext } from '@/app/contexts/Auth'
+import { AuthContext } from '@/contexts/AuthContext'
 
 import IntegrationErrorContent from '@/app/IntegrationErrorContent'
 

@@ -2,7 +2,7 @@ import React from 'react'
 import Router, { useRouter } from 'next/router'
 import useAsyncEffect from 'use-async-effect'
 
-import { AuthContext } from '@/app/contexts/Auth'
+import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/User'
 import { ArtistContext } from '@/app/contexts/Artist'
 import * as ROUTES from '@/app/constants/routes'

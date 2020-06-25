@@ -3,7 +3,7 @@ import Router from 'next/router'
 
 import { useImmerReducer } from 'use-immer'
 
-import { AuthContext } from '@/app/contexts/Auth'
+import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/User'
 import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 

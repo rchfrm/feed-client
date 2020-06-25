@@ -2,7 +2,7 @@
 import React from 'react'
 import Router from 'next/router'
 // IMPORT CONTEXTS
-import { AuthContext } from '@/app/contexts/Auth'
+import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 import Button from '@/elements/Button'
