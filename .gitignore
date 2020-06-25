@@ -1,7 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules
+packages/app/node_modules
+packages/shared/node_modules
+packages/admin/node_modules
 /.pnp
 .pnp.js
 
@@ -40,7 +43,8 @@ out/
 dist/
 
 # PWA generated things
-public/pwa/*
+packages/app/public/pwa/*
+packages/admin/public/pwa/*
 
 # Service workers
 /public/workbox-*.js

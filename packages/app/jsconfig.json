@@ -1,0 +1,26 @@
+{
+  "extends": "../../jsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../",
+    "rootDir": ".",
+    // The app
+    "paths": {
+      "@/app/copy/*": ["app/copy/*"],
+      "@/app/constants/*": ["app/constants/*"],
+      "@/app/*": ["app/components/*"],
+      // Shared
+      "@/elements/*": ["shared/components/elements/*"],
+      "@/icons/*": ["shared/components/icons/*"],
+      "@/hooks/*": ["shared/components/hooks/*"],
+      "@/constants/*": ["shared/constants/*"],
+      "@/helpers/*": ["shared/helpers/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "**/test/",
+    "**/.vscode/",
+    ".next",
+    "dist"
+  ]
+}

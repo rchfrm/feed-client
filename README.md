@@ -4,7 +4,7 @@
 
 **Local:** [http://localhost:3000](http://localhost:3000)
 **Staging:** [https://scaler-staging.firebaseapp.com](https://scaler-staging.firebaseapp.com)
-**Live:** [https://beta.getfed.app](https://beta.getfed.app)
+**Live:** [https://beta.tryfeed.co](https://beta.tryfeed.co)
 
 ## Initial setup
 
@@ -21,7 +21,7 @@ In the root of this directory, run `yarn dev`
 
 Follow [this guide](https://letsencrypt.org/docs/certificates-for-localhost/) to generate keys
 
-tldr; run `./keyGen`
+tldr; run `./bin/keyGen`
 
 
 ## Testing static build locally
