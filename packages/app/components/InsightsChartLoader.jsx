@@ -6,7 +6,7 @@ import moment from 'moment'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/app/contexts/Artist'
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 // IMPORT PAGES

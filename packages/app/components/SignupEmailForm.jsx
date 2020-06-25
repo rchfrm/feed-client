@@ -5,7 +5,7 @@ import { useImmerReducer } from 'use-immer'
 
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/User'
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'

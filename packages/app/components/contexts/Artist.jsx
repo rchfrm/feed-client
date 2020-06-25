@@ -4,7 +4,7 @@ import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from '@/app/contexts/User'
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 // IMPORT PAGES
 // IMPORT ASSETS

@@ -5,7 +5,7 @@ import BudgetConfirmation from '@/app/BudgetConfirmation'
 import PaymentSummary from '@/app/PaymentSummary'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/app/contexts/Artist'
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'

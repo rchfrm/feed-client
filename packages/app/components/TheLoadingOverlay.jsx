@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import FullHeight from '@/elements/FullHeight'
 import Spinner from '@/elements/Spinner'
