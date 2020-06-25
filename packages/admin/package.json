@@ -5,13 +5,48 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build",
-    "start": "next build && next start"
+    "build": "RELEASE_VERSION=$(git rev-parse --short HEAD) next build",
+    "export:staging": "rm -rf dist/ && BUILD_ENV=staging yarn build && next export -o dist/",
+    "export:production": "rm -rf dist/ && BUILD_ENV=production yarn build && next export -o dist/"
   },
   "dependencies": {
-    "isomorphic-unfetch": "^2.0.0",
-    "next": "^6.0.3",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0"
+    "axios": "^0.19.2",
+    "currency-symbol-map": "^4.0.4",
+    "dotenv": "^8.2.0",
+    "firebase": "^7.15.4",
+    "firebase-admin": "^8.12.1",
+    "immer": "^7.0.5",
+    "js-cookie": "^2.2.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.27.0",
+    "next": "^9.4.4",
+    "next-compose-plugins": "^2.2.0",
+    "next-offline": "^5.0.2",
+    "next-page-transitions": "^1.0.0-beta.2",
+    "next-pwa": "^2.3.3",
+    "next-transpile-modules": "^3.3.0",
+    "react": "16.13.1",
+    "react-async": "^10.0.1",
+    "react-dom": "16.13.1",
+    "react-firebaseui": "^4.1.0",
+    "swr": "^0.2.3",
+    "url": "^0.11.0",
+    "use-immer": "^0.4.0"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^9.3.6",
+    "autoprefixer": "^9.7.6",
+    "babel-eslint": "^10.0.3",
+    "dev-proxy": "^2.1.2",
+    "postcss-calc": "^7.0.1",
+    "postcss-color-mod-function": "^3.0.3",
+    "postcss-extend": "^1.0.5",
+    "postcss-import": "^12.0.1",
+    "postcss-mixins": "^6.2.3",
+    "postcss-nested": "^4.2.1",
+    "postcss-preset-env": "^6.7.0",
+    "serve": "^11.3.0",
+    "tailwindcss": "^1.4.6",
+    "yarn-run-all": "^3.1.1"
   }
 }
