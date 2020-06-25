@@ -18,9 +18,9 @@
     "**/node_modules/*",
     "**/test/",
     "**/.vscode/",
-    ".next",
+    "**/.next/*",
     ".firebase",
-    "pakcages/app/dist",
-    "pakcages/admin/dist"
+    "packages/app/dist",
+    "packages/admin/dist"
   ]
 }
