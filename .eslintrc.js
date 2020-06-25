@@ -42,6 +42,7 @@ module.exports = {
     'implicit-arrow-linebreak': 'off',
     'no-underscore-dangle': 'off',
     'semi': [ 2, 'never' ],
+    'no-multiple-empty-lines': 'off',
     'unicorn/number-literal-case': 'off',
     'no-nested-ternary': 'off',
     'react/react-in-jsx-scope': 'off',
