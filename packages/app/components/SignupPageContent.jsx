@@ -19,7 +19,7 @@ import * as ROUTES from '@/app/constants/routes'
 // IMPORT COPY
 import copy from '@/app/copy/LoginPageCopy'
 // IMPORT STYLES
-import styles from '@/app/LoginPage.module.css'
+import styles from '@/LoginPage.module.css'
 import brandColors from '@/constants/brandColors'
 
 const SignupPageContent = ({ showEmailSignup }) => {

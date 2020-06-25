@@ -9,7 +9,7 @@ import Button from '@/elements/Button'
 import EmailIcon from '@/icons/EmailIcon'
 import ButtonFacebook from '@/elements/ButtonFacebook'
 // IMPORT COMPONENTS
-import LoginWithEmail from '@/app/LoginWithEmail'
+import LoginWithEmail from '@/LoginWithEmail'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
 import { track } from '@/helpers/trackingHelpers'
@@ -19,7 +19,7 @@ import * as ROUTES from '@/app/constants/routes'
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/LoginPageCopy'
 // Import styles
-import styles from '@/app/LoginPage.module.css'
+import styles from '@/LoginPage.module.css'
 import brandColors from '@/constants/brandColors'
 
 function LoginPageContent({ showEmailLogin }) {

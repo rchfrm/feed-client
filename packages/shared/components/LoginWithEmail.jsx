@@ -16,7 +16,7 @@ import * as ROUTES from '@/app/constants/routes'
 
 import { track } from '@/helpers/trackingHelpers'
 
-import styles from '@/app/LoginPage.module.css'
+import styles from '@/LoginPage.module.css'
 
 
 function LoginWithEmail({ className }) {
