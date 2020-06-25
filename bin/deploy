@@ -1,0 +1,79 @@
+#!/bin/bash
+set -euo pipefail
+# Debug
+set -x
+
+product="${1:-}"
+environment="${2:-}"
+
+# Stop if not the right product is defined
+if [[ "$product" != "app" ]] && [[ "$product" != "admin" ]]; then
+    echo "Usage: ./$(basename "$0") <product>" >&2
+    echo "product $product was not understood" >&2
+    exit 1
+fi
+# Stop if not the right environment is defined
+if [[ "$environment" != "production" ]] && [[ "$environment" != "staging" ]]; then
+    echo "Usage: ./$(basename "$0") <environment>" >&2
+    echo "environment $environment was not understood" >&2
+    exit 1
+fi
+
+# APP
+if [[ "$product" == "app" ]]; then
+  product_path="./packages/app"
+  workspace="app"
+  firebaseConfigFile="firebase.app.default.json"
+  # APP production
+  if [[ "$environment" == "production" ]]; then
+    project="archform-1"
+    site_name="feed-prod"
+  # APP staging 
+  else
+    project="archform-1-dev"
+    site_name="scaler-staging"
+  fi
+# ADMIN
+else
+  product_path="./packages/admin"
+  workspace="admin"
+  "deploy-production": "./deploy production",="firebase.admin.default.json"
+  # ADMIN production
+  if [[ "$environment" == "production" ]]; then
+    project="feed-admin"
+    site_name="feed-admin"
+  # ADMIN staging
+  else
+    project="feed-admin-dev"
+    site_name="feed-admin-dev"
+  fi
+fi
+
+
+if [[ "$environment" == "production" ]]; then
+    env_file="$product_path/.env.live"
+    export_command="export:production"
+else
+    env_file="$product_path/.env.staging"
+    export_command="export:staging"
+fi
+
+# Create the firebase config file based on type of deploy
+sed -e "s/{{ site_name }}/$site_name/g" "$firebaseConfigFile" > firebase.json
+
+cp "$env_file" "$product_path/.env.production"
+
+# Build the site
+yarn workspace "$workspace" "$export_command"
+
+# Restore the backup
+if [[ -f "$product_path/.env.bak" ]]; then
+    rm -f "$product_path/.env"
+    mv "$product_path/.env.bak" "$product_path/.env"
+fi
+
+# Configure deplopy environment
+firebase use "$project"
+
+# Deploy
+firebase deploy --only=hosting
