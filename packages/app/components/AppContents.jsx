@@ -5,7 +5,7 @@ import { UserProvider } from '@/app/contexts/User'
 import { ArtistProvider } from '@/app/contexts/Artist'
 // IMPORT COMPONENTS
 import Main from '@/app/Main'
-import TheLoadingOverlay from '@/app/TheLoadingOverlay'
+import TheLoadingOverlay from '@/TheLoadingOverlay'
 import TheHeader from '@/app/TheHeader'
 import ThePageButtons from '@/app/ThePageButtons'
 import TheFooter from '@/app/TheFooter'
