@@ -15,5 +15,4 @@ const Page = () => (
   </BasePage>
 )
 
-
 export default testPageReady(Page)

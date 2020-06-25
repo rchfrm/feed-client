@@ -15,5 +15,4 @@ const page = () => (
   </BasePage>
 )
 
-
 export default page

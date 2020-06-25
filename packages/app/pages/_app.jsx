@@ -113,7 +113,6 @@ function Feed({ Component, pageProps, router }) {
   )
 }
 
-
 export default Feed
 
 Feed.propTypes = {
