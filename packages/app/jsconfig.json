@@ -13,7 +13,8 @@
       "@/icons/*": ["shared/components/icons/*"],
       "@/hooks/*": ["shared/components/hooks/*"],
       "@/constants/*": ["shared/constants/*"],
-      "@/helpers/*": ["shared/helpers/*"]
+      "@/helpers/*": ["shared/helpers/*"],
+      "@/*": ["shared/components/*"],
     }
   },
   "exclude": [

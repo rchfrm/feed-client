@@ -10,7 +10,8 @@
       "@/icons/": ["packages/shared/components/icons/*"],
       "@/hooks/": ["packages/shared/components/hooks/*"],
       "@/constants/*": ["packages/shared/constants/*"],
-      "@/helpers/*": ["packages/shared/helpers/*"]
+      "@/helpers/*": ["packages/shared/helpers/*"],
+      "@/*": ["packages/shared/components/*"]
     }
   },
   "exclude": [
