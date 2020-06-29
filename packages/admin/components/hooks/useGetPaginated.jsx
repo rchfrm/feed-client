@@ -6,10 +6,9 @@ import { UserContext } from '@/contexts/UserContext'
 
 import * as server from '@/admin/helpers/adminServer'
 
-const fetcher = (serverFunction) => async ({ token, cursor }) => {
-  if (!token) return []
+const fetcher = (serverFunction) => async ({ cursor }) => {
   // eslint-disable-next-line
-  const items = await server[serverFunction](token, cursor)
+  const items = await server[serverFunction](cursor)
   console.log('items', items)
   return items
 }
@@ -38,7 +37,7 @@ const useGetPaginated = (serverFunction) => {
 
   const fetcherFunction = React.useMemo(() => {
     return fetcher(serverFunction)
-  }, [])
+  }, [serverFunction])
 
   const { isPending, error } = useAsync({
     promiseFn: fetcherFunction,

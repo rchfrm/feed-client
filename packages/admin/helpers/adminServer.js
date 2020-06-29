@@ -24,7 +24,7 @@ export const getEndpoint = async (endpoint, token) => {
  * @param {string} [cursor]
  * @returns {Promise<any>}
  */
-export const getAllArtists = async (token, cursor) => {
+export const getAllArtists = async (cursor, token) => {
   const pagination = cursor ? `&after=${cursor}` : ''
   const endpoint = `artists?all=1${pagination}`
   return api.get(endpoint, token)
@@ -37,7 +37,7 @@ export const getAllArtists = async (token, cursor) => {
  * @param {string} [cursor]
  * @returns {Promise<any>}
  */
-export const getAllUsers = async (token, cursor) => {
+export const getAllUsers = async (cursor, token) => {
   const pagination = cursor ? `&after=${cursor}` : ''
   const endpoint = `users?all=1${pagination}`
   return api.get(endpoint, token)
