@@ -9,7 +9,9 @@ const FullHeight = React.forwardRef(({ id, className, heightPercent, Element, ch
   React.useEffect(() => {
     if (!windowHeight) return
     const style = { height: windowHeight * (heightPercent / 100) }
-    setStyle(style)
+    window.requestAnimationFrame(() => {
+      setStyle(style)
+    })
   }, [windowHeight, heightPercent])
 
   return (

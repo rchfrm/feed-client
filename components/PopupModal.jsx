@@ -9,6 +9,7 @@ import useBrowserStore from '@/hooks/useBrowserStore'
 import popupStore from '@/store/popupStore'
 
 import styles from '@/PopupModal.module.css'
+import FullHeight from './elements/FullHeight'
 
 const PopupModal = ({ contentType }) => {
   const content = popupStore(state => state.content)
@@ -34,7 +35,7 @@ const PopupModal = ({ contentType }) => {
   if (!content) return null
   return (
     <Portal>
-      <div
+      <FullHeight
         className={[
           'fixed',
           'top-0',
@@ -74,7 +75,7 @@ const PopupModal = ({ contentType }) => {
           />
           {content}
         </div>
-      </div>
+      </FullHeight>
     </Portal>
   )
 }
