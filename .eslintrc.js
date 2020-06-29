@@ -85,6 +85,7 @@ module.exports = {
           ["@/constants", "./packages/shared/constants"],
           ["@/helpers", "./packages/shared/helpers"],
           ["@", "./packages/shared/components"],
+          ["~", "."]
         ],
         extensions: ['.ts', '.js', '.jsx', '.json', '.css'],
       },

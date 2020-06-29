@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PostImage from '@/PostImage'
+import PostImage from '@/app/PostImage'
 
-import styles from '@/PostItem.module.css'
+import styles from '@/app/PostItem.module.css'
 
 const PostContents = ({ media, thumbnailSrc, caption, className }) => {
   return (
@@ -25,7 +25,7 @@ const PostContents = ({ media, thumbnailSrc, caption, className }) => {
 }
 
 PostContents.propTypes = {
-  media: PropTypes.object.isRequired,
+  media: PropTypes.string.isRequired,
   thumbnailSrc: PropTypes.string,
   caption: PropTypes.string,
   className: PropTypes.string,

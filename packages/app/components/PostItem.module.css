@@ -146,7 +146,8 @@
     flex-grow: 1;
     height: 1px;
     margin: 0 0.3em;
-    background-color: var(--grey);
+    margin-left: 0;
+    background-color: var(--grey-dark);
     display: none;
   }
 
@@ -158,6 +159,22 @@
     font-weight: var(--bold);
     transform: translateY(0.02em);
   }
+}
+
+.postEsScore {
+  padding-top: calc(var(--sp-3) - 0.2em);
+  padding-bottom: var(--sp-3);
+  border-top: 2px solid var(--text-color);
+  background-color: var(--grey-light);
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.postEsScorePara {
+  display: flex;
+  justify-content: space-between;
 }
 
 .postMetricsUnpromotable {

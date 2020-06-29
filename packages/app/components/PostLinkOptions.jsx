@@ -1,14 +1,9 @@
 // IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT ELEMENTS
-import PostLinkSaveButton from '@/app/PostLinkSaveButton'
 import Select from '@/elements/Select'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import * as server from '@/app/helpers/appServer'
 // IMPORT STYLES
 import styles from '@/app/PostItem.module.css'
 

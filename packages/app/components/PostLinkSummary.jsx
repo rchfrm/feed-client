@@ -7,7 +7,7 @@ import brandColors from '@/constants/brandColors'
 
 import LinkIcon from '@/icons/LinkIcon'
 
-import styles from '@/PostItem.module.css'
+import styles from '@/app/PostItem.module.css'
 
 const PostLinkSummary = ({
   loading,

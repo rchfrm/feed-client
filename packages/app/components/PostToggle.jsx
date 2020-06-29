@@ -5,7 +5,7 @@ import { gsap, Power1 } from 'gsap'
 import { useDrag } from 'react-use-gesture'
 import clamp from 'lodash/clamp'
 
-import styles from '@/PostToggle.module.css'
+import styles from '@/app/PostToggle.module.css'
 
 import brandColors from '@/constants/brandColors'
 

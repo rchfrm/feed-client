@@ -8,7 +8,7 @@ import Icon from '@/elements/Icon'
 // IMPORT CONSTANTS
 import brandColors from '@/constants/brandColors'
 
-import styles from '@/PostItem.module.css'
+import styles from '@/app/PostItem.module.css'
 
 const PostMetaData = ({ platform, date, permalink, className }) => {
   const { bg: color } = brandColors[platform]

@@ -14,7 +14,7 @@
 @import "./type";
 @import "./flex-rules";
 @import "./box-sizing";
-@import "./pageTransition";
+@import "./transitions";
 /**
 * Elements.
 */
