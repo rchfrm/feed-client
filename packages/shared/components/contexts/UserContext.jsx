@@ -2,9 +2,9 @@ import React from 'react'
 import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
-import server from '@/helpers/server'
-import * as artistHelpers from '@/helpers/artistHelpers'
-import { track, setUserType } from '@/helpers/trackingHelpers'
+import * as sharedServer from '@/helpers/sharedServer'
+import * as artistHelpers from '@/app/helpers/artistHelpers'
+import { track, setUserType } from '@/app/helpers/trackingHelpers'
 
 const initialUserState = {
   id: '',
@@ -62,7 +62,7 @@ function UserProvider({ children }) {
   const createUser = React.useCallback(async (first_name, last_name) => {
     setUserLoading(true)
     try {
-      const newUser = await server.createUser(first_name, last_name)
+      const newUser = await sharedServer.createUser(first_name, last_name)
       const sortedArtistUser = sortUserArtists(newUser)
       setUser({
         type: 'set-user',
@@ -80,7 +80,7 @@ function UserProvider({ children }) {
 
   const storeUser = React.useCallback(async () => {
     setUserLoading(true)
-    const user = await server.getUser()
+    const user = await sharedServer.getUser()
       .catch((error) => {
         track({
           category: 'login',

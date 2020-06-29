@@ -2,8 +2,9 @@ import React from 'react'
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 
-import * as server from '@/admin/helpers/server'
-import { useUser } from '@/admin/hooks/useUser'
+import { UserContext } from '@/contexts/UserContext'
+
+import * as server from '@/admin/helpers/adminServer'
 
 const fetcher = (serverFunction) => async ({ token, cursor }) => {
   if (!token) return []
@@ -30,10 +31,10 @@ const reducer = (draftState, action) => {
 }
 
 const useGetPaginated = (serverFunction) => {
-  const { user } = useUser()
   const [items, udpateItems] = useImmerReducer(reducer, [])
   const [cursor, setCursor] = React.useState('')
   const [finishedLoading, setFinishedLoading] = React.useState(false)
+  const { user } = React.useContext(UserContext)
 
   const fetcherFunction = React.useMemo(() => {
     return fetcher(serverFunction)

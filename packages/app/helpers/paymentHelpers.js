@@ -1,4 +1,4 @@
-import server from '@/helpers/server'
+import * as server from '@/app/helpers/appServer'
 import * as api from '@/helpers/api'
 
 // PAYMENTS

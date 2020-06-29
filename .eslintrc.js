@@ -71,6 +71,7 @@ module.exports = {
           // The app
           ['@/app/copy', './packages/app/copy'],
           ['@/app/constants', './packages/app/constants'],
+          ['@/app/helpers', './packages/app/helpers'],
           ['@/app', './packages/app/components'],
           // The admin
           ['@/admin/copy', './packages/admin/copy'],

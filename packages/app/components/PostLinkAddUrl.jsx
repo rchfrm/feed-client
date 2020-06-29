@@ -12,7 +12,7 @@ import PostLinkSaveButton from '@/app/PostLinkSaveButton'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import server from '@/helpers/server'
+import * as server from '@/app/helpers/appServer'
 // IMPORT STYLES
 import styles from '@/app/PostsPage.module.css'
 

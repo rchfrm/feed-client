@@ -7,7 +7,7 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'
 
-import * as artistHelpers from '@/helpers/artistHelpers'
+import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 import styles from '@/app/TheSubNav.module.css'
 

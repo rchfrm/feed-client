@@ -28,7 +28,7 @@ import copy from '@/app/copy/AccountPageCopy'
 
 // IMPORT STYLES
 import styles from '@/app/PaymentPage.module.css'
-import paymentHelpers from '@/helpers/paymentHelpers'
+import paymentHelpers from '@/app/helpers/paymentHelpers'
 
 
 const getButton = (buttonEnabled, submit) => {

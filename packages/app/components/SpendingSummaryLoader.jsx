@@ -10,7 +10,7 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import MarkdownText from '@/elements/MarkdownText'
 import Spinner from '@/elements/Spinner'
 // IMPORT HELPERS
-import server from '@/helpers/server'
+import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
 // IMPORT COPY
 import copy from '@/app/copy/InsightPageCopy'

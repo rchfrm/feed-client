@@ -6,7 +6,7 @@ import useSWR from 'swr'
 import TournamentFilters from '@/admin/TournamentFilters'
 import TournamentOverview from '@/admin/TournamentOverview'
 
-import * as server from '@/admin/helpers/server'
+import * as server from '@/admin/helpers/adminServer'
 import { useUser } from '@/admin/hooks/useUser'
 
 const fetcher = (artistId, token) => {
@@ -39,6 +39,9 @@ const TournamentsLoader = ({ artistId }) => {
   if (!tournaments) return null
 
   console.log('filteredTournaments', filteredTournaments)
+  if (error) {
+    console.log('error', error)
+  }
 
   return (
     <section className="tournaments">

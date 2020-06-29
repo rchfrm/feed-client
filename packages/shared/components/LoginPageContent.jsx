@@ -12,7 +12,7 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 import LoginWithEmail from '@/LoginWithEmail'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
-import { track } from '@/helpers/trackingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT CONSTANTS
 import * as ROUTES from '@/app/constants/routes'
 // Import copy

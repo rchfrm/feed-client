@@ -10,7 +10,7 @@ import InsightDataSelectors from '@/app/InsightDataSelectors'
 import InsightsChartLoader from '@/app/InsightsChartLoader'
 import PromotePostsButton from '@/app/PromotePostsButton'
 // IMPORT HELPERS
-import * as chartHelpers from '@/helpers/chartHelpers'
+import * as chartHelpers from '@/app/helpers/chartHelpers'
 // IMPORT TEXT
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/InsightPageCopy'

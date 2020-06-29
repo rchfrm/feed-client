@@ -9,7 +9,7 @@ import * as ROUTES from '@/app/constants/routes'
 
 import * as utils from '@/helpers/utils'
 import firebase from '@/helpers/firebase'
-import { track } from '@/helpers/trackingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 // CALL REDIRECT
 let userRedirected = false

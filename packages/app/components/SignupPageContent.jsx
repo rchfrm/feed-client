@@ -7,7 +7,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 import SignupEmailForm from '@/app/SignupEmailForm'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
-import { track } from '@/helpers/trackingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT ELEMENTS
 import Button from '@/elements/Button'
 import EmailIcon from '@/icons/EmailIcon'

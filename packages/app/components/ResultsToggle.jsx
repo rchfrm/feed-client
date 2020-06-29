@@ -12,8 +12,8 @@ import Icon from '@/elements/Icon'
 // IMPORT CONSTANTS
 import brandColors from '@/constants/brandColors'
 // IMPORT HELPERS
-import server from '@/helpers/server'
-import { track } from '@/helpers/trackingHelpers'
+import * as server from '@/app/helpers/appServer'
+import { track } from '@/app/helpers/trackingHelpers'
 // COPY
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/ResultsPageCopy'

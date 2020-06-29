@@ -11,9 +11,9 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import server from '@/helpers/server'
-import { track } from '@/helpers/trackingHelpers'
-import * as artistHelpers from '@/helpers/artistHelpers'
+import * as server from '@/app/helpers/appServer'
+import { track } from '@/app/helpers/trackingHelpers'
+import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 const initialArtistState = {
   id: '',

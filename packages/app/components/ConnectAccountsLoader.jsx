@@ -18,8 +18,8 @@ import Error from '@/elements/Error'
 import * as ROUTES from '@/app/constants/routes'
 
 // IMPORT HELPERS
-import { track } from '@/helpers/trackingHelpers'
-import * as artistHelpers from '@/helpers/artistHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
+import * as artistHelpers from '@/app/helpers/artistHelpers'
 import styles from '@/app/ConnectAccounts.module.css'
 import copy from '@/app/copy/ConnectAccountsCopy'
 

@@ -12,7 +12,7 @@ import ResultsNoResults from '@/app/ResultsNoResults'
 import ResultsAll from '@/app/ResultsAll'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import server from '@/helpers/server'
+import * as server from '@/app/helpers/appServer'
 
 const initialPostsState = {
   active: {},

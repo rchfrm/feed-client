@@ -12,11 +12,11 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
-import { track } from '@/helpers/trackingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
-import styles from '@/app/LoginPage.module.css'
+import styles from '@/LoginPage.module.css'
 
 const getInputType = (key) => {
   if (key === 'email') return 'email'
