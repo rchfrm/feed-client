@@ -34,7 +34,11 @@ const AppContents = ({ children }) => {
 
             <ThePageButtons />
 
+<<<<<<< HEAD:packages/app/components/AppContents.jsx
             <PopupModal />
+=======
+            <PopupModal content={popupContent} />
+>>>>>>> animate modal:components/AppContents.jsx
 
             <TheFooter />
           </ArtistProvider>

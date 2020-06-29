@@ -1,6 +1,8 @@
 import React from 'react'
 
+import { gsap, Power2 } from 'gsap'
 import { Portal } from 'react-portal'
+import { Transition } from 'react-transition-group'
 
 import CloseCircle from '@/icons/CloseCircle'
 
@@ -32,7 +34,32 @@ const PopupModal = ({ contentType }) => {
     iframeContainer.current.style.height = `${height}px`
   }, [windowWidth, windowHeight, content, contentType])
 
-  if (!content) return null
+  // Panel animation
+  const [show, setShow] = React.useState(false)
+  React.useEffect(() => {
+    if (content) return setShow(true)
+    setShow(false)
+  }, [content])
+  const animationInstance = React.useRef()
+  const animatePanel = (state, target) => {
+    const opacity = state ? 1 : 0
+    const ease = Power2.easeOut
+    const duration = state ? 0.4 : 0.3
+    return gsap.to(target, { opacity, duration, ease })
+  }
+  // Run all animations
+  const toggleAnimation = (state, node) => {
+    const panelAnimation = animatePanel(state, node)
+    animationInstance.current = panelAnimation
+  }
+  // Animation complete promise
+  const onAnimationFinished = async (done) => {
+    await animationInstance.current.then()
+    console.log('done')
+    done()
+  }
+
+  // if (!content) return null
   return (
     <Portal>
       <FullHeight
@@ -56,21 +83,13 @@ const PopupModal = ({ contentType }) => {
         </button>
         <div
           className={[
-            'absolute',
-            'top-0',
-            'left-0',
-            'right-0',
-            'bottom-0',
-            'z-2',
-            'flex',
-            'items-center',
-            'justify-center',
-            styles.inner,
+            'modal--container',
+            'z-30',
+            'opacity-0',
           ].join(' ')}
         >
+          {/* Close button */}
           <button
-            className={['modal--background', styles.background].join(' ')}
-            aria-label="close"
             onClick={closePopup}
           />
           {content}
