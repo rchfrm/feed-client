@@ -1,12 +1,11 @@
 {
-  "extends": "../../jsconfig.json",
   "compilerOptions": {
     "baseUrl": "../",
-    "rootDir": ".",
     "paths": {
       // The app
       "@/app/copy/*": ["app/copy/*"],
       "@/app/constants/*": ["app/constants/*"],
+      "@/app/helpers/*": ["app/helpers/*"],
       "@/app/*": ["app/components/*"],
       // The admin
       "@/admin/copy/*": ["admin/copy/*"],
@@ -23,10 +22,10 @@
     }
   },
   "exclude": [
-    "node_modules",
+    "admin/node_modules",
     "**/test/",
     "**/.vscode/",
-    ".next",
-    "dist"
-  ]
+    "**/.next/*",
+    "admin/dist"
+  ],
 }
