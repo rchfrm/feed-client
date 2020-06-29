@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { useAsync } from 'react-async'
 
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT ELEMENTS
 import Button from '@/elements/Button'
 import Spinner from '@/elements/Spinner'

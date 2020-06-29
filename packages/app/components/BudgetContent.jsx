@@ -4,7 +4,7 @@ import React from 'react'
 import BudgetConfirmation from '@/app/BudgetConfirmation'
 import PaymentSummary from '@/app/PaymentSummary'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Input from '@/elements/Input'

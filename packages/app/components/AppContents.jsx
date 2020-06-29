@@ -2,7 +2,8 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { InterfaceContextProvider } from '@/contexts/InterfaceContext'
 import { UserProvider } from '@/contexts/UserContext'
-import { ArtistProvider } from '@/app/contexts/Artist'
+import { ArtistProvider } from '@/shared/contexts/ArtistContext'
+
 // IMPORT COMPONENTS
 import Main from '@/app/Main'
 import TheLoadingOverlay from '@/TheLoadingOverlay'

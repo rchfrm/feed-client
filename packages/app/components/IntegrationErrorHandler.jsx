@@ -3,7 +3,7 @@ import { useAsync } from 'react-async'
 
 import * as integrationErrorsHelpers from '@/helpers/integrationErrorsHelpers'
 import server from '@/helpers/server'
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 import { UserContext } from '@/contexts/UserContext'
 import { AuthContext } from '@/contexts/AuthContext'
 

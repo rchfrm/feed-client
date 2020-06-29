@@ -2,7 +2,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT ELEMENTS
 // IMPORT COMPONENTS
 import InsightPlatformSelectors from '@/app/InsightPlatformSelectors'

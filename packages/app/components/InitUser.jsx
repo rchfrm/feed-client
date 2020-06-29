@@ -4,7 +4,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 import * as ROUTES from '@/app/constants/routes'
 
 import * as utils from '@/helpers/utils'

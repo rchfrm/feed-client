@@ -2,7 +2,7 @@ import React from 'react'
 import { useAsync } from 'react-async'
 
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'

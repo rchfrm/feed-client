@@ -6,7 +6,7 @@ import PostLinkAddUrl from '@/app/PostLinkAddUrl'
 import PostLinkOptions from '@/app/PostLinkOptions'
 import PostInsight from '@/app/PostInsight'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 // IMPORT ASSETS

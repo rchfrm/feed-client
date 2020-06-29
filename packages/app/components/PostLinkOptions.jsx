@@ -2,7 +2,7 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT ELEMENTS
 import PostLinkSaveButton from '@/app/PostLinkSaveButton'
 import Select from '@/elements/Select'

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'

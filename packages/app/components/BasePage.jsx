@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT CONTEXTS
 import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'
