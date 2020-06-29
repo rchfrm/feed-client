@@ -23,9 +23,11 @@
   },
   "exclude": [
     "admin/node_modules",
+    "admin/dist",
+    "app/node_modules",
+    "app/dist",
     "**/test/",
     "**/.vscode/",
     "**/.next/*",
-    "admin/dist"
   ],
 }

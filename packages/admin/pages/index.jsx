@@ -1,15 +1,16 @@
-import React from 'react'
+import testPageReady from '@/hoc/testPageReady'
 import BasePage from '@/admin/BasePage'
 import AllArtistsLoader from '@/admin/AllArtistsLoader'
 
-export default function Home() {
+const Home = () => {
   return (
     <BasePage
       headerConfig="artists"
       staticPage
-      authPage
     >
       <AllArtistsLoader />
     </BasePage>
   )
 }
+
+export default testPageReady('admin')(Home)

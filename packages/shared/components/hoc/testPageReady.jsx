@@ -1,16 +1,18 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
 
-import * as ROUTES from '@/app/constants/routes'
+import * as ROUTES_APP from '@/app/constants/routes'
+import * as ROUTES_ADMIN from '@/admin/constants/routes'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import * as utils from '@/helpers/utils'
 
-const kickToLogin = () => Router.push(ROUTES.LOGIN)
+const kickToLogin = (loginPath) => Router.push(loginPath)
 
-const testPageReady = (Component) => (props) => {
+const testPageReady = (packageType) => (Component) => (props) => {
   const { pathname: currentPath } = useRouter()
   const { auth: { token: initialToken }, authLoading } = React.useContext(AuthContext)
+  const ROUTES = packageType === 'app' ? ROUTES_APP : ROUTES_ADMIN
 
   React.useEffect(() => {
     if (authLoading) return
@@ -18,6 +20,7 @@ const testPageReady = (Component) => (props) => {
       if (currentPath !== ROUTES.LOGIN) kickToLogin()
       utils.clearLocalStorage()
     }
+  // eslint-disable-next-line
   }, [currentPath, initialToken, authLoading])
 
   // Show spinner if auth loading

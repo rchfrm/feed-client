@@ -1,12 +1,17 @@
 {
   "compilerOptions": {
     "baseUrl": "../",
-    // The app
     "paths": {
+      // The app
       "@/app/copy/*": ["app/copy/*"],
       "@/app/constants/*": ["app/constants/*"],
       "@/app/helpers/*": ["app/helpers/*"],
       "@/app/*": ["app/components/*"],
+      // The admin
+      "@/admin/copy/*": ["admin/copy/*"],
+      "@/admin/constants/*": ["admin/constants/*"],
+      "@/admin/helpers/*": ["admin/helpers/*"],
+      "@/admin/*": ["admin/components/*"],
       // Shared
       "@/elements/*": ["shared/components/elements/*"],
       "@/icons/*": ["shared/components/icons/*"],
@@ -17,11 +22,12 @@
     }
   },
   "exclude": [
+    "admin/node_modules",
+    "admin/dist",
     "app/node_modules",
+    "app/dist",
     "**/test/",
     "**/.vscode/",
     "**/.next/*",
-    "app/.next/*",
-    "app/dist"
   ],
 }
