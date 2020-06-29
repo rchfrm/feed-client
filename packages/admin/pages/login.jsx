@@ -4,9 +4,10 @@ import LoginPageContent from '@/LoginPageContent'
 const page = () => (
   <BasePage
     headerConfig="login"
+    staticPage
+    authPage
   >
     <LoginPageContent
-      packageType="admin"
       showEmailLogin
     />
   </BasePage>

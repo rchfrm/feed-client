@@ -1,12 +1,15 @@
 import React from 'react'
-import PageIntro from '@/admin/elements/PageIntro'
+import BasePage from '@/admin/BasePage'
 import AllArtistsLoader from '@/admin/AllArtistsLoader'
 
 export default function Home() {
   return (
-    <div>
-      <PageIntro />
+    <BasePage
+      headerConfig="artists"
+      staticPage
+      authPage
+    >
       <AllArtistsLoader />
-    </div>
+    </BasePage>
   )
 }

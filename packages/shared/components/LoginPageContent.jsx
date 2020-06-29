@@ -9,8 +9,7 @@ import Button from '@/elements/Button'
 import EmailIcon from '@/icons/EmailIcon'
 import ButtonFacebook from '@/elements/ButtonFacebook'
 // IMPORT COMPONENTS
-import LoginWithEmailApp from '@/app/LoginWithEmail'
-import LoginWithEmailAdmin from '@/admin/LoginWithEmail'
+import LoginWithEmail from '@/LoginWithEmail'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
 import { track } from '@/helpers/trackingHelpers'
@@ -23,7 +22,7 @@ import copy from '@/app/copy/LoginPageCopy'
 import styles from '@/LoginPage.module.css'
 import brandColors from '@/constants/brandColors'
 
-function LoginPageContent({ showEmailLogin, packageType }) {
+function LoginPageContent({ showEmailLogin }) {
   // IMPORT CONTEXTS
   const { authError, setAuthError } = React.useContext(AuthContext)
   // Handle error
@@ -63,12 +62,7 @@ function LoginPageContent({ showEmailLogin, packageType }) {
 
       {/* Email login form */}
       {showEmailLogin ? (
-        // EMAIL LOGIN FORM
-        packageType === 'app'
-          // App login
-          ? <LoginWithEmailApp className={styles.form} />
-          // Admin login
-          : <LoginWithEmailAdmin className={styles.form} />
+        <LoginWithEmail className={styles.form} />
       )
         : (
           <>

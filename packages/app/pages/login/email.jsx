@@ -12,7 +12,6 @@ const page = () => (
     authPage
   >
     <LoginPageContent
-      packageType="app"
       showEmailLogin
     />
   </BasePage>
