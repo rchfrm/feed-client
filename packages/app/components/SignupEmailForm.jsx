@@ -4,7 +4,7 @@ import Router from 'next/router'
 import { useImmerReducer } from 'use-immer'
 
 import { AuthContext } from '@/contexts/AuthContext'
-import { UserContext } from '@/app/contexts/User'
+import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import Input from '@/elements/Input'

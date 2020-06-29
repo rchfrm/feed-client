@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { UserContext } from '@/app/contexts/User'
+import { UserContext } from '@/contexts/UserContext'
 
 import server from '@/helpers/server'
 import firebase from '@/helpers/firebase'

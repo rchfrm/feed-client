@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { UserContext } from '@/app/contexts/User'
+import { UserContext } from '@/contexts/UserContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import server from '@/helpers/server'

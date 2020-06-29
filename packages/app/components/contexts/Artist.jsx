@@ -3,7 +3,7 @@ import React from 'react'
 import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { UserContext } from '@/app/contexts/User'
+import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 // IMPORT PAGES

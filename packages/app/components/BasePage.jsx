@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT CONTEXTS
-import { UserContext } from '@/app/contexts/User'
+import { UserContext } from '@/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/Artist'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS

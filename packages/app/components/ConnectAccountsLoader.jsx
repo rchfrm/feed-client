@@ -6,7 +6,7 @@ import useAsyncEffect from 'use-async-effect'
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
 import { ArtistContext } from '@/app/contexts/Artist'
-import { UserContext } from '@/app/contexts/User'
+import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import ConnectAccountsFacebook from '@/app/ConnectAccountsFacebook'
