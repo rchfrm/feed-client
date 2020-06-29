@@ -2,7 +2,7 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { InterfaceContextProvider } from '@/contexts/InterfaceContext'
 import { UserProvider } from '@/contexts/UserContext'
-import { ArtistProvider } from '@/shared/contexts/ArtistContext'
+import { ArtistProvider } from '@/contexts/ArtistContext'
 
 // IMPORT COMPONENTS
 import Main from '@/app/Main'
