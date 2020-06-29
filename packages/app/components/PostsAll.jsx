@@ -129,9 +129,9 @@ function PostsAll({
         className={[
           'flex',
           'md:grid',
-          'grid-cols-12',
-          'gap-8',
-          'grid-flow-row-dense',
+          'md:grid-cols-12',
+          'md:gap-8',
+          'md:grid-flow-row-dense',
           styles.postsScroller,
         ].join(' ')}
         ref={intersectionRoot}
