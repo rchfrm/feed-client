@@ -70,7 +70,6 @@ function AuthProvider({ children }) {
     const { email, providerData } = authUser
     // Get provider IDs
     const providerIds = providerData.map(({ providerId }) => providerId)
-    console.log('authToken', authToken)
     // Set auth
     setAuth({
       type: 'set-auth-user',
