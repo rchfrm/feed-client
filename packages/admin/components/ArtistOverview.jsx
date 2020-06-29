@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 import DataDetails from '@/admin/elements/DataDetails'
 
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/admin/constants/routes'
 
 const propsToDisplay = [
   'name',
