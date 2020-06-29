@@ -121,6 +121,7 @@
 .postCaption {
   padding-left: var(--sp-4);
   width: 70%;
+  font-style: italic;
 
   @media (--md) {
     padding-left: var(--sp-5);

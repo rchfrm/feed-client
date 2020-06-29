@@ -16,7 +16,7 @@ const PostContents = ({ media, thumbnailSrc, caption, className }) => {
         />
       </div>
       {caption && (
-        <figcaption className={styles.postCaption}>
+        <figcaption className={['small--p', styles.postCaption].join(' ')}>
           {caption}
         </figcaption>
       )}
