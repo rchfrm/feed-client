@@ -28,7 +28,6 @@ const BasePage = ({
   // 2. page is not artist senstive
   // 3. It's an auth page (ie, login or signup)
   React.useEffect(() => {
-    console.log('artistLoading', artistLoading)
     if (!artistLoading && !authPage) {
       toggleGlobalLoading(false)
     }
