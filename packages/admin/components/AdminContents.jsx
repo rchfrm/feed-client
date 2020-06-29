@@ -1,4 +1,5 @@
 import React from 'react'
+import InitUser from '@/admin/InitUser'
 import { UserProvider } from '@/contexts/UserContext'
 import { ArtistProvider } from '@/contexts/ArtistContext'
 import { InterfaceContextProvider } from '@/contexts/InterfaceContext'
@@ -11,9 +12,11 @@ const AdminContents = ({ children }) => {
         <UserProvider>
           <ArtistProvider>
             <TheLoadingOverlay />
-            <main id="page--container">
-              {children}
-            </main>
+            <InitUser>
+              <main id="page--container">
+                {children}
+              </main>
+            </InitUser>
           </ArtistProvider>
         </UserProvider>
       </InterfaceContextProvider>
