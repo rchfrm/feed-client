@@ -5,6 +5,8 @@ import { ArtistProvider } from '@/contexts/ArtistContext'
 import { InterfaceContextProvider } from '@/contexts/InterfaceContext'
 import TheLoadingOverlay from '@/TheLoadingOverlay'
 
+import TheHeader from '@/admin/TheHeader'
+
 const AdminContents = ({ children }) => {
   return (
     <div id="container" className="page--content">
@@ -13,6 +15,7 @@ const AdminContents = ({ children }) => {
           <ArtistProvider>
             <TheLoadingOverlay />
             <InitUser>
+              <TheHeader />
               <main id="page--container">
                 {children}
               </main>
