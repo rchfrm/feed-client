@@ -10,15 +10,15 @@ import { UserContext } from '@/contexts/UserContext'
 
 import * as server from '@/admin/helpers/adminServer'
 
-const fetcher = (artistId, token) => {
-  if (!artistId || !token) return []
-  return server.getArtistTournaments(artistId, token)
+const fetcher = (artistId) => {
+  if (!artistId) return []
+  return server.getArtistTournaments(artistId)
 }
 
 const TournamentsLoader = ({ artistId }) => {
   const { user } = React.useContext(UserContext)
   const { data: tournaments, error } = useSWR(
-    user ? [artistId, user.token] : null,
+    user ? [artistId] : null,
     fetcher,
   )
 
