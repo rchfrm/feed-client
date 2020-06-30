@@ -3,7 +3,7 @@ import create from 'zustand'
 import tailwindConfig from '~/tailwind.config'
 
 // GET BREAKPOINTS
-const { theme: { screens } } = tailwindConfig
+const { theme: { screens } } = tailwindConfig()
 // Define object of keyed breakpoints breakpointName: { width }
 const breakpointsKeyed = Object.entries(screens).reduce((obj, [name, sizeString]) => {
   const size = parseInt(sizeString, 0)
