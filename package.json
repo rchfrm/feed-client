@@ -13,7 +13,9 @@
     "deploy-production": "./deploy app production",
     "stage:admin": "./bin/deploy admin staging",
     "deploy-production:admin": "./deploy admin production",
-    "pwa": "node bin/buildFavicons && cp -a ./packages/app/public/pwa ./packages/admin/public"
+    "pwa": "node bin/buildFavicons && cp -a ./packages/app/public/pwa ./packages/admin/public",
+    "analyze-bundle": "yarn workspace app analyze-bundle",
+    "analyze-bundle:admin": "yarn workspace admin analyze-bundle"
   },
   "workspaces": [
     "packages/*"
