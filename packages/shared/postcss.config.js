@@ -2,7 +2,10 @@ module.exports = (path) => ({
   plugins: [
     'postcss-flexbugs-fixes',
     'postcss-import',
-    'postcss-mixins',
+      root: `${path}/css`,
+    ['postcss-mixins', {
+      mixinsDir: `${path}/css`,
+    }],
     'postcss-calc',
     'postcss-extend',
     'postcss-easing-gradients',

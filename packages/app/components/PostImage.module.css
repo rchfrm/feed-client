@@ -1,5 +1,3 @@
-@import "../assets/styles/mixins";
-
 .figure {
   border-radius: var(--dialogue-radius)
 }
