@@ -1,6 +1,4 @@
-import Router from 'next/router'
-
-import { useState, useEffect } from 'react'
+import React from 'react'
 import { PageTransition } from 'next-page-transitions'
 import PropTypes from 'prop-types'
 
@@ -38,7 +36,7 @@ const registerServiceWorker = () => {
 }
 
 function FeedAdmin({ Component, pageProps, router }) {
-  useEffect(() => {
+  React.useEffect(() => {
     if (process.env.build_env !== 'development') {
       registerServiceWorker()
     }
