@@ -1,8 +1,8 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT COMPONENTS
-import PostConnectionsLink from '@/PostConnectionsLink'
-import PostConnectionsEdit from '@/PostConnectionsEdit'
+import PostConnectionsLink from '@/app/PostConnectionsLink'
+import PostConnectionsEdit from '@/app/PostConnectionsEdit'
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
 import Button from '@/elements/Button'
@@ -16,7 +16,7 @@ import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT STYLES
-import styles from '@/Integrations.module.css'
+import styles from '@/app/Integrations.module.css'
 
 
 const PostConnectionsConnection = ({

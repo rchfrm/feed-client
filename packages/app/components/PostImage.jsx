@@ -10,7 +10,7 @@ import brandColors from '@/constants/brandColors'
 
 import popupStore from '@/store/popupStore'
 
-import styles from '@/PostImage.module.css'
+import styles from '@/app/PostImage.module.css'
 import popupStyles from '@/PopupModal.module.css'
 
 const getMediaTest = ({ mediaSrc, handleError }) => {
