@@ -5,7 +5,6 @@ import produce from 'immer'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-import useBrowserStore from '@/hooks/useBrowserStore'
 // IMPORT ELEMENTS
 import Spinner from '@/elements/Spinner'
 import Button from '@/elements/Button'
@@ -70,12 +69,9 @@ function PostsAll({
   }, [loadingMore, loadMorePosts])
 
   // Setup intersection observer
-  const { width: windowWidth } = useBrowserStore()
   React.useEffect(() => {
-    const root = windowWidth >= 992 ? null : intersectionRoot.current
     // Observer options
     const options = {
-      root,
       rootMargin: '0px',
       threshold: 0,
     }
@@ -93,7 +89,7 @@ function PostsAll({
         observer.unobserve(loadTriggerEl)
       }
     }
-  }, [posts.length, windowWidth, loadMore])
+  }, [posts.length, loadMore])
 
   // Open the post settings side panel
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
@@ -127,11 +123,13 @@ function PostsAll({
       <ul
         id="PostsAll__scroller"
         className={[
-          'flex',
-          'md:grid',
-          'md:grid-cols-12',
-          'md:gap-8',
-          'md:grid-flow-row-dense',
+          'grid',
+          'grid-cols-12',
+          'row-gap-8',
+          'col-gap-0',
+          'xs:col-gap-6',
+          'sm:col-gap-8',
+          'grid-flow-row-dense',
           styles.postsScroller,
         ].join(' ')}
         ref={intersectionRoot}
@@ -146,7 +144,7 @@ function PostsAll({
               updateLink={updateLink}
               singular={posts.length === 1}
               togglePromotion={togglePromotion}
-              className="col-span-6 lg:col-span-4"
+              className="col-span-12 xs:col-span-6 lg:col-span-4"
             >
               {post.loadTrigger && (
                 <div

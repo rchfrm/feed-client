@@ -1,33 +1,8 @@
 .postItem {
-  /* Force gap to the right */
   position: relative;
-  overflow: visible;
-  max-width: 480px;
-  width: 110vw;
-  flex-shrink: 0;
-
   border: 2px solid var(--text-color);
   border-radius: var(--dialogue-radius);
   overflow: hidden;
-  margin-right: var(--sp-8);
-
-  &:last-child::after {
-    content: ' ';
-    position: absolute;
-    width: var(--sp-8);
-    height: 100%;
-    right: calc(-1 * var(--sp-8));
-  }
-
-  @media (--md) {
-    width: 100%;
-    max-width: none;
-    margin-right: 0;
-
-    &:last-child::after {
-      display: none;
-    }
-  }
 }
 
 .postSection {

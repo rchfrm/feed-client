@@ -1,30 +1,10 @@
 /* POSTS PAGE */
 .postsScroller {
-  position: relative;
-  left: 50%;
-  width: 100vw;
-  margin-left: -50vw !important;
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-  padding-left: var(--sp-6) !important;
-  overflow-x: auto;
-
-  @media (--sm) {
-    padding-left: var(--sp-8) !important;
-  }  
-
-  @media (--md) {
-    position: static;
-    align-items: start;
-    width: 100%;
+  width: 100%;
     margin-left: 0 !important;
-    padding-left: 0 !important;
-  }
 }
 
 .postsSection {
-  flex: auto;
-
   .h4 {
     margin-left: 5%;
     margin-right: 5%;
