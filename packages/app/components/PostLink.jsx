@@ -5,18 +5,18 @@ import useAsyncEffect from 'use-async-effect'
 import { gsap } from 'gsap'
 
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
 
-import PostLinkSummary from '@/PostLinkSummary'
-import PostLinkOptions from '@/PostLinkOptions'
-import PostLinkAddUrl from '@/PostLinkAddUrl'
+import PostLinkSummary from '@/app/PostLinkSummary'
+import PostLinkOptions from '@/app/PostLinkOptions'
+import PostLinkAddUrl from '@/app/PostLinkAddUrl'
 
 import * as utils from '@/helpers/utils'
-import server from '@/helpers/server'
+import * as server from '@/app/helpers/appServer'
 
-import styles from '@/PostItem.module.css'
+import styles from '@/app/PostItem.module.css'
 
 const PostLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink, setError }) => {
   const { artist, addArtistUrl } = React.useContext(ArtistContext)
