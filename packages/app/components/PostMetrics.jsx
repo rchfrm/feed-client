@@ -81,8 +81,6 @@ const PostMetrics = ({ insights, es, postPromotable }) => {
         {postPromotable ? (
           // Promotable
           <>
-            {/* Status metric */}
-            {/* <METRICS_ITEM title="Status" value={status ? 'Active' : 'Disabled'} className="col-span-2" /> */}
             {/* Insights metrics */}
             {insightsArray.map(({ title, value }) => {
               return <METRICS_ITEM key={title} title={title} value={value} />
