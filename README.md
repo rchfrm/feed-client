@@ -8,7 +8,11 @@
 
 ## Initial setup
 
-In both the `packages/admin/` `packages/app/` directories, duplicate all the `.env` files that end with `.example`, remove the ".example", and fill in the variables.
+In both the `packages/admin/` `packages/app/` directories, duplicate the `.env.example`, remove the ".example", and fill in the variables.
+
+In order to stage the site you will need a `.env.staging` file.
+
+In order to deploy the site to production you will need a `.env.live` file.
 
 Run `yarn` to install the packages.
 
