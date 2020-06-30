@@ -76,7 +76,11 @@
   justify-content: space-between;
   flex-direction: row-reverse;
   width: 100%;
-  padding-right: var(--sp-10);
+  /* padding-right: var(--sp-10); */
+
+  .button {
+    width: 40%;
+  }
 }
 
 
