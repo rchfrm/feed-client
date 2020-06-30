@@ -1,3 +1,20 @@
 {
-  "exclude": ["**/node_modules/*", ".cache", "**/.next/*", "**/dist/*"]
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "exclude": [
+    "packages/app/node_modules",
+    "packages/app/dist",
+    "packages/app/.next",
+    "packages/admin/node_modules",
+    "packages/admin/dist",
+    "packages/admin/.next",
+    "packages/shared/node_modules",
+    "packages/shared/dist",
+    "packages/shared/.next",
+    "node_modules",
+    ".vscode",
+    ".firebase",
+    ".git",
+  ],
 }

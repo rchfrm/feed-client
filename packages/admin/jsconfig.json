@@ -19,15 +19,10 @@
       "@/constants/*": ["shared/constants/*"],
       "@/helpers/*": ["shared/helpers/*"],
       "@/*": ["shared/components/*"],
-    }
+    },
   },
   "exclude": [
-    "admin/node_modules",
     "admin/dist",
-    "app/node_modules",
-    "app/dist",
-    "**/test/",
-    "**/.vscode/",
-    "**/.next/*",
+    "dist",
   ],
 }
