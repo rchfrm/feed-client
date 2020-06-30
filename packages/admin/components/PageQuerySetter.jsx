@@ -19,20 +19,22 @@ const PageQuerySetter = ({
 
   const onSubmit = React.useCallback((e) => {
     e.preventDefault()
+    if (!query) return
     const newUrl = `${pathname}?${queryName}=${query}`
     Router.push(newUrl)
   }, [pathname, queryName, query])
 
   return (
-    <form onSubmit={onSubmit}>
+    <form className="flex items-end w-100" onSubmit={onSubmit}>
       <Input
+        className="flex-1 mb-0 mr-5"
         handleChange={handleChange}
         name="Page query"
         label={label}
         placeholder={placeholder}
         value={query}
       />
-      <Button type="submit">Submit</Button>
+      <Button type="submit" className="mb-0" disabled={!query}>Submit</Button>
     </form>
   )
 }
