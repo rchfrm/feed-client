@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { UserContext } from '@/contexts/UserContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import * as server from '@/app/helpers/appServer'
+import * as server from '@/helpers/sharedServer'
 import firebase from '@/helpers/firebase'
 import { track } from '@/app/helpers/trackingHelpers'
 
