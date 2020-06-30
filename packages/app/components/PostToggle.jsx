@@ -10,6 +10,7 @@ import * as server from '@/app/helpers/appServer'
 import brandColors from '@/constants/brandColors'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
+import Spinner from '@/elements/Spinner'
 
 import styles from '@/app/PostToggle.module.css'
 
@@ -174,7 +175,9 @@ const PostToggle = ({
       <TOGGLE_BUTTON action="off" buttonState={buttonState} setButtonState={setButtonState} />
       <TOGGLE_BUTTON action="on" buttonState={buttonState} setButtonState={setButtonState} />
       {/* Switch slider */}
-      <div className={styles.switch} {...dragBind()} ref={switchEl} />
+      <div className={styles.switch} {...dragBind()} ref={switchEl}>
+        {isPending && <Spinner className={styles.switchSpinner} />}
+      </div>
     </div>
   )
 }

@@ -69,3 +69,11 @@
   border-radius: 50%;
   background-color: #fff;
 }
+
+.switchSpinner {
+  position: absolute;
+  width: 66% !important;
+  height: auto;
+  top: calc((100% - 66%) / 2);
+  left: calc((100% - 66%) / 2);
+}
