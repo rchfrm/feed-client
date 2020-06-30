@@ -1,8 +1,9 @@
 module.exports = (path) => ({
   plugins: [
     'postcss-flexbugs-fixes',
-    'postcss-import',
+    ['postcss-import', {
       root: `${path}/css`,
+    }],
     ['postcss-mixins', {
       mixinsDir: `${path}/css`,
     }],
