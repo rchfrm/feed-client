@@ -6,7 +6,7 @@ import Link from 'next/link'
 import DataDetail from '@/admin/elements/DataDetail'
 import DataDetails from '@/admin/elements/DataDetails'
 
-import * as ROUTES from '@/constants/routes'
+import * as ROUTES from '@/admin/constants/routes'
 
 const propsToDisplay = [
   'id',
@@ -31,7 +31,7 @@ const UserOverview = ({ user }) => {
           {userArtists.map(({ id, name }) => {
             return (
               <li key={id}>
-                <Link href={{ pathname: ROUTES.ARTIST, query: { id } }}>
+                <Link href={{ pathname: ROUTES.ARTIST, query: { artistId: id } }}>
                   <a>{name} ({id})</a>
                 </Link>
               </li>
@@ -48,7 +48,7 @@ const UserOverview = ({ user }) => {
               <li key={id}>
                 {role}
                 {': '}
-                <Link href={{ pathname: ROUTES.ORGANISATION, query: { id } }}>
+                <Link href={{ pathname: ROUTES.ORGANISATION, query: { orgId: id } }}>
                   <a>{name} ({id})</a>
                 </Link>
               </li>

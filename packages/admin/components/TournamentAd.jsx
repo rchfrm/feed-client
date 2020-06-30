@@ -7,7 +7,7 @@ import TournamentAdCreative from '@/admin/TournamentAdCreative'
 import DataDetails from '@/admin/elements/DataDetails'
 
 import * as api from '@/helpers/api'
-import { useUser } from '@/admin/hooks/useUser'
+import { UserContext } from '@/contexts/UserContext'
 
 const propsToDisplay = [
   'name',
@@ -20,13 +20,15 @@ const fetcher = (path, token) => {
 }
 
 const TournamentAd = ({ ad, winner }) => {
-  const { user } = useUser()
+  const { user } = React.useContext(UserContext)
   const { data, error } = useSWR(
     user ? [ad.ad.path, user.token] : null,
     fetcher,
   )
 
   const header = winner ? `Ad (${ad.id}) ***WINNER***` : `Ad (${ad.id})`
+
+  console.log('error', error)
 
   if (!data) return null
   return (

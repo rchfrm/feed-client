@@ -1,15 +1,18 @@
 import { withRouter } from 'next/router'
+import testPageReady from '@/hoc/testPageReady'
+import BasePage from '@/admin/BasePage'
 import OrganisationLoader from '@/admin/OrganisationLoader'
-import PageIntro from '@/admin/elements/PageIntro'
 
 const Organisation = ({ router: { query } }) => {
-  const { id } = query
+  const { orgId } = query
   return (
-    <>
-      <PageIntro />
-      {id && <OrganisationLoader id={id} />}
-    </>
+    <BasePage
+      headerConfig="organistion"
+      staticPage
+    >
+      {orgId ? <OrganisationLoader orgId={orgId} /> : 'No ID'}
+    </BasePage>
   )
 }
 
-export default withRouter(Organisation)
+export default testPageReady('admin')(withRouter(Organisation))

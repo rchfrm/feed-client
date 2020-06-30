@@ -1,12 +1,17 @@
 import React from 'react'
-import PageIntro from '@/admin/elements/PageIntro'
+import testPageReady from '@/hoc/testPageReady'
+import BasePage from '@/admin/BasePage'
 import AllUsersLoader from '@/admin/AllUsersLoader'
 
-export default function Home() {
+const Users = () => {
   return (
-    <div>
-      <PageIntro />
+    <BasePage
+      headerConfig="tournamenmts"
+      staticPage
+    >
       <AllUsersLoader />
-    </div>
+    </BasePage>
   )
 }
+
+export default testPageReady('admin')(Users)

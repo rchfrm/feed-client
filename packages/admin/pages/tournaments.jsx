@@ -1,15 +1,18 @@
 import { withRouter } from 'next/router'
+import testPageReady from '@/hoc/testPageReady'
+import BasePage from '@/admin/BasePage'
 import TournamentsLoader from '@/admin/TournamentsLoader'
-import PageIntro from '@/admin/elements/PageIntro'
 
 const Tournaments = ({ router: { query } }) => {
   const { artistId } = query
   return (
-    <>
-      <PageIntro />
-      <TournamentsLoader artistId={artistId} />
-    </>
+    <BasePage
+      headerConfig="tournamenmts"
+      staticPage
+    >
+      {artistId ? <TournamentsLoader artistId={artistId} /> : 'No ID'}
+    </BasePage>
   )
 }
 
-export default withRouter(Tournaments)
+export default testPageReady('admin')(withRouter(Tournaments))

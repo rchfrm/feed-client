@@ -6,8 +6,9 @@ import useSWR from 'swr'
 import TournamentFilters from '@/admin/TournamentFilters'
 import TournamentOverview from '@/admin/TournamentOverview'
 
+import { UserContext } from '@/contexts/UserContext'
+
 import * as server from '@/admin/helpers/adminServer'
-import { useUser } from '@/admin/hooks/useUser'
 
 const fetcher = (artistId, token) => {
   if (!artistId || !token) return []
@@ -15,7 +16,7 @@ const fetcher = (artistId, token) => {
 }
 
 const TournamentsLoader = ({ artistId }) => {
-  const { user } = useUser()
+  const { user } = React.useContext(UserContext)
   const { data: tournaments, error } = useSWR(
     user ? [artistId, user.token] : null,
     fetcher,

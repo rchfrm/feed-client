@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const OrganisationLoader = ({ id }) => {
+const OrganisationLoader = ({ orgId }) => {
   return (
     <div>
-      {id}
+      {orgId}
     </div>
   )
 }
 
 OrganisationLoader.propTypes = {
-  id: PropTypes.string.isRequired,
+  orgId: PropTypes.string.isRequired,
 }
 
 export default OrganisationLoader
