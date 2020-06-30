@@ -15,7 +15,7 @@ import Error from '@/elements/Error'
 import PaymentMethodButton from '@/app/PaymentMethodButton'
 import FadeInOut from '@/app/FadeInOut'
 
-import paymentHelpers from '@/helpers/paymentHelpers'
+import paymentHelpers from '@/app/helpers/paymentHelpers'
 
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/AccountPageCopy'

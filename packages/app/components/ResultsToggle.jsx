@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { useAsync } from 'react-async'
 
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT ELEMENTS
 import Button from '@/elements/Button'
 import Spinner from '@/elements/Spinner'
@@ -12,8 +12,8 @@ import Icon from '@/elements/Icon'
 // IMPORT CONSTANTS
 import brandColors from '@/constants/brandColors'
 // IMPORT HELPERS
-import server from '@/helpers/server'
-import { track } from '@/helpers/trackingHelpers'
+import * as server from '@/app/helpers/appServer'
+import { track } from '@/app/helpers/trackingHelpers'
 // COPY
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/ResultsPageCopy'

@@ -3,7 +3,7 @@ import React from 'react'
 import produce from 'immer'
 // IMPORT CONTEXTS
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
 import useOnResize from '@/hooks/useOnResize'
 // IMPORT ELEMENTS

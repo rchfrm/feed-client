@@ -3,8 +3,8 @@ import React from 'react'
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
+import { ArtistContext } from '@/contexts/ArtistContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 // IMPORT COMPONENTS
@@ -12,7 +12,7 @@ import ResultsNoResults from '@/app/ResultsNoResults'
 import ResultsAll from '@/app/ResultsAll'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import server from '@/helpers/server'
+import * as server from '@/app/helpers/appServer'
 
 const initialPostsState = {
   active: {},

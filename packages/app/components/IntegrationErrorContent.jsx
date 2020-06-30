@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import firebase from '@/helpers/firebase'
 
-import { AuthContext } from '@/app/contexts/Auth'
+import { AuthContext } from '@/contexts/AuthContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'

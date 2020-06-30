@@ -4,7 +4,7 @@ import React from 'react'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import { track } from '@/helpers/trackingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT STYLES
 
 import MarkdownText from '@/elements/MarkdownText'

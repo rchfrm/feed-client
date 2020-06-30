@@ -2,7 +2,7 @@ import React from 'react'
 import { useAsync } from 'react-async'
 
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'
@@ -15,8 +15,8 @@ import PostConnections from '@/app/PostConnections'
 // IMPORT COPY
 import copy from '@/app/copy/PostsPageCopy'
 // IMPORT HELPERS
-import server from '@/helpers/server'
-import { track } from '@/helpers/trackingHelpers'
+import * as server from '@/app/helpers/appServer'
+import { track } from '@/app/helpers/trackingHelpers'
 
 import styles from '@/app/PostSettings.module.css'
 import sidePanelStyles from '@/app/SidePanel.module.css'

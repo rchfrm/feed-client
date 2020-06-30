@@ -4,10 +4,10 @@ import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
 
 // IMPORT CONTEXTS
-import { AuthContext } from '@/app/contexts/Auth'
-import { ArtistContext } from '@/app/contexts/Artist'
-import { UserContext } from '@/app/contexts/User'
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
+import { AuthContext } from '@/contexts/AuthContext'
+import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/contexts/UserContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import ConnectAccountsFacebook from '@/app/ConnectAccountsFacebook'
 import ConnectAccounts from '@/app/ConnectAccounts'
@@ -18,8 +18,8 @@ import Error from '@/elements/Error'
 import * as ROUTES from '@/app/constants/routes'
 
 // IMPORT HELPERS
-import { track } from '@/helpers/trackingHelpers'
-import * as artistHelpers from '@/helpers/artistHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
+import * as artistHelpers from '@/app/helpers/artistHelpers'
 import styles from '@/app/ConnectAccounts.module.css'
 import copy from '@/app/copy/ConnectAccountsCopy'
 

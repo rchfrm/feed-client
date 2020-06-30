@@ -236,3 +236,21 @@ button {
   text-decoration: underline;
   cursor: pointer;
 }
+
+/* Copy text button */
+.button--copy-text {
+  border: 1px solid var(--text-color);
+  border-radius: var(--button-radius);
+  padding: 0.2em 0.5em;
+  text-decoration: none;
+
+  &:active {
+    border: 1px solid var(--green);
+  }
+
+  .icon {
+    transform: translateY(0.05em);
+    height: 0.9em;
+    width: auto;
+  }
+}

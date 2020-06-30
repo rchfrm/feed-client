@@ -3,7 +3,7 @@ import React from 'react'
 import ThePageButtonsIcon from '@/app/ThePageButtonsIcon'
 import ActiveLink from '@/elements/ActiveLink'
 
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import useLoggedInTest from '@/hooks/useLoggedInTest'
 

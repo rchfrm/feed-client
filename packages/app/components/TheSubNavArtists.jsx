@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { UserContext } from '@/app/contexts/User'
-import { ArtistContext } from '@/app/contexts/Artist'
+import { UserContext } from '@/contexts/UserContext'
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'
 
-import * as artistHelpers from '@/helpers/artistHelpers'
+import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 import styles from '@/app/TheSubNav.module.css'
 

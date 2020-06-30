@@ -14,9 +14,9 @@ import '../../shared/css/index.css'
 import AppContents from '@/app/AppContents'
 import SetupGtag from '@/elements/SetupGtag'
 // IMPORT CONTEXTS
-import { AuthProvider } from '@/app/contexts/Auth'
+import { AuthProvider } from '@/contexts/AuthContext'
 // IMPORT HELPERS
-import { trackPWA, gtagPageView } from '@/helpers/trackingHelpers'
+import { trackPWA, gtagPageView } from '@/app/helpers/trackingHelpers'
 
 // TRACKING SERVICE IDS
 // Google Analytics
@@ -112,7 +112,6 @@ function Feed({ Component, pageProps, router }) {
     </AuthProvider>
   )
 }
-
 
 export default Feed
 

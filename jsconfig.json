@@ -1,25 +1,20 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      // The app
-      "@/app/*": ["packages/app/components/*"],
-      "@/app/copy/*": ["packages/app/copy/*"],
-      // Shared
-      "@/elements/": ["packages/shared/components/elements/*"],
-      "@/icons/": ["packages/shared/components/icons/*"],
-      "@/hooks/": ["packages/shared/components/hooks/*"],
-      "@/constants/*": ["packages/shared/constants/*"],
-      "@/helpers/*": ["packages/shared/helpers/*"]
-    }
+    "baseUrl": "."
   },
   "exclude": [
-    "**/node_modules/*",
-    "**/test/",
-    "**/.vscode/",
-    ".next",
+    "packages/app/node_modules",
+    "packages/app/dist",
+    "packages/app/.next",
+    "packages/admin/node_modules",
+    "packages/admin/dist",
+    "packages/admin/.next",
+    "packages/shared/node_modules",
+    "packages/shared/dist",
+    "packages/shared/.next",
+    "node_modules",
+    ".vscode",
     ".firebase",
-    "pakcages/app/dist",
-    "pakcages/admin/dist"
-  ]
+    ".git",
+  ],
 }
