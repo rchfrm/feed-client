@@ -8,7 +8,7 @@
 
 ## Initial setup
 
-In both the `packages/admin/` `packages/app/` directories, remove `.example` from the end of all the `.env` files and fill in the variables.
+In both the `packages/admin/` `packages/app/` directories, duplicate all the `.env` files that end with `.example`, remove the ".example", and fill in the variables.
 
 Run `yarn` to install the packages.
 
