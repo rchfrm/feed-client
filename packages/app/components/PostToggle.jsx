@@ -58,7 +58,12 @@ const getPromotionStatus = (buttonState) => {
 // ON / OFF BUTTON COMPONENT
 const TOGGLE_BUTTON = ({ action, buttonState, setButtonState }) => {
   const xClass = action === 'off' ? 'left-0' : 'right-0'
-  const newState = buttonState === 'default' ? action : 'default'
+  const newState = React.useMemo(() => {
+    return buttonState === 'default' ? action : 'default'
+  }, [buttonState, action])
+  const onClick = React.useCallback(() => {
+    setButtonState(newState)
+  }, [newState, setButtonState])
   return (
     <button
       className={[
@@ -69,7 +74,7 @@ const TOGGLE_BUTTON = ({ action, buttonState, setButtonState }) => {
         'w-1/2',
         'z-2',
       ].join(' ')}
-      onClick={() => setButtonState(newState)}
+      onClick={onClick}
       aria-label={`Toggle post ${action}`}
     />
   )
@@ -128,8 +133,14 @@ const PostToggle = ({
   }, [])
   // Run this on drag
   const onDrag = React.useCallback((dragState) => {
-    const { last, movement, event } = dragState
+    const { last, movement, event, tap } = dragState
     event.preventDefault()
+    // Handle tapping
+    if (tap) {
+      if (buttonState === 'default') return
+      setButtonState('default')
+      return
+    }
     // keep within bounds
     const [x] = movement
     const xClamped = clamp(x, dragBoundaries.current.min, dragBoundaries.current.max)
@@ -153,7 +164,7 @@ const PostToggle = ({
     }
     // Move switch
     cssSetter.current(xClamped)
-  }, [])
+  }, [buttonState])
   // Drag binder
   const dragBind = useDrag(state => onDrag(state), {
     axis: 'x',
