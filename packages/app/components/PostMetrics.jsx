@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import * as utils from '@/helpers/utils'
+
 import styles from '@/app/PostItem.module.css'
 
 const visibleInsights = {
@@ -83,7 +85,8 @@ const PostMetrics = ({ insights, es, postPromotable }) => {
           <>
             {/* Insights metrics */}
             {insightsArray.map(({ title, value }) => {
-              return <METRICS_ITEM key={title} title={title} value={value} />
+              const parsedValue = utils.abbreviateNumber(value)
+              return <METRICS_ITEM key={title} title={title} value={parsedValue} />
             })}
           </>
         ) : (
