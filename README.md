@@ -8,7 +8,9 @@
 
 ## Initial setup
 
-Run `yarn`
+In both the `packages/admin/` `packages/app/` directories, remove `.example` from the end of all the `.env` files and fill in the variables.
+
+Run `yarn` to install the packages.
 
 
 ## Developing
