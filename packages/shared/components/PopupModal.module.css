@@ -1,15 +1,38 @@
-.inner {
-  padding: var(--sp-5);
+.inner,
+.imageButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  @media (--md) {
-    padding: var(--sp-10);
+
+.imageButton {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.inner {
+  padding: var(--sp-10);
+
+  @media (--sm) {
+    padding: var(--sp-10) var(--sp-20);
   }
 
-  :global(img) {
+  :global(img),
+  :global(video) {
     max-width: 100%;
     max-height: 100%;
     height: auto;
     width: auto;
+  }
+
+  :global(iframe) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
   }
 
   > * {
@@ -21,6 +44,11 @@
   position: absolute;
   right: var(--sp-5);
   z-index: 2;
+
+  svg {
+    border: 1px solid var(--white);
+    border-radius: 50%;
+  }
 }
 
 .background {

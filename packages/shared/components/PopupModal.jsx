@@ -11,10 +11,10 @@ import useBrowserStore from '@/hooks/useBrowserStore'
 import popupStore from '@/store/popupStore'
 
 import styles from '@/PopupModal.module.css'
-import FullHeight from './elements/FullHeight'
+import FullHeight from '@/elements/FullHeight'
 
-const PopupModal = ({ contentType }) => {
-  const content = popupStore(state => state.content)
+const PopupModal = ({ content }) => {
+  const contentType = popupStore(state => state.contentType)
   const closePopup = popupStore(state => state.clear)
 
   // Resize iframe container
@@ -62,26 +62,17 @@ const PopupModal = ({ contentType }) => {
   // if (!content) return null
   return (
     <Portal>
-      <FullHeight
-        className={[
-          'fixed',
-          'top-0',
-          'left-0',
-          'right-0',
-          'bottom-0',
-          'z-30',
-        ].join(' ')}
+      <Transition
+        in={show}
+        onEnter={(node) => toggleAnimation(true, node)}
+        onExit={(node) => toggleAnimation(false, node)}
+        addEndListener={(node, done) => {
+          onAnimationFinished(done)
+        }}
+        unmountOnExit
       >
-        {/* Close button */}
-        {/* Close button */}
-        <button
-          onClick={closePopup}
-          className={['button--close', styles.backButton].join(' ')}
-          label="Close"
-        >
-          <CloseCircle />
-        </button>
-        <div
+        <FullHeight
+          id="PopupModal"
           className={[
             'modal--container',
             'z-30',
@@ -91,10 +82,45 @@ const PopupModal = ({ contentType }) => {
           {/* Close button */}
           <button
             onClick={closePopup}
-          />
-          {content}
-        </div>
-      </FullHeight>
+            className={['button--close', styles.backButton].join(' ')}
+            label="Close"
+          >
+            <CloseCircle />
+          </button>
+          <div
+            className={[
+              'absolute',
+              'top-0',
+              'left-0',
+              'right-0',
+              'bottom-0',
+              'z-2',
+              'flex',
+              'items-center',
+              'justify-center',
+              styles.inner,
+            ].join(' ')}
+            ref={innerEl}
+          >
+            <button
+              className={['modal--background', styles.background].join(' ')}
+              aria-label="close"
+              onClick={closePopup}
+            />
+            {contentType === 'iframe' ? (
+              <div
+                className={styles.iframeContainer}
+                ref={iframeContainer}
+                style={{
+                  position: 'relative',
+                }}
+              >
+                {content}
+              </div>
+            ) : content}
+          </div>
+        </FullHeight>
+      </Transition>
     </Portal>
   )
 }
