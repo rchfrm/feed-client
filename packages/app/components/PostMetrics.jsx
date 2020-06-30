@@ -71,7 +71,8 @@ const PostMetrics = ({ insights, es, postPromotable }) => {
       <ul className={[
         'grid',
         'grid-cols-2',
-        'col-gap-12',
+        'col-gap-6',
+        'xxs:col-gap-12',
         'md:col-gap-8',
         styles.postSection,
         styles.postMetrics,

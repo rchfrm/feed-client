@@ -21,7 +21,12 @@
   align-items: center;
   
   border-bottom: 2px solid var(--text-color);
+  font-size: 0.8em;
 
+
+  @media (min-width: 360px) {
+    font-size: 1em;
+  }
 
 }
 
@@ -44,6 +49,7 @@
   :global(svg) {
     margin-right: 10px;
     vertical-align: sub;
+    width: 1.2em;
   }
   
   :global(a) {
@@ -107,8 +113,12 @@
 /* METRICS */
 /* **************************** */
 .postMetrics {
-  font-size: 0.9em;
+  font-size: 0.8em;
   margin-bottom: -0.5em !important;
+
+  @media (min-width: 360px) {
+    font-size: 0.9em;
+  }
 }
 
 .postMetricsItem {
