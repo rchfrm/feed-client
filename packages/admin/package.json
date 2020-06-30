@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "clipboard": "^2.0.6",
     "currency-symbol-map": "^4.0.4",
     "dotenv": "^8.2.0",
     "firebase": "^7.15.5",
