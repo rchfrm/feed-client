@@ -2,12 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { gsap, Power1 } from 'gsap'
-import { useDrag } from 'react-use-gesture'
 import clamp from 'lodash/clamp'
+import { useDrag } from 'react-use-gesture'
+import { useAsync } from 'react-async'
+
+import * as server from '@/app/helpers/appServer'
+import brandColors from '@/constants/brandColors'
+
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import styles from '@/app/PostToggle.module.css'
 
-import brandColors from '@/constants/brandColors'
+// SERVER
+const updatePost = async ({ artistId, postId, promotionEnabled }) => {
+  return server.togglePromotionEnabled(artistId, postId, promotionEnabled)
+}
 
 // HELPER FUNCTIONS
 const getBorderColor = (buttonState, promotionEnabled) => {
@@ -31,6 +40,18 @@ const animateSwitch = (buttonState, target) => {
   const x = 14 * xDirection
   const duration = 0.2
   gsap.to(target, { x, duration, ease: Power1.easeOut })
+}
+
+const getButtonState = (promotableStatus) => {
+  if (promotableStatus === -2) return 'off'
+  if (promotableStatus === 2) return 'on'
+  return 'default'
+}
+
+const getPromotionStatus = (buttonState) => {
+  if (buttonState === 'on') return true
+  if (buttonState === 'off') return false
+  return null
 }
 
 // ON / OFF BUTTON COMPONENT
@@ -58,10 +79,30 @@ const PostToggle = ({
   promotionEnabled,
   togglePromotion,
 }) => {
-  const [buttonState, setButtonState] = React.useState('default')
+  const { promotable_status, id: postId } = post
+  const [buttonState, setButtonState] = React.useState(getButtonState(promotable_status))
   const [borderColor, setBorderColor] = React.useState(getBorderColor(buttonState, promotionEnabled))
   const switchEl = React.useRef(null)
   const containerEl = React.useRef(null)
+  // SERVER
+  const { artistId } = React.useContext(ArtistContext)
+  const { isPending, cancel } = useAsync({
+    promiseFn: updatePost,
+    watch: buttonState,
+    initialValue: buttonState,
+    // The variable(s) to pass to promiseFn
+    artistId,
+    postId,
+    promotionEnabled: getPromotionStatus(buttonState),
+    onResolve: (post) => {
+      const { promotion_enabled } = post
+      togglePromotion(postId, promotion_enabled)
+    },
+  })
+  // Workaround: https://github.com/async-library/react-async/issues/249#issue-554311360
+  React.useEffect(() => {
+    cancel()
+  }, [cancel])
   // WHEN BUTTON STATE CHANGES
   React.useEffect(() => {
     const { current: target } = switchEl
@@ -85,7 +126,6 @@ const PostToggle = ({
     }
   }, [])
   // Run this on drag
-
   const onDrag = React.useCallback((dragState) => {
     const { last, movement, event } = dragState
     event.preventDefault()

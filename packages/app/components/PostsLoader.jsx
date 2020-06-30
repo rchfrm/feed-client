@@ -168,16 +168,13 @@ function PostsLoader() {
   })
 
   // Define function for toggling promotion
-  const togglePromotion = React.useCallback(async (postId) => {
+  const togglePromotion = React.useCallback(async (postId, promotion_enabled) => {
     const indexOfId = posts.findIndex(({ id }) => postId === id)
-    const currentPromotionState = posts[indexOfId].promotion_enabled
-    const newPromotionState = !currentPromotionState
-    const res = await server.togglePromotionEnabled(artistId, postId, newPromotionState)
-    if (!res) return currentPromotionState
+    const newPromotionState = promotion_enabled
     setPosts({
       type: 'toggle-promotion',
       payload: {
-        promotion_enabled: res.promotion_enabled,
+        promotion_enabled,
         postIndex: indexOfId,
       },
     })
