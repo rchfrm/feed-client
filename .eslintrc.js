@@ -42,6 +42,7 @@ module.exports = {
     'implicit-arrow-linebreak': 'off',
     'no-underscore-dangle': 'off',
     'semi': [ 2, 'never' ],
+    'no-multiple-empty-lines': 'off',
     'unicorn/number-literal-case': 'off',
     'no-nested-ternary': 'off',
     'react/react-in-jsx-scope': 'off',
@@ -67,15 +68,23 @@ module.exports = {
     'import/resolver': {
       alias: {
         map: [
+          // The app
           ['@/app/copy', './packages/app/copy'],
           ['@/app/constants', './packages/app/constants'],
+          ['@/app/helpers', './packages/app/helpers'],
           ['@/app', './packages/app/components'],
+          // The admin
+          ['@/admin/copy', './packages/admin/copy'],
+          ['@/admin/constants', './packages/admin/constants'],
+          ['@/admin/helpers', './packages/admin/helpers'],
+          ['@/admin', './packages/admin/components'],
           // Shared
           ["@/elements", "./packages/shared/components/elements"],
           ["@/icons", "./packages/shared/components/icons"],
           ["@/hooks", "./packages/shared/components/hooks"],
           ["@/constants", "./packages/shared/constants"],
-          ["@/helpers", "./packages/shared/helpers"]
+          ["@/helpers", "./packages/shared/helpers"],
+          ["@", "./packages/shared/components"],
         ],
         extensions: ['.ts', '.js', '.jsx', '.json', '.css'],
       },

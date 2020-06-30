@@ -1,5 +1,5 @@
 import BasePage from '@/app/BasePage'
-import testPageReady from '@/app/hoc/testPageReady'
+import testPageReady from '@/hoc/testPageReady'
 import ThankYouPage from '@/app/ThankYouPageContent'
 
 const headerConfig = {
@@ -15,4 +15,4 @@ const Page = () => (
   </BasePage>
 )
 
-export default testPageReady(Page)
+export default testPageReady('app')(Page)

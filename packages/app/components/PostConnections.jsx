@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT COMPONENTS
 import PostConnectionsConnection from '@/app/PostConnectionsConnection'
 // IMPORT HELPERS

@@ -13,8 +13,8 @@ import Spinner from '@/elements/Spinner'
 import brandColors from '@/constants/brandColors'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import server from '@/helpers/server'
-import { track } from '@/helpers/trackingHelpers'
+import * as server from '@/app/helpers/appServer'
+import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from '@/app/Integrations.module.css'
 

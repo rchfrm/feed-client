@@ -6,11 +6,16 @@
   "scripts": {
     "dev": "yarn workspace app dev",
     "dev:ssl": "run-p dev ssl",
+    "dev:admin": "yarn workspace admin dev",
     "ssl": "dev-proxy --proxy 3000:3001 --key ./certificates/localhost.key --cert ./certificates/localhost.crt",
     "lint": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages",
     "stage": "./bin/deploy app staging",
     "deploy-production": "./deploy app production",
-    "pwa": "node bin/buildFavicons && cp -a ./packages/app/public/pwa ./packages/admin/public"
+    "stage:admin": "./bin/deploy admin staging",
+    "deploy-production:admin": "./deploy admin production",
+    "pwa": "node bin/buildFavicons && cp -a ./packages/app/public/pwa ./packages/admin/public",
+    "analyze-bundle": "yarn workspace app analyze-bundle",
+    "analyze-bundle:admin": "yarn workspace admin analyze-bundle"
   },
   "workspaces": [
     "packages/*"

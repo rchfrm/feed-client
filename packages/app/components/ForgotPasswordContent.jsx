@@ -7,7 +7,7 @@ import Error from '@/elements/Error'
 import Success from '@/elements/Success'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
-import { track } from '@/helpers/trackingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from '@/app/ForgotPasswordPage.module.css'
 
