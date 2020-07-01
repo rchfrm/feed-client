@@ -105,7 +105,8 @@
 /* **************************** */
 .postMetrics {
   font-size: 0.8em;
-  margin-bottom: -0.5em !important;
+  margin-bottom: -0.7em !important;
+  padding-top: var(--sp-4);
 
   @media (min-width: 360px) {
     font-size: 0.9em;
@@ -156,8 +157,7 @@
 .postEsScore {
   padding-top: calc(var(--sp-3) - 0.2em);
   padding-bottom: var(--sp-3);
-  border-top: 2px solid var(--text-color);
-  background-color: var(--grey-light);
+  background-color: var(--green);
 
   p {
     margin-bottom: 0;
