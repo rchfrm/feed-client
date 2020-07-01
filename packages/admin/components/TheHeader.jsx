@@ -14,7 +14,7 @@ const links = [
 const TheHeader = () => {
   return (
     <header className={[].join(' ')}>
-      <nav className={['flex', styles.links].join(' ')}>
+      <nav className={['flex', 'flex-wrap', styles.links].join(' ')}>
         {links.map((link) => {
           // eslint-disable-next-line
           const path = ROUTES[link]
