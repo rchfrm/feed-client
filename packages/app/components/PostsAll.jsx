@@ -1,5 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import produce from 'immer'
 // IMPORT CONTEXTS
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
@@ -167,5 +169,18 @@ function PostsAll({
     </section>
   )
 }
+
+PostsAll.propTypes = {
+  posts: PropTypes.array.isRequired,
+  updateLink: PropTypes.func.isRequired,
+  togglePromotion: PropTypes.func.isRequired,
+  togglePromotionGlobal: PropTypes.func.isRequired,
+  loadMorePosts: PropTypes.func.isRequired,
+  loadingMore: PropTypes.bool,
+}
+PostsAll.defaultProps = {
+  loadingMore: false,
+}
+
 
 export default PostsAll
