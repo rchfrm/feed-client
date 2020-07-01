@@ -2,6 +2,9 @@ import React from 'react'
 import ActiveLink from '@/elements/ActiveLink'
 import * as ROUTES from '@/admin/constants/routes'
 
+import useLoggedInTest from '@/hooks/useLoggedInTest'
+import SignOutLink from '@/SignOutLink'
+
 import styles from '@/admin/TheHeader.module.css'
 
 const links = [
@@ -12,6 +15,8 @@ const links = [
 ]
 
 const TheHeader = () => {
+  const isLoggedIn = useLoggedInTest()
+  if (!isLoggedIn) return null
   return (
     <header className={[].join(' ')}>
       <nav className={['flex', 'flex-wrap', styles.links].join(' ')}>
@@ -25,6 +30,7 @@ const TheHeader = () => {
             </ActiveLink>
           )
         })}
+        <SignOutLink className="ml-auto" />
       </nav>
     </header>
   )
