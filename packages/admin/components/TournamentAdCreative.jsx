@@ -12,7 +12,9 @@ const propsToDisplay = [
 
 const TournamentAdCreative = ({ adCreative }) => {
   return (
-    <DataDetails propsToDisplay={propsToDisplay} data={adCreative} header="Ad Creative" />
+    <div className="pt-5">
+      <DataDetails propsToDisplay={propsToDisplay} data={adCreative} header="Ad Creative" />
+    </div>
   )
 }
 
