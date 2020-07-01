@@ -13,7 +13,7 @@ const ButtonFacebook = (props) => {
   const [buttonRemoved, setButtonRemoved] = React.useState(false)
   React.useEffect(() => {
     setTimeout(() => {
-      const buttonRemoved = !buttonEl.current
+      const buttonRemoved = !buttonEl.current || !buttonEl.current.getBoundingClientRect().height
       setButtonRemoved(buttonRemoved)
     }, 500)
   }, [setButtonRemoved])
