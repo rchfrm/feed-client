@@ -75,7 +75,8 @@ const PostMetrics = ({ insights, es, postPromotable }) => {
         'grid-cols-2',
         'col-gap-6',
         'xxs:col-gap-12',
-        'md:col-gap-8',
+        'xs:col-gap-6',
+        'sm:col-gap-8',
         styles.postSection,
         styles.postMetrics,
       ].join(' ')}
