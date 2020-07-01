@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import useSWR from 'swr'
 
+import Error from '@/elements/Error'
 import TournamentAdCreative from '@/admin/TournamentAdCreative'
 import DataDetails from '@/admin/elements/DataDetails'
 
@@ -26,7 +27,10 @@ const TournamentAd = ({ ad, winner, className }) => {
     fetcher,
   )
 
+  if (error) return <Error error={error} />
+
   if (!data) return null
+
   return (
     <div className={className}>
       {winner && <h5 className="mb-2 text-green">☆ WINNER ☆</h5>}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import useSWR from 'swr'
 
+import Error from '@/elements/Error'
 import TournamentFilters from '@/admin/TournamentFilters'
 import TournamentOverview from '@/admin/TournamentOverview'
 
@@ -54,10 +55,7 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
     )
   }
 
-  console.log('filteredTournaments', filteredTournaments)
-  if (error) {
-    console.log('error', error)
-  }
+  if (error) return <Error error={error} />
 
   return (
     <section className="tournaments">
