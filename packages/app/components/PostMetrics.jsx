@@ -107,7 +107,10 @@ const PostMetrics = ({ insights, es, postPromotable }) => {
 
 METRICS_ITEM.propTypes = {
   title: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   className: PropTypes.string,
 }
 
