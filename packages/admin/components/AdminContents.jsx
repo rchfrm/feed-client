@@ -16,7 +16,7 @@ const AdminContents = ({ children }) => {
             <TheLoadingOverlay />
             <InitUser>
               <TheHeader />
-              <main id="page--container">
+              <main id="page--container-admin">
                 {children}
               </main>
             </InitUser>
