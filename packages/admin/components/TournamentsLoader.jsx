@@ -10,24 +10,35 @@ import { UserContext } from '@/contexts/UserContext'
 
 import * as server from '@/admin/helpers/adminServer'
 
-const fetcher = (artistId) => {
+const fetcher = async (artistId, campaignId, adsetId, tournamentId) => {
   if (!artistId) return []
-  return server.getArtistTournaments(artistId)
+  // Get all artist tournaments
+  if (!tournamentId) {
+    return server.getArtistTournaments(artistId, tournamentId)
+  }
+  // Get single tournament
+  const tournament = await server.getTournament(artistId, campaignId, adsetId, tournamentId)
+  return [tournament]
 }
 
-const TournamentsLoader = ({ artistId }) => {
+const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
   const { user } = React.useContext(UserContext)
   const { data: tournaments, error } = useSWR(
-    user ? [artistId] : null,
+    user ? [artistId, campaignId, adsetId, tournamentId] : null,
     fetcher,
   )
+
+  // Define loader type
+  const singleTournament = React.useMemo(() => {
+    return !!tournamentId
+  }, [tournamentId])
 
   // Prepare filters
   const [activeFilter, setActiveFilter] = React.useState('all')
   const statusTypes = React.useMemo(() => {
-    if (!tournaments) return []
+    if (!tournaments || singleTournament) return []
     return tournaments.map(({ status }) => status)
-  }, [tournaments])
+  }, [tournaments, singleTournament])
 
   // Filter tournaments
   const filteredTournaments = React.useMemo(() => {
@@ -36,8 +47,12 @@ const TournamentsLoader = ({ artistId }) => {
     return tournaments.filter(({ status }) => status === activeFilter)
   }, [tournaments, activeFilter])
 
-  if (!artistId) return <p>No artist ID</p>
-  if (!tournaments) return null
+  // Stop here if no tournaments
+  if (tournaments && !tournaments.length) {
+    return (
+      <p>No Tournaments found</p>
+    )
+  }
 
   console.log('filteredTournaments', filteredTournaments)
   if (error) {
@@ -46,23 +61,28 @@ const TournamentsLoader = ({ artistId }) => {
 
   return (
     <section className="tournaments">
-      <h1>Tournaments</h1>
+      <h1>{singleTournament ? 'Tournament' : 'Tournaments'}</h1>
       {/* FILTERS */}
-      <TournamentFilters
-        statusTypes={statusTypes}
-        activeFilter={activeFilter}
-        setActiveFilter={setActiveFilter}
-      />
+      {!!statusTypes.length && (
+        <TournamentFilters
+          statusTypes={statusTypes}
+          activeFilter={activeFilter}
+          setActiveFilter={setActiveFilter}
+        />
+      )}
       {/* ALL TOURNAMENTS */}
       <div>
-        <p>Visible tournaments: {filteredTournaments.length}</p>
+        {!singleTournament && (
+          <p>Visible tournaments: {filteredTournaments.length}</p>
+        )}
         <div className="grid grid-cols-12 gap-4 pt-5">
           {filteredTournaments.map((tournament) => {
             return (
               <TournamentOverview
                 key={tournament.id}
                 tournament={tournament}
-                listView
+                artistId={artistId}
+                listView={!singleTournament}
                 className={[
                   'col-span-12',
                   'sm:col-span-6',
@@ -77,11 +97,16 @@ const TournamentsLoader = ({ artistId }) => {
 }
 
 TournamentsLoader.propTypes = {
-  artistId: PropTypes.string,
+  artistId: PropTypes.string.isRequired,
+  campaignId: PropTypes.string,
+  adsetId: PropTypes.string,
+  tournamentId: PropTypes.string,
 }
 
 TournamentsLoader.defaultProps = {
-  artistId: '',
+  campaignId: '',
+  adsetId: '',
+  tournamentId: '',
 }
 
 export default TournamentsLoader

@@ -21,6 +21,7 @@ const propsToDisplay = [
 
 const TournamentOverview = ({
   tournament,
+  artistId,
   listView,
   className,
 }) => {
@@ -48,7 +49,15 @@ const TournamentOverview = ({
       {listView && (
         <>
           <p>
-            <Link href={{ pathname: ROUTES.TOURNAMENT, query: { tournamentId: tournament.id } }}>
+            <Link href={{ pathname: ROUTES.TOURNAMENT,
+              query: {
+                artistId,
+                campaignId: tournament.campaign_id,
+                adsetId: tournament.adset_id,
+                tournamentId: tournament.id,
+              },
+            }}
+            >
               <a className="button button--black button--small w-48">
                 <strong className="button--innerText">Go to tournament</strong>
               </a>
@@ -73,6 +82,7 @@ const TournamentOverview = ({
 
 TournamentOverview.propTypes = {
   tournament: PropTypes.object.isRequired,
+  artistId: PropTypes.string.isRequired,
   listView: PropTypes.bool,
   className: PropTypes.string,
 }

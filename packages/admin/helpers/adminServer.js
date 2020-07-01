@@ -50,8 +50,13 @@ export const getAllUsers = async (cursor, token) => {
  * @param {string} [token]
  * @returns {Promise<any>}
  */
-export const getArtistTournaments = async (artistId, token) => {
+export const getArtistTournaments = async (artistId) => {
   // const endpoint = `/artists/${artistId}/tournaments?is_latest=1`
   const endpoint = `/artists/${artistId}/tournaments`
-  return api.get(endpoint, token)
+  return api.get(endpoint)
+}
+
+export const getTournament = async (artistId, campaignId, adsetId, tournamentId) => {
+  const endpoint = `artists/${artistId}/campaigns/${campaignId}/adsets/${adsetId}/tournaments/${tournamentId}`
+  return api.get(endpoint)
 }
