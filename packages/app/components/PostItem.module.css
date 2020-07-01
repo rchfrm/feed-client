@@ -105,6 +105,10 @@
   width: 70%;
   font-style: italic;
 
+  .postContents._noMedia & {
+    width: 100%;
+  }
+
   @media (--md) {
     padding-left: var(--sp-5);
   }
