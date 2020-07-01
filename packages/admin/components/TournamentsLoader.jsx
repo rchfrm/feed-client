@@ -55,15 +55,22 @@ const TournamentsLoader = ({ artistId }) => {
       />
       {/* ALL TOURNAMENTS */}
       <div>
-        Visible tournaments: {filteredTournaments.length}
-        {filteredTournaments.map((tournament) => {
-          return (
-            <TournamentOverview
-              key={tournament.id}
-              tournament={tournament}
-            />
-          )
-        })}
+        <p>Visible tournaments: {filteredTournaments.length}</p>
+        <div className="grid grid-cols-12 gap-4 pt-5">
+          {filteredTournaments.map((tournament) => {
+            return (
+              <TournamentOverview
+                key={tournament.id}
+                tournament={tournament}
+                listView
+                className={[
+                  'col-span-12',
+                  'sm:col-span-6',
+                ].join(' ')}
+              />
+            )
+          })}
+        </div>
       </div>
     </section>
   )
