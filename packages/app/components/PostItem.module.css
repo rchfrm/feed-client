@@ -76,19 +76,6 @@
     justify-content: center;
   }
 
-  /* Gradient */
-  &::before,
-  &::after {
-    content: ' ';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: var(--sp-4);
-    background: linear-gradient(to bottom, black, cubic-bezier(0.2, 0.13, 0.49, 0.8), transparent);
-    opacity: 0.08;
-  }
-
   &::after {
     top: auto;
     bottom: 0;
