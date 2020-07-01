@@ -12,7 +12,7 @@ const AdminContents = ({ children }) => {
     <div id="container" className="page--content">
       <InterfaceContextProvider>
         <UserProvider>
-          <ArtistProvider>
+          <ArtistProvider disable>
             <TheLoadingOverlay />
             <InitUser>
               <TheHeader />

@@ -74,7 +74,7 @@ const artistReducer = (draftState, action) => {
   }
 }
 
-function ArtistProvider({ children }) {
+function ArtistProvider({ children, disable }) {
   const { storeUser } = React.useContext(UserContext)
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -94,6 +94,8 @@ function ArtistProvider({ children }) {
   }
 
   const storeArtist = async (id) => {
+    // Stop here if not using
+    if (disable) return
     // TODO : Store previously selected artists in state,
     //  then if the user switches back to that artist, there doesn't need to be a new server call
     setArtistLoading(true)
