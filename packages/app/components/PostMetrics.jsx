@@ -10,28 +10,24 @@ const visibleInsights = {
     index: 1,
     title: 'Reach',
   },
-  engagement_score: {
-    index: 2,
-    title: 'Engagement',
-  },
   impressions: {
-    index: 3,
+    index: 2,
     title: 'Impressions',
   },
   video_views: {
-    index: 4,
+    index: 3,
     title: 'Views',
   },
   likes: {
-    index: 5,
+    index: 4,
     title: 'Likes',
   },
   shares: {
-    index: 6,
+    index: 5,
     title: 'Shares',
   },
   taps_forward: {
-    index: 7,
+    index: 6,
     title: 'Taps forward',
   },
 }
