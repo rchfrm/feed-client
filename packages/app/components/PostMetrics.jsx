@@ -10,27 +10,40 @@ const visibleInsights = {
     index: 1,
     title: 'Reach',
   },
-  impressions: {
+  likes: {
     index: 2,
-    title: 'Impressions',
+    title: 'Likes',
+  },
+  comments: {
+    index: 3,
+    title: 'Comments',
   },
   video_views: {
-    index: 3,
-    title: 'Views',
-  },
-  likes: {
     index: 4,
-    title: 'Likes',
+    title: 'Views',
   },
   shares: {
     index: 5,
     title: 'Shares',
   },
-  taps_forward: {
+  saves: {
     index: 6,
+    title: 'Saves',
+  },
+  taps_forward: {
+    index: 7,
     title: 'Taps forward',
   },
+  taps_back: {
+    index: 8,
+    title: 'Taps back',
+  },
+  replies: {
+    index: 9,
+    title: 'Replies',
+  },
 }
+
 
 const METRICS_ITEM = ({ title, value, className }) => {
   return (
