@@ -46,6 +46,7 @@ function PostsAll({
   togglePromotionGlobal,
   loadMorePosts,
   loadingMore,
+  loadedAll,
 }) {
   // Set header
   const { setHeader } = React.useContext(InterfaceContext)
@@ -65,10 +66,10 @@ function PostsAll({
   // LOAD MORE Watch the load trigger for intersection
   const loadMore = React.useCallback((entries) => {
     const target = entries[0]
-    if (target.isIntersecting && !loadingMore) {
+    if (target.isIntersecting && !loadingMore && !loadedAll) {
       loadMorePosts()
     }
-  }, [loadingMore, loadMorePosts])
+  }, [loadingMore, loadMorePosts, loadedAll])
 
   // Setup intersection observer
   React.useEffect(() => {
@@ -86,12 +87,13 @@ function PostsAll({
 
     // clean up
     const loadTriggerEl = loadTrigger.current
+
     return () => {
       if (loadTriggerEl) {
         observer.unobserve(loadTriggerEl)
       }
     }
-  }, [posts.length, loadMore])
+  }, [posts.length, loadMore, loadedAll])
 
   // Open the post settings side panel
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
@@ -148,7 +150,7 @@ function PostsAll({
               togglePromotion={togglePromotion}
               className="col-span-12 xs:col-span-6 lg:col-span-4"
             >
-              {post.loadTrigger && (
+              {post.loadTrigger && !loadedAll && (
                 <div
                   ref={loadTrigger}
                   className={[styles.postLoadTrigger].join(' ')}
@@ -177,9 +179,12 @@ PostsAll.propTypes = {
   togglePromotionGlobal: PropTypes.func.isRequired,
   loadMorePosts: PropTypes.func.isRequired,
   loadingMore: PropTypes.bool,
+  loadedAll: PropTypes.bool,
 }
+
 PostsAll.defaultProps = {
   loadingMore: false,
+  loadedAll: false,
 }
 
 

@@ -248,6 +248,7 @@ function PostsLoader() {
         togglePromotionGlobal={togglePromotionGlobal}
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
+        loadedAll={isEndOfAssets.current}
       />
 
       <Error error={error} />
