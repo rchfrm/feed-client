@@ -85,6 +85,7 @@ function ArtistProvider({ children, disable }) {
   const [artistLoading, setArtistLoading] = React.useState(true)
 
   const setNoArtist = () => {
+    if (disable) return
     setArtistLoading(true)
     toggleGlobalLoading(true)
     utils.clearLocalStorage()
