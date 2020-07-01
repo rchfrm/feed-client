@@ -5,6 +5,15 @@
   
   border-radius: 50px;
   overflow: hidden;
+  background-color: var(--grey);
+
+  &.off {
+    background-color: var(--error-color);
+  }
+
+  &.on {
+    background-color: var(--success-color);
+  }
 }
 
 .background {
@@ -14,6 +23,15 @@
   width: 100%;
   height: 100%;
   background-color: var(--grey);
+  
+  .PostToggle.off & {
+    background-color: var(--error-color);
+  }
+
+  .PostToggle.on & {
+    background-color: var(--success-color);
+  }
+
 
   &::after,
   &::before {
@@ -24,7 +42,6 @@
     height: 4px;
     margin-top: -2px;
     border-radius: 50%;
-    /* transition: transform 250ms ease; */
     pointer-events: none;
   }
 
@@ -36,20 +53,12 @@
     .PostToggle.on & {
       opacity: 0;
     }
-
-    .PostToggle.off & {
-      transform: scale(27);
-    }
   }
 
   /* Green dot */
   &::after {
     background-color: var(--success-color);
     right: 7px;
-
-    .PostToggle.on & {
-      transform: scale(27);
-    }
 
     .PostToggle.off & {
       opacity: 0;
