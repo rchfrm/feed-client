@@ -7,6 +7,7 @@ import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 
 const PageQuerySetter = ({
+  intro,
   label,
   placeholder,
   pathname,
@@ -25,7 +26,8 @@ const PageQuerySetter = ({
   }, [pathname, queryName, query])
 
   return (
-    <form className="flex items-end w-100" onSubmit={onSubmit}>
+    <form className="flex flex-wrap items-end w-full" onSubmit={onSubmit}>
+      {intro && <p className="w-full">{intro}</p>}
       <Input
         className="flex-1 mb-0 mr-5"
         handleChange={handleChange}
@@ -34,12 +36,13 @@ const PageQuerySetter = ({
         placeholder={placeholder}
         value={query}
       />
-      <Button type="submit" className="mb-0" disabled={!query}>Submit</Button>
+      <Button type="submit" className="mb-0" disabled={!query}>Fetch tournaments</Button>
     </form>
   )
 }
 
 PageQuerySetter.propTypes = {
+  intro: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
   pathname: PropTypes.string.isRequired,
@@ -47,6 +50,7 @@ PageQuerySetter.propTypes = {
 }
 
 PageQuerySetter.defaultProps = {
+  intro: '',
   label: 'Query ID',
   placeholder: 'id string',
 }

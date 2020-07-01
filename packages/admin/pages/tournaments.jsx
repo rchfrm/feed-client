@@ -14,6 +14,7 @@ const Tournaments = ({ router: { pathname, query } }) => {
     >
       {artistId ? <TournamentsLoader artistId={artistId} /> : (
         <PageQuerySetter
+          intro="This page requires an Artist ID"
           label="Artist ID"
           placeholder="paste an artist ID here"
           pathname={pathname}
