@@ -48,8 +48,12 @@
 
 /* POSTS SPINNER */
 .postsSpinner {
-  display: flex;
-  padding: 0 var(--sp-10);
+  height: var(--sp-20);
+
+  .spinner {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 /* NO POSTS */

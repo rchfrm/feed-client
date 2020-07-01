@@ -157,7 +157,7 @@ function PostsAll({
         })}
         {/* Loading spinner */}
         {loadingMore && (
-          <div className={styles.postsSpinner}>
+          <div className={[styles.postsSpinner, 'col-span-12 xs:col-span-6 lg:col-span-4'].join(' ')}>
             <Spinner />
           </div>
         )}
