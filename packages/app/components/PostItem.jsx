@@ -2,10 +2,8 @@
 import React from 'react'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
-import ButtonTooltip from '@/elements/ButtonTooltip'
 // IMPORT COMPONENTS
-import PostToggle from '@/app/PostToggle'
-import PostMetaData from '@/app/PostMetaData'
+import PostItemTopBar from '@/app/PostItemTopBar'
 import PostContents from '@/app/PostContents'
 import PostMetrics from '@/app/PostMetrics'
 import PostLink from '@/app/PostLink'
@@ -39,30 +37,11 @@ const PostItem = ({
       className={[styles.postItem, enabledClass, promotableClass, className].join(' ')}
     >
       {/* TOP BAR */}
-      <div className={[styles.topBar, styles.postSection].join(' ')}>
-        <PostMetaData
-          platform={post.platform}
-          date={post.published_time}
-          permalink={post.permalink_url}
-        />
-        {postPromotable && (
-          <div className="flex">
-            <PostToggle
-              post={post}
-              togglePromotion={togglePromotion}
-              promotionEnabled={post.promotion_enabled}
-            />
-            <ButtonTooltip
-              buttonClasses="ml-1 -mr-4"
-              containerStyle={{
-                zIndex: 3,
-              }}
-            >
-              <p>This is not a test</p>
-            </ButtonTooltip>
-          </div>
-        )}
-      </div>
+      <PostItemTopBar
+        post={post}
+        togglePromotion={togglePromotion}
+        postPromotable={postPromotable}
+      />
 
       {/* IMAGE AND CONTENTS */}
       <PostContents
