@@ -15,6 +15,7 @@ const Button = React.forwardRef(({
   style,
   onClick,
   href,
+  wrapper,
   children,
 }, ref) => {
   const versions = version
@@ -33,7 +34,7 @@ const Button = React.forwardRef(({
   }
 
   // Define wrapper type based on href or not
-  const Wrapper = href ? 'a' : 'button'
+  const Wrapper = wrapper || (href ? 'a' : 'button')
   // Handle hrefs
   const linkType = href ? utils.getLinkType(href) : ''
   const target = linkType === 'external' ? '_blank' : 'self'
@@ -72,6 +73,7 @@ Button.propTypes = {
   style: PropTypes.object,
   onClick: PropTypes.func,
   href: PropTypes.string,
+  wrapper: PropTypes.string,
   children: PropTypes.node.isRequired,
 }
 
@@ -84,6 +86,7 @@ Button.defaultProps = {
   style: {},
   className: '',
   href: null,
+  wrapper: '',
   onClick: () => {},
 }
 
