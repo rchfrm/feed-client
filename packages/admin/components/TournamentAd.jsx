@@ -10,8 +10,8 @@ import DataDetails from '@/admin/elements/DataDetails'
 import * as api from '@/helpers/api'
 import { UserContext } from '@/contexts/UserContext'
 
-const fetcher = (path, token) => {
-  return api.get(`/${path}`, token)
+const fetcher = (path) => {
+  return api.get(`/${path}`)
 }
 
 const TournamentAd = ({ ad, winner, className }) => {
@@ -35,8 +35,11 @@ const TournamentAd = ({ ad, winner, className }) => {
 
   return (
     <div className={className}>
-      <h4 className="h3"><strong>Ad: {ad.id}</strong></h4>
-      {winner && <h5 className="text-green">☆ WINNER ☆</h5>}
+      <h4 className="h3">
+        {winner && <span className="text-green">☆ </span>}
+        <strong>Ad: {ad.id}</strong>
+        {winner && <span className="inline-block pl-4 text-green small--p">[winner]</span>}
+      </h4>
       <DataDetails propsToDisplay={propsToDisplay} data={adData} />
       {Object.values(adData.adcreatives).map((adCreative) => {
         return <TournamentAdCreative key={adCreative.id} adCreative={adCreative} />
