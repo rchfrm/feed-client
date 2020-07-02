@@ -1,4 +1,5 @@
 const config = require('../shared/tailwind.config.js')
+
 const purgeFiles = [
   './components/**/*.jsx',
   './pages/**/*.jsx',

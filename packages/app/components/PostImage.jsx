@@ -10,6 +10,9 @@ import brandColors from '@/constants/brandColors'
 
 import popupStore from '@/store/popupStore'
 
+import styles from '@/app/PostImage.module.css'
+import popupStyles from '@/PopupModal.module.css'
+
 const getMediaTest = ({ mediaSrc, handleError }) => {
   return (
     <video
@@ -19,7 +22,7 @@ const getMediaTest = ({ mediaSrc, handleError }) => {
         opacity: 0,
       }}
       src={mediaSrc}
-      onError={handleError}
+      onError={() => handleError('video')}
       width="100%"
       controls
       playsInline
@@ -28,46 +31,38 @@ const getMediaTest = ({ mediaSrc, handleError }) => {
   )
 }
 
-const getMediaEl = ({
+const getPopupMedia = ({
   mediaSrc,
   mediaType,
   thumbnailSrc,
+  closePopup,
   title,
-  thumbError,
-  videoError,
-  handleError,
 }) => {
   const src = mediaSrc || thumbnailSrc
-  // Handle image error
-  if (thumbError) return <MediaFallback />
-
   // Handle youtube
-  if (mediaType === 'youtube_embed') {
+  if (mediaType === 'iframe') {
     return (
-      <div className="popup--iframe">
-        <iframe
-          title={title}
-          src={src.replace('autoplay=1', 'autoplay=0')}
-          width="100%"
-          height="315"
-          frameBorder="0"
-          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
+      <iframe
+        title={title}
+        src={src.replace('autoplay=1', 'autoplay=0')}
+        width="100%"
+        height="315"
+        frameBorder="0"
+        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
     )
   }
 
   // Handle video
-  if (mediaType === 'video' && !videoError) {
+  if (mediaType === 'video') {
     return (
       <video
         src={src}
         poster={thumbnailSrc}
-        onError={() => handleError('video')}
         width="100%"
         controls
-        playsInline
+        autoPlay
         type="video/mp4"
       />
     )
@@ -75,17 +70,12 @@ const getMediaEl = ({
 
   // Handle image (default)
   return (
-    <img
-      src={thumbnailSrc}
-      alt={title}
-      onError={() => handleError('thumb')}
-      onLoad={({ target }) => {
-        // Handle 1px FB safe images
-        if (target.naturalHeight === 1) {
-          handleError('thumb')
-        }
-      }}
-    />
+    <a className={popupStyles.imageButton} role="button" onClick={closePopup} aria-label="close">
+      <img
+        src={thumbnailSrc}
+        alt={title}
+      />
+    </a>
   )
 }
 
@@ -119,7 +109,7 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
       return
     }
     setThumbError(true)
-  }, [mediaType, videoError])
+  }, [setVideoError])
 
   // Swap to backup thumb src if first errors
   React.useEffect(() => {
@@ -151,8 +141,20 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
     return getMediaTest({ mediaSrc, handleError })
   }, [mediaType, mediaSrc, videoError, handleError])
 
-  // SHOW LARGE IMAGE
+  // Define play icon
+  const playIcon = React.useMemo(() => {
+    if (videoError) {
+      return <PlayBrokenIcon className={[styles.playIcon, styles._broken].join(' ')} color={brandColors.bgColor} />
+    }
+    if ((mediaType === 'video' || mediaType === 'youtube_embed') && !videoError) {
+      return <PlayIcon className={styles.playIcon} color={brandColors.bgColor} />
+    }
+    return null
+  }, [mediaType, videoError])
+
+  // SHOW LARGE IMAGE in Popup
   const setPopupContents = popupStore(state => state.setContent)
+  const setPopupContentType = popupStore(state => state.setContentType)
   const closePopup = popupStore(state => state.clear)
   const enlargeMedia = React.useCallback(() => {
     const popupContents = getPopupMedia({ mediaSrc, mediaType, thumbnailSrc: thumbnailImageSrc, closePopup, title })
@@ -162,9 +164,7 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
 
   // Close popup when unmounts
   React.useEffect(() => {
-    return () => {
-      closePopup()
-    }
+    return closePopup
   }, [closePopup])
 
   // Wait here until media is ready
@@ -197,30 +197,33 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
         </button>
       )}
       {/* Enlarge media button */}
-      {!videoError && !thumbError && (
+      {!videoError && !thumbError && !playIcon && (
         <button
-          className="media--enlarge-trigger"
-          aria-label={mediaType === 'video' || mediaType === 'youtube_embed' ? 'Play video' : 'Enlarge image'}
-          title={mediaType === 'video' || mediaType === 'youtube_embed' ? 'Play video' : 'Enlarge image'}
+          className={styles.enlargeImageButton}
+          aria-label="Enlarge image"
           onClick={enlargeMedia}
         />
       )}
-      {/* Thumbnail fallback */}
-      {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
       {/* Thumbnail */}
       {thumbnailImageSrc && !thumbError && (
         <img
           className="center--image"
           src={thumbnailImageSrc}
           alt={title}
-          onError={handleError}
+          onError={() => handleError('thumb')}
+          onLoad={({ target }) => {
+            // Handle 1px FB safe images
+            if (target.naturalHeight === 1) {
+              handleError('thumb')
+            }
+          }}
         />
       )}
     </figure>
   )
 }
 
-ExternalMedia.propTypes = {
+PostImage.propTypes = {
   mediaSrc: PropTypes.string,
   thumbnailOptions: PropTypes.array,
   title: PropTypes.string,
@@ -228,7 +231,7 @@ ExternalMedia.propTypes = {
   aspectRatio: PropTypes.string,
 }
 
-ExternalMedia.defaultProps = {
+PostImage.defaultProps = {
   mediaSrc: '',
   thumbnailOptions: [],
   title: '',
@@ -237,4 +240,4 @@ ExternalMedia.defaultProps = {
 }
 
 
-export default ExternalMedia
+export default PostImage

@@ -2,6 +2,7 @@
 // import React from 'react'
 import moment from 'moment'
 import url from 'url'
+import getVideoId from 'get-video-id'
 import getSymbolFromCurrency from 'currency-symbol-map'
 import countries from '@/constants/countries'
 
@@ -95,10 +96,7 @@ export const extractPlatformFromPriorityDSP = (priorityDSP) => {
   if (priorityDSP === 'facebook_page_url') {
     return 'facebook'
   }
-
-  const endOfPlatform = priorityDSP.indexOf('_url')
-
-  return priorityDSP.slice(0, endOfPlatform)
+  return priorityDSP.replace('_url', '')
 }
 
 export const filterArtistUrls = (artist) => {
@@ -204,7 +202,7 @@ export const getPostMediaType = (src) => {
     } else if (src.indexOf('youtube.com/embed/') >= 0) {
       const videoIdIndex = src.indexOf('youtube.com/embed/') + 18
       src = src.slice(videoIdIndex, videoIdIndex + 11)
-      type = 'youtube_embed'
+      type = 'iframe'
     } else {
       type = 'image'
     }
@@ -305,6 +303,30 @@ export const shortenUrl = (url) => {
   shortenedUrl = removeWWWFromUrl(shortenedUrl)
   return shortenedUrl
 }
+
+
+/**
+* @param {string} url
+* @returns {Object.<string>} eg: { id: 'eG1uDU0rSLw', service: 'youtube' }
+}
+*/
+export const getVideoDetails = (url) => {
+  return getVideoId(url)
+}
+
+
+/**
+* @param {url} string
+* @param {quality} string
+* @returns {string}
+*/
+export const getVideoThumb = (url, quality = 'hqdefault') => {
+  const { id, service } = getVideoDetails(url)
+  // Thumb types: https://stackoverflow.com/a/2068371/993297
+  if (service === 'youtube') return `https://img.youtube.com/vi/${id}/${quality}.jpg`
+  return ''
+}
+
 
 export const sortAssetsChronologically = (assets) => {
   if (assets) {
@@ -424,6 +446,21 @@ export const getMinBudget = (amount, currencyCode, currencyOffset) => {
 }
 
 
+// EXTERNAL URL helpers
+// ---------------------
+
+// Add a protocol if missing, else leaves the same
+/**
+ * @param {string} url
+ * @returns {string}
+ */
+export const enforceUrlProtocol = (url) => {
+  const protocolTest = /^https?:\/\//i
+  const containsProtocol = protocolTest.test(url)
+  if (containsProtocol) return url
+  return `http://${url}`
+}
+
 /**
  * @param {string} url To pass, url must include a protocol (ie, https?://)
  * @returns {boolean}
@@ -473,7 +510,7 @@ export const clearLocalStorage = () => {
   }
 }
 
-
+// Use this to parse local URLs to get path and queries
 /**
  * @param {string} urlString
  * @returns {object} {

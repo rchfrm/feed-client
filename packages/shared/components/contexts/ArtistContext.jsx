@@ -238,8 +238,8 @@ function ArtistProvider({ children }) {
     })
   }
 
-  const addUrl = async (url, urlType) => {
-    const updatedArtist = await server.saveLink(artist.id, url, urlType)
+  const addArtistUrl = React.useCallback(async (url, urlType) => {
+    const updatedArtist = await server.saveLink(artistId, url, urlType)
 
     const savedUrl = updatedArtist[urlType]
     setArtist({
@@ -250,7 +250,7 @@ function ArtistProvider({ children }) {
       },
     })
     return savedUrl
-  }
+  }, [artistId, setArtist])
 
   // Update artist ID when artist changes
   React.useEffect(() => {
@@ -281,7 +281,7 @@ function ArtistProvider({ children }) {
     setPriorityDSP,
     setConnection,
     setPostPreferences,
-    addUrl,
+    addArtistUrl,
     storeArtist,
     updateBudget,
   }

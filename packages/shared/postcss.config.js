@@ -1,10 +1,15 @@
 module.exports = (path) => ({
   plugins: [
     'postcss-flexbugs-fixes',
-    'postcss-import',
-    'postcss-mixins',
+    ['postcss-import', {
+      root: `${path}/css`,
+    }],
+    ['postcss-mixins', {
+      mixinsDir: `${path}/css`,
+    }],
     'postcss-calc',
     'postcss-extend',
+    'postcss-easing-gradients',
     ['postcss-color-mod-function', {
       importFrom: [
         `${path}/css/vars.css`,
