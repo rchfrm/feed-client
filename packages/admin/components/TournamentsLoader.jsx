@@ -52,9 +52,9 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
   // Turn off global loading when finished
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   React.useEffect(() => {
-    const loading = !tournaments
+    const loading = !tournaments && !error
     toggleGlobalLoading(loading)
-  }, [tournaments, toggleGlobalLoading])
+  }, [tournaments, toggleGlobalLoading, error])
 
   // Stop here if no tournaments
   if (tournaments && !tournaments.length) {
