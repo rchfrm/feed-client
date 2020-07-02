@@ -42,34 +42,36 @@ const PostItem = ({
         togglePromotion={togglePromotion}
         postPromotable={postPromotable}
       />
-
-      {/* IMAGE AND CONTENTS */}
-      <PostContents
-        media={post.media}
-        thumbnailSrc={post._metadata.thumbnail_url}
-        caption={postCaption}
-        className={!postCaption ? styles._noCaption : ''}
-      />
-
-      {/* METRICS */}
-      <PostMetrics
-        insights={post.insights}
-        es={post.insights.engagement_score}
-        status={post.promotion_enabled}
-        postPromotable={postPromotable}
-      />
-
-      {/* POST LINK */}
-      {postPromotable && (
-        <PostLink
-          postId={post.id}
-          postIndex={index}
-          promotionEnabled={post.promotion_enabled}
-          priorityDsp={post.priority_dsp}
-          updateLink={updateLink}
-          setError={setError}
+      {/* This wrapper hides the bottom of the link options */}
+      <div className="overflow-hidden relative">
+        {/* IMAGE AND CONTENTS */}
+        <PostContents
+          media={post.media}
+          thumbnailSrc={post._metadata.thumbnail_url}
+          caption={postCaption}
+          className={!postCaption ? styles._noCaption : ''}
         />
-      )}
+
+        {/* METRICS */}
+        <PostMetrics
+          insights={post.insights}
+          es={post.insights.engagement_score}
+          status={post.promotion_enabled}
+          postPromotable={postPromotable}
+        />
+
+        {/* POST LINK */}
+        {postPromotable && (
+          <PostLink
+            postId={post.id}
+            postIndex={index}
+            promotionEnabled={post.promotion_enabled}
+            priorityDsp={post.priority_dsp}
+            updateLink={updateLink}
+            setError={setError}
+          />
+        )}
+      </div>
 
       <Error error={error} />
 
