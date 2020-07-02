@@ -16,4 +16,14 @@ export default {
   **This process might take a while, so please don’t refresh the page.**
 
   Do you want to continue?`,
+
+  toggleTooltip: `This toggle indicates whether Feed can promote the post. 
+
+Slide right to let Feed promote this post (regardless of your default settings).
+
+Slide left if you don’t want Feed to promote this post (regardless of your default settings).
+
+Middle: this post follows your default promotion settings. A green outline means posts are eligible for promotion by default; a red outline means posts are not eligible for promotion by default.
+
+Change your default settings in Post Settings using the button at the top of the page.`,
 }
