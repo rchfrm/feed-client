@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 
+import Button from '@/elements/Button'
 import DataDetails from '@/admin/elements/DataDetails'
 import CopyTextButton from '@/elements/CopyTextButton'
 import TournamentWinner from '@/admin/TournamentWinner'
@@ -69,9 +70,9 @@ const TournamentOverview = ({
                 },
               }}
               >
-                <a className="button button--black button--small w-48">
-                  <strong className="button--innerText">Go to tournament</strong>
-                </a>
+                <Button className="w-48" version="black small" wrapper="a">
+                  Go to tournament
+                </Button>
               </Link>
             </p>
             {/* <div className="mt-3 mb-5">
