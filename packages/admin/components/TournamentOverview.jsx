@@ -17,7 +17,12 @@ const propsToDisplay = [
   'start_time',
   'stop_time',
   'campaign_id',
+  'campaign_name',
+  'platform',
   'adset_id',
+  'adset_name',
+  'daily_budget',
+  'budget_remaining',
 ]
 
 const TournamentOverview = ({

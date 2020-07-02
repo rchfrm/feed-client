@@ -14,13 +14,28 @@ import * as server from '@/admin/helpers/adminServer'
 
 const fetcher = async (artistId, campaignId, adsetId, tournamentId) => {
   if (!artistId) return []
-  // Get all artist tournaments
-  if (!tournamentId) {
-    return server.getArtistTournaments(artistId, tournamentId)
-  }
   // Get single tournament
-  const tournament = await server.getTournament(artistId, campaignId, adsetId, tournamentId)
-  return [tournament]
+  if (tournamentId) {
+    // Get tournament
+    const tournament = await server.getTournament(artistId, campaignId, adsetId, tournamentId)
+    // Get campaign and adset
+    const campaign = await server.getCampaign(artistId, campaignId)
+    const { name: campaign_name, platform } = campaign
+    const adset = await server.getAdset(artistId, campaignId, adsetId)
+    const { name: adset_name, budget_remaining, daily_budget } = adset
+    // Add data from campaign and adset into tournament
+    const tournamentComplete = {
+      ...tournament,
+      campaign_name,
+      platform,
+      adset_name,
+      daily_budget,
+      budget_remaining,
+    }
+    return [tournamentComplete]
+  }
+  // Get all artist tournaments
+  return server.getArtistTournaments(artistId, tournamentId)
 }
 
 const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {

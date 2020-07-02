@@ -60,3 +60,13 @@ export const getTournament = async (artistId, campaignId, adsetId, tournamentId)
   const endpoint = `artists/${artistId}/campaigns/${campaignId}/adsets/${adsetId}/tournaments/${tournamentId}`
   return api.get(endpoint)
 }
+
+export const getCampaign = async (artistId, campaignId) => {
+  const endpoint = `artists/${artistId}/campaigns/${campaignId}`
+  return api.get(endpoint)
+}
+
+export const getAdset = async (artistId, campaignId, adsetId) => {
+  const endpoint = `artists/${artistId}/campaigns/${campaignId}/adsets/${adsetId}`
+  return api.get(endpoint)
+}
