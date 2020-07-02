@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 
 import CopyTextButton from '@/elements/CopyTextButton'
 
-const DataDetail = ({ name, value, border, copy }) => {
+const DataDetail = ({ name, value, border, copy, isLink }) => {
+  const innerText = !isLink ? value : (
+    <a href={value} target="_blank" rel="noreferrer noopener">{value}</a>
+  )
   return (
     <>
       {border && <hr />}
@@ -13,7 +16,7 @@ const DataDetail = ({ name, value, border, copy }) => {
         {copy ? (
           <CopyTextButton text={value} className="ml-2" />
         ) : (
-          <strong>{value}</strong>
+          <strong>{innerText}</strong>
         )}
       </p>
     </>
@@ -28,11 +31,13 @@ DataDetail.propTypes = {
   value: PropTypes.string.isRequired,
   border: PropTypes.bool,
   copy: PropTypes.bool,
+  isLink: PropTypes.bool,
 }
 
 DataDetail.defaultProps = {
   border: false,
   copy: false,
+  isLink: false,
 }
 
 export default DataDetail
