@@ -6,6 +6,7 @@
 .tooltip--message {
   position: absolute;
   background-color: var(--bg-color);
+  box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.15);
 
   &.-left {
     left: -5px;
