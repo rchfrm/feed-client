@@ -2,6 +2,7 @@
 import React from 'react'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
+import ButtonTooltip from '@/elements/ButtonTooltip'
 // IMPORT COMPONENTS
 import PostToggle from '@/app/PostToggle'
 import PostMetaData from '@/app/PostMetaData'
@@ -45,11 +46,14 @@ const PostItem = ({
           permalink={post.permalink_url}
         />
         {postPromotable && (
-          <PostToggle
-            post={post}
-            togglePromotion={togglePromotion}
-            promotionEnabled={post.promotion_enabled}
-          />
+          <div className="flex">
+            <PostToggle
+              post={post}
+              togglePromotion={togglePromotion}
+              promotionEnabled={post.promotion_enabled}
+            />
+            <ButtonTooltip className="ml-1 -mr-4" />
+          </div>
         )}
       </div>
 
