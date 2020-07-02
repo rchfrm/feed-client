@@ -18,8 +18,8 @@ module.exports = (purgeFiles) => ({
     borderRadius: {
       none: '0',
       sm: '0.125rem',
-      default: '3px',
-      md: '6px',
+      button: '3px',
+      dialogue: '6px',
       lg: '0.5rem',
       full: '9999px',
     },
