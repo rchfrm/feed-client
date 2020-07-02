@@ -26,8 +26,7 @@ const getUsersData = (users) => {
 }
 
 const ArtistOverview = ({ artist }) => {
-  console.log('artist', artist)
-
+  // console.log('artist', artist)
   const artistUsers = React.useMemo(() => {
     return getUsersData(artist.users)
   }, [artist])
