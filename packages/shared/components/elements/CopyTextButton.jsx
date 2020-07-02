@@ -5,7 +5,7 @@ import ClipboardJS from 'clipboard'
 
 import ClipboardIcon from '@/icons/ClipboardIcon'
 
-const CopyTextButton = ({ text }) => {
+const CopyTextButton = ({ text, className }) => {
   const buttonEl = React.useRef(null)
   React.useEffect(() => {
     const { current: button } = buttonEl
@@ -17,7 +17,12 @@ const CopyTextButton = ({ text }) => {
 
   return (
     <a
-      className="inline-flex items-baseline button--copy-text"
+      className={[
+        'inline-flex',
+        'items-baseline',
+        'button--copy-text',
+        className,
+      ].join(' ')}
       role="button"
       title={`Copy ${text} to clipboard`}
       ref={buttonEl}
@@ -31,6 +36,12 @@ const CopyTextButton = ({ text }) => {
 
 CopyTextButton.propTypes = {
   text: PropTypes.string.isRequired,
+  className: PropTypes.string,
 }
+
+CopyTextButton.defaultProps = {
+  className: '',
+}
+
 
 export default CopyTextButton

@@ -1,14 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const DataDetail = ({ name, value, border }) => {
+import CopyTextButton from '@/elements/CopyTextButton'
+
+const DataDetail = ({ name, value, border, copy }) => {
   return (
     <>
       {border && <hr />}
       <p>
         <span>{name}:</span>
         {' '}
-        <strong>{value}</strong>
+        {copy ? (
+          <CopyTextButton text={value} className="ml-2" />
+        ) : (
+          <strong>{value}</strong>
+        )}
       </p>
     </>
   )
@@ -21,10 +27,12 @@ DataDetail.propTypes = {
   ]).isRequired,
   value: PropTypes.string.isRequired,
   border: PropTypes.bool,
+  copy: PropTypes.bool,
 }
 
 DataDetail.defaultProps = {
   border: false,
+  copy: false,
 }
 
 export default DataDetail
