@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const TooltipMessage = ({ children, direction }) => {
+const TooltipMessage = ({ children, direction, messageStyle }) => {
   return (
     <div
       onClick={(e) => {
@@ -21,6 +21,7 @@ const TooltipMessage = ({ children, direction }) => {
         'tooltip--message',
         `-${direction}`,
       ].join(' ')}
+      style={messageStyle}
     >
       {children}
     </div>
@@ -32,10 +33,12 @@ TooltipMessage.propTypes = {
   direction: PropTypes.oneOf([
     'top', 'left', 'bottom', 'right',
   ]),
+  messageStyle: PropTypes.object,
 }
 
 TooltipMessage.defaultProps = {
   direction: 'left',
+  messageStyle: {},
 }
 
 
