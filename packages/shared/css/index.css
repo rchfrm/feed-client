@@ -23,6 +23,7 @@
 @import "elements";
 @import "buttons";
 @import "modals";
+@import "tooltips";
 /**
 * Tailwind components
 * Tailwind utilities
