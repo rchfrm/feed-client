@@ -8,6 +8,7 @@ import TournamentFilters from '@/admin/TournamentFilters'
 import TournamentOverview from '@/admin/TournamentOverview'
 
 import { UserContext } from '@/contexts/UserContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import * as server from '@/admin/helpers/adminServer'
 
@@ -48,6 +49,13 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
     return tournaments.filter(({ status }) => status === activeFilter)
   }, [tournaments, activeFilter])
 
+  // Turn off global loading when finished
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  React.useEffect(() => {
+    const loading = !tournaments
+    toggleGlobalLoading(loading)
+  }, [tournaments, toggleGlobalLoading])
+
   // Stop here if no tournaments
   if (tournaments && !tournaments.length) {
     return (
@@ -80,10 +88,10 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
                 key={tournament.id}
                 tournament={tournament}
                 artistId={artistId}
-                listView={!singleTournament}
+                singleTournament={singleTournament}
                 className={[
                   'col-span-12',
-                  'sm:col-span-6',
+                  `${!singleTournament ? 'sm:col-span-6' : ''}`,
                 ].join(' ')}
               />
             )

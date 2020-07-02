@@ -22,7 +22,7 @@ const propsToDisplay = [
 const TournamentOverview = ({
   tournament,
   artistId,
-  listView,
+  singleTournament,
   className,
 }) => {
   const ads = React.useMemo(() => {
@@ -41,13 +41,23 @@ const TournamentOverview = ({
     <>
       <div data-name="TournamentOverview" className={['mb-2', className].join(' ')}>
         <h3><strong>{tournament.id}</strong></h3>
-        <DataDetails propsToDisplay={propsToDisplay} data={tournament} />
-        {/* WINNER */}
-        {tournament.winner && (
-          <TournamentWinner winner={winner} winningAdId={winningAdId} />
-        )}
+        <div className={singleTournament ? 'grid grid-cols-12 row-gap-8 sm:col-gap-4' : ''}>
+          <DataDetails
+            className="col-span-12 sm:col-span-6"
+            propsToDisplay={propsToDisplay}
+            data={tournament}
+          />
+          {/* WINNER */}
+          {tournament.winner && singleTournament && (
+            <TournamentWinner
+              className={singleTournament ? 'col-span-12 sm:col-span-6' : 'pt-4'}
+              winner={winner}
+              winningAdId={winningAdId}
+            />
+          )}
+        </div>
         {/* Link to tournament page */}
-        {listView && (
+        {!singleTournament && (
           <>
             <p>
               <Link href={{ pathname: ROUTES.TOURNAMENT,
@@ -71,7 +81,7 @@ const TournamentOverview = ({
         )}
       </div>
       {/* ADS */}
-      {!listView && (
+      {singleTournament && (
         <TournamentAds ads={ads} winningAdId={winningAdId} />
       )}
     </>
@@ -81,12 +91,12 @@ const TournamentOverview = ({
 TournamentOverview.propTypes = {
   tournament: PropTypes.object.isRequired,
   artistId: PropTypes.string.isRequired,
-  listView: PropTypes.bool,
+  singleTournament: PropTypes.bool,
   className: PropTypes.string,
 }
 
 TournamentOverview.defaultProps = {
-  listView: false,
+  singleTournament: false,
   className: '',
 }
 

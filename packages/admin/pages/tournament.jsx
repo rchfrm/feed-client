@@ -9,7 +9,6 @@ const Tournaments = ({ router: { pathname, query } }) => {
   return (
     <BasePage
       headerConfig="tournament"
-      staticPage
     >
       {artistId && tournamentId && campaignId && adsetId ? (
         <TournamentsLoader

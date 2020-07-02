@@ -9,7 +9,6 @@ const Tournaments = ({ router: { pathname, query } }) => {
   return (
     <BasePage
       headerConfig="tournaments"
-      staticPage
     >
       {artistId ? <TournamentsLoader artistId={artistId} /> : (
         <PageQuerySetter

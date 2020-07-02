@@ -23,10 +23,14 @@ const summaryActionProps = [
   'video_view',
 ]
 
-const TournamentWinner = ({ winner, winningAdId }) => {
+const TournamentWinner = ({ winner, winningAdId, className }) => {
   return (
-    <div>
-      <h4>Tournament Winner</h4>
+    <div className={[className].join(' ')}>
+      <h4>
+        <span className="text-green">☆</span>
+        <strong> Tournament Winner </strong>
+        <span className="text-green">☆</span>
+      </h4>
       <DataDetail name="Winning Ad ID" value={winningAdId} />
       <DataDetails propsToDisplay={propsToDisplay} data={winner} />
       {winner.summary && (
@@ -42,10 +46,12 @@ const TournamentWinner = ({ winner, winningAdId }) => {
 TournamentWinner.propTypes = {
   winner: PropTypes.object.isRequired,
   winningAdId: PropTypes.string,
+  className: PropTypes.string,
 }
 
 TournamentWinner.defaultProps = {
   winningAdId: '',
+  className: '',
 }
 
 

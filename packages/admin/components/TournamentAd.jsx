@@ -33,12 +33,13 @@ const TournamentAd = ({ ad, winner, className }) => {
 
   return (
     <div className={className}>
-      {winner && <h5 className="mb-2 text-green">☆ WINNER ☆</h5>}
       <h4 className="h3"><strong>Ad: {ad.id}</strong></h4>
+      {winner && <h5 className="text-green">☆ WINNER ☆</h5>}
       <DataDetails propsToDisplay={propsToDisplay} data={data} />
       {Object.values(data.adcreatives).map((adCreative) => {
         return <TournamentAdCreative key={adCreative.id} adCreative={adCreative} />
       })}
+      <hr className="md:hidden" />
     </div>
   )
 }
