@@ -73,7 +73,7 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
         {!singleTournament && (
           <p>Visible tournaments: {filteredTournaments.length}</p>
         )}
-        <div className="grid grid-cols-12 gap-4 pt-5">
+        <div className="grid grid-cols-12 sm:col-gap-4 row-gap-10 pt-5">
           {filteredTournaments.map((tournament) => {
             return (
               <TournamentOverview
