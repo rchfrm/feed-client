@@ -52,7 +52,14 @@ const PostItem = ({
               togglePromotion={togglePromotion}
               promotionEnabled={post.promotion_enabled}
             />
-            <ButtonTooltip className="ml-1 -mr-4" />
+            <ButtonTooltip
+              buttonClasses="ml-1 -mr-4"
+              containerStyle={{
+                zIndex: 3,
+              }}
+            >
+              <p>This is not a test</p>
+            </ButtonTooltip>
           </div>
         )}
       </div>
