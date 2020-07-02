@@ -2,7 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 
+import Button from '@/elements/Button'
+
 import DataDetails from '@/admin/elements/DataDetails'
+import DataDetail from '@/admin/elements/DataDetail'
 import CopyTextButton from '@/elements/CopyTextButton'
 
 import * as ROUTES from '@/admin/constants/routes'
@@ -32,21 +35,23 @@ const ArtistOverview = ({ artist }) => {
   return (
     <div>
       <DataDetails propsToDisplay={propsToDisplay} data={artist} border />
+      <DataDetail name="Artist ID" value={artist.id} copy />
       {/* Users */}
       <p>
         <span>Users: </span>
       </p>
-      <ul>
+      <ul className="list-disc pl-5">
         {artistUsers.map(({ name, id, role }, index) => {
           return (
-            <li key={id}>
-              <strong>
-                {name} ({role})
-                {index !== artistUsers.length - 1 ? ', ' : ''}
-              </strong>
-              {' '}
+            <li className="pl-3" key={id}>
+              <p>
+                <strong>
+                  {name} ({role})
+                  {index !== artistUsers.length - 1 ? ', ' : ''}
+                </strong>
+              </p>
               <div className="mt-3">
-                <CopyTextButton text={id} />
+                <DataDetail name="User ID" value={id} copy />
               </div>
             </li>
           )
@@ -55,7 +60,9 @@ const ArtistOverview = ({ artist }) => {
       {/* Tournaments link */}
       <p>
         <Link href={{ pathname: ROUTES.TOURNAMENTS, query: { artistId: artist.id } }}>
-          <a>Tournaments</a>
+          <Button className="w-40" version="black small" wrapper="a">
+            Tournaments
+          </Button>
         </Link>
       </p>
     </div>
