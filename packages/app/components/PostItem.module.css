@@ -23,9 +23,16 @@
   border-bottom: 2px solid var(--text-color);
   font-size: 0.8em;
 
-
   @media (min-width: 360px) {
+    font-size: 0.9em;
+  }
+
+  /* @media (--xs) {
     font-size: 1em;
+  } */
+
+  @media (--lg) {
+    font-size: 0.9em;
   }
 
 }
@@ -63,6 +70,15 @@
     .disabled & {
       color: var(--grey);
     }
+  }
+
+  br {
+    display: inline;
+    @media (min-width: 360px) { display: none }
+    @media (--xs) { display: inline }
+    @media (--sm) { display: none }
+    @media (--lg) { display: inline }
+    @media (min-width: 1300px) { display: none }
   }
 }
 
