@@ -3,6 +3,50 @@
   z-index: 2;
 }
 
+/* SLIDES */
+.tooltip--slides-container {
+
+}
+
+.tooltip--slides-wrapper {
+  margin-bottom: 0;
+}
+
+.tooltip--slides-navigation {
+  position: absolute;
+  right: var(--sp-3);
+  bottom: var(--sp-3);
+  width: var(--sp-10);
+  font-size: var(--sp-3);
+  height: 1em;
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    height: 1em;
+  }
+
+  .swiper-button-prev {
+    left: 0.2em;
+  }
+
+  .swiper-button-next {
+    right: 0.2em;
+  }
+
+}
+
+.tooltip--slides-pagination {
+  left: var(--sp-2);
+  bottom: var(--sp-2);
+}
+
+.tooltip--slides-slide {
+  .text--block:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* MESSAGE */
 .tooltip--message {
   position: absolute;
   background-color: var(--bg-color);

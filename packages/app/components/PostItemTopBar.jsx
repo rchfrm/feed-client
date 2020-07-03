@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import MarkdownText from '@/elements/MarkdownText'
 import ButtonTooltip from '@/elements/ButtonTooltip'
 import PostMetaData from '@/app/PostMetaData'
 import PostToggle from '@/app/PostToggle'
@@ -29,12 +28,11 @@ const PostItemTopBar = ({ post, togglePromotion, postPromotable }) => {
         {/* TOOLTIP */}
         <ButtonTooltip
           buttonClasses="ml-1 -mr-4"
+          slides={copy.toggleTooltipSlides}
           containerStyle={{
             zIndex: 3,
           }}
-        >
-          <MarkdownText markdown={copy.toggleTooltip} />
-        </ButtonTooltip>
+        />
       </div>
       )}
     </div>

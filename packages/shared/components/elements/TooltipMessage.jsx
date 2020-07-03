@@ -2,6 +2,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TooltipSlides from '@/TooltipSlides'
+
 const TooltipMessage = ({ children, slides, direction, messageStyle, messageRef }) => {
   return (
     <div
@@ -18,25 +20,34 @@ const TooltipMessage = ({ children, slides, direction, messageStyle, messageRef 
         // Custom CSS
         'tooltip--message',
         `-${direction}`,
+        // Handle slides
+        slides ? 'pb-8' : '',
       ].join(' ')}
       style={messageStyle}
     >
-      {children}
+      {slides ? (
+        <TooltipSlides slides={slides} />
+      ) : children}
     </div>
   )
 }
 
 TooltipMessage.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
+  slides: PropTypes.array,
   direction: PropTypes.oneOf([
     'top', 'left', 'bottom', 'right',
   ]),
   messageStyle: PropTypes.object,
+  messageRef: PropTypes.object,
 }
 
 TooltipMessage.defaultProps = {
+  children: null,
+  slides: null,
   direction: 'left',
   messageStyle: {},
+  messageRef: null,
 }
 
 
