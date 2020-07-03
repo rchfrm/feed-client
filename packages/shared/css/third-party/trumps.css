@@ -1,0 +1,9 @@
+.swiper-pagination-bullet,
+.swiper-pagination-bullet-active {
+  background: var(--text-color);
+}
+
+.swiper-pagination-bullet {
+  margin-right: var(--sp-2);
+}
+
