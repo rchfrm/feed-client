@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ButtonTooltip from '@/elements/ButtonTooltip'
 import PostMetaData from '@/app/PostMetaData'
 import PostToggle from '@/app/PostToggle'
+import PostToggleTooltip from '@/app/PostToggleTooltip'
 
 import styles from '@/app/PostItem.module.css'
-
-import copy from '@/app/copy/PostsPageCopy'
 
 
 const PostItemTopBar = ({ post, togglePromotion, postPromotable }) => {
@@ -26,13 +24,7 @@ const PostItemTopBar = ({ post, togglePromotion, postPromotable }) => {
           promotionEnabled={post.promotion_enabled}
         />
         {/* TOOLTIP */}
-        <ButtonTooltip
-          buttonClasses="ml-1 -mr-4"
-          slides={copy.toggleTooltipSlides}
-          containerStyle={{
-            zIndex: 3,
-          }}
-        />
+        <PostToggleTooltip />
       </div>
       )}
     </div>
