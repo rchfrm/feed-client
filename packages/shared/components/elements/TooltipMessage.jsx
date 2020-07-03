@@ -2,9 +2,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import MarkdownText from '@/elements/MarkdownText'
 import TooltipSlides from '@/TooltipSlides'
 
-const TooltipMessage = ({ children, slides, direction, messageStyle, messageRef }) => {
+const TooltipMessage = ({ copy, slides, direction, messageStyle, messageRef }) => {
   return (
     <div
       ref={messageRef}
@@ -27,13 +28,15 @@ const TooltipMessage = ({ children, slides, direction, messageStyle, messageRef 
     >
       {slides ? (
         <TooltipSlides slides={slides} />
-      ) : children}
+      ) : (
+        <MarkdownText markdown={copy} />
+      )}
     </div>
   )
 }
 
 TooltipMessage.propTypes = {
-  children: PropTypes.node,
+  copy: PropTypes.string,
   slides: PropTypes.array,
   direction: PropTypes.oneOf([
     'top', 'left', 'bottom', 'right',
@@ -43,7 +46,7 @@ TooltipMessage.propTypes = {
 }
 
 TooltipMessage.defaultProps = {
-  children: null,
+  copy: '',
   slides: null,
   direction: 'left',
   messageStyle: {},
