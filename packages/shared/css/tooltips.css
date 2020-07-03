@@ -36,8 +36,8 @@
 }
 
 .tooltip--slides-pagination {
-  left: var(--sp-2);
-  bottom: var(--sp-2);
+  left: var(--sp-3);
+  bottom: var(--sp-3);
 }
 
 .tooltip--slides-slide {

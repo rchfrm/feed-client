@@ -55,7 +55,7 @@ const TooltipMessage = ({
         'border-2',
         'border-solid',
         'border-green',
-        'p-2',
+        'p-3',
         // Custom CSS
         'tooltip--message',
         `-${direction}`,
