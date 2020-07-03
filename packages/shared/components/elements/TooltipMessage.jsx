@@ -2,12 +2,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const TooltipMessage = ({ children, direction, messageStyle }) => {
+const TooltipMessage = ({ children, slides, direction, messageStyle, messageRef }) => {
   return (
     <div
-      onClick={(e) => {
-        e.stopPropagation()
-      }}
+      ref={messageRef}
       className={[
         // Tailwind classes
         'absolute',
