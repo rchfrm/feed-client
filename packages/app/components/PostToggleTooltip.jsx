@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ButtonTooltip from '@/elements/ButtonTooltip'
+import TooltipButton from '@/elements/TooltipButton'
 import ToggleButtonIcon from '@/icons/ToggleButtonIcon'
 
 import copy from '@/app/copy/PostsPageCopy'
@@ -13,7 +13,7 @@ const toggleButtonIcon = (state, defaultState) => {
 
 const PostToggleTooltip = () => {
   return (
-    <ButtonTooltip
+    <TooltipButton
       buttonClasses="ml-1 -mr-4"
       slides={copy.toggleTooltipSlides}
       slidesContentAfter={[

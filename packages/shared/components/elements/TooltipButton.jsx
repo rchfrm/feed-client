@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import TooltipIcon from '@/icons/TooltipIcon'
 import TooltipMessage from '@/elements/TooltipMessage'
 
-const ButtonTooltip = (props) => {
+const TooltipButton = (props) => {
   const { buttonClasses, containerStyle } = props
   const [showMessage, setShowMessage] = React.useState(false)
   // Get ref to message
@@ -45,15 +45,15 @@ const ButtonTooltip = (props) => {
   )
 }
 
-ButtonTooltip.propTypes = {
+TooltipButton.propTypes = {
   buttonClasses: PropTypes.string,
   containerStyle: PropTypes.object,
 }
 
-ButtonTooltip.defaultProps = {
+TooltipButton.defaultProps = {
   buttonClasses: '',
   containerStyle: {},
 }
 
 
-export default ButtonTooltip
+export default TooltipButton
