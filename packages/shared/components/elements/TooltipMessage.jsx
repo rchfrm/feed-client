@@ -39,7 +39,7 @@ TooltipMessage.propTypes = {
     'top', 'left', 'bottom', 'right',
   ]),
   messageStyle: PropTypes.object,
-  messageRef: PropTypes.object,
+  messageRef: PropTypes.func,
 }
 
 TooltipMessage.defaultProps = {
@@ -47,7 +47,7 @@ TooltipMessage.defaultProps = {
   slides: null,
   direction: 'left',
   messageStyle: {},
-  messageRef: null,
+  messageRef: () => {},
 }
 
 

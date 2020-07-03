@@ -13,29 +13,32 @@ const ButtonTooltip = (props) => {
     messageRef.current = el
   }
   // Toggle functions
+  const buttonRef = React.useRef(null)
   const toggleMessage = () => setShowMessage(!showMessage)
   const closeMessage = ({ target }) => {
-    if (messageRef.current && messageRef.current.contains(target)) {
-      return
-    }
+    // Ignore if clicking on tooltip button
+    if (buttonRef.current.contains(target)) return
+    // Ignore if clicking within message
+    if (messageRef.current && messageRef.current.contains(target)) return
+    // Close the tooltip message
     setShowMessage(false)
   }
   // Listen clicks outside message to close
   React.useEffect(() => {
     if (showMessage) {
-      window.addEventListener('click', closeMessage, { once: true })
+      window.addEventListener('click', closeMessage)
       return
     }
-    window.removeEventListener('click', closeMessage, { once: true })
+    window.removeEventListener('click', closeMessage)
     return () => {
-      window.removeEventListener('click', closeMessage, { once: true })
+      window.removeEventListener('click', closeMessage)
     }
   }, [showMessage])
   // Render
   return (
     <div className={['tooltip--container', buttonClasses].join(' ')} style={containerStyle}>
       {showMessage && <TooltipMessage {...props} messageRef={setMessageRef} />}
-      <button className={['button', 'button--tooltip'].join(' ')} onClick={toggleMessage}>
+      <button className={['button', 'button--tooltip'].join(' ')} onClick={toggleMessage} ref={buttonRef}>
         <TooltipIcon />
       </button>
     </div>
