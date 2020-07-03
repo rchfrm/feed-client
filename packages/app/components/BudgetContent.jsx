@@ -38,7 +38,6 @@ function BudgetContent() {
     bgColor: brandColors.greyLight,
   }
   const [budget, setBudget] = React.useState(initialBudgetState)
-  const [minBudgetString, setMinBudgetString] = React.useState('')
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
 
   // Turn off global loading after artist finishes loading
@@ -55,10 +54,12 @@ function BudgetContent() {
   }, [artist.daily_budget, artistCurrency])
 
   // Define min budget
+  const [minBudget, setMinBudget] = React.useState({})
+  const [minBudgetFb, setMinBudgetFb] = React.useState({})
   React.useEffect(() => {
     const { min_daily_budget_info: minBudgetInfo } = artist
     if (!minBudgetInfo || !artistId) {
-      setMinBudgetString('£3.00')
+      setMinBudget('£3.00')
       return
     }
     const {
@@ -68,8 +69,22 @@ function BudgetContent() {
         offset: currencyOffset,
       },
     } = minBudgetInfo
-    const minBudget = utils.getMinBudget(amount, currencyCode, currencyOffset)
-    setMinBudgetString(minBudget)
+    const {
+      fbMinBudgetFloat,
+      fbMinBudgetString,
+      minBudgetFloat,
+      minBudgetString,
+    } = utils.getMinBudget(amount, currencyCode, currencyOffset)
+    // Set reccomended min budget
+    setMinBudget({
+      float: minBudgetFloat,
+      string: minBudgetString,
+    })
+    // Set FB min budget
+    setMinBudgetFb({
+      float: fbMinBudgetFloat,
+      string: fbMinBudgetString,
+    })
   // eslint-disable-next-line
   }, [artistId])
 
@@ -116,12 +131,14 @@ function BudgetContent() {
 
   const onSubmit = async (e) => {
     e.preventDefault()
+    setError(null)
+    const { amount: submittedBudget } = budget
     setBudget({
       ...budget,
       text: 'Saving...',
       disabled: true,
     })
-    const budgetAmount = budget.amount || 0
+    const budgetAmount = submittedBudget || 0
     const previousBudget = artist.daily_budget
     const dailyBudget = await updateBudget(artist.id, budgetAmount)
       .catch((error) => {
@@ -195,7 +212,7 @@ function BudgetContent() {
         {/* spacer */}
         <div className="hidden lg:block col-span-12 lg:col-span-6" />
 
-        <MarkdownText className="col-span-12 lg:col-span-6" markdown={copy.budgetOutro(minBudgetString)} />
+        <MarkdownText className="col-span-12 lg:col-span-6" markdown={copy.budgetOutro(minBudget.string)} />
 
         {/* spacer */}
         <div className="hidden lg:block col-span-12 lg:col-span-6" />
