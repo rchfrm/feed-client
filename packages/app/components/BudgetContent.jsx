@@ -133,6 +133,11 @@ function BudgetContent() {
     e.preventDefault()
     setError(null)
     const { amount: submittedBudget } = budget
+    // Handle too small
+    if (parseFloat(submittedBudget) < minBudgetFb.float) {
+      setError({ message: 'Error: The amount you submitted is smaller than Facebook\'s mininmum budget' })
+      return
+    }
     setBudget({
       ...budget,
       text: 'Saving...',
