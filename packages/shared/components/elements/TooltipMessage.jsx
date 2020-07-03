@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 import TooltipSlides from '@/TooltipSlides'
 
+import useBrowserStore from '@/hooks/useBrowserStore'
+
 const TooltipMessage = ({
   copy,
   slides,
@@ -13,13 +15,42 @@ const TooltipMessage = ({
   messageStyle,
   messageRef,
 }) => {
+  // Define message el
+  const messageNode = React.useRef(null)
+  const setMessageRef = React.useCallback((el) => {
+    // Set ref in parent
+    messageRef(el)
+    // Set ref here
+    messageNode.current = el
+  }, [messageRef])
+  // Get window width
+  const { width: windowWidth } = useBrowserStore()
+  // Update width to make sure it's not too big
+  const defaultStyle = { width: 300 }
+  const [style, setStyle] = React.useState(defaultStyle)
+  React.useEffect(() => {
+    const { current: messageEl } = messageNode
+    const sideGap = 20
+    const { right } = messageEl.getBoundingClientRect()
+    const { width: defaultWidth } = defaultStyle
+    const distanceFromRight = windowWidth - right
+    const isTooBig = windowWidth - (distanceFromRight + defaultWidth) < sideGap
+    if (isTooBig) {
+      // If screen is too narrow, set width to fit
+      const newWidth = windowWidth - (sideGap + distanceFromRight)
+      setStyle({ width: newWidth })
+      return
+    }
+    // If screen is big enough set to default style
+    setStyle(defaultStyle)
+  // eslint-disable-next-line
+  }, [windowWidth])
   return (
     <div
-      ref={messageRef}
+      ref={setMessageRef}
       className={[
         // Tailwind classes
         'absolute',
-        'w-64',
         'rounded-dialogue',
         'border-2',
         'border-solid',
@@ -31,7 +62,7 @@ const TooltipMessage = ({
         // Handle slides
         slides ? 'pb-8' : '',
       ].join(' ')}
-      style={messageStyle}
+      style={{ ...style, ...messageStyle }}
     >
       {slides || slidesContentAfter ? (
         <TooltipSlides slides={slides} slidesContentAfter={slidesContentAfter} />

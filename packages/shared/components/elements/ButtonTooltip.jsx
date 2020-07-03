@@ -9,9 +9,9 @@ const ButtonTooltip = (props) => {
   const [showMessage, setShowMessage] = React.useState(false)
   // Get ref to message
   const messageRef = React.useRef(null)
-  const setMessageRef = (el) => {
+  const setMessageRef = React.useCallback((el) => {
     messageRef.current = el
-  }
+  }, [])
   // Toggle functions
   const buttonRef = React.useRef(null)
   const toggleMessage = () => setShowMessage(!showMessage)
