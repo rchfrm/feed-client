@@ -27,7 +27,7 @@ const TooltipMessage = ({
   const { width: windowWidth } = useBrowserStore()
   // Update width to make sure it's not too big
   const defaultStyle = { width: 300 }
-  const [style, setStyle] = React.useState(defaultStyle)
+  const [style, setStyle] = React.useState(null)
   React.useEffect(() => {
     const { current: messageEl } = messageNode
     const sideGap = 20
@@ -64,7 +64,7 @@ const TooltipMessage = ({
       ].join(' ')}
       style={{ ...style, ...messageStyle }}
     >
-      {slides || slidesContentAfter ? (
+      {(slides || slidesContentAfter) && style ? (
         <TooltipSlides slides={slides} slidesContentAfter={slidesContentAfter} />
       ) : (
         <MarkdownText markdown={copy} />
