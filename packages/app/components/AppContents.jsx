@@ -1,11 +1,12 @@
 import React from 'react'
 // IMPORT CONTEXTS
-import { InterfaceContextProvider } from '@/app/contexts/InterfaceContext'
-import { UserProvider } from '@/app/contexts/User'
-import { ArtistProvider } from '@/app/contexts/Artist'
+import { InterfaceContextProvider } from '@/contexts/InterfaceContext'
+import { UserProvider } from '@/contexts/UserContext'
+import { ArtistProvider } from '@/contexts/ArtistContext'
+
 // IMPORT COMPONENTS
 import Main from '@/app/Main'
-import TheLoadingOverlay from '@/app/TheLoadingOverlay'
+import TheLoadingOverlay from '@/TheLoadingOverlay'
 import TheHeader from '@/app/TheHeader'
 import ThePageButtons from '@/app/ThePageButtons'
 import TheFooter from '@/app/TheFooter'

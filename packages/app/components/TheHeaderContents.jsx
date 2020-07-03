@@ -2,7 +2,7 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT HOOKS
 import useLoggedInTest from '@/hooks/useLoggedInTest'
 // IMPORT ELEMENTS

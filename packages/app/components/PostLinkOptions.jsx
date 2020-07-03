@@ -2,7 +2,7 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT ELEMENTS
 import PostLinkSaveButton from '@/app/PostLinkSaveButton'
 import Select from '@/elements/Select'
@@ -11,7 +11,7 @@ import Select from '@/elements/Select'
 // IMPORT CONSTANTS
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import server from '@/helpers/server'
+import * as server from '@/app/helpers/appServer'
 // IMPORT STYLES
 import styles from '@/app/PostsPage.module.css'
 

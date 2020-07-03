@@ -1,0 +1,9 @@
+.links {
+  :global(._active) {
+    font-weight: var(--bold);
+  }
+}
+
+.link {
+  text-transform: capitalize;
+}

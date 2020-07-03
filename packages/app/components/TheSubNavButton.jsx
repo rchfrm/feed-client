@@ -5,7 +5,7 @@ import Spinner from '@/elements/Spinner'
 import ArtistImage from '@/elements/ArtistImage'
 import CloseCircle from '@/icons/CloseCircle'
 
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import styles from '@/app/TheSubNavButton.module.css'
 

@@ -6,7 +6,7 @@ import produce from 'immer'
 import SpendingSummaryLoader from '@/app/SpendingSummaryLoader'
 import ResultsSingle from '@/app/ResultsSingle'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT ELEMENTS
 import Feed from '@/elements/Feed'
 // IMPORT CONSTANTS
