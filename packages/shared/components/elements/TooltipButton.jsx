@@ -16,10 +16,11 @@ const TooltipButton = (props) => {
   const buttonRef = React.useRef(null)
   const toggleMessage = () => setShowMessage(!showMessage)
   const closeMessage = ({ target }) => {
+    if (!buttonRef.current || !messageRef.current) return
     // Ignore if clicking on tooltip button
     if (buttonRef.current.contains(target)) return
     // Ignore if clicking within message
-    if (messageRef.current && messageRef.current.contains(target)) return
+    if (messageRef.current.contains(target)) return
     // Close the tooltip message
     setShowMessage(false)
   }
