@@ -52,6 +52,10 @@
   background-color: var(--bg-color);
   box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.15);
 
+  .text--block p {
+    margin-bottom: var(--sp-4);
+  }
+
   &.-left {
     left: -5px;
     bottom: 50%;
