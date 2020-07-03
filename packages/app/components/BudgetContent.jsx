@@ -38,7 +38,7 @@ function BudgetContent() {
     bgColor: brandColors.greyLight,
   }
   const [budget, setBudget] = React.useState(initialBudgetState)
-  const [minBudget, setMinBudget] = React.useState('')
+  const [minBudgetString, setMinBudgetString] = React.useState('')
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
 
   // Turn off global loading after artist finishes loading
@@ -58,7 +58,7 @@ function BudgetContent() {
   React.useEffect(() => {
     const { min_daily_budget_info: minBudgetInfo } = artist
     if (!minBudgetInfo || !artistId) {
-      setMinBudget('£3.00')
+      setMinBudgetString('£3.00')
       return
     }
     const {
@@ -69,7 +69,8 @@ function BudgetContent() {
       },
     } = minBudgetInfo
     const minBudget = utils.getMinBudget(amount, currencyCode, currencyOffset)
-    setMinBudget(minBudget)
+    setMinBudgetString(minBudget)
+  // eslint-disable-next-line
   }, [artistId])
 
   // Call this to reset the input
@@ -194,7 +195,7 @@ function BudgetContent() {
         {/* spacer */}
         <div className="hidden lg:block col-span-12 lg:col-span-6" />
 
-        <MarkdownText className="col-span-12 lg:col-span-6" markdown={copy.budgetOutro(minBudget)} />
+        <MarkdownText className="col-span-12 lg:col-span-6" markdown={copy.budgetOutro(minBudgetString)} />
 
         {/* spacer */}
         <div className="hidden lg:block col-span-12 lg:col-span-6" />
