@@ -5,8 +5,8 @@ import { useAsync } from 'react-async'
 import moment from 'moment'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
+import { ArtistContext } from '@/contexts/ArtistContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 // IMPORT PAGES
@@ -14,8 +14,8 @@ import ChartContainer from '@/app/ChartContainer'
 import ChartBar from '@/app/ChartBar'
 // IMPORT ASSETS
 // IMPORT HELPERS
-import { formatServerData, formatProjection } from '@/helpers/chartHelpers'
-import server from '@/helpers/server'
+import { formatServerData, formatProjection } from '@/app/helpers/chartHelpers'
+import * as server from '@/app/helpers/appServer'
 
 import styles from '@/app/InsightsPage.module.css'
 

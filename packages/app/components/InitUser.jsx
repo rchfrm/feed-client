@@ -2,14 +2,14 @@ import React from 'react'
 import Router, { useRouter } from 'next/router'
 import useAsyncEffect from 'use-async-effect'
 
-import { AuthContext } from '@/app/contexts/Auth'
-import { UserContext } from '@/app/contexts/User'
-import { ArtistContext } from '@/app/contexts/Artist'
+import { AuthContext } from '@/contexts/AuthContext'
+import { UserContext } from '@/contexts/UserContext'
+import { ArtistContext } from '@/contexts/ArtistContext'
 import * as ROUTES from '@/app/constants/routes'
 
 import * as utils from '@/helpers/utils'
 import firebase from '@/helpers/firebase'
-import { track } from '@/helpers/trackingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 // CALL REDIRECT
 let userRedirected = false

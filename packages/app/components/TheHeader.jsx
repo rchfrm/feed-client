@@ -6,7 +6,7 @@ import PeekElement from 'react-peek-element'
 import useOnResize from '@/hooks/useOnResize'
 import useLoggedInTest from '@/hooks/useLoggedInTest'
 // IMPORT CONTEXTS
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT COMPONENTS
 import TheHeaderContents from '@/app/TheHeaderContents'
 import TheSubNav from '@/app/TheSubNav'

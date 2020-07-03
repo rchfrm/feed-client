@@ -13,7 +13,7 @@ import StripeLogo from '@/icons/StripeLogo'
 import brandColors from '@/constants/brandColors'
 import countries from '@/constants/countries'
 // IMPORT CONTEXTS
-import { UserContext } from '@/app/contexts/User'
+import { UserContext } from '@/contexts/UserContext'
 import { BillingContext } from '@/app/contexts/BillingContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 // IMPORT ELEMENTS
@@ -28,7 +28,7 @@ import copy from '@/app/copy/AccountPageCopy'
 
 // IMPORT STYLES
 import styles from '@/app/PaymentPage.module.css'
-import paymentHelpers from '@/helpers/paymentHelpers'
+import paymentHelpers from '@/app/helpers/paymentHelpers'
 
 
 const getButton = (buttonEnabled, submit) => {

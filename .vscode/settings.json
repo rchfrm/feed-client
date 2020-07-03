@@ -1,3 +1,19 @@
 {
-  "eslint.enable": true
+  "eslint.enable": true,
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.next": true,
+    "**/.svn": true,
+    "**/CVS": true,
+    "**/dist": true,
+    "**/fonts/": true,
+    "**/node_modules/": true,
+    "**/scripts_mpsrc/": true,
+    "**/wire/": true,
+    "site/assets/cache/": true,
+    "site/modules/": true
+  },
+  "typescript.tsserver.log": "verbose"
 }

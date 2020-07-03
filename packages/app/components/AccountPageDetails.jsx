@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { UserContext } from '@/app/contexts/User'
+import { UserContext } from '@/contexts/UserContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import server from '@/helpers/server'
+import * as server from '@/helpers/sharedServer'
 import firebase from '@/helpers/firebase'
-import { track } from '@/helpers/trackingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'

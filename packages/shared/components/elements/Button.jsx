@@ -5,7 +5,7 @@ import Spinner from '@/elements/Spinner'
 
 import * as utils from '@/helpers/utils'
 
-const Button = ({
+const Button = React.forwardRef(({
   version,
   disabled,
   type,
@@ -16,7 +16,7 @@ const Button = ({
   onClick,
   href,
   children,
-}) => {
+}, ref) => {
   const versions = version
     .split(' ')
     .map((versionString) => `button--${versionString}`)
@@ -50,6 +50,7 @@ const Button = ({
       target={href ? target : ''}
       rel={href ? rel : ''}
       style={style}
+      ref={ref}
     >
       {loading && <Spinner className="button--spinner" />}
       <span className="button--innerText">
@@ -57,7 +58,9 @@ const Button = ({
       </span>
     </Wrapper>
   )
-}
+})
+
+Button.displayName = 'FullHeight'
 
 Button.propTypes = {
   version: PropTypes.string,

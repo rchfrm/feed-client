@@ -3,8 +3,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 // IMPORT CONTEXTS
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
-import { UserContext } from '@/app/contexts/User'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { UserContext } from '@/contexts/UserContext'
 // IMPORT COMPONENTS
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'

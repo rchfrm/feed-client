@@ -3,20 +3,20 @@ import Router from 'next/router'
 
 import { useImmerReducer } from 'use-immer'
 
-import { AuthContext } from '@/app/contexts/Auth'
-import { UserContext } from '@/app/contexts/User'
-import { InterfaceContext } from '@/app/contexts/InterfaceContext'
+import { AuthContext } from '@/contexts/AuthContext'
+import { UserContext } from '@/contexts/UserContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
-import { track } from '@/helpers/trackingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
-import styles from '@/app/LoginPage.module.css'
+import styles from '@/LoginPage.module.css'
 
 const getInputType = (key) => {
   if (key === 'email') return 'email'

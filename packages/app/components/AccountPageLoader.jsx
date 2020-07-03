@@ -1,6 +1,6 @@
 import React from 'react'
 // IMPORT CONTEXTS
-import { UserContext } from '@/app/contexts/User'
+import { UserContext } from '@/contexts/UserContext'
 import { BillingContextProvider } from '@/app/contexts/BillingContext'
 // IMPORT COMPONENTS
 import AccountPageContent from '@/app/AccountPageContent'

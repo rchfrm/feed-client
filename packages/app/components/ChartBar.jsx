@@ -11,7 +11,7 @@ import Spinner from '@/elements/Spinner'
 import ChartBarOverlay from '@/app/ChartBarOverlay'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import * as chartHelpers from '@/helpers/chartHelpers'
+import * as chartHelpers from '@/app/helpers/chartHelpers'
 import brandColors from '@/constants/brandColors'
 // IMPORT STYLES
 import styles from '@/app/InsightsPage.module.css'

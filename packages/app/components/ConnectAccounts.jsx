@@ -2,7 +2,7 @@ import React from 'react'
 
 import LastItem from '@/elements/LastItem'
 import ConnectAccountsPanel from '@/app/ConnectAccountsPanel'
-import * as artistHelpers from '@/helpers/artistHelpers'
+import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 // IMPORT STYLES
 import connectAccountsStyles from '@/app/ConnectAccounts.module.css'

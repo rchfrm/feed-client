@@ -2,7 +2,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT ELEMENTS
 // IMPORT COMPONENTS
 import InsightPlatformSelectors from '@/app/InsightPlatformSelectors'
@@ -10,7 +10,7 @@ import InsightDataSelectors from '@/app/InsightDataSelectors'
 import InsightsChartLoader from '@/app/InsightsChartLoader'
 import PromotePostsButton from '@/app/PromotePostsButton'
 // IMPORT HELPERS
-import * as chartHelpers from '@/helpers/chartHelpers'
+import * as chartHelpers from '@/app/helpers/chartHelpers'
 // IMPORT TEXT
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/InsightPageCopy'

@@ -2,12 +2,12 @@
 import React from 'react'
 import Router from 'next/router'
 // IMPORT CONTEXTS
-import { AuthContext } from '@/app/contexts/Auth'
+import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT COMPONENTS
 import SignupEmailForm from '@/app/SignupEmailForm'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
-import { track } from '@/helpers/trackingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT ELEMENTS
 import Button from '@/elements/Button'
 import EmailIcon from '@/icons/EmailIcon'
@@ -19,7 +19,7 @@ import * as ROUTES from '@/app/constants/routes'
 // IMPORT COPY
 import copy from '@/app/copy/LoginPageCopy'
 // IMPORT STYLES
-import styles from '@/app/LoginPage.module.css'
+import styles from '@/LoginPage.module.css'
 import brandColors from '@/constants/brandColors'
 
 const SignupPageContent = ({ showEmailSignup }) => {

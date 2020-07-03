@@ -1,11 +1,11 @@
 import React from 'react'
 import { useAsync } from 'react-async'
 
-import * as integrationErrorsHelpers from '@/helpers/integrationErrorsHelpers'
-import server from '@/helpers/server'
-import { ArtistContext } from '@/app/contexts/Artist'
-import { UserContext } from '@/app/contexts/User'
-import { AuthContext } from '@/app/contexts/Auth'
+import * as integrationErrorsHelpers from '@/app/helpers/integrationErrorsHelpers'
+import * as server from '@/app/helpers/appServer'
+import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/contexts/UserContext'
+import { AuthContext } from '@/contexts/AuthContext'
 
 import IntegrationErrorContent from '@/app/IntegrationErrorContent'
 

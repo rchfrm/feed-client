@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import moment from 'moment'
 
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import ResultsToggle from '@/app/ResultsToggle'
 // IMPORT ELEMENTS

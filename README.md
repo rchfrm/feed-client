@@ -8,16 +8,31 @@
 
 ## Initial setup
 
-Run `yarn`
+In both the `packages/admin/` `packages/app/` directories, duplicate the `.env.example`, remove the ".example", and fill in the variables.
+
+In order to stage the site you will need a `.env.staging` file.
+
+In order to deploy the site to production you will need a `.env.live` file.
+
+Run `yarn` to install the packages.
 
 
 ## Developing
 
 Go to the server repo (*automads-server*) and run `npm start`
 
-In the root of this directory, run `yarn dev`
+#### The App
 
-### Generating keys
+In the root of this directory, run `yarn dev` and browse to: [http://localhost:3000](http://localhost:3000).
+
+You can also run `yarn dev:ssl` to run the app in SSL mode, then browse to: [http://localhost:3001](http://localhost:3001).
+
+#### The Admin Panel
+
+In the root of this directory, run `yarn dev:admin` and browse to: [http://localhost:3000](http://localhost:3000).
+
+
+## Generating keys
 
 Follow [this guide](https://letsencrypt.org/docs/certificates-for-localhost/) to generate keys
 
@@ -30,18 +45,27 @@ Go to the server repo (*automads-server*) and run `npm start`
 
 In the root of this directory, run `yarn export && yarn serve`
 
+
 ## Bundle analysis
 
 To analyze the bundle size using [Next's bundle analyzer](https://github.com/zeit/next.js/tree/canary/packages/next-bundle-analyzer), run:
 
-`yarn analyze-bundle`
+`yarn analyze-bundle` or `yarn analyze-bundle:admin`
 
 
 ## Deploying
 
-To deploy to the **staging** environment run `yarn stage`
+#### The App
 
-To deploy to the **production** environment run `yarn deploy-production`
+To deploy the app to the **staging** environment run `yarn stage`
+
+To deploy the app to the **production** environment run `yarn deploy-production`
+
+#### The Admin Panel
+
+To deploy the admin panel to the **staging** environment run `yarn stage:admin`
+
+To deploy the admin panel to the **production** environment run `yarn deploy-production:admin`
 
 
 ## Deleting Artist

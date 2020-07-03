@@ -6,7 +6,7 @@ import produce from 'immer'
 import SpendingSummaryLoader from '@/app/SpendingSummaryLoader'
 import ResultsSingle from '@/app/ResultsSingle'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/app/contexts/Artist'
+import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT ELEMENTS
 import Feed from '@/elements/Feed'
 // IMPORT CONSTANTS
@@ -139,7 +139,7 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
     const { id, promotion_enabled, attachments, adcreative, _metadata, message } = post
     const media = attachments && attachments.length ? attachments[0] : null
     const thumbnailSrc = _metadata.thumbnail_url
-    const thumbnailSrcBackup = adcreative.thumbnail_url
+    const thumbnailSrcBackup = adcreative ? adcreative.thumbnail_url : ''
     return (
       <ResultsSingle
         className="col-span-6"

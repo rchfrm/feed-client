@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import * as chartHelpers from '@/helpers/chartHelpers'
+import * as chartHelpers from '@/app/helpers/chartHelpers'
 
 import useScrollToButton from '@/hooks/useScrollToButton'
 
