@@ -15,7 +15,7 @@
 .tooltip--slides-navigation {
   position: absolute;
   right: var(--sp-3);
-  bottom: var(--sp-3);
+  bottom: calc(var(--sp-3) + 3px);
   width: var(--sp-10);
   font-size: var(--sp-3);
   height: 1em;
