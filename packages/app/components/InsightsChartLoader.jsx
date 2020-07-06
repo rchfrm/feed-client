@@ -90,6 +90,7 @@ function InsightsChartLoader({
       setInitialLoading(chartLoading)
       toggleGlobalLoading(false)
     }
+  // eslint-disable-next-line
   }, [chartLoading])
 
   if (initialLoading) return null
