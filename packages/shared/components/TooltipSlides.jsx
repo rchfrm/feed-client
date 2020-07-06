@@ -17,17 +17,15 @@ const TooltipSlides = ({ slides, slidesContentAfter }) => {
         spaceBetween: 20,
       }}
     >
-      <>
-        {slides.map((slide, index) => {
-          const contentAfter = slidesContentAfter ? slidesContentAfter[index] || null : null
-          return (
-            <li key={index} className="swiper-slide tooltip--slides-slide">
-              <MarkdownText markdown={slide} />
-              {contentAfter}
-            </li>
-          )
-        })}
-      </>
+      {slides.map((slide, index) => {
+        const contentAfter = slidesContentAfter ? slidesContentAfter[index] || null : null
+        return (
+          <li key={index} className="swiper-slide tooltip--slides-slide">
+            <MarkdownText markdown={slide} />
+            {contentAfter}
+          </li>
+        )
+      })}
     </SwiperBlock>
   )
 }
