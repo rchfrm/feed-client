@@ -289,3 +289,14 @@
     text-transform: capitalize;
   }
 }
+
+
+/* UNPROMOTABLE WARNING */
+.postUnpromotable {
+  background-color: var(--text-color);
+  color: var(--bg-color);
+
+  p {
+    margin-bottom: 0;
+  }
+}
