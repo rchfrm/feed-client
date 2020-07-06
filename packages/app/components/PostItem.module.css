@@ -58,7 +58,8 @@
     width: 1.2em;
   }
 
-  .postItem._disabled & {
+  .postItem._disabled &,
+  .postItem._unpromotable & {
     svg * {
       fill: var(--grey) !important;
       stroke: var(--grey) !important;
@@ -90,7 +91,8 @@
   align-items: center;
   border-bottom: 2px solid var(--text-color);
 
-  .postItem._disabled & {
+  .postItem._disabled &,
+  .postItem._unpromotable & {
     filter: grayscale(1);
   }
 
