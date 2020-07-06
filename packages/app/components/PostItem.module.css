@@ -53,8 +53,9 @@
   }
 
   .postItem._disabled & {
-    svg path {
+    svg * {
       fill: var(--grey) !important;
+      stroke: var(--grey) !important;
     }
   }
   

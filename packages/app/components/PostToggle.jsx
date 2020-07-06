@@ -101,10 +101,27 @@ const PostToggle = ({
     postId,
     promotionEnabled: getPromotionStatus(buttonState),
     onResolve: (post) => {
-      const { promotion_enabled } = post
+      const { promotion_enabled, promotable_status } = post
+      // Update post list state
       togglePromotion(postId, promotion_enabled)
+      // Update button state
+      const newButtonState = getButtonState(promotable_status)
+      setButtonState(newButtonState)
     },
   })
+  // SHOW SPINNER
+  const [showSpinner, setShowSpinner] = React.useState(false)
+  const spinnerTimeout = React.useRef()
+  React.useEffect(() => {
+    if (!isPending) {
+      clearTimeout(spinnerTimeout.current)
+      setShowSpinner(false)
+      return
+    }
+    spinnerTimeout.current = setTimeout(() => {
+      setShowSpinner(true)
+    }, 500)
+  }, [setShowSpinner, isPending])
   // Workaround: https://github.com/async-library/react-async/issues/249#issue-554311360
   React.useEffect(() => {
     cancel()
@@ -187,7 +204,7 @@ const PostToggle = ({
       <TOGGLE_BUTTON action="on" buttonState={buttonState} setButtonState={setButtonState} />
       {/* Switch slider */}
       <div className={styles.switch} {...dragBind()} ref={switchEl}>
-        {isPending && <Spinner className={styles.switchSpinner} />}
+        {showSpinner && <Spinner className={styles.switchSpinner} />}
       </div>
     </div>
   )
