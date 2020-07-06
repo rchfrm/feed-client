@@ -12,19 +12,21 @@ const Tournaments = ({ router: { pathname, query } }) => {
       headerConfig="tournaments"
       staticPage={!pageRequiresLoading}
     >
-      {pageRequiresLoading ? <TournamentsLoader artistId={artistId} /> : (
-        <PageQuerySetter
-          intro="This page requires an Artist ID"
-          queries={[
-            {
-              label: 'Artist ID',
-              queryName: 'artistId',
-            },
-          ]}
-          pathname={pathname}
-          submitText="Fetch tournaments"
-        />
-      )}
+      {pageRequiresLoading
+        ? <TournamentsLoader artistId={artistId} />
+        : (
+          <PageQuerySetter
+            intro="This page requires an Artist ID"
+            queries={[
+              {
+                label: 'Artist ID',
+                queryName: 'artistId',
+              },
+            ]}
+            pathname={pathname}
+            submitText="Fetch tournaments"
+          />
+        )}
     </BasePage>
   )
 }
