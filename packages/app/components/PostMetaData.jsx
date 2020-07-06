@@ -24,7 +24,10 @@ const PostMetaData = ({ platform, date, permalink, className }) => {
           color={color}
           width="20"
         />
-        {moment(date).format('D MMM YYYY [at] HH[:]mm')}
+        {moment(date).format('D MMM YYYY')}
+        {' '}
+        <br />
+        {moment(date).format('[at] HH[:]mm')}
       </a>
     </p>
   )

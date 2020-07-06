@@ -13,6 +13,7 @@
     "react": "^16.4.0",
     "react-device-detect": "^1.13.1",
     "react-dom": "^16.4.0",
+    "swiper": "^5.4.5",
     "zustand": "^2.2.3"
   },
   "devDependencies": {

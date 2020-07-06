@@ -11,6 +11,7 @@ import brandColors from '@/constants/brandColors'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 import Spinner from '@/elements/Spinner'
+import PostToggleSwitch from '@/app/PostToggleSwitch'
 
 import styles from '@/app/PostToggle.module.css'
 
@@ -55,30 +56,6 @@ const getPromotionStatus = (buttonState) => {
   return null
 }
 
-// ON / OFF BUTTON COMPONENT
-const TOGGLE_BUTTON = ({ action, buttonState, setButtonState }) => {
-  const xClass = action === 'off' ? 'left-0' : 'right-0'
-  const newState = React.useMemo(() => {
-    return buttonState === 'default' ? action : 'default'
-  }, [buttonState, action])
-  const onClick = React.useCallback(() => {
-    setButtonState(newState)
-  }, [newState, setButtonState])
-  return (
-    <button
-      className={[
-        'absolute',
-        'top-0',
-        'bottom-0',
-        xClass,
-        'w-1/2',
-        'z-2',
-      ].join(' ')}
-      onClick={onClick}
-      aria-label={`Toggle post ${action}`}
-    />
-  )
-}
 
 const PostToggle = ({
   post,
@@ -200,8 +177,8 @@ const PostToggle = ({
       {/* Background */}
       <div className={styles.background} />
       {/* Buttons */}
-      <TOGGLE_BUTTON action="off" buttonState={buttonState} setButtonState={setButtonState} />
-      <TOGGLE_BUTTON action="on" buttonState={buttonState} setButtonState={setButtonState} />
+      <PostToggleSwitch action="off" buttonState={buttonState} setButtonState={setButtonState} />
+      <PostToggleSwitch action="on" buttonState={buttonState} setButtonState={setButtonState} />
       {/* Switch slider */}
       <div className={styles.switch} {...dragBind()} ref={switchEl}>
         {showSpinner && <Spinner className={styles.switchSpinner} />}
