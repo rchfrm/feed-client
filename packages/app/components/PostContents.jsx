@@ -16,7 +16,8 @@ const PostContents = ({ media, thumbnailSrc, caption, className }) => {
       className={[
         styles.postContents,
         styles.postSection,
-        hasMedia ? '' : styles._noMedia,
+        !hasMedia ? styles._noMedia : '',
+        !caption ? styles._noCaption : '',
         className,
       ].join(' ')}
     >

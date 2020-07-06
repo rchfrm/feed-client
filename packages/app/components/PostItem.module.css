@@ -94,10 +94,6 @@
     filter: grayscale(1);
   }
 
-  &._noCaption {
-    justify-content: center;
-  }
-
   &::after {
     top: auto;
     bottom: 0;
