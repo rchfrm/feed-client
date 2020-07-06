@@ -9,7 +9,7 @@ import TheHeader from '@/admin/TheHeader'
 
 const AdminContents = ({ children }) => {
   return (
-    <div id="container" className="page--content">
+    <div id="container-admin" className="page--content">
       <InterfaceContextProvider>
         <UserProvider>
           <ArtistProvider disable>

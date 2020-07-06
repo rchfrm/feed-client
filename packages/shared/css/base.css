@@ -19,7 +19,8 @@ body {
   }
 }
 
-#container {
+#container,
+#container-admin {
   display: flex;
   width: 100%;
   min-height: 100vh;
@@ -31,6 +32,10 @@ body {
     padding-top: var(--sp-10);
     padding-bottom: 0;
   }
+}
+
+#container-admin {
+  padding-top: var(--sp-10);
 }
 
 #page--container,
