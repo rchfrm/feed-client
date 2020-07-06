@@ -32,12 +32,14 @@ function InsightsContent() {
     const { _embedded: { data_sources: dataSources } } = artist
     const allSources = Object.values(dataSources).map(({ id }) => id)
     return chartHelpers.getAvailableSources(allSources)
+  // eslint-disable-next-line
   }, [artistId])
 
   // GET ALL AVAILABLE PLATFORMS
   const availablePlatforms = React.useMemo(() => {
     if (!availableDataSources.length) return []
     return chartHelpers.getAvailablePlatforms(availableDataSources)
+  // eslint-disable-next-line
   }, [artistId, availableDataSources.length])
 
   // SET INITIAL PLATFORM AND DATA SOURCE
@@ -49,6 +51,7 @@ function InsightsContent() {
     // Get and set initial data source
     const source = chartHelpers.getInitialDataSource(availableDataSources, platform)
     setCurrentDataSource(source)
+  // eslint-disable-next-line
   }, [artistId, availablePlatforms.length])
 
   // Set page ready after page has loaded
