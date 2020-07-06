@@ -111,7 +111,7 @@ const InterfaceContextProvider = ({ children }) => {
       Router.events.off('routeChangeStart', handleRouteChange)
       Router.events.off('routeChangeComplete', handleRouteEnd)
     }
-  }, [])
+  }, [handleRouteChange, handleRouteEnd])
 
   return (
     <InterfaceContext.Provider
