@@ -50,7 +50,6 @@ const PostItem = ({
           media={post.media}
           thumbnailSrc={post._metadata.thumbnail_url}
           caption={postCaption}
-          className={!postCaption ? styles._noCaption : ''}
         />
 
         {/* METRICS */}
@@ -62,7 +61,7 @@ const PostItem = ({
         />
 
         {/* POST LINK */}
-        {postPromotable && (
+        {postPromotable ? (
           <PostLink
             postId={post.id}
             postIndex={index}
@@ -71,36 +70,10 @@ const PostItem = ({
             updateLink={updateLink}
             setError={setError}
           />
+        ) : (
+          <PostUnpromotable />
         )}
       </div>
-
-      {/* IMAGE AND CONTENTS */}
-      <PostContents
-        media={post.media}
-        thumbnailSrc={post._metadata.thumbnail_url}
-        caption={postCaption}
-      />
-
-      {/* METRICS */}
-      <PostMetrics
-        insights={post.insights}
-        es={post.insights.engagement_score}
-        status={post.promotion_enabled}
-      />
-
-      {/* POST LINK */}
-      {postPromotable ? (
-        <PostLink
-          postId={post.id}
-          postIndex={index}
-          promotionEnabled={post.promotion_enabled}
-          priorityDsp={post.priority_dsp}
-          updateLink={updateLink}
-          setError={setError}
-        />
-      ) : (
-        <PostUnpromotable />
-      )}
 
       <Error error={error} />
 
