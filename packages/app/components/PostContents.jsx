@@ -6,15 +6,27 @@ import PostImage from '@/app/PostImage'
 import styles from '@/app/PostItem.module.css'
 
 const PostContents = ({ media, thumbnailSrc, caption, className }) => {
-  const [mediaClass] = React.useState(media ? '' : styles._noMedia)
+  const [hasMedia, setHasMedia] = React.useState(true)
+  React.useEffect(() => {
+    setHasMedia(!!media)
+  }, [media])
+
   return (
-    <div className={[styles.postContents, styles.postSection, className, mediaClass].join(' ')}>
-      {media && (
+    <div
+      className={[
+        styles.postContents,
+        styles.postSection,
+        hasMedia ? '' : styles._noMedia,
+        className,
+      ].join(' ')}
+    >
+      {hasMedia && (
         <div className={styles.postImageContainer}>
           <PostImage
             mediaSrc={media}
             thumbnailOptions={[thumbnailSrc]}
             title={caption}
+            setHasMedia={setHasMedia}
           />
         </div>
       )}

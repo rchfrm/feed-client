@@ -116,6 +116,7 @@
 
   .postContents._noMedia & {
     width: 100%;
+    padding-left: 0 !important;
   }
 
   @media (--md) {
