@@ -209,20 +209,17 @@ function BudgetContent() {
         </form>
 
         {error && (
-          <div className="col-span-12 lg:col-span-6">
+          <div className="col-span-12 lg:col-span-6 lg:col-start-1">
             <Error error={error} />
           </div>
         )}
 
-        {/* spacer */}
-        <div className="hidden lg:block col-span-12 lg:col-span-6" />
-
-        <MarkdownText className="col-span-12 lg:col-span-6" markdown={copy.budgetOutro(minBudget.string)} />
+        <MarkdownText className="col-span-12 lg:col-span-6 lg:col-start-1" markdown={copy.budgetOutro(minBudget.string)} />
 
         {/* spacer */}
-        <div className="hidden lg:block col-span-12 lg:col-span-6" />
+        <div className="hidden lg:block col-span-12 lg:col-span-6 lg:col-start-1" />
 
-        <PaymentSummary className="col-span-12 lg:col-span-6" />
+        <PaymentSummary className="col-span-12 lg:col-span-6 lg:col-start-1" />
       </div>
 
     </div>
