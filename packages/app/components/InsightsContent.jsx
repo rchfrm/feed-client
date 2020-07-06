@@ -8,7 +8,6 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import InsightPlatformSelectors from '@/app/InsightPlatformSelectors'
 import InsightDataSelectors from '@/app/InsightDataSelectors'
 import InsightsChartLoader from '@/app/InsightsChartLoader'
-import PromotePostsButton from '@/app/PromotePostsButton'
 // IMPORT HELPERS
 import * as chartHelpers from '@/app/helpers/chartHelpers'
 // IMPORT TEXT
