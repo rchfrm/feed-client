@@ -415,7 +415,9 @@ export const formatCurrency = (value, currency = 'GBP', locale = navigator.langu
 * @returns {string}
 */
 export const getMinBudget = (amount, currencyCode, currencyOffset) => {
-  const fbMinBudgetFloat = amount / currencyOffset
+  // Account for Feed fee
+  const fbMinBudgetAdjusted = (amount / currencyOffset) / 0.9
+  const fbMinBudgetFloat = Math.ceil((fbMinBudgetAdjusted + Number.EPSILON) * 100) / 100
   const fbMinBudgetString = formatCurrency(fbMinBudgetFloat, currencyCode)
   const minBudgetFloat = ((amount / 0.9) * 3) / currencyOffset
   const exponent = Math.round(minBudgetFloat).toString().length - 1
