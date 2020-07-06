@@ -38,7 +38,6 @@ function BudgetContent() {
     bgColor: brandColors.greyLight,
   }
   const [budget, setBudget] = React.useState(initialBudgetState)
-  const [minBudget, setMinBudget] = React.useState('')
   const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
 
   // Turn off global loading after artist finishes loading
@@ -55,6 +54,8 @@ function BudgetContent() {
   }, [artist.daily_budget, artistCurrency])
 
   // Define min budget
+  const [minBudget, setMinBudget] = React.useState({})
+  const [minBudgetFb, setMinBudgetFb] = React.useState({})
   React.useEffect(() => {
     const { min_daily_budget_info: minBudgetInfo } = artist
     if (!minBudgetInfo || !artistId) {
@@ -68,8 +69,23 @@ function BudgetContent() {
         offset: currencyOffset,
       },
     } = minBudgetInfo
-    const minBudget = utils.getMinBudget(amount, currencyCode, currencyOffset)
-    setMinBudget(minBudget)
+    const {
+      fbMinBudgetFloat,
+      fbMinBudgetString,
+      minBudgetFloat,
+      minBudgetString,
+    } = utils.getMinBudget(amount, currencyCode, currencyOffset)
+    // Set reccomended min budget
+    setMinBudget({
+      float: minBudgetFloat,
+      string: minBudgetString,
+    })
+    // Set FB min budget
+    setMinBudgetFb({
+      float: fbMinBudgetFloat,
+      string: fbMinBudgetString,
+    })
+  // eslint-disable-next-line
   }, [artistId])
 
   // Call this to reset the input
@@ -115,12 +131,20 @@ function BudgetContent() {
 
   const onSubmit = async (e) => {
     e.preventDefault()
+    setError(null)
+    const { amount: submittedBudget } = budget
+    const submittedBudgetFloat = parseFloat(submittedBudget)
+    // Handle too small
+    if (submittedBudgetFloat < minBudgetFb.float && submittedBudgetFloat !== 0) {
+      setError({ message: `Error: The amount you submitted is smaller than Facebook's mininmum budget of ${minBudgetFb.string}` })
+      return
+    }
     setBudget({
       ...budget,
       text: 'Saving...',
       disabled: true,
     })
-    const budgetAmount = budget.amount || 0
+    const budgetAmount = submittedBudget || 0
     const previousBudget = artist.daily_budget
     const dailyBudget = await updateBudget(artist.id, budgetAmount)
       .catch((error) => {
@@ -186,20 +210,17 @@ function BudgetContent() {
         </form>
 
         {error && (
-          <div className="col-span-12 lg:col-span-6">
+          <div className="col-span-12 lg:col-span-6 lg:col-start-1">
             <Error error={error} />
           </div>
         )}
 
-        {/* spacer */}
-        <div className="hidden lg:block col-span-12 lg:col-span-6" />
-
-        <MarkdownText className="col-span-12 lg:col-span-6" markdown={copy.budgetOutro(minBudget)} />
+        <MarkdownText className="col-span-12 lg:col-span-6 lg:col-start-1" markdown={copy.budgetOutro(minBudget.string)} />
 
         {/* spacer */}
-        <div className="hidden lg:block col-span-12 lg:col-span-6" />
+        <div className="hidden lg:block col-span-12 lg:col-span-6 lg:col-start-1" />
 
-        <PaymentSummary className="col-span-12 lg:col-span-6" />
+        <PaymentSummary className="col-span-12 lg:col-span-6 lg:col-start-1" />
       </div>
 
     </div>
