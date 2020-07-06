@@ -14,6 +14,7 @@ const initialState = {
   },
   globalLoading: true,
   showSpinner: false,
+  routeChanging: false,
 }
 
 const initialContext = {
@@ -27,6 +28,7 @@ const initialContext = {
   header: initialState.header,
   globalLoading: initialState.globalLoading,
   showSpinner: initialState.showSpinner,
+  routeChanging: initialState.routeChanging,
 }
 
 const InterfaceContext = React.createContext(initialContext)
@@ -53,6 +55,9 @@ const reducer = (draftState, action) => {
       draftState.header.text = payload.text ? payload.text : draftState.header.text
       draftState.header.punctuation = payload.punctuation ? payload.punctuation : draftState.header.punctuation
       break
+    case 'toggleRouteChanging':
+      draftState.routeChanging = typeof payload.state === 'boolean' ? payload.state : !draftState.routeChanging
+      break
     default:
       return draftState
   }
@@ -60,7 +65,7 @@ const reducer = (draftState, action) => {
 
 const InterfaceContextProvider = ({ children }) => {
   const [interfaceState, setInterfaceState] = useImmerReducer(reducer, initialState)
-  const { subNavOpen, header, globalLoading, showSpinner } = interfaceState
+  const { subNavOpen, header, globalLoading, showSpinner, routeChanging } = interfaceState
 
   const toggleSubNav = React.useCallback((state) => {
     setInterfaceState({ type: 'toggleSubNav', payload: { state } })
@@ -78,6 +83,10 @@ const InterfaceContextProvider = ({ children }) => {
     setInterfaceState({ type: 'toggleGlobalLoadingSpinner', payload: { state } })
   }, [setInterfaceState])
 
+  const toggleRouteChanging = React.useCallback((state) => {
+    setInterfaceState({ type: 'toggleRouteChanging', payload: { state } })
+  }, [setInterfaceState])
+
   // Hide spinner when global loading is false
   React.useEffect(() => {
     if (!globalLoading) toggleGlobalLoadingSpinner(false)
@@ -88,13 +97,21 @@ const InterfaceContextProvider = ({ children }) => {
   const { pathname, queryString } = utils.parseUrl(urlString)
   const previousPathname = React.useRef(pathname)
   const previousQuery = React.useRef(queryString)
+  // Call this when route change ends
   const handleRouteEnd = React.useCallback((newUrl) => {
     const { pathname, queryString } = utils.parseUrl(newUrl)
+    // Set route changing to false
+    toggleRouteChanging(false)
+    // Store new pathname and query
     previousPathname.current = pathname
     previousQuery.current = queryString
-  }, [])
+  }, [toggleRouteChanging])
+  // Call this when route change starts
   const handleRouteChange = React.useCallback((newUrl) => {
+    // Get new pathname
     const { pathname: newPathname } = utils.parseUrl(newUrl)
+    // Set route changing to true
+    toggleRouteChanging(true)
     // Don't trigger loading if nav-ing to query path
     if (newUrl.includes('?')) return
     // close sub nav
@@ -103,7 +120,8 @@ const InterfaceContextProvider = ({ children }) => {
     if (newPathname === previousPathname.current) return
     // Set global loading
     toggleGlobalLoading(true)
-  }, [toggleGlobalLoading, toggleSubNav])
+  }, [toggleGlobalLoading, toggleSubNav, toggleRouteChanging])
+  // Listen for route changing
   React.useEffect(() => {
     Router.events.on('routeChangeStart', handleRouteChange)
     Router.events.on('routeChangeComplete', handleRouteEnd)
@@ -121,11 +139,13 @@ const InterfaceContextProvider = ({ children }) => {
         setHeader,
         toggleGlobalLoading,
         toggleGlobalLoadingSpinner,
+        toggleRouteChanging,
         // Getters
         globalLoading,
         showSpinner,
         subNavOpen,
         header,
+        routeChanging,
       }}
     >
       {children}
