@@ -415,12 +415,17 @@ export const formatCurrency = (value, currency = 'GBP', locale = navigator.langu
 * @returns {string}
 */
 export const getMinBudget = (amount, currencyCode, currencyOffset) => {
-  const adjustedMin = ((amount / 0.9) * 3) / currencyOffset
-  const exponent = Math.round(adjustedMin).toString().length - 1
+  // Account for Feed fee
+  const fbMinBudgetAdjusted = (amount / currencyOffset) / 0.9
+  const fbMinBudgetFloat = Math.ceil((fbMinBudgetAdjusted + Number.EPSILON) * 100) / 100
+  const fbMinBudgetString = formatCurrency(fbMinBudgetFloat, currencyCode)
+  const minBudgetFloat = ((amount / 0.9) * 3) / currencyOffset
+  const exponent = Math.round(minBudgetFloat).toString().length - 1
   const multiplier = 10 ** exponent
-  const roundedNumber = Math.ceil(adjustedMin / multiplier) * multiplier
+  const roundedNumber = Math.ceil(minBudgetFloat / multiplier) * multiplier
+  const minBudgetString = formatCurrency(roundedNumber, currencyCode)
   // Format and return
-  return formatCurrency(roundedNumber, currencyCode)
+  return { fbMinBudgetFloat, fbMinBudgetString, minBudgetFloat, minBudgetString }
 }
 
 
