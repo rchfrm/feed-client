@@ -41,7 +41,7 @@
 .postMeta {
   margin-bottom: 0 !important;
 
-  /* Increase meta height if no toggle button */
+  /* Increase meta height if no toggle button, to compensate height */
   .postItem._unpromotable & {
     padding: 5px 0;
   }
@@ -181,7 +181,8 @@
   padding-bottom: var(--sp-3);
   background-color: var(--green);
 
-  .postItem._disabled & {
+  .postItem._disabled &
+  .postItem._unpromotable &, {
     background-color: var(--grey);
   }
 

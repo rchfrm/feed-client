@@ -58,7 +58,7 @@ const METRICS_ITEM = ({ title, value, className }) => {
   )
 }
 
-const PostMetrics = ({ insights, es, postPromotable }) => {
+const PostMetrics = ({ insights, es }) => {
   // Create array of insights
   const insightsArray = React.useMemo(() => {
     const maxInsights = 4
@@ -90,30 +90,17 @@ const PostMetrics = ({ insights, es, postPromotable }) => {
         styles.postMetrics,
       ].join(' ')}
       >
-        {postPromotable ? (
-          // Promotable
-          <>
-            {/* Insights metrics */}
-            {insightsArray.map(({ title, value }) => {
-              const parsedValue = utils.abbreviateNumber(value)
-              return <METRICS_ITEM key={title} title={title} value={parsedValue} />
-            })}
-          </>
-        ) : (
-          // Not promotable
-          <li className={[styles.postMetricsItem, styles.postMetricsUnpromotable, 'col-span-2'].join(' ')}>
-            <strong>Post not promotable</strong>
-          </li>
-        )}
+        {insightsArray.map(({ title, value }) => {
+          const parsedValue = utils.abbreviateNumber(value)
+          return <METRICS_ITEM key={title} title={title} value={parsedValue} />
+        })}
       </ul>
-      {postPromotable && (
-        <div className={[styles.postSection, styles.postEsScore].join(' ')}>
-          <p className={styles.postEsScorePara}>
-            <span>Score</span>
-            <strong>{es}</strong>
-          </p>
-        </div>
-      )}
+      <div className={[styles.postSection, styles.postEsScore].join(' ')}>
+        <p className={styles.postEsScorePara}>
+          <span>Score</span>
+          <strong>{es}</strong>
+        </p>
+      </div>
     </>
   )
 }
@@ -135,7 +122,6 @@ METRICS_ITEM.defaultProps = {
 PostMetrics.propTypes = {
   insights: PropTypes.object.isRequired,
   es: PropTypes.number.isRequired,
-  postPromotable: PropTypes.bool.isRequired,
 }
 
 export default PostMetrics

@@ -73,6 +73,32 @@ const PostItem = ({
         )}
       </div>
 
+      {/* IMAGE AND CONTENTS */}
+      <PostContents
+        media={post.media}
+        thumbnailSrc={post._metadata.thumbnail_url}
+        caption={postCaption}
+      />
+
+      {/* METRICS */}
+      <PostMetrics
+        insights={post.insights}
+        es={post.insights.engagement_score}
+        status={post.promotion_enabled}
+      />
+
+      {/* POST LINK */}
+      {postPromotable && (
+        <PostLink
+          postId={post.id}
+          postIndex={index}
+          promotionEnabled={post.promotion_enabled}
+          priorityDsp={post.priority_dsp}
+          updateLink={updateLink}
+          setError={setError}
+        />
+      )}
+
       <Error error={error} />
 
       {children}
