@@ -26,44 +26,9 @@ import brandColors from '@/constants/brandColors'
 function Icon({
   color = brandColors.black,
   data,
-  status,
   version,
   width,
-  className = '',
 }) {
-  // ADAPTATIONS FOR A STATUS PROPS
-  // Adapt colors for different status'
-  let bgColor
-  let borderColor
-  if (status === 'all') {
-    color = brandColors.white
-    bgColor = color
-    borderColor = color
-  } else if (status === 'some') {
-    bgColor = brandColors.white
-    borderColor = color
-  } else if (status === 'none') {
-    color = brandColors.grey
-    bgColor = brandColors.white
-    borderColor = brandColors.grey
-  }
-
-  // Add a wrapper to icons with a status props
-  const iconWrapper = (
-    status
-      ? {
-        width: width + 15,
-        height: width + 15,
-        backgroundColor: bgColor,
-        display: 'flex',
-        justifyContent: 'center',
-        borderRadius: 3,
-        border: `1px solid ${borderColor}`,
-      }
-      : {}
-  )
-  // END ADAPTATIONS FOR A STATUS PROPS
-
   // SELECT CORRECT ICON
   const selectIcon = (version, color, width, data) => {
     switch (version) {
@@ -97,25 +62,12 @@ function Icon({
 
       // Default
       default:
-        return (
-          <div
-            className={className}
-            style={{ display: 'block', width: `${width}px`, height: `${width}px` }}
-            data-item={data}
-          >
-            &nbsp;
-          </div>
-        )
+        return null
     }
   }
   const icon = selectIcon(version, color, width, data)
 
-
-  return (
-    <div className={['icon', className].join(' ')} style={iconWrapper}>
-      {icon}
-    </div>
-  )
+  return icon
 }
 
 export default Icon

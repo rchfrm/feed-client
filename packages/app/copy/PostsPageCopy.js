@@ -16,4 +16,16 @@ export default {
   **This process might take a while, so please don’t refresh the page.**
 
   Do you want to continue?`,
+
+  toggleTooltipSlides: [
+    `This switch indicates whether Feed can promote the post...`,
+
+    `When centered, the post will follow your default setting. A green outline means it's eligible for promotion, a red outline means it's not.`,
+
+    `Slide right to override your default settings and let Feed promote this post.`,
+
+    `Slide left to override your default settings and prevent Feed from promoting this post.`,
+
+    `You can change your default settings using the ‘Post Settings’ button at the top of the posts page.`,
+  ],
 }

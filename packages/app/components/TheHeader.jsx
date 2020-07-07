@@ -3,7 +3,7 @@ import React from 'react'
 
 import PeekElement from 'react-peek-element'
 // IMPORT HOOKS
-import useOnResize from '@/hooks/useOnResize'
+import useBrowserStore from '@/hooks/useBrowserStore'
 import useLoggedInTest from '@/hooks/useLoggedInTest'
 // IMPORT CONTEXTS
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -16,7 +16,7 @@ import styles from '@/app/TheHeader.module.css'
 
 function TheHeader() {
   // Toggle mobile header
-  const { width: windowWidth } = useOnResize()
+  const { width: windowWidth } = useBrowserStore()
   const [mobileHeader, setMobileHeader] = React.useState(null)
   const [inlinePageTitle, setInlinePageTitle] = React.useState(true)
   React.useEffect(() => {
