@@ -7,6 +7,7 @@ import PostItemTopBar from '@/app/PostItemTopBar'
 import PostContents from '@/app/PostContents'
 import PostMetrics from '@/app/PostMetrics'
 import PostLink from '@/app/PostLink'
+import PostUnpromotable from '@/app/PostUnpromotable'
 // IMPORT ASSETS
 // IMPORT STYLES
 import styles from '@/app/PostItem.module.css'
@@ -49,7 +50,6 @@ const PostItem = ({
           media={post.media}
           thumbnailSrc={post._metadata.thumbnail_url}
           caption={postCaption}
-          className={!postCaption ? styles._noCaption : ''}
         />
 
         {/* METRICS */}
@@ -61,7 +61,7 @@ const PostItem = ({
         />
 
         {/* POST LINK */}
-        {postPromotable && (
+        {postPromotable ? (
           <PostLink
             postId={post.id}
             postIndex={index}
@@ -70,6 +70,8 @@ const PostItem = ({
             updateLink={updateLink}
             setError={setError}
           />
+        ) : (
+          <PostUnpromotable />
         )}
       </div>
 

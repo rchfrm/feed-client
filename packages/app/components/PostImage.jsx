@@ -167,16 +167,13 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
     return closePopup
   }, [closePopup])
 
-  // Wait here until media is ready
-  if (!thumbnailImageSrc) return null
-
   return (
     <figure
       className={[
         'media',
         `media--${aspectRatio}`,
         styles.figure,
-        thumbError ? styles._brokenThumb : '',
+        thumbError || videoError ? styles._brokenThumb : '',
         className,
       ].join(' ')}
     >

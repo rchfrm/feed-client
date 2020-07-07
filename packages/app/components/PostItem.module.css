@@ -41,7 +41,7 @@
 .postMeta {
   margin-bottom: 0 !important;
 
-  /* Increase meta height if no toggle button */
+  /* Increase meta height if no toggle button, to compensate height */
   .postItem._unpromotable & {
     padding: 5px 0;
   }
@@ -58,7 +58,8 @@
     width: 1.2em;
   }
 
-  .postItem._disabled & {
+  .postItem._disabled &,
+  .postItem._unpromotable & {
     svg * {
       fill: var(--grey) !important;
       stroke: var(--grey) !important;
@@ -90,12 +91,9 @@
   align-items: center;
   border-bottom: 2px solid var(--text-color);
 
-  .postItem._disabled & {
+  .postItem._disabled &,
+  .postItem._unpromotable & {
     filter: grayscale(1);
-  }
-
-  &._noCaption {
-    justify-content: center;
   }
 
   &::after {
@@ -116,6 +114,7 @@
 
   .postContents._noMedia & {
     width: 100%;
+    padding-left: 0 !important;
   }
 
   @media (--md) {
@@ -181,7 +180,8 @@
   padding-bottom: var(--sp-3);
   background-color: var(--green);
 
-  .postItem._disabled & {
+  .postItem._disabled &
+  .postItem._unpromotable &, {
     background-color: var(--grey);
   }
 
@@ -286,5 +286,16 @@
 
   :global(.select--box) {
     text-transform: capitalize;
+  }
+}
+
+
+/* UNPROMOTABLE WARNING */
+.postUnpromotable {
+  background-color: var(--text-color);
+  color: var(--bg-color);
+
+  p {
+    margin-bottom: 0;
   }
 }
