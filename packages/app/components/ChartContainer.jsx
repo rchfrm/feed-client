@@ -80,8 +80,6 @@ const ChartContainer = ({
               ].join(' ')}
               data={data}
               artistId={artistId}
-              currentPlatform={currentPlatform}
-              currentDataSource={currentDataSource}
               loading={loading}
             />
           </div>
