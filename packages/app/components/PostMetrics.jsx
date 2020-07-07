@@ -60,8 +60,8 @@ const METRICS_ITEM = ({ title, value, className }) => {
 
 const PostMetrics = ({ insights, es }) => {
   // Create array of insights
+  const maxInsights = 4
   const insightsArray = React.useMemo(() => {
-    const maxInsights = 4
     return Object.entries(insights).reduce((arr, [title, value]) => {
       const insightConfig = visibleInsights[title]
       // Stop if insight should not be included
@@ -76,6 +76,12 @@ const PostMetrics = ({ insights, es }) => {
       // restrict number of items
       .slice(0, maxInsights)
   }, [insights])
+  // Create spacers
+  const insightsSpacers = React.useMemo(() => {
+    if (insightsArray.length === maxInsights) return []
+    const totalSpacers = maxInsights - insightsArray.length
+    return Array.from({ length: totalSpacers }, (v, i) => i)
+  }, [insightsArray.length])
 
   return (
     <>
@@ -90,9 +96,14 @@ const PostMetrics = ({ insights, es }) => {
         styles.postMetrics,
       ].join(' ')}
       >
+        {/* METRICS */}
         {insightsArray.map(({ title, value }) => {
           const parsedValue = utils.abbreviateNumber(value)
           return <METRICS_ITEM key={title} title={title} value={parsedValue} />
+        })}
+        {/* SPACERS */}
+        {insightsSpacers.map((v) => {
+          return <li key={v} className={styles.postMetricsItem}>&nbsp;</li>
         })}
       </ul>
       <div className={[styles.postSection, styles.postEsScore].join(' ')}>
