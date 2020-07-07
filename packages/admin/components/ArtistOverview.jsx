@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import DataDetails from '@/admin/elements/DataDetails'
 import DataDetail from '@/admin/elements/DataDetail'
-import CopyTextButton from '@/elements/CopyTextButton'
 import TournamentLink from '@/admin/TournamentLink'
 
 const propsToDisplay = [
