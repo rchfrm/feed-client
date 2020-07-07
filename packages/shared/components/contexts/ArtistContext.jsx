@@ -99,19 +99,22 @@ function ArtistProvider({ children }) {
     setArtistLoading(true)
     toggleGlobalLoading(true)
     // Get artist information from server
-    const artist = await artistHelpers.getArtist(id)
-      .catch((error) => {
-        setArtistLoading(false)
-        // Track
-        track({
-          category: 'sign up',
-          action: 'Could not get artist using artistHelpers.getArtist(id)',
-          description: error.message,
-          label: `artistId: ${id}`,
-          error: true,
-        })
-        throw (error)
+    const { artist, error } = await artistHelpers.getArtist(id)
+    if (error) {
+      setArtistLoading(false)
+      // Track
+      track({
+        category: 'sign up',
+        action: 'Could not get artist using artistHelpers.getArtist(id)',
+        description: error.message,
+        label: `artistId: ${id}`,
+        error: true,
       })
+      return { error: {
+        message: `Error fetching artist ID: ${id}`,
+      } }
+    }
+
     if (!artist) return
 
     setArtist({
@@ -121,7 +124,7 @@ function ArtistProvider({ children }) {
       },
     })
     setArtistLoading(false)
-    return artist
+    return { artist }
   }
 
   const createArtist = async (artistAccounts, accessToken, oldUser) => {
