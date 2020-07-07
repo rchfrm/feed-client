@@ -41,7 +41,7 @@ else
   # ADMIN production
   if [[ "$environment" == "production" ]]; then
     project="archform-1"
-    site_name="feed-admin"
+    site_name="feed-admin-v2"
   # ADMIN staging
   else
     project="archform-1-dev"
