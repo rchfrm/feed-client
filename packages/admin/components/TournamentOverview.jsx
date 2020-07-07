@@ -1,14 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'next/link'
 
-import Button from '@/elements/Button'
 import DataDetails from '@/admin/elements/DataDetails'
-import CopyTextButton from '@/elements/CopyTextButton'
 import TournamentWinner from '@/admin/TournamentWinner'
 import TournamentAds from '@/admin/TournamentAds'
-
-import * as ROUTES from '@/admin/constants/routes'
+import TournamentLink from '@/admin/TournamentLink'
 
 const propsToDisplay = [
   'status',
@@ -66,23 +62,15 @@ const TournamentOverview = ({
         {!singleTournament && (
           <>
             <p>
-              <Link href={{ pathname: ROUTES.TOURNAMENT,
-                query: {
-                  artistId,
-                  campaignId: tournament.campaign_id,
-                  adsetId: tournament.adset_id,
-                  tournamentId: tournament.id,
-                },
-              }}
-              >
-                <Button className="w-48" version="black small" wrapper="a">
-                  Go to tournament
-                </Button>
-              </Link>
+              <TournamentLink
+                artistId={artistId}
+                campaignId={tournament.campaign_id}
+                adsetId={tournament.adset_id}
+                tournamentId={tournament.id}
+                buttonText="Go to tournament"
+                buttonClass="w-48"
+              />
             </p>
-            {/* <div className="mt-3 mb-5">
-              <CopyTextButton text={tournament.id} />
-            </div> */}
           </>
         )}
       </div>
