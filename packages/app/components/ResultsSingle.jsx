@@ -148,7 +148,7 @@ const ResultsSingle = ({
   } = summary
 
   return (
-    <li key={id} className={[styles.resultItem, styles[enabledClass], className].join(' ')}>
+    <li key={id} data-id={id} className={[styles.resultItem, styles[enabledClass], className].join(' ')}>
 
       <div className={styles.resultItem__inner}>
 
