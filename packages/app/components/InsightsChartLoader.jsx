@@ -90,6 +90,7 @@ function InsightsChartLoader({
       setInitialLoading(chartLoading)
       toggleGlobalLoading(false)
     }
+  // eslint-disable-next-line
   }, [chartLoading])
 
   if (initialLoading) return null
@@ -121,8 +122,8 @@ function InsightsChartLoader({
     <>
       <Error error={error} />
       <ChartContainer
-        currentPlatform={currentPlatform}
-        currentDataSource={currentDataSource}
+        platform={data.platform}
+        dataSource={data.source}
         data={data}
         loading={chartLoading}
       />

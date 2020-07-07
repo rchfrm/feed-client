@@ -7,7 +7,6 @@ import PostItemTopBar from '@/app/PostItemTopBar'
 import PostContents from '@/app/PostContents'
 import PostMetrics from '@/app/PostMetrics'
 import PostLink from '@/app/PostLink'
-import PostUnpromotable from '@/app/PostUnpromotable'
 // IMPORT ASSETS
 // IMPORT STYLES
 import styles from '@/app/PostItem.module.css'
@@ -71,7 +70,9 @@ const PostItem = ({
             setError={setError}
           />
         ) : (
-          <PostUnpromotable />
+          <div className={[styles.postSection, styles.postUnpromotable].join(' ')}>
+            <p>Post not promotable</p>
+          </div>
         )}
       </div>
 

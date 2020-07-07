@@ -64,23 +64,24 @@ export const createArtist = async (artist, accessToken, token) => {
 }
 
 /**
- * @param {string} artist_id
- * @param {string} [verify_id_token]
+ * @param {string} artistId
+ * @param {string} [accessToken]
  * @returns {Promise<any>}
  */
-export const getArtist = async (artist_id, verify_id_token) => {
-  try {
-    const [artist, dataSources] = await Promise.all([
-      api.get(`/artists/${artist_id}`, verify_id_token),
-      api.get(`/artists/${artist_id}/data_sources`, { fields: 'id', limit: 100 }, verify_id_token),
-    ])
-    artist._embedded = { data_sources: dataSources }
-    artist.URLs = utils.filterArtistUrls(artist)
-    return artist
-  } catch (err) {
-    console.error(err)
-    throw new Error('We were unable to retrieve the selected artist from the server')
-  }
+export const getArtist = async (artistId, accessToken) => {
+  const artist = await api.get(`/artists/${artistId}`, accessToken)
+    .catch((error) => {
+      return { error }
+    })
+  if (artist.error) return { error: artist.error }
+  const dataSources = await api.get(`/artists/${artistId}/data_sources`, { fields: 'id', limit: 100 }, accessToken)
+    .catch((error) => {
+      return { error }
+    })
+  // Add data source info to artist
+  artist._embedded = { data_sources: dataSources }
+  artist.URLs = utils.filterArtistUrls(artist)
+  return { artist }
 }
 
 
