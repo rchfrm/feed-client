@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PostImage from '@/app/PostImage'
+import PostImage from '@/PostImage'
 
 import styles from '@/app/PostItem.module.css'
 
