@@ -29,7 +29,7 @@ const ArtistOverview = ({ artist }) => {
   return (
     <div>
       <DataDetails propsToDisplay={propsToDisplay} data={artist} border />
-      <DataDetail name="Artist ID" value={artist.id} copy />
+      <DataDetail name="Artist ID" value={artist.id} copyText />
       {/* Users */}
       <p>
         <span>Users: </span>
@@ -45,7 +45,7 @@ const ArtistOverview = ({ artist }) => {
                 </strong>
               </p>
               <div className="mt-3">
-                <DataDetail name="User ID" value={id} copy />
+                <DataDetail name="User ID" value={id} copyText />
               </div>
             </li>
           )
