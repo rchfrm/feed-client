@@ -81,38 +81,6 @@ const calculateSummary = (ads, isActive) => {
 }
 
 
-function NoActive() {
-  const { artist } = React.useContext(ArtistContext)
-
-  if (artist.daily_budget > 0) {
-    return (
-      <div style={{ marginBottom: '2em' }}>
-        <h3>
-          <Feed />
-          {' '}
-          is setting up your posts for promotion.
-        </h3>
-        <p>
-          There may be a delay whilst posts await approval, once promotions have started you'll be able to see your results here.
-        </p>
-      </div>
-    )
-  }
-  return (
-    <div style={{ marginBottom: '2em' }}>
-      <h3>
-        <Feed />
-        {' '}
-        isn't currently promoting any of your posts,&nbsp;
-        <Link href={ROUTES.POSTS}><a>set a daily budget</a></Link>
-        {' '}
-        to get
-        it started.
-      </h3>
-    </div>
-  )
-}
-
 function DisabledResults({ disabledResults }) {
   if (!disabledResults.length) return null
 
@@ -184,7 +152,12 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
 
   // If there are no active posts, return NoActive
   if (!allResults.enabled.length && active) {
-    return <NoActive />
+    // No active with budget
+    if (artist.daily_budget > 0) {
+      return <MarkdownText markdown={copy.noActiveWithBudget} />
+    }
+    // No active and no budget
+    return <MarkdownText markdown={copy.noActiveNoBudget} />
   }
 
   // If there are no archived posts, return Nothing
