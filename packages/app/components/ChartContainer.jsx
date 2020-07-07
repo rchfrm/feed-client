@@ -11,8 +11,8 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import styles from '@/app/InsightsPage.module.css'
 
 const ChartContainer = ({
-  currentPlatform,
-  currentDataSource,
+  platform,
+  dataSource,
   data,
   loading,
 }) => {
@@ -20,28 +20,28 @@ const ChartContainer = ({
   const { artistId, artistCurrency } = React.useContext(ArtistContext)
   // DEFINE STATE
   const [earliestDataPoint, setEarliestDataPoint] = React.useState(data.earliest.date)
-  const [earliestMoment, setEarliestMoment] = React.useState(null)
   const [initialRender, setInitialRender] = React.useState(true)
   React.useEffect(() => {
-    if (!data || (data.source === currentDataSource && !initialRender)) return
     setInitialRender(false)
     const { earliest: { date: earliestDate } } = data
-    const earliestMoment = moment(earliestDate, 'YYYY-MM-DD')
     setEarliestDataPoint(earliestDate)
-    setEarliestMoment(earliestMoment)
-  }, [initialRender, data, currentDataSource])
+  // eslint-disable-next-line
+  }, [initialRender, dataSource])
 
   // DETECT CHART TYPE
   // If there is no data before the last week, display a doughnut chart
   const chartType = React.useMemo(() => {
-    if (!earliestMoment) return null
+    // Calc earliest moment
+    const earliestMoment = moment(earliestDataPoint, 'YYYY-MM-DD')
+    // Get moment from ${4} before earliest data point
     const minDaysData = 4
-    const minDaysDate = moment().subtract(minDaysData, 'days').format('YYYY-MM-DD')
-    const chartType = !earliestDataPoint || earliestMoment.isAfter(moment(minDaysDate, 'YYYY-MM-DD'))
+    const minDaysMoment = moment().subtract(minDaysData, 'days')
+    // If earliest data point is younger than ${4} days, show large number
+    return !earliestDataPoint || earliestMoment.isAfter(minDaysMoment)
       ? 'number'
+    // Else show bar chart
       : 'bar'
-    return chartType
-  }, [earliestMoment, earliestDataPoint])
+  }, [earliestDataPoint])
 
   return (
     <div
