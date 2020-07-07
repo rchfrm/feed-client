@@ -152,7 +152,7 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
         <TournamentNavigation
           artistId={artistId}
           nextTournament={tournaments[0].next}
-          previousTournament={tournaments[0].next}
+          previousTournament={tournaments[0].previous}
         />
       )}
     </section>
