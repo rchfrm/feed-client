@@ -147,7 +147,7 @@ export const track = ({
   breadcrumb = false,
   error = false,
   ga = true,
-  fb = true,
+  fb = false,
 }) => {
   // Stop here if not browser
   const isBrowser = typeof window !== 'undefined'

@@ -1,11 +1,11 @@
 import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/ArtistContext'
 // IMPORT ELEMENTS
 import Alert from '@/elements/Alert'
 import Input from '@/elements/Input'
 import Select from '@/elements/Select'
+import Error from '@/elements/Error'
 // IMPORT PAGES
 // IMPORT ASSETS
 import PostLinkSaveButton from '@/app/PostLinkSaveButton'
@@ -14,7 +14,7 @@ import PostLinkSaveButton from '@/app/PostLinkSaveButton'
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 // IMPORT STYLES
-import styles from '@/app/PostsPage.module.css'
+import styles from '@/app/PostItem.module.css'
 
 // Create list of options, based on the links in the artist context
 const getLinkOptions = (links) => {
@@ -36,18 +36,16 @@ const getLinkOptions = (links) => {
 }
 
 function PostLinkAddUrl({
-  currentLink,
   postId,
-  index,
-  setChosenLink,
-  setCurrentLink,
-  setAddUrl,
-  setError,
+  postIndex,
+  artist,
+  addArtistUrl,
+  setPostLinkPlatform,
+  postLinkPlatform,
+  storedPostLinkPlatform,
+  setAdUrlDialogueOpen,
   updateLink,
 }) {
-  // Import contexts
-  const { addUrl, artist } = React.useContext(ArtistContext)
-
   const linkOptions = getLinkOptions(artist.URLs)
   const [initialLinkOption] = linkOptions
 
@@ -55,101 +53,118 @@ function PostLinkAddUrl({
   const [buttonState, setButtonState] = React.useState('save')
   const [url, setUrl] = React.useState('')
   const [platform, setPlatform] = React.useState(initialLinkOption.value)
+  const [error, setError] = React.useState(null)
 
   // Disable the save button if the URL is empty, or no url type is selected
   const enabled = url && platform
 
   // Allow user to close the alert without saving a link
-  const closeAlert = e => {
+  const closeAlert = React.useCallback((e) => {
     e.preventDefault()
-    setChosenLink(currentLink)
-    setAddUrl(false)
-  }
+    setPostLinkPlatform(storedPostLinkPlatform)
+    setAdUrlDialogueOpen(false)
+  }, [setAdUrlDialogueOpen, setPostLinkPlatform, storedPostLinkPlatform])
 
   // Handle changes to URL input field
-  const handleInput = e => {
+  const handleInput = React.useCallback((e) => {
     e.preventDefault()
     setUrl(e.target.value)
-  }
+  }, [setUrl])
 
   // Handle changes in selection box
-  const handleSelect = e => {
+  const handleSelect = React.useCallback((e) => {
     e.preventDefault()
     setPlatform(e.target.value)
-  }
+  }, [setPlatform])
 
   // Send patch request with new link to server
-  const saveLink = async e => {
+  const saveLink = React.useCallback(async (e) => {
     e.preventDefault()
     setButtonState('saving')
+    setError(null)
     try {
+      // Sanitise the URL
+      const urlSanitised = utils.enforceUrlProtocol(url)
+      // Test for valid URL
+      const urlValid = utils.testValidUrl(urlSanitised)
+      // Throw error if URL is not valid
+      if (!urlValid) {
+        setError({ message: 'URL not valid' })
+        setButtonState('save')
+        return
+      }
       // Send a patch request to the server to update the artist
-      const urlType = utils.convertPlatformToPriorityDSP(platform)
-      await addUrl(url, urlType)
-
+      const platformType = utils.convertPlatformToPriorityDSP(platform)
+      await addArtistUrl(urlSanitised, platformType)
       // Send a patch request to the server to update the asset
       const updatedAsset = await server.updateAssetLink(artist.id, postId, platform)
       // Update state in the Loader component with the new link
-      updateLink(index, updatedAsset.priority_dsp)
+      updateLink(postIndex, updatedAsset.priority_dsp)
       // Mark the button as 'saved'
       setButtonState('saved')
-      setCurrentLink(updatedAsset.priority_dsp)
-      setChosenLink(updatedAsset.priority_dsp)
+      setPostLinkPlatform(updatedAsset.priority_dsp)
       // Wait a second then close dialogue
       setTimeout(() => {
-        setAddUrl(false)
+        setAdUrlDialogueOpen(false)
       }, 1000)
     } catch (err) {
       setButtonState('save')
-      setChosenLink(currentLink)
-      setAddUrl(false)
+      setPostLinkPlatform(postLinkPlatform)
+      setAdUrlDialogueOpen(false)
       setError(err)
     }
-  }
+  }, [platform, postLinkPlatform, url])
 
-  const AlertContents = () => (
-    <>
-      <h2 style={{ flex: 'auto' }}>Save a new link.</h2>
-      <Input
-        className={styles.PostLinkAddUrl__input}
-        placeholder="https://"
-        type="url"
-        version="box"
-        label="Link URL"
-        name="link-url"
-        handleChange={handleInput}
-        value={url || ''}
-        required
+  const AlertContents = React.useMemo(() => {
+    return (
+      <>
+        <h2 style={{ flex: 'auto' }}>Save a new link.</h2>
+
+        {error && <Error error={error} />}
+
+        <Input
+          className={styles.PostLinkAddUrl__input}
+          placeholder="https://"
+          type="url"
+          version="box"
+          label="Link URL"
+          name="link-url"
+          handleChange={handleInput}
+          value={url || ''}
+          required
+        />
+
+        <Select
+          name="linkVersion"
+          className={styles.PostLinkAddUrl__select}
+          options={linkOptions}
+          handleChange={handleSelect}
+          label="Select the type:"
+          selectedValue={platform}
+          required
+        />
+      </>
+    )
+  }, [platform, url, error, linkOptions, handleInput])
+
+  const AlertButton = React.useMemo(() => {
+    return (
+      <PostLinkSaveButton
+        buttonState={buttonState}
+        handleClick={saveLink}
+        disabled={!enabled}
+        style={{
+          width: '100%',
+        }}
       />
-
-      <Select
-        name="linkVersion"
-        className={styles.PostLinkAddUrl__select}
-        options={linkOptions}
-        handleChange={handleSelect}
-        label="Select the type:"
-        selectedValue={platform}
-        required
-      />
-    </>
-  )
-
-  const AlertButton = () => (
-    <PostLinkSaveButton
-      buttonState={buttonState}
-      handleClick={saveLink}
-      disabled={!enabled}
-      style={{
-        width: '100%',
-      }}
-    />
-  )
+    )
+  }, [buttonState, saveLink, enabled])
 
   return (
     <Alert
-      contents={AlertContents()}
+      contents={AlertContents}
       resetAlert={closeAlert}
-      buttons={AlertButton()}
+      buttons={AlertButton}
     />
   )
 }

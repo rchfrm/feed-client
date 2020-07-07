@@ -41,7 +41,7 @@ function Alert(props) {
 
   return (
     <Portal>
-      <div className="alert--container">
+      <div className="modal--container alert--container">
 
         <button
           className="alert--bg"

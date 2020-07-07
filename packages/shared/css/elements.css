@@ -2,11 +2,6 @@
 ******************/
 .alert--container {
   display: flex;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
   justify-content: space-around;
   align-items: center;
   z-index: 30;
@@ -53,6 +48,10 @@
   .text--block {
     margin-bottom: 0;
   }
+
+  .error {
+    margin-bottom: var(--sp-4);
+  }
 }
 
 .alert--inner_content {
@@ -77,6 +76,14 @@
   justify-content: space-between;
   flex-direction: row-reverse;
   width: 100%;
+
+  .button {
+    width: 40%;
+
+    &:only-child {
+      width: 100%;
+    }
+  }
 }
 
 
@@ -188,16 +195,6 @@
 .feed {
   font-weight: var(--bold);
 }
-
-/* Frame
-******************/
-.frame {
-  display: flex;
-  margin: 1em 0 2.5em 0;
-  padding: 2.778% 0;
-  overflow-x: auto;
-}
-
 
 /* Loading
 ******************/
@@ -320,15 +317,6 @@
     bottom: 50%;
     transform: translateY(50%);
   }
-
-  .play--icon {
-    position: absolute;
-    top: 5%;
-    right: 5%;
-    width: 5%;
-    height: auto;
-    z-index: 2;
-  }
 }
 
 .media--fallback {
@@ -354,12 +342,10 @@
 /* Tile
 ******************/
 .tile {
-  width: 80%;
-  margin-right: var(--sp-4);
+  /* display: flex;
   flex: none;
+  flex-direction: column; */
   padding: var(--sp-4);
-  display: flex;
-  flex-direction: column;
   border: 2px solid var(--text-color);
   border-radius: var(--dialogue-radius);
   overflow: hidden;

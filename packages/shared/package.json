@@ -9,8 +9,12 @@
     "start": "next build && next start"
   },
   "dependencies": {
+    "get-video-id": "^3.1.4",
     "react": "^16.4.0",
-    "react-dom": "^16.4.0"
+    "react-device-detect": "^1.13.1",
+    "react-dom": "^16.4.0",
+    "swiper": "^5.4.5",
+    "zustand": "^2.2.3"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^9.3.6",
@@ -28,6 +32,7 @@
     "favicons": "^6.1.0",
     "postcss-calc": "^7.0.1",
     "postcss-color-mod-function": "^3.0.3",
+    "postcss-easing-gradients": "^3.0.1",
     "postcss-extend": "^1.0.5",
     "postcss-import": "^12.0.1",
     "postcss-mixins": "^6.2.3",
