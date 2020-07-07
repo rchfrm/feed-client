@@ -1,14 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'next/link'
-
-import Button from '@/elements/Button'
 
 import DataDetails from '@/admin/elements/DataDetails'
 import DataDetail from '@/admin/elements/DataDetail'
 import CopyTextButton from '@/elements/CopyTextButton'
-
-import * as ROUTES from '@/admin/constants/routes'
+import TournamentLink from '@/admin/TournamentLink'
 
 const propsToDisplay = [
   'name',
@@ -58,11 +54,12 @@ const ArtistOverview = ({ artist }) => {
       </ul>
       {/* Tournaments link */}
       <p>
-        <Link href={{ pathname: ROUTES.TOURNAMENTS, query: { artistId: artist.id } }}>
-          <Button className="w-40" version="black small" wrapper="a">
-            Tournaments
-          </Button>
-        </Link>
+        <TournamentLink
+          artistId={artist.id}
+          buttonText="Tournaments"
+          buttonClass="w-40"
+          overviewLink
+        />
       </p>
     </div>
   )
