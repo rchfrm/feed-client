@@ -8,7 +8,7 @@ export default {
   
 There may be a delay whilst posts await approval, once promotions have started you'll be able to see your results below.`,
 
-  noResultsNoBudget: `**Feed** hasn't started promoting your posts yet, get started by entering a daily budget [here](${ROUTES.POSTS}).`,
+  noResultsNoBudget: `**Feed** hasn't started promoting your posts yet, get started by entering a daily budget [here](${ROUTES.BUDGET}).`,
 
   resultToggleWarning: (promotion_enabled) => {
     if (promotion_enabled) {
