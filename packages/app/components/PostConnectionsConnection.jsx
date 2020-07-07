@@ -89,14 +89,6 @@ const PostConnectionsConnection = ({
     }
   }
 
-  const addProtocol = (link) => {
-    const linkWithProtocol = link
-      // Strip protocol
-      .replace(/(^\w+:|^)\/\//, '')
-      // Add protocol back in
-      .replace(/^/, 'http://')
-    return linkWithProtocol
-  }
 
   // Handle clicks on the integrations edit button(s)
   const handleClick = async (e) => {
@@ -109,7 +101,7 @@ const PostConnectionsConnection = ({
       return
     }
 
-    const link = value === '' ? value : addProtocol(value)
+    const link = value === '' ? value : utils.enforceUrlProtocol(value)
 
     // Don't allow invalid links
     const linkValid = link === '' ? true : utils.testValidUrl(link)

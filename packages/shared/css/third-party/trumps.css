@@ -1,0 +1,22 @@
+.swiper-pagination-bullet,
+.swiper-pagination-bullet-active {
+  background: var(--text-color);
+}
+
+.swiper-pagination-bullet {
+  margin-right: var(--sp-2);
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: var(--text-color);
+  top: auto;
+  bottom: 50%;
+  margin-top: 0;
+  width: calc(1em / (1 * 27));
+  transform: translateY(50%);
+
+  &::after {
+    font-size: 1em;
+  }
+}

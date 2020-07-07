@@ -1,27 +1,34 @@
 /* Import tailwind base */
 @import "tailwindcss/base";
 /* Import fonts */
-@import "./font-face/space-grotesk";
-@import "./font-face/inter";
+@import "font-face/space-grotesk";
+@import "font-face/inter";
 /**
 * Base.
 */
-@import "./reset";
-@import "./vars";
-@import "./mixins";
-@import "./rhythm";
-@import "./base";
-@import "./type";
-@import "./flex-rules";
-@import "./box-sizing";
-@import "./pageTransition";
+@import "reset";
+@import "vars";
+@import "mixins";
+@import "rhythm";
+@import "base";
+@import "type";
+@import "flex-rules";
+@import "box-sizing";
+@import "transitions";
+/**
+* Third party
+*/
+@import "third-party/swiper.min.css";
+@import "third-party/trumps";
 /**
 * Elements.
 */
-@import "./icons";
-@import "./forms";
-@import "./elements";
-@import "./buttons";
+@import "icons";
+@import "forms";
+@import "elements";
+@import "buttons";
+@import "modals";
+@import "tooltips";
 /**
 * Tailwind components
 * Tailwind utilities

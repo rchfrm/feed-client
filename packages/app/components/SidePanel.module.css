@@ -1,27 +1,8 @@
 .SidePanel {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   z-index: 29;
 
   display: none;
-}
-
-.loader,
-.background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: color-mod(var(--black) alpha(0.2));
-
-  @media (--md) {
-    background: color-mod(var(--black) alpha(0.4));
-  }
 }
 
 .background {

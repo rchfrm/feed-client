@@ -1,11 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import PlayBrokenIcon from '@/icons/PlayBrokenIcon'
 import PlayIcon from '@/icons/PlayIcon'
 import MediaFallback from '@/elements/MediaFallback'
 
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
+
+import popupStore from '@/store/popupStore'
+
+const getMediaTest = ({ mediaSrc, handleError }) => {
+  return (
+    <video
+      style={{
+        position: 'absolute',
+        left: '-10000em',
+        opacity: 0,
+      }}
+      src={mediaSrc}
+      onError={handleError}
+      width="100%"
+      controls
+      playsInline
+      type="video/mp4"
+    />
+  )
+}
 
 const getMediaEl = ({
   mediaSrc,
@@ -23,16 +44,17 @@ const getMediaEl = ({
   // Handle youtube
   if (mediaType === 'youtube_embed') {
     return (
-      <iframe
-        className="center--image"
-        title={title}
-        src={src.replace('autoplay=1', 'autoplay=0')}
-        width="100%"
-        height="315"
-        frameBorder="0"
-        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
+      <div className="popup--iframe">
+        <iframe
+          title={title}
+          src={src.replace('autoplay=1', 'autoplay=0')}
+          width="100%"
+          height="315"
+          frameBorder="0"
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
     )
   }
 
@@ -40,7 +62,6 @@ const getMediaEl = ({
   if (mediaType === 'video' && !videoError) {
     return (
       <video
-        className="center--image"
         src={src}
         poster={thumbnailSrc}
         onError={() => handleError('video')}
@@ -55,7 +76,6 @@ const getMediaEl = ({
   // Handle image (default)
   return (
     <img
-      className="center--image"
       src={thumbnailSrc}
       alt={title}
       onError={() => handleError('thumb')}
@@ -69,7 +89,7 @@ const getMediaEl = ({
   )
 }
 
-const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }) => {
+const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }) => {
   // Remove empty and duplicate thumbnail options
   const thumbnails = React.useMemo(() => {
     return thumbnailOptions.reduce((thumbs, thumb) => {
@@ -78,9 +98,12 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
       return [...thumbs, thumb]
     }, [])
   }, [thumbnailOptions])
+
   // Get active thumb src
   const activeThumbIndex = React.useRef(0)
   const [activeThumbSrc, setActiveThumbSrc] = React.useState(thumbnails[activeThumbIndex.current])
+
+
   // Define media type
   const mediaType = React.useMemo(() => {
     return utils.getPostMediaType(mediaSrc || activeThumbSrc)
@@ -96,7 +119,7 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
       return
     }
     setThumbError(true)
-  }, [])
+  }, [mediaType, videoError])
 
   // Swap to backup thumb src if first errors
   React.useEffect(() => {
@@ -111,23 +134,88 @@ const ExternalMedia = ({ mediaSrc, thumbnailOptions, title, className, aspectRat
     }
   }, [thumbError, thumbnails, setThumbError])
 
+  // Get the thumbnail
+  const thumbnailImageSrc = React.useMemo(() => {
+    // If there is a thumbnail src, use that
+    if (activeThumbSrc) return activeThumbSrc
+    // If youtube, get youtube thumb
+    if (mediaType === 'youtube_embed') return utils.getVideoThumb(mediaSrc)
+    // If video with no src, then no thumbnail
+    if (mediaType === 'video') return null
+  }, [activeThumbSrc, mediaType, mediaSrc])
 
-  // Get the media
-  const media = React.useMemo(() => {
-    if (!mediaType) return null
-    return getMediaEl({ mediaSrc, mediaType, thumbnailSrc: activeThumbSrc, title, className, thumbError, videoError, handleError })
-  }, [mediaSrc, mediaType, activeThumbSrc, title, className, thumbError, videoError, handleError])
+
+  // Test for broken videos
+  const mediaTest = React.useMemo(() => {
+    if (mediaType !== 'video' || videoError) return null
+    return getMediaTest({ mediaSrc, handleError })
+  }, [mediaType, mediaSrc, videoError, handleError])
+
+  // SHOW LARGE IMAGE
+  const setPopupContents = popupStore(state => state.setContent)
+  const closePopup = popupStore(state => state.clear)
+  const enlargeMedia = React.useCallback(() => {
+    const popupContents = getPopupMedia({ mediaSrc, mediaType, thumbnailSrc: thumbnailImageSrc, closePopup, title })
+    setPopupContents(popupContents)
+    setPopupContentType(mediaType)
+  }, [mediaSrc, thumbnailImageSrc, mediaType, title, setPopupContents, setPopupContentType, closePopup])
+
+  // Close popup when unmounts
+  React.useEffect(() => {
+    return () => {
+      closePopup()
+    }
+  }, [closePopup])
 
   // Wait here until media is ready
-  if (!media) return null
+  if (!thumbnailImageSrc) return null
 
   return (
-    <figure className={['media', `media--${aspectRatio}`].join(' ')}>
-      {/* Show play icon for broken videos */}
-      {mediaType === 'video' && videoError && (
-        <PlayIcon className="play--icon" color={brandColors.bgColor} />
+    <figure
+      className={[
+        'media',
+        `media--${aspectRatio}`,
+        styles.figure,
+        thumbError ? styles._brokenThumb : '',
+        className,
+      ].join(' ')}
+    >
+      {/* Test for broken videos */}
+      {mediaTest}
+      {/* Thumbnail fallback */}
+      {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
+      {/* Show broken play button */}
+      {videoError && <div className={styles.playIconBg}>{playIcon}</div>}
+      {/* Show play icon */}
+      {(playIcon && !videoError) && (
+        <button
+          className={styles.playIconBg}
+          aria-label="Play video"
+          onClick={enlargeMedia}
+        >
+          {playIcon}
+        </button>
       )}
-      {media}
+      {/* Enlarge media button */}
+      {!videoError && !thumbError && (
+        <button
+          className="media--enlarge-trigger"
+          aria-label={mediaType === 'video' || mediaType === 'youtube_embed' ? 'Play video' : 'Enlarge image'}
+          title={mediaType === 'video' || mediaType === 'youtube_embed' ? 'Play video' : 'Enlarge image'}
+          onClick={enlargeMedia}
+        />
+      )}
+      {/* Thumbnail fallback */}
+      {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
+      {/* Thumbnail */}
+      {thumbnailImageSrc && !thumbError && (
+        <img
+          className="center--image"
+          src={thumbnailImageSrc}
+          alt={title}
+          onError={handleError}
+        />
+      )}
     </figure>
   )
 }

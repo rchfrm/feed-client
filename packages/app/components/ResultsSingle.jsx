@@ -7,7 +7,7 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 
 import ResultsToggle from '@/app/ResultsToggle'
 // IMPORT ELEMENTS
-import ExternalMedia from '@/elements/ExternalMedia'
+import PostImage from '@/app/PostImage'
 // IMPORT PAGES
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
@@ -153,7 +153,7 @@ const ResultsSingle = ({
       <div className={styles.resultItem__inner}>
 
         <div className={styles['result-media']}>
-          <ExternalMedia
+          <PostImage
             mediaSrc={mediaProps.mediaSrc}
             thumbnailOptions={mediaProps.thumbnailOptions}
             title={mediaProps.title}

@@ -19,6 +19,7 @@
       "@/constants/*": ["shared/constants/*"],
       "@/helpers/*": ["shared/helpers/*"],
       "@/*": ["shared/components/*"],
+      "~/*": ["shared/*"],
     }
   },
   "exclude": [
