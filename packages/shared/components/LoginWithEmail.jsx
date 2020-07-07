@@ -86,7 +86,15 @@ function LoginWithEmail({ className }) {
     if (!user) return
     if (user.artists.length > 0) {
       const selectedArtist = user.artists[0]
-      await storeArtist(selectedArtist.id)
+      const { error } = await storeArtist(selectedArtist.id)
+      // Handle loading artist error
+      if (error) {
+        toggleGlobalLoading(false)
+        setEmail('')
+        setPassword('')
+        setError(error)
+        return
+      }
       Router.push(ROUTES.HOME)
       track({
         category: 'login',

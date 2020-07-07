@@ -8,6 +8,9 @@ import PostConnectionsEdit from '@/app/PostConnectionsEdit'
 import Button from '@/elements/Button'
 import Icon from '@/elements/Icon'
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
+
+import Alert, { alertReducer, initialAlertState } from '@/elements/Alert'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 import brandColors from '@/constants/brandColors'
@@ -18,6 +21,11 @@ import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from '@/app/Integrations.module.css'
 
+const getAlertContents = (copy) => {
+  return (
+    <MarkdownText markdown={copy} />
+  )
+}
 
 const PostConnectionsConnection = ({
   url = '',
@@ -36,7 +44,8 @@ const PostConnectionsConnection = ({
   // Set initial disabled state
   React.useEffect(() => {
     setDisabled(!!(value === ''))
-  }, [])
+  // eslint-disable-next-line
+  }, [setDisabled])
 
   // Toggle the value for valid in the integrations state
   const toggleValid = (state) => {
@@ -48,6 +57,22 @@ const PostConnectionsConnection = ({
       },
     })
   }
+
+  // * HANDLE ALERT
+  // define alert state
+  const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
+  // define alert responses
+  const resetAlert = React.useCallback(() => {
+    setAlert({ type: 'reset-alert' })
+  }, [setAlert])
+  const showAlert = React.useCallback((copy) => {
+    setAlert({
+      type: 'show-alert',
+      payload: {
+        contents: getAlertContents(copy),
+      },
+    })
+  }, [setAlert])
 
   // Send updated links to the server
   const saveLink = async (link) => {
@@ -96,8 +121,7 @@ const PostConnectionsConnection = ({
 
     // Show an alert if the user tries to edit the Facebook or Instagram URLs
     if (platform === 'facebook' || platform === 'instagram') {
-      // eslint-disable-next-line
-      window.alert(`To connect a ${utils.capitalise(platform)} page, please contact us at services@archform.ltd`)
+      showAlert(`To connect a ${utils.capitalise(platform)} page, please contact us at [help@tryfeed.co](mailto:help@tryfeed.co)`)
       return
     }
 
@@ -107,8 +131,7 @@ const PostConnectionsConnection = ({
     const linkValid = link === '' ? true : utils.testValidUrl(link)
     if (!linkValid) {
       toggleValid(false)
-      // eslint-disable-next-line
-      window.alert('Please include a valid link')
+      showAlert('Please include a valid link')
       return
     }
 
@@ -173,6 +196,16 @@ const PostConnectionsConnection = ({
           />
         </Button>
       </div>
+
+      {/* ALERT */}
+      <Alert
+        confirmationText={alert.confirmationText}
+        contents={alert.contents}
+        rejectionText={alert.rejectionText}
+        responseExpected={alert.responseExpected}
+        resetAlert={resetAlert}
+        buttons={<Button version="black full" onClick={resetAlert}>Ok</Button>}
+      />
 
     </li>
   )
