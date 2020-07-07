@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 import useSWR from 'swr'
 
 import Error from '@/elements/Error'
+import SectionHeader from '@/admin/elements/SectionHeader'
 import TournamentFilters from '@/admin/TournamentFilters'
-import TournamentOverview from '@/admin/TournamentOverview'
+import TournamentList from '@/admin/TournamentList'
 
 import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -57,12 +58,34 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
     return tournaments.map(({ status }) => status)
   }, [tournaments, singleTournament])
 
-  // Filter tournaments
+  // Filter tournaments (based on active filter), &&
   const filteredTournaments = React.useMemo(() => {
+    // Stop if no data
     if (!tournaments) return []
-    if (activeFilter === 'all') return tournaments
+    // If only one tournament, or showing all tournaments
+    if (tournaments.length === 1 || activeFilter === 'all') return tournaments
+    // Filter tournaments (if neededd)
     return tournaments.filter(({ status }) => status === activeFilter)
   }, [tournaments, activeFilter])
+
+  // Group tournaments by ad sets
+  const groupedTournaments = React.useMemo(() => {
+    if (singleTournament) return filteredTournaments
+    return filteredTournaments.reduce((adsets, tournament) => {
+      const { adset_id: tournamentAdsetId } = tournament
+      // If adset group already exists,
+      // add tournament to array
+      const adsetGroup = adsets[tournamentAdsetId]
+      if (adsetGroup) {
+        const updatedAdsetGroup = [...adsetGroup, tournament]
+        adsets[tournamentAdsetId] = updatedAdsetGroup
+        return adsets
+      }
+      // Else start adset group
+      adsets[tournamentAdsetId] = [tournament]
+      return adsets
+    }, {})
+  }, [singleTournament, filteredTournaments])
 
   // Turn off global loading when finished
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -96,22 +119,27 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
         {!singleTournament && (
           <p>Visible tournaments: {filteredTournaments.length}</p>
         )}
-        <div className="grid grid-cols-12 sm:col-gap-4 row-gap-10 pt-5">
-          {filteredTournaments.map((tournament) => {
+        {/* If showing a single tournament, just show it */}
+        {singleTournament ? (
+          <TournamentList
+            tournaments={filteredTournaments}
+            artistId={artistId}
+            singleTournament={singleTournament}
+          />
+        ) : (
+          // {/* Else group tournaments by adset */}
+          Object.entries(groupedTournaments).map(([adsetId, tournaments]) => {
             return (
-              <TournamentOverview
-                key={tournament.id}
-                tournament={tournament}
-                artistId={artistId}
-                singleTournament={singleTournament}
-                className={[
-                  'col-span-12',
-                  `${!singleTournament ? 'sm:col-span-6' : ''}`,
-                ].join(' ')}
-              />
+              <div key={adsetId} className="mt-8">
+                <SectionHeader header={`Adset: ${adsetId}`} />
+                <TournamentList
+                  tournaments={tournaments}
+                  artistId={artistId}
+                />
+              </div>
             )
-          })}
-        </div>
+          })
+        )}
       </div>
     </section>
   )
