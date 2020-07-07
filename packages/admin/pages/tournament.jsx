@@ -1,13 +1,9 @@
 import { withRouter } from 'next/router'
-import Link from 'next/link'
 
 import testPageReady from '@/hoc/testPageReady'
-import Button from '@/elements/Button'
 import BasePage from '@/admin/BasePage'
 import TournamentsLoader from '@/admin/TournamentsLoader'
 import PageQuerySetter from '@/admin/PageQuerySetter'
-
-import * as ROUTES from '@/admin/constants/routes'
 
 const Tournaments = ({ router: { pathname, query } }) => {
   const { artistId, tournamentId, campaignId, adsetId } = query
@@ -18,22 +14,12 @@ const Tournaments = ({ router: { pathname, query } }) => {
       staticPage={!pageRequiresLoading}
     >
       {pageRequiresLoading ? (
-        <>
-          <TournamentsLoader
-            artistId={artistId}
-            campaignId={campaignId}
-            adsetId={adsetId}
-            tournamentId={tournamentId}
-          />
-          {/* Back to tournament button */}
-          <div className="mt-10">
-            <Link href={{ pathname: ROUTES.TOURNAMENTS, query: { artistId } }}>
-              <Button className="w-full" version="black small" wrapper="a">
-                Back to tournaments
-              </Button>
-            </Link>
-          </div>
-        </>
+        <TournamentsLoader
+          artistId={artistId}
+          campaignId={campaignId}
+          adsetId={adsetId}
+          tournamentId={tournamentId}
+        />
       ) : (
         <PageQuerySetter
           intro="This page is missing some parameters"

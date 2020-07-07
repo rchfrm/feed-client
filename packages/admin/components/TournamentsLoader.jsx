@@ -7,6 +7,7 @@ import Error from '@/elements/Error'
 import SectionHeader from '@/admin/elements/SectionHeader'
 import TournamentFilters from '@/admin/TournamentFilters'
 import TournamentList from '@/admin/TournamentList'
+import TournamentNavigation from '@/admin/TournamentNavigation'
 
 import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -94,12 +95,17 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
     toggleGlobalLoading(loading)
   }, [tournaments, toggleGlobalLoading, error])
 
+  // Stop here before data is ready
+  if (!tournaments) return null
+
   // Stop here if no tournaments
   if (tournaments && !tournaments.length) {
     return (
       <p>No Tournaments found</p>
     )
   }
+  
+  console.log('tournaments[0]', tournaments[0])
 
   if (error) return <Error error={error} />
 
@@ -141,6 +147,14 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
           })
         )}
       </div>
+      {/* TOURNAMENT NAV */}
+      {singleTournament && (
+        <TournamentNavigation
+          artistId={artistId}
+          nextTournament={tournaments[0].next}
+          previousTournament={tournaments[0].next}
+        />
+      )}
     </section>
   )
 }
