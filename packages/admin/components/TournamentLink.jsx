@@ -13,17 +13,21 @@ const TournamentLink = ({
   tournamentId,
   buttonText,
   buttonClass,
+  overviewLink,
 }) => {
+  const pathname = overviewLink ? ROUTES.TOURNAMENTS : ROUTES.TOURNAMENT
+  const query = overviewLink ? { artistId } : {
+    artistId,
+    campaignId,
+    adsetId,
+    tournamentId,
+  }
   return (
     <Link
       href={{
-        pathname: ROUTES.TOURNAMENT,
-        query: {
-          artistId,
-          campaignId,
-          adsetId,
-          tournamentId,
-        } }}
+        pathname,
+        query,
+      }}
     >
       <Button className={buttonClass} version="black small" wrapper="a">
         {buttonText}
@@ -34,15 +38,20 @@ const TournamentLink = ({
 
 TournamentLink.propTypes = {
   artistId: PropTypes.string.isRequired,
-  campaignId: PropTypes.string.isRequired,
-  adsetId: PropTypes.string.isRequired,
-  tournamentId: PropTypes.string.isRequired,
+  campaignId: PropTypes.string,
+  adsetId: PropTypes.string,
+  tournamentId: PropTypes.string,
   buttonText: PropTypes.string.isRequired,
   buttonClass: PropTypes.string,
+  overviewLink: PropTypes.bool,
 }
 
 TournamentLink.defaultProps = {
+  campaignId: '',
+  adsetId: '',
+  tournamentId: '',
   buttonClass: 'w-48',
+  overviewLink: false,
 }
 
 

@@ -3,11 +3,6 @@ import PropTypes from 'prop-types'
 
 import TournamentLink from '@/admin/TournamentLink'
 
-import Link from 'next/link'
-import Button from '@/elements/Button'
-
-import * as ROUTES from '@/admin/constants/routes'
-
 const TournamentNavigation = ({ artistId, nextTournament, previousTournament }) => {
   return (
     <nav className="mt-10">
@@ -40,11 +35,12 @@ const TournamentNavigation = ({ artistId, nextTournament, previousTournament }) 
       )}
       {/* Back to tournament button */}
       <div className="mt-5">
-        <Link href={{ pathname: ROUTES.TOURNAMENTS, query: { artistId } }}>
-          <Button className="w-full" version="black small" wrapper="a">
-            Back to tournaments
-          </Button>
-        </Link>
+        <TournamentLink
+          artistId={artistId}
+          buttonText="Back to tournaments"
+          buttonClass="w-full"
+          overviewLink
+        />
       </div>
     </nav>
   )
