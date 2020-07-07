@@ -36,7 +36,8 @@ const PostConnectionsConnection = ({
   // Set initial disabled state
   React.useEffect(() => {
     setDisabled(!!(value === ''))
-  }, [])
+  // eslint-disable-next-line
+  }, [setDisabled])
 
   // Toggle the value for valid in the integrations state
   const toggleValid = (state) => {
