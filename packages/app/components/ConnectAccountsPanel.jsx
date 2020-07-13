@@ -224,7 +224,16 @@ function ConnectAccountsPanel({
   return (
     <li
       key={artistAccount.page_id}
-      className={`tile ${styles.tile} ${selectedClass} ${singularClass} ${readOnlyClass}`}
+      className={[
+        'tile',
+        'col-span-12',
+        'sm:col-span-6',
+        'lg:col-span-4',
+        styles.tile,
+        selectedClass,
+        singularClass,
+        readOnlyClass,
+      ].join(' ')}
     >
       {/* TOGGLE BUTTON */}
       {returnToggle()}
