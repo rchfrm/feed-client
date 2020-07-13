@@ -126,7 +126,12 @@ function PostsLoader() {
       if (!posts || !posts.length) {
         isEndOfAssets.current = true
         setLoadingMore(false)
-        setInitialLoad(false)
+        // Handle no posts on initial load
+        if (initialLoad.current) {
+          setPosts({ type: 'reset-posts' })
+        }
+        // Define initial load
+        initialLoad.current = false
         return
       }
       // Update offset
