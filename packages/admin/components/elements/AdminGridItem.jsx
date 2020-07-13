@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const AdminGridItem = ({ children, className }) => {
+const AdminGridItem = ({ children, forceFullWidth, className }) => {
   return (
     <li
       className={[
         'col-span-12',
-        'sm:col-span-6',
+        `${!forceFullWidth ? 'sm:col-span-6' : ''}`,
         className,
       ].join(' ')}
     >
@@ -17,11 +17,13 @@ const AdminGridItem = ({ children, className }) => {
 
 AdminGridItem.propTypes = {
   children: PropTypes.node.isRequired,
+  forceFullWidth: PropTypes.bool,
   className: PropTypes.string,
 }
 
 AdminGridItem.defaultProps = {
   className: '',
+  forceFullWidth: false,
 }
 
 
