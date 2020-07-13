@@ -342,9 +342,6 @@
 /* Tile
 ******************/
 .tile {
-  /* display: flex;
-  flex: none;
-  flex-direction: column; */
   padding: var(--sp-4);
   border: 2px solid var(--text-color);
   border-radius: var(--dialogue-radius);
