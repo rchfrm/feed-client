@@ -69,8 +69,8 @@ function AccountPageDetailsInline({ user }) {
     setLoading(true)
     // Update password
     const passwordUpdatePromise = passwordChanged ? firebase.doPasswordUpdate(passwordOne) : null
-    // Update email in firebase
-    const emailChangedRes = emailChanged ? await firebase.doEmailUpdate(email) : null
+    // Update email in firebase (if not using facebook auth)
+    const emailChangedRes = emailChanged && !facebookAuth ? await firebase.doEmailUpdate(email) : null
     // Handle error in changing email
     if (emailChangedRes && emailChangedRes.error) {
       setErrors([...errors, emailChangedRes.error])
@@ -191,6 +191,7 @@ function AccountPageDetailsInline({ user }) {
           value={email}
           handleChange={handleChange}
           type="email"
+          required
           disabled={loading}
         />
 
