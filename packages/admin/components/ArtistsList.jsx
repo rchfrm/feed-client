@@ -1,15 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import AdminGrid from '@/admin/elements/AdminGrid'
+import AdminGridItem from '@/admin/elements/AdminGridItem'
 import ArtistOverview from '@/admin/ArtistOverview'
 
 const ArtistsList = ({ artists }) => {
   return (
-    <div>
+    <AdminGrid>
       {artists.map((artist) => {
-        return <ArtistOverview artist={artist} key={artist.id} />
+        return (
+          <AdminGridItem key={artist.id}>
+            <ArtistOverview artist={artist} />
+          </AdminGridItem>
+        )
       })}
-    </div>
+    </AdminGrid>
   )
 }
 

@@ -27,14 +27,14 @@ const ArtistOverview = ({ artist }) => {
   }, [artist])
 
   return (
-    <div>
+    <>
       <DataDetails propsToDisplay={propsToDisplay} data={artist} border />
       <DataDetail name="Artist ID" value={artist.id} copyText />
       {/* Users */}
       <p>
         <span>Users: </span>
       </p>
-      <ul className="list-disc pl-5">
+      <ul className="st-disc pl-5">
         {artistUsers.map(({ name, id, role }, index) => {
           return (
             <li className="pl-3" key={id}>
@@ -60,7 +60,7 @@ const ArtistOverview = ({ artist }) => {
           overviewLink
         />
       </p>
-    </div>
+    </>
   )
 }
 
