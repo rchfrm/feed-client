@@ -77,7 +77,7 @@ function PostsLoader() {
   const [visiblePost, setVisiblePost] = React.useState(0)
   const offset = React.useRef(0)
   const cursor = React.useRef(null)
-  const [initialLoad, setInitialLoad] = React.useState(true)
+  const initialLoad = React.useRef(true)
   const [loadingMore, setLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
   const isEndOfAssets = React.useRef(false)
@@ -92,7 +92,7 @@ function PostsLoader() {
   React.useEffect(() => {
     if (!artistId) return
     // Reset initial load
-    setInitialLoad(true)
+    initialLoad.current = true
     // Remove after cursor
     cursor.current = null
     // Reset offset
@@ -157,7 +157,7 @@ function PostsLoader() {
         },
       })
       // Define initial load
-      setInitialLoad(false)
+      initialLoad.current = false
     },
     // Handle errors
     onReject(error) {
