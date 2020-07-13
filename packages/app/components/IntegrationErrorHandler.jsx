@@ -34,6 +34,7 @@ const fetchError = async ({ auth, user, artist, artistId, accessToken }) => {
   const { artists: userArtists } = user
   const { role: artistRole } = userArtists.find(({ id }) => id === artistId) || {}
   const artistOwned = artistRole === 'owner' || artistRole === 'sysadmin'
+  const artistOwned = artistRole === 'owner' || artistRole === 'sysadmin' || artistRole === 'collaborator'
   // Stop here if artist is not owned
   if (!artistOwned) return
   // Fetch errors from server
