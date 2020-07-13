@@ -21,15 +21,13 @@ import styles from '@/app/PostsPage.module.css'
 // Define initial state and reducer for posts
 const postsInitialState = []
 const postsReducer = (draftState, postsAction) => {
+  const { type: actionType, payload = {} } = postsAction
   const {
-    type: actionType,
-    payload: {
-      newPosts,
-      postIndex,
-      promotion_enabled,
-      postLink,
-    },
-  } = postsAction
+    newPosts,
+    postIndex,
+    promotion_enabled,
+    postLink,
+  } = payload
   switch (actionType) {
     case 'replace-posts':
       return newPosts
