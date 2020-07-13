@@ -186,6 +186,7 @@ function AccountPageDetailsInline({ user }) {
         <Input
           name="email"
           label="Email"
+          tooltipMessage={facebookAuth ? 'This is where you will receive important notifications from Feed.' : ''}
           placeholder=""
           value={email}
           handleChange={handleChange}
