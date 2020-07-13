@@ -226,8 +226,8 @@ function PostsLoader() {
     })
   }
 
-  // Spinner if loading
-  if (artistLoading || (isPending && initialLoad)) {
+  // Wait if initial loading
+  if (artistLoading || (isPending && initialLoad.current)) {
     return null
   }
 
