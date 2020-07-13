@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { UserContext } from '@/contexts/UserContext'
+import { AuthContext } from '@/contexts/AuthContext'
 
 import * as server from '@/helpers/sharedServer'
 import firebase from '@/helpers/firebase'
@@ -17,6 +18,9 @@ import styles from '@/app/AccountPage.module.css'
 function AccountPageDetailsInline({ user }) {
   // Get user context
   const { updateUser } = React.useContext(UserContext)
+  // Determine if user uses FB auth
+  const { auth: { providerIds } } = React.useContext(AuthContext)
+  const facebookAuth = providerIds.includes('facebook.com')
   // Get initial details from user
   const { first_name: initialName, last_name: initialSurname, email: initialEmail } = user
 
@@ -189,25 +193,29 @@ function AccountPageDetailsInline({ user }) {
           disabled={loading}
         />
 
-        <Input
-          name="passwordOne"
-          label="Password"
-          placeholder=""
-          value={passwordOne}
-          handleChange={handleChange}
-          type="password"
-          disabled={loading}
-        />
+        {!facebookAuth && (
+          <>
+            <Input
+              name="passwordOne"
+              label="Password"
+              placeholder=""
+              value={passwordOne}
+              handleChange={handleChange}
+              type="password"
+              disabled={loading}
+            />
 
-        <Input
-          name="passwordTwo"
-          label="Confirm new password:"
-          placeholder=""
-          type="password"
-          value={passwordTwo}
-          handleChange={handleChange}
-          disabled={loading}
-        />
+            <Input
+              name="passwordTwo"
+              label="Confirm new password:"
+              placeholder=""
+              type="password"
+              value={passwordTwo}
+              handleChange={handleChange}
+              disabled={loading}
+            />
+          </>
+        )}
 
         <Button
           className={styles.submitButton}
