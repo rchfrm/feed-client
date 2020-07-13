@@ -19,7 +19,8 @@ body {
   }
 }
 
-#container {
+#container,
+#container-admin {
   display: flex;
   width: 100%;
   min-height: 100vh;
@@ -33,7 +34,12 @@ body {
   }
 }
 
-#page--container {
+#container-admin {
+  padding-top: var(--sp-10);
+}
+
+#page--container,
+#page--container-admin {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -44,6 +50,12 @@ body {
     margin-left: var(--sp-10);
     padding: 0 var(--sp-16);
   }
+}
+
+#page--container-admin {
+  margin-left: 0 !important;
+  padding: 0!important;
+  padding-bottom: var(--sp-10) !important;
 }
 
 

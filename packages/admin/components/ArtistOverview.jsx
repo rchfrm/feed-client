@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'next/link'
 
 import DataDetails from '@/admin/elements/DataDetails'
-import CopyTextButton from '@/elements/CopyTextButton'
-
-import * as ROUTES from '@/admin/constants/routes'
+import DataDetail from '@/admin/elements/DataDetail'
+import TournamentLink from '@/admin/TournamentLink'
 
 const propsToDisplay = [
   'name',
@@ -23,8 +21,7 @@ const getUsersData = (users) => {
 }
 
 const ArtistOverview = ({ artist }) => {
-  console.log('artist', artist)
-
+  // console.log('artist', artist)
   const artistUsers = React.useMemo(() => {
     return getUsersData(artist.users)
   }, [artist])
@@ -32,21 +29,23 @@ const ArtistOverview = ({ artist }) => {
   return (
     <div>
       <DataDetails propsToDisplay={propsToDisplay} data={artist} border />
+      <DataDetail name="Artist ID" value={artist.id} copyText />
       {/* Users */}
       <p>
         <span>Users: </span>
       </p>
-      <ul>
+      <ul className="list-disc pl-5">
         {artistUsers.map(({ name, id, role }, index) => {
           return (
-            <li key={id}>
-              <strong>
-                {name} ({role})
-                {index !== artistUsers.length - 1 ? ', ' : ''}
-              </strong>
-              {' '}
+            <li className="pl-3" key={id}>
+              <p>
+                <strong>
+                  {name} ({role})
+                  {index !== artistUsers.length - 1 ? ', ' : ''}
+                </strong>
+              </p>
               <div className="mt-3">
-                <CopyTextButton text={id} />
+                <DataDetail name="User ID" value={id} copyText />
               </div>
             </li>
           )
@@ -54,9 +53,12 @@ const ArtistOverview = ({ artist }) => {
       </ul>
       {/* Tournaments link */}
       <p>
-        <Link href={{ pathname: ROUTES.TOURNAMENTS, query: { artistId: artist.id } }}>
-          <a>Tournaments</a>
-        </Link>
+        <TournamentLink
+          artistId={artist.id}
+          buttonText="Tournaments"
+          buttonClass="w-40"
+          overviewLink
+        />
       </p>
     </div>
   )

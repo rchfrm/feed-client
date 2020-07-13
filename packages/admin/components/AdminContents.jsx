@@ -3,26 +3,35 @@ import InitUser from '@/admin/InitUser'
 import { UserProvider } from '@/contexts/UserContext'
 import { ArtistProvider } from '@/contexts/ArtistContext'
 import { InterfaceContextProvider } from '@/contexts/InterfaceContext'
-import TheLoadingOverlay from '@/TheLoadingOverlay'
+
+import BrowserStoreSetup from '@/BrowserStoreSetup'
+import popupStore from '@/store/popupStore'
 
 import TheHeader from '@/admin/TheHeader'
+import TheLoadingOverlay from '@/TheLoadingOverlay'
+import PopupModal from '@/PopupModal'
+
 
 const AdminContents = ({ children }) => {
+  const popupContent = popupStore(state => state.content)
   return (
-    <div id="container" className="page--content">
+    <div id="container-admin" className="page--content">
       <InterfaceContextProvider>
         <UserProvider>
-          <ArtistProvider>
+          <ArtistProvider disable>
             <TheLoadingOverlay />
             <InitUser>
               <TheHeader />
-              <main id="page--container">
+              <main id="page--container-admin">
                 {children}
               </main>
+              <PopupModal content={popupContent} />
             </InitUser>
           </ArtistProvider>
         </UserProvider>
       </InterfaceContextProvider>
+      {/* Setup browser store */}
+      <BrowserStoreSetup />
     </div>
   )
 }

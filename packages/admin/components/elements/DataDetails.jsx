@@ -25,16 +25,16 @@ const getDetailsArray = (propsToDisplay, data) => {
   }, [])
 }
 
-const DataDetails = ({ propsToDisplay, data, border, header }) => {
+const DataDetails = ({ propsToDisplay, data, border, header, className }) => {
   const details = React.useMemo(() => {
     return getDetailsArray(propsToDisplay, data)
   // eslint-disable-next-line
   }, [])
 
   return (
-    <div>
+    <div className={className}>
       {border && <hr />}
-      {header && <h4>{header}</h4>}
+      {header && <h4><strong>{header}</strong></h4>}
       {details.map(({ name, value, key }) => {
         return (
           <DataDetail key={key} name={name} value={value} />
@@ -49,11 +49,13 @@ DataDetails.propTypes = {
   data: PropTypes.object.isRequired,
   border: PropTypes.bool,
   header: PropTypes.string,
+  className: PropTypes.string,
 }
 
 DataDetails.defaultProps = {
   border: false,
   header: '',
+  className: '',
 }
 
 export default DataDetails

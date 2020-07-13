@@ -9,7 +9,6 @@ import * as server from '@/admin/helpers/adminServer'
 const fetcher = (serverFunction) => async ({ cursor }) => {
   // eslint-disable-next-line
   const items = await server[serverFunction](cursor)
-  console.log('items', items)
   return items
 }
 

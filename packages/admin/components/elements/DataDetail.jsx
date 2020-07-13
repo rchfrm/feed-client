@@ -1,14 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const DataDetail = ({ name, value, border }) => {
+import CopyTextButton from '@/elements/CopyTextButton'
+
+const DataDetail = ({ name, value, border, copyText, isLink }) => {
+  const innerText = !isLink ? value : (
+    <a href={value} target="_blank" rel="noreferrer noopener">{value}</a>
+  )
   return (
     <>
       {border && <hr />}
       <p>
         <span>{name}:</span>
         {' '}
-        <strong>{value}</strong>
+        {copyText ? (
+          <CopyTextButton text={value} className="ml-2" />
+        ) : (
+          <strong>{innerText}</strong>
+        )}
       </p>
     </>
   )
@@ -21,10 +30,14 @@ DataDetail.propTypes = {
   ]).isRequired,
   value: PropTypes.string.isRequired,
   border: PropTypes.bool,
+  copyText: PropTypes.bool,
+  isLink: PropTypes.bool,
 }
 
 DataDetail.defaultProps = {
   border: false,
+  copyText: false,
+  isLink: false,
 }
 
 export default DataDetail

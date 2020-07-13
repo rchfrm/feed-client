@@ -6,20 +6,27 @@ import PageQuerySetter from '@/admin/PageQuerySetter'
 
 const Tournaments = ({ router: { pathname, query } }) => {
   const { artistId } = query
-  console.log('pathname', pathname)
+  const pageRequiresLoading = !!artistId
   return (
     <BasePage
-      headerConfig="tournamenmts"
-      staticPage
+      headerConfig="tournaments"
+      staticPage={!pageRequiresLoading}
     >
-      {artistId ? <TournamentsLoader artistId={artistId} /> : (
-        <PageQuerySetter
-          label="Artist ID"
-          placeholder="paste an artist ID here"
-          pathname={pathname}
-          queryName="artistId"
-        />
-      )}
+      {pageRequiresLoading
+        ? <TournamentsLoader artistId={artistId} />
+        : (
+          <PageQuerySetter
+            intro="This page requires an Artist ID"
+            queries={[
+              {
+                label: 'Artist ID',
+                queryName: 'artistId',
+              },
+            ]}
+            pathname={pathname}
+            submitText="Fetch tournaments"
+          />
+        )}
     </BasePage>
   )
 }

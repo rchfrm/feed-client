@@ -7,13 +7,12 @@ const TournamentFilters = ({ statusTypes, activeFilter, setActiveFilter }) => {
   const statusFilters = ['all', ...uniqueFilters]
   return (
     <nav>
-      <p>Active filter: <strong>{activeFilter}</strong></p>
-      <ul>
+      <ul className="flex">
         {statusFilters.map((filter) => {
           const statusClass = filter === activeFilter ? '-active' : ''
           return (
-            <li key={filter} className={statusClass}>
-              <button onClick={() => setActiveFilter(filter)}>{filter}</button>
+            <li key={filter} className={['mr-5', statusClass].join(' ')}>
+              <button className={['button--filter', statusClass].join(' ')} onClick={() => setActiveFilter(filter)}>{filter}</button>
             </li>
           )
         })}

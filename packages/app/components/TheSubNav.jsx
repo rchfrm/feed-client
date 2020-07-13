@@ -10,7 +10,7 @@ import FullHeight from '@/elements/FullHeight'
 
 import TheSubNavArtists from '@/app/TheSubNavArtists'
 import TheSubNavLinks from '@/app/TheSubNavLinks'
-import SignOutLink from '@/app/SignOutLink'
+import SignOutLink from '@/SignOutLink'
 
 
 import styles from '@/app/TheSubNav.module.css'

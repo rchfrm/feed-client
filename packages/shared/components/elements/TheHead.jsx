@@ -3,7 +3,7 @@ import { Head } from 'next/document'
 
 import Favicons from '@/elements/Favicons'
 
-const TheHead = ({ siteUrl, metaDescription }) => {
+const TheHead = ({ siteUrl, metaDescription, noIndex, includeStripe }) => {
   const ogImageUrl = `${siteUrl}/images/feed_og_card.jpg`
   return (
     <Head>
@@ -31,7 +31,8 @@ const TheHead = ({ siteUrl, metaDescription }) => {
       <meta key="meta-twitter:image:width" name="twitter:image:width" content="1200px" />
       <meta key="meta-twitter:image:height" name="twitter:image:height" content="630px" />
       {/* Preconnect to external assets */}
-      <link rel="preconnect" href="https://js.stripe.com/v3" />
+      {includeStripe && <link rel="preconnect" href="https://js.stripe.com/v3" />}
+      {noIndex && <meta name="robots" content="noindex" />}
     </Head>
   )
 }
