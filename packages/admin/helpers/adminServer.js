@@ -22,13 +22,22 @@ export const getEndpoint = async (endpoint) => {
 /**
  * @param {string} [token]
  * @param {string} [cursor]
+ * @param {object} [requestProps]
  * @returns {Promise<any>}
  */
-export const getAllArtists = async (cursor) => {
+export const getAllArtists = async (cursor, requestProps) => {
   let endpoint = 'artists?all=1'
   // Add cursor if defined
   if (cursor) endpoint = `${endpoint}&after=${cursor}`
-  return api.get(endpoint)
+  // Add request props
+  const endpointWithProps = !requestProps ? endpoint : Object
+    .entries(requestProps)
+    .reduce((newEndpoint, [propName, propValue]) => {
+      // Ignore malformed props
+      if (!propName || !propValue) return newEndpoint
+      return `${newEndpoint}&${propName}=${propValue}`
+    }, endpoint)
+  return api.get(endpointWithProps)
 }
 
 // USERS
