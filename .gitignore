@@ -47,7 +47,8 @@ packages/app/public/pwa/*
 packages/admin/public/pwa/*
 
 # Cached dato data
-packages/shared/datoQueriesCached
+packages/shared/datoQueriesCached/*
+!packages/shared/datoQueriesCached/.gitkeep
 
 # Service workers
 /public/workbox-*.js
