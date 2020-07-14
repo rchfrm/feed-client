@@ -24,9 +24,10 @@ export const getEndpoint = async (endpoint) => {
  * @param {string} [cursor]
  * @returns {Promise<any>}
  */
-export const getAllArtists = async (cursor, args) => {
-  const pagination = cursor ? `&after=${cursor}` : ''
-  const endpoint = `artists?all=1${pagination}`
+export const getAllArtists = async (cursor) => {
+  let endpoint = 'artists?all=1'
+  // Add cursor if defined
+  if (cursor) endpoint = `${endpoint}&after=${cursor}`
   return api.get(endpoint)
 }
 
