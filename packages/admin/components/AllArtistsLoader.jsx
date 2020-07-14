@@ -4,8 +4,20 @@ import useGetPaginated from '@/admin/hooks/useGetPaginated'
 import ArtistsList from '@/admin/ArtistsList'
 
 export default function Home() {
+  const propsToDisplay = [
+    'name',
+    'created_at',
+    'currency',
+    'country_code',
+    'daily_budget',
+    'status',
+  ]
+  // Define fields
+  const fields = [...propsToDisplay, 'users']
+  // Make request
   const { items: artists, error, finishedLoading } = useGetPaginated('getAllArtists', {
     limit: 100,
+    fields: fields.join(','),
   })
 
   return (
@@ -13,7 +25,7 @@ export default function Home() {
       {error && <div>Failed to fetch artists</div>}
       {!finishedLoading && <p>Loading...</p>}
       <p>Total: {artists.length}</p>
-      {artists && <ArtistsList artists={artists} />}
+      {artists && <ArtistsList artists={artists} propsToDisplay={propsToDisplay} />}
     </section>
   )
 }
