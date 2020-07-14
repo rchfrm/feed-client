@@ -25,18 +25,17 @@ export const getEndpoint = async (endpoint) => {
  * @param {object} [requestProps]
  * @returns {Promise<any>}
  */
-export const getAllArtists = async (cursor, requestProps) => {
-  let endpoint = 'artists?all=1'
-  // Add cursor if defined
-  if (cursor) endpoint = `${endpoint}&after=${cursor}`
+export const getAllArtists = async (cursor, requestProps = {}) => {
+  const endpoint = 'artists/all'
+  // Add cursor to request props
+  const requestPropsWithCursor = cursor ? { ...requestProps, after: cursor } : requestProps
   // Add request props
-  const endpointWithProps = !requestProps ? endpoint : Object
-    .entries(requestProps)
-    .reduce((newEndpoint, [propName, propValue]) => {
-      // Ignore malformed props
-      if (!propName || !propValue) return newEndpoint
+  const endpointWithProps = Object
+    .entries(requestPropsWithCursor)
+    .reduce((newEndpoint, [propName, propValue], index) => {
+      const separator = index === 0 ? '?' : '&'
       // Add prop to endpoint
-      return `${newEndpoint}&${propName}=${propValue}`
+      return `${newEndpoint}${separator}${propName}=${propValue}`
     }, endpoint)
   return api.get(endpointWithProps)
 }
