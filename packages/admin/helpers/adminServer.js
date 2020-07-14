@@ -35,6 +35,7 @@ export const getAllArtists = async (cursor, requestProps) => {
     .reduce((newEndpoint, [propName, propValue]) => {
       // Ignore malformed props
       if (!propName || !propValue) return newEndpoint
+      // Add prop to endpoint
       return `${newEndpoint}&${propName}=${propValue}`
     }, endpoint)
   return api.get(endpointWithProps)
