@@ -28,6 +28,7 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
       .catch((error) => {
         setErrors([...errors, error])
       })
+  // eslint-disable-next-line
   }, [missingScopes.length, providerIds])
 
   const showSignupIntro = (missingScopes.length === 0) && onSignUp
