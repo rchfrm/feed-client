@@ -4,7 +4,9 @@ import useGetPaginated from '@/admin/hooks/useGetPaginated'
 import ArtistsList from '@/admin/ArtistsList'
 
 export default function Home() {
-  const { items: artists, error, finishedLoading } = useGetPaginated('getAllArtists')
+  const { items: artists, error, finishedLoading } = useGetPaginated('getAllArtists', {
+    limit: 100,
+  })
 
   return (
     <section className="content">
