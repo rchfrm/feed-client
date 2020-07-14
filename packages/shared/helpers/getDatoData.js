@@ -20,9 +20,9 @@ const axiosClient = axios.create({
   },
 })
 
-const getDatoData = async (query, cachedFilename) => {
+const getDatoData = async (query, cachedFilename, forceFetch) => {
   // Return cached data (if running locally and cached version exists)
-  if (!fetchLiveData) {
+  if (!fetchLiveData && !forceFetch) {
     // Check if cached data exists
     const currentPath = process.cwd()
     const cachedDataPath = path.resolve(currentPath, `${cachedDataDir}${cachedFilename}.json`)
