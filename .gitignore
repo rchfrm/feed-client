@@ -46,6 +46,9 @@ dist/
 packages/app/public/pwa/*
 packages/admin/public/pwa/*
 
+# Cached dato data
+packages/shared/datoQueriesCached
+
 # Service workers
 /public/workbox-*.js
 /public/sw.js
