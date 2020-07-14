@@ -27,6 +27,7 @@ const nextConfig = {
     stripe_provider: process.env.STRIPE_PROVIDER,
     react_app_api_url: process.env.REACT_APP_API_URL,
     react_app_api_url_local: process.env.REACT_APP_API_URL_LOCAL,
+    dato_key: process.env.DATO_KEY,
     build_env: process.env.BUILD_ENV || process.env.NODE_ENV,
     sentry_dsn: 'https://d3ed114866ac498da2fdd9acf2c6bd87@sentry.io/3732610',
     release_version: process.env.RELEASE_VERSION,
