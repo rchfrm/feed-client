@@ -4,6 +4,7 @@ import React from 'react'
 import MissingScopesMessage from '@/elements/MissingScopesMessage'
 import ButtonFacebook from '@/elements/ButtonFacebook'
 import Error from '@/elements/Error'
+import VimeoEmbed from '@/elements/VimeoEmbed'
 import MarkdownText from '@/elements/MarkdownText'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
@@ -41,9 +42,17 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
           return <Error error={error} messagePrefix="Error: " key={index} />
         })}
 
-        {/* Singup intro text */}
+        {/* Singup intro text and video */}
         {showSignupIntro && (
-          <MarkdownText className={styles.introText} markdown={copy.signupIntro} />
+          <>
+            <MarkdownText className={styles.introText} markdown={copy.signupIntro} />
+            <VimeoEmbed
+              className="mb-5"
+              id="113333919"
+              title="Why we're asking for Facebook permissions"
+            />
+            <p>To continue, click on the button below</p>
+          </>
         )}
 
         {/* If missing FB permissions, show missing permissions */}
