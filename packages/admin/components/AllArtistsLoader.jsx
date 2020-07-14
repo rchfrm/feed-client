@@ -16,7 +16,7 @@ export default function Home() {
   const fields = [...propsToDisplay, 'users']
   // Make request
   const { items: artists, error, finishedLoading } = useGetPaginated('getAllArtists', {
-    limit: 100,
+    limit: 1000,
     fields: fields.join(','),
   })
 
