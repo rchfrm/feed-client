@@ -18,9 +18,9 @@ import styles from '@/app/AccountPage.module.css'
 function AccountPageDetailsInline({ user }) {
   // Get user context
   const { updateUser } = React.useContext(UserContext)
-  // Determine if user uses FB auth
+  // Determine if user doesn't use email auth
   const { auth: { providerIds } } = React.useContext(AuthContext)
-  const facebookAuth = providerIds.includes('facebook.com')
+  const hasEmailAuth = providerIds.includes('password')
   // Get initial details from user
   const { first_name: initialName, last_name: initialSurname, email: initialEmail } = user
 
@@ -69,8 +69,8 @@ function AccountPageDetailsInline({ user }) {
     setLoading(true)
     // Update password
     const passwordUpdatePromise = passwordChanged ? firebase.doPasswordUpdate(passwordOne) : null
-    // Update email in firebase (if not using facebook auth)
-    const emailChangedRes = emailChanged && !facebookAuth ? await firebase.doEmailUpdate(email) : null
+    // Update email in firebase (if using email auth)
+    const emailChangedRes = emailChanged && hasEmailAuth ? await firebase.doEmailUpdate(email) : null
     // Handle error in changing email
     if (emailChangedRes && emailChangedRes.error) {
       setErrors([...errors, emailChangedRes.error])
@@ -183,7 +183,7 @@ function AccountPageDetailsInline({ user }) {
         <Input
           name="email"
           label="Email"
-          tooltipMessage={facebookAuth ? 'This is where you will receive important notifications from Feed.' : ''}
+          tooltipMessage={!hasEmailAuth ? 'This is where you will receive important notifications from Feed.' : ''}
           placeholder=""
           value={email}
           handleChange={handleChange}
@@ -192,7 +192,7 @@ function AccountPageDetailsInline({ user }) {
           disabled={loading}
         />
 
-        {!facebookAuth && (
+        {hasEmailAuth && (
           <>
             <Input
               name="passwordOne"
