@@ -53,6 +53,6 @@
 
 .background {
   z-index: 0 !important;
-  background-color: var(--black);
-  opacity: 0.9;
+  background-color: var(--black) !important;
+  opacity: 0.98;
 }
