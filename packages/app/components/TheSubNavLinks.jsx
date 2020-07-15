@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import SignOutLink from '@/app/SignOutLink'
+import SignOutLink from '@/SignOutLink'
 import ActiveLink from '@/elements/ActiveLink'
 
 import styles from '@/app/TheSubNav.module.css'

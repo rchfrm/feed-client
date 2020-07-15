@@ -6,12 +6,15 @@ import useBrowserStore from '@/hooks/useBrowserStore'
 const FullHeight = React.forwardRef(({ id, className, heightPercent, Element, children }, ref) => {
   const { height: windowHeight } = useBrowserStore()
   const [style, setStyle] = React.useState({})
+  const animationFrame = React.useRef()
   React.useEffect(() => {
     if (!windowHeight) return
     const style = { height: windowHeight * (heightPercent / 100) }
-    window.requestAnimationFrame(() => {
+    animationFrame.current = window.requestAnimationFrame(() => {
       setStyle(style)
     })
+    // Tidy up
+    return () => window.cancelAnimationFrame(animationFrame.current)
   }, [windowHeight, heightPercent])
 
   return (

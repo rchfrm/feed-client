@@ -41,6 +41,11 @@
 }
 
 .tooltip--slides-slide {
+
+  .text--block p {
+    margin-bottom: var(--sp-4);
+  }
+  
   .text--block:last-child {
     margin-bottom: 0;
   }
@@ -51,15 +56,18 @@
   position: absolute;
   background-color: var(--bg-color);
   box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.15);
-
-  .text--block p {
-    margin-bottom: var(--sp-4);
-  }
+  font-weight: normal;
 
   &.-left {
     left: -5px;
     bottom: 50%;
     transform: translateX(-100%) translateY(50%);
+  }
+
+  &.-right {
+    right: -5px;
+    bottom: 50%;
+    transform: translateX(100%) translateY(50%);
   }
 
   > *:last-child {
@@ -78,11 +86,21 @@
     background-color: var(--bg-color);
   }
 
+  /* Left arrow */
   &.-left {
     &::after {
       right: -1px;
       bottom: 50%;
       transform: translateX(50%) translateY(50%) rotate(45deg);
+    }
+  }
+
+  /* Right arrow */
+  &.-right {
+    &::after {
+      left: -1px;
+      bottom: 50%;
+      transform: translateX(-50%) translateY(50%) rotate(225deg);
     }
   }
 }

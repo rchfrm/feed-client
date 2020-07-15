@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { UserContext } from '@/contexts/UserContext'
+import { AuthContext } from '@/contexts/AuthContext'
 
 import * as server from '@/helpers/sharedServer'
 import firebase from '@/helpers/firebase'
@@ -17,6 +18,9 @@ import styles from '@/app/AccountPage.module.css'
 function AccountPageDetailsInline({ user }) {
   // Get user context
   const { updateUser } = React.useContext(UserContext)
+  // Determine if user doesn't use email auth
+  const { auth: { providerIds } } = React.useContext(AuthContext)
+  const hasEmailAuth = providerIds.includes('password')
   // Get initial details from user
   const { first_name: initialName, last_name: initialSurname, email: initialEmail } = user
 
@@ -65,8 +69,8 @@ function AccountPageDetailsInline({ user }) {
     setLoading(true)
     // Update password
     const passwordUpdatePromise = passwordChanged ? firebase.doPasswordUpdate(passwordOne) : null
-    // Update email in firebase
-    const emailChangedRes = emailChanged ? await firebase.doEmailUpdate(email) : null
+    // Update email in firebase (if using email auth)
+    const emailChangedRes = emailChanged && hasEmailAuth ? await firebase.doEmailUpdate(email) : null
     // Handle error in changing email
     if (emailChangedRes && emailChangedRes.error) {
       setErrors([...errors, emailChangedRes.error])
@@ -110,7 +114,6 @@ function AccountPageDetailsInline({ user }) {
     }
   }
 
-
   // Set initial values from user
   React.useEffect(() => {
     setName(initialName)
@@ -151,8 +154,6 @@ function AccountPageDetailsInline({ user }) {
   return (
     <section className={styles.accountPageDetails}>
 
-      {/* <h2 className={sidePanelStyles.SidePanel__Header}>Account Page Details</h2> */}
-
       <form className={styles.accountPageDetails__form} onSubmit={handleSubmit}>
 
         {errors.map((error, index) => {
@@ -182,32 +183,38 @@ function AccountPageDetailsInline({ user }) {
         <Input
           name="email"
           label="Email"
+          tooltipMessage={!hasEmailAuth ? 'This is where you will receive important notifications from Feed.' : ''}
           placeholder=""
           value={email}
           handleChange={handleChange}
           type="email"
+          required
           disabled={loading}
         />
 
-        <Input
-          name="passwordOne"
-          label="Password"
-          placeholder=""
-          value={passwordOne}
-          handleChange={handleChange}
-          type="password"
-          disabled={loading}
-        />
+        {hasEmailAuth && (
+          <>
+            <Input
+              name="passwordOne"
+              label="Password"
+              placeholder=""
+              value={passwordOne}
+              handleChange={handleChange}
+              type="password"
+              disabled={loading}
+            />
 
-        <Input
-          name="passwordTwo"
-          label="Confirm new password:"
-          placeholder=""
-          type="password"
-          value={passwordTwo}
-          handleChange={handleChange}
-          disabled={loading}
-        />
+            <Input
+              name="passwordTwo"
+              label="Confirm new password:"
+              placeholder=""
+              type="password"
+              value={passwordTwo}
+              handleChange={handleChange}
+              disabled={loading}
+            />
+          </>
+        )}
 
         <Button
           className={styles.submitButton}

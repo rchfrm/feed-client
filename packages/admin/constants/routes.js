@@ -4,6 +4,7 @@ export const ARTIST = '/artist'
 export const USERS = '/users'
 export const ORGANISATION = '/organisation'
 export const TOURNAMENTS = '/tournaments'
+export const TOURNAMENT = '/tournament'
 export const HOME = ARTISTS
 // Array of restricted pages
 export const restrictedPages = [
@@ -12,4 +13,5 @@ export const restrictedPages = [
   USERS,
   ORGANISATION,
   TOURNAMENTS,
+  TOURNAMENT,
 ]

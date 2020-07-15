@@ -8,17 +8,12 @@ class MyDocument extends Document {
   }
 
   render() {
-    const siteUrl = 'https://beta.tryfeed.co'
-    const metaDescription = 'Simplify the process of growing your audience through automated social media promotion'
+    const siteUrl = 'https://admin.tryfeed.co'
+    const metaDescription = ''
 
     return (
       <Html lang="en">
-        <TheHead
-          siteUrl={siteUrl}
-          metaDescription={metaDescription}
-          noIndex={process.env.build_env === 'staging'}
-          includeStripe
-        />
+        <TheHead siteUrl={siteUrl} metaDescription={metaDescription} noIndex />
         <body>
           <Main />
           <NextScript />
