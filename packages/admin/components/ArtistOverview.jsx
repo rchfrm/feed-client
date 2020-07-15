@@ -5,7 +5,6 @@ import DataDetails from '@/admin/elements/DataDetails'
 import DataDetail from '@/admin/elements/DataDetail'
 import TournamentLink from '@/admin/TournamentLink'
 
-
 const getUsersData = (users = {}) => {
   return Object.values(users).map(({ id, name, role }) => {
     return { id, name, role }
