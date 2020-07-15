@@ -2,9 +2,17 @@
 
 ## URLs
 
+#### The App
+
 **Local:** [http://localhost:3000](http://localhost:3000)
 **Staging:** [https://scaler-staging.firebaseapp.com](https://scaler-staging.firebaseapp.com)
 **Live:** [https://beta.tryfeed.co](https://beta.tryfeed.co)
+
+#### The Admin Panel
+
+**Local:** [http://localhost:3000](http://localhost:3000)
+**Staging:** [https://feed-admin-staging-v2.firebaseapp.com](https://feed-admin-staging-v2.firebaseapp.com)
+**Live:** [https://feed-admin-v2.firebaseapp.com](https://feed-admin-v2.firebaseapp.com)
 
 ## Initial setup
 
