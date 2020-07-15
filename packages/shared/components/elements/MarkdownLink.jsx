@@ -1,15 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
+
 import * as utils from '@/helpers/utils'
+import * as ROUTES from '@/app/constants/routes'
+
+const convertInternalLink = (href) => {
+  if (href.includes('ROUTES.')) {
+    // Parse string
+    const internalPageName = href
+      .replace('${', '')
+      .replace('}', '')
+      .split('.')[1]
+    // Get page path from routes
+    // eslint-disable-next-line import/namespace
+    return ROUTES[internalPageName]
+  }
+  return href
+}
 
 const MarkdownLink = ({ href, children }) => {
   const { props: { value: linkText } } = children[0]
-  const linkType = utils.getLinkType(href)
+  const formattedLink = convertInternalLink(href)
+  const linkType = utils.getLinkType(formattedLink)
   // INTERNAL LINK
   if (linkType === 'internal') {
     return (
-      <Link href={href}>
+      <Link href={formattedLink}>
         <a>{ linkText }</a>
       </Link>
     )

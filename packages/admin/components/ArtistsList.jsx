@@ -5,13 +5,13 @@ import AdminGrid from '@/admin/elements/AdminGrid'
 import AdminGridItem from '@/admin/elements/AdminGridItem'
 import ArtistOverview from '@/admin/ArtistOverview'
 
-const ArtistsList = ({ artists }) => {
+const ArtistsList = ({ artists, propsToDisplay }) => {
   return (
     <AdminGrid>
       {artists.map((artist) => {
         return (
           <AdminGridItem key={artist.id}>
-            <ArtistOverview artist={artist} />
+            <ArtistOverview artist={artist} key={artist.id} propsToDisplay={propsToDisplay} />
           </AdminGridItem>
         )
       })}
@@ -21,6 +21,7 @@ const ArtistsList = ({ artists }) => {
 
 ArtistsList.propTypes = {
   artists: PropTypes.array.isRequired,
+  propsToDisplay: PropTypes.array.isRequired,
 }
 
 export default ArtistsList

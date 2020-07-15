@@ -6,9 +6,9 @@ import { UserContext } from '@/contexts/UserContext'
 
 import * as server from '@/admin/helpers/adminServer'
 
-const fetcher = (serverFunction) => async ({ cursor }) => {
+const fetcher = (serverFunction) => async ({ cursor, requestProps }) => {
   // eslint-disable-next-line
-  const items = await server[serverFunction](cursor)
+  const items = await server[serverFunction](cursor, requestProps)
   return items
 }
 
@@ -28,7 +28,7 @@ const reducer = (draftState, action) => {
   }
 }
 
-const useGetPaginated = (serverFunction) => {
+const useGetPaginated = (serverFunction, requestProps) => {
   const [items, udpateItems] = useImmerReducer(reducer, [])
   const [cursor, setCursor] = React.useState('')
   const [finishedLoading, setFinishedLoading] = React.useState(false)
@@ -51,6 +51,7 @@ const useGetPaginated = (serverFunction) => {
     token: user ? user.token : null,
     userId: user ? user.id : null,
     cursor,
+    requestProps,
     // When fetch finishes
     onResolve: (newItems) => {
       // Handle result...

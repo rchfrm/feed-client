@@ -7,21 +7,13 @@ import DataDetail from '@/admin/elements/DataDetail'
 import ArtistUsers from '@/admin/ArtistUsers'
 import TournamentLink from '@/admin/TournamentLink'
 
-const propsToDisplay = [
-  'created_at',
-  'currency',
-  'country_code',
-  'daily_budget',
-  'status',
-]
-
-const getUsersData = (users) => {
+const getUsersData = (users = {}) => {
   return Object.values(users).map(({ id, name, role }) => {
     return { id, name, role }
   })
 }
 
-const ArtistOverview = ({ artist }) => {
+const ArtistOverview = ({ artist, propsToDisplay }) => {
   // console.log('artist', artist)
   const artistUsers = React.useMemo(() => {
     return getUsersData(artist.users)
@@ -49,6 +41,7 @@ const ArtistOverview = ({ artist }) => {
 
 ArtistOverview.propTypes = {
   artist: PropTypes.object.isRequired,
+  propsToDisplay: PropTypes.array.isRequired,
 }
 
 export default ArtistOverview

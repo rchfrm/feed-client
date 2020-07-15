@@ -4,8 +4,8 @@ import * as api from '@/helpers/api'
  * @param {string} [token]
  * @returns {Promise<any>}
  */
-export const getUser = async (token) => {
-  return api.get('/users/me', token)
+export const getUser = async () => {
+  return api.get('/users/me')
 }
 
 /**
@@ -13,8 +13,8 @@ export const getUser = async (token) => {
  * @param {string} [token]
  * @returns {Promise<any>}
  */
-export const getEndpoint = async (endpoint, token) => {
-  return api.get(endpoint, token)
+export const getEndpoint = async (endpoint) => {
+  return api.get(endpoint)
 }
 
 // ARTISTS
@@ -22,12 +22,22 @@ export const getEndpoint = async (endpoint, token) => {
 /**
  * @param {string} [token]
  * @param {string} [cursor]
+ * @param {object} [requestProps]
  * @returns {Promise<any>}
  */
-export const getAllArtists = async (cursor, token) => {
-  const pagination = cursor ? `&after=${cursor}` : ''
-  const endpoint = `artists?all=1${pagination}`
-  return api.get(endpoint, token)
+export const getAllArtists = async (cursor, requestProps = {}) => {
+  const endpoint = 'artists/all'
+  // Add cursor to request props
+  const requestPropsWithCursor = cursor ? { ...requestProps, after: cursor } : requestProps
+  // Add request props
+  const endpointWithProps = Object
+    .entries(requestPropsWithCursor)
+    .reduce((newEndpoint, [propName, propValue], index) => {
+      const separator = index === 0 ? '?' : '&'
+      // Add prop to endpoint
+      return `${newEndpoint}${separator}${propName}=${propValue}`
+    }, endpoint)
+  return api.get(endpointWithProps)
 }
 
 // USERS
@@ -37,10 +47,10 @@ export const getAllArtists = async (cursor, token) => {
  * @param {string} [cursor]
  * @returns {Promise<any>}
  */
-export const getAllUsers = async (cursor, token) => {
+export const getAllUsers = async (cursor) => {
   const pagination = cursor ? `&after=${cursor}` : ''
   const endpoint = `users?all=1${pagination}`
-  return api.get(endpoint, token)
+  return api.get(endpoint)
 }
 
 // TOURNAMENTS

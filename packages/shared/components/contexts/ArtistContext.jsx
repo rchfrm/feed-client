@@ -96,7 +96,7 @@ function ArtistProvider({ children, disable }) {
 
   const storeArtist = async (id) => {
     // Stop here if not using
-    if (disable) return
+    if (disable) return {}
     // TODO : Store previously selected artists in state,
     //  then if the user switches back to that artist, there doesn't need to be a new server call
     setArtistLoading(true)

@@ -17,7 +17,7 @@ const testPageReady = (packageType) => (Component) => (props) => {
   React.useEffect(() => {
     if (authLoading) return
     if (!initialToken) {
-      if (currentPath !== ROUTES.LOGIN) kickToLogin()
+      if (currentPath !== ROUTES.LOGIN) kickToLogin(ROUTES.LOGIN)
       utils.clearLocalStorage()
     }
   // eslint-disable-next-line
