@@ -61,7 +61,7 @@ const Button = React.forwardRef(({
   )
 })
 
-Button.displayName = 'FullHeight'
+Button.displayName = 'Button'
 
 Button.propTypes = {
   version: PropTypes.string,
