@@ -19,6 +19,7 @@ export const getEndpoint = async (endpoint) => {
 
 // ARTISTS
 // -----------------------
+
 /**
  * @param {string} [token]
  * @param {string} [cursor]
@@ -38,6 +39,17 @@ export const getAllArtists = async (cursor, requestProps = {}) => {
       return `${newEndpoint}${separator}${propName}=${propValue}`
     }, endpoint)
   return api.get(endpointWithProps)
+}
+
+/**
+ * @param {string} [artistId]
+ * @param {string} [status]
+ * @returns {Promise<any>}
+ */
+export const updateArtistStatus = async (artistId, status) => {
+  const endpointType = status === 'active' ? 'activate' : 'suspend'
+  const endpoint = `artists/${artistId}/${endpointType}`
+  return api.post(endpoint)
 }
 
 // USERS
