@@ -37,15 +37,15 @@ if [[ "$product" == "app" ]]; then
 else
   product_path="./packages/admin"
   workspace="admin"
-  "deploy-production": "./deploy production",="firebase.admin.default.json"
+  firebaseConfigFile="firebase.admin.default.json"
   # ADMIN production
   if [[ "$environment" == "production" ]]; then
-    project="feed-admin"
-    site_name="feed-admin"
+    project="archform-1"
+    site_name="feed-admin-v2"
   # ADMIN staging
   else
-    project="feed-admin-dev"
-    site_name="feed-admin-dev"
+    project="archform-1-dev"
+    site_name="feed-admin-staging-v2"
   fi
 fi
 

@@ -237,6 +237,19 @@ button {
   cursor: pointer;
 }
 
+/* Filter button */
+.button--filter {
+  background-color: var(--grey-light);
+  padding: 0.1em 0.8em;
+  padding-bottom: 0.25em;
+  border-radius: 0.8em;
+
+  &.-active {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+  }
+}
+
 /* Copy text button */
 .button--copy-text {
   border: 1px solid var(--text-color);

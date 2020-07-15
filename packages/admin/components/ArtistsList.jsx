@@ -1,20 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import AdminGrid from '@/admin/elements/AdminGrid'
+import AdminGridItem from '@/admin/elements/AdminGridItem'
 import ArtistOverview from '@/admin/ArtistOverview'
 
-const ArtistsList = ({ artists }) => {
+const ArtistsList = ({ artists, propsToDisplay }) => {
   return (
-    <div>
+    <AdminGrid>
       {artists.map((artist) => {
-        return <ArtistOverview artist={artist} key={artist.id} />
+        return (
+          <AdminGridItem key={artist.id}>
+            <ArtistOverview artist={artist} key={artist.id} propsToDisplay={propsToDisplay} />
+          </AdminGridItem>
+        )
       })}
-    </div>
+    </AdminGrid>
   )
 }
 
 ArtistsList.propTypes = {
   artists: PropTypes.array.isRequired,
+  propsToDisplay: PropTypes.array.isRequired,
 }
 
 export default ArtistsList
