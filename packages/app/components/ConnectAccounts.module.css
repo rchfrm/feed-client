@@ -39,12 +39,6 @@
   }
 }
 
-.postToggle {
-  position: absolute;
-  top: var(--sp-5);
-  right: var(--sp-5);
-}
-
 .profile-picture {
   min-width: 33%;
   margin-right: 3.234%;

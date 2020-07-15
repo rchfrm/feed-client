@@ -236,7 +236,9 @@ function ConnectAccountsPanel({
       ].join(' ')}
     >
       {/* TOGGLE BUTTON */}
-      {returnToggle()}
+      <div className="flex justify-end -mb-6 mt-1">
+        {returnToggle()}
+      </div>
       {/* Warning if artist already exists and toggle */}
       {returnExistsWarning()}
 
