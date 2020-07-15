@@ -109,8 +109,6 @@
     opacity: 0;
   }
 
-  /* background-color: green; */
-
   @mixin canHover {
     &:hover {      
       a {
@@ -134,7 +132,6 @@
 
 .dataButton {
   width: 100%;
-  /* background-color: pink; */
   text-decoration: none;
   padding-right: var(--sp-10);
   padding-bottom: var(--sp-5);
