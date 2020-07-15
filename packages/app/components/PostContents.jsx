@@ -5,7 +5,13 @@ import PostImage from '@/PostImage'
 
 import styles from '@/app/PostItem.module.css'
 
-const PostContents = ({ media, thumbnailSrc, caption, className }) => {
+const PostContents = ({
+  media,
+  thumbnailSrc,
+  caption,
+  captionFull,
+  className,
+}) => {
   const [hasMedia, setHasMedia] = React.useState(true)
   React.useEffect(() => {
     setHasMedia(!!media)
@@ -26,7 +32,7 @@ const PostContents = ({ media, thumbnailSrc, caption, className }) => {
           <PostImage
             mediaSrc={media}
             thumbnailOptions={[thumbnailSrc]}
-            title={caption}
+            title={captionFull || caption}
             setHasMedia={setHasMedia}
           />
         </div>
@@ -44,6 +50,7 @@ PostContents.propTypes = {
   media: PropTypes.string,
   thumbnailSrc: PropTypes.string,
   caption: PropTypes.string,
+  captionFull: PropTypes.string,
   className: PropTypes.string,
 }
 
@@ -51,6 +58,7 @@ PostContents.defaultProps = {
   media: '',
   thumbnailSrc: '',
   caption: '',
+  captionFull: '',
   className: '',
 }
 

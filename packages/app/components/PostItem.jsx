@@ -20,6 +20,7 @@ const PostItem = ({
   className = '',
   children = <></>,
 }) => {
+  console.log('post', post)
   // Errors
   const [error, setError] = React.useState(null)
   // PROMOTABLE STATE
@@ -49,6 +50,7 @@ const PostItem = ({
           media={post.media}
           thumbnailSrc={post._metadata.thumbnail_url}
           caption={postCaption}
+          captionFull={post.message}
         />
 
         {/* METRICS */}
