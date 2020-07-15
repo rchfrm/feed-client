@@ -13,7 +13,8 @@ import popupStore from '@/store/popupStore'
 import styles from '@/PopupModal.module.css'
 import FullHeight from '@/elements/FullHeight'
 
-const PopupModal = ({ content }) => {
+const PopupModal = () => {
+  const content = popupStore(state => state.content)
   const contentType = popupStore(state => state.contentType)
   const closePopup = popupStore(state => state.clear)
 
