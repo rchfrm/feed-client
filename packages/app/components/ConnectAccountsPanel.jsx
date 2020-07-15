@@ -170,19 +170,20 @@ function ConnectAccountsPanel({
       )
     }
     return (
-      <div style={{
-        margin: '0 0 1em 0',
-        padding: '0 0 0.2em 0',
-      }}
-      >
-        <label className="label_icon">
-          <InstagramIcon
-            fill={brandColors.textColor}
-            width="20"
-          />
-        </label>
-        <a href="https://help.instagram.com/502981923235522" target="_blank" rel="noopener noreferrer">Learn more about Instagram business accounts</a>
-        .
+      <div className="flex align-top mb-5">
+        <div>
+          <InstagramIcon className="mr-3 h-4" />
+        </div>
+        <a
+          href="https://help.instagram.com/502981923235522"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            transform: 'translateY(-0.25em)',
+          }}
+        >
+          Learn more about Instagram business accounts.
+        </a>
       </div>
     )
   }
