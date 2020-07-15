@@ -15,6 +15,7 @@ import FullHeight from '@/elements/FullHeight'
 
 const PopupModal = () => {
   const content = popupStore(state => state.content)
+  const caption = popupStore(state => state.caption)
   const contentType = popupStore(state => state.contentType)
   const closePopup = popupStore(state => state.clear)
 
@@ -88,6 +89,7 @@ const PopupModal = () => {
           >
             <CloseCircle />
           </button>
+          {/* Inner */}
           <div
             className={[
               'absolute',
@@ -100,6 +102,7 @@ const PopupModal = () => {
               'items-center',
               'justify-center',
               styles.inner,
+              caption ? styles._hasCaption : '',
             ].join(' ')}
             ref={innerEl}
           >
@@ -109,6 +112,7 @@ const PopupModal = () => {
               onClick={closePopup}
             />
             {contentType === 'iframe' ? (
+            // Iframe
               <div
                 className={styles.iframeContainer}
                 ref={iframeContainer}
@@ -118,7 +122,12 @@ const PopupModal = () => {
               >
                 {content}
               </div>
+            // Image
             ) : content}
+            {/* Caption */}
+            {caption && (
+              <figcaption className={styles.caption}>{caption}</figcaption>
+            )}
           </div>
         </FullHeight>
       </Transition>

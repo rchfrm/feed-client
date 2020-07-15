@@ -12,6 +12,7 @@
   height: 100%;
 }
 
+/* INNER */
 .inner {
   padding: var(--sp-10);
 
@@ -37,6 +38,30 @@
 
   > * {
     z-index: 1;
+  }
+
+  /* Inner with caption */
+  &._hasCaption {
+    padding-bottom: calc(var(--sp-20) + var(--sp-5)) !important;
+  }
+}
+
+/* CAPTION */
+.caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.25em;
+  padding: 0 var(--sp-10);
+  margin-bottom: var(--sp-10);
+  color: var(--bg-color);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @media (--sm) {
+    padding: 0 var(--sp-20);
   }
 }
 
