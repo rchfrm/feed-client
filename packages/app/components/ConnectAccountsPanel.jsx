@@ -76,7 +76,7 @@ function ConnectAccountsPanel({
     // if already connected
     if (readOnly) {
       return (
-        <div className={`${styles.tileHeader}`}>
+        <div className={['mt-5', styles.tileHeader].join(' ')}>
           <p>
             <em style={{ color: brandColors.black }}>
               You have already been added to
@@ -91,7 +91,7 @@ function ConnectAccountsPanel({
     // Show warning if artist is already in database
     if (exists) {
       return (
-        <div className={`${styles.tileHeader}`}>
+        <div className={['mt-5', styles.tileHeader].join(' ')}>
           <p>
             <em style={{ color: brandColors.black }}>
               You will be added to
