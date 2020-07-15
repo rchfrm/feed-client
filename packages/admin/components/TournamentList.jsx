@@ -1,26 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import AdminGrid from '@/admin/elements/AdminGrid'
+import AdminGridItem from '@/admin/elements/AdminGridItem'
 import TournamentOverview from '@/admin/TournamentOverview'
 
 const TournamentList = ({ tournaments, artistId, singleTournament }) => {
   return (
-    <div className="grid grid-cols-12 sm:col-gap-4 row-gap-10 pt-5">
+    <AdminGrid>
       {tournaments.map((tournament) => {
         return (
-          <TournamentOverview
-            key={tournament.id}
-            tournament={tournament}
-            artistId={artistId}
-            singleTournament={singleTournament}
-            className={[
-              'col-span-12',
-              `${!singleTournament ? 'sm:col-span-6' : ''}`,
-            ].join(' ')}
-          />
+          <AdminGridItem key={tournament.id} forceFullWidth={singleTournament}>
+            <TournamentOverview
+              tournament={tournament}
+              artistId={artistId}
+              singleTournament={singleTournament}
+            />
+          </AdminGridItem>
         )
       })}
-    </div>
+    </AdminGrid>
   )
 }
 

@@ -104,8 +104,6 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
       <p>No Tournaments found</p>
     )
   }
-  
-  console.log('tournaments[0]', tournaments[0])
 
   if (error) return <Error error={error} />
 

@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import SectionHeader from '@/admin/elements/SectionHeader'
 import DataDetails from '@/admin/elements/DataDetails'
 import DataDetail from '@/admin/elements/DataDetail'
+import ArtistUsers from '@/admin/ArtistUsers'
 import TournamentLink from '@/admin/TournamentLink'
 
 const getUsersData = (users = {}) => {
@@ -18,30 +20,12 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
   }, [artist])
 
   return (
-    <div>
-      <DataDetails propsToDisplay={propsToDisplay} data={artist} border />
+    <>
+      <SectionHeader header={artist.name} />
       <DataDetail name="Artist ID" value={artist.id} copyText />
       {/* Users */}
-      <p>
-        <span>Users: </span>
-      </p>
-      <ul className="list-disc pl-5">
-        {artistUsers.map(({ name, id, role }, index) => {
-          return (
-            <li className="pl-3" key={id}>
-              <p>
-                <strong>
-                  {name} ({role})
-                  {index !== artistUsers.length - 1 ? ', ' : ''}
-                </strong>
-              </p>
-              <div className="mt-3">
-                <DataDetail name="User ID" value={id} copyText />
-              </div>
-            </li>
-          )
-        })}
-      </ul>
+      <ArtistUsers users={artistUsers} />
+      <DataDetails propsToDisplay={propsToDisplay} data={artist} />
       {/* Tournaments link */}
       <p>
         <TournamentLink
@@ -51,7 +35,7 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
           overviewLink
         />
       </p>
-    </div>
+    </>
   )
 }
 
