@@ -21,15 +21,13 @@ import styles from '@/app/PostsPage.module.css'
 // Define initial state and reducer for posts
 const postsInitialState = []
 const postsReducer = (draftState, postsAction) => {
+  const { type: actionType, payload = {} } = postsAction
   const {
-    type: actionType,
-    payload: {
-      newPosts,
-      postIndex,
-      promotion_enabled,
-      postLink,
-    },
-  } = postsAction
+    newPosts,
+    postIndex,
+    promotion_enabled,
+    postLink,
+  } = payload
   switch (actionType) {
     case 'replace-posts':
       return newPosts
@@ -79,7 +77,7 @@ function PostsLoader() {
   const [visiblePost, setVisiblePost] = React.useState(0)
   const offset = React.useRef(0)
   const cursor = React.useRef(null)
-  const [initialLoad, setInitialLoad] = React.useState(true)
+  const initialLoad = React.useRef(true)
   const [loadingMore, setLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
   const isEndOfAssets = React.useRef(false)
@@ -94,7 +92,7 @@ function PostsLoader() {
   React.useEffect(() => {
     if (!artistId) return
     // Reset initial load
-    setInitialLoad(true)
+    initialLoad.current = true
     // Remove after cursor
     cursor.current = null
     // Reset offset
@@ -128,7 +126,12 @@ function PostsLoader() {
       if (!posts || !posts.length) {
         isEndOfAssets.current = true
         setLoadingMore(false)
-        setInitialLoad(false)
+        // Handle no posts on initial load
+        if (initialLoad.current) {
+          setPosts({ type: 'reset-posts' })
+        }
+        // Define initial load
+        initialLoad.current = false
         return
       }
       // Update offset
@@ -159,7 +162,7 @@ function PostsLoader() {
         },
       })
       // Define initial load
-      setInitialLoad(false)
+      initialLoad.current = false
     },
     // Handle errors
     onReject(error) {
@@ -226,8 +229,8 @@ function PostsLoader() {
     })
   }
 
-  // Spinner if loading
-  if (artistLoading || (isPending && initialLoad)) {
+  // Wait if initial loading
+  if (artistLoading || (isPending && initialLoad.current)) {
     return null
   }
 
