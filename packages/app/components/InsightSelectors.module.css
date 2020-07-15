@@ -90,14 +90,12 @@
 }
 
 .dataButtonContainer {
+  display: flex;
   position: relative;
-  text-decoration: none;
   margin-right: calc(0.5 * var(--sp-5));
-  padding-right: var(--sp-10);
   flex-shrink: 0;
   min-width: 10em;
   line-height: 1.5;
-  padding-bottom: var(--sp-5);
   margin-bottom: 0;
 
   &::after {
@@ -111,9 +109,14 @@
     opacity: 0;
   }
 
+  /* background-color: green; */
+
   @mixin canHover {
-    &:hover {
-      color: var(--text-color) !important;
+    &:hover {      
+      a {
+        color: var(--text-color) !important;
+      }
+
       &::after {
         opacity: 1;
       }
@@ -127,6 +130,14 @@
       background-color: var(--active-color);
     }
   }
+}
+
+.dataButton {
+  width: 100%;
+  /* background-color: pink; */
+  text-decoration: none;
+  padding-right: var(--sp-10);
+  padding-bottom: var(--sp-5);
 }
 
 .dataButton_title {

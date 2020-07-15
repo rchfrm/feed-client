@@ -46,21 +46,25 @@ const InsightDataSelectors = ({
         {platformSources.map(({ title, subtitle, name }, i) => {
           const activeClass = currentDataSource === name ? styles._active : ''
           return (
-            <a
-              role="button"
+            <div
               key={name}
               ref={buttonRefs[i]}
               className={[styles.dataButtonContainer, activeClass].join(' ')}
-              onClick={() => setCurrentDataSource(name)}
             >
-              <span className={styles.dataButton_title}>{title}</span>
-              {subtitle && (
-                <>
-                  <br />
-                  <span className={[styles.dataButton_subtitle, 'small--p'].join(' ')}>{subtitle}</span>
-                </>
-              )}
-            </a>
+              <a
+                role="button"
+                className={[styles.dataButton, activeClass].join(' ')}
+                onClick={() => setCurrentDataSource(name)}
+              >
+                <span className={styles.dataButton_title}>{title}</span>
+                {subtitle && (
+                  <>
+                    <br />
+                    <span className={[styles.dataButton_subtitle, 'small--p'].join(' ')}>{subtitle}</span>
+                  </>
+                )}
+              </a>
+            </div>
           )
         })}
       </div>
