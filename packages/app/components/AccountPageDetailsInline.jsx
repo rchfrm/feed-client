@@ -114,7 +114,6 @@ function AccountPageDetailsInline({ user }) {
     }
   }
 
-
   // Set initial values from user
   React.useEffect(() => {
     setName(initialName)
@@ -154,8 +153,6 @@ function AccountPageDetailsInline({ user }) {
 
   return (
     <section className={styles.accountPageDetails}>
-
-      {/* <h2 className={sidePanelStyles.SidePanel__Header}>Account Page Details</h2> */}
 
       <form className={styles.accountPageDetails__form} onSubmit={handleSubmit}>
 
