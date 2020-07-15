@@ -13,30 +13,67 @@ import popupStore from '@/store/popupStore'
 import styles from '@/PopupModal.module.css'
 import FullHeight from '@/elements/FullHeight'
 
+// Resizes iframes
+const resizeIframe = ({ iframeContainerEl, innerEl, windowWidth, windowHeight }) => {
+  const ratio = 16 / 9
+  const screenRatio = windowWidth / windowHeight
+  const [paddingY, paddingX] = window.getComputedStyle(innerEl).padding.split(' ')
+  const maxWidth = windowWidth - (2 * parseFloat(paddingX))
+  const maxHeight = windowHeight - (2 * parseFloat(paddingY))
+  const width = screenRatio >= 1 ? maxHeight * ratio : maxWidth
+  const height = screenRatio < 1 ? maxWidth * ratio : maxHeight
+  iframeContainerEl.style.width = `${width}px`
+  iframeContainerEl.style.height = `${height}px`
+}
+
+// Resizes everything
+const onResize = ({ innerEl, captionEl, iframeContainerEl, windowWidth, windowHeight }) => {
+  // Set container padding to fit caption
+  if (captionEl) {
+    const captionHeight = captionEl.clientHeight
+    innerEl.style.paddingBottom = `${captionHeight}px`
+  // Else reset padding
+  } else {
+    innerEl.style.paddingBottom = ''
+  }
+  // Resize iframe
+  if (iframeContainerEl) {
+    resizeIframe({ iframeContainerEl, innerEl, windowWidth, windowHeight })
+  }
+}
+
+const getElements = (containerEl) => {
+  return {
+    innerEl: containerEl.querySelector('#PopupModal-innerEl'),
+    captionEl: containerEl.querySelector('#PopupModal-captionEl'),
+    iframeContainerEl: containerEl.querySelector('#PopupModal-iframeContainerEl'),
+  }
+}
+
 const PopupModal = () => {
   const content = popupStore(state => state.content)
   const caption = popupStore(state => state.caption)
   const contentType = popupStore(state => state.contentType)
   const closePopup = popupStore(state => state.clear)
 
-  // Resize iframe container
+  // On resize
   const { width: windowWidth, height: windowHeight } = useBrowserStore()
-  const iframeContainer = React.useRef(null)
+  const iframeContainerEl = React.useRef(null)
   const innerEl = React.useRef(null)
+  const captionEl = React.useRef(null)
   React.useEffect(() => {
-    if (!content || !contentType === 'iframe' || !iframeContainer.current) return
-    const ratio = 16 / 9
-    const screenRatio = windowWidth / windowHeight
-    const [paddingY, paddingX] = window.getComputedStyle(innerEl.current).padding.split(' ')
-    const maxWidth = windowWidth - (2 * parseFloat(paddingX))
-    const maxHeight = windowHeight - (2 * parseFloat(paddingY))
-    const width = screenRatio >= 1 ? maxHeight * ratio : maxWidth
-    const height = screenRatio < 1 ? maxWidth * ratio : maxHeight
-    iframeContainer.current.style.width = `${width}px`
-    iframeContainer.current.style.height = `${height}px`
-  }, [windowWidth, windowHeight, content, contentType])
+    // Stop here if no popup
+    if (!content || !innerEl.current) return
+    onResize({
+      innerEl: innerEl.current,
+      captionEl: captionEl.current,
+      iframeContainerEl: iframeContainerEl.current,
+      windowWidth,
+      windowHeight,
+    })
+  }, [windowWidth, windowHeight, content, caption, contentType])
 
-  // Panel animation
+  // PANEL ANIMATION
   const [show, setShow] = React.useState(false)
   React.useEffect(() => {
     if (content) return setShow(true)
@@ -51,13 +88,22 @@ const PopupModal = () => {
   }
   // Run all animations
   const toggleAnimation = (state, node) => {
+    // Resize things before animating
+    const els = getElements(node)
+    onResize({
+      innerEl: els.innerEl,
+      captionEl: els.captionEl,
+      iframeContainerEl: els.iframeContainerEl,
+      windowWidth,
+      windowHeight,
+    })
+    // Animate panel
     const panelAnimation = animatePanel(state, node)
     animationInstance.current = panelAnimation
   }
   // Animation complete promise
   const onAnimationFinished = async (done) => {
     await animationInstance.current.then()
-    console.log('done')
     done()
   }
 
@@ -91,6 +137,7 @@ const PopupModal = () => {
           </button>
           {/* Inner */}
           <div
+            id="PopupModal-innerEl"
             className={[
               'absolute',
               'top-0',
@@ -114,8 +161,9 @@ const PopupModal = () => {
             {contentType === 'iframe' ? (
             // Iframe
               <div
-                className={styles.iframeContainer}
-                ref={iframeContainer}
+                id="PopupModal-iframeContainerEl"
+                className={styles.iframeContainerEl}
+                ref={iframeContainerEl}
                 style={{
                   position: 'relative',
                 }}
@@ -126,7 +174,15 @@ const PopupModal = () => {
             ) : content}
             {/* Caption */}
             {caption && (
-              <figcaption className={styles.caption}>{caption}</figcaption>
+              <figcaption
+                id="PopupModal-captionEl"
+                className={styles.caption}
+                ref={captionEl}
+              >
+                <span>
+                  {caption}
+                </span>
+              </figcaption>
             )}
           </div>
         </FullHeight>
