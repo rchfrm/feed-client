@@ -6,6 +6,7 @@ import TickIcon from '@/icons/TickIcon'
 import CrossIcon from '@/icons/CrossIcon'
 import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
+import TooltipButton from '@/elements/TooltipButton'
 import brandColors from '@/constants/brandColors'
 
 
@@ -45,6 +46,7 @@ const Input = ({
   handleChange,
   name,
   label,
+  tooltipMessage,
   type,
   placeholder,
   value,
@@ -99,6 +101,10 @@ const Input = ({
           <span className="inputLabel__text">
             {label}
             {required && <span className="asterisk">*</span>}
+            {/* LABEL TOOLTIP */}
+            {tooltipMessage && (
+              <TooltipButton copy={tooltipMessage} direction="right" />
+            )}
           </span>
         )}
         {/* INPUT */}
@@ -130,6 +136,7 @@ Input.propTypes = {
   handleChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
+  tooltipMessage: PropTypes.string,
   type: PropTypes.string,
   placeholder: PropTypes.string,
   readOnly: PropTypes.bool,
@@ -154,6 +161,7 @@ Input.defaultProps = {
   readOnly: false,
   type: 'text',
   label: '',
+  tooltipMessage: '',
   value: '',
   version: 'box',
   width: 100,
