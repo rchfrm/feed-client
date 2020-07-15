@@ -48,7 +48,7 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
             <MarkdownText className={styles.introText} markdown={copy.signupIntro} />
             <VimeoEmbed
               className="mb-5"
-              id="113333919"
+              id="438511305"
               title="Why we're asking for Facebook permissions"
             />
             <p>To continue, click on the button below</p>
