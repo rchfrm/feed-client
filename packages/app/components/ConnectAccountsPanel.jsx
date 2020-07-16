@@ -76,7 +76,7 @@ function ConnectAccountsPanel({
     // if already connected
     if (readOnly) {
       return (
-        <div className={`${styles.tileHeader}`}>
+        <div className={['mt-0', styles.tileHeader].join(' ')}>
           <p>
             <em style={{ color: brandColors.black }}>
               You have already been added to
@@ -91,7 +91,7 @@ function ConnectAccountsPanel({
     // Show warning if artist is already in database
     if (exists) {
       return (
-        <div className={`${styles.tileHeader}`}>
+        <div className={['mt-0', styles.tileHeader].join(' ')}>
           <p>
             <em style={{ color: brandColors.black }}>
               You will be added to
@@ -101,19 +101,6 @@ function ConnectAccountsPanel({
             </em>
           </p>
         </div>
-      )
-    }
-    return null
-  }
-
-  const returnToggle = () => {
-    if (!singular && !exists) {
-      return (
-        <ButtonToggle
-          onClick={toggleSelected}
-          className={styles.postToggle}
-          state={connect ? 'on' : 'off'}
-        />
       )
     }
     return null
@@ -170,19 +157,20 @@ function ConnectAccountsPanel({
       )
     }
     return (
-      <div style={{
-        margin: '0 0 1em 0',
-        padding: '0 0 0.2em 0',
-      }}
-      >
-        <label className="label_icon">
-          <InstagramIcon
-            fill={brandColors.textColor}
-            width="20"
-          />
-        </label>
-        <a href="https://help.instagram.com/502981923235522" target="_blank" rel="noopener noreferrer">Learn more about Instagram business accounts</a>
-        .
+      <div className="flex align-top mb-5">
+        <div>
+          <InstagramIcon className="mr-3 h-4" />
+        </div>
+        <a
+          href="https://help.instagram.com/502981923235522"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            transform: 'translateY(-0.25em)',
+          }}
+        >
+          Learn more about Instagram business accounts.
+        </a>
       </div>
     )
   }
@@ -224,10 +212,29 @@ function ConnectAccountsPanel({
   return (
     <li
       key={artistAccount.page_id}
-      className={`tile ${styles.tile} ${selectedClass} ${singularClass} ${readOnlyClass}`}
+      className={[
+        'tile',
+        'col-span-12',
+        'sm:col-span-6',
+        'lg:col-span-4',
+        styles.tile,
+        selectedClass,
+        singularClass,
+        readOnlyClass,
+      ].join(' ')}
     >
       {/* TOGGLE BUTTON */}
-      {returnToggle()}
+      {!singular && !exists && (
+        <div className="flex justify-between mb-3">
+          <p>Connect:</p>
+          <ButtonToggle
+            onClick={toggleSelected}
+            className={styles.postToggle}
+            state={connect ? 'on' : 'off'}
+          />
+        </div>
+      )}
+
       {/* Warning if artist already exists and toggle */}
       {returnExistsWarning()}
 
