@@ -279,9 +279,13 @@ button {
   display: flex;
   align-items: center;
 
+  svg,
+  .icon {
+    margin-right: var(--sp-2);
+  }
+
   svg {
     width: var(--sp-4);
-    margin-right: var(--sp-2);
   }
 }
 
