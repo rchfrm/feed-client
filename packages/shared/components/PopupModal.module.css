@@ -14,7 +14,7 @@
 
 /* INNER */
 .inner {
-  padding: var(--sp-10);
+  padding: var(--sp-10) 0;
 
   @media (--sm) {
     padding: var(--sp-10) var(--sp-20);
@@ -50,7 +50,7 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  padding: var(--sp-10);
+  padding: var(--sp-5);
   color: var(--bg-color);
   font-size: 0.75rem;
 
