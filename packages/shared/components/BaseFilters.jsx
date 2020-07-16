@@ -36,7 +36,7 @@ const BaseFilters = ({
   const [buttonRefs, containerRef] = useScrollToButton(options, activeOptionId)
   // CHANGE ACTIVE COLOR
   React.useEffect(() => {
-    if (!activeOptionId) return
+    if (!activeOptionId || !options.length) return
     // Find active option color
     const { color: activeColor } = options.find(({ id }) => id === activeOptionId)
     // Set hover color
