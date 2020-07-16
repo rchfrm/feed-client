@@ -22,6 +22,15 @@ const InsightDataSelectors = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPlatform])
 
+  // Set first data sources as active when platfrorm changes
+  React.useEffect(() => {
+    if (!platformSources.length || initialLoading) return
+    // Get and set initial data source
+    const source = chartHelpers.getInitialDataSource(platformSources, currentPlatform)
+    setCurrentDataSource(source)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPlatform, initialLoading, setCurrentDataSource])
+
   // Build options array for base filters
   const baseFiltersOptions = React.useMemo(() => {
     return platformSources.map(({ title, id, subtitle, platform }) => {
