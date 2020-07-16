@@ -20,6 +20,7 @@ module.exports = (purgeFiles) => ({
       sm: '0.125rem',
       button: '3px',
       dialogue: '6px',
+      pill: '30px',
       lg: '0.5rem',
       full: '9999px',
     },

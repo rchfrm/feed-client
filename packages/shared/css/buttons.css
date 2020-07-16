@@ -237,12 +237,26 @@ button {
   cursor: pointer;
 }
 
-/* Filter button */
-.button--filter {
+/* Pill button */
+.button--pill {
   background-color: var(--grey-light);
   padding: 0.1em 0.8em;
   padding-bottom: 0.25em;
-  border-radius: 0.8em;
+  border-radius: var(--pill-radius);
+
+  &.-large {
+    padding: 0.3em 1.2em;
+    padding-bottom: 0.4em;
+  }
+
+  &.-has-icon {
+    padding: 0.3em 0.8em;
+
+    &.-large {
+      padding: 0.5em 1.2em;
+      padding-bottom: 0.6em;
+    }
+  }
 
   &.-active {
     background-color: var(--text-color);
@@ -259,6 +273,16 @@ button {
 .button--filter-empty {
   background-color: transparent !important;
   color: var(--text-color) !important;
+}
+
+.button--pill-inner {
+  display: flex;
+  align-items: center;
+
+  svg {
+    width: var(--sp-4);
+    margin-right: var(--sp-2);
+  }
 }
 
 /* Copy text button */
