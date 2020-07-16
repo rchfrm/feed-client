@@ -29,6 +29,7 @@ button {
   &[disabled] {
     color: var(--disabled-color-text);
     background-color: var(--disabled-color-bg);
+    cursor: not-allowed;
     cursor: default;
   }
 
