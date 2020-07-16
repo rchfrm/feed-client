@@ -5,7 +5,9 @@ export default {
 
 In order for Feed to promote your posts and show you the results, we need permission to manage your pages on Facebook and Instagram, as well as your ad account.
 
-Please make sure you opt in to all permissions shown, as Feed needs them to work properly. You'll remain in control of all ads and posts.`,
+Please make sure you opt in to all permissions shown, as Feed needs them to work properly. You'll remain in control of all ads and posts.
+
+To continue, click on the button below`,
 
   smallLegalText: `This allows us to connect to Facebook so that we can show you your data and promote posts on your behalf, we'll never post anything without your approval.`,
 
