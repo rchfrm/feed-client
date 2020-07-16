@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const ButtonPill = ({
+  active,
   hasIcon,
   size,
   onClick,
@@ -11,8 +12,9 @@ const ButtonPill = ({
 }) => {
   const classes = [
     'button--pill',
-    `-${size}`,
+    active ? '-active' : '',
     hasIcon ? '-has-icon' : '',
+    `-${size}`,
     className,
   ]
   return (
@@ -29,6 +31,7 @@ const ButtonPill = ({
 }
 
 ButtonPill.propTypes = {
+  active: PropTypes.bool,
   hasIcon: PropTypes.bool,
   size: PropTypes.string,
   onClick: PropTypes.func.isRequired,
@@ -38,6 +41,7 @@ ButtonPill.propTypes = {
 }
 
 ButtonPill.defaultProps = {
+  active: false,
   hasIcon: false,
   size: 'regular',
   style: {},

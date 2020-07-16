@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import ButtonPill from '@/elements/ButtonPill'
+
 const TournamentFilters = ({ statusTypes, activeFilter, setActiveFilter }) => {
   // Remove non duplicates
   const uniqueFilters = new Set(statusTypes)
@@ -9,10 +11,15 @@ const TournamentFilters = ({ statusTypes, activeFilter, setActiveFilter }) => {
     <nav>
       <ul className="flex">
         {statusFilters.map((filter) => {
-          const statusClass = filter === activeFilter ? '-active' : ''
+          const active = filter === activeFilter
           return (
-            <li key={filter} className={['mr-5', statusClass].join(' ')}>
-              <button className={['button--filter', statusClass].join(' ')} onClick={() => setActiveFilter(filter)}>{filter}</button>
+            <li key={filter} className={['mr-5'].join(' ')}>
+              <ButtonPill
+                active={active}
+                onClick={() => setActiveFilter(filter)}
+              >
+                {filter}
+              </ButtonPill>
             </li>
           )
         })}
