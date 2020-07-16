@@ -5,7 +5,7 @@ import SectionHeader from '@/admin/elements/SectionHeader'
 import DataDetails from '@/admin/elements/DataDetails'
 import DataDetail from '@/admin/elements/DataDetail'
 import ArtistUsers from '@/admin/ArtistUsers'
-import ArtistStatusButtons from '@/admin/ArtistStatusButtons'
+import ArtistStatusButton from '@/admin/ArtistStatusButton'
 import TournamentLink from '@/admin/TournamentLink'
 
 const getUsersData = (users = {}) => {
@@ -27,8 +27,8 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
       {/* Users */}
       <ArtistUsers users={artistUsers} />
       <DataDetails propsToDisplay={propsToDisplay} data={artist} />
-      {/* Status buttons */}
-      <ArtistStatusButtons artistId={artist.id} initialStatus={artist.status} />
+      {/* Status button */}
+      <ArtistStatusButton artistId={artist.id} initialStatus={artist.status} />
       {/* Tournaments link */}
       <p>
         <TournamentLink

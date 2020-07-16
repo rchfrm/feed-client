@@ -8,7 +8,7 @@ import Error from '@/elements/Error'
 
 import * as server from '@/admin/helpers/adminServer'
 
-const ArtistStatusButtons = ({ artistId, initialStatus }) => {
+const ArtistStatusButton = ({ artistId, initialStatus }) => {
   const [status, setStatus] = React.useState(initialStatus)
   const previousStatus = usePrevious(status)
   const [error, setError] = React.useState(null)
@@ -62,9 +62,9 @@ const ArtistStatusButtons = ({ artistId, initialStatus }) => {
   )
 }
 
-ArtistStatusButtons.propTypes = {
+ArtistStatusButton.propTypes = {
   artistId: PropTypes.string.isRequired,
   initialStatus: PropTypes.string.isRequired,
 }
 
-export default ArtistStatusButtons
+export default ArtistStatusButton
