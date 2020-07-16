@@ -3,7 +3,7 @@ import debounce from 'lodash/debounce'
 
 const getWindowSize = () => {
   return {
-    width: window.innerWidth,
+    width: document.documentElement.clientWidth,
     height: window.innerHeight,
   }
 }
