@@ -10,10 +10,9 @@ export default function Home() {
     'currency',
     'country_code',
     'daily_budget',
-    'status',
   ]
   // Define fields
-  const extraFields = ['users']
+  const extraFields = ['users', 'status']
   const fields = [...propsToDisplay, ...extraFields]
   // Make request
   const { items: artists, error, finishedLoading } = useGetPaginated('getAllArtists', {

@@ -1,34 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import usePrevious from 'use-previous'
-
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as server from '@/admin/helpers/adminServer'
 
-const ArtistStatusButton = ({ artistId, initialStatus }) => {
-  const [status, setStatus] = React.useState(initialStatus)
-  const previousStatus = usePrevious(status)
+const ArtistStatusButton = ({ artistId, artistStatus, setArtistsStatus }) => {
   const [error, setError] = React.useState(null)
   const [loading, setLoading] = React.useState(false)
   // Define button props
   const buttonProps = React.useMemo(() => {
-    if (status === 'trial' || status === 'inactive' || status === 'suspend') {
+    if (artistStatus === 'trial' || artistStatus === 'inactive' || artistStatus === 'suspend') {
       return {
         text: 'Activate Account',
         action: 'activate',
       }
     }
-    if (status === 'active') {
+    if (artistStatus === 'active') {
       return {
         text: 'Suspend Account',
         action: 'suspend',
       }
     }
     return { text: '' }
-  }, [status])
+  }, [artistStatus])
 
   const updateStatus = React.useCallback(async (artistId, statusType) => {
     setError(null)
@@ -40,13 +36,11 @@ const ArtistStatusButton = ({ artistId, initialStatus }) => {
     // Turn off loading
     setLoading(false)
     // Handle error
-    if (!updatedArtist) {
-      setStatus(previousStatus)
-      return
-    }
+    if (!updatedArtist) return
     const { status: updatedStatus } = updatedArtist
-    setStatus(updatedStatus)
-  }, [previousStatus, setError, setLoading])
+    setArtistsStatus(updatedStatus)
+  // eslint-disable-next-line
+  }, [])
 
   return (
     <div>
@@ -64,7 +58,8 @@ const ArtistStatusButton = ({ artistId, initialStatus }) => {
 
 ArtistStatusButton.propTypes = {
   artistId: PropTypes.string.isRequired,
-  initialStatus: PropTypes.string.isRequired,
+  artistStatus: PropTypes.string.isRequired,
+  setArtistsStatus: PropTypes.func.isRequired,
 }
 
 export default ArtistStatusButton

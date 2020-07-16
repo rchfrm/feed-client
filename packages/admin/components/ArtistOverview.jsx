@@ -15,10 +15,11 @@ const getUsersData = (users = {}) => {
 }
 
 const ArtistOverview = ({ artist, propsToDisplay }) => {
-  // console.log('artist', artist)
   const artistUsers = React.useMemo(() => {
     return getUsersData(artist.users)
   }, [artist])
+
+  const [artistStatus, setArtistsStatus] = React.useState(artist.status)
 
   return (
     <>
@@ -27,8 +28,13 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
       {/* Users */}
       <ArtistUsers users={artistUsers} />
       <DataDetails propsToDisplay={propsToDisplay} data={artist} />
-      {/* Status button */}
-      <ArtistStatusButton artistId={artist.id} initialStatus={artist.status} />
+      {/* Status state and button */}
+      <DataDetail name="Status" value={artistStatus} />
+      <ArtistStatusButton
+        artistId={artist.id}
+        artistStatus={artistStatus}
+        setArtistsStatus={setArtistsStatus}
+      />
       {/* Tournaments link */}
       <p>
         <TournamentLink
