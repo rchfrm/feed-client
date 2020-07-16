@@ -35,15 +35,17 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
         artistStatus={artistStatus}
         setArtistsStatus={setArtistsStatus}
       />
-      {/* Tournaments link */}
-      <p>
+      {/* Artist links */}
+      <nav className="pt-5">
+        <h4><strong>Links</strong></h4>
         <TournamentLink
           artistId={artist.id}
-          buttonText="Tournaments"
+          buttonText="Artist Tournaments"
           buttonClass="w-40"
           overviewLink
+          linkType="anchor"
         />
-      </p>
+      </nav>
     </>
   )
 }
