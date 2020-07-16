@@ -1,8 +1,9 @@
 /* CONTAINER */
 .container {
   display: flex;
-  padding: calc(0.5 * var(--sp-5)) 0;
   width: 100%;
+  padding: calc(0.5 * var(--sp-5)) 0;
+  padding-top: var(--sp-4);
   padding-left: var(--sp-5);
   border-top: 2px solid var(--text-color);
   overflow-x: auto;
@@ -52,6 +53,8 @@
 }
 
 .buttonPill {
+  text-transform: capitalize;
+
   @supports (color: var(--)) { 
   
   }

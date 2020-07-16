@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import ButtonPill from '@/elements/ButtonPill'
 import styles from '@/BaseFilters.module.css'
 
 import brandColors from '@/constants/brandColors'
@@ -46,17 +47,19 @@ const BaseFiltersButton = ({
       ref={buttonRef}
       className={[styles.buttonContainer, styles.buttonPill_container, className].join(' ')}
     >
-      <button
-        className={['button--filter', styles.button, styles.buttonPill, className].join(' ')}
+      <ButtonPill
+        className={[styles.button, styles.buttonPill, className].join(' ')}
+        size="large"
         onClick={() => setActiveOptionId(id)}
         style={{
           backgroundColor,
           color: textColor,
         }}
+        hasIcon
       >
         {icon}
         {title}
-      </button>
+      </ButtonPill>
     </div>
   )
 }

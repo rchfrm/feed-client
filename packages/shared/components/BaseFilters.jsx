@@ -18,6 +18,7 @@ import styles from '@/BaseFilters.module.css'
     title: [string: option title, used as button text] *required,
     subtitle: [string: option subtitle] optional (default: ''),
     color: [string: the color of the active state] optional (default: 'green'),
+    activeTextColor: [string: the text color in the active state] optional (default: 'black'),
     icon: [node: the icon to include inside the button] optional (default: null),
   }
 
@@ -53,14 +54,14 @@ const BaseFilters = ({
         ref={containerRef}
         className={[
           styles.container,
-          buttonType === 'text' ? 'pt-5' : '',
           className,
         ].join(' ')}
       >
-        {options.map(({ id, title, subtitle, color, icon }, i) => {
+        {options.map(({ id, title, subtitle, color, activeTextColor, icon }, i) => {
           const active = id === activeOptionId
           const activeClass = active ? styles._active : ''
-          console.log('buttonRefs[i]', buttonRefs[i])
+          const backgroundColor = active ? color : ''
+          const textColor = active ? activeTextColor : ''
           return (
             <BaseFiltersButton
               key={id}
@@ -70,10 +71,10 @@ const BaseFilters = ({
               subtitle={subtitle}
               setActiveOptionId={setActiveOptionId}
               buttonType={buttonType}
-              backgroundColor={color}
+              backgroundColor={backgroundColor}
               icon={icon}
               className={activeClass}
-              // textColor,
+              textColor={textColor}
             />
           )
         })}
