@@ -14,6 +14,7 @@ const TournamentLink = ({
   buttonText,
   buttonClass,
   overviewLink,
+  linkType,
 }) => {
   const pathname = overviewLink ? ROUTES.TOURNAMENTS : ROUTES.TOURNAMENT
   const query = overviewLink ? { artistId } : {
@@ -29,9 +30,13 @@ const TournamentLink = ({
         query,
       }}
     >
-      <Button className={buttonClass} version="black small" wrapper="a">
-        {buttonText}
-      </Button>
+      {linkType === 'anchor' ? (
+        <a>{buttonText}</a>
+      ) : (
+        <Button className={buttonClass} version="black small" wrapper="a">
+          {buttonText}
+        </Button>
+      )}
     </Link>
   )
 }
@@ -44,6 +49,7 @@ TournamentLink.propTypes = {
   buttonText: PropTypes.string.isRequired,
   buttonClass: PropTypes.string,
   overviewLink: PropTypes.bool,
+  linkType: PropTypes.string,
 }
 
 TournamentLink.defaultProps = {
@@ -52,6 +58,7 @@ TournamentLink.defaultProps = {
   tournamentId: '',
   buttonClass: 'w-48',
   overviewLink: false,
+  linkType: 'button',
 }
 
 
