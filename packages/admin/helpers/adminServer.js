@@ -43,12 +43,11 @@ export const getAllArtists = async (cursor, requestProps = {}) => {
 
 /**
  * @param {string} [artistId]
- * @param {string} [status]
+ * @param {string} [status] activate || suspend
  * @returns {Promise<any>}
  */
 export const updateArtistStatus = async (artistId, status) => {
-  const endpointType = status === 'active' ? 'activate' : 'suspend'
-  const endpoint = `artists/${artistId}/${endpointType}`
+  const endpoint = `artists/${artistId}/${status}`
   return api.post(endpoint)
 }
 

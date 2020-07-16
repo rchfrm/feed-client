@@ -3,29 +3,42 @@ import PropTypes from 'prop-types'
 
 import usePrevious from 'use-previous'
 
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as server from '@/admin/helpers/adminServer'
-
-const possibleStatuses = {
-  trial: { canSet: false },
-  active: { canSet: true },
-  suspend: { canSet: true },
-}
 
 const ArtistStatusButtons = ({ artistId, initialStatus }) => {
   const [status, setStatus] = React.useState(initialStatus)
   const previousStatus = usePrevious(status)
   const [error, setError] = React.useState(null)
-  const buttonsArray = Object.entries(possibleStatuses)
+  const [loading, setLoading] = React.useState(false)
+  // Define button props
+  const buttonProps = React.useMemo(() => {
+    if (status === 'trial' || status === 'inactive' || status === 'suspend') {
+      return {
+        text: 'Activate Account',
+        action: 'activate',
+      }
+    }
+    if (status === 'active') {
+      return {
+        text: 'Suspend Account',
+        action: 'suspend',
+      }
+    }
+    return { text: '' }
+  }, [status])
 
   const updateStatus = React.useCallback(async (artistId, statusType) => {
     setError(null)
-    setStatus(statusType)
+    setLoading(true)
     const updatedArtist = await server.updateArtistStatus(artistId, statusType)
       .catch((error) => {
         setError(error)
       })
+    // Turn off loading
+    setLoading(false)
     // Handle error
     if (!updatedArtist) {
       setStatus(previousStatus)
@@ -33,28 +46,17 @@ const ArtistStatusButtons = ({ artistId, initialStatus }) => {
     }
     const { status: updatedStatus } = updatedArtist
     setStatus(updatedStatus)
-  }, [setStatus, previousStatus])
+  }, [previousStatus, setError, setLoading])
 
   return (
     <div>
-      <p><strong>Artist Status</strong></p>
-      <ul className="flex">
-        {buttonsArray.map(([statusType, { canSet }]) => {
-          const active = statusType === status
-          const bgClass = active ? 'bg-green' : 'bg-grey-1'
-          const ElType = canSet ? 'button' : 'span'
-          return (
-            <li key={statusType} className={['mr-5'].join(' ')}>
-              <ElType
-                className={['button--filter', bgClass].join(' ')}
-                onClick={() => updateStatus(artistId, statusType)}
-              >
-                {statusType}
-              </ElType>
-            </li>
-          )
-        })}
-      </ul>
+      <Button
+        version="black small"
+        loading={loading}
+        onClick={() => updateStatus(artistId, buttonProps.action)}
+      >
+        {buttonProps.text}
+      </Button>
       <Error error={error} />
     </div>
   )
