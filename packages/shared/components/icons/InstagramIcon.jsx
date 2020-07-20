@@ -1,6 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-function InstagramIcon({ width, fill }) {
+import brandColors from '@/constants/brandColors'
+
+function InstagramIcon({ width, fill, className }) {
   const name = 'Instagram'
   return (
     <svg
@@ -8,6 +11,7 @@ function InstagramIcon({ width, fill }) {
       data-name={name}
       viewBox="0 0 512 512"
       width={width}
+      className={className}
     >
       <path
         fill={fill}
@@ -25,6 +29,16 @@ function InstagramIcon({ width, fill }) {
       />
     </svg>
   )
+}
+
+InstagramIcon.propTypes = {
+  fill: PropTypes.string,
+  className: PropTypes.string,
+}
+
+InstagramIcon.defaultProps = {
+  fill: brandColors.textColor,
+  className: '',
 }
 
 export default InstagramIcon
