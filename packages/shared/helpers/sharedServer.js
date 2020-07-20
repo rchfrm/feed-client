@@ -57,7 +57,6 @@ export const updateUser = async (firstName, lastName, email, verifyIdToken) => {
 /**
  * @param {string} [artistId]
  * @param {boolean} [expand]
- * @param {string} [token]
  * @returns {Promise<any>}
  */
 export const getArtistTournaments = async (artistId, expand) => {
@@ -66,8 +65,16 @@ export const getArtistTournaments = async (artistId, expand) => {
   return api.get(endpoint)
 }
 
-export const getTournament = async (artistId, campaignId, adsetId, tournamentId) => {
-  const endpoint = `artists/${artistId}/campaigns/${campaignId}/adsets/${adsetId}/tournaments/${tournamentId}`
+/**
+ * @param {string} [artistId]
+ * @param {string} [campaignId]
+ * @param {string} [adsetId]
+ * @param {string} [tournamentId]
+ * @param {boolean} [expand]
+ * @returns {Promise<any>}
+ */
+export const getTournament = async (artistId, campaignId, adsetId, tournamentId, expand) => {
+  const endpoint = `artists/${artistId}/campaigns/${campaignId}/adsets/${adsetId}/tournaments/${tournamentId}${expand && '?expand=true'}`
   return api.get(endpoint)
 }
 
