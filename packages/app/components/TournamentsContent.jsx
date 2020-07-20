@@ -1,6 +1,7 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import TournamentsLoader from '@/app/TournamentsLoader'
 import TournamentsAudienceFilters from '@/app/TournamentsAudienceFilters'
 import TournamentsTypeFilters from '@/app/TournamentsTypeFilters'
 
@@ -32,6 +33,7 @@ const TournamentsContent = () => {
         setCurrentTournamentType={setCurrentTournamentType}
         currentAudienceType={currentAudienceType}
       />
+      <TournamentsLoader audienceId={currentAudienceType} />
     </div>
   )
 }
