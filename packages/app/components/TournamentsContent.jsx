@@ -8,19 +8,19 @@ import brandColors from '@/constants/brandColors'
 
 const audienceTypes = [
   {
-    id: 'warm',
+    id: 'remind_traffic',
     title: 'Warm',
     color: brandColors.red,
     activeTextColor: brandColors.white,
   },
   {
-    id: 'cool',
+    id: 'entice_traffic',
     title: 'Cool',
     color: brandColors.soundcloud.bg,
     activeTextColor: brandColors.soundcloud.text,
   },
   {
-    id: 'cold',
+    id: 'entice_engage',
     title: 'Cold',
     color: brandColors.twitter.bg,
     activeTextColor: brandColors.twitter.text,
@@ -37,7 +37,7 @@ const TournamentsContent = () => {
   const [currentTournamentType, setCurrentTournamentType] = React.useState(tournamentTypes[0].id)
   // Set current tournament type to posts if selecting cold audience
   React.useEffect(() => {
-    if (currentAudienceType === 'cold') {
+    if (currentAudienceType === 'entice_engage') {
       setCurrentTournamentType(tournamentTypes[0].id)
     }
   }, [currentAudienceType])
