@@ -4,35 +4,10 @@ import React from 'react'
 import TournamentsAudienceFilters from '@/app/TournamentsAudienceFilters'
 import TournamentsTypeFilters from '@/app/TournamentsTypeFilters'
 
-import brandColors from '@/constants/brandColors'
-
-const audienceTypes = [
-  {
-    id: 'remind_traffic',
-    title: 'Warm',
-    color: brandColors.red,
-    activeTextColor: brandColors.white,
-  },
-  {
-    id: 'entice_traffic',
-    title: 'Cool',
-    color: brandColors.soundcloud.bg,
-    activeTextColor: brandColors.soundcloud.text,
-  },
-  {
-    id: 'entice_engage',
-    title: 'Cold',
-    color: brandColors.twitter.bg,
-    activeTextColor: brandColors.twitter.text,
-  },
-]
-
-const tournamentTypes = [
-  { id: 'posts', title: 'Posts' },
-  { id: 'stories', title: 'Stories' },
-]
+import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
 const TournamentsContent = () => {
+  const { audienceTypes, tournamentTypes } = tournamentHelpers
   const [currentAudienceType, setCurrentAudienceType] = React.useState(audienceTypes[0].id)
   const [currentTournamentType, setCurrentTournamentType] = React.useState(tournamentTypes[0].id)
   // Set current tournament type to posts if selecting cold audience
@@ -40,6 +15,7 @@ const TournamentsContent = () => {
     if (currentAudienceType === 'entice_engage') {
       setCurrentTournamentType(tournamentTypes[0].id)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAudienceType])
   return (
     <div>
