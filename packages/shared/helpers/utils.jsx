@@ -6,6 +6,7 @@ import produce from 'immer'
 import getVideoId from 'get-video-id'
 import getSymbolFromCurrency from 'currency-symbol-map'
 import countries from '@/constants/countries'
+import get from 'lodash/get'
 
 
 export const removeProtocolFromUrl = (url) => {
@@ -266,6 +267,32 @@ export const minArrayValue = (array) => {
     }
   })
   return min
+}
+
+// Use this to sort and convert an object of data into an array of
+// { name, value, key } objects
+/**
+* @param {array} propsToDisplay
+* @param {object} data
+* @returns {array}
+*/
+export const getDataArray = (propsToDisplay, data) => {
+  const dateKeys = ['created_at', 'updated_at', 'start_time', 'stop_time']
+  return propsToDisplay.reduce((arr, detailName) => {
+    const detailKeys = detailName.split('.')
+    const rawValue = get(data, detailKeys, '')
+    if (!rawValue) return arr
+    // Convert dates (if necessary)
+    const isDate = dateKeys.includes(detailName)
+    const value = isDate ? moment(rawValue).format('DD MMM YYYY') : rawValue.toString()
+    const name = detailKeys[detailKeys.length - 1].replace(/_/g, ' ')
+    const detail = {
+      name,
+      value,
+      key: detailName,
+    }
+    return [...arr, detail]
+  }, [])
 }
 
 export const closestNumberInArray = (array, target) => {
