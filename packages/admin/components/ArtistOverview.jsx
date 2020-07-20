@@ -5,6 +5,7 @@ import SectionHeader from '@/admin/elements/SectionHeader'
 import DataDetails from '@/admin/elements/DataDetails'
 import DataDetail from '@/admin/elements/DataDetail'
 import ArtistUsers from '@/admin/ArtistUsers'
+import ArtistStatusButton from '@/admin/ArtistStatusButton'
 import TournamentLink from '@/admin/TournamentLink'
 
 const getUsersData = (users = {}) => {
@@ -14,10 +15,11 @@ const getUsersData = (users = {}) => {
 }
 
 const ArtistOverview = ({ artist, propsToDisplay }) => {
-  // console.log('artist', artist)
   const artistUsers = React.useMemo(() => {
     return getUsersData(artist.users)
   }, [artist])
+
+  const [artistStatus, setArtistsStatus] = React.useState(artist.status)
 
   return (
     <>
@@ -26,15 +28,24 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
       {/* Users */}
       <ArtistUsers users={artistUsers} />
       <DataDetails propsToDisplay={propsToDisplay} data={artist} />
-      {/* Tournaments link */}
-      <p>
+      {/* Status state and button */}
+      <DataDetail name="Status" value={artistStatus} />
+      <ArtistStatusButton
+        artistId={artist.id}
+        artistStatus={artistStatus}
+        setArtistsStatus={setArtistsStatus}
+      />
+      {/* Artist links */}
+      <nav className="pt-5">
+        <h4><strong>Links</strong></h4>
         <TournamentLink
           artistId={artist.id}
-          buttonText="Tournaments"
+          buttonText="Artist Tournaments"
           buttonClass="w-40"
           overviewLink
+          linkType="anchor"
         />
-      </p>
+      </nav>
     </>
   )
 }

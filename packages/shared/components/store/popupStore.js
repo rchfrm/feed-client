@@ -1,11 +1,19 @@
 import create from 'zustand'
 
-const [popupStore] = create(set => ({
+const defaultState = {
   content: null,
+  caption: '',
   contentType: '',
+}
+
+const [popupStore] = create(set => ({
+  content: defaultState.content,
+  caption: defaultState.caption,
+  contentType: defaultState.contentType,
   setContent: (content) => set({ content }),
+  setCaption: (caption) => set({ caption }),
   setContentType: (contentType) => set({ contentType }),
-  clear: () => set({ content: null, contentType: '' }),
+  clear: () => set(defaultState),
 }))
 
 export default popupStore

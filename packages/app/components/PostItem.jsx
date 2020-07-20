@@ -49,6 +49,7 @@ const PostItem = ({
           media={post.media}
           thumbnailSrc={post._metadata.thumbnail_url}
           caption={postCaption}
+          captionFull={post.message}
         />
 
         {/* METRICS */}

@@ -154,13 +154,15 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
 
   // SHOW LARGE IMAGE in Popup
   const setPopupContents = popupStore(state => state.setContent)
+  const setPopupCaption = popupStore(state => state.setCaption)
   const setPopupContentType = popupStore(state => state.setContentType)
   const closePopup = popupStore(state => state.clear)
   const enlargeMedia = React.useCallback(() => {
     const popupContents = getPopupMedia({ mediaSrc, mediaType, thumbnailSrc: thumbnailImageSrc, closePopup, title })
     setPopupContents(popupContents)
+    setPopupCaption(title)
     setPopupContentType(mediaType)
-  }, [mediaSrc, thumbnailImageSrc, mediaType, title, setPopupContents, setPopupContentType, closePopup])
+  }, [mediaSrc, thumbnailImageSrc, mediaType, title, setPopupContents, setPopupCaption, setPopupContentType, closePopup])
 
   // Close popup when unmounts
   React.useEffect(() => {
