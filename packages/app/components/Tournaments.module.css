@@ -1,0 +1,15 @@
+/* TOURNAMENT ITEM */
+.vs {
+  font-weight: var(--bold);
+}
+
+/* TOURNAMENT ITEM AD */
+.postScore_number {
+  display: inline-block;
+  font-family: var(--font);
+  font-weight: var(--bold);
+
+  .postScore._winner & {
+    border-bottom: 0.25rem solid var(--green);
+  }
+}

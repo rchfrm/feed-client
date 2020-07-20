@@ -59,18 +59,21 @@ export const filterTournaments = (tournaments, audienceId) => {
   * @returns {object}
 */
 const getPostContent = (adCreative) => {
-  const { object_type, object_story_spec, instagram_actor_id, image_url, thumbnail_url } = adCreative
+  const { object_type, object_story_spec, instagram_actor_id, instagram_permalink_url, image_url, thumbnail_url } = adCreative
+  const baseContent = {
+    postLink: instagram_permalink_url,
+  }
   // Insta video
   if (object_type === 'VIDEO' && instagram_actor_id) {
     const { video_data: { message, image_url: imageSrc } } = object_story_spec
     const thumbnailOptions = [imageSrc, image_url, thumbnail_url]
-    return { message, thumbnailOptions }
+    return { ...baseContent, message, thumbnailOptions }
   }
   // Insta share
   if (object_type === 'SHARE' && instagram_actor_id) {
     const { link_data: { message, picture: imageSrc, link: adLink } } = object_story_spec
     const thumbnailOptions = [imageSrc, image_url, thumbnail_url]
-    return { message, adLink, thumbnailOptions }
+    return { ...baseContent, message, adLink, thumbnailOptions }
   }
   return {}
 }
@@ -82,9 +85,15 @@ const getPostContent = (adCreative) => {
  */
 export const formatTournamentData = (tournament) => {
   const { ads, created_at, status } = tournament
-  // Get Post content
   const adsArray = Object.values(ads)
-  const adPosts = adsArray.map((ad) => {
+  // Sort posts by score
+  const adsArraySorted = adsArray.sort((a, b) => {
+    const { engagement_score: scoreA } = a
+    const { engagement_score: scoreB } = b
+    return scoreB - scoreA
+  })
+  // Get Post content
+  const adPosts = adsArraySorted.map((ad) => {
     console.log('ad', ad)
     const { adcreatives, summary, streak, engagement_score: score } = ad
     const adCreative = Object.values(adcreatives)[0]

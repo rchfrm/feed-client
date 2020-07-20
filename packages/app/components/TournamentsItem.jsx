@@ -4,11 +4,12 @@ import PropTypes from 'prop-types'
 import useSWR from 'swr'
 
 import TournamentsItemAd from '@/app/TournamentsItemAd'
+import Error from '@/elements/Error'
 
 import * as server from '@/helpers/sharedServer'
 import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
-import Error from '@/elements/Error'
+import styles from '@/app/Tournaments.module.css'
 
 const fetcher = (artistId, campaignId, adsetId, tournamentId) => {
   return server.getTournament(artistId, campaignId, adsetId, tournamentId, true)
@@ -26,13 +27,15 @@ const TournamentsItem = ({ tournamentProps, className }) => {
     if (!tournamentRaw) return null
     return tournamentHelpers.formatTournamentData(tournamentRaw)
   }, [tournamentRaw])
+  // Count Ads
+  const totalAds = tournament ? tournament.adPosts.length : 0
+  // Is ad a pair?
+  const isAdPair = !!(totalAds > 1)
 
   console.log('tournament', tournament)
 
   if (error) return <Error error={error} />
   if (!tournament) return null
-
-  const totalAds = tournament.adPosts.length
 
   return (
     <div className={[className].join(' ')} data-name="tournament-item">
@@ -43,14 +46,16 @@ const TournamentsItem = ({ tournamentProps, className }) => {
           <span> at </span>
           <span>{tournament.timeCreated}</span>
         </p>
-        <p>{tournament.status}</p>
+        <p className="capitalize">{tournament.status}</p>
       </header>
       {/* ADS */}
       <div>
-        <TournamentsItemAd title="Ad A" adPost={tournament.adPosts[0]} />
-        {!!(totalAds > 1) && (
+        {/* FIRST AD */}
+        <TournamentsItemAd title="Ad A" adPost={tournament.adPosts[0]} winner={isAdPair} />
+        {/* SECOND AD */}
+        {isAdPair && (
           <>
-            <p className="mt-5 mb-5 text-center">vs.</p>
+            <p className={['mt-5 mb-5 text-center', styles.vs].join(' ')}>vs</p>
             <TournamentsItemAd title="Ad B" adPost={tournament.adPosts[1]} />
           </>
         )}
