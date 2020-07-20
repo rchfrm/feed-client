@@ -1,20 +1,3 @@
-/* ConnectAccountsFacebook */
-
-.facebookConnectContainer {
-  padding-top: var(--sp-5);
-  max-width: 480px;
-}
-
-.introText {
-  margin-bottom: var(--sp-8);
-}
-
-.fbButton  {
-  width: 100%;
-  margin-bottom: var(--sp-5);
-}
-
-
 /* Connect Artist panels */
 .artistIntegrations {
 
@@ -39,15 +22,11 @@
   }
 }
 
-.postToggle {
-  position: absolute;
-  top: var(--sp-5);
-  right: var(--sp-5);
-}
-
 .profile-picture {
   min-width: 33%;
-  margin-right: 3.234%;
+  margin-right: var(--sp-2);
+  border-radius: var(--dialogue-radius);
+  overflow: hidden;
 
   :global(.media--square) {
     margin-top: 0;

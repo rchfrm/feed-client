@@ -78,7 +78,18 @@ function ConnectAccounts({
   artistList.push(LastItem())
 
   return (
-    <ul id="artist-integrations" className={`frame ${styles.artistIntegrations}`}>
+    <ul
+      id="artist-integrations"
+      className={[
+        'grid',
+        'grid-cols-12',
+        'row-gap-8',
+        'col-gap-0',
+        'xs:col-gap-6',
+        'sm:col-gap-8',
+        styles.artistIntegrations,
+      ].join(' ')}
+    >
       {artistList}
     </ul>
   )

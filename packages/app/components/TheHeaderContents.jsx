@@ -41,10 +41,18 @@ function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
   }
 
   // TOGGLE HEADER FOR NARROW
+  // & Resize background
   const [showHeader, setShowHeader] = React.useState(false)
+  const [backgroundStyle, setBackgroundStyle] = React.useState({})
   React.useEffect(() => {
+    // Set header or not
     const showHeader = windowWidth >= 450
     setShowHeader(showHeader)
+    // Resize header bg
+    setBackgroundStyle({
+      width: windowWidth,
+      marginLeft: windowWidth / -2,
+    })
   }, [windowWidth])
 
   return (
@@ -56,8 +64,8 @@ function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
       {/* BG */}
       {isLoggedIn && (
         <>
-          <div className={[styles.background].join(' ')} />
-          <div className={[styles.dropShadow].join(' ')} />
+          <div className={[styles.background].join(' ')} style={backgroundStyle} />
+          <div className={[styles.dropShadow].join(' ')} style={backgroundStyle} />
         </>
       )}
       {/* LOGO */}
