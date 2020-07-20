@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 
 import useSWR from 'swr'
 
+import TournamentsItem from '@/app/TournamentsItem'
 import Error from '@/elements/Error'
 
-import { UserContext } from '@/contexts/UserContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
@@ -39,10 +39,9 @@ const fetcher = async (artistId, campaignId, adsetId, tournamentId) => {
 }
 
 const TournamentsLoader = ({ audienceId }) => {
-  const { user } = React.useContext(UserContext)
   const { artistId } = React.useContext(ArtistContext)
   const { data: tournaments, error } = useSWR(
-    user ? [artistId] : null,
+    [artistId],
     fetcher,
   )
 
@@ -72,8 +71,16 @@ const TournamentsLoader = ({ audienceId }) => {
   if (error) return <Error error={error} />
 
   return (
-    <section className="tournaments">
-      Hello hello
+    <section className="pt-10">
+      {tournamentsFiltered.map((tournament) => {
+        return (
+          <TournamentsItem
+            key={tournament.id}
+            tournamentProps={tournament}
+            className="mb-24"
+          />
+        )
+      })}
     </section>
   )
 }

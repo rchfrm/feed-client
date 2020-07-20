@@ -1,4 +1,6 @@
+import moment from 'moment'
 import brandColors from '@/constants/brandColors'
+
 
 // AUDIENCE and TOURNMANET PROPS
 // ------------------------------
@@ -30,13 +32,77 @@ export const tournamentTypes = [
 
 
 // FILTER TOURNAMENTS BY ADSET (and POST TYPE)
-// ------------------------------------------
+// -------------------------------------------
 /**
  * @param {array} [tournaments]
  * @param {string} [audienceId]
  * @returns {array}
  */
 export const filterTournaments = (tournaments, audienceId) => {
-  console.log('audienceId', audienceId)
-  return tournaments.filter(({ adset: { identifier } }) => identifier === audienceId)
+  return tournaments.reduce((tournamentsFiltered, tournament) => {
+    const { status, adset: { identifier } } = tournament
+    // Remove tournaments that don't match audience type
+    if (identifier !== audienceId) return tournamentsFiltered
+    // Remove tournaments that are pending
+    if (status === 'pending') return tournamentsFiltered
+    // Build array
+    return [...tournamentsFiltered, tournament]
+  }, [])
+}
+
+
+// FORMAT DATA
+// -------------------------------------
+
+/**
+  * @param {object} [adCreative]
+  * @returns {object}
+*/
+const getPostContent = (adCreative) => {
+  const { object_type, object_story_spec, instagram_actor_id, image_url, thumbnail_url } = adCreative
+  // Insta video
+  if (object_type === 'VIDEO' && instagram_actor_id) {
+    const { video_data: { message, image_url: imageSrc } } = object_story_spec
+    const thumbnailOptions = [imageSrc, image_url, thumbnail_url]
+    return { message, thumbnailOptions }
+  }
+  // Insta share
+  if (object_type === 'SHARE' && instagram_actor_id) {
+    const { link_data: { message, picture: imageSrc, link: adLink } } = object_story_spec
+    const thumbnailOptions = [imageSrc, image_url, thumbnail_url]
+    return { message, adLink, thumbnailOptions }
+  }
+  return {}
+}
+
+// Format tournament data to be consumed
+/**
+ * @param {object} [tournament]
+ * @returns {object}
+ */
+export const formatTournamentData = (tournament) => {
+  const { ads, created_at, status } = tournament
+  // Get Post content
+  const adsArray = Object.values(ads)
+  const adPosts = adsArray.map((ad) => {
+    console.log('ad', ad)
+    const { adcreatives, summary, streak, engagement_score: score } = ad
+    const adCreative = Object.values(adcreatives)[0]
+    const postContent = getPostContent(adCreative)
+    return {
+      ...postContent,
+      score,
+      spend: summary ? summary.spend : null,
+      streak,
+    }
+  })
+  // Format time data
+  const dateCreated = moment(created_at).format('D MMM YYYY')
+  const timeCreated = moment(created_at).format('HH[:]mm')
+  return {
+    status,
+    adPosts,
+    dateCreated,
+    timeCreated,
+  }
 }
