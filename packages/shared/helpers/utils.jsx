@@ -429,7 +429,7 @@ export const getCurrencySymbol = (currency = 'GBP') => {
 */
 export const formatCurrency = (value, currency = 'GBP', locale = navigator.language) => {
   currency = currency === null ? 'GBP' : currency
-  return value.toLocaleString(locale, { style: 'currency', currency })
+  return parseFloat(value).toLocaleString(locale, { style: 'currency', currency })
 }
 
 /**
