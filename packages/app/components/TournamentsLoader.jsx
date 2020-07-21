@@ -39,7 +39,7 @@ const fetcher = async (artistId, campaignId, adsetId, tournamentId) => {
 }
 
 const TournamentsLoader = ({ audienceId }) => {
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artistCurrency } = React.useContext(ArtistContext)
   const { data: tournaments, error } = useSWR(
     [artistId],
     fetcher,
@@ -77,6 +77,7 @@ const TournamentsLoader = ({ audienceId }) => {
           <TournamentsItem
             key={tournament.id}
             tournamentProps={tournament}
+            artistCurrency={artistCurrency}
             className="mb-24"
           />
         )

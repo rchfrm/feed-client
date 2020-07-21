@@ -1,4 +1,6 @@
 import moment from 'moment'
+
+import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
 
@@ -54,6 +56,7 @@ export const filterTournaments = (tournaments, audienceId) => {
 // FORMAT DATA
 // -------------------------------------
 
+// GET POST CONTENT
 /**
   * @param {object} [adCreative]
   * @returns {object}
@@ -78,12 +81,13 @@ const getPostContent = (adCreative) => {
   return {}
 }
 
-// Format tournament data to be consumed
+
+// FORMAT TOURNAMENT DATA TO BE CONSUMED
 /**
  * @param {object} [tournament]
  * @returns {object}
  */
-export const formatTournamentData = (tournament) => {
+export const formatTournamentData = (tournament, currency) => {
   const { ads, created_at, status } = tournament
   const adsArray = Object.values(ads)
   // Sort posts by score
@@ -95,14 +99,28 @@ export const formatTournamentData = (tournament) => {
   // Get Post content
   const adPosts = adsArraySorted.map((ad) => {
     console.log('ad', ad)
-    const { adcreatives, summary, streak, engagement_score: score } = ad
+    const { adcreatives, asset, summary, streak, engagement_score: score } = ad
     const adCreative = Object.values(adcreatives)[0]
     const postContent = getPostContent(adCreative)
+    // Build data obj
+    const spendFormatted = summary && utils.formatCurrency(summary.spend, currency)
+    const normalizedEsRounded = asset.normalized_es && asset.normalized_es.toFixed(2)
+    const data = {
+      score,
+      spend: spendFormatted,
+      impressions: summary ? summary.impressions : null,
+      streak,
+      reach: asset.reach,
+      shares: asset.shares,
+      likes: asset.likes,
+      views: asset.views,
+      normalized_es: normalizedEsRounded,
+      subtype: asset.subtype,
+    }
     return {
       ...postContent,
       score,
-      spend: summary ? summary.spend : null,
-      streak,
+      data,
     }
   })
   // Format time data

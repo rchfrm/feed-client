@@ -13,3 +13,28 @@
     border-bottom: 0.25rem solid var(--green);
   }
 }
+
+/* TOURNAMENT TABLE */
+.dataTable {
+
+  text-transform: capitalize;
+
+  th,
+  tr td:first-child {
+    font-weight: var(--bold);
+  }
+
+  th,
+  td {
+    padding: var(--sp-2) var(--sp-10);
+    padding-left: 0;
+  }
+
+  tr {
+    border-bottom: 2px solid var(--text-color);
+  }
+
+  tbody tr:last-child {
+    border-bottom: none;
+  }
+}
