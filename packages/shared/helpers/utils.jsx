@@ -285,7 +285,14 @@ export const getDataArray = (propsToDisplay, data) => {
     // Convert dates (if necessary)
     const isDate = dateKeys.includes(detailName)
     const value = isDate ? moment(rawValue).format('DD MMM YYYY') : rawValue.toString()
-    const name = detailKeys[detailKeys.length - 1].replace(/_/g, ' ')
+    // Name is final data key
+    let name = detailKeys[detailKeys.length - 1]
+    // Replace underscore with space
+    name = name.replace(/_/g, ' ')
+    // Capitalize first letter
+    name = capitalise(name)
+    // Capitalize ES
+    name = name.replace(' es', ' ES')
     const detail = {
       name,
       value,
