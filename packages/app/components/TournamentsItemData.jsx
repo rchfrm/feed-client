@@ -41,7 +41,7 @@ const TournamentsItemData = ({ dataA, dataB, className }) => {
     return Object.entries(detailsObj)
   }, [dataA, dataB])
   return (
-    <table className={['text-left', styles.dataTable, className].join(' ')}>
+    <table className={['text-left', 'mb-0', styles.dataTable, className].join(' ')}>
       {dataB && (
         <thead>
           <tr>

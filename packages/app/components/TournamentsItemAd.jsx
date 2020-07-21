@@ -6,30 +6,38 @@ import PostImage from '@/PostImage'
 
 import styles from '@/app/Tournaments.module.css'
 
-const TournamentsItemAd = ({ adPost, title, winner }) => {
+const TournamentsItemAd = ({ adPost, title, winner, secondary }) => {
   const { postLink, thumbnailOptions, message, score } = adPost
   return (
-    <div className="flex justify-between items-center">
-      {/* Title & link */}
-      <p className="flex-1 text-right pr-12 mb-0">
-        {postLink ? (
-          <a className="inline-flex items-baseline" href={postLink} target="_blank" rel="noopener noreferrer">
-            <LinkIcon className="h-3 mr-2" />
-            {title}
-          </a>
-        ) : title}
-      </p>
-      {/* Post image */}
-      <div className="w-24">
-        <PostImage
-          thumbnailOptions={thumbnailOptions}
-          title={message}
-        />
-      </div>
-      {/* Score */}
-      <div className={['flex-1 text-left pl-12', styles.postScore, winner && styles._winner].join(' ')}>
-        <p className={['mb-2', 'text-grey-3', 'small--p'].join(' ')}>score</p>
-        <p className={['mb-0', 'h3', styles.postScore_number].join(' ')}>{score}</p>
+    <div className={secondary ? 'pt-14' : ''}>
+      <div className="inline-flex flex-no-wrap justify-start items-center relative">
+        {/* VS text (if secondary) */}
+        {secondary && (
+          <p className={['absolute w-full top-0 left-0 -mt-10 text-center', styles.vs].join(' ')}>vs</p>
+        )}
+        {/* Title & link */}
+        <p className="flex-1 text-left pr-12 mb-0 w-24">
+          {postLink ? (
+            <a className="inline-flex items-baseline whitespace-no-wrap" href={postLink} target="_blank" rel="noopener noreferrer">
+              <LinkIcon className="h-3 mr-2" />
+              {title}
+            </a>
+          ) : title}
+        </p>
+        {/* Post image */}
+        <div className="w-24">
+          <PostImage
+            thumbnailOptions={thumbnailOptions}
+            title={message}
+          />
+        </div>
+        {/* Score */}
+        <div className={['flex-1 text-right pl-12 w-24', styles.postScore, winner && styles._winner].join(' ')}>
+          <div className="inline-block text-center">
+            <p className={['mb-2', 'text-grey-3', 'small--p'].join(' ')}>score</p>
+            <p className={['mb-0', 'h3', styles.postScore_number].join(' ')}>{score}</p>
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -39,10 +47,12 @@ TournamentsItemAd.propTypes = {
   adPost: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   winner: PropTypes.bool,
+  secondary: PropTypes.bool,
 }
 
 TournamentsItemAd.defaultProps = {
   winner: false,
+  secondary: false,
 }
 
 
