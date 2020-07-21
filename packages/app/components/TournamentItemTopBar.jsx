@@ -2,8 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import styles from '@/app/Tournaments.module.css'
+import brandColors from '@/constants/brandColors'
 
 const TournamentItemTopBar = ({ dateCreated, timeCreated, status }) => {
+  const { green, grey } = brandColors
+  const dotColor = status === 'active' ? green : grey
   return (
     <header
       className={[
@@ -15,12 +18,19 @@ const TournamentItemTopBar = ({ dateCreated, timeCreated, status }) => {
         styles.topBar,
       ].join(' ')}
     >
-      <p className="date">
+      <p className={styles.date}>
         <span>{dateCreated}</span>
         <span> at </span>
         <span>{timeCreated}</span>
       </p>
-      <p className="capitalize">{status}</p>
+      <p className={['flex items-center', 'capitalize', styles.status].join(' ')}>
+        {/* Status dot */}
+        <div
+          className={['w-3 h-3 mr-3 rounded-full'].join(' ')}
+          style={{ backgroundColor: dotColor }}
+        />
+        {status}
+      </p>
     </header>
   )
 }

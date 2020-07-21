@@ -7,9 +7,14 @@
   font-weight: var(--bold);
 }
 
+/* TOB BAR */
 .topBar {
   border-bottom: 2px solid var(--text-color);
   font-size: 0.9em;
+
+  .status {
+    font-weight: var(--bold);
+  }
 
   @media (--xxs) {
     font-size: 1em;
