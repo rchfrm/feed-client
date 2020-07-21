@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TooltipButton from '@/elements/TooltipButton'
+
 import { getDataArray } from '@/helpers/utils'
 import { metricTooltips } from '@/app/copy/tournamentsCopy'
 
@@ -54,7 +56,12 @@ const TournamentsItemData = ({ dataA, dataB, className }) => {
           const tooltip = metricTooltips[dataType]
           return (
             <tr key={dataType}>
-              <td className="pr-5">{a.name}</td>
+              <td className="flex pr-5 items-center">
+                {a.name}
+                {tooltip && (
+                  <TooltipButton copy={tooltip} direction="right" buttonClasses={styles.infoTooltip} />
+                )}
+              </td>
               <td>{a.value}</td>
               {dataB && <td>{b.value}</td>}
             </tr>
