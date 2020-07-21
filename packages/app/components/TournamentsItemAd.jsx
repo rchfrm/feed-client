@@ -9,7 +9,7 @@ import styles from '@/app/Tournaments.module.css'
 const TournamentsItemAd = ({ adPost, title, winner, secondary }) => {
   const { postLink, thumbnailOptions, message, score } = adPost
   return (
-    <div className={['text-center', secondary ? 'pt-14' : ''].join(' ')}>
+    <div className={['text-center sm:text-left', secondary ? 'pt-14' : ''].join(' ')}>
       <div className="inline-flex flex-no-wrap justify-start items-center relative">
         {/* VS text (if secondary) */}
         {secondary && (

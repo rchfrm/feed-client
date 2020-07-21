@@ -41,7 +41,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
   return (
     <div
       className={[
-        'sm:grid sm:col-gap-5',
+        'sm:grid sm:grid-cols-12 sm:col-gap-8',
         styles.tournamentItem,
         className,
       ].join(' ')}
@@ -65,7 +65,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
         <p className="capitalize">{tournament.status}</p>
       </header>
       {/* ADS */}
-      <div className="sm:col-span-5 sm:mt-4">
+      <div className="sm:col-span-5 sm:mt-3">
         {/* FIRST AD */}
         <TournamentsItemAd title="Ad A" adPost={tournament.adPosts[0]} winner={isAdPair} />
         {/* SECOND AD */}
