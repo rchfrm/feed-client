@@ -27,7 +27,7 @@ const TooltipMessage = ({
   const { width: windowWidth } = useBrowserStore()
   // Update width to make sure it's not too big
   const defaultStyle = { width: 300 }
-  const [style, setStyle] = React.useState(null)
+  const [style, setStyle] = React.useState(defaultStyle)
   React.useEffect(() => {
     const { current: messageEl } = messageNode
     const sideGap = 20
@@ -43,7 +43,7 @@ const TooltipMessage = ({
         // When positioned to the right
         : windowWidth - (distanceFromLeft + sideGap)
       // Set width
-      setStyle({ width: Math.min(newWidth, defaultWidth) })
+      setStyle({ ...defaultStyle, width: Math.min(newWidth, defaultWidth) })
       return
     }
     // If screen is big enough set to default style
