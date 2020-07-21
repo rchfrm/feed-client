@@ -39,7 +39,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
       {/* ADS */}
       <div className={['sm:col-span-5', isAdPair ? 'sm:mt-3' : ''].join(' ')}>
         {/* FIRST AD */}
-        <TournamentsItemAd title="Ad A" adPost={tournament.adPosts[0]} winner={isAdPair} />
+        <TournamentsItemAd title="Ad A" adPost={tournament.adPosts[0]} winner />
         {/* SECOND AD */}
         {isAdPair && (
           <TournamentsItemAd title="Ad B" adPost={tournament.adPosts[1]} secondary />
