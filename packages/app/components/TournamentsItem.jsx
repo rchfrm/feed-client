@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TournamentItemTopBar from '@/app/TournamentItemTopBar'
 import TournamentsItemAd from '@/app/TournamentsItemAd'
 import TournamentsItemData from '@/app/TournamentsItemData'
 
@@ -30,23 +31,11 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
       ].join(' ')}
     >
       {/* TOP BAR */}
-      <header
-        className={[
-          'flex justify-between',
-          'col-span-12',
-          'mb-10',
-          'sm:mb-5',
-          'pb-2 xxs:pb-3',
-          styles.topBar,
-        ].join(' ')}
-      >
-        <p className="date">
-          <span>{tournament.dateCreated}</span>
-          <span> at </span>
-          <span>{tournament.timeCreated}</span>
-        </p>
-        <p className="capitalize">{tournament.status}</p>
-      </header>
+      <TournamentItemTopBar
+        dateCreated={tournament.dateCreated}
+        timeCreated={tournament.timeCreated}
+        status={tournament.status}
+      />
       {/* ADS */}
       <div className="sm:col-span-5 sm:mt-3">
         {/* FIRST AD */}
