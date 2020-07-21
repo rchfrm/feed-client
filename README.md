@@ -63,17 +63,21 @@ To analyze the bundle size using [Next's bundle analyzer](https://github.com/zei
 
 ## Deploying
 
-#### The App
+### Staging
 
-To deploy the app to the **staging** environment run `yarn stage`
+To deploy _The App_ to the **staging** environment run `yarn stage`
 
-To deploy the app to the **production** environment run `yarn deploy-production`
+To deploy _The Admin Panel_ to the **staging** environment run `yarn stage:admin`
 
-#### The Admin Panel
+To deploy _both_ to the **staging** environment run `yarn stage:both`
 
-To deploy the admin panel to the **staging** environment run `yarn stage:admin`
+### Production
 
-To deploy the admin panel to the **production** environment run `yarn deploy-production:admin`
+To deploy _The App_ to the **production** environment run `yarn deploy-production`
+
+To deploy _The Admin Panel_ to the **production** environment run `yarn deploy-production:admin`
+
+To deploy _both_ to the **production** environment run `yarn deploy-production:both`
 
 
 ## Deleting Artist
