@@ -31,14 +31,19 @@ const TooltipMessage = ({
   React.useEffect(() => {
     const { current: messageEl } = messageNode
     const sideGap = 20
-    const { right } = messageEl.getBoundingClientRect()
+    const { left: distanceFromLeft, right } = messageEl.getBoundingClientRect()
     const { width: defaultWidth } = defaultStyle
-    const distanceFromRight = windowWidth - right
+    const distanceFromRight = direction === 'left' ? windowWidth - right : right
     const isTooBig = windowWidth - (distanceFromRight + defaultWidth) < sideGap
     if (isTooBig) {
       // If screen is too narrow, set width to fit
-      const newWidth = windowWidth - (sideGap + distanceFromRight)
-      setStyle({ width: newWidth })
+      const newWidth = direction === 'left'
+        // When positioned to the left
+        ? windowWidth - (sideGap + distanceFromRight)
+        // When positioned to the right
+        : windowWidth - (distanceFromLeft + sideGap)
+      // Set width
+      setStyle({ width: Math.min(newWidth, defaultWidth) })
       return
     }
     // If screen is big enough set to default style
