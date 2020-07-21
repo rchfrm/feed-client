@@ -98,7 +98,6 @@ export const formatTournamentData = (tournament, currency) => {
   })
   // Get Post content
   const adPosts = adsArraySorted.map((ad) => {
-    console.log('ad', ad)
     const { adcreatives, asset, summary, streak, engagement_score: score } = ad
     const adCreative = Object.values(adcreatives)[0]
     const postContent = getPostContent(adCreative)
