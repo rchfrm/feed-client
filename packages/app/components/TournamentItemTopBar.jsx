@@ -25,7 +25,7 @@ const TournamentItemTopBar = ({ dateCreated, timeCreated, status }) => {
       </p>
       <p className={['flex items-center', 'capitalize', styles.status].join(' ')}>
         {/* Status dot */}
-        <div
+        <span
           className={['w-3 h-3 mr-3 rounded-full'].join(' ')}
           style={{ backgroundColor: dotColor }}
         />
