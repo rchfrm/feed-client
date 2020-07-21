@@ -1,41 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useSWR from 'swr'
-
 import TournamentsItemAd from '@/app/TournamentsItemAd'
 import TournamentsItemData from '@/app/TournamentsItemData'
-import Error from '@/elements/Error'
 
-import * as server from '@/helpers/sharedServer'
 import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
 import styles from '@/app/Tournaments.module.css'
 
-const fetcher = (artistId, campaignId, adsetId, tournamentId) => {
-  return server.getTournament(artistId, campaignId, adsetId, tournamentId, true)
-}
-
 const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
-  const { artist_id, campaign_id, adset_id, id: tournament_id } = tournamentProps
-  // LOAD TOURNAMENT
-  const { data: tournamentRaw, error } = useSWR(
-    [artist_id, campaign_id, adset_id, tournament_id],
-    fetcher,
-  )
   // Format data
   const tournament = React.useMemo(() => {
-    if (!tournamentRaw) return null
-    return tournamentHelpers.formatTournamentData(tournamentRaw, artistCurrency)
-  }, [tournamentRaw, artistCurrency])
+    if (!tournamentProps) return null
+    return tournamentHelpers.formatTournamentData(tournamentProps, artistCurrency)
+  }, [tournamentProps, artistCurrency])
   // Count Ads
   const totalAds = tournament ? tournament.adPosts.length : 0
   // Is ad a pair?
   const isAdPair = !!(totalAds > 1)
 
-  console.log('tournament', tournament)
-
-  if (error) return <Error error={error} />
   if (!tournament) return null
 
   return (
