@@ -40,6 +40,13 @@ module.exports = (purgeFiles) => ({
         twitter: '#5BC0EB',
         sc: '#FDE74C',
       },
+      spacing: {
+        14: '3.5rem',
+        25: '6.125rem',
+        80: '20rem',
+        96: '24rem',
+        128: '32rem',
+      },
     },
   },
   variants: {},
