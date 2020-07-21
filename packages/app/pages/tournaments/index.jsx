@@ -11,7 +11,6 @@ const Page = () => (
     headerConfig={headerConfig}
     noArtistHeader={headerConfig}
     artistRequired
-    staticPage
   >
     <TournamentsContent />
   </BasePage>

@@ -9,8 +9,11 @@
 
 .topBar {
   border-bottom: 2px solid var(--text-color);
-  padding-bottom: var(--sp-3);
-  margin-bottom: var(--sp-5);
+  font-size: 0.9em;
+
+  @media (--xxs) {
+    font-size: 1em;
+  }
 
   p {
     margin-bottom: 0;
@@ -30,6 +33,18 @@
 
 /* TOURNAMENT TABLE */
 .dataTable {
+  margin-top: var(--sp-8);
+  font-size: 0.8em;
+
+  @media (--xxs) {
+    font-size: 0.9em;
+  }
+
+  @media (--sm) {
+    margin-top: 0;
+    font-size: 1em;
+  }
+
   th,
   tr td:first-child {
     font-weight: var(--bold);
@@ -39,6 +54,10 @@
   td {
     padding: var(--sp-2) var(--sp-10);
     padding-left: 0;
+
+    &:last-child {
+      padding-right: 0;
+    }
   }
 
   tr {
@@ -51,6 +70,17 @@
 
   tbody tr:last-child {
     border-bottom: none;
+  }
+
+  &._singleAd .dataCell {
+    text-align: right;
+    padding-right: 0;
+  }
+
+   {
+    .dataTable._singleAd & {
+      text-align: right;
+    }
   }
 }
 

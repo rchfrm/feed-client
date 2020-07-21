@@ -41,13 +41,22 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
   return (
     <div
       className={[
-        'sm:grid col-gap-5',
+        'sm:grid sm:col-gap-5',
         styles.tournamentItem,
         className,
       ].join(' ')}
     >
       {/* TOP BAR */}
-      <header className={['flex justify-between col-span-12', styles.topBar].join(' ')}>
+      <header
+        className={[
+          'flex justify-between',
+          'col-span-12',
+          'mb-10',
+          'sm:mb-5',
+          'pb-2 xxs:pb-3',
+          styles.topBar,
+        ].join(' ')}
+      >
         <p className="date">
           <span>{tournament.dateCreated}</span>
           <span> at </span>
@@ -56,7 +65,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
         <p className="capitalize">{tournament.status}</p>
       </header>
       {/* ADS */}
-      <div className="col-span-5 sm:mt-4">
+      <div className="sm:col-span-5 sm:mt-4">
         {/* FIRST AD */}
         <TournamentsItemAd title="Ad A" adPost={tournament.adPosts[0]} winner={isAdPair} />
         {/* SECOND AD */}
@@ -66,7 +75,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
       </div>
       {/* DATA */}
       <TournamentsItemData
-        className="col-span-7"
+        className="w-full sm:col-span-7"
         dataA={tournament.adPosts[0].data}
         dataB={tournament.adPosts[1] && tournament.adPosts[1].data}
       />

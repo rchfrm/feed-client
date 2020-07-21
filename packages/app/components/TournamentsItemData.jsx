@@ -41,7 +41,15 @@ const TournamentsItemData = ({ dataA, dataB, className }) => {
     return Object.entries(detailsObj)
   }, [dataA, dataB])
   return (
-    <table className={['text-left', 'mb-0', styles.dataTable, className].join(' ')}>
+    <table
+      className={[
+        'text-left',
+        'mb-0',
+        !dataB ? styles._singleAd : '',
+        styles.dataTable,
+        className,
+      ].join(' ')}
+    >
       {dataB && (
         <thead>
           <tr>
@@ -62,7 +70,7 @@ const TournamentsItemData = ({ dataA, dataB, className }) => {
                   <TooltipButton copy={tooltip} direction="right" buttonClasses={styles.infoTooltip} />
                 )}
               </td>
-              <td>{a.value}</td>
+              <td className={styles.dataCell}>{a.value}</td>
               {dataB && <td>{b.value}</td>}
             </tr>
           )

@@ -33,7 +33,10 @@ const TournamentsContent = () => {
         setCurrentTournamentType={setCurrentTournamentType}
         currentAudienceType={currentAudienceType}
       />
-      <TournamentsLoader audienceId={currentAudienceType} />
+      {/* LOADER */}
+      <section className="mt-5">
+        <TournamentsLoader audienceId={currentAudienceType} />
+      </section>
     </div>
   )
 }
