@@ -24,7 +24,7 @@
 .logoContainer,
 .subNavButton {
   position: absolute;
-  top: var(--sp-6);
+  top: var(--sp-4);
 
   .TheHeader._subNavOpen & {
     @media (--mdMax) {
@@ -83,7 +83,7 @@
   top: 0;
   left: 50%;
   width: 100vw;
-  height: calc(((var(--sp-10) / 0.82) * 1) + var(--sp-6) + var(--sp-3));
+  height: calc(((var(--sp-10) / 0.82) * 1) + var(--sp-4) + var(--sp-3));
   margin-left: -50vw;
   z-index: 18;
   background: color-mod(var(--bg-color) alpha(0.6));
