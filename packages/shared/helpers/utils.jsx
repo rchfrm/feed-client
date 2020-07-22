@@ -284,7 +284,13 @@ export const getDataArray = (propsToDisplay, data) => {
     if (!rawValue) return arr
     // Convert dates (if necessary)
     const isDate = dateKeys.includes(detailName)
-    const value = isDate ? moment(rawValue).format('DD MMM YYYY') : rawValue.toString()
+    const value = isDate
+      // Parse date, or
+      ? moment(rawValue).format('DD MMM YYYY')
+      // Format number, or
+      : typeof rawValue === 'number' ? formatNumber(rawValue)
+      // Just convert to string
+        : rawValue.toString()
     // Name is final data key
     let name = detailKeys[detailKeys.length - 1]
     // Replace underscore with space
