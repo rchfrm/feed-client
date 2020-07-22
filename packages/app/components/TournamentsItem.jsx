@@ -33,7 +33,6 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
       {/* TOP BAR */}
       <TournamentItemTopBar
         dateCreated={tournament.dateCreated}
-        timeCreated={tournament.timeCreated}
         status={tournament.status}
       />
       {/* ADS */}
