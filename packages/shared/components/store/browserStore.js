@@ -15,8 +15,7 @@ const breakpointsKeyedBySize = Object.entries(screens).reduce((obj, [name, sizeS
   obj[size] = name
   return obj
 }, {})
-console.log('breakpointsKeyedBySize', breakpointsKeyedBySize)
-console.log('breakpointsKeyedByName', breakpointsKeyedByName)
+
 // Define array of size integers
 const breakpointValues = Object.values(breakpointsKeyedByName).reduce((arr, size) => {
   return [...arr, size]
