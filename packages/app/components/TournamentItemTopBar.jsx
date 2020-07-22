@@ -7,6 +7,7 @@ import brandColors from '@/constants/brandColors'
 const TournamentItemTopBar = ({ dateCreated, timeCreated, status }) => {
   const { green, grey } = brandColors
   const dotColor = status === 'active' ? green : grey
+  const statusText = status === 'archived' ? 'Ended' : status
   return (
     <header
       className={[
@@ -29,7 +30,7 @@ const TournamentItemTopBar = ({ dateCreated, timeCreated, status }) => {
           className={['w-3 h-3 mr-3 rounded-full'].join(' ')}
           style={{ backgroundColor: dotColor }}
         />
-        {status}
+        {statusText}
       </p>
     </header>
   )
