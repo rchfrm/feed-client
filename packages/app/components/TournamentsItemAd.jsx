@@ -8,6 +8,8 @@ import styles from '@/app/Tournaments.module.css'
 
 const TournamentsItemAd = ({ adPost, title, winner, secondary }) => {
   const { postLink, thumbnailOptions, message, score } = adPost
+  const linkIcon = <LinkIcon className="h-3 mr-2" />
+  const titleClass = 'inline-flex items-baseline whitespace-no-wrap'
   return (
     <div className={['text-center sm:text-left', secondary ? 'pt-14' : ''].join(' ')}>
       <div className="inline-flex flex-no-wrap justify-start items-center relative">
@@ -18,11 +20,16 @@ const TournamentsItemAd = ({ adPost, title, winner, secondary }) => {
         {/* Title & link */}
         <p className="flex-1 text-left sm:pr-12 mb-0 w-20 xxs:w-24">
           {postLink ? (
-            <a className="inline-flex items-baseline whitespace-no-wrap" href={postLink} target="_blank" rel="noopener noreferrer">
-              <LinkIcon className="h-3 mr-2" />
+            <a className={titleClass} href={postLink} target="_blank" rel="noopener noreferrer">
+              {linkIcon}
               {title}
             </a>
-          ) : title}
+          ) : (
+            <span className={titleClass}>
+              <div style={{ visibility: 'hidden' }}>{linkIcon}</div>
+              {title}
+            </span>
+          )}
         </p>
         {/* Post image */}
         <div className="w-24">
