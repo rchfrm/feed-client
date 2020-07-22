@@ -21,7 +21,7 @@ const propsToDisplay = [
   'subtype',
 ]
 
-const TournamentsItemData = ({ dataA, dataB, className }) => {
+const TournamentsItemMetrics = ({ dataA, dataB, className }) => {
   const details = React.useMemo(() => {
     const detailsA = getDataArray(propsToDisplay, dataA)
     const detailsB = dataB ? getDataArray(propsToDisplay, dataB) : []
@@ -82,16 +82,16 @@ const TournamentsItemData = ({ dataA, dataB, className }) => {
   )
 }
 
-TournamentsItemData.propTypes = {
+TournamentsItemMetrics.propTypes = {
   dataA: PropTypes.object.isRequired,
   dataB: PropTypes.object,
   className: PropTypes.string,
 }
 
-TournamentsItemData.defaultProps = {
+TournamentsItemMetrics.defaultProps = {
   dataB: null,
   className: '',
 }
 
 
-export default TournamentsItemData
+export default TournamentsItemMetrics

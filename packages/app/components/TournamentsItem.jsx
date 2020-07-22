@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import TournamentItemTopBar from '@/app/TournamentItemTopBar'
 import TournamentsItemAd from '@/app/TournamentsItemAd'
-import TournamentsItemData from '@/app/TournamentsItemData'
+import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
 
 import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
@@ -45,7 +45,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
         )}
       </div>
       {/* DATA */}
-      <TournamentsItemData
+      <TournamentsItemMetrics
         className="w-full sm:col-span-7"
         dataA={tournament.adPosts[0].data}
         dataB={tournament.adPosts[1] && tournament.adPosts[1].data}
