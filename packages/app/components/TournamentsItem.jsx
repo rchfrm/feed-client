@@ -9,16 +9,29 @@ import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
 import styles from '@/app/Tournaments.module.css'
 
+const getStreakResults = (adA = {}, adB = {}) => {
+  const { streak: streakA } = adA
+  const { streak: streakB } = adB
+  if (!streakB) {
+    if (streakA) return [true, false]
+    return [false, false]
+  }
+  if (streakA === streakB) return [true, true]
+  if (streakA > streakB) return [true, false]
+  return [false, true]
+}
+
 const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
   // Format data
   const tournament = React.useMemo(() => {
     if (!tournamentProps) return null
     return tournamentHelpers.formatTournamentData(tournamentProps, artistCurrency)
   }, [tournamentProps, artistCurrency])
-  // Count Ads
-  const totalAds = tournament ? tournament.adPosts.length : 0
+  const [adA, adB] = tournament.adPosts
   // Is ad a pair?
-  const isAdPair = !!(totalAds > 1)
+  const isAdPair = !!adB
+  // Get streak results
+  const [streakResultA, streakResultB] = getStreakResults(adA, adB)
 
   if (!tournament) return null
 
@@ -36,17 +49,17 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
         status={tournament.status}
       />
       {/* ADS */}
-      <div className={['sm:col-span-5', isAdPair ? 'sm:mt-3' : ''].join(' ')}>
+      <div className={['sm:col-span-6', isAdPair ? 'sm:mt-3' : ''].join(' ')}>
         {/* FIRST AD */}
-        <TournamentsItemAd title="Ad A" adPost={tournament.adPosts[0]} winner />
+        <TournamentsItemAd title="Ad A" adPost={adA} winner isAdPair streakWinner={streakResultA} />
         {/* SECOND AD */}
         {isAdPair && (
-          <TournamentsItemAd title="Ad B" adPost={tournament.adPosts[1]} secondary />
+          <TournamentsItemAd title="Ad B" adPost={adB} secondary isAdPair streakWinner={streakResultB} />
         )}
       </div>
       {/* DATA */}
       <TournamentsItemMetrics
-        className="w-full sm:col-span-7"
+        className="w-full sm:col-span-6"
         dataA={tournament.adPosts[0].data}
         dataB={tournament.adPosts[1] && tournament.adPosts[1].data}
       />

@@ -12,7 +12,6 @@ const propsToDisplay = [
   'score',
   'spend',
   'impressions',
-  'streak',
   'reach',
   'shares',
   'likes',

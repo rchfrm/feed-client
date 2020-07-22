@@ -108,7 +108,6 @@ export const formatTournamentData = (tournament, currency) => {
       score,
       spend: spendFormatted,
       impressions: summary ? summary.impressions : null,
-      streak,
       reach: asset.reach,
       shares: asset.shares,
       likes: asset.likes,
@@ -119,6 +118,7 @@ export const formatTournamentData = (tournament, currency) => {
     return {
       ...postContent,
       score,
+      streak,
       data,
     }
   })
