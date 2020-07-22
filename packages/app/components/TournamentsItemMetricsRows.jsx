@@ -9,7 +9,7 @@ import { metricTooltips } from '@/app/copy/tournamentsCopy'
 
 import styles from '@/app/Tournaments.module.css'
 
-const TournamentsItemMetrics = ({ dataA, dataB, className }) => {
+const TournamentsItemMetricsRows = ({ dataA, dataB, isAdPair, className }) => {
   const details = React.useMemo(() => {
     const detailsA = getDataArray(metricsToDisplay, dataA)
     const detailsB = dataB ? getDataArray(metricsToDisplay, dataB) : []
@@ -29,57 +29,40 @@ const TournamentsItemMetrics = ({ dataA, dataB, className }) => {
     return Object.entries(detailsObj)
   }, [dataA, dataB])
   return (
-    <div className={[className, 'sm:pl-2'].join(' ')}>
-      <table
-        className={[
-          'text-left',
-          'w-full',
-          'mb-0',
-          !dataB ? styles._singleAd : '',
-          styles.dataTable,
-        ].join(' ')}
-      >
-        {dataB && (
-          <thead>
-            <tr>
-              <th>&nbsp;</th>
-              <th>A</th>
-              <th>B</th>
-            </tr>
-          </thead>
-        )}
-        <tbody>
-          {details.map(([dataType, { a, b }]) => {
-            const tooltip = metricTooltips[dataType]
-            return (
-              <tr key={dataType}>
-                <td className="flex pr-5 items-center">
-                  {a.name}
-                  {tooltip && (
-                    <TooltipButton copy={tooltip} direction="right" buttonClasses={styles.infoTooltip} />
-                  )}
-                </td>
-                <td className={styles.dataCell}>{a.value}</td>
-                {dataB && <td>{b.value}</td>}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </div>
+    <ul className={['flex justify-between mb-0 text-center', isAdPair ? 'mt-4' : '', className].join(' ')}>
+      {details.map(([dataType, { a, b }]) => {
+        const { name, value: valueA } = a
+        const { value: valueB } = b
+        const tooltip = metricTooltips[dataType]
+        return (
+          <li key={dataType} className={styles.metricColumn}>
+            <h4 className="flex items-center">
+              {name}
+              {tooltip && (
+                <TooltipButton copy={tooltip} direction="left" buttonClasses={styles.infoTooltip} />
+              )}
+            </h4>
+            <p>{valueA}</p>
+            {dataB && <p>{valueB}</p>}
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 
-TournamentsItemMetrics.propTypes = {
+TournamentsItemMetricsRows.propTypes = {
   dataA: PropTypes.object.isRequired,
   dataB: PropTypes.object,
+  isAdPair: PropTypes.bool,
   className: PropTypes.string,
 }
 
-TournamentsItemMetrics.defaultProps = {
+TournamentsItemMetricsRows.defaultProps = {
   dataB: null,
+  isAdPair: false,
   className: '',
 }
 
 
-export default TournamentsItemMetrics
+export default TournamentsItemMetricsRows

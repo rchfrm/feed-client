@@ -32,6 +32,19 @@ export const tournamentTypes = [
   { id: 'stories', title: 'Stories' },
 ]
 
+export const metricsToDisplay = [
+  'spend',
+  'reach',
+  'impressions',
+  'clicks',
+  // 'score',
+  // 'shares',
+  // 'likes',
+  // 'views',
+  // 'normalized_es',
+  // 'subtype',
+]
+
 
 // FILTER TOURNAMENTS BY ADSET (and POST TYPE)
 // -------------------------------------------
@@ -98,14 +111,27 @@ export const formatTournamentData = (tournament, currency) => {
   })
   // Get Post content
   const adPosts = adsArraySorted.map((ad) => {
-    const { adcreatives, asset, summary, streak, engagement_score: score } = ad
+    const {
+      adcreatives,
+      asset,
+      summary,
+      streak,
+      engagement_score: score,
+    } = ad
     const adCreative = Object.values(adcreatives)[0]
     const postContent = getPostContent(adCreative)
-    // Build data obj
+    // Get clicks
+    if (summary) {
+      console.log(summary.outbound_clicks)
+    }
+    const clicks = summary && summary.outbound_clicks && summary.outbound_clicks.outbound_click
+    // Get spend
     const spendFormatted = summary && utils.formatCurrency(summary.spend, currency)
+    // Build data obj
     const normalizedEsRounded = asset.normalized_es && asset.normalized_es.toFixed(2)
     const data = {
       score,
+      clicks,
       spend: spendFormatted,
       impressions: summary ? summary.impressions : null,
       reach: asset.reach,

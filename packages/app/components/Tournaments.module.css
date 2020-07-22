@@ -5,6 +5,10 @@
 
 .vs {
   font-weight: var(--bold);
+
+  @media (--sm) {
+    transform: translateX(0.25rem);
+  }
 }
 
 /* TOB BAR */
@@ -26,6 +30,18 @@
 }
 
 /* TOURNAMENT ITEM AD */
+.itemAd {
+  transform-origin: left center;
+
+  @media (--sm) {
+    transform: scale(0.9);
+  }
+
+  @media (--md) {
+    transform: none;
+  }
+}
+
 .postScore_number {
   display: inline-block;
   font-family: var(--font);
@@ -37,7 +53,23 @@
   }
 }
 
-/* TOURNAMENT TABLE */
+/* TOURNAMENT METRIC COLUMNS */
+.metricColumn {
+  h4 {
+    font-size: 1em;
+    font-weight: var(--bold);
+
+    .infoTooltip {
+      transform: translateY(0.05em);
+    }
+  }
+
+  p {
+    font-size: 0.9em;
+  }
+}
+
+/* TOURNAMENT METRIC TABLE */
 .dataTable {
   margin-top: var(--sp-8);
   font-size: 0.8em;
