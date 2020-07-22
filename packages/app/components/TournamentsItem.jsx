@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import TournamentItemTopBar from '@/app/TournamentItemTopBar'
+import TournamentsItemDesktop from '@/app/TournamentsItemDesktop'
 import TournamentsItemAd from '@/app/TournamentsItemAd'
 import TournamentsItemMetricsRows from '@/app/TournamentsItemMetricsRows'
 import TournamentsItemMetricsTable from '@/app/TournamentsItemMetricsTable'
@@ -51,30 +52,32 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
         status={tournament.status}
         className="mb-10 sm:mb-8"
       />
-      {/* ADS */}
-      <div className={['sm:col-span-6'].join(' ')}>
-        {/* FIRST AD */}
-        <TournamentsItemAd title="Ad A" adPost={adA} winner isAdPair streakWinner={streakResultA} />
-        {/* SECOND AD */}
-        {isAdPair && (
-          <TournamentsItemAd title="Ad B" adPost={adB} secondary isAdPair streakWinner={streakResultB} />
-        )}
-      </div>
       {/* DATA */}
       {isDesktopLayout ? (
-        <TournamentsItemMetricsRows
+        <TournamentsItemDesktop
           className="w-full sm:col-span-6"
-          dataA={tournament.adPosts[0].data}
-          dataB={tournament.adPosts[1] && tournament.adPosts[1].data}
+          adA={tournament.adPosts[0]}
+          adB={tournament.adPosts[1]}
           isAdPair={isAdPair}
         />
       ) : (
-        <TournamentsItemMetricsTable
-          className="w-full"
-          dataA={tournament.adPosts[0].data}
-          dataB={tournament.adPosts[1] && tournament.adPosts[1].data}
-          isAdPair={isAdPair}
-        />
+        <>
+          {/* ADS */}
+          <div className={['sm:col-span-6'].join(' ')}>
+            {/* FIRST AD */}
+            <TournamentsItemAd title="Ad A" adPost={adA} winner isAdPair streakWinner={streakResultA} />
+            {/* SECOND AD */}
+            {isAdPair && (
+              <TournamentsItemAd title="Ad B" adPost={adB} secondary isAdPair streakWinner={streakResultB} />
+            )}
+          </div>
+          <TournamentsItemMetricsTable
+            className="w-full"
+            dataA={tournament.adPosts[0].data}
+            dataB={tournament.adPosts[1] && tournament.adPosts[1].data}
+            isAdPair={isAdPair}
+          />
+        </>
       )}
     </div>
   )
