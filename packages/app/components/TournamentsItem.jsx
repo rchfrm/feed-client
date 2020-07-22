@@ -66,14 +66,14 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
           className="w-full sm:col-span-6"
           dataA={tournament.adPosts[0].data}
           dataB={tournament.adPosts[1] && tournament.adPosts[1].data}
-          isAdPair
+          isAdPair={isAdPair}
         />
       ) : (
         <TournamentsItemMetricsTable
           className="w-full"
           dataA={tournament.adPosts[0].data}
           dataB={tournament.adPosts[1] && tournament.adPosts[1].data}
-          isAdPair
+          isAdPair={isAdPair}
         />
       )}
     </div>

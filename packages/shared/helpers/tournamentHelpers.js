@@ -121,9 +121,6 @@ export const formatTournamentData = (tournament, currency) => {
     const adCreative = Object.values(adcreatives)[0]
     const postContent = getPostContent(adCreative)
     // Get clicks
-    if (summary) {
-      console.log(summary.outbound_clicks)
-    }
     const clicks = summary && summary.outbound_clicks && summary.outbound_clicks.outbound_click
     // Get spend
     const spendFormatted = summary && utils.formatCurrency(summary.spend, currency)

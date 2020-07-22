@@ -9,6 +9,23 @@ import { metricTooltips } from '@/app/copy/tournamentsCopy'
 
 import styles from '@/app/Tournaments.module.css'
 
+const ROW_HEADER = ({ name, tooltip, isAdPair }) => {
+  return (
+    <h4
+      className={[
+        'flex items-center',
+        isAdPair ? 'mt-12 mb-16' : '-mt-1',
+        tooltip && '-mr-8',
+      ].join(' ')}
+    >
+      {name}
+      {tooltip && (
+        <TooltipButton copy={tooltip} direction="left" buttonClasses={styles.infoTooltip} />
+      )}
+    </h4>
+  )
+}
+
 const TournamentsItemMetricsRows = ({ dataA, dataB, isAdPair, className }) => {
   const details = React.useMemo(() => {
     const detailsA = getDataArray(metricsToDisplay, dataA)
@@ -34,15 +51,12 @@ const TournamentsItemMetricsRows = ({ dataA, dataB, isAdPair, className }) => {
         const { name, value: valueA } = a
         const { value: valueB } = b
         const tooltip = metricTooltips[dataType]
+        const header = <ROW_HEADER name={name} tooltip={tooltip} isAdPair={isAdPair} />
         return (
-          <li key={dataType} className={styles.metricColumn}>
-            <h4 className="flex items-center">
-              {name}
-              {tooltip && (
-                <TooltipButton copy={tooltip} direction="left" buttonClasses={styles.infoTooltip} />
-              )}
-            </h4>
+          <li key={dataType} className={[styles.metricColumn, isAdPair && 'mt-5'].join(' ')}>
+            {!isAdPair && header}
             <p>{valueA}</p>
+            {isAdPair && header}
             {dataB && <p>{valueB}</p>}
           </li>
         )
