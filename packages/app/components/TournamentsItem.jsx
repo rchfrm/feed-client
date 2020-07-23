@@ -39,7 +39,6 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
   return (
     <div
       className={[
-        'sm:grid sm:grid-cols-12 sm:col-gap-8',
         styles.tournamentItem,
         className,
       ].join(' ')}
@@ -50,7 +49,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
         status={tournament.status}
         className="mb-10 sm:mb-8"
       />
-      {/* DATA */}
+      {/* DESKTOP LAYOUT */}
       {isDesktopLayout ? (
         <TournamentsItemDesktop
           adA={tournament.adPosts[0]}
@@ -58,10 +57,10 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
           adMetrics={adMetrics}
           isAdPair={isAdPair}
         />
+      // MOBILE LAYOUT
       ) : (
         <>
-          {/* ADS */}
-          <div className={['sm:col-span-6'].join(' ')}>
+          <div>
             {/* FIRST AD */}
             <TournamentsItemAd title="Ad A" adPost={adA} winner isAdPair streakWinner={streakResultA} />
             {/* SECOND AD */}
@@ -69,8 +68,8 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
               <TournamentsItemAd title="Ad B" adPost={adB} secondary isAdPair streakWinner={streakResultB} />
             )}
           </div>
+          {/* METRICS */}
           <TournamentsItemMetricsTable
-            className="w-full"
             adMetrics={adMetrics}
             isAdPair={isAdPair}
           />

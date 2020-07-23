@@ -3,14 +3,6 @@
   align-items: center;
 }
 
-.vs {
-  font-weight: var(--bold);
-
-  @media (--sm) {
-    transform: translateX(0.25rem);
-  }
-}
-
 /* TOB BAR */
 .topBar {
   border-bottom: 2px solid var(--text-color);

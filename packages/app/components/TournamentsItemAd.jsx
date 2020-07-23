@@ -15,7 +15,12 @@ const TournamentsItemAd = ({ adPost, title, winner, secondary, streakWinner }) =
       <div className="inline-flex flex-no-wrap justify-start items-center relative">
         {/* "VS" text (if secondary) */}
         {secondary && (
-          <p className={['absolute top-0 left-0 w-24 ml-24 -mt-10 text-center', styles.vs].join(' ')}>vs</p>
+          <p
+            className={['absolute top-0 left-0 w-24 ml-20 -mt-10 text-center'].join(' ')}
+            style={{ transform: 'translateX(0.2rem)' }}
+          >
+            <strong>vs</strong>
+          </p>
         )}
         {/* Title & link */}
         <p className="flex-1 text-left sm:pr-12 mb-0 w-20 xxs:w-24">
@@ -42,27 +47,27 @@ const TournamentsItemAd = ({ adPost, title, winner, secondary, streakWinner }) =
         <div
           className={[
             'flex-1 text-left pl-10 sm:pl-12 w-20 xxs:w-24',
-            winner && styles._winner,
             styles.postScore,
           ].join(' ')}
         >
           <div className="inline-block text-center">
             <p className={['mb-2', 'text-grey-3', 'small--p'].join(' ')}>score</p>
-            <p className={['mb-0', 'h3', styles.postScore_number].join(' ')}>{score}</p>
+            <p className={['mb-0', 'h3', styles.postScore_number, winner && styles._winner].join(' ')}>
+              <span>{score}</span>
+            </p>
           </div>
         </div>
         {/* Streak */}
         <div
           className={[
             'flex-1 text-left sm:pl-8 w-20 xxs:w-24',
-            streakWinner && styles._winner,
             styles.postStreak,
           ].join(' ')}
         >
           <div className="inline-block text-center">
             <p className={['mb-2', 'text-grey-3', 'small--p'].join(' ')}>streak</p>
-            <p className={['mb-0', 'h3', styles.postScore_number].join(' ')}>
-              {streak}
+            <p className={['mb-0', 'h3', styles.postScore_number, streakWinner && styles._winner].join(' ')}>
+              <span>{streak}</span>
             </p>
           </div>
         </div>

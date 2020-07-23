@@ -28,6 +28,8 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
         )}
         <tbody>
           {adMetrics.map(({ dataType, tooltip, a, b }) => {
+            // Ignore score and streak
+            if (dataType === 'score' || dataType === 'streak') return null
             return (
               <tr key={dataType}>
                 <td className="flex pr-5 items-center">
