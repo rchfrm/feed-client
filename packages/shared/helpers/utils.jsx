@@ -218,7 +218,7 @@ export const findPostThumbnail = (attachments) => {
  * @returns {string} value
  */
 export const formatNumber = (number, options = {}, locale = navigator.language) => {
-  if (!number) { return number }
+  if (typeof number !== 'number') { return number }
   return new Intl.NumberFormat(locale, options).format(number)
 }
 
