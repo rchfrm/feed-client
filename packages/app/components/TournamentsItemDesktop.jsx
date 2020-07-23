@@ -14,7 +14,7 @@ const TournamentsItemDesktop = ({
   isAdPair,
 }) => {
   return (
-    <div className="flex justify-between col-span-12 h-full" data-name="TournamentsItemDesktop">
+    <div className={[styles.tournamentItemDesktop, isAdPair && styles._isAdPair].join(' ')}>
       {/* TITLES */}
       <TournamentsItemTitles
         linkA={adA.postLink}

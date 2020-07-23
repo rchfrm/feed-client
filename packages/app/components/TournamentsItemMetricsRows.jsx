@@ -34,9 +34,12 @@ const TournamentsItemMetricsRows = ({ adMetrics, isAdPair }) => {
               )}
             </div>
             {/* LINE */}
-            {/* {dataType === 'streak' && (
-              <div className="h-full bg-green" style={{ width: 2 }} />
-            )} */}
+            {dataType === 'streak' && (
+              <div
+                className={['self-stretch', 'bg-green'].join(' ')}
+                style={{ width: 2 }}
+              />
+            )}
           </>
         )
       })}

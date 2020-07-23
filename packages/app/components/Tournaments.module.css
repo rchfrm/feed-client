@@ -22,6 +22,12 @@
 }
 
 /* DESKTOP LAYOUT */
+.tournamentItemDesktop {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
 .tournamentColumn {
   display: flex;
   flex-direction: column;
@@ -44,6 +50,8 @@
   margin-bottom: 0 !important;
   margin-top: calc(-1 * var(--sp-6));
   transform: translateY(calc(-1 * var(--sp-5)));
+  padding-bottom: 0.2em;
+  border-bottom: 1px solid var(--text-color);
   
   font-style: italic;
 }
