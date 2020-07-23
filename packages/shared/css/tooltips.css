@@ -27,6 +27,7 @@
   display: inline-block;
   position: relative;
   z-index: 2;
+  text-align: left;
 }
 
 /* SLIDES */
