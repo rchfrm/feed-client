@@ -7,7 +7,7 @@ import styles from '@/app/Tournaments.module.css'
 
 const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
   return (
-    <div className={[className, 'sm:pl-2'].join(' ')}>
+    <div className={[className].join(' ')}>
       <table
         className={[
           'text-left',

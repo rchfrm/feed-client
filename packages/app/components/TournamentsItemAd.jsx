@@ -8,34 +8,39 @@ import styles from '@/app/Tournaments.module.css'
 
 const TournamentsItemAd = ({ adPost, title, winner, secondary, streakWinner }) => {
   const { postLink, thumbnailOptions, message, score, streak } = adPost
-  const titleClass = 'inline-flex items-baseline whitespace-no-wrap'
   return (
-    <div className={['text-center sm:text-left', secondary ? 'pt-14' : '', styles.itemAd].join(' ')}>
-      <div className="inline-flex flex-no-wrap justify-start items-center relative">
-        {/* "VS" text (if secondary) */}
-        {secondary && (
-          <p
-            className={['absolute top-0 left-0 w-24 ml-20 -mt-10 text-center'].join(' ')}
-            style={{ transform: 'translateX(0.2rem)' }}
-          >
-            <strong>vs</strong>
-          </p>
-        )}
-        {/* Title & link */}
-        <p className="flex-1 text-left sm:pr-12 mb-0 w-20 xxs:w-24">
-          <TournamentsItemLink link={postLink} title={title} className={titleClass} />
+    <div className={['flex items-centre'].join(' ')}>
+      {/* IMAGE & TITLE */}
+      <div className={['flex items-center', secondary ? 'flex-col-reverse' : 'flex-col'].join(' ')}>
+        {/* TITLE */}
+        <p className={[secondary ? 'mt-4 mb-0' : 'mb-4'].join(' ')}>
+          <TournamentsItemLink
+            link={postLink}
+            title={title}
+            className={['inline-flex items-baseline whitespace-no-wrap'].join(' ')}
+          />
         </p>
-        {/* Post image */}
+        {/* IMAGE */}
         <div className="w-24">
           <PostImage
             thumbnailOptions={thumbnailOptions}
             title={message}
           />
         </div>
+      </div>
+      {/* SCORE AND STREAK */}
+      <div
+        className={[
+          'flex-grow',
+          'flex flex-no-wrap justify-center',
+          'pl-0 items-center',
+          secondary ? '-mt-14' : 'mt-2',
+        ].join(' ')}
+      >
         {/* Score */}
         <div
           className={[
-            'flex-1 text-left pl-10 sm:pl-12 w-20 xxs:w-24',
+            'text-left pl-10',
             styles.postScore,
           ].join(' ')}
         >
@@ -49,7 +54,7 @@ const TournamentsItemAd = ({ adPost, title, winner, secondary, streakWinner }) =
         {/* Streak */}
         <div
           className={[
-            'flex-1 text-left sm:pl-8 w-20 xxs:w-24',
+            'text-left pl-10',
             styles.postStreak,
           ].join(' ')}
         >

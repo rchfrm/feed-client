@@ -71,19 +71,6 @@
 }
 
 /* TOURNAMENT ITEM AD */
-.itemAd {
-  transform-origin: left center;
-
-  @media (--sm) {
-    transform: scale(0.9);
-  }
-
-  @media (--md) {
-    transform: none;
-  }
-}
-
-
 .postScore,
 .postStreak {
   span {

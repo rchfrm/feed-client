@@ -31,7 +31,6 @@ const TournamentAd = ({ ad, winner, className }) => {
   if (!adData) return null
   if (error) return <Error error={error} />
 
-
   return (
     <div className={className}>
       <h4 className="h3">

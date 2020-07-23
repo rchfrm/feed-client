@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 
 import TournamentItemTopBar from '@/app/TournamentItemTopBar'
 import TournamentsItemDesktop from '@/app/TournamentsItemDesktop'
-import TournamentsItemAd from '@/app/TournamentsItemAd'
-import TournamentsItemMetricsTable from '@/app/TournamentsItemMetricsTable'
+import TournamentsItemMobile from '@/app/TournamentsItemMobile'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
@@ -59,21 +58,13 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
         />
       // MOBILE LAYOUT
       ) : (
-        <>
-          <div>
-            {/* FIRST AD */}
-            <TournamentsItemAd title="Ad A" adPost={adA} winner isAdPair streakWinner={streakResultA} />
-            {/* SECOND AD */}
-            {isAdPair && (
-              <TournamentsItemAd title="Ad B" adPost={adB} secondary isAdPair streakWinner={streakResultB} />
-            )}
-          </div>
-          {/* METRICS */}
-          <TournamentsItemMetricsTable
-            adMetrics={adMetrics}
-            isAdPair={isAdPair}
-          />
-        </>
+        <TournamentsItemMobile
+          adA={tournament.adPosts[0]}
+          adB={tournament.adPosts[1]}
+          adMetrics={adMetrics}
+          isAdPair={isAdPair}
+          streakResults={streakResults}
+        />
       )}
     </div>
   )

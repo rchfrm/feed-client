@@ -49,5 +49,4 @@ TournamentsItemDesktop.defaultProps = {
   adB: {},
 }
 
-
 export default TournamentsItemDesktop
