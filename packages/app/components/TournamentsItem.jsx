@@ -27,7 +27,6 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
   const streakResults = React.useMemo(() => {
     return tournamentHelpers.getStreakResults(adA, adB)
   }, [adA, adB])
-  const [streakResultA, streakResultB] = streakResults
   // DEFINE AD METRICS ARRAY
   const adMetrics = React.useMemo(() => {
     return tournamentHelpers.getAdMetrics(dataA, dataB, isAdPair, streakResults)
