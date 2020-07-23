@@ -27,7 +27,7 @@ const TournamentsItemDesktop = ({
         thumbnailOptionsA={adA.thumbnailOptions}
         thumbnailOptionsB={adB.thumbnailOptions}
         isAdPair={isAdPair}
-        className={styles.tournamentColumn}
+        className={[styles.tournamentColumn, styles.tournamentColumn_images].join(' ')}
       />
       {/* METRICS */}
       <TournamentsItemMetricsRows

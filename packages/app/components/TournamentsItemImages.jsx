@@ -5,7 +5,7 @@ import PostImage from '@/PostImage'
 
 const IMAGE = ({ thumbnailOptions, message, secondary }) => {
   return (
-    <div className={['w-24', secondary && 'mt-10'].join(' ')}>
+    <div className={['w-20 lg:w-24', secondary && 'mt-10'].join(' ')}>
       <PostImage
         thumbnailOptions={thumbnailOptions}
         title={message}

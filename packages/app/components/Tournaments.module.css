@@ -25,7 +25,11 @@
 .tournamentItemDesktop {
   display: flex;
   justify-content: space-between;
-  position: relative;
+  font-size: 0.9em;
+
+  @media (--lg) {
+    font-size: 1em;
+  }
 }
 
 .tournamentColumn {
@@ -37,10 +41,26 @@
 
   &:first-child {
     padding-left: 0;
+    padding-right: 0;
+  }
+
+  @media (--lg) {
+   &:first-child {
+     padding-left: 0;
+     padding-right: var(--sp-5);
+   } 
   }
 
   &:last-child {
     padding-right: 0;
+  }
+}
+
+.tournamentColumn_images {
+  padding-right: 0;
+
+  @media (--lg) {
+    padding-right: var(--sp-5);
   }
 }
 
@@ -60,9 +80,13 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
-  height: var(--sp-24);
+  height: var(--sp-20);
   margin-bottom: 0 !important;
   transform: translateY(0.1rem);
+
+  @media (--lg) {
+    height: var(--sp-24);
+  }
   
   &._lastItem,
   &:nth-child(3) {

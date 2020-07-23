@@ -33,7 +33,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
     return tournamentHelpers.getAdMetrics(dataA, dataB, isAdPair, streakResults)
   }, [dataA, dataB, isAdPair, streakResults])
   // On resize
-  const isDesktopLayout = useBreakpointTest('sm')
+  const isDesktopLayout = useBreakpointTest('md')
 
   return (
     <div
