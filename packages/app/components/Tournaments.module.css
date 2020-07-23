@@ -21,6 +21,19 @@
   }
 }
 
+/* AD LINK */
+.adLink {
+  text-decoration: none;
+  border-bottom: 1px solid var(--text-color);
+
+  @mixin canHover {
+    &:hover {
+      color: var(--text-color) !important;
+      border-bottom: 1px solid var(--green);
+    }
+  }
+}
+
 /* DESKTOP LAYOUT */
 .tournamentItemDesktop {
   display: flex;
