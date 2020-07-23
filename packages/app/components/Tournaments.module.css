@@ -34,6 +34,13 @@
   }
 }
 
+/* AD IMAGE */
+.adImage {
+  &._broken {
+    filter: hue-rotate(90deg);
+  }
+}
+
 /* DESKTOP LAYOUT */
 .tournamentItemDesktop {
   display: flex;

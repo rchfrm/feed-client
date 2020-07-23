@@ -1,25 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PostImage from '@/PostImage'
-
-const IMAGE = ({ thumbnailOptions, message, secondary }) => {
-  return (
-    <div className={['w-20 lg:w-24', secondary && 'mt-10'].join(' ')}>
-      <PostImage
-        thumbnailOptions={thumbnailOptions}
-        title={message}
-      />
-    </div>
-  )
-}
+import TournamentsItemImage from '@/app/TournamentsItemImage'
 
 const TournamentsItemImages = ({ thumbnailOptionsA, thumbnailOptionsB, messageA, messageB, isAdPair, className }) => {
   return (
     <div className={[className].join(' ')}>
-      <IMAGE thumbnailOptions={thumbnailOptionsA} message={messageA} />
+      <TournamentsItemImage
+        thumbnailOptions={thumbnailOptionsA}
+        message={messageA}
+        className={['w-20 lg:w-24'].join(' ')}
+      />
       {isAdPair && (
-        <IMAGE thumbnailOptions={thumbnailOptionsB} message={messageB} secondary />
+        <TournamentsItemImage
+          thumbnailOptions={thumbnailOptionsB}
+          message={messageB}
+          className={['w-20 lg:w-24 mt-10'].join(' ')}
+          secondary
+        />
       )}
     </div>
   )

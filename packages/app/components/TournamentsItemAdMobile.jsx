@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import TournamentsItemLink from '@/app/TournamentsItemLink'
-import PostImage from '@/PostImage'
+import TournamentsItemImage from '@/app/TournamentsItemImage'
 
 import styles from '@/app/Tournaments.module.css'
 
@@ -47,12 +47,12 @@ const TournamentsItemAdMobile = ({ adPost, title, winner, secondary, streakWinne
           />
         </p>
         {/* IMAGE */}
-        <div className="w-24">
-          <PostImage
-            thumbnailOptions={thumbnailOptions}
-            title={message}
-          />
-        </div>
+        <TournamentsItemImage
+          thumbnailOptions={thumbnailOptions}
+          message={message}
+          className="w-24"
+          secondary={secondary}
+        />
       </div>
       {/* SCORE AND STREAK */}
       <div
