@@ -3,10 +3,12 @@ import PropTypes from 'prop-types'
 
 import LinkIcon from '@/icons/LinkIcon'
 
+import styles from '@/app/Tournaments.module.css'
+
 const TITLE = ({ title, link, className, secondary }) => {
   const linkIcon = <LinkIcon className="h-3 mr-2" />
   return (
-    <p className={['flex items-center pr-10 h-24 mb-0', secondary && 'mt-10'].join(' ')}>
+    <p className={[styles.tournamentColumn_item, secondary && styles._lastItem].join(' ')}>
       {link ? (
         <a className={className} href={link} target="_blank" rel="noopener noreferrer">
           {linkIcon}

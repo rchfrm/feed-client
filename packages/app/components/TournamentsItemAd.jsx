@@ -52,11 +52,16 @@ const TournamentsItemAd = ({ adPost, title, winner, secondary, streakWinner }) =
           </div>
         </div>
         {/* Streak */}
-        <div className={['flex-1 text-left sm:pl-8 w-20 xxs:w-24'].join(' ')}>
+        <div
+          className={[
+            'flex-1 text-left sm:pl-8 w-20 xxs:w-24',
+            streakWinner && styles._winner,
+            styles.postStreak,
+          ].join(' ')}
+        >
           <div className="inline-block text-center">
             <p className={['mb-2', 'text-grey-3', 'small--p'].join(' ')}>streak</p>
             <p className={['mb-0', 'h3', styles.postScore_number].join(' ')}>
-              <span style={{ fontSize: '0.8em' }}>{(streak >= 1 && streakWinner) && '🚀 '}</span>
               {streak}
             </p>
           </div>

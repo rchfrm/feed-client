@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import TournamentItemTopBar from '@/app/TournamentItemTopBar'
 import TournamentsItemDesktop from '@/app/TournamentsItemDesktop'
 import TournamentsItemAd from '@/app/TournamentsItemAd'
-import TournamentsItemMetricsRows from '@/app/TournamentsItemMetricsRows'
 import TournamentsItemMetricsTable from '@/app/TournamentsItemMetricsTable'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
@@ -13,28 +12,27 @@ import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
 import styles from '@/app/Tournaments.module.css'
 
-const getStreakResults = (adA = {}, adB = {}) => {
-  const { streak: streakA } = adA
-  const { streak: streakB } = adB
-  if (!streakB) {
-    if (streakA) return [true, false]
-    return [false, false]
-  }
-  if (streakA === streakB) return [true, true]
-  if (streakA > streakB) return [true, false]
-  return [false, true]
-}
-
 const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
   // Format data
   const tournament = React.useMemo(() => {
     return tournamentHelpers.formatTournamentData(tournamentProps, artistCurrency)
   }, [tournamentProps, artistCurrency])
   const [adA, adB] = tournament.adPosts
+  const { data: dataA } = adA
+  const { data: dataB } = adB || {}
   // Is ad a pair?
-  const isAdPair = !!adB
+  const isAdPair = React.useMemo(() => {
+    return !!adB
+  }, [adB])
   // Get streak results
-  const [streakResultA, streakResultB] = getStreakResults(adA, adB)
+  const streakResults = React.useMemo(() => {
+    return tournamentHelpers.getStreakResults(adA, adB)
+  }, [adA, adB])
+  const [streakResultA, streakResultB] = streakResults
+  // DEFINE AD METRICS ARRAY
+  const adMetrics = React.useMemo(() => {
+    return tournamentHelpers.getAdMetrics(dataA, dataB, isAdPair, streakResults)
+  }, [dataA, dataB, isAdPair, streakResults])
   // On resize
   const isDesktopLayout = useBreakpointTest('sm')
 
@@ -55,9 +53,9 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
       {/* DATA */}
       {isDesktopLayout ? (
         <TournamentsItemDesktop
-          className="w-full sm:col-span-6"
           adA={tournament.adPosts[0]}
           adB={tournament.adPosts[1]}
+          adMetrics={adMetrics}
           isAdPair={isAdPair}
         />
       ) : (
@@ -73,8 +71,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
           </div>
           <TournamentsItemMetricsTable
             className="w-full"
-            dataA={tournament.adPosts[0].data}
-            dataB={tournament.adPosts[1] && tournament.adPosts[1].data}
+            adMetrics={adMetrics}
             isAdPair={isAdPair}
           />
         </>

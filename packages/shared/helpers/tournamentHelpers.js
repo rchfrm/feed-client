@@ -2,6 +2,7 @@ import moment from 'moment'
 
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
+import { metricTooltips } from '@/app/copy/tournamentsCopy'
 
 
 // AUDIENCE and TOURNMANET PROPS
@@ -33,6 +34,8 @@ export const tournamentTypes = [
 ]
 
 export const metricsToDisplay = [
+  'score',
+  'streak',
   'spend',
   'reach',
   'impressions',
@@ -120,6 +123,7 @@ export const formatTournamentData = (tournament, currency) => {
     } = ad
     const adCreative = Object.values(adcreatives)[0]
     const postContent = getPostContent(adCreative)
+    // Format score and streak
     // Get clicks
     const clicks = summary && summary.outbound_clicks && summary.outbound_clicks.outbound_click
     // Get spend
@@ -127,8 +131,9 @@ export const formatTournamentData = (tournament, currency) => {
     // Build data obj
     const normalizedEsRounded = asset.normalized_es && asset.normalized_es.toFixed(2)
     const data = {
-      score,
       clicks,
+      score: utils.formatNumber(score),
+      streak: utils.formatNumber(streak),
       spend: spendFormatted,
       impressions: summary ? summary.impressions : null,
       reach: asset.reach,
@@ -141,7 +146,7 @@ export const formatTournamentData = (tournament, currency) => {
     return {
       ...postContent,
       score,
-      streak,
+      streak: utils.formatNumber(streak),
       data,
     }
   })
@@ -154,4 +159,70 @@ export const formatTournamentData = (tournament, currency) => {
     dateCreated,
     timeCreated,
   }
+}
+
+// GET ARRAY OF WINNING STATUSES for Score and Streak
+/**
+* @param {string} [key]
+* @param {boolean} [isAdPair]
+* @param {array} [streakResults]
+* @returns {array}
+*/
+const getWinningStatuses = (key, isAdPair, streakResults) => {
+  if (key === 'score' && isAdPair) return [true, false]
+  if (key === 'streak') return streakResults
+  return [null, null]
+}
+
+
+// GET ARRAY OF WINNING Streak WINNERS
+/**
+* @param {object} [adA]
+* @param {object} [adB]s]
+* @returns {array}
+*/
+export const getStreakResults = (adA = {}, adB = {}) => {
+  const { streak: streakA } = adA
+  const { streak: streakB } = adB
+  if (!streakB) {
+    if (streakA) return [true, false]
+    return [false, false]
+  }
+  if (streakA === streakB) return [true, true]
+  if (streakA > streakB) return [true, false]
+  return [false, true]
+}
+
+
+// CREATE AD METRICS ARRAY to iterate over
+/**
+ * @param {object} [dataA]
+ * @param {object} [dataB]
+ * @param {boolean} [isAdPair]
+ * @param {array} [streakResults]
+ * @returns {array}
+ */
+export const getAdMetrics = (dataA, dataB, isAdPair, streakResults) => {
+  const detailsA = utils.getDataArray(metricsToDisplay, dataA)
+  const detailsB = dataB ? utils.getDataArray(metricsToDisplay, dataB) : []
+  const detailsObj = detailsA.reduce((data, detailA) => {
+    const { name: nameA, value: valueA, key: keyA } = detailA
+    // Get matching data from source B (with fallbacks)
+    const detailB = detailsB.find(({ key }) => keyA === key) || {}
+    const { name: nameB = nameA, value: valueB = '-' } = detailB
+    // Get winner status for score and streak
+    const [winnerA, winnerB] = getWinningStatuses(keyA, isAdPair, streakResults)
+    // Get tooltip
+    const tooltip = metricTooltips[keyA]
+    // Set values for data type
+    data[keyA] = {
+      dataType: keyA,
+      tooltip,
+      a: { name: nameA, value: valueA, key: keyA, winner: winnerA },
+      b: { name: nameB, value: valueB, key: `${keyA}-b`, winner: winnerB },
+    }
+    // return completed object
+    return data
+  }, {})
+  return Object.values(detailsObj)
 }

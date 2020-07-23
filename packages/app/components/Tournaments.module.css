@@ -29,6 +29,47 @@
   }
 }
 
+/* DESKTOP LAYOUT */
+.tournamentColumn {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--sp-5);
+  margin-top: var(--sp-16);
+  text-align: center;
+
+  &:first-child {
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
+}
+
+.tournamentColumn_title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0 !important;
+  margin-top: calc(-1 * var(--sp-6));
+  transform: translateY(calc(-1 * var(--sp-5)));
+  
+  font-style: italic;
+}
+
+.tournamentColumn_item {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  height: var(--sp-24);
+  margin-bottom: 0 !important;
+  transform: translateY(0.1rem);
+  
+  &._lastItem,
+  &:nth-child(3) {
+    margin-top: var(--sp-10);
+  }
+}
+
 /* TOURNAMENT ITEM AD */
 .itemAd {
   transform-origin: left center;
@@ -42,14 +83,52 @@
   }
 }
 
+
+.postScore,
+.postStreak {
+  span {
+    display: inline-block;
+    border-bottom: 0.25rem solid transparent;
+    transform: translateY(0.25rem)
+  }
+}
+
+.postScore {
+  ._winner {
+    span {
+      border-bottom: 0.25rem solid var(--green);
+    }
+  }
+}
+
+.postStreak {
+  ._winner {
+    span {
+      &::before {
+        content: '🚀 ';
+        display: inline-block;
+        font-size: 0.8em;
+        margin-right: 0.4em;
+        transform: translateY(0.05em);
+      }
+    }
+  }
+}
+
 .postScore_number {
   display: inline-block;
   font-family: var(--font);
   font-weight: var(--bold);
   border-bottom: 0.25rem solid transparent;
 
-  .postScore._winner & {
-    border-bottom: 0.25rem solid var(--green);
+  .postStreak._winner & {
+    &::before {
+      content: '🚀 ';
+      display: inline-block;
+      font-size: 0.8em;
+      margin-right: 0.4em;
+      transform: translateY(0.05em);
+    }
   }
 }
 
