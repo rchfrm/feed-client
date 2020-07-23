@@ -79,7 +79,14 @@ const getPopupMedia = ({
   )
 }
 
-const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }) => {
+const PostImage = ({
+  mediaSrc,
+  thumbnailOptions,
+  title,
+  className,
+  aspectRatio,
+  onUseFallback,
+}) => {
   // Remove empty and duplicate thumbnail options
   const thumbnails = React.useMemo(() => {
     return thumbnailOptions.reduce((thumbs, thumb) => {
@@ -121,8 +128,11 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
     if (nextThumbSrc) {
       setActiveThumbSrc(nextThumbSrc)
       setThumbError(false)
+    } else {
+      // Tell parent fallback was used
+      onUseFallback()
     }
-  }, [thumbError, thumbnails, setThumbError])
+  }, [thumbError, thumbnails, setThumbError, onUseFallback])
 
   // Get the thumbnail
   const thumbnailImageSrc = React.useMemo(() => {
@@ -228,6 +238,7 @@ PostImage.propTypes = {
   title: PropTypes.string,
   className: PropTypes.string,
   aspectRatio: PropTypes.string,
+  onUseFallback: PropTypes.func,
 }
 
 PostImage.defaultProps = {
@@ -236,6 +247,7 @@ PostImage.defaultProps = {
   title: '',
   className: '',
   aspectRatio: 'square',
+  onUseFallback: () => {},
 }
 
 
