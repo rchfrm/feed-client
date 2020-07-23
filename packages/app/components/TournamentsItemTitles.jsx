@@ -1,25 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import LinkIcon from '@/icons/LinkIcon'
+import TournamentsItemLink from '@/app/TournamentsItemLink'
 
 import styles from '@/app/Tournaments.module.css'
 
 const TITLE = ({ title, link, className, secondary }) => {
-  const linkIcon = <LinkIcon className="h-3 mr-2" />
   return (
     <p className={[styles.tournamentColumn_item, secondary && styles._lastItem].join(' ')}>
-      {link ? (
-        <a className={className} href={link} target="_blank" rel="noopener noreferrer">
-          {linkIcon}
-          {title}
-        </a>
-      ) : (
-        <span className={className}>
-          <span style={{ visibility: 'hidden' }}>{linkIcon}</span>
-          {title}
-        </span>
-      )}
+      <TournamentsItemLink link={link} title={title} className={className} />
     </p>
   )
 }
