@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import TournamentItemTopBar from '@/app/TournamentItemTopBar'
+import TournamentsItemTopBar from '@/app/TournamentsItemTopBar'
 import TournamentsItemDesktop from '@/app/TournamentsItemDesktop'
 import TournamentsItemMobile from '@/app/TournamentsItemMobile'
 
@@ -42,7 +42,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
       ].join(' ')}
     >
       {/* TOP BAR */}
-      <TournamentItemTopBar
+      <TournamentsItemTopBar
         dateCreated={tournament.dateCreated}
         status={tournament.status}
         className="mb-10 sm:mb-8"

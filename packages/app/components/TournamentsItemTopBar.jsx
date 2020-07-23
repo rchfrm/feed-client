@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styles from '@/app/Tournaments.module.css'
 import brandColors from '@/constants/brandColors'
 
-const TournamentItemTopBar = ({ dateCreated, status, className }) => {
+const TournamentsItemTopBar = ({ dateCreated, status, className }) => {
   const { green, grey } = brandColors
   const dotColor = status === 'active' ? green : grey
   const statusText = status === 'archived' ? 'Ended' : status
@@ -33,15 +33,15 @@ const TournamentItemTopBar = ({ dateCreated, status, className }) => {
   )
 }
 
-TournamentItemTopBar.propTypes = {
+TournamentsItemTopBar.propTypes = {
   dateCreated: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
-TournamentItemTopBar.defaultProps = {
+TournamentsItemTopBar.defaultProps = {
   className: '',
 }
 
 
-export default TournamentItemTopBar
+export default TournamentsItemTopBar
