@@ -118,9 +118,6 @@ const TournamentsLoader = ({ audienceId }) => {
 
   return (
     <section className="pt-10">
-      <p>Total Ts {totalTournaments}</p>
-      <p>Total Filtered Ts {totalFilteredTournaments}</p>
-
       {tournamentsFiltered.map((tournament, index) => {
         return (
           <React.Fragment key={tournament.id}>
@@ -129,7 +126,7 @@ const TournamentsLoader = ({ audienceId }) => {
               artistCurrency={artistCurrency}
               className="mb-24"
             />
-            {/* LOAD MORE TRIGGER */}
+            {/* LOAD MORE SCROLL TRIGGER */}
             {
               totalFilteredTournaments
               && index === totalFilteredTournaments - 1
