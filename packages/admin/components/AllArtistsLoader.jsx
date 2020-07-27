@@ -2,6 +2,7 @@
 import React from 'react'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
 import AllArtistsFilters from '@/admin/AllArtistsFilters'
+import AllArtistsSearch from '@/admin/AllArtistsSearch'
 import ArtistsList from '@/admin/ArtistsList'
 
 export default function Home() {
@@ -21,32 +22,12 @@ export default function Home() {
     fields: fields.join(','),
   })
 
-  // FILTERS
-  const statusFilters = [
-    'all',
-    'active',
-    'inactive',
-    'trial',
-    'budget_set',
-    'no_budget',
-  ]
-  const [activeFilter, setActiveFilter] = React.useState(statusFilters[0])
-  // Update list based on active filter
-  const filteredArtists = React.useMemo(() => {
-    if (!artists) return []
-    // Status filter
-    if (activeFilter === 'active' || activeFilter === 'inactive' || activeFilter === 'trial') {
-      return artists.filter(({ status }) => status === activeFilter)
-    }
-    // Budget filter
-    if (activeFilter === 'budget_set') {
-      return artists.filter(({ daily_budget }) => daily_budget > 0)
-    }
-    if (activeFilter === 'no_budget') {
-      return artists.filter(({ daily_budget }) => daily_budget === 0)
-    }
-    return artists
-  }, [artists, activeFilter])
+  // FILTER
+  // Filter button state
+  const [filteredArtists, setFilteredArtists] = React.useState(artists)
+  // Search state
+  const [searchedArtists, setSearchedArtists] = React.useState(filteredArtists)
+
 
   return (
     <section className="content">
@@ -56,13 +37,20 @@ export default function Home() {
       {/* FILTERS */}
       <h4>Filters</h4>
       <AllArtistsFilters
-        statusFilters={statusFilters}
-        activeFilter={activeFilter}
-        setActiveFilter={setActiveFilter}
+        setFilteredArtists={setFilteredArtists}
+        artists={artists}
       />
-      <p>Total filtered: {filteredArtists.length}</p>
-      {/* ALL ARTISTS */}
-      {filteredArtists && <ArtistsList artists={filteredArtists} propsToDisplay={propsToDisplay} />}
+      {/* SEARCH */}
+      {!!artists.length && (
+        <AllArtistsSearch
+          className="pt-2"
+          artists={filteredArtists}
+          setSearchedArtists={setSearchedArtists}
+        />
+      )}
+      <p>Total filtered & searched: {searchedArtists.length}</p>
+      {/* ALL ARTISTS (Filtered then searched) */}
+      {searchedArtists && <ArtistsList artists={searchedArtists} propsToDisplay={propsToDisplay} />}
     </section>
   )
 }
