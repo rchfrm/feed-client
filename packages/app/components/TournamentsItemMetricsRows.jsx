@@ -18,12 +18,12 @@ const TournamentsItemMetricsRows = ({ adMetrics, isAdPair }) => {
         return (
           <>
             <div key={dataType} className={[styles.tournamentColumn, parentClassName].join(' ')}>
-              <p className={styles.tournamentColumn_title}>
+              <div className={styles.tournamentColumn_title}>
                 {a.name}
                 {tooltip && (
                   <TooltipButton copy={tooltip} direction="left" buttonClasses={styles.infoTooltip} />
                 )}
-              </p>
+              </div>
               <p className={[valueClassName, winnerA && styles._winner].join(' ')}>
                 <span>{valueA}</span>
               </p>
