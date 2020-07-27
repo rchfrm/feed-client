@@ -147,6 +147,7 @@ export const formatTournamentData = (tournament, currency) => {
       ...postContent,
       score,
       streak: utils.formatNumber(streak),
+      streakInt: streak,
       data,
     }
   })
@@ -182,8 +183,8 @@ const getWinningStatuses = (key, isAdPair, streakResults) => {
 * @returns {array}
 */
 export const getStreakResults = (adA = {}, adB = {}) => {
-  const { streak: streakA } = adA
-  const { streak: streakB } = adB
+  const { streakInt: streakA } = adA
+  const { streakInt: streakB } = adB
   if (!streakB) {
     if (streakA) return [true, false]
     return [false, false]
