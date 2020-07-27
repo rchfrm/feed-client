@@ -64,6 +64,14 @@
     padding-right: 0;
   }
 
+  &.postScore {
+    padding-right: 0;
+  }
+
+  &.postStreak {
+    padding-right: var(--sp-8);
+  }
+
   @media (--lg) {
    &:first-child {
      padding-left: 0;
