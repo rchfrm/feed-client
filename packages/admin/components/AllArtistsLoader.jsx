@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <section className="content">
       {error && <div>Failed to fetch artists</div>}
-      {!finishedLoading && <p>Loading...</p>}
+      {!finishedLoading ? <p>Loading...</p> : <p>Finished loading all artists</p>}
       <p>Total: {artists.length}</p>
       {artists && <ArtistsList artists={artists} propsToDisplay={propsToDisplay} />}
     </section>
