@@ -1,14 +1,20 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
+import debounce from 'lodash/debounce'
+
 import FuzzySearch from 'fuzzy-search'
 
 import Input from '@/elements/Input'
 
 const AllArtistsSearch = ({ artists, setSearchedArtists, className }) => {
+  const [inputValue, setInputValue] = React.useState('')
   const [searchTerm, setSearchTerm] = React.useState('')
+  const updateSearch = debounce(value => setSearchTerm(value), 300)
   const handleChange = React.useCallback(({ target: { value } }) => {
-    setSearchTerm(value)
+    setInputValue(value)
+    updateSearch(value)
+  // eslint-disable-next-line
   }, [setSearchTerm])
 
   const searcher = new FuzzySearch(artists, ['name', 'id'], {
@@ -27,7 +33,7 @@ const AllArtistsSearch = ({ artists, setSearchedArtists, className }) => {
       <Input
         label="Search filtered artists by name or ID"
         name="artistSearch"
-        value={searchTerm}
+        value={inputValue}
         handleChange={handleChange}
       />
     </div>
