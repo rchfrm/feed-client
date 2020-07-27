@@ -91,7 +91,7 @@
   margin-top: calc(-1 * var(--sp-6));
   transform: translateY(calc(-1 * var(--sp-5)));
   padding-bottom: 0.2em;
-  border-bottom: 1px solid var(--text-color);
+  /* border-bottom: 1px solid var(--text-color); */
   
   font-style: italic;
 }

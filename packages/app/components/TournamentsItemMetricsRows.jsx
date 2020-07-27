@@ -17,9 +17,9 @@ const TournamentsItemMetricsRows = ({ adMetrics, isAdPair }) => {
           : styles.tournamentColumn_item
         return (
           <React.Fragment key={dataType}>
-            <div className={[styles.tournamentColumn, parentClassName].join(' ')}>
-              <div className={styles.tournamentColumn_title}>
-                {a.name}
+            <div className={[styles.tournamentColumn, parentClassName, tooltip && 'pl-0'].join(' ')}>
+              <div className={[styles.tournamentColumn_title, tooltip && 'pl-6'].join(' ')}>
+                <strong>{a.name}</strong>
                 {tooltip && (
                   <TooltipButton copy={tooltip} direction="left" buttonClasses={styles.infoTooltip} />
                 )}
