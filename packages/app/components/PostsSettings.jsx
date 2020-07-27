@@ -10,6 +10,7 @@ import RadioButtons from '@/elements/RadioButtons'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 // IMPORT COMPONENTS
+import PostsConnectionsTooltip from '@/app/PostsConnectionsTooltip'
 import PostSettingsStatusConfirmation from '@/app/PostSettingsStatusConfirmation'
 import PostConnections from '@/app/PostConnections'
 // IMPORT COPY
@@ -135,6 +136,7 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
         <div className={styles.settingSection}>
           <h3 className="settingSection__header">Connections</h3>
           <MarkdownText className="settingSection__intro" markdown={copy.globalConnectionsIntro} />
+          <PostsConnectionsTooltip className="mb-4 -mt-2" />
           <PostConnections className={styles.connectionsList} />
         </div>
       </div>
