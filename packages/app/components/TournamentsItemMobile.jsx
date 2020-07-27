@@ -27,18 +27,13 @@ const TournamentsItemMobile = ({
           {/* SECOND AD */}
           {isAdPair && (
             <>
-              {/* "VS" TEXT */}
-              <div className="col-span-12 mt-4 mb-4 text-center">
-                <p className={['w-24 mb-0'].join(' ')}>
-                  <em><strong>vs</strong></em>
-                </p>
-              </div>
               <TournamentsItemAdMobile
                 title="Ad B"
                 adPost={adB}
                 secondary
                 isAdPair
                 streakWinner={streakResultB}
+                className="mt-10"
               />
             </>
           )}

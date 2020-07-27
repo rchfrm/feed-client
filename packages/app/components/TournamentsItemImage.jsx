@@ -8,7 +8,19 @@ import styles from '@/app/Tournaments.module.css'
 const TournamentsItemImage = ({ thumbnailOptions, message, secondary, className }) => {
   const [isFallback, setIsFallback] = React.useState(false)
   return (
-    <div className={[className, styles.adImage, isFallback && secondary && styles._broken].join(' ')}>
+    <div
+      className={[
+        className,
+        styles.adImage,
+        secondary && 'relative',
+        isFallback && secondary && styles._broken,
+      ].join(' ')}
+    >
+      {secondary && (
+        <p className="absolute -mt-4 w-full text-center" style={{ transform: 'translateY(-1.05em)' }}>
+          <em><strong>vs</strong></em>
+        </p>
+      )}
       <PostImage
         thumbnailOptions={thumbnailOptions}
         title={message}
