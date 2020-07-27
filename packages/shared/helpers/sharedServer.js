@@ -57,11 +57,20 @@ export const updateUser = async (firstName, lastName, email, verifyIdToken) => {
 /**
  * @param {string} [artistId]
  * @param {boolean} [expand]
+ * @param {number} [offset]
  * @returns {Promise<any>}
  */
-export const getArtistTournaments = async ({ artistId, expand }) => {
-  // const endpoint = `/artists/${artistId}/tournaments?is_latest=1`
-  const endpoint = `/artists/${artistId}/tournaments${expand && '?expand=true'}`
+export const getArtistTournaments = async ({ artistId, expand, offset }) => {
+  let hasQuery = false
+  let endpoint = `/artists/${artistId}/tournaments`
+  if (expand) {
+    endpoint = `${endpoint}?expand=true`
+    hasQuery = true
+  }
+  if (offset) {
+    const queryMod = hasQuery ? '&' : '?'
+    endpoint = `${endpoint}${queryMod}offset=${offset}`
+  }
   return api.get(endpoint)
 }
 
