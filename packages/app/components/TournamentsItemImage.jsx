@@ -7,7 +7,6 @@ import styles from '@/app/Tournaments.module.css'
 
 const TournamentsItemImage = ({ thumbnailOptions, message, secondary, className }) => {
   const [isFallback, setIsFallback] = React.useState(false)
-  console.log('isFallback', isFallback)
   return (
     <div className={[className, styles.adImage, isFallback && secondary && styles._broken].join(' ')}>
       <PostImage
