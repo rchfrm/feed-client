@@ -16,8 +16,8 @@ const TournamentsItemMetricsRows = ({ adMetrics, isAdPair }) => {
           ? ['h3', styles.tournamentColumn_item, styles.postScore_number].join(' ')
           : styles.tournamentColumn_item
         return (
-          <>
-            <div key={dataType} className={[styles.tournamentColumn, parentClassName].join(' ')}>
+          <React.Fragment key={dataType}>
+            <div className={[styles.tournamentColumn, parentClassName].join(' ')}>
               <div className={styles.tournamentColumn_title}>
                 {a.name}
                 {tooltip && (
@@ -40,7 +40,7 @@ const TournamentsItemMetricsRows = ({ adMetrics, isAdPair }) => {
                 style={{ width: 2 }}
               />
             )}
-          </>
+          </React.Fragment>
         )
       })}
     </>
