@@ -59,7 +59,7 @@ export const updateUser = async (firstName, lastName, email, verifyIdToken) => {
  * @param {boolean} [expand]
  * @returns {Promise<any>}
  */
-export const getArtistTournaments = async (artistId, expand) => {
+export const getArtistTournaments = async ({ artistId, expand }) => {
   // const endpoint = `/artists/${artistId}/tournaments?is_latest=1`
   const endpoint = `/artists/${artistId}/tournaments${expand && '?expand=true'}`
   return api.get(endpoint)

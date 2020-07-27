@@ -35,7 +35,7 @@ const fetcher = async (artistId, campaignId, adsetId, tournamentId) => {
     return [tournamentComplete]
   }
   // GET ALL ARTIST TOURNAMENTS
-  return server.getArtistTournaments(artistId, true)
+  return server.getArtistTournaments({ artistId, expand: true })
 }
 
 const TournamentsLoader = ({ audienceId }) => {
