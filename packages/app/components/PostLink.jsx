@@ -98,7 +98,7 @@ const PostLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink
       {/* Placeholder */}
       <div className="postLinkPlaceholder" ref={placeholderEl} />
       {/* Links section */}
-      <div className={[styles.postLink].join(' ')} ref={containerEl}>
+      <div className={[styles.postLink, styles.postText].join(' ')} ref={containerEl}>
         <div className={[styles.postLinkTopBar, styles.postSection].join(' ')} ref={topBarEl}>
           <PostLinkSummary
             loading={loading}

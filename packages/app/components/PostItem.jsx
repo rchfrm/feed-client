@@ -71,7 +71,7 @@ const PostItem = ({
             setError={setError}
           />
         ) : (
-          <div className={[styles.postSection, styles.postUnpromotable].join(' ')}>
+          <div className={[styles.postSection, styles.postUnpromotable, styles.postText].join(' ')}>
             <p>Post not promotable</p>
           </div>
         )}
