@@ -58,7 +58,7 @@ const METRICS_ITEM = ({ title, value, className }) => {
   )
 }
 
-const PostMetrics = ({ insights, es }) => {
+const PostItemMetrics = ({ insights, es }) => {
   // Create array of insights
   const maxInsights = 4
   const insightsArray = React.useMemo(() => {
@@ -130,9 +130,9 @@ METRICS_ITEM.defaultProps = {
 }
 
 
-PostMetrics.propTypes = {
+PostItemMetrics.propTypes = {
   insights: PropTypes.object.isRequired,
   es: PropTypes.number.isRequired,
 }
 
-export default PostMetrics
+export default PostItemMetrics

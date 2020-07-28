@@ -4,9 +4,9 @@ import React from 'react'
 import Error from '@/elements/Error'
 // IMPORT COMPONENTS
 import PostItemTopBar from '@/app/PostItemTopBar'
-import PostContents from '@/app/PostContents'
-import PostMetrics from '@/app/PostMetrics'
-import PostLink from '@/app/PostLink'
+import PostItemContents from '@/app/PostItemContents'
+import PostItemMetrics from '@/app/PostItemMetrics'
+import PostItemLink from '@/app/PostItemLink'
 // IMPORT ASSETS
 // IMPORT STYLES
 import styles from '@/app/PostItem.module.css'
@@ -45,7 +45,7 @@ const PostItem = ({
       {/* This wrapper hides the bottom of the link options */}
       <div className="overflow-hidden relative">
         {/* IMAGE AND CONTENTS */}
-        <PostContents
+        <PostItemContents
           media={post.media}
           thumbnailSrc={post._metadata.thumbnail_url}
           caption={postCaption}
@@ -53,7 +53,7 @@ const PostItem = ({
         />
 
         {/* METRICS */}
-        <PostMetrics
+        <PostItemMetrics
           insights={post.insights}
           es={post.insights.engagement_score}
           status={post.promotion_enabled}
@@ -62,7 +62,7 @@ const PostItem = ({
 
         {/* POST LINK */}
         {postPromotable ? (
-          <PostLink
+          <PostItemLink
             postId={post.id}
             postIndex={index}
             promotionEnabled={post.promotion_enabled}
