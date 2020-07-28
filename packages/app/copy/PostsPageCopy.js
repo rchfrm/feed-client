@@ -14,7 +14,7 @@ export default {
 The URLs for _Facebook_, _Instagram_, _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also be used by Feed to track follower data on the Insights page.`,
 
   globalConnectionsTooltipSlides: [
-    `To set the default link for all posts, click the asterisk (*) to the left of the link. You can still set a different link on individual posts.`,
+    `Set the default link used in every ad by clicking the asterisk (*) to the left of the link. You can still set different links on individual posts.`,
     `The other icons are suggested links, but you can use any field for any link.`,
   ],
 
