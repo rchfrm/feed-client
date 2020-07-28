@@ -20,6 +20,7 @@ export const getEndpoint = async (endpoint) => {
 // ARTISTS
 // -----------------------
 
+// All artists
 /**
  * @param {string} [token]
  * @param {string} [cursor]
@@ -41,6 +42,28 @@ export const getAllArtists = async (cursor, requestProps = {}) => {
   return api.get(endpointWithProps)
 }
 
+// Single artist
+/**
+ * @param {string} [artistId]
+ * @param {string} [cursor]
+ * @param {object} [requestProps]
+ * @returns {Array}
+ */
+export const getArtist = async (artistId, requestProps = {}) => {
+  const endpoint = `/artists/${artistId}`
+  // Add request props
+  const endpointWithProps = Object
+    .entries(requestProps)
+    .reduce((newEndpoint, [propName, propValue], index) => {
+      const separator = index === 0 ? '?' : '&'
+      // Add prop to endpoint
+      return `${newEndpoint}${separator}${propName}=${propValue}`
+    }, endpoint)
+  const artist = await api.get(endpointWithProps)
+  return [artist]
+}
+
+// Update artist
 /**
  * @param {string} [artistId]
  * @param {string} [status] activate || suspend
