@@ -1,7 +1,7 @@
 // import useSWR, { useSWRPages } from 'swr'
 import React from 'react'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
-import AllArtistsFilters from '@/admin/AllArtistsFilters'
+import ArtistsFilters from '@/admin/ArtistsFilters'
 import AllArtistsSearch from '@/admin/AllArtistsSearch'
 import ArtistsList from '@/admin/ArtistsList'
 
@@ -36,7 +36,7 @@ export default function Home() {
       <p>Total: {artists.length}</p>
       {/* FILTERS */}
       <h4>Filters</h4>
-      <AllArtistsFilters
+      <ArtistsFilters
         setFilteredArtists={setFilteredArtists}
         artists={artists}
       />
