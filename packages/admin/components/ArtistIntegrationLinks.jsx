@@ -14,6 +14,13 @@ const getButtonName = (buttonType) => {
 }
 
 const ArtistIntegrationLinks = ({ artistId, integrations }) => {
+  if (artistId === 'DJ3WnhAvLyhHWWazGl6r') {
+    console.log('integrations', integrations)
+  }
+  // Trigger auth error if artist has no authorization
+  const { authorization } = integrations.facebook || {}
+  const hasAuth = !!authorization
+
   const [error, setError] = React.useState(null)
   // RUN TO OPEN LINK
   const getApiKeyAndLaunchGraphExplorer = async (id, type) => {
@@ -50,6 +57,12 @@ const ArtistIntegrationLinks = ({ artistId, integrations }) => {
     }, [])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [integrations, artistId])
+
+  // Stop here if no auth
+  if (!hasAuth) {
+    return <Error className="pt-4" error={{ message: 'Artist does not have Facebook authorization' }} />
+  }
+
   return (
     <div>
       {error && <Error className="pt-4" error={error} />}
