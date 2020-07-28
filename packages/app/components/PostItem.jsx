@@ -72,7 +72,7 @@ const PostItem = ({
           />
         ) : (
           <div className={[styles.postSection, styles.postUnpromotable, styles.postText].join(' ')}>
-            <p>Post not promotable</p>
+            <p style={{ transform: 'translateY(0.1em)' }}>Post not promotable</p>
           </div>
         )}
       </div>
