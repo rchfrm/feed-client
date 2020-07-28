@@ -103,18 +103,10 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
     setSidePanelLoading(isPending)
   }, [isPending, setSidePanelLoading])
 
-  // DEFINE SIDEPANEL BUTTON
-  const SidepanelButton = React.useCallback(() => {
-    return (
-      <Button version="green" onClick={toggleSidePanel}>
-        Done
-      </Button>
-    )
-  }, [toggleSidePanel])
-
+  // DISABLE SIDEPANEL BUTTON
   React.useEffect(() => {
-    setSidePanelButton(SidepanelButton)
-  }, [setSidePanelButton, SidepanelButton])
+    setSidePanelButton(null)
+  }, [setSidePanelButton])
 
   return (
     <section>
