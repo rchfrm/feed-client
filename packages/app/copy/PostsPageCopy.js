@@ -9,7 +9,7 @@ export default {
 
   globalToggleIntro: `Make all posts eligible for promotion by default:`,
 
-  globalConnectionsIntro: `Set the links to use on your posts.
+  globalConnectionsIntro: `Add the links that you'd like to use in your ads.
   
 Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also enable *Feed* to track the number of followers you have on the Insights page. `,
 
