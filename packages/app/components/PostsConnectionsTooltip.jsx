@@ -10,7 +10,7 @@ const PostsConnectionsTooltip = ({ className }) => {
     <TooltipButton
       buttonClasses={className}
       buttonText="Help"
-      slides={copy.connectionsTooltipSlides}
+      slides={copy.globalConnectionsTooltipSlides}
       direction="right"
     />
   )

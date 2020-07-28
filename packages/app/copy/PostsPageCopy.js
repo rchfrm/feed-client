@@ -11,11 +11,12 @@ export default {
 
   globalConnectionsIntro: `Set the links to use on your posts.
   
-The URLs for _Facebook_, _Instagram_, _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also be used by Feed to track follower data on the Insights page.
+The URLs for _Facebook_, _Instagram_, _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also be used by Feed to track follower data on the Insights page.`,
 
-The other icons are suggested links, but you can use any field for any link.
-
-To set the default link for all posts, click the asterisk (*) to the left of the link. You can still set a different link on individual posts.`,
+  globalConnectionsTooltipSlides: [
+    `To set the default link for all posts, click the asterisk (*) to the left of the link. You can still set a different link on individual posts.`,
+    `The other icons are suggested links, but you can use any field for any link.`,
+  ],
 
   globalStatusConfirmation: `Changing this will update the current status on all your current and future posts.
   
@@ -33,9 +34,5 @@ To set the default link for all posts, click the asterisk (*) to the left of the
     `Slide left to override your default settings and prevent Feed from promoting this post.`,
 
     `You can change your default settings using the ‘Post Settings’ button at the top of the posts page.`,
-  ],
-
-  connectionsTooltipSlides: [
-    ``,
   ],
 }
