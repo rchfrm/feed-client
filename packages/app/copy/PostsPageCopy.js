@@ -9,7 +9,9 @@ export default {
 
   globalToggleIntro: `Make all posts eligible for promotion by default:`,
 
-  globalConnectionsIntro: `Set the links to use on your posts and define connections for the insights.`,
+  globalConnectionsIntro: `Set the links to use on your posts.
+  
+The URLs for _Facebook_, _Instagram_, _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will be used by Feed to track follower data on the Insights page.`,
 
   globalStatusConfirmation: `Changing this will update the current status on all your current and future posts.
   
