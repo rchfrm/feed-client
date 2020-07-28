@@ -18,7 +18,6 @@ const ArtistIntegrationLinks = ({ artistId, integrations }) => {
   // RUN TO OPEN LINK
   const getApiKeyAndLaunchGraphExplorer = async (id, type) => {
     const adminIntegration = await getAdminFacebookIntegration(artistId)
-    console.log('adminIntegration', adminIntegration)
     let accessToken
     if (type === 'user') {
       accessToken = adminIntegration.access_token
