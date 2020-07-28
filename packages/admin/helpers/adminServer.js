@@ -51,6 +51,15 @@ export const updateArtistStatus = async (artistId, status) => {
   return api.post(endpoint)
 }
 
+/**
+* @param {string} [artistId]
+* @returns {Promise<any>}
+*/
+export const getAdminFacebookIntegration = (artistId) => {
+  return api.get(`artists/${artistId}/integrations/facebook`)
+}
+
+
 // USERS
 // -----------------------
 /**
