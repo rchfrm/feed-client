@@ -34,7 +34,6 @@ const useGetPaginated = (serverFunction = '', args = []) => {
   const [cursor, setCursor] = React.useState('')
   const [finishedLoading, setFinishedLoading] = React.useState(false)
   const { user } = React.useContext(UserContext)
-  console.log('args', args)
 
   const fetcherFunction = React.useMemo(() => {
     return fetcher(serverFunction)
@@ -56,7 +55,6 @@ const useGetPaginated = (serverFunction = '', args = []) => {
     args,
     // When fetch finishes
     onResolve: (newItems) => {
-      console.log('newItems', newItems)
       // Handle result...
       if (!newItems || !newItems.length) {
         setFinishedLoading(true)
@@ -72,7 +70,6 @@ const useGetPaginated = (serverFunction = '', args = []) => {
       // Update cursor
       const finalItem = newItems[newItems.length - 1]
       const { after: afterLink } = finalItem._links || {}
-      console.log('afterLink', afterLink)
       if (!afterLink) return setFinishedLoading(true)
       const { href: cursorHref } = afterLink
       const [, cursor] = cursorHref.split('after=')
