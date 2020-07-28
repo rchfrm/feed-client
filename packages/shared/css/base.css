@@ -159,14 +159,13 @@ pre {
   white-space: pre-line;
 }
 
+strong,
 .bold {
   font-weight: var(--bold);
 }
 
 em {
-  display: inline-block;
   font-style: italic;
-  opacity: 0.6;
 }
 
 a {
