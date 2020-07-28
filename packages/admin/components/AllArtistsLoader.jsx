@@ -17,7 +17,7 @@ export default function Home() {
   const extraFields = ['users', 'status', 'integrations']
   const fields = [...propsToDisplay, ...extraFields]
   // Make request
-  const { items: artists, error, finishedLoading } = useGetPaginated('getAllArtists', {
+  const { data: artists, error, finishedLoading } = useGetPaginated('getAllArtists', {
     limit: 1000,
     fields: fields.join(','),
   })
