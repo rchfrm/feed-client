@@ -46,7 +46,7 @@ export const getAllArtists = async (cursor, requestProps = {}) => {
  * @param {string} [artistId]
  * @param {string} [cursor]
  * @param {object} [requestProps]
- * @returns {Array}
+ * @returns {Promise<array>}
  */
 export const getArtist = async (artistId, requestProps = {}) => {
   const endpoint = `/artists/${artistId}`
@@ -82,10 +82,14 @@ export const getAdminFacebookIntegration = (artistId) => {
 
 /**
  * @param {string} [token]
- * @returns {Promise<any>}
+ * @returns {Promise<array>}
  */
-export const getUser = async () => {
-  return api.get('/users/me')
+export const getUser = async (userId, requestProps = {}) => {
+  const endpoint = userId ? `users/${userId}` : '/users/me'
+  // Add request props
+  const endpointWithProps = getEndpointWithRequestProps(endpoint, requestProps)
+  const user = await api.get(endpointWithProps)
+  return [user]
 }
 
 /**
