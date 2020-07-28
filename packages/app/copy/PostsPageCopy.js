@@ -11,7 +11,7 @@ export default {
 
   globalConnectionsIntro: `Set the links to use on your posts.
   
-The URLs for _Facebook_, _Instagram_, _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also be used by Feed to track follower data on the Insights page.`,
+Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also enable *Feed* to track the number of followers you have on the Insights page. `,
 
   globalConnectionsTooltipSlides: [
     `Set the default link used in every ad by clicking the asterisk (*) to the left of the link. You can still set different links on individual posts.`,
