@@ -7,7 +7,7 @@ import DataDetail from '@/admin/elements/DataDetail'
 import ArtistUsers from '@/admin/ArtistUsers'
 import ArtistStatusButton from '@/admin/ArtistStatusButton'
 import TournamentLink from '@/admin/TournamentLink'
-import ArtistDataSourceLinks from '@/admin/ArtistDataSourceLinks'
+import ArtistIntegrationLinks from '@/admin/ArtistIntegrationLinks'
 
 const getUsersData = (users = {}) => {
   return Object.values(users).map(({ id, name, role }) => {
@@ -46,8 +46,9 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
           overviewLink
           linkType="anchor"
         />
-        <ArtistDataSourceLinks
-          fetchUrl={artist._links.data_sources.href}
+        <ArtistIntegrationLinks
+          artistId={artist.id}
+          integrations={artist.integrations}
         />
       </nav>
     </>
