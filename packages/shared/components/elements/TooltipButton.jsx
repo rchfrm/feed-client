@@ -43,7 +43,7 @@ const TooltipButton = (props) => {
       {/* BUTTON */}
       <button className={['button', 'button--tooltip', buttonText && 'flex items-center'].join(' ')} onClick={toggleMessage} ref={buttonRef}>
         {/* BUTTON TEXT */}
-        {buttonText && <p className="button--tooltip-text">{buttonText}</p>}
+        {buttonText && <p className="button--tooltip-text text-sm">{buttonText}</p>}
         <TooltipIcon className="button--tooltip-icon" />
       </button>
     </div>

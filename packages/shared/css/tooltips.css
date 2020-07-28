@@ -10,9 +10,9 @@
 }
 
 .button--tooltip-text {
-  font-size: 0.9em;
   margin-bottom: 0;
-  transform: translateY(-0.02em);
+  transform: translateY(-0.04em);
+  text-decoration: underline;
 }
 
 .button--tooltip-icon {
