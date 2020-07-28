@@ -1,6 +1,18 @@
 import * as api from '@/helpers/api'
 
+// UTILS
+// -----------------------
+const getEndpointWithRequestProps = (endpoint, requestProps = {}) => {
+  return Object.entries(requestProps)
+    .reduce((newEndpoint, [propName, propValue], index) => {
+      const separator = index === 0 ? '?' : '&'
+      // Add prop to endpoint
+      return `${newEndpoint}${separator}${propName}=${propValue}`
+    }, endpoint)
+}
 
+// GENERIC
+// -----------------------
 /**
  * @param {string} endpoint
  * @param {string} [token]
@@ -25,13 +37,7 @@ export const getAllArtists = async (cursor, requestProps = {}) => {
   // Add cursor to request props
   const requestPropsWithCursor = cursor ? { ...requestProps, after: cursor } : requestProps
   // Add request props
-  const endpointWithProps = Object
-    .entries(requestPropsWithCursor)
-    .reduce((newEndpoint, [propName, propValue], index) => {
-      const separator = index === 0 ? '?' : '&'
-      // Add prop to endpoint
-      return `${newEndpoint}${separator}${propName}=${propValue}`
-    }, endpoint)
+  const endpointWithProps = getEndpointWithRequestProps(endpoint, requestPropsWithCursor)
   return api.get(endpointWithProps)
 }
 
@@ -45,13 +51,8 @@ export const getAllArtists = async (cursor, requestProps = {}) => {
 export const getArtist = async (artistId, requestProps = {}) => {
   const endpoint = `/artists/${artistId}`
   // Add request props
-  const endpointWithProps = Object
-    .entries(requestProps)
-    .reduce((newEndpoint, [propName, propValue], index) => {
-      const separator = index === 0 ? '?' : '&'
-      // Add prop to endpoint
-      return `${newEndpoint}${separator}${propName}=${propValue}`
-    }, endpoint)
+  const endpointWithProps = getEndpointWithRequestProps(endpoint, requestProps)
+  // Convert result to array
   const artist = await api.get(endpointWithProps)
   return [artist]
 }
