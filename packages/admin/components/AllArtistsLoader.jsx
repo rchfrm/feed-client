@@ -12,7 +12,7 @@ export default function Home() {
     'daily_budget',
   ]
   // Define fields
-  const extraFields = ['users', 'status']
+  const extraFields = ['users', 'status', 'integrations']
   const fields = [...propsToDisplay, ...extraFields]
   // Make request
   const { items: artists, error, finishedLoading } = useGetPaginated('getAllArtists', {
