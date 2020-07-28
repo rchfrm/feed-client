@@ -44,6 +44,11 @@
   /* Increase meta height if no toggle button, to compensate height */
   .postItem._unpromotable & {
     padding: 5px 0;
+    @media (min-width: 360px) { padding: 5px 0 }
+    @media (--xs) { padding: 0 }
+    @media (--sm) { padding: 5px 0 }
+    @media (--lg) { padding: 0 }
+    @media (min-width: 1300px) { padding: 5px 0 }
   }
 
   > * {
