@@ -14,9 +14,6 @@ const getButtonName = (buttonType) => {
 }
 
 const ArtistIntegrationLinks = ({ artistId, integrations }) => {
-  if (artistId === 'DJ3WnhAvLyhHWWazGl6r') {
-    console.log('integrations', integrations)
-  }
   // Trigger auth error if artist has no authorization
   const { authorization } = integrations.facebook || {}
   const hasAuth = !!authorization
