@@ -1,12 +1,5 @@
 import * as api from '@/helpers/api'
 
-/**
- * @param {string} [token]
- * @returns {Promise<any>}
- */
-export const getUser = async () => {
-  return api.get('/users/me')
-}
 
 /**
  * @param {string} endpoint
@@ -85,6 +78,15 @@ export const getAdminFacebookIntegration = (artistId) => {
 
 // USERS
 // -----------------------
+
+/**
+ * @param {string} [token]
+ * @returns {Promise<any>}
+ */
+export const getUser = async () => {
+  return api.get('/users/me')
+}
+
 /**
  * @param {string} [token]
  * @param {string} [cursor]
