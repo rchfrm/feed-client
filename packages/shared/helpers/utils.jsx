@@ -77,6 +77,21 @@ export const arrToObjById = (array) => {
   }, {})
 }
 
+export const removeItemFromArray = ({ array, item, index }) => {
+  // If index is provided, return trimmed array
+  if (typeof index === 'number' && index > -1) {
+    array.splice(index, 1)
+    return array
+  }
+  // If item is provided, get index...
+  const itemIndex = array.indexOf(item)
+  // Then trim array
+  if (itemIndex > -1) {
+    array.splice(index, 1)
+  }
+  return array
+}
+
 export const cleanSpotifyUrl = (url) => {
   if (!url) {
     return url

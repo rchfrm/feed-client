@@ -39,15 +39,19 @@ const BasePage = ({
     toggleSubNav(false)
   }, [toggleSubNav, mounted])
   // Turn off global loading when
-  // 1. artist finishes loading
-  // 2. page is not artist senstive
+  // 1. artist finishes loading &
+  // 2. page is not artist senstive &
   // 3. It's an auth page (ie, login or signup)
+  // OR
+  // 1a. User has no artists (ie, login or signup)
   const { artistLoading } = React.useContext(ArtistContext)
   React.useEffect(() => {
+    const hasArtists = user.artists.length
+    if (user.artists && !hasArtists) return toggleGlobalLoading(false)
     if (!artistLoading && !artistRequired && !authPage) {
       toggleGlobalLoading(false)
     }
-  }, [artistLoading, artistRequired, authPage, toggleGlobalLoading])
+  }, [artistLoading, artistRequired, authPage, toggleGlobalLoading, user])
 
 
   return (

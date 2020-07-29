@@ -1,4 +1,30 @@
+/* TOOLTIPS BUTTON */
+.button--tooltip {
+  @mixin canHover {
+    &:hover {
+      svg circle {
+        stroke: var(--green);
+      }
+    }
+  }
+}
+
+.button--tooltip-text {
+  margin-bottom: 0;
+  transform: translateY(-0.04em);
+  text-decoration: underline;
+}
+
+.button--tooltip-icon {
+  width: var(--sp-4);
+  height: auto;
+  padding: var(--sp-2);
+  box-sizing: content-box;
+}
+
+/* CONTAINER */
 .tooltip--container {
+  display: inline-block;
   position: relative;
   z-index: 2;
 }
