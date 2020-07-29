@@ -3,6 +3,7 @@ import useGetPaginated from '@/admin/hooks/useGetPaginated'
 
 import UsersList from '@/admin/UsersList'
 import UsersFilters from '@/admin/UsersFilters'
+import ListSearch from '@/admin/elements/ListSearch'
 
 const AllUsersLoader = () => {
   const propsToDisplay = [
@@ -36,7 +37,10 @@ const AllUsersLoader = () => {
 
   // FILTER
   // Filtered List
-  const [filteredUsers, setFilteredUsers] = React.useState(users)
+  const [filteredUsers, setFilteredUsers] = React.useState(usersWithFullName)
+  // Search state
+  const [searchedUsers, setSearchedUsers] = React.useState(filteredUsers)
+
   return (
     <section>
       {error && <div>Failed to fetch users</div>}
@@ -49,9 +53,18 @@ const AllUsersLoader = () => {
       </h4>
       <UsersFilters
         setFilteredUsers={setFilteredUsers}
-        users={users}
+        users={usersWithFullName}
       />
-      {filteredUsers && <UsersList users={filteredUsers} propsToDisplay={propsToDisplay} />}
+      {/* SEARCH */}
+      {!!users.length && (
+        <ListSearch
+          className="pt-2"
+          fullList={filteredUsers}
+          updateList={setSearchedUsers}
+          searchBy={['full_name', 'id']}
+        />
+      )}
+      {searchedUsers && <UsersList users={searchedUsers} propsToDisplay={propsToDisplay} />}
     </section>
   )
 }
