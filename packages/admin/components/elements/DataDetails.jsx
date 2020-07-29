@@ -11,11 +11,11 @@ const getDetailsArray = (propsToDisplay, data) => {
   return propsToDisplay.reduce((arr, detailName) => {
     const detailKeys = detailName.split('.')
     const rawValue = get(data, detailKeys, '')
-    if (!rawValue) return arr
+    const name = detailKeys[detailKeys.length - 1].replace(/_/g, ' ')
+    if (!rawValue && name !== 'daily budget') return arr
     // Convert dates (if necessary)
     const isDate = dateKeys.includes(detailName)
     const value = isDate ? moment(rawValue).format('DD MMM YYYY') : rawValue.toString()
-    const name = detailKeys[detailKeys.length - 1].replace(/_/g, ' ')
     const detail = {
       name,
       value,

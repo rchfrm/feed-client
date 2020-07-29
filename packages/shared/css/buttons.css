@@ -248,6 +248,17 @@ button {
     background-color: var(--text-color);
     color: var(--bg-color);
   }
+
+  &.-inactive {
+    background-color: var(--grey-light);
+    color: var(--text-color);
+    opacity: 0.5;
+  }
+}
+
+.button--filter-empty {
+  background-color: transparent !important;
+  color: var(--text-color) !important;
 }
 
 /* Copy text button */
