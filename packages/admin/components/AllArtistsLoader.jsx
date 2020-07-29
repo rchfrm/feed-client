@@ -33,9 +33,12 @@ export default function Home() {
     <section className="content">
       {error && <div>Failed to fetch artists</div>}
       {!finishedLoading ? <p>Loading...</p> : <p>Finished loading all artists</p>}
-      <p>Total: {artists.length}</p>
+      <p>Total loaded: {artists.length}</p>
+      <p>Total filtered & searched: {searchedArtists.length}</p>
       {/* FILTERS */}
-      <h4>Filters</h4>
+      <h4>
+        <strong>Filters</strong>
+      </h4>
       <ArtistsFilters
         setFilteredArtists={setFilteredArtists}
         artists={artists}
@@ -48,7 +51,6 @@ export default function Home() {
           setSearchedArtists={setSearchedArtists}
         />
       )}
-      <p>Total filtered & searched: {searchedArtists.length}</p>
       {/* ALL ARTISTS (Filtered then searched) */}
       {searchedArtists && <ArtistsList artists={searchedArtists} propsToDisplay={propsToDisplay} />}
     </section>
