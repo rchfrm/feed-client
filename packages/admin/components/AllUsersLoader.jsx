@@ -2,6 +2,7 @@ import React from 'react'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
 
 import UsersList from '@/admin/UsersList'
+import UsersFilters from '@/admin/UsersFilters'
 
 const AllUsersLoader = () => {
   const propsToDisplay = [
@@ -24,12 +25,24 @@ const AllUsersLoader = () => {
     fields: fields.join(','),
   })
 
+  // FILTER
+  // Filtered List
+  const [filteredUsers, setFilteredUsers] = React.useState(users)
   return (
     <section>
       {error && <div>Failed to fetch users</div>}
       {finishedLoading ? <p>Finished loading</p> : <p>Loading...</p>}
       <p>Total loaded: {users.length}</p>
-      <UsersList users={users} propsToDisplay={propsToDisplay} />
+      <p>Total filtered & searched: {filteredUsers.length}</p>
+      {/* FILTERS */}
+      <h4>
+        <strong>Filters</strong>
+      </h4>
+      <UsersFilters
+        setFilteredUsers={setFilteredUsers}
+        users={users}
+      />
+      {filteredUsers && <UsersList users={filteredUsers} propsToDisplay={propsToDisplay} />}
     </section>
   )
 }
