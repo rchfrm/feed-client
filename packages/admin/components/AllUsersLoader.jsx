@@ -25,6 +25,15 @@ const AllUsersLoader = () => {
     fields: fields.join(','),
   })
 
+  // Update users to include full name key
+  const usersWithFullName = React.useMemo(() => {
+    return users.map((user) => {
+      const { first_name, last_name } = user
+      const full_name = `${first_name} ${last_name}`
+      return { ...user, full_name }
+    })
+  }, [users])
+
   // FILTER
   // Filtered List
   const [filteredUsers, setFilteredUsers] = React.useState(users)
