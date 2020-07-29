@@ -7,7 +7,13 @@ import FuzzySearch from 'fuzzy-search'
 
 import Input from '@/elements/Input'
 
-const AllArtistsSearch = ({ artists, setSearchedArtists, className }) => {
+const ListSearch = ({
+  fullList,
+  updateList,
+  searchBy,
+  inputLabel,
+  className,
+}) => {
   const [inputValue, setInputValue] = React.useState('')
   const [searchTerm, setSearchTerm] = React.useState('')
   const updateSearch = debounce(value => setSearchTerm(value), 300)
@@ -17,22 +23,22 @@ const AllArtistsSearch = ({ artists, setSearchedArtists, className }) => {
   // eslint-disable-next-line
   }, [setSearchTerm])
 
-  const searcher = new FuzzySearch(artists, ['name', 'id'], {
+  const searcher = new FuzzySearch(fullList, searchBy, {
     caseSensitive: false,
     sort: true,
   })
 
   React.useEffect(() => {
     const searchResults = searcher.search(searchTerm)
-    setSearchedArtists(searchResults)
+    updateList(searchResults)
   // eslint-disable-next-line
-  }, [artists, searchTerm, setSearchedArtists])
+  }, [fullList, searchTerm, updateList])
 
   return (
     <div className={[className].join(' ')}>
       <Input
-        label="Search filtered artists by name or ID"
-        name="artistSearch"
+        label={inputLabel}
+        name="listSearch"
         value={inputValue}
         handleChange={handleChange}
       />
@@ -40,15 +46,20 @@ const AllArtistsSearch = ({ artists, setSearchedArtists, className }) => {
   )
 }
 
-AllArtistsSearch.propTypes = {
-  artists: PropTypes.array.isRequired,
-  setSearchedArtists: PropTypes.func.isRequired,
+ListSearch.propTypes = {
+  fullList: PropTypes.array,
+  updateList: PropTypes.func.isRequired,
+  searchBy: PropTypes.array,
+  inputLabel: PropTypes.string,
   className: PropTypes.string,
 }
 
-AllArtistsSearch.defaultProps = {
+ListSearch.defaultProps = {
+  fullList: [],
+  searchBy: ['name', 'id'],
+  inputLabel: 'Search filtered items by name or ID',
   className: '',
 }
 
 
-export default AllArtistsSearch
+export default ListSearch

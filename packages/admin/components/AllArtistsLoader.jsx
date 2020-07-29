@@ -2,7 +2,7 @@
 import React from 'react'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
 import ArtistsFilters from '@/admin/ArtistsFilters'
-import AllArtistsSearch from '@/admin/AllArtistsSearch'
+import ListSearch from '@/admin/elements/ListSearch'
 import ArtistsList from '@/admin/ArtistsList'
 
 export default function Home() {
@@ -44,10 +44,10 @@ export default function Home() {
       />
       {/* SEARCH */}
       {!!artists.length && (
-        <AllArtistsSearch
+        <ListSearch
           className="pt-2"
-          artists={filteredArtists}
-          setSearchedArtists={setSearchedArtists}
+          fullList={filteredArtists}
+          updateList={setSearchedArtists}
         />
       )}
       {/* ALL ARTISTS (Filtered then searched) */}
