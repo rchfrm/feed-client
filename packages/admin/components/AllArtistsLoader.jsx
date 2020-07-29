@@ -23,11 +23,10 @@ export default function Home() {
   })
 
   // FILTER
-  // Filter button state
+  // Filtered List
   const [filteredArtists, setFilteredArtists] = React.useState(artists)
   // Search state
   const [searchedArtists, setSearchedArtists] = React.useState(filteredArtists)
-
 
   return (
     <section className="content">
