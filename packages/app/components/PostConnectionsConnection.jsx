@@ -189,7 +189,7 @@ const PostConnectionsConnection = ({
           disabled={disabled}
           bgColor={brandColors.white}
         >
-          <ConnectionEdit
+          <CONNECTION_EDIT
             disabled={disabled}
             loading={loading}
             valid={valid}
@@ -214,7 +214,7 @@ const PostConnectionsConnection = ({
 export default PostConnectionsConnection
 
 
-function ConnectionEdit({
+function CONNECTION_EDIT({
   disabled,
   loading,
   valid,
@@ -225,19 +225,10 @@ function ConnectionEdit({
 
   if (valid) {
     return (
-      <Icon
-        version="pencil"
-        color="black"
-        width={15}
-      />
+      <a className="text-sm">Edit</a>
     )
   }
   return (
-    <Icon
-      className={styles.saveIcon}
-      version="tick"
-      color={disabled ? [brandColors.disabledColorText] : [brandColors.textColor]}
-      width={15}
-    />
+    <a className="text-sm">Save</a>
   )
 }

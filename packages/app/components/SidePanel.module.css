@@ -48,13 +48,6 @@
   }
 }
 
-.dragIndicator {
-  position: absolute;
-  bottom: 50%;
-  left: var(--sp-3);
-  transform: translateY(50%) translateY(calc(-0.5 * var(--button-height)));
-}
-
 .SidePanel__Header {
   padding-right: calc(var(--sp-5) + var(--sp-8));
   margin-bottom: var(--sp-8);

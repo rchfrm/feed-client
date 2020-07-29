@@ -135,8 +135,6 @@ function SidePanel({
               <Spinner className={styles.spinner} />
             </div>
           )}
-          {/* Drag indicator */}
-          <DragIndicator dragDirection="horizontal" className={styles.dragIndicator} />
           {/* The content */}
           <div className={styles.container__inner}>
             { content }

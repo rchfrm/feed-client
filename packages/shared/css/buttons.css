@@ -267,26 +267,3 @@ button {
     width: auto;
   }
 }
-
-/* TOOLTIPS BUTTON */
-.button--tooltip {
-  width: var(--sp-4);
-  padding: var(--sp-2);
-  box-sizing: content-box;
-
-  svg {
-    width: 100%;
-    height: auto;
-  }
-
-  @mixin canHover {
-    &:hover {
-      svg circle {
-        stroke: var(--green);
-      }
-      /* svg path {
-        fill: var(--green);
-      } */
-    }
-  }
-}
