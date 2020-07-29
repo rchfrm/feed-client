@@ -87,13 +87,13 @@ body {
 .page--content_fixed {
   position: fixed;
   width: 90%;
-  width: calc(100% - (2 * var(--sp-5)));
+  width: calc(100% - (2 * var(--sp-6)));
 }
 
 .breakout--width {
   width: 100%;
-  width: calc(100% + (2 * var(--sp-5)));
-  margin-left: calc(-1 * var(--sp-5));
+  width: calc(100% + (2 * var(--sp-6)));
+  margin-left: calc(-1 * var(--sp-6));
 
   @media (--sm) {
     width: 100%;
