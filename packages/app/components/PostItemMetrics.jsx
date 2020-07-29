@@ -52,7 +52,6 @@ const METRICS_ITEM = ({ title, value, className }) => {
       key={title}
     >
       <span className={styles.title}>{title}:</span>
-      &nbsp;
       <span className={styles.value}>{value}</span>
     </li>
   )
