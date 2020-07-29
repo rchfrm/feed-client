@@ -4,6 +4,7 @@ import useGetPaginated from '@/admin/hooks/useGetPaginated'
 import UsersList from '@/admin/UsersList'
 import UsersFilters from '@/admin/UsersFilters'
 import ListSearch from '@/admin/elements/ListSearch'
+import ListSort from '@/admin/elements/ListSort'
 
 const AllUsersLoader = () => {
   const propsToDisplay = [
@@ -40,6 +41,8 @@ const AllUsersLoader = () => {
   const [filteredUsers, setFilteredUsers] = React.useState(usersWithFullName)
   // Search state
   const [searchedUsers, setSearchedUsers] = React.useState(filteredUsers)
+  // Sorted state
+  const [sortedUsers, setSortedUsers] = React.useState(searchedUsers)
 
   return (
     <section>
@@ -48,9 +51,7 @@ const AllUsersLoader = () => {
       <p>Total loaded: {users.length}</p>
       <p>Total filtered & searched: {filteredUsers.length}</p>
       {/* FILTERS */}
-      <h4>
-        <strong>Filters</strong>
-      </h4>
+      <h4><strong>Filters</strong></h4>
       <UsersFilters
         setFilteredUsers={setFilteredUsers}
         users={usersWithFullName}
@@ -64,7 +65,15 @@ const AllUsersLoader = () => {
           searchBy={['full_name', 'id']}
         />
       )}
-      {searchedUsers && <UsersList users={searchedUsers} propsToDisplay={propsToDisplay} />}
+      {/* SORT */}
+      <h4><strong>Sort</strong></h4>
+      <ListSort
+        fullList={searchedUsers}
+        updateList={setSortedUsers}
+        sortOptions={['full_name', 'created_at']}
+      />
+      {/* LIST */}
+      {sortedUsers && <UsersList users={sortedUsers} propsToDisplay={propsToDisplay} />}
     </section>
   )
 }
