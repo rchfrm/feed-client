@@ -33,6 +33,7 @@ const ArtistsFilters = ({ artists, setFilteredArtists, className }) => {
       statusFilters={statusFilters}
       filterTest={filterTest}
       className={className}
+      allowMultipleFilters
     />
   )
 }

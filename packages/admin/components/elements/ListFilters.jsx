@@ -9,21 +9,33 @@ const getFilteredList = (fullList, activeFilters, filterTest) => {
   // If no active filters, return all items in list
   if (!activeFilters.length) return fullList
   // Return all items in list that test positive for all active filters
-  return fullList.filter((artist) => {
-    return activeFilters.every((filter) => filterTest(artist, filter))
+  return fullList.filter((item) => {
+    return activeFilters.every((filter) => filterTest(item, filter))
   })
 }
 
-const ListFilters = ({ fullList, updateList, statusFilters, filterTest, className }) => {
+const ListFilters = ({
+  fullList,
+  updateList,
+  statusFilters,
+  filterTest,
+  allowMultipleFilters,
+  className,
+}) => {
   // Update parent array based on active filter
   const [activeFilters, setActiveFilters] = React.useState([])
   React.useEffect(() => {
-    updateList(getFilteredList(fullList, activeFilters, filterTest))
+    const updatedList = getFilteredList(fullList, activeFilters, filterTest)
+    updateList(updatedList)
   }, [fullList, activeFilters, updateList, filterTest])
 
   // Clear filters
   const clearFilters = () => setActiveFilters([])
-  // Toggle active filter
+  // Set active filter (if only allowing one filter)
+  const setFilter = (filter) => {
+    setActiveFilters([filter])
+  }
+  // Toggle active filter (if allowing multiple filters...)
   const toggleFilter = (filter) => {
     const filterIndex = activeFilters.indexOf(filter)
     const isFilterActive = filterIndex > -1
@@ -43,26 +55,30 @@ const ListFilters = ({ fullList, updateList, statusFilters, filterTest, classNam
         {/* Filter buttons */}
         {statusFilters.map((filter) => {
           const statusClass = activeFilters.includes(filter) ? '-active' : ''
+          const onClick = allowMultipleFilters ? toggleFilter : setFilter
+          const title = filter.split('_').join(' ')
           return (
             <li key={filter} className={['mr-5', statusClass].join(' ')}>
               <button
                 className={['button--filter', 'capitalize', statusClass].join(' ')}
-                onClick={() => toggleFilter(filter)}
+                onClick={() => onClick(filter)}
               >
-                {filter.split('_').join(' ')}
+                {title}
               </button>
             </li>
           )
         })}
-        {/* Clear filters button */}
-        <li className={['mr-5'].join(' ')}>
-          <button
-            className={['button--filter', 'button--filter-empty', 'capitalize', activeFilters.length ? '-active' : '-inactive'].join(' ')}
-            onClick={clearFilters}
-          >
-            × Clear
-          </button>
-        </li>
+        {/* Clear filters button (if allowing multiple) */}
+        {allowMultipleFilters && (
+          <li className={['mr-5'].join(' ')}>
+            <button
+              className={['button--filter', 'button--filter-empty', 'capitalize', activeFilters.length ? '-active' : '-inactive'].join(' ')}
+              onClick={clearFilters}
+            >
+              × Clear
+            </button>
+          </li>
+        )}
       </ul>
     </nav>
   )
@@ -73,11 +89,13 @@ ListFilters.propTypes = {
   updateList: PropTypes.func.isRequired,
   statusFilters: PropTypes.array.isRequired,
   filterTest: PropTypes.func.isRequired,
+  allowMultipleFilters: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ListFilters.defaultProps = {
   fullList: [],
+  allowMultipleFilters: false,
   className: '',
 }
 
