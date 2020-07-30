@@ -17,3 +17,10 @@ ul,
 ol {
   margin-bottom: var(--sp-5);
 }
+
+.absolute--center {
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+}
