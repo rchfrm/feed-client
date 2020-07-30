@@ -124,7 +124,6 @@ const TournamentsLoader = ({ audienceId }) => {
             <TournamentsItem
               tournamentProps={tournament}
               artistCurrency={artistCurrency}
-              className="mb-24"
             />
             {/* LOAD MORE SCROLL TRIGGER */}
             {

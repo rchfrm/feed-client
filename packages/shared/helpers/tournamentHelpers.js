@@ -115,6 +115,7 @@ export const formatTournamentData = (tournament, currency) => {
   // Get Post content
   const adPosts = adsArraySorted.map((ad) => {
     const {
+      id,
       adcreatives,
       asset,
       summary,
@@ -145,6 +146,7 @@ export const formatTournamentData = (tournament, currency) => {
     }
     return {
       ...postContent,
+      id,
       score,
       streak: utils.formatNumber(streak),
       streakInt: streak,

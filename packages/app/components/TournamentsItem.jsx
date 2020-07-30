@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import TournamentsItemTopBar from '@/app/TournamentsItemTopBar'
-import TournamentsItemDesktop from '@/app/TournamentsItemDesktop'
-import TournamentsItemMobile from '@/app/TournamentsItemMobile'
+import TournamentsItemAd from '@/app/TournamentsItemAd'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
@@ -37,34 +35,57 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
   return (
     <div
       className={[
-        styles.tournamentItem,
+        'md:grid grid-cols-12 gap-5',
         className,
       ].join(' ')}
     >
-      {/* TOP BAR */}
-      <TournamentsItemTopBar
-        dateCreated={tournament.dateCreated}
-        status={tournament.status}
-        className="mb-10 sm:mb-8"
-      />
-      {/* DESKTOP LAYOUT */}
-      {isDesktopLayout ? (
-        <TournamentsItemDesktop
-          adA={tournament.adPosts[0]}
-          adB={tournament.adPosts[1]}
-          adMetrics={adMetrics}
-          isAdPair={isAdPair}
+      <div
+        className={[
+          'flex',
+          isAdPair ? 'justify-between' : 'justify-start',
+          'col-span-6',
+          'mb-10',
+          'text-center',
+          className,
+        ].join(' ')}
+      >
+        {/* FIRST AD */}
+        <TournamentsItemAd
+          adPost={adA}
+          title="Ad A"
+          winner
+          streakWinner={streakResults[0]}
+          className=""
         />
-      // MOBILE LAYOUT
-      ) : (
-        <TournamentsItemMobile
-          adA={tournament.adPosts[0]}
-          adB={tournament.adPosts[1]}
-          adMetrics={adMetrics}
-          isAdPair={isAdPair}
-          streakResults={streakResults}
-        />
-      )}
+        {/* MIDDLE COLUMN */}
+        <div className="w-24">
+          {/* VS */}
+          <p className="flex items-center justify-center h-24 mb-0">
+            {isAdPair && <strong><em>vs</em></strong>}
+          </p>
+          {/* METRIC BUTTON */}
+          <div className="flex items-center justify-center h-14 mt-8">
+            <button
+              className="rounded-full w-6 h-6 border border-black border-solid"
+              aria-label="Show metrics"
+            >
+              i
+            </button>
+          </div>
+        </div>
+        {/* SECOND AD */}
+        {isAdPair && (
+          <>
+            <TournamentsItemAd
+              adPost={adB}
+              title="Ad B"
+              secondary
+              streakWinner={streakResults[1]}
+              className=""
+            />
+          </>
+        )}
+      </div>
     </div>
   )
 }
