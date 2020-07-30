@@ -59,12 +59,7 @@ const TournamentsLoader = ({ audienceId }) => {
     // Turn off loading more
     setLoadingMore(false)
     // Update Tournaments data
-    const updatedTournaments = data.reduce((updatedList, tournament) => {
-      // Add tournament if not already present
-      const { id } = tournament
-      if (tournamentIds.includes(id)) return updatedList
-      return [...updatedList, tournament]
-    }, tournaments)
+    const updatedTournaments = tournamentHelpers.handleNewTournaments(data, tournaments, tournamentIds)
     setTournaments(updatedTournaments)
     // Set finished loading
     if (data.length < 20) {

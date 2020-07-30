@@ -68,6 +68,27 @@ export const filterTournaments = (tournaments, audienceId) => {
   }, [])
 }
 
+// HANDLE INCOMING TOURNAMENTS
+// ---------------------------
+const addNewTournamentsToOld = (incomingTournaments, previousTournaments, previousTournamentIds) => {
+  return incomingTournaments.reduce((updatedList, newTournament) => {
+    // Add tournament if not already present
+    const { id } = newTournament
+    if (previousTournamentIds.includes(id)) return updatedList
+    return [...updatedList, newTournament]
+  }, previousTournaments)
+}
+
+/**
+ * @param {array} [incomingTournaments]
+ * @param {array} [previousTournaments]
+ * @param {array} [previousTournamentIds]
+ * @returns {array}
+ */
+export const handleNewTournaments = (incomingTournaments, previousTournaments, previousTournamentIds) => {
+  const allTournaments = addNewTournamentsToOld(incomingTournaments, previousTournaments, previousTournamentIds)
+  return allTournaments
+}
 
 // FORMAT DATA
 // -------------------------------------
