@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import TournamentsItemAd from '@/app/TournamentsItemAd'
+import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
@@ -39,6 +40,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
         className,
       ].join(' ')}
     >
+      {/* AD PAIR */}
       <div
         className={[
           'flex',
@@ -86,6 +88,12 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
           </>
         )}
       </div>
+      {/* METRICS */}
+      <TournamentsItemMetrics
+        adMetrics={adMetrics}
+        isAdPair={isAdPair}
+        className="col-span-12 mb-10 text-center"
+      />
     </div>
   )
 }
