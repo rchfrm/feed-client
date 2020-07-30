@@ -45,6 +45,7 @@ module.exports = {
     'no-multiple-empty-lines': 'off',
     'unicorn/number-literal-case': 'off',
     'no-nested-ternary': 'off',
+    'no-continue': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': 'off',
