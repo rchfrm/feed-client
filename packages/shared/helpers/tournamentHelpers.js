@@ -1,4 +1,5 @@
 import moment from 'moment'
+import produce from 'immer'
 
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
@@ -58,9 +59,9 @@ export const metricsToDisplay = [
  */
 export const filterTournaments = (tournaments, audienceId) => {
   return tournaments.reduce((tournamentsFiltered, tournament) => {
-    const { status, adset: { identifier } } = tournament
+    const { status, adsetType } = tournament
     // Remove tournaments that don't match audience type
-    if (identifier !== audienceId) return tournamentsFiltered
+    if (adsetType !== audienceId) return tournamentsFiltered
     // Remove tournaments that are pending
     if (status === 'pending') return tournamentsFiltered
     // Build array
@@ -68,26 +69,44 @@ export const filterTournaments = (tournaments, audienceId) => {
   }, [])
 }
 
-// HANDLE INCOMING TOURNAMENTS
-// ---------------------------
-const addNewTournamentsToOld = (incomingTournaments, previousTournaments, previousTournamentIds) => {
-  return incomingTournaments.reduce((updatedList, newTournament) => {
-    // Add tournament if not already present
-    const { id } = newTournament
-    if (previousTournamentIds.includes(id)) return updatedList
-    return [...updatedList, newTournament]
-  }, previousTournaments)
-}
+// SORT TOURNAMENT ADS TO ALIGN STREAKS
+// -------------------------------------
 
+
+// STORE STREAK POSITIONS ON ADS
 /**
- * @param {array} [incomingTournaments]
+ * @param {array} [tournaments]
  * @param {array} [previousTournaments]
- * @param {array} [previousTournamentIds]
  * @returns {array}
  */
-export const handleNewTournaments = (incomingTournaments, previousTournaments, previousTournamentIds) => {
-  const allTournaments = addNewTournamentsToOld(incomingTournaments, previousTournaments, previousTournamentIds)
-  return allTournaments
+export const storeAdStreakPositions = (tournaments) => {
+  return produce(tournaments, draftTournaments => {
+    for (let i = 0; i < draftTournaments.length; i += 1) {
+      // console.log('i', i)
+      const tournament = draftTournaments[i]
+      const previousTournament = draftTournaments[i - 1] || {}
+      if (!previousTournament.id) continue
+      const { streakWinnerId, streakWinnerIndex } = tournament
+      // Store current streak info on previous tournament
+      // (this is useful when there's only one ad in adset)
+      previousTournament.nextStreakWinnerId = streakWinnerId
+      previousTournament.nextStreakWinnerIndex = streakWinnerIndex
+      const {
+        // streakWinnerId: previousStreakWinnerId,
+        streakWinnerIndex: previousStreakWinnerIndex,
+      } = previousTournament
+      // If the current streak index matches the previous, do nothing
+      if (streakWinnerIndex === previousStreakWinnerIndex) continue
+      // Stop here if only one ad
+      if (tournament.adPosts.length === 1) continue
+      // Else flip the ads...
+      // console.log('flip ads', i)
+      tournament.adPosts.reverse()
+      // And update the index
+      const updatedStreakWinnerIndex = streakWinnerIndex === 0 ? 1 : 0
+      tournament.streakWinnerIndex = updatedStreakWinnerIndex
+    }
+  })
 }
 
 // FORMAT DATA
@@ -118,103 +137,153 @@ const getPostContent = (adCreative) => {
   return {}
 }
 
+// // SORT ADS BY WINNER
+// const sortAdsByWinner = (adsArray) => {
+//   return adsArray.sort((a, b) => {
+//     const { engagement_score: scoreA } = a
+//     const { engagement_score: scoreB } = b
+//     return scoreB - scoreA
+//   })
+// }
+
+// GET ARRAY of WINNING STATUSES
+const getWinningResults = (ads, metric) => {
+  const [adA, adB = {}] = ads
+  const { engagement_score: scoreA, streak: streakA } = adA
+  const { engagement_score: scoreB, streak: streakB } = adB
+  const metricA = metric === 'score' ? scoreA : streakA
+  const metricB = metric === 'score' ? scoreB : streakB
+  if (!metricB) {
+    if (metricA) return [true, false]
+    return [false, false]
+  }
+  if (metricA === metricB) return [true, true]
+  if (metricA > metricB) return [true, false]
+  return [false, true]
+}
+
+// FORMAT AD DATA TO BE CONSUMED
+/**
+ * @param {array} [streakResults]
+ * @param {array} [scoreResults]
+ * @param {string} [currency]
+* @param {object} [ad]
+* @param {number} [index]
+* @returns {object}
+*/
+const formatAdData = (streakResults, scoreResults, currency) => (ad, index) => {
+  const {
+    id,
+    adcreatives,
+    asset = {},
+    summary,
+    streak,
+    engagement_score: score,
+  } = ad
+  const adCreative = Object.values(adcreatives)[0]
+  const postContent = getPostContent(adCreative)
+  // Format score and streak
+  // Get streak winning status
+  const streakWinner = streakResults[index]
+  const scoreWinner = scoreResults[index]
+  // Get clicks
+  const clicks = summary && summary.outbound_clicks && summary.outbound_clicks.outbound_click
+  // Get spend
+  const spendFormatted = summary && utils.formatCurrency(summary.spend, currency)
+  // Build data obj
+  const normalizedEsRounded = asset.normalized_es && asset.normalized_es.toFixed(2)
+  const data = {
+    clicks,
+    // score: utils.formatNumber(score),
+    // streak: utils.formatNumber(streak),
+    spend: spendFormatted,
+    impressions: summary ? summary.impressions : null,
+    reach: asset.reach,
+    shares: asset.shares,
+    likes: asset.likes,
+    views: asset.views,
+    normalized_es: normalizedEsRounded,
+    subtype: asset.subtype,
+  }
+  return {
+    ...postContent,
+    id,
+    scoreWinner,
+    streakWinner,
+    score,
+    scoreString: utils.formatNumber(score),
+    streak,
+    streakString: utils.formatNumber(streak),
+    data,
+  }
+}
 
 // FORMAT TOURNAMENT DATA TO BE CONSUMED
 /**
  * @param {object} [tournament]
  * @returns {object}
  */
-export const formatTournamentData = (tournament, currency) => {
-  const { ads, created_at, status } = tournament
+const formatTournamentData = (tournament, currency) => {
+  const { ads, adset, created_at, status, id } = tournament
+  const { identifier: adsetType } = adset
+  // Convert ads to array and sort by winner
   const adsArray = Object.values(ads)
-  // Sort posts by score
-  const adsArraySorted = adsArray.sort((a, b) => {
-    const { engagement_score: scoreA } = a
-    const { engagement_score: scoreB } = b
-    return scoreB - scoreA
-  })
-  // Get Post content
-  const adPosts = adsArraySorted.map((ad) => {
-    const {
-      id,
-      adcreatives,
-      asset,
-      summary,
-      streak,
-      engagement_score: score,
-    } = ad
-    const adCreative = Object.values(adcreatives)[0]
-    const postContent = getPostContent(adCreative)
-    // Format score and streak
-    // Get clicks
-    const clicks = summary && summary.outbound_clicks && summary.outbound_clicks.outbound_click
-    // Get spend
-    const spendFormatted = summary && utils.formatCurrency(summary.spend, currency)
-    // Build data obj
-    const normalizedEsRounded = asset.normalized_es && asset.normalized_es.toFixed(2)
-    const data = {
-      clicks,
-      score: utils.formatNumber(score),
-      streak: utils.formatNumber(streak),
-      spend: spendFormatted,
-      impressions: summary ? summary.impressions : null,
-      reach: asset.reach,
-      shares: asset.shares,
-      likes: asset.likes,
-      views: asset.views,
-      normalized_es: normalizedEsRounded,
-      subtype: asset.subtype,
-    }
-    return {
-      ...postContent,
-      id,
-      score,
-    scoreString: utils.formatNumber(score),
-      streakInt: streak,
-      data,
-    }
-  })
+  const scoreResults = getWinningResults(adsArray, 'score')
+  const streakResults = getWinningResults(adsArray, 'streak')
+  const streakWinnerIndex = streakResults.indexOf(true)
+  const { id: streakWinnerId } = adsArray[streakWinnerIndex] || {}
+  // Format Ad
+  const adPosts = adsArray.map(formatAdData(streakResults, scoreResults, currency))
   // Format time data
   const dateCreated = moment(created_at).format('D MMM YYYY')
   const timeCreated = moment(created_at).format('HH[:]mm')
   return {
+    id,
+    adsetType,
     status,
     adPosts,
     dateCreated,
     timeCreated,
+    streakWinnerIndex,
+    streakWinnerId,
   }
 }
 
-// GET ARRAY OF WINNING STATUSES for Score and Streak
-/**
-* @param {string} [key]
-* @param {boolean} [isAdPair]
-* @param {array} [streakResults]
-* @returns {array}
-*/
-const getWinningStatuses = (key, isAdPair, streakResults) => {
-  if (key === 'score' && isAdPair) return [true, false]
-  if (key === 'streak') return streakResults
-  return [null, null]
+
+// HANDLE INCOMING TOURNAMENTS
+// ---------------------------
+const addNewTournamentsToOld = (incomingTournaments, previousTournaments, previousTournamentIds) => {
+  return incomingTournaments.reduce((updatedList, newTournament) => {
+    // Add tournament if not already present
+    const { id } = newTournament
+    if (previousTournamentIds.includes(id)) return updatedList
+    return [...updatedList, newTournament]
+  }, previousTournaments)
 }
 
-
-// GET ARRAY OF WINNING Streak WINNERS
 /**
-* @param {object} [adA]
-* @param {object} [adB]s]
-* @returns {array}
-*/
-export const getStreakResults = (adA = {}, adB = {}) => {
-  const { streakInt: streakA } = adA
-  const { streakInt: streakB } = adB
-  if (!streakB) {
-    if (streakA) return [true, false]
-    return [false, false]
-  }
-  if (streakA === streakB) return [true, true]
-  if (streakA > streakB) return [true, false]
-  return [false, true]
+ * @param {array} [incomingTournaments]
+ * @param {array} [previousTournaments]
+ * @param {array} [previousTournamentIds]
+ * @param {string} [currency]
+ * @returns {array}
+ */
+export const handleNewTournaments = ({
+  incomingTournaments,
+  previousTournaments,
+  previousTournamentIds,
+  currency,
+}) => {
+  // Format tournament into consumable content
+  const formattedIncoming = incomingTournaments.map((tournament) => {
+    return formatTournamentData(tournament, currency)
+  })
+  // Add information about streak position
+  const tournamentsWithStreakInfo = storeAdStreakPositions(formattedIncoming)
+  // console.log('tournamentsWithStreakInfo', tournamentsWithStreakInfo)
+  // Add new tournaments to previous ones
+  const allTournaments = addNewTournamentsToOld(tournamentsWithStreakInfo, previousTournaments, previousTournamentIds)
+  return allTournaments
 }
 
 
@@ -226,7 +295,7 @@ export const getStreakResults = (adA = {}, adB = {}) => {
  * @param {array} [streakResults]
  * @returns {array}
  */
-export const getAdMetrics = (dataA, dataB, isAdPair, streakResults) => {
+export const getAdMetrics = (dataA, dataB, isAdPair) => {
   const detailsA = utils.getDataArray(metricsToDisplay, dataA)
   const detailsB = dataB ? utils.getDataArray(metricsToDisplay, dataB) : []
   const detailsObj = detailsA.reduce((data, detailA) => {
@@ -234,16 +303,14 @@ export const getAdMetrics = (dataA, dataB, isAdPair, streakResults) => {
     // Get matching data from source B (with fallbacks)
     const detailB = detailsB.find(({ key }) => keyA === key) || {}
     const { name: nameB = nameA, value: valueB = '-' } = detailB
-    // Get winner status for score and streak
-    const [winnerA, winnerB] = getWinningStatuses(keyA, isAdPair, streakResults)
     // Get tooltip
     const tooltip = metricTooltips[keyA]
     // Set values for data type
     data[keyA] = {
       dataType: keyA,
       tooltip,
-      a: { name: nameA, value: valueA, key: keyA, winner: winnerA },
-      b: { name: nameB, value: valueB, key: `${keyA}-b`, winner: winnerB },
+      a: { name: nameA, value: valueA, key: keyA },
+      b: { name: nameB, value: valueB, key: `${keyA}-b` },
     }
     // return completed object
     return data
