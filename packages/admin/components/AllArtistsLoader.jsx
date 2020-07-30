@@ -2,7 +2,7 @@
 import React from 'react'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
 import ArtistsFilters from '@/admin/ArtistsFilters'
-import AllArtistsSearch from '@/admin/AllArtistsSearch'
+import ListSearch from '@/admin/elements/ListSearch'
 import ArtistsList from '@/admin/ArtistsList'
 
 export default function Home() {
@@ -23,32 +23,33 @@ export default function Home() {
   })
 
   // FILTER
-  // Filter button state
+  // Filtered List
   const [filteredArtists, setFilteredArtists] = React.useState(artists)
   // Search state
   const [searchedArtists, setSearchedArtists] = React.useState(filteredArtists)
-
 
   return (
     <section className="content">
       {error && <div>Failed to fetch artists</div>}
       {!finishedLoading ? <p>Loading...</p> : <p>Finished loading all artists</p>}
-      <p>Total: {artists.length}</p>
+      <p>Total loaded: {artists.length}</p>
+      <p>Total filtered & searched: {searchedArtists.length}</p>
       {/* FILTERS */}
-      <h4>Filters</h4>
+      <h4>
+        <strong>Filters</strong>
+      </h4>
       <ArtistsFilters
         setFilteredArtists={setFilteredArtists}
         artists={artists}
       />
       {/* SEARCH */}
       {!!artists.length && (
-        <AllArtistsSearch
+        <ListSearch
           className="pt-2"
-          artists={filteredArtists}
-          setSearchedArtists={setSearchedArtists}
+          fullList={filteredArtists}
+          updateList={setSearchedArtists}
         />
       )}
-      <p>Total filtered & searched: {searchedArtists.length}</p>
       {/* ALL ARTISTS (Filtered then searched) */}
       {searchedArtists && <ArtistsList artists={searchedArtists} propsToDisplay={propsToDisplay} />}
     </section>
