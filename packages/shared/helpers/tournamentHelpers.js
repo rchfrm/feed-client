@@ -169,7 +169,7 @@ export const formatTournamentData = (tournament, currency) => {
       ...postContent,
       id,
       score,
-      streak: utils.formatNumber(streak),
+    scoreString: utils.formatNumber(score),
       streakInt: streak,
       data,
     }

@@ -23,13 +23,13 @@ const TournamentsItemScore = ({ score, winner, className }) => {
 }
 
 TournamentsItemScore.propTypes = {
-  score: PropTypes.number,
+  score: PropTypes.string,
   winner: PropTypes.bool,
   className: PropTypes.string,
 }
 
 TournamentsItemScore.defaultProps = {
-  score: 0,
+  score: '-',
   winner: false,
   className: '',
 }

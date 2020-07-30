@@ -15,6 +15,7 @@ const TournamentsItemAd = ({
   className,
 }) => {
   const { postLink, thumbnailOptions, message, score, streak, id } = adPost
+    scoreString,
   // const isOnStreak = streak && streak > 0
   return (
     <div className={['w-24'].join(' ')}>
@@ -26,7 +27,7 @@ const TournamentsItemAd = ({
       />
       {/* SCORE */}
       <TournamentsItemScore
-        score={score}
+        score={scoreString}
         winner={winner}
         className="mt-4"
       />
