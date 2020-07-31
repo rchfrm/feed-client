@@ -1,3 +1,5 @@
+/* GENERIC */
+/* ************** */
 .postItem {
   position: relative;
   border: 2px solid var(--text-color);
@@ -12,6 +14,18 @@
   }
 }
 
+.postText {
+  font-size: 0.8em;
+
+  @media (min-width: 360px) {
+    font-size: 0.9em;
+  }
+
+  @media (--lg) {
+    font-size: 0.9em;
+  }
+}
+
 /* TOP BAR (meta and toggle) */
 /* ************** */
 .topBar {
@@ -20,20 +34,6 @@
   align-items: center;
   
   border-bottom: 2px solid var(--text-color);
-  font-size: 0.8em;
-
-  @media (min-width: 360px) {
-    font-size: 0.9em;
-  }
-
-  /* @media (--xs) {
-    font-size: 1em;
-  } */
-
-  @media (--lg) {
-    font-size: 0.9em;
-  }
-
 }
 
 /* META */
@@ -44,6 +44,11 @@
   /* Increase meta height if no toggle button, to compensate height */
   .postItem._unpromotable & {
     padding: 5px 0;
+    @media (min-width: 360px) { padding: 5px 0 }
+    @media (--xs) { padding: 0 }
+    @media (--sm) { padding: 5px 0 }
+    @media (--lg) { padding: 0 }
+    @media (min-width: 1300px) { padding: 5px 0 }
   }
 
   > * {
