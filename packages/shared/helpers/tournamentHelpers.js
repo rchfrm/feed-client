@@ -214,7 +214,6 @@ const formatAdData = (streakResults, scoreResults) => (ad, index) => {
   const data = {
     clicks,
     spend,
-    // streak: utils.formatNumber(streak),
     impressions: summary ? summary.impressions : null,
     reach: asset.reach,
     shares: asset.shares,

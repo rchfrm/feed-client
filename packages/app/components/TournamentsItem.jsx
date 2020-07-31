@@ -12,8 +12,6 @@ import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 import styles from '@/app/Tournaments.module.css'
 
 const TournamentsItem = ({ tournament, lastTournament, currency, className }) => {
-  console.log('tournament', tournament)
-
   // Get streak data from tournaments
   const {
     dateCreated,
