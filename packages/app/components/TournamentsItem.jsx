@@ -11,7 +11,7 @@ import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
 import styles from '@/app/Tournaments.module.css'
 
-const TournamentsItem = ({ tournament, className, lastTournament, index }) => {
+const TournamentsItem = ({ tournament, lastTournament, currency, className }) => {
   console.log('tournament', tournament)
 
   // Get streak data from tournaments
@@ -108,6 +108,7 @@ const TournamentsItem = ({ tournament, className, lastTournament, index }) => {
       <TournamentsItemMetrics
         adMetrics={adMetrics}
         isAdPair={isAdPair}
+        currency={currency}
         className="col-span-6 mb-10 text-center"
       />
     </div>
@@ -117,11 +118,13 @@ const TournamentsItem = ({ tournament, className, lastTournament, index }) => {
 TournamentsItem.propTypes = {
   tournament: PropTypes.object.isRequired,
   lastTournament: PropTypes.bool.isRequired,
+  currency: PropTypes.string,
   className: PropTypes.string,
 }
 
 TournamentsItem.defaultProps = {
   className: '',
+  currency: '',
 }
 
 

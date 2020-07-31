@@ -118,7 +118,6 @@ const TournamentsLoader = ({ audienceId }) => {
       offset.current += data.length
       const formattedTournaments = tournamentHelpers.handleNewTournaments({
         incomingTournaments: data,
-        currency: artistCurrency,
       })
       // Handle adding data
       if (loadingMore) {
@@ -198,7 +197,7 @@ const TournamentsLoader = ({ audienceId }) => {
             <TournamentsItem
               tournament={tournament}
               lastTournament={lastTournament}
-              index={index}
+              currency={artistCurrency}
             />
             {/* LOAD MORE SCROLL TRIGGER */}
             {

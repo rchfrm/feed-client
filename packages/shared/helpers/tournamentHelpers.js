@@ -185,14 +185,13 @@ const getWinningResults = (ads, metric) => {
 
 // FORMAT AD DATA TO BE CONSUMED
 /**
- * @param {array} [streakResults]
- * @param {array} [scoreResults]
- * @param {string} [currency]
+* @param {array} [streakResults]
+* @param {array} [scoreResults]
 * @param {object} [ad]
 * @param {number} [index]
 * @returns {object}
 */
-const formatAdData = (streakResults, scoreResults, currency) => (ad, index) => {
+const formatAdData = (streakResults, scoreResults) => (ad, index) => {
   const {
     id,
     adcreatives,
@@ -242,7 +241,7 @@ const formatAdData = (streakResults, scoreResults, currency) => (ad, index) => {
  * @param {object} [tournament]
  * @returns {object}
  */
-const formatTournamentData = (tournament, currency) => {
+const formatTournamentData = (tournament) => {
   const { ads, adset, created_at, status, id } = tournament
   const { identifier: adsetType } = adset
   // Convert ads to array
@@ -255,7 +254,7 @@ const formatTournamentData = (tournament, currency) => {
   const winningAdId = getWinningAdId(tournament)
   const winningAdIndex = adsArray.findIndex(({ id }) => id === winningAdId)
   // Format Ad
-  const adPosts = adsArray.map(formatAdData(streakResults, scoreResults, currency))
+  const adPosts = adsArray.map(formatAdData(streakResults, scoreResults))
   // Format time data
   const dateCreated = moment(created_at).format('D MMM YYYY')
   const timeCreated = moment(created_at).format('HH[:]mm')
@@ -279,16 +278,14 @@ const formatTournamentData = (tournament, currency) => {
  * @param {array} [incomingTournaments]
  * @param {array} [previousTournaments]
  * @param {array} [previousTournamentIds]
- * @param {string} [currency]
  * @returns {array}
  */
 export const handleNewTournaments = ({
   incomingTournaments,
-  currency,
 }) => {
   // Format tournament into consumable content
   const formattedIncoming = incomingTournaments.map((tournament) => {
-    return formatTournamentData(tournament, currency)
+    return formatTournamentData(tournament)
   })
   // Add information about streak position
   const tournamentsWithStreakInfo = setAdStreakPositions(formattedIncoming)
