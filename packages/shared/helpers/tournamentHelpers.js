@@ -93,6 +93,7 @@ export const fixAdStreakPositions = (tournaments, previousTournaments = []) => {
         winningAdIndex,
         streakWinnerId,
         streakWinnerIndex,
+        isAdPair,
       } = tournament
       // Store current streak info on previous tournament
       // (this is useful to angle the line when there's only one ad in adset)
@@ -100,6 +101,7 @@ export const fixAdStreakPositions = (tournaments, previousTournaments = []) => {
       previousTournament.nextWinningAdIndex = winningAdIndex
       previousTournament.nextStreakWinnerId = streakWinnerId
       previousTournament.nextStreakWinnerIndex = streakWinnerIndex
+      previousTournament.nextIsAdPair = isAdPair
       const {
         streakWinnerId: previousStreakWinnerId,
         streakWinnerIndex: previousStreakWinnerIndex,
@@ -254,6 +256,7 @@ const formatTournamentData = (tournament, currency) => {
     adsetType,
     status,
     adPosts,
+    isAdPair: adPosts.length === 2,
     dateCreated,
     timeCreated,
     winningAdId,

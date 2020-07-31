@@ -20,13 +20,12 @@ const TournamentsItem = ({ tournament, className, lastItem, index }) => {
     streakWinnerIndex,
     streakWinnerId,
     nextStreakWinnerIndex,
+    isAdPair,
   } = tournament
   // Get ad parirs
   const [adA, adB] = tournament.adPosts
   const { data: dataA } = adA
   const { data: dataB } = adB || {}
-  // Is ad a pair?
-  const isAdPair = !!adB
   // DEFINE AD METRICS ARRAY
   const adMetrics = React.useMemo(() => {
     return tournamentHelpers.getAdMetrics(dataA, dataB, isAdPair)
