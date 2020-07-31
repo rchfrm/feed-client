@@ -14,6 +14,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import * as server from '@/helpers/sharedServer'
 import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
+// DATA REDUCER
 const initialDataState = []
 const dataReducer = (draftState, action) => {
   const { type: actionType, payload = {} } = action
@@ -31,7 +32,7 @@ const dataReducer = (draftState, action) => {
   }
 }
 
-
+// SERVER FETCHER
 const fetcher = async ({ artistId, audienceId, offset }) => {
   console.log('FETCHER')
   if (!artistId) return []
@@ -47,6 +48,16 @@ const fetcher = async ({ artistId, audienceId, offset }) => {
   })
 }
 
+// UPDATE DATA CONDITION
+const updateDataConditions = (newProps, oldProps) => {
+  const { artistId: newArtistId, audienceId: newAudienceId, loadingMore } = newProps
+  const { artistId: oldArtistId, audienceId: oldAudienceId, loadingMore: alreadyLoadingMore } = oldProps
+  if (loadingMore && !alreadyLoadingMore) return true
+  if (newArtistId !== oldArtistId) return true
+  if (newAudienceId !== oldAudienceId) return true
+  return false
+}
+
 const TournamentsLoader = ({ audienceId }) => {
   const { artistId, artistLoading, artistCurrency } = React.useContext(ArtistContext)
   const [tournaments, setTournaments] = useImmerReducer(dataReducer, initialDataState)
@@ -56,7 +67,10 @@ const TournamentsLoader = ({ audienceId }) => {
   const [loadingMore, setLoadingMore] = React.useState(false)
   const loadedAll = React.useRef(false)
 
-  // When changing artist...
+  // Import interface context
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+
+  // WHEN CHANGING ARTIST or AUDIENCE ID...
   React.useEffect(() => {
     if (!artistId) return
     // Reset initial load
@@ -65,11 +79,7 @@ const TournamentsLoader = ({ audienceId }) => {
     offset.current = 0
     // Update end of assets state
     loadedAll.current = false
-  }, [artistId])
-
-  // Import interface context
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
-
+  }, [artistId, audienceId])
 
   // ARRAY OF TOURNAMENT IDs
   const tournamentIds = React.useMemo(() => {
@@ -87,13 +97,7 @@ const TournamentsLoader = ({ audienceId }) => {
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({
     promiseFn: fetcher,
-    watchFn: (newProps, oldProps) => {
-      const { artistId: newArtistId, loadingMore } = newProps
-      const { artistId: oldArtistId, loadingMore: alreadyLoadingMore } = oldProps
-      if (loadingMore && !alreadyLoadingMore) return true
-      if (newArtistId !== oldArtistId) return true
-      return false
-    },
+    watchFn: updateDataConditions,
     // The variable(s) to pass to promiseFn
     artistId,
     audienceId,
@@ -118,13 +122,12 @@ const TournamentsLoader = ({ audienceId }) => {
       }
       // Update offset
       offset.current += data.length
-      const updatedTournaments = tournamentHelpers.handleNewTournaments({
+      const formattedTournaments = tournamentHelpers.handleNewTournaments({
         incomingTournaments: data,
         previousTournaments: tournaments,
         previousTournamentIds: tournamentIds,
         currency: artistCurrency,
       })
-      console.log('updatedTournaments', updatedTournaments)
       // Handle adding data
       if (loadingMore) {
         // Stop loading
@@ -132,14 +135,14 @@ const TournamentsLoader = ({ audienceId }) => {
         // Update posts
         setTournaments({
           type: 'add-data',
-          payload: { newData: updatedTournaments },
+          payload: { newData: formattedTournaments },
         })
         return
       }
       // Handle replacing data
       setTournaments({
         type: 'replace-data',
-        payload: { newData: updatedTournaments },
+        payload: { newData: formattedTournaments },
       })
       // Define initial load
       initialLoad.current = false
