@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
-  console.log('adMetrics', adMetrics)
   return (
     <div className={[className].join(' ')}>
       METRIXXX
