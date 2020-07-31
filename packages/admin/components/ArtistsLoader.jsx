@@ -7,7 +7,6 @@ import ArtistsFilters from '@/admin/ArtistsFilters'
 import ListSearch from '@/admin/elements/ListSearch'
 import ArtistsList from '@/admin/ArtistsList'
 
-
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -47,21 +46,18 @@ const ArtistsLoader = ({ artistId }) => {
   // Search state
   const [searchedArtists, setSearchedArtists] = React.useState(filteredArtists)
 
-  // GET ARTIST ARRAY BASED ON PAGE TYPE
+  // GET DATA ARRAY BASED ON PAGE TYPE
   const artistsArray = isSingleArtist ? artists : searchedArtists
 
   return (
     <section className="content">
       {error && <div>Failed to fetch artists</div>}
+      <Error error={error} />
       {!finishedLoading ? <p>Loading...</p> : <p>Finished loading all artists</p>}
       {!isSingleArtist && (
         <>
           <p>Total loaded: {artists.length}</p>
           <p>Total filtered & searched: {searchedArtists.length}</p>
-        </>
-      )}
-      {!isSingleArtist && (
-        <>
           {/* FILTERS */}
           <h4>
             <strong>Filters</strong>
