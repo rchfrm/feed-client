@@ -18,13 +18,17 @@ import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 const initialDataState = []
 const dataReducer = (draftState, action) => {
   const { type: actionType, payload = {} } = action
-  const { newData } = payload
+  const { newData = [] } = payload
+  const firstIncomingTournament = newData[0]
   switch (actionType) {
     case 'replace-data':
       return newData
     case 'reset-data':
       return initialDataState
     case 'add-data':
+      // Update streak positions on last old tournament
+      tournamentHelpers.setLastStreakPosition(draftState[draftState.length - 1], firstIncomingTournament)
+      // Add new tournaments to list
       draftState.push(...newData)
       break
     default:
@@ -114,7 +118,6 @@ const TournamentsLoader = ({ audienceId }) => {
       offset.current += data.length
       const formattedTournaments = tournamentHelpers.handleNewTournaments({
         incomingTournaments: data,
-        previousTournaments: tournaments,
         currency: artistCurrency,
       })
       // Handle adding data

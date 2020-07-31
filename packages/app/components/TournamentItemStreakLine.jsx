@@ -6,6 +6,9 @@ import styles from '@/app/Tournaments.module.css'
 const getLineTransform = (isAdPair, nextIsAdPair, nextWinningAdIndex) => {
   if (isAdPair && nextIsAdPair) return 'none'
   if (!isAdPair && !nextIsAdPair) return 'none'
+  if (isAdPair && !nextIsAdPair) {
+    return 'rotate(45deg)'
+  }
   if (nextWinningAdIndex === 1) {
     return 'rotate(45deg)'
   }

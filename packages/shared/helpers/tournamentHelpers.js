@@ -72,19 +72,28 @@ export const filterTournaments = (tournaments, audienceId) => {
 // SORT TOURNAMENT ADS TO ALIGN STREAKS
 // -------------------------------------
 
+// SET STREAK POSITION ON LAST TOURNAMENT ADS
+/**
+ * @param {object} [lastTournament]
+ * @param {object} [firstIncomingTournament]
+ * @returns {object}
+ */
+export const setLastStreakPosition = (lastTournament, firstIncomingTournament) => {
+  lastTournament.nextWinningAdId = firstIncomingTournament.winningAdId
+  lastTournament.nextWinningAdIndex = firstIncomingTournament.winningAdIndex
+  lastTournament.nextStreakWinnerId = firstIncomingTournament.streakWinnerId
+  lastTournament.nextStreakWinnerIndex = firstIncomingTournament.streakWinnerIndex
+  lastTournament.nextIsAdPair = firstIncomingTournament.isAdPair
+}
 
-// STORE STREAK POSITIONS ON ADS
+// SET STREAK POSITIONS ON ADS
 /**
  * @param {array} [tournaments]
- * @param {array} [previousTournaments]
  * @returns {array}
  */
-export const fixAdStreakPositions = (tournaments, previousTournaments = []) => {
-  const lastPreviousTournament = previousTournaments[previousTournaments.length - 1] || {}
-
+export const setAdStreakPositions = (tournaments) => {
   return produce(tournaments, draftTournaments => {
     for (let i = 0; i < draftTournaments.length; i += 1) {
-      // console.log('i', i)
       const tournament = draftTournaments[i]
       const previousTournament = draftTournaments[i - 1] || {}
       if (!previousTournament.id) continue
@@ -276,7 +285,6 @@ const formatTournamentData = (tournament, currency) => {
  */
 export const handleNewTournaments = ({
   incomingTournaments,
-  previousTournaments,
   currency,
 }) => {
   // Format tournament into consumable content
@@ -284,7 +292,7 @@ export const handleNewTournaments = ({
     return formatTournamentData(tournament, currency)
   })
   // Add information about streak position
-  const tournamentsWithStreakInfo = fixAdStreakPositions(formattedIncoming, previousTournaments)
+  const tournamentsWithStreakInfo = setAdStreakPositions(formattedIncoming)
   return tournamentsWithStreakInfo
 }
 
