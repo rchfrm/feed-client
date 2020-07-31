@@ -10,26 +10,27 @@ import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
 import styles from '@/app/Tournaments.module.css'
 
-const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
-  // Format data
-  const tournament = React.useMemo(() => {
-    return tournamentHelpers.formatTournamentData(tournamentProps, artistCurrency)
-  }, [tournamentProps, artistCurrency])
+const TournamentsItem = ({ tournament, className, lastItem, index }) => {
+  console.log('tournament', tournament)
+
+  // Get streak data from tournaments
+  const {
+    winningAdId,
+    winningAdIndex,
+    streakWinnerIndex,
+    streakWinnerId,
+    nextStreakWinnerIndex,
+  } = tournament
+  // Get ad parirs
   const [adA, adB] = tournament.adPosts
   const { data: dataA } = adA
   const { data: dataB } = adB || {}
   // Is ad a pair?
-  const isAdPair = React.useMemo(() => {
-    return !!adB
-  }, [adB])
-  // Get streak results
-  const streakResults = React.useMemo(() => {
-    return tournamentHelpers.getStreakResults(adA, adB)
-  }, [adA, adB])
+  const isAdPair = !!adB
   // DEFINE AD METRICS ARRAY
   const adMetrics = React.useMemo(() => {
-    return tournamentHelpers.getAdMetrics(dataA, dataB, isAdPair, streakResults)
-  }, [dataA, dataB, isAdPair, streakResults])
+    return tournamentHelpers.getAdMetrics(dataA, dataB, isAdPair)
+  }, [dataA, dataB, isAdPair])
   // On resize
   const isDesktopLayout = useBreakpointTest('md')
 
@@ -44,7 +45,7 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
       <div
         className={[
           'flex',
-          isAdPair ? 'justify-between' : 'justify-start',
+          isAdPair ? 'justify-between' : 'justify-center',
           'col-span-6',
           'mb-10',
           'text-center',
@@ -54,35 +55,36 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
         {/* FIRST AD */}
         <TournamentsItemAd
           adPost={adA}
+          winningAdId={winningAdId}
           title="Ad A"
-          winner
-          streakWinner={streakResults[0]}
           className=""
         />
         {/* MIDDLE COLUMN */}
-        <div className="w-24">
-          {/* VS */}
-          <p className="flex items-center justify-center h-24 mb-0">
-            {isAdPair && <strong><em>vs</em></strong>}
-          </p>
-          {/* METRIC BUTTON */}
-          <div className="flex items-center justify-center h-14 mt-8">
-            <button
-              className="rounded-full w-6 h-6 border border-black border-solid"
-              aria-label="Show metrics"
-            >
-              i
-            </button>
+        {isAdPair && (
+          <div className="w-24">
+            {/* VS */}
+            <p className="flex items-center justify-center h-24 mb-0">
+              <strong><em>vs</em></strong>
+            </p>
+            {/* METRIC BUTTON */}
+            <div className="hidden flex items-center justify-center h-14 mt-8">
+              <button
+                className="rounded-full w-6 h-6 border border-black border-solid"
+                aria-label="Show metrics"
+              >
+                i
+              </button>
+            </div>
           </div>
-        </div>
+        )}
         {/* SECOND AD */}
         {isAdPair && (
           <>
             <TournamentsItemAd
               adPost={adB}
+              winningAdId={winningAdId}
               title="Ad B"
               secondary
-              streakWinner={streakResults[1]}
               className=""
             />
           </>
@@ -92,20 +94,19 @@ const TournamentsItem = ({ tournamentProps, artistCurrency, className }) => {
       <TournamentsItemMetrics
         adMetrics={adMetrics}
         isAdPair={isAdPair}
-        className="col-span-12 mb-10 text-center"
+        className="hidden col-span-12 mb-10 text-center"
       />
     </div>
   )
 }
 
 TournamentsItem.propTypes = {
-  tournamentProps: PropTypes.object.isRequired,
-  artistCurrency: PropTypes.string,
+  tournament: PropTypes.object.isRequired,
+  lastItem: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
 TournamentsItem.defaultProps = {
-  artistCurrency: '',
   className: '',
 }
 

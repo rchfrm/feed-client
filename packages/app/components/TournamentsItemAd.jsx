@@ -8,11 +8,13 @@ import styles from '@/app/Tournaments.module.css'
 
 const TournamentsItemAd = ({
   adPost,
+  winningAdId,
   title,
   secondary,
   className,
 }) => {
   const {
+    id,
     postLink,
     thumbnailOptions,
     message,
@@ -20,8 +22,8 @@ const TournamentsItemAd = ({
     scoreWinner,
     streak,
     streakWinner,
-    id,
   } = adPost
+  const isWinner = winningAdId ? id === winningAdId : scoreWinner
   // const isOnStreak = streak && streak > 0
   return (
     <div className={['w-24'].join(' ')}>
@@ -34,7 +36,7 @@ const TournamentsItemAd = ({
       {/* SCORE */}
       <TournamentsItemScore
         score={scoreString}
-        winner={scoreWinner}
+        winner={isWinner}
         className="mt-4"
       />
       {/* Line & Streak */}
@@ -54,6 +56,7 @@ const TournamentsItemAd = ({
 
 TournamentsItemAd.propTypes = {
   adPost: PropTypes.object.isRequired,
+  winningAdId: PropTypes.string,
   title: PropTypes.string.isRequired,
   secondary: PropTypes.bool,
   className: PropTypes.string,
@@ -61,6 +64,7 @@ TournamentsItemAd.propTypes = {
 
 TournamentsItemAd.defaultProps = {
   secondary: false,
+  winningAdId: '',
   className: '',
 }
 

@@ -79,28 +79,38 @@ export const filterTournaments = (tournaments, audienceId) => {
  * @param {array} [previousTournaments]
  * @returns {array}
  */
-export const storeAdStreakPositions = (tournaments) => {
+export const fixAdStreakPositions = (tournaments, previousTournaments = []) => {
+  const lastPreviousTournament = previousTournaments[previousTournaments.length - 1] || {}
+
   return produce(tournaments, draftTournaments => {
     for (let i = 0; i < draftTournaments.length; i += 1) {
       // console.log('i', i)
       const tournament = draftTournaments[i]
       const previousTournament = draftTournaments[i - 1] || {}
       if (!previousTournament.id) continue
-      const { streakWinnerId, streakWinnerIndex } = tournament
+      const {
+        winningAdId,
+        winningAdIndex,
+        streakWinnerId,
+        streakWinnerIndex,
+      } = tournament
       // Store current streak info on previous tournament
-      // (this is useful when there's only one ad in adset)
+      // (this is useful to angle the line when there's only one ad in adset)
+      previousTournament.nextWinningAdId = winningAdId
+      previousTournament.nextWinningAdIndex = winningAdIndex
       previousTournament.nextStreakWinnerId = streakWinnerId
       previousTournament.nextStreakWinnerIndex = streakWinnerIndex
       const {
-        // streakWinnerId: previousStreakWinnerId,
+        streakWinnerId: previousStreakWinnerId,
         streakWinnerIndex: previousStreakWinnerIndex,
       } = previousTournament
-      // If the current streak index matches the previous, do nothing
-      if (streakWinnerIndex === previousStreakWinnerIndex) continue
-      // Stop here if only one ad
+      // STOP HERE if only one ad
       if (tournament.adPosts.length === 1) continue
+      // STOP HERE if current winner is not same as previous streak winner ID
+      if (winningAdId !== previousStreakWinnerId) continue
+      // STOP HERE if current winner index matches the previous streak winner index
+      if (winningAdIndex === previousStreakWinnerIndex) continue
       // Else flip the ads...
-      // console.log('flip ads', i)
       tournament.adPosts.reverse()
       // And update the index
       const updatedStreakWinnerIndex = streakWinnerIndex === 0 ? 1 : 0
@@ -137,14 +147,14 @@ const getPostContent = (adCreative) => {
   return {}
 }
 
-// // SORT ADS BY WINNER
-// const sortAdsByWinner = (adsArray) => {
-//   return adsArray.sort((a, b) => {
-//     const { engagement_score: scoreA } = a
-//     const { engagement_score: scoreB } = b
-//     return scoreB - scoreA
-//   })
-// }
+// GET WINNING AD
+const getWinningAdId = (tournament) => {
+  const { winner } = tournament
+  if (!winner) return
+  const { ad: { path } } = winner
+  const pathParts = path.split('/')
+  return pathParts[pathParts.length - 1]
+}
 
 // GET ARRAY of WINNING STATUSES
 const getWinningResults = (ads, metric) => {
@@ -183,7 +193,6 @@ const formatAdData = (streakResults, scoreResults, currency) => (ad, index) => {
   const adCreative = Object.values(adcreatives)[0]
   const postContent = getPostContent(adCreative)
   // Format score and streak
-  // Get streak winning status
   const streakWinner = streakResults[index]
   const scoreWinner = scoreResults[index]
   // Get clicks
@@ -226,12 +235,15 @@ const formatAdData = (streakResults, scoreResults, currency) => (ad, index) => {
 const formatTournamentData = (tournament, currency) => {
   const { ads, adset, created_at, status, id } = tournament
   const { identifier: adsetType } = adset
-  // Convert ads to array and sort by winner
+  // Convert ads to array
   const adsArray = Object.values(ads)
   const scoreResults = getWinningResults(adsArray, 'score')
   const streakResults = getWinningResults(adsArray, 'streak')
   const streakWinnerIndex = streakResults.indexOf(true)
   const { id: streakWinnerId } = adsArray[streakWinnerIndex] || {}
+  // Get winning AD id
+  const winningAdId = getWinningAdId(tournament)
+  const winningAdIndex = adsArray.findIndex(({ id }) => id === winningAdId)
   // Format Ad
   const adPosts = adsArray.map(formatAdData(streakResults, scoreResults, currency))
   // Format time data
@@ -244,6 +256,8 @@ const formatTournamentData = (tournament, currency) => {
     adPosts,
     dateCreated,
     timeCreated,
+    winningAdId,
+    winningAdIndex,
     streakWinnerIndex,
     streakWinnerId,
   }
@@ -267,7 +281,7 @@ export const handleNewTournaments = ({
     return formatTournamentData(tournament, currency)
   })
   // Add information about streak position
-  const tournamentsWithStreakInfo = storeAdStreakPositions(formattedIncoming, previousTournaments)
+  const tournamentsWithStreakInfo = fixAdStreakPositions(formattedIncoming, previousTournaments)
   return tournamentsWithStreakInfo
 }
 
