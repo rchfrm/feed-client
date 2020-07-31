@@ -189,12 +189,12 @@ const TournamentsLoader = ({ audienceId }) => {
     <section className="pt-10">
       <p>Total tournaments: {totalTournaments}</p>
       {tournaments.map((tournament, index) => {
-        const lastItem = index === totalTournaments - 1
+        const lastTournament = index === totalTournaments - 1
         return (
           <React.Fragment key={tournament.id}>
             <TournamentsItem
               tournament={tournament}
-              lastItem={lastItem}
+              lastTournament={lastTournament}
               index={index}
             />
             {/* LOAD MORE SCROLL TRIGGER */}

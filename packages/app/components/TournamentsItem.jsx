@@ -10,7 +10,7 @@ import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
 import styles from '@/app/Tournaments.module.css'
 
-const TournamentsItem = ({ tournament, className, lastItem, index }) => {
+const TournamentsItem = ({ tournament, className, lastTournament, index }) => {
   console.log('tournament', tournament)
 
   // Get streak data from tournaments
@@ -60,6 +60,7 @@ const TournamentsItem = ({ tournament, className, lastItem, index }) => {
           winningAdId={winningAdId}
           nextIsAdPair={nextIsAdPair}
           nextWinningAdIndex={nextWinningAdIndex}
+          lastTournament={lastTournament}
           title="Ad A"
           className=""
         />
@@ -90,6 +91,7 @@ const TournamentsItem = ({ tournament, className, lastItem, index }) => {
               winningAdId={winningAdId}
               nextIsAdPair={nextIsAdPair}
               nextWinningAdIndex={nextWinningAdIndex}
+              lastTournament={lastTournament}
               title="Ad B"
               secondary
               className=""
@@ -109,7 +111,7 @@ const TournamentsItem = ({ tournament, className, lastItem, index }) => {
 
 TournamentsItem.propTypes = {
   tournament: PropTypes.object.isRequired,
-  lastItem: PropTypes.bool.isRequired,
+  lastTournament: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

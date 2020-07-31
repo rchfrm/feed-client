@@ -13,6 +13,7 @@ const TournamentsItemAd = ({
   winningAdId,
   nextIsAdPair,
   nextWinningAdIndex,
+  lastTournament,
   title,
   secondary,
   className,
@@ -44,7 +45,7 @@ const TournamentsItemAd = ({
         className="mt-4"
       />
       {/* Line & Streak */}
-      {streakWinner && (
+      {streakWinner && !lastTournament && (
         <TournamentItemStreakLine
           isAdPair={isAdPair}
           nextIsAdPair={nextIsAdPair}
@@ -60,14 +61,16 @@ TournamentsItemAd.propTypes = {
   adPost: PropTypes.object.isRequired,
   isAdPair: PropTypes.bool.isRequired,
   winningAdId: PropTypes.string,
-  nextIsAdPair: PropTypes.bool.isRequired,
+  nextIsAdPair: PropTypes.bool,
   nextWinningAdIndex: PropTypes.number,
+  lastTournament: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   secondary: PropTypes.bool,
   className: PropTypes.string,
 }
 
 TournamentsItemAd.defaultProps = {
+  nextIsAdPair: false,
   nextWinningAdIndex: 0,
   secondary: false,
   winningAdId: '',
