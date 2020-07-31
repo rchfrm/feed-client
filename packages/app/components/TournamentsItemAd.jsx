@@ -37,6 +37,7 @@ const TournamentsItemAd = ({
       <TournamentsItemImage
         thumbnailOptions={thumbnailOptions}
         message={message}
+        secondary={secondary}
       />
       {/* SCORE */}
       <TournamentsItemScore

@@ -12,15 +12,9 @@ const TournamentsItemImage = ({ thumbnailOptions, message, secondary, className 
       className={[
         className,
         styles.adImage,
-        secondary && 'relative',
         isFallback && secondary && styles._broken,
       ].join(' ')}
     >
-      {secondary && (
-        <p className="absolute -mt-4 w-full text-center" style={{ transform: 'translateY(-1.05em)' }}>
-          <em><strong>vs</strong></em>
-        </p>
-      )}
       <PostImage
         thumbnailOptions={thumbnailOptions}
         title={message}
