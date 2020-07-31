@@ -32,7 +32,7 @@ const TournamentsItemAd = ({
   // const isOnStreak = streak && streak > 0
   return (
     <div className={['w-24'].join(' ')}>
-      <p className="text-sm">{id}</p>
+      {/* <p className="text-sm">{id}</p> */}
       {/* IMAGE */}
       <TournamentsItemImage
         thumbnailOptions={thumbnailOptions}

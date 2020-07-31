@@ -108,7 +108,7 @@ const TournamentsItem = ({ tournament, className, lastTournament, index }) => {
       <TournamentsItemMetrics
         adMetrics={adMetrics}
         isAdPair={isAdPair}
-        className="hidden col-span-12 mb-10 text-center"
+        className="col-span-6 mb-10 text-center"
       />
     </div>
   )
