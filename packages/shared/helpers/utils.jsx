@@ -276,7 +276,7 @@ export const minArrayValue = (array) => {
 * @param {object} data
 * @returns {array}
 */
-export const getDataArray = (propsToDisplay, data) => {
+export const getDataArray = (propsToDisplay, data, preserveRawNumber) => {
   const dateKeys = ['created_at', 'updated_at', 'start_time', 'stop_time']
   return propsToDisplay.reduce((arr, detailName) => {
     const detailKeys = detailName.split('.')
@@ -284,13 +284,13 @@ export const getDataArray = (propsToDisplay, data) => {
     if (!rawValue) return arr
     // Convert dates (if necessary)
     const isDate = dateKeys.includes(detailName)
-    const value = isDate
+    const value = preserveRawNumber ? rawValue
       // Parse date, or
-      ? moment(rawValue).format('DD MMM YYYY')
+      : isDate ? moment(rawValue).format('DD MMM YYYY')
       // Format number, or
-      : typeof rawValue === 'number' ? formatNumber(rawValue)
-      // Just convert to string
-        : rawValue.toString()
+        : typeof rawValue === 'number' ? formatNumber(rawValue)
+        // Just convert to string
+          : rawValue.toString()
     // Name is final data key
     let name = detailKeys[detailKeys.length - 1]
     // Replace underscore with space
