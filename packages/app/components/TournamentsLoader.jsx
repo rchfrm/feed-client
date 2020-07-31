@@ -34,12 +34,8 @@ const dataReducer = (draftState, action) => {
 
 // SERVER FETCHER
 const fetcher = async ({ artistId, audienceId, offset }) => {
-  console.log('FETCHER')
   if (!artistId) return []
   // GET ALL ARTIST TOURNAMENTS
-  console.log('GETARTISTTOURNAMENTS')
-  console.log('audienceId', audienceId)
-  console.log('offset', offset)
   return server.getArtistTournaments({
     artistId,
     audienceId,
@@ -161,9 +157,7 @@ const TournamentsLoader = ({ audienceId }) => {
 
   // Load more Tournaments
   const scrollTriggerLoad = React.useCallback(([target]) => {
-    console.log('TRY TO LOAD MORE')
     if (target.isIntersecting && !loadingMore && !loadedAll) {
-      console.log('LOAD MORE')
       loadMorePosts()
     }
   }, [loadMorePosts, loadingMore, loadedAll])
