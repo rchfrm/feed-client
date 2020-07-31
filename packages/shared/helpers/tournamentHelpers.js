@@ -250,17 +250,6 @@ const formatTournamentData = (tournament, currency) => {
 }
 
 
-// HANDLE INCOMING TOURNAMENTS
-// ---------------------------
-const addNewTournamentsToOld = (incomingTournaments, previousTournaments, previousTournamentIds) => {
-  return incomingTournaments.reduce((updatedList, newTournament) => {
-    // Add tournament if not already present
-    const { id } = newTournament
-    if (previousTournamentIds.includes(id)) return updatedList
-    return [...updatedList, newTournament]
-  }, previousTournaments)
-}
-
 /**
  * @param {array} [incomingTournaments]
  * @param {array} [previousTournaments]
@@ -271,7 +260,6 @@ const addNewTournamentsToOld = (incomingTournaments, previousTournaments, previo
 export const handleNewTournaments = ({
   incomingTournaments,
   previousTournaments,
-  previousTournamentIds,
   currency,
 }) => {
   // Format tournament into consumable content
@@ -279,10 +267,7 @@ export const handleNewTournaments = ({
     return formatTournamentData(tournament, currency)
   })
   // Add information about streak position
-  const tournamentsWithStreakInfo = storeAdStreakPositions(formattedIncoming)
-  // console.log('tournamentsWithStreakInfo', tournamentsWithStreakInfo)
-  // Add new tournaments to previous ones
-  // const allTournaments = addNewTournamentsToOld(tournamentsWithStreakInfo, previousTournaments, previousTournamentIds)
+  const tournamentsWithStreakInfo = storeAdStreakPositions(formattedIncoming, previousTournaments)
   return tournamentsWithStreakInfo
 }
 

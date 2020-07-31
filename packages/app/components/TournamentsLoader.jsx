@@ -77,12 +77,6 @@ const TournamentsLoader = ({ audienceId }) => {
     setLoadedAll(false)
   }, [artistId, audienceId])
 
-  // ARRAY OF TOURNAMENT IDs
-  const tournamentIds = React.useMemo(() => {
-    if (!tournaments) return []
-    return tournaments.map(({ id }) => id)
-  }, [tournaments])
-
   // TOURNAMENT COUNT
   const totalTournaments = React.useMemo(() => {
     return tournaments.length
@@ -121,7 +115,6 @@ const TournamentsLoader = ({ audienceId }) => {
       const formattedTournaments = tournamentHelpers.handleNewTournaments({
         incomingTournaments: data,
         previousTournaments: tournaments,
-        previousTournamentIds: tournamentIds,
         currency: artistCurrency,
       })
       // Handle adding data
