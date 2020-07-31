@@ -209,14 +209,13 @@ const formatAdData = (streakResults, scoreResults, currency) => (ad, index) => {
   // Get clicks
   const clicks = summary && summary.outbound_clicks && summary.outbound_clicks.outbound_click
   // Get spend
-  const spendFormatted = summary && utils.formatCurrency(summary.spend, currency)
+  const spend = summary && parseFloat(summary.spend)
   // Build data obj
   const normalizedEsRounded = asset.normalized_es && asset.normalized_es.toFixed(2)
   const data = {
     clicks,
-    // score: utils.formatNumber(score),
+    spend,
     // streak: utils.formatNumber(streak),
-    spend: spendFormatted,
     impressions: summary ? summary.impressions : null,
     reach: asset.reach,
     shares: asset.shares,
@@ -306,8 +305,8 @@ export const handleNewTournaments = ({
  * @returns {array}
  */
 export const getAdMetrics = (dataA, dataB, isAdPair) => {
-  const detailsA = utils.getDataArray(metricsToDisplay, dataA)
-  const detailsB = dataB ? utils.getDataArray(metricsToDisplay, dataB) : []
+  const detailsA = utils.getDataArray(metricsToDisplay, dataA, true)
+  const detailsB = dataB ? utils.getDataArray(metricsToDisplay, dataB, true) : []
   const detailsObj = detailsA.reduce((data, detailA) => {
     const { name: nameA, value: valueA, key: keyA } = detailA
     // Get matching data from source B (with fallbacks)
