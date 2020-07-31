@@ -100,7 +100,6 @@ const PostImage = ({
   const activeThumbIndex = React.useRef(0)
   const [activeThumbSrc, setActiveThumbSrc] = React.useState(thumbnails[activeThumbIndex.current])
 
-
   // Define media type
   const mediaType = React.useMemo(() => {
     return utils.getPostMediaType(mediaSrc || activeThumbSrc)
@@ -117,6 +116,14 @@ const PostImage = ({
     }
     setThumbError(true)
   }, [setVideoError])
+
+
+  // Trigger use fallback if no thumb src
+  React.useEffect(() => {
+    if (!thumbnailOptions.length) {
+      onUseFallback()
+    }
+  }, [onUseFallback, thumbnailOptions])
 
   // Swap to backup thumb src if first errors
   React.useEffect(() => {
