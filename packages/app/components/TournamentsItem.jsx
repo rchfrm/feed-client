@@ -107,7 +107,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
         adMetrics={adMetrics}
         isAdPair={isAdPair}
         currency={currency}
-        className="col-span-6 mb-10 text-center"
+        className="col-span-6 text-center"
       />
     </div>
   )

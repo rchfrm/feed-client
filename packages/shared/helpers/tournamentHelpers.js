@@ -34,21 +34,6 @@ export const tournamentTypes = [
   { id: 'stories', title: 'Stories' },
 ]
 
-export const metricsToDisplay = [
-  'score',
-  'streak',
-  'spend',
-  'reach',
-  'impressions',
-  'clicks',
-  // 'score',
-  // 'shares',
-  // 'likes',
-  // 'views',
-  // 'normalized_es',
-  // 'subtype',
-]
-
 
 // FILTER TOURNAMENTS BY ADSET (and POST TYPE)
 // -------------------------------------------
@@ -292,6 +277,34 @@ export const handleNewTournaments = ({
 }
 
 
+// METRICS
+// -------------------------------------
+
+// METRICS PROPS
+export const metricsToDisplay = [
+  'score',
+  'streak',
+  'spend',
+  'spendFloat',
+  'reach',
+  'impressions',
+  'clicks',
+  // 'score',
+  // 'shares',
+  // 'likes',
+  // 'views',
+  // 'normalized_es',
+  // 'subtype',
+]
+
+const getRelativeMetrics = (valueA, valueB) => {
+  if (!valueB) return [100, 0]
+  const total = valueA + valueB
+  const percentA = (valueA / total) * 100
+  const percentB = 100 - percentA
+  return [percentA, percentB]
+}
+
 // CREATE AD METRICS ARRAY to iterate over
 /**
  * @param {object} [dataA]
@@ -310,12 +323,16 @@ export const getAdMetrics = (dataA, dataB, isAdPair) => {
     const { name: nameB = nameA, value: valueB = '-' } = detailB
     // Get tooltip
     const tooltip = metricTooltips[keyA]
+    // Get data rows
+    const [percentA, percentB] = getRelativeMetrics(valueA, valueB)
+    const aData = { name: nameA, value: valueA, percent: percentA, key: keyA }
+    const bData = isAdPair ? { name: nameB, value: valueB, percent: percentB, key: `${keyA}-b` } : null
     // Set values for data type
     data[keyA] = {
       dataType: keyA,
       tooltip,
-      a: { name: nameA, value: valueA, key: keyA },
-      b: { name: nameB, value: valueB, key: `${keyA}-b` },
+      a: aData,
+      b: bData,
     }
     // return completed object
     return data
