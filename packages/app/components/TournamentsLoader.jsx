@@ -65,7 +65,7 @@ const TournamentsLoader = ({ audienceId }) => {
   const offset = React.useRef(0)
   const initialLoad = React.useRef(true)
   const [loadingMore, setLoadingMore] = React.useState(false)
-  const loadedAll = React.useRef(false)
+  const [loadedAll, setLoadedAll] = React.useState(false)
 
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -78,7 +78,7 @@ const TournamentsLoader = ({ audienceId }) => {
     // Reset offset
     offset.current = 0
     // Update end of assets state
-    loadedAll.current = false
+    setLoadedAll(false)
   }, [artistId, audienceId])
 
   // ARRAY OF TOURNAMENT IDs
@@ -110,7 +110,7 @@ const TournamentsLoader = ({ audienceId }) => {
       toggleGlobalLoading(false)
       // Handle result...
       if (!data || !data.length) {
-        loadedAll.current = true
+        setLoadedAll(true)
         setLoadingMore(false)
         // Handle no posts on initial load
         if (initialLoad.current) {
@@ -161,11 +161,12 @@ const TournamentsLoader = ({ audienceId }) => {
 
   // Load more Tournaments
   const scrollTriggerLoad = React.useCallback(([target]) => {
-    if (target.isIntersecting && !loadingMore && !loadedAll.current) {
+    console.log('TRY TO LOAD MORE')
+    if (target.isIntersecting && !loadingMore && !loadedAll) {
       console.log('LOAD MORE')
       loadMorePosts()
     }
-  }, [loadMorePosts, loadingMore])
+  }, [loadMorePosts, loadingMore, loadedAll])
 
   // Setup intersection observer
   const loadTrigger = React.useRef(null)
@@ -195,9 +196,6 @@ const TournamentsLoader = ({ audienceId }) => {
     )
   }
 
-  console.log('totalTournaments', totalTournaments)
-  console.log('loadedAll', loadedAll)
-
   if (error) return <Error error={error} />
 
   return (
@@ -211,9 +209,9 @@ const TournamentsLoader = ({ audienceId }) => {
             {
               totalTournaments
               && index === totalTournaments - 1
-              && !loadedAll.current
+              && !loadedAll
               && (
-                <div ref={loadTrigger}>LOAD MORE</div>
+                <div ref={loadTrigger} />
               )
             }
           </React.Fragment>
