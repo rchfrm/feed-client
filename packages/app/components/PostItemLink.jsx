@@ -18,7 +18,7 @@ import * as server from '@/app/helpers/appServer'
 
 import styles from '@/app/PostItem.module.css'
 
-const PostLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink, setError }) => {
+const PostItemLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink, setError }) => {
   const { artist, addArtistUrl } = React.useContext(ArtistContext)
   const [postLinkPlatform, setPostLinkPlatform] = React.useState(priorityDsp || artist.priority_dsp)
   const storedPostLinkPlatform = React.useRef(postLinkPlatform)
@@ -98,7 +98,7 @@ const PostLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink
       {/* Placeholder */}
       <div className="postLinkPlaceholder" ref={placeholderEl} />
       {/* Links section */}
-      <div className={[styles.postLink].join(' ')} ref={containerEl}>
+      <div className={[styles.postLink, styles.postText].join(' ')} ref={containerEl}>
         <div className={[styles.postLinkTopBar, styles.postSection].join(' ')} ref={topBarEl}>
           <PostLinkSummary
             loading={loading}
@@ -145,7 +145,7 @@ const PostLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink
   )
 }
 
-PostLink.propTypes = {
+PostItemLink.propTypes = {
   postId: PropTypes.string.isRequired,
   postIndex: PropTypes.number.isRequired,
   promotionEnabled: PropTypes.bool.isRequired,
@@ -154,9 +154,9 @@ PostLink.propTypes = {
   setError: PropTypes.func.isRequired,
 }
 
-PostLink.defaultProps = {
+PostItemLink.defaultProps = {
   priorityDsp: '',
 }
 
 
-export default PostLink
+export default PostItemLink

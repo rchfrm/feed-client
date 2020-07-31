@@ -3,10 +3,24 @@ import PropTypes from 'prop-types'
 
 import CopyTextButton from '@/elements/CopyTextButton'
 
+const getInnerText = (value, isLink, isEmail) => {
+  if (!isLink && !isEmail) return value
+  if (isLink) {
+    return (
+      <a href={value} target="_blank" rel="noreferrer noopener">{value}</a>
+    )
+  }
+  if (isEmail) {
+    return (
+      <a href={`mailto:${value}`}>{value}</a>
+    )
+  }
+}
+
 const DataDetail = ({ name, value, border, copyText, isLink }) => {
-  const innerText = !isLink ? value : (
-    <a href={value} target="_blank" rel="noreferrer noopener">{value}</a>
-  )
+  const isEmail = name === 'email'
+  const innerText = getInnerText(value, isLink, isEmail)
+
   return (
     <>
       {border && <hr />}

@@ -248,6 +248,17 @@ button {
     background-color: var(--text-color);
     color: var(--bg-color);
   }
+
+  &.-inactive {
+    background-color: var(--grey-light);
+    color: var(--text-color);
+    opacity: 0.5;
+  }
+}
+
+.button--filter-empty {
+  background-color: transparent !important;
+  color: var(--text-color) !important;
 }
 
 /* Copy text button */
@@ -265,28 +276,5 @@ button {
     transform: translateY(0.05em);
     height: 0.9em;
     width: auto;
-  }
-}
-
-/* TOOLTIPS BUTTON */
-.button--tooltip {
-  width: var(--sp-4);
-  padding: var(--sp-2);
-  box-sizing: content-box;
-
-  svg {
-    width: 100%;
-    height: auto;
-  }
-
-  @mixin canHover {
-    &:hover {
-      svg circle {
-        stroke: var(--green);
-      }
-      /* svg path {
-        fill: var(--green);
-      } */
-    }
   }
 }

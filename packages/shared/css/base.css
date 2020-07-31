@@ -87,13 +87,13 @@ body {
 .page--content_fixed {
   position: fixed;
   width: 90%;
-  width: calc(100% - (2 * var(--sp-5)));
+  width: calc(100% - (2 * var(--sp-6)));
 }
 
 .breakout--width {
   width: 100%;
-  width: calc(100% + (2 * var(--sp-5)));
-  margin-left: calc(-1 * var(--sp-5));
+  width: calc(100% + (2 * var(--sp-6)));
+  margin-left: calc(-1 * var(--sp-6));
 
   @media (--sm) {
     width: 100%;
@@ -159,14 +159,13 @@ pre {
   white-space: pre-line;
 }
 
+strong,
 .bold {
   font-weight: var(--bold);
 }
 
 em {
-  display: inline-block;
   font-style: italic;
-  opacity: 0.6;
 }
 
 a {

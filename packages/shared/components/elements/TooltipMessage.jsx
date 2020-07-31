@@ -69,10 +69,10 @@ const TooltipMessage = ({
       ].join(' ')}
       style={{ ...style, ...messageStyle }}
     >
-      {(slides || slidesContentAfter) && style ? (
+      {((slides || slidesContentAfter) && slides.length > 1) && style ? (
         <TooltipSlides slides={slides} slidesContentAfter={slidesContentAfter} />
       ) : (
-        <MarkdownText markdown={copy} />
+        <MarkdownText markdown={copy || slides[0]} />
       )}
     </div>
   )
