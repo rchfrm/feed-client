@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TournamentsItemDate from '@/app/TournamentsItemDate'
 import TournamentsItemAd from '@/app/TournamentsItemAd'
 import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
 
@@ -15,6 +16,7 @@ const TournamentsItem = ({ tournament, className, lastTournament, index }) => {
 
   // Get streak data from tournaments
   const {
+    dateCreated,
     winningAdId,
     winningAdIndex,
     streakWinnerIndex,
@@ -38,16 +40,19 @@ const TournamentsItem = ({ tournament, className, lastTournament, index }) => {
   return (
     <div
       className={[
-        'md:grid grid-cols-12 gap-5',
+        'md:grid grid-cols-12 col-gap-5',
         className,
       ].join(' ')}
     >
+      {/* DATE */}
+      <TournamentsItemDate className="col-span-6 mb-5" date={dateCreated} />
       {/* AD PAIR */}
       <div
         className={[
           'flex',
           isAdPair ? 'justify-between' : 'justify-center',
           'col-span-6',
+          'col-start-1',
           'mb-10',
           'text-center',
           className,
