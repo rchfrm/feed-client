@@ -44,7 +44,7 @@ const TournamentItemStreakLine = ({
 TournamentItemStreakLine.propTypes = {
   isAdPair: PropTypes.bool.isRequired,
   nextIsAdPair: PropTypes.bool.isRequired,
-  nextWinningAdIndex: PropTypes.bool,
+  nextWinningAdIndex: PropTypes.number,
   streak: PropTypes.number,
 }
 
