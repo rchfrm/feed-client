@@ -5,7 +5,7 @@ import PostImage from '@/PostImage'
 
 import styles from '@/app/PostItem.module.css'
 
-const PostContents = ({
+const PostItemContents = ({
   media,
   thumbnailSrc,
   caption,
@@ -46,7 +46,7 @@ const PostContents = ({
   )
 }
 
-PostContents.propTypes = {
+PostItemContents.propTypes = {
   media: PropTypes.string,
   thumbnailSrc: PropTypes.string,
   caption: PropTypes.string,
@@ -54,7 +54,7 @@ PostContents.propTypes = {
   className: PropTypes.string,
 }
 
-PostContents.defaultProps = {
+PostItemContents.defaultProps = {
   media: '',
   thumbnailSrc: '',
   caption: '',
@@ -63,4 +63,4 @@ PostContents.defaultProps = {
 }
 
 
-export default PostContents
+export default PostItemContents
