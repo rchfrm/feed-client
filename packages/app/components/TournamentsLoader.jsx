@@ -174,7 +174,7 @@ const TournamentsLoader = ({ audienceId }) => {
     // Create observer
     const observer = new IntersectionObserver(scrollTriggerLoad)
     // observe the loader
-    if (loadTrigger && loadTrigger.current) {
+    if (loadTriggerEl) {
       observer.observe(loadTrigger.current)
     }
     // clean up
