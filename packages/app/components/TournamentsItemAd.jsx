@@ -3,12 +3,16 @@ import PropTypes from 'prop-types'
 
 import TournamentsItemImage from '@/app/TournamentsItemImage'
 import TournamentsItemScore from '@/app/TournamentsItemScore'
+import TournamentItemStreakLine from '@/app/TournamentItemStreakLine'
 
 import styles from '@/app/Tournaments.module.css'
 
 const TournamentsItemAd = ({
   adPost,
+  isAdPair,
   winningAdId,
+  nextIsAdPair,
+  nextWinningAdIndex,
   title,
   secondary,
   className,
@@ -41,14 +45,12 @@ const TournamentsItemAd = ({
       />
       {/* Line & Streak */}
       {streakWinner && (
-        <div className="relative h-24">
-          <div className="absolute--center bg-green pl-3 pr-3 text-white rounded-pill">
-            <span role="img" aria-label="streak" style={{ fontSize: '0.8em' }}>🚀</span>
-              &nbsp;
-            {streak}
-          </div>
-          <div className="h-full mx-auto mt-8 bg-black" style={{ width: 2 }} />
-        </div>
+        <TournamentItemStreakLine
+          isAdPair={isAdPair}
+          nextIsAdPair={nextIsAdPair}
+          nextWinningAdIndex={nextWinningAdIndex}
+          streak={streak}
+        />
       )}
     </div>
   )
@@ -56,13 +58,17 @@ const TournamentsItemAd = ({
 
 TournamentsItemAd.propTypes = {
   adPost: PropTypes.object.isRequired,
+  isAdPair: PropTypes.bool.isRequired,
   winningAdId: PropTypes.string,
+  nextIsAdPair: PropTypes.bool.isRequired,
+  nextWinningAdIndex: PropTypes.number,
   title: PropTypes.string.isRequired,
   secondary: PropTypes.bool,
   className: PropTypes.string,
 }
 
 TournamentsItemAd.defaultProps = {
+  nextWinningAdIndex: 0,
   secondary: false,
   winningAdId: '',
   className: '',

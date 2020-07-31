@@ -21,6 +21,8 @@ const TournamentsItem = ({ tournament, className, lastItem, index }) => {
     streakWinnerId,
     nextStreakWinnerIndex,
     isAdPair,
+    nextIsAdPair,
+    nextWinningAdIndex,
   } = tournament
   // Get ad parirs
   const [adA, adB] = tournament.adPosts
@@ -54,7 +56,10 @@ const TournamentsItem = ({ tournament, className, lastItem, index }) => {
         {/* FIRST AD */}
         <TournamentsItemAd
           adPost={adA}
+          isAdPair={isAdPair}
           winningAdId={winningAdId}
+          nextIsAdPair={nextIsAdPair}
+          nextWinningAdIndex={nextWinningAdIndex}
           title="Ad A"
           className=""
         />
@@ -81,7 +86,10 @@ const TournamentsItem = ({ tournament, className, lastItem, index }) => {
           <>
             <TournamentsItemAd
               adPost={adB}
+              isAdPair={isAdPair}
               winningAdId={winningAdId}
+              nextIsAdPair={nextIsAdPair}
+              nextWinningAdIndex={nextWinningAdIndex}
               title="Ad B"
               secondary
               className=""
