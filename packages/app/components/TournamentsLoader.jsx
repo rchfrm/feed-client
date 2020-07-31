@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useSWR from 'swr'
+import { useAsync } from 'react-async'
+import { useImmerReducer } from 'use-immer'
 
 import TournamentsItem from '@/app/TournamentsItem'
 import Error from '@/elements/Error'
@@ -13,33 +14,62 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import * as server from '@/helpers/sharedServer'
 import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
-const fetcher = async (artistId, offset) => {
+const initialDataState = []
+const dataReducer = (draftState, action) => {
+  const { type: actionType, payload = {} } = action
+  const { newData } = payload
+  switch (actionType) {
+    case 'replace-data':
+      return newData
+    case 'reset-data':
+      return initialDataState
+    case 'add-data':
+      draftState.push(...newData)
+      break
+    default:
+      return draftState
+  }
+}
+
+
+const fetcher = async ({ artistId, audienceId, offset }) => {
+  console.log('FETCHER')
   if (!artistId) return []
   // GET ALL ARTIST TOURNAMENTS
-  return server.getArtistTournaments({ artistId, expand: true, offset })
+  console.log('GETARTISTTOURNAMENTS')
+  console.log('audienceId', audienceId)
+  console.log('offset', offset)
+  return server.getArtistTournaments({
+    artistId,
+    audienceId,
+    expand: true,
+    offset: offset.current,
+  })
 }
 
 const TournamentsLoader = ({ audienceId }) => {
-  const { artistId, artistCurrency } = React.useContext(ArtistContext)
-  const [offset, setOffset] = React.useState(0)
-  const { data, error } = useSWR(
-    [artistId, offset],
-    fetcher,
-  )
+  const { artistId, artistLoading, artistCurrency } = React.useContext(ArtistContext)
+  const [tournaments, setTournaments] = useImmerReducer(dataReducer, initialDataState)
+  const [error, setError] = React.useState(null)
+  const offset = React.useRef(0)
+  const initialLoad = React.useRef(true)
+  const [loadingMore, setLoadingMore] = React.useState(false)
+  const loadedAll = React.useRef(false)
 
-  const [tournaments, setTournaments] = React.useState([])
-
-  // Turn off global loading if error
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  // When changing artist...
   React.useEffect(() => {
-    if (error) toggleGlobalLoading(false)
-  }, [toggleGlobalLoading, error])
+    if (!artistId) return
+    // Reset initial load
+    initialLoad.current = true
+    // Reset offset
+    offset.current = 0
+    // Update end of assets state
+    loadedAll.current = false
+  }, [artistId])
 
-  // FILTERED TOURNAMENTS
-  const tournamentsFiltered = React.useMemo(() => {
-    if (!tournaments) return []
-    return tournamentHelpers.filterTournaments(tournaments, audienceId)
-  }, [tournaments, audienceId])
+  // Import interface context
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+
 
   // ARRAY OF TOURNAMENT IDs
   const tournamentIds = React.useMemo(() => {
@@ -47,45 +77,99 @@ const TournamentsLoader = ({ audienceId }) => {
     return tournaments.map(({ id }) => id)
   }, [tournaments])
 
-  // PAGINATION
-  const [loadingMore, setLoadingMore] = React.useState(false)
-  const [loadedAll, setLoadedAll] = React.useState(false)
-  // Update tournaments when data loads
-  React.useEffect(() => {
-    // Stop here if no data
-    if (!data) return
-    // Turn off global loading
-    toggleGlobalLoading(false)
-    // Turn off loading more
-    setLoadingMore(false)
-    // Update Tournaments data
-    const updatedTournaments = tournamentHelpers.handleNewTournaments(data, tournaments, tournamentIds)
-    setTournaments(updatedTournaments)
-    // Set finished loading
-    if (data.length < 20) {
-      setLoadedAll(true)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, toggleGlobalLoading, setLoadingMore])
-  // Count total tournaments and filtered tournaments
+  // TOURNAMENT COUNT
   const totalTournaments = React.useMemo(() => {
     return tournaments.length
   }, [tournaments])
-  const totalFilteredTournaments = tournamentsFiltered.length
+
+
+  // FETCH DATA
+  // Run this to fetch posts when the artist changes
+  const { isPending } = useAsync({
+    promiseFn: fetcher,
+    watchFn: (newProps, oldProps) => {
+      const { artistId: newArtistId, loadingMore } = newProps
+      const { artistId: oldArtistId, loadingMore: alreadyLoadingMore } = oldProps
+      if (loadingMore && !alreadyLoadingMore) return true
+      if (newArtistId !== oldArtistId) return true
+      return false
+    },
+    // The variable(s) to pass to promiseFn
+    artistId,
+    audienceId,
+    offset,
+    loadedAll,
+    loadingMore,
+    // When fetch finishes
+    onResolve: (data) => {
+      // Turn off global loading
+      toggleGlobalLoading(false)
+      // Handle result...
+      if (!data || !data.length) {
+        loadedAll.current = true
+        setLoadingMore(false)
+        // Handle no posts on initial load
+        if (initialLoad.current) {
+          setTournaments({ type: 'reset-data' })
+        }
+        // Define initial load
+        initialLoad.current = false
+        return
+      }
+      // Update offset
+      offset.current += data.length
+      const updatedTournaments = tournamentHelpers.handleNewTournaments({
+        incomingTournaments: data,
+        previousTournaments: tournaments,
+        previousTournamentIds: tournamentIds,
+        currency: artistCurrency,
+      })
+      console.log('updatedTournaments', updatedTournaments)
+      // Handle adding data
+      if (loadingMore) {
+        // Stop loading
+        setLoadingMore(false)
+        // Update posts
+        setTournaments({
+          type: 'add-data',
+          payload: { newData: updatedTournaments },
+        })
+        return
+      }
+      // Handle replacing data
+      setTournaments({
+        type: 'replace-data',
+        payload: { newData: updatedTournaments },
+      })
+      // Define initial load
+      initialLoad.current = false
+    },
+    // Handle errors
+    onReject(error) {
+      setError(error)
+      toggleGlobalLoading(false)
+    },
+  })
+
+  // Define function for loading more posts
+  const loadMorePosts = React.useCallback(() => {
+    setLoadingMore(true)
+  }, [])
+
   // Load more Tournaments
-  const loadMore = (entries) => {
-    const target = entries[0]
-    if (target.isIntersecting && !loadingMore && !loadedAll) {
-      setLoadingMore(true)
-      setOffset(totalTournaments)
+  const scrollTriggerLoad = React.useCallback(([target]) => {
+    if (target.isIntersecting && !loadingMore && !loadedAll.current) {
+      console.log('LOAD MORE')
+      loadMorePosts()
     }
-  }
+  }, [loadMorePosts, loadingMore])
+
   // Setup intersection observer
   const loadTrigger = React.useRef(null)
   React.useEffect(() => {
     const loadTriggerEl = loadTrigger.current
     // Create observer
-    const observer = new IntersectionObserver(loadMore)
+    const observer = new IntersectionObserver(scrollTriggerLoad)
     // observe the loader
     if (loadTrigger && loadTrigger.current) {
       observer.observe(loadTrigger.current)
@@ -97,36 +181,36 @@ const TournamentsLoader = ({ audienceId }) => {
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalTournaments])
+  }, [totalTournaments, scrollTriggerLoad, loadedAll])
 
-  // Stop here before data is ready
-  if (!tournaments) return null
-
-  // Stop here if no tournaments
-  if (tournaments && !tournaments.length) {
+  // Stop here if loading
+  if (artistLoading || (isPending && initialLoad.current)) {
     return (
-      <p>No Tournaments found</p>
+      <div className="pt-20 pb-10">
+        <Spinner />
+      </div>
     )
   }
+
+  console.log('totalTournaments', totalTournaments)
+  console.log('loadedAll', loadedAll)
 
   if (error) return <Error error={error} />
 
   return (
     <section className="pt-10">
-      {tournamentsFiltered.map((tournament, index) => {
+      <p>Total tournaments: {totalTournaments}</p>
+      {tournaments.map((tournament, index) => {
         return (
           <React.Fragment key={tournament.id}>
-            <TournamentsItem
-              tournamentProps={tournament}
-              artistCurrency={artistCurrency}
-            />
+            <TournamentsItem tournament={tournament} />
             {/* LOAD MORE SCROLL TRIGGER */}
             {
-              totalFilteredTournaments
-              && index === totalFilteredTournaments - 1
-              && !loadedAll
+              totalTournaments
+              && index === totalTournaments - 1
+              && !loadedAll.current
               && (
-                <div ref={loadTrigger} />
+                <div ref={loadTrigger}>LOAD MORE</div>
               )
             }
           </React.Fragment>

@@ -60,16 +60,23 @@ export const updateUser = async (firstName, lastName, email, verifyIdToken) => {
  * @param {number} [offset]
  * @returns {Promise<any>}
  */
-export const getArtistTournaments = async ({ artistId, expand, offset }) => {
+export const getArtistTournaments = async ({ artistId, expand, audienceId, offset }) => {
   let hasQuery = false
+  let queryMod
   let endpoint = `/artists/${artistId}/tournaments`
   if (expand) {
     endpoint = `${endpoint}?expand=true`
     hasQuery = true
   }
   if (offset) {
-    const queryMod = hasQuery ? '&' : '?'
+    queryMod = hasQuery ? '&' : '?'
     endpoint = `${endpoint}${queryMod}offset=${offset}`
+    hasQuery = true
+  }
+  if (audienceId) {
+    queryMod = hasQuery ? '&' : '?'
+    endpoint = `${endpoint}${queryMod}identifier=${audienceId}`
+    hasQuery = true
   }
   return api.get(endpoint)
 }

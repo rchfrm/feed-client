@@ -282,8 +282,8 @@ export const handleNewTournaments = ({
   const tournamentsWithStreakInfo = storeAdStreakPositions(formattedIncoming)
   // console.log('tournamentsWithStreakInfo', tournamentsWithStreakInfo)
   // Add new tournaments to previous ones
-  const allTournaments = addNewTournamentsToOld(tournamentsWithStreakInfo, previousTournaments, previousTournamentIds)
-  return allTournaments
+  // const allTournaments = addNewTournamentsToOld(tournamentsWithStreakInfo, previousTournaments, previousTournamentIds)
+  return tournamentsWithStreakInfo
 }
 
 
