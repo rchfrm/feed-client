@@ -91,19 +91,6 @@ const UsersLoader = ({ userId }) => {
       {usersArray && <UsersList users={usersArray} propsToDisplay={propsToDisplay} />}
     </section>
   )
-
-  // return (
-  //   <section>
-  //     {error && <div>Failed to fetch users</div>}
-  //     {!finishedLoading && <p>Loading...</p>}
-  //     <p>Total: {users.length}</p>
-  //     {users.map((user) => {
-  //       return (
-  //         <UserOverview key={user.id} user={user} />
-  //       )
-  //     })}
-  //   </section>
-  // )
 }
 
 UsersLoader.propTypes = {
