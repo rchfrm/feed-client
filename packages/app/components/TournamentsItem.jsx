@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import SwiperBlock from '@/SwiperBlock'
 import TournamentsItemDate from '@/app/TournamentsItemDate'
 import TournamentsItemAdPair from '@/app/TournamentsItemAdPair'
 import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
@@ -45,30 +46,32 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
     >
       {/* DATE */}
       <TournamentsItemDate className="col-span-6 col-start-4 mb-5" date={dateCreated} />
-      {/* AD PAIR */}
-      <TournamentsItemAdPair
-        adPosts={tournament.adPosts}
-        isAdPair={isAdPair}
-        winningAdId={winningAdId}
-        streakWinnerIndex={streakWinnerIndex}
-        nextIsAdPair={nextIsAdPair}
-        nextWinningAdIndex={nextWinningAdIndex}
-        lastTournament={lastTournament}
-        className="col-span-6 col-start-4"
-      />
-      {/* METRICS */}
-      <div className="hidden col-span-6 pl-10">
-        <TournamentsItemMetrics
-          adMetrics={adMetrics}
+      <SwiperBlock containerClass="col-span-6 col-start-4">
+        {/* AD PAIR */}
+        <TournamentsItemAdPair
+          adPosts={tournament.adPosts}
           isAdPair={isAdPair}
-          currency={currency}
-          className="text-center mb-4"
+          winningAdId={winningAdId}
+          streakWinnerIndex={streakWinnerIndex}
+          nextIsAdPair={nextIsAdPair}
+          nextWinningAdIndex={nextWinningAdIndex}
+          lastTournament={lastTournament}
+          className="swiper-slide"
         />
-        <TournamentsItemLinks
-          linkA={linkA}
-          linkB={linkB}
-        />
-      </div>
+        {/* METRICS & LINKS */}
+        <div className="swiper-slide">
+          <TournamentsItemMetrics
+            adMetrics={adMetrics}
+            isAdPair={isAdPair}
+            currency={currency}
+            className="text-center mb-4 pl-10"
+          />
+          <TournamentsItemLinks
+            linkA={linkA}
+            linkB={linkB}
+          />
+        </div>
+      </SwiperBlock>
     </div>
   )
 }

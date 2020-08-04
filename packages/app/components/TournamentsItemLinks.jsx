@@ -6,7 +6,7 @@ import TournamentsItemLink from '@/app/TournamentsItemLink'
 const TournamentsItemLinks = ({ linkA, linkB, className }) => {
   if (!linkA) return null
   return (
-    <div className={['flex pr-10', linkB ? 'justify-between' : 'items-start', className].join(' ')}>
+    <div className={['flex px-10', linkB ? 'justify-between' : 'items-start', className].join(' ')}>
       <TournamentsItemLink link={linkA} title="Link A" />
       {linkB && (
         <TournamentsItemLink link={linkB} title="Link B" />

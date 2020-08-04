@@ -45,7 +45,7 @@ const VALUE = ({ type, value }) => {
 
 const TournamentsItemMetrics = ({ adMetrics, isAdPair, currency, className }) => {
   return (
-    <div className={['flex flex-col', className].join(' ')}>
+    <div className={['flex flex-col pt-4', className].join(' ')}>
       {adMetrics.map(({ dataType, tooltip, a, b }) => {
         const { value: valueA } = a
         const { value: valueB, percent: percentB } = b || {}
@@ -61,8 +61,8 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, currency, className }) =>
             {tooltip && (
               <TooltipButton
                 copy={tooltip}
-                direction="right"
-                buttonClasses="absolute right-0 -mt-1 ml-1"
+                direction="left"
+                buttonClasses="absolute right-0 -mt-1 ml-1 z-10"
               />
             )}
             {/* PERCENTAGE BAR */}

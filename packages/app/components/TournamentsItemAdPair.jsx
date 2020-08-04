@@ -54,7 +54,7 @@ const TournamentsItemAdPair = ({
           ].join(' ')}
         >
           <button
-            className="w-8 h-8 p-1 button--information"
+            className="w-6 h-6 p-1 button--information"
             aria-label="Show metrics"
             title="Tournament metrics"
           >
