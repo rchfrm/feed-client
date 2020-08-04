@@ -44,7 +44,7 @@ const TournamentsItemAd = ({
       <TournamentsItemScore
         score={scoreString}
         winner={isWinner}
-        className="mt-4"
+        className={['mt-4', !isAdPair ? 'pb-10' : null].join(' ')}
       />
       {/* Line & Streak */}
       {streakWinner && !lastTournament && (

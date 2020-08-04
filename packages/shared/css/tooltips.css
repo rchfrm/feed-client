@@ -1,5 +1,6 @@
 /* TOOLTIPS BUTTON */
-.button--tooltip {
+.button--tooltip,
+.button--information {
   @mixin canHover {
     &:hover {
       svg circle {

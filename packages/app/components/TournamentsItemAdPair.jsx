@@ -19,7 +19,8 @@ const TournamentsItemAdPair = ({
     <div
       className={[
         'flex',
-        isAdPair ? 'justify-between' : 'justify-center',
+        !isAdPair ? 'flex-col' : null,
+        !isAdPair ? 'items-center' : 'justify-between',
         'col-span-6',
         'col-start-1',
         'mb-10',
@@ -40,23 +41,28 @@ const TournamentsItemAdPair = ({
         className=""
       />
       {/* MIDDLE COLUMN */}
-      {isAdPair && (
-        <div className="w-24">
-          {/* VS */}
+      <div className="w-24">
+        {/* VS */}
+        {isAdPair && (
           <p className="flex items-center justify-center h-24 mb-0">
             <strong><em>vs</em></strong>
           </p>
-          {/* METRIC BUTTON */}
-          <div className="flex items-center justify-center mt-10">
-            <button
-              className="w-8 h-8 p-1 button--information"
-              aria-label="Show metrics"
-            >
-              <InformationIcon className="w-full h-auto" />
-            </button>
-          </div>
+        )}
+        {/* METRIC BUTTON */}
+        <div
+          className={[
+            'flex items-center justify-center mt-10',
+            isAdPair ? 'mt-10' : '-mt-36',
+          ].join(' ')}
+        >
+          <button
+            className="w-8 h-8 p-1 button--information"
+            aria-label="Show metrics"
+          >
+            <InformationIcon className="w-full h-auto" />
+          </button>
         </div>
-      )}
+      </div>
       {/* SECOND AD */}
       {isAdPair && (
         <TournamentsItemAd
