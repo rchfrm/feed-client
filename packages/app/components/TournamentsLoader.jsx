@@ -189,7 +189,6 @@ const TournamentsLoader = ({ audienceId }) => {
 
   return (
     <section className="pt-10">
-      <p>Total tournaments: {totalTournaments}</p>
       {tournaments.map((tournament, index) => {
         const lastTournament = index === totalTournaments - 1
         return (
