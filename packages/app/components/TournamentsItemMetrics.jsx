@@ -29,11 +29,12 @@ const VALUE = ({ type, value }) => {
   return (
     <p
       className={[
-        'absolute t-0 h-full',
+        'absolute text-sm mb-0 pb-1',
         type === 'a' ? 'left-0' : 'right-0',
         type === 'a' ? 'pl-2' : 'pr-2',
       ].join(' ')}
       style={{
+        top: '0.1rem',
         zIndex: 3,
       }}
     >
