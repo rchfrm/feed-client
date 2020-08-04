@@ -58,6 +58,7 @@ const TournamentsItemAdPair = ({
           <button
             className="w-8 h-8 p-1 button--information"
             aria-label="Show metrics"
+            title="Tournament metrics"
           >
             <InformationIcon className="w-full h-auto" />
           </button>
