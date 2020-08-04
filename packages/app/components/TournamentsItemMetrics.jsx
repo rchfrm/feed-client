@@ -45,7 +45,7 @@ const VALUE = ({ type, value }) => {
 
 const TournamentsItemMetrics = ({ adMetrics, isAdPair, currency, className }) => {
   return (
-    <div className={['flex flex-col pl-10', className].join(' ')}>
+    <div className={['flex flex-col', className].join(' ')}>
       {adMetrics.map(({ dataType, tooltip, a, b }) => {
         const { value: valueA } = a
         const { value: valueB, percent: percentB } = b || {}

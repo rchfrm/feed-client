@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import TournamentsItemDate from '@/app/TournamentsItemDate'
 import TournamentsItemAdPair from '@/app/TournamentsItemAdPair'
 import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
+import TournamentsItemLinks from '@/app/TournamentsItemLinks'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
@@ -24,10 +25,10 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
     nextIsAdPair,
     nextWinningAdIndex,
   } = tournament
-  // Get ad parirs
+  // Get ad pairs
   const [adA, adB] = tournament.adPosts
-  const { data: dataA } = adA
-  const { data: dataB } = adB || {}
+  const { data: dataA, postLink: linkA } = adA
+  const { data: dataB, postLink: linkB } = adB || {}
   // DEFINE AD METRICS ARRAY
   const adMetrics = React.useMemo(() => {
     return tournamentHelpers.getAdMetrics(dataA, dataB, isAdPair)
@@ -56,12 +57,18 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
         className={className}
       />
       {/* METRICS */}
-      <TournamentsItemMetrics
-        adMetrics={adMetrics}
-        isAdPair={isAdPair}
-        currency={currency}
-        className="col-span-6 text-center"
-      />
+      <div className="col-span-6 pl-10">
+        <TournamentsItemMetrics
+          adMetrics={adMetrics}
+          isAdPair={isAdPair}
+          currency={currency}
+          className="text-center mb-4"
+        />
+        <TournamentsItemLinks
+          linkA={linkA}
+          linkB={linkB}
+        />
+      </div>
     </div>
   )
 }
