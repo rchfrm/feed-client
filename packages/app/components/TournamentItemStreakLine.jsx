@@ -72,6 +72,22 @@ const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex) 
   }
 }
 
+// const getBadgeTop = (isAdPair, nextIsAdPair) => {
+//   // Straight line
+//   if ((isAdPair && nextIsAdPair) || (!isAdPair && !nextIsAdPair)) {
+//     return '2.25rem'
+//   }
+//   // Elbow: |_ or _|
+//   if (isAdPair && !nextIsAdPair) {
+//     return '2.25rem'
+//   }
+//   // Elbow:  __| or |__
+//   //        |          |
+//   if (!isAdPair) {
+//     return '2.25rem'
+//   }
+// }
+
 const TournamentItemStreakLine = ({
   isAdPair,
   streakWinnerIndex,
@@ -86,7 +102,10 @@ const TournamentItemStreakLine = ({
       {/* Streak line */}
       {line}
       {/* Streak badge */}
-      <div className="absolute--center-xy bg-green pl-3 pr-3 text-white rounded-pill">
+      <div
+        className="absolute--center-x bg-green pl-3 pr-3 text-white rounded-pill"
+        style={{ top: '2.25rem' }}
+      >
         <span role="img" aria-label="streak" style={{ fontSize: '0.8em' }}>🚀</span>
         &nbsp;
         {streak}
