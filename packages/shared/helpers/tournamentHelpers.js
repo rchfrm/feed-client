@@ -109,8 +109,12 @@ export const setAdStreakPositions = (tournaments) => {
       // Else flip the ads...
       tournament.adPosts.reverse()
       // And update the index
+      const updatedWinningIndex = winningAdIndex === 0 ? 1 : 0
       const updatedStreakWinnerIndex = streakWinnerIndex === 0 ? 1 : 0
+      tournament.winningAdIndex = updatedWinningIndex
       tournament.streakWinnerIndex = updatedStreakWinnerIndex
+      previousTournament.nextWinningAdIndex = updatedWinningIndex
+      previousTournament.nextStreakWinnerIndex = updatedStreakWinnerIndex
     }
   })
 }
