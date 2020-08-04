@@ -56,6 +56,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
       <TournamentsItemDate className="col-span-6 col-start-4 mb-5" date={dateCreated} />
       <SwiperBlock
         containerClass="col-span-6 col-start-4"
+        listClass="mb-0"
         goToSlide={sliderIndex}
         onSlideChange={({ activeIndex }) => setSliderIndex(activeIndex)}
       >
