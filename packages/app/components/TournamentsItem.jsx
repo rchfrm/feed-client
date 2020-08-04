@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import SwiperBlock from '@/SwiperBlock'
+import CloseCircle from '@/icons/CloseCircle'
+
 import TournamentsItemDate from '@/app/TournamentsItemDate'
 import TournamentsItemAdPair from '@/app/TournamentsItemAdPair'
 import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
@@ -81,6 +83,17 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
             linkA={linkA}
             linkB={linkB}
           />
+          {/* CLOSE METRICS BUTTON */}
+          <div className="text-center mt-3">
+            <button
+              className="button--cross -hover"
+              aria-label="Hide metrics"
+              title="Hide metrics"
+              onClick={switchViews}
+            >
+              <CloseCircle className="w-full h-auto" />
+            </button>
+          </div>
         </div>
       </SwiperBlock>
     </div>

@@ -7,9 +7,9 @@ const TournamentsItemLinks = ({ linkA, linkB, className }) => {
   if (!linkA) return null
   return (
     <div className={['flex px-10', linkB ? 'justify-between' : 'items-start', className].join(' ')}>
-      <TournamentsItemLink link={linkA} title="Link A" />
+      <TournamentsItemLink link={linkA} title={linkB ? 'Ad A' : 'Link'} />
       {linkB && (
-        <TournamentsItemLink link={linkB} title="Link B" />
+        <TournamentsItemLink link={linkB} title="Ad B" />
       )}
     </div>
   )
