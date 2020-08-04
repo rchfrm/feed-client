@@ -44,7 +44,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
       ].join(' ')}
     >
       {/* DATE */}
-      <TournamentsItemDate className="col-span-6 mb-5" date={dateCreated} />
+      <TournamentsItemDate className="col-span-6 col-start-4 mb-5" date={dateCreated} />
       {/* AD PAIR */}
       <TournamentsItemAdPair
         adPosts={tournament.adPosts}
@@ -54,10 +54,10 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
         nextIsAdPair={nextIsAdPair}
         nextWinningAdIndex={nextWinningAdIndex}
         lastTournament={lastTournament}
-        className={className}
+        className="col-span-6 col-start-4"
       />
       {/* METRICS */}
-      <div className="col-span-6 pl-10">
+      <div className="hidden col-span-6 pl-10">
         <TournamentsItemMetrics
           adMetrics={adMetrics}
           isAdPair={isAdPair}

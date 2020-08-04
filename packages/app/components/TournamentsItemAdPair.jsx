@@ -21,8 +21,6 @@ const TournamentsItemAdPair = ({
         'flex',
         !isAdPair ? 'flex-col' : null,
         !isAdPair ? 'items-center' : 'justify-between',
-        'col-span-6',
-        'col-start-1',
         'mb-10',
         'text-center',
         className,
