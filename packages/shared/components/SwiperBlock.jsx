@@ -12,10 +12,16 @@ const SwiperBlock = ({
   navigationClass,
   paginationClass,
   children,
+  // Use these to control the swiper
+  goToSlide,
+  // Use these to update the parent
+  onSlideChange,
 }) => {
   const swiperContainer = React.useRef(null)
   const swiperPagination = React.useRef(null)
-  // Setup swiper
+  const mySwiper = React.useRef(null)
+  const currentSlide = React.useRef(null)
+  // SETUP SWIPER
   React.useEffect(() => {
     // Add pagination to config
     if (navigation) {
@@ -31,13 +37,29 @@ const SwiperBlock = ({
       }
     }
     // Init swiper
-    const mySwiper = new Swiper(swiperContainer.current, config)
+    mySwiper.current = new Swiper(swiperContainer.current, config)
+    const swiper = mySwiper.current
+    // Listen to events
+    mySwiper.current.on('slideChange', function slideChange() {
+      const { activeIndex } = this
+      currentSlide.currentSlide = activeIndex
+      onSlideChange(this)
+    })
     // Handle unmount
     return () => {
-      mySwiper.destroy()
+      swiper.destroy()
     }
   // eslint-disable-next-line
   }, [])
+
+  // CONTROL SWIPER FROM PARENT
+  React.useEffect(() => {
+    console.log('goToSlide', goToSlide)
+    if (typeof goToSlide !== 'number' || !mySwiper.current) return
+    if (currentSlide.current === goToSlide) return
+    mySwiper.current.slideTo(goToSlide)
+  }, [goToSlide])
+
   return (
     <div className={containerClass}>
       <div ref={swiperContainer} className="swiper-container">
@@ -80,6 +102,8 @@ SwiperBlock.propTypes = {
   listClass: PropTypes.string,
   paginationClass: PropTypes.string,
   children: PropTypes.node.isRequired,
+  goToSlide: PropTypes.number,
+  onSlideChange: PropTypes.func,
 }
 
 SwiperBlock.defaultProps = {
@@ -90,6 +114,8 @@ SwiperBlock.defaultProps = {
   listClass: '',
   paginationClass: '',
   config: {},
+  goToSlide: null,
+  onSlideChange: () => {},
 }
 
 
