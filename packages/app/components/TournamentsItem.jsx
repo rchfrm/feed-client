@@ -62,6 +62,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
           isAdPair={isAdPair}
           winningAdId={winningAdId}
           nextIsAdPair={nextIsAdPair}
+          streakWinnerIndex={streakWinnerIndex}
           nextWinningAdIndex={nextWinningAdIndex}
           lastTournament={lastTournament}
           title="Ad A"
@@ -93,6 +94,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
               isAdPair={isAdPair}
               winningAdId={winningAdId}
               nextIsAdPair={nextIsAdPair}
+              streakWinnerIndex={streakWinnerIndex}
               nextWinningAdIndex={nextWinningAdIndex}
               lastTournament={lastTournament}
               title="Ad B"
