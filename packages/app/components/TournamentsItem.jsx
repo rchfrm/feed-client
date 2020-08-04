@@ -34,6 +34,12 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
   const adMetrics = React.useMemo(() => {
     return tournamentHelpers.getAdMetrics(dataA, dataB, isAdPair)
   }, [dataA, dataB, isAdPair])
+  // CONTROL SWIPER
+  const [sliderIndex, setSliderIndex] = React.useState(0)
+  const switchViews = React.useCallback(() => {
+    const newSlideIndex = sliderIndex === 0 ? 1 : 0
+    setSliderIndex(newSlideIndex)
+  }, [sliderIndex])
   // On resize
   const isDesktopLayout = useBreakpointTest('md')
 
@@ -46,7 +52,11 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
     >
       {/* DATE */}
       <TournamentsItemDate className="col-span-6 col-start-4 mb-5" date={dateCreated} />
-      <SwiperBlock containerClass="col-span-6 col-start-4">
+      <SwiperBlock
+        containerClass="col-span-6 col-start-4"
+        goToSlide={sliderIndex}
+        onSlideChange={({ activeIndex }) => setSliderIndex(activeIndex)}
+      >
         {/* AD PAIR */}
         <TournamentsItemAdPair
           adPosts={tournament.adPosts}
@@ -56,6 +66,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
           nextIsAdPair={nextIsAdPair}
           nextWinningAdIndex={nextWinningAdIndex}
           lastTournament={lastTournament}
+          switchViews={switchViews}
           className="swiper-slide"
         />
         {/* METRICS & LINKS */}

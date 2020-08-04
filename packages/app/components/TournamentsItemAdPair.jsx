@@ -12,6 +12,7 @@ const TournamentsItemAdPair = ({
   nextIsAdPair,
   nextWinningAdIndex,
   lastTournament,
+  switchViews,
   className,
 }) => {
   const [adA, adB] = adPosts
@@ -57,6 +58,7 @@ const TournamentsItemAdPair = ({
             className="w-6 h-6 p-1 button--information"
             aria-label="Show metrics"
             title="Tournament metrics"
+            onClick={switchViews}
           >
             <InformationIcon className="w-full h-auto" />
           </button>
@@ -89,6 +91,7 @@ TournamentsItemAdPair.propTypes = {
   nextIsAdPair: PropTypes.bool,
   nextWinningAdIndex: PropTypes.number,
   lastTournament: PropTypes.bool.isRequired,
+  switchViews: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

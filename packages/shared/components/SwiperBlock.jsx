@@ -42,7 +42,7 @@ const SwiperBlock = ({
     // Listen to events
     mySwiper.current.on('slideChange', function slideChange() {
       const { activeIndex } = this
-      currentSlide.currentSlide = activeIndex
+      currentSlide.current = activeIndex
       onSlideChange(this)
     })
     // Handle unmount
