@@ -54,7 +54,6 @@ const SwiperBlock = ({
 
   // CONTROL SWIPER FROM PARENT
   React.useEffect(() => {
-    console.log('goToSlide', goToSlide)
     if (typeof goToSlide !== 'number' || !mySwiper.current) return
     if (currentSlide.current === goToSlide) return
     mySwiper.current.slideTo(goToSlide)
