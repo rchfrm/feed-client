@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import TournamentsItemDate from '@/app/TournamentsItemDate'
-import TournamentsItemAd from '@/app/TournamentsItemAd'
+import TournamentsItemAdPair from '@/app/TournamentsItemAdPair'
 import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
@@ -45,65 +45,16 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
       {/* DATE */}
       <TournamentsItemDate className="col-span-6 mb-5" date={dateCreated} />
       {/* AD PAIR */}
-      <div
-        className={[
-          'flex',
-          isAdPair ? 'justify-between' : 'justify-center',
-          'col-span-6',
-          'col-start-1',
-          'mb-10',
-          'text-center',
-          className,
-        ].join(' ')}
-      >
-        {/* FIRST AD */}
-        <TournamentsItemAd
-          adPost={adA}
-          isAdPair={isAdPair}
-          winningAdId={winningAdId}
-          nextIsAdPair={nextIsAdPair}
-          streakWinnerIndex={streakWinnerIndex}
-          nextWinningAdIndex={nextWinningAdIndex}
-          lastTournament={lastTournament}
-          title="Ad A"
-          className=""
-        />
-        {/* MIDDLE COLUMN */}
-        {isAdPair && (
-          <div className="w-24">
-            {/* VS */}
-            <p className="flex items-center justify-center h-24 mb-0">
-              <strong><em>vs</em></strong>
-            </p>
-            {/* METRIC BUTTON */}
-            <div className="hidden flex items-center justify-center h-14 mt-8">
-              <button
-                className="rounded-full w-6 h-6 border border-black border-solid"
-                aria-label="Show metrics"
-              >
-                i
-              </button>
-            </div>
-          </div>
-        )}
-        {/* SECOND AD */}
-        {isAdPair && (
-          <>
-            <TournamentsItemAd
-              adPost={adB}
-              isAdPair={isAdPair}
-              winningAdId={winningAdId}
-              nextIsAdPair={nextIsAdPair}
-              streakWinnerIndex={streakWinnerIndex}
-              nextWinningAdIndex={nextWinningAdIndex}
-              lastTournament={lastTournament}
-              title="Ad B"
-              secondary
-              className=""
-            />
-          </>
-        )}
-      </div>
+      <TournamentsItemAdPair
+        adPosts={tournament.adPosts}
+        isAdPair={isAdPair}
+        winningAdId={winningAdId}
+        streakWinnerIndex={streakWinnerIndex}
+        nextIsAdPair={nextIsAdPair}
+        nextWinningAdIndex={nextWinningAdIndex}
+        lastTournament={lastTournament}
+        className={className}
+      />
       {/* METRICS */}
       <TournamentsItemMetrics
         adMetrics={adMetrics}
