@@ -49,6 +49,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
     <div
       className={[
         'md:grid grid-cols-12 col-gap-5',
+        '-mt-26 first:mt-0',
         className,
       ].join(' ')}
     >
@@ -73,19 +74,19 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
           className="swiper-slide"
         />
         {/* METRICS & LINKS */}
-        <div className="swiper-slide">
+        <div className={['swiper-slide bg-white'].join(' ')}>
           <TournamentsItemMetrics
             adMetrics={adMetrics}
             isAdPair={isAdPair}
             currency={currency}
-            className="text-center mb-4 pl-10"
+            className={['text-center mb-4 pl-10'].join(' ')}
           />
           <TournamentsItemLinks
             linkA={linkA}
             linkB={linkB}
           />
           {/* CLOSE METRICS BUTTON */}
-          <div className="text-center mt-3">
+          <div className={['text-center mt-3'].join(' ')}>
             <button
               className="button--cross -hover"
               aria-label="Hide metrics"

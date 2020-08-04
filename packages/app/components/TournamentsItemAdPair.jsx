@@ -23,6 +23,7 @@ const TournamentsItemAdPair = ({
         !isAdPair ? 'flex-col' : null,
         !isAdPair ? 'items-center' : 'justify-between',
         'mb-10',
+        'pb-32',
         'text-center',
         className,
       ].join(' ')}

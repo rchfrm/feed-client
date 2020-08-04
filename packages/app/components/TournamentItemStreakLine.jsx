@@ -6,7 +6,7 @@ import ArrowLine from '@/icons/ArrowLine'
 const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex) => {
   // Straight line
   if ((isAdPair && nextIsAdPair) || (!isAdPair && !nextIsAdPair)) {
-    const length = isAdPair ? 160 : 115
+    const length = isAdPair ? 180 : 135
     return (
       <ArrowLine
         className="absolute--center-x t-0"
@@ -21,12 +21,12 @@ const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex) 
       <>
         <ArrowLine
           className="absolute--center-x t-0"
-          lineLength={230}
+          lineLength={250}
         />
         <ArrowLine
           className="absolute left-0 ml-10"
           style={{
-            top: 230,
+            top: 250,
             transform: `rotate(${rotation}deg)`,
             transformOrigin: 'center top',
           }}
@@ -64,7 +64,7 @@ const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex) 
             top: 95,
             left: 170 * leftMod,
           }}
-          lineLength={65}
+          lineLength={85}
           hideCap
         />
       </>
