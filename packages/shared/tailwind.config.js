@@ -52,7 +52,7 @@ module.exports = (purgeFiles) => ({
     },
   },
   variants: {
-    margin: ['responsive', 'last'],
+    margin: ['responsive', 'last', 'first'],
   },
   plugins: [],
 })
