@@ -30,7 +30,7 @@ const UsersLoader = ({ userId }) => {
   const serverFunction = isSingleUser ? 'getUser' : 'getAllUsers'
   const fields = [...propsToDisplay, ...extraFields]
   const requestProps = {
-    limit: 1000,
+    limit: 100,
     fields: fields.join(','),
   }
   const serverFunctionArgs = isSingleUser ? [userId, requestProps] : [requestProps]
