@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import TournamentsItemImage from '@/app/TournamentsItemImage'
 import TournamentsItemScore from '@/app/TournamentsItemScore'
-import TournamentItemStreakLine from '@/app/TournamentItemStreakLine'
+import TournamentsItemStreakLine from '@/app/TournamentsItemStreakLine'
 
 import styles from '@/app/Tournaments.module.css'
 
@@ -48,7 +48,7 @@ const TournamentsItemAd = ({
       />
       {/* Line & Streak */}
       {streakWinner && !lastTournament && (
-        <TournamentItemStreakLine
+        <TournamentsItemStreakLine
           isAdPair={isAdPair}
           streakWinnerIndex={streakWinnerIndex}
           nextIsAdPair={nextIsAdPair}
