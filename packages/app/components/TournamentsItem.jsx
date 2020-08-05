@@ -49,17 +49,22 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
     <div
       className={[
         'md:grid grid-cols-12 col-gap-5',
-        '-mt-26 first:mt-0',
+        '-mt-26 first:mt-0 md:mt-0',
         className,
       ].join(' ')}
     >
       {/* DATE */}
-      <TournamentsItemDate className="col-span-6 col-start-4 mb-5" date={dateCreated} />
+      <TournamentsItemDate
+        className="col-span-5 col-start-1 mb-5 md:pl-1"
+        date={dateCreated}
+      />
+      {/* CONTENT */}
       <SwiperBlock
         containerClass="col-span-6 col-start-4"
         listClass="mb-0"
         goToSlide={sliderIndex}
         onSlideChange={({ activeIndex }) => setSliderIndex(activeIndex)}
+        disable={isDesktopLayout}
       >
         {/* AD PAIR */}
         <TournamentsItemAdPair
@@ -71,10 +76,10 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
           nextWinningAdIndex={nextWinningAdIndex}
           lastTournament={lastTournament}
           switchViews={switchViews}
-          className="swiper-slide"
+          className="swiper-slide col-span-5 col-start-1"
         />
         {/* METRICS & LINKS */}
-        <div className={['swiper-slide bg-white'].join(' ')}>
+        <div className={['swiper-slide bg-white md:bg-transparent col-span-7 col-start-6'].join(' ')}>
           <TournamentsItemMetrics
             adMetrics={adMetrics}
             isAdPair={isAdPair}
@@ -86,7 +91,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
             linkB={linkB}
           />
           {/* CLOSE METRICS BUTTON */}
-          <div className={['text-center mt-3'].join(' ')}>
+          <div className={['text-center mt-3', 'md:hidden'].join(' ')}>
             <button
               className="button--cross -hover"
               aria-label="Hide metrics"
