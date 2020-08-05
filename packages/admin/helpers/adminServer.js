@@ -51,7 +51,6 @@ export const getAllArtists = async (cursor, requestProps = {}) => {
 export const getArtist = async (cursor, artistId, requestProps = {}) => {
   const endpoint = `/artists/${artistId}`
   // Add request props
-  console.log('requestProps', requestProps)
   const endpointWithProps = getEndpointWithRequestProps(endpoint, requestProps)
   // Convert result to array
   const artist = await api.get(endpointWithProps)
