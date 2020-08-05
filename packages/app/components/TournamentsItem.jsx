@@ -78,7 +78,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
           lastTournament={lastTournament}
           switchViews={switchViews}
           isDesktopLayout={isDesktopLayout}
-          className="swiper-slide col-span-5 col-start-1"
+          className="swiper-slide col-span-5 col-start-1 TournamentsItemAdPair"
         />
         {/* METRICS & LINKS */}
         <div className={['swiper-slide bg-white md:bg-transparent col-span-7 col-start-6'].join(' ')}>
