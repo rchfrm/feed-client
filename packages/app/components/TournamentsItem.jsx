@@ -13,17 +13,12 @@ import TournamentsItemLinks from '@/app/TournamentsItemLinks'
 
 import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
-import styles from '@/app/Tournaments.module.css'
-
 const TournamentsItem = ({ tournament, lastTournament, currency, className }) => {
   // Get streak data from tournaments
   const {
     dateCreated,
     winningAdId,
-    winningAdIndex,
     streakWinnerIndex,
-    streakWinnerId,
-    nextStreakWinnerIndex,
     isAdPair,
     nextIsAdPair,
     nextWinningAdIndex,

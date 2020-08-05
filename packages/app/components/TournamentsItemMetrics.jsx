@@ -5,8 +5,6 @@ import TooltipButton from '@/elements/TooltipButton'
 
 import { formatNumber, formatCurrency } from '@/helpers/utils'
 
-import styles from '@/app/Tournaments.module.css'
-
 const BAR = ({ type, percent }) => {
   const bgA = 'bg-green'
   const bgB = 'bg-purple'

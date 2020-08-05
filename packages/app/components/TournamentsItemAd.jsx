@@ -5,8 +5,6 @@ import TournamentsItemImage from '@/app/TournamentsItemImage'
 import TournamentsItemScore from '@/app/TournamentsItemScore'
 import TournamentsItemStreakLine from '@/app/TournamentsItemStreakLine'
 
-import styles from '@/app/Tournaments.module.css'
-
 const TournamentsItemAd = ({
   adPost,
   isAdPair,
@@ -15,13 +13,11 @@ const TournamentsItemAd = ({
   nextIsAdPair,
   nextWinningAdIndex,
   lastTournament,
-  title,
   secondary,
   className,
 }) => {
   const {
     id,
-    postLink,
     thumbnailOptions,
     message,
     scoreString,
@@ -68,7 +64,6 @@ TournamentsItemAd.propTypes = {
   nextIsAdPair: PropTypes.bool,
   nextWinningAdIndex: PropTypes.number,
   lastTournament: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
   secondary: PropTypes.bool,
   className: PropTypes.string,
 }

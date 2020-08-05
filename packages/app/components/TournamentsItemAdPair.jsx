@@ -92,7 +92,6 @@ TournamentsItemAdPair.propTypes = {
   nextWinningAdIndex: PropTypes.number,
   lastTournament: PropTypes.bool.isRequired,
   switchViews: PropTypes.func.isRequired,
-  isDesktopLayout: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -101,7 +100,6 @@ TournamentsItemAdPair.defaultProps = {
   nextIsAdPair: false,
   nextWinningAdIndex: 0,
   winningAdId: '',
-  isDesktopLayout: false,
   className: '',
 }
 
