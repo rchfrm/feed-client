@@ -7,7 +7,7 @@ import { UserContext } from '@/contexts/UserContext'
 import * as server from '@/admin/helpers/adminServer'
 
 const fetcher = (serverFunction) => async ({ cursor, args }) => {
-  const requestArgs = cursor ? [cursor, ...args] : args
+  const requestArgs = cursor ? [cursor, ...args] : [null, ...args]
   // eslint-disable-next-line
   const items = await server[serverFunction].apply(null, requestArgs)
   return items
