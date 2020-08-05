@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import ArrowLine from '@/icons/ArrowLine'
 
+import { TournamentContext } from '@/app/contexts/TournamentContext'
+
 const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, isDesktopLayout) => {
   // Straight line
   if ((isAdPair && nextIsAdPair) || (!isAdPair && !nextIsAdPair)) {
@@ -92,8 +94,9 @@ const TournamentItemStreakLine = ({
   nextIsAdPair,
   nextWinningAdIndex,
   streak,
-  isDesktopLayout,
 }) => {
+  // GET DESKTOP LAYOUT TEST
+  const { isDesktopLayout } = React.useContext(TournamentContext)
   if (!streak) return null
   const line = getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, isDesktopLayout)
   return (
@@ -119,14 +122,12 @@ TournamentItemStreakLine.propTypes = {
   nextIsAdPair: PropTypes.bool.isRequired,
   nextWinningAdIndex: PropTypes.number,
   streak: PropTypes.number,
-  isDesktopLayout: PropTypes.bool,
 }
 
 TournamentItemStreakLine.defaultProps = {
   streakWinnerIndex: 0,
   nextWinningAdIndex: 0,
   streak: 0,
-  isDesktopLayout: false,
 }
 
 

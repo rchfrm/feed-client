@@ -77,7 +77,6 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
           nextWinningAdIndex={nextWinningAdIndex}
           lastTournament={lastTournament}
           switchViews={switchViews}
-          isDesktopLayout={isDesktopLayout}
           className="swiper-slide col-span-5 col-start-1 TournamentsItemAdPair"
         />
         {/* METRICS & LINKS */}
