@@ -97,10 +97,14 @@ export const getUser = async (userId, requestProps = {}) => {
  * @param {string} [cursor]
  * @returns {Promise<any>}
  */
-export const getAllUsers = async (cursor) => {
-  const pagination = cursor ? `&after=${cursor}` : ''
-  const endpoint = `users?all=1${pagination}`
-  return api.get(endpoint)
+export const getAllUsers = async (cursor, requestProps = {}) => {
+  const endpoint = 'users'
+  const requestPropsWithAll = { all: '1', ...requestProps }
+  // const requestPropsWithAll = { all: '1' }
+  const requestPropsWithCursor = cursor ? { ...requestPropsWithAll, after: cursor } : requestPropsWithAll
+  // Add request props
+  const endpointWithProps = getEndpointWithRequestProps(endpoint, requestPropsWithCursor)
+  return api.get(endpointWithProps)
 }
 
 // TOURNAMENTS
