@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 import SwiperBlock from '@/SwiperBlock'
 import CloseCircle from '@/icons/CloseCircle'
 
+import { TournamentContext } from '@/app/contexts/TournamentContext'
+
 import TournamentsItemDate from '@/app/TournamentsItemDate'
 import TournamentsItemAdPair from '@/app/TournamentsItemAdPair'
 import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
 import TournamentsItemLinks from '@/app/TournamentsItemLinks'
-
-import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
@@ -42,8 +42,8 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
     const newSlideIndex = sliderIndex === 0 ? 1 : 0
     setSliderIndex(newSlideIndex)
   }, [sliderIndex])
-  // On resize
-  const isDesktopLayout = useBreakpointTest('md')
+  // GET DESKTOP LAYOUT TEST
+  const { isDesktopLayout } = React.useContext(TournamentContext)
 
   return (
     <div
