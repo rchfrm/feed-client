@@ -14,6 +14,7 @@ const SwiperBlock = ({
   children,
   // Use these to control the swiper
   goToSlide,
+  disable,
   // Use these to update the parent
   onSlideChange,
 }) => {
@@ -23,6 +24,11 @@ const SwiperBlock = ({
   const currentSlide = React.useRef(null)
   // SETUP SWIPER
   React.useEffect(() => {
+    // Stop here (and destroy) if disabled
+    if (disable) {
+      if (mySwiper.current) mySwiper.current.destroy()
+      return
+    }
     // Add pagination to config
     if (navigation) {
       config.navigation = {
@@ -50,14 +56,18 @@ const SwiperBlock = ({
       swiper.destroy()
     }
   // eslint-disable-next-line
-  }, [])
+  }, [disable])
 
   // CONTROL SWIPER FROM PARENT
   React.useEffect(() => {
+    if (disable) return
     if (typeof goToSlide !== 'number' || !mySwiper.current) return
     if (currentSlide.current === goToSlide) return
     mySwiper.current.slideTo(goToSlide)
-  }, [goToSlide])
+  }, [goToSlide, disable])
+
+  // Stop here and just return children if disabled
+  if (disable) return children
 
   return (
     <div className={containerClass}>
@@ -102,6 +112,7 @@ SwiperBlock.propTypes = {
   paginationClass: PropTypes.string,
   children: PropTypes.node.isRequired,
   goToSlide: PropTypes.number,
+  disable: PropTypes.bool,
   onSlideChange: PropTypes.func,
 }
 
@@ -114,6 +125,7 @@ SwiperBlock.defaultProps = {
   paginationClass: '',
   config: {},
   goToSlide: null,
+  disable: false,
   onSlideChange: () => {},
 }
 
