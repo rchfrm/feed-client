@@ -5,7 +5,16 @@ import ArrowLine from '@/icons/ArrowLine'
 
 import { TournamentContext } from '@/app/contexts/TournamentContext'
 
-const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, isDesktopLayout) => {
+const getLine = (
+  isAdPair,
+  nextIsAdPair,
+  streakWinnerIndex,
+  nextWinningAdIndex,
+  itemWidth,
+  isDesktopLayout,
+) => {
+  const fontSize = 16
+  const columnWidth = 6 * fontSize
   // Straight line
   if ((isAdPair && nextIsAdPair) || (!isAdPair && !nextIsAdPair)) {
     const length = isAdPair ? 180 : 135
@@ -18,22 +27,24 @@ const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, 
   }
   // Elbow: |_ or _|
   if (isAdPair && !nextIsAdPair) {
-    const rotation = streakWinnerIndex === 0 ? -90 : 90
+    const lineWidth = (itemWidth / 2) - columnWidth - (fontSize * 1.5)
+    const left = columnWidth / 2
+    const translateXMod = streakWinnerIndex === 0 ? 0 : -1
     return (
       <>
         <ArrowLine
           className="absolute--center-x t-0"
           lineLength={250}
         />
-        <ArrowLine
-          className="absolute left-0 ml-10"
+        <div
+          className="absolute bg-black"
           style={{
+            height: 2,
             top: 250,
-            transform: `rotate(${rotation}deg)`,
-            transformOrigin: 'center top',
+            width: lineWidth,
+            left,
+            transform: `translateX(${translateXMod * 100}%)`,
           }}
-          lineLength={95}
-          hideCap
         />
       </>
     )
@@ -42,7 +53,9 @@ const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, 
   //        |          |
   if (!isAdPair) {
     const translateXMod = nextWinningAdIndex === 0 ? -1 : 0
+    const lineWidth = (itemWidth / 2) - (3 * fontSize)
     const leftMod = nextWinningAdIndex === 0 ? -1 : 1
+    const left = (lineWidth * leftMod) - (1 * leftMod)
     return (
       <>
         <ArrowLine
@@ -50,11 +63,11 @@ const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, 
           lineLength={95}
         />
         <div
-          className="absolute bg-red ml-12"
+          className="absolute bg-black ml-12"
           style={{
             height: 2,
             top: 95,
-            width: 'calc(150% - 0.75rem)',
+            width: lineWidth,
             transform: `translateX(${translateXMod * 100}%)`,
           }}
         />
@@ -62,7 +75,7 @@ const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, 
           className="absolute left-0 ml-10"
           style={{
             top: 95,
-            left: `calc(${leftMod * 150}% - ${leftMod * 0.75}rem)`,
+            left,
           }}
           lineLength={85}
           hideCap
@@ -72,22 +85,6 @@ const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, 
   }
 }
 
-// const getBadgeTop = (isAdPair, nextIsAdPair) => {
-//   // Straight line
-//   if ((isAdPair && nextIsAdPair) || (!isAdPair && !nextIsAdPair)) {
-//     return '2.25rem'
-//   }
-//   // Elbow: |_ or _|
-//   if (isAdPair && !nextIsAdPair) {
-//     return '2.25rem'
-//   }
-//   // Elbow:  __| or |__
-//   //        |          |
-//   if (!isAdPair) {
-//     return '2.25rem'
-//   }
-// }
-
 const TournamentItemStreakLine = ({
   isAdPair,
   streakWinnerIndex,
@@ -96,9 +93,15 @@ const TournamentItemStreakLine = ({
   streak,
 }) => {
   // GET DESKTOP LAYOUT TEST
-  const { isDesktopLayout } = React.useContext(TournamentContext)
+  const { isDesktopLayout, itemWidth } = React.useContext(TournamentContext)
+  // GET LINE
+  const line = React.useMemo(() => {
+    if (!streak) return
+    return getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, itemWidth, isDesktopLayout)
+  // eslint-disable-next-line
+  }, [streak, itemWidth, isDesktopLayout])
+  // STOP HERE IF NO STREAK
   if (!streak) return null
-  const line = getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, isDesktopLayout)
   return (
     <div className={['relative w-full h-24 mt-5'].join(' ')}>
       {/* Streak line */}
