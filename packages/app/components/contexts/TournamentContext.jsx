@@ -24,6 +24,7 @@ const TournamentContextProvider = ({ children }) => {
   React.useEffect(() => {
     if (!containerEl.current) return
     const item = containerEl.current.querySelector('.TournamentsItemAdPair')
+    if (!item) return
     const itemWidth = item.offsetWidth
     setItemWidth(itemWidth)
   }, [windowWidth])
