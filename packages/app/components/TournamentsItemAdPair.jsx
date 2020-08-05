@@ -78,9 +78,8 @@ const TournamentsItemAdPair = ({
           nextWinningAdIndex={nextWinningAdIndex}
           lastTournament={lastTournament}
           title="Ad B"
-          secondary
-          className=""
           isDesktopLayout={isDesktopLayout}
+          secondary
         />
       )}
     </div>
