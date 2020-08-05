@@ -116,7 +116,7 @@ const TournamentItemStreakLine = ({
       {/* Streak badge */}
       <div
         className="absolute--center-x bg-green pl-3 pr-3 text-white rounded-pill"
-        style={{ top: '2.25rem' }}
+        style={{ top: '2.25rem', paddingBottom: '0.1rem' }}
       >
         <span role="img" aria-label="streak" style={{ fontSize: '0.8em' }}>🚀</span>
         &nbsp;
