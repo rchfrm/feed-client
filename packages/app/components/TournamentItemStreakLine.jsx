@@ -15,32 +15,36 @@ const getLine = (
 ) => {
   const fontSize = 16
   const columnWidth = 6 * fontSize
+  const desktopAdjustment = fontSize * 1.5
   // Straight line
   if ((isAdPair && nextIsAdPair) || (!isAdPair && !nextIsAdPair)) {
     const length = isAdPair ? 180 : 135
+    const lineLength = isDesktopLayout ? length - desktopAdjustment : length
     return (
       <ArrowLine
         className="absolute--center-x t-0"
-        lineLength={length}
+        lineLength={lineLength}
       />
     )
   }
   // Elbow: |_ or _|
   if (isAdPair && !nextIsAdPair) {
     const lineWidth = (itemWidth / 2) - columnWidth - (fontSize * 1.5)
+    const length = 250
+    const lineLength = isDesktopLayout ? length - desktopAdjustment : length
     const left = columnWidth / 2
     const translateXMod = streakWinnerIndex === 0 ? 0 : -1
     return (
       <>
         <ArrowLine
           className="absolute--center-x t-0"
-          lineLength={250}
+          lineLength={lineLength}
         />
         <div
           className="absolute bg-black"
           style={{
             height: 2,
-            top: 250,
+            top: lineLength,
             width: lineWidth,
             left,
             transform: `translateX(${translateXMod * 100}%)`,
@@ -53,6 +57,9 @@ const getLine = (
   //        |          |
   if (!isAdPair) {
     const translateXMod = nextWinningAdIndex === 0 ? -1 : 0
+    const lineLengthTop = 95
+    const lengthBottom = 85
+    const lineLengthBottom = isDesktopLayout ? lengthBottom - desktopAdjustment : lengthBottom
     const lineWidth = (itemWidth / 2) - (3 * fontSize)
     const leftMod = nextWinningAdIndex === 0 ? -1 : 1
     const left = (lineWidth * leftMod) - (1 * leftMod)
@@ -60,13 +67,13 @@ const getLine = (
       <>
         <ArrowLine
           className="absolute--center-x t-0"
-          lineLength={95}
+          lineLength={lineLengthTop}
         />
         <div
           className="absolute bg-black ml-12"
           style={{
             height: 2,
-            top: 95,
+            top: lineLengthTop,
             width: lineWidth,
             transform: `translateX(${translateXMod * 100}%)`,
           }}
@@ -74,10 +81,10 @@ const getLine = (
         <ArrowLine
           className="absolute left-0 ml-10"
           style={{
-            top: 95,
+            top: lineLengthTop,
             left,
           }}
-          lineLength={85}
+          lineLength={lineLengthBottom}
           hideCap
         />
       </>
