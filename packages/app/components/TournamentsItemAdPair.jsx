@@ -13,6 +13,7 @@ const TournamentsItemAdPair = ({
   nextWinningAdIndex,
   lastTournament,
   switchViews,
+  isDesktopLayout,
   className,
 }) => {
   const [adA, adB] = adPosts
@@ -38,7 +39,7 @@ const TournamentsItemAdPair = ({
         nextWinningAdIndex={nextWinningAdIndex}
         lastTournament={lastTournament}
         title="Ad A"
-        className=""
+        isDesktopLayout={isDesktopLayout}
       />
       {/* MIDDLE COLUMN */}
       <div className="w-24">
@@ -79,6 +80,7 @@ const TournamentsItemAdPair = ({
           title="Ad B"
           secondary
           className=""
+          isDesktopLayout={isDesktopLayout}
         />
       )}
     </div>
@@ -94,6 +96,7 @@ TournamentsItemAdPair.propTypes = {
   nextWinningAdIndex: PropTypes.number,
   lastTournament: PropTypes.bool.isRequired,
   switchViews: PropTypes.func.isRequired,
+  isDesktopLayout: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -102,6 +105,7 @@ TournamentsItemAdPair.defaultProps = {
   nextIsAdPair: false,
   nextWinningAdIndex: 0,
   winningAdId: '',
+  isDesktopLayout: false,
   className: '',
 }
 

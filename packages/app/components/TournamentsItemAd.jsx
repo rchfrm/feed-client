@@ -17,6 +17,7 @@ const TournamentsItemAd = ({
   lastTournament,
   title,
   secondary,
+  isDesktopLayout,
   className,
 }) => {
   const {
@@ -54,6 +55,7 @@ const TournamentsItemAd = ({
           nextIsAdPair={nextIsAdPair}
           nextWinningAdIndex={nextWinningAdIndex}
           streak={streak}
+          isDesktopLayout={isDesktopLayout}
         />
       )}
     </div>
@@ -70,6 +72,7 @@ TournamentsItemAd.propTypes = {
   lastTournament: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   secondary: PropTypes.bool,
+  isDesktopLayout: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -79,6 +82,7 @@ TournamentsItemAd.defaultProps = {
   nextWinningAdIndex: 0,
   secondary: false,
   winningAdId: '',
+  isDesktopLayout: false,
   className: '',
 }
 

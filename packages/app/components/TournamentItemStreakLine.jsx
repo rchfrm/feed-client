@@ -94,6 +94,7 @@ const TournamentItemStreakLine = ({
   nextIsAdPair,
   nextWinningAdIndex,
   streak,
+  isDesktopLayout,
 }) => {
   if (!streak) return null
   const line = getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex)
@@ -120,12 +121,14 @@ TournamentItemStreakLine.propTypes = {
   nextIsAdPair: PropTypes.bool.isRequired,
   nextWinningAdIndex: PropTypes.number,
   streak: PropTypes.number,
+  isDesktopLayout: PropTypes.bool,
 }
 
 TournamentItemStreakLine.defaultProps = {
   streakWinnerIndex: 0,
   nextWinningAdIndex: 0,
   streak: 0,
+  isDesktopLayout: false,
 }
 
 
