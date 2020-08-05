@@ -5,7 +5,7 @@ import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 
 import { TournamentContextProvider } from '@/app/contexts/TournamentContext'
-import TournamentsItem from '@/app/TournamentsItem'
+import TournamentsAll from '@/app/TournamentsAll'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 
@@ -82,12 +82,6 @@ const TournamentsLoader = ({ audienceId }) => {
     setLoadedAll(false)
   }, [artistId, audienceId])
 
-  // TOURNAMENT COUNT
-  const totalTournaments = React.useMemo(() => {
-    return tournaments.length
-  }, [tournaments])
-
-
   // FETCH DATA
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({
@@ -151,32 +145,6 @@ const TournamentsLoader = ({ audienceId }) => {
     setLoadingMore(true)
   }, [])
 
-  // Load more Tournaments
-  const scrollTriggerLoad = React.useCallback(([target]) => {
-    if (target.isIntersecting && !loadingMore && !loadedAll) {
-      loadMorePosts()
-    }
-  }, [loadMorePosts, loadingMore, loadedAll])
-
-  // Setup intersection observer
-  const loadTrigger = React.useRef(null)
-  React.useEffect(() => {
-    const loadTriggerEl = loadTrigger.current
-    // Create observer
-    const observer = new IntersectionObserver(scrollTriggerLoad)
-    // observe the loader
-    if (loadTriggerEl) {
-      observer.observe(loadTrigger.current)
-    }
-    // clean up
-    return () => {
-      if (loadTriggerEl) {
-        observer.unobserve(loadTriggerEl)
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalTournaments, scrollTriggerLoad, loadedAll])
-
   // Stop here if loading
   if (artistLoading || (isPending && initialLoad.current)) {
     return (
@@ -190,40 +158,13 @@ const TournamentsLoader = ({ audienceId }) => {
 
   return (
     <TournamentContextProvider>
-      <section
-        id="TournamentItemsContainer"
-        className="pt-10"
-      >
-        {tournaments.map((tournament, index) => {
-          const lastTournament = index === totalTournaments - 1
-          return (
-            <React.Fragment key={tournament.id}>
-              <TournamentsItem
-                tournament={tournament}
-                lastTournament={lastTournament}
-                currency={artistCurrency}
-              />
-              {/* LOAD MORE SCROLL TRIGGER */}
-              {
-                totalTournaments
-                && index === totalTournaments - 1
-                && !loadedAll
-                && (
-                  <div ref={loadTrigger} />
-                )
-              }
-            </React.Fragment>
-          )
-        })}
-        {/* LOADING MORE SPINNER */}
-        {loadingMore && (
-          <div className="text-center pb-10">
-            <div className="inline-block w-10">
-              <Spinner />
-            </div>
-          </div>
-        )}
-      </section>
+      <TournamentsAll
+        tournaments={tournaments}
+        loadingMore={loadingMore}
+        artistCurrency={artistCurrency}
+        loadMorePosts={loadMorePosts}
+        loadedAll={loadedAll}
+      />
     </TournamentContextProvider>
   )
 }
