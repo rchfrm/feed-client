@@ -71,7 +71,7 @@ const TournamentsAll = ({
       })}
       {/* LOADING MORE SPINNER */}
       {loadingMore && (
-        <div className="text-center pb-10">
+        <div className="text-center md:pt-16 pb-10">
           <div className="inline-block w-10">
             <Spinner />
           </div>
