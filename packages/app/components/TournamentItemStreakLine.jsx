@@ -30,7 +30,7 @@ const getLine = (
   // Elbow: |_ or _|
   if (isAdPair && !nextIsAdPair) {
     const lineWidth = (itemWidth / 2) - columnWidth - (fontSize * 1.5)
-    const length = 250
+    const length = 252
     const lineLength = isDesktopLayout ? length - desktopAdjustment : length
     const left = columnWidth / 2
     const translateXMod = streakWinnerIndex === 0 ? 0 : -1
