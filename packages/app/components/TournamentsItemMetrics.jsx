@@ -68,11 +68,11 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, currency, className }) =>
             {/* PERCENTAGE BAR */}
             <div className="relative h-6">
               <BAR type="a" />
-              <VALUE type="a" value={valueAFormatted} />
+              <VALUE type="a" value={valueAFormatted || '-'} />
               {isAdPair && (
               <>
                 <BAR type="b" percent={percentB} />
-                <VALUE type="b" value={valueBFormatted} />
+                <VALUE type="b" value={valueBFormatted || '-'} />
               </>
               )}
             </div>

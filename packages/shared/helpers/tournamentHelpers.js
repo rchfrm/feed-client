@@ -324,7 +324,7 @@ export const getAdMetrics = (dataA, dataB, isAdPair) => {
     const { name: nameA, value: valueA, key: keyA } = detailA
     // Get matching data from source B (with fallbacks)
     const detailB = detailsB.find(({ key }) => keyA === key) || {}
-    const { name: nameB = nameA, value: valueB = '-' } = detailB
+    const { name: nameB = nameA, value: valueB } = detailB
     // Get tooltip
     const tooltip = metricTooltips[keyA]
     // Get data rows
