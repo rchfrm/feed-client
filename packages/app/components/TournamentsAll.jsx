@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import Spinner from '@/elements/Spinner'
 import TournamentsItem from '@/app/TournamentsItem'
 
+import { TournamentContext } from '@/app/contexts/TournamentContext'
+
 const TournamentsAll = ({
   tournaments,
   loadingMore,
@@ -12,6 +14,11 @@ const TournamentsAll = ({
   loadedAll,
 }) => {
   const totalTournaments = tournaments.length
+  // UPDATE ITEM SIZE WHEN MORE ITEMS ARE LOADED
+  const { updateItemWidth } = React.useContext(TournamentContext)
+  React.useEffect(() => {
+    updateItemWidth()
+  }, [tournaments.length, updateItemWidth])
   // RUN THIS to LOAD MORE TOURNAMENTS
   const scrollTriggerLoad = React.useCallback(([target]) => {
     if (target.isIntersecting && !loadingMore && !loadedAll) {
