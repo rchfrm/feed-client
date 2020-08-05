@@ -97,7 +97,7 @@ const TournamentItemStreakLine = ({
   if (!streak) return null
   const line = getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, isDesktopLayout)
   return (
-    <div className={['relative w-24 h-24 mt-5'].join(' ')}>
+    <div className={['relative w-full h-24 mt-5'].join(' ')}>
       {/* Streak line */}
       {line}
       {/* Streak badge */}
