@@ -7,6 +7,7 @@ import DataDetail from '@/admin/elements/DataDetail'
 import ArtistUsers from '@/admin/ArtistUsers'
 import ArtistStatusButton from '@/admin/ArtistStatusButton'
 import TournamentLink from '@/admin/TournamentLink'
+import ArtistIntegrationLinks from '@/admin/ArtistIntegrationLinks'
 
 const getUsersData = (users = {}) => {
   return Object.values(users).map(({ id, name, role }) => {
@@ -44,6 +45,10 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
           buttonClass="w-40"
           overviewLink
           linkType="anchor"
+        />
+        <ArtistIntegrationLinks
+          artistId={artist.id}
+          integrations={artist.integrations}
         />
       </nav>
     </>

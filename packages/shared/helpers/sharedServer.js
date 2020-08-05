@@ -1,6 +1,15 @@
 import * as api from '@/helpers/api'
 import firebase from '@/helpers/firebase'
 
+// GENERIC
+/**
+* @param {string} [endpoint]
+* @returns {Promise<any>}
+*/
+export const getEndpoint = async (endpoint) => {
+  return api.get(endpoint)
+}
+
 // USER
 /**
 * @param {string} [verifyIdToken]

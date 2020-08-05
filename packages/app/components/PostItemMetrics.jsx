@@ -51,14 +51,13 @@ const METRICS_ITEM = ({ title, value, className }) => {
       className={[styles.postMetricsItem, className].join(' ')}
       key={title}
     >
-      <span className={styles.title}>{title} </span>
-      <div className={styles.line} />
+      <span className={styles.title}>{title}:</span>
       <span className={styles.value}>{value}</span>
     </li>
   )
 }
 
-const PostMetrics = ({ insights, es }) => {
+const PostItemMetrics = ({ insights, es }) => {
   // Create array of insights
   const maxInsights = 4
   const insightsArray = React.useMemo(() => {
@@ -106,7 +105,7 @@ const PostMetrics = ({ insights, es }) => {
           return <li key={v} className={styles.postMetricsItem}>&nbsp;</li>
         })}
       </ul>
-      <div className={[styles.postSection, styles.postEsScore].join(' ')}>
+      <div className={[styles.postSection, styles.postEsScore, styles.postText].join(' ')}>
         <p className={styles.postEsScorePara}>
           <span>Score</span>
           <strong>{es}</strong>
@@ -130,9 +129,9 @@ METRICS_ITEM.defaultProps = {
 }
 
 
-PostMetrics.propTypes = {
+PostItemMetrics.propTypes = {
   insights: PropTypes.object.isRequired,
   es: PropTypes.number.isRequired,
 }
 
-export default PostMetrics
+export default PostItemMetrics

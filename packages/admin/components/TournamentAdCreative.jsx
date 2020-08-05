@@ -13,7 +13,6 @@ const propsToDisplay = [
 ]
 
 const getPostContent = (adCreative) => {
-  console.log('adCreative', adCreative)
   const { object_type, object_story_spec, instagram_actor_id, image_url, thumbnail_url } = adCreative
   // Insta video
   if (object_type === 'VIDEO' && instagram_actor_id) {
@@ -31,7 +30,6 @@ const getPostContent = (adCreative) => {
 }
 
 const TournamentAdCreative = ({ adCreative }) => {
-  // console.log('adCreative', adCreative)
   const {
     instagram_permalink_url,
   } = adCreative

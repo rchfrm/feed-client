@@ -6,9 +6,10 @@ import { UserContext } from '@/contexts/UserContext'
 
 import * as server from '@/admin/helpers/adminServer'
 
-const fetcher = (serverFunction) => async ({ cursor, requestProps }) => {
+const fetcher = (serverFunction) => async ({ cursor, args }) => {
+  const requestArgs = cursor ? [cursor, ...args] : [null, ...args]
   // eslint-disable-next-line
-  const items = await server[serverFunction](cursor, requestProps)
+  const items = await server[serverFunction].apply(null, requestArgs)
   return items
 }
 
@@ -28,7 +29,7 @@ const reducer = (draftState, action) => {
   }
 }
 
-const useGetPaginated = (serverFunction, requestProps) => {
+const useGetPaginated = (serverFunction = '', args = []) => {
   const [items, udpateItems] = useImmerReducer(reducer, [])
   const [cursor, setCursor] = React.useState('')
   const [finishedLoading, setFinishedLoading] = React.useState(false)
@@ -51,7 +52,7 @@ const useGetPaginated = (serverFunction, requestProps) => {
     token: user ? user.token : null,
     userId: user ? user.id : null,
     cursor,
-    requestProps,
+    args,
     // When fetch finishes
     onResolve: (newItems) => {
       // Handle result...
@@ -68,7 +69,7 @@ const useGetPaginated = (serverFunction, requestProps) => {
       })
       // Update cursor
       const finalItem = newItems[newItems.length - 1]
-      const { _links: { after: afterLink } } = finalItem
+      const { after: afterLink } = finalItem._links || {}
       if (!afterLink) return setFinishedLoading(true)
       const { href: cursorHref } = afterLink
       const [, cursor] = cursorHref.split('after=')
@@ -77,7 +78,7 @@ const useGetPaginated = (serverFunction, requestProps) => {
     },
   })
 
-  return { items, isPending, error, finishedLoading }
+  return { data: items, isPending, error, finishedLoading }
 }
 
 export default useGetPaginated

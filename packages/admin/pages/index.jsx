@@ -1,6 +1,6 @@
 import testPageReady from '@/hoc/testPageReady'
 import BasePage from '@/admin/BasePage'
-import AllArtistsLoader from '@/admin/AllArtistsLoader'
+import ArtistsLoader from '@/admin/ArtistsLoader'
 
 const Home = () => {
   return (
@@ -8,7 +8,7 @@ const Home = () => {
       headerConfig="artists"
       staticPage
     >
-      <AllArtistsLoader />
+      <ArtistsLoader />
     </BasePage>
   )
 }

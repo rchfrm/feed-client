@@ -10,7 +10,7 @@ import styles from '@/app/PostItem.module.css'
 
 const PostItemTopBar = ({ post, togglePromotion, postPromotable }) => {
   return (
-    <div className={[styles.topBar, styles.postSection].join(' ')}>
+    <div className={[styles.topBar, styles.postSection, styles.postText].join(' ')}>
       <PostMetaData
         platform={post.platform}
         date={post.published_time}

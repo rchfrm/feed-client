@@ -27,18 +27,23 @@ const TooltipMessage = ({
   const { width: windowWidth } = useBrowserStore()
   // Update width to make sure it's not too big
   const defaultStyle = { width: 300 }
-  const [style, setStyle] = React.useState(null)
+  const [style, setStyle] = React.useState(defaultStyle)
   React.useEffect(() => {
     const { current: messageEl } = messageNode
     const sideGap = 20
-    const { right } = messageEl.getBoundingClientRect()
+    const { left: distanceFromLeft, right } = messageEl.getBoundingClientRect()
     const { width: defaultWidth } = defaultStyle
-    const distanceFromRight = windowWidth - right
+    const distanceFromRight = direction === 'left' ? windowWidth - right : right
     const isTooBig = windowWidth - (distanceFromRight + defaultWidth) < sideGap
     if (isTooBig) {
       // If screen is too narrow, set width to fit
-      const newWidth = windowWidth - (sideGap + distanceFromRight)
-      setStyle({ width: newWidth })
+      const newWidth = direction === 'left'
+        // When positioned to the left
+        ? windowWidth - (sideGap + distanceFromRight)
+        // When positioned to the right
+        : windowWidth - (distanceFromLeft + sideGap)
+      // Set width
+      setStyle({ ...defaultStyle, width: Math.min(newWidth, defaultWidth) })
       return
     }
     // If screen is big enough set to default style
@@ -64,10 +69,10 @@ const TooltipMessage = ({
       ].join(' ')}
       style={{ ...style, ...messageStyle }}
     >
-      {(slides || slidesContentAfter) && style ? (
+      {((slides || slidesContentAfter) && slides.length > 1) && style ? (
         <TooltipSlides slides={slides} slidesContentAfter={slidesContentAfter} />
       ) : (
-        <MarkdownText markdown={copy} />
+        <MarkdownText markdown={copy || slides[0]} />
       )}
     </div>
   )

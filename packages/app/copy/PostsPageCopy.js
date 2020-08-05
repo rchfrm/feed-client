@@ -9,7 +9,14 @@ export default {
 
   globalToggleIntro: `Make all posts eligible for promotion by default:`,
 
-  globalConnectionsIntro: `The default link in your promoted posts is marked by *. You can change the link on each specific post here.`,
+  globalConnectionsIntro: `Add the links that you'd like to use in your ads.
+  
+Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also enable **Feed** to track the number of followers you have on the Insights page. `,
+
+  globalConnectionsTooltipSlides: [
+    `Set the default link used in every ad by clicking the asterisk (*) to the left of the link. You can still set different links on individual posts.`,
+    `The other icons are suggested links, but you can use any field for any link.`,
+  ],
 
   globalStatusConfirmation: `Changing this will update the current status on all your current and future posts.
   

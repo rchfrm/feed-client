@@ -5,7 +5,7 @@ import TooltipIcon from '@/icons/TooltipIcon'
 import TooltipMessage from '@/elements/TooltipMessage'
 
 const TooltipButton = (props) => {
-  const { buttonClasses, containerStyle } = props
+  const { buttonClasses, containerStyle, buttonText } = props
   const [showMessage, setShowMessage] = React.useState(false)
   // Get ref to message
   const messageRef = React.useRef(null)
@@ -38,9 +38,13 @@ const TooltipButton = (props) => {
   // Render
   return (
     <div className={['tooltip--container', buttonClasses].join(' ')} style={containerStyle}>
+      {/* TOOLTIP TEXT */}
       {showMessage && <TooltipMessage {...props} messageRef={setMessageRef} />}
-      <button className={['button', 'button--tooltip'].join(' ')} onClick={toggleMessage} ref={buttonRef}>
-        <TooltipIcon />
+      {/* BUTTON */}
+      <button className={['button', 'button--tooltip', buttonText && 'flex items-center'].join(' ')} onClick={toggleMessage} ref={buttonRef}>
+        {/* BUTTON TEXT */}
+        {buttonText && <p className="button--tooltip-text text-sm">{buttonText}</p>}
+        <TooltipIcon className="button--tooltip-icon" />
       </button>
     </div>
   )
@@ -49,11 +53,13 @@ const TooltipButton = (props) => {
 TooltipButton.propTypes = {
   buttonClasses: PropTypes.string,
   containerStyle: PropTypes.object,
+  buttonText: PropTypes.string,
 }
 
 TooltipButton.defaultProps = {
   buttonClasses: '',
   containerStyle: {},
+  buttonText: '',
 }
 
 

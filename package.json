@@ -11,9 +11,11 @@
     "lint": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/app/components",
     "lint:admin": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/app/components",
     "stage": "./bin/deploy app staging",
-    "deploy-production": "./bin/deploy app production",
     "stage:admin": "./bin/deploy admin staging",
+    "stage:both": "yarn stage && yarn stage:admin",
+    "deploy-production": "./bin/deploy app production",
     "deploy-production:admin": "./bin/deploy admin production",
+    "deploy-production:both": "yarn deploy-production && yarn deploy-production:admin",
     "pwa": "node bin/buildFavicons && cp -a ./packages/app/public/pwa ./packages/admin/public",
     "analyze-bundle": "yarn workspace app analyze-bundle",
     "analyze-bundle:admin": "yarn workspace admin analyze-bundle"
