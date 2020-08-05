@@ -26,7 +26,7 @@ const ArtistsLoader = ({ artistId }) => {
   // Make request
   const serverFunction = isSingleArtist ? 'getArtist' : 'getAllArtists'
   const requestProps = {
-    limit: 1000,
+    limit: 100,
     fields: fields.join(','),
   }
   const serverFunctionArgs = isSingleArtist ? [artistId, requestProps] : [requestProps]
