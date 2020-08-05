@@ -70,10 +70,10 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, currency, className }) =>
               <BAR type="a" />
               <VALUE type="a" value={valueAFormatted || '-'} />
               {isAdPair && (
-              <>
-                <BAR type="b" percent={percentB} />
-                <VALUE type="b" value={valueBFormatted || '-'} />
-              </>
+                <>
+                  <BAR type="b" percent={percentB} />
+                  <VALUE type="b" value={valueBFormatted || '-'} />
+                </>
               )}
             </div>
           </div>
