@@ -1,7 +1,7 @@
 import React from 'react'
 import testPageReady from '@/hoc/testPageReady'
 import BasePage from '@/admin/BasePage'
-import AllUsersLoader from '@/admin/AllUsersLoader'
+import UsersLoader from '@/admin/UsersLoader'
 
 const Users = () => {
   return (
@@ -9,7 +9,7 @@ const Users = () => {
       headerConfig="tournamenmts"
       staticPage
     >
-      <AllUsersLoader />
+      <UsersLoader />
     </BasePage>
   )
 }
