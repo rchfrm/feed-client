@@ -5,7 +5,7 @@ import BasePage from '@/admin/BasePage'
 import TournamentsLoader from '@/admin/TournamentsLoader'
 import PageQuerySetter from '@/admin/PageQuerySetter'
 
-const Tournaments = ({ router: { pathname, query } }) => {
+const Tournament = ({ router: { pathname, query } }) => {
   const { artistId, tournamentId, campaignId, adsetId } = query
   const pageRequiresLoading = !!(artistId && tournamentId && campaignId && adsetId)
   return (
@@ -49,4 +49,4 @@ const Tournaments = ({ router: { pathname, query } }) => {
   )
 }
 
-export default testPageReady('admin')(withRouter(Tournaments))
+export default testPageReady('admin')(withRouter(Tournament))

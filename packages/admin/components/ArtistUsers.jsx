@@ -1,7 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Link from 'next/link'
 import DataDetail from '@/admin/elements/DataDetail'
+
+import * as ROUTES from '@/admin/constants/routes'
 
 const ArtistUsers = ({ users }) => {
   const [showUsers, setShowUsers] = React.useState(false)
@@ -29,6 +32,16 @@ const ArtistUsers = ({ users }) => {
                   {name} ({role})
                   {index !== users.length - 1 ? ', ' : ''}
                 </strong>
+              </p>
+              <p>
+                <Link
+                  href={{
+                    pathname: ROUTES.USER,
+                    query: { userId: id },
+                  }}
+                >
+                  <a>User Page</a>
+                </Link>
               </p>
               <div className="mt-3">
                 <DataDetail name="User ID" value={id} copyText />
