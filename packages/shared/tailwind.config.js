@@ -47,6 +47,7 @@ module.exports = (purgeFiles) => ({
         26: '6.5rem',
         28: '7rem',
         36: '9rem',
+        72: '18rem',
         80: '20rem',
         96: '24rem',
         128: '32rem',
