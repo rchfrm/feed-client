@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import ArrowLine from '@/icons/ArrowLine'
 
-const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex) => {
+const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, isDesktopLayout) => {
   // Straight line
   if ((isAdPair && nextIsAdPair) || (!isAdPair && !nextIsAdPair)) {
     const length = isAdPair ? 180 : 135
@@ -39,8 +39,7 @@ const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex) 
   // Elbow:  __| or |__
   //        |          |
   if (!isAdPair) {
-    const rotationDirection = nextWinningAdIndex === 0 ? 1 : -1
-    const rotation = 90 * rotationDirection
+    const translateXMod = nextWinningAdIndex === 0 ? -1 : 0
     const leftMod = nextWinningAdIndex === 0 ? -1 : 1
     return (
       <>
@@ -48,21 +47,20 @@ const getLine = (isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex) 
           className="absolute--center-x t-0"
           lineLength={95}
         />
-        <ArrowLine
-          className="absolute left-0 ml-10"
+        <div
+          className="absolute bg-red ml-12"
           style={{
+            height: 2,
             top: 95,
-            transform: `rotate(${rotation}deg)`,
-            transformOrigin: 'center top',
+            width: 'calc(150% - 0.75rem)',
+            transform: `translateX(${translateXMod * 100}%)`,
           }}
-          lineLength={170}
-          hideCap
         />
         <ArrowLine
           className="absolute left-0 ml-10"
           style={{
             top: 95,
-            left: 170 * leftMod,
+            left: `calc(${leftMod * 150}% - ${leftMod * 0.75}rem)`,
           }}
           lineLength={85}
           hideCap
@@ -97,7 +95,7 @@ const TournamentItemStreakLine = ({
   isDesktopLayout,
 }) => {
   if (!streak) return null
-  const line = getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex)
+  const line = getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, isDesktopLayout)
   return (
     <div className={['relative w-24 h-24 mt-5'].join(' ')}>
       {/* Streak line */}
