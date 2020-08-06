@@ -74,7 +74,7 @@ export const getArtist = async (artistId, accessToken) => {
       return { error }
     })
   if (artist.error) return { error: artist.error }
-  const dataSources = await api.get(`/artists/${artistId}/data_sources`, { fields: 'id', limit: 100 }, accessToken)
+  const dataSources = await api.get(`/artists/${artistId}/data_sources`, { fields: 'id,name', limit: 100 }, accessToken)
     .catch((error) => {
       return { error }
     })
