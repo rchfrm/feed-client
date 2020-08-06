@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import SwiperBlock from '@/SwiperBlock'
+import MarkdownText from '@/elements/MarkdownText'
 import CloseCircle from '@/icons/CloseCircle'
 
 import { TournamentContext } from '@/app/contexts/TournamentContext'
@@ -12,6 +13,7 @@ import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
 import TournamentsItemLinks from '@/app/TournamentsItemLinks'
 
 import * as tournamentHelpers from '@/helpers/tournamentHelpers'
+import { copy } from '@/app/copy/tournamentsCopy'
 
 const TournamentsItem = ({ tournament, lastTournament, currency, className }) => {
   // Get streak data from tournaments
@@ -56,9 +58,11 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
       />
       {/* NO ADS */}
       {!tournament.adPosts.length ? (
-        <div className="col-span-6 col-start-7 pt-1 mb-16 pr-5">
-          <p>This tournament does not contain any ads.</p>
-          <p>This might be because there is not enough budget or ads to start this phase.</p>
+        <div className="col-span-7 col-start-6 mb-40 md:mb-10 text-center md:text-left">
+          <MarkdownText
+            className="md:max-w-md lg:max-w-lg pt-1 md:pl-10 md:pr-5 ml-auto mr-0"
+            markdown={copy.noTournamentAds}
+          />
         </div>
       // ADS CONTENT
       ) : (
