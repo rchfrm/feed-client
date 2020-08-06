@@ -157,18 +157,17 @@ const getWinningAdId = (tournament) => {
 }
 
 // GET ARRAY of WINNING STATUSES
-const getWinningResults = (ads, metric) => {
+const getStreakResults = (ads) => {
+  if (!ads.length) return [false, false]
   const [adA = {}, adB = {}] = ads
-  const { engagement_score: scoreA, streak: streakA } = adA
-  const { engagement_score: scoreB, streak: streakB } = adB
-  const metricA = metric === 'score' ? scoreA : streakA
-  const metricB = metric === 'score' ? scoreB : streakB
-  if (!metricB) {
-    if (metricA) return [true, false]
+  const { streak: streakA } = adA
+  const { streak: streakB } = adB
+  if (!streakB) {
+    if (streakA) return [true, false]
     return [false, false]
   }
-  if (metricA === metricB) return [true, true]
-  if (metricA > metricB) return [true, false]
+  if (streakA === streakB) return [true, true]
+  if (streakA > streakB) return [true, false]
   return [false, true]
 }
 
@@ -180,7 +179,7 @@ const getWinningResults = (ads, metric) => {
 * @param {number} [index]
 * @returns {object}
 */
-const formatAdData = (streakResults, scoreResults) => (ad, index) => {
+const formatAdData = (streakResults) => (ad, index) => {
   const {
     id,
     adcreatives,
@@ -193,7 +192,6 @@ const formatAdData = (streakResults, scoreResults) => (ad, index) => {
   const postContent = getPostContent(adCreative)
   // Format score and streak
   const streakWinner = streakResults[index]
-  const scoreWinner = scoreResults[index]
   // Get clicks
   const clicks = summary && summary.outbound_clicks && summary.outbound_clicks.outbound_click
   // Get spend
@@ -214,7 +212,6 @@ const formatAdData = (streakResults, scoreResults) => (ad, index) => {
   return {
     ...postContent,
     id,
-    scoreWinner,
     streakWinner,
     score,
     scoreString: utils.formatNumber(score),
@@ -234,15 +231,15 @@ const formatTournamentData = (tournament) => {
   const { identifier: adsetType } = adset
   // Convert ads to array
   const adsArray = Object.values(ads)
-  const scoreResults = getWinningResults(adsArray, 'score')
-  const streakResults = getWinningResults(adsArray, 'streak')
+  // Get streak info
+  const streakResults = getStreakResults(adsArray)
   const streakWinnerIndex = streakResults.indexOf(true)
   const { id: streakWinnerId } = adsArray[streakWinnerIndex] || {}
   // Get winning AD id
   const winningAdId = getWinningAdId(tournament)
   const winningAdIndex = adsArray.findIndex(({ id }) => id === winningAdId)
   // Format Ad
-  const adPosts = adsArray.map(formatAdData(streakResults, scoreResults))
+  const adPosts = adsArray.map(formatAdData(streakResults))
   // Format time data
   const dateCreated = moment(created_at).format('D MMM YYYY')
   const timeCreated = moment(created_at).format('HH[:]mm')
