@@ -33,10 +33,10 @@ const InsightDataSelectors = ({
 
   // Build options array for base filters
   const baseFiltersOptions = React.useMemo(() => {
-    return platformSources.map(({ title, id, subtitle, platform }) => {
+    return platformSources.map(({ title, name, subtitle, platform }) => {
       const { bg: color } = brandColors[platform]
       return {
-        id,
+        id: name,
         title,
         subtitle,
         color,
