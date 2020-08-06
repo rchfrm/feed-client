@@ -161,6 +161,13 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
 
   if (error) return <Error error={error} />
 
+  // HANDLE NO TOURNAMENTS
+  if (!isPending && !tournaments.length) {
+    return (
+      <p className="mt-5">No Tournaments</p>
+    )
+  }
+
   return (
     <TournamentsAll
       tournaments={tournaments}
