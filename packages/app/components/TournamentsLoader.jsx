@@ -66,6 +66,7 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
   const initialLoad = React.useRef(true)
   const [loadingMore, setLoadingMore] = React.useState(false)
   const [loadedAll, setLoadedAll] = React.useState(false)
+  const itemsPerPage = 20
 
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -131,6 +132,10 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
       })
       // Define initial load
       initialLoad.current = false
+      // If total loaded was less than per page, we're done
+      if (data.length < itemsPerPage) {
+        setLoadedAll(true)
+      }
     },
     // Handle errors
     onReject(error) {
