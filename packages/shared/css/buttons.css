@@ -270,6 +270,7 @@ button {
   &.-active {
     background-color: var(--text-color);
     color: var(--bg-color);
+    font-weight: var(--bold);
   }
 
   &.-inactive {
@@ -287,6 +288,12 @@ button {
 .button--pill-inner {
   display: flex;
   align-items: center;
+  padding: 0 0.03em;
+
+  /* compensate for font weight changes */
+  .button--pill.-active & {
+    padding: 0;
+  }
 
   svg,
   .icon {
