@@ -26,21 +26,32 @@ const PillOptions = (props) => {
     activeOption,
     setActiveOption,
     className,
+    disabled,
   } = props
   return (
-    <div className={['pill--options-container', className].join(' ')}>
+    <div
+      className={[
+        'pill--options-container',
+        disabled ? 'opacity-50' : null,
+        className,
+      ].join(' ')}
+    >
       {label && (
         <p className={['inputLabel__text', 'mb-4'].join(' ')}>{label}</p>
       )}
-      <div className={['pill--options'].join(' ')}>
-        {options.map(({ id, title, disabled }) => {
+      <div
+        className={[
+          'pill--options',
+        ].join(' ')}
+      >
+        {options.map(({ id, title, disabled: optionDisabled }) => {
           const active = id === activeOption
           return (
             <ButtonPill
               key={id}
               {...props}
               active={active}
-              disabled={disabled}
+              disabled={disabled || optionDisabled}
               className={['pill--option'].join(' ')}
               onClick={() => setActiveOption(id)}
             >
@@ -59,11 +70,13 @@ PillOptions.propTypes = {
   activeOption: PropTypes.string.isRequired,
   setActiveOption: PropTypes.func.isRequired,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
 }
 
 PillOptions.defaultProps = {
   label: '',
   className: '',
+  disabled: false,
 }
 
 
