@@ -2,6 +2,7 @@
 // import React from 'react'
 import moment from 'moment'
 import url from 'url'
+import produce from 'immer'
 import getVideoId from 'get-video-id'
 import getSymbolFromCurrency from 'currency-symbol-map'
 import countries from '@/constants/countries'
@@ -90,6 +91,18 @@ export const removeItemFromArray = ({ array, item, index }) => {
     array.splice(index, 1)
   }
   return array
+}
+
+export const sortArrayByKey = (arr, key, sortDirection = 'asc') => {
+  return produce(arr, draftArr => {
+    draftArr.sort((a, b) => {
+      const aValue = a[key]
+      const bValue = b[key]
+      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1
+      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1
+      return 0
+    })
+  })
 }
 
 export const cleanSpotifyUrl = (url) => {
