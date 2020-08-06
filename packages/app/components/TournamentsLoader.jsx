@@ -59,7 +59,7 @@ const updateDataConditions = (newProps, oldProps) => {
   return false
 }
 
-const TournamentsLoader = ({ audienceId }) => {
+const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
   const { artistId, artistLoading, artistCurrency } = React.useContext(ArtistContext)
   const [tournaments, setTournaments] = useImmerReducer(dataReducer, initialDataState)
   const [error, setError] = React.useState(null)
@@ -145,6 +145,12 @@ const TournamentsLoader = ({ audienceId }) => {
     setLoadingMore(true)
   }, [])
 
+  // DISABLE TYPE FILTERS
+  React.useEffect(() => {
+    const typeFiltersDisabled = loadedAll && !tournaments.length
+    setTypeFiltersDisabled(typeFiltersDisabled)
+  }, [loadedAll, tournaments, setTypeFiltersDisabled])
+
   // Stop here if loading
   if (artistLoading || (isPending && initialLoad.current)) {
     return (
@@ -171,6 +177,7 @@ const TournamentsLoader = ({ audienceId }) => {
 
 TournamentsLoader.propTypes = {
   audienceId: PropTypes.string.isRequired,
+  setTypeFiltersDisabled: PropTypes.func.isRequired,
 }
 
 export default TournamentsLoader

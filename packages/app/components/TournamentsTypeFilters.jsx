@@ -10,6 +10,7 @@ const TournamentsTypeFilters = ({
   currentTournamentType,
   setCurrentTournamentType,
   currentAudienceType,
+  disabled,
 }) => {
   const pillOptions = React.useMemo(() => {
     // Disable stories for Cold audiences
@@ -22,6 +23,7 @@ const TournamentsTypeFilters = ({
     return tournamentTypes
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAudienceType])
+
   return (
     <PillOptions
       label="Select a tournament type"
@@ -29,6 +31,7 @@ const TournamentsTypeFilters = ({
       activeOption={currentTournamentType}
       setActiveOption={setCurrentTournamentType}
       size="large"
+      disabled={disabled}
     />
   )
 }
@@ -38,6 +41,7 @@ TournamentsTypeFilters.propTypes = {
   currentTournamentType: PropTypes.string.isRequired,
   setCurrentTournamentType: PropTypes.func.isRequired,
   currentAudienceType: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
 }
 
 export default TournamentsTypeFilters

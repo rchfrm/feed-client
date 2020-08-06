@@ -11,6 +11,7 @@ const TournamentsContent = () => {
   const { audienceTypes, tournamentTypes } = tournamentHelpers
   const [currentAudienceType, setCurrentAudienceType] = React.useState(audienceTypes[0].id)
   const [currentTournamentType, setCurrentTournamentType] = React.useState(tournamentTypes[0].id)
+  const [typeFiltersDisabled, setTypeFiltersDisabled] = React.useState(false)
   // Set current tournament type to posts if selecting cold audience
   React.useEffect(() => {
     if (currentAudienceType === 'entice_engage') {
@@ -32,10 +33,14 @@ const TournamentsContent = () => {
         currentTournamentType={currentTournamentType}
         setCurrentTournamentType={setCurrentTournamentType}
         currentAudienceType={currentAudienceType}
+        disabled={typeFiltersDisabled}
       />
       {/* LOADER */}
       <section className="mt-5">
-        <TournamentsLoader audienceId={currentAudienceType} />
+        <TournamentsLoader
+          audienceId={currentAudienceType}
+          setTypeFiltersDisabled={setTypeFiltersDisabled}
+        />
       </section>
     </div>
   )
