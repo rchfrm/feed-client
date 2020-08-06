@@ -36,7 +36,7 @@ export const getAvailablePlatforms = (availableDataSources) => {
 
 export const getInitialPlatform = (availablePlatforms) => {
   // Does the artist have insta
-  const instaIndex = availablePlatforms.findIndex(({ name: platformId }) => platformId === 'instagram')
+  const instaIndex = availablePlatforms.findIndex(({ id: platformId }) => platformId === 'instagram')
   // If the artist has insta, use this
   if (instaIndex > -1) {
     return availablePlatforms[instaIndex].id
