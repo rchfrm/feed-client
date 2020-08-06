@@ -22,6 +22,7 @@ const TournamentsItemAdPair = ({
         'flex',
         !isAdPair ? 'flex-col' : null,
         !isAdPair ? 'items-center' : 'justify-between',
+        !isAdPair ? 'mt-1' : null,
         'mb-10',
         'pb-32 md:pb-0',
         'text-center',

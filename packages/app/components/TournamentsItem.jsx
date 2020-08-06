@@ -47,7 +47,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
       className={[
         'md:grid grid-cols-12 col-gap-5',
         '-mt-26 first:mt-0 md:mt-0',
-        'max-w-lg mx-auto md:max-w-full',
+        'max-w-lg md:max-w-full mx-auto',
         className,
       ].join(' ')}
     >
