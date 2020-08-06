@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 
-import { TournamentContextProvider } from '@/app/contexts/TournamentContext'
 import TournamentsAll from '@/app/TournamentsAll'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
@@ -163,15 +162,13 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
   if (error) return <Error error={error} />
 
   return (
-    <TournamentContextProvider>
-      <TournamentsAll
-        tournaments={tournaments}
-        loadingMore={loadingMore}
-        artistCurrency={artistCurrency}
-        loadMorePosts={loadMorePosts}
-        loadedAll={loadedAll}
-      />
-    </TournamentContextProvider>
+    <TournamentsAll
+      tournaments={tournaments}
+      loadingMore={loadingMore}
+      artistCurrency={artistCurrency}
+      loadMorePosts={loadMorePosts}
+      loadedAll={loadedAll}
+    />
   )
 }
 

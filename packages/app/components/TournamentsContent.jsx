@@ -1,6 +1,8 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import { TournamentContextProvider } from '@/app/contexts/TournamentContext'
+
 import TournamentsLoader from '@/app/TournamentsLoader'
 import TournamentsAudienceFilters from '@/app/TournamentsAudienceFilters'
 import TournamentsTypeFilters from '@/app/TournamentsTypeFilters'
@@ -20,7 +22,7 @@ const TournamentsContent = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAudienceType])
   return (
-    <div>
+    <TournamentContextProvider>
       {/* AUDIENCE FILTERS */}
       <TournamentsAudienceFilters
         audienceTypes={audienceTypes}
@@ -36,13 +38,13 @@ const TournamentsContent = () => {
         disabled={typeFiltersDisabled}
       />
       {/* LOADER */}
-      <section className="mt-5">
+      <section id="TournamentItemsContainer" className="mt-5">
         <TournamentsLoader
           audienceId={currentAudienceType}
           setTypeFiltersDisabled={setTypeFiltersDisabled}
         />
       </section>
-    </div>
+    </TournamentContextProvider>
   )
 }
 

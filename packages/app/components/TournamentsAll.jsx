@@ -45,7 +45,6 @@ const TournamentsAll = ({
   }, [totalTournaments, scrollTriggerLoad, loadedAll])
   return (
     <section
-      id="TournamentItemsContainer"
       className="pt-10"
     >
       {tournaments.map((tournament, index) => {
