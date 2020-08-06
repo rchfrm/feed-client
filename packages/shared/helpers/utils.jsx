@@ -468,8 +468,10 @@ export const getCurrencySymbol = (currency = 'GBP') => {
 * @returns {string}
 */
 export const formatCurrency = (value, currency = 'GBP', locale = navigator.language) => {
-  currency = currency === null ? 'GBP' : currency
-  return parseFloat(value).toLocaleString(locale, { style: 'currency', currency })
+  if (typeof value === 'undefined') return
+  const currencyToUse = currency === null ? 'GBP' : currency
+  const valueFloat = parseFloat(value)
+  return valueFloat.toLocaleString(locale, { style: 'currency', currency: currencyToUse })
 }
 
 /**
