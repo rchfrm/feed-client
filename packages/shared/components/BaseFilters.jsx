@@ -75,6 +75,7 @@ const BaseFilters = ({
               icon={icon}
               className={activeClass}
               textColor={textColor}
+              active={active}
             />
           )
         })}

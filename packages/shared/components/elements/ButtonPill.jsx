@@ -13,9 +13,9 @@ const ButtonPill = ({
 }) => {
   const classes = [
     'button--pill',
-    active ? '-active' : '',
-    disabled ? '-disabled' : '',
-    hasIcon ? '-has-icon' : '',
+    active ? '-active' : null,
+    disabled ? '-disabled' : null,
+    hasIcon ? '-has-icon' : null,
     `-${size}`,
     className,
   ]

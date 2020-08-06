@@ -16,6 +16,7 @@ const BaseFiltersButton = ({
   backgroundColor,
   textColor,
   icon,
+  active,
   className,
 }) => {
   // TEXT BUTTON
@@ -56,6 +57,7 @@ const BaseFiltersButton = ({
           color: textColor,
         }}
         hasIcon
+        active={active}
       >
         {icon}
         {title}
@@ -74,6 +76,7 @@ BaseFiltersButton.propTypes = {
   backgroundColor: PropTypes.string,
   textColor: PropTypes.string,
   icon: PropTypes.node,
+  active: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -84,6 +87,7 @@ BaseFiltersButton.defaultProps = {
   backgroundColor: brandColors.grey,
   textColor: brandColors.textColor,
   icon: null,
+  active: false,
   className: '',
 }
 
