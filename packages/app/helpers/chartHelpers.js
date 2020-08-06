@@ -1,4 +1,5 @@
 import moment from 'moment'
+import * as utils from '@/helpers/utils'
 
 // IMPORT CONSTANTS
 import insightDataSources from '@/constants/insightDataSources'
@@ -29,8 +30,8 @@ export const getAvailablePlatforms = (availableDataSources) => {
       title: platformName,
     }]
   }, [])
-  // return results
-  return allPlatforms
+  // return platforms (sorted)
+  return utils.sortArrayByKey(allPlatforms, 'id')
 }
 
 export const getInitialPlatform = (availablePlatforms) => {
@@ -45,7 +46,7 @@ export const getInitialPlatform = (availablePlatforms) => {
 }
 
 export const getAvailableSources = (allSources) => {
-  return allSources.reduce((sources, { name: sourceName }) => {
+  const sources = allSources.reduce((sources, { name: sourceName }) => {
     const {
       name,
       title,
@@ -64,6 +65,8 @@ export const getAvailableSources = (allSources) => {
       platform,
     }]
   }, [])
+  // return sources (sorted)
+  return utils.sortArrayByKey(sources, 'id')
 }
 
 export const getInitialDataSource = (availableDataSources, currentPlatform) => {
