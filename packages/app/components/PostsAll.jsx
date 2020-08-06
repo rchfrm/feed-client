@@ -4,23 +4,16 @@ import PropTypes from 'prop-types'
 
 import produce from 'immer'
 // IMPORT CONTEXTS
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
 // IMPORT ELEMENTS
 import Spinner from '@/elements/Spinner'
-import Button from '@/elements/Button'
-import GearIcon from '@/icons/GearIcon'
 // IMPORT COMPONENTS
-import PostsSettings from '@/app/PostsSettings'
 import PostItem from '@/app/PostItem'
 import PostsNone from '@/app/PostsNone'
 // IMPORT ASSETS
-import MarkdownText from '@/elements/MarkdownText'
 // IMPORT STYLES
 import styles from '@/app/PostsPage.module.css'
-import copy from '@/app/copy/PostsPageCopy'
-import brandColors from '@/constants/brandColors'
 
 // Reset posts scroll position
 const resetScroll = () => {
@@ -43,7 +36,6 @@ function PostsAll({
   posts,
   updateLink,
   togglePromotion,
-  togglePromotionGlobal,
   loadMorePosts,
   loadingMore,
   loadedAll,
@@ -90,13 +82,6 @@ function PostsAll({
     }
   }, [posts.length, loadMore, loadedAll])
 
-  // Open the post settings side panel
-  const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
-  const togglePostsSettings = React.useCallback(() => {
-    setSidePanelContent(<PostsSettings togglePromotionGlobal={togglePromotionGlobal} />)
-    toggleSidePanel(true)
-  }, [setSidePanelContent, toggleSidePanel, togglePromotionGlobal])
-
   // Stop here if no posts
   if (posts.length === 0) {
     return <PostsNone />
@@ -104,21 +89,6 @@ function PostsAll({
 
   return (
     <section className={styles.postsSection}>
-
-      <MarkdownText className={['h4--text', styles.introText].join(' ')} markdown={copy.intro} />
-
-      {/* POST SETTINGS BUTTON */}
-      <div>
-        <Button
-          className={styles.postSettingsButton}
-          onClick={togglePostsSettings}
-          version="black small icon"
-        >
-          <GearIcon fill={brandColors.bgColor} />
-          Post Settings
-        </Button>
-      </div>
-
       <ul
         id="PostsAll__scroller"
         className={[
@@ -171,7 +141,6 @@ PostsAll.propTypes = {
   posts: PropTypes.array.isRequired,
   updateLink: PropTypes.func.isRequired,
   togglePromotion: PropTypes.func.isRequired,
-  togglePromotionGlobal: PropTypes.func.isRequired,
   loadMorePosts: PropTypes.func.isRequired,
   loadingMore: PropTypes.bool,
   loadedAll: PropTypes.bool,

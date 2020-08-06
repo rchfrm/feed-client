@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
@@ -72,7 +73,7 @@ const fetchPosts = async ({ artistId, offset, limit, isEndOfAssets, cursor }) =>
 
 // THE COMPONENT
 // ------------------
-function PostsLoader() {
+function PostsLoader({ setTogglePromotionGlobal }) {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
@@ -192,15 +193,23 @@ function PostsLoader() {
     })
     return newPromotionState
   }, [posts, artistId, setPosts])
+
   // Define function to batch toggle all posts
-  const togglePromotionGlobal = React.useCallback((promotion_enabled) => {
-    setPosts({
-      type: 'toggle-promotion-global',
-      payload: {
-        promotion_enabled,
-      },
+  // and set it on the parent
+  React.useEffect(() => {
+    const togglePromotionGlobal = (promotion_enabled) => {
+      setPosts({
+        type: 'toggle-promotion-global',
+        payload: {
+          promotion_enabled,
+        },
+      })
+    }
+    setTogglePromotionGlobal(() => (promotion_enabled) => {
+      togglePromotionGlobal(promotion_enabled)
     })
-  }, [setPosts])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setTogglePromotionGlobal])
 
   // Define function for loading more posts
   const loadMorePosts = React.useCallback(() => {
@@ -249,7 +258,6 @@ function PostsLoader() {
         setVisiblePost={setVisiblePost}
         updateLink={updateLink}
         togglePromotion={togglePromotion}
-        togglePromotionGlobal={togglePromotionGlobal}
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
         loadedAll={isEndOfAssets.current}
@@ -259,6 +267,10 @@ function PostsLoader() {
 
     </div>
   )
+}
+
+PostsLoader.propTypes = {
+  setTogglePromotionGlobal: PropTypes.func.isRequired,
 }
 
 export default PostsLoader
