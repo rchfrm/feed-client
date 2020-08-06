@@ -61,6 +61,9 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, currency, className }) =>
                 copy={tooltip}
                 direction="left"
                 buttonClasses="absolute right-0 -mt-1 -mr-2 z-10"
+                messageStyle={{
+                  maxWidth: '62vw',
+                }}
               />
             )}
             {/* PERCENTAGE BAR */}
