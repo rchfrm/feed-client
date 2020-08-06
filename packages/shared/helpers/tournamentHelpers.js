@@ -282,7 +282,7 @@ export const handleNewTournaments = ({
 // -------------------------------------
 
 // METRICS PROPS
-export const metricsToDisplay = [
+const metricsToDisplay = [
   'score',
   'streak',
   'spend',
