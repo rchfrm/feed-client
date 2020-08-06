@@ -25,7 +25,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
   } = tournament
   // Get ad pairs
   const [adA, adB] = tournament.adPosts
-  const { data: dataA, postLink: linkA } = adA
+  const { data: dataA, postLink: linkA } = adA || {}
   const { data: dataB, postLink: linkB } = adB || {}
   // DEFINE AD METRICS ARRAY
   const adMetrics = React.useMemo(() => {
@@ -54,53 +54,61 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
         className="col-span-5 col-start-1 mb-5 md:pl-1"
         date={dateCreated}
       />
-      {/* CONTENT */}
-      <SwiperBlock
-        containerClass="col-span-6 col-start-4"
-        listClass="mb-0"
-        goToSlide={sliderIndex}
-        onSlideChange={({ activeIndex }) => setSliderIndex(activeIndex)}
-        disable={isDesktopLayout}
-      >
-        {/* AD PAIR */}
-        <TournamentsItemAdPair
-          adPosts={tournament.adPosts}
-          isAdPair={isAdPair}
-          winningAdId={winningAdId}
-          streakWinnerIndex={streakWinnerIndex}
-          nextIsAdPair={nextIsAdPair}
-          nextWinningAdIndex={nextWinningAdIndex}
-          lastTournament={lastTournament}
-          switchViews={switchViews}
-          className="swiper-slide col-span-5 col-start-1 TournamentsItemAdPair"
-        />
-        {/* METRICS & LINKS */}
-        <div className={['swiper-slide bg-white md:bg-transparent col-span-7 col-start-6'].join(' ')}>
-          <div className="md:max-w-md lg:max-w-lg ml-auto mr-0">
-            <TournamentsItemMetrics
-              adMetrics={adMetrics}
-              isAdPair={isAdPair}
-              currency={currency}
-              className={['text-center mb-4 pl-10'].join(' ')}
-            />
-            <TournamentsItemLinks
-              linkA={linkA}
-              linkB={linkB}
-            />
-            {/* CLOSE METRICS BUTTON */}
-            <div className={['text-center mt-3', 'md:hidden'].join(' ')}>
-              <button
-                className="button--cross -hover"
-                aria-label="Hide metrics"
-                title="Hide metrics"
-                onClick={switchViews}
-              >
-                <CloseCircle className="w-full h-auto" />
-              </button>
+      {/* NO ADS */}
+      {!tournament.adPosts.length ? (
+        <div className="col-span-6 col-start-7 pt-1 mb-16 pr-5">
+          <p>This tournament does not contain any ads.</p>
+          <p>This might be because there is not enough budget or ads to start this phase.</p>
+        </div>
+      // ADS CONTENT
+      ) : (
+        <SwiperBlock
+          containerClass="col-span-6 col-start-4"
+          listClass="mb-0"
+          goToSlide={sliderIndex}
+          onSlideChange={({ activeIndex }) => setSliderIndex(activeIndex)}
+          disable={isDesktopLayout}
+        >
+          {/* AD PAIR */}
+          <TournamentsItemAdPair
+            adPosts={tournament.adPosts}
+            isAdPair={isAdPair}
+            winningAdId={winningAdId}
+            streakWinnerIndex={streakWinnerIndex}
+            nextIsAdPair={nextIsAdPair}
+            nextWinningAdIndex={nextWinningAdIndex}
+            lastTournament={lastTournament}
+            switchViews={switchViews}
+            className="swiper-slide col-span-5 col-start-1 TournamentsItemAdPair"
+          />
+          {/* METRICS & LINKS */}
+          <div className={['swiper-slide bg-white md:bg-transparent col-span-7 col-start-6'].join(' ')}>
+            <div className="md:max-w-md lg:max-w-lg ml-auto mr-0">
+              <TournamentsItemMetrics
+                adMetrics={adMetrics}
+                isAdPair={isAdPair}
+                currency={currency}
+                className={['text-center mb-4 pl-10'].join(' ')}
+              />
+              <TournamentsItemLinks
+                linkA={linkA}
+                linkB={linkB}
+              />
+              {/* CLOSE METRICS BUTTON */}
+              <div className={['text-center mt-3', 'md:hidden'].join(' ')}>
+                <button
+                  className="button--cross -hover"
+                  aria-label="Hide metrics"
+                  title="Hide metrics"
+                  onClick={switchViews}
+                >
+                  <CloseCircle className="w-full h-auto" />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </SwiperBlock>
+        </SwiperBlock>
+      )}
     </div>
   )
 }

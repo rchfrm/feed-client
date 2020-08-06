@@ -158,7 +158,7 @@ const getWinningAdId = (tournament) => {
 
 // GET ARRAY of WINNING STATUSES
 const getWinningResults = (ads, metric) => {
-  const [adA, adB = {}] = ads
+  const [adA = {}, adB = {}] = ads
   const { engagement_score: scoreA, streak: streakA } = adA
   const { engagement_score: scoreB, streak: streakB } = adB
   const metricA = metric === 'score' ? scoreA : streakA
