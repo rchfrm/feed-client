@@ -23,27 +23,29 @@ const TournamentsContent = () => {
   }, [currentAudienceType])
   return (
     <TournamentContextProvider>
-      {/* AUDIENCE FILTERS */}
-      <TournamentsAudienceFilters
-        audienceTypes={audienceTypes}
-        currentAudienceType={currentAudienceType}
-        setCurrentAudienceType={setCurrentAudienceType}
-      />
-      {/* TOURNAMENT TYPE FILTERS */}
-      <TournamentsTypeFilters
-        tournamentTypes={tournamentTypes}
-        currentTournamentType={currentTournamentType}
-        setCurrentTournamentType={setCurrentTournamentType}
-        currentAudienceType={currentAudienceType}
-        disabled={typeFiltersDisabled}
-      />
-      {/* LOADER */}
-      <section id="TournamentItemsContainer" className="mt-5">
-        <TournamentsLoader
-          audienceId={currentAudienceType}
-          setTypeFiltersDisabled={setTypeFiltersDisabled}
+      <div>
+        {/* AUDIENCE FILTERS */}
+        <TournamentsAudienceFilters
+          audienceTypes={audienceTypes}
+          currentAudienceType={currentAudienceType}
+          setCurrentAudienceType={setCurrentAudienceType}
         />
-      </section>
+        {/* TOURNAMENT TYPE FILTERS */}
+        <TournamentsTypeFilters
+          tournamentTypes={tournamentTypes}
+          currentTournamentType={currentTournamentType}
+          setCurrentTournamentType={setCurrentTournamentType}
+          currentAudienceType={currentAudienceType}
+          disabled={typeFiltersDisabled}
+        />
+        {/* LOADER */}
+        <section id="TournamentItemsContainer" className="mt-5">
+          <TournamentsLoader
+            audienceId={currentAudienceType}
+            setTypeFiltersDisabled={setTypeFiltersDisabled}
+          />
+        </section>
+      </div>
     </TournamentContextProvider>
   )
 }
