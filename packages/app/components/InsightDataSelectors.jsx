@@ -43,15 +43,15 @@ const InsightDataSelectors = ({
     <div className={['breakout--width', styles.selectorsOuter].join(' ')}>
       <p className={['inputLabel__text', styles.selectorsLabel].join(' ')}>Select a data set</p>
       <div id="dataSelectors" className={styles.dataSelectors} ref={containerRef}>
-        {platformSources.map(({ title, subtitle, id }, i) => {
-          const activeClass = currentDataSource === id ? styles._active : ''
+        {platformSources.map(({ title, subtitle, name }, i) => {
+          const activeClass = currentDataSource === name ? styles._active : ''
           return (
             <a
               role="button"
-              key={id}
+              key={name}
               ref={buttonRefs[i]}
               className={[styles.dataButtonContainer, activeClass].join(' ')}
-              onClick={() => setCurrentDataSource(id)}
+              onClick={() => setCurrentDataSource(name)}
             >
               <span className={styles.dataButton_title}>{title}</span>
               {subtitle && (

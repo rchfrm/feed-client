@@ -1,4 +1,5 @@
 import moment from 'moment'
+import * as utils from '@/helpers/utils'
 
 // IMPORT CONSTANTS
 import insightDataSources from '@/constants/insightDataSources'
@@ -13,8 +14,8 @@ moment.updateLocale('en', {
 
 export const getAvailablePlatforms = (availableDataSources) => {
   // Get name of platform from data source
-  const dataSourcePlatforms = availableDataSources.map(({ id: sourceId }) => {
-    const { platform } = insightDataSources[sourceId]
+  const dataSourcePlatforms = availableDataSources.map(({ name: sourceName }) => {
+    const { platform } = insightDataSources[sourceName]
     return platform
   })
   // Get platforms by removing duplicates from above
@@ -29,8 +30,8 @@ export const getAvailablePlatforms = (availableDataSources) => {
       title: platformName,
     }]
   }, [])
-  // return results
-  return allPlatforms
+  // return platforms (sorted)
+  return utils.sortArrayByKey(allPlatforms, 'id')
 }
 
 export const getInitialPlatform = (availablePlatforms) => {
@@ -45,43 +46,47 @@ export const getInitialPlatform = (availablePlatforms) => {
 }
 
 export const getAvailableSources = (allSources) => {
-  return allSources.reduce((sources, sourceId) => {
+  const sources = allSources.reduce((sources, { name: sourceName }) => {
     const {
-      id,
+      name,
       title,
       visible,
       breakdown,
       subtitle,
       period,
       platform,
-    } = insightDataSources[sourceId]
+    } = insightDataSources[sourceName]
     // Ignore is not visible or a breakdown
     if (!visible || breakdown) return sources
     return [...sources, {
       title,
-      id,
+      name,
       subtitle: subtitle || period,
       platform,
     }]
   }, [])
+  // return sources (sorted)
+  return utils.sortArrayByKey(sources, 'id')
 }
 
 export const getInitialDataSource = (availableDataSources, currentPlatform) => {
   // Filter out non-platform related sources
-  const filteredSources = availableDataSources.filter(({ id: sourceId }) => {
-    const { platform } = insightDataSources[sourceId]
+  const filteredSources = availableDataSources.filter(({ name: sourceName }) => {
+    const { platform } = insightDataSources[sourceName]
     return platform === currentPlatform
   })
   // Find first filter that matches the
-  const followersSourceIndex = filteredSources.findIndex(({ id: sourceId }) => {
-    return sourceId.includes('follower')
+  const followersSourceIndex = filteredSources.findIndex(({ name: sourceName }) => {
+    return sourceName.includes('follower')
   })
-  const likesSourceIndex = filteredSources.findIndex(({ id: sourceId }) => {
-    return sourceId.includes('likes')
+  const likesSourceIndex = filteredSources.findIndex(({ name: sourceName }) => {
+    return sourceName.includes('likes')
   })
-  if (followersSourceIndex > -1) return filteredSources[followersSourceIndex].id
-  if (likesSourceIndex > -1) return filteredSources[likesSourceIndex].id
-  return filteredSources[0].id
+  if (followersSourceIndex > -1) {
+    return filteredSources[followersSourceIndex].name
+  }
+  if (likesSourceIndex > -1) return filteredSources[likesSourceIndex].name
+  return filteredSources[0].name
 }
 
 export const getPlatformSources = (availableDataSources, currentPlatform) => {
