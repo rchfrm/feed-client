@@ -302,6 +302,7 @@ button {
 
   svg {
     width: var(--sp-4);
+    height: auto;
   }
 }
 
