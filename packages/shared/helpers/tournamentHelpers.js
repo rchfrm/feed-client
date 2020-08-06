@@ -194,12 +194,15 @@ const formatAdData = (streakResults) => (ad, index) => {
   const streakWinner = streakResults[index]
   // Get clicks
   const clicks = summary && summary.outbound_clicks && summary.outbound_clicks.outbound_click
+  // Get engagement
+  const engagement = summary && summary.actions && summary.actions.post_engagement
   // Get spend
   const spend = summary && parseFloat(summary.spend)
   // Build data obj
   const normalizedEsRounded = asset.normalized_es && asset.normalized_es.toFixed(2)
   const data = {
     clicks,
+    engagement,
     spend,
     impressions: summary ? summary.impressions : null,
     reach: asset.reach,
@@ -283,13 +286,11 @@ export const handleNewTournaments = ({
 
 // METRICS PROPS
 const metricsToDisplay = [
-  'score',
-  'streak',
   'spend',
-  'spendFloat',
   'reach',
-  'impressions',
+  'engagement',
   'clicks',
+  // 'impressions',
   // 'score',
   // 'shares',
   // 'likes',
