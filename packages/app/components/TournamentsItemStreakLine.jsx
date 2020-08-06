@@ -18,7 +18,7 @@ const getLine = (
   const desktopAdjustment = fontSize * 1.5
   // Straight line
   if ((isAdPair && nextIsAdPair) || (!isAdPair && !nextIsAdPair)) {
-    const length = isAdPair ? 180 : 135
+    const length = isAdPair ? 182 : 138
     const lineLength = isDesktopLayout ? length - desktopAdjustment : length
     return (
       <ArrowLine
@@ -57,8 +57,8 @@ const getLine = (
   //        |          |
   if (!isAdPair) {
     const translateXMod = nextWinningAdIndex === 0 ? -1 : 0
-    const lineLengthTop = 95
-    const lengthBottom = 85
+    const lineLengthTop = 96
+    const lengthBottom = 88
     const lineLengthBottom = isDesktopLayout ? lengthBottom - desktopAdjustment : lengthBottom
     const lineWidth = (itemWidth / 2) - (3 * fontSize)
     const leftMod = nextWinningAdIndex === 0 ? -1 : 1
