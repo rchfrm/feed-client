@@ -245,7 +245,7 @@ function PostsLoader({ setTogglePromotionGlobal }) {
   }
 
   return (
-    <div className={styles['posts-page']}>
+    <div>
 
       <PostsAll
         posts={posts}
