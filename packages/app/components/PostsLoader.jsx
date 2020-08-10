@@ -218,7 +218,7 @@ function PostsLoader({ setTogglePromotionGlobal }) {
   }, [toggleGlobalLoading])
 
   // Define function to update links
-  const updateLink = (postIndex, postLink) => {
+  const updateLink = React.useCallback((postIndex, postLink) => {
     setPosts({
       type: 'update-link',
       payload: {
@@ -232,7 +232,7 @@ function PostsLoader({ setTogglePromotionGlobal }) {
       description: `New link: ${postLink}`,
       label: `artistId: ${artistId}`,
     })
-  }
+  }, [setPosts, artistId])
 
   // Wait if initial loading
   if (artistLoading || (isPending && initialLoad.current)) {
