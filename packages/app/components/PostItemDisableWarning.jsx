@@ -87,14 +87,14 @@ const PostItemDisableWarning = ({
         {/* BUTTONS */}
         <div className="flex justify-between pb-8">
           <Button
-            className="w-32"
+            className="w-24 sm:w-32"
             version="black small"
             onClick={() => setShow(false)}
           >
             Ok
           </Button>
           <Button
-            className="w-32 bg-red"
+            className="w-24 sm:w-32 bg-red"
             version="black small"
             onClick={() => setReverseStatus(true)}
             loading={isPending}

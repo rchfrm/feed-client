@@ -1,8 +1,15 @@
 /* POSTS PAGE */
 .postsScroller {
   width: 100%;
-  margin-left: 0 !important;
   align-items: start;
+  max-width: 30rem;
+  margin: 0 auto;
+  padding-top: var(--sp-5);
+
+  @media (--xs) {
+    margin: 0;
+    max-width: none;
+  }
 }
 
 .postsSection {
