@@ -79,9 +79,9 @@ const PostToggle = ({
     postId,
     promotionEnabled: getPromotionStatus(buttonState),
     onResolve: (post) => {
-      const { promotion_enabled } = post
+      const { promotion_enabled, promotable_status } = post
       // Update post list state
-      togglePromotion(postId, promotion_enabled)
+      togglePromotion(postId, promotion_enabled, promotable_status)
     },
   })
   // SHOW SPINNER

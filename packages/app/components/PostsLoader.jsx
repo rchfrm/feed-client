@@ -28,6 +28,7 @@ const postsReducer = (draftState, postsAction) => {
     newPosts,
     postIndex,
     promotion_enabled,
+    promotable_status,
     postLink,
   } = payload
   switch (actionType) {
@@ -40,6 +41,7 @@ const postsReducer = (draftState, postsAction) => {
       break
     case 'toggle-promotion':
       draftState[postIndex].promotion_enabled = promotion_enabled
+      draftState[postIndex].promotable_status = promotable_status
       break
     case 'toggle-promotion-global':
       draftState.forEach((post) => {
@@ -167,13 +169,14 @@ function PostsLoader({ setTogglePromotionGlobal }) {
   })
 
   // Define function for toggling promotion
-  const togglePromotion = React.useCallback(async (postId, promotion_enabled) => {
+  const togglePromotion = React.useCallback(async (postId, promotion_enabled, promotable_status) => {
     const indexOfId = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotion_enabled
     setPosts({
       type: 'toggle-promotion',
       payload: {
         promotion_enabled,
+        promotable_status,
         postIndex: indexOfId,
       },
     })
