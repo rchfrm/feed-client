@@ -29,11 +29,22 @@
 /* TOP BAR (meta and toggle) */
 /* ************** */
 .topBar {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   
   border-bottom: 2px solid var(--text-color);
+}
+
+/* STATUS BADGE */
+.statusBadge {
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  transform: translateY(100%);
+  width: 102px;
+  border-bottom-left-radius: var(--dialogue-radius);
 }
 
 /* META */

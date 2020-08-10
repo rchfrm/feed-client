@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import PostMetaData from '@/app/PostMetaData'
 import PostToggle from '@/app/PostToggle'
 import PostToggleTooltip from '@/app/PostToggleTooltip'
+import PostItemStatusBadge from '@/app/PostItemStatusBadge'
 
 import styles from '@/app/PostItem.module.css'
 
@@ -16,17 +17,23 @@ const PostItemTopBar = ({ post, togglePromotion, postPromotable }) => {
         date={post.published_time}
         permalink={post.permalink_url}
       />
+      {/* TOGGLE BUTTON (if poss) */}
       {postPromotable && (
-      <div className="flex">
-        <PostToggle
-          post={post}
-          togglePromotion={togglePromotion}
-          promotionEnabled={post.promotion_enabled}
-        />
-        {/* TOOLTIP */}
-        <PostToggleTooltip />
-      </div>
+        <div className="flex">
+          <PostToggle
+            post={post}
+            togglePromotion={togglePromotion}
+            promotionEnabled={post.promotion_enabled}
+          />
+          {/* TOOLTIP */}
+          <PostToggleTooltip />
+        </div>
       )}
+      {/* STATUS */}
+      <PostItemStatusBadge
+        className={styles.statusBadge}
+        status={post.promotion_status}
+      />
     </div>
   )
 }
