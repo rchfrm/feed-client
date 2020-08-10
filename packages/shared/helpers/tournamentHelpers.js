@@ -172,8 +172,6 @@ const getStreakResults = (ads) => {
 }
 
 // CALCULATE REACH
-
-
 const calculateReach = (ad) => {
   const { lifetime_metrics: lifetimeMetrics, summary } = ad
   const lifetimeDates = Object.keys(lifetimeMetrics || {}).sort()
