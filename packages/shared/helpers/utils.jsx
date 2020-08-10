@@ -6,6 +6,7 @@ import produce from 'immer'
 import getVideoId from 'get-video-id'
 import getSymbolFromCurrency from 'currency-symbol-map'
 import countries from '@/constants/countries'
+import get from 'lodash/get'
 
 
 export const removeProtocolFromUrl = (url) => {
@@ -217,7 +218,7 @@ export const findPostThumbnail = (attachments) => {
  * @returns {string} value
  */
 export const formatNumber = (number, options = {}, locale = navigator.language) => {
-  if (!number) { return number }
+  if (typeof number !== 'number') { return number }
   return new Intl.NumberFormat(locale, options).format(number)
 }
 
@@ -268,6 +269,45 @@ export const minArrayValue = (array) => {
   return min
 }
 
+// Use this to sort and convert an object of data into an array of
+// { name, value, key } objects
+/**
+* @param {array} propsToDisplay
+* @param {object} data
+* @returns {array}
+*/
+export const getDataArray = (propsToDisplay, data, preserveRawNumber) => {
+  const dateKeys = ['created_at', 'updated_at', 'start_time', 'stop_time']
+  return propsToDisplay.reduce((arr, detailName) => {
+    const detailKeys = detailName.split('.')
+    const rawValue = get(data, detailKeys, '')
+    if (!rawValue) return arr
+    // Convert dates (if necessary)
+    const isDate = dateKeys.includes(detailName)
+    const value = preserveRawNumber ? rawValue
+      // Parse date, or
+      : isDate ? moment(rawValue).format('DD MMM YYYY')
+      // Format number, or
+        : typeof rawValue === 'number' ? formatNumber(rawValue)
+        // Just convert to string
+          : rawValue.toString()
+    // Name is final data key
+    let name = detailKeys[detailKeys.length - 1]
+    // Replace underscore with space
+    name = name.replace(/_/g, ' ')
+    // Capitalize first letter
+    name = capitalise(name)
+    // Capitalize ES
+    name = name.replace(' es', ' ES')
+    const detail = {
+      name,
+      value,
+      key: detailName,
+    }
+    return [...arr, detail]
+  }, [])
+}
+
 export const closestNumberInArray = (array, target) => {
   // https://stackoverflow.com/a/19277804
   return array.reduce((prev, curr) => {
@@ -289,41 +329,15 @@ export const returnLatestValue = (data) => {
 }
 
 export const selectPriorityDSP = (artist) => {
-  if (artist.spotify_url) {
-    return 'spotify'
-  }
-
-  if (artist.website_url) {
-    return 'website'
-  }
-
-  if (artist.instagram_url) {
-    return 'instagram'
-  }
-
-  if (artist.bandcamp_url) {
-    return 'bandcamp'
-  }
-
-  if (artist.facebook_page_url) {
-    return 'facebook'
-  }
-
-  if (artist.youtube_url) {
-    return 'youtube'
-  }
-
-  if (artist.twitter_url) {
-    return 'twitter'
-  }
-
-  if (artist.soundcloud_url) {
-    return 'soundcloud'
-  }
-
-  if (artist.apple_url) {
-    return 'apple'
-  }
+  if (artist.spotify_url) return 'spotify'
+  if (artist.website_url) return 'website'
+  if (artist.instagram_url) return 'instagram'
+  if (artist.bandcamp_url) return 'bandcamp'
+  if (artist.facebook_page_url) return 'facebook'
+  if (artist.youtube_url) return 'youtube'
+  if (artist.twitter_url) return 'twitter'
+  if (artist.soundcloud_url) return 'soundcloud'
+  if (artist.apple_url) return 'apple'
 }
 
 export const shortenUrl = (url) => {
@@ -454,8 +468,10 @@ export const getCurrencySymbol = (currency = 'GBP') => {
 * @returns {string}
 */
 export const formatCurrency = (value, currency = 'GBP', locale = navigator.language) => {
-  currency = currency === null ? 'GBP' : currency
-  return value.toLocaleString(locale, { style: 'currency', currency })
+  if (typeof value === 'undefined') return
+  const currencyToUse = currency === null ? 'GBP' : currency
+  const valueFloat = parseFloat(value)
+  return valueFloat.toLocaleString(locale, { style: 'currency', currency: currencyToUse })
 }
 
 /**

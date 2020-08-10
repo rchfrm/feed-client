@@ -1,0 +1,62 @@
+/* Pill button */
+.button--pill {
+  background-color: var(--grey-light);
+  padding: 0.3em 0.8em;
+  border-radius: var(--pill-radius);
+
+  &.-large {
+    padding: 0.5em 1.2em;
+    padding-bottom: 0.6em;
+  }
+
+  &.-active {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+  }
+
+  &:disabled,
+  &[disabled] {
+    cursor: not-allowed;
+  }
+}
+
+.button--pill-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg,
+  .icon {
+    margin-right: var(--sp-2);
+  }
+
+  svg {
+    width: var(--sp-4);
+  }
+
+  .button--pill[disabled] &,
+  .button--pill:disabled & {
+    opacity: 0.2;
+  }
+}
+
+/* Pill options */
+.pill--options {
+  display: flex;
+}
+
+.pill--option {
+  border-radius: 0;
+  flex-grow: 1;
+  text-align: center;
+  font-weight: var(--bold);
+
+  &:first-child {
+    border-top-left-radius: var(--pill-radius);
+    border-bottom-left-radius: var(--pill-radius);
+  }
+  &:last-child {
+    border-top-right-radius: var(--pill-radius);
+    border-bottom-right-radius: var(--pill-radius);
+  }
+}

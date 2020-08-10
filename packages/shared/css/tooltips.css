@@ -1,5 +1,6 @@
 /* TOOLTIPS BUTTON */
-.button--tooltip {
+.button--tooltip,
+.button--information {
   @mixin canHover {
     &:hover {
       svg circle {
@@ -27,6 +28,7 @@
   display: inline-block;
   position: relative;
   z-index: 2;
+  text-align: left;
 }
 
 /* SLIDES */

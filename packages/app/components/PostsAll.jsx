@@ -60,8 +60,6 @@ function PostsAll({
   const postsWithLoadingTrigger = getPostsWithLoadingTrigger(posts, loadAtIndex)
   // Create ref for intersection root
   const intersectionRoot = React.useRef(null)
-  // Create ref for watching intersection
-  const loadTrigger = React.useRef(null)
 
   // LOAD MORE Watch the load trigger for intersection
   const loadMore = React.useCallback((entries) => {
@@ -72,12 +70,10 @@ function PostsAll({
   }, [loadingMore, loadMorePosts, loadedAll])
 
   // Setup intersection observer
+  const loadTrigger = React.useRef(null)
   React.useEffect(() => {
     // Observer options
-    const options = {
-      rootMargin: '0px',
-      threshold: 0,
-    }
+    const options = { rootMargin: '0px', threshold: 0 }
     // Create observer
     const observer = new IntersectionObserver(loadMore, options)
     // observe the loader
@@ -87,7 +83,6 @@ function PostsAll({
 
     // clean up
     const loadTriggerEl = loadTrigger.current
-
     return () => {
       if (loadTriggerEl) {
         observer.unobserve(loadTriggerEl)

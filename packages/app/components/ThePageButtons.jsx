@@ -28,6 +28,11 @@ const links = [
     icon: 'results',
   },
   {
+    href: ROUTES.TOURNAMENTS,
+    title: 'tournos',
+    icon: 'results',
+  },
+  {
     href: ROUTES.INSIGHTS,
     title: 'insights',
     icon: 'insights',
@@ -54,7 +59,7 @@ const ThePageButtons = () => {
       <nav className={styles.inner}>
         {links.map(({ href, title, icon }) => {
           return (
-            <div className={styles.link} key={icon}>
+            <div className={styles.link} key={href}>
               <ActiveLink href={href} activeClass={styles._active}>
                 <a className={styles.linkAnchor}>
                   <ThePageButtonsIcon icon={icon} className={styles.linkIcon} currency={currency} />

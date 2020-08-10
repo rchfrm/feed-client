@@ -12,6 +12,7 @@ const TooltipMessage = ({
   slides,
   slidesContentAfter,
   direction,
+  messageClass,
   messageStyle,
   messageRef,
 }) => {
@@ -66,6 +67,8 @@ const TooltipMessage = ({
         `-${direction}`,
         // Handle slides
         slides ? 'pb-8' : '',
+        // Add class from prop
+        messageClass,
       ].join(' ')}
       style={{ ...style, ...messageStyle }}
     >

@@ -1,0 +1,31 @@
+/* AD IMAGE */
+.adImage {
+  &._broken {
+    filter: hue-rotate(90deg);
+  }
+}
+
+
+/* TOURNAMENT ITEM AD */
+.postScore {
+  span {
+    display: inline-block;
+    border-bottom: 0.25rem solid transparent;
+    transform: translateY(0.25rem)
+  }
+}
+
+.postScore {
+  ._winner {
+    span {
+      border-bottom: 0.25rem solid var(--green);
+    }
+  }
+}
+
+.postScore_number {
+  display: inline-block;
+  font-family: var(--font);
+  font-weight: var(--bold);
+  border-bottom: 0.25rem solid transparent;
+}

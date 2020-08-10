@@ -1,20 +1,9 @@
-.selectorsOuter {
-
-}
-
-.selectorsLabel {
-  padding-left: var(--sp-5);
-
-  @media(--sm) {
-    padding-left: 0;
-  }
-}
-
-.platformSelectors,
-.dataSelectors {
+/* CONTAINER */
+.container {
   display: flex;
-  padding: calc(0.5 * var(--sp-5)) 0;
   width: 100%;
+  padding: calc(0.5 * var(--sp-5)) 0;
+  padding-top: var(--sp-4);
   padding-left: var(--sp-5);
   border-top: 2px solid var(--text-color);
   overflow-x: auto;
@@ -35,19 +24,25 @@
   --active-color: var(--text-color);
 }
 
-.dataSelectors {
-  padding-top: var(--sp-5);
+/* FILTERS LABEL */
+.label {
+  padding-left: var(--sp-5);
+
+  @media(--sm) {
+    padding-left: 0;
+  }
 }
 
-.platformButtonContainer,
-.dataButtonContainer {
-  /* For desktops */
+/* BUTTONS */
+/* ************ */
+.buttonContainer {
   @mixin canHover {
     margin-bottom: var(--sp-5);
   }
 }
 
-.platformButtonContainer {
+/* Pill button */
+.buttonPill_container {
   padding-right: var(--sp-5);
 
   @media(--bmw) {
@@ -57,39 +52,22 @@
   }
 }
 
-.platformButton {
+.buttonPill {
   text-transform: capitalize;
 
   @supports (color: var(--)) { 
-    .platformButtonContainer._active & {
-      border: 2px solid var(--black) !important;
-      border: 2px solid var(--active-color) !important;
-    }
+  
   }
   
   @mixin canHover {
     &:hover {
-      border: 2px solid var(--grey) !important;
+
     }
   }
 }
 
-.platformButton {
-  @supports (color: var(--)) { 
-    .platformButtonContainer._active & {
-      border: 2px solid var(--black) !important;
-      border: 2px solid var(--active-color) !important;
-    }
-  }
-  
-  @mixin canHover {
-    &:hover {
-      border: 2px solid var(--grey) !important;
-    }
-  }
-}
-
-.dataButtonContainer {
+/* Text button */
+.buttonText_container {
   display: flex;
   position: relative;
   margin-right: calc(0.5 * var(--sp-5));
@@ -130,18 +108,14 @@
   }
 }
 
-.dataButton {
+.textButton {
   width: 100%;
   text-decoration: none;
   padding-right: var(--sp-10);
   padding-bottom: var(--sp-5);
 }
 
-.dataButton_title {
+.buttonText_title {
   font-weight: var(--bold);
   text-transform: capitalize;
-}
-
-.dataButton_subtitle {
-
 }

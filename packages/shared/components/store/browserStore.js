@@ -5,14 +5,20 @@ import tailwindConfig from '~/tailwind.config'
 // GET BREAKPOINTS
 const { theme: { screens } } = tailwindConfig()
 // Define object of keyed breakpoints breakpointName: { width }
-const breakpointsKeyed = Object.entries(screens).reduce((obj, [name, sizeString]) => {
+const breakpointsKeyedByName = Object.entries(screens).reduce((obj, [name, sizeString]) => {
+  const size = parseInt(sizeString, 0)
+  obj[name] = size
+  return obj
+}, {})
+const breakpointsKeyedBySize = Object.entries(screens).reduce((obj, [name, sizeString]) => {
   const size = parseInt(sizeString, 0)
   obj[size] = name
   return obj
 }, {})
+
 // Define array of size integers
-const breakpointValues = Object.keys(breakpointsKeyed).reduce((arr, size) => {
-  return [...arr, parseInt(size, 0)]
+const breakpointValues = Object.values(breakpointsKeyedByName).reduce((arr, size) => {
+  return [...arr, size]
 }, [])
 
 const [useBrowserStore, browserStoreApi] = create(set => ({
@@ -20,6 +26,8 @@ const [useBrowserStore, browserStoreApi] = create(set => ({
     width: 0,
     height: 0,
     breakpoint: '',
+    breakpointsKeyedByName,
+    breakpointsKeyedBySize,
     device: {},
   },
   setDimensions: (width, height) => set((state) =>
@@ -34,7 +42,7 @@ const [useBrowserStore, browserStoreApi] = create(set => ({
         largestMatching = currentBreakpoint
       }
     }
-    const breakpoint = breakpointsKeyed[largestMatching]
+    const breakpoint = breakpointsKeyedBySize[largestMatching]
     return { browser: { ...state.browser, breakpoint } }
   }),
   setDevice: (device) => set((state) =>
