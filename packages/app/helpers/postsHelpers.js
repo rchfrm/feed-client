@@ -2,6 +2,30 @@ import produce from 'immer'
 
 import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
+import brandColors from '@/constants/brandColors'
+
+// POST TYPE FILTERS
+export const postTypes = [
+  {
+    id: 'active',
+    title: 'Active',
+    color: brandColors.green,
+    activeTextColor: brandColors.black,
+  },
+  {
+    id: 'inactive',
+    title: 'Pending',
+    color: brandColors.greyDark,
+    activeTextColor: brandColors.white,
+  },
+  {
+    id: 'archived',
+    title: 'Archived',
+    color: brandColors.black,
+    activeTextColor: brandColors.white,
+  },
+]
+
 
 // TOGGLE POST STATUS ON SERVER
 export const updatePost = async ({ artistId, postId, promotionEnabled, disabled = false }) => {

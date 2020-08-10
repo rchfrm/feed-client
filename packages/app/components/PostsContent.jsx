@@ -5,11 +5,13 @@ import Button from '@/elements/Button'
 import GearIcon from '@/icons/GearIcon'
 import MarkdownText from '@/elements/MarkdownText'
 
+import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
 import PostsSettings from '@/app/PostsSettings'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
+import { postTypes } from '@/app/helpers/postsHelpers'
 import copy from '@/app/copy/PostsPageCopy'
 import styles from '@/app/PostsPage.module.css'
 import brandColors from '@/constants/brandColors'
@@ -22,6 +24,8 @@ const PostsContent = () => {
     setSidePanelContent(<PostsSettings togglePromotionGlobal={togglePromotionGlobal} />)
     toggleSidePanel(true)
   }, [setSidePanelContent, toggleSidePanel, togglePromotionGlobal])
+  // HANDLE STATE OF POST TYPE FILTERS
+  const [currentPostType, setCurrentPostType] = React.useState(postTypes[0].id)
 
   return (
     <div>
@@ -38,6 +42,12 @@ const PostsContent = () => {
           Post Settings
         </Button>
       </div>
+      {/* FILTERS */}
+      <PostsFilters
+        postTypes={postTypes}
+        currentPostType={currentPostType}
+        setCurrentPostType={setCurrentPostType}
+      />
       {/* LOAD POSTS */}
       <PostsLoader setTogglePromotionGlobal={setTogglePromotionGlobal} />
     </div>
