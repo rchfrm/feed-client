@@ -61,7 +61,7 @@ const fetchPosts = async ({ artistId, limit, isEndOfAssets, cursor }) => {
   // Stop here if at end of posts
   if (isEndOfAssets.current) return
   // Get posts
-  const promotionStatus = 'inactive'
+  const promotionStatus = 'all'
   const posts = await server.getPosts({ limit, artistId, promotionStatus, cursor: cursor.current })
   // Format posts
   const postsFormatted = postsHelpers.formatPostsResponse(posts)
