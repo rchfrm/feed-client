@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { CSSTransition } from 'react-transition-group'
 import usePrevious from 'use-previous'
 import { useAsync } from 'react-async'
 
@@ -66,39 +67,45 @@ const PostItemDisableWarning = ({
   })
 
   return (
-    <div
-      className={[
-        styles.postSection,
-        'absolute top-0 left-0',
-        'w-full h-full',
-        'bg-white rounded-b-dialogue',
-        !show ? 'hidden' : null,
-      ].join(' ')}
-      style={{ zIndex: 2 }}
+    <CSSTransition
+      in={show}
+      timeout={300}
+      classNames="slide-up"
+      unmountOnExit
     >
-      <div className="text--block mb-8">
-        <p>Ads containing this post will be switched off in {time}</p>
-      </div>
-      {/* BUTTONS */}
-      <div className="flex justify-between pb-8">
-        <Button
-          className="w-32"
-          version="black small"
-          onClick={() => setShow(false)}
-        >
-          Ok
-        </Button>
-        <Button
-          className="w-32 bg-red"
-          version="black small"
-          onClick={() => setReverseStatus(true)}
-          loading={isPending}
-        >
-          Cancel
-        </Button>
-      </div>
+      <div
+        className={[
+          styles.postSection,
+          'absolute top-0 left-0',
+          'w-full h-full',
+          'bg-white rounded-b-dialogue',
+        ].join(' ')}
+        style={{ zIndex: 2 }}
+      >
+        <div className="text--block mb-8">
+          <p>Ads containing this post will soon finish and then this post will no longer run in any more ads.</p>
+        </div>
+        {/* BUTTONS */}
+        <div className="flex justify-between pb-8">
+          <Button
+            className="w-32"
+            version="black small"
+            onClick={() => setShow(false)}
+          >
+            Ok
+          </Button>
+          <Button
+            className="w-32 bg-red"
+            version="black small"
+            onClick={() => setReverseStatus(true)}
+            loading={isPending}
+          >
+            Cancel
+          </Button>
+        </div>
 
-    </div>
+      </div>
+    </CSSTransition>
   )
 }
 
