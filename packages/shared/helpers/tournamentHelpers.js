@@ -171,6 +171,25 @@ const getStreakResults = (ads) => {
   return [false, true]
 }
 
+// CALCULATE REACH
+
+
+const calculateReach = (ad) => {
+  const { lifetime_metrics: lifetimeMetrics, summary } = ad
+  const lifetimeDates = Object.keys(lifetimeMetrics || {}).sort()
+  let reach = 0
+  if (lifetimeDates.length >= 2) {
+    const reachStart = lifetimeMetrics[lifetimeDates.shift()].reach || 0
+    const reachEnd = lifetimeMetrics[lifetimeDates.pop()].reach || 0
+    reach = reachEnd - reachStart
+  }
+  if (reach <= 0) {
+    const reachFallback = (summary ? summary.impressions : 0) || 0
+    reach = reachFallback
+  }
+  return reach
+}
+
 // FORMAT AD DATA TO BE CONSUMED
 /**
 * @param {array} [streakResults]
@@ -198,6 +217,8 @@ const formatAdData = (streakResults) => (ad, index) => {
   const engagement = summary && summary.actions && summary.actions.post_engagement
   // Get spend
   const spend = summary && parseFloat(summary.spend)
+  // Get reach
+  const reach = calculateReach(ad)
   // Build data obj
   const normalizedEsRounded = asset.normalized_es && asset.normalized_es.toFixed(2)
   const data = {
@@ -205,7 +226,7 @@ const formatAdData = (streakResults) => (ad, index) => {
     engagement,
     spend,
     impressions: summary ? summary.impressions : null,
-    reach: asset.reach,
+    reach,
     shares: asset.shares,
     likes: asset.likes,
     views: asset.views,
@@ -299,6 +320,7 @@ const metricsToDisplay = [
   // 'subtype',
 ]
 
+// CALCULTE METRICS AS PERCENTAGE A vs B
 const getRelativeMetrics = (valueA, valueB) => {
   if (!valueB) return [100, 0]
   const total = valueA + valueB
@@ -306,6 +328,7 @@ const getRelativeMetrics = (valueA, valueB) => {
   const percentB = 100 - percentA
   return [percentA, percentB]
 }
+
 
 // CREATE AD METRICS ARRAY to iterate over
 /**
