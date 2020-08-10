@@ -9,6 +9,7 @@ import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
+import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 // IMPORT PAGES
 import PostsAll from '@/app/PostsAll'
@@ -257,6 +258,15 @@ function PostsLoader({ setTogglePromotionGlobal }) {
         loadingMore={loadingMore}
         loadedAll={isEndOfAssets.current}
       />
+
+      {/* Loading spinner */}
+      {loadingMore && (
+        <div className={['pt-20 py-10'].join(' ')}>
+          <div className="mx-auto w-20">
+            <Spinner />
+          </div>
+        </div>
+      )}
 
       <Error error={error} />
 

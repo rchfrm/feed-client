@@ -6,8 +6,6 @@ import produce from 'immer'
 // IMPORT CONTEXTS
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-// IMPORT ELEMENTS
-import Spinner from '@/elements/Spinner'
 // IMPORT COMPONENTS
 import PostItem from '@/app/PostItem'
 import PostsNone from '@/app/PostsNone'
@@ -124,12 +122,6 @@ function PostsAll({
             </PostItem>
           )
         })}
-        {/* Loading spinner */}
-        {loadingMore && (
-          <div className={[styles.postsSpinner, 'col-span-12 xs:col-span-6 lg:col-span-4'].join(' ')}>
-            <Spinner />
-          </div>
-        )}
       </ul>
 
 
