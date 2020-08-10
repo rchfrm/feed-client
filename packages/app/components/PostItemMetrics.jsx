@@ -2,47 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import * as utils from '@/helpers/utils'
+import * as postsHelpers from '@/app/helpers/postsHelpers'
 
 import styles from '@/app/PostItem.module.css'
-
-const visibleInsights = {
-  reach: {
-    index: 1,
-    title: 'Reach',
-  },
-  likes: {
-    index: 2,
-    title: 'Likes',
-  },
-  comments: {
-    index: 3,
-    title: 'Comments',
-  },
-  video_views: {
-    index: 4,
-    title: 'Views',
-  },
-  shares: {
-    index: 5,
-    title: 'Shares',
-  },
-  saves: {
-    index: 6,
-    title: 'Saves',
-  },
-  taps_forward: {
-    index: 7,
-    title: 'Taps forward',
-  },
-  taps_back: {
-    index: 8,
-    title: 'Taps back',
-  },
-  replies: {
-    index: 9,
-    title: 'Replies',
-  },
-}
 
 
 const METRICS_ITEM = ({ title, value, className }) => {
@@ -57,7 +19,11 @@ const METRICS_ITEM = ({ title, value, className }) => {
   )
 }
 
-const PostItemMetrics = ({ insights, es }) => {
+const PostItemMetrics = ({ insights, es, metricsType }) => {
+  // Get visible insights based on metrics type
+  const visibleInsights = React.useMemo(() => {
+    return postsHelpers.getPostMetricsContent(metricsType)
+  }, [metricsType])
   // Create array of insights
   const maxInsights = 4
   const insightsArray = React.useMemo(() => {
@@ -74,7 +40,7 @@ const PostItemMetrics = ({ insights, es }) => {
       .filter(val => val)
       // restrict number of items
       .slice(0, maxInsights)
-  }, [insights])
+  }, [insights, visibleInsights])
   // Create spacers
   const insightsSpacers = React.useMemo(() => {
     if (insightsArray.length === maxInsights) return []
@@ -132,6 +98,12 @@ METRICS_ITEM.defaultProps = {
 PostItemMetrics.propTypes = {
   insights: PropTypes.object.isRequired,
   es: PropTypes.number.isRequired,
+  metricsType: PropTypes.string,
 }
+
+PostItemMetrics.defaultProps = {
+  metricsType: 'organic',
+}
+
 
 export default PostItemMetrics

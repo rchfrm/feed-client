@@ -71,3 +71,48 @@ export const getCursor = (post = {}) => {
   if (!afterHref) return
   return afterHref.split('after=')[1]
 }
+
+
+// GET POST METRIC CONFIG
+export const getPostMetricsContent = (metricsType) => {
+  if (metricsType === 'organic') {
+    return {
+      reach: {
+        index: 1,
+        title: 'Reach',
+      },
+      likes: {
+        index: 2,
+        title: 'Likes',
+      },
+      comments: {
+        index: 3,
+        title: 'Comments',
+      },
+      video_views: {
+        index: 4,
+        title: 'Views',
+      },
+      shares: {
+        index: 5,
+        title: 'Shares',
+      },
+      saves: {
+        index: 6,
+        title: 'Saves',
+      },
+      taps_forward: {
+        index: 7,
+        title: 'Taps forward',
+      },
+      taps_back: {
+        index: 8,
+        title: 'Taps back',
+      },
+      replies: {
+        index: 9,
+        title: 'Replies',
+      },
+    }
+  }
+}
