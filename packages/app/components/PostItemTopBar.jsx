@@ -9,7 +9,7 @@ import PostItemStatusBadge from '@/app/PostItemStatusBadge'
 import styles from '@/app/PostItem.module.css'
 
 
-const PostItemTopBar = ({ post, togglePromotion, postPromotable }) => {
+const PostItemTopBar = ({ post, togglePromotion, postPromotable, promotionStatus }) => {
   return (
     <div className={[styles.topBar, styles.postSection, styles.postText].join(' ')}>
       <PostMetaData
@@ -31,8 +31,8 @@ const PostItemTopBar = ({ post, togglePromotion, postPromotable }) => {
       )}
       {/* STATUS */}
       <PostItemStatusBadge
+        status={promotionStatus}
         className={styles.statusBadge}
-        status={post.promotion_status}
       />
     </div>
   )
@@ -42,10 +42,12 @@ PostItemTopBar.propTypes = {
   post: PropTypes.object.isRequired,
   togglePromotion: PropTypes.func.isRequired,
   postPromotable: PropTypes.bool,
+  promotionStatus: PropTypes.string,
 }
 
 PostItemTopBar.defaultProps = {
   postPromotable: true,
+  promotionStatus: '',
 }
 
 

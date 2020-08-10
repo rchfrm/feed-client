@@ -8,6 +8,7 @@ const getBgClass = (status) => {
 }
 
 const PostItemStatusBadge = ({ status, className }) => {
+  if (!status) return null
   const bgClass = getBgClass(status)
   return (
     <div
@@ -20,11 +21,12 @@ const PostItemStatusBadge = ({ status, className }) => {
 }
 
 PostItemStatusBadge.propTypes = {
-  status: PropTypes.string.isRequired,
+  status: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostItemStatusBadge.defaultProps = {
+  status: '',
   className: '',
 }
 

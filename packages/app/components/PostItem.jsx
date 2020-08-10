@@ -22,8 +22,11 @@ const PostItem = ({
 }) => {
   // Errors
   const [error, setError] = React.useState(null)
-  // PROMOTABLE STATE
-  const { is_promotable: postPromotable } = post
+  // EXTRACT POST DATA
+  const {
+    is_promotable: postPromotable,
+    promotion_status: promotionStatus,
+  } = post
   // POST CAPTION
   const postCaption = React.useMemo(() => {
     return post.short_message.join('\n')
@@ -41,6 +44,7 @@ const PostItem = ({
         post={post}
         togglePromotion={togglePromotion}
         postPromotable={postPromotable}
+        promotionStatus={promotionStatus}
       />
       {/* This wrapper hides the bottom of the link options */}
       <div className="overflow-hidden relative">
