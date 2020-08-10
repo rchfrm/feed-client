@@ -49,7 +49,10 @@ const PostsContent = () => {
         setCurrentPostType={setCurrentPostType}
       />
       {/* LOAD POSTS */}
-      <PostsLoader setTogglePromotionGlobal={setTogglePromotionGlobal} />
+      <PostsLoader
+        setTogglePromotionGlobal={setTogglePromotionGlobal}
+        promotionStatus={currentPostType}
+      />
     </div>
   )
 }

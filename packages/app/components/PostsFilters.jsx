@@ -32,7 +32,6 @@ const PostsFilters = ({
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPostType])
-  console.log('baseFiltersOptions', baseFiltersOptions)
   return (
     <BaseFilters
       options={baseFiltersOptions}

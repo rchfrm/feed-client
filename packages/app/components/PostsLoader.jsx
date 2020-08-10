@@ -58,12 +58,11 @@ const postsReducer = (draftState, postsAction) => {
 
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-const fetchPosts = async ({ artistId, limit, isEndOfAssets, cursor }) => {
+const fetchPosts = async ({ promotionStatus, artistId, limit, isEndOfAssets, cursor }) => {
   if (!artistId) return
   // Stop here if at end of posts
   if (isEndOfAssets.current) return
   // Get posts
-  const promotionStatus = 'all'
   const posts = await server.getPosts({ limit, artistId, promotionStatus, cursor: cursor.current })
   // Format posts
   const postsFormatted = postsHelpers.formatPostsResponse(posts)
@@ -71,9 +70,19 @@ const fetchPosts = async ({ artistId, limit, isEndOfAssets, cursor }) => {
   return utils.sortAssetsChronologically(Object.values(postsFormatted))
 }
 
+// WHEN TO UPDATE POSTS
+const updateDataConditions = (newProps, oldProps) => {
+  const { artistId: newArtistId, promotionStatus: newpromotionStatus, loadingMore } = newProps
+  const { artistId: oldArtistId, promotionStatus: oldPromotionStatus, loadingMore: alreadyLoadingMore } = oldProps
+  if (loadingMore && !alreadyLoadingMore) return true
+  if (newArtistId !== oldArtistId) return true
+  if (newpromotionStatus !== oldPromotionStatus) return true
+  return false
+}
+
 // THE COMPONENT
 // ------------------
-function PostsLoader({ setTogglePromotionGlobal }) {
+function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
@@ -98,24 +107,19 @@ function PostsLoader({ setTogglePromotionGlobal }) {
     cursor.current = null
     // Update end of assets state
     isEndOfAssets.current = false
-  }, [artistId])
+  }, [artistId, promotionStatus])
 
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({
     promiseFn: fetchPosts,
-    watchFn: (newProps, oldProps) => {
-      const { artistId: newArtistId, loadingMore } = newProps
-      const { artistId: oldArtistId, loadingMore: alreadyLoadingMore } = oldProps
-      if (loadingMore && !alreadyLoadingMore) return true
-      if (newArtistId !== oldArtistId) return true
-      return false
-    },
+    watchFn: updateDataConditions,
     // The variable(s) to pass to promiseFn
     artistId,
     limit: postsPerPage,
     isEndOfAssets,
     loadingMore,
     cursor,
+    promotionStatus,
     // When fetch finishes
     onResolve: (posts) => {
       console.log('posts', posts)
@@ -237,13 +241,21 @@ function PostsLoader({ setTogglePromotionGlobal }) {
   }, [setPosts, artistId])
 
   // Wait if initial loading
-  if (artistLoading || (isPending && initialLoad.current)) {
+  if (artistLoading) {
     return null
   }
 
   // No posts if none
-  if (!posts || !posts.length) {
+  if (!isPending && !posts.length) {
     return <PostsNone refreshPosts={refreshPosts} />
+  }
+
+  if (isPending && initialLoad.current) {
+    return (
+      <div className="pt-10 pb-10">
+        <Spinner />
+      </div>
+    )
   }
 
   return (
@@ -277,6 +289,7 @@ function PostsLoader({ setTogglePromotionGlobal }) {
 
 PostsLoader.propTypes = {
   setTogglePromotionGlobal: PropTypes.func.isRequired,
+  promotionStatus: PropTypes.string.isRequired,
 }
 
 export default PostsLoader
