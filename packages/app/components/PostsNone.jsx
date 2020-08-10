@@ -36,9 +36,13 @@ const PostsNone = ({ refreshPosts }) => {
   }, [setHeader])
 
   return (
-    <div className={styles.noPosts}>
+    <div className={[styles.noPosts].join(' ')}>
       <MarkdownText
-        className={['h4--text', styles.introText].join(' ')}
+        className={[
+          'h4--text',
+          styles.introText,
+          'bg-grey-1', 'rounded-dialogue', 'p-5 pt-4',
+        ].join(' ')}
         markdown={copyMarkdown}
       />
       {/* Refresh posts fetch if new user */}
