@@ -87,11 +87,13 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
 * @param {string} [cursor]
 * @returns {Promise<any>}
 */
-export const getPosts = async ({ limit, artistId, promotionStatus, cursor }) => {
+export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }) => {
   const queryParams = {
-    promotion_status: promotionStatus,
     limit,
     after: cursor,
+  }
+  if (promotionStatus && promotionStatus !== 'all') {
+    queryParams.promotion_status = promotionStatus
   }
   return api.get(`/artists/${artistId}/assets`, queryParams)
 }
