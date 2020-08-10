@@ -6,7 +6,7 @@ import clamp from 'lodash/clamp'
 import { useDrag } from 'react-use-gesture'
 import { useAsync } from 'react-async'
 
-import * as server from '@/app/helpers/appServer'
+import * as postsHelpers from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -14,11 +14,6 @@ import Spinner from '@/elements/Spinner'
 import PostToggleSwitch from '@/app/PostToggleSwitch'
 
 import styles from '@/app/PostToggle.module.css'
-
-// SERVER
-const updatePost = async ({ artistId, postId, promotionEnabled }) => {
-  return server.togglePromotionEnabled(artistId, postId, promotionEnabled)
-}
 
 // HELPER FUNCTIONS
 const getBorderColor = (buttonState, promotionEnabled) => {
@@ -45,8 +40,8 @@ const animateSwitch = (buttonState, target) => {
 }
 
 const getButtonState = (promotableStatus) => {
-  if (promotableStatus === -2) return 'off'
   if (promotableStatus === 2) return 'on'
+  if (promotableStatus === -2) return 'off'
   return 'default'
 }
 
@@ -71,7 +66,7 @@ const PostToggle = ({
   // SERVER
   const { artistId } = React.useContext(ArtistContext)
   const { isPending, cancel } = useAsync({
-    promiseFn: updatePost,
+    promiseFn: postsHelpers.updatePost,
     watch: buttonState,
     initialValue: buttonState,
     // The variable(s) to pass to promiseFn
@@ -84,6 +79,10 @@ const PostToggle = ({
       togglePromotion(postId, promotion_enabled, promotable_status)
     },
   })
+  // initialValue workaround: https://github.com/async-library/react-async/issues/249#issue-554311360
+  React.useEffect(() => {
+    cancel()
+  }, [cancel])
   // SHOW SPINNER
   const [showSpinner, setShowSpinner] = React.useState(false)
   const spinnerTimeout = React.useRef()
@@ -97,10 +96,6 @@ const PostToggle = ({
       setShowSpinner(true)
     }, 500)
   }, [setShowSpinner, isPending])
-  // Workaround: https://github.com/async-library/react-async/issues/249#issue-554311360
-  React.useEffect(() => {
-    cancel()
-  }, [cancel])
   // WHEN BUTTON STATE CHANGES
   React.useEffect(() => {
     const { current: target } = switchEl

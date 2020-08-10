@@ -7,6 +7,7 @@ import PostItemTopBar from '@/app/PostItemTopBar'
 import PostItemContents from '@/app/PostItemContents'
 import PostItemMetrics from '@/app/PostItemMetrics'
 import PostItemLink from '@/app/PostItemLink'
+import PostItemDisableWarning from '@/app/PostItemDisableWarning'
 // IMPORT ASSETS
 // IMPORT STYLES
 import styles from '@/app/PostItem.module.css'
@@ -83,6 +84,18 @@ const PostItem = ({
             <p style={{ transform: 'translateY(0.1em)' }}>Post not promotable</p>
           </div>
         )}
+
+        {/* DISABLE ACTIVE POST WARNING */}
+        {postPromotable && promotionStatus === 'inactive' && (
+          <PostItemDisableWarning
+            postId={post.id}
+            postStatus={promotionStatus}
+            promotionEnabled={promotionEnabled}
+            promotableStatus={promotableStatus}
+            togglePromotion={togglePromotion}
+          />
+        )}
+
       </div>
 
       <Error error={error} />

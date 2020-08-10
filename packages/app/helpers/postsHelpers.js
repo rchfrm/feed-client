@@ -1,6 +1,13 @@
 import produce from 'immer'
 
+import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
+
+// TOGGLE POST STATUS ON SERVER
+export const updatePost = async ({ artistId, postId, promotionEnabled, disabled = false }) => {
+  if (disabled) return
+  return server.togglePromotionEnabled(artistId, postId, promotionEnabled)
+}
 
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
