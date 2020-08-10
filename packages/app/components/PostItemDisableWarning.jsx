@@ -25,7 +25,6 @@ const PostItemDisableWarning = ({
   promotableStatus,
   togglePromotion,
 }) => {
-  const time = '10 minutes and 33 seconds'
   const previousPromotionEnabled = usePrevious(promotionEnabled)
   const previousPromotableStatus = usePrevious(promotableStatus)
   const [cachedPromtableStatus, setCachedPromtableStatus] = React.useState()
