@@ -60,10 +60,11 @@ const getPromotionStatus = (buttonState) => {
 const PostToggle = ({
   post,
   promotionEnabled,
+  promotableStatus,
   togglePromotion,
 }) => {
-  const { promotable_status, id: postId } = post
-  const [buttonState, setButtonState] = React.useState(getButtonState(promotable_status))
+  const { id: postId } = post
+  const [buttonState, setButtonState] = React.useState(getButtonState(promotableStatus))
   const [borderColor, setBorderColor] = React.useState(getBorderColor(buttonState, promotionEnabled))
   const switchEl = React.useRef(null)
   const containerEl = React.useRef(null)
@@ -78,12 +79,9 @@ const PostToggle = ({
     postId,
     promotionEnabled: getPromotionStatus(buttonState),
     onResolve: (post) => {
-      const { promotion_enabled, promotable_status } = post
+      const { promotion_enabled } = post
       // Update post list state
       togglePromotion(postId, promotion_enabled)
-      // Update button state
-      const newButtonState = getButtonState(promotable_status)
-      setButtonState(newButtonState)
     },
   })
   // SHOW SPINNER
@@ -109,6 +107,11 @@ const PostToggle = ({
     setBorderColor(getBorderColor(buttonState, promotionEnabled))
     animateSwitch(buttonState, target)
   }, [buttonState, promotionEnabled])
+  // UPDATE BUTTON STATUS BASED ON POST PROPS
+  React.useEffect(() => {
+    const buttonState = getButtonState(promotableStatus)
+    setButtonState(buttonState)
+  }, [promotableStatus])
   // SETUP DRAG
   const containerWidth = React.useRef(0)
   const switchWidth = React.useRef(0)
@@ -190,6 +193,7 @@ const PostToggle = ({
 PostToggle.propTypes = {
   post: PropTypes.object.isRequired,
   promotionEnabled: PropTypes.bool.isRequired,
+  promotableStatus: PropTypes.number.isRequired,
   togglePromotion: PropTypes.func.isRequired,
 }
 

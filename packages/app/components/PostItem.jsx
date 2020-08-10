@@ -26,6 +26,8 @@ const PostItem = ({
   const {
     is_promotable: postPromotable,
     promotion_status: promotionStatus,
+    promotion_enabled: promotionEnabled,
+    promotable_status: promotableStatus,
   } = post
   // POST CAPTION
   const postCaption = React.useMemo(() => {
@@ -42,6 +44,8 @@ const PostItem = ({
       {/* TOP BAR */}
       <PostItemTopBar
         post={post}
+        promotionEnabled={promotionEnabled}
+        promotableStatus={promotableStatus}
         togglePromotion={togglePromotion}
         postPromotable={postPromotable}
         promotionStatus={promotionStatus}
