@@ -45,6 +45,7 @@
   transform: translateY(100%);
   width: 102px;
   border-bottom-left-radius: var(--dialogue-radius);
+  text-align: center;
 }
 
 /* META */
