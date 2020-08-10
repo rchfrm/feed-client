@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import * as utils from '@/helpers/utils'
 
+// FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   // Process certain parts of the response to make it easier to handle
   posts.forEach(post => {
@@ -59,4 +60,13 @@ export const formatPostsResponse = (posts) => {
   })
 
   return posts
+}
+
+
+// GET POST CURSOR
+export const getCursor = (post = {}) => {
+  const { _links: { after = {} } } = post
+  const { href: afterHref } = after
+  if (!afterHref) return
+  return afterHref.split('after=')[1]
 }

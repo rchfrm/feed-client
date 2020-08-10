@@ -81,28 +81,19 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
 
 // ASSETS
 /**
- * @param {number} offset
- * @param {number} limit
- * @param {string} artistId
- * @param {string} [verifyIdToken]
- * @returns {Promise<any>}
- */
-export const getUnpromotedPosts = async (offset, limit, artistId, verifyIdToken) => {
-  return api
-    .get(`/artists/${artistId}/assets`, {
-      promotion_status: 'inactive',
-      offset,
-      limit,
-    }, verifyIdToken)
-}
-
-/**
- * @param {string} href
- * @param {string} [verifyIdToken]
- * @returns {Promise<any>}
- */
-export const getUnpromotedPostsAfter = async (href, verifyIdToken) => {
-  return api.get(href, verifyIdToken)
+* @param {number} limit
+* @param {string} artistId
+* @param {string} promotionStatus
+* @param {string} [cursor]
+* @returns {Promise<any>}
+*/
+export const getPosts = async ({ limit, artistId, promotionStatus, cursor }) => {
+  const queryParams = {
+    promotion_status: promotionStatus,
+    limit,
+    after: cursor,
+  }
+  return api.get(`/artists/${artistId}/assets`, queryParams)
 }
 
 /**

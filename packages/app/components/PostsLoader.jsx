@@ -57,17 +57,13 @@ const postsReducer = (draftState, postsAction) => {
 
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-const fetchPosts = async ({ artistId, offset, limit, isEndOfAssets, cursor }) => {
+const fetchPosts = async ({ artistId, limit, isEndOfAssets, cursor }) => {
   if (!artistId) return
   // Stop here if at end of posts
   if (isEndOfAssets.current) return
   // Get posts
-  let posts
-  if (cursor.current) {
-    posts = await server.getUnpromotedPostsAfter(cursor.current.href)
-  } else {
-    posts = await server.getUnpromotedPosts(offset.current, limit, artistId)
-  }
+  const promotionStatus = 'inactive'
+  const posts = await server.getPosts({ limit, artistId, promotionStatus, cursor: cursor.current })
   // Format posts
   const postsFormatted = postsHelpers.formatPostsResponse(posts)
   // Sort the returned posts chronologically, latest first
@@ -80,8 +76,7 @@ function PostsLoader({ setTogglePromotionGlobal }) {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
-  const offset = React.useRef(0)
-  const cursor = React.useRef(null)
+  const cursor = React.useRef('')
   const initialLoad = React.useRef(true)
   const [loadingMore, setLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -100,8 +95,6 @@ function PostsLoader({ setTogglePromotionGlobal }) {
     initialLoad.current = true
     // Remove after cursor
     cursor.current = null
-    // Reset offset
-    offset.current = 0
     // Update end of assets state
     isEndOfAssets.current = false
   }, [artistId])
@@ -118,13 +111,13 @@ function PostsLoader({ setTogglePromotionGlobal }) {
     },
     // The variable(s) to pass to promiseFn
     artistId,
-    offset,
     limit: postsPerPage,
     isEndOfAssets,
     loadingMore,
     cursor,
     // When fetch finishes
     onResolve: (posts) => {
+      console.log('posts', posts)
       // Turn off global loading
       toggleGlobalLoading(false)
       // Handle result...
@@ -139,12 +132,11 @@ function PostsLoader({ setTogglePromotionGlobal }) {
         initialLoad.current = false
         return
       }
-      // Update offset
-      offset.current += posts.length
       // Update afterCursor
       const lastPost = posts[posts.length - 1]
       if (lastPost._links.after) {
-        cursor.current = posts[posts.length - 1]._links.after
+        const nextCursor = postsHelpers.getCursor(lastPost)
+        cursor.current = nextCursor
       }
       // If loading extra posts
       if (loadingMore) {
