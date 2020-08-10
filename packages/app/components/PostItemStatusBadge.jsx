@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 const getBgClass = (status) => {
   if (status === 'inactive') return 'bg-grey-3'
   if (status === 'active') return 'bg-green'
-  if (status === 'active') return 'bg-black'
+  if (status === 'archived') return 'bg-black'
 }
 
 const PostItemStatusBadge = ({ status, className }) => {
