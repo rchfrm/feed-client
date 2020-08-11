@@ -75,6 +75,12 @@ const IntegrationErrorHandler = () => {
     return errorCode === 'expired_access_token'
   }, [integrationError])
 
+  const errorRequiresReAuth = React.useMemo(() => {
+    if (!integrationError) return false
+    const { action: errorAction } = integrationError
+    return errorAction === 'fb_reauth'
+  }, [integrationError])
+
   // Decide whether to show integration error
   React.useEffect(() => {
     // Don't show error message if no error
@@ -93,13 +99,13 @@ const IntegrationErrorHandler = () => {
     // DO NOT UPDATE ACCESS TOKEN if there is:
     // Still loading going on, or
     // The redirect is from a sign in, or
-    // No integration error with access token, or
+    // The error does not require a reauth,
     // No new access token, or
     // It's already run once.
     if (
       isPending
       || redirectType === 'signIn'
-      || !hasErrorWithAccessToken
+      || !errorRequiresReAuth
       || !accessToken
       || accessTokenUpdated.current
     ) {
