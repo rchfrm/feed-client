@@ -38,7 +38,7 @@ const PostItemMetrics = ({ insights, es, promotionStatus }) => {
   return (
     <>
       {/* METRICS TYPE BUTTONS */}
-      <div className={[styles.postSection, 'pb-2'].join(' ')}>
+      <div className={[styles.postSection, 'pb-1'].join(' ')}>
         <PillOptions
           options={pillOptions}
           activeOption={currentMetricsType}
