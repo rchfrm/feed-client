@@ -10,7 +10,7 @@ export const postTypes = [
     id: 'active',
     title: 'Active',
     color: brandColors.green,
-    activeTextColor: brandColors.black,
+    activeTextColor: brandColors.white,
   },
   {
     id: 'inactive',
@@ -22,6 +22,12 @@ export const postTypes = [
     id: 'archived',
     title: 'Archived',
     color: brandColors.black,
+    activeTextColor: brandColors.white,
+  },
+  {
+    id: 'all',
+    title: 'All',
+    color: brandColors.greyDark,
     activeTextColor: brandColors.white,
   },
 ]
