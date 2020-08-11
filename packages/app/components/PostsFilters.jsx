@@ -37,7 +37,7 @@ const PostsFilters = ({
       options={baseFiltersOptions}
       activeOptionId={currentPostType}
       setActiveOptionId={setCurrentPostType}
-      labelText="Select an audience type"
+      labelText="Select a Post state"
     />
   )
 }
