@@ -56,7 +56,7 @@ const IntegrationErrorHandler = () => {
   // Import user context
   const { user } = React.useContext(UserContext)
   // Import Auth context
-  const { auth, accessToken } = React.useContext(AuthContext)
+  const { auth, accessToken, redirectType } = React.useContext(AuthContext)
   // Run async request for errors
   const { data: integrationError, error: componentError, isPending } = useAsync({
     promiseFn: fetchError,
@@ -94,11 +94,18 @@ const IntegrationErrorHandler = () => {
     // No integration error with access token, or
     // No new access token, or
     // It's already run once.
-    if (!hasErrorWithAccessToken || !accessToken || accessTokenUpdated.current) return
+    if (
+      || redirectType === 'signIn'
+      || !hasErrorWithAccessToken
+      || !accessToken
+      || accessTokenUpdated.current
+    ) {
+      return
+    }
     // Update access token
     accessTokenUpdated.current = true
     server.updateAccessToken([artistId], accessToken)
-  }, [accessToken, hasErrorWithAccessToken, artistId])
+  }, [isPending, redirectType, accessToken, hasErrorWithAccessToken, artistId])
 
   // Function to hide integration error
   const hideIntegrationErrors = () => setShowError(false)
