@@ -10,7 +10,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 import IntegrationErrorContent from '@/app/IntegrationErrorContent'
 
 // RUN THIS TO FETCH ERRORS
-const fetchError = async ({ auth, user, artist, artistId, accessToken }) => {
+const fetchError = async ({ auth, user, artist, artistId }) => {
   // Get any missing permissions from the FB redirect response
   const { missingScopes = [] } = auth
   // Handle missing scopes from FB
@@ -90,7 +90,9 @@ const IntegrationErrorHandler = () => {
   // Store new access token when coming back from a redirect
   const accessTokenUpdated = React.useRef(false)
   React.useEffect(() => {
-    // Stop here if there is...
+    // DO NOT UPDATE ACCESS TOKEN if there is:
+    // Still loading going on, or
+    // The redirect is from a sign in, or
     // No integration error with access token, or
     // No new access token, or
     // It's already run once.
