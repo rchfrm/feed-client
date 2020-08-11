@@ -24,6 +24,7 @@ const PostItemDisableWarning = ({
   promotionEnabled,
   promotableStatus,
   togglePromotion,
+  postToggleSetter,
 }) => {
   const previousPromotionEnabled = usePrevious(promotionEnabled)
   const previousPromotableStatus = usePrevious(promotableStatus)
@@ -36,10 +37,15 @@ const PostItemDisableWarning = ({
     setCachedPromtableStatus(previousPromotableStatus)
   }, [previousPromotableStatus])
   React.useEffect(() => {
-    if (!promotionEnabled && previousPromotionEnabled === true) {
+    console.log('postToggleSetter', postToggleSetter)
+    if (
+      !promotionEnabled
+      && previousPromotionEnabled
+      && postToggleSetter === 'single'
+    ) {
       showWarning()
     }
-  }, [promotionEnabled, previousPromotionEnabled, showWarning])
+  }, [promotionEnabled, previousPromotionEnabled, postToggleSetter, showWarning])
 
   // REVERSE DISABLE POST
   const [reverseStatus, setReverseStatus] = React.useState(false)
@@ -113,11 +119,12 @@ PostItemDisableWarning.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotableStatus: PropTypes.number.isRequired,
   togglePromotion: PropTypes.func.isRequired,
+  postToggleSetter: PropTypes.string,
 }
 
-// PostItemDisableWarning.defaultProps = {
-//   show: true,
-// }
+PostItemDisableWarning.defaultProps = {
+  postToggleSetter: '',
+}
 
 
 export default PostItemDisableWarning

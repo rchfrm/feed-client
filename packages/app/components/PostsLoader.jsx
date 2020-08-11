@@ -172,10 +172,15 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
     },
   })
 
-  // Define function for toggling promotion
+  // Define what toggled the post enabled status
+  // (single or batch)
+  const [postToggleSetter, setPostToggleSetter] = React.useState('')
+
+  // Define function for toggling SINGLE promotion
   const togglePromotion = React.useCallback(async (postId, promotion_enabled, promotable_status) => {
     const indexOfId = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotion_enabled
+    setPostToggleSetter('single')
     setPosts({
       type: 'toggle-promotion',
       payload: {
@@ -195,10 +200,11 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
     return newPromotionState
   }, [posts, artistId, setPosts])
 
-  // Define function to batch toggle all posts
+  // Define function to BATCH TOGGLE all posts
   // and set it on the parent
   React.useEffect(() => {
     const togglePromotionGlobal = (promotion_enabled) => {
+      setPostToggleSetter('batch')
       setPosts({
         type: 'toggle-promotion-global',
         payload: {
@@ -267,6 +273,7 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
         setVisiblePost={setVisiblePost}
         updateLink={updateLink}
         togglePromotion={togglePromotion}
+        postToggleSetter={postToggleSetter}
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
         loadedAll={isEndOfAssets.current}

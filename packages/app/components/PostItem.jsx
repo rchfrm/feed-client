@@ -18,6 +18,7 @@ const PostItem = ({
   enabled,
   updateLink,
   togglePromotion,
+  postToggleSetter,
   className = '',
   children = <></>,
 }) => {
@@ -94,6 +95,7 @@ const PostItem = ({
             promotionEnabled={promotionEnabled}
             promotableStatus={promotableStatus}
             togglePromotion={togglePromotion}
+            postToggleSetter={postToggleSetter}
           />
         )}
 

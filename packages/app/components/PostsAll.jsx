@@ -34,6 +34,7 @@ function PostsAll({
   posts,
   updateLink,
   togglePromotion,
+  postToggleSetter,
   loadMorePosts,
   loadingMore,
   loadedAll,
@@ -111,6 +112,7 @@ function PostsAll({
               updateLink={updateLink}
               singular={posts.length === 1}
               togglePromotion={togglePromotion}
+              postToggleSetter={postToggleSetter}
               className="col-span-12 xs:col-span-6 lg:col-span-4"
             >
               {post.loadTrigger && !loadedAll && (
@@ -133,12 +135,14 @@ PostsAll.propTypes = {
   posts: PropTypes.array.isRequired,
   updateLink: PropTypes.func.isRequired,
   togglePromotion: PropTypes.func.isRequired,
+  postToggleSetter: PropTypes.string,
   loadMorePosts: PropTypes.func.isRequired,
   loadingMore: PropTypes.bool,
   loadedAll: PropTypes.bool,
 }
 
 PostsAll.defaultProps = {
+  postToggleSetter: '',
   loadingMore: false,
   loadedAll: false,
 }
