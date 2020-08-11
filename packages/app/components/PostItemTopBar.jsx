@@ -25,7 +25,7 @@ const PostItemTopBar = ({
         permalink={post.permalink_url}
       />
       {/* TOGGLE BUTTON (if poss) */}
-      {postPromotable && (
+      {postPromotable && promotionStatus !== 'archived' && (
         <div className="flex">
           <PostToggle
             post={post}
