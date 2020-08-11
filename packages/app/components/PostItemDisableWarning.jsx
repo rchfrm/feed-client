@@ -37,7 +37,6 @@ const PostItemDisableWarning = ({
     setCachedPromtableStatus(previousPromotableStatus)
   }, [previousPromotableStatus])
   React.useEffect(() => {
-    console.log('postToggleSetter', postToggleSetter)
     if (
       !promotionEnabled
       && previousPromotionEnabled
