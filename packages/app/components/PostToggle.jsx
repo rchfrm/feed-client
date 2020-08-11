@@ -30,7 +30,7 @@ const getButtonState = (promotableStatus, postToggleType) => {
   // Handle double toggle
   if (postToggleType === 'double') {
     if (promotableStatus > 0) return 'on'
-    if (promotableStatus < 0) return 'off'
+    if (promotableStatus <= 0) return 'off'
   }
   // Handle triple toggle
   if (promotableStatus === 2) return 'on'
@@ -197,8 +197,18 @@ const PostToggle = ({
       {/* Background */}
       <div className={styles.background} />
       {/* Buttons */}
-      <PostToggleSwitch action="off" buttonState={buttonState} setButtonState={setButtonState} />
-      <PostToggleSwitch action="on" buttonState={buttonState} setButtonState={setButtonState} />
+      <PostToggleSwitch
+        action="off"
+        buttonState={buttonState}
+        setButtonState={setButtonState}
+        postToggleType={postToggleType}
+      />
+      <PostToggleSwitch
+        action="on"
+        buttonState={buttonState}
+        setButtonState={setButtonState}
+        postToggleType={postToggleType}
+      />
       {/* Switch slider */}
       <div className={styles.switch} {...dragBind()} ref={switchEl}>
         {showSpinner && <Spinner className={styles.switchSpinner} />}

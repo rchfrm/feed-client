@@ -9,6 +9,12 @@ import PostItemStatusBadge from '@/app/PostItemStatusBadge'
 import styles from '@/app/PostItem.module.css'
 
 
+const getPostToggleType = (promotionStatus) => {
+  if (promotionStatus === 'inactive') return 'triple'
+  if (promotionStatus === 'active') return 'double'
+  return 'disabled'
+}
+
 const PostItemTopBar = ({
   post,
   promotionEnabled,
@@ -17,6 +23,7 @@ const PostItemTopBar = ({
   postPromotable,
   promotionStatus,
 }) => {
+  const postToggleType = getPostToggleType(promotionStatus)
   return (
     <div className={[styles.topBar, styles.postSection, styles.postText].join(' ')}>
       <PostMetaData
@@ -29,6 +36,7 @@ const PostItemTopBar = ({
         <div className="flex">
           <PostToggle
             post={post}
+            postToggleType={postToggleType}
             togglePromotion={togglePromotion}
             promotionEnabled={promotionEnabled}
             promotableStatus={promotableStatus}
