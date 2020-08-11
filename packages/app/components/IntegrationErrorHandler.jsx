@@ -73,9 +73,13 @@ const IntegrationErrorHandler = () => {
   React.useEffect(() => {
     // Don't show error message if no error
     if (!integrationError) return
+    // Don't show error message if there is an access token
+    // (because it will be sent to server to fix error)
+    if (accessToken) return
+    // Handle integration error
     const { hidden } = integrationError
     setShowError(!hidden)
-  }, [integrationError])
+  }, [integrationError, accessToken])
 
   // Store new access token when coming back from a redirect
   const accessTokenUpdated = React.useRef(false)
