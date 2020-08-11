@@ -85,15 +85,10 @@ const IntegrationErrorHandler = () => {
   React.useEffect(() => {
     // Stop here if user is loading, there is no new access token, or it's already run once
     if (!accessToken || accessTokenUpdated.current) return
-    const { artists: userArtists = [] } = user
-    const userArtistIds = userArtists.reduce((ids, { role, id }) => {
-      if (role !== 'owner') return ids
-      return [...ids, id]
-    }, [])
-    if (!userArtistIds.length) return
     // Update access token
     accessTokenUpdated.current = true
-    server.updateAccessToken(userArtistIds, accessToken)
+    server.updateAccessToken([artistId], accessToken)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken])
 
   // Function to hide integration error
