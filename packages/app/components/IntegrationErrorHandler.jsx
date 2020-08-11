@@ -69,6 +69,11 @@ const IntegrationErrorHandler = () => {
     accessToken,
   })
 
+  const hasErrorWithAccessToken = React.useMemo(() => {
+    if (!integrationError) return false
+    const { code: errorCode } = integrationError
+    return errorCode === 'expired_access_token' || errorCode === 'missing_permission_scope'
+  }, [integrationError])
   // Decide whether to show integration error
   React.useEffect(() => {
     // Don't show error message if no error
