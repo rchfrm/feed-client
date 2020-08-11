@@ -95,6 +95,7 @@ const IntegrationErrorHandler = () => {
     // No new access token, or
     // It's already run once.
     if (
+      isPending
       || redirectType === 'signIn'
       || !hasErrorWithAccessToken
       || !accessToken
