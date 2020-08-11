@@ -26,20 +26,13 @@ const getBorderColor = (buttonState, promotionEnabled) => {
   return errorColor
 }
 
-const getStateClass = (buttonState) => {
-  if (buttonState === 'on') return styles.on
-  if (buttonState === 'off') return styles.off
-  return ''
-}
-
-const animateSwitch = (buttonState, target) => {
-  const xDirection = buttonState === 'on' ? 1 : buttonState === 'off' ? -1 : 0
-  const x = 14 * xDirection
-  const duration = 0.2
-  gsap.to(target, { x, duration, ease: Power1.easeOut })
-}
-
-const getButtonState = (promotableStatus) => {
+const getButtonState = (promotableStatus, postToggleType) => {
+  // Handle double toggle
+  if (postToggleType === 'double') {
+    if (promotableStatus > 0) return 'on'
+    if (promotableStatus < 0) return 'off'
+  }
+  // Handle triple toggle
   if (promotableStatus === 2) return 'on'
   if (promotableStatus === -2) return 'off'
   return 'default'
@@ -54,15 +47,17 @@ const getPromotionStatus = (buttonState) => {
 
 const PostToggle = ({
   post,
+  postToggleType,
   promotionEnabled,
   promotableStatus,
   togglePromotion,
 }) => {
   const { id: postId } = post
-  const [buttonState, setButtonState] = React.useState(getButtonState(promotableStatus))
+  const [buttonState, setButtonState] = React.useState(getButtonState(promotableStatus, postToggleType))
   const [borderColor, setBorderColor] = React.useState(getBorderColor(buttonState, promotionEnabled))
   const switchEl = React.useRef(null)
   const containerEl = React.useRef(null)
+
   // SERVER
   const { artistId } = React.useContext(ArtistContext)
   const { isPending, cancel } = useAsync({
@@ -83,6 +78,34 @@ const PostToggle = ({
   React.useEffect(() => {
     cancel()
   }, [cancel])
+
+  // ANIMATING
+  const containerWidth = React.useRef(0)
+  const switchWidth = React.useRef(0)
+  // Setup GSP setter
+  const cssSetter = React.useRef(null)
+  const dragBoundaries = React.useRef({})
+  // Setup sizes on mount
+  React.useEffect(() => {
+    cssSetter.current = gsap.quickSetter(switchEl.current, 'x', 'px')
+    containerWidth.current = containerEl.current.offsetWidth
+    switchWidth.current = switchEl.current.offsetWidth
+    const maxMove = ((containerWidth.current - switchWidth.current) / 2) - 5
+    dragBoundaries.current = {
+      min: -maxMove,
+      max: maxMove,
+    }
+  }, [postToggleType])
+  const animateSwitch = React.useCallback((forceState) => {
+    const newState = forceState || buttonState
+    const { current: switchCircle } = switchEl
+    const maxMove = ((containerWidth.current - switchWidth.current) / 2) - 5
+    const xDirection = newState === 'on' ? 1 : newState === 'off' ? -1 : 0
+    const x = maxMove * xDirection
+    const duration = 0.2
+    gsap.to(switchCircle, { x, duration, ease: Power1.easeOut })
+  }, [buttonState])
+
   // SHOW SPINNER
   const [showSpinner, setShowSpinner] = React.useState(false)
   const spinnerTimeout = React.useRef()
@@ -94,69 +117,63 @@ const PostToggle = ({
     }
     spinnerTimeout.current = setTimeout(() => {
       setShowSpinner(true)
-    }, 500)
+    }, 600)
   }, [setShowSpinner, isPending])
   // WHEN BUTTON STATE CHANGES
   React.useEffect(() => {
-    const { current: target } = switchEl
     setBorderColor(getBorderColor(buttonState, promotionEnabled))
-    animateSwitch(buttonState, target)
-  }, [buttonState, promotionEnabled])
+    animateSwitch()
+  }, [buttonState, promotionEnabled, animateSwitch])
   // UPDATE BUTTON STATUS BASED ON POST PROPS
   React.useEffect(() => {
-    const buttonState = getButtonState(promotableStatus)
+    const buttonState = getButtonState(promotableStatus, postToggleType)
     setButtonState(buttonState)
-  }, [promotableStatus])
+  }, [promotableStatus, postToggleType])
+
   // SETUP DRAG
-  const containerWidth = React.useRef(0)
-  const switchWidth = React.useRef(0)
-  // Setup GSP setter
-  const cssSetter = React.useRef(null)
-  const dragBoundaries = React.useRef({})
-  React.useEffect(() => {
-    cssSetter.current = gsap.quickSetter(switchEl.current, 'x', 'px')
-    containerWidth.current = containerEl.current.offsetWidth
-    switchWidth.current = switchEl.current.offsetWidth
-    const maxMove = ((containerWidth.current - switchWidth.current) / 2) - 5
-    dragBoundaries.current = {
-      min: -maxMove,
-      max: maxMove,
+  const handleTap = React.useCallback(() => {
+    if (buttonState === 'default') return
+    // Tapping when triple
+    if (postToggleType === 'triple') {
+      setButtonState('default')
+      return
     }
-  }, [])
+    // Tapping when double
+    const newState = buttonState === 'on' ? 'off' : 'on'
+    setButtonState(newState)
+  }, [buttonState, postToggleType])
   // Run this on drag
   const onDrag = React.useCallback((dragState) => {
     const { last, movement, event, tap } = dragState
     event.preventDefault()
     // Handle tapping
-    if (tap) {
-      if (buttonState === 'default') return
-      setButtonState('default')
-      return
-    }
+    if (tap) return handleTap()
     // keep within bounds
     const [x] = movement
     const xClamped = clamp(x, dragBoundaries.current.min, dragBoundaries.current.max)
     // HANDLE RELEASE...
     if (last) {
-      const movementThreshold = 0.35
+      const movementThreshold = postToggleType === 'triple' ? 0.35 : 0.2
       const movementPercent = xClamped / dragBoundaries.current.max
       // Not moved enough to either side, set to default
       if (Math.abs(movementPercent) < movementThreshold) {
-        setButtonState('default')
+        if (postToggleType === 'triple') {
+          setButtonState('default')
+        }
+        // Snap back
+        animateSwitch()
         return
       }
-      // Moved to the left, set to off
-      if (movementPercent < 0) {
-        setButtonState('off')
-        return
-      }
-      // Moved to the right, set to on
-      setButtonState('on')
+      // Moved to the left, set to off, move right set on
+      const newState = movementPercent < 0 ? 'off' : 'on'
+      // Animate
+      animateSwitch(newState)
+      setButtonState(newState)
       return
     }
     // Move switch
     cssSetter.current(xClamped)
-  }, [buttonState])
+  }, [postToggleType, handleTap, animateSwitch])
   // Drag binder
   const dragBind = useDrag(state => onDrag(state), {
     axis: 'x',
@@ -166,7 +183,12 @@ const PostToggle = ({
 
   return (
     <div
-      className={[styles.PostToggle, getStateClass(buttonState)].join(' ')}
+      className={[
+        styles.PostToggle,
+        postToggleType === 'triple' ? styles._toggleTriple : null,
+        postToggleType === 'double' ? styles._toggleDouble : null,
+        buttonState === 'on' ? styles.on : buttonState === 'off' ? styles.off : styles.default,
+      ].join(' ')}
       ref={containerEl}
       style={{
         border: `2px solid ${borderColor}`,
@@ -187,6 +209,7 @@ const PostToggle = ({
 
 PostToggle.propTypes = {
   post: PropTypes.object.isRequired,
+  postToggleType: PropTypes.string.isRequired,
   promotionEnabled: PropTypes.bool.isRequired,
   promotableStatus: PropTypes.number.isRequired,
   togglePromotion: PropTypes.func.isRequired,
