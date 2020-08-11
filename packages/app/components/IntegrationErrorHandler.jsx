@@ -24,9 +24,6 @@ const fetchError = async ({ auth, user, artist, artistId, accessToken }) => {
   }
   // Stop here if running locally
   if (process.env.build_env === 'development') return
-  // Stop here if there is an access token
-  // (because it will be sent to server to fix error)
-  if (accessToken) return
   // If no missing scopes from FB, get error from server...
   if (!user.artists) return
   if (!artist || !artistId) return
