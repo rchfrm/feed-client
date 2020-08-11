@@ -74,30 +74,31 @@ const IntegrationErrorHandler = () => {
     const { code: errorCode } = integrationError
     return errorCode === 'expired_access_token' || errorCode === 'missing_permission_scope'
   }, [integrationError])
+
   // Decide whether to show integration error
   React.useEffect(() => {
     // Don't show error message if no error
     if (!integrationError) return
-    // Don't show error message if there is an access token
+    // Don't show error message about access token if there is an access token
     // (because it will be sent to server to fix error)
-    if (accessToken) return
+    if (accessToken && hasErrorWithAccessToken) return
     // Handle integration error
     const { hidden } = integrationError
     setShowError(!hidden)
-  }, [integrationError, accessToken])
+  }, [integrationError, accessToken, hasErrorWithAccessToken])
 
   // Store new access token when coming back from a redirect
   const accessTokenUpdated = React.useRef(false)
   React.useEffect(() => {
     // Stop here if there is...
-    // No integration error, or
+    // No integration error with access token, or
     // No new access token, or
     // It's already run once.
-    if (!integrationError || !accessToken || accessTokenUpdated.current) return
+    if (!hasErrorWithAccessToken || !accessToken || accessTokenUpdated.current) return
     // Update access token
     accessTokenUpdated.current = true
     server.updateAccessToken([artistId], accessToken)
-  }, [accessToken, integrationError, artistId])
+  }, [accessToken, hasErrorWithAccessToken, artistId])
 
   // Function to hide integration error
   const hideIntegrationErrors = () => setShowError(false)
