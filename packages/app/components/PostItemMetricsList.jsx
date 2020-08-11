@@ -88,8 +88,8 @@ METRICS_ITEM.defaultProps = {
 }
 
 PostItemMetricsList.propTypes = {
-  insights: PropTypes.array.isRequired,
-  visibleInsights: PropTypes.array.isRequired,
+  insights: PropTypes.object.isRequired,
+  visibleInsights: PropTypes.object.isRequired,
   es: PropTypes.number.isRequired,
 }
 
