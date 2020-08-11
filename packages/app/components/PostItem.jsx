@@ -87,7 +87,7 @@ const PostItem = ({
         )}
 
         {/* DISABLE ACTIVE POST WARNING */}
-        {postPromotable && promotionStatus === 'inactive' && (
+        {postPromotable && promotionStatus === 'active' && (
           <PostItemDisableWarning
             postId={post.id}
             postStatus={promotionStatus}
