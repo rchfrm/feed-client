@@ -114,7 +114,7 @@ const IntegrationErrorHandler = () => {
     // Update access token
     accessTokenUpdated.current = true
     server.updateAccessToken([artistId], accessToken)
-  }, [isPending, redirectType, accessToken, hasErrorWithAccessToken, artistId])
+  }, [isPending, redirectType, errorRequiresReAuth, accessToken, hasErrorWithAccessToken, artistId])
 
   // Function to hide integration error
   const hideIntegrationErrors = () => setShowError(false)
