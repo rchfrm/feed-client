@@ -84,13 +84,15 @@ const IntegrationErrorHandler = () => {
   // Store new access token when coming back from a redirect
   const accessTokenUpdated = React.useRef(false)
   React.useEffect(() => {
-    // Stop here if user is loading, there is no new access token, or it's already run once
-    if (!accessToken || accessTokenUpdated.current) return
+    // Stop here if there is...
+    // No integration error, or
+    // No new access token, or
+    // It's already run once.
+    if (!integrationError || !accessToken || accessTokenUpdated.current) return
     // Update access token
     accessTokenUpdated.current = true
     server.updateAccessToken([artistId], accessToken)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken])
+  }, [accessToken, integrationError, artistId])
 
   // Function to hide integration error
   const hideIntegrationErrors = () => setShowError(false)
