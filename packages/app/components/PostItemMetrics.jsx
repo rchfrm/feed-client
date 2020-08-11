@@ -1,108 +1,72 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import * as utils from '@/helpers/utils'
+import produce from 'immer'
+
+import PillOptions from '@/elements/PillOptions'
+import PostItemMetricsList from '@/app/PostItemMetricsList'
+
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
 import styles from '@/app/PostItem.module.css'
 
+const metricsOptionsTypes = [
+  { id: 'paid', title: 'Paid' },
+  { id: 'organic', title: 'Organic' },
+]
 
-const METRICS_ITEM = ({ title, value, className }) => {
-  return (
-    <li
-      className={[styles.postMetricsItem, className].join(' ')}
-      key={title}
-    >
-      <span className={styles.title}>{title}:</span>
-      <span className={styles.value}>{value}</span>
-    </li>
-  )
-}
-
-const PostItemMetrics = ({ insights, es, metricsType }) => {
+const PostItemMetrics = ({ insights, es, promotionStatus }) => {
+  const initialMetricsOption = promotionStatus === 'inactive' ? metricsOptionsTypes[1].id : metricsOptionsTypes[0].id
+  const [currentMetricsType, setCurrentMetricsType] = React.useState(initialMetricsOption)
+  // Setup pill buttons
+  const pillOptions = React.useMemo(() => {
+    // Disable stories for Cold audiences
+    if (promotionStatus === 'inactive') {
+      const paidOptionIndex = metricsOptionsTypes.findIndex(({ id }) => id === 'paid')
+      return produce(metricsOptionsTypes, draftState => {
+        draftState[paidOptionIndex].disabled = true
+      })
+    }
+    return metricsOptionsTypes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [promotionStatus])
   // Get visible insights based on metrics type
   const visibleInsights = React.useMemo(() => {
-    return postsHelpers.getPostMetricsContent(metricsType)
-  }, [metricsType])
-  // Create array of insights
-  const maxInsights = 4
-  const insightsArray = React.useMemo(() => {
-    return Object.entries(insights).reduce((arr, [title, value]) => {
-      const insightConfig = visibleInsights[title]
-      // Stop if insight should not be included
-      if (!insightConfig || !value) return arr
-      // Put insight into correct position in array
-      const { index, title: titleTranslated } = insightConfig
-      arr[index] = { title: titleTranslated, value }
-      return arr
-    }, [])
-      // remove empty items from array
-      .filter(val => val)
-      // restrict number of items
-      .slice(0, maxInsights)
-  }, [insights, visibleInsights])
-  // Create spacers
-  const insightsSpacers = React.useMemo(() => {
-    if (insightsArray.length === maxInsights) return []
-    const totalSpacers = maxInsights - insightsArray.length
-    return Array.from({ length: totalSpacers }, (v, i) => i)
-  }, [insightsArray.length])
+    return postsHelpers.getPostMetricsContent(currentMetricsType)
+  }, [currentMetricsType])
 
   return (
     <>
-      <ul className={[
-        'grid',
-        'grid-cols-2',
-        'col-gap-6',
-        'xxs:col-gap-12',
-        'xs:col-gap-6',
-        'sm:col-gap-8',
-        styles.postSection,
-        styles.postMetrics,
-      ].join(' ')}
-      >
-        {/* METRICS */}
-        {insightsArray.map(({ title, value }) => {
-          const parsedValue = utils.abbreviateNumber(value)
-          return <METRICS_ITEM key={title} title={title} value={parsedValue} />
-        })}
-        {/* SPACERS */}
-        {insightsSpacers.map((v) => {
-          return <li key={v} className={styles.postMetricsItem}>&nbsp;</li>
-        })}
-      </ul>
-      <div className={[styles.postSection, styles.postEsScore, styles.postText].join(' ')}>
-        <p className={styles.postEsScorePara}>
-          <span>Score</span>
-          <strong>{es}</strong>
-        </p>
+      {/* METRICS TYPE BUTTONS */}
+      <div className={[styles.postSection, 'pb-2'].join(' ')}>
+        <PillOptions
+          options={pillOptions}
+          activeOption={currentMetricsType}
+          setActiveOption={setCurrentMetricsType}
+          size="small"
+          style={{
+            width: '101%',
+            transform: 'translateX(-0.5%)',
+          }}
+        />
       </div>
+      {/* LIST OF METRICS */}
+      <PostItemMetricsList
+        insights={insights}
+        visibleInsights={visibleInsights}
+        es={es}
+      />
     </>
   )
 }
 
-METRICS_ITEM.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]).isRequired,
-  className: PropTypes.string,
-}
 
-METRICS_ITEM.defaultProps = {
-  className: '',
-}
 
 
 PostItemMetrics.propTypes = {
   insights: PropTypes.object.isRequired,
   es: PropTypes.number.isRequired,
-  metricsType: PropTypes.string,
-}
-
-PostItemMetrics.defaultProps = {
-  metricsType: 'organic',
+  promotionStatus: PropTypes.string.isRequired,
 }
 
 

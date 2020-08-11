@@ -112,6 +112,7 @@ export const getCursor = (post = {}) => {
 
 // GET POST METRIC CONFIG
 export const getPostMetricsContent = (metricsType) => {
+  // ORGANIC METRICS
   if (metricsType === 'organic') {
     return {
       reach: {
@@ -151,5 +152,24 @@ export const getPostMetricsContent = (metricsType) => {
         title: 'Replies',
       },
     }
+  }
+  // PAID METRICS
+  return {
+    likes: {
+      index: 1,
+      title: 'Likes',
+    },
+    reach: {
+      index: 2,
+      title: 'Reach',
+    },
+    comments: {
+      index: 3,
+      title: 'Comments',
+    },
+    video_views: {
+      index: 4,
+      title: 'Views',
+    },
   }
 }

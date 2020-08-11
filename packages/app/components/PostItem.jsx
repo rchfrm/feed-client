@@ -67,6 +67,7 @@ const PostItem = ({
           es={post.insights.engagement_score}
           status={post.promotion_enabled}
           postPromotable={postPromotable}
+          promotionStatus={promotionStatus}
         />
 
         {/* POST LINK */}
