@@ -6,8 +6,6 @@ import InformationIcon from '@/icons/InformationIcon'
 import TournamentsItemAd from '@/app/TournamentsItemAd'
 import TournamentsItemDetails from '@/app/TournamentsItemDetails'
 
-import * as tournamentHelpers from '@/helpers/tournamentHelpers'
-
 const TournamentsItemAdPair = ({
   adPosts,
   isAdPair,
@@ -20,12 +18,6 @@ const TournamentsItemAdPair = ({
   className,
 }) => {
   const [adA, adB] = adPosts
-  const { data: dataA, postLink: linkA } = adA || {}
-  const { data: dataB, postLink: linkB } = adB || {}
-  // DEFINE AD METRICS ARRAY
-  const adMetrics = React.useMemo(() => {
-    return tournamentHelpers.getAdMetrics(dataA, dataB, isAdPair)
-  }, [dataA, dataB, isAdPair])
   return (
     <div
       className={[
@@ -51,11 +43,13 @@ const TournamentsItemAdPair = ({
       />
       {/* MIDDLE COLUMN */}
       <div className="w-96 bg-red mx-12 TournamentItemMiddleColumn">
+        {/* VS */}
+        <p className="flex items-center justify-center h-24 mb-4">
+          {isAdPair && (<strong><em>vs</em></strong>)}
+        </p>
         <TournamentsItemDetails
-          adMetrics={adMetrics}
+          adPosts={adPosts}
           isAdPair={isAdPair}
-          linkA={linkA}
-          linkB={linkB}
           switchViews={switchViews}
           className=""
         />
@@ -86,7 +80,6 @@ TournamentsItemAdPair.propTypes = {
   lastTournament: PropTypes.bool.isRequired,
   switchViews: PropTypes.func.isRequired,
   className: PropTypes.string,
-  children: PropTypes.node,
 }
 
 TournamentsItemAdPair.defaultProps = {
@@ -95,7 +88,6 @@ TournamentsItemAdPair.defaultProps = {
   nextWinningAdIndex: 0,
   winningAdId: '',
   className: '',
-  children: null,
 }
 
 

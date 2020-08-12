@@ -6,15 +6,22 @@ import CloseCircle from '@/icons/CloseCircle'
 import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
 import TournamentsItemLinks from '@/app/TournamentsItemLinks'
 
+import * as tournamentHelpers from '@/helpers/tournamentHelpers'
+
 const TournamentsItemDetails = ({
-  adMetrics,
+  adPosts,
   isAdPair,
   currency,
-  linkA,
-  linkB,
   switchViews,
   className,
 }) => {
+  const [adA, adB] = adPosts
+  const { data: dataA, postLink: linkA } = adA || {}
+  const { data: dataB, postLink: linkB } = adB || {}
+  // DEFINE AD METRICS ARRAY
+  const adMetrics = React.useMemo(() => {
+    return tournamentHelpers.getAdMetrics(dataA, dataB, isAdPair)
+  }, [dataA, dataB, isAdPair])
   return (
     <div className={['bg-white md:bg-transparent col-span-7 col-start-6', className].join(' ')}>
       <div className="md:max-w-md lg:max-w-lg ml-auto mr-0">
@@ -45,19 +52,15 @@ const TournamentsItemDetails = ({
 }
 
 TournamentsItemDetails.propTypes = {
-  adMetrics: PropTypes.array.isRequired,
+  adPosts: PropTypes.array.isRequired,
   isAdPair: PropTypes.bool.isRequired,
   currency: PropTypes.string,
   switchViews: PropTypes.func.isRequired,
-  linkA: PropTypes.string,
-  linkB: PropTypes.string,
   className: PropTypes.string,
 }
 
 TournamentsItemDetails.defaultProps = {
   currency: '',
-  linkA: null,
-  linkB: null,
   className: null,
 }
 
