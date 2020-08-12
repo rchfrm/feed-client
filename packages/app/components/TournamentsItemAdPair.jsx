@@ -36,7 +36,6 @@ const TournamentsItemAdPair = ({
         'justify-between xs:justify-center',
         'mb-10',
         'text-center',
-        'overflow-x-hidden',
         className,
       ].join(' ')}
       style={{ height: '25rem' }}

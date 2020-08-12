@@ -44,7 +44,7 @@ const TournamentsAll = ({
   }, [totalTournaments, scrollTriggerLoad, loadedAll])
   return (
     <section
-      className="pt-10"
+      className="pt-10 overflow-hidden"
     >
       {tournaments.map((tournament, index) => {
         const lastTournament = index === totalTournaments - 1
