@@ -15,20 +15,22 @@ const TournamentsItemAdPair = ({
   nextWinningAdIndex,
   lastTournament,
   switchViews,
+  isDesktopLayout,
   className,
 }) => {
   const [adA, adB] = adPosts
   return (
     <div
       className={[
+        'relative',
         'flex',
         'justify-center',
-        // 'justify-between',
         'mb-10',
-        'pb-32 md:pb-0',
         'text-center',
+        'bg-purple',
         className,
       ].join(' ')}
+      style={{ height: '25rem' }}
     >
       {/* FIRST AD */}
       <TournamentsItemAd
@@ -42,16 +44,47 @@ const TournamentsItemAdPair = ({
         title="Ad A"
       />
       {/* MIDDLE COLUMN */}
-      <div className="w-96 bg-red mx-12 TournamentItemMiddleColumn">
+      <div
+        className={[
+          'TournamentItemMiddleColumn',
+          'w-auto xs:w-1/2 sm:w-96 lg:w-112',
+          'mx-8 sm:mx-12 lg:mx-16',
+          'bg-red',
+        ].join(' ')}
+      >
         {/* VS */}
-        <p className="flex items-center justify-center h-24 mb-4">
+        <p className="flex items-center justify-center w-24 h-24 mx-auto mb-4">
           {isAdPair && (<strong><em>vs</em></strong>)}
         </p>
+        {/* METRIC BUTTON */}
+        <div
+          className={[
+            'flex items-center justify-center',
+            'w-24 h-24 mx-auto bg-white -mt-2',
+            'relative',
+            'xs:hidden',
+          ].join(' ')}
+          style={{ zIndex: 2 }}
+        >
+          <button
+            className="w-6 h-6 p-1 button--information"
+            aria-label="Show metrics"
+            title="Tournament metrics"
+            onClick={switchViews}
+          >
+            <InformationIcon className="w-full h-auto" />
+          </button>
+        </div>
+        {/* METRICS AND LINKS */}
         <TournamentsItemDetails
           adPosts={adPosts}
           isAdPair={isAdPair}
           switchViews={switchViews}
-          className=""
+          className={[
+            'absolute xs:static',
+            'left-0 top-0 mt-4 w-full',
+            'hidden opacity-0',
+          ].join(' ')}
         />
       </div>
       {/* SECOND AD (will output empty if no ad) */}
@@ -79,6 +112,7 @@ TournamentsItemAdPair.propTypes = {
   nextWinningAdIndex: PropTypes.number,
   lastTournament: PropTypes.bool.isRequired,
   switchViews: PropTypes.func.isRequired,
+  isDesktopLayout: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

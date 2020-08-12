@@ -33,8 +33,6 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
   return (
     <div
       className={[
-        '',
-        '-mt-26 first:mt-0 md:mt-0',
         className,
       ].join(' ')}
     >
@@ -62,6 +60,7 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
           nextWinningAdIndex={nextWinningAdIndex}
           lastTournament={lastTournament}
           switchViews={switchViews}
+          isDesktopLayout={isDesktopLayout}
           className="TournamentsItemAdPair"
         />
       )}
