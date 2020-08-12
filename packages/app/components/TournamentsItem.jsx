@@ -21,12 +21,12 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
     nextIsAdPair,
     nextWinningAdIndex,
   } = tournament
-  // CONTROL SWIPER
-  const [sliderIndex, setSliderIndex] = React.useState(0)
+  // CONTROL AD VIEW (ads or metrics) for narrow screens
+  const [tournamentView, setTournamentView] = React.useState('ads')
   const switchViews = React.useCallback(() => {
-    const newSlideIndex = sliderIndex === 0 ? 1 : 0
-    setSliderIndex(newSlideIndex)
-  }, [sliderIndex])
+    const newView = tournamentView === 'ads' ? 'metrics' : 'ads'
+    setTournamentView(newView)
+  }, [tournamentView])
   // GET DESKTOP LAYOUT TEST
   const { isDesktopLayout } = React.useContext(TournamentContext)
 
@@ -61,6 +61,7 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
           lastTournament={lastTournament}
           switchViews={switchViews}
           isDesktopLayout={isDesktopLayout}
+          tournamentView={tournamentView}
           className="TournamentsItemAdPair"
         />
       )}

@@ -6,6 +6,8 @@ import InformationIcon from '@/icons/InformationIcon'
 import TournamentsItemAd from '@/app/TournamentsItemAd'
 import TournamentsItemDetails from '@/app/TournamentsItemDetails'
 
+import animateTournamentItem from '@/app/helpers/animateTournamentItem'
+
 const TournamentsItemAdPair = ({
   adPosts,
   isAdPair,
@@ -16,21 +18,30 @@ const TournamentsItemAdPair = ({
   lastTournament,
   switchViews,
   isDesktopLayout,
+  tournamentView,
   className,
 }) => {
   const [adA, adB] = adPosts
+  const containerEl = React.useRef(null)
+  React.useEffect(() => {
+    if (isDesktopLayout) return
+    animateTournamentItem(containerEl.current, tournamentView)
+  }, [tournamentView, isDesktopLayout])
+
   return (
     <div
       className={[
         'relative',
         'flex',
-        'justify-center',
+        'justify-between xs:justify-center',
         'mb-10',
         'text-center',
         'bg-purple',
+        'overflow-x-hidden',
         className,
       ].join(' ')}
       style={{ height: '25rem' }}
+      ref={containerEl}
     >
       {/* FIRST AD */}
       <TournamentsItemAd
@@ -42,6 +53,7 @@ const TournamentsItemAdPair = ({
         nextWinningAdIndex={nextWinningAdIndex}
         lastTournament={lastTournament}
         title="Ad A"
+        className="TournamentsItemAd"
       />
       {/* MIDDLE COLUMN */}
       <div
@@ -63,6 +75,7 @@ const TournamentsItemAdPair = ({
             'w-24 h-24 mx-auto bg-white -mt-2',
             'relative',
             'xs:hidden',
+            'MetricsButton',
           ].join(' ')}
           style={{ zIndex: 2 }}
         >
@@ -84,6 +97,7 @@ const TournamentsItemAdPair = ({
             'absolute xs:static',
             'left-0 top-0 mt-4 w-full',
             'hidden opacity-0',
+            'TournamentsItemDetails',
           ].join(' ')}
         />
       </div>
@@ -98,6 +112,7 @@ const TournamentsItemAdPair = ({
         lastTournament={lastTournament}
         title="Ad B"
         secondary
+        className="TournamentsItemAd"
       />
     </div>
   )
@@ -113,6 +128,7 @@ TournamentsItemAdPair.propTypes = {
   lastTournament: PropTypes.bool.isRequired,
   switchViews: PropTypes.func.isRequired,
   isDesktopLayout: PropTypes.bool.isRequired,
+  tournamentView: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 

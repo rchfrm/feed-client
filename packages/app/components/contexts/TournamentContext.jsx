@@ -12,7 +12,7 @@ TournamentContext.displayName = 'TournamentContext'
 
 const TournamentContextProvider = ({ children }) => {
   // GET DESKTOP LAYOUT TEST
-  const isDesktopLayout = useBreakpointTest('md')
+  const isDesktopLayout = useBreakpointTest('xs')
   // GET WIDTH OF TOURNAMENT ITEM
   const [itemWidth, setItemWidth] = React.useState(0)
   // Get container el
