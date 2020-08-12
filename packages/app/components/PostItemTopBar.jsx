@@ -42,7 +42,7 @@ const PostItemTopBar = ({
             promotableStatus={promotableStatus}
           />
           {/* TOOLTIP */}
-          <PostToggleTooltip />
+          <PostToggleTooltip postToggleType={postToggleType} />
         </div>
       )}
       {/* STATUS */}

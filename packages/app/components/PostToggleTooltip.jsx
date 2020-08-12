@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import TooltipButton from '@/elements/TooltipButton'
 import ToggleButtonIcon from '@/icons/ToggleButtonIcon'
@@ -11,12 +12,11 @@ const getToggleButtonIcon = (state, defaultState) => {
   )
 }
 
-const PostToggleTooltip = () => {
-  return (
-    <TooltipButton
-      buttonClasses="ml-1 -mr-4"
-      slides={copy.toggleTooltipSlides}
-      slidesContentAfter={[
+const getSlides = (postToggleType) => {
+  if (postToggleType === 'triple') {
+    return {
+      slides: copy.toggleTooltipSlides,
+      slidesContentAfter: [
         null,
         <div key="default" className="flex mb-4 items-center">
           {getToggleButtonIcon('default', 'on')}
@@ -30,12 +30,28 @@ const PostToggleTooltip = () => {
           {getToggleButtonIcon('off')}
         </div>,
         null,
-      ]}
-      buttonStyle={{
+      ],
+    }
+  }
+  return { slides: [], slidesContentAfter: [] }
+}
+
+const PostToggleTooltip = ({ postToggleType }) => {
+  const { slides, slidesContentAfter } = getSlides(postToggleType)
+  return (
+    <TooltipButton
+      buttonClasses="ml-1 -mr-4"
+      slides={slides}
+      slidesContentAfter={slidesContentAfter}
+      containerStyle={{
         zIndex: 3,
       }}
     />
   )
+}
+
+PostToggleTooltip.propTypes = {
+  postToggleType: PropTypes.string.isRequired,
 }
 
 export default PostToggleTooltip
