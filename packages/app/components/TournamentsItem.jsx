@@ -3,14 +3,12 @@ import PropTypes from 'prop-types'
 
 import SwiperBlock from '@/SwiperBlock'
 import MarkdownText from '@/elements/MarkdownText'
-import CloseCircle from '@/icons/CloseCircle'
 
 import { TournamentContext } from '@/app/contexts/TournamentContext'
 
 import TournamentsItemDate from '@/app/TournamentsItemDate'
 import TournamentsItemAdPair from '@/app/TournamentsItemAdPair'
-import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
-import TournamentsItemLinks from '@/app/TournamentsItemLinks'
+import TournamentsItemDetails from '@/app/TournamentsItemDetails'
 
 import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 import { copy } from '@/app/copy/tournamentsCopy'
@@ -86,31 +84,15 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
             className="swiper-slide col-span-5 col-start-1 TournamentsItemAdPair"
           />
           {/* METRICS & LINKS */}
-          <div className={['swiper-slide bg-white md:bg-transparent col-span-7 col-start-6'].join(' ')}>
-            <div className="md:max-w-md lg:max-w-lg ml-auto mr-0">
-              <TournamentsItemMetrics
-                adMetrics={adMetrics}
-                isAdPair={isAdPair}
-                currency={currency}
-                className={['text-center mb-4 pl-10'].join(' ')}
-              />
-              <TournamentsItemLinks
-                linkA={linkA}
-                linkB={linkB}
-              />
-              {/* CLOSE METRICS BUTTON */}
-              <div className={['text-center mt-3', 'md:hidden'].join(' ')}>
-                <button
-                  className="button--cross -hover"
-                  aria-label="Hide metrics"
-                  title="Hide metrics"
-                  onClick={switchViews}
-                >
-                  <CloseCircle className="w-full h-auto" />
-                </button>
-              </div>
-            </div>
-          </div>
+          <TournamentsItemDetails
+            adMetrics={adMetrics}
+            isAdPair={isAdPair}
+            currency={currency}
+            linkA={linkA}
+            linkB={linkB}
+            switchViews={switchViews}
+            className="swiper-slide"
+          />
         </SwiperBlock>
       )}
     </div>
