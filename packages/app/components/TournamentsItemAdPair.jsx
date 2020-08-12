@@ -50,6 +50,7 @@ const TournamentsItemAdPair = ({
         streakWinnerIndex={streakWinnerIndex}
         nextWinningAdIndex={nextWinningAdIndex}
         lastTournament={lastTournament}
+        tournamentView={tournamentView}
         title="Ad A"
         className="TournamentsItemAd"
       />
@@ -109,6 +110,7 @@ const TournamentsItemAdPair = ({
         streakWinnerIndex={streakWinnerIndex}
         nextWinningAdIndex={nextWinningAdIndex}
         lastTournament={lastTournament}
+        tournamentView={tournamentView}
         title="Ad B"
         secondary
         className="TournamentsItemAd"

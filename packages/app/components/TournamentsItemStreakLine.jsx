@@ -98,6 +98,7 @@ const TournamentItemStreakLine = ({
   nextIsAdPair,
   nextWinningAdIndex,
   streak,
+  className,
 }) => {
   // GET DESKTOP LAYOUT TEST
   const { isDesktopLayout, itemWidth } = React.useContext(TournamentContext)
@@ -110,7 +111,7 @@ const TournamentItemStreakLine = ({
   // STOP HERE IF NO STREAK
   if (!streak) return null
   return (
-    <div className={['relative w-full h-24 mt-5'].join(' ')}>
+    <div className={['relative w-full h-24 mt-5', className].join(' ')}>
       {/* Streak line */}
       {line}
       {/* Streak badge */}
@@ -132,12 +133,14 @@ TournamentItemStreakLine.propTypes = {
   nextIsAdPair: PropTypes.bool.isRequired,
   nextWinningAdIndex: PropTypes.number,
   streak: PropTypes.number,
+  className: PropTypes.string,
 }
 
 TournamentItemStreakLine.defaultProps = {
   streakWinnerIndex: 0,
   nextWinningAdIndex: 0,
   streak: 0,
+  className: null,
 }
 
 
