@@ -52,20 +52,22 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, currency, className }) =>
         const valueBFormatted = dataType === 'spend' ? formatCurrency(valueB, currency)
           : formatNumber(valueB)
         return (
-          <div key={dataType} className="relative mb-4 last:mb-0 pr-8">
+          <div key={dataType} className="relative mb-4 last:mb-0">
             {/* DATA TITLE */}
-            <div className="text-sm mb-1">{a.name}</div>
-            {/* TOOLTIP */}
-            {tooltip && (
-              <TooltipButton
-                copy={tooltip}
-                direction="left"
-                buttonClasses="absolute right-0 -mt-1 -mr-2 z-10"
-                messageStyle={{
-                  maxWidth: '62vw',
-                }}
-              />
-            )}
+            <div className="flex justify-center items-center text-sm mb-1">
+              {a.name}
+              {/* TOOLTIP */}
+              {tooltip && (
+                <TooltipButton
+                  copy={tooltip}
+                  direction="left"
+                  buttonClasses="relative z-10"
+                  messageStyle={{
+                    maxWidth: '62vw',
+                  }}
+                />
+              )}
+            </div>
             {/* PERCENTAGE BAR */}
             <div className="relative h-6">
               <BAR type="a" />

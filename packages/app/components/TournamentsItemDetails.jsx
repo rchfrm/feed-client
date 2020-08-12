@@ -22,7 +22,7 @@ const TournamentsItemDetails = ({
           adMetrics={adMetrics}
           isAdPair={isAdPair}
           currency={currency}
-          className={['text-center mb-4 pl-10'].join(' ')}
+          className={['text-center mb-4'].join(' ')}
         />
         <TournamentsItemLinks
           linkA={linkA}
