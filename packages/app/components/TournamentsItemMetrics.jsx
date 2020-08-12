@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/contexts/ArtistContext'
+
 import TooltipButton from '@/elements/TooltipButton'
 
 import { formatNumber, formatCurrency } from '@/helpers/utils'
@@ -41,7 +43,8 @@ const VALUE = ({ type, value }) => {
   )
 }
 
-const TournamentsItemMetrics = ({ adMetrics, isAdPair, currency, className }) => {
+const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
+  const { artistCurrency: currency } = React.useContext(ArtistContext)
   return (
     <div className={['flex flex-col pt-4', 'md:-mt-5', className].join(' ')}>
       {adMetrics.map(({ dataType, tooltip, a, b }) => {

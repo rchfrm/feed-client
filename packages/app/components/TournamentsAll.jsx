@@ -9,7 +9,6 @@ import { TournamentContext } from '@/app/contexts/TournamentContext'
 const TournamentsAll = ({
   tournaments,
   loadingMore,
-  artistCurrency,
   loadMorePosts,
   loadedAll,
 }) => {
@@ -54,7 +53,6 @@ const TournamentsAll = ({
             <TournamentsItem
               tournament={tournament}
               lastTournament={lastTournament}
-              currency={artistCurrency}
             />
             {/* LOAD MORE SCROLL TRIGGER */}
             {
@@ -83,7 +81,6 @@ const TournamentsAll = ({
 TournamentsAll.propTypes = {
   tournaments: PropTypes.array,
   loadingMore: PropTypes.bool,
-  artistCurrency: PropTypes.string,
   loadMorePosts: PropTypes.func.isRequired,
   loadedAll: PropTypes.bool.isRequired,
 }
@@ -91,7 +88,6 @@ TournamentsAll.propTypes = {
 TournamentsAll.defaultProps = {
   tournaments: [],
   loadingMore: false,
-  artistCurrency: '',
 }
 
 
