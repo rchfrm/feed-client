@@ -43,9 +43,8 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
   return (
     <div
       className={[
-        'md:grid grid-cols-12 col-gap-5',
+        '',
         '-mt-26 first:mt-0 md:mt-0',
-        'max-w-lg md:max-w-full mx-auto',
         className,
       ].join(' ')}
     >
@@ -64,25 +63,17 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
         </div>
       // ADS CONTENT
       ) : (
-        <SwiperBlock
-          containerClass="col-span-6 col-start-4"
-          listClass="mb-0"
-          goToSlide={sliderIndex}
-          onSlideChange={({ activeIndex }) => setSliderIndex(activeIndex)}
-          disable={isDesktopLayout}
+        <TournamentsItemAdPair
+          adPosts={tournament.adPosts}
+          isAdPair={isAdPair}
+          winningAdId={winningAdId}
+          streakWinnerIndex={streakWinnerIndex}
+          nextIsAdPair={nextIsAdPair}
+          nextWinningAdIndex={nextWinningAdIndex}
+          lastTournament={lastTournament}
+          switchViews={switchViews}
+          className="swiper-slide col-span-5 col-start-1 TournamentsItemAdPair"
         >
-          {/* AD PAIR */}
-          <TournamentsItemAdPair
-            adPosts={tournament.adPosts}
-            isAdPair={isAdPair}
-            winningAdId={winningAdId}
-            streakWinnerIndex={streakWinnerIndex}
-            nextIsAdPair={nextIsAdPair}
-            nextWinningAdIndex={nextWinningAdIndex}
-            lastTournament={lastTournament}
-            switchViews={switchViews}
-            className="swiper-slide col-span-5 col-start-1 TournamentsItemAdPair"
-          />
           {/* METRICS & LINKS */}
           <TournamentsItemDetails
             adMetrics={adMetrics}
@@ -93,7 +84,7 @@ const TournamentsItem = ({ tournament, lastTournament, currency, className }) =>
             switchViews={switchViews}
             className="swiper-slide"
           />
-        </SwiperBlock>
+        </TournamentsItemAdPair>
       )}
     </div>
   )

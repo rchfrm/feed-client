@@ -14,15 +14,15 @@ const TournamentsItemAdPair = ({
   lastTournament,
   switchViews,
   className,
+  children,
 }) => {
   const [adA, adB] = adPosts
   return (
     <div
       className={[
         'flex',
-        !isAdPair ? 'flex-col' : null,
+        'justify-center',
         !isAdPair ? 'items-center' : 'justify-between',
-        !isAdPair ? 'mt-1' : null,
         'mb-10',
         'pb-32 md:pb-0',
         'text-center',
@@ -41,30 +41,8 @@ const TournamentsItemAdPair = ({
         title="Ad A"
       />
       {/* MIDDLE COLUMN */}
-      <div className="w-24">
-        {/* VS */}
-        {isAdPair && (
-          <p className="flex items-center justify-center h-24 mb-0">
-            <strong><em>vs</em></strong>
-          </p>
-        )}
-        {/* METRIC BUTTON */}
-        <div
-          className={[
-            'flex items-center justify-center mt-10',
-            isAdPair ? 'mt-10' : '-mt-36',
-            'md:hidden',
-          ].join(' ')}
-        >
-          <button
-            className="w-6 h-6 p-1 button--information"
-            aria-label="Show metrics"
-            title="Tournament metrics"
-            onClick={switchViews}
-          >
-            <InformationIcon className="w-full h-auto" />
-          </button>
-        </div>
+      <div className="w-96 TournamentItemMiddleColumn">
+        {children}
       </div>
       {/* SECOND AD (will output empty if no ad) */}
       <TournamentsItemAd
@@ -92,6 +70,7 @@ TournamentsItemAdPair.propTypes = {
   lastTournament: PropTypes.bool.isRequired,
   switchViews: PropTypes.func.isRequired,
   className: PropTypes.string,
+  children: PropTypes.node,
 }
 
 TournamentsItemAdPair.defaultProps = {
@@ -100,6 +79,7 @@ TournamentsItemAdPair.defaultProps = {
   nextWinningAdIndex: 0,
   winningAdId: '',
   className: '',
+  children: null,
 }
 
 
