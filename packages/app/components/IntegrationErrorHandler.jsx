@@ -10,7 +10,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 import IntegrationErrorContent from '@/app/IntegrationErrorContent'
 
 // RUN THIS TO FETCH ERRORS
-const fetchError = async ({ auth, user, artist, artistId, accessToken }) => {
+const fetchError = async ({ auth, user, artist, artistId }) => {
   // Get any missing permissions from the FB redirect response
   const { missingScopes = [] } = auth
   // Handle missing scopes from FB
@@ -24,9 +24,6 @@ const fetchError = async ({ auth, user, artist, artistId, accessToken }) => {
   }
   // Stop here if running locally
   if (process.env.build_env === 'development') return
-  // Stop here if there is an access token
-  // (because it will be sent to server to fix error)
-  if (accessToken) return
   // If no missing scopes from FB, get error from server...
   if (!user.artists) return
   if (!artist || !artistId) return
@@ -59,7 +56,7 @@ const IntegrationErrorHandler = () => {
   // Import user context
   const { user } = React.useContext(UserContext)
   // Import Auth context
-  const { auth, accessToken } = React.useContext(AuthContext)
+  const { auth, accessToken, redirectType } = React.useContext(AuthContext)
   // Run async request for errors
   const { data: integrationError, error: componentError, isPending } = useAsync({
     promiseFn: fetchError,
@@ -72,29 +69,52 @@ const IntegrationErrorHandler = () => {
     accessToken,
   })
 
+  const hasErrorWithAccessToken = React.useMemo(() => {
+    if (!integrationError) return false
+    const { code: errorCode } = integrationError
+    return errorCode === 'expired_access_token'
+  }, [integrationError])
+
+  const errorRequiresReAuth = React.useMemo(() => {
+    if (!integrationError) return false
+    const { action: errorAction } = integrationError
+    return errorAction === 'fb_reauth'
+  }, [integrationError])
+
   // Decide whether to show integration error
   React.useEffect(() => {
     // Don't show error message if no error
     if (!integrationError) return
+    // Don't show error message about access token if there is an access token
+    // (because it will be sent to server to fix error)
+    if (accessToken && hasErrorWithAccessToken) return
+    // Handle integration error
     const { hidden } = integrationError
     setShowError(!hidden)
-  }, [integrationError])
+  }, [integrationError, accessToken, hasErrorWithAccessToken])
 
   // Store new access token when coming back from a redirect
   const accessTokenUpdated = React.useRef(false)
   React.useEffect(() => {
-    // Stop here if user is loading, there is no new access token, or it's already run once
-    if (!accessToken || accessTokenUpdated.current) return
-    const { artists: userArtists = [] } = user
-    const userArtistIds = userArtists.reduce((ids, { role, id }) => {
-      if (role !== 'owner') return ids
-      return [...ids, id]
-    }, [])
-    if (!userArtistIds.length) return
+    // DO NOT UPDATE ACCESS TOKEN if there is:
+    // Still loading going on, or
+    // The redirect is from a sign in, or
+    // The error does not require a reauth,
+    // No new access token, or
+    // It's already run once.
+    if (
+      isPending
+      || redirectType === 'signIn'
+      || !errorRequiresReAuth
+      || !accessToken
+      || accessTokenUpdated.current
+    ) {
+      return
+    }
     // Update access token
     accessTokenUpdated.current = true
-    server.updateAccessToken(userArtistIds, accessToken)
-  }, [accessToken])
+    server.updateAccessToken([artistId], accessToken)
+  }, [isPending, redirectType, errorRequiresReAuth, accessToken, hasErrorWithAccessToken, artistId])
 
   // Function to hide integration error
   const hideIntegrationErrors = () => setShowError(false)

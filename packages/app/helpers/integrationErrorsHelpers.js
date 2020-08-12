@@ -32,6 +32,7 @@ export const getErrorResponse = (error, artist) => {
       buttonText: 'Continue with Facebook',
       missingPermissions,
       hidden,
+      code,
     }
   }
 
@@ -41,6 +42,7 @@ export const getErrorResponse = (error, artist) => {
       action: 'fb_reauth',
       buttonText: 'Relink Facebook',
       hidden,
+      code,
     }
   }
 
@@ -50,6 +52,7 @@ export const getErrorResponse = (error, artist) => {
       action: 'link',
       buttonText: 'Email us',
       href: 'mailto:help@getfed.app?subject=New ad account, old one closed',
+      code,
     }
   }
 
@@ -61,6 +64,7 @@ export const getErrorResponse = (error, artist) => {
       href: 'https://facebook.com/adsmanager/manage/',
       fbLink: true,
       hidden,
+      code,
     }
   }
 
@@ -72,6 +76,7 @@ export const getErrorResponse = (error, artist) => {
       href: 'https://www.facebook.com/ads/manager/billing/',
       fbLink: true,
       hidden,
+      code,
     }
   }
 
@@ -83,6 +88,7 @@ export const getErrorResponse = (error, artist) => {
       href: 'https://www.facebook.com/ads/manager/billing/',
       fbLink: true,
       hidden,
+      code,
     }
   }
 
@@ -92,6 +98,7 @@ export const getErrorResponse = (error, artist) => {
       action: 'dismiss',
       buttonText: 'Ok',
       hidden: true,
+      code,
     }
   }
   if (code === 'instagram_page_not_linked') {
@@ -102,6 +109,7 @@ export const getErrorResponse = (error, artist) => {
       href: 'https://www.facebook.com/business/help/898752960195806',
       fbLink: true,
       hidden,
+      code,
     }
   }
 
@@ -110,6 +118,7 @@ export const getErrorResponse = (error, artist) => {
     action: 'dismiss',
     buttonText: 'Ok',
     hidden,
+    code,
   }
 }
 
