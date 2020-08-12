@@ -1,5 +1,14 @@
 import { gsap, Power1 } from 'gsap'
 
+const durations = {
+  ad: 0.3,
+  button: 0.3,
+  metrics: {
+    metrics: { duration: 0.4, delay: 0.1 },
+    ads: { duration: 0.1, delay: 0 },
+  },
+}
+
 // ANIMATE AD
 const animateAd = (target, position, tournamentView) => {
   if (!target) return
@@ -8,30 +17,45 @@ const animateAd = (target, position, tournamentView) => {
   const direction = position === 'left' ? -1 : 1
   // Anim props
   const xPercent = translateX * direction
-  const duration = 0.3
+  const duration = durations.ad
   // Animate
   gsap.to(target, { xPercent, duration, ease: Power1.easeOut })
 }
 
+// ANIMATE BUTTON
+const animateButton = (target, tournamentView) => {
+  const yPercent = tournamentView === 'metrics' ? -100 : 0
+  const duration = durations.button
+  gsap.to(target, { yPercent, duration, ease: Power1.easeOut })
+}
+
+// ANIMATE METRICS
+const toggleMetricsVisible = (target, state) => {
+  const display = state ? 'block' : 'none'
+  gsap.set(target, { display })
+}
+
+const animateMetrics = (target, tournamentView) => {
+  if (tournamentView === 'metrics') toggleMetricsVisible(target, true)
+  const opacity = tournamentView === 'metrics' ? 1 : 0
+  const scaleX = tournamentView === 'metrics' ? 1 : 0.9
+  const { duration, delay } = durations.metrics[tournamentView]
+  gsap.to(target, { opacity, scaleX, duration, delay, ease: Power1.easeOut })
+}
+
+// ANIMATE WHOLE TOURNAMENT
 const animateTournamentItem = (container, tournamentView) => {
-  console.log('tournamentView', tournamentView)
   // GET ELS
   const [leftAd, rightAd] = container.querySelectorAll('.TournamentsItemAd')
-  const buttonContainer = container.querySelector('.MetricsButton')
+  const button = container.querySelector('.MetricsButtonContainer')
   const metrics = container.querySelector('.TournamentsItemDetails')
-  // GET DIMENSIONS
-  const containerWidth = container.offsetWidth
-  const adWidth = leftAd.offsetWidth
   // ANIMATE ADS
   animateAd(leftAd, 'left', tournamentView)
   animateAd(rightAd, 'right', tournamentView)
-  // SHOW METRICS
-  if (tournamentView === 'metrics') {
-    
-    return
-  }
-  // SHOW ADS
-  console.log('buttonContainer', buttonContainer)
+  // ANIMATE BUTTON
+  animateButton(button, tournamentView)
+  // ANIMATE METRICS
+  animateMetrics(metrics, tournamentView)
 }
 
 export default animateTournamentItem

@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import CloseCircle from '@/icons/CloseCircle'
-
 import TournamentsItemMetrics from '@/app/TournamentsItemMetrics'
 import TournamentsItemLinks from '@/app/TournamentsItemLinks'
 
@@ -12,7 +10,6 @@ const TournamentsItemDetails = ({
   adPosts,
   isAdPair,
   currency,
-  switchViews,
   className,
 }) => {
   const [adA, adB] = adPosts
@@ -34,17 +31,6 @@ const TournamentsItemDetails = ({
         linkA={linkA}
         linkB={linkB}
       />
-      {/* CLOSE METRICS BUTTON */}
-      <div className={['text-center mt-3', 'md:hidden'].join(' ')}>
-        <button
-          className="button--cross -hover"
-          aria-label="Hide metrics"
-          title="Hide metrics"
-          onClick={switchViews}
-        >
-          <CloseCircle className="w-full h-auto" />
-        </button>
-      </div>
     </div>
   )
 }
@@ -53,7 +39,6 @@ TournamentsItemDetails.propTypes = {
   adPosts: PropTypes.array.isRequired,
   isAdPair: PropTypes.bool.isRequired,
   currency: PropTypes.string,
-  switchViews: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

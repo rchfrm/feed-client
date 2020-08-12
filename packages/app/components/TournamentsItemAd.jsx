@@ -28,7 +28,10 @@ const TournamentsItemAd = ({
   const isWinner = winningAdId ? id === winningAdId : scoreWinner
   // const isOnStreak = streak && streak > 0
   return (
-    <div className={['w-24', className].join(' ')}>
+    <div
+      className={['w-24', className].join(' ')}
+      style={{ willChange: 'transform' }}
+    >
       {adPost ? (
         <>
           {/* <p className="text-sm">{id}</p> */}

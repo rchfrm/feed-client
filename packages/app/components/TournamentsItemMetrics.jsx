@@ -46,7 +46,10 @@ const VALUE = ({ type, value }) => {
 const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
   const { artistCurrency: currency } = React.useContext(ArtistContext)
   return (
-    <div className={['flex flex-col pt-4', 'md:-mt-5', className].join(' ')}>
+    <div
+      className={['flex flex-col pt-4', 'md:-mt-5', className].join(' ')}
+      style={{ willChange: 'transform opacity' }}
+    >
       {adMetrics.map(({ dataType, tooltip, a, b }) => {
         const { value: valueA } = a
         const { value: valueB, percent: percentB } = b || {}
