@@ -117,7 +117,9 @@ const IntegrationErrorHandler = () => {
   }, [isPending, redirectType, errorRequiresReAuth, accessToken, hasErrorWithAccessToken, artistId])
 
   // Function to hide integration error
-  const hideIntegrationErrors = () => setShowError(false)
+  const hideIntegrationErrors = React.useCallback(() => {
+    setShowError(false)
+  }, [])
 
   if (isPending || componentError || !integrationError || !showError) return null
 
