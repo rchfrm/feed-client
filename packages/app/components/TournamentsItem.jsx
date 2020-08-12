@@ -23,8 +23,9 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
   } = tournament
   // CONTROL AD VIEW (ads or metrics) for narrow screens
   const [tournamentView, setTournamentView] = React.useState('ads')
-  const switchViews = React.useCallback(() => {
+  const switchViews = React.useCallback((view) => {
     const newView = tournamentView === 'ads' ? 'metrics' : 'ads'
+    const newView = view || tournamentView === 'ads' ? 'metrics' : 'ads'
     setTournamentView(newView)
   }, [tournamentView])
   // GET DESKTOP LAYOUT TEST

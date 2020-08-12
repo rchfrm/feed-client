@@ -81,7 +81,7 @@ const TournamentsItemAdPair = ({
             className="w-6 h-6 p-1 button--information mt-4 bg-white"
             aria-label="Show metrics"
             title="Tournament metrics"
-            onClick={switchViews}
+            onClick={() => switchViews()}
           >
             <InformationIcon className="w-full h-auto" />
           </button>
@@ -90,7 +90,6 @@ const TournamentsItemAdPair = ({
         <TournamentsItemDetails
           adPosts={adPosts}
           isAdPair={isAdPair}
-          switchViews={switchViews}
           className={[
             'absolute xs:static',
             'left-0 top-0 w-full',
