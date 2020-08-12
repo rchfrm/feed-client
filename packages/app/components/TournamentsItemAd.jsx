@@ -24,40 +24,44 @@ const TournamentsItemAd = ({
     scoreWinner,
     streak,
     streakWinner,
-  } = adPost
+  } = adPost || {}
   const isWinner = winningAdId ? id === winningAdId : scoreWinner
   // const isOnStreak = streak && streak > 0
   return (
     <div className={['w-24', className].join(' ')}>
-      {/* <p className="text-sm">{id}</p> */}
-      {/* IMAGE */}
-      <TournamentsItemImage
-        thumbnailOptions={thumbnailOptions}
-        message={message}
-        secondary={secondary}
-      />
-      {/* SCORE */}
-      <TournamentsItemScore
-        score={scoreString}
-        winner={isWinner}
-        className={['mt-4', !isAdPair ? 'pb-10 md:pb-0' : null].join(' ')}
-      />
-      {/* Line & Streak */}
-      {streakWinner && !lastTournament && (
-        <TournamentsItemStreakLine
-          isAdPair={isAdPair}
-          streakWinnerIndex={streakWinnerIndex}
-          nextIsAdPair={nextIsAdPair}
-          nextWinningAdIndex={nextWinningAdIndex}
-          streak={streak}
-        />
-      )}
+      {adPost ? (
+        <>
+          {/* <p className="text-sm">{id}</p> */}
+          {/* IMAGE */}
+          <TournamentsItemImage
+            thumbnailOptions={thumbnailOptions}
+            message={message}
+            secondary={secondary}
+          />
+          {/* SCORE */}
+          <TournamentsItemScore
+            score={scoreString}
+            winner={isWinner}
+            className={['mt-4', !isAdPair ? 'pb-10 md:pb-0' : null].join(' ')}
+          />
+          {/* Line & Streak */}
+          {streakWinner && !lastTournament && (
+            <TournamentsItemStreakLine
+              isAdPair={isAdPair}
+              streakWinnerIndex={streakWinnerIndex}
+              nextIsAdPair={nextIsAdPair}
+              nextWinningAdIndex={nextWinningAdIndex}
+              streak={streak}
+            />
+          )}
+        </>
+      ) : null}
     </div>
   )
 }
 
 TournamentsItemAd.propTypes = {
-  adPost: PropTypes.object.isRequired,
+  adPost: PropTypes.object,
   isAdPair: PropTypes.bool.isRequired,
   winningAdId: PropTypes.string,
   streakWinnerIndex: PropTypes.number,
@@ -69,6 +73,7 @@ TournamentsItemAd.propTypes = {
 }
 
 TournamentsItemAd.defaultProps = {
+  adPost: null,
   streakWinnerIndex: 0,
   nextIsAdPair: false,
   nextWinningAdIndex: 0,

@@ -66,20 +66,18 @@ const TournamentsItemAdPair = ({
           </button>
         </div>
       </div>
-      {/* SECOND AD */}
-      {isAdPair && (
-        <TournamentsItemAd
-          adPost={adB}
-          isAdPair={isAdPair}
-          winningAdId={winningAdId}
-          nextIsAdPair={nextIsAdPair}
-          streakWinnerIndex={streakWinnerIndex}
-          nextWinningAdIndex={nextWinningAdIndex}
-          lastTournament={lastTournament}
-          title="Ad B"
-          secondary
-        />
-      )}
+      {/* SECOND AD (will output empty if no ad) */}
+      <TournamentsItemAd
+        adPost={adB}
+        isAdPair={isAdPair}
+        winningAdId={winningAdId}
+        nextIsAdPair={nextIsAdPair}
+        streakWinnerIndex={streakWinnerIndex}
+        nextWinningAdIndex={nextWinningAdIndex}
+        lastTournament={lastTournament}
+        title="Ad B"
+        secondary
+      />
     </div>
   )
 }
