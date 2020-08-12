@@ -49,6 +49,12 @@ const animateTournamentItem = (container, tournamentView) => {
   const [leftAd, rightAd] = container.querySelectorAll('.TournamentsItemAd')
   const button = container.querySelector('.MetricsButtonContainer')
   const metrics = container.querySelector('.TournamentsItemDetails')
+  // TOGGLE CLASS ON CONTAINER
+  if (tournamentView === 'metrics') {
+    container.classList.add('_metricsOn')
+  } else {
+    container.classList.remove('_metricsOff')
+  }
   // ANIMATE ADS
   animateAd(leftAd, 'left', tournamentView)
   animateAd(rightAd, 'right', tournamentView)
