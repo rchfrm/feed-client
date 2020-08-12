@@ -80,8 +80,6 @@ export const setAdStreakPositions = (tournaments) => {
   return produce(tournaments, draftTournaments => {
     for (let i = 0; i < draftTournaments.length; i += 1) {
       const tournament = draftTournaments[i]
-      const previousTournament = draftTournaments[i - 1] || {}
-      if (!previousTournament.id) continue
       const {
         winningAdId,
         winningAdIndex,
@@ -89,6 +87,9 @@ export const setAdStreakPositions = (tournaments) => {
         streakWinnerIndex,
         isAdPair,
       } = tournament
+      const previousTournament = draftTournaments[i - 1] || {}
+      // STOP HERE IF AT START OF LIST
+      if (!previousTournament.id) continue
       // Store current streak info on previous tournament
       // (this is useful to angle the line when there's only one ad in adset)
       previousTournament.nextWinningAdId = winningAdId
@@ -100,7 +101,7 @@ export const setAdStreakPositions = (tournaments) => {
         streakWinnerId: previousStreakWinnerId,
         streakWinnerIndex: previousStreakWinnerIndex,
       } = previousTournament
-      // FLIP THE ADS if
+      // FLIP THE ADS if...
       // Greater than one ad, and,
       // Winning Ad ID is the same is previous streak winner ID, and
       // Winning Ad index is not the same as the previous streak winner index
