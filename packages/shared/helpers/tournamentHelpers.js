@@ -100,21 +100,25 @@ export const setAdStreakPositions = (tournaments) => {
         streakWinnerId: previousStreakWinnerId,
         streakWinnerIndex: previousStreakWinnerIndex,
       } = previousTournament
-      // STOP HERE if only one ad
-      if (tournament.adPosts.length === 1) continue
-      // STOP HERE if current winner is not same as previous streak winner ID
-      if (winningAdId !== previousStreakWinnerId) continue
-      // STOP HERE if current winner index matches the previous streak winner index
-      if (winningAdIndex === previousStreakWinnerIndex) continue
-      // Else flip the ads...
-      tournament.adPosts.reverse()
-      // And update the index
-      const updatedWinningIndex = winningAdIndex === 0 ? 1 : 0
-      const updatedStreakWinnerIndex = streakWinnerIndex === 0 ? 1 : 0
-      tournament.winningAdIndex = updatedWinningIndex
-      tournament.streakWinnerIndex = updatedStreakWinnerIndex
-      previousTournament.nextWinningAdIndex = updatedWinningIndex
-      previousTournament.nextStreakWinnerIndex = updatedStreakWinnerIndex
+      // FLIP THE ADS if
+      // Greater than one ad, and,
+      // Winning Ad ID is the same is previous streak winner ID, and
+      // Winning Ad index is not the same as the previous streak winner index
+      if (
+        tournament.adPosts.length > 1
+        && winningAdId === previousStreakWinnerId
+        && winningAdIndex !== previousStreakWinnerIndex
+      ) {
+        // Flip
+        tournament.adPosts.reverse()
+        // And update the index
+        const updatedWinningIndex = winningAdIndex === 0 ? 1 : 0
+        const updatedStreakWinnerIndex = streakWinnerIndex === 0 ? 1 : 0
+        tournament.winningAdIndex = updatedWinningIndex
+        tournament.streakWinnerIndex = updatedStreakWinnerIndex
+        previousTournament.nextWinningAdIndex = updatedWinningIndex
+        previousTournament.nextStreakWinnerIndex = updatedStreakWinnerIndex
+      }
     }
   })
 }
