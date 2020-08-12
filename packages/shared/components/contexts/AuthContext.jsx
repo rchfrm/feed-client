@@ -42,6 +42,7 @@ function AuthProvider({ children }) {
   const [auth, setAuth] = useImmerReducer(authReducer, initialAuthState)
   const [authError, setAuthError] = React.useState(null)
   const [accessToken, setAccessToken] = React.useState(null)
+  const [redirectType, setRedirectType] = React.useState('')
   const [authLoading, setAuthLoading] = React.useState(false)
 
   const setMissingScopes = (scopes) => {
@@ -131,6 +132,8 @@ function AuthProvider({ children }) {
     emailLogin,
     setNoAuth,
     relinkFacebook,
+    redirectType,
+    setRedirectType,
     setAccessToken,
     setAuthError,
     signUp,
