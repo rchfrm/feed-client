@@ -8,7 +8,6 @@ import { TournamentContext } from '@/app/contexts/TournamentContext'
 import TournamentsItemDate from '@/app/TournamentsItemDate'
 import TournamentsItemAdPair from '@/app/TournamentsItemAdPair'
 
-import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 import { copy } from '@/app/copy/tournamentsCopy'
 
 const TournamentsItem = ({ tournament, lastTournament, className }) => {
