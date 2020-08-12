@@ -92,12 +92,10 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
 TournamentsItemMetrics.propTypes = {
   adMetrics: PropTypes.array.isRequired,
   isAdPair: PropTypes.bool.isRequired,
-  currency: PropTypes.string,
   className: PropTypes.string,
 }
 
 TournamentsItemMetrics.defaultProps = {
-  currency: '',
   className: '',
 }
 
