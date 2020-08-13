@@ -11,10 +11,15 @@ const getLine = (
   streakWinnerIndex,
   nextWinningAdIndex,
   sizes,
+  isDesktopLayout,
 ) => {
-  const { itemWidth, itemHeight, imageHeight } = sizes
+  const { itemWidth, itemHeight, imageHeight, centralColumnWidth, centralColumnHeight } = sizes
   const imageWidth = imageHeight
   const straightLineHeight = itemHeight - (imageHeight * 1.35)
+  console.log('itemWidth', itemWidth)
+  console.log('imageHeight', imageHeight)
+  console.log('centralColumnWidth', centralColumnWidth)
+  console.log('isDesktopLayout', isDesktopLayout)
   // Elbow:  __| or |__
   //        |          |
   if (
@@ -24,31 +29,37 @@ const getLine = (
     const translateXMod = nextWinningAdIndex === 0 ? -1 : 0
     const lineHeightTotal = straightLineHeight - 2
     const lineSectionHeight = lineHeightTotal / 2
-    const lineWidth = itemWidth - imageWidth
+    const firstVerticalHeight = isDesktopLayout
+      ? centralColumnHeight - (imageHeight * 1.8)
+      : lineSectionHeight
+    const secondVerticalHeight = isDesktopLayout ? 48 : lineSectionHeight
+    const lineWidth = isDesktopLayout ? centralColumnWidth + imageWidth : itemWidth - imageWidth
     const leftMod = nextWinningAdIndex === 0 ? -1 : 1
     const left = (lineWidth * leftMod) - (1 * leftMod)
     return (
       <>
         <ArrowLine
           className="absolute--center-x t-0"
-          lineLength={lineSectionHeight}
+          lineLength={firstVerticalHeight}
         />
         <div
-          className="absolute bg-black ml-12"
+          className="absolute bg-black"
           style={{
             height: 2,
-            top: lineSectionHeight,
+            top: firstVerticalHeight,
             width: lineWidth,
             transform: translateXMod ? `translateX(${translateXMod * 100}%)` : null,
+            marginLeft: imageWidth / 2,
           }}
         />
         <ArrowLine
-          className="absolute left-0 ml-10"
+          className="absolute left-0"
           style={{
-            top: lineSectionHeight,
+            top: firstVerticalHeight,
             left,
+            marginLeft: (imageWidth / 2) + (9 * leftMod),
           }}
-          lineLength={lineSectionHeight}
+          lineLength={secondVerticalHeight}
           hideCap
         />
       </>
@@ -71,13 +82,13 @@ const TournamentItemStreakLine = ({
   streak,
   className,
 }) => {
-  const { sizes } = React.useContext(TournamentContext)
+  const { sizes, isDesktopLayout } = React.useContext(TournamentContext)
   // GET DESKTOP LAYOUT TEST
   // GET LINE
   const line = React.useMemo(() => {
     if (!streak) return
-    return getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, sizes)
-  }, [streak, sizes, nextIsAdPair, nextWinningAdIndex, isAdPair, streakWinnerIndex])
+    return getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, sizes, isDesktopLayout)
+  }, [streak, isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, sizes, isDesktopLayout])
   // STOP HERE IF NO STREAK
   if (!streak) return null
   return (

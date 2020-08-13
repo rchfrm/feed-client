@@ -29,7 +29,17 @@ const TournamentContextProvider = ({ children }) => {
     const itemHeight = item.offsetHeight
     const image = item.querySelector('.TournamentsItemImage')
     const imageHeight = image.offsetHeight
-    setSizes({ itemWidth, itemHeight, imageHeight })
+    const centralColumn = item.querySelector('.TournamentItemMiddleColumn')
+    const centralColumnStyles = getComputedStyle(centralColumn)
+    const centralColumnWidth = centralColumn.offsetWidth + (parseInt(centralColumnStyles.marginLeft, 0) * 2)
+    const centralColumnHeight = centralColumn.offsetHeight
+    setSizes({
+      itemWidth,
+      itemHeight,
+      imageHeight,
+      centralColumnWidth,
+      centralColumnHeight,
+    })
   }, [])
   React.useEffect(() => {
     if (!containerEl.current) return
