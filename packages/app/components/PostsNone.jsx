@@ -10,6 +10,8 @@ import { UserContext } from '@/contexts/UserContext'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import copy from '@/app/copy/PostsPageCopy'
+
+import * as postsHelpers from '@/app/helpers/postsHelpers'
 // IMPORT STYLES
 import styles from '@/app/PostsPage.module.css'
 
@@ -22,13 +24,19 @@ const testNewUser = (user) => {
   return false
 }
 
-const PostsNone = ({ refreshPosts }) => {
+const getCopy = (isNewUser, promotionStatus) => {
+  if (isNewUser) return copy.newUserCopy
+  if (promotionStatus === 'all') return copy.noPostsCopy.all()
+  const promotionStatusName = postsHelpers.translatePromotionName(promotionStatus)
+  return copy.noPostsCopy.other(promotionStatusName)
+}
+
+const PostsNone = ({ refreshPosts, promotionStatus }) => {
   // IMPORT CONTEXTS
   const { setHeader } = React.useContext(InterfaceContext)
   const { user } = React.useContext(UserContext)
-
   const isNewUser = testNewUser(user)
-  const copyMarkdown = isNewUser ? copy.newUserCopy : copy.noPostsCopy
+  const copyMarkdown = getCopy(isNewUser, promotionStatus)
 
   // Update header
   React.useEffect(() => {
@@ -59,6 +67,7 @@ const PostsNone = ({ refreshPosts }) => {
 
 PostsNone.propTypes = {
   refreshPosts: PropTypes.func.isRequired,
+  promotionStatus: PropTypes.string.isRequired,
 }
 
 

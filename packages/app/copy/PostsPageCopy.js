@@ -3,7 +3,14 @@
 export default {
   intro: `Below are the posts **Feed** hasn't yet made into ads. For best results leave as many as possible selected, but simply untick any you'd rather not promote.`,
 
-  noPostsCopy: `Looks like you haven’t posted on Facebook or Instagram yet. When you do start posting, your posts will appear here.`,
+  noPostsCopy: {
+    // If no posts when filtering to all
+    all: () => `Looks like you haven’t posted on Facebook or Instagram yet. When you do start posting, your posts will appear here.`,
+    // If no posts when filtered
+    other: (promotionStatus) => {
+      return `There are currently no posts in the ${promotionStatus} state. Maybe try a different category.`
+    },
+  },
 
   newUserCopy: `**Feed** is fetching your posts - please wait a few moments and then click the button to refresh the page.`,
 

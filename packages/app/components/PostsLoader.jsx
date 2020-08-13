@@ -251,9 +251,9 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
     return null
   }
 
-  // No posts if none
+  // Show no posts message if no posts
   if (!isPending && !posts.length) {
-    return <PostsNone refreshPosts={refreshPosts} />
+    return <PostsNone refreshPosts={refreshPosts} promotionStatus={promotionStatus} />
   }
 
   if (isPending && initialLoad.current) {
