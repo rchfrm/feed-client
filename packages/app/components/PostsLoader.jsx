@@ -82,7 +82,7 @@ const updateDataConditions = (newProps, oldProps) => {
 
 // THE COMPONENT
 // ------------------
-function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
+function PostsLoader({ setTogglePromotionGlobal, promotionStatus, setPostSettingsDisabled }) {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
@@ -246,6 +246,12 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
     })
   }, [setPosts, artistId])
 
+  // Disable post settings if no posts
+  React.useEffect(() => {
+    const buttonDisabled = !posts.length
+    setPostSettingsDisabled(buttonDisabled)
+  }, [posts.length, setPostSettingsDisabled])
+
   // Wait if initial loading
   if (artistLoading) {
     return null
@@ -297,6 +303,7 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
 PostsLoader.propTypes = {
   setTogglePromotionGlobal: PropTypes.func.isRequired,
   promotionStatus: PropTypes.string.isRequired,
+  setPostSettingsDisabled: PropTypes.func.isRequired,
 }
 
 export default PostsLoader

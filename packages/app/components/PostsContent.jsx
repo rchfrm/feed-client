@@ -26,7 +26,8 @@ const PostsContent = () => {
   }, [setSidePanelContent, toggleSidePanel, togglePromotionGlobal])
   // HANDLE STATE OF POST TYPE FILTERS
   const [currentPostType, setCurrentPostType] = React.useState(postTypes[0].id)
-
+  // DISABLE POST SETTINGS BUTTON (if no posts)
+  const [postSettingsDisabled, setPostSettingsDisabled] = React.useState(false)
   return (
     <div>
       {/* INTRO */}
@@ -37,6 +38,7 @@ const PostsContent = () => {
           className={styles.postSettingsButton}
           onClick={togglePostsSettings}
           version="black small icon"
+          disabled={postSettingsDisabled}
         >
           <GearIcon fill={brandColors.bgColor} />
           Post Settings
@@ -52,6 +54,7 @@ const PostsContent = () => {
       <PostsLoader
         setTogglePromotionGlobal={setTogglePromotionGlobal}
         promotionStatus={currentPostType}
+        setPostSettingsDisabled={setPostSettingsDisabled}
       />
     </div>
   )
