@@ -1,10 +1,10 @@
-import { gsap, Power1 } from 'gsap'
+import { gsap } from 'gsap'
 
 const durations = {
   ad: 0.3,
-  button: 0.3,
+  button: 0.4,
   metrics: {
-    metrics: { duration: 0.4, delay: 0.1 },
+    metrics: { duration: 0.4, delay: 0.25 },
     ads: { duration: 0.1, delay: 0 },
   },
 }
@@ -18,14 +18,17 @@ const animateAd = (target, position, tournamentView) => {
   const xPercent = translateX * direction
   const duration = durations.ad
   // Animate
-  gsap.to(target, { xPercent, duration, ease: Power1.easeOut })
+  gsap.to(target, { xPercent, duration, ease: 'power1.out' })
 }
 
 // ANIMATE BUTTON
-const animateButton = (target, tournamentView) => {
-  const yPercent = tournamentView === 'metrics' ? -100 : 0
+const animateButton = ({ buttonContainer, button }, tournamentView) => {
+  const yPercent = tournamentView === 'metrics' ? -108 : 0
+  const rotation = tournamentView === 'metrics' ? 45 : 0
   const duration = durations.button
-  gsap.to(target, { yPercent, duration, ease: Power1.easeOut })
+  const ease = tournamentView === 'metrics' ? 'back.inOut(1.2)' : 'back.out(1)'
+  gsap.to(buttonContainer, { yPercent, duration, ease })
+  gsap.to(button, { rotation, duration, ease: 'power1.out' })
 }
 
 // ANIMATE METRICS
@@ -37,16 +40,18 @@ const toggleMetricsVisible = (target, state) => {
 const animateMetrics = (target, tournamentView) => {
   if (tournamentView === 'metrics') toggleMetricsVisible(target, true)
   const opacity = tournamentView === 'metrics' ? 1 : 0
-  const scaleX = tournamentView === 'metrics' ? 1 : 0.9
+  const scaleX = tournamentView === 'metrics' ? 1 : 0.93
   const { duration, delay } = durations.metrics[tournamentView]
-  gsap.to(target, { opacity, scaleX, duration, delay, ease: Power1.easeOut })
+  gsap.to(target, { opacity, scaleX, duration, delay, ease: 'power1.out' })
 }
 
 // GET ELS
 const getEls = (container) => {
+  const buttonContainer = container.querySelector('.MetricsButtonContainer')
   return {
     ads: container.querySelectorAll('.TournamentsItemAd'),
-    button: container.querySelector('.MetricsButtonContainer'),
+    buttonContainer,
+    button: buttonContainer.querySelector('.MetricsButton'),
     metrics: container.querySelector('.TournamentsItemDetails'),
   }
 }
@@ -55,7 +60,7 @@ const getEls = (container) => {
 // ------------------------
 export const animateTournamentItem = (container, tournamentView) => {
   // GET ELS
-  const { ads, button, metrics } = getEls(container)
+  const { ads, buttonContainer, button, metrics } = getEls(container)
   const [leftAd, rightAd] = ads
   // TOGGLE CLASS ON CONTAINER
   if (tournamentView === 'metrics') {
@@ -67,7 +72,7 @@ export const animateTournamentItem = (container, tournamentView) => {
   animateAd(leftAd, 'left', tournamentView)
   animateAd(rightAd, 'right', tournamentView)
   // ANIMATE BUTTON
-  animateButton(button, tournamentView)
+  animateButton({ buttonContainer, button }, tournamentView)
   // ANIMATE METRICS
   animateMetrics(metrics, tournamentView)
 }
@@ -77,7 +82,7 @@ export const animateTournamentItem = (container, tournamentView) => {
 // ------------------
 export const resetTournamentItem = (container) => {
   // Get els
-  const { ads, button, metrics } = getEls(container)
+  const { ads, buttonContainer, button, metrics } = getEls(container)
   // Reset Metrics
   gsap.set(metrics, {
     display: 'block',
@@ -88,5 +93,6 @@ export const resetTournamentItem = (container) => {
     xPercent: 0,
   })
   // Reset Button
-  gsap.to(button, { yPercent: 0 })
+  gsap.to(buttonContainer, { yPercent: 0 })
+  gsap.to(button, { rotation: 0 })
 }

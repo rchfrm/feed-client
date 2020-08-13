@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import InformationIcon from '@/icons/InformationIcon'
+import PlusCircleIcon from '@/icons/PlusCircleIcon'
 
 import TournamentsItemAd from '@/app/TournamentsItemAd'
 import TournamentsItemDetails from '@/app/TournamentsItemDetails'
@@ -30,7 +30,7 @@ const TournamentsItemAdPair = ({
       return
     }
     animateTournamentItem(containerEl.current, tournamentView)
-  }, [tournamentView, isDesktopLayout])
+  }, [tournamentView, isDesktopLayout, switchViews])
 
   return (
     <div
@@ -82,12 +82,12 @@ const TournamentsItemAdPair = ({
           style={{ zIndex: 2, willChange: 'transform' }}
         >
           <button
-            className="w-6 h-6 p-1 button--information mt-4 bg-white"
+            className="w-10 h-10 p-2 button--information mt-8 bg-white MetricsButton"
             aria-label="Show metrics"
             title="Tournament metrics"
             onClick={() => switchViews()}
           >
-            <InformationIcon className="w-full h-auto" />
+            <PlusCircleIcon className="w-full h-auto" />
           </button>
         </div>
         {/* METRICS AND LINKS */}
