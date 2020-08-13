@@ -44,7 +44,12 @@ const TournamentsAll = ({
   }, [totalTournaments, scrollTriggerLoad, loadedAll])
   return (
     <section
-      className="pt-10 overflow-hidden"
+      className={[
+        'breakout--width',
+        'xs:ml-0 xs:w-full',
+        'px-6 xs:px-0',
+        'pt-10 overflow-hidden',
+      ].join(' ')}
     >
       {tournaments.map((tournament, index) => {
         const lastTournament = index === totalTournaments - 1
