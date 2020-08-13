@@ -4,8 +4,8 @@ import useBrowserStore from '@/hooks/useBrowserStore'
 
 const TournamentContext = React.createContext({
   isDesktopLayout: false,
-  itemWidth: 0,
-  updateItemWidth: () => {},
+  sizes: {},
+  updateSizes: () => {},
 })
 
 TournamentContext.displayName = 'TournamentContext'
@@ -13,8 +13,8 @@ TournamentContext.displayName = 'TournamentContext'
 const TournamentContextProvider = ({ children }) => {
   // GET DESKTOP LAYOUT TEST
   const isDesktopLayout = useBreakpointTest('xs')
-  // GET WIDTH OF TOURNAMENT ITEM
-  const [itemWidth, setItemWidth] = React.useState(0)
+  // GET SIZES
+  const [sizes, setSizes] = React.useState({})
   // Get container el
   const containerEl = React.useRef(null)
   React.useEffect(() => {
@@ -26,14 +26,17 @@ const TournamentContextProvider = ({ children }) => {
     const item = container.querySelector('.TournamentsItemAdPair')
     if (!item) return
     const itemWidth = item.offsetWidth
-    setItemWidth(itemWidth)
+    const itemHeight = item.offsetHeight
+    const image = item.querySelector('.TournamentsItemImage')
+    const imageHeight = image.offsetHeight
+    setSizes({ itemWidth, itemHeight, imageHeight })
   }, [])
   React.useEffect(() => {
     if (!containerEl.current) return
     onResize(containerEl.current)
   }, [windowWidth, onResize])
   // RUN THIS TO UPDATE ITEM SIZE
-  const updateItemWidth = React.useCallback(() => {
+  const updateSizes = React.useCallback(() => {
     if (!containerEl.current) return
     onResize(containerEl.current)
   }, [onResize])
@@ -42,8 +45,8 @@ const TournamentContextProvider = ({ children }) => {
     <TournamentContext.Provider
       value={{
         isDesktopLayout,
-        itemWidth,
-        updateItemWidth,
+        sizes,
+        updateSizes,
       }}
     >
       {children}

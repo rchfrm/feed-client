@@ -14,10 +14,10 @@ const TournamentsAll = ({
 }) => {
   const totalTournaments = tournaments.length
   // UPDATE ITEM SIZE WHEN MORE ITEMS ARE LOADED
-  const { updateItemWidth } = React.useContext(TournamentContext)
+  const { updateSizes } = React.useContext(TournamentContext)
   React.useEffect(() => {
-    updateItemWidth()
-  }, [tournaments.length, updateItemWidth])
+    updateSizes()
+  }, [tournaments.length, updateSizes])
   // RUN THIS to LOAD MORE TOURNAMENTS
   const scrollTriggerLoad = React.useCallback(([target]) => {
     if (target.isIntersecting && !loadingMore && !loadedAll) {

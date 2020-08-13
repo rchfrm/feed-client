@@ -10,86 +10,57 @@ const getLine = (
   nextIsAdPair,
   streakWinnerIndex,
   nextWinningAdIndex,
-  itemWidth,
-  isDesktopLayout,
+  sizes,
 ) => {
-  const fontSize = 16
-  const columnWidth = 6 * fontSize
-  const desktopAdjustment = fontSize * 1.5
-  // Straight line
-  if ((isAdPair && nextIsAdPair) || (!isAdPair && !nextIsAdPair)) {
-    const length = isAdPair ? 182 : 138
-    const lineLength = isDesktopLayout ? length - desktopAdjustment : length
-    return (
-      <ArrowLine
-        className="absolute--center-x t-0"
-        lineLength={lineLength}
-      />
-    )
-  }
-  // Elbow: |_ or _|
-  if (isAdPair && !nextIsAdPair) {
-    const lineWidth = (itemWidth / 2) - columnWidth - (fontSize * 1.5)
-    const length = 252
-    const lineLength = isDesktopLayout ? length - desktopAdjustment : length
-    const left = columnWidth / 2
-    const translateXMod = streakWinnerIndex === 0 ? 0 : -1
-    return (
-      <>
-        <ArrowLine
-          className="absolute--center-x t-0"
-          lineLength={lineLength}
-        />
-        <div
-          className="absolute bg-black"
-          style={{
-            height: 2,
-            top: lineLength,
-            width: lineWidth,
-            left,
-            transform: `translateX(${translateXMod * 100}%)`,
-          }}
-        />
-      </>
-    )
-  }
+  const { itemWidth, itemHeight, imageHeight } = sizes
+  const imageWidth = imageHeight
+  const straightLineHeight = itemHeight - (imageHeight * 1.35)
   // Elbow:  __| or |__
   //        |          |
-  if (!isAdPair) {
+  if (
+    (isAdPair && !nextIsAdPair && streakWinnerIndex === 1)
+    || (!isAdPair && nextWinningAdIndex === 1)
+  ) {
     const translateXMod = nextWinningAdIndex === 0 ? -1 : 0
-    const lineLengthTop = 96
-    const lengthBottom = 88
-    const lineLengthBottom = isDesktopLayout ? lengthBottom - desktopAdjustment : lengthBottom
-    const lineWidth = (itemWidth / 2) - (3 * fontSize)
+    const lineHeightTotal = straightLineHeight - 2
+    const lineSectionHeight = lineHeightTotal / 2
+    const lineWidth = itemWidth - imageWidth
     const leftMod = nextWinningAdIndex === 0 ? -1 : 1
     const left = (lineWidth * leftMod) - (1 * leftMod)
     return (
       <>
         <ArrowLine
           className="absolute--center-x t-0"
-          lineLength={lineLengthTop}
+          lineLength={lineSectionHeight}
         />
         <div
           className="absolute bg-black ml-12"
           style={{
             height: 2,
-            top: lineLengthTop,
+            top: lineSectionHeight,
             width: lineWidth,
-            transform: `translateX(${translateXMod * 100}%)`,
+            transform: translateXMod ? `translateX(${translateXMod * 100}%)` : null,
           }}
         />
         <ArrowLine
           className="absolute left-0 ml-10"
           style={{
-            top: lineLengthTop,
+            top: lineSectionHeight,
             left,
           }}
-          lineLength={lineLengthBottom}
+          lineLength={lineSectionHeight}
           hideCap
         />
       </>
     )
   }
+  // Straight line
+  return (
+    <ArrowLine
+      className="absolute--center-x t-0"
+      lineLength={straightLineHeight}
+    />
+  )
 }
 
 const TournamentItemStreakLine = ({
@@ -101,13 +72,13 @@ const TournamentItemStreakLine = ({
   className,
 }) => {
   // GET DESKTOP LAYOUT TEST
-  const { isDesktopLayout, itemWidth } = React.useContext(TournamentContext)
+  const { isDesktopLayout, sizes } = React.useContext(TournamentContext)
   // GET LINE
   const line = React.useMemo(() => {
     if (!streak) return
-    return getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, itemWidth, isDesktopLayout)
+    return getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, sizes)
   // eslint-disable-next-line
-  }, [streak, itemWidth, isDesktopLayout])
+  }, [streak, isDesktopLayout, sizes])
   // STOP HERE IF NO STREAK
   if (!streak) return null
   return (

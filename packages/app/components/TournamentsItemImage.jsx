@@ -13,6 +13,7 @@ const TournamentsItemImage = ({ thumbnailOptions, message, secondary, className 
         className,
         styles.adImage,
         isFallback && secondary && styles._broken,
+        'TournamentsItemImage',
       ].join(' ')}
     >
       <PostImage
