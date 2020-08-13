@@ -223,21 +223,24 @@ export const updateAssetLink = async (artistId, postId, link, verifyIdToken) => 
 }
 
 /**
- * @param {string[]} artistIds
+ * @param {string} artistId
  * @param {string} accessToken
  * @returns {Promise<any>}
  */
-export const updateAccessToken = async (artistIds, accessToken) => {
-  const artistUpdates = artistIds.map((id) => {
-    return api.patch(`/artists/${id}`, {
-      integrations: {
-        facebook: {
-          access_token: accessToken,
-        },
+export const updateAccessToken = async (artistId, accessToken) => {
+  const res = await api.patch(`/artists/${artistId}`, {
+    integrations: {
+      facebook: {
+        access_token: accessToken,
       },
-    })
+    },
   })
-  return Promise.all(artistUpdates)
+    .catch((error) => { return { error } })
+  if (res.error && typeof res.error.response === 'object') {
+    const errorMessage = res.error.response.data.error
+    return { error: { message: errorMessage } }
+  }
+  return res
 }
 
 

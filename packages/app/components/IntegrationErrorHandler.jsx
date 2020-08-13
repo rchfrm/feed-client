@@ -122,11 +122,10 @@ const IntegrationErrorHandler = () => {
     // Update access token
     setPatchError(null)
     accessTokenUpdated.current = true
-    await server.updateAccessToken([artistId], accessToken)
-      .catch((error) => {
-        const errorMessage = { message: `Failed to update access token. ${error.message}` }
-        setPatchError(errorMessage)
-      })
+    const { error } = await server.updateAccessToken([artistId], accessToken)
+    if (error) {
+      setPatchError(error)
+    }
   }, [isPending, redirectType, errorRequiresReAuth, accessToken, hasErrorWithAccessToken, artistId])
 
   // Function to hide integration error
