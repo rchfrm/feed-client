@@ -12,7 +12,6 @@ const durations = {
 // ANIMATE AD
 const animateAd = (target, position, tournamentView) => {
   if (!target) return
-  console.log('animateAd', target)
   const translateX = tournamentView === 'metrics' ? 80 : 0
   const direction = position === 'left' ? -1 : 1
   // Anim props
@@ -43,12 +42,21 @@ const animateMetrics = (target, tournamentView) => {
   gsap.to(target, { opacity, scaleX, duration, delay, ease: Power1.easeOut })
 }
 
+// GET ELS
+const getEls = (container) => {
+  return {
+    ads: container.querySelectorAll('.TournamentsItemAd'),
+    button: container.querySelector('.MetricsButtonContainer'),
+    metrics: container.querySelector('.TournamentsItemDetails'),
+  }
+}
+
 // ANIMATE WHOLE TOURNAMENT
-const animateTournamentItem = (container, tournamentView) => {
+// ------------------------
+export const animateTournamentItem = (container, tournamentView) => {
   // GET ELS
-  const [leftAd, rightAd] = container.querySelectorAll('.TournamentsItemAd')
-  const button = container.querySelector('.MetricsButtonContainer')
-  const metrics = container.querySelector('.TournamentsItemDetails')
+  const { ads, button, metrics } = getEls(container)
+  const [leftAd, rightAd] = ads
   // TOGGLE CLASS ON CONTAINER
   if (tournamentView === 'metrics') {
     container.classList.add('_metricsOn')
@@ -64,4 +72,21 @@ const animateTournamentItem = (container, tournamentView) => {
   animateMetrics(metrics, tournamentView)
 }
 
-export default animateTournamentItem
+
+// RESET FOR DESKTOPS
+// ------------------
+export const resetTournamentItem = (container) => {
+  // Get els
+  const { ads, button, metrics } = getEls(container)
+  // Reset Metrics
+  gsap.set(metrics, {
+    display: 'block',
+    opacity: 1,
+  })
+  // Reset Ads
+  gsap.set(ads, {
+    xPercent: 0,
+  })
+  // Reset Button
+  gsap.to(button, { yPercent: 0 })
+}

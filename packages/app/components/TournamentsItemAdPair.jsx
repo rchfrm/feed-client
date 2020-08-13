@@ -6,7 +6,7 @@ import InformationIcon from '@/icons/InformationIcon'
 import TournamentsItemAd from '@/app/TournamentsItemAd'
 import TournamentsItemDetails from '@/app/TournamentsItemDetails'
 
-import animateTournamentItem from '@/app/helpers/animateTournamentItem'
+import { animateTournamentItem, resetTournamentItem } from '@/app/helpers/animateTournamentItem'
 
 const TournamentsItemAdPair = ({
   adPosts,
@@ -24,7 +24,11 @@ const TournamentsItemAdPair = ({
   const [adA, adB] = adPosts
   const containerEl = React.useRef(null)
   React.useEffect(() => {
-    if (isDesktopLayout) return
+    if (isDesktopLayout) {
+      resetTournamentItem(containerEl.current)
+      switchViews('ads')
+      return
+    }
     animateTournamentItem(containerEl.current, tournamentView)
   }, [tournamentView, isDesktopLayout])
 
@@ -95,7 +99,7 @@ const TournamentsItemAdPair = ({
             'left-0 top-0 w-full',
             'mt-20 xs:mt-0',
             'px-10 xs:px-0',
-            'hidden opacity-0',
+            'hidden opacity-0 xs:block xs:opacity-1',
             'TournamentsItemDetails',
           ].join(' ')}
         />
