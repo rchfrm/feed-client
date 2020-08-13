@@ -71,14 +71,13 @@ const TournamentItemStreakLine = ({
   streak,
   className,
 }) => {
+  const { sizes } = React.useContext(TournamentContext)
   // GET DESKTOP LAYOUT TEST
-  const { isDesktopLayout, sizes } = React.useContext(TournamentContext)
   // GET LINE
   const line = React.useMemo(() => {
     if (!streak) return
     return getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, sizes)
-  // eslint-disable-next-line
-  }, [streak, isDesktopLayout, sizes])
+  }, [streak, sizes, nextIsAdPair, nextWinningAdIndex, isAdPair, streakWinnerIndex])
   // STOP HERE IF NO STREAK
   if (!streak) return null
   return (
