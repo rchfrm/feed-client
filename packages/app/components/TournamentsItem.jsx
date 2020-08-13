@@ -42,11 +42,8 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
       />
       {/* NO ADS */}
       {!tournament.adPosts.length ? (
-        <div className="mb-40 md:mb-10 text-center md:text-left">
-          <MarkdownText
-            className="pt-1 md:pl-10 md:pr-5 ml-auto mr-0"
-            markdown={copy.noTournamentAds}
-          />
+        <div className="max-w-lg mx-auto mb-20 pt-2 md:pt-5 text-center">
+          <MarkdownText markdown={copy.noTournamentAds} />
         </div>
       // ADS CONTENT
       ) : (
