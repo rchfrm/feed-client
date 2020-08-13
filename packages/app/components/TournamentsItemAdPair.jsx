@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { TournamentContext } from '@/app/contexts/TournamentContext'
+
 import PlusCircleIcon from '@/icons/PlusCircleIcon'
 
 import TournamentsItemAd from '@/app/TournamentsItemAd'
@@ -31,7 +33,8 @@ const TournamentsItemAdPair = ({
     }
     animateTournamentItem(containerEl.current, tournamentView)
   }, [tournamentView, isDesktopLayout, switchViews])
-
+  // GET SIZES
+  const { sizes: { imageHeight } } = React.useContext(TournamentContext)
   return (
     <div
       className={[
@@ -67,14 +70,18 @@ const TournamentsItemAdPair = ({
         ].join(' ')}
       >
         {/* VS */}
-        <p className="flex items-center justify-center w-24 h-24 mx-auto mb-0">
+        <p
+          className="flex items-center justify-center w-24 mx-auto mb-0"
+          style={{ height: imageHeight }}
+        >
           {isAdPair && (<strong><em>vs</em></strong>)}
         </p>
         {/* METRIC BUTTON */}
         <div
           className={[
             'flex items-center justify-center',
-            'w-24 h-24 mx-auto -mt-2',
+            'w-24 h-24 mx-auto',
+            'mt-2',
             'relative',
             'xs:hidden',
             'MetricsButtonContainer',
@@ -82,7 +89,7 @@ const TournamentsItemAdPair = ({
           style={{ zIndex: 2, willChange: 'transform' }}
         >
           <button
-            className="w-10 h-10 p-2 button--information mt-8 bg-white MetricsButton"
+            className="w-10 h-10 p-2 button--information bg-white MetricsButton"
             aria-label="Show metrics"
             title="Tournament metrics"
             onClick={() => switchViews()}

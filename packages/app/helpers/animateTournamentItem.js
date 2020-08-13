@@ -23,7 +23,7 @@ const animateAd = (target, position, tournamentView) => {
 
 // ANIMATE BUTTON
 const animateButton = ({ buttonContainer, button }, tournamentView) => {
-  const yPercent = tournamentView === 'metrics' ? -108 : 0
+  const yPercent = tournamentView === 'metrics' ? -100 : 0
   const rotation = tournamentView === 'metrics' ? 45 : 0
   const duration = durations.button
   const ease = tournamentView === 'metrics' ? 'back.inOut(1.2)' : 'back.out(1)'
