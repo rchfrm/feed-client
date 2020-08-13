@@ -16,10 +16,6 @@ const getLine = (
   const { itemWidth, itemHeight, imageHeight, centralColumnWidth, centralColumnHeight } = sizes
   const imageWidth = imageHeight
   const straightLineHeight = itemHeight - (imageHeight * 1.35)
-  console.log('itemWidth', itemWidth)
-  console.log('imageHeight', imageHeight)
-  console.log('centralColumnWidth', centralColumnWidth)
-  console.log('isDesktopLayout', isDesktopLayout)
   // Elbow:  __| or |__
   //        |          |
   if (
