@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import * as postsHelpers from '@/app/helpers/postsHelpers'
+
 const getBgClass = (status) => {
   if (status === 'inactive') return 'bg-grey-3'
   if (status === 'active') return 'bg-green'
@@ -10,12 +12,13 @@ const getBgClass = (status) => {
 const PostItemStatusBadge = ({ status, className }) => {
   if (!status) return null
   const bgClass = getBgClass(status)
+  const statusText = postsHelpers.translatePromotionName(status)
   return (
     <div
       className={[className, 'text-xs', 'text-white', bgClass].join(' ')}
       style={{ padding: '0.1em 0.5rem' }}
     >
-      <em>{status}</em>
+      <em>{statusText}</em>
     </div>
   )
 }

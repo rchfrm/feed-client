@@ -4,6 +4,13 @@ import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
+// TRANSLATE PROMOTION NAME
+export const translatePromotionName = (promotionStatus, capitalize) => {
+  const name = promotionStatus === 'inactive' ? 'pending' : promotionStatus
+  if (capitalize) return utils.capitalise(name)
+  return name
+}
+
 // POST TYPE FILTERS
 export const postTypes = [
   {
