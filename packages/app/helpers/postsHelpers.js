@@ -15,30 +15,29 @@ export const translatePromotionName = (promotionStatus, capitalize) => {
 export const postTypes = [
   {
     id: 'active',
-    title: 'Active',
+    title: translatePromotionName('active', true),
     color: brandColors.green,
     activeTextColor: brandColors.white,
   },
   {
     id: 'inactive',
-    title: 'Pending',
+    title: translatePromotionName('inactive', true),
     color: brandColors.greyDark,
     activeTextColor: brandColors.white,
   },
   {
     id: 'archived',
-    title: 'Archived',
+    title: translatePromotionName('archived', true),
     color: brandColors.black,
     activeTextColor: brandColors.white,
   },
   {
     id: 'all',
-    title: 'All',
+    title: translatePromotionName('all', true),
     color: brandColors.greyDark,
     activeTextColor: brandColors.white,
   },
 ]
-
 
 // TOGGLE POST STATUS ON SERVER
 export const updatePost = async ({ artistId, postId, promotionEnabled, disabled = false }) => {
