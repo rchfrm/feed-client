@@ -62,12 +62,6 @@ export const animateTournamentItem = (container, tournamentView) => {
   // GET ELS
   const { ads, buttonContainer, button, metrics } = getEls(container)
   const [leftAd, rightAd] = ads
-  // TOGGLE CLASS ON CONTAINER
-  if (tournamentView === 'metrics') {
-    container.classList.add('_metricsOn')
-  } else {
-    container.classList.remove('_metricsOff')
-  }
   // ANIMATE ADS
   animateAd(leftAd, 'left', tournamentView)
   animateAd(rightAd, 'right', tournamentView)
