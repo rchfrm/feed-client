@@ -5,7 +5,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { TournamentContext } from '@/app/contexts/TournamentContext'
 
-import TournamentsItemDate from '@/app/TournamentsItemDate'
+import TournamentsItemDateStatus from '@/app/TournamentsItemDateStatus'
 import TournamentsItemAdPair from '@/app/TournamentsItemAdPair'
 
 import { copy } from '@/app/copy/tournamentsCopy'
@@ -36,9 +36,10 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
       ].join(' ')}
     >
       {/* DATE */}
-      <TournamentsItemDate
-        className="mb-5"
+      <TournamentsItemDateStatus
         date={dateCreated}
+        status={tournament.status}
+        className="mb-5"
       />
       {/* NO ADS */}
       {!tournament.adPosts.length ? (
