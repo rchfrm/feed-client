@@ -60,14 +60,19 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
         return (
           <div key={dataType} className="relative mb-4 last:mb-0">
             {/* DATA TITLE */}
-            <div className="flex justify-center items-center text-sm mb-1">
-              {a.name}
+            <div className="text-sm mb-1">
+              <span className="inline-block">
+                {a.name}
+              </span>
               {/* TOOLTIP */}
               {tooltip && (
                 <TooltipButton
                   copy={tooltip}
                   direction="left"
-                  buttonClasses="relative z-10"
+                  buttonClasses="inline-block relative z-10"
+                  buttonStyle={{
+                    transform: 'translateY(0.74em)',
+                  }}
                   messageStyle={{
                     maxWidth: '62vw',
                   }}
