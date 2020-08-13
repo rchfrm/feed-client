@@ -4,7 +4,7 @@ const durations = {
   ad: 0.3,
   button: 0.4,
   metrics: {
-    metrics: { duration: 0.4, delay: 0.25 },
+    metrics: { duration: 0.3, delay: 0.25 },
     ads: { duration: 0.1, delay: 0 },
   },
 }
