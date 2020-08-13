@@ -82,7 +82,7 @@ const TournamentItemStreakLine = ({
   // GET DESKTOP LAYOUT TEST
   // GET LINE
   const line = React.useMemo(() => {
-    if (!streak) return
+    if (!streak || !sizes.itemHeight) return
     return getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, sizes, isDesktopLayout)
   }, [streak, isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, sizes, isDesktopLayout])
   // STOP HERE IF NO STREAK
