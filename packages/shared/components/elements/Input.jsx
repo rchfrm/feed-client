@@ -44,6 +44,7 @@ const getIconEl = (icon, error, success) => {
 
 const Input = ({
   handleChange,
+  updateValue,
   name,
   label,
   tooltipMessage,
@@ -90,6 +91,18 @@ const Input = ({
     }
   }, [autoFocus])
 
+  const onChange = React.useCallback((e) => {
+    if (!handleChange && !updateValue) {
+      console.log(`Please provide an function to update the value in ${name}`)
+      return
+    }
+    if (updateValue) {
+      updateValue(e.target.value)
+      return
+    }
+    handleChange(e)
+  }, [handleChange, updateValue, name])
+
   return (
     <div className={containerClasses.join(' ')}>
       <label
@@ -113,7 +126,7 @@ const Input = ({
             className={['input', `input--${version}`].join(' ')}
             name={name}
             type={type}
-            onChange={handleChange}
+            onChange={onChange}
             placeholder={placeholder}
             style={{
               width: `${width}%`,
@@ -133,7 +146,8 @@ const Input = ({
 }
 
 Input.propTypes = {
-  handleChange: PropTypes.func.isRequired,
+  handleChange: PropTypes.func,
+  updateValue: PropTypes.func,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   tooltipMessage: PropTypes.string,
@@ -157,6 +171,8 @@ Input.propTypes = {
 }
 
 Input.defaultProps = {
+  handleChange: null,
+  updateValue: null,
   placeholder: '',
   readOnly: false,
   type: 'text',
