@@ -84,13 +84,20 @@ export const getAdminFacebookIntegration = (artistId) => {
 * @returns {Promise<any>}
 */
 export const patchArtistBusinessId = async (artistId, instagramId) => {
-  return api.patch(`/artists/${artistId}`, {
+  const res = await api.patch(`/artists/${artistId}`, {
     integrations: {
       facebook: {
         instagram_id: instagramId,
       },
     },
   })
+    .catch((error) => { return { error } })
+  if (res.error) {
+    const { error } = res
+    const errorMessage = typeof error.response === 'object' ? error.response.data.error : error.message
+    return { error: { message: errorMessage } }
+  }
+  return res
 }
 
 
