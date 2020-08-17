@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 
+import TournamentsNone from '@/app/TournamentsNone'
 import TournamentsAll from '@/app/TournamentsAll'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
@@ -175,7 +176,10 @@ const TournamentsLoader = ({ audienceName, tournamentType }) => {
   // HANDLE NO TOURNAMENTS
   if (!isPending && !tournaments.length) {
     return (
-      <p className="mt-5">No Tournaments</p>
+      <TournamentsNone
+        audienceName={audienceName}
+        tournamentType={tournamentType}
+      />
     )
   }
 
