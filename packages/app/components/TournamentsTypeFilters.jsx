@@ -14,7 +14,7 @@ const TournamentsTypeFilters = ({
 }) => {
   const pillOptions = React.useMemo(() => {
     // Disable stories for Cold audiences
-    if (currentAudienceType === 'cold') {
+    if (currentAudienceType === 'entice_engage') {
       const storiesIndex = tournamentTypes.findIndex(({ id }) => id === 'stories')
       return produce(tournamentTypes, draftState => {
         draftState[storiesIndex].disabled = true
