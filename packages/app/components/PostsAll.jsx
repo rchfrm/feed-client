@@ -8,7 +8,6 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
 // IMPORT COMPONENTS
 import PostItem from '@/app/PostItem'
-import PostsNone from '@/app/PostsNone'
 // IMPORT ASSETS
 // IMPORT STYLES
 import styles from '@/app/PostsPage.module.css'
@@ -80,11 +79,6 @@ function PostsAll({
       }
     }
   }, [posts.length, loadMore, loadedAll])
-
-  // Stop here if no posts
-  if (posts.length === 0) {
-    return <PostsNone />
-  }
 
   return (
     <section className={styles.postsSection}>
