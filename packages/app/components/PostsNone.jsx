@@ -24,21 +24,35 @@ const testNewUser = (user) => {
   return false
 }
 
-const getCopy = (isNewUser, promotionStatus) => {
-  if (isNewUser) return copy.newUserCopy
-  if (promotionStatus === 'all') return copy.noPostsCopy.all()
-  const promotionStatusName = postsHelpers.translatePromotionName(promotionStatus)
-  return copy.noPostsCopy.other(promotionStatusName)
+const getCopy = ({ isNewUser, hasBudget, promotionStatus }) => {
+  const inactiveTitle = postsHelpers.getPostTypesTitle('inactive')
+  const { noPostsCopy } = copy
+  // ACTIVE
+  if (promotionStatus === 'active') {
+    if (hasBudget) return noPostsCopy.activeWithBudget(inactiveTitle)
+    return noPostsCopy.activeNoBudget()
+  }
+  // ARCHIVED
+  if (promotionStatus === 'archived') {
+    return noPostsCopy.archive()
+  }
+  // ALL and New user
+  if (isNewUser) return noPostsCopy.allNewUser()
+  // ALL and Old user
+  return noPostsCopy.allOldUser()
 }
 
-const PostsNone = ({ refreshPosts, promotionStatus }) => {
+const PostsNone = ({ refreshPosts, promotionStatus, artist }) => {
   // IMPORT CONTEXTS
   const { setHeader } = React.useContext(InterfaceContext)
   const { user } = React.useContext(UserContext)
+
   const isNewUser = React.useMemo(() => {
     return testNewUser(user)
   }, [user])
-  const copyMarkdown = getCopy(isNewUser, promotionStatus)
+  const hasBudget = !!artist.daily_budget
+
+  const copyMarkdown = getCopy({ isNewUser, hasBudget, promotionStatus })
 
   // Update header
   React.useEffect(() => {
@@ -68,9 +82,15 @@ const PostsNone = ({ refreshPosts, promotionStatus }) => {
 }
 
 PostsNone.propTypes = {
+  artist: PropTypes.object,
   refreshPosts: PropTypes.func.isRequired,
   promotionStatus: PropTypes.string.isRequired,
 }
+
+PostsNone.defaultProps = {
+  artist: null,
+}
+
 
 
 export default PostsNone

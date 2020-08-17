@@ -39,6 +39,11 @@ export const postTypes = [
   },
 ]
 
+export const getPostTypesTitle = (id) => {
+  const { title } = postTypes.find(({ id: typeId }) => id === typeId) || {}
+  return title
+}
+
 // TOGGLE POST STATUS ON SERVER
 export const updatePost = async ({ artistId, postId, promotionEnabled, disabled = false }) => {
   if (disabled) return

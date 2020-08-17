@@ -94,7 +94,7 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus, setPostSetting
   const postsPerPage = 10
 
   // Import artist context
-  const { artistId, artistLoading } = React.useContext(ArtistContext)
+  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
@@ -259,7 +259,13 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus, setPostSetting
 
   // Show no posts message if no posts
   if (!isPending && !posts.length) {
-    return <PostsNone refreshPosts={refreshPosts} promotionStatus={promotionStatus} />
+    return (
+      <PostsNone
+        refreshPosts={refreshPosts}
+        promotionStatus={promotionStatus}
+        artist={artist}
+      />
+    )
   }
 
   if (isPending && initialLoad.current) {
