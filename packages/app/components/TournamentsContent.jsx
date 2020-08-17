@@ -41,7 +41,7 @@ const TournamentsContent = () => {
         {/* LOADER */}
         <section id="TournamentItemsContainer" className="mt-5">
           <TournamentsLoader
-            audienceId={currentAudienceType}
+            audienceName={currentAudienceType}
             tournamentType={currentTournamentType}
           />
         </section>

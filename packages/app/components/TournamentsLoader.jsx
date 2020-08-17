@@ -37,12 +37,12 @@ const dataReducer = (draftState, action) => {
 }
 
 // SERVER FETCHER
-const fetcher = async ({ artistId, audienceId, tournamentType, offset }) => {
+const fetcher = async ({ artistId, audienceName, tournamentType, offset }) => {
   if (!artistId) return []
   // GET ALL ARTIST TOURNAMENTS
   return server.getArtistTournaments({
     artistId,
-    audienceId: `${audienceId}_${tournamentType}`,
+    audienceId: `${audienceName}_${tournamentType}`,
     expand: true,
     offset: offset.current,
   })
@@ -52,24 +52,24 @@ const fetcher = async ({ artistId, audienceId, tournamentType, offset }) => {
 const updateDataConditions = (newProps, oldProps) => {
   const {
     artistId: newArtistId,
-    audienceId: newAudienceId,
+    audienceName: newAudienceName,
     tournamentType: newTournamentType,
     loadingMore,
   } = newProps
   const {
     artistId: oldArtistId,
-    audienceId: oldAudienceId,
+    audienceName: oldAudienceName,
     tournamentType: oldTournamentType,
     loadingMore: alreadyLoadingMore,
   } = oldProps
   if (loadingMore && !alreadyLoadingMore) return true
   if (newArtistId !== oldArtistId) return true
-  if (newAudienceId !== oldAudienceId) return true
+  if (newAudienceName !== oldAudienceName) return true
   if (newTournamentType !== oldTournamentType) return true
   return false
 }
 
-const TournamentsLoader = ({ audienceId, tournamentType }) => {
+const TournamentsLoader = ({ audienceName, tournamentType }) => {
   const { artistId, artistLoading, artistCurrency } = React.useContext(ArtistContext)
   const [tournaments, setTournaments] = useImmerReducer(dataReducer, initialDataState)
   const [error, setError] = React.useState(null)
@@ -91,7 +91,7 @@ const TournamentsLoader = ({ audienceId, tournamentType }) => {
     offset.current = 0
     // Update end of assets state
     setLoadedAll(false)
-  }, [artistId, audienceId, tournamentType])
+  }, [artistId, audienceName, tournamentType])
 
   // FETCH DATA
   // Run this to fetch posts when the artist changes
@@ -100,7 +100,7 @@ const TournamentsLoader = ({ audienceId, tournamentType }) => {
     watchFn: updateDataConditions,
     // The variable(s) to pass to promiseFn
     artistId,
-    audienceId,
+    audienceName,
     tournamentType,
     offset,
     loadedAll,
@@ -191,7 +191,7 @@ const TournamentsLoader = ({ audienceId, tournamentType }) => {
 }
 
 TournamentsLoader.propTypes = {
-  audienceId: PropTypes.string.isRequired,
+  audienceName: PropTypes.string.isRequired,
   tournamentType: PropTypes.string.isRequired,
 }
 
