@@ -35,7 +35,9 @@ const PostsNone = ({ refreshPosts, promotionStatus }) => {
   // IMPORT CONTEXTS
   const { setHeader } = React.useContext(InterfaceContext)
   const { user } = React.useContext(UserContext)
-  const isNewUser = testNewUser(user)
+  const isNewUser = React.useMemo(() => {
+    return testNewUser(user)
+  }, [user])
   const copyMarkdown = getCopy(isNewUser, promotionStatus)
 
   // Update header
