@@ -177,7 +177,6 @@ const TournamentsLoader = ({ audienceName, tournamentType }) => {
   if (!isPending && !tournaments.length) {
     return (
       <TournamentsNone
-        audienceName={audienceName}
         tournamentType={tournamentType}
       />
     )
