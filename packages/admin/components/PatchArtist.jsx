@@ -42,7 +42,6 @@ const PatchArtist = ({ artistId, artistName }) => {
   return (
     <div className={['pt-5'].join(' ')}>
       <h4><strong>Patch {artistName}</strong></h4>
-      <Error error={error} />
       <form onSubmit={onSubmit}>
         <Select
           handleChange={handleSelect}
@@ -57,6 +56,7 @@ const PatchArtist = ({ artistId, artistName }) => {
           label={patchOption.name}
           name={patchOption.value}
         />
+        <Error error={error} />
         <Button
           type="submit"
           loading={isLoading}
