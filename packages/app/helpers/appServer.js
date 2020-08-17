@@ -237,8 +237,9 @@ export const updateAccessToken = async (artistId, accessToken) => {
     },
   })
     .catch((error) => { return { error } })
-  if (res.error && typeof res.error.response === 'object') {
-    const errorMessage = res.error.response.data.error
+  if (res.error) {
+    const { error } = res
+    const errorMessage = typeof error.response === 'object' ? error.response.data.error : error.message
     return { error: { message: errorMessage } }
   }
   return res
