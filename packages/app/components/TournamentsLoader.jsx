@@ -37,12 +37,12 @@ const dataReducer = (draftState, action) => {
 }
 
 // SERVER FETCHER
-const fetcher = async ({ artistId, audienceId, offset }) => {
+const fetcher = async ({ artistId, audienceId, tournamentType, offset }) => {
   if (!artistId) return []
   // GET ALL ARTIST TOURNAMENTS
   return server.getArtistTournaments({
     artistId,
-    audienceId,
+    audienceId: `${audienceId}_${tournamentType}`,
     expand: true,
     offset: offset.current,
   })
@@ -50,15 +50,26 @@ const fetcher = async ({ artistId, audienceId, offset }) => {
 
 // UPDATE DATA CONDITION
 const updateDataConditions = (newProps, oldProps) => {
-  const { artistId: newArtistId, audienceId: newAudienceId, loadingMore } = newProps
-  const { artistId: oldArtistId, audienceId: oldAudienceId, loadingMore: alreadyLoadingMore } = oldProps
+  const {
+    artistId: newArtistId,
+    audienceId: newAudienceId,
+    tournamentType: newTournamentType,
+    loadingMore,
+  } = newProps
+  const {
+    artistId: oldArtistId,
+    audienceId: oldAudienceId,
+    tournamentType: oldTournamentType,
+    loadingMore: alreadyLoadingMore,
+  } = oldProps
   if (loadingMore && !alreadyLoadingMore) return true
   if (newArtistId !== oldArtistId) return true
   if (newAudienceId !== oldAudienceId) return true
+  if (newTournamentType !== oldTournamentType) return true
   return false
 }
 
-const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
+const TournamentsLoader = ({ audienceId, tournamentType }) => {
   const { artistId, artistLoading, artistCurrency } = React.useContext(ArtistContext)
   const [tournaments, setTournaments] = useImmerReducer(dataReducer, initialDataState)
   const [error, setError] = React.useState(null)
@@ -71,7 +82,7 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
-  // WHEN CHANGING ARTIST or AUDIENCE ID...
+  // WHEN CHANGING ARTIST or AUDIENCE ID or TOURNAMENT TYPE...
   React.useEffect(() => {
     if (!artistId) return
     // Reset initial load
@@ -80,7 +91,7 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
     offset.current = 0
     // Update end of assets state
     setLoadedAll(false)
-  }, [artistId, audienceId])
+  }, [artistId, audienceId, tournamentType])
 
   // FETCH DATA
   // Run this to fetch posts when the artist changes
@@ -90,6 +101,7 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
     // The variable(s) to pass to promiseFn
     artistId,
     audienceId,
+    tournamentType,
     offset,
     loadedAll,
     loadingMore,
@@ -149,12 +161,6 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
     setLoadingMore(true)
   }, [])
 
-  // DISABLE TYPE FILTERS
-  React.useEffect(() => {
-    const typeFiltersDisabled = loadedAll && !tournaments.length
-    setTypeFiltersDisabled(typeFiltersDisabled)
-  }, [loadedAll, tournaments, setTypeFiltersDisabled])
-
   // Stop here if loading
   if (artistLoading || (isPending && initialLoad.current)) {
     return (
@@ -186,7 +192,7 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
 
 TournamentsLoader.propTypes = {
   audienceId: PropTypes.string.isRequired,
-  setTypeFiltersDisabled: PropTypes.func.isRequired,
+  tournamentType: PropTypes.string.isRequired,
 }
 
 export default TournamentsLoader

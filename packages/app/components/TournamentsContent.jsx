@@ -42,7 +42,7 @@ const TournamentsContent = () => {
         <section id="TournamentItemsContainer" className="mt-5">
           <TournamentsLoader
             audienceId={currentAudienceType}
-            setTypeFiltersDisabled={setTypeFiltersDisabled}
+            tournamentType={currentTournamentType}
           />
         </section>
       </div>
