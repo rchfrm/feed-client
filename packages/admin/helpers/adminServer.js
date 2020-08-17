@@ -57,7 +57,7 @@ export const getArtist = async (cursor, artistId, requestProps = {}) => {
   return [artist]
 }
 
-// Update artist
+// Update artist status
 /**
  * @param {string} [artistId]
  * @param {string} [status] activate || suspend
@@ -68,6 +68,7 @@ export const updateArtistStatus = async (artistId, status) => {
   return api.post(endpoint)
 }
 
+// Get Facebook integrations
 /**
 * @param {string} [artistId]
 * @returns {Promise<any>}
