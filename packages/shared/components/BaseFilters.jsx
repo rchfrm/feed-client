@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // Components
+import TooltipButton from '@/elements/TooltipButton'
 import BaseFiltersButton from '@/BaseFiltersButton'
 // Hooks
 import useScrollToButton from '@/hooks/useScrollToButton'
@@ -30,6 +31,7 @@ const BaseFilters = ({
   setActiveOptionId,
   labelText,
   buttonType,
+  tooltipSlides,
   className,
 }) => {
   // SETUP SCROLL TO BUTTON
@@ -49,7 +51,13 @@ const BaseFilters = ({
 
   return (
     <div className={['breakout--width'].join(' ')}>
-      <p className={['inputLabel__text', styles.label].join(' ')}>{labelText}</p>
+      <div className={['inputLabel__text', styles.label].join(' ')}>
+        {labelText}
+        {/* LABEL TOOLTIP */}
+        {tooltipSlides && (
+          <TooltipButton slides={tooltipSlides} direction="right" />
+        )}
+      </div>
       <div
         ref={containerRef}
         className={[
@@ -90,12 +98,14 @@ BaseFilters.propTypes = {
   setActiveOptionId: PropTypes.func.isRequired,
   labelText: PropTypes.string.isRequired,
   buttonType: PropTypes.string,
+  tooltipSlides: PropTypes.array,
   className: PropTypes.string,
 }
 
 BaseFilters.defaultProps = {
   activeOptionId: '',
   buttonType: 'pill',
+  tooltipSlides: null,
   className: '',
 }
 
