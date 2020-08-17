@@ -8,6 +8,7 @@ import ArtistUsers from '@/admin/ArtistUsers'
 import ArtistStatusButton from '@/admin/ArtistStatusButton'
 import TournamentLink from '@/admin/TournamentLink'
 import ArtistIntegrationLinks from '@/admin/ArtistIntegrationLinks'
+import PatchArtist from '@/admin/PatchArtist'
 
 const getUsersData = (users = {}) => {
   return Object.values(users).map(({ id, name, role }) => {
@@ -51,6 +52,8 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
           integrations={artist.integrations}
         />
       </nav>
+      {/* PATCH */}
+      <PatchArtist artistId={artist.id} artistName={artist.name} />
     </>
   )
 }
