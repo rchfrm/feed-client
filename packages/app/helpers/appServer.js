@@ -226,6 +226,7 @@ export const updateAssetLink = async (artistId, postId, link, verifyIdToken) => 
  * @param {string} artistId
  * @param {string} accessToken
  * @returns {Promise<any>}
+ * Returns errors as if the request were succesful with a `error` key filled out
  */
 export const updateAccessToken = async (artistId, accessToken) => {
   const res = await api.patch(`/artists/${artistId}`, {
