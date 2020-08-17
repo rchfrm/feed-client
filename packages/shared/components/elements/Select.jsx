@@ -83,7 +83,7 @@ Select.propTypes = {
   // There must be an array passed to the options prop,
   options: PropTypes.arrayOf(
     // ...it must be an array of objects, each containing value and name keys,
-    PropTypes.exact({
+    PropTypes.shape({
       // ...the value of the value key must be a string or number,
       value: PropTypes.oneOfType([
         PropTypes.string,
