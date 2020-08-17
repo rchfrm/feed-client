@@ -49,15 +49,22 @@ Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotif
 
   Do you want to continue?`,
 
-  toggleTooltipSlides: [
-    `This switch indicates whether Feed can promote the post...`,
+  toggleTooltipSlides: {
+    triple: [
+      `This switch indicates whether Feed can promote the post...`,
 
-    `When centered, the post will follow your default setting. A green outline means it's eligible for promotion, a red outline means it's not.`,
+      `When centered, the post will follow your default setting. A green outline means it's eligible for promotion, a red outline means it's not.`,
 
-    `Slide right to override your default settings and let Feed promote this post.`,
+      `Slide right to override your default settings and let Feed promote this post.`,
 
-    `Slide left to override your default settings and prevent Feed from promoting this post.`,
+      `Slide left to override your default settings and prevent Feed from promoting this post.`,
 
-    `You can change your default settings using the ‘Post Settings’ button at the top of the posts page.`,
-  ],
+      `You can change your default settings using the ‘Post Settings’ button at the top of the posts page.`,
+    ],
+    double: [
+      `To switch off an active post, slide to the left. The post will stop running as an ad within 15 minutes.`,
+
+      `N.B. Once you have turned off an active post, you may not be able to re-activate it.`,
+    ],
+  },
 }

@@ -13,9 +13,10 @@ const getToggleButtonIcon = (state, defaultState) => {
 }
 
 const getSlides = (postToggleType) => {
+  const slides = copy.toggleTooltipSlides[postToggleType]
   if (postToggleType === 'triple') {
     return {
-      slides: copy.toggleTooltipSlides,
+      slides,
       slidesContentAfter: [
         null,
         <div key="default" className="flex mb-4 items-center">
@@ -33,7 +34,7 @@ const getSlides = (postToggleType) => {
       ],
     }
   }
-  return { slides: [], slidesContentAfter: [] }
+  return { slides, slidesContentAfter: [] }
 }
 
 const PostToggleTooltip = ({ postToggleType }) => {
