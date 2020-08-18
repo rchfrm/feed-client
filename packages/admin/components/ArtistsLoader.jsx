@@ -76,7 +76,13 @@ const ArtistsLoader = ({ artistId }) => {
           )}
         </>
       )}
-      {artistsArray && <ArtistsList artists={artistsArray} propsToDisplay={propsToDisplay} />}
+      {artistsArray && (
+        <ArtistsList
+          artists={artistsArray}
+          propsToDisplay={propsToDisplay}
+          isSingleArtist={isSingleArtist}
+        />
+      )}
     </section>
   )
 }

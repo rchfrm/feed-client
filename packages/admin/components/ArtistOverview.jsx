@@ -16,7 +16,7 @@ const getUsersData = (users = {}) => {
   })
 }
 
-const ArtistOverview = ({ artist, propsToDisplay }) => {
+const ArtistOverview = ({ artist, propsToDisplay, isSingleArtist }) => {
   const artistUsers = React.useMemo(() => {
     return getUsersData(artist.users)
   }, [artist])
@@ -53,11 +53,13 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
         />
       </nav>
       {/* PATCH */}
-      <PatchArtist
-        artistId={artist.id}
-        artistName={artist.name}
-        integrations={artist.integrations}
-      />
+      {isSingleArtist && (
+        <PatchArtist
+          artistId={artist.id}
+          artistName={artist.name}
+          integrations={artist.integrations}
+        />
+      )}
     </>
   )
 }
@@ -65,6 +67,7 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
 ArtistOverview.propTypes = {
   artist: PropTypes.object.isRequired,
   propsToDisplay: PropTypes.array.isRequired,
+  isSingleArtist: PropTypes.bool.isRequired,
 }
 
 export default ArtistOverview
