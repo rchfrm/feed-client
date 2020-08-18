@@ -16,9 +16,9 @@ const TournamentsItemDateStatus = ({ date, status, className }) => {
       <div>
         <div
           className={[
-            'inline-flex items-center',
+            'inline-block xs:inline-flex items-center',
             'rounded-pill whitespace-no-wrap mx-auto',
-            'py-1 px-3 mb-0',
+            'py-1 px-5 xs:px-3 mb-0',
             'bg-grey-1',
           ].join(' ')}
           style={{ paddingBottom: '0.3rem' }}
@@ -27,7 +27,7 @@ const TournamentsItemDateStatus = ({ date, status, className }) => {
           <p className="mb-0">{date}</p>
           {/* STATUS */}
           <p
-            className="mb-0 ml-2"
+            className="mb-0 xs:ml-2"
             style={{ transform: 'translateY(-0.1em)' }}
           >
             {/* DOT */}
