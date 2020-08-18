@@ -12,7 +12,7 @@ const getStatusColor = (status) => {
 const TournamentsItemDateStatus = ({ date, status, className }) => {
   const statusColor = getStatusColor(status)
   return (
-    <div className={['text-center text-sm', className].join(' ')}>
+    <div className={['text-center text-sm', className, 'TournamentsItemDateStatus'].join(' ')}>
       <div>
         <div
           className={[

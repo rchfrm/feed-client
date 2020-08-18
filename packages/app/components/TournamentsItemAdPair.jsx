@@ -93,7 +93,7 @@ const TournamentsItemAdPair = ({
             'relative',
             'xs:hidden',
             'MetricsButtonContainer',
-            'w-16 iphone8:w-10',
+            'w-12 iphone8:w-10',
           ].join(' ')}
           style={{ height: imageHeight, zIndex: 2, willChange: 'transform' }}
         >
@@ -116,7 +116,6 @@ const TournamentsItemAdPair = ({
             '-mt-8 xs:mt-0',
             'px-10 xs:px-0',
             'hidden opacity-0 xs:block xs:opacity-1',
-            'TournamentsItemDetails',
           ].join(' ')}
         />
       </div>

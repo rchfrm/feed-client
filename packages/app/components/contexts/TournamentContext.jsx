@@ -25,20 +25,24 @@ const TournamentContextProvider = ({ children }) => {
   const onResize = React.useCallback((container) => {
     const item = container.querySelector('.TournamentsItemAdPair')
     if (!item) return
+    const date = container.querySelector('.TournamentsItemDateStatus')
+    const dateHeight = date.offsetHeight
     const itemWidth = item.offsetWidth
     const itemHeight = item.offsetHeight
     const image = item.querySelector('.TournamentsItemImage')
     const imageHeight = image.offsetHeight
+    const score = item.querySelector('.TournamentsItemScore')
+    const scoreHeight = score.offsetHeight
     const centralColumn = item.querySelector('.TournamentItemMiddleColumn')
     const centralColumnStyles = getComputedStyle(centralColumn)
     const centralColumnWidth = centralColumn.offsetWidth + (parseInt(centralColumnStyles.marginLeft, 0) * 2)
-    const centralColumnHeight = centralColumn.offsetHeight
     setSizes({
       itemWidth,
       itemHeight,
+      dateHeight,
       imageHeight,
+      scoreHeight,
       centralColumnWidth,
-      centralColumnHeight,
     })
   }, [])
   React.useEffect(() => {

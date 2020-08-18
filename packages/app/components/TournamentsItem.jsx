@@ -33,9 +33,12 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
   return (
     <div
       className={[
-        className,
         'pb-10 xs:pb-16',
+        className,
+        tournament.adPosts.length ? 'TournamentsItem' : null,
       ].join(' ')}
+      style={{ marginBottom: 1 }}
+      ref={tournamentsItemEl}
     >
       {/* DATE */}
       <TournamentsItemDateStatus

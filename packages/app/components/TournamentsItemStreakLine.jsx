@@ -5,33 +5,54 @@ import ArrowLine from '@/icons/ArrowLine'
 
 import { TournamentContext } from '@/app/contexts/TournamentContext'
 
-const getLine = (
+const calcLineHeight = ({ adsHeight, lineOffset, sizes, rem, isDesktopLayout }) => {
+  const { imageHeight, scoreHeight, dateHeight, itemHeight } = sizes
+  // Calc for mobile
+  if (!isDesktopLayout) {
+    return itemHeight - (imageHeight + scoreHeight) + dateHeight + (4 * rem) - (0.5 * rem)
+  }
+  // Calc for desktop
+  const baseHeight = dateHeight + rem + (4 * rem) - rem
+  return baseHeight + (adsHeight - lineOffset)
+}
+
+const getLine = ({
   isAdPair,
   nextIsAdPair,
   streakWinnerIndex,
   nextWinningAdIndex,
   sizes,
+  tournamentsItemEl,
+  lineContainerEl,
   isDesktopLayout,
-) => {
-  const { itemWidth, itemHeight, imageHeight, centralColumnWidth, centralColumnHeight } = sizes
+}) => {
+  const rem = 16
+  const { itemWidth, imageHeight, centralColumnWidth, scoreHeight } = sizes
   const imageWidth = imageHeight
-  const straightLineHeight = itemHeight - (imageHeight * 1.35)
+  const detailsHeight = tournamentsItemEl.querySelector('.TournamentsItemDetails').offsetHeight
+  const lineOffset = lineContainerEl.offsetTop
+  const adsHeight = imageHeight + Math.max(detailsHeight, scoreHeight)
+  const lineHeight = calcLineHeight({ adsHeight, lineOffset, sizes, rem, isDesktopLayout })
   // Elbow:  __| or |__
   //        |          |
   if (
     (isAdPair && !nextIsAdPair && streakWinnerIndex === 1)
     || (!isAdPair && nextWinningAdIndex === 1)
   ) {
-    const translateXMod = nextWinningAdIndex === 0 ? -1 : 0
-    const lineHeightTotal = straightLineHeight - 2
+    // Vertical bits
+    const lineHeightTotal = lineHeight - 2
     const lineSectionHeight = lineHeightTotal / 2
     const firstVerticalHeight = isDesktopLayout
-      ? centralColumnHeight - (imageHeight * 1.8)
+      ? adsHeight - (imageHeight + scoreHeight) + (2 * rem)
       : lineSectionHeight
-    const secondVerticalHeight = isDesktopLayout ? 48 : lineSectionHeight
+    const secondVerticalHeight = isDesktopLayout
+      ? (3.5 * rem)
+      : lineSectionHeight
+    // Horizontal bits
     const lineWidth = isDesktopLayout ? centralColumnWidth + imageWidth : itemWidth - imageWidth
     const leftMod = nextWinningAdIndex === 0 ? -1 : 1
     const left = (lineWidth * leftMod) - (1 * leftMod)
+    const translateXMod = nextWinningAdIndex === 0 ? -1 : 0
     return (
       <>
         <ArrowLine
@@ -65,7 +86,7 @@ const getLine = (
   return (
     <ArrowLine
       className="absolute--center-x t-0"
-      lineLength={straightLineHeight}
+      lineLength={lineHeight}
     />
   )
 }
@@ -79,17 +100,27 @@ const TournamentItemStreakLine = ({
   tournamentsItemEl,
   className,
 }) => {
-  const { sizes, isDesktopLayout } = React.useContext(TournamentContext)
   // GET DESKTOP LAYOUT TEST
+  const { sizes, isDesktopLayout } = React.useContext(TournamentContext)
   // GET LINE
+  const lineContainerEl = React.useRef(null)
   const line = React.useMemo(() => {
-    if (!streak || !sizes.itemHeight) return
-    return getLine(isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, sizes, isDesktopLayout)
-  }, [streak, isAdPair, nextIsAdPair, streakWinnerIndex, nextWinningAdIndex, sizes, isDesktopLayout])
+    if (!streak || !sizes.itemHeight || !lineContainerEl.current) return
+    return getLine({
+      isAdPair,
+      nextIsAdPair,
+      streakWinnerIndex,
+      nextWinningAdIndex,
+      sizes,
+      tournamentsItemEl,
+      lineContainerEl: lineContainerEl.current,
+      isDesktopLayout,
+    })
+  }, [sizes, lineContainerEl.current])
   // STOP HERE IF NO STREAK
   if (!streak) return null
   return (
-    <div className={['relative w-full h-24', className].join(' ')}>
+    <div className={['relative w-full bg-green', className].join(' ')} ref={lineContainerEl}>
       {/* Streak line */}
       {line}
       {/* Streak badge */}

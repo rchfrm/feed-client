@@ -11,6 +11,7 @@ const TournamentsItemScore = ({ score, winner, className }) => {
         'pt-4 pb-5',
         styles.postScore,
         className,
+        'TournamentsItemScore',
       ].join(' ')}
     >
       <div className="inline-block text-center">

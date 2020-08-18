@@ -20,12 +20,15 @@ const TournamentsItemDetails = ({
     return tournamentHelpers.getAdMetrics(dataA, dataB, isAdPair)
   }, [dataA, dataB, isAdPair])
   return (
-    <div className={[className].join(' ')}>
+    <div className={[className, 'TournamentsItemDetails'].join(' ')}>
       <TournamentsItemMetrics
         adMetrics={adMetrics}
         isAdPair={isAdPair}
         currency={currency}
-        className={['text-center mb-4'].join(' ')}
+        className={[
+          'text-center',
+          'pb-4',
+        ].join(' ')}
       />
       <TournamentsItemLinks
         linkA={linkA}
