@@ -14,28 +14,37 @@ const TournamentsItemDateStatus = ({ date, status, className }) => {
   return (
     <div className={['text-center text-sm', className].join(' ')}>
       <div>
-        <p
+        <div
           className={[
-            'inline-block rounded-pill whitespace-no-wrap mx-auto',
-            'py-1 px-2 mb-0',
+            'inline-flex items-center',
+            'rounded-pill whitespace-no-wrap mx-auto',
+            'py-1 px-3 mb-0',
             'bg-grey-1',
           ].join(' ')}
+          style={{ paddingBottom: '0.3rem' }}
         >
-          {date}
-        </p>
+          {/* DATE */}
+          <p className="mb-0">{date}</p>
+          {/* STATUS */}
+          <p
+            className="mb-0 ml-2"
+            style={{ transform: 'translateY(-0.1em)' }}
+          >
+            {/* DOT */}
+            <span
+              className={[
+                'inline-block w-2 h-2 rounded-full',
+                'mr-2',
+                `bg-${statusColor}`,
+              ].join(' ')}
+            />
+            {/* STATUS NAME */}
+            <em className="inline-block">
+              {status}
+            </em>
+          </p>
+        </div>
       </div>
-      <p className="mt-2">
-        {/* DOT */}
-        <span
-          className={[
-            'inline-block w-2 h-2 rounded-full',
-            'mr-2',
-            `bg-${statusColor}`,
-          ].join(' ')}
-        />
-        {/* STATUS NAME */}
-        <em className="inline-block">{status}</em>
-      </p>
     </div>
   )
 }

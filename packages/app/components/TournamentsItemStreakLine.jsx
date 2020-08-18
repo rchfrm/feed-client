@@ -15,7 +15,7 @@ const getLine = (
 ) => {
   const { itemWidth, itemHeight, imageHeight, centralColumnWidth, centralColumnHeight } = sizes
   const imageWidth = imageHeight
-  const straightLineHeight = itemHeight - (imageHeight * 1.05)
+  const straightLineHeight = itemHeight - (imageHeight * 1.35)
   // Elbow:  __| or |__
   //        |          |
   if (
@@ -28,7 +28,7 @@ const getLine = (
     const firstVerticalHeight = isDesktopLayout
       ? centralColumnHeight - (imageHeight * 1.8)
       : lineSectionHeight
-    const secondVerticalHeight = isDesktopLayout ? 72 : lineSectionHeight
+    const secondVerticalHeight = isDesktopLayout ? 48 : lineSectionHeight
     const lineWidth = isDesktopLayout ? centralColumnWidth + imageWidth : itemWidth - imageWidth
     const leftMod = nextWinningAdIndex === 0 ? -1 : 1
     const left = (lineWidth * leftMod) - (1 * leftMod)
