@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 
+import TournamentsNone from '@/app/TournamentsNone'
 import TournamentsAll from '@/app/TournamentsAll'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
@@ -37,12 +38,12 @@ const dataReducer = (draftState, action) => {
 }
 
 // SERVER FETCHER
-const fetcher = async ({ artistId, audienceId, offset }) => {
+const fetcher = async ({ artistId, audienceName, tournamentType, offset }) => {
   if (!artistId) return []
   // GET ALL ARTIST TOURNAMENTS
   return server.getArtistTournaments({
     artistId,
-    audienceId,
+    audienceId: `${audienceName}_${tournamentType}`,
     expand: true,
     offset: offset.current,
   })
@@ -50,15 +51,26 @@ const fetcher = async ({ artistId, audienceId, offset }) => {
 
 // UPDATE DATA CONDITION
 const updateDataConditions = (newProps, oldProps) => {
-  const { artistId: newArtistId, audienceId: newAudienceId, loadingMore } = newProps
-  const { artistId: oldArtistId, audienceId: oldAudienceId, loadingMore: alreadyLoadingMore } = oldProps
+  const {
+    artistId: newArtistId,
+    audienceName: newAudienceName,
+    tournamentType: newTournamentType,
+    loadingMore,
+  } = newProps
+  const {
+    artistId: oldArtistId,
+    audienceName: oldAudienceName,
+    tournamentType: oldTournamentType,
+    loadingMore: alreadyLoadingMore,
+  } = oldProps
   if (loadingMore && !alreadyLoadingMore) return true
   if (newArtistId !== oldArtistId) return true
-  if (newAudienceId !== oldAudienceId) return true
+  if (newAudienceName !== oldAudienceName) return true
+  if (newTournamentType !== oldTournamentType) return true
   return false
 }
 
-const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
+const TournamentsLoader = ({ audienceName, tournamentType }) => {
   const { artistId, artistLoading, artistCurrency } = React.useContext(ArtistContext)
   const [tournaments, setTournaments] = useImmerReducer(dataReducer, initialDataState)
   const [error, setError] = React.useState(null)
@@ -71,7 +83,7 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
-  // WHEN CHANGING ARTIST or AUDIENCE ID...
+  // WHEN CHANGING ARTIST or AUDIENCE ID or TOURNAMENT TYPE...
   React.useEffect(() => {
     if (!artistId) return
     // Reset initial load
@@ -80,7 +92,7 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
     offset.current = 0
     // Update end of assets state
     setLoadedAll(false)
-  }, [artistId, audienceId])
+  }, [artistId, audienceName, tournamentType])
 
   // FETCH DATA
   // Run this to fetch posts when the artist changes
@@ -89,7 +101,8 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
     watchFn: updateDataConditions,
     // The variable(s) to pass to promiseFn
     artistId,
-    audienceId,
+    audienceName,
+    tournamentType,
     offset,
     loadedAll,
     loadingMore,
@@ -149,12 +162,6 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
     setLoadingMore(true)
   }, [])
 
-  // DISABLE TYPE FILTERS
-  React.useEffect(() => {
-    const typeFiltersDisabled = loadedAll && !tournaments.length
-    setTypeFiltersDisabled(typeFiltersDisabled)
-  }, [loadedAll, tournaments, setTypeFiltersDisabled])
-
   // Stop here if loading
   if (artistLoading || (isPending && initialLoad.current)) {
     return (
@@ -169,7 +176,9 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
   // HANDLE NO TOURNAMENTS
   if (!isPending && !tournaments.length) {
     return (
-      <p className="mt-5">No Tournaments</p>
+      <TournamentsNone
+        tournamentType={tournamentType}
+      />
     )
   }
 
@@ -185,8 +194,8 @@ const TournamentsLoader = ({ audienceId, setTypeFiltersDisabled }) => {
 }
 
 TournamentsLoader.propTypes = {
-  audienceId: PropTypes.string.isRequired,
-  setTypeFiltersDisabled: PropTypes.func.isRequired,
+  audienceName: PropTypes.string.isRequired,
+  tournamentType: PropTypes.string.isRequired,
 }
 
 export default TournamentsLoader
