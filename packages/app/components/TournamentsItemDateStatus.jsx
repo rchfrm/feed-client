@@ -39,7 +39,7 @@ const TournamentsItemDateStatus = ({ date, status, className }) => {
               ].join(' ')}
             />
             {/* STATUS NAME */}
-            <em className="inline-block">
+            <em className="inline-block" style={{ transform: 'translateY(0.05em)' }}>
               {status}
             </em>
           </p>
