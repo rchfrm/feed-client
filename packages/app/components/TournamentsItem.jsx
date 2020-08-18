@@ -33,6 +33,7 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
     <div
       className={[
         className,
+        'pb-10 xs:pb-16',
       ].join(' ')}
     >
       {/* DATE */}

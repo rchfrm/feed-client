@@ -43,7 +43,6 @@ const TournamentsItemAdPair = ({
         'relative',
         'flex',
         'justify-between xs:justify-center',
-        'mb-10 xs:mb-16',
         'text-center',
         className,
       ].join(' ')}
