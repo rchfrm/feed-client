@@ -16,7 +16,7 @@ const patchOptions = [
   },
 ]
 
-const PatchArtist = ({ artistId, artistName }) => {
+const PatchArtist = ({ artistId, artistName, integrations }) => {
   // HANDLE SELECT
   const [patchOption, setPatchOption] = React.useState(patchOptions[0])
   const handleSelect = React.useCallback((e) => {
@@ -39,6 +39,10 @@ const PatchArtist = ({ artistId, artistName }) => {
     setIsLoading(false)
     setError(error)
   }, [patchOption, inputValue, artistId])
+
+  // STOP HERE IF ALREADY HAS INTEGRATIONS
+  if (integrations.facebook && integrations.facebook.instagram_id) return null
+
   return (
     <div className={['pt-5'].join(' ')}>
       <h4><strong>Patch {artistName}</strong></h4>
@@ -72,6 +76,12 @@ const PatchArtist = ({ artistId, artistName }) => {
 PatchArtist.propTypes = {
   artistId: PropTypes.string.isRequired,
   artistName: PropTypes.string.isRequired,
+  integrations: PropTypes.object,
 }
+
+PatchArtist.defaultProps = {
+  integrations: {},
+}
+
 
 export default PatchArtist

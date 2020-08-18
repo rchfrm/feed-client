@@ -53,7 +53,11 @@ const ArtistOverview = ({ artist, propsToDisplay }) => {
         />
       </nav>
       {/* PATCH */}
-      <PatchArtist artistId={artist.id} artistName={artist.name} />
+      <PatchArtist
+        artistId={artist.id}
+        artistName={artist.name}
+        integrations={artist.integrations}
+      />
     </>
   )
 }
