@@ -11,25 +11,27 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 import Alert from '@/elements/Alert'
 import Error from '@/elements/Error'
 
-const IntegrationErrorContent = ({ integrationError, dismiss }) => {
+const IntegrationErrorContent = ({ integrationError, dismiss, networkError, showError }) => {
   const {
     message,
     action,
     buttonText,
     href,
     fbLink,
-  } = integrationError
+  } = integrationError || {}
   // Import auth and auth error
   const { auth, authError } = React.useContext(AuthContext)
   // Build alert content
-  const getAlertContents = () => {
+  const getAlertContents = React.useCallback(() => {
     return (
       <>
-        <Error error={authError} />
-        <MarkdownText markdown={message} />
+        <Error error={authError || networkError} />
+        {message && (
+          <MarkdownText markdown={message} />
+        )}
       </>
     )
-  }
+  }, [authError, networkError, integrationError])
 
   // Build alert button
   const AlertButton = () => {
@@ -64,12 +66,12 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
       )
     }
     // HANDLE DISMISS ACTION
-    if (action === 'dismiss') {
-      return (
-        <Button version="black full" onClick={dismiss}>{buttonText}</Button>
-      )
-    }
+    return (
+      <Button version="black full" onClick={dismiss}>{buttonText || 'Ok'}</Button>
+    )
   }
+
+  if (!showError) return null
 
   return (
     <Alert
@@ -81,8 +83,16 @@ const IntegrationErrorContent = ({ integrationError, dismiss }) => {
 }
 
 IntegrationErrorContent.propTypes = {
-  integrationError: PropTypes.object.isRequired,
+  integrationError: PropTypes.object,
   dismiss: PropTypes.func.isRequired,
+  networkError: PropTypes.object,
+  showError: PropTypes.bool.isRequired,
 }
+
+IntegrationErrorContent.defaultProps = {
+  integrationError: null,
+  networkError: null,
+}
+
 
 export default IntegrationErrorContent
