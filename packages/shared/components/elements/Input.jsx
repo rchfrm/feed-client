@@ -93,7 +93,11 @@ const Input = ({
 
   const onChange = React.useCallback((e) => {
     if (!handleChange && !updateValue) {
-      console.error(`Please provide an function to update the value in ${name}`)
+      console.error(`Please provide an function to update the value in ${name}.`)
+      return
+    }
+    if (handleChange && updateValue) {
+      console.error(`Please only provide *either* handleChange or updateValue for ${name}, not both.`)
       return
     }
     if (updateValue) {
