@@ -21,7 +21,7 @@ const TournamentsItemDateStatus = ({ date, status, className }) => {
             'py-1 px-5 xs:px-3 mb-0',
             'bg-grey-1',
           ].join(' ')}
-          style={{ paddingBottom: '0.3rem' }}
+          style={{ paddingBottom: '0.36rem' }}
         >
           {/* DATE */}
           <p className="mb-0">{date}</p>
