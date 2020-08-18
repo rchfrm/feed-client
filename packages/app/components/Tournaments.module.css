@@ -6,6 +6,19 @@
 }
 
 
+.tournamentItemWidth {
+  width: var(--sp-26);
+
+  @media (--md) {
+    width: var(--sp-28);
+  }
+
+  @media (--lg) {
+    width: var(--sp-32);
+  }
+}
+
+
 /* TOURNAMENT ITEM AD */
 .postScore {
   span {

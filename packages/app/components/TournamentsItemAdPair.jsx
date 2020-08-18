@@ -10,6 +10,8 @@ import TournamentsItemDetails from '@/app/TournamentsItemDetails'
 
 import { animateTournamentItem, resetTournamentItem } from '@/app/helpers/animateTournamentItem'
 
+import styles from '@/app/Tournaments.module.css'
+
 const TournamentsItemAdPair = ({
   adPosts,
   isAdPair,
@@ -71,7 +73,11 @@ const TournamentsItemAdPair = ({
       >
         {/* VS */}
         <p
-          className="flex items-center justify-center w-24 mx-auto mb-0"
+          className={[
+            'flex items-center justify-center',
+            'mx-auto mb-0',
+            styles.tournamentItemWidth,
+          ].join(' ')}
           style={{ height: imageHeight }}
         >
           {isAdPair && (<strong><em>vs</em></strong>)}
@@ -80,13 +86,14 @@ const TournamentsItemAdPair = ({
         <div
           className={[
             'flex items-center justify-center',
-            'w-24 h-24 mx-auto',
+            'mx-auto',
             'mt-2',
             'relative',
             'xs:hidden',
             'MetricsButtonContainer',
+            styles.tournamentItemWidth,
           ].join(' ')}
-          style={{ zIndex: 2, willChange: 'transform' }}
+          style={{ height: imageHeight, zIndex: 2, willChange: 'transform' }}
         >
           <button
             className="w-10 h-10 p-2 button--information bg-white MetricsButton"

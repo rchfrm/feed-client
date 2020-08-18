@@ -5,6 +5,8 @@ import TournamentsItemImage from '@/app/TournamentsItemImage'
 import TournamentsItemScore from '@/app/TournamentsItemScore'
 import TournamentsItemStreakLine from '@/app/TournamentsItemStreakLine'
 
+import styles from '@/app/Tournaments.module.css'
+
 const TournamentsItemAd = ({
   adPost,
   isAdPair,
@@ -30,7 +32,7 @@ const TournamentsItemAd = ({
   // const isOnStreak = streak && streak > 0
   return (
     <div
-      className={['w-24', className].join(' ')}
+      className={[styles.tournamentItemWidth, className].join(' ')}
       style={{ willChange: 'transform' }}
     >
       {adPost ? (
