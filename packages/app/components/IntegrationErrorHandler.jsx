@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAsync } from 'react-async'
+import useAsyncEffect from 'use-async-effect'
 
 import * as integrationErrorsHelpers from '@/app/helpers/integrationErrorsHelpers'
 import * as server from '@/app/helpers/appServer'
@@ -47,6 +48,7 @@ const fetchError = async ({ auth, user, artist, artistId }) => {
 // THE COMPONENT
 const IntegrationErrorHandler = () => {
   // Handle showing error
+  const [patchError, setPatchError] = React.useState(null)
   const [showError, setShowError] = React.useState(false)
   // Import artist context
   const {
@@ -58,7 +60,7 @@ const IntegrationErrorHandler = () => {
   // Import Auth context
   const { auth, accessToken, redirectType } = React.useContext(AuthContext)
   // Run async request for errors
-  const { data: integrationError, error: componentError, isPending } = useAsync({
+  const { data: integrationError, error: networkError, isPending } = useAsync({
     promiseFn: fetchError,
     watch: artistId,
     // Vars to pass to promiseFn
@@ -93,9 +95,15 @@ const IntegrationErrorHandler = () => {
     setShowError(!hidden)
   }, [integrationError, accessToken, hasErrorWithAccessToken])
 
+  // Show error if there are network errors
+  React.useEffect(() => {
+    const showError = !!(patchError || networkError)
+    setShowError(showError)
+  }, [patchError, networkError])
+
   // Store new access token when coming back from a redirect
   const accessTokenUpdated = React.useRef(false)
-  React.useEffect(() => {
+  useAsyncEffect(async () => {
     // DO NOT UPDATE ACCESS TOKEN if there is:
     // Still loading going on, or
     // The redirect is from a sign in, or
@@ -112,18 +120,26 @@ const IntegrationErrorHandler = () => {
       return
     }
     // Update access token
+    setPatchError(null)
     accessTokenUpdated.current = true
-    server.updateAccessToken([artistId], accessToken)
+    const { error } = await server.updateAccessToken([artistId], accessToken)
+    if (error) {
+      setPatchError(error)
+    }
   }, [isPending, redirectType, errorRequiresReAuth, accessToken, hasErrorWithAccessToken, artistId])
 
   // Function to hide integration error
-  const hideIntegrationErrors = () => setShowError(false)
+  const hideIntegrationErrors = React.useCallback(() => {
+    setShowError(false)
+  }, [])
 
-  if (isPending || componentError || !integrationError || !showError) return null
+  if (isPending || !showError) return null
 
   return (
     <IntegrationErrorContent
       integrationError={integrationError}
+      networkError={networkError || patchError}
+      showError={showError}
       dismiss={hideIntegrationErrors}
     />
   )

@@ -14,6 +14,7 @@ export const testForMissingPages = (scopes) => {
 }
 
 export const getErrorResponse = (error, artist) => {
+  if (!error) return
   const {
     code,
     subcode, message:
