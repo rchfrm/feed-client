@@ -39,7 +39,7 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
       <TournamentsItemDateStatus
         date={dateCreated}
         status={tournament.status}
-        className="mb-5"
+        className="mb-8 xs:mb-5"
       />
       {/* NO ADS */}
       {!tournament.adPosts.length ? (
