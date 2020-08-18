@@ -77,11 +77,12 @@ export const getAdminFacebookIntegration = (artistId) => {
   return api.get(`artists/${artistId}/integrations/facebook`)
 }
 
-// Patch artist Instagram Business ID
+
 /**
 * @param {string} [artistId]
 * @param {string} [instagramId]
 * @returns {Promise<any>}
+* Patch artist Instagram Business ID
 */
 export const patchArtistBusinessId = async (artistId, instagramId) => {
   const res = await api.patch(`/artists/${artistId}`, {
