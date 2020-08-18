@@ -2,7 +2,7 @@ module.exports = (purgeFiles) => ({
   purge: purgeFiles,
   theme: {
     screens: {
-      iphone6: '320px',
+      iphone8: '375px',
       xxs: '450px',
       xs: '600px',
       sm: '800px',

@@ -93,7 +93,7 @@
  * Breakpoints.
  */
 
-@custom-media --iphone6 (width >= 320px);
+@custom-media --iphone8 (width >= 375px);
 @custom-media --xxsMax (width < 450px);
 @custom-media --xxs    (width >= 450px);
 @custom-media --min-content (width >= 540px);
