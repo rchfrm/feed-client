@@ -9,10 +9,10 @@ const calcLineHeight = ({ adsHeight, lineOffset, sizes, rem, isDesktopLayout }) 
   const { imageHeight, scoreHeight, dateHeight, itemHeight } = sizes
   // Calc for mobile
   if (!isDesktopLayout) {
-    return itemHeight - (imageHeight + scoreHeight) + dateHeight + (4 * rem) - (0.5 * rem)
+    return itemHeight - (imageHeight + scoreHeight) + dateHeight + (4 * rem) - (1 * rem)
   }
   // Calc for desktop
-  const baseHeight = dateHeight + rem + (4 * rem) - rem
+  const baseHeight = dateHeight + rem + (4 * rem) - (rem * 1.25)
   return baseHeight + (adsHeight - lineOffset)
 }
 
