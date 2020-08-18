@@ -25,8 +25,6 @@ const animateAd = (target, position, tournamentView) => {
 const animateButton = ({ buttonContainer, button, metrics }, tournamentView) => {
   const metricsHeight = tournamentView === 'metrics' ? metrics.offsetHeight : 0
   const buttonContainerHeight = tournamentView === 'metrics' ? buttonContainer.offsetHeight : 0
-  console.log('buttonContainerHeight', buttonContainerHeight)
-  console.log('metricsHeight', metricsHeight)
   const y = tournamentView === 'metrics' ? metricsHeight - (buttonContainerHeight / 2) - 16 : 0
   const rotation = tournamentView === 'metrics' ? 45 : 0
   const duration = durations.button

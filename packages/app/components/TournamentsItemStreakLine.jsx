@@ -116,6 +116,7 @@ const TournamentItemStreakLine = ({
       lineContainerEl: lineContainerEl.current,
       isDesktopLayout,
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sizes, lineContainerEl.current])
   // STOP HERE IF NO STREAK
   if (!streak) return null
