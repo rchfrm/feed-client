@@ -76,6 +76,7 @@ const TournamentItemStreakLine = ({
   nextIsAdPair,
   nextWinningAdIndex,
   streak,
+  tournamentsItemEl,
   className,
 }) => {
   const { sizes, isDesktopLayout } = React.useContext(TournamentContext)
@@ -110,6 +111,7 @@ TournamentItemStreakLine.propTypes = {
   nextIsAdPair: PropTypes.bool.isRequired,
   nextWinningAdIndex: PropTypes.number,
   streak: PropTypes.number,
+  tournamentsItemEl: PropTypes.object,
   className: PropTypes.string,
 }
 
@@ -117,6 +119,7 @@ TournamentItemStreakLine.defaultProps = {
   streakWinnerIndex: 0,
   nextWinningAdIndex: 0,
   streak: 0,
+  tournamentsItemEl: null,
   className: null,
 }
 

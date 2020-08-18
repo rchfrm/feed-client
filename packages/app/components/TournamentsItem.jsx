@@ -28,7 +28,8 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
   }, [tournamentView])
   // GET DESKTOP LAYOUT TEST
   const { isDesktopLayout } = React.useContext(TournamentContext)
-
+  // GET EL REF
+  const tournamentsItemEl = React.useRef(null)
   return (
     <div
       className={[
@@ -60,6 +61,7 @@ const TournamentsItem = ({ tournament, lastTournament, className }) => {
           switchViews={switchViews}
           isDesktopLayout={isDesktopLayout}
           tournamentView={tournamentView}
+          tournamentsItemEl={tournamentsItemEl.current}
           className="TournamentsItemAdPair"
         />
       )}

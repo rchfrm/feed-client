@@ -17,6 +17,7 @@ const TournamentsItemAd = ({
   lastTournament,
   secondary,
   tournamentView,
+  tournamentsItemEl,
   className,
 }) => {
   const {
@@ -57,6 +58,7 @@ const TournamentsItemAd = ({
               nextIsAdPair={nextIsAdPair}
               nextWinningAdIndex={nextWinningAdIndex}
               streak={streak}
+              tournamentsItemEl={tournamentsItemEl}
               className={tournamentView === 'metrics' ? 'hidden' : null}
             />
           )}
@@ -76,6 +78,7 @@ TournamentsItemAd.propTypes = {
   lastTournament: PropTypes.bool.isRequired,
   secondary: PropTypes.bool,
   tournamentView: PropTypes.string.isRequired,
+  tournamentsItemEl: PropTypes.object,
   className: PropTypes.string,
 }
 
@@ -86,6 +89,7 @@ TournamentsItemAd.defaultProps = {
   nextWinningAdIndex: 0,
   secondary: false,
   winningAdId: '',
+  tournamentsItemEl: null,
   className: '',
 }
 
