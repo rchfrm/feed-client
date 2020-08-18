@@ -48,7 +48,6 @@ const TournamentsItemAd = ({
           <TournamentsItemScore
             score={scoreString}
             winner={isWinner}
-            className={['mt-4'].join(' ')}
           />
           {/* Line & Streak */}
           {streakWinner && !lastTournament && (

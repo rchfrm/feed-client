@@ -88,7 +88,7 @@ const TournamentItemStreakLine = ({
   // STOP HERE IF NO STREAK
   if (!streak) return null
   return (
-    <div className={['relative w-full h-24 mt-5', className].join(' ')}>
+    <div className={['relative w-full h-24', className].join(' ')}>
       {/* Streak line */}
       {line}
       {/* Streak badge */}
