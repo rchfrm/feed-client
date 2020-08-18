@@ -43,11 +43,11 @@ const TournamentsItemAdPair = ({
         'relative',
         'flex',
         'justify-between xs:justify-center',
-        'mb-10',
+        'mb-10 xs:mb-16',
         'text-center',
         className,
       ].join(' ')}
-      style={{ height: '25rem' }}
+      style={{ height: isDesktopLayout ? 'auto' : '18rem' }}
       ref={containerEl}
     >
       {/* FIRST AD */}
@@ -68,13 +68,14 @@ const TournamentsItemAdPair = ({
         className={[
           'TournamentItemMiddleColumn',
           'w-auto xs:w-1/2 sm:w-96 lg:w-112',
-          'mx-8 sm:mx-12 lg:mx-16',
+          'mx-4 sm:mx-12 lg:mx-16',
         ].join(' ')}
       >
         {/* VS */}
         <p
           className={[
-            'flex items-center justify-center',
+            'hidden',
+            'xs:flex items-center justify-center',
             'mx-auto mb-0',
             'lg:text-lg',
             styles.tournamentItemWidth,
@@ -88,16 +89,15 @@ const TournamentsItemAdPair = ({
           className={[
             'flex items-center justify-center',
             'mx-auto',
-            'mt-2',
             'relative',
             'xs:hidden',
             'MetricsButtonContainer',
-            styles.tournamentItemWidth,
+            'w-16 iphone8:w-10',
           ].join(' ')}
           style={{ height: imageHeight, zIndex: 2, willChange: 'transform' }}
         >
           <button
-            className="w-10 h-10 p-2 button--information bg-white MetricsButton"
+            className="w-10 h-10 p-2 button--information MetricsButton"
             aria-label="Show metrics"
             title="Tournament metrics"
             onClick={() => switchViews()}
@@ -112,7 +112,7 @@ const TournamentsItemAdPair = ({
           className={[
             'absolute xs:static',
             'left-0 top-0 w-full',
-            'mt-20 xs:mt-0',
+            '-mt-8 xs:mt-0',
             'px-10 xs:px-0',
             'hidden opacity-0 xs:block xs:opacity-1',
             'TournamentsItemDetails',

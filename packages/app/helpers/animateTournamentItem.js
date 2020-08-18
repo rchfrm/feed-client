@@ -12,7 +12,7 @@ const durations = {
 // ANIMATE AD
 const animateAd = (target, position, tournamentView) => {
   if (!target) return
-  const translateX = tournamentView === 'metrics' ? 80 : 0
+  const translateX = tournamentView === 'metrics' ? 90 : 0
   const direction = position === 'left' ? -1 : 1
   // Anim props
   const xPercent = translateX * direction
@@ -22,12 +22,16 @@ const animateAd = (target, position, tournamentView) => {
 }
 
 // ANIMATE BUTTON
-const animateButton = ({ buttonContainer, button }, tournamentView) => {
-  const yPercent = tournamentView === 'metrics' ? -100 : 0
+const animateButton = ({ buttonContainer, button, metrics }, tournamentView) => {
+  const metricsHeight = tournamentView === 'metrics' ? metrics.offsetHeight : 0
+  const buttonContainerHeight = tournamentView === 'metrics' ? buttonContainer.offsetHeight : 0
+  console.log('buttonContainerHeight', buttonContainerHeight)
+  console.log('metricsHeight', metricsHeight)
+  const y = tournamentView === 'metrics' ? metricsHeight - (buttonContainerHeight / 2) - 16 : 0
   const rotation = tournamentView === 'metrics' ? 45 : 0
   const duration = durations.button
   const ease = tournamentView === 'metrics' ? 'back.inOut(1.2)' : 'back.out(1)'
-  gsap.to(buttonContainer, { yPercent, duration, ease })
+  gsap.to(buttonContainer, { y, duration, ease })
   gsap.to(button, { rotation, duration, ease: 'power1.out' })
 }
 
@@ -65,10 +69,10 @@ export const animateTournamentItem = (container, tournamentView) => {
   // ANIMATE ADS
   animateAd(leftAd, 'left', tournamentView)
   animateAd(rightAd, 'right', tournamentView)
-  // ANIMATE BUTTON
-  animateButton({ buttonContainer, button }, tournamentView)
   // ANIMATE METRICS
   animateMetrics(metrics, tournamentView)
+  // ANIMATE BUTTON
+  animateButton({ buttonContainer, button, metrics }, tournamentView)
 }
 
 
