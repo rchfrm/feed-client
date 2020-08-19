@@ -18,16 +18,13 @@ const PostItemMetricsList = ({
   // CREATE ARRAY OF METRICS
   const maxMetrics = 4
   const metricsArray = React.useMemo(() => {
-    console.log('metrics', metrics)
     const metricsFormatted = utils.getDataArray(metricsContent, metrics, true)
-    console.log('metricsFormatted', metricsFormatted)
     return metricsFormatted
       // remove empty items from array
       .filter(({ value }) => value)
       // restrict number of items
       .slice(0, maxMetrics)
   }, [metrics, metricsContent])
-  console.log('metricsArray', metricsArray)
 
   // CREATE SPACERS (for preserving height)
   const metricsSpacers = React.useMemo(() => {
