@@ -73,13 +73,10 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
               {tooltip && (
                 <TooltipButton
                   copy={tooltip}
-                  direction="left"
+                  direction="top"
                   buttonClasses="inline-block relative z-10"
                   buttonStyle={{
                     transform: 'translateY(0.74em)',
-                  }}
-                  messageStyle={{
-                    maxWidth: '62vw',
                   }}
                 />
               )}
