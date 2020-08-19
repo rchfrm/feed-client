@@ -28,8 +28,8 @@ const PostItemTopBar = ({
     <div className={[styles.topBar, styles.postSection, styles.postText].join(' ')}>
       <PostMetaData
         platform={post.platform}
-        date={post.published_time}
-        permalink={post.permalink_url}
+        date={post.publishedTime}
+        permalink={post.permalinkUrl}
       />
       {/* TOGGLE BUTTON (if poss) */}
       {postPromotable && promotionStatus !== 'archived' && (

@@ -102,7 +102,7 @@ function PostsAll({
               key={post.id}
               index={index}
               post={post}
-              enabled={post.promotion_enabled}
+              enabled={post.promotionEnabled}
               updateLink={updateLink}
               singular={posts.length === 1}
               togglePromotion={togglePromotion}

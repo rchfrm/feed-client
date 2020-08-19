@@ -22,18 +22,20 @@ const PostItem = ({
   className = '',
   children = <></>,
 }) => {
+  // console.log('post', post)
   // Errors
   const [error, setError] = React.useState(null)
   // EXTRACT POST DATA
   const {
-    is_promotable: postPromotable,
-    promotion_status: promotionStatus,
-    promotion_enabled: promotionEnabled,
-    promotable_status: promotableStatus,
+    priorityDsp,
+    postPromotable,
+    promotionStatus,
+    promotionEnabled,
+    promotableStatus,
   } = post
   // POST CAPTION
   const postCaption = React.useMemo(() => {
-    return post.short_message.join('\n')
+    return post.shortMessage.join('\n')
   }, [post])
   // CLASSES
   const enabledClass = enabled ? styles._enabled : styles._disabled
@@ -57,17 +59,18 @@ const PostItem = ({
         {/* IMAGE AND CONTENTS */}
         <PostItemContents
           media={post.media}
-          thumbnailSrc={post._metadata.thumbnail_url}
+          thumbnailSrc={post.thumbnailSrc}
           caption={postCaption}
           captionFull={post.message}
         />
 
         {/* METRICS */}
         <PostItemMetrics
-          insights={post.insights}
-          adsSummary={post.ads_summary}
-          es={post.insights.engagement_score}
-          status={post.promotion_enabled}
+          organicMetrics={post.organicMetrics}
+          paidMetrics={post.paidMetrics}
+          esOrganic={post.organicMetrics.engagementScore}
+          esPaid={post.paidMetrics.engagementScore}
+          status={promotionEnabled}
           postPromotable={postPromotable}
           promotionStatus={promotionStatus}
         />
@@ -77,8 +80,8 @@ const PostItem = ({
           <PostItemLink
             postId={post.id}
             postIndex={index}
-            promotionEnabled={post.promotion_enabled}
-            priorityDsp={post.priority_dsp}
+            promotionEnabled={promotionEnabled}
+            priorityDsp={priorityDsp}
             updateLink={updateLink}
             setError={setError}
           />

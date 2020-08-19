@@ -27,8 +27,8 @@ const postsReducer = (draftState, postsAction) => {
   const {
     newPosts,
     postIndex,
-    promotion_enabled,
-    promotable_status,
+    promotionEnabled,
+    promotableStatus,
     postLink,
   } = payload
   switch (actionType) {
@@ -40,16 +40,16 @@ const postsReducer = (draftState, postsAction) => {
       draftState.push(...newPosts)
       break
     case 'toggle-promotion':
-      draftState[postIndex].promotion_enabled = promotion_enabled
-      draftState[postIndex].promotable_status = promotable_status
+      draftState[postIndex].promotionEnabled = promotionEnabled
+      draftState[postIndex].promotableStatus = promotableStatus
       break
     case 'toggle-promotion-global':
       draftState.forEach((post) => {
-        post.promotion_enabled = promotion_enabled
+        post.promotionEnabled = promotionEnabled
       })
       break
     case 'update-link':
-      draftState[postIndex].priority_dsp = postLink
+      draftState[postIndex].priorityDsp = postLink
       break
     default:
       return draftState
@@ -64,10 +64,9 @@ const fetchPosts = async ({ promotionStatus, artistId, limit, isEndOfAssets, cur
   if (isEndOfAssets.current) return
   // Get posts
   const posts = await server.getPosts({ limit, artistId, promotionStatus, cursor: cursor.current })
-  // Format posts
-  const postsFormatted = postsHelpers.formatPostsResponse(posts)
+  console.log('posts from server', posts)
   // Sort the returned posts chronologically, latest first
-  return utils.sortAssetsChronologically(Object.values(postsFormatted))
+  return utils.sortAssetsChronologically(Object.values(posts))
 }
 
 // WHEN TO UPDATE POSTS
@@ -122,7 +121,6 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus, setPostSetting
     promotionStatus,
     // When fetch finishes
     onResolve: (posts) => {
-      console.log('posts', posts)
       // Turn off global loading
       toggleGlobalLoading(false)
       // Handle result...
@@ -137,6 +135,9 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus, setPostSetting
         initialLoad.current = false
         return
       }
+      // Format postrs
+      const postsFormatted = postsHelpers.formatPostsResponse(posts)
+      console.log('posts formatted', postsFormatted)
       // Update afterCursor
       const lastPost = posts[posts.length - 1]
       if (lastPost._links.after) {
@@ -151,7 +152,7 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus, setPostSetting
         setPosts({
           type: 'add-posts',
           payload: {
-            newPosts: posts,
+            newPosts: postsFormatted,
           },
         })
         return
@@ -160,7 +161,7 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus, setPostSetting
       setPosts({
         type: 'replace-posts',
         payload: {
-          newPosts: posts,
+          newPosts: postsFormatted,
         },
       })
       // Define initial load
@@ -177,15 +178,15 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus, setPostSetting
   const [postToggleSetter, setPostToggleSetter] = React.useState('')
 
   // Define function for toggling SINGLE promotion
-  const togglePromotion = React.useCallback(async (postId, promotion_enabled, promotable_status) => {
+  const togglePromotion = React.useCallback(async (postId, promotionEnabled, promotableStatus) => {
     const indexOfId = posts.findIndex(({ id }) => postId === id)
-    const newPromotionState = promotion_enabled
+    const newPromotionState = promotionEnabled
     setPostToggleSetter('single')
     setPosts({
       type: 'toggle-promotion',
       payload: {
-        promotion_enabled,
-        promotable_status,
+        promotionEnabled,
+        promotableStatus,
         postIndex: indexOfId,
       },
     })
@@ -203,17 +204,17 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus, setPostSetting
   // Define function to BATCH TOGGLE all posts
   // and set it on the parent
   React.useEffect(() => {
-    const togglePromotionGlobal = (promotion_enabled) => {
+    const togglePromotionGlobal = (promotionEnabled) => {
       setPostToggleSetter('batch')
       setPosts({
         type: 'toggle-promotion-global',
         payload: {
-          promotion_enabled,
+          promotionEnabled,
         },
       })
     }
-    setTogglePromotionGlobal(() => (promotion_enabled) => {
-      togglePromotionGlobal(promotion_enabled)
+    setTogglePromotionGlobal(() => (promotionEnabled) => {
+      togglePromotionGlobal(promotionEnabled)
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTogglePromotionGlobal])
