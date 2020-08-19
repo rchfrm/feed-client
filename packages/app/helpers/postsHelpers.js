@@ -160,7 +160,7 @@ export const getPostMetricsContent = (metricsType) => {
 }
 
 
-export const getMetricsDrilldownCopy = (drilldownMetrics) => {
+export const getMetricsDrilldown = (drilldownMetrics, title) => {
   if (!drilldownMetrics) return null
   const metricsEntries = Object.entries(drilldownMetrics)
   const sentenceArray = metricsEntries.reduce((arr, [key, value]) => {

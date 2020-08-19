@@ -83,9 +83,15 @@ const PostItemMetricsList = ({
 PostItemMetricsList.propTypes = {
   metrics: PropTypes.object.isRequired,
   metricsContent: PropTypes.array.isRequired,
-  currentMetricsType: PropTypes.string.isRequired,
-  setDrilldown: PropTypes.func.isRequired,
+  currentMetricsType: PropTypes.string,
+  setDrilldown: PropTypes.func,
 }
+
+PostItemMetricsList.defaultProps = {
+  currentMetricsType: '',
+  setDrilldown: () => {},
+}
+
 
 
 export default PostItemMetricsList

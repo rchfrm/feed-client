@@ -6,8 +6,6 @@ import copy from '@/app/copy/PostsPageCopy'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
-const getDrilldownCopy = (drilldownMetrics) => postsHelpers.getMetricsDrilldownCopy(drilldownMetrics)
-
 const PostItemMetricsListItem = ({
   id,
   title,
@@ -17,8 +15,8 @@ const PostItemMetricsListItem = ({
   setDrilldown,
   className,
 }) => {
-  const drilldown = getDrilldownCopy(drilldownMetrics)
-  const tooltip = copy.metricsTooltips[currentMetricsType][id]
+  const drilldown = drilldownMetrics ? { metrics: drilldownMetrics, title } : null
+  // const tooltip = copy.metricsTooltips[currentMetricsType][id]
   return (
     <li
       className={[styles.postMetricsItem, className].join(' ')}
@@ -49,15 +47,17 @@ PostItemMetricsListItem.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
-  currentMetricsType: PropTypes.string.isRequired,
+  currentMetricsType: PropTypes.string,
   drilldownMetrics: PropTypes.object,
-  setDrilldown: PropTypes.func.isRequired,
+  setDrilldown: PropTypes.func,
   className: PropTypes.string,
 }
 
 PostItemMetricsListItem.defaultProps = {
-  className: '',
+  currentMetricsType: '',
   drilldownMetrics: null,
+  setDrilldown: () => {},
+  className: '',
 }
 
 export default PostItemMetricsListItem

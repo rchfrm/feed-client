@@ -5,6 +5,7 @@ import produce from 'immer'
 
 import PillOptions from '@/elements/PillOptions'
 import PostItemMetricsList from '@/app/PostItemMetricsList'
+import PostItemMetricsDrilldown from '@/app/PostItemMetricsDrilldown'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
@@ -54,7 +55,7 @@ const PostItemMetrics = ({
     <>
       {/* METRICS TYPE BUTTONS */}
       <div className={['relative overflow-hidden'].join(' ')}>
-        <div className={[styles.postSection, 'pb-1'].join(' ')}>
+        <div className={[styles.postSection, 'pb-4'].join(' ')}>
           <PillOptions
             options={pillOptions}
             activeOption={currentMetricsType}
@@ -74,24 +75,20 @@ const PostItemMetrics = ({
           es={es}
           setDrilldown={setDrilldown}
         />
-        {/* METRICS DRILLDOWN */}
-        <div
-          className={[
-            'absolute w-full h-full bg-white top-0 left-0',
-            styles.postSection,
-            !drilldown ? 'hidden' : null,
-          ].join(' ')}
-          // style={{ transform: 'translateY(100%)' }}
-        >
-          HELP
+        {/* ES SCORE */}
+        <div className={[styles.postSection, styles.postEsScore, styles.postText].join(' ')}>
+          <p className={styles.postEsScorePara}>
+            <span>Score</span>
+            <strong>{es || '-'}</strong>
+          </p>
         </div>
-      </div>
-      {/* ES SCORE */}
-      <div className={[styles.postSection, styles.postEsScore, styles.postText].join(' ')}>
-        <p className={styles.postEsScorePara}>
-          <span>Score</span>
-          <strong>{es || '-'}</strong>
-        </p>
+        {/* METRICS DRILLDOWN */}
+        {drilldown && (
+          <PostItemMetricsDrilldown
+            drilldown={drilldown}
+            setDrilldown={setDrilldown}
+          />
+        )}
       </div>
     </>
   )
