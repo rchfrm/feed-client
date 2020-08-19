@@ -48,25 +48,34 @@ const PostItemMetrics = ({
   return (
     <>
       {/* METRICS TYPE BUTTONS */}
-      <div className={[styles.postSection, 'pb-1'].join(' ')}>
-        <PillOptions
-          options={pillOptions}
-          activeOption={currentMetricsType}
-          setActiveOption={setCurrentMetricsType}
-          size="small"
-          style={{
-            width: '101%',
-            transform: 'translateX(-0.5%)',
-          }}
+      <div className={['relative overflow-hidden'].join(' ')}>
+        <div className={[styles.postSection, 'pb-1'].join(' ')}>
+          <PillOptions
+            options={pillOptions}
+            activeOption={currentMetricsType}
+            setActiveOption={setCurrentMetricsType}
+            size="small"
+            style={{
+              width: '101%',
+              transform: 'translateX(-0.5%)',
+            }}
+          />
+        </div>
+        {/* LIST OF METRICS */}
+        <PostItemMetricsList
+          metrics={metrics}
+          metricsContent={metricsContent}
+          currentMetricsType={currentMetricsType}
+          es={es}
         />
       </div>
-      {/* LIST OF METRICS */}
-      <PostItemMetricsList
-        metrics={metrics}
-        metricsContent={metricsContent}
-        currentMetricsType={currentMetricsType}
-        es={es}
-      />
+      {/* ES SCORE */}
+      <div className={[styles.postSection, styles.postEsScore, styles.postText].join(' ')}>
+        <p className={styles.postEsScorePara}>
+          <span>Score</span>
+          <strong>{es || '-'}</strong>
+        </p>
+      </div>
     </>
   )
 }

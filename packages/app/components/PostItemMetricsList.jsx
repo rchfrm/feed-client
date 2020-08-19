@@ -35,49 +35,41 @@ const PostItemMetricsList = ({ metrics, metricsContent, es, currentMetricsType }
   const { artistCurrency } = React.useContext(ArtistContext)
 
   return (
-    <>
-      <ul className={[
-        'xs:grid',
-        'text-sm',
-        'grid-cols-2',
-        'col-gap-6',
-        'xxs:col-gap-12',
-        'xs:col-gap-6',
-        'sm:col-gap-8',
-        styles.postSection,
-        styles.postMetrics,
-      ].join(' ')}
-      >
-        {/* METRICS */}
-        {metricsArray.map(({ name, key, value }) => {
-          // Parse value
-          const parsedValue = key === 'spend'
-            ? utils.formatCurrency(value, artistCurrency)
-            : utils.abbreviateNumber(value)
-          const drilldownMetrics = metrics.drilldowns ? metrics.drilldowns[key] : null
-          return (
-            <PostItemMetricsListItem
-              key={key}
-              id={key}
-              title={name}
-              value={parsedValue}
-              currentMetricsType={currentMetricsType}
-              drilldownMetrics={drilldownMetrics}
-            />
-          )
-        })}
-        {/* SPACERS */}
-        {metricsSpacers.map((v) => {
-          return <li key={v} className={styles.postMetricsItem}>&nbsp;</li>
-        })}
-      </ul>
-      <div className={[styles.postSection, styles.postEsScore, styles.postText].join(' ')}>
-        <p className={styles.postEsScorePara}>
-          <span>Score</span>
-          <strong>{es}</strong>
-        </p>
-      </div>
-    </>
+    <ul className={[
+      'grid',
+      'text-sm',
+      'grid-cols-2',
+      'col-gap-6',
+      'xxs:col-gap-12',
+      'xs:col-gap-6',
+      'sm:col-gap-8',
+      styles.postSection,
+      styles.postMetrics,
+    ].join(' ')}
+    >
+      {/* METRICS */}
+      {metricsArray.map(({ name, key, value }) => {
+        // Parse value
+        const parsedValue = key === 'spend'
+          ? utils.formatCurrency(value, artistCurrency)
+          : utils.abbreviateNumber(value)
+        const drilldownMetrics = metrics.drilldowns ? metrics.drilldowns[key] : null
+        return (
+          <PostItemMetricsListItem
+            key={key}
+            id={key}
+            title={name}
+            value={parsedValue}
+            currentMetricsType={currentMetricsType}
+            drilldownMetrics={drilldownMetrics}
+          />
+        )
+      })}
+      {/* SPACERS */}
+      {metricsSpacers.map((v) => {
+        return <li key={v} className={styles.postMetricsItem}>&nbsp;</li>
+      })}
+    </ul>
   )
 }
 
@@ -85,12 +77,10 @@ const PostItemMetricsList = ({ metrics, metricsContent, es, currentMetricsType }
 PostItemMetricsList.propTypes = {
   metrics: PropTypes.object.isRequired,
   metricsContent: PropTypes.array.isRequired,
-  es: PropTypes.number,
   currentMetricsType: PropTypes.string.isRequired,
 }
 
 PostItemMetricsList.defaultProps = {
-  es: '-',
 }
 
 
