@@ -59,7 +59,7 @@ const TournamentsItemAd = ({
               nextWinningAdIndex={nextWinningAdIndex}
               streak={streak}
               tournamentsItemEl={tournamentsItemEl}
-              className={tournamentView === 'metrics' ? 'hidden' : null}
+              className={tournamentView === 'metrics' ? 'opacity-0' : null}
             />
           )}
         </>
