@@ -142,29 +142,8 @@
 /* METRICS */
 /* **************************** */
 .postMetrics {
-  font-size: 0.8em;
   margin-bottom: -0.7em !important;
-  padding-top: var(--sp-4);
-
-  @media (min-width: 360px) {
-    font-size: 0.9em;
-  }
-
-  @media (--xs) {
-    font-size: 0.8em;
-  }
-
-  @media (--sm) {
-    font-size: 0.9em;
-  }
-
-  @media (--lg) {
-    font-size: 0.8em;
-  }
-
-  @media (min-width: 1300px) {
-    font-size: 0.9em;
-  }
+  padding-top: 0;
 }
 
 .postMetricsItem {

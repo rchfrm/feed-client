@@ -38,6 +38,7 @@ const PostItemMetricsList = ({ metrics, metricsContent, es, currentMetricsType }
     <>
       <ul className={[
         'xs:grid',
+        'text-sm',
         'grid-cols-2',
         'col-gap-6',
         'xxs:col-gap-12',
