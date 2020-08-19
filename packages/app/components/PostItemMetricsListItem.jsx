@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import TooltipButton from '@/elements/TooltipButton'
-
 import styles from '@/app/PostItem.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -27,12 +25,6 @@ const PostItemMetricsListItem = ({
     >
       <div className={styles.title}>
         <span>{title}:</span>
-        {tooltip && (
-          <TooltipButton
-            copy={tooltip}
-            direction="left"
-            buttonClasses="p-0"
-          />
         )}
       </div>
       <p className={[styles.value, 'mb-0'].join(' ')}>{value}</p>

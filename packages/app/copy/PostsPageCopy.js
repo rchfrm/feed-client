@@ -69,9 +69,7 @@ Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotif
   },
 
   metricsTooltips: {
-    paid: {
-      reach: 'Reach is a thing',
-    },
+    paid: {},
     organic: {},
   },
 }
