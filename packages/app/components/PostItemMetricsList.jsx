@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import * as utils from '@/helpers/utils'
 
+import { ArtistContext } from '@/contexts/ArtistContext'
+
 import styles from '@/app/PostItem.module.css'
 
 const METRICS_ITEM = ({ title, value, className }) => {
@@ -17,30 +19,31 @@ const METRICS_ITEM = ({ title, value, className }) => {
   )
 }
 
-const PostItemMetricsList = ({ insights, visibleInsights, es }) => {
-  // Create array of insights
-  const maxInsights = 4
-  const insightsArray = React.useMemo(() => {
-    return Object.entries(insights).reduce((arr, [title, value]) => {
-      const insightConfig = visibleInsights[title]
-      // Stop if insight should not be included
-      if (!insightConfig || !value) return arr
-      // Put insight into correct position in array
-      const { index, title: titleTranslated } = insightConfig
-      arr[index] = { title: titleTranslated, value }
-      return arr
-    }, [])
+const PostItemMetricsList = ({ metrics, metricsContent, es }) => {
+  // CREATE ARRAY OF METRICS
+  const maxMetrics = 4
+  const metricsArray = React.useMemo(() => {
+    console.log('metrics', metrics)
+    const metricsFormatted = utils.getDataArray(metricsContent, metrics, true)
+    console.log('metricsFormatted', metricsFormatted)
+    return metricsFormatted
       // remove empty items from array
-      .filter(val => val)
+      .filter(({ value }) => value)
       // restrict number of items
-      .slice(0, maxInsights)
-  }, [insights, visibleInsights])
-  // Create spacers
-  const insightsSpacers = React.useMemo(() => {
-    if (insightsArray.length === maxInsights) return []
-    const totalSpacers = maxInsights - insightsArray.length
+      .slice(0, maxMetrics)
+  }, [metrics, metricsContent])
+  console.log('metricsArray', metricsArray)
+
+  // CREATE SPACERS (for preserving height)
+  const metricsSpacers = React.useMemo(() => {
+    if (metricsArray.length === maxMetrics) return []
+    const totalSpacers = maxMetrics - metricsArray.length
     return Array.from({ length: totalSpacers }, (v, i) => i)
-  }, [insightsArray.length])
+  }, [metricsArray.length])
+
+  // GET CURRENCY
+  const { artistCurrency } = React.useContext(ArtistContext)
+
   return (
     <>
       <ul className={[
@@ -55,12 +58,15 @@ const PostItemMetricsList = ({ insights, visibleInsights, es }) => {
       ].join(' ')}
       >
         {/* METRICS */}
-        {insightsArray.map(({ title, value }) => {
-          const parsedValue = utils.abbreviateNumber(value)
-          return <METRICS_ITEM key={title} title={title} value={parsedValue} />
+        {metricsArray.map(({ name, key, value }) => {
+          // Parse value
+          const parsedValue = key === 'spend'
+            ? utils.formatCurrency(value, artistCurrency)
+            : utils.abbreviateNumber(value)
+          return <METRICS_ITEM key={key} title={name} value={parsedValue} />
         })}
         {/* SPACERS */}
-        {insightsSpacers.map((v) => {
+        {metricsSpacers.map((v) => {
           return <li key={v} className={styles.postMetricsItem}>&nbsp;</li>
         })}
       </ul>
@@ -88,9 +94,14 @@ METRICS_ITEM.defaultProps = {
 }
 
 PostItemMetricsList.propTypes = {
-  insights: PropTypes.object.isRequired,
-  visibleInsights: PropTypes.object.isRequired,
-  es: PropTypes.number.isRequired,
+  metrics: PropTypes.object.isRequired,
+  metricsContent: PropTypes.array.isRequired,
+  es: PropTypes.number,
 }
+
+PostItemMetricsList.defaultProps = {
+  es: '-',
+}
+
 
 export default PostItemMetricsList
