@@ -52,45 +52,41 @@ const PostItemMetrics = ({
   const [drilldown, setDrilldown] = React.useState(null)
 
   return (
-    <>
-      {/* METRICS TYPE BUTTONS */}
-      <div className={['relative overflow-hidden'].join(' ')}>
-        <div className={[styles.postSection, 'pb-4'].join(' ')}>
-          <PillOptions
-            options={pillOptions}
-            activeOption={currentMetricsType}
-            setActiveOption={setCurrentMetricsType}
-            size="small"
-            style={{
-              width: '101%',
-              transform: 'translateX(-0.5%)',
-            }}
-          />
-        </div>
-        {/* LIST OF METRICS */}
-        <PostItemMetricsList
-          metrics={metrics}
-          metricsContent={metricsContent}
-          currentMetricsType={currentMetricsType}
-          es={es}
-          setDrilldown={setDrilldown}
+    <div className={['relative overflow-hidden'].join(' ')}>
+      <div className={[styles.postSection, 'pb-4'].join(' ')}>
+        {/* METRICS TYPE BUTTONS */}
+        <PillOptions
+          options={pillOptions}
+          activeOption={currentMetricsType}
+          setActiveOption={setCurrentMetricsType}
+          size="small"
+          style={{
+            width: '101%',
+            transform: 'translateX(-0.5%)',
+          }}
         />
-        {/* ES SCORE */}
-        <div className={[styles.postSection, styles.postEsScore, styles.postText].join(' ')}>
-          <p className={styles.postEsScorePara}>
-            <span>Score</span>
-            <strong>{es || '-'}</strong>
-          </p>
-        </div>
-        {/* METRICS DRILLDOWN */}
-        {drilldown && (
-          <PostItemMetricsDrilldown
-            drilldown={drilldown}
-            setDrilldown={setDrilldown}
-          />
-        )}
       </div>
-    </>
+      {/* LIST OF METRICS */}
+      <PostItemMetricsList
+        metrics={metrics}
+        metricsContent={metricsContent}
+        currentMetricsType={currentMetricsType}
+        es={es}
+        setDrilldown={setDrilldown}
+      />
+      {/* ES SCORE */}
+      <div className={[styles.postSection, styles.postEsScore, styles.postText].join(' ')}>
+        <p className={styles.postEsScorePara}>
+          <span>Score</span>
+          <strong>{es || '-'}</strong>
+        </p>
+      </div>
+      {/* METRICS DRILLDOWN */}
+      <PostItemMetricsDrilldown
+        drilldown={drilldown}
+        setDrilldown={setDrilldown}
+      />
+    </div>
   )
 }
 

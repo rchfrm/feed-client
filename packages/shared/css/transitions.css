@@ -16,10 +16,12 @@
    transition: opacity 500ms;
 }
 
-.slide-up-enter {
+.slide-up-enter,
+.slide-up-appear {
   transform: translateY(100%);
 }
-.slide-up-enter-active {
+.slide-up-enter-active,
+.slide-up-appear-active {
   transform: translateY(0);
   transition: transform 300ms;
 }
