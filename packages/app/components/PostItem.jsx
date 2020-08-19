@@ -65,6 +65,7 @@ const PostItem = ({
         {/* METRICS */}
         <PostItemMetrics
           insights={post.insights}
+          adsSummary={post.ads_summary}
           es={post.insights.engagement_score}
           status={post.promotion_enabled}
           postPromotable={postPromotable}

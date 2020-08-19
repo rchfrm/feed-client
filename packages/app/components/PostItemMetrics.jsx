@@ -15,13 +15,19 @@ const metricsOptionsTypes = [
   { id: 'organic', title: 'Organic' },
 ]
 
-const PostItemMetrics = ({ insights, es, promotionStatus }) => {
-  const initialMetricsOption = promotionStatus === 'inactive' ? metricsOptionsTypes[1].id : metricsOptionsTypes[0].id
+const PostItemMetrics = ({
+  insights,
+  es,
+  promotionStatus,
+  adsSummary,
+}) => {
+  const hidePaidMetrics = promotionStatus === 'inactive' || !adsSummary
+  const initialMetricsOption = hidePaidMetrics ? metricsOptionsTypes[1].id : metricsOptionsTypes[0].id
   const [currentMetricsType, setCurrentMetricsType] = React.useState(initialMetricsOption)
   // Setup pill buttons
   const pillOptions = React.useMemo(() => {
     // Disable stories for Cold audiences
-    if (promotionStatus === 'inactive') {
+    if (hidePaidMetrics) {
       const paidOptionIndex = metricsOptionsTypes.findIndex(({ id }) => id === 'paid')
       return produce(metricsOptionsTypes, draftState => {
         draftState[paidOptionIndex].disabled = true
@@ -67,7 +73,13 @@ PostItemMetrics.propTypes = {
   insights: PropTypes.object.isRequired,
   es: PropTypes.number.isRequired,
   promotionStatus: PropTypes.string.isRequired,
+  adsSummary: PropTypes.object,
 }
+
+PostItemMetrics.defaultProps = {
+  adsSummary: null,
+}
+
 
 
 export default PostItemMetrics
