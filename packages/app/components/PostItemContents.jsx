@@ -25,6 +25,7 @@ const PostItemContents = ({
         !hasMedia ? styles._noMedia : '',
         !caption ? styles._noCaption : '',
         className,
+        'pt-6 xxs:pt-0',
       ].join(' ')}
     >
       {hasMedia && (
