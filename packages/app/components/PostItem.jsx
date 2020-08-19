@@ -68,8 +68,8 @@ const PostItem = ({
         <PostItemMetrics
           organicMetrics={post.organicMetrics}
           paidMetrics={post.paidMetrics}
-          esOrganic={post.organicMetrics.engagementScore}
-          esPaid={post.paidMetrics.engagementScore}
+          organicEs={post.organicMetrics.engagementScore}
+          paidEs={post.paidMetrics.engagementScore}
           status={promotionEnabled}
           postPromotable={postPromotable}
           promotionStatus={promotionStatus}

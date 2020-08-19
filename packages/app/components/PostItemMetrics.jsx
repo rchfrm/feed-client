@@ -16,15 +16,16 @@ const metricsOptionsTypes = [
 ]
 
 const PostItemMetrics = ({
-  insights,
-  es,
+  organicMetrics,
+  paidMetrics,
+  organicEs,
+  paidEs,
   promotionStatus,
-  adsSummary,
 }) => {
-  const hidePaidMetrics = promotionStatus === 'inactive' || !adsSummary
+  const hidePaidMetrics = promotionStatus === 'inactive' || !paidMetrics
   const initialMetricsOption = hidePaidMetrics ? metricsOptionsTypes[1].id : metricsOptionsTypes[0].id
   const [currentMetricsType, setCurrentMetricsType] = React.useState(initialMetricsOption)
-  // Setup pill buttons
+  // SETUP PILL BUTTONS
   const pillOptions = React.useMemo(() => {
     // Disable stories for Cold audiences
     if (hidePaidMetrics) {
@@ -36,8 +37,11 @@ const PostItemMetrics = ({
     return metricsOptionsTypes
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [promotionStatus])
+  // GET METRICS AND SCORE BASED ON METRIC TYPE
+  const metrics = currentMetricsType === 'organic' ? organicMetrics : paidMetrics
+  const es = currentMetricsType === 'organic' ? organicEs : paidEs
   // Get visible insights based on metrics type
-  const visibleInsights = React.useMemo(() => {
+  const metricsContent = React.useMemo(() => {
     return postsHelpers.getPostMetricsContent(currentMetricsType)
   }, [currentMetricsType])
 
@@ -58,8 +62,8 @@ const PostItemMetrics = ({
       </div>
       {/* LIST OF METRICS */}
       <PostItemMetricsList
-        insights={insights}
-        visibleInsights={visibleInsights}
+        metrics={metrics}
+        metricsContent={metricsContent}
         es={es}
       />
     </>
@@ -70,14 +74,16 @@ const PostItemMetrics = ({
 
 
 PostItemMetrics.propTypes = {
-  insights: PropTypes.object.isRequired,
-  es: PropTypes.number.isRequired,
+  organicMetrics: PropTypes.object.isRequired,
+  paidMetrics: PropTypes.object,
+  organicEs: PropTypes.number.isRequired,
+  paidEs: PropTypes.number,
   promotionStatus: PropTypes.string.isRequired,
-  adsSummary: PropTypes.object,
 }
 
 PostItemMetrics.defaultProps = {
-  adsSummary: null,
+  paidEs: 0,
+  paidMetrics: null,
 }
 
 
