@@ -25,6 +25,7 @@ const PostItemMetrics = ({
   const hidePaidMetrics = promotionStatus === 'inactive' || !paidMetrics
   const initialMetricsOption = hidePaidMetrics ? metricsOptionsTypes[1].id : metricsOptionsTypes[0].id
   const [currentMetricsType, setCurrentMetricsType] = React.useState(initialMetricsOption)
+
   // SETUP PILL BUTTONS
   const pillOptions = React.useMemo(() => {
     // Disable stories for Cold audiences
@@ -37,6 +38,7 @@ const PostItemMetrics = ({
     return metricsOptionsTypes
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [promotionStatus])
+
   // GET METRICS AND SCORE BASED ON METRIC TYPE
   const metrics = currentMetricsType === 'organic' ? organicMetrics : paidMetrics
   const es = currentMetricsType === 'organic' ? organicEs : paidEs
@@ -44,6 +46,9 @@ const PostItemMetrics = ({
   const metricsContent = React.useMemo(() => {
     return postsHelpers.getPostMetricsContent(currentMetricsType)
   }, [currentMetricsType])
+
+  // HANDLE DRILLDOWN METRICS
+  const [drilldown, setDrilldown] = React.useState(null)
 
   return (
     <>
@@ -67,7 +72,19 @@ const PostItemMetrics = ({
           metricsContent={metricsContent}
           currentMetricsType={currentMetricsType}
           es={es}
+          setDrilldown={setDrilldown}
         />
+        {/* METRICS DRILLDOWN */}
+        <div
+          className={[
+            'absolute w-full h-full bg-white top-0 left-0',
+            styles.postSection,
+            !drilldown ? 'hidden' : null,
+          ].join(' ')}
+          // style={{ transform: 'translateY(100%)' }}
+        >
+          HELP
+        </div>
       </div>
       {/* ES SCORE */}
       <div className={[styles.postSection, styles.postEsScore, styles.postText].join(' ')}>

@@ -14,17 +14,27 @@ const PostItemMetricsListItem = ({
   value,
   currentMetricsType,
   drilldownMetrics,
+  setDrilldown,
   className,
 }) => {
-  const tooltip = drilldownMetrics ? getDrilldownCopy(drilldownMetrics) : copy.metricsTooltips[currentMetricsType][id]
-  console.log('tooltip', tooltip)
+  const drilldown = getDrilldownCopy(drilldownMetrics)
+  const tooltip = copy.metricsTooltips[currentMetricsType][id]
   return (
     <li
       className={[styles.postMetricsItem, className].join(' ')}
       key={title}
     >
       <div className={styles.title}>
-        <span>{title}:</span>
+        {drilldown ? (
+          <a
+            role="button"
+            aria-label="Show breakdown"
+            onClick={() => setDrilldown(drilldown)}
+          >
+            {title} +
+          </a>
+        ) : (
+          <span>{title}:</span>
         )}
       </div>
       <p className={[styles.value, 'mb-0'].join(' ')}>{value}</p>
@@ -41,6 +51,7 @@ PostItemMetricsListItem.propTypes = {
   ]).isRequired,
   currentMetricsType: PropTypes.string.isRequired,
   drilldownMetrics: PropTypes.object,
+  setDrilldown: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

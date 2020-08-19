@@ -9,7 +9,12 @@ import * as utils from '@/helpers/utils'
 
 import styles from '@/app/PostItem.module.css'
 
-const PostItemMetricsList = ({ metrics, metricsContent, es, currentMetricsType }) => {
+const PostItemMetricsList = ({
+  metrics,
+  metricsContent,
+  currentMetricsType,
+  setDrilldown,
+}) => {
   // CREATE ARRAY OF METRICS
   const maxMetrics = 4
   const metricsArray = React.useMemo(() => {
@@ -62,6 +67,7 @@ const PostItemMetricsList = ({ metrics, metricsContent, es, currentMetricsType }
             value={parsedValue}
             currentMetricsType={currentMetricsType}
             drilldownMetrics={drilldownMetrics}
+            setDrilldown={setDrilldown}
           />
         )
       })}
@@ -78,9 +84,7 @@ PostItemMetricsList.propTypes = {
   metrics: PropTypes.object.isRequired,
   metricsContent: PropTypes.array.isRequired,
   currentMetricsType: PropTypes.string.isRequired,
-}
-
-PostItemMetricsList.defaultProps = {
+  setDrilldown: PropTypes.func.isRequired,
 }
 
 
