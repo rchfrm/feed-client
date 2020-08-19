@@ -96,9 +96,11 @@ export const formatPostsResponse = (posts) => {
       spend: adsSummaryMetrics.spend,
       reach: adsSummaryMetrics.reach,
       engagements: get(adsSummaryMetrics, ['actions', 'post_engagement'], null),
-      engagementsDrilldown: getPaidEngagementsDrilldown(adsSummaryMetrics),
       clicks: getPaidClicks(adsSummaryMetrics),
       engagementScore: adsSummary.engagement_score,
+      drilldowns: {
+        engagements: getPaidEngagementsDrilldown(adsSummaryMetrics),
+      },
     } : null
     return {
       id: post.id,
@@ -155,4 +157,15 @@ export const getPostMetricsContent = (metricsType) => {
     'engagements',
     'shares',
   ]
+}
+
+
+export const getMetricsDrilldownCopy = (drilldownMetrics) => {
+  const metricsEntries = Object.entries(drilldownMetrics)
+  const sentenceArray = metricsEntries.reduce((arr, [key, value]) => {
+    if (!value) return arr
+    const sentence = `${utils.capitalise(key)}: **${utils.abbreviateNumber(value)}**`
+    return [...arr, sentence]
+  }, [])
+  return sentenceArray.join('  \n')
 }

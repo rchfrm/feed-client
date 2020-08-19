@@ -1,25 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import * as utils from '@/helpers/utils'
+import PostItemMetricsListItem from '@/app/PostItemMetricsListItem'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 
+import * as utils from '@/helpers/utils'
+
 import styles from '@/app/PostItem.module.css'
 
-const METRICS_ITEM = ({ title, value, className }) => {
-  return (
-    <li
-      className={[styles.postMetricsItem, className].join(' ')}
-      key={title}
-    >
-      <span className={styles.title}>{title}:</span>
-      <span className={styles.value}>{value}</span>
-    </li>
-  )
-}
-
-const PostItemMetricsList = ({ metrics, metricsContent, es }) => {
+const PostItemMetricsList = ({ metrics, metricsContent, es, currentMetricsType }) => {
   // CREATE ARRAY OF METRICS
   const maxMetrics = 4
   const metricsArray = React.useMemo(() => {
@@ -47,7 +37,7 @@ const PostItemMetricsList = ({ metrics, metricsContent, es }) => {
   return (
     <>
       <ul className={[
-        'grid',
+        'xs:grid',
         'grid-cols-2',
         'col-gap-6',
         'xxs:col-gap-12',
@@ -63,7 +53,17 @@ const PostItemMetricsList = ({ metrics, metricsContent, es }) => {
           const parsedValue = key === 'spend'
             ? utils.formatCurrency(value, artistCurrency)
             : utils.abbreviateNumber(value)
-          return <METRICS_ITEM key={key} title={name} value={parsedValue} />
+          const drilldownMetrics = metrics.drilldowns ? metrics.drilldowns[key] : null
+          return (
+            <PostItemMetricsListItem
+              key={key}
+              id={key}
+              title={name}
+              value={parsedValue}
+              currentMetricsType={currentMetricsType}
+              drilldownMetrics={drilldownMetrics}
+            />
+          )
         })}
         {/* SPACERS */}
         {metricsSpacers.map((v) => {
@@ -80,23 +80,12 @@ const PostItemMetricsList = ({ metrics, metricsContent, es }) => {
   )
 }
 
-METRICS_ITEM.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]).isRequired,
-  className: PropTypes.string,
-}
-
-METRICS_ITEM.defaultProps = {
-  className: '',
-}
 
 PostItemMetricsList.propTypes = {
   metrics: PropTypes.object.isRequired,
   metricsContent: PropTypes.array.isRequired,
   es: PropTypes.number,
+  currentMetricsType: PropTypes.string.isRequired,
 }
 
 PostItemMetricsList.defaultProps = {

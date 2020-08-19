@@ -40,7 +40,7 @@ const PostItemMetrics = ({
   // GET METRICS AND SCORE BASED ON METRIC TYPE
   const metrics = currentMetricsType === 'organic' ? organicMetrics : paidMetrics
   const es = currentMetricsType === 'organic' ? organicEs : paidEs
-  // Get visible insights based on metrics type
+  // GET VISIBLE INSIGHTS BASED ON METRICS TYPE
   const metricsContent = React.useMemo(() => {
     return postsHelpers.getPostMetricsContent(currentMetricsType)
   }, [currentMetricsType])
@@ -64,6 +64,7 @@ const PostItemMetrics = ({
       <PostItemMetricsList
         metrics={metrics}
         metricsContent={metricsContent}
+        currentMetricsType={currentMetricsType}
         es={es}
       />
     </>
