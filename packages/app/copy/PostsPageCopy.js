@@ -67,4 +67,11 @@ Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotif
       `N.B. Once you have turned off an active post, you may not be able to re-activate it.`,
     ],
   },
+
+  metricsTooltips: {
+    paid: {
+      reach: 'Reach is a thing',
+    },
+    organic: {},
+  },
 }
