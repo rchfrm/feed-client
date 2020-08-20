@@ -1,11 +1,3 @@
-/* AD IMAGE */
-.adImage {
-  &._broken {
-    filter: hue-rotate(90deg);
-  }
-}
-
-
 .tournamentItemWidth {
   width: var(--sp-26);
 
