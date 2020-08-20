@@ -57,7 +57,7 @@ export const getArtist = async (cursor, artistId, requestProps = {}) => {
   return [artist]
 }
 
-// Update artist
+// Update artist status
 /**
  * @param {string} [artistId]
  * @param {string} [status] activate || suspend
@@ -68,12 +68,37 @@ export const updateArtistStatus = async (artistId, status) => {
   return api.post(endpoint)
 }
 
+// Get Facebook integrations
 /**
 * @param {string} [artistId]
 * @returns {Promise<any>}
 */
 export const getAdminFacebookIntegration = (artistId) => {
   return api.get(`artists/${artistId}/integrations/facebook`)
+}
+
+
+/**
+* @param {string} [artistId]
+* @param {string} [instagramId]
+* @returns {Promise<any>}
+* Patch artist Instagram Business ID
+*/
+export const patchArtistBusinessId = async (artistId, instagramId) => {
+  const res = await api.patch(`/artists/${artistId}`, {
+    integrations: {
+      facebook: {
+        instagram_id: instagramId,
+      },
+    },
+  })
+    .catch((error) => { return { error } })
+  if (res.error) {
+    const { error } = res
+    const errorMessage = typeof error.response === 'object' ? error.response.data.error : error.message
+    return { error: { message: errorMessage } }
+  }
+  return res
 }
 
 
