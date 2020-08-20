@@ -274,14 +274,19 @@ export const minArrayValue = (array) => {
 /**
 * @param {array} propsToDisplay
 * @param {object} data
+* @param {object} options
 * @returns {array}
 */
-export const getDataArray = (propsToDisplay, data, preserveRawNumber) => {
+export const getDataArray = (propsToDisplay, data, options = {}) => {
+  const { preserveRawNumber, showZeroValues } = options
   const dateKeys = ['created_at', 'updated_at', 'start_time', 'stop_time']
   return propsToDisplay.reduce((arr, detailName) => {
     const detailKeys = detailName.split('.')
-    const rawValue = get(data, detailKeys, '')
-    if (!rawValue) return arr
+    const rawValue = get(data, detailKeys, null)
+    // STOP HERE if no data matching key
+    if (rawValue === null) return arr
+    // STOP HERE if data === 0 and not forcing to show zeroes
+    if (typeof rawValue === 'number' && !showZeroValues) return arr
     // Convert dates (if necessary)
     const isDate = dateKeys.includes(detailName)
     const value = preserveRawNumber ? rawValue

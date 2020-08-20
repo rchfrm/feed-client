@@ -309,7 +309,7 @@ export const handleNewTournaments = ({
 // -------------------------------------
 
 // METRICS PROPS
-const metricsToDisplay = [
+export const metricsToDisplay = [
   'spend',
   'reach',
   'engagement',
@@ -342,8 +342,9 @@ const getRelativeMetrics = (valueA, valueB) => {
  * @returns {array}
  */
 export const getAdMetrics = (dataA, dataB, isAdPair) => {
-  const detailsA = utils.getDataArray(metricsToDisplay, dataA, true)
-  const detailsB = dataB ? utils.getDataArray(metricsToDisplay, dataB, true) : []
+  const dataArrayOptions = { preserveRawNumber: true, showZeroValues: true }
+  const detailsA = utils.getDataArray(metricsToDisplay, dataA, dataArrayOptions)
+  const detailsB = dataB ? utils.getDataArray(metricsToDisplay, dataB, dataArrayOptions) : []
   const detailsObj = detailsA.reduce((data, detailA) => {
     const { name: nameA, value: valueA, key: keyA } = detailA
     // Get matching data from source B (with fallbacks)
