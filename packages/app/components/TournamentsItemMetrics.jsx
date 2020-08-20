@@ -10,39 +10,57 @@ import TooltipButton from '@/elements/TooltipButton'
 import { formatNumber, formatCurrency } from '@/helpers/utils'
 import { metricsToDisplay } from '@/helpers/tournamentHelpers'
 
-const BAR = ({ type, percent, isEmpty }) => {
-  const bgA = 'bg-green'
-  const bgB = 'bg-purple'
-  const bgEmpty = 'bg-grey-2'
+const BAR = ({ type, value, percent, isEmpty, singleBar }) => {
+  // Define background
+  const backgroundClass = isEmpty ? null
+    : value === 0 ? 'bg-grey-1'
+      : type === 'a' ? 'bg-green'
+        : 'bg-purple'
+  // Define width
+  const width = singleBar ? 50
+    : type === 'a' ? 100
+      : percent
+  // Define x pos
+  const xPositionClass = singleBar ? 'mx-auto'
+    : type === 'a' ? 'left-0'
+      : 'right-0'
+  if (percent === 0) return null
   return (
     <div
       className={[
-        'absolute t-0 h-full',
-        isEmpty ? bgEmpty : type === 'a' ? bgA : bgB,
-        type === 'a' ? 'left-0' : 'right-0',
+        !singleBar ? 'absolute' : null,
+        't-0 h-full',
+        backgroundClass,
+        xPositionClass,
       ].join(' ')}
       style={{
-        width: `${type === 'a' ? 100 : percent}%`,
+        width: `${width}%`,
         zIndex: type === 'a' ? 0 : 1,
       }}
     />
   )
 }
 
-const VALUE = ({ type, value, isEmpty }) => {
+const VALUE = ({ type, value, singleBar }) => {
+  const xPositionClass = type === 'a' ? 'left-0' : 'right-0'
+  const paddingClass = singleBar ? null
+    : type === 'a' ? 'pl-2'
+      : 'pr-2'
+  const textPostClass = singleBar ? 'w-full text-center' : null
   return (
     <p
       className={[
         'absolute text-sm mb-0 pb-1',
-        type === 'a' || isEmpty ? 'left-0' : 'right-0',
-        type === 'a' ? 'pl-2' : 'pr-2',
+        xPositionClass,
+        paddingClass,
+        textPostClass,
       ].join(' ')}
       style={{
-        top: '0.15rem',
+        top: '0.16rem',
         zIndex: 3,
       }}
     >
-      {value}
+      {value || '-'}
     </p>
   )
 }
@@ -68,6 +86,8 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [adMetrics.length])
+
+
   return (
     <div
       className={[
@@ -92,9 +112,7 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
           <div key={dataType} className="relative mb-4 last:mb-0">
             {/* DATA TITLE */}
             <div className="text-sm mb-1">
-              <span className="inline-block capitalize">
-                {name}
-              </span>
+              <span className="inline-block capitalize">{name}</span>
               {/* TOOLTIP */}
               {tooltip && (
                 <TooltipButton
@@ -109,12 +127,22 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
             </div>
             {/* PERCENTAGE BAR */}
             <div className="relative h-6">
-              <BAR type="a" isEmpty={isEmpty} />
-              <VALUE type="a" value={valueAFormatted || '-'} isEmpty={isEmpty} />
+              <BAR
+                type="a"
+                isEmpty={isEmpty}
+                singleBar={!isAdPair}
+                value={valueA}
+              />
+              <VALUE
+                type="a"
+                value={valueAFormatted}
+                singleBar={!isAdPair}
+              />
+              {/* SECOND BAR */}
               {isAdPair && (
                 <>
-                  <BAR type="b" percent={percentB} />
-                  <VALUE type="b" value={valueBFormatted || '-'} />
+                  <BAR type="b" value={valueB} percent={percentB} />
+                  <VALUE type="b" value={valueBFormatted} />
                 </>
               )}
             </div>

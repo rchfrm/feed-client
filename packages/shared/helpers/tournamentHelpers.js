@@ -324,7 +324,7 @@ export const metricsToDisplay = [
 ]
 
 // CALCULTE METRICS AS PERCENTAGE A vs B
-const getRelativeMetrics = (valueA, valueB) => {
+const getRelativeMetrics = (valueA = 0, valueB = 0) => {
   if (!valueB) return [100, 0]
   const total = valueA + valueB
   const percentA = (valueA / total) * 100
