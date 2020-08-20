@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
 
 import PostItemMetricsList from '@/app/PostItemMetricsList'
-import CloseCircle from '@/icons/CloseCircle'
+import ButtonCloseCircle from '@/elements/ButtonCloseCircle'
 
 import styles from '@/app/PostItem.module.css'
 
@@ -35,18 +35,15 @@ const PostItemMetricsDrilldown = ({ drilldown, setDrilldown }) => {
           metricsContent={metricsContent}
         />
         {/* CLOSE BUTTON */}
-        <button
+        <ButtonCloseCircle
           onClick={() => setDrilldown(null)}
           className={[
             'absolute top-0 right-0',
-            'mt-4 mr-3',
-            'alert_close--button  button--close',
-            'w-4 h-4',
+            'mr-4 md:mr-5',
+            'mt-1 md:mt-2',
           ].join(' ')}
-          label="Close"
-        >
-          <CloseCircle />
-        </button>
+          size="small"
+        />
       </div>
     </CSSTransition>
   )
