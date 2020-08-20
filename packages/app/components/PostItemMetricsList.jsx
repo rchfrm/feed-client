@@ -18,6 +18,7 @@ const PostItemMetricsList = ({
   // CREATE ARRAY OF METRICS
   const maxMetrics = 4
   const metricsArray = React.useMemo(() => {
+    if (!metrics) return []
     const metricsFormatted = utils.getDataArray(metricsContent, metrics, true)
     return metricsFormatted
       // remove empty items from array
@@ -78,13 +79,14 @@ const PostItemMetricsList = ({
 
 
 PostItemMetricsList.propTypes = {
-  metrics: PropTypes.object.isRequired,
+  metrics: PropTypes.object,
   metricsContent: PropTypes.array.isRequired,
   currentMetricsType: PropTypes.string,
   setDrilldown: PropTypes.func,
 }
 
 PostItemMetricsList.defaultProps = {
+  metrics: null,
   currentMetricsType: '',
   setDrilldown: () => {},
 }
