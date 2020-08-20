@@ -118,6 +118,10 @@
     bottom: 0;
     transform: rotate(180deg);
   }
+
+  @media (--xxsMax) {
+    padding-top: var(--sp-6);
+  }
 }
 
 .postImageContainer {
