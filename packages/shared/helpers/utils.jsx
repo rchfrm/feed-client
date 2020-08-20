@@ -211,17 +211,6 @@ export const findPostThumbnail = (attachments) => {
   return thumbnail
 }
 
-/**
- * @param {number} number
- * @param {object} options https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
- * @param {string} locale
- * @returns {string} value
- */
-export const formatNumber = (number, options = {}, locale = navigator.language) => {
-  if (typeof number !== 'number') { return number }
-  return new Intl.NumberFormat(locale, options).format(number)
-}
-
 export const getPostMediaType = (src) => {
   let type
 
@@ -477,6 +466,17 @@ export const formatCurrency = (value, currency = 'GBP', locale = navigator.langu
   const currencyToUse = currency === null ? 'GBP' : currency
   const valueFloat = parseFloat(value)
   return valueFloat.toLocaleString(locale, { style: 'currency', currency: currencyToUse })
+}
+
+/**
+ * @param {number} number
+ * @param {object} options https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
+ * @param {string} locale
+ * @returns {string} value
+ */
+export const formatNumber = (number, options = {}, locale = navigator.language) => {
+  if (typeof number !== 'number') { return number }
+  return new Intl.NumberFormat(locale, options).format(number)
 }
 
 /**

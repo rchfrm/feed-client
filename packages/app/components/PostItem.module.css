@@ -174,10 +174,15 @@
   }
 }
 
+.postEsScoreSlider {
+  will-change: transform;
+}
+
 .postEsScore {
   padding-top: calc(var(--sp-3) - 0.2em);
   padding-bottom: var(--sp-3);
   background-color: var(--green);
+  flex: 1 0 100%;
 
   .postItem._disabled &
   .postItem._unpromotable &, {
@@ -194,6 +199,9 @@
   justify-content: space-between;
 }
 
+
+/* UNPROMOTABLE METRICS */
+/* ******************** */
 .postMetricsUnpromotable {
   width: 100%;
   text-align: center;

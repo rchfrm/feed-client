@@ -5,6 +5,7 @@ import produce from 'immer'
 
 import PillOptions from '@/elements/PillOptions'
 import PostItemMetricsList from '@/app/PostItemMetricsList'
+import PostItemMetricsEs from '@/app/PostItemMetricsEs'
 import PostItemMetricsDrilldown from '@/app/PostItemMetricsDrilldown'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
@@ -75,12 +76,11 @@ const PostItemMetrics = ({
         setDrilldown={setDrilldown}
       />
       {/* ES SCORE */}
-      <div className={[styles.postSection, styles.postEsScore, styles.postText].join(' ')}>
-        <p className={styles.postEsScorePara}>
-          <span>Score</span>
-          <strong>{es || '-'}</strong>
-        </p>
-      </div>
+      <PostItemMetricsEs
+        organicEs={organicEs}
+        paidEs={paidEs}
+        currentMetricsType={currentMetricsType}
+      />
       {/* METRICS DRILLDOWN */}
       <PostItemMetricsDrilldown
         drilldown={drilldown}
