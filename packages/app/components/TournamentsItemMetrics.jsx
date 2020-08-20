@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import produce from 'immer'
+
 import { ArtistContext } from '@/contexts/ArtistContext'
 
 import TooltipButton from '@/elements/TooltipButton'
 
 import { formatNumber, formatCurrency } from '@/helpers/utils'
+import { metricsToDisplay } from '@/helpers/tournamentHelpers'
 
 const BAR = ({ type, percent }) => {
   const bgA = 'bg-green'
@@ -45,6 +48,25 @@ const VALUE = ({ type, value }) => {
 
 const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
   const { artistCurrency: currency } = React.useContext(ArtistContext)
+  // SHOW MISSING METRICS
+  // Fill in missing ad metrics
+  const adMetricsFilled = React.useMemo(() => {
+    // If all metrics are present just show original
+    if (adMetrics.length === metricsToDisplay.length) return adMetrics
+    // Get array of visible metrics
+    const visibleMetrics = Object.values(adMetrics).map(({ dataType }) => dataType)
+    // Start modifying adMetrics...
+    return produce(adMetrics, adMetricsDraft => {
+      metricsToDisplay.forEach((metric, index) => {
+        // If metric is missing from ad metrics, add it in
+        if (!visibleMetrics.includes(metric)) {
+          const missingMetric = { dataType: metric, empty: true }
+          adMetricsDraft.splice(index, 0, missingMetric)
+        }
+      })
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [adMetrics.length])
   return (
     <div
       className={[
@@ -59,9 +81,11 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
       {adMetrics.map(({ dataType, tooltip, a, b }) => {
         const { value: valueA } = a
         const { value: valueB, percent: percentB } = b || {}
-        const valueAFormatted = dataType === 'spend' ? formatCurrency(valueA, currency)
+        const valueAFormatted = dataType === 'spend'
+          ? formatCurrency(valueA, currency)
           : formatNumber(valueA)
-        const valueBFormatted = dataType === 'spend' ? formatCurrency(valueB, currency)
+        const valueBFormatted = dataType === 'spend'
+          ? formatCurrency(valueB, currency)
           : formatNumber(valueB)
         return (
           <div key={dataType} className="relative mb-4 last:mb-0">
