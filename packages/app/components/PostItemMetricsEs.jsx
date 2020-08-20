@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { gsap } from 'gsap'
-
 import styles from '@/app/PostItem.module.css'
+
+import PostItemMetricsSlider from '@/app/PostItemMetricsSlider'
 
 import { formatNumber } from '@/helpers/utils'
 
@@ -19,40 +19,17 @@ const SCORE = ({ title, score, className }) => {
   )
 }
 
-const animateSlider = (sliderEl, currentMetricsType) => {
-  const xPercent = currentMetricsType === 'organic' ? -100 : 0
-  gsap.to(sliderEl, { xPercent, duration: 0.3 })
-}
-
 const PostItemMetricsEs = ({ organicEs, paidEs, currentMetricsType }) => {
-  const sliderRef = React.useRef(null)
-  const showPaidEs = typeof paidEs === 'number'
-  // TRIGGER SLIDE
-  React.useEffect(() => {
-    if (!showPaidEs) return
-    animateSlider(sliderRef.current, currentMetricsType)
-  }, [showPaidEs, currentMetricsType])
+  const hasPaidEs = typeof paidEs === 'number'
   return (
-    <div
-      className={[
-        showPaidEs ? 'w-full overflow-hidden' : null,
-      ].join(' ')}
-    >
-      <div
-        className={[
-          showPaidEs ? 'flex w-full' : null,
-          showPaidEs ? styles.postEsScoreSlider : null,
-        ].join(' ')}
-        ref={sliderRef}
-      >
-        {/* PAID SCORE */}
-        {showPaidEs && (
-          <SCORE title="Paid" score={paidEs} />
-        )}
-        {/* ORGANIC SCORE */}
-        <SCORE title="Organic" score={organicEs} />
-      </div>
-    </div>
+    <PostItemMetricsSlider currentMetricsType={currentMetricsType} hasPaidEs={hasPaidEs}>
+      {/* PAID SCORE */}
+      {hasPaidEs && (
+        <SCORE title="Paid" score={paidEs} />
+      )}
+      {/* ORGANIC SCORE */}
+      <SCORE title="Organic" score={organicEs} />
+    </PostItemMetricsSlider>
   )
 }
 
