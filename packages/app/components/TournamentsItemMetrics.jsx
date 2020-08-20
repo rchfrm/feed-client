@@ -10,14 +10,15 @@ import TooltipButton from '@/elements/TooltipButton'
 import { formatNumber, formatCurrency } from '@/helpers/utils'
 import { metricsToDisplay } from '@/helpers/tournamentHelpers'
 
-const BAR = ({ type, percent }) => {
+const BAR = ({ type, percent, isEmpty }) => {
   const bgA = 'bg-green'
   const bgB = 'bg-purple'
+  const bgEmpty = 'bg-grey-2'
   return (
     <div
       className={[
         'absolute t-0 h-full',
-        type === 'a' ? bgA : bgB,
+        isEmpty ? bgEmpty : type === 'a' ? bgA : bgB,
         type === 'a' ? 'left-0' : 'right-0',
       ].join(' ')}
       style={{
@@ -28,12 +29,12 @@ const BAR = ({ type, percent }) => {
   )
 }
 
-const VALUE = ({ type, value }) => {
+const VALUE = ({ type, value, isEmpty }) => {
   return (
     <p
       className={[
         'absolute text-sm mb-0 pb-1',
-        type === 'a' ? 'left-0' : 'right-0',
+        type === 'a' || isEmpty ? 'left-0' : 'right-0',
         type === 'a' ? 'pl-2' : 'pr-2',
       ].join(' ')}
       style={{
@@ -60,7 +61,7 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
       metricsToDisplay.forEach((metric, index) => {
         // If metric is missing from ad metrics, add it in
         if (!visibleMetrics.includes(metric)) {
-          const missingMetric = { dataType: metric, empty: true }
+          const missingMetric = { dataType: metric, isEmpty: true, name: metric }
           adMetricsDraft.splice(index, 0, missingMetric)
         }
       })
@@ -78,8 +79,8 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
       ].join(' ')}
       style={{ willChange: 'transform opacity' }}
     >
-      {adMetrics.map(({ dataType, tooltip, a, b }) => {
-        const { value: valueA } = a
+      {adMetricsFilled.map(({ isEmpty, dataType, name, tooltip, a, b }) => {
+        const { value: valueA } = a || {}
         const { value: valueB, percent: percentB } = b || {}
         const valueAFormatted = dataType === 'spend'
           ? formatCurrency(valueA, currency)
@@ -91,8 +92,8 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
           <div key={dataType} className="relative mb-4 last:mb-0">
             {/* DATA TITLE */}
             <div className="text-sm mb-1">
-              <span className="inline-block">
-                {a.name}
+              <span className="inline-block capitalize">
+                {name}
               </span>
               {/* TOOLTIP */}
               {tooltip && (
@@ -108,8 +109,8 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
             </div>
             {/* PERCENTAGE BAR */}
             <div className="relative h-6">
-              <BAR type="a" />
-              <VALUE type="a" value={valueAFormatted || '-'} />
+              <BAR type="a" isEmpty={isEmpty} />
+              <VALUE type="a" value={valueAFormatted || '-'} isEmpty={isEmpty} />
               {isAdPair && (
                 <>
                   <BAR type="b" percent={percentB} />
