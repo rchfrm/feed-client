@@ -1,11 +1,6 @@
 /* eslint-disable quotes, import/prefer-default-export */
 
-export const metricTooltips = {
-  spend: 'sdkjfhskdfhjs skdjfhskdfhskdhjf skdjfh skjdhf skdjhf.',
-  impressions: ';skdfsldf sdkfjsldkfjsdkfsldkj sldkfj lsdkfj .',
-  streak: ' ldf d sdflksjdfsdfkjs dl s dsjdsdf sdflksjdf.',
-  normalized_es: 'sdjf sdkfskdfjs skdjfhd dksjfs hskdj.',
-}
+export const metricTooltips = {}
 
 export const copy = {
   noTournamentAds: `This tournament does not contain any ads.
