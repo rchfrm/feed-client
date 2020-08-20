@@ -27,7 +27,7 @@ const PostItemMetricsDrilldown = ({ drilldown, setDrilldown }) => {
           'absolute w-full h-full bg-grey-1 top-0 left-0',
         ].join(' ')}
       >
-        <p className={['text-sm', styles.postSection, 'pt-4 pb-0 mb-5'].join(' ')}>
+        <p className={['text-sm mb-2', styles.postSection].join(' ')}>
           <strong>{title}</strong>
         </p>
         <PostItemMetricsList
