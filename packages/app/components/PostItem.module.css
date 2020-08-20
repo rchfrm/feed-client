@@ -175,14 +175,20 @@
 }
 
 .postItemMetricsSlider {
+  display: flex;
+  width: 100%;
   will-change: transform;
+
+  > * {
+    flex: 1 0 100%;
+  }
 }
 
 .postEsScore {
   padding-top: calc(var(--sp-3) - 0.2em);
   padding-bottom: var(--sp-3);
   background-color: var(--green);
-  flex: 1 0 100%;
+
 
   .postItem._disabled &
   .postItem._unpromotable &, {

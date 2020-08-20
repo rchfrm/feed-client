@@ -19,8 +19,7 @@ const SCORE = ({ title, score, className }) => {
   )
 }
 
-const PostItemMetricsEs = ({ organicEs, paidEs, currentMetricsType }) => {
-  const hasPaidEs = typeof paidEs === 'number'
+const PostItemMetricsEs = ({ hasPaidEs, organicEs, paidEs, currentMetricsType }) => {
   return (
     <PostItemMetricsSlider currentMetricsType={currentMetricsType} hasPaidEs={hasPaidEs}>
       {/* PAID SCORE */}
@@ -34,6 +33,7 @@ const PostItemMetricsEs = ({ organicEs, paidEs, currentMetricsType }) => {
 }
 
 PostItemMetricsEs.propTypes = {
+  hasPaidEs: PropTypes.bool.isRequired,
   organicEs: PropTypes.number.isRequired,
   paidEs: PropTypes.number,
   currentMetricsType: PropTypes.string.isRequired,

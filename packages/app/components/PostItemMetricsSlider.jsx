@@ -26,7 +26,6 @@ const PostItemMetricsSlider = ({ hasPaidEs, currentMetricsType, children }) => {
     >
       <div
         className={[
-          hasPaidEs ? 'flex w-full' : null,
           hasPaidEs ? styles.postItemMetricsSlider : null,
         ].join(' ')}
         ref={sliderRef}

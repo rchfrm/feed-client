@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import produce from 'immer'
 
 import PillOptions from '@/elements/PillOptions'
+import PostItemMetricsSlider from '@/app/PostItemMetricsSlider'
 import PostItemMetricsList from '@/app/PostItemMetricsList'
 import PostItemMetricsEs from '@/app/PostItemMetricsEs'
 import PostItemMetricsDrilldown from '@/app/PostItemMetricsDrilldown'
@@ -24,6 +25,7 @@ const PostItemMetrics = ({
   paidEs,
   promotionStatus,
 }) => {
+  const hasPaidEs = !!paidMetrics
   const hidePaidMetrics = promotionStatus === 'inactive' || !paidMetrics
   const initialMetricsOption = hidePaidMetrics ? metricsOptionsTypes[1].id : metricsOptionsTypes[0].id
   const [currentMetricsType, setCurrentMetricsType] = React.useState(initialMetricsOption)
@@ -68,15 +70,27 @@ const PostItemMetrics = ({
         />
       </div>
       {/* LIST OF METRICS */}
-      <PostItemMetricsList
-        metrics={metrics}
-        metricsContent={metricsContent}
-        currentMetricsType={currentMetricsType}
-        es={es}
-        setDrilldown={setDrilldown}
-      />
+      <PostItemMetricsSlider currentMetricsType={currentMetricsType} hasPaidEs={hasPaidEs}>
+        {/* PAID METRICS LIST */}
+        {hasPaidEs && (
+          <PostItemMetricsList
+            metrics={paidMetrics}
+            metricsContent={postsHelpers.getPostMetricsContent('paid')}
+            currentMetricsType={currentMetricsType}
+            setDrilldown={setDrilldown}
+          />
+        )}
+        {/* ORGANIC METRICS LIST */}
+        <PostItemMetricsList
+          metrics={organicMetrics}
+          metricsContent={postsHelpers.getPostMetricsContent('organic')}
+          currentMetricsType={currentMetricsType}
+          setDrilldown={setDrilldown}
+        />
+      </PostItemMetricsSlider>
       {/* ES SCORE */}
       <PostItemMetricsEs
+        hasPaidEs={hasPaidEs}
         organicEs={organicEs}
         paidEs={paidEs}
         currentMetricsType={currentMetricsType}
