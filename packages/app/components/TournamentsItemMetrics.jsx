@@ -49,7 +49,8 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
     <div
       className={[
         'flex flex-col',
-        'pt-4 md:pt-0',
+        'pt-8 xs:pt-4 md:pt-0',
+        '-mt-1 xs:mt-0',
         className,
         'TournamentsItemMetrics',
       ].join(' ')}
