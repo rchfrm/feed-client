@@ -29,7 +29,7 @@ const PostsContent = () => {
   // DISABLE POST SETTINGS BUTTON (if no posts)
   const [postSettingsDisabled, setPostSettingsDisabled] = React.useState(false)
   return (
-    <div>
+    <div className="relative">
       {/* INTRO */}
       <MarkdownText className={['h4--text', styles.introText].join(' ')} markdown={copy.intro} />
       {/* POST SETTINGS BUTTON */}

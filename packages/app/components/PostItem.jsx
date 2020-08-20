@@ -62,6 +62,7 @@ const PostItem = ({
           thumbnailSrc={post.thumbnailSrc}
           caption={postCaption}
           captionFull={post.message}
+          promotionStatus={promotionStatus}
         />
 
         {/* METRICS */}

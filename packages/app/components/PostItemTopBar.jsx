@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import PostMetaData from '@/app/PostMetaData'
 import PostToggle from '@/app/PostToggle'
 import PostToggleTooltip from '@/app/PostToggleTooltip'
-import PostItemStatusBadge from '@/app/PostItemStatusBadge'
 
 import styles from '@/app/PostItem.module.css'
 
@@ -47,11 +46,6 @@ const PostItemTopBar = ({
           />
         </div>
       )}
-      {/* STATUS */}
-      <PostItemStatusBadge
-        status={promotionStatus}
-        className={styles.statusBadge}
-      />
     </div>
   )
 }
