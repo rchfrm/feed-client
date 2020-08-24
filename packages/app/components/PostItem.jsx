@@ -82,6 +82,7 @@ const PostItem = ({
             postId={post.id}
             postIndex={index}
             promotionEnabled={promotionEnabled}
+            promotionStatus={promotionStatus}
             priorityDsp={priorityDsp}
             updateLink={updateLink}
             setError={setError}
