@@ -43,14 +43,6 @@ const PostItemMetrics = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [promotionStatus])
 
-  // GET METRICS AND SCORE BASED ON METRIC TYPE
-  const metrics = currentMetricsType === 'organic' ? organicMetrics : paidMetrics
-  const es = currentMetricsType === 'organic' ? organicEs : paidEs
-  // GET VISIBLE INSIGHTS BASED ON METRICS TYPE
-  const metricsContent = React.useMemo(() => {
-    return postsHelpers.getPostMetricsContent(currentMetricsType)
-  }, [currentMetricsType])
-
   // HANDLE DRILLDOWN METRICS
   const [drilldown, setDrilldown] = React.useState(null)
 
