@@ -307,7 +307,7 @@ export const getDataArray = (propsToDisplay, data, options = {}) => {
     // STOP HERE if no data matching key
     if (rawValue === null) return arr
     // STOP HERE if data === 0 and not forcing to show zeroes
-    if (typeof rawValue === 'number' && !showZeroValues) return arr
+    if (rawValue === 0 && !showZeroValues) return arr
     // Convert dates (if necessary)
     const isDate = dateKeys.includes(detailName)
     const value = preserveRawNumber ? rawValue
