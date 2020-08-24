@@ -91,9 +91,9 @@ export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }
   const queryParams = {
     limit,
     after: cursor,
-  }
-  if (promotionStatus && promotionStatus !== 'all') {
-    queryParams.promotion_status = promotionStatus
+    // Filter by promotion status if not "all"
+    ...(promotionStatus && promotionStatus !== 'all')
+    && { promotion_status: promotionStatus },
   }
   return api.get(`/artists/${artistId}/assets`, queryParams)
 }
