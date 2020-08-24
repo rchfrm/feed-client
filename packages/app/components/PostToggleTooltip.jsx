@@ -44,8 +44,8 @@ const PostToggleTooltip = ({ postToggleType }) => {
       buttonClasses="ml-1 -mr-4"
       slides={slides}
       slidesContentAfter={slidesContentAfter}
-      containerStyle={{
-        zIndex: 3,
+      buttonStyle={{
+        zIndex: 4,
       }}
     />
   )
