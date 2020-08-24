@@ -64,7 +64,6 @@ const fetchPosts = async ({ promotionStatus, artistId, limit, isEndOfAssets, cur
   if (isEndOfAssets.current) return
   // Get posts
   const posts = await server.getPosts({ limit, artistId, promotionStatus, cursor: cursor.current })
-  console.log('posts from server', posts)
   // Sort the returned posts chronologically, latest first
   return utils.sortAssetsChronologically(Object.values(posts))
 }
@@ -137,7 +136,6 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus, setPostSetting
       }
       // Format postrs
       const postsFormatted = postsHelpers.formatPostsResponse(posts)
-      console.log('posts formatted', postsFormatted)
       // Update afterCursor
       const lastPost = posts[posts.length - 1]
       if (lastPost._links.after) {
