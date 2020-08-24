@@ -5,7 +5,10 @@ import get from 'lodash/get'
 
 // TRANSLATE PROMOTION NAME
 export const translatePromotionName = (promotionStatus, capitalize) => {
-  const name = promotionStatus === 'inactive' ? 'pending' : promotionStatus
+  const name = promotionStatus === 'active' ? 'running'
+    : promotionStatus === 'inactive' ? 'not run'
+      : promotionStatus === 'archived' ? 'inactive'
+        : promotionStatus
   if (capitalize) return utils.capitalise(name)
   return name
 }
