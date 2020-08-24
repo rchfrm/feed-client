@@ -98,6 +98,12 @@
     transform: translateX(100%) translateY(50%);
   }
 
+  &.-top {
+    left: 50%;
+    top: -10px;
+    transform: translateX(-50%) translateY(-100%);
+  }
+
   > *:last-child {
     margin-bottom: 0;
   }
@@ -129,6 +135,15 @@
       left: -1px;
       bottom: 50%;
       transform: translateX(-50%) translateY(50%) rotate(225deg);
+    }
+  }
+
+  /* Top arrow */
+  &.-top {
+    &::after {
+      left: 50%;
+      bottom: -1px;
+      transform: translateX(-50%) translateY(50%) rotate(135deg);
     }
   }
 }

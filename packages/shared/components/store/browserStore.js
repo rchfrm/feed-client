@@ -38,7 +38,7 @@ const [useBrowserStore, browserStoreApi] = create(set => ({
     let currentBreakpoint
     for (let i = 0; i < breakpointValues.length; i += 1) {
       currentBreakpoint = breakpointValues[i]
-      if (width > currentBreakpoint) {
+      if (width >= currentBreakpoint) {
         largestMatching = currentBreakpoint
       }
     }

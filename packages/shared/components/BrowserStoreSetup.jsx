@@ -38,5 +38,4 @@ const BrowserStoreSetup = () => {
   return null
 }
 
-
 export default BrowserStoreSetup

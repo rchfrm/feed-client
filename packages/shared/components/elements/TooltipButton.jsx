@@ -5,7 +5,7 @@ import TooltipIcon from '@/icons/TooltipIcon'
 import TooltipMessage from '@/elements/TooltipMessage'
 
 const TooltipButton = (props) => {
-  const { buttonClasses, containerStyle, buttonText } = props
+  const { buttonClasses, buttonStyle, buttonText } = props
   const [showMessage, setShowMessage] = React.useState(false)
   // Get ref to message
   const messageRef = React.useRef(null)
@@ -37,7 +37,7 @@ const TooltipButton = (props) => {
   }, [showMessage])
   // Render
   return (
-    <div className={['tooltip--container', buttonClasses].join(' ')} style={containerStyle}>
+    <div className={['tooltip--container', buttonClasses].join(' ')} style={buttonStyle}>
       {/* TOOLTIP TEXT */}
       {showMessage && <TooltipMessage {...props} messageRef={setMessageRef} />}
       {/* BUTTON */}
@@ -52,13 +52,13 @@ const TooltipButton = (props) => {
 
 TooltipButton.propTypes = {
   buttonClasses: PropTypes.string,
-  containerStyle: PropTypes.object,
+  buttonStyle: PropTypes.object,
   buttonText: PropTypes.string,
 }
 
 TooltipButton.defaultProps = {
   buttonClasses: '',
-  containerStyle: {},
+  buttonStyle: null,
   buttonText: '',
 }
 

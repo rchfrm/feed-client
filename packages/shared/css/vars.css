@@ -11,7 +11,7 @@
   --grey-light: #E7E9E8;
   --grey: #C8CBCA;
   --grey-dark: #7F8382;
-  --purple: #B593FF;
+  --purple: #CC7CFD;
   /* SM Palette */
   --color-fb: #26547C;
   --color-insta: #E75A7C;
@@ -62,6 +62,7 @@
   --sp-72: 18rem; /* 288px */
   --sp-80: 20rem; /* 320px */
   --sp-96: 24rem; /* 384px */
+  --sp-112: 28rem; /* 448px */
   --sp-128: 32rem; /* 512px */
   --side-padding: 70px;
   --page-buttons-height: 70px;
@@ -92,7 +93,7 @@
  * Breakpoints.
  */
 
-@custom-media --iphone6 (width >= 320px);
+@custom-media --iphone8 (width >= 375px);
 @custom-media --xxsMax (width < 450px);
 @custom-media --xxs    (width >= 450px);
 @custom-media --min-content (width >= 540px);

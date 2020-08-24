@@ -9,16 +9,15 @@ import { TournamentContext } from '@/app/contexts/TournamentContext'
 const TournamentsAll = ({
   tournaments,
   loadingMore,
-  artistCurrency,
   loadMorePosts,
   loadedAll,
 }) => {
   const totalTournaments = tournaments.length
   // UPDATE ITEM SIZE WHEN MORE ITEMS ARE LOADED
-  const { updateItemWidth } = React.useContext(TournamentContext)
+  const { updateSizes } = React.useContext(TournamentContext)
   React.useEffect(() => {
-    updateItemWidth()
-  }, [tournaments.length, updateItemWidth])
+    updateSizes()
+  }, [tournaments.length, updateSizes])
   // RUN THIS to LOAD MORE TOURNAMENTS
   const scrollTriggerLoad = React.useCallback(([target]) => {
     if (target.isIntersecting && !loadingMore && !loadedAll) {
@@ -45,7 +44,12 @@ const TournamentsAll = ({
   }, [totalTournaments, scrollTriggerLoad, loadedAll])
   return (
     <section
-      className="pt-10"
+      className={[
+        'breakout--width',
+        'xs:ml-0 xs:w-full',
+        'px-6 xs:px-0',
+        'pt-10 overflow-hidden',
+      ].join(' ')}
     >
       {tournaments.map((tournament, index) => {
         const lastTournament = index === totalTournaments - 1
@@ -54,7 +58,6 @@ const TournamentsAll = ({
             <TournamentsItem
               tournament={tournament}
               lastTournament={lastTournament}
-              currency={artistCurrency}
             />
             {/* LOAD MORE SCROLL TRIGGER */}
             {
@@ -83,7 +86,6 @@ const TournamentsAll = ({
 TournamentsAll.propTypes = {
   tournaments: PropTypes.array,
   loadingMore: PropTypes.bool,
-  artistCurrency: PropTypes.string,
   loadMorePosts: PropTypes.func.isRequired,
   loadedAll: PropTypes.bool.isRequired,
 }
@@ -91,7 +93,6 @@ TournamentsAll.propTypes = {
 TournamentsAll.defaultProps = {
   tournaments: [],
   loadingMore: false,
-  artistCurrency: '',
 }
 
 

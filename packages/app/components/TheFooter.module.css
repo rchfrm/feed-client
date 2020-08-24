@@ -30,7 +30,7 @@
   margin-right: var(--sp-5);
   font-size: 14px;
 
-  @media (--iphone6) {
+  @media (--iphone8) {
     font-size: var(--base-font-size);
   }
 
