@@ -24,7 +24,7 @@
 }
 
 .postSettingsButton {
-  margin-bottom: var(--sp-8);
+  margin-bottom: 0 !important;
 
   :global(.button--innerText) {
     align-items: center;

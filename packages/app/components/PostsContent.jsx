@@ -29,8 +29,14 @@ const PostsContent = () => {
   const [postSettingsDisabled, setPostSettingsDisabled] = React.useState(false)
   return (
     <div className="relative">
+      {/* FILTERS */}
+      <PostsFilters
+        postTypes={postTypes}
+        currentPostType={currentPostType}
+        setCurrentPostType={setCurrentPostType}
+      />
       {/* POST SETTINGS BUTTON */}
-      <div>
+      <div className="flex justify-end mb-4 pt-2">
         <Button
           className={styles.postSettingsButton}
           onClick={togglePostsSettings}
@@ -41,12 +47,6 @@ const PostsContent = () => {
           Post Settings
         </Button>
       </div>
-      {/* FILTERS */}
-      <PostsFilters
-        postTypes={postTypes}
-        currentPostType={currentPostType}
-        setCurrentPostType={setCurrentPostType}
-      />
       {/* LOAD POSTS */}
       <PostsLoader
         setTogglePromotionGlobal={setTogglePromotionGlobal}
