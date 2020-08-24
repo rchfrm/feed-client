@@ -7,10 +7,12 @@ import { useAsync } from 'react-async'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 
+import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 
 import styles from '@/app/PostItem.module.css'
 
+import copy from '@/app/copy/PostsPageCopy'
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
 const getPromotionStatus = (promotableStatus) => {
@@ -86,9 +88,7 @@ const PostItemDisableWarning = ({
         ].join(' ')}
         style={{ zIndex: 2 }}
       >
-        <div className="text--block mb-8">
-          <p>Ads containing this post will soon finish and then this post will no longer run in any more ads.</p>
-        </div>
+        <MarkdownText markdown={copy.postStatusConfirmation} className="mb-8" />
         {/* BUTTONS */}
         <div className="flex justify-between pb-8">
           <Button

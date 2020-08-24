@@ -47,6 +47,9 @@ Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotif
 
   Do you want to continue?`,
 
+  // Warning when turning off active post
+  postStatusConfirmation: `Ads created from this post will soon stop running to all audiences. This post will not be eligible to run as an ad in the future.`,
+
 
   // FILTER TOOLTIPS
   // ----------------
