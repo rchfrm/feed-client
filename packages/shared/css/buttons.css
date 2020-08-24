@@ -20,6 +20,7 @@ button {
   border: none;
   border-radius: var(--button-radius);
   align-items: center;
+  white-space: nowrap;
 
   font-family: var(--font);
   font-size: 1.1em;
@@ -262,6 +263,7 @@ button {
   padding: 0.1em 0.8em;
   padding-bottom: 0.25em;
   border-radius: var(--pill-radius);
+  white-space: nowrap;
 
   &.-large {
     padding: 0.3em 1.2em;
