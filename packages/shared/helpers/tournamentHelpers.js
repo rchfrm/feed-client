@@ -3,7 +3,7 @@ import produce from 'immer'
 
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
-import { metricTooltips } from '@/app/copy/tournamentsCopy'
+import copy from '@/app/copy/tournamentsCopy'
 
 
 // AUDIENCE and TOURNMANET PROPS
@@ -351,7 +351,7 @@ export const getAdMetrics = (dataA, dataB, isAdPair) => {
     const detailB = detailsB.find(({ key }) => keyA === key) || {}
     const { name: nameB = nameA, value: valueB } = detailB
     // Get tooltip
-    const tooltip = metricTooltips[keyA]
+    const tooltip = copy.metricTooltips[keyA]
     // Get data rows
     const [percentA, percentB] = getRelativeMetrics(valueA, valueB)
     const aData = { name: nameA, value: valueA, percent: percentA, key: keyA }

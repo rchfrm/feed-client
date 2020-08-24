@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import { copy } from '@/app/copy/tournamentsCopy'
+import copy from '@/app/copy/tournamentsCopy'
 
 const TournamentsNone = ({ tournamentType }) => {
   const markdown = copy.noTournaments(tournamentType)

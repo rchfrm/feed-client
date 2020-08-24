@@ -8,7 +8,7 @@ import { TournamentContext } from '@/app/contexts/TournamentContext'
 import TournamentsItemDateStatus from '@/app/TournamentsItemDateStatus'
 import TournamentsItemAdPair from '@/app/TournamentsItemAdPair'
 
-import { copy } from '@/app/copy/tournamentsCopy'
+import copy from '@/app/copy/tournamentsCopy'
 
 const TournamentsItem = ({ tournament, lastTournament, className }) => {
   // Get streak data from tournaments
