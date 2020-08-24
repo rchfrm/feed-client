@@ -6,7 +6,7 @@ import produce from 'immer'
 import PillOptions from '@/elements/PillOptions'
 import PostItemMetricsSlider from '@/app/PostItemMetricsSlider'
 import PostItemMetricsList from '@/app/PostItemMetricsList'
-import PostItemMetricsEs from '@/app/PostItemMetricsEs'
+import PostItemMetricsScore from '@/app/PostItemMetricsScore'
 import PostItemMetricsDrilldown from '@/app/PostItemMetricsDrilldown'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
@@ -81,7 +81,7 @@ const PostItemMetrics = ({
         />
       </PostItemMetricsSlider>
       {/* ES SCORE */}
-      <PostItemMetricsEs
+      <PostItemMetricsScore
         hasPaidEs={hasPaidEs}
         organicEs={organicEs}
         paidEs={paidEs}
