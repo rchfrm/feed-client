@@ -88,12 +88,15 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
 * @returns {Promise<any>}
 */
 export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }) => {
+  console.log('promotionStatus', promotionStatus)
   const queryParams = {
     limit,
     after: cursor,
     // Filter by promotion status if not "all"
     ...(promotionStatus && promotionStatus !== 'all')
     && { promotion_status: promotionStatus },
+    // Hide non-promotable posts if showing inactive
+    ...(promotionStatus === 'inactive') && { is_promotable: 1 },
   }
   return api.get(`/artists/${artistId}/assets`, queryParams)
 }
