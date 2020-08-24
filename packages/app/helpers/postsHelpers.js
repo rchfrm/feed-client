@@ -19,15 +19,15 @@ export const postTypes = [
     activeTextColor: brandColors.white,
   },
   {
-    id: 'inactive',
-    title: translatePromotionName('inactive', true),
-    color: brandColors.greyDark,
-    activeTextColor: brandColors.white,
-  },
-  {
     id: 'archived',
     title: translatePromotionName('archived', true),
     color: brandColors.black,
+    activeTextColor: brandColors.white,
+  },
+  {
+    id: 'inactive',
+    title: translatePromotionName('inactive', true),
+    color: brandColors.greyDark,
     activeTextColor: brandColors.white,
   },
   {
