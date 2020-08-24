@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import BaseFilters from '@/BaseFilters'
 
+import copy from '@/app/copy/PostsPageCopy'
 import brandColors from '@/constants/brandColors'
 
 const FILTER_BUTTON_ICON = ({ backgroundColor }) => {
@@ -32,12 +33,24 @@ const PostsFilters = ({
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPostType])
+
+  // GET TOOLTIP SLIDES
+  const tooltipSlides = React.useMemo(() => {
+    return postTypes.reduce((slides, { id, title }) => {
+      const getMarkdown = copy.filterTooltips[id]
+      if (!getMarkdown) return slides
+      const markdown = getMarkdown(title)
+      return [...slides, markdown]
+    }, [])
+  }, [postTypes])
+
   return (
     <BaseFilters
       options={baseFiltersOptions}
       activeOptionId={currentPostType}
       setActiveOptionId={setCurrentPostType}
       labelText="Select a Post state"
+      tooltipSlides={tooltipSlides}
     />
   )
 }

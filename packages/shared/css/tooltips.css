@@ -70,7 +70,7 @@
 
 .tooltip--slides-slide {
 
-  .text--block p {
+  .text--block * {
     margin-bottom: var(--sp-4);
   }
   

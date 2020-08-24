@@ -47,6 +47,28 @@ Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotif
 
   Do you want to continue?`,
 
+
+  // FILTER TOOLTIPS
+  // ----------------
+  filterTooltips: {
+    active: (title) => `#### ${title}
+    
+Posts that are currently running as ads to at least one audience.`,
+
+    inactive: (title) => `#### ${title}
+
+Posts that Feed hasn't yet made into ads. For the best results select as many as possible.`,
+
+    archived: (title) => `#### ${title}
+
+1. Posts that have run as ads previously, but are not currently running as ads.
+2. Feed turns off posts that don’t perform as well automatically. 
+3. Posts can also appear here if you stop an Active post running manually, or if people have been shown the ad too many times.`,
+  },
+
+
+  // TOGGLE TOOLTIPS
+  // ----------------
   toggleTooltipSlides: {
     triple: [
       `This switch indicates whether Feed can promote the post...`,
