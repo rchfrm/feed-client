@@ -258,6 +258,38 @@ export const minArrayValue = (array) => {
   return min
 }
 
+/**
+* @param {string} currency
+* @returns {string}
+*/
+export const getCurrencySymbol = (currency = 'GBP') => {
+  return getSymbolFromCurrency(currency)
+}
+
+/**
+* @param {number} value
+* @param {string} currency
+* @param {string} locale
+* @returns {string}
+*/
+export const formatCurrency = (value, currency = 'GBP', locale = navigator.language) => {
+  if (value === null || typeof value === 'undefined' || Number.isNaN(value)) return
+  const currencyToUse = currency === null ? 'GBP' : currency
+  const valueFloat = parseFloat(value)
+  return valueFloat.toLocaleString(locale, { style: 'currency', currency: currencyToUse })
+}
+
+/**
+ * @param {number} number
+ * @param {object} options https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
+ * @param {string} locale
+ * @returns {string} value
+ */
+export const formatNumber = (number, options = {}, locale = navigator.language) => {
+  if (typeof number !== 'number') { return number }
+  return new Intl.NumberFormat(locale, options).format(number)
+}
+
 // Use this to sort and convert an object of data into an array of
 // { name, value, key } objects
 /**
@@ -447,37 +479,6 @@ export const getLinkType = (href) => {
   return 'external'
 }
 
-/**
-* @param {string} currency
-* @returns {string}
-*/
-export const getCurrencySymbol = (currency = 'GBP') => {
-  return getSymbolFromCurrency(currency)
-}
-
-/**
-* @param {number} value
-* @param {string} currency
-* @param {string} locale
-* @returns {string}
-*/
-export const formatCurrency = (value, currency = 'GBP', locale = navigator.language) => {
-  if (value === null || typeof value === 'undefined' || Number.isNaN(value)) return
-  const currencyToUse = currency === null ? 'GBP' : currency
-  const valueFloat = parseFloat(value)
-  return valueFloat.toLocaleString(locale, { style: 'currency', currency: currencyToUse })
-}
-
-/**
- * @param {number} number
- * @param {object} options https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
- * @param {string} locale
- * @returns {string} value
- */
-export const formatNumber = (number, options = {}, locale = navigator.language) => {
-  if (typeof number !== 'number') { return number }
-  return new Intl.NumberFormat(locale, options).format(number)
-}
 
 /**
 * @param {number} amount
