@@ -326,6 +326,17 @@ export default {
     dataType: 'monthly',
   },
 
+  spotify_listeners_city: {
+    name: 'spotify_listeners_city',
+    platform: 'spotify',
+    visible: false,
+    breakdown: true,
+    title: 'listeners',
+    subtitle: '',
+    period: 'monthly',
+    dataType: 'monthly',
+  },
+
   spotify_streams_7d: {
     name: 'spotify_streams_7d',
     platform: 'spotify',
