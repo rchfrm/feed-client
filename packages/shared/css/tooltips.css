@@ -98,6 +98,12 @@
     transform: translateY(-100%);
   }
 
+  &.-bottom {
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%) translateY(100%);
+  }
+
   > *:last-child {
     margin-bottom: 0;
   }
@@ -143,15 +149,16 @@
 
 /* Left and right for narrow screens converted to top */
 @media (--xsMax) {
-    .tooltip--message.-left,
-    .tooltip--message.-right {
-      transform: translateY(-100%);
+  .tooltip--message.-left,
+  .tooltip--message.-right {
+    transform: translateY(-100%);
 
-      .tooltip--arrow {
-        left: 50%;
-        bottom: -1px;
-        transform: translateX(-50%) translateY(50%) rotate(135deg);
-      }
+    .tooltip--arrow {
+      left: 50%;
+      bottom: -1px;
+      transform: translateX(-50%) translateY(50%) rotate(135deg);
     }
-
   }
+}
+
+
