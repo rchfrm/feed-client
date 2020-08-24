@@ -8,7 +8,7 @@ import * as server from '@/admin/helpers/adminServer'
 
 const fetcher = (serverFunction) => async ({ cursor, args }) => {
   const requestArgs = cursor ? [cursor, ...args] : [null, ...args]
-  // eslint-disable-next-line
+  // eslint-disable-next-line import/namespace
   const items = await server[serverFunction].apply(null, requestArgs)
   return items
 }

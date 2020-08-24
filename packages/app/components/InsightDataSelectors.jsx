@@ -22,7 +22,7 @@ const InsightDataSelectors = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPlatform])
 
-  // Set first data sources as active when platfrorm changes
+  // Set first data sources as active when platform changes
   React.useEffect(() => {
     if (!platformSources.length || initialLoading) return
     // Get and set initial data source
