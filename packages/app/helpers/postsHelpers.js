@@ -33,7 +33,7 @@ export const postTypes = [
   {
     id: 'all',
     title: translatePromotionName('all', true),
-    color: brandColors.greyDark,
+    color: brandColors.black,
     activeTextColor: brandColors.white,
   },
 ]
