@@ -1,5 +1,3 @@
-import produce from 'immer'
-
 import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
@@ -160,7 +158,7 @@ export const getPostMetricsContent = (metricsType) => {
 }
 
 
-export const getMetricsDrilldown = (drilldownMetrics, title) => {
+export const getMetricsDrilldown = (drilldownMetrics) => {
   if (!drilldownMetrics) return null
   const metricsEntries = Object.entries(drilldownMetrics)
   const sentenceArray = metricsEntries.reduce((arr, [key, value]) => {
