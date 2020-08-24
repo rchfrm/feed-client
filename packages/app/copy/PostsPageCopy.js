@@ -2,8 +2,6 @@
 import * as ROUTES from '@/app/constants/routes'
 
 export default {
-  intro: `Below are the posts **Feed** hasn't yet made into ads. For best results leave as many as possible selected, but simply untick any you'd rather not promote.`,
-
   noPostsCopy: {
     // If no posts when filtering to all
     all: () => `Looks like you haven’t posted on Facebook or Instagram yet. When you do start posting, your posts will appear here.`,

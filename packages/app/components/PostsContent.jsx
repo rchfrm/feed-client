@@ -3,7 +3,6 @@ import React from 'react'
 
 import Button from '@/elements/Button'
 import GearIcon from '@/icons/GearIcon'
-import MarkdownText from '@/elements/MarkdownText'
 
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
@@ -12,7 +11,6 @@ import PostsSettings from '@/app/PostsSettings'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import { postTypes } from '@/app/helpers/postsHelpers'
-import copy from '@/app/copy/PostsPageCopy'
 import styles from '@/app/PostsPage.module.css'
 import brandColors from '@/constants/brandColors'
 
@@ -30,8 +28,6 @@ const PostsContent = () => {
   const [postSettingsDisabled, setPostSettingsDisabled] = React.useState(false)
   return (
     <div className="relative">
-      {/* INTRO */}
-      <MarkdownText className={['h4--text', styles.introText].join(' ')} markdown={copy.intro} />
       {/* POST SETTINGS BUTTON */}
       <div>
         <Button
