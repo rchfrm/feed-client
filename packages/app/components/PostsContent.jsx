@@ -23,7 +23,8 @@ const PostsContent = () => {
     toggleSidePanel(true)
   }, [setSidePanelContent, toggleSidePanel, togglePromotionGlobal])
   // HANDLE STATE OF POST TYPE FILTERS
-  const [currentPostType, setCurrentPostType] = React.useState(postTypes[0].id)
+  const allFilter = postTypes.find(({ id }) => id === 'all')
+  const [currentPostType, setCurrentPostType] = React.useState(allFilter.id)
   // DISABLE POST SETTINGS BUTTON (if no posts)
   const [postSettingsDisabled, setPostSettingsDisabled] = React.useState(false)
   return (
