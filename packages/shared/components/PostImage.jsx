@@ -86,6 +86,7 @@ const PostImage = ({
   className,
   aspectRatio,
   onUseFallback,
+  brokenImageColor,
 }) => {
   // Remove empty and duplicate thumbnail options
   const thumbnails = React.useMemo(() => {
@@ -199,7 +200,7 @@ const PostImage = ({
       {/* Test for broken videos */}
       {mediaTest}
       {/* Thumbnail fallback */}
-      {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
+      {(thumbError || !thumbnailImageSrc) && <MediaFallback brokenImageColor={brokenImageColor} />}
       {/* Show broken play button */}
       {videoError && <div className={styles.playIconBg}>{playIcon}</div>}
       {/* Show play icon */}
@@ -246,6 +247,7 @@ PostImage.propTypes = {
   className: PropTypes.string,
   aspectRatio: PropTypes.string,
   onUseFallback: PropTypes.func,
+  brokenImageColor: PropTypes.string,
 }
 
 PostImage.defaultProps = {
@@ -255,6 +257,7 @@ PostImage.defaultProps = {
   className: '',
   aspectRatio: 'square',
   onUseFallback: () => {},
+  brokenImageColor: brandColors.green,
 }
 
 

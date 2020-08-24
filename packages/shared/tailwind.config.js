@@ -2,7 +2,7 @@ module.exports = (purgeFiles) => ({
   purge: purgeFiles,
   theme: {
     screens: {
-      iphone6: '320px',
+      iphone8: '375px',
       xxs: '450px',
       xs: '600px',
       sm: '800px',
@@ -30,7 +30,7 @@ module.exports = (purgeFiles) => ({
         black: '#0D1311',
         green: '#03D8B2',
         red: '#FA5450',
-        purple: '#B593FF',
+        purple: '#CC7CFD',
         grey: {
           1: '#E7E9E8',
           2: '#C8CBCA',
@@ -50,6 +50,7 @@ module.exports = (purgeFiles) => ({
         72: '18rem',
         80: '20rem',
         96: '24rem',
+        112: '28rem',
         128: '32rem',
       },
     },

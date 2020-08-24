@@ -31,7 +31,7 @@ const PostToggleTooltip = () => {
         </div>,
         null,
       ]}
-      containerStyle={{
+      buttonStyle={{
         zIndex: 3,
       }}
     />

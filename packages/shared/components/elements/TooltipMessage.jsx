@@ -7,6 +7,11 @@ import TooltipSlides from '@/TooltipSlides'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
 
+const getRestrictedWith = ({ direction, windowWidth, sideGap, distanceFromLeft, distanceFromRight }) => {
+  if (direction === 'left') return windowWidth - (sideGap + distanceFromRight)
+  if (direction === 'right' || direction === 'top') return windowWidth - (distanceFromLeft + sideGap)
+}
+
 const TooltipMessage = ({
   copy,
   slides,
@@ -38,13 +43,10 @@ const TooltipMessage = ({
     const isTooBig = windowWidth - (distanceFromRight + defaultWidth) < sideGap
     if (isTooBig) {
       // If screen is too narrow, set width to fit
-      const newWidth = direction === 'left'
-        // When positioned to the left
-        ? windowWidth - (sideGap + distanceFromRight)
-        // When positioned to the right
-        : windowWidth - (distanceFromLeft + sideGap)
+      const newWidth = getRestrictedWith({ direction, windowWidth, sideGap, distanceFromLeft, distanceFromRight })
+      const width = newWidth ? Math.min(newWidth, defaultWidth) : defaultWidth
       // Set width
-      setStyle({ ...defaultStyle, width: Math.min(newWidth, defaultWidth) })
+      setStyle({ ...defaultStyle, width })
       return
     }
     // If screen is big enough set to default style

@@ -71,7 +71,7 @@ const updateDataConditions = (newProps, oldProps) => {
 }
 
 const TournamentsLoader = ({ audienceName, tournamentType }) => {
-  const { artistId, artistLoading, artistCurrency } = React.useContext(ArtistContext)
+  const { artistId, artistLoading } = React.useContext(ArtistContext)
   const [tournaments, setTournaments] = useImmerReducer(dataReducer, initialDataState)
   const [error, setError] = React.useState(null)
   const offset = React.useRef(0)
@@ -186,7 +186,6 @@ const TournamentsLoader = ({ audienceName, tournamentType }) => {
     <TournamentsAll
       tournaments={tournaments}
       loadingMore={loadingMore}
-      artistCurrency={artistCurrency}
       loadMorePosts={loadMorePosts}
       loadedAll={loadedAll}
     />

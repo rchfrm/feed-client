@@ -4,17 +4,17 @@ import useBrowserStore from '@/hooks/useBrowserStore'
 
 const TournamentContext = React.createContext({
   isDesktopLayout: false,
-  itemWidth: 0,
-  updateItemWidth: () => {},
+  sizes: {},
+  updateSizes: () => {},
 })
 
 TournamentContext.displayName = 'TournamentContext'
 
 const TournamentContextProvider = ({ children }) => {
   // GET DESKTOP LAYOUT TEST
-  const isDesktopLayout = useBreakpointTest('md')
-  // GET WIDTH OF TOURNAMENT ITEM
-  const [itemWidth, setItemWidth] = React.useState(0)
+  const isDesktopLayout = useBreakpointTest('xs')
+  // GET SIZES
+  const [sizes, setSizes] = React.useState({})
   // Get container el
   const containerEl = React.useRef(null)
   React.useEffect(() => {
@@ -25,15 +25,32 @@ const TournamentContextProvider = ({ children }) => {
   const onResize = React.useCallback((container) => {
     const item = container.querySelector('.TournamentsItemAdPair')
     if (!item) return
+    const date = container.querySelector('.TournamentsItemDateStatus')
+    const dateHeight = date.offsetHeight
     const itemWidth = item.offsetWidth
-    setItemWidth(itemWidth)
+    const itemHeight = item.offsetHeight
+    const image = item.querySelector('.TournamentsItemImage')
+    const imageHeight = image.offsetHeight
+    const score = item.querySelector('.TournamentsItemScore')
+    const scoreHeight = score.offsetHeight
+    const centralColumn = item.querySelector('.TournamentItemMiddleColumn')
+    const centralColumnStyles = getComputedStyle(centralColumn)
+    const centralColumnWidth = centralColumn.offsetWidth + (parseInt(centralColumnStyles.marginLeft, 0) * 2)
+    setSizes({
+      itemWidth,
+      itemHeight,
+      dateHeight,
+      imageHeight,
+      scoreHeight,
+      centralColumnWidth,
+    })
   }, [])
   React.useEffect(() => {
     if (!containerEl.current) return
     onResize(containerEl.current)
   }, [windowWidth, onResize])
   // RUN THIS TO UPDATE ITEM SIZE
-  const updateItemWidth = React.useCallback(() => {
+  const updateSizes = React.useCallback(() => {
     if (!containerEl.current) return
     onResize(containerEl.current)
   }, [onResize])
@@ -42,8 +59,8 @@ const TournamentContextProvider = ({ children }) => {
     <TournamentContext.Provider
       value={{
         isDesktopLayout,
-        itemWidth,
-        updateItemWidth,
+        sizes,
+        updateSizes,
       }}
     >
       {children}

@@ -80,8 +80,6 @@ export const setAdStreakPositions = (tournaments) => {
   return produce(tournaments, draftTournaments => {
     for (let i = 0; i < draftTournaments.length; i += 1) {
       const tournament = draftTournaments[i]
-      const previousTournament = draftTournaments[i - 1] || {}
-      if (!previousTournament.id) continue
       const {
         winningAdId,
         winningAdIndex,
@@ -89,6 +87,9 @@ export const setAdStreakPositions = (tournaments) => {
         streakWinnerIndex,
         isAdPair,
       } = tournament
+      const previousTournament = draftTournaments[i - 1] || {}
+      // STOP HERE IF AT START OF LIST
+      if (!previousTournament.id) continue
       // Store current streak info on previous tournament
       // (this is useful to angle the line when there's only one ad in adset)
       previousTournament.nextWinningAdId = winningAdId
@@ -100,21 +101,25 @@ export const setAdStreakPositions = (tournaments) => {
         streakWinnerId: previousStreakWinnerId,
         streakWinnerIndex: previousStreakWinnerIndex,
       } = previousTournament
-      // STOP HERE if only one ad
-      if (tournament.adPosts.length === 1) continue
-      // STOP HERE if current winner is not same as previous streak winner ID
-      if (winningAdId !== previousStreakWinnerId) continue
-      // STOP HERE if current winner index matches the previous streak winner index
-      if (winningAdIndex === previousStreakWinnerIndex) continue
-      // Else flip the ads...
-      tournament.adPosts.reverse()
-      // And update the index
-      const updatedWinningIndex = winningAdIndex === 0 ? 1 : 0
-      const updatedStreakWinnerIndex = streakWinnerIndex === 0 ? 1 : 0
-      tournament.winningAdIndex = updatedWinningIndex
-      tournament.streakWinnerIndex = updatedStreakWinnerIndex
-      previousTournament.nextWinningAdIndex = updatedWinningIndex
-      previousTournament.nextStreakWinnerIndex = updatedStreakWinnerIndex
+      // FLIP THE ADS if...
+      // Greater than one ad, and,
+      // Winning Ad ID is the same is previous streak winner ID, and
+      // Winning Ad index is not the same as the previous streak winner index
+      if (
+        tournament.adPosts.length > 1
+        && winningAdId === previousStreakWinnerId
+        && winningAdIndex !== previousStreakWinnerIndex
+      ) {
+        // Flip
+        tournament.adPosts.reverse()
+        // And update the index
+        const updatedWinningIndex = winningAdIndex === 0 ? 1 : 0
+        const updatedStreakWinnerIndex = streakWinnerIndex === 0 ? 1 : 0
+        tournament.winningAdIndex = updatedWinningIndex
+        tournament.streakWinnerIndex = updatedStreakWinnerIndex
+        previousTournament.nextWinningAdIndex = updatedWinningIndex
+        previousTournament.nextStreakWinnerIndex = updatedStreakWinnerIndex
+      }
     }
   })
 }
@@ -304,7 +309,7 @@ export const handleNewTournaments = ({
 // -------------------------------------
 
 // METRICS PROPS
-const metricsToDisplay = [
+export const metricsToDisplay = [
   'spend',
   'reach',
   'engagement',
@@ -319,7 +324,7 @@ const metricsToDisplay = [
 ]
 
 // CALCULTE METRICS AS PERCENTAGE A vs B
-const getRelativeMetrics = (valueA, valueB) => {
+const getRelativeMetrics = (valueA = 0, valueB = 0) => {
   if (!valueB) return [100, 0]
   const total = valueA + valueB
   const percentA = (valueA / total) * 100
@@ -337,8 +342,9 @@ const getRelativeMetrics = (valueA, valueB) => {
  * @returns {array}
  */
 export const getAdMetrics = (dataA, dataB, isAdPair) => {
-  const detailsA = utils.getDataArray(metricsToDisplay, dataA, true)
-  const detailsB = dataB ? utils.getDataArray(metricsToDisplay, dataB, true) : []
+  const dataArrayOptions = { preserveRawNumber: true, showZeroValues: true }
+  const detailsA = utils.getDataArray(metricsToDisplay, dataA, dataArrayOptions)
+  const detailsB = dataB ? utils.getDataArray(metricsToDisplay, dataB, dataArrayOptions) : []
   const detailsObj = detailsA.reduce((data, detailA) => {
     const { name: nameA, value: valueA, key: keyA } = detailA
     // Get matching data from source B (with fallbacks)
@@ -353,6 +359,7 @@ export const getAdMetrics = (dataA, dataB, isAdPair) => {
     // Set values for data type
     data[keyA] = {
       dataType: keyA,
+      name: nameA,
       tooltip,
       a: aData,
       b: bData,
