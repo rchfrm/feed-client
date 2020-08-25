@@ -49,7 +49,7 @@ const PostsFilters = ({
       options={baseFiltersOptions}
       activeOptionId={currentPostType}
       setActiveOptionId={setCurrentPostType}
-      labelText="Filter by post type"
+      labelText="Filter by post status"
       tooltipSlides={tooltipSlides}
     />
   )
