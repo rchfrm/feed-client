@@ -134,7 +134,7 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus, setPostSetting
         initialLoad.current = false
         return
       }
-      // Format postrs
+      // Format posts
       const postsFormatted = postsHelpers.formatPostsResponse(posts)
       // Update afterCursor
       const lastPost = posts[posts.length - 1]
