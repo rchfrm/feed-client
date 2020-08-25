@@ -1,20 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import styles from '@/app/PostItem.module.css'
-
+import TooltipButton from '@/elements/TooltipButton'
 import PostItemMetricsSlider from '@/app/PostItemMetricsSlider'
 
 import { formatNumber } from '@/helpers/utils'
 
-const SCORE = ({ title, score, className }) => {
+import styles from '@/app/PostItem.module.css'
+
+import copy from '@/app/copy/PostsPageCopy'
+
+const SCORE = ({ title, score, type, className }) => {
   const scoreFormatted = formatNumber(score)
+  const tooltipSlides = copy.scoreTooltip[type]
   return (
     <div className={[styles.postSection, styles.postEsScore, styles.postText, className].join(' ')}>
-      <p className={styles.postEsScorePara}>
-        <span>{title} Score</span>
+      <div className={styles.postEsScorePara}>
+        <span className="inline-flex items-center">
+          {title} Score
+          <TooltipButton slides={tooltipSlides} direction="top" />
+        </span>
         <strong>{scoreFormatted || '-'}</strong>
-      </p>
+      </div>
     </div>
   )
 }
@@ -24,10 +31,10 @@ const PostItemMetricsScore = ({ hasPaidEs, organicEs, paidEs, currentMetricsType
     <PostItemMetricsSlider currentMetricsType={currentMetricsType} hasPaidEs={hasPaidEs}>
       {/* PAID SCORE */}
       {hasPaidEs && (
-        <SCORE title="Paid" score={paidEs} />
+        <SCORE title="Paid" score={paidEs} type="paid" />
       )}
       {/* ORGANIC SCORE */}
-      <SCORE title="Organic" score={organicEs} />
+      <SCORE title="Organic" score={organicEs} type="organic" />
     </PostItemMetricsSlider>
   )
 }

@@ -91,6 +91,21 @@ Posts that Feed hasn't yet made into ads. For the best results select as many as
     ],
   },
 
+  // SCORE TOOLTIPS:
+  scoreTooltip: {
+    organic: [
+      `This shows how popular the post is with your existing following. The higher the number, the more popular the post.`,
+      `Feed prioritises posts with a higher Organic Score when deciding which ads to create.`,
+      `The score takes into account different types of data, including likes, comments and views.`,
+    ],
+    paid: [
+      `This shows how well this post is performing as an ad. A higher number means better performance.`,
+      `It is an aggregate of the scores across the different audiences that see the ad.`,
+      `Feed automatically keeps the best performing posts running and turns off those that don’t do as well.`,
+      `The score takes into account different types of data, such as clicks, likes and views.`,
+    ],
+  },
+
   metricsTooltips: {
     paid: {},
     organic: {},
