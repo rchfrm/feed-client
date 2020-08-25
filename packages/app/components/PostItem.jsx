@@ -37,7 +37,7 @@ const PostItem = ({
     return post.shortMessage.join('\n')
   }, [post])
   // CLASSES
-  const enabledClass = enabled ? styles._enabled : styles._disabled
+  const enabledClass = enabled || promotionStatus === 'archived' ? styles._enabled : styles._disabled
   const promotableClass = postPromotable ? styles._promotable : styles._unpromotable
 
   return (
