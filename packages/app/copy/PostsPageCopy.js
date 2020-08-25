@@ -85,7 +85,7 @@ Posts that Feed hasn't yet made into ads. For the best results select as many as
       `You can change your default settings using the ‘Post Settings’ button at the top of the posts page.`,
     ],
     double: [
-      `To switch off an active post, slide to the left. The post will stop running as an ad within 15 minutes.`,
+      `To switch off a post that's currently running, slide to the left. The post will stop being promoted within 15 minutes.`,
 
       `N.B. Once you have turned off an active post, you may not be able to re-activate it.`,
     ],
