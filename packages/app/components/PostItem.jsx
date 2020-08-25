@@ -22,7 +22,6 @@ const PostItem = ({
   className = '',
   children = <></>,
 }) => {
-  // console.log('post', post)
   // Errors
   const [error, setError] = React.useState(null)
   // EXTRACT POST DATA
