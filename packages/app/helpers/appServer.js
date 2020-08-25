@@ -88,7 +88,6 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
 * @returns {Promise<any>}
 */
 export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }) => {
-  console.log('promotionStatus', promotionStatus)
   const queryParams = {
     limit,
     after: cursor,
