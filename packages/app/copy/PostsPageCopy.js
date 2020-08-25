@@ -66,7 +66,7 @@ Posts that Feed hasn't yet made into ads. For the best results select as many as
 
 1. Posts that have run as ads previously, but are not currently running as ads.
 2. Feed turns off posts that don’t perform as well automatically. 
-3. Posts can also appear here if you stop an Active post running manually, or if people have been shown the ad too many times.`,
+3. Posts can also appear here if you stop it running manually, or if people have been shown the ad too many times.`,
   },
 
 
