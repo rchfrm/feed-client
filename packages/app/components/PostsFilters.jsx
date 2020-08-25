@@ -51,6 +51,7 @@ const PostsFilters = ({
       setActiveOptionId={setCurrentPostType}
       labelText="Filter by post status"
       tooltipSlides={tooltipSlides}
+      tooltipDirection="bottom"
     />
   )
 }
