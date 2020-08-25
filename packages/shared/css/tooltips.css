@@ -91,8 +91,6 @@
   }
 
   &.-right {
-    /* right: -5px;
-    bottom: 50%; */
     transform: translateY(-50%);
   }
 
@@ -133,6 +131,13 @@
     left: 50%;
     bottom: -1px;
     transform: translateX(-50%) translateY(50%) rotate(135deg);
+  }
+
+  /* Bottom arrow */
+  .tooltip--message.-bottom & {
+    left: 50%;
+    top: 4px;
+    transform: translateX(-50%) translateY(-100%) rotate(-45deg);
   }
 }
 

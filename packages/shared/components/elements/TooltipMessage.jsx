@@ -26,7 +26,7 @@ const getPositionAndWidth = ({
   const buttonBoundingClient = buttonEl.getBoundingClientRect()
   const messageWidth = messageEl.offsetWidth
   let { top: buttonTop, left: buttonLeft } = buttonBoundingClient
-  const { width: buttonWidth } = buttonBoundingClient
+  const { width: buttonWidth, height: buttonHeight } = buttonBoundingClient
   // Adjust button top by scroll position
   buttonTop += window.scrollY
   buttonLeft += window.scrollX
@@ -42,6 +42,9 @@ const getPositionAndWidth = ({
   }
   if (direction === 'top') {
     top = buttonTop - gap
+  }
+  if (direction === 'bottom') {
+    top = buttonTop + buttonHeight + gap
   }
   // TODO bottom
   if (direction === 'left' || direction === 'right') {
