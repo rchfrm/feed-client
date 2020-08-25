@@ -32,7 +32,7 @@ const getPositionAndWidth = ({
   buttonLeft += window.scrollX
   // Force direction as top for screens below xs
   if (windowWidth < xsWidth) {
-    direction = 'top'
+    direction = 'bottom'
   }
   let top
   let left
