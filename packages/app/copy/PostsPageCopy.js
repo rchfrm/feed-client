@@ -87,7 +87,7 @@ Posts that Feed hasn't yet made into ads. For the best results select as many as
     double: [
       `To switch off a post that's currently running, slide to the left. The post will stop being promoted within 15 minutes.`,
 
-      `N.B. Once you have turned off an active post, you may not be able to re-activate it.`,
+      `N.B. Once you have manually stopped a post running, you may not be able to start it again.`,
     ],
   },
 
