@@ -32,6 +32,7 @@ const BaseFilters = ({
   labelText,
   buttonType,
   tooltipSlides,
+  tooltipDirection,
   className,
 }) => {
   // SETUP SCROLL TO BUTTON
@@ -55,7 +56,7 @@ const BaseFilters = ({
         {labelText}
         {/* LABEL TOOLTIP */}
         {tooltipSlides && (
-          <TooltipButton slides={tooltipSlides} direction="right" />
+          <TooltipButton slides={tooltipSlides} direction={tooltipDirection} />
         )}
       </div>
       <div
@@ -99,6 +100,7 @@ BaseFilters.propTypes = {
   labelText: PropTypes.string.isRequired,
   buttonType: PropTypes.string,
   tooltipSlides: PropTypes.array,
+  tooltipDirection: PropTypes.string,
   className: PropTypes.string,
 }
 
@@ -106,6 +108,7 @@ BaseFilters.defaultProps = {
   activeOptionId: '',
   buttonType: 'pill',
   tooltipSlides: null,
+  tooltipDirection: 'right',
   className: '',
 }
 
