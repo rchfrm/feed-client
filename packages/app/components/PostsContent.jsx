@@ -36,7 +36,7 @@ const PostsContent = () => {
         setCurrentPostType={setCurrentPostType}
       />
       {/* POST SETTINGS BUTTON */}
-      <div className="flex justify-end mb-4 pt-2">
+      <div className="flex justify-start mb-4 pt-2">
         <Button
           className={styles.postSettingsButton}
           onClick={togglePostsSettings}
