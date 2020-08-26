@@ -8,7 +8,7 @@ import styles from '@/app/PostItem.module.css'
 
 const PostItemContents = ({
   media,
-  thumbnailSrc,
+  thumbnails,
   caption,
   captionFull,
   promotionStatus,
@@ -38,7 +38,7 @@ const PostItemContents = ({
         <div className={styles.postImageContainer}>
           <PostImage
             mediaSrc={media}
-            thumbnailOptions={[thumbnailSrc]}
+            thumbnailOptions={thumbnails}
             title={captionFull || caption}
             setHasMedia={setHasMedia}
           />
@@ -55,7 +55,7 @@ const PostItemContents = ({
 
 PostItemContents.propTypes = {
   media: PropTypes.string,
-  thumbnailSrc: PropTypes.string,
+  thumbnails: PropTypes.array,
   caption: PropTypes.string,
   captionFull: PropTypes.string,
   promotionStatus: PropTypes.string,
@@ -64,7 +64,7 @@ PostItemContents.propTypes = {
 
 PostItemContents.defaultProps = {
   media: '',
-  thumbnailSrc: '',
+  thumbnails: [],
   caption: '',
   captionFull: '',
   promotionStatus: '',

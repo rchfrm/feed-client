@@ -58,7 +58,7 @@ const PostItem = ({
         {/* IMAGE AND CONTENTS */}
         <PostItemContents
           media={post.media}
-          thumbnailSrc={post.thumbnailSrc}
+          thumbnails={post.thumbnails}
           caption={postCaption}
           captionFull={post.message}
           promotionStatus={promotionStatus}

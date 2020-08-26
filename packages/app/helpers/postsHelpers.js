@@ -89,8 +89,11 @@ export const formatPostsResponse = (posts) => {
     const { message, ads_summary: adsSummary = {} } = post
     const firstAttachment = post.attachments[0]
     const shortMessage = utils.abbreviatePostText(message)
+    // Get thumbnails
     const thumbnailSrc = post._metadata.thumbnail_url || utils.findPostThumbnail(firstAttachment)
-    const media = utils.findPostMedia(firstAttachment) || thumbnailSrc
+    const initialThumbnails = post.thumbnails.map(({ url }) => url)
+    const thumbnails = [...initialThumbnails, thumbnailSrc]
+    const media = utils.findPostMedia(firstAttachment) || thumbnails[0]
     // Organic metrics
     const organicMetrics = {
       comments: post.comments,
@@ -126,7 +129,7 @@ export const formatPostsResponse = (posts) => {
       message,
       shortMessage,
       media,
-      thumbnailSrc,
+      thumbnails,
       organicMetrics,
       paidMetrics,
     }
