@@ -6,6 +6,23 @@ import Slider from '@/elements/Slider'
 const CboAgeSlider = ({ minAge, maxAge, onChange }) => {
   const lowestAge = 16
   const highestAge = 65
+
+  const getLabel = (age) => {
+    if (age === highestAge) return `${age}+`
+    return age
+  }
+
+  const getLabelValue = React.useCallback((value) => {
+    return getLabel(value)
+  }, [])
+
+  // Aria label function
+  const valueLabelFunction = React.useCallback((state) => {
+    const [minAge, maxAge] = state.value
+    return `Min age set to ${getLabel(minAge)}, max age set to ${getLabel(maxAge)}`
+  }, [])
+
+
   return (
     <Slider
       label="Age range"
@@ -13,9 +30,8 @@ const CboAgeSlider = ({ minAge, maxAge, onChange }) => {
       defaultValue={[minAge, maxAge]}
       thumbNames={['Lower age', 'Upper age']}
       pearling
-      minDistance={1}
-      className="horizontal-slider"
-      thumbClassName="example-thumb"
+      getLabelValue={getLabelValue}
+      valueLabelFunction={valueLabelFunction}
       onChange={onChange}
     />
   )
