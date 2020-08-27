@@ -78,3 +78,18 @@ export const setCboState = (oldState, newState) => {
     }, 500)
   })
 }
+
+export const demoRecs = [
+  {
+    id: 1,
+    budget: 5,
+    countries: [{ id: 'uk', name: 'UK' }],
+    cities: [{ id: 'paris', name: 'Paris' }],
+  },
+  {
+    id: 2,
+    budget: 6,
+    countries: [{ id: 'france', name: 'France' }],
+    cities: [{ id: 'london', name: 'London' }, { id: 'bolton', name: 'Bolton' }],
+  },
+]
