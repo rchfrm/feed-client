@@ -5,6 +5,7 @@ import produce from 'immer'
 
 import CboAgeSlider from '@/app/CboAgeSlider'
 import CboBudgetSlider from '@/app/CboBudgetSlider'
+import CboSummary from '@/app/CboSummary'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -48,6 +49,7 @@ const CboContent = () => {
           })
         }}
       />
+      <CboSummary cboState={cboState} />
     </div>
   )
 }

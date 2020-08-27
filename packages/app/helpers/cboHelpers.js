@@ -1,3 +1,5 @@
+import * as utils from '@/helpers/utils'
+
 // BUDGET FEATURES
 // ---------------
 const getBudgetFeatures = (baseBudget = 3) => {
@@ -26,11 +28,41 @@ export const getNextBudgetUpgrade = (currentBudget) => {
 }
 
 
+// SUMMARY HELPERS
+// ---------------
+export const getSummary = {
+  budget: (cboState, currency) => {
+    const { budget } = cboState
+    const budgetFormatted = utils.formatCurrency(budget, currency)
+    return `${budgetFormatted} per day`
+  },
+  ages: (cboState) => {
+    const { minAge, maxAge } = cboState
+    return `${minAge} - ${maxAge}`
+  },
+  genders: (cboState) => {
+    const { genders } = cboState
+    return genders
+  },
+  countries: (cboState) => {
+    const { countries } = cboState
+    return countries.join(', ')
+  },
+  cities: (cboState) => {
+    const { cities } = cboState
+    return cities.join(', ')
+  },
+}
+
+
 // FOR DEV
 // ---------------------------
 export const demoCboState = {
   minAge: 23,
   maxAge: 45,
+  genders: 'men',
+  countries: ['UK'],
+  cities: ['Paris', 'Marseille', 'L\'Isle sur Sogue'],
   budget: 3,
   minBudget: 2,
 }
