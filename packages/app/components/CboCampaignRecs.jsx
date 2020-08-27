@@ -17,7 +17,7 @@ const CboCampaignRecs = ({ artistCurrency }) => {
         const selected = id === selectedCampaignId
         const locations = [...countries, ...cities].map(({ name }) => name)
         const locationsText = locations.reduce((text, location, index) => {
-          if (index === locations.length - 1) return `${text} and ${location}`
+          if (index === locations.length - 1) return `${text} and ${location}.`
           return `${text}${location}, `
         }, '')
         return (
