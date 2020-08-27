@@ -13,7 +13,8 @@ const Slider = ({
   defaultValue, // number, number[] (use array for more than one thumb)
   thumbNames, // string, string[] (use array for more than one thumb)
   valueLabelFunction, // function to determine label of thumb
-  thumbRenderFunction, // functino to determin thumb node
+  thumbRenderFunction, // function to determin thumb node
+  getLabelValue, // function on how to parse the value label
   pearling, // see docs
   step, // see docs
   minDistance, // see docs
@@ -32,6 +33,31 @@ const Slider = ({
   children,
 }) => {
   const [min, max] = valueRange
+  // DEFINE DEFAULT FUNCTIONS
+  // Default label function
+  const defaultValueLabelFunction = (state) => {
+    console.log('state', state)
+    const valueLabel = getLabelValue(state.valueNow)
+    return `Thumb value ${valueLabel}`
+  }
+
+  const defaultThumbRenderFunction = (props, state) => {
+    const { className } = props
+    const classNameMod = [...className.split(' '), 'slider--thumb'].join(' ')
+    const valueLabel = getLabelValue(state.valueNow)
+    return (
+      <div {...props} className={classNameMod}>
+        {/* Dragger */}
+        <div className={['h-8 w-8 -mt-3 rounded-full bg-green'].join(' ')} />
+        {/* Number */}
+        <p className="text-center pt-2">{valueLabel}</p>
+      </div>
+    )
+  }
+  // USE DEFAULT RENDER FUNCTIONS IF NEEDED
+  valueLabelFunction = valueLabelFunction || defaultValueLabelFunction
+  thumbRenderFunction = thumbRenderFunction || defaultThumbRenderFunction
+
   return (
     <div className={['mb-5', containerClassName].join(' ')}>
       {/* LABEL */}
@@ -70,26 +96,6 @@ const Slider = ({
 }
 
 
-// DEFINE DEFAULT FUNCTIONS
-// Default label function
-const defaultValueLabelFunction = (state) => {
-  return `Thumb value ${state.valueNow}`
-}
-
-const defaultThumbRenderFunction = (props, state) => {
-  const { className } = props
-  const classNameMod = [...className.split(' '), 'slider--thumb'].join(' ')
-  return (
-    <div {...props} className={classNameMod}>
-      {/* Dragger */}
-      <div className={['h-8 w-8 -mt-3 rounded-full bg-green'].join(' ')} />
-      {/* Number */}
-      <p className="text-center pt-2">{state.valueNow}</p>
-    </div>
-  )
-}
-
-
 Slider.propTypes = {
   valueRange: PropTypes.array.isRequired,
   defaultValue: PropTypes.oneOfType([
@@ -102,6 +108,7 @@ Slider.propTypes = {
   ]).isRequired,
   valueLabelFunction: PropTypes.func,
   thumbRenderFunction: PropTypes.func,
+  getLabelValue: PropTypes.func,
   pearling: PropTypes.bool,
   step: PropTypes.number,
   minDistance: PropTypes.number,
@@ -121,8 +128,9 @@ Slider.propTypes = {
 }
 
 Slider.defaultProps = {
-  valueLabelFunction: defaultValueLabelFunction,
-  thumbRenderFunction: defaultThumbRenderFunction,
+  valueLabelFunction: null,
+  thumbRenderFunction: null,
+  getLabelValue: (value) => value,
   pearling: false,
   step: 1,
   minDistance: 1,
