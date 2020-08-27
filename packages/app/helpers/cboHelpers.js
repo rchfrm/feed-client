@@ -75,7 +75,7 @@ export const saveCampaign = (oldState, newState) => {
         ...newState,
       }
       resolve(state)
-    }, 2500)
+    }, 1000)
   })
 }
 
