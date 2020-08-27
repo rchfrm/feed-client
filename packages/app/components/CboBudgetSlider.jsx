@@ -37,8 +37,6 @@ const CboBudgetSlider = ({ budget, minBudget, onChange }) => {
   const budgetUpgrade = React.useMemo(() => {
     return cboHelpers.getNextBudgetUpgrade(currentBudget)
   }, [currentBudget])
-  console.log('budgetUpgrade', budgetUpgrade)
-
 
   return (
     <Slider
