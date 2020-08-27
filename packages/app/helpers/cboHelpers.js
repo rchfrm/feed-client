@@ -46,11 +46,11 @@ export const getSummary = {
   },
   countries: (cboState) => {
     const { countries } = cboState
-    return countries.join(', ')
+    return countries.map(({ name }) => name).join(', ')
   },
   cities: (cboState) => {
     const { cities } = cboState
-    return cities.join(', ')
+    return cities.map(({ name }) => name).join(', ')
   },
 }
 
@@ -61,8 +61,12 @@ export const demoCboState = {
   minAge: 23,
   maxAge: 45,
   genders: 'men',
-  countries: ['UK'],
-  cities: ['Paris', 'Marseille', 'L\'Isle sur Sogue'],
+  countries: [{ id: 'uk', name: 'UK' }],
+  cities: [
+    { id: 'paris', name: 'Paris' },
+    { id: 'marseille', name: 'Marseille' },
+    { id: 'lislesursogue', name: 'L\'Isle sur Sogue' },
+  ],
   budget: 3,
   minBudget: 2,
 }
