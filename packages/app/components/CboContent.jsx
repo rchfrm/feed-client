@@ -4,6 +4,7 @@ import React from 'react'
 import produce from 'immer'
 
 import CboAgeSlider from '@/app/CboAgeSlider'
+import CboBudgetSlider from '@/app/CboBudgetSlider'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -32,6 +33,18 @@ const CboContent = () => {
             return produce(cboState, draftState => {
               draftState.minAge = minAge
               draftState.maxAge = maxAge
+            })
+          })
+        }}
+      />
+      {/* BUDGET SLIDER */}
+      <CboBudgetSlider
+        budget={cboState.budget}
+        minBudget={cboState.minBudget}
+        onChange={(budget) => {
+          setCboState((cboState) => {
+            return produce(cboState, draftState => {
+              draftState.budget = budget
             })
           })
         }}
