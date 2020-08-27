@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 // DOCS: https://zillow.github.io/react-slider/
 import ReactSlider from 'react-slider'
 
+import TooltipButton from '@/elements/TooltipButton'
+
 // DEFINE DEFAULT FUNCTIONS
 // Default label function
 const defaultValueLabelFunction = (state) => {
@@ -11,7 +13,16 @@ const defaultValueLabelFunction = (state) => {
 }
 
 const defaultThumbRenderFunction = (props, state) => {
-  return <div {...props}>{state.valueNow}</div>
+  const { className } = props
+  const classNameMod = [...className.split(' '), 'slider--thumb'].join(' ')
+  return (
+    <div {...props} className={classNameMod}>
+      {/* Dragger */}
+      <div className={['h-8 w-8 -mt-3 rounded-full bg-green'].join(' ')} />
+      {/* Number */}
+      <p className="text-center pt-2">{state.valueNow}</p>
+    </div>
+  )
 }
 
 const Slider = ({
@@ -25,7 +36,12 @@ const Slider = ({
   step, // see docs
   minDistance, // see docs
   onChange,
+  // Label and tooltip
+  label,
+  tooltipMessage,
+  tooltipDirection,
   // Classes
+  labelClassName,
   containerClassName,
   sliderClassName,
   thumbClassName,
@@ -35,23 +51,38 @@ const Slider = ({
 }) => {
   const [min, max] = valueRange
   return (
-    <div className={['relative', containerClassName].join(' ')}>
-      <ReactSlider
-        min={min}
-        max={max}
-        defaultValue={defaultValue}
-        ariaLabel={thumbNames}
-        ariaValuetext={valueLabelFunction}
-        renderThumb={thumbRenderFunction}
-        pearling={pearling}
-        step={step}
-        minDistance={minDistance}
-        onChange={onChange}
-        className={[sliderClassName].join(' ')}
-        thumbClassName={[thumbClassName].join(' ')}
-        trackClassName={[trackClassName].join(' ')}
-      />
-      {children}
+    <div>
+      {/* LABEL */}
+      {label && (
+        <div className={['inputLabel', 'mb-8', labelClassName].join(' ')}>
+          <span className="inputLabel__text">
+            {label}
+            {/* LABEL TOOLTIP */}
+            {tooltipMessage && (
+            <TooltipButton copy={tooltipMessage} direction={tooltipDirection} />
+            )}
+          </span>
+        </div>
+      )}
+      {/* SLIDER */}
+      <div className={['relative', containerClassName].join(' ')}>
+        <ReactSlider
+          min={min}
+          max={max}
+          defaultValue={defaultValue}
+          ariaLabel={thumbNames}
+          ariaValuetext={valueLabelFunction}
+          renderThumb={thumbRenderFunction}
+          pearling={pearling}
+          step={step}
+          minDistance={minDistance}
+          onChange={onChange}
+          className={[sliderClassName].join(' ')}
+          thumbClassName={[thumbClassName].join(' ')}
+          trackClassName={['h-3 bg-grey-1 rounded-dialogue', trackClassName].join(' ')}
+        />
+        {children}
+      </div>
     </div>
   )
 }
@@ -72,6 +103,13 @@ Slider.propTypes = {
   step: PropTypes.number,
   minDistance: PropTypes.number,
   onChange: PropTypes.func,
+  label: PropTypes.string,
+  tooltipMessage: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]),
+  tooltipDirection: PropTypes.string,
+  labelClassName: PropTypes.string,
   containerClassName: PropTypes.string,
   sliderClassName: PropTypes.string,
   thumbClassName: PropTypes.string,
@@ -86,6 +124,10 @@ Slider.defaultProps = {
   step: 1,
   minDistance: 1,
   onChange: () => {},
+  label: null,
+  tooltipMessage: null,
+  tooltipDirection: 'top',
+  labelClassName: null,
   containerClassName: null,
   sliderClassName: null,
   thumbClassName: null,
