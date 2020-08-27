@@ -25,7 +25,7 @@ const CboContent = () => {
 }
 
 // CboContent.propTypes = {
-  
+
 // }
 
 export default CboContent
