@@ -52,10 +52,17 @@ const Slider = ({
     return (
       <div {...props} className={classNameMod}>
         {/* Dragger */}
-        <div className={['h-8 w-8 mx-auto -mt-2 rounded-full bg-green'].join(' ')} />
+        <div
+          className={[
+            'h-6 w-6',
+            'xs:h-8 xs:w-8 -mt-1',
+            'mx-auto rounded-full bg-green',
+          ].join(' ')}
+          style={{ transform: 'translateY(-20%)' }}
+        />
         {/* Number */}
         <p
-          className={['absolute mt-3'].join(' ')}
+          className={['absolute mt-2 xs:mt-3 text-sm xs:text-base'].join(' ')}
           style={{ right: '50%', transform: 'translateX(50%)' }}
         >
           {valueLabel}
@@ -96,7 +103,7 @@ const Slider = ({
           onChange={onChange}
           className={[sliderClassName].join(' ')}
           thumbClassName={[thumbClassName].join(' ')}
-          trackClassName={['h-3 bg-grey-1 rounded-dialogue', trackClassName].join(' ')}
+          trackClassName={['h-2 xs:h-3 bg-grey-1 rounded-dialogue', trackClassName].join(' ')}
         />
         {children}
       </div>
