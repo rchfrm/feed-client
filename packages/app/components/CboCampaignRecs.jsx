@@ -2,19 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { formatCurrency } from '@/helpers/utils'
-import { demoRecs } from '@/app/helpers/cboHelpers'
 
-const CboCampaignRecs = ({ artistCurrency }) => {
-  const [selectedCampaignId, setSelectedCampaignId] = React.useState(null)
+
+const CboCampaignRecs = ({
+  reccs,
+  selectedReccId,
+  setSelectedReccId,
+  artistCurrency,
+}) => {
   return (
     <div>
       {/* HEADER */}
       <h2>Feed reccomended campaigns</h2>
       {/* RECCOMENDATION BUTTONS */}
-      {demoRecs.map((rec) => {
+      {reccs.map((rec) => {
         const { id, budget, countries, cities } = rec
         const budgetFormatted = formatCurrency(budget, artistCurrency)
-        const selected = id === selectedCampaignId
+        const selected = id === selectedReccId
         const locations = [...countries, ...cities].map(({ name }) => name)
         const locationsText = locations.reduce((text, location, index) => {
           if (index === locations.length - 1) return `${text} and ${location}.`
@@ -34,7 +38,7 @@ const CboCampaignRecs = ({ artistCurrency }) => {
               selected ? 'bg-green' : null,
             ].join(' ')}
             onClick={() => {
-              setSelectedCampaignId(selected ? null : id)
+              setSelectedReccId(selected ? null : id)
             }}
           >
             <p className="text-right mb-2">
@@ -52,10 +56,14 @@ const CboCampaignRecs = ({ artistCurrency }) => {
 }
 
 CboCampaignRecs.propTypes = {
+  reccs: PropTypes.array.isRequired,
+  selectedReccId: PropTypes.number,
+  setSelectedReccId: PropTypes.func.isRequired,
   artistCurrency: PropTypes.string,
 }
 
 CboCampaignRecs.defaultProps = {
+  selectedReccId: null,
   artistCurrency: '',
 }
 
