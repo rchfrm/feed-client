@@ -67,7 +67,7 @@ export const demoCboState = {
   minBudget: 2,
 }
 
-export const setCboState = (oldState, newState) => {
+export const saveCampaign = (oldState, newState) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const state = {
@@ -75,7 +75,7 @@ export const setCboState = (oldState, newState) => {
         ...newState,
       }
       resolve(state)
-    }, 500)
+    }, 2500)
   })
 }
 
