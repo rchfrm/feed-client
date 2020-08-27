@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { formatCurrency } from '@/helpers/utils'
 
 
-const CboCampaignRecs = ({
+const CboCampaignReccs = ({
   reccs,
   selectedReccId,
   setSelectedReccId,
@@ -55,17 +55,17 @@ const CboCampaignRecs = ({
   )
 }
 
-CboCampaignRecs.propTypes = {
+CboCampaignReccs.propTypes = {
   reccs: PropTypes.array.isRequired,
   selectedReccId: PropTypes.number,
   setSelectedReccId: PropTypes.func.isRequired,
   artistCurrency: PropTypes.string,
 }
 
-CboCampaignRecs.defaultProps = {
+CboCampaignReccs.defaultProps = {
   selectedReccId: null,
   artistCurrency: '',
 }
 
 
-export default CboCampaignRecs
+export default CboCampaignReccs

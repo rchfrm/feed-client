@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import CboSummaryList from '@/app/CboSummaryList'
-import CboCampaignRecs from '@/app/CboCampaignRecs'
+import CboCampaignReccs from '@/app/CboCampaignReccs'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 
@@ -15,7 +15,7 @@ const CboSummary = ({ cboState }) => {
   return (
     <>
       <CboSummaryList cboState={cboState} artistCurrency={artistCurrency} />
-      <CboCampaignRecs
+      <CboCampaignReccs
         reccs={demoRecs}
         selectedReccId={selectedReccId}
         setSelectedReccId={setSelectedReccId}
