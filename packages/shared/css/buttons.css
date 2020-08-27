@@ -62,6 +62,7 @@ button {
 
 .button--black,
 .button--green,
+.button--red,
 .button--success {
   background-color: var(--black);
   color: var(--white);
@@ -80,17 +81,14 @@ button {
   width: 100%;
 }
 
+
 .button--green,
 .button--success {
-  font-weight: var(--bold);
   background-color: var(--success-color);
-  color: var(--white);
+}
 
-  &:disabled,
-  &[disabled] {
-    background-color: var(--disabled-color-bg);
-    color: var(--success-color);
-  }
+.button--red {
+  background-color: var(--error-color);
 }
 
 

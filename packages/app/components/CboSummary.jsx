@@ -28,8 +28,20 @@ const CboSummary = ({ cboState, saveCboState }) => {
         saveCboState={saveCboState}
       />
       {/* BUTTONS */}
-      <div className="">
-        Buttons
+      <div className="pt-10 pb-5">
+        {/* CUSTOMISE BUTTON */}
+        <Button
+          className="w-full mb-5"
+        >
+          Customise Campaign
+        </Button>
+        {/* PAUSE BUTTON */}
+        <Button
+          version="red"
+          className="w-full"
+        >
+          Pause Campaign
+        </Button>
       </div>
     </>
   )

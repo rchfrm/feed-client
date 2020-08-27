@@ -69,6 +69,7 @@ export const demoCboState = {
   ],
   budget: 3,
   minBudget: 2,
+  paused: false,
 }
 
 export const saveCampaign = (oldState, newState) => {
