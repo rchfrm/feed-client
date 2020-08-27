@@ -28,7 +28,7 @@ const CboAgeSlider = ({ minAge, maxAge, onChange }) => {
       label="Age range"
       valueRange={[lowestAge, highestAge]}
       defaultValue={[minAge, maxAge]}
-      thumbNames={['Lower age', 'Upper age']}
+      thumbName={['Lower age', 'Upper age']}
       pearling
       getLabelValue={getLabelValue}
       valueLabelFunction={valueLabelFunction}

@@ -11,7 +11,7 @@ const Slider = ({
   // Slider config
   valueRange, // [lowest, highest]
   defaultValue, // number, number[] (use array for more than one thumb)
-  thumbNames, // string, string[] (use array for more than one thumb)
+  thumbName, // string, string[] (use array for more than one thumb)
   valueLabelFunction, // function to determine label of thumb
   thumbRenderFunction, // function to determin thumb node
   getLabelValue, // function on how to parse the value label
@@ -43,14 +43,23 @@ const Slider = ({
 
   const defaultThumbRenderFunction = (props, state) => {
     const { className } = props
-    const classNameMod = [...className.split(' '), 'slider--thumb'].join(' ')
+    const classNameMod = [
+      ...className.split(' '),
+      'relative',
+      'slider--thumb',
+    ].join(' ')
     const valueLabel = getLabelValue(state.valueNow)
     return (
       <div {...props} className={classNameMod}>
         {/* Dragger */}
-        <div className={['h-8 w-8 -mt-3 rounded-full bg-green'].join(' ')} />
+        <div className={['h-8 w-8 mx-auto -mt-2 rounded-full bg-green'].join(' ')} />
         {/* Number */}
-        <p className="text-center pt-2">{valueLabel}</p>
+        <p
+          className={['absolute mt-3'].join(' ')}
+          style={{ right: '50%', transform: 'translateX(50%)' }}
+        >
+          {valueLabel}
+        </p>
       </div>
     )
   }
@@ -73,12 +82,12 @@ const Slider = ({
         </div>
       )}
       {/* SLIDER */}
-      <div className={['relative'].join(' ')}>
+      <div className={['relative h-12'].join(' ')}>
         <ReactSlider
           min={min}
           max={max}
           defaultValue={defaultValue}
-          ariaLabel={thumbNames}
+          ariaLabel={thumbName}
           ariaValuetext={valueLabelFunction}
           renderThumb={thumbRenderFunction}
           pearling={pearling}
@@ -102,7 +111,7 @@ Slider.propTypes = {
     PropTypes.number,
     PropTypes.array,
   ]).isRequired,
-  thumbNames: PropTypes.oneOfType([
+  thumbName: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,
   ]).isRequired,
