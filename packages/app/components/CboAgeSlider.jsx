@@ -14,12 +14,14 @@ const CboAgeSlider = ({ minAge, maxAge, onChange }) => {
 
   const getLabelValue = React.useCallback((value) => {
     return getLabel(value)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Aria label function
   const valueLabelFunction = React.useCallback((state) => {
     const [minAge, maxAge] = state.value
     return `Min age set to ${getLabel(minAge)}, max age set to ${getLabel(maxAge)}`
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 

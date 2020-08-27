@@ -19,12 +19,14 @@ const CboBudgetSlider = ({ budget, minBudget, onChange }) => {
 
   const getLabelValue = React.useCallback((value) => {
     return getLabel(value)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Aria label function
   const valueLabelFunction = React.useCallback((state) => {
     const { value } = state
     return `Budget set to ${getLabel(value)}}`
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
