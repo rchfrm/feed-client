@@ -1,6 +1,10 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import produce from 'immer'
+
+import CboAgeSlider from '@/app/CboAgeSlider'
+
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
@@ -19,7 +23,19 @@ const CboContent = () => {
   console.log('cboState', cboState)
   return (
     <div>
-      CBO
+      {/* AGE SLIDER */}
+      <CboAgeSlider
+        minAge={cboState.minAge}
+        maxAge={cboState.maxAge}
+        onChange={([minAge, maxAge]) => {
+          setCboState((cboState) => {
+            return produce(cboState, draftState => {
+              draftState.minAge = minAge
+              draftState.maxAge = maxAge
+            })
+          })
+        }}
+      />
     </div>
   )
 }

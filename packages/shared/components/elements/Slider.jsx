@@ -6,24 +6,6 @@ import ReactSlider from 'react-slider'
 
 import TooltipButton from '@/elements/TooltipButton'
 
-// DEFINE DEFAULT FUNCTIONS
-// Default label function
-const defaultValueLabelFunction = (state) => {
-  return `Thumb value ${state.valueNow}`
-}
-
-const defaultThumbRenderFunction = (props, state) => {
-  const { className } = props
-  const classNameMod = [...className.split(' '), 'slider--thumb'].join(' ')
-  return (
-    <div {...props} className={classNameMod}>
-      {/* Dragger */}
-      <div className={['h-8 w-8 -mt-3 rounded-full bg-green'].join(' ')} />
-      {/* Number */}
-      <p className="text-center pt-2">{state.valueNow}</p>
-    </div>
-  )
-}
 
 const Slider = ({
   // Slider config
@@ -51,7 +33,7 @@ const Slider = ({
 }) => {
   const [min, max] = valueRange
   return (
-    <div>
+    <div className={['mb-5', containerClassName].join(' ')}>
       {/* LABEL */}
       {label && (
         <div className={['inputLabel', 'mb-8', labelClassName].join(' ')}>
@@ -65,7 +47,7 @@ const Slider = ({
         </div>
       )}
       {/* SLIDER */}
-      <div className={['relative', containerClassName].join(' ')}>
+      <div className={['relative'].join(' ')}>
         <ReactSlider
           min={min}
           max={max}
@@ -86,6 +68,27 @@ const Slider = ({
     </div>
   )
 }
+
+
+// DEFINE DEFAULT FUNCTIONS
+// Default label function
+const defaultValueLabelFunction = (state) => {
+  return `Thumb value ${state.valueNow}`
+}
+
+const defaultThumbRenderFunction = (props, state) => {
+  const { className } = props
+  const classNameMod = [...className.split(' '), 'slider--thumb'].join(' ')
+  return (
+    <div {...props} className={classNameMod}>
+      {/* Dragger */}
+      <div className={['h-8 w-8 -mt-3 rounded-full bg-green'].join(' ')} />
+      {/* Number */}
+      <p className="text-center pt-2">{state.valueNow}</p>
+    </div>
+  )
+}
+
 
 Slider.propTypes = {
   valueRange: PropTypes.array.isRequired,
