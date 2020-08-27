@@ -83,12 +83,18 @@ export const demoRecs = [
   {
     id: 1,
     budget: 5,
+    minAge: 18,
+    maxAge: 65,
+    genders: 'all',
     countries: [{ id: 'uk', name: 'UK' }],
     cities: [{ id: 'paris', name: 'Paris' }],
   },
   {
     id: 2,
     budget: 6,
+    minAge: 18,
+    maxAge: 65,
+    genders: 'all',
     countries: [{ id: 'france', name: 'France' }],
     cities: [{ id: 'london', name: 'London' }, { id: 'bolton', name: 'Bolton' }],
   },
