@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
-
 import { getSummary } from '@/app/helpers/cboHelpers'
 
 const SUMMARY_DETAIL = ({ name, value }) => {
@@ -19,8 +17,7 @@ const SUMMARY_DETAIL = ({ name, value }) => {
   )
 }
 
-const CboSummaryList = ({ cboState }) => {
-  const { artistCurrency } = React.useContext(ArtistContext)
+const CboSummaryList = ({ cboState, artistCurrency }) => {
   const summaries = [
     {
       name: 'Budget',
@@ -59,6 +56,12 @@ const CboSummaryList = ({ cboState }) => {
 
 CboSummaryList.propTypes = {
   cboState: PropTypes.object.isRequired,
+  artistCurrency: PropTypes.string,
 }
+
+CboSummaryList.defaultProps = {
+  artistCurrency: '',
+}
+
 
 export default CboSummaryList

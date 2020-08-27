@@ -4,11 +4,14 @@ import PropTypes from 'prop-types'
 import CboSummaryList from '@/app/CboSummaryList'
 import CboCampaignRecs from '@/app/CboCampaignRecs'
 
+import { ArtistContext } from '@/contexts/ArtistContext'
+
 const CboSummary = ({ cboState }) => {
+  const { artistCurrency } = React.useContext(ArtistContext)
   return (
     <>
-      <CboSummaryList cboState={cboState} />
-      <CboCampaignRecs />
+      <CboSummaryList cboState={cboState} artistCurrency={artistCurrency} />
+      <CboCampaignRecs artistCurrency={artistCurrency} />
     </>
   )
 }

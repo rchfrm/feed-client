@@ -4,13 +4,16 @@ import PropTypes from 'prop-types'
 import { formatCurrency } from '@/helpers/utils'
 import { demoRecs } from '@/app/helpers/cboHelpers'
 
-const CboCampaignRecs = () => {
+const CboCampaignRecs = ({ artistCurrency }) => {
   const [selectedCampaignId, setSelectedCampaignId] = React.useState(null)
   return (
     <div>
+      {/* HEADER */}
       <h2>Feed reccomended campaigns</h2>
+      {/* RECCOMENDATION BUTTONS */}
       {demoRecs.map((rec) => {
         const { id, budget, countries, cities } = rec
+        const budgetFormatted = formatCurrency(budget, artistCurrency)
         const selected = id === selectedCampaignId
         const locations = [...countries, ...cities].map(({ name }) => name)
         const locationsText = locations.reduce((text, location, index) => {
@@ -35,7 +38,7 @@ const CboCampaignRecs = () => {
             }}
           >
             <p className="text-right mb-2">
-              {formatCurrency(budget)} p/d
+              {budgetFormatted} p/d
             </p>
             <p className="mb-0 leading-relaxed">
               Targeting:<br />
@@ -49,7 +52,12 @@ const CboCampaignRecs = () => {
 }
 
 CboCampaignRecs.propTypes = {
-  
+  artistCurrency: PropTypes.string,
 }
+
+CboCampaignRecs.defaultProps = {
+  artistCurrency: '',
+}
+
 
 export default CboCampaignRecs
