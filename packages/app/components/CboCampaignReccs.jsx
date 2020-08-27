@@ -12,11 +12,18 @@ const CboCampaignReccs = ({
   saveCboState,
   artistCurrency,
 }) => {
+  const isMounted = React.useRef(true)
+  React.useEffect(() => {
+    return () => { isMounted.current = false }
+  }, [])
   const hasRecc = !!selectedReccId
-  const saveSelectedRecc = React.useCallback(() => {
+  const saveSelectedRecc = React.useCallback(async () => {
     const state = reccs.find(({ id }) => id === selectedReccId)
-    saveCboState(state)
-  }, [saveCboState, selectedReccId, reccs])
+    await saveCboState(state)
+    if (isMounted.current) {
+      setSelectedReccId(null)
+    }
+  }, [saveCboState, selectedReccId, reccs, setSelectedReccId])
   return (
     <div>
       {/* HEADER */}
