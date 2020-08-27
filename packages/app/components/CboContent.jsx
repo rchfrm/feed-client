@@ -10,7 +10,7 @@ import CboSummary from '@/app/CboSummary'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-import { demoCboState } from '@/app/helpers/cboHelpers'
+import { demoCboState, saveCampaign } from '@/app/helpers/cboHelpers'
 
 
 const CboContent = () => {
@@ -24,6 +24,7 @@ const CboContent = () => {
   const [cboState, setCboState] = React.useState(demoCboState)
   return (
     <div>
+      <CboSummary cboState={cboState} />
       {/* AGE SLIDER */}
       <CboAgeSlider
         minAge={cboState.minAge}
@@ -49,7 +50,6 @@ const CboContent = () => {
           })
         }}
       />
-      <CboSummary cboState={cboState} />
     </div>
   )
 }
