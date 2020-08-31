@@ -2,14 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PostImage from '@/PostImage'
+import PostItemStatusBadge from '@/app/PostItemStatusBadge'
 
 import styles from '@/app/PostItem.module.css'
 
 const PostItemContents = ({
   media,
-  thumbnailSrc,
+  thumbnails,
   caption,
   captionFull,
+  promotionStatus,
   className,
 }) => {
   const [hasMedia, setHasMedia] = React.useState(true)
@@ -27,11 +29,16 @@ const PostItemContents = ({
         className,
       ].join(' ')}
     >
+      {/* STATUS */}
+      <PostItemStatusBadge
+        status={promotionStatus}
+        className={styles.statusBadge}
+      />
       {hasMedia && (
         <div className={styles.postImageContainer}>
           <PostImage
             mediaSrc={media}
-            thumbnailOptions={[thumbnailSrc]}
+            thumbnailOptions={thumbnails}
             title={captionFull || caption}
             setHasMedia={setHasMedia}
           />
@@ -48,18 +55,20 @@ const PostItemContents = ({
 
 PostItemContents.propTypes = {
   media: PropTypes.string,
-  thumbnailSrc: PropTypes.string,
+  thumbnails: PropTypes.array,
   caption: PropTypes.string,
   captionFull: PropTypes.string,
+  promotionStatus: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostItemContents.defaultProps = {
   media: '',
-  thumbnailSrc: '',
+  thumbnails: [],
   caption: '',
   captionFull: '',
-  className: '',
+  promotionStatus: '',
+  className: null,
 }
 
 

@@ -2,7 +2,7 @@ module.exports = (purgeFiles) => ({
   purge: purgeFiles,
   theme: {
     screens: {
-      iphone6: '320px',
+      iphone8: '375px',
       xxs: '450px',
       xs: '600px',
       sm: '800px',
@@ -20,6 +20,7 @@ module.exports = (purgeFiles) => ({
       sm: '0.125rem',
       button: '3px',
       dialogue: '6px',
+      pill: '30px',
       lg: '0.5rem',
       full: '9999px',
     },
@@ -29,6 +30,7 @@ module.exports = (purgeFiles) => ({
         black: '#0D1311',
         green: '#03D8B2',
         red: '#FA5450',
+        purple: '#CC7CFD',
         grey: {
           1: '#E7E9E8',
           2: '#C8CBCA',
@@ -39,8 +41,22 @@ module.exports = (purgeFiles) => ({
         twitter: '#5BC0EB',
         sc: '#FDE74C',
       },
+      spacing: {
+        14: '3.5rem',
+        25: '6.25rem',
+        26: '6.5rem',
+        28: '7rem',
+        36: '9rem',
+        72: '18rem',
+        80: '20rem',
+        96: '24rem',
+        112: '28rem',
+        128: '32rem',
+      },
     },
   },
-  variants: {},
+  variants: {
+    margin: ['responsive', 'last', 'first'],
+  },
   plugins: [],
 })

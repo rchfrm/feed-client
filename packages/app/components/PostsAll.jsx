@@ -4,23 +4,13 @@ import PropTypes from 'prop-types'
 
 import produce from 'immer'
 // IMPORT CONTEXTS
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-// IMPORT ELEMENTS
-import Spinner from '@/elements/Spinner'
-import Button from '@/elements/Button'
-import GearIcon from '@/icons/GearIcon'
 // IMPORT COMPONENTS
-import PostsSettings from '@/app/PostsSettings'
 import PostItem from '@/app/PostItem'
-import PostsNone from '@/app/PostsNone'
 // IMPORT ASSETS
-import MarkdownText from '@/elements/MarkdownText'
 // IMPORT STYLES
 import styles from '@/app/PostsPage.module.css'
-import copy from '@/app/copy/PostsPageCopy'
-import brandColors from '@/constants/brandColors'
 
 // Reset posts scroll position
 const resetScroll = () => {
@@ -43,7 +33,7 @@ function PostsAll({
   posts,
   updateLink,
   togglePromotion,
-  togglePromotionGlobal,
+  postToggleSetter,
   loadMorePosts,
   loadingMore,
   loadedAll,
@@ -60,8 +50,6 @@ function PostsAll({
   const postsWithLoadingTrigger = getPostsWithLoadingTrigger(posts, loadAtIndex)
   // Create ref for intersection root
   const intersectionRoot = React.useRef(null)
-  // Create ref for watching intersection
-  const loadTrigger = React.useRef(null)
 
   // LOAD MORE Watch the load trigger for intersection
   const loadMore = React.useCallback((entries) => {
@@ -72,12 +60,10 @@ function PostsAll({
   }, [loadingMore, loadMorePosts, loadedAll])
 
   // Setup intersection observer
+  const loadTrigger = React.useRef(null)
   React.useEffect(() => {
     // Observer options
-    const options = {
-      rootMargin: '0px',
-      threshold: 0,
-    }
+    const options = { rootMargin: '0px', threshold: 0 }
     // Create observer
     const observer = new IntersectionObserver(loadMore, options)
     // observe the loader
@@ -87,7 +73,6 @@ function PostsAll({
 
     // clean up
     const loadTriggerEl = loadTrigger.current
-
     return () => {
       if (loadTriggerEl) {
         observer.unobserve(loadTriggerEl)
@@ -95,35 +80,8 @@ function PostsAll({
     }
   }, [posts.length, loadMore, loadedAll])
 
-  // Open the post settings side panel
-  const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
-  const togglePostsSettings = React.useCallback(() => {
-    setSidePanelContent(<PostsSettings togglePromotionGlobal={togglePromotionGlobal} />)
-    toggleSidePanel(true)
-  }, [setSidePanelContent, toggleSidePanel, togglePromotionGlobal])
-
-  // Stop here if no posts
-  if (posts.length === 0) {
-    return <PostsNone />
-  }
-
   return (
     <section className={styles.postsSection}>
-
-      <MarkdownText className={['h4--text', styles.introText].join(' ')} markdown={copy.intro} />
-
-      {/* POST SETTINGS BUTTON */}
-      <div>
-        <Button
-          className={styles.postSettingsButton}
-          onClick={togglePostsSettings}
-          version="black small icon"
-        >
-          <GearIcon fill={brandColors.bgColor} />
-          Post Settings
-        </Button>
-      </div>
-
       <ul
         id="PostsAll__scroller"
         className={[
@@ -144,10 +102,11 @@ function PostsAll({
               key={post.id}
               index={index}
               post={post}
-              enabled={post.promotion_enabled}
+              enabled={post.promotionEnabled}
               updateLink={updateLink}
               singular={posts.length === 1}
               togglePromotion={togglePromotion}
+              postToggleSetter={postToggleSetter}
               className="col-span-12 xs:col-span-6 lg:col-span-4"
             >
               {post.loadTrigger && !loadedAll && (
@@ -159,12 +118,6 @@ function PostsAll({
             </PostItem>
           )
         })}
-        {/* Loading spinner */}
-        {loadingMore && (
-          <div className={[styles.postsSpinner, 'col-span-12 xs:col-span-6 lg:col-span-4'].join(' ')}>
-            <Spinner />
-          </div>
-        )}
       </ul>
 
 
@@ -176,13 +129,14 @@ PostsAll.propTypes = {
   posts: PropTypes.array.isRequired,
   updateLink: PropTypes.func.isRequired,
   togglePromotion: PropTypes.func.isRequired,
-  togglePromotionGlobal: PropTypes.func.isRequired,
+  postToggleSetter: PropTypes.string,
   loadMorePosts: PropTypes.func.isRequired,
   loadingMore: PropTypes.bool,
   loadedAll: PropTypes.bool,
 }
 
 PostsAll.defaultProps = {
+  postToggleSetter: '',
   loadingMore: false,
   loadedAll: false,
 }
