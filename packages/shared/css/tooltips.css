@@ -98,12 +98,6 @@
     transform: translateY(-100%);
   }
 
-  &.-bottom {
-    left: 50%;
-    bottom: -10px;
-    transform: translateX(-50%) translateY(100%);
-  }
-
   > *:last-child {
     margin-bottom: 0;
   }
@@ -160,5 +154,3 @@
     }
   }
 }
-
-
