@@ -35,6 +35,12 @@ const CboSummary = ({ cboState, saveCboState }) => {
         >
           Customise Campaign
         </Button>
+        {/* BUDGET BUTTON */}
+        <Button
+          className="w-full mb-5"
+        >
+          Edit Budget
+        </Button>
         {/* PAUSE BUTTON */}
         <Button
           version="red"
