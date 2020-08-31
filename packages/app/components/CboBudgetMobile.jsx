@@ -12,7 +12,7 @@ const CboBudgetMobile = ({
     <div>
       {/* HEADER */}
       <header className="">
-        <h3 className="h2">Budget</h3>
+        <h3 className="h2">Set a Budget</h3>
       </header>
       <CboBudgetSetter
         cboState={cboState}
