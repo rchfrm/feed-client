@@ -6,13 +6,11 @@ import produce from 'immer'
 import CboAgeSlider from '@/app/CboAgeSlider'
 import CboBudgetSlider from '@/app/CboBudgetSlider'
 import CboSummary from '@/app/CboSummary'
-import CboBudgetMobile from '@/app/CboBudgetMobile'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import { demoCboState, saveCampaign } from '@/app/helpers/cboHelpers'
+import { demoCboState } from '@/app/helpers/cboHelpers'
 
 
 const CboContent = () => {
@@ -24,6 +22,7 @@ const CboContent = () => {
   }, [artistId, toggleGlobalLoading])
   // CBO STATE
   const [cboState, setCboState] = React.useState(demoCboState)
+
   return (
     <div>
       <CboSummary cboState={cboState} />
