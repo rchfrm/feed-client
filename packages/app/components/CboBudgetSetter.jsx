@@ -19,7 +19,7 @@ const CboBudgetSetter = ({
   const { artistCurrency } = React.useContext(ArtistContext)
 
   // FLIP
-  const [isFlipped, setIsFlipped] = React.useState(false)
+  const [showCustomBudget, setShowCustomBudget] = React.useState(useCustomBudget)
 
   // UPDATE CBO STATE when BUDGET changes
   const [budget, setBudget] = React.useState('')
@@ -38,15 +38,16 @@ const CboBudgetSetter = ({
   const placeholder = `Minimum Budget ${formatCurrency(minBudget, artistCurrency)}`
   return (
     <div>
-      <button onClick={() => setIsFlipped(!isFlipped)}>Flip</button>
       {/* VIEW CONTAINER */}
       <FlipContainer
-        isFlipped={isFlipped}
+        isFlipped={showCustomBudget}
         rotationAxis="X"
-        containerClass="h-20 bg-red"
+        containerClass="h-20"
+        // BUDGET SLIDER
         frontContent={(
-          <div className="h-20 w-full bg-grey-1" />
+          <div className="h-20 w-full bg-grey-1">Budget slider</div>
         )}
+        // BUDGET CUSTOM INPUT
         backContent={(
           <Input
             value={budget}
@@ -59,6 +60,14 @@ const CboBudgetSetter = ({
           />
         )}
       />
+      {/* TOGGLE CUSTOM BUDGET */}
+      <p className="pt-8 text-right">
+        <a role="button" onClick={() => setShowCustomBudget(!showCustomBudget)}>
+          <em>
+            {showCustomBudget ? 'Cancel' : 'Custom Budget'}
+          </em>
+        </a>
+      </p>
     </div>
   )
 }
