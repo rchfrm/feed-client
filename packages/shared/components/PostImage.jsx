@@ -79,7 +79,15 @@ const getPopupMedia = ({
   )
 }
 
-const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }) => {
+const PostImage = ({
+  mediaSrc,
+  thumbnailOptions,
+  title,
+  className,
+  aspectRatio,
+  onUseFallback,
+  brokenImageColor,
+}) => {
   // Remove empty and duplicate thumbnail options
   const thumbnails = React.useMemo(() => {
     return thumbnailOptions.reduce((thumbs, thumb) => {
@@ -92,7 +100,6 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
   // Get active thumb src
   const activeThumbIndex = React.useRef(0)
   const [activeThumbSrc, setActiveThumbSrc] = React.useState(thumbnails[activeThumbIndex.current])
-
 
   // Define media type
   const mediaType = React.useMemo(() => {
@@ -111,6 +118,14 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
     setThumbError(true)
   }, [setVideoError])
 
+
+  // Trigger use fallback if no thumb src
+  React.useEffect(() => {
+    if (!thumbnailOptions.length) {
+      onUseFallback()
+    }
+  }, [onUseFallback, thumbnailOptions])
+
   // Swap to backup thumb src if first errors
   React.useEffect(() => {
     // Stop here if no thumb error
@@ -121,8 +136,11 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
     if (nextThumbSrc) {
       setActiveThumbSrc(nextThumbSrc)
       setThumbError(false)
+    } else {
+      // Tell parent fallback was used
+      onUseFallback()
     }
-  }, [thumbError, thumbnails, setThumbError])
+  }, [thumbError, thumbnails, setThumbError, onUseFallback])
 
   // Get the thumbnail
   const thumbnailImageSrc = React.useMemo(() => {
@@ -182,7 +200,7 @@ const PostImage = ({ mediaSrc, thumbnailOptions, title, className, aspectRatio }
       {/* Test for broken videos */}
       {mediaTest}
       {/* Thumbnail fallback */}
-      {(thumbError || !thumbnailImageSrc) && <MediaFallback />}
+      {(thumbError || !thumbnailImageSrc) && <MediaFallback brokenImageColor={brokenImageColor} />}
       {/* Show broken play button */}
       {videoError && <div className={styles.playIconBg}>{playIcon}</div>}
       {/* Show play icon */}
@@ -228,6 +246,8 @@ PostImage.propTypes = {
   title: PropTypes.string,
   className: PropTypes.string,
   aspectRatio: PropTypes.string,
+  onUseFallback: PropTypes.func,
+  brokenImageColor: PropTypes.string,
 }
 
 PostImage.defaultProps = {
@@ -236,6 +256,8 @@ PostImage.defaultProps = {
   title: '',
   className: '',
   aspectRatio: 'square',
+  onUseFallback: () => {},
+  brokenImageColor: brandColors.green,
 }
 
 

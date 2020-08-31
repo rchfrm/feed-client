@@ -28,7 +28,7 @@ GearIcon.propTypes = {
 
 GearIcon.defaultProps = {
   fill: brandColors.textColor,
-  className: '',
+  className: null,
 }
 
 

@@ -12,7 +12,7 @@ import TournamentNavigation from '@/admin/TournamentNavigation'
 import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-import * as server from '@/admin/helpers/adminServer'
+import * as server from '@/helpers/sharedServer'
 
 const fetcher = async (artistId, campaignId, adsetId, tournamentId) => {
   if (!artistId) return []
@@ -37,7 +37,7 @@ const fetcher = async (artistId, campaignId, adsetId, tournamentId) => {
     return [tournamentComplete]
   }
   // Get all artist tournaments
-  return server.getArtistTournaments(artistId, tournamentId)
+  return server.getArtistTournaments({ artistId })
 }
 
 const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {

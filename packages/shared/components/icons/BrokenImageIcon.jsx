@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import brandColors from '@/constants/brandColors'
 
-const BrokenImageIcon = ({ className }) => {
+const BrokenImageIcon = ({ className, circleFill }) => {
   return (
     <svg
       className={className}
@@ -13,9 +13,9 @@ const BrokenImageIcon = ({ className }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="192" cy="192" r="192" fill={brandColors.green} />
+      <circle cx="192" cy="192" r="192" fill={circleFill} />
       <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="384" height="384">
-        <circle cx="192" cy="192" r="192" fill={brandColors.green} />
+        <circle cx="192" cy="192" r="192" fill="#000" />
       </mask>
       <g mask="url(#mask0)">
         <path
@@ -32,10 +32,12 @@ const BrokenImageIcon = ({ className }) => {
 
 BrokenImageIcon.propTypes = {
   className: PropTypes.string,
+  circleFill: PropTypes.string,
 }
 
 BrokenImageIcon.defaultProps = {
   className: '',
+  circleFill: brandColors.green,
 }
 
 

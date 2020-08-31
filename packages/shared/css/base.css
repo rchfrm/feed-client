@@ -109,22 +109,6 @@ body {
   width: 100%;
 }
 
-.TheFooter {
-  padding-top: var(--sp-8);
-  font-family: var(--font-display);
-  padding-bottom: var(--sp-5);
-  padding-right: var(--sp-5);
-
-  &._loggedIn {
-    padding-bottom: var(--sp-8);
-
-    @media (--md) {
-      padding-left: var(--sp-25);
-      padding-bottom: calc(var(--sp-5) + 1px);
-    }
-  }
-}
-
 .hidden {
   display: none;
 }

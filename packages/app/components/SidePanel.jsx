@@ -6,8 +6,7 @@ import { Transition } from 'react-transition-group'
 import useSwipeDismiss from '@/hooks/useSwipeDismiss'
 
 import Spinner from '@/elements/Spinner'
-import DragIndicator from '@/elements/DragIndicator'
-import CloseCircle from '@/icons/CloseCircle'
+import ButtonCloseCircle from '@/elements/ButtonCloseCircle'
 
 import styles from '@/app/SidePanel.module.css'
 
@@ -140,13 +139,10 @@ function SidePanel({
             { content }
           </div>
           {/* Close button */}
-          <button
+          <ButtonCloseCircle
+            className={styles.backButton}
             onClick={close}
-            className={['button--close', styles.backButton].join(' ')}
-            label="Back"
-          >
-            <CloseCircle />
-          </button>
+          />
           {/* Optional side panel CTA */}
           {button && (
             <div className={styles.ctaButton}>

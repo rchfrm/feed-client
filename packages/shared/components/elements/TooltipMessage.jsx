@@ -2,19 +2,86 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { Portal } from 'react-portal'
+
 import MarkdownText from '@/elements/MarkdownText'
 import TooltipSlides from '@/TooltipSlides'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
+import useGetBreakpointWidth from '@/hooks/useGetBreakpointWidth'
+
+// GET POSITION
+// ------------
+const getPositionAndWidth = ({
+  buttonEl,
+  messageEl,
+  arrowEl,
+  direction,
+  defaultWidth,
+  windowWidth,
+  xsWidth,
+}) => {
+  const sideGap = 16
+  const gap = 8
+  const buttonBoundingClient = buttonEl.getBoundingClientRect()
+  const messageWidth = messageEl.offsetWidth
+  let { top: buttonTop, left: buttonLeft } = buttonBoundingClient
+  const { width: buttonWidth, height: buttonHeight } = buttonBoundingClient
+  // Adjust button top by scroll position
+  buttonTop += window.scrollY
+  buttonLeft += window.scrollX
+  // Force direction as top for screens below xs
+  if (windowWidth < xsWidth) {
+    direction = 'bottom'
+  }
+  let top
+  let left
+  let width = defaultWidth
+  if (direction === 'top' || direction === 'bottom') {
+    left = buttonLeft + (buttonWidth / 2) - (messageWidth / 2)
+  }
+  if (direction === 'top') {
+    top = buttonTop - gap
+  }
+  if (direction === 'bottom') {
+    top = buttonTop + buttonHeight + gap
+  }
+  // TODO bottom
+  if (direction === 'left' || direction === 'right') {
+    top = buttonTop + (buttonWidth / 2)
+  }
+  if (direction === 'left') {
+    left = buttonLeft - (buttonWidth / 2) - messageWidth + (gap * 1)
+  }
+  if (direction === 'right') {
+    left = buttonLeft + buttonWidth + gap
+  }
+  // If window width is less than max width, fix to center
+  // And move arrow
+  if (left <= sideGap) {
+    left = sideGap
+    width = Math.min(defaultWidth, windowWidth - (sideGap * 2))
+    arrowEl.style.left = `${buttonLeft - 1}px`
+  // Else reset arrow
+  } else {
+    arrowEl.style.left = null
+  }
+  return { top, left, width }
+}
 
 const TooltipMessage = ({
   copy,
   slides,
   slidesContentAfter,
   direction,
+  messageClass,
   messageStyle,
+  buttonRef,
   messageRef,
 }) => {
+  const [ready, setReady] = React.useState(false)
+  // Get width of xs breakpoint
+  const xsWidth = useGetBreakpointWidth('xs')
   // Define message el
   const messageNode = React.useRef(null)
   const setMessageRef = React.useCallback((el) => {
@@ -23,58 +90,70 @@ const TooltipMessage = ({
     // Set ref here
     messageNode.current = el
   }, [messageRef])
+  // Define arrow ref
+  const arrowRef = React.useRef(null)
   // Get window width
   const { width: windowWidth } = useBrowserStore()
   // Update width to make sure it's not too big
-  const defaultStyle = { width: 300 }
+  const defaultStyle = { width: 300, opacity: 0 }
   const [style, setStyle] = React.useState(defaultStyle)
   React.useEffect(() => {
+    const { current: buttonEl } = buttonRef
     const { current: messageEl } = messageNode
-    const sideGap = 20
-    const { left: distanceFromLeft, right } = messageEl.getBoundingClientRect()
-    const { width: defaultWidth } = defaultStyle
-    const distanceFromRight = direction === 'left' ? windowWidth - right : right
-    const isTooBig = windowWidth - (distanceFromRight + defaultWidth) < sideGap
-    if (isTooBig) {
-      // If screen is too narrow, set width to fit
-      const newWidth = direction === 'left'
-        // When positioned to the left
-        ? windowWidth - (sideGap + distanceFromRight)
-        // When positioned to the right
-        : windowWidth - (distanceFromLeft + sideGap)
-      // Set width
-      setStyle({ ...defaultStyle, width: Math.min(newWidth, defaultWidth) })
-      return
-    }
+    // GET POSITION
+    const { left, top, width } = getPositionAndWidth({
+      buttonEl,
+      messageEl,
+      arrowEl: arrowRef.current,
+      direction,
+      defaultWidth: defaultStyle.width,
+      windowWidth,
+      xsWidth,
+    })
+    const style = { ...defaultStyle, left, top, width, opacity: 1 }
     // If screen is big enough set to default style
-    setStyle(defaultStyle)
+    setStyle(style)
+    // Set as ready
+    setReady(true)
   // eslint-disable-next-line
   }, [windowWidth])
   return (
-    <div
-      ref={setMessageRef}
-      className={[
-        // Tailwind classes
-        'absolute',
-        'rounded-dialogue',
-        'border-2',
-        'border-solid',
-        'border-green',
-        'p-3',
-        // Custom CSS
-        'tooltip--message',
-        `-${direction}`,
-        // Handle slides
-        slides ? 'pb-8' : '',
-      ].join(' ')}
-      style={{ ...style, ...messageStyle }}
-    >
-      {((slides || slidesContentAfter) && slides.length > 1) && style ? (
-        <TooltipSlides slides={slides} slidesContentAfter={slidesContentAfter} />
-      ) : (
-        <MarkdownText markdown={copy || slides[0]} />
-      )}
-    </div>
+    <Portal>
+      <div
+        ref={setMessageRef}
+        className={[
+          // Tailwind classes
+          'absolute',
+          'rounded-dialogue',
+          'border-2',
+          'border-solid',
+          'border-green',
+          'p-3',
+          'text-sm',
+          // Custom CSS
+          'tooltip--message',
+          `-${direction}`,
+          // Handle slides
+          slides ? 'pb-8' : '',
+          // Add class from prop
+          messageClass,
+        ].join(' ')}
+        style={{ ...style, ...messageStyle }}
+      >
+        {(ready && (slides || slidesContentAfter) && slides.length > 1) && style ? (
+          <TooltipSlides slides={slides} slidesContentAfter={slidesContentAfter} />
+        ) : (
+          <MarkdownText markdown={copy || slides[0]} />
+        )}
+        {/* ARROW */}
+        <div
+          ref={arrowRef}
+          className={[
+            'tooltip--arrow',
+          ].join(' ')}
+        />
+      </div>
+    </Portal>
   )
 }
 
@@ -86,6 +165,7 @@ TooltipMessage.propTypes = {
     'top', 'left', 'bottom', 'right',
   ]),
   messageStyle: PropTypes.object,
+  buttonRef: PropTypes.object.isRequired,
   messageRef: PropTypes.func,
 }
 

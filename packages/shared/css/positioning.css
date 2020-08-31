@@ -1,0 +1,18 @@
+.absolute--center-xy {
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+}
+
+.absolute--center-x {
+  position: absolute;
+  right: 50%;
+  transform: translate(50%, 0);
+}
+
+.absolute--center-y {
+  position: absolute;
+  bottom: 50%;
+  transform: translate(0, 50%);
+}

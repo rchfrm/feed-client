@@ -18,7 +18,15 @@ import * as server from '@/app/helpers/appServer'
 
 import styles from '@/app/PostItem.module.css'
 
-const PostItemLink = ({ postId, postIndex, promotionEnabled, priorityDsp, updateLink, setError }) => {
+const PostItemLink = ({
+  postId,
+  postIndex,
+  promotionEnabled,
+  promotionStatus,
+  priorityDsp,
+  updateLink,
+  setError,
+}) => {
   const { artist, addArtistUrl } = React.useContext(ArtistContext)
   const [postLinkPlatform, setPostLinkPlatform] = React.useState(priorityDsp || artist.priority_dsp)
   const storedPostLinkPlatform = React.useRef(postLinkPlatform)
@@ -56,19 +64,19 @@ const PostItemLink = ({ postId, postIndex, promotionEnabled, priorityDsp, update
     setLoading(false)
     setError(null)
   }, [linkPanelOpen])
-  // Define element refs
+  // DEFINE ELEMENT REFS
   const placeholderEl = React.useRef(null)
   const containerEl = React.useRef(null)
   const topBarEl = React.useRef(null)
   const mainContentEl = React.useRef(null)
-  // Setup GSAP setter
+  // SETUP GSAP SETTER
   const placeholderSetter = React.useRef(null)
   const transformSetter = React.useRef(null)
   React.useEffect(() => {
     placeholderSetter.current = gsap.quickSetter(placeholderEl.current, 'height', 'px')
     transformSetter.current = gsap.quickSetter(containerEl.current, 'y', 'px')
   }, [])
-  // Reset transform on resize
+  // RESET TRANSFORM ON RESIZE
   const containerHeight = React.useRef(null)
   const topBarHeight = React.useRef(null)
   const contentHeight = React.useRef(null)
@@ -93,6 +101,9 @@ const PostItemLink = ({ postId, postIndex, promotionEnabled, priorityDsp, update
     }
   }, [])
 
+  // CAN THE LINK BE EDITED
+  const isLinkEditable = promotionStatus !== 'active' && promotionStatus !== 'archived'
+
   return (
     <>
       {/* Placeholder */}
@@ -107,7 +118,7 @@ const PostItemLink = ({ postId, postIndex, promotionEnabled, priorityDsp, update
             postLinkPlatform={postLinkPlatform}
             postLinkUrl={postLinkUrl}
           />
-          {promotionEnabled && (
+          {promotionEnabled && isLinkEditable && (
             <p>
               <a role="button" className={styles.postLinkEditButton} onClick={toggleLinkContent}>
                 {linkPanelOpen ? 'Save' : 'Edit'}
@@ -149,6 +160,7 @@ PostItemLink.propTypes = {
   postId: PropTypes.string.isRequired,
   postIndex: PropTypes.number.isRequired,
   promotionEnabled: PropTypes.bool.isRequired,
+  promotionStatus: PropTypes.string.isRequired,
   priorityDsp: PropTypes.string,
   updateLink: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,

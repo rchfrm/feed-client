@@ -3,10 +3,10 @@ import React from 'react'
 
 import BrokenImageIcon from '@/icons/BrokenImageIcon'
 
-function MediaFallback({ className }) {
+function MediaFallback({ className, brokenImageColor }) {
   return (
     <div className={['media--fallback', className].join(' ')}>
-      <BrokenImageIcon className="icon" />
+      <BrokenImageIcon className="icon" circleFill={brokenImageColor} />
     </div>
   )
 }
