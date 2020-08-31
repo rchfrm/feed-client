@@ -1,5 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
@@ -7,6 +9,7 @@ import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
+import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 // IMPORT PAGES
 import PostsAll from '@/app/PostsAll'
@@ -14,9 +17,8 @@ import PostsNone from '@/app/PostsNone'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
+import * as postsHelpers from '@/app/helpers/postsHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
-// IMPORT STYLES
-import styles from '@/app/PostsPage.module.css'
 
 // Define initial state and reducer for posts
 const postsInitialState = []
@@ -25,7 +27,8 @@ const postsReducer = (draftState, postsAction) => {
   const {
     newPosts,
     postIndex,
-    promotion_enabled,
+    promotionEnabled,
+    promotableStatus,
     postLink,
   } = payload
   switch (actionType) {
@@ -37,15 +40,16 @@ const postsReducer = (draftState, postsAction) => {
       draftState.push(...newPosts)
       break
     case 'toggle-promotion':
-      draftState[postIndex].promotion_enabled = promotion_enabled
+      draftState[postIndex].promotionEnabled = promotionEnabled
+      draftState[postIndex].promotableStatus = promotableStatus
       break
     case 'toggle-promotion-global':
       draftState.forEach((post) => {
-        post.promotion_enabled = promotion_enabled
+        post.promotionEnabled = promotionEnabled
       })
       break
     case 'update-link':
-      draftState[postIndex].priority_dsp = postLink
+      draftState[postIndex].priorityDsp = postLink
       break
     default:
       return draftState
@@ -54,29 +58,33 @@ const postsReducer = (draftState, postsAction) => {
 
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-const fetchPosts = async ({ artistId, offset, limit, isEndOfAssets, cursor }) => {
+const fetchPosts = async ({ promotionStatus, artistId, limit, isEndOfAssets, cursor }) => {
   if (!artistId) return
   // Stop here if at end of posts
   if (isEndOfAssets.current) return
   // Get posts
-  let posts
-  if (cursor.current) {
-    posts = await server.getUnpromotedPostsAfter(cursor.current.href)
-  } else {
-    posts = await server.getUnpromotedPosts(offset.current, limit, artistId)
-  }
+  const posts = await server.getPosts({ limit, artistId, promotionStatus, cursor: cursor.current })
   // Sort the returned posts chronologically, latest first
   return utils.sortAssetsChronologically(Object.values(posts))
 }
 
+// WHEN TO UPDATE POSTS
+const updateDataConditions = (newProps, oldProps) => {
+  const { artistId: newArtistId, promotionStatus: newpromotionStatus, loadingMore } = newProps
+  const { artistId: oldArtistId, promotionStatus: oldPromotionStatus, loadingMore: alreadyLoadingMore } = oldProps
+  if (loadingMore && !alreadyLoadingMore) return true
+  if (newArtistId !== oldArtistId) return true
+  if (newpromotionStatus !== oldPromotionStatus) return true
+  return false
+}
+
 // THE COMPONENT
 // ------------------
-function PostsLoader() {
+function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
-  const offset = React.useRef(0)
-  const cursor = React.useRef(null)
+  const cursor = React.useRef('')
   const initialLoad = React.useRef(true)
   const [loadingMore, setLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -84,7 +92,7 @@ function PostsLoader() {
   const postsPerPage = 10
 
   // Import artist context
-  const { artistId, artistLoading } = React.useContext(ArtistContext)
+  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
@@ -95,29 +103,21 @@ function PostsLoader() {
     initialLoad.current = true
     // Remove after cursor
     cursor.current = null
-    // Reset offset
-    offset.current = 0
     // Update end of assets state
     isEndOfAssets.current = false
-  }, [artistId])
+  }, [artistId, promotionStatus])
 
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({
     promiseFn: fetchPosts,
-    watchFn: (newProps, oldProps) => {
-      const { artistId: newArtistId, loadingMore } = newProps
-      const { artistId: oldArtistId, loadingMore: alreadyLoadingMore } = oldProps
-      if (loadingMore && !alreadyLoadingMore) return true
-      if (newArtistId !== oldArtistId) return true
-      return false
-    },
+    watchFn: updateDataConditions,
     // The variable(s) to pass to promiseFn
     artistId,
-    offset,
     limit: postsPerPage,
     isEndOfAssets,
     loadingMore,
     cursor,
+    promotionStatus,
     // When fetch finishes
     onResolve: (posts) => {
       // Turn off global loading
@@ -134,12 +134,13 @@ function PostsLoader() {
         initialLoad.current = false
         return
       }
-      // Update offset
-      offset.current += posts.length
+      // Format posts
+      const postsFormatted = postsHelpers.formatPostsResponse(posts)
       // Update afterCursor
       const lastPost = posts[posts.length - 1]
       if (lastPost._links.after) {
-        cursor.current = posts[posts.length - 1]._links.after
+        const nextCursor = postsHelpers.getCursor(lastPost)
+        cursor.current = nextCursor
       }
       // If loading extra posts
       if (loadingMore) {
@@ -149,7 +150,7 @@ function PostsLoader() {
         setPosts({
           type: 'add-posts',
           payload: {
-            newPosts: posts,
+            newPosts: postsFormatted,
           },
         })
         return
@@ -158,7 +159,7 @@ function PostsLoader() {
       setPosts({
         type: 'replace-posts',
         payload: {
-          newPosts: posts,
+          newPosts: postsFormatted,
         },
       })
       // Define initial load
@@ -170,14 +171,20 @@ function PostsLoader() {
     },
   })
 
-  // Define function for toggling promotion
-  const togglePromotion = React.useCallback(async (postId, promotion_enabled) => {
+  // Define what toggled the post enabled status
+  // (single or batch)
+  const [postToggleSetter, setPostToggleSetter] = React.useState('')
+
+  // Define function for toggling SINGLE promotion
+  const togglePromotion = React.useCallback(async (postId, promotionEnabled, promotableStatus) => {
     const indexOfId = posts.findIndex(({ id }) => postId === id)
-    const newPromotionState = promotion_enabled
+    const newPromotionState = promotionEnabled
+    setPostToggleSetter('single')
     setPosts({
       type: 'toggle-promotion',
       payload: {
-        promotion_enabled,
+        promotionEnabled,
+        promotableStatus,
         postIndex: indexOfId,
       },
     })
@@ -191,15 +198,24 @@ function PostsLoader() {
     })
     return newPromotionState
   }, [posts, artistId, setPosts])
-  // Define function to batch toggle all posts
-  const togglePromotionGlobal = React.useCallback((promotion_enabled) => {
-    setPosts({
-      type: 'toggle-promotion-global',
-      payload: {
-        promotion_enabled,
-      },
+
+  // Define function to BATCH TOGGLE all posts
+  // and set it on the parent
+  React.useEffect(() => {
+    const togglePromotionGlobal = (promotionEnabled) => {
+      setPostToggleSetter('batch')
+      setPosts({
+        type: 'toggle-promotion-global',
+        payload: {
+          promotionEnabled,
+        },
+      })
+    }
+    setTogglePromotionGlobal(() => (promotionEnabled) => {
+      togglePromotionGlobal(promotionEnabled)
     })
-  }, [setPosts])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setTogglePromotionGlobal])
 
   // Define function for loading more posts
   const loadMorePosts = React.useCallback(() => {
@@ -213,7 +229,7 @@ function PostsLoader() {
   }, [toggleGlobalLoading])
 
   // Define function to update links
-  const updateLink = (postIndex, postLink) => {
+  const updateLink = React.useCallback((postIndex, postLink) => {
     setPosts({
       type: 'update-link',
       payload: {
@@ -227,20 +243,34 @@ function PostsLoader() {
       description: `New link: ${postLink}`,
       label: `artistId: ${artistId}`,
     })
-  }
+  }, [setPosts, artistId])
 
   // Wait if initial loading
-  if (artistLoading || (isPending && initialLoad.current)) {
+  if (artistLoading) {
     return null
   }
 
-  // No posts if none
-  if (!posts || !posts.length) {
-    return <PostsNone refreshPosts={refreshPosts} />
+  // Show no posts message if no posts
+  if (!isPending && !posts.length) {
+    return (
+      <PostsNone
+        refreshPosts={refreshPosts}
+        promotionStatus={promotionStatus}
+        artist={artist}
+      />
+    )
+  }
+
+  if (isPending && initialLoad.current) {
+    return (
+      <div className="pt-10 pb-10">
+        <Spinner />
+      </div>
+    )
   }
 
   return (
-    <div className={styles['posts-page']}>
+    <div>
 
       <PostsAll
         posts={posts}
@@ -248,16 +278,30 @@ function PostsLoader() {
         setVisiblePost={setVisiblePost}
         updateLink={updateLink}
         togglePromotion={togglePromotion}
-        togglePromotionGlobal={togglePromotionGlobal}
+        postToggleSetter={postToggleSetter}
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
         loadedAll={isEndOfAssets.current}
       />
 
+      {/* Loading spinner */}
+      {loadingMore && (
+        <div className={['pt-20 py-10'].join(' ')}>
+          <div className="mx-auto w-20">
+            <Spinner />
+          </div>
+        </div>
+      )}
+
       <Error error={error} />
 
     </div>
   )
+}
+
+PostsLoader.propTypes = {
+  setTogglePromotionGlobal: PropTypes.func.isRequired,
+  promotionStatus: PropTypes.string.isRequired,
 }
 
 export default PostsLoader

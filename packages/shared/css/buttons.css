@@ -20,6 +20,7 @@ button {
   border: none;
   border-radius: var(--button-radius);
   align-items: center;
+  white-space: nowrap;
 
   font-family: var(--font);
   font-size: 1.1em;
@@ -123,11 +124,21 @@ button {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 50px;
-  height: 50px;
+  width: var(--sp-12);
+  height: var(--sp-12);
+
   svg {
     width: var(--sp-5);
     height: var(--sp-5);
+  }
+}
+
+.button--close-small {
+  width: var(--sp-10);
+  height: var(--sp-10);
+  svg {
+    width: var(--sp-4);
+    height: var(--sp-4);
   }
 }
 
@@ -252,6 +263,7 @@ button {
   padding: 0.1em 0.8em;
   padding-bottom: 0.25em;
   border-radius: var(--pill-radius);
+  white-space: nowrap;
 
   &.-large {
     padding: 0.3em 1.2em;

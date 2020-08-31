@@ -8,24 +8,43 @@ import PostToggleTooltip from '@/app/PostToggleTooltip'
 import styles from '@/app/PostItem.module.css'
 
 
-const PostItemTopBar = ({ post, togglePromotion, postPromotable }) => {
+const getPostToggleType = (promotionStatus) => {
+  if (promotionStatus === 'inactive') return 'triple'
+  if (promotionStatus === 'active') return 'double'
+  return 'disabled'
+}
+
+const PostItemTopBar = ({
+  post,
+  promotionEnabled,
+  promotableStatus,
+  togglePromotion,
+  postPromotable,
+  promotionStatus,
+}) => {
+  const postToggleType = getPostToggleType(promotionStatus)
   return (
     <div className={[styles.topBar, styles.postSection, styles.postText].join(' ')}>
       <PostMetaData
         platform={post.platform}
-        date={post.published_time}
-        permalink={post.permalink_url}
+        date={post.publishedTime}
+        permalink={post.permalinkUrl}
       />
-      {postPromotable && (
-      <div className="flex">
-        <PostToggle
-          post={post}
-          togglePromotion={togglePromotion}
-          promotionEnabled={post.promotion_enabled}
-        />
-        {/* TOOLTIP */}
-        <PostToggleTooltip />
-      </div>
+      {/* TOGGLE BUTTON (if poss) */}
+      {postPromotable && promotionStatus !== 'archived' && (
+        <div className="flex">
+          <PostToggle
+            post={post}
+            postToggleType={postToggleType}
+            togglePromotion={togglePromotion}
+            promotionEnabled={promotionEnabled}
+            promotableStatus={promotableStatus}
+          />
+          {/* TOOLTIP */}
+          <PostToggleTooltip
+            postToggleType={postToggleType}
+          />
+        </div>
       )}
     </div>
   )
@@ -33,12 +52,16 @@ const PostItemTopBar = ({ post, togglePromotion, postPromotable }) => {
 
 PostItemTopBar.propTypes = {
   post: PropTypes.object.isRequired,
+  promotionEnabled: PropTypes.bool.isRequired,
+  promotableStatus: PropTypes.number.isRequired,
   togglePromotion: PropTypes.func.isRequired,
   postPromotable: PropTypes.bool,
+  promotionStatus: PropTypes.string,
 }
 
 PostItemTopBar.defaultProps = {
   postPromotable: true,
+  promotionStatus: '',
 }
 
 

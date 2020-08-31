@@ -29,11 +29,22 @@
 /* TOP BAR (meta and toggle) */
 /* ************** */
 .topBar {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   
   border-bottom: 2px solid var(--text-color);
+}
+
+/* STATUS BADGE */
+.statusBadge {
+  position: absolute;
+  top: 0px;
+  right: 0;
+  width: 102px;
+  border-bottom-left-radius: var(--dialogue-radius);
+  text-align: center;
 }
 
 /* META */
@@ -91,8 +102,8 @@
 /* CONTENTS (image and caption) */
 /* **************************** */
 .postContents {
-  display: flex;
   position: relative;
+  display: flex;
   align-items: center;
   border-bottom: 2px solid var(--text-color);
 
@@ -105,6 +116,10 @@
     top: auto;
     bottom: 0;
     transform: rotate(180deg);
+  }
+
+  @media (--xxsMax) {
+    padding-top: var(--sp-6);
   }
 }
 
@@ -130,29 +145,8 @@
 /* METRICS */
 /* **************************** */
 .postMetrics {
-  font-size: 0.8em;
   margin-bottom: -0.7em !important;
-  padding-top: var(--sp-4);
-
-  @media (min-width: 360px) {
-    font-size: 0.9em;
-  }
-
-  @media (--xs) {
-    font-size: 0.8em;
-  }
-
-  @media (--sm) {
-    font-size: 0.9em;
-  }
-
-  @media (--lg) {
-    font-size: 0.8em;
-  }
-
-  @media (min-width: 1300px) {
-    font-size: 0.9em;
-  }
+  padding-top: 0;
 }
 
 .postMetricsItem {
@@ -180,10 +174,21 @@
   }
 }
 
+.postItemMetricsSlider {
+  display: flex;
+  width: 100%;
+  will-change: transform;
+
+  > * {
+    flex: 1 0 100%;
+  }
+}
+
 .postEsScore {
   padding-top: calc(var(--sp-3) - 0.2em);
   padding-bottom: var(--sp-3);
   background-color: var(--green);
+
 
   .postItem._disabled &
   .postItem._unpromotable &, {
@@ -198,8 +203,12 @@
 .postEsScorePara {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
+
+/* UNPROMOTABLE METRICS */
+/* ******************** */
 .postMetricsUnpromotable {
   width: 100%;
   text-align: center;

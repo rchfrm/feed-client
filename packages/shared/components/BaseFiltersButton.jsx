@@ -55,6 +55,7 @@ const BaseFiltersButton = ({
         style={{
           backgroundColor,
           color: textColor,
+          ...active && { border: `2px solid ${backgroundColor}` },
         }}
         hasIcon
         active={active}

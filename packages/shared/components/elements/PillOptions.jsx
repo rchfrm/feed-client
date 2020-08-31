@@ -27,6 +27,7 @@ const PillOptions = (props) => {
     setActiveOption,
     className,
     disabled,
+    style,
   } = props
   return (
     <div
@@ -35,6 +36,7 @@ const PillOptions = (props) => {
         disabled ? 'opacity-50' : null,
         className,
       ].join(' ')}
+      style={style}
     >
       {label && (
         <p className={['inputLabel__text', 'mb-4'].join(' ')}>{label}</p>
@@ -71,12 +73,14 @@ PillOptions.propTypes = {
   setActiveOption: PropTypes.func.isRequired,
   className: PropTypes.string,
   disabled: PropTypes.bool,
+  style: PropTypes.object,
 }
 
 PillOptions.defaultProps = {
   label: '',
   className: '',
   disabled: false,
+  style: null,
 }
 
 

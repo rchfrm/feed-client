@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Portal } from 'react-portal'
 
-import CloseCircle from '@/icons/CloseCircle'
+import ButtonCloseCircle from '@/elements/ButtonCloseCircle'
 import AlertButtons from '@/elements/AlertButtons'
 
 const ButtonEls = ({
@@ -52,13 +52,11 @@ function Alert(props) {
         <div className="alert--inner  page--content_fixed">
 
           {/* Close button */}
-          <button
+          <ButtonCloseCircle
             onClick={resetAlert}
-            className="alert_close--button  button--close"
+            className="alert_close--button"
             label="Close"
-          >
-            <CloseCircle />
-          </button>
+          />
 
           <div className="alert--inner_content">
             <div className="alert--contents">

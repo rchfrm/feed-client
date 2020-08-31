@@ -13,7 +13,7 @@ export const audienceTypes = [
     id: 'remind_traffic',
     title: 'Warm',
     color: brandColors.red,
-    activeTextColor: brandColors.white,
+    activeTextColor: brandColors.black,
   },
   {
     id: 'entice_traffic',
