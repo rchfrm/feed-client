@@ -28,11 +28,6 @@ const links = [
     icon: 'results',
   },
   {
-    href: ROUTES.TOURNAMENTS,
-    title: 'tournos',
-    icon: 'results',
-  },
-  {
     href: ROUTES.INSIGHTS,
     title: 'insights',
     icon: 'insights',
