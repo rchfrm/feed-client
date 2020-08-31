@@ -37,7 +37,6 @@ const TournamentsAudienceFilters = ({
 
   // GET TOOLTIP SLIDES
   const tooltipSlides = React.useMemo(() => {
-    console.log('audienceTypes', audienceTypes)
     return audienceTypes.reduce((slides, { id, title }) => {
       const getMarkdown = copy.filterTooltips[id]
       if (!getMarkdown) return slides
