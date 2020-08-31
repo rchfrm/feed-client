@@ -27,9 +27,14 @@ const CboCampaignReccs = ({
   return (
     <div>
       {/* HEADER */}
-      <h2>Feed reccomended campaigns</h2>
+      <h2>Feed recommended campaigns</h2>
       {/* RECCOMENDATION BUTTONS */}
-      <ul>
+      <ul
+        className={[
+          'sm:grid',
+          'grid-cols-6 col-gap-5',
+        ].join(' ')}
+      >
         {reccs.map((rec) => {
           const { id, budget, countries, cities } = rec
           const budgetFormatted = formatCurrency(budget, artistCurrency)
@@ -42,7 +47,10 @@ const CboCampaignReccs = ({
           return (
             <li
               key={id}
-              className="mb-5 last:mb-0"
+              className={[
+                'mb-5 last:mb-0 sm:mb-0',
+                'sm:col-span-3',
+              ].join(' ')}
             >
               <a
                 role="button"

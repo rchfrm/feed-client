@@ -27,7 +27,7 @@ CboBudgetSaveButton.propTypes = {
 }
 
 CboBudgetSaveButton.defaultProps = {
-  buttonText: 'Save Campaign',
+  buttonText: 'Save Campaign Settings',
   className: null,
 }
 
