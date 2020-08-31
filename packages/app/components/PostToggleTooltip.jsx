@@ -42,6 +42,7 @@ const PostToggleTooltip = ({ postToggleType }) => {
   return (
     <TooltipButton
       buttonClasses="ml-1 -mr-4"
+      direction="left"
       slides={slides}
       slidesContentAfter={slidesContentAfter}
       messageStyle={{
