@@ -40,13 +40,15 @@ const CboCampaignReccs = ({
             return `${text}${location}, `
           }, '')
           return (
-            <li key={id}>
+            <li
+              key={id}
+              className="mb-5 last:mb-0"
+            >
               <a
                 role="button"
                 aria-label="Select reccommended campaign"
                 className={[
                   'block no-underline',
-                  'mb-5 last:mb-0',
                   'p-4 xs:p-5',
                   'border-solid border-green border-2',
                   'rounded-dialogue',
