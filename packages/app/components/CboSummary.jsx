@@ -10,7 +10,11 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 
 import { demoRecs } from '@/app/helpers/cboHelpers'
 
-const CboSummary = ({ cboState, saveCboState }) => {
+const CboSummary = ({
+  cboState,
+  saveCboState,
+  toggleMobileBudget,
+}) => {
   const { artistCurrency } = React.useContext(ArtistContext)
   // SELECTED RECCS
   const [selectedReccId, setSelectedReccId] = React.useState(null)
@@ -38,6 +42,7 @@ const CboSummary = ({ cboState, saveCboState }) => {
         {/* BUDGET BUTTON */}
         <Button
           className="w-full mb-5"
+          onClick={toggleMobileBudget}
         >
           Edit Budget
         </Button>
@@ -56,6 +61,7 @@ const CboSummary = ({ cboState, saveCboState }) => {
 CboSummary.propTypes = {
   cboState: PropTypes.object.isRequired,
   saveCboState: PropTypes.func.isRequired,
+  toggleMobileBudget: PropTypes.func.isRequired,
 }
 
 export default CboSummary
