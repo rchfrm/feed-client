@@ -1,5 +1,6 @@
 /* TOOLTIPS BUTTON */
-.button--tooltip {
+.button--tooltip,
+.button--information {
   @mixin canHover {
     &:hover {
       svg circle {
@@ -27,6 +28,7 @@
   display: inline-block;
   position: relative;
   z-index: 2;
+  text-align: left;
 }
 
 /* SLIDES */
@@ -68,7 +70,7 @@
 
 .tooltip--slides-slide {
 
-  .text--block p {
+  .text--block * {
     margin-bottom: var(--sp-4);
   }
   
@@ -85,48 +87,71 @@
   font-weight: normal;
 
   &.-left {
-    left: -5px;
-    bottom: 50%;
-    transform: translateX(-100%) translateY(50%);
+    transform: translateY(-50%);
   }
 
   &.-right {
-    right: -5px;
-    bottom: 50%;
-    transform: translateX(100%) translateY(50%);
+    transform: translateY(-50%);
+  }
+
+  &.-top {
+    transform: translateY(-100%);
   }
 
   > *:last-child {
     margin-bottom: 0;
   }
+}
 
-  /* The arrow */
-  &::after {
-    content: ' ';
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-top: 2px solid var(--green);
-    border-right: 2px solid var(--green);
-    border-radius: var(--button-radius);
-    background-color: var(--bg-color);
-  }
+.tooltip--arrow {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid var(--green);
+  border-right: 2px solid var(--green);
+  border-radius: var(--button-radius);
+  background-color: var(--bg-color);
 
   /* Left arrow */
-  &.-left {
-    &::after {
-      right: -1px;
-      bottom: 50%;
-      transform: translateX(50%) translateY(50%) rotate(45deg);
-    }
+  .tooltip--message.-left & {
+    right: -1px;
+    bottom: 50%;
+    transform: translateX(50%) translateY(50%) rotate(45deg);
   }
 
   /* Right arrow */
-  &.-right {
-    &::after {
-      left: -1px;
-      bottom: 50%;
-      transform: translateX(-50%) translateY(50%) rotate(225deg);
-    }
+  .tooltip--message.-right & {
+    left: -1px;
+    bottom: 50%;
+    transform: translateX(-50%) translateY(50%) rotate(225deg);
+  }
+
+  /* Top arrow */
+  .tooltip--message.-top & {
+    left: 50%;
+    bottom: -1px;
+    transform: translateX(-50%) translateY(50%) rotate(135deg);
+  }
+
+  /* Bottom arrow */
+  .tooltip--message.-bottom & {
+    left: 50%;
+    top: 4px;
+    transform: translateX(-50%) translateY(-100%) rotate(-45deg);
   }
 }
+
+/* Left and right for narrow screens converted to top */
+@media (--xsMax) {
+    .tooltip--message.-left,
+    .tooltip--message.-right {
+      transform: translateY(-100%);
+
+      .tooltip--arrow {
+        left: 50%;
+        bottom: -1px;
+        transform: translateX(-50%) translateY(50%) rotate(135deg);
+      }
+    }
+
+  }

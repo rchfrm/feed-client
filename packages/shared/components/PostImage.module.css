@@ -1,5 +1,9 @@
 .figure {
-  border-radius: var(--dialogue-radius)
+  border-radius: var(--dialogue-radius);
+
+  img {
+    border-radius: var(--dialogue-radius);
+  }
 }
 
 .playIconBg,

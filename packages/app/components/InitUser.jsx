@@ -7,6 +7,7 @@ import { UserContext } from '@/contexts/UserContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import * as ROUTES from '@/app/constants/routes'
 
+import * as queryString from 'query-string'
 import * as utils from '@/helpers/utils'
 import firebase from '@/helpers/firebase'
 import { track } from '@/app/helpers/trackingHelpers'
@@ -232,7 +233,12 @@ const InitUser = ({ children }) => {
       redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
       return
     }
-    // If they do have artists, check for a previously selected artist ID in local storage...
+    // If they do have artists, check for artist ID from query string parameter
+    // or a previously selected artist ID in local storage
+    const queryStringArtistId = queryString.parse(window.location.search).artistId
+    if (queryStringArtistId) {
+      utils.setLocalStorage('artistId', queryStringArtistId)
+    }
     const storedArtistId = utils.getLocalStorage('artistId')
     // Check that the storedArtistId is one the user has access to...
     const hasAccess = artists.find(({ id }) => id === storedArtistId)

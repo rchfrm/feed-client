@@ -31,9 +31,8 @@ const TournamentAd = ({ ad, winner, className }) => {
   if (!adData) return null
   if (error) return <Error error={error} />
 
-
   return (
-    <div className={className}>
+    <div className={[className].join(' ')}>
       <h4 className="h3">
         {winner && <span className="text-green">☆ </span>}
         <strong>Ad: {ad.id}</strong>

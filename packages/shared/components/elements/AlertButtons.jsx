@@ -3,6 +3,28 @@ import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 
+const CONFIRMATION_BUTTON = ({ acceptAlert, text }) => {
+  return (
+    <Button
+      version="green small"
+      onClick={acceptAlert}
+    >
+      {text}
+    </Button>
+  )
+}
+
+const REJECTION_BUTTON = ({ resetAlert, text }) => {
+  return (
+    <Button
+      version="black small"
+      onClick={resetAlert}
+    >
+      {text}
+    </Button>
+  )
+}
+
 const AlertButtons = ({
   responseExpected,
   confirmationText = 'Ok',
@@ -10,22 +32,26 @@ const AlertButtons = ({
   resetAlert,
   acceptAlert,
 }) => {
+  // IF NO RESPONSE REQUIRED JUST SHOW CONFIRMATION BUTTON
+  if (!responseExpected) {
+    return (
+      <CONFIRMATION_BUTTON
+        acceptAlert={acceptAlert || resetAlert}
+        text={confirmationText}
+      />
+    )
+  }
+  // ELSE SHOW BOTH BUTTONS
   return (
     <>
-      <Button
-        version="black small"
-        onClick={resetAlert}
-      >
-        {responseExpected ? rejectionText : confirmationText}
-      </Button>
-      {responseExpected && (
-        <Button
-          version="black small"
-          onClick={acceptAlert || resetAlert}
-        >
-          {confirmationText}
-        </Button>
-      )}
+      <CONFIRMATION_BUTTON
+        acceptAlert={acceptAlert}
+        text={confirmationText}
+      />
+      <REJECTION_BUTTON
+        resetAlert={resetAlert}
+        text={rejectionText}
+      />
     </>
   )
 }

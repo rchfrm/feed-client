@@ -7,6 +7,7 @@ import PostItemTopBar from '@/app/PostItemTopBar'
 import PostItemContents from '@/app/PostItemContents'
 import PostItemMetrics from '@/app/PostItemMetrics'
 import PostItemLink from '@/app/PostItemLink'
+import PostItemDisableWarning from '@/app/PostItemDisableWarning'
 // IMPORT ASSETS
 // IMPORT STYLES
 import styles from '@/app/PostItem.module.css'
@@ -17,19 +18,26 @@ const PostItem = ({
   enabled,
   updateLink,
   togglePromotion,
+  postToggleSetter,
   className = '',
   children = <></>,
 }) => {
   // Errors
   const [error, setError] = React.useState(null)
-  // PROMOTABLE STATE
-  const { is_promotable: postPromotable } = post
+  // EXTRACT POST DATA
+  const {
+    priorityDsp,
+    postPromotable,
+    promotionStatus,
+    promotionEnabled,
+    promotableStatus,
+  } = post
   // POST CAPTION
   const postCaption = React.useMemo(() => {
-    return post.short_message.join('\n')
+    return post.shortMessage.join('\n')
   }, [post])
   // CLASSES
-  const enabledClass = enabled ? styles._enabled : styles._disabled
+  const enabledClass = enabled || promotionStatus === 'archived' ? styles._enabled : styles._disabled
   const promotableClass = postPromotable ? styles._promotable : styles._unpromotable
 
   return (
@@ -39,25 +47,32 @@ const PostItem = ({
       {/* TOP BAR */}
       <PostItemTopBar
         post={post}
+        promotionEnabled={promotionEnabled}
+        promotableStatus={promotableStatus}
         togglePromotion={togglePromotion}
         postPromotable={postPromotable}
+        promotionStatus={promotionStatus}
       />
       {/* This wrapper hides the bottom of the link options */}
       <div className="overflow-hidden relative">
         {/* IMAGE AND CONTENTS */}
         <PostItemContents
           media={post.media}
-          thumbnailSrc={post._metadata.thumbnail_url}
+          thumbnails={post.thumbnails}
           caption={postCaption}
           captionFull={post.message}
+          promotionStatus={promotionStatus}
         />
 
         {/* METRICS */}
         <PostItemMetrics
-          insights={post.insights}
-          es={post.insights.engagement_score}
-          status={post.promotion_enabled}
+          organicMetrics={post.organicMetrics}
+          paidMetrics={post.paidMetrics}
+          organicEs={post.organicMetrics.engagementScore}
+          paidEs={post.paidMetrics.engagementScore}
+          status={promotionEnabled}
           postPromotable={postPromotable}
+          promotionStatus={promotionStatus}
         />
 
         {/* POST LINK */}
@@ -65,8 +80,9 @@ const PostItem = ({
           <PostItemLink
             postId={post.id}
             postIndex={index}
-            promotionEnabled={post.promotion_enabled}
-            priorityDsp={post.priority_dsp}
+            promotionEnabled={promotionEnabled}
+            promotionStatus={promotionStatus}
+            priorityDsp={priorityDsp}
             updateLink={updateLink}
             setError={setError}
           />
@@ -75,6 +91,19 @@ const PostItem = ({
             <p style={{ transform: 'translateY(0.1em)' }}>Post not promotable</p>
           </div>
         )}
+
+        {/* DISABLE ACTIVE POST WARNING */}
+        {postPromotable && promotionStatus === 'active' && (
+          <PostItemDisableWarning
+            postId={post.id}
+            postStatus={promotionStatus}
+            promotionEnabled={promotionEnabled}
+            promotableStatus={promotableStatus}
+            togglePromotion={togglePromotion}
+            postToggleSetter={postToggleSetter}
+          />
+        )}
+
       </div>
 
       <Error error={error} />

@@ -83,8 +83,8 @@ p,
     margin-bottom: 0;
   }
 
-  ul {
-    list-style-type: disc;
+  ul,
+  ol {
     padding-left: 1em;
     margin-bottom: var(--sp-5);
 
@@ -94,6 +94,15 @@ p,
         margin-bottom: 0;
       }
     }
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+    padding-left: 1.5em;
   }
 }
 

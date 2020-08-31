@@ -7,6 +7,10 @@
   overflow: hidden;
   background-color: var(--grey);
 
+  &._toggleDouble {
+    width: var(--sp-14);
+  }
+
   &.off {
     background-color: var(--error-color);
   }
@@ -62,6 +66,13 @@
 
     .PostToggle.off & {
       opacity: 0;
+    }
+  }
+
+  ._toggleDouble & {
+    &::after,
+    &::before {
+      display: none;
     }
   }
 }

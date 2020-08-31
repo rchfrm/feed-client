@@ -20,6 +20,7 @@ button {
   border: none;
   border-radius: var(--button-radius);
   align-items: center;
+  white-space: nowrap;
 
   font-family: var(--font);
   font-size: 1.1em;
@@ -29,6 +30,7 @@ button {
   &[disabled] {
     color: var(--disabled-color-text);
     background-color: var(--disabled-color-bg);
+    cursor: not-allowed;
     cursor: default;
   }
 
@@ -108,17 +110,35 @@ button {
     width: 100%;
     height: 100%;
   }
+
+  @mixin canHover {
+    &:hover.-hover {
+      svg ellipse {
+        fill: var(--grey-dark);
+      }
+    }
+  }
 }
 
 .button--close {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 50px;
-  height: 50px;
+  width: var(--sp-12);
+  height: var(--sp-12);
+
   svg {
     width: var(--sp-5);
     height: var(--sp-5);
+  }
+}
+
+.button--close-small {
+  width: var(--sp-10);
+  height: var(--sp-10);
+  svg {
+    width: var(--sp-4);
+    height: var(--sp-4);
   }
 }
 
@@ -237,16 +257,32 @@ button {
   cursor: pointer;
 }
 
-/* Filter button */
-.button--filter {
+/* Pill button */
+.button--pill {
   background-color: var(--grey-light);
   padding: 0.1em 0.8em;
   padding-bottom: 0.25em;
-  border-radius: 0.8em;
+  border-radius: var(--pill-radius);
+  white-space: nowrap;
+
+  &.-large {
+    padding: 0.3em 1.2em;
+    padding-bottom: 0.4em;
+  }
+
+  &.-has-icon {
+    padding: 0.3em 0.8em;
+
+    &.-large {
+      padding: 0.5em 1.2em;
+      padding-bottom: 0.6em;
+    }
+  }
 
   &.-active {
     background-color: var(--text-color);
     color: var(--bg-color);
+    font-weight: var(--bold);
   }
 
   &.-inactive {
@@ -259,6 +295,27 @@ button {
 .button--filter-empty {
   background-color: transparent !important;
   color: var(--text-color) !important;
+}
+
+.button--pill-inner {
+  display: flex;
+  align-items: center;
+  padding: 0 0.03em;
+
+  /* compensate for font weight changes */
+  .button--pill.-active & {
+    padding: 0;
+  }
+
+  svg,
+  .icon {
+    margin-right: var(--sp-2);
+  }
+
+  svg {
+    width: var(--sp-4);
+    height: auto;
+  }
 }
 
 /* Copy text button */
