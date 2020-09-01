@@ -90,7 +90,8 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
 export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }) => {
   const queryParams = {
     limit,
-    after: cursor,
+    // add cursor if defined
+    ...(cursor && { after: cursor }),
     // Filter by promotion status if not "all"
     ...(promotionStatus && promotionStatus !== 'all')
     && { promotion_status: promotionStatus },
