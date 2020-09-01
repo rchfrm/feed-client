@@ -1,10 +1,10 @@
-import Router from 'next/router'
-
 import { useState, useEffect } from 'react'
-import { PageTransition } from 'next-page-transitions'
 import PropTypes from 'prop-types'
 
+import Router from 'next/router'
 import Head from 'next/head'
+
+import { PageTransition } from 'next-page-transitions'
 import { StripeProvider } from 'react-stripe-elements'
 import Script from 'react-load-script'
 import * as Sentry from '@sentry/browser'
