@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Slider from '@/elements/Slider'
 
 const CboAgeSlider = ({ minAge, maxAge, onChange }) => {
-  const lowestAge = 16
+  const lowestAge = 15
   const highestAge = 65
 
   const getLabel = (age) => {
