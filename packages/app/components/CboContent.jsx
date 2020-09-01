@@ -20,6 +20,16 @@ const CboContent = () => {
   React.useEffect(() => {
     if (artistId) toggleGlobalLoading(false)
   }, [artistId, toggleGlobalLoading])
+  // FETCH DATA FROM CONTEXT
+  const {
+    cboState,
+    setCboState,
+    saveCampaignSettings,
+    currentView,
+    setCurrentView,
+    selectedCampaignType,
+    saving,
+  } = React.useContext(CboContext)
   // CBO STATE
   const [cboState, setCboState] = React.useState(demoCboState)
 
@@ -51,6 +61,8 @@ const CboContent = () => {
           })
         }}
       />
+      {/* MOBILE PROGRESS BUTTON */}
+      <CboProgressButton />
     </div>
   )
 }

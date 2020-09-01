@@ -6,7 +6,7 @@ import CboBudgetSetter from '@/app/CboBudgetSetter'
 // Content for the side panel
 const CboBudgetMobile = ({
   cboState,
-  setCboState,
+  saveCampaignSettings,
 }) => {
   return (
     <div>
@@ -16,7 +16,7 @@ const CboBudgetMobile = ({
       </header>
       <CboBudgetSetter
         cboState={cboState}
-        setCboState={setCboState}
+        saveCampaignSettings={saveCampaignSettings}
       />
     </div>
   )
@@ -24,7 +24,7 @@ const CboBudgetMobile = ({
 
 CboBudgetMobile.propTypes = {
   cboState: PropTypes.object.isRequired,
-  setCboState: PropTypes.func.isRequired,
+  saveCampaignSettings: PropTypes.func.isRequired,
 }
 
 export default CboBudgetMobile

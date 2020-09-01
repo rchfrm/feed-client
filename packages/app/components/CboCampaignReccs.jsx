@@ -9,8 +9,9 @@ const CboCampaignReccs = ({
   reccs,
   selectedReccId,
   setSelectedReccId,
-  saveCboState,
-  artistCurrency,
+  setSelectedCampaignType,
+  saveCampaignSettings,
+  currency,
 }) => {
   const isMounted = React.useRef(true)
   React.useEffect(() => {
@@ -19,11 +20,11 @@ const CboCampaignReccs = ({
   const hasRecc = !!selectedReccId
   const saveSelectedRecc = React.useCallback(async () => {
     const state = reccs.find(({ id }) => id === selectedReccId)
-    await saveCboState(state)
+    await saveCampaignSettings(state)
     if (isMounted.current) {
       setSelectedReccId(null)
     }
-  }, [saveCboState, selectedReccId, reccs, setSelectedReccId])
+  }, [saveCampaignSettings, selectedReccId, reccs, setSelectedReccId])
   return (
     <div>
       {/* HEADER */}
@@ -37,7 +38,7 @@ const CboCampaignReccs = ({
       >
         {reccs.map((rec) => {
           const { id, type, budget, countries, cities } = rec
-          const budgetFormatted = formatCurrency(budget, artistCurrency)
+          const budgetFormatted = formatCurrency(budget, currency)
           const selected = id === selectedReccId
           const locations = [...countries, ...cities].map(({ name }) => name)
           const locationsText = locations.reduce((text, location, index) => {
@@ -97,13 +98,14 @@ CboCampaignReccs.propTypes = {
   reccs: PropTypes.array.isRequired,
   selectedReccId: PropTypes.number,
   setSelectedReccId: PropTypes.func.isRequired,
-  saveCboState: PropTypes.func.isRequired,
-  artistCurrency: PropTypes.string,
+  setSelectedCampaignType: PropTypes.func.isRequired,
+  saveCampaignSettings: PropTypes.func.isRequired,
+  currency: PropTypes.string,
 }
 
 CboCampaignReccs.defaultProps = {
   selectedReccId: null,
-  artistCurrency: '',
+  currency: '',
 }
 
 

@@ -1,29 +1,42 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { CboContext } from '@/app/contexts/CboContext'
 
 import { formatCurrency } from '@/helpers/utils'
 
-const CboProgressButton = ({
-  currentView,
-  selectedCampaign,
-  minBudget,
-  setCurrentView,
-}) => {
-  const { artistCurrency } = React.useContext(ArtistContext)
+const CboProgressButton = () => {
+  // DESTRUCTURE CBO CONTEXT
+  const {
+    currentView,
+    selectedCampaignType,
+    minBudget,
+    currency,
+  } = React.useContext(CboContext)
+  // SHOULD THE BUTTON BE SHOWN
+  const showButton = React.useMemo(() => {
+    if (currentView === 'budget') return false
+    if (currentView === 'summary' && !selectedCampaignType) return false
+    return true
+  }, [currentView, selectedCampaignType])
+  // DEFINE BUTTON TITLE AND SUBTITLE
   const title = React.useMemo(() => {
+    if (!showButton) return
     if (currentView === 'customise') return 'Set Budget'
-    if (selectedCampaign === 'custom') return 'Customise'
-    if (selectedCampaign === 'feedRecc') return 'Save'
-  }, [currentView, selectedCampaign])
+    if (selectedCampaignType === 'custom') return 'Customise'
+    if (selectedCampaignType === 'recommended') return 'Save'
+  }, [currentView, selectedCampaignType, showButton])
   const subtitle = React.useMemo(() => {
+    if (!showButton) return
     if (currentView !== 'customise') return null
-    const minBudgetString = formatCurrency(minBudget, artistCurrency)
+    const minBudgetString = formatCurrency(minBudget, currency)
     return `min. budget ${minBudgetString}`
-  }, [minBudget, currentView, artistCurrency])
+  }, [minBudget, currentView, currency, showButton])
+
+  if (!showButton) return null
+
   return (
     <Button
       className={[
@@ -43,15 +56,9 @@ const CboProgressButton = ({
 }
 
 CboProgressButton.propTypes = {
-  currentView: PropTypes.string.isRequired,
-  selectedCampaign: PropTypes.string,
-  minBudget: PropTypes.number,
-  setCurrentView: PropTypes.func.isRequired,
 }
 
 CboProgressButton.defaultProps = {
-  selectedCampaign: 'feedRecc',
-  minBudget: 0,
 }
 
 

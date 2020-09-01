@@ -3,11 +3,16 @@ import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 
-const CboBudgetSaveButton = ({ cboState, saveCboState, buttonText, className }) => {
+const CboBudgetSaveButton = ({
+  cboState,
+  saveCampaignSettings,
+  buttonText,
+  className,
+}) => {
   const saveBudget = React.useCallback(() => {
     console.log('cboState', cboState)
-    saveCboState(cboState)
-  }, [cboState, saveCboState])
+    saveCampaignSettings(cboState)
+  }, [cboState, saveCampaignSettings])
   return (
     <Button
       version="green"
@@ -21,7 +26,7 @@ const CboBudgetSaveButton = ({ cboState, saveCboState, buttonText, className }) 
 
 CboBudgetSaveButton.propTypes = {
   cboState: PropTypes.object.isRequired,
-  saveCboState: PropTypes.func.isRequired,
+  saveCampaignSettings: PropTypes.func.isRequired,
   buttonText: PropTypes.string,
   className: PropTypes.string,
 }

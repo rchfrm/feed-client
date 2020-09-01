@@ -17,11 +17,11 @@ const SUMMARY_DETAIL = ({ name, value }) => {
   )
 }
 
-const CboSummaryList = ({ cboState, artistCurrency }) => {
+const CboSummaryList = ({ cboState, currency }) => {
   const summaries = [
     {
       name: 'Budget',
-      value: getSummary.budget(cboState, artistCurrency),
+      value: getSummary.budget(cboState, currency),
     },
     {
       name: 'Ages',
@@ -56,11 +56,11 @@ const CboSummaryList = ({ cboState, artistCurrency }) => {
 
 CboSummaryList.propTypes = {
   cboState: PropTypes.object.isRequired,
-  artistCurrency: PropTypes.string,
+  currency: PropTypes.string,
 }
 
 CboSummaryList.defaultProps = {
-  artistCurrency: '',
+  currency: '',
 }
 
 
