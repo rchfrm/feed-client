@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { formatCurrency } from '@/helpers/utils'
+import { formatCurrency, alphabet } from '@/helpers/utils'
 
 import Button from '@/elements/Button'
 
@@ -36,8 +36,9 @@ const CboCampaignReccs = ({
           'grid-cols-6 col-gap-5',
         ].join(' ')}
       >
-        {reccs.map((rec) => {
+        {reccs.map((rec, index) => {
           const { id, type, budget, countries, cities } = rec
+          const title = `Option ${alphabet[index]}`
           const budgetFormatted = formatCurrency(budget, currency)
           const selected = id === selectedReccId
           const locations = [...countries, ...cities].map(({ name }) => name)
@@ -68,9 +69,22 @@ const CboCampaignReccs = ({
                   setSelectedCampaignType(selected ? '' : type)
                 }}
               >
-                <p className="text-right mb-2">
-                  {budgetFormatted} p/d
-                </p>
+                <div className="flex justify-between items-center mb-4">
+                  {/* title and radio */}
+                  <div className="flex items-center">
+                    <div className={[
+                      'radio--button_label',
+                      'pl-0 h-5 w-5 mr-3',
+                      selected ? '-active -white' : null,
+                    ].join(' ')}
+                    />
+                    <p className="capitalize text-sm mb-0"><strong>{title}</strong></p>
+                  </div>
+                  {/* Budget */}
+                  <p className="mb-0">
+                    {budgetFormatted} p/d
+                  </p>
+                </div>
                 <p className="mb-0 leading-relaxed">
                   Targeting:<br />
                   <strong>{locationsText}</strong>
