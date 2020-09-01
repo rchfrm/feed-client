@@ -36,7 +36,7 @@ const CboCampaignReccs = ({
         ].join(' ')}
       >
         {reccs.map((rec) => {
-          const { id, budget, countries, cities } = rec
+          const { id, type, budget, countries, cities } = rec
           const budgetFormatted = formatCurrency(budget, artistCurrency)
           const selected = id === selectedReccId
           const locations = [...countries, ...cities].map(({ name }) => name)
@@ -64,6 +64,7 @@ const CboCampaignReccs = ({
                 ].join(' ')}
                 onClick={() => {
                   setSelectedReccId(selected ? null : id)
+                  setSelectedCampaignType(selected ? '' : type)
                 }}
               >
                 <p className="text-right mb-2">
