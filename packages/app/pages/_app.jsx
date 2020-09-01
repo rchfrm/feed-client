@@ -1,12 +1,13 @@
-import Router from 'next/router'
-
 import { useState, useEffect } from 'react'
-import { PageTransition } from 'next-page-transitions'
 import PropTypes from 'prop-types'
 
+import Router from 'next/router'
 import Head from 'next/head'
+
+import { PageTransition } from 'next-page-transitions'
 import { StripeProvider } from 'react-stripe-elements'
 import Script from 'react-load-script'
+import withFBQ from 'next-fbq'
 import * as Sentry from '@sentry/browser'
 // GLOBAL STYLES
 import '../../shared/css/index.css'
@@ -22,7 +23,7 @@ import { trackPWA, gtagPageView } from '@/app/helpers/trackingHelpers'
 // Google Analytics
 const gaId = 'UA-162381148-2'
 // Facebook pixel
-// const fbqId = '226820538468408'
+const fbqId = '226820538468408'
 
 const registerServiceWorker = () => {
   window.addEventListener('load', () => {
@@ -113,7 +114,7 @@ function Feed({ Component, pageProps, router }) {
   )
 }
 
-export default Feed
+export default withFBQ(fbqId, Router)(Feed)
 
 Feed.propTypes = {
   Component: PropTypes.elementType.isRequired,
