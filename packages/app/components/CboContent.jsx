@@ -21,7 +21,6 @@ const CboContent = () => {
   }, [artistId, toggleGlobalLoading])
   // CBO STATE
   const [cboState, setCboState] = React.useState(demoCboState)
-  console.log('cboState', cboState)
   return (
     <div>
       {/* AGE SLIDER */}
