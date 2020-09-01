@@ -1,6 +1,11 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import produce from 'immer'
+
+import CboAgeSlider from '@/app/CboAgeSlider'
+import CboBudgetSlider from '@/app/CboBudgetSlider'
+
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
@@ -16,16 +21,39 @@ const CboContent = () => {
   }, [artistId, toggleGlobalLoading])
   // CBO STATE
   const [cboState, setCboState] = React.useState(demoCboState)
-  console.log('cboState', cboState)
   return (
     <div>
-      CBO
+      {/* AGE SLIDER */}
+      <CboAgeSlider
+        minAge={cboState.minAge}
+        maxAge={cboState.maxAge}
+        onChange={([minAge, maxAge]) => {
+          setCboState((cboState) => {
+            return produce(cboState, draftState => {
+              draftState.minAge = minAge
+              draftState.maxAge = maxAge
+            })
+          })
+        }}
+      />
+      {/* BUDGET SLIDER */}
+      <CboBudgetSlider
+        budget={cboState.budget}
+        minBudget={cboState.minBudget}
+        onChange={(budget) => {
+          setCboState((cboState) => {
+            return produce(cboState, draftState => {
+              draftState.budget = budget
+            })
+          })
+        }}
+      />
     </div>
   )
 }
 
 // CboContent.propTypes = {
-  
+
 // }
 
 export default CboContent
