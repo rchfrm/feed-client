@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { formatCurrency, alphabet } from '@/helpers/utils'
+import { formatCurrency } from '@/helpers/utils'
 
 import Button from '@/elements/Button'
 
@@ -35,9 +35,8 @@ const CboCampaignReccs = ({
           'grid-cols-6 col-gap-5',
         ].join(' ')}
       >
-        {reccs.map((rec, index) => {
-          const { id, budget, countries, cities } = rec
-          const title = `Option ${alphabet[index]}`
+        {reccs.map((rec) => {
+          const { id, title, budget, countries, cities } = rec
           const budgetFormatted = formatCurrency(budget, currency)
           const selected = id === selectedReccId
           const locations = [...countries, ...cities].map(({ name }) => name)
