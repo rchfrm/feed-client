@@ -5,16 +5,16 @@ import produce from 'immer'
 
 import Button from '@/elements/Button'
 
-import CboAgeSlider from '@/app/CboAgeSlider'
-import CboBudgetSlider from '@/app/CboBudgetSlider'
-import CboSummaryList from '@/app/CboSummaryList'
-import CboCampaignReccs from '@/app/CboCampaignReccs'
+import TargetingAgeSlider from '@/app/TargetingAgeSlider'
+import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
+import TargetingSummaryList from '@/app/TargetingSummaryList'
+import TargetingCampaignReccs from '@/app/TargetingCampaignReccs'
 
-import { CboContext } from '@/app/contexts/CboContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import { demoRecs } from '@/app/helpers/cboHelpers'
 
-const CboSummary = () => {
+const TargetingSummary = () => {
   const {
     cboState,
     setCboState,
@@ -22,7 +22,7 @@ const CboSummary = () => {
     selectedCampaignRecc,
     setSelectedCampaignRecc,
     toggleMobileBudget,
-  } = React.useContext(CboContext)
+  } = React.useContext(TargetingContext)
   // SELECTED RECCS
   const selectedReccId = React.useMemo(() => {
     if (!selectedCampaignRecc) return null
@@ -33,9 +33,9 @@ const CboSummary = () => {
   return (
     <>
       {/* SUMMARY LIST */}
-      <CboSummaryList cboState={cboState} currency={currency} />
+      <TargetingSummaryList cboState={cboState} currency={currency} />
       {/* RECCS */}
-      <CboCampaignReccs
+      <TargetingCampaignReccs
         reccs={demoRecs}
         selectedReccId={selectedReccId}
         setSelectedCampaignRecc={setSelectedCampaignRecc}
@@ -63,7 +63,7 @@ const CboSummary = () => {
         >
           Pause Campaign
         </Button>
-        <CboAgeSlider
+        <TargetingAgeSlider
           minAge={cboState.minAge}
           maxAge={cboState.maxAge}
           onChange={([minAge, maxAge]) => {
@@ -76,7 +76,7 @@ const CboSummary = () => {
           }}
         />
         {/* BUDGET SLIDER */}
-        <CboBudgetSlider
+        <TargetingBudgetSlider
           budget={cboState.budget}
           minBudget={cboState.minBudget}
           onChange={(budget) => {
@@ -92,7 +92,7 @@ const CboSummary = () => {
   )
 }
 
-CboSummary.propTypes = {
+TargetingSummary.propTypes = {
 }
 
-export default CboSummary
+export default TargetingSummary

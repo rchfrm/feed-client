@@ -1,12 +1,12 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import { CboContext } from '@/app/contexts/CboContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import { formatCurrency } from '@/helpers/utils'
 
-const CboProgressButton = () => {
-  // DESTRUCTURE CBO CONTEXT
+const TargetingProgressButton = () => {
+  // DESTRUCTURE TARGETING CONTEXT
   const {
     currentView,
     selectedCampaignRecc,
@@ -15,7 +15,7 @@ const CboProgressButton = () => {
     minBudget,
     currency,
     saveCampaignSettings,
-  } = React.useContext(CboContext)
+  } = React.useContext(TargetingContext)
   // IS MOUNTED CONST
   const isMounted = React.useRef(true)
   React.useEffect(() => {
@@ -105,11 +105,11 @@ const CboProgressButton = () => {
   )
 }
 
-CboProgressButton.propTypes = {
+TargetingProgressButton.propTypes = {
 }
 
-CboProgressButton.defaultProps = {
+TargetingProgressButton.defaultProps = {
 }
 
 
-export default CboProgressButton
+export default TargetingProgressButton

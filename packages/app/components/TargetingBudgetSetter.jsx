@@ -8,7 +8,7 @@ import Input from '@/elements/Input'
 
 import { formatCurrency } from '@/helpers/utils'
 
-const CboBudgetSetter = ({
+const TargetingBudgetSetter = ({
   currency,
   minBudget,
   setCboState,
@@ -16,7 +16,7 @@ const CboBudgetSetter = ({
   // FLIP
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
 
-  // UPDATE CBO STATE when BUDGET changes
+  // UPDATE TARGETING STATE when BUDGET changes
   const [budget, setBudget] = React.useState('')
   React.useEffect(() => {
     if (typeof budget !== 'number') return
@@ -67,15 +67,15 @@ const CboBudgetSetter = ({
   )
 }
 
-CboBudgetSetter.propTypes = {
+TargetingBudgetSetter.propTypes = {
   currency: PropTypes.string,
   minBudget: PropTypes.number.isRequired,
   setCboState: PropTypes.func.isRequired,
 }
 
-CboBudgetSetter.defaultProps = {
+TargetingBudgetSetter.defaultProps = {
   currency: '',
 }
 
 
-export default CboBudgetSetter
+export default TargetingBudgetSetter

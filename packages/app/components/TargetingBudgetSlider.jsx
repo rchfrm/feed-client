@@ -10,7 +10,7 @@ import SliderMarker from '@/elements/SliderMarker'
 import { formatCurrency } from '@/helpers/utils'
 import * as cboHelpers from '@/app/helpers/cboHelpers'
 
-const CboBudgetSlider = ({ budget, minBudget, onChange }) => {
+const TargetingBudgetSlider = ({ budget, minBudget, onChange }) => {
   const { artistCurrency } = React.useContext(ArtistContext)
 
   const maxBudget = 30
@@ -64,16 +64,16 @@ const CboBudgetSlider = ({ budget, minBudget, onChange }) => {
   )
 }
 
-CboBudgetSlider.propTypes = {
+TargetingBudgetSlider.propTypes = {
   budget: PropTypes.number,
   minBudget: PropTypes.number,
   onChange: PropTypes.func.isRequired,
 }
 
-CboBudgetSlider.defaultProps = {
+TargetingBudgetSlider.defaultProps = {
   budget: 2,
   minBudget: 2,
 }
 
 
-export default CboBudgetSlider
+export default TargetingBudgetSlider

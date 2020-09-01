@@ -1,8 +1,8 @@
 import React from 'react'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-import CboBudgetMobile from '@/app/CboBudgetMobile'
-import CboBudgetSaveButton from '@/app/CboBudgetSaveButton'
+import TargetingBudgetMobile from '@/app/TargetingBudgetMobile'
+import TargetingBudgetSaveButton from '@/app/TargetingBudgetSaveButton'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -10,7 +10,7 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import * as cboHelpers from '@/app/helpers/cboHelpers'
 
-const CboContext = React.createContext({
+const TargetingContext = React.createContext({
   cboState: {},
   setCboState: () => {},
   saveCampaignSettings: () => {},
@@ -29,10 +29,10 @@ const CboContext = React.createContext({
   toggleMobileBudget: () => {},
 })
 
-CboContext.displayName = 'CboContext'
+TargetingContext.displayName = 'TargetingContext'
 
-const CboContextProvider = ({ children }) => {
-  // CBO STATE
+const TargetingContextProvider = ({ children }) => {
+  // TARGETING STATE
   const [cboState, setCboState] = React.useState(cboHelpers.demoCboState)
   // SAVE CAMPAIGN
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -69,7 +69,7 @@ const CboContextProvider = ({ children }) => {
   const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
   const toggleMobileBudget = React.useCallback((state = true) => {
     const content = state ? (
-      <CboBudgetMobile
+      <TargetingBudgetMobile
         currency={currency}
         minBudget={minBudget}
         setCboState={setCboState}
@@ -77,7 +77,7 @@ const CboContextProvider = ({ children }) => {
       />
     ) : null
     const button = state ? (
-      <CboBudgetSaveButton
+      <TargetingBudgetSaveButton
         cboState={cboState}
         saveCampaignSettings={saveCampaignSettings}
       />
@@ -88,7 +88,7 @@ const CboContextProvider = ({ children }) => {
   }, [currency, minBudget, cboState, saveCampaignSettings, setSidePanelContent, setSidePanelButton, toggleSidePanel])
 
   return (
-    <CboContext.Provider
+    <TargetingContext.Provider
       value={{
         cboState,
         setCboState,
@@ -108,8 +108,8 @@ const CboContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </CboContext.Provider>
+    </TargetingContext.Provider>
   )
 }
 
-export { CboContext, CboContextProvider }
+export { TargetingContext, TargetingContextProvider }

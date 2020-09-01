@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import CboBudgetSetter from '@/app/CboBudgetSetter'
+import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 
 // Content for the side panel
-const CboBudgetMobile = ({
+const TargetingBudgetMobile = ({
   currency,
   minBudget,
   setCboState,
@@ -16,7 +16,7 @@ const CboBudgetMobile = ({
       <header className="">
         <h3 className="h2">Set a Budget</h3>
       </header>
-      <CboBudgetSetter
+      <TargetingBudgetSetter
         currency={currency}
         minBudget={minBudget}
         setCboState={setCboState}
@@ -26,16 +26,16 @@ const CboBudgetMobile = ({
   )
 }
 
-CboBudgetMobile.propTypes = {
+TargetingBudgetMobile.propTypes = {
   currency: PropTypes.string,
   minBudget: PropTypes.number.isRequired,
   setCboState: PropTypes.func.isRequired,
   saveCampaignSettings: PropTypes.func.isRequired,
 }
 
-CboBudgetMobile.defaultProps = {
+TargetingBudgetMobile.defaultProps = {
   currency: '',
 }
 
 
-export default CboBudgetMobile
+export default TargetingBudgetMobile

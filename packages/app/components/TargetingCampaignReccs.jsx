@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { formatCurrency } from '@/helpers/utils'
 
-const CboCampaignReccs = ({
+const TargetingCampaignReccs = ({
   reccs,
   selectedReccId,
   setSelectedCampaignRecc,
@@ -80,17 +80,17 @@ const CboCampaignReccs = ({
   )
 }
 
-CboCampaignReccs.propTypes = {
+TargetingCampaignReccs.propTypes = {
   reccs: PropTypes.array.isRequired,
   setSelectedCampaignRecc: PropTypes.func.isRequired,
   selectedReccId: PropTypes.number,
   currency: PropTypes.string,
 }
 
-CboCampaignReccs.defaultProps = {
+TargetingCampaignReccs.defaultProps = {
   selectedReccId: null,
   currency: '',
 }
 
 
-export default CboCampaignReccs
+export default TargetingCampaignReccs

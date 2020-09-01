@@ -1,13 +1,13 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import CboSummary from '@/app/CboSummary'
-import CboProgressButton from '@/app/CboProgressButton'
+import TargetingSummary from '@/app/TargetingSummary'
+import TargetingProgressButton from '@/app/TargetingProgressButton'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-const CboContent = () => {
+const TargetingContent = () => {
   // STOP GLOBAL LOADING WHEN ARTIST IS READY
   const { artistId } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -18,15 +18,15 @@ const CboContent = () => {
   return (
     <div>
       {/* SUMMARY */}
-      <CboSummary />
+      <TargetingSummary />
       {/* MOBILE PROGRESS BUTTON */}
-      <CboProgressButton />
+      <TargetingProgressButton />
     </div>
   )
 }
 
-// CboContent.propTypes = {
+// TargetingContent.propTypes = {
 
 // }
 
-export default CboContent
+export default TargetingContent

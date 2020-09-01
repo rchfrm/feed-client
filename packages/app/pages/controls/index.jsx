@@ -1,8 +1,8 @@
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
-import CboContent from '@/app/CboContent'
+import TargetingContent from '@/app/TargetingContent'
 
-import { CboContextProvider } from '@/app/contexts/CboContext'
+import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
 
 const headerConfig = {
   text: 'campaign settings',
@@ -13,9 +13,9 @@ const Page = () => (
     headerConfig={headerConfig}
     artistRequired
   >
-    <CboContextProvider>
-      <CboContent />
-    </CboContextProvider>
+    <TargetingContextProvider>
+      <TargetingContent />
+    </TargetingContextProvider>
   </BasePage>
 )
 

@@ -17,7 +17,7 @@ const SUMMARY_DETAIL = ({ name, value }) => {
   )
 }
 
-const CboSummaryList = ({ cboState, currency }) => {
+const TargetingSummaryList = ({ cboState, currency }) => {
   const summaries = [
     {
       name: 'Budget',
@@ -54,14 +54,14 @@ const CboSummaryList = ({ cboState, currency }) => {
   )
 }
 
-CboSummaryList.propTypes = {
+TargetingSummaryList.propTypes = {
   cboState: PropTypes.object.isRequired,
   currency: PropTypes.string,
 }
 
-CboSummaryList.defaultProps = {
+TargetingSummaryList.defaultProps = {
   currency: '',
 }
 
 
-export default CboSummaryList
+export default TargetingSummaryList

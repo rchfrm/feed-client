@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Slider from '@/elements/Slider'
 
-const CboAgeSlider = ({ minAge, maxAge, onChange }) => {
+const TargetingAgeSlider = ({ minAge, maxAge, onChange }) => {
   const lowestAge = 15
   const highestAge = 65
 
@@ -39,16 +39,16 @@ const CboAgeSlider = ({ minAge, maxAge, onChange }) => {
   )
 }
 
-CboAgeSlider.propTypes = {
+TargetingAgeSlider.propTypes = {
   minAge: PropTypes.number,
   maxAge: PropTypes.number,
   onChange: PropTypes.func.isRequired,
 }
 
-CboAgeSlider.defaultProps = {
+TargetingAgeSlider.defaultProps = {
   minAge: 18,
   maxAge: 65,
 }
 
 
-export default CboAgeSlider
+export default TargetingAgeSlider

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 
-const CboBudgetSaveButton = ({
+const TargetingBudgetSaveButton = ({
   buttonText,
   className,
   cboState,
@@ -24,17 +24,17 @@ const CboBudgetSaveButton = ({
   )
 }
 
-CboBudgetSaveButton.propTypes = {
+TargetingBudgetSaveButton.propTypes = {
   buttonText: PropTypes.string,
   className: PropTypes.string,
   cboState: PropTypes.object.isRequired,
   saveCampaignSettings: PropTypes.func.isRequired,
 }
 
-CboBudgetSaveButton.defaultProps = {
+TargetingBudgetSaveButton.defaultProps = {
   buttonText: 'Save Campaign Settings',
   className: null,
 }
 
 
-export default CboBudgetSaveButton
+export default TargetingBudgetSaveButton
