@@ -96,7 +96,7 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
-  // When changing artist...
+  // When changing artist or promotion status...
   React.useEffect(() => {
     if (!artistId) return
     // Reset initial load
@@ -282,6 +282,7 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
         loadedAll={isEndOfAssets.current}
+        promotionStatus={promotionStatus}
       />
 
       {/* Loading spinner */}
