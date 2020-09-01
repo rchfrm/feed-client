@@ -2,6 +2,8 @@ import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
 import CboContent from '@/app/CboContent'
 
+import { CboContextProvider } from '@/app/contexts/CboContext'
+
 const headerConfig = {
   text: 'campaign settings',
 }
@@ -11,7 +13,9 @@ const Page = () => (
     headerConfig={headerConfig}
     artistRequired
   >
-    <CboContent />
+    <CboContextProvider>
+      <CboContent />
+    </CboContextProvider>
   </BasePage>
 )
 
