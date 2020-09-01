@@ -6,20 +6,15 @@ import produce from 'immer'
 import FlipContainer from '@/elements/FlipContainer'
 import Input from '@/elements/Input'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
-
 import { formatCurrency } from '@/helpers/utils'
 
 const CboBudgetSetter = ({
-  cboState,
-  setCboState,
+  currency,
   minBudget,
-  useCustomBudget,
+  setCboState,
 }) => {
-  const { artistCurrency } = React.useContext(ArtistContext)
-
   // FLIP
-  const [showCustomBudget, setShowCustomBudget] = React.useState(useCustomBudget)
+  const [showCustomBudget, setShowCustomBudget] = React.useState(false)
 
   // UPDATE CBO STATE when BUDGET changes
   const [budget, setBudget] = React.useState('')
@@ -31,11 +26,11 @@ const CboBudgetSetter = ({
       })
     })
   }, [budget, setCboState])
-  // React.useEffect(() => {
-  //   const newState = { ...cboState, budget }
-  //   setCboState(newState)
-  // }, [budget, cboState, setCboState])
-  const placeholder = `Minimum Budget ${formatCurrency(minBudget, artistCurrency)}`
+
+  console.log('currency', currency)
+
+  const inputPlaceholder = `Minimum Budget ${formatCurrency(minBudget, currency)}`
+
   return (
     <div>
       {/* VIEW CONTAINER */}
@@ -52,7 +47,7 @@ const CboBudgetSetter = ({
           <Input
             value={budget}
             updateValue={setBudget}
-            placeholder={placeholder}
+            placeholder={inputPlaceholder}
             name="Budget"
             label="Custom Budget"
             type="number"
@@ -73,15 +68,13 @@ const CboBudgetSetter = ({
 }
 
 CboBudgetSetter.propTypes = {
-  cboState: PropTypes.object.isRequired,
+  currency: PropTypes.string,
+  minBudget: PropTypes.number.isRequired,
   setCboState: PropTypes.func.isRequired,
-  minBudget: PropTypes.number,
-  useCustomBudget: PropTypes.bool,
 }
 
 CboBudgetSetter.defaultProps = {
-  minBudget: 3,
-  useCustomBudget: false,
+  currency: '',
 }
 
 

@@ -1,8 +1,12 @@
 import React from 'react'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
+import CboBudgetMobile from '@/app/CboBudgetMobile'
+import CboBudgetSaveButton from '@/app/CboBudgetSaveButton'
+
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
+import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import * as cboHelpers from '@/app/helpers/cboHelpers'
 
@@ -22,6 +26,7 @@ const CboContext = React.createContext({
   currency: '',
   desktopLayoutWidth: 'md',
   isDesktopLayout: false,
+  toggleMobileBudget: () => {},
 })
 
 CboContext.displayName = 'CboContext'
@@ -60,6 +65,28 @@ const CboContextProvider = ({ children }) => {
   const desktopLayoutWidth = 'md'
   const isDesktopLayout = useBreakpointTest(desktopLayoutWidth)
 
+  // OPEN MOBILE BUDGET SIDEPANEL
+  const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
+  const toggleMobileBudget = React.useCallback((state = true) => {
+    const content = state ? (
+      <CboBudgetMobile
+        currency={currency}
+        minBudget={minBudget}
+        setCboState={setCboState}
+        saveCampaignSettings={saveCampaignSettings}
+      />
+    ) : null
+    const button = state ? (
+      <CboBudgetSaveButton
+        cboState={cboState}
+        saveCampaignSettings={saveCampaignSettings}
+      />
+    ) : null
+    setSidePanelContent(content)
+    setSidePanelButton(button)
+    toggleSidePanel(true)
+  }, [currency, minBudget, cboState, saveCampaignSettings, setSidePanelContent, setSidePanelButton, toggleSidePanel])
+
   return (
     <CboContext.Provider
       value={{
@@ -77,6 +104,7 @@ const CboContextProvider = ({ children }) => {
         currency,
         desktopLayoutWidth,
         isDesktopLayout,
+        toggleMobileBudget,
       }}
     >
       {children}

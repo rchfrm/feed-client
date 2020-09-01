@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 
@@ -10,14 +10,13 @@ import { CboContext } from '@/app/contexts/CboContext'
 
 import { demoRecs } from '@/app/helpers/cboHelpers'
 
-const CboSummary = ({
-  cboState,
-  toggleMobileBudget,
-}) => {
+const CboSummary = () => {
   const {
+    cboState,
     currency,
     selectedCampaignRecc,
     setSelectedCampaignRecc,
+    toggleMobileBudget,
   } = React.useContext(CboContext)
   // SELECTED RECCS
   const selectedReccId = React.useMemo(() => {
@@ -65,8 +64,6 @@ const CboSummary = ({
 }
 
 CboSummary.propTypes = {
-  cboState: PropTypes.object.isRequired,
-  toggleMobileBudget: PropTypes.func.isRequired,
 }
 
 export default CboSummary

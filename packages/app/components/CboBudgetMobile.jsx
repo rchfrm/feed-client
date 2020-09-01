@@ -5,7 +5,9 @@ import CboBudgetSetter from '@/app/CboBudgetSetter'
 
 // Content for the side panel
 const CboBudgetMobile = ({
-  cboState,
+  currency,
+  minBudget,
+  setCboState,
   saveCampaignSettings,
 }) => {
   return (
@@ -15,7 +17,9 @@ const CboBudgetMobile = ({
         <h3 className="h2">Set a Budget</h3>
       </header>
       <CboBudgetSetter
-        cboState={cboState}
+        currency={currency}
+        minBudget={minBudget}
+        setCboState={setCboState}
         saveCampaignSettings={saveCampaignSettings}
       />
     </div>
@@ -23,8 +27,15 @@ const CboBudgetMobile = ({
 }
 
 CboBudgetMobile.propTypes = {
-  cboState: PropTypes.object.isRequired,
+  currency: PropTypes.string,
+  minBudget: PropTypes.number.isRequired,
+  setCboState: PropTypes.func.isRequired,
   saveCampaignSettings: PropTypes.func.isRequired,
 }
+
+CboBudgetMobile.defaultProps = {
+  currency: '',
+}
+
 
 export default CboBudgetMobile
