@@ -289,9 +289,18 @@ select:invalid {
 }
 
 .radio--button_input:checked + .radio--button_label,
-.checkbox--button_input:checked + .checkbox--button_label {
+.checkbox--button_input:checked + .checkbox--button_label,
+.radio--button_label.-active,
+.checkbox--button_label.-active {
   &::after {
     background-color: var(--green);
     transform: scale(0.4) translateZ(0);
+  }
+
+  &.-white {
+    &::after {
+      background-color: var(--white);
+      transform: scale(0.4) translateZ(0);
+    } 
   }
 }
