@@ -16,10 +16,8 @@ const CboSummary = ({
 }) => {
   const {
     currency,
-    saveCampaignSettings,
     selectedCampaignRecc,
     setSelectedCampaignRecc,
-    setSelectedCampaignType,
   } = React.useContext(CboContext)
   // SELECTED RECCS
   const selectedReccId = React.useMemo(() => {
@@ -27,11 +25,6 @@ const CboSummary = ({
     const { id } = selectedCampaignRecc
     return id
   }, [selectedCampaignRecc])
-  React.useEffect(() => {
-    const { type } = selectedCampaignRecc || {}
-    setSelectedCampaignType(type)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedReccId, setSelectedCampaignType])
 
   return (
     <>
@@ -43,7 +36,6 @@ const CboSummary = ({
         selectedReccId={selectedReccId}
         setSelectedCampaignRecc={setSelectedCampaignRecc}
         currency={currency}
-        saveCampaignSettings={saveCampaignSettings}
       />
       {/* BUTTONS */}
       <div className="pt-10 pb-5">

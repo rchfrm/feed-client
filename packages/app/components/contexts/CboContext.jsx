@@ -47,6 +47,11 @@ const CboContextProvider = ({ children }) => {
   const [selectedCampaignRecc, setSelectedCampaignRecc] = React.useState(null)
   // SELECTED CAMPAIGN OPTION ('recommended' | 'custom' | '')
   const [selectedCampaignType, setSelectedCampaignType] = React.useState('')
+  React.useEffect(() => {
+    const { type = null } = selectedCampaignRecc || {}
+    setSelectedCampaignType(type)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCampaignRecc, setSelectedCampaignType])
   // MIN BUDGET
   const [minBudget, setMinBudget] = React.useState(2)
   // CURRENCY
@@ -67,7 +72,6 @@ const CboContextProvider = ({ children }) => {
         selectedCampaignRecc,
         setSelectedCampaignRecc,
         selectedCampaignType,
-        setSelectedCampaignType,
         minBudget,
         setMinBudget,
         currency,

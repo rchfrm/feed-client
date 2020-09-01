@@ -3,27 +3,12 @@ import PropTypes from 'prop-types'
 
 import { formatCurrency } from '@/helpers/utils'
 
-import Button from '@/elements/Button'
-
 const CboCampaignReccs = ({
   reccs,
   selectedReccId,
   setSelectedCampaignRecc,
-  saveCampaignSettings,
   currency,
 }) => {
-  const isMounted = React.useRef(true)
-  React.useEffect(() => {
-    return () => { isMounted.current = false }
-  }, [])
-  const hasRecc = !!selectedReccId
-  const saveSelectedRecc = React.useCallback(async () => {
-    const state = reccs.find(({ id }) => id === selectedReccId)
-    await saveCampaignSettings(state)
-    if (isMounted.current) {
-      setSelectedCampaignRecc(null)
-    }
-  }, [saveCampaignSettings, selectedReccId, reccs, setSelectedCampaignRecc])
   return (
     <div>
       {/* HEADER */}
@@ -91,16 +76,6 @@ const CboCampaignReccs = ({
           )
         })}
       </ul>
-      {/* SET SELECTED RECC AS CAMPAIGN */}
-      <div>
-        <Button
-          className="w-full"
-          onClick={saveSelectedRecc}
-          disabled={!hasRecc}
-        >
-          Save selected campaign
-        </Button>
-      </div>
     </div>
   )
 }
@@ -109,7 +84,6 @@ CboCampaignReccs.propTypes = {
   reccs: PropTypes.array.isRequired,
   setSelectedCampaignRecc: PropTypes.func.isRequired,
   selectedReccId: PropTypes.number,
-  saveCampaignSettings: PropTypes.func.isRequired,
   currency: PropTypes.string,
 }
 
