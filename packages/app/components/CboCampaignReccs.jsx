@@ -8,8 +8,7 @@ import Button from '@/elements/Button'
 const CboCampaignReccs = ({
   reccs,
   selectedReccId,
-  setSelectedReccId,
-  setSelectedCampaignType,
+  setSelectedCampaignRecc,
   saveCampaignSettings,
   currency,
 }) => {
@@ -22,9 +21,9 @@ const CboCampaignReccs = ({
     const state = reccs.find(({ id }) => id === selectedReccId)
     await saveCampaignSettings(state)
     if (isMounted.current) {
-      setSelectedReccId(null)
+      setSelectedCampaignRecc(null)
     }
-  }, [saveCampaignSettings, selectedReccId, reccs, setSelectedReccId])
+  }, [saveCampaignSettings, selectedReccId, reccs, setSelectedCampaignRecc])
   return (
     <div>
       {/* HEADER */}
@@ -37,7 +36,7 @@ const CboCampaignReccs = ({
         ].join(' ')}
       >
         {reccs.map((rec, index) => {
-          const { id, type, budget, countries, cities } = rec
+          const { id, budget, countries, cities } = rec
           const title = `Option ${alphabet[index]}`
           const budgetFormatted = formatCurrency(budget, currency)
           const selected = id === selectedReccId
@@ -65,8 +64,7 @@ const CboCampaignReccs = ({
                   selected ? 'bg-green' : null,
                 ].join(' ')}
                 onClick={() => {
-                  setSelectedReccId(selected ? null : id)
-                  setSelectedCampaignType(selected ? '' : type)
+                  setSelectedCampaignRecc(selected ? null : rec)
                 }}
               >
                 <div className="flex justify-between items-center mb-4">
@@ -110,9 +108,8 @@ const CboCampaignReccs = ({
 
 CboCampaignReccs.propTypes = {
   reccs: PropTypes.array.isRequired,
+  setSelectedCampaignRecc: PropTypes.func.isRequired,
   selectedReccId: PropTypes.number,
-  setSelectedReccId: PropTypes.func.isRequired,
-  setSelectedCampaignType: PropTypes.func.isRequired,
   saveCampaignSettings: PropTypes.func.isRequired,
   currency: PropTypes.string,
 }

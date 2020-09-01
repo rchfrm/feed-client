@@ -13,6 +13,8 @@ const CboContext = React.createContext({
   saving: false,
   currentView: '',
   setCurrentView: () => {},
+  selectedCampaignRecc: null,
+  setSelectedCampaignRecc: () => {},
   selectedCampaignType: '',
   setSelectedCampaignType: () => {},
   minBudget: 0,
@@ -41,6 +43,8 @@ const CboContextProvider = ({ children }) => {
   }, [toggleGlobalLoading])
   // CAMPAIGN SETTINGS VIEW ('summary' | 'customise' | budget)
   const [currentView, setCurrentView] = React.useState('summary')
+  // SELECTED CAMPAIGN REC
+  const [selectedCampaignRecc, setSelectedCampaignRecc] = React.useState(null)
   // SELECTED CAMPAIGN OPTION ('recommended' | 'custom' | '')
   const [selectedCampaignType, setSelectedCampaignType] = React.useState('')
   // MIN BUDGET
@@ -60,6 +64,8 @@ const CboContextProvider = ({ children }) => {
         saving,
         currentView,
         setCurrentView,
+        selectedCampaignRecc,
+        setSelectedCampaignRecc,
         selectedCampaignType,
         setSelectedCampaignType,
         minBudget,
