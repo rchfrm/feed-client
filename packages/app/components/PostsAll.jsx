@@ -131,7 +131,12 @@ function PostsAll({
         })}
       </ul>
 
-
+      {/* Show loaded all */}
+      {!loadingMore && loadedAll && (
+        <div className="col-span-12 w-full mt-10 p-5 text-center">
+          <p className="h4">Loaded all Posts</p>
+        </div>
+      )}
     </section>
   )
 }
