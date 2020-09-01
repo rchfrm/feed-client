@@ -39,7 +39,7 @@ const CboCampaignReccs = ({
             >
               <a
                 role="button"
-                aria-label="Select reccommended campaign"
+                aria-label="Select recommended campaign"
                 className={[
                   'block no-underline',
                   'p-4 xs:p-5',
