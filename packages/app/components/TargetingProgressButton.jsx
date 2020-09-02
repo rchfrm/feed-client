@@ -41,13 +41,14 @@ const TargetingProgressButton = () => {
     }
   }, [showButton, currentView, selectedCampaignType])
   // DEFINE BUTTON TITLE AND SUBTITLE
-  const title = React.useMemo(() => {
+  const getTitle = () => {
     if (!showButton) return
     if (buttonType === 'saveRecc') return 'Save'
     if (buttonType === 'goToCustomise') return 'Customise'
     if (buttonType === 'goToBudget') return 'Set Budget'
-  }, [showButton, buttonType])
-  const subtitle = React.useMemo(() => {
+  }
+  const title = getTitle()
+  const getSubtitle = () => {
     if (!showButton) return
     if (buttonType === 'saveRecc' && selectedCampaignRecc) {
       return selectedCampaignRecc.title
@@ -56,9 +57,8 @@ const TargetingProgressButton = () => {
       const minBudgetString = formatCurrency(minBudget, currency)
       return `min. budget ${minBudgetString}`
     }
-    // default
-    return ''
-  }, [showButton, buttonType, minBudget, currency, selectedCampaignRecc])
+  }
+  const subtitle = getSubtitle()
 
   // SAVING RECCOMENDED CAMPAIGN
   const saveSelectedRecc = React.useCallback(async () => {
