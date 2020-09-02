@@ -37,7 +37,7 @@ const TargetingBudgetSetter = ({
       <FlipContainer
         isFlipped={showCustomBudget}
         rotationAxis="X"
-        containerClass="h-20"
+        containerClass="h-32"
         // BUDGET SLIDER
         frontContent={(
           <TargetingBudgetSlider

@@ -48,6 +48,7 @@ const FlipContainer = ({
           <div
             className={[
               'relative',
+              'h-full',
               innerClass,
             ].join(' ')}
             style={{
@@ -59,7 +60,7 @@ const FlipContainer = ({
             {/* FRONT */}
             <div
               className={[
-                'absolute top-0 left-0 w-full h-full',
+                'absolute top-0 left-0 w-full h-full overflow-hidden',
                 frontClass,
               ].join(' ')}
               style={{ ...faceStyle, ...frontStyle }}
@@ -69,12 +70,13 @@ const FlipContainer = ({
             {/* BACK */}
             <div
               className={[
-                'absolute top-0 left-0 w-full h-full',
+                'absolute top-0 left-0 w-full h-full overflow-hidden',
                 backClass,
               ].join(' ')}
               style={{
                 ...faceStyle,
                 ...backStyle,
+                zIndex: 2,
                 transform: `rotate${rotationAxis}(180deg)`,
               }}
             >
