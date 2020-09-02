@@ -11,8 +11,8 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 const TargetingContext = React.createContext({
-  cboState: {},
-  setCboState: () => {},
+  targetingState: {},
+  setTargetingState: () => {},
   saveCampaignSettings: () => {},
   saving: false,
   currentView: '',
@@ -33,7 +33,7 @@ TargetingContext.displayName = 'TargetingContext'
 
 const TargetingContextProvider = ({ children }) => {
   // TARGETING STATE
-  const [cboState, setCboState] = React.useState(targetingHelpers.demoCboState)
+  const [targetingState, setTargetingState] = React.useState(targetingHelpers.demotargetingState)
   // SAVE CAMPAIGN
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const [saving, setSaving] = React.useState(false)
@@ -42,7 +42,7 @@ const TargetingContextProvider = ({ children }) => {
     toggleGlobalLoading(true)
     const savedState = await targetingHelpers.saveCampaign(settings)
     console.log('savedState', savedState)
-    setCboState(savedState)
+    setTargetingState(savedState)
     setSaving(false)
     toggleGlobalLoading(false)
   }, [toggleGlobalLoading])
@@ -72,26 +72,26 @@ const TargetingContextProvider = ({ children }) => {
       <TargetingBudgetMobile
         currency={currency}
         minBudget={minBudget}
-        setCboState={setCboState}
+        setTargetingState={setTargetingState}
         saveCampaignSettings={saveCampaignSettings}
       />
     ) : null
     const button = state ? (
       <TargetingBudgetSaveButton
-        cboState={cboState}
+        targetingState={targetingState}
         saveCampaignSettings={saveCampaignSettings}
       />
     ) : null
     setSidePanelContent(content)
     setSidePanelButton(button)
     toggleSidePanel(true)
-  }, [currency, minBudget, cboState, saveCampaignSettings, setSidePanelContent, setSidePanelButton, toggleSidePanel])
+  }, [currency, minBudget, targetingState, saveCampaignSettings, setSidePanelContent, setSidePanelButton, toggleSidePanel])
 
   return (
     <TargetingContext.Provider
       value={{
-        cboState,
-        setCboState,
+        targetingState,
+        setTargetingState,
         saveCampaignSettings,
         saving,
         currentView,

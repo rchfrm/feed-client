@@ -7,7 +7,7 @@ import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 const TargetingBudgetMobile = ({
   currency,
   minBudget,
-  setCboState,
+  setTargetingState,
   saveCampaignSettings,
 }) => {
   return (
@@ -19,7 +19,7 @@ const TargetingBudgetMobile = ({
       <TargetingBudgetSetter
         currency={currency}
         minBudget={minBudget}
-        setCboState={setCboState}
+        setTargetingState={setTargetingState}
         saveCampaignSettings={saveCampaignSettings}
       />
     </div>
@@ -29,7 +29,7 @@ const TargetingBudgetMobile = ({
 TargetingBudgetMobile.propTypes = {
   currency: PropTypes.string,
   minBudget: PropTypes.number.isRequired,
-  setCboState: PropTypes.func.isRequired,
+  setTargetingState: PropTypes.func.isRequired,
   saveCampaignSettings: PropTypes.func.isRequired,
 }
 

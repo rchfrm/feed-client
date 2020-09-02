@@ -16,8 +16,8 @@ import { demoRecs } from '@/app/helpers/targetingHelpers'
 
 const TargetingSummary = () => {
   const {
-    cboState,
-    setCboState,
+    targetingState,
+    setTargetingState,
     currency,
     selectedCampaignRecc,
     setSelectedCampaignRecc,
@@ -33,7 +33,7 @@ const TargetingSummary = () => {
   return (
     <>
       {/* SUMMARY LIST */}
-      <TargetingSummaryList cboState={cboState} currency={currency} />
+      <TargetingSummaryList targetingState={targetingState} currency={currency} />
       {/* RECCS */}
       <TargetingCampaignReccs
         reccs={demoRecs}
@@ -64,11 +64,11 @@ const TargetingSummary = () => {
           Pause Campaign
         </Button>
         <TargetingAgeSlider
-          minAge={cboState.minAge}
-          maxAge={cboState.maxAge}
+          minAge={targetingState.minAge}
+          maxAge={targetingState.maxAge}
           onChange={([minAge, maxAge]) => {
-            setCboState((cboState) => {
-              return produce(cboState, draftState => {
+            setTargetingState((targetingState) => {
+              return produce(targetingState, draftState => {
                 draftState.minAge = minAge
                 draftState.maxAge = maxAge
               })
@@ -77,11 +77,11 @@ const TargetingSummary = () => {
         />
         {/* BUDGET SLIDER */}
         <TargetingBudgetSlider
-          budget={cboState.budget}
-          minBudget={cboState.minBudget}
+          budget={targetingState.budget}
+          minBudget={targetingState.minBudget}
           onChange={(budget) => {
-            setCboState((cboState) => {
-              return produce(cboState, draftState => {
+            setTargetingState((targetingState) => {
+              return produce(targetingState, draftState => {
                 draftState.budget = budget
               })
             })

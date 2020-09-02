@@ -11,7 +11,7 @@ import { formatCurrency } from '@/helpers/utils'
 const TargetingBudgetSetter = ({
   currency,
   minBudget,
-  setCboState,
+  setTargetingState,
 }) => {
   // FLIP
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
@@ -20,12 +20,12 @@ const TargetingBudgetSetter = ({
   const [budget, setBudget] = React.useState('')
   React.useEffect(() => {
     if (typeof budget !== 'number') return
-    setCboState((cboState) => {
-      return produce(cboState, draftState => {
+    setTargetingState((targetingState) => {
+      return produce(targetingState, draftState => {
         draftState.budget = budget
       })
     })
-  }, [budget, setCboState])
+  }, [budget, setTargetingState])
 
   console.log('currency', currency)
 
@@ -70,7 +70,7 @@ const TargetingBudgetSetter = ({
 TargetingBudgetSetter.propTypes = {
   currency: PropTypes.string,
   minBudget: PropTypes.number.isRequired,
-  setCboState: PropTypes.func.isRequired,
+  setTargetingState: PropTypes.func.isRequired,
 }
 
 TargetingBudgetSetter.defaultProps = {

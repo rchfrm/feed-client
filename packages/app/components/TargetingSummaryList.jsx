@@ -17,27 +17,27 @@ const SUMMARY_DETAIL = ({ name, value }) => {
   )
 }
 
-const TargetingSummaryList = ({ cboState, currency }) => {
+const TargetingSummaryList = ({ targetingState, currency }) => {
   const summaries = [
     {
       name: 'Budget',
-      value: getSummary.budget(cboState, currency),
+      value: getSummary.budget(targetingState, currency),
     },
     {
       name: 'Ages',
-      value: getSummary.ages(cboState),
+      value: getSummary.ages(targetingState),
     },
     {
       name: 'Genders',
-      value: getSummary.genders(cboState),
+      value: getSummary.genders(targetingState),
     },
     {
       name: 'Countries',
-      value: getSummary.countries(cboState),
+      value: getSummary.countries(targetingState),
     },
     {
       name: 'Cities',
-      value: getSummary.cities(cboState),
+      value: getSummary.cities(targetingState),
     },
   ]
   return (
@@ -55,7 +55,7 @@ const TargetingSummaryList = ({ cboState, currency }) => {
 }
 
 TargetingSummaryList.propTypes = {
-  cboState: PropTypes.object.isRequired,
+  targetingState: PropTypes.object.isRequired,
   currency: PropTypes.string,
 }
 

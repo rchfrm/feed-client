@@ -6,13 +6,13 @@ import Button from '@/elements/Button'
 const TargetingBudgetSaveButton = ({
   buttonText,
   className,
-  cboState,
+  targetingState,
   saveCampaignSettings,
 }) => {
   const saveBudget = React.useCallback(() => {
-    console.log('cboState', cboState)
-    saveCampaignSettings(cboState)
-  }, [cboState, saveCampaignSettings])
+    console.log('targetingState', targetingState)
+    saveCampaignSettings(targetingState)
+  }, [targetingState, saveCampaignSettings])
   return (
     <Button
       version="green"
@@ -27,7 +27,7 @@ const TargetingBudgetSaveButton = ({
 TargetingBudgetSaveButton.propTypes = {
   buttonText: PropTypes.string,
   className: PropTypes.string,
-  cboState: PropTypes.object.isRequired,
+  targetingState: PropTypes.object.isRequired,
   saveCampaignSettings: PropTypes.func.isRequired,
 }
 

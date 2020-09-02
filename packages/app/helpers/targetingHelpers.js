@@ -31,25 +31,25 @@ export const getNextBudgetUpgrade = (currentBudget) => {
 // SUMMARY HELPERS
 // ---------------
 export const getSummary = {
-  budget: (cboState, currency) => {
-    const { budget } = cboState
+  budget: (targetingState, currency) => {
+    const { budget } = targetingState
     const budgetFormatted = utils.formatCurrency(budget, currency)
     return `${budgetFormatted} per day`
   },
-  ages: (cboState) => {
-    const { minAge, maxAge } = cboState
+  ages: (targetingState) => {
+    const { minAge, maxAge } = targetingState
     return `${minAge} - ${maxAge}`
   },
-  genders: (cboState) => {
-    const { genders } = cboState
+  genders: (targetingState) => {
+    const { genders } = targetingState
     return genders
   },
-  countries: (cboState) => {
-    const { countries } = cboState
+  countries: (targetingState) => {
+    const { countries } = targetingState
     return countries.map(({ name }) => name).join(', ')
   },
-  cities: (cboState) => {
-    const { cities } = cboState
+  cities: (targetingState) => {
+    const { cities } = targetingState
     return cities.map(({ name }) => name).join(', ')
   },
 }
@@ -57,7 +57,7 @@ export const getSummary = {
 
 // FOR DEV
 // ---------------------------
-export const demoCboState = {
+export const demotargetingState = {
   minAge: 23,
   maxAge: 45,
   genders: 'men',
