@@ -72,6 +72,7 @@ const TargetingContextProvider = ({ children }) => {
       <TargetingBudgetMobile
         currency={currency}
         minBudget={minBudget}
+        targetingState={targetingState}
         setTargetingState={setTargetingState}
         saveCampaignSettings={saveCampaignSettings}
       />

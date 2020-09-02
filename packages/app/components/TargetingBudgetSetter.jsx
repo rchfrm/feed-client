@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import produce from 'immer'
 
+import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 import FlipContainer from '@/elements/FlipContainer'
 import Input from '@/elements/Input'
 
@@ -11,6 +12,7 @@ import { formatCurrency } from '@/helpers/utils'
 const TargetingBudgetSetter = ({
   currency,
   minBudget,
+  targetingState,
   setTargetingState,
 }) => {
   // FLIP
@@ -27,8 +29,6 @@ const TargetingBudgetSetter = ({
     })
   }, [budget, setTargetingState])
 
-  console.log('currency', currency)
-
   const inputPlaceholder = `Minimum Budget ${formatCurrency(minBudget, currency)}`
 
   return (
@@ -40,7 +40,17 @@ const TargetingBudgetSetter = ({
         containerClass="h-20"
         // BUDGET SLIDER
         frontContent={(
-          <div className="h-20 w-full bg-grey-1">Budget slider</div>
+          <TargetingBudgetSlider
+            budget={targetingState.budget}
+            minBudget={targetingState.minBudget}
+            onChange={(budget) => {
+              setTargetingState((targetingState) => {
+                return produce(targetingState, draftState => {
+                  draftState.budget = budget
+                })
+              })
+            }}
+          />
         )}
         // BUDGET CUSTOM INPUT
         backContent={(
@@ -70,6 +80,7 @@ const TargetingBudgetSetter = ({
 TargetingBudgetSetter.propTypes = {
   currency: PropTypes.string,
   minBudget: PropTypes.number.isRequired,
+  targetingState: PropTypes.object.isRequired,
   setTargetingState: PropTypes.func.isRequired,
 }
 
