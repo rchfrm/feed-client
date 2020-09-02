@@ -48,10 +48,15 @@ function PostsAll({
   React.useEffect(resetScroll, [])
   // Add load trigger el at 5th from end
   const loadAtIndex = 5
+  const lastPostId = React.useMemo(() => {
+    if (!posts || !posts.length) return ''
+    const lastPost = posts[posts.length - 1]
+    return lastPost.id
+  }, [posts])
   const postsWithLoadingTrigger = React.useMemo(() => {
     return getPostsWithLoadingTrigger(posts, loadAtIndex)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts.length, promotionStatus])
+  }, [posts.length, promotionStatus, lastPostId])
   // Create ref for intersection root
   const intersectionRoot = React.useRef(null)
 
@@ -92,7 +97,7 @@ function PostsAll({
         observerCache.unobserve(loadTriggerEl)
       }
     }
-  }, [posts.length, loadMore, loadedAll, promotionStatus])
+  }, [posts.length, loadMore, loadedAll, lastPostId])
 
   return (
     <section className={styles.postsSection}>
