@@ -39,28 +39,31 @@ const TargetingBudgetSlider = ({ budget, minBudget, onChange }) => {
   }, [currentBudget])
 
   return (
-    <Slider
-      label="Budget"
-      valueRange={valueRange}
-      defaultValue={budget}
-      thumbName="Budget"
-      getLabelValue={getLabelValue}
-      valueLabelFunction={valueLabelFunction}
-      onChange={(state) => {
-        setCurrentBudget(state)
-        onChange(state)
-      }}
-    >
-      {budgetUpgrade && (
-        <SliderMarker
-          show={!!budgetUpgrade}
-          sliderValueRange={valueRange}
-          markerValue={budgetUpgrade.budgetLimit}
-          markerLabel={budgetUpgrade.featureName}
-        />
-      )}
+    <div className={['pl-2'].join(' ')}>
+      <Slider
+        label="Budget"
+        labelClassName="-ml-2"
+        valueRange={valueRange}
+        defaultValue={budget}
+        thumbName="Budget"
+        getLabelValue={getLabelValue}
+        valueLabelFunction={valueLabelFunction}
+        onChange={(state) => {
+          setCurrentBudget(state)
+          onChange(state)
+        }}
+      >
+        {budgetUpgrade && (
+          <SliderMarker
+            show={!!budgetUpgrade}
+            sliderValueRange={valueRange}
+            markerValue={budgetUpgrade.budgetLimit}
+            markerLabel={budgetUpgrade.featureName}
+          />
+        )}
 
-    </Slider>
+      </Slider>
+    </div>
   )
 }
 
