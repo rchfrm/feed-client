@@ -37,7 +37,6 @@ function PostsAll({
   loadMorePosts,
   loadingMore,
   loadedAll,
-  promotionStatus,
 }) {
   // Set header
   const { setHeader } = React.useContext(InterfaceContext)
@@ -56,7 +55,7 @@ function PostsAll({
   const postsWithLoadingTrigger = React.useMemo(() => {
     return getPostsWithLoadingTrigger(posts, loadAtIndex)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts.length, promotionStatus, lastPostId])
+  }, [posts.length, lastPostId])
   // Create ref for intersection root
   const intersectionRoot = React.useRef(null)
 
@@ -67,7 +66,7 @@ function PostsAll({
       loadMorePosts()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadingMore, loadMorePosts, loadedAll, promotionStatus])
+  }, [loadingMore, loadMorePosts, loadedAll, lastPostId])
 
   // Setup intersection observer
   const loadTrigger = React.useRef(null)
