@@ -75,18 +75,6 @@ const TargetingSummary = () => {
             })
           }}
         />
-        {/* BUDGET SLIDER */}
-        <TargetingBudgetSlider
-          budget={targetingState.budget}
-          minBudget={targetingState.minBudget}
-          onChange={(budget) => {
-            setTargetingState((targetingState) => {
-              return produce(targetingState, draftState => {
-                draftState.budget = budget
-              })
-            })
-          }}
-        />
       </div>
     </>
   )
