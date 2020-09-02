@@ -19,6 +19,8 @@ const Slider = ({
   step, // see docs
   minDistance, // see docs
   onChange,
+  onBeforeChange,
+  onAfterChange,
   // Label and tooltip
   label,
   tooltipMessage,
@@ -100,10 +102,12 @@ const Slider = ({
           pearling={pearling}
           step={step}
           minDistance={minDistance}
-          onChange={onChange}
           className={[sliderClassName].join(' ')}
           thumbClassName={[thumbClassName].join(' ')}
           trackClassName={['h-2 xs:h-3 bg-grey-1 rounded-dialogue', trackClassName].join(' ')}
+          onChange={onChange}
+          onBeforeChange={onBeforeChange}
+          onAfterChange={onAfterChange}
         />
         {children}
       </div>
@@ -129,6 +133,8 @@ Slider.propTypes = {
   step: PropTypes.number,
   minDistance: PropTypes.number,
   onChange: PropTypes.func,
+  onBeforeChange: PropTypes.func,
+  onAfterChange: PropTypes.func,
   label: PropTypes.string,
   tooltipMessage: PropTypes.oneOfType([
     PropTypes.string,
@@ -151,6 +157,8 @@ Slider.defaultProps = {
   step: 1,
   minDistance: 1,
   onChange: () => {},
+  onBeforeChange: () => {},
+  onAfterChange: () => {},
   label: null,
   tooltipMessage: null,
   tooltipDirection: 'top',
