@@ -14,6 +14,7 @@ const TargetingBudgetSetter = ({
   minBudget,
   targetingState,
   setTargetingState,
+  mobileVersion,
 }) => {
   // FLIP
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
@@ -41,6 +42,7 @@ const TargetingBudgetSetter = ({
         // BUDGET SLIDER
         frontContent={(
           <TargetingBudgetSlider
+            mobileVersion={mobileVersion}
             budget={targetingState.budget}
             minBudget={targetingState.minBudget}
             onChange={(budget) => {
@@ -82,10 +84,12 @@ TargetingBudgetSetter.propTypes = {
   minBudget: PropTypes.number.isRequired,
   targetingState: PropTypes.object.isRequired,
   setTargetingState: PropTypes.func.isRequired,
+  mobileVersion: PropTypes.bool,
 }
 
 TargetingBudgetSetter.defaultProps = {
   currency: '',
+  mobileVersion: false,
 }
 
 

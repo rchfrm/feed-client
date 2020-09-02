@@ -23,6 +23,7 @@ const TargetingBudgetMobile = ({
         targetingState={targetingState}
         setTargetingState={setTargetingState}
         saveCampaignSettings={saveCampaignSettings}
+        mobileVersion
       />
     </div>
   )
