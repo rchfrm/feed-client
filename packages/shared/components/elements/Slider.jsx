@@ -31,6 +31,8 @@ const Slider = ({
   sliderClassName,
   thumbClassName,
   trackClassName,
+  // hackfix
+  forceInitialResize,
   // Child nodes
   children,
 }) => {
@@ -76,6 +78,15 @@ const Slider = ({
   valueLabelFunction = valueLabelFunction || defaultValueLabelFunction
   thumbRenderFunction = thumbRenderFunction || defaultThumbRenderFunction
 
+  // FORCE REPAINT if mounting in akward situations
+  const sliderRef = React.useRef()
+  React.useEffect(() => {
+    if (!forceInitialResize) return
+    setTimeout(() => {
+      sliderRef.current.resize()
+    }, 1)
+  }, [forceInitialResize])
+
   return (
     <div className={['mb-5', containerClassName].join(' ')}>
       {/* LABEL */}
@@ -108,6 +119,7 @@ const Slider = ({
           onChange={onChange}
           onBeforeChange={onBeforeChange}
           onAfterChange={onAfterChange}
+          ref={sliderRef}
         />
         {children}
       </div>
@@ -146,6 +158,7 @@ Slider.propTypes = {
   sliderClassName: PropTypes.string,
   thumbClassName: PropTypes.string,
   trackClassName: PropTypes.string,
+  forceInitialResize: PropTypes.bool,
   children: PropTypes.node,
 }
 
@@ -167,6 +180,7 @@ Slider.defaultProps = {
   sliderClassName: null,
   thumbClassName: null,
   trackClassName: null,
+  forceInitialResize: false,
   children: null,
 }
 

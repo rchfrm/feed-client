@@ -76,6 +76,7 @@ const TargetingBudgetSlider = ({ budget, minBudget, onChange, mobileVersion }) =
           setCurrentBudget(state)
           onChange(state)
         }}
+        forceInitialResize
       >
         {budgetUpgrade && (
           <SliderMarker
