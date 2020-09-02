@@ -8,7 +8,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import * as cboHelpers from '@/app/helpers/cboHelpers'
+import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 const TargetingContext = React.createContext({
   cboState: {},
@@ -33,14 +33,14 @@ TargetingContext.displayName = 'TargetingContext'
 
 const TargetingContextProvider = ({ children }) => {
   // TARGETING STATE
-  const [cboState, setCboState] = React.useState(cboHelpers.demoCboState)
+  const [cboState, setCboState] = React.useState(targetingHelpers.demoCboState)
   // SAVE CAMPAIGN
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const [saving, setSaving] = React.useState(false)
   const saveCampaignSettings = React.useCallback(async (settings) => {
     setSaving(true)
     toggleGlobalLoading(true)
-    const savedState = await cboHelpers.saveCampaign(settings)
+    const savedState = await targetingHelpers.saveCampaign(settings)
     console.log('savedState', savedState)
     setCboState(savedState)
     setSaving(false)

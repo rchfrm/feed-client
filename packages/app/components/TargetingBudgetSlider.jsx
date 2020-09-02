@@ -8,7 +8,7 @@ import Slider from '@/elements/Slider'
 import SliderMarker from '@/elements/SliderMarker'
 
 import { formatCurrency } from '@/helpers/utils'
-import * as cboHelpers from '@/app/helpers/cboHelpers'
+import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 const TargetingBudgetSlider = ({ budget, minBudget, onChange }) => {
   const { artistCurrency } = React.useContext(ArtistContext)
@@ -35,7 +35,7 @@ const TargetingBudgetSlider = ({ budget, minBudget, onChange }) => {
   // SHOW BUDGET FEATURES
   const [currentBudget, setCurrentBudget] = React.useState(budget)
   const budgetUpgrade = React.useMemo(() => {
-    return cboHelpers.getNextBudgetUpgrade(currentBudget)
+    return targetingHelpers.getNextBudgetUpgrade(currentBudget)
   }, [currentBudget])
 
   return (

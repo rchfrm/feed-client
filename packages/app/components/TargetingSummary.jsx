@@ -12,7 +12,7 @@ import TargetingCampaignReccs from '@/app/TargetingCampaignReccs'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
-import { demoRecs } from '@/app/helpers/cboHelpers'
+import { demoRecs } from '@/app/helpers/targetingHelpers'
 
 const TargetingSummary = () => {
   const {

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { getSummary } from '@/app/helpers/cboHelpers'
+import { getSummary } from '@/app/helpers/targetingHelpers'
 
 const SUMMARY_DETAIL = ({ name, value }) => {
   return (
