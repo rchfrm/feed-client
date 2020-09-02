@@ -37,7 +37,6 @@ function PostsAll({
   loadMorePosts,
   loadingMore,
   loadedAll,
-  promotionStatus,
 }) {
   // Set header
   const { setHeader } = React.useContext(InterfaceContext)
@@ -48,10 +47,15 @@ function PostsAll({
   React.useEffect(resetScroll, [])
   // Add load trigger el at 5th from end
   const loadAtIndex = 5
+  const lastPostId = React.useMemo(() => {
+    if (!posts || !posts.length) return ''
+    const lastPost = posts[posts.length - 1]
+    return lastPost.id
+  }, [posts])
   const postsWithLoadingTrigger = React.useMemo(() => {
     return getPostsWithLoadingTrigger(posts, loadAtIndex)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts.length, promotionStatus])
+  }, [posts.length, lastPostId])
   // Create ref for intersection root
   const intersectionRoot = React.useRef(null)
 
@@ -62,7 +66,7 @@ function PostsAll({
       loadMorePosts()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadingMore, loadMorePosts, loadedAll, promotionStatus])
+  }, [loadingMore, loadMorePosts, loadedAll, lastPostId])
 
   // Setup intersection observer
   const loadTrigger = React.useRef(null)
@@ -92,7 +96,7 @@ function PostsAll({
         observerCache.unobserve(loadTriggerEl)
       }
     }
-  }, [posts.length, loadMore, loadedAll, promotionStatus])
+  }, [posts.length, loadMore, loadedAll, lastPostId])
 
   return (
     <section className={styles.postsSection}>

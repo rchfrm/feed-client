@@ -282,7 +282,6 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
         loadedAll={isEndOfAssets.current}
-        promotionStatus={promotionStatus}
       />
 
       {/* Loading spinner */}
