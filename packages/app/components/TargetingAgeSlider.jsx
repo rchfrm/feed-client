@@ -29,7 +29,7 @@ const TargetingAgeSlider = ({ minAge, maxAge, onChange }) => {
     <Slider
       label="Age range"
       valueRange={[lowestAge, highestAge]}
-      defaultValue={[minAge, maxAge]}
+      value={[minAge, maxAge]}
       thumbName={['Lower age', 'Upper age']}
       pearling
       getLabelValue={getLabelValue}

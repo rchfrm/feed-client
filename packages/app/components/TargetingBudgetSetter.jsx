@@ -20,7 +20,7 @@ const TargetingBudgetSetter = ({
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
 
   // UPDATE TARGETING STATE when BUDGET changes
-  const [budget, setBudget] = React.useState('')
+  const [budget, setBudget] = React.useState(targetingState.budget)
   React.useEffect(() => {
     if (typeof budget !== 'number') return
     setTargetingState((targetingState) => {
@@ -43,14 +43,10 @@ const TargetingBudgetSetter = ({
         frontContent={(
           <TargetingBudgetSlider
             mobileVersion={mobileVersion}
-            budget={targetingState.budget}
+            budget={budget}
             minBudget={targetingState.minBudget}
             onChange={(budget) => {
-              setTargetingState((targetingState) => {
-                return produce(targetingState, draftState => {
-                  draftState.budget = budget
-                })
-              })
+              setBudget(budget)
             }}
           />
         )}

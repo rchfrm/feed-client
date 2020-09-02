@@ -68,7 +68,7 @@ const TargetingBudgetSlider = ({ budget, minBudget, onChange, mobileVersion }) =
         label="Budget"
         labelClassName="-ml-2"
         valueRange={valueRange}
-        defaultValue={budget}
+        value={budget}
         thumbName="Budget"
         getLabelValue={getLabelValue}
         valueLabelFunction={valueLabelFunction}

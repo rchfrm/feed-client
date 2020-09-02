@@ -10,7 +10,7 @@ import TooltipButton from '@/elements/TooltipButton'
 const Slider = ({
   // Slider config
   valueRange, // [lowest, highest]
-  defaultValue, // number, number[] (use array for more than one thumb)
+  value, // number, number[] (use array for more than one thumb)
   thumbName, // string, string[] (use array for more than one thumb)
   valueLabelFunction, // function to determine label of thumb
   thumbRenderFunction, // function to determin thumb node
@@ -95,7 +95,7 @@ const Slider = ({
         <ReactSlider
           min={min}
           max={max}
-          defaultValue={defaultValue}
+          value={value}
           ariaLabel={thumbName}
           ariaValuetext={valueLabelFunction}
           renderThumb={thumbRenderFunction}
@@ -118,7 +118,7 @@ const Slider = ({
 
 Slider.propTypes = {
   valueRange: PropTypes.array.isRequired,
-  defaultValue: PropTypes.oneOfType([
+  value: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.array,
   ]).isRequired,
