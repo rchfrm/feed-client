@@ -81,27 +81,39 @@ const TargetingProgressButton = () => {
   if (!showButton) return null
 
   return (
-    <button
+    <div
       className={[
         'fixed z-30',
-        'right-0 bottom-0',
-        'mr-6 mb-6',
-        'sm:mr-8 sm:mb-20',
-        'md:mr-10 md:mb-10',
-        'px-8 py-3 bg-green rounded-pill',
-        'text-black',
-        'shadow-md',
+        'left-0 right-0',
+        'bottom-0',
+        'px-3 mb-20',
+        'sm:px-4',
+        'md:px-10 md:mb-10',
       ].join(' ')}
-      onClick={onClick}
     >
-      <strong>{title}</strong>
-      {subtitle && (
-        <>
-          <br />
-          <span className="text-xs">{subtitle}</span>
-        </>
-      )}
-    </button>
+      <button
+        className={[
+          'w-full',
+          'px-8 py-3 bg-green',
+          'border-2 border-solid border-green',
+          'text-black',
+          'button--shadow',
+        ].join(' ')}
+        onClick={onClick}
+        style={{
+          borderRadius: '10vw',
+          paddingBottom: '0.78rem',
+        }}
+      >
+        <strong>{title}</strong>
+        {subtitle && (
+          <>
+            <br />
+            <span className="text-xs">{subtitle}</span>
+          </>
+        )}
+      </button>
+    </div>
   )
 }
 
