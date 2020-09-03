@@ -224,9 +224,13 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
 
   // Define function to refresh posts
   const refreshPosts = React.useCallback(() => {
-    toggleGlobalLoading(true)
     setLoadingMore(true)
-  }, [toggleGlobalLoading])
+    // Remove after cursor
+    cursor.current = null
+    // Update end of assets state
+    isEndOfAssets.current = false
+    setPosts({ type: 'reset-posts' })
+  }, [setPosts])
 
   // Define function to update links
   const updateLink = React.useCallback((postIndex, postLink) => {
