@@ -1,8 +1,6 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import usePrevious from 'use-previous'
-import { useAnimatePresence } from 'use-animate-presence'
 import useAnimateOnMount from '@/hooks/useAnimateOnMount'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
@@ -85,11 +83,13 @@ const TargetingProgressButton = () => {
 
   // ANIMATE
   const animateToFrom = {
-    y: { from: 100, to: 0 },
-    opacity: { from: 0, to: 1 },
+    y: { from: 10, to: 0 },
+    scaleX: { from: 0.95, to: 1 },
+    opacity: { from: 0.5, to: 1 },
   }
   const animatedDiv = useAnimateOnMount({
     animateToFrom,
+    animationOptions: { duration: { to: 0.3, from: 0.1 } },
     initial: 'visible',
   })
 

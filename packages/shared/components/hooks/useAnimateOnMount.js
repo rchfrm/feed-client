@@ -4,14 +4,30 @@ import { gsap } from 'gsap'
 const isUndefined = (arg) => arg === undefined
 const isAnyDefined = (...args) => args.some((a) => !isUndefined(a))
 
+const defaultAnimationProps = {
+  duration: 0.3,
+  ease: 'power1.out',
+  delay: 0,
+}
+
 const startAnimation = (el, animateFrom, animateTo, animProps) => {
+  // Set intially
   gsap.set(el, animateFrom)
+  // Animate
   const animation = gsap.to(el, { ...animateTo, ...animProps })
   return animation
 }
 
 const noop = () => { }
 const debug = (name, msg) => console.debug(name, msg)
+
+const getAnimationProps = (options, direction) => {
+  return Object.entries(options).reduce((props, [propKey, propValue]) => {
+    const value = typeof propValue !== 'object' ? propValue : propValue[direction]
+    props[propKey] = value
+    return props
+  }, {})
+}
 
 const getElProps = (animateToFrom, direction) => {
   return Object.entries(animateToFrom).reduce((props, [elPropKey, elPropValue]) => {
@@ -23,9 +39,9 @@ const getElProps = (animateToFrom, direction) => {
 
 const useAnimateOnMount = ({
   animateToFrom,
+  animationOptions = {},
   initial,
   animateFirstRender = true,
-  options = {},
   enter = noop,
   exit,
   wait,
@@ -37,7 +53,7 @@ const useAnimateOnMount = ({
   const domRef = React.useRef()
   const aboutToExit = React.useRef(false)
   const isVisible = variant === 'visible'
-  const { duration = 0.3, ease = 'power1.out', delay = 0 } = options
+
   if (isUndefined(animateToFrom)) {
     throw Error('You must provide animateTo for animation.')
   }
@@ -49,15 +65,21 @@ const useAnimateOnMount = ({
   }
   enter = wait || enter
   exit = wait || exit
+
+  // ANIMATE
   const animate = ({ el, visible }) => {
     const animateFrom = getElProps(animateToFrom, visible ? 'from' : 'to')
     const animateTo = getElProps(animateToFrom, visible ? 'to' : 'from')
-    return startAnimation(el, animateFrom, animateTo, { duration, ease, delay })
+    const animationPropsToParse = { ...defaultAnimationProps, ...animationOptions }
+    const animationProps = getAnimationProps(animationPropsToParse, visible ? 'to' : 'from')
+    return startAnimation(el, animateFrom, animateTo, animationProps)
   }
+
   const animateVisible = (el) => animate({
     el,
     visible: true,
   })
+
   const playEnterAnimation = () => {
     if (!domRef.current) return
     const animation = animateVisible(domRef.current)
