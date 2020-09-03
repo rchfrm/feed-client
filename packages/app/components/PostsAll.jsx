@@ -47,7 +47,15 @@ function PostsAll({
   React.useEffect(resetScroll, [])
   // Add load trigger el at 5th from end
   const loadAtIndex = 5
-  const postsWithLoadingTrigger = getPostsWithLoadingTrigger(posts, loadAtIndex)
+  const lastPostId = React.useMemo(() => {
+    if (!posts || !posts.length) return ''
+    const lastPost = posts[posts.length - 1]
+    return lastPost.id
+  }, [posts])
+  const postsWithLoadingTrigger = React.useMemo(() => {
+    return getPostsWithLoadingTrigger(posts, loadAtIndex)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [posts])
   // Create ref for intersection root
   const intersectionRoot = React.useRef(null)
 
@@ -57,28 +65,38 @@ function PostsAll({
     if (target.isIntersecting && !loadingMore && !loadedAll) {
       loadMorePosts()
     }
-  }, [loadingMore, loadMorePosts, loadedAll])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadingMore, loadMorePosts, loadedAll, lastPostId])
 
   // Setup intersection observer
   const loadTrigger = React.useRef(null)
+  const observer = React.useRef(null)
   React.useEffect(() => {
+    // Handle no posts
+    if (!posts.length) {
+      if (loadTrigger.current && observer.current) {
+        observer.current.unobserve(loadTrigger.current)
+      }
+      return
+    }
     // Observer options
     const options = { rootMargin: '0px', threshold: 0 }
     // Create observer
-    const observer = new IntersectionObserver(loadMore, options)
+    observer.current = new IntersectionObserver(loadMore, options)
     // observe the loader
     if (loadTrigger && loadTrigger.current) {
-      observer.observe(loadTrigger.current)
+      observer.current.observe(loadTrigger.current)
     }
 
     // clean up
     const loadTriggerEl = loadTrigger.current
+    const observerCache = observer.current
     return () => {
       if (loadTriggerEl) {
-        observer.unobserve(loadTriggerEl)
+        observerCache.unobserve(loadTriggerEl)
       }
     }
-  }, [posts.length, loadMore, loadedAll])
+  }, [posts.length, loadMore, loadedAll, lastPostId])
 
   return (
     <section className={styles.postsSection}>
@@ -110,17 +128,19 @@ function PostsAll({
               className="col-span-12 xs:col-span-6 lg:col-span-4"
             >
               {post.loadTrigger && !loadedAll && (
-                <div
-                  ref={loadTrigger}
-                  className={[styles.postLoadTrigger].join(' ')}
-                />
+                <div ref={loadTrigger} />
               )}
             </PostItem>
           )
         })}
       </ul>
 
-
+      {/* Show loaded all */}
+      {!loadingMore && loadedAll && (
+        <div className="col-span-12 w-full mt-10 p-5 text-center">
+          <p className="h4">Loaded all Posts</p>
+        </div>
+      )}
     </section>
   )
 }
