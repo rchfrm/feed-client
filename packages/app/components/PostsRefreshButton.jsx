@@ -14,7 +14,7 @@ const PostsRefreshButton = ({ refreshPosts, className }) => {
       className={[className].join(' ')}
     >
       <RefreshIcon fill={brandColors.bgColor} />
-      Refresh Posts
+      Refresh
     </Button>
   )
 }
