@@ -6,7 +6,6 @@ import produce from 'immer'
 import Button from '@/elements/Button'
 
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
-import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 import TargetingSummaryList from '@/app/TargetingSummaryList'
 import TargetingCampaignReccs from '@/app/TargetingCampaignReccs'
 
