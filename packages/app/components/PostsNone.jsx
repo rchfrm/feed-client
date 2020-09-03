@@ -6,9 +6,9 @@ import moment from 'moment'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { UserContext } from '@/contexts/UserContext'
 // IMPORT COMPONENTS
+import PostsRefreshButton from '@/app/PostsRefreshButton'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'
-import Button from '@/elements/Button'
 import copy from '@/app/copy/PostsPageCopy'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
@@ -71,11 +71,7 @@ const PostsNone = ({ refreshPosts, promotionStatus, artist }) => {
       />
       {/* Refresh posts fetch if new user */}
       {isNewUser && (
-        <Button
-          onClick={refreshPosts}
-        >
-          Refresh posts
-        </Button>
+        <PostsRefreshButton refreshPosts={refreshPosts} />
       )}
     </div>
   )
