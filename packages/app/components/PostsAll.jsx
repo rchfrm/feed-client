@@ -55,7 +55,7 @@ function PostsAll({
   const postsWithLoadingTrigger = React.useMemo(() => {
     return getPostsWithLoadingTrigger(posts, loadAtIndex)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts.length, lastPostId])
+  }, [posts])
   // Create ref for intersection root
   const intersectionRoot = React.useRef(null)
 
