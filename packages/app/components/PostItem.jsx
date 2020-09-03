@@ -93,7 +93,7 @@ const PostItem = ({
         )}
 
         {turningOffRunning && (
-          <PostItemStatusMessage text="TURNING OFF" className="bg-red" />
+          <PostItemStatusMessage text="Turning post off" className="bg-red" />
         )}
 
         {/* NOT PROMOTABLE WARNING */}
