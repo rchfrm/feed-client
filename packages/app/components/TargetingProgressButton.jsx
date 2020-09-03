@@ -29,6 +29,27 @@ const TargetingProgressButton = () => {
     if (currentView === 'summary' && !selectedCampaignType) return false
     return true
   }, [currentView, selectedCampaignType])
+
+  // ANIMATE
+  // Define animation config
+  const animateToFrom = {
+    y: { from: 10, to: 0 },
+    scaleX: { from: 0.95, to: 1 },
+    opacity: { from: 0.5, to: 1 },
+  }
+  // Setup animation hook
+  const animatedDiv = useAnimateOnMount({
+    animateToFrom,
+    animationOptions: { duration: { to: 0.4, from: 0.2 } },
+    initial: 'visible',
+  })
+  // Trigger animation
+  React.useEffect(() => {
+    if (showButton) return animatedDiv.showPresence()
+    animatedDiv.hidePresence()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showButton])
+
   // DEFINE THE BUTTON TYPE
   const buttonType = React.useMemo(() => {
     if (!showButton) return
@@ -43,15 +64,19 @@ const TargetingProgressButton = () => {
     }
   }, [showButton, currentView, selectedCampaignType])
   // DEFINE BUTTON TITLE AND SUBTITLE
+  const [title, setTitle] = React.useState('')
+  const [subtitle, setSubtitle] = React.useState('')
   const getTitle = () => {
     if (!showButton) return
     if (buttonType === 'saveRecc') return 'Save'
     if (buttonType === 'goToCustomise') return 'Customise'
     if (buttonType === 'goToBudget') return 'Set Budget'
   }
-  const title = getTitle()
-  const getSubtitle = () => {
+  const getSubtitle = React.useCallback((previousSubtitle) => {
     if (!showButton) return
+    if (buttonType === 'saveRecc' && !selectedCampaignRecc) {
+      return previousSubtitle
+    }
     if (buttonType === 'saveRecc' && selectedCampaignRecc) {
       return selectedCampaignRecc.title
     }
@@ -59,8 +84,16 @@ const TargetingProgressButton = () => {
       const minBudgetString = formatCurrency(minBudget, currency)
       return `min. budget ${minBudgetString}`
     }
-  }
-  const subtitle = getSubtitle()
+  }, [showButton, buttonType, selectedCampaignRecc, minBudget, currency])
+  React.useEffect(() => {
+    if (!showButton) return
+    const newTitle = getTitle()
+    const newSubtitle = getSubtitle(subtitle)
+    setTitle(newTitle)
+    setSubtitle(newSubtitle)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showButton, buttonType, getSubtitle])
+
 
   // SAVING RECCOMENDED CAMPAIGN
   const saveSelectedRecc = React.useCallback(async () => {
@@ -79,25 +112,6 @@ const TargetingProgressButton = () => {
     }
     return () => {}
   }, [showButton, buttonType, saveSelectedRecc])
-
-
-  // ANIMATE
-  const animateToFrom = {
-    y: { from: 10, to: 0 },
-    scaleX: { from: 0.95, to: 1 },
-    opacity: { from: 0.5, to: 1 },
-  }
-  const animatedDiv = useAnimateOnMount({
-    animateToFrom,
-    animationOptions: { duration: { to: 0.3, from: 0.1 } },
-    initial: 'visible',
-  })
-
-  React.useEffect(() => {
-    if (showButton) return animatedDiv.showPresence()
-    animatedDiv.hidePresence()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showButton])
 
   return (
     <>
@@ -127,12 +141,12 @@ const TargetingProgressButton = () => {
               paddingBottom: '0.78rem',
             }}
           >
-            <strong>{title}</strong>
+            {title && (<strong>{title}</strong>)}
             {subtitle && (
-              <>
-                <br />
-                <span className="text-xs">{subtitle}</span>
-              </>
+            <>
+              <br />
+              <span className="text-xs">{subtitle}</span>
+            </>
             )}
           </button>
         </div>
