@@ -94,7 +94,9 @@ const TargetingProgressButton = () => {
   })
 
   React.useEffect(() => {
-    animatedDiv.togglePresence()
+    if (showButton) return animatedDiv.showPresence()
+    animatedDiv.hidePresence()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showButton])
 
   return (

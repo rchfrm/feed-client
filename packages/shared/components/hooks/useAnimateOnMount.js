@@ -72,8 +72,10 @@ const useAnimateOnMount = ({
     setVariant('hidden')
     exitCb()
   }
-  const togglePresence = (exitCb = noop) => {
-    debug(debugName, `Toggled variant, currently ${variant}`)
+
+  // HIDE
+  const hidePresence = (exitCb = noop) => {
+    if (variant === 'hidden') return
     const playExitAnimation = () => {
       const animation = animate({
         el: domRef.current,
@@ -84,14 +86,26 @@ const useAnimateOnMount = ({
         handleExitAnimationEnd(exitCb)
       })
     }
+    playExitAnimation()
+  }
+
+  // SHOW
+  const showPresence = () => {
+    debug(debugName, 'Switching to visible')
+    aboutToExit.current = false
+    setVariant('visible')
+  }
+
+  // TOGGLE
+  const togglePresence = (exitCb = noop) => {
+    debug(debugName, `Toggled variant, currently ${variant}`)
     if (isVisible) {
-      playExitAnimation()
+      hidePresence(exitCb)
     } else {
-      debug(debugName, 'Switching to visible')
-      aboutToExit.current = false
-      setVariant('visible')
+      showPresence()
     }
   }
+
   React.useLayoutEffect(() => {
     if (!domRef.current) {
       debug(debugName, 'ref is now undefined!')
@@ -108,13 +122,22 @@ const useAnimateOnMount = ({
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible, debugName, animateFirstRender])
+
   React.useLayoutEffect(() => {
     if (!didRender.current && isVisible) {
       debug(debugName, 'Rendered')
       didRender.current = true
     }
   }, [isVisible, debugName])
-  return { ref: domRef, isRendered: isVisible, togglePresence }
+
+  // EXPORT
+  return {
+    ref: domRef,
+    isRendered: isVisible,
+    hidePresence,
+    showPresence,
+    togglePresence,
+  }
 }
 
 export default useAnimateOnMount
