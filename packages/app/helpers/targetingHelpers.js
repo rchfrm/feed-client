@@ -86,7 +86,7 @@ export const saveCampaign = (oldState, newState) => {
 
 export const demoRecs = [
   {
-    id: 1,
+    id: '1',
     title: 'Option A',
     type: 'recommended',
     budget: 5,
@@ -97,7 +97,7 @@ export const demoRecs = [
     cities: [{ id: 'paris', name: 'Paris' }],
   },
   {
-    id: 2,
+    id: '2',
     title: 'Option B',
     type: 'recommended',
     budget: 6,

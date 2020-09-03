@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { formatCurrency } from '@/helpers/utils'
+import TargetingCampaignReccsOption from '@/app/TargetingCampaignReccsOption'
 
 const TargetingCampaignReccs = ({
   reccs,
@@ -21,58 +21,14 @@ const TargetingCampaignReccs = ({
         ].join(' ')}
       >
         {reccs.map((rec) => {
-          const { id, title, budget, countries, cities } = rec
-          const budgetFormatted = formatCurrency(budget, currency)
-          const selected = id === selectedReccId
-          const locations = [...countries, ...cities].map(({ name }) => name)
-          const locationsText = locations.reduce((text, location, index) => {
-            if (index === locations.length - 1) return `${text} and ${location}.`
-            return `${text}${location}, `
-          }, '')
           return (
-            <li
-              key={id}
-              className={[
-                'mb-5 last:mb-0 sm:mb-0',
-                'sm:col-span-3',
-              ].join(' ')}
-            >
-              <a
-                role="button"
-                aria-label="Select recommended campaign"
-                className={[
-                  'block no-underline',
-                  'p-4 xs:p-5',
-                  'border-solid border-green border-2',
-                  'rounded-dialogue',
-                  selected ? 'bg-green' : null,
-                ].join(' ')}
-                onClick={() => {
-                  setSelectedCampaignRecc(selected ? null : rec)
-                }}
-              >
-                <div className="flex justify-between items-center mb-4">
-                  {/* title and radio */}
-                  <div className="flex items-center">
-                    <div className={[
-                      'radio--button_label',
-                      'pl-0 h-5 w-5 mr-3',
-                      selected ? '-active -white' : null,
-                    ].join(' ')}
-                    />
-                    <p className="capitalize text-sm mb-0"><strong>{title}</strong></p>
-                  </div>
-                  {/* Budget */}
-                  <p className="mb-0">
-                    {budgetFormatted} p/d
-                  </p>
-                </div>
-                <p className="mb-0 leading-relaxed">
-                  Targeting:<br />
-                  <strong>{locationsText}</strong>
-                </p>
-              </a>
-            </li>
+            <TargetingCampaignReccsOption
+              key={rec.id}
+              rec={rec}
+              currency={currency}
+              selectedReccId={selectedReccId}
+              setSelectedCampaignRecc={setSelectedCampaignRecc}
+            />
           )
         })}
       </ul>
@@ -83,7 +39,7 @@ const TargetingCampaignReccs = ({
 TargetingCampaignReccs.propTypes = {
   reccs: PropTypes.array.isRequired,
   setSelectedCampaignRecc: PropTypes.func.isRequired,
-  selectedReccId: PropTypes.number,
+  selectedReccId: PropTypes.string,
   currency: PropTypes.string,
 }
 
