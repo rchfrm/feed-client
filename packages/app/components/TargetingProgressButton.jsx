@@ -35,12 +35,15 @@ const TargetingProgressButton = () => {
   const animateToFrom = {
     y: { from: 10, to: 0 },
     scaleX: { from: 0.95, to: 1 },
-    opacity: { from: 0.5, to: 1 },
+    opacity: { from: 0, to: 1 },
   }
   // Setup animation hook
   const animatedDiv = useAnimateOnMount({
     animateToFrom,
-    animationOptions: { duration: [0.4, 0.2] },
+    animationOptions: {
+      duration: [0.4, 0.2],
+      ease: ['back.out(2)', 'power1.out'],
+    },
     initial: 'visible',
   })
   // Trigger animation
