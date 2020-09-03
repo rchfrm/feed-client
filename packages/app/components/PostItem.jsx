@@ -7,6 +7,7 @@ import PostItemTopBar from '@/app/PostItemTopBar'
 import PostItemContents from '@/app/PostItemContents'
 import PostItemMetrics from '@/app/PostItemMetrics'
 import PostItemLink from '@/app/PostItemLink'
+import PostItemStatusMessage from '@/app/PostItemStatusMessage'
 import PostItemDisableWarning from '@/app/PostItemDisableWarning'
 // IMPORT ASSETS
 // IMPORT STYLES
@@ -39,6 +40,9 @@ const PostItem = ({
   // CLASSES
   const enabledClass = enabled || promotionStatus === 'archived' ? styles._enabled : styles._disabled
   const promotableClass = postPromotable ? styles._promotable : styles._unpromotable
+
+  // Is running ad turning off?
+  const turningOffRunning = promotionStatus === 'active' && !promotionEnabled
 
   return (
     <li
@@ -76,7 +80,7 @@ const PostItem = ({
         />
 
         {/* POST LINK */}
-        {postPromotable ? (
+        {postPromotable && !turningOffRunning && (
           <PostItemLink
             postId={post.id}
             postIndex={index}
@@ -86,10 +90,15 @@ const PostItem = ({
             updateLink={updateLink}
             setError={setError}
           />
-        ) : (
-          <div className={[styles.postSection, styles.postUnpromotable, styles.postText].join(' ')}>
-            <p style={{ transform: 'translateY(0.1em)' }}>Post not promotable</p>
-          </div>
+        )}
+
+        {turningOffRunning && (
+          <PostItemStatusMessage text="TURNING OFF" className="bg-red" />
+        )}
+
+        {/* NOT PROMOTABLE WARNING */}
+        {!postPromotable && (
+          <PostItemStatusMessage text="Post not promotable" />
         )}
 
         {/* DISABLE ACTIVE POST WARNING */}
