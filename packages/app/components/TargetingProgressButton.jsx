@@ -72,16 +72,20 @@ const TargetingProgressButton = () => {
   const getTitle = () => {
     if (!showButton) return
     if (buttonType === 'saveRecc') return 'Save'
-    if (buttonType === 'goToCustomise') return 'Customise'
+    if (buttonType === 'goToCustomise') return 'Next'
     if (buttonType === 'goToBudget') return 'Set Budget'
   }
   const getSubtitle = React.useCallback((previousSubtitle) => {
     if (!showButton) return
-    if (buttonType === 'saveRecc' && !selectedCampaignRecc) {
+    const isReccButton = buttonType === 'saveRecc' || buttonType === 'goToCustomise'
+    if (isReccButton && !selectedCampaignRecc) {
       return previousSubtitle
     }
     if (buttonType === 'saveRecc' && selectedCampaignRecc) {
       return selectedCampaignRecc.title
+    }
+    if (buttonType === 'goToCustomise' && selectedCampaignRecc) {
+      return 'Select your custom settings'
     }
     if (buttonType === 'goToBudget') {
       const minBudgetString = formatCurrency(minBudget, currency)
