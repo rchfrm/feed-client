@@ -1,11 +1,8 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import produce from 'immer'
-
 import Button from '@/elements/Button'
 
-import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingSummaryList from '@/app/TargetingSummaryList'
 import TargetingCampaignReccs from '@/app/TargetingCampaignReccs'
 
@@ -16,7 +13,6 @@ import { demoRecs } from '@/app/helpers/targetingHelpers'
 const TargetingSummary = () => {
   const {
     targetingState,
-    setTargetingState,
     currency,
     selectedCampaignRecc,
     setSelectedCampaignRecc,
@@ -56,18 +52,6 @@ const TargetingSummary = () => {
         >
           Pause Campaign
         </Button>
-        <TargetingAgeSlider
-          minAge={targetingState.minAge}
-          maxAge={targetingState.maxAge}
-          onChange={([minAge, maxAge]) => {
-            setTargetingState((targetingState) => {
-              return produce(targetingState, draftState => {
-                draftState.minAge = minAge
-                draftState.maxAge = maxAge
-              })
-            })
-          }}
-        />
       </div>
     </>
   )
