@@ -17,6 +17,8 @@ const TargetingContext = React.createContext({
   saving: false,
   currentView: '',
   setCurrentView: () => {},
+  isAnimatingView: false,
+  setIsAnimatingView: () => {},
   selectedCampaignRecc: null,
   setSelectedCampaignRecc: () => {},
   selectedCampaignType: '',
@@ -46,8 +48,11 @@ const TargetingContextProvider = ({ children }) => {
     setSaving(false)
     toggleGlobalLoading(false)
   }, [toggleGlobalLoading])
+
   // CAMPAIGN SETTINGS VIEW ('summary' | 'customise' | budget)
   const [currentView, setCurrentView] = React.useState('summary')
+  const [isAnimatingView, setIsAnimatingView] = React.useState(false)
+
   // SELECTED CAMPAIGN REC
   const [selectedCampaignRecc, setSelectedCampaignRecc] = React.useState(null)
   // SELECTED CAMPAIGN OPTION ('recommended' | 'custom' | '')
@@ -97,6 +102,8 @@ const TargetingContextProvider = ({ children }) => {
         saving,
         currentView,
         setCurrentView,
+        isAnimatingView,
+        setIsAnimatingView,
         selectedCampaignRecc,
         setSelectedCampaignRecc,
         selectedCampaignType,

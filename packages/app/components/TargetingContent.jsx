@@ -20,7 +20,7 @@ const TargetingContent = () => {
   }, [artistId, toggleGlobalLoading])
 
   // GET CURRENT VIEW
-  const { currentView } = React.useContext(TargetingContext)
+  const { currentView, setIsAnimatingView } = React.useContext(TargetingContext)
 
   return (
     <SwitchTransition>
@@ -30,7 +30,13 @@ const TargetingContent = () => {
           // node.addEventListener('transitionend', done, false)
           setTimeout(() => {
             done()
+            console.log('ending animation')
+            setIsAnimatingView(false)
           }, 1000)
+        }}
+        onExit={() => {
+          console.log('starting animation')
+          setIsAnimatingView(true)
         }}
         classNames="fade"
       >
