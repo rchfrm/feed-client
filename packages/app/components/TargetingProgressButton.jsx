@@ -1,6 +1,10 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import usePrevious from 'use-previous'
+import { useAnimatePresence } from 'use-animate-presence'
+import useAnimateOnMount from '@/hooks/useAnimateOnMount'
+
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import { formatCurrency } from '@/helpers/utils'
@@ -78,42 +82,60 @@ const TargetingProgressButton = () => {
     return () => {}
   }, [showButton, buttonType, saveSelectedRecc])
 
-  if (!showButton) return null
+
+  // ANIMATE
+  const animateToFrom = {
+    y: { from: 100, to: 0 },
+    opacity: { from: 0, to: 1 },
+  }
+  const animatedDiv = useAnimateOnMount({
+    animateToFrom,
+    initial: 'visible',
+  })
+
+  React.useEffect(() => {
+    animatedDiv.togglePresence()
+  }, [showButton])
 
   return (
-    <div
-      className={[
-        'fixed z-30',
-        'left-0 right-0',
-        'bottom-0',
-        'px-3 mb-20',
-        'sm:px-4',
-        'md:px-10 md:mb-10',
-      ].join(' ')}
-    >
-      <button
-        className={[
-          'w-full',
-          'px-8 py-3 bg-green',
-          'border-2 border-solid border-green',
-          'text-black',
-          'button--shadow',
-        ].join(' ')}
-        onClick={onClick}
-        style={{
-          borderRadius: '10vw',
-          paddingBottom: '0.78rem',
-        }}
-      >
-        <strong>{title}</strong>
-        {subtitle && (
-          <>
-            <br />
-            <span className="text-xs">{subtitle}</span>
-          </>
-        )}
-      </button>
-    </div>
+    <>
+      {animatedDiv.isRendered && (
+        <div
+          className={[
+            'fixed z-30',
+            'left-0 right-0',
+            'bottom-0',
+            'px-3 mb-20',
+            'sm:px-4',
+            'md:px-10 md:mb-10',
+          ].join(' ')}
+          ref={animatedDiv.ref}
+        >
+          <button
+            className={[
+              'w-full',
+              'px-8 py-3 bg-green',
+              'border-2 border-solid border-green',
+              'text-black',
+              'button--shadow',
+            ].join(' ')}
+            onClick={onClick}
+            style={{
+              borderRadius: '10vw',
+              paddingBottom: '0.78rem',
+            }}
+          >
+            <strong>{title}</strong>
+            {subtitle && (
+              <>
+                <br />
+                <span className="text-xs">{subtitle}</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
+    </>
   )
 }
 
