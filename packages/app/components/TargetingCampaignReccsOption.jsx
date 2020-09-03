@@ -3,25 +3,29 @@ import PropTypes from 'prop-types'
 
 import { formatCurrency } from '@/helpers/utils'
 
+const getLocationText = (countries = [], cities = []) => {
+  const locations = [...countries, ...cities].map(({ name }) => name)
+  return locations.reduce((text, location, index) => {
+    if (index === locations.length - 1) return `${text} and ${location}.`
+    return `${text}${location}, `
+  }, '')
+}
+
 const TargetingCampaignReccsOption = ({
   rec,
   currency,
   selectedReccId,
   setSelectedCampaignRecc,
 }) => {
-  const { id, title, budget, countries, cities } = rec
+  const { id, title, budget, countries, cities, type } = rec
   const selected = id === selectedReccId
-  const budgetFormatted = formatCurrency(budget, currency)
-  const locations = [...countries, ...cities].map(({ name }) => name)
-  const locationsText = locations.reduce((text, location, index) => {
-    if (index === locations.length - 1) return `${text} and ${location}.`
-    return `${text}${location}, `
-  }, '')
+  const budgetFormatted = budget ? formatCurrency(budget, currency) : null
+  const locationsText = type !== 'custom' ? getLocationText(countries, cities) : null
   return (
     <li
       key={id}
       className={[
-        'mb-5 last:mb-0 sm:mb-0',
+        'mb-5 last:mb-0',
         'sm:col-span-3',
       ].join(' ')}
     >
@@ -51,14 +55,26 @@ const TargetingCampaignReccsOption = ({
             <p className="capitalize text-sm mb-0"><strong>{title}</strong></p>
           </div>
           {/* Budget */}
-          <p className="mb-0">
-            {budgetFormatted} p/d
-          </p>
+          {budget && (
+            <p className="mb-0">
+              {budgetFormatted} p/d
+            </p>
+          )}
         </div>
-        <p className="mb-0 leading-relaxed">
-          Targeting:<br />
-          <strong>{locationsText}</strong>
-        </p>
+        {/* Locations text */}
+        {locationsText && (
+          <p className="mb-0 leading-relaxed">
+            Targeting:<br />
+            <strong>{locationsText}</strong>
+          </p>
+        )}
+        {/* Custom text */}
+        {type === 'custom' && (
+          <p className="mb-0 leading-relaxed text-center">
+            &nbsp;<br />
+            <strong>Choose your own settings</strong>
+          </p>
+        )}
       </a>
     </li>
   )
@@ -66,12 +82,13 @@ const TargetingCampaignReccsOption = ({
 
 TargetingCampaignReccsOption.propTypes = {
   rec: PropTypes.object.isRequired,
-  currency: PropTypes.string.isRequired,
+  currency: PropTypes.string,
   selectedReccId: PropTypes.string,
   setSelectedCampaignRecc: PropTypes.func.isRequired,
 }
 
 TargetingCampaignReccsOption.defaultProps = {
+  currency: null,
   selectedReccId: '',
 }
 

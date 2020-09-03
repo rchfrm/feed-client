@@ -20,6 +20,7 @@ const TargetingCampaignReccs = ({
           'grid-cols-6 col-gap-5',
         ].join(' ')}
       >
+        {/* PREDEFINED RECCS */}
         {reccs.map((rec) => {
           return (
             <TargetingCampaignReccsOption
@@ -31,6 +32,16 @@ const TargetingCampaignReccs = ({
             />
           )
         })}
+        {/* CUSTOM OPTION */}
+        <TargetingCampaignReccsOption
+          rec={{
+            id: 'custom',
+            type: 'custom',
+            title: 'Custom',
+          }}
+          selectedReccId={selectedReccId}
+          setSelectedCampaignRecc={setSelectedCampaignRecc}
+        />
       </ul>
     </div>
   )
