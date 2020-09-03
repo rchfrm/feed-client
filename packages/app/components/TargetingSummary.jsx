@@ -43,12 +43,6 @@ const TargetingSummary = () => {
       />
       {/* BUTTONS */}
       <div className="pt-10 pb-5">
-        {/* CUSTOMISE BUTTON */}
-        <Button
-          className="w-full mb-5"
-        >
-          Customise Campaign
-        </Button>
         {/* BUDGET BUTTON */}
         <Button
           className="w-full mb-5"
