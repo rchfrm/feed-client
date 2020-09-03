@@ -11,10 +11,19 @@ const TargetingSettings = () => {
   const {
     targetingState,
     setTargetingState,
+    setCurrentView,
   } = React.useContext(TargetingContext)
 
   return (
     <div>
+      <button
+        className="px-10 py-4 bg-black text-white mb-10"
+        onClick={() => {
+          setCurrentView('summary')
+        }}
+      >
+        BACK
+      </button>
       <TargetingAgeSlider
         minAge={targetingState.minAge}
         maxAge={targetingState.maxAge}
