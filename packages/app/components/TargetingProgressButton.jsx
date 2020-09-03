@@ -40,7 +40,7 @@ const TargetingProgressButton = () => {
   // Setup animation hook
   const animatedDiv = useAnimateOnMount({
     animateToFrom,
-    animationOptions: { duration: { to: 0.4, from: 0.2 } },
+    animationOptions: { duration: [0.4, 0.2] },
     initial: 'visible',
   })
   // Trigger animation

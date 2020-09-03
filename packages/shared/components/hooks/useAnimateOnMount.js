@@ -3,6 +3,8 @@ import { gsap } from 'gsap'
 
 const isUndefined = (arg) => arg === undefined
 const isAnyDefined = (...args) => args.some((a) => !isUndefined(a))
+const noop = () => { }
+const debug = (name, msg) => console.debug(name, msg)
 
 const defaultAnimationProps = {
   duration: 0.3,
@@ -10,6 +12,17 @@ const defaultAnimationProps = {
   delay: 0,
 }
 
+// HELPERS
+// -----------------
+
+// GET PROP VALUE BASED ON DIRECTION
+const getValueFromDirection = (values, direction) => {
+  const [inValue, outValue] = values
+  if (direction === 'in') return inValue
+  return outValue
+}
+
+// RUN THE ANIMATION
 const startAnimation = (el, animateFrom, animateTo, animProps) => {
   // Set intially
   gsap.set(el, animateFrom)
@@ -18,17 +31,7 @@ const startAnimation = (el, animateFrom, animateTo, animProps) => {
   return animation
 }
 
-const noop = () => { }
-const debug = (name, msg) => console.debug(name, msg)
-
-const getAnimationProps = (options, direction) => {
-  return Object.entries(options).reduce((props, [propKey, propValue]) => {
-    const value = typeof propValue !== 'object' ? propValue : propValue[direction]
-    props[propKey] = value
-    return props
-  }, {})
-}
-
+// GET WHICH PROPS TO ANIMATE TO AND FROM
 const getElProps = (animateToFrom, direction) => {
   return Object.entries(animateToFrom).reduce((props, [elPropKey, elPropValue]) => {
     const propValue = elPropValue[direction]
@@ -36,6 +39,16 @@ const getElProps = (animateToFrom, direction) => {
     return props
   }, {})
 }
+
+// GET THE ANIMATION OPTIONS
+const getAnimationProps = (options, direction) => {
+  return Object.entries(options).reduce((props, [propKey, propValue]) => {
+    const value = Array.isArray(propValue) ? getValueFromDirection(propValue, direction) : propValue
+    props[propKey] = value
+    return props
+  }, {})
+}
+
 
 const useAnimateOnMount = ({
   animateToFrom,
@@ -68,10 +81,11 @@ const useAnimateOnMount = ({
 
   // ANIMATE
   const animate = ({ el, visible }) => {
+    const direction = visible ? 'in' : 'out'
     const animateFrom = getElProps(animateToFrom, visible ? 'from' : 'to')
     const animateTo = getElProps(animateToFrom, visible ? 'to' : 'from')
     const animationPropsToParse = { ...defaultAnimationProps, ...animationOptions }
-    const animationProps = getAnimationProps(animationPropsToParse, visible ? 'to' : 'from')
+    const animationProps = getAnimationProps(animationPropsToParse, direction)
     return startAnimation(el, animateFrom, animateTo, animationProps)
   }
 
