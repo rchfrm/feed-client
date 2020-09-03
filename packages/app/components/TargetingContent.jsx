@@ -1,4 +1,6 @@
 import React from 'react'
+
+import { SwitchTransition, CSSTransition } from 'react-transition-group'
 // import PropTypes from 'prop-types'
 
 import TargetingSummary from '@/app/TargetingSummary'
@@ -21,17 +23,29 @@ const TargetingContent = () => {
   const { currentView } = React.useContext(TargetingContext)
 
   return (
-    <div>
-      {/* SUMMARY */}
-      {currentView === 'summary' && (
-        <TargetingSummary />
-      )}
-      {currentView === 'customise' && (
-        <TargetingSettings />
-      )}
-      {/* MOBILE PROGRESS BUTTON */}
-      <TargetingProgressButton />
-    </div>
+    <SwitchTransition>
+      <CSSTransition
+        key={currentView}
+        addEndListener={(node, done) => {
+          // node.addEventListener('transitionend', done, false)
+          setTimeout(() => {
+            done()
+          }, 1000)
+        }}
+        classNames="fade"
+      >
+        <div>
+          {/* SUMMARY */}
+          {currentView === 'summary' ? (
+            <TargetingSummary />
+          ) : (
+            <TargetingSettings />
+          )}
+          {/* MOBILE PROGRESS BUTTON */}
+          <TargetingProgressButton />
+        </div>
+      </CSSTransition>
+    </SwitchTransition>
   )
 }
 
