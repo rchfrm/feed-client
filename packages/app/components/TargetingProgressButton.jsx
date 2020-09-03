@@ -17,6 +17,7 @@ const TargetingProgressButton = () => {
     minBudget,
     currency,
     saveCampaignSettings,
+    setCurrentView,
   } = React.useContext(TargetingContext)
   // IS MOUNTED CONST
   const isMounted = React.useRef(true)
@@ -26,8 +27,8 @@ const TargetingProgressButton = () => {
   // SHOULD THE BUTTON BE SHOWN
   const showButton = React.useMemo(() => {
     if (currentView === 'budget') return false
-    if (currentView === 'summary' && !selectedCampaignType) return false
-    return true
+    if (currentView === 'summary' && selectedCampaignType) return true
+    return false
   }, [currentView, selectedCampaignType])
 
   // ANIMATE
@@ -66,6 +67,7 @@ const TargetingProgressButton = () => {
       return 'goToBudget'
     }
   }, [showButton, currentView, selectedCampaignType])
+
   // DEFINE BUTTON TITLE AND SUBTITLE
   const [title, setTitle] = React.useState('')
   const [subtitle, setSubtitle] = React.useState('')
@@ -117,8 +119,13 @@ const TargetingProgressButton = () => {
     if (buttonType === 'saveRecc') {
       return saveSelectedRecc
     }
+    if (buttonType === 'goToCustomise') {
+      return () => {
+        setCurrentView('customise')
+      }
+    }
     return () => {}
-  }, [showButton, buttonType, saveSelectedRecc])
+  }, [showButton, buttonType, saveSelectedRecc, setCurrentView])
 
   return (
     <>
