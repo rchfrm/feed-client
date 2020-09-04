@@ -1,3 +1,5 @@
+import get from 'lodash/get'
+
 import * as server from '@/app/helpers/appServer'
 import * as api from '@/helpers/api'
 
@@ -27,7 +29,8 @@ const setPaymentAsDefault = async (organisationId, paymentId, verifyIdToken) => 
 const getOrganizationDetails = (user) => {
   const { organizations = [] } = user
   const organizationsArray = Object.values(organizations)
-  return organizationsArray.map(({ id, name, role, _links: { self: { href: link } } }) => {
+  return organizationsArray.map(({ id, name, role, _links = {} }) => {
+    const link = get(_links, ['self', 'href'], null)
     return {
       id,
       name,
@@ -42,6 +45,8 @@ const getOrganizationDetails = (user) => {
  * @returns {Promise<any>}
  */
 const fetchOrg = async (org) => {
+  const { link } = org
+  if (!link) return {}
   return {
     ...await api.get(org.link),
     role: org.role,
