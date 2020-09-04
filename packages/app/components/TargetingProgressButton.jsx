@@ -18,6 +18,7 @@ const TargetingProgressButton = () => {
     currency,
     saveCampaignSettings,
     setCurrentView,
+    isAnimatingView,
   } = React.useContext(TargetingContext)
   // IS MOUNTED CONST
   const isMounted = React.useRef(true)
@@ -26,10 +27,12 @@ const TargetingProgressButton = () => {
   }, [])
   // SHOULD THE BUTTON BE SHOWN
   const showButton = React.useMemo(() => {
+    if (isAnimatingView) return false
     if (currentView === 'budget') return false
     if (currentView === 'summary' && selectedCampaignType) return true
     return false
-  }, [currentView, selectedCampaignType])
+  }, [currentView, selectedCampaignType, isAnimatingView])
+  console.log('showButton', showButton)
 
   // ANIMATE
   // Define animation config
