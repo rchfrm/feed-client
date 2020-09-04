@@ -76,7 +76,7 @@ const PostItemLink = ({
     placeholderSetter.current = gsap.quickSetter(placeholderEl.current, 'height', 'px')
     transformSetter.current = gsap.quickSetter(containerEl.current, 'y', 'px')
   }, [])
-  // RESET TRANSFORM ON RESIZE
+  // ANIMATE WHEN STATE CHANGES AND RESET ON RESIZE
   const containerHeight = React.useRef(null)
   const topBarHeight = React.useRef(null)
   const contentHeight = React.useRef(null)
@@ -92,9 +92,17 @@ const PostItemLink = ({
     else transformSetter.current(contentHeight.current)
   }, [width, linkPanelOpen, promotionEnabled])
   // Toggle is animating state after transition ends
+  const initialAnimation = React.useRef(true)
   React.useEffect(() => {
     const animatingEl = containerEl.current
-    const animatingOff = () => setIsAnimating(false)
+    const animatingOff = () => {
+      setIsAnimating(false)
+      // After initial animation down, fade in
+      if (initialAnimation.current) {
+        gsap.to(containerEl.current, { opacity: 1, duration: 0.2 })
+        initialAnimation.current = false
+      }
+    }
     animatingEl.addEventListener('transitionend', animatingOff)
     return () => {
       animatingEl.removeEventListener('transitionend', animatingOff)
@@ -107,9 +115,9 @@ const PostItemLink = ({
   return (
     <>
       {/* Placeholder */}
-      <div className="postLinkPlaceholder" ref={placeholderEl} />
+      <div className="postLinkPlaceholder bg-black" ref={placeholderEl} />
       {/* Links section */}
-      <div className={[styles.postLink, styles.postText].join(' ')} ref={containerEl}>
+      <div className={[styles.postLink, styles.postText, 'opacity-0'].join(' ')} ref={containerEl}>
         <div className={[styles.postLinkTopBar, styles.postSection].join(' ')} ref={topBarEl}>
           <PostLinkSummary
             loading={loading}
