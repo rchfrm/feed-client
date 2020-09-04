@@ -7,6 +7,7 @@ import GearIcon from '@/icons/GearIcon'
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
 import PostsSettings from '@/app/PostsSettings'
+import PostsRefreshButton from '@/app/PostsRefreshButton'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
@@ -25,6 +26,8 @@ const PostsContent = () => {
   // HANDLE STATE OF POST TYPE FILTERS
   const allFilter = postTypes.find(({ id }) => id === 'all')
   const [currentPostType, setCurrentPostType] = React.useState(allFilter.id)
+  // GET REFRESH POSTS FUNCTION
+  const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
     <div className="relative">
       {/* FILTERS */}
@@ -34,7 +37,7 @@ const PostsContent = () => {
         setCurrentPostType={setCurrentPostType}
       />
       {/* POST SETTINGS BUTTON */}
-      <div className="flex justify-start mb-4 pt-2">
+      <div className="iphone8:flex justify-start mb-4 pt-2">
         <Button
           className={styles.postSettingsButton}
           onClick={togglePostsSettings}
@@ -43,10 +46,17 @@ const PostsContent = () => {
           <GearIcon fill={brandColors.bgColor} />
           Post Settings
         </Button>
+        {refreshPosts && (
+          <PostsRefreshButton
+            refreshPosts={refreshPosts}
+            className="mt-5 iphone8:mt-0 iphone8:ml-5"
+          />
+        )}
       </div>
       {/* LOAD POSTS */}
       <PostsLoader
         setTogglePromotionGlobal={setTogglePromotionGlobal}
+        setRefreshPosts={setRefreshPosts}
         promotionStatus={currentPostType}
       />
     </div>
