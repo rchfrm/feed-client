@@ -80,7 +80,7 @@ const updateDataConditions = (newProps, oldProps) => {
 
 // THE COMPONENT
 // ------------------
-function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
+function PostsLoader({ setTogglePromotionGlobal, setRefreshPosts, promotionStatus }) {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
@@ -222,11 +222,20 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
     setLoadingMore(true)
   }, [])
 
+  // REFRESH POSTS
   // Define function to refresh posts
   const refreshPosts = React.useCallback(() => {
-    toggleGlobalLoading(true)
     setLoadingMore(true)
-  }, [toggleGlobalLoading])
+    // Remove after cursor
+    cursor.current = null
+    // Update end of assets state
+    isEndOfAssets.current = false
+    setPosts({ type: 'reset-posts' })
+  }, [setPosts])
+  // Export refresh posts function to parent
+  React.useEffect(() => {
+    setRefreshPosts(() => () => refreshPosts())
+  }, [setRefreshPosts, refreshPosts])
 
   // Define function to update links
   const updateLink = React.useCallback((postIndex, postLink) => {
@@ -251,7 +260,7 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
   }
 
   // Show no posts message if no posts
-  if (!isPending && !posts.length) {
+  if (!isPending && !loadingMore && !posts.length) {
     return (
       <PostsNone
         refreshPosts={refreshPosts}
@@ -282,7 +291,6 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
         loadedAll={isEndOfAssets.current}
-        promotionStatus={promotionStatus}
       />
 
       {/* Loading spinner */}
@@ -302,6 +310,7 @@ function PostsLoader({ setTogglePromotionGlobal, promotionStatus }) {
 
 PostsLoader.propTypes = {
   setTogglePromotionGlobal: PropTypes.func.isRequired,
+  setRefreshPosts: PropTypes.func.isRequired,
   promotionStatus: PropTypes.string.isRequired,
 }
 

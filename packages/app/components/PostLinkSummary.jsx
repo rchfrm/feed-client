@@ -32,14 +32,18 @@ const PostLinkSummary = ({
             ) : (
               <>
                 {' '}
-                <a
-                  href={postLinkUrl}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className={styles.postLinkAnchor}
-                >
-                  {postLinkPlatform}
-                </a>
+                {postLinkUrl ? (
+                  <a
+                    href={postLinkUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className={styles.postLinkAnchor}
+                  >
+                    {postLinkPlatform}
+                  </a>
+                ) : (
+                  <span>{postLinkPlatform}</span>
+                )}
               </>
             )}
           </div>
@@ -54,7 +58,12 @@ PostLinkSummary.propTypes = {
   linkPanelOpen: PropTypes.bool.isRequired,
   isAnimating: PropTypes.bool.isRequired,
   postLinkPlatform: PropTypes.string.isRequired,
-  postLinkUrl: PropTypes.string.isRequired,
+  postLinkUrl: PropTypes.string,
 }
+
+PostLinkSummary.defaultProps = {
+  postLinkUrl: '',
+}
+
 
 export default PostLinkSummary

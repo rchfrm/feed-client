@@ -4,6 +4,7 @@
   position: relative;
   border: 2px solid var(--text-color);
   border-radius: var(--dialogue-radius);
+  overflow: hidden;
 }
 
 .postSection {
