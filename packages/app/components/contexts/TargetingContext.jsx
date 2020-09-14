@@ -8,6 +8,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
+import * as utils from '@/helpers/utils'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 const TargetingContext = React.createContext({
@@ -26,6 +27,7 @@ const TargetingContext = React.createContext({
   minBudget: 0,
   setMinBudget: () => {},
   currency: '',
+  budgetFormatted: '',
   desktopLayoutWidth: 'md',
   isDesktopLayout: false,
   toggleMobileBudget: () => {},
@@ -67,8 +69,16 @@ const TargetingContextProvider = ({ children }) => {
 
   // MIN BUDGET
   const [minBudget, setMinBudget] = React.useState(2)
+
   // CURRENCY
   const { artistCurrency: currency } = React.useContext(ArtistContext)
+
+  // FORMATTED BUDGET
+  const [budgetFormatted, setBudgetFormatted] = React.useState('')
+  React.useEffect(() => {
+    setBudgetFormatted(utils.formatCurrency(targetingState.budget, currency))
+  }, [targetingState.budget, currency])
+
   // GET DESKTOP LAYOUT TEST
   const desktopLayoutWidth = 'md'
   const isDesktopLayout = useBreakpointTest(desktopLayoutWidth)
@@ -113,6 +123,7 @@ const TargetingContextProvider = ({ children }) => {
         minBudget,
         setMinBudget,
         currency,
+        budgetFormatted,
         desktopLayoutWidth,
         isDesktopLayout,
         toggleMobileBudget,
