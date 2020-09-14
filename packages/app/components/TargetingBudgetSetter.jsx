@@ -6,7 +6,6 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import produce from 'immer'
 
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
-import FlipContainer from '@/elements/FlipContainer'
 import InputCurrency from '@/elements/InputCurrency'
 
 import { formatCurrency } from '@/helpers/utils'
