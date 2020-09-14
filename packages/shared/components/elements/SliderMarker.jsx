@@ -24,15 +24,15 @@ const SliderMarker = ({
       <div
         className={[
           'absolute',
-          '-mt-3',
+          '-mb-3',
           className,
         ].join(' ')}
         style={{
           ...style,
-          top: 1,
+          bottom: 1,
           left,
           marginLeft: width * 1.5,
-          transform: 'translateY(-45%)',
+          transform: 'translateY(-3px)',
           opacity: 0,
         }}
       >

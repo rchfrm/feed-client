@@ -63,10 +63,8 @@ const TargetingBudgetSlider = ({ budget, minBudget, onChange, mobileVersion }) =
   }, [mobileVersion])
 
   return (
-    <div className={['pl-2'].join(' ')} ref={containerRef}>
+    <div className={['pl-0'].join(' ')} ref={containerRef}>
       <Slider
-        label="Budget"
-        labelClassName="-ml-2"
         valueRange={valueRange}
         value={budget}
         thumbName="Budget"
@@ -77,6 +75,7 @@ const TargetingBudgetSlider = ({ budget, minBudget, onChange, mobileVersion }) =
           onChange(state)
         }}
         forceInitialResize
+        hasMarkers
       >
         {budgetUpgrade && (
           <SliderMarker
@@ -86,7 +85,6 @@ const TargetingBudgetSlider = ({ budget, minBudget, onChange, mobileVersion }) =
             markerLabel={budgetUpgrade.featureName}
           />
         )}
-
       </Slider>
     </div>
   )

@@ -31,6 +31,7 @@ const Slider = ({
   sliderClassName,
   thumbClassName,
   trackClassName,
+  hasMarkers,
   // hackfix
   forceInitialResize,
   // Child nodes
@@ -91,7 +92,12 @@ const Slider = ({
     <div className={['mb-5', containerClassName].join(' ')}>
       {/* LABEL */}
       {label && (
-        <div className={['inputLabel', 'mb-8', labelClassName].join(' ')}>
+        <div className={[
+          'inputLabel',
+          hasMarkers ? 'mb-12' : 'mb-8',
+          labelClassName,
+        ].join(' ')}
+        >
           <span className="inputLabel__text">
             {label}
             {/* LABEL TOOLTIP */}
@@ -102,7 +108,12 @@ const Slider = ({
         </div>
       )}
       {/* SLIDER */}
-      <div className={['relative h-12'].join(' ')}>
+      <div className={[
+        'relative',
+        hasMarkers && label ? 'h-18' : null,
+        hasMarkers && !label ? 'pt-10' : null,
+      ].join(' ')}
+      >
         <ReactSlider
           min={min}
           max={max}
@@ -158,6 +169,7 @@ Slider.propTypes = {
   sliderClassName: PropTypes.string,
   thumbClassName: PropTypes.string,
   trackClassName: PropTypes.string,
+  hasMarkers: PropTypes.bool,
   forceInitialResize: PropTypes.bool,
   children: PropTypes.node,
 }
@@ -180,6 +192,7 @@ Slider.defaultProps = {
   sliderClassName: null,
   thumbClassName: null,
   trackClassName: null,
+  hasMarkers: false,
   forceInitialResize: false,
   children: null,
 }
