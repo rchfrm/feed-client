@@ -23,35 +23,34 @@ const TargetingContent = () => {
   const { currentView, setIsAnimatingView } = React.useContext(TargetingContext)
 
   return (
-    <SwitchTransition>
-      <CSSTransition
-        key={currentView}
-        addEndListener={(node, done) => {
-          // node.addEventListener('transitionend', done, false)
-          setTimeout(() => {
-            done()
-            console.log('ending animation')
-            setIsAnimatingView(false)
-          }, 1000)
-        }}
-        onExit={() => {
-          console.log('starting animation')
-          setIsAnimatingView(true)
-        }}
-        classNames="fade"
-      >
-        <div>
-          {/* SUMMARY */}
-          {currentView === 'summary' ? (
-            <TargetingSummary />
-          ) : (
-            <TargetingSettings />
-          )}
-          {/* MOBILE PROGRESS BUTTON */}
-          <TargetingProgressButton />
-        </div>
-      </CSSTransition>
-    </SwitchTransition>
+    <>
+      <SwitchTransition>
+        <CSSTransition
+          key={currentView}
+          addEndListener={(node, done) => {
+            node.addEventListener('transitionend', () => {
+              setIsAnimatingView(false)
+              done()
+            }, false)
+          }}
+          onExit={() => {
+            setIsAnimatingView(true)
+          }}
+          classNames="fade"
+        >
+          <div>
+            {/* SUMMARY */}
+            {currentView === 'summary' ? (
+              <TargetingSummary />
+            ) : (
+              <TargetingSettings />
+            )}
+          </div>
+        </CSSTransition>
+      </SwitchTransition>
+      {/* MOBILE PROGRESS BUTTON */}
+      <TargetingProgressButton />
+    </>
   )
 }
 
