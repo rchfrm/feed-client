@@ -17,7 +17,6 @@ const FlipContainer = ({
   backStyle,
   elType,
 }) => {
-  const rotation = isFlipped ? 180 : 0
   const faceStyle = {
     backfaceVisibility: 'hidden',
   }
@@ -63,7 +62,11 @@ const FlipContainer = ({
                 'absolute top-0 left-0 w-full h-full overflow-hidden',
                 frontClass,
               ].join(' ')}
-              style={{ ...faceStyle, ...frontStyle }}
+              style={{
+                ...faceStyle,
+                ...frontStyle,
+                pointerEvents: isFlipped ? 'none' : '',
+              }}
             >
               {frontContent}
             </div>
