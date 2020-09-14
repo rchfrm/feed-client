@@ -91,7 +91,7 @@ const TargetingContextProvider = ({ children }) => {
   const isDesktopLayout = useBreakpointTest(desktopLayoutWidth)
 
   // OPEN MOBILE BUDGET SIDEPANEL
-  const toggleMobileBudget = React.useCallback((state = true) => {
+  const getBudgetSidePanelContent = (state = true) => {
     const content = state ? (
       <TargetingBudgetMobile
         currency={currency}
@@ -108,20 +108,19 @@ const TargetingContextProvider = ({ children }) => {
         budgetFormatted={budgetFormatted}
       />
     ) : null
+    return { content, button }
+  }
+  const toggleMobileBudget = React.useCallback((state = true) => {
+    const { content, button } = getBudgetSidePanelContent(state)
     setSidePanelContent(content)
     setSidePanelButton(button)
     toggleSidePanel(state)
-  }, [currency, minBudget, targetingState, saveCampaignSettings, setSidePanelContent, setSidePanelButton, toggleSidePanel, budgetFormatted])
+  }, [setSidePanelButton, toggleSidePanel])
+
   React.useEffect(() => {
-    const button = (
-      <TargetingBudgetSaveButton
-        targetingState={targetingState}
-        saveCampaignSettings={saveCampaignSettings}
-        budgetFormatted={budgetFormatted}
-      />
-    )
+    const { button } = getBudgetSidePanelContent()
     setSidePanelButton(button)
-  }, [targetingState, budgetFormatted, saveCampaignSettings, setSidePanelButton])
+  }, [budgetFormatted])
 
   return (
     <TargetingContext.Provider
