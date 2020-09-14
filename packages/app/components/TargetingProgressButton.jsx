@@ -18,7 +18,6 @@ const TargetingProgressButton = () => {
     currency,
     saveCampaignSettings,
     setCurrentView,
-    isAnimatingView,
   } = React.useContext(TargetingContext)
   // IS MOUNTED CONST
   const isMounted = React.useRef(true)
@@ -27,12 +26,10 @@ const TargetingProgressButton = () => {
   }, [])
   // SHOULD THE BUTTON BE SHOWN
   const showButton = React.useMemo(() => {
-    if (isAnimatingView) return false
     if (currentView === 'budget') return false
     if (currentView === 'summary' && selectedCampaignType) return true
     return false
-  }, [currentView, selectedCampaignType, isAnimatingView])
-  console.log('showButton', showButton)
+  }, [currentView, selectedCampaignType])
 
   // ANIMATE
   // Define animation config
@@ -48,11 +45,16 @@ const TargetingProgressButton = () => {
       duration: [0.4, 0.2],
       ease: ['back.out(2)', 'power1.out'],
     },
-    initial: 'visible',
+    initial: 'hidden',
   })
   // Trigger animation
   React.useEffect(() => {
-    if (showButton) return animatedDiv.showPresence()
+    // SHOW BUTTON
+    if (showButton) {
+      animatedDiv.showPresence()
+      return
+    }
+    // HIDE BUTTON
     animatedDiv.hidePresence()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showButton])
@@ -108,12 +110,10 @@ const TargetingProgressButton = () => {
 
 
   // SAVING RECCOMENDED CAMPAIGN
-  const saveSelectedRecc = React.useCallback(async () => {
-    await saveCampaignSettings(selectedCampaignRecc)
-    if (isMounted.current) {
-      setSelectedCampaignRecc(null)
-    }
-  }, [selectedCampaignRecc, saveCampaignSettings, setSelectedCampaignRecc])
+  const saveSelectedRecc = React.useCallback(() => {
+    setSelectedCampaignRecc(null)
+    saveCampaignSettings(selectedCampaignRecc)
+  }, [setSelectedCampaignRecc, selectedCampaignRecc, saveCampaignSettings])
 
   // HANDLE BUTTON CLICK
   const onClick = React.useMemo(() => {
@@ -124,11 +124,13 @@ const TargetingProgressButton = () => {
     }
     if (buttonType === 'goToCustomise') {
       return () => {
+        setSelectedCampaignRecc(null)
         setCurrentView('customise')
       }
     }
     return () => {}
-  }, [showButton, buttonType, saveSelectedRecc, setCurrentView])
+  }, [showButton, buttonType, saveSelectedRecc, setCurrentView, setSelectedCampaignRecc])
+
 
   return (
     <>

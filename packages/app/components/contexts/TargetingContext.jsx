@@ -36,22 +36,6 @@ TargetingContext.displayName = 'TargetingContext'
 const TargetingContextProvider = ({ children }) => {
   // TARGETING STATE
   const [targetingState, setTargetingState] = React.useState(targetingHelpers.demotargetingState)
-  // SAVE CAMPAIGN
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
-  const [saving, setSaving] = React.useState(false)
-  const saveCampaignSettings = React.useCallback(async (settings) => {
-    setSaving(true)
-    toggleGlobalLoading(true)
-    const savedState = await targetingHelpers.saveCampaign(settings)
-    console.log('savedState', savedState)
-    setTargetingState(savedState)
-    setSaving(false)
-    toggleGlobalLoading(false)
-  }, [toggleGlobalLoading])
-
-  // CAMPAIGN SETTINGS VIEW ('summary' | 'customise' | budget)
-  const [currentView, setCurrentView] = React.useState('summary')
-  const [isAnimatingView, setIsAnimatingView] = React.useState(false)
 
   // SELECTED CAMPAIGN REC
   const [selectedCampaignRecc, setSelectedCampaignRecc] = React.useState(null)
@@ -62,6 +46,25 @@ const TargetingContextProvider = ({ children }) => {
     setSelectedCampaignType(type)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCampaignRecc, setSelectedCampaignType])
+
+  // SAVE CAMPAIGN
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  const [saving, setSaving] = React.useState(false)
+  const saveCampaignSettings = React.useCallback(async (settings) => {
+    setSaving(true)
+    toggleGlobalLoading(true)
+    const savedState = await targetingHelpers.saveCampaign(settings)
+    console.log('savedState', savedState)
+    setTargetingState(savedState)
+    setSelectedCampaignRecc(null)
+    setSaving(false)
+    toggleGlobalLoading(false)
+  }, [toggleGlobalLoading])
+
+  // CAMPAIGN SETTINGS VIEW ('summary' | 'customise' | budget)
+  const [currentView, setCurrentView] = React.useState('summary')
+  const [isAnimatingView, setIsAnimatingView] = React.useState(false)
+
   // MIN BUDGET
   const [minBudget, setMinBudget] = React.useState(2)
   // CURRENCY
