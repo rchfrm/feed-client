@@ -36,11 +36,15 @@ const TargetingContext = React.createContext({
 TargetingContext.displayName = 'TargetingContext'
 
 const TargetingContextProvider = ({ children }) => {
+  // Import side panel context
+  const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
+
   // TARGETING STATE
   const [targetingState, setTargetingState] = React.useState(targetingHelpers.demotargetingState)
 
   // SELECTED CAMPAIGN REC
   const [selectedCampaignRecc, setSelectedCampaignRecc] = React.useState(null)
+
   // SELECTED CAMPAIGN OPTION ('recommended' | 'custom' | '')
   const [selectedCampaignType, setSelectedCampaignType] = React.useState('')
   React.useEffect(() => {
@@ -53,6 +57,9 @@ const TargetingContextProvider = ({ children }) => {
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const [saving, setSaving] = React.useState(false)
   const saveCampaignSettings = React.useCallback(async (settings) => {
+    // Close side panel
+    toggleSidePanel(false)
+
     setSaving(true)
     toggleGlobalLoading(true)
     const savedState = await targetingHelpers.saveCampaign(settings)
@@ -61,7 +68,7 @@ const TargetingContextProvider = ({ children }) => {
     setSelectedCampaignRecc(null)
     setSaving(false)
     toggleGlobalLoading(false)
-  }, [toggleGlobalLoading])
+  }, [toggleGlobalLoading, toggleSidePanel])
 
   // CAMPAIGN SETTINGS VIEW ('summary' | 'customise' | budget)
   const [currentView, setCurrentView] = React.useState('summary')
@@ -84,7 +91,6 @@ const TargetingContextProvider = ({ children }) => {
   const isDesktopLayout = useBreakpointTest(desktopLayoutWidth)
 
   // OPEN MOBILE BUDGET SIDEPANEL
-  const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
   const toggleMobileBudget = React.useCallback((state = true) => {
     const content = state ? (
       <TargetingBudgetMobile
