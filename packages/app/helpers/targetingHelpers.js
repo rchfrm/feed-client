@@ -61,9 +61,9 @@ export const demotargetingState = {
   minAge: 23,
   maxAge: 45,
   genders: 'men',
-  countries: [{ id: 'uk', name: 'UK' }],
+  countries: [{ id: 'uk', name: 'UK', countryCode: 'GB' }],
   cities: [
-    { id: 'paris', name: 'Paris' },
+    { id: 'paris', name: 'Paris', countryCode: 'FR' },
     { id: 'marseille', name: 'Marseille' },
     { id: 'lislesursogue', name: 'L\'Isle sur Sogue' },
   ],
