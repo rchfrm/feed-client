@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { SwitchTransition, CSSTransition } from 'react-transition-group'
+
 import produce from 'immer'
 
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
@@ -33,37 +35,43 @@ const TargetingBudgetSetter = ({
   const inputPlaceholder = `Minimum Budget ${formatCurrency(minBudget, currency)}`
 
   return (
-    <div>
-      {/* VIEW CONTAINER */}
-      <FlipContainer
-        isFlipped={showCustomBudget}
-        rotationAxis="X"
-        containerClass="h-32"
-        // BUDGET SLIDER
-        frontContent={(
-          <TargetingBudgetSlider
-            mobileVersion={mobileVersion}
-            budget={budget}
-            minBudget={targetingState.minBudget}
-            onChange={(budget) => {
-              setBudget(budget)
+    <>
+      <div className="h-32">
+        <SwitchTransition>
+          <CSSTransition
+            key={showCustomBudget}
+            addEndListener={(node, done) => {
+              node.addEventListener('transitionend', () => {
+                done()
+              }, false)
             }}
-          />
-        )}
-        // BUDGET CUSTOM INPUT
-        backContent={(
-          <InputCurrency
-            handleChange={(value) => {
-              setBudget(value)
-            }}
-            placeholder={inputPlaceholder}
-            name="Budget"
-            label="Custom Budget"
-            className={['w-full'].join(' ')}
-            currency={currency}
-          />
-        )}
-      />
+            classNames="fade"
+          >
+            {showCustomBudget ? (
+              <InputCurrency
+                handleChange={(value) => {
+                  setBudget(value)
+                }}
+                placeholder={inputPlaceholder}
+                name="Budget"
+                label="Custom Budget"
+                className={['w-full'].join(' ')}
+                currency={currency}
+              />
+            ) : (
+              <TargetingBudgetSlider
+                mobileVersion={mobileVersion}
+                budget={budget}
+                minBudget={targetingState.minBudget}
+                onChange={(budget) => {
+                  setBudget(budget)
+                }}
+              />
+            )}
+          </CSSTransition>
+        </SwitchTransition>
+      </div>
+
       {/* TOGGLE CUSTOM BUDGET */}
       <p className="pt-8 text-right">
         <a role="button" onClick={() => setShowCustomBudget(!showCustomBudget)}>
@@ -72,7 +80,7 @@ const TargetingBudgetSetter = ({
           </em>
         </a>
       </p>
-    </div>
+    </>
   )
 }
 
