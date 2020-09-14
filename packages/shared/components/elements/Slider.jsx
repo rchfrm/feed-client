@@ -41,7 +41,6 @@ const Slider = ({
   // DEFINE DEFAULT FUNCTIONS
   // Default label function
   const defaultValueLabelFunction = (state) => {
-    console.log('state', state)
     const valueLabel = getLabelValue(state.valueNow)
     return `Thumb value ${valueLabel}`
   }
