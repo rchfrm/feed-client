@@ -99,12 +99,23 @@ const TargetingContextProvider = ({ children }) => {
       <TargetingBudgetSaveButton
         targetingState={targetingState}
         saveCampaignSettings={saveCampaignSettings}
+        budgetFormatted={budgetFormatted}
       />
     ) : null
     setSidePanelContent(content)
     setSidePanelButton(button)
-    toggleSidePanel(true)
-  }, [currency, minBudget, targetingState, saveCampaignSettings, setSidePanelContent, setSidePanelButton, toggleSidePanel])
+    toggleSidePanel(state)
+  }, [currency, minBudget, targetingState, saveCampaignSettings, setSidePanelContent, setSidePanelButton, toggleSidePanel, budgetFormatted])
+  React.useEffect(() => {
+    const button = (
+      <TargetingBudgetSaveButton
+        targetingState={targetingState}
+        saveCampaignSettings={saveCampaignSettings}
+        budgetFormatted={budgetFormatted}
+      />
+    )
+    setSidePanelButton(button)
+  }, [targetingState, budgetFormatted, saveCampaignSettings, setSidePanelButton])
 
   return (
     <TargetingContext.Provider
