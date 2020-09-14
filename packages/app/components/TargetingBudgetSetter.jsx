@@ -5,7 +5,7 @@ import produce from 'immer'
 
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 import FlipContainer from '@/elements/FlipContainer'
-import Input from '@/elements/Input'
+import InputCurrency from '@/elements/InputCurrency'
 
 import { formatCurrency } from '@/helpers/utils'
 
@@ -52,14 +52,15 @@ const TargetingBudgetSetter = ({
         )}
         // BUDGET CUSTOM INPUT
         backContent={(
-          <Input
-            value={budget}
-            updateValue={setBudget}
+          <InputCurrency
+            handleChange={(value) => {
+              setBudget(value)
+            }}
             placeholder={inputPlaceholder}
             name="Budget"
             label="Custom Budget"
-            type="number"
-            className="w-full"
+            className={['w-full'].join(' ')}
+            currency={currency}
           />
         )}
       />
