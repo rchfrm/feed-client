@@ -81,7 +81,7 @@ const TargetingContextProvider = ({ children }) => {
   const { artistCurrency: currency } = React.useContext(ArtistContext)
 
   // FORMATTED BUDGET
-  const [budgetFormatted, setBudgetFormatted] = React.useState('')
+  const [budgetFormatted, setBudgetFormatted] = React.useState(utils.formatCurrency(targetingState.budget, currency))
   React.useEffect(() => {
     setBudgetFormatted(utils.formatCurrency(targetingState.budget, currency))
   }, [targetingState.budget, currency])
