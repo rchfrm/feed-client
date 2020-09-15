@@ -40,14 +40,12 @@ const TargetingContent = () => {
           }}
           classNames="fade"
         >
-          <div>
-            {/* SUMMARY */}
-            {currentView === 'summary' ? (
-              <TargetingSummary />
-            ) : (
-              <TargetingSettings />
-            )}
-          </div>
+          {/* SUMMARY */}
+          {currentView === 'summary' ? (
+            <TargetingSummary />
+          ) : (
+            <TargetingSettings />
+          )}
         </CSSTransition>
       </SwitchTransition>
       {/* MOBILE PROGRESS BUTTON */}

@@ -26,7 +26,7 @@ const TargetingSummary = () => {
   }, [selectedCampaignRecc])
 
   return (
-    <>
+    <div>
       {/* SUMMARY LIST */}
       <TargetingSummaryList targetingState={targetingState} currency={currency} />
       {/* RECCS */}
@@ -53,7 +53,7 @@ const TargetingSummary = () => {
           Pause Campaign
         </Button>
       </div>
-    </>
+    </div>
   )
 }
 
