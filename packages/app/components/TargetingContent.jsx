@@ -29,8 +29,10 @@ const TargetingContent = () => {
           key={currentView}
           addEndListener={(node, done) => {
             node.addEventListener('transitionend', () => {
-              setIsAnimatingView(false)
               done()
+              setTimeout(() => {
+                setIsAnimatingView(false)
+              }, 300)
             }, false)
           }}
           onExit={() => {

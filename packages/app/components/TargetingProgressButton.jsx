@@ -18,6 +18,8 @@ const TargetingProgressButton = () => {
     currency,
     saveCampaignSettings,
     setCurrentView,
+    isAnimatingView,
+    toggleMobileBudget,
   } = React.useContext(TargetingContext)
   // IS MOUNTED CONST
   const isMounted = React.useRef(true)
@@ -25,11 +27,20 @@ const TargetingProgressButton = () => {
     return () => { isMounted.current = false }
   }, [])
   // SHOULD THE BUTTON BE SHOWN
+  const [forceHideButton, setForceHideButton] = React.useState(false)
   const showButton = React.useMemo(() => {
+    if (forceHideButton) return false
     if (currentView === 'budget') return false
     if (currentView === 'summary' && selectedCampaignType) return true
+    if (currentView === 'customise') return true
     return false
-  }, [currentView, selectedCampaignType])
+  }, [currentView, selectedCampaignType, forceHideButton])
+
+  React.useEffect(() => {
+    if (!isAnimatingView) {
+      setForceHideButton(false)
+    }
+  }, [isAnimatingView])
 
   // ANIMATE
   // Define animation config
@@ -118,18 +129,26 @@ const TargetingProgressButton = () => {
   // HANDLE BUTTON CLICK
   const onClick = React.useMemo(() => {
     if (!showButton) return
-    // CLICK SAVES RECC CAMPAIGN
+    // Click saves recc campaign
     if (buttonType === 'saveRecc') {
       return saveSelectedRecc
     }
+    // Click goes to custom view
     if (buttonType === 'goToCustomise') {
       return () => {
+        setForceHideButton(true)
         setSelectedCampaignRecc(null)
         setCurrentView('customise')
       }
     }
+    // Click goes to set budget
+    if (buttonType === 'goToBudget') {
+      return () => {
+        toggleMobileBudget(true)
+      }
+    }
     return () => {}
-  }, [showButton, buttonType, saveSelectedRecc, setCurrentView, setSelectedCampaignRecc])
+  }, [showButton, buttonType, saveSelectedRecc, setCurrentView, setSelectedCampaignRecc, toggleMobileBudget])
 
 
   return (
