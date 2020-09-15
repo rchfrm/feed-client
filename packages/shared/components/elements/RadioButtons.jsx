@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const RadioButton = ({ value, name, label, checked, onChange }) => {
+const RADIO_BUTTON = ({ value, name, label, checked, onChange }) => {
   const valueString = value.toString()
   const id = `radio-${valueString}`
 
@@ -43,7 +43,7 @@ const RadioButtons = ({ buttonOptions, selectedValue, onChange, className }) => 
         // or failing that, if it's the first value
         const checked = selectedValue !== null ? selectedValue === value : index === 0
         return (
-          <RadioButton
+          <RADIO_BUTTON
             key={value}
             value={value}
             name={name}
@@ -58,7 +58,7 @@ const RadioButtons = ({ buttonOptions, selectedValue, onChange, className }) => 
 }
 
 // BUTTON PROPS
-RadioButton.propTypes = {
+RADIO_BUTTON.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -69,7 +69,7 @@ RadioButton.propTypes = {
   onChange: PropTypes.func.isRequired,
 }
 
-RadioButton.defaultProps = {
+RADIO_BUTTON.defaultProps = {
   name: '',
 }
 
