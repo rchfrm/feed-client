@@ -61,9 +61,10 @@ export const createLocationsObject = (locations) => {
   return locations.cities.reduce((obj, city) => {
     const { countryCode } = city
     const countryObj = obj[countryCode]
+    const cityWithSelected = { ...city, selected: false }
     // If country already exists, add location
     if (countryObj) {
-      countryObj.cities.push(city)
+      countryObj.cities.push(cityWithSelected)
       return obj
     }
     // Else start building country object
@@ -73,7 +74,8 @@ export const createLocationsObject = (locations) => {
       name,
       key,
       audiencePercent,
-      cities: [city],
+      cities: [cityWithSelected],
+      selected: false,
     }
     return obj
   }, {})
