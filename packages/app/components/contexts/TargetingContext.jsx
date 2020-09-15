@@ -117,11 +117,13 @@ const TargetingContextProvider = ({ children }) => {
     toggleSidePanel(state)
     // Hide progress button
     setSelectedCampaignRecc(null)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setSidePanelButton, toggleSidePanel])
 
   React.useEffect(() => {
     const { button } = getBudgetSidePanelContent()
     setSidePanelButton(button)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [budgetFormatted])
 
   return (
