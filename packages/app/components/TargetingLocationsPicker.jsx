@@ -1,9 +1,21 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion'
+
+
 import CheckboxButtons from '@/elements/CheckboxButtons'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
+import { keyBy } from 'lodash-es'
+
+
 
 const TargetingLocationsPicker = () => {
   // Fetch from targeting context
@@ -17,13 +29,18 @@ const TargetingLocationsPicker = () => {
   const [selectedCountries, setSelectedCountries] = React.useState([])
 
   return (
-    <section>
+    <section className="pb-20">
       <p className="mb-0">
         <span className="inputLabel__text">
           Locations
         </span>
       </p>
-      <ul>
+      <Accordion
+        className="pt-8"
+        allowMultipleExpanded
+        allowZeroExpanded
+        onChange={(e) => console.log(e)}
+      >
         {countriesArray.map((country) => {
           const { key, name, cities, audiencePercent } = country
           const citiesCheckboxes = cities.map((city) => {
@@ -35,25 +52,45 @@ const TargetingLocationsPicker = () => {
           })
           return (
             // Country
-            <li key={key}>
-              <strong>{name} </strong>
-              ({audiencePercent})
+            <AccordionItem key={key} className="mb-8">
+              <div className="flex">
+                <CheckboxButtons
+                  buttonOptions={[{
+                    value: key,
+                    name,
+                    label: '',
+                  }]}
+                  selectedValues={selectedCountries}
+                  setSelectedValues={setSelectedCountries}
+                  checkboxClassname="mb-0"
+                />
+                <AccordionItemHeading className="pb-4">
+                  <AccordionItemButton>
+                    <p className="mb-0">
+                      <strong>{name} </strong>
+                      ({audiencePercent})
+                    </p>
+                  </AccordionItemButton>
+                </AccordionItemHeading>
+              </div>
               {/* Cities */}
-              <CheckboxButtons
-                buttonOptions={citiesCheckboxes}
-                selectedValues={selectedCities}
-                setSelectedValues={setSelectedCities}
-              />
-            </li>
+              <AccordionItemPanel>
+                <CheckboxButtons
+                  buttonOptions={citiesCheckboxes}
+                  selectedValues={selectedCities}
+                  setSelectedValues={setSelectedCities}
+                />
+              </AccordionItemPanel>
+            </AccordionItem>
           )
         })}
-      </ul>
+      </Accordion>
     </section>
   )
 }
 
 // TargetingLocationsPicker.propTypes = {
-  
+
 // }
 
 export default TargetingLocationsPicker
