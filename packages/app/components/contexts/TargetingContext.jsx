@@ -24,8 +24,8 @@ const TargetingContext = React.createContext({
   setSelectedCampaignRecc: () => {},
   selectedCampaignType: '',
   setSelectedCampaignType: () => {},
-  minBudget: 0,
-  setMinBudget: () => {},
+  minReccBudget: 0,
+  setMinReccBudget: () => {},
   currency: '',
   budgetFormatted: '',
   desktopLayoutWidth: 'md',
@@ -35,13 +35,24 @@ const TargetingContext = React.createContext({
   setSettingsReady: () => {},
   createLocationOptions: () => {},
   locationOptions: {},
+  selectedCities: [],
+  setSelectedCities: () => {},
+  selectedCountries: [],
+  setSelectedCountries: () => {},
 })
 
 TargetingContext.displayName = 'TargetingContext'
 
 const TargetingContextProvider = ({ children }) => {
-  // Import side panel context
+  // SIDE PANEL context
   const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
+
+  // ARTIST context
+  const {
+    artistCurrency: currency,
+    artistId,
+    artist: { min_daily_budget_info: minBudgetInfo },
+  } = React.useContext(ArtistContext)
 
   // CAMPAIGN SETTINGS VIEW ('summary' | 'customise' | budget)
   const [currentView, setCurrentView] = React.useState('summary')
@@ -79,10 +90,7 @@ const TargetingContextProvider = ({ children }) => {
   }, [toggleGlobalLoading, toggleSidePanel])
 
   // MIN BUDGET
-  const [minBudget, setMinBudget] = React.useState(2)
-
-  // CURRENCY
-  const { artistCurrency: currency, artistId } = React.useContext(ArtistContext)
+  const [minReccBudget, setMinReccBudget] = React.useState(2)
 
   // FORMATTED BUDGET
   const [budgetFormatted, setBudgetFormatted] = React.useState(utils.formatCurrency(targetingState.budget, currency))
@@ -99,7 +107,7 @@ const TargetingContextProvider = ({ children }) => {
     const content = state ? (
       <TargetingBudgetMobile
         currency={currency}
-        minBudget={minBudget}
+        minReccBudget={minReccBudget}
         targetingState={targetingState}
         setTargetingState={setTargetingState}
         saveCampaignSettings={saveCampaignSettings}
@@ -141,6 +149,17 @@ const TargetingContextProvider = ({ children }) => {
     const locationOptions = targetingHelpers.createLocationsObject(locations)
     setLocationOptions(locationOptions)
   }, [])
+  // * Selected cities and countries
+  const [selectedCountries, setSelectedCountries] = React.useState([])
+  const [selectedCities, setSelectedCities] = React.useState([])
+  // Update min budget based on selected countries and cities
+  React.useEffect(() => {
+    const totalCities = selectedCities.length
+    const totalCountries = selectedCountries.length
+    const minReccBudget = targetingHelpers.calcMinReccBudget({ minBudgetInfo, totalCities, totalCountries })
+    setMinReccBudget(minReccBudget)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCountries.length, selectedCities.length, artistId])
 
 
   // RESET EVERYTHING WHEN ARTIST ID CHANGES
@@ -165,8 +184,8 @@ const TargetingContextProvider = ({ children }) => {
         selectedCampaignRecc,
         setSelectedCampaignRecc,
         selectedCampaignType,
-        minBudget,
-        setMinBudget,
+        minReccBudget,
+        setMinReccBudget,
         currency,
         budgetFormatted,
         desktopLayoutWidth,
@@ -176,6 +195,10 @@ const TargetingContextProvider = ({ children }) => {
         setSettingsReady,
         createLocationOptions,
         locationOptions,
+        selectedCities,
+        setSelectedCities,
+        selectedCountries,
+        setSelectedCountries,
       }}
     >
       {children}

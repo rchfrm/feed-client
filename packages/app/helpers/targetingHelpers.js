@@ -57,6 +57,8 @@ export const getSummary = {
 
 // SETTINGS HELPERS
 // ----------------
+
+// Create locations object (sort cities into countries)
 export const createLocationsObject = (locations) => {
   return locations.cities.reduce((obj, city) => {
     const { countryCode } = city
@@ -81,6 +83,34 @@ export const createLocationsObject = (locations) => {
   }, {})
 }
 
+// Calc hard min budget
+export const calcMinHardBudget = (minBudgetInfo, getFbMin) => {
+  const {
+    amount,
+    currency: {
+      code: currencyCode,
+      offset: currencyOffset,
+    },
+  } = minBudgetInfo
+  const {
+    fbMinBudgetFloat,
+    minBudgetFloat,
+  } = utils.getMinBudget(amount, currencyCode, currencyOffset)
+  if (getFbMin) return fbMinBudgetFloat
+  return minBudgetFloat
+}
+
+// Calc min recc budget
+export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }) => {
+  const cityUnit = 0.25
+  const countryUnit = 1
+  const baseBudget = calcMinHardBudget(minBudgetInfo)
+  const fbMin = calcMinHardBudget(minBudgetInfo, true)
+  const cityCost = (fbMin * (cityUnit * totalCities))
+  const countryCost = (fbMin * (countryUnit * totalCountries))
+  return baseBudget + cityCost + countryCost
+}
+
 
 // FOR DEV
 // ---------------------------
@@ -95,7 +125,7 @@ export const demotargetingState = {
     { key: 'lislesursogue', name: 'L\'Isle sur Sogue' },
   ],
   budget: 3,
-  minBudget: 2,
+  minReccBudget: 2,
   paused: false,
 }
 

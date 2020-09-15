@@ -14,7 +14,7 @@ const TargetingProgressButton = () => {
     selectedCampaignRecc,
     setSelectedCampaignRecc,
     selectedCampaignType,
-    minBudget,
+    minReccBudget,
     currency,
     saveCampaignSettings,
     setCurrentView,
@@ -106,10 +106,10 @@ const TargetingProgressButton = () => {
       return 'Select your custom settings'
     }
     if (buttonType === 'goToBudget') {
-      const minBudgetString = formatCurrency(minBudget, currency)
-      return `min. budget ${minBudgetString}`
+      const minReccBudgetString = formatCurrency(minReccBudget, currency)
+      return `min. budget ${minReccBudgetString}`
     }
-  }, [showButton, buttonType, selectedCampaignRecc, minBudget, currency])
+  }, [showButton, buttonType, selectedCampaignRecc, minReccBudget, currency])
   React.useEffect(() => {
     if (!showButton) return
     const newTitle = getTitle()

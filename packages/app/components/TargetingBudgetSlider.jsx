@@ -11,11 +11,11 @@ import SliderMarker from '@/elements/SliderMarker'
 import { formatCurrency } from '@/helpers/utils'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
-const TargetingBudgetSlider = ({ budget, minBudget, onChange, mobileVersion }) => {
+const TargetingBudgetSlider = ({ budget, minReccBudget, onChange, mobileVersion }) => {
   const { artistCurrency } = React.useContext(ArtistContext)
 
   const maxBudget = 30
-  const valueRange = [minBudget, maxBudget]
+  const valueRange = [minReccBudget, maxBudget]
 
   const getLabel = (budget) => {
     return formatCurrency(budget, artistCurrency)
@@ -92,14 +92,14 @@ const TargetingBudgetSlider = ({ budget, minBudget, onChange, mobileVersion }) =
 
 TargetingBudgetSlider.propTypes = {
   budget: PropTypes.number,
-  minBudget: PropTypes.number,
+  minReccBudget: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,
 }
 
 TargetingBudgetSlider.defaultProps = {
   budget: 2,
-  minBudget: 2,
+  minReccBudget: 2,
   mobileVersion: false,
 }
 

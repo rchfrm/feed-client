@@ -22,6 +22,10 @@ const TargetingLocationsPicker = () => {
   // Fetch from targeting context
   const {
     locationOptions,
+    selectedCities,
+    setSelectedCities,
+    selectedCountries,
+    setSelectedCountries,
   } = React.useContext(TargetingContext)
 
   const countriesArray = React.useMemo(() => {
@@ -32,9 +36,6 @@ const TargetingLocationsPicker = () => {
       return [...arr, ...cities]
     }, [])
   }, [countriesArray])
-
-  const [selectedCountries, setSelectedCountries] = React.useState([])
-  const [selectedCities, setSelectedCities] = React.useState([])
 
   // TOGGLE CITIES AND COUNTRIES
 

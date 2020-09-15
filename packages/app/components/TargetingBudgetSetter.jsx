@@ -12,7 +12,7 @@ import { formatCurrency } from '@/helpers/utils'
 
 const TargetingBudgetSetter = ({
   currency,
-  minBudget,
+  minReccBudget,
   targetingState,
   setTargetingState,
   mobileVersion,
@@ -31,7 +31,7 @@ const TargetingBudgetSetter = ({
     })
   }, [budget, setTargetingState])
 
-  const inputPlaceholder = `Minimum Budget ${formatCurrency(minBudget, currency)}`
+  const inputPlaceholder = `Minimum Budget ${formatCurrency(minReccBudget, currency)}`
 
   return (
     <>
@@ -50,7 +50,7 @@ const TargetingBudgetSetter = ({
               <InputCurrency
                 handleChange={(value) => {
                   console.log('value', value)
-                  setBudget(value || minBudget)
+                  setBudget(value || minReccBudget)
                 }}
                 placeholder={inputPlaceholder}
                 name="Budget"
@@ -62,7 +62,7 @@ const TargetingBudgetSetter = ({
               <TargetingBudgetSlider
                 mobileVersion={mobileVersion}
                 budget={budget}
-                minBudget={targetingState.minBudget}
+                minReccBudget={targetingState.minReccBudget}
                 onChange={(budget) => {
                   setBudget(budget)
                 }}
@@ -86,7 +86,7 @@ const TargetingBudgetSetter = ({
 
 TargetingBudgetSetter.propTypes = {
   currency: PropTypes.string,
-  minBudget: PropTypes.number.isRequired,
+  minReccBudget: PropTypes.number.isRequired,
   targetingState: PropTypes.object.isRequired,
   setTargetingState: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,
