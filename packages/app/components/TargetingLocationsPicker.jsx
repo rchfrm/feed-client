@@ -78,47 +78,61 @@ const TargetingLocationsPicker = () => {
             return {
               value: city.key,
               name: city.key,
-              label: <em>{city.name}</em>,
+              label: (
+                <>
+                  {city.name}
+                  &nbsp;&nbsp;
+                  <span className="text-xs">{city.audiencePercent}%</span>
+                </>
+              ),
             }
           })
           return (
             // Country
-            <AccordionItem key={key} className="mb-10">
-              <div className="flex items-top">
-                <CheckboxButtons
-                  buttonOptions={[{
-                    value: key,
-                    name,
-                    label: '',
-                  }]}
-                  selectedValues={selectedCountries}
-                  setSelectedValues={setSelectedCountries}
-                  checkboxClassname="mb-0"
-                />
-                <AccordionItemHeading className="pb-4" style={{ transform: 'translateY(-0.1em)' }}>
-                  <AccordionItemButton>
-                    <p className="flex items-top mb-0 text-lg">
-                      <strong>{name} </strong>
-                      {/* ({audiencePercent}) */}
-                      <AccordionItemState>
-                        {({ expanded }) => (
-                          <ArrowHeadIcon
-                            className="ml-2"
-                            style={{
-                              width: '0.5rem',
-                              height: 'auto',
-                              transform: expanded ? 'rotate(0deg) translateY(0.08em)' : 'rotate(-90deg) translateX(-0.05em)',
-                            }}
-                          />
-                        )}
-                      </AccordionItemState>
-                    </p>
-                  </AccordionItemButton>
-                </AccordionItemHeading>
-              </div>
+            <AccordionItem key={key} className="mb-10 border-b-2 border-solid border-grey-2">
+              <AccordionItemState>
+                {({ expanded }) => (
+                  <div className="flex items-top">
+                    <CheckboxButtons
+                      buttonOptions={[{
+                        value: key,
+                        name,
+                        label: '',
+                      }]}
+                      selectedValues={selectedCountries}
+                      setSelectedValues={setSelectedCountries}
+                      checkboxClassname="mb-0"
+                    />
+                    <AccordionItemHeading
+                      className={['w-full', !expanded ? 'pb-2' : null].join(' ')}
+                      style={{ transform: 'translateY(-0.1em)' }}
+                    >
+                      <AccordionItemButton>
+                        <div className="flex w-full items-baseline justify-between relative text-lg">
+                          <div className="flex items-top">
+                            <p className="mb-0"><strong>{name}</strong></p>
+                            <ArrowHeadIcon
+                              className="ml-2"
+                              style={{
+                                width: '0.5rem',
+                                height: 'auto',
+                                transform: expanded ? 'rotate(0deg) translateY(0.08em)' : 'rotate(-90deg) translateX(-0.05em)',
+                              }}
+                            />
+                          </div>
+                          <p className="text-xs mb-0">
+                            <strong><em>{audiencePercent}% of audience</em></strong>
+                          </p>
+                        </div>
+                      </AccordionItemButton>
+                    </AccordionItemHeading>
+                  </div>
+                )}
+              </AccordionItemState>
               {/* Cities */}
               <AccordionItemPanel>
                 <CheckboxButtons
+                  className="pt-5 pb-1"
                   buttonOptions={citiesCheckboxes}
                   selectedValues={selectedCities}
                   setSelectedValues={setSelectedCities}
