@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Slider from '@/elements/Slider'
 
-const TargetingAgeSlider = ({ minAge, maxAge, onChange }) => {
+const TargetingAgeSlider = ({ minAge, maxAge, onChange, className }) => {
   const lowestAge = 15
   const highestAge = 65
 
@@ -27,6 +27,7 @@ const TargetingAgeSlider = ({ minAge, maxAge, onChange }) => {
 
   return (
     <Slider
+      containerClassName={className}
       label="Age range"
       valueRange={[lowestAge, highestAge]}
       value={[minAge, maxAge]}
@@ -43,11 +44,13 @@ TargetingAgeSlider.propTypes = {
   minAge: PropTypes.number,
   maxAge: PropTypes.number,
   onChange: PropTypes.func.isRequired,
+  className: PropTypes.string,
 }
 
 TargetingAgeSlider.defaultProps = {
   minAge: 18,
   maxAge: 65,
+  className: null,
 }
 
 

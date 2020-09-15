@@ -31,6 +31,10 @@ const TargetingContext = React.createContext({
   desktopLayoutWidth: 'md',
   isDesktopLayout: false,
   toggleMobileBudget: () => {},
+  settingsReady: false,
+  setSettingsReady: () => {},
+  createLocationOptions: () => {},
+  locationOptions: {},
 })
 
 TargetingContext.displayName = 'TargetingContext'
@@ -38,6 +42,10 @@ TargetingContext.displayName = 'TargetingContext'
 const TargetingContextProvider = ({ children }) => {
   // Import side panel context
   const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
+
+  // CAMPAIGN SETTINGS VIEW ('summary' | 'customise' | budget)
+  const [currentView, setCurrentView] = React.useState('summary')
+  const [isAnimatingView, setIsAnimatingView] = React.useState(false)
 
   // TARGETING STATE
   const [targetingState, setTargetingState] = React.useState(targetingHelpers.demotargetingState)
@@ -70,15 +78,11 @@ const TargetingContextProvider = ({ children }) => {
     toggleGlobalLoading(false)
   }, [toggleGlobalLoading, toggleSidePanel])
 
-  // CAMPAIGN SETTINGS VIEW ('summary' | 'customise' | budget)
-  const [currentView, setCurrentView] = React.useState('summary')
-  const [isAnimatingView, setIsAnimatingView] = React.useState(false)
-
   // MIN BUDGET
   const [minBudget, setMinBudget] = React.useState(2)
 
   // CURRENCY
-  const { artistCurrency: currency } = React.useContext(ArtistContext)
+  const { artistCurrency: currency, artistId } = React.useContext(ArtistContext)
 
   // FORMATTED BUDGET
   const [budgetFormatted, setBudgetFormatted] = React.useState(utils.formatCurrency(targetingState.budget, currency))
@@ -126,6 +130,27 @@ const TargetingContextProvider = ({ children }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [budgetFormatted])
 
+  // SETTINGS
+  const [settingsReady, setSettingsReady] = React.useState(false)
+
+  // LOCATION SETTINGS
+  const [locationOptions, setLocationOptions] = React.useState([])
+  // * Create initial location options
+  const createLocationOptions = React.useCallback((locations) => {
+    // Create object of location options grouped by country
+    const locationOptions = targetingHelpers.createLocationsObject(locations)
+    setLocationOptions(locationOptions)
+  }, [])
+
+
+  // RESET EVERYTHING WHEN ARTIST ID CHANGES
+  React.useEffect(() => {
+    setSettingsReady(false)
+    setLocationOptions({})
+    setSelectedCampaignRecc(null)
+    setCurrentView('summary')
+  }, [artistId])
+
   return (
     <TargetingContext.Provider
       value={{
@@ -147,6 +172,10 @@ const TargetingContextProvider = ({ children }) => {
         desktopLayoutWidth,
         isDesktopLayout,
         toggleMobileBudget,
+        settingsReady,
+        setSettingsReady,
+        createLocationOptions,
+        locationOptions,
       }}
     >
       {children}

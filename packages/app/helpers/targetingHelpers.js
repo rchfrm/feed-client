@@ -55,6 +55,31 @@ export const getSummary = {
 }
 
 
+// SETTINGS HELPERS
+// ----------------
+export const createLocationsObject = (locations) => {
+  return locations.cities.reduce((obj, city) => {
+    const { countryCode } = city
+    const countryObj = obj[countryCode]
+    // If country already exists, add location
+    if (countryObj) {
+      countryObj.cities.push(city)
+      return obj
+    }
+    // Else start building country object
+    const country = locations.countries.find(({ key }) => key === countryCode)
+    const { audiencePercent, name, key } = country
+    obj[countryCode] = {
+      name,
+      key,
+      audiencePercent,
+      cities: [city],
+    }
+    return obj
+  }, {})
+}
+
+
 // FOR DEV
 // ---------------------------
 export const demotargetingState = {
@@ -63,13 +88,40 @@ export const demotargetingState = {
   genders: 'men',
   countries: [{ id: 'uk', name: 'UK', countryCode: 'GB' }],
   cities: [
-    { id: 'paris', name: 'Paris', countryCode: 'FR' },
-    { id: 'marseille', name: 'Marseille' },
-    { id: 'lislesursogue', name: 'L\'Isle sur Sogue' },
+    { key: 'paris', name: 'Paris', countryCode: 'FR' },
+    { key: 'marseille', name: 'Marseille' },
+    { key: 'lislesursogue', name: 'L\'Isle sur Sogue' },
   ],
   budget: 3,
   minBudget: 2,
   paused: false,
+}
+
+
+export const fetchTargetingCities = (artistId) => {
+  const demoTargetingCities = {
+    countries: [
+      { key: 'GB', name: 'UK', audiencePercent: 34 },
+      { key: 'FR', name: 'France', audiencePercent: 23 },
+    ],
+    cities: [
+      { key: 'paris', name: 'Paris', countryCode: 'FR', audiencePercent: 12 },
+      { key: 'marseille', name: 'Marseille', countryCode: 'FR', audiencePercent: 8 },
+      { key: 'nice', name: 'Nice', countryCode: 'FR', audiencePercent: 4 },
+
+      { key: 'london', name: 'London', countryCode: 'GB', audiencePercent: 22 },
+      { key: 'bolton', name: 'Bolton', countryCode: 'GB', audiencePercent: 16 },
+      { key: 'bristol', name: 'Bristol', countryCode: 'GB', audiencePercent: 14 },
+      { key: 'cardiff', name: 'Cardiff', countryCode: 'GB', audiencePercent: 8 },
+    ],
+  }
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('Fetched loactions for ', artistId)
+      resolve(demoTargetingCities)
+    }, 400)
+  })
 }
 
 export const saveCampaign = (oldState, newState) => {
