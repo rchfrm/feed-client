@@ -49,7 +49,8 @@ const TargetingBudgetSetter = ({
             {showCustomBudget ? (
               <InputCurrency
                 handleChange={(value) => {
-                  setBudget(value)
+                  console.log('value', value)
+                  setBudget(value || minBudget)
                 }}
                 placeholder={inputPlaceholder}
                 name="Budget"
