@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import remove from 'lodash/remove'
 
-const CHECKBOX_BUTTON = ({ value, name, label, checked, onChange }) => {
+const CHECKBOX_BUTTON = ({ value, name, label, checked, onChange, className }) => {
   const valueString = value.toString()
   const id = `checkbox-${valueString}`
 
@@ -12,7 +12,7 @@ const CHECKBOX_BUTTON = ({ value, name, label, checked, onChange }) => {
   }
 
   return (
-    <div className="checkbox--button">
+    <div className={['checkbox--button', className].join(' ')}>
       <input
         id={id}
         value={valueString}
@@ -33,7 +33,13 @@ const CHECKBOX_BUTTON = ({ value, name, label, checked, onChange }) => {
   )
 }
 
-const CheckboxButtons = ({ buttonOptions, selectedValues, setSelectedValues, className }) => {
+const CheckboxButtons = ({
+  buttonOptions,
+  selectedValues,
+  setSelectedValues,
+  className,
+  checkboxClassname,
+}) => {
   const classNames = ['checkbox--buttons', className].join(' ')
   const onChange = React.useCallback((val, checked) => {
     const newValues = !checked ? [...selectedValues, val] : remove(selectedValues, (e) => e !== val)
@@ -56,6 +62,7 @@ const CheckboxButtons = ({ buttonOptions, selectedValues, setSelectedValues, cla
             label={label}
             checked={checked}
             onChange={onChange}
+            className={checkboxClassname}
           />
         )
       })}
@@ -76,10 +83,12 @@ CHECKBOX_BUTTON.propTypes = {
     PropTypes.node,
   ]).isRequired,
   onChange: PropTypes.func.isRequired,
+  className: PropTypes.string,
 }
 
 CHECKBOX_BUTTON.defaultProps = {
   name: '',
+  className: null,
 }
 
 // GROUP PROPS
@@ -87,11 +96,13 @@ CheckboxButtons.propTypes = {
   buttonOptions: PropTypes.array.isRequired,
   setSelectedValues: PropTypes.func.isRequired,
   className: PropTypes.string,
+  checkboxClassname: PropTypes.string,
   selectedValues: PropTypes.array,
 }
 
 CheckboxButtons.defaultProps = {
-  className: '',
+  className: null,
+  checkboxClassname: null,
   selectedValues: [],
 }
 
