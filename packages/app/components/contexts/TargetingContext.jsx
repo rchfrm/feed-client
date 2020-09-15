@@ -115,6 +115,8 @@ const TargetingContextProvider = ({ children }) => {
     setSidePanelContent(content)
     setSidePanelButton(button)
     toggleSidePanel(state)
+    // Hide progress button
+    setSelectedCampaignRecc(null)
   }, [setSidePanelButton, toggleSidePanel])
 
   React.useEffect(() => {
