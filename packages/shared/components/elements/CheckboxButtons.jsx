@@ -33,7 +33,7 @@ const CHECKBOX_BUTTON = ({ value, name, label, checked, onChange }) => {
   )
 }
 
-const CheckoxButtons = ({ buttonOptions, selectedValues, setSelectedValues, className }) => {
+const CheckboxButtons = ({ buttonOptions, selectedValues, setSelectedValues, className }) => {
   const classNames = ['checkbox--buttons', className].join(' ')
   const onChange = React.useCallback((val, checked) => {
     const newValues = !checked ? [...selectedValues, val] : remove(selectedValues, (e) => e !== val)
@@ -83,17 +83,17 @@ CHECKBOX_BUTTON.defaultProps = {
 }
 
 // GROUP PROPS
-CheckoxButtons.propTypes = {
+CheckboxButtons.propTypes = {
   buttonOptions: PropTypes.array.isRequired,
   setSelectedValues: PropTypes.func.isRequired,
   className: PropTypes.string,
   selectedValues: PropTypes.array,
 }
 
-CheckoxButtons.defaultProps = {
+CheckboxButtons.defaultProps = {
   className: '',
   selectedValues: [],
 }
 
 
-export default CheckoxButtons
+export default CheckboxButtons
