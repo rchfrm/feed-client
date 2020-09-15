@@ -9,8 +9,10 @@ import {
   AccordionItemHeading,
   AccordionItemButton,
   AccordionItemPanel,
+  AccordionItemState,
 } from 'react-accessible-accordion'
 
+import ArrowHeadIcon from '@/icons/ArrowHeadIcon'
 
 import CheckboxButtons from '@/elements/CheckboxButtons'
 
@@ -69,7 +71,6 @@ const TargetingLocationsPicker = () => {
         className="pt-6"
         allowMultipleExpanded
         allowZeroExpanded
-        onChange={(e) => console.log(e)}
       >
         {countriesArray.map((country) => {
           const { key, name, cities, audiencePercent } = country
@@ -83,7 +84,7 @@ const TargetingLocationsPicker = () => {
           return (
             // Country
             <AccordionItem key={key} className="mb-10">
-              <div className="flex">
+              <div className="flex items-top">
                 <CheckboxButtons
                   buttonOptions={[{
                     value: key,
@@ -94,11 +95,23 @@ const TargetingLocationsPicker = () => {
                   setSelectedValues={setSelectedCountries}
                   checkboxClassname="mb-0"
                 />
-                <AccordionItemHeading className="pb-4">
+                <AccordionItemHeading className="pb-4" style={{ transform: 'translateY(-0.1em)' }}>
                   <AccordionItemButton>
-                    <p className="mb-0 text-lg">
+                    <p className="flex items-top mb-0 text-lg">
                       <strong>{name} </strong>
-                      ({audiencePercent})
+                      {/* ({audiencePercent}) */}
+                      <AccordionItemState>
+                        {({ expanded }) => (
+                          <ArrowHeadIcon
+                            className="ml-2"
+                            style={{
+                              width: '0.5rem',
+                              height: 'auto',
+                              transform: expanded ? 'rotate(0deg) translateY(0.08em)' : 'rotate(-90deg) translateX(-0.05em)',
+                            }}
+                          />
+                        )}
+                      </AccordionItemState>
                     </p>
                   </AccordionItemButton>
                 </AccordionItemHeading>
