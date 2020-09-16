@@ -1,4 +1,6 @@
 import React from 'react'
+import produce from 'immer'
+
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import TargetingBudgetMobile from '@/app/TargetingBudgetMobile'
@@ -27,6 +29,7 @@ const initialState = {
   minHardBudget: 0,
   minReccBudget: 0,
   setMinReccBudget: () => {},
+  updateTargetingBudget: () => {},
   currency: '',
   budgetFormatted: '',
   desktopLayoutWidth: 'md',
@@ -104,6 +107,14 @@ const TargetingContextProvider = ({ children }) => {
     setBudgetFormatted(utils.formatCurrency(targetingState.budget, currency))
   }, [targetingState.budget, currency])
 
+  // FUNCTION TO UPDATE BUDGET
+  const updateTargetingBudget = React.useCallback((budget) => {
+    setTargetingState((targetingState) => {
+      return produce(targetingState, draftState => {
+        draftState.budget = budget
+      })
+    })
+  }, [])
   // GET DESKTOP LAYOUT TEST
   const { desktopLayoutWidth } = initialState
   const isDesktopLayout = useBreakpointTest(desktopLayoutWidth)
@@ -117,7 +128,7 @@ const TargetingContextProvider = ({ children }) => {
         currency={currency}
         minReccBudget={minReccBudget}
         targetingState={targetingState}
-        setTargetingState={setTargetingState}
+        updateTargetingBudget={updateTargetingBudget}
         saveCampaignSettings={saveCampaignSettings}
       />
     ) : null
@@ -140,7 +151,7 @@ const TargetingContextProvider = ({ children }) => {
     // Hide progress button
     setSelectedCampaignRecc(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setSidePanelButton, toggleSidePanel, targetingState, budgetFormatted])
+  }, [setSidePanelButton, toggleSidePanel, targetingState, budgetFormatted, updateTargetingBudget])
 
   React.useEffect(() => {
     const { button } = getBudgetSidePanelContent()
@@ -217,6 +228,7 @@ const TargetingContextProvider = ({ children }) => {
         minHardBudget,
         minReccBudget,
         setMinReccBudget,
+        updateTargetingBudget,
         currency,
         budgetFormatted,
         desktopLayoutWidth,

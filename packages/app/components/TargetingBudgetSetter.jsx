@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
-import produce from 'immer'
-
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 import InputCurrency from '@/elements/InputCurrency'
 
@@ -14,7 +12,7 @@ const TargetingBudgetSetter = ({
   currency,
   minReccBudget,
   targetingState,
-  setTargetingState,
+  updateTargetingBudget,
   mobileVersion,
 }) => {
   // FLIP
@@ -24,12 +22,8 @@ const TargetingBudgetSetter = ({
   const [budget, setBudget] = React.useState(targetingState.budget)
   React.useEffect(() => {
     if (typeof budget !== 'number') return
-    setTargetingState((targetingState) => {
-      return produce(targetingState, draftState => {
-        draftState.budget = budget
-      })
-    })
-  }, [budget, setTargetingState])
+    updateTargetingBudget(budget)
+  }, [budget, updateTargetingBudget])
 
   const inputPlaceholder = `Minimum Budget ${formatCurrency(minReccBudget, currency)}`
 
@@ -88,7 +82,7 @@ TargetingBudgetSetter.propTypes = {
   currency: PropTypes.string,
   minReccBudget: PropTypes.number.isRequired,
   targetingState: PropTypes.object.isRequired,
-  setTargetingState: PropTypes.func.isRequired,
+  updateTargetingBudget: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,
 }
 
