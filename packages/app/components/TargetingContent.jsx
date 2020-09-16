@@ -7,6 +7,7 @@ import Error from '@/elements/Error'
 
 import TargetingSummary from '@/app/TargetingSummary'
 import TargetingSettings from '@/app/TargetingSettings'
+import TargetingBudgetDesktop from '@/app/TargetingBudgetDesktop'
 import TargetingProgressButton from '@/app/TargetingProgressButton'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -24,7 +25,7 @@ const TargetingContent = () => {
   const { artistId } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Fetch from targeting context
-  const { setTargetingState } = React.useContext(TargetingContext)
+  const { setTargetingState, isDesktopLayout } = React.useContext(TargetingContext)
 
   // LOAD AND SET INITIAL TARGETING STATE
   const [ready, setReady] = React.useState(false)
@@ -56,6 +57,11 @@ const TargetingContent = () => {
   // GET CURRENT VIEW
   const { currentView, setIsAnimatingView } = React.useContext(TargetingContext)
 
+  // Desktop Budget anchor
+  const desktopBudgetAnchor = React.useRef(null)
+
+  console.log('isDesktopLayout', isDesktopLayout)
+
   // Handle error
   if (error && !isPending) {
     return <Error error={error} />
@@ -64,34 +70,48 @@ const TargetingContent = () => {
   if (!ready) return null
 
   return (
-    <>
-      <SwitchTransition>
-        <CSSTransition
-          key={currentView}
-          addEndListener={(node, done) => {
-            node.addEventListener('transitionend', () => {
-              done()
-              setTimeout(() => {
-                setIsAnimatingView(false)
-              }, 300)
-            }, false)
-          }}
-          onExit={() => {
-            setIsAnimatingView(true)
-          }}
-          classNames="fade"
-        >
-          {/* SUMMARY */}
-          {currentView === 'summary' ? (
-            <TargetingSummary />
-          ) : (
-            <TargetingSettings />
-          )}
-        </CSSTransition>
-      </SwitchTransition>
+    <div className="md:grid grid-cols-12 gap-5">
+      <div className="col-span-6 relative">
+        {/* Anchor for resizing desktop budget */}
+        <div ref={desktopBudgetAnchor} className="absolute top-0 left-0 w-full opacity-0" />
+        {/* SECTIONS */}
+        <SwitchTransition>
+          <CSSTransition
+            key={currentView}
+            addEndListener={(node, done) => {
+              node.addEventListener('transitionend', () => {
+                done()
+                setTimeout(() => {
+                  setIsAnimatingView(false)
+                }, 300)
+              }, false)
+            }}
+            onExit={() => {
+              setIsAnimatingView(true)
+            }}
+            classNames="fade"
+          >
+            {/* SUMMARY */}
+            {currentView === 'summary' ? (
+              <TargetingSummary />
+            ) : (
+              <TargetingSettings />
+            )}
+          </CSSTransition>
+        </SwitchTransition>
+      </div>
+      {/* DESKTOP BUDGET SETTER */}
+      {isDesktopLayout && (
+        <TargetingBudgetDesktop
+          anchorRef={desktopBudgetAnchor}
+          className="col-span-6"
+        />
+      )}
       {/* MOBILE PROGRESS BUTTON */}
-      <TargetingProgressButton />
-    </>
+      {!isDesktopLayout && (
+        <TargetingProgressButton />
+      )}
+    </div>
   )
 }
 

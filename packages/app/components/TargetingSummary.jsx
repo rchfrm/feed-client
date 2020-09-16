@@ -17,6 +17,7 @@ const TargetingSummary = () => {
     selectedCampaignRecc,
     setSelectedCampaignRecc,
     toggleMobileBudget,
+    isDesktopLayout,
   } = React.useContext(TargetingContext)
   // SELECTED RECCS
   const selectedReccId = React.useMemo(() => {
@@ -42,7 +43,7 @@ const TargetingSummary = () => {
       <div className="pt-10 pb-5">
         {/* BUDGET BUTTON */}
         <Button
-          className="w-full mb-5"
+          className="w-full mb-5 md:hidden"
           onClick={toggleMobileBudget}
         >
           Edit Budget
