@@ -160,18 +160,22 @@ const TargetingContextProvider = ({ children }) => {
   // LOCATION SETTINGS
   const [locationOptions, setLocationOptions] = React.useState(initialState.locationOptions)
   // * Selected cities and countries
-  const [selectedCountries, setSelectedCountries] = React.useState(initialState.selectedCountries)
   const [selectedCities, setSelectedCities] = React.useState(initialState.selectedCities)
+  const [selectedCountries, setSelectedCountries] = React.useState(initialState.selectedCountries)
   // * Create initial location options
   const createLocationOptions = React.useCallback((popularLocations) => {
-    // Create initial state of chek
-    // Create object of location options grouped by country
     const currentLocations = {
       cities: targetingState.cities,
       countries: targetingState.countries,
     }
+    // Create object of location options grouped by country
     const locationOptions = targetingHelpers.createLocationsObject(popularLocations, currentLocations)
     setLocationOptions(locationOptions)
+    // Create initial state of location checkboxes
+    const initialCities = currentLocations.cities.map(({ key }) => key)
+    const initialCountries = currentLocations.countries.map(({ key }) => key)
+    setSelectedCities(initialCities)
+    setSelectedCountries(initialCountries)
   }, [targetingState.cities, targetingState.countries])
 
   // Update min budget based on selected countries and cities
