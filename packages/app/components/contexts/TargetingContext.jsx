@@ -32,6 +32,7 @@ const TargetingContext = React.createContext({
   desktopLayoutWidth: 'md',
   isDesktopLayout: false,
   toggleMobileBudget: () => {},
+  mobileBudgetOpen: false,
   settingsReady: false,
   setSettingsReady: () => {},
   createLocationOptions: () => {},
@@ -46,7 +47,7 @@ TargetingContext.displayName = 'TargetingContext'
 
 const TargetingContextProvider = ({ children }) => {
   // SIDE PANEL context
-  const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
+  const { sidePanelContent, setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
 
   // ARTIST context
   const {
@@ -55,7 +56,7 @@ const TargetingContextProvider = ({ children }) => {
     artist: { min_daily_budget_info: minBudgetInfo },
   } = React.useContext(ArtistContext)
 
-  // CAMPAIGN SETTINGS VIEW ('summary' | 'customise' | budget)
+  // CAMPAIGN SETTINGS VIEW ('summary' | 'customise')
   const [currentView, setCurrentView] = React.useState('summary')
   const [isAnimatingView, setIsAnimatingView] = React.useState(false)
 
@@ -104,7 +105,9 @@ const TargetingContextProvider = ({ children }) => {
   const desktopLayoutWidth = 'md'
   const isDesktopLayout = useBreakpointTest(desktopLayoutWidth)
 
-  // OPEN MOBILE BUDGET SIDEPANEL
+  // MOBILE BUDGET SIDEPANEL
+  const [mobileBudgetOpen, setMobileBudgetOpen] = React.useState(false)
+  // Get budget content
   const getBudgetSidePanelContent = (state = true) => {
     const content = state ? (
       <TargetingBudgetMobile
@@ -124,11 +127,13 @@ const TargetingContextProvider = ({ children }) => {
     ) : null
     return { content, button }
   }
+  // Toggle budget
   const toggleMobileBudget = React.useCallback((state = true) => {
     const { content, button } = getBudgetSidePanelContent(state)
     setSidePanelContent(content)
     setSidePanelButton(button)
     toggleSidePanel(state)
+    setMobileBudgetOpen(state)
     // Hide progress button
     setSelectedCampaignRecc(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -139,6 +144,12 @@ const TargetingContextProvider = ({ children }) => {
     setSidePanelButton(button)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [budgetFormatted])
+
+  // Set budget open to false when closing sidepanel
+  React.useEffect(() => {
+    if (!sidePanelContent) setMobileBudgetOpen(false)
+  }, [sidePanelContent])
+
 
   // SETTINGS
   const [settingsReady, setSettingsReady] = React.useState(false)
@@ -198,6 +209,7 @@ const TargetingContextProvider = ({ children }) => {
         desktopLayoutWidth,
         isDesktopLayout,
         toggleMobileBudget,
+        mobileBudgetOpen,
         settingsReady,
         setSettingsReady,
         createLocationOptions,
