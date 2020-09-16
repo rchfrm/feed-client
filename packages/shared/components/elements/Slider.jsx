@@ -87,6 +87,21 @@ const Slider = ({
     }, 1)
   }, [forceInitialResize])
 
+  // ROUND VALUE TO NEAREST STEP on mount
+  React.useEffect(() => {
+    // Round value in array
+    if (Array.isArray(value)) {
+      const roundedValues = value.map((val) => {
+        return Math.round(val / step) * step
+      })
+      return onChange(roundedValues)
+    }
+    // Round value
+    const roundedValue = Math.round(value / step) * step
+    onChange(roundedValue)
+  // eslint-disable-next-line
+  }, [])
+
   return (
     <div className={['mb-5', containerClassName].join(' ')}>
       {/* LABEL */}
