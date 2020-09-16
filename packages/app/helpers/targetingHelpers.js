@@ -118,7 +118,7 @@ export const demotargetingState = {
   minAge: 23,
   maxAge: 45,
   genders: 'men',
-  countries: [{ id: 'uk', name: 'UK', countryCode: 'GB' }],
+  countries: [{ key: 'uk', name: 'UK', countryCode: 'GB' }],
   cities: [
     { key: 'paris', name: 'Paris', countryCode: 'FR' },
     { key: 'marseille', name: 'Marseille' },
@@ -177,8 +177,8 @@ export const demoRecs = [
     minAge: 18,
     maxAge: 65,
     genders: 'all',
-    countries: [{ id: 'uk', name: 'UK' }],
-    cities: [{ id: 'paris', name: 'Paris' }],
+    countries: [{ key: 'uk', name: 'UK' }],
+    cities: [{ key: 'paris', name: 'Paris' }],
   },
   {
     id: '2',
@@ -188,7 +188,7 @@ export const demoRecs = [
     minAge: 18,
     maxAge: 65,
     genders: 'all',
-    countries: [{ id: 'france', name: 'France' }],
-    cities: [{ id: 'london', name: 'London' }, { id: 'bolton', name: 'Bolton' }],
+    countries: [{ key: 'france', name: 'France' }],
+    cities: [{ key: 'london', name: 'London' }, { key: 'bolton', name: 'Bolton' }],
   },
 ]
