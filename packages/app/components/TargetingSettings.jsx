@@ -13,7 +13,7 @@ import TargetingLocationsPicker from '@/app/TargetingLocationsPicker'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 
-import { fetchTargetingCities } from '@/app/helpers/targetingHelpers'
+import { fetchPopularLocations } from '@/app/helpers/targetingHelpers'
 
 const TargetingSettings = () => {
   // Fetch from targeting context
@@ -29,7 +29,7 @@ const TargetingSettings = () => {
   // Fetch locations options
   const { artistId } = React.useContext(ArtistContext)
   useAsyncEffect(async (isMounted) => {
-    const locations = await fetchTargetingCities(artistId)
+    const locations = await fetchPopularLocations(artistId)
     if (!isMounted) return
     createLocationOptions(locations)
     setSettingsReady(true)

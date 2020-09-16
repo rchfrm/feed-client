@@ -98,8 +98,9 @@ const TargetingContextProvider = ({ children }) => {
   const [minReccBudget, setMinReccBudget] = React.useState(2)
 
   // FORMATTED BUDGET
-  const [budgetFormatted, setBudgetFormatted] = React.useState(utils.formatCurrency(targetingState.budget, currency))
+  const [budgetFormatted, setBudgetFormatted] = React.useState(initialState.budgetFormatted)
   React.useEffect(() => {
+    if (!targetingState.budget) return
     setBudgetFormatted(utils.formatCurrency(targetingState.budget, currency))
   }, [targetingState.budget, currency])
 

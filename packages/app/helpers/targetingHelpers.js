@@ -1,5 +1,68 @@
 import * as utils from '@/helpers/utils'
 
+// FOR DEV
+// ---------------------------
+export const demotargetingState = {
+  minAge: 23,
+  maxAge: 45,
+  genders: [],
+  countries: [{ key: 'uk', name: 'UK', countryCode: 'GB' }],
+  cities: [
+    { key: 'paris', name: 'Paris', countryCode: 'FR' },
+    { key: 'marseille', name: 'Marseille' },
+    { key: 'lislesursogue', name: 'L\'Isle sur Sogue' },
+  ],
+  budget: 3,
+  minReccBudget: 2,
+  paused: false,
+}
+
+
+export const demoRecs = [
+  {
+    id: '1',
+    title: 'Option A',
+    type: 'recommended',
+    budget: 5,
+    minAge: 18,
+    maxAge: 65,
+    countries: [{ key: 'uk', name: 'UK' }],
+    cities: [{ key: 'paris', name: 'Paris' }],
+  },
+  {
+    id: '2',
+    title: 'Option B',
+    type: 'recommended',
+    budget: 6,
+    minAge: 18,
+    maxAge: 65,
+    countries: [{ key: 'france', name: 'France' }],
+    cities: [{ key: 'london', name: 'London' }, { key: 'bolton', name: 'Bolton' }],
+  },
+]
+
+
+const demoPopuplarLocations = {
+  homeCountry: {
+    key: 'GB',
+    audiencePercent: 34,
+  },
+  countries: [
+    { key: 'GB', name: 'UK', audiencePercent: 34 },
+    { key: 'FR', name: 'France', audiencePercent: 23 },
+  ],
+  cities: [
+    { key: 'paris', name: 'Paris', countryCode: 'FR', audiencePercent: 12 },
+    { key: 'marseille', name: 'Marseille', countryCode: 'FR', audiencePercent: 8 },
+    { key: 'nice', name: 'Nice', countryCode: 'FR', audiencePercent: 4 },
+
+    { key: 'london', name: 'London', countryCode: 'GB', audiencePercent: 22 },
+    { key: 'bolton', name: 'Bolton', countryCode: 'GB', audiencePercent: 16 },
+    { key: 'bristol', name: 'Bristol', countryCode: 'GB', audiencePercent: 14 },
+    { key: 'cardiff', name: 'Cardiff', countryCode: 'GB', audiencePercent: 8 },
+  ],
+}
+
 // BUDGET FEATURES
 // ---------------
 const getBudgetFeatures = (baseBudget = 3) => {
@@ -30,6 +93,19 @@ export const getNextBudgetUpgrade = (currentBudget) => {
 
 // SUMMARY HELPERS
 // ---------------
+export const fetchTargetingState = (artistId) => {
+  if (!artistId) {
+    const errorMessage = 'Cannot fetch targeting state because no artist ID has been provided'
+    console.error(errorMessage)
+    return { error: { message: errorMessage } }
+  }
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(demotargetingState)
+    }, 500)
+  })
+}
+
 export const getSummary = {
   budget: (targetingState, currency) => {
     const { budget } = targetingState
@@ -65,9 +141,20 @@ export const getSummary = {
 // SETTINGS HELPERS
 // ----------------
 
+// Fetch the popular locations
+export const fetchPopularLocations = (artistId) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('Fetched loactions for ', artistId)
+      resolve(demoPopuplarLocations)
+    }, 400)
+  })
+}
+
 // Create locations object (sort cities into countries)
-export const createLocationsObject = (locations) => {
-  return locations.cities.reduce((obj, city) => {
+export const createLocationsObject = (popularLocations) => {
+  const { countries, cities } = popularLocations
+  return cities.reduce((obj, city) => {
     const { countryCode } = city
     const countryObj = obj[countryCode]
     const cityWithSelected = { ...city, selected: false }
@@ -77,7 +164,7 @@ export const createLocationsObject = (locations) => {
       return obj
     }
     // Else start building country object
-    const country = locations.countries.find(({ key }) => key === countryCode)
+    const country = countries.find(({ key }) => key === countryCode)
     const { audiencePercent, name, key } = country
     obj[countryCode] = {
       name,
@@ -119,50 +206,8 @@ export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }
 }
 
 
-// FOR DEV
-// ---------------------------
-export const demotargetingState = {
-  minAge: 23,
-  maxAge: 45,
-  genders: [],
-  countries: [{ key: 'uk', name: 'UK', countryCode: 'GB' }],
-  cities: [
-    { key: 'paris', name: 'Paris', countryCode: 'FR' },
-    { key: 'marseille', name: 'Marseille' },
-    { key: 'lislesursogue', name: 'L\'Isle sur Sogue' },
-  ],
-  budget: 3,
-  minReccBudget: 2,
-  paused: false,
-}
-
-
-export const fetchTargetingCities = (artistId) => {
-  const demoPopuplarLocations = {
-    countries: [
-      { key: 'GB', name: 'UK', audiencePercent: 34 },
-      { key: 'FR', name: 'France', audiencePercent: 23 },
-    ],
-    cities: [
-      { key: 'paris', name: 'Paris', countryCode: 'FR', audiencePercent: 12 },
-      { key: 'marseille', name: 'Marseille', countryCode: 'FR', audiencePercent: 8 },
-      { key: 'nice', name: 'Nice', countryCode: 'FR', audiencePercent: 4 },
-
-      { key: 'london', name: 'London', countryCode: 'GB', audiencePercent: 22 },
-      { key: 'bolton', name: 'Bolton', countryCode: 'GB', audiencePercent: 16 },
-      { key: 'bristol', name: 'Bristol', countryCode: 'GB', audiencePercent: 14 },
-      { key: 'cardiff', name: 'Cardiff', countryCode: 'GB', audiencePercent: 8 },
-    ],
-  }
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('Fetched loactions for ', artistId)
-      resolve(demoPopuplarLocations)
-    }, 400)
-  })
-}
-
+// SAVE CAMPAIGN SETTINGS
+// ----------------------
 export const saveCampaign = (oldState, newState) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -174,26 +219,3 @@ export const saveCampaign = (oldState, newState) => {
     }, 1000)
   })
 }
-
-export const demoRecs = [
-  {
-    id: '1',
-    title: 'Option A',
-    type: 'recommended',
-    budget: 5,
-    minAge: 18,
-    maxAge: 65,
-    countries: [{ key: 'uk', name: 'UK' }],
-    cities: [{ key: 'paris', name: 'Paris' }],
-  },
-  {
-    id: '2',
-    title: 'Option B',
-    type: 'recommended',
-    budget: 6,
-    minAge: 18,
-    maxAge: 65,
-    countries: [{ key: 'france', name: 'France' }],
-    cities: [{ key: 'london', name: 'London' }, { key: 'bolton', name: 'Bolton' }],
-  },
-]
