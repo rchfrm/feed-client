@@ -24,6 +24,7 @@ const TargetingContext = React.createContext({
   setSelectedCampaignRecc: () => {},
   selectedCampaignType: '',
   setSelectedCampaignType: () => {},
+  minHardBudget: 0,
   minReccBudget: 0,
   setMinReccBudget: () => {},
   currency: '',
@@ -90,6 +91,7 @@ const TargetingContextProvider = ({ children }) => {
   }, [toggleGlobalLoading, toggleSidePanel])
 
   // MIN BUDGET
+  const [minHardBudget, setMinHardBudget] = React.useState(0)
   const [minReccBudget, setMinReccBudget] = React.useState(2)
 
   // FORMATTED BUDGET
@@ -168,6 +170,10 @@ const TargetingContextProvider = ({ children }) => {
     setLocationOptions({})
     setSelectedCampaignRecc(null)
     setCurrentView('summary')
+    if (!artistId) return
+    const fbMin = targetingHelpers.calcMinBudget(minBudgetInfo, 'hard')
+    setMinHardBudget(fbMin)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artistId])
 
   return (
@@ -184,6 +190,7 @@ const TargetingContextProvider = ({ children }) => {
         selectedCampaignRecc,
         setSelectedCampaignRecc,
         selectedCampaignType,
+        minHardBudget,
         minReccBudget,
         setMinReccBudget,
         currency,

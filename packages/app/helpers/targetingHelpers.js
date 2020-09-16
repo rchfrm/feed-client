@@ -84,7 +84,7 @@ export const createLocationsObject = (locations) => {
 }
 
 // Calc hard min budget
-export const calcMinHardBudget = (minBudgetInfo, getFbMin) => {
+export const calcMinBudget = (minBudgetInfo, type) => {
   const {
     amount,
     currency: {
@@ -96,7 +96,7 @@ export const calcMinHardBudget = (minBudgetInfo, getFbMin) => {
     fbMinBudgetFloat,
     minBudgetFloat,
   } = utils.getMinBudget(amount, currencyCode, currencyOffset)
-  if (getFbMin) return fbMinBudgetFloat
+  if (type === 'hard') return fbMinBudgetFloat
   return minBudgetFloat
 }
 
@@ -104,8 +104,8 @@ export const calcMinHardBudget = (minBudgetInfo, getFbMin) => {
 export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }) => {
   const cityUnit = 0.25
   const countryUnit = 1
-  const baseBudget = calcMinHardBudget(minBudgetInfo)
-  const fbMin = calcMinHardBudget(minBudgetInfo, true)
+  const baseBudget = calcMinBudget(minBudgetInfo, 'recc')
+  const fbMin = calcMinBudget(minBudgetInfo, 'hard')
   const cityCost = (fbMin * (cityUnit * totalCities))
   const countryCost = (fbMin * (countryUnit * totalCountries))
   return baseBudget + cityCost + countryCost
