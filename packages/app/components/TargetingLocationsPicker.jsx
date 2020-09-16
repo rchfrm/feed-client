@@ -6,15 +6,12 @@ import remove from 'lodash/remove'
 import {
   Accordion,
   AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
   AccordionItemPanel,
-  AccordionItemState,
 } from 'react-accessible-accordion'
 
-import ArrowHeadIcon from '@/icons/ArrowHeadIcon'
-
 import CheckboxButtons from '@/elements/CheckboxButtons'
+
+import TargetingLocationsCountry from '@/app/TargetingLocationsCountry'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -74,7 +71,7 @@ const TargetingLocationsPicker = () => {
         allowZeroExpanded
       >
         {countriesArray.map((country) => {
-          const { key, name, cities, audiencePercent } = country
+          const { key, cities } = country
           const citiesCheckboxes = cities.map((city) => {
             return {
               value: city.key,
@@ -89,48 +86,14 @@ const TargetingLocationsPicker = () => {
             }
           })
           return (
-            // Country
+            // COUNTRY
             <AccordionItem key={key} className="mb-10 border-b-2 border-solid border-grey-2">
-              <AccordionItemState>
-                {({ expanded }) => (
-                  <div className="flex items-top">
-                    <CheckboxButtons
-                      buttonOptions={[{
-                        value: key,
-                        name,
-                        label: '',
-                      }]}
-                      selectedValues={selectedCountries}
-                      setSelectedValues={setSelectedCountries}
-                      checkboxClassname="mb-0"
-                    />
-                    <AccordionItemHeading
-                      className={['w-full', !expanded ? 'pb-2' : null].join(' ')}
-                      style={{ transform: 'translateY(-0.1em)' }}
-                    >
-                      <AccordionItemButton>
-                        <div className="flex w-full items-baseline justify-between relative text-lg">
-                          <div className="flex items-top">
-                            <p className="mb-0"><strong>{name}</strong></p>
-                            <ArrowHeadIcon
-                              className="ml-2"
-                              style={{
-                                width: '0.5rem',
-                                height: 'auto',
-                                transform: expanded ? 'rotate(0deg) translateY(0.08em)' : 'rotate(-90deg) translateX(-0.05em)',
-                              }}
-                            />
-                          </div>
-                          <p className="text-xs mb-0">
-                            <strong><em>{audiencePercent}% of audience</em></strong>
-                          </p>
-                        </div>
-                      </AccordionItemButton>
-                    </AccordionItemHeading>
-                  </div>
-                )}
-              </AccordionItemState>
-              {/* Cities */}
+              <TargetingLocationsCountry
+                country={country}
+                selectedCountries={selectedCountries}
+                setSelectedCountries={setSelectedCountries}
+              />
+              {/* CITIES */}
               <AccordionItemPanel>
                 <CheckboxButtons
                   className="pt-5 pb-1"
