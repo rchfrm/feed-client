@@ -1,7 +1,8 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import remove from 'lodash/remove'
+import pull from 'lodash/pull'
+import pullAll from 'lodash/pullAll'
 
 import {
   Accordion,
@@ -41,23 +42,23 @@ const TargetingLocationsPicker = () => {
   React.useEffect(() => {
     selectedCountries.forEach((countryCode) => {
       const country = locationOptions[countryCode]
-      const cityCodes = country.cities.map(({ key }) => key)
-      const purgedSelectedCities = remove(selectedCities, (city) => !cityCodes.includes(city))
+      const countryCityCodes = country.cities.map(({ key }) => key)
+      const purgedSelectedCities = pullAll(selectedCities, countryCityCodes)
       setSelectedCities(purgedSelectedCities)
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCountries.length, locationOptions])
+  }, [selectedCountries, locationOptions])
 
   // Turn off country if selecting a city from that country
   React.useEffect(() => {
     selectedCities.forEach((cityCode) => {
       // Related country code
       const { countryCode } = citiesArray.find(({ key }) => key === cityCode)
-      const purgedSelectedCountries = remove(selectedCountries, (c) => !c === countryCode)
+      const purgedSelectedCountries = pull(selectedCountries, countryCode)
       setSelectedCountries(purgedSelectedCountries)
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCities.length])
+  }, [selectedCities])
 
   return (
     <section className="pb-20">
