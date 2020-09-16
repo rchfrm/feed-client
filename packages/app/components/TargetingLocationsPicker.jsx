@@ -65,6 +65,7 @@ const TargetingLocationsPicker = () => {
           Locations
         </span>
       </p>
+      {/* COUNTRIES AND CITIES */}
       <Accordion
         className="pt-6"
         allowMultipleExpanded
