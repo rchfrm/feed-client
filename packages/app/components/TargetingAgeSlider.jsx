@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TargetingSettingsHeader from '@/app/TargetingSettingsHeader'
+
 import Slider from '@/elements/Slider'
 
 const TargetingAgeSlider = ({ minAge, maxAge, onChange, className }) => {
@@ -26,17 +28,19 @@ const TargetingAgeSlider = ({ minAge, maxAge, onChange, className }) => {
 
 
   return (
-    <Slider
-      containerClassName={className}
-      label="Age range"
-      valueRange={[lowestAge, highestAge]}
-      value={[minAge, maxAge]}
-      thumbName={['Lower age', 'Upper age']}
-      pearling
-      getLabelValue={getLabelValue}
-      valueLabelFunction={valueLabelFunction}
-      onChange={onChange}
-    />
+    <section>
+      <TargetingSettingsHeader className="mb-10" header="Age Range" />
+      <Slider
+        containerClassName={className}
+        valueRange={[lowestAge, highestAge]}
+        value={[minAge, maxAge]}
+        thumbName={['Lower age', 'Upper age']}
+        pearling
+        getLabelValue={getLabelValue}
+        valueLabelFunction={valueLabelFunction}
+        onChange={onChange}
+      />
+    </section>
   )
 }
 
