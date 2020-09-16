@@ -131,7 +131,7 @@ export const demotargetingState = {
 
 
 export const fetchTargetingCities = (artistId) => {
-  const demoTargetingCities = {
+  const demoPopuplarLocations = {
     countries: [
       { key: 'GB', name: 'UK', audiencePercent: 34 },
       { key: 'FR', name: 'France', audiencePercent: 23 },
@@ -151,7 +151,7 @@ export const fetchTargetingCities = (artistId) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('Fetched loactions for ', artistId)
-      resolve(demoTargetingCities)
+      resolve(demoPopuplarLocations)
     }, 400)
   })
 }
