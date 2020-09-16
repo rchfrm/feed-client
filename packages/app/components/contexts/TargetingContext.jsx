@@ -115,6 +115,14 @@ const TargetingContextProvider = ({ children }) => {
       })
     })
   }, [])
+
+  // UPDATE BUDGET IF RECC IS MORE THAN CURRENT
+  React.useEffect(() => {
+    if (targetingState.budget < minReccBudget) {
+      updateTargetingBudget(minReccBudget)
+    }
+  }, [minReccBudget])
+
   // GET DESKTOP LAYOUT TEST
   const { desktopLayoutWidth } = initialState
   const isDesktopLayout = useBreakpointTest(desktopLayoutWidth)
