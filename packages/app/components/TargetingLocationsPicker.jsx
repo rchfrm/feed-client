@@ -25,6 +25,7 @@ const TargetingLocationsPicker = () => {
     setSelectedCountries,
   } = React.useContext(TargetingContext)
 
+  // BUILD ARRAY OF COUNTRIES and CITIES
   const countriesArray = React.useMemo(() => {
     return Object.values(locationOptions)
   }, [locationOptions])
@@ -73,7 +74,9 @@ const TargetingLocationsPicker = () => {
       >
         {countriesArray.map((country) => {
           const { key, cities } = country
+          const hasCities = !!cities.length
           const citiesCheckboxes = cities.map((city) => {
+            const { audiencePercent } = city
             return {
               value: city.key,
               name: city.key,
@@ -81,7 +84,11 @@ const TargetingLocationsPicker = () => {
                 <>
                   {city.name}
                   &nbsp;&nbsp;
-                  <span className="text-xs">{city.audiencePercent}%</span>
+                  {audiencePercent ? (
+                    <span className="text-xs">{audiencePercent}%</span>
+                  ) : (
+                    <span className="text-xs text-red">{'< 1%'}</span>
+                  )}
                 </>
               ),
             }
@@ -93,16 +100,19 @@ const TargetingLocationsPicker = () => {
                 country={country}
                 selectedCountries={selectedCountries}
                 setSelectedCountries={setSelectedCountries}
+                hasCities={hasCities}
               />
               {/* CITIES */}
-              <AccordionItemPanel>
-                <CheckboxButtons
-                  className="pt-5 pb-1"
-                  buttonOptions={citiesCheckboxes}
-                  selectedValues={selectedCities}
-                  setSelectedValues={setSelectedCities}
-                />
-              </AccordionItemPanel>
+              {hasCities && (
+                <AccordionItemPanel>
+                  <CheckboxButtons
+                    className="pt-5 pb-1"
+                    buttonOptions={citiesCheckboxes}
+                    selectedValues={selectedCities}
+                    setSelectedValues={setSelectedCities}
+                  />
+                </AccordionItemPanel>
+              )}
             </AccordionItem>
           )
         })}

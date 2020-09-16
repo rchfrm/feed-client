@@ -164,10 +164,16 @@ const TargetingContextProvider = ({ children }) => {
   const [selectedCities, setSelectedCities] = React.useState(initialState.selectedCities)
   // * Create initial location options
   const createLocationOptions = React.useCallback((popularLocations) => {
+    // Create initial state of chek
     // Create object of location options grouped by country
-    const locationOptions = targetingHelpers.createLocationsObject(popularLocations)
+    const currentLocations = {
+      cities: targetingState.cities,
+      countries: targetingState.countries,
+    }
+    const locationOptions = targetingHelpers.createLocationsObject(popularLocations, currentLocations)
     setLocationOptions(locationOptions)
-  }, [])
+  }, [targetingState.cities, targetingState.countries])
+
   // Update min budget based on selected countries and cities
   React.useEffect(() => {
     const totalCities = selectedCities.length

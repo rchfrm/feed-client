@@ -6,11 +6,14 @@ export const demotargetingState = {
   minAge: 23,
   maxAge: 45,
   genders: [],
-  countries: [{ key: 'uk', name: 'UK', countryCode: 'GB' }],
+  countries: [
+    { key: 'GB', name: 'UK' },
+    { key: 'DE', name: 'Germany' },
+  ],
   cities: [
     { key: 'paris', name: 'Paris', countryCode: 'FR' },
-    { key: 'marseille', name: 'Marseille' },
-    { key: 'lislesursogue', name: 'L\'Isle sur Sogue' },
+    { key: 'marseille', name: 'Marseille', countryCode: 'FR' },
+    { key: 'lislesursogue', name: 'L\'Isle sur Sogue', countryCode: 'FR' },
   ],
   budget: 3,
   minReccBudget: 2,
@@ -26,7 +29,7 @@ export const demoRecs = [
     budget: 5,
     minAge: 18,
     maxAge: 65,
-    countries: [{ key: 'uk', name: 'UK' }],
+    countries: [{ key: 'GB', name: 'UK' }],
     cities: [{ key: 'paris', name: 'Paris' }],
   },
   {
@@ -36,17 +39,13 @@ export const demoRecs = [
     budget: 6,
     minAge: 18,
     maxAge: 65,
-    countries: [{ key: 'france', name: 'France' }],
+    countries: [{ key: 'FR', name: 'France' }],
     cities: [{ key: 'london', name: 'London' }, { key: 'bolton', name: 'Bolton' }],
   },
 ]
 
 
 const demoPopuplarLocations = {
-  homeCountry: {
-    key: 'GB',
-    audiencePercent: 34,
-  },
   countries: [
     { key: 'GB', name: 'UK', audiencePercent: 34 },
     { key: 'FR', name: 'France', audiencePercent: 23 },
@@ -151,10 +150,37 @@ export const fetchPopularLocations = (artistId) => {
   })
 }
 
+const getMergedLocations = (current, popular) => {
+  return current.reduce((arr, location) => {
+    const { key: currKey } = location
+    // Is the current city already in the popular city list?
+    const isAlreadyPresent = popular.find(({ key }) => key === currKey)
+    // Yes? Ignore
+    if (isAlreadyPresent) return arr
+    // No? Add it
+    return [...arr, location]
+  }, popular)
+}
+
 // Create locations object (sort cities into countries)
-export const createLocationsObject = (popularLocations) => {
-  const { countries, cities } = popularLocations
-  return cities.reduce((obj, city) => {
+export const createLocationsObject = (popularLocations, currentLocations) => {
+  const { cities: popularCities, countries: popularCountries } = popularLocations
+  const { cities: currentCities, countries: currentCountries } = currentLocations
+  // Merge current cities and popular cities
+  const citiesMerged = getMergedLocations(currentCities, popularCities)
+  // Merge current countires and popular countires
+  const countriesMerged = getMergedLocations(currentCountries, popularCountries)
+  // Build initial locations OBJ based on available countries
+  const locationCountries = countriesMerged.reduce((obj, country) => {
+    const { key } = country
+    obj[key] = {
+      ...country,
+      cities: [],
+    }
+    return obj
+  }, {})
+  // Build popular locations
+  return citiesMerged.reduce((obj, city) => {
     const { countryCode } = city
     const countryObj = obj[countryCode]
     const cityWithSelected = { ...city, selected: false }
@@ -164,7 +190,7 @@ export const createLocationsObject = (popularLocations) => {
       return obj
     }
     // Else start building country object
-    const country = countries.find(({ key }) => key === countryCode)
+    const country = countriesMerged.find(({ key }) => key === countryCode)
     const { audiencePercent, name, key } = country
     obj[countryCode] = {
       name,
@@ -174,7 +200,7 @@ export const createLocationsObject = (popularLocations) => {
       selected: false,
     }
     return obj
-  }, {})
+  }, locationCountries)
 }
 
 // Calc hard min budget
