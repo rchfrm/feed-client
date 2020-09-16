@@ -130,7 +130,7 @@ const TargetingContextProvider = ({ children }) => {
     ) : null
     return { content, button }
   }
-  // Toggle budget
+  // Toggle budget sidepanel
   const toggleMobileBudget = React.useCallback((state = true) => {
     const { content, button } = getBudgetSidePanelContent(state)
     setSidePanelContent(content)
@@ -140,7 +140,7 @@ const TargetingContextProvider = ({ children }) => {
     // Hide progress button
     setSelectedCampaignRecc(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setSidePanelButton, toggleSidePanel])
+  }, [setSidePanelButton, toggleSidePanel, targetingState, budgetFormatted])
 
   React.useEffect(() => {
     const { button } = getBudgetSidePanelContent()
