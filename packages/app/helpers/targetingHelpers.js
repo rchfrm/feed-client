@@ -42,7 +42,14 @@ export const getSummary = {
   },
   genders: (targetingState) => {
     const { genders } = targetingState
-    return genders
+    const totalGenders = genders.length
+    if (!totalGenders) return 'All'
+    return genders.reduce((str, gender, index) => {
+      const isLast = index === totalGenders - 1
+      const name = utils.capitalise(gender)
+      if (isLast) return `${str}${name}`
+      return `${str}${name}, `
+    }, '')
   },
   countries: (targetingState) => {
     const { countries } = targetingState
@@ -117,7 +124,7 @@ export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }
 export const demotargetingState = {
   minAge: 23,
   maxAge: 45,
-  genders: 'men',
+  genders: [],
   countries: [{ key: 'uk', name: 'UK', countryCode: 'GB' }],
   cities: [
     { key: 'paris', name: 'Paris', countryCode: 'FR' },
