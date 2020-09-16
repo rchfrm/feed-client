@@ -11,12 +11,12 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import * as utils from '@/helpers/utils'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
-const TargetingContext = React.createContext({
+const initialState = {
   targetingState: {},
   setTargetingState: () => {},
   saveCampaignSettings: () => {},
   saving: false,
-  currentView: '',
+  currentView: 'summary',
   setCurrentView: () => {},
   isAnimatingView: false,
   setIsAnimatingView: () => {},
@@ -41,7 +41,9 @@ const TargetingContext = React.createContext({
   setSelectedCities: () => {},
   selectedCountries: [],
   setSelectedCountries: () => {},
-})
+}
+
+const TargetingContext = React.createContext(initialState)
 
 TargetingContext.displayName = 'TargetingContext'
 
@@ -57,14 +59,14 @@ const TargetingContextProvider = ({ children }) => {
   } = React.useContext(ArtistContext)
 
   // CAMPAIGN SETTINGS VIEW ('summary' | 'customise')
-  const [currentView, setCurrentView] = React.useState('summary')
-  const [isAnimatingView, setIsAnimatingView] = React.useState(false)
+  const [currentView, setCurrentView] = React.useState(initialState.currentView)
+  const [isAnimatingView, setIsAnimatingView] = React.useState(initialState.isAnimatingView)
 
   // TARGETING STATE
-  const [targetingState, setTargetingState] = React.useState(targetingHelpers.demotargetingState)
+  const [targetingState, setTargetingState] = React.useState(initialState.targetingState)
 
   // SELECTED CAMPAIGN REC
-  const [selectedCampaignRecc, setSelectedCampaignRecc] = React.useState(null)
+  const [selectedCampaignRecc, setSelectedCampaignRecc] = React.useState(initialState.selectedCampaignRecc)
 
   // SELECTED CAMPAIGN OPTION ('recommended' | 'custom' | '')
   const [selectedCampaignType, setSelectedCampaignType] = React.useState('')
@@ -102,11 +104,11 @@ const TargetingContextProvider = ({ children }) => {
   }, [targetingState.budget, currency])
 
   // GET DESKTOP LAYOUT TEST
-  const desktopLayoutWidth = 'md'
+  const { desktopLayoutWidth } = initialState
   const isDesktopLayout = useBreakpointTest(desktopLayoutWidth)
 
   // MOBILE BUDGET SIDEPANEL
-  const [mobileBudgetOpen, setMobileBudgetOpen] = React.useState(false)
+  const [mobileBudgetOpen, setMobileBudgetOpen] = React.useState(initialState.mobileBudgetOpen)
   // Get budget content
   const getBudgetSidePanelContent = (state = true) => {
     const content = state ? (
@@ -152,19 +154,19 @@ const TargetingContextProvider = ({ children }) => {
 
 
   // SETTINGS
-  const [settingsReady, setSettingsReady] = React.useState(false)
+  const [settingsReady, setSettingsReady] = React.useState(initialState.settingsReady)
 
   // LOCATION SETTINGS
-  const [locationOptions, setLocationOptions] = React.useState([])
+  const [locationOptions, setLocationOptions] = React.useState(initialState.locationOptions)
+  // * Selected cities and countries
+  const [selectedCountries, setSelectedCountries] = React.useState(initialState.selectedCountries)
+  const [selectedCities, setSelectedCities] = React.useState(initialState.selectedCities)
   // * Create initial location options
-  const createLocationOptions = React.useCallback((locations) => {
+  const createLocationOptions = React.useCallback((popularLocations) => {
     // Create object of location options grouped by country
-    const locationOptions = targetingHelpers.createLocationsObject(locations)
+    const locationOptions = targetingHelpers.createLocationsObject(popularLocations)
     setLocationOptions(locationOptions)
   }, [])
-  // * Selected cities and countries
-  const [selectedCountries, setSelectedCountries] = React.useState([])
-  const [selectedCities, setSelectedCities] = React.useState([])
   // Update min budget based on selected countries and cities
   React.useEffect(() => {
     const totalCities = selectedCities.length
