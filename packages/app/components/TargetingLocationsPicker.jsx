@@ -3,6 +3,7 @@ import React from 'react'
 
 import pull from 'lodash/pull'
 import pullAll from 'lodash/pullAll'
+import uniq from 'lodash/uniq'
 
 import {
   Accordion,
@@ -60,6 +61,16 @@ const TargetingLocationsPicker = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCities])
 
+  // SHOW COUNTRIES THAT HAVE SELECTED CITIES AS OPEN
+  const getOpenCountries = () => {
+    const openCountries = selectedCities.map((cityKey) => {
+      const { countryCode: countryOrigin } = citiesArray.find(({ key }) => key === cityKey)
+      return countryOrigin
+    })
+    return uniq(openCountries)
+  }
+  const initialOpenPanels = React.useRef(getOpenCountries())
+
   return (
     <section className="pb-20">
       <p className="mb-0">
@@ -72,6 +83,7 @@ const TargetingLocationsPicker = () => {
         className="pt-6"
         allowMultipleExpanded
         allowZeroExpanded
+        preExpanded={initialOpenPanels.current}
       >
         {countriesArray.map((country) => {
           const { key, cities } = country
@@ -96,7 +108,11 @@ const TargetingLocationsPicker = () => {
           })
           return (
             // COUNTRY
-            <AccordionItem key={key} className="mb-10 border-b-2 border-solid border-grey-2">
+            <AccordionItem
+              key={key}
+              uuid={key}
+              className="mb-10 border-b-2 border-solid border-grey-2"
+            >
               <TargetingLocationsCountry
                 country={country}
                 selectedCountries={selectedCountries}
