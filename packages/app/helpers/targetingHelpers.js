@@ -234,14 +234,10 @@ export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }
 
 // SAVE CAMPAIGN SETTINGS
 // ----------------------
-export const saveCampaign = (oldState, newState) => {
+export const saveCampaign = (newState) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const state = {
-        ...oldState,
-        ...newState,
-      }
-      resolve(state)
+      resolve(newState)
     }, 1000)
   })
 }
