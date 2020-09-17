@@ -48,7 +48,7 @@ const TargetingBudgetSetter = ({
                 }}
                 placeholder={inputPlaceholder}
                 name="Budget"
-                label="Custom Budget"
+                label={mobileVersion ? 'Custom Budget' : null}
                 className={['w-full'].join(' ')}
                 currency={currency}
               />
