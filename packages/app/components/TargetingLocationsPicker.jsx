@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import pull from 'lodash/pull'
 import pullAll from 'lodash/pullAll'
 import uniq from 'lodash/uniq'
 
@@ -41,23 +40,25 @@ const TargetingLocationsPicker = ({ className }) => {
 
   // Turn off all cities connected to a selected country
   React.useEffect(() => {
-    selectedCountries.forEach((countryCode) => {
+    const citiesToPurge = selectedCountries.reduce((arr, countryCode) => {
       const country = locationOptions[countryCode]
-      const countryCityCodes = country.cities.map(({ key }) => key)
-      const purgedSelectedCities = pullAll(selectedCities, countryCityCodes)
-      setSelectedCities(purgedSelectedCities)
-    })
+      const cityCodes = country.cities.map(({ key }) => key)
+      return [...arr, ...cityCodes]
+    }, [])
+    const purgedCities = pullAll(selectedCities, citiesToPurge)
+    setSelectedCities([...purgedCities])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCountries, locationOptions])
 
   // Turn off country if selecting a city from that country
   React.useEffect(() => {
-    selectedCities.forEach((cityCode) => {
+    const countriesToPurge = selectedCities.map((cityCode) => {
       // Related country code
       const { countryCode } = citiesArray.find(({ key }) => key === cityCode)
-      const purgedSelectedCountries = pull(selectedCountries, countryCode)
-      setSelectedCountries(purgedSelectedCountries)
+      return countryCode
     })
+    const purgedSelectedCountries = pullAll(selectedCountries, uniq(countriesToPurge))
+    setSelectedCountries(purgedSelectedCountries)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCities])
 
