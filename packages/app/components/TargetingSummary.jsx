@@ -12,7 +12,7 @@ import { demoRecs } from '@/app/helpers/targetingHelpers'
 
 const TargetingSummary = () => {
   const {
-    targetingState,
+    initialTargetingState,
     currency,
     selectedCampaignRecc,
     setSelectedCampaignRecc,
@@ -25,12 +25,13 @@ const TargetingSummary = () => {
     return id
   }, [selectedCampaignRecc])
 
-  const [initialTargetingState] = React.useState(targetingState)
-
   return (
     <div>
       {/* SUMMARY LIST */}
-      <TargetingSummaryList targetingState={initialTargetingState} currency={currency} />
+      <TargetingSummaryList
+        targetingState={initialTargetingState}
+        currency={currency}
+      />
       {/* RECCS */}
       <TargetingCampaignReccs
         reccs={demoRecs}

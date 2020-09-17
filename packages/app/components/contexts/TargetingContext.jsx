@@ -16,6 +16,8 @@ import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 const initialState = {
   targetingState: {},
   setTargetingState: () => {},
+  initialTargetingState: {},
+  setInitialTargetingState: {},
   saveCampaignSettings: () => {},
   saving: false,
   currentView: 'summary',
@@ -67,6 +69,7 @@ const TargetingContextProvider = ({ children }) => {
 
   // TARGETING STATE
   const [targetingState, setTargetingState] = React.useState(initialState.targetingState)
+  const [initialTargetingState, setInitialTargetingState] = React.useState(initialState.targetingState)
 
   // SELECTED CAMPAIGN REC
   const [selectedCampaignRecc, setSelectedCampaignRecc] = React.useState(initialState.selectedCampaignRecc)
@@ -92,6 +95,7 @@ const TargetingContextProvider = ({ children }) => {
     // Update state
     console.log('savedState', savedState)
     setTargetingState(savedState)
+    setInitialTargetingState(savedState)
     setSelectedCampaignRecc(null)
     setSaving(false)
     toggleGlobalLoading(false)
@@ -224,6 +228,8 @@ const TargetingContextProvider = ({ children }) => {
       value={{
         targetingState,
         setTargetingState,
+        initialTargetingState,
+        setInitialTargetingState,
         saveCampaignSettings,
         saving,
         currentView,

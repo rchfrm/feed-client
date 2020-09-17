@@ -25,7 +25,12 @@ const TargetingContent = () => {
   const { artistId } = React.useContext(ArtistContext)
   const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
   // Fetch from targeting context
-  const { targetingState, setTargetingState, isDesktopLayout } = React.useContext(TargetingContext)
+  const {
+    targetingState,
+    setTargetingState,
+    isDesktopLayout,
+    setInitialTargetingState,
+  } = React.useContext(TargetingContext)
 
   // LOAD AND SET INITIAL TARGETING STATE
   const [error, setError] = React.useState(null)
@@ -37,6 +42,7 @@ const TargetingContent = () => {
     // When fetch finishes
     onResolve: (state) => {
       toggleGlobalLoading(false)
+      setInitialTargetingState(state)
       setTargetingState(state)
     },
     // Handle errors
