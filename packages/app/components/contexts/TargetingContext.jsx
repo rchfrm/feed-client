@@ -48,6 +48,7 @@ const initialState = {
   setSelectedCities: () => {},
   selectedCountries: [],
   setSelectedCountries: () => {},
+  initPage: () => {},
 }
 
 const TargetingContext = React.createContext(initialState)
@@ -235,6 +236,18 @@ const TargetingContextProvider = ({ children }) => {
   }, [selectedCountries.length, selectedCities.length, artistId])
 
 
+  // INIT TARGETING PAGE
+  const initPage = React.useCallback((targetingState) => {
+    // Set inital countires (to trigger min budget)
+    const initialCities = targetingState.cities.map(({ key }) => key)
+    const initialCountries = targetingState.countries.map(({ code }) => code)
+    setSelectedCities(initialCities)
+    setSelectedCountries(initialCountries)
+    // Set targeting state
+    setInitialTargetingState(targetingState)
+    setTargetingState(targetingState)
+  }, [])
+
   // RESET EVERYTHING WHEN ARTIST ID CHANGES
   React.useEffect(() => {
     setSettingsReady(false)
@@ -283,6 +296,7 @@ const TargetingContextProvider = ({ children }) => {
         setSelectedCities,
         selectedCountries,
         setSelectedCountries,
+        initPage,
       }}
     >
       {children}

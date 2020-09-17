@@ -27,9 +27,8 @@ const TargetingContent = () => {
   // Fetch from targeting context
   const {
     targetingState,
-    setTargetingState,
     isDesktopLayout,
-    setInitialTargetingState,
+    initPage,
   } = React.useContext(TargetingContext)
 
   // LOAD AND SET INITIAL TARGETING STATE
@@ -42,8 +41,7 @@ const TargetingContent = () => {
     // When fetch finishes
     onResolve: (state) => {
       toggleGlobalLoading(false)
-      setInitialTargetingState(state)
-      setTargetingState(state)
+      initPage(state)
     },
     // Handle errors
     onReject(error) {
