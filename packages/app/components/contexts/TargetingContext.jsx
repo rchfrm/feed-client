@@ -138,6 +138,7 @@ const TargetingContextProvider = ({ children }) => {
     if (targetingState.budget < minReccBudget) {
       updateTargetingBudget(minReccBudget)
     }
+  // eslint-disable-next-line
   }, [minReccBudget])
 
   // DISABLE SAVING (eg if budget is too small)
