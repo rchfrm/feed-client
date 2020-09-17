@@ -68,10 +68,13 @@ const TargetingContent = () => {
   if (!Object.keys(targetingState).length) return null
 
   return (
-    <div className="md:grid grid-cols-12 gap-5">
-      <div className="col-span-6 relative">
+    <div ref={containerRef}>
+      <div className="md:w-1/2 relative">
         {/* Anchor for resizing desktop budget */}
-        <div ref={desktopBudgetAnchor} className="absolute top-0 left-0 w-full opacity-0" />
+        <div
+          ref={columnRef}
+          className="absolute top-0 left-0 h-5 w-full invisible bg-red pointer-events-none"
+        />
         {/* SECTIONS */}
         <SwitchTransition>
           <CSSTransition
@@ -101,8 +104,8 @@ const TargetingContent = () => {
       {/* DESKTOP BUDGET SETTER */}
       {isDesktopLayout && (
         <TargetingBudgetDesktop
-          anchorRef={desktopBudgetAnchor}
-          className="col-span-6"
+          containerRef={containerRef}
+          columnRef={columnRef}
         />
       )}
       {/* MOBILE PROGRESS BUTTON */}

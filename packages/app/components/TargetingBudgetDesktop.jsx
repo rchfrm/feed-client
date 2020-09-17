@@ -1,26 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { gsap } from 'gsap'
+
 import useBrowserStore from '@/hooks/useBrowserStore'
 
-const TargetingBudgetDesktop = ({ anchorRef, className }) => {
-  const positionProps = React.useRef(null)
+const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
   const { width: windowWidth } = useBrowserStore()
+
+  const budgetRef = React.useRef(null)
+
+  // RESIZE AND POSITION
   React.useEffect(() => {
-    const { current: anchorEl } = anchorRef
-    if (!anchorEl) return
-    const anchorProps = anchorEl.getBoundingClientRect()
+    const { current: containerEl } = containerRef
+    const { current: columnEl } = columnRef
+    if (!columnEl) return
+    const containerProps = containerEl.getBoundingClientRect()
+    const columnProps = columnEl.getBoundingClientRect()
     const scrollTop = window.scrollY
     // Calc postiion props
+    const gap = columnProps.height
+    const left = columnProps.right + gap
     const positionProps = {
-      top: anchorProps.top + scrollTop,
+      top: containerProps.top + scrollTop,
+      left,
+      width: containerProps.width - columnProps.width - gap,
+      opacity: 1,
     }
-    positionProps.current = positionProps
-  }, [anchorRef, windowWidth])
+    // Set position
+    const { current: budgetEl } = budgetRef
+    gsap.set(budgetEl, positionProps)
+  }, [containerRef, columnRef, windowWidth])
+
   return (
     <section
+      ref={budgetRef}
       className={[
-        'fixed t-0 r-0',
+        'fixed rounded-dialogue opacity-0',
         'h-20 bg-grey-1',
         className,
       ].join(' ')}
@@ -31,12 +47,14 @@ const TargetingBudgetDesktop = ({ anchorRef, className }) => {
 }
 
 TargetingBudgetDesktop.propTypes = {
-  anchorRef: PropTypes.object,
+  containerRef: PropTypes.object,
+  columnRef: PropTypes.object,
   className: PropTypes.string,
 }
 
 TargetingBudgetDesktop.defaultProps = {
-  anchorRef: {},
+  containerRef: {},
+  columnRef: {},
   className: null,
 }
 
