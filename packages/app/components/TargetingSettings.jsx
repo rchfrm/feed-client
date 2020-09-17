@@ -9,7 +9,7 @@ import Button from '@/elements/Button'
 import Spinner from '@/elements/Spinner'
 
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
-import TargetingLocationsPicker from '@/app/TargetingLocationsPicker'
+import TargetingPickerLocations from '@/app/TargetingPickerLocations'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -61,7 +61,7 @@ const TargetingSettings = () => {
         }}
       />
       {/* LOCATIONS */}
-      <TargetingLocationsPicker className="mb-16" />
+      <TargetingPickerLocations className="mb-16" />
       {/* BACK BUTTON */}
       <div>
         <Button

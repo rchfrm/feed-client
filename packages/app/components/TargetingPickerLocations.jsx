@@ -11,12 +11,12 @@ import {
 } from 'react-accessible-accordion'
 
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
-import TargetingLocationsCountry from '@/app/TargetingLocationsCountry'
-import TargetingLocationsCities from '@/app/TargetingLocationsCities'
+import TargetingPickerCountry from '@/app/TargetingPickerCountry'
+import TargetingPickerCities from '@/app/TargetingPickerCities'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
-const TargetingLocationsPicker = ({ className }) => {
+const TargetingPickerLocations = ({ className }) => {
   // Fetch from targeting context
   const {
     locationOptions,
@@ -92,7 +92,7 @@ const TargetingLocationsPicker = ({ className }) => {
               uuid={code}
               className="mb-10 border-b-2 border-solid border-grey-2"
             >
-              <TargetingLocationsCountry
+              <TargetingPickerCountry
                 country={country}
                 selectedCountries={selectedCountries}
                 setSelectedCountries={setSelectedCountries}
@@ -101,7 +101,7 @@ const TargetingLocationsPicker = ({ className }) => {
               {/* CITIES */}
               {hasCities && (
                 <AccordionItemPanel>
-                  <TargetingLocationsCities
+                  <TargetingPickerCities
                     cities={cities}
                     selectedCities={selectedCities}
                     setSelectedCities={setSelectedCities}
@@ -116,13 +116,13 @@ const TargetingLocationsPicker = ({ className }) => {
   )
 }
 
-TargetingLocationsPicker.propTypes = {
+TargetingPickerLocations.propTypes = {
   className: PropTypes.string,
 }
 
-TargetingLocationsPicker.defaultProps = {
+TargetingPickerLocations.defaultProps = {
   className: null,
 }
 
 
-export default TargetingLocationsPicker
+export default TargetingPickerLocations
