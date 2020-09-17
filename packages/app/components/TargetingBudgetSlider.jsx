@@ -11,7 +11,12 @@ import SliderMarker from '@/elements/SliderMarker'
 import { formatCurrency } from '@/helpers/utils'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
-const TargetingBudgetSlider = ({ budget, minReccBudget, onChange, mobileVersion }) => {
+const TargetingBudgetSlider = ({
+  budget,
+  minReccBudget,
+  onChange,
+  mobileVersion,
+}) => {
   const { artistCurrency } = React.useContext(ArtistContext)
 
   const maxBudget = 30
@@ -34,10 +39,9 @@ const TargetingBudgetSlider = ({ budget, minReccBudget, onChange, mobileVersion 
   }, [])
 
   // SHOW BUDGET FEATURES
-  const [currentBudget, setCurrentBudget] = React.useState(budget)
   const budgetUpgrade = React.useMemo(() => {
-    return targetingHelpers.getNextBudgetUpgrade(currentBudget)
-  }, [currentBudget])
+    return targetingHelpers.getNextBudgetUpgrade(budget)
+  }, [budget])
 
   // DISABLE SIDEPANEL DRAG
   const containerRef = React.useRef(null)
@@ -71,7 +75,6 @@ const TargetingBudgetSlider = ({ budget, minReccBudget, onChange, mobileVersion 
         getLabelValue={getLabelValue}
         valueLabelFunction={valueLabelFunction}
         onChange={(state) => {
-          setCurrentBudget(state)
           onChange(state)
         }}
         forceInitialResize
