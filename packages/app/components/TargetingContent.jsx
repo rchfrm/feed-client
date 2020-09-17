@@ -64,8 +64,6 @@ const TargetingContent = () => {
   const containerRef = React.useRef(null)
   const columnRef = React.useRef(null)
 
-  console.log('isDesktopLayout', isDesktopLayout)
-
   // Handle error
   if (error && !isPending) {
     return <Error error={error} />
