@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import pull from 'lodash/pull'
 import pullAll from 'lodash/pullAll'
@@ -18,7 +18,7 @@ import TargetingLocationsCountry from '@/app/TargetingLocationsCountry'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
-const TargetingLocationsPicker = () => {
+const TargetingLocationsPicker = ({ className }) => {
   // Fetch from targeting context
   const {
     locationOptions,
@@ -73,7 +73,7 @@ const TargetingLocationsPicker = () => {
   const initialOpenPanels = React.useRef(getOpenCountries())
 
   return (
-    <section className="pb-20">
+    <section className={[className].join(' ')}>
       <TargetingSectionHeader className="mb-3" header="Locations" />
       {/* COUNTRIES AND CITIES */}
       <Accordion
@@ -135,8 +135,13 @@ const TargetingLocationsPicker = () => {
   )
 }
 
-// TargetingLocationsPicker.propTypes = {
+TargetingLocationsPicker.propTypes = {
+  className: PropTypes.string,
+}
 
-// }
+TargetingLocationsPicker.defaultProps = {
+  className: null,
+}
+
 
 export default TargetingLocationsPicker

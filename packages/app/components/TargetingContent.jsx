@@ -77,7 +77,7 @@ const TargetingContent = () => {
         {/* Anchor for resizing desktop budget */}
         <div
           ref={columnRef}
-          className="absolute top-0 left-0 h-5 w-full invisible bg-red pointer-events-none"
+          className="absolute top-0 left-0 h-8 w-full invisible bg-red pointer-events-none"
         />
         {/* SECTIONS */}
         <SwitchTransition>

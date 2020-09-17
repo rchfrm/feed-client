@@ -5,6 +5,7 @@ import produce from 'immer'
 
 import useAsyncEffect from 'use-async-effect'
 
+import Button from '@/elements/Button'
 import Spinner from '@/elements/Spinner'
 
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
@@ -44,15 +45,7 @@ const TargetingSettings = () => {
   }
 
   return (
-    <div>
-      <button
-        className="px-10 py-4 bg-black text-white mb-10"
-        onClick={() => {
-          setCurrentView('summary')
-        }}
-      >
-        BACK
-      </button>
+    <div className="-mt-1">
       {/* AGE */}
       <TargetingAgeSlider
         className="pb-16"
@@ -68,7 +61,18 @@ const TargetingSettings = () => {
         }}
       />
       {/* LOCATIONS */}
-      <TargetingLocationsPicker />
+      <TargetingLocationsPicker className="mb-16" />
+      {/* BACK BUTTON */}
+      <div>
+        <Button
+          className="w-40"
+          onClick={() => {
+            setCurrentView('summary')
+          }}
+        >
+          Cancel
+        </Button>
+      </div>
     </div>
   )
 }
