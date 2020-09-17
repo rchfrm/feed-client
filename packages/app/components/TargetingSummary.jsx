@@ -5,6 +5,7 @@ import Button from '@/elements/Button'
 
 import TargetingSummaryList from '@/app/TargetingSummaryList'
 import TargetingCampaignReccs from '@/app/TargetingCampaignReccs'
+import TargetingSummaryButtons from '@/app/TargetingSummaryButtons'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -42,34 +43,12 @@ const TargetingSummary = () => {
         currency={currency}
       />
       {/* BUTTONS */}
-      <section className="pt-10 md:pt-8 pb-5">
-        <h3 className="h2">Edit Campaign</h3>
-        {/* BUDGET BUTTON (for mobile) */}
-        {!isDesktopLayout && (
-          <Button
-            className="w-full mb-5"
-            onClick={toggleMobileBudget}
-          >
-            Edit Budget
-          </Button>
-        )}
-        {/* CUSTOM SETTINGS BUTTON */}
-        <Button
-          className="w-full mb-5"
-          onClick={() => {
-            setCurrentView('customise')
-          }}
-        >
-          Custom Settings
-        </Button>
-        {/* PAUSE BUTTON */}
-        <Button
-          version="red"
-          className="w-full"
-        >
-          Pause Campaign
-        </Button>
-      </section>
+      <TargetingSummaryButtons
+        toggleMobileBudget={toggleMobileBudget}
+        setCurrentView={setCurrentView}
+        isDesktopLayout={isDesktopLayout}
+        className="pt-10 md:pt-8 pb-5"
+      />
     </div>
   )
 }
