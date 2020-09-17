@@ -44,10 +44,17 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
     budgetFormatted,
     currency,
     minReccBudget,
+    minHardBudget,
     targetingState,
     updateTargetingBudget,
     saveCampaignSettings,
   } = React.useContext(TargetingContext)
+
+  // DISABLE SAVING IF BUDGET TOO SMALL
+  const disableSaving = targetingState.budget < minHardBudget
+  console.log('targetingState.budget', targetingState.budget)
+  console.log('minHardBudget', minHardBudget)
+  console.log('disableSaving', disableSaving)
 
   return (
     <section
@@ -78,10 +85,13 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
           'absolute bottom-0 left-0',
           'rounded-t-none',
           'w-full',
+          'border-white border-solid',
+          disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
         ].join(' ')}
         onClick={() => saveCampaignSettings(targetingState)}
+        disabled={disableSaving}
       >
-        Save Campaign Settings
+        {disableSaving ? 'Budget is too small' : 'Save Campaign Settings'}
       </Button>
     </section>
   )
