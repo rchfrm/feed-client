@@ -168,6 +168,7 @@ const TargetingContextProvider = ({ children }) => {
         targetingState={targetingState}
         saveCampaignSettings={saveCampaignSettings}
         budgetFormatted={budgetFormatted}
+        disableSaving={disableSaving}
       />
     ) : null
     return { content, button }
@@ -188,7 +189,7 @@ const TargetingContextProvider = ({ children }) => {
     const { button } = getBudgetSidePanelContent()
     setSidePanelButton(button)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [budgetFormatted])
+  }, [budgetFormatted, disableSaving])
 
   // Set budget open to false when closing sidepanel
   React.useEffect(() => {

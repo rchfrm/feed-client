@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 import Button from '@/elements/Button'
 
 const TargetingBudgetSaveButton = ({
-  className,
   targetingState,
   saveCampaignSettings,
   budgetFormatted,
+  disableSaving,
+  className,
 }) => {
   const saveBudget = React.useCallback(() => {
     saveCampaignSettings(targetingState)
@@ -17,17 +18,19 @@ const TargetingBudgetSaveButton = ({
       version="green"
       onClick={saveBudget}
       className={[className].join(' ')}
+      disabled={disableSaving}
     >
-      Save budget of {budgetFormatted}
+      {disableSaving ? 'Budget is too small' : `Save budget of ${budgetFormatted}`}
     </Button>
   )
 }
 
 TargetingBudgetSaveButton.propTypes = {
-  className: PropTypes.string,
   targetingState: PropTypes.object.isRequired,
   saveCampaignSettings: PropTypes.func.isRequired,
   budgetFormatted: PropTypes.string.isRequired,
+  disableSaving: PropTypes.bool.isRequired,
+  className: PropTypes.string,
 }
 
 TargetingBudgetSaveButton.defaultProps = {
