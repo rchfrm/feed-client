@@ -91,6 +91,46 @@ export const getNextBudgetUpgrade = (currentBudget) => {
   return availableUpgrades[0]
 }
 
+// Calc hard min budget
+export const calcMinBudget = (minBudgetInfo, type) => {
+  const {
+    amount,
+    currency: {
+      code: currencyCode,
+      offset: currencyOffset,
+    },
+  } = minBudgetInfo
+  const {
+    fbMinBudgetFloat,
+    minBudgetFloat,
+  } = utils.getMinBudget(amount, currencyCode, currencyOffset)
+  if (type === 'hard') return fbMinBudgetFloat
+  return minBudgetFloat
+}
+
+// Calc min recc budget
+export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }) => {
+  const cityUnit = 0.25
+  const countryUnit = 1
+  const baseBudget = calcMinBudget(minBudgetInfo, 'recc')
+  const fbMin = calcMinBudget(minBudgetInfo, 'hard')
+  const cityCost = (fbMin * (cityUnit * totalCities))
+  const countryCost = (fbMin * (countryUnit * totalCountries))
+  return baseBudget + cityCost + countryCost
+}
+
+
+export const calcBudgetSliderConfig = (minBudget) => {
+  const exponent = Math.round(minBudget).toString().length - 1
+  const multiplier = 10 ** exponent
+  // console.log('exponent', exponent)
+  // console.log('multiplier', multiplier)
+  // TODO needs refining
+  const steps = Math.round(minBudget)
+  const valueRange = [minBudget, minBudget * 30]
+  return { steps, valueRange }
+}
+
 
 // SUMMARY HELPERS
 // ---------------
@@ -203,34 +243,6 @@ export const createLocationsObject = (popularLocations, currentLocations) => {
     }
     return obj
   }, locationCountries)
-}
-
-// Calc hard min budget
-export const calcMinBudget = (minBudgetInfo, type) => {
-  const {
-    amount,
-    currency: {
-      code: currencyCode,
-      offset: currencyOffset,
-    },
-  } = minBudgetInfo
-  const {
-    fbMinBudgetFloat,
-    minBudgetFloat,
-  } = utils.getMinBudget(amount, currencyCode, currencyOffset)
-  if (type === 'hard') return fbMinBudgetFloat
-  return minBudgetFloat
-}
-
-// Calc min recc budget
-export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }) => {
-  const cityUnit = 0.25
-  const countryUnit = 1
-  const baseBudget = calcMinBudget(minBudgetInfo, 'recc')
-  const fbMin = calcMinBudget(minBudgetInfo, 'hard')
-  const cityCost = (fbMin * (cityUnit * totalCities))
-  const countryCost = (fbMin * (countryUnit * totalCountries))
-  return baseBudget + cityCost + countryCost
 }
 
 

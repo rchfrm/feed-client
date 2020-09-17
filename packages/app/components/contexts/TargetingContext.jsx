@@ -160,6 +160,7 @@ const TargetingContextProvider = ({ children }) => {
       <TargetingBudgetMobile
         currency={currency}
         minReccBudget={minReccBudget}
+        minHardBudget={minHardBudget}
         targetingState={targetingState}
         updateTargetingBudget={updateTargetingBudget}
       />

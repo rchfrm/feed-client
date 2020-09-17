@@ -44,6 +44,7 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
     budgetFormatted,
     currency,
     minReccBudget,
+    minHardBudget,
     disableSaving,
     targetingState,
     updateTargetingBudget,
@@ -69,6 +70,7 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
       <TargetingBudgetSetter
         currency={currency}
         minReccBudget={minReccBudget}
+        minHardBudget={minHardBudget}
         targetingState={targetingState}
         updateTargetingBudget={updateTargetingBudget}
       />

@@ -7,6 +7,7 @@ import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 const TargetingBudgetMobile = ({
   currency,
   minReccBudget,
+  minHardBudget,
   targetingState,
   updateTargetingBudget,
 }) => {
@@ -19,6 +20,7 @@ const TargetingBudgetMobile = ({
       <TargetingBudgetSetter
         currency={currency}
         minReccBudget={minReccBudget}
+        minHardBudget={minHardBudget}
         targetingState={targetingState}
         updateTargetingBudget={updateTargetingBudget}
         mobileVersion

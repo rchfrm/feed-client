@@ -11,6 +11,7 @@ import { formatCurrency } from '@/helpers/utils'
 const TargetingBudgetSetter = ({
   currency,
   minReccBudget,
+  minHardBudget,
   targetingState,
   updateTargetingBudget,
   mobileVersion,
@@ -55,6 +56,7 @@ const TargetingBudgetSetter = ({
               <TargetingBudgetSlider
                 mobileVersion={mobileVersion}
                 budget={budget}
+                minHardBudget={minHardBudget}
                 minReccBudget={targetingState.minReccBudget}
                 onChange={(budget) => {
                   setBudget(budget)

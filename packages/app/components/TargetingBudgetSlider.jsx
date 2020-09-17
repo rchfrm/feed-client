@@ -14,13 +14,11 @@ import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 const TargetingBudgetSlider = ({
   budget,
   minReccBudget,
+  minHardBudget,
   onChange,
   mobileVersion,
 }) => {
   const { artistCurrency } = React.useContext(ArtistContext)
-
-  const maxBudget = 30
-  const valueRange = [minReccBudget, maxBudget]
 
   const getLabel = (budget) => {
     return formatCurrency(budget, artistCurrency)
@@ -66,9 +64,13 @@ const TargetingBudgetSlider = ({
   // eslint-disable-next-line
   }, [mobileVersion])
 
+  // Get slider settings based on min budget
+  const { steps, valueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget)
+
   return (
     <div className={['pl-0'].join(' ')} ref={containerRef}>
       <Slider
+        steps={steps}
         valueRange={valueRange}
         value={budget}
         thumbName="Budget"
@@ -97,13 +99,15 @@ const TargetingBudgetSlider = ({
 TargetingBudgetSlider.propTypes = {
   budget: PropTypes.number,
   minReccBudget: PropTypes.number,
+  minHardBudget: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,
 }
 
 TargetingBudgetSlider.defaultProps = {
-  budget: 2,
-  minReccBudget: 2,
+  budget: 0,
+  minReccBudget: 0,
+  minHardBudget: 0,
   mobileVersion: false,
 }
 
