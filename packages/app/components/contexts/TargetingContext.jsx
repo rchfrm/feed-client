@@ -19,6 +19,7 @@ const initialState = {
   initialTargetingState: {},
   setInitialTargetingState: {},
   saveCampaignSettings: () => {},
+  togglePauseCampaign: () => {},
   saving: false,
   currentView: 'summary',
   setCurrentView: () => {},
@@ -100,6 +101,16 @@ const TargetingContextProvider = ({ children }) => {
     setSaving(false)
     toggleGlobalLoading(false)
   }, [toggleGlobalLoading, toggleSidePanel])
+
+  // PAUSE CAMPAIGN
+  const togglePauseCampaign = React.useCallback((pause) => {
+    const { paused } = targetingState
+    const newPausedState = typeof pause === 'boolean' ? pause : !paused
+    const newSettings = produce(targetingState, draftState => {
+      draftState.paused = newPausedState
+    })
+    saveCampaignSettings(newSettings)
+  }, [targetingState, saveCampaignSettings])
 
   // MIN BUDGET
   const [minHardBudget, setMinHardBudget] = React.useState(0)
@@ -231,6 +242,7 @@ const TargetingContextProvider = ({ children }) => {
         initialTargetingState,
         setInitialTargetingState,
         saveCampaignSettings,
+        togglePauseCampaign,
         saving,
         currentView,
         setCurrentView,

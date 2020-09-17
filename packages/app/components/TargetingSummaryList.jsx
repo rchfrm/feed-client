@@ -40,6 +40,7 @@ const TargetingSummaryList = ({ targetingState, currency }) => {
       value: getSummary.cities(targetingState),
     },
   ]
+
   return (
     <ul
       className={[

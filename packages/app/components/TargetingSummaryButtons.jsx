@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import Button from '@/elements/Button'
 
 const TargetingSummaryButtons = ({
+  campaignPaused,
+  togglePauseCampaign,
   toggleMobileBudget,
   setCurrentView,
   isDesktopLayout,
@@ -30,18 +32,21 @@ const TargetingSummaryButtons = ({
       >
         Custom Settings
       </Button>
-      {/* PAUSE BUTTON */}
+      {/* PAUSE/RESUME BUTTON */}
       <Button
         version="red"
         className="w-full"
+        onClick={togglePauseCampaign}
       >
-        Pause Campaign
+        {campaignPaused ? 'Resume' : 'Pause'} Campaign
       </Button>
     </section>
   )
 }
 
 TargetingSummaryButtons.propTypes = {
+  campaignPaused: PropTypes.bool.isRequired,
+  togglePauseCampaign: PropTypes.func.isRequired,
   toggleMobileBudget: PropTypes.func.isRequired,
   setCurrentView: PropTypes.func.isRequired,
   isDesktopLayout: PropTypes.bool.isRequired,

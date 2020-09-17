@@ -17,6 +17,7 @@ const TargetingSummary = () => {
     currency,
     selectedCampaignRecc,
     setSelectedCampaignRecc,
+    togglePauseCampaign,
     toggleMobileBudget,
     isDesktopLayout,
     setCurrentView,
@@ -44,6 +45,8 @@ const TargetingSummary = () => {
       />
       {/* BUTTONS */}
       <TargetingSummaryButtons
+        campaignPaused={initialTargetingState.paused}
+        togglePauseCampaign={togglePauseCampaign}
         toggleMobileBudget={toggleMobileBudget}
         setCurrentView={setCurrentView}
         isDesktopLayout={isDesktopLayout}
