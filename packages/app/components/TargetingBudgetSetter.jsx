@@ -15,6 +15,13 @@ const TargetingBudgetSetter = ({
   updateTargetingBudget,
   mobileVersion,
 }) => {
+  // UPDATE TARGETING STATE when BUDGET changes
+  const [budget, setBudget] = React.useState(targetingState.budget)
+  React.useEffect(() => {
+    if (typeof budget !== 'number') return
+    updateTargetingBudget(budget)
+  }, [budget, updateTargetingBudget])
+
   // FLIP
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
 
@@ -36,7 +43,7 @@ const TargetingBudgetSetter = ({
             {showCustomBudget ? (
               <InputCurrency
                 handleChange={(value) => {
-                  updateTargetingBudget(value || minReccBudget)
+                  setBudget(value || minReccBudget)
                 }}
                 placeholder={inputPlaceholder}
                 name="Budget"
@@ -47,10 +54,10 @@ const TargetingBudgetSetter = ({
             ) : (
               <TargetingBudgetSlider
                 mobileVersion={mobileVersion}
-                budget={targetingState.budget}
+                budget={budget}
                 minReccBudget={targetingState.minReccBudget}
                 onChange={(budget) => {
-                  updateTargetingBudget(budget)
+                  setBudget(budget)
                 }}
               />
             )}
