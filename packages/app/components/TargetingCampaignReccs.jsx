@@ -33,7 +33,7 @@ const TargetingCampaignReccs = ({
           )
         })}
         {/* CUSTOM OPTION */}
-        <TargetingCampaignReccsOption
+        {/* <TargetingCampaignReccsOption
           rec={{
             id: 'custom',
             type: 'custom',
@@ -41,7 +41,7 @@ const TargetingCampaignReccs = ({
           }}
           selectedReccId={selectedReccId}
           setSelectedCampaignRecc={setSelectedCampaignRecc}
-        />
+        /> */}
       </ul>
     </div>
   )
