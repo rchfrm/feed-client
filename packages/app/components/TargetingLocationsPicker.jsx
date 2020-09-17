@@ -11,10 +11,9 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion'
 
-import CheckboxButtons from '@/elements/CheckboxButtons'
-
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingLocationsCountry from '@/app/TargetingLocationsCountry'
+import TargetingLocationsCities from '@/app/TargetingLocationsCities'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -85,24 +84,6 @@ const TargetingLocationsPicker = ({ className }) => {
         {countriesArray.map((country) => {
           const { key, cities } = country
           const hasCities = !!cities.length
-          const citiesCheckboxes = cities.map((city) => {
-            const { audiencePercent } = city
-            return {
-              value: city.key,
-              name: city.key,
-              label: (
-                <>
-                  {city.name}
-                  &nbsp;&nbsp;
-                  {audiencePercent ? (
-                    <span className="text-xs">{audiencePercent}%</span>
-                  ) : (
-                    <span className="text-xs text-red">{'< 1%'}</span>
-                  )}
-                </>
-              ),
-            }
-          })
           return (
             // COUNTRY
             <AccordionItem
@@ -119,11 +100,10 @@ const TargetingLocationsPicker = ({ className }) => {
               {/* CITIES */}
               {hasCities && (
                 <AccordionItemPanel>
-                  <CheckboxButtons
-                    className="pt-5 pb-1"
-                    buttonOptions={citiesCheckboxes}
-                    selectedValues={selectedCities}
-                    setSelectedValues={setSelectedCities}
+                  <TargetingLocationsCities
+                    cities={cities}
+                    selectedCities={selectedCities}
+                    setSelectedCities={setSelectedCities}
                   />
                 </AccordionItemPanel>
               )}
