@@ -17,7 +17,6 @@ const TargetingSummary = () => {
     selectedCampaignRecc,
     setSelectedCampaignRecc,
     toggleMobileBudget,
-    isDesktopLayout,
   } = React.useContext(TargetingContext)
   // SELECTED RECCS
   const selectedReccId = React.useMemo(() => {

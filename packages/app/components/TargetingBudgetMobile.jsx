@@ -9,7 +9,6 @@ const TargetingBudgetMobile = ({
   minReccBudget,
   targetingState,
   updateTargetingBudget,
-  saveCampaignSettings,
 }) => {
   return (
     <div>
@@ -22,7 +21,6 @@ const TargetingBudgetMobile = ({
         minReccBudget={minReccBudget}
         targetingState={targetingState}
         updateTargetingBudget={updateTargetingBudget}
-        saveCampaignSettings={saveCampaignSettings}
         mobileVersion
       />
     </div>
@@ -34,7 +32,6 @@ TargetingBudgetMobile.propTypes = {
   minReccBudget: PropTypes.number.isRequired,
   targetingState: PropTypes.object.isRequired,
   updateTargetingBudget: PropTypes.func.isRequired,
-  saveCampaignSettings: PropTypes.func.isRequired,
 }
 
 TargetingBudgetMobile.defaultProps = {

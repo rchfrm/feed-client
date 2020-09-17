@@ -137,7 +137,6 @@ const TargetingContextProvider = ({ children }) => {
         minReccBudget={minReccBudget}
         targetingState={targetingState}
         updateTargetingBudget={updateTargetingBudget}
-        saveCampaignSettings={saveCampaignSettings}
       />
     ) : null
     const button = state ? (
