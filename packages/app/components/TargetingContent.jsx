@@ -23,7 +23,7 @@ const fetchState = ({ artistId }) => {
 const TargetingContent = () => {
   // DESTRUCTURE CONTEXTS
   const { artistId } = React.useContext(ArtistContext)
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
   // Fetch from targeting context
   const { targetingState, setTargetingState, isDesktopLayout } = React.useContext(TargetingContext)
 
@@ -65,7 +65,7 @@ const TargetingContent = () => {
     return <Error error={error} />
   }
 
-  if (!Object.keys(targetingState).length) return null
+  if (globalLoading || !Object.keys(targetingState).length) return null
 
   return (
     <div ref={containerRef}>
