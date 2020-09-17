@@ -93,6 +93,8 @@ const TargetingContextProvider = ({ children }) => {
     // Start saving
     setSaving(true)
     toggleGlobalLoading(true)
+    // Reset to summary view
+    setCurrentView(initialState.currentView)
     const savedState = await targetingHelpers.saveCampaign(settings)
     // Update state
     console.log('savedState', savedState)
@@ -238,7 +240,7 @@ const TargetingContextProvider = ({ children }) => {
     setSettingsReady(false)
     setLocationOptions({})
     setSelectedCampaignRecc(null)
-    setCurrentView('summary')
+    setCurrentView(initialState.currentView)
     if (!artistId) return
     const fbMin = targetingHelpers.calcMinBudget(minBudgetInfo, 'hard')
     setMinHardBudget(fbMin)

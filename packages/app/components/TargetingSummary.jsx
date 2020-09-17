@@ -37,12 +37,12 @@ const TargetingSummary = () => {
         currency={currency}
       />
       {/* RECCS */}
-      <TargetingCampaignReccs
+      {/* <TargetingCampaignReccs
         reccs={demoRecs}
         selectedReccId={selectedReccId}
         setSelectedCampaignRecc={setSelectedCampaignRecc}
         currency={currency}
-      />
+      /> */}
       {/* BUTTONS */}
       <TargetingSummaryButtons
         campaignPaused={initialTargetingState.paused}
