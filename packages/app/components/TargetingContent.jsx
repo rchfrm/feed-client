@@ -25,10 +25,9 @@ const TargetingContent = () => {
   const { artistId } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Fetch from targeting context
-  const { setTargetingState, isDesktopLayout } = React.useContext(TargetingContext)
+  const { targetingState, setTargetingState, isDesktopLayout } = React.useContext(TargetingContext)
 
   // LOAD AND SET INITIAL TARGETING STATE
-  const [ready, setReady] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { isPending } = useAsync({
     promiseFn: fetchState,
@@ -39,7 +38,6 @@ const TargetingContent = () => {
     onResolve: (state) => {
       toggleGlobalLoading(false)
       setTargetingState(state)
-      setReady(true)
     },
     // Handle errors
     onReject(error) {
@@ -50,15 +48,15 @@ const TargetingContent = () => {
   // RESET STATES WHEN ARTIST CHANGES
   React.useEffect(() => {
     setError(null)
-    setReady(false)
-  }, [artistId, toggleGlobalLoading])
+  }, [artistId])
 
 
   // GET CURRENT VIEW
   const { currentView, setIsAnimatingView } = React.useContext(TargetingContext)
 
   // Desktop Budget anchor
-  const desktopBudgetAnchor = React.useRef(null)
+  const containerRef = React.useRef(null)
+  const columnRef = React.useRef(null)
 
   console.log('isDesktopLayout', isDesktopLayout)
 
@@ -67,7 +65,7 @@ const TargetingContent = () => {
     return <Error error={error} />
   }
 
-  if (!ready) return null
+  if (!Object.keys(targetingState).length) return null
 
   return (
     <div className="md:grid grid-cols-12 gap-5">
