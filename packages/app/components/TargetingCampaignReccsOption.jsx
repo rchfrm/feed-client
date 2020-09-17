@@ -26,7 +26,7 @@ const TargetingCampaignReccsOption = ({
       key={id}
       className={[
         'mb-5 last:mb-0',
-        'sm:col-span-3',
+        'sm:col-span-12',
       ].join(' ')}
     >
       <a
