@@ -57,7 +57,7 @@ const TargetingBudgetSetter = ({
                 mobileVersion={mobileVersion}
                 budget={budget}
                 minHardBudget={minHardBudget}
-                minReccBudget={targetingState.minReccBudget}
+                minReccBudget={minReccBudget}
                 onChange={(budget) => {
                   setBudget(budget)
                 }}

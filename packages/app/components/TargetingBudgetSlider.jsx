@@ -37,9 +37,9 @@ const TargetingBudgetSlider = ({
   }, [])
 
   // SHOW BUDGET FEATURES
-  const budgetUpgrade = React.useMemo(() => {
-    return targetingHelpers.getNextBudgetUpgrade(budget)
-  }, [budget])
+  // const budgetUpgrade = React.useMemo(() => {
+  //   return targetingHelpers.getNextBudgetUpgrade(budget)
+  // }, [budget])
 
   // DISABLE SIDEPANEL DRAG
   const containerRef = React.useRef(null)
@@ -83,12 +83,11 @@ const TargetingBudgetSlider = ({
         hasMarkers
         trackColorClass={!mobileVersion ? 'bg-white' : 'bg-grey-1'}
       >
-        {budgetUpgrade && (
+        {budget < minReccBudget && (
           <SliderMarker
-            show={!!budgetUpgrade}
             sliderValueRange={valueRange}
-            markerValue={budgetUpgrade.budgetLimit}
-            markerLabel={budgetUpgrade.featureName}
+            markerValue={minReccBudget}
+            markerLabel="Reccomended"
           />
         )}
       </Slider>
