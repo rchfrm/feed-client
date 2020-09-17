@@ -40,10 +40,10 @@ const TargetingLocationsPicker = ({ className }) => {
 
   // Turn off all cities connected to a selected country
   React.useEffect(() => {
-    const citiesToPurge = selectedCountries.reduce((arr, countryCode) => {
-      const country = locationOptions[countryCode]
-      const cityCodes = country.cities.map(({ key }) => key)
-      return [...arr, ...cityCodes]
+    const citiesToPurge = selectedCountries.reduce((arr, code) => {
+      const country = locationOptions[code]
+      const cityKeys = country.cities.map(({ key }) => key)
+      return [...arr, ...cityKeys]
     }, [])
     const purgedCities = pullAll(selectedCities, citiesToPurge)
     setSelectedCities([...purgedCities])
@@ -54,8 +54,8 @@ const TargetingLocationsPicker = ({ className }) => {
   React.useEffect(() => {
     const countriesToPurge = selectedCities.map((cityCode) => {
       // Related country code
-      const { countryCode } = citiesArray.find(({ key }) => key === cityCode)
-      return countryCode
+      const { country_code } = citiesArray.find(({ key }) => key === cityCode)
+      return country_code
     })
     const purgedSelectedCountries = pullAll(selectedCountries, uniq(countriesToPurge))
     setSelectedCountries(purgedSelectedCountries)
@@ -65,7 +65,7 @@ const TargetingLocationsPicker = ({ className }) => {
   // SHOW COUNTRIES THAT HAVE SELECTED CITIES AS OPEN
   const getOpenCountries = () => {
     const openCountries = selectedCities.map((cityKey) => {
-      const { countryCode: countryOrigin } = citiesArray.find(({ key }) => key === cityKey)
+      const { country_code: countryOrigin } = citiesArray.find(({ key }) => key === cityKey)
       return countryOrigin
     })
     return uniq(openCountries)
@@ -83,13 +83,13 @@ const TargetingLocationsPicker = ({ className }) => {
         preExpanded={initialOpenPanels.current}
       >
         {countriesArray.map((country) => {
-          const { key, cities } = country
+          const { code, cities } = country
           const hasCities = !!cities.length
           return (
             // COUNTRY
             <AccordionItem
-              key={key}
-              uuid={key}
+              key={code}
+              uuid={code}
               className="mb-10 border-b-2 border-solid border-grey-2"
             >
               <TargetingLocationsCountry

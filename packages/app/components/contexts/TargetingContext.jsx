@@ -214,11 +214,11 @@ const TargetingContextProvider = ({ children }) => {
       countries: targetingState.countries,
     }
     // Create object of location options grouped by country
-    const locationOptions = targetingHelpers.createLocationsObject(popularLocations, currentLocations)
+    const locationOptions = targetingHelpers.formatPopularLocations(popularLocations, currentLocations)
     setLocationOptions(locationOptions)
     // Create initial state of location checkboxes
     const initialCities = currentLocations.cities.map(({ key }) => key)
-    const initialCountries = currentLocations.countries.map(({ key }) => key)
+    const initialCountries = currentLocations.countries.map(({ code }) => code)
     setSelectedCities(initialCities)
     setSelectedCountries(initialCountries)
   }, [targetingState.cities, targetingState.countries])

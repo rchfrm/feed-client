@@ -17,14 +17,14 @@ const TargetingLocationsCountry = ({
   setSelectedCountries,
   hasCities,
 }) => {
-  const { key, name, audiencePercent } = country
+  const { code, name, audience_pct } = country
   return (
     <AccordionItemState>
       {({ expanded }) => (
         <div className="flex items-top">
           <CheckboxButtons
             buttonOptions={[{
-              value: key,
+              value: code,
               name,
               label: '',
             }]}
@@ -52,8 +52,8 @@ const TargetingLocationsCountry = ({
                   )}
                 </div>
                 <p className="text-xs mb-0">
-                  {audiencePercent ? (
-                    <strong><em>{audiencePercent}% of audience</em></strong>
+                  {audience_pct ? (
+                    <strong><em>{audience_pct}% of audience</em></strong>
                   ) : (
                     <strong className="text-red"><em>{'< 1%'} of audience</em></strong>
                   )}
