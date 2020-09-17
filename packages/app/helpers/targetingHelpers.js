@@ -49,6 +49,8 @@ const demoPopuplarLocations = {
   countries: [
     { key: 'GB', name: 'UK', audiencePercent: 34 },
     { key: 'FR', name: 'France', audiencePercent: 23 },
+    { key: 'GR', name: 'Greece', audiencePercent: 12 },
+    { key: 'CHD', name: 'Chad', audiencePercent: 7 },
   ],
   cities: [
     { key: 'paris', name: 'Paris', countryCode: 'FR', audiencePercent: 12 },
