@@ -31,6 +31,7 @@ const Slider = ({
   sliderClassName,
   thumbClassName,
   trackClassName,
+  trackColorClass,
   hasMarkers,
   // hackfix
   forceInitialResize,
@@ -59,14 +60,14 @@ const Slider = ({
         <div
           className={[
             'h-6 w-6',
-            'xs:h-8 xs:w-8 -mt-1',
+            '-mt-1',
             'mx-auto rounded-full bg-green',
           ].join(' ')}
-          style={{ transform: 'translateY(-20%)' }}
+          style={{ transform: 'translateY(-20%)', cursor: 'grab' }}
         />
         {/* Number */}
         <p
-          className={['absolute mt-2 xs:mt-3 text-sm xs:text-base'].join(' ')}
+          className={['absolute mt-2 text-sm xs:text-base'].join(' ')}
           style={{ right: '50%', transform: 'translateX(50%)' }}
         >
           {valueLabel}
@@ -140,7 +141,7 @@ const Slider = ({
           minDistance={minDistance}
           className={[sliderClassName].join(' ')}
           thumbClassName={[thumbClassName].join(' ')}
-          trackClassName={['h-2 xs:h-3 bg-grey-1 rounded-dialogue', trackClassName].join(' ')}
+          trackClassName={['h-2 rounded-dialogue', trackClassName, trackColorClass].join(' ')}
           onChange={onChange}
           onBeforeChange={onBeforeChange}
           onAfterChange={onAfterChange}
@@ -182,6 +183,7 @@ Slider.propTypes = {
   containerClassName: PropTypes.string,
   sliderClassName: PropTypes.string,
   thumbClassName: PropTypes.string,
+  trackColorClass: PropTypes.string,
   trackClassName: PropTypes.string,
   hasMarkers: PropTypes.bool,
   forceInitialResize: PropTypes.bool,
@@ -206,6 +208,7 @@ Slider.defaultProps = {
   sliderClassName: null,
   thumbClassName: null,
   trackClassName: null,
+  trackColorClass: 'bg-grey-1',
   hasMarkers: false,
   forceInitialResize: false,
   children: null,
