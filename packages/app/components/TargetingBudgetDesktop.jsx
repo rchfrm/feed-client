@@ -73,6 +73,7 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
       />
       {/* SAVE CAMPAIGN BUTTON */}
       <Button
+        version="green"
         className={[
           'absolute bottom-0 left-0',
           'rounded-t-none',
