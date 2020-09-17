@@ -33,6 +33,7 @@ const initialState = {
   minReccBudget: 0,
   setMinReccBudget: () => {},
   updateTargetingBudget: () => {},
+  disableSaving: false,
   currency: '',
   budgetFormatted: '',
   desktopLayoutWidth: 'md',
@@ -138,6 +139,13 @@ const TargetingContextProvider = ({ children }) => {
       updateTargetingBudget(minReccBudget)
     }
   }, [minReccBudget])
+
+  // DISABLE SAVING (eg if budget is too small)
+  const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
+  React.useEffect(() => {
+    const disabled = targetingState.budget < minHardBudget
+    setDisableSaving(disabled)
+  }, [targetingState.budget, minHardBudget])
 
   // GET DESKTOP LAYOUT TEST
   const { desktopLayoutWidth } = initialState
@@ -255,6 +263,7 @@ const TargetingContextProvider = ({ children }) => {
         minReccBudget,
         setMinReccBudget,
         updateTargetingBudget,
+        disableSaving,
         currency,
         budgetFormatted,
         desktopLayoutWidth,

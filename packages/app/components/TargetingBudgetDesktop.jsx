@@ -44,17 +44,11 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
     budgetFormatted,
     currency,
     minReccBudget,
-    minHardBudget,
+    disableSaving,
     targetingState,
     updateTargetingBudget,
     saveCampaignSettings,
   } = React.useContext(TargetingContext)
-
-  // DISABLE SAVING IF BUDGET TOO SMALL
-  const disableSaving = targetingState.budget < minHardBudget
-  console.log('targetingState.budget', targetingState.budget)
-  console.log('minHardBudget', minHardBudget)
-  console.log('disableSaving', disableSaving)
 
   return (
     <section
