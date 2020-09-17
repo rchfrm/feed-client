@@ -30,7 +30,7 @@ const TargetingSummaryButtons = ({
           setCurrentView('customise')
         }}
       >
-        Custom Settings
+        Customise Settings
       </Button>
       {/* PAUSE/RESUME BUTTON */}
       <Button
