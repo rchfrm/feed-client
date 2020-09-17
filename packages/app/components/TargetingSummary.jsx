@@ -17,6 +17,8 @@ const TargetingSummary = () => {
     selectedCampaignRecc,
     setSelectedCampaignRecc,
     toggleMobileBudget,
+    isDesktopLayout,
+    setCurrentView,
   } = React.useContext(TargetingContext)
   // SELECTED RECCS
   const selectedReccId = React.useMemo(() => {
@@ -40,13 +42,25 @@ const TargetingSummary = () => {
         currency={currency}
       />
       {/* BUTTONS */}
-      <div className="pt-10 pb-5">
-        {/* BUDGET BUTTON */}
+      <section className="pt-10 md:pt-8 pb-5">
+        <h3 className="h2">Edit Campaign</h3>
+        {/* BUDGET BUTTON (for mobile) */}
+        {!isDesktopLayout && (
+          <Button
+            className="w-full mb-5"
+            onClick={toggleMobileBudget}
+          >
+            Edit Budget
+          </Button>
+        )}
+        {/* CUSTOM SETTINGS BUTTON */}
         <Button
-          className="w-full mb-5 md:hidden"
-          onClick={toggleMobileBudget}
+          className="w-full mb-5"
+          onClick={() => {
+            setCurrentView('customise')
+          }}
         >
-          Edit Budget
+          Custom Settings
         </Button>
         {/* PAUSE BUTTON */}
         <Button
@@ -55,7 +69,7 @@ const TargetingSummary = () => {
         >
           Pause Campaign
         </Button>
-      </div>
+      </section>
     </div>
   )
 }
