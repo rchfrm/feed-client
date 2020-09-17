@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const TargetingSettingsHeader = ({ header, className }) => {
+const TargetingSectionHeader = ({ header, className }) => {
   return (
     <h4 className={['font-body', className].join(' ')}>
       <strong>{header}</strong>
@@ -9,14 +9,14 @@ const TargetingSettingsHeader = ({ header, className }) => {
   )
 }
 
-TargetingSettingsHeader.propTypes = {
+TargetingSectionHeader.propTypes = {
   header: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
-TargetingSettingsHeader.defaultProps = {
+TargetingSectionHeader.defaultProps = {
   className: null,
 }
 
 
-export default TargetingSettingsHeader
+export default TargetingSectionHeader

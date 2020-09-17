@@ -13,7 +13,7 @@ import {
 
 import CheckboxButtons from '@/elements/CheckboxButtons'
 
-import TargetingSettingsHeader from '@/app/TargetingSettingsHeader'
+import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingLocationsCountry from '@/app/TargetingLocationsCountry'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
@@ -74,7 +74,7 @@ const TargetingLocationsPicker = () => {
 
   return (
     <section className="pb-20">
-      <TargetingSettingsHeader className="mb-3" header="Locations" />
+      <TargetingSectionHeader className="mb-3" header="Locations" />
       {/* COUNTRIES AND CITIES */}
       <Accordion
         className="pt-6"
