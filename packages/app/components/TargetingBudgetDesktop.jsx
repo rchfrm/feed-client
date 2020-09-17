@@ -5,6 +5,13 @@ import { gsap } from 'gsap'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
 
+import { TargetingContext } from '@/app/contexts/TargetingContext'
+
+import Button from '@/elements/Button'
+
+import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
+import TargetingSectionHeader from '@/app/TargetingSectionHeader'
+
 const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
   const { width: windowWidth } = useBrowserStore()
 
@@ -32,16 +39,49 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
     gsap.set(budgetEl, positionProps)
   }, [containerRef, columnRef, windowWidth])
 
+  // GET TARGETING CONTEXT
+  const {
+    budgetFormatted,
+    currency,
+    minReccBudget,
+    targetingState,
+    updateTargetingBudget,
+    saveCampaignSettings,
+  } = React.useContext(TargetingContext)
+
   return (
     <section
       ref={budgetRef}
       className={[
         'fixed rounded-dialogue opacity-0',
-        'h-20 bg-grey-1',
+        'p-5 bg-grey-1',
+        'pb-16',
         className,
       ].join(' ')}
     >
-      Budget
+      {/* HEADER */}
+      <header className="flex justify-between">
+        <TargetingSectionHeader header="Set Budget" />
+        <TargetingSectionHeader header={budgetFormatted} />
+      </header>
+      {/* BUDGET SETTER */}
+      <TargetingBudgetSetter
+        currency={currency}
+        minReccBudget={minReccBudget}
+        targetingState={targetingState}
+        updateTargetingBudget={updateTargetingBudget}
+      />
+      {/* SAVE CAMPAIGN BUTTON */}
+      <Button
+        className={[
+          'absolute bottom-0 left-0',
+          'rounded-t-none',
+          'w-full',
+        ].join(' ')}
+        onClick={() => saveCampaignSettings(targetingState)}
+      >
+        Save Campaign Settings
+      </Button>
     </section>
   )
 }

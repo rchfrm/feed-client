@@ -85,10 +85,11 @@ const TargetingContextProvider = ({ children }) => {
   const saveCampaignSettings = React.useCallback(async (settings) => {
     // Close side panel
     toggleSidePanel(false)
-
+    // Start saving
     setSaving(true)
     toggleGlobalLoading(true)
     const savedState = await targetingHelpers.saveCampaign(settings)
+    // Update state
     console.log('savedState', savedState)
     setTargetingState(savedState)
     setSelectedCampaignRecc(null)

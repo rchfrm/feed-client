@@ -76,6 +76,7 @@ const TargetingBudgetSlider = ({ budget, minReccBudget, onChange, mobileVersion 
         }}
         forceInitialResize
         hasMarkers
+        trackColorClass={!mobileVersion ? 'bg-white' : 'bg-grey-1'}
       >
         {budgetUpgrade && (
           <SliderMarker
