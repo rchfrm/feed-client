@@ -87,13 +87,12 @@ const TargetingBudgetSlider = ({
         hasMarkers
         trackColorClass={!mobileVersion ? 'bg-white' : 'bg-grey-1'}
       >
-        {budget < minReccBudget && (
-          <SliderMarker
-            sliderValueRange={valueRange}
-            markerValue={minReccBudget}
-            markerLabel="Reccomended"
-          />
-        )}
+        <SliderMarker
+          sliderValueRange={valueRange}
+          markerValue={minReccBudget}
+          markerLabel="Reccomended"
+          hideText={budget >= minReccBudget}
+        />
         <SliderGhost
           sliderValueRange={valueRange}
           markerValue={initialBudget}
