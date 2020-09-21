@@ -1,8 +1,8 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 
 import TargetingSummaryList from '@/app/TargetingSummaryList'
-import TargetingSummaryButtons from '@/app/TargetingSummaryButtons'
+
+import Button from '@/elements/Button'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -10,8 +10,6 @@ const TargetingSummary = () => {
   const {
     initialTargetingState,
     togglePauseCampaign,
-    toggleMobileBudget,
-    isDesktopLayout,
     setCurrentView,
   } = React.useContext(TargetingContext)
 
@@ -22,16 +20,16 @@ const TargetingSummary = () => {
       <TargetingSummaryList
         targetingState={initialTargetingState}
         setCurrentView={setCurrentView}
+        className="mb-8"
       />
-      {/* BUTTONS */}
-      <TargetingSummaryButtons
-        campaignPaused={initialTargetingState.paused}
-        togglePauseCampaign={togglePauseCampaign}
-        toggleMobileBudget={toggleMobileBudget}
-        setCurrentView={setCurrentView}
-        isDesktopLayout={isDesktopLayout}
-        className="pt-10 md:pt-8 pb-5"
-      />
+      {/* PAUSE/RESUME BUTTON */}
+      <Button
+        version="red"
+        className="w-full"
+        onClick={togglePauseCampaign}
+      >
+        {initialTargetingState.paused ? 'Resume' : 'Pause'} Campaign
+      </Button>
     </div>
   )
 }

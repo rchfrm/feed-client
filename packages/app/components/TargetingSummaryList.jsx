@@ -19,7 +19,7 @@ const SUMMARY_DETAIL = ({ name, value }) => {
   )
 }
 
-const TargetingSummaryList = ({ targetingState, setCurrentView }) => {
+const TargetingSummaryList = ({ targetingState, setCurrentView, className }) => {
   const summaries = [
     {
       name: 'Ages',
@@ -45,6 +45,7 @@ const TargetingSummaryList = ({ targetingState, setCurrentView }) => {
         'relative',
         'p-4 sm:p-5',
         'bg-grey-1 rounded-dialogue',
+        className,
       ].join(' ')}
     >
       <TargetingSummaryEditButton
@@ -66,7 +67,13 @@ const TargetingSummaryList = ({ targetingState, setCurrentView }) => {
 TargetingSummaryList.propTypes = {
   targetingState: PropTypes.object.isRequired,
   setCurrentView: PropTypes.func.isRequired,
+  className: PropTypes.string,
 }
+
+TargetingSummaryList.defaultProps = {
+  className: null,
+}
+
 
 
 export default TargetingSummaryList
