@@ -101,10 +101,10 @@ export const calcMinBudget = (minBudgetInfo, type) => {
     },
   } = minBudgetInfo
   const {
-    fbMinBudgetFloat,
+    fbMinRounded,
     minBudgetFloat,
   } = utils.getMinBudget(amount, currencyCode, currencyOffset)
-  if (type === 'hard') return fbMinBudgetFloat
+  if (type === 'hard') return fbMinRounded
   return minBudgetFloat
 }
 
@@ -121,14 +121,9 @@ export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }
 
 
 export const calcBudgetSliderConfig = (minBudget) => {
-  // const exponent = Math.round(minBudget).toString().length - 1
-  // const multiplier = 10 ** exponent
-  // console.log('exponent', exponent)
-  // console.log('multiplier', multiplier)
-  // TODO needs refining
-  const steps = Math.round(minBudget)
+  const step = Math.round(minBudget) / 2
   const valueRange = [minBudget, minBudget * 30]
-  return { steps, valueRange }
+  return { step, valueRange }
 }
 
 

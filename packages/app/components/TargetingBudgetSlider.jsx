@@ -65,12 +65,12 @@ const TargetingBudgetSlider = ({
   }, [mobileVersion])
 
   // Get slider settings based on min budget
-  const { steps, valueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget)
+  const { step, valueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget)
 
   return (
     <div className={['pl-0'].join(' ')} ref={containerRef}>
       <Slider
-        steps={steps}
+        step={step}
         valueRange={valueRange}
         value={budget}
         thumbName="Budget"
