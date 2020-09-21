@@ -16,7 +16,6 @@ export const demotargetingState = {
     { key: 'lislesursogue', name: 'L\'Isle sur Sogue', country_code: 'FR' },
   ],
   budget: 2,
-  minReccBudget: 2,
   paused: false,
 }
 
