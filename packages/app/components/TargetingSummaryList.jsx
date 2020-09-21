@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TargetingSummaryEditButton from '@/app/TargetingSummaryEditButton'
+
 import { getSummary } from '@/app/helpers/targetingHelpers'
 
 const SUMMARY_DETAIL = ({ name, value }) => {
@@ -17,7 +19,7 @@ const SUMMARY_DETAIL = ({ name, value }) => {
   )
 }
 
-const TargetingSummaryList = ({ targetingState }) => {
+const TargetingSummaryList = ({ targetingState, setCurrentView }) => {
   const summaries = [
     {
       name: 'Ages',
@@ -38,21 +40,32 @@ const TargetingSummaryList = ({ targetingState }) => {
   ]
 
   return (
-    <ul
+    <div
       className={[
+        'relative',
         'p-4 sm:p-5',
         'bg-grey-1 rounded-dialogue',
       ].join(' ')}
     >
-      {summaries.map(({ name, value }) => {
-        return <SUMMARY_DETAIL key={name} name={name} value={value} />
-      })}
-    </ul>
+      <TargetingSummaryEditButton
+        setCurrentView={setCurrentView}
+        className={[
+          'absolute top-0 right-0',
+          'm-4 sm:m-5',
+        ].join(' ')}
+      />
+      <ul className="mb-0">
+        {summaries.map(({ name, value }) => {
+          return <SUMMARY_DETAIL key={name} name={name} value={value} />
+        })}
+      </ul>
+    </div>
   )
 }
 
 TargetingSummaryList.propTypes = {
   targetingState: PropTypes.object.isRequired,
+  setCurrentView: PropTypes.func.isRequired,
 }
 
 

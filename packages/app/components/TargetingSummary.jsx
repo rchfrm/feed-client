@@ -9,7 +9,6 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 const TargetingSummary = () => {
   const {
     initialTargetingState,
-    currency,
     togglePauseCampaign,
     toggleMobileBudget,
     isDesktopLayout,
@@ -18,10 +17,11 @@ const TargetingSummary = () => {
 
   return (
     <div>
+      <h2>Current Settings</h2>
       {/* SUMMARY LIST */}
       <TargetingSummaryList
         targetingState={initialTargetingState}
-        currency={currency}
+        setCurrentView={setCurrentView}
       />
       {/* BUTTONS */}
       <TargetingSummaryButtons
