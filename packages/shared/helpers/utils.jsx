@@ -495,20 +495,26 @@ export const roundToFactorOfTen = (n) => {
 * @param {number} amount
 * @param {string} currencyCode
 * @param {number} currencyOffset
-* @returns {string}
+* @returns {object}
 */
 export const getMinBudget = (amount, currencyCode, currencyOffset) => {
   // Account for Feed fee
   const fbMinBudgetAdjusted = (amount / currencyOffset) / 0.9
-  const fbMinBudgetFloat = Math.ceil((fbMinBudgetAdjusted + Number.EPSILON) * 100) / 100
-  const fbMinBudgetString = formatCurrency(fbMinBudgetFloat, currencyCode)
+  const fbMinFloat = Math.ceil((fbMinBudgetAdjusted + Number.EPSILON) * 100) / 100
+  const fbMinRounded = roundToFactorOfTen(fbMinFloat)
+  const fbMinBudgetString = formatCurrency(fbMinFloat, currencyCode)
   const minBudgetFloat = ((amount / 0.9) * 3) / currencyOffset
-  const exponent = Math.round(minBudgetFloat).toString().length - 1
-  const multiplier = 10 ** exponent
-  const roundedNumber = Math.ceil(minBudgetFloat / multiplier) * multiplier
-  const minBudgetString = formatCurrency(roundedNumber, currencyCode)
+  const minBudgetRounded = roundToFactorOfTen(minBudgetFloat)
+  const minBudgetString = formatCurrency(minBudgetRounded, currencyCode)
   // Format and return
-  return { fbMinBudgetFloat, fbMinBudgetString, minBudgetFloat, minBudgetString }
+  return {
+    fbMinFloat,
+    fbMinRounded,
+    fbMinBudgetString,
+    minBudgetFloat,
+    minBudgetRounded,
+    minBudgetString,
+  }
 }
 
 
