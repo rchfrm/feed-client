@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 // DOCS: https://zillow.github.io/react-slider/
 import ReactSlider from 'react-slider'
 
+import SliderDragger from '@/elements/SliderDragger'
 import TooltipButton from '@/elements/TooltipButton'
 
 
@@ -57,14 +58,7 @@ const Slider = ({
     return (
       <div {...props} className={classNameMod}>
         {/* Dragger */}
-        <div
-          className={[
-            'h-6 w-6',
-            '-mt-1',
-            'mx-auto rounded-full bg-green',
-          ].join(' ')}
-          style={{ transform: 'translateY(-20%)', cursor: 'grab' }}
-        />
+        <SliderDragger />
         {/* Number */}
         <p
           className={['absolute mt-2 text-sm xs:text-base'].join(' ')}
