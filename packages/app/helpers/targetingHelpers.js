@@ -165,10 +165,12 @@ export const getSummary = {
   },
   countries: (targetingState) => {
     const { countries } = targetingState
+    if (!countries || !countries.length) return '-'
     return countries.map(({ name }) => name).join(', ')
   },
   cities: (targetingState) => {
     const { cities } = targetingState
+    if (!cities || !cities.length) return '-'
     return cities.map(({ name }) => name).join(', ')
   },
 }

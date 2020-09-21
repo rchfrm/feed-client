@@ -17,12 +17,8 @@ const SUMMARY_DETAIL = ({ name, value }) => {
   )
 }
 
-const TargetingSummaryList = ({ targetingState, currency }) => {
+const TargetingSummaryList = ({ targetingState }) => {
   const summaries = [
-    {
-      name: 'Budget',
-      value: getSummary.budget(targetingState, currency),
-    },
     {
       name: 'Ages',
       value: getSummary.ages(targetingState),
@@ -57,11 +53,6 @@ const TargetingSummaryList = ({ targetingState, currency }) => {
 
 TargetingSummaryList.propTypes = {
   targetingState: PropTypes.object.isRequired,
-  currency: PropTypes.string,
-}
-
-TargetingSummaryList.defaultProps = {
-  currency: '',
 }
 
 
