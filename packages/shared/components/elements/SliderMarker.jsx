@@ -7,6 +7,7 @@ const SliderMarker = ({
   sliderValueRange,
   markerValue,
   markerLabel,
+  hideText,
   className,
   style,
 }) => {
@@ -38,7 +39,12 @@ const SliderMarker = ({
         {/* LINE */}
         <div className="h-10 bg-green" style={{ width }} />
         {/* TEXT */}
-        <p className="absolute top-0 left-0 mb-0 -mt-1 pl-2 text-sm whitespace-no-wrap">{markerLabel}</p>
+        <p
+          className="absolute top-0 left-0 mb-0 -mt-1 pl-2 text-sm whitespace-no-wrap"
+          style={hideText ? { opacity: 0 } : null}
+        >
+          {markerLabel}
+        </p>
       </div>
     </FadeInOut>
   )
@@ -48,11 +54,13 @@ SliderMarker.propTypes = {
   sliderValueRange: PropTypes.array.isRequired,
   markerValue: PropTypes.number.isRequired,
   markerLabel: PropTypes.string.isRequired,
+  hideText: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
 SliderMarker.defaultProps = {
+  hideText: false,
   className: null,
   style: null,
 }
