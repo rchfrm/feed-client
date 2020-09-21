@@ -10,6 +10,7 @@ import Spinner from '@/elements/Spinner'
 
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingPickerLocations from '@/app/TargetingPickerLocations'
+import TargetingBudgetDesktop from '@/app/TargetingBudgetDesktop'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -19,11 +20,14 @@ import { fetchPopularLocations } from '@/app/helpers/targetingHelpers'
 const TargetingSettings = () => {
   // Fetch from targeting context
   const {
+    isDesktopLayout,
     targetingState,
     setTargetingState,
     createLocationOptions,
     settingsReady,
     setSettingsReady,
+    disableSaving,
+    saveCampaignSettings,
     cancelUpdateSettings,
   } = React.useContext(TargetingContext)
 
@@ -36,6 +40,10 @@ const TargetingSettings = () => {
     setSettingsReady(true)
   }, [])
 
+  // Desktop Budget anchor
+  const containerRef = React.useRef(null)
+  const columnRef = React.useRef(null)
+
   if (!settingsReady) {
     return (
       <div>
@@ -45,32 +53,65 @@ const TargetingSettings = () => {
   }
 
   return (
-    <div className="-mt-1">
-      {/* AGE */}
-      <TargetingAgeSlider
-        className="pb-16"
-        minAge={targetingState.minAge}
-        maxAge={targetingState.maxAge}
-        onChange={([minAge, maxAge]) => {
-          setTargetingState((targetingState) => {
-            return produce(targetingState, draftState => {
-              draftState.minAge = minAge
-              draftState.maxAge = maxAge
+    <div ref={containerRef}>
+      <div className="relative md:w-1/2">
+        {/* Anchor for resizing desktop budget */}
+        <div
+          ref={columnRef}
+          className="absolute top-0 left-0 h-10 w-full invisible bg-red pointer-events-none"
+        />
+        {/* AGE */}
+        <TargetingAgeSlider
+          className="pb-16"
+          minAge={targetingState.minAge}
+          maxAge={targetingState.maxAge}
+          onChange={([minAge, maxAge]) => {
+            setTargetingState((targetingState) => {
+              return produce(targetingState, draftState => {
+                draftState.minAge = minAge
+                draftState.maxAge = maxAge
+              })
             })
-          })
-        }}
-      />
-      {/* LOCATIONS */}
-      <TargetingPickerLocations className="mb-16" />
-      {/* BACK BUTTON */}
-      <div>
-        <Button
-          className="w-40"
-          onClick={cancelUpdateSettings}
-        >
-          Cancel
-        </Button>
+          }}
+        />
+        {/* LOCATIONS */}
+        <TargetingPickerLocations className="mb-16" />
+        {/* BACK BUTTON */}
+        <div>
+          <Button
+            className="w-40"
+            onClick={cancelUpdateSettings}
+          >
+            Cancel
+          </Button>
+        </div>
       </div>
+      {/* DESKTOP BUDGET SETTER */}
+      {isDesktopLayout && (
+        <>
+          <TargetingBudgetDesktop
+            isFixed
+            containerRef={containerRef}
+            columnRef={columnRef}
+          />
+          <div
+            className={[
+              'fixed bottom-0 right-0 w-1/2',
+              'pl-20 pr-14 pb-10',
+              disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
+            ].join(' ')}
+          >
+            <Button
+              version="green"
+              className="w-full"
+              onClick={() => saveCampaignSettings(targetingState)}
+              disabled={disableSaving}
+            >
+              {disableSaving ? 'Budget is too small' : 'Save Campaign Settings'}
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   )
 }

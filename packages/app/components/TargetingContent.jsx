@@ -7,7 +7,6 @@ import Error from '@/elements/Error'
 
 import TargetingSummary from '@/app/TargetingSummary'
 import TargetingSettings from '@/app/TargetingSettings'
-import TargetingBudgetDesktop from '@/app/TargetingBudgetDesktop'
 import TargetingProgressButton from '@/app/TargetingProgressButton'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -58,10 +57,6 @@ const TargetingContent = () => {
   // GET CURRENT VIEW
   const { currentView, setIsAnimatingView } = React.useContext(TargetingContext)
 
-  // Desktop Budget anchor
-  const containerRef = React.useRef(null)
-  const columnRef = React.useRef(null)
-
   // Handle error
   if (error && !isPending) {
     return <Error error={error} />
@@ -70,13 +65,8 @@ const TargetingContent = () => {
   if (globalLoading || !Object.keys(targetingState).length) return null
 
   return (
-    <div ref={containerRef}>
-      <div className="md:w-1/2 relative">
-        {/* Anchor for resizing desktop budget */}
-        <div
-          ref={columnRef}
-          className="absolute top-0 left-0 h-8 w-full invisible bg-red pointer-events-none"
-        />
+    <>
+      <div className="relative">
         {/* SECTIONS */}
         <SwitchTransition>
           <CSSTransition
@@ -103,18 +93,11 @@ const TargetingContent = () => {
           </CSSTransition>
         </SwitchTransition>
       </div>
-      {/* DESKTOP BUDGET SETTER */}
-      {isDesktopLayout && (
-        <TargetingBudgetDesktop
-          containerRef={containerRef}
-          columnRef={columnRef}
-        />
-      )}
       {/* MOBILE PROGRESS BUTTON */}
       {!isDesktopLayout && (
         <TargetingProgressButton />
       )}
-    </div>
+    </>
   )
 }
 

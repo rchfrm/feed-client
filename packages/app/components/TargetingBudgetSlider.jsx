@@ -19,6 +19,7 @@ const TargetingBudgetSlider = ({
   initialBudget,
   onChange,
   mobileVersion,
+  isSummaryVersion,
 }) => {
   const { artistCurrency } = React.useContext(ArtistContext)
 
@@ -85,7 +86,7 @@ const TargetingBudgetSlider = ({
         }}
         forceInitialResize
         hasMarkers
-        trackColorClass={!mobileVersion ? 'bg-white' : 'bg-grey-1'}
+        trackColorClass={!mobileVersion && isSummaryVersion ? 'bg-white' : 'bg-grey-1'}
       >
         <SliderMarker
           sliderValueRange={valueRange}

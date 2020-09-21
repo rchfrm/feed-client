@@ -15,6 +15,7 @@ const TargetingBudgetSetter = ({
   initialBudget,
   targetingState,
   updateTargetingBudget,
+  isSummaryVersion,
   mobileVersion,
 }) => {
   // UPDATE TARGETING STATE when BUDGET changes
@@ -56,6 +57,7 @@ const TargetingBudgetSetter = ({
             ) : (
               <TargetingBudgetSlider
                 mobileVersion={mobileVersion}
+                isSummaryVersion={isSummaryVersion}
                 budget={budget}
                 minHardBudget={minHardBudget}
                 minReccBudget={minReccBudget}
@@ -88,11 +90,13 @@ TargetingBudgetSetter.propTypes = {
   initialBudget: PropTypes.number.isRequired,
   targetingState: PropTypes.object.isRequired,
   updateTargetingBudget: PropTypes.func.isRequired,
+  isSummaryVersion: PropTypes.bool,
   mobileVersion: PropTypes.bool,
 }
 
 TargetingBudgetSetter.defaultProps = {
   currency: '',
+  isSummaryVersion: false,
   mobileVersion: false,
 }
 

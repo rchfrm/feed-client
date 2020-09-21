@@ -12,13 +12,21 @@ import Button from '@/elements/Button'
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 
-const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
+const TargetingBudgetDesktop = ({
+  isFixed,
+  isSummaryVersion,
+  containerRef,
+  columnRef,
+  saveButtonText,
+  className,
+}) => {
   const { width: windowWidth } = useBrowserStore()
 
   const budgetRef = React.useRef(null)
 
   // RESIZE AND POSITION
   React.useEffect(() => {
+    if (!isFixed) return
     const { current: containerEl } = containerRef
     const { current: columnEl } = columnRef
     if (!columnEl) return
@@ -37,7 +45,7 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
     // Set position
     const { current: budgetEl } = budgetRef
     gsap.set(budgetEl, positionProps)
-  }, [containerRef, columnRef, windowWidth])
+  }, [isFixed, containerRef, columnRef, windowWidth])
 
   // GET TARGETING CONTEXT
   const {
@@ -52,23 +60,29 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
     saveCampaignSettings,
   } = React.useContext(TargetingContext)
 
+  console.log('targetingState', targetingState)
+
   return (
     <section
       ref={budgetRef}
       className={[
-        'fixed rounded-dialogue opacity-0',
-        'p-5 bg-grey-1',
-        'pb-16',
+        isFixed ? 'fixed opacity-0' : 'relative',
+        isSummaryVersion ? 'rounded-dialogue' : null,
+        isSummaryVersion ? 'p-5 bg-grey-1' : null,
+        isSummaryVersion ? 'pb-16' : null,
         className,
       ].join(' ')}
     >
       {/* HEADER */}
-      <header className="flex justify-between">
-        <TargetingSectionHeader header="Set Budget" />
-        <TargetingSectionHeader header={budgetFormatted} />
-      </header>
+      {!isSummaryVersion && (
+        <header className="flex justify-between">
+          <TargetingSectionHeader header="Budget" />
+          {/* <TargetingSectionHeader header={budgetFormatted} /> */}
+        </header>
+      )}
       {/* BUDGET SETTER */}
       <TargetingBudgetSetter
+        isSummaryVersion={isSummaryVersion}
         currency={currency}
         minReccBudget={minReccBudget}
         minHardBudget={minHardBudget}
@@ -77,33 +91,45 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
         updateTargetingBudget={updateTargetingBudget}
       />
       {/* SAVE CAMPAIGN BUTTON */}
-      <Button
-        version="green"
-        className={[
-          'absolute bottom-0 left-0',
-          'rounded-t-none',
-          'w-full',
-          'border-white border-solid',
-          disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
-        ].join(' ')}
-        onClick={() => saveCampaignSettings(targetingState)}
-        disabled={disableSaving}
-      >
-        {disableSaving ? 'Budget is too small' : 'Save Campaign Settings'}
-      </Button>
+      {isSummaryVersion && (
+        <Button
+          version="green"
+          className={[
+            'absolute bottom-0 left-0',
+            'rounded-t-none',
+            'w-full',
+            'border-white border-solid',
+            disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
+          ].join(' ')}
+          onClick={() => saveCampaignSettings(targetingState)}
+          disabled={disableSaving}
+        >
+          {disableSaving ? 'Budget is too small' : saveButtonText}
+        </Button>
+      )}
     </section>
   )
 }
 
 TargetingBudgetDesktop.propTypes = {
+  isFixed: PropTypes.bool,
+  showHeader: PropTypes.bool,
+  showButton: PropTypes.bool,
+  isSummaryVersion: PropTypes.bool,
   containerRef: PropTypes.object,
   columnRef: PropTypes.object,
+  saveButtonText: PropTypes.string,
   className: PropTypes.string,
 }
 
 TargetingBudgetDesktop.defaultProps = {
+  isFixed: false,
+  showHeader: false,
+  showButton: false,
+  isSummaryVersion: false,
   containerRef: {},
   columnRef: {},
+  saveButtonText: 'Save Campaign Settings',
   className: null,
 }
 
