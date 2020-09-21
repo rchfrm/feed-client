@@ -210,6 +210,13 @@ const TargetingContextProvider = ({ children }) => {
   // * Selected cities and countries
   const [selectedCities, setSelectedCities] = React.useState(initialState.selectedCities)
   const [selectedCountries, setSelectedCountries] = React.useState(initialState.selectedCountries)
+  // * Function to set selected cities and countries
+  const updateLocationsArrays = ({ cities = [], countries = [] }) => {
+    const initialCities = cities.map(({ key }) => key)
+    const initialCountries = countries.map(({ code }) => code)
+    setSelectedCities(initialCities)
+    setSelectedCountries(initialCountries)
+  }
   // * Create initial location options
   const createLocationOptions = React.useCallback((popularLocations) => {
     const currentLocations = {
@@ -220,10 +227,8 @@ const TargetingContextProvider = ({ children }) => {
     const locationOptions = targetingHelpers.formatPopularLocations(popularLocations, currentLocations)
     setLocationOptions(locationOptions)
     // Create initial state of location checkboxes
-    const initialCities = currentLocations.cities.map(({ key }) => key)
-    const initialCountries = currentLocations.countries.map(({ code }) => code)
-    setSelectedCities(initialCities)
-    setSelectedCountries(initialCountries)
+    const { cities, countries } = currentLocations
+    updateLocationsArrays({ cities, countries })
   }, [targetingState.cities, targetingState.countries])
 
   // Update min budget based on selected countries and cities
@@ -238,11 +243,9 @@ const TargetingContextProvider = ({ children }) => {
 
   // INIT TARGETING PAGE
   const initPage = React.useCallback((targetingState) => {
-    // Set inital countires (to trigger min budget)
-    const initialCities = targetingState.cities.map(({ key }) => key)
-    const initialCountries = targetingState.countries.map(({ code }) => code)
-    setSelectedCities(initialCities)
-    setSelectedCountries(initialCountries)
+    // Set inital countries  (to trigger min budget)
+    const { cities, countries } = targetingState
+    updateLocationsArrays({ cities, countries })
     // Set targeting state
     setInitialTargetingState(targetingState)
     setTargetingState(targetingState)
