@@ -10,12 +10,12 @@ import SliderMarker from '@/elements/SliderMarker'
 import SliderGhost from '@/elements/SliderGhost'
 
 import { formatCurrency } from '@/helpers/utils'
-import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 const TargetingBudgetSlider = ({
+  sliderStep,
+  sliderValueRange,
   budget,
   minReccBudget,
-  minHardBudget,
   initialBudget,
   onChange,
   mobileVersion,
@@ -67,16 +67,11 @@ const TargetingBudgetSlider = ({
   // eslint-disable-next-line
   }, [mobileVersion])
 
-  // Get slider settings based on min budget
-  const { step, valueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget)
-
-  console.log('initialBudget', initialBudget)
-
   return (
     <div className={['pl-0'].join(' ')} ref={containerRef}>
       <Slider
-        step={step}
-        valueRange={valueRange}
+        step={sliderStep}
+        valueRange={sliderValueRange}
         value={budget}
         thumbName="Budget"
         getLabelValue={getLabelValue}
@@ -89,13 +84,13 @@ const TargetingBudgetSlider = ({
         trackColorClass={!mobileVersion && isSummaryVersion ? 'bg-white' : 'bg-grey-1'}
       >
         <SliderMarker
-          sliderValueRange={valueRange}
+          sliderValueRange={sliderValueRange}
           markerValue={minReccBudget}
           markerLabel="Reccomended"
           hideText={budget >= minReccBudget}
         />
         <SliderGhost
-          sliderValueRange={valueRange}
+          sliderValueRange={sliderValueRange}
           markerValue={initialBudget}
         />
       </Slider>
@@ -104,9 +99,10 @@ const TargetingBudgetSlider = ({
 }
 
 TargetingBudgetSlider.propTypes = {
+  sliderStep: PropTypes.number.isRequired,
+  sliderValueRange: PropTypes.array.isRequired,
   budget: PropTypes.number,
   minReccBudget: PropTypes.number,
-  minHardBudget: PropTypes.number,
   initialBudget: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,
@@ -115,7 +111,6 @@ TargetingBudgetSlider.propTypes = {
 TargetingBudgetSlider.defaultProps = {
   budget: 0,
   minReccBudget: 0,
-  minHardBudget: 0,
   initialBudget: 0,
   mobileVersion: false,
 }

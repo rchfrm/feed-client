@@ -6,6 +6,7 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 import InputCurrency from '@/elements/InputCurrency'
 
+import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import { formatCurrency } from '@/helpers/utils'
 
 const TargetingBudgetSetter = ({
@@ -25,9 +26,14 @@ const TargetingBudgetSetter = ({
     updateTargetingBudget(budget)
   }, [budget, updateTargetingBudget])
 
-  // FLIP
-  const [showCustomBudget, setShowCustomBudget] = React.useState(false)
+  // GET SLIDER SETTINGS BASED ON MIN BUDGET
+  const { sliderStep, sliderValueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget)
 
+  // FLIP
+  // Show custom budget input if budget is higher than max slider value
+  const showCustomInitially = budget > sliderValueRange[1]
+  const [showCustomBudget, setShowCustomBudget] = React.useState(showCustomInitially)
+  // CUSTOM INPUT
   const inputPlaceholder = `min. rec. budget: ${formatCurrency(minReccBudget, currency)}`
 
   return (
@@ -56,10 +62,11 @@ const TargetingBudgetSetter = ({
               />
             ) : (
               <TargetingBudgetSlider
+                sliderStep={sliderStep}
+                sliderValueRange={sliderValueRange}
                 mobileVersion={mobileVersion}
                 isSummaryVersion={isSummaryVersion}
                 budget={budget}
-                minHardBudget={minHardBudget}
                 minReccBudget={minReccBudget}
                 initialBudget={initialBudget}
                 onChange={(budget) => {

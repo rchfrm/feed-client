@@ -120,9 +120,9 @@ export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }
 
 
 export const calcBudgetSliderConfig = (minBudget) => {
-  const step = Math.round(minBudget) / 2
-  const valueRange = [minBudget, minBudget * 30]
-  return { step, valueRange }
+  const sliderStep = Math.round(minBudget) / 2
+  const sliderValueRange = [minBudget, minBudget * 30]
+  return { sliderStep, sliderValueRange }
 }
 
 
