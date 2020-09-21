@@ -7,6 +7,7 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import Slider from '@/elements/Slider'
 import SliderMarker from '@/elements/SliderMarker'
+import SliderGhost from '@/elements/SliderGhost'
 
 import { formatCurrency } from '@/helpers/utils'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
@@ -15,6 +16,7 @@ const TargetingBudgetSlider = ({
   budget,
   minReccBudget,
   minHardBudget,
+  initialBudget,
   onChange,
   mobileVersion,
 }) => {
@@ -67,6 +69,8 @@ const TargetingBudgetSlider = ({
   // Get slider settings based on min budget
   const { step, valueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget)
 
+  console.log('initialBudget', initialBudget)
+
   return (
     <div className={['pl-0'].join(' ')} ref={containerRef}>
       <Slider
@@ -90,6 +94,10 @@ const TargetingBudgetSlider = ({
             markerLabel="Reccomended"
           />
         )}
+        <SliderGhost
+          sliderValueRange={valueRange}
+          markerValue={initialBudget}
+        />
       </Slider>
     </div>
   )
@@ -99,6 +107,7 @@ TargetingBudgetSlider.propTypes = {
   budget: PropTypes.number,
   minReccBudget: PropTypes.number,
   minHardBudget: PropTypes.number,
+  initialBudget: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,
 }
@@ -107,6 +116,7 @@ TargetingBudgetSlider.defaultProps = {
   budget: 0,
   minReccBudget: 0,
   minHardBudget: 0,
+  initialBudget: 0,
   mobileVersion: false,
 }
 

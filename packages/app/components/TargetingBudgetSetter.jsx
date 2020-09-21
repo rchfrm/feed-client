@@ -12,6 +12,7 @@ const TargetingBudgetSetter = ({
   currency,
   minReccBudget,
   minHardBudget,
+  initialBudget,
   targetingState,
   updateTargetingBudget,
   mobileVersion,
@@ -58,6 +59,7 @@ const TargetingBudgetSetter = ({
                 budget={budget}
                 minHardBudget={minHardBudget}
                 minReccBudget={minReccBudget}
+                initialBudget={initialBudget}
                 onChange={(budget) => {
                   setBudget(budget)
                 }}
@@ -82,6 +84,8 @@ const TargetingBudgetSetter = ({
 TargetingBudgetSetter.propTypes = {
   currency: PropTypes.string,
   minReccBudget: PropTypes.number.isRequired,
+  minHardBudget: PropTypes.number.isRequired,
+  initialBudget: PropTypes.number.isRequired,
   targetingState: PropTypes.object.isRequired,
   updateTargetingBudget: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,

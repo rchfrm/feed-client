@@ -47,6 +47,7 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
     minHardBudget,
     disableSaving,
     targetingState,
+    initialTargetingState,
     updateTargetingBudget,
     saveCampaignSettings,
   } = React.useContext(TargetingContext)
@@ -71,6 +72,7 @@ const TargetingBudgetDesktop = ({ containerRef, columnRef, className }) => {
         currency={currency}
         minReccBudget={minReccBudget}
         minHardBudget={minHardBudget}
+        initialBudget={initialTargetingState.budget}
         targetingState={targetingState}
         updateTargetingBudget={updateTargetingBudget}
       />
