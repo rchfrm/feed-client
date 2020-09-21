@@ -479,6 +479,17 @@ export const getLinkType = (href) => {
   return 'external'
 }
 
+// Round a number to the nearest n^10
+/**
+* @param {number} n
+* @returns {number}
+*/
+export const roundToFactorOfTen = (n) => {
+  const exponent = Math.round(n).toString().length - 1
+  const multiplier = 10 ** exponent
+  const rounded = Math.ceil(n / multiplier) * multiplier
+  return rounded
+}
 
 /**
 * @param {number} amount
