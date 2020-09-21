@@ -28,11 +28,11 @@ const TargetingBudgetSetter = ({
   // FLIP
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
 
-  const inputPlaceholder = `Minimum Budget ${formatCurrency(minReccBudget, currency)}`
+  const inputPlaceholder = `min. rec. budget: ${formatCurrency(minReccBudget, currency)}`
 
   return (
     <>
-      <div className="h-32">
+      <div className="h-26">
         <SwitchTransition>
           <CSSTransition
             key={showCustomBudget}
@@ -51,7 +51,7 @@ const TargetingBudgetSetter = ({
                 placeholder={inputPlaceholder}
                 name="Budget"
                 label={mobileVersion ? 'Custom Budget' : null}
-                className={['w-full'].join(' ')}
+                className={['pt-3 mb-0 w-full'].join(' ')}
                 currency={currency}
               />
             ) : (
@@ -72,10 +72,15 @@ const TargetingBudgetSetter = ({
       </div>
 
       {/* TOGGLE CUSTOM BUDGET */}
-      <p className="pt-8 text-right">
+      <p
+        className={[
+          'pt-3',
+          isSummaryVersion ? 'text-left' : 'ml-1',
+        ].join(' ')}
+      >
         <a role="button" onClick={() => setShowCustomBudget(!showCustomBudget)}>
           <em>
-            {showCustomBudget ? 'Cancel' : 'Custom Budget'}
+            {showCustomBudget ? 'Budget Slider' : 'Custom Budget'}
           </em>
         </a>
       </p>
