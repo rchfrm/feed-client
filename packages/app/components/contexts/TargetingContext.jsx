@@ -193,10 +193,11 @@ const TargetingContextProvider = ({ children }) => {
   }, [setSidePanelButton, toggleSidePanel, targetingState, budgetFormatted, updateTargetingBudget])
 
   React.useEffect(() => {
+    if (!mobileBudgetOpen) return
     const { button } = getBudgetSidePanelContent()
     setSidePanelButton(button)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [budgetFormatted, disableSaving])
+  }, [budgetFormatted, disableSaving, mobileBudgetOpen])
 
   // Set budget open to false when closing sidepanel
   React.useEffect(() => {
