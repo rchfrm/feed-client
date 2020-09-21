@@ -136,13 +136,13 @@ const TargetingContextProvider = ({ children }) => {
     })
   }, [])
 
-  // UPDATE BUDGET IF RECC IS MORE THAN CURRENT
-  React.useEffect(() => {
-    if (targetingState.budget < minReccBudget) {
-      updateTargetingBudget(minReccBudget)
-    }
-  // eslint-disable-next-line
-  }, [minReccBudget])
+  // // UPDATE BUDGET IF RECC IS MORE THAN CURRENT
+  // React.useEffect(() => {
+  //   if (targetingState.budget < minReccBudget) {
+  //     updateTargetingBudget(minReccBudget)
+  //   }
+  // // eslint-disable-next-line
+  // }, [minReccBudget])
 
   // DISABLE SAVING (eg if budget is too small)
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
