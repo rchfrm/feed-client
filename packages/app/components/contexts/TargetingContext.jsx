@@ -20,6 +20,7 @@ const initialState = {
   setInitialTargetingState: {},
   saveCampaignSettings: () => {},
   togglePauseCampaign: () => {},
+  cancelUpdateSettings: () => {},
   saving: false,
   currentView: 'summary',
   setCurrentView: () => {},
@@ -240,6 +241,23 @@ const TargetingContextProvider = ({ children }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCountries.length, selectedCities.length, artistId])
 
+  // CANCEL UPDATE SETTINGS
+  const cancelUpdateSettings = React.useCallback(() => {
+    // Set view to summary
+    setCurrentView('summary')
+    // Set targeting state to initial state (except budget)
+    const { budget } = targetingState
+    const resetState = {
+      ...initialTargetingState,
+      budget,
+    }
+    setTargetingState(resetState)
+    // Reset selected locations
+    // Set inital countries  (to trigger min budget)
+    const { cities, countries } = resetState
+    updateLocationsArrays({ cities, countries })
+  }, [targetingState, initialTargetingState])
+
 
   // INIT TARGETING PAGE
   const initPage = React.useCallback((targetingState) => {
@@ -272,6 +290,7 @@ const TargetingContextProvider = ({ children }) => {
         setInitialTargetingState,
         saveCampaignSettings,
         togglePauseCampaign,
+        cancelUpdateSettings,
         saving,
         currentView,
         setCurrentView,

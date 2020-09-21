@@ -21,10 +21,10 @@ const TargetingSettings = () => {
   const {
     targetingState,
     setTargetingState,
-    setCurrentView,
     createLocationOptions,
     settingsReady,
     setSettingsReady,
+    cancelUpdateSettings,
   } = React.useContext(TargetingContext)
 
   // Fetch locations options
@@ -66,9 +66,7 @@ const TargetingSettings = () => {
       <div>
         <Button
           className="w-40"
-          onClick={() => {
-            setCurrentView('summary')
-          }}
+          onClick={cancelUpdateSettings}
         >
           Cancel
         </Button>
