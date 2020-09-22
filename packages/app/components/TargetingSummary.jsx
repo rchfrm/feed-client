@@ -29,7 +29,7 @@ const TargetingSummary = () => {
       <div className="col-span-6">
         <h3 className="h2">Budget</h3>
         <TargetingBudgetDesktop
-          saveButtonText={`Set budget to ${budgetFormatted}`}
+          saveButtonText={`Set Budget to ${budgetFormatted}`}
           className="mb-10"
           isSummaryVersion
         />
