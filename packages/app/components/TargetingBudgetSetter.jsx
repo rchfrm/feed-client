@@ -69,6 +69,7 @@ const TargetingBudgetSetter = ({
                 budget={budget}
                 minReccBudget={minReccBudget}
                 initialBudget={initialBudget}
+                currency={currency}
                 onChange={(budget) => {
                   setBudget(budget)
                 }}

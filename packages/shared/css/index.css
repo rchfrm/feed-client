@@ -21,6 +21,7 @@
 */
 @import "third-party/swiper.min.css";
 @import "third-party/nouislider";
+@import "third-party/nouislider.trumps";
 @import "third-party/trumps";
 /**
 * Elements.

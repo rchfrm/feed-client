@@ -1,0 +1,63 @@
+.noUi-active {
+  box-shadow: none;
+}
+
+/* Handle */
+.noUi-handle {
+  border-radius: 100%;
+  outline: 0;
+  border: none;
+  background-color: var(--green);
+  box-shadow: none;
+  height: var(--sp-6) !important;
+}
+
+.noUi-horizontal .noUi-handle, 
+.noUi-handle.-ghost {
+  width: var(--sp-6);
+  right: calc(-1 * var(--sp-3));
+  top: -8px;
+  
+  &::before,
+  &::after {
+    display: none;
+  }
+}
+
+/* Ghost handle */
+.noUi-handle.-ghost {
+  top: 32px;
+  background-color: transparent;
+  border: 2px solid var(--green);
+  pointer-events: none;
+  right: auto;
+}
+
+/* Rail */
+.noUi-target {
+  box-shadow: none;
+  border: none;
+  border-radius: var(--dialogue-radius);
+  background: var(--grey-light);
+
+  .slider-track-color-white & {
+    background: var(--white);
+  }
+}
+
+.noUi-horizontal {
+  height: var(--sp-2);
+}
+
+/* Tooltip */
+.noUi-tooltip {
+  background: none;
+  border: none;
+  color: var(--text-color);
+}
+
+.noUi-horizontal .noUi-tooltip {
+  transform: translate(-50%, 100%);
+  top: 0;
+  bottom: auto;
+}

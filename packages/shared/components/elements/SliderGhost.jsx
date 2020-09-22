@@ -14,12 +14,8 @@ const SliderGhost = ({
   const left = `${leftPercent}%`
 
   return (
-    <SliderDragger
-      isMarker
-      className={[
-        'absolute',
-        className,
-      ].join(' ')}
+    <div
+      className={['noUi-handle -ghost', className].join(' ')}
       style={{
         ...style,
         left,

@@ -2,10 +2,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import Slider from '@/elements/Slider'
+import Slider from '@/elements/SliderAlt'
 import SliderMarker from '@/elements/SliderMarker'
 import SliderGhost from '@/elements/SliderGhost'
 
@@ -17,28 +16,11 @@ const TargetingBudgetSlider = ({
   budget,
   minReccBudget,
   initialBudget,
+  currency,
   onChange,
   mobileVersion,
   isSummaryVersion,
 }) => {
-  const { artistCurrency } = React.useContext(ArtistContext)
-
-  const getLabel = (budget) => {
-    return formatCurrency(budget, artistCurrency)
-  }
-
-  const getLabelValue = React.useCallback((value) => {
-    return getLabel(value)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // Aria label function
-  const valueLabelFunction = React.useCallback((state) => {
-    const { value } = state
-    return `Budget set to ${getLabel(value)}`
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   // SHOW BUDGET FEATURES
   // const budgetUpgrade = React.useMemo(() => {
   //   return targetingHelpers.getNextBudgetUpgrade(budget)
@@ -67,21 +49,36 @@ const TargetingBudgetSlider = ({
   // eslint-disable-next-line
   }, [mobileVersion])
 
+  // DEFINE START VALUE
+  const startValue = React.useRef(budget)
+
+  // DEFINE RANGE
+  const valueRange = React.useMemo(() => {
+    return sliderValueRange
+  }, [sliderValueRange])
+
   return (
     <div className={['pl-0'].join(' ')} ref={containerRef}>
       <Slider
+        valueRange={valueRange}
+        startValue={[startValue.current]}
         step={sliderStep}
-        valueRange={sliderValueRange}
-        value={budget}
         thumbName="Budget"
-        getLabelValue={getLabelValue}
-        valueLabelFunction={valueLabelFunction}
-        onChange={(state) => {
+        onChange={([state]) => {
           onChange(state)
         }}
         forceInitialResize
         hasMarkers
-        trackColorClass={!mobileVersion && isSummaryVersion ? 'bg-white' : 'bg-grey-1'}
+        trackColor={!mobileVersion && isSummaryVersion ? 'white' : null}
+        formatValue={{
+          to: (value) => value,
+          from: (value) => value,
+        }}
+        labelOptions={[
+          {
+            to: (value) => formatCurrency(value, currency),
+          },
+        ]}
       >
         <SliderMarker
           sliderValueRange={sliderValueRange}
@@ -104,6 +101,7 @@ TargetingBudgetSlider.propTypes = {
   budget: PropTypes.number,
   minReccBudget: PropTypes.number,
   initialBudget: PropTypes.number,
+  currency: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,
 }
@@ -112,6 +110,7 @@ TargetingBudgetSlider.defaultProps = {
   budget: 0,
   minReccBudget: 0,
   initialBudget: 0,
+  currency: null,
   mobileVersion: false,
 }
 

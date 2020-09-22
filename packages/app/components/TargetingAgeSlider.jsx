@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 
-import Slider from '@/elements/Slider'
+import Slider from '@/elements/SliderAlt'
 
 const TargetingAgeSlider = ({ minAge, maxAge, onChange, className }) => {
   const lowestAge = 15
@@ -14,31 +14,25 @@ const TargetingAgeSlider = ({ minAge, maxAge, onChange, className }) => {
     return age
   }
 
-  const getLabelValue = React.useCallback((value) => {
-    return getLabel(value)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // Aria label function
-  const valueLabelFunction = React.useCallback((state) => {
-    const [minAge, maxAge] = state.value
-    return `Min age set to ${getLabel(minAge)}, max age set to ${getLabel(maxAge)}`
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
+  // DEFINE START VALUE
+  const startValues = React.useRef([minAge, maxAge])
 
   return (
-    <section>
+    <section className={className}>
       <TargetingSectionHeader className="mb-10" header="Age Range" />
       <Slider
         containerClassName={className}
         valueRange={[lowestAge, highestAge]}
-        value={[minAge, maxAge]}
-        thumbName={['Lower age', 'Upper age']}
-        pearling
-        getLabelValue={getLabelValue}
-        valueLabelFunction={valueLabelFunction}
+        startValue={startValues.current}
         onChange={onChange}
+        labelOptions={[
+          {
+            to: getLabel,
+          },
+          {
+            to: getLabel,
+          },
+        ]}
       />
     </section>
   )
