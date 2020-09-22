@@ -11,6 +11,7 @@ import Spinner from '@/elements/Spinner'
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingPickerLocations from '@/app/TargetingPickerLocations'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
+import TargetingGenderSelector from '@/app/TargetingGenderSelector'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -62,7 +63,7 @@ const TargetingSettings = () => {
         />
         {/* AGE */}
         <TargetingAgeSlider
-          className="pb-16"
+          className="pb-20"
           minAge={targetingState.minAge}
           maxAge={targetingState.maxAge}
           onChange={([minAge, maxAge]) => {
@@ -70,6 +71,18 @@ const TargetingSettings = () => {
               return produce(targetingState, draftState => {
                 draftState.minAge = minAge
                 draftState.maxAge = maxAge
+              })
+            })
+          }}
+        />
+        {/* GENDER */}
+        <TargetingGenderSelector
+          className="mb-16"
+          genders={targetingState.genders}
+          onChange={(state) => {
+            setTargetingState((targetingState) => {
+              return produce(targetingState, draftState => {
+                draftState.genders = state
               })
             })
           }}
