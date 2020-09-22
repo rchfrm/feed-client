@@ -10,6 +10,11 @@
   background-color: var(--green);
   box-shadow: none;
   height: var(--sp-6) !important;
+  cursor: grab;
+
+  &.noUi-active {
+    cursor: grabbing;
+  }
 }
 
 .noUi-horizontal .noUi-handle, 
