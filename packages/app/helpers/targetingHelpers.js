@@ -15,7 +15,7 @@ export const demotargetingState = {
     { key: 'marseille', name: 'Marseille', country_code: 'FR' },
     { key: 'lislesursogue', name: 'L\'Isle sur Sogue', country_code: 'FR' },
   ],
-  budget: 2,
+  budget: 2.25,
   paused: false,
 }
 
@@ -107,6 +107,13 @@ export const calcMinBudget = (minBudgetInfo, type) => {
   return minBudgetRounded
 }
 
+// Get slider config
+export const calcBudgetSliderConfig = (fbMin) => {
+  const sliderStep = Math.round(fbMin) / 4
+  const sliderValueRange = [fbMin, fbMin * 30]
+  return { sliderStep, sliderValueRange }
+}
+
 // Calc min recc budget
 export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }) => {
   const cityUnit = 0.25
@@ -115,14 +122,9 @@ export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }
   const fbMin = calcMinBudget(minBudgetInfo, 'hard')
   const cityCost = (fbMin * (cityUnit * totalCities))
   const countryCost = (fbMin * (countryUnit * totalCountries))
-  return baseBudget + cityCost + countryCost
-}
-
-
-export const calcBudgetSliderConfig = (minBudget) => {
-  const sliderStep = Math.round(minBudget) / 2
-  const sliderValueRange = [minBudget, minBudget * 30]
-  return { sliderStep, sliderValueRange }
+  const minRec = baseBudget + cityCost + countryCost
+  // Round min rec to slider step
+  return minRec
 }
 
 
