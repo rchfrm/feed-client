@@ -22,6 +22,7 @@ import ButtonPill from '@/elements/ButtonPill'
 const PillOptions = (props) => {
   const {
     label,
+    color,
     options,
     activeOption,
     setActiveOption,
@@ -33,6 +34,7 @@ const PillOptions = (props) => {
     <div
       className={[
         'pill--options-container',
+        `color-${color}`,
         disabled ? 'opacity-50' : null,
         className,
       ].join(' ')}
@@ -68,6 +70,7 @@ const PillOptions = (props) => {
 
 PillOptions.propTypes = {
   label: PropTypes.string,
+  color: PropTypes.oneOf(['black', 'green']),
   options: PropTypes.array.isRequired,
   activeOption: PropTypes.string.isRequired,
   setActiveOption: PropTypes.func.isRequired,
@@ -77,6 +80,7 @@ PillOptions.propTypes = {
 }
 
 PillOptions.defaultProps = {
+  color: 'black',
   label: '',
   className: '',
   disabled: false,
