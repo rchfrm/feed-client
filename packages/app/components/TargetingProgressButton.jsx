@@ -108,7 +108,7 @@ const TargetingProgressButton = () => {
     }
     if (buttonType === 'goToBudget') {
       const minReccBudgetString = formatCurrency(minReccBudget, currency)
-      return `min. budget ${minReccBudgetString}`
+      return `suggested min: ${minReccBudgetString}`
     }
   }, [showButton, buttonType, selectedCampaignRecc, minReccBudget, currency])
   React.useEffect(() => {
