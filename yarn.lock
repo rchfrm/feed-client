@@ -11284,6 +11284,18 @@ normalize.css@^8.0.1:
   resolved "https://registry.yarnpkg.com/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
+nouislider-react@^3.3.8:
+  version "3.3.8"
+  resolved "https://registry.yarnpkg.com/nouislider-react/-/nouislider-react-3.3.8.tgz#224540f39848e1a52070127f16460ef8f03152a7"
+  integrity sha512-Le0kUs29iaUEdaO3cdZcc7EXteFNpXVuasxz4F8Z520PUI17sJJAoggiScPu+Nz6vMx0o9SgK0v8bMXcePF20A==
+  dependencies:
+    nouislider "^14.5.0"
+
+nouislider@^14.5.0:
+  version "14.6.2"
+  resolved "https://registry.yarnpkg.com/nouislider/-/nouislider-14.6.2.tgz#ecf7b7d1554672e705aab6fcd27e195ed3f67c98"
+  integrity sha512-/lJeqJBghNAZS3P2VYrHzm1RM6YJPvvC/1wNpGaHBRX+05wpzUDafrW/ohAYp4kjKhRH8+BJ0vkorCHiMmgTMQ==
+
 npm-bundled@^1.0.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.1.1.tgz#1edd570865a94cdb1bc8220775e29466c9fb234b"

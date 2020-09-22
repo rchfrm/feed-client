@@ -20,6 +20,7 @@
 * Third party
 */
 @import "third-party/swiper.min.css";
+@import "third-party/nouislider";
 @import "third-party/trumps";
 /**
 * Elements.
