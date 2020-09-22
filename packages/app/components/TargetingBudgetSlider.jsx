@@ -35,7 +35,7 @@ const TargetingBudgetSlider = ({
   // Aria label function
   const valueLabelFunction = React.useCallback((state) => {
     const { value } = state
-    return `Budget set to ${getLabel(value)}}`
+    return `Budget set to ${getLabel(value)}`
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
