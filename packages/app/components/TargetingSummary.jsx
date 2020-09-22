@@ -2,13 +2,13 @@ import React from 'react'
 
 import TargetingSummaryList from '@/app/TargetingSummaryList'
 import TargetingBudgetDesktop from '@/app/TargetingBudgetDesktop'
-
-import Button from '@/elements/Button'
+import TargetingPauseButton from '@/app/TargetingPauseButton'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 const TargetingSummary = () => {
   const {
+    isDesktopLayout,
     initialTargetingState,
     togglePauseCampaign,
     setCurrentView,
@@ -16,8 +16,27 @@ const TargetingSummary = () => {
   } = React.useContext(TargetingContext)
 
   return (
-    <div className="md:grid grid-cols-12 gap-10">
-      <div className="col-span-6">
+    <div className="md:grid grid-cols-12 gap-10 grid-flow-col-dense">
+      {/* BUDGET */}
+      <div className="col-span-6 col-start-7">
+        <h3 className="h2">Budget</h3>
+        <TargetingBudgetDesktop
+          saveButtonText={`Set Budget to ${budgetFormatted}`}
+          className="mb-10"
+          isSummaryVersion
+        />
+        {/* PAUSE/RESUME BUTTON (desktop) */}
+        {isDesktopLayout && (
+          <div className="mb-6 flex justify-end">
+            <TargetingPauseButton
+              togglePauseCampaign={togglePauseCampaign}
+              isPaused={initialTargetingState.paused}
+            />
+          </div>
+        )}
+      </div>
+      {/* SETTINGS */}
+      <div className="col-span-6 col-start-1">
         <h3 className="h2">Settings</h3>
         {/* SUMMARY LIST */}
         <TargetingSummaryList
@@ -25,24 +44,15 @@ const TargetingSummary = () => {
           setCurrentView={setCurrentView}
           className="mb-6"
         />
-      </div>
-      <div className="col-span-6">
-        <h3 className="h2">Budget</h3>
-        <TargetingBudgetDesktop
-          saveButtonText={`Set Budget to ${budgetFormatted}`}
-          className="mb-10"
-          isSummaryVersion
-        />
-        {/* PAUSE/RESUME BUTTON */}
-        <div className="mb-6 flex justify-end">
-          <Button
-            version="red"
-            // className="w-full"
-            onClick={togglePauseCampaign}
-          >
-            {initialTargetingState.paused ? 'Resume' : 'Pause Spending'}
-          </Button>
-        </div>
+        {/* PAUSE/RESUME BUTTON (mobile) */}
+        {!isDesktopLayout && (
+          <div className="mb-6 flex justify-end">
+            <TargetingPauseButton
+              togglePauseCampaign={togglePauseCampaign}
+              isPaused={initialTargetingState.paused}
+            />
+          </div>
+        )}
       </div>
     </div>
   )
