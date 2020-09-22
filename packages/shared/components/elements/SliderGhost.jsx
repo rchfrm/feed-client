@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import SliderDragger from '@/elements/SliderDragger'
-
 const SliderGhost = ({
   sliderValueRange,
   markerValue,
@@ -10,17 +8,18 @@ const SliderGhost = ({
   style,
 }) => {
   const [min, max] = sliderValueRange
-  const leftPercent = ((markerValue - min) / (max - min)) * 100
-  const left = `${leftPercent}%`
+  const xPercent = -1000 + (((markerValue - min) / max) * 1000)
+  const transform = `translateX(${xPercent}%)`
 
   return (
-    <div
-      className={['noUi-handle -ghost', className].join(' ')}
-      style={{
-        ...style,
-        left,
-      }}
-    />
+    <div className="noUi-origin -ghost" style={{ transform }}>
+      <div
+        className={['noUi-handle -ghost', className].join(' ')}
+        style={{
+          ...style,
+        }}
+      />
+    </div>
   )
 }
 

@@ -25,12 +25,17 @@
 }
 
 /* Ghost handle */
+.noUi-origin.-ghost {
+  height: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .noUi-handle.-ghost {
+  position: absolute;
   top: 32px;
   background-color: transparent;
   border: 2px solid var(--green);
-  pointer-events: none;
-  right: auto;
 }
 
 /* Rail */
