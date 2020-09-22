@@ -12,7 +12,12 @@ const SliderDragger = ({ isMarker, className, style }) => {
         isMarker ? 'z0' : null,
         className,
       ].join(' ')}
-      style={{ ...style, transform: 'translateY(-18%)', cursor: 'grab' }}
+      style={{
+        ...style,
+        transform: 'translateY(-18%)',
+        cursor: isMarker ? null : 'grab',
+        ...(isMarker && { pointerEvents: 'none' }),
+      }}
     />
   )
 }
