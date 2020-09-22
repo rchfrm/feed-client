@@ -6,6 +6,7 @@ import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 // Content for the side panel
 const TargetingBudgetMobile = ({
   currency,
+  currencyOffset,
   minReccBudget,
   minHardBudget,
   initialBudget,
@@ -20,6 +21,7 @@ const TargetingBudgetMobile = ({
       </header>
       <TargetingBudgetSetter
         currency={currency}
+        currencyOffset={currencyOffset}
         minReccBudget={minReccBudget}
         minHardBudget={minHardBudget}
         initialBudget={initialBudget}
@@ -33,6 +35,7 @@ const TargetingBudgetMobile = ({
 
 TargetingBudgetMobile.propTypes = {
   currency: PropTypes.string,
+  currencyOffset: PropTypes.number,
   minReccBudget: PropTypes.number.isRequired,
   minHardBudget: PropTypes.number.isRequired,
   initialBudget: PropTypes.number.isRequired,
@@ -42,6 +45,7 @@ TargetingBudgetMobile.propTypes = {
 
 TargetingBudgetMobile.defaultProps = {
   currency: '',
+  currencyOffset: 0,
 }
 
 

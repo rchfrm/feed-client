@@ -11,6 +11,7 @@ import { formatCurrency } from '@/helpers/utils'
 
 const TargetingBudgetSetter = ({
   currency,
+  currencyOffset,
   minReccBudget,
   minHardBudget,
   initialBudget,
@@ -70,6 +71,7 @@ const TargetingBudgetSetter = ({
                 minReccBudget={minReccBudget}
                 initialBudget={initialBudget}
                 currency={currency}
+                currencyOffset={currencyOffset}
                 onChange={(budget) => {
                   setBudget(budget)
                 }}
@@ -98,6 +100,7 @@ const TargetingBudgetSetter = ({
 
 TargetingBudgetSetter.propTypes = {
   currency: PropTypes.string,
+  currencyOffset: PropTypes.number,
   minReccBudget: PropTypes.number.isRequired,
   minHardBudget: PropTypes.number.isRequired,
   initialBudget: PropTypes.number.isRequired,
@@ -109,6 +112,7 @@ TargetingBudgetSetter.propTypes = {
 
 TargetingBudgetSetter.defaultProps = {
   currency: '',
+  currencyOffset: 0,
   isSummaryVersion: false,
   mobileVersion: false,
 }

@@ -50,6 +50,7 @@ const TargetingBudgetBox = ({
   // GET TARGETING CONTEXT
   const {
     currency,
+    currencyOffset,
     minReccBudget,
     minHardBudget,
     disableSaving,
@@ -81,6 +82,7 @@ const TargetingBudgetBox = ({
       <TargetingBudgetSetter
         isSummaryVersion={isSummaryVersion}
         currency={currency}
+        currencyOffset={currencyOffset}
         minReccBudget={minReccBudget}
         minHardBudget={minHardBudget}
         initialBudget={initialTargetingState.budget}

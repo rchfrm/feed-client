@@ -36,6 +36,7 @@ const initialState = {
   updateTargetingBudget: () => {},
   disableSaving: false,
   currency: '',
+  currencyOffset: 0,
   budgetFormatted: '',
   desktopLayoutWidth: 'md',
   isDesktopLayout: false,
@@ -64,7 +65,12 @@ const TargetingContextProvider = ({ children }) => {
   const {
     artistCurrency: currency,
     artistId,
-    artist: { min_daily_budget_info: minBudgetInfo },
+    artist: {
+      min_daily_budget_info: minBudgetInfo,
+      min_daily_budget_info: {
+        currency: { offset: currencyOffset },
+      },
+    },
   } = React.useContext(ArtistContext)
 
   // CAMPAIGN SETTINGS VIEW ('summary' | 'customise')
@@ -163,6 +169,7 @@ const TargetingContextProvider = ({ children }) => {
     const content = state ? (
       <TargetingBudgetMobile
         currency={currency}
+        currencyOffset={currencyOffset}
         minReccBudget={minReccBudget}
         minHardBudget={minHardBudget}
         initialBudget={initialTargetingState.budget}
@@ -306,6 +313,7 @@ const TargetingContextProvider = ({ children }) => {
         updateTargetingBudget,
         disableSaving,
         currency,
+        currencyOffset,
         budgetFormatted,
         desktopLayoutWidth,
         isDesktopLayout,

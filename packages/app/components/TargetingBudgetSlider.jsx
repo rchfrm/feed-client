@@ -17,6 +17,7 @@ const TargetingBudgetSlider = ({
   minReccBudget,
   initialBudget,
   currency,
+  currencyOffset,
   onChange,
   mobileVersion,
   isSummaryVersion,
@@ -102,6 +103,7 @@ TargetingBudgetSlider.propTypes = {
   minReccBudget: PropTypes.number,
   initialBudget: PropTypes.number,
   currency: PropTypes.string,
+  currencyOffset: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,
 }
@@ -111,6 +113,7 @@ TargetingBudgetSlider.defaultProps = {
   minReccBudget: 0,
   initialBudget: 0,
   currency: null,
+  currencyOffset: 0,
   mobileVersion: false,
 }
 
