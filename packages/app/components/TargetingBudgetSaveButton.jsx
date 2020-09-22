@@ -6,7 +6,6 @@ import Button from '@/elements/Button'
 const TargetingBudgetSaveButton = ({
   targetingState,
   saveCampaignSettings,
-  budgetFormatted,
   disableSaving,
   className,
 }) => {
@@ -20,7 +19,7 @@ const TargetingBudgetSaveButton = ({
       className={[className].join(' ')}
       disabled={disableSaving}
     >
-      {disableSaving ? 'Budget is too small' : `Save budget of ${budgetFormatted}`}
+      {disableSaving ? 'Budget is too small' : 'Save Settings and Budget'}
     </Button>
   )
 }
@@ -28,7 +27,6 @@ const TargetingBudgetSaveButton = ({
 TargetingBudgetSaveButton.propTypes = {
   targetingState: PropTypes.object.isRequired,
   saveCampaignSettings: PropTypes.func.isRequired,
-  budgetFormatted: PropTypes.string.isRequired,
   disableSaving: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }

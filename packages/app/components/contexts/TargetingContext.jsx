@@ -174,7 +174,6 @@ const TargetingContextProvider = ({ children }) => {
       <TargetingBudgetSaveButton
         targetingState={targetingState}
         saveCampaignSettings={saveCampaignSettings}
-        budgetFormatted={budgetFormatted}
         disableSaving={disableSaving}
       />
     ) : null
