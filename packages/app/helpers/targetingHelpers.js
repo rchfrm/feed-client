@@ -101,10 +101,10 @@ export const calcMinBudget = (minBudgetInfo, type) => {
   } = minBudgetInfo
   const {
     fbMinRounded,
-    minBudgetFloat,
+    minBudgetRounded,
   } = utils.getMinBudget(amount, currencyCode, currencyOffset)
   if (type === 'hard') return fbMinRounded
-  return minBudgetFloat
+  return minBudgetRounded
 }
 
 // Calc min recc budget
