@@ -12,7 +12,7 @@ import Button from '@/elements/Button'
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 
-const TargetingBudgetDesktop = ({
+const TargetingBudgetBox = ({
   isFixed,
   isSummaryVersion,
   containerRef,
@@ -108,7 +108,7 @@ const TargetingBudgetDesktop = ({
   )
 }
 
-TargetingBudgetDesktop.propTypes = {
+TargetingBudgetBox.propTypes = {
   isFixed: PropTypes.bool,
   isSummaryVersion: PropTypes.bool,
   containerRef: PropTypes.object,
@@ -117,7 +117,7 @@ TargetingBudgetDesktop.propTypes = {
   className: PropTypes.string,
 }
 
-TargetingBudgetDesktop.defaultProps = {
+TargetingBudgetBox.defaultProps = {
   isFixed: false,
   isSummaryVersion: false,
   containerRef: {},
@@ -127,4 +127,4 @@ TargetingBudgetDesktop.defaultProps = {
 }
 
 
-export default TargetingBudgetDesktop
+export default TargetingBudgetBox

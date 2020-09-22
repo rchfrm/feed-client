@@ -10,7 +10,7 @@ import Spinner from '@/elements/Spinner'
 
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingPickerLocations from '@/app/TargetingPickerLocations'
-import TargetingBudgetDesktop from '@/app/TargetingBudgetDesktop'
+import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -89,7 +89,7 @@ const TargetingSettings = () => {
       {/* DESKTOP BUDGET SETTER */}
       {isDesktopLayout && (
         <>
-          <TargetingBudgetDesktop
+          <TargetingBudgetBox
             isFixed
             containerRef={containerRef}
             columnRef={columnRef}

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import TargetingSummaryList from '@/app/TargetingSummaryList'
-import TargetingBudgetDesktop from '@/app/TargetingBudgetDesktop'
+import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 import TargetingPauseButton from '@/app/TargetingPauseButton'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
@@ -20,7 +20,7 @@ const TargetingSummary = () => {
       {/* BUDGET */}
       <div className="col-span-6 col-start-7">
         <h3 className="h2">Budget</h3>
-        <TargetingBudgetDesktop
+        <TargetingBudgetBox
           saveButtonText={`Set Budget to ${budgetFormatted}`}
           className="mb-10"
           isSummaryVersion
