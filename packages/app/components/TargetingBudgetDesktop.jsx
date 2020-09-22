@@ -49,7 +49,6 @@ const TargetingBudgetDesktop = ({
 
   // GET TARGETING CONTEXT
   const {
-    budgetFormatted,
     currency,
     minReccBudget,
     minHardBudget,
@@ -59,8 +58,6 @@ const TargetingBudgetDesktop = ({
     updateTargetingBudget,
     saveCampaignSettings,
   } = React.useContext(TargetingContext)
-
-  console.log('targetingState', targetingState)
 
   return (
     <section
@@ -113,8 +110,6 @@ const TargetingBudgetDesktop = ({
 
 TargetingBudgetDesktop.propTypes = {
   isFixed: PropTypes.bool,
-  showHeader: PropTypes.bool,
-  showButton: PropTypes.bool,
   isSummaryVersion: PropTypes.bool,
   containerRef: PropTypes.object,
   columnRef: PropTypes.object,
@@ -124,8 +119,6 @@ TargetingBudgetDesktop.propTypes = {
 
 TargetingBudgetDesktop.defaultProps = {
   isFixed: false,
-  showHeader: false,
-  showButton: false,
   isSummaryVersion: false,
   containerRef: {},
   columnRef: {},
