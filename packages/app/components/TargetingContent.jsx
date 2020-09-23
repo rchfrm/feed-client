@@ -28,10 +28,11 @@ const TargetingContent = () => {
     targetingState,
     isDesktopLayout,
     initPage,
+    errorFetchingSettings,
+    errorUpdatingSettings,
   } = React.useContext(TargetingContext)
 
   // LOAD AND SET INITIAL TARGETING STATE
-  const [error, setError] = React.useState(null)
   const { isPending } = useAsync({
     promiseFn: fetchState,
     watch: artistId,
@@ -39,27 +40,24 @@ const TargetingContent = () => {
     artistId,
     // When fetch finishes
     onResolve: (state) => {
+      const { error } = state
       toggleGlobalLoading(false)
-      initPage(state)
-    },
-    // Handle errors
-    onReject(error) {
-      setError(error)
+      initPage(state, error)
     },
   })
-
-  // RESET STATES WHEN ARTIST CHANGES
-  React.useEffect(() => {
-    setError(null)
-  }, [artistId])
 
 
   // GET CURRENT VIEW
   const { currentView, setIsAnimatingView } = React.useContext(TargetingContext)
 
   // Handle error
-  if (error && !isPending) {
-    return <Error error={error} />
+  if (errorFetchingSettings && !isPending) {
+    return (
+      <div>
+        <h3>Error fetching settings</h3>
+        <Error error={errorFetchingSettings} />
+      </div>
+    )
   }
 
   if (globalLoading || !Object.keys(targetingState).length) return null
@@ -67,6 +65,14 @@ const TargetingContent = () => {
   return (
     <>
       <div className="relative">
+        {errorUpdatingSettings && (
+          <div>
+            <h3 className="text-red">
+              <strong>Could not save settings</strong>
+            </h3>
+            <Error error={errorUpdatingSettings} />
+          </div>
+        )}
         {/* SECTIONS */}
         <SwitchTransition>
           <CSSTransition

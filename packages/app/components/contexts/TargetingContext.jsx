@@ -22,6 +22,7 @@ const initialState = {
   togglePauseCampaign: () => {},
   cancelUpdateSettings: () => {},
   saving: false,
+  errorUpdatingSettings: null,
   currentView: 'summary',
   setCurrentView: () => {},
   isAnimatingView: false,
@@ -50,6 +51,7 @@ const initialState = {
   setSelectedCities: () => {},
   selectedCountries: [],
   setSelectedCountries: () => {},
+  errorFetchingSettings: null,
   initPage: () => {},
 }
 
@@ -237,7 +239,14 @@ const TargetingContextProvider = ({ children }) => {
 
 
   // INIT TARGETING PAGE
-  const initPage = React.useCallback((targetingState) => {
+  const [errorFetchingSettings, setErrorFetchingSettings] = React.useState(null)
+  const initPage = React.useCallback((targetingState, error) => {
+    // Handle error
+    if (error) {
+      setErrorFetchingSettings(error)
+      return
+    }
+    setErrorFetchingSettings(null)
     // Set inital countries  (to trigger min budget)
     const { cities, countries } = targetingState
     updateLocationsArrays({ cities, countries })
@@ -247,6 +256,7 @@ const TargetingContextProvider = ({ children }) => {
   }, [])
 
   // SAVE CAMPAIGN
+  const [errorUpdatingSettings, setErrorUpdatingSettings] = React.useState(null)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const [saving, setSaving] = React.useState(false)
   const saveCampaignSettings = React.useCallback(async (settings) => {
@@ -258,9 +268,13 @@ const TargetingContextProvider = ({ children }) => {
     // Reset to summary view
     setCurrentView(initialState.currentView)
     const savedState = await targetingHelpers.saveCampaign(artistId, settings, selectedCities, selectedCountries)
-    // Update state
-    setTargetingState(savedState)
-    setInitialTargetingState(savedState)
+    if (savedState.error) {
+      setErrorUpdatingSettings(savedState.error)
+    } else {
+      // Update state
+      setTargetingState(savedState)
+      setInitialTargetingState(savedState)
+    }
     setSelectedCampaignRecc(null)
     setSaving(false)
     toggleGlobalLoading(false)
@@ -279,6 +293,7 @@ const TargetingContextProvider = ({ children }) => {
 
   // RESET EVERYTHING WHEN ARTIST ID CHANGES
   React.useEffect(() => {
+    setErrorFetchingSettings(null)
     setSettingsReady(false)
     setLocationOptions({})
     setSelectedCampaignRecc(null)
@@ -300,6 +315,7 @@ const TargetingContextProvider = ({ children }) => {
         togglePauseCampaign,
         cancelUpdateSettings,
         saving,
+        errorUpdatingSettings,
         currentView,
         setCurrentView,
         isAnimatingView,
@@ -327,6 +343,7 @@ const TargetingContextProvider = ({ children }) => {
         setSelectedCities,
         selectedCountries,
         setSelectedCountries,
+        errorFetchingSettings,
         initPage,
       }}
     >

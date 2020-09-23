@@ -7,8 +7,10 @@ import useAsyncEffect from 'use-async-effect'
 
 import Button from '@/elements/Button'
 import Spinner from '@/elements/Spinner'
+import Error from '@/elements/Error'
 
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
+import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingPickerLocations from '@/app/TargetingPickerLocations'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
@@ -33,11 +35,17 @@ const TargetingSettings = () => {
   } = React.useContext(TargetingContext)
 
   // Fetch locations options
+  const [errorFetchingLocations, setErrorFetchingLocations] = React.useState(null)
   const { artistId } = React.useContext(ArtistContext)
   useAsyncEffect(async (isMounted) => {
-    const locations = await fetchPopularLocations(artistId)
+    const { popularLocations, error } = await fetchPopularLocations(artistId)
     if (!isMounted) return
-    createLocationOptions(locations)
+    if (error) {
+      setErrorFetchingLocations(error)
+    } else {
+      setErrorFetchingLocations(null)
+      createLocationOptions(popularLocations)
+    }
     setSettingsReady(true)
   }, [])
 
@@ -88,7 +96,15 @@ const TargetingSettings = () => {
           }}
         />
         {/* LOCATIONS */}
-        <TargetingPickerLocations className="mb-16" />
+        {errorFetchingLocations ? (
+          <div>
+            <TargetingSectionHeader className="mb-3" header="Locations" />
+            <p>Could not fetch popular locations</p>
+            <Error error={errorFetchingLocations} />
+          </div>
+        ) : (
+          <TargetingPickerLocations className="mb-3" />
+        )}
         {/* BACK BUTTON */}
         <div>
           <Button

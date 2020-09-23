@@ -184,7 +184,7 @@ export const fetchPopularLocations = async (artistId, useDummyData) => {
     })
   }
   const { res: popularLocations, error } = await server.getTargetingPopularLocations(artistId)
-  return popularLocations
+  return { popularLocations, error }
 }
 
 const getMergedLocations = (current, popular, locationKey) => {
@@ -260,6 +260,7 @@ export const fetchTargetingState = async (artistId) => {
     return { error: { message: errorMessage } }
   }
   const { res: settings, error } = await server.getTargetingSettings(artistId)
+  if (error) return { error }
   return formatSettings(settings)
 }
 
@@ -273,6 +274,7 @@ export const saveCampaign = async (artistId, newSettings, selectedCities, select
       }, 1000)
     })
   }
-  const { res: settings, error } = await server.saveTargetingSettings(artistId, newSettings, selectedCities, selectedCountries)
+  const { res: settings, error } = await server.saveTargetingSettings(123, newSettings, selectedCities, selectedCountries)
+  if (error) return { error }
   return formatSettings(settings)
 }
