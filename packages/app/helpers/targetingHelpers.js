@@ -183,8 +183,7 @@ export const fetchPopularLocations = async (artistId, useDummyData) => {
       }, 400)
     })
   }
-  const popularLocations = await server.getTargetingPopularLocations(artistId)
-  console.log('popularLocations', popularLocations)
+  const { res: popularLocations, error } = await server.getTargetingPopularLocations(artistId)
   return popularLocations
 }
 
@@ -243,13 +242,7 @@ export const formatPopularLocations = (popularLocations, currentLocations) => {
 
 // FETCH CAMPAIGN SETTINGS
 // ----------------------
-export const fetchTargetingState = async (artistId) => {
-  if (!artistId) {
-    const errorMessage = 'Cannot fetch targeting state because no artist ID has been provided'
-    console.error(errorMessage)
-    return { error: { message: errorMessage } }
-  }
-  const settings = await server.getTargetingSettings(artistId)
+const formatSettings = (settings) => {
   // Format settings
   return produce(settings, draftSettings => {
     if (typeof draftSettings.paused !== 'boolean') {
@@ -260,12 +253,26 @@ export const fetchTargetingState = async (artistId) => {
   })
 }
 
+export const fetchTargetingState = async (artistId) => {
+  if (!artistId) {
+    const errorMessage = 'Cannot fetch targeting state because no artist ID has been provided'
+    console.error(errorMessage)
+    return { error: { message: errorMessage } }
+  }
+  const { res: settings, error } = await server.getTargetingSettings(artistId)
+  return formatSettings(settings)
+}
+
 // SAVE CAMPAIGN SETTINGS
 // ----------------------
-export const saveCampaign = (newSettings) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(newSettings)
-    }, 1000)
-  })
+export const saveCampaign = async (artistId, newSettings, selectedCities, selectedCountries, useDummyData) => {
+  if (useDummyData) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(newSettings)
+      }, 1000)
+    })
+  }
+  const { res: settings, error } = await server.saveTargetingSettings(artistId, newSettings, selectedCities, selectedCountries)
+  return formatSettings(settings)
 }

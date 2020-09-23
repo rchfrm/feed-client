@@ -92,37 +92,6 @@ const TargetingContextProvider = ({ children }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCampaignRecc, setSelectedCampaignType])
 
-  // SAVE CAMPAIGN
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
-  const [saving, setSaving] = React.useState(false)
-  const saveCampaignSettings = React.useCallback(async (settings) => {
-    // Close side panel
-    toggleSidePanel(false)
-    // Start saving
-    setSaving(true)
-    toggleGlobalLoading(true)
-    // Reset to summary view
-    setCurrentView(initialState.currentView)
-    const savedState = await targetingHelpers.saveCampaign(settings)
-    // Update state
-    console.log('savedState', savedState)
-    setTargetingState(savedState)
-    setInitialTargetingState(savedState)
-    setSelectedCampaignRecc(null)
-    setSaving(false)
-    toggleGlobalLoading(false)
-  }, [toggleGlobalLoading, toggleSidePanel])
-
-  // PAUSE CAMPAIGN
-  const togglePauseCampaign = React.useCallback((pause) => {
-    const { paused } = targetingState
-    const newPausedState = typeof pause === 'boolean' ? pause : !paused
-    const newSettings = produce(targetingState, draftState => {
-      draftState.paused = newPausedState
-    })
-    saveCampaignSettings(newSettings)
-  }, [targetingState, saveCampaignSettings])
-
   // MIN BUDGET
   const [minHardBudget, setMinHardBudget] = React.useState(0)
   const [minReccBudget, setMinReccBudget] = React.useState(2)
@@ -276,6 +245,37 @@ const TargetingContextProvider = ({ children }) => {
     setInitialTargetingState(targetingState)
     setTargetingState(targetingState)
   }, [])
+
+  // SAVE CAMPAIGN
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  const [saving, setSaving] = React.useState(false)
+  const saveCampaignSettings = React.useCallback(async (settings) => {
+    // Close side panel
+    toggleSidePanel(false)
+    // Start saving
+    setSaving(true)
+    toggleGlobalLoading(true)
+    // Reset to summary view
+    setCurrentView(initialState.currentView)
+    const savedState = await targetingHelpers.saveCampaign(artistId, settings, selectedCities, selectedCountries)
+    // Update state
+    setTargetingState(savedState)
+    setInitialTargetingState(savedState)
+    setSelectedCampaignRecc(null)
+    setSaving(false)
+    toggleGlobalLoading(false)
+  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries])
+
+  // PAUSE CAMPAIGN
+  const togglePauseCampaign = React.useCallback((pause) => {
+    const { paused } = targetingState
+    const newPausedState = typeof pause === 'boolean' ? pause : !paused
+    const newSettings = produce(targetingState, draftState => {
+      draftState.paused = newPausedState
+    })
+    saveCampaignSettings(newSettings)
+  }, [targetingState, saveCampaignSettings])
+
 
   // RESET EVERYTHING WHEN ARTIST ID CHANGES
   React.useEffect(() => {

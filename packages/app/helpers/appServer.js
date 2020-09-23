@@ -1,5 +1,29 @@
 import * as api from '@/helpers/api'
 
+// UTILS
+// ------------------
+
+/**
+  * @param {string} requestType get | patch | post
+  * @param {string} url
+  * @param {object} payload
+  * @returns {Promise<object>} { res, error }
+  * * Makes requests  and returns errors as if the request were succesful with an `error.message` key filled out
+*/
+const requestWithCatch = async (requestType, url, payload = null) => {
+  if (!requestType) return console.error('Please include a request type')
+  if (!url) return console.error('Please include a url')
+  // eslint-disable-next-line import/namespace
+  const res = await api[requestType](url, payload)
+    .catch((error) => { return { error } })
+  if (res.error) {
+    const { error } = res
+    const message = typeof error.response === 'object' ? error.response.data.error : error.message
+    return { error: { message } }
+  }
+  return { res }
+}
+
 // ARTIST
 // ------------------
 
@@ -190,35 +214,45 @@ export const updateAccessToken = async (artistId, accessToken) => {
 // Fetch initial settings
 /**
 * @param {string} artistId
-* @returns {Promise<any>}
-* Returns errors as if the request were succesful with a `error` key filled out
+* @returns {Promise<object>} { res, error }
 */
 export const getTargetingSettings = async (artistId) => {
-  const res = await api.get(`/artists/${artistId}/targeting`)
-    .catch((error) => { return { error } })
-  if (res.error) {
-    const { error } = res
-    const message = typeof error.response === 'object' ? error.response.data.error : error.message
-    return { error: { message } }
-  }
-  return res
+  const requestUrl = `/artists/${artistId}/targeting`
+  return requestWithCatch('get', requestUrl)
 }
 
 // Fetch popular locations
 /**
 * @param {string} artistId
-* @returns {Promise<any>}
-* Returns errors as if the request were succesful with a `error` key filled out
+* @returns {Promise<object>} { res, error }
 */
 export const getTargetingPopularLocations = async (artistId) => {
-  const res = await api.get(`/artists/${artistId}/targeting/geo_locations`)
-    .catch((error) => { return { error } })
-  if (res.error) {
-    const { error } = res
-    const message = typeof error.response === 'object' ? error.response.data.error : error.message
-    return { error: { message } }
+  const requestUrl = `/artists/${artistId}/targeting/geo_locations`
+  return requestWithCatch('get', requestUrl)
+}
+
+// Save new targeting settings
+/**
+* @param {string} artistId
+* @param {object} newState
+* @param {array} cities
+* @param {array} countries
+* @returns {Promise<object>} { res, error }
+*/
+export const saveTargetingSettings = async (artistId, newState, cities, countries) => {
+  const { age_min, age_max, budget, genders } = newState
+  const requestUrl = `/artists/${artistId}/targeting`
+  const payload = {
+    age_min,
+    age_max,
+    budget,
+    genders,
+    geo_locations: {
+      countries,
+      cities,
+    },
   }
-  return res
+  return requestWithCatch('patch', requestUrl, payload)
 }
 
 // INTEGRATION ERRORS
