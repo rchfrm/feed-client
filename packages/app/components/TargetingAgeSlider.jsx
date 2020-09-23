@@ -22,7 +22,10 @@ const TargetingAgeSlider = ({ minAge, maxAge, onChange, className }) => {
       <TargetingSectionHeader className="mb-10" header="Age Range" />
       <Slider
         containerClassName={className}
-        valueRange={[lowestAge, highestAge]}
+        valueRange={{
+          min: lowestAge,
+          max: highestAge,
+        }}
         startValue={startValues.current}
         onChange={onChange}
         labelOptions={[

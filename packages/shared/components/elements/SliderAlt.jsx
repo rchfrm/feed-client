@@ -9,7 +9,7 @@ import TooltipButton from '@/elements/TooltipButton'
 const Slider = ({
   // Slider config
   startValue, // number, number[] (use array for more than one thumb)
-  valueRange, // [lowest, highest]
+  valueRange, // { min, max }
   formatValue, // object of to/from to format the input/output (https://refreshless.com/nouislider/number-formatting/)
   labelOptions, // array of object to/from to format the input/output (https://refreshless.com/nouislider/slider-options/#section-tooltips)
   step, // see docs
@@ -27,8 +27,6 @@ const Slider = ({
   // Child nodes
   children,
 }) => {
-  const [min, max] = valueRange
-
   const sliderRef = React.useRef(null)
 
   return (
@@ -62,10 +60,7 @@ const Slider = ({
       ].join(' ')}
       >
         <Nouislider
-          range={{
-            min,
-            max,
-          }}
+          range={valueRange}
           start={startValue}
           step={step}
           format={formatValue}
@@ -86,7 +81,7 @@ const Slider = ({
 
 Slider.propTypes = {
   startValue: PropTypes.array.isRequired,
-  valueRange: PropTypes.array.isRequired,
+  valueRange: PropTypes.object.isRequired,
   formatValue: PropTypes.object,
   step: PropTypes.number,
   onChange: PropTypes.func,
