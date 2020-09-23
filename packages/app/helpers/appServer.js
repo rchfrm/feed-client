@@ -1,6 +1,8 @@
 import * as api from '@/helpers/api'
 
-// UPDATE ARTIST
+// ARTIST
+// ------------------
+
 /**
  * @param {string} artistId
  * @param {number} dailyBudget
@@ -32,7 +34,9 @@ export const updatePriorityDSP = async (artistId, priorityDSP, verifyIdToken) =>
   return api.patch(`/artists/${artistId}`, { priority_dsp: priorityDSP }, verifyIdToken)
 }
 
-// DATA SOURCES
+// DATA INSIGHTS
+// -------------------
+
 /**
  * @param {string} endpoint
  * @param {string} [verifyIdToken]
@@ -79,7 +83,9 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
   return api.get(`/artists/${artistId}/data_sources/${dataSource}/annualized`)
 }
 
-// ASSETS
+// ASSETS / POSTS
+//-------------------------
+
 /**
 * @param {number} limit
 * @param {string} artistId
@@ -178,6 +184,9 @@ export const updateAccessToken = async (artistId, accessToken) => {
 }
 
 
+// INTEGRATION ERRORS
+// --------------------------
+
 /**
  * @param {string} artistId
  * @param {string} postId
@@ -188,6 +197,9 @@ export const updateAccessToken = async (artistId, accessToken) => {
 export const getIntegrationErrors = async (artistId) => {
   return api.get(`/artists/${artistId}/integrations/errors`)
 }
+
+
+
 
 export const catchAxiosError = (error) => {
   if (error.response) {
