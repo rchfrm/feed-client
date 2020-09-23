@@ -105,15 +105,6 @@ const TargetingSettings = () => {
         ) : (
           <TargetingPickerLocations className="mb-3" />
         )}
-        {/* BACK BUTTON */}
-        <div>
-          <Button
-            className="w-40"
-            onClick={cancelUpdateSettings}
-          >
-            Cancel
-          </Button>
-        </div>
       </div>
       {/* DESKTOP BUDGET SETTER */}
       {isDesktopLayout && (
@@ -130,18 +121,30 @@ const TargetingSettings = () => {
               disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
             ].join(' ')}
           >
-            <Button
-              version="green"
-              className="w-full"
-              onClick={() => saveCampaignSettings(targetingState)}
-              disabled={!!disableSaving}
-            >
-              {disableSaving ? (
-                <>
-                  {disableSaving === 'budget' ? 'Budget is too small' : 'Select at least one location'}
-                </>
-              ) : 'Save Campaign Settings'}
-            </Button>
+            <div className="mb-5">
+              <Button
+                version="green"
+                className="w-full"
+                onClick={() => saveCampaignSettings(targetingState)}
+                disabled={!!disableSaving}
+              >
+                {disableSaving ? (
+                  <>
+                    {disableSaving === 'budget' ? 'Budget is too small' : 'Select at least one location'}
+                  </>
+                ) : 'Save Campaign Settings'}
+              </Button>
+            </div>
+            {/* BACK BUTTON */}
+            <div className="flex justify-end">
+              <Button
+                className="w-40"
+                version="black small"
+                onClick={cancelUpdateSettings}
+              >
+                Cancel
+              </Button>
+            </div>
           </div>
         </>
       )}
