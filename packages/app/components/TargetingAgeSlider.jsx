@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 
-import Slider from '@/elements/SliderAlt'
+import Slider from '@/elements/Slider'
 
 const TargetingAgeSlider = ({ minAge, maxAge, onChange, className }) => {
   const lowestAge = 15

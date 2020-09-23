@@ -2,109 +2,45 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 // DOCS: https://zillow.github.io/react-slider/
-import ReactSlider from 'react-slider'
+import Nouislider from 'nouislider-react'
 
-import SliderDragger from '@/elements/SliderDragger'
 import TooltipButton from '@/elements/TooltipButton'
-
 
 const Slider = ({
   // Slider config
-  valueRange, // [lowest, highest]
-  value, // number, number[] (use array for more than one thumb)
-  thumbName, // string, string[] (use array for more than one thumb)
-  valueLabelFunction, // function to determine label of thumb
-  thumbRenderFunction, // function to determin thumb node
-  getLabelValue, // function on how to parse the value label
-  pearling, // see docs
+  startValue, // number, number[] (use array for more than one thumb)
+  valueRange, // { min, max }
+  formatValue, // object of to/from to format the input/output (https://refreshless.com/nouislider/number-formatting/)
+  labelOptions, // array of object to/from to format the input/output (https://refreshless.com/nouislider/slider-options/#section-tooltips)
   step, // see docs
-  minDistance, // see docs
   onChange,
-  onBeforeChange,
-  onAfterChange,
   // Label and tooltip
   label,
   tooltipMessage,
   tooltipDirection,
+  // Colors
+  trackColor,
   // Classes
-  labelClassName,
-  containerClassName,
-  sliderClassName,
-  thumbClassName,
-  trackClassName,
-  trackColorClass,
+  className,
+  // Markers
   hasMarkers,
-  // hackfix
-  forceInitialResize,
   // Child nodes
   children,
 }) => {
-  const [min, max] = valueRange
-  // DEFINE DEFAULT FUNCTIONS
-  // Default label function
-  const defaultValueLabelFunction = (state) => {
-    const valueLabel = getLabelValue(state.valueNow)
-    return `Thumb value ${valueLabel}`
-  }
-
-  const defaultThumbRenderFunction = (props, state) => {
-    const { className } = props
-    const classNameMod = [
-      ...className.split(' '),
-      'relative',
-      'slider--thumb',
-    ].join(' ')
-    const valueLabel = getLabelValue(state.valueNow)
-    return (
-      <div {...props} className={classNameMod}>
-        {/* Dragger */}
-        <SliderDragger />
-        {/* Number */}
-        <p
-          className={['absolute mt-2 text-sm xs:text-base'].join(' ')}
-          style={{ right: '50%', transform: 'translateX(50%)' }}
-        >
-          {valueLabel}
-        </p>
-      </div>
-    )
-  }
-  // USE DEFAULT RENDER FUNCTIONS IF NEEDED
-  valueLabelFunction = valueLabelFunction || defaultValueLabelFunction
-  thumbRenderFunction = thumbRenderFunction || defaultThumbRenderFunction
-
-  // FORCE REPAINT if mounting in akward situations
-  const sliderRef = React.useRef()
-  React.useEffect(() => {
-    if (!forceInitialResize) return
-    setTimeout(() => {
-      sliderRef.current.resize()
-    }, 1)
-  }, [forceInitialResize])
-
-  // ROUND VALUE TO NEAREST STEP on mount
-  React.useEffect(() => {
-    // Round value in array
-    if (Array.isArray(value)) {
-      const roundedValues = value.map((val) => {
-        return Math.round(val / step) * step
-      })
-      return onChange(roundedValues)
-    }
-    // Round value
-    const roundedValue = Math.round(value / step) * step
-    onChange(roundedValue)
-  // eslint-disable-next-line
-  }, [])
+  const sliderRef = React.useRef(null)
 
   return (
-    <div className={['mb-5', containerClassName].join(' ')}>
+    <div className={[
+      'mb-5',
+      trackColor ? `slider-track-color-${trackColor}` : null,
+      className,
+    ].join(' ')}
+    >
       {/* LABEL */}
       {label && (
         <div className={[
           'inputLabel',
           hasMarkers ? 'mb-12' : 'mb-8',
-          labelClassName,
         ].join(' ')}
         >
           <span className="inputLabel__text">
@@ -123,23 +59,18 @@ const Slider = ({
         hasMarkers && !label ? 'pt-10' : null,
       ].join(' ')}
       >
-        <ReactSlider
-          min={min}
-          max={max}
-          value={value}
-          ariaLabel={thumbName}
-          ariaValuetext={valueLabelFunction}
-          renderThumb={thumbRenderFunction}
-          pearling={pearling}
+        <Nouislider
+          range={valueRange}
+          start={startValue}
           step={step}
-          minDistance={minDistance}
-          className={[sliderClassName].join(' ')}
-          thumbClassName={[thumbClassName].join(' ')}
-          trackClassName={['h-2 rounded-dialogue', trackClassName, trackColorClass].join(' ')}
-          onChange={onChange}
-          onBeforeChange={onBeforeChange}
-          onAfterChange={onAfterChange}
-          ref={sliderRef}
+          format={formatValue}
+          tooltips={labelOptions}
+          onUpdate={onChange}
+          instanceRef={instance => {
+            if (instance && !sliderRef.current) {
+              sliderRef.current = instance
+            }
+          }}
         />
         {children}
       </div>
@@ -149,62 +80,37 @@ const Slider = ({
 
 
 Slider.propTypes = {
-  valueRange: PropTypes.array.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.array,
-  ]).isRequired,
-  thumbName: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-  ]).isRequired,
-  valueLabelFunction: PropTypes.func,
-  thumbRenderFunction: PropTypes.func,
-  getLabelValue: PropTypes.func,
-  pearling: PropTypes.bool,
+  startValue: PropTypes.array.isRequired,
+  valueRange: PropTypes.object.isRequired,
+  formatValue: PropTypes.object,
+  labelOptions: PropTypes.array.isRequired,
   step: PropTypes.number,
-  minDistance: PropTypes.number,
   onChange: PropTypes.func,
-  onBeforeChange: PropTypes.func,
-  onAfterChange: PropTypes.func,
   label: PropTypes.string,
   tooltipMessage: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,
   ]),
   tooltipDirection: PropTypes.string,
-  labelClassName: PropTypes.string,
-  containerClassName: PropTypes.string,
-  sliderClassName: PropTypes.string,
-  thumbClassName: PropTypes.string,
-  trackColorClass: PropTypes.string,
-  trackClassName: PropTypes.string,
+  trackColor: PropTypes.string,
   hasMarkers: PropTypes.bool,
-  forceInitialResize: PropTypes.bool,
+  className: PropTypes.string,
   children: PropTypes.node,
 }
 
 Slider.defaultProps = {
-  valueLabelFunction: null,
-  thumbRenderFunction: null,
-  getLabelValue: (value) => value,
-  pearling: false,
+  formatValue: {
+    to: (value) => value,
+    from: (value) => value,
+  },
   step: 1,
-  minDistance: 1,
-  onChange: () => {},
-  onBeforeChange: () => {},
-  onAfterChange: () => {},
   label: null,
   tooltipMessage: null,
   tooltipDirection: 'top',
-  labelClassName: null,
-  containerClassName: null,
-  sliderClassName: null,
-  thumbClassName: null,
-  trackClassName: null,
-  trackColorClass: 'bg-grey-1',
+  onChange: () => {},
+  trackColor: null,
   hasMarkers: false,
-  forceInitialResize: false,
+  className: null,
   children: null,
 }
 
