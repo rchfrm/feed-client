@@ -133,55 +133,6 @@ const TargetingContextProvider = ({ children }) => {
   const { desktopLayoutWidth } = initialState
   const isDesktopLayout = useBreakpointTest(desktopLayoutWidth)
 
-  // MOBILE BUDGET SIDEPANEL
-  const [mobileBudgetOpen, setMobileBudgetOpen] = React.useState(initialState.mobileBudgetOpen)
-  // Get budget content
-  const getBudgetSidePanelContent = (state = true) => {
-    const content = state ? (
-      <TargetingBudgetMobile
-        currency={currency}
-        currencyOffset={currencyOffset}
-        minReccBudget={minReccBudget}
-        minHardBudget={minHardBudget}
-        initialBudget={initialTargetingState.budget}
-        targetingState={targetingState}
-        updateTargetingBudget={updateTargetingBudget}
-      />
-    ) : null
-    const button = state ? (
-      <TargetingBudgetSaveButton
-        targetingState={targetingState}
-        saveCampaignSettings={saveCampaignSettings}
-        disableSaving={disableSaving}
-      />
-    ) : null
-    return { content, button }
-  }
-  // Toggle budget sidepanel
-  const toggleMobileBudget = React.useCallback((state = true) => {
-    const { content, button } = getBudgetSidePanelContent(state)
-    setSidePanelContent(content)
-    setSidePanelButton(button)
-    toggleSidePanel(state)
-    setMobileBudgetOpen(state)
-    // Hide progress button
-    setSelectedCampaignRecc(null)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setSidePanelButton, toggleSidePanel, targetingState, budgetFormatted, updateTargetingBudget])
-
-  React.useEffect(() => {
-    if (!mobileBudgetOpen) return
-    const { button } = getBudgetSidePanelContent()
-    setSidePanelButton(button)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [budgetFormatted, disableSaving, mobileBudgetOpen])
-
-  // Set budget open to false when closing sidepanel
-  React.useEffect(() => {
-    if (!sidePanelContent) setMobileBudgetOpen(false)
-  }, [sidePanelContent])
-
-
   // SETTINGS
   const [settingsReady, setSettingsReady] = React.useState(initialState.settingsReady)
 
@@ -303,6 +254,54 @@ const TargetingContextProvider = ({ children }) => {
     setMinHardBudget(fbMin)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artistId])
+
+  // MOBILE BUDGET SIDEPANEL
+  const [mobileBudgetOpen, setMobileBudgetOpen] = React.useState(initialState.mobileBudgetOpen)
+  // Get budget content
+  const getBudgetSidePanelContent = (state = true) => {
+    const content = state ? (
+      <TargetingBudgetMobile
+        currency={currency}
+        currencyOffset={currencyOffset}
+        minReccBudget={minReccBudget}
+        minHardBudget={minHardBudget}
+        initialBudget={initialTargetingState.budget}
+        targetingState={targetingState}
+        updateTargetingBudget={updateTargetingBudget}
+      />
+    ) : null
+    const button = state ? (
+      <TargetingBudgetSaveButton
+        targetingState={targetingState}
+        saveCampaignSettings={saveCampaignSettings}
+        disableSaving={disableSaving}
+      />
+    ) : null
+    return { content, button }
+  }
+  // Toggle budget sidepanel
+  const toggleMobileBudget = React.useCallback((state = true) => {
+    const { content, button } = getBudgetSidePanelContent(state)
+    setSidePanelContent(content)
+    setSidePanelButton(button)
+    toggleSidePanel(state)
+    setMobileBudgetOpen(state)
+    // Hide progress button
+    setSelectedCampaignRecc(null)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setSidePanelButton, toggleSidePanel, targetingState, budgetFormatted, updateTargetingBudget])
+
+  React.useEffect(() => {
+    if (!mobileBudgetOpen) return
+    const { button } = getBudgetSidePanelContent()
+    setSidePanelButton(button)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [budgetFormatted, disableSaving, mobileBudgetOpen])
+
+  // Set budget open to false when closing sidepanel
+  React.useEffect(() => {
+    if (!sidePanelContent) setMobileBudgetOpen(false)
+  }, [sidePanelContent])
 
   return (
     <TargetingContext.Provider
