@@ -103,8 +103,8 @@ export const calcMinBudget = (minBudgetInfo, type) => {
     fbMinRounded,
     minBudgetRounded,
   } = utils.getMinBudget(amount, currencyCode, currencyOffset)
-  if (type === 'hard') return fbMinRounded
-  return minBudgetRounded
+  if (type === 'hard') return fbMinRounded * currencyOffset
+  return minBudgetRounded * currencyOffset
 }
 
 // Get slider config

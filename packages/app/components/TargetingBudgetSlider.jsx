@@ -51,7 +51,7 @@ const TargetingBudgetSlider = ({
   }, [mobileVersion])
 
   // DEFINE START VALUE
-  const startValue = React.useRef(budget)
+  const startValue = React.useRef(budget * currencyOffset)
 
   // DEFINE RANGE
   const valueRange = React.useMemo(() => {
@@ -77,7 +77,7 @@ const TargetingBudgetSlider = ({
         }}
         labelOptions={[
           {
-            to: (value) => formatCurrency(value, currency),
+            to: (value) => formatCurrency((value / currencyOffset), currency),
           },
         ]}
       >
@@ -89,7 +89,7 @@ const TargetingBudgetSlider = ({
         />
         <SliderGhost
           sliderValueRange={sliderValueRange}
-          markerValue={initialBudget}
+          markerValue={(initialBudget * currencyOffset)}
         />
       </Slider>
     </div>

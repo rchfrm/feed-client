@@ -138,10 +138,10 @@ const TargetingContextProvider = ({ children }) => {
   const updateTargetingBudget = React.useCallback((budget) => {
     setTargetingState((targetingState) => {
       return produce(targetingState, draftState => {
-        draftState.budget = budget
+        draftState.budget = budget / currencyOffset
       })
     })
-  }, [])
+  }, [currencyOffset])
 
   // // UPDATE BUDGET IF RECC IS MORE THAN CURRENT
   // React.useEffect(() => {
@@ -154,9 +154,9 @@ const TargetingContextProvider = ({ children }) => {
   // DISABLE SAVING (eg if budget is too small)
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
   React.useEffect(() => {
-    const disabled = targetingState.budget < minHardBudget
+    const disabled = (targetingState.budget * currencyOffset) < minHardBudget
     setDisableSaving(disabled)
-  }, [targetingState.budget, minHardBudget])
+  }, [targetingState.budget, minHardBudget, currencyOffset])
 
   // GET DESKTOP LAYOUT TEST
   const { desktopLayoutWidth } = initialState
