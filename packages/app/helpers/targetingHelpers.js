@@ -274,7 +274,7 @@ export const saveCampaign = async (artistId, newSettings, selectedCities, select
       }, 1000)
     })
   }
-  const { res: settings, error } = await server.saveTargetingSettings(123, newSettings, selectedCities, selectedCountries)
+  const { res: settings, error } = await server.saveTargetingSettings(artistId, newSettings, selectedCities, selectedCountries)
   if (error) return { error }
   return formatSettings(settings)
 }
