@@ -5,7 +5,6 @@ import produce from 'immer'
 
 import useAsyncEffect from 'use-async-effect'
 
-import Button from '@/elements/Button'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
@@ -13,6 +12,7 @@ import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingPickerLocations from '@/app/TargetingPickerLocations'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
+import TargetingSettingsSaveContainer from '@/app/TargetingSettingsSaveContainer'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
@@ -55,6 +55,8 @@ const TargetingSettings = () => {
 
   // Budget box ref
   const budgetRef = React.useRef(null)
+  console.log('budgetRef', budgetRef)
+
   if (!settingsReady) {
     return (
       <div>
@@ -117,38 +119,12 @@ const TargetingSettings = () => {
             containerRef={containerRef}
             columnRef={columnRef}
           />
-          <div
-            className={[
-              'fixed bottom-0 right-0 w-1/2',
-              'pl-20 pr-14 pb-10',
-              disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
-            ].join(' ')}
-          >
-            <div className="mb-5">
-              <Button
-                version="green"
-                className="w-full"
-                onClick={() => saveCampaignSettings(targetingState)}
-                disabled={!!disableSaving}
-              >
-                {disableSaving ? (
-                  <>
-                    {disableSaving === 'budget' ? 'Budget is too small' : 'Select at least one location'}
-                  </>
-                ) : 'Save Campaign Settings'}
-              </Button>
-            </div>
-            {/* BACK BUTTON */}
-            <div className="flex justify-end">
-              <Button
-                className="w-40"
-                version="black small"
-                onClick={cancelUpdateSettings}
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
+          <TargetingSettingsSaveContainer
+            disableSaving={disableSaving}
+            targetingState={targetingState}
+            saveCampaignSettings={saveCampaignSettings}
+            cancelUpdateSettings={cancelUpdateSettings}
+          />
         </>
       )}
     </div>
