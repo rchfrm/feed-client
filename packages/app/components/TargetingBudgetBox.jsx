@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { gsap } from 'gsap'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
+import useCombinedRefs from '@/hooks/useCombinedRefs'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -12,17 +13,18 @@ import Button from '@/elements/Button'
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 
-const TargetingBudgetBox = ({
+const TargetingBudgetBox = React.forwardRef(({
   isFixed,
   isSummaryVersion,
   containerRef,
   columnRef,
   saveButtonText,
   className,
-}) => {
+}, ref) => {
   const { width: windowWidth } = useBrowserStore()
 
-  const budgetRef = React.useRef(null)
+  const elRef = React.useRef(ref)
+  const budgetRef = useCombinedRefs(ref, elRef)
 
   // RESIZE AND POSITION
   React.useEffect(() => {
@@ -45,6 +47,7 @@ const TargetingBudgetBox = ({
     // Set position
     const { current: budgetEl } = budgetRef
     gsap.set(budgetEl, positionProps)
+  // eslint-disable-next-line
   }, [isFixed, containerRef, columnRef, windowWidth])
 
   // GET TARGETING CONTEXT
@@ -108,7 +111,9 @@ const TargetingBudgetBox = ({
       )}
     </section>
   )
-}
+})
+
+TargetingBudgetBox.displayName = 'TargetingBudgetBox'
 
 TargetingBudgetBox.propTypes = {
   isFixed: PropTypes.bool,

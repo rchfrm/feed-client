@@ -53,6 +53,8 @@ const TargetingSettings = () => {
   const containerRef = React.useRef(null)
   const columnRef = React.useRef(null)
 
+  // Budget box ref
+  const budgetRef = React.useRef(null)
   if (!settingsReady) {
     return (
       <div>
@@ -110,6 +112,7 @@ const TargetingSettings = () => {
       {isDesktopLayout && (
         <>
           <TargetingBudgetBox
+            ref={budgetRef}
             isFixed
             containerRef={containerRef}
             columnRef={columnRef}
