@@ -134,9 +134,13 @@ const TargetingSettings = () => {
               version="green"
               className="w-full"
               onClick={() => saveCampaignSettings(targetingState)}
-              disabled={disableSaving}
+              disabled={!!disableSaving}
             >
-              {disableSaving ? 'Budget is too small' : 'Save Campaign Settings'}
+              {disableSaving ? (
+                <>
+                  {disableSaving === 'budget' ? 'Budget is too small' : 'Select at least one location'}
+                </>
+              ) : 'Save Campaign Settings'}
             </Button>
           </div>
         </>

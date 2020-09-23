@@ -35,7 +35,7 @@ const initialState = {
   minReccBudget: 0,
   setMinReccBudget: () => {},
   updateTargetingBudget: () => {},
-  disableSaving: false,
+  disableSaving: '',
   currency: '',
   currencyOffset: 0,
   budgetFormatted: '',
@@ -122,12 +122,6 @@ const TargetingContextProvider = ({ children }) => {
   // // eslint-disable-next-line
   // }, [minReccBudget])
 
-  // DISABLE SAVING (eg if budget is too small)
-  const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
-  React.useEffect(() => {
-    const disabled = (targetingState.budget * currencyOffset) < minHardBudget
-    setDisableSaving(disabled)
-  }, [targetingState.budget, minHardBudget, currencyOffset])
 
   // GET DESKTOP LAYOUT TEST
   const { desktopLayoutWidth } = initialState
@@ -206,6 +200,19 @@ const TargetingContextProvider = ({ children }) => {
     setTargetingState(targetingState)
   }, [])
 
+  // DISABLE SAVING (eg if budget is too small)
+  const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
+  React.useEffect(() => {
+    const isBudgetTooSmall = (targetingState.budget * currencyOffset) < minHardBudget
+    // Disable with budget reason
+    if (isBudgetTooSmall) return setDisableSaving('budget')
+    const noLocations = !selectedCountries.length && !selectedCities.length
+    // Disable with location reason
+    if (noLocations) return setDisableSaving('location')
+    // Reset
+    setDisableSaving(initialState.disableSaving)
+  }, [targetingState.budget, minHardBudget, currencyOffset, selectedCountries, selectedCities])
+
   // SAVE CAMPAIGN
   const [errorUpdatingSettings, setErrorUpdatingSettings] = React.useState(null)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -274,7 +281,7 @@ const TargetingContextProvider = ({ children }) => {
       <TargetingBudgetSaveButton
         targetingState={targetingState}
         saveCampaignSettings={saveCampaignSettings}
-        disableSaving={disableSaving}
+        disableSaving={!!disableSaving}
       />
     ) : null
     return { content, button }

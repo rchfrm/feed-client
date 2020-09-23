@@ -101,7 +101,7 @@ const TargetingBudgetBox = ({
             disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
           ].join(' ')}
           onClick={() => saveCampaignSettings(targetingState)}
-          disabled={disableSaving}
+          disabled={!!disableSaving}
         >
           {disableSaving ? 'Budget is too small' : saveButtonText}
         </Button>

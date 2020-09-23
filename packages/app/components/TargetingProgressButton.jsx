@@ -22,6 +22,7 @@ const TargetingProgressButton = () => {
     isAnimatingView,
     toggleMobileBudget,
     mobileBudgetOpen,
+    disableSaving,
   } = React.useContext(TargetingContext)
   // IS MOUNTED CONST
   const isMounted = React.useRef(true)
@@ -33,10 +34,11 @@ const TargetingProgressButton = () => {
   const showButton = React.useMemo(() => {
     if (forceHideButton) return false
     if (mobileBudgetOpen) return false
+    if (disableSaving === 'location') return false
     if (currentView === 'summary' && selectedCampaignType) return true
     if (currentView === 'customise') return true
     return false
-  }, [forceHideButton, mobileBudgetOpen, currentView, selectedCampaignType])
+  }, [forceHideButton, mobileBudgetOpen, disableSaving, currentView, selectedCampaignType])
 
   React.useEffect(() => {
     if (!isAnimatingView) {
