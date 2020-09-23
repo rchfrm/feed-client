@@ -51,12 +51,25 @@ const TargetingBudgetSlider = ({
   }, [mobileVersion])
 
   // DEFINE START VALUE
-  const startValue = React.useRef(budget * currencyOffset)
+  const startValue = React.useRef(Math.round(budget * currencyOffset))
 
   // DEFINE RANGE
   const valueRange = React.useMemo(() => {
-    return sliderValueRange
-  }, [sliderValueRange])
+    const [min, max] = sliderValueRange
+    const initialBudget = startValue.current
+    const budgetDivisibleByStep = !(initialBudget % sliderStep)
+    if (budgetDivisibleByStep) return { min, max }
+    // If budget is not divisble by step, use custom range with custom step for budget
+    const customSnap = Math.floor(100 * (initialBudget / max))
+    const customSnapResetValue = sliderStep * (Math.floor(initialBudget / sliderStep) + 1)
+    const customSnapResetPct = Math.ceil(100 * (customSnapResetValue / max))
+    return {
+      min: [min, sliderStep],
+      [`${customSnap}%`]: [initialBudget, max + 1],
+      [`${customSnapResetPct}%`]: [customSnapResetValue, sliderStep],
+      max: [max, sliderStep],
+    }
+  }, [sliderValueRange, sliderStep])
 
   return (
     <div className={['pl-0'].join(' ')} ref={containerRef}>
@@ -89,7 +102,7 @@ const TargetingBudgetSlider = ({
         />
         <SliderGhost
           sliderValueRange={sliderValueRange}
-          markerValue={(initialBudget * currencyOffset)}
+          markerValue={(startValue.current)}
         />
       </Slider>
     </div>
