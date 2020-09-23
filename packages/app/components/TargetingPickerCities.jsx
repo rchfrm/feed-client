@@ -10,6 +10,7 @@ const TargetingPickerCities = ({
 }) => {
   const citiesCheckboxes = cities.map((city) => {
     const { audience_pct } = city
+    const percent = audience_pct ? Math.round(audience_pct * 100) : 0
     return {
       value: city.key,
       name: city.key,
@@ -17,8 +18,8 @@ const TargetingPickerCities = ({
         <>
           {city.name}
           &nbsp;&nbsp;
-          {audience_pct ? (
-            <span className="text-xs">{audience_pct}%</span>
+          {percent ? (
+            <span className="text-xs">{percent}%</span>
           ) : (
             <span className="text-xs text-red">{'< 1%'}</span>
           )}

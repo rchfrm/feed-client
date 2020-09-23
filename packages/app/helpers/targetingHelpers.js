@@ -173,13 +173,19 @@ export const getSummary = {
 // ----------------
 
 // Fetch the popular locations
-export const fetchPopularLocations = (artistId) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('Fetched loactions for ', artistId)
-      resolve(demoPopuplarLocations)
-    }, 400)
-  })
+export const fetchPopularLocations = async (artistId, useDummyData) => {
+  // * TEMP
+  if (useDummyData) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log('Fetched loactions for ', artistId)
+        resolve(demoPopuplarLocations)
+      }, 400)
+    })
+  }
+  const popularLocations = await server.getTargetingPopularLocations(artistId)
+  console.log('popularLocations', popularLocations)
+  return popularLocations
 }
 
 const getMergedLocations = (current, popular, locationKey) => {

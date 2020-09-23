@@ -18,6 +18,7 @@ const TargetingPickerCountry = ({
   hasCities,
 }) => {
   const { code, name, audience_pct } = country
+  const percent = audience_pct ? Math.round(audience_pct * 100) : 0
   return (
     <AccordionItemState>
       {({ expanded }) => (
@@ -52,8 +53,8 @@ const TargetingPickerCountry = ({
                   )}
                 </div>
                 <p className="text-xs mb-0">
-                  {audience_pct ? (
-                    <strong><em>{audience_pct}% of audience</em></strong>
+                  {percent ? (
+                    <strong><em>{percent}% of audience</em></strong>
                   ) : (
                     <strong className="text-red"><em>{'< 1%'} of audience</em></strong>
                   )}

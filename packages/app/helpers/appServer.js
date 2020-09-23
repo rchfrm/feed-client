@@ -187,6 +187,7 @@ export const updateAccessToken = async (artistId, accessToken) => {
 // TARGETING
 // --------------------------
 
+// Fetch initial settings
 /**
 * @param {string} artistId
 * @returns {Promise<any>}
@@ -203,6 +204,22 @@ export const getTargetingSettings = async (artistId) => {
   return res
 }
 
+// Fetch popular locations
+/**
+* @param {string} artistId
+* @returns {Promise<any>}
+* Returns errors as if the request were succesful with a `error` key filled out
+*/
+export const getTargetingPopularLocations = async (artistId) => {
+  const res = await api.get(`/artists/${artistId}/targeting/geo_locations`)
+    .catch((error) => { return { error } })
+  if (res.error) {
+    const { error } = res
+    const message = typeof error.response === 'object' ? error.response.data.error : error.message
+    return { error: { message } }
+  }
+  return res
+}
 
 // INTEGRATION ERRORS
 // --------------------------
