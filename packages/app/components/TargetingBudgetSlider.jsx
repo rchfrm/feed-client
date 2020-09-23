@@ -52,6 +52,7 @@ const TargetingBudgetSlider = ({
 
   // DEFINE START VALUE
   const startValue = React.useRef(Math.round(budget * currencyOffset))
+  const initialMarkerPosition = React.useRef(null)
 
   // DEFINE RANGE
   const valueRange = React.useMemo(() => {
@@ -78,8 +79,13 @@ const TargetingBudgetSlider = ({
         startValue={[startValue.current]}
         step={sliderStep}
         thumbName="Budget"
-        onChange={([state]) => {
+        onChange={([state], handle, unencoded, isTap, [position]) => {
+          // Update budget
           onChange(state)
+          // Set initial marker position
+          if (initialMarkerPosition.current === null) {
+            initialMarkerPosition.current = position
+          }
         }}
         forceInitialResize
         hasMarkers
@@ -101,8 +107,7 @@ const TargetingBudgetSlider = ({
           hideText={budget >= minReccBudget}
         />
         <SliderGhost
-          sliderValueRange={sliderValueRange}
-          markerValue={(startValue.current)}
+          markerPositionPercent={initialMarkerPosition.current}
         />
       </Slider>
     </div>

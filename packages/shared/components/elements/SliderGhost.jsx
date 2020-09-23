@@ -2,14 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const SliderGhost = ({
-  sliderValueRange,
-  markerValue,
+  markerPositionPercent,
   className,
   style,
 }) => {
-  const [min, max] = sliderValueRange
-  const xPercent = -1000 + (((markerValue - min) / max) * 1000)
-  const transform = `translateX(${xPercent}%)`
+  if (markerPositionPercent === null) return null
+  const xPercent = 1000 - ((markerPositionPercent / 100) * 1000)
+  const transform = `translateX(${-xPercent}%)`
 
   return (
     <div className="noUi-origin -ghost" style={{ transform }}>
@@ -24,13 +23,13 @@ const SliderGhost = ({
 }
 
 SliderGhost.propTypes = {
-  sliderValueRange: PropTypes.array.isRequired,
-  markerValue: PropTypes.number.isRequired,
+  markerPositionPercent: PropTypes.number,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
 SliderGhost.defaultProps = {
+  markerPositionPercent: null,
   className: null,
   style: {},
 }
