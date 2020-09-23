@@ -5,10 +5,9 @@ import Button from '@/elements/Button'
 
 const TargetingPauseButton = ({ togglePauseCampaign, isPaused }) => {
   return (
-    <div className="mb-6 flex justify-end">
+    <div className="flex justify-end">
       <Button
-        version="red"
-        // className="w-full"
+        version="red small"
         onClick={togglePauseCampaign}
       >
         {isPaused ? 'Resume' : 'Pause Spending'}

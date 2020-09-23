@@ -22,7 +22,7 @@ const TargetingSummary = () => {
         <h3 className="h2">Budget</h3>
         <TargetingBudgetBox
           saveButtonText={`Set Budget to ${budgetFormatted}`}
-          className="mb-10"
+          className="mb-8"
           isSummaryVersion
         />
         {/* PAUSE/RESUME BUTTON (desktop) */}
