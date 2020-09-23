@@ -16,6 +16,7 @@ const TargetingProgressButton = () => {
     selectedCampaignType,
     minReccBudget,
     currency,
+    currencyOffset,
     saveCampaignSettings,
     setCurrentView,
     isAnimatingView,
@@ -107,7 +108,7 @@ const TargetingProgressButton = () => {
       return 'Select your custom settings'
     }
     if (buttonType === 'goToBudget') {
-      const minReccBudgetString = formatCurrency(minReccBudget, currency)
+      const minReccBudgetString = formatCurrency(minReccBudget / currencyOffset, currency)
       return `suggested min: ${minReccBudgetString}`
     }
   }, [showButton, buttonType, selectedCampaignRecc, minReccBudget, currency])
