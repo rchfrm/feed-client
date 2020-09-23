@@ -90,7 +90,7 @@ const TargetingPickerLocations = ({ className }) => {
             <AccordionItem
               key={code}
               uuid={code}
-              className="mb-10 border-b-2 border-solid border-grey-2"
+              className="mb-10 border-b-0 border-solid border-grey-2"
             >
               <TargetingPickerCountry
                 country={country}
