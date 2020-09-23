@@ -5,7 +5,7 @@ import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 
 import Slider from '@/elements/Slider'
 
-const TargetingAgeSlider = ({ minAge, maxAge, onChange, className }) => {
+const TargetingAgeSlider = ({ ageMin, ageMax, onChange, className }) => {
   const lowestAge = 15
   const highestAge = 65
 
@@ -15,7 +15,7 @@ const TargetingAgeSlider = ({ minAge, maxAge, onChange, className }) => {
   }
 
   // DEFINE START VALUE
-  const startValues = React.useRef([minAge, maxAge])
+  const startValues = React.useRef([ageMin, ageMax])
 
   return (
     <section className={className}>
@@ -42,15 +42,15 @@ const TargetingAgeSlider = ({ minAge, maxAge, onChange, className }) => {
 }
 
 TargetingAgeSlider.propTypes = {
-  minAge: PropTypes.number,
-  maxAge: PropTypes.number,
+  ageMin: PropTypes.number,
+  ageMax: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 TargetingAgeSlider.defaultProps = {
-  minAge: 18,
-  maxAge: 65,
+  ageMin: 18,
+  ageMax: 65,
   className: null,
 }
 

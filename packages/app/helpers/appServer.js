@@ -184,6 +184,26 @@ export const updateAccessToken = async (artistId, accessToken) => {
 }
 
 
+// TARGETING
+// --------------------------
+
+/**
+* @param {string} artistId
+* @returns {Promise<any>}
+* Returns errors as if the request were succesful with a `error` key filled out
+*/
+export const getTargetingSettings = async (artistId) => {
+  const res = await api.get(`/artists/${artistId}/targeting`)
+    .catch((error) => { return { error } })
+  if (res.error) {
+    const { error } = res
+    const message = typeof error.response === 'object' ? error.response.data.error : error.message
+    return { error: { message } }
+  }
+  return res
+}
+
+
 // INTEGRATION ERRORS
 // --------------------------
 

@@ -1,20 +1,24 @@
 import * as utils from '@/helpers/utils'
+import * as server from '@/app/helpers/appServer'
+import produce from 'immer'
 
 // FOR DEV
 // ---------------------------
 export const demotargetingState = {
-  minAge: 23,
-  maxAge: 45,
+  age_min: 23,
+  age_max: 45,
   genders: [],
-  countries: [
-    { code: 'GB', name: 'UK' },
-    { code: 'DE', name: 'Germany' },
-  ],
-  cities: [
-    { key: 'paris', name: 'Paris', country_code: 'FR' },
-    { key: 'marseille', name: 'Marseille', country_code: 'FR' },
-    { key: 'lislesursogue', name: 'L\'Isle sur Sogue', country_code: 'FR' },
-  ],
+  geo_locations: {
+    countries: [
+      { code: 'GB', name: 'UK' },
+      { code: 'DE', name: 'Germany' },
+    ],
+    cities: [
+      { key: 'paris', name: 'Paris', country_code: 'FR' },
+      { key: 'marseille', name: 'Marseille', country_code: 'FR' },
+      { key: 'lislesursogue', name: 'L\'Isle sur Sogue', country_code: 'FR' },
+    ],
+  },
   budget: 2.32,
   paused: false,
 }
@@ -26,8 +30,8 @@ export const demoRecs = [
     title: 'Option A',
     type: 'recommended',
     budget: 5,
-    minAge: 18,
-    maxAge: 65,
+    age_min: 18,
+    age_max: 65,
     countries: [{ key: 'GB', name: 'UK' }],
     cities: [{ key: 'paris', name: 'Paris' }],
   },
@@ -36,8 +40,8 @@ export const demoRecs = [
     title: 'Option B',
     type: 'recommended',
     budget: 6,
-    minAge: 18,
-    maxAge: 65,
+    age_min: 18,
+    age_max: 65,
     countries: [{ key: 'FR', name: 'France' }],
     cities: [{ key: 'london', name: 'London' }, { key: 'bolton', name: 'Bolton' }],
   },
@@ -130,18 +134,6 @@ export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }
 
 // SUMMARY HELPERS
 // ---------------
-export const fetchTargetingState = (artistId) => {
-  if (!artistId) {
-    const errorMessage = 'Cannot fetch targeting state because no artist ID has been provided'
-    console.error(errorMessage)
-    return { error: { message: errorMessage } }
-  }
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(demotargetingState)
-    }, 500)
-  })
-}
 
 export const getSummary = {
   budget: (targetingState, currency) => {
@@ -150,8 +142,8 @@ export const getSummary = {
     return `${budgetFormatted} per day`
   },
   ages: (targetingState) => {
-    const { minAge, maxAge } = targetingState
-    return `${minAge} - ${maxAge}`
+    const { age_min, age_max } = targetingState
+    return `${age_min} - ${age_max}`
   },
   genders: (targetingState) => {
     const { genders } = targetingState
@@ -242,6 +234,25 @@ export const formatPopularLocations = (popularLocations, currentLocations) => {
   }, locationCountries)
 }
 
+
+// FETCH CAMPAIGN SETTINGS
+// ----------------------
+export const fetchTargetingState = async (artistId) => {
+  if (!artistId) {
+    const errorMessage = 'Cannot fetch targeting state because no artist ID has been provided'
+    console.error(errorMessage)
+    return { error: { message: errorMessage } }
+  }
+  const settings = await server.getTargetingSettings(artistId)
+  // Format settings
+  return produce(settings, draftSettings => {
+    if (typeof draftSettings.paused !== 'boolean') {
+      draftSettings.paused = false
+    }
+    draftSettings.cities = draftSettings.geo_locations.cities
+    draftSettings.countries = draftSettings.geo_locations.countries
+  })
+}
 
 // SAVE CAMPAIGN SETTINGS
 // ----------------------

@@ -64,13 +64,13 @@ const TargetingSettings = () => {
         {/* AGE */}
         <TargetingAgeSlider
           className="pb-20"
-          minAge={targetingState.minAge}
-          maxAge={targetingState.maxAge}
-          onChange={([minAge, maxAge]) => {
+          ageMin={targetingState.age_min}
+          ageMax={targetingState.age_max}
+          onChange={([ageMin, ageMax]) => {
             setTargetingState((targetingState) => {
               return produce(targetingState, draftState => {
-                draftState.minAge = minAge
-                draftState.maxAge = maxAge
+                draftState.age_min = ageMin
+                draftState.age_max = ageMax
               })
             })
           }}
