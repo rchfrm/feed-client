@@ -225,7 +225,8 @@ const TargetingContextProvider = ({ children }) => {
     toggleGlobalLoading(true)
     // Reset to summary view
     setCurrentView(initialState.currentView)
-    const savedState = await targetingHelpers.saveCampaign(artistId, settings, selectedCities, selectedCountries)
+    // Save to server
+    const savedState = await targetingHelpers.saveCampaign({ artistId, newSettings: settings, selectedCities, selectedCountries })
     if (savedState.error) {
       setErrorUpdatingSettings(savedState.error)
     } else {

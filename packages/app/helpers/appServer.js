@@ -239,19 +239,8 @@ export const getTargetingPopularLocations = async (artistId) => {
 * @param {array} countries
 * @returns {Promise<object>} { res, error }
 */
-export const saveTargetingSettings = async (artistId, newState, cities, countries) => {
-  const { age_min, age_max, budget, genders } = newState
+export const saveTargetingSettings = async (artistId, payload) => {
   const requestUrl = `/artists/${artistId}/targeting`
-  const payload = {
-    age_min,
-    age_max,
-    budget,
-    genders,
-    geo_locations: {
-      countries,
-      cities,
-    },
-  }
   return requestWithCatch('patch', requestUrl, payload)
 }
 

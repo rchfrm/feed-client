@@ -266,7 +266,13 @@ export const fetchTargetingState = async (artistId) => {
 
 // SAVE CAMPAIGN SETTINGS
 // ----------------------
-export const saveCampaign = async (artistId, newSettings, selectedCities, selectedCountries, useDummyData) => {
+export const saveCampaign = async ({
+  artistId,
+  newSettings,
+  selectedCities,
+  selectedCountries,
+  useDummyData,
+}) => {
   if (useDummyData) {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -274,7 +280,18 @@ export const saveCampaign = async (artistId, newSettings, selectedCities, select
       }, 1000)
     })
   }
-  const { res: settings, error } = await server.saveTargetingSettings(artistId, newSettings, selectedCities, selectedCountries)
+  const { age_min, age_max, budget, genders } = newSettings
+  const payload = {
+    age_min,
+    age_max,
+    budget,
+    genders,
+    geo_locations: {
+      cities: selectedCities,
+      countries: selectedCountries,
+    },
+  }
+  const { res: settings, error } = await server.saveTargetingSettings(artistId, payload)
   if (error) return { error }
   return formatSettings(settings)
 }
