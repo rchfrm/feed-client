@@ -29,6 +29,7 @@ const TargetingAgeSlider = ({ ageMin, ageMax, setTargetingState, className }) =>
           max: highestAge,
         }}
         startValue={startValues.current}
+        ghosts={startValues.current}
         onChange={({ values }) => {
           const [ageMin, ageMax] = values
           setTargetingState((targetingState) => {
