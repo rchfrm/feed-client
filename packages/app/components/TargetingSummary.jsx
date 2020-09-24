@@ -1,5 +1,6 @@
 import React from 'react'
 
+import TargetingPausedWarning from '@/app/TargetingPausedWarning'
 import TargetingSummaryList from '@/app/TargetingSummaryList'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 import TargetingPauseButton from '@/app/TargetingPauseButton'
@@ -17,6 +18,13 @@ const TargetingSummary = () => {
 
   return (
     <div className="md:grid grid-cols-12 gap-10 grid-flow-col-dense">
+      {/* PAUSED WARNING */}
+      {initialTargetingState.paused && (
+        <TargetingPausedWarning
+          className="col-span-12 col-start-1 mb-8 md:mb-0"
+          togglePauseCampaign={togglePauseCampaign}
+        />
+      )}
       {/* BUDGET */}
       <div className="col-span-6 col-start-7">
         <h3 className="h2">Budget</h3>
@@ -28,10 +36,12 @@ const TargetingSummary = () => {
         {/* PAUSE/RESUME BUTTON (desktop) */}
         {isDesktopLayout && (
           <div className="mb-6 flex justify-end">
-            <TargetingPauseButton
-              togglePauseCampaign={togglePauseCampaign}
-              isPaused={initialTargetingState.paused}
-            />
+            {!initialTargetingState.paused && (
+              <TargetingPauseButton
+                togglePauseCampaign={togglePauseCampaign}
+                isPaused={initialTargetingState.paused}
+              />
+            )}
           </div>
         )}
       </div>
@@ -47,10 +57,12 @@ const TargetingSummary = () => {
         {/* PAUSE/RESUME BUTTON (mobile) */}
         {!isDesktopLayout && (
           <div className="mb-6 flex justify-end">
-            <TargetingPauseButton
-              togglePauseCampaign={togglePauseCampaign}
-              isPaused={initialTargetingState.paused}
-            />
+            {!initialTargetingState.paused && (
+              <TargetingPauseButton
+                togglePauseCampaign={togglePauseCampaign}
+                isPaused={initialTargetingState.paused}
+              />
+            )}
           </div>
         )}
       </div>
