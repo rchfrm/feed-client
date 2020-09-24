@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import produce from 'immer'
+
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 
 import Slider from '@/elements/Slider'
 
-const TargetingAgeSlider = ({ ageMin, ageMax, onChange, className }) => {
+const TargetingAgeSlider = ({ ageMin, ageMax, setTargetingState, className }) => {
   const lowestAge = 15
   const highestAge = 65
 
@@ -27,7 +29,15 @@ const TargetingAgeSlider = ({ ageMin, ageMax, onChange, className }) => {
           max: highestAge,
         }}
         startValue={startValues.current}
-        onChange={onChange}
+        onChange={({ values }) => {
+          const [ageMin, ageMax] = values
+          setTargetingState((targetingState) => {
+            return produce(targetingState, draftState => {
+              draftState.age_min = ageMin
+              draftState.age_max = ageMax
+            })
+          })
+        }}
         labelOptions={[
           {
             to: getLabel,
@@ -44,7 +54,7 @@ const TargetingAgeSlider = ({ ageMin, ageMax, onChange, className }) => {
 TargetingAgeSlider.propTypes = {
   ageMin: PropTypes.number,
   ageMax: PropTypes.number,
-  onChange: PropTypes.func.isRequired,
+  setTargetingState: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

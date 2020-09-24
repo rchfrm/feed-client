@@ -77,15 +77,7 @@ const TargetingSettings = () => {
           className="pb-20"
           ageMin={targetingState.age_min}
           ageMax={targetingState.age_max}
-          onChange={({ values }) => {
-            const [ageMin, ageMax] = values
-            setTargetingState((targetingState) => {
-              return produce(targetingState, draftState => {
-                draftState.age_min = ageMin
-                draftState.age_max = ageMax
-              })
-            })
-          }}
+          setTargetingState={setTargetingState}
         />
         {/* GENDER */}
         <TargetingGenderSelector
