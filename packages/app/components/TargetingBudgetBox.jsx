@@ -69,7 +69,7 @@ const TargetingBudgetBox = React.forwardRef(({
       className={[
         isFixed ? 'fixed opacity-0' : 'relative',
         isSummaryVersion ? 'rounded-dialogue' : null,
-        isSummaryVersion ? 'p-5 bg-grey-1' : null,
+        isSummaryVersion ? 'p-4 sm:p-5 bg-grey-1' : null,
         isSummaryVersion ? 'pb-16' : null,
         className,
       ].join(' ')}
