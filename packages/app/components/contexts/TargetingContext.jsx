@@ -102,17 +102,18 @@ const TargetingContextProvider = ({ children }) => {
   const [budgetFormatted, setBudgetFormatted] = React.useState(initialState.budgetFormatted)
   React.useEffect(() => {
     if (!targetingState.budget) return
-    setBudgetFormatted(utils.formatCurrency(targetingState.budget, currency))
-  }, [targetingState.budget, currency])
+    const budgetOffset = targetingState.budget / currencyOffset
+    setBudgetFormatted(utils.formatCurrency(budgetOffset, currency))
+  }, [targetingState.budget, currency, currencyOffset])
 
   // FUNCTION TO UPDATE BUDGET
   const updateTargetingBudget = React.useCallback((budget) => {
     setTargetingState((targetingState) => {
       return produce(targetingState, draftState => {
-        draftState.budget = budget / currencyOffset
+        draftState.budget = budget
       })
     })
-  }, [currencyOffset])
+  }, [])
 
   // // UPDATE BUDGET IF RECC IS MORE THAN CURRENT
   // React.useEffect(() => {
@@ -226,7 +227,13 @@ const TargetingContextProvider = ({ children }) => {
     // Reset to summary view
     setCurrentView(initialState.currentView)
     // Save to server
-    const savedState = await targetingHelpers.saveCampaign({ artistId, newSettings: settings, selectedCities, selectedCountries })
+    const savedState = await targetingHelpers.saveCampaign({
+      artistId,
+      newSettings: settings,
+      selectedCities,
+      selectedCountries,
+      currencyOffset,
+    })
     if (savedState.error) {
       setErrorUpdatingSettings(savedState.error)
     } else {
@@ -237,7 +244,7 @@ const TargetingContextProvider = ({ children }) => {
     setSelectedCampaignRecc(null)
     setSaving(false)
     toggleGlobalLoading(false)
-  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries])
+  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset])
 
   // PAUSE CAMPAIGN
   const togglePauseCampaign = React.useCallback((pause) => {

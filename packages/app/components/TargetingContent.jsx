@@ -15,8 +15,8 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
-const fetchState = ({ artistId }) => {
-  return targetingHelpers.fetchTargetingState(artistId)
+const fetchState = ({ artistId, currencyOffset }) => {
+  return targetingHelpers.fetchTargetingState(artistId, currencyOffset)
 }
 
 const TargetingContent = () => {
@@ -30,6 +30,7 @@ const TargetingContent = () => {
     initPage,
     errorFetchingSettings,
     errorUpdatingSettings,
+    currencyOffset,
   } = React.useContext(TargetingContext)
 
   // LOAD AND SET INITIAL TARGETING STATE
@@ -38,6 +39,7 @@ const TargetingContent = () => {
     watch: artistId,
     // The variable(s) to pass to promiseFn
     artistId,
+    currencyOffset,
     // When fetch finishes
     onResolve: (state) => {
       const { error } = state

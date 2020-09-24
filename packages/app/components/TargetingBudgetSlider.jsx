@@ -51,7 +51,7 @@ const TargetingBudgetSlider = ({
   }, [mobileVersion])
 
   // DEFINE START VALUE
-  const startValue = React.useRef(Math.round(budget * currencyOffset))
+  const startValue = React.useRef(Math.round(budget))
   const initialMarkerPosition = React.useRef(null)
 
   // DEFINE RANGE

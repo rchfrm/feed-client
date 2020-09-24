@@ -242,18 +242,19 @@ export const formatPopularLocations = (popularLocations, currentLocations) => {
 
 // FETCH CAMPAIGN SETTINGS
 // ----------------------
-const formatSettings = (settings) => {
+const formatSettings = (settings, currencyOffset) => {
   // Format settings
   return produce(settings, draftSettings => {
     if (typeof draftSettings.paused !== 'boolean') {
       draftSettings.paused = false
     }
+    draftSettings.budget *= currencyOffset
     draftSettings.cities = draftSettings.geo_locations.cities
     draftSettings.countries = draftSettings.geo_locations.countries
   })
 }
 
-export const fetchTargetingState = async (artistId) => {
+export const fetchTargetingState = async (artistId, currencyOffset) => {
   if (!artistId) {
     const errorMessage = 'Cannot fetch targeting state because no artist ID has been provided'
     console.error(errorMessage)
@@ -261,7 +262,7 @@ export const fetchTargetingState = async (artistId) => {
   }
   const { res: settings, error } = await server.getTargetingSettings(artistId)
   if (error) return { error }
-  return formatSettings(settings)
+  return formatSettings(settings, currencyOffset)
 }
 
 // SAVE CAMPAIGN SETTINGS
@@ -271,6 +272,7 @@ export const saveCampaign = async ({
   newSettings,
   selectedCities,
   selectedCountries,
+  currencyOffset,
   useDummyData,
 }) => {
   if (useDummyData) {
@@ -284,7 +286,7 @@ export const saveCampaign = async ({
   const payload = {
     age_min,
     age_max,
-    budget,
+    budget: budget / currencyOffset,
     genders,
     geo_locations: {
       cities: selectedCities,
@@ -293,5 +295,5 @@ export const saveCampaign = async ({
   }
   const { res: settings, error } = await server.saveTargetingSettings(artistId, payload)
   if (error) return { error }
-  return formatSettings(settings)
+  return formatSettings(settings, currencyOffset)
 }
