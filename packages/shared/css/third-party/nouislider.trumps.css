@@ -39,8 +39,8 @@
 .noUi-handle.-ghost {
   position: absolute;
   top: 32px;
-  background-color: transparent;
-  border: 2px solid var(--green);
+  background-color: var(--purple);
+  opacity: 0.5;
 }
 
 /* Rail */
