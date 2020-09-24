@@ -104,7 +104,6 @@ const TargetingBudgetSlider = ({
           sliderValueRange={sliderValueRange}
           markerValue={minReccBudget}
           markerLabel="Suggested min."
-          hideText={budget >= minReccBudget}
         />
         <SliderGhost
           markerPositionPercent={initialMarkerPosition.current}
