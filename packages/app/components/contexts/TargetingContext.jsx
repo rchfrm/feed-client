@@ -60,9 +60,6 @@ const TargetingContext = React.createContext(initialState)
 TargetingContext.displayName = 'TargetingContext'
 
 const TargetingContextProvider = ({ children }) => {
-  // SIDE PANEL context
-  const { sidePanelContent, setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
-
   // ARTIST context
   const {
     artistCurrency: currency,
@@ -74,6 +71,9 @@ const TargetingContextProvider = ({ children }) => {
       },
     },
   } = React.useContext(ArtistContext)
+
+  // SIDE PANEL context
+  const { sidePanelContent, setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
 
   // CAMPAIGN SETTINGS VIEW ('summary' | 'customise')
   const [currentView, setCurrentView] = React.useState(initialState.currentView)
