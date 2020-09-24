@@ -153,6 +153,7 @@ const TargetingContextProvider = ({ children }) => {
     // Create initial state of location checkboxes
     const { cityKeys, countryCodes } = targetingState
     updateLocationsArrays({ cityKeys, countryCodes })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetingState.cities, targetingState.countries])
 
   // Update min budget based on selected countries and cities
