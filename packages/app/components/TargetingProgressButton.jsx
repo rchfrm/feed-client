@@ -3,6 +3,8 @@ import React from 'react'
 
 import useAnimateOnMount from '@/hooks/useAnimateOnMount'
 
+import useSaveTargeting from '@/app/hooks/useSaveTargeting'
+
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import { formatCurrency } from '@/helpers/utils'
@@ -10,6 +12,7 @@ import { formatCurrency } from '@/helpers/utils'
 const TargetingProgressButton = () => {
   // DESTRUCTURE TARGETING CONTEXT
   const {
+    targetingState,
     currentView,
     selectedCampaignRecc,
     setSelectedCampaignRecc,
@@ -113,7 +116,7 @@ const TargetingProgressButton = () => {
       const minReccBudgetString = formatCurrency(minReccBudget / currencyOffset, currency)
       return `suggested min: ${minReccBudgetString}`
     }
-  }, [showButton, buttonType, selectedCampaignRecc, minReccBudget, currency])
+  }, [showButton, buttonType, selectedCampaignRecc, minReccBudget, currency, currencyOffset])
   React.useEffect(() => {
     if (!showButton) return
     const newTitle = getTitle()
@@ -125,10 +128,11 @@ const TargetingProgressButton = () => {
 
 
   // SAVING RECCOMENDED CAMPAIGN
+  const saveTargeting = useSaveTargeting({ targetingState, saveCampaignSettings })
   const saveSelectedRecc = React.useCallback(() => {
     setSelectedCampaignRecc(null)
-    saveCampaignSettings(selectedCampaignRecc)
-  }, [setSelectedCampaignRecc, selectedCampaignRecc, saveCampaignSettings])
+    saveTargeting(selectedCampaignRecc)
+  }, [setSelectedCampaignRecc, selectedCampaignRecc, saveTargeting])
 
   // HANDLE BUTTON CLICK
   const onClick = React.useMemo(() => {

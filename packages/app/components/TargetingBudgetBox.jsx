@@ -6,6 +6,8 @@ import { gsap } from 'gsap'
 import useBrowserStore from '@/hooks/useBrowserStore'
 import useCombinedRefs from '@/hooks/useCombinedRefs'
 
+import useSaveTargeting from '@/app/hooks/useSaveTargeting'
+
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import Button from '@/elements/Button'
@@ -63,6 +65,9 @@ const TargetingBudgetBox = React.forwardRef(({
     saveCampaignSettings,
   } = React.useContext(TargetingContext)
 
+  // GET SAVING FUNCTION
+  const saveTargeting = useSaveTargeting({ targetingState, saveCampaignSettings })
+
   return (
     <section
       ref={budgetRef}
@@ -103,7 +108,7 @@ const TargetingBudgetBox = React.forwardRef(({
             'border-white border-solid',
             disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
           ].join(' ')}
-          onClick={() => saveCampaignSettings(targetingState)}
+          onClick={() => saveTargeting()}
           disabled={!!disableSaving}
         >
           {disableSaving ? 'Budget is too small' : saveButtonText}

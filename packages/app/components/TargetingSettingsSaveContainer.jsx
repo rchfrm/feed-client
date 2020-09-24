@@ -5,6 +5,8 @@ import { gsap } from 'gsap'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
 
+import useSaveTargeting from '@/app/hooks/useSaveTargeting'
+
 import Button from '@/elements/Button'
 
 const TargetingSettingsSaveContainer = ({
@@ -28,6 +30,8 @@ const TargetingSettingsSaveContainer = ({
     }
     gsap.set(containerEl, positionProps)
   }, [budgetRef, windowWidth])
+  // GET SAVE FUNCTION
+  const saveTargeting = useSaveTargeting({ targetingState, saveCampaignSettings })
   return (
     <div
       className={[
@@ -42,7 +46,7 @@ const TargetingSettingsSaveContainer = ({
         <Button
           version="green"
           className="w-full"
-          onClick={() => saveCampaignSettings(targetingState)}
+          onClick={() => saveTargeting()}
           disabled={!!disableSaving}
         >
           {disableSaving ? (
