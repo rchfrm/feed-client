@@ -248,9 +248,12 @@ const formatSettings = (settings, currencyOffset) => {
     if (typeof draftSettings.paused !== 'boolean') {
       draftSettings.paused = false
     }
+    const { cities, countries } = draftSettings.geo_locations
     draftSettings.budget *= currencyOffset
-    draftSettings.cities = draftSettings.geo_locations.cities
-    draftSettings.countries = draftSettings.geo_locations.countries
+    draftSettings.cities = cities
+    draftSettings.countries = countries
+    draftSettings.cityKeys = cities.map(({ key }) => key)
+    draftSettings.countryCodes = countries.map(({ code }) => code)
   })
 }
 

@@ -137,11 +137,9 @@ const TargetingContextProvider = ({ children }) => {
   const [selectedCities, setSelectedCities] = React.useState(initialState.selectedCities)
   const [selectedCountries, setSelectedCountries] = React.useState(initialState.selectedCountries)
   // * Function to set selected cities and countries
-  const updateLocationsArrays = ({ cities = [], countries = [] }) => {
-    const initialCities = cities.map(({ key }) => key)
-    const initialCountries = countries.map(({ code }) => code)
-    setSelectedCities(initialCities)
-    setSelectedCountries(initialCountries)
+  const updateLocationsArrays = ({ cityKeys = [], countryCodes = [] }) => {
+    setSelectedCities(cityKeys)
+    setSelectedCountries(countryCodes)
   }
   // * Create initial location options
   const createLocationOptions = React.useCallback((popularLocations) => {
@@ -153,8 +151,8 @@ const TargetingContextProvider = ({ children }) => {
     const locationOptions = targetingHelpers.formatPopularLocations(popularLocations, currentLocations)
     setLocationOptions(locationOptions)
     // Create initial state of location checkboxes
-    const { cities, countries } = currentLocations
-    updateLocationsArrays({ cities, countries })
+    const { cityKeys, countryCodes } = targetingState
+    updateLocationsArrays({ cityKeys, countryCodes })
   }, [targetingState.cities, targetingState.countries])
 
   // Update min budget based on selected countries and cities
@@ -179,8 +177,8 @@ const TargetingContextProvider = ({ children }) => {
     setTargetingState(resetState)
     // Reset selected locations
     // Set inital countries  (to trigger min budget)
-    const { cities, countries } = resetState
-    updateLocationsArrays({ cities, countries })
+    const { cityKeys, countryCodes } = resetState
+    updateLocationsArrays({ cityKeys, countryCodes })
   }, [targetingState, initialTargetingState])
 
 
@@ -194,8 +192,8 @@ const TargetingContextProvider = ({ children }) => {
     }
     setErrorFetchingSettings(null)
     // Set inital countries  (to trigger min budget)
-    const { cities, countries } = targetingState
-    updateLocationsArrays({ cities, countries })
+    const { cityKeys, countryCodes } = targetingState
+    updateLocationsArrays({ cityKeys, countryCodes })
     // Set targeting state
     setInitialTargetingState(targetingState)
     setTargetingState(targetingState)
