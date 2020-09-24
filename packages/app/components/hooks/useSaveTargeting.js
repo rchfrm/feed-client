@@ -4,7 +4,8 @@ const useSaveTargeting = ({
   targetingState,
   saveCampaignSettings,
 }) => {
-  const saveTargeting = React.useCallback((newState = null) => {
+  // HANDLE ALERT
+  const saveTargeting = React.useCallback((trigger, newState = null) => {
     saveCampaignSettings(newState || targetingState)
   }, [saveCampaignSettings, targetingState])
 

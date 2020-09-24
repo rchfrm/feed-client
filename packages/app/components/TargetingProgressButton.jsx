@@ -131,7 +131,7 @@ const TargetingProgressButton = () => {
   const saveTargeting = useSaveTargeting({ targetingState, saveCampaignSettings })
   const saveSelectedRecc = React.useCallback(() => {
     setSelectedCampaignRecc(null)
-    saveTargeting(selectedCampaignRecc)
+    saveTargeting('settings', selectedCampaignRecc)
   }, [setSelectedCampaignRecc, selectedCampaignRecc, saveTargeting])
 
   // HANDLE BUTTON CLICK

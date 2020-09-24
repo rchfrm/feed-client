@@ -16,7 +16,7 @@ const TargetingBudgetSaveButton = ({
   return (
     <Button
       version="green"
-      onClick={() => saveTargeting()}
+      onClick={() => saveTargeting('settings')}
       className={[className].join(' ')}
       disabled={disableSaving}
     >

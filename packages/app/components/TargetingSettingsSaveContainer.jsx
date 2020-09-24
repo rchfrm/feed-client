@@ -46,7 +46,7 @@ const TargetingSettingsSaveContainer = ({
         <Button
           version="green"
           className="w-full"
-          onClick={() => saveTargeting()}
+          onClick={() => saveTargeting('settings')}
           disabled={!!disableSaving}
         >
           {disableSaving ? (

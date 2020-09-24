@@ -108,7 +108,7 @@ const TargetingBudgetBox = React.forwardRef(({
             'border-white border-solid',
             disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
           ].join(' ')}
-          onClick={() => saveTargeting()}
+          onClick={() => saveTargeting('budget')}
           disabled={!!disableSaving}
         >
           {disableSaving ? 'Budget is too small' : saveButtonText}
