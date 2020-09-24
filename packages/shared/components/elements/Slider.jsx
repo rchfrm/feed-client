@@ -65,7 +65,9 @@ const Slider = ({
           step={step}
           format={formatValue}
           tooltips={labelOptions}
-          onUpdate={onChange}
+          onUpdate={(values, handle, unencoded, isTap, positions) => {
+            onChange({ values, handle, unencoded, isTap, positions })
+          }}
           instanceRef={instance => {
             if (instance && !sliderRef.current) {
               sliderRef.current = instance

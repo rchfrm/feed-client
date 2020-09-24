@@ -79,9 +79,11 @@ const TargetingBudgetSlider = ({
         startValue={[startValue.current]}
         step={sliderStep}
         thumbName="Budget"
-        onChange={([state], handle, unencoded, isTap, [position]) => {
+        onChange={({ values, positions }) => {
+          const [value] = values
+          const [position] = positions
           // Update budget
-          onChange(state)
+          onChange(value)
           // Set initial marker position
           if (initialMarkerPosition.current === null) {
             initialMarkerPosition.current = position
