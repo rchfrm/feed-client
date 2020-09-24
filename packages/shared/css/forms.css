@@ -273,6 +273,11 @@ select:invalid {
 
   &::before {
     border: 1px solid var(--text-color);
+
+    .checkbox--button.-highlighted &,
+    .radio--button.-highlighted & {
+      border: 1px solid var(--purple);
+    }
   }
 
   &::after {

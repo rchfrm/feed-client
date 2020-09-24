@@ -1,7 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const RADIO_BUTTON = ({ value, name, label, checked, onChange }) => {
+const RADIO_BUTTON = ({
+  value,
+  name,
+  label,
+  checked,
+  highlight,
+  onChange,
+  className,
+}) => {
   const valueString = value.toString()
   const id = `radio-${valueString}`
 
@@ -10,7 +18,12 @@ const RADIO_BUTTON = ({ value, name, label, checked, onChange }) => {
   }
 
   return (
-    <div className="radio--button">
+    <div className={[
+      'radio--button',
+      highlight ? '-highlighted' : null,
+      className,
+    ].join(' ')}
+    >
       <input
         id={id}
         value={valueString}
@@ -66,11 +79,17 @@ RADIO_BUTTON.propTypes = {
   ]).isRequired,
   name: PropTypes.string,
   label: PropTypes.string.isRequired,
+  checked: PropTypes.bool,
+  highlight: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
+  className: PropTypes.string,
 }
 
 RADIO_BUTTON.defaultProps = {
+  checked: false,
+  highlight: false,
   name: '',
+  className: null,
 }
 
 // GROUP PROPS
