@@ -101,7 +101,11 @@ const TargetingSettings = () => {
             <Error error={errorFetchingLocations} />
           </div>
         ) : (
-          <TargetingPickerLocations className="mb-3" />
+          <TargetingPickerLocations
+            initialCityKeys={initialTargetingState.cityKeys}
+            initialCountryCodes={initialTargetingState.countryCodes}
+            className="mb-3"
+          />
         )}
       </div>
       {/* DESKTOP BUDGET SETTER */}

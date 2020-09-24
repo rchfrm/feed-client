@@ -6,14 +6,17 @@ import CheckboxButtons from '@/elements/CheckboxButtons'
 const TargetingPickerCities = ({
   cities,
   selectedCities,
+  initialCityKeys,
   setSelectedCities,
 }) => {
   const citiesCheckboxes = cities.map((city) => {
-    const { audience_pct } = city
+    const { audience_pct, key } = city
     const percent = audience_pct ? Math.round(audience_pct * 100) : 0
+    const initiallyPicked = initialCityKeys.includes(key)
     return {
       value: city.key,
       name: city.key,
+      highlight: initiallyPicked,
       label: (
         <>
           {city.name}
@@ -41,6 +44,7 @@ const TargetingPickerCities = ({
 TargetingPickerCities.propTypes = {
   cities: PropTypes.array.isRequired,
   selectedCities: PropTypes.array.isRequired,
+  initialCityKeys: PropTypes.array.isRequired,
   setSelectedCities: PropTypes.func.isRequired,
 }
 

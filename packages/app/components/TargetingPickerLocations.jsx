@@ -16,7 +16,11 @@ import TargetingPickerCities from '@/app/TargetingPickerCities'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
-const TargetingPickerLocations = ({ className }) => {
+const TargetingPickerLocations = ({
+  initialCityKeys,
+  initialCountryCodes,
+  className,
+}) => {
   // Fetch from targeting context
   const {
     locationOptions,
@@ -85,6 +89,7 @@ const TargetingPickerLocations = ({ className }) => {
         {countriesArray.map((country) => {
           const { code, cities } = country
           const hasCities = !!cities.length
+          const initiallyPicked = initialCountryCodes.includes(code)
           return (
             // COUNTRY
             <AccordionItem
@@ -97,6 +102,7 @@ const TargetingPickerLocations = ({ className }) => {
                 selectedCountries={selectedCountries}
                 setSelectedCountries={setSelectedCountries}
                 hasCities={hasCities}
+                initiallyPicked={initiallyPicked}
               />
               {/* CITIES */}
               {hasCities && (
@@ -104,6 +110,7 @@ const TargetingPickerLocations = ({ className }) => {
                   <TargetingPickerCities
                     cities={cities}
                     selectedCities={selectedCities}
+                    initialCityKeys={initialCityKeys}
                     setSelectedCities={setSelectedCities}
                   />
                 </AccordionItemPanel>
@@ -117,6 +124,8 @@ const TargetingPickerLocations = ({ className }) => {
 }
 
 TargetingPickerLocations.propTypes = {
+  initialCityKeys: PropTypes.array.isRequired,
+  initialCountryCodes: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
 

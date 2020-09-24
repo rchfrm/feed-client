@@ -16,6 +16,7 @@ const TargetingPickerCountry = ({
   selectedCountries,
   setSelectedCountries,
   hasCities,
+  initiallyPicked,
 }) => {
   const { code, name, audience_pct } = country
   const percent = audience_pct ? Math.round(audience_pct * 100) : 0
@@ -28,6 +29,7 @@ const TargetingPickerCountry = ({
               value: code,
               name,
               label: '',
+              highlight: initiallyPicked,
             }]}
             selectedValues={selectedCountries}
             setSelectedValues={setSelectedCountries}
@@ -73,6 +75,7 @@ TargetingPickerCountry.propTypes = {
   selectedCountries: PropTypes.array.isRequired,
   setSelectedCountries: PropTypes.func.isRequired,
   hasCities: PropTypes.bool.isRequired,
+  initiallyPicked: PropTypes.bool.isRequired,
 }
 
 export default TargetingPickerCountry
