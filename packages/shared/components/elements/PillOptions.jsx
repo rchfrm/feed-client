@@ -15,6 +15,7 @@ import ButtonPill from '@/elements/ButtonPill'
     disabled: [boolean: option is disabled],
     color: [string: the color of the active state] optional (default: 'black'),
     activeTextColor: [string: the text color in the active state] optional (default: 'white'),
+    highlight: [boolean: highlight this option if not selected]
   }
 
 */
@@ -48,7 +49,7 @@ const PillOptions = (props) => {
           'pill--options',
         ].join(' ')}
       >
-        {options.map(({ id, title, disabled: optionDisabled }) => {
+        {options.map(({ id, title, disabled: optionDisabled, highlight }) => {
           const active = id === activeOption
           return (
             <ButtonPill
@@ -56,6 +57,7 @@ const PillOptions = (props) => {
               {...props}
               active={active}
               disabled={disabled || optionDisabled}
+              highlight={highlight}
               className={['pill--option'].join(' ')}
               onClick={() => setActiveOption(id)}
             >

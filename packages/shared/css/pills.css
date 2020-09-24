@@ -20,6 +20,10 @@
     padding-bottom: 0.6em;
   }
 
+  &.-highlighted {
+    background-color: color-mod(var(--purple) alpha(0.25));
+  }
+
   &.-active {
     background-color: var(--text-color);
     color: var(--bg-color);

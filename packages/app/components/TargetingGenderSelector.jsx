@@ -17,24 +17,30 @@ const translateKeyToArray = (key) => {
 
 const TargetingGenderSelector = ({
   genders,
+  initialGenders,
   onChange,
   className,
 }) => {
+  const initialGenderState = translateArrayToKey(initialGenders)
   // SETUP PILL BUTTONS
   const pillOptions = [
     {
       id: 'all',
       title: 'All',
+      highlight: initialGenderState === 'all',
     },
     {
       id: 'women',
       title: 'Women',
+      highlight: initialGenderState === 'women',
     },
     {
       id: 'men',
       title: 'Men',
+      highlight: initialGenderState === 'men',
     },
   ]
+
 
   // CONVERT GENDERS ARRAY TO KEY
   const currentGender = React.useMemo(() => {
@@ -67,6 +73,7 @@ const TargetingGenderSelector = ({
 
 TargetingGenderSelector.propTypes = {
   genders: PropTypes.array.isRequired,
+  initialGenders: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
 }

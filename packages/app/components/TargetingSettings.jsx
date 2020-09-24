@@ -25,6 +25,7 @@ const TargetingSettings = () => {
   const {
     isDesktopLayout,
     targetingState,
+    initialTargetingState,
     setTargetingState,
     createLocationOptions,
     settingsReady,
@@ -83,6 +84,7 @@ const TargetingSettings = () => {
         <TargetingGenderSelector
           className="mb-16"
           genders={targetingState.genders}
+          initialGenders={initialTargetingState.genders}
           onChange={(state) => {
             setTargetingState((targetingState) => {
               return produce(targetingState, draftState => {
