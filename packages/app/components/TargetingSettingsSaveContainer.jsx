@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { gsap } from 'gsap'
+
+import useBrowserStore from '@/hooks/useBrowserStore'
+
 import Button from '@/elements/Button'
 
 const TargetingSettingsSaveContainer = ({
@@ -8,14 +12,31 @@ const TargetingSettingsSaveContainer = ({
   targetingState,
   saveCampaignSettings,
   cancelUpdateSettings,
+  budgetRef,
 }) => {
+  const { width: windowWidth } = useBrowserStore()
+  const containerRef = React.useRef(null)
+  React.useEffect(() => {
+    const { current: budgetEl } = budgetRef
+    if (!budgetEl) return
+    const { height: budgetHeight, top: budgetTop } = budgetEl.getBoundingClientRect()
+    // Set position
+    const { current: containerEl } = containerRef
+    const positionProps = {
+      top: budgetTop + budgetHeight,
+      opacity: 1,
+    }
+    gsap.set(containerEl, positionProps)
+  }, [budgetRef, windowWidth])
   return (
     <div
       className={[
-        'fixed bottom-0 right-0 w-1/2',
-        'pl-20 pr-14 pb-10',
+        'fixed right-0 w-1/2',
+        'pt-5 pl-20 pr-14 pb-10',
+        'opacity-0',
         disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
       ].join(' ')}
+      ref={containerRef}
     >
       <div className="mb-5">
         <Button
@@ -50,6 +71,7 @@ TargetingSettingsSaveContainer.propTypes = {
   targetingState: PropTypes.object.isRequired,
   saveCampaignSettings: PropTypes.func.isRequired,
   cancelUpdateSettings: PropTypes.func.isRequired,
+  budgetRef: PropTypes.object.isRequired,
 }
 
 TargetingSettingsSaveContainer.defaultProps = {

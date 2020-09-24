@@ -55,7 +55,6 @@ const TargetingSettings = () => {
 
   // Budget box ref
   const budgetRef = React.useRef(null)
-  console.log('budgetRef', budgetRef)
 
   if (!settingsReady) {
     return (
@@ -124,6 +123,7 @@ const TargetingSettings = () => {
             targetingState={targetingState}
             saveCampaignSettings={saveCampaignSettings}
             cancelUpdateSettings={cancelUpdateSettings}
+            budgetRef={budgetRef}
           />
         </>
       )}
