@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Nouislider from 'nouislider-react'
 
 import TooltipButton from '@/elements/TooltipButton'
+import SliderGhost from '@/elements/SliderGhost'
 
 const Slider = ({
   // Slider config
@@ -24,10 +25,14 @@ const Slider = ({
   className,
   // Markers
   hasMarkers,
+  ghosts,
   // Child nodes
   children,
 }) => {
   const sliderRef = React.useRef(null)
+  const hasGhosts = !!ghosts.length
+  const [ghostPositions, setGhostPositions] = React.useState([])
+  const ghostsReady = React.useRef(!hasGhosts)
 
   return (
     <div className={[
@@ -47,7 +52,7 @@ const Slider = ({
             {label}
             {/* LABEL TOOLTIP */}
             {tooltipMessage && (
-            <TooltipButton copy={tooltipMessage} direction={tooltipDirection} />
+              <TooltipButton copy={tooltipMessage} direction={tooltipDirection} />
             )}
           </span>
         </div>
@@ -56,7 +61,8 @@ const Slider = ({
       <div className={[
         'relative',
         hasMarkers && label ? 'h-18' : null,
-        hasMarkers && !label ? 'pt-10' : null,
+        'pt-10',
+        !hasMarkers && !label ? '-mt-10' : null,
       ].join(' ')}
       >
         <Nouislider
@@ -67,6 +73,11 @@ const Slider = ({
           tooltips={labelOptions}
           onUpdate={(values, handle, unencoded, isTap, positions) => {
             onChange({ values, handle, unencoded, isTap, positions })
+            // Set initial marker position
+            if (!ghostsReady.current && hasGhosts) {
+              setGhostPositions(positions)
+              ghostsReady.current = true
+            }
           }}
           instanceRef={instance => {
             if (instance && !sliderRef.current) {
@@ -74,6 +85,9 @@ const Slider = ({
             }
           }}
         />
+        {ghostPositions.map((pos, index) => {
+          return <SliderGhost key={index} markerPositionPercent={pos} />
+        })}
         {children}
       </div>
     </div>
@@ -96,6 +110,7 @@ Slider.propTypes = {
   tooltipDirection: PropTypes.string,
   trackColor: PropTypes.string,
   hasMarkers: PropTypes.bool,
+  ghosts: PropTypes.array,
   className: PropTypes.string,
   children: PropTypes.node,
 }
@@ -112,6 +127,7 @@ Slider.defaultProps = {
   onChange: () => {},
   trackColor: null,
   hasMarkers: false,
+  ghosts: [],
   className: null,
   children: null,
 }

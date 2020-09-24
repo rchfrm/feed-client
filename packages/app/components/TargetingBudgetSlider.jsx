@@ -6,7 +6,6 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import Slider from '@/elements/Slider'
 import SliderMarker from '@/elements/SliderMarker'
-import SliderGhost from '@/elements/SliderGhost'
 
 import { formatCurrency } from '@/helpers/utils'
 
@@ -15,7 +14,6 @@ const TargetingBudgetSlider = ({
   sliderValueRange,
   budget,
   minReccBudget,
-  initialBudget,
   currency,
   currencyOffset,
   onChange,
@@ -101,14 +99,12 @@ const TargetingBudgetSlider = ({
             to: (value) => formatCurrency((value / currencyOffset), currency),
           },
         ]}
+        ghosts={[initialMarkerPosition.current]}
       >
         <SliderMarker
           sliderValueRange={sliderValueRange}
           markerValue={minReccBudget}
           markerLabel="Suggested min."
-        />
-        <SliderGhost
-          markerPositionPercent={initialMarkerPosition.current}
         />
       </Slider>
     </div>
