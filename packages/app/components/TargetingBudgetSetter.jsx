@@ -35,7 +35,7 @@ const TargetingBudgetSetter = ({
   const showCustomInitially = budget > sliderValueRange[1]
   const [showCustomBudget, setShowCustomBudget] = React.useState(showCustomInitially)
   // CUSTOM INPUT
-  const inputPlaceholder = `Min. rec. budget: ${formatCurrency(minReccBudget, currency)}`
+  const inputPlaceholder = `Min. rec. budget: ${formatCurrency((minReccBudget / currencyOffset), currency)}`
 
   return (
     <>
