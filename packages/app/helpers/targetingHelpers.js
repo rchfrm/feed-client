@@ -246,7 +246,7 @@ const formatSettings = (settings, currencyOffset) => {
   // Format settings
   return produce(settings, draftSettings => {
     if (typeof draftSettings.paused !== 'boolean') {
-      draftSettings.paused = false
+      draftSettings.paused = true
     }
     const { cities, countries } = draftSettings.geo_locations
     draftSettings.budget *= currencyOffset
