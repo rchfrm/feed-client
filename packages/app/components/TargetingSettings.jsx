@@ -7,6 +7,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
+import Button from '@/elements/Button'
 
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
@@ -106,6 +107,18 @@ const TargetingSettings = () => {
             initialCountryCodes={initialTargetingState.countryCodes}
             className="mb-3"
           />
+        )}
+        {/* BACK BUTTON (for mobile) */}
+        {!isDesktopLayout && (
+          <div className="pt-5 pb-20">
+            <Button
+              className="w-40"
+              version="black small"
+              onClick={cancelUpdateSettings}
+            >
+              Back
+            </Button>
+          </div>
         )}
       </div>
       {/* DESKTOP BUDGET SETTER */}
