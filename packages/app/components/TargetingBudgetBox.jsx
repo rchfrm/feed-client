@@ -103,17 +103,19 @@ const TargetingBudgetBox = React.forwardRef(({
         minHardBudget={minHardBudget}
       />
       {/* BUDGET SETTER */}
-      <TargetingBudgetSetter
-        isSummaryVersion={isSummaryVersion}
-        currency={currency}
-        currencyOffset={currencyOffset}
-        minReccBudget={minReccBudget}
-        minHardBudget={minHardBudget}
-        initialBudget={initialTargetingState.budget}
-        targetingState={targetingState}
-        updateTargetingBudget={updateTargetingBudget}
-        showCustomBudget={showCustomBudget}
-      />
+      <div className="px-2">
+        <TargetingBudgetSetter
+          isSummaryVersion={isSummaryVersion}
+          currency={currency}
+          currencyOffset={currencyOffset}
+          minReccBudget={minReccBudget}
+          minHardBudget={minHardBudget}
+          initialBudget={initialTargetingState.budget}
+          targetingState={targetingState}
+          updateTargetingBudget={updateTargetingBudget}
+          showCustomBudget={showCustomBudget}
+        />
+      </div>
       {/* SAVE CAMPAIGN BUTTON */}
       {isSummaryVersion && (
         <Button
