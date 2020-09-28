@@ -73,15 +73,15 @@ const TargetingBudgetBox = React.forwardRef(({
       ref={budgetRef}
       className={[
         isFixed ? 'fixed opacity-0' : 'relative',
-        isSummaryVersion ? 'rounded-dialogue' : null,
-        isSummaryVersion ? 'p-4 sm:p-5 bg-grey-1' : null,
+        'rounded-dialogue',
+        'p-4 sm:p-5 bg-grey-1',
         isSummaryVersion ? 'pb-16' : null,
         className,
       ].join(' ')}
     >
       {/* HEADER */}
       {!isSummaryVersion && (
-        <header className="flex justify-between">
+        <header className="flex justify-between mb-3">
           <TargetingSectionHeader header="Budget" />
           {/* <TargetingSectionHeader header={budgetFormatted} /> */}
         </header>

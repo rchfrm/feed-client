@@ -18,7 +18,6 @@ const TargetingBudgetSlider = ({
   currencyOffset,
   onChange,
   mobileVersion,
-  isSummaryVersion,
 }) => {
   // SHOW BUDGET FEATURES
   // const budgetUpgrade = React.useMemo(() => {
@@ -89,7 +88,7 @@ const TargetingBudgetSlider = ({
         }}
         forceInitialResize
         hasMarkers
-        trackColor={!mobileVersion && isSummaryVersion ? 'white' : null}
+        trackColor={!mobileVersion ? 'white' : null}
         formatValue={{
           to: (value) => value,
           from: (value) => value,
@@ -116,7 +115,6 @@ TargetingBudgetSlider.propTypes = {
   sliderValueRange: PropTypes.array.isRequired,
   budget: PropTypes.number,
   minReccBudget: PropTypes.number,
-  initialBudget: PropTypes.number,
   currency: PropTypes.string,
   currencyOffset: PropTypes.number,
   onChange: PropTypes.func.isRequired,
@@ -126,7 +124,6 @@ TargetingBudgetSlider.propTypes = {
 TargetingBudgetSlider.defaultProps = {
   budget: 0,
   minReccBudget: 0,
-  initialBudget: 0,
   currency: null,
   currencyOffset: 0,
   mobileVersion: false,
