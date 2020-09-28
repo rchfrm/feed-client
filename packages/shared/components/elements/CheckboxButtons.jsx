@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import remove from 'lodash/remove'
+import pull from 'lodash/pull'
 
 const CHECKBOX_BUTTON = ({
   value,
@@ -55,7 +55,7 @@ const CheckboxButtons = ({
 }) => {
   const classNames = ['checkbox--buttons', className].join(' ')
   const onChange = React.useCallback((val, checked) => {
-    const newValues = !checked ? [...selectedValues, val] : remove([...selectedValues], (e) => e !== val)
+    const newValues = !checked ? [...selectedValues, val] : pull([...selectedValues], val)
     setSelectedValues(newValues)
   }, [selectedValues, setSelectedValues])
   return (
