@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 
 import brandColors from '@/constants/brandColors'
 
-const RefreshIcon = ({ fill, className }) => {
+const RefreshIcon = ({ fill, className, style }) => {
   return (
     <svg
       className={className}
+      style={style}
       width="405"
       height="384"
       viewBox="0 0 405 384"
@@ -25,11 +26,13 @@ const RefreshIcon = ({ fill, className }) => {
 RefreshIcon.propTypes = {
   fill: PropTypes.string,
   className: PropTypes.string,
+  style: PropTypes.object,
 }
 
 RefreshIcon.defaultProps = {
   fill: brandColors.textColor,
   className: null,
+  style: null,
 }
 
 
