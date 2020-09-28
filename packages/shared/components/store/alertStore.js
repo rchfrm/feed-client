@@ -23,7 +23,7 @@ const [alertStore] = create(set => ({
   setChildren: (children) => set({ children }),
   setButtons: (buttons) => set({ buttons }),
   open: () => set({ isOpen: true }),
-  close: () => set(defaultState),
+  close: () => set({ isOpen: false }),
 }))
 
 export default alertStore
