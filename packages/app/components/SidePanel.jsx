@@ -87,6 +87,14 @@ function SidePanel({
     if (!show) setContent(null)
   }
 
+  // SCROLLTOP when opening
+  React.useEffect(() => {
+    if (show) {
+      const inner = document.getElementById('SidePanel__container-inner')
+      inner.scrollTop = 0
+    }
+  }, [show])
+
   // DRAGGING
   const dragBind = useSwipeDismiss({
     movingTargetId: 'SidePanel__container',
@@ -135,7 +143,7 @@ function SidePanel({
             </div>
           )}
           {/* The content */}
-          <div className={styles.container__inner}>
+          <div id="SidePanel__container-inner" className={styles.container__inner}>
             { content }
           </div>
           {/* Close button */}

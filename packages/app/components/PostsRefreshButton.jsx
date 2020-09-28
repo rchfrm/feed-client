@@ -12,9 +12,13 @@ const PostsRefreshButton = ({ refreshPosts, className }) => {
       onClick={refreshPosts}
       version="black small icon"
       className={[className].join(' ')}
+      arial-label="Refresh Posts"
+      title="Refresh Posts"
     >
-      <RefreshIcon fill={brandColors.bgColor} />
-      Refresh
+      <RefreshIcon
+        fill={brandColors.bgColor}
+        style={{ marginRight: 0 }}
+      />
     </Button>
   )
 }
