@@ -6,17 +6,20 @@ import { gsap } from 'gsap'
 import styles from '@/app/PostItem.module.css'
 
 
-const animateSlider = (sliderEl, currentMetricsType) => {
+const animateSlider = (sliderEl, currentMetricsType, duration = 0.3) => {
   const xPercent = currentMetricsType === 'organic' ? -100 : 0
-  gsap.to(sliderEl, { xPercent, duration: 0.3 })
+  gsap.to(sliderEl, { xPercent, duration })
 }
 
 const PostItemMetricsSlider = ({ hasPaidEs, currentMetricsType, children }) => {
   const sliderRef = React.useRef(null)
   // TRIGGER SLIDE
+  const initialAnimation = React.useRef(true)
   React.useEffect(() => {
     if (!hasPaidEs) return
-    animateSlider(sliderRef.current, currentMetricsType)
+    const duration = initialAnimation.current ? 0 : 0.3
+    animateSlider(sliderRef.current, currentMetricsType, duration)
+    initialAnimation.current = false
   }, [hasPaidEs, currentMetricsType])
   return (
     <div
