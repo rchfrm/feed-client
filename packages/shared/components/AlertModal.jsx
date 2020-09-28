@@ -4,12 +4,9 @@ import { gsap, Power2 } from 'gsap'
 import { Portal } from 'react-portal'
 import { Transition } from 'react-transition-group'
 
-import CloseCircle from '@/icons/CloseCircle'
 import FullHeight from '@/elements/FullHeight'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
-
-import styles from '@/PopupModal.module.css'
 
 import alertStore from '@/store/alertStore'
 
@@ -72,14 +69,6 @@ const AlertModal = () => {
             'opacity-0',
           ].join(' ')}
         >
-          {/* Close button */}
-          <button
-            onClick={close}
-            className={['button--close', styles.backButton].join(' ')}
-            label="Close"
-          >
-            <CloseCircle />
-          </button>
           {/* Inner */}
           <div
             id="AlertModal-innerEl"
@@ -106,7 +95,7 @@ const AlertModal = () => {
             <div
               className={[
                 'relative bg-white',
-                'w-full mx-20 max-w-lg',
+                'w-full mx-8 sm:mx-20 max-w-lg',
                 'p-4 sm:p-5 rounded-dialogue',
                 // 'border-solid border-black border-2',
               ].join(' ')}
@@ -132,7 +121,7 @@ const AlertModal = () => {
                       key={index}
                       className={[
                         'w-full',
-                        lastButton ? 'rounded-t-none' : 'rounded-none',
+                        lastButton ? 'rounded-t-none rounded-b-dialogue' : 'rounded-none',
                         getBgColor(color),
                       ].join(' ')}
                       onClick={() => {
@@ -141,9 +130,7 @@ const AlertModal = () => {
                       }}
                       style={{
                         borderTop: '1px solid white',
-                        borderBottom: '1px solid white',
                         ...(firstButton && { borderTop: 'none' }),
-                        ...(lastButton && { borderBottom: 'none' }),
                       }}
                     >
                       {text}
