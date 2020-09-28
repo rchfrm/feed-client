@@ -19,4 +19,6 @@ Are you sure you want to continue?`,
 
   locationsDescription: (audienceType, hasSpotify) => `Your audience shown includes ${getListOfSources(audienceType, hasSpotify)}.`,
   locationsWarning: `To include Spotify listener data in your audience, add a link to your Spotify artist profile in Post Settings.`,
+
+  successMessage: `Your settings have been saved.`,
 }

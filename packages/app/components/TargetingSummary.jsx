@@ -1,6 +1,7 @@
 import React from 'react'
 
 import TargetingPausedWarning from '@/app/TargetingPausedWarning'
+import TargetingSuccessMessage from '@/app/TargetingSuccessMessage'
 import TargetingSummaryList from '@/app/TargetingSummaryList'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 import TargetingPauseButton from '@/app/TargetingPauseButton'
@@ -14,10 +15,18 @@ const TargetingSummary = () => {
     togglePauseCampaign,
     setCurrentView,
     budgetFormatted,
+    settingsSaved,
   } = React.useContext(TargetingContext)
 
   return (
     <div className="md:grid grid-cols-12 gap-10 grid-flow-col-dense">
+      {/* SUCCESS MESSAGE */}
+      {settingsSaved && (
+        <TargetingSuccessMessage
+          className="col-span-12 col-start-1 mb-8 md:mb-0"
+          togglePauseCampaign={togglePauseCampaign}
+        />
+      )}
       {/* PAUSED WARNING */}
       {initialTargetingState.paused && (
         <TargetingPausedWarning

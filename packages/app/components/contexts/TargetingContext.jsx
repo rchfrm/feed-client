@@ -22,6 +22,7 @@ const initialState = {
   togglePauseCampaign: () => {},
   cancelUpdateSettings: () => {},
   saving: false,
+  settingsSaved: false,
   errorUpdatingSettings: null,
   currentView: 'summary',
   setCurrentView: () => {},
@@ -214,6 +215,7 @@ const TargetingContextProvider = ({ children }) => {
   }, [targetingState.budget, minHardBudget, currencyOffset, selectedCountries, selectedCities])
 
   // SAVE CAMPAIGN
+  const [settingsSaved, setSettingsSaved] = React.useState(initialState.settingsSaved)
   const [errorUpdatingSettings, setErrorUpdatingSettings] = React.useState(null)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const [saving, setSaving] = React.useState(false)
@@ -239,11 +241,19 @@ const TargetingContextProvider = ({ children }) => {
       // Update state
       setTargetingState(savedState)
       setInitialTargetingState(savedState)
+      setSettingsSaved(true)
     }
     setSelectedCampaignRecc(null)
     setSaving(false)
     toggleGlobalLoading(false)
   }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset])
+  // Set saved to false when going to settings view
+  React.useEffect(() => {
+    console.log('currentView', currentView)
+    if (currentView === 'customise') {
+      setSettingsSaved(false)
+    }
+  }, [currentView])
 
   // PAUSE CAMPAIGN
   const togglePauseCampaign = React.useCallback((pause) => {
@@ -328,6 +338,7 @@ const TargetingContextProvider = ({ children }) => {
         togglePauseCampaign,
         cancelUpdateSettings,
         saving,
+        settingsSaved,
         errorUpdatingSettings,
         currentView,
         setCurrentView,
