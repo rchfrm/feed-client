@@ -285,7 +285,7 @@ export const saveCampaign = async ({
       }, 1000)
     })
   }
-  const { age_min, age_max, budget, genders } = newSettings
+  const { age_min, age_max, budget, genders, paused } = newSettings
   const payload = {
     age_min,
     age_max,
@@ -295,6 +295,7 @@ export const saveCampaign = async ({
       cities: selectedCities,
       countries: selectedCountries,
     },
+    paused,
   }
   const { res: settings, error } = await server.saveTargetingSettings(artistId, payload)
   if (error) return { error }
