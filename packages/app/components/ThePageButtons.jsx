@@ -18,9 +18,9 @@ const links = [
     icon: 'posts',
   },
   {
-    href: ROUTES.BUDGET,
-    title: 'budget',
-    icon: 'budget',
+    href: ROUTES.CONTROLS,
+    title: 'controls',
+    icon: 'controls',
   },
   {
     href: ROUTES.RESULTS,
