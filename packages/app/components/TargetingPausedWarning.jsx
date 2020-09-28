@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import TargetingPauseButton from '@/app/TargetingPauseButton'
+import MarkdownText from '@/elements/MarkdownText'
+
+import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingPausedWarning = ({ togglePauseCampaign, hideButton, className }) => {
   return (
@@ -13,14 +16,12 @@ const TargetingPausedWarning = ({ togglePauseCampaign, hideButton, className }) 
       ].join(' ')}
     >
       <h3 className={['h2 text-red font-body'].join(' ')}>Spending Paused</h3>
-      <div
+      <MarkdownText
         className={[
-          'text--block',
           !hideButton ? 'mb-10' : 'mb-0',
         ].join(' ')}
-      >
-        <p>Spending is currently paused and no ads are running. You can still edit your settings.</p>
-      </div>
+        markdown={copy.pausedWarning}
+      />
       {!hideButton && (
         <TargetingPauseButton
           togglePauseCampaign={togglePauseCampaign}
