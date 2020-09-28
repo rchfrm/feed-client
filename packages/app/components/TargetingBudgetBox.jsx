@@ -5,7 +5,6 @@ import { gsap } from 'gsap'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
 import useCombinedRefs from '@/hooks/useCombinedRefs'
-
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
@@ -14,6 +13,7 @@ import Button from '@/elements/Button'
 
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
+import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 
 const TargetingBudgetBox = React.forwardRef(({
   isFixed,
@@ -68,6 +68,9 @@ const TargetingBudgetBox = React.forwardRef(({
   // GET SAVING FUNCTION
   const saveTargeting = useSaveTargeting({ targetingState, saveCampaignSettings })
 
+  // TOGGLE CUSTOM BUDGET SETTER
+  const [showCustomBudget, setShowCustomBudget] = React.useState(false)
+
   return (
     <section
       ref={budgetRef}
@@ -75,7 +78,7 @@ const TargetingBudgetBox = React.forwardRef(({
         isFixed ? 'fixed opacity-0' : 'relative',
         'rounded-dialogue',
         'p-4 sm:p-5 bg-grey-1',
-        isSummaryVersion ? 'pb-16' : null,
+        isSummaryVersion ? 'pt-14 pb-20 sm:pt-14 sm:pb-20' : null,
         className,
       ].join(' ')}
     >
@@ -86,6 +89,19 @@ const TargetingBudgetBox = React.forwardRef(({
           {/* <TargetingSectionHeader header={budgetFormatted} /> */}
         </header>
       )}
+      {/* TOGGLE CUSTOM BUDGET */}
+      <TargetingCustomBudgetButton
+        className={[
+          'absolute top-0 right-0',
+          'mr-5 sm:mr-6 mt-1',
+          isSummaryVersion ? null : 'mt-2',
+        ].join(' ')}
+        style={{ zIndex: 2 }}
+        showCustomBudget={showCustomBudget}
+        setShowCustomBudget={setShowCustomBudget}
+        initialBudget={initialTargetingState.budget}
+        minHardBudget={minHardBudget}
+      />
       {/* BUDGET SETTER */}
       <TargetingBudgetSetter
         isSummaryVersion={isSummaryVersion}
@@ -96,6 +112,7 @@ const TargetingBudgetBox = React.forwardRef(({
         initialBudget={initialTargetingState.budget}
         targetingState={targetingState}
         updateTargetingBudget={updateTargetingBudget}
+        showCustomBudget={showCustomBudget}
       />
       {/* SAVE CAMPAIGN BUTTON */}
       {isSummaryVersion && (

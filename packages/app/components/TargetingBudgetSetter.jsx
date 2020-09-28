@@ -19,6 +19,7 @@ const TargetingBudgetSetter = ({
   updateTargetingBudget,
   isSummaryVersion,
   mobileVersion,
+  showCustomBudget,
 }) => {
   // UPDATE TARGETING STATE when BUDGET changes
   const [budget, setBudget] = React.useState(targetingState.budget)
@@ -30,10 +31,6 @@ const TargetingBudgetSetter = ({
   // GET SLIDER SETTINGS BASED ON MIN BUDGET
   const { sliderStep, sliderValueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget)
 
-  // FLIP
-  // Show custom budget input if budget is higher than max slider value
-  const showCustomInitially = budget > sliderValueRange[1]
-  const [showCustomBudget, setShowCustomBudget] = React.useState(showCustomInitially)
   // CUSTOM INPUT
   const inputPlaceholder = `Min. rec. budget: ${formatCurrency((minReccBudget / currencyOffset), currency)}`
 
@@ -80,20 +77,6 @@ const TargetingBudgetSetter = ({
           </CSSTransition>
         </SwitchTransition>
       </div>
-
-      {/* TOGGLE CUSTOM BUDGET */}
-      <p
-        className={[
-          'pt-3',
-          isSummaryVersion ? 'text-left' : 'ml-1',
-        ].join(' ')}
-      >
-        <a role="button" onClick={() => setShowCustomBudget(!showCustomBudget)}>
-          <em>
-            {showCustomBudget ? 'Budget Slider' : 'Custom Budget'}
-          </em>
-        </a>
-      </p>
     </>
   )
 }
@@ -108,6 +91,7 @@ TargetingBudgetSetter.propTypes = {
   updateTargetingBudget: PropTypes.func.isRequired,
   isSummaryVersion: PropTypes.bool,
   mobileVersion: PropTypes.bool,
+  showCustomBudget: PropTypes.bool.isRequired,
 }
 
 TargetingBudgetSetter.defaultProps = {
