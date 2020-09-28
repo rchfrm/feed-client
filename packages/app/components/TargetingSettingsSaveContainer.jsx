@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 import { gsap } from 'gsap'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
-
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
 import Button from '@/elements/Button'
+
+import TargetingPausedWarning from '@/app/TargetingPausedWarning'
 
 const TargetingSettingsSaveContainer = ({
   disableSaving,
@@ -42,6 +43,13 @@ const TargetingSettingsSaveContainer = ({
       ].join(' ')}
       ref={containerRef}
     >
+      {/* PAUSED WARNING */}
+      {targetingState.paused && (
+        <TargetingPausedWarning
+          className="col-span-12 col-start-1 mb-6"
+          hideButton
+        />
+      )}
       <div className="mb-5">
         <Button
           version="green"
