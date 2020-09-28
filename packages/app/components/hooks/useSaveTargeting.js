@@ -4,7 +4,7 @@ import useAlertModal from '@/hooks/useAlertModal'
 
 import copy from '@/app/copy/targetingPageCopy'
 
-const getWarningButtons = ({ warningType, saveCampaignSettings, saveState }) => {
+const getWarningButtons = ({ warningType, saveCampaignSettings, saveState, closeAlert }) => {
   if (warningType === 'saveWhenPaused') {
     return [
       {
@@ -21,6 +21,18 @@ const getWarningButtons = ({ warningType, saveCampaignSettings, saveState }) => 
       },
     ]
   }
+  return [
+    {
+      text: 'Save Settings',
+      onClick: () => saveCampaignSettings(saveState),
+      color: 'green',
+    },
+    {
+      text: 'Cancel',
+      onClick: () => closeAlert(),
+      color: 'black',
+    },
+  ]
 }
 
 const useSaveTargeting = ({
@@ -42,12 +54,23 @@ const useSaveTargeting = ({
         saveState,
       })
       showAlert({ copy: alertCopy, buttons })
-      console.log('SHOW ALERT')
       return
     }
-    // Basic save
+    // Confirm changing settings
+    if (trigger === 'settings') {
+      const alertCopy = copy.saveSettingsConfirmation
+      const buttons = getWarningButtons({
+        warningType: 'saveSettings',
+        saveCampaignSettings,
+        saveState,
+        closeAlert,
+      })
+      showAlert({ copy: alertCopy, buttons })
+      return
+    }
+    // Basic save (eg when just changing budget)
     saveCampaignSettings(saveState)
-  }, [saveCampaignSettings, targetingState, showAlert])
+  }, [saveCampaignSettings, targetingState, showAlert, closeAlert])
 
   return saveTargeting
 }
