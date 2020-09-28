@@ -7,22 +7,6 @@ import create from 'zustand'
   @param {boolean} isOpen
 */
 
-/*
-* EXAMPLE BUTTONS
-buttons: [
-  {
-    text: 'Ok',
-    onClick: 'dismiss',
-    color: 'black',
-  }
-  {
-    text: 'Ok',
-    onClick: () => { console.log('how are you?') },
-    color: 'black',
-  }
-]
-*/
-
 const defaultState = {
   copy: '',
   children: null,

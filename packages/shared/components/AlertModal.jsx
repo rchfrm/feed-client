@@ -13,6 +13,12 @@ import styles from '@/PopupModal.module.css'
 
 import alertStore from '@/store/alertStore'
 
+const getBgColor = (color) => {
+  if (color === 'green') return 'bg-green'
+  if (color === 'red') return 'bg-red'
+  return null
+}
+
 const AlertModal = () => {
   const copy = alertStore(state => state.copy)
   const children = alertStore(state => state.children)
@@ -102,10 +108,12 @@ const AlertModal = () => {
                 'relative bg-white',
                 'w-full mx-20 max-w-lg',
                 'p-4 sm:p-5 rounded-dialogue',
-                'pb-16 sm:pb-16',
                 // 'border-solid border-black border-2',
               ].join(' ')}
-              style={{ zIndex: 2 }}
+              style={{
+                zIndex: 2,
+                paddingBottom: `${4 * buttons.length}rem`,
+              }}
             >
               {/* COPY */}
               {copy && (
@@ -114,23 +122,35 @@ const AlertModal = () => {
               {/* CHILDREN */}
               {children}
               {/* BUTTONS */}
-              {buttons.map((buttonConfig, index) => {
-                const { text, onClick } = buttonConfig
-                // const firstButton = index === 0
-                // const lastButton = index === buttons.length - 1
-                return (
-                  <Button
-                    key={index}
-                    className={[
-                      'absolute bottom-0 left-0 w-full',
-                      'rounded-t-none',
-                    ].join(' ')}
-                    onClick={onClick}
-                  >
-                    {text}
-                  </Button>
-                )
-              })}
+              <div className="absolute bottom-0 left-0 w-full">
+                {buttons.map((buttonConfig, index) => {
+                  const { text, color, onClick } = buttonConfig
+                  const firstButton = index === 0
+                  const lastButton = index === buttons.length - 1
+                  return (
+                    <Button
+                      key={index}
+                      className={[
+                        'w-full',
+                        lastButton ? 'rounded-t-none' : 'rounded-none',
+                        getBgColor(color),
+                      ].join(' ')}
+                      onClick={() => {
+                        close()
+                        onClick()
+                      }}
+                      style={{
+                        borderTop: '1px solid white',
+                        borderBottom: '1px solid white',
+                        ...(firstButton && { borderTop: 'none' }),
+                        ...(lastButton && { borderBottom: 'none' }),
+                      }}
+                    >
+                      {text}
+                    </Button>
+                  )
+                })}
+              </div>
             </div>
           </div>
         </FullHeight>

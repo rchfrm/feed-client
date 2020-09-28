@@ -2,6 +2,23 @@ import React from 'react'
 
 import alertStore from '@/store/alertStore'
 
+/*
+* EXAMPLE BUTTONS
+buttons: [
+  {
+    text: 'Ok',
+    onClick: 'dismiss',
+    color: 'black',
+  },
+  {
+    text: 'Ok',
+    onClick: () => { console.log('how are you?') },
+    color: 'black',
+  }
+]
+*/
+
+
 const useAlertModal = (props = {}) => {
   const close = alertStore(state => state.close)
   const open = alertStore(state => state.open)
@@ -12,7 +29,7 @@ const useAlertModal = (props = {}) => {
   const defaultButtons = React.useMemo(() => {
     return [{
       text: 'Ok',
-      color: 'black',
+      color: 'green',
       onClick: close,
     }]
   }, [close])
