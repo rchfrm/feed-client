@@ -14,7 +14,6 @@ const TargetingCustomBudgetButton = ({
   // Set initial state
   const { sliderValueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget)
   React.useEffect(() => {
-    console.log('d')
     const showCustomInitially = initialBudget > sliderValueRange[1]
     setShowCustomBudget(showCustomInitially)
   // eslint-disable-next-line
