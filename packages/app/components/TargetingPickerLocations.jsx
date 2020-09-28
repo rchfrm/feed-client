@@ -13,6 +13,7 @@ import {
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingPickerCountry from '@/app/TargetingPickerCountry'
 import TargetingPickerCities from '@/app/TargetingPickerCities'
+import TargetingLocationsSentence from '@/app/TargetingLocationsSentence'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -78,7 +79,11 @@ const TargetingPickerLocations = ({
 
   return (
     <section className={[className].join(' ')}>
-      <TargetingSectionHeader className="mb-3" header="Locations" />
+      <TargetingSectionHeader className="mb-5" header="Locations" />
+      <TargetingLocationsSentence
+        audienceType="music"
+        hasSpotify={false}
+      />
       {/* COUNTRIES AND CITIES */}
       <Accordion
         className="pt-6"
