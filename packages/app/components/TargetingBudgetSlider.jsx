@@ -90,8 +90,8 @@ const TargetingBudgetSlider = ({
         hasMarkers
         trackColor={!mobileVersion ? 'white' : null}
         formatValue={{
-          to: (value) => value,
-          from: (value) => value,
+          to: (value) => Math.round(value),
+          from: (value) => Math.round(value),
         }}
         labelOptions={[
           {

@@ -251,7 +251,7 @@ const formatSettings = (settings, currencyOffset) => {
       draftSettings.paused = false
     }
     const { cities, countries } = draftSettings.geo_locations
-    draftSettings.budget *= currencyOffset
+    draftSettings.budget = Math.round(draftSettings.budget * currencyOffset)
     draftSettings.cities = cities
     draftSettings.countries = countries
     draftSettings.cityKeys = cities.map(({ key }) => key)
