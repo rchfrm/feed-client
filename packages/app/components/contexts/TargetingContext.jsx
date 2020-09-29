@@ -249,7 +249,6 @@ const TargetingContextProvider = ({ children }) => {
   }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset])
   // Set saved to false when going to settings view
   React.useEffect(() => {
-    console.log('currentView', currentView)
     if (currentView === 'customise') {
       setSettingsSaved(false)
     }
