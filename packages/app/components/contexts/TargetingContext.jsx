@@ -196,6 +196,9 @@ const TargetingContextProvider = ({ children }) => {
     // Set inital countries  (to trigger min budget)
     const { cityKeys, countryCodes } = targetingState
     updateLocationsArrays({ cityKeys, countryCodes })
+    // Set hard budget
+    const fbMin = targetingHelpers.calcMinBudget(minBudgetInfo, 'hard')
+    setMinHardBudget(fbMin)
     // Set targeting state
     setInitialTargetingState(targetingState)
     setTargetingState(targetingState)
