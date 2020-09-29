@@ -50,7 +50,8 @@ const TargetingBudgetSetter = ({
             {showCustomBudget ? (
               <InputCurrency
                 handleChange={(value) => {
-                  setBudget(value || minReccBudget)
+                  const budget = value ? value * currencyOffset : minReccBudget
+                  setBudget(budget)
                 }}
                 placeholder={inputPlaceholder}
                 name="Budget"
