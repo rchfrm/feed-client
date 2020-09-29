@@ -133,6 +133,11 @@ export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }
   return minRec
 }
 
+export const getSaveDisabledReason = (reason) => {
+  if (reason === 'budget') return 'Budget is too small'
+  return 'Select at least one location'
+}
+
 
 // SUMMARY HELPERS
 // ---------------

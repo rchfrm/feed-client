@@ -10,6 +10,8 @@ import Button from '@/elements/Button'
 
 import TargetingPausedWarning from '@/app/TargetingPausedWarning'
 
+import { getSaveDisabledReason } from '@/app/helpers/targetingHelpers'
+
 const TargetingSettingsSaveContainer = ({
   disableSaving,
   targetingState,
@@ -58,9 +60,7 @@ const TargetingSettingsSaveContainer = ({
           disabled={!!disableSaving}
         >
           {disableSaving ? (
-            <>
-              {disableSaving === 'budget' ? 'Budget is too small' : 'Select at least one location'}
-            </>
+            getSaveDisabledReason(disableSaving)
           ) : 'Save Campaign Settings'}
         </Button>
       </div>

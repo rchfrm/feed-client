@@ -5,6 +5,8 @@ import Button from '@/elements/Button'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
+import { getSaveDisabledReason } from '@/app/helpers/targetingHelpers'
+
 const TargetingBudgetSaveButton = ({
   targetingState,
   saveCampaignSettings,
@@ -20,7 +22,7 @@ const TargetingBudgetSaveButton = ({
       className={[className].join(' ')}
       disabled={disableSaving}
     >
-      {disableSaving ? 'Budget is too small' : 'Save Settings and Budget'}
+      {disableSaving ? getSaveDisabledReason(disableSaving) : 'Save Settings and Budget'}
     </Button>
   )
 }

@@ -15,6 +15,8 @@ import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 
+import { getSaveDisabledReason } from '@/app/helpers/targetingHelpers'
+
 const TargetingBudgetBox = React.forwardRef(({
   isFixed,
   isSummaryVersion,
@@ -130,7 +132,7 @@ const TargetingBudgetBox = React.forwardRef(({
           onClick={() => saveTargeting('budget')}
           disabled={!!disableSaving}
         >
-          {disableSaving ? 'Budget is too small' : saveButtonText}
+          {disableSaving ? getSaveDisabledReason(disableSaving) : saveButtonText}
         </Button>
       )}
     </section>
