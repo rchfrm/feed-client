@@ -32,12 +32,14 @@ const TargetingPickerCities = ({
   })
 
   return (
-    <CheckboxButtons
-      className="pt-5 pb-1"
-      buttonOptions={citiesCheckboxes}
-      selectedValues={selectedCities}
-      setSelectedValues={setSelectedCities}
-    />
+    <div className="pl-8 ml-1">
+      <CheckboxButtons
+        className="pt-5 pb-1"
+        buttonOptions={citiesCheckboxes}
+        selectedValues={selectedCities}
+        setSelectedValues={setSelectedCities}
+      />
+    </div>
   )
 }
 
