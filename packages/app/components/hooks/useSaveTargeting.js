@@ -4,7 +4,28 @@ import useAlertModal from '@/hooks/useAlertModal'
 
 import copy from '@/app/copy/targetingPageCopy'
 
-const getWarningButtons = ({ warningType, saveCampaignSettings, saveState, closeAlert }) => {
+const getWarningButtons = ({
+  warningType,
+  isPaused,
+  saveCampaignSettings,
+  togglePauseCampaign,
+  saveState,
+  closeAlert,
+}) => {
+  if (warningType === 'togglePause') {
+    return [
+      {
+        text: isPaused ? 'Resume Spending' : 'Pause Spending',
+        onClick: togglePauseCampaign,
+        color: isPaused ? 'green' : 'red',
+      },
+      {
+        text: 'Cancel',
+        onClick: closeAlert,
+        color: 'balck',
+      },
+    ]
+  }
   if (warningType === 'saveWhenPaused') {
     return [
       {
@@ -29,15 +50,17 @@ const getWarningButtons = ({ warningType, saveCampaignSettings, saveState, close
     },
     {
       text: 'Cancel',
-      onClick: () => closeAlert(),
+      onClick: closeAlert,
       color: 'black',
     },
   ]
 }
 
 const useSaveTargeting = ({
-  targetingState,
+  targetingState = {},
   saveCampaignSettings,
+  togglePauseCampaign = null,
+  spendingPaused,
 }) => {
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
@@ -45,6 +68,18 @@ const useSaveTargeting = ({
   const saveTargeting = React.useCallback((trigger, newState = null) => {
     const { paused: isPaused } = targetingState
     const saveState = newState || targetingState
+    // Warn about toggling paused
+    if (togglePauseCampaign) {
+      const alertCopy = copy.togglePauseWarning(spendingPaused)
+      const buttons = getWarningButtons({
+        warningType: 'togglePause',
+        togglePauseCampaign,
+        isPaused: spendingPaused,
+        closeAlert,
+      })
+      showAlert({ copy: alertCopy, buttons })
+      return
+    }
     // Warn about updating settings when paused
     if (isPaused && trigger === 'settings') {
       const alertCopy = copy.saveWhenPausedCopy
@@ -70,7 +105,7 @@ const useSaveTargeting = ({
     }
     // Basic save (eg when just changing budget)
     saveCampaignSettings(saveState)
-  }, [saveCampaignSettings, targetingState, showAlert, closeAlert])
+  }, [saveCampaignSettings, togglePauseCampaign, targetingState, showAlert, closeAlert, spendingPaused])
 
   return saveTargeting
 }
