@@ -170,12 +170,13 @@ const TargetingProgressButton = () => {
             'px-3 mb-20',
             'sm:px-4',
             'md:px-10 md:mb-10',
+            'text-center',
           ].join(' ')}
           ref={animatedDiv.ref}
         >
           <button
             className={[
-              'w-full',
+              'w-3/4',
               'px-8 py-3 bg-green',
               'border-2 border-solid border-green',
               'text-black',
