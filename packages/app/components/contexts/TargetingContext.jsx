@@ -199,7 +199,7 @@ const TargetingContextProvider = ({ children }) => {
     // Set targeting state
     setInitialTargetingState(targetingState)
     setTargetingState(targetingState)
-  }, [])
+  }, [minBudgetInfo])
 
   // DISABLE SAVING (eg if budget is too small)
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
@@ -272,9 +272,9 @@ const TargetingContextProvider = ({ children }) => {
     setLocationOptions({})
     setSelectedCampaignRecc(null)
     setCurrentView(initialState.currentView)
-    if (!artistId) return
-    const fbMin = targetingHelpers.calcMinBudget(minBudgetInfo, 'hard')
-    setMinHardBudget(fbMin)
+    // RESET Targeting state
+    setInitialTargetingState(initialState.targetingState)
+    setTargetingState(initialState.targetingState)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artistId])
 
