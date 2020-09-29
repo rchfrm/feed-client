@@ -1,5 +1,7 @@
 import React from 'react'
 
+import useAsyncEffect from 'use-async-effect'
+
 import brandColors from '@/constants/brandColors'
 
 import Button from '@/elements/Button'
@@ -7,15 +9,19 @@ import FacebookIcon from '@/icons/FacebookIcon'
 
 const ButtonFacebook = (props) => {
   const { version, children } = props
-  const buttonEl = React.useRef()
+  const buttonRef = React.useRef()
 
   // Wait for a while then detect if button has been removed from DOM
   const [buttonRemoved, setButtonRemoved] = React.useState(false)
   React.useEffect(() => {
-    setTimeout(() => {
-      const buttonRemoved = !buttonEl.current || !buttonEl.current.getBoundingClientRect().height
+    const timeout = setTimeout(() => {
+      const { current: buttonEl } = buttonRef
+      const buttonRemoved = !buttonEl || !buttonEl.getBoundingClientRect().height
       setButtonRemoved(buttonRemoved)
     }, 500)
+    return () => {
+      clearTimeout(timeout)
+    }
   }, [setButtonRemoved])
 
   // Fallback
@@ -33,7 +39,7 @@ const ButtonFacebook = (props) => {
     <Button
       {...props}
       version={['facebook', 'icon', version].join(' ')}
-      ref={buttonEl}
+      ref={buttonRef}
     >
       <FacebookIcon
         fill={brandColors.white}
