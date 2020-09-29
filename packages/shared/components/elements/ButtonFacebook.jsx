@@ -1,7 +1,5 @@
 import React from 'react'
 
-import useAsyncEffect from 'use-async-effect'
-
 import brandColors from '@/constants/brandColors'
 
 import Button from '@/elements/Button'
