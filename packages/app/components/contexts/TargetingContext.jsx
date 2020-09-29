@@ -207,10 +207,10 @@ const TargetingContextProvider = ({ children }) => {
   // DISABLE SAVING (eg if budget is too small)
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
   React.useEffect(() => {
-    const isBudgetTooSmall = (targetingState.budget * currencyOffset) < minHardBudget
+    const isBudgetTooSmall = targetingState.budget < minHardBudget
+    const noLocations = !selectedCountries.length && !selectedCities.length
     // Disable with budget reason
     if (isBudgetTooSmall) return setDisableSaving('budget')
-    const noLocations = !selectedCountries.length && !selectedCities.length
     // Disable with location reason
     if (noLocations) return setDisableSaving('location')
     // Reset
