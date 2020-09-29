@@ -67,6 +67,32 @@ const TargetingPickerLocations = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCities])
 
+  // BUILD OBJECT (KEYED BY COUNTRY CODE) OF LOCATIONS WITH SELECTED STATES
+  const locationOptionsAndStates = React.useMemo(() => {
+    const locationOptionsArray = Object.values(locationOptions)
+    return locationOptionsArray.reduce((obj, country) => {
+      const { code: countryCode, cities } = country
+      const isCountrySelected = selectedCountries.includes(countryCode)
+      let totalCitiesSelected = 0
+      const citiesWithStates = cities.map((city) => {
+        const { key } = city
+        const isCitySelected = selectedCities.includes(key)
+        if (isCitySelected) totalCitiesSelected += 1
+        return {
+          ...city,
+          selected: isCitySelected,
+        }
+      })
+      obj[countryCode] = {
+        ...country,
+        selected: isCountrySelected,
+        cities: citiesWithStates,
+        totalCitiesSelected,
+      }
+      return obj
+    }, {})
+  }, [selectedCountries, selectedCities, locationOptions])
+
   // SHOW COUNTRIES THAT HAVE SELECTED CITIES AS OPEN
   const getOpenCountries = () => {
     const openCountries = selectedCities.map((cityKey) => {
@@ -107,6 +133,7 @@ const TargetingPickerLocations = ({
                 selectedCountries={selectedCountries}
                 setSelectedCountries={setSelectedCountries}
                 hasCities={hasCities}
+                totalCitiesSelected={locationOptionsAndStates[code].totalCitiesSelected}
                 initiallyPicked={initiallyPicked}
               />
               {/* CITIES */}

@@ -16,6 +16,7 @@ const TargetingPickerCountry = ({
   selectedCountries,
   setSelectedCountries,
   hasCities,
+  totalCitiesSelected,
   initiallyPicked,
 }) => {
   const { code, name, audience_pct } = country
@@ -61,6 +62,16 @@ const TargetingPickerCountry = ({
                     <strong className="text-red"><em>{'< 1%'} of audience</em></strong>
                   )}
                 </p>
+                {!expanded && hasCities && (
+                  <div
+                    className={[
+                      'absolute top-0 left-0 whitespace-no-wrap mt-6 pt-1 text-xs',
+                      totalCitiesSelected > 0 ? 'text-black' : 'text-grey-3',
+                    ].join(' ')}
+                  >
+                    {totalCitiesSelected} {totalCitiesSelected === 1 ? 'city' : 'cities'} selected
+                  </div>
+                )}
               </div>
             </AccordionItemButton>
           </AccordionItemHeading>
@@ -75,6 +86,7 @@ TargetingPickerCountry.propTypes = {
   selectedCountries: PropTypes.array.isRequired,
   setSelectedCountries: PropTypes.func.isRequired,
   hasCities: PropTypes.bool.isRequired,
+  totalCitiesSelected: PropTypes.number.isRequired,
   initiallyPicked: PropTypes.bool.isRequired,
 }
 
