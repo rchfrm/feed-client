@@ -29,5 +29,7 @@ Are you sure you want to continue?`,
 
   successMessage: `Your settings have been saved.`,
 
-  noBudgetIntro: `Copy about no budget.`,
+  noBudgetIntro: `## Welcome to Feed!
+  
+### Let's get started by setting up your targeting preferences.`,
 }

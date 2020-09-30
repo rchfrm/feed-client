@@ -9,14 +9,14 @@ import copy from '@/app/copy/targetingPageCopy'
 const TargetingNoBudget = ({ setCurrentView }) => {
   return (
     <div>
-      <h2>Getting Started</h2>
-      <MarkdownText markdown={copy.noBudgetIntro} />
+      <MarkdownText markdown={copy.noBudgetIntro} className="mb-8" />
       <div>
         <Button
           onClick={() => setCurrentView('settings')}
           version="green"
+          className="text-xl"
         >
-          Start promoting your posts
+          Start promoting my posts
         </Button>
       </div>
     </div>
