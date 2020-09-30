@@ -13,6 +13,7 @@ const TargetingBudgetSlider = ({
   sliderStep,
   sliderValueRange,
   budget,
+  initialBudget,
   minReccBudget,
   currency,
   currencyOffset,
@@ -48,7 +49,7 @@ const TargetingBudgetSlider = ({
   }, [mobileVersion])
 
   // DEFINE START VALUE
-  const startValue = React.useRef(Math.round(budget))
+  const startValue = React.useRef(Math.round(initialBudget))
   const initialMarkerPosition = React.useRef(null)
 
   // DEFINE RANGE
@@ -114,6 +115,7 @@ TargetingBudgetSlider.propTypes = {
   sliderStep: PropTypes.number.isRequired,
   sliderValueRange: PropTypes.array.isRequired,
   budget: PropTypes.number,
+  initialBudget: PropTypes.number,
   minReccBudget: PropTypes.number,
   currency: PropTypes.string,
   currencyOffset: PropTypes.number,
@@ -123,6 +125,7 @@ TargetingBudgetSlider.propTypes = {
 
 TargetingBudgetSlider.defaultProps = {
   budget: 0,
+  initialBudget: 0,
   minReccBudget: 0,
   currency: null,
   currencyOffset: 0,
