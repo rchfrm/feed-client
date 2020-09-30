@@ -23,6 +23,7 @@ const TargetingProgressButton = () => {
     saveTargetingSettings,
     setCurrentView,
     isAnimatingView,
+    settingsReady,
     toggleMobileBudget,
     mobileBudgetOpen,
     disableSaving,
@@ -39,9 +40,12 @@ const TargetingProgressButton = () => {
     if (mobileBudgetOpen) return false
     if (disableSaving === 'location') return false
     if (currentView === 'summary' && selectedCampaignType) return true
-    if (currentView === 'settings') return true
+    if (currentView === 'settings') {
+      if (settingsReady && !isAnimatingView) return true
+      return false
+    }
     return false
-  }, [forceHideButton, mobileBudgetOpen, disableSaving, currentView, selectedCampaignType])
+  }, [forceHideButton, mobileBudgetOpen, disableSaving, currentView, settingsReady, isAnimatingView, selectedCampaignType])
 
   React.useEffect(() => {
     if (!isAnimatingView) {
