@@ -105,13 +105,13 @@ const useAnimateOnMount = ({
   }
   const handleExitAnimationEnd = (exitCb) => {
     debug(debugName, 'Exit animation finished')
-    setVariant('hidden')
     exitCb()
   }
 
   // HIDE
   const hidePresence = (exitCb = noop) => {
     if (variant === 'hidden') return
+    setVariant('hidden')
     const playExitAnimation = () => {
       const animation = animate({
         el: domRef.current,
