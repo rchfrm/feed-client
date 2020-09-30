@@ -23,7 +23,7 @@ const TargetingSummary = () => {
   const { budget: initialBudget } = initialTargetingState
   if (!initialBudget) {
     return (
-      <TargetingNoBudget />
+      <TargetingNoBudget setCurrentView={setCurrentView} />
     )
   }
 

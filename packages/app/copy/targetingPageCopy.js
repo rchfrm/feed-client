@@ -28,4 +28,6 @@ Are you sure you want to continue?`,
   locationsHelperText: `then we can explain the 1% rule and that we are working on custom locations, but if people can email to let us know what is missing that would be helpful`,
 
   successMessage: `Your settings have been saved.`,
+
+  noBudgetIntro: `Copy about no budget.`,
 }
