@@ -12,7 +12,7 @@ const TargetingCustomBudgetButton = ({
   style,
 }) => {
   // Set initial state
-  const { sliderValueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget)
+  const { sliderValueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget, initialBudget)
   React.useEffect(() => {
     const showCustomInitially = initialBudget > sliderValueRange[1]
     setShowCustomBudget(showCustomInitially)

@@ -112,9 +112,9 @@ export const calcMinBudget = (minBudgetInfo, type) => {
 }
 
 // Get slider config
-export const calcBudgetSliderConfig = (minHardBudget) => {
+export const calcBudgetSliderConfig = (minHardBudget, initialBudget) => {
   const sliderStep = Math.round(minHardBudget) / 4
-  const min = minHardBudget * 2
+  const min = Math.min(initialBudget, minHardBudget * 2)
   const max = minHardBudget * 30
   const sliderValueRange = [min, max]
   return { sliderStep, sliderValueRange }
