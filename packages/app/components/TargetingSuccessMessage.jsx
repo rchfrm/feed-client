@@ -12,7 +12,7 @@ const TargetingSuccessMessage = ({ className }) => {
         className,
       ].join(' ')}
     >
-      <h3 className={['h3 text-green font-body'].join(' ')}>Success!</h3>
+      <h3 className={['h2 text-green font-body'].join(' ')}>Success!</h3>
       <MarkdownText
         className={['mb-0 pb-2'].join(' ')}
         markdown={copy.successMessage}
