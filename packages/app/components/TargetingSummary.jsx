@@ -5,18 +5,19 @@ import TargetingPausedWarning from '@/app/TargetingPausedWarning'
 import TargetingSuccessMessage from '@/app/TargetingSuccessMessage'
 import TargetingSummaryList from '@/app/TargetingSummaryList'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
-import TargetingPauseButton from '@/app/TargetingPauseButton'
+import TargetingSummaryButtons from '@/app/TargetingSummaryButtons'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 const TargetingSummary = () => {
   const {
-    isDesktopLayout,
+    targetingState,
     initialTargetingState,
+    saveTargetingSettings,
     togglePauseCampaign,
     setCurrentView,
-    budgetFormatted,
     settingsSaved,
+    disableSaving,
   } = React.useContext(TargetingContext)
 
   // HANDLE NO BUDGET SET
@@ -50,17 +51,16 @@ const TargetingSummary = () => {
           className="mb-8"
           isSummaryVersion
         />
-        {/* PAUSE/RESUME BUTTON (desktop) */}
-        {isDesktopLayout && (
-          <div className="mb-6 flex justify-end">
-            {!initialTargetingState.paused && (
-              <TargetingPauseButton
-                togglePauseCampaign={togglePauseCampaign}
-                isPaused={initialTargetingState.paused}
-              />
-            )}
-          </div>
-        )}
+        {/* SAVE BUDGET & PAUSE/RESUME BUTTON */}
+        <div className="mb-10 md:mb-0">
+          <TargetingSummaryButtons
+            targetingState={targetingState}
+            initialTargetingState={initialTargetingState}
+            saveTargetingSettings={saveTargetingSettings}
+            togglePauseCampaign={togglePauseCampaign}
+            disableSaving={disableSaving}
+          />
+        </div>
       </div>
       {/* SETTINGS */}
       <div className="col-span-6 col-start-1">
@@ -71,17 +71,6 @@ const TargetingSummary = () => {
           setCurrentView={setCurrentView}
           className="mb-6"
         />
-        {/* PAUSE/RESUME BUTTON (mobile) */}
-        {!isDesktopLayout && (
-          <div className="mb-6 flex justify-end">
-            {!initialTargetingState.paused && (
-              <TargetingPauseButton
-                togglePauseCampaign={togglePauseCampaign}
-                isPaused={initialTargetingState.paused}
-              />
-            )}
-          </div>
-        )}
       </div>
     </div>
   )
