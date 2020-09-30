@@ -24,11 +24,18 @@ const TargetingSettingsSaveContainer = ({
   React.useEffect(() => {
     const { current: budgetEl } = budgetRef
     if (!budgetEl) return
-    const { height: budgetHeight, top: budgetTop } = budgetEl.getBoundingClientRect()
+    const {
+      height: budgetHeight,
+      width: budgetWidth,
+      top: budgetTop,
+      left: budgetLeft,
+    } = budgetEl.getBoundingClientRect()
     // Set position
     const { current: containerEl } = containerRef
     const positionProps = {
+      width: budgetWidth,
       top: budgetTop + budgetHeight,
+      left: budgetLeft,
       opacity: 1,
     }
     gsap.set(containerEl, positionProps)
@@ -38,8 +45,8 @@ const TargetingSettingsSaveContainer = ({
   return (
     <div
       className={[
-        'fixed right-0 w-1/2',
-        'pt-5 pl-20 pr-14 pb-10',
+        'fixed w-1/2',
+        'pt-5 pb-10',
         'opacity-0',
         disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
       ].join(' ')}
