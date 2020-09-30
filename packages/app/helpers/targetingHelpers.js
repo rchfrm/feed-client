@@ -190,7 +190,6 @@ export const fetchPopularLocations = async (artistId, useDummyData) => {
   if (useDummyData) {
     return new Promise((resolve) => {
       setTimeout(() => {
-  
         resolve(demoPopuplarLocations)
       }, 400)
     })
