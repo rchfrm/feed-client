@@ -277,6 +277,9 @@ const TargetingContextProvider = ({ children }) => {
     setLocationOptions({})
     setSelectedCampaignRecc(null)
     setCurrentView(initialState.currentView)
+    // RESET locations
+    setSelectedCities(initialState.selectedCities)
+    setSelectedCountries(initialState.selectedCountries)
     // RESET Targeting state
     setInitialTargetingState(initialState.targetingState)
     setTargetingState(initialState.targetingState)
