@@ -98,7 +98,7 @@ const TargetingBudgetSlider = ({
             to: (value) => formatCurrency((value / currencyOffset), currency),
           },
         ]}
-        ghosts={[initialMarkerPosition.current]}
+        ghosts={startValue.current ? [initialMarkerPosition.current] : []}
       >
         <SliderMarker
           sliderValueRange={sliderValueRange}
