@@ -121,16 +121,21 @@ export const calcBudgetSliderConfig = (minHardBudget) => {
 }
 
 // Calc min recc budget
-export const calcMinReccBudget = ({ minBudgetInfo, totalCities, totalCountries }) => {
+export const calcMinReccBudget = ({ minBudgetInfo, locationOptions }) => {
   const cityUnit = 0.25
   const countryUnit = 1
-  const baseBudget = calcMinBudget(minBudgetInfo, 'recc')
   const fbMin = calcMinBudget(minBudgetInfo, 'hard')
-  const cityCost = (fbMin * (cityUnit * totalCities))
-  const countryCost = (fbMin * (countryUnit * totalCountries))
-  const minRec = baseBudget + cityCost + countryCost
-  // Round min rec to slider step
-  return minRec
+  const baseBudget = calcMinBudget(minBudgetInfo, 'recc')
+  const locationOptionsArray = Object.values(locationOptions)
+  return locationOptionsArray.reduce((budget, { selected: countrySelected, totalCitiesSelected }) => {
+    if (countrySelected) {
+      budget += (fbMin * countryUnit)
+      return budget
+    }
+    const cappedCities = Math.min(totalCitiesSelected, 4)
+    budget += (fbMin * (cityUnit * cappedCities))
+    return budget
+  }, baseBudget)
 }
 
 export const getSaveDisabledReason = (reason) => {
@@ -249,6 +254,7 @@ export const formatPopularLocations = (currentLocations, popularLocations) => {
     const { audience_pct, name } = country || {}
     obj[country_code] = {
       name: name || country_name,
+      code: country_code,
       audience_pct,
       cities: [cityWithSelectedState],
       selected: false,
@@ -256,6 +262,31 @@ export const formatPopularLocations = (currentLocations, popularLocations) => {
     }
     return obj
   }, locationCountries)
+}
+
+// Update selected states on location object
+export const updateLocationOptionsState = ({ locationOptionsArray, selectedCities, selectedCountries }) => {
+  return locationOptionsArray.reduce((obj, country) => {
+    const { code: countryCode, cities } = country
+    const isCountrySelected = selectedCountries.includes(countryCode)
+    let totalCitiesSelected = 0
+    const citiesWithStates = cities.map((city) => {
+      const { key } = city
+      const isCitySelected = selectedCities.includes(key)
+      if (isCitySelected) totalCitiesSelected += 1
+      return {
+        ...city,
+        selected: isCitySelected,
+      }
+    })
+    obj[countryCode] = {
+      ...country,
+      selected: isCountrySelected,
+      cities: citiesWithStates,
+      totalCitiesSelected,
+    }
+    return obj
+  }, {})
 }
 
 

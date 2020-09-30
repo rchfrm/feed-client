@@ -153,14 +153,18 @@ const TargetingContextProvider = ({ children }) => {
     setLocationOptions(locationOptions)
   }, [])
 
-  // Update min budget based on selected countries and cities
+  // UPDATE MIN BUDGET AND LOCATIONS STATE when selected cities and location options changes
   React.useEffect(() => {
-    const totalCities = selectedCities.length
-    const totalCountries = selectedCountries.length
-    const minReccBudget = targetingHelpers.calcMinReccBudget({ minBudgetInfo, totalCities, totalCountries })
+    // Update locations object with state of selected cities and countries
+    const locationOptionsArray = Object.values(locationOptions)
+    if (!locationOptionsArray.length) return
+    const locationOptionsWithState = targetingHelpers.updateLocationOptionsState({ locationOptionsArray, selectedCities, selectedCountries })
+    setLocationOptions(locationOptionsWithState)
+    // Update min budget based on selected countries and cities
+    const minReccBudget = targetingHelpers.calcMinReccBudget({ minBudgetInfo, locationOptions: locationOptionsWithState })
     setMinReccBudget(minReccBudget)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCountries.length, selectedCities.length, artistId])
+  }, [selectedCountries.length, selectedCities.length])
 
   // CANCEL UPDATE SETTINGS
   const cancelUpdateSettings = React.useCallback(() => {
@@ -189,11 +193,11 @@ const TargetingContextProvider = ({ children }) => {
       return
     }
     setErrorFetchingSettings(null)
-    // Set inital countries  (to trigger min budget)
-    const { cityKeys, countryCodes } = targetingState
-    updateLocationsArrays({ cityKeys, countryCodes })
     // Create locations object
     createLocationOptions(targetingState)
+    // Set inital countries (to trigger min budget)
+    const { cityKeys, countryCodes } = targetingState
+    updateLocationsArrays({ cityKeys, countryCodes })
     // Set hard budget
     const fbMin = targetingHelpers.calcMinBudget(minBudgetInfo, 'hard')
     setMinHardBudget(fbMin)
