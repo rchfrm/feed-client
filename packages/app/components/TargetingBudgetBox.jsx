@@ -5,24 +5,18 @@ import { gsap } from 'gsap'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
 import useCombinedRefs from '@/hooks/useCombinedRefs'
-import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
-
-import Button from '@/elements/Button'
 
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
-
-import { getSaveDisabledReason } from '@/app/helpers/targetingHelpers'
 
 const TargetingBudgetBox = React.forwardRef(({
   isFixed,
   isSummaryVersion,
   containerRef,
   columnRef,
-  saveButtonText,
   className,
 }, ref) => {
   const { width: windowWidth } = useBrowserStore()
@@ -60,15 +54,10 @@ const TargetingBudgetBox = React.forwardRef(({
     currencyOffset,
     minReccBudget,
     minHardBudget,
-    disableSaving,
     targetingState,
     initialTargetingState,
     updateTargetingBudget,
-    saveTargetingSettings,
   } = React.useContext(TargetingContext)
-
-  // GET SAVING FUNCTION
-  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
 
   // TOGGLE CUSTOM BUDGET SETTER
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
@@ -80,7 +69,7 @@ const TargetingBudgetBox = React.forwardRef(({
         isFixed ? 'fixed opacity-0' : 'relative',
         'rounded-dialogue',
         'p-4 sm:p-5 bg-grey-1',
-        isSummaryVersion ? 'pt-14 pb-20 sm:pt-14 sm:pb-20' : null,
+        isSummaryVersion ? 'pt-14 sm:pt-14' : null,
         className,
       ].join(' ')}
     >
@@ -118,23 +107,6 @@ const TargetingBudgetBox = React.forwardRef(({
           showCustomBudget={showCustomBudget}
         />
       </div>
-      {/* SAVE CAMPAIGN BUTTON */}
-      {isSummaryVersion && (
-        <Button
-          version="green"
-          className={[
-            'absolute bottom-0 left-0',
-            'rounded-t-none',
-            'w-full',
-            'border-white border-solid',
-            disableSaving ? 'border-r-0 border-l-0 border-b-0 border-t-2' : 'border-0',
-          ].join(' ')}
-          onClick={() => saveTargeting('budget')}
-          disabled={!!disableSaving}
-        >
-          {disableSaving ? getSaveDisabledReason(disableSaving) : saveButtonText}
-        </Button>
-      )}
     </section>
   )
 })
@@ -146,7 +118,6 @@ TargetingBudgetBox.propTypes = {
   isSummaryVersion: PropTypes.bool,
   containerRef: PropTypes.object,
   columnRef: PropTypes.object,
-  saveButtonText: PropTypes.string,
   className: PropTypes.string,
 }
 
@@ -155,7 +126,6 @@ TargetingBudgetBox.defaultProps = {
   isSummaryVersion: false,
   containerRef: {},
   columnRef: {},
-  saveButtonText: 'Save Targeting Settings',
   className: null,
 }
 
