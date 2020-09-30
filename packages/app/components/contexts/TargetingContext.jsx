@@ -76,7 +76,7 @@ const TargetingContextProvider = ({ children }) => {
   // SIDE PANEL context
   const { sidePanelContent, setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
 
-  // CAMPAIGN SETTINGS VIEW ('summary' | 'customise')
+  // CAMPAIGN SETTINGS VIEW ('summary' | 'settings')
   const [currentView, setCurrentView] = React.useState(initialState.currentView)
   const [isAnimatingView, setIsAnimatingView] = React.useState(initialState.isAnimatingView)
 
@@ -254,7 +254,7 @@ const TargetingContextProvider = ({ children }) => {
   }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset])
   // Set saved to false when going to settings view
   React.useEffect(() => {
-    if (currentView === 'customise') {
+    if (currentView === 'settings') {
       setSettingsSaved(false)
     }
   }, [currentView])

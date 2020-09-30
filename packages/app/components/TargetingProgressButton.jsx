@@ -39,7 +39,7 @@ const TargetingProgressButton = () => {
     if (mobileBudgetOpen) return false
     if (disableSaving === 'location') return false
     if (currentView === 'summary' && selectedCampaignType) return true
-    if (currentView === 'customise') return true
+    if (currentView === 'settings') return true
     return false
   }, [forceHideButton, mobileBudgetOpen, disableSaving, currentView, selectedCampaignType])
 
@@ -84,9 +84,9 @@ const TargetingProgressButton = () => {
       return 'saveRecc'
     }
     if (currentView === 'summary' && selectedCampaignType === 'custom') {
-      return 'goToCustomise'
+      return 'goToSettings'
     }
-    if (currentView === 'customise') {
+    if (currentView === 'settings') {
       return 'goToBudget'
     }
   }, [showButton, currentView, selectedCampaignType])
@@ -97,19 +97,19 @@ const TargetingProgressButton = () => {
   const getTitle = () => {
     if (!showButton) return
     if (buttonType === 'saveRecc') return 'Save'
-    if (buttonType === 'goToCustomise') return 'Next'
+    if (buttonType === 'goToSettings') return 'Next'
     if (buttonType === 'goToBudget') return 'Set Budget'
   }
   const getSubtitle = React.useCallback((previousSubtitle) => {
     if (!showButton) return
-    const isReccButton = buttonType === 'saveRecc' || buttonType === 'goToCustomise'
+    const isReccButton = buttonType === 'saveRecc' || buttonType === 'goToSettings'
     if (isReccButton && !selectedCampaignRecc) {
       return previousSubtitle
     }
     if (buttonType === 'saveRecc' && selectedCampaignRecc) {
       return selectedCampaignRecc.title
     }
-    if (buttonType === 'goToCustomise' && selectedCampaignRecc) {
+    if (buttonType === 'goToSettings' && selectedCampaignRecc) {
       return 'Select your custom settings'
     }
     if (buttonType === 'goToBudget') {
@@ -142,11 +142,11 @@ const TargetingProgressButton = () => {
       return saveSelectedRecc
     }
     // Click goes to custom view
-    if (buttonType === 'goToCustomise') {
+    if (buttonType === 'goToSettings') {
       return () => {
         setForceHideButton(true)
         setSelectedCampaignRecc(null)
-        setCurrentView('customise')
+        setCurrentView('settings')
       }
     }
     // Click goes to set budget

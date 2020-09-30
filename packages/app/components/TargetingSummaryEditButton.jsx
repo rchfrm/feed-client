@@ -19,7 +19,7 @@ const TargetingSummaryEditButton = ({ setCurrentView, className }) => {
       style={{ paddingBottom: '0.3rem' }}
       role="button"
       onClick={() => {
-        setCurrentView('customise')
+        setCurrentView('settings')
       }}
     >
       <PencilIcon className="h-4 mr-1" fill={brandColors.white} />
