@@ -168,7 +168,7 @@ const TargetingProgressButton = () => {
       {animatedDiv.isRendered && (
         <div
           className={[
-            'fixed z-30',
+            'fixed',
             'left-0 right-0',
             'bottom-0',
             'px-3 mb-20',
@@ -177,6 +177,7 @@ const TargetingProgressButton = () => {
             'text-center',
           ].join(' ')}
           ref={animatedDiv.ref}
+          style={{ zIndex: 26 }}
         >
           <button
             className={[
