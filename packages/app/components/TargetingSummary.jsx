@@ -1,5 +1,6 @@
 import React from 'react'
 
+import TargetingNoBudget from '@/app/TargetingNoBudget'
 import TargetingPausedWarning from '@/app/TargetingPausedWarning'
 import TargetingSuccessMessage from '@/app/TargetingSuccessMessage'
 import TargetingSummaryList from '@/app/TargetingSummaryList'
@@ -17,6 +18,14 @@ const TargetingSummary = () => {
     budgetFormatted,
     settingsSaved,
   } = React.useContext(TargetingContext)
+
+  // HANDLE NO BUDGET SET
+  const { budget: initialBudget } = initialTargetingState
+  if (!initialBudget) {
+    return (
+      <TargetingNoBudget />
+    )
+  }
 
   return (
     <div className="md:grid grid-cols-12 gap-10 grid-flow-col-dense">
