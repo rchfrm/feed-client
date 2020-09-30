@@ -185,7 +185,7 @@ export const fetchPopularLocations = async (artistId, useDummyData) => {
   if (useDummyData) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        console.log('Fetched loactions for ', artistId)
+  
         resolve(demoPopuplarLocations)
       }, 400)
     })
@@ -194,21 +194,26 @@ export const fetchPopularLocations = async (artistId, useDummyData) => {
   return { popularLocations, error }
 }
 
-const getMergedLocations = (current, popular, locationKey) => {
-  return current.reduce((arr, location) => {
+const getMergedLocations = (currentRegions, popularRegions, locationKey) => {
+  return currentRegions.reduce((arr, location) => {
     // Is the current location already in the popular location list?
-    const isAlreadyPresent = popular.find((l) => l[locationKey] === location[locationKey])
+    const isAlreadyPresent = popularRegions.length ? popularRegions.find((l) => l[locationKey] === location[locationKey]) : false
     // Yes? Ignore
     if (isAlreadyPresent) return arr
     // No? Add it
     return [...arr, location]
-  }, popular)
+  }, popularRegions)
 }
 
+
+
 // Create locations object (sort cities into countries)
-export const formatPopularLocations = (popularLocations, currentLocations) => {
-  const { cities: popularCities, countries: popularCountries } = popularLocations
+export const formatPopularLocations = (currentLocations, popularLocations) => {
+  const { cities: popularCities = [], countries: popularCountries = [] } = popularLocations
   const { cities: currentCities, countries: currentCountries } = currentLocations
+  // Get array of current cities and country keys/codes
+  const currentCityKeys = currentCities.map(({ key }) => key)
+  const currentCountryCodes = currentCountries.map(({ code }) => code)
   // Merge current cities and popular cities
   const citiesMerged = getMergedLocations(currentCities, popularCities, 'key')
   // Merge current countires and popular countires
@@ -216,31 +221,38 @@ export const formatPopularLocations = (popularLocations, currentLocations) => {
   // Build initial locations OBJ based on available countries
   const locationCountries = countriesMerged.reduce((obj, country) => {
     const { code } = country
+    const isCountrySelected = country ? currentCountryCodes.includes(code) : false
     obj[code] = {
       ...country,
       cities: [],
+      totalCitiesSelected: 0,
+      selected: isCountrySelected,
     }
     return obj
   }, {})
   // Build popular locations
   return citiesMerged.reduce((obj, city) => {
-    const { country_code } = city
+    const { country_code, country_name, key } = city
     const countryObj = obj[country_code]
-    const cityWithSelected = { ...city, selected: false }
+    const isCitySelected = currentCityKeys.includes(key)
+    const cityWithSelectedState = { ...city, selected: isCitySelected }
     // If country already exists, add location
     if (countryObj) {
-      countryObj.cities.push(cityWithSelected)
+      if (cityWithSelectedState.selected) {
+        countryObj.totalCitiesSelected += 1
+      }
+      countryObj.cities.push(cityWithSelectedState)
       return obj
     }
     // Else start building country object
     const country = countriesMerged.find(({ code }) => code === country_code)
-    const { audience_pct, name, key } = country
+    const { audience_pct, name } = country || {}
     obj[country_code] = {
-      name,
-      key,
+      name: name || country_name,
       audience_pct,
-      cities: [cityWithSelected],
+      cities: [cityWithSelectedState],
       selected: false,
+      totalCitiesSelected: 1,
     }
     return obj
   }, locationCountries)

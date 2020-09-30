@@ -46,7 +46,7 @@ const TargetingSettings = () => {
       setErrorFetchingLocations(error)
     } else {
       setErrorFetchingLocations(null)
-      createLocationOptions(popularLocations)
+      createLocationOptions(targetingState, popularLocations)
     }
     setSettingsReady(true)
   }, [])

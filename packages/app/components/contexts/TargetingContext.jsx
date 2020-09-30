@@ -143,19 +143,15 @@ const TargetingContextProvider = ({ children }) => {
     setSelectedCountries(countryCodes)
   }
   // * Create initial location options
-  const createLocationOptions = React.useCallback((popularLocations) => {
+  const createLocationOptions = React.useCallback((targetingState, popularLocations = {}) => {
     const currentLocations = {
       cities: targetingState.cities,
       countries: targetingState.countries,
     }
     // Create object of location options grouped by country
-    const locationOptions = targetingHelpers.formatPopularLocations(popularLocations, currentLocations)
+    const locationOptions = targetingHelpers.formatPopularLocations(currentLocations, popularLocations)
     setLocationOptions(locationOptions)
-    // Create initial state of location checkboxes
-    const { cityKeys, countryCodes } = targetingState
-    updateLocationsArrays({ cityKeys, countryCodes })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [targetingState.cities, targetingState.countries])
+  }, [])
 
   // Update min budget based on selected countries and cities
   React.useEffect(() => {
@@ -196,13 +192,15 @@ const TargetingContextProvider = ({ children }) => {
     // Set inital countries  (to trigger min budget)
     const { cityKeys, countryCodes } = targetingState
     updateLocationsArrays({ cityKeys, countryCodes })
+    // Create locations object
+    createLocationOptions(targetingState)
     // Set hard budget
     const fbMin = targetingHelpers.calcMinBudget(minBudgetInfo, 'hard')
     setMinHardBudget(fbMin)
     // Set targeting state
     setInitialTargetingState(targetingState)
     setTargetingState(targetingState)
-  }, [minBudgetInfo])
+  }, [minBudgetInfo, createLocationOptions])
 
   // DISABLE SAVING (eg if budget is too small)
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
