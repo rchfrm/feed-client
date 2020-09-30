@@ -9,12 +9,12 @@ import { getSaveDisabledReason } from '@/app/helpers/targetingHelpers'
 
 const TargetingBudgetSaveButton = ({
   targetingState,
-  saveCampaignSettings,
+  saveTargetingSettings,
   disableSaving,
   className,
 }) => {
   // GET SAVING FUNCTION
-  const saveTargeting = useSaveTargeting({ targetingState, saveCampaignSettings })
+  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
   return (
     <Button
       version="green"
@@ -29,7 +29,7 @@ const TargetingBudgetSaveButton = ({
 
 TargetingBudgetSaveButton.propTypes = {
   targetingState: PropTypes.object.isRequired,
-  saveCampaignSettings: PropTypes.func.isRequired,
+  saveTargetingSettings: PropTypes.func.isRequired,
   disableSaving: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }

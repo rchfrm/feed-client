@@ -15,7 +15,7 @@ import { getSaveDisabledReason } from '@/app/helpers/targetingHelpers'
 const TargetingSettingsSaveContainer = ({
   disableSaving,
   targetingState,
-  saveCampaignSettings,
+  saveTargetingSettings,
   cancelUpdateSettings,
   budgetRef,
 }) => {
@@ -34,7 +34,7 @@ const TargetingSettingsSaveContainer = ({
     gsap.set(containerEl, positionProps)
   }, [budgetRef, windowWidth])
   // GET SAVE FUNCTION
-  const saveTargeting = useSaveTargeting({ targetingState, saveCampaignSettings })
+  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
   return (
     <div
       className={[
@@ -61,7 +61,7 @@ const TargetingSettingsSaveContainer = ({
         >
           {disableSaving ? (
             getSaveDisabledReason(disableSaving)
-          ) : 'Save Campaign Settings'}
+          ) : 'Save Targeting Settings'}
         </Button>
       </div>
       {/* BACK BUTTON */}
@@ -81,7 +81,7 @@ const TargetingSettingsSaveContainer = ({
 TargetingSettingsSaveContainer.propTypes = {
   disableSaving: PropTypes.string,
   targetingState: PropTypes.object.isRequired,
-  saveCampaignSettings: PropTypes.func.isRequired,
+  saveTargetingSettings: PropTypes.func.isRequired,
   cancelUpdateSettings: PropTypes.func.isRequired,
   budgetRef: PropTypes.object.isRequired,
 }

@@ -33,7 +33,7 @@ const TargetingSettings = () => {
     settingsReady,
     setSettingsReady,
     disableSaving,
-    saveCampaignSettings,
+    saveTargetingSettings,
     cancelUpdateSettings,
   } = React.useContext(TargetingContext)
 
@@ -137,7 +137,7 @@ const TargetingSettings = () => {
           <TargetingSettingsSaveContainer
             disableSaving={disableSaving}
             targetingState={targetingState}
-            saveCampaignSettings={saveCampaignSettings}
+            saveTargetingSettings={saveTargetingSettings}
             cancelUpdateSettings={cancelUpdateSettings}
             budgetRef={budgetRef}
           />

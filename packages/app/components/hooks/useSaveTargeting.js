@@ -7,7 +7,7 @@ import copy from '@/app/copy/targetingPageCopy'
 const getWarningButtons = ({
   warningType,
   isPaused,
-  saveCampaignSettings,
+  saveTargetingSettings,
   togglePauseCampaign,
   saveState,
   closeAlert,
@@ -31,13 +31,13 @@ const getWarningButtons = ({
       {
         text: 'Save and Resume Spending',
         onClick: () => {
-          saveCampaignSettings({ ...saveState, paused: false })
+          saveTargetingSettings({ ...saveState, paused: false })
         },
         color: 'red',
       },
       {
         text: 'Save and Keep Paused',
-        onClick: () => saveCampaignSettings(saveState),
+        onClick: () => saveTargetingSettings(saveState),
         color: 'green',
       },
     ]
@@ -45,7 +45,7 @@ const getWarningButtons = ({
   return [
     {
       text: 'Save Settings',
-      onClick: () => saveCampaignSettings(saveState),
+      onClick: () => saveTargetingSettings(saveState),
       color: 'green',
     },
     {
@@ -58,7 +58,7 @@ const getWarningButtons = ({
 
 const useSaveTargeting = ({
   targetingState = {},
-  saveCampaignSettings,
+  saveTargetingSettings,
   togglePauseCampaign = null,
   spendingPaused,
 }) => {
@@ -85,7 +85,7 @@ const useSaveTargeting = ({
       const alertCopy = copy.saveWhenPausedCopy
       const buttons = getWarningButtons({
         warningType: 'saveWhenPaused',
-        saveCampaignSettings,
+        saveTargetingSettings,
         saveState,
       })
       showAlert({ copy: alertCopy, buttons })
@@ -96,7 +96,7 @@ const useSaveTargeting = ({
       const alertCopy = copy.saveSettingsConfirmation
       const buttons = getWarningButtons({
         warningType: 'saveSettings',
-        saveCampaignSettings,
+        saveTargetingSettings,
         saveState,
         closeAlert,
       })
@@ -104,8 +104,8 @@ const useSaveTargeting = ({
       return
     }
     // Basic save (eg when just changing budget)
-    saveCampaignSettings(saveState)
-  }, [saveCampaignSettings, togglePauseCampaign, targetingState, showAlert, closeAlert, spendingPaused])
+    saveTargetingSettings(saveState)
+  }, [saveTargetingSettings, togglePauseCampaign, targetingState, showAlert, closeAlert, spendingPaused])
 
   return saveTargeting
 }

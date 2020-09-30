@@ -20,7 +20,7 @@ const TargetingProgressButton = () => {
     minReccBudget,
     currency,
     currencyOffset,
-    saveCampaignSettings,
+    saveTargetingSettings,
     setCurrentView,
     isAnimatingView,
     toggleMobileBudget,
@@ -128,7 +128,7 @@ const TargetingProgressButton = () => {
 
 
   // SAVING RECCOMENDED CAMPAIGN
-  const saveTargeting = useSaveTargeting({ targetingState, saveCampaignSettings })
+  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
   const saveSelectedRecc = React.useCallback(() => {
     setSelectedCampaignRecc(null)
     saveTargeting('settings', selectedCampaignRecc)

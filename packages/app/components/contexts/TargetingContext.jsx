@@ -18,7 +18,7 @@ const initialState = {
   setTargetingState: () => {},
   initialTargetingState: {},
   setInitialTargetingState: {},
-  saveCampaignSettings: () => {},
+  saveTargetingSettings: () => {},
   togglePauseCampaign: () => {},
   cancelUpdateSettings: () => {},
   saving: false,
@@ -224,7 +224,7 @@ const TargetingContextProvider = ({ children }) => {
   const [errorUpdatingSettings, setErrorUpdatingSettings] = React.useState(null)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const [saving, setSaving] = React.useState(false)
-  const saveCampaignSettings = React.useCallback(async (settings) => {
+  const saveTargetingSettings = React.useCallback(async (settings) => {
     // Close side panel
     toggleSidePanel(false)
     // Start saving
@@ -266,8 +266,8 @@ const TargetingContextProvider = ({ children }) => {
     const newSettings = produce(targetingState, draftState => {
       draftState.paused = newPausedState
     })
-    saveCampaignSettings(newSettings)
-  }, [targetingState, saveCampaignSettings])
+    saveTargetingSettings(newSettings)
+  }, [targetingState, saveTargetingSettings])
 
 
   // RESET EVERYTHING WHEN ARTIST ID CHANGES
@@ -304,7 +304,7 @@ const TargetingContextProvider = ({ children }) => {
     const button = state ? (
       <TargetingBudgetSaveButton
         targetingState={targetingState}
-        saveCampaignSettings={saveCampaignSettings}
+        saveTargetingSettings={saveTargetingSettings}
         disableSaving={!!disableSaving}
       />
     ) : null
@@ -341,7 +341,7 @@ const TargetingContextProvider = ({ children }) => {
         setTargetingState,
         initialTargetingState,
         setInitialTargetingState,
-        saveCampaignSettings,
+        saveTargetingSettings,
         togglePauseCampaign,
         cancelUpdateSettings,
         saving,

@@ -64,11 +64,11 @@ const TargetingBudgetBox = React.forwardRef(({
     targetingState,
     initialTargetingState,
     updateTargetingBudget,
-    saveCampaignSettings,
+    saveTargetingSettings,
   } = React.useContext(TargetingContext)
 
   // GET SAVING FUNCTION
-  const saveTargeting = useSaveTargeting({ targetingState, saveCampaignSettings })
+  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
 
   // TOGGLE CUSTOM BUDGET SETTER
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
@@ -155,7 +155,7 @@ TargetingBudgetBox.defaultProps = {
   isSummaryVersion: false,
   containerRef: {},
   columnRef: {},
-  saveButtonText: 'Save Campaign Settings',
+  saveButtonText: 'Save Targeting Settings',
   className: null,
 }
 
