@@ -12,6 +12,7 @@ import Button from '@/elements/Button'
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingPickerLocations from '@/app/TargetingPickerLocations'
+import TargetingPickerHelper from '@/app/TargetingPickerHelper'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 import TargetingSettingsSaveContainer from '@/app/TargetingSettingsSaveContainer'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
@@ -102,11 +103,14 @@ const TargetingSettings = () => {
             <Error error={errorFetchingLocations} />
           </div>
         ) : (
-          <TargetingPickerLocations
-            initialCityKeys={initialTargetingState.cityKeys}
-            initialCountryCodes={initialTargetingState.countryCodes}
-            className="mb-3"
-          />
+          <div>
+            <TargetingPickerLocations
+              initialCityKeys={initialTargetingState.cityKeys}
+              initialCountryCodes={initialTargetingState.countryCodes}
+              className="mb-3"
+            />
+            <TargetingPickerHelper />
+          </div>
         )}
         {/* BACK BUTTON (for mobile) */}
         {!isDesktopLayout && (
