@@ -41,7 +41,7 @@ const TargetingSettings = () => {
   const { artistId } = React.useContext(ArtistContext)
   useAsyncEffect(async (isMounted) => {
     const { popularLocations, error } = await fetchPopularLocations(artistId)
-    if (!isMounted) return
+    if (!isMounted()) return
     if (error) {
       setErrorFetchingLocations(error)
     } else {
