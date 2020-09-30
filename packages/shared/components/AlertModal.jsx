@@ -35,7 +35,7 @@ const AlertModal = () => {
   const animatePanel = (state, target) => {
     const opacity = state ? 1 : 0
     const ease = Power2.easeOut
-    const duration = state ? 0.4 : 0.3
+    const duration = state ? 0.4 : 0.1
     return gsap.to(target, { opacity, duration, ease })
   }
   // Run all animations
