@@ -1,7 +1,6 @@
 import React from 'react'
 
 import ThePageButtonsIcon from '@/app/ThePageButtonsIcon'
-import ThePageButtonsNotification from '@/app/ThePageButtonsBadge'
 import ActiveLink from '@/elements/ActiveLink'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -44,8 +43,6 @@ const ThePageButtons = () => {
   } = React.useContext(ArtistContext)
   // Don't show buttons if no logged in
   if (!isLoggedIn) return null
-
-  console.log('hasBudget', hasBudget)
 
   return (
     <div
