@@ -128,15 +128,19 @@ export const calcMinReccBudget = ({ minBudgetInfo, locationOptions }) => {
   const fbMin = calcMinBudget(minBudgetInfo, 'hard')
   const baseBudget = calcMinBudget(minBudgetInfo, 'recc')
   const locationOptionsArray = Object.values(locationOptions)
-  return locationOptionsArray.reduce((budget, { selected: countrySelected, totalCitiesSelected }) => {
+  const minRecc = locationOptionsArray.reduce((budget, { selected: countrySelected, totalCitiesSelected }, index) => {
     if (countrySelected) {
-      budget += (fbMin * countryUnit)
+      // Ignore the first country
+      if (index !== 0) {
+        budget += (fbMin * countryUnit)
+      }
       return budget
     }
     const cappedCities = Math.min(totalCitiesSelected, 4)
     budget += (fbMin * (cityUnit * cappedCities))
     return budget
   }, baseBudget)
+  return minRecc
 }
 
 export const getSaveDisabledReason = (reason) => {
