@@ -197,3 +197,33 @@ export const sanitiseArtistAccountUrls = (artistAccounts) => {
     return draft
   })
 }
+
+
+export const musicianCategories = [
+  'Musician',
+  'Musician/Band',
+  'Band',
+  'Orchestra',
+  'Producer',
+  'Artist',
+  'Record label',
+  'Music',
+  'Album',
+  'Choir',
+  'Music award',
+  'Music chart',
+  'Music video',
+  'Musical genre',
+  'Playlist',
+  'Podcast',
+  'Record label',
+  'Song',
+  'Symphony',
+  'Music production studio',
+  'Music school',
+]
+
+
+export const testIfMusician = (artistCategories = []) => {
+  return artistCategories.some(({ name }) => musicianCategories.includes(name))
+}
