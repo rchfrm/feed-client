@@ -11,14 +11,15 @@ const ButtonHelp = React.forwardRef(({
   text,
   className,
 }, ref) => {
-  const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
+  const { setSidePanelContent, setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
   const SidePanelContent = React.useMemo(() => {
     return typeof content === 'string' ? <MarkdownText markdown={content} /> : content
   }, [content])
   const toggleHelp = React.useCallback(() => {
     setSidePanelContent(SidePanelContent)
+    setSidePanelButton(null)
     toggleSidePanel(true)
-  }, [setSidePanelContent, toggleSidePanel, SidePanelContent])
+  }, [setSidePanelContent, setSidePanelButton, toggleSidePanel, SidePanelContent])
 
   return (
     <button
