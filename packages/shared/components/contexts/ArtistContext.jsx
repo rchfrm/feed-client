@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
@@ -28,6 +29,7 @@ const initialArtistState = {
   currency: '',
   users: {},
   min_daily_budget_info: {},
+  isMusician: false,
 }
 
 const ArtistContext = React.createContext(initialArtistState)
@@ -120,10 +122,17 @@ function ArtistProvider({ children, disable }) {
 
     if (!artist) return
 
+    // Add musician status
+    const { category_list: artistCategories } = artist
+    const isMusician = artistHelpers.testIfMusician(artistCategories)
+    const artistWithCategoryStatus = produce(artist, artistDraft => {
+      artistDraft.isMusician = isMusician
+    })
+
     setArtist({
       type: 'set-artist',
       payload: {
-        artist,
+        artist: artistWithCategoryStatus,
       },
     })
     setArtistLoading(false)
@@ -273,7 +282,7 @@ function ArtistProvider({ children, disable }) {
     if (!artistId) return
     // Update local storage
     utils.setLocalStorage('artistId', artistId)
-  }, [artistId, artistCurrency])
+  }, [artistId])
 
   const value = {
     artist,
