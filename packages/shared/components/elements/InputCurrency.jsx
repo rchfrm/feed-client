@@ -9,8 +9,6 @@ import NumberFormat from 'react-number-format'
 
 import * as utils from '@/helpers/utils'
 
-import TooltipButton from '@/elements/TooltipButton'
-
 const InputCurrency = ({
   handleChange,
   currency,
@@ -67,10 +65,10 @@ const InputCurrency = ({
       className={className}
       error={error}
       success={success}
-      autoFocus={autoFocus}
       disabled={disabled}
     >
       <NumberFormat
+        getInputRef={inputElement}
         prefix={currencySymbol}
         thousandSeparator
         onValueChange={({ floatValue }) => {

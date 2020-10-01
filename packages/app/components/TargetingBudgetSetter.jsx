@@ -58,6 +58,7 @@ const TargetingBudgetSetter = ({
                 label={mobileVersion ? 'Custom Budget' : null}
                 className={['pt-3 mb-0 w-full'].join(' ')}
                 currency={currency}
+                autoFocus
               />
             ) : (
               <TargetingBudgetSlider
