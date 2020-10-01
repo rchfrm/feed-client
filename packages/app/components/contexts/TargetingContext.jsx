@@ -100,8 +100,8 @@ const TargetingContextProvider = ({ children }) => {
   }, [selectedCampaignRecc, setSelectedCampaignType])
 
   // MIN BUDGET
-  const [minHardBudget, setMinHardBudget] = React.useState(0)
-  const [minReccBudget, setMinReccBudget] = React.useState(2)
+  const [minHardBudget, setMinHardBudget] = React.useState(initialState.minHardBudget)
+  const [minReccBudget, setMinReccBudget] = React.useState(initialState.minRecBudget)
 
   // FORMATTED BUDGET
   const [budgetFormatted, setBudgetFormatted] = React.useState(initialState.budgetFormatted)
@@ -155,6 +155,7 @@ const TargetingContextProvider = ({ children }) => {
     // Create object of location options grouped by country
     const locationOptions = targetingHelpers.formatPopularLocations(currentLocations, popularLocations)
     setLocationOptions(locationOptions)
+    return locationOptions
   }, [])
 
   // UPDATE MIN BUDGET AND LOCATIONS STATE when selected cities and location options changes
@@ -198,13 +199,16 @@ const TargetingContextProvider = ({ children }) => {
     }
     setErrorFetchingSettings(null)
     // Create locations object
-    createLocationOptions(targetingState)
+    const locationOptions = createLocationOptions(targetingState)
     // Set inital countries (to trigger min budget)
     const { cityKeys, countryCodes } = targetingState
     updateLocationsArrays({ cityKeys, countryCodes })
     // Set hard budget
     const fbMin = targetingHelpers.calcMinBudget(minBudgetInfo, 'hard')
     setMinHardBudget(fbMin)
+    // Set min recc budget
+    const minReccBudget = targetingHelpers.calcMinReccBudget({ minBudgetInfo, locationOptions })
+    setMinReccBudget(minReccBudget)
     // Set targeting state
     setInitialTargetingState(targetingState)
     setTargetingState(targetingState)
