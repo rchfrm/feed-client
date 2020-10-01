@@ -5,25 +5,31 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/targetingPageCopy'
 
-const TargetingLocationsSentence = ({ audienceType, hasSpotify, className }) => {
+import * as artistHelpers from '@/app/helpers/artistHelpers'
+
+const TargetingLocationsSentence = ({
+  artistCategories,
+  hasSpotify,
+  className,
+}) => {
+  const isMusician = artistHelpers.testIfMusician(artistCategories)
   return (
     <div className={[className].join(' ')}>
-      <MarkdownText markdown={copy.locationsDescription(audienceType, hasSpotify)} />
-      {audienceType === 'music' && !hasSpotify && (
-        <MarkdownText className="text-red" markdown={copy.locationsWarning} />
+      <MarkdownText markdown={copy.locationsDescription(isMusician, hasSpotify)} />
+      {isMusician && !hasSpotify && (
+        <MarkdownText className="text-red" markdown={copy.locationsSpotifyWarning} />
       )}
     </div>
   )
 }
 
 TargetingLocationsSentence.propTypes = {
-  audienceType: PropTypes.string,
+  artistCategories: PropTypes.array.isRequired,
   hasSpotify: PropTypes.bool,
   className: PropTypes.string,
 }
 
 TargetingLocationsSentence.defaultProps = {
-  audienceType: 'shop',
   hasSpotify: false,
   className: null,
 }
