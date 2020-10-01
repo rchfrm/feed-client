@@ -85,6 +85,7 @@ function ArtistProvider({ children, disable }) {
   const [artistId, setArtistId] = React.useState('')
   const [artistCurrency, setArtistCurrency] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
+  const [hasBudget, setHasBudget] = React.useState(false)
 
   const setNoArtist = () => {
     if (disable) return
@@ -130,6 +131,9 @@ function ArtistProvider({ children, disable }) {
       artistDraft.isMusician = isMusician
       artistDraft.spotifyConnected = spotifyConnected
     })
+
+    // Set hasBudget state
+    setHasBudget(!!artist.daily_budget)
 
     setArtist({
       type: 'set-artist',
@@ -301,6 +305,7 @@ function ArtistProvider({ children, disable }) {
     addArtistUrl,
     storeArtist,
     updateBudget,
+    hasBudget,
   }
 
   return (
