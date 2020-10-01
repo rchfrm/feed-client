@@ -16,7 +16,7 @@ const TargetingNoBudget = ({ setCurrentView }) => {
           version="green"
           className="text-xl"
         >
-          Start promoting my posts
+          Get Started
         </Button>
       </div>
     </div>
