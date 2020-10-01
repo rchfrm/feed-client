@@ -56,7 +56,10 @@ const TargetingBudgetSetter = ({
                 placeholder={inputPlaceholder}
                 name="Budget"
                 label={mobileVersion ? 'Custom Budget' : null}
-                className={['pt-3 mb-0 w-full'].join(' ')}
+                className={[
+                  'mb-0 w-full',
+                  mobileVersion ? null : 'pt-5',
+                ].join(' ')}
                 currency={currency}
                 autoFocus
               />

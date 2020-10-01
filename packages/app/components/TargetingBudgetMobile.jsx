@@ -25,6 +25,15 @@ const TargetingBudgetMobile = ({
         <h3 className="h2">Set a Budget</h3>
       </header>
       <div className="absolute--center-y left-0 w-full px-10" style={{ bottom: '50%' }}>
+        <div className="flex justify-end">
+          <TargetingCustomBudgetButton
+            className="mb-3"
+            showCustomBudget={showCustomBudget}
+            setShowCustomBudget={setShowCustomBudget}
+            initialBudget={initialBudget}
+            minHardBudget={minHardBudget}
+          />
+        </div>
         <TargetingBudgetSetter
           currency={currency}
           currencyOffset={currencyOffset}
@@ -35,13 +44,6 @@ const TargetingBudgetMobile = ({
           updateTargetingBudget={updateTargetingBudget}
           showCustomBudget={showCustomBudget}
           mobileVersion
-        />
-        <TargetingCustomBudgetButton
-          className="-ml-2 mt-5 text-right"
-          showCustomBudget={showCustomBudget}
-          setShowCustomBudget={setShowCustomBudget}
-          initialBudget={initialBudget}
-          minHardBudget={minHardBudget}
         />
       </div>
     </div>

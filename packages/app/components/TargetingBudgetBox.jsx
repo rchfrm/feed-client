@@ -84,8 +84,7 @@ const TargetingBudgetBox = React.forwardRef(({
       <TargetingCustomBudgetButton
         className={[
           'absolute top-0 right-0',
-          'mr-5 sm:mr-6 mt-1',
-          isSummaryVersion ? null : 'mt-2',
+          'mr-6 sm:mr-7 mt-5',
         ].join(' ')}
         style={{ zIndex: 2 }}
         showCustomBudget={showCustomBudget}

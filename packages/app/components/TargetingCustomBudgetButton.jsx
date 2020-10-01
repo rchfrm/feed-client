@@ -9,7 +9,6 @@ const TargetingCustomBudgetButton = ({
   initialBudget,
   minHardBudget,
   className,
-  style,
 }) => {
   // Set initial state
   const { sliderValueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget, initialBudget)
@@ -19,21 +18,26 @@ const TargetingCustomBudgetButton = ({
   // eslint-disable-next-line
   }, [])
 
+
+
   return (
-    <p
-      className={className}
-      style={style}
+    <a
+      className={[
+        'flex items-center',
+        'no-underline',
+        'px-3 py-1',
+        'bg-green text-white',
+        'rounded-full',
+        className,
+      ].join(' ')}
+      style={{ paddingBottom: '0.3rem' }}
+      role="button"
+      onClick={() => setShowCustomBudget(!showCustomBudget)}
     >
-      <a
-        role="button"
-        onClick={() => setShowCustomBudget(!showCustomBudget)}
-        className="inline-block pt-3 pl-3"
-      >
-        <em>
-          {showCustomBudget ? 'Back' : 'Custom budget'}
-        </em>
-      </a>
-    </p>
+      <strong>
+        {showCustomBudget ? 'Back' : 'Custom'}
+      </strong>
+    </a>
   )
 }
 
@@ -43,12 +47,10 @@ TargetingCustomBudgetButton.propTypes = {
   initialBudget: PropTypes.number.isRequired,
   minHardBudget: PropTypes.number.isRequired,
   className: PropTypes.string,
-  style: PropTypes.object,
 }
 
 TargetingCustomBudgetButton.defaultProps = {
   className: null,
-  style: null,
 }
 
 
