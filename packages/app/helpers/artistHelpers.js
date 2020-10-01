@@ -223,7 +223,12 @@ export const musicianCategories = [
   'Music school',
 ]
 
-
+/**
+ * Receives array of artist category objects and
+ * returns bool if any category makes this account a musician
+ * @param {array} artistCategories
+ * @returns {boolean}
+ */
 export const testIfMusician = (artistCategories = []) => {
   return artistCategories.some(({ name }) => musicianCategories.includes(name))
 }
