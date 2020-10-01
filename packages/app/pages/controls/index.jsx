@@ -5,7 +5,7 @@ import TargetingContent from '@/app/TargetingContent'
 import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
 
 const headerConfig = {
-  text: 'campaign settings',
+  text: 'targeting controls',
 }
 
 const Page = () => (
