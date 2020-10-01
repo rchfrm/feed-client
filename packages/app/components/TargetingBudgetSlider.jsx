@@ -48,7 +48,9 @@ const TargetingBudgetSlider = ({
   }, [mobileVersion])
 
   // DEFINE START VALUE
-  const startValue = React.useRef(Math.round(initialBudget))
+  // If budget is not set, use min recc, else round budget to nearest whole number
+  const startingBudget = !initialBudget ? minReccBudget : Math.round(initialBudget)
+  const startValue = React.useRef(startingBudget)
   const initialMarkerPosition = React.useRef(null)
 
   // DEFINE RANGE
