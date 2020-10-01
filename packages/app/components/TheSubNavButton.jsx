@@ -18,6 +18,7 @@ const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
     const { facebook_page_id } = artist
     if (!artistId || !facebook_page_id) return
     setFbPageId(facebook_page_id)
+  // eslint-disable-next-line
   }, [artistId])
 
   const runToggle = () => {
