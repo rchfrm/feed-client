@@ -122,17 +122,19 @@ function ArtistProvider({ children, disable }) {
 
     if (!artist) return
 
-    // Add musician status
+    // Add musician and spotify connection status
     const { category_list: artistCategories } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
-    const artistWithCategoryStatus = produce(artist, artistDraft => {
+    const spotifyConnected = artistHelpers.testIfSpotifyConnected(artist.spotify_url)
+    const artistUpdated = produce(artist, artistDraft => {
       artistDraft.isMusician = isMusician
+      artistDraft.spotifyConnected = spotifyConnected
     })
 
     setArtist({
       type: 'set-artist',
       payload: {
-        artist: artistWithCategoryStatus,
+        artist: artistUpdated,
       },
     })
     setArtistLoading(false)

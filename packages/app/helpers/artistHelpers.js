@@ -232,3 +232,12 @@ export const musicianCategories = [
 export const testIfMusician = (artistCategories = []) => {
   return artistCategories.some(({ name }) => musicianCategories.includes(name))
 }
+
+/**
+ * Test whether this account has spotify connected
+ * @param {string} spotifyUrl
+ * @returns {boolean}
+ */
+export const testIfSpotifyConnected = (spotifyUrl) => {
+  return spotifyUrl && spotifyUrl.includes('/artist/')
+}
