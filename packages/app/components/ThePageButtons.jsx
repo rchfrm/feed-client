@@ -39,16 +39,9 @@ const ThePageButtons = () => {
   const isLoggedIn = useLoggedInTest()
   // Get currency from artist
   const {
-    artistCurrency,
-    artistId,
     artistLoading,
     hasBudget,
   } = React.useContext(ArtistContext)
-  const [currency, setCurrency] = React.useState('')
-  React.useEffect(() => {
-    if (!artistId) return
-    setCurrency(artistCurrency || '')
-  }, [artistId, artistCurrency])
   // Don't show buttons if no logged in
   if (!isLoggedIn) return null
 
@@ -69,7 +62,6 @@ const ThePageButtons = () => {
                   <ThePageButtonsIcon
                     icon={icon}
                     className={styles.linkIcon}
-                    currency={currency}
                     showBadge={showBadge}
                   />
                   <p className={styles.linkTitle}>{ title }</p>
