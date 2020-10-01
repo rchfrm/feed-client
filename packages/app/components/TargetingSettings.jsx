@@ -8,6 +8,8 @@ import useAsyncEffect from 'use-async-effect'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 import Button from '@/elements/Button'
+import ButtonHelp from '@/elements/ButtonHelp'
+
 
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
@@ -21,6 +23,8 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 
 import { fetchPopularLocations } from '@/app/helpers/targetingHelpers'
+
+import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingSettings = () => {
   // Fetch from targeting context
@@ -75,6 +79,10 @@ const TargetingSettings = () => {
           ref={columnRef}
           className="absolute top-0 left-0 h-10 w-full invisible bg-red pointer-events-none"
         />
+        {/* HELP */}
+        <div className="mb-16">
+          <ButtonHelp content={copy.helpText} text="Need help with this page?" />
+        </div>
         {/* AGE */}
         <TargetingAgeSlider
           className="pb-20"
