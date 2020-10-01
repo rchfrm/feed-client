@@ -63,8 +63,8 @@ button {
 .button--black,
 .button--green,
 .button--red,
+.button--yellow,
 .button--success {
-  background-color: var(--black);
   color: var(--white);
   padding: 0 1.3em;
   height: var(--button-height);
@@ -81,6 +81,9 @@ button {
   width: 100%;
 }
 
+.button--black {
+    background-color: var(--black);
+}
 
 .button--green,
 .button--success {
@@ -89,6 +92,11 @@ button {
 
 .button--red {
   background-color: var(--error-color);
+}
+
+.button--yellow {
+  color: var(--black);
+  background-color: var(--color-sc);
 }
 
 
