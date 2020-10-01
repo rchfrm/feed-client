@@ -12,7 +12,6 @@ import { formatCurrency } from '@/helpers/utils'
 const TargetingBudgetSlider = ({
   sliderStep,
   sliderValueRange,
-  budget,
   initialBudget,
   minReccBudget,
   currency,
@@ -114,7 +113,6 @@ const TargetingBudgetSlider = ({
 TargetingBudgetSlider.propTypes = {
   sliderStep: PropTypes.number.isRequired,
   sliderValueRange: PropTypes.array.isRequired,
-  budget: PropTypes.number,
   initialBudget: PropTypes.number,
   minReccBudget: PropTypes.number,
   currency: PropTypes.string,
@@ -124,7 +122,6 @@ TargetingBudgetSlider.propTypes = {
 }
 
 TargetingBudgetSlider.defaultProps = {
-  budget: 0,
   initialBudget: 0,
   minReccBudget: 0,
   currency: null,

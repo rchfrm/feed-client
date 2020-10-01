@@ -69,7 +69,6 @@ const TargetingBudgetSetter = ({
                 sliderValueRange={sliderValueRange}
                 mobileVersion={mobileVersion}
                 isSummaryVersion={isSummaryVersion}
-                budget={budget}
                 minReccBudget={minReccBudget}
                 initialBudget={initialBudget}
                 currency={currency}
