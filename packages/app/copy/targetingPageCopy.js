@@ -25,7 +25,11 @@ Are you sure you want to continue?`,
   locationsDescription: (audienceType, hasSpotify) => `Your audience shown includes ${getListOfSources(audienceType, hasSpotify)}.`,
   locationsWarning: `To include Spotify listener data in your audience, add a link to your Spotify artist profile in Post Settings.`,
 
-  locationsHelperText: `then we can explain the 1% rule and that we are working on custom locations, but if people can email to let us know what is missing that would be helpful`,
+  locationsHelperText: `Currently we only show you countries and cities with more than 1% of your combined Instagram, Facebook & Spotify audience (if applicable). This is so we can recommend the best targeting locations based on your audience.
+
+If you can't see a city but the country is shown, try targeting the country instead.
+  
+We are working on adding custom locations, but it would be really helpful if you could email us to let us know what you'd like to see here: [team@tryfeed.co](mailto:team@tryfeed.co)`,
 
   successMessage: `Your settings have been saved.`,
 
