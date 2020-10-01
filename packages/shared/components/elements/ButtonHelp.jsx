@@ -9,6 +9,7 @@ import MarkdownText from './MarkdownText'
 const ButtonHelp = React.forwardRef(({
   content,
   text,
+  reverseText,
   className,
 }, ref) => {
   const { setSidePanelContent, setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
@@ -27,6 +28,7 @@ const ButtonHelp = React.forwardRef(({
       className={[
         'relative flex items-center',
         'h-12',
+        reverseText ? 'flex-row-reverse' : null,
         className,
       ].join(' ')}
       onClick={toggleHelp}
@@ -44,7 +46,7 @@ const ButtonHelp = React.forwardRef(({
         <LightbulbIcon className="h-6 w-auto mx-auto" />
       </div>
       {text && (
-        <strong className="ml-5">
+        <strong className={reverseText ? 'mr-5' : 'ml-5'}>
           {text}
         </strong>
       )}
@@ -58,11 +60,13 @@ ButtonHelp.propTypes = {
     PropTypes.element,
   ]).isRequired,
   text: PropTypes.string,
+  reverseText: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ButtonHelp.defaultProps = {
   text: '',
+  reverseText: false,
   className: null,
 }
 
