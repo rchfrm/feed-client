@@ -8,9 +8,8 @@ import useAsyncEffect from 'use-async-effect'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 import Button from '@/elements/Button'
-import ButtonHelp from '@/elements/ButtonHelp'
 
-
+import TargetingSettingsHelp from '@/app/TargetingSettingsHelp'
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingPickerLocations from '@/app/TargetingPickerLocations'
@@ -23,8 +22,6 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 
 import { fetchPopularLocations } from '@/app/helpers/targetingHelpers'
-
-import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingSettings = () => {
   // Fetch from targeting context
@@ -73,16 +70,16 @@ const TargetingSettings = () => {
 
   return (
     <div ref={containerRef}>
-      <div className="relative md:w-1/2">
+      <div className="relative md:w-1/2 pt-5 xxs:pt-0">
         {/* Anchor for resizing desktop budget */}
         <div
           ref={columnRef}
           className="absolute top-0 left-0 h-10 w-full invisible bg-red pointer-events-none"
         />
-        {/* HELP */}
-        <div className="mb-16">
-          <ButtonHelp content={copy.helpText} text="Need help with this page?" />
-        </div>
+        {/* HELP (mobile) */}
+        {!isDesktopLayout && (
+          <TargetingSettingsHelp />
+        )}
         {/* AGE */}
         <TargetingAgeSlider
           className="pb-20"
@@ -148,7 +145,9 @@ const TargetingSettings = () => {
             saveTargetingSettings={saveTargetingSettings}
             cancelUpdateSettings={cancelUpdateSettings}
             budgetRef={budgetRef}
-          />
+          >
+            <TargetingSettingsHelp desktopVersion />
+          </TargetingSettingsSaveContainer>
         </>
       )}
     </div>

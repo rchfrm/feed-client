@@ -18,6 +18,7 @@ const TargetingSettingsSaveContainer = ({
   saveTargetingSettings,
   cancelUpdateSettings,
   budgetRef,
+  children,
 }) => {
   const { width: windowWidth } = useBrowserStore()
   const containerRef = React.useRef(null)
@@ -35,6 +36,7 @@ const TargetingSettingsSaveContainer = ({
     const positionProps = {
       width: budgetWidth,
       top: budgetTop + budgetHeight,
+      bottom: '4rem',
       left: budgetLeft,
       opacity: 1,
     }
@@ -81,6 +83,8 @@ const TargetingSettingsSaveContainer = ({
           Cancel
         </Button>
       </div>
+      {/* EXTRA CONTENT */}
+      {children}
     </div>
   )
 }
@@ -91,10 +95,12 @@ TargetingSettingsSaveContainer.propTypes = {
   saveTargetingSettings: PropTypes.func.isRequired,
   cancelUpdateSettings: PropTypes.func.isRequired,
   budgetRef: PropTypes.object.isRequired,
+  children: PropTypes.node,
 }
 
 TargetingSettingsSaveContainer.defaultProps = {
   disableSaving: '',
+  children: null,
 }
 
 
