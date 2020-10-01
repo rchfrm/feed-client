@@ -15,8 +15,8 @@ const JoystickIcon = ({ fill, className }) => {
     >
       <rect y="271" width="334" height="113" rx="30" fill={fill} />
       <rect x="205" y="241" width="62" height="59" rx="10" fill={fill} />
-      <rect width="318" height="56" rx="28" transform="matrix(-4.37114e-08 1 1 4.37114e-08 85 11)" fill={fill} />
-      <path d="M184 82C184 121.212 152.212 153 113 153C73.7878 153 42 121.212 42 82C42 42.7878 73.7878 11 113 11C152.212 11 184 42.7878 184 82Z" fill={fill} />
+      <rect width="311" height="56" rx="28" transform="matrix(-4.37114e-08 1 1 4.37114e-08 85 18)" fill={fill} />
+      <path d="M180 78C180 114.451 150.451 144 114 144C77.5492 144 48 114.451 48 78C48 41.5492 77.5492 12 114 12C150.451 12 180 41.5492 180 78Z" fill={fill} />
     </svg>
   )
 }
