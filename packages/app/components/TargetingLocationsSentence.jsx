@@ -7,13 +7,13 @@ import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingLocationsSentence = ({
   artistIsMusician,
-  hasSpotify,
+  spotifyConnected,
   className,
 }) => {
   return (
     <div className={[className].join(' ')}>
-      <MarkdownText markdown={copy.locationsDescription(artistIsMusician, hasSpotify)} />
-      {artistIsMusician && !hasSpotify && (
+      <MarkdownText markdown={copy.locationsDescription(artistIsMusician, spotifyConnected)} />
+      {artistIsMusician && !spotifyConnected && (
         <MarkdownText className="text-red" markdown={copy.locationsSpotifyWarning} />
       )}
     </div>
@@ -22,12 +22,11 @@ const TargetingLocationsSentence = ({
 
 TargetingLocationsSentence.propTypes = {
   artistIsMusician: PropTypes.bool.isRequired,
-  hasSpotify: PropTypes.bool,
+  spotifyConnected: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
 TargetingLocationsSentence.defaultProps = {
-  hasSpotify: false,
   className: null,
 }
 

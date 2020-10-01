@@ -38,6 +38,7 @@ const initialState = {
   updateTargetingBudget: () => {},
   disableSaving: '',
   artistIsMusician: false,
+  spotifyConnected: false,
   currency: '',
   currencyOffset: 0,
   budgetFormatted: '',
@@ -68,6 +69,7 @@ const TargetingContextProvider = ({ children }) => {
     artistId,
     artist: {
       isMusician: artistIsMusician,
+      spotifyConnected,
       min_daily_budget_info: minBudgetInfo,
       min_daily_budget_info: {
         currency: { offset: currencyOffset },
@@ -362,6 +364,7 @@ const TargetingContextProvider = ({ children }) => {
         updateTargetingBudget,
         disableSaving,
         artistIsMusician,
+        spotifyConnected,
         currency,
         currencyOffset,
         budgetFormatted,

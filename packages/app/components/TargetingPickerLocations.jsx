@@ -30,6 +30,7 @@ const TargetingPickerLocations = ({
     selectedCountries,
     setSelectedCountries,
     artistIsMusician,
+    spotifyConnected,
   } = React.useContext(TargetingContext)
 
   // BUILD ARRAY OF COUNTRIES and CITIES
@@ -83,7 +84,7 @@ const TargetingPickerLocations = ({
       <TargetingSectionHeader className="mb-5" header="Locations" />
       <TargetingLocationsSentence
         artistIsMusician={artistIsMusician}
-        hasSpotify={false}
+        spotifyConnected={spotifyConnected}
       />
       {/* COUNTRIES AND CITIES */}
       <Accordion
