@@ -37,7 +37,7 @@ const initialState = {
   setMinReccBudget: () => {},
   updateTargetingBudget: () => {},
   disableSaving: '',
-  artistCategories: [],
+  artistIsMusician: false,
   currency: '',
   currencyOffset: 0,
   budgetFormatted: '',
@@ -67,8 +67,8 @@ const TargetingContextProvider = ({ children }) => {
     artistCurrency: currency,
     artistId,
     artist: {
+      isMusician: artistIsMusician,
       min_daily_budget_info: minBudgetInfo,
-      category_list: artistCategories,
       min_daily_budget_info: {
         currency: { offset: currencyOffset },
       },
@@ -361,7 +361,7 @@ const TargetingContextProvider = ({ children }) => {
         setMinReccBudget,
         updateTargetingBudget,
         disableSaving,
-        artistCategories,
+        artistIsMusician,
         currency,
         currencyOffset,
         budgetFormatted,
