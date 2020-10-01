@@ -4,6 +4,7 @@ module.exports = (purgeFiles) => ({
     screens: {
       iphone8: '375px',
       xxs: '450px',
+      minContent: '540px',
       xs: '600px',
       sm: '800px',
       md: '992px',
