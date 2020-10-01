@@ -119,10 +119,10 @@ const Input = ({
       icon={icon}
       error={error}
       success={success}
-      autoFocus={autoFocus}
       disabled={disabled}
     >
       <input
+        ref={inputElement}
         className={['input', `input--${version}`].join(' ')}
         name={name}
         type={type}
@@ -134,7 +134,6 @@ const Input = ({
         value={value}
         readOnly={readOnly || disabled}
         required={required}
-        ref={inputElement}
         autoComplete={!autoComplete ? 'off' : ''}
       />
     </InputBase>

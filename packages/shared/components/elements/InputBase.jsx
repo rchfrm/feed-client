@@ -52,7 +52,6 @@ const InputBase = ({
   icon,
   error,
   success,
-  autoFocus,
   disabled,
   children,
 }) => {
@@ -75,14 +74,6 @@ const InputBase = ({
   if (iconEl) {
     containerClasses.push('_hasIcon')
   }
-  // Auto focus input if needed
-  const inputElement = React.useRef(null)
-  React.useEffect(() => {
-    if (!autoFocus) return
-    if (inputElement.current) {
-      inputElement.current.focus()
-    }
-  }, [autoFocus])
 
   return (
     <div className={containerClasses.join(' ')}>
@@ -122,7 +113,6 @@ InputBase.propTypes = {
   icon: PropTypes.string,
   error: PropTypes.bool,
   success: PropTypes.bool,
-  autoFocus: PropTypes.bool,
   disabled: PropTypes.bool,
   children: PropTypes.node.isRequired,
 }
@@ -136,7 +126,6 @@ InputBase.defaultProps = {
   icon: '',
   error: false,
   success: false,
-  autoFocus: false,
   disabled: false,
 }
 
