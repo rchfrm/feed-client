@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import BudgetEuroIcon from '@/icons/BudgetEuroIcon'
 import BudgetDollarIcon from '@/icons/BudgetDollarIcon'
 import BudgetPoundIcon from '@/icons/BudgetPoundIcon'
+import JoystickIcon from '@/icons/JoystickIcon'
 import PostsIcon from '@/icons/PostsIcon'
 import ResultsIcon from '@/icons/ResultsIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
@@ -18,6 +19,7 @@ const getCurrencyIcon = (icon, currency) => {
 
 const getIcon = (icon, currency) => {
   if (icon === 'budget') return getCurrencyIcon(icon, currency)
+  if (icon === 'controls') return <JoystickIcon />
   if (icon === 'posts') return <PostsIcon />
   if (icon === 'results') return <ResultsIcon />
   if (icon === 'insights') return <InsightsIcon />
