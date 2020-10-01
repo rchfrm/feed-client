@@ -1,6 +1,7 @@
 import React from 'react'
 
 import ThePageButtonsIcon from '@/app/ThePageButtonsIcon'
+import ThePageButtonsNotification from '@/app/ThePageButtonsBadge'
 import ActiveLink from '@/elements/ActiveLink'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -37,7 +38,12 @@ const links = [
 const ThePageButtons = () => {
   const isLoggedIn = useLoggedInTest()
   // Get currency from artist
-  const { artistCurrency, artistId, artistLoading } = React.useContext(ArtistContext)
+  const {
+    artistCurrency,
+    artistId,
+    artistLoading,
+    hasBudget,
+  } = React.useContext(ArtistContext)
   const [currency, setCurrency] = React.useState('')
   React.useEffect(() => {
     if (!artistId) return
@@ -46,6 +52,8 @@ const ThePageButtons = () => {
   // Don't show buttons if no logged in
   if (!isLoggedIn) return null
 
+  console.log('hasBudget', hasBudget)
+
   return (
     <div
       id="ThePageButtons"
@@ -53,11 +61,17 @@ const ThePageButtons = () => {
     >
       <nav className={styles.inner}>
         {links.map(({ href, title, icon }) => {
+          const showBadge = icon === 'controls' && !hasBudget
           return (
             <div className={styles.link} key={href}>
               <ActiveLink href={href} activeClass={styles._active}>
-                <a className={styles.linkAnchor}>
-                  <ThePageButtonsIcon icon={icon} className={styles.linkIcon} currency={currency} />
+                <a className={[styles.linkAnchor, 'relative'].join(' ')}>
+                  <ThePageButtonsIcon
+                    icon={icon}
+                    className={styles.linkIcon}
+                    currency={currency}
+                    showBadge={showBadge}
+                  />
                   <p className={styles.linkTitle}>{ title }</p>
                 </a>
               </ActiveLink>

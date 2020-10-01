@@ -9,6 +9,8 @@ import PostsIcon from '@/icons/PostsIcon'
 import ResultsIcon from '@/icons/ResultsIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
 
+import ThePageButtonsBadge from '@/app/ThePageButtonsBadge'
+
 import styles from '@/app/ThePageButtons.module.css'
 
 const getCurrencyIcon = (icon, currency) => {
@@ -25,12 +27,15 @@ const getIcon = (icon, currency) => {
   if (icon === 'insights') return <InsightsIcon />
 }
 
-const ThePageButtonsIcon = ({ icon, className, currency }) => {
+const ThePageButtonsIcon = ({ icon, className, currency, showBadge }) => {
   const iconEl = getIcon(icon, currency.toLowerCase())
   return (
-    <figure className={className}>
-      {iconEl}
-    </figure>
+    <>
+      {showBadge && <ThePageButtonsBadge />}
+      <figure className={className}>
+        {iconEl}
+      </figure>
+    </>
   )
 }
 
@@ -38,11 +43,13 @@ ThePageButtonsIcon.propTypes = {
   icon: PropTypes.string.isRequired,
   className: PropTypes.string,
   currency: PropTypes.string,
+  showBadge: PropTypes.bool,
 }
 
 ThePageButtonsIcon.defaultProps = {
   className: '',
   currency: '',
+  showBadge: false,
 }
 
 
