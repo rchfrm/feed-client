@@ -12,7 +12,7 @@ export default {
 Been waiting a while? Check you have posts opted in for promotion in the _${inactiveTitle}_ tab.`,
 
     // No active posts without budget
-    activeNoBudget: () => `Currently, none of your posts are running as ads because you don’t have a budget set. Get started by entering a daily budget [here](${ROUTES.BUDGET}).`,
+    activeNoBudget: () => `Currently, none of your posts are running as ads because you don’t have a budget set. Get started by entering a daily budget [here](${ROUTES.CONTROLS}).`,
 
     // Archive
     archive: () => `After you’ve been using Feed for a little while, posts that have previously run as ads will appear here.`,
