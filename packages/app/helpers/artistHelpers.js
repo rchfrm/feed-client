@@ -239,5 +239,5 @@ export const testIfMusician = (artistCategories = []) => {
  * @returns {boolean}
  */
 export const testIfSpotifyConnected = (spotifyUrl) => {
-  return spotifyUrl && spotifyUrl.includes('/artist/')
+  return !!(spotifyUrl && spotifyUrl.includes('/artist/'))
 }
