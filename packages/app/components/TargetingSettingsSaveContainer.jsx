@@ -55,7 +55,7 @@ const TargetingSettingsSaveContainer = ({
       ref={containerRef}
     >
       {/* PAUSED WARNING */}
-      {targetingState.paused && (
+      {!targetingState.status && (
         <TargetingPausedWarning
           className="col-span-12 col-start-1 mb-6"
           hideButton

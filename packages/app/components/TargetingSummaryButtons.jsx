@@ -66,12 +66,12 @@ const TargetingSummaryButtons = ({
           {disableSaving ? getSaveDisabledReason(disableSaving) : 'Update Budget'}
         </Button>
       )}
-      {!initialTargetingState.paused && (
+      {initialTargetingState.status && (
         <TargetingPauseButton
           className="ml-auto"
           buttonClass="w-full iphone8:flex:w-auto iphone8:mb-0"
           togglePauseCampaign={togglePauseCampaign}
-          isPaused={initialTargetingState.paused}
+          isPaused={!initialTargetingState.status}
         />
       )}
     </div>

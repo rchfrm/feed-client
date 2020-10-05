@@ -268,11 +268,12 @@ const TargetingContextProvider = ({ children }) => {
   }, [currentView])
 
   // PAUSE CAMPAIGN
-  const togglePauseCampaign = React.useCallback((pause) => {
-    const { paused } = targetingState
-    const newPausedState = typeof pause === 'boolean' ? pause : !paused
+  const togglePauseCampaign = React.useCallback(() => {
+    const { status } = targetingState
+    const paused = status === 0
+    const newPausedState = paused ? 1 : 0
     const newSettings = produce(targetingState, draftState => {
-      draftState.paused = newPausedState
+      draftState.status = newPausedState
     })
     saveTargetingSettings(newSettings)
   }, [targetingState, saveTargetingSettings])

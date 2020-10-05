@@ -20,7 +20,7 @@ export const demotargetingState = {
     ],
   },
   budget: 2.32,
-  paused: false,
+  status: 0,
 }
 
 
@@ -299,9 +299,6 @@ export const updateLocationOptionsState = ({ locationOptionsArray, selectedCitie
 const formatSettings = (settings, currencyOffset) => {
   // Format settings
   return produce(settings, draftSettings => {
-    if (typeof draftSettings.paused !== 'boolean') {
-      draftSettings.paused = false
-    }
     const { cities, countries } = draftSettings.geo_locations
     draftSettings.budget = Math.round(draftSettings.budget * currencyOffset)
     draftSettings.cities = cities
@@ -339,7 +336,7 @@ export const saveCampaign = async ({
       }, 1000)
     })
   }
-  const { age_min, age_max, budget, genders, paused } = newSettings
+  const { age_min, age_max, budget, genders, status } = newSettings
   const payload = {
     age_min,
     age_max,
@@ -349,7 +346,7 @@ export const saveCampaign = async ({
       cities: selectedCities,
       countries: selectedCountries,
     },
-    paused,
+    status,
   }
   const { res: settings, error } = await server.saveTargetingSettings(artistId, payload)
   if (error) return { error }

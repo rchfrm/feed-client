@@ -31,7 +31,7 @@ const getWarningButtons = ({
       {
         text: 'Save and Resume Spending',
         onClick: () => {
-          saveTargetingSettings({ ...saveState, paused: false })
+          saveTargetingSettings({ ...saveState, status: 1 })
         },
         color: 'red',
       },
@@ -66,7 +66,8 @@ const useSaveTargeting = ({
   const { showAlert, closeAlert } = useAlertModal()
   // SAVE FUNCTION
   const saveTargeting = React.useCallback((trigger, newState = null) => {
-    const { paused: isPaused } = targetingState
+    const { status } = targetingState
+    const isPaused = status === 0
     const saveState = newState || targetingState
     // Warn about toggling paused
     if (togglePauseCampaign) {

@@ -38,7 +38,7 @@ const TargetingSummary = () => {
         />
       )}
       {/* PAUSED WARNING */}
-      {initialTargetingState.paused && (
+      {!initialTargetingState.status && (
         <TargetingPausedWarning
           className="col-span-12 col-start-1 mb-8 md:mb-0"
           togglePauseCampaign={togglePauseCampaign}
