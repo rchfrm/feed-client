@@ -10,8 +10,13 @@ import brandColors from '@/constants/brandColors'
 
 import styles from '@/app/PostItem.module.css'
 
+import { dateToTimePassed } from '@/helpers/utils'
+
 const PostMetaData = ({ platform, date, permalink, className }) => {
   const { bg: color } = brandColors[platform]
+  const timeAgo = React.useMemo(() => {
+    return dateToTimePassed(moment(date))
+  }, [date])
   return (
     <p className={[styles.postMeta, className].join(' ')}>
       <a
@@ -24,10 +29,7 @@ const PostMetaData = ({ platform, date, permalink, className }) => {
           color={color}
           width="20"
         />
-        {moment(date).format('D MMM YYYY')}
-        {' '}
-        <br />
-        {moment(date).format('[at] HH[:]mm')}
+        Posted {timeAgo}
       </a>
     </p>
   )
