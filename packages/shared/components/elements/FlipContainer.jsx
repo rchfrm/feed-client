@@ -19,6 +19,7 @@ const FlipContainer = ({
 }) => {
   const faceStyle = {
     backfaceVisibility: 'hidden',
+    WebkitBackfaceVisibility: 'hidden',
   }
   const Container = elType
 
