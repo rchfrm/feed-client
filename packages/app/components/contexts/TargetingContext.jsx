@@ -269,14 +269,14 @@ const TargetingContextProvider = ({ children }) => {
 
   // PAUSE CAMPAIGN
   const togglePauseCampaign = React.useCallback(() => {
-    const { status } = targetingState
+    const { status } = initialTargetingState
     const paused = status === 0
     const newPausedState = paused ? 1 : 0
-    const newSettings = produce(targetingState, draftState => {
+    const newSettings = produce(initialTargetingState, draftState => {
       draftState.status = newPausedState
     })
     saveTargetingSettings(newSettings)
-  }, [targetingState, saveTargetingSettings])
+  }, [initialTargetingState, saveTargetingSettings])
 
 
   // RESET EVERYTHING WHEN ARTIST ID CHANGES
