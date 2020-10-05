@@ -110,7 +110,7 @@ const TooltipMessage = ({
       windowWidth,
       xsWidth,
     })
-    const style = { ...defaultStyle, left, top, width, opacity: 1 }
+    const style = { ...defaultStyle, left, top, width, opacity: 1, zIndex: 10 }
     // If screen is big enough set to default style
     setStyle(style)
     // Set as ready
