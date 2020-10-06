@@ -102,11 +102,14 @@ const TargetingBudgetSlider = ({
         ]}
         ghosts={startValue.current ? [initialMarkerPosition.current] : []}
       >
-        <SliderMarker
-          sliderValueRange={sliderValueRange}
-          markerValue={minReccBudget}
-          markerLabel="Suggested min."
-        />
+        {/* Only show marker if min recc is greater than min slider range */}
+        {sliderValueRange[0] < minReccBudget && (
+          <SliderMarker
+            sliderValueRange={sliderValueRange}
+            markerValue={minReccBudget}
+            markerLabel="Suggested min."
+          />
+        )}
       </Slider>
     </div>
   )
