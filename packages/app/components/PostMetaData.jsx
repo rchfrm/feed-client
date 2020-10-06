@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import moment from 'moment'
-
 import Icon from '@/elements/Icon'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
@@ -10,13 +8,13 @@ import brandColors from '@/constants/brandColors'
 
 import styles from '@/app/PostItem.module.css'
 
-import { dateToTimePassed } from '@/helpers/utils'
-
-const PostMetaData = ({ platform, date, permalink, className }) => {
+const PostMetaData = ({
+  platform,
+  datePublished,
+  permalink,
+  className,
+}) => {
   const { bg: color } = brandColors[platform]
-  const timeAgo = React.useMemo(() => {
-    return dateToTimePassed(moment(date))
-  }, [date])
   return (
     <p className={[styles.postMeta, className].join(' ')}>
       <a
@@ -29,7 +27,7 @@ const PostMetaData = ({ platform, date, permalink, className }) => {
           color={color}
           width="20"
         />
-        Posted {timeAgo}
+        {datePublished}
       </a>
     </p>
   )
@@ -37,7 +35,7 @@ const PostMetaData = ({ platform, date, permalink, className }) => {
 
 PostMetaData.propTypes = {
   platform: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
+  datePublished: PropTypes.string.isRequired,
   permalink: PropTypes.string.isRequired,
   className: PropTypes.string,
 }

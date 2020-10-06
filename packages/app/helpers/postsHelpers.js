@@ -1,7 +1,9 @@
+import get from 'lodash/get'
+import moment from 'moment'
+
 import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
-import get from 'lodash/get'
 
 // TRANSLATE PROMOTION NAME
 export const translatePromotionName = (promotionStatus, capitalize) => {
@@ -83,6 +85,16 @@ const getPaidEngagementsDrilldown = (adsSummaryMetrics) => {
   }
 }
 
+
+// Format published time
+const formatPublishedTime = (time) => {
+  const publishedMoment = moment(time)
+  const publishedYear = publishedMoment.format('Y')
+  const currentYear = moment().format('Y')
+  const publishedFormat = publishedYear === currentYear ? 'D MMMM' : 'D MMM YYYY'
+  return publishedMoment.format(publishedFormat)
+}
+
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
@@ -116,10 +128,11 @@ export const formatPostsResponse = (posts) => {
         engagements: getPaidEngagementsDrilldown(adsSummaryMetrics),
       },
     } : null
+    // Published date
+    const publishedTime = formatPublishedTime(post.published_time)
     return {
       id: post.id,
       platform: post.platform,
-      publishedTime: post.published_time,
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
       priorityDsp: post.priority_dsp,
@@ -132,6 +145,7 @@ export const formatPostsResponse = (posts) => {
       thumbnails,
       organicMetrics,
       paidMetrics,
+      publishedTime,
     }
   })
 }
