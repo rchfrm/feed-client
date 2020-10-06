@@ -34,12 +34,14 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
 
   return (
     <div>
-      <div className={['md:grid grid-cols-12 col-gap-8'].join(' ')}>
-        {/* Errors */}
-        {errors.map((error, index) => {
-          return <Error error={error} messagePrefix="Error: " key={index} />
-        })}
-
+      {/* Errors */}
+      {errors.map((error, index) => {
+        return <Error error={error} messagePrefix="Error: " key={index} className="mb-10" />
+      })}
+      <div
+        className={['md:grid grid-cols-12 col-gap-8'].join(' ')}
+        style={{ alignItems: 'start' }}
+      >
         {/* Singup intro text */}
         {showSignupIntro && (
           <MarkdownText className="col-span-6 col-start-1" markdown={copy.signupIntro} />
