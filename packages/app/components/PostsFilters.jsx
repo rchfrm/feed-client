@@ -19,12 +19,13 @@ const PostsFilters = ({
 }) => {
   // Build options array for base filters
   const baseFiltersOptions = React.useMemo(() => {
-    return postTypes.map(({ id, title, color, activeTextColor }) => {
+    return postTypes.map(({ id, slug, title, color, activeTextColor }) => {
       // Get icon color
       const backgroundColor = id === currentPostType ? brandColors.white : color
       const icon = id === 'all' ? null : <FILTER_BUTTON_ICON backgroundColor={backgroundColor} />
       return {
         id,
+        slug,
         title,
         icon,
         color,
