@@ -112,12 +112,31 @@ export const calcMinBudget = (minBudgetInfo, type) => {
 }
 
 // Get slider config
+const getSliderRange = (defaultMin, defaultMax, initialBudget) => {
+  // If no initial budget use defaults
+  if (!initialBudget) {
+    return [defaultMin, defaultMax]
+  }
+  // Budget less than default min
+  if (initialBudget < defaultMin) {
+    return [initialBudget, defaultMax]
+  }
+  // Budget greater than default max
+  if (initialBudget >= defaultMax) {
+    const range = defaultMax - defaultMin
+    const newMin = initialBudget - ((range * 3) / 4)
+    const newMax = newMin + range
+    return [newMin, newMax]
+  }
+  // Else defaults
+  return [defaultMin, defaultMax]
+}
+
 export const calcBudgetSliderConfig = (minHardBudget, initialBudget) => {
   const sliderStep = Math.round(minHardBudget) / 4
   const defaultMin = minHardBudget * 2
-  const min = initialBudget ? Math.min(initialBudget, defaultMin) : defaultMin
-  const max = minHardBudget * 30
-  const sliderValueRange = [min, max]
+  const defaultMax = minHardBudget * 30
+  const sliderValueRange = getSliderRange(defaultMin, defaultMax, initialBudget)
   return { sliderStep, sliderValueRange }
 }
 
