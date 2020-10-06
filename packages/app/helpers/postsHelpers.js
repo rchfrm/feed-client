@@ -85,6 +85,19 @@ const getPaidEngagementsDrilldown = (adsSummaryMetrics) => {
   }
 }
 
+// Get dates when post first ran and last ran
+const getPostAdDates = (ads) => {
+  if (!ads) return [null, null]
+  const adDates = Object.values(ads).map(({ created_at }) => {
+    return created_at
+  })
+  // Sort dates from first to last
+  const adDatesSorted = utils.sortDatesChronologically(adDates)
+  const firstRan = adDatesSorted[0]
+  if (adDatesSorted.length === 1) return [firstRan, null]
+  const lastRan = adDates[adDatesSorted.length - 1]
+  return [firstRan, lastRan]
+}
 
 // Format published time
 const formatPublishedTime = (time) => {
@@ -98,7 +111,7 @@ const formatPublishedTime = (time) => {
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
-    const { message, ads_summary: adsSummary = {} } = post
+    const { message, ads_summary: adsSummary = {}, ads } = post
     const firstAttachment = post.attachments[0]
     const shortMessage = utils.abbreviatePostText(message)
     // Get thumbnails
@@ -130,6 +143,8 @@ export const formatPostsResponse = (posts) => {
     } : null
     // Published date
     const publishedTime = formatPublishedTime(post.published_time)
+    // Ad dates
+    const [firstRan, lastRan] = getPostAdDates(ads)
     return {
       id: post.id,
       platform: post.platform,
@@ -146,6 +161,8 @@ export const formatPostsResponse = (posts) => {
       organicMetrics,
       paidMetrics,
       publishedTime,
+      firstRan,
+      lastRan,
     }
   })
 }
