@@ -55,8 +55,10 @@ const PostsFilters = ({
       labelText="Filter by post status"
       tooltipSlides={tooltipSlides}
       tooltipDirection="bottom"
-      setQuery
+      useSetQuery
+      useSetLocalStorage
       useSlug
+      queryTitle="postStatus"
     />
   )
 }

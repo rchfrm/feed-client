@@ -10,6 +10,8 @@ import BaseFiltersButton from '@/BaseFiltersButton'
 import useScrollToButton from '@/hooks/useScrollToButton'
 // Styles
 import styles from '@/BaseFilters.module.css'
+// Utils
+import * as utils from '@/helpers/utils'
 
 // * ******
 // * README
@@ -47,7 +49,9 @@ const BaseFilters = ({
   buttonType,
   tooltipSlides,
   tooltipDirection,
-  setQuery,
+  useSetQuery,
+  useSetLocalStorage,
+  queryTitle,
   useSlug,
   className,
 }) => {
@@ -69,29 +73,43 @@ const BaseFilters = ({
   const setQueryString = React.useCallback((filterSlug) => {
     router.replace({
       pathname: router.pathname,
-      query: { filter: filterSlug },
-      shallow: true,
+      query: { [queryTitle]: filterSlug },
     })
-  }, [router])
+  }, [router, queryTitle])
 
-  // SET ACTIVE OPTION BASED ON QUERY STRING
+  // SET ACTIVE OPTION BASED ON QUERY STRING and LOCAL STORAGE
   React.useEffect(() => {
     // If not using query string, don't do anything
-    if (!setQuery) return
+    if (!useSetQuery || !useSetLocalStorage) return
     // Set current filter using query string
     const { filter: currentFilterQuery } = router.query
-    // If no filter query, use default
-    if (!currentFilterQuery) {
-      const queryName = useSlug ? getSlugFromId(options, defaultOptionId) : defaultOptionId
-      setQueryString(queryName)
+    const currentFilterStorage = utils.getLocalStorage(queryTitle)
+    console.log('currentFilterStorage', currentFilterStorage)
+    // If no filter query or storage query, use default
+    if (!currentFilterQuery && !currentFilterStorage) {
       setActiveOptionId(defaultOptionId)
       return
     }
     // If there is a filter query, set this as active option ID
-    const activeId = useSlug ? getIdFromSlug(options, currentFilterQuery) : currentFilterQuery
+    const storedFilter = currentFilterQuery || currentFilterStorage
+    const activeId = useSlug ? getIdFromSlug(options, storedFilter) : storedFilter
     setActiveOptionId(activeId)
   // eslint-disable-next-line
   }, [])
+
+  // UPDATE QUERY AND LOCAL STORAATE when active option changes
+  React.useEffect(() => {
+    if (!activeOptionId) return
+    const filterName = useSlug ? getSlugFromId(options, activeOptionId) : activeOptionId
+    const { filter: currentFilterQuery } = router.query
+    if (currentFilterQuery === filterName) return
+    if (useSetQuery) {
+      setQueryString(filterName)
+    }
+    if (useSetLocalStorage) {
+      utils.setLocalStorage(queryTitle, filterName)
+    }
+  }, [activeOptionId])
 
   if (!options.length) return null
 
@@ -111,12 +129,11 @@ const BaseFilters = ({
           className,
         ].join(' ')}
       >
-        {options.map(({ id, title, slug, subtitle, color, activeTextColor, icon }, i) => {
+        {options.map(({ id, title, subtitle, color, activeTextColor, icon }, i) => {
           const active = id === activeOptionId
           const activeClass = active ? styles._active : ''
           const backgroundColor = active ? color : ''
           const textColor = active ? activeTextColor : ''
-          const slugName = useSlug ? slug : id
           return (
             <BaseFiltersButton
               key={id}
@@ -132,10 +149,6 @@ const BaseFilters = ({
               active={active}
               onClick={() => {
                 setActiveOptionId(id)
-                // Set query
-                if (setQuery) {
-                  setQueryString(slugName)
-                }
               }}
               className={activeClass}
             />
@@ -155,7 +168,13 @@ BaseFilters.propTypes = {
   buttonType: PropTypes.string,
   tooltipSlides: PropTypes.array,
   tooltipDirection: PropTypes.string,
-  setQuery: PropTypes.bool,
+  useSetQuery: PropTypes.bool,
+  useSetLocalStorage: PropTypes.bool,
+  queryTitle: (props, propName, componentName) => {
+    if ((props.useSetQuery || props.useSetLocalStorage) && !props[propName]) {
+      return new Error(`Please provide a value for the ${propName}! in ${componentName}`)
+    }
+  },
   useSlug: PropTypes.bool,
   className: PropTypes.string,
 }
@@ -166,7 +185,9 @@ BaseFilters.defaultProps = {
   buttonType: 'pill',
   tooltipSlides: null,
   tooltipDirection: 'right',
-  setQuery: false,
+  useSetQuery: false,
+  useSetLocalStorage: false,
+  queryTitle: '',
   useSlug: true,
   className: '',
 }
