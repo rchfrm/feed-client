@@ -1,5 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
+import { useRouter } from 'next/router'
+
 // Components
 import TooltipButton from '@/elements/TooltipButton'
 import BaseFiltersButton from '@/BaseFiltersButton'
@@ -25,16 +28,31 @@ import styles from '@/BaseFilters.module.css'
 
 */
 
+const getSlugFromId = (options, id) => {
+  const { slug } = options.find(({ id: optionId }) => id === optionId)
+  return slug
+}
+
+const getIdFromSlug = (options, slug) => {
+  const { id } = options.find(({ slug: optionSlug }) => slug === optionSlug)
+  return id
+}
+
 const BaseFilters = ({
   options,
   activeOptionId,
+  defaultOptionId,
   setActiveOptionId,
   labelText,
   buttonType,
   tooltipSlides,
   tooltipDirection,
+  setQuery,
+  useSlug,
   className,
 }) => {
+  // GET ROUTER
+  const router = useRouter()
   // SETUP SCROLL TO BUTTON
   const [buttonRefs, containerRef] = useScrollToButton(options, activeOptionId)
   // CHANGE ACTIVE COLOR
@@ -47,6 +65,33 @@ const BaseFilters = ({
     containerRef.current.style.setProperty('--active-color', activeColor)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOptionId])
+
+  const setQueryString = React.useCallback((filterSlug) => {
+    router.replace({
+      pathname: router.pathname,
+      query: { filter: filterSlug },
+      shallow: true,
+    })
+  }, [router])
+
+  // SET ACTIVE OPTION BASED ON QUERY STRING
+  React.useEffect(() => {
+    // If not using query string, don't do anything
+    if (!setQuery) return
+    // Set current filter using query string
+    const { filter: currentFilterQuery } = router.query
+    // If no filter query, use default
+    if (!currentFilterQuery) {
+      const queryName = useSlug ? getSlugFromId(options, defaultOptionId) : defaultOptionId
+      setQueryString(queryName)
+      setActiveOptionId(defaultOptionId)
+      return
+    }
+    // If there is a filter query, set this as active option ID
+    const activeId = useSlug ? getIdFromSlug(options, currentFilterQuery) : currentFilterQuery
+    setActiveOptionId(activeId)
+  // eslint-disable-next-line
+  }, [])
 
   if (!options.length) return null
 
@@ -66,11 +111,12 @@ const BaseFilters = ({
           className,
         ].join(' ')}
       >
-        {options.map(({ id, title, subtitle, color, activeTextColor, icon }, i) => {
+        {options.map(({ id, title, slug, subtitle, color, activeTextColor, icon }, i) => {
           const active = id === activeOptionId
           const activeClass = active ? styles._active : ''
           const backgroundColor = active ? color : ''
           const textColor = active ? activeTextColor : ''
+          const slugName = useSlug ? slug : id
           return (
             <BaseFiltersButton
               key={id}
@@ -84,7 +130,13 @@ const BaseFilters = ({
               icon={icon}
               textColor={textColor}
               active={active}
-              onClick={() => setActiveOptionId(id)}
+              onClick={() => {
+                setActiveOptionId(id)
+                // Set query
+                if (setQuery) {
+                  setQueryString(slugName)
+                }
+              }}
               className={activeClass}
             />
           )
@@ -97,19 +149,25 @@ const BaseFilters = ({
 BaseFilters.propTypes = {
   options: PropTypes.array.isRequired,
   activeOptionId: PropTypes.string,
+  defaultOptionId: PropTypes.string,
   setActiveOptionId: PropTypes.func.isRequired,
   labelText: PropTypes.string.isRequired,
   buttonType: PropTypes.string,
   tooltipSlides: PropTypes.array,
   tooltipDirection: PropTypes.string,
+  setQuery: PropTypes.bool,
+  useSlug: PropTypes.bool,
   className: PropTypes.string,
 }
 
 BaseFilters.defaultProps = {
   activeOptionId: '',
+  defaultOptionId: '',
   buttonType: 'pill',
   tooltipSlides: null,
   tooltipDirection: 'right',
+  setQuery: false,
+  useSlug: true,
   className: '',
 }
 
