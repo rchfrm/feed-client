@@ -28,6 +28,12 @@ export const translatePromotionName = (promotionStatus, capitalize) => {
 // POST TYPE FILTERS
 export const postTypes = [
   {
+    id: 'all',
+    title: translatePromotionName('all', true),
+    color: brandColors.black,
+    activeTextColor: brandColors.white,
+  },
+  {
     id: 'active',
     title: translatePromotionName('active', true),
     color: brandColors.green,
@@ -43,12 +49,6 @@ export const postTypes = [
     id: 'inactive',
     title: translatePromotionName('inactive', true),
     color: brandColors.greyDark,
-    activeTextColor: brandColors.white,
-  },
-  {
-    id: 'all',
-    title: translatePromotionName('all', true),
-    color: brandColors.black,
     activeTextColor: brandColors.white,
   },
 ]
