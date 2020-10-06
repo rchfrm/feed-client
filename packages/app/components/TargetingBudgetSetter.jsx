@@ -29,7 +29,9 @@ const TargetingBudgetSetter = ({
   }, [budget, updateTargetingBudget])
 
   // GET SLIDER SETTINGS BASED ON MIN BUDGET
-  const { sliderStep, sliderValueRange } = targetingHelpers.calcBudgetSliderConfig(minHardBudget, initialBudget)
+  const { sliderStep, sliderValueRange } = React.useMemo(() => {
+    return targetingHelpers.calcBudgetSliderConfig(minHardBudget, initialBudget)
+  }, [minHardBudget, initialBudget])
 
   // CUSTOM INPUT
   const inputPlaceholder = `Suggested min: ${formatCurrency((minReccBudget / currencyOffset), currency)}`
