@@ -329,7 +329,7 @@ const TargetingContextProvider = ({ children }) => {
     // Hide progress button
     setSelectedCampaignRecc(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setSidePanelButton, toggleSidePanel, targetingState, budgetFormatted, updateTargetingBudget])
+  }, [setSidePanelButton, toggleSidePanel, targetingState, minReccBudget, budgetFormatted, updateTargetingBudget])
 
   React.useEffect(() => {
     if (!mobileBudgetOpen) return
