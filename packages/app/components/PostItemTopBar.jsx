@@ -27,7 +27,7 @@ const PostItemTopBar = ({
     <div className={[styles.topBar, styles.postSection, styles.postText].join(' ')}>
       <PostMetaData
         platform={post.platform}
-        date={post.publishedTime}
+        datePublished={post.publishedTime}
         permalink={post.permalinkUrl}
       />
       {/* TOGGLE BUTTON (if poss) */}

@@ -1,7 +1,9 @@
+import get from 'lodash/get'
+import moment from 'moment'
+
 import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
-import get from 'lodash/get'
 
 // TRANSLATE PROMOTION NAME
 export const translatePromotionName = (promotionStatus, capitalize) => {
@@ -26,6 +28,12 @@ export const translatePromotionName = (promotionStatus, capitalize) => {
 // POST TYPE FILTERS
 export const postTypes = [
   {
+    id: 'all',
+    title: translatePromotionName('all', true),
+    color: brandColors.black,
+    activeTextColor: brandColors.white,
+  },
+  {
     id: 'active',
     title: translatePromotionName('active', true),
     color: brandColors.green,
@@ -41,12 +49,6 @@ export const postTypes = [
     id: 'inactive',
     title: translatePromotionName('inactive', true),
     color: brandColors.greyDark,
-    activeTextColor: brandColors.white,
-  },
-  {
-    id: 'all',
-    title: translatePromotionName('all', true),
-    color: brandColors.black,
     activeTextColor: brandColors.white,
   },
 ]
@@ -83,10 +85,33 @@ const getPaidEngagementsDrilldown = (adsSummaryMetrics) => {
   }
 }
 
+// Get dates when post first ran and last ran
+const getPostAdDates = (ads) => {
+  if (!ads) return [null, null]
+  const adDates = Object.values(ads).map(({ created_at }) => {
+    return created_at
+  })
+  // Sort dates from first to last
+  const adDatesSorted = utils.sortDatesChronologically(adDates)
+  const firstRan = adDatesSorted[0]
+  if (adDatesSorted.length === 1) return [firstRan, null]
+  const lastRan = adDates[adDatesSorted.length - 1]
+  return [firstRan, lastRan]
+}
+
+// Format published time
+const formatPublishedTime = (time) => {
+  const publishedMoment = moment(time)
+  const publishedYear = publishedMoment.format('Y')
+  const currentYear = moment().format('Y')
+  const publishedFormat = publishedYear === currentYear ? 'D MMMM' : 'D MMM YYYY'
+  return publishedMoment.format(publishedFormat)
+}
+
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
-    const { message, ads_summary: adsSummary = {} } = post
+    const { message, ads_summary: adsSummary = {}, ads } = post
     const firstAttachment = post.attachments[0]
     const shortMessage = utils.abbreviatePostText(message)
     // Get thumbnails
@@ -116,10 +141,13 @@ export const formatPostsResponse = (posts) => {
         engagements: getPaidEngagementsDrilldown(adsSummaryMetrics),
       },
     } : null
+    // Published date
+    const publishedTime = formatPublishedTime(post.published_time)
+    // Ad dates
+    const [firstRan, lastRan] = getPostAdDates(ads)
     return {
       id: post.id,
       platform: post.platform,
-      publishedTime: post.published_time,
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
       priorityDsp: post.priority_dsp,
@@ -132,6 +160,9 @@ export const formatPostsResponse = (posts) => {
       thumbnails,
       organicMetrics,
       paidMetrics,
+      publishedTime,
+      firstRan,
+      lastRan,
     }
   })
 }

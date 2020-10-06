@@ -49,6 +49,19 @@ export const abbreviateNumber = (number) => {
   }
 }
 
+// CONVERT DATE TO n TIME AGO
+/**
+ * @param {object} dateMoment
+ * @returns {String}
+ */
+export const dateToTimePassed = (dateMoment) => {
+  if (typeof dateMoment !== 'object') {
+    console.error('Please pass the date as a moment object')
+    return
+  }
+  const fromNow = dateMoment.fromNow()
+  return fromNow
+}
 
 export const abbreviatePostText = (message) => {
   let shortenedText = message
