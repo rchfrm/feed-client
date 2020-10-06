@@ -15,6 +15,7 @@ const FILTER_BUTTON_ICON = ({ backgroundColor }) => {
 const PostsFilters = ({
   postTypes,
   currentPostType,
+  defaultPostState,
   setCurrentPostType,
 }) => {
   // Build options array for base filters
@@ -49,10 +50,13 @@ const PostsFilters = ({
     <BaseFilters
       options={baseFiltersOptions}
       activeOptionId={currentPostType}
+      defaultOptionId={defaultPostState}
       setActiveOptionId={setCurrentPostType}
       labelText="Filter by post status"
       tooltipSlides={tooltipSlides}
       tooltipDirection="bottom"
+      setQuery
+      useSlug
     />
   )
 }
@@ -60,6 +64,7 @@ const PostsFilters = ({
 PostsFilters.propTypes = {
   postTypes: PropTypes.array.isRequired,
   currentPostType: PropTypes.string.isRequired,
+  defaultPostState: PropTypes.string.isRequired,
   setCurrentPostType: PropTypes.func.isRequired,
 }
 
