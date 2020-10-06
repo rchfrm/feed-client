@@ -9,7 +9,7 @@ import styles from '@/app/PostItem.module.css'
 
 
 const getPostToggleType = (promotionStatus) => {
-  if (promotionStatus === 'inactive') return 'triple'
+  if (promotionStatus === 'inactive') return 'double'
   if (promotionStatus === 'active') return 'double'
   return 'disabled'
 }
