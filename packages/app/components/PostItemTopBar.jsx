@@ -21,6 +21,7 @@ const PostItemTopBar = ({
   togglePromotion,
   postPromotable,
   promotionStatus,
+  debug,
 }) => {
   const postToggleType = getPostToggleType(promotionStatus)
   return (
@@ -57,11 +58,13 @@ PostItemTopBar.propTypes = {
   togglePromotion: PropTypes.func.isRequired,
   postPromotable: PropTypes.bool,
   promotionStatus: PropTypes.string,
+  debug: PropTypes.bool,
 }
 
 PostItemTopBar.defaultProps = {
   postPromotable: true,
   promotionStatus: '',
+  debug: false,
 }
 
 

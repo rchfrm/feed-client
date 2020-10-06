@@ -44,9 +44,17 @@ const PostItem = ({
   // Is running ad turning off?
   const turningOffRunning = promotionStatus === 'active' && !promotionEnabled
 
+  const debug = post.id === 'DIC8tokEnWv9odrMAf3T'
+  if (debug) {
+    console.log('post', post)
+  }
+
   return (
     <li
       className={[styles.postItem, enabledClass, promotableClass, className].join(' ')}
+      style={{
+        borderColor: debug ? 'red' : 'black',
+      }}
     >
       {/* TOP BAR */}
       <PostItemTopBar
@@ -56,6 +64,7 @@ const PostItem = ({
         togglePromotion={togglePromotion}
         postPromotable={postPromotable}
         promotionStatus={promotionStatus}
+        debug={debug}
       />
       {/* This wrapper hides the bottom of the link options */}
       <div className="overflow-hidden relative">
