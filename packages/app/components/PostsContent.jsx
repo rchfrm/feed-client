@@ -25,7 +25,7 @@ const PostsContent = () => {
   }, [setSidePanelContent, toggleSidePanel, togglePromotionGlobal])
   // HANDLE STATE OF POST TYPE FILTERS
   const allFilter = postTypes.find(({ id }) => id === 'all')
-  const [currentPostType, setCurrentPostType] = React.useState(allFilter.id)
+  const [currentPostType, setCurrentPostType] = React.useState('')
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
@@ -35,6 +35,7 @@ const PostsContent = () => {
         postTypes={postTypes}
         currentPostType={currentPostType}
         setCurrentPostType={setCurrentPostType}
+        defaultPostState={allFilter.id}
       />
       {/* POST SETTINGS BUTTON */}
       <div className="iphone8:flex justify-start mb-4 pt-2">
@@ -54,11 +55,13 @@ const PostsContent = () => {
         )}
       </div>
       {/* LOAD POSTS */}
-      <PostsLoader
-        setTogglePromotionGlobal={setTogglePromotionGlobal}
-        setRefreshPosts={setRefreshPosts}
-        promotionStatus={currentPostType}
-      />
+      {currentPostType && (
+        <PostsLoader
+          setTogglePromotionGlobal={setTogglePromotionGlobal}
+          setRefreshPosts={setRefreshPosts}
+          promotionStatus={currentPostType}
+        />
+      )}
     </div>
   )
 }

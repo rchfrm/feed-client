@@ -60,7 +60,7 @@ const PostsNone = ({ refreshPosts, promotionStatus, artist }) => {
   }, [setHeader])
 
   return (
-    <div className={[styles.noPosts].join(' ')}>
+    <div className={[styles.noPosts, 'pt-4'].join(' ')}>
       <MarkdownText
         className={[
           'h4--text',

@@ -67,11 +67,9 @@ const BaseFiltersButton = ({
 }
 
 BaseFiltersButton.propTypes = {
-  id: PropTypes.string.isRequired,
   buttonRef: PropTypes.object,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
-  setActiveOptionId: PropTypes.func.isRequired,
   buttonType: PropTypes.string,
   backgroundColor: PropTypes.string,
   textColor: PropTypes.string,
