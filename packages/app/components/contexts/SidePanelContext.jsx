@@ -12,6 +12,8 @@ const initialContext = {
   toggleSidePanel: () => {},
   sidePanelLoading: false,
   setSidePanelLoading: () => {},
+  disableDrag: false,
+  setDisableDrag: () => {},
 }
 
 const SidePanelContext = React.createContext(initialContext)
@@ -51,6 +53,9 @@ const SidePanelContextProvider = ({ children }) => {
     }
   }, [])
 
+  // DISABLE DRAGGING
+  const [disableDrag, setDisableDrag] = React.useState(false)
+
   return (
     // The context provider
     <SidePanelContext.Provider
@@ -63,6 +68,8 @@ const SidePanelContextProvider = ({ children }) => {
         toggleSidePanel,
         sidePanelLoading,
         setSidePanelLoading,
+        disableDrag,
+        setDisableDrag,
       }}
     >
       <>
@@ -74,6 +81,7 @@ const SidePanelContextProvider = ({ children }) => {
           isOpen={sidePanelOpen}
           toggle={toggleSidePanel}
           isLoading={sidePanelLoading}
+          disableDrag={disableDrag}
         />
         {children}
       </>

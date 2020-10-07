@@ -1,6 +1,32 @@
 import * as api from '@/helpers/api'
 
-// UPDATE ARTIST
+// UTILS
+// ------------------
+
+/**
+  * @param {string} requestType get | patch | post
+  * @param {string} url
+  * @param {object} payload
+  * @returns {Promise<object>} { res, error }
+  * * Makes requests  and returns errors as if the request were succesful with an `error.message` key filled out
+*/
+const requestWithCatch = async (requestType, url, payload = null) => {
+  if (!requestType) return console.error('Please include a request type')
+  if (!url) return console.error('Please include a url')
+  // eslint-disable-next-line import/namespace
+  const res = await api[requestType](url, payload)
+    .catch((error) => { return { error } })
+  if (res.error) {
+    const { error } = res
+    const message = typeof error.response === 'object' ? error.response.data.error : error.message
+    return { error: { message } }
+  }
+  return { res }
+}
+
+// ARTIST
+// ------------------
+
 /**
  * @param {string} artistId
  * @param {number} dailyBudget
@@ -32,7 +58,9 @@ export const updatePriorityDSP = async (artistId, priorityDSP, verifyIdToken) =>
   return api.patch(`/artists/${artistId}`, { priority_dsp: priorityDSP }, verifyIdToken)
 }
 
-// DATA SOURCES
+// DATA INSIGHTS
+// -------------------
+
 /**
  * @param {string} endpoint
  * @param {string} [verifyIdToken]
@@ -79,7 +107,9 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
   return api.get(`/artists/${artistId}/data_sources/${dataSource}/annualized`)
 }
 
-// ASSETS
+// ASSETS / POSTS
+//-------------------------
+
 /**
 * @param {number} limit
 * @param {string} artistId
@@ -178,6 +208,45 @@ export const updateAccessToken = async (artistId, accessToken) => {
 }
 
 
+// TARGETING
+// --------------------------
+
+// Fetch initial settings
+/**
+* @param {string} artistId
+* @returns {Promise<object>} { res, error }
+*/
+export const getTargetingSettings = async (artistId) => {
+  const requestUrl = `/artists/${artistId}/targeting`
+  return requestWithCatch('get', requestUrl)
+}
+
+// Fetch popular locations
+/**
+* @param {string} artistId
+* @returns {Promise<object>} { res, error }
+*/
+export const getTargetingPopularLocations = async (artistId) => {
+  const requestUrl = `/artists/${artistId}/targeting/geo_locations`
+  return requestWithCatch('get', requestUrl)
+}
+
+// Save new targeting settings
+/**
+* @param {string} artistId
+* @param {object} newState
+* @param {array} cities
+* @param {array} countries
+* @returns {Promise<object>} { res, error }
+*/
+export const saveTargetingSettings = async (artistId, payload) => {
+  const requestUrl = `/artists/${artistId}/targeting`
+  return requestWithCatch('patch', requestUrl, payload)
+}
+
+// INTEGRATION ERRORS
+// --------------------------
+
 /**
  * @param {string} artistId
  * @param {string} postId
@@ -188,6 +257,9 @@ export const updateAccessToken = async (artistId, accessToken) => {
 export const getIntegrationErrors = async (artistId) => {
   return api.get(`/artists/${artistId}/integrations/errors`)
 }
+
+
+
 
 export const catchAxiosError = (error) => {
   if (error.response) {

@@ -7,16 +7,15 @@ import styles from '@/BaseFilters.module.css'
 import brandColors from '@/constants/brandColors'
 
 const BaseFiltersButton = ({
-  id,
   buttonRef,
   title,
   subtitle,
-  setActiveOptionId,
   buttonType,
   backgroundColor,
   textColor,
   icon,
   active,
+  onClick,
   className,
 }) => {
   // TEXT BUTTON
@@ -29,7 +28,7 @@ const BaseFiltersButton = ({
         <a
           role="button"
           className={[styles.button, styles.textButton].join(' ')}
-          onClick={() => setActiveOptionId(id)}
+          onClick={onClick}
         >
           <span className={styles.buttonText_title}>{title}</span>
           {subtitle && (
@@ -51,7 +50,7 @@ const BaseFiltersButton = ({
       <ButtonPill
         className={[styles.button, styles.buttonPill, className].join(' ')}
         size="large"
-        onClick={() => setActiveOptionId(id)}
+        onClick={onClick}
         style={{
           backgroundColor,
           color: textColor,
@@ -78,6 +77,7 @@ BaseFiltersButton.propTypes = {
   textColor: PropTypes.string,
   icon: PropTypes.node,
   active: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
