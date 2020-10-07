@@ -132,14 +132,11 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
         </div>
       </div>
       {/* POST STATE CHANGE CONFIRMATION */}
-      {showPostStatusConfirmation && (
-        <PostSettingsStatusConfirmation
-          setConfirmation={setShowPostStatusConfirmation}
-          newStatus={pendingDefaultPostStatus}
-          triggerStatusUpdate={triggerStatusUpdate}
-          setStatus={setDefaultPostStatus}
-        />
-      )}
+      <PostSettingsStatusConfirmation
+        triggerStatusUpdate={triggerStatusUpdate}
+        confirmationOpen={showPostStatusConfirmation}
+        dismissConfirmation={() => setShowPostStatusConfirmation(false)}
+      />
     </section>
   )
 }
