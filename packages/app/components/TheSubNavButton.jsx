@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Spinner from '@/elements/Spinner'
+import FlipContainer from '@/elements/FlipContainer'
 import ArtistImage from '@/elements/ArtistImage'
 import CloseCircle from '@/icons/CloseCircle'
 
@@ -17,6 +18,7 @@ const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
     const { facebook_page_id } = artist
     if (!artistId || !facebook_page_id) return
     setFbPageId(facebook_page_id)
+  // eslint-disable-next-line
   }, [artistId])
 
   const runToggle = () => {
@@ -25,13 +27,15 @@ const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
   }
 
   return (
-    <button
+    <a
       id="TheSubNavButton"
-      className={[styles.container, className, navOpen ? styles._navOpen : ''].join(' ')}
+      role="button"
       onClick={runToggle}
+      className={[className, styles.button].join(' ')}
+      aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
     >
-      <div className={styles.inner}>
-        <div className={styles.frontIcon}>
+      <FlipContainer
+        frontContent={(
           <figure className={styles.image}>
             {artistLoading ? (
               <Spinner className={styles.spinner} />
@@ -40,16 +44,45 @@ const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
                 <ArtistImage pageId={fbPageId} name={artist.name} />
               )}
           </figure>
-        </div>
-        <div className={styles.backIcon}>
-          {/* Close button */}
+        )}
+        backContent={(
           <div className={styles.backIcon_inner}>
             <CloseCircle />
           </div>
-        </div>
-      </div>
+        )}
+        containerClass={[styles.container].join(' ')}
+        isFlipped={navOpen}
+        innerClass={styles.inner}
+        frontClass={styles.frontIcon}
+        backClass={styles.backIcon}
+      />
       <p className={styles.buttonTitle}>{navOpen ? 'close' : 'menu'}</p>
-    </button>
+    </a>
+    // <button
+    //   id="TheSubNavButton"
+    //   className={[styles.container, className, navOpen ? styles._navOpen : ''].join(' ')}
+    //   onClick={runToggle}
+    // >
+    //   <div className={styles.inner}>
+    //     <div className={styles.frontIcon}>
+    //       <figure className={styles.image}>
+    //         {artistLoading ? (
+    //           <Spinner className={styles.spinner} />
+    //         )
+    //           : (
+    //             <ArtistImage pageId={fbPageId} name={artist.name} />
+    //           )}
+    //       </figure>
+    //     </div>
+    //     <div className={styles.backIcon}>
+    //       {/* Close button */}
+    //       <div className={styles.backIcon_inner}>
+    //         <CloseCircle />
+    //       </div>
+    //     </div>
+    //   </div>
+    //   <p className={styles.buttonTitle}>{navOpen ? 'close' : 'menu'}</p>
+    // </button>
   )
 }
 

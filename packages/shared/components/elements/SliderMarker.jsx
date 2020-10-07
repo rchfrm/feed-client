@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-// import { CSSTransition } from 'react-transition-group'
 import FadeInOut from '@/elements/FadeInOut'
 
 const SliderMarker = ({
   sliderValueRange,
   markerValue,
   markerLabel,
+  hideText,
   className,
   style,
 }) => {
@@ -24,22 +24,26 @@ const SliderMarker = ({
       <div
         className={[
           'absolute',
-          '-mt-3',
+          'w-6 -ml-3',
+          'mb-2',
           className,
         ].join(' ')}
         style={{
           ...style,
-          top: 1,
+          bottom: 0,
           left,
-          marginLeft: width * 1.5,
-          transform: 'translateY(-45%)',
           opacity: 0,
         }}
       >
         {/* LINE */}
-        <div className="h-10 bg-green" style={{ width }} />
+        <div className="h-10 bg-green mx-auto" style={{ width }} />
         {/* TEXT */}
-        <p className="absolute top-0 left-0 mb-0 -mt-1 pl-2 text-sm whitespace-no-wrap">{markerLabel}</p>
+        <p
+          className="absolute top-0 left-0 mb-0 -mt-1 pl-5 text-sm whitespace-no-wrap"
+          style={hideText ? { opacity: 0 } : null}
+        >
+          {markerLabel}
+        </p>
       </div>
     </FadeInOut>
   )
@@ -49,11 +53,13 @@ SliderMarker.propTypes = {
   sliderValueRange: PropTypes.array.isRequired,
   markerValue: PropTypes.number.isRequired,
   markerLabel: PropTypes.string.isRequired,
+  hideText: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
 SliderMarker.defaultProps = {
+  hideText: false,
   className: null,
   style: null,
 }

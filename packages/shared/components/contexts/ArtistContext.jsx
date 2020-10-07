@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
@@ -28,6 +29,7 @@ const initialArtistState = {
   currency: '',
   users: {},
   min_daily_budget_info: {},
+  isMusician: false,
 }
 
 const ArtistContext = React.createContext(initialArtistState)
@@ -83,6 +85,7 @@ function ArtistProvider({ children, disable }) {
   const [artistId, setArtistId] = React.useState('')
   const [artistCurrency, setArtistCurrency] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
+  const [hasBudget, setHasBudget] = React.useState(false)
 
   const setNoArtist = () => {
     if (disable) return
@@ -120,10 +123,22 @@ function ArtistProvider({ children, disable }) {
 
     if (!artist) return
 
+    // Add musician and spotify connection status
+    const { category_list: artistCategories } = artist
+    const isMusician = artistHelpers.testIfMusician(artistCategories)
+    const spotifyConnected = artistHelpers.testIfSpotifyConnected(artist.spotify_url)
+    const artistUpdated = produce(artist, artistDraft => {
+      artistDraft.isMusician = isMusician
+      artistDraft.spotifyConnected = spotifyConnected
+    })
+
+    // Set hasBudget state
+    setHasBudget(!!artist.daily_budget)
+
     setArtist({
       type: 'set-artist',
       payload: {
-        artist,
+        artist: artistUpdated,
       },
     })
     setArtistLoading(false)
@@ -273,7 +288,7 @@ function ArtistProvider({ children, disable }) {
     if (!artistId) return
     // Update local storage
     utils.setLocalStorage('artistId', artistId)
-  }, [artistId, artistCurrency])
+  }, [artistId])
 
   const value = {
     artist,
@@ -290,6 +305,7 @@ function ArtistProvider({ children, disable }) {
     addArtistUrl,
     storeArtist,
     updateBudget,
+    hasBudget,
   }
 
   return (

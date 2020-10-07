@@ -19,6 +19,7 @@ function SidePanel({
   button,
   toggle,
   isLoading,
+  disableDrag,
 }) {
   // TOGGLE SHOWING
   const [show, setShow] = React.useState(false)
@@ -101,6 +102,7 @@ function SidePanel({
     touchTargetId: 'SidePanel',
     hide: () => close(),
     reset: () => animatePanel(true),
+    disableCondition: disableDrag,
   })
 
   return (
@@ -170,6 +172,7 @@ SidePanel.propTypes = {
   button: PropTypes.node,
   toggle: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
+  disableDrag: PropTypes.bool.isRequired,
 }
 
 SidePanel.defaultProps = {

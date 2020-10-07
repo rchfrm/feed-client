@@ -18,6 +18,7 @@ export const TOURNAMENTS = '/tournaments'
 export const FAQ = '/faq'
 export const PRICING = '/pricing'
 export const NOTIFICATIONS = '/notifications'
+export const TARGETING = '/targeting'
 export const HOME = POSTS
 // Array of restricted pages
 export const restrictedPages = [
@@ -33,5 +34,6 @@ export const restrictedPages = [
   CONNECTIONS,
   RESULTS,
   NOTIFICATIONS,
+  TARGETING,
   HOME,
 ]

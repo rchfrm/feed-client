@@ -20,6 +20,8 @@
 * Third party
 */
 @import "third-party/swiper.min.css";
+@import "third-party/nouislider";
+@import "third-party/nouislider.trumps";
 @import "third-party/trumps";
 /**
 * Elements.
@@ -32,7 +34,7 @@
 @import "pills";
 @import "modals";
 @import "tooltips";
-@import "sliders";
+@import "accordion";
 /**
 * Tailwind components
 * Tailwind utilities

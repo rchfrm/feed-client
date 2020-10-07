@@ -1,5 +1,8 @@
+.button {
+  text-decoration: none !important;
+}
+
 .container {
-  perspective: 1000px;
   overflow: hidden;
 }
 
@@ -12,15 +15,8 @@
 }
 
 .inner {
-  position: relative;
   padding-top: 100%;
-  transition: transform 0.4s;
-  transform-style: preserve-3d;
   border-radius: 9999999px;
-
-  .container._navOpen & {
-    transform: rotateY(180deg);
-  }
 }
 
 .spinner {
@@ -34,15 +30,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   border-radius: 9999999px;
   overflow: hidden;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
 
   svg {
     width: 100%;
@@ -52,7 +41,6 @@
 
 .backIcon {
   border: 2px solid var(--bg-color);
-  transform: rotateY(180deg);
   background: var(--text-color);
 }
 
@@ -71,6 +59,7 @@
   padding-top: 0.5em;
   display: none;
   margin-bottom: 0;
+  text-align: center;
   
   @media (--md) {
     display: block;
