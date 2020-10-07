@@ -35,7 +35,7 @@ const PostItemTopBar = ({
             debug={debug}
           />
           {/* TOOLTIP */}
-          <PostToggleTooltip />
+          <PostToggleTooltip promotionStatus={promotionStatus} />
         </div>
       )}
     </div>

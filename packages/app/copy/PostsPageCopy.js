@@ -72,11 +72,16 @@ Posts that Feed hasn't yet made into ads. For the best results select as many as
 
   // TOGGLE TOOLTIPS
   // ----------------
-  toggleTooltipSlides: [
-    `To switch off a post that's currently running, slide to the left. The post will stop being promoted within 15 minutes.`,
+  toggleTooltipSlides: {
+    inactive: [
+      `Testing`,
+    ],
+    active: [
+      `To switch off a post that's currently running, slide to the left. The post will stop being promoted within 15 minutes.`,
 
-    `N.B. Once you have manually stopped a post running, you may not be able to start it again.`,
-  ],
+      `N.B. Once you have manually stopped a post running, you may not be able to start it again.`,
+    ],
+  },
 
   // SCORE TOOLTIPS:
   scoreTooltip: {

@@ -1,27 +1,27 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import TooltipButton from '@/elements/TooltipButton'
 
 import copy from '@/app/copy/PostsPageCopy'
 
-const getSlides = () => {
-  const slides = copy.toggleTooltipSlides
-  return { slides, slidesContentAfter: [] }
-}
 
-const PostToggleTooltip = () => {
-  const { slides, slidesContentAfter } = getSlides()
+const PostToggleTooltip = ({ promotionStatus }) => {
+  const slides = copy.toggleTooltipSlides[promotionStatus]
   return (
     <TooltipButton
       buttonClasses="ml-1 -mr-4"
       direction="left"
       slides={slides}
-      slidesContentAfter={slidesContentAfter}
       messageStyle={{
         zIndex: 4,
       }}
     />
   )
+}
+
+PostToggleTooltip.propTypes = {
+  promotionStatus: PropTypes.string.isRequired,
 }
 
 export default PostToggleTooltip
