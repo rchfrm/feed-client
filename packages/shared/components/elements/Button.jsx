@@ -16,11 +16,15 @@ const Button = React.forwardRef(({
   onClick,
   href,
   wrapper,
+  icon,
   children,
 }, ref) => {
   const versions = version
     .split(' ')
     .map((versionString) => `button--${versionString}`)
+  if (icon) {
+    versions.push('button--icon')
+  }
   // Define classes
   const classes = ['button', ...versions]
   if (className) {
@@ -55,7 +59,12 @@ const Button = React.forwardRef(({
     >
       {loading && <Spinner className="button--spinner" />}
       <span className="button--innerText">
-        {children}
+        {icon ? (
+          <span className="flex flex-grow">
+            {icon}
+            <span className="flex-grow -ml-5">{children}</span>
+          </span>
+        ) : children}
       </span>
     </Wrapper>
   )
@@ -74,6 +83,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   href: PropTypes.string,
   wrapper: PropTypes.string,
+  icon: PropTypes.node,
   children: PropTypes.node.isRequired,
 }
 
@@ -87,6 +97,7 @@ Button.defaultProps = {
   className: '',
   href: null,
   wrapper: '',
+  icon: null,
   onClick: () => {},
 }
 

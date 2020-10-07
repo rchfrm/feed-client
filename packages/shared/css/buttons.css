@@ -197,6 +197,10 @@ button {
     margin-right: 1em;
     vertical-align: bottom;
   }
+
+  .button--innerText {
+    width: 100%;
+  }
 }
 
 .button--small {
@@ -208,11 +212,6 @@ button {
 .button--facebook {
   background-color: var(--color-fb-button);
   color: var(--white);
-  
-  .button--innerText {
-    justify-content: flex-start;
-    width: 100%;
-  }
 }
 
 .integration-setup {
