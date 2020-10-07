@@ -11,7 +11,8 @@ import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
 const TournamentsContent = () => {
   const { audienceTypes, tournamentTypes } = tournamentHelpers
-  const [currentAudienceType, setCurrentAudienceType] = React.useState(audienceTypes[0].id)
+  const defaultAudienceType = audienceTypes[0].id
+  const [currentAudienceType, setCurrentAudienceType] = React.useState('')
   const [currentTournamentType, setCurrentTournamentType] = React.useState(tournamentTypes[0].id)
   const [typeFiltersDisabled, setTypeFiltersDisabled] = React.useState(false)
   // Set current tournament type to posts if selecting cold audience
@@ -28,6 +29,7 @@ const TournamentsContent = () => {
         <TournamentsAudienceFilters
           audienceTypes={audienceTypes}
           currentAudienceType={currentAudienceType}
+          defaultAudienceType={defaultAudienceType}
           setCurrentAudienceType={setCurrentAudienceType}
         />
         {/* TOURNAMENT TYPE FILTERS */}
@@ -39,12 +41,14 @@ const TournamentsContent = () => {
           disabled={typeFiltersDisabled}
         />
         {/* LOADER */}
-        <section id="TournamentItemsContainer" className="mt-5">
-          <TournamentsLoader
-            audienceName={currentAudienceType}
-            tournamentType={currentTournamentType}
-          />
-        </section>
+        {currentAudienceType && (
+          <section id="TournamentItemsContainer" className="mt-5">
+            <TournamentsLoader
+              audienceName={currentAudienceType}
+              tournamentType={currentTournamentType}
+            />
+          </section>
+        )}
       </div>
     </TournamentContextProvider>
   )
