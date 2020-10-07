@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PostMetaData from '@/app/PostMetaData'
-import PostLock from '@/app/PostLock'
 import PostToggle from '@/app/PostToggle'
 import PostToggleTooltip from '@/app/PostToggleTooltip'
 
@@ -35,13 +34,6 @@ const PostItemTopBar = ({
       {/* TOGGLE BUTTON (if poss) */}
       {postPromotable && promotionStatus !== 'archived' && (
         <div className="flex items-center">
-          <PostLock
-            post={post}
-            togglePromotion={togglePromotion}
-            promotionEnabled={promotionEnabled}
-            promotableStatus={promotableStatus}
-            debug={debug}
-          />
           <PostToggle
             post={post}
             postToggleType={postToggleType}
