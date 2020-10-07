@@ -70,7 +70,7 @@ function BudgetContent() {
       },
     } = minBudgetInfo
     const {
-      fbMinBudgetFloat,
+      fbMinFloat,
       fbMinBudgetString,
       minBudgetFloat,
       minBudgetString,
@@ -82,7 +82,7 @@ function BudgetContent() {
     })
     // Set FB min budget
     setMinBudgetFb({
-      float: fbMinBudgetFloat,
+      float: fbMinFloat,
       string: fbMinBudgetString,
     })
   // eslint-disable-next-line

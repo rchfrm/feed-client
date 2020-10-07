@@ -8,9 +8,9 @@ import useBrowserStore from '@/hooks/useBrowserStore'
 */
 
 const useBreakpointTest = (breakpoint) => {
-  const { width: windowWidth, breakpointsKeyedByName } = useBrowserStore()
+  const { breakpointsKeyedByName } = useBrowserStore()
   const breakpointWidth = breakpointsKeyedByName[breakpoint]
-  return windowWidth >= breakpointWidth
+  return window.matchMedia(`(min-width: ${breakpointWidth}px)`).matches
 }
 
 export default useBreakpointTest

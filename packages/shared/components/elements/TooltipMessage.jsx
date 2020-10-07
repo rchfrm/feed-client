@@ -21,6 +21,8 @@ const getPositionAndWidth = ({
   windowWidth,
   xsWidth,
 }) => {
+  const originalDirection = direction
+  let newDirection = direction
   const sideGap = 16
   const gap = 8
   const buttonBoundingClient = buttonEl.getBoundingClientRect()
@@ -31,37 +33,36 @@ const getPositionAndWidth = ({
   buttonTop += window.scrollY
   buttonLeft += window.scrollX
   // Force direction as top for screens below xs
-  if (windowWidth < xsWidth) {
-    direction = 'bottom'
+  if (windowWidth < xsWidth && originalDirection !== 'top') {
+    newDirection = 'bottom'
   }
   let top
   let left
   let width = defaultWidth
-  if (direction === 'top' || direction === 'bottom') {
+  if (newDirection === 'top' || newDirection === 'bottom') {
     left = buttonLeft + (buttonWidth / 2) - (messageWidth / 2)
   }
-  if (direction === 'top') {
+  if (newDirection === 'top') {
     top = buttonTop - gap
   }
-  if (direction === 'bottom') {
+  if (newDirection === 'bottom') {
     top = buttonTop + buttonHeight + gap
   }
-  // TODO bottom
-  if (direction === 'left' || direction === 'right') {
+  if (newDirection === 'left' || newDirection === 'right') {
     top = buttonTop + (buttonWidth / 2)
   }
-  if (direction === 'left') {
+  if (newDirection === 'left') {
     left = buttonLeft - (buttonWidth / 2) - messageWidth + (gap * 1)
   }
-  if (direction === 'right') {
+  if (newDirection === 'right') {
     left = buttonLeft + buttonWidth + gap
   }
-  // If window width is less than max width, fix to center
-  // And move arrow
-  if (left <= sideGap) {
-    left = sideGap
+  // If window width is less than max width, fix to center and move arrow
+  const mobileLayout = left <= sideGap || left > (windowWidth - sideGap) || windowWidth < xsWidth
+  if (mobileLayout) {
     width = Math.min(defaultWidth, windowWidth - (sideGap * 2))
-    arrowEl.style.left = `${buttonLeft - 1}px`
+    left = originalDirection === 'left' ? windowWidth - width - sideGap : sideGap
+    arrowEl.style.left = `${buttonLeft - left + sideGap}px`
   // Else reset arrow
   } else {
     arrowEl.style.left = null
@@ -110,7 +111,7 @@ const TooltipMessage = ({
       windowWidth,
       xsWidth,
     })
-    const style = { ...defaultStyle, left, top, width, opacity: 1 }
+    const style = { ...defaultStyle, left, top, width, opacity: 1, zIndex: 10 }
     // If screen is big enough set to default style
     setStyle(style)
     // Set as ready

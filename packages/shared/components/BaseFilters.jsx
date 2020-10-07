@@ -82,9 +82,10 @@ const BaseFilters = ({
               buttonType={buttonType}
               backgroundColor={backgroundColor}
               icon={icon}
-              className={activeClass}
               textColor={textColor}
               active={active}
+              onClick={() => setActiveOptionId(id)}
+              className={activeClass}
             />
           )
         })}

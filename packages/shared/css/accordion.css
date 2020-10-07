@@ -1,0 +1,6 @@
+/* Styling this */
+/* https://github.com/springload/react-accessible-accordion#readme */
+
+.accordion__button {
+  outline: 0;
+}

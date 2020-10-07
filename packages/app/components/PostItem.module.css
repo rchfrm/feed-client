@@ -56,11 +56,6 @@
   /* Increase meta height if no toggle button, to compensate height */
   .postItem._unpromotable & {
     padding: 5px 0;
-    @media (min-width: 360px) { padding: 5px 0 }
-    @media (--xs) { padding: 0 }
-    @media (--sm) { padding: 5px 0 }
-    @media (--lg) { padding: 0 }
-    @media (min-width: 1300px) { padding: 5px 0 }
   }
 
   > * {
@@ -88,15 +83,6 @@
     .disabled & {
       color: var(--grey);
     }
-  }
-
-  br {
-    display: inline;
-    @media (min-width: 360px) { display: none }
-    @media (--xs) { display: inline }
-    @media (--sm) { display: none }
-    @media (--lg) { display: inline }
-    @media (min-width: 1300px) { display: none }
   }
 }
 

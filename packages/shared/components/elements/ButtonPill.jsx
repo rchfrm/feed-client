@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 const ButtonPill = ({
   active,
   disabled,
+  highlight,
   hasIcon,
   size,
   onClick,
@@ -15,6 +16,7 @@ const ButtonPill = ({
     'button--pill',
     active ? '-active' : null,
     disabled ? '-disabled' : null,
+    highlight ? '-highlighted' : null,
     hasIcon ? '-has-icon' : null,
     `-${size}`,
     className,
@@ -36,6 +38,7 @@ const ButtonPill = ({
 ButtonPill.propTypes = {
   active: PropTypes.bool,
   disabled: PropTypes.bool,
+  highlight: PropTypes.bool,
   hasIcon: PropTypes.bool,
   size: PropTypes.string,
   onClick: PropTypes.func.isRequired,
@@ -47,6 +50,7 @@ ButtonPill.propTypes = {
 ButtonPill.defaultProps = {
   active: false,
   disabled: false,
+  highlight: false,
   hasIcon: false,
   size: 'regular',
   style: {},

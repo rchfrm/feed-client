@@ -10,10 +10,12 @@ body {
 a {
   color: var(--black);
 
-  @mixin canHover {
-    &:not(.button):hover {
-      color: var(--green);
-    } 
+  &[href] {
+    @mixin canHover {
+      &:not(.button):hover {
+        color: var(--green);
+      } 
+    }
   }
 }
 
