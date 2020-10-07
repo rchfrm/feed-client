@@ -78,7 +78,15 @@ Posts that Feed hasn't yet made into ads. For the best results select as many as
   // ----------------
   toggleTooltipSlides: {
     inactive: [
-      `Testing`,
+      `This switch indicates whether Feed can promote the post…`,
+
+      `Initially, the post will follow your default promotion setting.
+
+To override this, slide the switch to the right to let Feed promote the post, or left to prevent Feed promoting this post.`,
+
+      `You can change your default settings using the ‘Post Settings’ button at the top of the posts page.
+
+By default, Feed won’t promote posts older than 28 days unless you opt them in.`,
     ],
     active: [
       `To switch off a post that's currently running, slide to the left. The post will stop being promoted within 15 minutes.`,
