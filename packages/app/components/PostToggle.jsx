@@ -44,7 +44,6 @@ const PostToggle = ({
   promotionEnabled,
   promotableStatus,
   togglePromotion,
-  debug,
 }) => {
   const { id: postId } = post
   const [buttonState, setButtonState] = React.useState(getButtonState(promotableStatus))
@@ -64,10 +63,6 @@ const PostToggle = ({
     promotionEnabled: getPromotionStatus(buttonState),
     onResolve: (post) => {
       const { promotion_enabled, promotable_status } = post
-      if (debug) {
-        console.log('promotion_enabled', promotion_enabled)
-        console.log('promotable_status', promotable_status)
-      }
       // Update post list state
       togglePromotion(postId, promotion_enabled, promotable_status)
     },
@@ -208,12 +203,6 @@ PostToggle.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotableStatus: PropTypes.number.isRequired,
   togglePromotion: PropTypes.func.isRequired,
-  debug: PropTypes.bool,
 }
-
-PostToggle.defaultProps = {
-  debug: false,
-}
-
 
 export default PostToggle

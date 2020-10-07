@@ -15,7 +15,6 @@ const PostItemTopBar = ({
   togglePromotion,
   postPromotable,
   promotionStatus,
-  debug,
 }) => {
   return (
     <div className={[styles.topBar, styles.postSection, styles.postText].join(' ')}>
@@ -32,7 +31,6 @@ const PostItemTopBar = ({
             togglePromotion={togglePromotion}
             promotionEnabled={promotionEnabled}
             promotableStatus={promotableStatus}
-            debug={debug}
           />
           {/* TOOLTIP */}
           <PostToggleTooltip promotionStatus={promotionStatus} />
@@ -49,13 +47,11 @@ PostItemTopBar.propTypes = {
   togglePromotion: PropTypes.func.isRequired,
   postPromotable: PropTypes.bool,
   promotionStatus: PropTypes.string,
-  debug: PropTypes.bool,
 }
 
 PostItemTopBar.defaultProps = {
   postPromotable: true,
   promotionStatus: '',
-  debug: false,
 }
 
 
