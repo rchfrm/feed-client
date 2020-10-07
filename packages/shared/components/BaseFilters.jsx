@@ -82,9 +82,8 @@ const BaseFilters = ({
     // If not using query string, don't do anything
     if (!useSetQuery || !useSetLocalStorage) return
     // Set current filter using query string
-    const { filter: currentFilterQuery } = router.query
+    const currentFilterQuery = router.query[queryTitle]
     const currentFilterStorage = utils.getLocalStorage(queryTitle)
-    console.log('currentFilterStorage', currentFilterStorage)
     // If no filter query or storage query, use default
     if (!currentFilterQuery && !currentFilterStorage) {
       setActiveOptionId(defaultOptionId)
