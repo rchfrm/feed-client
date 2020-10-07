@@ -2,11 +2,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import InputBase from '@/elements/InputBase'
+
 import TickIcon from '@/icons/TickIcon'
 import CrossIcon from '@/icons/CrossIcon'
 import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
-import TooltipButton from '@/elements/TooltipButton'
 import brandColors from '@/constants/brandColors'
 
 
@@ -108,44 +109,34 @@ const Input = ({
   }, [handleChange, updateValue, name])
 
   return (
-    <div className={containerClasses.join(' ')}>
-      <label
-        className="inputLabel"
-        htmlFor={name}
-      >
-        {/* LABEL */}
-        {label && (
-          <span className="inputLabel__text">
-            {label}
-            {required && <span className="asterisk">*</span>}
-            {/* LABEL TOOLTIP */}
-            {tooltipMessage && (
-              <TooltipButton copy={tooltipMessage} direction="right" />
-            )}
-          </span>
-        )}
-        {/* INPUT */}
-        <div className="input--inner">
-          <input
-            className={['input', `input--${version}`].join(' ')}
-            name={name}
-            type={type}
-            onChange={onChange}
-            placeholder={placeholder}
-            style={{
-              width: `${width}%`,
-            }}
-            value={value}
-            readOnly={readOnly || disabled}
-            required={required}
-            ref={inputElement}
-            autoComplete={!autoComplete ? 'off' : ''}
-          />
-          {/* ICON */}
-          {iconEl}
-        </div>
-      </label>
-    </div>
+    <InputBase
+      name={name}
+      label={label}
+      tooltipMessage={tooltipMessage}
+      readOnly={readOnly}
+      required={required}
+      className={className}
+      icon={icon}
+      error={error}
+      success={success}
+      disabled={disabled}
+    >
+      <input
+        ref={inputElement}
+        className={['input', `input--${version}`].join(' ')}
+        name={name}
+        type={type}
+        onChange={onChange}
+        placeholder={placeholder}
+        style={{
+          width: `${width}%`,
+        }}
+        value={value}
+        readOnly={readOnly || disabled}
+        required={required}
+        autoComplete={!autoComplete ? 'off' : ''}
+      />
+    </InputBase>
   )
 }
 

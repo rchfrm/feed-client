@@ -1,6 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-function PencilIcon({ width, fill }) {
+import brandColors from '@/constants/brandColors'
+
+const PencilIcon = ({ width, className, fill }) => {
   const name = 'Pencil'
 
   return (
@@ -9,6 +12,7 @@ function PencilIcon({ width, fill }) {
       data-name={name}
       width={width}
       viewBox="0 0 600 600"
+      className={className}
     >
       <title>{name}</title>
       <rect
@@ -34,5 +38,16 @@ function PencilIcon({ width, fill }) {
     </svg>
   )
 }
+
+PencilIcon.propTypes = {
+  fill: PropTypes.string,
+  className: PropTypes.string,
+}
+
+PencilIcon.defaultProps = {
+  fill: brandColors.textColor,
+  className: null,
+}
+
 
 export default PencilIcon

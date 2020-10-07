@@ -197,3 +197,47 @@ export const sanitiseArtistAccountUrls = (artistAccounts) => {
     return draft
   })
 }
+
+
+export const musicianCategories = [
+  'Musician',
+  'Musician/Band',
+  'Band',
+  'Orchestra',
+  'Producer',
+  'Artist',
+  'Record label',
+  'Music',
+  'Album',
+  'Choir',
+  'Music award',
+  'Music chart',
+  'Music video',
+  'Musical genre',
+  'Playlist',
+  'Podcast',
+  'Record label',
+  'Song',
+  'Symphony',
+  'Music production studio',
+  'Music school',
+]
+
+/**
+ * Receives array of artist category objects and
+ * returns bool if any category makes this account a musician
+ * @param {array} artistCategories
+ * @returns {boolean}
+ */
+export const testIfMusician = (artistCategories = []) => {
+  return artistCategories.some(({ name }) => musicianCategories.includes(name))
+}
+
+/**
+ * Test whether this account has spotify connected
+ * @param {string} spotifyUrl
+ * @returns {boolean}
+ */
+export const testIfSpotifyConnected = (spotifyUrl) => {
+  return !!(spotifyUrl && spotifyUrl.includes('/artist/'))
+}

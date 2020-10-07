@@ -12,6 +12,7 @@ import TheHeader from '@/app/TheHeader'
 import ThePageButtons from '@/app/ThePageButtons'
 import TheFooter from '@/app/TheFooter'
 import PopupModal from '@/PopupModal'
+import AlertModal from '@/AlertModal'
 
 import BrowserStoreSetup from '@/BrowserStoreSetup'
 
@@ -31,7 +32,9 @@ const AppContents = ({ children }) => {
 
             <ThePageButtons />
 
+            {/* SITEWIDE MODALS */}
             <PopupModal />
+            <AlertModal />
 
             <TheFooter />
           </ArtistProvider>

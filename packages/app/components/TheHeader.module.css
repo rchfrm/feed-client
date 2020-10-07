@@ -68,6 +68,10 @@
 
   .TheHeader._subNavOpen & {
     @media (--mdMax) {
+      left: var(--sp-8);
+    }
+
+    @media (--smMax) {
       left: var(--sp-6);
     }
   }
