@@ -80,7 +80,7 @@ const BaseFilters = ({
   // SET ACTIVE OPTION BASED ON QUERY STRING and LOCAL STORAGE
   React.useEffect(() => {
     // If not using query string, don't do anything
-    if (!useSetQuery || !useSetLocalStorage) return
+    if (!useSetQuery && !useSetLocalStorage) return
     // Set current filter using query string
     const currentFilterQuery = router.query[queryTitle]
     const currentFilterStorage = utils.getLocalStorage(queryTitle)
@@ -100,7 +100,7 @@ const BaseFilters = ({
   React.useEffect(() => {
     if (!activeOptionId) return
     const filterName = useSlug ? getSlugFromId(options, activeOptionId) : activeOptionId
-    const { filter: currentFilterQuery } = router.query
+    const currentFilterQuery = router.query[queryTitle]
     if (currentFilterQuery === filterName) return
     if (useSetQuery) {
       setQueryString(filterName)
@@ -188,7 +188,7 @@ BaseFilters.defaultProps = {
   useSetQuery: false,
   useSetLocalStorage: false,
   queryTitle: '',
-  useSlug: true,
+  useSlug: false,
   className: '',
 }
 
