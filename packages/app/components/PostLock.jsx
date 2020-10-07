@@ -14,10 +14,14 @@ const PostLock = ({
   promotionEnabled,
   promotableStatus,
   togglePromotion,
+  debug,
 }) => {
   const isLocked = Math.abs(promotableStatus) === 2
-  console.log('promotableStatus', promotableStatus)
-  console.log('promotionEnabled', promotionEnabled)
+  if (debug) {
+    console.log('promotableStatus', promotableStatus)
+    console.log('promotionEnabled', promotionEnabled)
+    console.log('********')
+  }
   return (
     <button
       className={[
@@ -46,6 +50,12 @@ PostLock.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotableStatus: PropTypes.number.isRequired,
   togglePromotion: PropTypes.func.isRequired,
+  debug: PropTypes.bool,
 }
+
+PostLock.defaultProps = {
+  debug: false,
+}
+
 
 export default PostLock
