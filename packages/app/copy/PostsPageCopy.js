@@ -72,24 +72,11 @@ Posts that Feed hasn't yet made into ads. For the best results select as many as
 
   // TOGGLE TOOLTIPS
   // ----------------
-  toggleTooltipSlides: {
-    triple: [
-      `This switch indicates whether Feed can promote the post...`,
+  toggleTooltipSlides: [
+    `To switch off a post that's currently running, slide to the left. The post will stop being promoted within 15 minutes.`,
 
-      `When centered, the post will follow your default setting. A green outline means it's eligible for promotion, a red outline means it's not.`,
-
-      `Slide right to override your default settings and let Feed promote this post.`,
-
-      `Slide left to override your default settings and prevent Feed from promoting this post.`,
-
-      `You can change your default settings using the ‘Post Settings’ button at the top of the posts page.`,
-    ],
-    double: [
-      `To switch off a post that's currently running, slide to the left. The post will stop being promoted within 15 minutes.`,
-
-      `N.B. Once you have manually stopped a post running, you may not be able to start it again.`,
-    ],
-  },
+    `N.B. Once you have manually stopped a post running, you may not be able to start it again.`,
+  ],
 
   // SCORE TOOLTIPS:
   scoreTooltip: {

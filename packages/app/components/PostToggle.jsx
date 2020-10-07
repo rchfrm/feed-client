@@ -26,16 +26,10 @@ const getBorderColor = (buttonState, promotionEnabled) => {
   return errorColor
 }
 
-const getButtonState = (promotableStatus, postToggleType) => {
+const getButtonState = (promotableStatus) => {
   // Handle double toggle
-  if (postToggleType === 'double') {
-    if (promotableStatus > 0) return 'on'
-    if (promotableStatus <= 0) return 'off'
-  }
-  // Handle triple toggle
-  if (promotableStatus === 2) return 'on'
-  if (promotableStatus === -2) return 'off'
-  return 'default'
+  if (promotableStatus > 0) return 'on'
+  if (promotableStatus <= 0) return 'off'
 }
 
 const getPromotionStatus = (buttonState) => {
@@ -47,14 +41,13 @@ const getPromotionStatus = (buttonState) => {
 
 const PostToggle = ({
   post,
-  postToggleType,
   promotionEnabled,
   promotableStatus,
   togglePromotion,
   debug,
 }) => {
   const { id: postId } = post
-  const [buttonState, setButtonState] = React.useState(getButtonState(promotableStatus, postToggleType))
+  const [buttonState, setButtonState] = React.useState(getButtonState(promotableStatus))
   const [borderColor, setBorderColor] = React.useState(getBorderColor(buttonState, promotionEnabled))
   const switchEl = React.useRef(null)
   const containerEl = React.useRef(null)
@@ -100,7 +93,7 @@ const PostToggle = ({
       min: -maxMove,
       max: maxMove,
     }
-  }, [postToggleType])
+  }, [])
   const animateSwitch = React.useCallback((forceState) => {
     const newState = forceState || buttonState
     const { current: switchCircle } = switchEl
@@ -131,22 +124,17 @@ const PostToggle = ({
   }, [buttonState, promotionEnabled, animateSwitch])
   // UPDATE BUTTON STATUS BASED ON POST PROPS
   React.useEffect(() => {
-    const buttonState = getButtonState(promotableStatus, postToggleType)
+    const buttonState = getButtonState(promotableStatus)
     setButtonState(buttonState)
-  }, [promotableStatus, postToggleType])
+  }, [promotableStatus])
 
   // SETUP DRAG
   const handleTap = React.useCallback(() => {
     if (buttonState === 'default') return
-    // Tapping when triple
-    if (postToggleType === 'triple') {
-      setButtonState('default')
-      return
-    }
-    // Tapping when double
+    // Handle Tapping
     const newState = buttonState === 'on' ? 'off' : 'on'
     setButtonState(newState)
-  }, [buttonState, postToggleType])
+  }, [buttonState])
   // Run this on drag
   const onDrag = React.useCallback((dragState) => {
     const { last, movement, event, tap } = dragState
@@ -158,13 +146,10 @@ const PostToggle = ({
     const xClamped = clamp(x, dragBoundaries.current.min, dragBoundaries.current.max)
     // HANDLE RELEASE...
     if (last) {
-      const movementThreshold = postToggleType === 'triple' ? 0.35 : 0.2
+      const movementThreshold = 0.2
       const movementPercent = xClamped / dragBoundaries.current.max
       // Not moved enough to either side, set to default
       if (Math.abs(movementPercent) < movementThreshold) {
-        if (postToggleType === 'triple') {
-          setButtonState('default')
-        }
         // Snap back
         animateSwitch()
         return
@@ -178,7 +163,7 @@ const PostToggle = ({
     }
     // Move switch
     cssSetter.current(xClamped)
-  }, [postToggleType, handleTap, animateSwitch])
+  }, [handleTap, animateSwitch])
   // Drag binder
   const dragBind = useDrag(state => onDrag(state), {
     axis: 'x',
@@ -190,8 +175,6 @@ const PostToggle = ({
     <div
       className={[
         styles.PostToggle,
-        postToggleType === 'triple' ? styles._toggleTriple : null,
-        postToggleType === 'double' ? styles._toggleDouble : null,
         buttonState === 'on' ? styles.on : buttonState === 'off' ? styles.off : styles.default,
       ].join(' ')}
       ref={containerEl}
@@ -206,13 +189,11 @@ const PostToggle = ({
         action="off"
         buttonState={buttonState}
         setButtonState={setButtonState}
-        postToggleType={postToggleType}
       />
       <PostToggleSwitch
         action="on"
         buttonState={buttonState}
         setButtonState={setButtonState}
-        postToggleType={postToggleType}
       />
       {/* Switch slider */}
       <div className={styles.switch} {...dragBind()} ref={switchEl}>
@@ -224,7 +205,6 @@ const PostToggle = ({
 
 PostToggle.propTypes = {
   post: PropTypes.object.isRequired,
-  postToggleType: PropTypes.string.isRequired,
   promotionEnabled: PropTypes.bool.isRequired,
   promotableStatus: PropTypes.number.isRequired,
   togglePromotion: PropTypes.func.isRequired,

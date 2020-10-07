@@ -1,15 +1,11 @@
 .PostToggle {
   position: relative;
-  width: var(--sp-16);
+  width: var(--sp-14);
   height: var(--sp-8);
   
   border-radius: 50px;
   overflow: hidden;
   background-color: var(--grey);
-
-  &._toggleDouble {
-    width: var(--sp-14);
-  }
 
   &.off {
     background-color: var(--error-color);
@@ -47,33 +43,6 @@
     margin-top: -2px;
     border-radius: 50%;
     pointer-events: none;
-  }
-
-  /* Red dot */
-  &::before {
-    background-color: var(--error-color);
-    left: 7px;
-
-    .PostToggle.on & {
-      opacity: 0;
-    }
-  }
-
-  /* Green dot */
-  &::after {
-    background-color: var(--success-color);
-    right: 7px;
-
-    .PostToggle.off & {
-      opacity: 0;
-    }
-  }
-
-  ._toggleDouble & {
-    &::after,
-    &::before {
-      display: none;
-    }
   }
 }
 

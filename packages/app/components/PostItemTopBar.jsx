@@ -8,12 +8,6 @@ import PostToggleTooltip from '@/app/PostToggleTooltip'
 import styles from '@/app/PostItem.module.css'
 
 
-const getPostToggleType = (promotionStatus) => {
-  if (promotionStatus === 'inactive') return 'double'
-  if (promotionStatus === 'active') return 'double'
-  return 'disabled'
-}
-
 const PostItemTopBar = ({
   post,
   promotionEnabled,
@@ -23,7 +17,6 @@ const PostItemTopBar = ({
   promotionStatus,
   debug,
 }) => {
-  const postToggleType = getPostToggleType(promotionStatus)
   return (
     <div className={[styles.topBar, styles.postSection, styles.postText].join(' ')}>
       <PostMetaData
@@ -36,16 +29,13 @@ const PostItemTopBar = ({
         <div className="flex items-center">
           <PostToggle
             post={post}
-            postToggleType={postToggleType}
             togglePromotion={togglePromotion}
             promotionEnabled={promotionEnabled}
             promotableStatus={promotableStatus}
             debug={debug}
           />
           {/* TOOLTIP */}
-          <PostToggleTooltip
-            postToggleType={postToggleType}
-          />
+          <PostToggleTooltip />
         </div>
       )}
     </div>
