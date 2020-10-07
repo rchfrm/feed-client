@@ -42,17 +42,18 @@ function InsightsContent() {
   // eslint-disable-next-line
   }, [artistId, availableDataSources.length])
 
+  const defaultPlatform = React.useMemo(() => {
+    return chartHelpers.getInitialPlatform(availablePlatforms)
+  }, [availablePlatforms])
+
   // SET INITIAL PLATFORM AND DATA SOURCE
   React.useEffect(() => {
-    if (!availablePlatforms.length) return
-    // Get and set initial platform
-    const platform = chartHelpers.getInitialPlatform(availablePlatforms)
-    setCurrentPlatform(platform)
+    if (!availablePlatforms.length || !currentPlatform) return
     // Get and set initial data source
-    const source = chartHelpers.getInitialDataSource(availableDataSources, platform)
+    const source = chartHelpers.getInitialDataSource(availableDataSources, currentPlatform)
     setCurrentDataSource(source)
   // eslint-disable-next-line
-  }, [artistId, availablePlatforms.length])
+  }, [artistId, currentPlatform, availablePlatforms.length])
 
   // Set page ready after page has loaded
   React.useEffect(() => {
@@ -63,8 +64,7 @@ function InsightsContent() {
     }
   }, [initialLoading])
 
-
-  if (artistLoading || !(currentPlatform || currentDataSource)) return null
+  if (artistLoading) return null
 
   const containerClasses = [styles.pageContainer]
   if (pageReady) {
@@ -80,6 +80,7 @@ function InsightsContent() {
         availablePlatforms={availablePlatforms}
         currentPlatform={currentPlatform}
         setCurrentPlatform={setCurrentPlatform}
+        defaultPlatform={defaultPlatform}
         initialLoading={initialLoading}
       />
       {/* DATASOURCE SELECTORS */}
