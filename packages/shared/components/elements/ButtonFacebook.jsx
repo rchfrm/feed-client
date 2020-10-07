@@ -39,11 +39,13 @@ const ButtonFacebook = (props) => {
       version={['facebook', 'icon', version].join(' ')}
       ref={buttonRef}
     >
-      <FacebookIcon
-        fill={brandColors.white}
-        width="20"
-      />
-      {children}
+      <span className="flex flex-grow">
+        <FacebookIcon
+          fill={brandColors.white}
+          width="20"
+        />
+        <span className="flex-grow -ml-5">{children}</span>
+      </span>
     </Button>
   )
 }

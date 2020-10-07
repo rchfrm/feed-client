@@ -211,6 +211,7 @@ button {
   
   .button--innerText {
     justify-content: flex-start;
+    width: 100%;
   }
 }
 
