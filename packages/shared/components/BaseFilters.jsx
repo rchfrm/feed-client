@@ -109,6 +109,7 @@ const BaseFilters = ({
     if (useSetLocalStorage) {
       utils.setLocalStorage(queryTitle, filterName)
     }
+  // eslint-disable-next-line
   }, [activeOptionId])
 
   if (!options.length) return null
