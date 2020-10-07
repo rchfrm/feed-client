@@ -141,16 +141,18 @@
   }
 }
 
-/* Left and right for narrow screens converted to top */
+/* Left and right for narrow screens converted to bottom */
 @media (--xsMax) {
     .tooltip--message.-left,
     .tooltip--message.-right {
-      transform: translateY(-100%);
+      transform: translateY(0);
 
       .tooltip--arrow {
         left: 50%;
-        bottom: -1px;
-        transform: translateX(-50%) translateY(50%) rotate(135deg);
+        top: 4px;
+        bottom: auto;
+        right: auto;
+        transform: translateX(-50%) translateY(-100%) rotate(-45deg);
       }
     }
 

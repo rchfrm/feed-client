@@ -353,7 +353,7 @@ export default {
   twitter_follower_count: {
     name: 'twitter_follower_count',
     platform: 'twitter',
-    visible: true,
+    visible: false,
     breakdown: false,
     title: 'followers',
     subtitle: 'total',

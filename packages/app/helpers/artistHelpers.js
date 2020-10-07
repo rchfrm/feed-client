@@ -106,8 +106,8 @@ export const getSortedArtistAccountsArray = (artistAccounts) => {
  * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-export const getArtistOnSignUp = async (facebookAccessToken, verifyIdToken) => {
-  return api.post('/artists/available', { access_token: facebookAccessToken }, verifyIdToken)
+export const getArtistOnSignUp = async (facebookAccessToken) => {
+  return api.post('/artists/available', { access_token: facebookAccessToken })
 }
 
 
