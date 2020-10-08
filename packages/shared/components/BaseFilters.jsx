@@ -71,12 +71,18 @@ const BaseFilters = ({
   }, [activeOptionId])
 
   const setQueryString = React.useCallback((filterSlug) => {
+    const { query: currentQueries } = utils.parseUrl(window.location.href)
+    const newQueries = {
+      ...currentQueries,
+      [querySlug]: filterSlug,
+    }
     router.replace({
       pathname: router.pathname,
-      query: { [querySlug]: filterSlug },
+      query: newQueries,
     })
   }, [router, querySlug])
 
+  // * ON MOUNT
   // SET ACTIVE OPTION BASED ON QUERY STRING and LOCAL STORAGE
   React.useEffect(() => {
     // If not using query string, don't do anything
@@ -96,6 +102,7 @@ const BaseFilters = ({
   // eslint-disable-next-line
   }, [])
 
+  // * ON OPTION CHANGE
   // UPDATE QUERY AND LOCAL STORAATE when active option changes
   React.useEffect(() => {
     if (!activeOptionId) return
