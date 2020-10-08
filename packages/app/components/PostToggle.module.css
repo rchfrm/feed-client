@@ -50,6 +50,10 @@
   width: 24px;
   border-radius: 50%;
   background-color: #fff;
+
+  .PostToggle._disabled & {
+    background-color: var(--grey);
+  }
 }
 
 .switchSpinner {
