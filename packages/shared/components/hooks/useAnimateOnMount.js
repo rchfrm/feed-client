@@ -4,7 +4,10 @@ import { gsap } from 'gsap'
 const isUndefined = (arg) => arg === undefined
 const isAnyDefined = (...args) => args.some((a) => !isUndefined(a))
 const noop = () => { }
-const debug = (name, msg) => console.debug(name, msg)
+const debug = (name, msg, devMode) => {
+  if (!devMode) return
+  console.debug(name, msg)
+}
 
 const defaultAnimationProps = {
   duration: 0.3,
@@ -59,6 +62,7 @@ const useAnimateOnMount = ({
   exit,
   wait,
   debugName = 'unknown',
+  devMode = false,
 }) => {
   const [variant, setVariant] = React.useState(initial)
   const didRender = React.useRef(false)
@@ -99,12 +103,12 @@ const useAnimateOnMount = ({
     const animation = animateVisible(domRef.current)
     animationInstance.current = animation
     if (enter) {
-      debug(debugName, 'Registering onfinish enter animation')
+      debug(debugName, 'Registering onfinish enter animation', devMode)
       animation.then(() => enter())
     }
   }
   const handleExitAnimationEnd = (exitCb) => {
-    debug(debugName, 'Exit animation finished')
+    debug(debugName, 'Exit animation finished', devMode)
     exitCb()
   }
 
@@ -127,14 +131,14 @@ const useAnimateOnMount = ({
 
   // SHOW
   const showPresence = () => {
-    debug(debugName, 'Switching to visible')
+    debug(debugName, 'Switching to visible', devMode)
     aboutToExit.current = false
     setVariant('visible')
   }
 
   // TOGGLE
   const togglePresence = (exitCb = noop) => {
-    debug(debugName, `Toggled variant, currently ${variant}`)
+    debug(debugName, `Toggled variant, currently ${variant}`, devMode)
     if (isVisible) {
       hidePresence(exitCb)
     } else {
@@ -144,16 +148,16 @@ const useAnimateOnMount = ({
 
   React.useLayoutEffect(() => {
     if (!domRef.current) {
-      debug(debugName, 'ref is now undefined!')
+      debug(debugName, 'ref is now undefined!', devMode)
       return
     }
     const shouldAnimateFirstRender = !didRender.current && animateFirstRender
     if (shouldAnimateFirstRender) {
-      debug(debugName, 'Animating first render')
+      debug(debugName, 'Animating first render', devMode)
       return playEnterAnimation()
     }
     if (isVisible) {
-      debug(debugName, 'Playing enter animation')
+      debug(debugName, 'Playing enter animation', devMode)
       playEnterAnimation()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -161,7 +165,7 @@ const useAnimateOnMount = ({
 
   React.useLayoutEffect(() => {
     if (!didRender.current && isVisible) {
-      debug(debugName, 'Rendered')
+      debug(debugName, 'Rendered', devMode)
       didRender.current = true
     }
   }, [isVisible, debugName])
