@@ -41,7 +41,7 @@ const InsightPlatformSelectors = ({
       labelText="Select a platform"
       useSetQuery
       useSetLocalStorage
-      queryTitle="platform"
+      querySlug="platform"
     />
   )
 }

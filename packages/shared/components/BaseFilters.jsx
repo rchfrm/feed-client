@@ -51,7 +51,7 @@ const BaseFilters = ({
   tooltipDirection,
   useSetQuery,
   useSetLocalStorage,
-  queryTitle,
+  querySlug,
   useSlug,
   className,
 }) => {
@@ -73,17 +73,17 @@ const BaseFilters = ({
   const setQueryString = React.useCallback((filterSlug) => {
     router.replace({
       pathname: router.pathname,
-      query: { [queryTitle]: filterSlug },
+      query: { [querySlug]: filterSlug },
     })
-  }, [router, queryTitle])
+  }, [router, querySlug])
 
   // SET ACTIVE OPTION BASED ON QUERY STRING and LOCAL STORAGE
   React.useEffect(() => {
     // If not using query string, don't do anything
     if (!useSetQuery && !useSetLocalStorage) return
     // Set current filter using query string
-    const currentFilterQuery = router.query[queryTitle]
-    const currentFilterStorage = utils.getLocalStorage(queryTitle)
+    const currentFilterQuery = router.query[querySlug]
+    const currentFilterStorage = utils.getLocalStorage(querySlug)
     // If no filter query or storage query, use default
     if (!currentFilterQuery && !currentFilterStorage) {
       setActiveOptionId(defaultOptionId)
@@ -100,13 +100,13 @@ const BaseFilters = ({
   React.useEffect(() => {
     if (!activeOptionId) return
     const filterName = useSlug ? getSlugFromId(options, activeOptionId) : activeOptionId
-    const currentFilterQuery = router.query[queryTitle]
+    const currentFilterQuery = router.query[querySlug]
     if (currentFilterQuery === filterName) return
     if (useSetQuery) {
       setQueryString(filterName)
     }
     if (useSetLocalStorage) {
-      utils.setLocalStorage(queryTitle, filterName)
+      utils.setLocalStorage(querySlug, filterName)
     }
   // eslint-disable-next-line
   }, [activeOptionId])
@@ -170,7 +170,7 @@ BaseFilters.propTypes = {
   tooltipDirection: PropTypes.string,
   useSetQuery: PropTypes.bool,
   useSetLocalStorage: PropTypes.bool,
-  queryTitle: (props, propName, componentName) => {
+  querySlug: (props, propName, componentName) => {
     if ((props.useSetQuery || props.useSetLocalStorage) && !props[propName]) {
       return new Error(`Please provide a value for the ${propName}! in ${componentName}`)
     }
@@ -187,7 +187,7 @@ BaseFilters.defaultProps = {
   tooltipDirection: 'right',
   useSetQuery: false,
   useSetLocalStorage: false,
-  queryTitle: '',
+  querySlug: '',
   useSlug: false,
   className: '',
 }

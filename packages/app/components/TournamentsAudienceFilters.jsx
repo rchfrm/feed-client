@@ -44,7 +44,7 @@ const TournamentsAudienceFilters = ({
       useSetQuery
       useSetLocalStorage
       useSlug
-      queryTitle="audience"
+      querySlug="audience"
     />
   )
 }
