@@ -31,12 +31,12 @@ import * as utils from '@/helpers/utils'
 */
 
 const getSlugFromId = (options, id) => {
-  const { slug } = options.find(({ id: optionId }) => id === optionId)
+  const { slug } = options.find(({ id: optionId }) => id === optionId) || {}
   return slug
 }
 
 const getIdFromSlug = (options, slug) => {
-  const { id } = options.find(({ slug: optionSlug }) => slug === optionSlug)
+  const { id } = options.find(({ slug: optionSlug }) => slug === optionSlug) || {}
   return id
 }
 
@@ -98,6 +98,13 @@ const BaseFilters = ({
     // If there is a filter query, set this as active option ID
     const storedFilter = currentFilterQuery || currentFilterStorage
     const activeId = useSlug ? getIdFromSlug(options, storedFilter) : storedFilter
+    // Test if active ID is valid
+    const isIdValid = !!options.find(({ id }) => id === activeId)
+    // If stored ID is not valid, use default option
+    if (!isIdValid) {
+      setActiveOptionId(defaultOptionId)
+      return
+    }
     setActiveOptionId(activeId)
   // eslint-disable-next-line
   }, [])
