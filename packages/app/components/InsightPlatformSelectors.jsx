@@ -7,13 +7,11 @@ import Icon from '@/elements/Icon'
 // Constants
 import brandColors from '@/constants/brandColors'
 
-
-
 const InsightPlatformSelectors = ({
   availablePlatforms,
   currentPlatform,
   setCurrentPlatform,
-  initialLoading,
+  defaultPlatform,
 }) => {
   // Build options array for base filters
   const baseFiltersOptions = React.useMemo(() => {
@@ -32,14 +30,18 @@ const InsightPlatformSelectors = ({
     })
   }, [availablePlatforms, currentPlatform])
 
-  if (initialLoading) return null
+  if (!defaultPlatform) return null
 
   return (
     <BaseFilters
       options={baseFiltersOptions}
       activeOptionId={currentPlatform}
+      defaultOptionId={defaultPlatform}
       setActiveOptionId={setCurrentPlatform}
       labelText="Select a platform"
+      useSetQuery
+      useSetLocalStorage
+      querySlug="platform"
     />
   )
 }
@@ -48,10 +50,11 @@ InsightPlatformSelectors.propTypes = {
   availablePlatforms: PropTypes.array.isRequired,
   currentPlatform: PropTypes.string,
   setCurrentPlatform: PropTypes.func.isRequired,
-  initialLoading: PropTypes.bool.isRequired,
+  defaultPlatform: PropTypes.string,
 }
 
 InsightPlatformSelectors.defaultProps = {
+  defaultPlatform: '',
   currentPlatform: '',
 }
 

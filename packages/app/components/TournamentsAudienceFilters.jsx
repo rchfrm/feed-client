@@ -14,16 +14,18 @@ const FILTER_BUTTON_ICON = ({ backgroundColor }) => {
 const TournamentsAudienceFilters = ({
   audienceTypes,
   currentAudienceType,
+  defaultAudienceType,
   setCurrentAudienceType,
 }) => {
   // Build options array for base filters
   const baseFiltersOptions = React.useMemo(() => {
-    return audienceTypes.map(({ id, title, color, activeTextColor }) => {
+    return audienceTypes.map(({ id, title, slug, color, activeTextColor }) => {
       // Get icon color
       const backgroundColor = id === currentAudienceType ? brandColors.white : color
       const icon = <FILTER_BUTTON_ICON backgroundColor={backgroundColor} />
       return {
         id,
+        slug,
         title,
         icon,
         color,
@@ -36,8 +38,13 @@ const TournamentsAudienceFilters = ({
     <BaseFilters
       options={baseFiltersOptions}
       activeOptionId={currentAudienceType}
+      defaultOptionId={defaultAudienceType}
       setActiveOptionId={setCurrentAudienceType}
       labelText="Select an audience type"
+      useSetQuery
+      useSetLocalStorage
+      useSlug
+      querySlug="audience"
     />
   )
 }
@@ -45,6 +52,7 @@ const TournamentsAudienceFilters = ({
 TournamentsAudienceFilters.propTypes = {
   audienceTypes: PropTypes.array.isRequired,
   currentAudienceType: PropTypes.string.isRequired,
+  defaultAudienceType: PropTypes.string.isRequired,
   setCurrentAudienceType: PropTypes.func.isRequired,
 }
 
