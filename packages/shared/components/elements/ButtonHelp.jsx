@@ -38,7 +38,7 @@ const ButtonHelp = React.forwardRef(({
       <div
         className={[
           'flex items-center',
-          'w-12 h-full',
+          'w-12 h-12',
           'rounded-full bg-sc',
           className,
         ].join(' ')}
