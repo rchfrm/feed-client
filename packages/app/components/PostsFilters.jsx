@@ -58,7 +58,7 @@ const PostsFilters = ({
       useSetQuery
       useSetLocalStorage
       useSlug
-      queryTitle="postStatus"
+      querySlug="postStatus"
     />
   )
 }
