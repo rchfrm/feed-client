@@ -142,7 +142,7 @@ export const formatPostsResponse = (posts) => {
       reach: adsSummaryMetrics.reach,
       engagements: get(adsSummaryMetrics, ['actions', 'post_engagement'], null),
       clicks: getPaidClicks(adsSummaryMetrics),
-      engagementScore: adsSummary.engagement_score,
+      engagementScore: adsSummary.spend_adjusted_engagement_score,
       drilldowns: {
         engagements: getPaidEngagementsDrilldown(adsSummaryMetrics),
       },
