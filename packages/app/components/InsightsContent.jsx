@@ -42,17 +42,14 @@ function InsightsContent() {
   // eslint-disable-next-line
   }, [artistId, availableDataSources.length])
 
-  // SET INITIAL PLATFORM AND DATA SOURCE
-  React.useEffect(() => {
-    if (!availablePlatforms.length) return
-    // Get and set initial platform
-    const platform = chartHelpers.getInitialPlatform(availablePlatforms)
-    setCurrentPlatform(platform)
-    // Get and set initial data source
-    const source = chartHelpers.getInitialDataSource(availableDataSources, platform)
-    setCurrentDataSource(source)
-  // eslint-disable-next-line
-  }, [artistId, availablePlatforms.length])
+  const defaultPlatform = React.useMemo(() => {
+    return chartHelpers.getInitialPlatform(availablePlatforms)
+  }, [availablePlatforms])
+
+  const defaultDataSource = React.useMemo(() => {
+    if (!availableDataSources || !currentPlatform) return
+    return chartHelpers.getInitialDataSource(availableDataSources, currentPlatform)
+  }, [availableDataSources, currentPlatform])
 
   // Set page ready after page has loaded
   React.useEffect(() => {
@@ -63,8 +60,7 @@ function InsightsContent() {
     }
   }, [initialLoading])
 
-
-  if (artistLoading || !(currentPlatform || currentDataSource)) return null
+  if (artistLoading) return null
 
   const containerClasses = [styles.pageContainer]
   if (pageReady) {
@@ -80,6 +76,7 @@ function InsightsContent() {
         availablePlatforms={availablePlatforms}
         currentPlatform={currentPlatform}
         setCurrentPlatform={setCurrentPlatform}
+        defaultPlatform={defaultPlatform}
         initialLoading={initialLoading}
       />
       {/* DATASOURCE SELECTORS */}
@@ -87,6 +84,7 @@ function InsightsContent() {
         availableDataSources={availableDataSources}
         currentPlatform={currentPlatform}
         currentDataSource={currentDataSource}
+        defaultDataSource={defaultDataSource}
         setCurrentDataSource={setCurrentDataSource}
         initialLoading={initialLoading}
       />

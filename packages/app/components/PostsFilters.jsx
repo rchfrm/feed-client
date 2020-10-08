@@ -15,16 +15,18 @@ const FILTER_BUTTON_ICON = ({ backgroundColor }) => {
 const PostsFilters = ({
   postTypes,
   currentPostType,
+  defaultPostState,
   setCurrentPostType,
 }) => {
   // Build options array for base filters
   const baseFiltersOptions = React.useMemo(() => {
-    return postTypes.map(({ id, title, color, activeTextColor }) => {
+    return postTypes.map(({ id, slug, title, color, activeTextColor }) => {
       // Get icon color
       const backgroundColor = id === currentPostType ? brandColors.white : color
       const icon = id === 'all' ? null : <FILTER_BUTTON_ICON backgroundColor={backgroundColor} />
       return {
         id,
+        slug,
         title,
         icon,
         color,
@@ -48,10 +50,15 @@ const PostsFilters = ({
     <BaseFilters
       options={baseFiltersOptions}
       activeOptionId={currentPostType}
+      defaultOptionId={defaultPostState}
       setActiveOptionId={setCurrentPostType}
       labelText="Filter by post status"
       tooltipSlides={tooltipSlides}
       tooltipDirection="bottom"
+      useSetQuery
+      useSetLocalStorage
+      useSlug
+      querySlug="postStatus"
     />
   )
 }
@@ -59,6 +66,7 @@ const PostsFilters = ({
 PostsFilters.propTypes = {
   postTypes: PropTypes.array.isRequired,
   currentPostType: PropTypes.string.isRequired,
+  defaultPostState: PropTypes.string.isRequired,
   setCurrentPostType: PropTypes.func.isRequired,
 }
 

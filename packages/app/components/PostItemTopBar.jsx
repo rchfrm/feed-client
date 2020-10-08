@@ -8,12 +8,6 @@ import PostToggleTooltip from '@/app/PostToggleTooltip'
 import styles from '@/app/PostItem.module.css'
 
 
-const getPostToggleType = (promotionStatus) => {
-  if (promotionStatus === 'inactive') return 'triple'
-  if (promotionStatus === 'active') return 'double'
-  return 'disabled'
-}
-
 const PostItemTopBar = ({
   post,
   promotionEnabled,
@@ -22,7 +16,7 @@ const PostItemTopBar = ({
   postPromotable,
   promotionStatus,
 }) => {
-  const postToggleType = getPostToggleType(promotionStatus)
+  const toggleDisabled = !postPromotable || promotionStatus === 'archived'
   return (
     <div className={[styles.topBar, styles.postSection, styles.postText].join(' ')}>
       <PostMetaData
@@ -31,21 +25,19 @@ const PostItemTopBar = ({
         permalink={post.permalinkUrl}
       />
       {/* TOGGLE BUTTON (if poss) */}
-      {postPromotable && promotionStatus !== 'archived' && (
-        <div className="flex">
-          <PostToggle
-            post={post}
-            postToggleType={postToggleType}
-            togglePromotion={togglePromotion}
-            promotionEnabled={promotionEnabled}
-            promotableStatus={promotableStatus}
-          />
-          {/* TOOLTIP */}
-          <PostToggleTooltip
-            postToggleType={postToggleType}
-          />
-        </div>
-      )}
+      <div className="flex items-center">
+        {/* TOOLTIP */}
+        {!toggleDisabled && (
+          <PostToggleTooltip promotionStatus={promotionStatus} />
+        )}
+        <PostToggle
+          post={post}
+          togglePromotion={togglePromotion}
+          promotionEnabled={promotionEnabled}
+          promotableStatus={promotableStatus}
+          disabled={toggleDisabled}
+        />
+      </div>
     </div>
   )
 }

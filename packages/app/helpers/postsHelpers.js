@@ -1,12 +1,13 @@
 import get from 'lodash/get'
 import moment from 'moment'
+import slugify from 'slugify'
 
 import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
 // TRANSLATE PROMOTION NAME
-export const translatePromotionName = (promotionStatus, capitalize) => {
+export const translatePromotionName = (promotionStatus, format) => {
   let title
   switch (promotionStatus) {
     case 'active':
@@ -21,7 +22,8 @@ export const translatePromotionName = (promotionStatus, capitalize) => {
     default:
       title = promotionStatus
   }
-  if (capitalize) return utils.capitalise(title)
+  if (format === 'capitalize') return utils.capitalise(title)
+  if (format === 'slugify') return slugify(title)
   return title
 }
 
@@ -29,25 +31,29 @@ export const translatePromotionName = (promotionStatus, capitalize) => {
 export const postTypes = [
   {
     id: 'all',
-    title: translatePromotionName('all', true),
+    title: translatePromotionName('all', 'capitalize'),
+    slug: translatePromotionName('all', 'slugify'),
     color: brandColors.black,
     activeTextColor: brandColors.white,
   },
   {
     id: 'active',
-    title: translatePromotionName('active', true),
+    title: translatePromotionName('active', 'capitalize'),
+    slug: translatePromotionName('active', 'slugify'),
     color: brandColors.green,
     activeTextColor: brandColors.white,
   },
   {
     id: 'archived',
-    title: translatePromotionName('archived', true),
+    title: translatePromotionName('archived', 'capitalize'),
+    slug: translatePromotionName('archived', 'slugify'),
     color: brandColors.black,
     activeTextColor: brandColors.white,
   },
   {
     id: 'inactive',
-    title: translatePromotionName('inactive', true),
+    title: translatePromotionName('inactive', 'capitalize'),
+    slug: translatePromotionName('inactive', 'slugify'),
     color: brandColors.greyDark,
     activeTextColor: brandColors.white,
   },
