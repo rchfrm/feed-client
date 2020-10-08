@@ -12,18 +12,21 @@ export const audienceTypes = [
   {
     id: 'remind_traffic',
     title: 'Warm',
+    slug: 'warm',
     color: brandColors.red,
     activeTextColor: brandColors.black,
   },
   {
     id: 'entice_traffic',
     title: 'Cool',
+    slug: 'cool',
     color: brandColors.soundcloud.bg,
     activeTextColor: brandColors.soundcloud.text,
   },
   {
     id: 'entice_engage',
     title: 'Cold',
+    slug: 'cold',
     color: brandColors.twitter.bg,
     activeTextColor: brandColors.twitter.text,
   },

@@ -41,11 +41,15 @@ Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotif
     `The other icons are suggested links, but you can use any field for any link.`,
   ],
 
-  globalStatusConfirmation: `Changing this will update the current status on all your current and future posts.
-  
-  **This process might take a while, so please don’t refresh the page.**
+  globalStatusConfirmation: `Are you sure?
 
-  Do you want to continue?`,
+Changing this will update the current status on all your current and future posts.
+
+Posts you've manually switched on or off won't be affected.
+
+**This process might take a while, so please don’t refresh the page.**
+
+Do you want to continue?`,
 
   // Warning when turning off active post
   postStatusConfirmation: `Ads created from this post will soon stop running to all audiences. This post will not be eligible to run as an ad in the future.`,
@@ -73,18 +77,18 @@ Posts that Feed hasn't yet made into ads. For the best results select as many as
   // TOGGLE TOOLTIPS
   // ----------------
   toggleTooltipSlides: {
-    triple: [
-      `This switch indicates whether Feed can promote the post...`,
+    inactive: [
+      `This switch indicates whether Feed can promote the post…`,
 
-      `When centered, the post will follow your default setting. A green outline means it's eligible for promotion, a red outline means it's not.`,
+      `Initially, the post will follow your default promotion setting.
 
-      `Slide right to override your default settings and let Feed promote this post.`,
+To override this, slide the switch to the right to let Feed promote the post, or left to prevent Feed promoting this post.`,
 
-      `Slide left to override your default settings and prevent Feed from promoting this post.`,
+      `You can change your default settings using the ‘Post Settings’ button at the top of the posts page.
 
-      `You can change your default settings using the ‘Post Settings’ button at the top of the posts page.`,
+By default, Feed won’t promote posts older than 28 days unless you opt them in.`,
     ],
-    double: [
+    active: [
       `To switch off a post that's currently running, slide to the left. The post will stop being promoted within 15 minutes.`,
 
       `N.B. Once you have manually stopped a post running, you may not be able to start it again.`,

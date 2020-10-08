@@ -31,12 +31,12 @@ import * as utils from '@/helpers/utils'
 */
 
 const getSlugFromId = (options, id) => {
-  const { slug } = options.find(({ id: optionId }) => id === optionId)
+  const { slug } = options.find(({ id: optionId }) => id === optionId) || {}
   return slug
 }
 
 const getIdFromSlug = (options, slug) => {
-  const { id } = options.find(({ slug: optionSlug }) => slug === optionSlug)
+  const { id } = options.find(({ slug: optionSlug }) => slug === optionSlug) || {}
   return id
 }
 
@@ -51,7 +51,7 @@ const BaseFilters = ({
   tooltipDirection,
   useSetQuery,
   useSetLocalStorage,
-  queryTitle,
+  querySlug,
   useSlug,
   className,
 }) => {
@@ -71,19 +71,25 @@ const BaseFilters = ({
   }, [activeOptionId])
 
   const setQueryString = React.useCallback((filterSlug) => {
+    const { query: currentQueries } = utils.parseUrl(window.location.href)
+    const newQueries = {
+      ...currentQueries,
+      [querySlug]: filterSlug,
+    }
     router.replace({
       pathname: router.pathname,
-      query: { [queryTitle]: filterSlug },
+      query: newQueries,
     })
-  }, [router, queryTitle])
+  }, [router, querySlug])
 
+  // * ON MOUNT
   // SET ACTIVE OPTION BASED ON QUERY STRING and LOCAL STORAGE
   React.useEffect(() => {
     // If not using query string, don't do anything
-    if (!useSetQuery || !useSetLocalStorage) return
+    if (!useSetQuery && !useSetLocalStorage) return
     // Set current filter using query string
-    const currentFilterQuery = router.query[queryTitle]
-    const currentFilterStorage = utils.getLocalStorage(queryTitle)
+    const currentFilterQuery = router.query[querySlug]
+    const currentFilterStorage = utils.getLocalStorage(querySlug)
     // If no filter query or storage query, use default
     if (!currentFilterQuery && !currentFilterStorage) {
       setActiveOptionId(defaultOptionId)
@@ -92,21 +98,29 @@ const BaseFilters = ({
     // If there is a filter query, set this as active option ID
     const storedFilter = currentFilterQuery || currentFilterStorage
     const activeId = useSlug ? getIdFromSlug(options, storedFilter) : storedFilter
+    // Test if active ID is valid
+    const isIdValid = !!options.find(({ id }) => id === activeId)
+    // If stored ID is not valid, use default option
+    if (!isIdValid) {
+      setActiveOptionId(defaultOptionId)
+      return
+    }
     setActiveOptionId(activeId)
   // eslint-disable-next-line
   }, [])
 
+  // * ON OPTION CHANGE
   // UPDATE QUERY AND LOCAL STORAATE when active option changes
   React.useEffect(() => {
     if (!activeOptionId) return
     const filterName = useSlug ? getSlugFromId(options, activeOptionId) : activeOptionId
-    const { filter: currentFilterQuery } = router.query
+    const currentFilterQuery = router.query[querySlug]
     if (currentFilterQuery === filterName) return
     if (useSetQuery) {
       setQueryString(filterName)
     }
     if (useSetLocalStorage) {
-      utils.setLocalStorage(queryTitle, filterName)
+      utils.setLocalStorage(querySlug, filterName)
     }
   // eslint-disable-next-line
   }, [activeOptionId])
@@ -170,7 +184,7 @@ BaseFilters.propTypes = {
   tooltipDirection: PropTypes.string,
   useSetQuery: PropTypes.bool,
   useSetLocalStorage: PropTypes.bool,
-  queryTitle: (props, propName, componentName) => {
+  querySlug: (props, propName, componentName) => {
     if ((props.useSetQuery || props.useSetLocalStorage) && !props[propName]) {
       return new Error(`Please provide a value for the ${propName}! in ${componentName}`)
     }
@@ -187,8 +201,8 @@ BaseFilters.defaultProps = {
   tooltipDirection: 'right',
   useSetQuery: false,
   useSetLocalStorage: false,
-  queryTitle: '',
-  useSlug: true,
+  querySlug: '',
+  useSlug: false,
   className: '',
 }
 

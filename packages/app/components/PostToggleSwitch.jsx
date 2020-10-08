@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PostToggleSwitch = ({ action, buttonState, setButtonState, postToggleType }) => {
+const PostToggleSwitch = ({ action, setButtonState }) => {
   const xClass = action === 'off' ? 'left-0' : 'right-0'
   const newState = React.useMemo(() => {
-    return (buttonState === 'default' || postToggleType === 'double') ? action : 'default'
-  }, [buttonState, action, postToggleType])
+    return action
+  }, [action])
   const onClick = React.useCallback(() => {
     setButtonState(newState)
   }, [newState, setButtonState])
@@ -27,9 +27,7 @@ const PostToggleSwitch = ({ action, buttonState, setButtonState, postToggleType 
 
 PostToggleSwitch.propTypes = {
   action: PropTypes.string.isRequired,
-  buttonState: PropTypes.string.isRequired,
   setButtonState: PropTypes.func.isRequired,
-  postToggleType: PropTypes.string.isRequired,
 }
 
 export default PostToggleSwitch
