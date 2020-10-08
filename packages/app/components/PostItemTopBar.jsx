@@ -16,6 +16,7 @@ const PostItemTopBar = ({
   postPromotable,
   promotionStatus,
 }) => {
+  const toggleDisabled = !postPromotable || promotionStatus === 'archived'
   return (
     <div className={[styles.topBar, styles.postSection, styles.postText].join(' ')}>
       <PostMetaData
@@ -24,18 +25,19 @@ const PostItemTopBar = ({
         permalink={post.permalinkUrl}
       />
       {/* TOGGLE BUTTON (if poss) */}
-      {postPromotable && promotionStatus !== 'archived' && (
-        <div className="flex items-center">
-          <PostToggle
-            post={post}
-            togglePromotion={togglePromotion}
-            promotionEnabled={promotionEnabled}
-            promotableStatus={promotableStatus}
-          />
-          {/* TOOLTIP */}
+      <div className="flex items-center">
+        {/* TOOLTIP */}
+        {!toggleDisabled && (
           <PostToggleTooltip promotionStatus={promotionStatus} />
-        </div>
-      )}
+        )}
+        <PostToggle
+          post={post}
+          togglePromotion={togglePromotion}
+          promotionEnabled={promotionEnabled}
+          promotableStatus={promotableStatus}
+          disabled={toggleDisabled}
+        />
+      </div>
     </div>
   )
 }

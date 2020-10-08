@@ -10,7 +10,7 @@ const PostToggleTooltip = ({ promotionStatus }) => {
   const slides = copy.toggleTooltipSlides[promotionStatus]
   return (
     <TooltipButton
-      buttonClasses="ml-1 -mr-4"
+      buttonClasses="mr-1"
       direction="left"
       slides={slides}
       messageStyle={{
