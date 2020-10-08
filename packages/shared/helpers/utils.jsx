@@ -354,6 +354,23 @@ export const closestNumberInArray = (array, target) => {
   })
 }
 
+/**
+ * @param {array} baseArray
+ * @param {array} comparisonArray
+ * @returns {array}
+ * Removes elements from the baseArray that occur in the comparisonArray
+ */
+export const removeArrayOverlap = (baseArray = [], comparisonArray = []) => {
+  return baseArray.reduce((arr, item) => {
+    // If item is in the comparison array, don't inlcude
+    if (comparisonArray.includes(item)) {
+      return arr
+    }
+    // Else include item
+    return [...arr, item]
+  }, [])
+}
+
 export const returnArtistNameArray = (obj) => {
   if (obj === null) {
     return null

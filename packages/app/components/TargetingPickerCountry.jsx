@@ -48,9 +48,9 @@ const TargetingPickerCountry = ({
                     <ArrowHeadIcon
                       className="ml-2"
                       style={{
-                        width: '0.5rem',
-                        height: 'auto',
-                        transform: expanded ? 'rotate(0deg) translateY(0.08em)' : 'rotate(-90deg) translateX(-0.05em)',
+                        height: '6px',
+                        width: 'auto',
+                        transform: expanded ? 'rotate(0deg) translate(0, 0.6em)' : 'rotate(-90deg) translate(-0.62em, 0em)',
                       }}
                     />
                   )}

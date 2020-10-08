@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import pullAll from 'lodash/pullAll'
 import uniq from 'lodash/uniq'
 
 import {
@@ -16,6 +15,8 @@ import TargetingPickerCities from '@/app/TargetingPickerCities'
 import TargetingLocationsSentence from '@/app/TargetingLocationsSentence'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
+
+import { removeArrayOverlap } from '@/helpers/utils'
 
 const TargetingPickerLocations = ({
   initialCityKeys,
@@ -43,31 +44,35 @@ const TargetingPickerLocations = ({
     }, [])
   }, [countriesArray])
 
-  // TOGGLE CITIES AND COUNTRIES
+  // TOGGLE CITIES AND COUNTRIES...
 
-  // Turn off all cities connected to a selected country
-  React.useEffect(() => {
+  // Function to update selected countries
+  const updateCountries = React.useCallback((selectedCountries) => {
+    // Uncheck related cities
     const citiesToPurge = selectedCountries.reduce((arr, code) => {
       const country = locationOptions[code]
       const cityKeys = country.cities.map(({ key }) => key)
       return [...arr, ...cityKeys]
     }, [])
-    const purgedCities = pullAll(selectedCities, citiesToPurge)
-    setSelectedCities([...purgedCities])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCountries, locationOptions])
+    const purgedCities = removeArrayOverlap(selectedCities, citiesToPurge)
+    setSelectedCities(purgedCities)
+    // Set selected countries
+    setSelectedCountries(selectedCountries)
+  }, [setSelectedCountries, setSelectedCities, selectedCities, locationOptions])
 
-  // Turn off country if selecting a city from that country
-  React.useEffect(() => {
+  // Function to update selected cities
+  const updateCities = React.useCallback((selectedCities) => {
+    // Uncheck related countries
     const countriesToPurge = selectedCities.map((cityCode) => {
       // Related country code
       const { country_code } = citiesArray.find(({ key }) => key === cityCode)
       return country_code
     })
-    const purgedSelectedCountries = pullAll(selectedCountries, uniq(countriesToPurge))
+    const purgedSelectedCountries = removeArrayOverlap(selectedCountries, uniq(countriesToPurge))
     setSelectedCountries(purgedSelectedCountries)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCities])
+    // Set selected countries
+    setSelectedCities(selectedCities)
+  }, [setSelectedCountries, setSelectedCities, selectedCountries, citiesArray])
 
   // SHOW COUNTRIES THAT HAVE SELECTED CITIES AS OPEN
   const getOpenCountries = () => {
@@ -107,7 +112,7 @@ const TargetingPickerLocations = ({
               <TargetingPickerCountry
                 country={country}
                 selectedCountries={selectedCountries}
-                setSelectedCountries={setSelectedCountries}
+                setSelectedCountries={updateCountries}
                 hasCities={hasCities}
                 totalCitiesSelected={locationOptions[code].totalCitiesSelected}
                 initiallyPicked={initiallyPicked}
@@ -119,7 +124,7 @@ const TargetingPickerLocations = ({
                     cities={cities}
                     selectedCities={selectedCities}
                     initialCityKeys={initialCityKeys}
-                    setSelectedCities={setSelectedCities}
+                    setSelectedCities={updateCities}
                   />
                 </AccordionItemPanel>
               )}

@@ -202,6 +202,7 @@ export const sanitiseArtistAccountUrls = (artistAccounts) => {
 export const musicianCategories = [
   'Musician',
   'Musician/Band',
+  'Musician/band',
   'Band',
   'Orchestra',
   'Producer',
