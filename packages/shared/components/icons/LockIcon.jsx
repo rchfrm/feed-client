@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import brandColors from '@/constants/brandColors'
 
 const LockIcon = ({ fill, className, unlocked }) => {
-  console.log('unlocked', unlocked)
   return (
     <svg
       className={className}
