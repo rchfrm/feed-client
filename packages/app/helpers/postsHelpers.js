@@ -244,6 +244,51 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
 }
 
 
+
+// LINKS
+// ------------------------
+
+// * DEV DUMMY LINK
+const dummyLinks = [
+  {
+    type: 'folder',
+    name: 'Hippos',
+    id: 'hippos',
+    links: [
+      {
+        type: 'link',
+        name: 'Mission statement',
+        id: 'mission-staement',
+        href: 'https://test.com',
+      },
+      {
+        type: 'link',
+        name: 'Bolognese recipe',
+        id: 'bolognese-recipe',
+        href: 'https://test.com',
+      },
+    ],
+  },
+  {
+    type: 'link',
+    name: 'Standalone hero',
+    id: 'standalone-hero',
+    href: 'https://test.com',
+  },
+]
+
+// FETCH SAVED LINKS
+export const fetchSavedLinks = (artistId, type) => {
+  console.log(`get links for artist ${artistId}`)
+  return new Promise((resolve) => {
+    if (type === 'dummy') {
+      setTimeout(() => {
+        resolve({ links: dummyLinks })
+      }, 500)
+    }
+  })
+}
+
 // SET NEW DEFAULT LINK
 export const setDefaultLink = (link) => {
   return new Promise((resolve) => {
