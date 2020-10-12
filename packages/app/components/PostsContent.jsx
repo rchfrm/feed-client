@@ -3,6 +3,7 @@ import React from 'react'
 
 import Button from '@/elements/Button'
 import GearIcon from '@/icons/GearIcon'
+import LinkIcon from '@/icons/LinkIcon'
 
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
@@ -27,6 +28,22 @@ const PostsContent = () => {
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
     <div className="relative">
+      {/* REFRESH BUTTON (mobile) */}
+      {refreshPosts && (
+        <div
+          className={[
+            'xs:hidden',
+            'mb-5  -mt-5 xxs:mt-0 minContent:-mt-5',
+          ].join(' ')}
+        >
+          <PostsRefreshButton
+            refreshPosts={refreshPosts}
+            className={[
+              'xs:hidden',
+            ].join(' ')}
+          />
+        </div>
+      )}
       {/* FILTERS */}
       <PostsFilters
         postTypes={postTypes}
@@ -34,20 +51,31 @@ const PostsContent = () => {
         setCurrentPostType={setCurrentPostType}
         defaultPostState={allFilter.id}
       />
-      {/* POST SETTINGS BUTTON */}
+      {/* BUTTONS */}
       <div className="iphone8:flex justify-start mb-4 pt-2">
+        {/* POST SETTINGS BUTTON */}
         <Button
           className={styles.postSettingsButton}
           onClick={goToPostSettings}
           version="black small icon"
         >
           <GearIcon fill={brandColors.bgColor} />
-          Post Settings
+          Settings
         </Button>
+        {/* LINKS BUTTON */}
+        <Button
+          className={styles.postsTopButton}
+          onClick={goToPostSettings}
+          version="black small icon"
+        >
+          <LinkIcon fill={brandColors.bgColor} />
+          Links
+        </Button>
+        {/* REFRESH BUTTON (desktop) */}
         {refreshPosts && (
           <PostsRefreshButton
             refreshPosts={refreshPosts}
-            className="mt-5 iphone8:mt-0 iphone8:ml-5"
+            className="hidden xs:block ml-auto"
           />
         )}
       </div>
