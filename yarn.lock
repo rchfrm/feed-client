@@ -13371,10 +13371,10 @@ react-number-format@^4.4.1:
   dependencies:
     prop-types "^15.7.2"
 
-react-peek-element@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/react-peek-element/-/react-peek-element-1.1.1.tgz#80b4c13060d463a1c4beb31f2541b40e406f153f"
-  integrity sha512-vzy3tB0evrbrhpQETf6wCPHucoDysfC+rWyaE9rt8qRCRS0UYMpHmG2YYxFC983yTU0gjZJuv5FEZnl3kqeh/g==
+react-peek-element@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-peek-element/-/react-peek-element-1.1.2.tgz#112099a080ad38b2369cee664a40a1c983570d19"
+  integrity sha512-pTbRtjjnkAZ+6qORartC+AYZe1OOlTHKk4ISauCVH5k5nwG/3d+OaOSEw9isfv4uj1jRtrr7F9q9drM4VTbyWA==
   dependencies:
     resize-observer-polyfill "^1.5.1"
 
