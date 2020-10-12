@@ -34,6 +34,11 @@
         "source": "/connect-artists",
         "destination": "/connect-accounts",
         "type": 301
+      },
+      {
+        "source": "/budget",
+        "destination": "/controls",
+        "type": 301
       }
     ],
     "headers": [
