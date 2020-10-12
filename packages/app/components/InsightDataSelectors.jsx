@@ -30,11 +30,6 @@ const InsightDataSelectors = ({
   // Set first data sources as active when platform changes
   React.useEffect(() => {
     if (!platformSources.length || initialLoading) return
-    // If current data set exists in the current platform, don't reset data set
-    const { query: currentQueries } = utils.parseUrl(window.location.href)
-    const currentDataSource = currentQueries ? currentQueries[filterQuerySlug] : defaultDataSource
-    const isSamePlatform = !!platformSources.find(({ name }) => name === currentDataSource)
-    if (isSamePlatform) return
     // Get and set initial data source
     const source = chartHelpers.getInitialDataSource(platformSources, currentPlatform)
     setCurrentDataSource(source)
