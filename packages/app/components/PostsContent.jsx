@@ -17,6 +17,7 @@ import styles from '@/app/PostsPage.module.css'
 const PostsContent = () => {
   const { goToPostSettings } = usePostsSettings()
   const { setTogglePromotionGlobal } = React.useContext(PostsContext)
+
   const allFilter = postTypes.find(({ id }) => id === 'all')
   const [currentPostType, setCurrentPostType] = React.useState('')
   // GET REFRESH POSTS FUNCTION
@@ -51,7 +52,7 @@ const PostsContent = () => {
         {/* POST SETTINGS BUTTON */}
         <PostSettingsButton
           className={styles.postsTopButton}
-          togglePromotionGlobal={togglePromotionGlobal}
+          goToPostSettings={goToPostSettings}
         />
         {/* LINKS BUTTON */}
         <PostLinksButton
