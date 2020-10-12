@@ -7,7 +7,6 @@ export const LOGIN = '/login'
 export const LOGIN_EMAIL = '/login/email'
 export const PASSWORD_FORGET = '/forgot-password'
 export const POSTS = '/'
-export const BUDGET = '/budget'
 export const CONTROLS = '/controls'
 export const INSIGHTS = '/insights'
 export const ACCOUNT = '/account'
@@ -27,7 +26,6 @@ export const restrictedPages = [
   CONNECT_ACCOUNTS,
   THANK_YOU,
   POSTS,
-  BUDGET,
   INSIGHTS,
   ACCOUNT,
   PAYMENT,
