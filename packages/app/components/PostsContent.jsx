@@ -17,6 +17,8 @@ import styles from '@/app/PostsPage.module.css'
 const PostsContent = () => {
   const { goToPostSettings } = usePostsSettings()
   const { setTogglePromotionGlobal } = React.useContext(PostsContext)
+  // OPEN THE POST SETTINGS SIDE PANEL
+  const [updateLinks, setUpdateLinks] = React.useState(() => () => {})
 
   const allFilter = postTypes.find(({ id }) => id === 'all')
   const [currentPostType, setCurrentPostType] = React.useState('')
@@ -57,6 +59,7 @@ const PostsContent = () => {
         {/* LINKS BUTTON */}
         <PostLinksButton
           className={styles.postsTopButton}
+          updateLinks={updateLinks}
         />
         {/* REFRESH BUTTON (desktop) */}
         {refreshPosts && (

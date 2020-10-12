@@ -14,7 +14,7 @@ import * as postsHelpers from '@/app/helpers/postsHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
-const PostsLinks = ({}) => {
+const PostsLinks = ({ updateLinks }) => {
   const { artistId } = React.useContext(ArtistContext)
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   const [savedLinks, setSavedLinks] = React.useState([])
@@ -48,7 +48,7 @@ const PostsLinks = ({}) => {
 }
 
 PostsLinks.propTypes = {
-
+  updateLinks: PropTypes.func.isRequired,
 }
 
 export default PostsLinks

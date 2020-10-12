@@ -10,12 +10,12 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import brandColors from '@/constants/brandColors'
 
-const PostLinksButton = ({ className, setDefaultPostsLink }) => {
+const PostLinksButton = ({ className, updateLinks }) => {
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
   const togglePostsLinks = React.useCallback(() => {
-    setSidePanelContent(<PostsLinks setDefaultPostsLink={setDefaultPostsLink} />)
+    setSidePanelContent(<PostsLinks updateLinks={updateLinks} />)
     toggleSidePanel(true)
-  }, [setSidePanelContent, toggleSidePanel, setDefaultPostsLink])
+  }, [setSidePanelContent, toggleSidePanel, updateLinks])
   return (
     <Button
       className={className}
@@ -30,7 +30,7 @@ const PostLinksButton = ({ className, setDefaultPostsLink }) => {
 
 PostLinksButton.propTypes = {
   className: PropTypes.string,
-  setDefaultPostsLink: PropTypes.func.isRequired,
+  updateLinks: PropTypes.func.isRequired,
 }
 
 PostLinksButton.defaultProps = {
