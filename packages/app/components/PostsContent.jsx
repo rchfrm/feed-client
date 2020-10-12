@@ -1,9 +1,5 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
-
-import Button from '@/elements/Button'
-import LinkIcon from '@/icons/LinkIcon'
-
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
 
@@ -11,6 +7,7 @@ import { PostsContext } from '@/app/contexts/PostsContext'
 import usePostsSettings from '@/app/hooks/usePostsSettings'
 
 import PostSettingsButton from '@/app/PostSettingsButton'
+import PostLinksButton from '@/app/PostLinksButton'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 
 
@@ -57,14 +54,9 @@ const PostsContent = () => {
           togglePromotionGlobal={togglePromotionGlobal}
         />
         {/* LINKS BUTTON */}
-        <Button
+        <PostLinksButton
           className={styles.postsTopButton}
-          onClick={goToPostSettings}
-          version="black small icon"
-        >
-          <LinkIcon fill={brandColors.bgColor} />
-          Links
-        </Button>
+        />
         {/* REFRESH BUTTON (desktop) */}
         {refreshPosts && (
           <PostsRefreshButton
