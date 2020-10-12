@@ -1,7 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 
-import PeekElement from '@/app/PeekElement'
+import PeekElement from 'react-peek-element'
 // IMPORT HOOKS
 import useBrowserStore from '@/hooks/useBrowserStore'
 import useLoggedInTest from '@/hooks/useLoggedInTest'
