@@ -12,6 +12,7 @@ import Error from '@/elements/Error'
 import PostsConnectionsTooltip from '@/app/PostsConnectionsTooltip'
 import PostSettingsStatusConfirmation from '@/app/PostSettingsStatusConfirmation'
 import PostConnections from '@/app/PostConnections'
+import PostsSettingsDefaultLink from '@/app/PostsSettingsDefaultLink'
 // IMPORT COPY
 import copy from '@/app/copy/PostsPageCopy'
 // IMPORT HELPERS
@@ -123,6 +124,16 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
             selectedValue={defaultPostStatus}
           />
         </div>
+        {/* DEFAULT LINK */}
+        <h3 className="settingSection__header">Default Link</h3>
+        <MarkdownText className="settingSection__intro" markdown={copy.defaultLinkIntro} />
+        <PostsSettingsDefaultLink
+          className="mb-8"
+          link={{
+            name: 'Best music ever with a really long name',
+            id: 'best-music-ever',
+          }}
+        />
         {/* CONNECTIONS */}
         <div className={styles.settingSection}>
           <h3 className="settingSection__header">Connections</h3>
