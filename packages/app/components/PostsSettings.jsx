@@ -125,15 +125,17 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
           />
         </div>
         {/* DEFAULT LINK */}
-        <h3 className="settingSection__header">Default Link</h3>
-        <MarkdownText className="settingSection__intro" markdown={copy.defaultLinkIntro} />
-        <PostsSettingsDefaultLink
-          className="mb-8"
-          link={{
-            name: 'Best music ever with a really long name',
-            id: 'best-music-ever',
-          }}
-        />
+        <section className={styles.settingSection}>
+          <h3 className="settingSection__header">Default Link</h3>
+          <MarkdownText className="settingSection__intro" markdown={copy.defaultLinkIntro} />
+          <PostsSettingsDefaultLink
+            className="mb-8"
+            link={{
+              name: 'Best music ever with a really long name',
+              id: 'best-music-ever',
+            }}
+          />
+        </section>
         {/* CONNECTIONS */}
         <div className={styles.settingSection}>
           <h3 className="settingSection__header">Connections</h3>

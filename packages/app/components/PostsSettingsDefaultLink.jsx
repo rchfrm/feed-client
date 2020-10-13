@@ -6,7 +6,12 @@ import PencilIcon from '@/icons/PencilIcon'
 
 import brandColors from '@/constants/brandColors'
 
-const PostsSettingsDefaultLink = ({ link, className }) => {
+// import PostsDefaultLinkSelector from '@/app/PostsDefaultLinkSelector'
+
+const PostsSettingsDefaultLink = ({
+  link,
+  className,
+}) => {
   return (
     <div
       className={[
@@ -22,6 +27,7 @@ const PostsSettingsDefaultLink = ({ link, className }) => {
           'rounded-button border-black border-solid border-2',
         ].join(' ')}
         aria-label="Edit default link"
+        onClick={() => {}}
       >
         <p className={[
           'flex items-baseline',
