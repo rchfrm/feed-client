@@ -153,6 +153,7 @@ export const formatPostsResponse = (posts) => {
     const [firstRan, lastRan] = getPostAdDates(ads)
     return {
       id: post.id,
+      postType: post.subtype || post.type,
       platform: post.platform,
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
