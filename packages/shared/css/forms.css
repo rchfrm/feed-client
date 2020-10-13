@@ -257,6 +257,7 @@ select:invalid {
 .radio--button_label,
 .checkbox--button_label {
   position: relative;
+  display: inline-block;
   padding-left: 2.2em;
   cursor: pointer;
   user-select: none;
