@@ -118,7 +118,7 @@ const PostsSettings = () => {
           <MarkdownText className="settingSection__intro" markdown={copy.globalToggleIntro} />
           <RadioButtons
             className="settingSection__options"
-            buttonOptions={postSettingOptions}
+            options={postSettingOptions}
             onChange={updateGlobalStatus}
             selectedValue={defaultPostStatus}
           />
