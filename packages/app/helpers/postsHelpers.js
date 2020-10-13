@@ -185,9 +185,17 @@ export const getCursor = (post = {}) => {
 
 
 // GET POST METRIC CONFIG
-export const getPostMetricsContent = (metricsType) => {
+export const getPostMetricsContent = (metricsType, postType) => {
   // ORGANIC METRICS
   if (metricsType === 'organic') {
+    if (postType === 'story') {
+      return [
+        'replies',
+        'taps_forward',
+        'taps_back',
+        'exits',
+      ]
+    }
     return [
       'reach',
       'likes',
