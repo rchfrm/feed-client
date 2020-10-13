@@ -38,11 +38,13 @@ const ButtonFacebook = (props) => {
       {...props}
       version={['facebook', 'icon', version].join(' ')}
       ref={buttonRef}
+      icon={(
+        <FacebookIcon
+          fill={brandColors.white}
+          width="20"
+        />
+      )}
     >
-      <FacebookIcon
-        fill={brandColors.white}
-        width="20"
-      />
       {children}
     </Button>
   )

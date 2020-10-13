@@ -6,23 +6,18 @@ import GearIcon from '@/icons/GearIcon'
 
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
-import PostsSettings from '@/app/PostsSettings'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { PostsContext } from '@/app/contexts/PostsContext'
 
 import { postTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
 import brandColors from '@/constants/brandColors'
 
 const PostsContent = () => {
-  // OPEN THE POST SETTINGS SIDE PANEL
-  const [togglePromotionGlobal, setTogglePromotionGlobal] = React.useState(() => {})
-  const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
-  const togglePostsSettings = React.useCallback(() => {
-    setSidePanelContent(<PostsSettings togglePromotionGlobal={togglePromotionGlobal} />)
-    toggleSidePanel(true)
-  }, [setSidePanelContent, toggleSidePanel, togglePromotionGlobal])
+  // IMPORT FROM POSTS CONTEXT
+  const { goToPostSettings, setTogglePromotionGlobal } = React.useContext(PostsContext)
+
   // HANDLE STATE OF POST TYPE FILTERS
   const allFilter = postTypes.find(({ id }) => id === 'all')
   const [currentPostType, setCurrentPostType] = React.useState('')
@@ -41,7 +36,7 @@ const PostsContent = () => {
       <div className="iphone8:flex justify-start mb-4 pt-2">
         <Button
           className={styles.postSettingsButton}
-          onClick={togglePostsSettings}
+          onClick={goToPostSettings}
           version="black small icon"
         >
           <GearIcon fill={brandColors.bgColor} />

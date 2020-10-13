@@ -77,9 +77,11 @@ function LoginPageContent({ showEmailLogin }) {
               <Button
                 className={styles.emailButton}
                 onClick={goToEmailLogin}
-                version="black icon"
+                version="black"
+                icon={(
+                  <EmailIcon color={brandColors.bgColor} />
+                )}
               >
-                <EmailIcon color={brandColors.bgColor} />
                 Log in with email
               </Button>
             </div>

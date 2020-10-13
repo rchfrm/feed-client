@@ -6,23 +6,20 @@ import firebase from '@/helpers/firebase'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import MarkdownText from '@/elements/MarkdownText'
-import Button from '@/elements/Button'
-import ButtonFacebook from '@/elements/ButtonFacebook'
-import Alert from '@/elements/Alert'
 import Error from '@/elements/Error'
 
+import useAlertModal from '@/hooks/useAlertModal'
+
 const IntegrationErrorContent = ({ integrationError, dismiss, networkError, showError }) => {
-  const {
-    message,
-    action,
-    buttonText,
-    href,
-    fbLink,
-  } = integrationError || {}
-  // Import auth and auth error
+  // IMPORT AUTH AND AUTH ERROR
   const { auth, authError } = React.useContext(AuthContext)
-  // Build alert content
-  const getAlertContents = React.useCallback(() => {
+
+  // HANDLE ALERT
+  const { showAlert, closeAlert } = useAlertModal()
+
+  // BUILD ALERT CONTENT
+  const alertContents = React.useMemo(() => {
+    const { message } = integrationError
     return (
       <>
         <Error error={authError || networkError} />
@@ -31,25 +28,38 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         )}
       </>
     )
-  }, [authError, networkError, integrationError])
+  }, [integrationError, authError, networkError])
 
-  // Build alert button
-  const AlertButton = () => {
-    // HANDLE LINK ACTION
+  const alertButtons = React.useMemo(() => {
+    // Get values from integration error
+    const {
+      action,
+      buttonText,
+      href,
+      fbLink,
+    } = integrationError
+    // Link button
     if (action === 'link') {
-      const ButtonType = fbLink ? ButtonFacebook : Button
-      const buttonVersion = fbLink ? 'full' : 'black full'
-      return (
-        <ButtonType
-          version={buttonVersion}
-          onClick={dismiss}
-          href={href}
-        >
-          {buttonText}
-        </ButtonType>
-      )
+      const facebookButton = fbLink
+      return [
+        {
+          text: buttonText,
+          onClick: () => {},
+          color: 'green',
+          href,
+          facebookButton,
+        },
+        {
+          text: 'Cancel',
+          onClick: () => {
+            closeAlert()
+            dismiss()
+          },
+          color: 'black',
+        },
+      ]
     }
-    // HANDLE REAUTH ACTION
+    // Reauth button
     if (action === 'fb_reauth') {
       const { missingPermissions } = integrationError
       const onClick = () => {
@@ -61,25 +71,30 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
           firebase.linkFacebookAccount()
         }
       }
-      return (
-        <ButtonFacebook version="full" onClick={onClick}>{buttonText}</ButtonFacebook>
-      )
+      return [{
+        text: buttonText,
+        onClick,
+        facebookButton: true,
+      }]
     }
-    // HANDLE DISMISS ACTION
-    return (
-      <Button version="black full" onClick={dismiss}>{buttonText || 'Ok'}</Button>
-    )
-  }
+    // Default
+    return [{
+      text: buttonText || 'Ok',
+      onClick: () => {
+        closeAlert()
+        dismiss()
+      },
+      color: 'black',
+    }]
+  }, [closeAlert, dismiss, integrationError, auth])
 
-  if (!showError) return null
+  React.useEffect(() => {
+    if (showError) {
+      showAlert({ children: alertContents, buttons: alertButtons })
+    }
+  }, [showError, alertContents, alertButtons, showAlert])
 
-  return (
-    <Alert
-      buttons={<AlertButton />}
-      contents={getAlertContents()}
-      resetAlert={dismiss}
-    />
-  )
+  return null
 }
 
 IntegrationErrorContent.propTypes = {
@@ -90,7 +105,7 @@ IntegrationErrorContent.propTypes = {
 }
 
 IntegrationErrorContent.defaultProps = {
-  integrationError: null,
+  integrationError: {},
   networkError: null,
 }
 

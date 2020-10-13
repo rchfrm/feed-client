@@ -28,28 +28,42 @@ function InsightsContent() {
 
   // GET AVAILABLE DATA SOURCES
   const availableDataSources = React.useMemo(() => {
-    if (!artistId) return []
+    if (!artistId || artistLoading) return []
     const { _embedded: { data_sources: dataSources } } = artist
     const allSources = Object.values(dataSources).map((name) => name)
     return chartHelpers.getAvailableSources(allSources)
   // eslint-disable-next-line
-  }, [artistId])
+  }, [artistId, artistLoading])
 
-  // GET ALL AVAILABLE PLATFORMS
-  const availablePlatforms = React.useMemo(() => {
-    if (!availableDataSources.length) return []
-    return chartHelpers.getAvailablePlatforms(availableDataSources)
+  // GET PLATFORM AND DATA SOURCE DETAILS
+  const [availablePlatforms, setAvailablePlatforms] = React.useState(null)
+  const [defaultPlatform, setDefaultPlatform] = React.useState('')
+  React.useEffect(() => {
+    // Stop here if no data sources
+    if (!availableDataSources.length) return
+    const availablePlatforms = chartHelpers.getAvailablePlatforms(availableDataSources)
+    const defaultPlatform = chartHelpers.getInitialPlatform(availablePlatforms)
+    setAvailablePlatforms(availablePlatforms)
+    setDefaultPlatform(defaultPlatform)
   // eslint-disable-next-line
-  }, [artistId, availableDataSources.length])
+  }, [availableDataSources.length])
 
-  const defaultPlatform = React.useMemo(() => {
-    return chartHelpers.getInitialPlatform(availablePlatforms)
-  }, [availablePlatforms])
-
+  // GET DEFAULT DATA SOURCE
   const defaultDataSource = React.useMemo(() => {
-    if (!availableDataSources || !currentPlatform) return
+    if (!currentPlatform) return
     return chartHelpers.getInitialDataSource(availableDataSources, currentPlatform)
-  }, [availableDataSources, currentPlatform])
+  // eslint-disable-next-line
+  }, [currentPlatform])
+
+  // RESET THINGS WHEN ARTIST CHANGES
+  React.useEffect(() => {
+    if (artistLoading) {
+      setCurrentPlatform('')
+      setCurrentDataSource('')
+      setAvailablePlatforms(null)
+      setDefaultPlatform('')
+    }
+  }, [artistId, artistLoading])
 
   // Set page ready after page has loaded
   React.useEffect(() => {
@@ -60,7 +74,7 @@ function InsightsContent() {
     }
   }, [initialLoading])
 
-  if (artistLoading) return null
+  if (artistLoading || !availablePlatforms || !availableDataSources.length) return null
 
   const containerClasses = [styles.pageContainer]
   if (pageReady) {
