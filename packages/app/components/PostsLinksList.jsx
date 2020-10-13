@@ -26,11 +26,7 @@ const PostsLinksList = ({
 
 PostsLinksList.propTypes = {
   savedLinks: PropTypes.array.isRequired,
-  useSelectDefaultMode: PropTypes.bool,
-}
-
-PostsLinksList.defaultProps = {
-  useSelectDefaultMode: false,
+  useSelectDefaultMode: PropTypes.bool.isRequired,
 }
 
 
