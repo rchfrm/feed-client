@@ -11,9 +11,14 @@ buttons: [
     color: 'black',
   },
   {
-    text: 'Ok',
+    text: 'Connect facebook',
     onClick: () => { console.log('how are you?') },
-    color: 'black',
+    facebookButton: true,
+  },
+  {
+    text: 'External link',
+    href: 'https://www.home.com,
+    color: 'green',
   }
 ]
 */

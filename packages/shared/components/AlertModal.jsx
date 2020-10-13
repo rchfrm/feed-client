@@ -7,6 +7,7 @@ import { Transition } from 'react-transition-group'
 import FullHeight from '@/elements/FullHeight'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
+import ButtonFacebook from '@/elements/ButtonFacebook'
 
 import alertStore from '@/store/alertStore'
 
@@ -113,11 +114,12 @@ const AlertModal = () => {
               {/* BUTTONS */}
               <div className="absolute bottom-0 left-0 w-full">
                 {buttons.map((buttonConfig, index) => {
-                  const { text, color, onClick } = buttonConfig
+                  const { text, color, onClick, href, facebookButton } = buttonConfig
                   const firstButton = index === 0
                   const lastButton = index === buttons.length - 1
+                  const ButtonType = facebookButton ? ButtonFacebook : Button
                   return (
-                    <Button
+                    <ButtonType
                       key={index}
                       className={[
                         'w-full',
@@ -132,9 +134,10 @@ const AlertModal = () => {
                         borderTop: '1px solid white',
                         ...(firstButton && { borderTop: 'none' }),
                       }}
+                      href={href}
                     >
                       {text}
-                    </Button>
+                    </ButtonType>
                   )
                 })}
               </div>

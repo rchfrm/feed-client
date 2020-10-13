@@ -74,9 +74,9 @@ const SignupPageContent = ({ showEmailSignup }) => {
             <Button
               className={styles.emailButton}
               onClick={goToEmailSignup}
-              version="black icon"
+              version="black"
+              icon={<EmailIcon color={brandColors.bgColor} />}
             >
-              <EmailIcon color={brandColors.bgColor} />
               Sign up with email
             </Button>
           </div>

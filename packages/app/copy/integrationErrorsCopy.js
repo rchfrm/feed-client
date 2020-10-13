@@ -22,7 +22,7 @@ const getMissingPermissionsList = (missingPermissions) => {
 const getMissingPagesCopy = () => `It might also be that you don't have any pages on Facebook yet, create those first and come back to Feed in order to connect them.`
 
 export default {
-  expired_access_token: () => 'We need to relink your Facebook account, click ‘Continue with Facebook’ to get started.',
+  expired_access_token: () => 'We need to relink your Facebook account, click ‘Relink Facebook’ to get started.',
 
   missing_permission_scope: (missingPermissions, hasOnlyMissingPages) => {
     const permissionList = getMissingPermissionsList(missingPermissions, hasOnlyMissingPages)
