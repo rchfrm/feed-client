@@ -76,6 +76,8 @@ export const getInitialDataSource = (availableDataSources, currentPlatform) => {
     const { platform } = insightDataSources[sourceName]
     return platform === currentPlatform
   })
+  // Stop here if current platform doesn't exist in data sources
+  if (!filteredSources.length) return
   // Find first filter that matches the
   const followersSourceIndex = filteredSources.findIndex(({ name: sourceName }) => {
     return sourceName.includes('follower')
