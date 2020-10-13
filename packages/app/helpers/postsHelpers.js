@@ -132,7 +132,7 @@ export const formatPostsResponse = (posts) => {
       likes: post.likes,
       reach: post.reach,
       shares: post.shares,
-      video_views: post.views,
+      videoViews: post.views,
       engagementScore: post.engagement_score,
     }
     // Paid metrics
@@ -200,7 +200,7 @@ export const getPostMetricsContent = (metricsType, postType) => {
       'reach',
       'likes',
       'comments',
-      'video_views',
+      'videoViews',
       'shares',
       'saves',
       'taps_forward',
@@ -213,7 +213,7 @@ export const getPostMetricsContent = (metricsType, postType) => {
     'spend',
     'reach',
     'clicks',
-    'video_views',
+    'videoViews',
     'engagements',
     'shares',
   ]
