@@ -270,9 +270,34 @@ const dummyLinks = [
     ],
   },
   {
+    type: 'folder',
+    name: 'Shimmerings',
+    id: 'shimmerings',
+    links: [
+      {
+        type: 'link',
+        name: 'Lonely pilgrim',
+        id: 'lonely-pilgrim',
+        href: 'https://test.com',
+      },
+      {
+        type: 'link',
+        name: 'Dangerous Supermarket',
+        id: 'dangerous-supermarket',
+        href: 'https://test.com',
+      },
+      {
+        type: 'link',
+        name: 'Love is under the pavement at night',
+        id: 'love-is-under-the-pavement',
+        href: 'https://test.com',
+      },
+    ],
+  },
+  {
     type: 'link',
-    name: 'Standalone hero',
-    id: 'standalone-hero',
+    name: 'Real hero',
+    id: 'Real-hero',
     href: 'https://test.com',
   },
 ]
