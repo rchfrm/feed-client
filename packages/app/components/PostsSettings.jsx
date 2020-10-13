@@ -13,6 +13,7 @@ import Error from '@/elements/Error'
 // IMPORT COMPONENTS
 import PostsConnectionsTooltip from '@/app/PostsConnectionsTooltip'
 import PostSettingsStatusConfirmation from '@/app/PostSettingsStatusConfirmation'
+import PostsSettingsLinkTracking from '@/app/PostsSettingsLinkTracking'
 import PostConnections from '@/app/PostConnections'
 import PostsSettingsDefaultLink from '@/app/PostsSettingsDefaultLink'
 // IMPORT COPY
@@ -132,6 +133,12 @@ const PostsSettings = () => {
             defaultLink={defaultLink}
           />
         </section>
+        {/* LINK TRACKING */}
+        <div className={styles.settingSection}>
+          <h3 className="settingSection__header">Link Tracking</h3>
+          <MarkdownText className="settingSection__intro" markdown={copy.linkTrackingIntro} />
+          <PostsSettingsLinkTracking utmOn={false} />
+        </div>
         {/* CONNECTIONS */}
         <div className={styles.settingSection}>
           <h3 className="settingSection__header">Connections</h3>

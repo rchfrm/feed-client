@@ -52,6 +52,8 @@ Posts you've manually switched on or off won't be affected.
 
 Do you want to continue?`,
 
+  linkTrackingIntro: `Should UTM parameters be added automatically to the end of links?`,
+
   // Warning when turning off active post
   postStatusConfirmation: `Ads created from this post will soon stop running to all audiences. This post will not be eligible to run as an ad in the future.`,
 
