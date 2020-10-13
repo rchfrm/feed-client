@@ -7,7 +7,7 @@ import PostsLinksLink from '@/app/PostsLinksLink'
 const PostsLinksList = ({ savedLinks }) => {
   console.log('savedLinks', savedLinks)
   return (
-    <ul>
+    <ul className="text-lg">
       {savedLinks.map((item) => {
         const { type, id } = item
         // LINK
