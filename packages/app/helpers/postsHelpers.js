@@ -244,7 +244,6 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
 }
 
 
-
 // LINKS
 // ------------------------
 
@@ -376,5 +375,18 @@ export const saveFolder = (link, action = 'edit') => {
       console.log('update folder:', action)
       resolve({ res: true, error: false })
     }, 500)
+  })
+}
+
+// SET LINK TRACKING OPTION
+/**
+ * @param {boolean} trackingOn
+ * @returns {Promise<any>}
+ */
+export const setLinkTrackingOption = (trackingOn) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ res: trackingOn, error: false })
+    }, 1000)
   })
 }
