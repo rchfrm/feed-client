@@ -2,6 +2,8 @@ import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
 import PostsContent from '@/app/PostsContent'
 
+import { PostsContextProvider } from '@/app/contexts/PostsContext'
+
 const headerConfig = {
   text: 'review posts',
 }
@@ -11,7 +13,9 @@ const Page = () => (
     headerConfig={headerConfig}
     artistRequired
   >
-    <PostsContent />
+    <PostsContextProvider>
+      <PostsContent />
+    </PostsContextProvider>
   </BasePage>
 )
 

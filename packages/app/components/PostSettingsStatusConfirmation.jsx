@@ -6,7 +6,9 @@ import Alert, { alertReducer, initialAlertState } from '@/elements/Alert'
 
 import copy from '@/app/copy/PostsPageCopy'
 
-function ConfirmationContent() {
+import useAlertModal from '@/hooks/useAlertModal'
+
+function CONFIRMATION_CONTENT() {
   return (
     <>
       <h2>Are you sure?</h2>
@@ -17,44 +19,49 @@ function ConfirmationContent() {
 
 
 const PostSettingsStatusConfirmation = ({
-  setConfirmation,
   triggerStatusUpdate,
+  confirmationOpen,
+  dismissConfirmation,
 }) => {
-  // DEFINE ALERT STATE
-  const [alert, setAlert] = React.useReducer(alertReducer, initialAlertState)
-  React.useEffect(() => {
-    setAlert({
-      type: 'show-alert',
-      payload: {
-        contents: <ConfirmationContent />,
-      },
-    })
-  }, [])
+  // HANDLE ALERT
+  const { showAlert, closeAlert } = useAlertModal()
   // DEFINE ALERT RESPONSES
-  const resetAlert = () => {
-    setConfirmation(false)
+  const resetAlert = React.useCallback(() => {
+    dismissConfirmation()
     triggerStatusUpdate(false)
-  }
-  const acceptAlert = () => {
-    triggerStatusUpdate(true)
-    setConfirmation(false)
-  }
+  }, [dismissConfirmation, triggerStatusUpdate])
 
-  return (
-    <Alert
-      confirmationText={alert.confirmationText}
-      contents={alert.contents}
-      rejectionText={alert.rejectionText}
-      responseExpected={alert.responseExpected}
-      resetAlert={resetAlert}
-      acceptAlert={acceptAlert}
-    />
-  )
+  const acceptAlert = React.useCallback(() => {
+    dismissConfirmation()
+    triggerStatusUpdate(true)
+  }, [dismissConfirmation, triggerStatusUpdate])
+
+  React.useEffect(() => {
+    if (!confirmationOpen) return closeAlert()
+    showAlert({
+      children: <CONFIRMATION_CONTENT />,
+      buttons: [
+        {
+          text: 'Yes',
+          color: 'green',
+          onClick: acceptAlert,
+        },
+        {
+          text: 'No',
+          color: 'black',
+          onClick: resetAlert,
+        },
+      ],
+    })
+  }, [confirmationOpen, resetAlert, acceptAlert, showAlert, closeAlert])
+
+  return null
 }
 
 PostSettingsStatusConfirmation.propTypes = {
-  setConfirmation: PropTypes.func.isRequired,
   triggerStatusUpdate: PropTypes.func.isRequired,
+  confirmationOpen: PropTypes.bool.isRequired,
+  hideConfirmation: PropTypes.func.isRequired,
 }
 
 export default PostSettingsStatusConfirmation
