@@ -62,7 +62,7 @@ const TargetingPickerCountry = ({
                     <strong className="text-red"><em>{'< 1%'} of audience</em></strong>
                   )}
                 </p>
-                {!expanded && hasCities && (
+                {!expanded && hasCities && !!totalCitiesSelected && (
                   <div
                     className={[
                       'absolute top-0 left-0 whitespace-no-wrap mt-6 pt-1 text-xs',
