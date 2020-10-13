@@ -35,7 +35,12 @@ const PostsLinksFolder = ({
             <>
               <AccordionItemHeading>
                 <AccordionItemButton>
-                  <p className="flex items-baseline mb-3">
+                  <p
+                    className={[
+                      'flex items-baseline',
+                      useSelectDefaultMode ? 'mb-5' : 'mb-3',
+                    ].join(' ')}
+                  >
                     <span className="h-4 mr-3">
                       <FolderIcon className="w-auto h-full" />
                     </span>
