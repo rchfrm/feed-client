@@ -70,6 +70,7 @@ const PostItem = ({
 
         {/* METRICS */}
         <PostItemMetrics
+          postType={post.postType}
           organicMetrics={post.organicMetrics}
           paidMetrics={post.paidMetrics}
           organicEs={post.organicMetrics.engagementScore}
