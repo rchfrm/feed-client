@@ -14,7 +14,10 @@ import * as postsHelpers from '@/app/helpers/postsHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
-const PostsLinks = ({ updateLinks }) => {
+const PostsLinks = ({
+  updateLinks,
+  useSelectDefaultMode,
+}) => {
   const { artistId } = React.useContext(ArtistContext)
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   const [savedLinks, setSavedLinks] = React.useState([])
@@ -39,7 +42,10 @@ const PostsLinks = ({ updateLinks }) => {
   return (
     <section>
       <h2 className={sidePanelStyles.SidePanel__Header}>Saved Links</h2>
-      <PostsLinksList savedLinks={savedLinks} />
+      <PostsLinksList
+        savedLinks={savedLinks}
+        useSelectDefaultMode={useSelectDefaultMode}
+      />
       {errorFetchingLinks && (
         <Error error={errorFetchingLinks} />
       )}
@@ -49,6 +55,12 @@ const PostsLinks = ({ updateLinks }) => {
 
 PostsLinks.propTypes = {
   updateLinks: PropTypes.func.isRequired,
+  useSelectDefaultMode: PropTypes.bool,
 }
+
+PostsLinks.defaultProps = {
+  useSelectDefaultMode: false,
+}
+
 
 export default PostsLinks

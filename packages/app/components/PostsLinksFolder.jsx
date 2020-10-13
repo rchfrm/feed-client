@@ -17,6 +17,7 @@ import PostsLinksLink from '@/app/PostsLinksLink'
 
 const PostsLinksFolder = ({
   folder,
+  useSelectDefaultMode,
   className,
 }) => {
   return (
@@ -60,6 +61,7 @@ const PostsLinksFolder = ({
                       style={{ paddingLeft: '0.1rem' }}
                       key={id}
                       link={item}
+                      useSelectDefaultMode={useSelectDefaultMode}
                     />
                   )
                 })}
@@ -74,6 +76,7 @@ const PostsLinksFolder = ({
 
 PostsLinksFolder.propTypes = {
   folder: PropTypes.object.isRequired,
+  useSelectDefaultMode: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
