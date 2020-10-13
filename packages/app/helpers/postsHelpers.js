@@ -114,6 +114,14 @@ const formatPublishedTime = (time) => {
   return publishedMoment.format(publishedFormat)
 }
 
+// Get nested metric
+const getNestedMetric = (post, metric) => {
+  const metricValues = get(post, ['metrics', metric, 'data'], null)
+  if (!metricValues) return null
+  // Get first metric value
+  return Object.values(metricValues)[0]
+}
+
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
@@ -134,6 +142,10 @@ export const formatPostsResponse = (posts) => {
       shares: post.shares,
       video_views: post.views,
       engagementScore: post.engagement_score,
+      replies: getNestedMetric(post, 'replies'),
+      taps_forward: getNestedMetric(post, 'taps_forward'),
+      taps_back: getNestedMetric(post, 'taps_back'),
+      exits: getNestedMetric(post, 'exits'),
     }
     // Paid metrics
     const adsSummaryMetrics = adsSummary.metrics || {}
@@ -153,6 +165,7 @@ export const formatPostsResponse = (posts) => {
     const [firstRan, lastRan] = getPostAdDates(ads)
     return {
       id: post.id,
+      postType: post.subtype || post.type,
       platform: post.platform,
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
@@ -184,9 +197,17 @@ export const getCursor = (post = {}) => {
 
 
 // GET POST METRIC CONFIG
-export const getPostMetricsContent = (metricsType) => {
+export const getPostMetricsContent = (metricsType, postType) => {
   // ORGANIC METRICS
   if (metricsType === 'organic') {
+    if (postType === 'story') {
+      return [
+        'replies',
+        'taps_forward',
+        'taps_back',
+        'exits',
+      ]
+    }
     return [
       'reach',
       'likes',

@@ -19,6 +19,7 @@ const metricsOptionsTypes = [
 ]
 
 const PostItemMetrics = ({
+  postType,
   organicMetrics,
   paidMetrics,
   organicEs,
@@ -67,7 +68,7 @@ const PostItemMetrics = ({
         {hasPaidEs && (
           <PostItemMetricsList
             metrics={paidMetrics}
-            metricsContent={postsHelpers.getPostMetricsContent('paid')}
+            metricsContent={postsHelpers.getPostMetricsContent('paid', postType)}
             currentMetricsType={currentMetricsType}
             setDrilldown={setDrilldown}
           />
@@ -75,7 +76,7 @@ const PostItemMetrics = ({
         {/* ORGANIC METRICS LIST */}
         <PostItemMetricsList
           metrics={organicMetrics}
-          metricsContent={postsHelpers.getPostMetricsContent('organic')}
+          metricsContent={postsHelpers.getPostMetricsContent('organic', postType)}
           currentMetricsType={currentMetricsType}
           setDrilldown={setDrilldown}
         />
@@ -100,6 +101,7 @@ const PostItemMetrics = ({
 
 
 PostItemMetrics.propTypes = {
+  postType: PropTypes.string,
   organicMetrics: PropTypes.object.isRequired,
   paidMetrics: PropTypes.object,
   organicEs: PropTypes.number.isRequired,
@@ -108,6 +110,7 @@ PostItemMetrics.propTypes = {
 }
 
 PostItemMetrics.defaultProps = {
+  postType: '',
   paidEs: 0,
   paidMetrics: null,
 }
