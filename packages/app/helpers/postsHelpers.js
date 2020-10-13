@@ -114,6 +114,14 @@ const formatPublishedTime = (time) => {
   return publishedMoment.format(publishedFormat)
 }
 
+// Get nested metric
+const getNestedMetric = (post, metric) => {
+  const metricValues = get(post, ['metrics', metric, 'data'], null)
+  if (!metricValues) return null
+  // Get first metric value
+  return Object.values(metricValues)[0]
+}
+
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
@@ -132,8 +140,12 @@ export const formatPostsResponse = (posts) => {
       likes: post.likes,
       reach: post.reach,
       shares: post.shares,
-      videoViews: post.views,
+      video_views: post.views,
       engagementScore: post.engagement_score,
+      replies: getNestedMetric(post, 'replies'),
+      taps_forward: getNestedMetric(post, 'taps_forward'),
+      taps_back: getNestedMetric(post, 'taps_back'),
+      exits: getNestedMetric(post, 'exits'),
     }
     // Paid metrics
     const adsSummaryMetrics = adsSummary.metrics || {}
@@ -200,7 +212,7 @@ export const getPostMetricsContent = (metricsType, postType) => {
       'reach',
       'likes',
       'comments',
-      'videoViews',
+      'video_views',
       'shares',
       'saves',
       'taps_forward',
@@ -213,7 +225,7 @@ export const getPostMetricsContent = (metricsType, postType) => {
     'spend',
     'reach',
     'clicks',
-    'videoViews',
+    'video_views',
     'engagements',
     'shares',
   ]
