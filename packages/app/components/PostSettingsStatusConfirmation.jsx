@@ -61,7 +61,7 @@ const PostSettingsStatusConfirmation = ({
 PostSettingsStatusConfirmation.propTypes = {
   triggerStatusUpdate: PropTypes.func.isRequired,
   confirmationOpen: PropTypes.bool.isRequired,
-  hideConfirmation: PropTypes.func.isRequired,
+  dismissConfirmation: PropTypes.func.isRequired,
 }
 
 export default PostSettingsStatusConfirmation
