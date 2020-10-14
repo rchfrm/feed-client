@@ -13,12 +13,20 @@ const PostsPage = () => {
     artistId,
     artist,
   } = React.useContext(ArtistContext)
-  // Setup posts store when artist changes
-  const { setupStore } = usePostsStore()
+
+  // SETUP POSTS STORE WHEN ARTIST CHANGES
+  const { setupStore, clearAll: clearPostsStore } = usePostsStore()
   React.useEffect(() => {
     setupStore(artist)
   // eslint-disable-next-line
   }, [artistId, setupStore])
+
+  // CLEAR STORE WHEN PAGE UNMOUNT
+  React.useEffect(() => {
+    return clearPostsStore
+  // eslint-disable-next-line
+  }, [])
+
   return (
     <PostsContextProvider>
       <PostsContent />

@@ -7,9 +7,6 @@ const initialState = {
   artist: {},
   defaultLink: {},
   savedLinks: null,
-  fetchLinks: () => {},
-  clearLinks: () => {},
-  init: () => {},
 }
 
 // * DEFAULT LINK
@@ -37,11 +34,14 @@ const fetchLinks = (set, get) => async (action) => {
 }
 
 const [postsStore] = create((set, get) => ({
+  // STATE
   artistId: initialState.artistId,
   artist: initialState.artist,
   defaultLink: initialState.defaultLink,
   savedLinks: initialState.savedLinks,
+  // GETTERS
   fetchLinks: fetchLinks(set, get),
+  // SETTERS
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
   init: (artist) => {
     set({
@@ -51,6 +51,7 @@ const [postsStore] = create((set, get) => ({
     })
     get().clearLinks()
   },
+  clearAll: () => set(initialState),
 }))
 
 export default postsStore

@@ -7,6 +7,7 @@ const usePostsStore = () => {
   const savedLinks = postsStore(state => state.savedLinks)
   const fetchLinks = postsStore(state => state.fetchLinks)
   const init = postsStore(state => state.init)
+  const clearAll = postsStore(state => state.clearAll)
 
   const setupStore = React.useCallback((artist) => {
     init(artist)
@@ -17,6 +18,7 @@ const usePostsStore = () => {
     fetchLinks,
     savedLinks,
     defaultLink,
+    clearAll,
   }
 }
 
