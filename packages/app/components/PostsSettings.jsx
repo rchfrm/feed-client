@@ -49,7 +49,7 @@ const updatePostSettings = async ({ updatePostStatus, artistId, pendingDefaultPo
 const PostsSettings = ({ togglePromotionGlobal }) => {
   // GET CONTEXTS
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
-  const { setSidePanelButton, setSidePanelLoading } = React.useContext(SidePanelContext)
+  const { setSidePanelLoading } = React.useContext(SidePanelContext)
   // DEFINE INITIAL POST SETTINGS
   const { promotion_enabled_default: initialPostSettings } = artist.preferences.posts
   // UPDATE POST STATUS SETTINGS
