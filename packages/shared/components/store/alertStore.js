@@ -28,7 +28,8 @@ const [alertStore] = create((set) => ({
   open: () => set({ isOpen: true }),
   close: () => {
     set((state) => {
-      state.onClose()
+      const { onClose = defaultState.onClose } = state
+      onClose()
       return { isOpen: false }
     })
   },
