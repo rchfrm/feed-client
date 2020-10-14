@@ -24,7 +24,7 @@ buttons: [
 */
 
 
-const useAlertModal = (props = {}) => {
+const useAlertModal = (props) => {
   const close = alertStore(state => state.close)
   const open = alertStore(state => state.open)
   const setCopy = alertStore(state => state.setCopy)
@@ -39,11 +39,10 @@ const useAlertModal = (props = {}) => {
     }]
   }, [close])
   const showAlert = React.useCallback(({ copy, children = null, buttons }) => {
-    const { alertCopy = '', alertChildren = null, alertButtons } = props
     // Set store
-    setCopy(copy || alertCopy)
-    setChildren(children || alertChildren)
-    setButtons(buttons || alertButtons || defaultButtons)
+    setCopy(copy)
+    setChildren(children)
+    setButtons(buttons)
     // Open
     open()
   // eslint-disable-next-line react-hooks/exhaustive-deps
