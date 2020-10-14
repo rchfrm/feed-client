@@ -1,6 +1,6 @@
 import produce from 'immer'
 import * as utils from '@/helpers/utils'
-import facebook from '@/app/helpers/facebook'
+import * as facebookHelpers from '@/app/helpers/facebook'
 import * as api from '@/helpers/api'
 
 // Sort Ad accounts so the previously used one is on top
@@ -32,7 +32,7 @@ const sortAdAccounts = (account, adAccounts) => {
 
 const getInstagramUrl = async ({ instagram_id, accessToken }) => {
   if (!instagram_id) return
-  const instagramUsername = await facebook.getInstagramBusinessUsername(instagram_id, accessToken)
+  const instagramUsername = await facebookHelpers.getInstagramBusinessUsername(instagram_id, accessToken)
   if (!instagramUsername) return
   return `https://instagram.com/${instagramUsername}`
 }
