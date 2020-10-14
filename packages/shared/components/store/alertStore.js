@@ -5,6 +5,7 @@ import create from 'zustand'
   @param {node} children (the elements that appear in the alert)
   @param {array<object>} buttons (array of button configs)
   @param {boolean} isOpen
+  @param {function} onClose (function to run when closing the modal)
 */
 
 const defaultState = {
@@ -12,9 +13,10 @@ const defaultState = {
   children: null,
   buttons: [],
   isOpen: false,
+  onClose: () => {},
 }
 
-const [alertStore] = create(set => ({
+const [alertStore] = create((set) => ({
   copy: defaultState.copy,
   children: defaultState.children,
   buttons: defaultState.buttons,
@@ -22,8 +24,14 @@ const [alertStore] = create(set => ({
   setCopy: (copy) => set({ copy }),
   setChildren: (children) => set({ children }),
   setButtons: (buttons) => set({ buttons }),
+  setOnClose: (onClose) => set({ onClose }),
   open: () => set({ isOpen: true }),
-  close: () => set({ isOpen: false }),
+  close: () => {
+    set((state) => {
+      state.onClose()
+      return { isOpen: false }
+    })
+  },
 }))
 
 export default alertStore

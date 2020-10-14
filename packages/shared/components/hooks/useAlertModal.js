@@ -30,6 +30,7 @@ const useAlertModal = (props) => {
   const setCopy = alertStore(state => state.setCopy)
   const setChildren = alertStore(state => state.setChildren)
   const setButtons = alertStore(state => state.setButtons)
+  const setOnClose = alertStore(state => state.setOnClose)
 
   const defaultButtons = React.useMemo(() => {
     return [{
@@ -38,11 +39,12 @@ const useAlertModal = (props) => {
       onClick: close,
     }]
   }, [close])
-  const showAlert = React.useCallback(({ copy, children = null, buttons }) => {
+  const showAlert = React.useCallback(({ copy, children = null, buttons = defaultButtons, onClose = () => {} }) => {
     // Set store
     setCopy(copy)
     setChildren(children)
     setButtons(buttons)
+    setOnClose(onClose)
     // Open
     open()
   // eslint-disable-next-line react-hooks/exhaustive-deps
