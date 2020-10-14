@@ -3,8 +3,9 @@ import React from 'react'
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
 
-import { PostsContext } from '@/app/contexts/PostsContext'
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
+
+import { PostsContext } from '@/app/contexts/PostsContext'
 
 import PostSettingsButton from '@/app/PostSettingsButton'
 import PostLinksButton from '@/app/PostLinksButton'
@@ -17,8 +18,6 @@ import styles from '@/app/PostsPage.module.css'
 const PostsContent = () => {
   const { goToPostSettings, goToPostLinks } = usePostsSidePanel()
   const { setTogglePromotionGlobal } = React.useContext(PostsContext)
-  // OPEN THE POST SETTINGS SIDE PANEL
-  const [updateLinks, setUpdateLinks] = React.useState(() => () => {})
 
   const allFilter = postTypes.find(({ id }) => id === 'all')
   const [currentPostType, setCurrentPostType] = React.useState('')
