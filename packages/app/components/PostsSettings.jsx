@@ -53,8 +53,8 @@ const PostsSettings = () => {
   // GET CONTEXTS
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
-  const { togglePromotionGlobal } = React.useContext(PostsContext)
-  const { defaultLink } = usePostsStore()
+  // const { togglePromotionGlobal } = React.useContext(PostsContext)
+  const { defaultLink, togglePromotionGlobal } = usePostsStore()
   // DEFINE INITIAL POST SETTINGS
   const { promotion_enabled_default: initialPostSettings } = artist.preferences.posts
   // UPDATE POST STATUS SETTINGS

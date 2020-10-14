@@ -4,14 +4,15 @@ import PropTypes from 'prop-types'
 
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
-// IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+// IMPORT HOOKS
+import usePostsStore from '@/app/hooks/usePostsStore'
 // IMPORT ELEMENTS
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
-// IMPORT PAGES
+// IMPORT COMPONENTS
 import PostsAll from '@/app/PostsAll'
 import PostsNone from '@/app/PostsNone'
 // IMPORT HELPERS
@@ -80,7 +81,7 @@ const updateDataConditions = (newProps, oldProps) => {
 
 // THE COMPONENT
 // ------------------
-function PostsLoader({ setTogglePromotionGlobal, setRefreshPosts, promotionStatus }) {
+function PostsLoader({ setRefreshPosts, promotionStatus }) {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
@@ -201,6 +202,7 @@ function PostsLoader({ setTogglePromotionGlobal, setRefreshPosts, promotionStatu
 
   // Define function to BATCH TOGGLE all posts
   // and set it on the parent
+  const { setTogglePromotionGlobal } = usePostsStore()
   React.useEffect(() => {
     const togglePromotionGlobal = (promotionEnabled) => {
       setPostToggleSetter('batch')
@@ -309,7 +311,6 @@ function PostsLoader({ setTogglePromotionGlobal, setRefreshPosts, promotionStatu
 }
 
 PostsLoader.propTypes = {
-  setTogglePromotionGlobal: PropTypes.func.isRequired,
   setRefreshPosts: PropTypes.func.isRequired,
   promotionStatus: PropTypes.string.isRequired,
 }
