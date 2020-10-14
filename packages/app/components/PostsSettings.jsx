@@ -1,9 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { useAsync } from 'react-async'
 
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { PostsContext } from '@/app/contexts/PostsContext'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'
 import RadioButtons from '@/elements/RadioButtons'
@@ -12,6 +15,7 @@ import Error from '@/elements/Error'
 import PostsConnectionsTooltip from '@/app/PostsConnectionsTooltip'
 import PostSettingsStatusConfirmation from '@/app/PostSettingsStatusConfirmation'
 import PostConnections from '@/app/PostConnections'
+import PostsSettingsDefaultLink from '@/app/PostsSettingsDefaultLink'
 // IMPORT COPY
 import copy from '@/app/copy/PostsPageCopy'
 // IMPORT HELPERS
@@ -45,10 +49,11 @@ const updatePostSettings = async ({ updatePostStatus, artistId, pendingDefaultPo
   return pendingDefaultPostStatus
 }
 
-const PostsSettings = ({ togglePromotionGlobal }) => {
+const PostsSettings = () => {
   // GET CONTEXTS
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
-  const { setSidePanelButton, setSidePanelLoading } = React.useContext(SidePanelContext)
+  const { setSidePanelLoading } = React.useContext(SidePanelContext)
+  const { defaultLink, setDefaultLink, togglePromotionGlobal } = React.useContext(PostsContext)
   // DEFINE INITIAL POST SETTINGS
   const { promotion_enabled_default: initialPostSettings } = artist.preferences.posts
   // UPDATE POST STATUS SETTINGS
@@ -102,11 +107,6 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
     setSidePanelLoading(isPending)
   }, [isPending, setSidePanelLoading])
 
-  // DISABLE SIDEPANEL BUTTON
-  React.useEffect(() => {
-    setSidePanelButton(null)
-  }, [setSidePanelButton])
-
   return (
     <section>
       <h2 className={sidePanelStyles.SidePanel__Header}>Post Settings</h2>
@@ -123,6 +123,16 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
             selectedValue={defaultPostStatus}
           />
         </div>
+        {/* DEFAULT LINK */}
+        <section className={styles.settingSection}>
+          <h3 className="settingSection__header">Default Link</h3>
+          <MarkdownText className="settingSection__intro" markdown={copy.defaultLinkIntro} />
+          <PostsSettingsDefaultLink
+            className="mb-8"
+            defaultLink={defaultLink}
+            setDefaultLink={setDefaultLink}
+          />
+        </section>
         {/* CONNECTIONS */}
         <div className={styles.settingSection}>
           <h3 className="settingSection__header">Connections</h3>
@@ -132,13 +142,20 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
         </div>
       </div>
       {/* POST STATE CHANGE CONFIRMATION */}
-      <PostSettingsStatusConfirmation
-        triggerStatusUpdate={triggerStatusUpdate}
-        confirmationOpen={showPostStatusConfirmation}
-        dismissConfirmation={() => setShowPostStatusConfirmation(false)}
-      />
+      {showPostStatusConfirmation && (
+        <PostSettingsStatusConfirmation
+          setConfirmation={setShowPostStatusConfirmation}
+          newStatus={pendingDefaultPostStatus}
+          triggerStatusUpdate={triggerStatusUpdate}
+          setStatus={setDefaultPostStatus}
+        />
+      )}
     </section>
   )
 }
+
+PostsSettings.propTypes = {
+}
+
 
 export default PostsSettings

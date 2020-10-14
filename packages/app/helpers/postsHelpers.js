@@ -242,3 +242,13 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
   }, [])
   return sentenceArray.join('  \n')
 }
+
+
+// SET NEW DEFAULT LINK
+export const setDefaultLink = (link) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ res: link, error: false })
+    }, 500)
+  })
+}
