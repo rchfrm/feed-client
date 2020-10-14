@@ -9,7 +9,8 @@ import brandColors from '@/constants/brandColors'
 // import PostsDefaultLinkSelector from '@/app/PostsDefaultLinkSelector'
 
 const PostsSettingsDefaultLink = ({
-  link,
+  defaultLink,
+  setDefaultLink,
   className,
 }) => {
   return (
@@ -37,7 +38,7 @@ const PostsSettingsDefaultLink = ({
           <span className="w-4 mr-3" style={{ transform: 'translateY(-0.1rem)' }}>
             <LinkIcon className="w-full h-auto" />
           </span>
-          <span className="truncate">{link.name}</span>
+          <span className="truncate">{defaultLink.name}</span>
         </p>
         <div
           className={[
@@ -54,12 +55,12 @@ const PostsSettingsDefaultLink = ({
 }
 
 PostsSettingsDefaultLink.propTypes = {
-  link: PropTypes.object,
+  defaultLink: PropTypes.object.isRequired,
+  setDefaultLink: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 PostsSettingsDefaultLink.defaultProps = {
-  link: null,
   className: null,
 }
 

@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { useAsync } from 'react-async'
 
 // IMPORT CONTEXTS
@@ -46,7 +48,11 @@ const updatePostSettings = async ({ updatePostStatus, artistId, pendingDefaultPo
   return pendingDefaultPostStatus
 }
 
-const PostsSettings = ({ togglePromotionGlobal }) => {
+const PostsSettings = ({
+  togglePromotionGlobal,
+  defaultLink,
+  setDefaultLink,
+}) => {
   // GET CONTEXTS
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
@@ -125,10 +131,8 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
           <MarkdownText className="settingSection__intro" markdown={copy.defaultLinkIntro} />
           <PostsSettingsDefaultLink
             className="mb-8"
-            link={{
-              name: 'Best music ever with a really long name',
-              id: 'best-music-ever',
-            }}
+            defaultLink={defaultLink}
+            setDefaultLink={setDefaultLink}
           />
         </section>
         {/* CONNECTIONS */}
@@ -151,5 +155,12 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
     </section>
   )
 }
+
+PostsSettings.propTypes = {
+  togglePromotionGlobal: PropTypes.func.isRequired,
+  defaultLink: PropTypes.object.isRequired,
+  setDefaultLink: PropTypes.func.isRequired,
+}
+
 
 export default PostsSettings
