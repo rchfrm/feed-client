@@ -11,7 +11,7 @@ const initialState = {
   togglePromotionGlobal: () => () => {},
   setTogglePromotionGlobal: () => {},
   goToPostSettings: () => {},
-  defaultLink: '',
+  defaultLink: {},
   setDefaultLink: () => {},
 }
 
