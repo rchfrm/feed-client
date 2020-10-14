@@ -79,6 +79,7 @@
   --button-radius: 3px;
   --dialogue-radius: 6px;
   --pill-radius: 30px;
+  --full-radius: 9999px;
 
   /* Transitions */
   --trans: 0.25s ease;
