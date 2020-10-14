@@ -6,6 +6,7 @@ import { useAsync } from 'react-async'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { PostsContext } from '@/app/contexts/PostsContext'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'
 import RadioButtons from '@/elements/RadioButtons'
@@ -48,14 +49,11 @@ const updatePostSettings = async ({ updatePostStatus, artistId, pendingDefaultPo
   return pendingDefaultPostStatus
 }
 
-const PostsSettings = ({
-  togglePromotionGlobal,
-  defaultLink,
-  setDefaultLink,
-}) => {
+const PostsSettings = () => {
   // GET CONTEXTS
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
+  const { defaultLink, setDefaultLink, togglePromotionGlobal } = React.useContext(PostsContext)
   // DEFINE INITIAL POST SETTINGS
   const { promotion_enabled_default: initialPostSettings } = artist.preferences.posts
   // UPDATE POST STATUS SETTINGS
@@ -157,9 +155,6 @@ const PostsSettings = ({
 }
 
 PostsSettings.propTypes = {
-  togglePromotionGlobal: PropTypes.func.isRequired,
-  defaultLink: PropTypes.object.isRequired,
-  setDefaultLink: PropTypes.func.isRequired,
 }
 
 

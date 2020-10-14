@@ -3,14 +3,11 @@ import React from 'react'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import PostsSettings from '@/app/PostsSettings'
-
 import * as utils from '@/helpers/utils'
 
 const initialState = {
   togglePromotionGlobal: () => () => {},
   setTogglePromotionGlobal: () => {},
-  goToPostSettings: () => {},
   defaultLink: {},
   setDefaultLink: () => {},
 }
@@ -52,30 +49,11 @@ const PostsContextProvider = ({ children }) => {
   // eslint-disable-next-line
   }, [artistId])
 
-
-  // * OPEN POST SETTINGS
-  const goToPostSettings = React.useCallback(() => {
-    setSidePanelButton(null)
-    setSidePanelContent(<PostsSettings
-      togglePromotionGlobal={togglePromotionGlobal}
-      defaultLink={defaultLink}
-      setDefaultLink={setDefaultLink}
-    />)
-    toggleSidePanel(true)
-  }, [
-    setSidePanelButton,
-    setSidePanelContent,
-    toggleSidePanel,
-    togglePromotionGlobal,
-    defaultLink,
-  ])
-
   return (
     <PostsContext.Provider
       value={{
         togglePromotionGlobal,
         setTogglePromotionGlobal,
-        goToPostSettings,
         defaultLink,
         setDefaultLink,
       }}
