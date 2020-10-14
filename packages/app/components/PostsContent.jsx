@@ -4,7 +4,7 @@ import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
 
 import { PostsContext } from '@/app/contexts/PostsContext'
-import usePostsSettings from '@/app/hooks/usePostsSettings'
+import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 
 import PostSettingsButton from '@/app/PostSettingsButton'
 import PostLinksButton from '@/app/PostLinksButton'
@@ -15,7 +15,7 @@ import { postTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
 
 const PostsContent = () => {
-  const { goToPostSettings } = usePostsSettings()
+  const { goToPostSettings, goToPostLinks } = usePostsSidePanel()
   const { setTogglePromotionGlobal } = React.useContext(PostsContext)
   // OPEN THE POST SETTINGS SIDE PANEL
   const [updateLinks, setUpdateLinks] = React.useState(() => () => {})
@@ -59,7 +59,7 @@ const PostsContent = () => {
         {/* LINKS BUTTON */}
         <PostLinksButton
           className={styles.postsTopButton}
-          updateLinks={updateLinks}
+          goToPostLinks={goToPostLinks}
         />
         {/* REFRESH BUTTON (desktop) */}
         {refreshPosts && (

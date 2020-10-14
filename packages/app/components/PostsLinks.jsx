@@ -15,7 +15,6 @@ import * as postsHelpers from '@/app/helpers/postsHelpers'
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const PostsLinks = ({
-  updateLinks,
   useSelectDefaultMode,
 }) => {
   const { artistId } = React.useContext(ArtistContext)
@@ -54,7 +53,6 @@ const PostsLinks = ({
 }
 
 PostsLinks.propTypes = {
-  updateLinks: PropTypes.func.isRequired,
   useSelectDefaultMode: PropTypes.bool,
 }
 

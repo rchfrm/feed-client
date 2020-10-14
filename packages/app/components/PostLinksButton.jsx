@@ -4,22 +4,13 @@ import PropTypes from 'prop-types'
 import Button from '@/elements/Button'
 import LinkIcon from '@/icons/LinkIcon'
 
-import PostsLinks from '@/app/PostsLinks'
-
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-
 import brandColors from '@/constants/brandColors'
 
-const PostLinksButton = ({ className, updateLinks }) => {
-  const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
-  const togglePostsLinks = React.useCallback(() => {
-    setSidePanelContent(<PostsLinks updateLinks={updateLinks} />)
-    toggleSidePanel(true)
-  }, [setSidePanelContent, toggleSidePanel, updateLinks])
+const PostLinksButton = ({ goToPostLinks, className }) => {
   return (
     <Button
       className={className}
-      onClick={togglePostsLinks}
+      onClick={goToPostLinks}
       version="black small icon"
     >
       <LinkIcon fill={brandColors.bgColor} />
@@ -30,7 +21,7 @@ const PostLinksButton = ({ className, updateLinks }) => {
 
 PostLinksButton.propTypes = {
   className: PropTypes.string,
-  updateLinks: PropTypes.func.isRequired,
+  goToPostLinks: PropTypes.func.isRequired,
 }
 
 PostLinksButton.defaultProps = {
