@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import Icon from '@/elements/Icon'
 import Button from '@/elements/Button'
+import RadioButton from '@/elements/RadioButton'
 
 import brandColors from '@/constants/brandColors'
 
@@ -33,11 +34,14 @@ const PostsLinksIntegrations = ({ className, useSelectMode }) => {
         {integrations.map((integration) => {
           const { type: platform, href } = integration
           const { bg: color } = brandColors[platform]
+          const text = href || 'not connnected'
+          if (useSelectMode && !href) return null
           return (
             <li
               key={platform}
               className={[
-                'mb-6 last:mb-0',
+                useSelectMode ? 'mb-8' : 'mb-6',
+                'last:mb-0',
                 !href ? 'text-grey-3' : null,
               ].join(' ')}
             >
@@ -49,7 +53,16 @@ const PostsLinksIntegrations = ({ className, useSelectMode }) => {
                     width="1.5rem"
                   />
                 </span>
-                {href || 'not connected'}
+                {useSelectMode ? (
+                  <RadioButton
+                    value={href}
+                    name={href}
+                    label={href}
+                    checked={false}
+                    onChange={() => {}}
+                    className="mb-0"
+                  />
+                ) : text}
               </p>
             </li>
           )
