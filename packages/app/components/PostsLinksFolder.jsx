@@ -44,7 +44,7 @@ const PostsLinksFolder = ({
                     <span className="h-4 mr-3">
                       <FolderIcon className="w-auto h-full" />
                     </span>
-                    <span>{folder.name}</span>
+                    <strong>{folder.name}</strong>
                     <ArrowHeadIcon
                       className="ml-3"
                       style={{
