@@ -6,6 +6,7 @@ import useAsyncEffect from 'use-async-effect'
 import Error from '@/elements/Error'
 
 import PostsLinksList from '@/app/PostsLinksList'
+import PostsLinksIntegrations from '@/app/PostsLinksIntegrations'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
@@ -43,14 +44,25 @@ const PostsLinks = ({
 
   return (
     <section>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Saved Links</h2>
+      <h2 className={sidePanelStyles.SidePanel__Header}>Links</h2>
       {errorFetchingLinks ? (
         <Error error={errorFetchingLinks} />
       ) : (
-        <PostsLinksList
-          savedLinks={savedLinks}
-          useSelectMode={useSelectMode}
-        />
+        <div>
+          <section className="mb-10">
+            <h3>Saved Links</h3>
+            <PostsLinksList
+              savedLinks={savedLinks}
+              useSelectMode={useSelectMode}
+            />
+          </section>
+          <section>
+            <h3>Integration Links</h3>
+            <PostsLinksIntegrations
+              useSelectMode={useSelectMode}
+            />
+          </section>
+        </div>
       )}
     </section>
   )
