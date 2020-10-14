@@ -5,7 +5,6 @@ import { useAsync } from 'react-async'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-import { PostsContext } from '@/app/contexts/PostsContext'
 import usePostsStore from '@/app/hooks/usePostsStore'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'

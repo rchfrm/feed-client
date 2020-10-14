@@ -2,7 +2,6 @@ import React from 'react'
 
 import PostsContent from '@/app/PostsContent'
 
-import { PostsContextProvider } from '@/app/contexts/PostsContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 
 import usePostsStore from '@/app/hooks/usePostsStore'
@@ -27,11 +26,7 @@ const PostsPage = () => {
   // eslint-disable-next-line
   }, [])
 
-  return (
-    <PostsContextProvider>
-      <PostsContent />
-    </PostsContextProvider>
-  )
+  return <PostsContent />
 }
 
 export default PostsPage
