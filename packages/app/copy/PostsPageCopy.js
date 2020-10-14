@@ -29,7 +29,8 @@ Been waiting a while? Check you have posts opted in for promotion in the _${inac
     allOldUser: () => `Looks like you haven’t posted on Facebook or Instagram yet. When you do start posting, your posts will appear here.`,
   },
 
-
+  // POST SETTINGS
+  // --------------
   globalToggleIntro: `Make all posts eligible for promotion by default:`,
 
   globalConnectionsIntro: `Add the links that you'd like to use in your ads.
@@ -54,6 +55,7 @@ Do you want to continue?`,
   // Warning when turning off active post
   postStatusConfirmation: `Ads created from this post will soon stop running to all audiences. This post will not be eligible to run as an ad in the future.`,
 
+  defaultLinkIntro: `By default, which link should be used when creating ads:`,
 
   // FILTER TOOLTIPS
   // ----------------

@@ -3,14 +3,13 @@ import React from 'react'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import PostsSettings from '@/app/PostsSettings'
-
 import * as utils from '@/helpers/utils'
 
 const initialState = {
   togglePromotionGlobal: () => () => {},
   setTogglePromotionGlobal: () => {},
-  goToPostSettings: () => {},
+  defaultLink: {},
+  setDefaultLink: () => {},
 }
 
 const PostsContext = React.createContext(initialState)
@@ -22,29 +21,41 @@ const PostsContextProvider = ({ children }) => {
   // ARTIST context
   const {
     artistId,
+    artist,
   } = React.useContext(ArtistContext)
   // SIDE PANEL context
   const {
     setSidePanelContent,
+    setSidePanelButton,
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  // * SET DEFAULT STATES
+  // * DEFAULT STATES
   // TOGGLE PROMOTION GLOBAL
   const [togglePromotionGlobal, setTogglePromotionGlobal] = React.useState(initialState.togglePromotionGlobal)
-
-  // * OPEN POST SETTINGS
-  const goToPostSettings = React.useCallback(() => {
-    setSidePanelContent(<PostsSettings togglePromotionGlobal={togglePromotionGlobal} />)
-    toggleSidePanel(true)
-  }, [setSidePanelContent, toggleSidePanel, togglePromotionGlobal])
+  // DEFAULT LINK
+  const [defaultLink, setDefaultLink] = React.useState(initialState.defaultLink)
+  // Update default link when artist changes
+  React.useEffect(() => {
+    if (artistId) {
+      const dummyDefaultLink = {
+        name: 'Best music ever with a really long name',
+        id: 'best-music-ever',
+        href: 'https://test/com',
+      }
+      const { defaultLink = dummyDefaultLink } = artist
+      setDefaultLink(defaultLink)
+    }
+  // eslint-disable-next-line
+  }, [artistId])
 
   return (
     <PostsContext.Provider
       value={{
         togglePromotionGlobal,
         setTogglePromotionGlobal,
-        goToPostSettings,
+        defaultLink,
+        setDefaultLink,
       }}
     >
       {children}
