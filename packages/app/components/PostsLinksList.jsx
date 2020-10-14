@@ -8,7 +8,6 @@ const PostsLinksList = ({
   savedLinks,
   useSelectMode,
 }) => {
-  console.log('savedLinks', savedLinks)
   return (
     <ul className="text-lg">
       {savedLinks.map((item) => {
