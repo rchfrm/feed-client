@@ -8,8 +8,8 @@ const initialState = {
   defaultLink: {},
   savedLinks: null,
   fetchLinks: () => {},
-  init: () => {},
   clearLinks: () => {},
+  init: () => {},
 }
 
 // * DEFAULT LINK
