@@ -1,15 +1,79 @@
 import React from 'react'
 
-import ThePageButtonsControls from '@/app/ThePageButtonsControls'
-import ThePageButtonsBudget from '@/app/ThePageButtonsBudget'
+import ThePageButtonsIcon from '@/app/ThePageButtonsIcon'
+import ActiveLink from '@/elements/ActiveLink'
 
-import { UserContext } from '@/contexts/UserContext'
+import { ArtistContext } from '@/contexts/ArtistContext'
+
+import useLoggedInTest from '@/hooks/useLoggedInTest'
+
+import styles from '@/app/ThePageButtons.module.css'
+
+import * as ROUTES from '@/app/constants/routes'
+
+const links = [
+  {
+    href: ROUTES.POSTS,
+    title: 'posts',
+    icon: 'posts',
+  },
+  {
+    href: ROUTES.CONTROLS,
+    title: 'controls',
+    icon: 'controls',
+  },
+  {
+    href: ROUTES.RESULTS,
+    title: 'results',
+    icon: 'results',
+  },
+  {
+    href: ROUTES.INSIGHTS,
+    title: 'insights',
+    icon: 'insights',
+  },
+]
 
 const ThePageButtons = () => {
-  const { user } = React.useContext(UserContext)
-  if (!user.id) return null
-  if (user.role === 'admin') return <ThePageButtonsControls />
-  return <ThePageButtonsBudget />
+  const isLoggedIn = useLoggedInTest()
+  // Get currency from artist
+  const {
+    artistLoading,
+    hasBudget,
+  } = React.useContext(ArtistContext)
+  // Don't show buttons if no logged in
+  if (!isLoggedIn) return null
+
+  return (
+    <div
+      id="ThePageButtons"
+      className={[styles.container, artistLoading ? styles._artistLoading : ''].join(' ')}
+    >
+      <nav className={styles.inner}>
+        {links.map(({ href, title, icon }) => {
+          const showBadge = icon === 'controls' && !hasBudget
+          return (
+            <div className={styles.link} key={href}>
+              <ActiveLink href={href} activeClass={styles._active}>
+                <a className={[styles.linkAnchor, 'relative'].join(' ')}>
+                  <ThePageButtonsIcon
+                    icon={icon}
+                    className={styles.linkIcon}
+                    showBadge={showBadge}
+                  />
+                  <p className={styles.linkTitle}>{ title }</p>
+                </a>
+              </ActiveLink>
+            </div>
+          )
+        })}
+      </nav>
+    </div>
+  )
+}
+
+ThePageButtons.propTypes = {
+
 }
 
 export default ThePageButtons
