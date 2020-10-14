@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import PostsLinksListButtons from '@/app/PostsLinksListButtons'
 import PostsLinksFolder from '@/app/PostsLinksFolder'
 import PostsLinksLink from '@/app/PostsLinksLink'
 
@@ -9,17 +10,20 @@ const PostsLinksList = ({
   useSelectMode,
 }) => {
   return (
-    <ul className="text-lg">
-      {savedLinks.map((item) => {
-        const { type, id } = item
-        // LINK
-        if (type === 'link') {
-          return <PostsLinksLink key={id} link={item} useSelectMode={useSelectMode} />
-        }
-        // FOLDER
-        return <PostsLinksFolder key={id} folder={item} useSelectMode={useSelectMode} />
-      })}
-    </ul>
+    <div>
+      <PostsLinksListButtons className="mb-5" />
+      <ul className="text-lg">
+        {savedLinks.map((item) => {
+          const { type, id } = item
+          // LINK
+          if (type === 'link') {
+            return <PostsLinksLink key={id} link={item} useSelectMode={useSelectMode} />
+          }
+          // FOLDER
+          return <PostsLinksFolder key={id} folder={item} useSelectMode={useSelectMode} />
+        })}
+      </ul>
+    </div>
   )
 }
 
