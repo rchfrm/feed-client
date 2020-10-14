@@ -7,6 +7,7 @@ const initialState = {
   artist: {},
   defaultLink: {},
   savedLinks: null,
+  togglePromotionGlobal: () => {},
 }
 
 // * DEFAULT LINK
@@ -39,9 +40,11 @@ const [postsStore] = create((set, get) => ({
   artist: initialState.artist,
   defaultLink: initialState.defaultLink,
   savedLinks: initialState.savedLinks,
+  togglePromotionGlobal: initialState.togglePromotionGlobal,
   // GETTERS
   fetchLinks: fetchLinks(set, get),
   // SETTERS
+  setTogglePromotionGlobal: (togglePromotionGlobal) => set({ togglePromotionGlobal }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
   init: (artist) => {
     set({
