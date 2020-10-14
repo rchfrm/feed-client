@@ -1,6 +1,6 @@
 import produce from 'immer'
 import * as utils from '@/helpers/utils'
-import * as facebookHelpers from '@/app/helpers/facebook'
+import * as facebookHelpers from '@/app/helpers/facebookHelpers'
 import * as api from '@/helpers/api'
 
 // Sort Ad accounts so the previously used one is on top
