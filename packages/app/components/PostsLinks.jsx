@@ -7,46 +7,50 @@ import Error from '@/elements/Error'
 
 import PostsLinksList from '@/app/PostsLinksList'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import * as postsHelpers from '@/app/helpers/postsHelpers'
+import usePostsStore from '@/app/hooks/usePostsStore'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const PostsLinks = ({
   useSelectMode,
 }) => {
-  const { artistId } = React.useContext(ArtistContext)
+  const { fetchLinks, savedLinks } = usePostsStore()
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
-  const [savedLinks, setSavedLinks] = React.useState([])
+  // const [savedLinks, setSavedLinks] = React.useState([])
   const [errorFetchingLinks, setErrorFetchingLinks] = React.useState(null)
   // Set to loading on mount
   React.useEffect(() => {
-    setSidePanelLoading(true)
-  }, [setSidePanelLoading])
+    if (!savedLinks) {
+      setSidePanelLoading(true)
+    }
+  }, [setSidePanelLoading, savedLinks])
   // Load links on mount
   useAsyncEffect(async (isMounted) => {
     setSidePanelLoading(true)
-    const { links, error } = await postsHelpers.fetchSavedLinks(artistId, 'dummy')
+    const { error } = await fetchLinks()
     if (!isMounted()) return
     setSidePanelLoading(false)
     if (error) {
       setErrorFetchingLinks(error)
     } else {
       setErrorFetchingLinks(null)
-      setSavedLinks(links)
     }
   }, [])
+
+  if (!savedLinks && !errorFetchingLinks) return null
+
   return (
     <section>
       <h2 className={sidePanelStyles.SidePanel__Header}>Saved Links</h2>
-      <PostsLinksList
-        savedLinks={savedLinks}
-        useSelectMode={useSelectMode}
-      />
-      {errorFetchingLinks && (
+      {errorFetchingLinks ? (
         <Error error={errorFetchingLinks} />
+      ) : (
+        <PostsLinksList
+          savedLinks={savedLinks}
+          useSelectMode={useSelectMode}
+        />
       )}
     </section>
   )
