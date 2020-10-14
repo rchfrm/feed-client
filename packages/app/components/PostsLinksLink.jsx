@@ -36,7 +36,12 @@ const PostsLinksLink = ({
           </p>
         </div>
       ) : (
-        <span>{link.name}</span>
+        <span className="flex items-baseline">
+          <div className="mr-2" style={{ transform: 'translateY(-0.05rem)' }}>
+            <LinkIcon />
+          </div>
+          {link.name}
+        </span>
       )}
     </li>
   )
