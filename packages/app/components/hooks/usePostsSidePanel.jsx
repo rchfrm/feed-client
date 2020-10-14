@@ -20,9 +20,9 @@ const usePostsSidePanel = () => {
     toggleSidePanel(true)
   }, [setSidePanelButton, setSidePanelContent, toggleSidePanel])
   // * OPEN POST LINKS
-  const goToPostLinks = React.useCallback(() => {
+  const goToPostLinks = React.useCallback(({ useSelectMode = false }) => {
     setSidePanelButton(null)
-    setSidePanelContent(<PostsContextProvider><PostsLinks /></PostsContextProvider>)
+    setSidePanelContent(<PostsContextProvider><PostsLinks useSelectMode={useSelectMode} /></PostsContextProvider>)
     toggleSidePanel(true)
   }, [setSidePanelButton, setSidePanelContent, toggleSidePanel])
 

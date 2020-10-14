@@ -6,7 +6,7 @@ import PostsLinksLink from '@/app/PostsLinksLink'
 
 const PostsLinksList = ({
   savedLinks,
-  useSelectDefaultMode,
+  useSelectMode,
 }) => {
   console.log('savedLinks', savedLinks)
   return (
@@ -15,10 +15,10 @@ const PostsLinksList = ({
         const { type, id } = item
         // LINK
         if (type === 'link') {
-          return <PostsLinksLink key={id} link={item} useSelectDefaultMode={useSelectDefaultMode} />
+          return <PostsLinksLink key={id} link={item} useSelectMode={useSelectMode} />
         }
         // FOLDER
-        return <PostsLinksFolder key={id} folder={item} useSelectDefaultMode={useSelectDefaultMode} />
+        return <PostsLinksFolder key={id} folder={item} useSelectMode={useSelectMode} />
       })}
     </ul>
   )
@@ -26,7 +26,7 @@ const PostsLinksList = ({
 
 PostsLinksList.propTypes = {
   savedLinks: PropTypes.array.isRequired,
-  useSelectDefaultMode: PropTypes.bool.isRequired,
+  useSelectMode: PropTypes.bool.isRequired,
 }
 
 

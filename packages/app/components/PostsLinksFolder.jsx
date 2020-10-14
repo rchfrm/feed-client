@@ -17,7 +17,7 @@ import PostsLinksLink from '@/app/PostsLinksLink'
 
 const PostsLinksFolder = ({
   folder,
-  useSelectDefaultMode,
+  useSelectMode,
   className,
 }) => {
   return (
@@ -38,7 +38,7 @@ const PostsLinksFolder = ({
                   <p
                     className={[
                       'flex items-baseline',
-                      useSelectDefaultMode ? 'mb-5' : 'mb-3',
+                      useSelectMode ? 'mb-5' : 'mb-3',
                     ].join(' ')}
                   >
                     <span className="h-4 mr-3">
@@ -66,7 +66,7 @@ const PostsLinksFolder = ({
                       style={{ paddingLeft: '0.1rem' }}
                       key={id}
                       link={item}
-                      useSelectDefaultMode={useSelectDefaultMode}
+                      useSelectMode={useSelectMode}
                     />
                   )
                 })}
@@ -81,7 +81,7 @@ const PostsLinksFolder = ({
 
 PostsLinksFolder.propTypes = {
   folder: PropTypes.object.isRequired,
-  useSelectDefaultMode: PropTypes.bool.isRequired,
+  useSelectMode: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

@@ -7,19 +7,19 @@ import RadioButton from '@/elements/RadioButton'
 
 const PostsLinksLink = ({
   link,
-  useSelectDefaultMode,
+  useSelectMode,
   className,
   style,
 }) => {
   return (
     <li
       className={[
-        useSelectDefaultMode ? 'flex' : null,
+        useSelectMode ? 'flex' : null,
         className,
       ].join(' ')}
       style={style}
     >
-      {useSelectDefaultMode ? (
+      {useSelectMode ? (
         <div>
           <RadioButton
             value={link.name}
@@ -44,7 +44,7 @@ const PostsLinksLink = ({
 
 PostsLinksLink.propTypes = {
   link: PropTypes.object.isRequired,
-  useSelectDefaultMode: PropTypes.bool.isRequired,
+  useSelectMode: PropTypes.bool.isRequired,
   className: PropTypes.string,
   style: PropTypes.object,
 }
