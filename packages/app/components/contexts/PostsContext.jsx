@@ -3,13 +3,17 @@ import React from 'react'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import * as utils from '@/helpers/utils'
+import * as postsHelpers from '@/app/helpers/postsHelpers'
+// import * as utils from '@/helpers/utils'
 
 const initialState = {
   togglePromotionGlobal: () => () => {},
   setTogglePromotionGlobal: () => {},
   defaultLink: {},
   setDefaultLink: () => {},
+  savedLinks: null,
+  setSavedLinks: () => {},
+  fetchLinks: () => {},
 }
 
 const PostsContext = React.createContext(initialState)
@@ -49,6 +53,27 @@ const PostsContextProvider = ({ children }) => {
   // eslint-disable-next-line
   }, [artistId])
 
+  // * SAVED LINKS
+  const [savedLinks, setSavedLinks] = React.useState(initialState.savedLinks)
+  // Fetch links
+  const fetchLinks = React.useCallback(async (action) => {
+    console.log('savedLinks', savedLinks)
+    // If there already are links and we not force, return cached links
+    if (savedLinks && action !== 'force') return { error: null }
+    console.log('load links')
+    // Else fetch links from server
+    const { links, error } = await postsHelpers.fetchSavedLinks(artistId, 'dummy')
+    // Cache links
+    setSavedLinks(links)
+    // Return data
+    return { error }
+  }, [artistId, savedLinks])
+  // Empty links when artist changes
+  React.useEffect(() => {
+    console.log('clear link')
+    setSavedLinks(null)
+  }, [artistId])
+
   return (
     <PostsContext.Provider
       value={{
@@ -56,6 +81,9 @@ const PostsContextProvider = ({ children }) => {
         setTogglePromotionGlobal,
         defaultLink,
         setDefaultLink,
+        savedLinks,
+        setSavedLinks,
+        fetchLinks,
       }}
     >
       {children}
