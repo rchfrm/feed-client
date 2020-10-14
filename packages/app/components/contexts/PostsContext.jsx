@@ -26,6 +26,7 @@ const PostsContextProvider = ({ children }) => {
   // SIDE PANEL context
   const {
     setSidePanelContent,
+    setSidePanelButton,
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
@@ -35,9 +36,10 @@ const PostsContextProvider = ({ children }) => {
 
   // * OPEN POST SETTINGS
   const goToPostSettings = React.useCallback(() => {
+    setSidePanelButton(null)
     setSidePanelContent(<PostsSettings togglePromotionGlobal={togglePromotionGlobal} />)
     toggleSidePanel(true)
-  }, [setSidePanelContent, toggleSidePanel, togglePromotionGlobal])
+  }, [setSidePanelButton, setSidePanelContent, toggleSidePanel, togglePromotionGlobal])
 
   return (
     <PostsContext.Provider

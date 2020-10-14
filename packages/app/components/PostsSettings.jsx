@@ -103,11 +103,6 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
     setSidePanelLoading(isPending)
   }, [isPending, setSidePanelLoading])
 
-  // DISABLE SIDEPANEL BUTTON
-  React.useEffect(() => {
-    setSidePanelButton(null)
-  }, [setSidePanelButton])
-
   return (
     <section>
       <h2 className={sidePanelStyles.SidePanel__Header}>Post Settings</h2>
@@ -145,11 +140,14 @@ const PostsSettings = ({ togglePromotionGlobal }) => {
         </div>
       </div>
       {/* POST STATE CHANGE CONFIRMATION */}
-      <PostSettingsStatusConfirmation
-        triggerStatusUpdate={triggerStatusUpdate}
-        confirmationOpen={showPostStatusConfirmation}
-        dismissConfirmation={() => setShowPostStatusConfirmation(false)}
-      />
+      {showPostStatusConfirmation && (
+        <PostSettingsStatusConfirmation
+          setConfirmation={setShowPostStatusConfirmation}
+          newStatus={pendingDefaultPostStatus}
+          triggerStatusUpdate={triggerStatusUpdate}
+          setStatus={setDefaultPostStatus}
+        />
+      )}
     </section>
   )
 }
