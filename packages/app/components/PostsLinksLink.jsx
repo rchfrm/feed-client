@@ -7,6 +7,7 @@ import RadioButton from '@/elements/RadioButton'
 
 const PostsLinksLink = ({
   link,
+  editModeOn,
   useSelectMode,
   className,
   style,
@@ -36,12 +37,27 @@ const PostsLinksLink = ({
           </p>
         </div>
       ) : (
-        <span className="flex items-baseline">
-          <div className="mr-2" style={{ transform: 'translateY(-0.05rem)' }}>
+        <a
+          className={[
+            'inline-flex items-baseline',
+            editModeOn ? 'wobble-animation no-underline' : null,
+          ].join(' ')}
+          href={editModeOn ? null : link.href}
+          target={editModeOn ? null : '_blank'}
+          rel={editModeOn ? null : 'noreferrer noopener'}
+          role={editModeOn ? 'button' : null}
+        >
+          <div
+            className="mr-2"
+            style={{
+              transform: 'translateY(-0.05rem)',
+              ...(editModeOn && { opacity: 0 }),
+            }}
+          >
             <LinkIcon />
           </div>
           {link.name}
-        </span>
+        </a>
       )}
     </li>
   )
@@ -49,6 +65,7 @@ const PostsLinksLink = ({
 
 PostsLinksLink.propTypes = {
   link: PropTypes.object.isRequired,
+  editModeOn: PropTypes.bool.isRequired,
   useSelectMode: PropTypes.bool.isRequired,
   className: PropTypes.string,
   style: PropTypes.object,

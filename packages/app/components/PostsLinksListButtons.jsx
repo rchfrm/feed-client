@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 import PencilIcon from '@/icons/PencilIcon'
+import PlusIcon from '@/icons/PlusIcon'
+import TickIcon from '@/icons/TickIcon'
 
 import brandColors from '@/constants/brandColors'
 
 const PostsLinksListButtons = ({
-  editMode,
-  setEditMode,
+  editModeOn,
+  setEditModeOn,
   className,
 }) => {
   return (
@@ -20,25 +22,40 @@ const PostsLinksListButtons = ({
     >
       {/* ADD */}
       <Button
-        version="x-small black"
+        version="x-small black icon"
         className="mr-5"
       >
-        + Add
+        <PlusIcon style={{ height: '0.75rem' }} fill={brandColors.bgColor} />
+        Add
       </Button>
       {/* EDIT */}
       <Button
         version="x-small green icon"
+        onClick={() => {
+          setEditModeOn((isOn) => {
+            return !isOn
+          })
+        }}
       >
-        <PencilIcon fill={brandColors.bgColor} />
-        Edit
+        {editModeOn ? (
+          <>
+            <TickIcon fill={brandColors.bgColor} />
+            Done
+          </>
+        ) : (
+          <>
+            <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
+            Edit
+          </>
+        )}
       </Button>
     </div>
   )
 }
 
 PostsLinksListButtons.propTypes = {
-  editMode: PropTypes.bool.isRequired,
-  setEditMode: PropTypes.func.isRequired,
+  editModeOn: PropTypes.bool.isRequired,
+  setEditModeOn: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

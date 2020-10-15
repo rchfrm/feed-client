@@ -50,7 +50,7 @@ const PostsLinks = ({
       ) : (
         <div>
           <section className="mb-10">
-            <h3>Saved Links</h3>
+            {/* <h3>Saved Links</h3> */}
             <PostsLinksList
               savedLinks={savedLinks}
               useSelectMode={useSelectMode}

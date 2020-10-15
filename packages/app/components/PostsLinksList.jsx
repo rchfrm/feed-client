@@ -9,18 +9,37 @@ const PostsLinksList = ({
   savedLinks,
   useSelectMode,
 }) => {
+  const [editModeOn, setEditModeOn] = React.useState(false)
   return (
     <div>
-      <PostsLinksListButtons className="mb-5" />
+      <PostsLinksListButtons
+        className="mb-10"
+        editModeOn={editModeOn}
+        setEditModeOn={setEditModeOn}
+      />
       <ul className="text-lg">
         {savedLinks.map((item) => {
           const { type, id } = item
           // LINK
           if (type === 'link') {
-            return <PostsLinksLink key={id} link={item} useSelectMode={useSelectMode} />
+            return (
+              <PostsLinksLink
+                key={id}
+                link={item}
+                editModeOn={editModeOn}
+                useSelectMode={useSelectMode}
+              />
+            )
           }
           // FOLDER
-          return <PostsLinksFolder key={id} folder={item} useSelectMode={useSelectMode} />
+          return (
+            <PostsLinksFolder
+              key={id}
+              folder={item}
+              editModeOn={editModeOn}
+              useSelectMode={useSelectMode}
+            />
+          )
         })}
       </ul>
     </div>
