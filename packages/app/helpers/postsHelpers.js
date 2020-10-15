@@ -260,12 +260,20 @@ const dummyLinks = [
         name: 'Mission statement',
         id: 'mission-staement',
         href: 'https://test.com',
+        folder: {
+          name: 'Hippos',
+          id: 'hippos',
+        },
       },
       {
         type: 'link',
         name: 'Bolognese recipe',
         id: 'bolognese-recipe',
         href: 'https://test.com',
+        folder: {
+          name: 'Hippos',
+          id: 'hippos',
+        },
       },
     ],
   },
@@ -279,18 +287,30 @@ const dummyLinks = [
         name: 'Lonely pilgrim',
         id: 'lonely-pilgrim',
         href: 'https://test.com',
+        folder: {
+          name: 'Shimmerings',
+          id: 'shimmerings',
+        },
       },
       {
         type: 'link',
         name: 'Dangerous Supermarket',
         id: 'dangerous-supermarket',
         href: 'https://test.com',
+        folder: {
+          name: 'Shimmerings',
+          id: 'shimmerings',
+        },
       },
       {
         type: 'link',
         name: 'Love is under the pavement at night',
         id: 'love-is-under-the-pavement',
         href: 'https://test.com',
+        folder: {
+          name: 'Shimmerings',
+          id: 'shimmerings',
+        },
       },
     ],
   },
