@@ -6,6 +6,8 @@ import PencilIcon from '@/icons/PencilIcon'
 import PlusIcon from '@/icons/PlusIcon'
 import TickIcon from '@/icons/TickIcon'
 
+import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
+
 import brandColors from '@/constants/brandColors'
 
 const PostsLinksListButtons = ({
@@ -13,6 +15,10 @@ const PostsLinksListButtons = ({
   setEditModeOn,
   className,
 }) => {
+  // FUNCTION FOR EDITING LINKS
+  const addLink = useCreateEditPostsLink({
+    action: 'add',
+  })
   return (
     <div
       className={[
@@ -24,6 +30,7 @@ const PostsLinksListButtons = ({
       <Button
         version="x-small black icon"
         className="mr-5"
+        onClick={() => addLink()}
       >
         <PlusIcon style={{ height: '0.75rem' }} fill={brandColors.bgColor} />
         Add
