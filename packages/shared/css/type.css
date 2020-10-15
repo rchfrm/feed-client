@@ -10,7 +10,8 @@ body {
 a {
   color: var(--black);
 
-  &[href] {
+  &[href],
+  &.-hover--green {
     @mixin canHover {
       &:not(.button):hover {
         color: var(--green);
