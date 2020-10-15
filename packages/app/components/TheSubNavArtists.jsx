@@ -7,7 +7,7 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'
 
-import TheSubNavConnectAccounts from '@/app/TheSubNavConnectAccounts'
+import TheSubNavConnectProfiles from '@/app/TheSubNavConnectProfiles'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
@@ -51,7 +51,7 @@ const TheSubNavArtists = ({ className }) => {
   }, [user])
 
   // If no artists, don't show artist links
-  if (sortedArtists.length === 1) return <TheSubNavConnectAccounts className="mb-5 md:mb-2" />
+  if (sortedArtists.length === 1) return <TheSubNavConnectProfiles className="mb-5 md:mb-2" />
 
   // Show select component if too many artists
   if (sortedArtists.length > maxArtists) {
@@ -63,7 +63,7 @@ const TheSubNavArtists = ({ className }) => {
           currentArtistId={artistId}
         />
         <div className="mb-0 md:pt-3 md:mb-3 h4--text">
-          <TheSubNavConnectAccounts />
+          <TheSubNavConnectProfiles />
         </div>
       </div>
     )
@@ -101,11 +101,11 @@ const TheSubNavArtists = ({ className }) => {
           )
         })}
         <li className="md:hidden pt-3">
-          <TheSubNavConnectAccounts />
+          <TheSubNavConnectProfiles />
         </li>
       </ul>
       <div className="hidden md:block pt-5 pb-3">
-        <TheSubNavConnectAccounts />
+        <TheSubNavConnectProfiles />
       </div>
     </div>
   )

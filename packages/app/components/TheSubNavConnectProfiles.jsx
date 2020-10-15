@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 import * as ROUTES from '@/app/constants/routes'
 
-const TheSubNavConnectAccounts = ({ className }) => {
+const TheSubNavConnectProfiles = ({ className }) => {
   return (
     <div className={['h4--text', className].join(' ')}>
       <p className={['mb-0'].join(' ')}>
@@ -21,13 +21,13 @@ const TheSubNavConnectAccounts = ({ className }) => {
   )
 }
 
-TheSubNavConnectAccounts.propTypes = {
+TheSubNavConnectProfiles.propTypes = {
   className: PropTypes.string,
 }
 
-TheSubNavConnectAccounts.defaultProps = {
+TheSubNavConnectProfiles.defaultProps = {
   className: null,
 }
 
 
-export default TheSubNavConnectAccounts
+export default TheSubNavConnectProfiles
