@@ -60,7 +60,7 @@ const Button = React.forwardRef(({
       {loading && <Spinner className="button--spinner" />}
       <span className="button--innerText">
         {icon ? (
-          <span className="flex flex-grow text-center w-full">
+          <span className="flex flex-grow text-center items-center w-full">
             {icon}
             <span className="flex-grow pl-4" style={{ transform: 'translateX(-1rem)' }}>{children}</span>
           </span>
