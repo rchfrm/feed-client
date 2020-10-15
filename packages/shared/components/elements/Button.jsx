@@ -40,14 +40,14 @@ const Button = React.forwardRef(({
   // Define wrapper type based on href or not
   const Wrapper = wrapper || (href ? 'a' : 'button')
   // Handle hrefs
-  const linkType = href ? utils.getLinkType(href) : ''
+  const linkType = href ? utils.getLinkType(href) : null
   const target = linkType === 'external' ? '_blank' : 'self'
-  const rel = linkType === 'external' ? 'noopener noreferrer' : ''
+  const rel = linkType === 'external' ? 'noopener noreferrer' : null
 
   // OUTPUT BUTTON
   return (
     <Wrapper
-      type={type}
+      type={href ? null : type}
       disabled={disabled}
       className={classes.join(' ')}
       onClick={onClick}
