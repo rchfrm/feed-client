@@ -1,7 +1,7 @@
 export const SIGN_UP = '/join'
 export const SIGN_UP_EMAIL = '/join/email'
 export const SIGN_UP_CONTINUE = '/join/final-step'
-export const CONNECT_ACCOUNTS = '/connect-accounts'
+export const CONNECT_PROFILES = '/connect-profiles'
 export const THANK_YOU = '/thank-you'
 export const LOGIN = '/login'
 export const LOGIN_EMAIL = '/login/email'
@@ -23,7 +23,7 @@ export const HOME = POSTS
 export const restrictedPages = [
   LOGIN_EMAIL,
   SIGN_UP_CONTINUE,
-  CONNECT_ACCOUNTS,
+  CONNECT_PROFILES,
   THANK_YOU,
   POSTS,
   INSIGHTS,

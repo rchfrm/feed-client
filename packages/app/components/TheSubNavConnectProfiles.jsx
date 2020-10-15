@@ -11,7 +11,7 @@ const TheSubNavConnectProfiles = ({ className }) => {
       <p className={['mb-0'].join(' ')}>
         <Link
           href={{
-            pathname: ROUTES.CONNECT_ACCOUNTS,
+            pathname: ROUTES.CONNECT_PROFILES,
           }}
         >
           <a><strong>+ connect more profiles</strong></a>
