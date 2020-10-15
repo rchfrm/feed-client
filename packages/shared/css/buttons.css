@@ -218,7 +218,7 @@ button {
 
 .button--x-small {
   font-size: var(--sp-4);
-  padding: 0 0.8em;
+  padding: 0 1rem;
   height: var(--sp-9);
   border-radius: var(--full-radius);
 }
