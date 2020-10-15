@@ -533,7 +533,7 @@ export const getMinBudget = (amount, currencyCode, currencyOffset) => {
   const fbMinFloat = Math.ceil((fbMinBudgetAdjusted + Number.EPSILON) * 100) / 100
   const fbMinRounded = roundToFactorOfTen(fbMinFloat)
   const fbMinBudgetString = formatCurrency(fbMinFloat, currencyCode)
-  const minBudgetFloat = ((amount / 0.9) * 3) / currencyOffset
+  const minBudgetFloat = ((amount / 0.9) * 2) / currencyOffset
   const minBudgetRounded = roundToFactorOfTen(minBudgetFloat)
   const minBudgetString = formatCurrency(minBudgetRounded, currencyCode)
   // Format and return
