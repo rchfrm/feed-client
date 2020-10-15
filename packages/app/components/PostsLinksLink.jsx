@@ -3,15 +3,24 @@ import PropTypes from 'prop-types'
 
 import LinkIcon from '@/icons/LinkIcon'
 
+import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
+
 import RadioButton from '@/elements/RadioButton'
 
 const PostsLinksLink = ({
   link,
   editModeOn,
+  setEditModeOn,
   useSelectMode,
   className,
   style,
 }) => {
+  // FUNCTION FOR EDITING LINKS
+  const editLink = useCreateEditPostsLink({
+    action: 'edit',
+    onSave: () => setEditModeOn(false),
+  })
+
   return (
     <li
       className={[
@@ -46,6 +55,7 @@ const PostsLinksLink = ({
           target={editModeOn ? null : '_blank'}
           rel={editModeOn ? null : 'noreferrer noopener'}
           role={editModeOn ? 'button' : null}
+          onClick={editModeOn ? () => editLink(link) : () => {}}
         >
           <div
             className="mr-2"
@@ -66,6 +76,7 @@ const PostsLinksLink = ({
 PostsLinksLink.propTypes = {
   link: PropTypes.object.isRequired,
   editModeOn: PropTypes.bool.isRequired,
+  setEditModeOn: PropTypes.func.isRequired,
   useSelectMode: PropTypes.bool.isRequired,
   className: PropTypes.string,
   style: PropTypes.object,

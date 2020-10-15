@@ -18,6 +18,7 @@ import PostsLinksLink from '@/app/PostsLinksLink'
 const PostsLinksFolder = ({
   folder,
   editModeOn,
+  setEditModeOn,
   useSelectMode,
   className,
 }) => {
@@ -50,7 +51,9 @@ const PostsLinksFolder = ({
                         'inline-block',
                         editModeOn ? 'wobble-animation' : null,
                       ].join(' ')}
-                    >{folder.name}</strong>
+                    >
+                      {folder.name}
+                    </strong>
                     <ArrowHeadIcon
                       className="ml-3"
                       style={{
@@ -73,6 +76,7 @@ const PostsLinksFolder = ({
                       key={id}
                       link={item}
                       editModeOn={editModeOn}
+                      setEditModeOn={setEditModeOn}
                       useSelectMode={useSelectMode}
                     />
                   )
@@ -88,6 +92,8 @@ const PostsLinksFolder = ({
 
 PostsLinksFolder.propTypes = {
   folder: PropTypes.object.isRequired,
+  editModeOn: PropTypes.bool.isRequired,
+  setEditModeOn: PropTypes.func.isRequired,
   useSelectMode: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }

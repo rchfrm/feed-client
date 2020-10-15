@@ -322,3 +322,13 @@ export const setDefaultLink = (link) => {
     }, 500)
   })
 }
+
+// SAVE LINK
+export const saveLink = (link, action = 'add') => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('save link', action)
+      resolve({ res: true, error: false })
+    }, 500)
+  })
+}

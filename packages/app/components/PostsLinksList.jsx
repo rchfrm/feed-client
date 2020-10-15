@@ -27,6 +27,7 @@ const PostsLinksList = ({
                 key={id}
                 link={item}
                 editModeOn={editModeOn}
+                setEditModeOn={setEditModeOn}
                 useSelectMode={useSelectMode}
               />
             )
@@ -37,6 +38,7 @@ const PostsLinksList = ({
               key={id}
               folder={item}
               editModeOn={editModeOn}
+              setEditModeOn={setEditModeOn}
               useSelectMode={useSelectMode}
             />
           )
