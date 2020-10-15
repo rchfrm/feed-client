@@ -60,7 +60,7 @@ const Button = React.forwardRef(({
       {loading && <Spinner className="button--spinner" />}
       <span className="button--innerText">
         {icon ? (
-          <span className="flex flex-grow">
+          <span className="flex flex-grow text-center">
             {icon}
             <span className="flex-grow -ml-5">{children}</span>
           </span>
