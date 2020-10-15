@@ -7,6 +7,7 @@ const initialState = {
   artist: {},
   defaultLink: {},
   savedLinks: null,
+  folders: [],
   togglePromotionGlobal: () => {},
 }
 
@@ -28,8 +29,17 @@ const fetchLinks = (set, get) => async (action) => {
   if (savedLinks && action !== 'force') return { error: null }
   // Else fetch links from server
   const { links, error } = await postsHelpers.fetchSavedLinks(artistId, 'dummy')
-  // Cache links
-  set({ savedLinks: links })
+  // Get folders
+  const folders = links.reduce((arr, link) => {
+    const { type } = link
+    if (type !== 'folder') return arr
+    return [...arr, {
+      ...link,
+      value: link.id,
+    }]
+  }, [])
+  // Cache links and folders
+  set({ savedLinks: links, folders })
   // Return data
   return { error }
 }
@@ -40,6 +50,7 @@ const [postsStore] = create((set, get) => ({
   artist: initialState.artist,
   defaultLink: initialState.defaultLink,
   savedLinks: initialState.savedLinks,
+  folders: initialState.folders,
   togglePromotionGlobal: initialState.togglePromotionGlobal,
   // GETTERS
   fetchLinks: fetchLinks(set, get),

@@ -3,17 +3,22 @@ import PropTypes from 'prop-types'
 
 import produce from 'immer'
 
+import usePostsStore from '@/app/hooks/usePostsStore'
+
 import Input from '@/elements/Input'
 import Select from '@/elements/Select'
 
 const PostsLinksEditModal = ({ link }) => {
   const [linkProps, setLinkProps] = React.useState(link || {})
+  console.log('linkProps', linkProps)
   const handleInput = React.useCallback((e, prop) => {
     const newLinkProps = produce(linkProps, draftProps => {
       draftProps[prop] = e.target.value
     })
     setLinkProps(newLinkProps)
   }, [linkProps])
+  // Get array of folders
+  const { folders } = usePostsStore()
   return (
     <div className="pt-3">
       <form
@@ -41,13 +46,14 @@ const PostsLinksEditModal = ({ link }) => {
           value={linkProps.name}
           required
         />
-        {/* <Select
-          handleChange={handleSelect}
-          name="patchArtist"
-          label="Patch what?"
+        <Select
+          handleChange={(e) => handleInput(e, 'folder')}
+          name="link-folder"
+          label="Folder"
+          placeholder="Select folder"
           selectedValue={linkProps.folder}
-          options={patchOptions}
-        /> */}
+          options={folders}
+        />
         <p>
           <a
             role="button"
