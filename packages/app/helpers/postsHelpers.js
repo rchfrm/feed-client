@@ -249,78 +249,71 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
 // ------------------------
 
 // * DEV DUMMY LINK
-const dummyLinks = [
-  {
-    type: 'folder',
-    name: 'Hippos',
-    id: 'hippos',
-    links: [
-      {
-        type: 'link',
-        name: 'Mission statement',
-        id: 'mission-staement',
-        href: 'https://test.com',
-        folder: {
-          name: 'Hippos',
-          id: 'hippos',
-        },
-      },
-      {
-        type: 'link',
-        name: 'Bolognese recipe',
-        id: 'bolognese-recipe',
-        href: 'https://test.com',
-        folder: {
-          name: 'Hippos',
-          id: 'hippos',
-        },
-      },
-    ],
-  },
-  {
-    type: 'folder',
-    name: 'Shimmerings',
-    id: 'shimmerings',
-    links: [
-      {
-        type: 'link',
-        name: 'Lonely pilgrim',
-        id: 'lonely-pilgrim',
-        href: 'https://test.com',
-        folder: {
-          name: 'Shimmerings',
-          id: 'shimmerings',
-        },
-      },
-      {
-        type: 'link',
-        name: 'Dangerous Supermarket',
-        id: 'dangerous-supermarket',
-        href: 'https://test.com',
-        folder: {
-          name: 'Shimmerings',
-          id: 'shimmerings',
-        },
-      },
-      {
-        type: 'link',
-        name: 'Love is under the pavement at night',
-        id: 'love-is-under-the-pavement',
-        href: 'https://test.com',
-        folder: {
-          name: 'Shimmerings',
-          id: 'shimmerings',
-        },
-      },
-    ],
-  },
-  {
-    type: 'link',
-    name: 'Real hero',
-    id: 'Real-hero',
-    href: 'https://test.com',
-  },
-]
+const dummyLinks = {
+  folders: [
+    {
+      name: 'Hippos',
+      id: 'hippos',
+      linkIds: [
+        'mission-statement',
+        'bolognese-recipe',
+      ],
+    },
+    {
+      type: 'folder',
+      name: 'Shimmerings',
+      id: 'shimmerings',
+      linkIds: [
+        'lonely-pilgrim',
+        'dangerous-supermarket',
+        'love-is-under-the-pavement',
+      ],
+    },
+  ],
+  links: [
+    {
+      name: 'Lonely pilgrim',
+      id: 'lonely-pilgrim',
+      href: 'https://test.com',
+      folderId: 'shimmerings',
+    },
+    {
+      name: 'Dangerous Supermarket',
+      id: 'dangerous-supermarket',
+      href: 'https://test.com',
+      folderId: 'shimmerings',
+    },
+    {
+      name: 'Love is under the pavement at night',
+      id: 'love-is-under-the-pavement',
+      href: 'https://test.com',
+      folderId: 'shimmerings',
+    },
+    {
+      name: 'Mission statement',
+      id: 'mission-statement',
+      href: 'https://test.com',
+      folderId: 'hippos',
+    },
+    {
+      name: 'Bolognese recipe',
+      id: 'bolognese-recipe',
+      href: 'https://test.com',
+      folderId: 'hippos',
+    },
+    {
+      type: 'link',
+      name: 'Real hero',
+      id: 'Real-hero',
+      href: 'https://test.com',
+      folderId: '_default',
+    },
+  ],
+  integrations: [
+
+  ],
+}
+
 
 // FETCH SAVED LINKS
 export const fetchSavedLinks = (artistId, type) => {
@@ -328,7 +321,7 @@ export const fetchSavedLinks = (artistId, type) => {
   return new Promise((resolve) => {
     if (type === 'dummy') {
       setTimeout(() => {
-        resolve({ links: dummyLinks })
+        resolve({ data: dummyLinks })
       }, 500)
     }
   })

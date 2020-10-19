@@ -7,7 +7,8 @@ const usePostsStore = () => {
   const setTogglePromotionGlobal = postsStore(state => state.setTogglePromotionGlobal)
   const defaultLink = postsStore(state => state.defaultLink)
   const savedLinks = postsStore(state => state.savedLinks)
-  const folders = postsStore(state => state.folders)
+  const savedFolders = postsStore(state => state.savedFolders)
+  const nestedLinks = postsStore(state => state.nestedLinks)
   const fetchLinks = postsStore(state => state.fetchLinks)
   const clearAll = postsStore(state => state.clearAll)
 
@@ -21,7 +22,8 @@ const usePostsStore = () => {
     setTogglePromotionGlobal,
     fetchLinks,
     savedLinks,
-    folders,
+    savedFolders,
+    nestedLinks,
     defaultLink,
     clearAll,
     setupStore,

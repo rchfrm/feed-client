@@ -6,7 +6,7 @@ import PostsLinksFolder from '@/app/PostsLinksFolder'
 import PostsLinksLink from '@/app/PostsLinksLink'
 
 const PostsLinksList = ({
-  savedLinks,
+  nestedLinks,
   useSelectMode,
 }) => {
   const [editModeOn, setEditModeOn] = React.useState(false)
@@ -18,8 +18,9 @@ const PostsLinksList = ({
         setEditModeOn={setEditModeOn}
       />
       <ul className="text-lg">
-        {savedLinks.map((item) => {
-          const { type, id } = item
+        {nestedLinks.map((item) => {
+          const { id, links } = item
+          const type = links ? 'folder' : 'link'
           // LINK
           if (type === 'link') {
             return (
@@ -49,7 +50,7 @@ const PostsLinksList = ({
 }
 
 PostsLinksList.propTypes = {
-  savedLinks: PropTypes.array.isRequired,
+  nestedLinks: PropTypes.array.isRequired,
   useSelectMode: PropTypes.bool.isRequired,
 }
 

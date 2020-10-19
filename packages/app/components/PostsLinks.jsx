@@ -17,16 +17,16 @@ import sidePanelStyles from '@/app/SidePanel.module.css'
 const PostsLinks = ({
   useSelectMode,
 }) => {
-  const { fetchLinks, savedLinks } = usePostsStore()
+  const { fetchLinks, nestedLinks } = usePostsStore()
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   // const [savedLinks, setSavedLinks] = React.useState([])
   const [errorFetchingLinks, setErrorFetchingLinks] = React.useState(null)
   // Set to loading on mount
   React.useEffect(() => {
-    if (!savedLinks) {
+    if (!nestedLinks.length) {
       setSidePanelLoading(true)
     }
-  }, [setSidePanelLoading, savedLinks])
+  }, [setSidePanelLoading, nestedLinks])
   // Load links on mount
   useAsyncEffect(async (isMounted) => {
     setSidePanelLoading(true)
@@ -40,7 +40,7 @@ const PostsLinks = ({
     }
   }, [])
 
-  if (!savedLinks && !errorFetchingLinks) return null
+  if (!nestedLinks.length && !errorFetchingLinks) return null
 
   return (
     <section>
@@ -52,7 +52,7 @@ const PostsLinks = ({
           <section className="mb-10">
             {/* <h3>Saved Links</h3> */}
             <PostsLinksList
-              savedLinks={savedLinks}
+              nestedLinks={nestedLinks}
               useSelectMode={useSelectMode}
             />
           </section>

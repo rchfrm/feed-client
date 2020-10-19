@@ -18,7 +18,12 @@ const PostsLinksEditModal = ({ link }) => {
     setLinkProps(newLinkProps)
   }, [linkProps])
   // Get array of folders
-  const { folders } = usePostsStore()
+  const { savedFolders } = usePostsStore()
+  const savedFoldersOptions = React.useMemo(() => {
+    return savedFolders.map((folder) => {
+      return { ...folder, value: folder.id }
+    })
+  }, [savedFolders])
   return (
     <div className="pt-3">
       <form
@@ -51,8 +56,8 @@ const PostsLinksEditModal = ({ link }) => {
           name="link-folder"
           label="Folder"
           placeholder="Select folder"
-          selectedValue={linkProps.folder}
-          options={folders}
+          selectedValue={linkProps.folderId}
+          options={savedFoldersOptions}
         />
         <p>
           <a

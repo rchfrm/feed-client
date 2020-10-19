@@ -6,8 +6,9 @@ const initialState = {
   artistId: '',
   artist: {},
   defaultLink: {},
-  savedLinks: null,
-  folders: [],
+  savedLinks: [],
+  savedFolders: [],
+  nestedLinks: [],
   togglePromotionGlobal: () => {},
 }
 
@@ -23,23 +24,37 @@ const getDefaultLink = (artist) => {
 }
 
 // * FETCH LINKS
+
+const formatNestedLinks = ({ links, folders }) => {
+  // Nest links into folders
+  const foldersWithLinks = folders.map((folder) => {
+    // Get links that live in the folder
+    const { linkIds } = folder
+    const relatedLinks = linkIds.reduce((allLinks, linkId) => {
+      const folderLinks = links.filter(({ id }) => id === linkId)
+      return [...allLinks, ...folderLinks]
+    }, [])
+    return { ...folder, links: relatedLinks }
+  })
+  // Get links that aren't nested
+  const defaultFolderId = '_default'
+  const looseLinks = links.filter(({ folderId }) => folderId === defaultFolderId)
+  // Return array of folders and loose links
+  return [...foldersWithLinks, ...looseLinks]
+}
+
+// Fetch links from server and update store (or return cached links)
 const fetchLinks = (set, get) => async (action) => {
   const { savedLinks, artistId } = get()
-  // If there already are links and we not force, return cached links
-  if (savedLinks && action !== 'force') return { error: null }
+  // If there already are links and we not force, no need to reset data
+  if (savedLinks.length && action !== 'force') return { error: null }
   // Else fetch links from server
-  const { links, error } = await postsHelpers.fetchSavedLinks(artistId, 'dummy')
-  // Get folders
-  const folders = links.reduce((arr, link) => {
-    const { type } = link
-    if (type !== 'folder') return arr
-    return [...arr, {
-      ...link,
-      value: link.id,
-    }]
-  }, [])
+  const { data, error } = await postsHelpers.fetchSavedLinks(artistId, 'dummy')
+  const { links, folders } = data
+  // Create array of links in folders for display
+  const nestedLinks = formatNestedLinks({ links, folders })
   // Cache links and folders
-  set({ savedLinks: links, folders })
+  set({ savedLinks: links, savedFolders: folders, nestedLinks })
   // Return data
   return { error }
 }
@@ -50,7 +65,8 @@ const [postsStore] = create((set, get) => ({
   artist: initialState.artist,
   defaultLink: initialState.defaultLink,
   savedLinks: initialState.savedLinks,
-  folders: initialState.folders,
+  savedFolders: initialState.savedFolders,
+  nestedLinks: initialState.nestedLinks,
   togglePromotionGlobal: initialState.togglePromotionGlobal,
   // GETTERS
   fetchLinks: fetchLinks(set, get),
