@@ -342,7 +342,6 @@ export const setDefaultLink = (link) => {
 /**
  * @param {object} link
  * @param {string} action 'add' | 'edit' | 'delete'
- * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
 export const saveLink = (link, action = 'add') => {
