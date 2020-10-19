@@ -9,6 +9,8 @@ import usePostsStore from '@/app/hooks/usePostsStore'
 import Input from '@/elements/Input'
 import Select from '@/elements/Select'
 
+import * as utils from '@/helpers/utils'
+
 const PostsLinksEditModal = ({
   link,
   modalButtons,
@@ -16,19 +18,25 @@ const PostsLinksEditModal = ({
   runSaveLink,
 }) => {
   const [linkProps, setLinkProps] = React.useState(link || {})
+  // MAKE SURE HREF IS VALID
+  const [hasHrefError, setHasHrefError] = React.useState(false)
+  const [showHrefError, setShowHrefError] = React.useState(false)
+  React.useEffect(() => {
+    const hasError = !utils.testValidUrl(`https://${linkProps.href}`)
+    setHasHrefError(hasError)
+  }, [linkProps.href])
   // UPDATE MODAL SAVE BUTTON
   const { setButtons } = useAlertModal()
   React.useEffect(() => {
     const newButtons = produce(modalButtons, draftButtons => {
       // Is buttons disabled
-      const saveEnabled = !!linkProps.href
+      const saveEnabled = !!linkProps.href && !hasHrefError
       // Get save function
       const onClick = () => runSaveLink(linkProps, action)
       // Update save button
       draftButtons[0].onClick = onClick
       draftButtons[0].disabled = !saveEnabled
     })
-    console.log('newButtons', newButtons)
     setButtons(newButtons)
   // eslint-disable-next-line
   }, [linkProps, setButtons])
@@ -57,8 +65,12 @@ const PostsLinksEditModal = ({
     const foldersWithValue = savedFolders.map((folder) => {
       return { ...folder, value: folder.id }
     })
-    // Add "New Folder" option
+    // Add "New Folder" and "None" option
     return [
+      {
+        name: '-',
+        value: '_noFolder',
+      },
       ...foldersWithValue,
       {
         name: '+ New Folder',
@@ -66,7 +78,6 @@ const PostsLinksEditModal = ({
       },
     ]
   }, [savedFolders])
-  console.log('linkProps', linkProps)
   return (
     <div className="pt-3">
       <form
@@ -80,8 +91,20 @@ const PostsLinksEditModal = ({
           version="box"
           label="Link URL"
           name="link-url"
-          handleChange={(e) => handleInput(e, 'href')}
+          handleChange={(e) => {
+            handleInput(e, 'href')
+            if (showHrefError && !hasHrefError) {
+              setShowHrefError(false)
+            }
+          }}
+          onBlur={() => {
+            console.log('BLUERRRRRR')
+            if (hasHrefError) return setShowHrefError(true)
+            setShowHrefError(false)
+          }}
           value={linkProps.href}
+          error={showHrefError}
+          errorMessage="Please use a valid URL"
           required
         />
         <Input
