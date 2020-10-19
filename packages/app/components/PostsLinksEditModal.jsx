@@ -10,6 +10,7 @@ import Input from '@/elements/Input'
 import Select from '@/elements/Select'
 
 import * as utils from '@/helpers/utils'
+import { defaultFolderId } from '@/app/helpers/postsHelpers'
 
 const PostsLinksEditModal = ({
   link,
@@ -69,7 +70,7 @@ const PostsLinksEditModal = ({
     return [
       {
         name: '-',
-        value: '_noFolder',
+        value: defaultFolderId,
       },
       ...foldersWithValue,
       {

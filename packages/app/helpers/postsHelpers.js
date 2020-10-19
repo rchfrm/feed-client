@@ -248,6 +248,8 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
 // LINKS
 // ------------------------
 
+export const defaultFolderId = '_default'
+
 // * DEV DUMMY LINK
 const dummyLinks = {
   folders: [
@@ -306,7 +308,7 @@ const dummyLinks = {
       name: 'Real hero',
       id: 'Real-hero',
       href: 'https://test.com',
-      folderId: '_default',
+      folderId: defaultFolderId,
     },
   ],
   integrations: [
