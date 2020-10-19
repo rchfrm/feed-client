@@ -3,13 +3,35 @@ import PropTypes from 'prop-types'
 
 import produce from 'immer'
 
+import useAlertModal from '@/hooks/useAlertModal'
 import usePostsStore from '@/app/hooks/usePostsStore'
 
 import Input from '@/elements/Input'
 import Select from '@/elements/Select'
 
-const PostsLinksEditModal = ({ link }) => {
+const PostsLinksEditModal = ({
+  link,
+  modalButtons,
+  action,
+  runSaveLink,
+}) => {
   const [linkProps, setLinkProps] = React.useState(link || {})
+  // UPDATE MODAL SAVE BUTTON
+  const { setButtons } = useAlertModal()
+  React.useEffect(() => {
+    const newButtons = produce(modalButtons, draftButtons => {
+      // Is buttons disabled
+      const saveEnabled = !!linkProps.href
+      // Get save function
+      const onClick = () => runSaveLink(linkProps, action)
+      // Update save button
+      draftButtons[0].onClick = onClick
+      draftButtons[0].disabled = !saveEnabled
+    })
+    console.log('newButtons', newButtons)
+    setButtons(newButtons)
+  // eslint-disable-next-line
+  }, [linkProps, setButtons])
   // HANDLE CREATING NEW FOLDERS
   const [createNewFolder, setCreateNewFolder] = React.useState(false)
   // HANDLE CHANGE ON FORM FIELDS
@@ -115,6 +137,9 @@ const PostsLinksEditModal = ({ link }) => {
 
 PostsLinksEditModal.propTypes = {
   link: PropTypes.object,
+  modalButtons: PropTypes.array.isRequired,
+  action: PropTypes.string.isRequired,
+  runSaveLink: PropTypes.func.isRequired,
 }
 
 PostsLinksEditModal.defaultProps = {

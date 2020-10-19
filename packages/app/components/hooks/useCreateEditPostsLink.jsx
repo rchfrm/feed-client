@@ -8,7 +8,7 @@ import PostsLinksEditModal from '@/app/PostsLinksEditModal'
 
 import { saveLink } from '@/app/helpers/postsHelpers'
 
-const useCreateEditPostsLink = ({ action = 'add', itemType= 'link', onSave = () => {} }) => {
+const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = () => {} }) => {
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
   // FUNCTION TO SAVE LINK
@@ -27,8 +27,10 @@ const useCreateEditPostsLink = ({ action = 'add', itemType= 'link', onSave = () 
     const buttons = [
       {
         text: 'Save',
-        onClick: () => runSaveLink(link, action),
+        // onClick: () => runSaveLink(link, action),
+        onClick: () => {},
         color: 'green',
+        id: 'save',
       },
       {
         text: 'Cancel',
@@ -36,7 +38,14 @@ const useCreateEditPostsLink = ({ action = 'add', itemType= 'link', onSave = () 
         color: 'black',
       },
     ]
-    const children = <PostsLinksEditModal link={link} />
+    const children = (
+      <PostsLinksEditModal
+        link={link}
+        modalButtons={buttons}
+        action={action}
+        runSaveLink={runSaveLink}
+      />
+    )
     showAlert({ children, buttons })
   }, [showAlert, closeAlert, action, runSaveLink])
 

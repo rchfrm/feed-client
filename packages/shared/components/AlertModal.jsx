@@ -114,7 +114,6 @@ const AlertModal = () => {
               {/* BUTTONS */}
               <div className="absolute bottom-0 left-0 w-full">
                 {buttons.map((buttonConfig, index) => {
-                  const { text, color, onClick, href, facebookButton } = buttonConfig
                   const { text, color, onClick, href, facebookButton, disabled } = buttonConfig
                   const firstButton = index === 0
                   const lastButton = index === buttons.length - 1
