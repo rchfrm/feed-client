@@ -45,6 +45,7 @@ const getIconEl = (icon, error, success) => {
 
 const Input = ({
   handleChange,
+  onBlur,
   updateValue,
   name,
   label,
@@ -127,6 +128,7 @@ const Input = ({
         name={name}
         type={type}
         onChange={onChange}
+        onBlur={onBlur}
         placeholder={placeholder}
         style={{
           width: `${width}%`,
@@ -142,6 +144,7 @@ const Input = ({
 
 Input.propTypes = {
   handleChange: PropTypes.func,
+  onBlur: PropTypes.func,
   updateValue: PropTypes.func,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -167,6 +170,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
   handleChange: null,
+  onBlur: () => {},
   updateValue: null,
   placeholder: '',
   readOnly: false,
