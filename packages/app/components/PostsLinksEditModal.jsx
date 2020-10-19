@@ -26,23 +26,28 @@ const PostsLinksEditModal = ({
     const hasError = !utils.testValidUrl(`https://${linkProps.href}`)
     setHasHrefError(hasError)
   }, [linkProps.href])
+
   // UPDATE MODAL SAVE BUTTON
   const { setButtons } = useAlertModal()
   React.useEffect(() => {
     const newButtons = produce(modalButtons, draftButtons => {
       // Is buttons disabled
       const saveEnabled = !!linkProps.href && !hasHrefError
-      // Get save function
-      const onClick = () => runSaveLink(linkProps, action)
       // Update save button
-      draftButtons[0].onClick = onClick
+      draftButtons[0].onClick = () => runSaveLink(linkProps, action)
       draftButtons[0].disabled = !saveEnabled
+      // Update delete button
+      if (draftButtons[1].id === 'delete') {
+        draftButtons[1].onClick = () => runSaveLink(linkProps, 'delete')
+      }
     })
     setButtons(newButtons)
   // eslint-disable-next-line
   }, [linkProps, setButtons])
+
   // HANDLE CREATING NEW FOLDERS
   const [createNewFolder, setCreateNewFolder] = React.useState(false)
+
   // HANDLE CHANGE ON FORM FIELDS
   const handleInput = React.useCallback((e, prop, folderSelector) => {
     // Stop here if selecting new fodler
@@ -59,6 +64,7 @@ const PostsLinksEditModal = ({
     })
     setLinkProps(newLinkProps)
   }, [linkProps])
+
   // GET ARRAY OF FOLDERS
   const { savedFolders } = usePostsStore()
   const folderOptions = React.useMemo(() => {

@@ -339,10 +339,16 @@ export const setDefaultLink = (link) => {
 }
 
 // SAVE LINK
+/**
+ * @param {object} link
+ * @param {string} action 'add' | 'edit' | 'delete'
+ * @param {string} [verifyIdToken]
+ * @returns {Promise<any>}
+ */
 export const saveLink = (link, action = 'add') => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      console.log('save link', action)
+      console.log('update link:', action)
       resolve({ res: true, error: false })
     }, 500)
   })

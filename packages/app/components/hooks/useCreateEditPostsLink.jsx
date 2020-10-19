@@ -27,7 +27,6 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
     const buttons = [
       {
         text: 'Save',
-        // onClick: () => runSaveLink(link, action),
         onClick: () => {},
         color: 'green',
         id: 'save',
@@ -38,6 +37,15 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
         color: 'black',
       },
     ]
+    // Add delete button if editing post
+    if (action === 'edit') {
+      buttons.splice(1, 0, {
+        text: 'Delete',
+        onClick: () => {},
+        color: 'red',
+        id: 'delete',
+      })
+    }
     const children = (
       <PostsLinksEditModal
         link={link}
