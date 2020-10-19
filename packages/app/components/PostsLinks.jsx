@@ -17,7 +17,7 @@ import sidePanelStyles from '@/app/SidePanel.module.css'
 const PostsLinks = ({
   useSelectMode,
 }) => {
-  const { fetchLinks, nestedLinks } = usePostsStore()
+  const { fetchLinks, nestedLinks, integrations } = usePostsStore()
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   // const [savedLinks, setSavedLinks] = React.useState([])
   const [errorFetchingLinks, setErrorFetchingLinks] = React.useState(null)
@@ -59,6 +59,7 @@ const PostsLinks = ({
           <section>
             <h3>Integration Links</h3>
             <PostsLinksIntegrations
+              integrations={integrations}
               useSelectMode={useSelectMode}
             />
           </section>

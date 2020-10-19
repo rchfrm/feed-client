@@ -7,21 +7,11 @@ import RadioButton from '@/elements/RadioButton'
 
 import brandColors from '@/constants/brandColors'
 
-const PostsLinksIntegrations = ({ className, useSelectMode }) => {
-  const integrations = [
-    {
-      type: 'instagram',
-      href: 'https://instagram.com/houseboat',
-    },
-    {
-      type: 'youtube',
-      href: 'https://youtube.com/houseboat',
-    },
-    {
-      type: 'spotify',
-      href: null,
-    },
-  ]
+const PostsLinksIntegrations = ({
+  integrations,
+  className,
+  useSelectMode,
+}) => {
   return (
     <>
       <ul
@@ -80,6 +70,7 @@ const PostsLinksIntegrations = ({ className, useSelectMode }) => {
 }
 
 PostsLinksIntegrations.propTypes = {
+  integrations: PropTypes.array.isRequired,
   className: PropTypes.string,
   useSelectMode: PropTypes.bool.isRequired,
 }

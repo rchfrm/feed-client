@@ -9,6 +9,7 @@ const initialState = {
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
+  integrations: [],
   togglePromotionGlobal: () => {},
 }
 
@@ -50,11 +51,16 @@ const fetchLinks = (set, get) => async (action) => {
   if (savedLinks.length && action !== 'force') return { error: null }
   // Else fetch links from server
   const { data, error } = await postsHelpers.fetchSavedLinks(artistId, 'dummy')
-  const { links, folders } = data
+  const { links, folders, integrations } = data
   // Create array of links in folders for display
   const nestedLinks = formatNestedLinks({ links, folders })
   // Cache links and folders
-  set({ savedLinks: links, savedFolders: folders, nestedLinks })
+  set({
+    savedLinks: links,
+    savedFolders: folders,
+    nestedLinks,
+    integrations,
+  })
   // Return data
   return { error }
 }
@@ -67,6 +73,7 @@ const [postsStore] = create((set, get) => ({
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
+  integrations: initialState.integrations,
   togglePromotionGlobal: initialState.togglePromotionGlobal,
   // GETTERS
   fetchLinks: fetchLinks(set, get),

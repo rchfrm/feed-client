@@ -9,6 +9,7 @@ const usePostsStore = () => {
   const savedLinks = postsStore(state => state.savedLinks)
   const savedFolders = postsStore(state => state.savedFolders)
   const nestedLinks = postsStore(state => state.nestedLinks)
+  const integrations = postsStore(state => state.integrations)
   const fetchLinks = postsStore(state => state.fetchLinks)
   const clearAll = postsStore(state => state.clearAll)
 
@@ -24,6 +25,7 @@ const usePostsStore = () => {
     savedLinks,
     savedFolders,
     nestedLinks,
+    integrations,
     defaultLink,
     clearAll,
     setupStore,

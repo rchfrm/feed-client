@@ -312,7 +312,18 @@ const dummyLinks = {
     },
   ],
   integrations: [
-
+    {
+      type: 'instagram',
+      href: 'https://instagram.com/houseboat',
+    },
+    {
+      type: 'youtube',
+      href: 'https://youtube.com/houseboat',
+    },
+    {
+      type: 'spotify',
+      href: null,
+    },
   ],
 }
 
