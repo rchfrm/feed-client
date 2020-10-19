@@ -352,3 +352,18 @@ export const saveLink = (link, action = 'add') => {
     }, 500)
   })
 }
+
+// SAVE FOLDER
+/**
+ * @param {object} folder
+ * @param {string} action 'edit' | 'delete'
+ * @returns {Promise<any>}
+ */
+export const saveFolder = (link, action = 'edit') => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('update folder:', action)
+      resolve({ res: true, error: false })
+    }, 500)
+  })
+}

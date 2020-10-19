@@ -18,6 +18,7 @@ const PostsLinksLink = ({
   // FUNCTION FOR EDITING LINKS
   const editLink = useCreateEditPostsLink({
     action: 'edit',
+    itemType: 'link',
     onSave: () => setEditModeOn(false),
   })
 

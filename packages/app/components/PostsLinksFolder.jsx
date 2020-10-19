@@ -15,6 +15,21 @@ import ArrowHeadIcon from '@/icons/ArrowHeadIcon'
 
 import PostsLinksLink from '@/app/PostsLinksLink'
 
+import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
+
+const FOLDER_NAME = ({ name, editModeOn }) => {
+  return (
+    <strong
+      className={[
+        'inline-block',
+        editModeOn ? 'wobble-animation' : null,
+      ].join(' ')}
+    >
+      {name}
+    </strong>
+  )
+}
+
 const PostsLinksFolder = ({
   folder,
   editModeOn,
@@ -22,6 +37,12 @@ const PostsLinksFolder = ({
   useSelectMode,
   className,
 }) => {
+  // FUNCTION FOR EDITING LINKS
+  const editFolder = useCreateEditPostsLink({
+    action: 'edit',
+    itemType: 'folder',
+    onSave: () => setEditModeOn(false),
+  })
   return (
     <Accordion
       className={[
@@ -46,14 +67,18 @@ const PostsLinksFolder = ({
                     <span className="h-4 mr-3">
                       <FolderIcon className="w-auto h-full" />
                     </span>
-                    <strong
-                      className={[
-                        'inline-block',
-                        editModeOn ? 'wobble-animation' : null,
-                      ].join(' ')}
-                    >
-                      {folder.name}
-                    </strong>
+                    {editModeOn ? (
+                      <a
+                        role="button"
+                        aria-label="Edit folder"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          editFolder(folder)
+                        }}
+                      >
+                        <FOLDER_NAME name={folder.name} editModeOn={editModeOn} />
+                      </a>
+                    ) : <FOLDER_NAME name={folder.name} editModeOn={editModeOn} />}
                     <ArrowHeadIcon
                       className="ml-3"
                       style={{
