@@ -4,45 +4,6 @@ import PropTypes from 'prop-types'
 
 import InputBase from '@/elements/InputBase'
 
-import TickIcon from '@/icons/TickIcon'
-import CrossIcon from '@/icons/CrossIcon'
-import FacebookIcon from '@/icons/FacebookIcon'
-import InstagramIcon from '@/icons/InstagramIcon'
-import brandColors from '@/constants/brandColors'
-
-
-const getIconEl = (icon, error, success) => {
-  if (error) {
-    return (
-      <div className="input--icon">
-        <CrossIcon fill={brandColors.errorColor} width="20" />
-      </div>
-    )
-  }
-  if (success) {
-    return (
-      <div className="input--icon">
-        <TickIcon fill={brandColors.successColor} width="20" />
-      </div>
-    )
-  }
-  if (icon === 'facebook') {
-    return (
-      <div className="input--icon">
-        <FacebookIcon fill={brandColors.textColor} width="20" />
-      </div>
-    )
-  }
-  if (icon === 'instagram') {
-    return (
-      <div className="input--icon">
-        <InstagramIcon fill={brandColors.textCoolor} width="20" />
-      </div>
-    )
-  }
-  return null
-}
-
 const Input = ({
   handleChange,
   onBlur,
@@ -65,25 +26,6 @@ const Input = ({
   autoFocus,
   disabled,
 }) => {
-  const containerClasses = ['input--container', className]
-  // Handle error and success states
-  if (error) {
-    containerClasses.push('_error')
-  }
-  if (success) {
-    containerClasses.push('_success')
-  }
-  if (disabled) {
-    containerClasses.push('_disabled')
-  }
-  if (readOnly) {
-    containerClasses.push('_readOnly')
-  }
-  // Get icon (if needed)
-  const iconEl = getIconEl(icon, error, success)
-  if (iconEl) {
-    containerClasses.push('_hasIcon')
-  }
   // Auto focus input if needed
   const inputElement = React.useRef(null)
   React.useEffect(() => {
