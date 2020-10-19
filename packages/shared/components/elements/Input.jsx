@@ -21,6 +21,7 @@ const Input = ({
   className,
   icon,
   error,
+  errorMessage,
   success,
   autoComplete,
   autoFocus,
@@ -61,6 +62,7 @@ const Input = ({
       className={className}
       icon={icon}
       error={error}
+      errorMessage={errorMessage}
       success={success}
       disabled={disabled}
     >
@@ -104,6 +106,7 @@ Input.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.string,
   error: PropTypes.bool,
+  errorMessage: PropTypes.string,
   success: PropTypes.bool,
   autoComplete: PropTypes.bool,
   autoFocus: PropTypes.bool,
@@ -126,6 +129,7 @@ Input.defaultProps = {
   className: '',
   icon: '',
   error: false,
+  errorMessage: '',
   success: false,
   autoComplete: true,
   autoFocus: false,

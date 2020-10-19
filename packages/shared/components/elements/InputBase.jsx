@@ -43,6 +43,7 @@ const InputBase = ({
   className,
   icon,
   error,
+  errorMessage,
   success,
   disabled,
   children,
@@ -82,6 +83,9 @@ const InputBase = ({
             {tooltipMessage && (
               <TooltipButton copy={tooltipMessage} direction="right" />
             )}
+            {error && errorMessage && (
+              <span className="inputLabel__errorMessage">{errorMessage}</span>
+            )}
           </span>
         )}
         {/* INPUT */}
@@ -104,6 +108,7 @@ InputBase.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.string,
   error: PropTypes.bool,
+  errorMessage: PropTypes.string,
   success: PropTypes.bool,
   disabled: PropTypes.bool,
   children: PropTypes.node.isRequired,
@@ -117,6 +122,7 @@ InputBase.defaultProps = {
   className: '',
   icon: '',
   error: false,
+  errorMessage: '',
   success: false,
   disabled: false,
 }

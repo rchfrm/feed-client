@@ -77,6 +77,13 @@ select {
   }
 }
 
+.inputLabel__errorMessage {
+  display: inline-block;
+  padding-left: 1em;
+  font-weight: normal;
+  color: var(--red);
+}
+
 .select--box,
 .input--box {
   display: block;
