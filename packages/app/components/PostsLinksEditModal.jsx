@@ -10,20 +10,41 @@ import Select from '@/elements/Select'
 
 const PostsLinksEditModal = ({ link }) => {
   const [linkProps, setLinkProps] = React.useState(link || {})
-  console.log('linkProps', linkProps)
-  const handleInput = React.useCallback((e, prop) => {
+  // HANDLE CREATING NEW FOLDERS
+  const [createNewFolder, setCreateNewFolder] = React.useState(false)
+  // HANDLE CHANGE ON FORM FIELDS
+  const handleInput = React.useCallback((e, prop, folderSelector) => {
+    // Stop here if selecting new fodler
+    if (folderSelector) {
+      if (e.target.value === '_newFolder') {
+        setCreateNewFolder(true)
+      } else {
+        setCreateNewFolder(false)
+      }
+    }
+    // Update component-level link store
     const newLinkProps = produce(linkProps, draftProps => {
       draftProps[prop] = e.target.value
     })
     setLinkProps(newLinkProps)
   }, [linkProps])
-  // Get array of folders
+  // GET ARRAY OF FOLDERS
   const { savedFolders } = usePostsStore()
-  const savedFoldersOptions = React.useMemo(() => {
-    return savedFolders.map((folder) => {
+  const folderOptions = React.useMemo(() => {
+    // Add value key to folder
+    const foldersWithValue = savedFolders.map((folder) => {
       return { ...folder, value: folder.id }
     })
+    // Add "New Folder" option
+    return [
+      ...foldersWithValue,
+      {
+        name: '+ New Folder',
+        value: '_newFolder',
+      },
+    ]
   }, [savedFolders])
+  console.log('linkProps', linkProps)
   return (
     <div className="pt-3">
       <form
@@ -51,22 +72,42 @@ const PostsLinksEditModal = ({ link }) => {
           value={linkProps.name}
           required
         />
-        <Select
-          handleChange={(e) => handleInput(e, 'folder')}
-          name="link-folder"
-          label="Folder"
-          placeholder="Select folder"
-          selectedValue={linkProps.folderId}
-          options={savedFoldersOptions}
-        />
-        <p>
-          <a
-            role="button"
-            className="no-underline -hover--green"
-          >
-            <strong>+ Add Folder</strong>
-          </a>
-        </p>
+        {createNewFolder ? (
+          <div>
+            <Input
+              placeholder="Folder name"
+              type="text"
+              version="box"
+              label="New folder"
+              name="new-folder"
+              handleChange={(e) => handleInput(e, 'folderName')}
+              value={linkProps.folderName}
+              required
+            />
+            {/* Close new folder input */}
+            <p className="-mt-6 text-sm">
+              <a
+                className="no-underline text-grey-3 -hover--green"
+                role="button"
+                onClick={() => {
+                  const e = { target: { value: link ? link.folderId : '' } }
+                  handleInput(e, 'folderId', true)
+                }}
+              >
+                Cancel
+              </a>
+            </p>
+          </div>
+        ) : (
+          <Select
+            handleChange={(e) => handleInput(e, 'folderId', true)}
+            name="link-folder"
+            label="Folder"
+            placeholder="Select folder"
+            selectedValue={linkProps.folderId}
+            options={folderOptions}
+          />
+        )}
       </form>
     </div>
   )
