@@ -234,6 +234,7 @@ select:invalid {
 ******************/
 .radio--button,
 .checkbox--button {
+  display: flex;
   position: relative;
   line-height: 1.3;
   margin-bottom: var(--sp-5);
