@@ -24,12 +24,13 @@ buttons: [
 */
 
 
-const useAlertModal = (props = {}) => {
+const useAlertModal = (props) => {
   const close = alertStore(state => state.close)
   const open = alertStore(state => state.open)
   const setCopy = alertStore(state => state.setCopy)
   const setChildren = alertStore(state => state.setChildren)
   const setButtons = alertStore(state => state.setButtons)
+  const setOnClose = alertStore(state => state.setOnClose)
 
   const defaultButtons = React.useMemo(() => {
     return [{
@@ -38,12 +39,12 @@ const useAlertModal = (props = {}) => {
       onClick: close,
     }]
   }, [close])
-  const showAlert = React.useCallback(({ copy, children = null, buttons }) => {
-    const { alertCopy = '', alertChildren = null, alertButtons } = props
+  const showAlert = React.useCallback(({ copy, children = null, buttons = defaultButtons, onClose = () => {} }) => {
     // Set store
-    setCopy(copy || alertCopy)
-    setChildren(children || alertChildren)
-    setButtons(buttons || alertButtons || defaultButtons)
+    setCopy(copy)
+    setChildren(children)
+    setButtons(buttons)
+    setOnClose(onClose)
     // Open
     open()
   // eslint-disable-next-line react-hooks/exhaustive-deps
