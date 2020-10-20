@@ -18,6 +18,7 @@ const TargetingSettingsSaveContainer = ({
   saveTargetingSettings,
   cancelUpdateSettings,
   budgetRef,
+  isFirstTimeUser,
   children,
 }) => {
   const { width: windowWidth } = useBrowserStore()
@@ -55,7 +56,7 @@ const TargetingSettingsSaveContainer = ({
       ref={containerRef}
     >
       {/* PAUSED WARNING */}
-      {!targetingState.status && (
+      {!targetingState.status && !isFirstTimeUser && (
         <TargetingPausedWarning
           className="col-span-12 col-start-1 mb-6"
           hideButton
@@ -95,6 +96,7 @@ TargetingSettingsSaveContainer.propTypes = {
   saveTargetingSettings: PropTypes.func.isRequired,
   cancelUpdateSettings: PropTypes.func.isRequired,
   budgetRef: PropTypes.object.isRequired,
+  isFirstTimeUser: PropTypes.bool.isRequired,
   children: PropTypes.node,
 }
 
