@@ -22,7 +22,7 @@ const TargetingBudgetMobile = ({
     <div>
       {/* HEADER */}
       <header className="-mt-2">
-        <h3 className="h2">Set a Budget</h3>
+        <h3 className="h2">Set a Daily Budget</h3>
       </header>
       <div className="absolute--center-y left-0 w-full px-10" style={{ bottom: '50%' }}>
         <div className="flex justify-end">
