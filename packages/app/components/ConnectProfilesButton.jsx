@@ -14,7 +14,10 @@ const ConnectProfilesButton = ({ className }) => {
             pathname: ROUTES.CONNECT_PROFILES,
           }}
         >
-          <a><strong>+ connect more profiles</strong></a>
+          <a className="inline-flex">
+            <strong className="pr-2" style={{ transform: 'translateY(0.095rem)' }}>+ </strong>
+            <strong>connect more profiles</strong>
+          </a>
         </Link>
       </p>
     </div>
