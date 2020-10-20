@@ -9,7 +9,7 @@ export default {
 
   pausedWarning: `Spending is currently paused and no ads are running. You can still edit your settings.`,
 
-  saveSettingsConfirmation: `**This will change effect how your ads are run.**
+  saveSettingsConfirmation: `**This will affect how your ads are run. Any changes may take up to 15 minutes to update.**
   
 Are you sure you want to continue?`,
 
