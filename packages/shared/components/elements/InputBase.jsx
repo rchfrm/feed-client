@@ -3,21 +3,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import TickIcon from '@/icons/TickIcon'
-import CrossIcon from '@/icons/CrossIcon'
 import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
 import TooltipButton from '@/elements/TooltipButton'
 import brandColors from '@/constants/brandColors'
 
 
-const getIconEl = (icon, error, success) => {
-  if (error) {
-    return (
-      <div className="input--icon">
-        <CrossIcon fill={brandColors.errorColor} width="20" />
-      </div>
-    )
-  }
+const getIconEl = (icon, success) => {
   if (success) {
     return (
       <div className="input--icon">
@@ -51,6 +43,7 @@ const InputBase = ({
   className,
   icon,
   error,
+  errorMessage,
   success,
   disabled,
   children,
@@ -70,7 +63,7 @@ const InputBase = ({
     containerClasses.push('_readOnly')
   }
   // Get icon (if needed)
-  const iconEl = getIconEl(icon, error, success)
+  const iconEl = getIconEl(icon, success)
   if (iconEl) {
     containerClasses.push('_hasIcon')
   }
@@ -89,6 +82,9 @@ const InputBase = ({
             {/* LABEL TOOLTIP */}
             {tooltipMessage && (
               <TooltipButton copy={tooltipMessage} direction="right" />
+            )}
+            {error && errorMessage && (
+              <span className="inputLabel__errorMessage">{errorMessage}</span>
             )}
           </span>
         )}
@@ -112,6 +108,7 @@ InputBase.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.string,
   error: PropTypes.bool,
+  errorMessage: PropTypes.string,
   success: PropTypes.bool,
   disabled: PropTypes.bool,
   children: PropTypes.node.isRequired,
@@ -125,6 +122,7 @@ InputBase.defaultProps = {
   className: '',
   icon: '',
   error: false,
+  errorMessage: '',
   success: false,
   disabled: false,
 }

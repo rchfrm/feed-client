@@ -1,48 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const RADIO_BUTTON = ({
-  value,
-  name,
-  label,
-  checked,
-  highlight,
-  onChange,
-  className,
-}) => {
-  const valueString = value.toString()
-  const id = `radio-${valueString}`
-
-  const handleChange = () => {
-    onChange(value)
-  }
-
-  return (
-    <div className={[
-      'radio--button',
-      highlight ? '-highlighted' : null,
-      className,
-    ].join(' ')}
-    >
-      <input
-        id={id}
-        value={valueString}
-        type="radio"
-        className="radio--button_input"
-        name={name || valueString}
-        aria-checked={checked}
-        checked={checked}
-        onChange={handleChange}
-      />
-      <label
-        className="radio--button_label"
-        htmlFor={id}
-      >
-        {label}
-      </label>
-    </div>
-  )
-}
+import RadioButton from '@/elements/RadioButton'
 
 const RadioButtons = ({ buttonOptions, selectedValue, onChange, className }) => {
   const classNames = ['radio--buttons', className].join(' ')
@@ -56,7 +15,7 @@ const RadioButtons = ({ buttonOptions, selectedValue, onChange, className }) => 
         // or failing that, if it's the first value
         const checked = selectedValue !== null ? selectedValue === value : index === 0
         return (
-          <RADIO_BUTTON
+          <RadioButton
             key={value}
             value={value}
             name={name}
@@ -68,28 +27,6 @@ const RadioButtons = ({ buttonOptions, selectedValue, onChange, className }) => 
       })}
     </div>
   )
-}
-
-// BUTTON PROPS
-RADIO_BUTTON.propTypes = {
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-  ]).isRequired,
-  name: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  checked: PropTypes.bool,
-  highlight: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
-  className: PropTypes.string,
-}
-
-RADIO_BUTTON.defaultProps = {
-  checked: false,
-  highlight: false,
-  name: '',
-  className: null,
 }
 
 // GROUP PROPS

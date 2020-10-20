@@ -244,11 +244,137 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
 }
 
 
+
+// LINKS
+// ------------------------
+
+export const defaultFolderId = '_default'
+
+// * DEV DUMMY LINK
+const dummyLinks = {
+  folders: [
+    {
+      name: 'Hippos',
+      id: 'hippos',
+      linkIds: [
+        'mission-statement',
+        'bolognese-recipe',
+      ],
+    },
+    {
+      type: 'folder',
+      name: 'Shimmerings',
+      id: 'shimmerings',
+      linkIds: [
+        'lonely-pilgrim',
+        'dangerous-supermarket',
+        'love-is-under-the-pavement',
+      ],
+    },
+  ],
+  links: [
+    {
+      name: 'Lonely pilgrim',
+      id: 'lonely-pilgrim',
+      href: 'https://test.com',
+      folderId: 'shimmerings',
+    },
+    {
+      name: 'Dangerous Supermarket',
+      id: 'dangerous-supermarket',
+      href: 'https://test.com',
+      folderId: 'shimmerings',
+    },
+    {
+      name: 'Love is under the pavement at night',
+      id: 'love-is-under-the-pavement',
+      href: 'https://test.com',
+      folderId: 'shimmerings',
+    },
+    {
+      name: 'Mission statement',
+      id: 'mission-statement',
+      href: 'https://test.com',
+      folderId: 'hippos',
+    },
+    {
+      name: 'Bolognese recipe',
+      id: 'bolognese-recipe',
+      href: 'https://test.com',
+      folderId: 'hippos',
+    },
+    {
+      type: 'link',
+      name: 'Real hero',
+      id: 'Real-hero',
+      href: 'https://test.com',
+      folderId: defaultFolderId,
+    },
+  ],
+  integrations: [
+    {
+      type: 'instagram',
+      href: 'https://instagram.com/houseboat',
+    },
+    {
+      type: 'youtube',
+      href: 'https://youtube.com/houseboat',
+    },
+    {
+      type: 'spotify',
+      href: null,
+    },
+  ],
+}
+
+
+// FETCH SAVED LINKS
+export const fetchSavedLinks = (artistId, type) => {
+  console.log(`get links for artist ${artistId}`)
+  return new Promise((resolve) => {
+    if (type === 'dummy') {
+      setTimeout(() => {
+        resolve({ data: dummyLinks })
+      }, 500)
+    }
+  })
+}
+
 // SET NEW DEFAULT LINK
 export const setDefaultLink = (link) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({ res: link, error: false })
+    }, 500)
+  })
+}
+
+// SAVE LINK
+/**
+ * @param {object} link
+ * @param {string} action 'add' | 'edit' | 'delete'
+ * @returns {Promise<any>}
+ */
+export const saveLink = (link, action = 'add') => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('update link:', action)
+      resolve({ res: true, error: false })
+    }, 500)
+  })
+}
+
+// SAVE FOLDER
+/**
+ * @param {object} folder
+ * @param {string} action 'edit' | 'delete'
+ * @returns {Promise<any>}
+ */
+export const saveFolder = (link, action = 'edit') => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('update folder:', action)
+      resolve({ res: true, error: false })
     }, 500)
   })
 }

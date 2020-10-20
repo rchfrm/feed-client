@@ -49,7 +49,7 @@ const useAlertModal = (props = {}) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props])
 
-  return { showAlert, closeAlert: close }
+  return { showAlert, closeAlert: close, setButtons }
 }
 
 export default useAlertModal

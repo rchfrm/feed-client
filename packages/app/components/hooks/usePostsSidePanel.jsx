@@ -1,11 +1,11 @@
 import React from 'react'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-import { PostsContextProvider } from '@/app/contexts/PostsContext'
 
 import PostsSettings from '@/app/PostsSettings'
+import PostsLinks from '@/app/PostsLinks'
 
-const usePostsSettings = () => {
+const usePostsSidePanel = () => {
   // SIDE PANEL context
   const {
     setSidePanelContent,
@@ -15,11 +15,17 @@ const usePostsSettings = () => {
   // * OPEN POST SETTINGS
   const goToPostSettings = React.useCallback(() => {
     setSidePanelButton(null)
-    setSidePanelContent(<PostsContextProvider><PostsSettings /></PostsContextProvider>)
+    setSidePanelContent(<PostsSettings />)
+    toggleSidePanel(true)
+  }, [setSidePanelButton, setSidePanelContent, toggleSidePanel])
+  // * OPEN POST LINKS
+  const goToPostLinks = React.useCallback(({ useSelectMode = false }) => {
+    setSidePanelButton(null)
+    setSidePanelContent(<PostsLinks useSelectMode={useSelectMode} />)
     toggleSidePanel(true)
   }, [setSidePanelButton, setSidePanelContent, toggleSidePanel])
 
-  return { goToPostSettings }
+  return { goToPostSettings, goToPostLinks }
 }
 
-export default usePostsSettings
+export default usePostsSidePanel
