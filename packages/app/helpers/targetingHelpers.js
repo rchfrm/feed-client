@@ -104,10 +104,10 @@ export const calcMinBudget = (minBudgetInfo, type) => {
     },
   } = minBudgetInfo
   const {
-    fbMinRounded,
+    fbMinFloat,
     minBudgetRounded,
   } = utils.getMinBudget(amount, currencyCode, currencyOffset)
-  if (type === 'hard') return fbMinRounded * currencyOffset
+  if (type === 'fbMin') return fbMinFloat * currencyOffset
   return minBudgetRounded * currencyOffset
 }
 
@@ -132,10 +132,11 @@ const getSliderRange = (defaultMin, defaultMax, sliderStep, initialBudget) => {
   return [defaultMin, defaultMax]
 }
 
-export const calcBudgetSliderConfig = (minHardBudget, initialBudget) => {
-  const sliderStep = Math.round(minHardBudget) / 4
-  const defaultMin = minHardBudget * 2
-  const defaultMax = minHardBudget * 30
+export const calcBudgetSliderConfig = (fbMin, minHardBudget, initialBudget) => {
+  const fbMinRound = utils.roundToFactorOfTen(fbMin)
+  const sliderStep = fbMinRound / 4
+  const defaultMin = minHardBudget
+  const defaultMax = fbMinRound * 30
   const sliderValueRange = getSliderRange(defaultMin, defaultMax, sliderStep, initialBudget)
   return { sliderStep, sliderValueRange }
 }
@@ -144,19 +145,20 @@ export const calcBudgetSliderConfig = (minHardBudget, initialBudget) => {
 export const calcMinReccBudget = ({ minBudgetInfo, locationOptions }) => {
   const cityUnit = 0.25
   const countryUnit = 1
-  const fbMin = calcMinBudget(minBudgetInfo, 'hard')
-  const baseBudget = calcMinBudget(minBudgetInfo, 'recc')
+  const fbMin = calcMinBudget(minBudgetInfo, 'fbMin')
+  const fbMinRound = utils.roundToFactorOfTen(fbMin)
+  const baseBudget = calcMinBudget(minBudgetInfo, 'hard')
   const locationOptionsArray = Object.values(locationOptions)
   const minRecc = locationOptionsArray.reduce((budget, { selected: countrySelected, totalCitiesSelected }, index) => {
     if (countrySelected) {
       // Ignore the first country
       if (index !== 0) {
-        budget += (fbMin * countryUnit)
+        budget += (fbMinRound * countryUnit)
       }
       return budget
     }
     const cappedCities = Math.min(totalCitiesSelected, 4)
-    budget += (fbMin * (cityUnit * cappedCities))
+    budget += (fbMinRound * (cityUnit * cappedCities))
     return budget
   }, baseBudget)
   return minRecc

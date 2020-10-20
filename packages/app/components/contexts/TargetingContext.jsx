@@ -32,8 +32,10 @@ const initialState = {
   setSelectedCampaignRecc: () => {},
   selectedCampaignType: '',
   setSelectedCampaignType: () => {},
+  fbMin: 0,
   minHardBudget: 0,
   minReccBudget: 0,
+  setFbMin: () => {},
   setMinReccBudget: () => {},
   updateTargetingBudget: () => {},
   disableSaving: '',
@@ -100,6 +102,7 @@ const TargetingContextProvider = ({ children }) => {
   }, [selectedCampaignRecc, setSelectedCampaignType])
 
   // MIN BUDGET
+  const [fbMin, setFbMin] = React.useState(initialState.fbMin)
   const [minHardBudget, setMinHardBudget] = React.useState(initialState.minHardBudget)
   const [minReccBudget, setMinReccBudget] = React.useState(initialState.minRecBudget)
 
@@ -203,9 +206,12 @@ const TargetingContextProvider = ({ children }) => {
     // Set inital countries (to trigger min budget)
     const { cityKeys, countryCodes } = targetingState
     updateLocationsArrays({ cityKeys, countryCodes })
+    // Set fb min
+    const fbMin = targetingHelpers.calcMinBudget(minBudgetInfo, 'fbMin')
+    setFbMin(fbMin)
     // Set hard budget
-    const fbMin = targetingHelpers.calcMinBudget(minBudgetInfo, 'hard')
-    setMinHardBudget(fbMin)
+    const hardMinBudget = targetingHelpers.calcMinBudget(minBudgetInfo, 'hard')
+    setMinHardBudget(hardMinBudget)
     // Set min recc budget
     const minReccBudget = targetingHelpers.calcMinReccBudget({ minBudgetInfo, locationOptions })
     setMinReccBudget(minReccBudget)
@@ -303,6 +309,7 @@ const TargetingContextProvider = ({ children }) => {
       <TargetingBudgetMobile
         currency={currency}
         currencyOffset={currencyOffset}
+        fbMin={fbMin}
         minReccBudget={minReccBudget}
         minHardBudget={minHardBudget}
         initialBudget={initialTargetingState.budget}
@@ -363,6 +370,7 @@ const TargetingContextProvider = ({ children }) => {
         selectedCampaignRecc,
         setSelectedCampaignRecc,
         selectedCampaignType,
+        fbMin,
         minHardBudget,
         minReccBudget,
         setMinReccBudget,
