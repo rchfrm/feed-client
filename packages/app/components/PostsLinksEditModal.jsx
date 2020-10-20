@@ -105,7 +105,6 @@ const PostsLinksEditModal = ({
             }
           }}
           onBlur={() => {
-            console.log('BLUERRRRRR')
             if (hasHrefError) return setShowHrefError(true)
             setShowHrefError(false)
           }}
