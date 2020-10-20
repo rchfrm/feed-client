@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 import * as ROUTES from '@/app/constants/routes'
 
-const TheSubNavConnectProfiles = ({ className }) => {
+const ConnectProfilesButton = ({ className }) => {
   return (
     <div className={['h4--text', className].join(' ')}>
       <p className={['mb-0'].join(' ')}>
@@ -21,13 +21,13 @@ const TheSubNavConnectProfiles = ({ className }) => {
   )
 }
 
-TheSubNavConnectProfiles.propTypes = {
+ConnectProfilesButton.propTypes = {
   className: PropTypes.string,
 }
 
-TheSubNavConnectProfiles.defaultProps = {
+ConnectProfilesButton.defaultProps = {
   className: null,
 }
 
 
-export default TheSubNavConnectProfiles
+export default ConnectProfilesButton
