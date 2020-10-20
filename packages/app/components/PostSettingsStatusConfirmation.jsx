@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import MarkdownText from '@/elements/MarkdownText'
-import Alert, { alertReducer, initialAlertState } from '@/elements/Alert'
 
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -61,7 +60,7 @@ const PostSettingsStatusConfirmation = ({
 PostSettingsStatusConfirmation.propTypes = {
   triggerStatusUpdate: PropTypes.func.isRequired,
   confirmationOpen: PropTypes.bool.isRequired,
-  hideConfirmation: PropTypes.func.isRequired,
+  dismissConfirmation: PropTypes.func.isRequired,
 }
 
 export default PostSettingsStatusConfirmation

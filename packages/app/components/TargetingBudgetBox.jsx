@@ -52,6 +52,7 @@ const TargetingBudgetBox = React.forwardRef(({
   const {
     currency,
     currencyOffset,
+    fbMin,
     minReccBudget,
     minHardBudget,
     targetingState,
@@ -89,6 +90,7 @@ const TargetingBudgetBox = React.forwardRef(({
         showCustomBudget={showCustomBudget}
         setShowCustomBudget={setShowCustomBudget}
         initialBudget={initialTargetingState.budget}
+        fbMin={fbMin}
         minHardBudget={minHardBudget}
       />
       {/* BUDGET SETTER */}
@@ -97,6 +99,7 @@ const TargetingBudgetBox = React.forwardRef(({
           isSummaryVersion={isSummaryVersion}
           currency={currency}
           currencyOffset={currencyOffset}
+          fbMin={fbMin}
           minReccBudget={minReccBudget}
           minHardBudget={minHardBudget}
           initialBudget={initialTargetingState.budget}

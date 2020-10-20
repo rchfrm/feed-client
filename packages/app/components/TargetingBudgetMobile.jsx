@@ -8,6 +8,7 @@ import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 const TargetingBudgetMobile = ({
   currency,
   currencyOffset,
+  fbMin,
   minReccBudget,
   minHardBudget,
   initialBudget,
@@ -31,12 +32,14 @@ const TargetingBudgetMobile = ({
             showCustomBudget={showCustomBudget}
             setShowCustomBudget={setShowCustomBudget}
             initialBudget={initialBudget}
+            fbMin={fbMin}
             minHardBudget={minHardBudget}
           />
         </div>
         <TargetingBudgetSetter
           currency={currency}
           currencyOffset={currencyOffset}
+          fbMin={fbMin}
           minReccBudget={minReccBudget}
           minHardBudget={minHardBudget}
           initialBudget={initialBudget}
@@ -53,6 +56,7 @@ const TargetingBudgetMobile = ({
 TargetingBudgetMobile.propTypes = {
   currency: PropTypes.string,
   currencyOffset: PropTypes.number,
+  fbMin: PropTypes.number.isRequired,
   minReccBudget: PropTypes.number.isRequired,
   minHardBudget: PropTypes.number.isRequired,
   initialBudget: PropTypes.number.isRequired,
