@@ -414,3 +414,33 @@ export const setPostLink = (linkId) => {
     }, 500)
   })
 }
+
+// SAVE LINK
+/**
+ * @param {object} link
+ * @param {string} action 'add' | 'edit' | 'delete'
+ * @returns {Promise<any>}
+ */
+export const saveLink = (link, action = 'add') => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('update link:', action)
+      resolve({ res: true, error: false })
+    }, 500)
+  })
+}
+
+// SAVE FOLDER
+/**
+ * @param {object} folder
+ * @param {string} action 'edit' | 'delete'
+ * @returns {Promise<any>}
+ */
+export const saveFolder = (link, action = 'edit') => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('update folder:', action)
+      resolve({ res: true, error: false })
+    }, 500)
+  })
+}

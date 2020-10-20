@@ -205,6 +205,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 
   // Define function to BATCH TOGGLE all posts
   // and set it on the parent
+  const { setTogglePromotionGlobal } = usePostsStore()
   React.useEffect(() => {
     const togglePromotionGlobal = (promotionEnabled) => {
       setPostToggleSetter('batch')
