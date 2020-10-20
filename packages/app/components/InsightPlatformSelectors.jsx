@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 // Components
 import BaseFilters from '@/BaseFilters'
+import InsightPlatformAddMoreButton from '@/app/InsightPlatformAddMoreButton'
 import Icon from '@/elements/Icon'
 // Constants
 import brandColors from '@/constants/brandColors'
@@ -42,7 +43,9 @@ const InsightPlatformSelectors = ({
       useSetQuery
       useSetLocalStorage
       querySlug="platform"
-    />
+    >
+      <InsightPlatformAddMoreButton />
+    </BaseFilters>
   )
 }
 
