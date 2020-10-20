@@ -330,6 +330,7 @@ const TargetingContextProvider = ({ children }) => {
         targetingState={targetingState}
         saveTargetingSettings={saveTargetingSettings}
         disableSaving={!!disableSaving}
+        isFirstTimeUser={isFirstTimeUser}
       />
     ) : null
     return { content, button }
@@ -344,7 +345,7 @@ const TargetingContextProvider = ({ children }) => {
     // Hide progress button
     setSelectedCampaignRecc(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setSidePanelButton, toggleSidePanel, targetingState, minReccBudget, budgetFormatted, updateTargetingBudget])
+  }, [setSidePanelButton, toggleSidePanel, targetingState, minReccBudget, budgetFormatted, updateTargetingBudget, isFirstTimeUser])
 
   React.useEffect(() => {
     if (!mobileBudgetOpen) return

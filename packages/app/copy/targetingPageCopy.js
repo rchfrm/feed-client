@@ -37,6 +37,16 @@ We are working on adding custom locations, but it would be really helpful if you
   
 ### Let's get started by setting up your targeting preferences.`,
 
+  // BUTTON TEXT
+  saveSettingsButton: (isFirstTimeUser) => {
+    if (isFirstTimeUser) return `Start Running Ads`
+    return `Save Targeting Settings`
+  },
+
+  saveSettingsButtonMobile: (isFirstTimeUser) => {
+    if (isFirstTimeUser) return `Start Running Ads`
+    return `Save Settings and Budget`
+  },
 
   // HELP TEXT
   helpText: `## Help with Targeting Controls

@@ -12,6 +12,8 @@ import TargetingPausedWarning from '@/app/TargetingPausedWarning'
 
 import { getSaveDisabledReason } from '@/app/helpers/targetingHelpers'
 
+import copy from '@/app/copy/targetingPageCopy'
+
 const TargetingSettingsSaveContainer = ({
   disableSaving,
   targetingState,
@@ -71,7 +73,7 @@ const TargetingSettingsSaveContainer = ({
         >
           {disableSaving ? (
             getSaveDisabledReason(disableSaving)
-          ) : 'Save Targeting Settings'}
+          ) : copy.saveSettingsButton(isFirstTimeUser)}
         </Button>
       </div>
       {/* BACK BUTTON */}
