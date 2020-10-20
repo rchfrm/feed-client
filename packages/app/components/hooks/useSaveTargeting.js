@@ -61,6 +61,7 @@ const useSaveTargeting = ({
   saveTargetingSettings,
   togglePauseCampaign = null,
   spendingPaused,
+  isFirstTimeUser = false,
 }) => {
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
@@ -69,6 +70,15 @@ const useSaveTargeting = ({
     const { status } = targetingState
     const isPaused = status === 0
     const saveState = newState || targetingState
+    // If first time user, UNPAUSE and SET SETTINGS with no warning
+    if (isFirstTimeUser) {
+      const unpausedTargetingState = {
+        ...saveState,
+        status: 1,
+      }
+      saveTargetingSettings(unpausedTargetingState)
+      return
+    }
     // Warn about toggling paused
     if (togglePauseCampaign) {
       const alertCopy = copy.togglePauseWarning(spendingPaused)

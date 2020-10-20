@@ -27,6 +27,7 @@ const TargetingProgressButton = () => {
     toggleMobileBudget,
     mobileBudgetOpen,
     disableSaving,
+    isFirstTimeUser,
   } = React.useContext(TargetingContext)
   // IS MOUNTED CONST
   const isMounted = React.useRef(true)
@@ -132,7 +133,7 @@ const TargetingProgressButton = () => {
 
 
   // SAVING RECCOMENDED CAMPAIGN
-  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
+  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings, isFirstTimeUser })
   const saveSelectedRecc = React.useCallback(() => {
     setSelectedCampaignRecc(null)
     saveTargeting('settings', selectedCampaignRecc)
