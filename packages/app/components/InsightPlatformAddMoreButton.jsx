@@ -1,12 +1,14 @@
 import React from 'react'
 
-import brandColors from '@/constants/brandColors'
-
 import ButtonPill from '@/elements/ButtonPill'
 
+import useOpenIntegrationsPanel from '@/app/hooks/useOpenIntegrationsPanel'
+
+import brandColors from '@/constants/brandColors'
 import styles from '@/BaseFilters.module.css'
 
 const InsightPlatformAddMoreButton = ({}) => {
+  const openIntegrationsPanel = useOpenIntegrationsPanel()
   return (
     <div
       className={[styles.buttonContainer, styles.buttonPill_container].join(' ')}
@@ -14,7 +16,7 @@ const InsightPlatformAddMoreButton = ({}) => {
       <ButtonPill
         className={[styles.button, styles.buttonPill].join(' ')}
         size="large"
-        onClick={() => {}}
+        onClick={openIntegrationsPanel}
         style={{
           backgroundColor: brandColors.bgColor,
           color: brandColors.textColor,
