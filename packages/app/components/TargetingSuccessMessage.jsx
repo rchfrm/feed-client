@@ -5,7 +5,10 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/targetingPageCopy'
 
-const TargetingSuccessMessage = ({ className }) => {
+const TargetingSuccessMessage = ({
+  settingsSavedInitial,
+  className,
+}) => {
   return (
     <div
       className={[
@@ -15,13 +18,14 @@ const TargetingSuccessMessage = ({ className }) => {
       <h3 className={['h2 text-green font-body'].join(' ')}>Success!</h3>
       <MarkdownText
         className={['mb-0 pb-2'].join(' ')}
-        markdown={copy.successMessage}
+        markdown={copy.successMessage(settingsSavedInitial)}
       />
     </div>
   )
 }
 
 TargetingSuccessMessage.propTypes = {
+  settingsSavedInitial: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

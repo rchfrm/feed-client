@@ -17,12 +17,13 @@ const TargetingSummary = () => {
     togglePauseCampaign,
     setCurrentView,
     settingsSaved,
+    settingsSavedInitial,
     disableSaving,
+    isFirstTimeUser,
   } = React.useContext(TargetingContext)
 
-  // HANDLE NO BUDGET SET
-  const { budget: initialBudget } = initialTargetingState
-  if (!initialBudget) {
+  // HANDLE FIRST TIME USER
+  if (isFirstTimeUser) {
     return (
       <TargetingNoBudget setCurrentView={setCurrentView} />
     )
@@ -34,11 +35,11 @@ const TargetingSummary = () => {
       {settingsSaved && (
         <TargetingSuccessMessage
           className="col-span-12 col-start-1 mb-8 md:mb-0"
-          togglePauseCampaign={togglePauseCampaign}
+          settingsSavedInitial={settingsSavedInitial}
         />
       )}
       {/* PAUSED WARNING */}
-      {!initialTargetingState.status && (
+      {!initialTargetingState.status && !isFirstTimeUser && (
         <TargetingPausedWarning
           className="col-span-12 col-start-1 mb-8 md:mb-0"
           togglePauseCampaign={togglePauseCampaign}
@@ -59,6 +60,7 @@ const TargetingSummary = () => {
             saveTargetingSettings={saveTargetingSettings}
             togglePauseCampaign={togglePauseCampaign}
             disableSaving={disableSaving}
+            isFirstTimeUser={isFirstTimeUser}
           />
         </div>
       </div>
