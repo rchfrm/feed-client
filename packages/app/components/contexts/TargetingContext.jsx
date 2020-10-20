@@ -23,6 +23,7 @@ const initialState = {
   cancelUpdateSettings: () => {},
   saving: false,
   settingsSaved: false,
+  settingsSavedInitial: false,
   errorUpdatingSettings: null,
   currentView: 'summary',
   setCurrentView: () => {},
@@ -243,6 +244,7 @@ const TargetingContextProvider = ({ children }) => {
 
   // SAVE CAMPAIGN
   const [settingsSaved, setSettingsSaved] = React.useState(initialState.settingsSaved)
+  const [settingsSavedInitial, setSettingsSavedInitial] = React.useState(initialState.settingsSavedInitial)
   const [errorUpdatingSettings, setErrorUpdatingSettings] = React.useState(null)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const [saving, setSaving] = React.useState(false)
@@ -266,6 +268,7 @@ const TargetingContextProvider = ({ children }) => {
       setErrorUpdatingSettings(savedState.error)
     } else {
       // Update state
+      setSettingsSavedInitial(isFirstTimeUser)
       setTargetingState(savedState)
       setInitialTargetingState(savedState)
       setSettingsSaved(true)
@@ -273,10 +276,11 @@ const TargetingContextProvider = ({ children }) => {
     setSelectedCampaignRecc(null)
     setSaving(false)
     toggleGlobalLoading(false)
-  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset])
+  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser])
   // Set saved to false when going to settings view
   React.useEffect(() => {
     if (currentView === 'settings') {
+      setSettingsSaved(false)
       setSettingsSaved(false)
     }
   }, [currentView])
@@ -371,6 +375,7 @@ const TargetingContextProvider = ({ children }) => {
         cancelUpdateSettings,
         saving,
         settingsSaved,
+        settingsSavedInitial,
         errorUpdatingSettings,
         currentView,
         setCurrentView,

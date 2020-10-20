@@ -31,7 +31,12 @@ If you can't see a city but the country is shown, try targeting the country inst
   
 We are working on adding custom locations, but it would be really helpful if you could email us to let us know what you'd like to see here: [team@tryfeed.co](mailto:team@tryfeed.co)`,
 
-  successMessage: `Your settings have been saved. Any changes may take up to 15 minutes to update.`,
+  successMessage: (settingsSavedInitial) => {
+    if (settingsSavedInitial) {
+      return `Thanks! We'll be in touch shortly confirming you're all set, and your ads will start running shortly after that`
+    }
+    return `Your settings have been saved. Any changes may take up to 15 minutes to update.`
+  },
 
   noBudgetIntro: `## Welcome to Feed!
   

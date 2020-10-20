@@ -17,6 +17,7 @@ const TargetingSummary = () => {
     togglePauseCampaign,
     setCurrentView,
     settingsSaved,
+    settingsSavedInitial,
     disableSaving,
     isFirstTimeUser,
   } = React.useContext(TargetingContext)
@@ -34,7 +35,7 @@ const TargetingSummary = () => {
       {settingsSaved && (
         <TargetingSuccessMessage
           className="col-span-12 col-start-1 mb-8 md:mb-0"
-          togglePauseCampaign={togglePauseCampaign}
+          settingsSavedInitial={settingsSavedInitial}
         />
       )}
       {/* PAUSED WARNING */}
@@ -59,6 +60,7 @@ const TargetingSummary = () => {
             saveTargetingSettings={saveTargetingSettings}
             togglePauseCampaign={togglePauseCampaign}
             disableSaving={disableSaving}
+            isFirstTimeUser={isFirstTimeUser}
           />
         </div>
       </div>
