@@ -46,7 +46,7 @@ const TargetingSettingsSaveContainer = ({
     gsap.set(containerEl, positionProps)
   }, [budgetRef, windowWidth])
   // GET SAVE FUNCTION
-  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
+  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings, isFirstTimeUser })
   return (
     <div
       className={[

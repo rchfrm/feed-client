@@ -17,7 +17,7 @@ const TargetingBudgetSaveButton = ({
   className,
 }) => {
   // GET SAVING FUNCTION
-  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
+  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings, isFirstTimeUser })
   return (
     <Button
       version="green"
