@@ -38,6 +38,7 @@ const initialState = {
   setFbMin: () => {},
   setMinReccBudget: () => {},
   updateTargetingBudget: () => {},
+  isFirstTimeUser: false,
   disableSaving: '',
   artistIsMusician: false,
   spotifyConnected: false,
@@ -113,6 +114,13 @@ const TargetingContextProvider = ({ children }) => {
     const budgetOffset = targetingState.budget / currencyOffset
     setBudgetFormatted(utils.formatCurrency(budgetOffset, currency))
   }, [targetingState.budget, currency, currencyOffset])
+
+  // INITIAL FLOW?
+  const [isFirstTimeUser, setIsFirstTimeUse] = React.useState(false)
+  React.useEffect(() => {
+    if (!initialTargetingState.budget) return setIsFirstTimeUse(true)
+    setIsFirstTimeUse(false)
+  }, [initialTargetingState.budget])
 
   // FUNCTION TO UPDATE BUDGET
   const updateTargetingBudget = React.useCallback((budget) => {
@@ -375,6 +383,7 @@ const TargetingContextProvider = ({ children }) => {
         minReccBudget,
         setMinReccBudget,
         updateTargetingBudget,
+        isFirstTimeUser,
         disableSaving,
         artistIsMusician,
         spotifyConnected,

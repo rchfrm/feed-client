@@ -18,11 +18,11 @@ const TargetingSummary = () => {
     setCurrentView,
     settingsSaved,
     disableSaving,
+    isFirstTimeUser,
   } = React.useContext(TargetingContext)
 
-  // HANDLE NO BUDGET SET
-  const { budget: initialBudget } = initialTargetingState
-  if (!initialBudget) {
+  // HANDLE FIRST TIME USER
+  if (isFirstTimeUser) {
     return (
       <TargetingNoBudget setCurrentView={setCurrentView} />
     )
