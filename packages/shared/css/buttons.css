@@ -192,8 +192,8 @@ button {
   height: var(--button-height);
 
   svg {
-    width: var(--sp-5);
-    height: auto;
+    height: var(--sp-5);
+    width: auto;
     margin-right: 1em;
     vertical-align: bottom;
   }

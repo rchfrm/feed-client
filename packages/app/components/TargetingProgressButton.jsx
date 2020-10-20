@@ -102,7 +102,7 @@ const TargetingProgressButton = () => {
     if (!showButton) return
     if (buttonType === 'saveRecc') return 'Save'
     if (buttonType === 'goToSettings') return 'Next'
-    if (buttonType === 'goToBudget') return 'Set Budget'
+    if (buttonType === 'goToBudget') return 'Set Daily Budget'
   }
   const getSubtitle = React.useCallback((previousSubtitle) => {
     if (!showButton) return
