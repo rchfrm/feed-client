@@ -43,7 +43,7 @@
 
 .inner {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   justify-content: center;
   width: 100%;
   min-height: 100%;
@@ -53,7 +53,6 @@
   }
 
   @media (--md) {
-    flex-direction: column;
     justify-content: space-between;
   }
 }
@@ -70,51 +69,28 @@
 
 .artistSelect,
 .artistLinks {
-  margin: 0 auto;
-  margin-bottom: 0;
-  margin-top: 0;
-  min-width: var(--sp-80);
+  margin-left: var(--sp-1);
 
   @media (--md) {
-    margin: 0;
+    margin-left: 0;
   }
 }
 
 .artistSelect {
-  padding: 0 var(--sp-5);
-  margin-bottom: var(--sp-12);
-
+  margin-bottom: var(--sp-5) !important;
   @media (--md) {
-    padding: 0;
     margin-bottom: 5px;
   }
 }
 
 .artistLinks {
   position: relative;
-  padding-bottom: var(--sp-10);
-  margin-bottom: var(--sp-10);
+  margin-bottom: var(--sp-5);
   width: auto;
-
-  &::after {
-    content: ' ';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 140%;
-    max-width: 220px;
-    height: 1px;
-    background-color: var(--bg-color);
-  }
 
   @media (--md) {
     padding-bottom: 0;
     margin-bottom: 0;
-
-    &::after {
-      display: none;
-    }
   }
 }
 
@@ -158,13 +134,12 @@
 */
 
 .links {
-  text-align: center;
+  margin-left: var(--sp-1);
   font-weight: var(--bold-display);
   margin-bottom: var(--sp-5);
 
   @media (--md) {
     margin-bottom: 0;
-    text-align: left;
   }
 }
 
@@ -198,12 +173,12 @@
 
 .signOutLink_mobile {
   opacity: 0.7;
-  text-align: center;
   margin-bottom: 0;
   justify-self: flex-end;
 
   a {
     padding: 1em;
+    padding-left: 0;
     padding-bottom: 0;
   }
 

@@ -36,6 +36,7 @@ const TargetingSettings = () => {
     disableSaving,
     saveTargetingSettings,
     cancelUpdateSettings,
+    isFirstTimeUser,
   } = React.useContext(TargetingContext)
 
   // Fetch locations options
@@ -145,6 +146,7 @@ const TargetingSettings = () => {
             saveTargetingSettings={saveTargetingSettings}
             cancelUpdateSettings={cancelUpdateSettings}
             budgetRef={budgetRef}
+            isFirstTimeUser={isFirstTimeUser}
           >
             <TargetingSettingsHelp desktopVersion />
           </TargetingSettingsSaveContainer>

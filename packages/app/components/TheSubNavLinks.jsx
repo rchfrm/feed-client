@@ -35,7 +35,7 @@ const TheSubNavLinks = ({ className }) => {
   return (
     <>
       <nav className={[styles.links, className].join(' ')}>
-        <ul className={[styles.linksList, 'h4--text'].join(' ')}>
+        <ul className={[styles.linksList, 'h4--text mb-0'].join(' ')}>
           {links.map(({ href, title, external }) => {
             return (
               <li className={styles.linkItem} key={href}>

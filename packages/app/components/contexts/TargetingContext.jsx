@@ -23,6 +23,7 @@ const initialState = {
   cancelUpdateSettings: () => {},
   saving: false,
   settingsSaved: false,
+  settingsSavedInitial: false,
   errorUpdatingSettings: null,
   currentView: 'summary',
   setCurrentView: () => {},
@@ -38,6 +39,7 @@ const initialState = {
   setFbMin: () => {},
   setMinReccBudget: () => {},
   updateTargetingBudget: () => {},
+  isFirstTimeUser: false,
   disableSaving: '',
   artistIsMusician: false,
   spotifyConnected: false,
@@ -113,6 +115,13 @@ const TargetingContextProvider = ({ children }) => {
     const budgetOffset = targetingState.budget / currencyOffset
     setBudgetFormatted(utils.formatCurrency(budgetOffset, currency))
   }, [targetingState.budget, currency, currencyOffset])
+
+  // INITIAL FLOW?
+  const [isFirstTimeUser, setIsFirstTimeUse] = React.useState(false)
+  React.useEffect(() => {
+    if (!initialTargetingState.budget) return setIsFirstTimeUse(true)
+    setIsFirstTimeUse(false)
+  }, [initialTargetingState.budget])
 
   // FUNCTION TO UPDATE BUDGET
   const updateTargetingBudget = React.useCallback((budget) => {
@@ -235,6 +244,7 @@ const TargetingContextProvider = ({ children }) => {
 
   // SAVE CAMPAIGN
   const [settingsSaved, setSettingsSaved] = React.useState(initialState.settingsSaved)
+  const [settingsSavedInitial, setSettingsSavedInitial] = React.useState(initialState.settingsSavedInitial)
   const [errorUpdatingSettings, setErrorUpdatingSettings] = React.useState(null)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const [saving, setSaving] = React.useState(false)
@@ -258,6 +268,7 @@ const TargetingContextProvider = ({ children }) => {
       setErrorUpdatingSettings(savedState.error)
     } else {
       // Update state
+      setSettingsSavedInitial(isFirstTimeUser)
       setTargetingState(savedState)
       setInitialTargetingState(savedState)
       setSettingsSaved(true)
@@ -265,10 +276,11 @@ const TargetingContextProvider = ({ children }) => {
     setSelectedCampaignRecc(null)
     setSaving(false)
     toggleGlobalLoading(false)
-  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset])
+  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser])
   // Set saved to false when going to settings view
   React.useEffect(() => {
     if (currentView === 'settings') {
+      setSettingsSaved(false)
       setSettingsSaved(false)
     }
   }, [currentView])
@@ -322,6 +334,7 @@ const TargetingContextProvider = ({ children }) => {
         targetingState={targetingState}
         saveTargetingSettings={saveTargetingSettings}
         disableSaving={!!disableSaving}
+        isFirstTimeUser={isFirstTimeUser}
       />
     ) : null
     return { content, button }
@@ -336,7 +349,7 @@ const TargetingContextProvider = ({ children }) => {
     // Hide progress button
     setSelectedCampaignRecc(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setSidePanelButton, toggleSidePanel, targetingState, minReccBudget, budgetFormatted, updateTargetingBudget])
+  }, [setSidePanelButton, toggleSidePanel, targetingState, minReccBudget, budgetFormatted, updateTargetingBudget, isFirstTimeUser])
 
   React.useEffect(() => {
     if (!mobileBudgetOpen) return
@@ -362,6 +375,7 @@ const TargetingContextProvider = ({ children }) => {
         cancelUpdateSettings,
         saving,
         settingsSaved,
+        settingsSavedInitial,
         errorUpdatingSettings,
         currentView,
         setCurrentView,
@@ -375,6 +389,7 @@ const TargetingContextProvider = ({ children }) => {
         minReccBudget,
         setMinReccBudget,
         updateTargetingBudget,
+        isFirstTimeUser,
         disableSaving,
         artistIsMusician,
         spotifyConnected,
