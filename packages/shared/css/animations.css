@@ -1,7 +1,7 @@
 /* CLASSES */
 .wobble-animation {
   animation-name: wobble;
-  animation-duration: 600ms;
+  animation-duration: 400ms;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-direction: alternate;
@@ -9,6 +9,6 @@
 
 /* ANIMATIONS */
 @keyframes wobble {
-  0%  { -webkit-transform:  rotate(-3.1deg); }
-  100%  { -webkit-transform:  rotate(3.1deg); }
+  0%  { -webkit-transform:  translate(0px, -1px) rotate(-0.5deg); }
+  100%  { -webkit-transform:  translate(0px, 1px) rotate(0.5deg); }
 }
