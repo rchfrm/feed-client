@@ -77,7 +77,6 @@ const TargetingBudgetBox = React.forwardRef(({
       {!isSummaryVersion && (
         <header className="flex justify-between mb-3">
           <TargetingSectionHeader header="Daily Budget" />
-          {/* <TargetingSectionHeader header={budgetFormatted} /> */}
         </header>
       )}
       {/* TOGGLE CUSTOM BUDGET */}
