@@ -44,6 +44,7 @@ module.exports = (purgeFiles) => ({
       },
       spacing: {
         7: '1.75rem',
+        9: '2.25rem',
         14: '3.5rem',
         25: '6.25rem',
         26: '6.5rem',

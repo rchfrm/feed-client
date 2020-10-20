@@ -16,6 +16,7 @@
 @import "flex-rules";
 @import "box-sizing";
 @import "transitions";
+@import "animations";
 /**
 * Third party
 */

@@ -23,7 +23,7 @@ button {
   white-space: nowrap;
 
   font-family: var(--font);
-  font-size: 1.1em;
+  font-size: 1.1rem;
   text-decoration: none;
   
   &:disabled,
@@ -198,15 +198,29 @@ button {
     vertical-align: bottom;
   }
 
+  &.button--x-small {
+    svg {
+      height: var(--sp-3);
+      margin-right: var(--sp-2);
+    }
+  }
+
   .button--innerText {
     width: 100%;
   }
 }
 
 .button--small {
-  font-size: 1em;
+  font-size: var(--sp-4);
   padding: 0 1.2em;
   height: var(--button-height-small);
+}
+
+.button--x-small {
+  font-size: var(--sp-4);
+  padding: 0 1rem;
+  height: var(--sp-9);
+  border-radius: var(--full-radius);
 }
 
 .button--facebook {

@@ -77,6 +77,13 @@ select {
   }
 }
 
+.inputLabel__errorMessage {
+  display: inline-block;
+  padding-left: 1em;
+  font-weight: normal;
+  color: var(--red);
+}
+
 .select--box,
 .input--box {
   display: block;
@@ -227,6 +234,7 @@ select:invalid {
 ******************/
 .radio--button,
 .checkbox--button {
+  display: flex;
   position: relative;
   line-height: 1.3;
   margin-bottom: var(--sp-5);
@@ -257,6 +265,7 @@ select:invalid {
 .radio--button_label,
 .checkbox--button_label {
   position: relative;
+  display: inline-block;
   padding-left: 2.2em;
   cursor: pointer;
   user-select: none;

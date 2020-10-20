@@ -10,7 +10,6 @@ import brandColors from '@/constants/brandColors'
 
 const PostsSettingsDefaultLink = ({
   defaultLink,
-  setDefaultLink,
   className,
 }) => {
   return (
@@ -56,7 +55,6 @@ const PostsSettingsDefaultLink = ({
 
 PostsSettingsDefaultLink.propTypes = {
   defaultLink: PropTypes.object.isRequired,
-  setDefaultLink: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

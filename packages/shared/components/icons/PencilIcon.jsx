@@ -3,16 +3,16 @@ import PropTypes from 'prop-types'
 
 import brandColors from '@/constants/brandColors'
 
-const PencilIcon = ({ width, className, fill }) => {
+const PencilIcon = ({ className, fill, style }) => {
   const name = 'Pencil'
 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       data-name={name}
-      width={width}
       viewBox="0 0 600 600"
       className={className}
+      style={style}
     >
       <title>{name}</title>
       <rect
@@ -42,11 +42,13 @@ const PencilIcon = ({ width, className, fill }) => {
 PencilIcon.propTypes = {
   fill: PropTypes.string,
   className: PropTypes.string,
+  style: PropTypes.object,
 }
 
 PencilIcon.defaultProps = {
   fill: brandColors.textColor,
   className: null,
+  style: null,
 }
 
 

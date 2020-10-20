@@ -116,4 +116,10 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
     paid: {},
     organic: {},
   },
+
+
+  // LINKS
+  confirmDeleteFolder: `**Are you sure**?
+
+Deleting a folder will delete all the links inside it.`,
 }
