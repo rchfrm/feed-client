@@ -90,9 +90,10 @@ export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpt
   return integrations.reduce((filteredList, integration) => {
     const integrationInfo = getIntegrationInfo(integration)
     const { musicOnly, baseUrl } = integrationInfo
-    // Ignore music integration if not a musician
-    if (musicOnly && !isMusician) return filteredList
-    if (ignoreEmpty && !integration.accountId) return filteredList
+    const isEmpty = !integration.accountId
+    // Ignore music integration if not a musician (and not already filled)
+    if (musicOnly && !isMusician && !isEmpty) return filteredList
+    if (ignoreEmpty && isEmpty) return filteredList
     // Else add to list with title and url
     return [...filteredList, {
       ...integration,
