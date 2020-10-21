@@ -1,4 +1,5 @@
 import brandColors from '@/constants/brandColors'
+import * as utils from '@/helpers/utils'
 
 export const dummyIntegrations = [
   {
@@ -30,24 +31,26 @@ export const dummyIntegrations = [
 // Get integration info from handle
 export const getIntegrationInfo = (integration) => {
   const { platform } = integration
-  console.log('brandColors[platform]', brandColors[platform])
   switch (platform) {
     case 'facebook':
       return {
         title: 'Facebook',
         baseUrl: 'https://facebook.com/',
+        placeholderUrl: 'https://facebook.com/accountName',
         color: brandColors[platform],
       }
     case 'instagram':
       return {
         title: 'Instagram',
         baseUrl: 'https://instagram.com/',
+        placeholderUrl: 'https://instagram.com/accountName',
         color: brandColors[platform],
       }
     case 'soundcloud':
       return {
         title: 'Soundcloud',
         baseUrl: 'https://soundcloud.com/',
+        placeholderUrl: 'https://soundcloud.com/accountName',
         color: brandColors[platform],
         musicOnly: true,
         editable: true,
@@ -56,6 +59,7 @@ export const getIntegrationInfo = (integration) => {
       return {
         title: 'Spotify',
         baseUrl: 'https://spotify.com/',
+        placeholderUrl: 'https://spotify.com/artist/artistName',
         color: brandColors[platform],
         musicOnly: true,
         editable: true,
@@ -64,6 +68,7 @@ export const getIntegrationInfo = (integration) => {
       return {
         title: 'YouTube',
         baseUrl: 'https://youtube.com/',
+        placeholderUrl: 'https://youtube.com/channel/channelId',
         color: brandColors[platform],
         editable: true,
       }
@@ -94,4 +99,16 @@ export const formatAndFilterIntegrations = (integrations, isMusician) => {
       link: getIntegrationUrl(integration, baseUrl),
     }]
   }, [])
+}
+
+
+// SAVE/EDIT INTEGRATIONS
+export const saveIntegration = (integration, link, action = 'add') => {
+  const sanitisedLink = utils.enforceUrlProtocol(link, true)
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('save integration:', integration.platform, `action: ${action}`, `link: ${sanitisedLink}`)
+      resolve({ res: true, error: false })
+    }, 500)
+  })
 }

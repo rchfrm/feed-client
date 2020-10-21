@@ -6,6 +6,8 @@ import ButtonPill from '@/elements/ButtonPill'
 
 import brandColors from '@/constants/brandColors'
 
+import useEditIntegration from '@/app/hooks/useEditIntegration'
+
 const IntegrationsPanelIntegration = ({ integration, className }) => {
   const { title, platform, accountId, color } = integration
   const isPopulated = !!accountId
@@ -14,6 +16,8 @@ const IntegrationsPanelIntegration = ({ integration, className }) => {
   const textColor = isPopulated ? color.text : brandColors.greyDark
   const iconFill = isPopulated ? color.text : color.bg
   const buttonText = isPopulated ? accountId : `Connect ${title}`
+  // Edit function
+  const updateIntegration = useEditIntegration({})
   return (
     <li
       className={[
@@ -24,7 +28,9 @@ const IntegrationsPanelIntegration = ({ integration, className }) => {
       <ButtonPill
         className={[].join(' ')}
         size="x-large"
-        onClick={() => {}}
+        onClick={() => {
+          updateIntegration(integration)
+        }}
         style={{
           backgroundColor,
           color: textColor,

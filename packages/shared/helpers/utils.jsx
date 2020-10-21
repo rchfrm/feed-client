@@ -556,11 +556,12 @@ export const getMinBudget = (amount, currencyCode, currencyOffset) => {
  * @param {string} url
  * @returns {string}
  */
-export const enforceUrlProtocol = (url) => {
+export const enforceUrlProtocol = (url, forceSSH = false) => {
   const protocolTest = /^https?:\/\//i
   const containsProtocol = protocolTest.test(url)
   if (containsProtocol) return url
-  return `http://${url}`
+  const protocol = forceSSH ? 'https://' : 'http://'
+  return `${protocol}${url}`
 }
 
 /**
