@@ -6,6 +6,7 @@ import ButtonPill from '@/elements/ButtonPill'
 
 import brandColors from '@/constants/brandColors'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useEditIntegration from '@/app/hooks/useEditIntegration'
 
 const IntegrationsPanelIntegration = ({ integration, className }) => {
@@ -16,19 +17,20 @@ const IntegrationsPanelIntegration = ({ integration, className }) => {
   const textColor = isPopulated ? color.text : brandColors.greyDark
   const iconFill = isPopulated ? color.text : color.bg
   const buttonText = isPopulated ? accountId : `Connect ${title}`
-  // Edit function
+  // EDIT FUNCTION
   const action = isPopulated ? 'delete' : 'add'
   const updateIntegration = useEditIntegration({})
+  // GET BUTTON SIZE
+  const useLargeButtons = useBreakpointTest('xs')
   return (
     <li
       className={[
-        'mb-8 last:mb-0',
         className,
       ].join(' ')}
     >
       <ButtonPill
-        className={[].join(' ')}
-        size="x-large"
+        className={['w-full'].join(' ')}
+        size={useLargeButtons ? 'x-large' : 'large'}
         onClick={() => {
           updateIntegration(integration, action)
         }}

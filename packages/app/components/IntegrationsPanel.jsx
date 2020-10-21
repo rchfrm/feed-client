@@ -38,12 +38,13 @@ const IntegrationsPanel = ({}) => {
   return (
     <section>
       <h2 className={sidePanelStyles.SidePanel__Header}>Integrations</h2>
-      <ul>
+      <ul className="sm:grid grid-cols-2 gap-8">
         {integrationsFormatted.map((integration) => {
           return (
             <IntegrationsPanelIntegration
-              integration={integration}
               key={integration.platform}
+              integration={integration}
+              className="mb-8 mr-8 sm:mb-0 sm:mr-0 last:mb-0"
             />
           )
         })}
