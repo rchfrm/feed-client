@@ -1,9 +1,11 @@
 import create from 'zustand'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
+import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
 
 const initialState = {
   artistId: '',
+  isMusician: false,
   artist: {},
   defaultLink: {},
   savedLinks: [],
@@ -46,12 +48,15 @@ const formatNestedLinks = ({ links, folders }) => {
 
 // Fetch links from server and update store (or return cached links)
 const fetchLinks = (set, get) => async (action) => {
-  const { savedLinks, artistId } = get()
+  const { savedLinks, artistId, artist } = get()
   // If there already are links and we not force, no need to reset data
   if (savedLinks.length && action !== 'force') return { error: null }
   // Else fetch links from server
   const { data, error } = await postsHelpers.fetchSavedLinks(artistId, 'dummy')
   const { links, folders, integrations } = data
+  // Format integrations
+  const { isMusician } = artist
+  const formattedIntegrations = formatAndFilterIntegrations(integrations, isMusician, true)
   // Create array of links in folders for display
   const nestedLinks = formatNestedLinks({ links, folders })
   // Cache links and folders
@@ -59,7 +64,7 @@ const fetchLinks = (set, get) => async (action) => {
     savedLinks: links,
     savedFolders: folders,
     nestedLinks,
-    integrations,
+    integrations: formattedIntegrations,
   })
   // Return data
   return { error }
@@ -69,6 +74,7 @@ const [postsStore] = create((set, get) => ({
   // STATE
   artistId: initialState.artistId,
   artist: initialState.artist,
+  isMusician: initialState.isMusician,
   defaultLink: initialState.defaultLink,
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,

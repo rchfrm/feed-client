@@ -86,12 +86,13 @@ export const getIntegrationUrl = (integration, baseUrl) => {
 }
 
 // Remove non-musician INTs and add more info
-export const formatAndFilterIntegrations = (integrations, isMusician) => {
+export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpty = false) => {
   return integrations.reduce((filteredList, integration) => {
     const integrationInfo = getIntegrationInfo(integration)
     const { musicOnly, baseUrl } = integrationInfo
     // Ignore music integration if not a musician
     if (musicOnly && !isMusician) return filteredList
+    if (ignoreEmpty && !integration.accountId) return filteredList
     // Else add to list with title and url
     return [...filteredList, {
       ...integration,
