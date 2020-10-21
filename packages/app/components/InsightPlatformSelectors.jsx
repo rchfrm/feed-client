@@ -43,6 +43,7 @@ const InsightPlatformSelectors = ({
       useSetQuery
       useSetLocalStorage
       querySlug="platform"
+      className="items-center"
     >
       <InsightPlatformAddMoreButton />
     </BaseFilters>
