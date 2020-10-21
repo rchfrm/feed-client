@@ -27,12 +27,17 @@ const PostsLinksEditModal = ({
     setHasHrefError(hasError)
   }, [linkProps.href])
 
+  // IS SAVING ENABLED
+  const [saveEnabled, setSaveEnabled] = React.useState(false)
+  React.useEffect(() => {
+    const saveEnabled = linkProps.href && !hasHrefError
+    setSaveEnabled(saveEnabled)
+  }, [linkProps.href, hasHrefError])
+
   // UPDATE MODAL SAVE BUTTON
   const { setButtons } = useAlertModal()
   React.useEffect(() => {
     const newButtons = produce(modalButtons, draftButtons => {
-      // Is buttons disabled
-      const saveEnabled = !!linkProps.href && !hasHrefError
       // Update save button
       draftButtons[0].onClick = () => runSaveLink(linkProps, action)
       draftButtons[0].disabled = !saveEnabled
@@ -43,7 +48,7 @@ const PostsLinksEditModal = ({
     })
     setButtons(newButtons)
   // eslint-disable-next-line
-  }, [linkProps, setButtons])
+  }, [linkProps, setButtons, saveEnabled])
 
   // HANDLE CREATING NEW FOLDERS
   const [createNewFolder, setCreateNewFolder] = React.useState(false)
@@ -90,7 +95,10 @@ const PostsLinksEditModal = ({
       <form
         onSubmit={(e) => {
           e.preventDefault()
+          if (!saveEnabled) return
+          runSaveLink(linkProps, action)
         }}
+        noValidate
       >
         <Input
           placeholder="https://"
