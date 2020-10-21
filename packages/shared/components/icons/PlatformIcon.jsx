@@ -61,4 +61,4 @@ PlatformIcon.defaultProps = {
 }
 
 
-export default PlatformIcon
+export default React.memo(PlatformIcon)
