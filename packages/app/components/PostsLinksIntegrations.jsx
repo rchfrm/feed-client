@@ -18,7 +18,6 @@ const PostsLinksIntegrations = ({
   const openIntegrationsPanel = useOpenIntegrationsPanel({
     goBack: goToPostLinks,
   })
-
   return (
     <>
       <ul
