@@ -40,7 +40,7 @@ const IntegrationsEditModal = ({
 
   // IS DELETABLE?
   const deleteCopy = React.useMemo(() => {
-    return cannotDelete ? copy.cannotDelete(platformTitle) : copy.deleteConfirmation(platformTitle)
+    return cannotDelete ? copy.cannotDelete(platformTitle) : copy.deleteConfirmation(platform)
   // eslint-disable-next-line
   }, [integration.platform])
 
