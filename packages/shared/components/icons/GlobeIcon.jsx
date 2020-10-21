@@ -1,21 +1,30 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-function GlobeIcon({ width, fill }) {
-  const name = 'Website'
+import brandColors from '@/constants/brandColors'
+
+const GlobeIcon = ({
+  fill,
+  className,
+  style,
+  title,
+  width,
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      width={width}
-      name={name}
       fill="none"
       stroke={fill}
+      width={width}
+      name={title}
+      className={className}
+      style={style}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <title>{name}</title>
-
+      <title>{title}</title>
       <circle
         cx="12"
         cy="12"
@@ -33,6 +42,22 @@ function GlobeIcon({ width, fill }) {
 
     </svg>
   )
+}
+
+GlobeIcon.propTypes = {
+  fill: PropTypes.string,
+  title: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  width: PropTypes.number,
+}
+
+GlobeIcon.defaultProps = {
+  fill: brandColors.textColor,
+  title: 'Website',
+  className: '',
+  style: null,
+  width: null,
 }
 
 export default GlobeIcon
