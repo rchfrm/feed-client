@@ -2,32 +2,45 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PlatformIcon from '@/icons/PlatformIcon'
+import ButtonPill from '@/elements/ButtonPill'
+
+import brandColors from '@/constants/brandColors'
 
 const IntegrationsPanelIntegration = ({ integration, className }) => {
-  const { title, platform, accountId, link, color } = integration
-  const isPopulated = accountId
+  const { title, platform, accountId, color } = integration
+  const isPopulated = !!accountId
+  const backgroundColor = isPopulated ? color.bg : brandColors.bgColor
+  const borderColor = isPopulated ? color.bg : brandColors.textColor
+  const textColor = isPopulated ? color.text : brandColors.greyDark
+  const iconFill = isPopulated ? color.text : color.bg
+  const buttonText = isPopulated ? accountId : `Connect ${title}`
   return (
     <li
       className={[
-        'mb-6 last:mb-0',
+        'mb-8 last:mb-0',
         className,
       ].join(' ')}
     >
-      <div
-        className={[
-          'flex items-center',
-        ].join(' ')}
+      <ButtonPill
+        className={[].join(' ')}
+        size="x-large"
+        onClick={() => {}}
+        style={{
+          backgroundColor,
+          color: textColor,
+          border: `2px solid ${borderColor}`,
+        }}
+        hasIcon
+        active={isPopulated}
       >
         <PlatformIcon
           platform={platform}
-          className="h-6 w-auto pr-5"
+          className="mr-5"
           title={title}
-          style={null}
+          fill={iconFill}
         />
-        {isPopulated ? accountId : (
-          <span className="text-grey-3">not connected</span>
-        )}
-      </div>
+        {buttonText}
+      </ButtonPill>
     </li>
   )
 }

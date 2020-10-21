@@ -54,7 +54,7 @@ export const getIntegrationInfo = (integration) => {
       }
     case 'spotify':
       return {
-        title: 'spotify',
+        title: 'Spotify',
         baseUrl: 'https://spotify.com/',
         color: brandColors[platform],
         musicOnly: true,
@@ -62,7 +62,7 @@ export const getIntegrationInfo = (integration) => {
       }
     case 'youtube':
       return {
-        title: 'youtube',
+        title: 'YouTube',
         baseUrl: 'https://youtube.com/',
         color: brandColors[platform],
         editable: true,
