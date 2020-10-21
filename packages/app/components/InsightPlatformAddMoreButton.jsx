@@ -8,7 +8,7 @@ import brandColors from '@/constants/brandColors'
 import styles from '@/BaseFilters.module.css'
 
 const InsightPlatformAddMoreButton = ({}) => {
-  const openIntegrationsPanel = useOpenIntegrationsPanel()
+  const openIntegrationsPanel = useOpenIntegrationsPanel({})
   return (
     <div
       className={[styles.buttonContainer, styles.buttonPill_container].join(' ')}

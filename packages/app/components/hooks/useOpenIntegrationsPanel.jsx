@@ -4,7 +4,7 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import IntegrationsPanel from '@/app/IntegrationsPanel'
 
-const useOpenIntegrationsPanel = () => {
+const useOpenIntegrationsPanel = ({ goBack }) => {
   // SIDE PANEL context
   const {
     setSidePanelContent,
@@ -14,9 +14,9 @@ const useOpenIntegrationsPanel = () => {
   // OPEN INTEGRATIONS PANEL
   const openIntegrationsPanel = React.useCallback(() => {
     setSidePanelButton(null)
-    setSidePanelContent(<IntegrationsPanel />)
+    setSidePanelContent(<IntegrationsPanel goBack={goBack} />)
     toggleSidePanel(true)
-  }, [setSidePanelButton, setSidePanelContent, toggleSidePanel])
+  }, [setSidePanelButton, setSidePanelContent, toggleSidePanel, goBack])
 
   return openIntegrationsPanel
 }

@@ -5,11 +5,20 @@ import PlatformIcon from '@/icons/PlatformIcon'
 import Button from '@/elements/Button'
 import RadioButton from '@/elements/RadioButton'
 
+// eslint-disable-next-line
+import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
+import useOpenIntegrationsPanel from '@/app/hooks/useOpenIntegrationsPanel'
+
 const PostsLinksIntegrations = ({
   integrations,
   className,
   useSelectMode,
 }) => {
+  const { goToPostLinks } = usePostsSidePanel()
+  const openIntegrationsPanel = useOpenIntegrationsPanel({
+    goBack: goToPostLinks,
+  })
+
   return (
     <>
       <ul
@@ -57,6 +66,7 @@ const PostsLinksIntegrations = ({
       {!useSelectMode && (
         <Button
           version="green small"
+          onClick={openIntegrationsPanel}
         >
           Edit Integrations
         </Button>

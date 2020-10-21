@@ -1,7 +1,10 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
+
+import Button from '@/elements/Button'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import IntegrationsPanelIntegration from '@/app/IntegrationsPanelIntegration'
 
@@ -9,8 +12,11 @@ import * as integrationHelpers from '@/app/helpers/integrationHelpers'
 import { testIfMusician } from '@/app/helpers/artistHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
+import brandColors from '@/constants/brandColors'
 
-const IntegrationsPanel = ({}) => {
+const IntegrationsPanel = ({
+  goBack,
+}) => {
   const {
     artistId,
     artist: {
@@ -29,7 +35,6 @@ const IntegrationsPanel = ({}) => {
   // REMOVE NON-MUSICIAN INTEGRATIONS if necessary
   // and ADD EXTRA INFO
   const integrationsFormatted = React.useMemo(() => {
-    console.log('integrations', integrations)
     return integrationHelpers.formatAndFilterIntegrations(integrations, isMusician)
   // eslint-disable-next-line
   }, [artistId])
@@ -49,12 +54,33 @@ const IntegrationsPanel = ({}) => {
           )
         })}
       </ul>
+      {goBack && (
+        <div className="mt-10">
+          <Button
+            version="x-small black icon"
+            className="mr-5"
+            onClick={goBack}
+          >
+            <ArrowIcon
+              fill={brandColors.bgColor}
+              direction="left"
+              style={{ width: '0.5rem' }}
+            />
+            Back
+          </Button>
+        </div>
+      )}
     </section>
   )
 }
 
 IntegrationsPanel.propTypes = {
-
+  goBack: PropTypes.func,
 }
+
+IntegrationsPanel.defaultProps = {
+  goBack: null,
+}
+
 
 export default IntegrationsPanel
