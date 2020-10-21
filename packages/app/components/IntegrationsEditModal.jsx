@@ -27,25 +27,33 @@ const IntegrationsEditModal = ({
     setHasHrefError(hasError)
   }, [link])
 
+  // IS SAVING ENABLED
+  const [saveEnabled, setSaveEnabled] = React.useState(false)
+  React.useEffect(() => {
+    const saveEnabled = !!link && !hasHrefError
+    setSaveEnabled(saveEnabled)
+  }, [link, hasHrefError])
+
   // UPDATE MODAL SAVE BUTTON
   const { setButtons } = useAlertModal()
   React.useEffect(() => {
     const newButtons = produce(modalButtons, draftButtons => {
-      // Is buttons disabled
-      const saveEnabled = !!link && !hasHrefError
       // Update save/delete button
       draftButtons[0].onClick = () => runSaveIntegration(integration, link, action)
       draftButtons[0].disabled = action === 'delete' ? false : !saveEnabled
     })
     setButtons(newButtons)
   // eslint-disable-next-line
-  }, [link, setButtons, hasHrefError, action])
+  }, [link, setButtons, action, saveEnabled])
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault()
+        if (!saveEnabled) return
+        runSaveIntegration(integration, link, action)
       }}
+      noValidate
     >
       <Input
         placeholder={placeholderUrl}
