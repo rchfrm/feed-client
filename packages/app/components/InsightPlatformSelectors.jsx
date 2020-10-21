@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 // Components
 import BaseFilters from '@/BaseFilters'
 import InsightPlatformAddMoreButton from '@/app/InsightPlatformAddMoreButton'
-import Icon from '@/elements/Icon'
+import PlatformIcon from '@/icons/PlatformIcon'
 // Constants
 import brandColors from '@/constants/brandColors'
 
@@ -20,7 +20,7 @@ const InsightPlatformSelectors = ({
       const { bg: color, text: activeTextColor } = brandColors[id]
       // Get icon color
       const iconColor = id === currentPlatform ? activeTextColor : color
-      const icon = <Icon color={iconColor} version={id} />
+      const icon = <PlatformIcon fill={iconColor} platform={id} />
       return {
         id,
         title,

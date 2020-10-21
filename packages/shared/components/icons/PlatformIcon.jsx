@@ -21,7 +21,6 @@ const PlatformIcon = ({
   style,
 }) => {
   const color = fill || brandColors[platform].bg
-  console.log('color', color)
   switch (platform) {
   // Platform logos
     case 'apple':

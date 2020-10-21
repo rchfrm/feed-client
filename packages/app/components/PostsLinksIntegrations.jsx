@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Icon from '@/elements/Icon'
+import PlatformIcon from '@/icons/PlatformIcon'
 import Button from '@/elements/Button'
 import RadioButton from '@/elements/RadioButton'
-
-import brandColors from '@/constants/brandColors'
 
 const PostsLinksIntegrations = ({
   integrations,
@@ -23,7 +21,6 @@ const PostsLinksIntegrations = ({
       >
         {integrations.map((integration) => {
           const { type: platform, href } = integration
-          const { bg: color } = brandColors[platform]
           const text = href || 'not connnected'
           if (useSelectMode && !href) return null
           return (
@@ -37,10 +34,9 @@ const PostsLinksIntegrations = ({
             >
               <p className="flex items-center mb-0">
                 <span className={['mr-5', !href ? 'opacity-50' : null].join(' ')}>
-                  <Icon
-                    version={integration.type}
-                    color={color}
-                    width="1.5rem"
+                  <PlatformIcon
+                    platform={integration.type}
+                    className="w-6 h-auto"
                   />
                 </span>
                 {useSelectMode ? (
