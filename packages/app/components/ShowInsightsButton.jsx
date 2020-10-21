@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 
@@ -6,24 +7,34 @@ import useOpenIntegrationsPanel from '@/app/hooks/useOpenIntegrationsPanel'
 
 import styles from '@/BaseFilters.module.css'
 
-const InsightPlatformAddMoreButton = ({}) => {
+const ShowInsightsButton = ({
+  text,
+  className,
+}) => {
   const openIntegrationsPanel = useOpenIntegrationsPanel({})
   return (
     <div
-      className={[styles.buttonContainer, styles.buttonPill_container].join(' ')}
+      className={[className].join(' ')}
     >
       <Button
         className={[styles.button, styles.buttonPill].join(' ')}
         version="small black"
         onClick={openIntegrationsPanel}
       >
-        <strong>+ Add more</strong>
+        {text}
       </Button>
     </div>
   )
 }
 
-InsightPlatformAddMoreButton.propTypes = {
+ShowInsightsButton.propTypes = {
+  text: PropTypes.string.isRequired,
+  className: PropTypes.string,
 }
 
-export default InsightPlatformAddMoreButton
+ShowInsightsButton.defaultProps = {
+  className: null,
+}
+
+
+export default ShowInsightsButton

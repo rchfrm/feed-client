@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 
 // Components
 import BaseFilters from '@/BaseFilters'
-import InsightPlatformAddMoreButton from '@/app/InsightPlatformAddMoreButton'
+import ShowInsightsButton from '@/app/ShowInsightsButton'
 import PlatformIcon from '@/icons/PlatformIcon'
 // Constants
 import brandColors from '@/constants/brandColors'
+import styles from '@/BaseFilters.module.css'
 
 const InsightPlatformSelectors = ({
   availablePlatforms,
@@ -45,7 +46,10 @@ const InsightPlatformSelectors = ({
       querySlug="platform"
       className="items-center"
     >
-      <InsightPlatformAddMoreButton />
+      <ShowInsightsButton
+        className={[styles.buttonContainer, styles.buttonPill_container].join(' ')}
+        text="+ Add more"
+      />
     </BaseFilters>
   )
 }
