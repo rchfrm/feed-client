@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/contexts/ArtistContext'
 
 import Button from '@/elements/Button'
+import MarkdownText from '@/elements/MarkdownText'
 import ArrowIcon from '@/icons/ArrowIcon'
 
 import IntegrationsPanelIntegration from '@/app/IntegrationsPanelIntegration'
@@ -13,6 +14,7 @@ import { testIfMusician } from '@/app/helpers/artistHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 import brandColors from '@/constants/brandColors'
+import copy from '@/app/copy/integrationsCopy'
 
 const IntegrationsPanel = ({
   goBack,
@@ -43,6 +45,7 @@ const IntegrationsPanel = ({
   return (
     <section>
       <h2 className={sidePanelStyles.SidePanel__Header}>Integrations</h2>
+      <MarkdownText markdown={copy.sidepanelIntro} className="mb-8" />
       <ul className="sm:grid grid-cols-2 gap-8">
         {integrationsFormatted.map((integration) => {
           return (

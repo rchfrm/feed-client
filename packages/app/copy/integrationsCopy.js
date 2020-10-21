@@ -8,6 +8,13 @@ const getConfirmationText = (platform) => {
 }
 
 export default {
+  // SIDEPANEL INTRO
+  sidepanelIntro: `Integrations are what Feed uses to connect with other platforms. They are used to:
+
+- track your audience data on the Insights page (all integrations)
+- create your audience breakdown for geographic targeting options on the Controls page (Spotify only).`,
+
+  // MODAL COPY
   cannotDelete: (platformTitle) => `It's not possible to disconnect your ${platformTitle} integration.
   
 To change this integration, please email [help@tryfeed.co](mailto:help@tryfeed.co).`,
