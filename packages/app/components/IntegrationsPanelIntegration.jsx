@@ -17,6 +17,7 @@ const IntegrationsPanelIntegration = ({ integration, className }) => {
   const iconFill = isPopulated ? color.text : color.bg
   const buttonText = isPopulated ? accountId : `Connect ${title}`
   // Edit function
+  const action = isPopulated ? 'delete' : 'add'
   const updateIntegration = useEditIntegration({})
   return (
     <li
@@ -29,7 +30,7 @@ const IntegrationsPanelIntegration = ({ integration, className }) => {
         className={[].join(' ')}
         size="x-large"
         onClick={() => {
-          updateIntegration(integration)
+          updateIntegration(integration, action)
         }}
         style={{
           backgroundColor,

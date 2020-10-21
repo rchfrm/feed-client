@@ -28,25 +28,36 @@ const useCreateEditPostsLink = ({ onSave = () => {} }) => {
 
   // FUNCTION TO OPEN EDIT MODAL
   const updateIntegration = React.useCallback((integration, action = 'add') => {
-    const buttons = [
-      {
-        text: action === 'add' ? 'Save' : 'Delete',
-        onClick: () => {},
-        color: action === 'add' ? 'green' : 'red',
-        id: action === 'add' ? 'save' : 'delete',
-      },
-      {
-        text: 'Cancel',
-        onClick: closeAlert,
-        color: 'black',
-      },
-    ]
+    const { platform, title: plaformTitle } = integration
+    const cannotDelete = platform === 'facebook' || platform === 'instagram'
+    const buttons = cannotDelete
+      ? [
+        {
+          text: 'OK',
+          onClick: closeAlert,
+          color: 'green',
+        },
+      ]
+      : [
+        {
+          text: action === 'add' ? 'Save' : `Disconnect ${plaformTitle}`,
+          onClick: () => {},
+          color: action === 'add' ? 'green' : 'red',
+          id: action === 'add' ? 'save' : 'delete',
+        },
+        {
+          text: 'Cancel',
+          onClick: closeAlert,
+          color: 'black',
+        },
+      ]
     const children = (
       <IntegrationsEditModal
         integration={integration}
         modalButtons={buttons}
         action={action}
         runSaveIntegration={runSaveIntegration}
+        cannotDelete={cannotDelete}
       />
     )
     showAlert({ children, buttons })

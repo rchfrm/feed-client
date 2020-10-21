@@ -6,6 +6,9 @@ import produce from 'immer'
 import useAlertModal from '@/hooks/useAlertModal'
 
 import Input from '@/elements/Input'
+import MarkdownText from '@/elements/MarkdownText'
+
+import copy from '@/app/copy/integrationsCopy'
 
 import * as utils from '@/helpers/utils'
 
@@ -14,8 +17,9 @@ const IntegrationsEditModal = ({
   modalButtons,
   action,
   runSaveIntegration,
+  cannotDelete,
 }) => {
-  const { title: integrationTitle, placeholderUrl } = integration
+  const { platform, title: platformTitle, placeholderUrl } = integration
   const [link, setLink] = React.useState('')
 
   // MAKE SURE HREF IS VALID
@@ -34,9 +38,17 @@ const IntegrationsEditModal = ({
     setSaveEnabled(saveEnabled)
   }, [link, hasHrefError])
 
+  // IS DELETABLE?
+  const deleteCopy = React.useMemo(() => {
+    return cannotDelete ? copy.cannotDelete(platformTitle) : copy.deleteConfirmation(platformTitle)
+  // eslint-disable-next-line
+  }, [integration.platform])
+
   // UPDATE MODAL SAVE BUTTON
   const { setButtons } = useAlertModal()
   React.useEffect(() => {
+    // Stop here if not deletable
+    if (cannotDelete) return
     const newButtons = produce(modalButtons, draftButtons => {
       // Update save/delete button
       draftButtons[0].onClick = () => runSaveIntegration(integration, link, action)
@@ -55,28 +67,32 @@ const IntegrationsEditModal = ({
       }}
       noValidate
     >
-      <Input
-        placeholder={placeholderUrl}
-        type="url"
-        version="box"
-        label={`Link to your ${integrationTitle} account`}
-        name="link-url"
-        handleChange={(e) => {
-          const { target: { value } } = e
-          setLink(value)
-          if (showHrefError && !hasHrefError) {
+      {action === 'add' ? (
+        <Input
+          placeholder={placeholderUrl}
+          type="url"
+          version="box"
+          label={`Link to your ${platformTitle} account`}
+          name="link-url"
+          handleChange={(e) => {
+            const { target: { value } } = e
+            setLink(value)
+            if (showHrefError && !hasHrefError) {
+              setShowHrefError(false)
+            }
+          }}
+          onBlur={() => {
+            if (hasHrefError) return setShowHrefError(true)
             setShowHrefError(false)
-          }
-        }}
-        onBlur={() => {
-          if (hasHrefError) return setShowHrefError(true)
-          setShowHrefError(false)
-        }}
-        value={link}
-        error={showHrefError}
-        errorMessage="Please use a valid URL"
-        required
-      />
+          }}
+          value={link}
+          error={showHrefError}
+          errorMessage="Please use a valid URL"
+          required
+        />
+      ) : (
+        <MarkdownText markdown={deleteCopy} />
+      )}
     </form>
   )
 }
@@ -86,6 +102,7 @@ IntegrationsEditModal.propTypes = {
   modalButtons: PropTypes.array.isRequired,
   action: PropTypes.string.isRequired,
   runSaveIntegration: PropTypes.func.isRequired,
+  cannotDelete: PropTypes.bool.isRequired,
 }
 
 export default IntegrationsEditModal
