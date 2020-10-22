@@ -138,7 +138,7 @@ const PostsLinksEditModal = ({
           required
         />
         {createNewFolder ? (
-          <div>
+          <div className="relative">
             <Input
               placeholder="Folder name"
               type="text"
@@ -150,16 +150,21 @@ const PostsLinksEditModal = ({
               required
             />
             {/* Close new folder input */}
-            <p className="-mt-6 text-sm">
+            <p
+              className={[
+                'absolute absolute--center-y right-0 mr-4 pt-16',
+                'text-sm',
+              ].join(' ')}
+            >
               <a
-                className="no-underline text-grey-3 -hover--green"
+                className="text-grey-3 -hover--green"
                 role="button"
                 onClick={() => {
                   const e = { target: { value: link ? link.folderId : '' } }
                   handleInput(e, 'folderId', true)
                 }}
               >
-                Cancel
+                Use existing folder
               </a>
             </p>
           </div>
