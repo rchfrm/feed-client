@@ -5,6 +5,10 @@ import PropTypes from 'prop-types'
 
 import ArrowIcon from '@/icons/ArrowIcon'
 
+const OPTION = ({ name, value }) => {
+  return <option key={value} value={value}>{name}</option>
+}
+
 const Select = ({
   handleChange,
   name,
@@ -59,15 +63,20 @@ const Select = ({
               <option key="placeholder" value="" hidden>{placeholder}</option>
             )}
             {/* OPTIONS */}
-            {options.map(option => {
-              return (
-                <option
-                  key={option.value}
-                  value={option.value}
-                >
-                  {option.name}
-                </option>
-              )
+            {options.map((optionItem) => {
+              const { value, name, type, options } = optionItem
+              const isOptionGroup = type === 'group'
+              // Option group
+              if (isOptionGroup) {
+                return (
+                  <optgroup label={name}>
+                    {options.map(({ name, value }) => {
+                      return <OPTION key={value} name={name} value={value} />
+                    })}
+                  </optgroup>
+                )
+              }
+              return <OPTION key={value} name={name} value={value} />
             })}
           </select>
           {/* Arrow Icon */}
