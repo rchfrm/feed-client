@@ -9,7 +9,7 @@ import MarkdownText from '@/elements/MarkdownText'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
 // IMPORT COPY
-import copy from '@/app/copy/ConnectAccountsCopy'
+import copy from '@/app/copy/connectProfilesCopy'
 
 function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
   const { missingScopes, providerIds } = auth
