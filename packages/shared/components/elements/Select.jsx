@@ -69,7 +69,7 @@ const Select = ({
               // Option group
               if (isOptionGroup) {
                 return (
-                  <optgroup label={name}>
+                  <optgroup label={name} key={value}>
                     {options.map(({ name, value }) => {
                       return <OPTION key={value} name={name} value={value} />
                     })}
