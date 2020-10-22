@@ -362,6 +362,13 @@ export const setDefaultLink = (link) => {
  * @returns {Promise<any>}
  */
 export const saveLink = (link, action = 'add') => {
+  // Disable deleting default link
+  // (you shouldn't be able to do this, but just in case...)
+  if (action === 'delete' && link.defaultLink) {
+    return {
+      error: { message: 'You cannot delete the default link. If you want to remove it please choose another default link.' },
+    }
+  }
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('update link:', action)
