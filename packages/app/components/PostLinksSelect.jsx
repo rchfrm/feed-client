@@ -47,14 +47,26 @@ const PostLinksSelect = ({
       options: [],
     }
     baseOptions.push(integrationsGroup)
+    // If no DEFAULT or no NEW LINK, stop here
+    if (!includeDefaultLink && !includeAddLinkOption) return baseOptions
+    // Start other options group
+    const otherOptionsGroup = {
+      type: 'group',
+      name: 'Other options',
+      value: '_otherOptions',
+      options: [],
+    }
+    // Add DEFAULT link if needed
     if (includeDefaultLink) {
       const { name } = defaultLink
-      baseOptions.push({ name: `Default Link (${name})`, value: '_default' })
+      otherOptionsGroup.options.push({ name: `Use Default Link (${name})`, value: '_default' })
     }
-    // Add "New link" option
+    // Add NEW LINK option
     if (includeAddLinkOption) {
-      baseOptions.push({ name: '+ Add new link', value: '_new' })
+      otherOptionsGroup.options.push({ name: '+ Add new link', value: '_new' })
     }
+    // Add other options
+    baseOptions.push(otherOptionsGroup)
     return baseOptions
   }, [linkOptions, includeDefaultLink, defaultLink, includeAddLinkOption])
 
