@@ -43,8 +43,10 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
         style={{ alignItems: 'start' }}
       >
         {/* Singup intro text */}
-        {showSignupIntro && (
+        {showSignupIntro ? (
           <MarkdownText className="col-span-6 col-start-1" markdown={copy.signupIntro} />
+        ) : (
+          <MarkdownText className="col-span-6 col-start-1" markdown={copy.connectProfilesIntro} />
         )}
 
         {/* If missing FB permissions, show missing permissions */}
