@@ -19,6 +19,7 @@ const PostsLinksEditModal = ({
   action,
   runSaveLink,
   isDefaultLink,
+  error,
 }) => {
   const [linkProps, setLinkProps] = React.useState(link || {})
   // MAKE SURE HREF IS VALID
@@ -36,11 +37,11 @@ const PostsLinksEditModal = ({
       // Is buttons disabled
       const saveEnabled = !!linkProps.href && !hasHrefError
       // Update save button
-      draftButtons[0].onClick = () => runSaveLink(linkProps, action)
+      draftButtons[0].onClick = () => runSaveLink(linkProps, action, link)
       draftButtons[0].disabled = !saveEnabled
       // Update delete button
       if (draftButtons[1].id === 'delete') {
-        draftButtons[1].onClick = () => runSaveLink(linkProps, 'delete')
+        draftButtons[1].onClick = () => runSaveLink(linkProps, 'delete', link)
       }
     })
     setButtons(newButtons)
@@ -89,6 +90,9 @@ const PostsLinksEditModal = ({
   }, [savedFolders])
   return (
     <div className="pt-3">
+      {/* ERROR */}
+      {error && <Error error={error} messagePrefix="Error saving link: " />}
+      {/* FORM */}
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -163,7 +167,7 @@ const PostsLinksEditModal = ({
         )}
       </form>
       {/* CANNOT DELETE DEFAULT */}
-      {isDefaultLink && (
+      {isDefaultLink && !error && (
         <Error
           error={{ message: 'This is the default link. If you want to remove it please choose another default link.' }}
         />
@@ -178,10 +182,12 @@ PostsLinksEditModal.propTypes = {
   action: PropTypes.string.isRequired,
   runSaveLink: PropTypes.func.isRequired,
   isDefaultLink: PropTypes.bool.isRequired,
+  error: PropTypes.object,
 }
 
 PostsLinksEditModal.defaultProps = {
   link: null,
+  error: null,
 }
 
 

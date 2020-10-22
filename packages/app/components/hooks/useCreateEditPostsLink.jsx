@@ -18,32 +18,42 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
 
   // FUNCTION TO SAVE LINK
-  const runSaveLink = React.useCallback(async (link, action) => {
+  const runSaveLink = React.useCallback(async (newLink, action, initialLink) => {
     setSidePanelLoading(true)
-    const { res, error } = await saveLink(link, action)
-    onSave()
+    const { res, error } = await saveLink(newLink, action)
     // Error
-    if (error) return
+    if (error) {
+      // eslint-disable-next-line
+      openLink(initialLink, error)
+      return
+    }
     // Success
+    onSave()
     setSidePanelLoading(false)
+  // eslint-disable-next-line
   }, [setSidePanelLoading, onSave])
 
   // FUNCTION TO SAVE FOLDER
-  const runSaveFolder = React.useCallback(async (folder, action) => {
+  const runSaveFolder = React.useCallback(async (newFolder, action, initialFolder) => {
     setSidePanelLoading(true)
-    const { res, error } = await saveFolder(folder, action)
-    onSave()
+    const { res, error } = await saveFolder(newFolder, action)
     // Error
-    if (error) return
+    if (error) {
+      // eslint-disable-next-line
+      openLink(initialFolder, error)
+      return
+    }
     // Success
+    onSave()
     setSidePanelLoading(false)
+  // eslint-disable-next-line
   }, [setSidePanelLoading, onSave])
 
   // GET DEFAULT LINK
   const { defaultLink } = usePostsStore()
 
   // FUNCTION TO OPEN EDIT MODAL
-  const openLink = React.useCallback((item = null) => {
+  const openLink = React.useCallback((item = null, error) => {
     const buttons = [
       {
         text: 'Save',
@@ -74,6 +84,7 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
         modalButtons={buttons}
         action={action}
         runSaveFolder={runSaveFolder}
+        error={error}
       />
     ) : (
       <PostsLinksEditModal
@@ -82,6 +93,7 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
         action={action}
         runSaveLink={runSaveLink}
         isDefaultLink={isDefaultLink}
+        error={error}
       />
     )
     showAlert({ children, buttons })
