@@ -12,6 +12,7 @@ const initialState = {
   savedFolders: [],
   nestedLinks: [],
   integrations: [],
+  linksLoading: false,
   togglePromotionGlobal: () => {},
 }
 
@@ -42,9 +43,13 @@ const formatNestedLinks = ({ links, folders }) => {
 
 // Fetch links from server and update store (or return cached links)
 const fetchLinks = (set, get) => async (action) => {
-  const { savedLinks, artistId, artist } = get()
+  const { savedLinks, artistId, linksLoading } = get()
+  // Stop here if links are already loading
+  if (linksLoading) return
   // If there already are links and we not force, no need to reset data
-  if (savedLinks.length && action !== 'force') return { error: null }
+  if (savedLinks.length && action !== 'force') return
+  // Set links as loading
+  set({ linksLoading: true })
   // Else fetch links from server
   const { data, error } = await postsHelpers.fetchSavedLinks(artistId, 'dummy')
   const { links, folders, integrations } = data
@@ -63,6 +68,7 @@ const fetchLinks = (set, get) => async (action) => {
     nestedLinks,
     integrations: formattedIntegrations,
     defaultLink,
+    linksLoading: false,
   })
   // Return data
   return { error }
@@ -78,17 +84,27 @@ const [postsStore] = create((set, get) => ({
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
   integrations: initialState.integrations,
+  linksLoading: initialState.linksLoading,
   togglePromotionGlobal: initialState.togglePromotionGlobal,
   // GETTERS
   fetchLinks: fetchLinks(set, get),
   // SETTERS
   setTogglePromotionGlobal: (togglePromotionGlobal) => set({ togglePromotionGlobal }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
-  init: (artist) => {
+  init: (artist, action = 'clearLinks') => {
+    // Set artist details
     set({
       artist,
       artistId: artist.id,
+      defaultLink: getDefaultLink(artist),
+      linksLoading: false,
     })
+    // Fetch links
+    if (action === 'fetchLinks') {
+      get().fetchLinks('force')
+      return
+    }
+    // Clear links
     get().clearLinks()
   },
   clearAll: () => set(initialState),
