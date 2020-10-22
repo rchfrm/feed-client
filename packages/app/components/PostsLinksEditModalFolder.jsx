@@ -15,6 +15,7 @@ const PostsLinksEditModalFolder = ({
   modalButtons,
   action,
   runSaveFolder,
+  isDefaultLinkInFolder,
   error,
 }) => {
   const [folderProps, setFolderProps] = React.useState(folder || {})
@@ -88,6 +89,12 @@ const PostsLinksEditModalFolder = ({
           required
         />
       </form>
+      {/* CANNOT DELETE DEFAULT */}
+      {isDefaultLinkInFolder && !error && (
+        <Error
+          error={{ message: 'This folder includes the default link. If you want to remove it please choose another default link.' }}
+        />
+      )}
     </div>
   )
 }
@@ -97,6 +104,7 @@ PostsLinksEditModalFolder.propTypes = {
   modalButtons: PropTypes.array.isRequired,
   action: PropTypes.string.isRequired,
   runSaveFolder: PropTypes.func.isRequired,
+  isDefaultLinkInFolder: PropTypes.bool.isRequired,
   error: PropTypes.object,
 }
 

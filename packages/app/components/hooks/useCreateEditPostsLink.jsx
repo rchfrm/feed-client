@@ -17,6 +17,15 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
   // SIDE PANEL CONTEXT
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
 
+  // GET DEFAULT LINK
+  const { defaultLink } = usePostsStore()
+
+  // TEST IF FOLDER CONTAINS DEFAULT LINK
+  const testFolderContainsDefault = React.useCallback((folder) => {
+    const { linkIds } = folder
+    return linkIds.includes(defaultLink.id)
+  }, [defaultLink.id])
+
   // FUNCTION TO SAVE LINK
   const runSaveLink = React.useCallback(async (newLink, action, initialLink) => {
     setSidePanelLoading(true)
@@ -36,7 +45,8 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
   // FUNCTION TO SAVE FOLDER
   const runSaveFolder = React.useCallback(async (newFolder, action, initialFolder) => {
     setSidePanelLoading(true)
-    const { res, error } = await saveFolder(newFolder, action)
+    const isDefaultLinkInFolder = testFolderContainsDefault(initialFolder)
+    const { res, error } = await saveFolder(newFolder, action, isDefaultLinkInFolder)
     // Error
     if (error) {
       // eslint-disable-next-line
@@ -47,10 +57,8 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
     onSave()
     setSidePanelLoading(false)
   // eslint-disable-next-line
-  }, [setSidePanelLoading, onSave])
+  }, [setSidePanelLoading, onSave, testFolderContainsDefault])
 
-  // GET DEFAULT LINK
-  const { defaultLink } = usePostsStore()
 
   // FUNCTION TO OPEN EDIT MODAL
   const openLink = React.useCallback((item = null, error) => {
@@ -69,8 +77,10 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
     ]
     // Is this the default link?
     const isDefaultLink = item && item.id === defaultLink.id
+    // Does the folder contain the default link?
+    const isDefaultLinkInFolder = itemType !== 'folder' ? false : testFolderContainsDefault(item)
     // Add delete button if editing link/folder
-    if (action === 'edit' && !isDefaultLink) {
+    if (action === 'edit' && !isDefaultLink && !isDefaultLinkInFolder) {
       buttons.splice(1, 0, {
         text: 'Delete',
         onClick: () => {},
@@ -84,6 +94,7 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
         modalButtons={buttons}
         action={action}
         runSaveFolder={runSaveFolder}
+        isDefaultLinkInFolder={isDefaultLinkInFolder}
         error={error}
       />
     ) : (
@@ -97,7 +108,7 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
       />
     )
     showAlert({ children, buttons })
-  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder, defaultLink.id])
+  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder, defaultLink.id, testFolderContainsDefault])
 
   return openLink
 }

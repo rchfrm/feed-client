@@ -259,6 +259,7 @@ const dummyLinks = {
       linkIds: [
         'mission-statement',
         'bolognese-recipe',
+        'best-music-ever',
       ],
     },
     {
@@ -313,7 +314,7 @@ const dummyLinks = {
       name: 'Best music ever with a really long name',
       id: 'best-music-ever',
       href: 'https://test/com',
-      folderId: defaultFolderId,
+      folderId: 'hippos',
       defaultLink: true,
     },
   ],
@@ -383,7 +384,12 @@ export const saveLink = (link, action = 'add') => {
  * @param {string} action 'edit' | 'delete'
  * @returns {Promise<any>}
  */
-export const saveFolder = (link, action = 'edit') => {
+export const saveFolder = (folder, action = 'edit', isDefaultLinkInFolder) => {
+  if (action === 'delete' && isDefaultLinkInFolder) {
+    return {
+      error: { message: 'You cannot delete the folder that contains the default link. If you want to remove it please choose another default link.' },
+    }
+  }
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('update folder:', action)
