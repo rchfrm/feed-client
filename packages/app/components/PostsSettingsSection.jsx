@@ -11,7 +11,7 @@ const PostsSettingsSection = ({
   return (
     <section className="mb-8 last:mb-0">
       <h3>{header}</h3>
-      <MarkdownText markdown={copy} />
+      {copy && <MarkdownText markdown={copy} />}
       {children}
     </section>
   )
@@ -19,8 +19,13 @@ const PostsSettingsSection = ({
 
 PostsSettingsSection.propTypes = {
   header: PropTypes.string.isRequired,
-  copy: PropTypes.string.isRequired,
+  copy: PropTypes.string,
   children: PropTypes.node.isRequired,
 }
+
+PostsSettingsSection.defaultProps = {
+  copy: '',
+}
+
 
 export default PostsSettingsSection

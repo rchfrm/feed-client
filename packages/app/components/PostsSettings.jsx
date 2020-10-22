@@ -52,7 +52,6 @@ const PostsSettings = () => {
         {/* LINK TRACKING */}
         <PostsSettingsSection
           header="Link Tracking"
-          copy={copy.linkTrackingIntro}
         >
           <PostsSettingsLinkTracking utmOn={false} />
         </PostsSettingsSection>
