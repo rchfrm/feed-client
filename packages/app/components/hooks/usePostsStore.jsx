@@ -14,8 +14,8 @@ const usePostsStore = () => {
   const clearAll = postsStore(state => state.clearAll)
 
   const init = postsStore(state => state.init)
-  const setupStore = React.useCallback((artist) => {
-    init(artist)
+  const setupStore = React.useCallback((artist, action) => {
+    init(artist, action)
   }, [init])
 
   return {

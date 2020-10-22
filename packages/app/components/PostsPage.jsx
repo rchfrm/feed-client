@@ -16,7 +16,7 @@ const PostsPage = () => {
   // SETUP POSTS STORE WHEN ARTIST CHANGES
   const { setupStore, clearAll: clearPostsStore } = usePostsStore()
   React.useEffect(() => {
-    setupStore(artist)
+    setupStore(artist, 'fetchLinks')
   // eslint-disable-next-line
   }, [artistId, setupStore])
 
