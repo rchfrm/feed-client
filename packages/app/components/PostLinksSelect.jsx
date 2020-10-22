@@ -16,6 +16,7 @@ const PostLinksSelect = ({
 }) => {
   const linkOptions = postsStore(state => state.nestedLinks)
   const defaultLink = postsStore(state => state.defaultLink)
+  const integrations = postsStore(state => state.integrations)
 
   // CONVERT LINK OPTIONS TO FIT SELECT COMPONENT
   const selectOptions = React.useMemo(() => {
@@ -37,7 +38,15 @@ const PostLinksSelect = ({
       const option = { name, value: id }
       return [...options, option]
     }, [])
-    // Add default link if needed
+    // TODO waiting for integrations to be merged
+    // Add INTEGRATIONS as group
+    const integrationsGroup = {
+      type: 'group',
+      name: 'Integrations',
+      value: '_integrations',
+      options: [],
+    }
+    baseOptions.push(integrationsGroup)
     if (includeDefaultLink) {
       const { name } = defaultLink
       baseOptions.push({ name: `Default Link (${name})`, value: '_default' })
