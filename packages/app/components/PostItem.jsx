@@ -20,7 +20,6 @@ const PostItem = ({
   updateLink,
   togglePromotion,
   postToggleSetter,
-  linkOptions,
   index,
   className,
   children,
@@ -91,7 +90,6 @@ const PostItem = ({
             promotionStatus={promotionStatus}
             priorityDsp={priorityDsp}
             updateLink={updateLink}
-            linkOptions={linkOptions}
             setError={setError}
           />
         )}
@@ -133,7 +131,6 @@ PostItem.propTypes = {
   updateLink: PropTypes.func.isRequired,
   togglePromotion: PropTypes.func.isRequired,
   postToggleSetter: PropTypes.string,
-  linkOptions: PropTypes.array.isRequired,
   index: PropTypes.number.isRequired,
   className: PropTypes.string,
   children: PropTypes.node,

@@ -386,15 +386,15 @@ export const saveFolder = (folder, action = 'edit', isDefaultLinkInFolder) => {
   })
 }
 
-// SET LINK TRACKING OPTION
-/**
- * @param {boolean} trackingOn
- * @returns {Promise<any>}
- */
-export const setLinkTrackingOption = (trackingOn) => {
+
+
+
+// LINKS ON A POST
+export const setPostLink = (link) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve({ res: trackingOn, error: false })
-    }, 1000)
+      console.log('set post link:', link.id)
+      resolve({ res: true, error: false })
+    }, 500)
   })
 }

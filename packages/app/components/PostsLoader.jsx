@@ -109,7 +109,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   }, [artistId, promotionStatus])
 
   // READ POSTS STORE
-  const { setTogglePromotionGlobal, nestedLinks: linkOptions } = usePostsStore()
+  const { setTogglePromotionGlobal } = usePostsStore()
 
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({
@@ -295,7 +295,6 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
         loadedAll={isEndOfAssets.current}
-        linkOptions={linkOptions}
       />
 
       {/* Loading spinner */}

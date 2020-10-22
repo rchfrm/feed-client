@@ -15,6 +15,7 @@ import PostLinkAddUrl from '@/app/PostLinkAddUrl'
 
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
+import { setPostLink } from '@/app/helpers/postsHelpers'
 
 import styles from '@/app/PostItem.module.css'
 
@@ -25,7 +26,6 @@ const PostItemLink = ({
   promotionStatus,
   priorityDsp,
   updateLink,
-  linkOptions,
   setError,
 }) => {
   const { artist, addArtistUrl } = React.useContext(ArtistContext)
@@ -138,8 +138,10 @@ const PostItemLink = ({
         {/* Link change content */}
         <div className={[styles.postLinkContent, styles.postSection].join(' ')} ref={mainContentEl}>
           <PostLinksSelect
-            linkOptions={linkOptions}
             selectClassName={styles.linkSelection__select}
+            currentLinkId="bolognese-recipe"
+            onSelect={setPostLink}
+            includeDefaultLink
           />
           {/* Show add URL dialogue if triggered */}
           {adUrlDialogueOpen && (
@@ -169,7 +171,6 @@ PostItemLink.propTypes = {
   promotionStatus: PropTypes.string.isRequired,
   priorityDsp: PropTypes.string,
   updateLink: PropTypes.func.isRequired,
-  linkOptions: PropTypes.array.isRequired,
   setError: PropTypes.func.isRequired,
 }
 
