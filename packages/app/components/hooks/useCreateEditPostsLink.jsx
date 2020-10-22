@@ -9,6 +9,8 @@ import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 
 import { saveLink, saveFolder } from '@/app/helpers/postsHelpers'
 
+import usePostsStore from '@/app/hooks/usePostsStore'
+
 const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = () => {} }) => {
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
@@ -37,6 +39,9 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
     setSidePanelLoading(false)
   }, [setSidePanelLoading, onSave])
 
+  // GET DEFAULT LINK
+  const { defaultLink } = usePostsStore()
+
   // FUNCTION TO OPEN EDIT MODAL
   const openLink = React.useCallback((item = null) => {
     const buttons = [
@@ -52,8 +57,10 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
         color: 'black',
       },
     ]
+    // Is this the default link?
+    const isDefaultLink = item && item.id === defaultLink.id
     // Add delete button if editing link/folder
-    if (action === 'edit') {
+    if (action === 'edit' && !isDefaultLink) {
       buttons.splice(1, 0, {
         text: 'Delete',
         onClick: () => {},
@@ -74,10 +81,11 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
         modalButtons={buttons}
         action={action}
         runSaveLink={runSaveLink}
+        isDefaultLink={isDefaultLink}
       />
     )
     showAlert({ children, buttons })
-  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder])
+  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder, defaultLink.id])
 
   return openLink
 }

@@ -8,6 +8,7 @@ import usePostsStore from '@/app/hooks/usePostsStore'
 
 import Input from '@/elements/Input'
 import Select from '@/elements/Select'
+import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
 import { defaultFolderId } from '@/app/helpers/postsHelpers'
@@ -17,6 +18,7 @@ const PostsLinksEditModal = ({
   modalButtons,
   action,
   runSaveLink,
+  isDefaultLink,
 }) => {
   const [linkProps, setLinkProps] = React.useState(link || {})
   // MAKE SURE HREF IS VALID
@@ -160,6 +162,12 @@ const PostsLinksEditModal = ({
           />
         )}
       </form>
+      {/* CANNOT DELETE DEFAULT */}
+      {isDefaultLink && (
+        <Error
+          error={{ message: 'This is the default link. If you want to remove it please choose another default link.' }}
+        />
+      )}
     </div>
   )
 }
@@ -169,6 +177,7 @@ PostsLinksEditModal.propTypes = {
   modalButtons: PropTypes.array.isRequired,
   action: PropTypes.string.isRequired,
   runSaveLink: PropTypes.func.isRequired,
+  isDefaultLink: PropTypes.bool.isRequired,
 }
 
 PostsLinksEditModal.defaultProps = {
