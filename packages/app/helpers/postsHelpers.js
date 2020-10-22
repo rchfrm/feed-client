@@ -254,6 +254,7 @@ export const defaultFolderId = '_default'
 const dummyLinks = {
   folders: [
     {
+      type: 'folder',
       name: 'Hippos',
       id: 'hippos',
       linkIds: [

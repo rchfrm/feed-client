@@ -10,7 +10,7 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import useBrowserStore from '@/hooks/useBrowserStore'
 
 import PostLinkSummary from '@/app/PostLinkSummary'
-import PostLinkOptions from '@/app/PostLinkOptions'
+import PostLinksSelect from '@/app/PostLinksSelect'
 import PostLinkAddUrl from '@/app/PostLinkAddUrl'
 
 import * as utils from '@/helpers/utils'
@@ -25,6 +25,7 @@ const PostItemLink = ({
   promotionStatus,
   priorityDsp,
   updateLink,
+  linkOptions,
   setError,
 }) => {
   const { artist, addArtistUrl } = React.useContext(ArtistContext)
@@ -136,13 +137,10 @@ const PostItemLink = ({
         </div>
         {/* Link change content */}
         <div className={[styles.postLinkContent, styles.postSection].join(' ')} ref={mainContentEl}>
-          <PostLinkOptions
-            artist={artist}
-            postLinkPlatform={postLinkPlatform}
-            setPostLinkPlatform={setPostLinkPlatform}
-            setAdUrlDialogueOpen={setAdUrlDialogueOpen}
+          <PostLinksSelect
+            linkOptions={linkOptions}
+            selectClassName={styles.linkSelection__select}
           />
-
           {/* Show add URL dialogue if triggered */}
           {adUrlDialogueOpen && (
             <PostLinkAddUrl
@@ -171,6 +169,7 @@ PostItemLink.propTypes = {
   promotionStatus: PropTypes.string.isRequired,
   priorityDsp: PropTypes.string,
   updateLink: PropTypes.func.isRequired,
+  linkOptions: PropTypes.array.isRequired,
   setError: PropTypes.func.isRequired,
 }
 

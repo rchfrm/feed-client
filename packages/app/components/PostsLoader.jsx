@@ -108,6 +108,9 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     isEndOfAssets.current = false
   }, [artistId, promotionStatus])
 
+  // READ POSTS STORE
+  const { setTogglePromotionGlobal, nestedLinks: linkOptions } = usePostsStore()
+
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({
     promiseFn: fetchPosts,
@@ -202,7 +205,6 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 
   // Define function to BATCH TOGGLE all posts
   // and set it on the parent
-  const { setTogglePromotionGlobal } = usePostsStore()
   React.useEffect(() => {
     const togglePromotionGlobal = (promotionEnabled) => {
       setPostToggleSetter('batch')
@@ -293,6 +295,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
         loadedAll={isEndOfAssets.current}
+        linkOptions={linkOptions}
       />
 
       {/* Loading spinner */}
