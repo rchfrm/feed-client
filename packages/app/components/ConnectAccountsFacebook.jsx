@@ -63,7 +63,7 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
           Continue with Facebook
         </ButtonFacebook>
 
-        <p className={['col-span-6', 'col-start-1'].join(' ')}>
+        <p className={['col-span-6', 'col-start-1', 'max-w-md'].join(' ')}>
           <em className="xsmall--p">
             {copy.smallLegalText}
           </em>
