@@ -63,10 +63,8 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
           Continue with Facebook
         </ButtonFacebook>
 
-        <p className={['col-span-6', 'col-start-1', 'max-w-md'].join(' ')}>
-          <em className="xsmall--p">
-            {copy.smallLegalText}
-          </em>
+        <p className={['xsmall--p', 'col-span-6', 'col-start-1', 'max-w-md'].join(' ')}>
+          {copy.smallLegalText}
         </p>
 
         {/* Singup intro VIDEO */}
