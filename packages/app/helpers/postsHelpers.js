@@ -304,11 +304,17 @@ const dummyLinks = {
       folderId: 'hippos',
     },
     {
-      type: 'link',
       name: 'Real hero',
       id: 'Real-hero',
       href: 'https://test.com',
       folderId: defaultFolderId,
+    },
+    {
+      name: 'Best music ever with a really long name',
+      id: 'best-music-ever',
+      href: 'https://test/com',
+      folderId: defaultFolderId,
+      defaultLink: true,
     },
   ],
   integrations: [
