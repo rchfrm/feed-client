@@ -11,7 +11,12 @@ import { saveLink, saveFolder } from '@/app/helpers/postsHelpers'
 
 import usePostsStore from '@/app/hooks/usePostsStore'
 
-const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = () => {} }) => {
+const useCreateEditPostsLink = ({
+  action = 'add',
+  itemType = 'link',
+  onSave = () => {},
+  location = 'links',
+}) => {
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
   // SIDE PANEL CONTEXT
@@ -104,11 +109,12 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
         action={action}
         runSaveLink={runSaveLink}
         isDefaultLink={isDefaultLink}
+        isPostLink={location === 'post'}
         error={error}
       />
     )
     showAlert({ children, buttons })
-  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder, defaultLink.id, testFolderContainsDefault])
+  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder, defaultLink.id, testFolderContainsDefault, location])
 
   return openLink
 }

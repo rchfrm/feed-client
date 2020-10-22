@@ -142,6 +142,7 @@ const PostItemLink = ({
             currentLinkId="bolognese-recipe"
             onSelect={setPostLink}
             includeDefaultLink
+            includeAddLinkOption
           />
           {/* Show add URL dialogue if triggered */}
           {adUrlDialogueOpen && (
