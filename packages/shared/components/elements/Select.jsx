@@ -21,14 +21,7 @@ const Select = ({
 }) => {
   // Define class array
   const classes = ['input--container', 'select--container', className]
-  // Transform options into array of <option> elements
-  const optionElements = options.map(option => {
-    return <option key={option.value} value={option.value}>{option.name}</option>
-  })
-  // Add optional placeholder
-  if (placeholder) {
-    optionElements.unshift(<option key="placeholder" value="" hidden>{placeholder}</option>)
-  }
+
   // Add error class
   if (highlight && !selectedValue) {
     classes.push('_error')
@@ -61,7 +54,21 @@ const Select = ({
             required={required}
             autoComplete={!autoComplete ? 'off' : ''}
           >
-            {optionElements}
+            {/* PLACEHOLDER */}
+            {placeholder && (
+              <option key="placeholder" value="" hidden>{placeholder}</option>
+            )}
+            {/* OPTIONS */}
+            {options.map(option => {
+              return (
+                <option
+                  key={option.value}
+                  value={option.value}
+                >
+                  {option.name}
+                </option>
+              )
+            })}
           </select>
           {/* Arrow Icon */}
           <ArrowIcon className="select--arrow" />
