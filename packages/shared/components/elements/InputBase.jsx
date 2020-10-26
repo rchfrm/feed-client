@@ -77,8 +77,10 @@ const InputBase = ({
         {/* LABEL */}
         {label && (
           <span className="inputLabel__text">
-            {label}
-            {required && <span className="asterisk">*</span>}
+            <span>
+              {label}
+              {required && <span className="asterisk">*</span>}
+            </span>
             {/* LABEL TOOLTIP */}
             {tooltipMessage && (
               <TooltipButton copy={tooltipMessage} direction="right" />

@@ -54,6 +54,7 @@ const BaseFilters = ({
   querySlug,
   useSlug,
   className,
+  children,
 }) => {
   // GET ROUTER
   const router = useRouter()
@@ -168,6 +169,7 @@ const BaseFilters = ({
             />
           )
         })}
+        {children}
       </div>
     </div>
   )
@@ -191,6 +193,7 @@ BaseFilters.propTypes = {
   },
   useSlug: PropTypes.bool,
   className: PropTypes.string,
+  children: PropTypes.node,
 }
 
 BaseFilters.defaultProps = {
@@ -204,6 +207,7 @@ BaseFilters.defaultProps = {
   querySlug: '',
   useSlug: false,
   className: '',
+  children: null,
 }
 
 

@@ -277,67 +277,6 @@ button {
   cursor: pointer;
 }
 
-/* Pill button */
-.button--pill {
-  background-color: var(--grey-light);
-  padding: 0.1em 0.8em;
-  padding-bottom: 0.25em;
-  border-radius: var(--pill-radius);
-  white-space: nowrap;
-
-  &.-large {
-    padding: 0.3em 1.2em;
-    padding-bottom: 0.4em;
-  }
-
-  &.-has-icon {
-    padding: 0.3em 0.8em;
-
-    &.-large {
-      padding: 0.5em 1.2em;
-      padding-bottom: 0.6em;
-    }
-  }
-
-  &.-active {
-    background-color: var(--text-color);
-    color: var(--bg-color);
-    font-weight: var(--bold);
-  }
-
-  &.-inactive {
-    background-color: var(--grey-light);
-    color: var(--text-color);
-    opacity: 0.5;
-  }
-}
-
-.button--filter-empty {
-  background-color: transparent !important;
-  color: var(--text-color) !important;
-}
-
-.button--pill-inner {
-  display: flex;
-  align-items: center;
-  padding: 0 0.03em;
-
-  /* compensate for font weight changes */
-  .button--pill.-active & {
-    padding: 0;
-  }
-
-  svg,
-  .icon {
-    margin-right: var(--sp-2);
-  }
-
-  svg {
-    width: var(--sp-4);
-    height: auto;
-  }
-}
-
 /* Copy text button */
 .button--copy-text {
   border: 1px solid var(--text-color);
