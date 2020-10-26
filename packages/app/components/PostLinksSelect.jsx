@@ -38,13 +38,14 @@ const PostLinksSelect = ({
       const option = { name, value: id }
       return [...options, option]
     }, [])
-    // TODO waiting for integrations to be merged
     // Add INTEGRATIONS as group
     const integrationsGroup = {
       type: 'group',
       name: 'Integrations',
       value: '_integrations',
-      options: [],
+      options: integrations.map(({ title, platform }) => {
+        return { name: title, value: platform }
+      }),
     }
     baseOptions.push(integrationsGroup)
     // If no DEFAULT or no NEW LINK, stop here
@@ -68,7 +69,7 @@ const PostLinksSelect = ({
     // Add other options
     baseOptions.push(otherOptionsGroup)
     return baseOptions
-  }, [linkOptions, includeDefaultLink, defaultLink, includeAddLinkOption])
+  }, [linkOptions, includeDefaultLink, defaultLink, includeAddLinkOption, integrations])
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({
