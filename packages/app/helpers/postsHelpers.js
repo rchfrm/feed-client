@@ -390,10 +390,10 @@ export const saveFolder = (folder, action = 'edit', isDefaultLinkInFolder) => {
 
 
 // LINKS ON A POST
-export const setPostLink = (link) => {
+export const setPostLink = (linkId) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      console.log('set post link:', link.id)
+      console.log('set post link:', linkId)
       resolve({ res: true, error: false })
     }, 500)
   })
