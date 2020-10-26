@@ -30,6 +30,7 @@ const PostsLinksList = ({
                 editModeOn={editModeOn}
                 setEditModeOn={setEditModeOn}
                 useSelectMode={useSelectMode}
+                className="mb-5"
               />
             )
           }
@@ -41,6 +42,7 @@ const PostsLinksList = ({
               editModeOn={editModeOn}
               setEditModeOn={setEditModeOn}
               useSelectMode={useSelectMode}
+              className="mb-5"
             />
           )
         })}

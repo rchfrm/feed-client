@@ -6,6 +6,8 @@ import produce from 'immer'
 import useAlertModal from '@/hooks/useAlertModal'
 
 import Input from '@/elements/Input'
+import Error from '@/elements/Error'
+
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostsLinksEditModalFolder = ({
@@ -13,6 +15,8 @@ const PostsLinksEditModalFolder = ({
   modalButtons,
   action,
   runSaveFolder,
+  isDefaultLinkInFolder,
+  error,
 }) => {
   const [folderProps, setFolderProps] = React.useState(folder || {})
   // GET MODAL PROPS
@@ -44,7 +48,7 @@ const PostsLinksEditModalFolder = ({
       // Is buttons disabled
       const saveEnabled = !!folderProps.name
       // Update save button
-      draftButtons[0].onClick = () => runSaveFolder(folderProps, action)
+      draftButtons[0].onClick = () => runSaveFolder(folderProps, action, folder)
       draftButtons[0].disabled = !saveEnabled
       // Update delete button
       if (draftButtons[1].id === 'delete') {
@@ -66,6 +70,9 @@ const PostsLinksEditModalFolder = ({
 
   return (
     <div className="pt-3">
+      {/* ERROR */}
+      {error && <Error error={error} messagePrefix="Error saving folder: " />}
+      {/* FORM */}
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -82,6 +89,12 @@ const PostsLinksEditModalFolder = ({
           required
         />
       </form>
+      {/* CANNOT DELETE DEFAULT */}
+      {isDefaultLinkInFolder && !error && (
+        <Error
+          error={{ message: 'This folder includes the default link. If you want to remove it please choose another default link.' }}
+        />
+      )}
     </div>
   )
 }
@@ -91,7 +104,14 @@ PostsLinksEditModalFolder.propTypes = {
   modalButtons: PropTypes.array.isRequired,
   action: PropTypes.string.isRequired,
   runSaveFolder: PropTypes.func.isRequired,
+  isDefaultLinkInFolder: PropTypes.bool.isRequired,
+  error: PropTypes.object,
 }
+
+PostsLinksEditModalFolder.defaultProps = {
+  error: null,
+}
+
 
 
 export default PostsLinksEditModalFolder
