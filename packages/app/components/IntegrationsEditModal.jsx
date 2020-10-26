@@ -29,7 +29,9 @@ const IntegrationsEditModal = ({
     const sanitisedLink = utils.enforceUrlProtocol(link, true)
     const hasError = !utils.testValidUrl(sanitisedLink)
     setHasHrefError(hasError)
-  }, [link])
+    if (!hasError) {
+      setShowHrefError(false)
+    }
 
   // IS SAVING ENABLED
   const [saveEnabled, setSaveEnabled] = React.useState(false)
