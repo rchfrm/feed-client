@@ -11,6 +11,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/integrationsCopy'
 
 import * as utils from '@/helpers/utils'
+import { testValidIntegration } from '@/app/helpers/integrationHelpers'
 
 const IntegrationsEditModal = ({
   integration,
@@ -28,7 +29,7 @@ const IntegrationsEditModal = ({
   const [hrefValid, setHrefValid] = React.useState(false)
   React.useEffect(() => {
     const sanitisedLink = utils.enforceUrlProtocol(link, true)
-    const hasError = !utils.testValidUrl(sanitisedLink)
+    const hasError = !testValidIntegration(sanitisedLink, platform)
     setHrefValid(!hasError)
     setHasHrefError(hasError)
     if (!hasError) {
