@@ -1,6 +1,5 @@
 import brandColors from '@/constants/brandColors'
 import * as utils from '@/helpers/utils'
-import { platform } from 'chart.js'
 
 export const dummyIntegrations = [
   {
