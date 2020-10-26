@@ -132,6 +132,6 @@ These UTM parameters are automatically added to the end of the links used in you
 
 Here's an example of what the a link will look like:
 
-> www.artistname.com_?utm_source=feed&utm_medium=social
+> www.artistname.com_?utm_source=feed&utm_medium=social`,
 
 }
