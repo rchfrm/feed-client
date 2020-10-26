@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 
 export default {
+  // Text at top when signing up
   signupIntro: `Thank you for signing up to **Feed**!
 
 In order for Feed to promote your posts and show you the results, we need permission to manage your pages on Facebook and Instagram, as well as your ad account.
@@ -8,6 +9,9 @@ In order for Feed to promote your posts and show you the results, we need permis
 Please make sure you opt in to all permissions shown, as Feed needs them to work properly. You'll remain in control of all ads and posts.
 
 To continue, click on the button below`,
+
+  // Text at top of page when adding additional accounts
+  connectProfilesIntro: `Click the button below to add additional Facebook Page(s) and/or Instagram profiles to your account.`,
 
   smallLegalText: `This allows us to connect to Facebook so that we can show you your data and promote posts on your behalf, we'll never post anything without your approval.`,
 
