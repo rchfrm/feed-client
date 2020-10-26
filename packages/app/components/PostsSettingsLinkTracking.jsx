@@ -6,9 +6,9 @@ import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostsSettingsLinkTracking = ({ defaultLink }) => {
-  console.log('defaultLink', defaultLink)
+  const { href: defaultLinkHref = '' } = defaultLink
   return (
-    <MarkdownText markdown={copy.linkTrackingExplanation(defaultLink.href)} />
+    <MarkdownText markdown={copy.linkTrackingExplanation(defaultLinkHref.replace('https://', ''))} />
   )
 }
 
