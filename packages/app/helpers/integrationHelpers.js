@@ -92,7 +92,7 @@ export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpt
     const { musicOnly, baseUrl } = integrationInfo
     const isEmpty = !integration.accountId
     // Ignore music integration if not a musician (and not already filled)
-    if (musicOnly && !isMusician && !isEmpty) return filteredList
+    if (musicOnly && !isMusician && isEmpty) return filteredList
     if (ignoreEmpty && isEmpty) return filteredList
     // Else add to list with title and url
     return [...filteredList, {
