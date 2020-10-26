@@ -81,7 +81,7 @@ const useCreateEditPostsLink = ({
       },
     ]
     // Is this the default link?
-    const isDefaultLink = item && item.id === defaultLink.id
+    const isDefaultLink = !!(item && item.id === defaultLink.id)
     // Does the folder contain the default link?
     const isDefaultLinkInFolder = itemType !== 'folder' ? false : testFolderContainsDefault(item)
     // Add delete button if editing link/folder
