@@ -25,13 +25,16 @@ const IntegrationsEditModal = ({
   // MAKE SURE HREF IS VALID
   const [hasHrefError, setHasHrefError] = React.useState(false)
   const [showHrefError, setShowHrefError] = React.useState(false)
+  const [hrefValid, setHrefValid] = React.useState(false)
   React.useEffect(() => {
     const sanitisedLink = utils.enforceUrlProtocol(link, true)
     const hasError = !utils.testValidUrl(sanitisedLink)
+    setHrefValid(!hasError)
     setHasHrefError(hasError)
     if (!hasError) {
       setShowHrefError(false)
     }
+  }, [link, platform])
 
   // IS SAVING ENABLED
   const [saveEnabled, setSaveEnabled] = React.useState(false)
@@ -89,6 +92,7 @@ const IntegrationsEditModal = ({
           }}
           value={link}
           error={showHrefError}
+          success={hrefValid}
           errorMessage="Please use a valid URL"
           required
         />
