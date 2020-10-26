@@ -43,7 +43,7 @@ const formatNestedLinks = ({ links, folders }) => {
 
 // Fetch links from server and update store (or return cached links)
 const fetchLinks = (set, get) => async (action) => {
-  const { savedLinks, artistId, linksLoading } = get()
+  const { savedLinks, artistId, linksLoading, artist } = get()
   // Stop here if links are already loading
   if (linksLoading) return
   // If there already are links and we not force, no need to reset data
@@ -96,7 +96,6 @@ const [postsStore] = create((set, get) => ({
     set({
       artist,
       artistId: artist.id,
-      defaultLink: getDefaultLink(artist),
       linksLoading: false,
     })
     // Fetch links
