@@ -14,14 +14,8 @@ const initialState = {
 }
 
 // * DEFAULT LINK
-const getDefaultLink = (artist) => {
-  const dummyDefaultLink = {
-    name: 'Best music ever with a really long name',
-    id: 'best-music-ever',
-    href: 'https://test/com',
-  }
-  const { defaultLink = dummyDefaultLink } = artist
-  return defaultLink
+const getDefaultLink = (links) => {
+  return links.find(({ defaultLink }) => defaultLink)
 }
 
 // * FETCH LINKS
@@ -52,14 +46,19 @@ const fetchLinks = (set, get) => async (action) => {
   // Else fetch links from server
   const { data, error } = await postsHelpers.fetchSavedLinks(artistId, 'dummy')
   const { links, folders, integrations } = data
+  console.log('links', links)
   // Create array of links in folders for display
   const nestedLinks = formatNestedLinks({ links, folders })
+  console.log('nestedLinks', nestedLinks)
+  // Get default link
+  const defaultLink = getDefaultLink(links)
   // Cache links and folders
   set({
     savedLinks: links,
     savedFolders: folders,
     nestedLinks,
     integrations,
+    defaultLink,
   })
   // Return data
   return { error }
@@ -84,7 +83,6 @@ const [postsStore] = create((set, get) => ({
     set({
       artist,
       artistId: artist.id,
-      defaultLink: getDefaultLink(artist),
     })
     get().clearLinks()
   },

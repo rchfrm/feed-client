@@ -9,36 +9,59 @@ import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 
 import { saveLink, saveFolder } from '@/app/helpers/postsHelpers'
 
+import usePostsStore from '@/app/hooks/usePostsStore'
+
 const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = () => {} }) => {
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
   // SIDE PANEL CONTEXT
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
 
+  // GET DEFAULT LINK
+  const { defaultLink } = usePostsStore()
+
+  // TEST IF FOLDER CONTAINS DEFAULT LINK
+  const testFolderContainsDefault = React.useCallback((folder) => {
+    const { linkIds } = folder
+    return linkIds.includes(defaultLink.id)
+  }, [defaultLink.id])
+
   // FUNCTION TO SAVE LINK
-  const runSaveLink = React.useCallback(async (link, action) => {
+  const runSaveLink = React.useCallback(async (newLink, action, initialLink) => {
     setSidePanelLoading(true)
-    const { res, error } = await saveLink(link, action)
-    onSave()
+    const { res, error } = await saveLink(newLink, action)
     // Error
-    if (error) return
+    if (error) {
+      // eslint-disable-next-line
+      openLink(initialLink, error)
+      return
+    }
     // Success
+    onSave()
     setSidePanelLoading(false)
+  // eslint-disable-next-line
   }, [setSidePanelLoading, onSave])
 
   // FUNCTION TO SAVE FOLDER
-  const runSaveFolder = React.useCallback(async (folder, action) => {
+  const runSaveFolder = React.useCallback(async (newFolder, action, initialFolder) => {
     setSidePanelLoading(true)
-    const { res, error } = await saveFolder(folder, action)
-    onSave()
+    const isDefaultLinkInFolder = testFolderContainsDefault(initialFolder)
+    const { res, error } = await saveFolder(newFolder, action, isDefaultLinkInFolder)
     // Error
-    if (error) return
+    if (error) {
+      // eslint-disable-next-line
+      openLink(initialFolder, error)
+      return
+    }
     // Success
+    onSave()
     setSidePanelLoading(false)
-  }, [setSidePanelLoading, onSave])
+  // eslint-disable-next-line
+  }, [setSidePanelLoading, onSave, testFolderContainsDefault])
+
 
   // FUNCTION TO OPEN EDIT MODAL
-  const openLink = React.useCallback((item = null) => {
+  const openLink = React.useCallback((item = null, error) => {
     const buttons = [
       {
         text: 'Save',
@@ -52,8 +75,12 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
         color: 'black',
       },
     ]
+    // Is this the default link?
+    const isDefaultLink = item && item.id === defaultLink.id
+    // Does the folder contain the default link?
+    const isDefaultLinkInFolder = itemType !== 'folder' ? false : testFolderContainsDefault(item)
     // Add delete button if editing link/folder
-    if (action === 'edit') {
+    if (action === 'edit' && !isDefaultLink && !isDefaultLinkInFolder) {
       buttons.splice(1, 0, {
         text: 'Delete',
         onClick: () => {},
@@ -67,6 +94,8 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
         modalButtons={buttons}
         action={action}
         runSaveFolder={runSaveFolder}
+        isDefaultLinkInFolder={isDefaultLinkInFolder}
+        error={error}
       />
     ) : (
       <PostsLinksEditModal
@@ -74,10 +103,12 @@ const useCreateEditPostsLink = ({ action = 'add', itemType = 'link', onSave = ()
         modalButtons={buttons}
         action={action}
         runSaveLink={runSaveLink}
+        isDefaultLink={isDefaultLink}
+        error={error}
       />
     )
     showAlert({ children, buttons })
-  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder])
+  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder, defaultLink.id, testFolderContainsDefault])
 
   return openLink
 }

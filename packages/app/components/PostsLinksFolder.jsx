@@ -46,7 +46,6 @@ const PostsLinksFolder = ({
   return (
     <Accordion
       className={[
-        'mb-5',
         className,
       ].join(' ')}
       allowMultipleExpanded
