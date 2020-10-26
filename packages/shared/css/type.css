@@ -107,6 +107,10 @@ p,
     list-style-type: decimal;
     padding-left: 1.5em;
   }
+
+  blockquote {
+    padding-left: var(--sp-5);
+  }
 }
 
 /* Global para styles inside .text-block containers */
