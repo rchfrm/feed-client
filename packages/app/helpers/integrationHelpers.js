@@ -51,7 +51,7 @@ export const getIntegrationInfo = (integration) => {
       return {
         title: 'Soundcloud',
         baseUrl: 'https://soundcloud.com/',
-        placeholderUrl: 'https://soundcloud.com/accountName',
+        placeholderUrl: 'https://soundcloud.com/< account ID>',
         color: brandColors[platform],
         musicOnly: true,
         editable: true,
@@ -69,7 +69,7 @@ export const getIntegrationInfo = (integration) => {
       return {
         title: 'YouTube',
         baseUrl: 'https://youtube.com/',
-        placeholderUrl: 'https://youtube.com/channel/channelId',
+        placeholderUrl: 'https://youtube.com/channel/<channel ID>',
         color: brandColors[platform],
         editable: true,
       }
