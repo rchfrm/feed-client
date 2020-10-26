@@ -335,14 +335,6 @@ export const fetchSavedLinks = (artistId, type) => {
   })
 }
 
-// SET NEW DEFAULT LINK
-export const setDefaultLink = (link) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ res: link, error: false })
-    }, 500)
-  })
-}
 
 // SAVE LINK
 /**
@@ -386,10 +378,26 @@ export const saveFolder = (folder, action = 'edit', isDefaultLinkInFolder) => {
   })
 }
 
-
+// DEFAULT LINK
+/**
+ * @param {string} linkId
+ * @returns {Promise<any>}
+ */
+export const setDefaultLink = (linkId) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('set default link:', linkId)
+      resolve({ res: true, error: false })
+    }, 500)
+  })
+}
 
 
 // LINKS ON A POST
+/**
+ * @param {string} linkId
+ * @returns {Promise<any>}
+ */
 export const setPostLink = (linkId) => {
   return new Promise((resolve) => {
     setTimeout(() => {

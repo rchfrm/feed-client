@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
 
+import { setDefaultLink } from '@/app/helpers/postsHelpers'
+
 const PostsSettingsDefaultLink = ({
   defaultLink,
   className,
@@ -16,7 +18,7 @@ const PostsSettingsDefaultLink = ({
     >
       <PostLinksSelect
         currentLinkId={defaultLink.id}
-        onSelect={() => {}}
+        onSelect={setDefaultLink}
       />
     </div>
   )
