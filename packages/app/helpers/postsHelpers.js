@@ -378,12 +378,20 @@ export const saveFolder = (folder, action = 'edit', isDefaultLinkInFolder) => {
   })
 }
 
+// TEST IF LINK ID IS INTEGRATION
+const extractLinkIntegration = (linkId) => {
+  const isIntegration = linkId.includes('_integration_')
+  if (!isIntegration) return null
+  return linkId.replace('_integration_', '')
+}
+
 // DEFAULT LINK
 /**
  * @param {string} linkId
  * @returns {Promise<any>}
  */
 export const setDefaultLink = (linkId) => {
+  const linkIntegration = extractLinkIntegration(linkId)
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('set default link:', linkId)
@@ -399,6 +407,7 @@ export const setDefaultLink = (linkId) => {
  * @returns {Promise<any>}
  */
 export const setPostLink = (linkId) => {
+  const linkIntegration = extractLinkIntegration(linkId)
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('set post link:', linkId)

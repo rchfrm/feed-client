@@ -50,7 +50,7 @@ const PostLinksSelect = ({
       name: 'Integrations',
       value: '_integrations',
       options: integrations.map(({ title, platform }) => {
-        return { name: title, value: platform }
+        return { name: title, value: `_integration_${platform}` }
       }),
     }
     baseOptions.push(integrationsGroup)
