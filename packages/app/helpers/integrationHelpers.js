@@ -104,17 +104,6 @@ export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpt
 }
 
 
-// SAVE/EDIT INTEGRATIONS
-export const saveIntegration = (integration, link, action = 'add') => {
-  const sanitisedLink = utils.enforceUrlProtocol(link, true)
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('save integration:', integration.platform, `action: ${action}`, `link: ${sanitisedLink}`)
-      resolve({ res: true, error: false })
-    }, 500)
-  })
-}
-
 // INEGRATRION SANITISATION
 // -------------------------
 
@@ -138,5 +127,18 @@ export const testValidIntegration = (url, platform) => {
   const regexExpression = getIntegrationRegex(platform)
   if (!regexExpression) return false
   const reqexTest = new RegExp(regexExpression)
-  return !!url.match(reqexTest)
+  return url.match(reqexTest)
+}
+
+
+// SAVE/EDIT INTEGRATIONS
+export const saveIntegration = (integration, link, action = 'add') => {
+  const integrationRegex = testValidIntegration(link, integration.platform)
+  const accountId = integrationRegex[integrationRegex.length - 1]
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('save integration:', integration.platform, `, action: ${action}`, `platform ID: ${accountId}`)
+      resolve({ res: true, error: false })
+    }, 500)
+  })
 }
