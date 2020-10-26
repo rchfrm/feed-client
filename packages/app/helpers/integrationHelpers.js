@@ -36,7 +36,7 @@ export const getIntegrationInfo = (integration) => {
       return {
         title: 'Facebook',
         baseUrl: 'https://facebook.com/',
-        placeholderUrl: 'https://facebook.com/accountName',
+        placeholderUrl: 'https://facebook.com/<page ID>',
         color: brandColors[platform],
       }
     case 'instagram':
