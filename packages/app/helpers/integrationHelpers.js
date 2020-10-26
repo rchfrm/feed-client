@@ -1,5 +1,6 @@
 import brandColors from '@/constants/brandColors'
 import * as utils from '@/helpers/utils'
+import { platform } from 'chart.js'
 
 export const dummyIntegrations = [
   {
@@ -113,4 +114,30 @@ export const saveIntegration = (integration, link, action = 'add') => {
       resolve({ res: true, error: false })
     }, 500)
   })
+}
+
+// INEGRATRION SANITISATION
+// -------------------------
+
+const getIntegrationRegex = (platform) => {
+  switch (platform) {
+    // https://regexr.com/5et04
+    case 'spotify':
+      return /^(?:(?:(?:https?:)?\/\/)?open.spotify.com\/|spotify:)(track|artist)(?:\/|:)([A-Za-z0-9]+)/
+    // https://regexr.com/5et0m
+    case 'soundcloud':
+      return /^(?:(?:https?:)?\/\/)?(?:soundcloud.com|snd.sc)\/([^/]+)/
+    case 'youtube':
+      return /(https?:\/\/)?(www\.)?youtu((\.be)|(be\..{2,5}))\/((user)|(channel))\//g
+    default:
+      return false
+  }
+}
+
+// TEST FOR VALID INTEGRATION LINK
+export const testValidIntegration = (url, platform) => {
+  const regexExpression = getIntegrationRegex(platform)
+  if (!regexExpression) return false
+  const reqexTest = new RegExp(regexExpression)
+  return !!url.match(reqexTest)
 }
