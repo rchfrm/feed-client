@@ -134,5 +134,4 @@ Here's an example of what the a link will look like:
 
 > www.artistname.com_?utm_source=feed&utm_medium=social_
 
-If you have access to Google Analytics for the website(s) your ads link to, you can view information about the people Feed is sending by going to Acquisition > All Traffic > Source/Medium.`,
 }
