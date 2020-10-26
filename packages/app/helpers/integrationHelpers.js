@@ -123,7 +123,7 @@ const getIntegrationRegex = (platform) => {
   switch (platform) {
     // https://regexr.com/5et04
     case 'spotify':
-      return /^(?:(?:(?:https?:)?\/\/)?open.spotify.com\/|spotify:)(track|artist)(?:\/|:)([A-Za-z0-9]+)/
+      return /^(?:(?:(?:https?:)?\/\/)?open.spotify.com\/|spotify:)(artist)(?:\/|:)([A-Za-z0-9]+)/
     // https://regexr.com/5et0m
     case 'soundcloud':
       return /^(?:(?:https?:)?\/\/)?(?:soundcloud.com|snd.sc)\/([^/]+)/
