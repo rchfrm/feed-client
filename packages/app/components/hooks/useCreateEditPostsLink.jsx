@@ -4,10 +4,15 @@ import useAlertModal from '@/hooks/useAlertModal'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
+import MarkdownText from '@/elements/MarkdownText'
+
 import PostsLinksEditModal from '@/app/PostsLinksEditModal'
 import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 
 import { saveLink, saveFolder } from '@/app/helpers/postsHelpers'
+import { testValidIntegration, saveIntegration } from '@/app/helpers/integrationHelpers'
+
+import copy from '@/app/copy/PostsPageCopy'
 
 import usePostsStore from '@/app/hooks/usePostsStore'
 
@@ -31,9 +36,8 @@ const useCreateEditPostsLink = ({
     return linkIds.includes(defaultLink.id)
   }, [defaultLink.id])
 
-  // FUNCTION TO SAVE LINK
-  const runSaveLink = React.useCallback(async (newLink, action, initialLink) => {
-    setSidePanelLoading(true)
+  // SAVE LINK ON SERVER
+  const saveLinkOnServer = async (newLink, action, initialLink) => {
     const { res, error } = await saveLink(newLink, action)
     // Error
     if (error) {
@@ -44,6 +48,44 @@ const useCreateEditPostsLink = ({
     // Success
     onSave()
     setSidePanelLoading(false)
+  }
+
+  // TEST AS INTEGRATION LINKS
+  const testLinkAsIntegration = (link) => {
+    const platformsToTest = ['spotify', 'soundcloud', 'youtube']
+    return platformsToTest.find((platform) => testValidIntegration(link, platform))
+  }
+
+  // SHOW INTEGRATION OPTION
+  const showIntegrationOptionModal = (newLink, action, initialLink, platform) => {
+    const buttons = [
+      {
+        text: 'Save as Integration',
+        onClick: () => saveIntegration({ platform }, newLink),
+        color: 'green',
+      },
+      {
+        text: 'Save as Link',
+        onClick: () => saveLinkOnServer(newLink, action, initialLink),
+        color: 'black',
+      },
+    ]
+    const children = <MarkdownText markdown={copy.checkSaveAsIntegration(platform)} />
+    showAlert({ children, buttons, onClose: () => setSidePanelLoading(false) })
+  }
+
+  // FUNCTION TO SAVE LINK
+  const runSaveLink = React.useCallback(async (newLink, action, initialLink) => {
+    setSidePanelLoading(true)
+    // Test if link is a valid integration
+    const matchingIntegrationPlatform = action === 'add' ? testLinkAsIntegration(newLink.href) : null
+    // If link is integration,
+    // confirm whether they want to save as integration or link
+    if (matchingIntegrationPlatform) {
+      showIntegrationOptionModal(newLink, action, initialLink, matchingIntegrationPlatform)
+      return
+    }
+    saveLinkOnServer(newLink, action, initialLink)
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSave])
 

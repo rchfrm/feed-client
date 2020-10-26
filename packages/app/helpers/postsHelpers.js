@@ -352,7 +352,7 @@ export const saveLink = (link, action = 'add') => {
   }
   return new Promise((resolve) => {
     setTimeout(() => {
-      console.log('update link:', action)
+      console.log('update link:', link, action)
       resolve({ res: true, error: false })
     }, 500)
   })
