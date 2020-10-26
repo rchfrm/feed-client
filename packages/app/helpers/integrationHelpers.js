@@ -59,7 +59,7 @@ export const getIntegrationInfo = (integration) => {
       return {
         title: 'Spotify',
         baseUrl: 'https://spotify.com/',
-        placeholderUrl: 'https://spotify.com/artist/artistName',
+        placeholderUrl: 'https://spotify.com/artist/<artist ID>',
         color: brandColors[platform],
         musicOnly: true,
         editable: true,
