@@ -53,7 +53,7 @@ const PostsSettings = () => {
         <PostsSettingsSection
           header="Link Tracking"
         >
-          <PostsSettingsLinkTracking utmOn={false} />
+          <PostsSettingsLinkTracking defaultLink={defaultLink} />
         </PostsSettingsSection>
         {/* CONNECTIONS */}
         <section>
