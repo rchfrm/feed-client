@@ -18,6 +18,12 @@ const PostLinksSelect = ({
   const defaultLink = postsStore(state => state.defaultLink)
   const integrations = postsStore(state => state.integrations)
 
+  // STORE INTERNAL LINK
+  const [selectedOptionValue, setSelectedOptionValue] = React.useState(currentLinkId)
+  React.useEffect(() => {
+    setSelectedOptionValue(currentLinkId)
+  }, [currentLinkId])
+
   // CONVERT LINK OPTIONS TO FIT SELECT COMPONENT
   const selectOptions = React.useMemo(() => {
     const baseOptions = linkOptions.reduce((options, { type, links, name, id }) => {
@@ -91,10 +97,11 @@ const PostLinksSelect = ({
             return
           }
           onSelect(value)
+          setSelectedOptionValue(value)
         }}
         name="Choose link"
         options={selectOptions}
-        selectedValue={currentLinkId}
+        selectedValue={selectedOptionValue}
         version="box"
       />
     </div>
