@@ -1,10 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Icon from '@/elements/Icon'
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-import brandColors from '@/constants/brandColors'
+import PlatformIcon from '@/icons/PlatformIcon'
 
 import styles from '@/app/PostItem.module.css'
 
@@ -14,7 +11,6 @@ const PostMetaData = ({
   permalink,
   className,
 }) => {
-  const { bg: color } = brandColors[platform]
   return (
     <p className={[styles.postMeta, className].join(' ')}>
       <a
@@ -22,11 +18,7 @@ const PostMetaData = ({
         target="_blank"
         rel="noopener noreferrer"
       >
-        <Icon
-          version={platform}
-          color={color}
-          width="20"
-        />
+        <PlatformIcon platform={platform} />
         {datePublished}
       </a>
     </p>

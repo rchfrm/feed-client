@@ -3,7 +3,7 @@ import React from 'react'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
 // IMPORT ELEMENTS
-import Icon from '@/elements/Icon'
+import PlatformIcon from '@/icons/PlatformIcon'
 import Spinner from '@/elements/Spinner'
 import Alert, { alertReducer, initialAlertState } from '@/elements/Alert'
 // IMPORT ASSETS
@@ -147,10 +147,9 @@ const PostConnectionsEdit = ({
         )}
 
       <div className={styles['integration-platform-icon']}>
-        <Icon
-          version={platform}
-          color={brandColors[platform] ? brandColors[platform].bg : brandColors.textColor}
-          width={20}
+        <PlatformIcon
+          platform={platform}
+          fill={brandColors[platform] ? brandColors[platform].bg : brandColors.textColor}
         />
       </div>
 

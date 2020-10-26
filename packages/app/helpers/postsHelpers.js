@@ -4,6 +4,7 @@ import slugify from 'slugify'
 
 import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
+import { dummyIntegrations } from '@/app/helpers/integrationHelpers'
 import brandColors from '@/constants/brandColors'
 
 // TRANSLATE PROMOTION NAME
@@ -318,20 +319,7 @@ const dummyLinks = {
       defaultLink: true,
     },
   ],
-  integrations: [
-    {
-      type: 'instagram',
-      href: 'https://instagram.com/houseboat',
-    },
-    {
-      type: 'youtube',
-      href: 'https://youtube.com/houseboat',
-    },
-    {
-      type: 'spotify',
-      href: null,
-    },
-  ],
+  integrations: dummyIntegrations,
 }
 
 
