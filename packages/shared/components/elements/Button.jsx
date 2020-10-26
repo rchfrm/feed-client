@@ -41,14 +41,14 @@ const Button = React.forwardRef(({
   // Define wrapper type based on href or not
   const Wrapper = wrapper || (href ? 'a' : 'button')
   // Handle hrefs
-  const linkType = href ? utils.getLinkType(href) : ''
+  const linkType = href ? utils.getLinkType(href) : null
   const target = linkType === 'external' ? '_blank' : 'self'
-  const rel = linkType === 'external' ? 'noopener noreferrer' : ''
+  const rel = linkType === 'external' ? 'noopener noreferrer' : null
 
   // OUTPUT BUTTON
   return (
     <Wrapper
-      type={type}
+      type={href ? null : type}
       disabled={disabled}
       className={classes.join(' ')}
       onClick={onClick}
@@ -62,9 +62,9 @@ const Button = React.forwardRef(({
       {loading && <Spinner className="button--spinner" />}
       <span className="button--innerText">
         {icon ? (
-          <span className="flex flex-grow">
+          <span className="flex flex-grow text-center items-center w-full">
             {icon}
-            <span className="flex-grow -ml-5">{children}</span>
+            <span className="flex-grow pl-4" style={{ transform: 'translateX(-1rem)' }}>{children}</span>
           </span>
         ) : children}
       </span>

@@ -260,6 +260,7 @@ const dummyLinks = {
       linkIds: [
         'mission-statement',
         'bolognese-recipe',
+        'best-music-ever',
       ],
     },
     {
@@ -305,11 +306,17 @@ const dummyLinks = {
       folderId: 'hippos',
     },
     {
-      type: 'link',
       name: 'Real hero',
       id: 'Real-hero',
       href: 'https://test.com',
       folderId: defaultFolderId,
+    },
+    {
+      name: 'Best music ever with a really long name',
+      id: 'best-music-ever',
+      href: 'https://test/com',
+      folderId: 'hippos',
+      defaultLink: true,
     },
   ],
   integrations: dummyIntegrations,
@@ -344,6 +351,13 @@ export const setDefaultLink = (link) => {
  * @returns {Promise<any>}
  */
 export const saveLink = (link, action = 'add') => {
+  // Disable deleting default link
+  // (you shouldn't be able to do this, but just in case...)
+  if (action === 'delete' && link.defaultLink) {
+    return {
+      error: { message: 'You cannot delete the default link. If you want to remove it please choose another default link.' },
+    }
+  }
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('update link:', action)
@@ -358,7 +372,12 @@ export const saveLink = (link, action = 'add') => {
  * @param {string} action 'edit' | 'delete'
  * @returns {Promise<any>}
  */
-export const saveFolder = (link, action = 'edit') => {
+export const saveFolder = (folder, action = 'edit', isDefaultLinkInFolder) => {
+  if (action === 'delete' && isDefaultLinkInFolder) {
+    return {
+      error: { message: 'You cannot delete the folder that contains the default link. If you want to remove it please choose another default link.' },
+    }
+  }
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('update folder:', action)

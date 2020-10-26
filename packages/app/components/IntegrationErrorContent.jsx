@@ -51,10 +51,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         },
         {
           text: 'Cancel',
-          onClick: () => {
-            closeAlert()
-            dismiss()
-          },
+          onClick: closeAlert,
           color: 'black',
         },
       ]
@@ -80,19 +77,20 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     // Default
     return [{
       text: buttonText || 'Ok',
-      onClick: () => {
-        closeAlert()
-        dismiss()
-      },
+      onClick: closeAlert,
       color: 'black',
     }]
-  }, [closeAlert, dismiss, integrationError, auth])
+  }, [closeAlert, integrationError, auth])
 
   React.useEffect(() => {
     if (showError) {
-      showAlert({ children: alertContents, buttons: alertButtons })
+      showAlert({
+        children: alertContents,
+        buttons: alertButtons,
+        onClose: dismiss,
+      })
     }
-  }, [showError, alertContents, alertButtons, showAlert])
+  }, [showError, alertContents, alertButtons, showAlert, dismiss])
 
   return null
 }

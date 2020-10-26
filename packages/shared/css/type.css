@@ -57,7 +57,7 @@ h3,
 h4,
 .h4 {
   @extend .display;
-  font-size: 1.2em;
+  font-size: 1.2rem;
 }
 
 h5,
@@ -120,7 +120,7 @@ p,
 .h4--text {
   p,
   li {
-    font-size: 1.2em;
+    font-size: 1.2rem;
   }
 }
 

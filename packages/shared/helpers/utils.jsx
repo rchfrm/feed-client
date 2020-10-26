@@ -514,10 +514,10 @@ export const getLinkType = (href) => {
 * @param {number} n
 * @returns {number}
 */
-export const roundToFactorOfTen = (n) => {
+export const roundToFactorOfTen = (n, roundType = 'ceil') => {
   const exponent = Math.round(n).toString().length - 1
   const multiplier = 10 ** exponent
-  const rounded = Math.ceil(n / multiplier) * multiplier
+  const rounded = Math[roundType](n / multiplier) * multiplier
   return rounded
 }
 
@@ -533,7 +533,7 @@ export const getMinBudget = (amount, currencyCode, currencyOffset) => {
   const fbMinFloat = Math.ceil((fbMinBudgetAdjusted + Number.EPSILON) * 100) / 100
   const fbMinRounded = roundToFactorOfTen(fbMinFloat)
   const fbMinBudgetString = formatCurrency(fbMinFloat, currencyCode)
-  const minBudgetFloat = ((amount / 0.9) * 3) / currencyOffset
+  const minBudgetFloat = ((amount / 0.9) * 2) / currencyOffset
   const minBudgetRounded = roundToFactorOfTen(minBudgetFloat)
   const minBudgetString = formatCurrency(minBudgetRounded, currencyCode)
   // Format and return

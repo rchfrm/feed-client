@@ -12,12 +12,15 @@ import TargetingPausedWarning from '@/app/TargetingPausedWarning'
 
 import { getSaveDisabledReason } from '@/app/helpers/targetingHelpers'
 
+import copy from '@/app/copy/targetingPageCopy'
+
 const TargetingSettingsSaveContainer = ({
   disableSaving,
   targetingState,
   saveTargetingSettings,
   cancelUpdateSettings,
   budgetRef,
+  isFirstTimeUser,
   children,
 }) => {
   const { width: windowWidth } = useBrowserStore()
@@ -43,7 +46,7 @@ const TargetingSettingsSaveContainer = ({
     gsap.set(containerEl, positionProps)
   }, [budgetRef, windowWidth])
   // GET SAVE FUNCTION
-  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
+  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings, isFirstTimeUser })
   return (
     <div
       className={[
@@ -55,7 +58,7 @@ const TargetingSettingsSaveContainer = ({
       ref={containerRef}
     >
       {/* PAUSED WARNING */}
-      {!targetingState.status && (
+      {!targetingState.status && !isFirstTimeUser && (
         <TargetingPausedWarning
           className="col-span-12 col-start-1 mb-6"
           hideButton
@@ -70,7 +73,7 @@ const TargetingSettingsSaveContainer = ({
         >
           {disableSaving ? (
             getSaveDisabledReason(disableSaving)
-          ) : 'Save Targeting Settings'}
+          ) : copy.saveSettingsButton(isFirstTimeUser)}
         </Button>
       </div>
       {/* BACK BUTTON */}
@@ -95,6 +98,7 @@ TargetingSettingsSaveContainer.propTypes = {
   saveTargetingSettings: PropTypes.func.isRequired,
   cancelUpdateSettings: PropTypes.func.isRequired,
   budgetRef: PropTypes.object.isRequired,
+  isFirstTimeUser: PropTypes.bool.isRequired,
   children: PropTypes.node,
 }
 

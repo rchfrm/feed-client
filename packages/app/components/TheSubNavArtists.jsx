@@ -7,6 +7,8 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'
 
+import ConnectProfilesButton from '@/app/ConnectProfilesButton'
+
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 import styles from '@/app/TheSubNav.module.css'
@@ -49,7 +51,7 @@ const TheSubNavArtists = ({ className }) => {
   }, [user])
 
   // If no artists, don't show artist links
-  if (sortedArtists.length === 1) return null
+  if (sortedArtists.length === 1) return <ConnectProfilesButton className="mb-5 md:mb-2" />
 
   // Show select component if too many artists
   if (sortedArtists.length > maxArtists) {
@@ -60,6 +62,9 @@ const TheSubNavArtists = ({ className }) => {
           artists={sortedArtists}
           currentArtistId={artistId}
         />
+        <div className="mb-0 md:pt-3 md:mb-3 h4--text">
+          <ConnectProfilesButton />
+        </div>
       </div>
     )
   }
@@ -81,7 +86,10 @@ const TheSubNavArtists = ({ className }) => {
           return (
             <li
               key={id}
-              className={[styles.artistLink, activeClass].join(' ')}
+              className={[
+                styles.artistLink,
+                activeClass,
+              ].join(' ')}
             >
               <a className={styles.artistLink_button} role="button" onClick={() => updateArtist(id)}>
                 <figure className={['overflow-hidden', 'rounded-full', styles.artistLink_image].join(' ')}>
@@ -92,7 +100,13 @@ const TheSubNavArtists = ({ className }) => {
             </li>
           )
         })}
+        <li className="md:hidden pt-3">
+          <ConnectProfilesButton />
+        </li>
       </ul>
+      <div className="hidden md:block pt-5 pb-3">
+        <ConnectProfilesButton />
+      </div>
     </div>
   )
 }

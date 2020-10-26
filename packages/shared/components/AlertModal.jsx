@@ -124,7 +124,7 @@ const AlertModal = () => {
                       className={[
                         'w-full',
                         lastButton ? 'rounded-t-none rounded-b-dialogue' : 'rounded-none',
-                        getBgColor(color),
+                        facebookButton ? null : getBgColor(color),
                       ].join(' ')}
                       onClick={() => {
                         close()

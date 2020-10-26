@@ -27,6 +27,7 @@ const TargetingProgressButton = () => {
     toggleMobileBudget,
     mobileBudgetOpen,
     disableSaving,
+    isFirstTimeUser,
   } = React.useContext(TargetingContext)
   // IS MOUNTED CONST
   const isMounted = React.useRef(true)
@@ -102,7 +103,7 @@ const TargetingProgressButton = () => {
     if (!showButton) return
     if (buttonType === 'saveRecc') return 'Save'
     if (buttonType === 'goToSettings') return 'Next'
-    if (buttonType === 'goToBudget') return 'Set Budget'
+    if (buttonType === 'goToBudget') return 'Set Daily Budget'
   }
   const getSubtitle = React.useCallback((previousSubtitle) => {
     if (!showButton) return
@@ -132,7 +133,7 @@ const TargetingProgressButton = () => {
 
 
   // SAVING RECCOMENDED CAMPAIGN
-  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
+  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings, isFirstTimeUser })
   const saveSelectedRecc = React.useCallback(() => {
     setSelectedCampaignRecc(null)
     saveTargeting('settings', selectedCampaignRecc)

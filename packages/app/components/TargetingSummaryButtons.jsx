@@ -15,9 +15,10 @@ const TargetingSummaryButtons = ({
   saveTargetingSettings,
   togglePauseCampaign,
   disableSaving,
+  isFirstTimeUser,
 }) => {
   // GET SAVING FUNCTION
-  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
+  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings, isFirstTimeUser })
   // SHOW SAVE BUTTON
   const showBudgetSave = React.useMemo(() => {
     return targetingState.budget !== initialTargetingState.budget
@@ -66,7 +67,7 @@ const TargetingSummaryButtons = ({
           {disableSaving ? getSaveDisabledReason(disableSaving) : 'Update Budget'}
         </Button>
       )}
-      {initialTargetingState.status && (
+      {!!initialTargetingState.status && (
         <TargetingPauseButton
           className="ml-auto"
           buttonClass="w-full iphone8:flex:w-auto iphone8:mb-0"
