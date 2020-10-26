@@ -17,6 +17,7 @@ const Button = React.forwardRef(({
   href,
   wrapper,
   icon,
+  label,
   children,
 }, ref) => {
   const versions = version
@@ -56,6 +57,7 @@ const Button = React.forwardRef(({
       rel={href ? rel : ''}
       style={style}
       ref={ref}
+      aria-label={label}
     >
       {loading && <Spinner className="button--spinner" />}
       <span className="button--innerText">
@@ -84,6 +86,7 @@ Button.propTypes = {
   href: PropTypes.string,
   wrapper: PropTypes.string,
   icon: PropTypes.node,
+  label: PropTypes.string,
   children: PropTypes.node.isRequired,
 }
 
@@ -98,6 +101,7 @@ Button.defaultProps = {
   href: null,
   wrapper: '',
   icon: null,
+  label: '',
   onClick: () => {},
 }
 

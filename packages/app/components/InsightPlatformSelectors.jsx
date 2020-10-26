@@ -48,7 +48,8 @@ const InsightPlatformSelectors = ({
     >
       <ShowInsightsButton
         className={[styles.buttonContainer, styles.buttonPill_container].join(' ')}
-        text="+ Add more"
+        text="+"
+        circleButton
       />
     </BaseFilters>
   )
