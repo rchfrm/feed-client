@@ -4,8 +4,11 @@ import PropTypes from 'prop-types'
 import { UserContext } from '@/contexts/UserContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 
+import notificationsStore from '@/app/store/notificationsStore'
+
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'
+import NotificationDot from '@/elements/NotificationDot'
 
 import ConnectProfilesButton from '@/app/ConnectProfilesButton'
 
@@ -13,10 +16,19 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 import styles from '@/app/TheSubNav.module.css'
 
-const ARTIST_SELECT_OPTIONS = ({ currentArtistId, artists, updateArtist }) => {
-  const artistOptions = artists.map(({ id: value, name }) => {
-    return { value, name }
-  })
+const ARTIST_SELECT_OPTIONS = ({
+  currentArtistId,
+  artists,
+  updateArtist,
+  artistsWithNotifications,
+}) => {
+  const artistOptions = React.useMemo(() => {
+    return artists.map(({ id, name: artistName }) => {
+      // Add asterix if Artist has notifcation
+      const name = artistsWithNotifications.includes(id) ? `${artistName} *` : artistName
+      return { value: id, name }
+    })
+  }, [artists, artistsWithNotifications])
 
   const handleChange = (e) => {
     updateArtist(e.target.value)
@@ -46,6 +58,12 @@ const TheSubNavArtists = ({ className }) => {
     storeArtist(artistId)
   }
 
+  // FETCH NOTIFICATIONS from other artists, and remove the current artist
+  const artistsWithNotifications = notificationsStore(state => state.artistsWithNotifications)
+  const otherArtistNotifcations = React.useMemo(() => {
+    return artistsWithNotifications.filter((id) => id !== artistId)
+  }, [artistsWithNotifications, artistId])
+
   const sortedArtists = React.useMemo(() => {
     return artistHelpers.sortArtistsAlphabetically([...allArtists])
   }, [user])
@@ -56,11 +74,15 @@ const TheSubNavArtists = ({ className }) => {
   // Show select component if too many artists
   if (sortedArtists.length > maxArtists) {
     return (
-      <div className={[styles.artistsOuter, styles._selectType, className].join(' ')}>
+      <div className={[styles.artistsOuter, styles._selectType, 'relative', className].join(' ')}>
+        {!!otherArtistNotifcations.length && (
+          <NotificationDot size="medium" style={{ top: '1.5rem', right: '-0.25rem' }} />
+        )}
         <ARTIST_SELECT_OPTIONS
           updateArtist={updateArtist}
           artists={sortedArtists}
           currentArtistId={artistId}
+          artistsWithNotifications={artistsWithNotifications}
         />
         <div className="mb-0 md:pt-3 md:mb-3 h4--text">
           <ConnectProfilesButton />

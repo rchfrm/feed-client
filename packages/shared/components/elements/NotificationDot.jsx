@@ -20,7 +20,10 @@ const NotificationDot = ({
         'bg-red rounded-full',
         className,
       ].join(' ')}
-      style={style}
+      style={{
+        zIndex: 2,
+        ...style,
+      }}
     />
   )
 }
@@ -34,7 +37,7 @@ NotificationDot.propTypes = {
 NotificationDot.defaultProps = {
   size: 'small',
   className: null,
-  style: null,
+  style: {},
 }
 
 
