@@ -324,15 +324,8 @@ const dummyLinks = {
 
 
 // FETCH SAVED LINKS
-export const fetchSavedLinks = (artistId, type) => {
-  console.log(`get links for artist ${artistId}`)
-  return new Promise((resolve) => {
-    if (type === 'dummy') {
-      setTimeout(() => {
-        resolve({ data: dummyLinks })
-      }, 500)
-    }
-  })
+export const fetchSavedLinks = async (artistId) => {
+  return server.fetchSavedLinks(artistId)
 }
 
 

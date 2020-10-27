@@ -249,9 +249,9 @@ export const saveTargetingSettings = async (artistId, payload) => {
 // ----------------
 
 // Fetch artist links
-export const fetchLinks = (artistId) => {
-  const requestUrl = `artists/${artistId}/linkbank`
-  return requestWithCatch('patch', requestUrl)
+export const fetchSavedLinks = (artistId) => {
+  const requestUrl = `/artists/${artistId}/linkbank`
+  return requestWithCatch('get', requestUrl)
 }
 
 // * INTEGRATION ERRORS

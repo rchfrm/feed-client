@@ -2,6 +2,7 @@ import create from 'zustand'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 const initialState = {
   artistId: '',
@@ -51,8 +52,18 @@ const fetchLinks = (set, get) => async (action) => {
   // Set links as loading
   set({ linksLoading: true })
   // Else fetch links from server
-  const { data, error } = await postsHelpers.fetchSavedLinks(artistId, 'dummy')
-  const { links, folders, integrations } = data
+  const { res, error } = await postsHelpers.fetchSavedLinks(artistId)
+  // Handle error
+  if (error) {
+    track({
+      category: 'links',
+      action: 'Error fetching links',
+      description: error.message,
+      error: true,
+    })
+    return { error }
+  }
+  const { links, folders, integrations } = res
   // Format integrations
   const { isMusician } = artist
   const formattedIntegrations = formatAndFilterIntegrations(integrations, isMusician, true)
@@ -70,8 +81,6 @@ const fetchLinks = (set, get) => async (action) => {
     defaultLink,
     linksLoading: false,
   })
-  // Return data
-  return { error }
 }
 
 const [postsStore] = create((set, get) => ({
