@@ -1,7 +1,7 @@
 import create from 'zustand'
 import produce from 'immer'
 
-import { fetchNotifications } from '@/app/helpers/notificationHelpers'
+import { fetchNotifications } from '@/app/helpers/notificationsHelpers'
 
 const initialState = {
   notificationsNew: [],
