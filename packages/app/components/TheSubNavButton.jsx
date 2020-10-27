@@ -68,31 +68,6 @@ const TheSubNavButton = ({
       />
       <p className={styles.buttonTitle}>{navOpen ? 'close' : 'menu'}</p>
     </a>
-    // <button
-    //   id="TheSubNavButton"
-    //   className={[styles.container, className, navOpen ? styles._navOpen : ''].join(' ')}
-    //   onClick={runToggle}
-    // >
-    //   <div className={styles.inner}>
-    //     <div className={styles.frontIcon}>
-    //       <figure className={styles.image}>
-    //         {artistLoading ? (
-    //           <Spinner className={styles.spinner} />
-    //         )
-    //           : (
-    //             <ArtistImage pageId={fbPageId} name={artist.name} />
-    //           )}
-    //       </figure>
-    //     </div>
-    //     <div className={styles.backIcon}>
-    //       {/* Close button */}
-    //       <div className={styles.backIcon_inner}>
-    //         <CloseCircle />
-    //       </div>
-    //     </div>
-    //   </div>
-    //   <p className={styles.buttonTitle}>{navOpen ? 'close' : 'menu'}</p>
-    // </button>
   )
 }
 
