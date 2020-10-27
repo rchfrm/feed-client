@@ -60,7 +60,7 @@ const TheSubNavArtists = ({ className }) => {
 
   // FETCH NOTIFICATIONS from other artists, and remove the current artist
   const artistsWithNotifications = notificationsStore(state => state.artistsWithNotifications)
-  const otherArtistNotifcations = React.useMemo(() => {
+  const otherArtistNotifications = React.useMemo(() => {
     return artistsWithNotifications.filter((id) => id !== artistId)
   }, [artistsWithNotifications, artistId])
 
@@ -75,7 +75,7 @@ const TheSubNavArtists = ({ className }) => {
   if (sortedArtists.length > maxArtists) {
     return (
       <div className={[styles.artistsOuter, styles._selectType, 'relative', className].join(' ')}>
-        {!!otherArtistNotifcations.length && (
+        {!!otherArtistNotifications.length && (
           <NotificationDot size="medium" style={{ top: '1.5rem', right: '-0.25rem' }} />
         )}
         <ARTIST_SELECT_OPTIONS
@@ -105,6 +105,7 @@ const TheSubNavArtists = ({ className }) => {
       <ul className={[styles.artistLinks, 'h4--text'].join(' ')}>
         {resortedArtists.map(({ id, name, facebook_page_id }) => {
           const activeClass = id === artistId ? styles._active : ''
+          const hasNotification = otherArtistNotifications.includes(id)
           return (
             <li
               key={id}
@@ -113,7 +114,10 @@ const TheSubNavArtists = ({ className }) => {
                 activeClass,
               ].join(' ')}
             >
-              <a className={styles.artistLink_button} role="button" onClick={() => updateArtist(id)}>
+              <a className={['relative', styles.artistLink_button].join(' ')} role="button" onClick={() => updateArtist(id)}>
+                {hasNotification && (
+                  <NotificationDot className="ml-8" style={{ top: '0rem', left: '-0.25rem' }} />
+                )}
                 <figure className={['overflow-hidden', 'rounded-full', styles.artistLink_image].join(' ')}>
                   <ArtistImage className="h-auto w-full" pageId={facebook_page_id} />
                 </figure>

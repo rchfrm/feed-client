@@ -29,6 +29,9 @@ export const dummyNotificationsResponse = {
     {
       id: 'AV2mykNXaD0IH7Pi0x0q', // Fat posstum
     },
+    {
+      id: 'xEFh1DcHLu7UoqZFe6qV', // Acid Reign
+    },
   ],
 }
 
