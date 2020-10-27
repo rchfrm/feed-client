@@ -20,8 +20,11 @@ const fetchAndSetNotifications = (set, get) => async (artistId) => {
     }
   }
   // Else fetch notifications from server
-  const { res: notifications, error } = await fetchNotifications(artistId)
-  // And split into old and new
+  const { res, error } = await fetchNotifications(artistId)
+  // Stop here if error
+  if (error) return
+  const { notifications, artistIds } = res
+  // Split notifications into old and new
   const { notificationsNew, notificationsOld } = notifications.reduce((notificationsObj, notification) => {
     const { read } = notification
     return produce(notificationsObj, draftState => {
@@ -35,7 +38,11 @@ const fetchAndSetNotifications = (set, get) => async (artistId) => {
     notificationsNew: [],
     notificationsOld: [],
   })
-  set({ notificationsNew, notificationsOld, artistId })
+  // Get array of artist IDs with notifications
+  const artistsWithNotifications = artistIds.map(({ id }) => id)
+  // SET
+  set({ notificationsNew, notificationsOld, artistsWithNotifications, artistId })
+  // RETURN
   return { notificationsNew, notificationsOld }
 }
 
