@@ -144,7 +144,7 @@
 }
 
 .linkItem {
-  margin-bottom: var(--sp-8);
+  margin-bottom: var(--sp-6);
 
   &:last-child {
     margin-bottom: 0;
