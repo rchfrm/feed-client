@@ -41,7 +41,7 @@ const TheSubNavButton = ({
       className={[className, styles.button].join(' ')}
       aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
     >
-      {hasNotifactions && (
+      {hasNotifactions && !navOpen && (
         <NotificationDot size="medium" style={{ top: '-0.1rem', right: '-0.1rem', zIndex: 3 }} />
       )}
       <FlipContainer
