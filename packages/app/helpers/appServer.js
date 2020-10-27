@@ -1,6 +1,6 @@
 import * as api from '@/helpers/api'
 
-// UTILS
+// * UTILS
 // ------------------
 
 /**
@@ -24,7 +24,7 @@ const requestWithCatch = async (requestType, url, payload = null) => {
   return { res }
 }
 
-// ARTIST
+// * ARTIST
 // ------------------
 
 /**
@@ -58,7 +58,7 @@ export const updatePriorityDSP = async (artistId, priorityDSP, verifyIdToken) =>
   return api.patch(`/artists/${artistId}`, { priority_dsp: priorityDSP }, verifyIdToken)
 }
 
-// DATA INSIGHTS
+// * DATA INSIGHTS
 // -------------------
 
 /**
@@ -208,7 +208,7 @@ export const updateAccessToken = async (artistId, accessToken) => {
 }
 
 
-// TARGETING
+// * TARGETING
 // --------------------------
 
 // Fetch initial settings
@@ -244,7 +244,7 @@ export const saveTargetingSettings = async (artistId, payload) => {
   return requestWithCatch('patch', requestUrl, payload)
 }
 
-// INTEGRATION ERRORS
+
 // * LINKS
 // ----------------
 
@@ -253,6 +253,8 @@ export const fetchLinks = (artistId) => {
   const requestUrl = `artists/${artistId}/linkbank`
   return requestWithCatch('patch', requestUrl)
 }
+
+// * INTEGRATION ERRORS
 // --------------------------
 
 /**
