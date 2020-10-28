@@ -35,7 +35,7 @@ const PostsLinks = ({
     if (!isMounted()) return
     setSidePanelLoading(false)
     if (error) {
-      setErrorFetchingLinks(error)
+      setErrorFetchingLinks({ message: `Error fetching links. ${error.message}` })
     } else {
       setErrorFetchingLinks(null)
     }
