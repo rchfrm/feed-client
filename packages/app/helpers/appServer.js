@@ -274,6 +274,18 @@ export const addLink = (artistId, { name, href, folderId }) => {
   return requestWithCatch('post', requestUrl, payload)
 }
 
+// Delete a link
+/**
+* @param {string} artistId
+* @param {string} linkId
+* @returns {Promise<object>} { res, error }
+*/
+export const deleteLink = (artistId, linkId) => {
+  const requestUrl = `/artists/${artistId}/linkbank?method=delete_link`
+  const payload = { id: linkId }
+  return requestWithCatch('post', requestUrl, payload)
+}
+
 // Add a folder
 /**
 * @param {string} artistId
@@ -286,7 +298,7 @@ export const addFolder = (artistId, { name }) => {
   return requestWithCatch('post', requestUrl, payload)
 }
 
-// Add a folder
+// Delete a folder
 /**
 * @param {string} artistId
 * @param {string} folderId

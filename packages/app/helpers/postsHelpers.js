@@ -293,8 +293,8 @@ export const saveLink = async (artistId, link, action = 'add') => {
       error: { message: 'You cannot delete the default link. If you want to remove it please choose another default link.' },
     }
   }
-  // Add link
-  const { href, name, folderName } = link
+  // ADD link
+  const { href, name, folderName, id: linkId } = link
   const hrefSanitised = utils.enforceUrlProtocol(href)
   let { folderId } = link
   if (action === 'add') {
@@ -307,7 +307,10 @@ export const saveLink = async (artistId, link, action = 'add') => {
     }
     return server.addLink(artistId, { href: hrefSanitised, name, folderId })
   }
-  
+  // DELETE link
+  if (action === 'delete') {
+    return server.deleteLink(artistId, linkId)
+  }
 }
 
 // TEST IF LINK ID IS INTEGRATION
