@@ -249,12 +249,21 @@ export const saveTargetingSettings = async (artistId, payload) => {
 // ----------------
 
 // Fetch artist links
+/**
+* @param {string} artistId
+* @returns {Promise<object>} { res, error }
+*/
 export const fetchSavedLinks = (artistId) => {
   const requestUrl = `/artists/${artistId}/linkbank`
   return requestWithCatch('get', requestUrl)
 }
 
 // Add a link
+/**
+* @param {string} artistId
+* @param {object} link
+* @returns {Promise<object>} { res, error }
+*/
 export const addLink = (artistId, { name, href, folderId }) => {
   const requestUrl = `/artists/${artistId}/linkbank?method=add_link`
   const payload = {
