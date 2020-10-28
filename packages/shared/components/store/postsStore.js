@@ -31,7 +31,10 @@ const formatNestedLinks = (folders) => {
   // Now remove loose links and integrations
   const foldersTidied = folders.filter(({ id }) => id !== defaultFolderId && id !== integrationsFolderId)
   // Return array of folders and loose links
-  return [...foldersTidied, ...looseLinks]
+  return [
+    ...foldersTidied.map((item) => { return { ...item, type: 'folder' } }),
+    ...looseLinks.map((item) => { return { ...item, type: 'link' } }),
+  ]
 }
 
 // Fetch links from server and update store (or return cached links)
@@ -64,11 +67,13 @@ const fetchLinks = (set, get) => async (action) => {
   const formattedIntegrations = formatAndFilterIntegrations(integrations, isMusician, true)
   // Create array of links in folders for display
   const nestedLinks = formatNestedLinks(folders)
+  // Create an array of folder IDs
+  const savedFolders = nestedLinks.filter(({ type }) => type === 'folder').map(({ id }) => id)
   // TODO Get default link
   // const defaultLink = getDefaultLink(folder)
   // Cache links and folders
   set({
-    savedFolders: folders,
+    savedFolders,
     nestedLinks,
     integrations: formattedIntegrations,
     linksLoading: false,
