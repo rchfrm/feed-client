@@ -6,6 +6,7 @@ import useAsyncEffect from 'use-async-effect'
 import Error from '@/elements/Error'
 
 import PostsLinksList from '@/app/PostsLinksList'
+// eslint-disable-next-line
 import PostsLinksIntegrations from '@/app/PostsLinksIntegrations'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
