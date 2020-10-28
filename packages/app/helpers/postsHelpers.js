@@ -268,7 +268,6 @@ export const saveFolder = (artistId, folder, action = 'edit', isDefaultLinkInFol
       error: { message: 'You cannot delete the folder that contains the default link. If you want to remove it please choose another default link.' },
     }
   }
-  console.log('folder', folder)
   // ADD NEW FOLDER
   if (action === 'add') {
     return server.addLink(artistId, folder)
@@ -295,14 +294,15 @@ export const saveLink = async (artistId, link, action = 'add') => {
     }
   }
   // Add link
-  const { href, name, folderId, folderName } = link
+  const { href, name, folderName } = link
+  let { folderId } = link
   if (action === 'add') {
     // If a folder is being added, do that first
     if (folderName) {
       const folder = { name: folderName }
-      const { res, error } = await server.addFolder(artistId, folder)
-      console.log('create fodler error', error)
-      console.log('create folder res', res)
+      const { res: savedFolder, error } = await server.addFolder(artistId, folder)
+      if (error) return { error }
+      folderId = savedFolder.id
     }
     return server.addLink(artistId, { href, name, folderId })
   }

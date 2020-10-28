@@ -28,7 +28,7 @@ const PostsLinksEditModal = ({
   const [hasHrefError, setHasHrefError] = React.useState(false)
   const [showHrefError, setShowHrefError] = React.useState(false)
   React.useEffect(() => {
-    const hasError = !utils.testValidUrl(`https://${linkProps.href}`)
+    const hasError = !utils.testValidUrl(utils.enforceUrlProtocol(linkProps.href))
     setHasHrefError(hasError)
   }, [linkProps.href])
 
@@ -56,6 +56,7 @@ const PostsLinksEditModal = ({
   }, [linkProps, setButtons, saveEnabled])
 
   // SHOW FOLDER OPTION? (hidden if creating link on post)
+  console.log('isPostLink', isPostLink)
   const [showFolderOption, setShowFolderOption] = React.useState(!isPostLink)
   const [savePostLink, setSavePostLink] = React.useState(false)
   React.useEffect(() => {
