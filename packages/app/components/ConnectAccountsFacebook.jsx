@@ -9,7 +9,7 @@ import MarkdownText from '@/elements/MarkdownText'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
 // IMPORT COPY
-import copy from '@/app/copy/ConnectAccountsCopy'
+import copy from '@/app/copy/connectProfilesCopy'
 
 function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
   const { missingScopes, providerIds } = auth
@@ -43,8 +43,10 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
         style={{ alignItems: 'start' }}
       >
         {/* Singup intro text */}
-        {showSignupIntro && (
+        {showSignupIntro ? (
           <MarkdownText className="col-span-6 col-start-1" markdown={copy.signupIntro} />
+        ) : (
+          <MarkdownText className="col-span-6 col-start-1" markdown={copy.connectProfilesIntro} />
         )}
 
         {/* If missing FB permissions, show missing permissions */}
@@ -63,10 +65,8 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
           Continue with Facebook
         </ButtonFacebook>
 
-        <p className={['col-span-6', 'col-start-1'].join(' ')}>
-          <em className="xsmall--p">
-            {copy.smallLegalText}
-          </em>
+        <p className={['xsmall--p', 'col-span-6', 'col-start-1', 'max-w-md'].join(' ')}>
+          {copy.smallLegalText}
         </p>
 
         {/* Singup intro VIDEO */}
