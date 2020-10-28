@@ -34,7 +34,7 @@ const PostsLinksListButtons = ({
         onClick={() => addLink()}
       >
         <PlusIcon style={{ height: '0.75rem' }} fill={brandColors.bgColor} />
-        Add
+        {totalLinks > 0 ? 'Add' : 'Add a link'}
       </Button>
       {/* EDIT */}
       {totalLinks > 0 && (

@@ -24,10 +24,10 @@ const PostsLinks = ({
   const [errorFetchingLinks, setErrorFetchingLinks] = React.useState(null)
   // Set to loading on mount
   React.useEffect(() => {
-    if (!nestedLinks.length) {
+    if (linksLoading) {
       setSidePanelLoading(true)
     }
-  }, [setSidePanelLoading, nestedLinks])
+  }, [setSidePanelLoading, linksLoading])
   // Load links on mount
   useAsyncEffect(async (isMounted) => {
     setSidePanelLoading(true)
@@ -41,7 +41,7 @@ const PostsLinks = ({
     }
   }, [])
 
-  if (!nestedLinks.length && !errorFetchingLinks) return null
+  if (linksLoading && !errorFetchingLinks) return null
 
   return (
     <section>
@@ -56,13 +56,15 @@ const PostsLinks = ({
               useSelectMode={useSelectMode}
             />
           </section>
-          <section>
-            <h3>Integration Links</h3>
-            <PostsLinksIntegrations
-              integrations={integrations}
-              useSelectMode={useSelectMode}
-            />
-          </section>
+          {!!integrations.length && (
+            <section>
+              <h3>Integration Links</h3>
+              <PostsLinksIntegrations
+                integrations={integrations}
+                useSelectMode={useSelectMode}
+              />
+            </section>
+          )}
         </div>
       )}
     </section>

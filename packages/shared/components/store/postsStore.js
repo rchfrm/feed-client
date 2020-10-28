@@ -24,22 +24,14 @@ const getDefaultLink = (links) => {
 
 // * FETCH LINKS
 
-const formatNestedLinks = ({ links, folders }) => {
-  // Nest links into folders
-  const foldersWithLinks = folders.map((folder) => {
-    // Get links that live in the folder
-    const { linkIds } = folder
-    const relatedLinks = linkIds.reduce((allLinks, linkId) => {
-      const folderLinks = links.filter(({ id }) => id === linkId)
-      return [...allLinks, ...folderLinks]
-    }, [])
-    return { ...folder, links: relatedLinks }
-  })
-  // Get links that aren't nested
-  const defaultFolderId = '_default'
-  const looseLinks = links.filter(({ folderId }) => folderId === defaultFolderId)
+const formatNestedLinks = (folders) => {
+  // Get loose links
+  const { defaultFolderId, integrationsFolderId } = postsHelpers
+  const { links: looseLinks } = folders.find(({ id }) => id === defaultFolderId)
+  // Now remove loose links and integrations
+  const foldersTidied = folders.filter(({ id }) => id !== defaultFolderId && id !== integrationsFolderId)
   // Return array of folders and loose links
-  return [...foldersWithLinks, ...looseLinks]
+  return [...foldersTidied, ...looseLinks]
 }
 
 // Fetch links from server and update store (or return cached links)
@@ -55,6 +47,7 @@ const fetchLinks = (set, get) => async (action) => {
   // Else fetch links from server
   const { res, error } = await postsHelpers.fetchSavedLinks(artistId)
   set({ linksLoading: false })
+  console.log('res', res)
   // Handle error
   if (error) {
     track({
@@ -65,23 +58,21 @@ const fetchLinks = (set, get) => async (action) => {
     })
     return { error }
   }
-  const { links, folders, integrations } = res
+  const { folders, integrations = [] } = res
   // Format integrations
   const { isMusician } = artist
   const formattedIntegrations = formatAndFilterIntegrations(integrations, isMusician, true)
   // Create array of links in folders for display
-  const nestedLinks = formatNestedLinks({ links, folders })
-  console.log('nestedLinks', nestedLinks)
-  // Get default link
-  const defaultLink = getDefaultLink(links)
+  const nestedLinks = formatNestedLinks(folders)
+  // TODO Get default link
+  // const defaultLink = getDefaultLink(folder)
   // Cache links and folders
   set({
-    savedLinks: links,
     savedFolders: folders,
     nestedLinks,
     integrations: formattedIntegrations,
-    defaultLink,
     linksLoading: false,
+    // defaultLink,
   })
 }
 
