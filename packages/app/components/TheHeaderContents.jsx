@@ -3,6 +3,7 @@ import React from 'react'
 import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
+import notificationsStore from '@/app/store/notificationsStore'
 // IMPORT ELEMENTS
 import FeedLogo from '@/icons/FeedLogo'
 import TheSubNavButton from '@/app/TheSubNavButton'
@@ -57,6 +58,9 @@ function TheHeaderContents({
     })
   }, [windowWidth, inlinePageTitle])
 
+  // FETCH NOTIFICATIONS
+  const notificationsNew = notificationsStore(state => state.notificationsNew)
+
   return (
     <header className={[
       styles.TheHeader,
@@ -88,6 +92,7 @@ function TheHeaderContents({
       <TheSubNavButton
         toggleSubNav={toggleSubNav}
         navOpen={subNavOpen}
+        hasNotifactions={!!notificationsNew.length}
         className={[styles.subNavButton].join(' ')}
       />
       )}

@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import notificationsStore from '@/app/store/notificationsStore'
+
 import SignOutLink from '@/SignOutLink'
 import ActiveLink from '@/elements/ActiveLink'
 
@@ -21,6 +23,10 @@ const links = [
     title: 'my referral code',
   },
   {
+    href: MYREFERRAL,
+    title: 'my referral code',
+  },
+  {
     href: FAQ,
     title: 'FAQs',
   },
@@ -35,6 +41,21 @@ const links = [
   },
 ]
 
+const NOTIFICATION_LINK_TEXT = ({ title }) => {
+  // FETCH NOTIFICATIONS
+  const notificationsNew = notificationsStore(state => state.notificationsNew)
+  const totalNotifications = notificationsNew.length
+  if (totalNotifications) {
+    return (
+      <>
+        <span className="text-red">{totalNotifications}&nbsp;</span>
+        {title}
+      </>
+    )
+  }
+  return title
+}
+
 const TheSubNavLinks = ({ className }) => {
   return (
     <>
@@ -45,11 +66,12 @@ const TheSubNavLinks = ({ className }) => {
         ].join(' ')}
         >
           {links.map(({ href, title, external }) => {
+            const titleText = title === 'notifications' ? <NOTIFICATION_LINK_TEXT title={title} /> : title
             return (
               <li className={[styles.linkItem].join(' ')} key={href}>
                 {external
-                  ? <a className={styles.a} href={href} target="_blank" rel="noopener noreferrer">{ title }</a>
-                  : <ActiveLink href={href}><a className={styles.a}>{ title }</a></ActiveLink>}
+                  ? <a className={styles.a} href={href} target="_blank" rel="noopener noreferrer">{ titleText }</a>
+                  : <ActiveLink href={href}><a className={styles.a}>{ titleText }</a></ActiveLink>}
               </li>
             )
           })}
