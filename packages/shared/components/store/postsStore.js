@@ -47,12 +47,14 @@ const fetchLinks = (set, get) => async (action) => {
   const { savedLinks, artistId, linksLoading, artist } = get()
   // Stop here if links are already loading
   if (linksLoading) return
+  set({ linksLoading: true })
   // If there already are links and we not force, no need to reset data
   if (savedLinks.length && action !== 'force') return
   // Set links as loading
   set({ linksLoading: true })
   // Else fetch links from server
   const { res, error } = await postsHelpers.fetchSavedLinks(artistId)
+  set({ linksLoading: false })
   // Handle error
   if (error) {
     track({

@@ -18,7 +18,7 @@ import sidePanelStyles from '@/app/SidePanel.module.css'
 const PostsLinks = ({
   useSelectMode,
 }) => {
-  const { fetchLinks, nestedLinks, integrations } = usePostsStore()
+  const { fetchLinks, nestedLinks, integrations, linksLoading } = usePostsStore()
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   // const [savedLinks, setSavedLinks] = React.useState([])
   const [errorFetchingLinks, setErrorFetchingLinks] = React.useState(null)
