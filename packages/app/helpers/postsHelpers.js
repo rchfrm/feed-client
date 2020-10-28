@@ -254,6 +254,7 @@ export const defaultFolderId = '_default'
 const dummyLinks = {
   folders: [
     {
+      type: 'folder',
       name: 'Hippos',
       id: 'hippos',
       linkIds: [
@@ -334,14 +335,6 @@ export const fetchSavedLinks = (artistId, type) => {
   })
 }
 
-// SET NEW DEFAULT LINK
-export const setDefaultLink = (link) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ res: link, error: false })
-    }, 500)
-  })
-}
 
 // SAVE LINK
 /**
@@ -385,15 +378,40 @@ export const saveFolder = (folder, action = 'edit', isDefaultLinkInFolder) => {
   })
 }
 
-// SET LINK TRACKING OPTION
+// TEST IF LINK ID IS INTEGRATION
+const extractLinkIntegration = (linkId) => {
+  const isIntegration = linkId.includes('_integration_')
+  if (!isIntegration) return null
+  return linkId.replace('_integration_', '')
+}
+
+// DEFAULT LINK
 /**
- * @param {boolean} trackingOn
+ * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setLinkTrackingOption = (trackingOn) => {
+export const setDefaultLink = (linkId) => {
+  const linkIntegration = extractLinkIntegration(linkId)
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve({ res: trackingOn, error: false })
-    }, 1000)
+      console.log('set default link:', linkId)
+      resolve({ res: true, error: false })
+    }, 500)
+  })
+}
+
+
+// LINKS ON A POST
+/**
+ * @param {string} linkId
+ * @returns {Promise<any>}
+ */
+export const setPostLink = (linkId) => {
+  const linkIntegration = extractLinkIntegration(linkId)
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('set post link:', linkId)
+      resolve({ res: true, error: false })
+    }, 500)
   })
 }

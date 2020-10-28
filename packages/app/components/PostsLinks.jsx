@@ -30,7 +30,7 @@ const PostsLinks = ({
   // Load links on mount
   useAsyncEffect(async (isMounted) => {
     setSidePanelLoading(true)
-    const { error } = await fetchLinks()
+    const { error } = await fetchLinks() || {}
     if (!isMounted()) return
     setSidePanelLoading(false)
     if (error) {
@@ -50,7 +50,6 @@ const PostsLinks = ({
       ) : (
         <div>
           <section className="mb-10">
-            {/* <h3>Saved Links</h3> */}
             <PostsLinksList
               nestedLinks={nestedLinks}
               useSelectMode={useSelectMode}

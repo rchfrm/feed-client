@@ -10,11 +10,12 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import useBrowserStore from '@/hooks/useBrowserStore'
 
 import PostLinkSummary from '@/app/PostLinkSummary'
-import PostLinkOptions from '@/app/PostLinkOptions'
+import PostLinksSelect from '@/app/PostLinksSelect'
 import PostLinkAddUrl from '@/app/PostLinkAddUrl'
 
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
+import { setPostLink } from '@/app/helpers/postsHelpers'
 
 import styles from '@/app/PostItem.module.css'
 
@@ -136,13 +137,13 @@ const PostItemLink = ({
         </div>
         {/* Link change content */}
         <div className={[styles.postLinkContent, styles.postSection].join(' ')} ref={mainContentEl}>
-          <PostLinkOptions
-            artist={artist}
-            postLinkPlatform={postLinkPlatform}
-            setPostLinkPlatform={setPostLinkPlatform}
-            setAdUrlDialogueOpen={setAdUrlDialogueOpen}
+          <PostLinksSelect
+            selectClassName={styles.linkSelection__select}
+            currentLinkId="bolognese-recipe"
+            onSelect={setPostLink}
+            includeDefaultLink
+            includeAddLinkOption
           />
-
           {/* Show add URL dialogue if triggered */}
           {adUrlDialogueOpen && (
             <PostLinkAddUrl
