@@ -1,4 +1,5 @@
 import produce from 'immer'
+import uniqBy from 'lodash/uniqBy'
 import * as utils from '@/helpers/utils'
 import * as facebookHelpers from '@/app/helpers/facebookHelpers'
 import * as api from '@/helpers/api'
@@ -63,6 +64,10 @@ export const createArtist = async (artist, accessToken, token) => {
   }, token)
 }
 
+const sanitiseDataSources = (dataSources) => {
+  return uniqBy(dataSources, 'name')
+}
+
 /**
  * @param {string} artistId
  * @param {string} [accessToken]
@@ -78,8 +83,9 @@ export const getArtist = async (artistId, accessToken) => {
     .catch((error) => {
       return { error }
     })
+  const sanitisedDataSources = sanitiseDataSources(dataSources)
   // Add data source info to artist
-  artist._embedded = { data_sources: dataSources }
+  artist._embedded = { dataSources: sanitisedDataSources }
   artist.URLs = utils.filterArtistUrls(artist)
   return { artist }
 }
