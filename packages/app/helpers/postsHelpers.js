@@ -295,6 +295,7 @@ export const saveLink = async (artistId, link, action = 'add') => {
   }
   // Add link
   const { href, name, folderName } = link
+  const hrefSanitised = utils.enforceUrlProtocol(href)
   let { folderId } = link
   if (action === 'add') {
     // If a folder is being added, do that first
@@ -304,8 +305,9 @@ export const saveLink = async (artistId, link, action = 'add') => {
       if (error) return { error }
       folderId = savedFolder.id
     }
-    return server.addLink(artistId, { href, name, folderId })
+    return server.addLink(artistId, { href: hrefSanitised, name, folderId })
   }
+  
 }
 
 // TEST IF LINK ID IS INTEGRATION
