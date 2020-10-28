@@ -61,7 +61,7 @@ const useCreateEditPostsLink = ({
     const buttons = [
       {
         text: 'Save as Integration',
-        onClick: () => saveIntegration({ platform }, newLink),
+        onClick: () => saveIntegration({ platform }, newLink.href),
         color: 'green',
       },
       {
