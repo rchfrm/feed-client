@@ -131,11 +131,13 @@ const BaseFilters = ({
   return (
     <div className={['breakout--width'].join(' ')}>
       <div className={['inputLabel__text', styles.label].join(' ')}>
-        {labelText}
-        {/* LABEL TOOLTIP */}
-        {tooltipSlides && (
-          <TooltipButton slides={tooltipSlides} direction={tooltipDirection} />
-        )}
+        <span className="flex items-center">
+          {labelText}
+          {/* LABEL TOOLTIP */}
+          {tooltipSlides && (
+            <TooltipButton slides={tooltipSlides} direction={tooltipDirection} />
+          )}
+        </span>
       </div>
       <div
         ref={containerRef}

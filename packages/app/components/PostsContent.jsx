@@ -22,31 +22,8 @@ const PostsContent = () => {
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
     <div className="relative">
-      {/* REFRESH BUTTON (mobile) */}
-      {refreshPosts && (
-        <div
-          className={[
-            'xs:hidden',
-            'mb-5  -mt-5 xxs:mt-0 minContent:-mt-5',
-          ].join(' ')}
-        >
-          <PostsRefreshButton
-            refreshPosts={refreshPosts}
-            className={[
-              'xs:hidden',
-            ].join(' ')}
-          />
-        </div>
-      )}
-      {/* FILTERS */}
-      <PostsFilters
-        postTypes={postTypes}
-        currentPostType={currentPostType}
-        setCurrentPostType={setCurrentPostType}
-        defaultPostState={allFilter.id}
-      />
       {/* BUTTONS */}
-      <div className="iphone8:flex justify-start mb-4 pt-2">
+      <div className="iphone8:flex justify-start mb-10">
         {/* POST SETTINGS BUTTON */}
         <PostSettingsButton
           className={styles.postsTopButton}
@@ -61,10 +38,18 @@ const PostsContent = () => {
         {refreshPosts && (
           <PostsRefreshButton
             refreshPosts={refreshPosts}
-            className="hidden xs:block ml-auto"
+            className="ml-auto"
+            style={{ transform: 'translateY(5rem)' }}
           />
         )}
       </div>
+      {/* FILTERS */}
+      <PostsFilters
+        postTypes={postTypes}
+        currentPostType={currentPostType}
+        setCurrentPostType={setCurrentPostType}
+        defaultPostState={allFilter.id}
+      />
       {/* LOAD POSTS */}
       {currentPostType && (
         <PostsLoader
