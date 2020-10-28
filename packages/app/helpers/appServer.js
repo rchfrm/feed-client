@@ -274,6 +274,23 @@ export const addLink = (artistId, { name, href, folderId }) => {
   return requestWithCatch('post', requestUrl, payload)
 }
 
+// Edit a link
+/**
+* @param {string} artistId
+* @param {object} link
+* @returns {Promise<object>} { res, error }
+*/
+export const editLink = (artistId, { id, name, href, folderId }) => {
+  const requestUrl = `/artists/${artistId}/linkbank?method=edit_link`
+  const payload = {
+    id,
+    name,
+    href,
+    ...(folderId && { folder_id: folderId }),
+  }
+  return requestWithCatch('post', requestUrl, payload)
+}
+
 // Delete a link
 /**
 * @param {string} artistId

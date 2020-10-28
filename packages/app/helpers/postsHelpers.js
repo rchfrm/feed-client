@@ -307,10 +307,16 @@ export const saveLink = async (artistId, link, action = 'add') => {
     }
     return server.addLink(artistId, { href: hrefSanitised, name, folderId })
   }
+  // EDIT link
+  if (action === 'edit') {
+    console.log('link', link)
+    return server.editLink(artistId, { id: linkId, href: hrefSanitised, name, folderId })
+  }
   // DELETE link
   if (action === 'delete') {
     return server.deleteLink(artistId, linkId)
   }
+  console.error('No action defined in saveLink')
 }
 
 // TEST IF LINK ID IS INTEGRATION
