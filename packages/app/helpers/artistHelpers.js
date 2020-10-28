@@ -85,7 +85,7 @@ export const getArtist = async (artistId, accessToken) => {
     })
   const sanitisedDataSources = sanitiseDataSources(dataSources)
   // Add data source info to artist
-  artist._embedded = { data_sources: sanitisedDataSources }
+  artist._embedded = { dataSources: sanitisedDataSources }
   artist.URLs = utils.filterArtistUrls(artist)
   return { artist }
 }

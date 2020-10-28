@@ -29,7 +29,7 @@ function InsightsContent() {
   // GET AVAILABLE DATA SOURCES
   const availableDataSources = React.useMemo(() => {
     if (!artistId || artistLoading) return []
-    const { _embedded: { data_sources: dataSources } } = artist
+    const { _embedded: { dataSources } } = artist
     const allSources = Object.values(dataSources).map((name) => name)
     return chartHelpers.getAvailableSources(allSources)
   // eslint-disable-next-line
