@@ -249,6 +249,7 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
 // ------------------------
 
 export const defaultFolderId = '_default'
+export const integrationsFolderId = '_integrations'
 
 // * DEV DUMMY LINK
 const dummyLinks = {
