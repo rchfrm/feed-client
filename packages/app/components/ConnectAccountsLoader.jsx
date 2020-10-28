@@ -21,7 +21,7 @@ import * as ROUTES from '@/app/constants/routes'
 import { track } from '@/app/helpers/trackingHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import styles from '@/app/ConnectAccounts.module.css'
-import copy from '@/app/copy/ConnectAccountsCopy'
+import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
   const { type: actionType, payload } = action
