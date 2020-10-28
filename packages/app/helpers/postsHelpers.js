@@ -4,7 +4,6 @@ import slugify from 'slugify'
 
 import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
-import { dummyIntegrations } from '@/app/helpers/integrationHelpers'
 import brandColors from '@/constants/brandColors'
 
 // TRANSLATE PROMOTION NAME
@@ -250,78 +249,6 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
 
 export const defaultFolderId = '_default'
 export const integrationsFolderId = '_integrations'
-
-// * DEV DUMMY LINK
-const dummyLinks = {
-  folders: [
-    {
-      type: 'folder',
-      name: 'Hippos',
-      id: 'hippos',
-      linkIds: [
-        'mission-statement',
-        'bolognese-recipe',
-        'best-music-ever',
-      ],
-    },
-    {
-      type: 'folder',
-      name: 'Shimmerings',
-      id: 'shimmerings',
-      linkIds: [
-        'lonely-pilgrim',
-        'dangerous-supermarket',
-        'love-is-under-the-pavement',
-      ],
-    },
-  ],
-  links: [
-    {
-      name: 'Lonely pilgrim',
-      id: 'lonely-pilgrim',
-      href: 'https://test.com',
-      folderId: 'shimmerings',
-    },
-    {
-      name: 'Dangerous Supermarket',
-      id: 'dangerous-supermarket',
-      href: 'https://test.com',
-      folderId: 'shimmerings',
-    },
-    {
-      name: 'Love is under the pavement at night',
-      id: 'love-is-under-the-pavement',
-      href: 'https://test.com',
-      folderId: 'shimmerings',
-    },
-    {
-      name: 'Mission statement',
-      id: 'mission-statement',
-      href: 'https://test.com',
-      folderId: 'hippos',
-    },
-    {
-      name: 'Bolognese recipe',
-      id: 'bolognese-recipe',
-      href: 'https://test.com',
-      folderId: 'hippos',
-    },
-    {
-      name: 'Real hero',
-      id: 'Real-hero',
-      href: 'https://test.com',
-      folderId: defaultFolderId,
-    },
-    {
-      name: 'Best music ever with a really long name',
-      id: 'best-music-ever',
-      href: 'https://test/com',
-      folderId: 'hippos',
-      defaultLink: true,
-    },
-  ],
-  integrations: dummyIntegrations,
-}
 
 
 // FETCH SAVED LINKS
