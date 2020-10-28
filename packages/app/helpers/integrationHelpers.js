@@ -50,7 +50,7 @@ export const getIntegrationInfo = (integration) => {
       return {
         title: 'Soundcloud',
         baseUrl: 'https://soundcloud.com/',
-        placeholderUrl: 'https://soundcloud.com/accountName',
+        placeholderUrl: 'https://soundcloud.com/< account ID>',
         color: brandColors[platform],
         musicOnly: true,
         editable: true,
@@ -68,7 +68,7 @@ export const getIntegrationInfo = (integration) => {
       return {
         title: 'YouTube',
         baseUrl: 'https://youtube.com/',
-        placeholderUrl: 'https://youtube.com/channel/channelId',
+        placeholderUrl: 'https://youtube.com/channel/<channel ID>',
         color: brandColors[platform],
         editable: true,
       }
@@ -104,12 +104,40 @@ export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpt
 }
 
 
+// INEGRATRION SANITISATION
+// -------------------------
+
+const getIntegrationRegex = (platform) => {
+  switch (platform) {
+    // https://regexr.com/5et04
+    case 'spotify':
+      return /^(?:(?:(?:https?:)?\/\/)?open.spotify.com\/|spotify:)(artist)(?:\/|:)([A-Za-z0-9]+)/
+    // https://regexr.com/5et0m
+    case 'soundcloud':
+      return /^(?:(?:https?:)?\/\/)?(?:soundcloud.com|snd.sc)\/([^/]+)/
+    case 'youtube':
+      return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)([a-zA-Z0-9-]+)/
+    default:
+      return false
+  }
+}
+
+// TEST FOR VALID INTEGRATION LINK
+export const testValidIntegration = (url, platform) => {
+  const regexExpression = getIntegrationRegex(platform)
+  if (!regexExpression) return false
+  const reqexTest = new RegExp(regexExpression)
+  return url.match(reqexTest)
+}
+
+
 // SAVE/EDIT INTEGRATIONS
 export const saveIntegration = (integration, link, action = 'add') => {
-  const sanitisedLink = utils.enforceUrlProtocol(link, true)
+  const integrationRegex = testValidIntegration(link, integration.platform)
+  const accountId = integrationRegex[integrationRegex.length - 1]
   return new Promise((resolve) => {
     setTimeout(() => {
-      console.log('save integration:', integration.platform, `action: ${action}`, `link: ${sanitisedLink}`)
+      console.log('save integration:', integration.platform, `, action: ${action}`, `platform ID: ${accountId}`)
       resolve({ res: true, error: false })
     }, 500)
   })
