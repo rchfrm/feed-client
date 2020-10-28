@@ -274,6 +274,18 @@ export const addLink = (artistId, { name, href, folderId }) => {
   return requestWithCatch('post', requestUrl, payload)
 }
 
+// Add a folder
+/**
+* @param {string} artistId
+* @param {object} folder
+* @returns {Promise<object>} { res, error }
+*/
+export const addFolder = (artistId, { name }) => {
+  const requestUrl = `/artists/${artistId}/linkbank?method=add_folder`
+  const payload = { name }
+  return requestWithCatch('post', requestUrl, payload)
+}
+
 // * INTEGRATION ERRORS
 // --------------------------
 

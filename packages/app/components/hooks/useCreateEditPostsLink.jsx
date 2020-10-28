@@ -96,7 +96,8 @@ const useCreateEditPostsLink = ({
   const runSaveFolder = React.useCallback(async (newFolder, action, initialFolder) => {
     setSidePanelLoading(true)
     const isDefaultLinkInFolder = testFolderContainsDefault(initialFolder)
-    const { res, error } = await saveFolder(newFolder, action, isDefaultLinkInFolder)
+    const { res, error } = await saveFolder(artistId, newFolder, action, isDefaultLinkInFolder)
+    console.log('res', res)
     // Error
     if (error) {
       // eslint-disable-next-line

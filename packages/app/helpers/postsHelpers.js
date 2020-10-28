@@ -257,6 +257,24 @@ export const fetchSavedLinks = async (artistId) => {
 }
 
 
+// SAVE FOLDER
+/**
+ * @param {object} folder
+ * @param {string} action 'edit' | 'delete'
+ * @returns {Promise<any>}
+ */
+export const saveFolder = (artistId, folder, action = 'edit', isDefaultLinkInFolder) => {
+  if (action === 'delete' && isDefaultLinkInFolder) {
+    return {
+      error: { message: 'You cannot delete the folder that contains the default link. If you want to remove it please choose another default link.' },
+    }
+  }
+  console.log('folder', folder)
+  if (action === 'add') {
+    return server.addLink(artistId, folder)
+  }
+}
+
 // SAVE LINK
 /**
  * @param {string} artistId
