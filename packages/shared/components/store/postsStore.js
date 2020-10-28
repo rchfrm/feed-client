@@ -50,7 +50,7 @@ const fetchLinks = (set, get) => async (action) => {
   // Else fetch links from server
   const { res, error } = await postsHelpers.fetchSavedLinks(artistId)
   set({ linksLoading: false })
-  console.log('res', res)
+  console.log('FETCH LINKS', 'res', res)
   // Handle error
   if (error) {
     track({

@@ -33,7 +33,8 @@ const useCreateEditPostsLink = ({
 
   // TEST IF FOLDER CONTAINS DEFAULT LINK
   const testFolderContainsDefault = React.useCallback((folder) => {
-    const { linkIds } = folder
+    const { links } = folder
+    const linkIds = links.map(({ id }) => id)
     return linkIds.includes(defaultLink.id)
   }, [defaultLink.id])
 

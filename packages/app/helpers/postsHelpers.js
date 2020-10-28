@@ -250,7 +250,6 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
 export const defaultFolderId = '_default'
 export const integrationsFolderId = '_integrations'
 
-
 // FETCH SAVED LINKS
 export const fetchSavedLinks = async (artistId) => {
   return server.fetchSavedLinks(artistId)
@@ -270,8 +269,13 @@ export const saveFolder = (artistId, folder, action = 'edit', isDefaultLinkInFol
     }
   }
   console.log('folder', folder)
+  // ADD NEW FOLDER
   if (action === 'add') {
     return server.addLink(artistId, folder)
+  }
+  // DELETE FOLDER
+  if (action === 'delete') {
+    return server.deleteFolder(artistId, folder.id)
   }
 }
 
