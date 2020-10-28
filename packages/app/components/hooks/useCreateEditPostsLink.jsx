@@ -9,6 +9,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import PostsLinksEditModal from '@/app/PostsLinksEditModal'
 import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 
+import postsStore from '@/store/postsStore'
 import { saveLink, saveFolder } from '@/app/helpers/postsHelpers'
 import { testValidIntegration, saveIntegration } from '@/app/helpers/integrationHelpers'
 
@@ -37,14 +38,16 @@ const useCreateEditPostsLink = ({
   }, [defaultLink.id])
 
   // SAVE LINK ON SERVER
+  const artistId = postsStore(state => state.artistId)
   const saveLinkOnServer = async (newLink, action, initialLink) => {
-    const { res, error } = await saveLink(newLink, action)
+    const { res, error } = await saveLink(artistId, newLink, action)
     // Error
     if (error) {
       // eslint-disable-next-line
       openLink(initialLink, error)
       return
     }
+    console.log('res', res)
     // Success
     onSave()
     setSidePanelLoading(false)

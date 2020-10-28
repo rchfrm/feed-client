@@ -254,6 +254,17 @@ export const fetchSavedLinks = (artistId) => {
   return requestWithCatch('get', requestUrl)
 }
 
+// Add a link
+export const addLink = (artistId, { name, href, folderId }) => {
+  const requestUrl = `/artists/${artistId}/linkbank?method=add_link`
+  const payload = {
+    name,
+    href,
+    ...(folderId && { folder_id: folderId }),
+  }
+  return requestWithCatch('post', requestUrl, payload)
+}
+
 // * INTEGRATION ERRORS
 // --------------------------
 

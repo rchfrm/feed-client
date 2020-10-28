@@ -332,11 +332,12 @@ export const fetchSavedLinks = async (artistId) => {
 
 // SAVE LINK
 /**
+ * @param {string} artistId
  * @param {object} link
  * @param {string} action 'add' | 'edit' | 'delete'
  * @returns {Promise<any>}
  */
-export const saveLink = (link, action = 'add') => {
+export const saveLink = async (artistId, link, action = 'add') => {
   // Disable deleting default link
   // (you shouldn't be able to do this, but just in case...)
   if (action === 'delete' && link.defaultLink) {
@@ -344,11 +345,12 @@ export const saveLink = (link, action = 'add') => {
       error: { message: 'You cannot delete the default link. If you want to remove it please choose another default link.' },
     }
   }
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ res: true, error: false })
-    }, 500)
-  })
+  // Add link
+  console.log('save link', link)
+  const { href, name, folderId } = link
+  if (action === 'add') {
+    return server.addLink(artistId, { href, name, folderId })
+  }
 }
 
 // SAVE FOLDER
