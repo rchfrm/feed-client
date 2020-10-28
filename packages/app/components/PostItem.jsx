@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import PropTypes from 'prop-types'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 // IMPORT COMPONENTS
@@ -14,14 +15,14 @@ import PostItemDisableWarning from '@/app/PostItemDisableWarning'
 import styles from '@/app/PostItem.module.css'
 
 const PostItem = ({
-  index,
   post,
   enabled,
   updateLink,
   togglePromotion,
   postToggleSetter,
-  className = '',
-  children = <></>,
+  index,
+  className,
+  children,
 }) => {
   // Errors
   const [error, setError] = React.useState(null)
@@ -123,5 +124,23 @@ const PostItem = ({
     </li>
   )
 }
+
+PostItem.propTypes = {
+  post: PropTypes.object.isRequired,
+  enabled: PropTypes.bool.isRequired,
+  updateLink: PropTypes.func.isRequired,
+  togglePromotion: PropTypes.func.isRequired,
+  postToggleSetter: PropTypes.string,
+  index: PropTypes.number.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node,
+}
+
+PostItem.defaultProps = {
+  postToggleSetter: '',
+  className: null,
+  children: null,
+}
+
 
 export default PostItem
