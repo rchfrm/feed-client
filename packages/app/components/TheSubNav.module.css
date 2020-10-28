@@ -151,7 +151,7 @@
 }
 
 .linkItem {
-  margin-bottom: var(--sp-8);
+  margin-bottom: var(--sp-6);
 
   :global(._active) {
     color: var(--green);
