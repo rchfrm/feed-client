@@ -291,31 +291,17 @@ export const saveLink = async (artistId, link, action = 'add') => {
     }
   }
   // Add link
-  console.log('save link', link)
-  const { href, name, folderId } = link
+  const { href, name, folderId, folderName } = link
   if (action === 'add') {
+    // If a folder is being added, do that first
+    if (folderName) {
+      const folder = { name: folderName }
+      const { res, error } = await server.addFolder(artistId, folder)
+      console.log('create fodler error', error)
+      console.log('create folder res', res)
+    }
     return server.addLink(artistId, { href, name, folderId })
   }
-}
-
-// SAVE FOLDER
-/**
- * @param {object} folder
- * @param {string} action 'edit' | 'delete'
- * @returns {Promise<any>}
- */
-export const saveFolder = (folder, action = 'edit', isDefaultLinkInFolder) => {
-  if (action === 'delete' && isDefaultLinkInFolder) {
-    return {
-      error: { message: 'You cannot delete the folder that contains the default link. If you want to remove it please choose another default link.' },
-    }
-  }
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('update folder:', action)
-      resolve({ res: true, error: false })
-    }, 500)
-  })
 }
 
 // TEST IF LINK ID IS INTEGRATION
@@ -332,6 +318,7 @@ const extractLinkIntegration = (linkId) => {
  */
 export const setDefaultLink = (linkId) => {
   const linkIntegration = extractLinkIntegration(linkId)
+  console.log('linkIntegration', linkIntegration)
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('set default link:', linkId)
@@ -348,6 +335,7 @@ export const setDefaultLink = (linkId) => {
  */
 export const setPostLink = (linkId) => {
   const linkIntegration = extractLinkIntegration(linkId)
+  console.log('linkIntegration', linkIntegration)
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('set post link:', linkId)
