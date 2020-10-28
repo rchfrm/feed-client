@@ -13,6 +13,7 @@ import brandColors from '@/constants/brandColors'
 const PostsLinksListButtons = ({
   editModeOn,
   setEditModeOn,
+  totalLinks,
   className,
 }) => {
   // FUNCTION FOR EDITING LINKS
@@ -36,26 +37,28 @@ const PostsLinksListButtons = ({
         Add
       </Button>
       {/* EDIT */}
-      <Button
-        version="x-small green icon"
-        onClick={() => {
-          setEditModeOn((isOn) => {
-            return !isOn
-          })
-        }}
-      >
-        {editModeOn ? (
-          <>
-            <TickIcon fill={brandColors.bgColor} />
-            Done
-          </>
-        ) : (
-          <>
-            <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
-            Edit
-          </>
-        )}
-      </Button>
+      {totalLinks > 0 && (
+        <Button
+          version="x-small green icon"
+          onClick={() => {
+            setEditModeOn((isOn) => {
+              return !isOn
+            })
+          }}
+        >
+          {editModeOn ? (
+            <>
+              <TickIcon fill={brandColors.bgColor} />
+              Done
+            </>
+          ) : (
+            <>
+              <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
+              Edit
+            </>
+          )}
+        </Button>
+      )}
     </div>
   )
 }
@@ -63,6 +66,7 @@ const PostsLinksListButtons = ({
 PostsLinksListButtons.propTypes = {
   editModeOn: PropTypes.bool.isRequired,
   setEditModeOn: PropTypes.func.isRequired,
+  totalLinks: PropTypes.number.isRequired,
   className: PropTypes.string,
 }
 

@@ -16,6 +16,7 @@ const PostsLinksList = ({
         className="mb-10"
         editModeOn={editModeOn}
         setEditModeOn={setEditModeOn}
+        totalLinks={nestedLinks.length}
       />
       <ul className="text-lg">
         {nestedLinks.map((item) => {
