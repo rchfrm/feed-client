@@ -68,7 +68,7 @@ const fetchLinks = (set, get) => async (action) => {
   // Create array of links in folders for display
   const nestedLinks = formatNestedLinks(folders)
   // Create an array of folder IDs
-  const savedFolders = nestedLinks.filter(({ type }) => type === 'folder').map(({ id }) => id)
+  const savedFolders = nestedLinks.filter(({ type }) => type === 'folder')
   // TODO Get default link
   // const defaultLink = getDefaultLink(folder)
   // Cache links and folders
