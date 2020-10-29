@@ -70,7 +70,7 @@ const PostsLinksEditModal = ({
 
   // HANDLE CHANGE ON FORM FIELDS
   const handleInput = React.useCallback((e, prop, folderSelector) => {
-    // Stop here if selecting new fodler
+    // Stop here if selecting new folder
     if (folderSelector) {
       if (e.target.value === '_newFolder') {
         setCreateNewFolder(true)
@@ -176,8 +176,8 @@ const PostsLinksEditModal = ({
                     className="text-grey-3 -hover--green"
                     role="button"
                     onClick={() => {
-                      const e = { target: { value: link ? link.folderId : '' } }
-                      handleInput(e, 'folderId', true)
+                      const e = { target: { value: link ? link.folder_id : '' } }
+                      handleInput(e, 'folder_id', true)
                     }}
                   >
                     Use existing folder
@@ -186,11 +186,11 @@ const PostsLinksEditModal = ({
               </div>
             ) : (
               <Select
-                handleChange={(e) => handleInput(e, 'folderId', true)}
+                handleChange={(e) => handleInput(e, 'folder_id', true)}
                 name="link-folder"
                 label="Folder"
                 placeholder="Select folder"
-                selectedValue={linkProps.folderId}
+                selectedValue={linkProps.folder_id}
                 options={folderOptions}
               />
             )}
