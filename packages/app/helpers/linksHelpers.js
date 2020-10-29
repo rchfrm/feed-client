@@ -45,11 +45,21 @@ export const afterDeleteLink = ({ oldLink, nestedLinks }) => {
 
 // ADD LINK
 export const afterAddLink = ({ newLink, nestedLinks }) => {
-  const { folder_id: newFolderId } = newLink
+  const { folder_id: newFolderId, folder_name: newFolderName } = newLink
   const newFolderIndex = nestedLinks.findIndex(({ id }) => id === newFolderId)
   return produce(nestedLinks, draftNestedLinks => {
-    // Remove from folder
-    draftNestedLinks[newFolderIndex].links.push(newLink)
+    // Add to folder (if exists)
+    if (newFolderIndex > -1) {
+      draftNestedLinks[newFolderIndex].links.push(newLink)
+      return
+    }
+    // Create new folder
+    const newFolder = {
+      id: newFolderId,
+      name: newFolderName,
+      links: [newLink],
+    }
+    draftNestedLinks.push(newFolder)
   })
 }
 

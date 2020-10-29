@@ -296,16 +296,23 @@ export const saveLink = async (artistId, link, action = 'add') => {
   // ADD link
   const { href, name, folderName, id: linkId } = link
   const hrefSanitised = utils.enforceUrlProtocol(href)
+  const createNewFolder = !!folderName
   let { folderId } = link
   if (action === 'add') {
     // If a folder is being added, do that first
-    if (folderName) {
+    if (createNewFolder) {
       const folder = { name: folderName }
       const { res: savedFolder, error } = await server.addFolder(artistId, folder)
       if (error) return { error }
       folderId = savedFolder.id
     }
-    return server.addLink(artistId, { href: hrefSanitised, name, folderId })
+    const { res, error } = await server.addLink(artistId, { href: hrefSanitised, name, folderId })
+    if (error) return { error }
+    if (createNewFolder) {
+      const newLink = { ...res, folder_name: folderName }
+      return { res: newLink }
+    }
+    return { res }
   }
   // EDIT link
   if (action === 'edit') {
