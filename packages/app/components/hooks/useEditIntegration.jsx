@@ -21,13 +21,19 @@ const useCreateEditPostsLink = ({ onSave = () => {} }) => {
     const { res, error } = await saveIntegration(integration, link, action)
     onSave()
     // Error
-    if (error) return
+    if (error) {
+      // eslint-disable-next-line
+      updateIntegration(integration, action, error)
+      setSidePanelLoading(false)
+      return
+    }
     // Success
     setSidePanelLoading(false)
-  }, [setSidePanelLoading, onSave])
+  // eslint-disable-next-line
+  }, [setSidePanelLoading, onSave, updateIntegration])
 
   // FUNCTION TO OPEN EDIT MODAL
-  const updateIntegration = React.useCallback((integration, action = 'add') => {
+  const updateIntegration = React.useCallback((integration, action = 'add', error) => {
     const { platform, title: plaformTitle } = integration
     const cannotDelete = platform === 'facebook' || platform === 'instagram'
     const buttons = cannotDelete
@@ -58,6 +64,7 @@ const useCreateEditPostsLink = ({ onSave = () => {} }) => {
         action={action}
         runSaveIntegration={runSaveIntegration}
         cannotDelete={cannotDelete}
+        error={error}
       />
     )
     showAlert({ children, buttons })

@@ -6,6 +6,7 @@ import produce from 'immer'
 import useAlertModal from '@/hooks/useAlertModal'
 
 import Input from '@/elements/Input'
+import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/integrationsCopy'
@@ -19,6 +20,7 @@ const IntegrationsEditModal = ({
   action,
   runSaveIntegration,
   cannotDelete,
+  error,
 }) => {
   const { platform, title: platformTitle, placeholderUrl } = integration
   const [link, setLink] = React.useState('')
@@ -73,8 +75,10 @@ const IntegrationsEditModal = ({
       }}
       noValidate
     >
+      <Error error={error} />
       {action === 'add' ? (
         <Input
+          className="mb-5"
           placeholder={placeholderUrl}
           type="url"
           version="box"
@@ -110,6 +114,12 @@ IntegrationsEditModal.propTypes = {
   action: PropTypes.string.isRequired,
   runSaveIntegration: PropTypes.func.isRequired,
   cannotDelete: PropTypes.bool.isRequired,
+  error: PropTypes.object,
 }
+
+IntegrationsEditModal.defaultProps = {
+  error: null,
+}
+
 
 export default IntegrationsEditModal
