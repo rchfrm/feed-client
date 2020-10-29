@@ -105,7 +105,15 @@ const getUpdatedLinks = (set, get) => (action, { newLink, oldLink = {} }) => {
 
 // Update folders
 const getUpdatedFolders = (set, get) => (action, { newFolder, oldFolder }) => {
-
+  const { nestedLinks } = get()
+  // EDIT FOLDER
+  if (action === 'edit') {
+    return linksHelpers.afterEditFolder({ newFolder, oldFolder, nestedLinks })
+  }
+  // DELETE FOLDER
+  if (action === 'delete') {
+    return linksHelpers.afterDeleteFolder({ oldFolder, nestedLinks })
+  }
 }
 
 // Universal update link store

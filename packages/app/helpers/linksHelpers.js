@@ -35,7 +35,7 @@ export const afterDeleteLink = ({ oldLink, nestedLinks }) => {
   const { folder_id: oldFolderId } = oldLink
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
   return produce(nestedLinks, draftNestedLinks => {
-    // Remove from folder
+    // Remove link from folder
     const oldFolderLinks = draftNestedLinks[oldFolderIndex].links
     draftNestedLinks[oldFolderIndex].links = oldFolderLinks.filter(({ id }) => id !== oldLink.id)
   })
@@ -61,3 +61,22 @@ export const afterAddLink = ({ newLink, nestedLinks }) => {
   })
 }
 
+// EDIT FOLDER
+export const afterEditFolder = ({ newFolder, nestedLinks }) => {
+  const { id: folderId } = newFolder
+  const folderIndex = nestedLinks.findIndex(({ id }) => id === folderId)
+  return produce(nestedLinks, draftNestedLinks => {
+    // Edit folder name
+    draftNestedLinks[folderIndex].name = newFolder.name
+  })
+}
+
+// DELETE FOLDER
+export const afterDeleteFolder = ({ oldFolder, nestedLinks }) => {
+  const { id: oldFolderId } = oldFolder
+  const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
+  return produce(nestedLinks, draftNestedLinks => {
+    // Remove folder
+    draftNestedLinks.splice(oldFolderIndex, 1)
+  })
+}

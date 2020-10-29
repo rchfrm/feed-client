@@ -55,6 +55,24 @@ const useCreateEditPostsLink = ({
     setSidePanelLoading(false)
   }
 
+  // SAVE FOLDER ON SERVER
+  const saveFolderOnServer = async (newFolder, action, oldFolder) => {
+    const isDefaultLinkInFolder = testFolderContainsDefault(oldFolder)
+    const { res: savedFolder, error } = await saveFolder(artistId, newFolder, action, isDefaultLinkInFolder)
+    console.log('savedFolder', savedFolder)
+    // Error
+    if (error) {
+      // eslint-disable-next-line
+      openLink(oldFolder, error)
+      return
+    }
+    // Update store
+    updateLinksStore(action, { newFolder: savedFolder, oldFolder })
+    // Success
+    onSave()
+    setSidePanelLoading(false)
+  }
+
   // TEST AS INTEGRATION LINKS
   const testLinkAsIntegration = (link) => {
     const platformsToTest = ['spotify', 'soundcloud', 'youtube']
@@ -90,25 +108,14 @@ const useCreateEditPostsLink = ({
       showIntegrationOptionModal(newLink, action, oldLink, matchingIntegrationPlatform)
       return
     }
-    saveLinkOnServer(newLink, action, oldLink)
+    await saveLinkOnServer(newLink, action, oldLink)
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSave])
 
   // FUNCTION TO SAVE FOLDER
-  const runSaveFolder = React.useCallback(async (newFolder, action, initialFolder) => {
+  const runSaveFolder = React.useCallback(async (newFolder, action, oldFolder) => {
     setSidePanelLoading(true)
-    const isDefaultLinkInFolder = testFolderContainsDefault(initialFolder)
-    const { res, error } = await saveFolder(artistId, newFolder, action, isDefaultLinkInFolder)
-    console.log('res', res)
-    // Error
-    if (error) {
-      // eslint-disable-next-line
-      openLink(initialFolder, error)
-      return
-    }
-    // Success
-    onSave()
-    setSidePanelLoading(false)
+    await saveFolderOnServer(newFolder, action, oldFolder)
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSave, testFolderContainsDefault])
 
