@@ -9,8 +9,10 @@ import MarkdownText from '@/elements/MarkdownText'
 import PostsLinksEditModal from '@/app/PostsLinksEditModal'
 import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 
-import postsStore from '@/store/postsStore'
-import { saveLink, saveFolder } from '@/app/helpers/postsHelpers'
+
+import linksStore from '@/app/store/linksStore'
+import { saveLink, saveFolder } from '@/app/helpers/linksHelpers'
+
 import { testValidIntegration, saveIntegration } from '@/app/helpers/integrationHelpers'
 
 import copy from '@/app/copy/PostsPageCopy'

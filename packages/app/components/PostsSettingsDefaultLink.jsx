@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
 
-import { setDefaultLink } from '@/app/helpers/postsHelpers'
+import { setDefaultLink } from '@/app/helpers/linksHelpers'
 
 const PostsSettingsDefaultLink = ({
   defaultLink,

@@ -12,7 +12,7 @@ import Error from '@/elements/Error'
 import CheckboxButton from '@/elements/CheckboxButton'
 
 import * as utils from '@/helpers/utils'
-import { defaultFolderId } from '@/app/helpers/postsHelpers'
+import { defaultFolderId } from '@/app/helpers/linksHelpers'
 
 const PostsLinksEditModal = ({
   link,

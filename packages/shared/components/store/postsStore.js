@@ -1,11 +1,10 @@
 import create from 'zustand'
 
-import * as postsHelpers from '@/app/helpers/postsHelpers'
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
 
-const { defaultFolderId, integrationsFolderId } = postsHelpers
+const { defaultFolderId, integrationsFolderId } = linksHelpers
 
 const initialState = {
   artistId: '',
@@ -50,7 +49,7 @@ const fetchLinks = (set, get) => async (action) => {
   // Set links as loading
   set({ linksLoading: true })
   // Else fetch links from server
-  const { res, error } = await postsHelpers.fetchSavedLinks(artistId)
+  const { res, error } = await linksHelpers.fetchSavedLinks(artistId)
   set({ linksLoading: false })
   console.log('FETCH LINKS', 'res', res)
   // Handle error

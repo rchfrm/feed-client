@@ -15,7 +15,7 @@ import PostLinkAddUrl from '@/app/PostLinkAddUrl'
 
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
-import { setPostLink } from '@/app/helpers/postsHelpers'
+import { setPostLink } from '@/app/helpers/linksHelpers'
 
 import styles from '@/app/PostItem.module.css'
 

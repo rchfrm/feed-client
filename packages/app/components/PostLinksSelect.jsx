@@ -7,7 +7,7 @@ import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
 import Select from '@/elements/Select'
 
-import { splitLinks } from '@/app/helpers/postsHelpers'
+import { splitLinks } from '@/app/helpers/linksHelpers'
 
 const PostLinksSelect = ({
   currentLinkId,

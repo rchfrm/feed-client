@@ -5,7 +5,7 @@ import PostsLinksListButtons from '@/app/PostsLinksListButtons'
 import PostsLinksFolder from '@/app/PostsLinksFolder'
 import PostsLinksLink from '@/app/PostsLinksLink'
 
-import { splitLinks } from '@/app/helpers/postsHelpers'
+import { splitLinks } from '@/app/helpers/linksHelpers'
 
 const PostsLinksList = ({
   nestedLinks,
