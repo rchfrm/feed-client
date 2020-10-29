@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Select from '@/elements/Select'
+import postsStore from '@/store/postsStore'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
-import postsStore from '@/store/postsStore'
+import Select from '@/elements/Select'
+
+import { splitLinks } from '@/app/helpers/postsHelpers'
 
 const PostLinksSelect = ({
   currentLinkId,
@@ -15,7 +17,6 @@ const PostLinksSelect = ({
   includeAddLinkOption,
 }) => {
   const nestedLinks = postsStore(state => state.nestedLinks)
-  const looseLinks = postsStore(state => state.looseLinks)
   const defaultLink = postsStore(state => state.defaultLink)
   const integrations = postsStore(state => state.integrations)
 
@@ -27,8 +28,9 @@ const PostLinksSelect = ({
 
   // CONVERT LINK OPTIONS TO FIT SELECT COMPONENT
   const selectOptions = React.useMemo(() => {
+    const { looseLinks, folderLinks } = splitLinks(nestedLinks)
     // Add FOLDERS as option group
-    const baseOptions = nestedLinks.reduce((options, { links, name, id }) => {
+    const baseOptions = folderLinks.reduce((options, { links, name, id }) => {
       const groupLinks = links.map(({ name, id }) => {
         return { name, value: id }
       })
@@ -76,7 +78,7 @@ const PostLinksSelect = ({
     // Add other options
     baseOptions.push(otherOptionsGroup)
     return baseOptions
-  }, [nestedLinks, looseLinks, includeDefaultLink, defaultLink, includeAddLinkOption, integrations])
+  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, integrations])
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({

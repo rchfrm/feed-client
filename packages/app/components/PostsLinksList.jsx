@@ -5,15 +5,17 @@ import PostsLinksListButtons from '@/app/PostsLinksListButtons'
 import PostsLinksFolder from '@/app/PostsLinksFolder'
 import PostsLinksLink from '@/app/PostsLinksLink'
 
+import { splitLinks } from '@/app/helpers/postsHelpers'
+
 const PostsLinksList = ({
   nestedLinks,
-  looseLinks,
   useSelectMode,
 }) => {
   const [editModeOn, setEditModeOn] = React.useState(false)
   const mergedLinks = React.useMemo(() => {
-    return [...nestedLinks, ...looseLinks]
-  }, [nestedLinks, looseLinks])
+    const { looseLinks, folderLinks } = splitLinks(nestedLinks)
+    return [...folderLinks, ...looseLinks]
+  }, [nestedLinks])
   return (
     <div>
       {!mergedLinks.length && (
@@ -63,7 +65,6 @@ const PostsLinksList = ({
 
 PostsLinksList.propTypes = {
   nestedLinks: PropTypes.array.isRequired,
-  looseLinks: PropTypes.array.isRequired,
   useSelectMode: PropTypes.bool.isRequired,
 }
 

@@ -15,7 +15,6 @@ const initialState = {
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
-  looseLinks: [],
   integrations: [],
   linksLoading: false,
   togglePromotionGlobal: () => {},
@@ -32,7 +31,7 @@ const formatServerLinks = (folders) => {
   // Get loose links
   const { links: looseLinks } = folders.find(({ id }) => id === defaultFolderId)
   // Now remove loose links and integrations
-  const foldersTidied = folders.filter(({ id }) => id !== defaultFolderId && id !== integrationsFolderId)
+  const foldersTidied = folders.filter(({ id }) => id !== integrationsFolderId)
   // Return array of folders and loose links
   return {
     nestedLinks: foldersTidied.map((item) => { return { ...item, type: 'folder' } }),
@@ -71,7 +70,7 @@ const fetchLinks = (set, get) => async (action) => {
   // Create array of links in folders for display
   const { nestedLinks, looseLinks } = formatServerLinks(folders)
   // Create an array of folder IDs
-  const savedFolders = nestedLinks.filter(({ type }) => type === 'folder')
+  const savedFolders = nestedLinks.filter(({ type, id }) => type === 'folder' && id !== defaultFolderId)
   // TODO Get default link
   // const defaultLink = getDefaultLink(folder)
   // Cache links and folders
@@ -156,7 +155,6 @@ const [postsStore] = create((set, get) => ({
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
-  looseLinks: initialState.looseLinks,
   integrations: initialState.integrations,
   linksLoading: initialState.linksLoading,
   togglePromotionGlobal: initialState.togglePromotionGlobal,

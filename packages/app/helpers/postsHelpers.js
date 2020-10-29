@@ -250,11 +250,11 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
 export const defaultFolderId = '_default'
 export const integrationsFolderId = '_integrations'
 
+
 // FETCH SAVED LINKS
 export const fetchSavedLinks = async (artistId) => {
   return server.fetchSavedLinks(artistId)
 }
-
 
 // SAVE FOLDER
 /**
@@ -388,3 +388,15 @@ export const saveFolder = (link, action = 'edit') => {
     }, 500)
   })
 }
+
+
+// UTILS
+// ------------
+
+// Split links into loose and folders
+export const splitLinks = (nestedLinks) => {
+  const { links: looseLinks } = nestedLinks.find(({ id }) => id === defaultFolderId)
+  const folderLinks = nestedLinks.filter(({ id }) => id !== defaultFolderId)
+  return { looseLinks, folderLinks }
+}
+
