@@ -2,6 +2,7 @@ import create from 'zustand'
 import produce from 'immer'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
+import * as utils from '@/helpers/utils'
 import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
 
@@ -87,36 +88,38 @@ const fetchLinks = (set, get) => async (action) => {
 // * UPDATE STATE
 
 // Update links
-const getUpdatedLinks = (set, get) => (action, { newLink, oldLink }) => {
-  const { nestedLinks, looseLinks } = get()
+const getUpdatedLinks = (set, get) => (action, { newLink, oldLink = {} }) => {
+  const { nestedLinks } = get()
+  const { folder_id: newLinkFolderId, id: linkId } = newLink
+  const { folder_id: oldLinkFolderId } = oldLink
   // EDIT LINK
   if (action === 'edit') {
-    const { folder_id: newLinkFolderId, id: linkId, href, name } = newLink
-    const { folder_id: oldLinkFolderId } = oldLink
     const hasMovedFolder = newLinkFolderId !== oldLinkFolderId
     // Edit link in same folder
     if (!hasMovedFolder) {
-      // EDIT LOOSE LINK
-      if (newLinkFolderId === defaultFolderId) {
-        const newLooseLinks = produce(looseLinks, oldLooseLinks => {
-          const linkIndex = oldLooseLinks.findIndex((link) => link.id === linkId)
-          // Update link
-          oldLooseLinks[linkIndex].name = name
-          oldLooseLinks[linkIndex].href = href
-        })
-        return { looseLinks: newLooseLinks }
-      }
       // EDIT NESTED LINK
       const newNestedLinks = produce(nestedLinks, oldNestedLinks => {
         const folderIndex = oldNestedLinks.findIndex((folder) => folder.id === newLinkFolderId)
         const linkIndex = oldNestedLinks[folderIndex].links.findIndex((link) => link.id === linkId)
         // Update link
-        oldNestedLinks[folderIndex].links[linkIndex].name = name
-        oldNestedLinks[folderIndex].links[linkIndex].href = href
+        oldNestedLinks[folderIndex].links[linkIndex] = newLink
       })
-      return { nestedLinks: newNestedLinks }
+      return newNestedLinks
     }
-    // Edit link in different folder
+    // Edit link in different folder...
+    const { folder_id: oldFolderId } = oldLink
+    const { folder_id: newFolderId } = newLink
+    const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
+    const newFolderIndex = nestedLinks.findIndex(({ id }) => id === newFolderId)
+    // Update nested links
+    const newNestedLinks = produce(nestedLinks, oldNestedLinks => {
+      // Add to new folder
+      const updatedFolder = oldNestedLinks[newFolderIndex].links.push(newLink)
+      oldNestedLinks[newFolderIndex].links = utils.sortArrayByKey(updatedFolder, 'name')
+      const oldFolderLinks = oldNestedLinks[oldFolderIndex].links
+      oldNestedLinks[oldFolderIndex].links = oldFolderLinks.filter(({ id }) => id !== newLink.id)
+    })
+    return newNestedLinks
   }
 }
 
@@ -134,9 +137,8 @@ const updateLinksStore = (set, get) => (action, {
 }) => {
   // LINK
   if (newLink) {
-    const { nestedLinks, looseLinks } = getUpdatedLinks(set, get)(action, { newLink, oldLink })
-    if (nestedLinks) set({ nestedLinks })
-    if (looseLinks) set({ looseLinks })
+    const nestedLinks = getUpdatedLinks(set, get)(action, { newLink, oldLink })
+    set({ nestedLinks })
     return
   }
   // FOLDER
