@@ -93,6 +93,11 @@ const getUpdatedLinks = (set, get) => (action, { newLink, oldLink = {} }) => {
   if (action === 'edit') {
     return linksHelpers.afterEditLink({ newLink, oldLink, nestedLinks })
   }
+  // DELETE LINK
+  console.log('oldLink', oldLink)
+  if (action === 'delete') {
+    return linksHelpers.afterDeleteLink({ oldLink, nestedLinks })
+  }
 }
 
 // Update folders
