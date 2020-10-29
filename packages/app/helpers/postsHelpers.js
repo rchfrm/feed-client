@@ -272,9 +272,13 @@ export const saveFolder = (artistId, folder, action = 'edit', isDefaultLinkInFol
   if (action === 'add') {
     return server.addLink(artistId, folder)
   }
+  // EDIT FOLDER
+  if (action === 'edit') {
+    return server.editFolder(artistId, folder)
+  }
   // DELETE FOLDER
   if (action === 'delete') {
-    return server.deleteFolder(artistId, folder.id)
+    return server.deleteFolder(artistId, folder)
   }
 }
 

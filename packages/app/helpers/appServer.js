@@ -315,16 +315,27 @@ export const addFolder = (artistId, { name }) => {
   return requestWithCatch('post', requestUrl, payload)
 }
 
+// Edit a folder
+/**
+* @param {string} artistId
+* @param {object} folder
+* @returns {Promise<object>} { res, error }
+*/
+export const editFolder = (artistId, { name, id }) => {
+  const requestUrl = `/artists/${artistId}/linkbank?method=edit_folder`
+  const payload = { name, id }
+  return requestWithCatch('post', requestUrl, payload)
+}
+
 // Delete a folder
 /**
 * @param {string} artistId
-* @param {string} folderId
+* @param {object} folder
 * @returns {Promise<object>} { res, error }
 */
-export const deleteFolder = (artistId, folderId) => {
-  console.log('folderId', folderId)
+export const deleteFolder = (artistId, { id }) => {
   const requestUrl = `/artists/${artistId}/linkbank?method=delete_folder`
-  const payload = { id: folderId }
+  const payload = { id }
   return requestWithCatch('post', requestUrl, payload)
 }
 
