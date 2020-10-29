@@ -1,10 +1,9 @@
 import produce from 'immer'
 
-import * as utils from '@/helpers/utils'
-
-// UPDATE STORE AFTER CHANGES
+// * UPDATE STORE AFTER CHANGES
 // --------------------------
 
+// EDIT LINK
 export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
   const { folder_id: newLinkFolderId, id: linkId } = newLink
   const { folder_id: oldFolderId } = oldLink
@@ -12,11 +11,11 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
   // Edit link in same folder
   if (!hasMovedFolder) {
     // EDIT NESTED LINK
-    return produce(nestedLinks, oldNestedLinks => {
-      const folderIndex = oldNestedLinks.findIndex((folder) => folder.id === newLinkFolderId)
-      const linkIndex = oldNestedLinks[folderIndex].links.findIndex((link) => link.id === linkId)
+    return produce(nestedLinks, draftNestedLinks => {
+      const folderIndex = draftNestedLinks.findIndex((folder) => folder.id === newLinkFolderId)
+      const linkIndex = draftNestedLinks[folderIndex].links.findIndex((link) => link.id === linkId)
       // Update link
-      oldNestedLinks[folderIndex].links[linkIndex] = newLink
+      draftNestedLinks[folderIndex].links[linkIndex] = newLink
     })
   }
   // Edit link in different folder...
@@ -24,21 +23,33 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
   const newFolderIndex = nestedLinks.findIndex(({ id }) => id === newFolderId)
   // Update nested links
-  return produce(nestedLinks, oldNestedLinks => {
+  return produce(nestedLinks, draftNestedLinks => {
     // Add to new folder
-    const updatedFolder = oldNestedLinks[newFolderIndex].links.push(newLink)
-    oldNestedLinks[newFolderIndex].links = utils.sortArrayByKey(updatedFolder, 'name')
-    const oldFolderLinks = oldNestedLinks[oldFolderIndex].links
-    oldNestedLinks[oldFolderIndex].links = oldFolderLinks.filter(({ id }) => id !== newLink.id)
+    draftNestedLinks[newFolderIndex].links.push(newLink)
+    const oldFolderLinks = draftNestedLinks[oldFolderIndex].links
+    console.log('oldFolderLinks', oldFolderLinks)
+    draftNestedLinks[oldFolderIndex].links = oldFolderLinks.filter(({ id }) => id !== newLink.id)
   })
 }
 
+// DELETE LINK
 export const afterDeleteLink = ({ oldLink, nestedLinks }) => {
   const { folder_id: oldFolderId } = oldLink
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
-  return produce(nestedLinks, oldNestedLinks => {
+  return produce(nestedLinks, draftNestedLinks => {
     // Remove from folder
-    const oldFolderLinks = oldNestedLinks[oldFolderIndex].links
-    oldNestedLinks[oldFolderIndex].links = oldFolderLinks.filter(({ id }) => id !== oldLink.id)
+    const oldFolderLinks = draftNestedLinks[oldFolderIndex].links
+    draftNestedLinks[oldFolderIndex].links = oldFolderLinks.filter(({ id }) => id !== oldLink.id)
   })
 }
+
+// ADD LINK
+export const afterAddLink = ({ newLink, nestedLinks }) => {
+  const { folder_id: newFolderId } = newLink
+  const newFolderIndex = nestedLinks.findIndex(({ id }) => id === newFolderId)
+  return produce(nestedLinks, draftNestedLinks => {
+    // Remove from folder
+    draftNestedLinks[newFolderIndex].links.push(newLink)
+  })
+}
+

@@ -94,9 +94,12 @@ const getUpdatedLinks = (set, get) => (action, { newLink, oldLink = {} }) => {
     return linksHelpers.afterEditLink({ newLink, oldLink, nestedLinks })
   }
   // DELETE LINK
-  console.log('oldLink', oldLink)
   if (action === 'delete') {
     return linksHelpers.afterDeleteLink({ oldLink, nestedLinks })
+  }
+  // ADD LINK
+  if (action === 'add') {
+    return linksHelpers.afterAddLink({ newLink, nestedLinks })
   }
 }
 
