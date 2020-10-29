@@ -59,8 +59,10 @@ const PostsLinksEditModal = ({
   const [showFolderOption, setShowFolderOption] = React.useState(!isPostLink)
   const [savePostLink, setSavePostLink] = React.useState(false)
   React.useEffect(() => {
-    setShowFolderOption(savePostLink)
-  }, [savePostLink])
+    if (isPostLink) {
+      setShowFolderOption(savePostLink)
+    }
+  }, [isPostLink, savePostLink])
 
 
   // HANDLE CREATING NEW FOLDERS
