@@ -268,18 +268,8 @@ export const saveFolder = (artistId, folder, action = 'edit', isDefaultLinkInFol
       error: { message: 'You cannot delete the folder that contains the default link. If you want to remove it please choose another default link.' },
     }
   }
-  // ADD NEW FOLDER
-  if (action === 'add') {
-    return server.addLink(artistId, folder)
-  }
-  // EDIT FOLDER
-  if (action === 'edit') {
-    return server.editFolder(artistId, folder)
-  }
-  // DELETE FOLDER
-  if (action === 'delete') {
-    return server.deleteFolder(artistId, folder)
-  }
+  // UPDATE FOLDER
+  return server.updateFolder(artistId, folder, action)
 }
 
 // SAVE LINK
@@ -301,16 +291,16 @@ export const saveLink = async (artistId, link, action = 'add') => {
   const { href, name, folderName, id: linkId } = link
   const hrefSanitised = utils.enforceUrlProtocol(href)
   const createNewFolder = !!folderName
-  let { folderId } = link
+  let { folder_id } = link
   if (action === 'add') {
     // If a folder is being added, do that first
     if (createNewFolder) {
       const folder = { name: folderName }
-      const { res: savedFolder, error } = await server.addFolder(artistId, folder)
+      const { res: savedFolder, error } = await server.updateFolder(artistId, folder, 'add')
       if (error) return { error }
-      folderId = savedFolder.id
+      folder_id = savedFolder.id
     }
-    const { res, error } = await server.addLink(artistId, { href: hrefSanitised, name, folderId })
+    const { res, error } = await server.updateLink(artistId, { href: hrefSanitised, name, folder_id }, action)
     if (error) return { error }
     if (createNewFolder) {
       const newLink = { ...res, folder_name: folderName }
@@ -320,12 +310,11 @@ export const saveLink = async (artistId, link, action = 'add') => {
   }
   // EDIT link
   if (action === 'edit') {
-    console.log('link', link)
-    return server.editLink(artistId, { id: linkId, href: hrefSanitised, name, folderId })
+    return server.updateLink(artistId, { id: linkId, href: hrefSanitised, name, folder_id }, action)
   }
   // DELETE link
   if (action === 'delete') {
-    return server.deleteLink(artistId, linkId)
+    return server.updateLink(artistId, { id: linkId }, action)
   }
   console.error('No action defined in saveLink')
 }

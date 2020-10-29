@@ -258,84 +258,39 @@ export const fetchSavedLinks = (artistId) => {
   return requestWithCatch('get', requestUrl)
 }
 
-// Add a link
-/**
-* @param {string} artistId
-* @param {object} link
-* @returns {Promise<object>} { res, error }
-*/
-export const addLink = (artistId, { name, href, folderId }) => {
-  const requestUrl = `/artists/${artistId}/linkbank?method=add_link`
-  const payload = {
-    name,
-    href,
-    ...(folderId && { folder_id: folderId }),
-  }
-  return requestWithCatch('post', requestUrl, payload)
-}
 
-// Edit a link
+// Update link
 /**
 * @param {string} artistId
 * @param {object} link
+* @param {string} action add | edit | delete
 * @returns {Promise<object>} { res, error }
 */
-export const editLink = (artistId, { id, name, href, folderId }) => {
-  const requestUrl = `/artists/${artistId}/linkbank?method=edit_link`
+export const updateLink = (artistId, link, action) => {
+  const method = `${action}_link`
+  const requestUrl = `/artists/${artistId}/linkbank?method=${method}`
+  const { id, name, href, folder_id } = link
   const payload = {
     id,
     name,
     href,
-    ...(folderId && { folder_id: folderId }),
+    ...(folder_id && { folder_id }),
   }
   return requestWithCatch('post', requestUrl, payload)
 }
 
-// Delete a link
-/**
-* @param {string} artistId
-* @param {string} linkId
-* @returns {Promise<object>} { res, error }
-*/
-export const deleteLink = (artistId, linkId) => {
-  const requestUrl = `/artists/${artistId}/linkbank?method=delete_link`
-  const payload = { id: linkId }
-  return requestWithCatch('post', requestUrl, payload)
-}
-
-// Add a folder
+// Update a folder
 /**
 * @param {string} artistId
 * @param {object} folder
+* @param {string} action add | edit | delete
 * @returns {Promise<object>} { res, error }
 */
-export const addFolder = (artistId, { name }) => {
-  const requestUrl = `/artists/${artistId}/linkbank?method=add_folder`
-  const payload = { name }
-  return requestWithCatch('post', requestUrl, payload)
-}
-
-// Edit a folder
-/**
-* @param {string} artistId
-* @param {object} folder
-* @returns {Promise<object>} { res, error }
-*/
-export const editFolder = (artistId, { name, id }) => {
-  const requestUrl = `/artists/${artistId}/linkbank?method=edit_folder`
+export const updateFolder = (artistId, folder, action) => {
+  const method = `${action}_folder`
+  const requestUrl = `/artists/${artistId}/linkbank?method=${method}`
+  const { name, id } = folder
   const payload = { name, id }
-  return requestWithCatch('post', requestUrl, payload)
-}
-
-// Delete a folder
-/**
-* @param {string} artistId
-* @param {object} folder
-* @returns {Promise<object>} { res, error }
-*/
-export const deleteFolder = (artistId, { id }) => {
-  const requestUrl = `/artists/${artistId}/linkbank?method=delete_folder`
-  const payload = { id }
   return requestWithCatch('post', requestUrl, payload)
 }
 
