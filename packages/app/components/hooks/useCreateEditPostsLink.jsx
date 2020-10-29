@@ -15,8 +15,6 @@ import { testValidIntegration, saveIntegration } from '@/app/helpers/integration
 
 import copy from '@/app/copy/PostsPageCopy'
 
-import usePostsStore from '@/app/hooks/usePostsStore'
-
 const useCreateEditPostsLink = ({
   action = 'add',
   itemType = 'link',
@@ -28,8 +26,10 @@ const useCreateEditPostsLink = ({
   // SIDE PANEL CONTEXT
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
 
-  // GET DEFAULT LINK
-  const { defaultLink } = usePostsStore()
+  // READ FROM LINKS STORE
+  const defaultLink = postsStore(state => state.defaultLink)
+  const artistId = postsStore(state => state.artistId)
+  const updateLinksStore = postsStore(state => state.updateLinksStore)
 
   // TEST IF FOLDER CONTAINS DEFAULT LINK
   const testFolderContainsDefault = React.useCallback((folder) => {
@@ -39,16 +39,17 @@ const useCreateEditPostsLink = ({
   }, [defaultLink.id])
 
   // SAVE LINK ON SERVER
-  const artistId = postsStore(state => state.artistId)
-  const saveLinkOnServer = async (newLink, action, initialLink) => {
-    const { res, error } = await saveLink(artistId, newLink, action)
+  const saveLinkOnServer = async (newLink, action, oldLink) => {
+    const { res: savedLink, error } = await saveLink(artistId, newLink, action)
     // Error
     if (error) {
       // eslint-disable-next-line
-      openLink(initialLink, error)
+      openLink(oldLink, error)
       return
     }
-    console.log('res', res)
+    console.log('savedLink', savedLink)
+    // Update store
+    updateLinksStore(action, { newLink: savedLink, oldLink })
     // Success
     onSave()
     setSidePanelLoading(false)
@@ -61,7 +62,7 @@ const useCreateEditPostsLink = ({
   }
 
   // SHOW INTEGRATION OPTION
-  const showIntegrationOptionModal = (newLink, action, initialLink, platform) => {
+  const showIntegrationOptionModal = (newLink, action, oldLink, platform) => {
     const buttons = [
       {
         text: 'Save as Integration',
@@ -70,7 +71,7 @@ const useCreateEditPostsLink = ({
       },
       {
         text: 'Save as Link',
-        onClick: () => saveLinkOnServer(newLink, action, initialLink),
+        onClick: () => saveLinkOnServer(newLink, action, oldLink),
         color: 'black',
       },
     ]
@@ -79,17 +80,17 @@ const useCreateEditPostsLink = ({
   }
 
   // FUNCTION TO SAVE LINK
-  const runSaveLink = React.useCallback(async (newLink, action, initialLink) => {
+  const runSaveLink = React.useCallback(async (newLink, action, oldLink) => {
     setSidePanelLoading(true)
     // Test if link is a valid integration
     const matchingIntegrationPlatform = action === 'add' ? testLinkAsIntegration(newLink.href) : null
     // If link is integration,
     // confirm whether they want to save as integration or link
     if (matchingIntegrationPlatform) {
-      showIntegrationOptionModal(newLink, action, initialLink, matchingIntegrationPlatform)
+      showIntegrationOptionModal(newLink, action, oldLink, matchingIntegrationPlatform)
       return
     }
-    saveLinkOnServer(newLink, action, initialLink)
+    saveLinkOnServer(newLink, action, oldLink)
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSave])
 

@@ -1,4 +1,5 @@
 import create from 'zustand'
+import produce from 'immer'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
@@ -35,7 +36,7 @@ const formatServerLinks = (folders) => {
   // Return array of folders and loose links
   return {
     nestedLinks: foldersTidied.map((item) => { return { ...item, type: 'folder' } }),
-    looseLinks: looseLinks,
+    looseLinks,
   }
 }
 
@@ -84,6 +85,68 @@ const fetchLinks = (set, get) => async (action) => {
   })
 }
 
+// * UPDATE STATE
+
+// Update links
+const getUpdatedLinks = (set, get) => (action, { newLink, oldLink }) => {
+  const { nestedLinks, looseLinks } = get()
+  // EDIT LINK
+  if (action === 'edit') {
+    const { folder_id: newLinkFolderId, id: linkId, href, name } = newLink
+    const { folder_id: oldLinkFolderId } = oldLink
+    const hasMovedFolder = newLinkFolderId !== oldLinkFolderId
+    // Edit link in same folder
+    if (!hasMovedFolder) {
+      // EDIT LOOSE LINK
+      if (newLinkFolderId === defaultFolderId) {
+        const newLooseLinks = produce(looseLinks, oldLooseLinks => {
+          const linkIndex = oldLooseLinks.findIndex((link) => link.id === linkId)
+          // Update link
+          oldLooseLinks[linkIndex].name = name
+          oldLooseLinks[linkIndex].href = href
+        })
+        return { looseLinks: newLooseLinks }
+      }
+      // EDIT NESTED LINK
+      const newNestedLinks = produce(nestedLinks, oldNestedLinks => {
+        const folderIndex = oldNestedLinks.findIndex((folder) => folder.id === newLinkFolderId)
+        const linkIndex = oldNestedLinks[folderIndex].links.findIndex((link) => link.id === linkId)
+        // Update link
+        oldNestedLinks[folderIndex].links[linkIndex].name = name
+        oldNestedLinks[folderIndex].links[linkIndex].href = href
+      })
+      return { nestedLinks: newNestedLinks }
+    }
+    // Edit link in different folder
+  }
+}
+
+// Update folders
+const getUpdatedFolders = (set, get) => (action, { newFolder, oldFolder }) => {
+
+}
+
+// Universal update link store
+const updateLinksStore = (set, get) => (action, {
+  newLink,
+  oldLink,
+  newFolder,
+  oldFolder,
+}) => {
+  // LINK
+  if (newLink) {
+    const { nestedLinks, looseLinks } = getUpdatedLinks(set, get)(action, { newLink, oldLink })
+    if (nestedLinks) set({ nestedLinks })
+    if (looseLinks) set({ looseLinks })
+    return
+  }
+  // FOLDER
+  const nestedLinks = getUpdatedFolders(set, get)(action, { newFolder, oldFolder })
+  set({ nestedLinks })
+}
+
+
+// EXPORT STORE
 const [postsStore] = create((set, get) => ({
   // STATE
   artistId: initialState.artistId,
