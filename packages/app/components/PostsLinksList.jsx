@@ -7,23 +7,27 @@ import PostsLinksLink from '@/app/PostsLinksLink'
 
 const PostsLinksList = ({
   nestedLinks,
+  looseLinks,
   useSelectMode,
 }) => {
   const [editModeOn, setEditModeOn] = React.useState(false)
+  const mergedLinks = React.useMemo(() => {
+    return [...nestedLinks, ...looseLinks]
+  }, [nestedLinks, looseLinks])
   return (
     <div>
-      {!nestedLinks.length && (
+      {!mergedLinks.length && (
         <p className="pb-2 text-lg">You don't have any links saved yet.</p>
       )}
       <PostsLinksListButtons
         className="mb-10"
         editModeOn={editModeOn}
         setEditModeOn={setEditModeOn}
-        totalLinks={nestedLinks.length}
+        totalLinks={mergedLinks.length}
       />
-      {!!nestedLinks.length && (
+      {!!mergedLinks.length && (
         <ul className="text-lg">
-          {nestedLinks.map((item) => {
+          {mergedLinks.map((item) => {
             const { id, links } = item
             const type = links ? 'folder' : 'link'
             // LINK
@@ -59,6 +63,7 @@ const PostsLinksList = ({
 
 PostsLinksList.propTypes = {
   nestedLinks: PropTypes.array.isRequired,
+  looseLinks: PropTypes.array.isRequired,
   useSelectMode: PropTypes.bool.isRequired,
 }
 

@@ -9,6 +9,7 @@ const usePostsStore = () => {
   const savedLinks = postsStore(state => state.savedLinks)
   const savedFolders = postsStore(state => state.savedFolders)
   const nestedLinks = postsStore(state => state.nestedLinks)
+  const looseLinks = postsStore(state => state.looseLinks)
   const integrations = postsStore(state => state.integrations)
   const fetchLinks = postsStore(state => state.fetchLinks)
   const linksLoading = postsStore(state => state.linksLoading)
@@ -26,6 +27,7 @@ const usePostsStore = () => {
     savedLinks,
     savedFolders,
     nestedLinks,
+    looseLinks,
     integrations,
     linksLoading,
     defaultLink,

@@ -14,7 +14,8 @@ const PostLinksSelect = ({
   includeDefaultLink,
   includeAddLinkOption,
 }) => {
-  const linkOptions = postsStore(state => state.nestedLinks)
+  const nestedLinks = postsStore(state => state.nestedLinks)
+  const looseLinks = postsStore(state => state.looseLinks)
   const defaultLink = postsStore(state => state.defaultLink)
   const integrations = postsStore(state => state.integrations)
 
@@ -26,24 +27,24 @@ const PostLinksSelect = ({
 
   // CONVERT LINK OPTIONS TO FIT SELECT COMPONENT
   const selectOptions = React.useMemo(() => {
-    const baseOptions = linkOptions.reduce((options, { type, links, name, id }) => {
-      // Add folder as option group
-      if (type === 'folder') {
-        const groupLinks = links.map(({ name, id }) => {
-          return { name, value: id }
-        })
-        const optionGroup = {
-          type: 'group',
-          name,
-          value: id,
-          options: groupLinks,
-        }
-        return [...options, optionGroup]
+    // Add FOLDERS as option group
+    const baseOptions = nestedLinks.reduce((options, { links, name, id }) => {
+      const groupLinks = links.map(({ name, id }) => {
+        return { name, value: id }
+      })
+      const optionGroup = {
+        type: 'group',
+        name,
+        value: id,
+        options: groupLinks,
       }
-      // Add link as option
-      const option = { name, value: id }
-      return [...options, option]
+      return [...options, optionGroup]
     }, [])
+    // Add LOOSE links
+    const looseLinkOptions = looseLinks.map(({ name, id }) => {
+      return { name, value: id }
+    })
+    baseOptions.push(...looseLinkOptions)
     // Add INTEGRATIONS as group
     const integrationsGroup = {
       type: 'group',
@@ -75,7 +76,7 @@ const PostLinksSelect = ({
     // Add other options
     baseOptions.push(otherOptionsGroup)
     return baseOptions
-  }, [linkOptions, includeDefaultLink, defaultLink, includeAddLinkOption, integrations])
+  }, [nestedLinks, looseLinks, includeDefaultLink, defaultLink, includeAddLinkOption, integrations])
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({

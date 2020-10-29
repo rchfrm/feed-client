@@ -4,6 +4,8 @@ import * as postsHelpers from '@/app/helpers/postsHelpers'
 import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
 
+const { defaultFolderId, integrationsFolderId } = postsHelpers
+
 const initialState = {
   artistId: '',
   isMusician: false,
@@ -12,6 +14,7 @@ const initialState = {
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
+  looseLinks: [],
   integrations: [],
   linksLoading: false,
   togglePromotionGlobal: () => {},
@@ -24,17 +27,16 @@ const getDefaultLink = (links) => {
 
 // * FETCH LINKS
 
-const formatNestedLinks = (folders) => {
+const formatServerLinks = (folders) => {
   // Get loose links
-  const { defaultFolderId, integrationsFolderId } = postsHelpers
   const { links: looseLinks } = folders.find(({ id }) => id === defaultFolderId)
   // Now remove loose links and integrations
   const foldersTidied = folders.filter(({ id }) => id !== defaultFolderId && id !== integrationsFolderId)
   // Return array of folders and loose links
-  return [
-    ...foldersTidied.map((item) => { return { ...item, type: 'folder' } }),
-    ...looseLinks.map((item) => { return { ...item, type: 'link' } }),
-  ]
+  return {
+    nestedLinks: foldersTidied.map((item) => { return { ...item, type: 'folder' } }),
+    looseLinks: looseLinks,
+  }
 }
 
 // Fetch links from server and update store (or return cached links)
@@ -66,7 +68,7 @@ const fetchLinks = (set, get) => async (action) => {
   const { isMusician } = artist
   const formattedIntegrations = formatAndFilterIntegrations(integrations, isMusician, true)
   // Create array of links in folders for display
-  const nestedLinks = formatNestedLinks(folders)
+  const { nestedLinks, looseLinks } = formatServerLinks(folders)
   // Create an array of folder IDs
   const savedFolders = nestedLinks.filter(({ type }) => type === 'folder')
   // TODO Get default link
@@ -75,6 +77,7 @@ const fetchLinks = (set, get) => async (action) => {
   set({
     savedFolders,
     nestedLinks,
+    looseLinks,
     integrations: formattedIntegrations,
     linksLoading: false,
     // defaultLink,
@@ -90,12 +93,14 @@ const [postsStore] = create((set, get) => ({
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
+  looseLinks: initialState.looseLinks,
   integrations: initialState.integrations,
   linksLoading: initialState.linksLoading,
   togglePromotionGlobal: initialState.togglePromotionGlobal,
   // GETTERS
   fetchLinks: fetchLinks(set, get),
   // SETTERS
+  updateLinksStore: updateLinksStore(set, get),
   setTogglePromotionGlobal: (togglePromotionGlobal) => set({ togglePromotionGlobal }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
   init: (artist, action = 'clearLinks') => {
