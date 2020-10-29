@@ -402,7 +402,7 @@ export const saveFolder = (link, action = 'edit') => {
 
 // Split links into loose and folders
 export const splitLinks = (nestedLinks = []) => {
-  const { links: looseLinks } = nestedLinks.find(({ id }) => id === defaultFolderId)
+  const { links: looseLinks } = nestedLinks.find(({ id }) => id === defaultFolderId) || {}
   const folderLinks = nestedLinks.filter(({ id }) => id !== defaultFolderId)
   return { looseLinks, folderLinks }
 }

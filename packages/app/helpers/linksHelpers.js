@@ -10,7 +10,6 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
   const hasMovedFolder = newLinkFolderId !== oldFolderId
   // Edit link in same folder
   if (!hasMovedFolder) {
-    // EDIT NESTED LINK
     return produce(nestedLinks, draftNestedLinks => {
       const folderIndex = draftNestedLinks.findIndex((folder) => folder.id === newLinkFolderId)
       const linkIndex = draftNestedLinks[folderIndex].links.findIndex((link) => link.id === linkId)
@@ -27,7 +26,6 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
     // Add to new folder
     draftNestedLinks[newFolderIndex].links.push(newLink)
     const oldFolderLinks = draftNestedLinks[oldFolderIndex].links
-    console.log('oldFolderLinks', oldFolderLinks)
     draftNestedLinks[oldFolderIndex].links = oldFolderLinks.filter(({ id }) => id !== newLink.id)
   })
 }
