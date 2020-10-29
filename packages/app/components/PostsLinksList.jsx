@@ -46,6 +46,8 @@ const PostsLinksList = ({
               )
             }
             // FOLDER
+            // Don't show if empty
+            if (!links.length) return null
             return (
               <PostsLinksFolder
                 key={id}

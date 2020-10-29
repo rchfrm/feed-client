@@ -31,6 +31,8 @@ const PostLinksSelect = ({
     const { looseLinks, folderLinks } = splitLinks(nestedLinks)
     // Add FOLDERS as option group
     const baseOptions = folderLinks.reduce((options, { links, name, id }) => {
+      // Don't show empty folders
+      if (!links.length) return options
       const groupLinks = links.map(({ name, id }) => {
         return { name, value: id }
       })
