@@ -11,6 +11,7 @@ import { removeProtocolFromUrl } from '@/helpers/utils'
 
 const PostsLinksLink = ({
   link,
+  isDefault,
   editModeOn,
   setEditModeOn,
   useSelectMode,
@@ -67,6 +68,12 @@ const PostsLinksLink = ({
               <LinkIcon />
             </span>
             {link.name}
+            {isDefault && (
+              <span className="flex text-green pl-2 text-sm">
+                <strong className="pr-1" style={{ transform: 'translateY(0.2em)' }}>*</strong>
+                <strong>default link</strong>
+              </span>
+            )}
           </a>
           <a
             className="block pt-1 text-xs text-grey-3"
@@ -88,6 +95,7 @@ const PostsLinksLink = ({
 
 PostsLinksLink.propTypes = {
   link: PropTypes.object.isRequired,
+  isDefault: PropTypes.bool,
   editModeOn: PropTypes.bool.isRequired,
   setEditModeOn: PropTypes.func.isRequired,
   useSelectMode: PropTypes.bool.isRequired,
@@ -96,6 +104,7 @@ PostsLinksLink.propTypes = {
 }
 
 PostsLinksLink.defaultProps = {
+  isDefault: false,
   className: null,
   style: {},
 }
