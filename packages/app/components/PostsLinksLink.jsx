@@ -77,13 +77,11 @@ const PostsLinksLink = ({
           </a>
           <a
             className="block pt-1 text-xs text-grey-3"
-            style={editModeOn ? {
-              // opacity: 0,
-              pointerEvents: 'none',
-            } : null}
-            target="_blank"
-            rel="noreferrer noopener"
-            href={link.href}
+            href={editModeOn ? null : link.href}
+            target={editModeOn ? null : '_blank'}
+            rel={editModeOn ? null : 'noreferrer noopener'}
+            role={editModeOn ? 'button' : null}
+            onClick={editModeOn ? () => editLink(link) : () => {}}
           >
             {removeProtocolFromUrl(link.href)}
           </a>
