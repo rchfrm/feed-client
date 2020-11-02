@@ -1,4 +1,5 @@
 import * as api from '@/helpers/api'
+import { track } from '@/app/helpers/trackingHelpers'
 
 // * UTILS
 // ------------------
@@ -7,10 +8,11 @@ import * as api from '@/helpers/api'
   * @param {string} requestType get | patch | post
   * @param {string} url
   * @param {object} payload
+  * @param {object} trackError { category, action }
   * @returns {Promise<object>} { res, error }
   * * Makes requests  and returns errors as if the request were succesful with an `error.message` key filled out
 */
-const requestWithCatch = async (requestType, url, payload = null) => {
+const requestWithCatch = async (requestType, url, payload = null, trackError) => {
   if (!requestType) return console.error('Please include a request type')
   if (!url) return console.error('Please include a url')
   // eslint-disable-next-line import/namespace
@@ -19,6 +21,16 @@ const requestWithCatch = async (requestType, url, payload = null) => {
   if (res.error) {
     const { error } = res
     const message = typeof error.response === 'object' ? error.response.data.error : error.message
+    // Track error on sentry
+    if (trackError) {
+      const { category, action } = trackError
+      track({
+        category,
+        action,
+        description: message,
+        error: true,
+      })
+    }
     return { error: { message } }
   }
   return { res }
@@ -255,7 +267,11 @@ export const saveTargetingSettings = async (artistId, payload) => {
 */
 export const fetchSavedLinks = (artistId) => {
   const requestUrl = `/artists/${artistId}/linkbank`
-  return requestWithCatch('get', requestUrl)
+  const errorTracking = {
+    category: 'Links',
+    action: 'Fetch saved links',
+  }
+  return requestWithCatch('get', requestUrl, null, errorTracking)
 }
 
 
@@ -276,7 +292,11 @@ export const updateLink = (artistId, link, action) => {
     href,
     ...(folder_id && { folder_id }),
   }
-  return requestWithCatch('post', requestUrl, payload)
+  const errorTracking = {
+    category: 'Links',
+    action: `${action} link`,
+  }
+  return requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
 // Update a folder
@@ -291,7 +311,11 @@ export const updateFolder = (artistId, folder, action) => {
   const requestUrl = `/artists/${artistId}/linkbank?method=${method}`
   const { name, id } = folder
   const payload = { name, id }
-  return requestWithCatch('post', requestUrl, payload)
+  const errorTracking = {
+    category: 'Links',
+    action: `${action} folder`,
+  }
+  return requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
 // * INTEGRATION ERRORS
