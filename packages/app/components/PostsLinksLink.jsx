@@ -7,6 +7,8 @@ import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
 import RadioButton from '@/elements/RadioButton'
 
+import { removeProtocolFromUrl } from '@/helpers/utils'
+
 const PostsLinksLink = ({
   link,
   editModeOn,
@@ -47,28 +49,38 @@ const PostsLinksLink = ({
           </p>
         </div>
       ) : (
-        <a
-          className={[
-            'inline-flex items-baseline',
-            editModeOn ? 'wobble-animation no-underline' : null,
-          ].join(' ')}
-          href={editModeOn ? null : link.href}
-          target={editModeOn ? null : '_blank'}
-          rel={editModeOn ? null : 'noreferrer noopener'}
-          role={editModeOn ? 'button' : null}
-          onClick={editModeOn ? () => editLink(link) : () => {}}
-        >
-          <div
-            className="mr-2"
-            style={{
-              transform: 'translateY(-0.05rem)',
-              ...(editModeOn && { opacity: 0 }),
-            }}
+        <p className="mb-0">
+          <a
+            className={[
+              'inline-flex items-baseline no-underline',
+              editModeOn ? 'wobble-animation' : null,
+            ].join(' ')}
+            role="button"
+            onClick={editModeOn ? () => editLink(link) : () => {}}
           >
-            <LinkIcon />
-          </div>
-          {link.name}
-        </a>
+            <span
+              className="inline-block mr-2"
+              style={{
+                transform: 'translateY(-0.1rem)',
+              }}
+            >
+              <LinkIcon />
+            </span>
+            {link.name}
+          </a>
+          <a
+            className="block pt-1 text-xs text-grey-3"
+            style={editModeOn ? {
+              // opacity: 0,
+              pointerEvents: 'none',
+            } : null}
+            target="_blank"
+            rel="noreferrer noopener"
+            href={link.href}
+          >
+            {removeProtocolFromUrl(link.href)}
+          </a>
+        </p>
       )}
     </li>
   )
