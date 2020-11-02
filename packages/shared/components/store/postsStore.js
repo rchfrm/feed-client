@@ -2,7 +2,6 @@ import create from 'zustand'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
-import { track } from '@/app/helpers/trackingHelpers'
 
 const { defaultFolderId, integrationsFolderId } = linksHelpers
 
@@ -54,12 +53,6 @@ const fetchLinks = (set, get) => async (action) => {
   console.log('FETCH LINKS', 'res', res)
   // Handle error
   if (error) {
-    track({
-      category: 'links',
-      action: 'Error fetching links',
-      description: error.message,
-      error: true,
-    })
     return { error }
   }
   const { folders, integrations = [] } = res
