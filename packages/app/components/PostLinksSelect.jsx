@@ -48,7 +48,9 @@ const PostLinksSelect = ({
     const looseLinkOptions = looseLinks.map(({ name, id }) => {
       return { name, value: id }
     })
-    baseOptions.push(...looseLinkOptions)
+    if (looseLinkOptions.length) {
+      baseOptions.unshift(...looseLinkOptions)
+    }
     // Add INTEGRATIONS as group
     const integrationsGroup = {
       type: 'group',
