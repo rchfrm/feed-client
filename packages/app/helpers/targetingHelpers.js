@@ -41,9 +41,11 @@ export const calcMinBudget = (minBudgetInfo, type) => {
   } = minBudgetInfo
   const {
     fbMinFloat,
+    fbMinRounded,
     minBudgetRounded,
   } = utils.getMinBudget(amount, currencyCode, currencyOffset)
   if (type === 'fbMin') return fbMinFloat * currencyOffset
+  if (type === 'fbMinRounded') return fbMinRounded * currencyOffset
   return minBudgetRounded * currencyOffset
 }
 
@@ -81,22 +83,21 @@ export const calcBudgetSliderConfig = (fbMin, minHardBudget, initialBudget) => {
 export const calcMinReccBudget = ({ minBudgetInfo, locationOptions }) => {
   const cityUnit = 0.25
   const countryUnit = 1
-  const fbMin = calcMinBudget(minBudgetInfo, 'fbMin')
-  const fbMinRound = utils.roundToFactorOfTen(fbMin)
-  const baseBudget = calcMinBudget(minBudgetInfo, 'hard')
+  const fbMinRounded = calcMinBudget(minBudgetInfo, 'fbMinRounded')
+  const baseBudget = calcMinBudget(minBudgetInfo, 'base')
   const locationOptionsArray = Object.values(locationOptions)
   const minRecc = locationOptionsArray.reduce((budget, { selected: countrySelected, totalCitiesSelected }, index) => {
     if (countrySelected) {
       // Ignore the first country
       if (index !== 0) {
-        budget += (fbMinRound * countryUnit)
+        budget += (fbMinRounded * countryUnit)
       }
       return budget
     }
     const cappedCities = Math.min(totalCitiesSelected, 4)
-    budget += (fbMinRound * (cityUnit * cappedCities))
+    budget += (fbMinRounded * (cityUnit * cappedCities))
     return budget
-  }, baseBudget)
+  }, baseBudget + fbMinRounded)
   return minRecc
 }
 
