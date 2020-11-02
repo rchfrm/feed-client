@@ -204,31 +204,91 @@ export const sanitiseArtistAccountUrls = (artistAccounts) => {
   })
 }
 
-
+// https://developers.facebook.com/tools/explorer/145634995501895/?method=GET&path=fb_page_categories&version=v8.0
 export const musicianCategories = [
-  'Musician',
-  'Musician/Band',
-  'Musician/band',
-  'Band',
-  'Orchestra',
-  'Producer',
-  'Artist',
-  'Record label',
-  'Music',
-  'Album',
-  'Choir',
-  'Music award',
-  'Music chart',
-  'Music video',
-  'Musical genre',
-  'Playlist',
-  'Podcast',
-  'Record label',
-  'Song',
-  'Symphony',
-  'Music production studio',
-  'Music school',
+  {
+    name: 'Musician',
+    id: 1335670856447673,
+  },
+  {
+    name: 'Musician/Band',
+    id: 180164648685982,
+  },
+  {
+    name: 'Band',
+    id: 792007097567368,
+  },
+  {
+    name: 'Orchestra',
+    id: 103436486409265,
+  },
+  {
+    name: 'Producer',
+    id: 1108,
+  },
+  {
+    name: 'Artist',
+    id: 1601,
+  },
+  {
+    name: 'Record label',
+    id: 1211,
+  },
+  {
+    name: 'Album',
+    id: 1200,
+  },
+  {
+    name: 'Choir',
+    id: 1664274330313158,
+  },
+  {
+    name: 'Music award',
+    id: 1212,
+  },
+  {
+    name: 'Music chart',
+    id: 1213,
+  },
+  {
+    name: 'Music video',
+    id: 1207,
+  },
+  {
+    name: 'Musical genre',
+    id: 1203,
+  },
+  {
+    name: 'Playlist',
+    id: 1206,
+  },
+  {
+    name: 'Podcast',
+    id: 627651640670228,
+  },
+  {
+    name: 'Record label',
+    id: 1211,
+  },
+  {
+    name: 'Song',
+    id: 1201,
+  },
+  {
+    name: 'Symphony',
+    id: 181815448531059,
+  },
+  {
+    name: 'Music production studio',
+    id: 189483194405517,
+  },
+  {
+    name: 'Music school',
+    id: 186983191324114,
+  },
 ]
+
+
 
 /**
  * Receives array of artist category objects and
