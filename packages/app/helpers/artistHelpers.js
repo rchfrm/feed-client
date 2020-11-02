@@ -297,7 +297,12 @@ export const musicianCategories = [
  * @returns {boolean}
  */
 export const testIfMusician = (artistCategories = []) => {
-  return artistCategories.some(({ name }) => musicianCategories.includes(name))
+  const isMusician = artistCategories.some(({ id }) => {
+    return musicianCategories.find(({ id: categoryId }) => {
+      return id === categoryId.toString()
+    })
+  })
+  return isMusician
 }
 
 /**
