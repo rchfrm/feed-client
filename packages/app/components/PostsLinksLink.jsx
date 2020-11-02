@@ -1,13 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import linksStore from '@/app/store/linksStore'
+
 import LinkIcon from '@/icons/LinkIcon'
+import TrashIcon from '@/icons/TrashIcon'
+import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
 import RadioButton from '@/elements/RadioButton'
 
 import { removeProtocolFromUrl } from '@/helpers/utils'
+import { saveLink } from '@/app/helpers/linksHelpers'
+import brandColors from '@/constants/brandColors'
 
 const PostsLinksLink = ({
   link,
@@ -24,6 +30,19 @@ const PostsLinksLink = ({
     itemType: 'link',
     onSave: () => setEditModeOn(false),
   })
+
+  // DELETE LINK
+  const { setSidePanelLoading } = React.useContext(SidePanelContext)
+  const artistId = linksStore(state => state.artistId)
+  const updateLinksStore = linksStore(state => state.updateLinksStore)
+  // Function for deleting link
+  const deleteLink = async () => {
+    const action = 'delete'
+    setSidePanelLoading(true)
+    const { res: savedLink, error } = await saveLink(artistId, link, action)
+    setSidePanelLoading(false)
+    updateLinksStore(action, { newLink: savedLink, oldLink: link })
+  }
 
   return (
     <li
@@ -50,42 +69,56 @@ const PostsLinksLink = ({
           </p>
         </div>
       ) : (
-        <p className="mb-0">
-          <a
-            className={[
-              'inline-flex items-baseline no-underline',
-              editModeOn ? 'wobble-animation' : null,
-            ].join(' ')}
-            role="button"
-            onClick={editModeOn ? () => editLink(link) : () => {}}
-          >
-            <span
-              className="inline-block mr-2"
-              style={{
-                transform: 'translateY(-0.1rem)',
-              }}
+        <div className="mb-0 flex items-baseline">
+          <div>
+            {/* LINK TITLE */}
+            <a
+              className={[
+                'inline-flex items-baseline no-underline',
+                editModeOn ? 'wobble-animation' : null,
+              ].join(' ')}
+              role="button"
+              onClick={editModeOn ? () => editLink(link) : () => {}}
             >
-              <LinkIcon />
-            </span>
-            {link.name}
-            {isDefault && (
-              <span className="flex text-green pl-2 text-sm">
-                <strong className="pr-1" style={{ transform: 'translateY(0.2em)' }}>*</strong>
-                <strong>default link</strong>
+              <span
+                className="inline-block mr-2"
+                style={{
+                  transform: 'translateY(-0.1rem)',
+                }}
+              >
+                <LinkIcon />
               </span>
-            )}
-          </a>
-          <a
-            className="block pt-1 text-xs text-grey-3"
-            href={editModeOn ? null : link.href}
-            target={editModeOn ? null : '_blank'}
-            rel={editModeOn ? null : 'noreferrer noopener'}
-            role={editModeOn ? 'button' : null}
-            onClick={editModeOn ? () => editLink(link) : () => {}}
-          >
-            {removeProtocolFromUrl(link.href)}
-          </a>
-        </p>
+              {link.name}
+              {isDefault && (
+                <span className="flex text-green pl-2 text-sm">
+                  <strong className="pr-1" style={{ transform: 'translateY(0.2em)' }}>*</strong>
+                  <strong>default link</strong>
+                </span>
+              )}
+            </a>
+            {/* LINK PREVIEW */}
+            <a
+              className="block pt-1 text-xs text-grey-3"
+              href={editModeOn ? null : link.href}
+              target={editModeOn ? null : '_blank'}
+              rel={editModeOn ? null : 'noreferrer noopener'}
+              role={editModeOn ? 'button' : null}
+              onClick={editModeOn ? () => editLink(link) : () => {}}
+            >
+              {removeProtocolFromUrl(link.href)}
+            </a>
+          </div>
+          {/* DELETE BUTTON */}
+          {!isDefault && editModeOn && (
+            <a
+              className="text-sm text-red no-underline ml-4 pr-6 pt-3 -mt-3"
+              role="button"
+              onClick={deleteLink}
+            >
+              <TrashIcon className="h-3 w-auto" fill={brandColors.red} />
+            </a>
+          )}
+        </div>
       )}
     </li>
   )
