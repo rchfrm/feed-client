@@ -101,7 +101,8 @@ const extractLinkIntegration = (linkId) => {
  * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setDefaultLink = (linkId) => {
+export const setDefaultLink = (link) => {
+  const { id: linkId } = link
   const linkIntegration = extractLinkIntegration(linkId)
   console.log('linkIntegration', linkIntegration)
   return new Promise((resolve) => {

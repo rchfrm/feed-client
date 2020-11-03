@@ -11,7 +11,7 @@ import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 
 
 import linksStore from '@/app/store/linksStore'
-import { saveLink, saveFolder } from '@/app/helpers/linksHelpers'
+import { saveLink, saveFolder, setDefaultLink } from '@/app/helpers/linksHelpers'
 
 import { testValidIntegration, saveIntegration } from '@/app/helpers/integrationHelpers'
 
@@ -32,6 +32,7 @@ const useCreateEditPostsLink = ({
   const defaultLink = linksStore(state => state.defaultLink)
   const artistId = linksStore(state => state.artistId)
   const updateLinksStore = linksStore(state => state.updateLinksStore)
+  const setLinkBankError = linksStore(state => state.setLinkBankError)
 
   // TEST IF FOLDER CONTAINS DEFAULT LINK
   const testFolderContainsDefault = React.useCallback((folder) => {
@@ -52,6 +53,15 @@ const useCreateEditPostsLink = ({
     console.log('savedLink', savedLink)
     // Update store
     updateLinksStore(action, { newLink: savedLink, oldLink })
+    // If created from default link selector, set as default
+    if (location === 'defaultLink') {
+      const { error } = await setDefaultLink(savedLink)
+      if (error) {
+        const linkBankError = `Error setting link as default: ${error.message}`
+        setLinkBankError(linkBankError)
+      }
+      // TODO update store to reflect new default link
+    }
     // Success
     onSave()
     setSidePanelLoading(false)
