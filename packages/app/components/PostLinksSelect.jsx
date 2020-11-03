@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useAsyncEffect from 'use-async-effect'
+
 import linksStore from '@/app/store/linksStore'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
 import Select from '@/elements/Select'
+import Error from '@/elements/Error'
 
 import { splitLinks } from '@/app/helpers/linksHelpers'
 
@@ -17,6 +20,7 @@ const PostLinksSelect = ({
   includeAddLinkOption,
   componentLocation,
 }) => {
+  const artistId = linksStore(state => state.artistId)
   const nestedLinks = linksStore(state => state.nestedLinks)
   const defaultLink = linksStore(state => state.defaultLink)
   const integrations = linksStore(state => state.integrations)
@@ -91,9 +95,34 @@ const PostLinksSelect = ({
     location: componentLocation,
   })
 
+  // HANDLE SETTING SELECTED LINK
+  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
+  useAsyncEffect(async (isMounted) => {
+    // Stop here if setting to same as before
+    if (currentLinkId === selectedOptionValue) {
+      setLoading(false)
+      return
+    }
+    setLoading(true)
+    // Run server
+    const { error } = await onSelect(artistId, selectedOptionValue)
+    if (!isMounted()) return
+    // Reset value if error
+    if (error) {
+      setSelectedOptionValue(currentLinkId)
+    }
+    setError(error || null)
+    setLoading(false)
+  }, [selectedOptionValue])
+
   return (
     <div>
+      {error && (
+        <Error error={error} />
+      )}
       <Select
+        loading={loading}
         className={selectClassName}
         handleChange={(e) => {
           const { target: { value } } = e
@@ -104,7 +133,6 @@ const PostLinksSelect = ({
             showAddLinkModal()
             return
           }
-          onSelect(value)
           setSelectedOptionValue(value)
         }}
         name="Choose link"
