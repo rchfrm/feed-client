@@ -318,6 +318,25 @@ export const updateFolder = (artistId, folder, action) => {
   return requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
+// Update a folder
+/**
+* @param {string} artistId
+* @param {string} linkId
+* @param {string} action add | edit | delete
+* @returns {Promise<object>} { res, error }
+*/
+export const setLinkAsDefault = (artistId, linkId) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = { preferences: { posts: { default_link_id: linkId } } }
+  const errorTracking = {
+    category: 'Links',
+    action: 'Set link as default',
+  }
+  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+
+
 // * INTEGRATION ERRORS
 // --------------------------
 

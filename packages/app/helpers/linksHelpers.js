@@ -101,16 +101,10 @@ const extractLinkIntegration = (linkId) => {
  * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setDefaultLink = (link) => {
-  const { id: linkId } = link
+export const setDefaultLink = async (artistId, linkId) => {
   const linkIntegration = extractLinkIntegration(linkId)
   console.log('linkIntegration', linkIntegration)
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('set default link:', linkId)
-      resolve({ res: true, error: false })
-    }, 500)
-  })
+  return server.setLinkAsDefault(artistId, linkId)
 }
 
 
