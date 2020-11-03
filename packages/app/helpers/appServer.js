@@ -185,16 +185,6 @@ export const patchArtistPromotionStatus = async (artistId, enabled) => {
   return api.patch(`/artists/${artistId}`, { preferences: { posts: { promotion_enabled_default: enabled } } })
 }
 
-/**
- * @param {string} artistId
- * @param {string} postId
- * @param {string} link
- * @param {string} [verifyIdToken]
- * @returns {Promise<any>}
- */
-export const updateAssetLink = async (artistId, postId, link, verifyIdToken) => {
-  return api.patch(`/artists/${artistId}/assets/${postId}`, { priority_dsp: link }, verifyIdToken)
-}
 
 /**
  * @param {string} artistId
