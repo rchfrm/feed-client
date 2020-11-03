@@ -19,6 +19,8 @@ const PostsSettingsDefaultLink = ({
       <PostLinksSelect
         currentLinkId={defaultLink.id}
         onSelect={setDefaultLink}
+        includeAddLinkOption
+        componentLocation="defaultLink"
       />
     </div>
   )

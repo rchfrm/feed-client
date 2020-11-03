@@ -143,6 +143,7 @@ const PostItemLink = ({
             onSelect={setPostLink}
             includeDefaultLink
             includeAddLinkOption
+            componentLocation="post"
           />
           {/* Show add URL dialogue if triggered */}
           {adUrlDialogueOpen && (

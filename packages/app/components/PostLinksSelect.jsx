@@ -15,6 +15,7 @@ const PostLinksSelect = ({
   onSelect,
   includeDefaultLink,
   includeAddLinkOption,
+  componentLocation,
 }) => {
   const nestedLinks = linksStore(state => state.nestedLinks)
   const defaultLink = linksStore(state => state.defaultLink)
@@ -87,7 +88,7 @@ const PostLinksSelect = ({
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({
     action: 'add',
-    location: 'post',
+    location: componentLocation,
   })
 
   return (
@@ -121,6 +122,7 @@ PostLinksSelect.propTypes = {
   onSelect: PropTypes.func.isRequired,
   includeDefaultLink: PropTypes.bool,
   includeAddLinkOption: PropTypes.bool,
+  componentLocation: PropTypes.string.isRequired,
 }
 
 PostLinksSelect.defaultProps = {
