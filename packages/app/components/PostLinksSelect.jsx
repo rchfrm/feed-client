@@ -28,6 +28,11 @@ const PostLinksSelect = ({
 
   // STORE INTERNAL LINK
   const [selectedOptionValue, setSelectedOptionValue] = React.useState(currentLinkId)
+  React.useEffect(() => {
+    if (currentLinkId === selectedOptionValue) return
+    setSelectedOptionValue(currentLinkId)
+  // eslint-disable-next-line
+  }, [currentLinkId])
 
   // CONVERT LINK OPTIONS TO FIT SELECT COMPONENT
   const selectOptions = React.useMemo(() => {

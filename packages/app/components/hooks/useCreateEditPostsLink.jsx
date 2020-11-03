@@ -55,12 +55,13 @@ const useCreateEditPostsLink = ({
     updateLinksStore(action, { newLink: savedLink, oldLink })
     // If created from default link selector, set as default
     if (location === 'defaultLink') {
-      const { error } = await setDefaultLink(savedLink)
+      const { res: newArtist, error } = await setDefaultLink(artistId, savedLink.id)
       if (error) {
         const linkBankError = `Error setting link as default: ${error.message}`
         setLinkBankError(linkBankError)
       }
-      // TODO update store to reflect new default link
+      // Update store to include new link
+      updateLinksStore('updateDefault', { newArtist })
     }
     // Success
     onSave()
