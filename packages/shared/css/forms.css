@@ -222,16 +222,27 @@ select {
   }
 }
 
-/* Select arrow */
-.select--arrow {
+.select--box {
+  .select--container._loading &,
+  .select--container._disabled & {
+    border: 2px solid var(--grey-dark);
+  }
+}
+
+/* Select arrow and spinner */
+.select--arrow,
+.select--spinner {
   position: absolute;
   bottom: 50%;
+  height: auto;
+  pointer-events: none;
+}
+
+/* Select arrow */
+.select--arrow {
   right: var(--sp-5);
   transform: translateY(50%);
   width: 0.45em;
-  height: auto;
-  pointer-events: none;
-
   .select--white + & {
     path {
       fill: var(--white);
@@ -239,9 +250,11 @@ select {
   }
 }
 
-
-select:invalid {
-  
+/* Select Spinner */
+.select--spinner {
+  transform: translate(50%, 50%);
+  right: 50%;
+  width: 1.25rem !important;
 }
 
 

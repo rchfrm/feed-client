@@ -4,6 +4,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ArrowIcon from '@/icons/ArrowIcon'
+import Spinner from '@/elements/Spinner'
+import brandColors from '@/constants/brandColors'
 
 const OPTION = ({ name, value }) => {
   return <option key={value} value={value}>{name}</option>
@@ -20,6 +22,8 @@ const Select = ({
   version,
   required,
   highlight, // show red if empty
+  loading,
+  disabled,
   autoComplete,
   className,
 }) => {
@@ -30,6 +34,19 @@ const Select = ({
   if (highlight && !selectedValue) {
     classes.push('_error')
   }
+
+  // Add disabled class
+  if (disabled) {
+    classes.push('_disabled')
+  }
+
+  // Add disabled class
+  if (loading) {
+    classes.push('_loading')
+  }
+
+  console.log('loading', loading)
+  console.log('disabled', disabled)
 
   const versionClasses = version
     .split(' ')
@@ -57,6 +74,7 @@ const Select = ({
             value={selectedValue}
             required={required}
             autoComplete={!autoComplete ? 'off' : ''}
+            disabled={disabled || loading}
           >
             {/* PLACEHOLDER */}
             {placeholder && (
@@ -80,7 +98,14 @@ const Select = ({
             })}
           </select>
           {/* Arrow Icon */}
-          <ArrowIcon className="select--arrow" />
+          <ArrowIcon
+            className="select--arrow"
+            fill={disabled || loading ? brandColors.greyDark : brandColors.black}
+          />
+          {/* Loading icon */}
+          {loading && (
+            <Spinner className="select--spinner" />
+          )}
         </div>
       </label>
     </div>
@@ -130,6 +155,8 @@ Select.propTypes = {
 
   required: PropTypes.bool,
   highlight: PropTypes.bool,
+  disabled: PropTypes.bool,
+  loading: PropTypes.bool,
   autoComplete: PropTypes.bool,
   className: PropTypes.string,
 }
@@ -140,6 +167,8 @@ Select.defaultProps = {
   version: 'box',
   required: false,
   highlight: false,
+  disabled: false,
+  loading: false,
   autoComplete: true,
   className: '',
   placeholder: '',
