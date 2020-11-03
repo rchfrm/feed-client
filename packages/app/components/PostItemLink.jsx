@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useAsyncEffect from 'use-async-effect'
 import { gsap } from 'gsap'
 
 // IMPORT CONTEXTS
@@ -11,10 +10,8 @@ import useBrowserStore from '@/hooks/useBrowserStore'
 
 import PostLinkSummary from '@/app/PostLinkSummary'
 import PostLinksSelect from '@/app/PostLinksSelect'
-import PostLinkAddUrl from '@/app/PostLinkAddUrl'
 
 import * as utils from '@/helpers/utils'
-import * as server from '@/app/helpers/appServer'
 import { setPostLink } from '@/app/helpers/linksHelpers'
 
 import styles from '@/app/PostItem.module.css'
@@ -33,8 +30,6 @@ const PostItemLink = ({
   const storedPostLinkPlatform = React.useRef(postLinkPlatform)
   const postLinkKey = utils.convertPlatformToPriorityDSP(postLinkPlatform)
   const postLinkUrl = artist[postLinkKey]
-  // SHOULD THE ADD URL 'ALERT' BE SHOWN
-  const [adUrlDialogueOpen, setAdUrlDialogueOpen] = React.useState(false)
   // TOGGLE LINK CONTENT
   const [linkPanelOpen, setLinkPanelOpen] = React.useState(false)
   const [isAnimating, setIsAnimating] = React.useState(false)
@@ -42,28 +37,6 @@ const PostItemLink = ({
     const newState = typeof state === 'boolean' ? state : !linkPanelOpen
     setIsAnimating(true)
     setLinkPanelOpen(newState)
-  }, [linkPanelOpen])
-  // * UPDATE PRIORITY DSP when closing link content
-  const [loading, setLoading] = React.useState(false)
-  useAsyncEffect(async (isMounted) => {
-    const newPlatform = postLinkPlatform
-    const previousPlatform = storedPostLinkPlatform.current
-    // Stop here if no change in link platform
-    if (newPlatform === previousPlatform) return
-    // Start loading
-    setLoading(true)
-    // Update the link platform on the DB
-    const updatedAsset = await server.updateAssetLink(artist.id, postId, newPlatform)
-      .catch((error) => {
-        setError(error)
-      })
-    // Stop here if not mounted or error
-    if (!updatedAsset || !isMounted) return
-    // Update stored value in component
-    storedPostLinkPlatform.current = newPlatform
-    // End loading and clear error
-    setLoading(false)
-    setError(null)
   }, [linkPanelOpen])
   // DEFINE ELEMENT REFS
   const placeholderEl = React.useRef(null)
@@ -121,7 +94,6 @@ const PostItemLink = ({
       <div className={[styles.postLink, styles.postText, 'opacity-0'].join(' ')} ref={containerEl}>
         <div className={[styles.postLinkTopBar, styles.postSection].join(' ')} ref={topBarEl}>
           <PostLinkSummary
-            loading={loading}
             linkPanelOpen={linkPanelOpen}
             isAnimating={isAnimating}
             postLinkPlatform={postLinkPlatform}
@@ -130,7 +102,7 @@ const PostItemLink = ({
           {promotionEnabled && isLinkEditable && (
             <p>
               <a role="button" className={styles.postLinkEditButton} onClick={toggleLinkContent}>
-                {linkPanelOpen ? 'Save' : 'Edit'}
+                {linkPanelOpen ? 'Done' : 'Edit'}
               </a>
             </p>
           )}
@@ -144,21 +116,8 @@ const PostItemLink = ({
             includeDefaultLink
             includeAddLinkOption
             componentLocation="post"
+            postId={postId}
           />
-          {/* Show add URL dialogue if triggered */}
-          {adUrlDialogueOpen && (
-            <PostLinkAddUrl
-              postId={postId}
-              postIndex={postIndex}
-              artist={artist}
-              addArtistUrl={addArtistUrl}
-              setPostLinkPlatform={setPostLinkPlatform}
-              postLinkPlatform={postLinkPlatform}
-              storedPostLinkPlatform={storedPostLinkPlatform.current}
-              setAdUrlDialogueOpen={setAdUrlDialogueOpen}
-              updateLink={updateLink}
-            />
-          )}
         </div>
 
       </div>

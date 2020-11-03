@@ -20,6 +20,7 @@ const PostLinksSelect = ({
   includeDefaultLink,
   includeAddLinkOption,
   componentLocation,
+  postId,
 }) => {
   const artistId = linksStore(state => state.artistId)
   const nestedLinks = linksStore(state => state.nestedLinks)
@@ -159,6 +160,7 @@ PostLinksSelect.propTypes = {
   includeDefaultLink: PropTypes.bool,
   includeAddLinkOption: PropTypes.bool,
   componentLocation: PropTypes.string.isRequired,
+  postId: PropTypes.string,
 }
 
 PostLinksSelect.defaultProps = {
@@ -166,6 +168,7 @@ PostLinksSelect.defaultProps = {
   selectClassName: null,
   includeDefaultLink: false,
   includeAddLinkOption: false,
+  postId: '',
 }
 
 

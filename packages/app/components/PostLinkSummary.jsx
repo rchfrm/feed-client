@@ -10,7 +10,6 @@ import LinkIcon from '@/icons/LinkIcon'
 import styles from '@/app/PostItem.module.css'
 
 const PostLinkSummary = ({
-  loading,
   linkPanelOpen,
   isAnimating,
   postLinkPlatform,
@@ -27,7 +26,7 @@ const PostLinkSummary = ({
           classNames="fade"
         >
           <div>
-            {loading || linkPanelOpen || isAnimating ? (
+            {linkPanelOpen || isAnimating ? (
               <span className={styles.postLinkEllipsis}>...</span>
             ) : (
               <>
@@ -54,7 +53,6 @@ const PostLinkSummary = ({
 }
 
 PostLinkSummary.propTypes = {
-  loading: PropTypes.bool.isRequired,
   linkPanelOpen: PropTypes.bool.isRequired,
   isAnimating: PropTypes.bool.isRequired,
   postLinkPlatform: PropTypes.string.isRequired,
