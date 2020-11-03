@@ -29,9 +29,9 @@ const useCreateEditPostsLink = ({
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
 
   // READ FROM LINKS STORE
-  const defaultLink = postsStore(state => state.defaultLink)
-  const artistId = postsStore(state => state.artistId)
-  const updateLinksStore = postsStore(state => state.updateLinksStore)
+  const defaultLink = linksStore(state => state.defaultLink)
+  const artistId = linksStore(state => state.artistId)
+  const updateLinksStore = linksStore(state => state.updateLinksStore)
 
   // TEST IF FOLDER CONTAINS DEFAULT LINK
   const testFolderContainsDefault = React.useCallback((folder) => {

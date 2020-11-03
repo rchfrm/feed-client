@@ -132,7 +132,7 @@ const updateLinksStore = (set, get) => (action, {
 
 
 // EXPORT STORE
-const [postsStore] = create((set, get) => ({
+const [linksStore] = create((set, get) => ({
   // STATE
   artistId: initialState.artistId,
   artist: initialState.artist,
@@ -170,4 +170,4 @@ const [postsStore] = create((set, get) => ({
   clearAll: () => set(initialState),
 }))
 
-export default postsStore
+export default linksStore

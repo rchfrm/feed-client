@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import postsStore from '@/store/postsStore'
+import linksStore from '@/app/store/linksStore'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
@@ -16,9 +16,9 @@ const PostLinksSelect = ({
   includeDefaultLink,
   includeAddLinkOption,
 }) => {
-  const nestedLinks = postsStore(state => state.nestedLinks)
-  const defaultLink = postsStore(state => state.defaultLink)
-  const integrations = postsStore(state => state.integrations)
+  const nestedLinks = linksStore(state => state.nestedLinks)
+  const defaultLink = linksStore(state => state.defaultLink)
+  const integrations = linksStore(state => state.integrations)
 
   // STORE INTERNAL LINK
   const [selectedOptionValue, setSelectedOptionValue] = React.useState(currentLinkId)

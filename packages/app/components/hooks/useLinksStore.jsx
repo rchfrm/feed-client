@@ -1,6 +1,6 @@
 import React from 'react'
 
-import linksStore from '@/store/linksStore'
+import linksStore from '@/app/store/linksStore'
 
 const useLinksStore = () => {
   const togglePromotionGlobal = linksStore(state => state.togglePromotionGlobal)
