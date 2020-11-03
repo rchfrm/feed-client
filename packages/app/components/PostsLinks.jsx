@@ -18,10 +18,8 @@ import sidePanelStyles from '@/app/SidePanel.module.css'
 const PostsLinks = ({
   useSelectMode,
 }) => {
-  const { fetchLinks, nestedLinks, integrations, linksLoading } = useLinksStore()
+  const { fetchLinks, nestedLinks, integrations, linksLoading, linkBankError } = useLinksStore()
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
-  // const [savedLinks, setSavedLinks] = React.useState([])
-  const [errorFetchingLinks, setErrorFetchingLinks] = React.useState(null)
   // Set to loading on mount
   React.useEffect(() => {
     if (linksLoading) {
@@ -31,23 +29,18 @@ const PostsLinks = ({
   // Load links on mount
   useAsyncEffect(async (isMounted) => {
     setSidePanelLoading(true)
-    const { error } = await fetchLinks() || {}
+    await fetchLinks()
     if (!isMounted()) return
     setSidePanelLoading(false)
-    if (error) {
-      setErrorFetchingLinks({ message: `Error fetching links. ${error.message}` })
-    } else {
-      setErrorFetchingLinks(null)
-    }
   }, [])
 
-  if (linksLoading && !errorFetchingLinks) return null
+  if (linksLoading && !linkBankError) return null
 
   return (
     <section>
       <h2 className={sidePanelStyles.SidePanel__Header}>Links</h2>
-      {errorFetchingLinks ? (
-        <Error error={errorFetchingLinks} />
+      {linkBankError ? (
+        <Error error={linkBankError} />
       ) : (
         <div>
           <section className="mb-10">

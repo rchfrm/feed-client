@@ -15,6 +15,7 @@ const initialState = {
   nestedLinks: [],
   integrations: [],
   linksLoading: false,
+  linkBankError: null,
   togglePromotionGlobal: () => {},
 }
 
@@ -53,6 +54,8 @@ const fetchLinks = (set, get) => async (action) => {
   console.log('FETCH LINKS', 'res', res)
   // Handle error
   if (error) {
+    const linkBankError = { message: `Error fetching links. ${error.message}` }
+    set({ linkBankError })
     return { error }
   }
   const { folders, integrations = [] } = res
@@ -72,6 +75,7 @@ const fetchLinks = (set, get) => async (action) => {
     looseLinks,
     integrations: formattedIntegrations,
     linksLoading: false,
+    linkBankError: null,
     // defaultLink,
   })
 }
@@ -139,6 +143,7 @@ const [postsStore] = create((set, get) => ({
   nestedLinks: initialState.nestedLinks,
   integrations: initialState.integrations,
   linksLoading: initialState.linksLoading,
+  linkBankError: initialState.linkBankError,
   togglePromotionGlobal: initialState.togglePromotionGlobal,
   // GETTERS
   fetchLinks: fetchLinks(set, get),

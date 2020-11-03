@@ -12,6 +12,7 @@ const useLinksStore = () => {
   const integrations = linksStore(state => state.integrations)
   const fetchLinks = linksStore(state => state.fetchLinks)
   const linksLoading = linksStore(state => state.linksLoading)
+  const linkBankError = linksStore(state => state.linkBankError)
   const clearAll = linksStore(state => state.clearAll)
 
   const init = linksStore(state => state.init)
@@ -28,6 +29,7 @@ const useLinksStore = () => {
     nestedLinks,
     integrations,
     linksLoading,
+    linkBankError,
     defaultLink,
     clearAll,
     setupStore,
