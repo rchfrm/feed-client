@@ -8,7 +8,7 @@ import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-import usePostsStore from '@/app/hooks/usePostsStore'
+import useLinksStore from '@/app/hooks/useLinksStore'
 // IMPORT ELEMENTS
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
@@ -109,7 +109,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   }, [artistId, promotionStatus])
 
   // READ POSTS STORE
-  const { setTogglePromotionGlobal } = usePostsStore()
+  const { setTogglePromotionGlobal } = useLinksStore()
 
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({

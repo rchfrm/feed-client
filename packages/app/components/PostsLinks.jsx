@@ -11,14 +11,14 @@ import PostsLinksIntegrations from '@/app/PostsLinksIntegrations'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import usePostsStore from '@/app/hooks/usePostsStore'
+import useLinksStore from '@/app/hooks/useLinksStore'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const PostsLinks = ({
   useSelectMode,
 }) => {
-  const { fetchLinks, nestedLinks, integrations, linksLoading } = usePostsStore()
+  const { fetchLinks, nestedLinks, integrations, linksLoading } = useLinksStore()
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   // const [savedLinks, setSavedLinks] = React.useState([])
   const [errorFetchingLinks, setErrorFetchingLinks] = React.useState(null)
