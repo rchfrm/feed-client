@@ -34,9 +34,9 @@ const initialState = {
   selectedCampaignType: '',
   setSelectedCampaignType: () => {},
   fbMin: 0,
+  fbMinRounded: 0,
   minHardBudget: 0,
   minReccBudget: 0,
-  setFbMin: () => {},
   setMinReccBudget: () => {},
   updateTargetingBudget: () => {},
   isFirstTimeUser: false,
@@ -105,6 +105,7 @@ const TargetingContextProvider = ({ children }) => {
 
   // MIN BUDGET
   const [fbMin, setFbMin] = React.useState(initialState.fbMin)
+  const [fbMinRounded, setFbMinRounded] = React.useState(initialState.fbMinRounded)
   const [minHardBudget, setMinHardBudget] = React.useState(initialState.minHardBudget)
   const [minReccBudget, setMinReccBudget] = React.useState(initialState.minRecBudget)
 
@@ -218,6 +219,9 @@ const TargetingContextProvider = ({ children }) => {
     // Set fb min
     const fbMin = targetingHelpers.calcMinBudget(minBudgetInfo, 'fbMin')
     setFbMin(fbMin)
+    // Set fb min rounded
+    const fbMinRounded = targetingHelpers.calcMinBudget(minBudgetInfo, 'fbMinRounded')
+    setFbMinRounded(fbMinRounded)
     // Set hard budget
     const hardMinBudget = targetingHelpers.calcMinBudget(minBudgetInfo, 'hard')
     setMinHardBudget(hardMinBudget)
@@ -321,7 +325,7 @@ const TargetingContextProvider = ({ children }) => {
       <TargetingBudgetMobile
         currency={currency}
         currencyOffset={currencyOffset}
-        fbMin={fbMin}
+        fbMinRounded={fbMinRounded}
         minReccBudget={minReccBudget}
         minHardBudget={minHardBudget}
         initialBudget={initialTargetingState.budget}
@@ -385,6 +389,7 @@ const TargetingContextProvider = ({ children }) => {
         setSelectedCampaignRecc,
         selectedCampaignType,
         fbMin,
+        fbMinRounded,
         minHardBudget,
         minReccBudget,
         setMinReccBudget,
