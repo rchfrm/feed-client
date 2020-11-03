@@ -39,7 +39,7 @@ const TargetingSettingsSaveContainer = ({
     const positionProps = {
       width: budgetWidth,
       top: budgetTop + budgetHeight,
-      bottom: '4rem',
+      bottom: '2rem',
       left: budgetLeft,
       opacity: 1,
     }

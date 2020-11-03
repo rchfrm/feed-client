@@ -58,7 +58,7 @@ const TargetingBudgetSlider = ({
     const [min, max] = sliderValueRange
     const initialBudget = startValue.current
     const budgetDivisibleByStep = !(initialBudget % sliderStep)
-    if (budgetDivisibleByStep) return { min, max }
+    if (budgetDivisibleByStep || initialBudget <= min) return { min, max }
     // If budget is not divisble by step, use custom range with custom step for budget
     const customSnap = Math.floor(100 * (initialBudget / max))
     const customSnapResetValue = sliderStep * (Math.floor(initialBudget / sliderStep) + 1)
