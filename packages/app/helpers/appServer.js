@@ -318,11 +318,10 @@ export const updateFolder = (artistId, folder, action) => {
   return requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
-// Update a folder
+// Set link as default
 /**
 * @param {string} artistId
 * @param {string} linkId
-* @param {string} action add | edit | delete
 * @returns {Promise<object>} { res, error }
 */
 export const setLinkAsDefault = (artistId, linkId) => {
@@ -331,6 +330,23 @@ export const setLinkAsDefault = (artistId, linkId) => {
   const errorTracking = {
     category: 'Links',
     action: 'Set link as default',
+  }
+  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+// Set link on post
+/**
+* @param {string} artistId
+* @param {string} assetId
+* @param {string} linkId
+* @returns {Promise<object>} { res, error }
+*/
+export const setPostLink = (artistId, assetId, linkId) => {
+  const requestUrl = `/artists/${artistId}/assets/${assetId}`
+  const payload = { link_id: linkId }
+  const errorTracking = {
+    category: 'Links',
+    action: 'Set link as post link',
   }
   return requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
