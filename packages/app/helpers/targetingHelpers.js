@@ -1,6 +1,8 @@
+import produce from 'immer'
+
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
-import produce from 'immer'
+import { track } from '@/app/helpers/trackingHelpers'
 
 // FOR DEV
 // ---------------------------
@@ -221,6 +223,15 @@ export const fetchPopularLocations = async (artistId, useDummyData) => {
     })
   }
   const { res: popularLocations, error } = await server.getTargetingPopularLocations(artistId)
+  if (error) {
+    track({
+      category: 'Controls',
+      action: 'Error fetching popular locations',
+      description: error.message,
+      error: true,
+    })
+    return { error }
+  }
   return { popularLocations, error }
 }
 
@@ -336,7 +347,16 @@ export const fetchTargetingState = async (artistId, currencyOffset) => {
     return { error: { message: errorMessage } }
   }
   const { res: settings, error } = await server.getTargetingSettings(artistId)
-  if (error) return { error }
+  // Handle error
+  if (error) {
+    track({
+      category: 'Controls',
+      action: 'Error fetching targeting settings',
+      description: error.message,
+      error: true,
+    })
+    return { error }
+  }
   return formatSettings(settings, currencyOffset)
 }
 
@@ -370,6 +390,15 @@ export const saveCampaign = async ({
     status,
   }
   const { res: settings, error } = await server.saveTargetingSettings(artistId, payload)
-  if (error) return { error }
+  // Handle error
+  if (error) {
+    track({
+      category: 'Controls',
+      action: 'Error saving targeting settings',
+      description: error.message,
+      error: true,
+    })
+    return { error }
+  }
   return formatSettings(settings, currencyOffset)
 }
