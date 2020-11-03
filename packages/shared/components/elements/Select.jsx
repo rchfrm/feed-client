@@ -45,9 +45,6 @@ const Select = ({
     classes.push('_loading')
   }
 
-  console.log('loading', loading)
-  console.log('disabled', disabled)
-
   const versionClasses = version
     .split(' ')
     .map((versionName) => `select--${versionName}`)
