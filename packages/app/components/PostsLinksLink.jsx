@@ -35,13 +35,20 @@ const PostsLinksLink = ({
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   const artistId = linksStore(state => state.artistId)
   const updateLinksStore = linksStore(state => state.updateLinksStore)
+  const setLinkBankError = linksStore(state => state.setLinkBankError)
   // Function for deleting link
   const deleteLink = async () => {
     const action = 'delete'
     setSidePanelLoading(true)
     const { res: savedLink, error } = await saveLink(artistId, link, action)
     setSidePanelLoading(false)
+    if (error) {
+      const linkBankError = { message: `Error deleting link. ${error.message}` }
+      setLinkBankError(linkBankError)
+      return
+    }
     updateLinksStore(action, { newLink: savedLink, oldLink: link })
+    setLinkBankError(null)
   }
 
   return (

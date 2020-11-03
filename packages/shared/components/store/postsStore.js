@@ -150,6 +150,7 @@ const [postsStore] = create((set, get) => ({
   // SETTERS
   updateLinksStore: updateLinksStore(set, get),
   setTogglePromotionGlobal: (togglePromotionGlobal) => set({ togglePromotionGlobal }),
+  setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
   init: (artist, action = 'clearLinks') => {
     // Set artist details

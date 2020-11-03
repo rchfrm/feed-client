@@ -39,9 +39,10 @@ const PostsLinks = ({
   return (
     <section>
       <h2 className={sidePanelStyles.SidePanel__Header}>Links</h2>
-      {linkBankError ? (
-        <Error error={linkBankError} />
-      ) : (
+      {linkBankError && (
+        <Error error={linkBankError} className="mb-8" />
+      )}
+      {!!nestedLinks.length && (
         <div>
           <section className="mb-10">
             <PostsLinksList
