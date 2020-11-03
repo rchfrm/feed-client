@@ -4,70 +4,6 @@ import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
 
-// FOR DEV
-// ---------------------------
-export const demotargetingState = {
-  age_min: 23,
-  age_max: 45,
-  genders: [],
-  geo_locations: {
-    countries: [
-      { code: 'GB', name: 'UK' },
-      { code: 'DE', name: 'Germany' },
-    ],
-    cities: [
-      { key: 'paris', name: 'Paris', country_code: 'FR' },
-      { key: 'marseille', name: 'Marseille', country_code: 'FR' },
-      { key: 'lislesursogue', name: 'L\'Isle sur Sogue', country_code: 'FR' },
-    ],
-  },
-  budget: 2.32,
-  status: 0,
-}
-
-
-export const demoRecs = [
-  {
-    id: '1',
-    title: 'Option A',
-    type: 'recommended',
-    budget: 5,
-    age_min: 18,
-    age_max: 65,
-    countries: [{ key: 'GB', name: 'UK' }],
-    cities: [{ key: 'paris', name: 'Paris' }],
-  },
-  {
-    id: '2',
-    title: 'Option B',
-    type: 'recommended',
-    budget: 6,
-    age_min: 18,
-    age_max: 65,
-    countries: [{ key: 'FR', name: 'France' }],
-    cities: [{ key: 'london', name: 'London' }, { key: 'bolton', name: 'Bolton' }],
-  },
-]
-
-
-const demoPopuplarLocations = {
-  countries: [
-    { code: 'GB', name: 'UK', audience_pct: 34 },
-    { code: 'FR', name: 'France', audience_pct: 23 },
-    { code: 'GR', name: 'Greece', audience_pct: 12 },
-    { code: 'CHD', name: 'Chad', audience_pct: 7 },
-  ],
-  cities: [
-    { key: 'paris', name: 'Paris', country_code: 'FR', audience_pct: 12 },
-    { key: 'marseille', name: 'Marseille', country_code: 'FR', audience_pct: 8 },
-    { key: 'nice', name: 'Nice', country_code: 'FR', audience_pct: 4 },
-
-    { key: 'london', name: 'London', country_code: 'GB', audience_pct: 22 },
-    { key: 'bolton', name: 'Bolton', country_code: 'GB', audience_pct: 16 },
-    { key: 'bristol', name: 'Bristol', country_code: 'GB', audience_pct: 14 },
-    { key: 'cardiff', name: 'Cardiff', country_code: 'GB', audience_pct: 8 },
-  ],
-}
 
 // BUDGET FEATURES
 // ---------------
@@ -107,9 +43,11 @@ export const calcMinBudget = (minBudgetInfo, type) => {
   } = minBudgetInfo
   const {
     fbMinFloat,
+    fbMinRounded,
     minBudgetRounded,
   } = utils.getMinBudget(amount, currencyCode, currencyOffset)
   if (type === 'fbMin') return fbMinFloat * currencyOffset
+  if (type === 'fbMinRounded') return fbMinRounded * currencyOffset
   return minBudgetRounded * currencyOffset
 }
 
@@ -134,11 +72,10 @@ const getSliderRange = (defaultMin, defaultMax, sliderStep, initialBudget) => {
   return [defaultMin, defaultMax]
 }
 
-export const calcBudgetSliderConfig = (fbMin, minHardBudget, initialBudget) => {
-  const fbMinRound = utils.roundToFactorOfTen(fbMin)
-  const sliderStep = fbMinRound / 4
+export const calcBudgetSliderConfig = (fbMinRounded, minHardBudget, initialBudget) => {
+  const sliderStep = fbMinRounded / 4
   const defaultMin = minHardBudget
-  const defaultMax = fbMinRound * 30
+  const defaultMax = fbMinRounded * 30
   const sliderValueRange = getSliderRange(defaultMin, defaultMax, sliderStep, initialBudget)
   return { sliderStep, sliderValueRange }
 }
@@ -147,22 +84,21 @@ export const calcBudgetSliderConfig = (fbMin, minHardBudget, initialBudget) => {
 export const calcMinReccBudget = ({ minBudgetInfo, locationOptions }) => {
   const cityUnit = 0.25
   const countryUnit = 1
-  const fbMin = calcMinBudget(minBudgetInfo, 'fbMin')
-  const fbMinRound = utils.roundToFactorOfTen(fbMin)
-  const baseBudget = calcMinBudget(minBudgetInfo, 'hard')
+  const fbMinRounded = calcMinBudget(minBudgetInfo, 'fbMinRounded')
+  const baseBudget = calcMinBudget(minBudgetInfo, 'base')
   const locationOptionsArray = Object.values(locationOptions)
   const minRecc = locationOptionsArray.reduce((budget, { selected: countrySelected, totalCitiesSelected }, index) => {
     if (countrySelected) {
       // Ignore the first country
       if (index !== 0) {
-        budget += (fbMinRound * countryUnit)
+        budget += (fbMinRounded * countryUnit)
       }
       return budget
     }
     const cappedCities = Math.min(totalCitiesSelected, 4)
-    budget += (fbMinRound * (cityUnit * cappedCities))
+    budget += (fbMinRounded * (cityUnit * cappedCities))
     return budget
-  }, baseBudget)
+  }, baseBudget + fbMinRounded)
   return minRecc
 }
 
@@ -213,15 +149,7 @@ export const getSummary = {
 // ----------------
 
 // Fetch the popular locations
-export const fetchPopularLocations = async (artistId, useDummyData) => {
-  // * TEMP
-  if (useDummyData) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(demoPopuplarLocations)
-      }, 400)
-    })
-  }
+export const fetchPopularLocations = async (artistId) => {
   const { res: popularLocations, error } = await server.getTargetingPopularLocations(artistId)
   if (error) {
     track({
