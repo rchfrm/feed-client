@@ -16,6 +16,7 @@ const PostLinksSelect = ({
   currentLinkId,
   selectClassName,
   onSelect,
+  onSuccess,
   includeDefaultLink,
   includeAddLinkOption,
   componentLocation,
@@ -27,13 +28,10 @@ const PostLinksSelect = ({
 
   // STORE INTERNAL LINK
   const [selectedOptionValue, setSelectedOptionValue] = React.useState(currentLinkId)
-  React.useEffect(() => {
-    setSelectedOptionValue(currentLinkId)
-  }, [currentLinkId])
 
   // CONVERT LINK OPTIONS TO FIT SELECT COMPONENT
   const selectOptions = React.useMemo(() => {
-    const { looseLinks, folderLinks } = splitLinks(nestedLinks)
+    const { looseLinks = [], folderLinks = [] } = splitLinks(nestedLinks)
     // Add FOLDERS as option group
     const baseOptions = folderLinks.reduce((options, { links, name, id }) => {
       // Don't show empty folders
@@ -106,13 +104,17 @@ const PostLinksSelect = ({
     }
     setLoading(true)
     // Run server
-    const { error } = await onSelect(artistId, selectedOptionValue)
+    const { res, error } = await onSelect(artistId, selectedOptionValue)
     if (!isMounted()) return
     // Reset value if error
     if (error) {
       setSelectedOptionValue(currentLinkId)
+      setError(error)
+      return
     }
-    setError(error || null)
+    // Success
+    onSuccess(res)
+    setError(null)
     setLoading(false)
   }, [selectedOptionValue])
 
@@ -148,12 +150,14 @@ PostLinksSelect.propTypes = {
   currentLinkId: PropTypes.string.isRequired,
   selectClassName: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func,
   includeDefaultLink: PropTypes.bool,
   includeAddLinkOption: PropTypes.bool,
   componentLocation: PropTypes.string.isRequired,
 }
 
 PostLinksSelect.defaultProps = {
+  onSuccess: () => {},
   selectClassName: null,
   includeDefaultLink: false,
   includeAddLinkOption: false,

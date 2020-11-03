@@ -1,4 +1,5 @@
 import create from 'zustand'
+import get from 'lodash/get'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
@@ -20,27 +21,26 @@ const initialState = {
 }
 
 // * DEFAULT LINK
-const getDefaultLink = (links) => {
-  return links.find(({ defaultLink }) => defaultLink)
+const getDefaultLink = ({ nestedLinks, artist, linkId }) => {
+  const defaultLinkId = linkId || get(artist, ['preferences', 'posts', 'default_link_id'], '')
+  const allLinks = nestedLinks.reduce((arr, { links }) => {
+    return [...arr, ...links]
+  }, [])
+  return allLinks.find(({ id }) => id === defaultLinkId)
 }
 
 // * FETCH LINKS
 
 const formatServerLinks = (folders) => {
-  // Get loose links
-  const { links: looseLinks } = folders.find(({ id }) => id === defaultFolderId)
   // Now remove loose links and integrations
   const foldersTidied = folders.filter(({ id }) => id !== integrationsFolderId)
   // Return array of folders and loose links
-  return {
-    nestedLinks: foldersTidied.map((item) => { return { ...item, type: 'folder' } }),
-    looseLinks,
-  }
+  return foldersTidied.map((item) => { return { ...item, type: 'folder' } })
 }
 
 // Fetch links from server and update store (or return cached links)
 const fetchLinks = (set, get) => async (action) => {
-  const { savedLinks, artistId, linksLoading, artist } = get()
+  const { savedLinks, linksLoading, artist, artistId } = get()
   // Stop here if links are already loading
   if (linksLoading) return
   set({ linksLoading: true })
@@ -63,20 +63,19 @@ const fetchLinks = (set, get) => async (action) => {
   const { isMusician } = artist
   const formattedIntegrations = formatAndFilterIntegrations(integrations, isMusician, true)
   // Create array of links in folders for display
-  const { nestedLinks, looseLinks } = formatServerLinks(folders)
+  const nestedLinks = formatServerLinks(folders)
   // Create an array of folder IDs
   const savedFolders = nestedLinks.filter(({ type, id }) => type === 'folder' && id !== defaultFolderId)
-  // TODO Get default link
-  // const defaultLink = getDefaultLink(folder)
+  // Get default link
+  const defaultLink = getDefaultLink({ artist, nestedLinks })
   // Cache links and folders
   set({
     savedFolders,
     nestedLinks,
-    looseLinks,
     integrations: formattedIntegrations,
     linksLoading: false,
     linkBankError: null,
-    // defaultLink,
+    defaultLink,
   })
 }
 
@@ -114,16 +113,22 @@ const getUpdatedFolders = (set, get) => (action, { newFolder, oldFolder }) => {
 
 // Universal update link store
 const updateLinksStore = (set, get) => (action, {
+  newArtist,
   newLink,
   oldLink,
   newFolder,
   oldFolder,
 }) => {
+  // UPDATE DEFAULT LINK
+  if (action === 'updateDefault') {
+    const { nestedLinks } = get()
+    const defaultLink = getDefaultLink({ artist: newArtist, nestedLinks })
+    return set({ defaultLink })
+  }
   // LINK
   if (newLink) {
     const nestedLinks = getUpdatedLinks(set, get)(action, { newLink, oldLink })
-    set({ nestedLinks })
-    return
+    return set({ nestedLinks })
   }
   // FOLDER
   const nestedLinks = getUpdatedFolders(set, get)(action, { newFolder, oldFolder })
