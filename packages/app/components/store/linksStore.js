@@ -26,6 +26,11 @@ const fetchIntegrations = (artist) => {
   return formatAndFilterIntegrations(integrations, isMusician, true)
 }
 
+const updateIntegrations = (set) => (artist) => {
+  const integrations = fetchIntegrations(artist)
+  set({ integrations })
+}
+
 // * DEFAULT LINK
 const getDefaultLink = ({ nestedLinks, artist, linkId }) => {
   const defaultLinkId = linkId || get(artist, ['preferences', 'posts', 'default_link_id'], '')
@@ -153,6 +158,7 @@ const [linksStore] = create((set, get) => ({
   fetchLinks: fetchLinks(set, get),
   // SETTERS
   updateLinksStore: updateLinksStore(set, get),
+  updateIntegrations: updateIntegrations(set),
   setTogglePromotionGlobal: (togglePromotionGlobal) => set({ togglePromotionGlobal }),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
@@ -164,8 +170,7 @@ const [linksStore] = create((set, get) => ({
       linksLoading: false,
     })
     // Set integrations
-    const integrations = fetchIntegrations(artist)
-    set({ integrations })
+    updateIntegrations(set)(artist)
     // Fetch links
     if (action === 'fetchLinks') {
       get().fetchLinks('force')

@@ -3,6 +3,7 @@ import React from 'react'
 import useAlertModal from '@/hooks/useAlertModal'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -13,7 +14,7 @@ import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 import linksStore from '@/app/store/linksStore'
 import { saveLink, saveFolder, setDefaultLink } from '@/app/helpers/linksHelpers'
 
-import { testValidIntegration, saveIntegration } from '@/app/helpers/integrationHelpers'
+import { testValidIntegration, updateIntegration } from '@/app/helpers/integrationHelpers'
 
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -27,6 +28,8 @@ const useCreateEditPostsLink = ({
   const { showAlert, closeAlert } = useAlertModal()
   // SIDE PANEL CONTEXT
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
+  // ARTIST CONTEXT
+  const { setArtist } = React.useContext(ArtistContext)
 
   // READ FROM LINKS STORE
   const defaultLink = linksStore(state => state.defaultLink)
@@ -97,12 +100,32 @@ const useCreateEditPostsLink = ({
     const buttons = [
       {
         text: 'Save as Integration',
-        onClick: () => saveIntegration({ platform }, newLink.href),
+        // SAVE INTEGRATION
+        onClick: async () => {
+          setSidePanelLoading(true)
+          const { res: updatedArtist, error } = await updateIntegration(artistId, { platform }, newLink.href)
+          setSidePanelLoading(false)
+          if (error) {
+            setLinkBankError(error)
+            return
+          }
+          const { integrations } = updatedArtist
+          // Update artist and links store after saving integration
+          setArtist({
+            type: 'update-integrations',
+            payload: {
+              integrations,
+            },
+          })
+        },
         color: 'green',
       },
       {
         text: 'Save as Link',
-        onClick: () => saveLinkOnServer(newLink, action, oldLink),
+        onClick: () => {
+          setSidePanelLoading(true)
+          saveLinkOnServer(newLink, action, oldLink)
+        },
         color: 'black',
       },
     ]

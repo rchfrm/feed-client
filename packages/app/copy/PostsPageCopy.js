@@ -138,15 +138,20 @@ Here's an example of what the a link will look like:
 
 
   checkSaveAsIntegration: (platform) => {
+    const intro = `It looks like you're trying to add an integration link.`
     if (platform === 'spotify') {
-      return `Do you want to add **Spotify** as an integration instead?
+      return `${intro}
+      
+Do you want to add **Spotify** as an integration instead?
       
 This way you can use the link in your ads, and track follower and listener data on the Insights page, and include Spotify listeners in your audience calculation on the Controls page?`
     }
     const { title: platformTitle } = getIntegrationInfo({ platform })
-    return `Do you want to add **${platformTitle}** as an integration instead?
+    return `${intro}
+    
+Do you want to add **${platformTitle}** as an integration instead?
 
-    This way you can use the link in your ads and track follower and listener data on the Insights page?`
+This way you can use the link in your ads and track follower and listener data on the Insights page?`
   },
 
 }

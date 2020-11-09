@@ -144,8 +144,10 @@ export const testValidIntegration = (url, platform) => {
 
 // SAVE/EDIT INTEGRATIONS
 export const updateIntegration = async (artistId, integration, link, action = 'add') => {
-  console.log('updateIntegration', integration)
-  const { platform, accountIdKey } = integration
+  const { platform } = integration
+  const accountIdKey = integration.accountIdKey
+    ? integration.accountIdKey
+    : getIntegrationInfo(integration).accountIdKey
   // DELETE
   if (action === 'delete') {
     return appServer.updateIntegration(artistId, [{ platform, value: null }])
