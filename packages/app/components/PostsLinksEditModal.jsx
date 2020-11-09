@@ -150,6 +150,19 @@ const PostsLinksEditModal = ({
           value={linkProps.name}
           required
         />
+        {/* SAVE LINK OPTION */}
+        {isPostLink && (
+          <div className="mb-7">
+            <CheckboxButton
+              label="Save link?"
+              value="yes"
+              checked={savePostLink}
+              onChange={(value, checked) => {
+                setSavePostLink(!checked)
+              }}
+            />
+          </div>
+        )}
         {/* FOLDER OPTION */}
         {showFolderOption && (
           <>
@@ -195,19 +208,6 @@ const PostsLinksEditModal = ({
               />
             )}
           </>
-        )}
-        {/* SAVE LINK OPTION */}
-        {isPostLink && (
-          <div className="mb-7">
-            <CheckboxButton
-              label="Save link?"
-              value="yes"
-              checked={savePostLink}
-              onChange={(value, checked) => {
-                setSavePostLink(!checked)
-              }}
-            />
-          </div>
         )}
       </form>
       {/* CANNOT DELETE DEFAULT */}

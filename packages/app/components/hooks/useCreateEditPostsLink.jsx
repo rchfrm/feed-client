@@ -64,7 +64,7 @@ const useCreateEditPostsLink = ({
       updateLinksStore('updateDefault', { newArtist })
     }
     // Success
-    onSave()
+    onSave(savedLink)
     setSidePanelLoading(false)
   }
 
@@ -82,7 +82,7 @@ const useCreateEditPostsLink = ({
     // Update store
     updateLinksStore(action, { newFolder: savedFolder, oldFolder })
     // Success
-    onSave()
+    onSave(savedFolder)
     setSidePanelLoading(false)
   }
 

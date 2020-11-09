@@ -98,6 +98,11 @@ const PostLinksSelect = ({
   const showAddLinkModal = useCreateEditPostsLink({
     action: 'add',
     location: componentLocation,
+    // Set link as post link when added
+    onSave: (savedLink) => {
+      const { id: linkId } = savedLink
+      setSelectedOptionValue(linkId)
+    },
   })
 
   // HANDLE SETTING SELECTED LINK
