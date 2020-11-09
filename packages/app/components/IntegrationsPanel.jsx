@@ -25,6 +25,7 @@ const IntegrationsPanel = ({
       category_list: artistCategories,
       integrations,
     },
+    setArtist,
   } = React.useContext(ArtistContext)
 
   // IS ARTIST MUSICIAN
@@ -40,8 +41,7 @@ const IntegrationsPanel = ({
     if (!artistId) return
     const formattedIntegrations = integrationHelpers.formatAndFilterIntegrations(integrations, isMusician)
     setSavedIntegrations(formattedIntegrations)
-  // eslint-disable-next-line
-  }, [artistId])
+  }, [artistId, integrations, isMusician])
 
   console.log('integrationsFormatted', savedIntegrations)
 
@@ -57,9 +57,8 @@ const IntegrationsPanel = ({
             <IntegrationsPanelIntegration
               key={integration.platform}
               artistId={artistId}
-              isMusician={isMusician}
               integration={integration}
-              updateIntegrations={setSavedIntegrations}
+              setArtist={setArtist}
               className="mb-8 mr-8 sm:mb-0 sm:mr-0 last:mb-0"
             />
           )

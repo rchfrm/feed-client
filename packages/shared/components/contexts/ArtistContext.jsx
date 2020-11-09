@@ -26,6 +26,7 @@ const initialArtistState = {
     },
   },
   priority_dsp: '',
+  integrations: {},
   currency: '',
   users: {},
   min_daily_budget_info: {},
@@ -69,6 +70,10 @@ const artistReducer = (draftState, action) => {
     }
     case 'update-post-preferences': {
       draftState.preferences.posts[payload.preferenceType] = payload.value
+      break
+    }
+    case 'update-integrations': {
+      draftState.integrations = payload.integrations
       break
     }
     default:

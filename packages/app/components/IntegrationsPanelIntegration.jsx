@@ -9,13 +9,10 @@ import brandColors from '@/constants/brandColors'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useEditIntegration from '@/app/hooks/useEditIntegration'
 
-import * as integrationHelpers from '@/app/helpers/integrationHelpers'
-
 const IntegrationsPanelIntegration = ({
   integration,
   artistId,
-  isMusician,
-  updateIntegrations,
+  setArtist,
   className,
 }) => {
   const { title, platform, accountId, color } = integration
@@ -31,9 +28,12 @@ const IntegrationsPanelIntegration = ({
     artistId,
     onSuccess: (updatedArtist) => {
       const { integrations } = updatedArtist
-      const formattedIntegrations = integrationHelpers.formatAndFilterIntegrations(integrations, isMusician)
-      console.log('formattedIntegrations', formattedIntegrations)
-      updateIntegrations(formattedIntegrations)
+      setArtist({
+        type: 'update-integrations',
+        payload: {
+          integrations,
+        },
+      })
     },
   })
   // GET BUTTON SIZE
@@ -73,8 +73,7 @@ const IntegrationsPanelIntegration = ({
 IntegrationsPanelIntegration.propTypes = {
   integration: PropTypes.object.isRequired,
   artistId: PropTypes.string.isRequired,
-  isMusician: PropTypes.bool.isRequired,
-  updateIntegrations: PropTypes.func.isRequired,
+  setArtist: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
