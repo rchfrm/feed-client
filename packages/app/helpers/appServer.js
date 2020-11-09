@@ -90,7 +90,9 @@ export const updateIntegration = async (artistId, integrations) => {
       return obj
     }
     // For adding
+    obj[platform] = {}
     obj[platform][accountIdKey] = value
+
     return obj
   }, {})
   const payload = { integrations: integrationsPayload }
