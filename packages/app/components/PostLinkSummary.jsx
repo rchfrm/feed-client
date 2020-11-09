@@ -3,18 +3,29 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
 import PropTypes from 'prop-types'
 
-import brandColors from '@/constants/brandColors'
-
 import LinkIcon from '@/icons/LinkIcon'
 
+import linksStore from '@/app/store/linksStore'
+
 import styles from '@/app/PostItem.module.css'
+
+import { getLinkById } from '@/app/helpers/linksHelpers'
+
+import brandColors from '@/constants/brandColors'
 
 const PostLinkSummary = ({
   linkPanelOpen,
   isAnimating,
-  postLinkPlatform,
-  postLinkUrl,
+  currentLinkId,
 }) => {
+  // GET FULL INFO ABOUT CURRENT LINK
+  const nestedLinks = linksStore(state => state.nestedLinks)
+  const defaultLink = linksStore(state => state.defaultLink)
+  const currentLink = React.useMemo(() => {
+    return currentLinkId ? getLinkById(nestedLinks, currentLinkId) : defaultLink
+  }, [currentLinkId, defaultLink, nestedLinks])
+  const { href: postLinkUrl, name: postLinkName } = currentLink || {}
+
   return (
     <div className={styles.postLinkSummary}>
       <LinkIcon fill={brandColors.bgColor} className={styles.postLinkIcon} />
@@ -38,10 +49,10 @@ const PostLinkSummary = ({
                     rel="noreferrer noopener"
                     className={styles.postLinkAnchor}
                   >
-                    {postLinkPlatform}
+                    {postLinkName}
                   </a>
                 ) : (
-                  <span>{postLinkPlatform}</span>
+                  <span>{postLinkName}</span>
                 )}
               </>
             )}
@@ -55,12 +66,11 @@ const PostLinkSummary = ({
 PostLinkSummary.propTypes = {
   linkPanelOpen: PropTypes.bool.isRequired,
   isAnimating: PropTypes.bool.isRequired,
-  postLinkPlatform: PropTypes.string.isRequired,
-  postLinkUrl: PropTypes.string,
+  currentLinkId: PropTypes.string,
 }
 
 PostLinkSummary.defaultProps = {
-  postLinkUrl: '',
+  currentLinkId: '',
 }
 
 

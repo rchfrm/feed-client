@@ -9,6 +9,7 @@ import * as server from '@/app/helpers/appServer'
 
 export const defaultFolderId = '_default'
 export const integrationsFolderId = '_integrations'
+export const defaultPostLinkId = '_default'
 
 // Split links into loose and folders
 export const splitLinks = (nestedLinks = []) => {
@@ -17,6 +18,13 @@ export const splitLinks = (nestedLinks = []) => {
   return { looseLinks, folderLinks }
 }
 
+// Get link by ID
+export const getLinkById = (nestedLinks, linkId) => {
+  const allLinks = nestedLinks.reduce((arr, { links }) => {
+    return [...arr, ...links]
+  }, [])
+  return allLinks.find(({ id }) => id === linkId)
+}
 
 // * SERVER
 // ------------
@@ -113,15 +121,12 @@ export const setDefaultLink = async (artistId, linkId) => {
  * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setPostLink = (linkId) => {
-  const linkIntegration = extractLinkIntegration(linkId)
-  console.log('linkIntegration', linkIntegration)
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('set post link:', linkId)
-      resolve({ res: true, error: false })
-    }, 500)
-  })
+export const setPostLink = (artistId, linkId, assetId) => {
+  // Handle choosing "Use default" from post link
+  if (linkId === '_default') {
+    linkId = null
+  }
+  return server.setPostLink(artistId, assetId, linkId)
 }
 
 

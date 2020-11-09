@@ -30,7 +30,7 @@ const postsReducer = (draftState, postsAction) => {
     postIndex,
     promotionEnabled,
     promotableStatus,
-    postLink,
+    linkId,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -50,7 +50,7 @@ const postsReducer = (draftState, postsAction) => {
       })
       break
     case 'update-link':
-      draftState[postIndex].priorityDsp = postLink
+      draftState[postIndex].linkId = linkId
       break
     default:
       return draftState
@@ -240,26 +240,24 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   }, [setRefreshPosts, refreshPosts])
 
   // Define function to update links
-  const updateLink = React.useCallback((postIndex, postLink) => {
+  const updateLink = React.useCallback((postIndex, linkId) => {
     setPosts({
       type: 'update-link',
       payload: {
         postIndex,
-        postLink,
+        linkId,
       },
     })
     track({
       category: 'Posts',
       action: 'Post link changed',
-      description: `New link: ${postLink}`,
+      description: `New link: ${linkId}`,
       label: `artistId: ${artistId}`,
     })
   }, [setPosts, artistId])
 
   // Wait if initial loading
-  if (artistLoading) {
-    return null
-  }
+  if (artistLoading) return null
 
   // Show no posts message if no posts
   if (!isPending && !loadingMore && !posts.length) {

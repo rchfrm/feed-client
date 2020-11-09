@@ -10,21 +10,22 @@ import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
-import { splitLinks } from '@/app/helpers/linksHelpers'
+import { splitLinks, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 
 const PostLinksSelect = ({
   currentLinkId,
   selectClassName,
   onSelect,
   onSuccess,
+  onError,
+  postItemId,
   includeDefaultLink,
   includeAddLinkOption,
   componentLocation,
-  postId,
 }) => {
   const artistId = linksStore(state => state.artistId)
   const nestedLinks = linksStore(state => state.nestedLinks)
-  const defaultLink = linksStore(state => state.defaultLink)
+  const defaultLink = linksStore(state => state.defaultLink) || {}
   const integrations = linksStore(state => state.integrations)
 
   // STORE INTERNAL LINK
@@ -82,7 +83,7 @@ const PostLinksSelect = ({
     // Add DEFAULT link if needed
     if (includeDefaultLink) {
       const { name } = defaultLink
-      otherOptionsGroup.options.push({ name: `Use Default Link (${name})`, value: '_default' })
+      otherOptionsGroup.options.push({ name: `Use Default Link (${name})`, value: defaultPostLinkId })
     }
     // Add NEW LINK option
     if (includeAddLinkOption) {
@@ -110,12 +111,17 @@ const PostLinksSelect = ({
     }
     setLoading(true)
     // Run server
-    const { res, error } = await onSelect(artistId, selectedOptionValue)
+    const { res, error } = await onSelect(artistId, selectedOptionValue, postItemId)
     if (!isMounted()) return
-    // Reset value if error
+    // Handle error
     if (error) {
+      // Reset value if error
       setSelectedOptionValue(currentLinkId)
-      setError(error)
+      if (onError) {
+        onError(error)
+      } else {
+        setError(error)
+      }
       return
     }
     // Success
@@ -153,22 +159,25 @@ const PostLinksSelect = ({
 }
 
 PostLinksSelect.propTypes = {
-  currentLinkId: PropTypes.string.isRequired,
+  currentLinkId: PropTypes.string,
   selectClassName: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   onSuccess: PropTypes.func,
+  onError: PropTypes.func,
+  postItemId: PropTypes.string,
   includeDefaultLink: PropTypes.bool,
   includeAddLinkOption: PropTypes.bool,
   componentLocation: PropTypes.string.isRequired,
-  postId: PropTypes.string,
 }
 
 PostLinksSelect.defaultProps = {
+  currentLinkId: defaultPostLinkId,
   onSuccess: () => {},
+  onError: null,
+  postItemId: '',
   selectClassName: null,
   includeDefaultLink: false,
   includeAddLinkOption: false,
-  postId: '',
 }
 
 

@@ -29,10 +29,7 @@ const fetchIntegrations = (artist) => {
 // * DEFAULT LINK
 const getDefaultLink = ({ nestedLinks, artist, linkId }) => {
   const defaultLinkId = linkId || get(artist, ['preferences', 'posts', 'default_link_id'], '')
-  const allLinks = nestedLinks.reduce((arr, { links }) => {
-    return [...arr, ...links]
-  }, [])
-  return allLinks.find(({ id }) => id === defaultLinkId)
+  return linksHelpers.getLinkById(nestedLinks, defaultLinkId) || {}
 }
 
 // * FETCH LINKS

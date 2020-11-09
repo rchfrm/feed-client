@@ -28,7 +28,8 @@ const PostItem = ({
   const [error, setError] = React.useState(null)
   // EXTRACT POST DATA
   const {
-    priorityDsp,
+    id: postId,
+    linkId,
     postPromotable,
     promotionStatus,
     promotionEnabled,
@@ -84,11 +85,11 @@ const PostItem = ({
         {/* POST LINK */}
         {postPromotable && !turningOffRunning && (
           <PostItemLink
-            postId={post.id}
+            postId={postId}
             postIndex={index}
             promotionEnabled={promotionEnabled}
             promotionStatus={promotionStatus}
-            priorityDsp={priorityDsp}
+            linkId={linkId}
             updateLink={updateLink}
             setError={setError}
           />
@@ -106,7 +107,7 @@ const PostItem = ({
         {/* DISABLE ACTIVE POST WARNING */}
         {postPromotable && promotionStatus === 'active' && (
           <PostItemDisableWarning
-            postId={post.id}
+            postId={postId}
             postStatus={promotionStatus}
             promotionEnabled={promotionEnabled}
             promotableStatus={promotableStatus}
