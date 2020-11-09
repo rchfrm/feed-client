@@ -43,8 +43,6 @@ const IntegrationsPanel = ({
     setSavedIntegrations(formattedIntegrations)
   }, [artistId, integrations, isMusician])
 
-  console.log('integrationsFormatted', savedIntegrations)
-
   return (
     <section>
       <h2 className={sidePanelStyles.SidePanel__Header}>Integrations</h2>

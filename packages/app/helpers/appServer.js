@@ -100,7 +100,6 @@ export const updateIntegration = async (artistId, integrations) => {
     category: 'Integrations',
     action: 'Update integration',
   }
-  console.log('payload', payload)
   return requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 

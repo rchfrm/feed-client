@@ -97,21 +97,12 @@ export const saveLink = async (artistId, link, action = 'add') => {
   console.error('No action defined in saveLink')
 }
 
-// TEST IF LINK ID IS INTEGRATION
-const extractLinkIntegration = (linkId) => {
-  const isIntegration = linkId.includes('_integration_')
-  if (!isIntegration) return null
-  return linkId.replace('_integration_', '')
-}
-
 // DEFAULT LINK
 /**
  * @param {string} linkId
  * @returns {Promise<any>}
  */
 export const setDefaultLink = async (artistId, linkId) => {
-  const linkIntegration = extractLinkIntegration(linkId)
-  console.log('linkIntegration', linkIntegration)
   return server.setLinkAsDefault(artistId, linkId)
 }
 

@@ -19,7 +19,6 @@ const useEditIntegration = ({ artistId, onSuccess = () => {} }) => {
   const runSaveIntegration = React.useCallback(async (integration, link, action) => {
     setSidePanelLoading(true)
     const { res: updatedArtist, error } = await updateIntegration(artistId, integration, link, action)
-    console.log('updatedArtist', updatedArtist)
     setSidePanelLoading(false)
     // Error
     if (error) {

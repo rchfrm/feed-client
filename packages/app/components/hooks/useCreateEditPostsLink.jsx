@@ -53,7 +53,6 @@ const useCreateEditPostsLink = ({
       openLink(oldLink, error)
       return
     }
-    console.log('savedLink', savedLink)
     // Update store
     updateLinksStore(action, { newLink: savedLink, oldLink })
     // If created from default link selector, set as default
@@ -75,7 +74,6 @@ const useCreateEditPostsLink = ({
   const saveFolderOnServer = async (newFolder, action, oldFolder) => {
     const isDefaultLinkInFolder = testFolderContainsDefault(oldFolder)
     const { res: savedFolder, error } = await saveFolder(artistId, newFolder, action, isDefaultLinkInFolder)
-    console.log('savedFolder', savedFolder)
     // Error
     if (error) {
       // eslint-disable-next-line
