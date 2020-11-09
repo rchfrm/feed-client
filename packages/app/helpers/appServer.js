@@ -70,6 +70,38 @@ export const updatePriorityDSP = async (artistId, priorityDSP, verifyIdToken) =>
   return api.patch(`/artists/${artistId}`, { priority_dsp: priorityDSP }, verifyIdToken)
 }
 
+
+// * INTEGRATIONS
+// -------------------
+/**
+ * @param {string} artistId
+ * @param {array} integrations
+ * @returns {Promise<any>}
+ * To delete: integrations = [{ platform: <platform_id>, value: null }]
+ * To add/edit: integrations = [{ platform: <platform_id>, value: <account_id>, accountIdKey: <accountIdKey> } }]
+ */
+export const updateIntegration = async (artistId, integrations) => {
+  const requestUrl = `/artists/${artistId}`
+  const integrationsPayload = integrations.reduce((obj, integration) => {
+    const { platform, value, accountIdKey } = integration
+    // For deleting
+    if (!value) {
+      obj[platform] = null
+      return obj
+    }
+    // For adding
+    obj[platform][accountIdKey] = value
+    return obj
+  }, {})
+  const payload = { integrations: integrationsPayload }
+  const errorTracking = {
+    category: 'Integrations',
+    action: 'Update integration',
+  }
+  console.log('payload', payload)
+  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
 // * DATA INSIGHTS
 // -------------------
 

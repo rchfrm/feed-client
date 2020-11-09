@@ -1,29 +1,8 @@
 import brandColors from '@/constants/brandColors'
 import * as utils from '@/helpers/utils'
 
-export const dummyIntegrations = [
-  {
-    platform: 'facebook',
-    accountId: 'mouseworks',
-    url: 'https://facebook.com/mouseworks',
-  },
-  {
-    platform: 'instagram',
-    accountId: 'mouseworksPhoto',
-  },
-  {
-    platform: 'soundcloud',
-    accountId: 'mouseworksSounds',
-  },
-  {
-    platform: 'spotify',
-    accountId: null,
-  },
-  {
-    platform: 'youtube',
-    accountId: null,
-  },
-]
+import * as appServer from '@/app/helpers/appServer'
+
 
 // INTEGRATION UTILS
 // ------------------
@@ -77,6 +56,7 @@ export const getIntegrationInfo = (integration) => {
         color: brandColors[platform],
         musicOnly: false,
         editable: true,
+        hidden: true,
       }
     case 'youtube':
       return {
@@ -100,20 +80,35 @@ export const getIntegrationUrl = (integration, baseUrl) => {
   return `${initialUrl}${accountId}`
 }
 
+const integrationPlaceholders = {
+  facebook: null,
+  instagram: null,
+  spotify: null,
+  twitter: null,
+  youtube: null,
+}
+
 // Remove non-musician INTs and add more info
 export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpty = false) => {
-  const integrationsArray = Object.entries(integrations).reduce((filteredList, [platform, integration]) => {
+  // Fill in missing server Ints with placeholders
+  const integrationsMerged = {
+    ...integrationPlaceholders,
+    ...integrations,
+  }
+  const integrationsArray = Object.entries(integrationsMerged).reduce((filteredIntegrations, [platform, integration]) => {
     const integrationInfo = getIntegrationInfo({ platform })
     const { musicOnly, accountIdKey } = integrationInfo
-    const isEmpty = !integration[accountIdKey]
+    const accountId = integration ? integration[accountIdKey] : null
+    const isEmpty = !accountId
     // Ignore music integration if not a musician (and not already filled)
-    if (musicOnly && !isMusician && isEmpty) return filteredList
-    if (ignoreEmpty && isEmpty) return filteredList
+    if (musicOnly && !isMusician && isEmpty) return filteredIntegrations
+    if (ignoreEmpty && isEmpty) return filteredIntegrations
     // Else add to list with title and url
-    return [...filteredList, {
+    return [...filteredIntegrations, {
       ...integration,
       ...integrationInfo,
       platform,
+      accountId,
     }]
   }, [])
   return utils.sortArrayByKey(integrationsArray, 'platform')
@@ -148,13 +143,14 @@ export const testValidIntegration = (url, platform) => {
 
 
 // SAVE/EDIT INTEGRATIONS
-export const saveIntegration = (integration, link, action = 'add') => {
-  const integrationRegex = testValidIntegration(link, integration.platform)
+export const updateIntegration = async (artistId, integration, link, action = 'add') => {
+  console.log('updateIntegration', integration)
+  const { platform, accountIdKey } = integration
+  // DELETE
+  if (action === 'delete') {
+    return appServer.updateIntegration(artistId, [{ platform, value: null }])
+  }
+  const integrationRegex = testValidIntegration(link, platform)
   const accountId = integrationRegex[integrationRegex.length - 1]
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('save integration:', integration.platform, `, action: ${action}`, `platform ID: ${accountId}`)
-      resolve({ res: true, error: false })
-    }, 500)
-  })
+  return appServer.updateIntegration(artistId, [{ platform, accountIdKey, value: accountId }])
 }

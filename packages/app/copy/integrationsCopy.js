@@ -15,7 +15,7 @@ export default {
 - create your audience breakdown for geographic targeting options on the Controls page (Spotify only).`,
 
   // MODAL COPY
-  cannotDelete: (platformTitle) => `It's not possible to disconnect your ${platformTitle} integration.
+  cannotDelete: (platformTitle) => `It's currently not possible to disconnect or edit your ${platformTitle} integration.
   
 To change this integration, please email [help@tryfeed.co](mailto:help@tryfeed.co).`,
   deleteConfirmation: (platform) => `### Disconnect integration

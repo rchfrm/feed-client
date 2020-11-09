@@ -23,10 +23,9 @@ const IntegrationsPanel = ({
     artistId,
     artist: {
       category_list: artistCategories,
+      integrations,
     },
   } = React.useContext(ArtistContext)
-
-  const integrations = integrationHelpers.dummyIntegrations
 
   // IS ARTIST MUSICIAN
   const isMusician = React.useMemo(() => {
@@ -36,22 +35,31 @@ const IntegrationsPanel = ({
 
   // REMOVE NON-MUSICIAN INTEGRATIONS if necessary
   // and ADD EXTRA INFO
-  const integrationsFormatted = React.useMemo(() => {
-    return integrationHelpers.formatAndFilterIntegrations(integrations, isMusician)
+  const [savedIntegrations, setSavedIntegrations] = React.useState([])
+  React.useEffect(() => {
+    if (!artistId) return
+    const formattedIntegrations = integrationHelpers.formatAndFilterIntegrations(integrations, isMusician)
+    setSavedIntegrations(formattedIntegrations)
   // eslint-disable-next-line
   }, [artistId])
 
+  console.log('integrationsFormatted', savedIntegrations)
 
   return (
     <section>
       <h2 className={sidePanelStyles.SidePanel__Header}>Integrations</h2>
       <MarkdownText markdown={copy.sidepanelIntro} className="mb-8" />
       <ul className="sm:grid grid-cols-2 gap-8">
-        {integrationsFormatted.map((integration) => {
+        {savedIntegrations.map((integration) => {
+          const { hidden } = integration
+          if (hidden) return null
           return (
             <IntegrationsPanelIntegration
               key={integration.platform}
+              artistId={artistId}
+              isMusician={isMusician}
               integration={integration}
+              updateIntegrations={setSavedIntegrations}
               className="mb-8 mr-8 sm:mb-0 sm:mr-0 last:mb-0"
             />
           )
