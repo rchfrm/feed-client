@@ -20,6 +20,12 @@ const initialState = {
   togglePromotionGlobal: () => {},
 }
 
+// * INTEGRATIONS
+const fetchIntegrations = (artist) => {
+  const { isMusician, integrations } = artist
+  return formatAndFilterIntegrations(integrations, isMusician, true)
+}
+
 // * DEFAULT LINK
 const getDefaultLink = ({ nestedLinks, artist, linkId }) => {
   const defaultLinkId = linkId || get(artist, ['preferences', 'posts', 'default_link_id'], '')
@@ -58,10 +64,7 @@ const fetchLinks = (set, get) => async (action) => {
     set({ linkBankError })
     return { error }
   }
-  const { folders, integrations = [] } = res
-  // Format integrations
-  const { isMusician } = artist
-  const formattedIntegrations = formatAndFilterIntegrations(integrations, isMusician, true)
+  const { folders } = res
   // Create array of links in folders for display
   const nestedLinks = formatServerLinks(folders)
   // Create an array of folder IDs
@@ -72,7 +75,6 @@ const fetchLinks = (set, get) => async (action) => {
   set({
     savedFolders,
     nestedLinks,
-    integrations: formattedIntegrations,
     linksLoading: false,
     linkBankError: null,
     defaultLink,
@@ -164,6 +166,9 @@ const [linksStore] = create((set, get) => ({
       artistId: artist.id,
       linksLoading: false,
     })
+    // Set integrations
+    const integrations = fetchIntegrations(artist)
+    set({ integrations })
     // Fetch links
     if (action === 'fetchLinks') {
       get().fetchLinks('force')

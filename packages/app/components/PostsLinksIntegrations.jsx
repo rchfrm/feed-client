@@ -28,20 +28,20 @@ const PostsLinksIntegrations = ({
         ].join(' ')}
       >
         {integrations.map((integration) => {
-          const { platform, link } = integration
-          const text = link || 'not connnected'
-          if (useSelectMode && !link) return null
+          const { platform, href, title } = integration
+          const text = `${title} account` || 'not connnected'
+          if (useSelectMode && !href) return null
           return (
             <li
               key={platform}
               className={[
                 useSelectMode ? 'mb-8' : 'mb-6',
                 'last:mb-0',
-                !link ? 'text-grey-3' : null,
+                !href ? 'text-grey-3' : null,
               ].join(' ')}
             >
               <p className="flex items-center mb-0">
-                <span className={['mr-5', !link ? 'opacity-50' : null].join(' ')}>
+                <span className={['mr-5', !href ? 'opacity-50' : null].join(' ')}>
                   <PlatformIcon
                     platform={platform}
                     className="w-6 h-auto"
@@ -49,9 +49,9 @@ const PostsLinksIntegrations = ({
                 </span>
                 {useSelectMode ? (
                   <RadioButton
-                    value={link}
-                    name={link}
-                    label={link}
+                    value={href}
+                    name={text}
+                    label={text}
                     checked={false}
                     onChange={() => {}}
                     className="mb-0"

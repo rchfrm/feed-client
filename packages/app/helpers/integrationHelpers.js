@@ -37,13 +37,15 @@ export const getIntegrationInfo = (integration) => {
         title: 'Facebook',
         baseUrl: 'https://facebook.com/',
         placeholderUrl: 'https://facebook.com/<page ID>',
+        accountIdKey: 'page_id',
         color: brandColors[platform],
       }
     case 'instagram':
       return {
         title: 'Instagram',
         baseUrl: 'https://instagram.com/',
-        placeholderUrl: 'https://instagram.com/accountName',
+        placeholderUrl: 'https://instagram.com/<username>',
+        accountIdKey: 'username', // TODO
         color: brandColors[platform],
       }
     case 'soundcloud':
@@ -51,6 +53,7 @@ export const getIntegrationInfo = (integration) => {
         title: 'Soundcloud',
         baseUrl: 'https://soundcloud.com/',
         placeholderUrl: 'https://soundcloud.com/< account ID>',
+        accountIdKey: 'username',
         color: brandColors[platform],
         musicOnly: true,
         editable: true,
@@ -60,8 +63,19 @@ export const getIntegrationInfo = (integration) => {
         title: 'Spotify',
         baseUrl: 'https://spotify.com/',
         placeholderUrl: 'https://spotify.com/artist/<artist ID>',
+        accountIdKey: 'artist_id',
         color: brandColors[platform],
         musicOnly: true,
+        editable: true,
+      }
+    case 'twitter':
+      return {
+        title: 'Twitter',
+        baseUrl: 'https://twitter.com/',
+        placeholderUrl: 'https://twitter.com/<username>',
+        accountIdKey: 'username',
+        color: brandColors[platform],
+        musicOnly: false,
         editable: true,
       }
     case 'youtube':
@@ -69,6 +83,7 @@ export const getIntegrationInfo = (integration) => {
         title: 'YouTube',
         baseUrl: 'https://youtube.com/',
         placeholderUrl: 'https://youtube.com/channel/<channel ID>',
+        accountIdKey: 'channel_id',
         color: brandColors[platform],
         editable: true,
       }
@@ -87,10 +102,10 @@ export const getIntegrationUrl = (integration, baseUrl) => {
 
 // Remove non-musician INTs and add more info
 export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpty = false) => {
-  return integrations.reduce((filteredList, integration) => {
-    const integrationInfo = getIntegrationInfo(integration)
-    const { musicOnly, baseUrl } = integrationInfo
-    const isEmpty = !integration.accountId
+  const integrationsArray = Object.entries(integrations).reduce((filteredList, [platform, integration]) => {
+    const integrationInfo = getIntegrationInfo({ platform })
+    const { musicOnly, accountIdKey } = integrationInfo
+    const isEmpty = !integration[accountIdKey]
     // Ignore music integration if not a musician (and not already filled)
     if (musicOnly && !isMusician && isEmpty) return filteredList
     if (ignoreEmpty && isEmpty) return filteredList
@@ -98,9 +113,10 @@ export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpt
     return [...filteredList, {
       ...integration,
       ...integrationInfo,
-      link: getIntegrationUrl(integration, baseUrl),
+      platform,
     }]
   }, [])
+  return utils.sortArrayByKey(integrationsArray, 'platform')
 }
 
 
