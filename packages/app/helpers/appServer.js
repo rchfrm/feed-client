@@ -153,7 +153,7 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
   return api.get(`/artists/${artistId}/data_sources/${dataSource}/annualized`)
 }
 
-// ASSETS / POSTS
+// * ASSETS / POSTS
 //-------------------------
 
 /**
@@ -242,6 +242,24 @@ export const updateAccessToken = async (artistId, accessToken) => {
   }
   return res
 }
+
+// Set link on post
+/**
+* @param {string} artistId
+* @param {string} assetId
+* @param {string} linkId
+* @returns {Promise<object>} { res, error }
+*/
+export const setPostLink = (artistId, assetId, linkId) => {
+  const requestUrl = `/artists/${artistId}/assets/${assetId}`
+  const payload = { link_id: linkId }
+  const errorTracking = {
+    category: 'Links',
+    action: 'Set link as post link',
+  }
+  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
 
 
 // * TARGETING
@@ -357,24 +375,6 @@ export const setLinkAsDefault = (artistId, linkId) => {
   }
   return requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
-
-// Set link on post
-/**
-* @param {string} artistId
-* @param {string} assetId
-* @param {string} linkId
-* @returns {Promise<object>} { res, error }
-*/
-export const setPostLink = (artistId, assetId, linkId) => {
-  const requestUrl = `/artists/${artistId}/assets/${assetId}`
-  const payload = { link_id: linkId }
-  const errorTracking = {
-    category: 'Links',
-    action: 'Set link as post link',
-  }
-  return requestWithCatch('patch', requestUrl, payload, errorTracking)
-}
-
 
 
 // * INTEGRATION ERRORS
