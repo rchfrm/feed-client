@@ -1,6 +1,12 @@
 .content {
+  max-height: calc(100% - var(--sp-8));
   width: calc(100% - var(--sp-8));
   @media(--min-content) {
     width: 100%;
   }
+}
+
+.buttonsContainer {
+  position: relative;
+  width: 100%;
 }

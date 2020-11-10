@@ -97,22 +97,27 @@ const AlertModal = () => {
             {/* CONTENT */}
             <div
               className={[
-                'relative bg-white',
+                'relative',
+                'rounded-dialogue bg-white',
                 'mx-8 sm:mx-20 max-w-lg',
-                'p-4 sm:p-5 rounded-dialogue',
+                'overflow-auto',
                 styles.content,
               ].join(' ')}
               style={{
                 zIndex: 2,
-                paddingBottom: `${4 * buttons.length}rem`,
               }}
             >
-              {/* COPY */}
-              {copy && <MarkdownText markdown={copy} />}
-              {/* CHILDREN */}
-              {children}
+              {/* CONTENT INNER */}
+              <div
+                className={['p-4 sm:p-5 pb-0'].join(' ')}
+              >
+                {/* COPY */}
+                {copy && <MarkdownText markdown={copy} />}
+                {/* CHILDREN */}
+                {children}
+              </div>
               {/* BUTTONS */}
-              <div className="absolute bottom-0 left-0 w-full">
+              <div>
                 {buttons.map((buttonConfig, index) => {
                   const { text, color, onClick, href, facebookButton, disabled } = buttonConfig
                   const firstButton = index === 0
