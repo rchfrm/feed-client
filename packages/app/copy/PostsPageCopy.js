@@ -126,6 +126,8 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
 
 Deleting a folder will delete all the links inside it.`,
 
+  integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
+
 
   // LINK TRACKING
   linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `If you have access to Google Analytics for the website(s) your ads link to, you can view information about the people Feed is sending by going to Acquisition > All Traffic > Source/Medium.

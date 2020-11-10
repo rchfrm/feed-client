@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import PlatformIcon from '@/icons/PlatformIcon'
 import Button from '@/elements/Button'
 import RadioButton from '@/elements/RadioButton'
+import MarkdownText from '@/elements/MarkdownText'
 
 // eslint-disable-next-line
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
@@ -11,6 +12,7 @@ import useOpenIntegrationsPanel from '@/app/hooks/useOpenIntegrationsPanel'
 
 import { removeProtocolFromUrl } from '@/helpers/utils'
 
+import copy from '@/app/copy/PostsPageCopy'
 const PostsLinksIntegrations = ({
   integrations,
   className,
@@ -21,7 +23,8 @@ const PostsLinksIntegrations = ({
     goBack: goToPostLinks,
   })
   return (
-    <>
+    <div>
+      <MarkdownText markdown={copy.integrationLinksIntro} />
       <ul
         className={[
           'pt-3 mb-8',
@@ -95,7 +98,7 @@ const PostsLinksIntegrations = ({
           Edit Integrations
         </Button>
       )}
-    </>
+    </div>
   )
 }
 
