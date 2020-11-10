@@ -22,13 +22,13 @@ const PostsLinksList = ({
         <p className="pb-2 text-lg">You don't have any links saved yet.</p>
       )}
       <PostsLinksListButtons
-        className="mb-10"
+        className="mb-8"
         editModeOn={editModeOn}
         setEditModeOn={setEditModeOn}
         totalLinks={mergedLinks.length}
       />
       {!!mergedLinks.length && (
-        <ul className="text-lg">
+        <ul>
           {mergedLinks.map((item) => {
             const { id, links } = item
             const type = links ? 'folder' : 'link'

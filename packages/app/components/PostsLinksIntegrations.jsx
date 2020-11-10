@@ -25,7 +25,6 @@ const PostsLinksIntegrations = ({
       <ul
         className={[
           'pt-3 mb-8',
-          'text-lg',
           className,
         ].join(' ')}
       >
