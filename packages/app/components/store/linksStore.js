@@ -17,7 +17,6 @@ const initialState = {
   integrations: [],
   linksLoading: false,
   linkBankError: null,
-  togglePromotionGlobal: () => {},
 }
 
 // * INTEGRATIONS
@@ -176,13 +175,11 @@ const [linksStore] = create((set, get) => ({
   integrations: initialState.integrations,
   linksLoading: initialState.linksLoading,
   linkBankError: initialState.linkBankError,
-  togglePromotionGlobal: initialState.togglePromotionGlobal,
   // GETTERS
   fetchLinks: fetchLinks(set, get),
   // SETTERS
   updateLinksStore: updateLinksStore(set, get),
   updateIntegrations: updateIntegrations(set),
-  setTogglePromotionGlobal: (togglePromotionGlobal) => set({ togglePromotionGlobal }),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
   init: (artist, action = 'clearLinks') => {

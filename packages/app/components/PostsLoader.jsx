@@ -8,7 +8,7 @@ import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-import useLinksStore from '@/app/hooks/useLinksStore'
+import postsStore from '@/app/store/postsStore'
 // IMPORT ELEMENTS
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
@@ -201,8 +201,8 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   }, [posts, artistId, setPosts])
 
   // Define function to BATCH TOGGLE all posts
-  // and set it on the parent
-  const { setTogglePromotionGlobal } = useLinksStore()
+  // and save it in posts store
+  const setTogglePromotionGlobal = postsStore(state => state.setTogglePromotionGlobal)
   React.useEffect(() => {
     const togglePromotionGlobal = (promotionEnabled) => {
       setPostToggleSetter('batch')

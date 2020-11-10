@@ -3,8 +3,6 @@ import React from 'react'
 import linksStore from '@/app/store/linksStore'
 
 const useLinksStore = () => {
-  const togglePromotionGlobal = linksStore(state => state.togglePromotionGlobal)
-  const setTogglePromotionGlobal = linksStore(state => state.setTogglePromotionGlobal)
   const defaultLink = linksStore(state => state.defaultLink)
   const savedLinks = linksStore(state => state.savedLinks)
   const savedFolders = linksStore(state => state.savedFolders)
@@ -21,8 +19,6 @@ const useLinksStore = () => {
   }, [init])
 
   return {
-    togglePromotionGlobal,
-    setTogglePromotionGlobal,
     fetchLinks,
     savedLinks,
     savedFolders,
