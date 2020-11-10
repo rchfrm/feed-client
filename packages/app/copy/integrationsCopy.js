@@ -18,6 +18,7 @@ export default {
   cannotDelete: (platformTitle) => `It's currently not possible to disconnect or edit your ${platformTitle} integration.
   
 To change this integration, please email [help@tryfeed.co](mailto:help@tryfeed.co).`,
+
   deleteConfirmation: (platform) => `### Disconnect integration
   
 ${getConfirmationText(platform)}

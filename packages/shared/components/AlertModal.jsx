@@ -101,7 +101,6 @@ const AlertModal = () => {
                 'mx-8 sm:mx-20 max-w-lg',
                 'p-4 sm:p-5 rounded-dialogue',
                 styles.content,
-                // 'border-solid border-black border-2',
               ].join(' ')}
               style={{
                 zIndex: 2,
@@ -109,9 +108,7 @@ const AlertModal = () => {
               }}
             >
               {/* COPY */}
-              {copy && (
-                <MarkdownText markdown={copy} />
-              )}
+              {copy && <MarkdownText markdown={copy} />}
               {/* CHILDREN */}
               {children}
               {/* BUTTONS */}
