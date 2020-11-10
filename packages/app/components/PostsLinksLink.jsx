@@ -80,30 +80,46 @@ const PostsLinksLink = ({
         <div className="mb-0 flex items-baseline">
           <div className="w-full">
             {/* LINK TITLE */}
-            <a
+            <p
               className={[
-                'inline-flex items-baseline no-underline',
-                editModeOn ? 'wobble-animation' : null,
+                'inline-flex items-baseline no-underline mb-0',
               ].join(' ')}
-              role="button"
-              onClick={editModeOn ? () => editLink(link) : () => {}}
             >
-              <span
-                className="inline-block mr-2"
-                style={{
-                  transform: 'translateY(-0.1rem)',
-                }}
+              <a
+                role="button"
+                onClick={editModeOn ? () => editLink(link) : () => {}}
+                className={[
+                  'no-underline',
+                  editModeOn ? 'wobble-animation' : null,
+                ].join(' ')}
               >
-                <LinkIcon />
-              </span>
-              {link.name}
+                <span
+                  className="inline-block mr-2"
+                  style={{
+                    transform: 'translateY(-0.1rem)',
+                  }}
+                >
+                  <LinkIcon />
+                </span>
+                {link.name}
+              </a>
               {isDefaultLink && (
                 <span className="flex text-green pl-2 text-sm">
                   <strong className="pr-1" style={{ transform: 'translateY(0.2em)' }}>*</strong>
                   <strong>default link</strong>
                 </span>
               )}
-            </a>
+              {/* DELETE BUTTON */}
+              {!isDefaultLink && editModeOn && (
+                <a
+                  className="text-sm text-red no-underline ml-4 pr-6 pt-3 -mt-3"
+                  role="button"
+                  onClick={deleteLink}
+                >
+                  <TrashIcon className="h-3 w-auto" fill={brandColors.red} />
+                </a>
+              )}
+            </p>
             {/* LINK PREVIEW */}
             <a
               className="block pt-1 text-xs text-grey-3 truncate w-full"
@@ -116,16 +132,6 @@ const PostsLinksLink = ({
               {removeProtocolFromUrl(link.href)}
             </a>
           </div>
-          {/* DELETE BUTTON */}
-          {!isDefaultLink && editModeOn && (
-            <a
-              className="text-sm text-red no-underline ml-4 pr-6 pt-3 -mt-3"
-              role="button"
-              onClick={deleteLink}
-            >
-              <TrashIcon className="h-3 w-auto" fill={brandColors.red} />
-            </a>
-          )}
         </div>
       )}
     </li>
