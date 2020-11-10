@@ -32,18 +32,40 @@ const updateIntegrations = (set) => (artist) => {
 }
 
 // * DEFAULT LINK
-const getDefaultLink = ({ nestedLinks, artist, linkId }) => {
+const getDefaultLink = ({ linkFolders, artist, linkId }) => {
   const defaultLinkId = linkId || getDefaultLinkId(artist)
-  return linksHelpers.getLinkById(nestedLinks, defaultLinkId) || {}
+  return linksHelpers.getLinkById(linkFolders, defaultLinkId) || {}
 }
 
 // * FETCH LINKS
 
-const formatServerLinks = (folders) => {
-  // Now remove loose links and integrations
-  const foldersTidied = folders.filter(({ id }) => id !== integrationsFolderId)
-  // Return array of folders and loose links
-  return foldersTidied.map((item) => { return { ...item, type: 'folder' } })
+const formatServerLinks = (folders, defaultLink) => {
+  const { id: defaultLinkId } = defaultLink
+  // Format links
+  const foldersTidied = folders
+    // Remove integrations folder
+    .filter(({ id }) => id !== integrationsFolderId)
+    // Add add type key to folders, and
+    // Add isDefaultLink to default link
+    .map((item) => {
+      const { links } = item
+      const linksWithDefaultKey = links.map((link) => {
+        const { id } = link
+        if (id === defaultLinkId) {
+          return {
+            ...link,
+            isDefaultLink: true,
+          }
+        }
+        return link
+      })
+      return {
+        ...item,
+        links: linksWithDefaultKey,
+        type: 'folder',
+      }
+    })
+  return foldersTidied
 }
 
 // Fetch links from server and update store (or return cached links)
@@ -67,12 +89,13 @@ const fetchLinks = (set, get) => async (action) => {
     return { error }
   }
   const { folders } = res
+  console.log('folders', folders)
+  // Get default link
+  const defaultLink = getDefaultLink({ artist, linkFolders: folders })
   // Create array of links in folders for display
-  const nestedLinks = formatServerLinks(folders)
+  const nestedLinks = formatServerLinks(folders, defaultLink)
   // Create an array of folder IDs
   const savedFolders = nestedLinks.filter(({ type, id }) => type === 'folder' && id !== defaultFolderId)
-  // Get default link
-  const defaultLink = getDefaultLink({ artist, nestedLinks })
   // Cache links and folders
   set({
     savedFolders,
@@ -126,7 +149,7 @@ const updateLinksStore = (set, get) => (action, {
   // UPDATE DEFAULT LINK
   if (action === 'updateDefault') {
     const { nestedLinks } = get()
-    const defaultLink = getDefaultLink({ artist: newArtist, nestedLinks })
+    const defaultLink = getDefaultLink({ artist: newArtist, linkFolders: nestedLinks })
     return set({ defaultLink })
   }
   // LINK

@@ -19,8 +19,9 @@ export const splitLinks = (nestedLinks = []) => {
 }
 
 // Get link by ID
-export const getLinkById = (nestedLinks, linkId) => {
-  const allLinks = nestedLinks.reduce((arr, { links }) => {
+export const getLinkById = (linkFolders, linkId) => {
+  const allLinks = linkFolders.reduce((arr, { id, links }) => {
+    if (id === integrationsFolderId) return arr
     return [...arr, ...links]
   }, [])
   return allLinks.find(({ id }) => id === linkId)
