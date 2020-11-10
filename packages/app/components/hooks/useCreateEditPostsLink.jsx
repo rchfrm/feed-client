@@ -175,11 +175,15 @@ const useCreateEditPostsLink = ({
     const isDefaultLinkInFolder = itemType !== 'folder' ? false : testFolderContainsDefault(item)
     // Add delete button if editing link/folder
     if (action === 'edit' && !isDefaultLink && !isDefaultLinkInFolder) {
+      // Make save button half width
+      buttons[0].width = 'half'
+      // Add delete
       buttons.splice(1, 0, {
         text: 'Delete',
         onClick: () => {},
         color: 'red',
         id: 'delete',
+        width: 'half',
       })
     }
     const children = itemType === 'folder' ? (
