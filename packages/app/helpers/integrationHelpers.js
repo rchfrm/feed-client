@@ -14,6 +14,7 @@ export const getIntegrationInfo = (integration) => {
     case 'facebook':
       return {
         title: 'Facebook',
+        titleVerbose: 'Facebook page',
         baseUrl: 'https://facebook.com/',
         placeholderUrl: 'https://facebook.com/<page ID>',
         accountIdKey: 'page_id',
@@ -22,6 +23,7 @@ export const getIntegrationInfo = (integration) => {
     case 'instagram':
       return {
         title: 'Instagram',
+        titleVerbose: 'Instagram profile',
         baseUrl: 'https://instagram.com/',
         placeholderUrl: 'https://instagram.com/<username>',
         accountIdKey: 'username', // TODO
@@ -30,6 +32,7 @@ export const getIntegrationInfo = (integration) => {
     case 'soundcloud':
       return {
         title: 'Soundcloud',
+        titleVerbose: 'Soundcloud profile',
         baseUrl: 'https://soundcloud.com/',
         placeholderUrl: 'https://soundcloud.com/< account ID>',
         accountIdKey: 'username',
@@ -40,6 +43,7 @@ export const getIntegrationInfo = (integration) => {
     case 'spotify':
       return {
         title: 'Spotify',
+        titleVerbose: 'Spotify artist',
         baseUrl: 'https://spotify.com/',
         placeholderUrl: 'https://spotify.com/artist/<artist ID>',
         accountIdKey: 'artist_id',
@@ -50,6 +54,7 @@ export const getIntegrationInfo = (integration) => {
     case 'twitter':
       return {
         title: 'Twitter',
+        titleVerbose: 'Twitter profile',
         baseUrl: 'https://twitter.com/',
         placeholderUrl: 'https://twitter.com/<username>',
         accountIdKey: 'username',
@@ -61,6 +66,7 @@ export const getIntegrationInfo = (integration) => {
     case 'youtube':
       return {
         title: 'YouTube',
+        titleVerbose: 'YouTube channel',
         baseUrl: 'https://youtube.com/',
         placeholderUrl: 'https://youtube.com/channel/<channel ID>',
         accountIdKey: 'channel_id',

@@ -66,8 +66,8 @@ const PostLinksSelect = ({
       type: 'group',
       name: 'Integrations',
       value: '_integrations',
-      options: integrations.map(({ title, platform }) => {
-        return { name: `${title} account`, value: `_integration_${platform}` }
+      options: integrations.map(({ titleVerbose, platform }) => {
+        return { name: titleVerbose, value: `_integration_${platform}` }
       }),
     }
     baseOptions.push(integrationsGroup)

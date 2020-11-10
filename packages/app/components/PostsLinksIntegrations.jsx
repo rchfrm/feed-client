@@ -29,8 +29,8 @@ const PostsLinksIntegrations = ({
         ].join(' ')}
       >
         {integrations.map((integration) => {
-          const { platform, href, title } = integration
-          const text = `${title} account` || 'not connnected'
+          const { platform, href, titleVerbose } = integration
+          const text = titleVerbose || 'not connnected'
           if (useSelectMode && !href) return null
           return (
             <li
