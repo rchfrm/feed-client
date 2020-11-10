@@ -11,6 +11,8 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 
 import alertStore from '@/store/alertStore'
 
+import styles from '@/AlertModal.module.css'
+
 const getBgColor = (color) => {
   if (color === 'green') return 'bg-green'
   if (color === 'red') return 'bg-red'
@@ -75,16 +77,16 @@ const AlertModal = () => {
             id="AlertModal-innerEl"
             className={[
               'absolute',
-              'top-0',
-              'left-0',
-              'right-0',
-              'bottom-0',
-              'z-2',
+              'top-0 left-0',
+              'right-0 bottom-0',
               'flex',
               'items-center',
               'justify-center',
             ].join(' ')}
             ref={innerEl}
+            style={{
+              zIndex: 2,
+            }}
           >
             <button
               className={['modal--background'].join(' ')}
@@ -96,8 +98,9 @@ const AlertModal = () => {
             <div
               className={[
                 'relative bg-white',
-                'w-full mx-8 sm:mx-20 max-w-lg',
+                'mx-8 sm:mx-20 max-w-lg',
                 'p-4 sm:p-5 rounded-dialogue',
+                styles.content,
                 // 'border-solid border-black border-2',
               ].join(' ')}
               style={{

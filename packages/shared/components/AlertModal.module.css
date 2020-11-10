@@ -1,0 +1,6 @@
+.content {
+  width: calc(100% - var(--sp-8));
+  @media(--min-content) {
+    width: 100%;
+  }
+}
