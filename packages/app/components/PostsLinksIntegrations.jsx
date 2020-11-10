@@ -73,7 +73,7 @@ const PostsLinksIntegrations = ({
                       {text}
                       {/* LINK PREVIEW */}
                       <a
-                        className="block pt-1 text-xs text-grey-3"
+                        className="block pt-1 text-xs text-grey-3 truncate w-full"
                         href={href}
                         target="_blank"
                         rel="noreferrer noopener"

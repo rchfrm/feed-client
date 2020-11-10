@@ -77,7 +77,7 @@ const PostsLinksLink = ({
         </div>
       ) : (
         <div className="mb-0 flex items-baseline">
-          <div>
+          <div className="w-full">
             {/* LINK TITLE */}
             <a
               className={[
@@ -105,7 +105,7 @@ const PostsLinksLink = ({
             </a>
             {/* LINK PREVIEW */}
             <a
-              className="block pt-1 text-xs text-grey-3"
+              className="block pt-1 text-xs text-grey-3 truncate w-full"
               href={editModeOn ? null : link.href}
               target={editModeOn ? null : '_blank'}
               rel={editModeOn ? null : 'noreferrer noopener'}
