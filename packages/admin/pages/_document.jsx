@@ -1,6 +1,8 @@
-import Document, { Html, Main, NextScript } from 'next/document'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 import TheHead from '@/elements/TheHead'
 
+const siteUrl = 'https://admin.tryfeed.co'
+const metaDescription = ''
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx)
@@ -8,12 +10,15 @@ class MyDocument extends Document {
   }
 
   render() {
-    const siteUrl = 'https://admin.tryfeed.co'
-    const metaDescription = ''
-
     return (
       <Html lang="en">
-        <TheHead siteUrl={siteUrl} metaDescription={metaDescription} noIndex />
+        <Head>
+          <TheHead
+            siteUrl={siteUrl}
+            metaDescription={metaDescription}
+            noIndex
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />

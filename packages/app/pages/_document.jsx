@@ -1,6 +1,8 @@
-import Document, { Html, Main, NextScript } from 'next/document'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 import TheHead from '@/elements/TheHead'
 
+const siteUrl = 'https://beta.tryfeed.co'
+const metaDescription = 'Simplify the process of growing your audience through automated social media promotion'
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx)
@@ -8,17 +10,16 @@ class MyDocument extends Document {
   }
 
   render() {
-    const siteUrl = 'https://beta.tryfeed.co'
-    const metaDescription = 'Simplify the process of growing your audience through automated social media promotion'
-
     return (
       <Html lang="en">
-        <TheHead
-          siteUrl={siteUrl}
-          metaDescription={metaDescription}
-          noIndex={process.env.build_env === 'staging'}
-          includeStripe
-        />
+        <Head>
+          <TheHead
+            siteUrl={siteUrl}
+            metaDescription={metaDescription}
+            noIndex={process.env.build_env === 'staging'}
+            includeStripe
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />
