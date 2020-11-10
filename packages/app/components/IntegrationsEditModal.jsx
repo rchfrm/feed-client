@@ -22,7 +22,7 @@ const IntegrationsEditModal = ({
   cannotDelete,
   error,
 }) => {
-  const { platform, title: platformTitle, placeholderUrl } = integration
+  const { platform, title: platformTitle, placeholderUrl, href } = integration
   const [link, setLink] = React.useState('')
 
   // MAKE SURE HREF IS VALID
@@ -102,7 +102,20 @@ const IntegrationsEditModal = ({
           required
         />
       ) : (
-        <MarkdownText markdown={deleteCopy} />
+        <>
+          <MarkdownText markdown={deleteCopy} />
+          <p>
+            <strong>Current integration: </strong>
+            <a
+              href={href}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="break-words"
+            >
+              {href}
+            </a>
+          </p>
+        </>
       )}
     </form>
   )
