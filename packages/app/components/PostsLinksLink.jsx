@@ -17,7 +17,6 @@ import brandColors from '@/constants/brandColors'
 
 const PostsLinksLink = ({
   link,
-  isDefault,
   editModeOn,
   setEditModeOn,
   useSelectMode,
@@ -50,6 +49,8 @@ const PostsLinksLink = ({
     updateLinksStore(action, { newLink: savedLink, oldLink: link })
     setLinkBankError(null)
   }
+
+  const { isDefaultLink } = link
 
   return (
     <li
@@ -96,7 +97,7 @@ const PostsLinksLink = ({
                 <LinkIcon />
               </span>
               {link.name}
-              {isDefault && (
+              {isDefaultLink && (
                 <span className="flex text-green pl-2 text-sm">
                   <strong className="pr-1" style={{ transform: 'translateY(0.2em)' }}>*</strong>
                   <strong>default link</strong>
@@ -116,7 +117,7 @@ const PostsLinksLink = ({
             </a>
           </div>
           {/* DELETE BUTTON */}
-          {!isDefault && editModeOn && (
+          {!isDefaultLink && editModeOn && (
             <a
               className="text-sm text-red no-underline ml-4 pr-6 pt-3 -mt-3"
               role="button"
@@ -133,7 +134,6 @@ const PostsLinksLink = ({
 
 PostsLinksLink.propTypes = {
   link: PropTypes.object.isRequired,
-  isDefault: PropTypes.bool,
   editModeOn: PropTypes.bool.isRequired,
   setEditModeOn: PropTypes.func.isRequired,
   useSelectMode: PropTypes.bool.isRequired,
@@ -142,7 +142,6 @@ PostsLinksLink.propTypes = {
 }
 
 PostsLinksLink.defaultProps = {
-  isDefault: false,
   className: null,
   style: {},
 }
