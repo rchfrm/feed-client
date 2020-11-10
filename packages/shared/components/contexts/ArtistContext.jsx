@@ -15,6 +15,7 @@ import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
+import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
 
 const initialArtistState = {
   id: '',
@@ -74,7 +75,8 @@ const artistReducer = (draftState, action) => {
       break
     }
     case 'update-integrations': {
-      draftState.integrations = payload.integrations
+      const integrationsFormatted = formatAndFilterIntegrations(payload.integrations, draftState.isMusician)
+      draftState.integrations = integrationsFormatted
       break
     }
     default:
@@ -137,11 +139,15 @@ function ArtistProvider({ children, disable }) {
     // Test whether default link is set
     const missingDefaultLink = !artistHelpers.getDefaultLinkId(artist)
 
+    // Format integrations
+    const integrationsFormatted = formatAndFilterIntegrations(artist.integrations, isMusician)
+
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
       artistDraft.isMusician = isMusician
       artistDraft.spotifyConnected = spotifyConnected
       artistDraft.missingDefaultLink = missingDefaultLink
+      artistDraft.integrations = integrationsFormatted
     })
 
     // Set hasBudget state
