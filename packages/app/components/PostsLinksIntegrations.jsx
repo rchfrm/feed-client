@@ -73,7 +73,7 @@ const PostsLinksIntegrations = ({
                   <>
                     <span
                       className={[
-                        'inline-flex flex-col',
+                        'block w-full overflow-hidden',
                       ].join(' ')}
                     >
                       {text}
