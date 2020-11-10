@@ -20,6 +20,7 @@ import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
+import produce from 'immer'
 
 // Define initial state and reducer for posts
 const postsInitialState = []
@@ -255,6 +256,30 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       label: `artistId: ${artistId}`,
     })
   }, [setPosts, artistId])
+
+  // Define function to update posts with missing links
+  // and export to posts store
+  const setUpdatePostsWithMissingLinks = postsStore(state => state.setUpdatePostsWithMissingLinks)
+  React.useEffect(() => {
+    const updatePostsWithMissingLinks = (missingLinkId, defaultLinkId) => {
+      const updatedPosts = produce(posts, draftPosts => {
+        draftPosts.forEach((post) => {
+          const { linkId } = post
+          if (linkId === missingLinkId) {
+            post.linkId = defaultLinkId
+          }
+        })
+      })
+      setPosts({
+        type: 'replace-posts',
+        payload: { newPosts: updatedPosts },
+      })
+    }
+    setUpdatePostsWithMissingLinks(() => (missingLinkId, defaultLinkId) => {
+      updatePostsWithMissingLinks(missingLinkId, defaultLinkId)
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setUpdatePostsWithMissingLinks])
 
   // Wait if initial loading
   if (artistLoading) return null
