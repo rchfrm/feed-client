@@ -9,6 +9,8 @@ import RadioButton from '@/elements/RadioButton'
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 import useOpenIntegrationsPanel from '@/app/hooks/useOpenIntegrationsPanel'
 
+import { removeProtocolFromUrl } from '@/helpers/utils'
+
 const PostsLinksIntegrations = ({
   integrations,
   className,
@@ -40,8 +42,13 @@ const PostsLinksIntegrations = ({
                 !href ? 'text-grey-3' : null,
               ].join(' ')}
             >
-              <p className="flex items-center mb-0">
-                <span className={['mr-5', !href ? 'opacity-50' : null].join(' ')}>
+              <p className="flex items-top mb-0">
+                <span
+                  className={['mr-5', !href ? 'opacity-50' : null].join(' ')}
+                  style={{
+                    transform: 'translateY(0.05rem)',
+                  }}
+                >
                   <PlatformIcon
                     platform={platform}
                     className="w-6 h-auto"
@@ -56,7 +63,26 @@ const PostsLinksIntegrations = ({
                     onChange={() => {}}
                     className="mb-0"
                   />
-                ) : text}
+                ) : (
+                  <>
+                    <span
+                      className={[
+                        'inline-flex flex-col',
+                      ].join(' ')}
+                    >
+                      {text}
+                      {/* LINK PREVIEW */}
+                      <a
+                        className="block pt-1 text-xs text-grey-3"
+                        href={href}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                      >
+                        {removeProtocolFromUrl(href)}
+                      </a>
+                    </span>
+                  </>
+                )}
               </p>
             </li>
           )
