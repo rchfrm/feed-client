@@ -1,7 +1,7 @@
 import create from 'zustand'
-import get from 'lodash/get'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
+import { getDefaultLinkId } from '@/app/helpers/artistHelpers'
 import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
 
 const { defaultFolderId, integrationsFolderId } = linksHelpers
@@ -33,7 +33,7 @@ const updateIntegrations = (set) => (artist) => {
 
 // * DEFAULT LINK
 const getDefaultLink = ({ nestedLinks, artist, linkId }) => {
-  const defaultLinkId = linkId || get(artist, ['preferences', 'posts', 'default_link_id'], '')
+  const defaultLinkId = linkId || getDefaultLinkId(artist)
   return linksHelpers.getLinkById(nestedLinks, defaultLinkId) || {}
 }
 

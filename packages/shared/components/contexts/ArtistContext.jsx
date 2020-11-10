@@ -30,6 +30,7 @@ const initialArtistState = {
   currency: '',
   users: {},
   min_daily_budget_info: {},
+  missingDefaultLink: true,
   isMusician: false,
 }
 
@@ -128,13 +129,19 @@ function ArtistProvider({ children, disable }) {
 
     if (!artist) return
 
-    // Add musician and spotify connection status
+    // Get musician and spotify connection status
     const { category_list: artistCategories } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
     const spotifyConnected = artistHelpers.testIfSpotifyConnected(artist.spotify_url)
+
+    // Test whether default link is set
+    const missingDefaultLink = !artistHelpers.getDefaultLinkId(artist)
+
+    // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
       artistDraft.isMusician = isMusician
       artistDraft.spotifyConnected = spotifyConnected
+      artistDraft.missingDefaultLink = missingDefaultLink
     })
 
     // Set hasBudget state
