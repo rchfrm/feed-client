@@ -47,7 +47,7 @@ const PostsSettings = () => {
         </PostsSettingsSection>
         {/* LINK TRACKING */}
         <PostsSettingsSection
-          header="Link Tracking"
+          header="UTM parameters & tracking"
         >
           <PostsSettingsLinkTracking defaultLink={defaultLink} />
         </PostsSettingsSection>
