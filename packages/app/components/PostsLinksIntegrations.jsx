@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PlatformIcon from '@/icons/PlatformIcon'
 import Button from '@/elements/Button'
+import PlatformIcon from '@/icons/PlatformIcon'
+import PencilIcon from '@/icons/PencilIcon'
 import RadioButton from '@/elements/RadioButton'
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -12,7 +13,10 @@ import useOpenIntegrationsPanel from '@/app/hooks/useOpenIntegrationsPanel'
 
 import { removeProtocolFromUrl } from '@/helpers/utils'
 
+import brandColors from '@/constants/brandColors'
+
 import copy from '@/app/copy/PostsPageCopy'
+
 const PostsLinksIntegrations = ({
   integrations,
   className,
@@ -92,9 +96,10 @@ const PostsLinksIntegrations = ({
       </ul>
       {!useSelectMode && (
         <Button
-          version="green small"
+          version="x-small green icon"
           onClick={openIntegrationsPanel}
         >
+          <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
           Edit Integrations
         </Button>
       )}
