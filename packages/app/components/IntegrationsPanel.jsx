@@ -22,33 +22,17 @@ const IntegrationsPanel = ({
   const {
     artistId,
     artist: {
-      category_list: artistCategories,
       integrations,
     },
     setArtist,
   } = React.useContext(ArtistContext)
-
-  // IS ARTIST MUSICIAN
-  const isMusician = React.useMemo(() => {
-    return testIfMusician(artistCategories)
-  // eslint-disable-next-line
-  }, [artistId])
-
-  // REMOVE NON-MUSICIAN INTEGRATIONS if necessary
-  // and ADD EXTRA INFO
-  const [savedIntegrations, setSavedIntegrations] = React.useState([])
-  React.useEffect(() => {
-    if (!artistId) return
-    const formattedIntegrations = integrationHelpers.formatAndFilterIntegrations(integrations, isMusician)
-    setSavedIntegrations(formattedIntegrations)
-  }, [artistId, integrations, isMusician])
 
   return (
     <section>
       <h2 className={sidePanelStyles.SidePanel__Header}>Integrations</h2>
       <MarkdownText markdown={copy.sidepanelIntro} className="mb-8" />
       <ul className="sm:grid grid-cols-2 gap-8">
-        {savedIntegrations.map((integration) => {
+        {integrations.map((integration) => {
           const { hidden } = integration
           if (hidden) return null
           return (
