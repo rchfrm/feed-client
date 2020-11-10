@@ -3,15 +3,11 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
 import useLinksStore from '@/app/hooks/useLinksStore'
-// IMPORT ELEMENTS
-import MarkdownText from '@/elements/MarkdownText'
 // IMPORT COMPONENTS
 import PostsSettingsSection from '@/app/PostsSettingsSection'
 import PostsSettingsDefaultStatus from '@/app/PostsSettingsDefaultStatus'
 import PostsSettingsDefaultLink from '@/app/PostsSettingsDefaultLink'
 import PostsSettingsLinkTracking from '@/app/PostsSettingsLinkTracking'
-import PostsConnectionsTooltip from '@/app/PostsConnectionsTooltip'
-import PostConnections from '@/app/PostConnections'
 // IMPORT COPY
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -55,13 +51,6 @@ const PostsSettings = () => {
         >
           <PostsSettingsLinkTracking defaultLink={defaultLink} />
         </PostsSettingsSection>
-        {/* CONNECTIONS */}
-        <section>
-          <h3 className="settingSection__header">Connections</h3>
-          <MarkdownText className="settingSection__intro" markdown={copy.globalConnectionsIntro} />
-          <PostsConnectionsTooltip className="mb-4 -mt-2" />
-          <PostConnections className="pt-5" />
-        </section>
       </div>
     </div>
   )
