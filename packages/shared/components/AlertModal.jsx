@@ -117,9 +117,9 @@ const AlertModal = () => {
                 {children}
               </div>
               {/* BUTTONS */}
-              <div>
+              <div className="flex flex-wrap bg-black">
                 {buttons.map((buttonConfig, index) => {
-                  const { text, color, onClick, href, facebookButton, disabled } = buttonConfig
+                  const { text, color, width, onClick, href, facebookButton, disabled } = buttonConfig
                   const firstButton = index === 0
                   const lastButton = index === buttons.length - 1
                   const ButtonType = facebookButton ? ButtonFacebook : Button
@@ -127,7 +127,7 @@ const AlertModal = () => {
                     <ButtonType
                       key={index}
                       className={[
-                        'w-full',
+                        width === 'half' ? 'w-1/2' : 'w-full',
                         lastButton ? 'rounded-t-none rounded-b-dialogue' : 'rounded-none',
                         facebookButton ? null : getBgColor(color),
                       ].join(' ')}
@@ -137,7 +137,7 @@ const AlertModal = () => {
                       }}
                       style={{
                         borderTop: '1px solid white',
-                        ...(firstButton && { borderTop: 'none' }),
+                        ...(firstButton && !width === 'half' && { borderTop: 'none' }),
                       }}
                       href={href}
                       disabled={disabled}
