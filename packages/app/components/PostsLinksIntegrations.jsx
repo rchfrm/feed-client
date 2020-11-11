@@ -36,7 +36,7 @@ const PostsLinksIntegrations = ({
         ].join(' ')}
       >
         {integrationLinks.map((integration) => {
-          const { platform, href, titleVerbose } = integration
+          const { platform, href, titleVerbose, isDefaultLink } = integration
           const text = titleVerbose || 'not connnected'
           if (useSelectMode && !href) return null
           return (
@@ -52,12 +52,12 @@ const PostsLinksIntegrations = ({
                 <span
                   className={['mr-5', !href ? 'opacity-50' : null].join(' ')}
                   style={{
-                    transform: 'translateY(0.05rem)',
+                    transform: 'translateY(0.1rem)',
                   }}
                 >
                   <PlatformIcon
                     platform={platform}
-                    className="w-6 h-auto"
+                    className="w-5 h-auto"
                   />
                 </span>
                 {useSelectMode ? (
@@ -77,6 +77,12 @@ const PostsLinksIntegrations = ({
                       ].join(' ')}
                     >
                       {text}
+                      {isDefaultLink && (
+                        <span className="inline-flex text-green pl-2 text-sm">
+                          <strong className="pr-1" style={{ transform: 'translateY(0.2em)' }}>*</strong>
+                          <strong>default link</strong>
+                        </span>
+                      )}
                       {/* LINK PREVIEW */}
                       <a
                         className="block pt-1 text-xs text-grey-3 truncate w-full"
