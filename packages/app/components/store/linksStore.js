@@ -2,7 +2,6 @@ import create from 'zustand'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { getDefaultLinkId } from '@/app/helpers/artistHelpers'
-import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
 
 const { defaultFolderId, integrationsFolderId } = linksHelpers
 
@@ -20,14 +19,33 @@ const initialState = {
 }
 
 // * INTEGRATIONS
-const fetchIntegrations = (artist) => {
-  const { isMusician, integrations } = artist
-  return formatAndFilterIntegrations(integrations, isMusician, true)
+const createIntegrationLinks = (folders) => {
+  const integrationsFolder = folders.find(({ id }) => id === integrationsFolderId)
+  return integrationsFolder.links.map(({ id, tags: { platform } }) => {
+    return { id, platform }
+  })
 }
 
-const updateIntegrations = (set) => (artist) => {
-  const integrations = fetchIntegrations(artist)
-  set({ integrations })
+const fetchIntegrations = ({ artist, folders }) => {
+  const { integrations } = artist
+  // Remove empty integrations
+  const filteredArtistIntegrations = integrations.reduce((arr, integration) => {
+    if (!integration.accountId) return arr
+    return [...arr, integration]
+  }, [])
+  // Get integration links
+  const integrationLinks = createIntegrationLinks(folders)
+  // Merge artist integrations with integration links info
+  return filteredArtistIntegrations.map((integration) => {
+    const { platform } = integration
+    const integrationLink = integrationLinks.find(({ platform: integrationPlatform }) => {
+      return integrationPlatform === platform
+    })
+    return {
+      ...integration,
+      id: integrationLink.id,
+    }
+  })
 }
 
 // * DEFAULT LINK
@@ -68,8 +86,8 @@ const formatServerLinks = (folders, defaultLink) => {
 }
 
 // Fetch links from server and update store (or return cached links)
-const fetchLinks = (set, get) => async (action) => {
-  const { savedLinks, linksLoading, artist, artistId } = get()
+const fetchLinks = (set, get) => async (action, artist) => {
+  const { savedLinks, linksLoading, artistId } = get()
   // Stop here if links are already loading
   if (linksLoading) return
   set({ linksLoading: true })
@@ -79,18 +97,19 @@ const fetchLinks = (set, get) => async (action) => {
   set({ linksLoading: true })
   // Else fetch links from server
   const { res, error } = await linksHelpers.fetchSavedLinks(artistId)
-  set({ linksLoading: false })
   console.log('FETCH LINKS', 'res', res)
   // Handle error
   if (error) {
     const linkBankError = { message: `Error fetching links. ${error.message}` }
-    set({ linkBankError })
+    set({ linkBankError, linksLoading: false })
     return { error }
   }
   const { folders } = res
   console.log('folders', folders)
   // Get default link
   const defaultLink = getDefaultLink({ artist, linkFolders: folders })
+  // Create array of integration links
+  const integrations = fetchIntegrations({ artist, folders })
   // Create array of links in folders for display
   const nestedLinks = formatServerLinks(folders, defaultLink)
   // Create an array of folder IDs
@@ -99,6 +118,7 @@ const fetchLinks = (set, get) => async (action) => {
   set({
     savedFolders,
     nestedLinks,
+    integrations,
     linksLoading: false,
     linkBankError: null,
     defaultLink,
@@ -179,21 +199,18 @@ const [linksStore] = create((set, get) => ({
   fetchLinks: fetchLinks(set, get),
   // SETTERS
   updateLinksStore: updateLinksStore(set, get),
-  updateIntegrations: updateIntegrations(set),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
-  init: (artist, action = 'clearLinks') => {
+  init: async (artist, action = 'clearLinks') => {
     // Set artist details
     set({
       artist,
       artistId: artist.id,
       linksLoading: false,
     })
-    // Set integrations
-    updateIntegrations(set)(artist)
     // Fetch links
     if (action === 'fetchLinks') {
-      get().fetchLinks('force')
+      await get().fetchLinks('force', artist)
       return
     }
     // Clear links
