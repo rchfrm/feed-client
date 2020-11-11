@@ -3,8 +3,9 @@ import produce from 'immer'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { getDefaultLinkId } from '@/app/helpers/artistHelpers'
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
-const { defaultFolderId, integrationsFolderId } = linksHelpers
+const { integrationsFolderId, folderStatesStorageKey } = linksHelpers
 
 const initialState = {
   artistId: '',
@@ -14,8 +15,28 @@ const initialState = {
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
+  folderStates: [], // are folders open or not
   linksLoading: false,
   linkBankError: null,
+}
+
+const locallyStoreFolderStates = (state) => {
+  setLocalStorage(folderStatesStorageKey, JSON.stringify(state))
+}
+
+const getInitialFolderState = (savedFolders) => {
+  const savedState = JSON.parse(getLocalStorage(folderStatesStorageKey))
+  if (savedState) return savedState
+  // If no saved state, build it here
+  const initialState = savedFolders.reduce((obj, { id }) => {
+    obj[id] = {
+      id,
+      open: true,
+    }
+    return obj
+  }, {})
+  locallyStoreFolderStates(initialState)
+  return initialState
 }
 
 // * INTEGRATIONS
@@ -109,7 +130,6 @@ const fetchLinks = (set, get) => async (action, artist) => {
     return { error }
   }
   const { folders } = res
-  console.log('server folders', folders)
   // Get default link
   const defaultLink = getDefaultLink({ artist, linkFolders: folders })
   // Create array of links in folders for display
@@ -118,49 +138,52 @@ const fetchLinks = (set, get) => async (action, artist) => {
   const savedFolders = nestedLinks.filter(({ type, is_default }) => {
     return type === 'folder' && !is_default
   })
+  // Get folder states
+  const folderStates = getInitialFolderState(savedFolders)
   // Cache links and folders
   set({
     savedFolders,
     nestedLinks,
     linksLoading: false,
     linkBankError: null,
+    folderStates,
     defaultLink,
   })
 }
 
 // * UPDATE STATE
 
-// Update links
+// UPDATE LINKS
 const getUpdatedLinks = (set, get) => (action, { newLink, oldLink = {} }) => {
   const { nestedLinks } = get()
-  // EDIT LINK
+  // edit link
   if (action === 'edit') {
     return linksHelpers.afterEditLink({ newLink, oldLink, nestedLinks })
   }
-  // DELETE LINK
+  // delete link
   if (action === 'delete') {
     return linksHelpers.afterDeleteLink({ oldLink, nestedLinks })
   }
-  // ADD LINK
+  // add link
   if (action === 'add') {
     return linksHelpers.afterAddLink({ newLink, nestedLinks })
   }
 }
 
-// Update folders
+// UPDATE FOLDERS
 const getUpdatedFolders = (set, get) => (action, { newFolder, oldFolder }) => {
   const { nestedLinks } = get()
-  // EDIT FOLDER
+  // edit folder
   if (action === 'edit') {
     return linksHelpers.afterEditFolder({ newFolder, oldFolder, nestedLinks })
   }
-  // DELETE FOLDER
+  // delete folder
   if (action === 'delete') {
     return linksHelpers.afterDeleteFolder({ oldFolder, nestedLinks })
   }
 }
 
-// Universal update link store
+// UNIVERSAL UPDATE LINK STORE
 const updateLinksStore = (set, get) => (action, {
   newArtist,
   newLink,
@@ -184,6 +207,17 @@ const updateLinksStore = (set, get) => (action, {
   set({ nestedLinks })
 }
 
+// UPDATE OPEN FOLDER STATE
+const updateFolderStates = (set, get) => (folderId, isOpen) => {
+  const { folderStates } = get()
+  const newState = produce(folderStates, draftState => {
+    draftState[folderId].open = isOpen
+  })
+  // Set in store and local storage
+  set({ folderStates: newState })
+  locallyStoreFolderStates(newState)
+}
+
 
 // EXPORT STORE
 const [linksStore] = create((set, get) => ({
@@ -195,12 +229,14 @@ const [linksStore] = create((set, get) => ({
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
+  folderStates: initialState.folderStates,
   linksLoading: initialState.linksLoading,
   linkBankError: initialState.linkBankError,
   // GETTERS
   fetchLinks: fetchLinks(set, get),
   // SETTERS
   updateLinksStore: updateLinksStore(set, get),
+  updateFolderStates: updateFolderStates(set, get),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
   init: async (artist, action = 'clearLinks') => {

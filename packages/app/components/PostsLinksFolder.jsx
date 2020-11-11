@@ -17,6 +17,8 @@ import PostsLinksLink from '@/app/PostsLinksLink'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
+import linksStore from '@/app/store/linksStore'
+
 const FOLDER_NAME = ({ name, editModeOn }) => {
   return (
     <strong
@@ -29,6 +31,10 @@ const FOLDER_NAME = ({ name, editModeOn }) => {
     </strong>
   )
 }
+
+// Links store requests
+const getLinkFolderState = (state) => state.folderStates
+const getUpdateFolderStates = (state) => state.updateFolderStates
 
 const PostsLinksFolder = ({
   folder,
@@ -43,6 +49,34 @@ const PostsLinksFolder = ({
     itemType: 'folder',
     onSave: () => setEditModeOn(false),
   })
+
+  const { id: folderId } = folder
+
+  // * OPEN STATE
+
+  // Get open state from store
+  const folderStates = linksStore(getLinkFolderState)
+  const [isOpen, setIsOpen] = React.useState(false)
+
+  // Set initial open state
+  const [initialStateSet, setInitialStateSet] = React.useState(false)
+  React.useEffect(() => {
+    const { open } = folderStates[folderId] || true
+    setIsOpen(open)
+    setInitialStateSet(true)
+  // eslint-disable-next-line
+  }, [])
+
+  // Update local storage when changing open state
+  const updateFolderStates = linksStore(getUpdateFolderStates)
+  React.useEffect(() => {
+    if (!initialStateSet) return
+    updateFolderStates(folderId, isOpen)
+  // eslint-disable-next-line
+  }, [isOpen])
+
+  if (!initialStateSet) return null
+
   return (
     <Accordion
       className={[
@@ -50,9 +84,12 @@ const PostsLinksFolder = ({
       ].join(' ')}
       allowMultipleExpanded
       allowZeroExpanded
-      preExpanded={[folder.id]}
+      preExpanded={isOpen ? [folderId] : []}
+      onChange={([openFolderId]) => {
+        setIsOpen(!!openFolderId)
+      }}
     >
-      <AccordionItem uuid={folder.id}>
+      <AccordionItem uuid={folderId}>
         <AccordionItemState>
           {({ expanded }) => (
             <>
