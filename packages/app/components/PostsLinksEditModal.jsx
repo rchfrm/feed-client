@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import produce from 'immer'
 
 import useAlertModal from '@/hooks/useAlertModal'
-import useLinksStore from '@/app/hooks/useLinksStore'
+import linksStore from '@/app/store/linksStore'
 
 import Input from '@/elements/Input'
 import Select from '@/elements/Select'
@@ -86,7 +86,7 @@ const PostsLinksEditModal = ({
   }, [linkProps])
 
   // GET ARRAY OF FOLDERS
-  const { savedFolders } = useLinksStore()
+  const savedFolders = linksStore(React.useCallback((state) => state.savedFolders, []))
   const folderOptions = React.useMemo(() => {
     // Add value key to folder
     const foldersWithValue = savedFolders.map((folder) => {

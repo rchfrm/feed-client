@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import shallow from 'zustand/shallow'
 import useAsyncEffect from 'use-async-effect'
 
 import Error from '@/elements/Error'
@@ -11,14 +12,22 @@ import PostsLinksIntegrations from '@/app/PostsLinksIntegrations'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import useLinksStore from '@/app/hooks/useLinksStore'
+import linksStore from '@/app/store/linksStore'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
+
+const getStoreState = (state) => ({
+  fetchLinks: state.fetchLinks,
+  nestedLinks: state.nestedLinks,
+  integrations: state.integrations,
+  linksLoading: state.linksLoading,
+  linkBankError: state.linkBankError,
+})
 
 const PostsLinks = ({
   useSelectMode,
 }) => {
-  const { fetchLinks, nestedLinks, integrations, linksLoading, linkBankError } = useLinksStore()
+  const { fetchLinks, nestedLinks, integrations, linksLoading, linkBankError } = linksStore(getStoreState, shallow)
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   // Set to loading on mount
   React.useEffect(() => {
