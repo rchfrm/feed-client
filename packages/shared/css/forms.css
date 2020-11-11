@@ -86,17 +86,12 @@ select {
   display: inline-block;
   font-weight: normal;
   color: var(--red);
+  padding-top: 0.2em;
 
   @media (--sm) {
+    padding-top: 0;
     padding-left: 1em;
   }
-}
-
-.inputLabel__errorMessage {
-  display: inline-block;
-  padding-left: 1em;
-  font-weight: normal;
-  color: var(--red);
 }
 
 .select--box,
