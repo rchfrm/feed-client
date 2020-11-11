@@ -3,7 +3,6 @@ import produce from 'immer'
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 
-
 // * UTILS
 // ------------
 
@@ -13,9 +12,15 @@ export const defaultPostLinkId = '_default'
 
 // Split links into loose and folders
 export const splitLinks = (nestedLinks = []) => {
-  const { links: looseLinks } = nestedLinks.find(({ id }) => id === defaultFolderId) || {}
-  const folderLinks = nestedLinks.filter(({ id }) => id !== defaultFolderId)
-  return { looseLinks, folderLinks }
+  return nestedLinks.reduce((obj, folder) => {
+    const { id: folderId, links: folderLinks } = folder
+    if (folderId === defaultFolderId) {
+      obj.looseLinks = folderLinks
+      return obj
+    }
+    obj.linkFolders = [...obj.linkFolders, folder]
+    return obj
+  }, { looseLinks: [], linkFolders: [] })
 }
 
 // Get link by ID

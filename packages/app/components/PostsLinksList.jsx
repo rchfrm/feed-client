@@ -13,8 +13,8 @@ const PostsLinksList = ({
 }) => {
   const [editModeOn, setEditModeOn] = React.useState(false)
   const mergedLinks = React.useMemo(() => {
-    const { looseLinks, folderLinks } = splitLinks(nestedLinks)
-    return [...looseLinks, ...folderLinks]
+    const { looseLinks, linkFolders } = splitLinks(nestedLinks)
+    return [...looseLinks, ...linkFolders]
   }, [nestedLinks])
   return (
     <div>

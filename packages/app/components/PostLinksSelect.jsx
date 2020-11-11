@@ -38,9 +38,9 @@ const PostLinksSelect = ({
 
   // CONVERT LINK OPTIONS TO FIT SELECT COMPONENT
   const selectOptions = React.useMemo(() => {
-    const { looseLinks = [], folderLinks = [] } = splitLinks(nestedLinks)
+    const { looseLinks = [], linkFolders = [] } = splitLinks(nestedLinks)
     // Add FOLDERS as option group
-    const baseOptions = folderLinks.reduce((options, { links, name, id }) => {
+    const baseOptions = linkFolders.reduce((options, { links, name, id }) => {
       // Don't show empty folders
       if (!links.length) return options
       const groupLinks = links.map(({ name, id }) => {
