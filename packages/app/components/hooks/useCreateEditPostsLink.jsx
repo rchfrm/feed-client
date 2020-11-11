@@ -3,18 +3,20 @@ import React from 'react'
 import useAlertModal from '@/hooks/useAlertModal'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 
 import PostsLinksEditModal from '@/app/PostsLinksEditModal'
 import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 
-import { saveLink, saveFolder } from '@/app/helpers/postsHelpers'
-import { testValidIntegration, saveIntegration } from '@/app/helpers/integrationHelpers'
+
+import linksStore from '@/app/store/linksStore'
+import { saveLink, saveFolder, setDefaultLink } from '@/app/helpers/linksHelpers'
+
+import { testValidIntegration, updateIntegration } from '@/app/helpers/integrationHelpers'
 
 import copy from '@/app/copy/PostsPageCopy'
-
-import usePostsStore from '@/app/hooks/usePostsStore'
 
 const useCreateEditPostsLink = ({
   action = 'add',
@@ -26,27 +28,62 @@ const useCreateEditPostsLink = ({
   const { showAlert, closeAlert } = useAlertModal()
   // SIDE PANEL CONTEXT
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
+  // ARTIST CONTEXT
+  const { setArtist } = React.useContext(ArtistContext)
 
-  // GET DEFAULT LINK
-  const { defaultLink } = usePostsStore()
+  // READ FROM LINKS STORE
+  const defaultLink = linksStore(state => state.defaultLink)
+  const artistId = linksStore(state => state.artistId)
+  const updateLinksStore = linksStore(state => state.updateLinksStore)
+  const setLinkBankError = linksStore(state => state.setLinkBankError)
 
   // TEST IF FOLDER CONTAINS DEFAULT LINK
   const testFolderContainsDefault = React.useCallback((folder) => {
-    const { linkIds } = folder
+    const { links } = folder
+    const linkIds = links.map(({ id }) => id)
     return linkIds.includes(defaultLink.id)
   }, [defaultLink.id])
 
   // SAVE LINK ON SERVER
-  const saveLinkOnServer = async (newLink, action, initialLink) => {
-    const { res, error } = await saveLink(newLink, action)
+  const saveLinkOnServer = async (newLink, action, oldLink) => {
+    const { res: savedLink, error } = await saveLink(artistId, newLink, action)
     // Error
     if (error) {
       // eslint-disable-next-line
-      openLink(initialLink, error)
+      openLink(oldLink, error)
       return
     }
+    // Update store
+    updateLinksStore(action, { newLink: savedLink, oldLink })
+    // If created from default link selector, set as default
+    if (location === 'defaultLink') {
+      const { res: newArtist, error } = await setDefaultLink(artistId, savedLink.id)
+      if (error) {
+        const linkBankError = `Error setting link as default: ${error.message}`
+        setLinkBankError(linkBankError)
+      }
+      // Update store to include new link
+      updateLinksStore('updateDefault', { newArtist })
+    }
     // Success
-    onSave()
+    onSave(savedLink)
+    setSidePanelLoading(false)
+  }
+
+  // SAVE FOLDER ON SERVER
+  const saveFolderOnServer = async (newFolder, action, oldFolder) => {
+    const isDefaultLinkInFolder = testFolderContainsDefault(oldFolder)
+    const { res: savedFolder, error } = await saveFolder(artistId, newFolder, action, isDefaultLinkInFolder)
+    // Error
+    if (error) {
+      // eslint-disable-next-line
+      openLink(oldFolder, error)
+      return
+    }
+    // Update store
+    updateLinksStore(action, { newFolder: savedFolder, oldFolder })
+    // Success
+    onSave(savedFolder)
     setSidePanelLoading(false)
   }
 
@@ -57,16 +94,36 @@ const useCreateEditPostsLink = ({
   }
 
   // SHOW INTEGRATION OPTION
-  const showIntegrationOptionModal = (newLink, action, initialLink, platform) => {
+  const showIntegrationOptionModal = (newLink, action, oldLink, platform) => {
     const buttons = [
       {
         text: 'Save as Integration',
-        onClick: () => saveIntegration({ platform }, newLink.href),
+        // SAVE INTEGRATION
+        onClick: async () => {
+          setSidePanelLoading(true)
+          const { res: updatedArtist, error } = await updateIntegration(artistId, { platform }, newLink.href)
+          setSidePanelLoading(false)
+          if (error) {
+            setLinkBankError(error)
+            return
+          }
+          const { integrations } = updatedArtist
+          // Update artist and links store after saving integration
+          setArtist({
+            type: 'update-integrations',
+            payload: {
+              integrations,
+            },
+          })
+        },
         color: 'green',
       },
       {
         text: 'Save as Link',
-        onClick: () => saveLinkOnServer(newLink, action, initialLink),
+        onClick: () => {
+          setSidePanelLoading(true)
+          saveLinkOnServer(newLink, action, oldLink)
+        },
         color: 'black',
       },
     ]
@@ -75,43 +132,34 @@ const useCreateEditPostsLink = ({
   }
 
   // FUNCTION TO SAVE LINK
-  const runSaveLink = React.useCallback(async (newLink, action, initialLink) => {
+  const runSaveLink = React.useCallback(async (newLink, action, oldLink) => {
     setSidePanelLoading(true)
     // Test if link is a valid integration
     const matchingIntegrationPlatform = action === 'add' ? testLinkAsIntegration(newLink.href) : null
     // If link is integration,
     // confirm whether they want to save as integration or link
     if (matchingIntegrationPlatform) {
-      showIntegrationOptionModal(newLink, action, initialLink, matchingIntegrationPlatform)
+      showIntegrationOptionModal(newLink, action, oldLink, matchingIntegrationPlatform)
       return
     }
-    saveLinkOnServer(newLink, action, initialLink)
+    await saveLinkOnServer(newLink, action, oldLink)
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSave])
 
   // FUNCTION TO SAVE FOLDER
-  const runSaveFolder = React.useCallback(async (newFolder, action, initialFolder) => {
+  const runSaveFolder = React.useCallback(async (newFolder, action, oldFolder) => {
     setSidePanelLoading(true)
-    const isDefaultLinkInFolder = testFolderContainsDefault(initialFolder)
-    const { res, error } = await saveFolder(newFolder, action, isDefaultLinkInFolder)
-    // Error
-    if (error) {
-      // eslint-disable-next-line
-      openLink(initialFolder, error)
-      return
-    }
-    // Success
-    onSave()
-    setSidePanelLoading(false)
+    await saveFolderOnServer(newFolder, action, oldFolder)
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSave, testFolderContainsDefault])
 
 
   // FUNCTION TO OPEN EDIT MODAL
   const openLink = React.useCallback((item = null, error) => {
+    const isPostLink = location === 'post'
     const buttons = [
       {
-        text: 'Save',
+        text: isPostLink ? 'Set and save' : 'Save',
         onClick: () => {},
         color: 'green',
         id: 'save',
@@ -128,11 +176,15 @@ const useCreateEditPostsLink = ({
     const isDefaultLinkInFolder = itemType !== 'folder' ? false : testFolderContainsDefault(item)
     // Add delete button if editing link/folder
     if (action === 'edit' && !isDefaultLink && !isDefaultLinkInFolder) {
+      // Make save button half width
+      buttons[0].width = 'half'
+      // Add delete
       buttons.splice(1, 0, {
         text: 'Delete',
         onClick: () => {},
         color: 'red',
         id: 'delete',
+        width: 'half',
       })
     }
     const children = itemType === 'folder' ? (
@@ -151,7 +203,7 @@ const useCreateEditPostsLink = ({
         action={action}
         runSaveLink={runSaveLink}
         isDefaultLink={isDefaultLink}
-        isPostLink={location === 'post'}
+        isPostLink={isPostLink}
         error={error}
       />
     )

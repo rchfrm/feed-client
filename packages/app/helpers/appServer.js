@@ -1,16 +1,18 @@
 import * as api from '@/helpers/api'
+import { track } from '@/app/helpers/trackingHelpers'
 
-// UTILS
+// * UTILS
 // ------------------
 
 /**
   * @param {string} requestType get | patch | post
   * @param {string} url
   * @param {object} payload
+  * @param {object} trackError { category, action }
   * @returns {Promise<object>} { res, error }
   * * Makes requests  and returns errors as if the request were succesful with an `error.message` key filled out
 */
-const requestWithCatch = async (requestType, url, payload = null) => {
+const requestWithCatch = async (requestType, url, payload = null, trackError) => {
   if (!requestType) return console.error('Please include a request type')
   if (!url) return console.error('Please include a url')
   // eslint-disable-next-line import/namespace
@@ -19,12 +21,22 @@ const requestWithCatch = async (requestType, url, payload = null) => {
   if (res.error) {
     const { error } = res
     const message = typeof error.response === 'object' ? error.response.data.error : error.message
+    // Track error on sentry
+    if (trackError) {
+      const { category, action } = trackError
+      track({
+        category,
+        action,
+        description: message,
+        error: true,
+      })
+    }
     return { error: { message } }
   }
   return { res }
 }
 
-// ARTIST
+// * ARTIST
 // ------------------
 
 /**
@@ -58,7 +70,40 @@ export const updatePriorityDSP = async (artistId, priorityDSP, verifyIdToken) =>
   return api.patch(`/artists/${artistId}`, { priority_dsp: priorityDSP }, verifyIdToken)
 }
 
-// DATA INSIGHTS
+
+// * INTEGRATIONS
+// -------------------
+/**
+ * @param {string} artistId
+ * @param {array} integrations
+ * @returns {Promise<any>}
+ * To delete: integrations = [{ platform: <platform_id>, value: null }]
+ * To add/edit: integrations = [{ platform: <platform_id>, value: <account_id>, accountIdKey: <accountIdKey> } }]
+ */
+export const updateIntegration = async (artistId, integrations) => {
+  const requestUrl = `/artists/${artistId}`
+  const integrationsPayload = integrations.reduce((obj, integration) => {
+    const { platform, value, accountIdKey } = integration
+    // For deleting
+    if (!value) {
+      obj[platform] = null
+      return obj
+    }
+    // For adding
+    obj[platform] = {}
+    obj[platform][accountIdKey] = value
+
+    return obj
+  }, {})
+  const payload = { integrations: integrationsPayload }
+  const errorTracking = {
+    category: 'Integrations',
+    action: 'Update integration',
+  }
+  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+// * DATA INSIGHTS
 // -------------------
 
 /**
@@ -107,7 +152,7 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
   return api.get(`/artists/${artistId}/data_sources/${dataSource}/annualized`)
 }
 
-// ASSETS / POSTS
+// * ASSETS / POSTS
 //-------------------------
 
 /**
@@ -173,16 +218,6 @@ export const patchArtistPromotionStatus = async (artistId, enabled) => {
   return api.patch(`/artists/${artistId}`, { preferences: { posts: { promotion_enabled_default: enabled } } })
 }
 
-/**
- * @param {string} artistId
- * @param {string} postId
- * @param {string} link
- * @param {string} [verifyIdToken]
- * @returns {Promise<any>}
- */
-export const updateAssetLink = async (artistId, postId, link, verifyIdToken) => {
-  return api.patch(`/artists/${artistId}/assets/${postId}`, { priority_dsp: link }, verifyIdToken)
-}
 
 /**
  * @param {string} artistId
@@ -207,8 +242,26 @@ export const updateAccessToken = async (artistId, accessToken) => {
   return res
 }
 
+// Set link on post
+/**
+* @param {string} artistId
+* @param {string} assetId
+* @param {string} linkId
+* @returns {Promise<object>} { res, error }
+*/
+export const setPostLink = (artistId, assetId, linkId) => {
+  const requestUrl = `/artists/${artistId}/assets/${assetId}`
+  const payload = { link_id: linkId }
+  const errorTracking = {
+    category: 'Links',
+    action: 'Set link as post link',
+  }
+  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
 
-// TARGETING
+
+
+// * TARGETING
 // --------------------------
 
 // Fetch initial settings
@@ -244,7 +297,86 @@ export const saveTargetingSettings = async (artistId, payload) => {
   return requestWithCatch('patch', requestUrl, payload)
 }
 
-// INTEGRATION ERRORS
+
+// * LINKS
+// ----------------
+
+// Fetch artist links
+/**
+* @param {string} artistId
+* @returns {Promise<object>} { res, error }
+*/
+export const fetchSavedLinks = (artistId) => {
+  const requestUrl = `/artists/${artistId}/linkbank`
+  const errorTracking = {
+    category: 'Links',
+    action: 'Fetch saved links',
+  }
+  return requestWithCatch('get', requestUrl, null, errorTracking)
+}
+
+
+// Update link
+/**
+* @param {string} artistId
+* @param {object} link
+* @param {string} action add | edit | delete
+* @returns {Promise<object>} { res, error }
+*/
+export const updateLink = (artistId, link, action) => {
+  const method = `${action}_link`
+  const requestUrl = `/artists/${artistId}/linkbank?method=${method}`
+  const { id, name, href, folder_id } = link
+  const payload = {
+    id,
+    name,
+    href,
+    ...(folder_id && { folder_id }),
+  }
+  const errorTracking = {
+    category: 'Links',
+    action: `${action} link`,
+  }
+  return requestWithCatch('post', requestUrl, payload, errorTracking)
+}
+
+// Update a folder
+/**
+* @param {string} artistId
+* @param {object} folder
+* @param {string} action add | edit | delete
+* @returns {Promise<object>} { res, error }
+*/
+export const updateFolder = (artistId, folder, action) => {
+  const method = `${action}_folder`
+  const requestUrl = `/artists/${artistId}/linkbank?method=${method}`
+  const { name, id } = folder
+  const payload = { name, id }
+  const errorTracking = {
+    category: 'Links',
+    action: `${action} folder`,
+  }
+  return requestWithCatch('post', requestUrl, payload, errorTracking)
+}
+
+// Set link as default
+/**
+* @param {string} artistId
+* @param {string} linkId
+* @returns {Promise<object>} { res, error }
+*/
+export const setLinkAsDefault = (artistId, linkId) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = { preferences: { posts: { default_link_id: linkId } } }
+  const errorTracking = {
+    category: 'Links',
+    action: 'Set link as default',
+  }
+  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+
+// * INTEGRATION ERRORS
 // --------------------------
 
 /**
@@ -256,31 +388,4 @@ export const saveTargetingSettings = async (artistId, payload) => {
  */
 export const getIntegrationErrors = async (artistId) => {
   return api.get(`/artists/${artistId}/integrations/errors`)
-}
-
-
-
-
-export const catchAxiosError = (error) => {
-  if (error.response) {
-    /*
-      * The request was made and the server responded with a
-      * status code that falls out of the range of 2xx
-      */
-    console.log('error.response.data', error.response.data)
-    console.log('error.response.status', error.response.status)
-    console.log('error.response.headers', error.response.headers)
-  } else if (error.request) {
-    /*
-      * The request was made but no response was received, `error.request`
-      * is an instance of XMLHttpRequest in the browser and an instance
-      * of http.ClientRequest in Node.js
-      */
-    console.log('error.request', error.request)
-  } else {
-    // Something happened in setting up the request and triggered an Error
-    console.log('Error', error.message)
-  }
-  console.log(error)
-  throw new Error(error.message)
 }

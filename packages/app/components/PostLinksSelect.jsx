@@ -1,56 +1,72 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Select from '@/elements/Select'
+import useAsyncEffect from 'use-async-effect'
+
+import linksStore from '@/app/store/linksStore'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
-import postsStore from '@/store/postsStore'
+import Select from '@/elements/Select'
+import Error from '@/elements/Error'
+
+import { splitLinks, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 
 const PostLinksSelect = ({
   currentLinkId,
   selectClassName,
   onSelect,
+  onSuccess,
+  onError,
+  postItemId,
   includeDefaultLink,
   includeAddLinkOption,
+  componentLocation,
 }) => {
-  const linkOptions = postsStore(state => state.nestedLinks)
-  const defaultLink = postsStore(state => state.defaultLink)
-  const integrations = postsStore(state => state.integrations)
+  const artistId = linksStore(state => state.artistId)
+  const nestedLinks = linksStore(state => state.nestedLinks)
+  const defaultLink = linksStore(state => state.defaultLink) || {}
 
   // STORE INTERNAL LINK
   const [selectedOptionValue, setSelectedOptionValue] = React.useState(currentLinkId)
   React.useEffect(() => {
+    if (currentLinkId === selectedOptionValue) return
     setSelectedOptionValue(currentLinkId)
+  // eslint-disable-next-line
   }, [currentLinkId])
 
   // CONVERT LINK OPTIONS TO FIT SELECT COMPONENT
   const selectOptions = React.useMemo(() => {
-    const baseOptions = linkOptions.reduce((options, { type, links, name, id }) => {
-      // Add folder as option group
-      if (type === 'folder') {
-        const groupLinks = links.map(({ name, id }) => {
-          return { name, value: id }
-        })
-        const optionGroup = {
-          type: 'group',
-          name,
-          value: id,
-          options: groupLinks,
-        }
-        return [...options, optionGroup]
+    const { looseLinks = [], linkFolders = [], integrationLinks = [] } = splitLinks(nestedLinks)
+    // Add FOLDERS as option group
+    const baseOptions = linkFolders.reduce((options, { links, name, id }) => {
+      // Don't show empty folders
+      if (!links.length) return options
+      const groupLinks = links.map(({ name, id }) => {
+        return { name, value: id }
+      })
+      const optionGroup = {
+        type: 'group',
+        name,
+        value: id,
+        options: groupLinks,
       }
-      // Add link as option
-      const option = { name, value: id }
-      return [...options, option]
+      return [...options, optionGroup]
     }, [])
+    // Add LOOSE links
+    const looseLinkOptions = looseLinks.map(({ name, id }) => {
+      return { name, value: id }
+    })
+    if (looseLinkOptions.length) {
+      baseOptions.unshift(...looseLinkOptions)
+    }
     // Add INTEGRATIONS as group
     const integrationsGroup = {
       type: 'group',
       name: 'Integrations',
       value: '_integrations',
-      options: integrations.map(({ title, platform }) => {
-        return { name: title, value: `_integration_${platform}` }
+      options: integrationLinks.map(({ titleVerbose, id }) => {
+        return { name: titleVerbose, value: id }
       }),
     }
     baseOptions.push(integrationsGroup)
@@ -66,7 +82,7 @@ const PostLinksSelect = ({
     // Add DEFAULT link if needed
     if (includeDefaultLink) {
       const { name } = defaultLink
-      otherOptionsGroup.options.push({ name: `Use Default Link (${name})`, value: '_default' })
+      otherOptionsGroup.options.push({ name: `Use Default Link (${name})`, value: defaultPostLinkId })
     }
     // Add NEW LINK option
     if (includeAddLinkOption) {
@@ -75,17 +91,58 @@ const PostLinksSelect = ({
     // Add other options
     baseOptions.push(otherOptionsGroup)
     return baseOptions
-  }, [linkOptions, includeDefaultLink, defaultLink, includeAddLinkOption, integrations])
+  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption])
+
+  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({
     action: 'add',
-    location: 'post',
+    location: componentLocation,
+    // Set link as post link when added
+    onSave: (savedLink) => {
+      const { id: linkId } = savedLink
+      setSelectedOptionValue(linkId)
+      setLoading(false)
+    },
   })
+
+  // HANDLE SETTING SELECTED LINK
+  useAsyncEffect(async (isMounted) => {
+    // Stop here if setting to same as before
+    if (currentLinkId === selectedOptionValue) {
+      setLoading(false)
+      return
+    }
+    setLoading(true)
+    // Run server
+    const { res, error } = await onSelect(artistId, selectedOptionValue, postItemId)
+    if (!isMounted()) return
+    // Handle error
+    if (error) {
+      // Reset value if error
+      setSelectedOptionValue(currentLinkId)
+      if (onError) {
+        onError(error)
+      } else {
+        setError(error)
+      }
+      return
+    }
+    // Success
+    onSuccess(res)
+    setError(null)
+    setLoading(false)
+  }, [selectedOptionValue])
 
   return (
     <div>
+      {error && (
+        <Error error={error} />
+      )}
       <Select
+        loading={loading}
         className={selectClassName}
         handleChange={(e) => {
           const { target: { value } } = e
@@ -93,10 +150,10 @@ const PostLinksSelect = ({
           if (value === currentLinkId) return
           // Handle adding new link
           if (value === '_new') {
+            setLoading(true)
             showAddLinkModal()
             return
           }
-          onSelect(value)
           setSelectedOptionValue(value)
         }}
         name="Choose link"
@@ -109,14 +166,22 @@ const PostLinksSelect = ({
 }
 
 PostLinksSelect.propTypes = {
-  currentLinkId: PropTypes.string.isRequired,
+  currentLinkId: PropTypes.string,
   selectClassName: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func,
+  onError: PropTypes.func,
+  postItemId: PropTypes.string,
   includeDefaultLink: PropTypes.bool,
   includeAddLinkOption: PropTypes.bool,
+  componentLocation: PropTypes.string.isRequired,
 }
 
 PostLinksSelect.defaultProps = {
+  currentLinkId: defaultPostLinkId,
+  onSuccess: () => {},
+  onError: null,
+  postItemId: '',
   selectClassName: null,
   includeDefaultLink: false,
   includeAddLinkOption: false,

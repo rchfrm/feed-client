@@ -6,10 +6,10 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import IntegrationsEditModal from '@/app/IntegrationsEditModal'
 
-import { saveIntegration } from '@/app/helpers/integrationHelpers'
+import { updateIntegration } from '@/app/helpers/integrationHelpers'
 
 
-const useCreateEditPostsLink = ({ onSave = () => {} }) => {
+const useEditIntegration = ({ artistId, onSuccess = () => {} }) => {
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
   // SIDE PANEL CONTEXT
@@ -18,16 +18,22 @@ const useCreateEditPostsLink = ({ onSave = () => {} }) => {
   // FUNCTION TO SAVE LINK
   const runSaveIntegration = React.useCallback(async (integration, link, action) => {
     setSidePanelLoading(true)
-    const { res, error } = await saveIntegration(integration, link, action)
-    onSave()
-    // Error
-    if (error) return
-    // Success
+    const { res: updatedArtist, error } = await updateIntegration(artistId, integration, link, action)
     setSidePanelLoading(false)
-  }, [setSidePanelLoading, onSave])
+    // Error
+    if (error) {
+      const errorVerbose = { message: `Could not ${action} integration: ${error.message}` }
+      // eslint-disable-next-line
+      openIntegrationModal(integration, action, errorVerbose)
+      return
+    }
+    // Success
+    onSuccess(updatedArtist)
+  // eslint-disable-next-line
+  }, [setSidePanelLoading, onSuccess, updateIntegration])
 
   // FUNCTION TO OPEN EDIT MODAL
-  const updateIntegration = React.useCallback((integration, action = 'add') => {
+  const openIntegrationModal = React.useCallback((integration, action = 'add', error) => {
     const { platform, title: plaformTitle } = integration
     const cannotDelete = platform === 'facebook' || platform === 'instagram'
     const buttons = cannotDelete
@@ -58,12 +64,13 @@ const useCreateEditPostsLink = ({ onSave = () => {} }) => {
         action={action}
         runSaveIntegration={runSaveIntegration}
         cannotDelete={cannotDelete}
+        error={error}
       />
     )
     showAlert({ children, buttons })
   }, [showAlert, closeAlert, runSaveIntegration])
 
-  return updateIntegration
+  return openIntegrationModal
 }
 
-export default useCreateEditPostsLink
+export default useEditIntegration

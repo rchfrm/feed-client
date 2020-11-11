@@ -1,29 +1,8 @@
 import brandColors from '@/constants/brandColors'
 import * as utils from '@/helpers/utils'
 
-export const dummyIntegrations = [
-  {
-    platform: 'facebook',
-    accountId: 'mouseworks',
-    url: 'https://facebook.com/mouseworks',
-  },
-  {
-    platform: 'instagram',
-    accountId: 'mouseworksPhoto',
-  },
-  {
-    platform: 'soundcloud',
-    accountId: 'mouseworksSounds',
-  },
-  {
-    platform: 'spotify',
-    accountId: null,
-  },
-  {
-    platform: 'youtube',
-    accountId: null,
-  },
-]
+import * as appServer from '@/app/helpers/appServer'
+
 
 // INTEGRATION UTILS
 // ------------------
@@ -35,22 +14,28 @@ export const getIntegrationInfo = (integration) => {
     case 'facebook':
       return {
         title: 'Facebook',
+        titleVerbose: 'Facebook page',
         baseUrl: 'https://facebook.com/',
         placeholderUrl: 'https://facebook.com/<page ID>',
+        accountIdKey: 'page_id',
         color: brandColors[platform],
       }
     case 'instagram':
       return {
         title: 'Instagram',
+        titleVerbose: 'Instagram profile',
         baseUrl: 'https://instagram.com/',
-        placeholderUrl: 'https://instagram.com/accountName',
+        placeholderUrl: 'https://instagram.com/<username>',
+        accountIdKey: 'username', // TODO
         color: brandColors[platform],
       }
     case 'soundcloud':
       return {
         title: 'Soundcloud',
+        titleVerbose: 'Soundcloud profile',
         baseUrl: 'https://soundcloud.com/',
         placeholderUrl: 'https://soundcloud.com/< account ID>',
+        accountIdKey: 'username',
         color: brandColors[platform],
         musicOnly: true,
         editable: true,
@@ -58,17 +43,34 @@ export const getIntegrationInfo = (integration) => {
     case 'spotify':
       return {
         title: 'Spotify',
+        titleVerbose: 'Spotify artist',
         baseUrl: 'https://spotify.com/',
         placeholderUrl: 'https://spotify.com/artist/<artist ID>',
+        accountIdKey: 'artist_id',
         color: brandColors[platform],
         musicOnly: true,
         editable: true,
       }
+    case 'twitter':
+      return {
+        title: 'Twitter',
+        titleVerbose: 'Twitter profile',
+        baseUrl: 'https://twitter.com/',
+        placeholderUrl: 'https://twitter.com/<username>',
+        accountIdKey: 'username',
+        color: brandColors[platform],
+        musicOnly: false,
+        editable: true,
+        hidden: true,
+      }
     case 'youtube':
       return {
         title: 'YouTube',
+        titleVerbose: 'YouTube channel',
         baseUrl: 'https://youtube.com/',
         placeholderUrl: 'https://youtube.com/channel/<channel ID>',
+        channelIdKey: 'channel_id',
+        userIdKey: 'user_id',
         color: brandColors[platform],
         editable: true,
       }
@@ -85,22 +87,68 @@ export const getIntegrationUrl = (integration, baseUrl) => {
   return `${initialUrl}${accountId}`
 }
 
+// Get account ID from integration
+const getAccountId = (integration = {}, integrationInfo) => {
+  const { platform, href } = integration
+  if (!platform || !href) return null
+  const { accountIdKey, channelIdKey, userIdKey } = integrationInfo || getIntegrationInfo({ platform })
+  // Handle YouTube
+  if (platform === 'youtube') {
+    return href.includes('/user/') ? integration[userIdKey] : integration[channelIdKey]
+  }
+  // Handle the rest
+  return integration[accountIdKey]
+}
+
+// Get account ID KEY from integration
+const getAccountIdKey = (integration, href) => {
+  const { platform, accountIdKey } = integration
+  // If key is already defined on integration, return it
+  if (accountIdKey) return accountIdKey
+  const integrationInfo = getIntegrationInfo(integration)
+  // Fetch key for youtube
+  if (platform === 'youtube') {
+    const { channelIdKey, userIdKey } = integrationInfo
+    if (href.includes('/user/')) return userIdKey
+    return channelIdKey
+  }
+  // Fetch key for the rest
+  return integrationInfo.accountIdKey
+}
+
+// Placeholders for empty integrations
+const integrationPlaceholders = {
+  facebook: null,
+  instagram: null,
+  spotify: null,
+  twitter: null,
+  youtube: null,
+}
+
 // Remove non-musician INTs and add more info
 export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpty = false) => {
-  return integrations.reduce((filteredList, integration) => {
-    const integrationInfo = getIntegrationInfo(integration)
-    const { musicOnly, baseUrl } = integrationInfo
-    const isEmpty = !integration.accountId
+  // Fill in missing server Ints with placeholders
+  const integrationsMerged = {
+    ...integrationPlaceholders,
+    ...integrations,
+  }
+  const integrationsArray = Object.entries(integrationsMerged).reduce((filteredIntegrations, [platform, integration]) => {
+    const integrationInfo = getIntegrationInfo({ platform })
+    const { musicOnly } = integrationInfo
+    const accountId = getAccountId({ ...integration, platform }, integrationInfo)
+    const isEmpty = !accountId
     // Ignore music integration if not a musician (and not already filled)
-    if (musicOnly && !isMusician && isEmpty) return filteredList
-    if (ignoreEmpty && isEmpty) return filteredList
+    if (musicOnly && !isMusician && isEmpty) return filteredIntegrations
+    if (ignoreEmpty && isEmpty) return filteredIntegrations
     // Else add to list with title and url
-    return [...filteredList, {
+    return [...filteredIntegrations, {
       ...integration,
       ...integrationInfo,
-      link: getIntegrationUrl(integration, baseUrl),
+      platform,
+      accountId,
     }]
   }, [])
+  return utils.sortArrayByKey(integrationsArray, 'platform')
 }
 
 
@@ -132,13 +180,14 @@ export const testValidIntegration = (url, platform) => {
 
 
 // SAVE/EDIT INTEGRATIONS
-export const saveIntegration = (integration, link, action = 'add') => {
-  const integrationRegex = testValidIntegration(link, integration.platform)
+export const updateIntegration = async (artistId, integration, href, action = 'add') => {
+  const { platform } = integration
+  // DELETE
+  if (action === 'delete') {
+    return appServer.updateIntegration(artistId, [{ platform, value: null }])
+  }
+  const integrationRegex = testValidIntegration(href, platform)
   const accountId = integrationRegex[integrationRegex.length - 1]
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('save integration:', integration.platform, `, action: ${action}`, `platform ID: ${accountId}`)
-      resolve({ res: true, error: false })
-    }, 500)
-  })
+  const accountIdKey = getAccountIdKey(integration, href)
+  return appServer.updateIntegration(artistId, [{ platform, accountIdKey, value: accountId }])
 }

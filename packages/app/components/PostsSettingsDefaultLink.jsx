@@ -3,12 +3,18 @@ import PropTypes from 'prop-types'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
 
-import { setDefaultLink } from '@/app/helpers/postsHelpers'
+import linksStore from '@/app/store/linksStore'
+
+import { setDefaultLink } from '@/app/helpers/linksHelpers'
 
 const PostsSettingsDefaultLink = ({
   defaultLink,
   className,
 }) => {
+  const updateLinksStore = linksStore(state => state.updateLinksStore)
+  const onSuccess = React.useCallback((newArtist) => {
+    updateLinksStore('updateDefault', { newArtist })
+  }, [updateLinksStore])
   return (
     <div
       className={[
@@ -19,6 +25,9 @@ const PostsSettingsDefaultLink = ({
       <PostLinksSelect
         currentLinkId={defaultLink.id}
         onSelect={setDefaultLink}
+        onSuccess={onSuccess}
+        includeAddLinkOption
+        componentLocation="defaultLink"
       />
     </div>
   )

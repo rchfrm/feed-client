@@ -1,6 +1,5 @@
 import get from 'lodash/get'
 
-import * as server from '@/app/helpers/appServer'
 import * as api from '@/helpers/api'
 
 // PAYMENTS
@@ -22,7 +21,6 @@ const submitPaymentMethod = async (organisationId, paymentMethodId, verifyIdToke
  */
 const setPaymentAsDefault = async (organisationId, paymentId, verifyIdToken) => {
   return api.post(`/organizations/${organisationId}/billing/payments/${paymentId}/default`, verifyIdToken)
-    .catch(server.catchAxiosError)
 }
 
 

@@ -1,21 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useAsyncEffect from 'use-async-effect'
 import { gsap } from 'gsap'
-
-// IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/ArtistContext'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
 
 import PostLinkSummary from '@/app/PostLinkSummary'
 import PostLinksSelect from '@/app/PostLinksSelect'
-import PostLinkAddUrl from '@/app/PostLinkAddUrl'
 
-import * as utils from '@/helpers/utils'
-import * as server from '@/app/helpers/appServer'
-import { setPostLink } from '@/app/helpers/postsHelpers'
+import { setPostLink, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 
 import styles from '@/app/PostItem.module.css'
 
@@ -24,17 +17,10 @@ const PostItemLink = ({
   postIndex,
   promotionEnabled,
   promotionStatus,
-  priorityDsp,
+  linkId,
   updateLink,
   setError,
 }) => {
-  const { artist, addArtistUrl } = React.useContext(ArtistContext)
-  const [postLinkPlatform, setPostLinkPlatform] = React.useState(priorityDsp || artist.priority_dsp)
-  const storedPostLinkPlatform = React.useRef(postLinkPlatform)
-  const postLinkKey = utils.convertPlatformToPriorityDSP(postLinkPlatform)
-  const postLinkUrl = artist[postLinkKey]
-  // SHOULD THE ADD URL 'ALERT' BE SHOWN
-  const [adUrlDialogueOpen, setAdUrlDialogueOpen] = React.useState(false)
   // TOGGLE LINK CONTENT
   const [linkPanelOpen, setLinkPanelOpen] = React.useState(false)
   const [isAnimating, setIsAnimating] = React.useState(false)
@@ -42,28 +28,6 @@ const PostItemLink = ({
     const newState = typeof state === 'boolean' ? state : !linkPanelOpen
     setIsAnimating(true)
     setLinkPanelOpen(newState)
-  }, [linkPanelOpen])
-  // * UPDATE PRIORITY DSP when closing link content
-  const [loading, setLoading] = React.useState(false)
-  useAsyncEffect(async (isMounted) => {
-    const newPlatform = postLinkPlatform
-    const previousPlatform = storedPostLinkPlatform.current
-    // Stop here if no change in link platform
-    if (newPlatform === previousPlatform) return
-    // Start loading
-    setLoading(true)
-    // Update the link platform on the DB
-    const updatedAsset = await server.updateAssetLink(artist.id, postId, newPlatform)
-      .catch((error) => {
-        setError(error)
-      })
-    // Stop here if not mounted or error
-    if (!updatedAsset || !isMounted) return
-    // Update stored value in component
-    storedPostLinkPlatform.current = newPlatform
-    // End loading and clear error
-    setLoading(false)
-    setError(null)
   }, [linkPanelOpen])
   // DEFINE ELEMENT REFS
   const placeholderEl = React.useRef(null)
@@ -121,16 +85,14 @@ const PostItemLink = ({
       <div className={[styles.postLink, styles.postText, 'opacity-0'].join(' ')} ref={containerEl}>
         <div className={[styles.postLinkTopBar, styles.postSection].join(' ')} ref={topBarEl}>
           <PostLinkSummary
-            loading={loading}
             linkPanelOpen={linkPanelOpen}
             isAnimating={isAnimating}
-            postLinkPlatform={postLinkPlatform}
-            postLinkUrl={postLinkUrl}
+            currentLinkId={linkId}
           />
           {promotionEnabled && isLinkEditable && (
             <p>
               <a role="button" className={styles.postLinkEditButton} onClick={toggleLinkContent}>
-                {linkPanelOpen ? 'Save' : 'Edit'}
+                {linkPanelOpen ? 'Done' : 'Edit'}
               </a>
             </p>
           )}
@@ -139,25 +101,20 @@ const PostItemLink = ({
         <div className={[styles.postLinkContent, styles.postSection].join(' ')} ref={mainContentEl}>
           <PostLinksSelect
             selectClassName={styles.linkSelection__select}
-            currentLinkId="bolognese-recipe"
+            currentLinkId={linkId || defaultPostLinkId}
             onSelect={setPostLink}
+            postItemId={postId}
+            onSuccess={(link) => {
+              const { link_id: linkId } = link
+              updateLink(postIndex, linkId)
+            }}
+            onError={(error) => {
+              setError(error)
+            }}
             includeDefaultLink
             includeAddLinkOption
+            componentLocation="post"
           />
-          {/* Show add URL dialogue if triggered */}
-          {adUrlDialogueOpen && (
-            <PostLinkAddUrl
-              postId={postId}
-              postIndex={postIndex}
-              artist={artist}
-              addArtistUrl={addArtistUrl}
-              setPostLinkPlatform={setPostLinkPlatform}
-              postLinkPlatform={postLinkPlatform}
-              storedPostLinkPlatform={storedPostLinkPlatform.current}
-              setAdUrlDialogueOpen={setAdUrlDialogueOpen}
-              updateLink={updateLink}
-            />
-          )}
         </div>
 
       </div>
@@ -170,13 +127,13 @@ PostItemLink.propTypes = {
   postIndex: PropTypes.number.isRequired,
   promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
-  priorityDsp: PropTypes.string,
+  linkId: PropTypes.string,
   updateLink: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
 }
 
 PostItemLink.defaultProps = {
-  priorityDsp: '',
+  linkId: '',
 }
 
 

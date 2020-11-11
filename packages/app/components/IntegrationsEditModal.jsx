@@ -6,6 +6,7 @@ import produce from 'immer'
 import useAlertModal from '@/hooks/useAlertModal'
 
 import Input from '@/elements/Input'
+import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/integrationsCopy'
@@ -13,15 +14,21 @@ import copy from '@/app/copy/integrationsCopy'
 import * as utils from '@/helpers/utils'
 import { testValidIntegration } from '@/app/helpers/integrationHelpers'
 
+import alertStore from '@/store/alertStore'
+
+const closeAlertState = (state) => state.close
+
 const IntegrationsEditModal = ({
   integration,
   modalButtons,
   action,
   runSaveIntegration,
   cannotDelete,
+  error,
 }) => {
-  const { platform, title: platformTitle, placeholderUrl } = integration
+  const { platform, title: platformTitle, placeholderUrl, href } = integration
   const [link, setLink] = React.useState('')
+  const closeAlert = alertStore(closeAlertState)
 
   // MAKE SURE HREF IS VALID
   const [hasHrefError, setHasHrefError] = React.useState(false)
@@ -70,11 +77,14 @@ const IntegrationsEditModal = ({
         e.preventDefault()
         if (!saveEnabled) return
         runSaveIntegration(integration, link, action)
+        closeAlert()
       }}
       noValidate
     >
+      <Error error={error} />
       {action === 'add' ? (
         <Input
+          className="mb-5"
           placeholder={placeholderUrl}
           type="url"
           version="box"
@@ -98,7 +108,20 @@ const IntegrationsEditModal = ({
           required
         />
       ) : (
-        <MarkdownText markdown={deleteCopy} />
+        <>
+          <MarkdownText markdown={deleteCopy} />
+          <p>
+            <strong>Current integration: </strong>
+            <a
+              href={href}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="break-words"
+            >
+              {href}
+            </a>
+          </p>
+        </>
       )}
     </form>
   )
@@ -110,6 +133,12 @@ IntegrationsEditModal.propTypes = {
   action: PropTypes.string.isRequired,
   runSaveIntegration: PropTypes.func.isRequired,
   cannotDelete: PropTypes.bool.isRequired,
+  error: PropTypes.object,
 }
+
+IntegrationsEditModal.defaultProps = {
+  error: null,
+}
+
 
 export default IntegrationsEditModal

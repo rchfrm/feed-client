@@ -4,7 +4,6 @@ import slugify from 'slugify'
 
 import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
-import { dummyIntegrations } from '@/app/helpers/integrationHelpers'
 import brandColors from '@/constants/brandColors'
 
 // TRANSLATE PROMOTION NAME
@@ -171,6 +170,7 @@ export const formatPostsResponse = (posts) => {
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
       priorityDsp: post.priority_dsp,
+      linkId: post.link_id,
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
@@ -242,175 +242,4 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
     return [...arr, sentence]
   }, [])
   return sentenceArray.join('  \n')
-}
-
-
-// LINKS
-// ------------------------
-
-export const defaultFolderId = '_default'
-
-// * DEV DUMMY LINK
-const dummyLinks = {
-  folders: [
-    {
-      type: 'folder',
-      name: 'Hippos',
-      id: 'hippos',
-      linkIds: [
-        'mission-statement',
-        'bolognese-recipe',
-        'best-music-ever',
-      ],
-    },
-    {
-      type: 'folder',
-      name: 'Shimmerings',
-      id: 'shimmerings',
-      linkIds: [
-        'lonely-pilgrim',
-        'dangerous-supermarket',
-        'love-is-under-the-pavement',
-      ],
-    },
-  ],
-  links: [
-    {
-      name: 'Lonely pilgrim',
-      id: 'lonely-pilgrim',
-      href: 'https://test.com',
-      folderId: 'shimmerings',
-    },
-    {
-      name: 'Dangerous Supermarket',
-      id: 'dangerous-supermarket',
-      href: 'https://test.com',
-      folderId: 'shimmerings',
-    },
-    {
-      name: 'Love is under the pavement at night',
-      id: 'love-is-under-the-pavement',
-      href: 'https://test.com',
-      folderId: 'shimmerings',
-    },
-    {
-      name: 'Mission statement',
-      id: 'mission-statement',
-      href: 'https://test.com',
-      folderId: 'hippos',
-    },
-    {
-      name: 'Bolognese recipe',
-      id: 'bolognese-recipe',
-      href: 'https://test.com',
-      folderId: 'hippos',
-    },
-    {
-      name: 'Real hero',
-      id: 'Real-hero',
-      href: 'https://test.com',
-      folderId: defaultFolderId,
-    },
-    {
-      name: 'Best music ever with a really long name',
-      id: 'best-music-ever',
-      href: 'https://test/com',
-      folderId: 'hippos',
-      defaultLink: true,
-    },
-  ],
-  integrations: dummyIntegrations,
-}
-
-
-// FETCH SAVED LINKS
-export const fetchSavedLinks = (artistId, type) => {
-  console.log(`get links for artist ${artistId}`)
-  return new Promise((resolve) => {
-    if (type === 'dummy') {
-      setTimeout(() => {
-        resolve({ data: dummyLinks })
-      }, 500)
-    }
-  })
-}
-
-
-// SAVE LINK
-/**
- * @param {object} link
- * @param {string} action 'add' | 'edit' | 'delete'
- * @returns {Promise<any>}
- */
-export const saveLink = (link, action = 'add') => {
-  // Disable deleting default link
-  // (you shouldn't be able to do this, but just in case...)
-  if (action === 'delete' && link.defaultLink) {
-    return {
-      error: { message: 'You cannot delete the default link. If you want to remove it please choose another default link.' },
-    }
-  }
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ res: true, error: false })
-    }, 500)
-  })
-}
-
-// SAVE FOLDER
-/**
- * @param {object} folder
- * @param {string} action 'edit' | 'delete'
- * @returns {Promise<any>}
- */
-export const saveFolder = (folder, action = 'edit', isDefaultLinkInFolder) => {
-  if (action === 'delete' && isDefaultLinkInFolder) {
-    return {
-      error: { message: 'You cannot delete the folder that contains the default link. If you want to remove it please choose another default link.' },
-    }
-  }
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('update folder:', action)
-      resolve({ res: true, error: false })
-    }, 500)
-  })
-}
-
-// TEST IF LINK ID IS INTEGRATION
-const extractLinkIntegration = (linkId) => {
-  const isIntegration = linkId.includes('_integration_')
-  if (!isIntegration) return null
-  return linkId.replace('_integration_', '')
-}
-
-// DEFAULT LINK
-/**
- * @param {string} linkId
- * @returns {Promise<any>}
- */
-export const setDefaultLink = (linkId) => {
-  const linkIntegration = extractLinkIntegration(linkId)
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('set default link:', linkId)
-      resolve({ res: true, error: false })
-    }, 500)
-  })
-}
-
-
-// LINKS ON A POST
-/**
- * @param {string} linkId
- * @returns {Promise<any>}
- */
-export const setPostLink = (linkId) => {
-  const linkIntegration = extractLinkIntegration(linkId)
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('set post link:', linkId)
-      resolve({ res: true, error: false })
-    }, 500)
-  })
 }

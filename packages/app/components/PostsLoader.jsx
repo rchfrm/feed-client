@@ -8,7 +8,7 @@ import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-import usePostsStore from '@/app/hooks/usePostsStore'
+import postsStore from '@/app/store/postsStore'
 // IMPORT ELEMENTS
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
@@ -20,6 +20,7 @@ import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
+import produce from 'immer'
 
 // Define initial state and reducer for posts
 const postsInitialState = []
@@ -30,7 +31,7 @@ const postsReducer = (draftState, postsAction) => {
     postIndex,
     promotionEnabled,
     promotableStatus,
-    postLink,
+    linkId,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -50,7 +51,7 @@ const postsReducer = (draftState, postsAction) => {
       })
       break
     case 'update-link':
-      draftState[postIndex].priorityDsp = postLink
+      draftState[postIndex].linkId = linkId
       break
     default:
       return draftState
@@ -107,9 +108,6 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     // Update end of assets state
     isEndOfAssets.current = false
   }, [artistId, promotionStatus])
-
-  // READ POSTS STORE
-  const { setTogglePromotionGlobal } = usePostsStore()
 
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({
@@ -204,7 +202,8 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   }, [posts, artistId, setPosts])
 
   // Define function to BATCH TOGGLE all posts
-  // and set it on the parent
+  // and save it in posts store
+  const setTogglePromotionGlobal = postsStore(state => state.setTogglePromotionGlobal)
   React.useEffect(() => {
     const togglePromotionGlobal = (promotionEnabled) => {
       setPostToggleSetter('batch')
@@ -242,26 +241,48 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   }, [setRefreshPosts, refreshPosts])
 
   // Define function to update links
-  const updateLink = React.useCallback((postIndex, postLink) => {
+  const updateLink = React.useCallback((postIndex, linkId) => {
     setPosts({
       type: 'update-link',
       payload: {
         postIndex,
-        postLink,
+        linkId,
       },
     })
     track({
       category: 'Posts',
       action: 'Post link changed',
-      description: `New link: ${postLink}`,
+      description: `New link: ${linkId}`,
       label: `artistId: ${artistId}`,
     })
   }, [setPosts, artistId])
 
+  // Define function to update posts with missing links
+  // and export to posts store
+  const setUpdatePostsWithMissingLinks = postsStore(state => state.setUpdatePostsWithMissingLinks)
+  React.useEffect(() => {
+    const updatePostsWithMissingLinks = (missingLinkId, defaultLinkId) => {
+      const updatedPosts = produce(posts, draftPosts => {
+        draftPosts.forEach((post) => {
+          const { linkId } = post
+          if (linkId === missingLinkId) {
+            post.linkId = defaultLinkId
+          }
+        })
+      })
+      setPosts({
+        type: 'replace-posts',
+        payload: { newPosts: updatedPosts },
+      })
+    }
+    setUpdatePostsWithMissingLinks(() => (missingLinkId, defaultLinkId) => {
+      updatePostsWithMissingLinks(missingLinkId, defaultLinkId)
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setUpdatePostsWithMissingLinks])
+
   // Wait if initial loading
-  if (artistLoading) {
-    return null
-  }
+  if (artistLoading) return null
 
   // Show no posts message if no posts
   if (!isPending && !loadingMore && !posts.length) {

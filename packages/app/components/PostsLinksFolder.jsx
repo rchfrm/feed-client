@@ -50,6 +50,7 @@ const PostsLinksFolder = ({
       ].join(' ')}
       allowMultipleExpanded
       allowZeroExpanded
+      preExpanded={[folder.id]}
     >
       <AccordionItem uuid={folder.id}>
         <AccordionItemState>

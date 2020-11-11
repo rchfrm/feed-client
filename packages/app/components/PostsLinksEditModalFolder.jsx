@@ -30,7 +30,7 @@ const PostsLinksEditModalFolder = ({
       buttons: [
         {
           text: 'Yes, I\'m sure',
-          onClick: () => runSaveFolder(folderProps, 'delete'),
+          onClick: () => runSaveFolder(folderProps, 'delete', folder),
           color: 'red',
         },
         {
@@ -40,7 +40,7 @@ const PostsLinksEditModalFolder = ({
         },
       ],
     })
-  }, [showAlert, closeAlert, folderProps, runSaveFolder])
+  }, [showAlert, closeAlert, folder, folderProps, runSaveFolder])
 
   // UPDATE ALERT MODAL BUTTONS
   React.useEffect(() => {
@@ -71,7 +71,7 @@ const PostsLinksEditModalFolder = ({
   return (
     <div className="pt-3">
       {/* ERROR */}
-      {error && <Error error={error} messagePrefix="Error saving folder: " />}
+      {error && <Error error={error} messagePrefix="Error editing folder: " />}
       {/* FORM */}
       <form
         onSubmit={(e) => {

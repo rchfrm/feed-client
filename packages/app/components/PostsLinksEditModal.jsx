@@ -4,15 +4,14 @@ import PropTypes from 'prop-types'
 import produce from 'immer'
 
 import useAlertModal from '@/hooks/useAlertModal'
-import usePostsStore from '@/app/hooks/usePostsStore'
+import linksStore from '@/app/store/linksStore'
 
 import Input from '@/elements/Input'
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
-import CheckboxButton from '@/elements/CheckboxButton'
 
 import * as utils from '@/helpers/utils'
-import { defaultFolderId } from '@/app/helpers/postsHelpers'
+import { defaultFolderId } from '@/app/helpers/linksHelpers'
 
 const PostsLinksEditModal = ({
   link,
@@ -28,7 +27,7 @@ const PostsLinksEditModal = ({
   const [hasHrefError, setHasHrefError] = React.useState(false)
   const [showHrefError, setShowHrefError] = React.useState(false)
   React.useEffect(() => {
-    const hasError = !utils.testValidUrl(`https://${linkProps.href}`)
+    const hasError = !utils.testValidUrl(utils.enforceUrlProtocol(linkProps.href))
     setHasHrefError(hasError)
   }, [linkProps.href])
 
@@ -55,22 +54,12 @@ const PostsLinksEditModal = ({
   // eslint-disable-next-line
   }, [linkProps, setButtons, saveEnabled])
 
-  // SHOW FOLDER OPTION? (hidden if creating link on post)
-  const [showFolderOption, setShowFolderOption] = React.useState(!isPostLink)
-  const [savePostLink, setSavePostLink] = React.useState(false)
-  React.useEffect(() => {
-    if (isPostLink) {
-      setShowFolderOption(savePostLink)
-    }
-  }, [isPostLink, savePostLink])
-
-
   // HANDLE CREATING NEW FOLDERS
   const [createNewFolder, setCreateNewFolder] = React.useState(false)
 
   // HANDLE CHANGE ON FORM FIELDS
   const handleInput = React.useCallback((e, prop, folderSelector) => {
-    // Stop here if selecting new fodler
+    // Stop here if selecting new folder
     if (folderSelector) {
       if (e.target.value === '_newFolder') {
         setCreateNewFolder(true)
@@ -86,7 +75,7 @@ const PostsLinksEditModal = ({
   }, [linkProps])
 
   // GET ARRAY OF FOLDERS
-  const { savedFolders } = usePostsStore()
+  const savedFolders = linksStore(React.useCallback((state) => state.savedFolders, []))
   const folderOptions = React.useMemo(() => {
     // Add value key to folder
     const foldersWithValue = savedFolders.map((folder) => {
@@ -151,65 +140,53 @@ const PostsLinksEditModal = ({
           required
         />
         {/* FOLDER OPTION */}
-        {showFolderOption && (
-          <>
-            {createNewFolder ? (
-              <div className="relative">
-                <Input
-                  placeholder="Folder name"
-                  type="text"
-                  version="box"
-                  label="New folder"
-                  name="new-folder"
-                  handleChange={(e) => handleInput(e, 'folderName')}
-                  value={linkProps.folderName}
-                  required
-                />
-                {/* Close new folder input */}
-                <p
-                  className={[
-                    'absolute absolute--center-y right-0 mr-4 pt-16',
-                    'text-sm',
-                  ].join(' ')}
-                >
-                  <a
-                    className="text-grey-3 -hover--green"
-                    role="button"
-                    onClick={() => {
-                      const e = { target: { value: link ? link.folderId : '' } }
-                      handleInput(e, 'folderId', true)
-                    }}
-                  >
-                    Use existing folder
-                  </a>
-                </p>
-              </div>
-            ) : (
-              <Select
-                handleChange={(e) => handleInput(e, 'folderId', true)}
-                name="link-folder"
-                label="Folder"
-                placeholder="Select folder"
-                selectedValue={linkProps.folderId}
-                options={folderOptions}
+        <>
+          {createNewFolder ? (
+            <div className="relative">
+              <Input
+                placeholder="Folder name"
+                type="text"
+                version="box"
+                label="New folder"
+                name="new-folder"
+                handleChange={(e) => handleInput(e, 'folderName')}
+                value={linkProps.folderName}
+                required
               />
-            )}
-          </>
-        )}
-        {/* SAVE LINK OPTION */}
-        {isPostLink && (
-          <div className="mb-7">
-            <CheckboxButton
-              label="Save link?"
-              value="yes"
-              checked={savePostLink}
-              onChange={(value, checked) => {
-                setSavePostLink(!checked)
-              }}
+              {/* Close new folder input */}
+              <p
+                className={[
+                  'absolute absolute--center-y right-0 mr-4 pt-16',
+                  'text-sm',
+                ].join(' ')}
+              >
+                <a
+                  className="text-grey-3 -hover--green"
+                  role="button"
+                  onClick={() => {
+                    const e = { target: { value: link ? link.folder_id : '' } }
+                    handleInput(e, 'folder_id', true)
+                  }}
+                >
+                  Use existing folder
+                </a>
+              </p>
+            </div>
+          ) : (
+            <Select
+              handleChange={(e) => handleInput(e, 'folder_id', true)}
+              name="link-folder"
+              label="Folder"
+              placeholder="Select folder"
+              selectedValue={linkProps.folder_id}
+              options={folderOptions}
             />
-          </div>
-        )}
+          )}
+        </>
       </form>
+      {isPostLink && (
+        <p className="-mt-2 text-sm">* This link will be added to your saved links.</p>
+      )}
       {/* CANNOT DELETE DEFAULT */}
       {isDefaultLink && !error && (
         <Error
