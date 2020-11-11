@@ -10,6 +10,8 @@ export const defaultFolderId = '_default'
 export const integrationsFolderId = '_integrations'
 export const defaultPostLinkId = '_default'
 
+export const folderStatesStorageKey = 'linkFolderStates'
+
 // Split links into loose and folders
 export const splitLinks = (nestedLinks = []) => {
   return nestedLinks.reduce((obj, folder) => {
