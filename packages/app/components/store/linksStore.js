@@ -1,4 +1,5 @@
 import create from 'zustand'
+import produce from 'immer'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { getDefaultLinkId } from '@/app/helpers/artistHelpers'
@@ -13,7 +14,6 @@ const initialState = {
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
-  integrations: [],
   linksLoading: false,
   linkBankError: null,
 }
@@ -36,14 +36,15 @@ const fetchIntegrations = ({ artist, folders }) => {
   // Get integration links
   const integrationLinks = createIntegrationLinks(folders)
   // Merge artist integrations with integration links info
-  return filteredArtistIntegrations.map((integration) => {
-    const { platform } = integration
-    const integrationLink = integrationLinks.find(({ platform: integrationPlatform }) => {
+  return filteredArtistIntegrations.map((artistIntegration) => {
+    const { platform } = artistIntegration
+    const linkIntegration = integrationLinks.find(({ platform: integrationPlatform }) => {
       return integrationPlatform === platform
     })
     return {
-      ...integration,
-      id: integrationLink.id,
+      ...linkIntegration,
+      ...artistIntegration,
+      name: artistIntegration.titleVerbose,
     }
   })
 }
@@ -56,12 +57,16 @@ const getDefaultLink = ({ linkFolders, artist, linkId }) => {
 
 // * FETCH LINKS
 
-const formatServerLinks = (folders, defaultLink) => {
+const formatServerLinks = ({ folders, defaultLink, artist }) => {
   const { id: defaultLinkId } = defaultLink
+  // Update links in integration folder
+  const integrationLinks = fetchIntegrations({ artist, folders })
+  const integrationsFolderIndex = folders.findIndex(({ id }) => id === integrationsFolderId)
+  const foldersUpdatedIntegrations = produce(folders, draftFolders => {
+    draftFolders[integrationsFolderIndex].links = integrationLinks
+  })
   // Format links
-  const foldersTidied = folders
-    // Remove integrations folder
-    .filter(({ id }) => id !== integrationsFolderId)
+  const foldersTidied = foldersUpdatedIntegrations
     // Add add type key to folders, and
     // Add isDefaultLink to default link
     .map((item) => {
@@ -97,7 +102,6 @@ const fetchLinks = (set, get) => async (action, artist) => {
   set({ linksLoading: true })
   // Else fetch links from server
   const { res, error } = await linksHelpers.fetchSavedLinks(artistId)
-  console.log('FETCH LINKS', 'res', res)
   // Handle error
   if (error) {
     const linkBankError = { message: `Error fetching links. ${error.message}` }
@@ -105,20 +109,17 @@ const fetchLinks = (set, get) => async (action, artist) => {
     return { error }
   }
   const { folders } = res
-  console.log('folders', folders)
+  console.log('server folders', folders)
   // Get default link
   const defaultLink = getDefaultLink({ artist, linkFolders: folders })
-  // Create array of integration links
-  const integrations = fetchIntegrations({ artist, folders })
   // Create array of links in folders for display
-  const nestedLinks = formatServerLinks(folders, defaultLink)
+  const nestedLinks = formatServerLinks({ folders, defaultLink, artist })
   // Create an array of folder IDs
   const savedFolders = nestedLinks.filter(({ type, id }) => type === 'folder' && id !== defaultFolderId)
   // Cache links and folders
   set({
     savedFolders,
     nestedLinks,
-    integrations,
     linksLoading: false,
     linkBankError: null,
     defaultLink,
@@ -192,7 +193,6 @@ const [linksStore] = create((set, get) => ({
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
-  integrations: initialState.integrations,
   linksLoading: initialState.linksLoading,
   linkBankError: initialState.linkBankError,
   // GETTERS

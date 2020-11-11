@@ -14,19 +14,23 @@ export const defaultPostLinkId = '_default'
 export const splitLinks = (nestedLinks = []) => {
   return nestedLinks.reduce((obj, folder) => {
     const { id: folderId, links: folderLinks } = folder
+    // Split out loose links
     if (folderId === defaultFolderId) {
       obj.looseLinks = folderLinks
       return obj
     }
+    // Split out integration links
+    if (folderId === integrationsFolderId) {
+      obj.integrationLinks = folderLinks
+      return obj
+    }
     obj.linkFolders = [...obj.linkFolders, folder]
     return obj
-  }, { looseLinks: [], linkFolders: [] })
+  }, { looseLinks: [], integrationLinks: [], linkFolders: [] })
 }
 
 // Get link by ID
 export const getLinkById = (linkFolders, linkId) => {
-  console.log('GETLINKBYID')
-  console.log('linkFolders', linkFolders)
   const allLinks = linkFolders.reduce((arr, { links }) => {
     return [...arr, ...links]
   }, [])

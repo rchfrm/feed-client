@@ -13,13 +13,13 @@ import PostsLinksIntegrations from '@/app/PostsLinksIntegrations'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import linksStore from '@/app/store/linksStore'
+import { splitLinks } from '@/app/helpers/linksHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const getStoreState = (state) => ({
   fetchLinks: state.fetchLinks,
   nestedLinks: state.nestedLinks,
-  integrations: state.integrations,
   linksLoading: state.linksLoading,
   linkBankError: state.linkBankError,
 })
@@ -27,7 +27,10 @@ const getStoreState = (state) => ({
 const PostsLinks = ({
   useSelectMode,
 }) => {
-  const { fetchLinks, nestedLinks, integrations, linksLoading, linkBankError } = linksStore(getStoreState, shallow)
+  const { fetchLinks, nestedLinks, linksLoading, linkBankError } = linksStore(getStoreState, shallow)
+  const { looseLinks, linkFolders, integrationLinks } = React.useMemo(() => {
+    return splitLinks(nestedLinks)
+  }, [nestedLinks])
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   // Set to loading on mount
   React.useEffect(() => {
@@ -55,15 +58,16 @@ const PostsLinks = ({
         <div>
           <section className="mb-10">
             <PostsLinksList
-              nestedLinks={nestedLinks}
+              looseLinks={looseLinks}
+              linkFolders={linkFolders}
               useSelectMode={useSelectMode}
             />
           </section>
-          {!!integrations.length && (
+          {!!integrationLinks.length && (
             <section>
               <h3>Integration Links</h3>
               <PostsLinksIntegrations
-                integrations={integrations}
+                integrationLinks={integrationLinks}
                 useSelectMode={useSelectMode}
               />
             </section>

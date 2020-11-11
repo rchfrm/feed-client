@@ -18,7 +18,7 @@ import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostsLinksIntegrations = ({
-  integrations,
+  integrationLinks,
   className,
   useSelectMode,
 }) => {
@@ -35,7 +35,7 @@ const PostsLinksIntegrations = ({
           className,
         ].join(' ')}
       >
-        {integrations.map((integration) => {
+        {integrationLinks.map((integration) => {
           const { platform, href, titleVerbose } = integration
           const text = titleVerbose || 'not connnected'
           if (useSelectMode && !href) return null
@@ -108,7 +108,7 @@ const PostsLinksIntegrations = ({
 }
 
 PostsLinksIntegrations.propTypes = {
-  integrations: PropTypes.array.isRequired,
+  integrationLinks: PropTypes.array.isRequired,
   className: PropTypes.string,
   useSelectMode: PropTypes.bool.isRequired,
 }

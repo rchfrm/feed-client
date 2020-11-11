@@ -26,7 +26,6 @@ const PostLinksSelect = ({
   const artistId = linksStore(state => state.artistId)
   const nestedLinks = linksStore(state => state.nestedLinks)
   const defaultLink = linksStore(state => state.defaultLink) || {}
-  const integrations = linksStore(state => state.integrations)
 
   // STORE INTERNAL LINK
   const [selectedOptionValue, setSelectedOptionValue] = React.useState(currentLinkId)
@@ -38,7 +37,7 @@ const PostLinksSelect = ({
 
   // CONVERT LINK OPTIONS TO FIT SELECT COMPONENT
   const selectOptions = React.useMemo(() => {
-    const { looseLinks = [], linkFolders = [] } = splitLinks(nestedLinks)
+    const { looseLinks = [], linkFolders = [], integrationLinks = [] } = splitLinks(nestedLinks)
     // Add FOLDERS as option group
     const baseOptions = linkFolders.reduce((options, { links, name, id }) => {
       // Don't show empty folders
@@ -66,8 +65,8 @@ const PostLinksSelect = ({
       type: 'group',
       name: 'Integrations',
       value: '_integrations',
-      options: integrations.map(({ titleVerbose, platform }) => {
-        return { name: titleVerbose, value: `_integration_${platform}` }
+      options: integrationLinks.map(({ titleVerbose, id }) => {
+        return { name: titleVerbose, value: id }
       }),
     }
     baseOptions.push(integrationsGroup)
@@ -92,7 +91,7 @@ const PostLinksSelect = ({
     // Add other options
     baseOptions.push(otherOptionsGroup)
     return baseOptions
-  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, integrations])
+  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption])
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({
