@@ -27,11 +27,10 @@ const PostsLinks = ({
     }
   }, [setSidePanelLoading, linksLoading])
   // Load links on mount
-  useAsyncEffect(async (isMounted) => {
+  useAsyncEffect(async () => {
     if (!linksLoading) return
     setSidePanelLoading(true)
     await fetchLinks()
-    if (!isMounted()) return
     setSidePanelLoading(false)
   }, [linksLoading])
 
