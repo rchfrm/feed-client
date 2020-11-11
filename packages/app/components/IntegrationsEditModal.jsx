@@ -14,6 +14,10 @@ import copy from '@/app/copy/integrationsCopy'
 import * as utils from '@/helpers/utils'
 import { testValidIntegration } from '@/app/helpers/integrationHelpers'
 
+import alertStore from '@/store/alertStore'
+
+const closeAlertState = (state) => state.close
+
 const IntegrationsEditModal = ({
   integration,
   modalButtons,
@@ -24,6 +28,7 @@ const IntegrationsEditModal = ({
 }) => {
   const { platform, title: platformTitle, placeholderUrl, href } = integration
   const [link, setLink] = React.useState('')
+  const closeAlert = alertStore(closeAlertState)
 
   // MAKE SURE HREF IS VALID
   const [hasHrefError, setHasHrefError] = React.useState(false)
@@ -72,6 +77,7 @@ const IntegrationsEditModal = ({
         e.preventDefault()
         if (!saveEnabled) return
         runSaveIntegration(integration, link, action)
+        closeAlert()
       }}
       noValidate
     >
