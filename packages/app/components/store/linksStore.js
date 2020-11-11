@@ -115,7 +115,9 @@ const fetchLinks = (set, get) => async (action, artist) => {
   // Create array of links in folders for display
   const nestedLinks = formatServerLinks({ folders, defaultLink, artist })
   // Create an array of folder IDs
-  const savedFolders = nestedLinks.filter(({ type, id }) => type === 'folder' && id !== defaultFolderId)
+  const savedFolders = nestedLinks.filter(({ type, is_default }) => {
+    return type === 'folder' && !is_default
+  })
   // Cache links and folders
   set({
     savedFolders,
