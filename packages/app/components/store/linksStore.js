@@ -4,7 +4,7 @@ import produce from 'immer'
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { getDefaultLinkId } from '@/app/helpers/artistHelpers'
 
-const { defaultFolderId, integrationsFolderId } = linksHelpers
+const { integrationsFolderId } = linksHelpers
 
 const initialState = {
   artistId: '',
