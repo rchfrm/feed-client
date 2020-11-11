@@ -12,7 +12,7 @@ buttons: [
   },
   {
     text: 'Connect facebook',
-    onClick: () => { console.log('how are you?') },
+    onClick: () => { console.info('how are you?') },
     facebookButton: true,
   },
   {

@@ -18,21 +18,21 @@ const registerServiceWorker = () => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js')
         .then((registration) => {
-          console.log('service worker registered')
+          console.info('service worker registered')
           registration.addEventListener('updatefound', () => {
           // If updatefound is fired, it means that there's
           // a new service worker being installed.
             const installingWorker = registration.installing
-            console.log('A new service worker is being installed:', installingWorker)
+            console.info('A new service worker is being installed:', installingWorker)
           // You can listen for changes to the installing service worker's
           // state via installingWorker.onstatechange
           })
         })
         .catch((error) => {
-          console.log('Service worker registration failed:', error)
+          console.info('Service worker registration failed:', error)
         })
     } else {
-      console.log('Service workers are not supported.')
+      console.info('Service workers are not supported.')
     }
   })
 }
