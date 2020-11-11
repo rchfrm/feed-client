@@ -156,9 +156,10 @@ const useCreateEditPostsLink = ({
 
   // FUNCTION TO OPEN EDIT MODAL
   const openLink = React.useCallback((item = null, error) => {
+    const isPostLink = location === 'post'
     const buttons = [
       {
-        text: 'Save',
+        text: isPostLink ? 'Set and save' : 'Save',
         onClick: () => {},
         color: 'green',
         id: 'save',
@@ -202,7 +203,7 @@ const useCreateEditPostsLink = ({
         action={action}
         runSaveLink={runSaveLink}
         isDefaultLink={isDefaultLink}
-        isPostLink={location === 'post'}
+        isPostLink={isPostLink}
         error={error}
       />
     )

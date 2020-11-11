@@ -93,6 +93,9 @@ const PostLinksSelect = ({
     return baseOptions
   }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption])
 
+  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
+
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({
     action: 'add',
@@ -101,12 +104,11 @@ const PostLinksSelect = ({
     onSave: (savedLink) => {
       const { id: linkId } = savedLink
       setSelectedOptionValue(linkId)
+      setLoading(false)
     },
   })
 
   // HANDLE SETTING SELECTED LINK
-  const [loading, setLoading] = React.useState(false)
-  const [error, setError] = React.useState(null)
   useAsyncEffect(async (isMounted) => {
     // Stop here if setting to same as before
     if (currentLinkId === selectedOptionValue) {
@@ -148,6 +150,7 @@ const PostLinksSelect = ({
           if (value === currentLinkId) return
           // Handle adding new link
           if (value === '_new') {
+            setLoading(true)
             showAddLinkModal()
             return
           }
