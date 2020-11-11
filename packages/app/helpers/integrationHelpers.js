@@ -186,11 +186,8 @@ export const updateIntegration = async (artistId, integration, href, action = 'a
   if (action === 'delete') {
     return appServer.updateIntegration(artistId, [{ platform, value: null }])
   }
-  console.log('integration', integration)
-  console.log('href', href)
   const integrationRegex = testValidIntegration(href, platform)
   const accountId = integrationRegex[integrationRegex.length - 1]
   const accountIdKey = getAccountIdKey(integration, href)
-  console.log('accountIdKey', accountIdKey)
   return appServer.updateIntegration(artistId, [{ platform, accountIdKey, value: accountId }])
 }
