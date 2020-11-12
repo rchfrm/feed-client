@@ -15,20 +15,35 @@ const PostsSettingsDefaultLink = ({
   const onSuccess = React.useCallback((newArtist) => {
     updateLinksStore('updateDefault', { newArtist })
   }, [updateLinksStore])
+  const { id: defaultLinkId } = defaultLink
+  const hasDefaultLink = !!defaultLinkId
   return (
     <div
       className={[
-        'pr-3 block',
+        'block relative pr-3',
         className,
       ].join(' ')}
     >
       <PostLinksSelect
-        currentLinkId={defaultLink.id}
+        currentLinkId={defaultLinkId}
         onSelect={setDefaultLink}
         onSuccess={onSuccess}
         includeAddLinkOption
         componentLocation="defaultLink"
       />
+      {!hasDefaultLink && (
+        <div
+          className={[
+            'absolute top-0 right-0',
+            'mr-1 -mt-2',
+            'w-4 h-4',
+            'bg-red rounded-full',
+          ].join(' ')}
+          style={{
+
+          }}
+        />
+      )}
     </div>
   )
 }
