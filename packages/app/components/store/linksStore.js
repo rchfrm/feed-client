@@ -10,7 +10,6 @@ const { integrationsFolderId, folderStatesStorageKey } = linksHelpers
 const initialState = {
   artistId: '',
   isMusician: false,
-  artist: {},
   defaultLink: {},
   savedLinks: [],
   savedFolders: [],
@@ -223,7 +222,6 @@ const updateFolderStates = (set, get) => (folderId, isOpen) => {
 const [linksStore] = create((set, get) => ({
   // STATE
   artistId: initialState.artistId,
-  artist: initialState.artist,
   isMusician: initialState.isMusician,
   defaultLink: initialState.defaultLink,
   savedLinks: initialState.savedLinks,
@@ -242,7 +240,6 @@ const [linksStore] = create((set, get) => ({
   init: async (artist, action = 'clearLinks') => {
     // Set artist details
     set({
-      artist,
       artistId: artist.id,
       linksLoading: false,
     })
