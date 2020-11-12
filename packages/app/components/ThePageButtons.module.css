@@ -100,11 +100,18 @@
   margin: 0 auto;
   width: 1.8em;
   height: 1.8em;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.4em;
   margin-top: 0.2em;
 
   opacity: 0.4;
   transition: opacity var(--trans);
+
+  /* Post link icon */
+  &.linkIcon_posts {
+    svg {
+      width: 95%;
+    }
+  }
 
   .linkAnchor._active & {
     opacity: 1;
@@ -117,6 +124,7 @@
   svg {
     width: 100%;
     height: auto;
+    margin: 0 auto;
   }
 
   @media (--md) {

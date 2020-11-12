@@ -58,7 +58,10 @@ const ThePageButtons = () => {
                 <a className={[styles.linkAnchor, 'relative'].join(' ')}>
                   <ThePageButtonsIcon
                     icon={icon}
-                    className={styles.linkIcon}
+                    className={[
+                      styles.linkIcon,
+                      icon === 'posts' ? styles.linkIcon_posts : null,
+                    ].join(' ')}
                     showBadge={showBadge}
                   />
                   <p className={styles.linkTitle}>{ title }</p>
