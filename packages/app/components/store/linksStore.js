@@ -19,12 +19,19 @@ const initialState = {
   linkBankError: null,
 }
 
-const locallyStoreFolderStates = (state) => {
-  setLocalStorage(folderStatesStorageKey, JSON.stringify(state))
+const getFolderStateKey = (artistId) => {
+  return `${folderStatesStorageKey}_${artistId}`
 }
 
-const getInitialFolderState = (savedFolders) => {
-  const savedState = JSON.parse(getLocalStorage(folderStatesStorageKey))
+// * FOLDER STATES
+const locallyStoreFolderStates = (state, artistId) => {
+  const stateKey = getFolderStateKey(artistId)
+  setLocalStorage(stateKey, JSON.stringify(state))
+}
+
+const getInitialFolderState = (savedFolders, artistId) => {
+  const stateKey = getFolderStateKey(artistId)
+  const savedState = JSON.parse(getLocalStorage(stateKey))
   if (savedState) return savedState
   // If no saved state, build it here
   const initialState = savedFolders.reduce((obj, { id }) => {
@@ -34,7 +41,7 @@ const getInitialFolderState = (savedFolders) => {
     }
     return obj
   }, {})
-  locallyStoreFolderStates(initialState)
+  locallyStoreFolderStates(initialState, artistId)
   return initialState
 }
 
@@ -138,7 +145,7 @@ const fetchLinks = (set, get) => async (action, artist) => {
     return type === 'folder' && !is_default
   })
   // Get folder states
-  const folderStates = getInitialFolderState(savedFolders)
+  const folderStates = getInitialFolderState(savedFolders, artist.id)
   // Cache links and folders
   set({
     savedFolders,
@@ -208,13 +215,13 @@ const updateLinksStore = (set, get) => (action, {
 
 // UPDATE OPEN FOLDER STATE
 const updateFolderStates = (set, get) => (folderId, isOpen) => {
-  const { folderStates } = get()
+  const { folderStates, artistId } = get()
   const newState = produce(folderStates, draftState => {
     draftState[folderId].open = isOpen
   })
   // Set in store and local storage
   set({ folderStates: newState })
-  locallyStoreFolderStates(newState)
+  locallyStoreFolderStates(newState, artistId)
 }
 
 
