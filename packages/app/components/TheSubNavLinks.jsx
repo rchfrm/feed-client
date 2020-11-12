@@ -45,10 +45,10 @@ const TheSubNavLinks = ({ className }) => {
               </li>
             )
           })}
-          <li className={[styles.linkItem, styles.signOutLink_desktop].join(' ')}>
-            <SignOutLink />
-          </li>
         </ul>
+        <p className={[styles.linkItem, styles.signOutLink_desktop].join(' ')}>
+          <SignOutLink />
+        </p>
       </nav>
     </>
   )
