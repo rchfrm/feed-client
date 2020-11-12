@@ -158,6 +158,7 @@ const PostLinksSelect = ({
         }}
         name="Choose link"
         options={selectOptions}
+        placeholder={currentLinkId === defaultPostLinkId ? 'Select a default link' : null}
         selectedValue={selectedOptionValue}
         version="box"
       />
