@@ -40,6 +40,7 @@ const ThePageButtons = () => {
   const {
     artistLoading,
     hasBudget,
+    artist: { missingDefaultLink },
   } = React.useContext(ArtistContext)
   // Don't show buttons if no logged in
   if (!isLoggedIn) return null
@@ -51,17 +52,20 @@ const ThePageButtons = () => {
     >
       <nav className={styles.inner}>
         {links.map(({ href, title, icon }) => {
-          const showBadge = icon === 'controls' && !hasBudget
+          const showBadge = (icon === 'controls' && !hasBudget)
+            || (icon === 'posts' && missingDefaultLink)
           return (
             <div className={styles.link} key={href}>
               <ActiveLink href={href} activeClass={styles._active}>
-                <a className={[styles.linkAnchor, 'relative'].join(' ')}>
+                <a className={[
+                  'relative',
+                  styles.linkAnchor,
+                  icon === 'posts' ? styles.linkAnchor_posts : null,
+                ].join(' ')}
+                >
                   <ThePageButtonsIcon
                     icon={icon}
-                    className={[
-                      styles.linkIcon,
-                      icon === 'posts' ? styles.linkIcon_posts : null,
-                    ].join(' ')}
+                    className={[styles.linkIcon].join(' ')}
                     showBadge={showBadge}
                   />
                   <p className={styles.linkTitle}>{ title }</p>
