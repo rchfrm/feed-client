@@ -147,7 +147,7 @@ const fetchLinks = (set, get) => async (action, artist) => {
     linkBankError: null,
     folderStates,
     defaultLink,
-  })
+  }, true)
 }
 
 // * UPDATE STATE
@@ -251,7 +251,7 @@ const [linksStore] = create((set, get) => ({
     // Clear links
     get().clearLinks()
   },
-  clearAll: () => set(initialState),
+  clearAll: () => set(initialState, true),
 }))
 
 export default linksStore
