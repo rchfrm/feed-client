@@ -52,6 +52,12 @@
     width: 100%;
   }
 
+  /* Short screen */
+  @media (--xsHeight) {
+    justify-content: flex-start;
+  }
+
+
   @media (--md) {
     justify-content: space-between;
   }
