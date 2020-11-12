@@ -35,10 +35,14 @@ const TheSubNavLinks = ({ className }) => {
   return (
     <>
       <nav className={[styles.links, className].join(' ')}>
-        <ul className={[styles.linksList, 'h4--text mb-0'].join(' ')}>
+        <ul className={[
+          styles.linksList,
+          'h4--text mb-0',
+        ].join(' ')}
+        >
           {links.map(({ href, title, external }) => {
             return (
-              <li className={styles.linkItem} key={href}>
+              <li className={[styles.linkItem].join(' ')} key={href}>
                 {external
                   ? <a className={styles.a} href={href} target="_blank" rel="noopener noreferrer">{ title }</a>
                   : <ActiveLink href={href}><a className={styles.a}>{ title }</a></ActiveLink>}
