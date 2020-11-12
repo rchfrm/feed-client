@@ -27,6 +27,9 @@ const PostLinksSelect = ({
   const nestedLinks = linksStore(state => state.nestedLinks)
   const defaultLink = linksStore(state => state.defaultLink) || {}
 
+  // PLACEHOLDER TEXT (if no default link)
+  const placeholderText = componentLocation === 'post' ? 'No default link set' : 'Select a default link'
+
   // STORE INTERNAL LINK
   const [selectedOptionValue, setSelectedOptionValue] = React.useState(currentLinkId)
   React.useEffect(() => {
@@ -80,8 +83,9 @@ const PostLinksSelect = ({
       options: [],
     }
     // Add DEFAULT link if needed
-    if (includeDefaultLink) {
+    if (includeDefaultLink && defaultLink.name) {
       const { name } = defaultLink
+      // const defaultLinkOption
       otherOptionsGroup.options.push({ name: `Use Default Link (${name})`, value: defaultPostLinkId })
     }
     // Add NEW LINK option
@@ -158,7 +162,7 @@ const PostLinksSelect = ({
         }}
         name="Choose link"
         options={selectOptions}
-        placeholder={currentLinkId === defaultPostLinkId ? 'Select a default link' : null}
+        placeholder={currentLinkId === defaultPostLinkId ? placeholderText : null}
         selectedValue={selectedOptionValue}
         version="box"
       />
