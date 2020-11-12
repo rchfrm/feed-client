@@ -1,5 +1,7 @@
 import React from 'react'
 
+import styles from '@/app/ThePageButtons.module.css'
+
 const ThePageButtonsBadge = () => {
   return (
     <div
@@ -7,11 +9,8 @@ const ThePageButtonsBadge = () => {
         'absolute',
         'w-2 h-2',
         'bg-red rounded-full',
+        styles.buttonBadge,
       ].join(' ')}
-      style={{
-        top: '-0.3rem',
-        right: '0.3rem',
-      }}
     />
   )
 }

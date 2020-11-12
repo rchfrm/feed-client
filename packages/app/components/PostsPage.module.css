@@ -19,6 +19,16 @@
   }
 }
 
+.noDefaultLinkWarning {
+  strong {
+    color: var(--red);
+  }
+
+  em strong {
+    color: var(--text-color);
+  }
+}
+
 .introText {
   margin-bottom: var(--sp-8) !important;
 }

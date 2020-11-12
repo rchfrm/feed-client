@@ -30,6 +30,10 @@ Been waiting a while? Check you have posts opted in for promotion in the _${inac
     allOldUser: () => `Looks like you haven’t posted on Facebook or Instagram yet. When you do start posting, your posts will appear here.`,
   },
 
+  noDefaultLinkWarning: `**You need to set the default link used in your ads before they can run.**
+
+You can _**add links**_ via the Links button below and _**set a default link**_ in Settings`,
+
   // POST SETTINGS
   // --------------
   globalToggleIntro: `Should all posts be opted-in for promotion by default?`,
