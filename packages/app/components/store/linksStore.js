@@ -66,6 +66,13 @@ const tidyFolders = (folders, defaultLinkId) => {
     }
   })
 }
+
+const getSavedFolders = (nestedLinks) => {
+  return nestedLinks.filter(({ type, is_default }) => {
+    return type === 'folder' && !is_default
+  })
+}
+
 // * INTEGRATIONS
 const createIntegrationLinks = (folders) => {
   const integrationsFolder = folders.find(({ id }) => id === integrationsFolderId)
@@ -143,9 +150,7 @@ const fetchLinks = (set, get) => async (action, artist) => {
   // Create array of links in folders for display
   const nestedLinks = formatServerLinks({ folders, defaultLink, artist })
   // Create an array of folder IDs
-  const savedFolders = nestedLinks.filter(({ type, is_default }) => {
-    return type === 'folder' && !is_default
-  })
+  const savedFolders = getSavedFolders(nestedLinks)
   // Get folder states
   const folderStates = getInitialFolderState(savedFolders, artist.id)
   // Cache links and folders
