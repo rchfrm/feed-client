@@ -51,13 +51,11 @@ const tidyFolders = (folders, defaultLinkId) => {
     const { links } = item
     const linksWithDefaultKey = links.map((link) => {
       const { id } = link
-      if (id === defaultLinkId) {
-        return {
-          ...link,
-          isDefaultLink: true,
-        }
+      const isDefaultLink = id === defaultLinkId
+      return {
+        ...link,
+        isDefaultLink,
       }
-      return link
     })
     return {
       ...item,
@@ -232,7 +230,8 @@ const updateLinksStore = (set, get) => (action, {
   if (action === 'updateDefault') {
     const { nestedLinks } = get()
     const defaultLink = getDefaultLink({ artist: newArtist, linkFolders: nestedLinks })
-    return set({ defaultLink })
+    const updatedNestedLinks = tidyFolders(nestedLinks, defaultLink.id)
+    return set({ defaultLink, nestedLinks: updatedNestedLinks })
   }
   // GET UPDATED NESTED LINKS WHEN...
   const nestedLinks = newLink
