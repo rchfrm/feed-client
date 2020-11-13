@@ -20,6 +20,7 @@ const requestWithCatch = async (requestType, url, payload = null, trackError) =>
     .catch((error) => { return { error } })
   if (res.error) {
     const { error } = res
+    const { code, context } = error
     const message = typeof error.response === 'object' ? error.response.data.error : error.message
     // Track error on sentry
     if (trackError) {
@@ -31,7 +32,7 @@ const requestWithCatch = async (requestType, url, payload = null, trackError) =>
         error: true,
       })
     }
-    return { error: { message } }
+    return { error: { message, code, context } }
   }
   return { res }
 }
