@@ -213,17 +213,23 @@ const updateLinksStore = (set, get) => (action, {
   // LINK
   if (newLink) {
     const nestedLinks = getUpdatedLinks(set, get)(action, { newLink, oldLink })
-    return set({ nestedLinks })
+    const savedFolders = getSavedFolders(nestedLinks)
+    return set({ nestedLinks, savedFolders })
   }
   // FOLDER
   const nestedLinks = getUpdatedFolders(set, get)(action, { newFolder, oldFolder })
-  set({ nestedLinks })
+  const savedFolders = getSavedFolders(nestedLinks)
+  set({ nestedLinks, savedFolders })
 }
 
 // UPDATE OPEN FOLDER STATE
-const updateFolderStates = (set, get) => (folderId, isOpen) => {
+const updateFolderStates = (set, get) => (folderId, isOpen = true) => {
   const { folderStates, artistId } = get()
   const newState = produce(folderStates, draftState => {
+    // Handle not yet ready fodler
+    if (!draftState[folderId]) {
+      draftState[folderId] = {}
+    }
     draftState[folderId].open = isOpen
   })
   // Set in store and local storage
