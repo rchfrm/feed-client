@@ -14,13 +14,13 @@ const useForceDeleteLink = () => {
   // SIDE PANEL CONTEXT
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   // FUNCTION TO SHOW MODAL
-  const showForceDeleteModal = React.useCallback((deleteLink) => {
+  const showForceDeleteModal = React.useCallback((deleteItem, itemType) => {
     const buttons = [
       {
         text: 'Delete anyway',
         // DELETE LINK
         onClick: () => {
-          deleteLink(true)
+          deleteItem(true)
         },
         color: 'red',
       },
@@ -30,7 +30,7 @@ const useForceDeleteLink = () => {
         color: 'black',
       },
     ]
-    const children = <MarkdownText markdown={copy.confirmDeleteUsedLink} />
+    const children = <MarkdownText markdown={copy.confirmDeleteUsedLinkFolder(itemType)} />
     showAlert({ children, buttons, onClose: () => setSidePanelLoading(false) })
   }, [showAlert, closeAlert, setSidePanelLoading])
 

@@ -59,7 +59,7 @@ const PostsLinksLink = ({
     if (error) {
       const { code: errorCode } = error
       if (errorCode === 'link_reference_error') {
-        showForceDeleteModal(deleteLink)
+        showForceDeleteModal(deleteLink, 'link')
         return
       }
       const linkBankError = { message: `Error deleting link. ${error.message}` }

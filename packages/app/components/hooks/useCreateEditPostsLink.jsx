@@ -69,7 +69,7 @@ const useCreateEditPostsLink = ({
       const { code: errorCode } = error
       if (errorCode === 'link_reference_error') {
         const deleteLink = () => updateLinkOnServer(newLink, action, oldLink, true)
-        showForceDeleteModal(deleteLink)
+        showForceDeleteModal(deleteLink, 'link')
         return
       }
       // eslint-disable-next-line
@@ -94,11 +94,17 @@ const useCreateEditPostsLink = ({
   }
 
   // SAVE FOLDER ON SERVER
-  const updateFolderOnServer = async (newFolder, action, oldFolder) => {
+  const updateFolderOnServer = async (newFolder, action, oldFolder, force) => {
     const isDefaultLinkInFolder = testFolderContainsDefault(oldFolder)
-    const { res: savedFolder, error } = await saveFolder(artistId, newFolder, action, isDefaultLinkInFolder)
+    const { res: savedFolder, error } = await saveFolder(artistId, newFolder, action, isDefaultLinkInFolder, force)
     // Error
     if (error) {
+      const { code: errorCode } = error
+      if (errorCode === 'link_reference_error') {
+        const deleteFolder = () => updateFolderOnServer(newFolder, action, oldFolder, true)
+        showForceDeleteModal(deleteFolder, 'folder')
+        return
+      }
       // eslint-disable-next-line
       openLink(oldFolder, error)
       return
