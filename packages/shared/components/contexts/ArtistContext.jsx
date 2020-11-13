@@ -24,6 +24,7 @@ const initialArtistState = {
   preferences: {
     posts: {
       promotion_enabled_default: true,
+      default_link_id: null,
     },
   },
   priority_dsp: '',
@@ -63,6 +64,9 @@ const artistReducer = (draftState, action) => {
     }
     case 'update-post-preferences': {
       draftState.preferences.posts[payload.preferenceType] = payload.value
+      if (payload.preferenceType === 'default_link_id') {
+        draftState.missingDefaultLink = false
+      }
       break
     }
     case 'update-integrations': {

@@ -9,12 +9,16 @@ import { setDefaultLink } from '@/app/helpers/linksHelpers'
 
 const PostsSettingsDefaultLink = ({
   defaultLink,
+  setPostPreferences,
   className,
 }) => {
   const updateLinksStore = linksStore(state => state.updateLinksStore)
   const onSuccess = React.useCallback((newArtist) => {
     updateLinksStore('updateDefault', { newArtist })
-  }, [updateLinksStore])
+    // Update artist status
+    const { preferences: { posts: { default_link_id } } } = newArtist
+    setPostPreferences('default_link_id', default_link_id)
+  }, [updateLinksStore, setPostPreferences])
   const { id: defaultLinkId } = defaultLink
   const hasDefaultLink = !!defaultLinkId
   return (
@@ -50,6 +54,7 @@ const PostsSettingsDefaultLink = ({
 
 PostsSettingsDefaultLink.propTypes = {
   defaultLink: PropTypes.object.isRequired,
+  setPostPreferences: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
