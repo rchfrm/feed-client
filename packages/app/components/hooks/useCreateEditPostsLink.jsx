@@ -58,7 +58,7 @@ const useCreateEditPostsLink = ({
   }, [defaultLink.id])
 
   // SAVE LINK ON SERVER
-  const saveLinkOnServer = async (newLink, action, oldLink) => {
+  const updateLinkOnServer = async (newLink, action, oldLink) => {
     const { res: savedLink, error } = await saveLink(artistId, newLink, savedFolders, action)
     // Error
     if (error) {
@@ -84,7 +84,7 @@ const useCreateEditPostsLink = ({
   }
 
   // SAVE FOLDER ON SERVER
-  const saveFolderOnServer = async (newFolder, action, oldFolder) => {
+  const updateFolderOnServer = async (newFolder, action, oldFolder) => {
     const isDefaultLinkInFolder = testFolderContainsDefault(oldFolder)
     const { res: savedFolder, error } = await saveFolder(artistId, newFolder, action, isDefaultLinkInFolder)
     // Error
@@ -135,7 +135,7 @@ const useCreateEditPostsLink = ({
         text: 'Save as Link',
         onClick: () => {
           setSidePanelLoading(true)
-          saveLinkOnServer(newLink, action, oldLink)
+          updateLinkOnServer(newLink, action, oldLink)
         },
         color: 'black',
       },
@@ -155,14 +155,14 @@ const useCreateEditPostsLink = ({
       showIntegrationOptionModal(newLink, action, oldLink, matchingIntegrationPlatform)
       return
     }
-    await saveLinkOnServer(newLink, action, oldLink)
+    await updateLinkOnServer(newLink, action, oldLink)
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSave])
 
   // FUNCTION TO SAVE FOLDER
   const runSaveFolder = React.useCallback(async (newFolder, action, oldFolder) => {
     setSidePanelLoading(true)
-    await saveFolderOnServer(newFolder, action, oldFolder)
+    await updateFolderOnServer(newFolder, action, oldFolder)
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSave, testFolderContainsDefault])
 
