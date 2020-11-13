@@ -130,6 +130,10 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
 
 Deleting a folder will delete all the links inside it.`,
 
+  confirmDeleteUsedLink: `**This link is currently in use on one or more of your posts.**
+  
+If you delete it, the post will revert to using the default link. Are you sure you want to continue?`,
+
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
 
 
