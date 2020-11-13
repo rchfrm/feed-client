@@ -205,6 +205,21 @@ const getUpdatedFolders = (set, get) => (action, { newFolder, oldFolder }) => {
   }
 }
 
+// UPDATE OPEN FOLDER STATE
+const updateFolderStates = (set, get) => (folderId, isOpen = true) => {
+  const { folderStates, artistId } = get()
+  const newState = produce(folderStates, draftState => {
+    // Handle not yet ready fodler
+    if (!draftState[folderId]) {
+      draftState[folderId] = {}
+    }
+    draftState[folderId].open = isOpen
+  })
+  // Set in store and local storage
+  set({ folderStates: newState })
+  locallyStoreFolderStates(newState, artistId)
+}
+
 // UNIVERSAL UPDATE LINK STORE
 const updateLinksStore = (set, get) => (action, {
   newArtist,
@@ -227,23 +242,20 @@ const updateLinksStore = (set, get) => (action, {
     : getUpdatedFolders(set, get)(action, { newFolder, oldFolder })
   // GET UPDATED SAVED FOLDERS
   const savedFolders = getSavedFolders(nestedLinks)
-  // UPDATE STORE
-  set({ nestedLinks, savedFolders })
-}
-
-// UPDATE OPEN FOLDER STATE
-const updateFolderStates = (set, get) => (folderId, isOpen = true) => {
+  // GET UPDATED FOLDER STATES
   const { folderStates, artistId } = get()
-  const newState = produce(folderStates, draftState => {
-    // Handle not yet ready fodler
-    if (!draftState[folderId]) {
-      draftState[folderId] = {}
-    }
-    draftState[folderId].open = isOpen
+  const newFolderStates = savedFolders.map(({ id }) => {
+    const { open } = folderStates[id]
+    return { id, open }
   })
-  // Set in store and local storage
-  set({ folderStates: newState })
-  locallyStoreFolderStates(newState, artistId)
+  // UPDATE STORE
+  set({
+    nestedLinks,
+    savedFolders,
+    folderStates: newFolderStates,
+  })
+  // UPDATE LOCAL STORAGE
+  locallyStoreFolderStates(newFolderStates, artistId)
 }
 
 
