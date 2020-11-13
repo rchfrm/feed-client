@@ -45,6 +45,27 @@ const getInitialFolderState = (savedFolders, artistId) => {
   return initialState
 }
 
+// * FOLDERS
+const tidyFolders = (folders, defaultLinkId) => {
+  return folders.map((item) => {
+    const { links } = item
+    const linksWithDefaultKey = links.map((link) => {
+      const { id } = link
+      if (id === defaultLinkId) {
+        return {
+          ...link,
+          isDefaultLink: true,
+        }
+      }
+      return link
+    })
+    return {
+      ...item,
+      links: linksWithDefaultKey,
+      type: 'folder',
+    }
+  })
+}
 // * INTEGRATIONS
 const createIntegrationLinks = (folders) => {
   const integrationsFolder = folders.find(({ id }) => id === integrationsFolderId)
@@ -93,28 +114,9 @@ const formatServerLinks = ({ folders, defaultLink, artist }) => {
     draftFolders[integrationsFolderIndex].links = integrationLinks
   })
   // Format links
-  const foldersTidied = foldersUpdatedIntegrations
-    // Add add type key to folders, and
-    // Add isDefaultLink to default link
-    .map((item) => {
-      const { links } = item
-      const linksWithDefaultKey = links.map((link) => {
-        const { id } = link
-        if (id === defaultLinkId) {
-          return {
-            ...link,
-            isDefaultLink: true,
-          }
-        }
-        return link
-      })
-      return {
-        ...item,
-        links: linksWithDefaultKey,
-        type: 'folder',
-      }
-    })
-  return foldersTidied
+  // Add add type key to folders, and
+  // Add isDefaultLink to default link
+  return tidyFolders(foldersUpdatedIntegrations, defaultLinkId)
 }
 
 // Fetch links from server and update store (or return cached links)
