@@ -53,14 +53,14 @@ export const fetchSavedLinks = async (artistId) => {
  * @param {string} action 'edit' | 'delete'
  * @returns {Promise<any>}
  */
-export const saveFolder = async (artistId, folder, action = 'edit', isDefaultLinkInFolder) => {
+export const saveFolder = async (artistId, folder, action = 'edit', isDefaultLinkInFolder, force = false) => {
   if (action === 'delete' && isDefaultLinkInFolder) {
     return {
       error: { message: 'You cannot delete the folder that contains the default link. If you want to remove it please choose another default link.' },
     }
   }
   // UPDATE FOLDER
-  return server.updateFolder(artistId, folder, action)
+  return server.updateFolder(artistId, folder, action, force)
 }
 
 // SAVE LINK
@@ -70,7 +70,7 @@ export const saveFolder = async (artistId, folder, action = 'edit', isDefaultLin
  * @param {string} action 'add' | 'edit' | 'delete'
  * @returns {Promise<any>}
  */
-export const saveLink = async (artistId, link, savedFolders, action = 'add') => {
+export const saveLink = async (artistId, link, savedFolders, action = 'add', force = false) => {
   // Disable deleting default link
   // (you shouldn't be able to do this, but just in case...)
   if (action === 'delete' && link.defaultLink) {
@@ -105,12 +105,12 @@ export const saveLink = async (artistId, link, savedFolders, action = 'add') => 
   }
   // DELETE link
   if (action === 'delete') {
-    const { res: deleteLinkRes, error } = await server.updateLink(artistId, { id: linkId }, action)
+    const { res: deleteLinkRes, error } = await server.updateLink(artistId, { id: linkId }, action, force)
     if (error) return { error }
     // If deleting last link of folder, also delete
     const folder = savedFolders.find(({ id }) => id === folderId)
     if (!folder) return { res: deleteLinkRes }
-    await server.updateFolder(artistId, folder, 'delete')
+    await server.updateFolder(artistId, folder, 'delete', force)
     return { res: deleteLinkRes }
   }
   console.error('No action defined in saveLink')

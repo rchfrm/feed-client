@@ -303,7 +303,7 @@ export const fetchSavedLinks = (artistId) => {
 * @param {string} action add | edit | delete
 * @returns {Promise<object>} { res, error }
 */
-export const updateLink = (artistId, link, action) => {
+export const updateLink = (artistId, link, action, force) => {
   const method = `${action}_link`
   const requestUrl = `/artists/${artistId}/linkbank?method=${method}`
   const { id, name, href, folder_id } = link
@@ -311,6 +311,7 @@ export const updateLink = (artistId, link, action) => {
     id,
     name,
     href,
+    force,
     ...(folder_id && { folder_id }),
   }
   const errorTracking = {
@@ -327,11 +328,11 @@ export const updateLink = (artistId, link, action) => {
 * @param {string} action add | edit | delete
 * @returns {Promise<object>} { res, error }
 */
-export const updateFolder = (artistId, folder, action) => {
+export const updateFolder = (artistId, folder, action, force) => {
   const method = `${action}_folder`
   const requestUrl = `/artists/${artistId}/linkbank?method=${method}`
   const { name, id } = folder
-  const payload = { name, id }
+  const payload = { name, id, force }
   const errorTracking = {
     category: 'Links',
     action: `${action} folder`,
