@@ -3,6 +3,7 @@ import React from 'react'
 import shallow from 'zustand/shallow'
 
 import useAlertModal from '@/hooks/useAlertModal'
+import useForceDeleteLink from '@/app/hooks/useForceDeleteLink'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -57,11 +58,20 @@ const useCreateEditPostsLink = ({
     return linkIds.includes(defaultLink.id)
   }, [defaultLink.id])
 
+  // GET FUNCTION TO FORCE DELETE
+  const showForceDeleteModal = useForceDeleteLink()
+
   // SAVE LINK ON SERVER
-  const updateLinkOnServer = async (newLink, action, oldLink) => {
-    const { res: savedLink, error } = await saveLink(artistId, newLink, savedFolders, action)
+  const updateLinkOnServer = async (newLink, action, oldLink, force) => {
+    const { res: savedLink, error } = await saveLink(artistId, newLink, savedFolders, action, force)
     // Error
     if (error) {
+      const { code: errorCode } = error
+      if (errorCode === 'link_reference_error') {
+        const deleteLink = () => updateLinkOnServer(newLink, action, oldLink, true)
+        showForceDeleteModal(deleteLink)
+        return
+      }
       // eslint-disable-next-line
       openLink(oldLink, error)
       return
