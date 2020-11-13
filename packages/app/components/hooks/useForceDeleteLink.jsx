@@ -20,6 +20,7 @@ const useForceDeleteLink = () => {
         text: 'Delete anyway',
         // DELETE LINK
         onClick: () => {
+          setSidePanelLoading(true)
           deleteItem(true)
         },
         color: 'red',
