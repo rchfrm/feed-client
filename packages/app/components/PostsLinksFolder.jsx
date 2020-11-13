@@ -56,12 +56,12 @@ const PostsLinksFolder = ({
 
   // Get open state from store
   const folderStates = linksStore(getLinkFolderState)
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(true)
 
   // Set initial open state
   const [initialStateSet, setInitialStateSet] = React.useState(false)
   React.useEffect(() => {
-    const { open } = folderStates[folderId] || true
+    const { open = true } = folderStates[folderId] || {}
     setIsOpen(open)
     setInitialStateSet(true)
   // eslint-disable-next-line
