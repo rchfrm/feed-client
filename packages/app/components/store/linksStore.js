@@ -245,7 +245,7 @@ const updateLinksStore = (set, get) => (action, {
   // GET UPDATED FOLDER STATES
   const { folderStates, artistId } = get()
   const newFolderStates = savedFolders.map(({ id }) => {
-    const { open } = folderStates[id]
+    const { open = true } = folderStates[id] || {}
     return { id, open }
   })
   // UPDATE STORE
