@@ -67,10 +67,18 @@ const tidyFolders = (folders, defaultLinkId) => {
   })
 }
 
+// Create array of saved folders with simplified info
 const getSavedFolders = (nestedLinks) => {
-  return nestedLinks.filter(({ type, is_default }) => {
-    return type === 'folder' && !is_default
-  })
+  return nestedLinks.reduce((savedFolders, folder) => {
+    const { id, type, is_default, name, links } = folder
+    if (type === 'folder' && is_default) return savedFolders
+    const totalLinks = links.length
+    return [...savedFolders, {
+      id,
+      name,
+      totalLinks,
+    }]
+  }, [])
 }
 
 // * INTEGRATIONS
