@@ -24,6 +24,7 @@ const initialArtistState = {
   preferences: {
     posts: {
       promotion_enabled_default: true,
+      default_link_id: null,
     },
   },
   priority_dsp: '',
@@ -56,15 +57,6 @@ const artistReducer = (draftState, action) => {
       draftState.daily_budget = payload.budget
       break
     }
-    case 'set-new-url': {
-      draftState[payload.urlType] = payload.url
-      draftState.URLs[payload.urlType] = payload.url
-      break
-    }
-    case 'set-priority-dsp': {
-      draftState.priority_dsp = payload.priority_dsp
-      break
-    }
     case 'set-connection': {
       draftState.URLs[payload.platform] = payload.url
       draftState[payload.platform] = payload.url
@@ -72,6 +64,9 @@ const artistReducer = (draftState, action) => {
     }
     case 'update-post-preferences': {
       draftState.preferences.posts[payload.preferenceType] = payload.value
+      if (payload.preferenceType === 'default_link_id') {
+        draftState.missingDefaultLink = false
+      }
       break
     }
     case 'update-integrations': {
@@ -248,15 +243,6 @@ function ArtistProvider({ children, disable }) {
     return updatedArtist.daily_budget
   }
 
-  const setPriorityDSP = (priorityDSP) => {
-    setArtist({
-      type: 'set-priority-dsp',
-      payload: {
-        priority_dsp: priorityDSP,
-      },
-    })
-  }
-
   const setConnection = ({ platform, url }) => {
     setArtist({
       type: 'set-connection',
@@ -276,20 +262,6 @@ function ArtistProvider({ children, disable }) {
       },
     })
   }
-
-  const addArtistUrl = React.useCallback(async (url, urlType) => {
-    const updatedArtist = await server.saveLink(artistId, url, urlType)
-
-    const savedUrl = updatedArtist[urlType]
-    setArtist({
-      type: 'set-new-url',
-      payload: {
-        urlType,
-        url: savedUrl,
-      },
-    })
-    return savedUrl
-  }, [artistId, setArtist])
 
   // Update artist ID when artist changes
   React.useEffect(() => {
@@ -317,10 +289,8 @@ function ArtistProvider({ children, disable }) {
     setNoArtist,
     setArtist,
     setArtistLoading,
-    setPriorityDSP,
     setConnection,
     setPostPreferences,
-    addArtistUrl,
     storeArtist,
     updateBudget,
     hasBudget,

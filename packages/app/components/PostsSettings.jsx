@@ -44,6 +44,7 @@ const PostsSettings = () => {
           <PostsSettingsDefaultLink
             className="mb-8"
             defaultLink={defaultLink}
+            setPostPreferences={setPostPreferences}
           />
         </PostsSettingsSection>
         {/* LINK TRACKING */}

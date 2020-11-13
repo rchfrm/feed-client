@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import linksStore from '@/app/store/linksStore'
+import shallow from 'zustand/shallow'
 
 import LinkIcon from '@/icons/LinkIcon'
 import TrashIcon from '@/icons/TrashIcon'
+
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import linksStore from '@/app/store/linksStore'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
@@ -14,6 +16,13 @@ import RadioButton from '@/elements/RadioButton'
 import { removeProtocolFromUrl } from '@/helpers/utils'
 import { saveLink } from '@/app/helpers/linksHelpers'
 import brandColors from '@/constants/brandColors'
+
+const getLinksStoreState = (state) => ({
+  artistId: state.artistId,
+  savedFolders: state.savedFolders,
+  updateLinksStore: state.updateLinksStore,
+  setLinkBankError: state.setLinkBankError,
+})
 
 const PostsLinksLink = ({
   link,
@@ -32,14 +41,18 @@ const PostsLinksLink = ({
 
   // DELETE LINK
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
-  const artistId = linksStore(state => state.artistId)
-  const updateLinksStore = linksStore(state => state.updateLinksStore)
-  const setLinkBankError = linksStore(state => state.setLinkBankError)
+  // READ LINK STORE
+  const {
+    artistId,
+    savedFolders,
+    updateLinksStore,
+    setLinkBankError,
+  } = linksStore(getLinksStoreState, shallow)
   // Function for deleting link
   const deleteLink = async () => {
     const action = 'delete'
     setSidePanelLoading(true)
-    const { res: savedLink, error } = await saveLink(artistId, link, action)
+    const { res: savedLink, error } = await saveLink(artistId, link, savedFolders, action)
     setSidePanelLoading(false)
     if (error) {
       const linkBankError = { message: `Error deleting link. ${error.message}` }

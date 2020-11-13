@@ -9,32 +9,52 @@ import { setDefaultLink } from '@/app/helpers/linksHelpers'
 
 const PostsSettingsDefaultLink = ({
   defaultLink,
+  setPostPreferences,
   className,
 }) => {
   const updateLinksStore = linksStore(state => state.updateLinksStore)
   const onSuccess = React.useCallback((newArtist) => {
     updateLinksStore('updateDefault', { newArtist })
-  }, [updateLinksStore])
+    // Update artist status
+    const { preferences: { posts: { default_link_id } } } = newArtist
+    setPostPreferences('default_link_id', default_link_id)
+  }, [updateLinksStore, setPostPreferences])
+  const { id: defaultLinkId } = defaultLink
+  const hasDefaultLink = !!defaultLinkId
   return (
     <div
       className={[
-        'pr-3 block',
+        'block relative pr-3',
         className,
       ].join(' ')}
     >
       <PostLinksSelect
-        currentLinkId={defaultLink.id}
+        currentLinkId={defaultLinkId}
         onSelect={setDefaultLink}
         onSuccess={onSuccess}
         includeAddLinkOption
         componentLocation="defaultLink"
       />
+      {!hasDefaultLink && (
+        <div
+          className={[
+            'absolute top-0 right-0',
+            'mr-1 -mt-2',
+            'w-4 h-4',
+            'bg-red rounded-full',
+          ].join(' ')}
+          style={{
+
+          }}
+        />
+      )}
     </div>
   )
 }
 
 PostsSettingsDefaultLink.propTypes = {
   defaultLink: PropTypes.object.isRequired,
+  setPostPreferences: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

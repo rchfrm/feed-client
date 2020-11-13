@@ -17,7 +17,7 @@ import { splitLinks } from '@/app/helpers/linksHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
-const getStoreState = (state) => ({
+const getLinksStoreState = (state) => ({
   fetchLinks: state.fetchLinks,
   nestedLinks: state.nestedLinks,
   linksLoading: state.linksLoading,
@@ -27,7 +27,7 @@ const getStoreState = (state) => ({
 const PostsLinks = ({
   useSelectMode,
 }) => {
-  const { fetchLinks, nestedLinks, linksLoading, linkBankError } = linksStore(getStoreState, shallow)
+  const { fetchLinks, nestedLinks, linksLoading, linkBankError } = linksStore(getLinksStoreState, shallow)
   const { looseLinks, linkFolders, integrationLinks } = React.useMemo(() => {
     return splitLinks(nestedLinks)
   }, [nestedLinks])

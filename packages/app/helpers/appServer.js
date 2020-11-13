@@ -49,27 +49,6 @@ export const updateDailyBudget = async (artistId, dailyBudget, verifyIdToken) =>
   return api.patch(`/artists/${artistId}`, { daily_budget: dailyBudget }, verifyIdToken)
 }
 
-/**
- * @param {string} artistId
- * @param {string} link
- * @param {string} linkLabel
- * @param {string} [verifyIdToken]
- * @returns {Promise<any>}
- */
-export const saveLink = async (artistId, link, linkLabel, verifyIdToken) => {
-  return api.patch(`/artists/${artistId}`, { [linkLabel]: link }, verifyIdToken)
-}
-
-/**
- * @param {string} artistId
- * @param {string} priorityDSP
- * @param {string} [verifyIdToken]
- * @returns {Promise<any>}
- */
-export const updatePriorityDSP = async (artistId, priorityDSP, verifyIdToken) => {
-  return api.patch(`/artists/${artistId}`, { priority_dsp: priorityDSP }, verifyIdToken)
-}
-
 
 // * INTEGRATIONS
 // -------------------

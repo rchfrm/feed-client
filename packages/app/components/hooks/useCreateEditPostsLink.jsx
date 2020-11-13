@@ -1,5 +1,7 @@
 import React from 'react'
 
+import shallow from 'zustand/shallow'
+
 import useAlertModal from '@/hooks/useAlertModal'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
@@ -18,6 +20,14 @@ import { testValidIntegration, updateIntegration } from '@/app/helpers/integrati
 
 import copy from '@/app/copy/PostsPageCopy'
 
+const getLinksStoreState = (state) => ({
+  defaultLink: state.defaultLink,
+  artistId: state.artistId,
+  savedFolders: state.savedFolders,
+  updateLinksStore: state.updateLinksStore,
+  setLinkBankError: state.setLinkBankError,
+})
+
 const useCreateEditPostsLink = ({
   action = 'add',
   itemType = 'link',
@@ -32,10 +42,13 @@ const useCreateEditPostsLink = ({
   const { setArtist } = React.useContext(ArtistContext)
 
   // READ FROM LINKS STORE
-  const defaultLink = linksStore(state => state.defaultLink)
-  const artistId = linksStore(state => state.artistId)
-  const updateLinksStore = linksStore(state => state.updateLinksStore)
-  const setLinkBankError = linksStore(state => state.setLinkBankError)
+  const {
+    defaultLink,
+    artistId,
+    savedFolders,
+    updateLinksStore,
+    setLinkBankError,
+  } = linksStore(getLinksStoreState, shallow)
 
   // TEST IF FOLDER CONTAINS DEFAULT LINK
   const testFolderContainsDefault = React.useCallback((folder) => {
@@ -46,7 +59,7 @@ const useCreateEditPostsLink = ({
 
   // SAVE LINK ON SERVER
   const saveLinkOnServer = async (newLink, action, oldLink) => {
-    const { res: savedLink, error } = await saveLink(artistId, newLink, action)
+    const { res: savedLink, error } = await saveLink(artistId, newLink, savedFolders, action)
     // Error
     if (error) {
       // eslint-disable-next-line
