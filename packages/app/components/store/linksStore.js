@@ -219,15 +219,15 @@ const updateLinksStore = (set, get) => (action, {
     const defaultLink = getDefaultLink({ artist: newArtist, linkFolders: nestedLinks })
     return set({ defaultLink })
   }
-  // LINK
-  if (newLink) {
-    const nestedLinks = getUpdatedLinks(set, get)(action, { newLink, oldLink })
-    const savedFolders = getSavedFolders(nestedLinks)
-    return set({ nestedLinks, savedFolders })
-  }
-  // FOLDER
-  const nestedLinks = getUpdatedFolders(set, get)(action, { newFolder, oldFolder })
+  // GET UPDATED NESTED LINKS WHEN...
+  const nestedLinks = newLink
+    // ...Updating link
+    ? getUpdatedLinks(set, get)(action, { newLink, oldLink })
+    // ...Updating folder
+    : getUpdatedFolders(set, get)(action, { newFolder, oldFolder })
+  // GET UPDATED SAVED FOLDERS
   const savedFolders = getSavedFolders(nestedLinks)
+  // UPDATE STORE
   set({ nestedLinks, savedFolders })
 }
 
