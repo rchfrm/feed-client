@@ -23,6 +23,7 @@ import copy from '@/app/copy/PostsPageCopy'
 const getLinksStoreState = (state) => ({
   defaultLink: state.defaultLink,
   artistId: state.artistId,
+  savedFolders: state.savedFolders,
   updateLinksStore: state.updateLinksStore,
   setLinkBankError: state.setLinkBankError,
 })
@@ -44,6 +45,7 @@ const useCreateEditPostsLink = ({
   const {
     defaultLink,
     artistId,
+    savedFolders,
     updateLinksStore,
     setLinkBankError,
   } = linksStore(getLinksStoreState, shallow)
@@ -57,7 +59,7 @@ const useCreateEditPostsLink = ({
 
   // SAVE LINK ON SERVER
   const saveLinkOnServer = async (newLink, action, oldLink) => {
-    const { res: savedLink, error } = await saveLink(artistId, newLink, action)
+    const { res: savedLink, error } = await saveLink(artistId, newLink, savedFolders, action)
     // Error
     if (error) {
       // eslint-disable-next-line

@@ -70,7 +70,7 @@ export const saveFolder = async (artistId, folder, action = 'edit', isDefaultLin
  * @param {string} action 'add' | 'edit' | 'delete'
  * @returns {Promise<any>}
  */
-export const saveLink = async (artistId, link, action = 'add') => {
+export const saveLink = async (artistId, link, savedFolders, action = 'add') => {
   // Disable deleting default link
   // (you shouldn't be able to do this, but just in case...)
   if (action === 'delete' && link.defaultLink) {
@@ -78,8 +78,8 @@ export const saveLink = async (artistId, link, action = 'add') => {
       error: { message: 'You cannot delete the default link. If you want to remove it please choose another default link.' },
     }
   }
+  const { href, name, folderName, folder_id: folderId, id: linkId } = link
   // ADD link
-  const { href, name, folderName, id: linkId } = link
   const hrefSanitised = utils.enforceUrlProtocol(href)
   const createNewFolder = !!folderName
   let { folder_id } = link
@@ -105,7 +105,12 @@ export const saveLink = async (artistId, link, action = 'add') => {
   }
   // DELETE link
   if (action === 'delete') {
-    return server.updateLink(artistId, { id: linkId }, action)
+    const { res: deleteLinkRes, error } = await server.updateLink(artistId, { id: linkId }, action)
+    if (error) return { error }
+    // If deleting last link of folder, also delete
+    const folder = savedFolders.find(({ id }) => id === folderId)
+    await server.updateFolder(artistId, folder, 'delete')
+    return { res: deleteLinkRes }
   }
   console.error('No action defined in saveLink')
 }
