@@ -160,16 +160,18 @@ const PostsLinksEditModal = ({
                   'text-sm',
                 ].join(' ')}
               >
-                <a
-                  className="text-grey-3 -hover--green"
-                  role="button"
-                  onClick={() => {
-                    const e = { target: { value: link ? link.folder_id : '' } }
-                    handleInput(e, 'folder_id', true)
-                  }}
-                >
-                  Use existing folder
-                </a>
+                {!!savedFolders.length && (
+                  <a
+                    className="text-grey-3 -hover--green"
+                    role="button"
+                    onClick={() => {
+                      const e = { target: { value: link ? link.folder_id : '' } }
+                      handleInput(e, 'folder_id', true)
+                    }}
+                  >
+                    Use existing folder
+                  </a>
+                )}
               </p>
             </div>
           ) : (
