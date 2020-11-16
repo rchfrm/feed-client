@@ -98,8 +98,8 @@ function ChartBar({
   // DEFINE STATES
   const [dateLabels, setDateLabels] = React.useState([])
   const [chartLimit, setChartLimit] = React.useState({
-    max: undefined,
-    min: undefined,
+    max: '',
+    min: '',
   })
   const [chartDataSets, setChartDataSets] = React.useState([])
   const [chartOptions, setChartOptions] = React.useState({})

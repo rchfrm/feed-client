@@ -71,6 +71,7 @@ export const getAvailableSources = (allSources) => {
 }
 
 export const getInitialDataSource = (availableDataSources, currentPlatform) => {
+  if (!currentPlatform) return 'instagram_follower_count'
   // Filter out non-platform related sources
   const filteredSources = availableDataSources.filter(({ name: sourceName }) => {
     const { platform } = insightDataSources[sourceName]
