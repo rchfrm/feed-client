@@ -40,7 +40,7 @@ const TheSubNavArtists = ({ className }) => {
   const { user } = React.useContext(UserContext)
   const { artists: allArtists } = user
   const { artistId, storeArtist } = React.useContext(ArtistContext)
-  const maxArtists = 4
+  const maxArtists = 3
 
   const updateArtist = (artistId) => {
     storeArtist(artistId)

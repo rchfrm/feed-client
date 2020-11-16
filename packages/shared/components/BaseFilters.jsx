@@ -64,12 +64,12 @@ const BaseFilters = ({
   React.useEffect(() => {
     if (!activeOptionId || !options.length) return
     // Find active option color
-    const { color: activeColor } = options.find(({ id }) => id === activeOptionId)
+    const { color: activeColor } = options.find(({ id }) => id === activeOptionId) || {}
     // Set hover color
     if (!containerRef.current) return
     containerRef.current.style.setProperty('--active-color', activeColor)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeOptionId])
+  }, [activeOptionId, options])
 
   const setQueryString = React.useCallback((filterSlug) => {
     const { query: currentQueries } = utils.parseUrl(window.location.href)

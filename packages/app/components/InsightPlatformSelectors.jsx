@@ -12,8 +12,12 @@ import styles from '@/BaseFilters.module.css'
 const InsightPlatformSelectors = ({
   availablePlatforms,
   currentPlatform,
-  setCurrentPlatform,
+  currentDataSource,
   defaultPlatform,
+  defaultDataSource,
+  setCurrentPlatform,
+  setCurrentDataSource,
+  availableDataSources,
 }) => {
   // Build options array for base filters
   const baseFiltersOptions = React.useMemo(() => {
@@ -32,6 +36,15 @@ const InsightPlatformSelectors = ({
     })
   }, [availablePlatforms, currentPlatform])
 
+  // Update data source when changing platform
+  React.useEffect(() => {
+    if (!currentDataSource) return
+    const { platform } = availableDataSources.find(({ name }) => name === currentDataSource)
+    if (platform === currentPlatform) return
+    setCurrentDataSource(defaultDataSource)
+  // eslint-disable-next-line
+  }, [currentPlatform, defaultDataSource, availableDataSources])
+
   if (!defaultPlatform) return null
 
   return (
@@ -41,9 +54,6 @@ const InsightPlatformSelectors = ({
       defaultOptionId={defaultPlatform}
       setActiveOptionId={setCurrentPlatform}
       labelText="Select a platform"
-      useSetQuery
-      useSetLocalStorage
-      querySlug="platform"
       className="items-center"
     >
       <ShowInsightsButton
@@ -58,13 +68,19 @@ const InsightPlatformSelectors = ({
 InsightPlatformSelectors.propTypes = {
   availablePlatforms: PropTypes.array.isRequired,
   currentPlatform: PropTypes.string,
+  currentDataSource: PropTypes.string,
   setCurrentPlatform: PropTypes.func.isRequired,
+  setCurrentDataSource: PropTypes.func.isRequired,
   defaultPlatform: PropTypes.string,
+  defaultDataSource: PropTypes.string,
+  availableDataSources: PropTypes.array.isRequired,
 }
 
 InsightPlatformSelectors.defaultProps = {
-  defaultPlatform: '',
   currentPlatform: '',
+  currentDataSource: '',
+  defaultPlatform: '',
+  defaultDataSource: '',
 }
 
 
