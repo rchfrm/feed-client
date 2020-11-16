@@ -203,7 +203,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 
   // Define function to BATCH TOGGLE all posts
   // and save it in posts store
-  const setTogglePromotionGlobal = postsStore(state => state.setTogglePromotionGlobal)
+  const setTogglePromotionGlobal = postsStore(React.useCallback(state => state.setTogglePromotionGlobal, []))
   React.useEffect(() => {
     const togglePromotionGlobal = (promotionEnabled) => {
       setPostToggleSetter('batch')
@@ -214,7 +214,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         },
       })
     }
-    setTogglePromotionGlobal(() => (promotionEnabled) => {
+    setTogglePromotionGlobal((promotionEnabled) => {
       togglePromotionGlobal(promotionEnabled)
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
