@@ -97,7 +97,7 @@ const fetchIntegrations = ({ artist, folders }) => {
   const { integrations } = artist
   // Remove empty integrations
   const filteredArtistIntegrations = integrations.reduce((arr, integration) => {
-    if (!integration.accountId) return arr
+    if (!integration.accountId || integration.hidden) return arr
     return [...arr, integration]
   }, [])
   // Get integration links
