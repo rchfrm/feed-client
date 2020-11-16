@@ -6,8 +6,13 @@
   /* Color Palette */
   --white: #F4F4F4;
   --black: #0D1311;
+  --black-hover: #27302D;
   --green: #03D8B2;
+  --green-hover: #05CAA6;
   --red: #FA5450;
+  --red-hover: #F84541;
+  --yellow: #FDE74C;
+  --yellow-hover: #FFE459;
   --grey-light: #E7E9E8;
   --grey: #C8CBCA;
   --grey-dark: #7F8382;
@@ -16,7 +21,7 @@
   --color-fb: #26547C;
   --color-insta: #E75A7C;
   --color-twitter: #5BC0EB;
-  --color-sc: #FDE74C;
+  --color-sc: var(--yellow);
   /* APP COLORS */
   --bg-color: var(--white);
   --text-color: var(--black);

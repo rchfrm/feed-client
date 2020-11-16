@@ -78,21 +78,61 @@ button {
 }
 
 .button--black {
-    background-color: var(--black);
+  background-color: var(--black);
+
+  @mixin canHover {
+    &:hover {
+      background-color: var(--black-hover);
+    }
+  }
+
+  &:focus {
+    background-color: var(--black-hover);
+  }
 }
 
 .button--green,
 .button--success {
   background-color: var(--success-color);
+
+  @mixin canHover {
+    &:hover {
+      background-color: var(--green-hover);
+    }
+  }
+
+  &:focus {
+    background-color: var(--green-hover);
+  }
 }
 
 .button--red {
   background-color: var(--error-color);
+
+  @mixin canHover {
+    &:hover {
+      background-color: var(--red-hover);
+    }
+  }
+
+  &:focus {
+    background-color: var(--red-hover);
+  }
 }
 
 .button--yellow {
   color: var(--black);
-  background-color: var(--color-sc);
+  background-color: var(--yellow);
+
+  @mixin canHover {
+    &:hover {
+      background-color: var(--yellow-hover);
+    }
+  }
+
+  &:focus {
+    background-color: var(--yellow-hover);
+  }
 }
 
 
