@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 
 import Head from 'next/head'
 // GLOBAL STYLES
-import '../../shared/css/index.css'
+import '../../shared/css/core.css'
+import '../../shared/css/app.css'
+import '../../shared/css/utilities.css'
 // IMPORT COMPONENTS
 import AdminContents from '@/admin/AdminContents'
 // IMPORT CONTEXTS

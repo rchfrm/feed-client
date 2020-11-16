@@ -3,6 +3,7 @@
 /* Import fonts */
 @import "font-face/space-grotesk";
 @import "font-face/inter";
+
 /**
 * Base.
 */
@@ -23,21 +24,3 @@
 @import "third-party/nouislider";
 @import "third-party/nouislider.trumps";
 @import "third-party/trumps";
-/**
-* Elements.
-*/
-@import "icons";
-@import "forms";
-@import "elements";
-@import "buttons";
-@import "media";
-@import "pills";
-@import "modals";
-@import "tooltips";
-@import "accordion";
-/**
-* Tailwind components
-* Tailwind utilities
-*/
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";

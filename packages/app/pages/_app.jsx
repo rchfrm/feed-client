@@ -10,7 +10,9 @@ import Script from 'react-load-script'
 import withFBQ from 'next-fbq'
 import * as Sentry from '@sentry/browser'
 // GLOBAL STYLES
-import '../../shared/css/index.css'
+import '../../shared/css/core.css'
+import '../../shared/css/app.css'
+import '../../shared/css/utilities.css'
 // IMPORT COMPONENTS
 import AppContents from '@/app/AppContents'
 import SetupGtag from '@/elements/SetupGtag'
