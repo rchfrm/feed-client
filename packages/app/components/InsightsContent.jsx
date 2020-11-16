@@ -35,7 +35,7 @@ function InsightsContent() {
   // eslint-disable-next-line
   }, [artistId, artistLoading])
 
-  // GET PLATFORM AND DATA SOURCE DETAILS
+  // GET AND SET PLATFORMS AND DEFAULT PLATFORM
   const [availablePlatforms, setAvailablePlatforms] = React.useState(null)
   const [defaultPlatform, setDefaultPlatform] = React.useState('')
   React.useEffect(() => {
@@ -50,7 +50,6 @@ function InsightsContent() {
 
   // GET DEFAULT DATA SOURCE
   const defaultDataSource = React.useMemo(() => {
-    if (!currentPlatform) return
     return chartHelpers.getInitialDataSource(availableDataSources, currentPlatform)
   // eslint-disable-next-line
   }, [currentPlatform])
@@ -87,11 +86,14 @@ function InsightsContent() {
       {/* PLATFORM SELECTORS */}
       <InsightPlatformSelectors
         artistId={artistId}
+        availableDataSources={availableDataSources}
         availablePlatforms={availablePlatforms}
         currentPlatform={currentPlatform}
-        setCurrentPlatform={setCurrentPlatform}
+        currentDataSource={currentDataSource}
         defaultPlatform={defaultPlatform}
-        initialLoading={initialLoading}
+        defaultDataSource={defaultDataSource}
+        setCurrentPlatform={setCurrentPlatform}
+        setCurrentDataSource={setCurrentDataSource}
       />
       {/* DATASOURCE SELECTORS */}
       <InsightDataSelectors
@@ -100,7 +102,7 @@ function InsightsContent() {
         currentDataSource={currentDataSource}
         defaultDataSource={defaultDataSource}
         setCurrentDataSource={setCurrentDataSource}
-        initialLoading={initialLoading}
+        setCurrentPlatform={setCurrentPlatform}
       />
 
       {currentPlatform && currentDataSource && (

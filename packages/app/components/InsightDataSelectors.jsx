@@ -8,33 +8,22 @@ import * as chartHelpers from '@/app/helpers/chartHelpers'
 // Constants
 import brandColors from '@/constants/brandColors'
 
-import * as utils from '@/helpers/utils'
-
 const InsightDataSelectors = ({
   availableDataSources,
   currentPlatform,
   currentDataSource,
   defaultDataSource,
   setCurrentDataSource,
-  initialLoading,
+  setCurrentPlatform,
 }) => {
+  const filterQuerySlug = 'dataset'
+
   // Return array of data sources that match the current platform
   const platformSources = React.useMemo(() => {
-    if (!currentPlatform) return []
+    if (!currentPlatform) return availableDataSources
     return chartHelpers.getPlatformSources(availableDataSources, currentPlatform)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPlatform])
-
-  const filterQuerySlug = 'dataset'
-
-  // Set first data sources as active when platform changes
-  React.useEffect(() => {
-    if (!platformSources.length || initialLoading) return
-    // Get and set initial data source
-    const source = chartHelpers.getInitialDataSource(platformSources, currentPlatform)
-    setCurrentDataSource(source)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPlatform, initialLoading, setCurrentDataSource])
 
   // Build options array for base filters
   const baseFiltersOptions = React.useMemo(() => {
@@ -49,7 +38,13 @@ const InsightDataSelectors = ({
     })
   }, [platformSources])
 
-  if (!currentPlatform) return null
+  React.useEffect(() => {
+    if (!availableDataSources || !availableDataSources.length || !currentDataSource) return
+    const { platform } = availableDataSources.find(({ name }) => name === currentDataSource)
+    setCurrentPlatform(platform)
+  }, [currentDataSource, availableDataSources, setCurrentPlatform])
+
+  // if (!currentPlatform) return null
 
   return (
     <BaseFilters
@@ -68,14 +63,16 @@ const InsightDataSelectors = ({
 
 InsightDataSelectors.propTypes = {
   availableDataSources: PropTypes.array.isRequired,
-  currentPlatform: PropTypes.string.isRequired,
+  currentPlatform: PropTypes.string,
   currentDataSource: PropTypes.string.isRequired,
   defaultDataSource: PropTypes.string,
   setCurrentDataSource: PropTypes.func.isRequired,
+  setCurrentPlatform: PropTypes.func.isRequired,
   initialLoading: PropTypes.bool.isRequired,
 }
 
 InsightDataSelectors.defaultProps = {
+  currentPlatform: '',
   defaultDataSource: '',
 }
 
