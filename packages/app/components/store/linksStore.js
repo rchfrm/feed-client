@@ -124,8 +124,7 @@ const getDefaultLink = ({ linkFolders, artist, linkId }) => {
 
 // * FETCH LINKS
 
-const formatServerLinks = ({ folders, defaultLink, artist }) => {
-  const { id: defaultLinkId } = defaultLink
+const formatServerLinks = ({ folders, defaultLinkId, artist }) => {
   // Update links in integration folder
   const integrationLinks = fetchIntegrations({ artist, folders })
   const integrationsFolderIndex = folders.findIndex(({ id }) => id === integrationsFolderId)
@@ -157,10 +156,11 @@ const fetchLinks = (set, get) => async (action, artist) => {
     return { error }
   }
   const { folders } = res
-  // Get default link
-  const defaultLink = getDefaultLink({ artist, linkFolders: folders })
+  const defaultLinkId = getDefaultLinkId(artist)
   // Create array of links in folders for display
-  const nestedLinks = formatServerLinks({ folders, defaultLink, artist })
+  const nestedLinks = formatServerLinks({ folders, defaultLinkId, artist })
+  // Get default link
+  const defaultLink = getDefaultLink({ artist, linkFolders: nestedLinks, linkId: defaultLinkId })
   // Create an array of folder IDs
   const savedFolders = getSavedFolders(nestedLinks)
   // Get folder states
