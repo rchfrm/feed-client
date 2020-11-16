@@ -43,7 +43,7 @@ export const getIntegrationInfo = (integration) => {
     case 'spotify':
       return {
         title: 'Spotify',
-        titleVerbose: 'Spotify artist',
+        titleVerbose: 'Spotify profile',
         baseUrl: 'https://spotify.com/',
         placeholderUrl: 'https://spotify.com/artist/<artist ID>',
         accountIdKey: 'artist_id',
