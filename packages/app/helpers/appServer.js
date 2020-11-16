@@ -20,6 +20,7 @@ const requestWithCatch = async (requestType, url, payload = null, trackError) =>
     .catch((error) => { return { error } })
   if (res.error) {
     const { error } = res
+    const { code, context } = error
     const message = typeof error.response === 'object' ? error.response.data.error : error.message
     // Track error on sentry
     if (trackError) {
@@ -31,7 +32,7 @@ const requestWithCatch = async (requestType, url, payload = null, trackError) =>
         error: true,
       })
     }
-    return { error: { message } }
+    return { error: { message, code, context } }
   }
   return { res }
 }
@@ -302,7 +303,7 @@ export const fetchSavedLinks = (artistId) => {
 * @param {string} action add | edit | delete
 * @returns {Promise<object>} { res, error }
 */
-export const updateLink = (artistId, link, action) => {
+export const updateLink = (artistId, link, action, force) => {
   const method = `${action}_link`
   const requestUrl = `/artists/${artistId}/linkbank?method=${method}`
   const { id, name, href, folder_id } = link
@@ -310,6 +311,7 @@ export const updateLink = (artistId, link, action) => {
     id,
     name,
     href,
+    force,
     ...(folder_id && { folder_id }),
   }
   const errorTracking = {
@@ -326,11 +328,11 @@ export const updateLink = (artistId, link, action) => {
 * @param {string} action add | edit | delete
 * @returns {Promise<object>} { res, error }
 */
-export const updateFolder = (artistId, folder, action) => {
+export const updateFolder = (artistId, folder, action, force) => {
   const method = `${action}_folder`
   const requestUrl = `/artists/${artistId}/linkbank?method=${method}`
   const { name, id } = folder
-  const payload = { name, id }
+  const payload = { name, id, force }
   const errorTracking = {
     category: 'Links',
     action: `${action} folder`,

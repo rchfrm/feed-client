@@ -3,6 +3,7 @@ import React from 'react'
 import shallow from 'zustand/shallow'
 
 import useAlertModal from '@/hooks/useAlertModal'
+import useForceDeleteLink from '@/app/hooks/useForceDeleteLink'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -57,14 +58,24 @@ const useCreateEditPostsLink = ({
     return linkIds.includes(defaultLink.id)
   }, [defaultLink.id])
 
+  // GET FUNCTION TO FORCE DELETE
+  const showForceDeleteModal = useForceDeleteLink()
+
   // SAVE LINK ON SERVER
-  const saveLinkOnServer = async (newLink, action, oldLink) => {
-    const { res: savedLink, error } = await saveLink(artistId, newLink, savedFolders, action)
+  const updateLinkOnServer = async (newLink, action, oldLink, force) => {
+    const { res: savedLink, error } = await saveLink(artistId, newLink, savedFolders, action, force)
     // Error
     if (error) {
+      const { code: errorCode } = error
+      if (errorCode === 'link_reference_error') {
+        const runDeleteLink = () => updateLinkOnServer(newLink, action, oldLink, true)
+        const linkIds = [oldLink.id]
+        showForceDeleteModal(runDeleteLink, linkIds, 'link')
+        return
+      }
       // eslint-disable-next-line
       openLink(oldLink, error)
-      return
+      return { error }
     }
     // Update store
     updateLinksStore(action, { newLink: savedLink, oldLink })
@@ -81,14 +92,23 @@ const useCreateEditPostsLink = ({
     // Success
     onSave(savedLink)
     setSidePanelLoading(false)
+    return { savedLink }
   }
 
   // SAVE FOLDER ON SERVER
-  const saveFolderOnServer = async (newFolder, action, oldFolder) => {
+  const updateFolderOnServer = async (newFolder, action, oldFolder, force) => {
     const isDefaultLinkInFolder = testFolderContainsDefault(oldFolder)
-    const { res: savedFolder, error } = await saveFolder(artistId, newFolder, action, isDefaultLinkInFolder)
+    const { res: savedFolder, error } = await saveFolder(artistId, newFolder, action, isDefaultLinkInFolder, force)
     // Error
     if (error) {
+      const { code: errorCode } = error
+      // Handle force delete
+      if (errorCode === 'link_reference_error') {
+        const runDeleteFolder = () => updateFolderOnServer(newFolder, action, oldFolder, true)
+        const linkIds = oldFolder.links.map(({ id }) => id)
+        showForceDeleteModal(runDeleteFolder, linkIds, 'folder')
+        return { error }
+      }
       // eslint-disable-next-line
       openLink(oldFolder, error)
       return
@@ -98,6 +118,7 @@ const useCreateEditPostsLink = ({
     // Success
     onSave(savedFolder)
     setSidePanelLoading(false)
+    return { savedFolder }
   }
 
   // TEST AS INTEGRATION LINKS
@@ -135,7 +156,7 @@ const useCreateEditPostsLink = ({
         text: 'Save as Link',
         onClick: () => {
           setSidePanelLoading(true)
-          saveLinkOnServer(newLink, action, oldLink)
+          updateLinkOnServer(newLink, action, oldLink)
         },
         color: 'black',
       },
@@ -155,14 +176,14 @@ const useCreateEditPostsLink = ({
       showIntegrationOptionModal(newLink, action, oldLink, matchingIntegrationPlatform)
       return
     }
-    await saveLinkOnServer(newLink, action, oldLink)
+    await updateLinkOnServer(newLink, action, oldLink)
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSave])
 
   // FUNCTION TO SAVE FOLDER
   const runSaveFolder = React.useCallback(async (newFolder, action, oldFolder) => {
     setSidePanelLoading(true)
-    await saveFolderOnServer(newFolder, action, oldFolder)
+    await updateFolderOnServer(newFolder, action, oldFolder)
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSave, testFolderContainsDefault])
 

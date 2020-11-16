@@ -151,28 +151,31 @@ const PostsLinksEditModal = ({
                 name="new-folder"
                 handleChange={(e) => handleInput(e, 'folderName')}
                 value={linkProps.folderName}
+                autoFocus
                 required
               />
               {/* Close new folder input */}
-              <p
-                className={[
-                  'absolute absolute--center-y right-0 mr-4 pt-16',
-                  'text-sm',
-                ].join(' ')}
-              >
-                {!!savedFolders.length && (
-                  <a
-                    className="text-grey-3 -hover--green"
-                    role="button"
-                    onClick={() => {
-                      const e = { target: { value: link ? link.folder_id : '' } }
-                      handleInput(e, 'folder_id', true)
-                    }}
-                  >
-                    Use existing folder
-                  </a>
-                )}
-              </p>
+              {!linkProps.folderName && (
+                <p
+                  className={[
+                    'absolute absolute--center-y right-0 mr-4 pt-16',
+                    'text-sm',
+                  ].join(' ')}
+                >
+                  {!!savedFolders.length && (
+                    <a
+                      className="text-grey-3 -hover--green"
+                      role="button"
+                      onClick={() => {
+                        const e = { target: { value: link ? link.folder_id : '' } }
+                        handleInput(e, 'folder_id', true)
+                      }}
+                    >
+                      Use existing folder
+                    </a>
+                  )}
+                </p>
+              )}
             </div>
           ) : (
             <Select

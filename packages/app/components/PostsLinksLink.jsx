@@ -10,6 +10,7 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import linksStore from '@/app/store/linksStore'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
+import useForceDeleteLink from '@/app/hooks/useForceDeleteLink'
 
 import RadioButton from '@/elements/RadioButton'
 
@@ -39,8 +40,6 @@ const PostsLinksLink = ({
     onSave: () => setEditModeOn(false),
   })
 
-  // DELETE LINK
-  const { setSidePanelLoading } = React.useContext(SidePanelContext)
   // READ LINK STORE
   const {
     artistId,
@@ -48,20 +47,30 @@ const PostsLinksLink = ({
     updateLinksStore,
     setLinkBankError,
   } = linksStore(getLinksStoreState, shallow)
+  // DELETE LINK
+  const { setSidePanelLoading } = React.useContext(SidePanelContext)
+  const showForceDeleteModal = useForceDeleteLink()
   // Function for deleting link
-  const deleteLink = async () => {
+  const runDeleteLink = React.useCallback(async (forceDelete) => {
     const action = 'delete'
     setSidePanelLoading(true)
-    const { res: savedLink, error } = await saveLink(artistId, link, savedFolders, action)
+    const { res: savedLink, error } = await saveLink(artistId, link, savedFolders, action, forceDelete)
     setSidePanelLoading(false)
     if (error) {
+      const { code: errorCode } = error
+      if (errorCode === 'link_reference_error') {
+        const linkIds = [link.id]
+        showForceDeleteModal(runDeleteLink, linkIds, 'link')
+        return { error }
+      }
       const linkBankError = { message: `Error deleting link. ${error.message}` }
       setLinkBankError(linkBankError)
       return
     }
     updateLinksStore(action, { newLink: savedLink, oldLink: link })
     setLinkBankError(null)
-  }
+    return { savedLink }
+  }, [])
 
   const { isDefaultLink } = link
 
@@ -127,7 +136,7 @@ const PostsLinksLink = ({
                 <a
                   className="text-sm text-red no-underline ml-4 pr-6 pt-3 -mt-3"
                   role="button"
-                  onClick={deleteLink}
+                  onClick={() => runDeleteLink(false)}
                 >
                   <TrashIcon className="h-3 w-auto" fill={brandColors.red} />
                 </a>

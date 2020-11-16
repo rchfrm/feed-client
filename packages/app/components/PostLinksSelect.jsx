@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import shallow from 'zustand/shallow'
 import useAsyncEffect from 'use-async-effect'
 
 import linksStore from '@/app/store/linksStore'
@@ -11,6 +12,12 @@ import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
 import { splitLinks, defaultPostLinkId } from '@/app/helpers/linksHelpers'
+
+const getLinksStoreState = (state) => ({
+  artistId: state.artistId,
+  defaultLink: state.defaultLink,
+  nestedLinks: state.nestedLinks,
+})
 
 const PostLinksSelect = ({
   currentLinkId,
@@ -23,9 +30,12 @@ const PostLinksSelect = ({
   includeAddLinkOption,
   componentLocation,
 }) => {
-  const artistId = linksStore(state => state.artistId)
-  const nestedLinks = linksStore(state => state.nestedLinks)
-  const defaultLink = linksStore(state => state.defaultLink) || {}
+  // READ FROM LINKS STORE
+  const {
+    artistId,
+    defaultLink,
+    nestedLinks,
+  } = linksStore(getLinksStoreState, shallow)
 
   // PLACEHOLDER TEXT (if no default link)
   const placeholderText = componentLocation === 'post' ? 'No default link set' : 'Select a default link'

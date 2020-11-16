@@ -29,18 +29,23 @@ const locallyStoreFolderStates = (state, artistId) => {
   setLocalStorage(stateKey, JSON.stringify(state))
 }
 
+const buildFolderStates = (savedFolders, folderStates = {}) => {
+  return savedFolders.reduce((obj, { id }) => {
+    const { open = true } = folderStates[id] || {}
+    obj[id] = {
+      id,
+      open,
+    }
+    return obj
+  }, {})
+}
+
 const getInitialFolderState = (savedFolders, artistId) => {
   const stateKey = getFolderStateKey(artistId)
   const savedState = JSON.parse(getLocalStorage(stateKey))
   if (savedState) return savedState
   // If no saved state, build it here
-  const initialState = savedFolders.reduce((obj, { id }) => {
-    obj[id] = {
-      id,
-      open: true,
-    }
-    return obj
-  }, {})
+  const initialState = buildFolderStates(savedFolders)
   locallyStoreFolderStates(initialState, artistId)
   return initialState
 }
@@ -51,13 +56,11 @@ const tidyFolders = (folders, defaultLinkId) => {
     const { links } = item
     const linksWithDefaultKey = links.map((link) => {
       const { id } = link
-      if (id === defaultLinkId) {
-        return {
-          ...link,
-          isDefaultLink: true,
-        }
+      const isDefaultLink = id === defaultLinkId
+      return {
+        ...link,
+        isDefaultLink,
       }
-      return link
     })
     return {
       ...item,
@@ -121,8 +124,7 @@ const getDefaultLink = ({ linkFolders, artist, linkId }) => {
 
 // * FETCH LINKS
 
-const formatServerLinks = ({ folders, defaultLink, artist }) => {
-  const { id: defaultLinkId } = defaultLink
+const formatServerLinks = ({ folders, defaultLinkId, artist }) => {
   // Update links in integration folder
   const integrationLinks = fetchIntegrations({ artist, folders })
   const integrationsFolderIndex = folders.findIndex(({ id }) => id === integrationsFolderId)
@@ -154,10 +156,11 @@ const fetchLinks = (set, get) => async (action, artist) => {
     return { error }
   }
   const { folders } = res
-  // Get default link
-  const defaultLink = getDefaultLink({ artist, linkFolders: folders })
+  const defaultLinkId = getDefaultLinkId(artist)
   // Create array of links in folders for display
-  const nestedLinks = formatServerLinks({ folders, defaultLink, artist })
+  const nestedLinks = formatServerLinks({ folders, defaultLinkId, artist })
+  // Get default link
+  const defaultLink = getDefaultLink({ artist, linkFolders: nestedLinks, linkId: defaultLinkId })
   // Create an array of folder IDs
   const savedFolders = getSavedFolders(nestedLinks)
   // Get folder states
@@ -232,7 +235,8 @@ const updateLinksStore = (set, get) => (action, {
   if (action === 'updateDefault') {
     const { nestedLinks } = get()
     const defaultLink = getDefaultLink({ artist: newArtist, linkFolders: nestedLinks })
-    return set({ defaultLink })
+    const updatedNestedLinks = tidyFolders(nestedLinks, defaultLink.id)
+    return set({ defaultLink, nestedLinks: updatedNestedLinks })
   }
   // GET UPDATED NESTED LINKS WHEN...
   const nestedLinks = newLink
@@ -244,10 +248,7 @@ const updateLinksStore = (set, get) => (action, {
   const savedFolders = getSavedFolders(nestedLinks)
   // GET UPDATED FOLDER STATES
   const { folderStates, artistId } = get()
-  const newFolderStates = savedFolders.map(({ id }) => {
-    const { open = true } = folderStates[id] || {}
-    return { id, open }
-  })
+  const newFolderStates = buildFolderStates(savedFolders, folderStates)
   // UPDATE STORE
   set({
     nestedLinks,
