@@ -78,9 +78,11 @@ const PostLinksSelect = ({
       type: 'group',
       name: 'Integrations',
       value: '_integrations',
-      options: integrationLinks.map(({ titleVerbose, id }) => {
-        return { name: titleVerbose, value: id }
-      }),
+      options: integrationLinks.reduce((arr, { href, titleVerbose, id }) => {
+        if (!href) return arr
+        const option = { name: titleVerbose, value: id }
+        return [...arr, option]
+      }, []),
     }
     baseOptions.push(integrationsGroup)
     // If no DEFAULT or no NEW LINK, stop here

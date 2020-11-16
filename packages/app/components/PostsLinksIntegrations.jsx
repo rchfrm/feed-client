@@ -84,14 +84,20 @@ const PostsLinksIntegrations = ({
                         </span>
                       )}
                       {/* LINK PREVIEW */}
-                      <a
-                        className="block pt-1 text-xs text-grey-3 truncate w-full"
-                        href={href}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                      >
-                        {removeProtocolFromUrl(href)}
-                      </a>
+                      {href ? (
+                        <a
+                          className="block pt-1 text-xs text-grey-3 truncate w-full"
+                          href={href}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                        >
+                          {removeProtocolFromUrl(href)}
+                        </a>
+                      ) : (
+                        <span className="block pt-1 text-xs text-grey-3 truncate w-full">
+                          not connected
+                        </span>
+                      )}
                     </span>
                   </>
                 )}
