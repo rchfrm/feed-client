@@ -51,7 +51,7 @@ const PostsLinksLink = ({
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   const showForceDeleteModal = useForceDeleteLink()
   // Function for deleting link
-  const deleteLink = React.useCallback(async (forceDelete) => {
+  const runDeleteLink = React.useCallback(async (forceDelete) => {
     const action = 'delete'
     setSidePanelLoading(true)
     const { res: savedLink, error } = await saveLink(artistId, link, savedFolders, action, forceDelete)
@@ -59,8 +59,9 @@ const PostsLinksLink = ({
     if (error) {
       const { code: errorCode } = error
       if (errorCode === 'link_reference_error') {
-        showForceDeleteModal(deleteLink, 'link')
-        return
+        const linkIds = [link.id]
+        showForceDeleteModal(runDeleteLink, linkIds, 'link')
+        return { error }
       }
       const linkBankError = { message: `Error deleting link. ${error.message}` }
       setLinkBankError(linkBankError)
@@ -68,6 +69,7 @@ const PostsLinksLink = ({
     }
     updateLinksStore(action, { newLink: savedLink, oldLink: link })
     setLinkBankError(null)
+    return { savedLink }
   }, [])
 
   const { isDefaultLink } = link
@@ -134,7 +136,7 @@ const PostsLinksLink = ({
                 <a
                   className="text-sm text-red no-underline ml-4 pr-6 pt-3 -mt-3"
                   role="button"
-                  onClick={() => deleteLink(false)}
+                  onClick={() => runDeleteLink(false)}
                 >
                   <TrashIcon className="h-3 w-auto" fill={brandColors.red} />
                 </a>

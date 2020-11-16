@@ -68,13 +68,14 @@ const useCreateEditPostsLink = ({
     if (error) {
       const { code: errorCode } = error
       if (errorCode === 'link_reference_error') {
-        const deleteLink = () => updateLinkOnServer(newLink, action, oldLink, true)
-        showForceDeleteModal(deleteLink, 'link')
+        const runDeleteLink = () => updateLinkOnServer(newLink, action, oldLink, true)
+        const linkIds = [oldLink.id]
+        showForceDeleteModal(runDeleteLink, linkIds, 'link')
         return
       }
       // eslint-disable-next-line
       openLink(oldLink, error)
-      return
+      return { error }
     }
     // Update store
     updateLinksStore(action, { newLink: savedLink, oldLink })
@@ -91,6 +92,7 @@ const useCreateEditPostsLink = ({
     // Success
     onSave(savedLink)
     setSidePanelLoading(false)
+    return { savedLink }
   }
 
   // SAVE FOLDER ON SERVER
@@ -100,10 +102,12 @@ const useCreateEditPostsLink = ({
     // Error
     if (error) {
       const { code: errorCode } = error
+      // Handle force delete
       if (errorCode === 'link_reference_error') {
-        const deleteFolder = () => updateFolderOnServer(newFolder, action, oldFolder, true)
-        showForceDeleteModal(deleteFolder, 'folder')
-        return
+        const runDeleteFolder = () => updateFolderOnServer(newFolder, action, oldFolder, true)
+        const linkIds = oldFolder.links.map(({ id }) => id)
+        showForceDeleteModal(runDeleteFolder, linkIds, 'folder')
+        return { error }
       }
       // eslint-disable-next-line
       openLink(oldFolder, error)
@@ -114,6 +118,7 @@ const useCreateEditPostsLink = ({
     // Success
     onSave(savedFolder)
     setSidePanelLoading(false)
+    return { savedFolder }
   }
 
   // TEST AS INTEGRATION LINKS

@@ -259,13 +259,13 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 
   // Define function to update posts with missing links
   // and export to posts store
-  const setUpdatePostsWithMissingLinks = postsStore(state => state.setUpdatePostsWithMissingLinks)
+  const setUpdatePostsWithMissingLinks = postsStore(React.useCallback(state => state.setUpdatePostsWithMissingLinks, []))
   React.useEffect(() => {
-    const updatePostsWithMissingLinks = (missingLinkId, defaultLinkId) => {
+    const updatePostsWithMissingLinks = (missingLinkIds = [], defaultLinkId = '') => {
       const updatedPosts = produce(posts, draftPosts => {
         draftPosts.forEach((post) => {
           const { linkId } = post
-          if (linkId === missingLinkId) {
+          if (linkId && missingLinkIds.includes(linkId)) {
             post.linkId = defaultLinkId
           }
         })
@@ -275,11 +275,11 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         payload: { newPosts: updatedPosts },
       })
     }
-    setUpdatePostsWithMissingLinks(() => (missingLinkId, defaultLinkId) => {
-      updatePostsWithMissingLinks(missingLinkId, defaultLinkId)
+    setUpdatePostsWithMissingLinks((missingLinkIds, defaultLinkId) => {
+      updatePostsWithMissingLinks(missingLinkIds, defaultLinkId)
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setUpdatePostsWithMissingLinks])
+  }, [posts, setUpdatePostsWithMissingLinks])
 
   // Wait if initial loading
   if (artistLoading) return null
