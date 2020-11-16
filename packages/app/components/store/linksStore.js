@@ -29,18 +29,23 @@ const locallyStoreFolderStates = (state, artistId) => {
   setLocalStorage(stateKey, JSON.stringify(state))
 }
 
+const buildFolderStates = (savedFolders, folderStates = {}) => {
+  return savedFolders.reduce((obj, { id }) => {
+    const { open = true } = folderStates[id] || {}
+    obj[id] = {
+      id,
+      open,
+    }
+    return obj
+  }, {})
+}
+
 const getInitialFolderState = (savedFolders, artistId) => {
   const stateKey = getFolderStateKey(artistId)
   const savedState = JSON.parse(getLocalStorage(stateKey))
   if (savedState) return savedState
   // If no saved state, build it here
-  const initialState = savedFolders.reduce((obj, { id }) => {
-    obj[id] = {
-      id,
-      open: true,
-    }
-    return obj
-  }, {})
+  const initialState = buildFolderStates(savedFolders)
   locallyStoreFolderStates(initialState, artistId)
   return initialState
 }
@@ -243,10 +248,7 @@ const updateLinksStore = (set, get) => (action, {
   const savedFolders = getSavedFolders(nestedLinks)
   // GET UPDATED FOLDER STATES
   const { folderStates, artistId } = get()
-  const newFolderStates = savedFolders.map(({ id }) => {
-    const { open = true } = folderStates[id] || {}
-    return { id, open }
-  })
+  const newFolderStates = buildFolderStates(savedFolders, folderStates)
   // UPDATE STORE
   set({
     nestedLinks,
