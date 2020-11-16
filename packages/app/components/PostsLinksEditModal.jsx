@@ -151,6 +151,7 @@ const PostsLinksEditModal = ({
                 name="new-folder"
                 handleChange={(e) => handleInput(e, 'folderName')}
                 value={linkProps.folderName}
+                autoFocus
                 required
               />
               {/* Close new folder input */}
