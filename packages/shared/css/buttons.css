@@ -60,11 +60,7 @@ button {
   }
 }
 
-.button--black,
-.button--green,
-.button--red,
-.button--yellow,
-.button--success {
+.button--basic {
   color: var(--white);
   padding: 0 1.3em;
   height: var(--button-height);
