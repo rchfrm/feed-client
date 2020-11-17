@@ -15,7 +15,7 @@ import useForceDeleteLink from '@/app/hooks/useForceDeleteLink'
 import RadioButton from '@/elements/RadioButton'
 
 import { removeProtocolFromUrl } from '@/helpers/utils'
-import { saveLink } from '@/app/helpers/linksHelpers'
+import { saveLink, usedLinkErrorCode } from '@/app/helpers/linksHelpers'
 import brandColors from '@/constants/brandColors'
 
 const getLinksStoreState = (state) => ({
@@ -58,7 +58,7 @@ const PostsLinksLink = ({
     setSidePanelLoading(false)
     if (error) {
       const { code: errorCode } = error
-      if (errorCode === 'link_reference_error') {
+      if (errorCode === usedLinkErrorCode) {
         const linkIds = [link.id]
         showForceDeleteModal(runDeleteLink, linkIds, 'link')
         return { error }

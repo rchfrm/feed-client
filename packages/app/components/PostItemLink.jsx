@@ -18,6 +18,8 @@ const PostItemLink = ({
   promotionEnabled,
   promotionStatus,
   linkId,
+  linkHref,
+  linkType,
   updateLink,
   setError,
 }) => {
@@ -87,7 +89,9 @@ const PostItemLink = ({
           <PostLinkSummary
             linkPanelOpen={linkPanelOpen}
             isAnimating={isAnimating}
-            currentLinkId={linkId}
+            linkId={linkId}
+            linkHref={linkHref}
+            linkType={linkType}
           />
           {promotionEnabled && isLinkEditable && (
             <p>
@@ -104,8 +108,7 @@ const PostItemLink = ({
             currentLinkId={linkId || defaultPostLinkId}
             onSelect={setPostLink}
             postItemId={postId}
-            onSuccess={(link) => {
-              const { link_id: linkId } = link
+            onSuccess={({ linkId }) => {
               updateLink(postIndex, linkId)
             }}
             onError={(error) => {
@@ -128,12 +131,16 @@ PostItemLink.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
   linkId: PropTypes.string,
+  linkHref: PropTypes.string,
+  linkType: PropTypes.string,
   updateLink: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
 }
 
 PostItemLink.defaultProps = {
   linkId: '',
+  linkHref: '',
+  linkType: '',
 }
 
 

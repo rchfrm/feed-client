@@ -1,6 +1,7 @@
 import produce from 'immer'
 
 import * as utils from '@/helpers/utils'
+import { getPostLinkData } from '@/app/helpers/postsHelpers'
 import * as server from '@/app/helpers/appServer'
 
 // * UTILS
@@ -9,6 +10,7 @@ import * as server from '@/app/helpers/appServer'
 export const defaultFolderId = '_default'
 export const integrationsFolderId = '_integrations'
 export const defaultPostLinkId = '_default'
+export const usedLinkErrorCode = 'link_reference_error'
 
 export const folderStatesStorageKey = 'linkFolderStates'
 
@@ -105,7 +107,7 @@ export const saveLink = async (artistId, link, savedFolders, action = 'add', for
   }
   // DELETE link
   if (action === 'delete') {
-    const { res: deleteLinkRes, error } = await server.updateLink(artistId, { id: linkId }, action, force)
+    const { res: deleteLinkRes, error } = await server.updateLink(artistId, { id: linkId }, action, force, usedLinkErrorCode)
     if (error) return { error }
     // If deleting last link of folder, also delete
     const folder = savedFolders.find(({ id }) => id === folderId)
@@ -131,12 +133,16 @@ export const setDefaultLink = async (artistId, linkId) => {
  * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setPostLink = (artistId, linkId, assetId) => {
+export const setPostLink = async (artistId, linkId, assetId) => {
   // Handle choosing "Use default" from post link
   if (linkId === '_default') {
     linkId = null
   }
-  return server.setPostLink(artistId, assetId, linkId)
+  const { res: newPost, error } = await server.setPostLink(artistId, assetId, linkId)
+  if (error) return { error }
+  // Get new link ID from response
+  const linkData = getPostLinkData(newPost)
+  return { res: linkData }
 }
 
 

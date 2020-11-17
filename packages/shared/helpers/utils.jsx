@@ -9,9 +9,17 @@ import countries from '@/constants/countries'
 import get from 'lodash/get'
 
 
-export const removeProtocolFromUrl = (url) => {
+export const trimTrailingSlash = (url) => {
+  return url.replace(/\/$/, '')
+}
+
+export const removeProtocolFromUrl = (url, trimSlash = true) => {
   const protocolEnd = url.indexOf('://') >= 0 ? url.indexOf('://') + 3 : 0
-  return url.slice(protocolEnd)
+  const trimmedUrl = url.slice(protocolEnd)
+  if (trimSlash) {
+    return trimTrailingSlash(trimmedUrl)
+  }
+  return trimmedUrl
 }
 
 export const removeWWWFromUrl = (url) => {

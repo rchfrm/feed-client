@@ -24,13 +24,16 @@ const requestWithCatch = async (requestType, url, payload = null, trackError) =>
     const message = typeof error.response === 'object' ? error.response.data.error : error.message
     // Track error on sentry
     if (trackError) {
-      const { category, action } = trackError
-      track({
-        category,
-        action,
-        description: message,
-        error: true,
-      })
+      const { category, action, ignoreErrorCodes = [] } = trackError
+      // Ignore error codes
+      if (!ignoreErrorCodes.includes(code)) {
+        track({
+          category,
+          action,
+          description: message,
+          error: true,
+        })
+      }
     }
     return { error: { message, code, context } }
   }
@@ -231,7 +234,14 @@ export const updateAccessToken = async (artistId, accessToken) => {
 */
 export const setPostLink = (artistId, assetId, linkId) => {
   const requestUrl = `/artists/${artistId}/assets/${assetId}`
-  const payload = { link_id: linkId }
+  const payload = {
+    link_spec: {
+      type: 'linkbank',
+      data: {
+        id: linkId,
+      },
+    },
+  }
   const errorTracking = {
     category: 'Links',
     action: 'Set link as post link',
@@ -303,7 +313,7 @@ export const fetchSavedLinks = (artistId) => {
 * @param {string} action add | edit | delete
 * @returns {Promise<object>} { res, error }
 */
-export const updateLink = (artistId, link, action, force) => {
+export const updateLink = (artistId, link, action, force, usedLinkErrorCode) => {
   const method = `${action}_link`
   const requestUrl = `/artists/${artistId}/linkbank?method=${method}`
   const { id, name, href, folder_id } = link
@@ -317,6 +327,7 @@ export const updateLink = (artistId, link, action, force) => {
   const errorTracking = {
     category: 'Links',
     action: `${action} link`,
+    ignoreErrorCodes: [usedLinkErrorCode],
   }
   return requestWithCatch('post', requestUrl, payload, errorTracking)
 }

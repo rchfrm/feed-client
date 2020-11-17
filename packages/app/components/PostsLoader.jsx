@@ -266,7 +266,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         draftPosts.forEach((post) => {
           const { linkId } = post
           if (linkId && missingLinkIds.includes(linkId)) {
-            post.linkId = defaultLinkId
+            post.linkId = null
           }
         })
       })
