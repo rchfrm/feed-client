@@ -3,12 +3,15 @@ import PropTypes from 'prop-types'
 
 import MarkdownText from '@/elements/MarkdownText'
 
+import { removeProtocolFromUrl } from '@/helpers/utils'
+
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostsSettingsLinkTracking = ({ defaultLink }) => {
   const { href: defaultLinkHref = '' } = defaultLink
+  const previewLink = defaultLinkHref ? removeProtocolFromUrl(defaultLinkHref) : 'example.com'
   return (
-    <MarkdownText markdown={copy.linkTrackingExplanation(defaultLinkHref.replace('https://', ''))} />
+    <MarkdownText markdown={copy.linkTrackingExplanation(previewLink)} />
   )
 }
 
