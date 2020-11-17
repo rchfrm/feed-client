@@ -41,6 +41,7 @@ const PostsContent = () => {
         {/* POST SETTINGS BUTTON */}
         <PostSettingsButton
           className={styles.postsTopButton}
+          missingDefaultLink={missingDefaultLink}
           goToPostSettings={goToPostSettings}
         />
         {/* LINKS BUTTON */}
