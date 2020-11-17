@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import { POSTS } from '@/app/constants/routes'
 
 const getListOfSources = (isMusician, hasSpotify) => {
   if (!hasSpotify || !isMusician) return 'Facebook and Instagram followers'
@@ -6,6 +7,10 @@ const getListOfSources = (isMusician, hasSpotify) => {
 }
 
 export default {
+
+  noDefaultLinkCopy: `Before you can start running any ads you first need to choose a link for the ads to use.
+  
+**Please set a default link on the [Posts page](${POSTS}).**`,
 
   pausedWarning: `Spending is currently paused and no ads are running. You can still edit your settings.`,
 
