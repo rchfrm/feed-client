@@ -8,7 +8,7 @@ const getListOfSources = (isMusician, hasSpotify) => {
 
 export default {
 
-  noDefaultLinkCopy: `Before you can start running any ads you first need to choose a link for the ads to use.
+  noDefaultLinkCopy: `Before you can start running any ads, you need to choose a link for the ads to use.
   
 **Please set a default link on the [Posts page](${POSTS}).**`,
 
