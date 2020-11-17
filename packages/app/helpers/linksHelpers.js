@@ -10,6 +10,7 @@ import * as server from '@/app/helpers/appServer'
 export const defaultFolderId = '_default'
 export const integrationsFolderId = '_integrations'
 export const defaultPostLinkId = '_default'
+export const usedLinkErrorCode = 'link_reference_error'
 
 export const folderStatesStorageKey = 'linkFolderStates'
 

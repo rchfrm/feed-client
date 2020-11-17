@@ -15,7 +15,7 @@ import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 
 
 import linksStore from '@/app/store/linksStore'
-import { saveLink, saveFolder, setDefaultLink } from '@/app/helpers/linksHelpers'
+import { saveLink, saveFolder, setDefaultLink, usedLinkErrorCode } from '@/app/helpers/linksHelpers'
 
 import { testValidIntegration, updateIntegration } from '@/app/helpers/integrationHelpers'
 
@@ -67,7 +67,7 @@ const useCreateEditPostsLink = ({
     // Error
     if (error) {
       const { code: errorCode } = error
-      if (errorCode === 'link_reference_error') {
+      if (errorCode === usedLinkErrorCode) {
         const runDeleteLink = () => updateLinkOnServer(newLink, action, oldLink, true)
         const linkIds = [oldLink.id]
         showForceDeleteModal(runDeleteLink, linkIds, 'link')
@@ -103,7 +103,7 @@ const useCreateEditPostsLink = ({
     if (error) {
       const { code: errorCode } = error
       // Handle force delete
-      if (errorCode === 'link_reference_error') {
+      if (errorCode === usedLinkErrorCode) {
         const runDeleteFolder = () => updateFolderOnServer(newFolder, action, oldFolder, true)
         const linkIds = oldFolder.links.map(({ id }) => id)
         showForceDeleteModal(runDeleteFolder, linkIds, 'folder')
