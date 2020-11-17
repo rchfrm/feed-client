@@ -107,7 +107,7 @@ export const saveLink = async (artistId, link, savedFolders, action = 'add', for
   }
   // DELETE link
   if (action === 'delete') {
-    const { res: deleteLinkRes, error } = await server.updateLink(artistId, { id: linkId }, action, force)
+    const { res: deleteLinkRes, error } = await server.updateLink(artistId, { id: linkId }, action, force, usedLinkErrorCode)
     if (error) return { error }
     // If deleting last link of folder, also delete
     const folder = savedFolders.find(({ id }) => id === folderId)
