@@ -30,6 +30,8 @@ const PostItem = ({
   const {
     id: postId,
     linkId,
+    linkHref,
+    linkType,
     postPromotable,
     promotionStatus,
     promotionEnabled,
@@ -90,6 +92,8 @@ const PostItem = ({
             promotionEnabled={promotionEnabled}
             promotionStatus={promotionStatus}
             linkId={linkId}
+            linkHref={linkHref}
+            linkType={linkType}
             updateLink={updateLink}
             setError={setError}
           />
