@@ -52,7 +52,7 @@ const ThePageButtons = () => {
     >
       <nav className={styles.inner}>
         {links.map(({ href, title, icon }) => {
-          const showBadge = (icon === 'controls' && !hasBudget)
+          const showBadge = (icon === 'controls' && !hasBudget && !missingDefaultLink)
             || (icon === 'posts' && missingDefaultLink)
           return (
             <div className={styles.link} key={href}>
