@@ -3,6 +3,7 @@ import React from 'react'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import PostsSettings from '@/app/PostsSettings'
+// eslint-disable-next-line
 import PostsLinks from '@/app/PostsLinks'
 
 const usePostsSidePanel = () => {
