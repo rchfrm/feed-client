@@ -9,9 +9,6 @@ import ArrowIcon from '@/icons/ArrowIcon'
 
 import IntegrationsPanelIntegration from '@/app/IntegrationsPanelIntegration'
 
-import * as integrationHelpers from '@/app/helpers/integrationHelpers'
-import { testIfMusician } from '@/app/helpers/artistHelpers'
-
 import sidePanelStyles from '@/app/SidePanel.module.css'
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/integrationsCopy'

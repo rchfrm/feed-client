@@ -10,17 +10,19 @@ import PostItemMetrics from '@/app/PostItemMetrics'
 import PostItemLink from '@/app/PostItemLink'
 import PostItemStatusMessage from '@/app/PostItemStatusMessage'
 import PostItemDisableWarning from '@/app/PostItemDisableWarning'
-// IMPORT ASSETS
+// IMPORT HOOKS
+import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 // IMPORT STYLES
 import styles from '@/app/PostItem.module.css'
 
 const PostItem = ({
   post,
+  index,
   enabled,
   updateLink,
   togglePromotion,
   postToggleSetter,
-  index,
+  missingDefaultLink,
   className,
   children,
 }) => {
@@ -47,6 +49,9 @@ const PostItem = ({
 
   // Is running ad turning off?
   const turningOffRunning = promotionStatus === 'active' && !promotionEnabled
+
+  // Go to post settings
+  const { goToPostSettings } = usePostsSidePanel()
 
   return (
     <li
@@ -85,7 +90,7 @@ const PostItem = ({
         />
 
         {/* POST LINK */}
-        {postPromotable && !turningOffRunning && (
+        {postPromotable && !turningOffRunning && !missingDefaultLink && (
           <PostItemLink
             postId={postId}
             postIndex={index}
@@ -101,6 +106,14 @@ const PostItem = ({
 
         {turningOffRunning && (
           <PostItemStatusMessage text="Turning post off" className="bg-red" />
+        )}
+
+        {/* NO DEFAULT LINK */}
+        {postPromotable && missingDefaultLink && (
+          <PostItemStatusMessage
+            text="Please set a default link"
+            onClick={goToPostSettings}
+          />
         )}
 
         {/* NOT PROMOTABLE WARNING */}
@@ -137,6 +150,7 @@ PostItem.propTypes = {
   togglePromotion: PropTypes.func.isRequired,
   postToggleSetter: PropTypes.string,
   index: PropTypes.number.isRequired,
+  missingDefaultLink: PropTypes.bool.isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
 }
