@@ -33,6 +33,7 @@ const useCreateEditPostsLink = ({
   action = 'add',
   itemType = 'link',
   onSave = () => {},
+  onCancel = () => {},
   location = 'links',
 }) => {
   // HANDLE ALERT
@@ -200,7 +201,10 @@ const useCreateEditPostsLink = ({
       },
       {
         text: 'Cancel',
-        onClick: closeAlert,
+        onClick: () => {
+          closeAlert()
+          onCancel()
+        },
         color: 'black',
       },
     ]
@@ -242,7 +246,7 @@ const useCreateEditPostsLink = ({
       />
     )
     showAlert({ children, buttons })
-  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder, defaultLink.id, testFolderContainsDefault, location])
+  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder, defaultLink.id, testFolderContainsDefault, location, onCancel])
 
   return openLink
 }

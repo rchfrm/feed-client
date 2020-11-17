@@ -122,6 +122,7 @@ const PostLinksSelect = ({
       setSelectedOptionValue(linkId)
       setLoading(false)
     },
+    onCancel: () => setLoading(false),
   })
 
   // HANDLE SETTING SELECTED LINK
