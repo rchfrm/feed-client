@@ -163,6 +163,8 @@ export const formatPostsResponse = (posts) => {
     const publishedTime = formatPublishedTime(post.published_time)
     // Ad dates
     const [firstRan, lastRan] = getPostAdDates(ads)
+    // Link type
+    const { type: linkType, data: linkData = {} } = post.link_spec || {}
     return {
       id: post.id,
       postType: post.subtype || post.type,
@@ -170,7 +172,9 @@ export const formatPostsResponse = (posts) => {
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
       priorityDsp: post.priority_dsp,
-      linkId: post.link_id,
+      linkId: linkData.id || '',
+      linkHref: linkData.href || '',
+      linkType,
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
