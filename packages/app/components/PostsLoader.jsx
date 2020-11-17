@@ -261,7 +261,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   // and export to posts store
   const setUpdatePostsWithMissingLinks = postsStore(React.useCallback(state => state.setUpdatePostsWithMissingLinks, []))
   React.useEffect(() => {
-    const updatePostsWithMissingLinks = (missingLinkIds = [], defaultLinkId = '') => {
+    const updatePostsWithMissingLinks = (missingLinkIds = []) => {
       const updatedPosts = produce(posts, draftPosts => {
         draftPosts.forEach((post) => {
           const { linkId } = post
@@ -275,8 +275,8 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         payload: { newPosts: updatedPosts },
       })
     }
-    setUpdatePostsWithMissingLinks((missingLinkIds, defaultLinkId) => {
-      updatePostsWithMissingLinks(missingLinkIds, defaultLinkId)
+    setUpdatePostsWithMissingLinks((missingLinkIds) => {
+      updatePostsWithMissingLinks(missingLinkIds)
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts, setUpdatePostsWithMissingLinks])
