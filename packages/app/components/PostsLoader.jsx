@@ -316,6 +316,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
         loadedAll={isEndOfAssets.current}
+        missingDefaultLink={artist.missingDefaultLink}
       />
 
       {/* Loading spinner */}
