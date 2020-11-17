@@ -108,8 +108,7 @@ const PostItemLink = ({
             currentLinkId={linkId || defaultPostLinkId}
             onSelect={setPostLink}
             postItemId={postId}
-            onSuccess={(link) => {
-              const { link_id: linkId } = link
+            onSuccess={({ linkId }) => {
               updateLink(postIndex, linkId)
             }}
             onError={(error) => {

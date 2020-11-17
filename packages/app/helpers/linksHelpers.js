@@ -1,6 +1,7 @@
 import produce from 'immer'
 
 import * as utils from '@/helpers/utils'
+import { getPostLinkData } from '@/app/helpers/postsHelpers'
 import * as server from '@/app/helpers/appServer'
 
 // * UTILS
@@ -131,12 +132,16 @@ export const setDefaultLink = async (artistId, linkId) => {
  * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setPostLink = (artistId, linkId, assetId) => {
+export const setPostLink = async (artistId, linkId, assetId) => {
   // Handle choosing "Use default" from post link
   if (linkId === '_default') {
     linkId = null
   }
-  return server.setPostLink(artistId, assetId, linkId)
+  const { res: newPost, error } = await server.setPostLink(artistId, assetId, linkId)
+  if (error) return { error }
+  // Get new link ID from response
+  const linkData = getPostLinkData(newPost)
+  return { res: linkData }
 }
 
 
