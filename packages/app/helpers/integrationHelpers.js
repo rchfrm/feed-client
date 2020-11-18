@@ -89,12 +89,12 @@ export const getIntegrationUrl = (integration, baseUrl) => {
 
 // Get account ID from integration
 const getAccountId = (integration = {}, integrationInfo) => {
-  const { platform, href } = integration
+  const { platform } = integration
   if (!platform) return null
   const { accountIdKey, channelIdKey, userIdKey } = integrationInfo || getIntegrationInfo({ platform })
   // Handle YouTube
-  if (platform === 'youtube' && href) {
-    return href.includes('/user/') ? integration[userIdKey] : integration[channelIdKey]
+  if (platform === 'youtube') {
+    return integration[userIdKey] ?? integration[channelIdKey]
   }
   // Handle the rest
   return integration[accountIdKey]
