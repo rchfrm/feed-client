@@ -8,7 +8,7 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import InsightPlatformSelectors from '@/app/InsightPlatformSelectors'
 import InsightDataSelectors from '@/app/InsightDataSelectors'
 import InsightsChartLoader from '@/app/InsightsChartLoader'
-import ShowInsightsButton from '@/app/ShowInsightsButton'
+import ShowIntegrationsButton from '@/app/ShowIntegrationsButton'
 // IMPORT HELPERS
 import * as chartHelpers from '@/app/helpers/chartHelpers'
 // IMPORT TEXT
@@ -126,7 +126,7 @@ function InsightsContent() {
         <div>
           <div className="text--block h4--text mb-8">
             <p>Can't see one of your accounts?</p>
-            <ShowInsightsButton
+            <ShowIntegrationsButton
               text="+ Connect more integrations"
             />
           </div>

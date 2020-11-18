@@ -6,7 +6,7 @@ import Button from '@/elements/Button'
 import useOpenIntegrationsPanel from '@/app/hooks/useOpenIntegrationsPanel'
 
 
-const ShowInsightsButton = ({
+const ShowIntegrationsButton = ({
   text,
   className,
   circleButton,
@@ -32,6 +32,7 @@ const ShowInsightsButton = ({
         <Button
           className={[className].join(' ')}
           version="small black"
+          onClick={openIntegrationsPanel}
         >
           {text}
         </Button>
@@ -40,16 +41,16 @@ const ShowInsightsButton = ({
   )
 }
 
-ShowInsightsButton.propTypes = {
+ShowIntegrationsButton.propTypes = {
   text: PropTypes.string.isRequired,
   className: PropTypes.string,
   circleButton: PropTypes.bool,
 }
 
-ShowInsightsButton.defaultProps = {
+ShowIntegrationsButton.defaultProps = {
   className: null,
   circleButton: false,
 }
 
 
-export default ShowInsightsButton
+export default ShowIntegrationsButton

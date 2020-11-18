@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 // Components
 import BaseFilters from '@/BaseFilters'
-import ShowInsightsButton from '@/app/ShowInsightsButton'
+import ShowIntegrationsButton from '@/app/ShowIntegrationsButton'
 import PlatformIcon from '@/icons/PlatformIcon'
 // Constants
 import brandColors from '@/constants/brandColors'
@@ -56,7 +56,7 @@ const InsightPlatformSelectors = ({
       labelText="Select a platform"
       className="items-center"
     >
-      <ShowInsightsButton
+      <ShowIntegrationsButton
         className={[styles.buttonContainer, styles.buttonPill_container].join(' ')}
         text="+"
         circleButton
