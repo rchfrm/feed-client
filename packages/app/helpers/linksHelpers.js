@@ -170,9 +170,8 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
     // Add to new folder (if exists)
     if (newFolderIndex > -1) {
       draftNestedLinks[newFolderIndex].links.push(newLink)
-    }
-    // Create new folder if necessary
-    if (newFolderIndex === -1) {
+    // Else create new folder
+    } else {
       // Create new folder
       const newFolder = {
         id: newFolderId,
