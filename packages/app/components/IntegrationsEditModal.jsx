@@ -82,7 +82,7 @@ const IntegrationsEditModal = ({
       noValidate
     >
       <Error error={error} />
-      {action === 'add' ? (
+      {action === 'add' && !cannotDelete ? (
         <Input
           className="mb-5"
           placeholder={placeholderUrl}
