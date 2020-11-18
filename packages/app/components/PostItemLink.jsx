@@ -85,16 +85,23 @@ const PostItemLink = ({
       <div className="postLinkPlaceholder bg-black" ref={placeholderEl} />
       {/* Links section */}
       <div className={[styles.postLink, styles.postText, 'opacity-0'].join(' ')} ref={containerEl}>
-        <div className={[styles.postLinkTopBar, styles.postSection].join(' ')} ref={topBarEl}>
+        <div className={[styles.postLinkTopBar, styles.postSection, 'relative'].join(' ')} ref={topBarEl}>
           <PostLinkSummary
             linkPanelOpen={linkPanelOpen}
             isAnimating={isAnimating}
             linkId={linkId}
             linkHref={linkHref}
             linkType={linkType}
+            className={promotionEnabled && isLinkEditable ? 'pr-10' : null}
           />
           {promotionEnabled && isLinkEditable && (
-            <p>
+            <p
+              className={[
+                'absolute right-0 top-0',
+                'mt-4 mr-4',
+                'md:mt-5 md:mr-5',
+              ].join(' ')}
+            >
               <a role="button" className={styles.postLinkEditButton} onClick={toggleLinkContent}>
                 {linkPanelOpen ? 'Done' : 'Edit'}
               </a>

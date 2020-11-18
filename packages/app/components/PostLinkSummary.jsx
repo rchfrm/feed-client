@@ -23,6 +23,7 @@ const PostLinkSummary = ({
   linkId,
   linkHref,
   linkType,
+  className,
 }) => {
   // GET FULL INFO ABOUT CURRENT LINK
   const nestedLinks = linksStore(nestedLinksState)
@@ -36,7 +37,13 @@ const PostLinkSummary = ({
   const { href: postLinkUrl, name: postLinkName } = currentLink || {}
 
   return (
-    <div className={[styles.postLinkSummary, 'w-full whitespace-no-wrap'].join(' ')}>
+    <div
+      className={[
+        styles.postLinkSummary,
+        'w-full whitespace-no-wrap',
+        className,
+      ].join(' ')}
+    >
       <p className="mb-0 ">
         <LinkIcon fill={brandColors.bgColor} className={styles.postLinkIcon} />
         Post links to
@@ -47,7 +54,7 @@ const PostLinkSummary = ({
           addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
           classNames="fade"
         >
-          <div className={linkType === 'adcreative' ? 'truncate' : null}>
+          <div className="truncate">
             {linkPanelOpen || isAnimating ? (
               <span className={styles.postLinkEllipsis}>...</span>
             ) : (
@@ -83,12 +90,14 @@ PostLinkSummary.propTypes = {
   linkId: PropTypes.string,
   linkHref: PropTypes.string,
   linkType: PropTypes.string,
+  className: PropTypes.string,
 }
 
 PostLinkSummary.defaultProps = {
   linkId: '',
   linkHref: '',
   linkType: '',
+  className: '',
 }
 
 
