@@ -14,6 +14,6 @@ export const getInstagramBusinessUsername = async (ig_business_id, fb_access_tok
     }
     throw new Error('Request to GET Instagram Username failed')
   } catch (err) {
-    console.log(err)
+    return err
   }
 }

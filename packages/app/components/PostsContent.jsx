@@ -1,30 +1,63 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import Button from '@/elements/Button'
-import GearIcon from '@/icons/GearIcon'
+import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
+import PostSettingsButton from '@/app/PostSettingsButton'
+import PostLinksButton from '@/app/PostLinksButton'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 
-import { PostsContext } from '@/app/contexts/PostsContext'
+import MarkdownText from '@/elements/MarkdownText'
+
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import { postTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
-import brandColors from '@/constants/brandColors'
+import copy from '@/app/copy/PostsPageCopy'
 
 const PostsContent = () => {
-  // IMPORT FROM POSTS CONTEXT
-  const { goToPostSettings, setTogglePromotionGlobal } = React.useContext(PostsContext)
+  const { goToPostSettings, goToPostLinks } = usePostsSidePanel()
 
-  // HANDLE STATE OF POST TYPE FILTERS
+  // Has default link been set
+  const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
+
   const allFilter = postTypes.find(({ id }) => id === 'all')
   const [currentPostType, setCurrentPostType] = React.useState('')
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
     <div className="relative">
+      {/* NO DEFAULT LINK WARNING */}
+      {missingDefaultLink && (
+        <MarkdownText
+          className={['pb-5', styles.noDefaultLinkWarning].join(' ')}
+          markdown={copy.noDefaultLinkWarning}
+        />
+      )}
+      {/* BUTTONS */}
+      <div className="iphone8:flex justify-start mb-10">
+        {/* POST SETTINGS BUTTON */}
+        <PostSettingsButton
+          className={styles.postsTopButton}
+          missingDefaultLink={missingDefaultLink}
+          goToPostSettings={goToPostSettings}
+        />
+        {/* LINKS BUTTON */}
+        <PostLinksButton
+          className={styles.postsTopButton}
+          goToPostLinks={goToPostLinks}
+        />
+        {/* REFRESH BUTTON (desktop) */}
+        {refreshPosts && (
+          <PostsRefreshButton
+            refreshPosts={refreshPosts}
+            className="ml-auto"
+            style={{ transform: 'translateY(5rem)' }}
+          />
+        )}
+      </div>
       {/* FILTERS */}
       <PostsFilters
         postTypes={postTypes}
@@ -32,27 +65,9 @@ const PostsContent = () => {
         setCurrentPostType={setCurrentPostType}
         defaultPostState={allFilter.id}
       />
-      {/* POST SETTINGS BUTTON */}
-      <div className="iphone8:flex justify-start mb-4 pt-2">
-        <Button
-          className={styles.postSettingsButton}
-          onClick={goToPostSettings}
-          version="black small icon"
-        >
-          <GearIcon fill={brandColors.bgColor} />
-          Post Settings
-        </Button>
-        {refreshPosts && (
-          <PostsRefreshButton
-            refreshPosts={refreshPosts}
-            className="mt-5 iphone8:mt-0 iphone8:ml-5"
-          />
-        )}
-      </div>
       {/* LOAD POSTS */}
       {currentPostType && (
         <PostsLoader
-          setTogglePromotionGlobal={setTogglePromotionGlobal}
           setRefreshPosts={setRefreshPosts}
           promotionStatus={currentPostType}
         />

@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 
 // Components
 import BaseFilters from '@/BaseFilters'
-import Icon from '@/elements/Icon'
+import ShowIntegrationsButton from '@/app/ShowIntegrationsButton'
+import PlatformIcon from '@/icons/PlatformIcon'
 // Constants
 import brandColors from '@/constants/brandColors'
+import styles from '@/BaseFilters.module.css'
 
 const InsightPlatformSelectors = ({
   availablePlatforms,
@@ -23,7 +25,7 @@ const InsightPlatformSelectors = ({
       const { bg: color, text: activeTextColor } = brandColors[id]
       // Get icon color
       const iconColor = id === currentPlatform ? activeTextColor : color
-      const icon = <Icon color={iconColor} version={id} />
+      const icon = <PlatformIcon fill={iconColor} platform={id} />
       return {
         id,
         title,
@@ -52,7 +54,14 @@ const InsightPlatformSelectors = ({
       defaultOptionId={defaultPlatform}
       setActiveOptionId={setCurrentPlatform}
       labelText="Select a platform"
-    />
+      className="items-center"
+    >
+      <ShowIntegrationsButton
+        className={[styles.buttonContainer, styles.buttonPill_container].join(' ')}
+        text="+"
+        circleButton
+      />
+    </BaseFilters>
   )
 }
 

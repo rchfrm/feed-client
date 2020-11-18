@@ -55,7 +55,7 @@ const saveAssets = (images = [], files = []) => {
     const { name, contents } = image
     const outputPath = path.resolve(outputDir, name)
     mkdirp(getDirName(outputPath), (err) => {
-      if (err) return console.log('err', err)
+      if (err) return console.error('err', err)
       fs.writeFile(outputPath, contents, () => {})
     })
   })
@@ -67,7 +67,7 @@ const buildMarkup = (htmlNodes = []) => {
 
 const callback = (error, response) => {
   if (error) {
-    console.log(error.message) // Error description e.g. "An unknown error has occurred"
+    console.error(error.message) // Error description e.g. "An unknown error has occurred"
     return
   }
   const { images, files, html: htmlNodes } = response
@@ -76,7 +76,7 @@ const callback = (error, response) => {
   // Log html
   const newFaviconMarkp = buildMarkup(htmlNodes)
   // Past this into Favicons.jsx
-  console.log(newFaviconMarkp)
+  console.info(newFaviconMarkp)
 }
 
 favicons(source, configuration, callback)

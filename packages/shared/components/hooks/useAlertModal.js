@@ -12,7 +12,7 @@ buttons: [
   },
   {
     text: 'Connect facebook',
-    onClick: () => { console.log('how are you?') },
+    onClick: () => { console.info('how are you?') },
     facebookButton: true,
   },
   {
@@ -50,7 +50,7 @@ const useAlertModal = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props])
 
-  return { showAlert, closeAlert: close }
+  return { showAlert, closeAlert: close, setButtons }
 }
 
 export default useAlertModal

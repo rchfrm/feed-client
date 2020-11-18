@@ -6,6 +6,7 @@
   border-radius: var(--pill-radius);
   border-color: var(--text-color);
   border-style: solid;
+  white-space: nowrap;
 
   &:not(.pill--option) {
     border-width: 2px;
@@ -20,6 +21,25 @@
     padding-bottom: 0.6em;
   }
 
+  &.-x-large {
+    font-size: var(--text-lg);
+    padding: 0.3em 1.2em;
+    padding-bottom: 0.4em;
+  }
+
+  &.-has-icon {
+    padding: 0.3em 0.8em;
+
+    &.-large {
+      padding: 0.5em 1.2em;
+      padding-bottom: 0.6em;
+    }
+
+    &.-x-large {
+      padding: var(--sp-4) var(--sp-5);
+    }
+  }
+
   &.-highlighted {
     background-color: color-mod(var(--purple) alpha(0.25));
   }
@@ -27,6 +47,13 @@
   &.-active {
     background-color: var(--text-color);
     color: var(--bg-color);
+    font-weight: var(--bold);
+  }
+
+  &.-inactive {
+    background-color: var(--grey-light);
+    color: var(--text-color);
+    opacity: 0.5;
   }
 
   &:disabled,
@@ -44,18 +71,38 @@
   }
 }
 
+.button--filter-empty {
+  background-color: transparent !important;
+  color: var(--text-color) !important;
+}
+
 .button--pill-inner {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 0.03em;
+
+  /* compensate for font weight changes */
+  .button--pill.-active & {
+    padding: 0;
+  }
 
   svg,
   .icon {
     margin-right: var(--sp-2);
+    
+    .button--pill.-x-large & {
+      margin-right: var(--sp-4);
+    }
   }
 
   svg {
     width: var(--sp-4);
+    height: auto;
+
+    .button--pill.-x-large & {
+      width: var(--sp-5);
+    }
   }
 
   .button--pill[disabled] &,

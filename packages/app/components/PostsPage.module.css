@@ -19,12 +19,34 @@
   }
 }
 
+.noDefaultLinkWarning {
+  strong {
+    color: var(--red);
+  }
+
+  em strong {
+    color: var(--text-color);
+  }
+}
+
 .introText {
   margin-bottom: var(--sp-8) !important;
 }
 
-.postSettingsButton {
-  margin-bottom: 0 !important;
+.postsTopButton {
+  margin-bottom: var(--sp-5);
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (--iphone8) {
+    margin-bottom: 0;
+    margin-right: var(--sp-5);
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 
   :global(.button--innerText) {
     align-items: center;
@@ -34,6 +56,7 @@
     transform: none;
   }
 }
+
 
 /* NO POSTS */
 .noPosts {

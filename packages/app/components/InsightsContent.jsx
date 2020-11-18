@@ -8,6 +8,7 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import InsightPlatformSelectors from '@/app/InsightPlatformSelectors'
 import InsightDataSelectors from '@/app/InsightDataSelectors'
 import InsightsChartLoader from '@/app/InsightsChartLoader'
+import ShowIntegrationsButton from '@/app/ShowIntegrationsButton'
 // IMPORT HELPERS
 import * as chartHelpers from '@/app/helpers/chartHelpers'
 // IMPORT TEXT
@@ -122,7 +123,15 @@ function InsightsContent() {
 
       {/* OUTRO TEXT TEXT */}
       {!initialLoading && (
-        <MarkdownText className="h4--text" markdown={copy.outro} />
+        <div>
+          <div className="text--block h4--text mb-8">
+            <p>Can't see one of your accounts?</p>
+            <ShowIntegrationsButton
+              text="+ Connect more integrations"
+            />
+          </div>
+          <MarkdownText className="h4--text" markdown={copy.outro} />
+        </div>
       )}
 
     </div>

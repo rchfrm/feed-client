@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '@/elements/Button'
-import Icon from '@/elements/Icon'
+import TickIcon from '@/icons/TickIcon'
 
 const ButtonToggle = ({ onClick, state, className }) => {
   const classes = [`_${state}`, className].join(' ')
   const ButtonIcon = () => {
     if (state === 'off') return null
-    if (state === 'on') return <Icon version="tick" />
+    if (state === 'on') return <TickIcon />
     if (state === 'loading') return null
   }
 

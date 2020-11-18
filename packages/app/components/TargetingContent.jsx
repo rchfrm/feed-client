@@ -5,6 +5,7 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
 import Error from '@/elements/Error'
 
+import TargetingNoDefaultLink from '@/app/TargetingNoDefaultLink'
 import TargetingSummary from '@/app/TargetingSummary'
 import TargetingSettings from '@/app/TargetingSettings'
 import TargetingProgressButton from '@/app/TargetingProgressButton'
@@ -21,7 +22,7 @@ const fetchState = ({ artistId, currencyOffset }) => {
 
 const TargetingContent = () => {
   // DESTRUCTURE CONTEXTS
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist: { missingDefaultLink } } = React.useContext(ArtistContext)
   const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
   // Fetch from targeting context
   const {
@@ -63,6 +64,8 @@ const TargetingContent = () => {
   }
 
   if (globalLoading || !Object.keys(targetingState).length) return null
+
+  if (missingDefaultLink) return <TargetingNoDefaultLink />
 
   return (
     <>
