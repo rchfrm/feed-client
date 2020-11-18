@@ -218,6 +218,10 @@ select {
 }
 
 .select--box {
+  padding-right: var(--sp-8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   .select--container._loading &,
   .select--container._disabled & {
     border: 2px solid var(--grey-dark);
