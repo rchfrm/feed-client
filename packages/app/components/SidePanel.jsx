@@ -118,7 +118,11 @@ function SidePanel({
     >
       <div
         id="SidePanel"
-        className={['modal--container', styles.SidePanel].join(' ')}
+        className={[
+          'modal--container',
+          styles.SidePanel,
+          isLoading ? styles._loading : null,
+        ].join(' ')}
         {...dragBind()}
       >
         {/* The BG */}
@@ -145,7 +149,10 @@ function SidePanel({
             </div>
           )}
           {/* The content */}
-          <div id="SidePanel__container-inner" className={styles.container__inner}>
+          <div
+            id="SidePanel__container-inner"
+            className={styles.container__inner}
+          >
             { content }
           </div>
           {/* Close button */}

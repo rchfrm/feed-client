@@ -122,6 +122,14 @@ const getNestedMetric = (post, metric) => {
   return Object.values(metricValues)[0]
 }
 
+// Get post link data
+export const getPostLinkData = (post) => {
+  const { type: linkType = '', data: linkData = {} } = post.link_spec || {}
+  const linkId = linkData.id || ''
+  const linkHref = linkData.href || ''
+  return { linkType, linkId, linkHref }
+}
+
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
@@ -163,13 +171,17 @@ export const formatPostsResponse = (posts) => {
     const publishedTime = formatPublishedTime(post.published_time)
     // Ad dates
     const [firstRan, lastRan] = getPostAdDates(ads)
+    // Link type
+    const { linkType, linkId, linkHref } = getPostLinkData(post)
     return {
       id: post.id,
       postType: post.subtype || post.type,
       platform: post.platform,
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
-      priorityDsp: post.priority_dsp,
+      linkId,
+      linkHref,
+      linkType,
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,

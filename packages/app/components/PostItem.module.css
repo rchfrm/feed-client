@@ -249,10 +249,15 @@
 }
 
 .postLinkAnchor {
-  display: inline-block;
   margin-left: 0.4em;
   color: inherit;
   border-bottom: 1px solid var(--bg-color);
+  
+  &._longLink {
+    text-decoration: underline;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
 }
 
 .postLinkEditButton {

@@ -1,5 +1,7 @@
 import produce from 'immer'
 import uniqBy from 'lodash/uniqBy'
+import get from 'lodash/get'
+
 import * as utils from '@/helpers/utils'
 import * as facebookHelpers from '@/app/helpers/facebookHelpers'
 import * as api from '@/helpers/api'
@@ -312,4 +314,13 @@ export const testIfMusician = (artistCategories = []) => {
  */
 export const testIfSpotifyConnected = (spotifyUrl) => {
   return !!(spotifyUrl && spotifyUrl.includes('/artist/'))
+}
+
+/**
+ * Gets the default link from the artist
+ * @param {object} artist
+ * @returns {string}
+ */
+export const getDefaultLinkId = (artist) => {
+  return get(artist, ['preferences', 'posts', 'default_link_id'], '')
 }

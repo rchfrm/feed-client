@@ -11,6 +11,8 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 
 import alertStore from '@/store/alertStore'
 
+import styles from '@/AlertModal.module.css'
+
 const getBgColor = (color) => {
   if (color === 'green') return 'bg-green'
   if (color === 'red') return 'bg-red'
@@ -75,16 +77,16 @@ const AlertModal = () => {
             id="AlertModal-innerEl"
             className={[
               'absolute',
-              'top-0',
-              'left-0',
-              'right-0',
-              'bottom-0',
-              'z-2',
+              'top-0 left-0',
+              'right-0 bottom-0',
               'flex',
               'items-center',
               'justify-center',
             ].join(' ')}
             ref={innerEl}
+            style={{
+              zIndex: 2,
+            }}
           >
             <button
               className={['modal--background'].join(' ')}
@@ -95,26 +97,29 @@ const AlertModal = () => {
             {/* CONTENT */}
             <div
               className={[
-                'relative bg-white',
-                'w-full mx-8 sm:mx-20 max-w-lg',
-                'p-4 sm:p-5 rounded-dialogue',
-                // 'border-solid border-black border-2',
+                'relative',
+                'rounded-dialogue bg-white',
+                'mx-8 sm:mx-20 max-w-lg',
+                'overflow-auto',
+                styles.content,
               ].join(' ')}
               style={{
                 zIndex: 2,
-                paddingBottom: `${4 * buttons.length}rem`,
               }}
             >
-              {/* COPY */}
-              {copy && (
-                <MarkdownText markdown={copy} />
-              )}
-              {/* CHILDREN */}
-              {children}
+              {/* CONTENT INNER */}
+              <div
+                className={['p-4 sm:p-5 pb-0'].join(' ')}
+              >
+                {/* COPY */}
+                {copy && <MarkdownText markdown={copy} />}
+                {/* CHILDREN */}
+                {children}
+              </div>
               {/* BUTTONS */}
-              <div className="absolute bottom-0 left-0 w-full">
+              <div className="flex flex-wrap bg-black">
                 {buttons.map((buttonConfig, index) => {
-                  const { text, color, onClick, href, facebookButton } = buttonConfig
+                  const { text, color, width, onClick, href, facebookButton, disabled } = buttonConfig
                   const firstButton = index === 0
                   const lastButton = index === buttons.length - 1
                   const ButtonType = facebookButton ? ButtonFacebook : Button
@@ -122,7 +127,7 @@ const AlertModal = () => {
                     <ButtonType
                       key={index}
                       className={[
-                        'w-full',
+                        width === 'half' ? 'w-1/2' : 'w-full',
                         lastButton ? 'rounded-t-none rounded-b-dialogue' : 'rounded-none',
                         facebookButton ? null : getBgColor(color),
                       ].join(' ')}
@@ -132,9 +137,10 @@ const AlertModal = () => {
                       }}
                       style={{
                         borderTop: '1px solid white',
-                        ...(firstButton && { borderTop: 'none' }),
+                        ...(firstButton && !width === 'half' && { borderTop: 'none' }),
                       }}
                       href={href}
+                      disabled={disabled}
                     >
                       {text}
                     </ButtonType>

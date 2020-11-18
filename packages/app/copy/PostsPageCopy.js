@@ -1,5 +1,6 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
+import { getIntegrationInfo } from '@/app/helpers/integrationHelpers'
 
 export default {
   noPostsCopy: {
@@ -29,8 +30,13 @@ Been waiting a while? Check you have posts opted in for promotion in the _${inac
     allOldUser: () => `Looks like you haven’t posted on Facebook or Instagram yet. When you do start posting, your posts will appear here.`,
   },
 
+  noDefaultLinkWarning: `**You need to set the default link used in your ads before they can run.**
 
-  globalToggleIntro: `Make all posts eligible for promotion by default:`,
+You can _**add links**_ via the Links button below and _**set a default link**_ in Settings`,
+
+  // POST SETTINGS
+  // --------------
+  globalToggleIntro: `Should all posts be opted-in for promotion by default?`,
 
   globalConnectionsIntro: `Add the links that you'd like to use in your ads.
   
@@ -51,9 +57,12 @@ Posts you've manually switched on or off won't be affected.
 
 Do you want to continue?`,
 
+  linkTrackingIntro: `Should UTM parameters be added automatically to the end of links?`,
+
   // Warning when turning off active post
   postStatusConfirmation: `Ads created from this post will soon stop running to all audiences. This post will not be eligible to run as an ad in the future.`,
 
+  defaultLinkIntro: `By default, which link should be used in ads? This determines where people go when they click one of your ads.`,
 
   // FILTER TOOLTIPS
   // ----------------
@@ -114,4 +123,53 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
     paid: {},
     organic: {},
   },
+
+
+  // LINKS
+  confirmDeleteFolder: `**Are you sure**?
+
+Deleting a folder will delete all the links inside it.`,
+
+  confirmDeleteUsedLinkFolder: (itemType) => {
+    if (itemType === 'folder') {
+      return `**This folder contains a link that is currently selected on at least one post that hasn't yet run as an ad ('Not Run').**
+
+If you delete it, the post will revert to using the default link. Are you sure you want to continue?`
+    }
+    return `**This link is currently selected on at least one post that hasn't yet run as an ad ('Not Run').**
+
+If you delete it, these posts will revert to the default link. Are you sure you want to continue?`
+  },
+
+  integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
+
+
+  // LINK TRACKING
+  linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `UTM parameters are automatically added to the links used in your ads. This means you can track how many people Feed is sending to your website, and what they do when they get there. 
+
+Here's an example of what a link will look like:
+
+> _${defaultLink}?utm_source=feed&utm_medium=social_
+
+Soon we'll be letting you track this within the Feed platform, but if you already have access to Google Analytics for the website(s) your ads link to, you can view information about the people visiting via Feed's ads by going to Acquisition > All Traffic > Source/Medium.
+`,
+
+
+  checkSaveAsIntegration: (platform) => {
+    const intro = `It looks like you're trying to add an integration link.`
+    if (platform === 'spotify') {
+      return `${intro}
+      
+Do you want to add **Spotify** as an integration instead?
+      
+This way you can use the link in your ads, and track follower and listener data on the Insights page, and include Spotify listeners in your audience calculation on the Controls page?`
+    }
+    const { title: platformTitle } = getIntegrationInfo({ platform })
+    return `${intro}
+    
+Do you want to add **${platformTitle}** as an integration instead?
+
+This way you can use the link in your ads and track follower and listener data on the Insights page?`
+  },
+
 }

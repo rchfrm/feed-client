@@ -15,6 +15,7 @@ import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
+import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
 
 const initialArtistState = {
   id: '',
@@ -23,12 +24,15 @@ const initialArtistState = {
   preferences: {
     posts: {
       promotion_enabled_default: true,
+      default_link_id: null,
     },
   },
   priority_dsp: '',
+  integrations: {},
   currency: '',
   users: {},
   min_daily_budget_info: {},
+  missingDefaultLink: true,
   isMusician: false,
 }
 
@@ -53,15 +57,6 @@ const artistReducer = (draftState, action) => {
       draftState.daily_budget = payload.budget
       break
     }
-    case 'set-new-url': {
-      draftState[payload.urlType] = payload.url
-      draftState.URLs[payload.urlType] = payload.url
-      break
-    }
-    case 'set-priority-dsp': {
-      draftState.priority_dsp = payload.priority_dsp
-      break
-    }
     case 'set-connection': {
       draftState.URLs[payload.platform] = payload.url
       draftState[payload.platform] = payload.url
@@ -69,6 +64,14 @@ const artistReducer = (draftState, action) => {
     }
     case 'update-post-preferences': {
       draftState.preferences.posts[payload.preferenceType] = payload.value
+      if (payload.preferenceType === 'default_link_id') {
+        draftState.missingDefaultLink = false
+      }
+      break
+    }
+    case 'update-integrations': {
+      const integrationsFormatted = formatAndFilterIntegrations(payload.integrations, draftState.isMusician)
+      draftState.integrations = integrationsFormatted
       break
     }
     default:
@@ -123,13 +126,23 @@ function ArtistProvider({ children, disable }) {
 
     if (!artist) return
 
-    // Add musician and spotify connection status
+    // Get musician and spotify connection status
     const { category_list: artistCategories } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
     const spotifyConnected = artistHelpers.testIfSpotifyConnected(artist.spotify_url)
+
+    // Test whether default link is set
+    const missingDefaultLink = !artistHelpers.getDefaultLinkId(artist)
+
+    // Format integrations
+    const integrationsFormatted = formatAndFilterIntegrations(artist.integrations, isMusician)
+
+    // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
       artistDraft.isMusician = isMusician
       artistDraft.spotifyConnected = spotifyConnected
+      artistDraft.missingDefaultLink = missingDefaultLink
+      artistDraft.integrations = integrationsFormatted
     })
 
     // Set hasBudget state
@@ -230,15 +243,6 @@ function ArtistProvider({ children, disable }) {
     return updatedArtist.daily_budget
   }
 
-  const setPriorityDSP = (priorityDSP) => {
-    setArtist({
-      type: 'set-priority-dsp',
-      payload: {
-        priority_dsp: priorityDSP,
-      },
-    })
-  }
-
   const setConnection = ({ platform, url }) => {
     setArtist({
       type: 'set-connection',
@@ -258,20 +262,6 @@ function ArtistProvider({ children, disable }) {
       },
     })
   }
-
-  const addArtistUrl = React.useCallback(async (url, urlType) => {
-    const updatedArtist = await server.saveLink(artistId, url, urlType)
-
-    const savedUrl = updatedArtist[urlType]
-    setArtist({
-      type: 'set-new-url',
-      payload: {
-        urlType,
-        url: savedUrl,
-      },
-    })
-    return savedUrl
-  }, [artistId, setArtist])
 
   // Update artist ID when artist changes
   React.useEffect(() => {
@@ -299,10 +289,8 @@ function ArtistProvider({ children, disable }) {
     setNoArtist,
     setArtist,
     setArtistLoading,
-    setPriorityDSP,
     setConnection,
     setPostPreferences,
-    addArtistUrl,
     storeArtist,
     updateBudget,
     hasBudget,

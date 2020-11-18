@@ -1,15 +1,25 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-function YouTubeIcon({ width, fill }) {
-  const name = 'YouTube'
+import brandColors from '@/constants/brandColors'
+
+const YouTubeIcon = ({
+  fill,
+  className,
+  style,
+  title,
+  width,
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 500 500"
       width={width}
-      name={name}
+      name={title}
+      className={className}
+      style={style}
     >
-      <title>{name}</title>
+      <title>{title}</title>
 
       <path
         fill={fill}
@@ -21,6 +31,22 @@ function YouTubeIcon({ width, fill }) {
 
     </svg>
   )
+}
+
+YouTubeIcon.propTypes = {
+  fill: PropTypes.string,
+  title: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  width: PropTypes.number,
+}
+
+YouTubeIcon.defaultProps = {
+  fill: brandColors.youtube.bg,
+  title: 'YouTube',
+  className: '',
+  style: null,
+  width: null,
 }
 
 export default YouTubeIcon

@@ -1,16 +1,25 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-function AppleIcon({ width, fill }) {
-  const name = 'Apple Music'
+import brandColors from '@/constants/brandColors'
+
+const AppleIcon = ({
+  fill,
+  className,
+  title,
+  style,
+  width,
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={width}
       viewBox="0 0 28.188 28.195"
-      name={name}
+      width={width}
+      name={title}
+      className={className}
+      style={style}
     >
-      <title>{name}</title>
-
+      <title>{title}</title>
       <path
         fill={fill}
         d="M28.187,7.195c-0.001-0.867-0.076-1.728-0.282-2.574c-0.372-1.536-1.247-2.713-2.561-3.573
@@ -36,9 +45,24 @@ function AppleIcon({ width, fill }) {
         c0.786-0.159,1.572-0.32,2.36-0.475c0.258-0.051,0.52-0.103,0.78-0.124c0.364-0.029,0.614,0.2,0.651,0.566
         c0.009,0.087,0.014,0.175,0.014,0.263C20.643,7.394,20.643,9.638,20.642,11.882L20.642,11.882z"
       />
-
     </svg>
   )
+}
+
+AppleIcon.propTypes = {
+  fill: PropTypes.string,
+  title: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  width: PropTypes.number,
+}
+
+AppleIcon.defaultProps = {
+  fill: brandColors.textColor,
+  title: 'Apple Music',
+  className: '',
+  style: null,
+  width: null,
 }
 
 export default AppleIcon

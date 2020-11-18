@@ -1,12 +1,11 @@
 import React from 'react'
-import { Head } from 'next/document'
 
 import Favicons from '@/elements/Favicons'
 
 const TheHead = ({ siteUrl, metaDescription, noIndex, includeStripe }) => {
   const ogImageUrl = `${siteUrl}/images/feed_og_card.jpg`
   return (
-    <Head>
+    <>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       {/* PWA config and Favicons. Custom meta are children here */}
@@ -33,7 +32,7 @@ const TheHead = ({ siteUrl, metaDescription, noIndex, includeStripe }) => {
       {/* Preconnect to external assets */}
       {includeStripe && <link rel="preconnect" href="https://js.stripe.com/v3" />}
       {noIndex && <meta name="robots" content="noindex" />}
-    </Head>
+    </>
   )
 }
 

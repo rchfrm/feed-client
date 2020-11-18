@@ -114,7 +114,6 @@ export default {
   redirectResult: async () => {
     const redirectTo = await auth.getRedirectResult()
       .catch((err) => {
-        console.log(err)
         const { message, code } = err
         return {
           error: {
