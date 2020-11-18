@@ -134,11 +134,8 @@ export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpt
   }
   const integrationsArray = Object.entries(integrationsMerged).reduce((filteredIntegrations, [platform, integration]) => {
     const integrationInfo = getIntegrationInfo({ platform })
-    const { musicOnly } = integrationInfo
     const accountId = getAccountId({ ...integration, platform }, integrationInfo)
     const isEmpty = !accountId
-    // Ignore music integration if not a musician (and not already filled)
-    if (musicOnly && !isMusician && isEmpty) return filteredIntegrations
     if (ignoreEmpty && isEmpty) return filteredIntegrations
     // Else add to list with title and url
     return [...filteredIntegrations, {
