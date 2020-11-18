@@ -1,50 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import CheckboxButton from '@/elements/CheckboxButton'
+
 import pull from 'lodash/pull'
-
-const CHECKBOX_BUTTON = ({
-  value,
-  name,
-  label,
-  checked,
-  highlight,
-  onChange,
-  className,
-}) => {
-  const valueString = value.toString()
-  const id = `checkbox-${valueString}`
-
-  const handleChange = () => {
-    onChange(value, checked)
-  }
-
-  return (
-    <div className={[
-      'checkbox--button',
-      highlight ? '-highlighted' : null,
-      className,
-    ].join(' ')}
-    >
-      <input
-        id={id}
-        value={valueString}
-        type="checkbox"
-        className="checkbox--button_input"
-        name={name || valueString}
-        aria-checked={checked}
-        checked={checked}
-        onChange={handleChange}
-      />
-      <label
-        className="checkbox--button_label"
-        htmlFor={id}
-      >
-        {label}
-      </label>
-    </div>
-  )
-}
 
 const CheckboxButtons = ({
   buttonOptions,
@@ -68,7 +27,7 @@ const CheckboxButtons = ({
         // or failing that, if it's the first value
         const checked = selectedValues.includes(value)
         return (
-          <CHECKBOX_BUTTON
+          <CheckboxButton
             key={value}
             value={value}
             name={name}
@@ -82,31 +41,6 @@ const CheckboxButtons = ({
       })}
     </div>
   )
-}
-
-// BUTTON PROPS
-CHECKBOX_BUTTON.propTypes = {
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-  ]).isRequired,
-  name: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-  ]).isRequired,
-  checked: PropTypes.bool,
-  highlight: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
-  className: PropTypes.string,
-}
-
-CHECKBOX_BUTTON.defaultProps = {
-  name: '',
-  className: null,
-  checked: false,
-  highlight: false,
 }
 
 // GROUP PROPS

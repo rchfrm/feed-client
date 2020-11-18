@@ -26,7 +26,7 @@
 
 /* FILTERS LABEL */
 .label {
-  padding-left: var(--sp-5);
+  padding-left: var(--sp-6);
 
   @media(--sm) {
     padding-left: 0;

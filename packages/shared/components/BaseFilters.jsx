@@ -54,6 +54,7 @@ const BaseFilters = ({
   querySlug,
   useSlug,
   className,
+  children,
 }) => {
   // GET ROUTER
   const router = useRouter()
@@ -130,11 +131,13 @@ const BaseFilters = ({
   return (
     <div className={['breakout--width'].join(' ')}>
       <div className={['inputLabel__text', styles.label].join(' ')}>
-        {labelText}
-        {/* LABEL TOOLTIP */}
-        {tooltipSlides && (
-          <TooltipButton slides={tooltipSlides} direction={tooltipDirection} />
-        )}
+        <span className="flex items-center">
+          {labelText}
+          {/* LABEL TOOLTIP */}
+          {tooltipSlides && (
+            <TooltipButton slides={tooltipSlides} direction={tooltipDirection} />
+          )}
+        </span>
       </div>
       <div
         ref={containerRef}
@@ -168,6 +171,7 @@ const BaseFilters = ({
             />
           )
         })}
+        {children}
       </div>
     </div>
   )
@@ -191,6 +195,7 @@ BaseFilters.propTypes = {
   },
   useSlug: PropTypes.bool,
   className: PropTypes.string,
+  children: PropTypes.node,
 }
 
 BaseFilters.defaultProps = {
@@ -204,6 +209,7 @@ BaseFilters.defaultProps = {
   querySlug: '',
   useSlug: false,
   className: '',
+  children: null,
 }
 
 

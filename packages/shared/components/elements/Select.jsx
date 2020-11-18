@@ -4,6 +4,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ArrowIcon from '@/icons/ArrowIcon'
+import Spinner from '@/elements/Spinner'
+import brandColors from '@/constants/brandColors'
+
+const OPTION = ({ name, value }) => {
+  return <option key={value} value={value}>{name}</option>
+}
 
 const Select = ({
   handleChange,
@@ -16,22 +22,27 @@ const Select = ({
   version,
   required,
   highlight, // show red if empty
+  loading,
+  disabled,
   autoComplete,
   className,
 }) => {
   // Define class array
   const classes = ['input--container', 'select--container', className]
-  // Transform options into array of <option> elements
-  const optionElements = options.map(option => {
-    return <option key={option.value} value={option.value}>{option.name}</option>
-  })
-  // Add optional placeholder
-  if (placeholder) {
-    optionElements.unshift(<option key="placeholder" value="" hidden>{placeholder}</option>)
-  }
+
   // Add error class
   if (highlight && !selectedValue) {
     classes.push('_error')
+  }
+
+  // Add disabled class
+  if (disabled) {
+    classes.push('_disabled')
+  }
+
+  // Add disabled class
+  if (loading) {
+    classes.push('_loading')
   }
 
   const versionClasses = version
@@ -60,11 +71,38 @@ const Select = ({
             value={selectedValue}
             required={required}
             autoComplete={!autoComplete ? 'off' : ''}
+            disabled={disabled || loading}
           >
-            {optionElements}
+            {/* PLACEHOLDER */}
+            {placeholder && (
+              <option key="placeholder" value="" hidden>{placeholder}</option>
+            )}
+            {/* OPTIONS */}
+            {options.map((optionItem) => {
+              const { value, name, type, options } = optionItem
+              const isOptionGroup = type === 'group'
+              // Option group
+              if (isOptionGroup) {
+                return (
+                  <optgroup label={name} key={value}>
+                    {options.map(({ name, value }) => {
+                      return <OPTION key={value} name={name} value={value} />
+                    })}
+                  </optgroup>
+                )
+              }
+              return <OPTION key={value} name={name} value={value} />
+            })}
           </select>
           {/* Arrow Icon */}
-          <ArrowIcon className="select--arrow" />
+          <ArrowIcon
+            className="select--arrow"
+            fill={disabled || loading ? brandColors.greyDark : brandColors.black}
+          />
+          {/* Loading icon */}
+          {loading && (
+            <Spinner className="select--spinner" />
+          )}
         </div>
       </label>
     </div>
@@ -114,6 +152,8 @@ Select.propTypes = {
 
   required: PropTypes.bool,
   highlight: PropTypes.bool,
+  disabled: PropTypes.bool,
+  loading: PropTypes.bool,
   autoComplete: PropTypes.bool,
   className: PropTypes.string,
 }
@@ -124,6 +164,8 @@ Select.defaultProps = {
   version: 'box',
   required: false,
   highlight: false,
+  disabled: false,
+  loading: false,
   autoComplete: true,
   className: '',
   placeholder: '',

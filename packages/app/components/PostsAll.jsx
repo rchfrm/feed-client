@@ -37,6 +37,7 @@ function PostsAll({
   loadMorePosts,
   loadingMore,
   loadedAll,
+  missingDefaultLink,
 }) {
   // Set header
   const { setHeader } = React.useContext(InterfaceContext)
@@ -125,6 +126,7 @@ function PostsAll({
               singular={posts.length === 1}
               togglePromotion={togglePromotion}
               postToggleSetter={postToggleSetter}
+              missingDefaultLink={missingDefaultLink}
               className="col-span-12 sm:col-span-6 bmw:col-span-4"
             >
               {post.loadTrigger && !loadedAll && (
@@ -153,6 +155,7 @@ PostsAll.propTypes = {
   loadMorePosts: PropTypes.func.isRequired,
   loadingMore: PropTypes.bool,
   loadedAll: PropTypes.bool,
+  missingDefaultLink: PropTypes.bool.isRequired,
 }
 
 PostsAll.defaultProps = {

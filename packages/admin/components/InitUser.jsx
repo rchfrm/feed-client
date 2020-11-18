@@ -77,8 +77,7 @@ const InitUser = ({ children }) => {
   const handleExistingUser = async () => {
     // If it is a pre-existing user, store their profile in the user context
     const user = await storeUser()
-      .catch((error) => {
-        console.log('error', error)
+      .catch(() => {
         setAuthError({ message: 'No user was found in the database' })
       })
     if (!user) return

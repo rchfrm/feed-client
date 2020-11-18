@@ -1,12 +1,22 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-function SpotifyIcon({ width, fill }) {
-  const name = 'Spotify'
+import brandColors from '@/constants/brandColors'
+
+const SpotifyIcon = ({
+  fill,
+  className,
+  style,
+  title,
+  width,
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      data-name={name}
       viewBox="0 0 170 170"
+      name={title}
+      className={className}
+      style={style}
       width={width}
     >
       <path
@@ -15,6 +25,22 @@ function SpotifyIcon({ width, fill }) {
       />
     </svg>
   )
+}
+
+SpotifyIcon.propTypes = {
+  fill: PropTypes.string,
+  title: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  width: PropTypes.number,
+}
+
+SpotifyIcon.defaultProps = {
+  fill: brandColors.spotify.bg,
+  title: 'Spotify',
+  className: '',
+  style: null,
+  width: null,
 }
 
 export default SpotifyIcon
