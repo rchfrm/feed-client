@@ -30,13 +30,19 @@ const PostsLinksEditModal = ({
     const hasError = !utils.testValidUrl(utils.enforceUrlProtocol(linkProps.href))
     setHasHrefError(hasError)
   }, [linkProps.href])
+  // MAKE SURE THERE IS A NAME
+  const [hasNameError, setHasNameError] = React.useState(false)
+  const [showNameError, setShowNameError] = React.useState(false)
+  React.useEffect(() => {
+    setHasNameError(!linkProps.name)
+  }, [linkProps.name])
 
   // IS SAVING ENABLED
   const [saveEnabled, setSaveEnabled] = React.useState(false)
   React.useEffect(() => {
-    const saveEnabled = linkProps.href && !hasHrefError
+    const saveEnabled = !hasNameError && !hasHrefError
     setSaveEnabled(saveEnabled)
-  }, [linkProps.href, hasHrefError])
+  }, [hasNameError, hasHrefError])
 
   // UPDATE MODAL SAVE BUTTON
   const { setButtons } = useAlertModal()
@@ -108,12 +114,14 @@ const PostsLinksEditModal = ({
         }}
         noValidate
       >
+        {/* LINK HREF */}
         <Input
           placeholder="https://"
           type="url"
           version="box"
           label="Link URL"
           name="link-url"
+          value={linkProps.href}
           handleChange={(e) => {
             handleInput(e, 'href')
             if (showHrefError && !hasHrefError) {
@@ -124,19 +132,31 @@ const PostsLinksEditModal = ({
             if (hasHrefError) return setShowHrefError(true)
             setShowHrefError(false)
           }}
-          value={linkProps.href}
           error={showHrefError}
           errorMessage="Please use a valid URL"
           required
         />
+        {/* LINK NAME */}
         <Input
           placeholder=""
           type="text"
           version="box"
           label="Link Name"
           name="link-name"
-          handleChange={(e) => handleInput(e, 'name')}
+          handleChange={(e) => {
+            handleInput(e, 'name')
+            console.log('showNameError', showNameError)
+            if (showNameError && hasNameError) {
+              setShowNameError(false)
+            }
+          }}
           value={linkProps.name}
+          onBlur={() => {
+            if (hasNameError) return setShowNameError(true)
+            setShowNameError(false)
+          }}
+          error={showNameError}
+          errorMessage="Please include a name"
           required
         />
         {/* FOLDER OPTION */}
