@@ -3,7 +3,7 @@ import produce from 'immer'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { getDefaultLinkId } from '@/app/helpers/artistHelpers'
-import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
+import { getLocalStorage, setLocalStorage, removeProtocolFromUrl } from '@/helpers/utils'
 
 const { integrationsFolderId, folderStatesStorageKey } = linksHelpers
 
@@ -129,7 +129,12 @@ const formatServerLinks = ({ folders, defaultLinkId, artist }) => {
   const integrationLinks = fetchIntegrations({ artist, folders })
   const integrationsFolderIndex = folders.findIndex(({ id }) => id === integrationsFolderId)
   const foldersUpdatedIntegrations = produce(folders, draftFolders => {
+    // Replace integration links with formatted integration links
     draftFolders[integrationsFolderIndex].links = integrationLinks
+    // Make sure all links have names
+    draftFolders.forEach((folder) => folder.links.forEach((link) => {
+      link.name = link.name || removeProtocolFromUrl(link.href)
+    }))
   })
   // Format links
   // Add add type key to folders, and
