@@ -68,7 +68,6 @@ InsightDataSelectors.propTypes = {
   defaultDataSource: PropTypes.string,
   setCurrentDataSource: PropTypes.func.isRequired,
   setCurrentPlatform: PropTypes.func.isRequired,
-  initialLoading: PropTypes.bool.isRequired,
 }
 
 InsightDataSelectors.defaultProps = {
