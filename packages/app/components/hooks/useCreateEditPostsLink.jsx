@@ -76,6 +76,7 @@ const useCreateEditPostsLink = ({
       }
       // eslint-disable-next-line
       openLink(oldLink, error)
+      setSidePanelLoading(false)
       return { error }
     }
     // Update store
@@ -112,6 +113,7 @@ const useCreateEditPostsLink = ({
       }
       // eslint-disable-next-line
       openLink(oldFolder, error)
+      setSidePanelLoading(false)
       return
     }
     // Update store
