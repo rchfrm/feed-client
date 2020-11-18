@@ -85,25 +85,23 @@ export const saveLink = async (artistId, link, savedFolders, action = 'add', for
   const hrefSanitised = utils.enforceUrlProtocol(href)
   const createNewFolder = !!folderName
   let { folder_id } = link
-  if (action === 'add') {
-    // If a folder is being added, do that first
+  // ADD or EDIT
+  if (action === 'add' || action === 'edit') {
+    // Create new folder if necessary
     if (createNewFolder) {
       const folder = { name: folderName }
       const { res: savedFolder, error } = await server.updateFolder(artistId, folder, 'add')
       if (error) return { error }
       folder_id = savedFolder.id
     }
-    const { res, error } = await server.updateLink(artistId, { href: hrefSanitised, name, folder_id }, action)
+    // If a folder is being added, do that first
+    const { res, error } = await server.updateLink(artistId, { id: linkId, href: hrefSanitised, name, folder_id }, action)
     if (error) return { error }
     if (createNewFolder) {
       const newLink = { ...res, folder_name: folderName }
       return { res: newLink }
     }
     return { res }
-  }
-  // EDIT link
-  if (action === 'edit') {
-    return server.updateLink(artistId, { id: linkId, href: hrefSanitised, name, folder_id }, action)
   }
   // DELETE link
   if (action === 'delete') {
@@ -151,7 +149,7 @@ export const setPostLink = async (artistId, linkId, assetId) => {
 
 // EDIT LINK
 export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
-  const { folder_id: newLinkFolderId, id: linkId } = newLink
+  const { folder_id: newLinkFolderId, folder_name: newFolderName, id: linkId } = newLink
   const { folder_id: oldFolderId } = oldLink
   const hasMovedFolder = newLinkFolderId !== oldFolderId
   // Edit link in same folder
@@ -169,8 +167,21 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
   const newFolderIndex = nestedLinks.findIndex(({ id }) => id === newFolderId)
   // Update nested links
   return produce(nestedLinks, draftNestedLinks => {
-    // Add to new folder
-    draftNestedLinks[newFolderIndex].links.push(newLink)
+    // Add to new folder (if exists)
+    if (newFolderIndex > -1) {
+      draftNestedLinks[newFolderIndex].links.push(newLink)
+    }
+    // Create new folder if necessary
+    if (newFolderIndex === -1) {
+      // Create new folder
+      const newFolder = {
+        id: newFolderId,
+        name: newFolderName,
+        links: [newLink],
+      }
+      draftNestedLinks.push(newFolder)
+    }
+    // Remove from old folder
     const oldFolderLinks = draftNestedLinks[oldFolderIndex].links
     draftNestedLinks[oldFolderIndex].links = oldFolderLinks.filter(({ id }) => id !== newLink.id)
   })
