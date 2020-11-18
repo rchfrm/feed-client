@@ -186,6 +186,10 @@ const fetchLinks = (set, get) => async (action, artist) => {
 // UPDATE LINKS
 const getUpdatedLinks = (set, get) => (action, { newLink, oldLink = {} }) => {
   const { nestedLinks } = get()
+  // add link
+  if (action === 'add') {
+    return linksHelpers.afterAddLink({ newLink, nestedLinks })
+  }
   // edit link
   if (action === 'edit') {
     return linksHelpers.afterEditLink({ newLink, oldLink, nestedLinks })
@@ -193,10 +197,6 @@ const getUpdatedLinks = (set, get) => (action, { newLink, oldLink = {} }) => {
   // delete link
   if (action === 'delete') {
     return linksHelpers.afterDeleteLink({ oldLink, nestedLinks })
-  }
-  // add link
-  if (action === 'add') {
-    return linksHelpers.afterAddLink({ newLink, nestedLinks })
   }
 }
 

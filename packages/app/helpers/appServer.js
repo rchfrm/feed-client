@@ -318,7 +318,7 @@ export const updateLink = (artistId, link, action, force, usedLinkErrorCode) => 
   const requestUrl = `/artists/${artistId}/linkbank?method=${method}`
   const { id, name, href, folder_id } = link
   const payload = {
-    id,
+    ...(id && { id }),
     name,
     href,
     force,
