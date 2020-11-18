@@ -121,6 +121,7 @@ const integrationPlaceholders = {
   facebook: null,
   instagram: null,
   spotify: null,
+  soundcloud: null,
   twitter: null,
   youtube: null,
 }
