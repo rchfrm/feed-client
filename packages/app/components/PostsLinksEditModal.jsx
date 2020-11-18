@@ -145,7 +145,6 @@ const PostsLinksEditModal = ({
           name="link-name"
           handleChange={(e) => {
             handleInput(e, 'name')
-            console.log('showNameError', showNameError)
             if (showNameError && hasNameError) {
               setShowNameError(false)
             }
