@@ -194,8 +194,15 @@ button {
   svg {
     height: var(--sp-5);
     width: auto;
-    margin-right: 1em;
+    margin-right: var(--sp-4);
     vertical-align: bottom;
+  }
+
+  &.button--small {
+    svg {
+      height: var(--sp-4);
+      margin-right: var(--sp-3);
+    }
   }
 
   &.button--x-small {
