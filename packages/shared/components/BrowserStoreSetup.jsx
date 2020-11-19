@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   isMobile,
   isTablet,
@@ -8,14 +9,23 @@ import {
   isMacOs,
 } from 'react-device-detect'
 
-import browserStore from '@/store/browserStore'
+import shallow from 'zustand/shallow'
+
+import useBrowserStore from '@/store/browserStore'
 import useOnResize from '@/hooks/useOnResize'
 
+const getBrowserStore = (state) => ({
+  setDevice: state.setDevice,
+  setDimensions: state.setDimensions,
+  setBreakpoint: state.setBreakpoint,
+})
+
 const BrowserStoreSetup = () => {
-  const [useBrowserStore] = browserStore
-  const setDevice = useBrowserStore(state => state.setDevice)
-  const setDimensions = useBrowserStore(state => state.setDimensions)
-  const setBreakpoint = useBrowserStore(state => state.setBreakpoint)
+  const {
+    setDevice,
+    setDimensions,
+    setBreakpoint,
+  } = useBrowserStore(getBrowserStore, shallow)
   const { width, height } = useOnResize()
   // Set device info on mount
   React.useEffect(() => {

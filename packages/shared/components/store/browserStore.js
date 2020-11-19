@@ -21,7 +21,7 @@ const breakpointValues = Object.values(breakpointsKeyedByName).reduce((arr, size
   return [...arr, size]
 }, [])
 
-const [useBrowserStore, browserStoreApi] = create(set => ({
+const browserStore = create(set => ({
   browser: {
     width: 0,
     height: 0,
@@ -30,8 +30,11 @@ const [useBrowserStore, browserStoreApi] = create(set => ({
     breakpointsKeyedBySize,
     device: {},
   },
-  setDimensions: (width, height) => set((state) =>
-    ({ browser: { ...state.browser, width, height } })),
+  setDimensions: (width, height) => {
+    set((state) => {
+      return { browser: { ...state.browser, width, height } }
+    })
+  },
   setBreakpoint: (width) => set((state) => {
     // Find largest matching breakpoint
     let largestMatching
@@ -49,4 +52,4 @@ const [useBrowserStore, browserStoreApi] = create(set => ({
     ({ browser: { ...state.browser, device } })),
 }))
 
-export default [useBrowserStore, browserStoreApi]
+export default browserStore
