@@ -3,9 +3,17 @@ import PropTypes from 'prop-types'
 
 import brandColors from '@/constants/brandColors'
 
-const EmailIcon = ({ color }) => {
+const EmailIcon = ({ color, className, style }) => {
   return (
-    <svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width="21"
+      height="15"
+      viewBox="0 0 21 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      style={style}
+    >
       <path
         fill={color}
         fillRule="evenodd"
@@ -18,10 +26,14 @@ const EmailIcon = ({ color }) => {
 
 EmailIcon.propTypes = {
   color: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object,
 }
 
 EmailIcon.defaultProps = {
   color: brandColors.textColor,
+  className: null,
+  style: null,
 }
 
 export default EmailIcon
