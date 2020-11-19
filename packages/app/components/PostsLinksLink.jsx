@@ -7,7 +7,7 @@ import LinkIcon from '@/icons/LinkIcon'
 import TrashIcon from '@/icons/TrashIcon'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-import linksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/store/linksStore'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 import useForceDeleteLink from '@/app/hooks/useForceDeleteLink'
@@ -46,7 +46,7 @@ const PostsLinksLink = ({
     savedFolders,
     updateLinksStore,
     setLinkBankError,
-  } = linksStore(getLinksStoreState, shallow)
+  } = useLinksStore(getLinksStoreState, shallow)
   // DELETE LINK
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   const showForceDeleteModal = useForceDeleteLink()

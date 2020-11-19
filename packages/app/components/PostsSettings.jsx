@@ -2,7 +2,7 @@ import React from 'react'
 
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
-import linksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/store/linksStore'
 import postsStore from '@/app/store/postsStore'
 // IMPORT COMPONENTS
 import PostsSettingsSection from '@/app/PostsSettingsSection'
@@ -18,7 +18,7 @@ import sidePanelStyles from '@/app/SidePanel.module.css'
 const PostsSettings = () => {
   // GET CONTEXTS
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
-  const defaultLink = linksStore(React.useCallback((state) => state.defaultLink, []))
+  const defaultLink = useLinksStore(React.useCallback((state) => state.defaultLink, []))
   const togglePromotionGlobal = postsStore(state => state.togglePromotionGlobal)
   return (
     <div>
