@@ -6,12 +6,12 @@ import tailwindConfig from '~/tailwind.config'
 const { theme: { screens } } = tailwindConfig()
 // Define object of keyed breakpoints breakpointName: { width }
 const breakpointsKeyedByName = Object.entries(screens).reduce((obj, [name, sizeString]) => {
-  const size = parseInt(sizeString, 0)
+  const size = parseInt(sizeString, 10)
   obj[name] = size
   return obj
 }, {})
 const breakpointsKeyedBySize = Object.entries(screens).reduce((obj, [name, sizeString]) => {
-  const size = parseInt(sizeString, 0)
+  const size = parseInt(sizeString, 10)
   obj[size] = name
   return obj
 }, {})
