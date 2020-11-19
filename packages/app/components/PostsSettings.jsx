@@ -8,7 +8,7 @@ import postsStore from '@/app/store/postsStore'
 import PostsSettingsSection from '@/app/PostsSettingsSection'
 import PostsSettingsDefaultStatus from '@/app/PostsSettingsDefaultStatus'
 import PostsSettingsDefaultLink from '@/app/PostsSettingsDefaultLink'
-import PostsSettingsLinkTracking from '@/app/PostsSettingsLinkTracking'
+// import PostsSettingsLinkTracking from '@/app/PostsSettingsLinkTracking'
 // IMPORT COPY
 import copy from '@/app/copy/PostsPageCopy'
 
