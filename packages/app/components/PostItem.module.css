@@ -210,7 +210,6 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  border-top: 2px solid var(--text-color);
   background-color: var(--text-color);
   color: var(--bg-color);
   transition: transform 300ms ease;
