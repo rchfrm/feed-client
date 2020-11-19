@@ -324,3 +324,14 @@ export const testIfSpotifyConnected = (spotifyUrl) => {
 export const getDefaultLinkId = (artist) => {
   return get(artist, ['preferences', 'posts', 'default_link_id'], '')
 }
+
+/**
+ * Gets the artist integration by platform ID
+ * @param {object} artist
+ * @param {string} platformId
+ * @returns {object} integration
+ */
+export const getArtistIntegrationByPlatform = (artist, platformId) => {
+  const { integrations } = artist
+  return integrations.find(({ platform }) => platform === platformId)
+}
