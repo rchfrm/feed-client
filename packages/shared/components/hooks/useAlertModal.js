@@ -1,6 +1,6 @@
 import React from 'react'
 
-import alertStore from '@/store/alertStore'
+import useAlertStore from '@/store/alertStore'
 
 /*
 * EXAMPLE BUTTONS
@@ -25,12 +25,12 @@ buttons: [
 
 
 const useAlertModal = (props) => {
-  const close = alertStore(state => state.close)
-  const open = alertStore(state => state.open)
-  const setCopy = alertStore(state => state.setCopy)
-  const setChildren = alertStore(state => state.setChildren)
-  const setButtons = alertStore(state => state.setButtons)
-  const setOnClose = alertStore(state => state.setOnClose)
+  const close = useAlertStore(state => state.close)
+  const open = useAlertStore(state => state.open)
+  const setCopy = useAlertStore(state => state.setCopy)
+  const setChildren = useAlertStore(state => state.setChildren)
+  const setButtons = useAlertStore(state => state.setButtons)
+  const setOnClose = useAlertStore(state => state.setOnClose)
 
   const defaultButtons = React.useMemo(() => {
     return [{
