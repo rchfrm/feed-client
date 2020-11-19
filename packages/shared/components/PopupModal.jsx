@@ -1,5 +1,6 @@
 import React from 'react'
 
+import shallow from 'zustand/shallow'
 import { gsap, Power2 } from 'gsap'
 import { Portal } from 'react-portal'
 import { Transition } from 'react-transition-group'
@@ -8,7 +9,7 @@ import CloseCircle from '@/icons/CloseCircle'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
 
-import popupStore from '@/store/popupStore'
+import usePopupStore from '@/store/popupStore'
 
 import styles from '@/PopupModal.module.css'
 import FullHeight from '@/elements/FullHeight'
@@ -50,11 +51,21 @@ const getElements = (containerEl) => {
   }
 }
 
+// Read from store
+const getPopupStoreState = (state) => ({
+  content: state.content,
+  caption: state.caption,
+  contentType: state.contentType,
+  closePopup: state.clear,
+})
+
 const PopupModal = () => {
-  const content = popupStore(state => state.content)
-  const caption = popupStore(state => state.caption)
-  const contentType = popupStore(state => state.contentType)
-  const closePopup = popupStore(state => state.clear)
+  const {
+    content,
+    caption,
+    contentType,
+    closePopup,
+  } = usePopupStore(getPopupStoreState, shallow)
 
   // On resize
   const { width: windowWidth, height: windowHeight } = useBrowserStore()

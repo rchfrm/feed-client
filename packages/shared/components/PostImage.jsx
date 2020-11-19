@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import shallow from 'zustand/shallow'
+
 import PlayBrokenIcon from '@/icons/PlayBrokenIcon'
 import PlayIcon from '@/icons/PlayIcon'
 import MediaFallback from '@/elements/MediaFallback'
@@ -8,7 +10,7 @@ import MediaFallback from '@/elements/MediaFallback'
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
-import popupStore from '@/store/popupStore'
+import usePopupStore from '@/store/popupStore'
 
 import styles from '@/PostImage.module.css'
 import popupStyles from '@/PopupModal.module.css'
@@ -78,6 +80,15 @@ const getPopupMedia = ({
     </a>
   )
 }
+
+// Read from popup store
+const getPopupStoreState = (state) => ({
+  setPopupContents: state.setContent,
+  setPopupCaption: state.setCaption,
+  setPopupContentType: state.setContentType,
+  closePopup: state.clear,
+})
+
 
 const PostImage = ({
   mediaSrc,
@@ -171,10 +182,13 @@ const PostImage = ({
   }, [mediaType, videoError])
 
   // SHOW LARGE IMAGE in Popup
-  const setPopupContents = popupStore(state => state.setContent)
-  const setPopupCaption = popupStore(state => state.setCaption)
-  const setPopupContentType = popupStore(state => state.setContentType)
-  const closePopup = popupStore(state => state.clear)
+  const {
+    setPopupContents,
+    setPopupCaption,
+    setPopupContentType,
+    closePopup,
+  } = usePopupStore(getPopupStoreState, shallow)
+
   const enlargeMedia = React.useCallback(() => {
     const popupContents = getPopupMedia({ mediaSrc, mediaType, thumbnailSrc: thumbnailImageSrc, closePopup, title })
     setPopupContents(popupContents)
