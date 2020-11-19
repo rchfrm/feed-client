@@ -54,7 +54,7 @@ const PostLinkSummary = ({
           addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
           classNames="fade"
         >
-          <div className="truncate">
+          <div className="truncate h-full">
             {linkPanelOpen || isAnimating ? (
               <span className={styles.postLinkEllipsis}>...</span>
             ) : (

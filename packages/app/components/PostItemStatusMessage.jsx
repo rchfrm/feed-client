@@ -12,13 +12,13 @@ const PostItemStatusMessage = ({
     <div
       className={[
         styles.postSection,
+        styles.postLinkTopBar,
         styles.postUnpromotable,
         styles.postText,
         className,
       ].join(' ')}
-      style={{ marginTop: -2 }}
     >
-      <p style={{ transform: 'translateY(0.1em)' }}>
+      <p>
         {onClick ? (
           <a
             role="button"
