@@ -14,15 +14,15 @@
     "react-device-detect": "^1.13.1",
     "react-dom": "^16.4.0",
     "swiper": "^5.4.5",
-    "zustand": "^2.2.3"
+    "zustand": "^3.2.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^9.3.6",
     "autoprefixer": "^9.7.6",
     "babel-eslint": "^10.0.3",
     "dev-proxy": "^2.1.2",
-    "eslint-config-airbnb": "^18.0.1",
     "eslint": "^7.13.0",
+    "eslint-config-airbnb": "^18.0.1",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-loader": "^3.0.3",
     "eslint-plugin-import": "^2.20.1",
