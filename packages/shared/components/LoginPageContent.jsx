@@ -79,7 +79,10 @@ function LoginPageContent({ showEmailLogin }) {
                 onClick={goToEmailLogin}
                 version="black"
                 icon={(
-                  <EmailIcon color={brandColors.bgColor} />
+                  <EmailIcon
+                    color={brandColors.bgColor}
+                    style={{ width: '1.25rem', height: 'auto' }}
+                  />
                 )}
               >
                 Log in with email

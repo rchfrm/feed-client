@@ -6,6 +6,7 @@ import Router from 'next/router'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/contexts/UserContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 // IMPORT PAGES
 // IMPORT ASSETS
@@ -19,21 +20,28 @@ function SignOutLink({ className = '' }) {
   const { setNoAuth } = React.useContext(AuthContext)
   const { setNoUser } = React.useContext(UserContext)
   const { setNoArtist } = React.useContext(ArtistContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
-  const clearContexts = () => {
-    Router.events.off('routeChangeComplete', clearContexts)
-    setNoAuth()
-    setNoUser()
-    setNoArtist()
-  }
+  const clearContexts = React.useRef(null)
+  React.useEffect(() => {
+    clearContexts.current = () => {
+      Router.events.off('routeChangeComplete', clearContexts.current)
+      setNoAuth()
+      setNoUser()
+      setNoArtist()
+      toggleGlobalLoading(false)
+    }
+  }, [])
 
   const signOut = async () => {
-    Router.events.on('routeChangeComplete', clearContexts)
-    Router.push(ROUTES.LOGIN)
+    toggleGlobalLoading(true)
+    Router.events.on('routeChangeComplete', clearContexts.current)
     await firebase.doSignOut()
       .catch((err) => {
+        toggleGlobalLoading(false)
         throw (err)
       })
+    Router.push(ROUTES.LOGIN)
   }
 
   return (
