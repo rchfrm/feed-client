@@ -49,6 +49,12 @@ const PostItemContents = ({
           {caption}
         </figcaption>
       )}
+      {/* PLACEHOLDER for no media or caption */}
+      {!hasMedia && !caption && (
+        <div className={styles.postImageContainer}>
+          <div className="w-full" style={{ paddingBottom: '100%' }} />
+        </div>
+      )}
     </div>
   )
 }
