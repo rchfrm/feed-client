@@ -224,6 +224,10 @@
 .postLinkTopBar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+  padding-top: 0;
+  padding-bottom: 0;
 
   > * {
     margin-bottom: 0;
@@ -233,7 +237,7 @@
 .postLinkSummary {
   display: flex;
   align-items: baseline;
-  height: 1.4em;
+  height: 1.55em;
 }
 
 .postLinkIcon {
