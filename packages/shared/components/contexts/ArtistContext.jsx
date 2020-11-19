@@ -24,7 +24,6 @@ const initialArtistState = {
       default_link_id: null,
     },
   },
-  priority_dsp: '',
   integrations: {},
   currency: '',
   users: {},
@@ -170,13 +169,7 @@ function ArtistProvider({ children, disable }) {
     })
     // Create all artists
     const createAllArtists = connectedArtistAccounts.map(async (artist) => {
-      const { priority_dsp } = artist
-      const artistWithDsp = {
-        ...artist,
-        priority_dsp: priority_dsp || utils.selectPriorityDSP(artist),
-      }
-
-      await artistHelpers.createArtist(artistWithDsp, accessToken)
+      await artistHelpers.createArtist(artist, accessToken)
     })
     // Wait to connect all artists
     await Promise.all(createAllArtists)

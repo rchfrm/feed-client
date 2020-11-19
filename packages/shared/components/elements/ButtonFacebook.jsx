@@ -41,7 +41,7 @@ const ButtonFacebook = (props) => {
       icon={(
         <FacebookIcon
           fill={brandColors.white}
-          width="20"
+          width={20}
         />
       )}
     >

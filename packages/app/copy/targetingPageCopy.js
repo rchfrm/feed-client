@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import { POSTS } from '@/app/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 const getListOfSources = (isMusician, hasSpotify) => {
   if (!hasSpotify || !isMusician) return 'Facebook and Instagram followers'
@@ -10,7 +10,7 @@ export default {
 
   noDefaultLinkCopy: `Before you can start running any ads, you need to choose a link for the ads to use.
   
-**Please set a default link on the [Posts page](${POSTS}).**`,
+**Please set a default link on the [Posts page](${ROUTES.POSTS}).**`,
 
   pausedWarning: `Spending is currently paused and no ads are running. You can still edit your settings.`,
 
@@ -28,7 +28,6 @@ Are you sure you want to continue?`,
   },
 
   locationsDescription: (isMusician, hasSpotify) => `Your audience shown includes ${getListOfSources(isMusician, hasSpotify)}.`,
-  locationsSpotifyWarning: `To include Spotify listener data in your audience, add a link to your Spotify artist profile in Post Settings.`,
 
   locationsHelperText: `Currently we only show you countries and cities with more than 1% of your combined Instagram, Facebook & Spotify audience (if applicable). This is so we can recommend the best targeting locations based on your audience.
 

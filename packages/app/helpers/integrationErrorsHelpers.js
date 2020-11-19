@@ -2,6 +2,8 @@ import produce from 'immer'
 
 import copy from '@/app/copy/integrationErrorsCopy'
 
+import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+
 export const testForMissingPages = (scopes) => {
   if (scopes.length > 2) return false
   if (
@@ -23,6 +25,9 @@ export const getErrorResponse = (error, artist) => {
     context,
     field,
   } = error
+
+  // Get facebook integration
+  const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
 
   if (code === 'missing_permission_scope') {
     const missingPermissions = context
@@ -49,7 +54,7 @@ export const getErrorResponse = (error, artist) => {
 
   if (code === 'ad_account_error' && subcode === 'CLOSED') {
     return {
-      message: copy.ad_account_closed(artist),
+      message: copy.ad_account_closed(facebookIntegration),
       action: 'link',
       buttonText: 'Email us',
       href: 'mailto:help@getfed.app?subject=New ad account, old one closed',
@@ -59,7 +64,7 @@ export const getErrorResponse = (error, artist) => {
 
   if (code === 'ad_account_disabled') {
     return {
-      message: copy[code](artist),
+      message: copy[code](facebookIntegration),
       action: 'link',
       buttonText: 'Facebook Ads Manager',
       href: 'https://facebook.com/adsmanager/manage/',
@@ -71,7 +76,7 @@ export const getErrorResponse = (error, artist) => {
 
   if (code === 'ad_account_error' && subcode === 'UNSETTLED') {
     return {
-      message: copy.unpaid_invoice(artist),
+      message: copy.unpaid_invoice(facebookIntegration),
       action: 'link',
       buttonText: 'Facebook Billing',
       href: 'https://www.facebook.com/ads/manager/billing/',
@@ -83,7 +88,7 @@ export const getErrorResponse = (error, artist) => {
 
   if (code === 'ad_account_no_funding_source') {
     return {
-      message: copy[code](artist),
+      message: copy[code](facebookIntegration),
       action: 'link',
       buttonText: 'Add payment details',
       href: 'https://www.facebook.com/ads/manager/billing/',
