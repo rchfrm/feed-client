@@ -392,17 +392,6 @@ export const returnLatestValue = (data) => {
   return data[latestTimestamp]
 }
 
-export const selectPriorityDSP = (artist) => {
-  if (artist.spotify_url) return 'spotify'
-  if (artist.website_url) return 'website'
-  if (artist.instagram_url) return 'instagram'
-  if (artist.bandcamp_url) return 'bandcamp'
-  if (artist.facebook_page_url) return 'facebook'
-  if (artist.youtube_url) return 'youtube'
-  if (artist.twitter_url) return 'twitter'
-  if (artist.soundcloud_url) return 'soundcloud'
-  if (artist.apple_url) return 'apple'
-}
 
 export const shortenUrl = (url) => {
   let shortenedUrl = removeProtocolFromUrl(url)

@@ -62,7 +62,6 @@ export const createArtist = async (artist, accessToken, token) => {
         adaccount_id: artist.selected_facebook_ad_account.id,
       },
     },
-    priority_dsp: artist.priority_dsp,
   }, token)
 }
 
