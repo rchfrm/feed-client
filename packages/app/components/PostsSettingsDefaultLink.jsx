@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
 
-import linksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/store/linksStore'
 
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
 
@@ -12,7 +12,7 @@ const PostsSettingsDefaultLink = ({
   setPostPreferences,
   className,
 }) => {
-  const updateLinksStore = linksStore(state => state.updateLinksStore)
+  const updateLinksStore = useLinksStore(state => state.updateLinksStore)
   const onSuccess = React.useCallback((newArtist) => {
     updateLinksStore('updateDefault', { newArtist })
     // Update artist status

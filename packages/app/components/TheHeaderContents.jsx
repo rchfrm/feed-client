@@ -3,7 +3,7 @@ import React from 'react'
 import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
-import notificationsStore from '@/app/store/notificationsStore'
+import useNotificationsStore from '@/app/store/notificationsStore'
 // IMPORT HOOKS
 import useLoggedInTest from '@/hooks/useLoggedInTest'
 // IMPORT ELEMENTS
@@ -15,6 +15,8 @@ import brandColors from '@/constants/brandColors'
 import * as ROUTES from '@/app/constants/routes'
 // IMPORT STYLES
 import styles from '@/app/TheHeader.module.css'
+
+const getNewNotifications = state => state.notificationsNew
 
 function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
   // Check if logged in or not
@@ -57,7 +59,7 @@ function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
   }, [windowWidth])
 
   // FETCH NOTIFICATIONS
-  const notificationsNew = notificationsStore(state => state.notificationsNew)
+  const notificationsNew = useNotificationsStore(getNewNotifications)
 
   return (
     <header className={[

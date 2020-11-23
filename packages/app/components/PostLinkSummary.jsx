@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import LinkIcon from '@/icons/LinkIcon'
 
-import linksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/store/linksStore'
 
 import styles from '@/app/PostItem.module.css'
 
@@ -26,8 +26,8 @@ const PostLinkSummary = ({
   className,
 }) => {
   // GET FULL INFO ABOUT CURRENT LINK
-  const nestedLinks = linksStore(nestedLinksState)
-  const defaultLink = linksStore(defaultLinkState)
+  const nestedLinks = useLinksStore(nestedLinksState)
+  const defaultLink = useLinksStore(defaultLinkState)
   const currentLink = React.useMemo(() => {
     if (linkType === 'adcreative') {
       return { href: linkHref, name: removeProtocolFromUrl(linkHref) }

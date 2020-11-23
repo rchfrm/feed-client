@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { UserContext } from '@/contexts/UserContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 
-import notificationsStore from '@/app/store/notificationsStore'
+import useNotificationsStore from '@/app/store/notificationsStore'
 
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'
@@ -47,6 +47,7 @@ const ARTIST_SELECT_OPTIONS = ({
   )
 }
 
+const getArtistsWithNotifications = state => state.artistsWithNotifications
 
 const TheSubNavArtists = ({ className }) => {
   const { user } = React.useContext(UserContext)
@@ -59,7 +60,7 @@ const TheSubNavArtists = ({ className }) => {
   }
 
   // FETCH NOTIFICATIONS from other artists, and remove the current artist
-  const artistsWithNotifications = notificationsStore(state => state.artistsWithNotifications)
+  const artistsWithNotifications = useNotificationsStore(getArtistsWithNotifications)
   const otherArtistNotifications = React.useMemo(() => {
     return artistsWithNotifications.filter((id) => id !== artistId)
   }, [artistsWithNotifications, artistId])

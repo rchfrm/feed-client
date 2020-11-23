@@ -1,5 +1,6 @@
 import React from 'react'
 
+import shallow from 'zustand/shallow'
 import { gsap, Power2 } from 'gsap'
 import { Portal } from 'react-portal'
 import { Transition } from 'react-transition-group'
@@ -9,7 +10,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import ButtonFacebook from '@/elements/ButtonFacebook'
 
-import alertStore from '@/store/alertStore'
+import useAlertStore from '@/store/alertStore'
 
 import styles from '@/AlertModal.module.css'
 
@@ -19,12 +20,22 @@ const getBgColor = (color) => {
   return null
 }
 
+const getStoreState = (state) => ({
+  copy: state.copy,
+  children: state.children,
+  buttons: state.buttons,
+  isOpen: state.isOpen,
+  close: state.close,
+})
+
 const AlertModal = () => {
-  const copy = alertStore(state => state.copy)
-  const children = alertStore(state => state.children)
-  const buttons = alertStore(state => state.buttons)
-  const isOpen = alertStore(state => state.isOpen)
-  const close = alertStore(state => state.close)
+  const {
+    copy,
+    children,
+    buttons,
+    isOpen,
+    close,
+  } = useAlertStore(getStoreState, shallow)
 
   const innerEl = React.useRef(null)
 
