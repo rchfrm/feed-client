@@ -8,6 +8,7 @@ const initialState = {
   notifications: [],
   totalUnreadNotifications: 0,
   openNotification: null,
+  openNotificationId: '',
   artistsWithNotifications: [],
 }
 
@@ -64,7 +65,8 @@ const updateNotification = (set, get) => (notificationId, prop, value) => {
 const setAsOpen = (set, get) => (notificationId) => {
   const { setAsRead, notifications } = get()
   const openNotification = notifications.find(({ id }) => id === notificationId)
-  set({ openNotification })
+  const { id: openNotificationId } = openNotification
+  set({ openNotification, openNotificationId })
   // Set notification as read
   setAsRead(notificationId)
 }
@@ -83,6 +85,7 @@ const useNotificationsStore = create((set, get) => ({
   notifications: initialState.notifications,
   totalUnreadNotifications: initialState.totalUnreadNotifications,
   openNotification: initialState.openNotification,
+  openNotificationId: initialState.openNotificationId,
   artistsWithNotifications: initialState.artistsWithNotifications,
   // GETTERS
   fetchAndSetNotifications: fetchAndSetNotifications(set, get),

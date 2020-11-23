@@ -6,6 +6,7 @@ import NotificationItemDot from '@/app/NotificationItemDot'
 import useNotificationStore from '@/app/store/notificationsStore'
 
 const getOpenNotificationAction = state => state.setAsOpen
+const getOpenNotificationId = state => state.openNotificationId
 
 const NotificationItem = ({ notification, className }) => {
   const {
@@ -16,7 +17,9 @@ const NotificationItem = ({ notification, className }) => {
     description,
   } = notification
 
-  const openNotification = useNotificationStore(getOpenNotificationAction)
+  const setAsOpen = useNotificationStore(getOpenNotificationAction)
+  const openNotificationId = useNotificationStore(getOpenNotificationId)
+  const isActive = id === openNotificationId
 
   return (
     <button
@@ -24,13 +27,22 @@ const NotificationItem = ({ notification, className }) => {
         'block relative w-full text-left',
         'px-8 py-3 mb-2',
         'md:w-1/2',
-        'border-solid border-grey-2 border-t',
         className,
       ].join(' ')}
       onClick={() => {
-        openNotification(id)
+        setAsOpen(id)
       }}
     >
+      {/* OVERLINE */}
+      <div
+        className={[
+          'absolute w-full top-0 left-0',
+          isActive ? 'bg-green' : 'bg-grey-2',
+        ].join(' ')}
+        style={{
+          height: isActive ? 2 : 1,
+        }}
+      />
       {/* UNREAD DOT */}
       {!read && <NotificationItemDot type="unread" />}
       {/* ACTION DOT */}
