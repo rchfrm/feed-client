@@ -7,6 +7,7 @@ const NotificationItemDot = ({ type }) => {
     <div
       className={[
         'absolute w-2 h-2 rounded-full',
+        type === 'unread' ? 'md:-ml-2' : 'md:-mr-2',
         type === 'unread' ? 'bg-green' : 'bg-red',
       ].join(' ')}
       style={{

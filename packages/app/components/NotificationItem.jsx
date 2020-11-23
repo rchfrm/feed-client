@@ -26,6 +26,7 @@ const NotificationItem = ({ notification, className }) => {
       className={[
         'block relative w-full text-left',
         'px-8 py-3 mb-2',
+        'md:px-6',
         'md:w-1/2',
         className,
       ].join(' ')}
