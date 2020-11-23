@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import notificationsStore from '@/app/store/notificationsStore'
+import useNotificationsStore from '@/app/store/notificationsStore'
 
 import SignOutLink from '@/SignOutLink'
 import ActiveLink from '@/elements/ActiveLink'
@@ -41,9 +41,11 @@ const links = [
   },
 ]
 
+const getNotificationsNew = state => state.notificationsNew
+
 const NOTIFICATION_LINK_TEXT = ({ title }) => {
   // FETCH NOTIFICATIONS
-  const notificationsNew = notificationsStore(state => state.notificationsNew)
+  const notificationsNew = useNotificationsStore(getNotificationsNew)
   const totalNotifications = notificationsNew.length
   if (totalNotifications) {
     return (

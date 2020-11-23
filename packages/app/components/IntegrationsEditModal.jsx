@@ -14,7 +14,7 @@ import copy from '@/app/copy/integrationsCopy'
 import * as utils from '@/helpers/utils'
 import { testValidIntegration } from '@/app/helpers/integrationHelpers'
 
-import alertStore from '@/store/alertStore'
+import useAlertStore from '@/store/alertStore'
 
 const closeAlertState = (state) => state.close
 
@@ -28,7 +28,7 @@ const IntegrationsEditModal = ({
 }) => {
   const { platform, title: platformTitle, placeholderUrl, href } = integration
   const [link, setLink] = React.useState('')
-  const closeAlert = alertStore(closeAlertState)
+  const closeAlert = useAlertStore(closeAlertState)
 
   // MAKE SURE HREF IS VALID
   const [hasHrefError, setHasHrefError] = React.useState(false)

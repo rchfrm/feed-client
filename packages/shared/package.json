@@ -15,7 +15,7 @@
     "react-dom": "^16.4.0",
     "react-markdown": "^5.0.3",
     "swiper": "^5.4.5",
-    "zustand": "^2.2.3"
+    "zustand": "^3.2.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^9.3.6",

@@ -17,7 +17,7 @@ import PostsLinksLink from '@/app/PostsLinksLink'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
-import linksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/store/linksStore'
 
 const FOLDER_NAME = ({ name, editModeOn }) => {
   return (
@@ -55,7 +55,7 @@ const PostsLinksFolder = ({
   // * OPEN STATE
 
   // Get open state from store
-  const folderStates = linksStore(getLinkFolderState)
+  const folderStates = useLinksStore(getLinkFolderState)
   const [isOpen, setIsOpen] = React.useState(true)
 
   // Set initial open state
@@ -68,7 +68,7 @@ const PostsLinksFolder = ({
   }, [])
 
   // Update local storage when changing open state
-  const updateFolderStates = linksStore(getUpdateFolderStates)
+  const updateFolderStates = useLinksStore(getUpdateFolderStates)
   React.useEffect(() => {
     if (!initialStateSet) return
     updateFolderStates(folderId, isOpen)
