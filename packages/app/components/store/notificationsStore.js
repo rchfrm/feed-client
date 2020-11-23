@@ -61,7 +61,7 @@ const updateNotification = (set, get) => (notificationId, prop, value) => {
 }
 
 // EXPORT
-const [notificationsStore] = create((set, get) => ({
+const useNotificationsStore = create((set, get) => ({
   // STATE
   artistId: initialState.artistId,
   notificationsNew: initialState.notificationsNew,
@@ -74,4 +74,4 @@ const [notificationsStore] = create((set, get) => ({
   clear: () => set(initialState),
 }))
 
-export default notificationsStore
+export default useNotificationsStore

@@ -4,7 +4,7 @@ import PostsContent from '@/app/PostsContent'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 
-import linksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/store/linksStore'
 
 const linksStoreInit = state => state.init
 const linksStoreClearAll = state => state.clearAll
@@ -17,8 +17,8 @@ const PostsPage = () => {
   } = React.useContext(ArtistContext)
 
   // SETUP POSTS STORE WHEN ARTIST CHANGES
-  const setupLinksStore = linksStore(linksStoreInit)
-  const clearLinkStore = linksStore(linksStoreClearAll)
+  const setupLinksStore = useLinksStore(linksStoreInit)
+  const clearLinkStore = useLinksStore(linksStoreClearAll)
   React.useEffect(() => {
     setupLinksStore(artist, 'fetchLinks')
   // eslint-disable-next-line

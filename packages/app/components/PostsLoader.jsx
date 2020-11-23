@@ -8,7 +8,7 @@ import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-import postsStore from '@/app/store/postsStore'
+import usePostsStore from '@/app/store/postsStore'
 // IMPORT ELEMENTS
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
@@ -203,7 +203,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 
   // Define function to BATCH TOGGLE all posts
   // and save it in posts store
-  const setTogglePromotionGlobal = postsStore(React.useCallback(state => state.setTogglePromotionGlobal, []))
+  const setTogglePromotionGlobal = usePostsStore(React.useCallback(state => state.setTogglePromotionGlobal, []))
   React.useEffect(() => {
     const togglePromotionGlobal = (promotionEnabled) => {
       setPostToggleSetter('batch')
@@ -259,7 +259,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 
   // Define function to update posts with missing links
   // and export to posts store
-  const setUpdatePostsWithMissingLinks = postsStore(React.useCallback(state => state.setUpdatePostsWithMissingLinks, []))
+  const setUpdatePostsWithMissingLinks = usePostsStore(React.useCallback(state => state.setUpdatePostsWithMissingLinks, []))
   React.useEffect(() => {
     const updatePostsWithMissingLinks = (missingLinkIds = []) => {
       const updatedPosts = produce(posts, draftPosts => {
