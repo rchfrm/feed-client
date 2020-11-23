@@ -6,15 +6,22 @@ import { gsap } from 'gsap'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
+import useNotificationStore from '@/app/store/notificationsStore'
+
+const getOpenNotification = state => state.openNotification
 
 const NotificationCurrentInfo = ({ containerRef }) => {
   const isDesktopLayout = useBreakpointTest('md')
   const { width: windowWidth } = useBrowserStore()
   const desktopBox = React.useRef(null)
+  // GET OPEN NOTIFICATION
+  const openNotification = useNotificationStore(getOpenNotification)
+
   // RESIZE AND POSITION
   React.useEffect(() => {
-    if (!isDesktopLayout) return
     const { current: containerEl } = containerRef
+    const { current: desktopEl } = desktopBox
+    if (!isDesktopLayout || !containerEl || !openNotification || !desktopEl) return
     const containerProps = containerEl.getBoundingClientRect()
     const scrollTop = window.scrollY
     // Calc postiion props
@@ -25,12 +32,13 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       opacity: 1,
     }
     // Set position
-    const { current: desktopEl } = desktopBox
     gsap.set(desktopEl, positionProps)
-  }, [isDesktopLayout, containerRef, windowWidth])
+  }, [isDesktopLayout, containerRef, windowWidth, openNotification])
 
-  // DON'T RENDER ANYTHING IF MOBILE
-  if (!isDesktopLayout) {
+  console.log('openNotification', openNotification)
+
+  // DON'T RENDER ANYTHING IF MOBILE or NO CURRENT NOTIFICATION
+  if (!openNotification || !isDesktopLayout) {
     return null
   }
 
@@ -43,7 +51,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       ].join(' ')}
     >
       <div className="bg-grey-1">
-        Content
+        {openNotification.title}
       </div>
     </div>
   )

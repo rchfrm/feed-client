@@ -3,13 +3,21 @@ import PropTypes from 'prop-types'
 
 import NotificationItemDot from '@/app/NotificationItemDot'
 
+import useNotificationStore from '@/app/store/notificationsStore'
+
+const getOpenNotificationAction = state => state.setAsOpen
+
 const NotificationItem = ({ notification, className }) => {
   const {
+    id,
     read,
     action,
     title,
     description,
   } = notification
+
+  const openNotification = useNotificationStore(getOpenNotificationAction)
+
   return (
     <button
       className={[
@@ -19,6 +27,9 @@ const NotificationItem = ({ notification, className }) => {
         'border-solid border-grey-2 border-t',
         className,
       ].join(' ')}
+      onClick={() => {
+        openNotification(id)
+      }}
     >
       {/* UNREAD DOT */}
       {!read && <NotificationItemDot type="unread" />}

@@ -7,6 +7,7 @@ const initialState = {
   artistId: '',
   notificationsNew: [],
   notificationsOld: [],
+  openNotification: null,
   artistsWithNotifications: [],
 }
 
@@ -46,16 +47,22 @@ const fetchAndSetNotifications = (set, get) => async (artistId) => {
   return { notificationsNew, notificationsOld }
 }
 
+// SET NOTIFICATION AS ACTIVE
+const setAsOpen = (set, get) => (notificationId) => {
+  const { setAsRead, notificationsNew: notifications } = get()
+  const openNotification = notifications.find(({ id }) => id === notificationId)
+  set({ openNotification })
+  // Set notification as read
+  setAsRead(notificationId)
+}
+
 // UPDATE A PROP ON A NOTIFICATION
 const updateNotification = (set, get) => (notificationId, prop, value) => {
   const notifications = get().notificationsNew
   const notificationsUpdated = produce(notifications, draftNotifications => {
-    return draftNotifications.map((notification) => {
-      if (notification.id === notificationId) {
-        notification[prop] = value
-      }
-      return notification
-    })
+    const notificationIndex = draftNotifications.findIndex(({ id }) => id === notificationId)
+    if (notificationIndex === -1) return
+    draftNotifications[notificationIndex][prop] = value
   })
   set({ notificationsNew: notificationsUpdated })
 }
@@ -66,11 +73,13 @@ const useNotificationsStore = create((set, get) => ({
   artistId: initialState.artistId,
   notificationsNew: initialState.notificationsNew,
   notificationsOld: initialState.notificationsOld,
+  openNotification: initialState.openNotification,
   artistsWithNotifications: initialState.artistsWithNotifications,
   // GETTERS
   fetchAndSetNotifications: fetchAndSetNotifications(set, get),
   // SETTERS
   setAsRead: (id) => updateNotification(set, get)(id, 'read', true),
+  setAsOpen: (id) => setAsOpen(set, get)(id),
   clear: () => set(initialState),
 }))
 
