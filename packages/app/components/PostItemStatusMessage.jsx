@@ -13,7 +13,7 @@ const PostItemStatusMessage = ({
       className={[
         styles.postSection,
         styles.postLinkTopBar,
-        styles.postUnpromotable,
+        styles.postStatusMessage,
         styles.postText,
         className,
       ].join(' ')}

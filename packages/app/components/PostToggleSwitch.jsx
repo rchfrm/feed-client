@@ -1,14 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PostToggleSwitch = ({ action, setButtonState }) => {
+const PostToggleSwitch = ({
+  action,
+  setButtonState,
+  setChangeState,
+}) => {
   const xClass = action === 'off' ? 'left-0' : 'right-0'
   const newState = React.useMemo(() => {
     return action
   }, [action])
   const onClick = React.useCallback(() => {
     setButtonState(newState)
-  }, [newState, setButtonState])
+    setChangeState(true)
+  }, [newState, setButtonState, setChangeState])
   return (
     <button
       className={[
@@ -28,6 +33,7 @@ const PostToggleSwitch = ({ action, setButtonState }) => {
 PostToggleSwitch.propTypes = {
   action: PropTypes.string.isRequired,
   setButtonState: PropTypes.func.isRequired,
+  setChangeState: PropTypes.func.isRequired,
 }
 
 export default PostToggleSwitch
