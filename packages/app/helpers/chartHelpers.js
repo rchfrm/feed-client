@@ -184,14 +184,15 @@ export const calcStartAndEnd = (granularity, earliestMoment, latestMoment) => {
 //* Get missing data (TBC)
 const fillInMissingData = (periodData, granularity) => {
   // Add in missing data
-  return periodData.reduce((results, data, index) => {
+  return periodData.reduce((results, datum, index) => {
     // Do nothing for first entry
-    if (index === 0) return [data]
-    const { dateMoment: currentMoment } = data
-    const { dateMoment: previousMoment } = results[index - 1]
+    if (index === 0) return [datum]
+    const previousDatum = periodData[index - 1]
+    const { dateMoment: currentMoment } = datum
+    const { dateMoment: previousMoment } = previousDatum
     const dateGap = currentMoment.diff(previousMoment, granularity, true)
     // If gap between two periods is small enough, just carry on
-    if (dateGap < 1.5) return [...results, data]
+    if (dateGap < 1.5) return [...results, datum]
     // Else add in a missing datapoint
     const missingPeriodMoment = previousMoment.add(1, granularity)
     const missingPeriod = granularity === 'months' ? missingPeriodMoment.month() : missingPeriodMoment.isoWeek()
@@ -201,7 +202,7 @@ const fillInMissingData = (periodData, granularity) => {
       date: missingPeriodMoment.format('YYYY-MM-DD'),
       value: null,
     }
-    return [...results, missingDataPayload, data]
+    return [...results, missingDataPayload, datum]
   }, [])
 }
 

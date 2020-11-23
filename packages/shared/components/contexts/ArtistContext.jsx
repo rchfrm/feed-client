@@ -157,18 +157,27 @@ function ArtistProvider({ children, disable }) {
   const createArtist = async (artistAccounts, accessToken, oldUser) => {
     setArtistLoading(true)
     toggleGlobalLoading(true)
-    // Conect artist accounts to array
+    // Get array of current user artist Facebook page IDs
+    const alreadyConnectFacebookPages = oldUser.artists.map(({ facebook_page_id }) => facebook_page_id)
+    // Convert artist accounts to array
     const artistAccountsArray = Object.values(artistAccounts)
     // Filter out non-connected artist accounts
-    const connectedArtistAccounts = artistAccountsArray.filter(({ connect }) => connect)
+    const newArtistAccounts = artistAccountsArray.filter(({ page_id: facebookPageId }) => {
+      return !alreadyConnectFacebookPages.includes(facebookPageId)
+    })
+    // * STOP HERE if there are no new artist accounts
+    if (!newArtistAccounts.length) {
+      setArtistLoading(false)
+      return
+    }
     // Check that every account has a country set
-    connectedArtistAccounts.forEach(({ country_code, name }) => {
+    newArtistAccounts.forEach(({ country_code, name }) => {
       if (!country_code) {
         throw new Error(`Please select a country for ${name}, or deselect that page from being added to your Feed account`)
       }
     })
     // Create all artists
-    const createAllArtists = connectedArtistAccounts.map(async (artist) => {
+    const createAllArtists = newArtistAccounts.map(async (artist) => {
       await artistHelpers.createArtist(artist, accessToken)
     })
     // Wait to connect all artists
@@ -207,7 +216,7 @@ function ArtistProvider({ children, disable }) {
     track({
       category: 'sign up',
       action: 'User connected Facebook Pages',
-      description: `Pages connected: ${connectedArtistAccounts.length}`,
+      description: `Pages connected: ${newArtistAccounts.length}`,
       label: `User ID: ${updatedUser.id}`,
     })
     // Track first time connecting accounits
@@ -215,7 +224,7 @@ function ArtistProvider({ children, disable }) {
       track({
         category: 'sign up',
         action: 'User completed sign up',
-        description: `Pages connected: ${connectedArtistAccounts.length}`,
+        description: `Pages connected: ${newArtistAccounts.length}`,
         label: `User ID: ${updatedUser.id}`,
       })
     }

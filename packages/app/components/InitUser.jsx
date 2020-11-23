@@ -370,8 +370,6 @@ const InitUser = ({ children }) => {
         breadcrumb: true,
         ga: false,
       })
-      // Store Firebase's auth user in context
-      await storeAuth(user)
       const authToken = await firebase.getVerifyIdToken()
         .catch((error) => {
           storeAuth({ authError: error })
@@ -383,6 +381,7 @@ const InitUser = ({ children }) => {
           })
         })
       if (!authToken) return
+      // Store Firebase's auth user in context
       await storeAuth({ authUser: user, authToken })
         .catch((err) => {
           track({

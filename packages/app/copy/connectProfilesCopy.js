@@ -11,9 +11,11 @@ Please make sure you opt in to all permissions shown, as Feed needs them to work
 To continue, click on the button below`,
 
   // Text at top of page when adding additional accounts
-  connectProfilesIntro: `Click the button below to add additional Facebook Page(s) and/or Instagram profiles to your account.`,
+  connectProfilesIntro: `Click the button below to add additional profiles to your Feed account.
 
-  smallLegalText: `This allows us to connect to Facebook so that we can show you your data and promote posts on your behalf, we'll never post anything without your approval.`,
+When you are taken to Facebook, make sure to select **'Edit Settings'** and choose the Facebook Pages and Instagram Profiles you want to connect.`,
+
+  smallLegalText: `This allows Feed to connect to Facebook so that we can run ads and show you your data on your behalf. We'll never post anything without your approval and you remain in control at all times.`,
 
   noAdAccountsError: `No ad accounts were found, and one is needed to use Feed. Please log in to Facebook to create one.
 

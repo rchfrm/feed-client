@@ -178,8 +178,14 @@ export const getAssets = async (artistId, promotionStatus, verifyIdToken) => {
  * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-export const togglePromotionEnabled = async (artistId, postId, promotionEnabled, verifyIdToken) => {
-  return api.patch(`/artists/${artistId}/assets/${postId}`, { promotion_enabled: promotionEnabled }, verifyIdToken)
+export const togglePromotionEnabled = async (artistId, postId, promotionEnabled) => {
+  const requestUrl = `/artists/${artistId}/assets/${postId}`
+  const payload = { promotion_enabled: promotionEnabled }
+  const errorTracking = {
+    category: 'Posts',
+    action: 'Toggle promotion enabled',
+  }
+  return requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
 /**
