@@ -11,7 +11,6 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import styles from '@/app/InsightsPage.module.css'
 
 const ChartContainer = ({
-  platform,
   dataSource,
   data,
   loading,
