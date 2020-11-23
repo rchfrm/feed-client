@@ -99,7 +99,7 @@ const PostItemLink = ({
             <p
               className={[
                 'absolute right-0 top-0',
-                'mt-4 mr-4',
+                'mt-5 mr-4',
                 'md:mt-5 md:mr-5',
               ].join(' ')}
             >
