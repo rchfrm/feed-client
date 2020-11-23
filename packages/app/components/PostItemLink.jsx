@@ -77,7 +77,6 @@ const PostItemLink = ({
   }, [])
 
   // CAN THE LINK BE EDITED
-  const isLinkEditable = promotionStatus !== 'active' && promotionStatus !== 'archived'
   const isLinkEditable = promotionStatus !== 'active' && promotionStatus !== 'archived' && linkType !== 'adcreative'
 
   return (
