@@ -53,7 +53,7 @@ const NotificationItem = ({ notification, className }) => {
         <strong>{title}</strong>
       </h4>
       {/* DESCRIPTION */}
-      <p className="text-sm block mb-2">{description}</p>
+      <p className="text-sm block mb-2 truncate">{description}</p>
       {/* READ MORE */}
       <p className="text-sm text-grey-3 block mb-0">
         Read more
