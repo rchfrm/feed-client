@@ -114,7 +114,6 @@ function ResultsAll({ posts: postsObject, active, togglePost }) {
         key={id}
         active={active}
         id={id}
-        priority_dsp={post.priority_dsp || artist.priority_dsp}
         promotion_enabled={promotion_enabled}
         togglePost={togglePost}
         summary={summary}

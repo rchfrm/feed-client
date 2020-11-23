@@ -27,7 +27,6 @@ const initialArtistState = {
       default_link_id: null,
     },
   },
-  priority_dsp: '',
   integrations: {},
   currency: '',
   users: {},
