@@ -50,8 +50,17 @@ const NotificationCurrentInfo = ({ containerRef }) => {
         'pl-5',
       ].join(' ')}
     >
-      <div className="bg-grey-1">
-        {openNotification.title}
+      <div
+        className={[
+          'rounded-dialogue',
+          'p-4 sm:p-5 bg-grey-1',
+        ].join(' ')}
+        style={{
+          marginTop: -1,
+        }}
+      >
+        <h3>{openNotification.title}</h3>
+        <p>{openNotification.description}</p>
       </div>
     </div>
   )
