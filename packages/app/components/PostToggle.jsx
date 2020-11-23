@@ -38,6 +38,19 @@ const getPromotionStatus = (buttonState) => {
   return null
 }
 
+// WHEN TO UPDATE POSTS
+const watchFunction = (newProps, oldProps) => {
+  const { changeState } = newProps
+  const { changeState: changeStateInProgress } = oldProps
+  if (changeState && !changeStateInProgress) return true
+  return false
+}
+
+// CALL TO CHANGE STATE
+const runChangeState = ({ artistId, postId, promotionEnabled }) => {
+  return postsHelpers.updatePost({ artistId, postId, promotionEnabled })
+}
+
 
 const PostToggle = ({
   post,
@@ -48,6 +61,7 @@ const PostToggle = ({
 }) => {
   const { id: postId } = post
   const [buttonState, setButtonState] = React.useState(getButtonState(promotableStatus))
+  const [changeState, setChangeState] = React.useState(false)
   const [borderColor, setBorderColor] = React.useState(getBorderColor(buttonState, promotionEnabled))
   const switchEl = React.useRef(null)
   const containerEl = React.useRef(null)
@@ -55,15 +69,23 @@ const PostToggle = ({
   // SERVER
   const { artistId } = React.useContext(ArtistContext)
   const { isPending, cancel } = useAsync({
-    promiseFn: postsHelpers.updatePost,
-    watch: buttonState,
+    promiseFn: runChangeState,
+    watchFn: watchFunction,
     initialValue: buttonState,
     // The variable(s) to pass to promiseFn
+    changeState,
+    buttonState,
     artistId,
     postId,
     promotionEnabled: getPromotionStatus(buttonState),
-    onResolve: (post) => {
-      const { promotion_enabled, promotable_status } = post
+    onResolve: ({ res: postUpdated, error }) => {
+      setChangeState(false)
+      if (error) {
+        const newState = buttonState === 'on' ? 'off' : 'on'
+        setButtonState(newState)
+        return
+      }
+      const { promotion_enabled, promotable_status } = postUpdated
       // Update post list state
       togglePromotion(postId, promotion_enabled, promotable_status)
     },
@@ -130,6 +152,7 @@ const PostToggle = ({
     // Handle Tapping
     const newState = buttonState === 'on' ? 'off' : 'on'
     setButtonState(newState)
+    setChangeState(true)
   }, [buttonState])
   // Run this on drag
   const onDrag = React.useCallback((dragState) => {
@@ -156,7 +179,9 @@ const PostToggle = ({
       const newState = movementPercent < 0 ? 'off' : 'on'
       // Animate
       animateSwitch(newState)
+      // Toggle promotion status
       setButtonState(newState)
+      setChangeState(true)
       return
     }
     // Move switch
@@ -190,11 +215,13 @@ const PostToggle = ({
             action="off"
             buttonState={buttonState}
             setButtonState={setButtonState}
+            setChangeState={setChangeState}
           />
           <PostToggleSwitch
             action="on"
             buttonState={buttonState}
             setButtonState={setButtonState}
+            setChangeState={setChangeState}
           />
         </>
       )}

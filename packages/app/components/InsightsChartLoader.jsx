@@ -122,7 +122,6 @@ function InsightsChartLoader({
     <>
       <Error error={error} />
       <ChartContainer
-        platform={data.platform}
         dataSource={data.source}
         data={data}
         loading={chartLoading}

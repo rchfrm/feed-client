@@ -235,8 +235,9 @@
 }
 
 .postLinkSummary {
+  margin-top: 0.1rem;
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   height: 1.55em;
 }
 
@@ -300,13 +301,14 @@
 }
 
 
-/* UNPROMOTABLE WARNING */
-.postUnpromotable {
+/* STATUS MESSAGE */
+.postStatusMessage {
   background-color: var(--text-color);
   color: var(--bg-color);
 
   p {
     margin-bottom: 0;
+    margin-top: 0.1rem;
     padding-bottom: 0.1em;
     border-bottom: 1px solid transparent;
   }

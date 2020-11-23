@@ -37,7 +37,7 @@ const PostsContent = () => {
         />
       )}
       {/* BUTTONS */}
-      <div className="iphone8:flex justify-start mb-10">
+      <div className="relative iphone8:flex justify-start mb-6 iphone8:mb-10">
         {/* POST SETTINGS BUTTON */}
         <PostSettingsButton
           className={styles.postsTopButton}
@@ -53,7 +53,11 @@ const PostsContent = () => {
         {refreshPosts && (
           <PostsRefreshButton
             refreshPosts={refreshPosts}
-            className="ml-auto"
+            className={[
+              'ml-auto',
+              'absolute right-0 bottom-0 mb-8',
+              'iphone8:static iphone8:-mb-1',
+            ].join(' ')}
             style={{ transform: 'translateY(5rem)' }}
           />
         )}

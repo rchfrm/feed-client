@@ -77,7 +77,7 @@ const PostItemLink = ({
   }, [])
 
   // CAN THE LINK BE EDITED
-  const isLinkEditable = promotionStatus !== 'active' && promotionStatus !== 'archived'
+  const isLinkEditable = promotionStatus !== 'active' && promotionStatus !== 'archived' && linkType !== 'adcreative'
 
   return (
     <>
@@ -98,7 +98,7 @@ const PostItemLink = ({
             <p
               className={[
                 'absolute right-0 top-0',
-                'mt-4 mr-4',
+                'mt-5 mr-4',
                 'md:mt-5 md:mr-5',
               ].join(' ')}
             >
@@ -110,6 +110,7 @@ const PostItemLink = ({
         </div>
         {/* Link change content */}
         <div className={[styles.postLinkContent, styles.postSection].join(' ')} ref={mainContentEl}>
+          {isLinkEditable && (
           <PostLinksSelect
             selectClassName={styles.linkSelection__select}
             currentLinkId={linkId || defaultPostLinkId}
@@ -125,6 +126,7 @@ const PostItemLink = ({
             includeAddLinkOption
             componentLocation="post"
           />
+          )}
         </div>
 
       </div>
