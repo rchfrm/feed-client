@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 
 import useNotificationStore from '@/app/store/notificationsStore'
 
+import MarkdownText from '@/elements/MarkdownText'
 import NotificationItem from '@/app/NotificationItem'
+
+import copy from '@/app/copy/notificationsCopy'
 
 const getNotifications = state => state.notifications
 
@@ -17,10 +20,21 @@ const NotificationsList = ({ className }) => {
         className,
       ].join(' ')}
     >
-      {notifications.map((notification) => {
-        const { id } = notification
-        return <NotificationItem key={id} notification={notification} />
-      })}
+      {!notifications.length ? (
+        // No notifications
+        <MarkdownText
+          className={[
+            'px-8',
+            'md:px-6',
+          ].join(' ')}
+          markdown={copy.noNotificationsCopy}
+        />
+      )
+        // List of notifications
+        : notifications.map((notification) => {
+          const { id } = notification
+          return <NotificationItem key={id} notification={notification} />
+        })}
     </div>
   )
 }
