@@ -39,31 +39,39 @@ export const formatDictionary = (dictionaryArray = []) => {
 // -----------------------
 
 // FORMAT NOTIFICATIONS
-const formatNotifications = (notificationsRaw) => {
+export const formatNotifications = (notificationsRaw, dictionary) => {
   return notificationsRaw.map(({
     id,
     created_at,
-    actioned_at,
-    is_dismissible,
-    is_actionable,
-    is_complete,
+    is_dismissible: isDismissible,
+    is_actionable: isActionable,
+    is_complete: isComplete,
     topic,
+    // actioned_at,
   }) => {
+    const dictionaryEntry = dictionary[topic]
+    const {
+      title = 'Helpp',
+      appMessage: description = 'La la la',
+      hide = false,
+    } = dictionaryEntry || {}
     const date = moment(created_at).format('MM MMM')
     return {
       id,
       date,
-      title: 'a',
+      title,
+      description,
+      isActionable,
+      isDismissible,
+      hidden: hide || isComplete,
     }
   })
 }
 
 // FETCH NOTIFICATIONS
 export const fetchNotifications = async ({ artistId, userId, organizationIds }) => {
-  const { res: notificationsRaw, error } = await appServer.getAllNotifications({ artistId, organizationIds, userId })
+  const { res: notifications, error } = await appServer.getAllNotifications({ artistId, organizationIds, userId })
   if (error) return { error }
-  console.log('server notifications', notificationsRaw)
-  // Format notifications
-  const notifications = formatNotifications(notificationsRaw)
+  console.log('server notifications', notifications)
   return { res: { notifications } }
 }

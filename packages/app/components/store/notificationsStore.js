@@ -1,7 +1,7 @@
 import create from 'zustand'
 import produce from 'immer'
 
-import { fetchNotifications } from '@/app/helpers/notificationsHelpers'
+import { fetchNotifications, formatNotifications } from '@/app/helpers/notificationsHelpers'
 
 const initialState = {
   artistId: '',
@@ -26,7 +26,7 @@ const countUnreadNotifications = (notifications) => {
 }
 
 // FETCH NOTIFICATIONS (called whenever artist mounts)
-const fetchAndSetNotifications = (set) => async ({ artistId, userId, organizationIds }) => {
+const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organizationIds }) => {
   set({ loading: true })
   // Else fetch notifications from server
   const { res, error } = await fetchNotifications({ artistId, userId, organizationIds })
@@ -39,7 +39,11 @@ const fetchAndSetNotifications = (set) => async ({ artistId, userId, organizatio
     return
   }
   const { notifications, artistIds = [] } = res
-  console.log('FORMATTED notifications', notifications)
+  // Format notifications
+  const { notificationDictionary } = get()
+  console.log('notificationDictionary', notificationDictionary)
+  const notificationsFormatted = formatNotifications(notifications, notificationDictionary)
+  console.log('FORMATTED notifications', notificationsFormatted)
   // Get array of artist IDs with notifications
   const artistsWithNotifications = artistIds.map(({ id }) => id)
   // GET TOTAL UNREAD NOTIFICATIONS
@@ -48,7 +52,7 @@ const fetchAndSetNotifications = (set) => async ({ artistId, userId, organizatio
   set({
     artistId,
     userId,
-    notifications,
+    notifications: notificationsFormatted,
     totalUnreadNotifications,
     artistsWithNotifications,
     notificationsError: null,

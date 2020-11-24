@@ -38,9 +38,8 @@ const query = `
       title
       actionable
       dismissable
+      hide
       appMessage
-      emailMessage
-      emailFrom
     }
   }
 `
