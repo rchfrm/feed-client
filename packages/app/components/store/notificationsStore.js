@@ -61,7 +61,7 @@ const updateNotification = (set, get) => (notificationId, prop, value) => {
   return notificationsUpdated
 }
 
-// SET NOTIFICATION AS ACTIVE
+// SET NOTIFICATION AS OPEN
 const setAsOpen = (set, get) => (notificationId) => {
   const { setAsRead, notifications } = get()
   const openNotification = notifications.find(({ id }) => id === notificationId)
@@ -69,6 +69,11 @@ const setAsOpen = (set, get) => (notificationId) => {
   set({ openNotification, openNotificationId })
   // Set notification as read
   setAsRead(notificationId)
+}
+
+// SET NOTIFICATION AS CLOSED
+const closeNotification = (set) => () => {
+  set({ openNotification: null, openNotificationId: null })
 }
 
 // SET NOTIFICATION AS READ
@@ -92,6 +97,7 @@ const useNotificationsStore = create((set, get) => ({
   // SETTERS
   setAsRead: (id) => setAsRead(set, get)(id),
   setAsOpen: (id) => setAsOpen(set, get)(id),
+  closeNotification: () => closeNotification(set, get)(),
   clear: () => set(initialState),
 }))
 
