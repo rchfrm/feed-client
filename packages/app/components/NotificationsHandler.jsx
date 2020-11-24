@@ -6,6 +6,8 @@ import useNotificationsStore from '@/app/store/notificationsStore'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { UserContext } from '@/contexts/UserContext'
 
+import { getUserOrganizations } from '@/app/helpers/userHelpers'
+
 const getFetchAndSetNotifications = state => state.fetchAndSetNotifications
 
 const NotificationsHandler = ({}) => {
@@ -19,8 +21,11 @@ const NotificationsHandler = ({}) => {
   React.useEffect(() => {
     if (!artistId || !user.id) return
     const { id: userId } = user
+    const orgs = getUserOrganizations(user)
+    const organizationIds = orgs.map(({ id }) => id)
     // Fetch and set notifications
-    fetchAndSetNotifications({ artistId, userId })
+    fetchAndSetNotifications({ artistId, userId, organizationIds })
+  // eslint-disable-next-line
   }, [artistId, user.id, fetchAndSetNotifications])
   return null
 }

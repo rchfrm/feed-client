@@ -6,6 +6,7 @@ import { fetchNotifications } from '@/app/helpers/notificationsHelpers'
 const initialState = {
   artistId: '',
   userId: '',
+  organizationIds: [],
   notifications: [],
   totalUnreadNotifications: 0,
   openNotification: null,
@@ -23,9 +24,9 @@ const countUnreadNotifications = (notifications) => {
 }
 
 // FETCH NOTIFICATIONS (called whenever artist mounts)
-const fetchAndSetNotifications = (set) => async ({ artistId, userId }) => {
+const fetchAndSetNotifications = (set) => async ({ artistId, userId, organizationIds }) => {
   // Else fetch notifications from server
-  const { res, error } = await fetchNotifications({ artistId, userId })
+  const { res, error } = await fetchNotifications({ artistId, userId, organizationIds })
   // Stop here if error
   if (error) {
     const notificationsError = {
@@ -93,6 +94,7 @@ const useNotificationsStore = create((set, get) => ({
   // STATE
   artistId: initialState.artistId,
   userId: initialState.userId,
+  organizationIds: initialState.organizationIds,
   notifications: initialState.notifications,
   totalUnreadNotifications: initialState.totalUnreadNotifications,
   openNotification: initialState.openNotification,

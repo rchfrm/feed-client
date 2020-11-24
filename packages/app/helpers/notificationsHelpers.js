@@ -51,7 +51,6 @@ const formatNotifications = (notificationsRaw) => {
     topic,
   }) => {
     const date = moment(created_at).format('MM MMM')
-    console.log('date', date)
     return {
       id,
       date,
@@ -61,8 +60,8 @@ const formatNotifications = (notificationsRaw) => {
 }
 
 // FETCH NOTIFICATIONS
-export const fetchNotifications = async ({ artistId, organizationId, userId }) => {
-  const { res: notificationsRaw, error } = await appServer.getAllNotifications({ artistId, organizationId, userId })
+export const fetchNotifications = async ({ artistId, userId, organizationIds }) => {
+  const { res: notificationsRaw, error } = await appServer.getAllNotifications({ artistId, organizationIds, userId })
   if (error) return { error }
   console.log('server notifications', notificationsRaw)
   // Format notifications

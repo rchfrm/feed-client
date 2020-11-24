@@ -394,20 +394,25 @@ export const getIntegrationErrors = async (artistId) => {
 // --------------------------
 
 /**
- * @param {object} ids { artistId, organizationId, userId }
+ * @param {object} ids { artistId, organizationIds, userId }
  * @returns {Promise<array>}
  */
 export const getAllNotifications = async (ids) => {
   const notificationTypes = [
     { type: 'artists', idKey: 'artistId' },
-    { type: 'organizations', idKey: 'organizationId' },
+    { type: 'organizations', idKey: 'organizationIds' },
     { type: 'users', idKey: 'userId' },
   ]
-  const requestUrls = notificationTypes.reduce((urls, { type, idKey }) => {
+  const requestUrls = notificationTypes.reduce((requestUrls, { type, idKey }) => {
     const id = ids[idKey]
-    if (!id) return urls
+    if (!id) return requestUrls
+    // Handle multiple organization IDs
+    if (idKey === 'organizationIds') {
+      const urls = ids[idKey].map((id) => `/${type}/${id}/notifications`)
+      return [...requestUrls, ...urls]
+    }
     const url = `/${type}/${id}/notifications`
-    return [...urls, url]
+    return [...requestUrls, url]
   }, [])
   const requests = requestUrls.map(async (url) => {
     return api.get(url)
