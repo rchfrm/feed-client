@@ -2,8 +2,6 @@
 import React from 'react'
 import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
-// IMPORT STORES
-import useNotificationsStore from '@/app/store/notificationsStore'
 // IMPORT CONTEXTS
 import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -34,9 +32,6 @@ const initialArtistState = {
 
 const ArtistContext = React.createContext(initialArtistState)
 ArtistContext.displayName = 'ArtistContext'
-
-// For fetching from notifications store
-const getFetchAndSetNotifications = state => state.fetchAndSetNotifications
 
 const artistReducer = (draftState, action) => {
   const {
@@ -276,15 +271,12 @@ function ArtistProvider({ children, disable }) {
 
   // WHEN ARTIST CHANGES...
   // ----------------------
-  const fetchAndSetNotifications = useNotificationsStore(getFetchAndSetNotifications)
 
   React.useEffect(() => {
     if (!artistId) return
     // Store artist id in local storage
     utils.setLocalStorage('artistId', artistId)
-    // Fetch and set notifications
-    fetchAndSetNotifications(artistId)
-  }, [artistId, fetchAndSetNotifications])
+  }, [artistId])
 
   const value = {
     artist,

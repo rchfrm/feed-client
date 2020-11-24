@@ -22,7 +22,7 @@ const countUnreadNotifications = (notifications) => {
 }
 
 // FETCH NOTIFICATIONS (called whenever artist mounts)
-const fetchAndSetNotifications = (set, get) => async (artistId) => {
+const fetchAndSetNotifications = (set, get) => async ({ artistId }) => {
   // If requesting for the same artist, just return data from store
   if (artistId === get().artistId) {
     return {
