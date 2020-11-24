@@ -20,6 +20,7 @@ function SidePanel({
   toggle,
   isLoading,
   disableDrag,
+  onSidepanelClose,
 }) {
   // TOGGLE SHOWING
   const [show, setShow] = React.useState(false)
@@ -32,7 +33,10 @@ function SidePanel({
   }, [isOpen, content])
 
   // Define close function
-  const close = () => toggle(false)
+  const close = React.useCallback(() => {
+    toggle(false)
+    if (onSidepanelClose) onSidepanelClose()
+  }, [toggle, onSidepanelClose])
 
   // INITIAL ANIMATION
   const setDisplay = (state, node) => {
@@ -180,13 +184,15 @@ SidePanel.propTypes = {
   toggle: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   disableDrag: PropTypes.bool.isRequired,
+  onSidepanelClose: PropTypes.func,
 }
 
 SidePanel.defaultProps = {
   isOpen: false,
-  content: <></>,
+  content: null,
   button: null,
   isLoading: false,
+  onSidepanelClose: () => {},
 }
 
 export default SidePanel
