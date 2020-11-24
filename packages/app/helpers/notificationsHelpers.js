@@ -1,3 +1,5 @@
+import * as appServer from '@/app/helpers/appServer'
+
 export const dummyNotificationsResponse = {
   notifications: [
     {
@@ -37,9 +39,6 @@ export const dummyNotificationsResponse = {
 
 
 // FETCH NOTIFICATIONS
-export const fetchNotifications = (artistId, itemsPerPage) => {
-  return new Promise((resolve) => {
-    console.log('Fetch notifications for artist', artistId)
-    resolve({ res: dummyNotificationsResponse, error: null })
-  })
+export const fetchNotifications = ({ artistId, organizationId, userId }) => {
+  return appServer.getAllNotifications({ artistId, organizationId, userId })
 }

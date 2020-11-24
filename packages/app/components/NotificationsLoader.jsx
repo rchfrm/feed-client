@@ -15,8 +15,8 @@ import NotificationItem from '@/app/NotificationItem'
 
 import { fetchNotifications } from '@/app/helpers/notificationsHelpers'
 
-const runFetchNotifications = ({ artistId, itemsPerPage }) => {
-  return fetchNotifications(artistId, itemsPerPage)
+const runFetchNotifications = ({ artistId }) => {
+  return fetchNotifications({ artistId })
 }
 
 // WHEN TO UPDATE POSTS
