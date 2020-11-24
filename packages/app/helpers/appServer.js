@@ -1,5 +1,6 @@
 import * as api from '@/helpers/api'
 import { track } from '@/app/helpers/trackingHelpers'
+import flatten from 'lodash/flatten'
 
 // * UTILS
 // ------------------
@@ -386,4 +387,37 @@ export const setLinkAsDefault = (artistId, linkId) => {
  */
 export const getIntegrationErrors = async (artistId) => {
   return api.get(`/artists/${artistId}/integrations/errors`)
+}
+
+
+// * NOTIFICATIONS
+// --------------------------
+
+/**
+ * @param {object} ids { artistId, organizationId, userId }
+ * @returns {Promise<array>}
+ */
+export const getAllNotifications = async (ids) => {
+  const notificationTypes = [
+    { type: 'artists', idKey: 'artistId' },
+    { type: 'organizations', idKey: 'organizationId' },
+    { type: 'users', idKey: 'userId' },
+  ]
+  const requestUrls = notificationTypes.reduce((urls, { type, idKey }) => {
+    const id = ids[idKey]
+    if (!id) return urls
+    const url = `/${type}/${id}/notifications`
+    return [...urls, url]
+  }, [])
+  const requests = requestUrls.map(async (url) => {
+    return api.get(url)
+  }, [])
+  const notificationGroups = await Promise.all(requests)
+    .catch((error) => {
+      return { error }
+    })
+  if (notificationGroups.error) {
+    return { error: notificationGroups.error }
+  }
+  return { res: { notifications: flatten(notificationGroups) } }
 }
