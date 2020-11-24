@@ -419,5 +419,5 @@ export const getAllNotifications = async (ids) => {
   if (notificationGroups.error) {
     return { error: notificationGroups.error }
   }
-  return { res: { notifications: flatten(notificationGroups) } }
+  return { res: flatten(notificationGroups) }
 }

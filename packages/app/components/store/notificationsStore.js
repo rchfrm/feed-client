@@ -5,6 +5,7 @@ import { fetchNotifications } from '@/app/helpers/notificationsHelpers'
 
 const initialState = {
   artistId: '',
+  userId: '',
   notifications: [],
   totalUnreadNotifications: 0,
   openNotification: null,
@@ -22,15 +23,9 @@ const countUnreadNotifications = (notifications) => {
 }
 
 // FETCH NOTIFICATIONS (called whenever artist mounts)
-const fetchAndSetNotifications = (set, get) => async ({ artistId }) => {
-  // If requesting for the same artist, just return data from store
-  if (artistId === get().artistId) {
-    return {
-      notifications: get().notifications,
-    }
-  }
+const fetchAndSetNotifications = (set) => async ({ artistId, userId }) => {
   // Else fetch notifications from server
-  const { res, error } = await fetchNotifications({ artistId })
+  const { res, error } = await fetchNotifications({ artistId, userId })
   // Stop here if error
   if (error) {
     const notificationsError = {
@@ -40,6 +35,7 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId }) => {
     return
   }
   const { notifications, artistIds = [] } = res
+  console.log('FORMATTED notifications', notifications)
   // Get array of artist IDs with notifications
   const artistsWithNotifications = artistIds.map(({ id }) => id)
   // GET TOTAL UNREAD NOTIFICATIONS
@@ -47,6 +43,7 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId }) => {
   // SET
   set({
     artistId,
+    userId,
     notifications,
     totalUnreadNotifications,
     artistsWithNotifications,
@@ -95,6 +92,7 @@ const setAsRead = (set, get) => (notificationId) => {
 const useNotificationsStore = create((set, get) => ({
   // STATE
   artistId: initialState.artistId,
+  userId: initialState.userId,
   notifications: initialState.notifications,
   totalUnreadNotifications: initialState.totalUnreadNotifications,
   openNotification: initialState.openNotification,

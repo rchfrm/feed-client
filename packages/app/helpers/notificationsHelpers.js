@@ -39,6 +39,9 @@ export const dummyNotificationsResponse = {
 
 
 // FETCH NOTIFICATIONS
-export const fetchNotifications = ({ artistId, organizationId, userId }) => {
-  return appServer.getAllNotifications({ artistId, organizationId, userId })
+export const fetchNotifications = async ({ artistId, organizationId, userId }) => {
+  const { res: notifications, error } = await appServer.getAllNotifications({ artistId, organizationId, userId })
+  if (error) return { error }
+  console.log('server notifications', notifications)
+  return { res: { notifications } }
 }

@@ -4,20 +4,24 @@ import React from 'react'
 import useNotificationsStore from '@/app/store/notificationsStore'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/contexts/UserContext'
 
 const getFetchAndSetNotifications = state => state.fetchAndSetNotifications
 
 const NotificationsHandler = ({}) => {
-  // Get IDs
+  // Get Artist ID
   const { artistId } = React.useContext(ArtistContext)
+  // Get user
+  const { user } = React.useContext(UserContext)
   // Get function to fetch notifications
   const fetchAndSetNotifications = useNotificationsStore(getFetchAndSetNotifications)
   // Fetch notifications when artist changes
   React.useEffect(() => {
-    if (!artistId) return
+    if (!artistId || !user.id) return
+    const { id: userId } = user
     // Fetch and set notifications
-    fetchAndSetNotifications({ artistId })
-  }, [artistId, fetchAndSetNotifications])
+    fetchAndSetNotifications({ artistId, userId })
+  }, [artistId, user.id, fetchAndSetNotifications])
   return null
 }
 
