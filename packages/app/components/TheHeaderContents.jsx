@@ -16,8 +16,7 @@ import * as ROUTES from '@/app/constants/routes'
 // IMPORT STYLES
 import styles from '@/app/TheHeader.module.css'
 
-
-const getNewNotifications = state => state.notificationsNew
+const getTotalUnreadNotifications = state => state.totalUnreadNotifications
 
 function TheHeaderContents({
   windowWidth,
@@ -64,7 +63,7 @@ function TheHeaderContents({
   }, [windowWidth, inlinePageTitle])
 
   // FETCH NOTIFICATIONS
-  const notificationsNew = useNotificationsStore(getNewNotifications)
+  const totalNotificationsUnread = useNotificationsStore(getTotalUnreadNotifications)
 
   return (
     <header className={[
@@ -97,7 +96,7 @@ function TheHeaderContents({
       <TheSubNavButton
         toggleSubNav={toggleSubNav}
         navOpen={subNavOpen}
-        hasNotifactions={!!notificationsNew.length}
+        hasNotifactions={!!totalNotificationsUnread}
         className={[styles.subNavButton].join(' ')}
       />
       )}

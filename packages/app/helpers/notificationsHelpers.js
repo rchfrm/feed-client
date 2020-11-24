@@ -15,7 +15,7 @@ export const dummyNotificationsResponse = {
       read: false,
     },
     {
-      id: 2,
+      id: 3,
       title: 'Old news baby',
       description: 'Yes, Helen, you might be my daughter-in-law. God shield you mean it not! daughter and mother So strive upon your pulse. What! pale again? My fear hath catch\'d your fondness.',
       action: 'click',
@@ -37,7 +37,7 @@ export const dummyNotificationsResponse = {
 
 
 // FETCH NOTIFICATIONS
-export const fetchNotifications = (artistId) => {
+export const fetchNotifications = (artistId, itemsPerPage) => {
   return new Promise((resolve) => {
     console.log('Fetch notifications for artist', artistId)
     resolve({ res: dummyNotificationsResponse, error: null })

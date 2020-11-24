@@ -2,6 +2,7 @@ import React from 'react'
 
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
+
 import NotificationsContent from '@/app/NotificationsContent'
 
 const headerConfig = {
