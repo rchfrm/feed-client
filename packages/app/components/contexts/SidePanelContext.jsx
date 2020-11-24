@@ -14,6 +14,7 @@ const initialContext = {
   setSidePanelLoading: () => {},
   disableDrag: false,
   setDisableDrag: () => {},
+  setOnSidepanelClose: () => {},
 }
 
 const SidePanelContext = React.createContext(initialContext)
@@ -24,6 +25,7 @@ const SidePanelContextProvider = ({ children }) => {
   const [sidePanelButton, setSidePanelButton] = React.useState(null)
   const [sidePanelOpen, setSidePanelOpen] = React.useState(false)
   const [sidePanelLoading, setSidePanelLoading] = React.useState(false)
+  const [onSidepanelClose, setOnSidepanelClose] = React.useState(null)
 
   // GET CLOSE METHOD
   // Get ROUTE info
@@ -64,6 +66,7 @@ const SidePanelContextProvider = ({ children }) => {
         setSidePanelContent,
         sidePanelButton,
         setSidePanelButton,
+        setOnSidepanelClose,
         sidePanelOpen,
         toggleSidePanel,
         sidePanelLoading,
@@ -82,6 +85,7 @@ const SidePanelContextProvider = ({ children }) => {
           toggle={toggleSidePanel}
           isLoading={sidePanelLoading}
           disableDrag={disableDrag}
+          onSidepanelClose={onSidepanelClose}
         />
         {children}
       </>
