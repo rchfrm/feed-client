@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
 
 export default {
-  noNotificationsCopy: `You have no unread notifications!`,
+  noNotificationsCopy: `Nothing to see here. Nice work!`,
 }
