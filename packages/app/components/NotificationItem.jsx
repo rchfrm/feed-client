@@ -11,6 +11,7 @@ const getOpenNotificationId = state => state.openNotificationId
 const NotificationItem = ({ notification, className }) => {
   const {
     id,
+    date,
     read,
     action,
     title,
@@ -48,8 +49,19 @@ const NotificationItem = ({ notification, className }) => {
       {!read && <NotificationItemDot type="unread" />}
       {/* ACTION DOT */}
       {!action && <NotificationItemDot type="action" />}
+      {/* DATE */}
+      <p
+        className={[
+          'absolute top-0 right-0 mt-3 mr-3',
+          'md:mr-0',
+          'text-sm text-grey-3',
+        ].join(' ')}
+        style={{ paddingTop: '0.05rem' }}
+      >
+        {date}
+      </p>
       {/* TITLE */}
-      <h4 className="font-body text-base mb-2">
+      <h4 className="font-body text-base mb-2 mr-16">
         <strong>{title}</strong>
       </h4>
       {/* DESCRIPTION */}

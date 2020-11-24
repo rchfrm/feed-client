@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 import * as appServer from '@/app/helpers/appServer'
 
 export const dummyNotificationsResponse = {
@@ -38,10 +40,32 @@ export const dummyNotificationsResponse = {
 }
 
 
+const formatNotifications = (notificationsRaw) => {
+  return notificationsRaw.map(({
+    id,
+    created_at,
+    actioned_at,
+    is_dismissible,
+    is_actionable,
+    is_complete,
+    topic,
+  }) => {
+    const date = moment(created_at).format('MM MMM')
+    console.log('date', date)
+    return {
+      id,
+      date,
+      title: 'a',
+    }
+  })
+}
+
 // FETCH NOTIFICATIONS
 export const fetchNotifications = async ({ artistId, organizationId, userId }) => {
-  const { res: notifications, error } = await appServer.getAllNotifications({ artistId, organizationId, userId })
+  const { res: notificationsRaw, error } = await appServer.getAllNotifications({ artistId, organizationId, userId })
   if (error) return { error }
-  console.log('server notifications', notifications)
+  console.log('server notifications', notificationsRaw)
+  // Format notifications
+  const notifications = formatNotifications(notificationsRaw)
   return { res: { notifications } }
 }
