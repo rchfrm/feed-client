@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import shallow from 'zustand/shallow'
 
 import Error from '@/elements/Error'
+import Spinner from '@/elements/Spinner'
 
 import NotificationsLoader from '@/app/NotificationsLoader'
 import NotificationsList from '@/app/NotificationsList'
@@ -14,6 +15,7 @@ import useNotificationStore from '@/app/store/notificationsStore'
 const getNotificationsStoreState = (state) => ({
   notificationsError: state.notificationsError,
   setDictionary: state.setDictionary,
+  loading: state.loading,
 })
 
 const NotificationsContent = ({
@@ -24,11 +26,20 @@ const NotificationsContent = ({
   const {
     notificationsError,
     setDictionary,
+    loading,
   } = useNotificationStore(getNotificationsStoreState, shallow)
   // Set dictionary in store
   React.useEffect(() => {
     setDictionary(notificationsDictionary)
   }, [notificationsDictionary, setDictionary])
+
+  if (loading) {
+    return (
+      <div>
+        <Spinner />
+      </div>
+    )
+  }
 
   return (
     <div ref={containerRef} className="relative">

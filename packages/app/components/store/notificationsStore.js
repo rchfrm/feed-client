@@ -7,6 +7,7 @@ const initialState = {
   artistId: '',
   userId: '',
   organizationIds: [],
+  loading: true,
   notifications: [],
   totalUnreadNotifications: 0,
   openNotification: null,
@@ -26,6 +27,7 @@ const countUnreadNotifications = (notifications) => {
 
 // FETCH NOTIFICATIONS (called whenever artist mounts)
 const fetchAndSetNotifications = (set) => async ({ artistId, userId, organizationIds }) => {
+  set({ loading: true })
   // Else fetch notifications from server
   const { res, error } = await fetchNotifications({ artistId, userId, organizationIds })
   // Stop here if error
@@ -33,7 +35,7 @@ const fetchAndSetNotifications = (set) => async ({ artistId, userId, organizatio
     const notificationsError = {
       message: `Failed to load notifications: ${error.message}`,
     }
-    set({ notificationsError })
+    set({ notificationsError, loading: false })
     return
   }
   const { notifications, artistIds = [] } = res
@@ -50,6 +52,7 @@ const fetchAndSetNotifications = (set) => async ({ artistId, userId, organizatio
     totalUnreadNotifications,
     artistsWithNotifications,
     notificationsError: null,
+    loading: false,
   })
   // RETURN
   return { notifications }
@@ -96,6 +99,7 @@ const useNotificationsStore = create((set, get) => ({
   artistId: initialState.artistId,
   userId: initialState.userId,
   organizationIds: initialState.organizationIds,
+  loading: initialState.loading,
   notifications: initialState.notifications,
   totalUnreadNotifications: initialState.totalUnreadNotifications,
   openNotification: initialState.openNotification,
