@@ -13,6 +13,7 @@ const initialState = {
   openNotificationId: '',
   artistsWithNotifications: [],
   notificationsError: null,
+  notificationDictionary: {},
 }
 
 // COUNT UNREAD NOTIFICATIONS
@@ -101,11 +102,13 @@ const useNotificationsStore = create((set, get) => ({
   openNotificationId: initialState.openNotificationId,
   artistsWithNotifications: initialState.artistsWithNotifications,
   notificationsError: initialState.notificationsError,
+  notificationDictionary: initialState.notificationDictionary,
   // GETTERS
   fetchAndSetNotifications: fetchAndSetNotifications(set, get),
   // SETTERS
   setAsRead: (id) => setAsRead(set, get)(id),
   setAsOpen: (id) => setAsOpen(set, get)(id),
+  setDictionary: (notificationDictionary) => set({ notificationDictionary }),
   closeNotification: () => closeNotification(set, get)(),
   clear: () => set(initialState),
 }))

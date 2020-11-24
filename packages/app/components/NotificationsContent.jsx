@@ -1,4 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
+import shallow from 'zustand/shallow'
 
 import Error from '@/elements/Error'
 
@@ -8,11 +11,25 @@ import NotificationCurrentInfo from '@/app/NotificationCurrentInfo'
 
 import useNotificationStore from '@/app/store/notificationsStore'
 
-const getNotificationsError = state => state.notificationsError
+const getNotificationsStoreState = (state) => ({
+  notificationsError: state.notificationsError,
+  setDictionary: state.setDictionary,
+})
 
-const NotificationsContent = () => {
+const NotificationsContent = ({
+  notificationsDictionary,
+}) => {
   const containerRef = React.useRef(null)
-  const notificationsError = useNotificationStore(getNotificationsError)
+  // Read from store
+  const {
+    notificationsError,
+    setDictionary,
+  } = useNotificationStore(getNotificationsStoreState, shallow)
+  // Set dictionary in store
+  React.useEffect(() => {
+    setDictionary(notificationsDictionary)
+  }, [notificationsDictionary, setDictionary])
+
   return (
     <div ref={containerRef} className="relative">
       <Error error={notificationsError} />
@@ -20,6 +37,10 @@ const NotificationsContent = () => {
       <NotificationCurrentInfo containerRef={containerRef} />
     </div>
   )
+}
+
+NotificationsLoader.propTypes = {
+  notificationsDictionary: PropTypes.object.isRequired,
 }
 
 export default NotificationsContent
