@@ -12,7 +12,7 @@ const NotificationItem = ({ notification, className }) => {
   const {
     id,
     date,
-    read,
+    isRead,
     action,
     title,
     description,
@@ -46,7 +46,7 @@ const NotificationItem = ({ notification, className }) => {
         }}
       />
       {/* UNREAD DOT */}
-      {!read && <NotificationItemDot type="unread" />}
+      {!isRead && <NotificationItemDot type="unread" />}
       {/* ACTION DOT */}
       {!action && <NotificationItemDot type="action" />}
       {/* DATE */}

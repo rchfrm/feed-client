@@ -64,6 +64,7 @@ export const formatNotifications = (notificationsRaw, dictionary) => {
       isActionable,
       isDismissible,
       hidden: hide || isComplete,
+      isRead: false,
     }
   })
 }

@@ -19,8 +19,8 @@ const initialState = {
 
 // COUNT UNREAD NOTIFICATIONS
 const countUnreadNotifications = (notifications) => {
-  return notifications.reduce((total, { read }) => {
-    if (read) return total
+  return notifications.reduce((total, { isRead }) => {
+    if (isRead) return total
     return total + 1
   }, 0)
 }
@@ -92,7 +92,7 @@ const closeNotification = (set) => () => {
 
 // SET NOTIFICATION AS READ
 const setAsRead = (set, get) => (notificationId) => {
-  const notificationsUpdated = updateNotification(set, get)(notificationId, 'read', true)
+  const notificationsUpdated = updateNotification(set, get)(notificationId, 'isRead', true)
   const totalNotificationsUnread = countUnreadNotifications(notificationsUpdated)
   set({ totalNotificationsUnread })
 }
