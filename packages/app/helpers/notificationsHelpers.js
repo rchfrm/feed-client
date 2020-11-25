@@ -25,15 +25,20 @@ export const formatDictionary = (dictionaryArray = []) => {
 
 // FORMAT NOTIFICATIONS
 export const formatNotifications = (notificationsRaw, dictionary) => {
-  return notificationsRaw.map(({
-    id,
-    created_at,
-    is_dismissible: isDismissible,
-    is_actionable: isActionable,
-    is_complete: isComplete,
-    topic,
-    // actioned_at,
-  }) => {
+  return notificationsRaw.map((notification) => {
+    const {
+      id,
+      topic,
+      data,
+      created_at,
+      is_dismissible: isDismissible,
+      is_actionable: isActionable,
+      is_complete: isComplete,
+      formatted,
+      // actioned_at,
+    } = notification
+    // Stop here if already formatted or no dictionary
+    if (formatted || !dictionary) return notification
     const dictionaryEntry = dictionary[topic]
     const {
       title = 'Helpp',
@@ -45,6 +50,8 @@ export const formatNotifications = (notificationsRaw, dictionary) => {
     const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
     return {
       id,
+      topic,
+      data,
       date,
       title,
       description,
@@ -54,6 +61,7 @@ export const formatNotifications = (notificationsRaw, dictionary) => {
       hidden: hide || isComplete,
       isRead: false,
       onClick: () => {},
+      formatted: true,
     }
   })
 }

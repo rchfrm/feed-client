@@ -12,10 +12,12 @@ import NotificationCurrentInfo from '@/app/NotificationCurrentInfo'
 import useNotificationStore from '@/app/store/notificationsStore'
 
 const getNotificationsStoreState = (state) => ({
+  notifications: state.notifications,
   notificationsError: state.notificationsError,
   setDictionary: state.setDictionary,
   loading: state.loading,
   closeNotification: state.closeNotification,
+  runFormatNotifications: state.runFormatNotifications,
 })
 
 const NotificationsContent = ({
@@ -25,16 +27,20 @@ const NotificationsContent = ({
 
   // Read from store
   const {
+    notifications,
     notificationsError,
     setDictionary,
     loading,
     closeNotification,
+    runFormatNotifications,
   } = useNotificationStore(getNotificationsStoreState, shallow)
 
   // Set dictionary in store
   React.useEffect(() => {
     setDictionary(notificationsDictionary)
-  }, [notificationsDictionary, setDictionary])
+    runFormatNotifications(notifications, notificationsDictionary)
+  // eslint-disable-next-line
+  }, [notificationsDictionary, notifications.length])
 
   // Close open notification on unmount
   React.useEffect(() => {
@@ -52,7 +58,7 @@ const NotificationsContent = ({
   return (
     <div ref={containerRef} className="relative">
       <Error error={notificationsError} />
-      <NotificationsList />
+      <NotificationsList notifications={notifications} />
       <NotificationCurrentInfo containerRef={containerRef} />
     </div>
   )

@@ -14,7 +14,7 @@ const initialState = {
   openNotificationId: '',
   artistsWithNotifications: [],
   notificationsError: null,
-  notificationDictionary: {},
+  notificationDictionary: null,
 }
 
 // COUNT UNREAD NOTIFICATIONS
@@ -23,6 +23,15 @@ const countUnreadNotifications = (notifications) => {
     if (isRead) return total
     return total + 1
   }, 0)
+}
+
+// RUN FORMAT NOTIFICATIONS
+const runFormatNotifications = (set) => (notifications, dictionary) => {
+  const notificationsFormatted = formatNotifications(notifications, dictionary)
+  // SET
+  set({
+    notifications: notificationsFormatted,
+  })
 }
 
 // FETCH NOTIFICATIONS (called whenever artist mounts)
@@ -114,6 +123,7 @@ const useNotificationsStore = create((set, get) => ({
   // GETTERS
   fetchAndSetNotifications: fetchAndSetNotifications(set, get),
   // SETTERS
+  runFormatNotifications: (notifications, dictionary) => runFormatNotifications(set)(notifications, dictionary),
   setAsRead: (id) => setAsRead(set, get)(id),
   setAsOpen: (id) => setAsOpen(set, get)(id),
   setDictionary: (notificationDictionary) => set({ notificationDictionary }),

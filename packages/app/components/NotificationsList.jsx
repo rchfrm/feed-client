@@ -14,15 +14,13 @@ import NotificationItem from '@/app/NotificationItem'
 import copy from '@/app/copy/notificationsCopy'
 
 const readNotificationsStore = (state) => ({
-  notifications: state.notifications,
   openNotificationId: state.openNotificationId,
   setAsOpen: state.setAsOpen,
   closeNotification: state.closeNotification,
 })
 
-const NotificationsList = ({ className }) => {
+const NotificationsList = ({ notifications, className }) => {
   const {
-    notifications,
     openNotificationId,
     setAsOpen,
     closeNotification,
@@ -89,6 +87,7 @@ const NotificationsList = ({ className }) => {
 }
 
 NotificationsList.propTypes = {
+  notifications: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
 
