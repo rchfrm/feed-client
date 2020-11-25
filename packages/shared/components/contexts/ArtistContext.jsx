@@ -157,7 +157,7 @@ function ArtistProvider({ children, disable }) {
     return { artist }
   }
 
-  const createArtist = async (artistAccounts, accessToken, oldUser) => {
+  const connectArtists = async (artistAccounts, accessToken, oldUser) => {
     setArtistLoading(true)
     toggleGlobalLoading(true)
     // Get array of current user artist Facebook page IDs
@@ -181,7 +181,7 @@ function ArtistProvider({ children, disable }) {
     })
     // Create all artists
     const createAllArtists = newArtistAccounts.map(async (artist) => {
-      await artistHelpers.createArtist(artist, accessToken)
+      return artistHelpers.createArtist(artist, accessToken)
     })
     // Wait to connect all artists
     await Promise.all(createAllArtists)
@@ -287,7 +287,7 @@ function ArtistProvider({ children, disable }) {
     artistId,
     artistCurrency,
     artistLoading,
-    createArtist,
+    connectArtists,
     setNoArtist,
     setArtist,
     setArtistLoading,
