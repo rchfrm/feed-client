@@ -1,6 +1,5 @@
 import React from 'react'
 
-import NotificationsLoader from '@/app/NotificationsLoader'
 import NotificationsList from '@/app/NotificationsList'
 import NotificationCurrentInfo from '@/app/NotificationCurrentInfo'
 
