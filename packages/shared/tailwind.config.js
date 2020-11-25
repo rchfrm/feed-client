@@ -55,6 +55,8 @@ module.exports = (purgeFiles) => ({
         96: '24rem',
         112: '28rem',
         128: '32rem',
+        buttonHeight: '60px',
+        buttonWidthWide: '150px',
       },
     },
   },
