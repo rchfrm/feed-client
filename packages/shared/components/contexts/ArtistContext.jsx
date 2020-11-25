@@ -125,16 +125,18 @@ function ArtistProvider({ children, disable }) {
 
     if (!artist) return
 
-    // Get musician and spotify connection status
+    // Test whether artist is musician
     const { category_list: artistCategories } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
-    const spotifyConnected = artistHelpers.testIfSpotifyConnected(artist.spotify_url)
 
     // Test whether default link is set
     const missingDefaultLink = !artistHelpers.getDefaultLinkId(artist)
 
     // Format integrations
     const integrationsFormatted = formatAndFilterIntegrations(artist.integrations, isMusician)
+
+    // Test if spotify is connected
+    const spotifyConnected = artistHelpers.testIfSpotifyConnected(integrationsFormatted)
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {

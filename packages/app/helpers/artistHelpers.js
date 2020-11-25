@@ -324,8 +324,9 @@ export const testIfMusician = (artistCategories = []) => {
  * @param {string} spotifyUrl
  * @returns {boolean}
  */
-export const testIfSpotifyConnected = (spotifyUrl) => {
-  return !!(spotifyUrl && spotifyUrl.includes('/artist/'))
+export const testIfSpotifyConnected = (integrations) => {
+  const spotifyIntegration = getArtistIntegrationByPlatform({ integrations }, 'spotify')
+  return !!spotifyIntegration.accountId
 }
 
 /**
