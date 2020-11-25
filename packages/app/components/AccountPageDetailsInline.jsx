@@ -200,7 +200,7 @@ function AccountPageDetailsInline({ user }) {
           <>
             <Input
               name="passwordOne"
-              label="Password"
+              label="New password"
               placeholder=""
               value={passwordOne}
               handleChange={handleChange}
