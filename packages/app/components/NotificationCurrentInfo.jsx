@@ -5,6 +5,7 @@ import { gsap } from 'gsap'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useBrowserStore from '@/hooks/useBrowserStore'
+import useAnimateOnMount from '@/hooks/useAnimateOnMount'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import useNotificationStore from '@/app/store/notificationsStore'
@@ -79,8 +80,36 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     }
   }, [infoContent, isDesktopLayout, setOnSidepanelClose, toggleSidePanel, setSidePanelContent, closeNotification])
 
+  // ANIMATE
+  // Define animation config
+  const animateToFrom = {
+    y: { from: 10, to: 0 },
+    scaleX: { from: 0.95, to: 1 },
+    opacity: { from: 0, to: 1 },
+  }
+  // Setup animation hook
+  const animatedDiv = useAnimateOnMount({
+    animateToFrom,
+    animationOptions: {
+      duration: [0.3, 0.2],
+      ease: ['power2.out', 'power1.out'],
+    },
+    initial: 'hidden',
+  })
+  // Trigger animation
+  React.useEffect(() => {
+    // SHOW BUTTON
+    if (openNotification) {
+      animatedDiv.showPresence()
+      return
+    }
+    // HIDE BUTTON
+    animatedDiv.hidePresence()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openNotification])
+
   // STOP HERE if NO NOTIFICATION or mobile
-  if (!openNotification || !isDesktopLayout) return null
+  if (!isDesktopLayout) return null
 
   return (
     <div
@@ -90,17 +119,21 @@ const NotificationCurrentInfo = ({ containerRef }) => {
         'pl-5',
       ].join(' ')}
     >
-      <div
-        className={[
-          'rounded-dialogue',
-          'p-4 sm:p-5 bg-grey-1',
-        ].join(' ')}
-        style={{
-          marginTop: -1,
-        }}
-      >
-        {infoContent}
-      </div>
+      {animatedDiv.isRendered && (
+        <div
+          ref={animatedDiv.ref}
+          className={[
+            'rounded-dialogue',
+            'p-4 sm:p-5 bg-grey-1',
+          ].join(' ')}
+          style={{
+            marginTop: -1,
+            willChange: 'transform, opacity',
+          }}
+        >
+          {infoContent}
+        </div>
+      )}
     </div>
   )
 }
