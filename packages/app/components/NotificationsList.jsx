@@ -45,15 +45,15 @@ const NotificationsList = ({ className }) => {
   const isDesktopLayout = useBreakpointTest('md')
   React.useEffect(() => {
     if (!isDesktopLayout) {
-      Mousetrap.unbind('up', navigateNotification)
-      Mousetrap.unbind('down', navigateNotification)
+      Mousetrap.unbind('up')
+      Mousetrap.unbind('down')
       return
     }
     Mousetrap.bind('up', navigateNotification)
     Mousetrap.bind('down', navigateNotification)
     return () => {
-      Mousetrap.unbind('up', navigateNotification)
-      Mousetrap.unbind('down', navigateNotification)
+      Mousetrap.unbind('up')
+      Mousetrap.unbind('down')
     }
   }, [navigateNotification, isDesktopLayout])
 
