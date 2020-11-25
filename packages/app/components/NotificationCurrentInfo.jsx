@@ -11,6 +11,7 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import useNotificationStore from '@/app/store/notificationsStore'
 
 import NotificationCurrentInfoContent from '@/app/NotificationCurrentInfoContent'
+import NotificationCurrentInfoButton from '@/app/NotificationCurrentInfoButton'
 
 const getOpenNotification = state => state.openNotification
 const getCloseNotification = state => state.closeNotification
@@ -49,39 +50,47 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  // Get info content
-  const infoContent = React.useMemo(() => {
-    if (!openNotification) return null
-    return (
-      <NotificationCurrentInfoContent
-        title={openNotification.title}
-        description={openNotification.description}
+  const infoButtonAndContent = React.useMemo(() => {
+    if (!openNotification) return {}
+    const button = (
+      <NotificationCurrentInfoButton
         ctaText={openNotification.ctaText}
-        isActionable={openNotification.isActionable}
-        isDismissible={openNotification.isDismissible}
+        onClick={openNotification.onClick}
         sidepanelLayout={!isDesktopLayout}
       />
     )
+    const content = (
+      <NotificationCurrentInfoContent
+        title={openNotification.title}
+        description={openNotification.description}
+        buttonEl={button}
+        sidepanelLayout={!isDesktopLayout}
+      />
+    )
+    return { content, button }
   }, [openNotification, isDesktopLayout])
 
   // HANDLE SIDEPANEL
   React.useEffect(() => {
+    const { button, content } = infoButtonAndContent
     // CLOSE SIDEPANEL if DESKTOP
     if (isDesktopLayout) {
       setSidePanelContent(null)
       toggleSidePanel(false)
       setOnSidepanelClose(null)
+      setSidePanelButton(null)
       return
     }
     // OPEN SIDEPANEL if MOBILE
-    const sidepanelOpen = !!infoContent
-    setSidePanelContent(infoContent)
+    const sidepanelOpen = !!content
+    setSidePanelContent(content)
     toggleSidePanel(sidepanelOpen)
     setOnSidepanelClose(() => closeNotification)
+    setSidePanelButton(button)
     return () => {
       setOnSidepanelClose(null)
     }
-  }, [infoContent, isDesktopLayout, setOnSidepanelClose, toggleSidePanel, setSidePanelContent, closeNotification])
+  }, [infoButtonAndContent, isDesktopLayout, setOnSidepanelClose, toggleSidePanel, setSidePanelContent, setSidePanelButton, closeNotification])
 
   // ANIMATE
   // Define animation config
@@ -134,7 +143,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
             willChange: 'transform, opacity',
           }}
         >
-          {infoContent}
+          {infoButtonAndContent.content}
         </div>
       )}
     </div>

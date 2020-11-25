@@ -1,16 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Button from '@/elements/Button'
-
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const NotificationCurrentInfoContent = ({
   title,
   description,
-  ctaText,
-  isActionable,
-  isDismissible,
+  buttonEl,
   sidepanelLayout,
 }) => {
   const hasButton = !sidepanelLayout
@@ -26,14 +22,7 @@ const NotificationCurrentInfoContent = ({
       </h3>
       <p>{description}</p>
       {/* BUTTON (for not sidepanel layout) */}
-      {hasButton && (
-        <Button
-          className="w-full absolute left-0 bottom-0 rounded-t-none"
-          version="green"
-        >
-          {ctaText}
-        </Button>
-      )}
+      {hasButton && buttonEl}
     </div>
   )
 }
@@ -41,10 +30,13 @@ const NotificationCurrentInfoContent = ({
 NotificationCurrentInfoContent.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  buttonEl: PropTypes.node,
   sidepanelLayout: PropTypes.bool.isRequired,
-  ctaText: PropTypes.string.isRequired,
-  isActionable: PropTypes.bool.isRequired,
-  isDismissible: PropTypes.bool.isRequired,
 }
+
+NotificationCurrentInfoContent.defaultProps = {
+  buttonEl: null,
+}
+
 
 export default NotificationCurrentInfoContent

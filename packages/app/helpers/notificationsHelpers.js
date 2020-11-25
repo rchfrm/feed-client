@@ -68,6 +68,7 @@ export const formatNotifications = (notificationsRaw, dictionary) => {
       isDismissible,
       hidden: hide || isComplete,
       isRead: false,
+      onClick: () => {},
     }
   })
 }
