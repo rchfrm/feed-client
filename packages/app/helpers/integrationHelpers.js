@@ -45,7 +45,7 @@ export const getIntegrationInfo = (integration) => {
         title: 'Spotify',
         titleVerbose: 'Spotify profile',
         baseUrl: 'https://spotify.com/',
-        placeholderUrl: 'https://spotify.com/artist/<artist ID>',
+        placeholderUrl: 'https://open.spotify.com/artist/<artist ID>',
         accountIdKey: 'artist_id',
         color: brandColors[platform],
         musicOnly: true,
