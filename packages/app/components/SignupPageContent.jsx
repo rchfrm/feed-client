@@ -1,5 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import Router from 'next/router'
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
@@ -22,7 +24,10 @@ import copy from '@/app/copy/LoginPageCopy'
 import styles from '@/LoginPage.module.css'
 import brandColors from '@/constants/brandColors'
 
-const SignupPageContent = ({ showEmailSignup }) => {
+const SignupPageContent = ({
+  showEmailSignup,
+  requireReferralCode,
+}) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
   // Handle error
   const [error, setError] = React.useState(null)
@@ -92,7 +97,13 @@ const SignupPageContent = ({ showEmailSignup }) => {
 }
 
 SignupPageContent.propTypes = {
-
+  showEmailSignup: PropTypes.bool,
+  requireReferralCode: PropTypes.bool.isRequired,
 }
+
+SignupPageContent.defaultProps = {
+  showEmailSignup: false,
+}
+
 
 export default SignupPageContent
