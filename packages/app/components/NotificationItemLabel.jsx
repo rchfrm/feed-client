@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const NotificationItemDot = ({ type }) => {
+const NotificationItemLabel = ({ type }) => {
   const label = type === 'unread' ? 'Unread notification' : 'Notification requires action'
   return (
     <div
@@ -21,8 +21,8 @@ const NotificationItemDot = ({ type }) => {
   )
 }
 
-NotificationItemDot.propTypes = {
+NotificationItemLabel.propTypes = {
   type: PropTypes.string.isRequired,
 }
 
-export default React.memo(NotificationItemDot)
+export default React.memo(NotificationItemLabel)

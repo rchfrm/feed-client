@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import NotificationItemDot from '@/app/NotificationItemDot'
+import NotificationItemLabel from '@/app/NotificationItemLabel'
 
 import useNotificationStore from '@/app/store/notificationsStore'
 
@@ -46,9 +46,9 @@ const NotificationItem = ({ notification, className }) => {
         }}
       />
       {/* UNREAD DOT */}
-      {!isRead && <NotificationItemDot type="unread" />}
+      {!isRead && <NotificationItemLabel type="unread" />}
       {/* ACTION DOT */}
-      {!action && <NotificationItemDot type="action" />}
+      {!action && <NotificationItemLabel type="action" />}
       {/* DATE */}
       <p
         className={[
