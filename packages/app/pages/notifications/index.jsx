@@ -33,6 +33,7 @@ const query = `
   query {
     allNotifications {
       id
+      topic
       code
       subcode
       title
