@@ -61,7 +61,7 @@ const NotificationItem = ({ notification, className }) => {
         {date}
       </p>
       {/* TITLE */}
-      <h4 className="font-body text-base mb-2 mr-16">
+      <h4 className="font-body text-base mb-2 mr-16 truncate">
         <strong>{title}</strong>
       </h4>
       {/* DESCRIPTION */}
