@@ -8,6 +8,8 @@ import * as server from '@/helpers/sharedServer'
 import firebase from '@/helpers/firebase'
 import { track } from '@/app/helpers/trackingHelpers'
 
+import ReferralCodeWidget from '@/app/ReferralCodeWidget'
+
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
@@ -159,6 +161,8 @@ function AccountPageDetailsInline({ user }) {
         {errors.map((error, index) => {
           return <Error error={error} key={index} />
         })}
+
+        <ReferralCodeWidget className="mb-5" />
 
         <Input
           name="name"
