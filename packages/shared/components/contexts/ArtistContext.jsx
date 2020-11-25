@@ -69,8 +69,13 @@ const artistReducer = (draftState, action) => {
       break
     }
     case 'update-integrations': {
+      // Format integrations
       const integrationsFormatted = formatAndFilterIntegrations(payload.integrations, draftState.isMusician)
+      // Test if spotify is connected
+      const spotifyConnected = artistHelpers.testIfSpotifyConnected(integrationsFormatted)
+      // Update artist
       draftState.integrations = integrationsFormatted
+      draftState.spotifyConnected = spotifyConnected
       break
     }
     default:
