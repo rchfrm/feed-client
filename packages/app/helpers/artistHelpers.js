@@ -205,6 +205,19 @@ export const sanitiseArtistAccountUrls = (artistAccounts) => {
   })
 }
 
+
+/**
+ * Gets the artist integration by platform ID
+ * @param {object} artist
+ * @param {string} platformId
+ * @returns {object} integration
+ */
+export const getArtistIntegrationByPlatform = (artist, platformId) => {
+  const { integrations } = artist
+  return integrations.find(({ platform }) => platform === platformId)
+}
+
+
 // https://developers.facebook.com/tools/explorer/145634995501895/?method=GET&path=fb_page_categories&version=v8.0
 export const musicianCategories = [
   {
@@ -322,15 +335,4 @@ export const testIfSpotifyConnected = (spotifyUrl) => {
  */
 export const getDefaultLinkId = (artist) => {
   return get(artist, ['preferences', 'posts', 'default_link_id'], '')
-}
-
-/**
- * Gets the artist integration by platform ID
- * @param {object} artist
- * @param {string} platformId
- * @returns {object} integration
- */
-export const getArtistIntegrationByPlatform = (artist, platformId) => {
-  const { integrations } = artist
-  return integrations.find(({ platform }) => platform === platformId)
 }
