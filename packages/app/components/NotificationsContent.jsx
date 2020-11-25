@@ -6,7 +6,6 @@ import shallow from 'zustand/shallow'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 
-import NotificationsLoader from '@/app/NotificationsLoader'
 import NotificationsList from '@/app/NotificationsList'
 import NotificationCurrentInfo from '@/app/NotificationCurrentInfo'
 
@@ -59,7 +58,7 @@ const NotificationsContent = ({
   )
 }
 
-NotificationsLoader.propTypes = {
+NotificationsContent.propTypes = {
   notificationsDictionary: PropTypes.object.isRequired,
 }
 
