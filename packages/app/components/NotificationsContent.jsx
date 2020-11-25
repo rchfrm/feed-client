@@ -16,22 +16,31 @@ const getNotificationsStoreState = (state) => ({
   notificationsError: state.notificationsError,
   setDictionary: state.setDictionary,
   loading: state.loading,
+  closeNotification: state.closeNotification,
 })
 
 const NotificationsContent = ({
   notificationsDictionary,
 }) => {
   const containerRef = React.useRef(null)
+
   // Read from store
   const {
     notificationsError,
     setDictionary,
     loading,
+    closeNotification,
   } = useNotificationStore(getNotificationsStoreState, shallow)
+
   // Set dictionary in store
   React.useEffect(() => {
     setDictionary(notificationsDictionary)
   }, [notificationsDictionary, setDictionary])
+
+  // Close open notification on unmount
+  React.useEffect(() => {
+    return closeNotification
+  }, [closeNotification])
 
   if (loading) {
     return (
