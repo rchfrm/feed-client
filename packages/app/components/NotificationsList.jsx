@@ -17,6 +17,7 @@ const readNotificationsStore = (state) => ({
   notifications: state.notifications,
   openNotificationId: state.openNotificationId,
   setAsOpen: state.setAsOpen,
+  closeNotification: state.closeNotification,
 })
 
 const NotificationsList = ({ className }) => {
@@ -24,6 +25,7 @@ const NotificationsList = ({ className }) => {
     notifications,
     openNotificationId,
     setAsOpen,
+    closeNotification,
   } = useNotificationStore(readNotificationsStore, shallow)
 
   // NAVIGATE UP AND DOWN
@@ -51,11 +53,13 @@ const NotificationsList = ({ className }) => {
     }
     Mousetrap.bind('up', navigateNotification)
     Mousetrap.bind('down', navigateNotification)
+    Mousetrap.bind('esc', closeNotification)
     return () => {
       Mousetrap.unbind('up')
       Mousetrap.unbind('down')
+      Mousetrap.unbind('esc')
     }
-  }, [navigateNotification, isDesktopLayout])
+  }, [navigateNotification, isDesktopLayout, closeNotification])
 
   return (
     <div
