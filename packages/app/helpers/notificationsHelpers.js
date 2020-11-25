@@ -53,14 +53,17 @@ export const formatNotifications = (notificationsRaw, dictionary) => {
     const {
       title = 'Helpp',
       appMessage: description = 'La la la',
+      ctaText,
       hide = false,
     } = dictionaryEntry || {}
     const date = moment(created_at).format('MM MMM')
+    const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
     return {
       id,
       date,
       title,
       description,
+      ctaText: ctaText || ctaFallback,
       isActionable,
       isDismissible,
       hidden: hide || isComplete,

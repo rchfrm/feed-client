@@ -40,6 +40,7 @@ const query = `
       dismissable
       hide
       appMessage
+      ctaText
     }
   }
 `

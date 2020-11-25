@@ -56,6 +56,9 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       <NotificationCurrentInfoContent
         title={openNotification.title}
         description={openNotification.description}
+        ctaText={openNotification.ctaText}
+        isActionable={openNotification.isActionable}
+        isDismissible={openNotification.isDismissible}
         sidepanelLayout={!isDesktopLayout}
       />
     )
