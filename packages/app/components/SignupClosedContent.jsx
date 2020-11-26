@@ -10,6 +10,7 @@ import { testValidEmail } from '@/helpers/utils'
 import styles from '@/LoginPage.module.css'
 
 import copy from '@/app/copy/referralCodeCopy'
+import loginCopy from '@/app/copy/LoginPageCopy'
 
 const SignupClosedContent = () => {
   const [email, setEmail] = React.useState('')
@@ -30,7 +31,7 @@ const SignupClosedContent = () => {
     <div className={styles.container}>
       <MarkdownText markdown={copy.signupClosedCopy} allowHtml />
       <form
-        className="pt-2"
+        className="pt-2 mb-8"
         onSubmit={(e) => {
           e.preventDefault()
           handleFormSubmission()
@@ -46,12 +47,15 @@ const SignupClosedContent = () => {
         <div className="flex justify-end">
           <Button
             type="submit"
+            className="w-full sm:w-buttonWidthWide"
             disabled={!formValid}
           >
             Join the queue
           </Button>
         </div>
       </form>
+      {/* Link to login page */}
+      <MarkdownText markdown={loginCopy.loginReminder} />
     </div>
   )
 }
