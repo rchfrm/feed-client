@@ -127,7 +127,6 @@ const IntegrationErrorHandler = () => {
     const artistIds = user.artists.map(({ id }) => id)
     const { error } = await server.updateAccessToken(artistIds, accessToken)
     if (error) {
-      console.log('error', error)
       setPatchError(error)
     }
   }, [isPending, redirectType, errorRequiresReAuth, accessToken, hasErrorWithAccessToken, artistId])
