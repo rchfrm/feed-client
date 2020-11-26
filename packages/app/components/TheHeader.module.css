@@ -145,6 +145,7 @@
     left: 0;
     top: 1.6em;
     width: 100%;
+    z-index: 29;
     padding: 0 calc(var(--sp-10) + var(--sp-4));
     margin-bottom: 0;
     text-align: center;
