@@ -2,8 +2,7 @@ import React from 'react'
 // import PropTypes from 'prop-types'
 
 import BasePage from '@/app/BasePage'
-
-import SignupPage from '@/app/SignupPage'
+import SignupAddReferralCode from '@/app/SignupAddReferralCode'
 
 const headerConfig = {
   text: 'sign up',
@@ -16,7 +15,7 @@ const Page = () => {
       staticPage
       authPage
     >
-      <SignupPage />
+      <SignupAddReferralCode />
     </BasePage>
   )
 }

@@ -1,6 +1,7 @@
 export const SIGN_UP = '/join'
 export const SIGN_UP_EMAIL = '/join/email'
 export const SIGN_UP_CONTINUE = '/join/final-step'
+export const REFERRAL = '/join/referral'
 export const CONNECT_PROFILES = '/connect-profiles'
 export const THANK_YOU = '/thank-you'
 export const LOGIN = '/login'

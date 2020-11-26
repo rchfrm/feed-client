@@ -141,3 +141,10 @@ p,
     font-size: 0.667em;
   }
 }
+
+/* CUSTOM TEXT STYLES */
+.green--underline {
+  display: inline-block;
+  border-bottom: 2px solid var(--green);
+  margin-bottom: 4px;
+}
