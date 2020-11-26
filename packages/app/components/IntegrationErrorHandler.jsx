@@ -10,8 +10,6 @@ import { AuthContext } from '@/contexts/AuthContext'
 
 import IntegrationErrorContent from '@/app/IntegrationErrorContent'
 
-const ignoreLocally = true
-
 // RUN THIS TO FETCH ERRORS
 const fetchError = async ({ auth, user, artist, artistId }) => {
   // Get any missing permissions from the FB redirect response
@@ -26,7 +24,7 @@ const fetchError = async ({ auth, user, artist, artistId }) => {
     return errorResponse
   }
   // Stop here if running locally
-  if (process.env.build_env === 'development' && ignoreLocally) return
+  if (process.env.build_env === 'development') return
   // If no missing scopes from FB, get error from server...
   if (!user.artists) return
   if (!artist || !artistId) return
