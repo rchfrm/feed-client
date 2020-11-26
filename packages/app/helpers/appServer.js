@@ -230,8 +230,8 @@ export const updateAccessToken = async (artistIds, accessToken) => {
   // Test for errors that aren't related to no access to account
   const errors = results.filter((res) => {
     const { status } = res
-    const errorCode = get(res, 'reason.response.status', null)
-    return status === 'rejected' && errorCode !== 422
+    const errorMessage = get(res, 'reason.response.data.error', null)
+    return status === 'rejected' && !errorMessage.includes('does not have access to page id')
   })
   // If there are errors, pass the first one
   if (errors.length) {
