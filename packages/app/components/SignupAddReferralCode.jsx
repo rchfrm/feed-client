@@ -1,39 +1,90 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
+import Router from 'next/router'
+import shallow from 'zustand/shallow'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
+import Error from '@/elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
 
+import useReferralStore from '@/app/store/referralStore'
 
 import styles from '@/LoginPage.module.css'
 
+import * as ROUTES from '@/app/constants/routes'
+import copy from '@/app/copy/referralCodeCopy'
+import loginCopy from '@/app/copy/LoginPageCopy'
+
+const getReferralStoreState = (state) => ({
+  hasTrueCode: state.hasTrueCode,
+  testCodeValidity: state.testCodeValidity,
+  testCodeTruth: state.testCodeTruth,
+})
+
 const SignupAddReferralCode = ({}) => {
+  // READ STORE
+  const {
+    hasTrueCode,
+    testCodeValidity,
+    testCodeTruth,
+  } = useReferralStore(getReferralStoreState, shallow)
+  // LOCAL STATE
   const [code, setCode] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
+
+  // PUSH TO SIGN UP if code is true
+  React.useEffect(() => {
+    if (hasTrueCode) {
+      Router.push(ROUTES.SIGN_UP)
+    }
+  }, [hasTrueCode])
+
   return (
     <div className={styles.container}>
-      <h2 className="h3">Sign up here with your referral code</h2>
+      <h2 className="h3">{copy.submitReferralCopy}</h2>
+      <Error error={error} />
       <form
-        onSubmit={(e) => {
-          if (!code) return
+        className="mb-8"
+        onSubmit={async (e) => {
           e.preventDefault()
+          if (!code) return
+          setLoading(true)
+          setError(null)
+          const isValid = testCodeValidity(code)
+          if (!isValid) {
+            setError({ message: copy.invalidCodeCopy })
+            setLoading(false)
+            return
+          }
+          const isTrue = await testCodeTruth(code)
+          if (!isTrue) {
+            setError({ message: copy.invalidCodeCopy })
+          }
+          setLoading(false)
         }}
       >
         <Input
           updateValue={setCode}
           name="referral-code"
-          label="Referral code"
+          // label="Referral code"
           value={code}
           autoFocus
         />
         <div className="flex justify-end">
           <Button
             type="submit"
+            className="w-full sm:w-buttonWidthWide"
             disabled={!code}
+            loading={loading}
           >
-            Sign up here
+            Join
           </Button>
         </div>
       </form>
+      {/* Link to login page */}
+      <MarkdownText markdown={loginCopy.loginReminder} />
     </div>
   )
 }
