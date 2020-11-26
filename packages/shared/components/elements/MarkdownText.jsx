@@ -8,9 +8,10 @@ const MarkdownText = ({ markdown, className, style }) => {
   return (
     <div className={['text--block', className].join(' ')} style={style}>
       <ReactMarkdown
-        source={markdown}
         renderers={{ link: MarkdownLink }}
-      />
+      >
+        {markdown}
+      </ReactMarkdown>
     </div>
   )
 }

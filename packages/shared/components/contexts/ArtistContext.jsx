@@ -69,8 +69,13 @@ const artistReducer = (draftState, action) => {
       break
     }
     case 'update-integrations': {
+      // Format integrations
       const integrationsFormatted = formatAndFilterIntegrations(payload.integrations, draftState.isMusician)
+      // Test if spotify is connected
+      const spotifyConnected = artistHelpers.testIfSpotifyConnected(integrationsFormatted)
+      // Update artist
       draftState.integrations = integrationsFormatted
+      draftState.spotifyConnected = spotifyConnected
       break
     }
     default:
@@ -125,16 +130,18 @@ function ArtistProvider({ children, disable }) {
 
     if (!artist) return
 
-    // Get musician and spotify connection status
+    // Test whether artist is musician
     const { category_list: artistCategories } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
-    const spotifyConnected = artistHelpers.testIfSpotifyConnected(artist.spotify_url)
 
     // Test whether default link is set
     const missingDefaultLink = !artistHelpers.getDefaultLinkId(artist)
 
     // Format integrations
     const integrationsFormatted = formatAndFilterIntegrations(artist.integrations, isMusician)
+
+    // Test if spotify is connected
+    const spotifyConnected = artistHelpers.testIfSpotifyConnected(integrationsFormatted)
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
@@ -157,7 +164,7 @@ function ArtistProvider({ children, disable }) {
     return { artist }
   }
 
-  const createArtist = async (artistAccounts, accessToken, oldUser) => {
+  const connectArtists = async (artistAccounts, accessToken, oldUser) => {
     setArtistLoading(true)
     toggleGlobalLoading(true)
     // Get array of current user artist Facebook page IDs
@@ -181,7 +188,7 @@ function ArtistProvider({ children, disable }) {
     })
     // Create all artists
     const createAllArtists = newArtistAccounts.map(async (artist) => {
-      await artistHelpers.createArtist(artist, accessToken)
+      return artistHelpers.createArtist(artist, accessToken)
     })
     // Wait to connect all artists
     await Promise.all(createAllArtists)
@@ -287,7 +294,7 @@ function ArtistProvider({ children, disable }) {
     artistId,
     artistCurrency,
     artistLoading,
-    createArtist,
+    connectArtists,
     setNoArtist,
     setArtist,
     setArtistLoading,

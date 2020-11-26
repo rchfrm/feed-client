@@ -15,7 +15,12 @@ import * as ROUTES from '@/app/constants/routes'
 // IMPORT STYLES
 import styles from '@/app/TheHeader.module.css'
 
-function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
+function TheHeaderContents({
+  windowWidth,
+  subNavOpen,
+  toggleSubNav,
+  inlinePageTitle,
+}) {
   // Check if logged in or not
   const isLoggedIn = useLoggedInTest()
   // Handle flash of oversized logo
@@ -42,18 +47,18 @@ function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
 
   // TOGGLE HEADER FOR NARROW
   // & Resize background
-  const [showHeader, setShowHeader] = React.useState(false)
+  const [showPageTitle, setShowPageTitle] = React.useState(false)
   const [backgroundStyle, setBackgroundStyle] = React.useState({})
   React.useEffect(() => {
     // Set header or not
-    const showHeader = windowWidth >= 450
-    setShowHeader(showHeader)
+    const showPageTitle = !inlinePageTitle
+    setShowPageTitle(showPageTitle)
     // Resize header bg
     setBackgroundStyle({
       width: windowWidth,
       marginLeft: windowWidth / -2,
     })
-  }, [windowWidth])
+  }, [windowWidth, inlinePageTitle])
 
   return (
     <header className={[
@@ -83,7 +88,7 @@ function TheHeaderContents({ windowWidth, subNavOpen, toggleSubNav }) {
         />
       </a>
       {/* Page Header */}
-      {showHeader && <PageHeader className={styles.pageTitle} />}
+      {showPageTitle && <PageHeader className={styles.pageTitle} />}
       {/* Subnav button */}
       {isLoggedIn && (
       <TheSubNavButton

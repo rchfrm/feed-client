@@ -122,7 +122,8 @@ const IntegrationErrorHandler = () => {
     // Update access token
     setPatchError(null)
     accessTokenUpdated.current = true
-    const { error } = await server.updateAccessToken([artistId], accessToken)
+    const artistIds = user.artists.map(({ id }) => id)
+    const { error } = await server.updateAccessToken(artistIds, accessToken)
     if (error) {
       setPatchError(error)
     }

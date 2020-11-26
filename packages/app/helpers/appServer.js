@@ -1,3 +1,5 @@
+import get from 'lodash/get'
+
 import * as api from '@/helpers/api'
 import { track } from '@/app/helpers/trackingHelpers'
 
@@ -209,26 +211,34 @@ export const patchArtistPromotionStatus = async (artistId, enabled) => {
 
 
 /**
- * @param {string} artistId
+ * @param {array} artistIds
  * @param {string} accessToken
  * @returns {Promise<any>}
  * Returns errors as if the request were succesful with a `error` key filled out
  */
-export const updateAccessToken = async (artistId, accessToken) => {
-  const res = await api.patch(`/artists/${artistId}`, {
-    integrations: {
-      facebook: {
-        access_token: accessToken,
+export const updateAccessToken = async (artistIds, accessToken) => {
+  const requests = artistIds.map((artistId) => {
+    return api.patch(`/artists/${artistId}`, {
+      integrations: {
+        facebook: {
+          access_token: accessToken,
+        },
       },
-    },
+    })
   })
-    .catch((error) => { return { error } })
-  if (res.error) {
-    const { error } = res
-    const errorMessage = typeof error.response === 'object' ? error.response.data.error : error.message
-    return { error: { message: errorMessage } }
+  const results = await Promise.allSettled(requests)
+  // Test for errors that aren't related to no access to account
+  const errors = results.filter((res) => {
+    const { status } = res
+    const errorMessage = get(res, 'reason.response.data.error', null)
+    return status === 'rejected' && !errorMessage.includes('does not have access to page id')
+  })
+  // If there are errors, pass the first one
+  if (errors.length) {
+    const message = get(errors[0], 'reason.message', 'Error')
+    return { error: { message } }
   }
-  return res
+  return { res: results }
 }
 
 // Set link on post
