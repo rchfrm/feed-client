@@ -46,7 +46,8 @@ const artistsReducer = (draftState, action) => {
 const ConnectAccountsLoader = ({ onSignUp }) => {
   // IMPORT CONTEXTS
   const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
-  const { createArtist, setArtistLoading } = React.useContext(ArtistContext)
+  const { connectArtists, setArtistLoading } = React.useContext(ArtistContext)
+
   const { user } = React.useContext(UserContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get any missing scopes
@@ -169,7 +170,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
 
     try {
       toggleGlobalLoading(true)
-      await createArtist(artistAccountsSanitised, accessToken, user)
+      await connectArtists(artistAccountsSanitised, accessToken, user)
       Router.push(ROUTES.HOME)
     } catch (err) {
       toggleGlobalLoading(false)

@@ -4,6 +4,7 @@ import React from 'react'
 import PeekElement from 'react-peek-element'
 // IMPORT HOOKS
 import useBrowserStore from '@/hooks/useBrowserStore'
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useLoggedInTest from '@/hooks/useLoggedInTest'
 // IMPORT CONTEXTS
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -18,15 +19,13 @@ function TheHeader() {
   // Toggle mobile header
   const { width: windowWidth } = useBrowserStore()
   const [mobileHeader, setMobileHeader] = React.useState(null)
-  const [inlinePageTitle, setInlinePageTitle] = React.useState(true)
+  const inlinePageTitle = !useBreakpointTest('xxs')
+  const isDesktopLayout = useBreakpointTest('md')
   React.useEffect(() => {
     // Show peek header or not
-    const isDesktopLayout = window.matchMedia('(min-width: 993px)').matches
     setMobileHeader(!isDesktopLayout)
     // Show page title below header, or not
-    const inlinePageTitle = windowWidth < 450
-    setInlinePageTitle(inlinePageTitle)
-  }, [windowWidth])
+  }, [isDesktopLayout])
 
   // Check if logged in or not
   const isLoggedIn = useLoggedInTest()
@@ -40,9 +39,18 @@ function TheHeader() {
   // Define header contents
   const headerContents = (
     <>
-      <TheHeaderContents windowWidth={windowWidth} subNavOpen={subNavOpen} toggleSubNav={toggleSubNav} />
+      <TheHeaderContents
+        windowWidth={windowWidth}
+        subNavOpen={subNavOpen}
+        toggleSubNav={toggleSubNav}
+        inlinePageTitle={inlinePageTitle}
+      />
       {/* THE SUBNAV */}
-      <TheSubNav open={subNavOpen && isLoggedIn} toggle={toggleSubNav} windowWidth={windowWidth} />
+      <TheSubNav
+        open={subNavOpen && isLoggedIn}
+        toggle={toggleSubNav}
+        windowWidth={windowWidth}
+      />
     </>
   )
 

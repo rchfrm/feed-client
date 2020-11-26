@@ -48,11 +48,11 @@ const PostsSettings = () => {
           />
         </PostsSettingsSection>
         {/* LINK TRACKING */}
-        {/* <PostsSettingsSection
+        <PostsSettingsSection
           header="UTM parameters & tracking"
         >
           <PostsSettingsLinkTracking defaultLink={defaultLink} />
-        </PostsSettingsSection> */}
+        </PostsSettingsSection>
       </div>
     </div>
   )
