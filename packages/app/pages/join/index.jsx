@@ -19,7 +19,7 @@ const Page = () => {
       staticPage
       authPage
     >
-      {hasReferralCode ? (
+      {hasReferralCode || !requireReferralCode ? (
         <SignupPageContent requireReferralCode={requireReferralCode} />
       ) : (
         <SignupClosedContent />
