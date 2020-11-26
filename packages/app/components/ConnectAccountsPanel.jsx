@@ -143,35 +143,17 @@ function ConnectAccountsPanel({
   }
 
   const returnInstagramInput = () => {
-    if (artistAccount.instagram_url) {
-      return (
-        <Input
-          name="instagram_url"
-          placeholder={artistAccount.instagram_url || 'Enter the URL of your Instagram Page'}
-          value={artistAccount.instagram_url || ''}
-          handleChange={contactUs}
-          label="Instagram page URL"
-          readOnly={readOnly}
-          version={artistAccount.exists ? 'text' : 'box'}
-        />
-      )
-    }
+    if (!artistAccount.instagram_url) return null
     return (
-      <div className="flex align-top mb-5">
-        <div>
-          <InstagramIcon className="mr-3 h-4" />
-        </div>
-        <a
-          href="https://help.instagram.com/502981923235522"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            transform: 'translateY(-0.25em)',
-          }}
-        >
-          Learn more about Instagram business accounts.
-        </a>
-      </div>
+      <Input
+        name="instagram_url"
+        placeholder={artistAccount.instagram_url}
+        value={artistAccount.instagram_url || ''}
+        handleChange={contactUs}
+        label="Instagram page URL"
+        readOnly
+        version={artistAccount.exists ? 'text' : 'box'}
+      />
     )
   }
 
@@ -282,16 +264,18 @@ function ConnectAccountsPanel({
 
         {/* INPUTS BELOW PROFILE PICTURE */}
         {/* Facebook Page URL */}
-        <Input
-          name="facebook_page_url"
-          placeholder={artistAccount.facebook_page_url || 'Enter the URL of your Facebook Page'}
-          value={artistAccount.facebook_page_url || ''}
-          handleChange={contactUs}
-          label="Facebook Page URL"
-          type="text"
-          readOnly={readOnly}
-          version={artistAccount.exists ? 'text' : 'box'}
-        />
+        {artistAccount.facebook_page_url && (
+          <Input
+            name="facebook_page_url"
+            placeholder={artistAccount.facebook_page_url}
+            value={artistAccount.facebook_page_url}
+            handleChange={contactUs}
+            label="Facebook Page URL"
+            type="text"
+            readOnly
+            version={artistAccount.exists ? 'text' : 'box'}
+          />
+        )}
 
         {/* Instagram Page URL */}
         {returnInstagramInput()}
