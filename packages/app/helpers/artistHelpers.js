@@ -51,9 +51,6 @@ export const createArtist = async (artist, accessToken, token) => {
     name: artist.name,
     location: null,
     country_code: artist.country_code,
-    facebook_page_url: artist.facebook_page_url,
-    spotify_url: utils.cleanSpotifyUrl(artist.spotify_url) || null,
-    instagram_url: artist.instagram_url,
     integrations: {
       facebook: {
         page_id: artist.page_id,
