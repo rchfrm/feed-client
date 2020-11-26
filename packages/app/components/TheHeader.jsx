@@ -46,7 +46,11 @@ function TheHeader() {
         inlinePageTitle={inlinePageTitle}
       />
       {/* THE SUBNAV */}
-      <TheSubNav open={subNavOpen && isLoggedIn} toggle={toggleSubNav} windowWidth={windowWidth} />
+      <TheSubNav
+        open={subNavOpen && isLoggedIn}
+        toggle={toggleSubNav}
+        windowWidth={windowWidth}
+      />
     </>
   )
 
