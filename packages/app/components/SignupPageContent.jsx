@@ -26,7 +26,6 @@ import brandColors from '@/constants/brandColors'
 
 const SignupPageContent = ({
   showEmailSignup,
-  requireReferralCode,
 }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
   // Handle error
@@ -98,7 +97,6 @@ const SignupPageContent = ({
 
 SignupPageContent.propTypes = {
   showEmailSignup: PropTypes.bool,
-  requireReferralCode: PropTypes.bool.isRequired,
 }
 
 SignupPageContent.defaultProps = {
