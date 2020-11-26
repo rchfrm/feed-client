@@ -14,6 +14,7 @@ import { track } from '@/app/helpers/trackingHelpers'
 import Button from '@/elements/Button'
 import EmailIcon from '@/icons/EmailIcon'
 import ButtonFacebook from '@/elements/ButtonFacebook'
+import Success from '@/elements/Success'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 // Constants
@@ -23,9 +24,11 @@ import copy from '@/app/copy/LoginPageCopy'
 // IMPORT STYLES
 import styles from '@/LoginPage.module.css'
 import brandColors from '@/constants/brandColors'
+import referralCodeCopy from '@/app/copy/referralCodeCopy'
 
 const SignupPageContent = ({
   showEmailSignup,
+  requireReferral,
 }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
   // Handle error
@@ -59,6 +62,10 @@ const SignupPageContent = ({
 
   return (
     <div className={styles.container}>
+
+      {!error && requireReferral && (
+        <Success message={referralCodeCopy.successfulCodeCopy} className="mb-8" />
+      )}
 
       <Error className={styles.error} error={error || authError} />
 
@@ -97,10 +104,12 @@ const SignupPageContent = ({
 
 SignupPageContent.propTypes = {
   showEmailSignup: PropTypes.bool,
+  requireReferral: PropTypes.bool,
 }
 
 SignupPageContent.defaultProps = {
   showEmailSignup: false,
+  requireReferral: false,
 }
 
 

@@ -219,7 +219,7 @@
   bottom: 50%;
   transform: translateY(50%);
   display: inline-block;
-  height: 1.4em;
+  height: 1rem;
 
   svg {
     height: 100%;

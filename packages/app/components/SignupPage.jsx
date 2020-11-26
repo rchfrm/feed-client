@@ -74,7 +74,10 @@ const SignupPage = ({ showEmailSignup }) => {
     <>
       <Error error={error} />
       {hasReferralCode || !requireReferralCode ? (
-        <SignupPageContent showEmailSignup={showEmailSignup} />
+        <SignupPageContent
+          showEmailSignup={showEmailSignup}
+          requireReferral
+        />
       ) : (
         <SignupClosedContent />
       )}
