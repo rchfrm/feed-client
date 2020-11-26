@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import shallow from 'zustand/shallow'
 
@@ -15,7 +15,7 @@ const getReferralStoreState = (state) => ({
   hasTrueCode: state.hasTrueCode,
 })
 
-const SignupPage = ({}) => {
+const SignupPage = ({ showEmailSignup }) => {
   // READ STORE
   const {
     hasTrueCode,
@@ -26,7 +26,7 @@ const SignupPage = ({}) => {
   return (
     <>
       {hasReferralCode || !requireReferralCode ? (
-        <SignupPageContent />
+        <SignupPageContent showEmailSignup={showEmailSignup} />
       ) : (
         <SignupClosedContent />
       )}
@@ -35,7 +35,12 @@ const SignupPage = ({}) => {
 }
 
 SignupPage.propTypes = {
-
+  showEmailSignup: PropTypes.bool,
 }
+
+SignupPage.defaultProps = {
+  showEmailSignup: false,
+}
+
 
 export default SignupPage
