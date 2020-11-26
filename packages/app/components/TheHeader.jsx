@@ -20,12 +20,12 @@ function TheHeader() {
   const { width: windowWidth } = useBrowserStore()
   const [mobileHeader, setMobileHeader] = React.useState(null)
   const inlinePageTitle = !useBreakpointTest('xxs')
+  const isDesktopLayout = useBreakpointTest('md')
   React.useEffect(() => {
     // Show peek header or not
-    const isDesktopLayout = window.matchMedia('(min-width: 993px)').matches
     setMobileHeader(!isDesktopLayout)
     // Show page title below header, or not
-  }, [windowWidth])
+  }, [isDesktopLayout])
 
   // Check if logged in or not
   const isLoggedIn = useLoggedInTest()
