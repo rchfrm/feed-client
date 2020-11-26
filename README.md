@@ -87,6 +87,6 @@ To deploy _both_ to the **production** environment run `yarn deploy-production:b
 In Firebase DB Console...
 
 1. Collection = Artists
-2. Find "Archform"
+2. Find "Archform" (filter by name)
 3. Set `facebook_page_id` to null
 4. Delete `integrations`
