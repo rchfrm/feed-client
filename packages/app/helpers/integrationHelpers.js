@@ -61,7 +61,7 @@ export const getIntegrationInfo = (integration) => {
         color: brandColors[platform],
         musicOnly: false,
         editable: true,
-        hidden: true,
+        hidden: false,
       }
     case 'youtube':
       return {
