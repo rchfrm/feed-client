@@ -6,10 +6,12 @@ import sidePanelStyles from '@/app/SidePanel.module.css'
 const NotificationCurrentInfoContent = ({
   title,
   description,
+  buttonEl,
   sidepanelLayout,
 }) => {
+  const hasButton = !sidepanelLayout
   return (
-    <div>
+    <div className={hasButton ? 'pb-12' : null}>
       <h3
         className={[
           sidepanelLayout ? sidePanelStyles.SidePanel__Header : null,
@@ -19,6 +21,8 @@ const NotificationCurrentInfoContent = ({
         {title}
       </h3>
       <p>{description}</p>
+      {/* BUTTON (for not sidepanel layout) */}
+      {hasButton && buttonEl}
     </div>
   )
 }
@@ -26,7 +30,13 @@ const NotificationCurrentInfoContent = ({
 NotificationCurrentInfoContent.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  buttonEl: PropTypes.node,
   sidepanelLayout: PropTypes.bool.isRequired,
 }
+
+NotificationCurrentInfoContent.defaultProps = {
+  buttonEl: null,
+}
+
 
 export default NotificationCurrentInfoContent

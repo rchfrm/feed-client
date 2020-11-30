@@ -1,38 +1,58 @@
 import create from 'zustand'
 import produce from 'immer'
 
-import { fetchNotifications } from '@/app/helpers/notificationsHelpers'
+import { fetchNotifications, formatNotifications } from '@/app/helpers/notificationsHelpers'
 
 const initialState = {
   artistId: '',
+  userId: '',
+  organizationIds: [],
+  loading: true,
   notifications: [],
   totalUnreadNotifications: 0,
   openNotification: null,
   openNotificationId: '',
   artistsWithNotifications: [],
+  notificationsError: null,
+  notificationDictionary: null,
 }
 
 // COUNT UNREAD NOTIFICATIONS
 const countUnreadNotifications = (notifications) => {
-  return notifications.reduce((total, { read }) => {
-    if (read) return total
+  return notifications.reduce((total, { isRead }) => {
+    if (isRead) return total
     return total + 1
   }, 0)
 }
 
+// RUN FORMAT NOTIFICATIONS
+const runFormatNotifications = (set) => (notifications, dictionary) => {
+  const notificationsFormatted = formatNotifications(notifications, dictionary)
+  // SET
+  set({
+    notifications: notificationsFormatted,
+  })
+}
+
 // FETCH NOTIFICATIONS (called whenever artist mounts)
-const fetchAndSetNotifications = (set, get) => async (artistId) => {
-  // If requesting for the same artist, just return data from store
-  if (artistId === get().artistId) {
-    return {
-      notifications: get().notifications,
-    }
-  }
+const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organizationIds }) => {
+  set({ loading: true })
   // Else fetch notifications from server
-  const { res, error } = await fetchNotifications(artistId)
+  const { res, error } = await fetchNotifications({ artistId, userId, organizationIds })
   // Stop here if error
-  if (error) return
-  const { notifications, artistIds } = res
+  if (error) {
+    const notificationsError = {
+      message: `Failed to load notifications: ${error.message}`,
+    }
+    set({ notificationsError, loading: false })
+    return
+  }
+  const { notifications, artistIds = [] } = res
+  // Format notifications
+  const { notificationDictionary } = get()
+  console.log('notificationDictionary', notificationDictionary)
+  const notificationsFormatted = formatNotifications(notifications, notificationDictionary)
+  console.log('FORMATTED notifications', notificationsFormatted)
   // Get array of artist IDs with notifications
   const artistsWithNotifications = artistIds.map(({ id }) => id)
   // GET TOTAL UNREAD NOTIFICATIONS
@@ -40,9 +60,12 @@ const fetchAndSetNotifications = (set, get) => async (artistId) => {
   // SET
   set({
     artistId,
-    notifications,
+    userId,
+    notifications: notificationsFormatted,
     totalUnreadNotifications,
     artistsWithNotifications,
+    notificationsError: null,
+    loading: false,
   })
   // RETURN
   return { notifications }
@@ -78,7 +101,7 @@ const closeNotification = (set) => () => {
 
 // SET NOTIFICATION AS READ
 const setAsRead = (set, get) => (notificationId) => {
-  const notificationsUpdated = updateNotification(set, get)(notificationId, 'read', true)
+  const notificationsUpdated = updateNotification(set, get)(notificationId, 'isRead', true)
   const totalNotificationsUnread = countUnreadNotifications(notificationsUpdated)
   set({ totalNotificationsUnread })
 }
@@ -87,16 +110,23 @@ const setAsRead = (set, get) => (notificationId) => {
 const useNotificationsStore = create((set, get) => ({
   // STATE
   artistId: initialState.artistId,
+  userId: initialState.userId,
+  organizationIds: initialState.organizationIds,
+  loading: initialState.loading,
   notifications: initialState.notifications,
   totalUnreadNotifications: initialState.totalUnreadNotifications,
   openNotification: initialState.openNotification,
   openNotificationId: initialState.openNotificationId,
   artistsWithNotifications: initialState.artistsWithNotifications,
+  notificationsError: initialState.notificationsError,
+  notificationDictionary: initialState.notificationDictionary,
   // GETTERS
   fetchAndSetNotifications: fetchAndSetNotifications(set, get),
   // SETTERS
+  runFormatNotifications: (notifications, dictionary) => runFormatNotifications(set)(notifications, dictionary),
   setAsRead: (id) => setAsRead(set, get)(id),
   setAsOpen: (id) => setAsOpen(set, get)(id),
+  setDictionary: (notificationDictionary) => set({ notificationDictionary }),
   closeNotification: () => closeNotification(set, get)(),
   clear: () => set(initialState),
 }))
