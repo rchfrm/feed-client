@@ -47,14 +47,12 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
     set({ notificationsError, loading: false })
     return
   }
-  const { notifications, artistIds = [] } = res
+  const { notifications } = res
   // Format notifications
   const { notificationDictionary } = get()
   console.log('notificationDictionary', notificationDictionary)
   const notificationsFormatted = formatNotifications(notifications, notificationDictionary)
   console.log('FORMATTED notifications', notificationsFormatted)
-  // Get array of artist IDs with notifications
-  const artistsWithNotifications = artistIds.map(({ id }) => id)
   // GET TOTAL UNREAD NOTIFICATIONS
   const totalUnreadNotifications = countUnreadNotifications(notifications)
   // SET
@@ -63,12 +61,22 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
     userId,
     notifications: notificationsFormatted,
     totalUnreadNotifications,
-    artistsWithNotifications,
     notificationsError: null,
     loading: false,
   })
   // RETURN
   return { notifications }
+}
+
+// SET OTHER USER ARTISTS with notifications
+const setArtistsWithNotifications = (set) => (userArtists) => {
+  // Get array of artist IDs with notifcations
+  const artistIds = userArtists.reduce((ids, { id, notification_count }) => {
+    if (!notification_count) return ids
+    return [...ids, id]
+  }, [])
+  // Set state
+  set({ artistsWithNotifications: artistIds })
 }
 
 
@@ -122,6 +130,7 @@ const useNotificationsStore = create((set, get) => ({
   notificationDictionary: initialState.notificationDictionary,
   // GETTERS
   fetchAndSetNotifications: fetchAndSetNotifications(set, get),
+  setArtistsWithNotifications: (userArtists = []) => setArtistsWithNotifications(set)(userArtists),
   // SETTERS
   runFormatNotifications: (notifications, dictionary) => runFormatNotifications(set)(notifications, dictionary),
   setAsRead: (id) => setAsRead(set, get)(id),

@@ -6,8 +6,11 @@ import * as sharedServer from '@/helpers/sharedServer'
 import { sortUserArtists } from '@/app/helpers/userHelpers'
 import { track, setUserType } from '@/app/helpers/trackingHelpers'
 
+import useNotificationStore from '@/app/store/notificationsStore'
+
 // Read from referralStore
 const getGetStoredReferrerCode = state => state.getStoredReferrerCode
+const getSetArtistsWithNotifications = state => state.setArtistsWithNotifications
 
 const initialUserState = {
   id: '',
@@ -84,6 +87,8 @@ function UserProvider({ children }) {
     }
   }, [setUser])
 
+  const setArtistsWithNotifications = useNotificationStore(getSetArtistsWithNotifications)
+
   const storeUser = React.useCallback(async () => {
     setUserLoading(true)
     const user = await sharedServer.getUser()
@@ -100,6 +105,8 @@ function UserProvider({ children }) {
     // TODO If 404, then call /accounts/register
     if (!user) return
     const sortedArtistUser = sortUserArtists(user)
+    // Store artists with notifications in Not store
+    setArtistsWithNotifications(Object.values(user.artists))
     // Update user type in track helpers
     setUserType(user)
     // Update user state
@@ -111,7 +118,7 @@ function UserProvider({ children }) {
     })
     setUserLoading(false)
     return sortedArtistUser
-  }, [setUser])
+  }, [setUser, setArtistsWithNotifications])
 
   const updateUser = React.useCallback((user) => {
     const sortedArtistUser = sortUserArtists(user)

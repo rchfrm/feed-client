@@ -67,6 +67,7 @@ const TheSubNavArtists = ({ className }) => {
 
   const sortedArtists = React.useMemo(() => {
     return artistHelpers.sortArtistsAlphabetically([...allArtists])
+  // eslint-disable-next-line
   }, [user])
 
   // If no artists, don't show artist links
