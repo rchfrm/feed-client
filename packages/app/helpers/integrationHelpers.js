@@ -54,7 +54,7 @@ export const getIntegrationInfo = (integration) => {
     case 'twitter':
       return {
         title: 'Twitter',
-        titleVerbose: 'Twitter profile',
+        titleVerbose: 'Twitter account',
         baseUrl: 'https://twitter.com/',
         placeholderUrl: 'https://twitter.com/<username>',
         accountIdKey: 'username',
