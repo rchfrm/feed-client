@@ -161,6 +161,8 @@ const getIntegrationRegex = (platform) => {
     // https://regexr.com/5et0m
     case 'soundcloud':
       return /^(?:(?:https?:)?\/\/)?(?:soundcloud.com|snd.sc)\/([^/]+)/
+    case 'twitter':
+      return /^(?:(?:https?:)?\/\/)?(?:twitter.com)\/([^/]+)/
     case 'youtube':
       return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)([a-zA-Z0-9-]+)/
     default:
