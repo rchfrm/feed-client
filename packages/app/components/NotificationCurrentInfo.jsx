@@ -5,11 +5,13 @@ import { gsap } from 'gsap'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useBrowserStore from '@/hooks/useBrowserStore'
+import useAnimateOnMount from '@/hooks/useAnimateOnMount'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import useNotificationStore from '@/app/store/notificationsStore'
 
 import NotificationCurrentInfoContent from '@/app/NotificationCurrentInfoContent'
+import NotificationCurrentInfoButton from '@/app/NotificationCurrentInfoButton'
 
 const getOpenNotification = state => state.openNotification
 const getCloseNotification = state => state.closeNotification
@@ -48,39 +50,78 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  // Get info content
-  const infoContent = React.useMemo(() => {
-    if (!openNotification) return null
-    return (
-      <NotificationCurrentInfoContent
-        title={openNotification.title}
-        description={openNotification.description}
+  const infoButtonAndContent = React.useMemo(() => {
+    if (!openNotification) return {}
+    const button = (
+      <NotificationCurrentInfoButton
+        ctaText={openNotification.ctaText}
+        onClick={openNotification.onClick}
         sidepanelLayout={!isDesktopLayout}
       />
     )
+    const content = (
+      <NotificationCurrentInfoContent
+        title={openNotification.title}
+        description={openNotification.description}
+        buttonEl={button}
+        sidepanelLayout={!isDesktopLayout}
+      />
+    )
+    return { content, button }
   }, [openNotification, isDesktopLayout])
 
   // HANDLE SIDEPANEL
   React.useEffect(() => {
+    const { button, content } = infoButtonAndContent
     // CLOSE SIDEPANEL if DESKTOP
     if (isDesktopLayout) {
       setSidePanelContent(null)
       toggleSidePanel(false)
       setOnSidepanelClose(null)
+      setSidePanelButton(null)
       return
     }
     // OPEN SIDEPANEL if MOBILE
-    const sidepanelOpen = !!infoContent
-    setSidePanelContent(infoContent)
+    const sidepanelOpen = !!content
+    setSidePanelContent(content)
     toggleSidePanel(sidepanelOpen)
     setOnSidepanelClose(() => closeNotification)
+    setSidePanelButton(button)
     return () => {
       setOnSidepanelClose(null)
     }
-  }, [infoContent, isDesktopLayout, setOnSidepanelClose, toggleSidePanel, setSidePanelContent, closeNotification])
+  }, [infoButtonAndContent, isDesktopLayout, setOnSidepanelClose, toggleSidePanel, setSidePanelContent, setSidePanelButton, closeNotification])
+
+  // ANIMATE
+  // Define animation config
+  const animateToFrom = {
+    y: { from: 10, to: 0 },
+    scaleX: { from: 0.95, to: 1 },
+    opacity: { from: 0, to: 1 },
+  }
+  // Setup animation hook
+  const animatedDiv = useAnimateOnMount({
+    animateToFrom,
+    animationOptions: {
+      duration: [0.3, 0.2],
+      ease: ['power2.out', 'power1.out'],
+    },
+    initial: 'hidden',
+  })
+  // Trigger animation
+  React.useEffect(() => {
+    // SHOW BUTTON
+    if (openNotification) {
+      animatedDiv.showPresence()
+      return
+    }
+    // HIDE BUTTON
+    animatedDiv.hidePresence()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openNotification])
 
   // STOP HERE if NO NOTIFICATION or mobile
-  if (!openNotification || !isDesktopLayout) return null
+  if (!isDesktopLayout) return null
 
   return (
     <div
@@ -90,17 +131,21 @@ const NotificationCurrentInfo = ({ containerRef }) => {
         'pl-5',
       ].join(' ')}
     >
-      <div
-        className={[
-          'rounded-dialogue',
-          'p-4 sm:p-5 bg-grey-1',
-        ].join(' ')}
-        style={{
-          marginTop: -1,
-        }}
-      >
-        {infoContent}
-      </div>
+      {animatedDiv.isRendered && (
+        <div
+          ref={animatedDiv.ref}
+          className={[
+            'rounded-dialogue',
+            'p-4 sm:p-5 bg-grey-1',
+          ].join(' ')}
+          style={{
+            marginTop: -1,
+            willChange: 'transform, opacity',
+          }}
+        >
+          {infoButtonAndContent.content}
+        </div>
+      )}
     </div>
   )
 }

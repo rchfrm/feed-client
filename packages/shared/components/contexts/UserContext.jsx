@@ -1,10 +1,9 @@
 import React from 'react'
-import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
 import useReferralStore from '@/app/store/referralStore'
 // IMPORT HELPERS
 import * as sharedServer from '@/helpers/sharedServer'
-import * as artistHelpers from '@/app/helpers/artistHelpers'
+import { sortUserArtists } from '@/app/helpers/userHelpers'
 import { track, setUserType } from '@/app/helpers/trackingHelpers'
 
 // Read from referralStore
@@ -42,14 +41,6 @@ const userReducer = (draftState, action) => {
 
 const UserContext = React.createContext(initialUserState)
 UserContext.displayName = 'UserContext'
-
-const sortUserArtists = (user) => {
-  return produce(user, draft => {
-    const { artists } = draft
-    draft.artists = artistHelpers.sortArtistsAlphabetically(artists)
-    return draft
-  })
-}
 
 function UserProvider({ children }) {
   // DEFINE USER STATE
