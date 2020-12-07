@@ -6,12 +6,12 @@ import InputBase from '@/elements/InputBase'
 
 const Input = ({
   handleChange,
-  onBlur,
   updateValue,
+  regexReplace, // regex to trim input
+  onBlur,
   name,
   label,
   prefix,
-  showPrefix,
   tooltipMessage,
   type,
   placeholder,
@@ -47,12 +47,17 @@ const Input = ({
       console.error(`Please only provide *either* handleChange or updateValue for ${name}, not both.`)
       return
     }
+    let { target: { value } } = e
+    // Trim prefix if defined
+    if (regexReplace) {
+      value = value.replace(regexReplace, '')
+    }
     if (updateValue) {
-      updateValue(e.target.value)
+      updateValue(value)
       return
     }
     handleChange(e)
-  }, [handleChange, updateValue, name])
+  }, [handleChange, updateValue, name, regexReplace])
 
   return (
     <InputBase
@@ -63,7 +68,7 @@ const Input = ({
       required={required}
       className={[
         className,
-        prefix && showPrefix ? '-has-prefix' : null,
+        prefix ? '-has-prefix' : null,
       ].join(' ')}
       icon={icon}
       error={error}
@@ -71,7 +76,7 @@ const Input = ({
       success={success}
       disabled={disabled}
     >
-      {prefix && showPrefix && (
+      {!!prefix && (
         <div className="input--prefix">
           <span>{prefix}</span>
         </div>
@@ -98,12 +103,12 @@ const Input = ({
 
 Input.propTypes = {
   handleChange: PropTypes.func,
-  onBlur: PropTypes.func,
   updateValue: PropTypes.func,
+  regexReplace: PropTypes.string,
+  onBlur: PropTypes.func,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   prefix: PropTypes.string,
-  showPrefix: PropTypes.bool,
   tooltipMessage: PropTypes.string,
   type: PropTypes.string,
   placeholder: PropTypes.string,
@@ -127,14 +132,14 @@ Input.propTypes = {
 
 Input.defaultProps = {
   handleChange: null,
-  onBlur: () => {},
   updateValue: null,
+  regexReplace: '',
+  onBlur: () => {},
   placeholder: '',
   readOnly: false,
   type: 'text',
   label: '',
   prefix: '',
-  showPrefix: false,
   tooltipMessage: '',
   value: '',
   version: 'box',
