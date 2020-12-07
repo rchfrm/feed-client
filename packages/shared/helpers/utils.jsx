@@ -562,6 +562,15 @@ export const enforceUrlProtocol = (url, forceSSH = false) => {
   return `${protocol}${url}`
 }
 
+// Removes any URL protocal
+/**
+ * @param {string} url
+ * @returns {string}
+ */
+export const trimUrlProtocol = (url) => {
+  return url.replace(/(^\w+:|^)\/\//, '')
+}
+
 /**
  * @param {string} url To pass, url must include a protocol (ie, https?://)
  * @param {boolean} addUrlProtocol if true, adds a protocol
