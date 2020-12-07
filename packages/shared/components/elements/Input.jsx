@@ -104,7 +104,7 @@ const Input = ({
 Input.propTypes = {
   handleChange: PropTypes.func,
   updateValue: PropTypes.func,
-  regexReplace: PropTypes.string,
+  regexReplace: PropTypes.object,
   onBlur: PropTypes.func,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -133,7 +133,7 @@ Input.propTypes = {
 Input.defaultProps = {
   handleChange: null,
   updateValue: null,
-  regexReplace: '',
+  regexReplace: null,
   onBlur: () => {},
   placeholder: '',
   readOnly: false,
