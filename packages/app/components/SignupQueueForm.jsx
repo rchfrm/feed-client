@@ -7,6 +7,7 @@ import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 
 import { testValidUrl, testValidEmail } from '@/helpers/utils'
+import { getIntegrationRegex } from '@/app/helpers/integrationHelpers'
 
 const formElements = [
   {
@@ -33,13 +34,15 @@ const formElements = [
     id: 'MMERGE8',
     label: 'Facebook page',
     required: true,
-    type: 'url',
-    errorMessage: 'Please inlcude a valid link',
+    errorMessage: 'Please inlcude a Facebook page',
+    prefix: 'facebook.com/',
+    regexReplace: getIntegrationRegex('facebook', true),
   },
   {
     id: 'MMERGE9',
     label: 'Instagram page',
-    type: 'url',
+    prefix: 'instagram.com/',
+    regexReplace: getIntegrationRegex('instagram', true),
   },
   {
     id: 'MMERGE10',
@@ -57,7 +60,7 @@ const formElements = [
 
 const testValidInput = (type, value) => {
   if (!type) return !!value
-  if (type === 'url') return testValidUrl(value)
+  if (type === 'url') return testValidUrl(value, true)
   if (type === 'email') return testValidEmail(value)
 }
 
@@ -99,6 +102,8 @@ const SignupQueueForm = ({ className }) => {
           id,
           type,
           label,
+          prefix,
+          regexReplace,
           placeholder,
           autoCapitalize,
           autoCorrect,
@@ -119,12 +124,13 @@ const SignupQueueForm = ({ className }) => {
             id={id}
             value={value}
             label={label}
+            prefix={prefix}
+            regexReplace={regexReplace}
             placeholder={placeholder}
             required={required}
             error={error}
             errorMessage={errorMessage}
-            handleChange={(e) => {
-              const { target: { value } } = e
+            updateValue={(value) => {
               setValues((values) => {
                 const valid = testValidInput(type, value)
                 return produce(values, draftValues => {
