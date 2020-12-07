@@ -40,7 +40,7 @@ const formElements = [
   },
   {
     id: 'MMERGE9',
-    label: 'Instagram page',
+    label: 'Instagram profile',
     prefix: 'instagram.com/',
     regexReplace: getIntegrationRegex('instagram', true),
   },
@@ -54,7 +54,8 @@ const formElements = [
   },
   {
     id: 'MMERGE11',
-    label: 'Reason for wanting to use Feed',
+    label: 'What do you want to use Feed for?',
+    placeholder: 'eg. ticket sales, Spotify & Instagram followers, product sales',
   },
 ]
 
