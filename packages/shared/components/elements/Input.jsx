@@ -10,6 +10,8 @@ const Input = ({
   updateValue,
   name,
   label,
+  prefix,
+  showPrefix,
   tooltipMessage,
   type,
   placeholder,
@@ -59,13 +61,21 @@ const Input = ({
       tooltipMessage={tooltipMessage}
       readOnly={readOnly}
       required={required}
-      className={className}
+      className={[
+        className,
+        prefix && showPrefix ? '-has-prefix' : null,
+      ].join(' ')}
       icon={icon}
       error={error}
       errorMessage={errorMessage}
       success={success}
       disabled={disabled}
     >
+      {prefix && showPrefix && (
+        <div className="input--prefix">
+          <span>{prefix}</span>
+        </div>
+      )}
       <input
         ref={inputElement}
         className={['input', `input--${version}`].join(' ')}
@@ -92,6 +102,8 @@ Input.propTypes = {
   updateValue: PropTypes.func,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
+  prefix: PropTypes.string,
+  showPrefix: PropTypes.bool,
   tooltipMessage: PropTypes.string,
   type: PropTypes.string,
   placeholder: PropTypes.string,
@@ -121,6 +133,8 @@ Input.defaultProps = {
   readOnly: false,
   type: 'text',
   label: '',
+  prefix: '',
+  showPrefix: false,
   tooltipMessage: '',
   value: '',
   version: 'box',

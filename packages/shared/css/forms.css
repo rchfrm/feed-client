@@ -64,9 +64,9 @@ select {
   display: flex;
   flex-direction: column;
   width: 100%;
-  font-size: 0.85em;
   letter-spacing: 0.05em;
   margin-bottom: 0.7em;
+  font-size: 0.85em;
   font-weight: var(--bold);
 
   .asterisk {
@@ -94,6 +94,36 @@ select {
   }
 }
 
+/* INPUT PREFIX */
+.input--prefix {
+  display: flex;
+  height: var(--button-height);
+  align-items: center;
+  padding: 0 var(--sp-4);
+  background: var(--grey-light);
+  border: 2px solid var(--text-color);
+  border-right: none;
+  border-radius: var(--button-radius);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  font-size: 0.85em;
+  font-weight: var(--bold);
+}
+
+.input--inner {
+  .input--container.-has-prefix & {
+    display: flex;
+  }
+}
+
+.input--box {
+  .input--container.-has-prefix & {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
+}
+
+/* INPUT BOX */
 .select--box,
 .input--box {
   display: block;
