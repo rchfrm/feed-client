@@ -145,6 +145,7 @@ const SignupQueueForm = ({ className }) => {
             onBlur={() => {
               setValues((values) => {
                 return produce(values, draftValues => {
+                  if (!draftValues[id]) return
                   draftValues[id].error = !valid && required
                 })
               })
