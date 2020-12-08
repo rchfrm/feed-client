@@ -20,18 +20,22 @@ export const getUser = async (verifyIdToken) => {
 }
 
 /**
- * @param {string} first_name
- * @param {string} last_name
+ * @param {object} { firstName, lastName, referrerCode }
  * @param {string} [verify_id_token]
  * @returns {Promise<any>}
  */
-export const createUser = async (first_name, last_name, verify_id_token) => {
-  if (!verify_id_token) verify_id_token = await firebase.getIdTokenOrFail()
+export const createUser = async ({
+  firstName,
+  lastName,
+  referrerCode,
+}, token) => {
+  if (!token) token = await firebase.getIdTokenOrFail()
   return api
     .post('/accounts/register', {
-      first_name,
-      last_name,
-      token: verify_id_token,
+      first_name: firstName,
+      last_name: lastName,
+      ...(referrerCode && { referrer_code: referrerCode }),
+      token,
     }, false)
 }
 

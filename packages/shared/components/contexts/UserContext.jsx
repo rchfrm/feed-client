@@ -60,10 +60,14 @@ function UserProvider({ children }) {
     setUserLoading(false)
   }, [setUser])
 
-  const createUser = React.useCallback(async (first_name, last_name) => {
+  const runCreateUser = React.useCallback(async ({ firstName, lastName, referrerCode }) => {
     setUserLoading(true)
     try {
-      const newUser = await sharedServer.createUser(first_name, last_name)
+      const newUser = await sharedServer.createUser({
+        firstName,
+        lastName,
+        referrerCode,
+      })
       const sortedArtistUser = sortUserArtists(newUser)
       setUser({
         type: 'set-user',
@@ -120,7 +124,7 @@ function UserProvider({ children }) {
   }, [setUser])
 
   const value = {
-    createUser,
+    runCreateUser,
     setNoUser,
     setUser,
     setUserError,
