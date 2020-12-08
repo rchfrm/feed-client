@@ -36,7 +36,7 @@ const formElements = [
     id: 'MMERGE8',
     label: 'Facebook page',
     required: true,
-    errorMessage: 'Please inlcude a Facebook page',
+    errorMessage: 'Please include a Facebook page',
     prefix: 'facebook.com/',
     regexReplace: getIntegrationRegex('facebook', true),
   },
@@ -52,7 +52,7 @@ const formElements = [
     placeholder: 'https://',
     type: 'url',
     required: true,
-    errorMessage: 'Please inlcude a valid link',
+    errorMessage: 'Please include a valid link',
   },
   {
     id: 'MMERGE11',
