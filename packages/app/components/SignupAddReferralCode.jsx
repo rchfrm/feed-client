@@ -66,7 +66,9 @@ const SignupAddReferralCode = ({}) => {
         }}
       >
         <Input
-          updateValue={setCode}
+          updateValue={(value) => {
+            setCode(value.toUpperCase())
+          }}
           name="referral-code"
           // label="Referral code"
           value={code}

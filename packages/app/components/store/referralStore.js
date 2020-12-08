@@ -8,9 +8,12 @@ const initialState = {
   usedReferralCode: '', // The code that was used to sign up
 }
 
-// TODO define regex test for valid code
+
+// Test code is valid (matches regex test)
 const validityTest = (code) => {
-  return code.length > 2
+  const codeRegex = /^[A-Z]{5}-[0-9]{4}$/
+  const reqexTest = new RegExp(codeRegex)
+  return code.match(reqexTest)
 }
 
 // Query API if code is valid
