@@ -306,6 +306,10 @@ button {
     padding: 0 0.8em;
     letter-spacing: 0.05em;
 
+    &:active {
+      border: 2px solid var(--green);
+    }
+
     .icon {
       transform: none;
     }
