@@ -188,9 +188,7 @@ const SignupQueueForm = ({ className }) => {
       })}
 
       {/* GDPR */}
-      <fieldset
-        className="mb-4"
-      >
+      <fieldset className="mb-4">
         <CheckboxInput
           label="GDPR"
           buttonLabel="Tick the box to confirm you're happy to receive emails from us."
@@ -198,19 +196,19 @@ const SignupQueueForm = ({ className }) => {
           id="gdpr_9737"
           name="gdpr[9737]"
           checked={acceptGDPR}
-          onChange={(e) => {
+          onChange={() => {
             setAcceptGDPR(!acceptGDPR)
-            console.log('e', e)
           }}
         />
       </fieldset>
 
       {/* HONEYPOT Real people should not fill this in and expect good things - do not remove this or risk form bot signups */}
-      <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
-        <input type="text" name="b_9169a3b18daa59e77067e959e_58bf5eac4b" tabIndex="-1" value="" readOnly />
+      <div style={{ position: 'absolute', left: '-10000em' }} aria-hidden="true">
+        <input type="text" name="b_9169a3b18daa59e77067e959e_58bf5eac4b" tabIndex="-1" value="" />
       </div>
 
-      <div className="flex justify-end">
+      {/* SUBMIT BUTTON */}
+      <div className="sm:flex justify-end">
         <Button
           type="submit"
           className="w-full sm:w-auto"
