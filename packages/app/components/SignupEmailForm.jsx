@@ -149,7 +149,6 @@ const SignupEmailForm = () => {
         })
       })
     if (!signupRes) return
-    const user = await createUser(firstName, lastName)
     // Create user on server
     const user = await runCreateUser({
       firstName,
