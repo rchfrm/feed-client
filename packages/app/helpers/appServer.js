@@ -29,7 +29,7 @@ const requestWithCatch = async (requestType, url, payload = null, trackError, to
     if (trackError) {
       const { category, action, ignoreErrorCodes = [] } = trackError
       // Ignore error codes
-      if (!ignoreErrorCodes.includes(code)) {
+      if (!ignoreErrorCodes.includes(code || message)) {
         track({
           category,
           action,
@@ -399,6 +399,7 @@ export const testReferralCode = async (code) => {
   const errorTracking = {
     category: 'Links',
     action: 'Check for true referral code',
+    ignoreErrorCodes: ['Not Found'],
   }
   return requestWithCatch('post', requestUrl, payload, errorTracking, dummyToken)
 }
