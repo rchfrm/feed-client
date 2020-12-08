@@ -133,7 +133,7 @@ const SignupQueueForm = ({ className }) => {
             autoFocus={index === 0}
             autoCapitalize={autoCapitalize}
             autoCorrect={autoCorrect}
-            name={id}
+            name={name || id}
             id={id}
             value={value}
             label={label}
@@ -184,7 +184,6 @@ const SignupQueueForm = ({ className }) => {
           }}
         />
       </fieldset>
-      {/* <input type="checkbox"  onChange={handleChange} value="Y" className="av-checkbox" checked={emailCheckbox} /> */}
 
       {/* HONEYPOT Real people should not fill this in and expect good things - do not remove this or risk form bot signups */}
       <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
