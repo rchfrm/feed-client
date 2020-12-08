@@ -1,4 +1,5 @@
 import create from 'zustand'
+import { testReferralCode } from '@/app/helpers/appServer'
 
 const initialState = {
   userReferralCode: '',
@@ -12,15 +13,12 @@ const validityTest = (code) => {
   return code.length > 2
 }
 
-// TODO query API if code is valid
+// Query API if code is valid
 const truthTest = async (code, hasValidCode) => {
   if (!hasValidCode) return false
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const isTrue = code.length > 3
-      resolve(isTrue)
-    }, 600)
-  })
+  const { error } = await testReferralCode(code)
+  if (error) return false
+  return true
 }
 
 const testCodeValidity = (set) => (code) => {

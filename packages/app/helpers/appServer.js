@@ -385,6 +385,26 @@ export const setLinkAsDefault = (artistId, linkId) => {
 }
 
 
+// * REFERRALS
+// --------------------------
+
+/**
+ * @param {string} code
+ * @returns {Promise<any>}
+ */
+export const testReferralCode = async (code) => {
+  const requestUrl = '/accounts/referrer'
+  const payload = { referrer_code: code }
+  const dummyToken = 'lulz' // stops trying to find token
+  const errorTracking = {
+    category: 'Links',
+    action: 'Set link as default',
+  }
+  return requestWithCatch('post', requestUrl, payload, errorTracking, dummyToken)
+}
+
+
+
 // * INTEGRATION ERRORS
 // --------------------------
 
