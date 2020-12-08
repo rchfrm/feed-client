@@ -398,12 +398,10 @@ export const testReferralCode = async (code) => {
   const dummyToken = 'lulz' // stops trying to find token
   const errorTracking = {
     category: 'Links',
-    action: 'Set link as default',
+    action: 'Check for true referral code',
   }
   return requestWithCatch('post', requestUrl, payload, errorTracking, dummyToken)
 }
-
-
 
 // * INTEGRATION ERRORS
 // --------------------------
