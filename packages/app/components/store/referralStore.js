@@ -1,5 +1,8 @@
 import create from 'zustand'
+import { setLocalStorage, getLocalStorage } from '@/helpers/utils'
 import { testReferralCode } from '@/app/helpers/appServer'
+
+const localStorageKey = 'referrer_code'
 
 const initialState = {
   userReferralCode: '',
@@ -38,6 +41,15 @@ const testCodeTruth = (set, get) => async (code) => {
   return hasTrueCode
 }
 
+// Store code in local storage
+const storeTrueCode = (code) => {
+  setLocalStorage(localStorageKey, code)
+}
+
+const getStoredReferrerCode = () => {
+  getLocalStorage(localStorageKey)
+}
+
 const [useReferralStore] = create((set, get) => ({
   userReferralCode: initialState.userReferralCode,
   usedReferralCode: initialState.usedReferralCode,
@@ -51,6 +63,9 @@ const [useReferralStore] = create((set, get) => ({
   setUsedReferralCode: (usedReferralCode) => set({ usedReferralCode }),
   setHasValidCode: (state) => set({ hasValidCode: state }),
   setHasTrueCode: (state) => set({ hasTrueCode: state }),
+  // GETTERS
+  storeTrueCode,
+  getStoredReferrerCode,
 }))
 
 export default useReferralStore

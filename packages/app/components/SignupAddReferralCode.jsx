@@ -20,6 +20,7 @@ const getReferralStoreState = (state) => ({
   hasTrueCode: state.hasTrueCode,
   testCodeValidity: state.testCodeValidity,
   testCodeTruth: state.testCodeTruth,
+  storeTrueCode: state.storeTrueCode,
 })
 
 const SignupAddReferralCode = ({}) => {
@@ -28,17 +29,22 @@ const SignupAddReferralCode = ({}) => {
     hasTrueCode,
     testCodeValidity,
     testCodeTruth,
+    storeTrueCode,
   } = useReferralStore(getReferralStoreState, shallow)
   // LOCAL STATE
   const [code, setCode] = React.useState('')
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  // PUSH TO SIGN UP if code is true
+  // ON ADDING A TRUE CODE
   React.useEffect(() => {
     if (hasTrueCode) {
+      // Store code in local storage
+      storeTrueCode(code)
+      // PUSH TO SIGN UP if code is true
       Router.push(ROUTES.SIGN_UP)
     }
+  // eslint-disable-next-line
   }, [hasTrueCode])
 
   return (
