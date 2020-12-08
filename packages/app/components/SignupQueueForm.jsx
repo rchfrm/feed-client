@@ -5,6 +5,8 @@ import produce from 'immer'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
+import CheckboxInput from '@/elements/CheckboxInput'
+
 
 import { testValidUrl, testValidEmail } from '@/helpers/utils'
 import { getIntegrationRegex } from '@/app/helpers/integrationHelpers'
@@ -22,7 +24,7 @@ const formElements = [
   {
     id: 'MERGE1',
     label: 'Name',
-    required: true,
+    required: false,
     hidden: true,
   },
   {
@@ -68,14 +70,17 @@ const testValidInput = (type, value) => {
 const SignupQueueForm = ({ className }) => {
   const [values, setValues] = React.useState({})
   const [isFormValid, setIsFormValid] = React.useState(false)
+  const [acceptGDPR, setAcceptGDPR] = React.useState(false)
 
   React.useEffect(() => {
     const hasEmptyRequired = formElements.some(({ required, id }) => {
-      const { value, valid } = values[id] || {}
-      return !value && required && !valid
+      const { valid } = values[id] || {}
+      if (required && !valid) return true
+      return false
     })
-    setIsFormValid(!hasEmptyRequired)
-  }, [values])
+
+    setIsFormValid(!hasEmptyRequired && acceptGDPR)
+  }, [values, acceptGDPR])
   return (
     <form
       action="https://ltd.us20.list-manage.com/subscribe/post?u=9169a3b18daa59e77067e959e&amp;id=58bf5eac4b"
@@ -97,6 +102,7 @@ const SignupQueueForm = ({ className }) => {
         className="av-checkbox"
         checked
         readOnly
+        aria-hidden="true"
         style={{
           position: 'absolute',
           left: '-10000em',
@@ -159,6 +165,31 @@ const SignupQueueForm = ({ className }) => {
           />
         )
       })}
+
+      {/* GDPR */}
+      <fieldset
+        className="mb-4"
+      >
+        <CheckboxInput
+          label="GDPR"
+          buttonLabel="Tick the box to confirm you're happy to receive emails from us."
+          value="Y"
+          id="gdpr_9737"
+          name="gdpr[9737]"
+          checked={acceptGDPR}
+          onChange={(e) => {
+            setAcceptGDPR(!acceptGDPR)
+            console.log('e', e)
+          }}
+        />
+      </fieldset>
+      {/* <input type="checkbox"  onChange={handleChange} value="Y" className="av-checkbox" checked={emailCheckbox} /> */}
+
+      {/* HONEYPOT Real people should not fill this in and expect good things - do not remove this or risk form bot signups */}
+      <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
+        <input type="text" name="b_9169a3b18daa59e77067e959e_58bf5eac4b" tabIndex="-1" value="" readOnly />
+      </div>
+
       <div className="flex justify-end">
         <Button
           type="submit"
