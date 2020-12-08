@@ -99,6 +99,7 @@ const SignupQueueForm = ({ className }) => {
         id="group_64"
         name="group[6082][64]"
         value="1"
+        tabIndex="-1"
         className="av-checkbox"
         checked
         readOnly
