@@ -16,6 +16,7 @@ const initialUserState = {
   last_login: '',
   artists: [],
   organizations: {},
+  referral_code: '',
 }
 
 const userReducer = (draftState, action) => {
