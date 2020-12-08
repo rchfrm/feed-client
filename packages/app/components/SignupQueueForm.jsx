@@ -13,7 +13,8 @@ import { getIntegrationRegex } from '@/app/helpers/integrationHelpers'
 
 const formElements = [
   {
-    id: 'MERGE0',
+    id: 'mce-EMAIL',
+    name: 'EMAIL',
     label: 'Email',
     type: 'email',
     autoCapitalize: 'off',
