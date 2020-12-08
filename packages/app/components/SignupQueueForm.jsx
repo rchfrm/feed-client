@@ -92,7 +92,12 @@ const SignupQueueForm = ({ className }) => {
         'relative',
         className,
       ].join(' ')}
-      onSubmit={() => {
+      onSubmit={(e) => {
+        // Stop here if form not valid
+        if (!isFormValid) {
+          e.preventDefault()
+          return
+        }
         track({
           category: 'Form',
           action: 'submit',
