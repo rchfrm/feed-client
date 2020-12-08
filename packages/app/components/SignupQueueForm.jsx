@@ -85,6 +85,7 @@ const SignupQueueForm = ({ className }) => {
     <form
       action="https://tryfeed.us20.list-manage.com/subscribe/post?u=9169a3b18daa59e77067e959e&amp;id=58bf5eac4b"
       method="post"
+      target="_blank"
       id="mc-embedded-subscribe-form"
       name="mc-embedded-subscribe-form"
       noValidate
