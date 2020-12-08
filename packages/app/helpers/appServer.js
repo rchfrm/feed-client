@@ -11,14 +11,15 @@ import { track } from '@/app/helpers/trackingHelpers'
   * @param {string} url
   * @param {object} payload
   * @param {object} trackError { category, action }
+  * @param {string} token
   * @returns {Promise<object>} { res, error }
   * * Makes requests  and returns errors as if the request were succesful with an `error.message` key filled out
 */
-const requestWithCatch = async (requestType, url, payload = null, trackError) => {
+const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
   if (!requestType) return console.error('Please include a request type')
   if (!url) return console.error('Please include a url')
   // eslint-disable-next-line import/namespace
-  const res = await api[requestType](url, payload)
+  const res = await api[requestType](url, payload, token)
     .catch((error) => { return { error } })
   if (res.error) {
     const { error } = res
