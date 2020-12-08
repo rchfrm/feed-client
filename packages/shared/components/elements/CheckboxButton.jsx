@@ -32,7 +32,7 @@ const CheckboxButton = ({
         className="checkbox--button_input"
         name={name || valueString}
         aria-checked={checked}
-        checked={checked}
+        defaultChecked={checked}
         onChange={handleChange}
       />
       <label
