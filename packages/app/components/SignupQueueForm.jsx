@@ -107,25 +107,30 @@ const SignupQueueForm = ({ className }) => {
       }}
     >
       {/* HIDDEN To add them to the 'Waiting List' group */}
-      <input
-        type="checkbox"
-        id="group_64"
-        name="group[6082][64]"
-        value="1"
-        tabIndex="-1"
-        className="av-checkbox"
-        checked
-        readOnly
+      <div
         aria-hidden="true"
         style={{
           position: 'absolute',
           left: '-10000em',
         }}
-      />
+      >
+        <input type="text" name="MERGE3" id="MERGE3" value="Join Queue" readOnly />
+        <input
+          type="checkbox"
+          id="group_64"
+          name="group[6082][64]"
+          value="1"
+          tabIndex="-1"
+          className="av-checkbox"
+          checked
+          readOnly
+        />
+      </div>
 
       {formElements.map((element, index) => {
         const {
           id,
+          name,
           type,
           label,
           prefix,
