@@ -7,7 +7,7 @@ import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import CheckboxInput from '@/elements/CheckboxInput'
 
-
+import { track } from '@/app/helpers/trackingHelpers'
 import { testValidUrl, testValidEmail } from '@/helpers/utils'
 import { getIntegrationRegex } from '@/app/helpers/integrationHelpers'
 
@@ -92,6 +92,14 @@ const SignupQueueForm = ({ className }) => {
         'relative',
         className,
       ].join(' ')}
+      onSubmit={() => {
+        track({
+          category: 'Form',
+          action: 'submit',
+          label: 'Join queue',
+          location: 'Sign up',
+        })
+      }}
     >
       {/* HIDDEN To add them to the 'Waiting List' group */}
       <input
