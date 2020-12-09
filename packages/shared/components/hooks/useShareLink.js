@@ -20,7 +20,6 @@ const useShareLink = ({
   // Set up copy fallback
   React.useEffect(() => {
     if (isShareSupported || !copyButtonFallback) return
-    console.log('setup clipboard')
     const clipboard = new ClipboardJS(copyButtonFallback, { text: () => url })
     clipboard.on('success', onSuccess)
     return () => {
