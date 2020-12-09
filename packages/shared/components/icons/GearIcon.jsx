@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 
 import brandColors from '@/constants/brandColors'
 
-const GearIcon = ({ fill, className }) => {
+const GearIcon = ({ fill, className, style }) => {
   return (
     <svg
       className={className}
+      style={style}
       width="384"
       height="385"
       viewBox="0 0 384 385"
@@ -24,11 +25,13 @@ const GearIcon = ({ fill, className }) => {
 GearIcon.propTypes = {
   fill: PropTypes.string,
   className: PropTypes.string,
+  style: PropTypes.object,
 }
 
 GearIcon.defaultProps = {
   fill: brandColors.textColor,
   className: null,
+  style: null,
 }
 
 
