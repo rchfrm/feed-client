@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import InputBase from '@/elements/InputBase'
 
 const Input = ({
+  El,
   handleChange,
   updateValue,
   regexReplace, // regex to trim input
@@ -81,7 +82,7 @@ const Input = ({
           <span>{prefix}</span>
         </div>
       )}
-      <input
+      <El
         ref={inputElement}
         className={['input', `input--${version}`].join(' ')}
         name={name}
@@ -102,6 +103,7 @@ const Input = ({
 }
 
 Input.propTypes = {
+  El: PropTypes.string,
   handleChange: PropTypes.func,
   updateValue: PropTypes.func,
   regexReplace: PropTypes.object,
@@ -131,6 +133,7 @@ Input.propTypes = {
 }
 
 Input.defaultProps = {
+  El: 'input',
   handleChange: null,
   updateValue: null,
   regexReplace: null,
