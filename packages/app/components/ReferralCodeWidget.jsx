@@ -11,6 +11,7 @@ import copy from '@/app/copy/referralCodeCopy'
 const ReferralCodeWidget = ({
   label,
   useSmallText,
+  putTextAfter,
   className,
 }) => {
   const { user: { referral_code } } = React.useContext(UserContext)
@@ -18,19 +19,29 @@ const ReferralCodeWidget = ({
     <div
       className={[className].join(' ')}
     >
+      {!putTextAfter && (
+        <MarkdownText
+          markdown={copy.explanation}
+          className={useSmallText ? 'text-sm' : null}
+        />
+      )}
       <CopyTextButton
         text={referral_code}
         label={label}
         size="large"
         className={[
           'w-full',
-          useSmallText ? 'mb-3' : 'mb-5',
         ].join(' ')}
       />
-      <MarkdownText
-        markdown={copy.explanation}
-        className={useSmallText ? 'text-sm' : null}
-      />
+      {putTextAfter && (
+        <MarkdownText
+          markdown={copy.explanation}
+          className={[
+            useSmallText ? 'mt-3' : 'mt-5',
+            useSmallText ? 'text-sm' : null,
+          ].join(' ')}
+        />
+      )}
     </div>
   )
 }
@@ -38,12 +49,14 @@ const ReferralCodeWidget = ({
 ReferralCodeWidget.propTypes = {
   label: PropTypes.string,
   useSmallText: PropTypes.bool,
+  putTextAfter: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ReferralCodeWidget.defaultProps = {
   label: '',
   useSmallText: false,
+  putTextAfter: false,
   className: null,
 }
 

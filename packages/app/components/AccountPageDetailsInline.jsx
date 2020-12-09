@@ -166,6 +166,7 @@ function AccountPageDetailsInline({ user }) {
           label="My referral code"
           className="mb-5"
           useSmallText
+          putTextAfter
         />
 
         <Input
