@@ -67,12 +67,9 @@ function TheHeaderContents({
     ].join(' ')}
     >
       {/* BG */}
-      {isLoggedIn && (
-        <>
-          <div className={[styles.background].join(' ')} style={backgroundStyle} />
-          <div className={[styles.dropShadow].join(' ')} style={backgroundStyle} />
-        </>
-      )}
+      <div className={[styles.background].join(' ')} style={backgroundStyle} />
+      <div className={[styles.dropShadow].join(' ')} style={backgroundStyle} />
+
       {/* LOGO */}
       <a
         id="TheLogo"
