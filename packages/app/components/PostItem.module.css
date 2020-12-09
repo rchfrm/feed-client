@@ -277,7 +277,6 @@
 
   :global(.select--box) {
     margin-bottom: 0 !important;
-    text-transform: capitalize;
     border: 2px solid var(--white);
   }
 
