@@ -34,7 +34,7 @@ const formElements = [
     hidden: true,
   },
   {
-    id: 'MMERGE8',
+    id: 'MMERGE12',
     label: 'Facebook page',
     required: true,
     errorMessage: 'Please include a Facebook page',
@@ -42,13 +42,13 @@ const formElements = [
     regexReplace: getIntegrationRegex('facebook', true),
   },
   {
-    id: 'MMERGE9',
+    id: 'MMERGE13',
     label: 'Instagram profile',
     prefix: 'instagram.com/',
     regexReplace: getIntegrationRegex('instagram', true),
   },
   {
-    id: 'MMERGE10',
+    id: 'MMERGE14',
     label: 'Link to your work',
     placeholder: 'https://',
     type: 'url',
