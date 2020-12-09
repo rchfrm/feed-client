@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import produce from 'immer'
 
 import Input from '@/elements/Input'
+import TextArea from '@/elements/TextArea'
 import Button from '@/elements/Button'
 import CheckboxInput from '@/elements/CheckboxInput'
 
@@ -59,6 +60,7 @@ const formElements = [
     id: 'MMERGE11',
     label: 'What do you want to use Feed for?',
     placeholder: 'eg. ticket sales, Spotify & Instagram followers, product sales',
+    useTextarea: true,
   },
 ]
 
@@ -143,11 +145,13 @@ const SignupQueueForm = ({ className }) => {
           hidden,
           required,
           errorMessage,
+          useTextarea,
         } = element
         if (hidden) return
         const { value, valid, error } = values[id] || {}
+        const El = useTextarea ? TextArea : Input
         return (
-          <Input
+          <El
             key={id}
             type={type}
             autoFocus={index === 0}
