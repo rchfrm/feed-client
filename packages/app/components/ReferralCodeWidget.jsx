@@ -8,31 +8,42 @@ import { UserContext } from '@/contexts/UserContext'
 
 import copy from '@/app/copy/referralCodeCopy'
 
-const ReferralCodeWidget = ({ className }) => {
+const ReferralCodeWidget = ({
+  label,
+  useSmallText,
+  className,
+}) => {
   const { user: { referral_code } } = React.useContext(UserContext)
   return (
     <div
       className={[className].join(' ')}
     >
       <CopyTextButton
-        label="Your referral code"
         text={referral_code}
+        label={label}
         size="large"
-        className="w-full mb-3"
+        className={[
+          'w-full',
+          useSmallText ? 'mb-3' : 'mb-5',
+        ].join(' ')}
       />
       <MarkdownText
         markdown={copy.explanation}
-        className="text-sm"
+        className={useSmallText ? 'text-sm' : null}
       />
     </div>
   )
 }
 
 ReferralCodeWidget.propTypes = {
+  label: PropTypes.string,
+  useSmallText: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ReferralCodeWidget.defaultProps = {
+  label: '',
+  useSmallText: false,
   className: null,
 }
 
