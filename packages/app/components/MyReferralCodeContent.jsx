@@ -28,7 +28,7 @@ const MyReferralCodeContent = ({ className }) => {
             title={title}
             text={text}
             className={[
-              'w-full xs:w-auto',
+              'w-full xs:w-48',
             ].join(' ')}
           />
         </div>
