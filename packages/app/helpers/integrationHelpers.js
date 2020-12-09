@@ -54,14 +54,14 @@ export const getIntegrationInfo = (integration) => {
     case 'twitter':
       return {
         title: 'Twitter',
-        titleVerbose: 'Twitter profile',
+        titleVerbose: 'Twitter account',
         baseUrl: 'https://twitter.com/',
         placeholderUrl: 'https://twitter.com/<username>',
         accountIdKey: 'username',
         color: brandColors[platform],
         musicOnly: false,
         editable: true,
-        hidden: true,
+        hidden: false,
       }
     case 'youtube':
       return {
@@ -161,6 +161,8 @@ const getIntegrationRegex = (platform) => {
     // https://regexr.com/5et0m
     case 'soundcloud':
       return /^(?:(?:https?:)?\/\/)?(?:soundcloud.com|snd.sc)\/([^/]+)/
+    case 'twitter':
+      return /^(?:(?:https?:)?\/\/)?(?:twitter.com)\/([^/]+)/
     case 'youtube':
       return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)([a-zA-Z0-9-]+)/
     default:
