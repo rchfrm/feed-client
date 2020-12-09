@@ -61,6 +61,11 @@ const [useReferralStore] = create((set, get) => ({
   // SETTERS
   setUserReferralCode: (userReferralCode) => set({ userReferralCode }),
   setUsedReferralCode: (usedReferralCode) => set({ usedReferralCode }),
+  clearUsedReferralCode: () => set({
+    usedReferralCode: '',
+    hasValidCode: false,
+    hasTrueCode: false,
+  }),
   setHasValidCode: (state) => set({ hasValidCode: state }),
   setHasTrueCode: (state) => set({ hasTrueCode: state }),
   // GETTERS

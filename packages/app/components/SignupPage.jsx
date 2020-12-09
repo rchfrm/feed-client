@@ -76,6 +76,7 @@ const SignupPage = ({ showEmailSignup }) => {
       {hasReferralCode || !requireReferralCode ? (
         <SignupPageContent
           showEmailSignup={showEmailSignup}
+          setChecking={setChecking}
           requireReferral
         />
       ) : (
