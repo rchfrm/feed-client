@@ -16,7 +16,7 @@ const getButtonText = (isShareSupported, success, shareText, copyText) => {
   if (!isShareSupported) return copyText
 }
 
-const ShareButton = ({
+const ButtonShare = ({
   url,
   title,
   text,
@@ -72,7 +72,7 @@ const ShareButton = ({
   )
 }
 
-ShareButton.propTypes = {
+ButtonShare.propTypes = {
   url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   text: PropTypes.string,
@@ -82,7 +82,7 @@ ShareButton.propTypes = {
   className: PropTypes.string,
 }
 
-ShareButton.defaultProps = {
+ButtonShare.defaultProps = {
   text: '',
   shareText: 'Share link',
   copyText: 'Copy link',
@@ -90,4 +90,4 @@ ShareButton.defaultProps = {
   className: null,
 }
 
-export default ShareButton
+export default ButtonShare

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ShareButton from '@/elements/ShareButton'
+import ButtonShare from '@/elements/ButtonShare'
 import MarkdownText from '@/elements/MarkdownText'
 
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
@@ -23,7 +23,7 @@ const MyReferralCodeContent = ({ className }) => {
         <ReferralCodeWidget className="mb-5" />
         <MarkdownText markdown={copy.sharingLinkExplanation} />
         <div>
-          <ShareButton
+          <ButtonShare
             url={url}
             title={title}
             text={text}
