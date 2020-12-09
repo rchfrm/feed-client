@@ -19,17 +19,19 @@ const MyReferralCodeContent = ({ className }) => {
         className,
       ].join(' ')}
     >
-      <ReferralCodeWidget className="mb-5" />
-      <MarkdownText markdown={copy.sharingLinkExplanation} />
-      <div>
-        <ShareButton
-          url={url}
-          title={title}
-          text={text}
-          className={[
-            'w-full',
-          ].join(' ')}
-        />
+      <div className="max-w-lg mx-auto">
+        <ReferralCodeWidget className="mb-5" />
+        <MarkdownText markdown={copy.sharingLinkExplanation} />
+        <div>
+          <ShareButton
+            url={url}
+            title={title}
+            text={text}
+            className={[
+              'w-full xs:w-auto',
+            ].join(' ')}
+          />
+        </div>
       </div>
     </div>
   )
