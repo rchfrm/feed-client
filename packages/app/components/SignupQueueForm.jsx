@@ -204,7 +204,7 @@ const SignupQueueForm = ({ className }) => {
 
       {/* HONEYPOT Real people should not fill this in and expect good things - do not remove this or risk form bot signups */}
       <div style={{ position: 'absolute', left: '-10000em' }} aria-hidden="true">
-        <input type="text" name="b_9169a3b18daa59e77067e959e_58bf5eac4b" tabIndex="-1" value="" />
+        <input type="text" name="b_9169a3b18daa59e77067e959e_58bf5eac4b" tabIndex="-1" defaultValue="" />
       </div>
 
       {/* SUBMIT BUTTON */}
