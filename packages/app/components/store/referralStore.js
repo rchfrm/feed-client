@@ -47,7 +47,7 @@ const storeTrueCode = (code) => {
 }
 
 const getStoredReferrerCode = () => {
-  getLocalStorage(localStorageKey)
+  return getLocalStorage(localStorageKey)
 }
 
 const [useReferralStore] = create((set, get) => ({
