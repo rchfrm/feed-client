@@ -72,7 +72,6 @@ function UserProvider({ children }) {
     try {
       // Get referrer code (from local storage)
       const referrerCode = getStoredReferrerCode()
-      console.log('referrerCode', referrerCode)
       // Create user in DB
       const newUser = await sharedServer.createUser({
         firstName,
