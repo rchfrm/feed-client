@@ -32,10 +32,10 @@ const SignupPageContent = ({
   // Handle error
   const [error, setError] = React.useState(null)
   // Change route when clicking on facebook button
-  const goToEmailSignup = () => {
+  const goToEmailSignup = React.useCallback(() => {
     setError(null)
     Router.push(ROUTES.SIGN_UP_EMAIL)
-  }
+  }, [])
 
   // Clear auth error when leaving page
   React.useEffect(() => {
