@@ -15,6 +15,21 @@ import loginCopy from '@/app/copy/LoginPageCopy'
 
 const SignupClosedContent = () => {
   const router = useRouter()
+  const [email, setEmail] = React.useState('')
+  const [formValid, setFormValid] = React.useState(false)
+  React.useEffect(() => {
+    const isEmailValid = testValidEmail(email)
+    setFormValid(isEmailValid)
+  }, [email])
+
+  // TODO handle submitting email
+  const handleFormSubmission = (e) => {
+    // Stop here if form not valid
+    if (!formValid) {
+      e.preventDefault()
+    }
+  }
+
   return (
     <div className={styles.container}>
       <MarkdownText markdown={copy.signupClosedIntro} allowHtml />
