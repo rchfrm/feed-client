@@ -355,7 +355,10 @@ select {
       border: 1px solid var(--purple);
     }
   }
+}
 
+/* RADIO BUTTON INITIAL/HOVER */
+.radio--button_label {
   &::after {
     background-color: var(--grey-light);
     transform: scale(0) translateZ(0);
@@ -369,10 +372,9 @@ select {
   }
 }
 
+/* RADIO BUTTON ACTIVE */
 .radio--button_input:checked + .radio--button_label,
-.checkbox--button_input:checked + .checkbox--button_label,
-.radio--button_label.-active,
-.checkbox--button_label.-active {
+.radio--button_label.-active {
   &::after {
     background-color: var(--green);
     transform: scale(0.4) translateZ(0);
@@ -383,5 +385,31 @@ select {
       background-color: var(--white);
       transform: scale(0.4) translateZ(0);
     } 
+  }
+}
+
+/* CHECKBOX BUTTON INITIAL/HOVER */
+.checkbox--button_label {
+  &::after {
+    background: url('/icons/tick-green.svg') no-repeat;
+    background-size: 100% auto;
+    transform: scale(0) translate3d(0, 1px, 0);
+    transition: transform var(--trans);
+  }
+
+  &:hover {
+    &::after {
+      filter: grayscale(1);
+      transform: scale(0.3) translate3d(0, 1px, 0);
+    }
+  }
+}
+
+/* CHECKBOX BUTTON ACTIVE */
+.checkbox--button_input:checked + .checkbox--button_label,
+.checkbox--button_label.-active {
+  &::after {
+    filter: none !important;
+    transform: scale(0.6) translate3d(0, 1px, 0);
   }
 }
