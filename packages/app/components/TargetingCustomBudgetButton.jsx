@@ -29,7 +29,7 @@ const TargetingCustomBudgetButton = ({
         'flex items-center',
         'no-underline',
         'px-3 py-1',
-        'bg-green text-white',
+        'bg-green text-white button--green',
         'rounded-full',
         className,
       ].join(' ')}

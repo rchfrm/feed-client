@@ -23,6 +23,8 @@ const Button = React.forwardRef(({
   const versions = version
     .split(' ')
     .map((versionString) => `button--${versionString}`)
+  versions.push('button--basic')
+
   if (icon) {
     versions.push('button--icon')
   }

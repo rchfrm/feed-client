@@ -12,7 +12,7 @@ const TargetingSummaryEditButton = ({ setCurrentView, className }) => {
         'flex items-center',
         'no-underline',
         'px-3 py-1',
-        'bg-green text-white',
+        'button--green text-white',
         'rounded-full',
         className,
       ].join(' ')}
