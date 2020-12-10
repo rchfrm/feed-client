@@ -60,6 +60,8 @@ const SignupPage = ({ showEmailSignup }) => {
       setError({ message: copy.invalidCodeCopy })
       return
     }
+    // If reached here, code in query is valid and true
+    // and has been stored in store
     setError(null)
   // eslint-disable-next-line
   }, [])
