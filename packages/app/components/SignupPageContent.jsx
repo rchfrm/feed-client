@@ -8,11 +8,11 @@ import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT COMPONENTS
 import SignupEmailForm from '@/app/SignupEmailForm'
 import LoginSignupButtons from '@/app/LoginSignupButtons'
+import SignupReferralCodeDisplay from '@/app/SignupReferralCodeDisplay'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
 import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT ELEMENTS
-import Success from '@/elements/Success'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 // Constants
@@ -21,20 +21,21 @@ import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/LoginPageCopy'
 // IMPORT STYLES
 import styles from '@/LoginPage.module.css'
-import referralCodeCopy from '@/app/copy/referralCodeCopy'
+
 
 const SignupPageContent = ({
   showEmailSignup,
   requireReferral,
+  setChecking,
 }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
   // Handle error
   const [error, setError] = React.useState(null)
   // Change route when clicking on facebook button
-  const goToEmailSignup = () => {
+  const goToEmailSignup = React.useCallback(() => {
     setError(null)
     Router.push(ROUTES.SIGN_UP_EMAIL)
-  }
+  }, [])
 
   // Clear auth error when leaving page
   React.useEffect(() => {
@@ -60,10 +61,6 @@ const SignupPageContent = ({
   return (
     <div className={styles.container}>
 
-      {!error && requireReferral && (
-        <Success message={referralCodeCopy.successfulCodeCopy} className="mb-8" />
-      )}
-
       <Error className={styles.error} error={error || authError} />
 
       {/* Email login form */}
@@ -77,6 +74,10 @@ const SignupPageContent = ({
             onFacebookClick={facebookSignup}
             onEmailClick={goToEmailSignup}
           />
+          {/* SHOW WHAT REFERRAL CODE IS BEING USED */}
+          {!error && requireReferral && (
+            <SignupReferralCodeDisplay setChecking={setChecking} />
+          )}
           {/* Link to login page */}
           <MarkdownText markdown={copy.loginReminder} />
         </>
@@ -90,6 +91,7 @@ const SignupPageContent = ({
 SignupPageContent.propTypes = {
   showEmailSignup: PropTypes.bool,
   requireReferral: PropTypes.bool,
+  setChecking: PropTypes.func.isRequired,
 }
 
 SignupPageContent.defaultProps = {

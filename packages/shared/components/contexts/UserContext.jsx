@@ -1,10 +1,14 @@
 import React from 'react'
 import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
+import useReferralStore from '@/app/store/referralStore'
 // IMPORT HELPERS
 import * as sharedServer from '@/helpers/sharedServer'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { track, setUserType } from '@/app/helpers/trackingHelpers'
+
+// Read from referralStore
+const getGetStoredReferrerCode = state => state.getStoredReferrerCode
 
 const initialUserState = {
   id: '',
@@ -16,6 +20,7 @@ const initialUserState = {
   last_login: '',
   artists: [],
   organizations: {},
+  referral_code: '',
 }
 
 const userReducer = (draftState, action) => {
@@ -59,10 +64,20 @@ function UserProvider({ children }) {
     setUserLoading(false)
   }, [setUser])
 
-  const createUser = React.useCallback(async (first_name, last_name) => {
+  // Get Getter to read reffere code from store
+  const getStoredReferrerCode = useReferralStore(getGetStoredReferrerCode)
+
+  const runCreateUser = React.useCallback(async ({ firstName, lastName }) => {
     setUserLoading(true)
     try {
-      const newUser = await sharedServer.createUser(first_name, last_name)
+      // Get referrer code (from local storage)
+      const referrerCode = getStoredReferrerCode()
+      // Create user in DB
+      const newUser = await sharedServer.createUser({
+        firstName,
+        lastName,
+        referrerCode,
+      })
       const sortedArtistUser = sortUserArtists(newUser)
       setUser({
         type: 'set-user',
@@ -119,7 +134,7 @@ function UserProvider({ children }) {
   }, [setUser])
 
   const value = {
-    createUser,
+    runCreateUser,
     setNoUser,
     setUser,
     setUserError,

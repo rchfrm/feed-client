@@ -1,4 +1,6 @@
 import create from 'zustand'
+import { setLocalStorage, getLocalStorage } from '@/helpers/utils'
+import { testReferralCode } from '@/app/helpers/appServer'
 
 const initialState = {
   userReferralCode: '',
@@ -7,20 +9,33 @@ const initialState = {
   usedReferralCode: '', // The code that was used to sign up
 }
 
-// TODO define regex test for valid code
-const validityTest = (code) => {
-  return code.length > 2
+
+// STORE CODE IN LOCAL STORAGE
+
+const localStorageKey = 'referrer_code'
+
+const storeTrueCode = (code) => {
+  setLocalStorage(localStorageKey, code)
 }
 
-// TODO query API if code is valid
+const getStoredReferrerCode = () => {
+  return getLocalStorage(localStorageKey)
+}
+
+
+// Test code is valid (matches regex test)
+const validityTest = (code) => {
+  const codeRegexShort = /^[A-Z]{2}[0-9]{3}$/
+  const regexTestShort = new RegExp(codeRegexShort)
+  return code.match(regexTestShort)
+}
+
+// Query API if code is valid
 const truthTest = async (code, hasValidCode) => {
   if (!hasValidCode) return false
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const isTrue = code.length > 3
-      resolve(isTrue)
-    }, 600)
-  })
+  const { error } = await testReferralCode(code)
+  if (error) return false
+  return true
 }
 
 const testCodeValidity = (set) => (code) => {
@@ -37,6 +52,18 @@ const testCodeTruth = (set, get) => async (code) => {
   return hasTrueCode
 }
 
+// CLEAR USED CODE
+const clearUsedCode = (set) => {
+  // Clear in local storage
+  storeTrueCode('')
+  // Clear in store
+  set({
+    usedReferralCode: '',
+    hasValidCode: false,
+    hasTrueCode: false,
+  })
+}
+
 const [useReferralStore] = create((set, get) => ({
   userReferralCode: initialState.userReferralCode,
   usedReferralCode: initialState.usedReferralCode,
@@ -48,8 +75,12 @@ const [useReferralStore] = create((set, get) => ({
   // SETTERS
   setUserReferralCode: (userReferralCode) => set({ userReferralCode }),
   setUsedReferralCode: (usedReferralCode) => set({ usedReferralCode }),
+  clearUsedReferralCode: () => clearUsedCode(set),
   setHasValidCode: (state) => set({ hasValidCode: state }),
   setHasTrueCode: (state) => set({ hasTrueCode: state }),
+  // GETTERS
+  storeTrueCode,
+  getStoredReferrerCode,
 }))
 
 export default useReferralStore

@@ -15,6 +15,7 @@ import loginCopy from '@/app/copy/LoginPageCopy'
 
 const SignupClosedContent = () => {
   const router = useRouter()
+
   return (
     <div className={styles.container}>
       <MarkdownText markdown={copy.signupClosedIntro} allowHtml />
@@ -31,9 +32,7 @@ const SignupClosedContent = () => {
         </Button>
       </div>
       <MarkdownText markdown={copy.signupClosedOutro} allowHtml />
-      <SignupQueueForm
-        className="pt-2 mb-8"
-      />
+      <SignupQueueForm className="pt-2 mb-8" />
       {/* Link to login page */}
       <MarkdownText markdown={loginCopy.loginReminder} />
     </div>

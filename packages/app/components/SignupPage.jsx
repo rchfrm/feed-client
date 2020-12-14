@@ -24,6 +24,7 @@ const getReferralStoreState = (state) => ({
   hasTrueCode: state.hasTrueCode,
   testCodeValidity: state.testCodeValidity,
   testCodeTruth: state.testCodeTruth,
+  storeTrueCode: state.storeTrueCode,
 })
 
 const SignupPage = ({ showEmailSignup }) => {
@@ -33,6 +34,7 @@ const SignupPage = ({ showEmailSignup }) => {
     hasValidCode,
     testCodeValidity,
     testCodeTruth,
+    storeTrueCode,
   } = useReferralStore(getReferralStoreState, shallow)
 
   // READ CODE FROM QUERY
@@ -60,6 +62,9 @@ const SignupPage = ({ showEmailSignup }) => {
       setError({ message: copy.invalidCodeCopy })
       return
     }
+    // If reached here, code in query is valid and true
+    // and has been stored in store and local storage
+    storeTrueCode(queryCode)
     setError(null)
   // eslint-disable-next-line
   }, [])
@@ -76,6 +81,7 @@ const SignupPage = ({ showEmailSignup }) => {
       {hasReferralCode || !requireReferralCode ? (
         <SignupPageContent
           showEmailSignup={showEmailSignup}
+          setChecking={setChecking}
           requireReferral
         />
       ) : (

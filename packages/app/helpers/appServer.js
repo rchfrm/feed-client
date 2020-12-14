@@ -11,14 +11,15 @@ import { track } from '@/app/helpers/trackingHelpers'
   * @param {string} url
   * @param {object} payload
   * @param {object} trackError { category, action }
+  * @param {string} token
   * @returns {Promise<object>} { res, error }
   * * Makes requests  and returns errors as if the request were succesful with an `error.message` key filled out
 */
-const requestWithCatch = async (requestType, url, payload = null, trackError) => {
+const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
   if (!requestType) return console.error('Please include a request type')
   if (!url) return console.error('Please include a url')
   // eslint-disable-next-line import/namespace
-  const res = await api[requestType](url, payload)
+  const res = await api[requestType](url, payload, token)
     .catch((error) => { return { error } })
   if (res.error) {
     const { error } = res
@@ -28,7 +29,7 @@ const requestWithCatch = async (requestType, url, payload = null, trackError) =>
     if (trackError) {
       const { category, action, ignoreErrorCodes = [] } = trackError
       // Ignore error codes
-      if (!ignoreErrorCodes.includes(code)) {
+      if (!ignoreErrorCodes.includes(code || message)) {
         track({
           category,
           action,
@@ -383,6 +384,25 @@ export const setLinkAsDefault = (artistId, linkId) => {
   return requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
+
+// * REFERRALS
+// --------------------------
+
+/**
+ * @param {string} code
+ * @returns {Promise<any>}
+ */
+export const testReferralCode = async (code) => {
+  const requestUrl = '/accounts/referrer'
+  const payload = { referrer_code: code }
+  const dummyToken = 'lulz' // stops trying to find token
+  const errorTracking = {
+    category: 'Links',
+    action: 'Check for true referral code',
+    ignoreErrorCodes: ['Not Found'],
+  }
+  return requestWithCatch('post', requestUrl, payload, errorTracking, dummyToken)
+}
 
 // * INTEGRATION ERRORS
 // --------------------------

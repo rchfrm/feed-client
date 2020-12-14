@@ -59,7 +59,7 @@ const InitUser = ({ children }) => {
     storeAuth,
     setMissingScopes,
   } = React.useContext(AuthContext)
-  const { createUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
+  const { runCreateUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   // After user has loaded the first time...
@@ -139,7 +139,10 @@ const InitUser = ({ children }) => {
     }
     // return
     // If it's a new user, create their profile on the server
-    const user = await createUser(first_name, last_name)
+    const user = await runCreateUser({
+      firstName: first_name,
+      lastName: last_name,
+    })
       .catch((error) => {
         track({
           category: 'sign up',
