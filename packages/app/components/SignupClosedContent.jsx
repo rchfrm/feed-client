@@ -15,20 +15,6 @@ import loginCopy from '@/app/copy/LoginPageCopy'
 
 const SignupClosedContent = () => {
   const router = useRouter()
-  const [email, setEmail] = React.useState('')
-  const [formValid, setFormValid] = React.useState(false)
-  React.useEffect(() => {
-    const isEmailValid = testValidEmail(email)
-    setFormValid(isEmailValid)
-  }, [email])
-
-  // TODO handle submitting email
-  const handleFormSubmission = (e) => {
-    // Stop here if form not valid
-    if (!formValid) {
-      e.preventDefault()
-    }
-  }
 
   return (
     <div className={styles.container}>
@@ -46,9 +32,7 @@ const SignupClosedContent = () => {
         </Button>
       </div>
       <MarkdownText markdown={copy.signupClosedOutro} allowHtml />
-      <SignupQueueForm
-        className="pt-2 mb-8"
-      />
+      <SignupQueueForm className="pt-2 mb-8" />
       {/* Link to login page */}
       <MarkdownText markdown={loginCopy.loginReminder} />
     </div>
