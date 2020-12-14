@@ -25,11 +25,9 @@ const getStoredReferrerCode = () => {
 
 // Test code is valid (matches regex test)
 const validityTest = (code) => {
-  const codeRegexLong = /^[A-Z]{5}-[0-9]{4}$/
-  const regexTestLong = new RegExp(codeRegexLong)
   const codeRegexShort = /^[A-Z]{2}[0-9]{3}$/
   const regexTestShort = new RegExp(codeRegexShort)
-  return code.match(regexTestShort) || code.match(regexTestLong)
+  return code.match(regexTestShort)
 }
 
 // Query API if code is valid
