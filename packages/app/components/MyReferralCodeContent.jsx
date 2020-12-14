@@ -4,12 +4,15 @@ import PropTypes from 'prop-types'
 import ButtonShare from '@/elements/ButtonShare'
 import MarkdownText from '@/elements/MarkdownText'
 
+import { UserContext } from '@/contexts/UserContext'
+
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 
 import copy from '@/app/copy/referralCodeCopy'
 
 const MyReferralCodeContent = ({ className }) => {
-  const url = 'https://test.com'
+  const { user: { referral_code } } = React.useContext(UserContext)
+  const joinUrl = `https://beta.tryfeed.co/join?code=${referral_code}`
   const title = 'Get Feed'
   const text = 'Sign up to Feed'
 
@@ -24,7 +27,7 @@ const MyReferralCodeContent = ({ className }) => {
         <MarkdownText markdown={copy.sharingLinkExplanation} />
         <div>
           <ButtonShare
-            url={url}
+            url={joinUrl}
             title={title}
             text={text}
             className={[
