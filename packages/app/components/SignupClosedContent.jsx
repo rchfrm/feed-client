@@ -28,7 +28,7 @@ const SignupClosedContent = () => {
             router.push(ROUTES.REFERRAL)
           }}
         >
-          Sign up here
+          Sign up with referral code
         </Button>
       </div>
       <MarkdownText markdown={copy.signupClosedOutro} allowHtml />
