@@ -12,5 +12,9 @@ export default {
   invalidCodeCopy: `Sorry, this referral code does not exist.`,
 
   // Explain to users what their referral code is
-  explanation: `This is your referral code. Share it with others to let them jump the queue and sign up to Feed. You'll also benefit from our referral scheme when it starts running.`,
+  explanation: `This is your referral code. Share it with others to let them jump the queue and sign up to Feed.`,
+
+  // Explain about sharing link
+  sharingLinkExplanation: `You can also share a direct link that will let others sign up using your referral code.`,
+
 }

@@ -11,10 +11,19 @@ const CopyTextButton = ({
   size,
   className,
 }) => {
-  const buttonEl = React.useRef(null)
+  const button = React.useRef(null)
+
+  const [success, setSuccess] = React.useState(false)
+  const onSuccess = React.useCallback(() => {
+    setSuccess(true)
+    setTimeout(() => {
+      if (!button.current) return
+      setSuccess(false)
+    }, 800)
+  }, [])
   React.useEffect(() => {
-    const { current: button } = buttonEl
-    const clipboard = new ClipboardJS(button)
+    const clipboard = new ClipboardJS(button.current)
+    clipboard.on('success', onSuccess)
     return () => {
       clipboard.destroy()
     }
@@ -42,10 +51,12 @@ const CopyTextButton = ({
         ].join(' ')}
         role="button"
         title={`Copy ${text} to clipboard`}
-        ref={buttonEl}
+        ref={button}
         data-clipboard-text={text}
       >
-        <span className="text mr-2">{text}</span>
+        <span className="text mr-2">
+          {success ? 'Copied!' : text}
+        </span>
         <ClipboardIcon className="icon" />
       </a>
     </>

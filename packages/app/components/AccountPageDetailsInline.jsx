@@ -162,7 +162,12 @@ function AccountPageDetailsInline({ user }) {
           return <Error error={error} key={index} />
         })}
 
-        <ReferralCodeWidget className="mb-5" />
+        <ReferralCodeWidget
+          label="My referral code"
+          className="mb-5"
+          useSmallText
+          putTextAfter
+        />
 
         <Input
           name="name"

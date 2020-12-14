@@ -48,6 +48,10 @@
   width: 100%;
   min-height: 100%;
 
+  @mixin mobileDevice {
+    min-height: 0;
+  }
+
   > * {
     width: 100%;
   }
@@ -180,8 +184,7 @@
   justify-self: flex-end;
 
   @mixin mobileDevice {
-    margin-top: -1rem;
-    padding-top: var(--sp-4);
+    padding-top: var(--sp-6);
     padding-bottom: var(--sp-6);
   }
 
@@ -198,6 +201,7 @@
 
 .signOutLink_desktop {
   display: none;
+  margin-bottom: var(--sp-12);
 
   @media (--md) {
     display: block;
