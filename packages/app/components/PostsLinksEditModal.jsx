@@ -27,7 +27,7 @@ const PostsLinksEditModal = ({
   const [hasHrefError, setHasHrefError] = React.useState(false)
   const [showHrefError, setShowHrefError] = React.useState(false)
   React.useEffect(() => {
-    const hasError = !utils.testValidUrl(utils.enforceUrlProtocol(linkProps.href))
+    const hasError = !utils.testValidUrl(linkProps.href, true)
     setHasHrefError(hasError)
   }, [linkProps.href])
   // MAKE SURE THERE IS A NAME

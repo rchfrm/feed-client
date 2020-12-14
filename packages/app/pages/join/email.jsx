@@ -1,5 +1,5 @@
 import BasePage from '@/app/BasePage'
-import SignupPageContent from '@/app/SignupPageContent'
+import SignupPage from '@/app/SignupPage'
 
 const headerConfig = {
   text: 'sign up',
@@ -11,7 +11,7 @@ const page = () => (
     staticPage
     authPage
   >
-    <SignupPageContent showEmailSignup />
+    <SignupPage showEmailSignup />
   </BasePage>
 )
 

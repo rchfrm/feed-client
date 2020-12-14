@@ -153,18 +153,33 @@ export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpt
 // INEGRATRION SANITISATION
 // -------------------------
 
-const getIntegrationRegex = (platform) => {
+// Get integration regex
+/**
+ * @param {string} platform handle of platform
+ * @param {boolean} trim true if regex is used to trim off URL
+ * @returns {string}
+ */
+export const getIntegrationRegex = (platform, trim) => {
   switch (platform) {
     // https://regexr.com/5et04
     case 'spotify':
+      if (trim) return /^(?:(?:(?:https?:)?\/\/)?open.spotify.com\/|spotify:)(artist)(?:\/|:)/
       return /^(?:(?:(?:https?:)?\/\/)?open.spotify.com\/|spotify:)(artist)(?:\/|:)([A-Za-z0-9]+)/
     // https://regexr.com/5et0m
     case 'soundcloud':
+      if (trim) return /^(?:(?:https?:)?\/\/)?(?:soundcloud.com|snd.sc)\//
       return /^(?:(?:https?:)?\/\/)?(?:soundcloud.com|snd.sc)\/([^/]+)/
     case 'twitter':
       return /^(?:(?:https?:)?\/\/)?(?:twitter.com)\/([^/]+)/
     case 'youtube':
+      if (trim) return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)/
       return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)([a-zA-Z0-9-]+)/
+    case 'instagram':
+      if (trim) return /(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\//
+      return /(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\/([A-Za-z0-9-_.]+)/
+    case 'facebook':
+      if (trim) return /(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?/
+      return /(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?([\w-]*)?/
     default:
       return false
   }

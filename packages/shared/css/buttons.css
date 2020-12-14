@@ -336,6 +336,20 @@ button {
     height: 0.9em;
     width: auto;
   }
+
+  &.-large {
+    border: 2px solid var(--text-color);
+    padding: 0 0.8em;
+    letter-spacing: 0.05em;
+
+    &:active {
+      border: 2px solid var(--green);
+    }
+
+    .icon {
+      transform: none;
+    }
+  }
 }
 
 /* SHADOW */

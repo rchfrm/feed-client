@@ -3,8 +3,6 @@ import React from 'react'
 import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
-// IMPORT HOOKS
-import useLoggedInTest from '@/hooks/useLoggedInTest'
 // IMPORT ELEMENTS
 import FeedLogo from '@/icons/FeedLogo'
 import TheSubNavButton from '@/app/TheSubNavButton'
@@ -19,10 +17,9 @@ function TheHeaderContents({
   windowWidth,
   subNavOpen,
   toggleSubNav,
+  isLoggedIn,
   inlinePageTitle,
 }) {
-  // Check if logged in or not
-  const isLoggedIn = useLoggedInTest()
   // Handle flash of oversized logo
   const [logoOpacity, setLogoOpacity] = React.useState(0)
   React.useEffect(() => {
@@ -67,12 +64,9 @@ function TheHeaderContents({
     ].join(' ')}
     >
       {/* BG */}
-      {isLoggedIn && (
-        <>
-          <div className={[styles.background].join(' ')} style={backgroundStyle} />
-          <div className={[styles.dropShadow].join(' ')} style={backgroundStyle} />
-        </>
-      )}
+      <div className={[styles.background].join(' ')} style={backgroundStyle} />
+      <div className={[styles.dropShadow].join(' ')} style={backgroundStyle} />
+
       {/* LOGO */}
       <a
         id="TheLogo"
