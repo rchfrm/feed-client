@@ -50,7 +50,7 @@ const SignupReferralCodeDisplay = ({ className, setChecking }) => {
       <Button
         version="x-small"
         className={[
-          'bg-white border-solid border border-black',
+          'bg-white text-black border-solid border border-black',
           'iphone8:ml-3',
         ].join(' ')}
         onClick={clearReferralCode}
