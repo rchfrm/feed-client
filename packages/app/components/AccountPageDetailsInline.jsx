@@ -8,6 +8,8 @@ import * as server from '@/helpers/sharedServer'
 import firebase from '@/helpers/firebase'
 import { track } from '@/app/helpers/trackingHelpers'
 
+import ReferralCodeWidget from '@/app/ReferralCodeWidget'
+
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
@@ -160,6 +162,13 @@ function AccountPageDetailsInline({ user }) {
           return <Error error={error} key={index} />
         })}
 
+        <ReferralCodeWidget
+          label="My referral code"
+          className="mb-5"
+          useSmallText
+          putTextAfter
+        />
+
         <Input
           name="name"
           label="Name"
@@ -196,7 +205,7 @@ function AccountPageDetailsInline({ user }) {
           <>
             <Input
               name="passwordOne"
-              label="Password"
+              label="New password"
               placeholder=""
               value={passwordOne}
               handleChange={handleChange}

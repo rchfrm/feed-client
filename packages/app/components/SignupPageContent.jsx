@@ -1,17 +1,18 @@
 // IMPORT PACKAGES
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import Router from 'next/router'
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT COMPONENTS
 import SignupEmailForm from '@/app/SignupEmailForm'
+import LoginSignupButtons from '@/app/LoginSignupButtons'
+import SignupReferralCodeDisplay from '@/app/SignupReferralCodeDisplay'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
 import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT ELEMENTS
-import Button from '@/elements/Button'
-import EmailIcon from '@/icons/EmailIcon'
-import ButtonFacebook from '@/elements/ButtonFacebook'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 // Constants
@@ -20,17 +21,21 @@ import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/LoginPageCopy'
 // IMPORT STYLES
 import styles from '@/LoginPage.module.css'
-import brandColors from '@/constants/brandColors'
 
-const SignupPageContent = ({ showEmailSignup }) => {
+
+const SignupPageContent = ({
+  showEmailSignup,
+  requireReferral,
+  setChecking,
+}) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
   // Handle error
   const [error, setError] = React.useState(null)
   // Change route when clicking on facebook button
-  const goToEmailSignup = () => {
+  const goToEmailSignup = React.useCallback(() => {
     setError(null)
     Router.push(ROUTES.SIGN_UP_EMAIL)
-  }
+  }, [])
 
   // Clear auth error when leaving page
   React.useEffect(() => {
@@ -64,23 +69,15 @@ const SignupPageContent = ({ showEmailSignup }) => {
         <SignupEmailForm />
       ) : (
         <>
-          <div className={styles.loginButtons}>
-            <ButtonFacebook
-              className={styles.facebookButton}
-              onClick={facebookSignup}
-            >
-              Sign up with Facebook
-            </ButtonFacebook>
-            <Button
-              className={styles.emailButton}
-              onClick={goToEmailSignup}
-              version="black"
-              icon={<EmailIcon color={brandColors.bgColor} />}
-            >
-              Sign up with email
-            </Button>
-          </div>
-
+          <LoginSignupButtons
+            type="join"
+            onFacebookClick={facebookSignup}
+            onEmailClick={goToEmailSignup}
+          />
+          {/* SHOW WHAT REFERRAL CODE IS BEING USED */}
+          {!error && requireReferral && (
+            <SignupReferralCodeDisplay setChecking={setChecking} />
+          )}
           {/* Link to login page */}
           <MarkdownText markdown={copy.loginReminder} />
         </>
@@ -92,7 +89,15 @@ const SignupPageContent = ({ showEmailSignup }) => {
 }
 
 SignupPageContent.propTypes = {
-
+  showEmailSignup: PropTypes.bool,
+  requireReferral: PropTypes.bool,
+  setChecking: PropTypes.func.isRequired,
 }
+
+SignupPageContent.defaultProps = {
+  showEmailSignup: false,
+  requireReferral: false,
+}
+
 
 export default SignupPageContent

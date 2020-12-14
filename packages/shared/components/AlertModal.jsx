@@ -13,10 +13,16 @@ import alertStore from '@/store/alertStore'
 
 import styles from '@/AlertModal.module.css'
 
-const getBgColor = (color) => {
+const getButtonColor = (color) => {
   if (color === 'green') return 'bg-green'
   if (color === 'red') return 'bg-red'
   return null
+}
+
+const getButtonVersion = (color) => {
+  if (color === 'green') return 'green'
+  if (color === 'red') return 'red'
+  return 'black'
 }
 
 const AlertModal = () => {
@@ -126,10 +132,11 @@ const AlertModal = () => {
                   return (
                     <ButtonType
                       key={index}
+                      version={getButtonVersion(color)}
                       className={[
                         width === 'half' ? 'w-1/2' : 'w-full',
                         lastButton ? 'rounded-t-none rounded-b-dialogue' : 'rounded-none',
-                        facebookButton ? null : getBgColor(color),
+                        facebookButton ? null : getButtonColor(color),
                       ].join(' ')}
                       onClick={() => {
                         close()
