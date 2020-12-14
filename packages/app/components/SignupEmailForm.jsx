@@ -44,7 +44,7 @@ const SignupEmailForm = () => {
   const [error, setError] = React.useState(null)
   // Get contexts
   const { signUp } = React.useContext(AuthContext)
-  const { createUser } = React.useContext(UserContext)
+  const { runCreateUser } = React.useContext(UserContext)
   // GLOBAL LOADING
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Define form state
@@ -149,7 +149,11 @@ const SignupEmailForm = () => {
         })
       })
     if (!signupRes) return
-    const user = await createUser(firstName, lastName)
+    // Create user on server
+    const user = await runCreateUser({
+      firstName,
+      lastName,
+    })
       .catch((error) => {
         setError(error)
         scrollTop()

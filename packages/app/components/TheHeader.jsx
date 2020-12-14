@@ -44,6 +44,7 @@ function TheHeader() {
         subNavOpen={subNavOpen}
         toggleSubNav={toggleSubNav}
         inlinePageTitle={inlinePageTitle}
+        isLoggedIn={isLoggedIn}
       />
       {/* THE SUBNAV */}
       <TheSubNav

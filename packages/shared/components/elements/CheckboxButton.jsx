@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 const CheckboxButton = ({
   value,
+  id,
   name,
   label,
   checked,
@@ -11,7 +12,7 @@ const CheckboxButton = ({
   className,
 }) => {
   const valueString = value.toString()
-  const id = `checkbox-${valueString}`
+  const idName = id || `checkbox-${valueString}`
 
   const handleChange = () => {
     onChange(value, checked)
@@ -25,18 +26,18 @@ const CheckboxButton = ({
     ].join(' ')}
     >
       <input
-        id={id}
+        id={idName}
         value={valueString}
         type="checkbox"
         className="checkbox--button_input"
         name={name || valueString}
         aria-checked={checked}
-        checked={checked}
+        defaultChecked={checked}
         onChange={handleChange}
       />
       <label
         className="checkbox--button_label"
-        htmlFor={id}
+        htmlFor={idName}
       >
         {label}
       </label>
@@ -50,6 +51,7 @@ CheckboxButton.propTypes = {
     PropTypes.number,
     PropTypes.bool,
   ]).isRequired,
+  id: PropTypes.string,
   name: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,
@@ -62,6 +64,7 @@ CheckboxButton.propTypes = {
 }
 
 CheckboxButton.defaultProps = {
+  id: '',
   name: '',
   className: null,
   checked: false,

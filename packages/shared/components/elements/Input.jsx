@@ -5,11 +5,14 @@ import PropTypes from 'prop-types'
 import InputBase from '@/elements/InputBase'
 
 const Input = ({
+  El,
   handleChange,
-  onBlur,
   updateValue,
+  regexReplace, // regex to trim input
+  onBlur,
   name,
   label,
+  prefix,
   tooltipMessage,
   type,
   placeholder,
@@ -45,12 +48,17 @@ const Input = ({
       console.error(`Please only provide *either* handleChange or updateValue for ${name}, not both.`)
       return
     }
+    let { target: { value } } = e
+    // Trim prefix if defined
+    if (regexReplace) {
+      value = value.replace(regexReplace, '')
+    }
     if (updateValue) {
-      updateValue(e.target.value)
+      updateValue(value)
       return
     }
     handleChange(e)
-  }, [handleChange, updateValue, name])
+  }, [handleChange, updateValue, name, regexReplace])
 
   return (
     <InputBase
@@ -59,14 +67,22 @@ const Input = ({
       tooltipMessage={tooltipMessage}
       readOnly={readOnly}
       required={required}
-      className={className}
+      className={[
+        className,
+        prefix ? '-has-prefix' : null,
+      ].join(' ')}
       icon={icon}
       error={error}
       errorMessage={errorMessage}
       success={success}
       disabled={disabled}
     >
-      <input
+      {!!prefix && (
+        <div className="input--prefix">
+          <span>{prefix}</span>
+        </div>
+      )}
+      <El
         ref={inputElement}
         className={['input', `input--${version}`].join(' ')}
         name={name}
@@ -87,11 +103,14 @@ const Input = ({
 }
 
 Input.propTypes = {
+  El: PropTypes.string,
   handleChange: PropTypes.func,
-  onBlur: PropTypes.func,
   updateValue: PropTypes.func,
+  regexReplace: PropTypes.object,
+  onBlur: PropTypes.func,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
+  prefix: PropTypes.string,
   tooltipMessage: PropTypes.string,
   type: PropTypes.string,
   placeholder: PropTypes.string,
@@ -114,13 +133,16 @@ Input.propTypes = {
 }
 
 Input.defaultProps = {
+  El: 'input',
   handleChange: null,
-  onBlur: () => {},
   updateValue: null,
+  regexReplace: null,
+  onBlur: () => {},
   placeholder: '',
   readOnly: false,
   type: 'text',
   label: '',
+  prefix: '',
   tooltipMessage: '',
   value: '',
   version: 'box',

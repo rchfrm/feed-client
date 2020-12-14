@@ -5,11 +5,9 @@ import Router from 'next/router'
 import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
-import Button from '@/elements/Button'
-import EmailIcon from '@/icons/EmailIcon'
-import ButtonFacebook from '@/elements/ButtonFacebook'
 // IMPORT COMPONENTS
 import LoginWithEmail from '@/LoginWithEmail'
+import LoginSignupButtons from '@/app/LoginSignupButtons'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
 import { track } from '@/app/helpers/trackingHelpers'
@@ -20,7 +18,6 @@ import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/LoginPageCopy'
 // Import styles
 import styles from '@/LoginPage.module.css'
-import brandColors from '@/constants/brandColors'
 
 function LoginPageContent({ showEmailLogin }) {
   // IMPORT CONTEXTS
@@ -67,27 +64,11 @@ function LoginPageContent({ showEmailLogin }) {
         : (
           <>
             {/* LOGIN BUTTONS */}
-            <div className={styles.loginButtons}>
-              <ButtonFacebook
-                className={styles.facebookButton}
-                onClick={facebookClick}
-              >
-                Log in with Facebook
-              </ButtonFacebook>
-              <Button
-                className={styles.emailButton}
-                onClick={goToEmailLogin}
-                version="black"
-                icon={(
-                  <EmailIcon
-                    color={brandColors.bgColor}
-                    style={{ width: '1.25rem', height: 'auto' }}
-                  />
-                )}
-              >
-                Log in with email
-              </Button>
-            </div>
+            <LoginSignupButtons
+              type="login"
+              onFacebookClick={facebookClick}
+              onEmailClick={goToEmailLogin}
+            />
             {/* Link to signup page */}
             <MarkdownText markdown={copy.signupReminder} />
           </>
