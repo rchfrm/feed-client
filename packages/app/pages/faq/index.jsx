@@ -33,7 +33,8 @@ const query = `
 // This function gets called at build time on server-side.
 // https://nextjs.org/docs/basic-features/data-fetching#write-server-side-code-directly
 export async function getStaticProps() {
-  const { data: { faqsApp: { faqs } } } = await getDatoData(query, 'faqsQuery')
+  const forceLoad = false
+  const { data: { faqsApp: { faqs } } } = await getDatoData(query, 'faqsQuery', forceLoad)
   return {
     props: {
       faqs,

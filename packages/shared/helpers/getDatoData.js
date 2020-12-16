@@ -6,7 +6,7 @@ import fs from 'fs'
 
 // Get dato consts
 const datoUrl = 'https://graphql.datocms.com'
-const datoKey = process.env.dato_key
+const datoKey = process.env.DATO_KEY
 const cachedDataDir = '../shared/tempData/'
 // Decide whether to fetch data or not
 const fetchLiveData = process.env.build_env !== 'development'
