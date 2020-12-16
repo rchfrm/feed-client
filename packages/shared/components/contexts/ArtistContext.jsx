@@ -222,22 +222,13 @@ function ArtistProvider({ children, disable }) {
     const selectedArtist = updatedUser.artists[0]
     await storeArtist(selectedArtist.id)
     setArtistLoading(false)
-    // Track
+    // TRACK
+    const newUser = !oldUser.artists.length
     track({
-      category: 'sign up',
-      action: 'User connected Facebook Pages',
-      description: `Pages connected: ${newArtistAccounts.length}`,
-      label: `User ID: ${updatedUser.id}`,
+      action: 'CreateProfile',
+      category: newUser ? 'sign up' : 'connect profiles',
+      label: updatedUser.id,
     })
-    // Track first time connecting accounits
-    if (!oldUser.artists.length) {
-      track({
-        category: 'sign up',
-        action: 'User completed sign up',
-        description: `Pages connected: ${newArtistAccounts.length}`,
-        label: `User ID: ${updatedUser.id}`,
-      })
-    }
   }
 
   const updateBudget = async (id, amount) => {
