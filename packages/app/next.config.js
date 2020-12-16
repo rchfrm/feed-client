@@ -46,13 +46,19 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, webpack }) => {
     // Fixes npm packages that depend on `fs` module
     if (!isServer) {
       config.node = {
         fs: 'empty',
       }
     }
+    // Reduce size of moment.js
+    config.plugins.push(
+      // Ignore all locale files of moment.js
+      // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    )
     return config
   },
 }
