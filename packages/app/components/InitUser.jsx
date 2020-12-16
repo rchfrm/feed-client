@@ -158,26 +158,21 @@ const InitUser = ({ children }) => {
     // Set missing scopes
     if (missingScopes.length) {
       setMissingScopes(missingScopes) // from Auth context
+      // BREADCRUMB
       track({
         category: 'sign up',
         action: 'Handle new FB user',
         label: 'missing scopes',
         breadcrumb: true,
-        ga: false,
       })
     }
     // As this is a new user, run setNoArtist, and push them to the Connect Artist page
     setNoArtist()
     redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
-    // Track
+    // TRACK
     track({
-      category: 'sign up',
-      action: 'User account created',
-      label: user.id,
-    })
-    track({
-      category: 'sign up',
-      action: `User account created (facebook)${missingScopes.length ? ' (with missing scopes)' : ''}`,
+      action: 'CreateUser',
+      category: 'facebook',
       label: user.id,
     })
   }
