@@ -168,7 +168,7 @@ const SignupEmailForm = () => {
       })
     if (!user) return
     track({
-      action: 'CreateUser',
+      action: 'create_user',
       category: 'email',
       label: user.id,
     })

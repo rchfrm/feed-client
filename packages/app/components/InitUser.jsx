@@ -171,7 +171,7 @@ const InitUser = ({ children }) => {
     redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
     // TRACK
     track({
-      action: 'CreateUser',
+      action: 'create_user',
       category: 'facebook',
       label: user.id,
     })
