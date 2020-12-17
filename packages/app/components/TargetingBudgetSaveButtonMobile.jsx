@@ -9,7 +9,7 @@ import { getSaveDisabledReason } from '@/app/helpers/targetingHelpers'
 
 import copy from '@/app/copy/targetingPageCopy'
 
-const TargetingBudgetSaveButton = ({
+const TargetingBudgetSaveButtonMobile = ({
   initialTargetingState,
   targetingState,
   saveTargetingSettings,
@@ -31,7 +31,7 @@ const TargetingBudgetSaveButton = ({
   )
 }
 
-TargetingBudgetSaveButton.propTypes = {
+TargetingBudgetSaveButtonMobile.propTypes = {
   initialTargetingState: PropTypes.object.isRequired,
   targetingState: PropTypes.object.isRequired,
   saveTargetingSettings: PropTypes.func.isRequired,
@@ -40,9 +40,9 @@ TargetingBudgetSaveButton.propTypes = {
   className: PropTypes.string,
 }
 
-TargetingBudgetSaveButton.defaultProps = {
+TargetingBudgetSaveButtonMobile.defaultProps = {
   className: null,
 }
 
 
-export default TargetingBudgetSaveButton
+export default TargetingBudgetSaveButtonMobile
