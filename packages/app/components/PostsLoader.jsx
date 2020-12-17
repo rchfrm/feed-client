@@ -249,13 +249,12 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         linkId,
       },
     })
+    // TRACK
     track({
-      category: 'Posts',
-      action: 'Post link changed',
-      description: `New link: ${linkId}`,
-      label: `artistId: ${artistId}`,
+      action: 'post_link_changed',
+      category: 'links',
     })
-  }, [setPosts, artistId])
+  }, [setPosts])
 
   // Define function to update posts with missing links
   // and export to posts store
