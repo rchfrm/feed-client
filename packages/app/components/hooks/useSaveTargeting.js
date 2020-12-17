@@ -3,6 +3,7 @@ import React from 'react'
 import useAlertModal from '@/hooks/useAlertModal'
 
 import copy from '@/app/copy/targetingPageCopy'
+import { track } from '@/app/helpers/trackingHelpers'
 
 const getWarningButtons = ({
   warningType,
@@ -77,6 +78,11 @@ const useSaveTargeting = ({
         status: 1,
       }
       saveTargetingSettings(unpausedTargetingState)
+      // TRACK
+      track({
+        action: 'set_first_budget',
+        category: 'controls',
+      })
       return
     }
     // Warn about toggling paused
