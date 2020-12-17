@@ -171,7 +171,7 @@ export const track = ({
     const fbPayload = fbTrackProps || {
       ...(category && { category }),
       ...(event_label && { label: event_label }),
-      ...(location && { location }),
+      ...(value && { value }),
     }
     fireFBEvent(action, fbPayload, fbCustomTrack)
   }
