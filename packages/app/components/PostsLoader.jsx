@@ -191,11 +191,10 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       },
     })
     // Track
-    const status = newPromotionState ? 'eligible' : 'ineligible'
     track({
       action: 'post_promotion_status',
       category: 'post_settings',
-      label: status,
+      label: newPromotionState ? 'eligible' : 'ineligible',
     })
     return newPromotionState
   }, [posts, setPosts])
@@ -211,6 +210,12 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         payload: {
           promotionEnabled,
         },
+      })
+      // TRACK
+      track({
+        action: 'default_post_promotion_status',
+        category: 'post_settings',
+        label: promotionEnabled ? 'opt-in' : 'opt-out',
       })
     }
     setTogglePromotionGlobal((promotionEnabled) => {
