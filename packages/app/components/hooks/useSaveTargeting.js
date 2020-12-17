@@ -58,6 +58,7 @@ const getWarningButtons = ({
 }
 
 const useSaveTargeting = ({
+  initialTargetingState = {},
   targetingState = {},
   saveTargetingSettings,
   togglePauseCampaign = null,
@@ -120,9 +121,20 @@ const useSaveTargeting = ({
       showAlert({ copy: alertCopy, buttons })
       return
     }
+    if (trigger === 'budget') {
+      const { budget: oldBudget } = initialTargetingState
+      const { budget: newBudget } = saveState
+      const changeType = oldBudget >= newBudget ? 'decrease' : 'increase'
+      track({
+        action: 'change_daily_budget',
+        category: 'controls',
+        label: changeType,
+        value: newBudget,
+      })
+    }
     // Basic save (eg when just changing budget)
     saveTargetingSettings(saveState)
-  }, [saveTargetingSettings, togglePauseCampaign, targetingState, showAlert, closeAlert, spendingPaused])
+  }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser])
 
   return saveTargeting
 }
