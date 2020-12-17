@@ -83,16 +83,14 @@ function AccountPageDetailsInline({ user }) {
     // TRACK
     if (emailChanged) {
       track({
-        action: 'UpdateEmailAddress',
-        category: 'Account Page',
-        label: `User ID: ${user.id}`,
+        action: 'update_account_email',
+        category: 'account',
       })
     }
     if (passwordChanged) {
       track({
-        action: 'UpdatePassword',
-        category: 'Account Page',
-        label: `User ID: ${user.id}`,
+        action: 'update_account_password',
+        category: 'account',
       })
     }
     // Update user
