@@ -21,7 +21,7 @@ const useShareLink = ({
   React.useEffect(() => {
     if (isShareSupported || !copyButtonFallback) return
     const clipboard = new ClipboardJS(copyButtonFallback, { text: () => url })
-    clipboard.on('success', onSuccess)
+    clipboard.on('success', onSuccess.bind(null, 'copy'))
     return () => {
       clipboard.destroy()
     }
@@ -35,7 +35,7 @@ const useShareLink = ({
       text: text || title,
       url,
     })
-      .then(onSuccess)
+      .then(onSuccess.bind(null, 'share'))
       .catch((error) => onError(error))
   }, [url, title, text, isShareSupported, onError, onSuccess])
 
