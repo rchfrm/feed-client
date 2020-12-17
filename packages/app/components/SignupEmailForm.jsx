@@ -169,8 +169,8 @@ const SignupEmailForm = () => {
     if (!user) return
     track({
       action: 'create_user',
-      category: 'email',
-      label: user.id,
+      category: 'sign_up',
+      label: 'email',
     })
     Router.push(ROUTES.SIGN_UP_CONTINUE)
   }

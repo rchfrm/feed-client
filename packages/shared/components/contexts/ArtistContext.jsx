@@ -225,8 +225,8 @@ function ArtistProvider({ children, disable }) {
     // TRACK
     const newUser = !oldUser.artists.length
     track({
-      action: 'create_profile',
-      category: newUser ? 'sign_up' : 'connect_profiles',
+      action: newUser ? 'create_profile' : 'add_profile',
+      category: newUser ? 'sign_up' : 'account',
       label: updatedUser.id,
     })
   }

@@ -105,7 +105,7 @@ const SignupQueueForm = ({ className }) => {
         // TRACK
         track({
           action: 'join_waiting_list',
-          category: 'form_submission',
+          category: 'sign_up',
         })
         // Clear values
         setValues({})

@@ -172,8 +172,8 @@ const InitUser = ({ children }) => {
     // TRACK
     track({
       action: 'create_user',
-      category: 'facebook',
-      label: user.id,
+      category: 'sign_up',
+      label: 'facebook',
     })
   }
 
