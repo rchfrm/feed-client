@@ -335,6 +335,7 @@ const TargetingContextProvider = ({ children }) => {
     ) : null
     const button = state ? (
       <TargetingBudgetSaveButton
+        initialTargetingState={initialTargetingState}
         targetingState={targetingState}
         saveTargetingSettings={saveTargetingSettings}
         disableSaving={!!disableSaving}
