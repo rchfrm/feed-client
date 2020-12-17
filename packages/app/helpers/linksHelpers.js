@@ -3,6 +3,7 @@ import produce from 'immer'
 import * as utils from '@/helpers/utils'
 import { getPostLinkData } from '@/app/helpers/postsHelpers'
 import * as server from '@/app/helpers/appServer'
+import { track } from '@/app/helpers/trackingHelpers'
 
 // * UTILS
 // ------------
@@ -165,7 +166,12 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
   const { folder_id: newFolderId } = newLink
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
   const newFolderIndex = nestedLinks.findIndex(({ id }) => id === newFolderId)
-  // Update nested links
+  // TRACK
+  track({
+    action: 'edit_link',
+    category: 'links',
+  })
+  // REBUILD STATE
   return produce(nestedLinks, draftNestedLinks => {
     // Add to new folder (if exists)
     if (newFolderIndex > -1) {
@@ -190,6 +196,12 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
 export const afterDeleteLink = ({ oldLink, nestedLinks }) => {
   const { folder_id: oldFolderId } = oldLink
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
+  // TRACK
+  track({
+    action: 'delete_link',
+    category: 'links',
+  })
+  // REBUILD STATE
   return produce(nestedLinks, draftNestedLinks => {
     // Remove link from folder
     const oldFolderLinks = draftNestedLinks[oldFolderIndex].links
@@ -201,6 +213,12 @@ export const afterDeleteLink = ({ oldLink, nestedLinks }) => {
 export const afterAddLink = ({ newLink, nestedLinks }) => {
   const { folder_id: newFolderId, folder_name: newFolderName } = newLink
   const newFolderIndex = nestedLinks.findIndex(({ id }) => id === newFolderId)
+  // TRACK
+  track({
+    action: 'saved_new_link',
+    category: 'links',
+  })
+  // REBUILD STATE
   return produce(nestedLinks, draftNestedLinks => {
     // Add to folder (if exists)
     if (newFolderIndex > -1) {
