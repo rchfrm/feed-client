@@ -11,6 +11,7 @@ import InsightsChartLoader from '@/app/InsightsChartLoader'
 import ShowIntegrationsButton from '@/app/ShowIntegrationsButton'
 // IMPORT HELPERS
 import * as chartHelpers from '@/app/helpers/chartHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT TEXT
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/InsightPageCopy'
@@ -54,6 +55,16 @@ function InsightsContent() {
     return chartHelpers.getInitialDataSource(availableDataSources, currentPlatform)
   // eslint-disable-next-line
   }, [currentPlatform])
+
+  // TRACK changing data source
+  React.useEffect(() => {
+    if (!currentDataSource) return
+    track({
+      action: 'adjust_filter',
+      category: 'insights',
+      label: currentDataSource,
+    })
+  }, [currentDataSource])
 
   // RESET THINGS WHEN ARTIST CHANGES
   React.useEffect(() => {
