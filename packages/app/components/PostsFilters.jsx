@@ -6,6 +6,8 @@ import BaseFilters from '@/BaseFilters'
 import copy from '@/app/copy/PostsPageCopy'
 import brandColors from '@/constants/brandColors'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 const FILTER_BUTTON_ICON = ({ backgroundColor }) => {
   return (
     <div style={{ backgroundColor }} className="icon rounded-full h-3 w-3" />
@@ -45,6 +47,14 @@ const PostsFilters = ({
       return [...slides, markdown]
     }, [])
   }, [postTypes])
+
+  React.useEffect(() => {
+    track({
+      action: 'adjust_filter',
+      category: 'posts',
+      label: currentPostType,
+    })
+  }, [currentPostType])
 
   return (
     <BaseFilters
