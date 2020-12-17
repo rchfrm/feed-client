@@ -227,6 +227,12 @@ const InitUser = ({ children }) => {
         breadcrumb: true,
         ga: false,
       })
+      // TRACK LOGIN
+      track({
+        action: 'log_in',
+        category: 'log_in',
+        label: 'facebook',
+      })
       setNoArtist()
       redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
       return
@@ -265,15 +271,11 @@ const InitUser = ({ children }) => {
         breadcrumb: true,
         ga: false,
       })
+      // TRACK LOGIN
       track({
-        category: 'login',
-        label: user.id,
-        action: 'Logged in using facebook',
-      })
-      track({
-        category: 'login',
-        label: user.id,
-        action: 'Logged in',
+        action: 'log_in',
+        category: 'log_in',
+        label: 'facebook',
       })
       redirectPage(ROUTES.HOME, pathname)
     }
