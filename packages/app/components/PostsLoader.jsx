@@ -191,15 +191,14 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       },
     })
     // Track
-    const status = newPromotionState ? 'enabled' : 'disabled'
+    const status = newPromotionState ? 'eligible' : 'ineligible'
     track({
-      category: 'Posts',
-      action: `Promotion ${status} for post`,
-      description: `Post ID: ${postId}`,
-      label: `artistId: ${artistId}`,
+      action: 'post_promotion_status',
+      category: 'post_settings',
+      label: status,
     })
     return newPromotionState
-  }, [posts, artistId, setPosts])
+  }, [posts, setPosts])
 
   // Define function to BATCH TOGGLE all posts
   // and save it in posts store
