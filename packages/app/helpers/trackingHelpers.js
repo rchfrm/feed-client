@@ -195,15 +195,13 @@ export const trackPWA = () => {
     event.userChoice.then((result) => {
       if (result.outcome === 'dismissed') {
         track({
-          action: 'declined_pwa_install',
-          category: 'PWA',
-          label: `userId: ${userId}`,
+          action: 'decline_install_pwa',
+          category: 'pwa',
         })
       } else {
         track({
-          action: 'installed_pwa',
-          category: 'PWA',
-          label: `userId: ${userId}`,
+          action: 'install_pwa',
+          category: 'pwa',
         })
       }
     })
