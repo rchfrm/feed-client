@@ -109,7 +109,9 @@ export const fireFBEvent = (action, payload, customTrack) => {
   const trackType = customTrack ? 'trackCustom' : 'track'
   if (!fbq) {
     console.group()
-    console.info('FB SEND', trackType, `action: ${action}`)
+    console.info('FB SEND')
+    console.log('trackType', trackType)
+    console.log('action', action)
     console.info(payload)
     console.groupEnd()
     return
