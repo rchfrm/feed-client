@@ -132,7 +132,6 @@ export const fireFBEvent = (action, payload, customTrack) => {
 export const track = ({
   action,
   label,
-  location = '',
   category,
   description,
   value,
