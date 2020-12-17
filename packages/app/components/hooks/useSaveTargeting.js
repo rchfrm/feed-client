@@ -14,11 +14,20 @@ const getWarningButtons = ({
   closeAlert,
 }) => {
   if (warningType === 'togglePause') {
+    const resume = isPaused
     return [
       {
-        text: isPaused ? 'Resume Spending' : 'Pause Spending',
-        onClick: togglePauseCampaign,
-        color: isPaused ? 'green' : 'red',
+        text: resume ? 'Resume Spending' : 'Pause Spending',
+        onClick: () => {
+          togglePauseCampaign()
+          // TRACK
+          const action = resume ? 'resume_spending' : 'pause_spending'
+          track({
+            action,
+            category: 'controls',
+          })
+        },
+        color: resume ? 'green' : 'red',
       },
       {
         text: 'Cancel',
