@@ -39,6 +39,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       opacity: 1,
     }
     // Set position
+    console.log('sdlkfjsdlkfjsdfklj')
     gsap.set(desktopEl, positionProps)
   }, [isDesktopLayout, containerRef, windowWidth, openNotification])
 
@@ -110,6 +111,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   })
   // Trigger animation
   React.useEffect(() => {
+    if (!isDesktopLayout) return
     // SHOW BUTTON
     if (openNotification) {
       animatedDiv.showPresence()
@@ -118,7 +120,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     // HIDE BUTTON
     animatedDiv.hidePresence()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openNotification])
+  }, [openNotification, isDesktopLayout])
 
   // STOP HERE if NO NOTIFICATION or mobile
   if (!isDesktopLayout) return null
