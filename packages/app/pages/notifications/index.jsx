@@ -47,7 +47,8 @@ const query = `
 `
 
 export async function getStaticProps() {
-  const { data: { allNotifications } } = await getDatoData(query, 'notificationsQuery')
+  const forceLoad = true
+  const { data: { allNotifications } } = await getDatoData(query, 'notificationsQuery', forceLoad)
   return {
     props: {
       notificationsDictionary: allNotifications,
