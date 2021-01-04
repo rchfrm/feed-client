@@ -143,7 +143,7 @@ function ConnectAccountsPanel({
   }
 
   const returnInstagramNotConnected = () => {
-    if (artistAccount.instagram_url) return null
+    if (artistAccount.instagram_id) return null
     return (
       <div className="flex align-top mb-5">
         <div>

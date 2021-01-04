@@ -137,7 +137,7 @@ export const sortArtistsAlphabetically = (artists) => {
   })
 }
 
-export const addAdAccountsToArtists = async ({ accounts, adAccounts, accessToken }) => {
+export const addAdAccountsToArtists = async ({ accounts, adAccounts }) => {
   const accountsArray = Object.values(accounts)
   const processAccountsPromise = accountsArray.map(async (account) => {
     const {
@@ -147,14 +147,12 @@ export const addAdAccountsToArtists = async ({ accounts, adAccounts, accessToken
     // Sort the add accounts so that the last used ad for this artists account is placed first
     const sortedAdAccounts = sortAdAccounts(account, adAccounts)
     const selectedAdAccount = sortedAdAccounts[0]
-    // Get the Insta page url
-    const instaPageUrl = await getInstagramUrl({ instagram_id, accessToken })
     // Return processed account
     return {
       ...account,
       available_facebook_ad_accounts: sortedAdAccounts,
       selected_facebook_ad_account: selectedAdAccount,
-      instagram_url: instaPageUrl || '',
+      instagram_id,
       connect: true,
       picture: `${picture}?width=500`,
     }
