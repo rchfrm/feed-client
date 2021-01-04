@@ -11,7 +11,7 @@ import styles from '@/app/TheSubNav.module.css'
 import * as ROUTES from '@/app/constants/routes'
 
 
-const { ACCOUNT, MYREFERRAL, PRICING, FAQ } = ROUTES
+const { ACCOUNT, MYREFERRAL, PRICING, FAQ, NOTIFICATIONS } = ROUTES
 const termsLink = 'https://archform.ltd/terms/'
 const links = [
   {
@@ -23,8 +23,8 @@ const links = [
     title: 'my referral code',
   },
   {
-    href: MYREFERRAL,
-    title: 'my referral code',
+    href: NOTIFICATIONS,
+    title: 'notifications',
   },
   {
     href: FAQ,
