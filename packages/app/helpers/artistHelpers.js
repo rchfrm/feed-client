@@ -3,6 +3,7 @@ import uniqBy from 'lodash/uniqBy'
 import get from 'lodash/get'
 
 import * as utils from '@/helpers/utils'
+import * as facebookHelpers from '@/app/helpers/facebookHelpers'
 import * as api from '@/helpers/api'
 
 // Sort Ad accounts so the previously used one is on top
@@ -29,6 +30,13 @@ const sortAdAccounts = (account, adAccounts) => {
     draft.splice(indexOfUsedAdAccount, 1)
     draft.unshift(usedAccount)
   })
+}
+
+const getInstagramUrl = async ({ instagram_id, accessToken }) => {
+  if (!instagram_id) return
+  const instagramUsername = await facebookHelpers.getInstagramBusinessUsername(instagram_id, accessToken)
+  if (!instagramUsername) return
+  return `https://instagram.com/${instagramUsername}`
 }
 
 
@@ -129,20 +137,24 @@ export const sortArtistsAlphabetically = (artists) => {
   })
 }
 
-export const addAdAccountsToArtists = async ({ accounts, adAccounts }) => {
+export const addAdAccountsToArtists = async ({ accounts, adAccounts, accessToken }) => {
   const accountsArray = Object.values(accounts)
   const processAccountsPromise = accountsArray.map(async (account) => {
     const {
+      instagram_id,
       picture,
     } = account
     // Sort the add accounts so that the last used ad for this artists account is placed first
     const sortedAdAccounts = sortAdAccounts(account, adAccounts)
     const selectedAdAccount = sortedAdAccounts[0]
+    // Get the Insta page url
+    const instaPageUrl = await getInstagramUrl({ instagram_id, accessToken })
     // Return processed account
     return {
       ...account,
       available_facebook_ad_accounts: sortedAdAccounts,
       selected_facebook_ad_account: selectedAdAccount,
+      instagram_url: instaPageUrl || '',
       connect: true,
       picture: `${picture}?width=500`,
     }
