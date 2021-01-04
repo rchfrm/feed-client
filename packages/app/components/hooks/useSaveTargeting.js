@@ -3,20 +3,21 @@ import React from 'react'
 import useAlertModal from '@/hooks/useAlertModal'
 
 import copy from '@/app/copy/targetingPageCopy'
+import { track } from '@/app/helpers/trackingHelpers'
 
 const getWarningButtons = ({
   warningType,
   isPaused,
   saveTargetingSettings,
-  togglePauseCampaign,
-  saveState,
+  savedState,
+  onConfirm = () => {},
   closeAlert,
 }) => {
   if (warningType === 'togglePause') {
     return [
       {
         text: isPaused ? 'Resume Spending' : 'Pause Spending',
-        onClick: togglePauseCampaign,
+        onClick: onConfirm,
         color: isPaused ? 'green' : 'red',
       },
       {
@@ -26,18 +27,37 @@ const getWarningButtons = ({
       },
     ]
   }
+
+
   if (warningType === 'saveWhenPaused') {
     return [
       {
         text: 'Save and Resume Spending',
         onClick: () => {
-          saveTargetingSettings({ ...saveState, status: 1 })
+          saveTargetingSettings({ ...savedState, status: 1 })
+          // TRACK resume spending
+          track({
+            action: 'resume_spending',
+            category: 'controls',
+          })
+          // TRACK change settings
+          track({
+            action: 'change_targeting_default',
+            category: 'controls',
+          })
         },
         color: 'red',
       },
       {
         text: 'Save and Keep Paused',
-        onClick: () => saveTargetingSettings(saveState),
+        onClick: () => {
+          saveTargetingSettings(savedState)
+          // TRACK change settings
+          track({
+            action: 'change_targeting_default',
+            category: 'controls',
+          })
+        },
         color: 'green',
       },
     ]
@@ -45,7 +65,8 @@ const getWarningButtons = ({
   return [
     {
       text: 'Save Settings',
-      onClick: () => saveTargetingSettings(saveState),
+      // CONFIRM SAVE SETTINGS
+      onClick: onConfirm,
       color: 'green',
     },
     {
@@ -57,6 +78,7 @@ const getWarningButtons = ({
 }
 
 const useSaveTargeting = ({
+  initialTargetingState = {},
   targetingState = {},
   saveTargetingSettings,
   togglePauseCampaign = null,
@@ -69,14 +91,19 @@ const useSaveTargeting = ({
   const saveTargeting = React.useCallback((trigger, newState = null) => {
     const { status } = targetingState
     const isPaused = status === 0
-    const saveState = newState || targetingState
+    const savedState = newState || targetingState
     // If first time user, UNPAUSE and SET SETTINGS with no warning
     if (isFirstTimeUser) {
       const unpausedTargetingState = {
-        ...saveState,
+        ...savedState,
         status: 1,
       }
       saveTargetingSettings(unpausedTargetingState)
+      // TRACK
+      track({
+        action: 'set_first_budget',
+        category: 'controls',
+      })
       return
     }
     // Warn about toggling paused
@@ -84,7 +111,16 @@ const useSaveTargeting = ({
       const alertCopy = copy.togglePauseWarning(spendingPaused)
       const buttons = getWarningButtons({
         warningType: 'togglePause',
-        togglePauseCampaign,
+        onConfirm: () => {
+          // TOGGLE PAUSE
+          togglePauseCampaign()
+          // TRACK
+          const action = spendingPaused ? 'resume_spending' : 'pause_spending'
+          track({
+            action,
+            category: 'controls',
+          })
+        },
         isPaused: spendingPaused,
         closeAlert,
       })
@@ -97,26 +133,55 @@ const useSaveTargeting = ({
       const buttons = getWarningButtons({
         warningType: 'saveWhenPaused',
         saveTargetingSettings,
-        saveState,
+        savedState,
       })
       showAlert({ copy: alertCopy, buttons })
       return
     }
+    const { budget: oldBudget } = initialTargetingState
+    const { budget: newBudget } = savedState
+    const budgetChangeType = oldBudget >= newBudget ? 'decrease' : 'increase'
     // Confirm changing settings
     if (trigger === 'settings') {
       const alertCopy = copy.saveSettingsConfirmation
       const buttons = getWarningButtons({
         warningType: 'saveSettings',
+        onConfirm: () => {
+          saveTargetingSettings(savedState)
+          // TRACK change settings
+          track({
+            action: 'change_targeting_default',
+            category: 'controls',
+          })
+          // TRACK change budget
+          if (oldBudget !== newBudget) {
+            track({
+              action: 'change_daily_budget',
+              category: 'controls',
+              label: budgetChangeType,
+              value: newBudget,
+            })
+          }
+        },
         saveTargetingSettings,
-        saveState,
+        savedState,
         closeAlert,
       })
       showAlert({ copy: alertCopy, buttons })
       return
     }
+    // TRACK BUDGET CHANGE
+    if (trigger === 'budget') {
+      track({
+        action: 'change_daily_budget',
+        category: 'controls',
+        label: budgetChangeType,
+        value: newBudget,
+      })
+    }
     // Basic save (eg when just changing budget)
-    saveTargetingSettings(saveState)
-  }, [saveTargetingSettings, togglePauseCampaign, targetingState, showAlert, closeAlert, spendingPaused])
+    saveTargetingSettings(savedState)
+  }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser])
 
   return saveTargeting
 }

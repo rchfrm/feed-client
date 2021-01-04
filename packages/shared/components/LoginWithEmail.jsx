@@ -95,25 +95,24 @@ function LoginWithEmail({ className }) {
         setError(error)
         return
       }
+      // TRACK LOGIN
+      track({
+        action: 'log_in',
+        category: 'log_in',
+        label: 'password',
+      })
+      // REDIRECT
       Router.push(ROUTES.HOME)
-      track({
-        category: 'login',
-        label: user.id,
-        action: 'Logged in via password',
-      })
-      track({
-        category: 'login',
-        label: user.id,
-        action: 'Logged in',
-      })
     } else {
       setNoArtist()
-      Router.push(ROUTES.SIGN_UP_CONTINUE)
+      // TRACK LOGIN
       track({
-        category: 'login',
-        label: user.id,
-        action: 'Logged in via password, with no artists',
+        action: 'log_in',
+        category: 'log_in',
+        label: 'password',
       })
+      // REDIRECT
+      Router.push(ROUTES.SIGN_UP_CONTINUE)
     }
   }
 

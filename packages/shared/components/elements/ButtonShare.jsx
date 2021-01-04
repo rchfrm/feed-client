@@ -23,17 +23,20 @@ const ButtonShare = ({
   shareText,
   copyText,
   useCopyFallback,
+  onShare,
   className,
 }) => {
   const button = React.useRef(null)
   const [success, setSuccess] = React.useState(false)
-  const onSuccess = React.useCallback(() => {
+  const onSuccess = React.useCallback((shareType) => {
     setSuccess(true)
     setTimeout(() => {
       if (!button.current) return
       setSuccess(false)
     }, 800)
-  }, [])
+    // shareType = 'copy' | 'share'
+    onShare(shareType)
+  }, [onShare])
   // SETUP SHARE BUTTON
   const { isShareSupported, shareLink } = useShareLink({
     url,
@@ -79,6 +82,7 @@ ButtonShare.propTypes = {
   shareText: PropTypes.string,
   copyText: PropTypes.string,
   useCopyFallback: PropTypes.bool,
+  onShare: PropTypes.func,
   className: PropTypes.string,
 }
 
@@ -87,6 +91,7 @@ ButtonShare.defaultProps = {
   shareText: 'Share link',
   copyText: 'Copy link',
   useCopyFallback: true,
+  onShare: () => {},
   className: null,
 }
 

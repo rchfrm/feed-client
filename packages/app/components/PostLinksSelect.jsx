@@ -117,7 +117,10 @@ const PostLinksSelect = ({
     action: 'add',
     location: componentLocation,
     // Set link as post link when added
-    onSave: (savedLink) => {
+    onSave: (savedLink, newArtist) => {
+      if (componentLocation === 'defaultLink' && newArtist) {
+        onSuccess(newArtist)
+      }
       const { id: linkId } = savedLink
       setSelectedOptionValue(linkId)
       setLoading(false)

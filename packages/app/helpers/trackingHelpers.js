@@ -75,21 +75,13 @@ export const gtagPageView = (url, gaId) => {
 }
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/events
-export const fireGtagEvent = (payload) => {
+export const fireGtagEvent = (action, payload) => {
   const {
-    eventCategory,
-    eventAction,
-    eventLabel,
-    eventValue,
-    transportType,
-    eventCallback,
-    description = '',
+    event_callback,
   } = payload
 
   // Stop here if sysadmin
   if (userType === 'admin') return
-
-  const newLabel = description ? `${description} ${eventLabel}` : eventLabel
 
   const { gtag } = window
 
@@ -97,29 +89,34 @@ export const fireGtagEvent = (payload) => {
     // Log GA INFO
     console.info('GA SEND', payload)
     // Run callback (if present)
-    if (typeof eventCallback === 'function') eventCallback()
+    if (typeof event_callback === 'function') event_callback()
     return
   }
-
-  gtag('event', eventAction, {
-    event_category: eventCategory,
-    event_label: newLabel,
-    value: eventValue,
-    transport_type: transportType,
-    event_callback: eventCallback,
-  })
+  // PAYLOAD
+  // {
+  //   'event_category': <category>,
+  //   'event_label': <label>,
+  //   'value': <value>
+  // }
+  gtag('event', action, payload)
 }
 
 
 // FACEBOOK
 // --------------------------
-export const fireFBEvent = ({ label, location }) => {
+export const fireFBEvent = (action, payload, customTrack) => {
   const { fbq } = window
+  const trackType = customTrack ? 'trackCustom' : 'track'
   if (!fbq) {
-    console.info('FB SEND', 'trackCustom', `label: ${label}`, { location })
+    console.group()
+    console.info('FB SEND')
+    console.log('trackType', trackType)
+    console.log('action', action)
+    console.info(payload)
+    console.groupEnd()
     return
   }
-  fbq('trackCustom', label, { location })
+  fbq(trackType, action, payload)
 }
 
 
@@ -138,43 +135,50 @@ export const fireFBEvent = ({ label, location }) => {
  * @param {boolean} fb
  */
 export const track = ({
-  category,
   action,
   label,
+  category,
   description,
-  location = '',
   value,
-  breadcrumb = false,
+  fbTrackProps = null,
+  fbCustomTrack = true,
   error = false,
+  breadcrumb = false,
   ga = true,
-  fb = false,
+  fb = true,
 }) => {
   // Stop here if not browser
   const isBrowser = typeof window !== 'undefined'
   if (!isBrowser) return
 
-  let eventLabel = label
+  let event_label = label
   if (description) {
-    eventLabel = `${eventLabel}, ${description}`
+    event_label = `${event_label}, ${description}`
+  }
+  // Sentry breadcrum
+  // STOP HERE
+  if (breadcrumb) {
+    fireSentryBreadcrumb({ category, action, label, description })
+    return
   }
   // Build GA payload
-  const gaPayload = {
-    eventCategory: error ? 'Error' : category,
-    eventAction: action,
-    eventLabel,
-    eventValue: value,
-  }
   // Send off event to GA
   if (ga) {
-    fireGtagEvent(gaPayload)
+    const gaPayload = {
+      event_category: error ? 'Error' : category,
+      event_label,
+      event_value: value,
+    }
+    fireGtagEvent(action, gaPayload)
   }
   // Send off events to FB
   if (fb) {
-    fireFBEvent({ label, location })
-  }
-  // Sentry breadcrum
-  if (breadcrumb) {
-    fireSentryBreadcrumb({ category, action, label, description })
+    const fbPayload = fbTrackProps || {
+      ...(category && { category }),
+      ...(event_label && { label: event_label }),
+      ...(value && { value }),
+    }
+    fireFBEvent(action, fbPayload, fbCustomTrack)
   }
   // If error, fire in sentry also
   if (error) {
@@ -191,15 +195,13 @@ export const trackPWA = () => {
     event.userChoice.then((result) => {
       if (result.outcome === 'dismissed') {
         track({
-          category: 'PWA',
-          action: 'Declined PWA install',
-          label: `userId: ${userId}`,
+          action: 'decline_install_pwa',
+          category: 'pwa',
         })
       } else {
         track({
-          category: 'PWA',
-          action: 'Installed PWA',
-          label: `userId: ${userId}`,
+          action: 'install_pwa',
+          category: 'pwa',
         })
       }
     })
@@ -230,17 +232,20 @@ export const trackOutbound = ({
   if (!isBrowser) return
   // Send off event to GA
   const gaPayload = {
-    eventCategory: category,
-    eventAction: 'click',
-    eventLabel: label || url,
-    transportType: 'beacon',
-    eventCallback: () => { document.location = url },
+    event_category: category,
+    event_label: label || url,
+    transport_type: 'beacon',
+    event_callback: () => { document.location = url },
+  }
+  const fbPayload = {
+    category,
+    label: label || url,
   }
   // Send off events to FB
   if (fb) {
-    fireFBEvent({ label: category, location: label })
+    fireFBEvent('OutboundClick', fbPayload)
   }
   if (ga) {
-    fireGtagEvent(gaPayload)
+    fireGtagEvent('OutboundClick', gaPayload)
   }
 }

@@ -142,6 +142,7 @@ const TargetingSettings = () => {
           />
           <TargetingSettingsSaveContainer
             disableSaving={disableSaving}
+            initialTargetingState={initialTargetingState}
             targetingState={targetingState}
             saveTargetingSettings={saveTargetingSettings}
             cancelUpdateSettings={cancelUpdateSettings}

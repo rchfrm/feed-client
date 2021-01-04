@@ -88,8 +88,9 @@ const useCreateEditPostsLink = ({
         const linkBankError = `Error setting link as default: ${error.message}`
         setLinkBankError(linkBankError)
       }
-      // Update store to include new link
-      updateLinksStore('updateDefault', { newArtist })
+      onSave(savedLink, newArtist)
+      setSidePanelLoading(false)
+      return { savedLink }
     }
     // Success
     onSave(savedLink)
