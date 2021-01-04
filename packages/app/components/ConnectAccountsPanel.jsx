@@ -142,18 +142,26 @@ function ConnectAccountsPanel({
     )
   }
 
-  const returnInstagramInput = () => {
-    if (!artistAccount.instagram_url) return null
+  const returnInstagramNotConnected = () => {
+    if (artistAccount.instagram_url) {
+      return null
+    }
     return (
-      <Input
-        name="instagram_url"
-        placeholder={artistAccount.instagram_url}
-        value={artistAccount.instagram_url || ''}
-        handleChange={contactUs}
-        label="Instagram page URL"
-        readOnly
-        version={artistAccount.exists ? 'text' : 'box'}
-      />
+      <div className="flex align-top mb-5">
+        <div>
+          <InstagramIcon className="mr-3 h-4" />
+        </div>
+        <a
+          href="https://help.instagram.com/502981923235522"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            transform: 'translateY(-0.25em)',
+          }}
+        >
+          Learn more about Instagram business accounts.
+        </a>
+      </div>
     )
   }
 
@@ -263,22 +271,7 @@ function ConnectAccountsPanel({
         {returnCountry()}
 
         {/* INPUTS BELOW PROFILE PICTURE */}
-        {/* Facebook Page URL */}
-        {artistAccount.facebook_page_url && (
-          <Input
-            name="facebook_page_url"
-            placeholder={artistAccount.facebook_page_url}
-            value={artistAccount.facebook_page_url}
-            handleChange={contactUs}
-            label="Facebook Page URL"
-            type="text"
-            readOnly
-            version={artistAccount.exists ? 'text' : 'box'}
-          />
-        )}
-
-        {/* Instagram Page URL */}
-        {returnInstagramInput()}
+        {returnInstagramNotConnected()}
 
         {/* Select Facebook ad account */}
         <div className={styles['adaccount-select']}>
