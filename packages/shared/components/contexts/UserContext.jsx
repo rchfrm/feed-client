@@ -85,6 +85,7 @@ function UserProvider({ children }) {
       setUserLoading(false)
       throw (err)
     }
+  // eslint-disable-next-line
   }, [setUser])
 
   const setArtistsWithNotifications = useNotificationStore(getSetArtistsWithNotifications)
