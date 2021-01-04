@@ -24,8 +24,8 @@ export const formatDictionary = (dictionaryArray = []) => {
 // -----------------------
 
 // FORMAT NOTIFICATIONS
-export const formatNotifications = (notificationsRaw, dictionary) => {
-  return notificationsRaw.map((notification) => {
+export const formatNotifications = (notificationsRaw, dictionary = {}) => {
+  return notificationsRaw.reduce((allNotifications, notification) => {
     const {
       id,
       topic,
@@ -37,9 +37,13 @@ export const formatNotifications = (notificationsRaw, dictionary) => {
       formatted,
       // actioned_at,
     } = notification
-    // Stop here if already formatted or no dictionary
-    if (formatted || !dictionary) return notification
     const dictionaryEntry = dictionary[topic]
+    // Don't add notification if not in dictionary
+    if (!dictionaryEntry) return allNotifications
+    // Just add notification if already formatted
+    if (formatted || !dictionaryEntry) {
+      return [...allNotifications, notification]
+    }
     const {
       title = 'Helpp',
       appMessage: description = 'La la la',
@@ -48,7 +52,7 @@ export const formatNotifications = (notificationsRaw, dictionary) => {
     } = dictionaryEntry || {}
     const date = moment(created_at).format('MM MMM')
     const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
-    return {
+    const formattedNotification = {
       id,
       topic,
       data,
@@ -63,7 +67,8 @@ export const formatNotifications = (notificationsRaw, dictionary) => {
       onClick: () => {},
       formatted: true,
     }
-  })
+    return [...allNotifications, formattedNotification]
+  }, [])
 }
 
 // FETCH NOTIFICATIONS
