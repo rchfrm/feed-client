@@ -1,7 +1,11 @@
 import create from 'zustand'
 import produce from 'immer'
 
-import { fetchNotifications, formatNotifications } from '@/app/helpers/notificationsHelpers'
+import {
+  fetchNotifications,
+  formatNotifications,
+  markAsReadOnServer,
+} from '@/app/helpers/notificationsHelpers'
 
 const initialState = {
   artistId: '',
@@ -93,13 +97,15 @@ const updateNotification = (set, get) => (notificationId, prop, value) => {
 }
 
 // SET NOTIFICATION AS OPEN
-const setAsOpen = (set, get) => (notificationId) => {
+const setAsOpen = (set, get) => (notificationId, entityType, entityId) => {
   const { setAsRead, notifications } = get()
   const openNotification = notifications.find(({ id }) => id === notificationId)
-  const { id: openNotificationId } = openNotification
+  const { id: openNotificationId, isRead } = openNotification
   set({ openNotification, openNotificationId })
-  // Set notification as read
-  setAsRead(notificationId)
+  // Set notification as read (in store)
+  if (!isRead) {
+    setAsRead(notificationId, entityType, entityId)
+  }
 }
 
 // SET NOTIFICATION AS CLOSED
@@ -108,10 +114,14 @@ const closeNotification = (set) => () => {
 }
 
 // SET NOTIFICATION AS READ
-const setAsRead = (set, get) => (notificationId) => {
+const setAsRead = (set, get) => (notificationId, entityType, entityId) => {
   const notificationsUpdated = updateNotification(set, get)(notificationId, 'isRead', true)
   const totalNotificationsUnread = countUnreadNotifications(notificationsUpdated)
   set({ totalNotificationsUnread })
+  // Set as read on server
+  if (entityType && entityId) {
+    markAsReadOnServer(notificationId, entityType, entityId)
+  }
 }
 
 // SET NOTIFICATION AS COMPLETE
@@ -138,8 +148,8 @@ const useNotificationsStore = create((set, get) => ({
   setArtistsWithNotifications: (userArtists = []) => setArtistsWithNotifications(set)(userArtists),
   // SETTERS
   runFormatNotifications: (notifications, dictionary) => runFormatNotifications(set, get)(notifications, dictionary),
-  setAsRead: (id) => setAsRead(set, get)(id),
-  setAsOpen: (id) => setAsOpen(set, get)(id),
+  setAsRead: (id, entityType, entityId) => setAsRead(set, get)(id, entityType, entityId),
+  setAsOpen: (id, entityType, entityId) => setAsOpen(set, get)(id, entityType, entityId),
   setDictionary: (notificationDictionary) => set({ notificationDictionary }),
   closeNotification: () => closeNotification(set, get)(),
   completeNotification: (id) => setAsComplete(set, get)(id),

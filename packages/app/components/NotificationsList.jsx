@@ -38,7 +38,8 @@ const NotificationsList = ({ notifications, className }) => {
     // Open next not
     const navToIndex = direction === 'up' ? openNotificationIndex - 1 : openNotificationIndex + 1
     const nextNotification = notifications[navToIndex]
-    setAsOpen(nextNotification.id)
+    const { id, entityType, entityId } = nextNotification
+    setAsOpen(id, entityType, entityId)
   }, [openNotificationId, notifications, setAsOpen])
 
   // SETUP KEYBOARD CONTROLS

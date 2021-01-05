@@ -423,6 +423,7 @@ export const getIntegrationErrors = async (artistId) => {
 // * NOTIFICATIONS
 // --------------------------
 
+// DOWNLOAD ALL NOTIFICATIONS
 /**
  * @param {object} ids { artistId, organizationIds, userId }
  * @returns {Promise<array>}
@@ -469,6 +470,7 @@ export const getAllNotifications = async (ids) => {
   return { res: flatten(notificationGroups) }
 }
 
+// MARK NOTIFICATION AS READ
 /**
  * @param {string} endpoint
  * @param {boolean} read

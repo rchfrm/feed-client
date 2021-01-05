@@ -71,6 +71,7 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       created_at,
       entityType,
       entityId,
+      is_read: isRead,
       is_dismissible: isDismissible,
       is_actionable: isActionable,
       is_complete: isComplete,
@@ -120,7 +121,7 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       isDismissible,
       hidden: hide || isComplete,
       isComplete,
-      isRead: false,
+      isRead,
       onAction,
       formatted: true,
     }
@@ -134,4 +135,25 @@ export const fetchNotifications = async ({ artistId, userId, organizationIds }) 
   if (error) return { error }
   console.log('server notifications', notifications)
   return { res: { notifications } }
+}
+
+
+// * ACTIONS
+// ----------
+
+// MARK AS READ
+/**
+ * @param {string} notificationId
+ * @param {string} entityType 'users' | 'artists' | 'organizations'
+ * @param {string} entityId
+ * @param {boolean} read
+ * @returns {Promise<array>}
+ */
+export const markAsReadOnServer = async (notificationId, entityType = 'users', entityId, read = true) => {
+  const endpoint = `${entityType}/${entityId}/notifications/${notificationId}`
+  const { res, error } = await appServer.markNotificationAsRead(endpoint, read)
+  if (error) return { error }
+  return { res }
+}
+  return { res }
 }

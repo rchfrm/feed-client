@@ -11,6 +11,8 @@ const getOpenNotificationId = state => state.openNotificationId
 const NotificationItem = ({ notification, className }) => {
   const {
     id,
+    entityType,
+    entityId,
     date,
     isRead,
     isActionable,
@@ -33,7 +35,7 @@ const NotificationItem = ({ notification, className }) => {
         className,
       ].join(' ')}
       onClick={() => {
-        setAsOpen(id)
+        setAsOpen(id, entityType, entityId)
       }}
     >
       {/* OVERLINE */}
