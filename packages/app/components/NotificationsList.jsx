@@ -80,7 +80,8 @@ const NotificationsList = ({ notifications, className }) => {
       )
         // List of notifications
         : notifications.map((notification) => {
-          const { id } = notification
+          const { id, hidden } = notification
+          if (hidden) return null
           return <NotificationItem key={id} notification={notification} />
         })}
     </div>
