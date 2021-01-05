@@ -58,7 +58,10 @@ const NotificationsContent = ({
   return (
     <div ref={containerRef} className="relative">
       <Error error={notificationsError} />
-      <NotificationsList notifications={notifications} />
+      <NotificationsList
+        notifications={notifications}
+        hasError={!!notificationsError}
+      />
       <NotificationCurrentInfo containerRef={containerRef} />
     </div>
   )

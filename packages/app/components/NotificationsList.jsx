@@ -21,7 +21,7 @@ const readNotificationsStore = (state) => ({
   closeNotification: state.closeNotification,
 })
 
-const NotificationsList = ({ notifications, className }) => {
+const NotificationsList = ({ notifications, hasError, className }) => {
   const {
     openedNotification,
     openedNotificationId,
@@ -78,20 +78,13 @@ const NotificationsList = ({ notifications, className }) => {
   return (
     <div
       className={[
-        'breakout--width',
-        'md:pr-5',
+        notifications.length ? 'breakout--width md:pr-5' : null,
         className,
       ].join(' ')}
     >
-      {!notifications.length ? (
+      {!notifications.length && !hasError ? (
         // No notifications
-        <MarkdownText
-          className={[
-            'px-8',
-            'md:px-6',
-          ].join(' ')}
-          markdown={copy.noNotificationsCopy}
-        />
+        <MarkdownText markdown={copy.noNotificationsCopy} />
       )
         // List of notifications
         : notifications.map((notification) => {
@@ -104,6 +97,7 @@ const NotificationsList = ({ notifications, className }) => {
 }
 
 NotificationsList.propTypes = {
+  hasError: PropTypes.bool.isRequired,
   notifications: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
