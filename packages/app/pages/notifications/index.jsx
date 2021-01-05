@@ -40,6 +40,7 @@ const query = `
       actionable
       dismissable
       hide
+      appSummary
       appMessage
       ctaText
     }

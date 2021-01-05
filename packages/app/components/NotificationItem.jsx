@@ -15,7 +15,7 @@ const NotificationItem = ({ notification, className }) => {
     isRead,
     action,
     title,
-    description,
+    summary,
   } = notification
 
   const setAsOpen = useNotificationStore(getOpenNotificationAction)
@@ -65,7 +65,7 @@ const NotificationItem = ({ notification, className }) => {
         <strong>{title}</strong>
       </h4>
       {/* DESCRIPTION */}
-      <p className="text-sm block mb-2 truncate">{description}</p>
+      <p className="text-sm block mb-2 truncate">{summary}</p>
       {/* READ MORE */}
       <p className="text-sm text-grey-3 block mb-0">
         Read more

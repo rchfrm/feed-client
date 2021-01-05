@@ -46,6 +46,7 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
     }
     const {
       title = 'Helpp',
+      appSummary: summary = '',
       appMessage: description = 'La la la',
       ctaText,
       hide = false,
@@ -58,6 +59,7 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       data,
       date,
       title,
+      summary,
       description,
       ctaText: ctaText || ctaFallback,
       isActionable,

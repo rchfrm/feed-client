@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import MarkdownText from '@/elements/MarkdownText'
+
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const NotificationCurrentInfoContent = ({
@@ -20,7 +22,7 @@ const NotificationCurrentInfoContent = ({
       >
         {title}
       </h3>
-      <p>{description}</p>
+      <MarkdownText markdown={description} />
       {/* BUTTON (for not sidepanel layout) */}
       {hasButton && buttonEl}
     </div>
