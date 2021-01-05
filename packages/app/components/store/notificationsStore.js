@@ -32,7 +32,7 @@ const countUnreadNotifications = (notifications) => {
 
 // RUN FORMAT NOTIFICATIONS
 const runFormatNotifications = (set) => (notifications, dictionary) => {
-  const notificationsFormatted = formatNotifications(notifications, dictionary)
+  const notificationsFormatted = formatNotifications(notifications, dictionary || {})
   // SET
   set({
     notifications: notificationsFormatted,
@@ -56,7 +56,7 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
   // Format notifications
   const { notificationDictionary } = get()
   console.log('notificationDictionary', notificationDictionary)
-  const notificationsFormatted = formatNotifications(notifications, notificationDictionary)
+  const notificationsFormatted = formatNotifications(notifications, notificationDictionary || {})
   console.log('FORMATTED notifications', notificationsFormatted)
   // GET TOTAL UNREAD NOTIFICATIONS
   const totalUnreadNotifications = countUnreadNotifications(notifications)
