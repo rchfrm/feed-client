@@ -5,8 +5,8 @@ import NotificationItemLabel from '@/app/NotificationItemLabel'
 
 import useNotificationStore from '@/app/store/notificationsStore'
 
-const getOpenNotificationAction = state => state.setAsOpen
-const getOpenNotificationId = state => state.openNotificationId
+const getSetAsOpen = state => state.setAsOpen
+const getOpenedNotificationId = state => state.openedNotificationId
 
 const NotificationItem = ({ notification, className }) => {
   const {
@@ -21,9 +21,9 @@ const NotificationItem = ({ notification, className }) => {
     isComplete,
   } = notification
 
-  const setAsOpen = useNotificationStore(getOpenNotificationAction)
-  const openNotificationId = useNotificationStore(getOpenNotificationId)
-  const isActive = id === openNotificationId
+  const setAsOpen = useNotificationStore(getSetAsOpen)
+  const openedNotificationId = useNotificationStore(getOpenedNotificationId)
+  const isActive = id === openedNotificationId
 
   return (
     <button

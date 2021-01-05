@@ -15,8 +15,8 @@ const initialState = {
   loading: true,
   notifications: [],
   totalUnreadNotifications: 0,
-  openNotification: null,
-  openNotificationId: '',
+  openedNotification: null,
+  openedNotificationId: '',
   artistsWithNotifications: [],
   notificationsError: null,
   notificationDictionary: null,
@@ -100,9 +100,9 @@ const updateNotification = (set, get) => (notificationId, prop, value) => {
 // SET NOTIFICATION AS OPEN
 const setAsOpen = (set, get) => (notificationId, entityType, entityId) => {
   const { setAsRead, notifications } = get()
-  const openNotification = notifications.find(({ id }) => id === notificationId)
-  const { id: openNotificationId, isRead } = openNotification
-  set({ openNotification, openNotificationId })
+  const openedNotification = notifications.find(({ id }) => id === notificationId)
+  const { id: openedNotificationId, isRead } = openedNotification
+  set({ openedNotification, openedNotificationId })
   // Set notification as read (in store)
   if (!isRead) {
     setAsRead(notificationId, entityType, entityId)
@@ -111,7 +111,7 @@ const setAsOpen = (set, get) => (notificationId, entityType, entityId) => {
 
 // SET NOTIFICATION AS CLOSED
 const closeNotification = (set) => () => {
-  set({ openNotification: null, openNotificationId: null })
+  set({ openedNotification: null, openedNotificationId: null })
 }
 
 // SET NOTIFICATION AS READ
@@ -125,11 +125,11 @@ const setAsRead = (set, get) => (notificationId, entityType, entityId) => {
 
 // SET NOTIFICATION AS DISMISSED
 const setAsDismissed = (set, get) => (notificationId, entityType, entityId, isActionable) => {
-  const { openNotificationId } = get()
+  const { openedNotificationId } = get()
   // Hide notification
   updateNotification(set, get)(notificationId, 'hidden', true)
   // Close notification (if currently open)
-  if (notificationId === openNotificationId) {
+  if (notificationId === openedNotificationId) {
     closeNotification(set)()
   }
   // Set as dismissed on server (if not actionable)
@@ -152,8 +152,8 @@ const useNotificationsStore = create((set, get) => ({
   loading: initialState.loading,
   notifications: initialState.notifications,
   totalUnreadNotifications: initialState.totalUnreadNotifications,
-  openNotification: initialState.openNotification,
-  openNotificationId: initialState.openNotificationId,
+  openedNotification: initialState.openedNotification,
+  openedNotificationId: initialState.openedNotificationId,
   artistsWithNotifications: initialState.artistsWithNotifications,
   notificationsError: initialState.notificationsError,
   notificationDictionary: initialState.notificationDictionary,

@@ -13,7 +13,7 @@ import useNotificationStore from '@/app/store/notificationsStore'
 import NotificationCurrentInfoContent from '@/app/NotificationCurrentInfoContent'
 import NotificationCurrentInfoButton from '@/app/NotificationCurrentInfoButton'
 
-const getOpenNotification = state => state.openNotification
+const getOpenedNotification = state => state.openedNotification
 const getCloseNotification = state => state.closeNotification
 const getCompleteNotification = state => state.completeNotification
 
@@ -22,7 +22,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   const { width: windowWidth } = useBrowserStore()
   const desktopBox = React.useRef(null)
   // GET OPEN NOTIFICATION
-  const openNotification = useNotificationStore(getOpenNotification)
+  const openedNotification = useNotificationStore(getOpenedNotification)
   const closeNotification = useNotificationStore(getCloseNotification)
   const completeNotification = useNotificationStore(getCompleteNotification)
 
@@ -30,7 +30,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   React.useEffect(() => {
     const { current: containerEl } = containerRef
     const { current: desktopEl } = desktopBox
-    if (!isDesktopLayout || !containerEl || !openNotification || !desktopEl) return
+    if (!isDesktopLayout || !containerEl || !openedNotification || !desktopEl) return
     const containerProps = containerEl.getBoundingClientRect()
     const scrollTop = window.scrollY
     // Calc postiion props
@@ -43,7 +43,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     // Set position
     console.log('sdlkfjsdlkfjsdfklj')
     gsap.set(desktopEl, positionProps)
-  }, [isDesktopLayout, containerRef, windowWidth, openNotification])
+  }, [isDesktopLayout, containerRef, windowWidth, openedNotification])
 
   // SIDE PANEL context
   const {
@@ -54,25 +54,25 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   } = React.useContext(SidePanelContext)
 
   const infoButtonAndContent = React.useMemo(() => {
-    if (!openNotification) return {}
+    if (!openedNotification) return {}
     const button = (
       <NotificationCurrentInfoButton
-        ctaText={openNotification.ctaText}
-        onAction={openNotification.onAction}
-        onComplete={() => completeNotification(openNotification.id)}
+        ctaText={openedNotification.ctaText}
+        onAction={openedNotification.onAction}
+        onComplete={() => completeNotification(openedNotification.id)}
         sidepanelLayout={!isDesktopLayout}
       />
     )
     const content = (
       <NotificationCurrentInfoContent
-        title={openNotification.title}
-        description={openNotification.description}
+        title={openedNotification.title}
+        description={openedNotification.description}
         buttonEl={button}
         sidepanelLayout={!isDesktopLayout}
       />
     )
     return { content, button }
-  }, [openNotification, completeNotification, isDesktopLayout])
+  }, [openedNotification, completeNotification, isDesktopLayout])
 
   // HANDLE SIDEPANEL
   React.useEffect(() => {
@@ -116,14 +116,14 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   React.useEffect(() => {
     if (!isDesktopLayout) return
     // SHOW BUTTON
-    if (openNotification) {
+    if (openedNotification) {
       animatedDiv.showPresence()
       return
     }
     // HIDE BUTTON
     animatedDiv.hidePresence()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openNotification, isDesktopLayout])
+  }, [openedNotification, isDesktopLayout])
 
   // STOP HERE if NO NOTIFICATION or mobile
   if (!isDesktopLayout) return null
