@@ -114,6 +114,11 @@ const setAsRead = (set, get) => (notificationId) => {
   set({ totalNotificationsUnread })
 }
 
+// SET NOTIFICATION AS COMPLETE
+const setAsComplete = (set, get) => (notificationId) => {
+  updateNotification(set, get)(notificationId, 'isComplete', true)
+}
+
 // EXPORT
 const useNotificationsStore = create((set, get) => ({
   // STATE
@@ -132,11 +137,12 @@ const useNotificationsStore = create((set, get) => ({
   fetchAndSetNotifications: fetchAndSetNotifications(set, get),
   setArtistsWithNotifications: (userArtists = []) => setArtistsWithNotifications(set)(userArtists),
   // SETTERS
-  runFormatNotifications: (notifications, dictionary) => runFormatNotifications(set)(notifications, dictionary),
+  runFormatNotifications: (notifications, dictionary) => runFormatNotifications(set, get)(notifications, dictionary),
   setAsRead: (id) => setAsRead(set, get)(id),
   setAsOpen: (id) => setAsOpen(set, get)(id),
   setDictionary: (notificationDictionary) => set({ notificationDictionary }),
   closeNotification: () => closeNotification(set, get)(),
+  completeNotification: (id) => setAsComplete(set, get)(id),
   clear: () => set(initialState),
 }))
 

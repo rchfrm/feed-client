@@ -1,3 +1,5 @@
+/* eslint-disable no-template-curly-in-string */
+
 import moment from 'moment'
 
 import * as appServer from '@/app/helpers/appServer'
@@ -18,6 +20,42 @@ export const formatDictionary = (dictionaryArray = []) => {
     dictionary[topic] = { ...entry }
     return dictionary
   }, {})
+}
+
+const getEndpoint = (apiEndpoint, entityType, entityId) => {
+  if (entityType === 'users') return apiEndpoint.replace('${user.id}', entityId)
+  if (entityType === 'artists') return apiEndpoint.replace('${artist.id}', entityId)
+  if (entityType === 'organizations') return apiEndpoint.replace('${organization.id}', entityId)
+}
+
+// GET ACTION to handle notification
+/**
+ * @param {string} entityType 'users' | 'artists' | 'organizations'
+ * @param {string} entityId
+ * @param {string} notificationId
+ * @param {boolean} read
+ * @returns {Promise<array>}
+ */
+export const getAction = ({
+  apiMethod,
+  apiEndpoint,
+  entityType,
+  entityId,
+  topic,
+  data,
+}) => {
+  // Format endpoint
+  const endpointFormatted = getEndpoint(apiEndpoint, entityType, entityId)
+  // Build API request
+  const payload = {
+    ...data,
+    topic,
+  }
+  const errorTracking = {
+    category: 'Notifcations',
+    action: `Action ${topic}`,
+  }
+  return () => appServer.requestWithCatch(apiMethod.toLowerCase(), endpointFormatted, payload, errorTracking)
 }
 
 // * FETCHING FROM SERVER
@@ -51,10 +89,22 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       appSummary: summary = '',
       appMessage: description = 'La la la',
       ctaText,
+      apiMethod,
+      apiEndpoint,
       hide = false,
     } = dictionaryEntry || {}
     const date = moment(created_at).format('MM MMM')
     const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
+    // Get Action function
+    const onAction = isActionable ? getAction({
+      apiMethod,
+      apiEndpoint,
+      entityType,
+      entityId,
+      topic,
+      data,
+    }) : () => { console.log('dismiss') }
+    // Return formatted notification
     const formattedNotification = {
       id,
       entityType,
@@ -69,8 +119,9 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       isActionable,
       isDismissible,
       hidden: hide || isComplete,
+      isComplete,
       isRead: false,
-      onClick: () => {},
+      onAction,
       formatted: true,
     }
     return [...allNotifications, formattedNotification]

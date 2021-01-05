@@ -15,6 +15,7 @@ import NotificationCurrentInfoButton from '@/app/NotificationCurrentInfoButton'
 
 const getOpenNotification = state => state.openNotification
 const getCloseNotification = state => state.closeNotification
+const getCompleteNotification = state => state.completeNotification
 
 const NotificationCurrentInfo = ({ containerRef }) => {
   const isDesktopLayout = useBreakpointTest('md')
@@ -23,6 +24,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   // GET OPEN NOTIFICATION
   const openNotification = useNotificationStore(getOpenNotification)
   const closeNotification = useNotificationStore(getCloseNotification)
+  const completeNotification = useNotificationStore(getCompleteNotification)
 
   // RESIZE AND POSITION
   React.useEffect(() => {
@@ -56,7 +58,8 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     const button = (
       <NotificationCurrentInfoButton
         ctaText={openNotification.ctaText}
-        onClick={openNotification.onClick}
+        onAction={openNotification.onAction}
+        onComplete={() => completeNotification(openNotification.id)}
         sidepanelLayout={!isDesktopLayout}
       />
     )
@@ -69,7 +72,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       />
     )
     return { content, button }
-  }, [openNotification, isDesktopLayout])
+  }, [openNotification, completeNotification, isDesktopLayout])
 
   // HANDLE SIDEPANEL
   React.useEffect(() => {

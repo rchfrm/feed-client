@@ -13,9 +13,10 @@ const NotificationItem = ({ notification, className }) => {
     id,
     date,
     isRead,
-    action,
+    isActionable,
     title,
     summary,
+    isComplete,
   } = notification
 
   const setAsOpen = useNotificationStore(getOpenNotificationAction)
@@ -48,7 +49,7 @@ const NotificationItem = ({ notification, className }) => {
       {/* UNREAD DOT */}
       {!isRead && <NotificationItemLabel type="unread" />}
       {/* ACTION DOT */}
-      {!action && <NotificationItemLabel type="action" />}
+      {isActionable && !isComplete && <NotificationItemLabel type="action" />}
       {/* DATE */}
       <p
         className={[

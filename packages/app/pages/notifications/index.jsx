@@ -43,12 +43,14 @@ const query = `
       appSummary
       appMessage
       ctaText
+      apiMethod
+      apiEndpoint
     }
   }
 `
 
 export async function getStaticProps() {
-  const forceLoad = true
+  const forceLoad = false
   const { data: { allNotifications } } = await getDatoData(query, 'notificationsQuery', forceLoad)
   return {
     props: {

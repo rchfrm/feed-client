@@ -16,7 +16,7 @@ import flatten from 'lodash/flatten'
   * @returns {Promise<object>} { res, error }
   * * Makes requests  and returns errors as if the request were succesful with an `error.message` key filled out
 */
-const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
+export const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
   if (!requestType) return console.error('Please include a request type')
   if (!url) return console.error('Please include a url')
   // eslint-disable-next-line import/namespace
@@ -467,4 +467,18 @@ export const getAllNotifications = async (ids) => {
     return { error: notificationGroups.error }
   }
   return { res: flatten(notificationGroups) }
+}
+
+/**
+ * @param {string} endpoint
+ * @param {boolean} read
+ * @returns {Promise<array>}
+ */
+export const markNotificationAsRead = async (endpoint, read = true) => {
+  const payload = { is_read: read }
+  const errorTracking = {
+    category: 'Notifications',
+    action: 'Mark notification as read',
+  }
+  return requestWithCatch('patch', endpoint, payload, errorTracking)
 }
