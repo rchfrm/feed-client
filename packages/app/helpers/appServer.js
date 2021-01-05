@@ -433,21 +433,33 @@ export const getAllNotifications = async (ids) => {
     { type: 'organizations', idKey: 'organizationIds' },
     { type: 'users', idKey: 'userId' },
   ]
-  const requestUrls = notificationTypes.reduce((requestUrls, { type, idKey }) => {
+  const requests = notificationTypes.reduce((requestUrls, { type, idKey }) => {
     const id = ids[idKey]
     if (!id) return requestUrls
     // Handle multiple organization IDs
     if (idKey === 'organizationIds') {
-      const urls = ids[idKey].map((id) => `/${type}/${id}/notifications`)
+      const urls = ids[idKey].map((id) => ({
+        entityType: type,
+        entityId: id,
+        url: `/${type}/${id}/notifications`,
+      }))
       return [...requestUrls, ...urls]
     }
-    const url = `/${type}/${id}/notifications`
-    return [...requestUrls, url]
+    return [...requestUrls, {
+      entityType: type,
+      entityId: id,
+      url: `/${type}/${id}/notifications`,
+    }]
   }, [])
-  const requests = requestUrls.map(async (url) => {
-    return api.get(url)
+  const promises = requests.map(async (request) => {
+    const data = await api.get(request.url)
+    return data.map(notification => ({
+      ...notification,
+      entityType: request.entityType,
+      entityId: request.entityId,
+    }))
   }, [])
-  const notificationGroups = await Promise.all(requests)
+  const notificationGroups = await Promise.all(promises)
     .catch((error) => {
       return { error }
     })

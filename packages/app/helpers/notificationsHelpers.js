@@ -31,6 +31,8 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       topic,
       data,
       created_at,
+      entityType,
+      entityId,
       is_dismissible: isDismissible,
       is_actionable: isActionable,
       is_complete: isComplete,
@@ -55,6 +57,8 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
     const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
     const formattedNotification = {
       id,
+      entityType,
+      entityId,
       topic,
       data,
       date,
