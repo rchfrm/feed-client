@@ -38,8 +38,8 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       // actioned_at,
     } = notification
     const dictionaryEntry = dictionary[topic]
-    // Don't add notification if not in dictionary
-    if (!dictionaryEntry) return allNotifications
+    // Don't add notification if not in dictionary or if hidden in Dato
+    if (!dictionaryEntry || dictionaryEntry.hide) return allNotifications
     // Just add notification if already formatted
     if (formatted || !dictionaryEntry) {
       return [...allNotifications, notification]
