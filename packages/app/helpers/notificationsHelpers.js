@@ -79,8 +79,11 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       // actioned_at,
     } = notification
     const dictionaryEntry = dictionary[topic]
-    // Don't add notification if not in dictionary or if hidden in Dato
-    if (!dictionaryEntry || dictionaryEntry.hide) return allNotifications
+    // Don't add notification
+    // - if not in dictionary
+    // - if hidden in Dato
+    // - if complete
+    if (!dictionaryEntry || dictionaryEntry.hide || isComplete) return allNotifications
     // Just add notification if already formatted
     if (formatted || !dictionaryEntry) {
       return [...allNotifications, notification]
@@ -155,5 +158,18 @@ export const markAsReadOnServer = async (notificationId, entityType = 'users', e
   if (error) return { error }
   return { res }
 }
+
+// DISMISS
+/**
+ * @param {string} notificationId
+ * @param {string} entityType 'users' | 'artists' | 'organizations'
+ * @param {string} entityId
+ * @param {boolean} read
+ * @returns {Promise<array>}
+ */
+export const dismissOnServer = async (notificationId, entityType = 'users', entityId) => {
+  const endpoint = `${entityType}/${entityId}/notifications/${notificationId}`
+  const { res, error } = await appServer.dismissNotification(endpoint)
+  if (error) return { error }
   return { res }
 }

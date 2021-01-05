@@ -484,3 +484,17 @@ export const markNotificationAsRead = async (endpoint, read = true) => {
   }
   return requestWithCatch('patch', endpoint, payload, errorTracking)
 }
+
+// DISMISS NOTIFICATION
+/**
+ * @param {string} endpoint
+ * @param {boolean} read
+ * @returns {Promise<array>}
+ */
+export const dismissNotification = async (endpoint) => {
+  const errorTracking = {
+    category: 'Notifications',
+    action: 'Delete/dismiss notification',
+  }
+  return requestWithCatch('delete', endpoint, null, errorTracking)
+}

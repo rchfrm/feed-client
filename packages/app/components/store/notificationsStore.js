@@ -5,6 +5,7 @@ import {
   fetchNotifications,
   formatNotifications,
   markAsReadOnServer,
+  dismissOnServer,
 } from '@/app/helpers/notificationsHelpers'
 
 const initialState = {
@@ -119,8 +120,21 @@ const setAsRead = (set, get) => (notificationId, entityType, entityId) => {
   const totalNotificationsUnread = countUnreadNotifications(notificationsUpdated)
   set({ totalNotificationsUnread })
   // Set as read on server
-  if (entityType && entityId) {
-    markAsReadOnServer(notificationId, entityType, entityId)
+  markAsReadOnServer(notificationId, entityType, entityId)
+}
+
+// SET NOTIFICATION AS DISMISSED
+const setAsDismissed = (set, get) => (notificationId, entityType, entityId, isActionable) => {
+  const { openNotificationId } = get()
+  // Hide notification
+  updateNotification(set, get)(notificationId, 'hidden', true)
+  // Close notification (if currently open)
+  if (notificationId === openNotificationId) {
+    closeNotification(set)()
+  }
+  // Set as dismissed on server (if not actionable)
+  if (!isActionable) {
+    dismissOnServer(notificationId, entityType, entityId)
   }
 }
 
@@ -150,6 +164,7 @@ const useNotificationsStore = create((set, get) => ({
   runFormatNotifications: (notifications, dictionary) => runFormatNotifications(set, get)(notifications, dictionary),
   setAsRead: (id, entityType, entityId) => setAsRead(set, get)(id, entityType, entityId),
   setAsOpen: (id, entityType, entityId) => setAsOpen(set, get)(id, entityType, entityId),
+  setAsDismissed: (id, entityType, entityId, isActionable) => setAsDismissed(set, get)(id, entityType, entityId, isActionable),
   setDictionary: (notificationDictionary) => set({ notificationDictionary }),
   closeNotification: () => closeNotification(set, get)(),
   completeNotification: (id) => setAsComplete(set, get)(id),

@@ -14,15 +14,19 @@ import NotificationItem from '@/app/NotificationItem'
 import copy from '@/app/copy/notificationsCopy'
 
 const readNotificationsStore = (state) => ({
+  openNotification: state.openNotification,
   openNotificationId: state.openNotificationId,
   setAsOpen: state.setAsOpen,
+  setAsDismissed: state.setAsDismissed,
   closeNotification: state.closeNotification,
 })
 
 const NotificationsList = ({ notifications, className }) => {
   const {
+    openNotification,
     openNotificationId,
     setAsOpen,
+    setAsDismissed,
     closeNotification,
   } = useNotificationStore(readNotificationsStore, shallow)
 
@@ -42,23 +46,34 @@ const NotificationsList = ({ notifications, className }) => {
     setAsOpen(id, entityType, entityId)
   }, [openNotificationId, notifications, setAsOpen])
 
+  // DISMISS NOTIFICATION
+  const dismissNotification = React.useCallback(() => {
+    const { id, entityType, entityId, isActionable, isComplete } = openNotification
+    // Do nothing if actionable and not complete
+    if (isActionable || !isComplete) return
+    // Dismiss
+    setAsDismissed(id, entityType, entityId, isActionable)
+  }, [openNotification, setAsDismissed])
+
   // SETUP KEYBOARD CONTROLS
   const isDesktopLayout = useBreakpointTest('md')
   React.useEffect(() => {
     if (!isDesktopLayout) {
       Mousetrap.unbind('up')
       Mousetrap.unbind('down')
+      Mousetrap.unbind('backspace')
       return
     }
     Mousetrap.bind('up', navigateNotification)
     Mousetrap.bind('down', navigateNotification)
     Mousetrap.bind('esc', closeNotification)
+    Mousetrap.bind('backspace', dismissNotification)
     return () => {
       Mousetrap.unbind('up')
       Mousetrap.unbind('down')
       Mousetrap.unbind('esc')
     }
-  }, [navigateNotification, isDesktopLayout, closeNotification])
+  }, [navigateNotification, isDesktopLayout, closeNotification, dismissNotification])
 
   return (
     <div
