@@ -31,7 +31,6 @@ const fetchGlobalData = () => {
   const pageKey = 'notificationsQuery'
   const forceLoad = false
   return getDatoData(query, pageKey, forceLoad).then((data) => {
-    console.log('data', data)
     const dataString = JSON.stringify(data.data)
     const cachedFile = `${globalDataDir}/globalData.json`
     fs.writeFileSync(cachedFile, dataString)
