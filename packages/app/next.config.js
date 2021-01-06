@@ -16,6 +16,28 @@ const {
   PHASE_DEVELOPMENT_SERVER,
 } = require('next/constants')
 
+// SETUP TRANSPILE MODULES
+const sharedPath = path.resolve(__dirname, '../shared')
+const withTM = require('next-transpile-modules')([sharedPath])
+
+// LOAD GLOBAL DATA FROM DATO
+const globalDataDir = path.resolve(process.cwd(), 'tempGlobalData')
+const fs = require('fs')
+const getDatoData = require('../shared/helpers/getDatoData')
+const getQuery = require('./graphQl/notificationDictionaryQuery')
+
+const fetchGlobalData = () => {
+  const query = getQuery()
+  const pageKey = 'notificationsQuery'
+  const forceLoad = false
+  return getDatoData(query, pageKey, forceLoad).then((data) => {
+    console.log('data', data)
+    const dataString = JSON.stringify(data.data)
+    const cachedFile = `${globalDataDir}/globalData.json`
+    fs.writeFileSync(cachedFile, dataString)
+  })
+}
+
 // NEXT CONFIG
 const nextConfig = {
   // Save environment variables
@@ -60,10 +82,14 @@ const nextConfig = {
     )
     return config
   },
+  // Build static data
+  // NOTE: This can go in any async config func.
+  // You really just need it to await before Next starts the dev server.
+  async redirects() {
+    await fetchGlobalData()
+    return []
+  },
 }
-
-const sharedPath = path.resolve(__dirname, '../shared')
-const withTM = require('next-transpile-modules')([sharedPath])
 
 module.exports = withPlugins([
   [withTM],

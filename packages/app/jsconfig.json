@@ -7,6 +7,7 @@
       "@/app/constants/*": ["app/constants/*"],
       "@/app/helpers/*": ["app/helpers/*"],
       "@/app/graphQl/*": ["app/graphQl/*"],
+      "@/app/tempGlobalData/*": ["app/tempGlobalData/*"],
       "@/app/*": ["app/components/*"],
       // The admin
       "@/admin/copy/*": ["admin/copy/*"],

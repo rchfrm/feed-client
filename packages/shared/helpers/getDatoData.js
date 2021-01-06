@@ -1,8 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 
-import axios from 'axios'
-import path from 'path'
-import fs from 'fs'
+const axios = require('axios')
+const path = require('path')
+const fs = require('fs')
 
 // Get dato consts
 const datoUrl = 'https://graphql.datocms.com'
@@ -59,4 +59,4 @@ const getDatoData = async (query, cachedFilename, forceFetch) => {
   return data
 }
 
-export default getDatoData
+module.exports = getDatoData
