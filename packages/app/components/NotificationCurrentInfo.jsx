@@ -99,7 +99,8 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     return () => {
       setOnSidepanelClose(null)
     }
-  }, [infoButtonAndContent, isDesktopLayout, setOnSidepanelClose, toggleSidePanel, setSidePanelContent, setSidePanelButton, closeNotification])
+  // eslint-disable-next-line
+  }, [infoButtonAndContent, isDesktopLayout, closeNotification])
 
   // ANIMATE
   // Define animation config
