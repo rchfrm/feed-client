@@ -56,6 +56,22 @@ export const updateDailyBudget = async (artistId, dailyBudget, verifyIdToken) =>
   return api.patch(`/artists/${artistId}`, { daily_budget: dailyBudget }, verifyIdToken)
 }
 
+// * SIGN UP
+// ---------------
+
+export const acceptTerms = async (userId) => {
+  const requestUrl = `/users/${userId}/agreements`
+  const payload = {
+    topic: 'agreement-update',
+    name: 'terms-and-conditions',
+  }
+  const errorTracking = {
+    category: 'Signup',
+    action: 'Accepting terms',
+  }
+  return requestWithCatch('post', requestUrl, payload, errorTracking)
+}
+
 
 // * INTEGRATIONS
 // -------------------
