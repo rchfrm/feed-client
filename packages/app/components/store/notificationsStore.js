@@ -27,10 +27,11 @@ const initialState = {
 // - Unread, or
 // - Non-dismissible and incomplete
 const countActiveNotifications = (notifications) => {
-  return notifications.reduce((total, { isRead }) => {
-    if (isRead) return total
-    return total + 1
-  }, 0)
+  return notifications.reduce((total, { isRead, isDismissible, isComplete }) => {
+    if (!isRead) return total + 1
+    if (!isDismissible && !isComplete) return total + 1
+    return total
+  }, 1)
 }
 
 // RUN FORMAT NOTIFICATIONS
@@ -62,7 +63,7 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
   const notificationsFormatted = formatNotifications(notifications, notificationDictionary || {})
   console.log('FORMATTED notifications', notificationsFormatted)
   // GET TOTAL ACTIVE NOTIFICATIONS
-  const totalActiveNotifications = countActiveNotifications(notifications)
+  const totalActiveNotifications = countActiveNotifications(notificationsFormatted)
   // SET
   set({
     artistId,
