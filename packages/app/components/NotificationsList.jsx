@@ -7,6 +7,7 @@ import shallow from 'zustand/shallow'
 import useNotificationStore from '@/app/store/notificationsStore'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import useDismissNotification from '@/app/hooks/useDismissNotification'
 
 import MarkdownText from '@/elements/MarkdownText'
 import NotificationItem from '@/app/NotificationItem'
@@ -17,7 +18,6 @@ const readNotificationsStore = (state) => ({
   openedNotification: state.openedNotification,
   openedNotificationId: state.openedNotificationId,
   setAsOpen: state.setAsOpen,
-  setAsDismissed: state.setAsDismissed,
   closeNotification: state.closeNotification,
 })
 
@@ -26,7 +26,6 @@ const NotificationsList = ({ notifications, hasError, className }) => {
     openedNotification,
     openedNotificationId,
     setAsOpen,
-    setAsDismissed,
     closeNotification,
   } = useNotificationStore(readNotificationsStore, shallow)
 
@@ -46,14 +45,8 @@ const NotificationsList = ({ notifications, hasError, className }) => {
     setAsOpen(id, entityType, entityId)
   }, [openedNotificationId, notifications, setAsOpen])
 
-  // DISMISS NOTIFICATION
-  const dismissNotification = React.useCallback(() => {
-    const { id, entityType, entityId, isActionable, isComplete } = openedNotification
-    // Do nothing if actionable and not complete
-    if (isActionable && !isComplete) return
-    // Dismiss
-    setAsDismissed(id, entityType, entityId, isActionable)
-  }, [openedNotification, setAsDismissed])
+  // GET DISMISS FUNCTION
+  const dismissNotification = useDismissNotification(openedNotification)
 
   // SETUP KEYBOARD CONTROLS
   const isDesktopLayout = useBreakpointTest('md')
