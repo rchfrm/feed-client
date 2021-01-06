@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 import shallow from 'zustand/shallow'
 
@@ -14,10 +14,8 @@ import useNotificationStore from '@/app/store/notificationsStore'
 const getNotificationsStoreState = (state) => ({
   notifications: state.notifications,
   notificationsError: state.notificationsError,
-  notificationDictionary: state.notificationDictionary,
   loading: state.loading,
   closeNotification: state.closeNotification,
-  runFormatNotifications: state.runFormatNotifications,
 })
 
 const NotificationsContent = () => {
@@ -27,17 +25,9 @@ const NotificationsContent = () => {
   const {
     notifications,
     notificationsError,
-    notificationDictionary,
     loading,
     closeNotification,
-    runFormatNotifications,
   } = useNotificationStore(getNotificationsStoreState, shallow)
-
-  // Set dictionary in store
-  React.useEffect(() => {
-    runFormatNotifications(notifications, notificationDictionary)
-  // eslint-disable-next-line
-  }, [notificationsDictionary, notifications.length])
 
   // Close open notification on unmount
   React.useEffect(() => {
@@ -65,7 +55,7 @@ const NotificationsContent = () => {
 }
 
 NotificationsContent.propTypes = {
-  notificationsDictionary: PropTypes.object.isRequired,
+
 }
 
 export default NotificationsContent
