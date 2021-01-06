@@ -50,7 +50,7 @@ const NotificationsList = ({ notifications, hasError, className }) => {
   const dismissNotification = React.useCallback(() => {
     const { id, entityType, entityId, isActionable, isComplete } = openedNotification
     // Do nothing if actionable and not complete
-    if (isActionable || !isComplete) return
+    if (isActionable && !isComplete) return
     // Dismiss
     setAsDismissed(id, entityType, entityId, isActionable)
   }, [openedNotification, setAsDismissed])
