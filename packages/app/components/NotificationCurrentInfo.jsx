@@ -6,6 +6,7 @@ import { gsap } from 'gsap'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useBrowserStore from '@/hooks/useBrowserStore'
 import useAnimateOnMount from '@/hooks/useAnimateOnMount'
+import useDismissNotification from '@/app/hooks/useDismissNotification'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import useNotificationStore from '@/app/store/notificationsStore'
@@ -51,13 +52,18 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
+  // GET DISMISS FUNCTION
+  const dismissNotification = useDismissNotification(openedNotification)
+
   const infoButtonAndContent = React.useMemo(() => {
     if (!openedNotification) return {}
-    const button = openedNotification.isComplete ? null : (
+    const button = (
       <NotificationCurrentInfoButton
         ctaText={openedNotification.ctaText}
+        isComplete={openedNotification.isComplete}
         onAction={openedNotification.onAction}
         onComplete={() => completeNotification(openedNotification.id)}
+        dismissNotification={dismissNotification}
         sidepanelLayout={!isDesktopLayout}
       />
     )
@@ -71,7 +77,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       />
     )
     return { content, button }
-  }, [openedNotification, completeNotification, isDesktopLayout])
+  }, [openedNotification, completeNotification, dismissNotification, isDesktopLayout])
 
   // HANDLE SIDEPANEL
   React.useEffect(() => {

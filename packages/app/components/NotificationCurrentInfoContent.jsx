@@ -12,7 +12,7 @@ const NotificationCurrentInfoContent = ({
   buttonEl,
   sidepanelLayout,
 }) => {
-  const hasButton = !sidepanelLayout && !isComplete
+  const hasButton = !sidepanelLayout
   const copy = isComplete ? 'Resolved!' : description
   return (
     <div className={hasButton ? 'pb-12' : null}>
