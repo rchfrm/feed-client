@@ -24,14 +24,21 @@ const initialState = {
 
 // COUNT ACTIVE NOTIFICATIONS
 // Active notifications are either:
+// - Not hidden
 // - Unread, or
 // - Non-dismissible and incomplete
 const countActiveNotifications = (notifications) => {
-  return notifications.reduce((total, { isRead, isDismissible, isComplete }) => {
+  return notifications.reduce((total, { hidden, isRead, isDismissible, isComplete }) => {
+    if (hidden) return total
     if (!isRead) return total + 1
     if (!isDismissible && !isComplete) return total + 1
     return total
-  }, 1)
+  }, 0)
+}
+
+const updateActiveNotifications = (set) => (notifications) => {
+  const totalNotificationsActive = countActiveNotifications(notifications)
+  set({ totalNotificationsActive })
 }
 
 // RUN FORMAT NOTIFICATIONS
@@ -121,8 +128,8 @@ const closeNotification = (set) => () => {
 // SET NOTIFICATION AS READ
 const setAsRead = (set, get) => (notificationId, entityType, entityId) => {
   const notificationsUpdated = updateNotification(set, get)(notificationId, 'isRead', true)
-  const totalNotificationsActive = countActiveNotifications(notificationsUpdated)
-  set({ totalNotificationsActive })
+  // Update active notifications
+  updateActiveNotifications(set)(notificationsUpdated)
   // Set as read on server
   markAsReadOnServer(notificationId, entityType, entityId)
 }
@@ -131,7 +138,9 @@ const setAsRead = (set, get) => (notificationId, entityType, entityId) => {
 const setAsDismissed = (set, get) => (notificationId, entityType, entityId, isActionable) => {
   const { openedNotificationId } = get()
   // Hide notification
-  updateNotification(set, get)(notificationId, 'hidden', true)
+  const notificationsUpdated = updateNotification(set, get)(notificationId, 'hidden', true)
+  // Update active notifications
+  updateActiveNotifications(set)(notificationsUpdated)
   // Close notification (if currently open)
   if (notificationId === openedNotificationId) {
     closeNotification(set)()
@@ -144,7 +153,9 @@ const setAsDismissed = (set, get) => (notificationId, entityType, entityId, isAc
 
 // SET NOTIFICATION AS COMPLETE
 const setAsComplete = (set, get) => (notificationId) => {
-  updateNotification(set, get)(notificationId, 'isComplete', true)
+  const notificationsUpdated = updateNotification(set, get)(notificationId, 'isComplete', true)
+  // Update active notifications
+  updateActiveNotifications(set)(notificationsUpdated)
 }
 
 // EXPORT
