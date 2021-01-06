@@ -75,19 +75,23 @@ const NotificationsList = ({ notifications, hasError, className }) => {
     }
   }, [navigateNotification, isDesktopLayout, closeNotification, dismissNotification])
 
+  const visibleNotifications = React.useMemo(() => {
+    return notifications.filter(({ hidden }) => !hidden)
+  }, [notifications])
+
   return (
     <div
       className={[
-        notifications.length ? 'breakout--width md:pr-5' : null,
+        visibleNotifications.length ? 'breakout--width md:pr-5' : null,
         className,
       ].join(' ')}
     >
-      {!notifications.length && !hasError ? (
+      {!visibleNotifications.length && !hasError ? (
         // No notifications
         <MarkdownText markdown={copy.noNotificationsCopy} />
       )
         // List of notifications
-        : notifications.map((notification) => {
+        : visibleNotifications.map((notification) => {
           const { id, hidden } = notification
           if (hidden) return null
           return <NotificationItem key={id} notification={notification} />
