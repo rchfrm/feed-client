@@ -29,7 +29,7 @@ const getQuery = require('./graphQl/notificationDictionaryQuery')
 const fetchGlobalData = () => {
   const query = getQuery()
   const pageKey = 'notificationsQuery'
-  const forceLoad = false
+  const forceLoad = true
   return getDatoData(query, pageKey, forceLoad).then((data) => {
     const dataString = JSON.stringify(data.data)
     const cachedFile = `${globalDataDir}/globalData.json`
