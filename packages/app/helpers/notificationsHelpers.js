@@ -98,6 +98,7 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       hide = false,
     } = dictionaryEntry || {}
     const date = moment(created_at).format('MM MMM')
+    const dateLong = moment(created_at).format('MM MMM YY')
     const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
     // Get Action function
     const onAction = isActionable ? getAction({
@@ -116,6 +117,7 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       topic,
       data,
       date,
+      dateLong,
       title,
       summary,
       description,

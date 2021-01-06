@@ -71,6 +71,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       <NotificationCurrentInfoContent
         title={openedNotification.title}
         description={openedNotification.description}
+        date={openedNotification.dateLong}
         isComplete={openedNotification.isComplete}
         buttonEl={button}
         sidepanelLayout={!isDesktopLayout}

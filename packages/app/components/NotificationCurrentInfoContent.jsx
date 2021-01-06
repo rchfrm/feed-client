@@ -3,22 +3,29 @@ import PropTypes from 'prop-types'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import sidePanelStyles from '@/app/SidePanel.module.css'
-
 const NotificationCurrentInfoContent = ({
   title,
   description,
+  date,
   isComplete,
   buttonEl,
   sidepanelLayout,
 }) => {
   const hasButton = !sidepanelLayout
-  const copy = isComplete ? 'Resolved!' : description
+  const copy = isComplete ? '**Resolved!**' : description
   return (
     <div className={hasButton ? 'pb-12' : null}>
+      <p
+        className={[
+          'text-sm text-grey-3',
+          'mb-3',
+          sidepanelLayout ? 'mt-3' : null,
+        ].join(' ')}
+      >
+        {date}
+      </p>
       <h3
         className={[
-          sidepanelLayout ? sidePanelStyles.SidePanel__Header : null,
           sidepanelLayout ? 'h2' : null,
         ].join(' ')}
       >
@@ -34,6 +41,7 @@ const NotificationCurrentInfoContent = ({
 NotificationCurrentInfoContent.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
   isComplete: PropTypes.bool.isRequired,
   buttonEl: PropTypes.node,
   sidepanelLayout: PropTypes.bool.isRequired,
