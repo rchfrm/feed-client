@@ -114,12 +114,12 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   // Trigger animation
   React.useEffect(() => {
     if (!isDesktopLayout) return
-    // SHOW BUTTON
-    if (openedNotification) {
+    // SHOW CONTENT
+    if (openedNotification && !openedNotification.hidden) {
       animatedDiv.showPresence()
       return
     }
-    // HIDE BUTTON
+    // HIDE CONTENT
     animatedDiv.hidePresence()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openedNotification, isDesktopLayout])
