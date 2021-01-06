@@ -1,7 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TickIcon from '@/icons/TickIcon'
+
 import MarkdownText from '@/elements/MarkdownText'
+
+import brandColors from '@/constants/brandColors'
 
 const NotificationCurrentInfoContent = ({
   title,
@@ -12,9 +16,15 @@ const NotificationCurrentInfoContent = ({
   sidepanelLayout,
 }) => {
   const hasButton = !sidepanelLayout
-  const copy = isComplete ? '**Resolved!**' : description
+  const copy = isComplete ? 'Thanks!' : description
   return (
     <div className={hasButton ? 'pb-12' : null}>
+      {!sidepanelLayout && isComplete && (
+        <TickIcon
+          className="absolute top-0 right-0 h-4 w-auto mr-5 mt-4"
+          fill={brandColors.green}
+        />
+      )}
       <p
         className={[
           'text-sm text-grey-3',
@@ -29,6 +39,18 @@ const NotificationCurrentInfoContent = ({
           sidepanelLayout ? 'h2' : null,
         ].join(' ')}
       >
+        {sidepanelLayout && isComplete && (
+          <TickIcon
+            fill={brandColors.green}
+            style={{
+              height: '0.5em',
+              width: 'auto',
+              marginRight: '0.5em',
+              display: 'inline-block',
+              transform: 'translateY(-0.1em)',
+            }}
+          />
+        )}
         {title}
       </h3>
       <MarkdownText markdown={copy} />
