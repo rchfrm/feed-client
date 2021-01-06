@@ -51,7 +51,7 @@ const NotificationItem = ({ notification, className }) => {
       {/* UNREAD DOT */}
       {!isRead && <NotificationItemLabel type="unread" />}
       {/* ACTION DOT */}
-      {isActionable && !isComplete && <NotificationItemLabel type="action" />}
+      {isActionable && <NotificationItemLabel type="action" isComplete={isComplete} />}
       {/* DATE */}
       <p
         className={[

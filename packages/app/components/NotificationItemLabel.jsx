@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import FlagIcon from '@/icons/FlagIcon'
+import TickIcon from '@/icons/TickIcon'
 
 import brandColors from '@/constants/brandColors'
 
-const NotificationItemLabel = ({ type }) => {
+const NotificationItemLabel = ({ type, isComplete }) => {
   const label = type === 'unread' ? 'Unread notification' : 'Notification requires action'
   return (
     <div
@@ -24,7 +25,17 @@ const NotificationItemLabel = ({ type }) => {
       title={label}
     >
       {type === 'action' && (
-        <FlagIcon className="w-full h-auto" fill={brandColors.red} />
+        <>
+          {isComplete ? (
+            <TickIcon
+              className="w-full h-auto"
+              fill={brandColors.green}
+              style={{ marginTop: '0.1rem' }}
+            />
+          ) : (
+            <FlagIcon className="w-full h-auto" fill={brandColors.red} />
+          )}
+        </>
       )}
     </div>
   )
