@@ -14,22 +14,20 @@ import useNotificationStore from '@/app/store/notificationsStore'
 const getNotificationsStoreState = (state) => ({
   notifications: state.notifications,
   notificationsError: state.notificationsError,
-  setDictionary: state.setDictionary,
+  notificationDictionary: state.notificationDictionary,
   loading: state.loading,
   closeNotification: state.closeNotification,
   runFormatNotifications: state.runFormatNotifications,
 })
 
-const NotificationsContent = ({
-  notificationsDictionary,
-}) => {
+const NotificationsContent = () => {
   const containerRef = React.useRef(null)
 
   // Read from store
   const {
     notifications,
     notificationsError,
-    setDictionary,
+    notificationDictionary,
     loading,
     closeNotification,
     runFormatNotifications,
@@ -37,8 +35,7 @@ const NotificationsContent = ({
 
   // Set dictionary in store
   React.useEffect(() => {
-    setDictionary(notificationsDictionary)
-    runFormatNotifications(notifications, notificationsDictionary)
+    runFormatNotifications(notifications, notificationDictionary)
   // eslint-disable-next-line
   }, [notificationsDictionary, notifications.length])
 
