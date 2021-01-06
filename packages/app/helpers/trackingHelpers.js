@@ -10,12 +10,13 @@ const configureSentry = (id) => {
 
 let userType = null
 let userId = null
+
 export const setUserType = (user) => {
   const { role, id } = user
   userId = id
   userType = role
   // Set user ID into sentry
-  configureSentry(id)
+  configureSentry(userId)
 }
 
 export const fireSentryError = ({ category, action, label, description }) => {
@@ -81,13 +82,14 @@ export const fireGtagEvent = (action, payload) => {
   } = payload
 
   // Stop here if sysadmin
-  if (userType === 'admin') return
+  if (userType === 'admin') {
+    // Log GA INFO
+    console.info('GA SEND', payload)
+  }
 
   const { gtag } = window
 
   if (!gtag || !gtagEnabled) {
-    // Log GA INFO
-    console.info('GA SEND', payload)
     // Run callback (if present)
     if (typeof event_callback === 'function') event_callback()
     return
@@ -107,7 +109,7 @@ export const fireGtagEvent = (action, payload) => {
 export const fireFBEvent = (action, payload, customTrack) => {
   const { fbq } = window
   const trackType = customTrack ? 'trackCustom' : 'track'
-  if (!fbq) {
+  if (userType === 'admin') {
     console.group()
     console.info('FB SEND')
     console.log('trackType', trackType)
