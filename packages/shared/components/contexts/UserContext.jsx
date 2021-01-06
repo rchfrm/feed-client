@@ -4,6 +4,7 @@ import { useImmerReducer } from 'use-immer'
 import useReferralStore from '@/app/store/referralStore'
 // IMPORT HELPERS
 import * as sharedServer from '@/helpers/sharedServer'
+import * as appServer from '@/app/helpers/appServer'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { track, setUserType } from '@/app/helpers/trackingHelpers'
 
@@ -78,6 +79,9 @@ function UserProvider({ children }) {
         lastName,
         referrerCode,
       })
+      // Accept T&Cs
+      await appServer.acceptTerms(newUser.id)
+      // Sort artists
       const sortedArtistUser = sortUserArtists(newUser)
       setUser({
         type: 'set-user',
@@ -91,7 +95,7 @@ function UserProvider({ children }) {
       setUserLoading(false)
       throw (err)
     }
-  }, [setUser])
+  }, [setUser, getStoredReferrerCode])
 
   const storeUser = React.useCallback(async () => {
     setUserLoading(true)
