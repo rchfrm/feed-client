@@ -16,7 +16,7 @@ import * as ROUTES from '@/app/constants/routes'
 // IMPORT STYLES
 import styles from '@/app/TheHeader.module.css'
 
-const getTotalUnreadNotifications = state => state.totalUnreadNotifications
+const getTotalActiveNotifications = state => state.totalActiveNotifications
 
 function TheHeaderContents({
   windowWidth,
@@ -63,7 +63,7 @@ function TheHeaderContents({
   }, [windowWidth, inlinePageTitle])
 
   // FETCH NOTIFICATIONS
-  const totalNotificationsUnread = useNotificationsStore(getTotalUnreadNotifications)
+  const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
 
   return (
     <header className={[

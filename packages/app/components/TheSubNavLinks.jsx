@@ -41,15 +41,15 @@ const links = [
   },
 ]
 
-const getTotalUnreadNotifications = state => state.totalUnreadNotifications
+const getTotalActiveNotifications = state => state.totalActiveNotifications
 
 const NOTIFICATION_LINK_TEXT = ({ title }) => {
   // FETCH NOTIFICATIONS
-  const totalUnreadNotifications = useNotificationsStore(getTotalUnreadNotifications)
-  if (totalUnreadNotifications) {
+  const totalActiveNotifications = useNotificationsStore(getTotalActiveNotifications)
+  if (totalActiveNotifications) {
     return (
       <>
-        <span className="text-red">{totalUnreadNotifications}&nbsp;</span>
+        <span className="text-red">{totalActiveNotifications}&nbsp;</span>
         {title}
       </>
     )

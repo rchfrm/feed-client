@@ -14,7 +14,7 @@ const initialState = {
   organizationIds: [],
   loading: true,
   notifications: [],
-  totalUnreadNotifications: 0,
+  totalActiveNotifications: 0,
   openedNotification: null,
   openedNotificationId: '',
   artistsWithNotifications: [],
@@ -22,8 +22,11 @@ const initialState = {
   notificationDictionary: null,
 }
 
-// COUNT UNREAD NOTIFICATIONS
-const countUnreadNotifications = (notifications) => {
+// COUNT ACTIVE NOTIFICATIONS
+// Active notifications are either:
+// - Unread, or
+// - Non-dismissible and incomplete
+const countActiveNotifications = (notifications) => {
   return notifications.reduce((total, { isRead }) => {
     if (isRead) return total
     return total + 1
@@ -58,14 +61,14 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
   console.log('notificationDictionary', notificationDictionary)
   const notificationsFormatted = formatNotifications(notifications, notificationDictionary || {})
   console.log('FORMATTED notifications', notificationsFormatted)
-  // GET TOTAL UNREAD NOTIFICATIONS
-  const totalUnreadNotifications = countUnreadNotifications(notifications)
+  // GET TOTAL ACTIVE NOTIFICATIONS
+  const totalActiveNotifications = countActiveNotifications(notifications)
   // SET
   set({
     artistId,
     userId,
     notifications: notificationsFormatted,
-    totalUnreadNotifications,
+    totalActiveNotifications,
     notificationsError: null,
     loading: false,
   })
@@ -117,8 +120,8 @@ const closeNotification = (set) => () => {
 // SET NOTIFICATION AS READ
 const setAsRead = (set, get) => (notificationId, entityType, entityId) => {
   const notificationsUpdated = updateNotification(set, get)(notificationId, 'isRead', true)
-  const totalNotificationsUnread = countUnreadNotifications(notificationsUpdated)
-  set({ totalNotificationsUnread })
+  const totalNotificationsActive = countActiveNotifications(notificationsUpdated)
+  set({ totalNotificationsActive })
   // Set as read on server
   markAsReadOnServer(notificationId, entityType, entityId)
 }
@@ -151,7 +154,7 @@ const useNotificationsStore = create((set, get) => ({
   organizationIds: initialState.organizationIds,
   loading: initialState.loading,
   notifications: initialState.notifications,
-  totalUnreadNotifications: initialState.totalUnreadNotifications,
+  totalActiveNotifications: initialState.totalActiveNotifications,
   openedNotification: initialState.openedNotification,
   openedNotificationId: initialState.openedNotificationId,
   artistsWithNotifications: initialState.artistsWithNotifications,
