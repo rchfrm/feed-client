@@ -40,8 +40,6 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       width: containerProps.width / 2,
       opacity: 1,
     }
-    // Set position
-    console.log('sdlkfjsdlkfjsdfklj')
     gsap.set(desktopEl, positionProps)
   }, [isDesktopLayout, containerRef, windowWidth, openedNotification])
 
