@@ -36,9 +36,9 @@ const countActiveNotifications = (notifications) => {
   }, 0)
 }
 
-const updateActiveNotifications = (set) => (notifications) => {
-  const totalNotificationsActive = countActiveNotifications(notifications)
-  set({ totalNotificationsActive })
+const updateActiveNotificationsCount = (set) => (notifications) => {
+  const totalActiveNotifications = countActiveNotifications(notifications)
+  set({ totalActiveNotifications })
 }
 
 // RUN FORMAT NOTIFICATIONS
@@ -134,7 +134,7 @@ const closeNotification = (set) => () => {
 const setAsRead = (set, get) => (notificationId, entityType, entityId) => {
   const notificationsUpdated = updateNotification(set, get)(notificationId, 'isRead', true)
   // Update active notifications
-  updateActiveNotifications(set)(notificationsUpdated)
+  updateActiveNotificationsCount(set)(notificationsUpdated)
   // Set as read on server
   markAsReadOnServer(notificationId, entityType, entityId)
 }
@@ -145,7 +145,7 @@ const setAsDismissed = (set, get) => (notificationId, entityType, entityId, isAc
   // Hide notification
   const notificationsUpdated = updateNotification(set, get)(notificationId, 'hidden', true)
   // Update active notifications
-  updateActiveNotifications(set)(notificationsUpdated)
+  updateActiveNotificationsCount(set)(notificationsUpdated)
   // Close notification (if currently open)
   if (notificationId === openedNotificationId) {
     closeNotification(set)()
@@ -160,7 +160,7 @@ const setAsDismissed = (set, get) => (notificationId, entityType, entityId, isAc
 const setAsComplete = (set, get) => (notificationId) => {
   const notificationsUpdated = updateNotification(set, get)(notificationId, 'isComplete', true)
   // Update active notifications
-  updateActiveNotifications(set)(notificationsUpdated)
+  updateActiveNotificationsCount(set)(notificationsUpdated)
 }
 
 // EXPORT
