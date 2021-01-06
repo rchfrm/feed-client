@@ -46,15 +46,14 @@ const getTotalActiveNotifications = state => state.totalActiveNotifications
 const NOTIFICATION_LINK_TEXT = ({ title }) => {
   // FETCH NOTIFICATIONS
   const totalActiveNotifications = useNotificationsStore(getTotalActiveNotifications)
-  if (totalActiveNotifications) {
-    return (
-      <>
-        <span className="text-red">{totalActiveNotifications}&nbsp;</span>
-        {title}
-      </>
-    )
-  }
-  return title
+  return (
+    <>
+      {title}
+      {totalActiveNotifications > 0 && (
+        <span className="text-red">&nbsp;{totalActiveNotifications}</span>
+      )}
+    </>
+  )
 }
 
 const TheSubNavLinks = ({ className }) => {
