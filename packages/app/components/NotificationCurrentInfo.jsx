@@ -53,7 +53,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
 
   const infoButtonAndContent = React.useMemo(() => {
     if (!openedNotification) return {}
-    const button = (
+    const button = openedNotification.isComplete ? null : (
       <NotificationCurrentInfoButton
         ctaText={openedNotification.ctaText}
         onAction={openedNotification.onAction}
@@ -65,6 +65,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       <NotificationCurrentInfoContent
         title={openedNotification.title}
         description={openedNotification.description}
+        isComplete={openedNotification.isComplete}
         buttonEl={button}
         sidepanelLayout={!isDesktopLayout}
       />

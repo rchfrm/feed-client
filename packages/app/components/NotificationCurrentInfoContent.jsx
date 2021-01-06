@@ -8,10 +8,12 @@ import sidePanelStyles from '@/app/SidePanel.module.css'
 const NotificationCurrentInfoContent = ({
   title,
   description,
+  isComplete,
   buttonEl,
   sidepanelLayout,
 }) => {
-  const hasButton = !sidepanelLayout
+  const hasButton = !sidepanelLayout && !isComplete
+  const copy = isComplete ? 'Resolved!' : description
   return (
     <div className={hasButton ? 'pb-12' : null}>
       <h3
@@ -22,7 +24,7 @@ const NotificationCurrentInfoContent = ({
       >
         {title}
       </h3>
-      <MarkdownText markdown={description} />
+      <MarkdownText markdown={copy} />
       {/* BUTTON (for not sidepanel layout) */}
       {hasButton && buttonEl}
     </div>
@@ -32,6 +34,7 @@ const NotificationCurrentInfoContent = ({
 NotificationCurrentInfoContent.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  isComplete: PropTypes.bool.isRequired,
   buttonEl: PropTypes.node,
   sidepanelLayout: PropTypes.bool.isRequired,
 }
