@@ -151,7 +151,7 @@ function ConnectAccountsPanel({
           value={artistAccount.instagram_url || ''}
           handleChange={contactUs}
           label="Instagram page URL"
-          readOnly={readOnly}
+          readOnly
           version={artistAccount.exists ? 'text' : 'box'}
         />
       )
@@ -289,7 +289,7 @@ function ConnectAccountsPanel({
           handleChange={contactUs}
           label="Facebook Page URL"
           type="text"
-          readOnly={readOnly}
+          readOnly
           version={artistAccount.exists ? 'text' : 'box'}
         />
 
