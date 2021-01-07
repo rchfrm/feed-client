@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import TooltipIcon from '@/icons/TooltipIcon'
 import TooltipMessage from '@/elements/TooltipMessage'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 const TooltipButton = (props) => {
   const { buttonClasses, buttonStyle, buttonText } = props
   const [showMessage, setShowMessage] = React.useState(false)
@@ -14,7 +16,15 @@ const TooltipButton = (props) => {
   }, [])
   // Toggle functions
   const buttonRef = React.useRef(null)
-  const toggleMessage = () => setShowMessage(!showMessage)
+  const toggleMessage = () => {
+    setShowMessage(!showMessage)
+    track({
+      action: 'tooltip_clicked',
+      category: 'generic',
+      value: !showMessage ? 'show' : 'hide',
+      label: props.label,
+    })
+  }
   const closeMessage = ({ target }) => {
     if (!buttonRef.current || !messageRef.current) return
     // Ignore if clicking on tooltip button
