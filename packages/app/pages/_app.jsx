@@ -20,6 +20,7 @@ import SetupGtag from '@/elements/SetupGtag'
 import { AuthProvider } from '@/contexts/AuthContext'
 // IMPORT HELPERS
 import { trackPWA, gtagPageView } from '@/app/helpers/trackingHelpers'
+import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
 
 // GLOBAL STORES and DATA
 import globalData from '@/app/tempGlobalData/globalData.json'
@@ -78,7 +79,10 @@ function Feed({ Component, pageProps, router }) {
     }
 
     // Trigger page view event
-    const handleRouteChange = (url) => gtagPageView(url, gaId)
+    const handleRouteChange = (url) => {
+      gtagPageView(url, gaId)
+      mixpanelPageView(url)
+    }
     Router.events.on('routeChangeComplete', handleRouteChange)
 
     return () => {

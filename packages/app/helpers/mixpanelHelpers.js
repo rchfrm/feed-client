@@ -20,7 +20,6 @@ export const initMixpanel = (user) => {
   )
 }
 
-
 // TRACK MIXPANEL EVENTS
 export const mixpanelTrack = (action, payload) => {
   // Only LOG track if admin
@@ -33,6 +32,11 @@ export const mixpanelTrack = (action, payload) => {
     return
   }
   mixpanel.track(action, payload)
+}
+
+
+export const mixpanelPageView = (url) => {
+  mixpanelTrack('page_view', { value: url })
 }
 
 
