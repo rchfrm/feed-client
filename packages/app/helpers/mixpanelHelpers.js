@@ -27,7 +27,7 @@ export const mixpanelTrack = (action, payload) => {
   if (userType === 'admin') {
     console.group()
     console.info('MIXPANEL SEND')
-    console.info('action', action)
+    console.info('ACTION: ', action)
     console.info(payload)
     console.groupEnd()
     return
