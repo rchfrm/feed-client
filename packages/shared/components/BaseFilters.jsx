@@ -146,7 +146,7 @@ const BaseFilters = ({
           {labelText}
           {/* LABEL TOOLTIP */}
           {tooltipSlides && (
-            <TooltipButton slides={tooltipSlides} direction={tooltipDirection} />
+            <TooltipButton slides={tooltipSlides} direction={tooltipDirection} label={`Filters: ${labelText}`} />
           )}
         </span>
       </div>

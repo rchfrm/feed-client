@@ -18,7 +18,7 @@ const SCORE = ({ title, score, type, className }) => {
       <div className={styles.postEsScorePara}>
         <span className="inline-flex items-center">
           {title} Score
-          <TooltipButton slides={tooltipSlides} direction="top" />
+          <TooltipButton slides={tooltipSlides} direction="top" label={`${title} score`} />
         </span>
         <strong>{scoreFormatted || '-'}</strong>
       </div>

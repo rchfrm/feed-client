@@ -119,6 +119,7 @@ const TournamentsItemMetrics = ({ adMetrics, isAdPair, className }) => {
                   copy={tooltip}
                   direction="top"
                   buttonClasses="inline-block relative z-10"
+                  label={`Tournament metric: ${name}`}
                   buttonStyle={{
                     transform: 'translateY(0.74em)',
                   }}

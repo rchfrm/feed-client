@@ -83,7 +83,7 @@ const InputBase = ({
             </span>
             {/* LABEL TOOLTIP */}
             {tooltipMessage && (
-              <TooltipButton copy={tooltipMessage} direction="right" />
+              <TooltipButton copy={tooltipMessage} direction="right" label={`Input: ${label}`} />
             )}
             {error && errorMessage && (
               <span className="inputLabel__errorMessage">{errorMessage}</span>
