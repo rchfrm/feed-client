@@ -115,8 +115,8 @@ export const fireFBEvent = (action, payload, customTrack) => {
   if (userType === 'admin') {
     console.group()
     console.info('FB SEND')
-    console.log('trackType', trackType)
-    console.log('action', action)
+    console.info('trackType', trackType)
+    console.info('action', action)
     console.info(payload)
     console.groupEnd()
     return
