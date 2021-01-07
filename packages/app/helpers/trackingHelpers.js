@@ -149,6 +149,7 @@ export const track = ({
   fbCustomTrack = true,
   error = false,
   breadcrumb = false,
+  mixpanel = true,
   ga = true,
   fb = true,
 }) => {
@@ -165,6 +166,16 @@ export const track = ({
   if (breadcrumb) {
     fireSentryBreadcrumb({ category, action, label, description })
     return
+  }
+  // Fire mixpanel event
+  if (mixpanel) {
+    const payload = {
+      ...(category && { category }),
+      ...(event_label && { label: event_label }),
+      ...(value && { value }),
+      ...(error && { error: true }),
+    }
+    mixpanelHelpers.mixpanelTrack(action, payload)
   }
   // Build GA payload
   // Send off event to GA
