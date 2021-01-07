@@ -12,6 +12,7 @@ const PostLinksButton = ({ goToPostLinks, className }) => {
       className={className}
       onClick={goToPostLinks}
       version="black small icon"
+      label="Open Posts Links"
     >
       <LinkIcon fill={brandColors.bgColor} />
       Links
