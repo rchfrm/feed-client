@@ -14,7 +14,7 @@ import useForceDeleteLink from '@/app/hooks/useForceDeleteLink'
 
 import RadioButton from '@/elements/RadioButton'
 
-import { removeProtocolFromUrl } from '@/helpers/utils'
+import { removeProtocolFromUrl, enforceUrlProtocol } from '@/helpers/utils'
 import { saveLink, usedLinkErrorCode } from '@/app/helpers/linksHelpers'
 import brandColors from '@/constants/brandColors'
 
@@ -145,7 +145,7 @@ const PostsLinksLink = ({
             {/* LINK PREVIEW */}
             <a
               className="block pt-1 text-xs text-grey-3 truncate w-full"
-              href={editModeOn ? null : link.href}
+              href={editModeOn ? null : enforceUrlProtocol(link.href)}
               target={editModeOn ? null : '_blank'}
               rel={editModeOn ? null : 'noreferrer noopener'}
               role={editModeOn ? 'button' : null}
