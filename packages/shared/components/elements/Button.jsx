@@ -50,13 +50,13 @@ const Button = React.forwardRef(({
   const rel = linkType === 'external' ? 'noopener noreferrer' : null
 
   // ON CLICK
-  const onButtonClick = React.useCallback(() => {
+  const onButtonClick = React.useCallback((e) => {
     track({
       action: 'button_click',
       category: 'generic',
       label,
     })
-    onClick()
+    onClick(e)
   }, [onClick, label])
 
   // OUTPUT BUTTON
