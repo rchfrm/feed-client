@@ -4,12 +4,15 @@ import PropTypes from 'prop-types'
 import LightbulbIcon from '@/icons/LightbulbIcon'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-import MarkdownText from './MarkdownText'
+import MarkdownText from '@/elements/MarkdownText'
+
+import { track } from '@/app/helpers/trackingHelpers'
 
 const ButtonHelp = React.forwardRef(({
   content,
   text,
   reverseText,
+  label,
   className,
 }, ref) => {
   const { setSidePanelContent, setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
@@ -20,7 +23,12 @@ const ButtonHelp = React.forwardRef(({
     setSidePanelContent(SidePanelContent)
     setSidePanelButton(null)
     toggleSidePanel(true)
-  }, [setSidePanelContent, setSidePanelButton, toggleSidePanel, SidePanelContent])
+    track({
+      action: 'click_help_button',
+      label,
+      category: 'generic',
+    })
+  }, [setSidePanelContent, setSidePanelButton, toggleSidePanel, SidePanelContent, label])
 
   return (
     <button
@@ -60,6 +68,7 @@ ButtonHelp.propTypes = {
     PropTypes.element,
   ]).isRequired,
   text: PropTypes.string,
+  label: PropTypes.string.isRequired,
   reverseText: PropTypes.bool,
   className: PropTypes.string,
 }
