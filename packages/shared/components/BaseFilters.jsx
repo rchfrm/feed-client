@@ -12,6 +12,7 @@ import useScrollToButton from '@/hooks/useScrollToButton'
 import styles from '@/BaseFilters.module.css'
 // Utils
 import * as utils from '@/helpers/utils'
+import { track } from '@/app/helpers/trackingHelpers'
 
 // * ******
 // * README
@@ -53,6 +54,7 @@ const BaseFilters = ({
   useSetLocalStorage,
   querySlug,
   useSlug,
+  trackProps,
   className,
   children,
 }) => {
@@ -126,6 +128,15 @@ const BaseFilters = ({
   // eslint-disable-next-line
   }, [activeOptionId])
 
+  const trackFilter = React.useCallback((activeOptionId) => {
+    if (!trackProps) return
+    const filterName = useSlug ? getSlugFromId(options, activeOptionId) : activeOptionId
+    track({
+      ...trackProps,
+      label: filterName,
+    })
+  }, [trackProps, options, useSlug])
+
   if (!options.length) return null
 
   return (
@@ -166,6 +177,7 @@ const BaseFilters = ({
               active={active}
               onClick={() => {
                 setActiveOptionId(id)
+                trackFilter(id)
               }}
               className={activeClass}
             />
@@ -194,6 +206,7 @@ BaseFilters.propTypes = {
     }
   },
   useSlug: PropTypes.bool,
+  trackProps: PropTypes.object,
   className: PropTypes.string,
   children: PropTypes.node,
 }
@@ -208,6 +221,7 @@ BaseFilters.defaultProps = {
   useSetLocalStorage: false,
   querySlug: '',
   useSlug: false,
+  trackProps: null,
   className: '',
   children: null,
 }

@@ -55,6 +55,10 @@ const InsightPlatformSelectors = ({
       setActiveOptionId={setCurrentPlatform}
       labelText="Select a platform"
       className="items-center"
+      trackProps={{
+        action: 'adjust_filter',
+        category: 'insights',
+      }}
     >
       <ShowIntegrationsButton
         className={[styles.buttonContainer, styles.buttonPill_container].join(' ')}
