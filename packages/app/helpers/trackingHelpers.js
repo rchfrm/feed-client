@@ -149,6 +149,7 @@ export const track = ({
   fbCustomTrack = true,
   error = false,
   breadcrumb = false,
+  marketing = false,
   mixpanel = true,
   ga = true,
   fb = true,
@@ -161,11 +162,15 @@ export const track = ({
   if (description) {
     event_label = `${event_label}, ${description}`
   }
-  // Sentry breadcrum
+  // Sentry breadcrumb
   // STOP HERE
   if (breadcrumb) {
     fireSentryBreadcrumb({ category, action, label, description })
     return
+  }
+  // If error, fire in sentry
+  if (error) {
+    fireSentryError({ category, action, label, description })
   }
   // Fire mixpanel event
   if (mixpanel) {
@@ -177,6 +182,8 @@ export const track = ({
     }
     mixpanelHelpers.mixpanelTrack(action, payload)
   }
+  // STOP HERE if not marketing
+  if (!marketing) return false
   // Build GA payload
   // Send off event to GA
   if (ga) {
@@ -195,10 +202,6 @@ export const track = ({
       ...(value && { value }),
     }
     fireFBEvent(action, fbPayload, fbCustomTrack)
-  }
-  // If error, fire in sentry also
-  if (error) {
-    fireSentryError({ category, action, label, description })
   }
 }
 

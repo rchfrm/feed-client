@@ -106,6 +106,7 @@ const SignupQueueForm = ({ className }) => {
         track({
           action: 'join_waiting_list',
           category: 'sign_up',
+          marketing: true,
         })
         // Clear values
         setValues({})
