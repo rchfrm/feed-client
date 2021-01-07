@@ -3,7 +3,6 @@ import uniqBy from 'lodash/uniqBy'
 import get from 'lodash/get'
 
 import * as utils from '@/helpers/utils'
-import * as facebookHelpers from '@/app/helpers/facebookHelpers'
 import * as api from '@/helpers/api'
 
 // Sort Ad accounts so the previously used one is on top
