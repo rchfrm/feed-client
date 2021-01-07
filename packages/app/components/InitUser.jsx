@@ -60,7 +60,7 @@ const InitUser = ({ children }) => {
     setMissingScopes,
   } = React.useContext(AuthContext)
   const { runCreateUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
-  const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
+  const { setNoArtist, storeArtist, setArtistLoading } = React.useContext(ArtistContext)
 
   // After user has loaded the first time...
   React.useEffect(() => {
@@ -128,6 +128,7 @@ const InitUser = ({ children }) => {
       }
       setAuthError(error)
       setUserLoading(false)
+      setArtistLoading(false)
       track({
         category: 'sign up',
         action: 'handleNewUser',
