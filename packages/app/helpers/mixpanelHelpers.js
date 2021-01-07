@@ -4,7 +4,7 @@ import mixpanel from 'mixpanel-browser'
 // INIT
 // ---------
 // const isProduction = process.env.NODE_ENV === 'production'
-const token = process.env.MIXPANEL_TOKEN
+const token = process.env.mixpanel_token
 let userType
 let userId
 
