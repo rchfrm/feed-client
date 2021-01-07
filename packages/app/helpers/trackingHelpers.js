@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/browser'
+import * as mixpanelHelpers from '@/app/helpers/mixpanelHelpers'
 
 // SENTRY
 // ------------------------------
@@ -11,12 +12,14 @@ const configureSentry = (id) => {
 let userType = null
 let userId = null
 
-export const setUserType = (user) => {
+export const setupTracking = (user) => {
   const { role, id } = user
   userId = id
   userType = role
   // Set user ID into sentry
   configureSentry(userId)
+  // Setup mixpanel
+  mixpanelHelpers.initMixpanel(user)
 }
 
 export const fireSentryError = ({ category, action, label, description }) => {
