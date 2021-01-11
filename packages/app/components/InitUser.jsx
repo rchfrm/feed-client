@@ -122,7 +122,8 @@ const InitUser = ({ children }) => {
   // - Delete from firebase
   // - Send back to login
   // - Show error
-  const rejectNewUser = async (errorMessage, errorLabel) => {
+  const rejectNewUser = async ({ errorMessage, errorLabel, redirectTo }) => {
+    redirectPage(redirectTo || ROUTES.LOGIN)
     setArtistLoading(false)
     await firebase.deleteUser()
     const error = {
@@ -149,14 +150,14 @@ const InitUser = ({ children }) => {
     if (!referrerCode) {
       const errorMessage = 'No referrer Code'
       const errorLabel = 'No referral code provided'
-      rejectNewUser(errorMessage, errorLabel)
+      rejectNewUser({ errorMessage, errorLabel, redirectTo: ROUTES.SIGN_UP })
       return
     }
     // * REJECT If no EMAIL...
     if (!email) {
       const errorMessage = 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.'
       const errorLabel = 'No email provided from FB'
-      rejectNewUser(errorMessage, errorLabel)
+      rejectNewUser({ errorMessage, errorLabel })
       return
     }
     // If it's a new user, create their profile on the server
