@@ -316,12 +316,13 @@ export const saveCampaign = async ({
       }, 1000)
     })
   }
-  const { age_min, age_max, budget, genders, status } = newSettings
+  const { age_min, age_max, budget, genders, platforms, status } = newSettings
   const payload = {
     age_min,
     age_max,
     budget: budget / currencyOffset,
     genders,
+    platforms,
     geo_locations: {
       cities: selectedCities,
       countries: selectedCountries,
