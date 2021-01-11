@@ -3,7 +3,6 @@ import uniqBy from 'lodash/uniqBy'
 import get from 'lodash/get'
 
 import * as utils from '@/helpers/utils'
-import * as facebookHelpers from '@/app/helpers/facebookHelpers'
 import * as api from '@/helpers/api'
 
 // Sort Ad accounts so the previously used one is on top
@@ -32,14 +31,6 @@ const sortAdAccounts = (account, adAccounts) => {
   })
 }
 
-
-const getInstagramUrl = async ({ instagram_id, accessToken }) => {
-  if (!instagram_id) return
-  const instagramUsername = await facebookHelpers.getInstagramBusinessUsername(instagram_id, accessToken)
-  if (!instagramUsername) return
-  return `https://instagram.com/${instagramUsername}`
-}
-
 /**
  * @param {string} artist
  * @param {string} accessToken
@@ -51,9 +42,6 @@ export const createArtist = async (artist, accessToken, token) => {
     name: artist.name,
     location: null,
     country_code: artist.country_code,
-    facebook_page_url: artist.facebook_page_url,
-    spotify_url: utils.cleanSpotifyUrl(artist.spotify_url) || null,
-    instagram_url: artist.instagram_url,
     integrations: {
       facebook: {
         page_id: artist.page_id,
@@ -140,30 +128,29 @@ export const sortArtistsAlphabetically = (artists) => {
   })
 }
 
-export const addAdAccountsToArtists = async ({ accounts, adAccounts, accessToken }) => {
+export const addAdAccountsToArtists = async ({ accounts, adAccounts }) => {
   const accountsArray = Object.values(accounts)
   const processAccountsPromise = accountsArray.map(async (account) => {
     const {
-      facebook_page_url,
-      instagram_url,
-      instagram_id,
+      instagram_username,
       picture,
       page_id,
+      page_token,
     } = account
     // Sort the add accounts so that the last used ad for this artists account is placed first
     const sortedAdAccounts = sortAdAccounts(account, adAccounts)
     const selectedAdAccount = sortedAdAccounts[0]
     // Get the FB page url
-    const facebookPageUrl = facebook_page_url || `https://facebook.com/${page_id}`
+    const facebookPageUrl = `https://www.facebook.com/${page_token || page_id}`
     // Get the Insta page url
-    const instaPageUrl = instagram_url || await getInstagramUrl({ instagram_id, accessToken })
+    const instaPageUrl = instagram_username ? `https://www.instagram.com/${instagram_username}/` : ''
     // Return processed account
     return {
       ...account,
       available_facebook_ad_accounts: sortedAdAccounts,
       selected_facebook_ad_account: selectedAdAccount,
       facebook_page_url: facebookPageUrl,
-      instagram_url: instaPageUrl || '',
+      instagram_url: instaPageUrl,
       connect: true,
       picture: `${picture}?width=500`,
     }
