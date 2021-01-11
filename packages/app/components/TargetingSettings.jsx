@@ -91,8 +91,8 @@ const TargetingSettings = () => {
         {/* GENDER */}
         <TargetingGenderSelector
           className="mb-16"
-          genders={targetingState.genders}
-          initialGenders={initialTargetingState.genders}
+          options={targetingState.genders}
+          initialStateRaw={initialTargetingState.genders}
           onChange={(state) => {
             setTargetingState((targetingState) => {
               return produce(targetingState, draftState => {

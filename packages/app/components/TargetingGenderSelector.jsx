@@ -16,39 +16,39 @@ const translateKeyToArray = (key) => {
 }
 
 const TargetingGenderSelector = ({
-  genders,
-  initialGenders,
+  options,
+  initialStateRaw,
   onChange,
   className,
 }) => {
-  const initialGenderState = translateArrayToKey(initialGenders)
+  const initialState = translateArrayToKey(initialStateRaw)
   // SETUP PILL BUTTONS
   const pillOptions = [
     {
       id: 'all',
       title: 'All',
-      highlight: initialGenderState === 'all',
+      highlight: initialState === 'all',
     },
     {
       id: 'women',
       title: 'Women',
-      highlight: initialGenderState === 'women',
+      highlight: initialState === 'women',
     },
     {
       id: 'men',
       title: 'Men',
-      highlight: initialGenderState === 'men',
+      highlight: initialState === 'men',
     },
   ]
 
 
   // CONVERT GENDERS ARRAY TO KEY
-  const currentGender = React.useMemo(() => {
-    return translateArrayToKey(genders)
-  }, [genders])
+  const activeOption = React.useMemo(() => {
+    return translateArrayToKey(options)
+  }, [options])
 
   // UPDATE STATE
-  const setGender = React.useCallback((key) => {
+  const setOption = React.useCallback((key) => {
     const gendersArray = translateKeyToArray(key)
     onChange(gendersArray)
   }, [onChange])
@@ -59,8 +59,8 @@ const TargetingGenderSelector = ({
       <PillOptions
         color="green"
         options={pillOptions}
-        activeOption={currentGender}
-        setActiveOption={setGender}
+        activeOption={activeOption}
+        setActiveOption={setOption}
         size="small"
         trackLabel="Target Genders"
         style={{
@@ -73,8 +73,8 @@ const TargetingGenderSelector = ({
 }
 
 TargetingGenderSelector.propTypes = {
-  genders: PropTypes.array.isRequired,
-  initialGenders: PropTypes.array.isRequired,
+  options: PropTypes.array.isRequired,
+  initialStateRaw: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
