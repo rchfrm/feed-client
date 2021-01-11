@@ -89,9 +89,9 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       return [...allNotifications, notification]
     }
     const {
-      title = 'Helpp',
-      appSummary: summary = '',
-      appMessage: description = 'La la la',
+      title,
+      appSummary: summary,
+      appMessage: description,
       ctaText,
       apiMethod,
       apiEndpoint,
