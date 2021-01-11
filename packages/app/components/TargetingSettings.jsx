@@ -17,6 +17,7 @@ import TargetingPickerHelper from '@/app/TargetingPickerHelper'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 import TargetingSettingsSaveContainer from '@/app/TargetingSettingsSaveContainer'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
+import TargetingPlatformsSelector from '@/app/TargetingPlatformsSelector'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -97,6 +98,19 @@ const TargetingSettings = () => {
             setTargetingState((targetingState) => {
               return produce(targetingState, draftState => {
                 draftState.genders = state
+              })
+            })
+          }}
+        />
+        {/* PLATFORMS */}
+        <TargetingPlatformsSelector
+          className="mb-16"
+          options={targetingState.platforms}
+          initialStateRaw={initialTargetingState.platforms}
+          onChange={(state) => {
+            setTargetingState((targetingState) => {
+              return produce(targetingState, draftState => {
+                draftState.platforms = state
               })
             })
           }}
