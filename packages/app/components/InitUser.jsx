@@ -148,7 +148,7 @@ const InitUser = ({ children }) => {
     // * REJECT If no REFERRAL CODE
     const referrerCode = getStoredReferrerCode()
     if (!referrerCode) {
-      const errorMessage = 'No referrer Code'
+      const errorMessage = 'It looks like you don\'t have a referral code.'
       const errorLabel = 'No referral code provided'
       rejectNewUser({ errorMessage, errorLabel, redirectTo: ROUTES.SIGN_UP })
       return
