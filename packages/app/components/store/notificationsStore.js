@@ -66,9 +66,7 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
   const { notifications } = res
   // Format notifications
   const { notificationDictionary } = get()
-  console.log('notificationDictionary', notificationDictionary)
   const notificationsFormatted = formatNotifications(notifications, notificationDictionary || {})
-  console.log('FORMATTED notifications', notificationsFormatted)
   // GET TOTAL ACTIVE NOTIFICATIONS
   const totalActiveNotifications = countActiveNotifications(notificationsFormatted)
   // SET

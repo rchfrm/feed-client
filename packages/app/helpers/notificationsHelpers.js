@@ -108,7 +108,7 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       entityId,
       topic,
       data,
-    }) : () => { console.log('dismiss') }
+    }) : () => {}
     // Return formatted notification
     const formattedNotification = {
       id,
@@ -138,7 +138,6 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
 export const fetchNotifications = async ({ artistId, userId, organizationIds }) => {
   const { res: notifications, error } = await appServer.getAllNotifications({ artistId, organizationIds, userId })
   if (error) return { error }
-  console.log('server notifications', notifications)
   return { res: { notifications } }
 }
 
