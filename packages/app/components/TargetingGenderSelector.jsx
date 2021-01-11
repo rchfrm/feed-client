@@ -55,7 +55,11 @@ const TargetingGenderSelector = ({
 
   return (
     <section className={[className].join(' ')}>
-      <TargetingSectionHeader className="mb-6" header="Genders" />
+      <TargetingSectionHeader
+        header="Genders"
+        className="mb-6"
+        tooltipMessage="“All, “female”, and “male” are the only gender targeting options provided by Facebook."
+      />
       <PillOptions
         color="green"
         options={pillOptions}
