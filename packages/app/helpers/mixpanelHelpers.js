@@ -8,16 +8,19 @@ const token = process.env.mixpanel_token
 let userType
 let userId
 
-export const initMixpanel = (user) => {
-  const { role, id } = user
-  userType = role
-  userId = id
+export const initMixpanel = () => {
   mixpanel.init(
     token,
     {
       api_host: 'https://api-eu.mixpanel.com',
     },
   )
+}
+
+export const updateMixpanel = (user) => {
+  const { role, id } = user
+  userType = role
+  userId = id
 }
 
 // TRACK MIXPANEL EVENTS

@@ -19,7 +19,7 @@ import SetupGtag from '@/elements/SetupGtag'
 // IMPORT CONTEXTS
 import { AuthProvider } from '@/contexts/AuthContext'
 // IMPORT HELPERS
-import { trackPWA, gtagPageView } from '@/app/helpers/trackingHelpers'
+import { trackPWA, gtagPageView, setupTracking } from '@/app/helpers/trackingHelpers'
 import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
 
 // GLOBAL STORES and DATA
@@ -73,6 +73,9 @@ function Feed({ Component, pageProps, router }) {
   const [stripe, setStripe] = React.useState(null)
 
   React.useEffect(() => {
+    // Setup tracking
+    setupTracking()
+    // Setup PWA
     if (process.env.build_env !== 'development') {
       registerServiceWorker()
       trackPWA()
