@@ -18,7 +18,13 @@ import RadioButton from '@/elements/RadioButton'
   ]
 */
 
-const RadioButtons = ({ options, selectedValue, onChange, className }) => {
+const RadioButtons = ({
+  options,
+  selectedValue,
+  onChange,
+  groupLabel,
+  className,
+}) => {
   const classNames = ['radio--buttons', className].join(' ')
   return (
     <div
@@ -35,6 +41,7 @@ const RadioButtons = ({ options, selectedValue, onChange, className }) => {
             value={value}
             name={name}
             label={label}
+            groupLabel={groupLabel}
             checked={checked}
             onChange={onChange}
           />
@@ -48,6 +55,7 @@ const RadioButtons = ({ options, selectedValue, onChange, className }) => {
 RadioButtons.propTypes = {
   options: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
+  groupLabel: PropTypes.string,
   className: PropTypes.string,
   selectedValue: PropTypes.oneOfType([
     PropTypes.string,
@@ -59,6 +67,7 @@ RadioButtons.propTypes = {
 RadioButtons.defaultProps = {
   className: '',
   selectedValue: null,
+  groupLabel: '',
 }
 
 
