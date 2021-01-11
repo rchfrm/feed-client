@@ -2,8 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PillOptions from '@/elements/PillOptions'
+import MarkdownText from '@/elements/MarkdownText'
 
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
+
+import copy from '@/app/copy/targetingPageCopy'
 
 const translateArrayToKey = (array) => {
   if (!array.length) return 'both'
@@ -21,7 +24,10 @@ const TargetingPlatformsSelector = ({
   onChange,
   className,
 }) => {
-  const initialState = translateArrayToKey(initialStateRaw)
+  const initialState = React.useMemo(() => {
+    return translateArrayToKey(initialStateRaw)
+  }, [initialStateRaw])
+
   // SETUP PILL BUTTONS
   const pillOptions = [
     {
@@ -53,6 +59,10 @@ const TargetingPlatformsSelector = ({
     onChange(optionsArray)
   }, [onChange])
 
+  const warningCopy = React.useMemo(() => {
+    return copy.getPlatformWarningCopy(initialState, activeOption)
+  }, [initialState, activeOption])
+
   return (
     <section className={[className].join(' ')}>
       <TargetingSectionHeader className="mb-6" header="Platforms" />
@@ -67,6 +77,12 @@ const TargetingPlatformsSelector = ({
           transform: 'translateX(-0.5%)',
         }}
       />
+      {/* WARNING */}
+      {warningCopy && (
+        <div className="pt-5">
+          <MarkdownText markdown={warningCopy} />
+        </div>
+      )}
     </section>
   )
 }
