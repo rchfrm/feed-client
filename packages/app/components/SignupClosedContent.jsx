@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
-import Error from '@/elements/Error'
 
 import SignupQueueForm from '@/app/SignupQueueForm'
 
