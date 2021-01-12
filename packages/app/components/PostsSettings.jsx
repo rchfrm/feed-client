@@ -9,6 +9,7 @@ import PostsSettingsSection from '@/app/PostsSettingsSection'
 import PostsSettingsDefaultStatus from '@/app/PostsSettingsDefaultStatus'
 import PostsSettingsDefaultLink from '@/app/PostsSettingsDefaultLink'
 import PostsSettingsLinkTracking from '@/app/PostsSettingsLinkTracking'
+import PostSettingsPixelSelector from '@/app/PostSettingsPixelSelector'
 // IMPORT COPY
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -47,6 +48,13 @@ const PostsSettings = () => {
             defaultLink={defaultLink}
             setPostPreferences={setPostPreferences}
           />
+        </PostsSettingsSection>
+        {/* FB PIXEL */}
+        <PostsSettingsSection
+          header="Facebook Pixel"
+          copy={copy.facebookPixelIntro}
+        >
+          <PostSettingsPixelSelector activePixelId="" />
         </PostsSettingsSection>
         {/* LINK TRACKING */}
         <PostsSettingsSection
