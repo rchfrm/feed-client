@@ -28,7 +28,7 @@ const CheckboxInput = (props) => {
             </span>
             {/* LABEL TOOLTIP */}
             {tooltipMessage && (
-              <TooltipButton copy={tooltipMessage} direction="right" label={`Checkbox input: ${label}`} />
+              <TooltipButton copy={tooltipMessage} direction="right" trackLabel={`Checkbox input: ${label}`} />
             )}
             {error && errorMessage && (
               <span className="inputLabel__errorMessage">{errorMessage}</span>

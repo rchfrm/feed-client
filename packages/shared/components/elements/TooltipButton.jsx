@@ -7,7 +7,7 @@ import TooltipMessage from '@/elements/TooltipMessage'
 import { track } from '@/app/helpers/trackingHelpers'
 
 const TooltipButton = (props) => {
-  const { buttonClasses, buttonStyle, buttonText } = props
+  const { buttonClasses, buttonStyle, buttonText, trackLabel } = props
   const [showMessage, setShowMessage] = React.useState(false)
   // Get ref to message
   const messageRef = React.useRef(null)
@@ -22,7 +22,7 @@ const TooltipButton = (props) => {
       action: 'tooltip_clicked',
       category: 'generic',
       value: !showMessage ? 'show' : 'hide',
-      label: props.label,
+      label: trackLabel,
     })
   }
   const closeMessage = ({ target }) => {
