@@ -5,7 +5,6 @@ import { Elements } from 'react-stripe-elements'
 // IMPORT COMPONENTS
 import PaymentAddForm from '@/app/PaymentAddForm'
 import PaymentPageSuccess from '@/app/PaymentPageSuccess'
-import FadeInOut from '@/app/FadeInOut'
 
 import styles from '@/app/PaymentPage.module.css'
 import sidePanelStyles from '@/app/SidePanel.module.css'
@@ -39,4 +38,4 @@ const PaymentAdd = () => {
   )
 }
 
-export default FadeInOut(PaymentAdd)
+export default PaymentAdd

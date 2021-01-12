@@ -1,16 +1,14 @@
 // IMPORT PACKAGES
 import React from 'react'
-import Link from 'next/link'
+
 import produce from 'immer'
+
 // IMPORT COMPONENTS
 import SpendingSummaryLoader from '@/app/SpendingSummaryLoader'
 import ResultsSingle from '@/app/ResultsSingle'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
-// IMPORT ELEMENTS
-import Feed from '@/elements/Feed'
 // IMPORT CONSTANTS
-import * as ROUTES from '@/app/constants/routes'
 import brandColors from '@/constants/brandColors'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'

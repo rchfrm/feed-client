@@ -14,6 +14,7 @@ const TournamentsContent = () => {
   const defaultAudienceType = audienceTypes[0].id
   const [currentAudienceType, setCurrentAudienceType] = React.useState('')
   const [currentTournamentType, setCurrentTournamentType] = React.useState(tournamentTypes[0].id)
+  // eslint-disable-next-line
   const [typeFiltersDisabled, setTypeFiltersDisabled] = React.useState(false)
   // Set current tournament type to posts if selecting cold audience
   React.useEffect(() => {

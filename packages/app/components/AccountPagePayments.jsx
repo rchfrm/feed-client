@@ -13,7 +13,6 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import PaymentMethodButton from '@/app/PaymentMethodButton'
-import FadeInOut from '@/app/FadeInOut'
 
 import paymentHelpers from '@/app/helpers/paymentHelpers'
 
@@ -160,4 +159,4 @@ function AccountPagePayments() {
   )
 }
 
-export default FadeInOut(AccountPagePayments)
+export default AccountPagePayments
