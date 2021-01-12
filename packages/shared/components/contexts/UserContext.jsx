@@ -5,12 +5,9 @@ import useReferralStore from '@/app/store/referralStore'
 import useNotificationStore from '@/app/store/notificationsStore'
 // IMPORT HELPERS
 import * as sharedServer from '@/helpers/sharedServer'
-
 import * as appServer from '@/app/helpers/appServer'
 import { sortUserArtists } from '@/app/helpers/userHelpers'
-
 import { track, updateTracking } from '@/app/helpers/trackingHelpers'
-
 
 
 // Read from referralStore
