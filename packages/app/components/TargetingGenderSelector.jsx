@@ -62,6 +62,7 @@ const TargetingGenderSelector = ({
         activeOption={currentGender}
         setActiveOption={setGender}
         size="small"
+        trackLabel="Target Genders"
         style={{
           width: '101%',
           transform: 'translateX(-0.5%)',

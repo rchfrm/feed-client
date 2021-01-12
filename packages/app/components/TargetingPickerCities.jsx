@@ -38,6 +38,7 @@ const TargetingPickerCities = ({
         buttonOptions={citiesCheckboxes}
         selectedValues={selectedCities}
         setSelectedValues={setSelectedCities}
+        trackGroupLabel="Select City Targeting"
       />
     </div>
   )

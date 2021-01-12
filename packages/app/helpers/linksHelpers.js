@@ -150,6 +150,12 @@ export const setPostLink = async (artistId, linkId, assetId) => {
 
 // EDIT LINK
 export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
+  // TRACK
+  track({
+    action: 'edit_link',
+    category: 'links',
+  })
+
   const { folder_id: newLinkFolderId, folder_name: newFolderName, id: linkId } = newLink
   const { folder_id: oldFolderId } = oldLink
   const hasMovedFolder = newLinkFolderId !== oldFolderId
@@ -166,11 +172,6 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
   const { folder_id: newFolderId } = newLink
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
   const newFolderIndex = nestedLinks.findIndex(({ id }) => id === newFolderId)
-  // TRACK
-  track({
-    action: 'edit_link',
-    category: 'links',
-  })
   // REBUILD STATE
   return produce(nestedLinks, draftNestedLinks => {
     // Add to new folder (if exists)

@@ -126,6 +126,7 @@ const InitUser = ({ children }) => {
     redirectPage(redirectTo || ROUTES.LOGIN)
     setArtistLoading(false)
     await firebase.deleteUser()
+    await firebase.doSignOut()
     const error = {
       message: errorMessage,
     }
@@ -196,6 +197,7 @@ const InitUser = ({ children }) => {
       action: 'create_user',
       category: 'sign_up',
       label: 'facebook',
+      marketing: true,
     })
   }
 

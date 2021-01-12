@@ -1,21 +1,18 @@
 import * as Sentry from '@sentry/browser'
-
-// SENTRY
-// ------------------------------
-const configureSentry = (id) => {
-  Sentry.configureScope((scope) => {
-    scope.setUser({ id })
-  })
-}
+import * as mixpanelHelpers from '@/app/helpers/mixpanelHelpers'
 
 let userType = null
 let userId = null
-export const setUserType = (user) => {
-  const { role, id } = user
-  userId = id
-  userType = role
-  // Set user ID into sentry
-  configureSentry(id)
+
+// SENTRY
+// ------------------------------
+let sentryConfigured = false
+
+const configureSentry = (userId) => {
+  sentryConfigured = true
+  Sentry.configureScope((scope) => {
+    scope.setUser({ id: userId })
+  })
 }
 
 export const fireSentryError = ({ category, action, label, description }) => {
@@ -38,7 +35,6 @@ export const fireSentryBreadcrumb = ({ category, action, label, description }) =
     level: Sentry.Severity.Info,
   })
 }
-
 
 // GOOGLE
 // ------------------------------
@@ -81,13 +77,14 @@ export const fireGtagEvent = (action, payload) => {
   } = payload
 
   // Stop here if sysadmin
-  if (userType === 'admin') return
+  if (userType === 'admin') {
+    // Log GA INFO
+    console.info('GA SEND', payload)
+  }
 
   const { gtag } = window
 
   if (!gtag || !gtagEnabled) {
-    // Log GA INFO
-    console.info('GA SEND', payload)
     // Run callback (if present)
     if (typeof event_callback === 'function') event_callback()
     return
@@ -107,15 +104,16 @@ export const fireGtagEvent = (action, payload) => {
 export const fireFBEvent = (action, payload, customTrack) => {
   const { fbq } = window
   const trackType = customTrack ? 'trackCustom' : 'track'
-  if (!fbq) {
+  if (userType === 'admin') {
     console.group()
     console.info('FB SEND')
-    console.log('trackType', trackType)
-    console.log('action', action)
+    console.info('trackType', trackType)
+    console.info('action', action)
     console.info(payload)
     console.groupEnd()
     return
   }
+  if (!fbq) return
   fbq(trackType, action, payload)
 }
 
@@ -144,6 +142,8 @@ export const track = ({
   fbCustomTrack = true,
   error = false,
   breadcrumb = false,
+  marketing = false,
+  mixpanel = true,
   ga = true,
   fb = true,
 }) => {
@@ -155,12 +155,28 @@ export const track = ({
   if (description) {
     event_label = `${event_label}, ${description}`
   }
-  // Sentry breadcrum
+  // Sentry breadcrumb
   // STOP HERE
   if (breadcrumb) {
     fireSentryBreadcrumb({ category, action, label, description })
     return
   }
+  // If error, fire in sentry
+  if (error) {
+    fireSentryError({ category, action, label, description })
+  }
+  // Fire mixpanel event
+  if (mixpanel) {
+    const payload = {
+      ...(category && { category }),
+      ...(event_label && { label: event_label }),
+      ...(value && { value }),
+      ...(error && { error: true }),
+    }
+    mixpanelHelpers.mixpanelTrack(action, payload)
+  }
+  // STOP HERE if not marketing
+  if (!marketing) return false
   // Build GA payload
   // Send off event to GA
   if (ga) {
@@ -179,10 +195,6 @@ export const track = ({
       ...(value && { value }),
     }
     fireFBEvent(action, fbPayload, fbCustomTrack)
-  }
-  // If error, fire in sentry also
-  if (error) {
-    fireSentryError({ category, action, label, description })
   }
 }
 
@@ -248,4 +260,21 @@ export const trackOutbound = ({
   if (ga) {
     fireGtagEvent('OutboundClick', gaPayload)
   }
+}
+
+
+// INIT
+// ----------
+export const setupTracking = () => {
+  // Setup mixpanel
+  mixpanelHelpers.initMixpanel()
+}
+
+export const updateTracking = (user) => {
+  const { role, id } = user
+  userId = id
+  userType = role
+  mixpanelHelpers.updateMixpanel(user)
+  if (sentryConfigured) return
+  configureSentry(userId)
 }

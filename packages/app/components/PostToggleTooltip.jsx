@@ -16,6 +16,7 @@ const PostToggleTooltip = ({ promotionStatus }) => {
       messageStyle={{
         zIndex: 4,
       }}
+      trackLabel="Post toggle"
     />
   )
 }

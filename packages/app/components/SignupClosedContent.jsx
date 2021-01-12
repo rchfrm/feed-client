@@ -2,6 +2,7 @@ import React from 'react'
 import { useRouter } from 'next/router'
 // import PropTypes from 'prop-types'
 
+import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'

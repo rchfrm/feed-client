@@ -1,15 +1,14 @@
 import React from 'react'
 import { useImmerReducer } from 'use-immer'
+
 import useReferralStore from '@/app/store/referralStore'
+import useNotificationStore from '@/app/store/notificationsStore'
 // IMPORT HELPERS
 import * as sharedServer from '@/helpers/sharedServer'
-
 import * as appServer from '@/app/helpers/appServer'
 import { sortUserArtists } from '@/app/helpers/userHelpers'
+import { track, updateTracking } from '@/app/helpers/trackingHelpers'
 
-import { track, setUserType } from '@/app/helpers/trackingHelpers'
-
-import useNotificationStore from '@/app/store/notificationsStore'
 
 // Read from referralStore
 const getGetStoredReferrerCode = state => state.getStoredReferrerCode
@@ -114,7 +113,7 @@ function UserProvider({ children }) {
     // Store artists with notifications in Not store
     setArtistsWithNotifications(Object.values(user.artists))
     // Update user type in track helpers
-    setUserType(user)
+    updateTracking(user)
     // Update user state
     setUser({
       type: 'set-user',

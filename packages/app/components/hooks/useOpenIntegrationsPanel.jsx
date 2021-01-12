@@ -8,6 +8,7 @@ const useOpenIntegrationsPanel = ({ goBack, location }) => {
   // SIDE PANEL context
   const {
     setSidePanelContent,
+    setSidePanelContentLabel,
     setSidePanelButton,
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
@@ -15,8 +16,9 @@ const useOpenIntegrationsPanel = ({ goBack, location }) => {
   const openIntegrationsPanel = React.useCallback(() => {
     setSidePanelButton(null)
     setSidePanelContent(<IntegrationsPanel goBack={goBack} location={location} />)
+    setSidePanelContentLabel('Integrations')
     toggleSidePanel(true)
-  }, [setSidePanelButton, setSidePanelContent, toggleSidePanel, goBack, location])
+  }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, goBack, location])
 
   return openIntegrationsPanel
 }

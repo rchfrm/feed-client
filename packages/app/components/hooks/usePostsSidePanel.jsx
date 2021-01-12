@@ -10,6 +10,7 @@ const usePostsSidePanel = () => {
   // SIDE PANEL context
   const {
     setSidePanelContent,
+    setSidePanelContentLabel,
     setSidePanelButton,
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
@@ -17,14 +18,16 @@ const usePostsSidePanel = () => {
   const goToPostSettings = React.useCallback(() => {
     setSidePanelButton(null)
     setSidePanelContent(<PostsSettings />)
+    setSidePanelContentLabel('Post Settings')
     toggleSidePanel(true)
-  }, [setSidePanelButton, setSidePanelContent, toggleSidePanel])
+  }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
   // * OPEN POST LINKS
   const goToPostLinks = React.useCallback(({ useSelectMode = false }) => {
     setSidePanelButton(null)
     setSidePanelContent(<PostsLinks useSelectMode={useSelectMode} />)
+    setSidePanelContentLabel('Post Links')
     toggleSidePanel(true)
-  }, [setSidePanelButton, setSidePanelContent, toggleSidePanel])
+  }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
 
   return { goToPostSettings, goToPostLinks }
 }
