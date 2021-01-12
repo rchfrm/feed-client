@@ -9,6 +9,7 @@
     "dev:admin": "yarn workspace admin dev",
     "ssl": "dev-proxy --proxy 3000:3001 --key ./certificates/localhost.key --cert ./certificates/localhost.crt",
     "lint": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/app/components",
+    "lint:shared": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/shared/components",
     "lint:admin": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/app/components",
     "stage": "./bin/deploy app staging",
     "stage:admin": "./bin/deploy admin staging",
