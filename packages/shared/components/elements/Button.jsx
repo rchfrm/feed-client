@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import Spinner from '@/elements/Spinner'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 import * as utils from '@/helpers/utils'
 
 const Button = React.forwardRef(({
@@ -47,13 +49,23 @@ const Button = React.forwardRef(({
   const target = linkType === 'external' ? '_blank' : 'self'
   const rel = linkType === 'external' ? 'noopener noreferrer' : null
 
+  // ON CLICK
+  const onButtonClick = React.useCallback((e) => {
+    track({
+      action: 'button_click',
+      category: 'generic',
+      label,
+    })
+    onClick(e)
+  }, [onClick, label])
+
   // OUTPUT BUTTON
   return (
     <Wrapper
       type={href ? null : type}
       disabled={disabled}
       className={classes.join(' ')}
-      onClick={onClick}
+      onClick={onButtonClick}
       href={href}
       target={href ? target : ''}
       rel={href ? rel : ''}

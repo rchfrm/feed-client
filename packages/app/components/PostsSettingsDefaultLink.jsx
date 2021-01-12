@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
 
-import linksStore from '@/app/store/linksStore'
+import { track } from '@/app/helpers/trackingHelpers'
+
+import useLinksStore from '@/app/store/linksStore'
 
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
 
@@ -12,15 +14,30 @@ const PostsSettingsDefaultLink = ({
   setPostPreferences,
   className,
 }) => {
-  const updateLinksStore = linksStore(state => state.updateLinksStore)
+  const updateLinksStore = useLinksStore(state => state.updateLinksStore)
+  const { id: defaultLinkId } = defaultLink
+  const hasDefaultLink = !!defaultLinkId
+
   const onSuccess = React.useCallback((newArtist) => {
+    // TRACK
+    if (!hasDefaultLink) {
+      track({
+        action: 'set_default_link',
+        category: 'links',
+      })
+    } else {
+      track({
+        action: 'change_default_link',
+        category: 'links',
+      })
+    }
+    // UPDATE STORE
     updateLinksStore('updateDefault', { newArtist })
     // Update artist status
     const { preferences: { posts: { default_link_id } } } = newArtist
     setPostPreferences('default_link_id', default_link_id)
-  }, [updateLinksStore, setPostPreferences])
-  const { id: defaultLinkId } = defaultLink
-  const hasDefaultLink = !!defaultLinkId
+  // eslint-disable-next-line
+  }, [updateLinksStore, setPostPreferences, defaultLink])
   return (
     <div
       className={[

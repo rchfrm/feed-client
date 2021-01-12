@@ -3,6 +3,9 @@ import React from 'react'
 import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
+
+import useNotificationsStore from '@/app/store/notificationsStore'
+
 // IMPORT ELEMENTS
 import FeedLogo from '@/icons/FeedLogo'
 import TheSubNavButton from '@/app/TheSubNavButton'
@@ -12,6 +15,8 @@ import brandColors from '@/constants/brandColors'
 import * as ROUTES from '@/app/constants/routes'
 // IMPORT STYLES
 import styles from '@/app/TheHeader.module.css'
+
+const getTotalActiveNotifications = state => state.totalActiveNotifications
 
 function TheHeaderContents({
   windowWidth,
@@ -57,6 +62,9 @@ function TheHeaderContents({
     })
   }, [windowWidth, inlinePageTitle])
 
+  // FETCH NOTIFICATIONS
+  const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
+
   return (
     <header className={[
       styles.TheHeader,
@@ -88,6 +96,7 @@ function TheHeaderContents({
       <TheSubNavButton
         toggleSubNav={toggleSubNav}
         navOpen={subNavOpen}
+        hasNotifactions={!!totalNotificationsUnread}
         className={[styles.subNavButton].join(' ')}
       />
       )}

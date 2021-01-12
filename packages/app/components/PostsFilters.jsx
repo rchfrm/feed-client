@@ -59,6 +59,10 @@ const PostsFilters = ({
       useSetLocalStorage
       useSlug
       querySlug="postStatus"
+      trackProps={{
+        action: 'adjust_filter',
+        category: 'posts',
+      }}
     />
   )
 }

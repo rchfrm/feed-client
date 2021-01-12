@@ -13,6 +13,7 @@ const IntegrationsPanelIntegration = ({
   integration,
   artistId,
   setArtist,
+  location,
   className,
 }) => {
   const { title, platform, accountId, color } = integration
@@ -26,6 +27,7 @@ const IntegrationsPanelIntegration = ({
   const action = isPopulated ? 'delete' : 'add'
   const updateIntegration = useEditIntegration({
     artistId,
+    location,
     onSuccess: (updatedArtist) => {
       const { integrations } = updatedArtist
       setArtist({
@@ -57,6 +59,8 @@ const IntegrationsPanelIntegration = ({
         }}
         hasIcon
         active={isPopulated}
+        trackValue={buttonText}
+        trackLabel="Integration button"
       >
         <PlatformIcon
           platform={platform}
@@ -74,10 +78,12 @@ IntegrationsPanelIntegration.propTypes = {
   integration: PropTypes.object.isRequired,
   artistId: PropTypes.string.isRequired,
   setArtist: PropTypes.func.isRequired,
+  location: PropTypes.string,
   className: PropTypes.string,
 }
 
 IntegrationsPanelIntegration.defaultProps = {
+  location: 'insights',
   className: null,
 }
 

@@ -25,6 +25,7 @@ const PostsLinksIntegrations = ({
   const { goToPostLinks } = usePostsSidePanel()
   const openIntegrationsPanel = useOpenIntegrationsPanel({
     goBack: goToPostLinks,
+    location: 'links',
   })
   return (
     <div>

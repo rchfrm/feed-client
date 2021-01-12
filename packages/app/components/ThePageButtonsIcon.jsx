@@ -6,7 +6,7 @@ import PostsIcon from '@/icons/PostsIcon'
 import ResultsIcon from '@/icons/ResultsIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
 
-import ThePageButtonsBadge from '@/app/ThePageButtonsBadge'
+import NotificationDot from '@/elements/NotificationDot'
 
 const getIcon = (icon) => {
   if (icon === 'controls') return <JoystickIcon />
@@ -19,7 +19,7 @@ const ThePageButtonsIcon = ({ icon, className, showBadge }) => {
   const iconEl = getIcon(icon)
   return (
     <>
-      {showBadge && <ThePageButtonsBadge />}
+      {showBadge && <NotificationDot style={{ top: '-0.3rem', right: '0.3rem' }} />}
       <figure className={className}>
         {iconEl}
       </figure>

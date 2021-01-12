@@ -14,6 +14,7 @@ import styles from '@/app/PostItem.module.css'
 
 import copy from '@/app/copy/PostsPageCopy'
 import * as postsHelpers from '@/app/helpers/postsHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 const getPromotionStatus = (promotableStatus) => {
   if (promotableStatus === 2) return true
@@ -94,13 +95,20 @@ const PostItemDisableWarning = ({
           <Button
             className="w-24 sm:w-32"
             version="black small"
-            onClick={() => setShow(false)}
+            onClick={() => {
+              setShow(false)
+              // TRACK
+              track({
+                action: 'disable_active_ad',
+                category: 'post_settings',
+              })
+            }}
           >
             Ok
           </Button>
           <Button
             className="w-24 sm:w-32 bg-red"
-            version="black small"
+            version="erd small"
             onClick={() => setReverseStatus(true)}
             loading={isPending}
           >

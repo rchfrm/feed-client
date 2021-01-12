@@ -56,6 +56,7 @@ function AuthProvider({ children }) {
     setAuth({ type: 'no-auth-user' })
     setAuthError(authError)
     setAuthLoading(false)
+    setAccessToken(null)
   }
 
   const storeAuth = async ({ authUser, authToken, authError = null }) => {

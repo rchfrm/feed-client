@@ -8,7 +8,7 @@ import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-import postsStore from '@/app/store/postsStore'
+import usePostsStore from '@/app/store/postsStore'
 // IMPORT ELEMENTS
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
@@ -191,19 +191,17 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       },
     })
     // Track
-    const status = newPromotionState ? 'enabled' : 'disabled'
     track({
-      category: 'Posts',
-      action: `Promotion ${status} for post`,
-      description: `Post ID: ${postId}`,
-      label: `artistId: ${artistId}`,
+      action: 'post_promotion_status',
+      category: 'post_settings',
+      label: newPromotionState ? 'eligible' : 'ineligible',
     })
     return newPromotionState
-  }, [posts, artistId, setPosts])
+  }, [posts, setPosts])
 
   // Define function to BATCH TOGGLE all posts
   // and save it in posts store
-  const setTogglePromotionGlobal = postsStore(React.useCallback(state => state.setTogglePromotionGlobal, []))
+  const setTogglePromotionGlobal = usePostsStore(React.useCallback(state => state.setTogglePromotionGlobal, []))
   React.useEffect(() => {
     const togglePromotionGlobal = (promotionEnabled) => {
       setPostToggleSetter('batch')
@@ -212,6 +210,12 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         payload: {
           promotionEnabled,
         },
+      })
+      // TRACK
+      track({
+        action: 'default_post_promotion_status',
+        category: 'post_settings',
+        label: promotionEnabled ? 'opt-in' : 'opt-out',
       })
     }
     setTogglePromotionGlobal((promotionEnabled) => {
@@ -249,17 +253,16 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         linkId,
       },
     })
+    // TRACK
     track({
-      category: 'Posts',
-      action: 'Post link changed',
-      description: `New link: ${linkId}`,
-      label: `artistId: ${artistId}`,
+      action: 'post_link_changed',
+      category: 'links',
     })
-  }, [setPosts, artistId])
+  }, [setPosts])
 
   // Define function to update posts with missing links
   // and export to posts store
-  const setUpdatePostsWithMissingLinks = postsStore(React.useCallback(state => state.setUpdatePostsWithMissingLinks, []))
+  const setUpdatePostsWithMissingLinks = usePostsStore(React.useCallback(state => state.setUpdatePostsWithMissingLinks, []))
   React.useEffect(() => {
     const updatePostsWithMissingLinks = (missingLinkIds = []) => {
       const updatedPosts = produce(posts, draftPosts => {

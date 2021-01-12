@@ -16,7 +16,7 @@ const defaultState = {
   onClose: () => {},
 }
 
-const [alertStore] = create((set) => ({
+const useAlertStore = create((set) => ({
   copy: defaultState.copy,
   children: defaultState.children,
   buttons: defaultState.buttons,
@@ -35,4 +35,4 @@ const [alertStore] = create((set) => ({
   },
 }))
 
-export default alertStore
+export default useAlertStore

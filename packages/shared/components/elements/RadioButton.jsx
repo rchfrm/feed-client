@@ -1,10 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 const RadioButton = ({
   value,
   name,
   label,
+  trackGroupLabel,
   checked,
   highlight,
   onChange,
@@ -14,6 +17,12 @@ const RadioButton = ({
   const id = `radio-${valueString}`
 
   const handleChange = () => {
+    track({
+      action: 'radio_button_clicked',
+      label: trackGroupLabel || label,
+      category: 'generic',
+      value: trackGroupLabel ? label : value,
+    })
     onChange(value)
   }
 
@@ -52,6 +61,7 @@ RadioButton.propTypes = {
   ]).isRequired,
   name: PropTypes.string,
   label: PropTypes.string.isRequired,
+  trackGroupLabel: PropTypes.string,
   checked: PropTypes.bool,
   highlight: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -59,6 +69,7 @@ RadioButton.propTypes = {
 }
 
 RadioButton.defaultProps = {
+  trackGroupLabel: '',
   checked: false,
   highlight: false,
   name: '',

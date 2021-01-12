@@ -7,9 +7,14 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import IntegrationsEditModal from '@/app/IntegrationsEditModal'
 
 import { updateIntegration } from '@/app/helpers/integrationHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 
-const useEditIntegration = ({ artistId, onSuccess = () => {} }) => {
+const useEditIntegration = ({
+  artistId,
+  location,
+  onSuccess = () => {},
+}) => {
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
   // SIDE PANEL CONTEXT
@@ -29,6 +34,13 @@ const useEditIntegration = ({ artistId, onSuccess = () => {} }) => {
     }
     // Success
     onSuccess(updatedArtist)
+    // TRACK
+    const trackAction = action === 'add' ? 'add_integration' : 'remove_integration'
+    track({
+      action: trackAction,
+      category: location,
+      label: integration.platform,
+    })
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSuccess, updateIntegration])
 

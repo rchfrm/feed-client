@@ -52,7 +52,7 @@ const Slider = ({
             {label}
             {/* LABEL TOOLTIP */}
             {tooltipMessage && (
-              <TooltipButton copy={tooltipMessage} direction={tooltipDirection} />
+              <TooltipButton copy={tooltipMessage} direction={tooltipDirection} trackLabel={`Slider: ${label}`} />
             )}
           </span>
         </div>

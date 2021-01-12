@@ -6,7 +6,7 @@ const initialState = {
 }
 
 // EXPORT STORE
-const [postsStore] = create((set) => ({
+const usePostsStore = create((set) => ({
   // STATE
   togglePromotionGlobal: initialState.togglePromotionGlobal,
   updatePostsWithMissingLinks: initialState.updatePostsWithMissingLinks,
@@ -15,4 +15,4 @@ const [postsStore] = create((set) => ({
   setUpdatePostsWithMissingLinks: (updatePostsWithMissingLinks) => set({ updatePostsWithMissingLinks }),
 }))
 
-export default postsStore
+export default usePostsStore

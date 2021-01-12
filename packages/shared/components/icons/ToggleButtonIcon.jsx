@@ -5,7 +5,7 @@ import brandColors from '@/constants/brandColors'
 
 const { red, green, greyLight } = brandColors
 
-const getIconProps = (state, defaultState, className) => {
+const getIconProps = (state, defaultState) => {
   // Force on state
   if (state === 'on') {
     return {

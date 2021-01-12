@@ -4,7 +4,7 @@ import produce from 'immer'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import TargetingBudgetMobile from '@/app/TargetingBudgetMobile'
-import TargetingBudgetSaveButton from '@/app/TargetingBudgetSaveButton'
+import TargetingBudgetSaveButtonMobile from '@/app/TargetingBudgetSaveButtonMobile'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -82,7 +82,7 @@ const TargetingContextProvider = ({ children }) => {
   } = React.useContext(ArtistContext)
 
   // SIDE PANEL context
-  const { sidePanelContent, setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
+  const { sidePanelContent, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
 
   // CAMPAIGN SETTINGS VIEW ('summary' | 'settings')
   const [currentView, setCurrentView] = React.useState(initialState.currentView)
@@ -334,7 +334,8 @@ const TargetingContextProvider = ({ children }) => {
       />
     ) : null
     const button = state ? (
-      <TargetingBudgetSaveButton
+      <TargetingBudgetSaveButtonMobile
+        initialTargetingState={initialTargetingState}
         targetingState={targetingState}
         saveTargetingSettings={saveTargetingSettings}
         disableSaving={!!disableSaving}
@@ -347,6 +348,7 @@ const TargetingContextProvider = ({ children }) => {
   const toggleMobileBudget = React.useCallback((state = true) => {
     const { content, button } = getBudgetSidePanelContent(state)
     setSidePanelContent(content)
+    setSidePanelContentLabel('Mobile Budget Setter')
     setSidePanelButton(button)
     toggleSidePanel(state)
     setMobileBudgetOpen(state)

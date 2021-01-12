@@ -9,6 +9,7 @@ const CheckboxButtons = ({
   buttonOptions,
   selectedValues,
   setSelectedValues,
+  trackGroupLabel,
   className,
   checkboxClassname,
 }) => {
@@ -32,6 +33,7 @@ const CheckboxButtons = ({
             value={value}
             name={name}
             label={label}
+            trackGroupLabel={trackGroupLabel}
             checked={checked}
             onChange={onChange}
             className={checkboxClassname}
@@ -46,13 +48,15 @@ const CheckboxButtons = ({
 // GROUP PROPS
 CheckboxButtons.propTypes = {
   buttonOptions: PropTypes.array.isRequired,
+  selectedValues: PropTypes.array,
   setSelectedValues: PropTypes.func.isRequired,
+  trackGroupLabel: PropTypes.string,
   className: PropTypes.string,
   checkboxClassname: PropTypes.string,
-  selectedValues: PropTypes.array,
 }
 
 CheckboxButtons.defaultProps = {
+  trackGroupLabel: '',
   className: null,
   checkboxClassname: null,
   selectedValues: [],

@@ -90,23 +90,26 @@ const SignupQueueForm = ({ className }) => {
       method="post"
       id="mc-embedded-subscribe-form"
       name="mc-embedded-subscribe-form"
+      target="_blank"
       noValidate
       className={[
         'relative',
         className,
       ].join(' ')}
       onSubmit={(e) => {
+        e.preventDefault()
         // Stop here if form not valid
-        if (!isFormValid) {
-          e.preventDefault()
-          return
-        }
+        if (!isFormValid) return
+        // Submit form
+        e.target.submit()
+        // TRACK
         track({
-          category: 'Form',
-          action: 'submit',
-          label: 'Join queue',
-          location: 'Sign up',
+          action: 'join_waiting_list',
+          category: 'sign_up',
+          marketing: true,
         })
+        // Clear values
+        setValues({})
       }}
     >
       {/* HIDDEN To add them to the 'Waiting List' group */}

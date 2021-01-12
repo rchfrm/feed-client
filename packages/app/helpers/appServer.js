@@ -2,6 +2,7 @@ import get from 'lodash/get'
 
 import * as api from '@/helpers/api'
 import { track } from '@/app/helpers/trackingHelpers'
+import flatten from 'lodash/flatten'
 
 // * UTILS
 // ------------------
@@ -15,7 +16,7 @@ import { track } from '@/app/helpers/trackingHelpers'
   * @returns {Promise<object>} { res, error }
   * * Makes requests  and returns errors as if the request were succesful with an `error.message` key filled out
 */
-const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
+export const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
   if (!requestType) return console.error('Please include a request type')
   if (!url) return console.error('Please include a url')
   // eslint-disable-next-line import/namespace
@@ -54,6 +55,22 @@ const requestWithCatch = async (requestType, url, payload = null, trackError, to
  */
 export const updateDailyBudget = async (artistId, dailyBudget, verifyIdToken) => {
   return api.patch(`/artists/${artistId}`, { daily_budget: dailyBudget }, verifyIdToken)
+}
+
+// * SIGN UP
+// ---------------
+
+export const acceptTerms = async (userId) => {
+  const requestUrl = `/users/${userId}/agreements`
+  const payload = {
+    topic: 'agreement-update',
+    name: 'terms-and-conditions',
+  }
+  const errorTracking = {
+    category: 'Signup',
+    action: 'Accepting terms',
+  }
+  return requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
 
@@ -416,4 +433,84 @@ export const testReferralCode = async (code) => {
  */
 export const getIntegrationErrors = async (artistId) => {
   return api.get(`/artists/${artistId}/integrations/errors`)
+}
+
+
+// * NOTIFICATIONS
+// --------------------------
+
+// DOWNLOAD ALL NOTIFICATIONS
+/**
+ * @param {object} ids { artistId, organizationIds, userId }
+ * @returns {Promise<array>}
+ */
+export const getAllNotifications = async (ids) => {
+  const notificationTypes = [
+    { type: 'artists', idKey: 'artistId' },
+    { type: 'organizations', idKey: 'organizationIds' },
+    { type: 'users', idKey: 'userId' },
+  ]
+  const requests = notificationTypes.reduce((requestUrls, { type, idKey }) => {
+    const id = ids[idKey]
+    if (!id) return requestUrls
+    // Handle multiple organization IDs
+    if (idKey === 'organizationIds') {
+      const urls = ids[idKey].map((id) => ({
+        entityType: type,
+        entityId: id,
+        url: `/${type}/${id}/notifications`,
+      }))
+      return [...requestUrls, ...urls]
+    }
+    return [...requestUrls, {
+      entityType: type,
+      entityId: id,
+      url: `/${type}/${id}/notifications`,
+    }]
+  }, [])
+  const promises = requests.map(async (request) => {
+    const data = await api.get(request.url)
+    return data.map(notification => ({
+      ...notification,
+      entityType: request.entityType,
+      entityId: request.entityId,
+    }))
+  }, [])
+  const notificationGroups = await Promise.all(promises)
+    .catch((error) => {
+      return { error }
+    })
+  if (notificationGroups.error) {
+    return { error: notificationGroups.error }
+  }
+  return { res: flatten(notificationGroups) }
+}
+
+// MARK NOTIFICATION AS READ
+/**
+ * @param {string} endpoint
+ * @param {boolean} read
+ * @returns {Promise<array>}
+ */
+export const markNotificationAsRead = async (endpoint, read = true) => {
+  const payload = { is_read: read }
+  const errorTracking = {
+    category: 'Notifications',
+    action: 'Mark notification as read',
+  }
+  return requestWithCatch('patch', endpoint, payload, errorTracking)
+}
+
+// DISMISS NOTIFICATION
+/**
+ * @param {string} endpoint
+ * @param {boolean} read
+ * @returns {Promise<array>}
+ */
+export const dismissNotification = async (endpoint) => {
+  const errorTracking = {
+    category: 'Notifications',
+    action: 'Delete/dismiss notification',
+  }
+  return requestWithCatch('delete', endpoint, null, errorTracking)
 }

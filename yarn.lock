@@ -12168,6 +12168,11 @@ mixin-object@^2.0.1:
     for-in "^0.1.3"
     is-extendable "^0.1.1"
 
+mixpanel-browser@^2.40.0:
+  version "2.40.0"
+  resolved "https://registry.yarnpkg.com/mixpanel-browser/-/mixpanel-browser-2.40.0.tgz#4336d0ee4a51a2b51d3e8d1809204abe2a8a5436"
+  integrity sha512-lhBsxIP9FX3ZJlOICgCzkFjfOKZ4T1Z5MfW8duYbb1kq7Lc4jSuJF2kTiuDISubAiZhsUXUwrGNATjeGjoXJWw==
+
 mkdirp-classic@^0.5.2, mkdirp-classic@^0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/mkdirp-classic/-/mkdirp-classic-0.5.3.tgz#fa10c9115cc6d8865be221ba47ee9bed78601113"
@@ -12208,6 +12213,11 @@ moment@^2.10.2, moment@^2.24.0, moment@^2.27.0, moment@^2.6.0:
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
   integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
+
+mousetrap@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.5.tgz#8a766d8c272b08393d5f56074e0b5ec183485bf9"
+  integrity sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -18670,7 +18680,7 @@ yarn-run-all@^3.1.1:
     shell-quote "^1.6.1"
     string.prototype.padend "^3.0.0"
 
-zustand@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/zustand/-/zustand-2.2.3.tgz#07ee668bf600a5e0dcff8f8b60f35faa149f65d5"
-  integrity sha512-SSd5DzbwUN0b8ePW4I+8mSdXQc6UOqTgYzlMtoNvf7pogmFoXjeE0wZwCVopoZBnzz/uRBD2dsozzM2FXDQcXw==
+zustand@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.2.0.tgz#a718a964440796d44edda3073b69e78b95f4c8f5"
+  integrity sha512-MBYFrnUdgFVi38tdQNSzVN9cPpRDf7w2HhdHGDSgBRHN7vIbUGUR3aBdVQykelXzSFR7iVj3YNBuq7B9ceMI5w==

@@ -2,14 +2,9 @@
 import React from 'react'
 import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
-// IMPORT COMPONENTS
 // IMPORT CONTEXTS
 import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
@@ -37,7 +32,6 @@ const initialArtistState = {
 
 const ArtistContext = React.createContext(initialArtistState)
 ArtistContext.displayName = 'ArtistContext'
-
 
 const artistReducer = (draftState, action) => {
   const {
@@ -222,22 +216,13 @@ function ArtistProvider({ children, disable }) {
     const selectedArtist = updatedUser.artists[0]
     await storeArtist(selectedArtist.id)
     setArtistLoading(false)
-    // Track
+    // TRACK
+    const newUser = !oldUser.artists.length
     track({
-      category: 'sign up',
-      action: 'User connected Facebook Pages',
-      description: `Pages connected: ${newArtistAccounts.length}`,
-      label: `User ID: ${updatedUser.id}`,
+      action: newUser ? 'create_profile' : 'add_profile',
+      category: newUser ? 'sign_up' : 'account',
+      label: updatedUser.id,
     })
-    // Track first time connecting accounits
-    if (!oldUser.artists.length) {
-      track({
-        category: 'sign up',
-        action: 'User completed sign up',
-        description: `Pages connected: ${newArtistAccounts.length}`,
-        label: `User ID: ${updatedUser.id}`,
-      })
-    }
   }
 
   const updateBudget = async (id, amount) => {
@@ -282,10 +267,12 @@ function ArtistProvider({ children, disable }) {
     setArtistCurrency(currency)
   }, [artist])
 
-  // Store artist id in local storage
+  // WHEN ARTIST CHANGES...
+  // ----------------------
+
   React.useEffect(() => {
     if (!artistId) return
-    // Update local storage
+    // Store artist id in local storage
     utils.setLocalStorage('artistId', artistId)
   }, [artistId])
 

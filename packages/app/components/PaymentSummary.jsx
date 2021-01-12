@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { BillingContext } from '@/app/contexts/BillingContext'
+// import { BillingContext } from '@/app/contexts/BillingContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/BudgetCopy'
