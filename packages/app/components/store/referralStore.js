@@ -64,7 +64,7 @@ const clearUsedCode = (set) => {
   })
 }
 
-const [useReferralStore] = create((set, get) => ({
+const useReferralStore = create((set, get) => ({
   userReferralCode: initialState.userReferralCode,
   usedReferralCode: initialState.usedReferralCode,
   hasValidCode: initialState.hasValidCode,

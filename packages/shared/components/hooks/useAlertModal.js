@@ -1,6 +1,8 @@
 import React from 'react'
 
-import alertStore from '@/store/alertStore'
+import shallow from 'zustand/shallow'
+
+import useAlertStore from '@/store/alertStore'
 
 /*
 * EXAMPLE BUTTONS
@@ -24,13 +26,24 @@ buttons: [
 */
 
 
+const getAlertsStoreState = (state) => ({
+  close: state.close,
+  open: state.open,
+  setCopy: state.setCopy,
+  setChildren: state.setChildren,
+  setButtons: state.setButtons,
+  setOnClose: state.setOnClose,
+})
+
 const useAlertModal = (props) => {
-  const close = alertStore(state => state.close)
-  const open = alertStore(state => state.open)
-  const setCopy = alertStore(state => state.setCopy)
-  const setChildren = alertStore(state => state.setChildren)
-  const setButtons = alertStore(state => state.setButtons)
-  const setOnClose = alertStore(state => state.setOnClose)
+  const {
+    close,
+    open,
+    setCopy,
+    setChildren,
+    setButtons,
+    setOnClose,
+  } = useAlertStore(getAlertsStoreState, shallow)
 
   const defaultButtons = React.useMemo(() => {
     return [{

@@ -6,7 +6,7 @@ const defaultState = {
   contentType: '',
 }
 
-const [popupStore] = create(set => ({
+const usePopupStore = create(set => ({
   content: defaultState.content,
   caption: defaultState.caption,
   contentType: defaultState.contentType,
@@ -16,4 +16,4 @@ const [popupStore] = create(set => ({
   clear: () => set(defaultState),
 }))
 
-export default popupStore
+export default usePopupStore

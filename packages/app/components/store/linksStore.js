@@ -178,7 +178,7 @@ const fetchLinks = (set, get) => async (action, artist) => {
     linkBankError: null,
     folderStates,
     defaultLink,
-  }, true)
+  })
 }
 
 // * UPDATE STATE
@@ -266,7 +266,7 @@ const updateLinksStore = (set, get) => (action, {
 
 
 // EXPORT STORE
-const [linksStore] = create((set, get) => ({
+const useLinksStore = create((set, get) => ({
   // STATE
   artistId: initialState.artistId,
   isMusician: initialState.isMusician,
@@ -298,7 +298,7 @@ const [linksStore] = create((set, get) => ({
     // Clear links
     get().clearLinks()
   },
-  clearAll: () => set(initialState, true),
+  clearAll: () => set(initialState),
 }))
 
-export default linksStore
+export default useLinksStore

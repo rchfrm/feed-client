@@ -1,15 +1,19 @@
 import React from 'react'
-import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
 import useReferralStore from '@/app/store/referralStore'
 // IMPORT HELPERS
 import * as sharedServer from '@/helpers/sharedServer'
+
 import * as appServer from '@/app/helpers/appServer'
-import * as artistHelpers from '@/app/helpers/artistHelpers'
+import { sortUserArtists } from '@/app/helpers/userHelpers'
+
 import { track, setUserType } from '@/app/helpers/trackingHelpers'
+
+import useNotificationStore from '@/app/store/notificationsStore'
 
 // Read from referralStore
 const getGetStoredReferrerCode = state => state.getStoredReferrerCode
+const getSetArtistsWithNotifications = state => state.setArtistsWithNotifications
 
 const initialUserState = {
   id: '',
@@ -43,14 +47,6 @@ const userReducer = (draftState, action) => {
 
 const UserContext = React.createContext(initialUserState)
 UserContext.displayName = 'UserContext'
-
-const sortUserArtists = (user) => {
-  return produce(user, draft => {
-    const { artists } = draft
-    draft.artists = artistHelpers.sortArtistsAlphabetically(artists)
-    return draft
-  })
-}
 
 function UserProvider({ children }) {
   // DEFINE USER STATE
@@ -97,6 +93,8 @@ function UserProvider({ children }) {
     }
   }, [setUser, getStoredReferrerCode])
 
+  const setArtistsWithNotifications = useNotificationStore(getSetArtistsWithNotifications)
+
   const storeUser = React.useCallback(async () => {
     setUserLoading(true)
     const user = await sharedServer.getUser()
@@ -113,6 +111,8 @@ function UserProvider({ children }) {
     // TODO If 404, then call /accounts/register
     if (!user) return
     const sortedArtistUser = sortUserArtists(user)
+    // Store artists with notifications in Not store
+    setArtistsWithNotifications(Object.values(user.artists))
     // Update user type in track helpers
     setUserType(user)
     // Update user state
@@ -124,7 +124,7 @@ function UserProvider({ children }) {
     })
     setUserLoading(false)
     return sortedArtistUser
-  }, [setUser])
+  }, [setUser, setArtistsWithNotifications])
 
   const updateUser = React.useCallback((user) => {
     const sortedArtistUser = sortUserArtists(user)

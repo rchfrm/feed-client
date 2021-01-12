@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import Router from 'next/router'
@@ -20,6 +20,13 @@ import SetupGtag from '@/elements/SetupGtag'
 import { AuthProvider } from '@/contexts/AuthContext'
 // IMPORT HELPERS
 import { trackPWA, gtagPageView } from '@/app/helpers/trackingHelpers'
+
+// GLOBAL STORES and DATA
+import globalData from '@/app/tempGlobalData/globalData.json'
+import { formatDictionary } from '@/app/helpers/notificationsHelpers'
+import useNotificationStore from '@/app/store/notificationsStore'
+
+const getSetDictionary = state => state.setDictionary
 
 // TRACKING SERVICE IDS
 // Google Analytics
@@ -60,10 +67,11 @@ if (process.env.build_env !== 'development') {
   })
 }
 
+// * THE APP
 function Feed({ Component, pageProps, router }) {
-  const [stripe, setStripe] = useState(null)
+  const [stripe, setStripe] = React.useState(null)
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (process.env.build_env !== 'development') {
       registerServiceWorker()
       trackPWA()
@@ -83,6 +91,16 @@ function Feed({ Component, pageProps, router }) {
     if (window.Stripe) {
       setStripe(window.Stripe(process.env.stripe_provider))
     }
+  }
+
+  // STORE DICTIONARY in GLOBAL STATE
+  const isDictionarySet = React.useRef(false)
+  const setDictionary = useNotificationStore(getSetDictionary)
+  if (!isDictionarySet.current) {
+    const { allNotifications } = globalData
+    const dictionaryFormatted = formatDictionary(allNotifications)
+    setDictionary(dictionaryFormatted)
+    isDictionarySet.current = true
   }
 
   return (
