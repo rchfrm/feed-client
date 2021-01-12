@@ -2,14 +2,13 @@ import React from 'react'
 import { useRouter } from 'next/router'
 // import PropTypes from 'prop-types'
 
-// IMPORT CONTEXTS
-import { AuthContext } from '@/contexts/AuthContext'
-
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import SignupQueueForm from '@/app/SignupQueueForm'
+
+import { AuthContext } from '@/contexts/AuthContext'
 
 import styles from '@/LoginPage.module.css'
 
@@ -26,7 +25,6 @@ const SignupClosedContent = () => {
       setAuthError(null)
     }
   }, [setAuthError])
-
   return (
     <div className={styles.container}>
       <Error error={authError} />
