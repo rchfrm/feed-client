@@ -3,6 +3,8 @@ import Router, { useRouter } from 'next/router'
 
 import SidePanel from '@/app/SidePanel'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 const initialContext = {
   sidePanelContent: null,
   setSidePanelContent: () => {},
@@ -27,6 +29,12 @@ const SidePanelContextProvider = ({ children }) => {
   const [sidePanelLoading, setSidePanelLoading] = React.useState(false)
   const [onSidepanelClose, setOnSidepanelClose] = React.useState(null)
 
+  // TRACKING
+  const sidePanelContentLabel = React.useRef('')
+  const setSidePanelContentLabel = React.useCallback((label) => {
+    sidePanelContentLabel.current = label
+  }, [])
+
   // GET CLOSE METHOD
   // Get ROUTE info
   const { query, pathname } = useRouter()
@@ -41,11 +49,18 @@ const SidePanelContextProvider = ({ children }) => {
 
   const toggleSidePanel = React.useCallback((state) => {
     const newState = typeof state === 'boolean' ? state : !sidePanelOpen
+    // TRACK
+    track({
+      action: 'sidepanel_toggle',
+      category: 'generic',
+      label: sidePanelContentLabel.current,
+      value: !newState ? 'close' : 'open',
+    })
     // Closing
     if (!newState) return closeSidePanel()
     // Opening
     setSidePanelOpen(newState)
-  }, [setSidePanelOpen, closeSidePanel, sidePanelOpen])
+  }, [setSidePanelOpen, closeSidePanel, sidePanelOpen, sidePanelContentLabel])
 
   // Close side panel when navigating pages
   React.useEffect(() => {
@@ -64,6 +79,7 @@ const SidePanelContextProvider = ({ children }) => {
       value={{
         sidePanelContent,
         setSidePanelContent,
+        setSidePanelContentLabel,
         sidePanelButton,
         setSidePanelButton,
         setOnSidepanelClose,
