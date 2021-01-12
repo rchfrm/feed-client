@@ -126,6 +126,7 @@ const InitUser = ({ children }) => {
     redirectPage(redirectTo || ROUTES.LOGIN)
     setArtistLoading(false)
     await firebase.deleteUser()
+    await firebase.doSignOut()
     const error = {
       message: errorMessage,
     }
