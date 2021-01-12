@@ -105,7 +105,7 @@ const PostsSettingsDefaultStatus = ({
         options={postSettingOptions}
         onChange={updateGlobalStatus}
         selectedValue={defaultPostStatus}
-        groupLabel="Posts Default Status"
+        trackGroupLabel="Posts Default Status"
       />
       <PostSettingsStatusConfirmation
         triggerStatusUpdate={triggerStatusUpdate}

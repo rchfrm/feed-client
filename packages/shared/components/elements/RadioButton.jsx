@@ -7,7 +7,7 @@ const RadioButton = ({
   value,
   name,
   label,
-  groupLabel,
+  trackGroupLabel,
   checked,
   highlight,
   onChange,
@@ -19,9 +19,9 @@ const RadioButton = ({
   const handleChange = () => {
     track({
       action: 'radio_button_clicked',
-      label: groupLabel || label,
+      label: trackGroupLabel || label,
       category: 'generic',
-      value: groupLabel ? label : value,
+      value: trackGroupLabel ? label : value,
     })
     onChange(value)
   }
@@ -61,7 +61,7 @@ RadioButton.propTypes = {
   ]).isRequired,
   name: PropTypes.string,
   label: PropTypes.string.isRequired,
-  groupLabel: PropTypes.string,
+  trackGroupLabel: PropTypes.string,
   checked: PropTypes.bool,
   highlight: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -69,7 +69,7 @@ RadioButton.propTypes = {
 }
 
 RadioButton.defaultProps = {
-  groupLabel: '',
+  trackGroupLabel: '',
   checked: false,
   highlight: false,
   name: '',

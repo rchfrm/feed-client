@@ -22,7 +22,7 @@ const RadioButtons = ({
   options,
   selectedValue,
   onChange,
-  groupLabel,
+  trackGroupLabel,
   className,
 }) => {
   const classNames = ['radio--buttons', className].join(' ')
@@ -41,7 +41,7 @@ const RadioButtons = ({
             value={value}
             name={name}
             label={label}
-            groupLabel={groupLabel}
+            trackGroupLabel={trackGroupLabel}
             checked={checked}
             onChange={onChange}
           />
@@ -55,7 +55,7 @@ const RadioButtons = ({
 RadioButtons.propTypes = {
   options: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
-  groupLabel: PropTypes.string,
+  trackGroupLabel: PropTypes.string,
   className: PropTypes.string,
   selectedValue: PropTypes.oneOfType([
     PropTypes.string,
@@ -67,7 +67,7 @@ RadioButtons.propTypes = {
 RadioButtons.defaultProps = {
   className: '',
   selectedValue: null,
-  groupLabel: '',
+  trackGroupLabel: '',
 }
 
 
