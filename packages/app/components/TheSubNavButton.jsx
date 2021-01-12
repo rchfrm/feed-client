@@ -4,13 +4,20 @@ import PropTypes from 'prop-types'
 import Spinner from '@/elements/Spinner'
 import FlipContainer from '@/elements/FlipContainer'
 import ArtistImage from '@/elements/ArtistImage'
+import NotificationDot from '@/elements/NotificationDot'
+
 import CloseCircle from '@/icons/CloseCircle'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 
 import styles from '@/app/TheSubNavButton.module.css'
 
-const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
+const TheSubNavButton = ({
+  toggleSubNav,
+  navOpen,
+  hasNotifactions,
+  className,
+}) => {
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
   const [fbPageId, setFbPageId] = React.useState('')
 
@@ -34,6 +41,9 @@ const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
       className={[className, styles.button].join(' ')}
       aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
     >
+      {hasNotifactions && !navOpen && !artistLoading && (
+        <NotificationDot size="medium" style={{ top: '-0.1rem', right: '-0.1rem', zIndex: 3 }} />
+      )}
       <FlipContainer
         frontContent={(
           <figure className={styles.image}>
@@ -58,37 +68,13 @@ const TheSubNavButton = ({ toggleSubNav, navOpen, className }) => {
       />
       <p className={styles.buttonTitle}>{navOpen ? 'close' : 'menu'}</p>
     </a>
-    // <button
-    //   id="TheSubNavButton"
-    //   className={[styles.container, className, navOpen ? styles._navOpen : ''].join(' ')}
-    //   onClick={runToggle}
-    // >
-    //   <div className={styles.inner}>
-    //     <div className={styles.frontIcon}>
-    //       <figure className={styles.image}>
-    //         {artistLoading ? (
-    //           <Spinner className={styles.spinner} />
-    //         )
-    //           : (
-    //             <ArtistImage pageId={fbPageId} name={artist.name} />
-    //           )}
-    //       </figure>
-    //     </div>
-    //     <div className={styles.backIcon}>
-    //       {/* Close button */}
-    //       <div className={styles.backIcon_inner}>
-    //         <CloseCircle />
-    //       </div>
-    //     </div>
-    //   </div>
-    //   <p className={styles.buttonTitle}>{navOpen ? 'close' : 'menu'}</p>
-    // </button>
   )
 }
 
 TheSubNavButton.propTypes = {
   toggleSubNav: PropTypes.func.isRequired,
   navOpen: PropTypes.bool.isRequired,
+  hasNotifactions: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

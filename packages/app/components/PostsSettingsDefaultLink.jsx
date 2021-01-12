@@ -5,7 +5,7 @@ import PostLinksSelect from '@/app/PostLinksSelect'
 
 import { track } from '@/app/helpers/trackingHelpers'
 
-import linksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/store/linksStore'
 
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
 
@@ -14,7 +14,7 @@ const PostsSettingsDefaultLink = ({
   setPostPreferences,
   className,
 }) => {
-  const updateLinksStore = linksStore(state => state.updateLinksStore)
+  const updateLinksStore = useLinksStore(state => state.updateLinksStore)
   const { id: defaultLinkId } = defaultLink
   const hasDefaultLink = !!defaultLinkId
 

@@ -51,6 +51,9 @@ const BasePage = ({
     if (!artistLoading && !artistRequired && !authPage) {
       toggleGlobalLoading(false)
     }
+    if (artistRequired && !artistLoading) {
+      toggleGlobalLoading(false)
+    }
   }, [artistLoading, artistRequired, authPage, toggleGlobalLoading, user])
 
 

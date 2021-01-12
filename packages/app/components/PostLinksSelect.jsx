@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import shallow from 'zustand/shallow'
 import useAsyncEffect from 'use-async-effect'
 
-import linksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/store/linksStore'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
@@ -35,7 +35,7 @@ const PostLinksSelect = ({
     artistId,
     defaultLink,
     nestedLinks,
-  } = linksStore(getLinksStoreState, shallow)
+  } = useLinksStore(getLinksStoreState, shallow)
 
   // PLACEHOLDER TEXT (if no default link)
   const placeholderText = componentLocation === 'post' ? 'No default link set' : 'Select a default link'

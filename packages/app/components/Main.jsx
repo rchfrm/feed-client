@@ -7,6 +7,7 @@ import InitUser from '@/app/InitUser'
 import { SidePanelContextProvider } from '@/app/contexts/SidePanelContext'
 // IMPORT ELEMENTS
 import IntegrationErrorHandler from '@/app/IntegrationErrorHandler'
+import NotificationsHandler from '@/app/NotificationsHandler'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 // IMPORT STYLES
@@ -18,6 +19,7 @@ function Main({ children }) {
         <InitUser>
           {children}
           <IntegrationErrorHandler />
+          <NotificationsHandler />
         </InitUser>
       </SidePanelContextProvider>
     </main>

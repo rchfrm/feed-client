@@ -6,7 +6,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import postsStore from '@/app/store/postsStore'
+import usePostsStore from '@/app/store/postsStore'
 
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -15,7 +15,7 @@ const useForceDeleteLink = () => {
   const { showAlert, closeAlert } = useAlertModal()
   // SIDE PANEL CONTEXT
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
-  const updatePostsWithMissingLinks = postsStore(useCallback(state => state.updatePostsWithMissingLinks, []))
+  const updatePostsWithMissingLinks = usePostsStore(useCallback(state => state.updatePostsWithMissingLinks, []))
   // FUNCTION TO SHOW MODAL
   const showForceDeleteModal = React.useCallback((runDeleteItem, linkIds, itemType) => {
     const buttons = [

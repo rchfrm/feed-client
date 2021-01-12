@@ -49,6 +49,9 @@ packages/admin/public/pwa/*
 # Cached dato data
 packages/shared/tempData/*
 !packages/shared/tempData/.gitkeep
+packages/app/tempGlobalData/*
+!packages/app/tempGlobalData/.gitkeep
+
 
 # Service workers
 /public/workbox-*.js

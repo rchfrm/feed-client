@@ -12,7 +12,7 @@ import PostsLinksIntegrations from '@/app/PostsLinksIntegrations'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import linksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/store/linksStore'
 import { splitLinks } from '@/app/helpers/linksHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
@@ -27,7 +27,7 @@ const getLinksStoreState = (state) => ({
 const PostsLinks = ({
   useSelectMode,
 }) => {
-  const { fetchLinks, nestedLinks, linksLoading, linkBankError } = linksStore(getLinksStoreState, shallow)
+  const { fetchLinks, nestedLinks, linksLoading, linkBankError } = useLinksStore(getLinksStoreState, shallow)
   const { looseLinks, linkFolders, integrationLinks } = React.useMemo(() => {
     return splitLinks(nestedLinks)
   }, [nestedLinks])
