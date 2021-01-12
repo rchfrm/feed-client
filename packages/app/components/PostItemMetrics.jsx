@@ -56,6 +56,7 @@ const PostItemMetrics = ({
           activeOption={currentMetricsType}
           setActiveOption={setCurrentMetricsType}
           size="small"
+          trackLabel="Post Metrics"
           style={{
             width: '101%',
             transform: 'translateX(-0.5%)',

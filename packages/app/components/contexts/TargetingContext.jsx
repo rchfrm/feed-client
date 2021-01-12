@@ -82,7 +82,7 @@ const TargetingContextProvider = ({ children }) => {
   } = React.useContext(ArtistContext)
 
   // SIDE PANEL context
-  const { sidePanelContent, setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
+  const { sidePanelContent, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
 
   // CAMPAIGN SETTINGS VIEW ('summary' | 'settings')
   const [currentView, setCurrentView] = React.useState(initialState.currentView)
@@ -348,6 +348,7 @@ const TargetingContextProvider = ({ children }) => {
   const toggleMobileBudget = React.useCallback((state = true) => {
     const { content, button } = getBudgetSidePanelContent(state)
     setSidePanelContent(content)
+    setSidePanelContentLabel('Mobile Budget Setter')
     setSidePanelButton(button)
     toggleSidePanel(state)
     setMobileBudgetOpen(state)

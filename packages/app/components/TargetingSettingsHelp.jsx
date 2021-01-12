@@ -12,6 +12,7 @@ const TargetingSettingsHelp = ({ desktopVersion }) => {
         content={copy.helpText}
         text="Need help with this page?"
         reverseText={desktopVersion}
+        label="Targeting help"
       />
     </div>
   )

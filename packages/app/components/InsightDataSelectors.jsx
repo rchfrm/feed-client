@@ -57,6 +57,10 @@ const InsightDataSelectors = ({
       useSetQuery
       useSetLocalStorage
       querySlug={filterQuerySlug}
+      trackProps={{
+        action: 'adjust_filter',
+        category: 'insights',
+      }}
     />
   )
 }

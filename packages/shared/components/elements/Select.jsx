@@ -7,6 +7,8 @@ import ArrowIcon from '@/icons/ArrowIcon'
 import Spinner from '@/elements/Spinner'
 import brandColors from '@/constants/brandColors'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 const OPTION = ({ name, value }) => {
   return <option key={value} value={value}>{name}</option>
 }
@@ -50,6 +52,16 @@ const Select = ({
     .map((versionName) => `select--${versionName}`)
     .join(' ')
 
+  const onChange = (e) => {
+    handleChange(e)
+    track({
+      action: 'select_input_selected',
+      label,
+      category: 'generic',
+      value: e.target.value,
+    })
+  }
+
   return (
     <div className={classes.join(' ')}>
       <label
@@ -66,7 +78,7 @@ const Select = ({
           <select
             className={['select', versionClasses].join(' ')}
             name={name}
-            onChange={handleChange}
+            onChange={onChange}
             style={style}
             value={selectedValue}
             required={required}

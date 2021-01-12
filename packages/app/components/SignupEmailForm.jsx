@@ -171,6 +171,7 @@ const SignupEmailForm = () => {
       action: 'create_user',
       category: 'sign_up',
       label: 'email',
+      marketing: true,
     })
     Router.push(ROUTES.SIGN_UP_CONTINUE)
   }

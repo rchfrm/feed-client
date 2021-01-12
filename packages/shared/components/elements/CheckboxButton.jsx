@@ -1,11 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 const CheckboxButton = ({
   value,
   id,
   name,
   label,
+  trackGroupLabel,
+  trackValue,
   checked,
   highlight,
   onChange,
@@ -15,6 +19,12 @@ const CheckboxButton = ({
   const idName = id || `checkbox-${valueString}`
 
   const handleChange = () => {
+    track({
+      action: 'checkbox_button_clicked',
+      label: trackGroupLabel || label,
+      category: 'generic',
+      value: trackValue || valueString,
+    })
     onChange(value, checked)
   }
 
@@ -57,6 +67,8 @@ CheckboxButton.propTypes = {
     PropTypes.string,
     PropTypes.node,
   ]).isRequired,
+  trackGroupLabel: PropTypes.string,
+  trackValue: PropTypes.string,
   checked: PropTypes.bool,
   highlight: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -67,6 +79,8 @@ CheckboxButton.defaultProps = {
   id: '',
   name: '',
   className: null,
+  trackGroupLabel: '',
+  trackValue: '',
   checked: false,
   highlight: false,
 }

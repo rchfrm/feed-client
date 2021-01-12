@@ -196,6 +196,7 @@ const InitUser = ({ children }) => {
       action: 'create_user',
       category: 'sign_up',
       label: 'facebook',
+      marketing: true,
     })
   }
 

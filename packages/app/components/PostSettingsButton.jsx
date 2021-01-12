@@ -16,6 +16,7 @@ const PostSettingsButton = ({
       className={[className, 'relative'].join(' ')}
       onClick={goToPostSettings}
       version="black small icon"
+      label="Open Posts Settings"
     >
       <GearIcon fill={brandColors.bgColor} />
       Settings
