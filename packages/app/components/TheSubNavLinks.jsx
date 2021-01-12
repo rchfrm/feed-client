@@ -12,7 +12,7 @@ import * as ROUTES from '@/app/constants/routes'
 
 
 const { ACCOUNT, MYREFERRAL, PRICING, FAQ, NOTIFICATIONS } = ROUTES
-const termsLink = 'https://archform.ltd/terms/'
+const termsLink = 'https://tryfeed.co/legal/terms-of-service'
 const links = [
   {
     href: ACCOUNT,
