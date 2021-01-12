@@ -115,7 +115,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     }
     // Process the ad accounts
     const { accounts, adAccounts } = availableArtistsSorted
-    const processedArtists = await artistHelpers.addAdAccountsToArtists({ accounts, adAccounts, accessToken })
+    const processedArtists = await artistHelpers.addAdAccountsToArtists({ accounts, adAccounts })
     if (!isMounted) return
     // Error if no ad accounts
     if (!adaccounts.length) {

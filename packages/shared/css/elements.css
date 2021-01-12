@@ -183,6 +183,10 @@
     margin-top: -1em;
   }
 
+  a {
+    color: inherit;
+  }
+
 }
 
 .success {

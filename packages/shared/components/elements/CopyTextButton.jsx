@@ -9,6 +9,7 @@ const CopyTextButton = ({
   label,
   text,
   size,
+  onCopied,
   className,
 }) => {
   const button = React.useRef(null)
@@ -16,18 +17,19 @@ const CopyTextButton = ({
   const [success, setSuccess] = React.useState(false)
   const onSuccess = React.useCallback(() => {
     setSuccess(true)
+    onCopied(text)
     setTimeout(() => {
       if (!button.current) return
       setSuccess(false)
     }, 800)
-  }, [])
+  }, [onCopied, text])
   React.useEffect(() => {
     const clipboard = new ClipboardJS(button.current)
     clipboard.on('success', onSuccess)
     return () => {
       clipboard.destroy()
     }
-  }, [])
+  }, [onSuccess])
 
   return (
     <>
@@ -67,12 +69,14 @@ CopyTextButton.propTypes = {
   label: PropTypes.string,
   text: PropTypes.string.isRequired,
   size: PropTypes.string,
+  onCopied: PropTypes.func,
   className: PropTypes.string,
 }
 
 CopyTextButton.defaultProps = {
   label: '',
   size: 'rg',
+  onCopied: () => {},
   className: '',
 }
 

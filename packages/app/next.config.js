@@ -27,7 +27,6 @@ const nextConfig = {
     stripe_provider: process.env.STRIPE_PROVIDER,
     react_app_api_url: process.env.REACT_APP_API_URL,
     react_app_api_url_local: process.env.REACT_APP_API_URL_LOCAL,
-    dato_key: process.env.DATO_KEY,
     build_env: process.env.BUILD_ENV || process.env.NODE_ENV,
     sentry_dsn: 'https://d3ed114866ac498da2fdd9acf2c6bd87@sentry.io/3732610',
     release_version: process.env.RELEASE_VERSION,
@@ -46,13 +45,19 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, webpack }) => {
     // Fixes npm packages that depend on `fs` module
     if (!isServer) {
       config.node = {
         fs: 'empty',
       }
     }
+    // Reduce size of moment.js
+    config.plugins.push(
+      // Ignore all locale files of moment.js
+      // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    )
     return config
   },
 }

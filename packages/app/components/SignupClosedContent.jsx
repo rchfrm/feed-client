@@ -4,8 +4,11 @@ import { useRouter } from 'next/router'
 
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 
 import SignupQueueForm from '@/app/SignupQueueForm'
+
+import { AuthContext } from '@/contexts/AuthContext'
 
 import styles from '@/LoginPage.module.css'
 
@@ -15,9 +18,16 @@ import loginCopy from '@/app/copy/LoginPageCopy'
 
 const SignupClosedContent = () => {
   const router = useRouter()
-
+  const { authError, setAuthError } = React.useContext(AuthContext)
+  // Clear auth error when leaving page
+  React.useEffect(() => {
+    return () => {
+      setAuthError(null)
+    }
+  }, [setAuthError])
   return (
     <div className={styles.container}>
+      <Error error={authError} />
       <MarkdownText markdown={copy.signupClosedIntro} allowHtml />
       <div className="p-4 bg-grey-1 mb-5 rounded-dialogue">
         <MarkdownText markdown={copy.signupClosedReferral} allowHtml />

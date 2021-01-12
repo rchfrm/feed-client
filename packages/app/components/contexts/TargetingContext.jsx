@@ -4,7 +4,7 @@ import produce from 'immer'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import TargetingBudgetMobile from '@/app/TargetingBudgetMobile'
-import TargetingBudgetSaveButton from '@/app/TargetingBudgetSaveButton'
+import TargetingBudgetSaveButtonMobile from '@/app/TargetingBudgetSaveButtonMobile'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
@@ -334,7 +334,8 @@ const TargetingContextProvider = ({ children }) => {
       />
     ) : null
     const button = state ? (
-      <TargetingBudgetSaveButton
+      <TargetingBudgetSaveButtonMobile
+        initialTargetingState={initialTargetingState}
         targetingState={targetingState}
         saveTargetingSettings={saveTargetingSettings}
         disableSaving={!!disableSaving}

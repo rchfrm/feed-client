@@ -18,7 +18,7 @@ const TargetingSummaryButtons = ({
   isFirstTimeUser,
 }) => {
   // GET SAVING FUNCTION
-  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings, isFirstTimeUser })
+  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser })
   // SHOW SAVE BUTTON
   const showBudgetSave = React.useMemo(() => {
     return targetingState.budget !== initialTargetingState.budget

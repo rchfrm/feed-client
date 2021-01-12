@@ -8,25 +8,6 @@ import getSymbolFromCurrency from 'currency-symbol-map'
 import countries from '@/constants/countries'
 import get from 'lodash/get'
 
-
-export const trimTrailingSlash = (url) => {
-  return url.replace(/\/$/, '')
-}
-
-export const removeProtocolFromUrl = (url, trimSlash = true) => {
-  const protocolEnd = url.indexOf('://') >= 0 ? url.indexOf('://') + 3 : 0
-  const trimmedUrl = url.slice(protocolEnd)
-  if (trimSlash) {
-    return trimTrailingSlash(trimmedUrl)
-  }
-  return trimmedUrl
-}
-
-export const removeWWWFromUrl = (url) => {
-  const wwwEnd = url.indexOf('www') >= 0 ? url.indexOf('www') + 4 : 0
-  return url.slice(wwwEnd)
-}
-
 export const capitalise = (string) => {
   return string[0].toUpperCase() + string.slice(1)
 }
@@ -393,13 +374,6 @@ export const returnLatestValue = (data) => {
 }
 
 
-export const shortenUrl = (url) => {
-  let shortenedUrl = removeProtocolFromUrl(url)
-  shortenedUrl = removeWWWFromUrl(shortenedUrl)
-  return shortenedUrl
-}
-
-
 /**
 * @param {string} url
 * @returns {Object.<string>} eg: { id: 'eG1uDU0rSLw', service: 'youtube' }
@@ -548,6 +522,25 @@ export const getMinBudget = (amount, currencyCode, currencyOffset) => {
 // EXTERNAL URL helpers
 // ---------------------
 
+
+export const trimTrailingSlash = (url) => {
+  return url.replace(/\/$/, '')
+}
+
+export const removeProtocolFromUrl = (url, trimSlash = true) => {
+  const protocolEnd = url.indexOf('://') >= 0 ? url.indexOf('://') + 3 : 0
+  const trimmedUrl = url.slice(protocolEnd)
+  if (trimSlash) {
+    return trimTrailingSlash(trimmedUrl)
+  }
+  return trimmedUrl
+}
+
+export const removeWWWFromUrl = (url) => {
+  const wwwEnd = url.indexOf('www') >= 0 ? url.indexOf('www') + 4 : 0
+  return url.slice(wwwEnd)
+}
+
 // Add a protocol if missing, else leaves the same
 /**
  * @param {string} url
@@ -588,6 +581,12 @@ export const testValidEmail = (email) => {
   // eslint-disable-next-line
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   return re.test(String(email).toLowerCase())
+}
+
+export const shortenUrl = (url) => {
+  let shortenedUrl = removeProtocolFromUrl(url)
+  shortenedUrl = removeWWWFromUrl(shortenedUrl)
+  return shortenedUrl
 }
 
 /**

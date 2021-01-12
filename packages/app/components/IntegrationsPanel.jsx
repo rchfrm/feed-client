@@ -15,6 +15,7 @@ import copy from '@/app/copy/integrationsCopy'
 
 const IntegrationsPanel = ({
   goBack,
+  location,
 }) => {
   const {
     artistId,
@@ -38,6 +39,7 @@ const IntegrationsPanel = ({
               artistId={artistId}
               integration={integration}
               setArtist={setArtist}
+              location={location}
               className="mb-8 mr-8 sm:mb-0 sm:mr-0 last:mb-0"
             />
           )
@@ -65,10 +67,12 @@ const IntegrationsPanel = ({
 
 IntegrationsPanel.propTypes = {
   goBack: PropTypes.func,
+  location: PropTypes.string,
 }
 
 IntegrationsPanel.defaultProps = {
   goBack: null,
+  location: 'insights',
 }
 
 

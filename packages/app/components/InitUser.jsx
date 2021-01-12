@@ -5,6 +5,8 @@ import useAsyncEffect from 'use-async-effect'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/contexts/UserContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
+import useReferralStore from '@/app/store/referralStore'
+
 import * as ROUTES from '@/app/constants/routes'
 
 import * as queryString from 'query-string'
@@ -43,6 +45,9 @@ const getMissingScopes = (grantedScopes) => {
   }, [])
 }
 
+// Read from referralStore
+const getGetStoredReferrerCode = state => state.getStoredReferrerCode
+
 const InitUser = ({ children }) => {
   // Get router info
   const router = useRouter()
@@ -60,7 +65,7 @@ const InitUser = ({ children }) => {
     setMissingScopes,
   } = React.useContext(AuthContext)
   const { runCreateUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
-  const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
+  const { setNoArtist, storeArtist, setArtistLoading } = React.useContext(ArtistContext)
 
   // After user has loaded the first time...
   React.useEffect(() => {
@@ -113,31 +118,48 @@ const InitUser = ({ children }) => {
     })
   }
 
+  // REJECT NEW USER
+  // - Delete from firebase
+  // - Send back to login
+  // - Show error
+  const rejectNewUser = async ({ errorMessage, errorLabel, redirectTo }) => {
+    redirectPage(redirectTo || ROUTES.LOGIN)
+    setArtistLoading(false)
+    await firebase.deleteUser()
+    const error = {
+      message: errorMessage,
+    }
+    setNoAuth(error)
+    setUserLoading(false)
+    track({
+      category: 'sign up',
+      action: 'handleNewUser',
+      label: errorLabel,
+      description: error.message,
+      error: true,
+    })
+  }
+
+  const getStoredReferrerCode = useReferralStore(getGetStoredReferrerCode)
 
   // HANDLE NEW USER
   const handleNewUser = async (additionalUserInfo) => {
     const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
-    // * If no email...
-    // Delete from firebase
-    // Send back to login
-    // Show error
-    if (!email) {
-      await firebase.deleteUser()
-      const error = {
-        message: 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.',
-      }
-      setAuthError(error)
-      setUserLoading(false)
-      track({
-        category: 'sign up',
-        action: 'handleNewUser',
-        label: 'No email provided from FB',
-        description: error.message,
-        error: true,
-      })
+    // * REJECT If no REFERRAL CODE
+    const referrerCode = getStoredReferrerCode()
+    if (!referrerCode) {
+      const errorMessage = 'It looks like you don\'t have a referral code.'
+      const errorLabel = 'No referral code provided'
+      rejectNewUser({ errorMessage, errorLabel, redirectTo: ROUTES.SIGN_UP })
       return
     }
-    // return
+    // * REJECT If no EMAIL...
+    if (!email) {
+      const errorMessage = 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.'
+      const errorLabel = 'No email provided from FB'
+      rejectNewUser({ errorMessage, errorLabel })
+      return
+    }
     // If it's a new user, create their profile on the server
     const user = await runCreateUser({
       firstName: first_name,
@@ -158,27 +180,22 @@ const InitUser = ({ children }) => {
     // Set missing scopes
     if (missingScopes.length) {
       setMissingScopes(missingScopes) // from Auth context
+      // BREADCRUMB
       track({
         category: 'sign up',
         action: 'Handle new FB user',
         label: 'missing scopes',
         breadcrumb: true,
-        ga: false,
       })
     }
     // As this is a new user, run setNoArtist, and push them to the Connect Artist page
     setNoArtist()
     redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
-    // Track
+    // TRACK
     track({
-      category: 'sign up',
-      action: 'User account created',
-      label: user.id,
-    })
-    track({
-      category: 'sign up',
-      action: `User account created (facebook)${missingScopes.length ? ' (with missing scopes)' : ''}`,
-      label: user.id,
+      action: 'create_user',
+      category: 'sign_up',
+      label: 'facebook',
     })
   }
 
@@ -232,6 +249,12 @@ const InitUser = ({ children }) => {
         breadcrumb: true,
         ga: false,
       })
+      // TRACK LOGIN
+      track({
+        action: 'log_in',
+        category: 'log_in',
+        label: 'facebook',
+      })
       setNoArtist()
       redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
       return
@@ -270,15 +293,11 @@ const InitUser = ({ children }) => {
         breadcrumb: true,
         ga: false,
       })
+      // TRACK LOGIN
       track({
-        category: 'login',
-        label: user.id,
-        action: 'Logged in using facebook',
-      })
-      track({
-        category: 'login',
-        label: user.id,
-        action: 'Logged in',
+        action: 'log_in',
+        category: 'log_in',
+        label: 'facebook',
       })
       redirectPage(ROUTES.HOME, pathname)
     }

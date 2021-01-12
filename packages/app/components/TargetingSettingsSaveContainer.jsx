@@ -16,6 +16,7 @@ import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingSettingsSaveContainer = ({
   disableSaving,
+  initialTargetingState,
   targetingState,
   saveTargetingSettings,
   cancelUpdateSettings,
@@ -46,7 +47,7 @@ const TargetingSettingsSaveContainer = ({
     gsap.set(containerEl, positionProps)
   }, [budgetRef, windowWidth])
   // GET SAVE FUNCTION
-  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings, isFirstTimeUser })
+  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser })
   return (
     <div
       className={[
@@ -94,6 +95,7 @@ const TargetingSettingsSaveContainer = ({
 
 TargetingSettingsSaveContainer.propTypes = {
   disableSaving: PropTypes.string,
+  initialTargetingState: PropTypes.object.isRequired,
   targetingState: PropTypes.object.isRequired,
   saveTargetingSettings: PropTypes.func.isRequired,
   cancelUpdateSettings: PropTypes.func.isRequired,
