@@ -6,6 +6,7 @@ import produce from 'immer'
 import useAsyncEffect from 'use-async-effect'
 
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 import Button from '@/elements/Button'
 
@@ -23,6 +24,8 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 
 import { fetchPopularLocations } from '@/app/helpers/targetingHelpers'
+
+import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingSettings = () => {
   // Fetch from targeting context
@@ -77,6 +80,16 @@ const TargetingSettings = () => {
         <div
           ref={columnRef}
           className="absolute top-0 left-0 h-10 w-full invisible bg-red pointer-events-none"
+        />
+        {/* INTRO */}
+        <MarkdownText
+          markdown={copy.settingsIntro}
+          className={[
+            '-mt-6 mb-10',
+            'xxs:mt-0',
+            'minContent:-mt-6 pb-8',
+            'md:pb-2',
+          ].join(' ')}
         />
         {/* HELP (mobile) */}
         {!isDesktopLayout && (
