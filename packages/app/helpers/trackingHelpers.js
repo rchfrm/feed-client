@@ -113,6 +113,7 @@ export const fireFBEvent = (action, payload, customTrack) => {
     console.groupEnd()
     return
   }
+  if (!fbq) return
   fbq(trackType, action, payload)
 }
 
