@@ -1,8 +1,6 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
 
-import { capitalise } from '@/helpers/utils'
-
 const getListOfSources = (isMusician, hasSpotify) => {
   if (!hasSpotify || !isMusician) return 'Facebook and Instagram followers'
   return 'Facebook and Instagram followers and Spotify listeners'
@@ -62,7 +60,7 @@ We are working on adding custom locations, but it would be really helpful if you
   },
 
   // PLATFORM SELECT DESCRIPTION
-  platformSelectDescription: `Selecting only one platform still allows Feed to use posts from both platforms to create ads if you opt them in.`,
+  platformSelectDescription: `Select the platform(s) where your ads will appear. This does not affect which posts can be used as ads.`,
 
   // PLATFORMS WARNING
   getPlatformWarningCopy: (initialPlatform, chosenPlatform) => {
