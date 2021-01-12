@@ -32,6 +32,12 @@ button {
     background-color: var(--disabled-color-bg);
     cursor: not-allowed;
     cursor: default;
+
+    @mixin canHover {
+      &:hover {
+        background-color: var(--disabled-color-bg);
+      }
+    }
   }
 
   /* The spinner in a button */
