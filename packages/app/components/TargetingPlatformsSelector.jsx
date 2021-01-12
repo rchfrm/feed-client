@@ -65,7 +65,11 @@ const TargetingPlatformsSelector = ({
 
   return (
     <section className={[className].join(' ')}>
-      <TargetingSectionHeader className="mb-6" header="Platforms" />
+      <TargetingSectionHeader
+        header="Platforms"
+        description={copy.platformSelectDescription}
+        className="mb-6"
+      />
       <PillOptions
         color="green"
         options={pillOptions}

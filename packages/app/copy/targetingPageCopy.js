@@ -61,6 +61,9 @@ We are working on adding custom locations, but it would be really helpful if you
     return `Save Settings and Budget`
   },
 
+  // PLATFORM SELECT DESCRIPTION
+  platformSelectDescription: `Selecting only one platform still allows Feed to use posts from both platforms to create ads if you opt them in.`,
+
   // PLATFORMS WARNING
   getPlatformWarningCopy: (initialPlatform, chosenPlatform) => {
     const chosenPlatformCapital = capitalise(chosenPlatform)
