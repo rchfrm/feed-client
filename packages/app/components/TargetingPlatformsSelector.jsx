@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PillOptions from '@/elements/PillOptions'
-import MarkdownText from '@/elements/MarkdownText'
+import Error from '@/elements/Error'
 
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 
@@ -83,8 +83,8 @@ const TargetingPlatformsSelector = ({
       />
       {/* WARNING */}
       {warningCopy && (
-        <div className="pt-5">
-          <MarkdownText markdown={warningCopy} />
+        <div className="pt-5 -mb-4">
+          <Error error={{ message: warningCopy }} />
         </div>
       )}
     </section>

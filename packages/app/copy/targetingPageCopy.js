@@ -66,62 +66,9 @@ We are working on adding custom locations, but it would be really helpful if you
 
   // PLATFORMS WARNING
   getPlatformWarningCopy: (initialPlatform, chosenPlatform) => {
-    const chosenPlatformCapital = capitalise(chosenPlatform)
-    const alternativePlatform = chosenPlatform === 'instagram' ? 'Facebook' : 'Instagram'
-    if (initialPlatform === 'both' && chosenPlatform === initialPlatform) return ''
-    // Initial !BOTH && And !Change
-    if (initialPlatform !== 'both' && chosenPlatform === initialPlatform) return ''
-    let message
-    // Initial !BOTH && chosen both
-    if (initialPlatform !== 'both' && chosenPlatform === 'both') {
-      return `This will mean your ads run on Facebook and Instagram. They may go back into review, but once approved will be promoted across both platforms.`
-    }
-    // Initial !BOTH && And Change && ! chosen both
-    if (initialPlatform !== 'both' && chosenPlatform !== initialPlatform && chosenPlatform !== 'both') {
-      message = `This will mean your ads only run on ${chosenPlatform}. They may go back into review, but once approved will no longer be promoted on ${alternativePlatform}.`
-
-      // CHOSEN FB
-      if (chosenPlatform === 'facebook') {
-        message = `${message}
-
-Feed will no longer promote Stories and you may get better results by selecting both Facebook and Instagram.`
-
-        // CHOSEN Insta
-      } else {
-        message = `${message}
-
-You may get better ad results by selecting both Facebook and Instagram.`
-      }
-
-      message = `${message}
-
-Feed can still use your ${alternativePlatform} posts to create ads on ${chosenPlatformCapital} if you opt them in.`
-
-      return message
-    }
-    // Going from BOTH to something else
-    if (initialPlatform === 'both' && chosenPlatform !== 'both') {
-      message = `This will mean your ads only run on ${chosenPlatformCapital}. They may go back into review, but once approved will no longer be promoted on ${alternativePlatform}`
-    }
-
-    // CHOSEN FB
-    if (chosenPlatform === 'facebook') {
-      message = `${message}
-      
-Feed will no longer promote Stories and you may see reduced ad performance.`
-
-    // CHOSEN Insta
-    } else {
-      message = `${message}
-        
-Running ads on Instagram only may reduce ad performance.`
-    }
-
-    message = `${message}
-
-    Feed can still use your ${alternativePlatform} posts to create ads on ${chosenPlatformCapital} if you opt them in.`
-
-    return message
+    if (chosenPlatform === 'both') return
+    if (chosenPlatform === 'facebook') return `Selecting only Facebook may reduce ad performance, and Feed will no longer promote Stories.`
+    if (chosenPlatform === 'instagram') return `Selecting only Instagram may reduce ad performance.`
   },
 
   // HELP TEXT
