@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
-import { setPixel } from '@/app/helpers/postsHelpers'
+import { setPixel } from '@/app/helpers/settingsHelpers'
 
 const availablePixels = [
   {
