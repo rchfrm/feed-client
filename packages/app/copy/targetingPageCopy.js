@@ -60,7 +60,7 @@ We are working on adding custom locations, but it would be really helpful if you
   },
 
   // PLATFORM SELECT DESCRIPTION
-  platformSelectDescription: `Select the platform(s) where your ads will appear. This does not affect which posts can be used as ads.`,
+  platformSelectDescription: `Select the platform(s) your ads will appear on. This does not affect which posts can be used as ads.`,
 
   // PLATFORMS WARNING
   getPlatformWarningCopy: (initialPlatform, chosenPlatform) => {
