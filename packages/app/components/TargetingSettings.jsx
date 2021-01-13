@@ -6,6 +6,7 @@ import produce from 'immer'
 import useAsyncEffect from 'use-async-effect'
 
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 import Button from '@/elements/Button'
 
@@ -17,11 +18,14 @@ import TargetingPickerHelper from '@/app/TargetingPickerHelper'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 import TargetingSettingsSaveContainer from '@/app/TargetingSettingsSaveContainer'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
+import TargetingPlatformsSelector from '@/app/TargetingPlatformsSelector'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 
 import { fetchPopularLocations } from '@/app/helpers/targetingHelpers'
+
+import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingSettings = () => {
   // Fetch from targeting context
@@ -77,6 +81,16 @@ const TargetingSettings = () => {
           ref={columnRef}
           className="absolute top-0 left-0 h-10 w-full invisible bg-red pointer-events-none"
         />
+        {/* INTRO */}
+        <MarkdownText
+          markdown={copy.settingsIntro}
+          className={[
+            '-mt-6 mb-12',
+            'xxs:mt-0',
+            'minContent:-mt-6 minContent:mb-16',
+            'md:mb-10',
+          ].join(' ')}
+        />
         {/* HELP (mobile) */}
         {!isDesktopLayout && (
           <TargetingSettingsHelp />
@@ -91,12 +105,25 @@ const TargetingSettings = () => {
         {/* GENDER */}
         <TargetingGenderSelector
           className="mb-16"
-          genders={targetingState.genders}
-          initialGenders={initialTargetingState.genders}
+          options={targetingState.genders}
+          initialStateRaw={initialTargetingState.genders}
           onChange={(state) => {
             setTargetingState((targetingState) => {
               return produce(targetingState, draftState => {
                 draftState.genders = state
+              })
+            })
+          }}
+        />
+        {/* PLATFORMS */}
+        <TargetingPlatformsSelector
+          className="mb-16"
+          options={targetingState.platforms}
+          initialStateRaw={initialTargetingState.platforms}
+          onChange={(state) => {
+            setTargetingState((targetingState) => {
+              return produce(targetingState, draftState => {
+                draftState.platforms = state
               })
             })
           }}

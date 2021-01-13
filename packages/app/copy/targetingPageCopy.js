@@ -14,9 +14,11 @@ export default {
 
   pausedWarning: `Spending is currently paused and no ads are running. You can still edit your settings.`,
 
-  saveSettingsConfirmation: `**This will affect how your ads are run. Any changes may take up to 15 minutes to update.**
-  
-Are you sure you want to continue?`,
+  settingsIntro: `Changes to these settings may cause your ads to go back into review, but once approved they will continue with the new settings applied.`,
+
+  saveSettingsConfirmation: `**This may cause your ads to go back into review, however once approved they will run with the targeting settings you've selected.**
+
+Do you want to continue?`,
 
   saveWhenPausedCopy: `**Spending is currently paused**
   
@@ -55,6 +57,16 @@ We are working on adding custom locations, but it would be really helpful if you
   saveSettingsButtonMobile: (isFirstTimeUser) => {
     if (isFirstTimeUser) return `Start Running Ads`
     return `Save Settings and Budget`
+  },
+
+  // PLATFORM SELECT DESCRIPTION
+  platformSelectDescription: `Select the platform(s) your ads will appear on. This does not affect which posts can be used as ads.`,
+
+  // PLATFORMS WARNING
+  getPlatformWarningCopy: (initialPlatform, chosenPlatform) => {
+    if (chosenPlatform === 'both') return
+    if (chosenPlatform === 'facebook') return `Selecting only Facebook may reduce ad performance, and Feed will no longer promote Stories.`
+    if (chosenPlatform === 'instagram') return `Selecting only Instagram may reduce ad performance.`
   },
 
   // HELP TEXT

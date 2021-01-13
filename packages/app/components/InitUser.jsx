@@ -127,7 +127,6 @@ const InitUser = ({ children }) => {
     setArtistLoading(false)
     await firebase.deleteUser()
     await firebase.doSignOut()
-
     const error = {
       message: errorMessage,
     }

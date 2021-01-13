@@ -101,6 +101,11 @@
   > *:last-child {
     margin-bottom: 0;
   }
+
+
+  .text--block {
+    margin-bottom: 0;
+  }
 }
 
 .tooltip--arrow {

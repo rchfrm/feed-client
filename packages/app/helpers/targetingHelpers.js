@@ -132,6 +132,17 @@ export const getSummary = {
       return `${str}${name}, `
     }, '')
   },
+  platforms: (targetingState) => {
+    const { platforms } = targetingState
+    const totalPlatforms = platforms.length
+    if (!totalPlatforms) return 'Both'
+    return platforms.reduce((str, gender, index) => {
+      const isLast = index === totalPlatforms - 1
+      const name = utils.capitalise(gender)
+      if (isLast) return `${str}${name}`
+      return `${str}${name}, `
+    }, '')
+  },
   countries: (targetingState) => {
     const { countries } = targetingState
     if (!countries || !countries.length) return '-'
@@ -305,12 +316,13 @@ export const saveCampaign = async ({
       }, 1000)
     })
   }
-  const { age_min, age_max, budget, genders, status } = newSettings
+  const { age_min, age_max, budget, genders, platforms, status } = newSettings
   const payload = {
     age_min,
     age_max,
     budget: budget / currencyOffset,
     genders,
+    platforms,
     geo_locations: {
       cities: selectedCities,
       countries: selectedCountries,
