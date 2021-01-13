@@ -2,27 +2,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
+import useCombinedRefs from '@/hooks/useCombinedRefs'
 
 const FullHeight = React.forwardRef(({ id, className, heightPercent, Element, children }, ref) => {
+  const elRef = React.useRef(ref)
+  const containerRef = useCombinedRefs(ref, elRef)
+  // Resize
   const { height: windowHeight } = useBrowserStore()
-  const [style, setStyle] = React.useState({})
   const animationFrame = React.useRef()
   React.useEffect(() => {
-    if (!windowHeight) return
-    const style = { height: windowHeight * (heightPercent / 100) }
+    const { current: containerEl } = containerRef
+    if (!windowHeight || !containerEl) return
+    const height = windowHeight * (heightPercent / 100)
     animationFrame.current = window.requestAnimationFrame(() => {
-      setStyle(style)
+      containerEl.style.height = `${height}px`
     })
     // Tidy up
     return () => window.cancelAnimationFrame(animationFrame.current)
-  }, [windowHeight, heightPercent])
+  }, [windowHeight, heightPercent, containerRef])
 
   return (
     <Element
       id={id}
       className={className}
-      style={style}
-      ref={ref}
+      ref={containerRef}
     >
       {children}
     </Element>

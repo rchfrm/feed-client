@@ -30,6 +30,10 @@ const TargetingSummaryList = ({ targetingState, setCurrentView, className }) => 
       value: getSummary.genders(targetingState),
     },
     {
+      name: 'Platforms',
+      value: getSummary.platforms(targetingState),
+    },
+    {
       name: 'Countries',
       value: getSummary.countries(targetingState),
     },
