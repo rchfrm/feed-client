@@ -17,7 +17,7 @@ const ButtonHelp = React.forwardRef(({
 }, ref) => {
   const { setSidePanelContent, setSidePanelContentLabel, setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
   const SidePanelContent = React.useMemo(() => {
-    return typeof content === 'string' ? <MarkdownText markdown={content} /> : content
+    return typeof content === 'string' ? <MarkdownText markdown={content} className="mb-0" /> : content
   }, [content])
   const toggleHelp = React.useCallback(() => {
     setSidePanelContentLabel('Help Panel')
