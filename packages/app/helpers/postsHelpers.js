@@ -254,3 +254,16 @@ export const getMetricsDrilldown = (drilldownMetrics) => {
   }, [])
   return sentenceArray.join('  \n')
 }
+
+
+
+// PIXELS
+// ------
+
+export const setPixel = (pixelId) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ error: false, res: { pixelId } })
+    }, 1000)
+  })
+}

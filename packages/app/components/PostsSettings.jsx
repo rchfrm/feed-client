@@ -54,7 +54,7 @@ const PostsSettings = () => {
           header="Facebook Pixel"
           copy={copy.facebookPixelIntro}
         >
-          <PostSettingsPixelSelector activePixelId="" />
+          <PostSettingsPixelSelector />
         </PostsSettingsSection>
         {/* LINK TRACKING */}
         <PostsSettingsSection

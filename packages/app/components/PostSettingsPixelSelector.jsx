@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import PixelSelector from '@/app/PixelSelector'
 
 const PostSettingsPixelSelector = ({
-  activePixelId,
   className,
 }) => {
   return (
@@ -13,18 +12,16 @@ const PostSettingsPixelSelector = ({
         className,
       ].join(' ')}
     >
-      <PixelSelector activePixelId={activePixelId} />
+      <PixelSelector />
     </div>
   )
 }
 
 PostSettingsPixelSelector.propTypes = {
-  activePixelId: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostSettingsPixelSelector.defaultProps = {
-  activePixelId: '',
   className: null,
 }
 
