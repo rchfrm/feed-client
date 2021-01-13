@@ -85,10 +85,10 @@ const TargetingSettings = () => {
         <MarkdownText
           markdown={copy.settingsIntro}
           className={[
-            '-mt-6 mb-0',
+            '-mt-6 mb-12',
             'xxs:mt-0',
-            'minContent:-mt-6 pb-12',
-            'md:pb-4',
+            'minContent:-mt-6 minContent:mb-16',
+            'md:mb-10',
           ].join(' ')}
         />
         {/* HELP (mobile) */}
