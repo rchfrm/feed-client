@@ -1,9 +1,18 @@
+import get from 'lodash/get'
+
 import { requestWithCatch } from '@/app/helpers/appServer'
 
 // PIXELS
 // ------
 
-// * SERVER
+// Get currrent pixel
+/**
+* @param {object} artist
+* @returns {string}
+*/
+export const getCurrentPixelId = (artist) => {
+  return get(artist, ['integrations', 'facebook', 'pixel_id'], '')
+}
 
 // Get artist pixel (SERVER)
 /**
