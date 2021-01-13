@@ -39,7 +39,7 @@ TargetingSectionHeader.propTypes = {
 }
 
 TargetingSectionHeader.defaultProps = {
-  description: PropTypes.string,
+  description: '',
   tooltipMessage: '',
   className: null,
 }
