@@ -14,8 +14,8 @@ const useCreateNewPixel = ({
   const { showAlert, closeAlert } = useAlertModal()
 
   // SAVE PIXEL FUNCTION
-  const savePixel = React.useCallback((pixelName) => {
-    const { res, error } = createNewPixel(artistId, pixelName)
+  const savePixel = React.useCallback(async (pixelName) => {
+    const { res, error } = await createNewPixel(artistId, pixelName)
     if (error) {
       onError(error)
       return
