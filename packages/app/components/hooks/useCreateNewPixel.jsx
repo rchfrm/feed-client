@@ -2,6 +2,8 @@ import React from 'react'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
+import PixelCreatorModal from '@/app/PixelCreatorModal'
+
 import { createNewPixel } from '@/app/helpers/settingsHelpers'
 
 const useCreateNewPixel = ({
@@ -18,19 +20,22 @@ const useCreateNewPixel = ({
     const { res, error } = await createNewPixel(artistId, pixelName)
     if (error) {
       onError(error)
+      // eslint-disable-next-line
+      openNewPixelModal(error)
       return
     }
     onSave(res)
   }, [artistId, onError, onSave])
 
   // OPEN MODAL
-  const openNewPixelModal = React.useCallback(() => {
+  const openNewPixelModal = React.useCallback((error) => {
     const buttons = [
       {
         text: 'Save pixel',
-        onClick: () => {},
+        onClick: () => {}, // updated in modal
         color: 'green',
         id: 'save',
+        disabled: true,
       },
       {
         text: 'Cancel',
@@ -41,7 +46,9 @@ const useCreateNewPixel = ({
         color: 'black',
       },
     ]
-  }, [])
+    const children = <PixelCreatorModal modalButtons={buttons} savePixel={savePixel} error={error} />
+    showAlert({ children, buttons, onClose: onCancel })
+  }, [savePixel])
 
   return openNewPixelModal
 }

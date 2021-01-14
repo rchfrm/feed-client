@@ -8,6 +8,8 @@ import Error from '@/elements/Error'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 
+import useCreateNewPixel from '@/app/hooks/useCreateNewPixel'
+
 import {
   getArtistPixels,
   getCurrentPixelId,
@@ -28,7 +30,18 @@ const PixelSelector = ({
 
   const [activePixelId, setActivePixelId] = React.useState(getCurrentPixelId(artist))
 
-  // LOAD AVAILABLE PIXEL
+  // OPEN NEW PIXEL MODAL
+  const openNewPixelModal = useCreateNewPixel({
+    artistId,
+    onSave: (res) => {
+      console.log('res', res)
+      setLoading(false)
+    },
+    onError: () => setLoading(false),
+    onCancel: () => setLoading(false),
+  })
+
+  // LOAD AVAILABLE PIXELS
   const [availablePixels, setAvailablePixels] = React.useState([])
   useAsyncEffect(async (isMounted) => {
     if (!artistId) return
@@ -70,13 +83,16 @@ const PixelSelector = ({
     // Handle adding NEW PIXEL
     if (value === '_new') {
       setLoading(true)
+      openNewPixelModal()
       return
     }
     setNewPixel(value)
-  }, [setNewPixel, activePixelId])
+  }, [setNewPixel, activePixelId, openNewPixelModal])
 
   console.log('availablePixels', availablePixels)
 
+
+  // CREATE SELECT OPTIONS
   const selectOptions = [
     {
       type: 'group',
@@ -96,7 +112,8 @@ const PixelSelector = ({
           name: 'Disable Pixel',
         },
       ],
-    }]
+    },
+  ]
 
   return (
     <div className={className}>
