@@ -64,7 +64,7 @@ Do you want to continue?`,
 
   defaultLinkIntro: `By default, which link should be used in ads? This determines where people go when they click one of your ads.`,
 
-  facebookPixelIntro: `You can find [instructions on how to create a new Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,
+  facebookPixelIntro: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,
 
   // FILTER TOOLTIPS
   // ----------------
