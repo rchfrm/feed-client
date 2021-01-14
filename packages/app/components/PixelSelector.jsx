@@ -101,7 +101,7 @@ const PixelSelector = ({
     },
     {
       value: '_none',
-      name: 'Disable Pixel',
+      name: 'Don\'t use a pixel',
     },
   ]
   const selectOptions = availablePixels.length ? [
