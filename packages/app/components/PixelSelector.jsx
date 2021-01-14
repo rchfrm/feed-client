@@ -49,7 +49,8 @@ const PixelSelector = ({
     if (!isMounted()) return
     setLoading(false)
     if (error) {
-      setError(error)
+      const errorUpdated = { message: `Failled to fetch pixels: ${error.message}` }
+      setError(errorUpdated)
       return
     }
     console.log('res', res)
