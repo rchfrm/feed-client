@@ -23,18 +23,28 @@ const PixelSelector = ({
   className,
   selectClassName,
 }) => {
-  const { artist, artistId } = React.useContext(ArtistContext)
+  const { artist, artistId, setArtist } = React.useContext(ArtistContext)
 
   const [error, setError] = React.useState(null)
   const [loading, setLoading] = React.useState(true)
 
   const [activePixelId, setActivePixelId] = React.useState(getCurrentPixelId(artist))
 
+  // UPDATE ARTIST CONTEXT
+  const updateArtistContext = (newIntegrations) => {
+    setArtist({
+      type: 'update-integrations',
+      payload: {
+        integrations: newIntegrations,
+      },
+    })
+  }
+
   // OPEN NEW PIXEL MODAL
   const openNewPixelModal = useCreateNewPixel({
     artistId,
     onSave: (res) => {
-      console.log('res', res)
+      console.log('on save new pixel', res)
       setLoading(false)
     },
     onError: () => setLoading(false),
@@ -45,7 +55,7 @@ const PixelSelector = ({
   const [availablePixels, setAvailablePixels] = React.useState([])
   useAsyncEffect(async (isMounted) => {
     if (!artistId) return
-    const { res, error } = await getArtistPixels(artistId)
+    const { res: pixels = [], error } = await getArtistPixels(artistId)
     if (!isMounted()) return
     setLoading(false)
     if (error) {
@@ -53,26 +63,28 @@ const PixelSelector = ({
       setError(errorUpdated)
       return
     }
-    console.log('res', res)
-    setAvailablePixels(res)
+    const availablePixels = pixels.map(({ name, id }) => { return { name, value: id } })
+    setAvailablePixels(availablePixels)
   }, [artistId])
 
-  // SET NEW PIXEL
+  // SET NEW PIXEL (after selection)
   const setNewPixel = React.useCallback(async (pixelId) => {
     console.log('pixelId', pixelId)
     setLoading(true)
     onSelect(pixelId)
-    const { res, error } = await setPixel(artistId, pixelId)
+    const { newPixelId, newIntegrations, error } = await setPixel(artistId, pixelId)
     setLoading(false)
     if (error) {
       setError(error)
       onError(error)
       return
     }
-    console.log('res', res)
-    const { pixelId: newPixelId } = res
     onSuccess(newPixelId)
+    // Update in comp state
     setActivePixelId(newPixelId)
+    // Update artist context
+    updateArtistContext(newIntegrations)
+    // Reset error
     setError(null)
   }, [artistId, onSelect, onError, onSuccess])
 
@@ -109,6 +121,7 @@ const PixelSelector = ({
       type: 'group',
       name: 'Available pixels',
       options: availablePixels,
+
     },
     {
       type: 'group',

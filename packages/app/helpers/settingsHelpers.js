@@ -1,6 +1,5 @@
 import get from 'lodash/get'
 
-
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 import { requestWithCatch } from '@/app/helpers/appServer'
 
@@ -70,14 +69,7 @@ export const createNewPixel = (artistId, pixelName) => {
 * @param {string} pixelId
 * @returns {Promise<object>} { res, error }
 */
-export const setPixel = (artistId, pixelId, dummy = true) => {
-  if (dummy) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ error: false, res: { pixelId } })
-      }, 1000)
-    })
-  }
+export const setPixel = async (artistId, pixelId) => {
   const requestUrl = `artists/${artistId}`
   const payload = {
     integrations: {
@@ -90,5 +82,10 @@ export const setPixel = (artistId, pixelId, dummy = true) => {
     category: 'Pixels',
     action: 'Set pixel',
   }
-  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+  const { res, error } = await requestWithCatch('patch', requestUrl, payload, errorTracking)
+  if (error) return { error }
+  // Get new pixel ID from res
+  const { integrations: newIntegrations } = res
+  const newPixelId = get(newIntegrations, ['facebook', 'pixel_id'], '')
+  return { newPixelId, newIntegrations }
 }
