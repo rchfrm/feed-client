@@ -1,5 +1,7 @@
 import get from 'lodash/get'
 
+
+import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 import { requestWithCatch } from '@/app/helpers/appServer'
 
 // PIXELS
@@ -11,7 +13,8 @@ import { requestWithCatch } from '@/app/helpers/appServer'
 * @returns {string}
 */
 export const getCurrentPixelId = (artist) => {
-  return get(artist, ['integrations', 'facebook', 'pixel_id'], '')
+  const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
+  return facebookIntegration.pixel_id
 }
 
 // Get artist pixel (SERVER)
