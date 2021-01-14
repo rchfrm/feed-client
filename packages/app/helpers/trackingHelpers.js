@@ -198,6 +198,17 @@ export const track = ({
   }
 }
 
+// SPECIAL TRACKING
+// -----------------
+
+export const trackLogin = ({ method, userId }) => {
+  track({
+    action: 'log_in',
+    category: 'log_in',
+    label: method,
+  })
+  mixpanelHelpers.mixpanelLogin(userId)
+}
 
 // Setup PWA install tracker
 export const trackPWA = () => {

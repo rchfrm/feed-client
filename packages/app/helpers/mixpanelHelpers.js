@@ -37,6 +37,11 @@ export const mixpanelTrack = (action, payload) => {
   mixpanel.track(action, payload)
 }
 
+// Log in
+export const mixpanelLogin = (userId) => {
+  mixpanel.identify(userId)
+}
+
 // Sign Out
 export const mixpanelSignOut = () => {
   mixpanel.reset()
