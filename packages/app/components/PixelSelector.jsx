@@ -93,7 +93,17 @@ const PixelSelector = ({
 
 
   // CREATE SELECT OPTIONS
-  const selectOptions = [
+  const noPixelOptions = [
+    {
+      value: '_new',
+      name: '+ Create a new pixel',
+    },
+    {
+      value: '_none',
+      name: 'Disable Pixel',
+    },
+  ]
+  const selectOptions = availablePixels.length ? [
     {
       type: 'group',
       name: 'Available pixels',
@@ -102,18 +112,9 @@ const PixelSelector = ({
     {
       type: 'group',
       name: 'Other options',
-      options: [
-        {
-          value: '_new',
-          name: '+ Create a new pixel',
-        },
-        {
-          value: '_none',
-          name: 'Disable Pixel',
-        },
-      ],
+      options: noPixelOptions,
     },
-  ]
+  ] : noPixelOptions
 
   return (
     <div className={className}>
