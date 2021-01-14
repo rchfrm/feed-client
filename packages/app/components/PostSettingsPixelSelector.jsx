@@ -9,6 +9,7 @@ const PostSettingsPixelSelector = ({
   return (
     <div
       className={[
+        'pr-3',
         className,
       ].join(' ')}
     >
