@@ -67,9 +67,8 @@ const PixelSelector = ({
     setAvailablePixels(availablePixels)
   }, [artistId])
 
-  // SET NEW PIXEL (after selection)
-  const setNewPixel = React.useCallback(async (pixelId) => {
-    console.log('pixelId', pixelId)
+  // SELECT PIXEL
+  const selectPixel = React.useCallback(async (pixelId) => {
     setLoading(true)
     onSelect(pixelId)
     const { newPixelId, newIntegrations, error } = await setPixel(artistId, pixelId)
@@ -99,8 +98,8 @@ const PixelSelector = ({
       openNewPixelModal()
       return
     }
-    setNewPixel(value)
-  }, [setNewPixel, activePixelId, openNewPixelModal])
+    selectPixel(value)
+  }, [selectPixel, activePixelId, openNewPixelModal])
 
   console.log('availablePixels', availablePixels)
 
