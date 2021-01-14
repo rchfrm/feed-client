@@ -41,7 +41,7 @@ const PixelCreatorModal = ({
   return (
     <div className="pt-3">
       {/* ERROR */}
-      {error && <Error error={error} messagePrefix="Error creating pixel folder: " />}
+      {error && <Error error={error} messagePrefix="Error creating pixel: " />}
       {/* FORM */}
       <form onSubmit={onSubmit}>
         <Input
