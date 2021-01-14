@@ -12,7 +12,7 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track, trackSignUp } from '@/app/helpers/trackingHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -167,12 +167,7 @@ const SignupEmailForm = () => {
         })
       })
     if (!user) return
-    track({
-      action: 'create_user',
-      category: 'sign_up',
-      label: 'email',
-      marketing: true,
-    })
+    trackSignUp({ method: 'email', userId: user.id })
     Router.push(ROUTES.SIGN_UP_CONTINUE)
   }
 
