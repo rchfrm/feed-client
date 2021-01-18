@@ -49,6 +49,7 @@ const PixelSelector = ({
 
   // LOAD AVAILABLE PIXELS
   const [availablePixels, setAvailablePixels] = React.useState([])
+  const pixelsLoaded = React.useRef(false)
   useAsyncEffect(async (isMounted) => {
     if (!artistId) return
     const { res: pixels = [], error } = await getArtistPixels(artistId)
@@ -61,6 +62,7 @@ const PixelSelector = ({
     }
     const availablePixels = pixels.map(({ name, id }) => { return { name, value: id } })
     setAvailablePixels(availablePixels)
+    pixelsLoaded.current = true
   }, [artistId])
 
   // SELECT PIXEL
@@ -102,20 +104,22 @@ const PixelSelector = ({
     selectPixel(value)
   }, [selectPixel, activePixelId, openNewPixelModal])
 
-  console.log('availablePixels', availablePixels)
-
-
   // CREATE SELECT OPTIONS
   const noPixelOptions = [
-    {
-      value: '_new',
-      name: '+ Create a new pixel',
-    },
     {
       value: '-1',
       name: 'Don\'t use a pixel',
     },
   ]
+
+  // Add "create new" option if there are no active pixels
+  if (!availablePixels.length && pixelsLoaded.current) {
+    noPixelOptions.unshift({
+      value: '_new',
+      name: '+ Create a new pixel',
+    })
+  }
+
   const selectOptions = availablePixels.length ? [
     {
       type: 'group',
