@@ -30,16 +30,6 @@ const PixelSelector = ({
 
   const [activePixelId, setActivePixelId] = React.useState(getCurrentPixelId(artist))
 
-  // UPDATE ARTIST CONTEXT
-  const updateArtistContext = (newIntegrations) => {
-    setArtist({
-      type: 'update-integrations',
-      payload: {
-        integrations: newIntegrations,
-      },
-    })
-  }
-
   // OPEN NEW PIXEL MODAL
   const openNewPixelModal = useCreateNewPixel({
     artistId,
@@ -82,10 +72,15 @@ const PixelSelector = ({
     // Update in comp state
     setActivePixelId(newPixelId)
     // Update artist context
-    updateArtistContext(newIntegrations)
+    setArtist({
+      type: 'update-integrations',
+      payload: {
+        integrations: newIntegrations,
+      },
+    })
     // Reset error
     setError(null)
-  }, [artistId, onSelect, onError, onSuccess])
+  }, [artistId, onSelect, onError, onSuccess, setArtist])
 
   // HANDLE CHANGE IN SELECT
   const handleChange = React.useCallback((e) => {
