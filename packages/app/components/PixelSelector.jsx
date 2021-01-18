@@ -20,6 +20,7 @@ const PixelSelector = ({
   onSelect,
   onSuccess,
   onError,
+  updateParentPixel,
   className,
   selectClassName,
 }) => {
@@ -71,6 +72,8 @@ const PixelSelector = ({
     onSuccess(newPixelId)
     // Update in comp state
     setActivePixelId(newPixelId)
+    // Update in parent state
+    updateParentPixel(newPixelId)
     // Update artist context
     setArtist({
       type: 'update-integrations',
@@ -80,7 +83,7 @@ const PixelSelector = ({
     })
     // Reset error
     setError(null)
-  }, [artistId, onSelect, onError, onSuccess, setArtist])
+  }, [artistId, onSelect, onError, onSuccess, updateParentPixel, setArtist])
 
   // HANDLE CHANGE IN SELECT
   const handleChange = React.useCallback((e) => {
@@ -147,6 +150,7 @@ PixelSelector.propTypes = {
   onSelect: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
+  updateParentPixel: PropTypes.string,
   className: PropTypes.string,
   selectClassName: PropTypes.string,
 }
@@ -155,6 +159,7 @@ PixelSelector.defaultProps = {
   onSelect: () => {},
   onSuccess: () => {},
   onError: () => {},
+  updateParentPixel: () => {},
   className: null,
   selectClassName: null,
 }

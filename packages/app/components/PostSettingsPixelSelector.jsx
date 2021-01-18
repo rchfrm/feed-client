@@ -6,6 +6,7 @@ import PixelSelector from '@/app/PixelSelector'
 const PostSettingsPixelSelector = ({
   className,
 }) => {
+  const [activePixel, setActivePixel] = React.useState('')
   return (
     <div
       className={[
@@ -13,7 +14,9 @@ const PostSettingsPixelSelector = ({
         className,
       ].join(' ')}
     >
-      <PixelSelector />
+      <PixelSelector
+        updateParentPixel={setActivePixel}
+      />
     </div>
   )
 }
