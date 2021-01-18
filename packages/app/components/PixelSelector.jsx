@@ -147,7 +147,7 @@ const PixelSelector = ({
         handleChange={handleChange}
         name="Choose link"
         options={selectOptions}
-        placeholder={!activePixelId ? 'Choose a pixel to use' : null}
+        placeholder={!activePixelId || loading ? 'Choose a pixel to use' : null}
         selectedValue={activePixelId}
         version="box"
       />
