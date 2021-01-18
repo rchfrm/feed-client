@@ -111,7 +111,7 @@ const PixelSelector = ({
       name: '+ Create a new pixel',
     },
     {
-      value: '_none',
+      value: '-1',
       name: 'Don\'t use a pixel',
     },
   ]
