@@ -31,6 +31,11 @@ const PixelSelector = ({
 
   const [activePixelId, setActivePixelId] = React.useState(getCurrentPixelId(artist))
 
+  // UPDATE PIXEL IN PARENT STATE
+  React.useEffect(() => {
+    updateParentPixel(activePixelId)
+  }, [activePixelId, updateParentPixel])
+
   // OPEN NEW PIXEL MODAL
   const openNewPixelModal = useCreateNewPixel({
     artistId,
@@ -72,8 +77,6 @@ const PixelSelector = ({
     onSuccess(newPixelId)
     // Update in comp state
     setActivePixelId(newPixelId)
-    // Update in parent state
-    updateParentPixel(newPixelId)
     // Update artist context
     setArtist({
       type: 'update-integrations',
@@ -83,7 +86,7 @@ const PixelSelector = ({
     })
     // Reset error
     setError(null)
-  }, [artistId, onSelect, onError, onSuccess, updateParentPixel, setArtist])
+  }, [artistId, onSelect, onError, onSuccess, setArtist])
 
   // HANDLE CHANGE IN SELECT
   const handleChange = React.useCallback((e) => {
@@ -150,7 +153,7 @@ PixelSelector.propTypes = {
   onSelect: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  updateParentPixel: PropTypes.string,
+  updateParentPixel: PropTypes.func,
   className: PropTypes.string,
   selectClassName: PropTypes.string,
 }
