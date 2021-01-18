@@ -160,14 +160,14 @@ const SignupEmailForm = () => {
         toggleGlobalLoading(false)
         track({
           category: 'sign up',
-          action: 'createUser() with email failed',
+          action: 'createUser() with password failed',
           description: error.message,
           label: email,
           error: true,
         })
       })
     if (!user) return
-    trackSignUp({ method: 'email', userId: user.id })
+    trackSignUp({ method: 'password', userId: user.id })
     Router.push(ROUTES.SIGN_UP_CONTINUE)
   }
 
