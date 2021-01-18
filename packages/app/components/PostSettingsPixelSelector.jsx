@@ -11,13 +11,24 @@ const PostSettingsPixelSelector = ({
   return (
     <div
       className={[
-        'pr-3',
+        'relative pr-3',
         className,
       ].join(' ')}
     >
       <PixelSelector
         updateParentPixel={setActivePixelId}
       />
+      {/* SHOW RED DOT IF NO PIXEL SELECTED */}
+      {!activePixelId && (
+        <div
+          className={[
+            'absolute top-0 right-0',
+            'mr-1 -mt-2',
+            'w-4 h-4',
+            'bg-red rounded-full',
+          ].join(' ')}
+        />
+      )}
     </div>
   )
 }
