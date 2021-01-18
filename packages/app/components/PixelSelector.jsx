@@ -6,6 +6,8 @@ import useAsyncEffect from 'use-async-effect'
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
+import PixelCopier from '@/app/PixelCopier'
+
 import { ArtistContext } from '@/contexts/ArtistContext'
 
 import useCreateNewPixel from '@/app/hooks/useCreateNewPixel'
@@ -149,6 +151,14 @@ const PixelSelector = ({
         selectedValue={activePixelId}
         version="box"
       />
+      {activePixelId && activePixelId !== '-1' && (
+        <PixelCopier
+          pixelId={activePixelId}
+          pixelEmbed=""
+          isLoading={loading}
+          className="-mt-2"
+        />
+      )}
     </div>
   )
 }

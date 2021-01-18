@@ -25,6 +25,7 @@ const useCreateNewPixel = ({
       return
     }
     onSave(res)
+  // eslint-disable-next-line
   }, [artistId, onError, onSave])
 
   // OPEN MODAL
@@ -48,6 +49,7 @@ const useCreateNewPixel = ({
     ]
     const children = <PixelCreatorModal modalButtons={buttons} savePixel={savePixel} error={error} />
     showAlert({ children, buttons, onClose: onCancel })
+  // eslint-disable-next-line
   }, [savePixel])
 
   return openNewPixelModal
