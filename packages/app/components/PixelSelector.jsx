@@ -81,11 +81,13 @@ const PixelSelector = ({
 
   // ON CREATE NEW PIXEL
   const onCreateNewPixel = (pixel) => {
-    const { id: value, name } = pixel
-    setActivePixelId(value)
+    const { id, name } = pixel
+    // Update list of available pixels
     setAvailablePixels((availablePixels) => {
-      return [{ name, value }, ...availablePixels]
+      return [{ name, value: id }, ...availablePixels]
     })
+    // Set pixel on server
+    selectPixel(id)
   }
 
   // OPEN CREATE PIXEL MODAL
@@ -93,9 +95,7 @@ const PixelSelector = ({
     artistId,
     // Handle creation of new pixel
     onSave: (res) => {
-      console.log('on save new pixel', res)
       onCreateNewPixel(res)
-      setLoading(false)
     },
     onError: () => setLoading(false),
     onCancel: () => setLoading(false),
@@ -103,16 +103,16 @@ const PixelSelector = ({
 
   // HANDLE CHANGE IN SELECT
   const handleChange = React.useCallback((e) => {
-    const { target: { value } } = e
+    const { target: { value: pixelId } } = e
     // Do nothing if value is current value
-    if (value === activePixelId) return
+    if (pixelId === activePixelId) return
     // Handle adding NEW PIXEL
-    if (value === '_new') {
+    if (pixelId === '_new') {
       setLoading(true)
       openNewPixelModal()
       return
     }
-    selectPixel(value)
+    selectPixel(pixelId)
   }, [selectPixel, activePixelId, openNewPixelModal])
 
   // CREATE SELECT OPTIONS
