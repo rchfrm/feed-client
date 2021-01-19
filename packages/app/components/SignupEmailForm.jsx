@@ -12,7 +12,7 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track, trackSignUp } from '@/app/helpers/trackingHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -160,19 +160,14 @@ const SignupEmailForm = () => {
         toggleGlobalLoading(false)
         track({
           category: 'sign up',
-          action: 'createUser() with email failed',
+          action: 'createUser() with password failed',
           description: error.message,
           label: email,
           error: true,
         })
       })
     if (!user) return
-    track({
-      action: 'create_user',
-      category: 'sign_up',
-      label: 'email',
-      marketing: true,
-    })
+    trackSignUp({ method: 'password', userId: user.id })
     Router.push(ROUTES.SIGN_UP_CONTINUE)
   }
 
