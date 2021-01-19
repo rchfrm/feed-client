@@ -99,6 +99,12 @@ const PixelSelector = ({
     })
     // Set pixel on server
     selectPixel(id)
+    // Track
+    track({
+      action: 'add_new_pixel',
+      location: 'Post settings',
+      pixelId: id,
+    })
   }
 
   // OPEN CREATE PIXEL MODAL
