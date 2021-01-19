@@ -37,11 +37,7 @@ const PixelSelector = ({
   const [loading, setLoading] = React.useState(true)
 
   const [activePixelId, setActivePixelId] = React.useState(getCurrentPixelId(artist))
-
-  // UPDATE PIXEL IN PARENT STATE
-  React.useEffect(() => {
-    updateParentPixel(activePixelId)
-  }, [activePixelId, updateParentPixel])
+  const [activePixelEmbed, setActivePixelEmbed] = React.useState('')
 
   // LOAD AVAILABLE PIXELS
   const [availablePixels, setAvailablePixels] = React.useState([])
@@ -55,9 +51,20 @@ const PixelSelector = ({
       setError(errorUpdated)
       return
     }
-    const availablePixels = pixels.map(({ name, id }) => { return { name, value: id } })
+    const availablePixels = pixels.map(({ name, id, code: embedCode }) => {
+      return { name, value: id, id, embedCode }
+    })
     setAvailablePixels(availablePixels)
   }, [artistId])
+
+  // ON PIXEL UPDATE
+  React.useEffect(() => {
+    // Update pixel on parent state
+    updateParentPixel(activePixelId)
+    // Get embed code of active pixel
+    const { embedCode } = availablePixels.find(({ id }) => id === activePixelId) || {}
+    setActivePixelEmbed(embedCode)
+  }, [activePixelId, updateParentPixel, availablePixels])
 
   // SELECT PIXEL
   const selectPixel = React.useCallback(async (pixelId) => {
@@ -94,10 +101,10 @@ const PixelSelector = ({
 
   // ON CREATE NEW PIXEL
   const onCreateNewPixel = (pixel) => {
-    const { id, name } = pixel
+    const { id, name, code: embedCode } = pixel
     // Update list of available pixels
     setAvailablePixels((availablePixels) => {
-      return [{ name, value: id }, ...availablePixels]
+      return [{ name, value: id, id, embedCode }, ...availablePixels]
     })
     // Set pixel on server
     selectPixel(id)
@@ -183,7 +190,7 @@ const PixelSelector = ({
       {activePixelId && activePixelId !== disabledPixelId && (
         <PixelCopier
           pixelId={activePixelId}
-          pixelEmbed=""
+          pixelEmbed={activePixelEmbed}
           isLoading={loading}
           className="-mt-2"
         />
