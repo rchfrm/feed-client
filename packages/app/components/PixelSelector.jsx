@@ -38,33 +38,20 @@ const PixelSelector = ({
     updateParentPixel(activePixelId)
   }, [activePixelId, updateParentPixel])
 
-  // OPEN NEW PIXEL MODAL
-  const openNewPixelModal = useCreateNewPixel({
-    artistId,
-    onSave: (res) => {
-      console.log('on save new pixel', res)
-      setLoading(false)
-    },
-    onError: () => setLoading(false),
-    onCancel: () => setLoading(false),
-  })
-
   // LOAD AVAILABLE PIXELS
   const [availablePixels, setAvailablePixels] = React.useState([])
-  const pixelsLoaded = React.useRef(false)
   useAsyncEffect(async (isMounted) => {
     if (!artistId) return
     const { res: pixels = [], error } = await getArtistPixels(artistId)
     if (!isMounted()) return
     setLoading(false)
     if (error) {
-      const errorUpdated = { message: `Failled to fetch pixels: ${error.message}` }
+      const errorUpdated = { message: `Failed to fetch pixels: ${error.message}` }
       setError(errorUpdated)
       return
     }
     const availablePixels = pixels.map(({ name, id }) => { return { name, value: id } })
     setAvailablePixels(availablePixels)
-    pixelsLoaded.current = true
   }, [artistId])
 
   // SELECT PIXEL
@@ -92,6 +79,28 @@ const PixelSelector = ({
     setError(null)
   }, [artistId, onSelect, onError, onSuccess, setArtist])
 
+  // ON CREATE NEW PIXEL
+  const onCreateNewPixel = (pixel) => {
+    const { id: value, name } = pixel
+    setActivePixelId(value)
+    setAvailablePixels((availablePixels) => {
+      return [{ name, value }, ...availablePixels]
+    })
+  }
+
+  // OPEN CREATE PIXEL MODAL
+  const openNewPixelModal = useCreateNewPixel({
+    artistId,
+    // Handle creation of new pixel
+    onSave: (res) => {
+      console.log('on save new pixel', res)
+      onCreateNewPixel(res)
+      setLoading(false)
+    },
+    onError: () => setLoading(false),
+    onCancel: () => setLoading(false),
+  })
+
   // HANDLE CHANGE IN SELECT
   const handleChange = React.useCallback((e) => {
     const { target: { value } } = e
@@ -115,7 +124,7 @@ const PixelSelector = ({
   ]
 
   // Add "create new" option if there are no active pixels
-  if (!availablePixels.length && pixelsLoaded.current) {
+  if (!availablePixels.length && !loading) {
     noPixelOptions.unshift({
       value: '_new',
       name: '+ Create a new pixel',
