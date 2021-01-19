@@ -27,6 +27,7 @@ const PixelSelector = ({
   onSuccess,
   onError,
   updateParentPixel,
+  trackLocation,
   className,
   selectClassName,
 }) => {
@@ -84,11 +85,12 @@ const PixelSelector = ({
     // Track
     track({
       action: 'change_pixel',
-      location: 'Post settings',
+      category: 'pixel',
+      location: trackLocation,
       pixelId,
       ...(pixelId === disabledPixelId && { disabled: true }),
     })
-  }, [artistId, onSelect, onError, onSuccess, setArtist])
+  }, [artistId, onSelect, onError, onSuccess, setArtist, trackLocation])
 
   // ON CREATE NEW PIXEL
   const onCreateNewPixel = (pixel) => {
@@ -102,7 +104,8 @@ const PixelSelector = ({
     // Track
     track({
       action: 'add_new_pixel',
-      location: 'Post settings',
+      category: 'pixel',
+      location: trackLocation,
       pixelId: id,
     })
   }
@@ -194,6 +197,7 @@ PixelSelector.propTypes = {
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   updateParentPixel: PropTypes.func,
+  trackLocation: PropTypes.string,
   className: PropTypes.string,
   selectClassName: PropTypes.string,
 }
@@ -203,6 +207,7 @@ PixelSelector.defaultProps = {
   onSuccess: () => {},
   onError: () => {},
   updateParentPixel: () => {},
+  trackLocation: '',
   className: null,
   selectClassName: null,
 }

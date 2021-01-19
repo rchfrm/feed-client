@@ -16,6 +16,7 @@ const PostSettingsPixelSelector = ({
     >
       <PixelSelector
         updateParentPixel={setActivePixelId}
+        trackLocation="Post settings"
       />
       {/* SHOW RED DOT IF NO PIXEL SELECTED */}
       {!activePixelId && (
