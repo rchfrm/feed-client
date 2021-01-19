@@ -6,7 +6,7 @@ import CopyTextButton from '@/elements/CopyTextButton'
 
 import { track } from '@/app/helpers/trackingHelpers'
 
-const PixelCopierModal = ({ pixelId, pixelEmbed }) => {
+const PixelCopierModal = ({ pixelId, pixelEmbed, trackLocation }) => {
   // SHOULD WE SHOW TWO OPTIONS?
   const showTwoOptions = !!pixelEmbed
   // HANDLE TWO OPTIONS
@@ -37,12 +37,13 @@ const PixelCopierModal = ({ pixelId, pixelEmbed }) => {
         size="large"
         label={showTwoOptions ? '' : 'Pixel ID'}
         onCopied={() => {
-          console.log('TRACK')
-          // track({
-          //   action: 'copy_fb_pixel',
-          //   category: 'pixel',
-          //   label: 'clipboard',
-          // })
+          const trackAction = activeOptionId === 'id' ? 'copy_pixel_id' : 'copy_pixel_embed'
+          track({
+            action: trackAction,
+            category: 'pixel',
+            pixelId,
+            location: trackLocation,
+          })
         }}
         className={[
           'w-full',
@@ -55,10 +56,12 @@ const PixelCopierModal = ({ pixelId, pixelEmbed }) => {
 PixelCopierModal.propTypes = {
   pixelId: PropTypes.string.isRequired,
   pixelEmbed: PropTypes.string,
+  trackLocation: PropTypes.string,
 }
 
 PixelCopierModal.defaultProps = {
   pixelEmbed: '',
+  trackLocation: '',
 }
 
 
