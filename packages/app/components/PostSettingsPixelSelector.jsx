@@ -7,7 +7,6 @@ const PostSettingsPixelSelector = ({
   className,
 }) => {
   const [activePixelId, setActivePixelId] = React.useState('')
-  console.log('activePixelId', activePixelId)
   return (
     <div
       className={[
