@@ -8,7 +8,7 @@ import { track } from '@/app/helpers/trackingHelpers'
 
 const PixelCopierModal = ({ pixelId, pixelEmbed, trackLocation }) => {
   // SHOULD WE SHOW TWO OPTIONS?
-  const showTwoOptions = !!pixelEmbed
+  const hasEmbedOption = !!pixelEmbed
   // HANDLE TWO OPTIONS
   const labelOptions = [
     {
@@ -24,7 +24,7 @@ const PixelCopierModal = ({ pixelId, pixelEmbed, trackLocation }) => {
   return (
     <div>
       <p>Copy your pixel ID or Embed code.</p>
-      {showTwoOptions && (
+      {hasEmbedOption && (
         <LabelOptions
           options={labelOptions}
           activeOptionId={activeOptionId}
@@ -34,8 +34,10 @@ const PixelCopierModal = ({ pixelId, pixelEmbed, trackLocation }) => {
       )}
       <CopyTextButton
         text={activeOptionId === 'id' ? pixelId : pixelEmbed}
+        textAlt={activeOptionId === 'id' ? pixelId : 'Pixel embed code'}
         size="large"
-        label={showTwoOptions ? '' : 'Pixel ID'}
+        label={hasEmbedOption ? '' : 'Pixel ID'}
+        type={activeOptionId === 'id' ? 'text' : 'code'}
         onCopied={() => {
           const trackAction = activeOptionId === 'id' ? 'copy_pixel_id' : 'copy_pixel_embed'
           track({
