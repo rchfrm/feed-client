@@ -18,7 +18,10 @@ import {
   setPixel,
 } from '@/app/helpers/settingsHelpers'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 const disabledPixelId = '-1'
+
 const PixelSelector = ({
   onSelect,
   onSuccess,
@@ -78,6 +81,13 @@ const PixelSelector = ({
     })
     // Reset error
     setError(null)
+    // Track
+    track({
+      action: 'change_pixel',
+      location: 'Post settings',
+      pixelId,
+      ...(pixelId === disabledPixelId && { disabled: true }),
+    })
   }, [artistId, onSelect, onError, onSuccess, setArtist])
 
   // ON CREATE NEW PIXEL
