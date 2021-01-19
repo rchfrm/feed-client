@@ -10,7 +10,7 @@ import useAlertModal from '@/hooks/useAlertModal'
 
 const PixelCreatorModal = ({
   modalButtons,
-  savePixel,
+  createPixel,
   error,
 }) => {
   const { setButtons } = useAlertModal()
@@ -27,7 +27,7 @@ const PixelCreatorModal = ({
     const newButtons = produce(modalButtons, draftButtons => {
       // Update save button
       draftButtons[0].disabled = isDisabled
-      draftButtons[0].onClick = () => savePixel(pixelName)
+      draftButtons[0].onClick = () => createPixel(pixelName)
     })
     setButtons(newButtons)
   // eslint-disable-next-line
@@ -36,7 +36,7 @@ const PixelCreatorModal = ({
   const onSubmit = (e) => {
     e.preventDefault()
     if (disabled) return
-    savePixel(pixelName)
+    createPixel(pixelName)
   }
   return (
     <div className="pt-3">
@@ -61,7 +61,7 @@ const PixelCreatorModal = ({
 
 PixelCreatorModal.propTypes = {
   modalButtons: PropTypes.array.isRequired,
-  savePixel: PropTypes.func.isRequired,
+  createPixel: PropTypes.func.isRequired,
   error: PropTypes.object,
 }
 

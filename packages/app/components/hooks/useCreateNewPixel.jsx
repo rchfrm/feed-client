@@ -16,7 +16,7 @@ const useCreateNewPixel = ({
   const { showAlert, closeAlert } = useAlertModal()
 
   // SAVE PIXEL FUNCTION
-  const savePixel = React.useCallback(async (pixelName) => {
+  const createPixel = React.useCallback(async (pixelName) => {
     const { res, error } = await createNewPixel(artistId, pixelName)
     if (error) {
       onError(error)
@@ -47,10 +47,10 @@ const useCreateNewPixel = ({
         color: 'black',
       },
     ]
-    const children = <PixelCreatorModal modalButtons={buttons} savePixel={savePixel} error={error} />
+    const children = <PixelCreatorModal modalButtons={buttons} createPixel={createPixel} error={error} />
     showAlert({ children, buttons, onClose: onCancel })
   // eslint-disable-next-line
-  }, [savePixel])
+  }, [createPixel])
 
   return openNewPixelModal
 }
