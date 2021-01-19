@@ -18,6 +18,7 @@ import {
   setPixel,
 } from '@/app/helpers/settingsHelpers'
 
+const disabledPixelId = '-1'
 const PixelSelector = ({
   onSelect,
   onSuccess,
@@ -118,7 +119,7 @@ const PixelSelector = ({
   // CREATE SELECT OPTIONS
   const noPixelOptions = [
     {
-      value: '-1',
+      value: disabledPixelId,
       name: 'Don\'t use a pixel',
     },
   ]
@@ -160,7 +161,7 @@ const PixelSelector = ({
         selectedValue={activePixelId}
         version="box"
       />
-      {activePixelId && activePixelId !== '-1' && (
+      {activePixelId && activePixelId !== disabledPixelId && (
         <PixelCopier
           pixelId={activePixelId}
           pixelEmbed=""
