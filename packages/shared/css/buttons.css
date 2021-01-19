@@ -333,14 +333,25 @@ button {
   padding: 0.2em 0.5em;
   text-decoration: none;
 
-  &:active {
+  &:active,
+  &.-success {
     border: 1px solid var(--green);
   }
 
   .icon {
-    transform: translateY(0.05em);
+    position: absolute;
+    right: var(--sp-4);
+    bottom: 50%;
+    transform: translateY(50%) translateY(-0.05rem);
     height: 0.9em;
     width: auto;
+  }
+
+  .success-message {
+    position: absolute;
+    left: var(--sp-4);
+    bottom: 50%;
+    transform: translateY(50%) translateY(-0.05rem);
   }
 
   &.-large {
@@ -348,13 +359,24 @@ button {
     padding: 0 0.8em;
     letter-spacing: 0.05em;
 
-    &:active {
+    &:active,
+    &.-success {
       border: 2px solid var(--green);
     }
+  }
 
-    .icon {
-      transform: none;
+  &.-copy-code {
+    height: auto;
+    padding: 1em;
+    padding-right: 3rem;
+    overflow-wrap: break-word;
+
+    .text {
+      font-size: 0.8rem;
+      font-family: monospace;
+      width: 100%;
     }
+
   }
 }
 
