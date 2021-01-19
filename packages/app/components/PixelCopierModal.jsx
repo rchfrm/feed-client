@@ -43,8 +43,10 @@ const PixelCopierModal = ({ pixelId, pixelEmbed, trackLocation }) => {
           track({
             action: trackAction,
             category: 'pixel',
-            pixelId,
-            location: trackLocation,
+            mixpanelProps: {
+              pixelId,
+              location: trackLocation,
+            },
           })
         }}
         className={[

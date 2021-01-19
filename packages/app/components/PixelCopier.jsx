@@ -7,12 +7,11 @@ import Button from '@/elements/Button'
 
 import PixelCopierModal from '@/app/PixelCopierModal'
 
-import { track } from '@/app/helpers/trackingHelpers'
-
 const PixelCopier = ({
   pixelId,
   pixelEmbed,
   isLoading,
+  trackLocation,
   className,
 }) => {
   // HANDLE ALERT
@@ -26,7 +25,7 @@ const PixelCopier = ({
 
   // OPEN MODAL
   const openModal = () => {
-    const children = <PixelCopierModal pixelId={pixelId} pixelEmbed={pixelEmbed} />
+    const children = <PixelCopierModal pixelId={pixelId} pixelEmbed={pixelEmbed} trackLocation={trackLocation} />
     showAlert({ children, buttons: alertButtons })
   }
 
