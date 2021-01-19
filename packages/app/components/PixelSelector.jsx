@@ -93,9 +93,11 @@ const PixelSelector = ({
     track({
       action: 'change_pixel',
       category: 'pixel',
-      location: trackLocation,
-      pixelId,
-      ...(pixelId === disabledPixelId && { disabled: true }),
+      mixpanelProps: {
+        location: trackLocation,
+        pixelId,
+        ...(pixelId === disabledPixelId && { disabled: true }),
+      },
     })
   }, [artistId, onSelect, onError, onSuccess, setArtist, trackLocation])
 
@@ -112,8 +114,10 @@ const PixelSelector = ({
     track({
       action: 'add_new_pixel',
       category: 'pixel',
-      location: trackLocation,
-      pixelId: id,
+      mixpanelProps: {
+        location: trackLocation,
+        pixelId: id,
+      },
     })
   }
 
@@ -192,6 +196,7 @@ const PixelSelector = ({
           pixelId={activePixelId}
           pixelEmbed={activePixelEmbed}
           isLoading={loading}
+          trackLocation={trackLocation}
           className="-mt-2"
         />
       )}

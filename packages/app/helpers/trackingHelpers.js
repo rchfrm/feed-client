@@ -138,6 +138,7 @@ export const track = ({
   category,
   description,
   value,
+  mixpanelProps,
   fbTrackProps = null,
   fbCustomTrack = true,
   error = false,
@@ -168,6 +169,7 @@ export const track = ({
   // Fire mixpanel event
   if (mixpanel) {
     const payload = {
+      ...mixpanelProps,
       ...(category && { category }),
       ...(event_label && { label: event_label }),
       ...(value && { value }),
