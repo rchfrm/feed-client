@@ -21,7 +21,7 @@ const FunnelsContent = () => {
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   const [activeFunnelId, setActiveFunnelId] = React.useState(funnelOptions[0].id)
-  const [activeFunnelData, setActiveFunnelData] = React.useState({})
+  const [activeFunnelData, setActiveFunnelData] = React.useState(null)
   const [error, setError] = React.useState(null)
 
   // LOAD HEATS
@@ -37,12 +37,13 @@ const FunnelsContent = () => {
       toggleGlobalLoading(false)
       // Handle result...
       const dataFormatted = funnelHelpers.formatData(data)
+      console.log('dataFormatted', dataFormatted)
       setActiveFunnelData(dataFormatted)
     },
     // Handle errors
     onReject(error) {
       setError(error)
-      setActiveFunnelData({})
+      setActiveFunnelData(null)
       toggleGlobalLoading(false)
     },
   })

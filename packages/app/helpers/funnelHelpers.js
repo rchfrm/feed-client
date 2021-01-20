@@ -16,16 +16,22 @@ export const funnelOptions = [
 
 export const funnelHeats = [
   {
-    slug: 'cold',
     id: 'entice_engage',
+    slug: 'cold',
+    title: 'cold',
+    description: 'Engagement from new audiences.',
   },
   {
-    slug: 'cool',
     id: 'entice_traffic',
+    slug: 'cool',
+    title: 'cool',
+    description: 'Lorem ipsum cool followers.',
   },
   {
-    slug: 'warm',
     id: 'remind_traffic',
+    slug: 'warm',
+    title: 'warm',
+    description: 'Lorem ipsum warm followers.',
   },
 ]
 
@@ -65,8 +71,8 @@ export const formatData = (data) => {
   return funnelHeats.reduce((formattedData, heat, index) => {
     const { ads } = data[index][0]
     formattedData[heat.slug] = {
+      ...heat,
       ads,
-      slug: heat.slug,
     }
     return formattedData
   }, {})

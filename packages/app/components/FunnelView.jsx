@@ -8,27 +8,31 @@ const FunnelView = ({
   funnelHeats,
   className,
 }) => {
+  if (!funnelData) return null
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-      {funnelHeats.map(({ slug }, index) => {
-        const nextHeat = funnelHeats[index + 1] || {}
-        const { ads } = funnelData[slug]
-        const heatAds = Object.values(ads)
-        return (
-          <FunnelHeat
-            key={slug}
-            heatSlug={slug}
-            nextHeatSlug={nextHeat.slug}
-            heatAds={heatAds}
-            heatIndex={index}
-            totalHeats={funnelHeats.length}
-          />
-        )
-      })}
+      <div className="max-w-xl mx-auto">
+        {funnelHeats.map((heat, index) => {
+          const { slug } = heat
+          const nextHeat = funnelHeats[index + 1] || {}
+          const { ads } = funnelData[slug]
+          const heatAds = Object.values(ads)
+          return (
+            <FunnelHeat
+              key={slug}
+              heat={heat}
+              nextHeatSlug={nextHeat.slug}
+              heatAds={heatAds}
+              heatIndex={index}
+              totalHeats={funnelHeats.length}
+            />
+          )
+        })}
+      </div>
     </div>
   )
 }
