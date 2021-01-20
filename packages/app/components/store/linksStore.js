@@ -88,7 +88,8 @@ const getSavedFolders = (nestedLinks) => {
 // * INTEGRATIONS
 const createIntegrationLinks = (folders) => {
   const integrationsFolder = folders.find(({ id }) => id === integrationsFolderId)
-  return integrationsFolder.links.map(({ id, tags: { platform } }) => {
+  return integrationsFolder.links.map(({ id, tags, platform: platformName }) => {
+    const platform = platformName || tags.platform
     return { id, platform }
   })
 }
@@ -182,6 +183,16 @@ const fetchLinks = (set, get) => async (action, artist) => {
 }
 
 // * UPDATE STATE
+
+// UPDATE AFTER INTEGRATION CHANGES
+const updateLinksWithIntegrations = (set, get) => (artist) => {
+  const { nestedLinks } = get()
+  if (!nestedLinks.length) return
+  const defaultLinkId = getDefaultLinkId(artist)
+  // Get updated nested links
+  const nestedLinksUpdated = formatServerLinks({ folders: nestedLinks, defaultLinkId, artist })
+  set({ nestedLinks: nestedLinksUpdated })
+}
 
 // UPDATE LINKS
 const getUpdatedLinks = (set, get) => (action, { newLink, oldLink = {} }) => {
@@ -280,6 +291,7 @@ const useLinksStore = create((set, get) => ({
   // GETTERS
   fetchLinks: fetchLinks(set, get),
   // SETTERS
+  updateLinksWithIntegrations: (artist) => updateLinksWithIntegrations(set, get)(artist),
   updateLinksStore: updateLinksStore(set, get),
   updateFolderStates: updateFolderStates(set, get),
   setLinkBankError: (error) => set({ linkBankError: error }),

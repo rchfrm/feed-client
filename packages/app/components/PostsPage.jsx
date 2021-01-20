@@ -7,6 +7,7 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import useLinksStore from '@/app/store/linksStore'
 
 const linksStoreInit = state => state.initLinkStore
+const getUpdateLinksWithIntegrations = state => state.updateLinksWithIntegrations
 const linksStoreClearAll = state => state.clearAll
 
 const PostsPage = () => {
@@ -20,15 +21,18 @@ const PostsPage = () => {
   const setupLinksStore = useLinksStore(linksStoreInit)
   const clearLinkStore = useLinksStore(linksStoreClearAll)
   React.useEffect(() => {
+    if (!artistId) return
+    clearLinkStore()
     setupLinksStore(artist, 'fetchLinks')
   // eslint-disable-next-line
-  }, [artistId, setupLinksStore])
+  }, [artistId])
 
   // UPDATE INTEGRATIONS when they change on artist
+  const updateLinksWithIntegrations = useLinksStore(getUpdateLinksWithIntegrations)
   React.useEffect(() => {
-    setupLinksStore(artist, 'fetchLinks')
+    updateLinksWithIntegrations(artist)
   // eslint-disable-next-line
-  }, [artist.integrations, setupLinksStore])
+  }, [artist.integrations])
 
   // CLEAR STORE WHEN PAGE UNMOUNT
   React.useEffect(() => {
