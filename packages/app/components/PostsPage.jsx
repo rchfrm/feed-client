@@ -6,7 +6,7 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 
 import useLinksStore from '@/app/store/linksStore'
 
-const linksStoreInit = state => state.init
+const linksStoreInit = state => state.initLinkStore
 const linksStoreClearAll = state => state.clearAll
 
 const PostsPage = () => {

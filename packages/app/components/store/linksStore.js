@@ -284,7 +284,7 @@ const useLinksStore = create((set, get) => ({
   updateFolderStates: updateFolderStates(set, get),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
-  init: async (artist, action = 'clearLinks') => {
+  initLinkStore: async (artist, action = 'clearLinks') => {
     // Set artist details
     set({
       artistId: artist.id,
