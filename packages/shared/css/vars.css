@@ -13,6 +13,7 @@
   --red-hover: #F73F3B;
   --yellow: #FDE74C;
   --yellow-hover: #FFDA1A;
+  --blue: #5BC0EB;
   --grey-light: #E7E9E8;
   --grey: #C8CBCA;
   --grey-dark: #7F8382;
@@ -20,7 +21,7 @@
   /* SM Palette */
   --color-fb: #26547C;
   --color-insta: #E75A7C;
-  --color-twitter: #5BC0EB;
+  --color-twitter: var(--blue);
   --color-sc: var(--yellow);
   /* APP COLORS */
   --bg-color: var(--white);
