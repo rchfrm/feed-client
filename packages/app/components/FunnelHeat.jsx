@@ -1,12 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Link from 'next/link'
+
 import MarkdownText from '@/elements/MarkdownText'
+import Button from '@/elements/Button'
 
 import FunnelHeatAd from '@/app/FunnelHeatAd'
 import FunnelHeatDivider from '@/app/FunnelHeatDivider'
 
 import brandColors from '@/constants/brandColors'
+import * as ROUTES from '@/app/constants/routes'
 
 const heatColors = {
   cold: brandColors.blue,
@@ -57,6 +61,7 @@ const FunnelHeat = ({
         <div
           className={[
             'flex items-center',
+            'mb-6',
             isSingleAd ? 'justify-center' : 'justify-between',
           ].join(' ')}
         >
@@ -91,6 +96,18 @@ const FunnelHeat = ({
               />
             </>
           )}
+        </div>
+        {/* VIEW MORE */}
+        <div className="flex justify-center mb-4">
+          <Link href={ROUTES.TOURNAMENTS}>
+            <Button
+              className="w-36"
+              version="x-small green"
+              wrapper="a"
+            >
+              View More
+            </Button>
+          </Link>
         </div>
       </section>
       {nextHeatSlug && (
