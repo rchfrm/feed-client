@@ -5,7 +5,7 @@ import brandColors from '@/constants/brandColors'
 
 const { black } = brandColors
 
-const ResultsIcon = ({ className, fill }) => {
+const StarIcon = ({ className, fill }) => {
   return (
     <svg
       className={className}
@@ -23,15 +23,15 @@ const ResultsIcon = ({ className, fill }) => {
   )
 }
 
-ResultsIcon.propTypes = {
+StarIcon.propTypes = {
   className: PropTypes.string,
   fill: PropTypes.string,
 }
 
-ResultsIcon.defaultProps = {
+StarIcon.defaultProps = {
   className: '',
   fill: black,
 }
 
 
-export default ResultsIcon
+export default StarIcon
