@@ -22,6 +22,8 @@ const FunnelView = ({
             heatSlug={slug}
             nextHeatSlug={nextHeat.slug}
             heatAds={[]}
+            heatIndex={index}
+            totalHeats={funnelHeats.length}
           />
         )
       })}
