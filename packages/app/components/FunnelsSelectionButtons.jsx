@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import EyeIcon from '@/icons/EyeIcon'
+
 const FunnelsSelectionButtons = ({
   options,
   activeFunnelId,
@@ -13,11 +15,25 @@ const FunnelsSelectionButtons = ({
         className,
       ].join(' ')}
     >
-      <ul>
+      {/* ICONS */}
+      <div className="mb-4">
+        <EyeIcon className="w-6 h-auto" />
+      </div>
+      {/* BUTTONS */}
+      <ul
+        className="pt-4 border-t-2 border-solid border-black"
+        style={{ paddingLeft: '0.1rem' }}
+      >
         {options.map(({ title, id }) => {
           const isActive = id === activeFunnelId
           return (
-            <li key={id} className="mb-6">
+            <li
+              key={id}
+              className={[
+                'mb-4 pb-3',
+                'border-b-2 border-solid border-black',
+              ].join(' ')}
+            >
               <button
                 className="flex items-start"
                 aria-label={`View ${title}`}
