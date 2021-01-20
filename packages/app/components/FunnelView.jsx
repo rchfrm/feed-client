@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import FunnelHeat from '@/app/FunnelHeat'
 
 const FunnelView = ({
-  funnel,
+  funnelData,
   funnelHeats,
   className,
 }) => {
@@ -16,12 +16,14 @@ const FunnelView = ({
     >
       {funnelHeats.map(({ slug }, index) => {
         const nextHeat = funnelHeats[index + 1] || {}
+        const { ads } = funnelData[slug]
+        const heatAds = Object.values(ads)
         return (
           <FunnelHeat
             key={slug}
             heatSlug={slug}
             nextHeatSlug={nextHeat.slug}
-            heatAds={[]}
+            heatAds={heatAds}
             heatIndex={index}
             totalHeats={funnelHeats.length}
           />
@@ -32,7 +34,7 @@ const FunnelView = ({
 }
 
 FunnelView.propTypes = {
-  funnel: PropTypes.object.isRequired,
+  funnelData: PropTypes.object.isRequired,
   funnelHeats: PropTypes.array.isRequired,
   className: PropTypes.string,
 }

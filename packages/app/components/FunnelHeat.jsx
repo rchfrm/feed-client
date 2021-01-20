@@ -20,6 +20,7 @@ const FunnelHeat = ({
   totalHeats,
   className,
 }) => {
+  console.log('heatAds', heatAds)
   const heatColor = heatColors[heatSlug]
   const nextHeatColor = nextHeatSlug ? heatColors[nextHeatSlug] : null
   const basePercetageWidth = 45

@@ -73,7 +73,7 @@ const FunnelsContent = () => {
             {/* FUNNEL */}
             <FunnelView
               className="col-span-8 ml-10"
-              funnel={activeFunnelData}
+              funnelData={activeFunnelData}
               funnelHeats={funnelHeats}
             />
           </>
