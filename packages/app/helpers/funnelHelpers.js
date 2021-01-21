@@ -1,5 +1,7 @@
 import { getArtistTournaments } from '@/helpers/sharedServer'
 
+import copy from '@/app/copy/funnelCopy'
+
 // CONSTANTS
 // ----------------
 
@@ -18,20 +20,23 @@ export const funnelHeats = [
   {
     id: 'entice_engage',
     slug: 'cold',
-    title: 'cold',
-    description: 'Engagement from new audiences.',
+    title: copy.cold.title,
+    description: copy.cold.description,
+    tooltip: copy.cold.tooltip,
   },
   {
     id: 'entice_traffic',
     slug: 'cool',
-    title: 'cool',
-    description: 'Lorem ipsum cool followers.',
+    title: copy.cool.title,
+    description: copy.cool.description,
+    tooltip: copy.cool.tooltip,
   },
   {
     id: 'remind_traffic',
     slug: 'warm',
-    title: 'warm',
-    description: 'Lorem ipsum warm followers.',
+    title: copy.warm.title,
+    description: copy.warm.description,
+    tooltip: copy.warm.tooltip,
   },
 ]
 
