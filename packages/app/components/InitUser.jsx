@@ -12,7 +12,7 @@ import * as ROUTES from '@/app/constants/routes'
 import * as queryString from 'query-string'
 import * as utils from '@/helpers/utils'
 import firebase from '@/helpers/firebase'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track, trackLogin, trackSignUp } from '@/app/helpers/trackingHelpers'
 
 // CALL REDIRECT
 let userRedirected = false
@@ -193,12 +193,7 @@ const InitUser = ({ children }) => {
     setNoArtist()
     redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
     // TRACK
-    track({
-      action: 'create_user',
-      category: 'sign_up',
-      label: 'facebook',
-      marketing: true,
-    })
+    trackSignUp({ method: 'facebook', userId: user.id })
   }
 
 
@@ -252,11 +247,7 @@ const InitUser = ({ children }) => {
         ga: false,
       })
       // TRACK LOGIN
-      track({
-        action: 'log_in',
-        category: 'log_in',
-        label: 'facebook',
-      })
+      trackLogin({ method: 'facebook', userId: user.id })
       setNoArtist()
       redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
       return
@@ -296,11 +287,7 @@ const InitUser = ({ children }) => {
         ga: false,
       })
       // TRACK LOGIN
-      track({
-        action: 'log_in',
-        category: 'log_in',
-        label: 'facebook',
-      })
+      trackLogin({ method: 'facebook', userId: user.id })
       redirectPage(ROUTES.HOME, pathname)
     }
   }

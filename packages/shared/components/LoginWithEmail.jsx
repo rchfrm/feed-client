@@ -14,7 +14,7 @@ import Error from '@/elements/Error'
 
 import * as ROUTES from '@/app/constants/routes'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track, trackLogin } from '@/app/helpers/trackingHelpers'
 
 import styles from '@/LoginPage.module.css'
 
@@ -96,21 +96,13 @@ function LoginWithEmail({ className }) {
         return
       }
       // TRACK LOGIN
-      track({
-        action: 'log_in',
-        category: 'log_in',
-        label: 'password',
-      })
+      trackLogin({ method: 'password', userId: user.id })
       // REDIRECT
       Router.push(ROUTES.HOME)
     } else {
       setNoArtist()
       // TRACK LOGIN
-      track({
-        action: 'log_in',
-        category: 'log_in',
-        label: 'password',
-      })
+      trackLogin({ method: 'password', userId: user.id })
       // REDIRECT
       Router.push(ROUTES.SIGN_UP_CONTINUE)
     }
