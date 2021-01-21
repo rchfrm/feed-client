@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import Link from 'next/link'
 
+import TooltipButton from '@/elements/TooltipButton'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 
@@ -46,10 +47,12 @@ const FunnelHeat = ({
         }}
       >
         {/* HEADER */}
-        <header className="-mt-1 mb-8">
+        <header className="flex justify-between -mt-1 mb-5">
           <h4 className="font-body font-bold">{heat.title}</h4>
-          <MarkdownText className="-mt-1" markdown={heat.description} />
+          {/* TOOLTIP */}
+          <TooltipButton copy={heat.tooltip} direction="left" trackLabel={`${heat.title} audience`} />
         </header>
+        <MarkdownText className="mb-6" markdown={heat.description} />
         {/* ADS */}
         <FunnelHeatAds
           className={[
