@@ -50,7 +50,12 @@ const FunnelHeat = ({
         <header className="flex justify-between -mt-1 mb-5">
           <h4 className="font-body font-bold">{heat.title}</h4>
           {/* TOOLTIP */}
-          <TooltipButton copy={heat.tooltip} direction="left" trackLabel={`${heat.title} audience`} />
+          <TooltipButton
+            copy={heat.tooltip}
+            direction="left"
+            trackLabel={`${heat.title} audience`}
+            buttonStyle={{ transform: 'translate(0.5rem, -0.2rem)' }}
+          />
         </header>
         <MarkdownText className="mb-6" markdown={heat.description} />
         {/* ADS */}
