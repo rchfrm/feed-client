@@ -4,6 +4,7 @@ import React from 'react'
 import { useAsync } from 'react-async'
 
 import Error from '@/elements/Error'
+import Spinner from '@/elements/Spinner'
 
 import ResultsSummaryText from '@/app/ResultsSummaryText'
 import FunnelsSelectionButtons from '@/app/FunnelsSelectionButtons'
@@ -66,18 +67,21 @@ const FunnelsContent = () => {
           activeFunnelId={activeFunnelId}
           setActiveFunnelId={setActiveFunnelId}
         />
-        {isPending || !activeFunnelData ? (
-          <p className="col-span-8 ml-10">loading</p>
-        ) : (
-          // FUNNEL
-          <div className="col-span-8 ml-10">
-            <Error messagePrefix="Failed to load ads: " error={error} />
-            <FunnelView
-              funnelData={activeFunnelData}
-              funnelHeats={funnelHeats}
-            />
-          </div>
-        )}
+        <div className="col-span-8 ml-10">
+          {artistLoading || isPending || !activeFunnelData ? (
+            // LOADING SPINNER
+            <Spinner />
+          ) : (
+            // FUNNEL
+            <>
+              <Error messagePrefix="Failed to load ads: " error={error} />
+              <FunnelView
+                funnelData={activeFunnelData}
+                funnelHeats={funnelHeats}
+              />
+            </>
+          )}
+        </div>
       </div>
     </div>
   )
