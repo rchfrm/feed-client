@@ -46,7 +46,7 @@ const FunnelHeat = ({
         }}
       >
         {/* HEADER */}
-        <header className="-mt-1">
+        <header className="-mt-1 mb-8">
           <h4 className="font-body font-bold">{heat.title}</h4>
           <MarkdownText className="-mt-1" markdown={heat.description} />
         </header>
@@ -54,7 +54,8 @@ const FunnelHeat = ({
         <FunnelHeatAds
           className={[
             'flex items-center',
-            'mb-6',
+            'xs:w-3/4 sm:w-full',
+            'mx-auto mb-10',
           ].join(' ')}
           heatAds={heatAds}
         />

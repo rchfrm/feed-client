@@ -13,6 +13,8 @@ import FunnelView from '@/app/FunnelView'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import * as funnelHelpers from '@/app/helpers/funnelHelpers'
 
 const FunnelsContent = () => {
@@ -24,6 +26,9 @@ const FunnelsContent = () => {
   const [activeFunnelId, setActiveFunnelId] = React.useState(funnelOptions[0].id)
   const [activeFunnelData, setActiveFunnelData] = React.useState(null)
   const [error, setError] = React.useState(null)
+
+  const isSingleColumn = useBreakpointTest('lg')
+  console.log('isSingleColumn', isSingleColumn)
 
   // LOAD HEATS
   const { isPending } = useAsync({
@@ -59,15 +64,19 @@ const FunnelsContent = () => {
         roasMultiplier={6}
       />
       {/* CONTENT */}
-      <div className="grid grid-cols-12">
+      <div className="lg:grid grid-cols-12">
         {/* SELECT FUNNEL BUTTONS */}
         <FunnelsSelectionButtons
-          className="col-span-4"
+          className={[
+            'mb-16 lg:mb-0',
+            'sm:max-w-xl lg:max-w-none',
+            'col-span-4',
+          ].join(' ')}
           options={funnelOptions}
           activeFunnelId={activeFunnelId}
           setActiveFunnelId={setActiveFunnelId}
         />
-        <div className="col-span-8 ml-10">
+        <div className="col-span-8 bmw:col-span-8 lg:ml-10">
           {artistLoading || isPending || !activeFunnelData ? (
             // LOADING SPINNER
             <Spinner />
@@ -78,6 +87,7 @@ const FunnelsContent = () => {
               <FunnelView
                 funnelData={activeFunnelData}
                 funnelHeats={funnelHeats}
+                classNameInner="sm:max-w-xl lg:mx-auto"
               />
             </>
           )}

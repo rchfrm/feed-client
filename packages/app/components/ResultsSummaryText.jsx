@@ -18,7 +18,11 @@ const ResultsSummaryText = ({
       ].join(' ')}
     >
       <h3
-        className={['font-body', 'text-3xl'].join(' ')}
+        className={[
+          'font-body',
+          'text-xl xxs:text-2xl lg:text-3xl',
+          'minContent:-mt-6 md:mt-0',
+        ].join(' ')}
         style={{ lineHeight: '1.8em' }}
       >
         You've engaged

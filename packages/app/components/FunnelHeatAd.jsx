@@ -29,7 +29,7 @@ const FunnelHeatAd = ({
     >
       {/* IMAGE */}
       <div className="flex mb-2">
-        <div className="w-32">
+        <div className="w-24 xxs:w-28 xxs:w-32">
           <PostImage
             thumbnailOptions={thumbnailOptions}
             title={message}

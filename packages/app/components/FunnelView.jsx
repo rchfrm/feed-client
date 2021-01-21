@@ -7,6 +7,7 @@ const FunnelView = ({
   funnelData,
   funnelHeats,
   className,
+  classNameInner,
 }) => {
   if (!funnelData) return null
   return (
@@ -15,7 +16,7 @@ const FunnelView = ({
         className,
       ].join(' ')}
     >
-      <div className="max-w-xl mx-auto">
+      <div className={classNameInner}>
         {funnelHeats.map((heat, index) => {
           const { slug } = heat
           const nextHeat = funnelHeats[index + 1] || {}
@@ -41,10 +42,12 @@ FunnelView.propTypes = {
   funnelData: PropTypes.object.isRequired,
   funnelHeats: PropTypes.array.isRequired,
   className: PropTypes.string,
+  classNameInner: PropTypes.string,
 }
 
 FunnelView.defaultProps = {
   className: null,
+  classNameInner: null,
 }
 
 export default FunnelView
