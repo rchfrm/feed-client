@@ -14,6 +14,7 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import useAnimateScroll from '@/hooks/useAnimateScroll'
 
 import * as funnelHelpers from '@/app/helpers/funnelHelpers'
 
@@ -27,8 +28,21 @@ const FunnelsContent = () => {
   const [activeFunnelData, setActiveFunnelData] = React.useState(null)
   const [error, setError] = React.useState(null)
 
-  const isSingleColumn = useBreakpointTest('lg')
-  console.log('isSingleColumn', isSingleColumn)
+  const isTwoColumns = useBreakpointTest('lg')
+
+  const contentRef = React.useRef(null)
+  const scrollTo = useAnimateScroll()
+  const isInitialLoad = React.useRef(true)
+  React.useEffect(() => {
+    if (isTwoColumns || !activeFunnelId || isInitialLoad.current) {
+      isInitialLoad.current = false
+      return
+    }
+    const { current: contentEl } = contentRef
+    const top = contentEl.offsetTop
+    scrollTo(top - 16)
+  // eslint-disable-next-line
+  }, [activeFunnelId])
 
   // LOAD HEATS
   const { isPending } = useAsync({
@@ -43,7 +57,6 @@ const FunnelsContent = () => {
       toggleGlobalLoading(false)
       // Handle result...
       const dataFormatted = funnelHelpers.formatData(data)
-      console.log('dataFormatted', dataFormatted)
       setActiveFunnelData(dataFormatted)
     },
     // Handle errors
@@ -64,7 +77,10 @@ const FunnelsContent = () => {
         roasMultiplier={6}
       />
       {/* CONTENT */}
-      <div className="lg:grid grid-cols-12">
+      <div
+        ref={contentRef}
+        className="lg:grid grid-cols-12"
+      >
         {/* SELECT FUNNEL BUTTONS */}
         <FunnelsSelectionButtons
           className={[
@@ -76,7 +92,10 @@ const FunnelsContent = () => {
           activeFunnelId={activeFunnelId}
           setActiveFunnelId={setActiveFunnelId}
         />
-        <div className="col-span-8 bmw:col-span-8 lg:ml-10">
+        <div
+          className="col-span-8 bmw:col-span-8 lg:ml-10"
+          style={{ minHeight: '30rem' }}
+        >
           {artistLoading || isPending || !activeFunnelData ? (
             // LOADING SPINNER
             <Spinner />
