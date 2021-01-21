@@ -37,6 +37,22 @@ export const mixpanelTrack = (action, payload) => {
   mixpanel.track(action, payload)
 }
 
+// SPECIAL EVENTS
+
+// Sign Up
+export const mixpanelSignUp = (userId) => {
+  mixpanel.alias(userId)
+}
+
+// Log in
+export const mixpanelLogin = (userId) => {
+  mixpanel.identify(userId)
+}
+
+// Sign Out
+export const mixpanelSignOut = () => {
+  mixpanel.reset()
+}
 
 export const mixpanelPageView = (url) => {
   mixpanelTrack('page_view', { value: url })

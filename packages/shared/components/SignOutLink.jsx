@@ -14,6 +14,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import * as ROUTES from '@/app/constants/routes'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
+import { mixpanelSignOut } from '@/app/helpers/mixpanelHelpers'
 // IMPORT STYLES
 
 function SignOutLink({ className = '' }) {
@@ -23,15 +24,6 @@ function SignOutLink({ className = '' }) {
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   const clearContexts = React.useRef(null)
-  React.useEffect(() => {
-    clearContexts.current = () => {
-      Router.events.off('routeChangeComplete', clearContexts.current)
-      setNoAuth()
-      setNoUser()
-      setNoArtist()
-      toggleGlobalLoading(false)
-    }
-  }, [])
 
   const signOut = async () => {
     toggleGlobalLoading(true)
@@ -43,6 +35,20 @@ function SignOutLink({ className = '' }) {
       })
     Router.push(ROUTES.LOGIN)
   }
+
+  const signoutCallback = () => {
+    Router.events.off('routeChangeComplete', clearContexts.current)
+    mixpanelSignOut()
+    setNoAuth()
+    setNoUser()
+    setNoArtist()
+    toggleGlobalLoading(false)
+  }
+
+  React.useEffect(() => {
+    clearContexts.current = signoutCallback
+  // eslint-disable-next-line
+  }, [])
 
   return (
     <a className={className} role="button" version="sign-out" onClick={signOut}>
