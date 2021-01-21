@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import FunnelHeat from '@/app/FunnelHeat'
+import FunnelHeatHot from '@/app/FunnelHeatHot'
 
 const FunnelView = ({
   funnelData,
@@ -33,6 +34,8 @@ const FunnelView = ({
             />
           )
         })}
+        {/* HOT */}
+        <FunnelHeatHot />
       </div>
     </div>
   )
