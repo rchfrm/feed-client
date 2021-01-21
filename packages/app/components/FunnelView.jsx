@@ -20,7 +20,7 @@ const FunnelView = ({
           const { slug } = heat
           const nextHeat = funnelHeats[index + 1] || {}
           const { ads } = funnelData[slug]
-          const heatAds = Object.values(ads)
+          const heatAds = ads ? Object.values(ads) : []
           return (
             <FunnelHeat
               key={slug}

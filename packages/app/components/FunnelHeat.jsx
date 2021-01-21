@@ -6,7 +6,7 @@ import Link from 'next/link'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 
-import FunnelHeatAd from '@/app/FunnelHeatAd'
+import FunnelHeatAds from '@/app/FunnelHeatAds'
 import FunnelHeatDivider from '@/app/FunnelHeatDivider'
 
 import brandColors from '@/constants/brandColors'
@@ -27,14 +27,7 @@ const FunnelHeat = ({
   totalHeats,
   className,
 }) => {
-  console.log('heatAds', heatAds)
-  console.log('heat', heat)
   const { slug: heatSlug } = heat
-  const adScores = heatAds.map(({ engagement_score = 0 }) => {
-    return engagement_score
-  })
-  // Ad placements
-  const isSingleAd = heatAds.length === 1
   // Color
   const heatColor = heatColors[heatSlug]
   const nextHeatColor = nextHeatSlug ? heatColors[nextHeatSlug] : null
@@ -58,45 +51,13 @@ const FunnelHeat = ({
           <MarkdownText className="-mt-1" markdown={heat.description} />
         </header>
         {/* ADS */}
-        <div
+        <FunnelHeatAds
           className={[
             'flex items-center',
             'mb-6',
-            isSingleAd ? 'justify-center' : 'justify-between',
           ].join(' ')}
-        >
-          {isSingleAd ? (
-            // SINGLE AD
-            <FunnelHeatAd
-              adData={heatAds[0]}
-              score={adScores[0]}
-              winner
-            />
-          ) : (
-            // DOUBLE AD
-            <>
-              <FunnelHeatAd
-                adData={heatAds[0]}
-                score={adScores[0]}
-                winner={adScores[0] > adScores[1]}
-                className={[
-                  // 'flex flex-grow justify-center',
-                ].join(' ')}
-              />
-              <p className="mb-0">
-                <strong><em>vs</em></strong>
-              </p>
-              <FunnelHeatAd
-                adData={heatAds[1]}
-                score={adScores[1]}
-                winner={adScores[1] > adScores[0]}
-                className={[
-                  // 'flex flex-grow justify-center',
-                ].join(' ')}
-              />
-            </>
-          )}
-        </div>
+          heatAds={heatAds}
+        />
         {/* VIEW MORE */}
         <div className="flex justify-center mb-4">
           <Link href={ROUTES.TOURNAMENTS}>

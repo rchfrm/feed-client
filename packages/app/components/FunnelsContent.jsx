@@ -66,7 +66,7 @@ const FunnelsContent = () => {
           activeFunnelId={activeFunnelId}
           setActiveFunnelId={setActiveFunnelId}
         />
-        {isPending ? (
+        {isPending || !activeFunnelData ? (
           <p className="col-span-8 ml-10">loading</p>
         ) : (
           // FUNNEL

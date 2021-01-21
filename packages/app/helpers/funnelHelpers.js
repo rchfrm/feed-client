@@ -69,7 +69,7 @@ export const fetchHeats = async ({ artistId, activeFunnelId: funnelType }) => {
 // ------------------
 export const formatData = (data) => {
   return funnelHeats.reduce((formattedData, heat, index) => {
-    const { ads } = data[index][0]
+    const { ads = null } = data[index][0] || {}
     formattedData[heat.slug] = {
       ...heat,
       ads,
