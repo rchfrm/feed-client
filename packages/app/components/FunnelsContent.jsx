@@ -57,7 +57,6 @@ const FunnelsContent = () => {
         totalVisitors={1437}
         roasMultiplier={6}
       />
-      <Error error={error} />
       {/* CONTENT */}
       <div className="grid grid-cols-12">
         {/* SELECT FUNNEL BUTTONS */}
@@ -70,14 +69,14 @@ const FunnelsContent = () => {
         {isPending ? (
           <p className="col-span-8 ml-10">loading</p>
         ) : (
-          <>
-            {/* FUNNEL */}
+          // FUNNEL
+          <div className="col-span-8 ml-10">
+            <Error messagePrefix="Failed to load ads: " error={error} />
             <FunnelView
-              className="col-span-8 ml-10"
               funnelData={activeFunnelData}
               funnelHeats={funnelHeats}
             />
-          </>
+          </div>
         )}
       </div>
     </div>
