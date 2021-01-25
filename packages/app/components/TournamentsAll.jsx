@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import Spinner from '@/elements/Spinner'
 import TournamentsItem from '@/app/TournamentsItem'
+import TournamentsLoadedAll from '@/app/TournamentsLoadedAll'
 
 import { TournamentContext } from '@/app/contexts/TournamentContext'
 
@@ -79,6 +80,10 @@ const TournamentsAll = ({
             <Spinner />
           </div>
         </div>
+      )}
+      {/* LOADED ALL */}
+      {loadedAll && (
+        <TournamentsLoadedAll />
       )}
     </section>
   )
