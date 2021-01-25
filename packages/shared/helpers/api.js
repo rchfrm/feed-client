@@ -107,6 +107,16 @@ export async function request(method, path, options, token) {
   return res.data
 }
 
+const getOptionsAndToken = (props, propType, token) => {
+  const options = {}
+  if (typeof props !== 'object') {
+    token = props
+  } else {
+    options[propType] = props
+  }
+  return { options, tokenAlt: token }
+}
+
 /**
  * @param {string} path
  * @param {object|string|false} [query]
@@ -114,14 +124,8 @@ export async function request(method, path, options, token) {
  * @returns {Promise<any>}
  */
 export function get(path, query, token) {
-  const options = {}
-  if (typeof query !== 'object') {
-    token = query
-    query = undefined
-  } else {
-    options.query = query
-  }
-  return request('GET', path, options, token)
+  const { options, tokenAlt } = getOptionsAndToken(query, 'query', token)
+  return request('GET', path, options, token || tokenAlt)
 }
 
 /**
@@ -131,14 +135,8 @@ export function get(path, query, token) {
  * @returns {Promise<any>}
  */
 export function patch(path, data, token) {
-  const options = {}
-  if (typeof data !== 'object') {
-    token = data
-    data = undefined
-  } else {
-    options.data = data
-  }
-  return request('PATCH', path, options, token)
+  const { options, tokenAlt } = getOptionsAndToken(data, 'data', token)
+  return request('PATCH', path, options, token || tokenAlt)
 }
 
 /**
@@ -148,12 +146,11 @@ export function patch(path, data, token) {
  * @returns {Promise<any>}
  */
 export function post(path, data, token) {
-  const options = {}
-  if (typeof data !== 'object') {
-    token = data
-    data = undefined
-  } else {
-    options.data = data
+  const { options, tokenAlt } = getOptionsAndToken(data, 'data', token)
+  return request('POST', path, options, token || tokenAlt)
+}
+
+// REQUEST WITH CATCH
   }
   return request('POST', path, options, token)
 }
