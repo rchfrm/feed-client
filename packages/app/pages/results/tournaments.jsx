@@ -23,8 +23,8 @@ const Page = () => {
       artistRequired
     >
       <TournamentsContent
-        audience={audience}
-        adType={adType}
+        audienceSlug={audience}
+        adTypeId={adType}
       />
     </BasePage>
   )

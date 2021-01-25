@@ -5,25 +5,26 @@ import { TournamentContextProvider } from '@/app/contexts/TournamentContext'
 
 import TournamentsLoader from '@/app/TournamentsLoader'
 
-import * as tournamentHelpers from '@/helpers/tournamentHelpers'
+import { getAudienceIdFromSlug } from '@/app/helpers/funnelHelpers'
 
 const TournamentsContent = ({
-  audience,
-  adType,
+  audienceSlug,
+  adTypeId,
 }) => {
-
-  if (!audience || !adType) {
+  if (!audienceSlug || !adTypeId) {
     console.log('NO NO')
     return null
   }
+
+  const audienceId = getAudienceIdFromSlug(audienceSlug)
 
   return (
     <TournamentContextProvider>
       <div>
         <section id="TournamentItemsContainer" className="mt-5">
           <TournamentsLoader
-            audienceName={audience}
-            tournamentType={adType}
+            audienceId={audienceId}
+            adTypeId={adTypeId}
           />
         </section>
       </div>
@@ -32,13 +33,13 @@ const TournamentsContent = ({
 }
 
 TournamentsContent.propTypes = {
-  audience: PropTypes.string,
-  adType: PropTypes.string,
+  audienceSlug: PropTypes.string,
+  adTypeId: PropTypes.string,
 }
 
 TournamentsContent.defaultProps = {
-  audience: '',
-  adType: '',
+  audienceSlug: '',
+  adTypeId: '',
 }
 
 
