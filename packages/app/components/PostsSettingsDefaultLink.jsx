@@ -60,9 +60,6 @@ const PostsSettingsDefaultLink = ({
             'w-4 h-4',
             'bg-red rounded-full',
           ].join(' ')}
-          style={{
-
-          }}
         />
       )}
     </div>
