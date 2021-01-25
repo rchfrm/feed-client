@@ -11,7 +11,8 @@ import FunnelHeatAds from '@/app/FunnelHeatAds'
 import FunnelHeatDivider from '@/app/FunnelHeatDivider'
 
 import brandColors from '@/constants/brandColors'
-import * as ROUTES from '@/app/constants/routes'
+
+import { getHeatTournamentLink } from '@/app/helpers/funnelHelpers'
 
 const heatColors = {
   cold: brandColors.blue,
@@ -36,6 +37,8 @@ const FunnelHeat = ({
   // Divider
   const basePercetageWidth = 45
   const dividerPercentageWidth = basePercetageWidth - (basePercetageWidth * (heatIndex / totalHeats))
+  // Link
+  const linkHref = getHeatTournamentLink({ heatSlug, funnelSlug: activeFunnelId })
   return (
     <>
       <section
@@ -70,7 +73,7 @@ const FunnelHeat = ({
         />
         {/* VIEW MORE */}
         <div className="flex justify-center mb-4">
-          <Link href={ROUTES.TOURNAMENTS}>
+          <Link href={linkHref}>
             <Button
               className="w-36"
               version="x-small green"

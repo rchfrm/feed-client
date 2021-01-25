@@ -1,4 +1,5 @@
 import { getArtistTournaments } from '@/helpers/sharedServer'
+import * as ROUTES from '@/app/constants/routes'
 
 import copy from '@/app/copy/funnelCopy'
 
@@ -39,6 +40,17 @@ export const funnelHeats = [
     tooltip: copy.warm.tooltip,
   },
 ]
+
+// Get tournament link
+export const getHeatTournamentLink = ({ heatSlug, funnelSlug }) => {
+  return {
+    pathname: ROUTES.TOURNAMENTS,
+    query: {
+      audience: heatSlug,
+      adType: funnelSlug,
+    },
+  }
+}
 
 // FETCHING DATA
 // --------------
