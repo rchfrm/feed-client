@@ -1,19 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/contexts/ArtistContext'
 import { TournamentContextProvider } from '@/app/contexts/TournamentContext'
+
+import MarkdownText from '@/elements/MarkdownText'
 
 import TournamentsLoader from '@/app/TournamentsLoader'
 
 import { getAudienceIdFromSlug } from '@/app/helpers/funnelHelpers'
 
+import { copy } from '@/app/copy/tournamentsCopy'
+
 const TournamentsContent = ({
   audienceSlug,
   adTypeId,
 }) => {
-  if (!audienceSlug || !adTypeId) {
-    console.log('NO NO')
-    return null
+  const { artistId, artistLoading } = React.useContext(ArtistContext)
+
+  if (!artistLoading && (!audienceSlug || !adTypeId)) {
+    return <MarkdownText markdown={copy.noQueryDefined} />
   }
 
   const audienceId = getAudienceIdFromSlug(audienceSlug)
@@ -21,8 +27,10 @@ const TournamentsContent = ({
   return (
     <TournamentContextProvider>
       <div>
-        <section id="TournamentItemsContainer" className="mt-5">
+        <section id="TournamentItemsContainer">
           <TournamentsLoader
+            artistId={artistId}
+            artistLoading={artistLoading}
             audienceId={audienceId}
             adTypeId={adTypeId}
           />

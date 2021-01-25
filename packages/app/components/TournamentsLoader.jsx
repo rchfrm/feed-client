@@ -9,7 +9,6 @@ import TournamentsAll from '@/app/TournamentsAll'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import * as tournamentHelpers from '@/helpers/tournamentHelpers'
@@ -70,8 +69,12 @@ const updateDataConditions = (newProps, oldProps) => {
   return false
 }
 
-const TournamentsLoader = ({ audienceId, adTypeId }) => {
-  const { artistId, artistLoading } = React.useContext(ArtistContext)
+const TournamentsLoader = ({
+  artistId,
+  artistLoading,
+  audienceId,
+  adTypeId,
+}) => {
   const [tournaments, setTournaments] = useImmerReducer(dataReducer, initialDataState)
   const [error, setError] = React.useState(null)
   const offset = React.useRef(0)
@@ -192,8 +195,15 @@ const TournamentsLoader = ({ audienceId, adTypeId }) => {
 }
 
 TournamentsLoader.propTypes = {
+  artistId: PropTypes.string,
+  artistLoading: PropTypes.bool.isRequired,
   audienceId: PropTypes.string.isRequired,
   adTypeId: PropTypes.string.isRequired,
 }
+
+TournamentsLoader.defaultProps = {
+  artistId: null,
+}
+
 
 export default TournamentsLoader
