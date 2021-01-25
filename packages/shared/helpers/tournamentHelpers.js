@@ -135,7 +135,7 @@ export const setAdStreakPositions = (tournaments) => {
   * @param {object} [adCreative]
   * @returns {object}
 */
-const getPostContent = (adCreative) => {
+export const getPostContent = (adCreative) => {
   const { object_type, object_story_spec, instagram_actor_id, instagram_permalink_url, image_url, thumbnail_url } = adCreative
   const baseContent = {
     postLink: instagram_permalink_url,

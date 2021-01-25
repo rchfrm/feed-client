@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import JoystickIcon from '@/icons/JoystickIcon'
 import PostsIcon from '@/icons/PostsIcon'
-import ResultsIcon from '@/icons/ResultsIcon'
+import StarIcon from '@/icons/StarIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
 
 import NotificationDot from '@/elements/NotificationDot'
@@ -11,7 +11,7 @@ import NotificationDot from '@/elements/NotificationDot'
 const getIcon = (icon) => {
   if (icon === 'controls') return <JoystickIcon />
   if (icon === 'posts') return <PostsIcon />
-  if (icon === 'results') return <ResultsIcon />
+  if (icon === 'results') return <StarIcon />
   if (icon === 'insights') return <InsightsIcon />
 }
 
