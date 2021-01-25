@@ -288,6 +288,7 @@ const InitUser = ({ children }) => {
       })
       // TRACK LOGIN
       trackLogin({ method: 'facebook', userId: user.id })
+      // Redirect to home page
       redirectPage(ROUTES.HOME, pathname)
     }
   }

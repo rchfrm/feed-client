@@ -96,7 +96,7 @@ const Select = ({
               // Option group
               if (isOptionGroup) {
                 return (
-                  <optgroup label={name} key={value}>
+                  <optgroup label={name} key={value || name}>
                     {options.map(({ name, value }) => {
                       return <OPTION key={value} name={name} value={value} />
                     })}
@@ -138,12 +138,16 @@ Select.propTypes = {
       value: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
-      ]).isRequired,
+      ]),
       // ... and the value of the name key must be a string or number.
       name: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
       ]).isRequired,
+      // ...the value of the value key must be a string or number,
+      type: PropTypes.oneOfType([
+        PropTypes.string,
+      ]),
     }),
   ).isRequired,
 

@@ -8,7 +8,9 @@ import ClipboardIcon from '@/icons/ClipboardIcon'
 const CopyTextButton = ({
   label,
   text,
+  textAlt,
   size,
+  type,
   onCopied,
   className,
 }) => {
@@ -43,23 +45,37 @@ const CopyTextButton = ({
       )}
       <a
         className={[
-          'inline-flex',
+          'button--copy-text',
+          'inline-flex relative',
           size === 'large' ? 'h-buttonHeight' : null,
           size === 'large' ? 'items-center' : 'items-baseline',
           'justify-between',
-          'button--copy-text',
           size === 'large' ? '-large' : null,
+          type === 'code' ? '-copy-code' : null,
+          success ? '-success' : null,
           className,
         ].join(' ')}
         role="button"
-        title={`Copy ${text} to clipboard`}
+        title={`Copy ${textAlt || text} to clipboard`}
         ref={button}
         data-clipboard-text={text}
       >
-        <span className="text mr-2">
-          {success ? 'Copied!' : text}
+        {/* THE TEXT TO COPY */}
+        <span
+          className="text mr-2"
+          style={{
+            opacity: success ? 0 : 1,
+          }}
+        >
+          {text}
         </span>
-        <ClipboardIcon className="icon" />
+        {/* SUCCESS MESSAGE */}
+        {success && (
+          <span className="success-message">Copied!</span>
+        )}
+        <ClipboardIcon
+          className="icon"
+        />
       </a>
     </>
   )
@@ -68,14 +84,18 @@ const CopyTextButton = ({
 CopyTextButton.propTypes = {
   label: PropTypes.string,
   text: PropTypes.string.isRequired,
+  textAlt: PropTypes.string,
   size: PropTypes.string,
+  type: PropTypes.string,
   onCopied: PropTypes.func,
   className: PropTypes.string,
 }
 
 CopyTextButton.defaultProps = {
+  textAlt: '',
   label: '',
   size: 'rg',
+  type: 'text',
   onCopied: () => {},
   className: '',
 }
