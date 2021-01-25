@@ -2,6 +2,8 @@ import axios from 'axios'
 import firebase from '@/helpers/firebase'
 import host from '@/helpers/host'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 const axiosInstance = axios.create()
 
 const retryConfig = {
@@ -150,7 +152,43 @@ export function post(path, data, token) {
   return request('POST', path, options, token || tokenAlt)
 }
 
+
+
+
 // REQUEST WITH CATCH
+/**
+  * @param {string} requestType get | patch | post
+  * @param {string} url
+  * @param {object} payload
+  * @param {object} trackError { category, action }
+  * @param {string} token
+  * @returns {Promise<object>} { res, error }
+  * * Makes requests  and returns errors as if the request were succesful with an `error.message` key filled out
+*/
+export const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
+  if (!requestType) return console.error('Please include a request type')
+  if (!url) return console.error('Please include a url')
+  const requestTypes = { get, patch, post }
+  const res = await requestTypes[requestType](url, payload, token)
+    .catch((error) => { return { error } })
+  if (res.error) {
+    const { error } = res
+    const { code, context } = error
+    const message = typeof error.response === 'object' ? error.response.data.error : error.message
+    // Track error on sentry
+    if (trackError) {
+      const { category, action, ignoreErrorCodes = [] } = trackError
+      // Ignore error codes
+      if (!ignoreErrorCodes.includes(code || message)) {
+        track({
+          category,
+          action,
+          description: message,
+          error: true,
+        })
+      }
+    }
+    return { error: { message, code, context } }
   }
-  return request('POST', path, options, token)
+  return { res }
 }

@@ -1,7 +1,7 @@
 import get from 'lodash/get'
 
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
-import { requestWithCatch } from '@/app/helpers/appServer'
+import { requestWithCatch } from '@/helpers/api'
 
 // PIXELS
 // ------

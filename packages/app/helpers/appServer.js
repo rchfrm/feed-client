@@ -1,48 +1,8 @@
 import get from 'lodash/get'
 
 import * as api from '@/helpers/api'
-import { track } from '@/app/helpers/trackingHelpers'
 import flatten from 'lodash/flatten'
 
-// * UTILS
-// ------------------
-
-/**
-  * @param {string} requestType get | patch | post
-  * @param {string} url
-  * @param {object} payload
-  * @param {object} trackError { category, action }
-  * @param {string} token
-  * @returns {Promise<object>} { res, error }
-  * * Makes requests  and returns errors as if the request were succesful with an `error.message` key filled out
-*/
-export const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
-  if (!requestType) return console.error('Please include a request type')
-  if (!url) return console.error('Please include a url')
-  // eslint-disable-next-line import/namespace
-  const res = await api[requestType](url, payload, token)
-    .catch((error) => { return { error } })
-  if (res.error) {
-    const { error } = res
-    const { code, context } = error
-    const message = typeof error.response === 'object' ? error.response.data.error : error.message
-    // Track error on sentry
-    if (trackError) {
-      const { category, action, ignoreErrorCodes = [] } = trackError
-      // Ignore error codes
-      if (!ignoreErrorCodes.includes(code || message)) {
-        track({
-          category,
-          action,
-          description: message,
-          error: true,
-        })
-      }
-    }
-    return { error: { message, code, context } }
-  }
-  return { res }
-}
 
 // * ARTIST
 // ------------------
@@ -70,7 +30,7 @@ export const acceptTerms = async (userId) => {
     category: 'Signup',
     action: 'Accepting terms',
   }
-  return requestWithCatch('post', requestUrl, payload, errorTracking)
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
 
@@ -103,7 +63,7 @@ export const updateIntegration = async (artistId, integrations) => {
     category: 'Integrations',
     action: 'Update integration',
   }
-  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
 // * DATA INSIGHTS
@@ -205,7 +165,7 @@ export const togglePromotionEnabled = async (artistId, postId, promotionEnabled)
     category: 'Posts',
     action: 'Toggle promotion enabled',
   }
-  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
 /**
@@ -280,7 +240,7 @@ export const setPostLink = (artistId, assetId, linkId) => {
     category: 'Links',
     action: 'Set link as post link',
   }
-  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
 
@@ -295,7 +255,7 @@ export const setPostLink = (artistId, assetId, linkId) => {
 */
 export const getTargetingSettings = async (artistId) => {
   const requestUrl = `/artists/${artistId}/targeting`
-  return requestWithCatch('get', requestUrl)
+  return api.requestWithCatch('get', requestUrl)
 }
 
 // Fetch popular locations
@@ -305,7 +265,7 @@ export const getTargetingSettings = async (artistId) => {
 */
 export const getTargetingPopularLocations = async (artistId) => {
   const requestUrl = `/artists/${artistId}/targeting/geo_locations`
-  return requestWithCatch('get', requestUrl)
+  return api.requestWithCatch('get', requestUrl)
 }
 
 // Save new targeting settings
@@ -318,7 +278,7 @@ export const getTargetingPopularLocations = async (artistId) => {
 */
 export const saveTargetingSettings = async (artistId, payload) => {
   const requestUrl = `/artists/${artistId}/targeting`
-  return requestWithCatch('patch', requestUrl, payload)
+  return api.requestWithCatch('patch', requestUrl, payload)
 }
 
 
@@ -336,7 +296,7 @@ export const fetchSavedLinks = (artistId) => {
     category: 'Links',
     action: 'Fetch saved links',
   }
-  return requestWithCatch('get', requestUrl, null, errorTracking)
+  return api.requestWithCatch('get', requestUrl, null, errorTracking)
 }
 
 
@@ -363,7 +323,7 @@ export const updateLink = (artistId, link, action, force, usedLinkErrorCode) => 
     action: `${action} link`,
     ignoreErrorCodes: [usedLinkErrorCode],
   }
-  return requestWithCatch('post', requestUrl, payload, errorTracking)
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
 // Update a folder
@@ -382,7 +342,7 @@ export const updateFolder = (artistId, folder, action, force) => {
     category: 'Links',
     action: `${action} folder`,
   }
-  return requestWithCatch('post', requestUrl, payload, errorTracking)
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
 // Set link as default
@@ -398,7 +358,7 @@ export const setLinkAsDefault = (artistId, linkId) => {
     category: 'Links',
     action: 'Set link as default',
   }
-  return requestWithCatch('patch', requestUrl, payload, errorTracking)
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
 
@@ -418,7 +378,7 @@ export const testReferralCode = async (code) => {
     action: 'Check for true referral code',
     ignoreErrorCodes: ['Not Found'],
   }
-  return requestWithCatch('post', requestUrl, payload, errorTracking, dummyToken)
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking, dummyToken)
 }
 
 // * INTEGRATION ERRORS
@@ -498,7 +458,7 @@ export const markNotificationAsRead = async (endpoint, read = true) => {
     category: 'Notifications',
     action: 'Mark notification as read',
   }
-  return requestWithCatch('patch', endpoint, payload, errorTracking)
+  return api.requestWithCatch('patch', endpoint, payload, errorTracking)
 }
 
 // DISMISS NOTIFICATION
@@ -512,5 +472,5 @@ export const dismissNotification = async (endpoint) => {
     category: 'Notifications',
     action: 'Delete/dismiss notification',
   }
-  return requestWithCatch('delete', endpoint, null, errorTracking)
+  return api.requestWithCatch('delete', endpoint, null, errorTracking)
 }

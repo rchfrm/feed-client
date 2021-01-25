@@ -3,6 +3,7 @@
 import moment from 'moment'
 
 import * as appServer from '@/app/helpers/appServer'
+import { requestWithCatch } from '@/helpers/api'
 
 // * DICTIONARY
 // ------------
@@ -55,7 +56,7 @@ export const getAction = ({
     category: 'Notifcations',
     action: `Action ${topic}`,
   }
-  return () => appServer.requestWithCatch(apiMethod.toLowerCase(), endpointFormatted, payload, errorTracking)
+  return () => requestWithCatch(apiMethod.toLowerCase(), endpointFormatted, payload, errorTracking)
 }
 
 // * FETCHING FROM SERVER
