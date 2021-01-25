@@ -7,38 +7,27 @@ import TooltipButton from '@/elements/TooltipButton'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 
-import FunnelHeatAds from '@/app/FunnelHeatAds'
-import FunnelHeatDivider from '@/app/FunnelHeatDivider'
+import FunnelAudienceAds from '@/app/FunnelAudienceAds'
+import FunnelAudienceDivider from '@/app/FunnelAudienceDivider'
 
-import brandColors from '@/constants/brandColors'
+import { getAudienceTournamentLink } from '@/app/helpers/funnelHelpers'
 
-import { getHeatTournamentLink } from '@/app/helpers/funnelHelpers'
-
-const heatColors = {
-  cold: brandColors.blue,
-  cool: brandColors.yellow,
-  warm: brandColors.red,
-  hot: brandColors.red,
-}
-
-const FunnelHeat = ({
-  heat,
-  nextHeatSlug,
-  heatAds,
-  heatIndex,
-  totalHeats,
+const FunnelAudience = ({
+  audience,
+  nextAudience,
+  audienceAds,
+  audienceIndex,
+  totalAudiences,
   activeFunnelId,
   className,
 }) => {
-  const { slug: heatSlug } = heat
-  // Color
-  const heatColor = heatColors[heatSlug]
-  const nextHeatColor = nextHeatSlug ? heatColors[nextHeatSlug] : null
+  const { slug: audienceSlug, color: audienceColor } = audience
+  const { slug: nextAudienceSlug, color: nextAudienceColor } = nextAudience
   // Divider
   const basePercetageWidth = 45
-  const dividerPercentageWidth = basePercetageWidth - (basePercetageWidth * (heatIndex / totalHeats))
+  const dividerPercentageWidth = basePercetageWidth - (basePercetageWidth * (audienceIndex / totalAudiences))
   // Link
-  const linkHref = getHeatTournamentLink({ heatSlug, funnelSlug: activeFunnelId })
+  const linkHref = getAudienceTournamentLink({ audienceSlug, funnelSlug: activeFunnelId })
   return (
     <>
       <section
@@ -47,29 +36,29 @@ const FunnelHeat = ({
           className,
         ].join(' ')}
         style={{
-          borderColor: heatColors[heatSlug],
+          borderColor: audienceColor,
         }}
       >
         {/* HEADER */}
         <header className="flex justify-between -mt-1 mb-5">
-          <h4 className="font-body font-bold">{heat.title}</h4>
+          <h4 className="font-body font-bold">{audience.title}</h4>
           {/* TOOLTIP */}
           <TooltipButton
-            copy={heat.tooltip}
+            copy={audience.tooltip}
             direction="left"
-            trackLabel={`${heat.title} audience`}
+            trackLabel={`${audience.title} audience`}
             buttonStyle={{ transform: 'translate(0.5rem, -0.2rem)' }}
           />
         </header>
-        <MarkdownText className="mb-6" markdown={heat.description} />
+        <MarkdownText className="mb-6" markdown={audience.description} />
         {/* ADS */}
-        <FunnelHeatAds
+        <FunnelAudienceAds
           className={[
             'flex items-center',
             'xs:w-3/4 sm:w-full',
             'mx-auto mb-10',
           ].join(' ')}
-          heatAds={heatAds}
+          audienceAds={audienceAds}
         />
         {/* VIEW MORE */}
         <div className="flex justify-center mb-4">
@@ -84,12 +73,12 @@ const FunnelHeat = ({
           </Link>
         </div>
       </section>
-      {nextHeatSlug && (
+      {nextAudienceSlug && (
         <div>
-          <FunnelHeatDivider
-            heatSlug={heatSlug}
-            startColor={heatColor}
-            stopColor={nextHeatColor}
+          <FunnelAudienceDivider
+            audienceSlug={audienceSlug}
+            startColor={audienceColor}
+            stopColor={nextAudienceColor}
             className="mx-auto"
             style={{ width: `${dividerPercentageWidth}%`, height: '3.5rem' }}
           />
@@ -99,19 +88,18 @@ const FunnelHeat = ({
   )
 }
 
-FunnelHeat.propTypes = {
-  heat: PropTypes.object.isRequired,
-  nextHeatSlug: PropTypes.string,
-  heatAds: PropTypes.array.isRequired,
-  heatIndex: PropTypes.number.isRequired,
-  totalHeats: PropTypes.number.isRequired,
+FunnelAudience.propTypes = {
+  audience: PropTypes.object.isRequired,
+  nextAudience: PropTypes.object.isRequired,
+  audienceAds: PropTypes.array.isRequired,
+  audienceIndex: PropTypes.number.isRequired,
+  totalAudiences: PropTypes.number.isRequired,
   activeFunnelId: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
-FunnelHeat.defaultProps = {
-  nextHeatSlug: '',
+FunnelAudience.defaultProps = {
   className: null,
 }
 
-export default FunnelHeat
+export default FunnelAudience

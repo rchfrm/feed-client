@@ -19,7 +19,7 @@ import useAnimateScroll from '@/hooks/useAnimateScroll'
 import * as funnelHelpers from '@/app/helpers/funnelHelpers'
 
 const FunnelsContent = () => {
-  const { funnelOptions, funnelHeats } = funnelHelpers
+  const { funnelOptions, audienceTypes } = funnelHelpers
   // Import interface context
   const { artistId, artistLoading } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -44,9 +44,9 @@ const FunnelsContent = () => {
   // eslint-disable-next-line
   }, [activeFunnelId])
 
-  // LOAD HEATS
+  // LOAD AUDIENCES
   const { isPending } = useAsync({
-    promiseFn: funnelHelpers.fetchHeats,
+    promiseFn: funnelHelpers.fetchAudiences,
     watchFn: funnelHelpers.watchFunction,
     // The variable(s) to pass to promiseFn
     artistId,
@@ -105,7 +105,7 @@ const FunnelsContent = () => {
               <Error messagePrefix="Failed to load ads: " error={error} />
               <FunnelView
                 funnelData={activeFunnelData}
-                funnelHeats={funnelHeats}
+                audienceTypes={audienceTypes}
                 activeFunnelId={activeFunnelId}
                 classNameInner="sm:max-w-xl lg:mx-auto"
               />

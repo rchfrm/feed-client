@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const FunnelHeatDivider = ({
-  heatSlug,
+const FunnelAudienceDivider = ({
+  audienceSlug,
   startColor,
   stopColor,
   className,
@@ -23,9 +23,9 @@ const FunnelHeatDivider = ({
         d="M0 0L26.7236 50H263.276L290 0H0Z"
         fill={stopColor}
       />
-      <path d="M0 0L26.7236 50H263.276L290 0H0Z" fill={`url(#${heatSlug}-paint0_linear)`} />
+      <path d="M0 0L26.7236 50H263.276L290 0H0Z" fill={`url(#${audienceSlug}-paint0_linear)`} />
       <defs>
-        <linearGradient id={`${heatSlug}-paint0_linear`} x1="145" y1="0" x2="145" y2="50" gradientUnits="userSpaceOnUse">
+        <linearGradient id={`${audienceSlug}-paint0_linear`} x1="145" y1="0" x2="145" y2="50" gradientUnits="userSpaceOnUse">
           <stop stopColor={startColor} />
           <stop offset="1" stopColor="white" stopOpacity="0" />
         </linearGradient>
@@ -35,17 +35,17 @@ const FunnelHeatDivider = ({
   )
 }
 
-FunnelHeatDivider.propTypes = {
-  heatSlug: PropTypes.string.isRequired,
+FunnelAudienceDivider.propTypes = {
+  audienceSlug: PropTypes.string.isRequired,
   startColor: PropTypes.string.isRequired,
   stopColor: PropTypes.string.isRequired,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
-FunnelHeatDivider.defaultProps = {
+FunnelAudienceDivider.defaultProps = {
   className: null,
   style: null,
 }
 
-export default FunnelHeatDivider
+export default FunnelAudienceDivider

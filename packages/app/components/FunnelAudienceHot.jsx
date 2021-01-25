@@ -5,7 +5,7 @@ import copy from '@/app/copy/funnelCopy'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-const FunnelHeatHot = () => {
+const FunnelAudienceHot = () => {
   return (
     <section className="mt-10 bg-grey-2 p-5 rounded-dialogue">
       {/* HEADER */}
@@ -20,12 +20,12 @@ const FunnelHeatHot = () => {
   )
 }
 
-FunnelHeatHot.propTypes = {
+FunnelAudienceHot.propTypes = {
 
 }
 
-FunnelHeatHot.defaultProps = {
+FunnelAudienceHot.defaultProps = {
 
 }
 
-export default React.memo(FunnelHeatHot)
+export default React.memo(FunnelAudienceHot)

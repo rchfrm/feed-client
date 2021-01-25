@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 
 export default {
-  // HEAT TEXT
+  // AUDIENCE TEXT
   cold: {
     title: 'cold',
     tooltip: `Tooltip about cold`,

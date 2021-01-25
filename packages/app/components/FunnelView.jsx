@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import FunnelHeat from '@/app/FunnelHeat'
-import FunnelHeatHot from '@/app/FunnelHeatHot'
+import FunnelAudience from '@/app/FunnelAudience'
+import FunnelAudienceHot from '@/app/FunnelAudienceHot'
 
 const FunnelView = ({
   funnelData,
-  funnelHeats,
+  audienceTypes,
   activeFunnelId,
   className,
   classNameInner,
@@ -19,25 +19,25 @@ const FunnelView = ({
       ].join(' ')}
     >
       <div className={classNameInner}>
-        {funnelHeats.map((heat, index) => {
-          const { slug } = heat
-          const nextHeat = funnelHeats[index + 1] || {}
+        {audienceTypes.map((audience, index) => {
+          const { slug } = audience
+          const nextAudience = audienceTypes[index + 1] || {}
           const { ads } = funnelData[slug]
-          const heatAds = ads ? Object.values(ads) : []
+          const audienceAds = ads ? Object.values(ads) : []
           return (
-            <FunnelHeat
+            <FunnelAudience
               key={slug}
-              heat={heat}
-              nextHeatSlug={nextHeat.slug}
-              heatAds={heatAds}
-              heatIndex={index}
-              totalHeats={funnelHeats.length}
+              audience={audience}
+              nextAudience={nextAudience}
+              audienceAds={audienceAds}
+              audienceIndex={index}
+              totalAudiences={audienceTypes.length}
               activeFunnelId={activeFunnelId}
             />
           )
         })}
-        {/* HOT */}
-        <FunnelHeatHot />
+        {/* HOT (coming soon) */}
+        <FunnelAudienceHot />
       </div>
     </div>
   )
@@ -45,7 +45,7 @@ const FunnelView = ({
 
 FunnelView.propTypes = {
   funnelData: PropTypes.object.isRequired,
-  funnelHeats: PropTypes.array.isRequired,
+  audienceTypes: PropTypes.array.isRequired,
   activeFunnelId: PropTypes.string.isRequired,
   className: PropTypes.string,
   classNameInner: PropTypes.string,
