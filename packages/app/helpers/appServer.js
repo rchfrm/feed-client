@@ -139,17 +139,6 @@ export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }
   return api.get(`/artists/${artistId}/assets`, queryParams)
 }
 
-/**
- * @param {string} artistId
- * @param {string} [promotionStatus]
- * @param {string} [verifyIdToken]
- * @returns {Promise<any>}
- */
-export const getAssets = async (artistId, promotionStatus, verifyIdToken) => {
-  const query = promotionStatus ? { promotion_status: promotionStatus } : {}
-
-  return api.get(`/artists/${artistId}/assets`, query, verifyIdToken)
-}
 
 /**
  * @param {string} artistId
