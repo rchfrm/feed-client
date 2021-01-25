@@ -26,6 +26,7 @@ const FunnelHeat = ({
   heatAds,
   heatIndex,
   totalHeats,
+  activeFunnelId,
   className,
 }) => {
   const { slug: heatSlug } = heat
@@ -101,6 +102,7 @@ FunnelHeat.propTypes = {
   heatAds: PropTypes.array.isRequired,
   heatIndex: PropTypes.number.isRequired,
   totalHeats: PropTypes.number.isRequired,
+  activeFunnelId: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 

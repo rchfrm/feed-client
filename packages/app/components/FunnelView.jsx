@@ -7,6 +7,7 @@ import FunnelHeatHot from '@/app/FunnelHeatHot'
 const FunnelView = ({
   funnelData,
   funnelHeats,
+  activeFunnelId,
   className,
   classNameInner,
 }) => {
@@ -31,6 +32,7 @@ const FunnelView = ({
               heatAds={heatAds}
               heatIndex={index}
               totalHeats={funnelHeats.length}
+              activeFunnelId={activeFunnelId}
             />
           )
         })}
@@ -44,6 +46,7 @@ const FunnelView = ({
 FunnelView.propTypes = {
   funnelData: PropTypes.object.isRequired,
   funnelHeats: PropTypes.array.isRequired,
+  activeFunnelId: PropTypes.string.isRequired,
   className: PropTypes.string,
   classNameInner: PropTypes.string,
 }

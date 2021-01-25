@@ -106,6 +106,7 @@ const FunnelsContent = () => {
               <FunnelView
                 funnelData={activeFunnelData}
                 funnelHeats={funnelHeats}
+                activeFunnelId={activeFunnelId}
                 classNameInner="sm:max-w-xl lg:mx-auto"
               />
             </>
