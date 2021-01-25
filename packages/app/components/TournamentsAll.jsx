@@ -49,6 +49,7 @@ const TournamentsAll = ({
         'xs:ml-0 xs:w-full',
         'px-6 xs:px-0',
         'overflow-hidden',
+        'pt-2',
       ].join(' ')}
     >
       {tournaments.map((tournament, index) => {
