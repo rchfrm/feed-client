@@ -31,6 +31,8 @@ const TournamentAd = ({ ad, winner, className }) => {
   if (!adData) return null
   if (error) return <Error error={error} />
 
+  console.log('adData.adcreatives', adData.adcreatives)
+
   return (
     <div className={[className].join(' ')}>
       <h4 className="h3">

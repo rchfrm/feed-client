@@ -1,8 +1,10 @@
-button {
+button,
+a[type=button] {
   border: 0;
   outline: 0;
-  background: none;
+  background-color: none;
   cursor: pointer;
+  -webkit-appearance: none;
 
   &:focus {
     outline: none;
