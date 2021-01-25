@@ -8,7 +8,7 @@ export default {
     description: 'Engagement from new audiences.',
   },
   cool: {
-    title: 'cold',
+    title: 'cool',
     tooltip: `Tooltip about coold`,
     description: 'Mmm yeah cool.',
   },
