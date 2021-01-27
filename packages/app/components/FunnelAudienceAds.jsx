@@ -3,8 +3,12 @@ import PropTypes from 'prop-types'
 
 import FunnelAudienceAd from '@/app/FunnelAudienceAd'
 
+import MarkdownText from '@/elements/MarkdownText'
+
+import copy from '@/app/copy/funnelCopy'
 
 const FunnelAudienceAds = ({
+  audienceSlug,
   audienceAds,
   tournamentStatus,
   className,
@@ -12,9 +16,9 @@ const FunnelAudienceAds = ({
   // NO ADS or no active ads
   if (!audienceAds.length || tournamentStatus !== 'active') {
     return (
-      <p className="mb-10">
-        <strong>There are currently no active ads running for this audience.</strong>
-      </p>
+      <div className="bg-grey-1 p-5 rounded-dialogue mb-8">
+        <MarkdownText className="mb-0" markdown={copy[audienceSlug].noAds()} />
+      </div>
     )
   }
 
@@ -46,7 +50,7 @@ const FunnelAudienceAds = ({
             score={adScores[0]}
             winner={adScores[0] > adScores[1]}
             className={[
-              // 'flex flex-grow justify-center',
+              'mt-2',
             ].join(' ')}
           />
           <p className="mb-0 font-bold font-italic">
@@ -67,6 +71,7 @@ const FunnelAudienceAds = ({
 }
 
 FunnelAudienceAds.propTypes = {
+  audienceSlug: PropTypes.string.isRequired,
   audienceAds: PropTypes.array.isRequired,
   tournamentStatus: PropTypes.string.isRequired,
   className: PropTypes.string,
