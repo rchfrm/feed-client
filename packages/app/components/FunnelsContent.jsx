@@ -5,6 +5,7 @@ import { useAsync } from 'react-async'
 
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
+import ButtonHelp from '@/elements/ButtonHelp'
 
 import ResultsSummaryText from '@/app/ResultsSummaryText'
 import FunnelsSelectionButtons from '@/app/FunnelsSelectionButtons'
@@ -17,6 +18,8 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useAnimateScroll from '@/hooks/useAnimateScroll'
 
 import * as funnelHelpers from '@/app/helpers/funnelHelpers'
+
+import copy from '@/app/copy/funnelCopy'
 
 const FunnelsContent = () => {
   const { funnelOptions, audienceTypes } = funnelHelpers
@@ -67,6 +70,15 @@ const FunnelsContent = () => {
     },
   })
 
+  // MORE INFO BUTTON
+  const moreInfoButton = (
+    <ButtonHelp
+      text="More information about this page"
+      content={copy.needHelp}
+      contentHeader="How to understand this page"
+    />
+  )
+
   return (
     <div>
       {/* INTRO */}
@@ -76,22 +88,37 @@ const FunnelsContent = () => {
         totalVisitors={1437}
         roasMultiplier={6}
       />
+      {/* NEED HELP (mobile) */}
+      {!isTwoColumns && (
+        <div className="mb-16 -mt-2">
+          {moreInfoButton}
+        </div>
+      )}
       {/* CONTENT */}
       <div
         ref={contentRef}
         className="lg:grid grid-cols-12"
       >
         {/* SELECT FUNNEL BUTTONS */}
-        <FunnelsSelectionButtons
+        <div
           className={[
             'mb-16 lg:mb-0',
             'sm:max-w-xl lg:max-w-none',
             'col-span-4',
           ].join(' ')}
-          options={funnelOptions}
-          activeFunnelId={activeFunnelId}
-          setActiveFunnelId={setActiveFunnelId}
-        />
+        >
+          <FunnelsSelectionButtons
+            options={funnelOptions}
+            activeFunnelId={activeFunnelId}
+            setActiveFunnelId={setActiveFunnelId}
+          />
+          {/* NEED HELP (mobile) */}
+          {isTwoColumns && (
+            <div className="mt-12">
+              {moreInfoButton}
+            </div>
+          )}
+        </div>
         <div
           className="col-span-8 bmw:col-span-8 lg:ml-10"
           style={{ minHeight: '30rem' }}
