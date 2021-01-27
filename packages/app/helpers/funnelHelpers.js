@@ -19,6 +19,12 @@ export const funnelOptions = [
   },
 ]
 
+export const getFunnelPropFromId = (funnelId, prop) => {
+  const funnel = funnelOptions.find(({ id }) => id === funnelId)
+  const propValue = funnel[prop]
+  return propValue
+}
+
 export const audienceTypes = [
   {
     id: 'entice_engage',
@@ -46,9 +52,10 @@ export const audienceTypes = [
   },
 ]
 
-export const getAudienceIdFromSlug = (audienceSlug) => {
-  const { id } = audienceTypes.find(({ slug }) => slug === audienceSlug)
-  return id
+export const getAudiencePropFromSlug = (audienceSlug, prop) => {
+  const audience = audienceTypes.find(({ slug }) => slug === audienceSlug)
+  const propValue = audience[prop]
+  return propValue
 }
 
 // Get tournament link

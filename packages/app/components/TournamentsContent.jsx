@@ -6,9 +6,10 @@ import { TournamentContextProvider } from '@/app/contexts/TournamentContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 
+import TournamentsHeader from '@/app/TournamentsHeader'
 import TournamentsLoader from '@/app/TournamentsLoader'
 
-import { getAudienceIdFromSlug } from '@/app/helpers/funnelHelpers'
+import { getAudiencePropFromSlug } from '@/app/helpers/funnelHelpers'
 
 import { copy } from '@/app/copy/tournamentsCopy'
 
@@ -22,12 +23,19 @@ const TournamentsContent = ({
     return <MarkdownText markdown={copy.noQueryDefined} />
   }
 
-  const audienceId = getAudienceIdFromSlug(audienceSlug)
+  const audienceId = getAudiencePropFromSlug(audienceSlug, 'id')
 
   return (
     <TournamentContextProvider>
       <div>
         <section id="TournamentItemsContainer">
+          {/* HEADER */}
+          <TournamentsHeader
+            audienceSlug={audienceSlug}
+            adTypeId={adTypeId}
+            className="mt-1 mb-5"
+          />
+          {/* LOADER */}
           <TournamentsLoader
             artistId={artistId}
             artistLoading={artistLoading}
