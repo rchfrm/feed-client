@@ -22,7 +22,7 @@ const FunnelView = ({
         {audienceTypes.map((audience, index) => {
           const { slug } = audience
           const nextAudience = audienceTypes[index + 1] || {}
-          const { ads } = funnelData[slug]
+          const { ads, status } = funnelData[slug]
           const audienceAds = ads ? Object.values(ads) : []
           return (
             <FunnelAudience
@@ -32,6 +32,7 @@ const FunnelView = ({
               audienceAds={audienceAds}
               audienceIndex={index}
               totalAudiences={audienceTypes.length}
+              tournamentStatus={status}
               activeFunnelId={activeFunnelId}
             />
           )

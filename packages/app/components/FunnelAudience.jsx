@@ -19,6 +19,7 @@ const FunnelAudience = ({
   audienceIndex,
   totalAudiences,
   activeFunnelId,
+  tournamentStatus,
   className,
 }) => {
   const { slug: audienceSlug, color: audienceColor } = audience
@@ -59,6 +60,7 @@ const FunnelAudience = ({
             'mx-auto mb-10',
           ].join(' ')}
           audienceAds={audienceAds}
+          tournamentStatus={tournamentStatus}
         />
         {/* VIEW MORE */}
         <div className="flex justify-center mb-4">
@@ -95,10 +97,12 @@ FunnelAudience.propTypes = {
   audienceIndex: PropTypes.number.isRequired,
   totalAudiences: PropTypes.number.isRequired,
   activeFunnelId: PropTypes.string.isRequired,
+  tournamentStatus: PropTypes.string,
   className: PropTypes.string,
 }
 
 FunnelAudience.defaultProps = {
+  tournamentStatus: '',
   className: null,
 }
 

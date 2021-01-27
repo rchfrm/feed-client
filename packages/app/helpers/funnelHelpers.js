@@ -103,9 +103,10 @@ export const fetchAudiences = async ({ artistId, activeFunnelId }) => {
 // ------------------
 export const formatData = (data) => {
   return audienceTypes.reduce((formattedData, audience, index) => {
-    const { ads = null } = data[index][0] || {}
+    const { status, ads = null } = data[index][0] || {}
     formattedData[audience.slug] = {
       ...audience,
+      status,
       ads,
     }
     return formattedData

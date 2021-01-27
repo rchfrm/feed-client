@@ -3,15 +3,17 @@ import PropTypes from 'prop-types'
 
 import FunnelAudienceAd from '@/app/FunnelAudienceAd'
 
+
 const FunnelAudienceAds = ({
   audienceAds,
+  tournamentStatus,
   className,
 }) => {
-  // NO ADS
-  if (!audienceAds.length) {
+  // NO ADS or no active ads
+  if (!audienceAds.length || tournamentStatus !== 'active') {
     return (
       <p className="mb-10">
-        <strong>There are currently no ads running for this audience.</strong>
+        <strong>There are currently no active ads running for this audience.</strong>
       </p>
     )
   }
@@ -21,6 +23,7 @@ const FunnelAudienceAds = ({
   const adScores = audienceAds.map(({ engagement_score = 0 }) => {
     return engagement_score
   })
+
   return (
     <div
       className={[
@@ -46,8 +49,8 @@ const FunnelAudienceAds = ({
               // 'flex flex-grow justify-center',
             ].join(' ')}
           />
-          <p className="mb-0">
-            <strong><em>vs</em></strong>
+          <p className="mb-0 font-bold font-italic">
+            vs
           </p>
           <FunnelAudienceAd
             adData={audienceAds[1]}
@@ -65,6 +68,7 @@ const FunnelAudienceAds = ({
 
 FunnelAudienceAds.propTypes = {
   audienceAds: PropTypes.array.isRequired,
+  tournamentStatus: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
