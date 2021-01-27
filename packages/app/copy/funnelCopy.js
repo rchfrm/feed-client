@@ -1,14 +1,14 @@
 /* eslint-disable quotes */
 
 export default {
-  // HEAT TEXT
+  // AUDIENCE TEXT
   cold: {
     title: 'cold',
     tooltip: `Tooltip about cold`,
     description: 'Engagement from new audiences.',
   },
   cool: {
-    title: 'cold',
+    title: 'cool',
     tooltip: `Tooltip about coold`,
     description: 'Mmm yeah cool.',
   },

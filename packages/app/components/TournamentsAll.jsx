@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import Spinner from '@/elements/Spinner'
 import TournamentsItem from '@/app/TournamentsItem'
+import TournamentsLoadedAll from '@/app/TournamentsLoadedAll'
 
 import { TournamentContext } from '@/app/contexts/TournamentContext'
 
@@ -48,7 +49,8 @@ const TournamentsAll = ({
         'breakout--width',
         'xs:ml-0 xs:w-full',
         'px-6 xs:px-0',
-        'pt-10 overflow-hidden',
+        'overflow-hidden',
+        'pt-2',
       ].join(' ')}
     >
       {tournaments.map((tournament, index) => {
@@ -78,6 +80,10 @@ const TournamentsAll = ({
             <Spinner />
           </div>
         </div>
+      )}
+      {/* LOADED ALL */}
+      {loadedAll && (
+        <TournamentsLoadedAll />
       )}
     </section>
   )

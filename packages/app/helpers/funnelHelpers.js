@@ -1,6 +1,9 @@
-import { getArtistTournaments } from '@/helpers/sharedServer'
+import { fetchTournaments } from '@/helpers/tournamentHelpers'
+
+import * as ROUTES from '@/app/constants/routes'
 
 import copy from '@/app/copy/funnelCopy'
+import brandColors from '@/constants/brandColors'
 
 // CONSTANTS
 // ----------------
@@ -16,13 +19,20 @@ export const funnelOptions = [
   },
 ]
 
-export const funnelHeats = [
+export const getFunnelPropFromId = (funnelId, prop) => {
+  const funnel = funnelOptions.find(({ id }) => id === funnelId)
+  const propValue = funnel[prop]
+  return propValue
+}
+
+export const audienceTypes = [
   {
     id: 'entice_engage',
     slug: 'cold',
     title: copy.cold.title,
     description: copy.cold.description,
     tooltip: copy.cold.tooltip,
+    color: brandColors.blue,
   },
   {
     id: 'entice_traffic',
@@ -30,6 +40,7 @@ export const funnelHeats = [
     title: copy.cool.title,
     description: copy.cool.description,
     tooltip: copy.cool.tooltip,
+    color: brandColors.yellow,
   },
   {
     id: 'remind_traffic',
@@ -37,8 +48,26 @@ export const funnelHeats = [
     title: copy.warm.title,
     description: copy.warm.description,
     tooltip: copy.warm.tooltip,
+    color: brandColors.red,
   },
 ]
+
+export const getAudiencePropFromSlug = (audienceSlug, prop) => {
+  const audience = audienceTypes.find(({ slug }) => slug === audienceSlug)
+  const propValue = audience[prop]
+  return propValue
+}
+
+// Get tournament link
+export const getAudienceTournamentLink = ({ audienceSlug, funnelSlug }) => {
+  return {
+    pathname: ROUTES.TOURNAMENTS,
+    query: {
+      audience: audienceSlug,
+      adType: funnelSlug,
+    },
+  }
+}
 
 // FETCHING DATA
 // --------------
@@ -56,27 +85,28 @@ export const watchFunction = (newProps, oldProps) => {
   return false
 }
 
-export const fetchHeats = async ({ artistId, activeFunnelId: funnelType }) => {
+export const fetchAudiences = async ({ artistId, activeFunnelId }) => {
   if (!artistId) return []
-  const fetchHeatTournaments = funnelHeats.map((heat) => {
+  const fetchAudienceTournaments = audienceTypes.map((audience) => {
     // GET ALL ARTIST TOURNAMENTS
-    return getArtistTournaments({
+    return fetchTournaments({
       artistId,
-      audienceId: `${heat.id}_${funnelType}`,
-      expand: true,
+      audienceId: audience.id,
+      adTypeId: activeFunnelId,
       limit: 1,
     })
   })
-  return Promise.all(fetchHeatTournaments)
+  return Promise.all(fetchAudienceTournaments)
 }
 
 // FORMAT DATA
 // ------------------
 export const formatData = (data) => {
-  return funnelHeats.reduce((formattedData, heat, index) => {
-    const { ads = null } = data[index][0] || {}
-    formattedData[heat.slug] = {
-      ...heat,
+  return audienceTypes.reduce((formattedData, audience, index) => {
+    const { status, ads = null } = data[index][0] || {}
+    formattedData[audience.slug] = {
+      ...audience,
+      status,
       ads,
     }
     return formattedData

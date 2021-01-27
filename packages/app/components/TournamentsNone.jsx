@@ -5,8 +5,8 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { copy } from '@/app/copy/tournamentsCopy'
 
-const TournamentsNone = ({ tournamentType }) => {
-  const markdown = copy.noTournaments(tournamentType)
+const TournamentsNone = ({ adTypeId }) => {
+  const markdown = copy.noTournaments(adTypeId)
   return (
     <div className={[].join(' ')}>
       <MarkdownText
@@ -22,7 +22,7 @@ const TournamentsNone = ({ tournamentType }) => {
 }
 
 TournamentsNone.propTypes = {
-  tournamentType: PropTypes.string.isRequired,
+  adTypeId: PropTypes.string.isRequired,
 }
 
 export default TournamentsNone

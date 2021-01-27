@@ -1,26 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import FunnelHeatAd from '@/app/FunnelHeatAd'
+import FunnelAudienceAd from '@/app/FunnelAudienceAd'
 
-const FunnelHeatAds = ({
-  heatAds,
+
+const FunnelAudienceAds = ({
+  audienceAds,
+  tournamentStatus,
   className,
 }) => {
-  // NO ADS
-  if (!heatAds.length) {
+  // NO ADS or no active ads
+  if (!audienceAds.length || tournamentStatus !== 'active') {
     return (
       <p className="mb-10">
-        <strong>There are currently no ads running for this audience.</strong>
+        <strong>There are currently no active ads running for this audience.</strong>
       </p>
     )
   }
 
-  const isSingleAd = heatAds.length === 1
+  const isSingleAd = audienceAds.length === 1
   // Get scores into array
-  const adScores = heatAds.map(({ engagement_score = 0 }) => {
+  const adScores = audienceAds.map(({ engagement_score = 0 }) => {
     return engagement_score
   })
+
   return (
     <div
       className={[
@@ -30,27 +33,27 @@ const FunnelHeatAds = ({
     >
       {isSingleAd ? (
         // SINGLE AD
-        <FunnelHeatAd
-          adData={heatAds[0]}
+        <FunnelAudienceAd
+          adData={audienceAds[0]}
           score={adScores[0]}
           winner
         />
       ) : (
         // DOUBLE AD
         <>
-          <FunnelHeatAd
-            adData={heatAds[0]}
+          <FunnelAudienceAd
+            adData={audienceAds[0]}
             score={adScores[0]}
             winner={adScores[0] > adScores[1]}
             className={[
               // 'flex flex-grow justify-center',
             ].join(' ')}
           />
-          <p className="mb-0">
-            <strong><em>vs</em></strong>
+          <p className="mb-0 font-bold font-italic">
+            vs
           </p>
-          <FunnelHeatAd
-            adData={heatAds[1]}
+          <FunnelAudienceAd
+            adData={audienceAds[1]}
             score={adScores[1]}
             winner={adScores[1] > adScores[0]}
             className={[
@@ -63,15 +66,16 @@ const FunnelHeatAds = ({
   )
 }
 
-FunnelHeatAds.propTypes = {
-  heatAds: PropTypes.array.isRequired,
+FunnelAudienceAds.propTypes = {
+  audienceAds: PropTypes.array.isRequired,
+  tournamentStatus: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
-FunnelHeatAds.defaultProps = {
+FunnelAudienceAds.defaultProps = {
   className: null,
 }
 
 
 
-export default FunnelHeatAds
+export default FunnelAudienceAds

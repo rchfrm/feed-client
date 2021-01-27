@@ -10,7 +10,7 @@ import PostImage from '@/PostImage'
 
 import brandColors from '@/constants/brandColors'
 
-const FunnelHeatAd = ({
+const FunnelAudienceAd = ({
   adData,
   winner,
   score,
@@ -59,15 +59,15 @@ const FunnelHeatAd = ({
   )
 }
 
-FunnelHeatAd.propTypes = {
+FunnelAudienceAd.propTypes = {
   adData: PropTypes.object.isRequired,
   winner: PropTypes.bool.isRequired,
   score: PropTypes.number.isRequired,
   className: PropTypes.string,
 }
 
-FunnelHeatAd.defaultProps = {
+FunnelAudienceAd.defaultProps = {
   className: null,
 }
 
-export default FunnelHeatAd
+export default FunnelAudienceAd

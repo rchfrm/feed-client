@@ -2,40 +2,8 @@ import moment from 'moment'
 import produce from 'immer'
 
 import * as utils from '@/helpers/utils'
-import brandColors from '@/constants/brandColors'
+import { getArtistTournaments } from '@/helpers/sharedServer'
 import { metricTooltips } from '@/app/copy/tournamentsCopy'
-
-
-// AUDIENCE and TOURNMANET PROPS
-// ------------------------------
-export const audienceTypes = [
-  {
-    id: 'remind_traffic',
-    title: 'Warm',
-    slug: 'warm',
-    color: brandColors.red,
-    activeTextColor: brandColors.black,
-  },
-  {
-    id: 'entice_traffic',
-    title: 'Cool',
-    slug: 'cool',
-    color: brandColors.soundcloud.bg,
-    activeTextColor: brandColors.soundcloud.text,
-  },
-  {
-    id: 'entice_engage',
-    title: 'Cold',
-    slug: 'cold',
-    color: brandColors.twitter.bg,
-    activeTextColor: brandColors.twitter.text,
-  },
-]
-
-export const tournamentTypes = [
-  { id: 'posts', title: 'Posts' },
-  { id: 'stories', title: 'Stories' },
-]
 
 
 // FILTER TOURNAMENTS BY ADSET (and POST TYPE)
@@ -124,6 +92,29 @@ export const setAdStreakPositions = (tournaments) => {
         previousTournament.nextStreakWinnerIndex = updatedStreakWinnerIndex
       }
     }
+  })
+}
+
+// LOAD DATA
+// ------------------------------------
+/**
+  * @param {object}
+  * @returns {Promise<object>} { res, error }
+*/
+export const fetchTournaments = ({
+  artistId,
+  audienceId,
+  adTypeId,
+  limit = 20,
+  offset = 0,
+  expand = true,
+}) => {
+  return getArtistTournaments({
+    artistId,
+    audienceId: `${audienceId}_${adTypeId}`,
+    expand,
+    limit,
+    ...(offset && { offset }),
   })
 }
 
