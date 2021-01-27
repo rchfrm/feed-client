@@ -7,7 +7,7 @@ import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 import ButtonHelp from '@/elements/ButtonHelp'
 
-import ResultsSummaryText from '@/app/ResultsSummaryText'
+// import ResultsSummaryText from '@/app/ResultsSummaryText'
 import FunnelsSelectionButtons from '@/app/FunnelsSelectionButtons'
 import FunnelView from '@/app/FunnelView'
 
@@ -82,12 +82,12 @@ const FunnelsContent = () => {
   return (
     <div>
       {/* INTRO */}
-      <ResultsSummaryText
+      {/* <ResultsSummaryText
         className="mb-14"
         totalEngagements={3541}
         totalVisitors={1437}
         roasMultiplier={6}
-      />
+      /> */}
       {/* NEED HELP (mobile) */}
       {!isTwoColumns && (
         <div className="mb-16 -mt-2">
