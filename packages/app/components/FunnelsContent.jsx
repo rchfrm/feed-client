@@ -77,6 +77,7 @@ const FunnelsContent = () => {
       text="More information about this page"
       content={copy.needHelp}
       contentHeader="How to understand this page"
+      label="Funnels content help"
     />
   )
 
