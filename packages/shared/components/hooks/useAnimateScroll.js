@@ -9,7 +9,7 @@ const useAnimateScroll = () => {
     gsap.registerPlugin(ScrollToPlugin)
   }, [])
 
-  const scrollTo = React.useCallback(({ offset, duration, scrollingEl = window }) => {
+  const scrollTo = React.useCallback(({ offset, duration = 0.3, scrollingEl = window }) => {
     const x = typeof offset === 'object' ? offset.x : null
     const y = typeof offset === 'object' ? offset.y : offset
     const scrollToProps = x ? { x, y } : { y }
