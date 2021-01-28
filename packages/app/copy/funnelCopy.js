@@ -29,6 +29,8 @@ const audienceProps = {
 export default {
   // FUNNEL VIZ INTRO TEXT
   funnelVizIntroText: `Review which ads are currently running to difference audience types and see which are performing best.`,
+  // NO ACTIVE ADS TEXT
+  noActiveAds: `**You have no ads running.** Unpause Feed and set a budget from the [Controls page](${ROUTES.CONTROLS}) and opt in some posts on the [posts page](${ROUTES.POSTS}?postStatus=not-run) to get started.`,
   // AUDIENCE TEXT
   ...audienceProps,
   // NEED HELP TEXT

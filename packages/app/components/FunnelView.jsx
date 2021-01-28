@@ -4,6 +4,10 @@ import PropTypes from 'prop-types'
 import FunnelAudience from '@/app/FunnelAudience'
 import FunnelAudienceHot from '@/app/FunnelAudienceHot'
 
+import MarkdownText from '@/elements/MarkdownText'
+
+import copy from '@/app/copy/funnelCopy'
+
 const FunnelView = ({
   funnelData,
   audienceTypes,
@@ -11,7 +15,24 @@ const FunnelView = ({
   className,
   classNameInner,
 }) => {
+  const hasNoActiveAds = React.useMemo(() => {
+    if (!funnelData) return true
+    return Object.values(funnelData).every(({ ads }) => !ads)
+  }, [funnelData])
+
   if (!funnelData) return null
+  console.log('funnelData', funnelData)
+  console.log('hasNoActiveAds', hasNoActiveAds)
+
+  // HANDLE NO ACTIVE ADS
+  if (hasNoActiveAds) {
+    return (
+      <div className="bg-grey-1 p-5 rounded-dialogue mb-8">
+        <MarkdownText className="mb-0" markdown={copy.noActiveAds} />
+      </div>
+    )
+  }
+
   return (
     <div
       className={[
