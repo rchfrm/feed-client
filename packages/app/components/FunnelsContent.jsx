@@ -44,7 +44,7 @@ const FunnelsContent = () => {
     }
     const { current: contentEl } = contentRef
     const top = contentEl.offsetTop
-    scrollTo(top - 16)
+    scrollTo({ offset: top - 16 })
   // eslint-disable-next-line
   }, [activeFunnelId])
 
