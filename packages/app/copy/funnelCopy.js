@@ -6,19 +6,19 @@ export default {
   growA: {
     title: 'Grow A',
     tooltip: ``,
-    description: 'Engagement from new audiences.',
+    description: 'Find new audiences, build an engaged audience on social media.',
     noAds: () => `**No ads running**. [Opt in more posts](${ROUTES.POSTS}?postStatus=not-run) to enable this audience and boost performance.`,
   },
   growB: {
     title: 'Grow B',
     tooltip: ``,
-    description: 'Mmm yeah cool.',
+    description: 'Find new audiences likely to visit your website or streaming profile.',
     noAds: (minBudget) => `**No ads running**. [Opt in more posts](${ROUTES.POSTS}?postStatus=not-run) and make sure your budget is set to ${minBudget} to enable this audience and boost performance.`,
   },
   nurture: {
     title: 'Nurture',
     tooltip: ``,
-    description: 'Feels good man.',
+    description: 'Invest in the relationships with your engaged audience using retargeting.',
     noAds: () => `**No ads running**. [Opt in more posts](${ROUTES.POSTS}?postStatus=not-run) to enable this audience and boost performance.`,
   },
   hot: {
