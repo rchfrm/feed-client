@@ -1,10 +1,7 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
 
-export default {
-  // FUNNEL VIZ INTRO TEXT
-  funnelVizIntroText: `Review which ads are currently running to difference audience types and see which are performing best.`,
-  // AUDIENCE TEXT
+const audienceProps = {
   growA: {
     title: 'Grow A',
     tooltip: ``,
@@ -27,19 +24,25 @@ export default {
     title: 'hot',
     description: 'Coming soon bro',
   },
+}
 
+export default {
+  // FUNNEL VIZ INTRO TEXT
+  funnelVizIntroText: `Review which ads are currently running to difference audience types and see which are performing best.`,
+  // AUDIENCE TEXT
+  ...audienceProps,
   // NEED HELP TEXT
   needHelp: `Feed helps you find new audiences, keep them engaged, develop the relationship with your fans and grow revenue from your biggest supporters.
 
-### Grow A
+### ${audienceProps.growA.title}
   
 People who haven’t heard of you yet, but are likely to engage. Feed grows an [audience of people who have engaged with you](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y), and over time via Nurture turns those people into followers who stream your music and buy tickets, records and merch.
 
-### Grow B
+### ${audienceProps.growB.title}
 
 People who haven’t heard about you before, but are likely to visit your website or streaming profile. People who do automatically fall into your [engaged audience](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y).
 
-### Nurture
+### ${audienceProps.nurture.title}
 
 Feed empowers you to invest in the relationships with your [engaged audience](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y) to create your biggest supporters. This isn’t only your followers and people you can’t reach organically, but anyone who has engaged with you before. Keep the conversation going, get more posts in front of your engaged audience and build followers and fans over time.`,
 
