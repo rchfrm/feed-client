@@ -2,6 +2,8 @@
 import * as ROUTES from '@/app/constants/routes'
 
 export default {
+  // FUNNEL VIZ INTRO TEXT
+  funnelVizIntroText: `Review which ads are currently running to difference audience types and see which are performing best.`,
   // AUDIENCE TEXT
   growA: {
     title: 'Grow A',

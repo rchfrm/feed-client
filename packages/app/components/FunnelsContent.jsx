@@ -5,6 +5,7 @@ import { useAsync } from 'react-async'
 
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
 import ButtonHelp from '@/elements/ButtonHelp'
 
 // import ResultsSummaryText from '@/app/ResultsSummaryText'
@@ -81,13 +82,18 @@ const FunnelsContent = () => {
 
   return (
     <div>
-      {/* INTRO */}
+      {/* RESULTS SUMMARY */}
       {/* <ResultsSummaryText
         className="mb-14"
         totalEngagements={3541}
         totalVisitors={1437}
         roasMultiplier={6}
       /> */}
+      {/* INTRO */}
+      <MarkdownText
+        className="max-w-lg mb-16"
+        markdown={copy.funnelVizIntroText}
+      />
       {/* NEED HELP (mobile) */}
       {!isTwoColumns && (
         <div className="mb-16 -mt-2">
