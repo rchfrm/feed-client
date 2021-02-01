@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 import { PageTransition } from 'next-page-transitions'
@@ -69,7 +69,8 @@ if (process.env.build_env !== 'development') {
 }
 
 // * THE APP
-function Feed({ Component, pageProps, router }) {
+function Feed({ Component, pageProps }) {
+  const router = useRouter()
   const [stripe, setStripe] = React.useState(null)
 
   React.useEffect(() => {
@@ -141,7 +142,7 @@ function Feed({ Component, pageProps, router }) {
   )
 }
 
-export default withFBQ(fbqId, Router)(Feed)
+export default withFBQ(fbqId)(Feed)
 
 Feed.propTypes = {
   Component: PropTypes.elementType.isRequired,
