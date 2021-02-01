@@ -24,6 +24,7 @@ import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
 
 // GLOBAL STORES and DATA
 import globalData from '@/app/tempGlobalData/globalData.json'
+import { parseUrl } from '@/helpers/utils'
 import { formatDictionary } from '@/app/helpers/notificationsHelpers'
 import useNotificationStore from '@/app/store/notificationsStore'
 
@@ -73,6 +74,8 @@ function Feed({ Component, pageProps }) {
   const router = useRouter()
   const [stripe, setStripe] = React.useState(null)
 
+  const previousUrl = React.useRef({})
+
   React.useEffect(() => {
     // Setup tracking
     setupTracking()
@@ -84,13 +87,19 @@ function Feed({ Component, pageProps }) {
 
     // Trigger page view event
     const handleRouteChange = (url) => {
+      const { pathname, queryString } = parseUrl(url)
+      const { pathname: previousPathname } = previousUrl.current
+      // Stop here if same pathname
+      if (pathname === previousPathname) return
       gtagPageView(url, gaId)
       mixpanelPageView(url)
+      // Store previous URL
+      previousUrl.current = { pathname, queryString }
     }
-    Router.events.on('routeChangeComplete', handleRouteChange)
+    router.events.on('routeChangeComplete', handleRouteChange)
 
     return () => {
-      Router.events.off('routeChangeComplete', handleRouteChange)
+      router.events.off('routeChangeComplete', handleRouteChange)
     }
   }, [])
 
