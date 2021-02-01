@@ -47,6 +47,8 @@ export default {
   // NEED HELP TEXT
   needHelp: `Feed helps you find new audiences, keep them engaged, develop the relationship with your fans and grow revenue from your biggest supporters.
 
+This page shows what ads are currently running and to which audiences. There is a description of each audience below. 
+
 ### ${audienceProps.growA.title}
   
 People who haven’t heard of you yet, but are likely to engage. Feed grows an [audience of people who have engaged with you](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y), and over time via Nurture turns those people into followers who stream your music and buy tickets, records and merch.
