@@ -279,24 +279,24 @@ function ArtistProvider({ children, disable }) {
     const { min_daily_budget_info: { amount: fbMin, currency } } = artist
     const minUnit = utils.roundToFactorOfTen((fbMin) / 0.9)
     const minHard = utils.roundToFactorOfTen((2 * fbMin) / 0.9)
-    const minReccomended = utils.roundToFactorOfTen((3 * fbMin) / 0.9)
+    const minReccomendedBase = utils.roundToFactorOfTen((3 * fbMin) / 0.9)
     // The values in the smallest currency unit (eg pence)
     const smallestUnit = {
       minUnit,
       minHard,
-      minReccomended,
+      minReccomendedBase,
     }
     // The value in the largest currency unit (eg pound)
     const largestUnit = {
       minUnit: minUnit / currency.offset,
       minHard: minHard / currency.offset,
-      minReccomended: minReccomended / currency.offset,
+      minReccomendedBase: minReccomendedBase / currency.offset,
     }
     // The value as a string
     const string = {
       minUnit: utils.formatCurrency(largestUnit.minUnit, currency.code),
       minHard: utils.formatCurrency(largestUnit.minHard, currency.code),
-      minReccomended: utils.formatCurrency(largestUnit.minReccomended, currency.code),
+      minReccomendedBase: utils.formatCurrency(largestUnit.minReccomendedBase, currency.code),
     }
     return {
       smallestUnit,

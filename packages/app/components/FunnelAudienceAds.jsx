@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/contexts/ArtistContext'
+
 import FunnelAudienceAd from '@/app/FunnelAudienceAd'
 
 import MarkdownText from '@/elements/MarkdownText'
@@ -13,11 +15,13 @@ const FunnelAudienceAds = ({
   tournamentStatus,
   className,
 }) => {
+  const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
   // NO ADS or no active ads
   if (!audienceAds.length || tournamentStatus !== 'active') {
+    const { string: { minReccomendedBase } } = feedMinBudgetInfo
     return (
       <div className="bg-grey-1 p-5 rounded-dialogue mb-8">
-        <MarkdownText className="mb-0" markdown={copy[audienceSlug].noAds()} />
+        <MarkdownText className="mb-0" markdown={copy[audienceSlug].noAds(minReccomendedBase)} />
       </div>
     )
   }
