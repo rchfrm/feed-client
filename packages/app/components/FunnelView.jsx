@@ -28,7 +28,7 @@ const FunnelView = ({
   if (hasNoActiveAds) {
     return (
       <div className="bg-grey-1 p-5 rounded-dialogue mb-8">
-        <MarkdownText className="mb-0" markdown={copy.noActiveAds} />
+        <MarkdownText className="mb-0" markdown={copy.noActiveAds(activeFunnelId)} />
       </div>
     )
   }

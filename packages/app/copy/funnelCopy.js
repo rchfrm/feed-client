@@ -6,19 +6,30 @@ const audienceProps = {
     title: 'Grow A',
     tooltip: ``,
     description: 'Find new audiences, build an engaged audience on social media.',
-    noAds: () => `**No ads running**. [Opt in more posts](${ROUTES.POSTS}?postStatus=not-run) to enable this audience and boost performance.`,
+    noAds: {
+      posts: () => `**No ads running**. [Opt in more posts](${ROUTES.POSTS}?postStatus=not-run) to enable this audience and boost performance.`,
+      stories: (minBudget) => `**No ads running**. [Opt in more stories](${ROUTES.POSTS}?postStatus=not-run) and ensure budget is ${minBudget} to enable this audience and boost performance.
+      `,
+    },
   },
   growB: {
     title: 'Grow B',
     tooltip: ``,
     description: 'Find new audiences likely to visit your website or streaming profile.',
-    noAds: (minBudget) => `**No ads running**. [Opt in more posts](${ROUTES.POSTS}?postStatus=not-run) and make sure your budget is set to ${minBudget} to enable this audience and boost performance.`,
+    noAds: {
+      posts: (minBudget) => `**No ads running**. [Opt in more posts](${ROUTES.POSTS}?postStatus=not-run) and make sure your budget is set to ${minBudget} to enable this audience and boost performance.`,
+      stories: (minBudget) => `**No ads running**. [Opt in more stories](${ROUTES.POSTS}?postStatus=not-run) and make sure your budget is set to ${minBudget} to enable this audience and boost performance.
+      `,
+    },
   },
   nurture: {
     title: 'Nurture',
     tooltip: ``,
     description: 'Invest in the relationships with your engaged audience using retargeting.',
-    noAds: () => `**No ads running**. [Opt in more posts](${ROUTES.POSTS}?postStatus=not-run) to enable this audience and boost performance.`,
+    noAds: {
+      posts: () => `**No ads running**. [Opt in more posts](${ROUTES.POSTS}?postStatus=not-run) to enable this audience and boost performance.`,
+      stories: (minBudget) => `**No ads running**. [Opt in more stories](${ROUTES.POSTS}?postStatus=not-run) and make sure your budget is set to ${minBudget} to enable this audience and boost performance.`,
+    },
   },
   hot: {
     title: 'hot',
@@ -30,7 +41,7 @@ export default {
   // FUNNEL VIZ INTRO TEXT
   funnelVizIntroText: `Review which ads are currently running to difference audience types and see which are performing best.`,
   // NO ACTIVE ADS TEXT
-  noActiveAds: `**You have no ads running.** Unpause Feed and set a budget from the [Controls page](${ROUTES.CONTROLS}) and opt in some posts on the [posts page](${ROUTES.POSTS}?postStatus=not-run) to get started.`,
+  noActiveAds: (postsType) => `**You have no ads running.** Unpause Feed and set a budget from the [Controls page](${ROUTES.CONTROLS}) and opt in some ${postsType} on the [posts page](${ROUTES.POSTS}?postStatus=not-run) to get started.`,
   // AUDIENCE TEXT
   ...audienceProps,
   // NEED HELP TEXT

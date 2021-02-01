@@ -64,6 +64,7 @@ const FunnelAudience = ({
           audienceSlug={audienceSlug}
           audienceAds={audienceAds}
           tournamentStatus={tournamentStatus}
+          activeFunnelId={activeFunnelId}
         />
         {/* VIEW MORE */}
         <div className="flex justify-center mb-4">
