@@ -39,7 +39,7 @@ const FunnelsContent = () => {
   // MORE INFO BUTTON
   const moreInfoButton = (
     <ButtonHelp
-      text="More information about this page"
+      text="What's going on here?"
       content={copy.needHelp}
       contentHeader="How to understand this page"
       label="Funnels content help"
