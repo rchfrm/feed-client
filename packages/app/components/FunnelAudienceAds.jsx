@@ -18,11 +18,12 @@ const FunnelAudienceAds = ({
 }) => {
   const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
   // NO ADS or no active ads
-  if (true || !audienceAds.length || tournamentStatus !== 'active') {
-    const { string: { minReccomendedBase } } = feedMinBudgetInfo
+  if (!audienceAds.length || tournamentStatus !== 'active') {
+    const { string: { minReccomendedBase, minReccomendedStories} } = feedMinBudgetInfo
+    const minBudget = activeFunnelId === 'stories' ? minReccomendedStories : minReccomendedBase
     return (
       <div className="bg-grey-1 p-5 rounded-dialogue mb-8">
-        <MarkdownText className="mb-0" markdown={copy[audienceSlug].noAds[activeFunnelId](minReccomendedBase)} />
+        <MarkdownText className="mb-0" markdown={copy[audienceSlug].noAds[activeFunnelId](minBudget)} />
       </div>
     )
   }
