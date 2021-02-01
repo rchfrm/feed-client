@@ -21,8 +21,6 @@ const FunnelView = ({
   }, [funnelData])
 
   if (!funnelData) return null
-  console.log('funnelData', funnelData)
-  console.log('hasNoActiveAds', hasNoActiveAds)
 
   // HANDLE NO ACTIVE ADS
   if (hasNoActiveAds) {
