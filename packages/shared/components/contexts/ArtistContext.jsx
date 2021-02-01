@@ -26,6 +26,7 @@ const initialArtistState = {
   currency: '',
   users: {},
   min_daily_budget_info: {},
+  feedMinBudgetInfo: {}, // { minRaw, minRounded, minString }
   missingDefaultLink: true,
   isMusician: false,
 }
@@ -48,6 +49,10 @@ const artistReducer = (draftState, action) => {
     }
     case 'set-budget': {
       draftState.daily_budget = payload.budget
+      break
+    }
+    case 'set-min-budget': {
+      draftState.feedMinBudgetInfo = payload.feedMinBudgetInfo
       break
     }
     case 'set-connection': {
@@ -257,7 +262,7 @@ function ArtistProvider({ children, disable }) {
     })
   }
 
-  // Update artist ID when artist changes
+  // Update artist ID
   React.useEffect(() => {
     if (!artist || !artist.id) return
     const { id, currency } = artist
@@ -270,8 +275,44 @@ function ArtistProvider({ children, disable }) {
   // WHEN ARTIST CHANGES...
   // ----------------------
 
+  const calcFeedMinBudgetInfo = (artist) => {
+    const { min_daily_budget_info: { amount: fbMin, currency } } = artist
+    const minUnit = utils.roundToFactorOfTen((fbMin) / 0.9)
+    const minHard = utils.roundToFactorOfTen((2 * fbMin) / 0.9)
+    const minReccomended = utils.roundToFactorOfTen((3 * fbMin) / 0.9)
+    // The values in the smallest currency unit (eg pence)
+    const smallestUnit = {
+      minUnit,
+      minHard,
+      minReccomended,
+    }
+    // The value in the largest currency unit (eg pound)
+    const largestUnit = {
+      minUnit: minUnit / currency.offset,
+      minHard: minHard / currency.offset,
+      minReccomended: minReccomended / currency.offset,
+    }
+    // The value as a string
+    const string = {
+      minUnit: utils.formatCurrency(largestUnit.minUnit, currency.code),
+      minHard: utils.formatCurrency(largestUnit.minHard, currency.code),
+      minReccomended: utils.formatCurrency(largestUnit.minReccomended, currency.code),
+    }
+    return {
+      smallestUnit,
+      largestUnit,
+      string,
+    }
+  }
+
   React.useEffect(() => {
     if (!artistId) return
+    // Update Feed min budget
+    const feedMinBudgetInfo = calcFeedMinBudgetInfo(artist)
+    setArtist({
+      type: 'set-min-budget',
+      payload: { feedMinBudgetInfo },
+    })
     // Store artist id in local storage
     utils.setLocalStorage('artistId', artistId)
   }, [artistId])
