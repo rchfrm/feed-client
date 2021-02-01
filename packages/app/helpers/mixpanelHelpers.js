@@ -54,6 +54,7 @@ export const mixpanelSignOut = () => {
   mixpanel.reset()
 }
 
+// View pagetion
 export const mixpanelPageView = (url) => {
   mixpanelTrack('page_view', { value: url })
 }

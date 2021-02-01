@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 import { PageTransition } from 'next-page-transitions'
@@ -24,6 +24,8 @@ import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
 
 // GLOBAL STORES and DATA
 import globalData from '@/app/tempGlobalData/globalData.json'
+
+import { parseUrl } from '@/helpers/utils'
 import { formatDictionary } from '@/app/helpers/notificationsHelpers'
 import useNotificationStore from '@/app/store/notificationsStore'
 
@@ -69,8 +71,12 @@ if (process.env.build_env !== 'development') {
 }
 
 // * THE APP
-function Feed({ Component, pageProps, router }) {
+
+function Feed({ Component, pageProps }) {
+  const router = useRouter()
   const [stripe, setStripe] = React.useState(null)
+
+  const previousUrl = React.useRef({})
 
   React.useEffect(() => {
     // Setup tracking
@@ -83,13 +89,19 @@ function Feed({ Component, pageProps, router }) {
 
     // Trigger page view event
     const handleRouteChange = (url) => {
+      const { pathname, queryString } = parseUrl(url)
+      const { pathname: previousPathname } = previousUrl.current
+      // Stop here if same pathname
+      if (pathname === previousPathname) return
       gtagPageView(url, gaId)
       mixpanelPageView(url)
+      // Store previous URL
+      previousUrl.current = { pathname, queryString }
     }
-    Router.events.on('routeChangeComplete', handleRouteChange)
+    router.events.on('routeChangeComplete', handleRouteChange)
 
     return () => {
-      Router.events.off('routeChangeComplete', handleRouteChange)
+      router.events.off('routeChangeComplete', handleRouteChange)
     }
   }, [])
 
@@ -141,7 +153,7 @@ function Feed({ Component, pageProps, router }) {
   )
 }
 
-export default withFBQ(fbqId, Router)(Feed)
+export default withFBQ(fbqId)(Feed)
 
 Feed.propTypes = {
   Component: PropTypes.elementType.isRequired,
