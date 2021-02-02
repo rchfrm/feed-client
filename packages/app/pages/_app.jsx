@@ -71,7 +71,6 @@ if (process.env.build_env !== 'development') {
 }
 
 // * THE APP
-
 function Feed({ Component, pageProps }) {
   const router = useRouter()
   const [stripe, setStripe] = React.useState(null)
