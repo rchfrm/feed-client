@@ -86,6 +86,6 @@ Any questions, feel free to email us [help@tryfeed.co](mailto:help@tryfeed.co)
   
 The suggested budget makes sure you're spending enough relative to the size of audience you'll be targeting.
   
-It also means that Feed can reach new people (${funnelCopy.growA.title} audiences) and retarget people who have engaged with you before, but not recently (${funnelCopy.nurture.title} audiences), to convert people over time into followers, fans and customers.`,
+It also means that Feed can reach new people (${funnelCopy.growA.title} audiences) and retarget people who have engaged with you before, but not recently (${funnelCopy.nurture.title} audiences), and over time convert them into followers, fans and customers.`,
 
 }
