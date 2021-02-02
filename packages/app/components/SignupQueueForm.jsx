@@ -100,16 +100,18 @@ const SignupQueueForm = ({ className }) => {
         e.preventDefault()
         // Stop here if form not valid
         if (!isFormValid) return
-        // Submit form
-        e.target.submit()
         // TRACK
         track({
           action: 'join_waiting_list',
           category: 'sign_up',
           marketing: true,
         })
-        // Clear values
-        setValues({})
+        // Submit form
+        e.target.submit()
+        // Clear values (after delay)
+        setTimeout(() => {
+          setValues({})
+        }, 300)
       }}
     >
       {/* HIDDEN To add them to the 'Waiting List' group */}
