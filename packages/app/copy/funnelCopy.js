@@ -45,7 +45,7 @@ export default {
   // AUDIENCE TEXT
   ...audienceProps,
   // NEED HELP TEXT
-  needHelp: `Feed helps you find new audiences, keep them engaged, develop the relationship with your fans and grow revenue from your biggest supporters.
+  needHelp: `Feed helps you find new audiences, develop the relationship with your fans and grow revenue from your biggest supporters.
 
 This page shows what ads are currently running and to which audiences. There is a description of each audience below. 
 
