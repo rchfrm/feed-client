@@ -59,6 +59,6 @@ People who haven’t heard about you before, but are likely to visit your websit
 
 ### ${audienceProps.nurture.title}
 
-Feed empowers you to invest in the relationships with your [engaged audience](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y) to create your biggest supporters. This isn’t only your followers and people you can’t reach organically, but anyone who has engaged with you before. Keep the conversation going, get more posts in front of your engaged audience and build followers and fans over time.`,
+Feed empowers you to invest in the relationships with your [engaged audience](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y) to create your biggest supporters. This isn’t just your followers and people you can reach organically, but anyone who has engaged with you before. Keep the conversation going, get more posts in front of your engaged audience and build followers and fans over time.`,
 
 }
