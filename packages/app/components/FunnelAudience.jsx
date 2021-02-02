@@ -41,17 +41,19 @@ const FunnelAudience = ({
         }}
       >
         {/* HEADER */}
-        <header className="flex justify-between -mt-1 mb-5">
+        <header className="flex justify-between -mt-1">
           <h4 className="font-body font-bold">{audience.title}</h4>
           {/* TOOLTIP */}
-          <TooltipButton
-            copy={audience.tooltip}
-            direction="left"
-            trackLabel={`${audience.title} audience`}
-            buttonStyle={{ transform: 'translate(0.5rem, -0.2rem)' }}
-          />
+          {audience.tooltip && (
+            <TooltipButton
+              copy={audience.tooltip}
+              direction="left"
+              trackLabel={`${audience.title} audience`}
+              buttonStyle={{ transform: 'translate(0.5rem, -0.2rem)' }}
+            />
+          )}
         </header>
-        <MarkdownText className="mb-6" markdown={audience.description} />
+        <MarkdownText className="-mt-2 mb-6" markdown={audience.description} />
         {/* ADS */}
         <FunnelAudienceAds
           className={[
@@ -59,8 +61,10 @@ const FunnelAudience = ({
             'xs:w-3/4 sm:w-full',
             'mx-auto mb-10',
           ].join(' ')}
+          audienceSlug={audienceSlug}
           audienceAds={audienceAds}
           tournamentStatus={tournamentStatus}
+          activeFunnelId={activeFunnelId}
         />
         {/* VIEW MORE */}
         <div className="flex justify-center mb-4">

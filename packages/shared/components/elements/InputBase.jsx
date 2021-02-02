@@ -27,7 +27,7 @@ const getIconEl = (icon, success) => {
   if (icon === 'instagram') {
     return (
       <div className="input--icon">
-        <InstagramIcon fill={brandColors.textCoolor} width="20" />
+        <InstagramIcon fill={brandColors.textColor} width="20" />
       </div>
     )
   }

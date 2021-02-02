@@ -14,8 +14,6 @@ const headerConfig = {
 const Page = () => {
   const router = useRouter()
   const { audience, adType } = router.query
-  console.log('audience', audience)
-  console.log('adType', adType)
   return (
     <BasePage
       headerConfig={headerConfig}
