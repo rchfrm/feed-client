@@ -24,7 +24,6 @@ import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
 
 // GLOBAL STORES and DATA
 import globalData from '@/app/tempGlobalData/globalData.json'
-
 import { parseUrl } from '@/helpers/utils'
 import { formatDictionary } from '@/app/helpers/notificationsHelpers'
 import useNotificationStore from '@/app/store/notificationsStore'
