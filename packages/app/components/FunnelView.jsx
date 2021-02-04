@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import FunnelAudience from '@/app/FunnelAudience'
-import FunnelAudienceHot from '@/app/FunnelAudienceHot'
+// import FunnelAudienceHot from '@/app/FunnelAudienceHot'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -57,7 +57,7 @@ const FunnelView = ({
           )
         })}
         {/* HOT (coming soon) */}
-        <FunnelAudienceHot />
+        {/* <FunnelAudienceHot /> */}
       </div>
     </div>
   )
