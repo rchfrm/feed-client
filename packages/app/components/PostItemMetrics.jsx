@@ -33,7 +33,7 @@ const PostItemMetrics = ({
 
   // SETUP PILL BUTTONS
   const pillOptions = React.useMemo(() => {
-    // Disable stories for Cold audiences
+    // Disable stories for grow A audiences
     if (hidePaidMetrics) {
       const paidOptionIndex = metricsOptionsTypes.findIndex(({ id }) => id === 'paid')
       return produce(metricsOptionsTypes, draftState => {

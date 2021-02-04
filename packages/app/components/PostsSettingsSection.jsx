@@ -9,8 +9,8 @@ const PostsSettingsSection = ({
   children,
 }) => {
   return (
-    <section className="mb-8 last:mb-0">
-      <h3>{header}</h3>
+    <section className="mb-10 last:mb-0">
+      <h3 className="font-body font-bold text-lg mb-3">{header}</h3>
       {copy && <MarkdownText markdown={copy} />}
       {children}
     </section>
