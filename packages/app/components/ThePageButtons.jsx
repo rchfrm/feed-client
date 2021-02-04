@@ -26,6 +26,7 @@ const links = [
     href: ROUTES.RESULTS,
     title: 'results',
     icon: 'results',
+    matchingHrefs: [ROUTES.TOURNAMENTS],
   },
   {
     href: ROUTES.INSIGHTS,
@@ -51,12 +52,12 @@ const ThePageButtons = () => {
       className={[styles.container, artistLoading ? styles._artistLoading : ''].join(' ')}
     >
       <nav className={styles.inner}>
-        {links.map(({ href, title, icon }) => {
+        {links.map(({ href, title, icon, matchingHrefs }) => {
           const showBadge = (icon === 'controls' && !hasBudget && !missingDefaultLink)
             || (icon === 'posts' && missingDefaultLink)
           return (
             <div className={styles.link} key={href}>
-              <ActiveLink href={href} activeClass={styles._active}>
+              <ActiveLink href={href} activeClass={styles._active} matchingHrefs={matchingHrefs}>
                 <a className={[
                   'relative',
                   styles.linkAnchor,

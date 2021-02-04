@@ -2,6 +2,8 @@ import axios from 'axios'
 import firebase from '@/helpers/firebase'
 import host from '@/helpers/host'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 const axiosInstance = axios.create()
 
 const retryConfig = {
@@ -107,6 +109,16 @@ export async function request(method, path, options, token) {
   return res.data
 }
 
+const getOptionsAndToken = (props, propType, token) => {
+  const options = {}
+  if (typeof props !== 'object') {
+    token = props
+  } else {
+    options[propType] = props
+  }
+  return { options, tokenAlt: token }
+}
+
 /**
  * @param {string} path
  * @param {object|string|false} [query]
@@ -114,14 +126,8 @@ export async function request(method, path, options, token) {
  * @returns {Promise<any>}
  */
 export function get(path, query, token) {
-  const options = {}
-  if (typeof query !== 'object') {
-    token = query
-    query = undefined
-  } else {
-    options.query = query
-  }
-  return request('GET', path, options, token)
+  const { options, tokenAlt } = getOptionsAndToken(query, 'query', token)
+  return request('GET', path, options, token || tokenAlt)
 }
 
 /**
@@ -131,14 +137,8 @@ export function get(path, query, token) {
  * @returns {Promise<any>}
  */
 export function patch(path, data, token) {
-  const options = {}
-  if (typeof data !== 'object') {
-    token = data
-    data = undefined
-  } else {
-    options.data = data
-  }
-  return request('PATCH', path, options, token)
+  const { options, tokenAlt } = getOptionsAndToken(data, 'data', token)
+  return request('PATCH', path, options, token || tokenAlt)
 }
 
 /**
@@ -148,12 +148,47 @@ export function patch(path, data, token) {
  * @returns {Promise<any>}
  */
 export function post(path, data, token) {
-  const options = {}
-  if (typeof data !== 'object') {
-    token = data
-    data = undefined
-  } else {
-    options.data = data
+  const { options, tokenAlt } = getOptionsAndToken(data, 'data', token)
+  return request('POST', path, options, token || tokenAlt)
+}
+
+
+
+
+// REQUEST WITH CATCH
+/**
+  * @param {string} requestType get | patch | post
+  * @param {string} url
+  * @param {object} payload
+  * @param {object} trackError { category, action }
+  * @param {string} token
+  * @returns {Promise<object>} { res, error }
+  * * Makes requests  and returns errors as if the request were succesful with an `error.message` key filled out
+*/
+export const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
+  if (!requestType) return console.error('Please include a request type')
+  if (!url) return console.error('Please include a url')
+  const requestTypes = { get, patch, post }
+  const res = await requestTypes[requestType](url, payload, token)
+    .catch((error) => { return { error } })
+  if (res.error) {
+    const { error } = res
+    const { code, context } = error
+    const message = typeof error.response === 'object' ? error.response.data.error : error.message
+    // Track error on sentry
+    if (trackError) {
+      const { category, action, ignoreErrorCodes = [] } = trackError
+      // Ignore error codes
+      if (!ignoreErrorCodes.includes(code || message)) {
+        track({
+          category,
+          action,
+          description: message,
+          error: true,
+        })
+      }
+    }
+    return { error: { message, code, context } }
   }
-  return request('POST', path, options, token)
+  return { res }
 }

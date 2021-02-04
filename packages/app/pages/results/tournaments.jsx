@@ -1,22 +1,29 @@
 import React from 'react'
 
+import { useRouter } from 'next/router'
+
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
 
-import FunnelsContent from '@/app/FunnelsContent'
+import TournamentsContent from '@/app/TournamentsContent'
 
 const headerConfig = {
   text: 'results',
 }
 
 const Page = () => {
+  const router = useRouter()
+  const { audience, adType } = router.query
   return (
     <BasePage
       headerConfig={headerConfig}
       noArtistHeader={headerConfig}
       artistRequired
     >
-      <FunnelsContent />
+      <TournamentsContent
+        audienceSlug={audience}
+        adTypeId={adType}
+      />
     </BasePage>
   )
 }

@@ -32,6 +32,7 @@ module.exports = (purgeFiles) => ({
         green: '#03D8B2',
         red: '#FA5450',
         yellow: '#FDE74C',
+        blue: '#5BC0EB',
         purple: '#CC7CFD',
         blackHover: '#343434',
         greenHover: '#05C7A4',

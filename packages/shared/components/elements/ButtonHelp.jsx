@@ -8,8 +8,11 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { track } from '@/app/helpers/trackingHelpers'
 
+import sidePanelStyles from '@/app/SidePanel.module.css'
+
 const ButtonHelp = React.forwardRef(({
   content,
+  contentHeader,
   text,
   reverseText,
   label,
@@ -17,8 +20,15 @@ const ButtonHelp = React.forwardRef(({
 }, ref) => {
   const { setSidePanelContent, setSidePanelContentLabel, setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
   const SidePanelContent = React.useMemo(() => {
-    return typeof content === 'string' ? <MarkdownText markdown={content} className="mb-0" /> : content
-  }, [content])
+    const sidepanelContent = typeof content === 'string' ? (
+      <div>
+        {contentHeader && <h2 className={sidePanelStyles.SidePanel__Header}>{contentHeader}</h2>}
+        <MarkdownText markdown={content} className="mb-0" />
+      </div>
+    ) : content
+    return sidepanelContent
+  }, [content, contentHeader])
+
   const toggleHelp = React.useCallback(() => {
     setSidePanelContentLabel('Help Panel')
     setSidePanelContent(SidePanelContent)
@@ -68,6 +78,7 @@ ButtonHelp.propTypes = {
     PropTypes.string,
     PropTypes.element,
   ]).isRequired,
+  contentHeader: PropTypes.string,
   text: PropTypes.string,
   label: PropTypes.string.isRequired,
   reverseText: PropTypes.bool,
@@ -75,6 +86,7 @@ ButtonHelp.propTypes = {
 }
 
 ButtonHelp.defaultProps = {
+  contentHeader: '',
   text: '',
   reverseText: false,
   className: null,

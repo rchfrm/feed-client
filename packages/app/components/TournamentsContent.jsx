@@ -1,62 +1,62 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/contexts/ArtistContext'
 import { TournamentContextProvider } from '@/app/contexts/TournamentContext'
 
+import MarkdownText from '@/elements/MarkdownText'
+
+import TournamentsHeader from '@/app/TournamentsHeader'
 import TournamentsLoader from '@/app/TournamentsLoader'
-import TournamentsAudienceFilters from '@/app/TournamentsAudienceFilters'
-import TournamentsTypeFilters from '@/app/TournamentsTypeFilters'
 
-import * as tournamentHelpers from '@/helpers/tournamentHelpers'
+import { getAudiencePropFromSlug } from '@/app/helpers/funnelHelpers'
 
-const TournamentsContent = () => {
-  const { audienceTypes, tournamentTypes } = tournamentHelpers
-  const defaultAudienceType = audienceTypes[0].id
-  const [currentAudienceType, setCurrentAudienceType] = React.useState('')
-  const [currentTournamentType, setCurrentTournamentType] = React.useState(tournamentTypes[0].id)
-  // eslint-disable-next-line
-  const [typeFiltersDisabled, setTypeFiltersDisabled] = React.useState(false)
-  // Set current tournament type to posts if selecting cold audience
-  React.useEffect(() => {
-    if (currentAudienceType === 'entice_engage') {
-      setCurrentTournamentType(tournamentTypes[0].id)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentAudienceType])
+import { copy } from '@/app/copy/tournamentsCopy'
+
+const TournamentsContent = ({
+  audienceSlug,
+  adTypeId,
+}) => {
+  const { artistId, artistLoading } = React.useContext(ArtistContext)
+
+  if (!artistLoading && (!audienceSlug || !adTypeId)) {
+    return <MarkdownText markdown={copy.noQueryDefined} />
+  }
+
+  const audienceId = getAudiencePropFromSlug(audienceSlug, 'id')
+
   return (
     <TournamentContextProvider>
       <div>
-        {/* AUDIENCE FILTERS */}
-        <TournamentsAudienceFilters
-          audienceTypes={audienceTypes}
-          currentAudienceType={currentAudienceType}
-          defaultAudienceType={defaultAudienceType}
-          setCurrentAudienceType={setCurrentAudienceType}
-        />
-        {/* TOURNAMENT TYPE FILTERS */}
-        <TournamentsTypeFilters
-          tournamentTypes={tournamentTypes}
-          currentTournamentType={currentTournamentType}
-          setCurrentTournamentType={setCurrentTournamentType}
-          currentAudienceType={currentAudienceType}
-          disabled={typeFiltersDisabled}
-        />
-        {/* LOADER */}
-        {currentAudienceType && (
-          <section id="TournamentItemsContainer" className="mt-5">
-            <TournamentsLoader
-              audienceName={currentAudienceType}
-              tournamentType={currentTournamentType}
-            />
-          </section>
-        )}
+        <section id="TournamentItemsContainer">
+          {/* HEADER */}
+          <TournamentsHeader
+            audienceSlug={audienceSlug}
+            adTypeId={adTypeId}
+            className="mt-1 mb-5"
+          />
+          {/* LOADER */}
+          <TournamentsLoader
+            artistId={artistId}
+            artistLoading={artistLoading}
+            audienceId={audienceId}
+            adTypeId={adTypeId}
+          />
+        </section>
       </div>
     </TournamentContextProvider>
   )
 }
 
-// TournamentsContent.propTypes = {
+TournamentsContent.propTypes = {
+  audienceSlug: PropTypes.string,
+  adTypeId: PropTypes.string,
+}
 
-// }
+TournamentsContent.defaultProps = {
+  audienceSlug: '',
+  adTypeId: '',
+}
+
 
 export default TournamentsContent

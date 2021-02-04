@@ -111,6 +111,10 @@ p,
   blockquote {
     padding-left: var(--sp-5);
   }
+
+  h2, h3, h4 {
+    padding-top: var(--sp-2);
+  }
 }
 
 /* Global para styles inside .text-block containers */
