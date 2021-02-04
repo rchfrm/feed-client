@@ -9,10 +9,8 @@ import TournamentsAll from '@/app/TournamentsAll'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-import * as server from '@/helpers/sharedServer'
 import * as tournamentHelpers from '@/helpers/tournamentHelpers'
 
 // DATA REDUCER
@@ -38,14 +36,15 @@ const dataReducer = (draftState, action) => {
 }
 
 // SERVER FETCHER
-const fetcher = async ({ artistId, audienceName, tournamentType, offset }) => {
+const fetcher = async ({ artistId, audienceId, adTypeId, offset, limit }) => {
   if (!artistId) return []
   // GET ALL ARTIST TOURNAMENTS
-  return server.getArtistTournaments({
+  return tournamentHelpers.fetchTournaments({
     artistId,
-    audienceId: `${audienceName}_${tournamentType}`,
-    expand: true,
+    audienceId,
+    adTypeId,
     offset: offset.current,
+    limit,
   })
 }
 
@@ -53,25 +52,29 @@ const fetcher = async ({ artistId, audienceName, tournamentType, offset }) => {
 const updateDataConditions = (newProps, oldProps) => {
   const {
     artistId: newArtistId,
-    audienceName: newAudienceName,
-    tournamentType: newTournamentType,
+    audienceId: newAudienceId,
+    adTypeId: newAdTypeId,
     loadingMore,
   } = newProps
   const {
     artistId: oldArtistId,
-    audienceName: oldAudienceName,
-    tournamentType: oldTournamentType,
+    audienceId: oldAudienceId,
+    adTypeId: oldAdTypeId,
     loadingMore: alreadyLoadingMore,
   } = oldProps
   if (loadingMore && !alreadyLoadingMore) return true
   if (newArtistId !== oldArtistId) return true
-  if (newAudienceName !== oldAudienceName) return true
-  if (newTournamentType !== oldTournamentType) return true
+  if (newAudienceId !== oldAudienceId) return true
+  if (newAdTypeId !== oldAdTypeId) return true
   return false
 }
 
-const TournamentsLoader = ({ audienceName, tournamentType }) => {
-  const { artistId, artistLoading } = React.useContext(ArtistContext)
+const TournamentsLoader = ({
+  artistId,
+  artistLoading,
+  audienceId,
+  adTypeId,
+}) => {
   const [tournaments, setTournaments] = useImmerReducer(dataReducer, initialDataState)
   const [error, setError] = React.useState(null)
   const offset = React.useRef(0)
@@ -92,7 +95,7 @@ const TournamentsLoader = ({ audienceName, tournamentType }) => {
     offset.current = 0
     // Update end of assets state
     setLoadedAll(false)
-  }, [artistId, audienceName, tournamentType])
+  }, [artistId, audienceId, adTypeId])
 
   // FETCH DATA
   // Run this to fetch posts when the artist changes
@@ -101,11 +104,12 @@ const TournamentsLoader = ({ audienceName, tournamentType }) => {
     watchFn: updateDataConditions,
     // The variable(s) to pass to promiseFn
     artistId,
-    audienceName,
-    tournamentType,
+    audienceId,
+    adTypeId,
     offset,
     loadedAll,
     loadingMore,
+    limit: itemsPerPage,
     // When fetch finishes
     onResolve: (data) => {
       // Turn off global loading
@@ -176,9 +180,7 @@ const TournamentsLoader = ({ audienceName, tournamentType }) => {
   // HANDLE NO TOURNAMENTS
   if (!isPending && !tournaments.length) {
     return (
-      <TournamentsNone
-        tournamentType={tournamentType}
-      />
+      <TournamentsNone adTypeId={adTypeId} />
     )
   }
 
@@ -193,8 +195,15 @@ const TournamentsLoader = ({ audienceName, tournamentType }) => {
 }
 
 TournamentsLoader.propTypes = {
-  audienceName: PropTypes.string.isRequired,
-  tournamentType: PropTypes.string.isRequired,
+  artistId: PropTypes.string,
+  artistLoading: PropTypes.bool.isRequired,
+  audienceId: PropTypes.string.isRequired,
+  adTypeId: PropTypes.string.isRequired,
 }
+
+TournamentsLoader.defaultProps = {
+  artistId: null,
+}
+
 
 export default TournamentsLoader

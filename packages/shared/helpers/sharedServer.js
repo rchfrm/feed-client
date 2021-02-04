@@ -64,7 +64,7 @@ export const updateUser = async (firstName, lastName, email, verifyIdToken) => {
  * @param {number} [offset]
  * @returns {Promise<any>}
  */
-export const getArtistTournaments = async ({ artistId, expand, audienceId, offset }) => {
+export const getArtistTournaments = async ({ artistId, expand, audienceId, offset, limit }) => {
   let hasQuery = false
   let queryMod
   let endpoint = `/artists/${artistId}/tournaments`
@@ -75,6 +75,11 @@ export const getArtistTournaments = async ({ artistId, expand, audienceId, offse
   if (offset) {
     queryMod = hasQuery ? '&' : '?'
     endpoint = `${endpoint}${queryMod}offset=${offset}`
+    hasQuery = true
+  }
+  if (limit) {
+    queryMod = hasQuery ? '&' : '?'
+    endpoint = `${endpoint}${queryMod}limit=${limit}`
     hasQuery = true
   }
   if (audienceId) {
