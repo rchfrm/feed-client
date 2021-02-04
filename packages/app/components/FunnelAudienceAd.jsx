@@ -12,8 +12,9 @@ import brandColors from '@/constants/brandColors'
 
 const FunnelAudienceAd = ({
   adData,
-  winner,
   score,
+  winner,
+  isSingleAd,
   className,
 }) => {
   const { thumbnailOptions, message } = React.useMemo(() => {
@@ -40,6 +41,7 @@ const FunnelAudienceAd = ({
       <div
         className={[
           'flex items-baseline justify-end',
+          isSingleAd ? 'justify-center' : 'justify-end',
         ].join(' ')}
       >
         <p
@@ -61,12 +63,14 @@ const FunnelAudienceAd = ({
 
 FunnelAudienceAd.propTypes = {
   adData: PropTypes.object.isRequired,
-  winner: PropTypes.bool.isRequired,
   score: PropTypes.number.isRequired,
+  winner: PropTypes.bool.isRequired,
+  isSingleAd: PropTypes.bool,
   className: PropTypes.string,
 }
 
 FunnelAudienceAd.defaultProps = {
+  isSingleAd: false,
   className: null,
 }
 
