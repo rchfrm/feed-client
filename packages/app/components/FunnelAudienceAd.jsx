@@ -18,8 +18,9 @@ const FunnelAudienceAd = ({
   className,
 }) => {
   const { thumbnailOptions, message } = React.useMemo(() => {
+    const { asset } = adData
     const adCreative = Object.values(adData.adcreatives)[0]
-    return getPostContent(adCreative)
+    return getPostContent(adCreative, asset)
   }, [adData])
 
   return (
