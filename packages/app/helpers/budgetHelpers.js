@@ -46,7 +46,7 @@ export const calcLocationsCost = (budgetInfo, locationOptions) => {
   const { smallestUnit: { minUnit } } = budgetInfo
   // Get units for locations
   const countryUnit = minUnit
-  const cityUnit = minUnit * 0.25
+  const cityUnit = Math.round(minUnit * 0.25)
   // Calc cost of locations
   const locationOptionsArray = Object.values(locationOptions)
   const locationCost = locationOptionsArray.reduce((cost, { selected: countrySelected, totalCitiesSelected }, index) => {
