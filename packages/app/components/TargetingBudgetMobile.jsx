@@ -20,7 +20,7 @@ const TargetingBudgetMobile = ({
         currencyCode,
         currencyOffset,
         smallestUnit: {
-          minUnit,
+          minBase,
           minHard: minHardBudget,
         },
       },
@@ -43,14 +43,14 @@ const TargetingBudgetMobile = ({
             showCustomBudget={showCustomBudget}
             setShowCustomBudget={setShowCustomBudget}
             initialBudget={initialBudget}
-            minUnit={minUnit}
+            minBase={minBase}
             minHardBudget={minHardBudget}
           />
         </div>
         <TargetingBudgetSetter
           currency={currencyCode}
           currencyOffset={currencyOffset}
-          minUnit={minUnit}
+          minBase={minBase}
           minReccBudget={minReccBudget}
           minHardBudget={minHardBudget}
           initialBudget={initialBudget}

@@ -8,27 +8,27 @@ export const calcFeedMinBudgetInfo = (artist) => {
     currency: { code: currencyCode, offset: currencyOffset },
   } } = artist
   // Calc min values
-  const minUnit = utils.roundToFactorOfTen((fbMin) / 0.9)
+  const minBase = utils.roundToFactorOfTen((fbMin) / 0.9)
   const minHard = utils.roundToFactorOfTen((2 * fbMin) / 0.9)
   const minReccomendedBase = utils.roundToFactorOfTen((3 * fbMin) / 0.9)
   const minReccomendedStories = utils.roundToFactorOfTen((5 * fbMin) / 0.9)
   // The values in the smallest currency unit (eg pence)
   const smallestUnit = {
-    minUnit,
+    minBase,
     minHard,
     minReccomendedBase,
     minReccomendedStories,
   }
   // The value in the largest currency unit (eg pound)
   const largestUnit = {
-    minUnit: minUnit / currencyOffset,
+    minBase: minBase / currencyOffset,
     minHard: minHard / currencyOffset,
     minReccomendedBase: minReccomendedBase / currencyOffset,
     minReccomendedStories: minReccomendedStories / currencyOffset,
   }
   // The value as a string
   const string = {
-    minUnit: utils.formatCurrency(largestUnit.minUnit, currencyCode),
+    minBase: utils.formatCurrency(largestUnit.minBase, currencyCode),
     minHard: utils.formatCurrency(largestUnit.minHard, currencyCode),
     minReccomendedBase: utils.formatCurrency(largestUnit.minReccomendedBase, currencyCode),
     minReccomendedStories: utils.formatCurrency(largestUnit.minReccomendedStories, currencyCode),
@@ -43,10 +43,10 @@ export const calcFeedMinBudgetInfo = (artist) => {
 }
 
 export const calcLocationsCost = (budgetInfo, locationOptions) => {
-  const { smallestUnit: { minUnit } } = budgetInfo
+  const { smallestUnit: { minBase } } = budgetInfo
   // Get units for locations
-  const countryUnit = minUnit
-  const cityUnit = Math.round(minUnit * 0.25)
+  const countryUnit = minBase
+  const cityUnit = Math.round(minBase * 0.25)
   // Calc cost of locations
   const locationOptionsArray = Object.values(locationOptions)
   const locationCost = locationOptionsArray.reduce((cost, { selected: countrySelected, totalCitiesSelected }, index) => {
