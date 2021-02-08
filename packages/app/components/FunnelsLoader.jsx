@@ -24,28 +24,23 @@ const FunnelsLoader = ({
   const { artistId, artistLoading } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
-  const [activeFunnelData, setActiveFunnelData] = React.useState(null)
   const [error, setError] = React.useState(null)
 
   // LOAD AUDIENCES
-  const { isPending } = useAsync({
+  const { data: activeFunnelData, isPending } = useAsync({
     promiseFn: funnelHelpers.fetchAudiences,
     watchFn: funnelHelpers.watchFunction,
     // The variable(s) to pass to promiseFn
     artistId,
     activeFunnelId,
     // When fetch finishes
-    onResolve: (data) => {
+    onResolve: () => {
       // Turn off global loading
       toggleGlobalLoading(false)
-      // Handle result...
-      const dataFormatted = funnelHelpers.formatData(data)
-      setActiveFunnelData(dataFormatted)
     },
     // Handle errors
     onReject(error) {
       setError(error)
-      setActiveFunnelData(null)
       toggleGlobalLoading(false)
     },
   })
