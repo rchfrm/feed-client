@@ -1,6 +1,6 @@
 import * as utils from '@/helpers/utils'
 
-const calcFeedMinBudgetInfo = (artist) => {
+export const calcFeedMinBudgetInfo = (artist) => {
   if (!artist || !artist.min_daily_budget_info) return
   // Extra info from artist
   const { min_daily_budget_info: {

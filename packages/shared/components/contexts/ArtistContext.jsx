@@ -10,8 +10,8 @@ import * as utils from '@/helpers/utils'
 import { track } from '@/app/helpers/trackingHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
-import calcFeedMinBudgetInfo from '@/app/helpers/budgetHelpers'
-import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
+import { calcFeedMinBudgetInfo } from '@/app/helpers/budgetHelpers'
+import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
 
 const initialArtistState = {
   id: '',
