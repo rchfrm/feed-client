@@ -36,7 +36,7 @@ const PixelSelector = ({
   const [error, setError] = React.useState(null)
   const [loading, setLoading] = React.useState(true)
 
-  const [activePixelId, setActivePixelId] = React.useState(getCurrentPixelId(artist))
+  const [activePixelId, setActivePixelId] = React.useState(getCurrentPixelId(artist) || disabledPixelId)
   const [activePixelEmbed, setActivePixelEmbed] = React.useState('')
 
   // LOAD AVAILABLE PIXELS
