@@ -52,6 +52,10 @@ const artistReducer = (draftState, action) => {
       draftState.daily_budget = payload.budget
       break
     }
+    case 'set-min-budget': {
+      draftState.feedMinBudgetInfo = payload.feedMinBudgetInfo
+      break
+    }
     case 'set-connection': {
       draftState.URLs[payload.platform] = payload.url
       draftState[payload.platform] = payload.url
