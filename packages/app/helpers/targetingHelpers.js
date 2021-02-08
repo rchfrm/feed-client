@@ -74,6 +74,7 @@ const getSliderRange = (defaultMin, defaultMax, sliderStep, initialBudget) => {
 
 export const calcBudgetSliderConfig = (fbMinRounded, minHardBudget, initialBudget) => {
   const sliderStep = fbMinRounded / 4
+  const sliderStep = Math.round(fbMinRounded / 4)
   const defaultMin = minHardBudget
   const defaultMax = fbMinRounded * 30
   const sliderValueRange = getSliderRange(defaultMin, defaultMax, sliderStep, initialBudget)
