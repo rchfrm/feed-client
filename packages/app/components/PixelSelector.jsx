@@ -27,6 +27,8 @@ const PixelSelector = ({
   onSuccess,
   onError,
   updateParentPixel,
+  errorFetching,
+  setErrorFetching,
   trackLocation,
   className,
   selectClassName,
@@ -49,11 +51,13 @@ const PixelSelector = ({
     if (error) {
       const errorUpdated = { message: `Failed to fetch pixels: ${error.message}` }
       setError(errorUpdated)
+      setErrorFetching(true)
       return
     }
     const availablePixels = pixels.map(({ name, id, code: embedCode }) => {
       return { name, value: id, id, embedCode }
     })
+    setErrorFetching(false)
     setAvailablePixels(availablePixels)
   }, [artistId])
 
@@ -181,16 +185,18 @@ const PixelSelector = ({
       {error && (
         <Error error={error} />
       )}
-      <Select
-        loading={loading}
-        className={selectClassName}
-        handleChange={handleChange}
-        name="Choose link"
-        options={selectOptions}
-        placeholder={!activePixelId || loading ? 'Choose a pixel to use' : null}
-        selectedValue={activePixelId}
-        version="box"
-      />
+      {!errorFetching && (
+        <Select
+          loading={loading}
+          className={selectClassName}
+          handleChange={handleChange}
+          name="Choose link"
+          options={selectOptions}
+          placeholder={!activePixelId || loading ? 'Choose a pixel to use' : null}
+          selectedValue={activePixelId}
+          version="box"
+        />
+      )}
       {activePixelId && activePixelId !== disabledPixelId && (
         <PixelCopier
           pixelId={activePixelId}
@@ -210,6 +216,8 @@ PixelSelector.propTypes = {
   onError: PropTypes.func,
   updateParentPixel: PropTypes.func,
   trackLocation: PropTypes.string,
+  errorFetching: PropTypes.bool,
+  setErrorFetching: PropTypes.func,
   className: PropTypes.string,
   selectClassName: PropTypes.string,
 }
@@ -220,6 +228,8 @@ PixelSelector.defaultProps = {
   onError: () => {},
   updateParentPixel: () => {},
   trackLocation: '',
+  errorFetching: false,
+  setErrorFetching: () => {},
   className: null,
   selectClassName: null,
 }
