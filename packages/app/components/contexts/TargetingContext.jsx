@@ -12,6 +12,7 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import * as utils from '@/helpers/utils'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
+import * as budgetHelpers from '@/app/helpers/budgetHelpers'
 
 const initialState = {
   targetingState: {},
@@ -33,7 +34,6 @@ const initialState = {
   setSelectedCampaignRecc: () => {},
   selectedCampaignType: '',
   setSelectedCampaignType: () => {},
-  fbMin: 0,
   fbMinRounded: 0,
   minHardBudget: 0,
   minReccBudget: 0,
@@ -74,9 +74,9 @@ const TargetingContextProvider = ({ children }) => {
     artist: {
       isMusician: artistIsMusician,
       spotifyConnected,
-      min_daily_budget_info: minBudgetInfo,
-      min_daily_budget_info: {
-        currency: { offset: currencyOffset },
+      feedMinBudgetInfo,
+      feedMinBudgetInfo: {
+        currencyOffset,
       },
     },
     updateBudget,
@@ -106,7 +106,6 @@ const TargetingContextProvider = ({ children }) => {
   }, [selectedCampaignRecc, setSelectedCampaignType])
 
   // MIN BUDGET
-  const [fbMin, setFbMin] = React.useState(initialState.fbMin)
   const [fbMinRounded, setFbMinRounded] = React.useState(initialState.fbMinRounded)
   const [minHardBudget, setMinHardBudget] = React.useState(initialState.minHardBudget)
   const [minReccBudget, setMinReccBudget] = React.useState(initialState.minRecBudget)
@@ -181,7 +180,7 @@ const TargetingContextProvider = ({ children }) => {
     const locationOptionsWithState = targetingHelpers.updateLocationOptionsState({ locationOptionsArray, selectedCities, selectedCountries })
     setLocationOptions(locationOptionsWithState)
     // Update min budget based on selected countries and cities
-    const minReccBudget = targetingHelpers.calcMinReccBudget({ minBudgetInfo, locationOptions: locationOptionsWithState })
+    const minReccBudget = budgetHelpers.calcMinReccBudget(feedMinBudgetInfo, locationOptionsWithState)
     setMinReccBudget(minReccBudget)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCountries.length, selectedCities.length])
@@ -218,22 +217,22 @@ const TargetingContextProvider = ({ children }) => {
     // Set inital countries (to trigger min budget)
     const { cityKeys, countryCodes } = targetingState
     updateLocationsArrays({ cityKeys, countryCodes })
-    // Set fb min
-    const fbMin = targetingHelpers.calcMinBudget(minBudgetInfo, 'fbMin')
-    setFbMin(fbMin)
+    // GET BUDGET INFO
+    const { smallestUnit: {
+      minUnit: fbMinRounded,
+      minHard: hardMinBudget,
+    } } = feedMinBudgetInfo
     // Set fb min rounded
-    const fbMinRounded = targetingHelpers.calcMinBudget(minBudgetInfo, 'fbMinRounded')
     setFbMinRounded(fbMinRounded)
     // Set hard budget
-    const hardMinBudget = targetingHelpers.calcMinBudget(minBudgetInfo, 'hard')
     setMinHardBudget(hardMinBudget)
     // Set min recc budget
-    const minReccBudget = targetingHelpers.calcMinReccBudget({ minBudgetInfo, locationOptions })
+    const minReccBudget = budgetHelpers.calcMinReccBudget(feedMinBudgetInfo, locationOptions)
     setMinReccBudget(minReccBudget)
     // Set targeting state
     setInitialTargetingState(targetingState)
     setTargetingState(targetingState)
-  }, [minBudgetInfo, createLocationOptions])
+  }, [feedMinBudgetInfo, createLocationOptions])
 
   // DISABLE SAVING (eg if budget is too small)
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
@@ -395,7 +394,6 @@ const TargetingContextProvider = ({ children }) => {
         selectedCampaignRecc,
         setSelectedCampaignRecc,
         selectedCampaignType,
-        fbMin,
         fbMinRounded,
         minHardBudget,
         minReccBudget,

@@ -62,3 +62,9 @@ export const calcLocationsCost = (budgetInfo, locationOptions) => {
   }, 0)
   return locationCost
 }
+
+export const calcMinReccBudget = (budgetInfo, locationOptions) => {
+  const { smallestUnit: { minReccomendedBase } } = budgetInfo
+  const locationCost = calcLocationsCost(budgetInfo, locationOptions)
+  return minReccomendedBase + locationCost
+}
