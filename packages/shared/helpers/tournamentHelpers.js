@@ -126,21 +126,24 @@ export const fetchTournaments = ({
   * @param {object} [adCreative]
   * @returns {object}
 */
-export const getPostContent = (adCreative) => {
+export const getPostContent = (adCreative, adAsset = {}) => {
   const { object_type, object_story_spec, instagram_actor_id, instagram_permalink_url, image_url, thumbnail_url } = adCreative
   const baseContent = {
     postLink: instagram_permalink_url,
   }
+
+  const adsetThumbnails = adAsset.thumbnails ? adAsset.thumbnails.map(({ url }) => url) : []
+
   // Insta video
   if (object_type === 'VIDEO' && instagram_actor_id) {
     const { video_data: { message, image_url: imageSrc } } = object_story_spec
-    const thumbnailOptions = [imageSrc, image_url, thumbnail_url]
+    const thumbnailOptions = [...adsetThumbnails, imageSrc, image_url, thumbnail_url]
     return { ...baseContent, message, thumbnailOptions }
   }
   // Insta share
   if (object_type === 'SHARE' && instagram_actor_id) {
     const { link_data: { message, picture: imageSrc, link: adLink } } = object_story_spec
-    const thumbnailOptions = [imageSrc, image_url, thumbnail_url]
+    const thumbnailOptions = [...adsetThumbnails, imageSrc, image_url, thumbnail_url]
     return { ...baseContent, message, adLink, thumbnailOptions }
   }
   return {}
@@ -205,7 +208,7 @@ const formatAdData = (streakResults) => (ad, index) => {
     engagement_score: score,
   } = ad
   const adCreative = Object.values(adcreatives)[0]
-  const postContent = getPostContent(adCreative)
+  const postContent = getPostContent(adCreative, asset)
   // Format score and streak
   const streakWinner = streakResults[index]
   // Get clicks
