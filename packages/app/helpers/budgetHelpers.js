@@ -42,4 +42,23 @@ export const calcFeedMinBudgetInfo = (artist) => {
   }
 }
 
-export default calcFeedMinBudgetInfo
+export const calcLocationsCost = (budgetInfo, locationOptions) => {
+  const { smallestUnit: { minUnit } } = budgetInfo
+  // Get units for locations
+  const countryUnit = minUnit
+  const cityUnit = minUnit * 0.25
+  // Calc cost of locations
+  const locationOptionsArray = Object.values(locationOptions)
+  const locationCost = locationOptionsArray.reduce((cost, { selected: countrySelected, totalCitiesSelected }, index) => {
+    if (countrySelected) {
+      // Ignore the first country
+      if (index === 0) return cost
+      cost += countryUnit
+      return cost
+    }
+    const totalCitiesCapped = Math.min(totalCitiesSelected, 4)
+    cost += cityUnit * totalCitiesCapped
+    return cost
+  }, 0)
+  return locationCost
+}
