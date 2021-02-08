@@ -47,6 +47,7 @@ const FunnelAudienceAds = ({
           adData={audienceAds[0]}
           score={adScores[0]}
           winner
+          isSingleAd
         />
       ) : (
         // DOUBLE AD

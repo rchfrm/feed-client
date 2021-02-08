@@ -71,6 +71,8 @@ export const getAudienceTournamentLink = ({ audienceSlug, funnelSlug }) => {
 
 // FETCHING DATA
 // --------------
+
+// WATCH FUNCTION to trigger updates
 export const watchFunction = (newProps, oldProps) => {
   const {
     artistId: newArtistId,
@@ -85,6 +87,20 @@ export const watchFunction = (newProps, oldProps) => {
   return false
 }
 
+// FORMAT DATA
+export const formatData = (data) => {
+  return audienceTypes.reduce((formattedData, audience, index) => {
+    const { status, ads = null } = data[index][0] || {}
+    formattedData[audience.slug] = {
+      ...audience,
+      status,
+      ads,
+    }
+    return formattedData
+  }, {})
+}
+
+// FETCH DATA
 export const fetchAudiences = async ({ artistId, activeFunnelId }) => {
   if (!artistId) return []
   const fetchAudienceTournaments = audienceTypes.map((audience) => {
@@ -96,19 +112,6 @@ export const fetchAudiences = async ({ artistId, activeFunnelId }) => {
       limit: 1,
     })
   })
-  return Promise.all(fetchAudienceTournaments)
-}
-
-// FORMAT DATA
-// ------------------
-export const formatData = (data) => {
-  return audienceTypes.reduce((formattedData, audience, index) => {
-    const { status, ads = null } = data[index][0] || {}
-    formattedData[audience.slug] = {
-      ...audience,
-      status,
-      ads,
-    }
-    return formattedData
-  }, {})
+  const data = await Promise.all(fetchAudienceTournaments)
+  return formatData(data)
 }
