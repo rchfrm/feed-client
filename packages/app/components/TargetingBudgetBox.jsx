@@ -7,6 +7,7 @@ import useBrowserStore from '@/hooks/useBrowserStore'
 import useCombinedRefs from '@/hooks/useCombinedRefs'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
@@ -50,15 +51,25 @@ const TargetingBudgetBox = React.forwardRef(({
 
   // GET TARGETING CONTEXT
   const {
-    currency,
-    currencyOffset,
-    fbMinRounded,
     minReccBudget,
-    minHardBudget,
     targetingState,
     initialTargetingState,
     updateTargetingBudget,
   } = React.useContext(TargetingContext)
+
+  // ARTIST context
+  const {
+    artist: {
+      feedMinBudgetInfo: {
+        currencyCode,
+        currencyOffset,
+        smallestUnit: {
+          minUnit,
+          minHard: minHardBudget,
+        },
+      },
+    },
+  } = React.useContext(ArtistContext)
 
   // TOGGLE CUSTOM BUDGET SETTER
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
@@ -90,16 +101,16 @@ const TargetingBudgetBox = React.forwardRef(({
         showCustomBudget={showCustomBudget}
         setShowCustomBudget={setShowCustomBudget}
         initialBudget={initialTargetingState.budget}
-        fbMinRounded={fbMinRounded}
+        minUnit={minUnit}
         minHardBudget={minHardBudget}
       />
       {/* BUDGET SETTER */}
       <div className="px-2">
         <TargetingBudgetSetter
           isSummaryVersion={isSummaryVersion}
-          currency={currency}
+          currency={currencyCode}
           currencyOffset={currencyOffset}
-          fbMinRounded={fbMinRounded}
+          minUnit={minUnit}
           minReccBudget={minReccBudget}
           minHardBudget={minHardBudget}
           initialBudget={initialTargetingState.budget}

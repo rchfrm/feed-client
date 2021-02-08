@@ -34,8 +34,6 @@ const initialState = {
   setSelectedCampaignRecc: () => {},
   selectedCampaignType: '',
   setSelectedCampaignType: () => {},
-  fbMinRounded: 0,
-  minHardBudget: 0,
   minReccBudget: 0,
   setMinReccBudget: () => {},
   updateTargetingBudget: () => {},
@@ -106,8 +104,6 @@ const TargetingContextProvider = ({ children }) => {
   }, [selectedCampaignRecc, setSelectedCampaignType])
 
   // MIN BUDGET
-  const [fbMinRounded, setFbMinRounded] = React.useState(initialState.fbMinRounded)
-  const [minHardBudget, setMinHardBudget] = React.useState(initialState.minHardBudget)
   const [minReccBudget, setMinReccBudget] = React.useState(initialState.minRecBudget)
 
   // FORMATTED BUDGET
@@ -217,15 +213,6 @@ const TargetingContextProvider = ({ children }) => {
     // Set inital countries (to trigger min budget)
     const { cityKeys, countryCodes } = targetingState
     updateLocationsArrays({ cityKeys, countryCodes })
-    // GET BUDGET INFO
-    const { smallestUnit: {
-      minUnit: fbMinRounded,
-      minHard: hardMinBudget,
-    } } = feedMinBudgetInfo
-    // Set fb min rounded
-    setFbMinRounded(fbMinRounded)
-    // Set hard budget
-    setMinHardBudget(hardMinBudget)
     // Set min recc budget
     const minReccBudget = budgetHelpers.calcMinReccBudget(feedMinBudgetInfo, locationOptions)
     setMinReccBudget(minReccBudget)
@@ -237,6 +224,10 @@ const TargetingContextProvider = ({ children }) => {
   // DISABLE SAVING (eg if budget is too small)
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
   React.useEffect(() => {
+    // GET BUDGET INFO
+    const { smallestUnit: {
+      minHard: minHardBudget,
+    } } = feedMinBudgetInfo
     const isBudgetTooSmall = targetingState.budget < minHardBudget
     const noLocations = !selectedCountries.length && !selectedCities.length
     // Disable with budget reason
@@ -245,7 +236,7 @@ const TargetingContextProvider = ({ children }) => {
     if (noLocations) return setDisableSaving('location')
     // Reset
     setDisableSaving(initialState.disableSaving)
-  }, [targetingState.budget, minHardBudget, currencyOffset, selectedCountries, selectedCities])
+  }, [targetingState.budget, feedMinBudgetInfo, currencyOffset, selectedCountries, selectedCities])
 
   // SAVE CAMPAIGN
   const [settingsSaved, setSettingsSaved] = React.useState(initialState.settingsSaved)
@@ -327,11 +318,7 @@ const TargetingContextProvider = ({ children }) => {
   const getBudgetSidePanelContent = (state = true) => {
     const content = state ? (
       <TargetingBudgetMobile
-        currency={currency}
-        currencyOffset={currencyOffset}
-        fbMinRounded={fbMinRounded}
         minReccBudget={minReccBudget}
-        minHardBudget={minHardBudget}
         initialBudget={initialTargetingState.budget}
         targetingState={targetingState}
         updateTargetingBudget={updateTargetingBudget}
@@ -394,8 +381,6 @@ const TargetingContextProvider = ({ children }) => {
         selectedCampaignRecc,
         setSelectedCampaignRecc,
         selectedCampaignType,
-        fbMinRounded,
-        minHardBudget,
         minReccBudget,
         setMinReccBudget,
         updateTargetingBudget,
