@@ -15,6 +15,7 @@ const PostCard = ({
   togglePromotion,
   postToggleSetterType,
   isMissingDefaultLink,
+  artistId,
   className,
   children,
 }) => {
@@ -72,6 +73,7 @@ PostCard.propTypes = {
   togglePromotion: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
+  artistId: PropTypes.string.isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
 }

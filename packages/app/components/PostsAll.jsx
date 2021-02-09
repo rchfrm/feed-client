@@ -3,11 +3,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import produce from 'immer'
-// IMPORT CONTEXTS
+
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-// IMPORT HOOKS
-// IMPORT COMPONENTS
-import PostItem from '@/app/PostItem'
+import { ArtistContext } from '@/contexts/ArtistContext'
+
 import PostCard from '@/app/PostCard'
 // IMPORT ASSETS
 // IMPORT STYLES
@@ -47,7 +46,8 @@ function PostsAll({
   }, [setHeader])
   // Reset the scroll position when this component first mounts
   React.useEffect(resetScroll, [])
-  // Add load trigger el at 5th from end
+
+  // Add LOAD TRIGGER el at 5th from end
   const loadAtIndex = 5
   const lastPostId = React.useMemo(() => {
     if (!posts || !posts.length) return ''
@@ -100,6 +100,9 @@ function PostsAll({
     }
   }, [posts.length, loadMore, loadedAll, lastPostId])
 
+  // GET ARTIST ID
+  const { artistId } = React.useContext(ArtistContext)
+
   return (
     <section className={styles.postsSection}>
       <ul
@@ -144,6 +147,7 @@ function PostsAll({
               togglePromotion={togglePromotion}
               postToggleSetterType={postToggleSetterType}
               isMissingDefaultLink={isMissingDefaultLink}
+              artistId={artistId}
               className={[
                 'mx-auto max-w-sm mb-12',
                 'sm:max-w-none sm:mx-0 sm:mb-0',
