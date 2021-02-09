@@ -61,14 +61,14 @@ const PostItemDisableWarning = ({
     postId,
     promotionEnabled: getPromotionStatus(cachedPromtableStatus),
     disabled: !reverseStatus,
-    onResolve: ({ res: postUpdated, error }) => {
+    onResolve: ({ res: updatedPost, error }) => {
       // Reset reversed status
       setReverseStatus(false)
       // Hide warning
       setShow(false)
       if (error) return
       // Update post list state
-      const { promotion_enabled, promotable_status } = postUpdated
+      const { promotion_enabled, promotable_status } = updatedPost
       togglePromotion(postId, promotion_enabled, promotable_status)
     },
   })
