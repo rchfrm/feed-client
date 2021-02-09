@@ -23,12 +23,12 @@ const PostCardHeader = ({
         rel="noopener noreferrer"
       >
         <PlatformIcon
-          className="w-5 h-auto"
+          className="w-4 h-auto"
           platform={platform}
         />
       </a>
       {/* DATE */}
-      <p className="mb-0">{date}</p>
+      <p className="mb-0 text-sm">{date}</p>
     </div>
   )
 }
