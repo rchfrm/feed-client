@@ -31,7 +31,7 @@ const PostCardScore = ({
           className="ml-3"
           style={{ transform: 'translateY(1px)' }}
         >
-          Score:
+          Score
         </span>
         <TooltipButton
           slides={tooltipSlides}
