@@ -8,6 +8,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
 // IMPORT COMPONENTS
 import PostItem from '@/app/PostItem'
+import PostCard from '@/app/PostCard'
 // IMPORT ASSETS
 // IMPORT STYLES
 import styles from '@/app/PostsPage.module.css'
@@ -133,6 +134,24 @@ function PostsAll({
               <div ref={loadTrigger} />
               )}
             </PostItem>
+          )
+        })}
+        {postsWithLoadingTrigger.map((post, index) => {
+          return (
+            <PostCard
+              key={post.id}
+              post={post}
+              postIndex={index}
+              updateLink={updateLink}
+              togglePromotion={togglePromotion}
+              postToggleSetterType={postToggleSetterType}
+              isMissingDefaultLink={isMissingDefaultLink}
+              className="col-span-12 sm:col-span-6 bmw:col-span-4"
+            >
+              {post.loadTrigger && !loadedAll && (
+                <div ref={loadTrigger} />
+              )}
+            </PostCard>
           )
         })}
       </ul>
