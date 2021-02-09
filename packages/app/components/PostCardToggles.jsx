@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import PostCardToggle from '@/app/PostCardToggle'
 
 const PostCardToggles = ({
-  post,
+  postId,
+  togglesClassName,
   className,
 }) => {
   return (
@@ -13,17 +14,30 @@ const PostCardToggles = ({
         className,
       ].join(' ')}
     >
-      Toggles
+      {/* GROWTH TOGGLE */}
+      <PostCardToggle
+        postId={postId}
+        audienceSlug="growth"
+        className={togglesClassName}
+      />
+      {/* CONVERSION TOGGLE */}
+      <PostCardToggle
+        postId={postId}
+        audienceSlug="conversion"
+        className={togglesClassName}
+      />
     </div>
   )
 }
 
 PostCardToggles.propTypes = {
-  post: PropTypes.object.isRequired,
+  postId: PropTypes.string.isRequired,
+  togglesClassName: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostCardToggles.defaultProps = {
+  togglesClassName: null,
   className: null,
 }
 

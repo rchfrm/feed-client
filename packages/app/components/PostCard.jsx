@@ -34,12 +34,16 @@ const PostCard = ({
         media={post.media}
         thumbnails={post.thumbnails}
         caption={post.message}
-        className="mb-3"
+        className="mb-2"
       />
       <PostCardScore
         scorePaid={post.paidMetrics.engagementScore}
         scoreOrganic={post.organicMetrics.engagementScore}
-        className="py-2 px-3"
+        className="py-2 px-3 mb-2"
+      />
+      <PostCardToggles
+        postId={post.id}
+        togglesClassName="py-3 px-3 mb-2 last:mb-0"
       />
     </div>
   )
