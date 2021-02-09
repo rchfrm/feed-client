@@ -11,21 +11,14 @@ import ToggleSwitchClicker from '@/elements/ToggleSwitchClicker'
 
 import styles from '@/elements/ToggleSwitch.module.css'
 
-// Convert boolean state to string
-const getButtonState = (isOn) => {
-  if (isOn) return 'on'
-  return 'off'
-}
-
 const ToggleSwitch = ({
-  isOn,
-  onStateChange,
+  state,
+  onChange,
   isLoading,
   disabled,
   className,
   style,
 }) => {
-  const [buttonState, setButtonState] = React.useState(getButtonState(isOn))
   // Elements
   const switchEl = React.useRef(null)
   const containerEl = React.useRef(null)
@@ -48,26 +41,26 @@ const ToggleSwitch = ({
       max: maxMove,
     }
   }, [])
+
   const animateSwitch = React.useCallback((forceState) => {
-    const newState = forceState || buttonState
+    const newState = typeof forceState === 'boolean' ? forceState : !state
     const { current: switchCircle } = switchEl
     const maxMove = ((containerWidth.current - switchWidth.current) / 2) - 5
-    const xDirection = newState === 'on' ? 1 : newState === 'off' ? -1 : 0
+    const xDirection = newState ? 1 : -1
     const x = maxMove * xDirection
     const duration = 0.2
     gsap.to(switchCircle, { x, duration, ease: Power1.easeOut })
-  }, [buttonState])
+  }, [state])
 
   // * DRAGGING
   // ----------
-  // SETUP DRAG
+
+  // Handle Tapping
   const handleTap = React.useCallback(() => {
-    if (buttonState === 'default') return
-    // Handle Tapping
-    const newState = buttonState === 'on' ? 'off' : 'on'
-    setButtonState(newState)
-    onStateChange()
-  }, [onStateChange, buttonState])
+    const newState = !state
+    onChange(newState)
+  }, [state, onChange])
+
   // Run this on drag
   const onDrag = React.useCallback((dragState) => {
     // DISABLED
@@ -89,18 +82,16 @@ const ToggleSwitch = ({
         animateSwitch()
         return
       }
-      // Moved to the left, set to off, move right set on
-      const newState = movementPercent < 0 ? 'off' : 'on'
+      // Moved to the left, set to false, move right set true
+      const newState = movementPercent > 0
       // Animate
       animateSwitch(newState)
-      // Toggle promotion status
-      setButtonState(newState)
-      onStateChange()
+      onChange(newState)
       return
     }
     // Move switch
     cssSetter.current(xClamped)
-  }, [onStateChange, handleTap, animateSwitch, disabled])
+  }, [onChange, handleTap, animateSwitch, disabled])
   // Drag binder
   const dragBind = useDrag(state => onDrag(state), {
     axis: 'x',
@@ -108,11 +99,32 @@ const ToggleSwitch = ({
     eventOptions: { passive: false },
   })
 
+  // * HANDLE SPINNER
+  // ----------------
+
+  const [showSpinner, setShowSpinner] = React.useState(false)
+  const spinnerTimeout = React.useRef()
+  React.useEffect(() => {
+    if (!isLoading) {
+      clearTimeout(spinnerTimeout.current)
+      setShowSpinner(false)
+      return
+    }
+    spinnerTimeout.current = setTimeout(() => {
+      setShowSpinner(true)
+    }, 600)
+  }, [isLoading])
+
+  // WHEN BUTTON STATE CHANGES
+  React.useEffect(() => {
+    animateSwitch(state)
+  }, [state, animateSwitch])
+
   return (
     <div
       className={[
         styles.ToggleSwitch,
-        buttonState === 'on' ? styles.on : buttonState === 'off' ? styles.off : styles.default,
+        state ? styles.on : styles.off,
         disabled ? styles._disabled : null,
         className,
       ].join(' ')}
@@ -126,29 +138,25 @@ const ToggleSwitch = ({
         <>
           <ToggleSwitchClicker
             action="off"
-            buttonState={buttonState}
-            setButtonState={setButtonState}
-            onStateChange={onStateChange}
+            onChange={onChange}
           />
           <ToggleSwitchClicker
             action="on"
-            buttonState={buttonState}
-            setButtonState={setButtonState}
-            onStateChange={onStateChange}
+            onChange={onChange}
           />
         </>
       )}
       {/* Switch slider */}
       <div className={styles.switch} {...dragBind()} ref={switchEl}>
-        {isLoading && <Spinner className={styles.switchSpinner} />}
+        {showSpinner && <Spinner className={styles.switchSpinner} />}
       </div>
     </div>
   )
 }
 
 ToggleSwitch.propTypes = {
-  isOn: PropTypes.bool.isRequired,
-  onStateChange: PropTypes.func.isRequired,
+  state: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   disabled: PropTypes.bool,
   className: PropTypes.string,

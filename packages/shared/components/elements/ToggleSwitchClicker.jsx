@@ -3,15 +3,13 @@ import PropTypes from 'prop-types'
 
 const ToggleSwitchClicker = ({
   action,
-  setButtonState,
-  onStateChange,
+  onChange,
 }) => {
   // Handle click
   const onClick = React.useCallback(() => {
-    const newState = action
-    setButtonState(newState)
-    onStateChange()
-  }, [action, setButtonState, onStateChange])
+    const newState = action === 'on'
+    onChange(newState)
+  }, [action, onChange])
 
   return (
     <button
@@ -30,9 +28,8 @@ const ToggleSwitchClicker = ({
 }
 
 ToggleSwitchClicker.propTypes = {
-  action: PropTypes.string.isRequired,
-  setButtonState: PropTypes.func.isRequired,
-  onStateChange: PropTypes.func.isRequired,
+  action: PropTypes.oneOf(['on', 'off']).isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default ToggleSwitchClicker
