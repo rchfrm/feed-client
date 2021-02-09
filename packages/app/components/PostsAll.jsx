@@ -130,7 +130,7 @@ function PostsAll({
               className="col-span-12 sm:col-span-6 bmw:col-span-4"
             >
               {post.loadTrigger && !loadedAll && (
-                <div ref={loadTrigger} />
+              <div ref={loadTrigger} />
               )}
             </PostItem>
           )
