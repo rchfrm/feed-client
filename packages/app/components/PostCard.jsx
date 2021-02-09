@@ -5,6 +5,7 @@ import PostCardHeader from '@/app/PostCardHeader'
 import PostCardMedia from '@/app/PostCardMedia'
 import PostCardScore from '@/app/PostCardScore'
 import PostCardToggles from '@/app/PostCardToggles'
+import PostCardUnpromotable from '@/app/PostCardUnpromotable'
 import PostCardActionButtons from '@/app/PostCardActionButtons'
 
 const PostCard = ({
@@ -43,13 +44,19 @@ const PostCard = ({
         scoreOrganic={post.organicMetrics.engagementScore}
         className="py-2 px-3 mb-2"
       />
-      <PostCardToggles
-        postId={post.id}
-        togglesClassName="py-3 px-3 mb-2 last:mb-0"
-        className="mb-2"
-        conversionVisible
-        conversionDisabled
-      />
+      {postPromotable ? (
+        <PostCardToggles
+          postId={post.id}
+          togglesClassName="py-3 px-3 mb-2 last:mb-0"
+          className="mb-2"
+          conversionVisible
+          conversionDisabled
+        />
+      ) : (
+        <PostCardUnpromotable
+          className="py-3 px-3 mb-2"
+        />
+      )}
       <PostCardActionButtons
         post={post}
         postPromotable={postPromotable}
