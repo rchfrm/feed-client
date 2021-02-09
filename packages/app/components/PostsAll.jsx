@@ -33,11 +33,11 @@ function PostsAll({
   posts,
   updateLink,
   togglePromotion,
-  postToggleSetter,
+  postToggleSetterType,
   loadMorePosts,
   loadingMore,
   loadedAll,
-  missingDefaultLink,
+  isMissingDefaultLink,
 }) {
   // Set header
   const { setHeader } = React.useContext(InterfaceContext)
@@ -125,8 +125,8 @@ function PostsAll({
               updateLink={updateLink}
               singular={posts.length === 1}
               togglePromotion={togglePromotion}
-              postToggleSetter={postToggleSetter}
-              missingDefaultLink={missingDefaultLink}
+              postToggleSetter={postToggleSetterType}
+              missingDefaultLink={isMissingDefaultLink}
               className="col-span-12 sm:col-span-6 bmw:col-span-4"
             >
               {post.loadTrigger && !loadedAll && (
@@ -151,15 +151,15 @@ PostsAll.propTypes = {
   posts: PropTypes.array.isRequired,
   updateLink: PropTypes.func.isRequired,
   togglePromotion: PropTypes.func.isRequired,
-  postToggleSetter: PropTypes.string,
+  postToggleSetterType: PropTypes.string,
   loadMorePosts: PropTypes.func.isRequired,
   loadingMore: PropTypes.bool,
   loadedAll: PropTypes.bool,
-  missingDefaultLink: PropTypes.bool.isRequired,
+  isMissingDefaultLink: PropTypes.bool.isRequired,
 }
 
 PostsAll.defaultProps = {
-  postToggleSetter: '',
+  postToggleSetterType: '',
   loadingMore: false,
   loadedAll: false,
 }
