@@ -47,6 +47,8 @@ const PostCard = ({
         postId={post.id}
         togglesClassName="py-3 px-3 mb-2 last:mb-0"
         className="mb-2"
+        conversionVisible
+        conversionDisabled
       />
       <PostCardActionButtons
         post={post}

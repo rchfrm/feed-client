@@ -5,6 +5,8 @@ import PostCardToggle from '@/app/PostCardToggle'
 
 const PostCardToggles = ({
   postId,
+  conversionVisible,
+  conversionDisabled,
   togglesClassName,
   className,
 }) => {
@@ -21,22 +23,28 @@ const PostCardToggles = ({
         className={togglesClassName}
       />
       {/* CONVERSION TOGGLE */}
-      <PostCardToggle
-        postId={postId}
-        audienceSlug="conversion"
-        className={togglesClassName}
-      />
+      {conversionVisible && (
+        <PostCardToggle
+          postId={postId}
+          audienceSlug="conversion"
+          className={togglesClassName}
+          disabled={conversionDisabled}
+        />
+      )}
     </div>
   )
 }
 
 PostCardToggles.propTypes = {
   postId: PropTypes.string.isRequired,
+  conversionVisible: PropTypes.bool,
+  conversionDisabled: PropTypes.bool.isRequired,
   togglesClassName: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostCardToggles.defaultProps = {
+  conversionVisible: false,
   togglesClassName: null,
   className: null,
 }
