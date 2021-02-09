@@ -30,7 +30,7 @@ const PostCard = ({
       <PostCardHeader
         platform={post.platform}
         date={post.publishedTime}
-        permalink={post.permalink}
+        permalink={post.permalinkUrl}
         className="mb-2"
       />
       <PostCardMedia
