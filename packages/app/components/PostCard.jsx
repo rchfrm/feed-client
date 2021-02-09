@@ -7,6 +7,7 @@ import PostCardScore from '@/app/PostCardScore'
 import PostCardToggles from '@/app/PostCardToggles'
 import PostCardUnpromotable from '@/app/PostCardUnpromotable'
 import PostCardActionButtons from '@/app/PostCardActionButtons'
+import PostCardDisableWarning from '@/app/PostCardDisableWarning'
 
 const PostCard = ({
   post,
@@ -34,12 +35,24 @@ const PostCard = ({
         permalink={post.permalinkUrl}
         className="mb-2"
       />
-      <PostCardMedia
-        media={post.media}
-        thumbnails={post.thumbnails}
-        caption={post.message}
-        className="mb-2"
-      />
+      <div className="relative">
+        <PostCardMedia
+          media={post.media}
+          thumbnails={post.thumbnails}
+          caption={post.message}
+          className="mb-2"
+        />
+        <PostCardDisableWarning
+          postId={post.id}
+          postStatus={post.promotionStatus}
+          promotionEnabled={post.promotionEnabled}
+          promotableStatus={post.promotableStatus}
+          togglePromotion={togglePromotion}
+          postToggleSetterType={postToggleSetterType}
+          artistId={artistId}
+          className="p-4"
+        />
+      </div>
       <PostCardScore
         scorePaid={post.paidMetrics.engagementScore}
         scoreOrganic={post.organicMetrics.engagementScore}
@@ -62,6 +75,8 @@ const PostCard = ({
         post={post}
         postPromotable={postPromotable}
       />
+      {/* LOAD TRIGGER goes here */}
+      {children}
     </div>
   )
 }
