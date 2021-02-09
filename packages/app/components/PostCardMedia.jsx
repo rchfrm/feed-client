@@ -20,14 +20,12 @@ const PostCardMedia = ({
       ].join(' ')}
     >
       {hasMedia && (
-        <div>
-          <PostImage
-            mediaSrc={media}
-            thumbnailOptions={thumbnails}
-            title={caption}
-            setHasMedia={setHasMedia}
-          />
-        </div>
+        <PostImage
+          mediaSrc={media}
+          thumbnailOptions={thumbnails}
+          title={caption}
+          setHasMedia={setHasMedia}
+        />
       )}
     </div>
   )

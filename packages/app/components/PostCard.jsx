@@ -28,6 +28,18 @@ const PostCard = ({
         platform={post.platform}
         date={post.publishedTime}
         permalink={post.permalink}
+        className="mb-2"
+      />
+      <PostCardMedia
+        media={post.media}
+        thumbnails={post.thumbnails}
+        caption={post.message}
+        className="mb-3"
+      />
+      <PostCardScore
+        scorePaid={post.paidMetrics.engagementScore}
+        scoreOrganic={post.organicMetrics.engagementScore}
+        className="py-2 px-3"
       />
     </div>
   )
