@@ -105,18 +105,16 @@ function PostsAll({
       <ul
         id="PostsAll__scroller"
         className={[
-          'grid',
+          'sm:grid',
           'grid-cols-12',
-          'row-gap-8',
-          'col-gap-0',
-          'xs:col-gap-6',
-          'sm:col-gap-8',
+          'row-gap-10',
+          'col-gap-6',
           'grid-flow-row-dense',
           styles.postsScroller,
         ].join(' ')}
         ref={intersectionRoot}
       >
-        {postsWithLoadingTrigger.map((post, index) => {
+        {/* {postsWithLoadingTrigger.map((post, index) => {
           return (
             <PostItem
               key={post.id}
@@ -135,7 +133,7 @@ function PostsAll({
               )}
             </PostItem>
           )
-        })}
+        })} */}
         {postsWithLoadingTrigger.map((post, index) => {
           return (
             <PostCard
@@ -146,7 +144,11 @@ function PostsAll({
               togglePromotion={togglePromotion}
               postToggleSetterType={postToggleSetterType}
               isMissingDefaultLink={isMissingDefaultLink}
-              className="col-span-12 sm:col-span-6 bmw:col-span-4"
+              className={[
+                'mx-auto max-w-sm mb-12',
+                'sm:max-w-none sm:mx-0 sm:mb-0',
+                'col-span-12 sm:col-span-6 lg:col-span-4 bmw:col-span-3',
+              ].join(' ')}
             >
               {post.loadTrigger && !loadedAll && (
                 <div ref={loadTrigger} />
