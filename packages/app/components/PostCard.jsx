@@ -10,16 +10,25 @@ import PostCardActionButtons from '@/app/PostCardActionButtons'
 const PostCard = ({
   post,
   postIndex,
+  updateLink,
+  togglePromotion,
+  postToggleSetterType,
+  isMissingDefaultLink,
   className,
   children,
 }) => {
+  console.log('post', post)
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-      
+      <PostCardHeader
+        platform={post.platform}
+        date={post.publishedTime}
+        permalink={post.permalink}
+      />
     </div>
   )
 }
@@ -27,6 +36,10 @@ const PostCard = ({
 PostCard.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
+  updateLink: PropTypes.func.isRequired,
+  togglePromotion: PropTypes.func.isRequired,
+  postToggleSetterType: PropTypes.string.isRequired,
+  isMissingDefaultLink: PropTypes.bool.isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
 }

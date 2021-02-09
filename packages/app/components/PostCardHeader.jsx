@@ -1,19 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import PlatformIcon from '@/icons/PlatformIcon'
+
 const PostCardHeader = ({
   platform,
   date,
+  permalink,
   className,
 }) => {
   return (
     <div
       className={[
+        'flex justify-between items-bottom',
         className,
       ].join(' ')}
     >
-      <p>Platform: {platform}</p>
-      <p>date: {date}</p>
+      {/* ICON */}
+      <a
+        href={permalink}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <PlatformIcon
+          className="w-5 h-auto"
+          platform={platform}
+        />
+      </a>
+      {/* DATE */}
+      <p className="mb-0">{date}</p>
     </div>
   )
 }
