@@ -18,6 +18,8 @@ const PostCard = ({
   children,
 }) => {
   console.log('post', post)
+  // Extract some variables
+  const { postPromotable } = post
   return (
     <div
       className={[
@@ -44,6 +46,11 @@ const PostCard = ({
       <PostCardToggles
         postId={post.id}
         togglesClassName="py-3 px-3 mb-2 last:mb-0"
+        className="mb-2"
+      />
+      <PostCardActionButtons
+        post={post}
+        postPromotable={postPromotable}
       />
     </div>
   )
