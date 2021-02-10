@@ -7,11 +7,11 @@ const PostCardUnpromotable = ({ className }) => {
       className={[
         'rounded-dialogue h-25',
         'bg-grey-3 text-white',
-        'relative',
+        'relative text-center',
         className,
       ].join(' ')}
     >
-      <strong className="absolute--center-xy">Post not promotable</strong>
+      <strong className="absolute--center-xy w-full">Post not promotable</strong>
     </div>
   )
 }
