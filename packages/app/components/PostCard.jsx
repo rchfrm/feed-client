@@ -64,6 +64,7 @@ const PostCard = ({
         ) : (
           <PostCardUnpromotable
             className="py-3 px-4 mb-2"
+            conversionVisible={conversionVisible}
           />
         )}
         <PostCardActionButtons
