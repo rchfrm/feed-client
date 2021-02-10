@@ -25,7 +25,7 @@ const PostCardScore = ({
         'border-solid border-2 border-green',
       ].join(' ')}
     >
-      <p className="flex items-center mb-0">
+      <div className="flex items-center mb-0">
         <StarIcon className="h-4 w-auto" fill={brandColors.green} />
         <span
           className="ml-3"
@@ -40,7 +40,7 @@ const PostCardScore = ({
           buttonClasses="ml-1"
           buttonStyle={{ transform: 'translateY(1px)' }}
         />
-      </p>
+      </div>
       <p className="flex items-center mb-0 font-bold">
         {score}
       </p>
