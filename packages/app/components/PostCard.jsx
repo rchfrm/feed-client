@@ -35,13 +35,36 @@ const PostCard = ({
         permalink={post.permalinkUrl}
         className="mb-2"
       />
+      <PostCardMedia
+        media={post.media}
+        thumbnails={post.thumbnails}
+        caption={post.message}
+        className="mb-2"
+      />
       <div className="relative">
-        <PostCardMedia
-          media={post.media}
-          thumbnails={post.thumbnails}
-          caption={post.message}
-          className="mb-2"
+        <PostCardScore
+          scorePaid={post.paidMetrics.engagementScore}
+          scoreOrganic={post.organicMetrics.engagementScore}
+          className="py-2 px-4 mb-2"
         />
+        {postPromotable ? (
+          <PostCardToggles
+            postId={post.id}
+            togglesClassName="py-3 px-4 mb-2 last:mb-0"
+            className="mb-2"
+            conversionVisible
+            conversionDisabled
+          />
+        ) : (
+          <PostCardUnpromotable
+            className="py-3 px-4 mb-2"
+          />
+        )}
+        <PostCardActionButtons
+          post={post}
+          postPromotable={postPromotable}
+        />
+        {/* DISABLE WARNING (usually hidden) */}
         <PostCardDisableWarning
           postId={post.id}
           postStatus={post.promotionStatus}
@@ -50,31 +73,9 @@ const PostCard = ({
           togglePromotion={togglePromotion}
           postToggleSetterType={postToggleSetterType}
           artistId={artistId}
-          className="p-4"
+          textClassName="py-3 px-4"
         />
       </div>
-      <PostCardScore
-        scorePaid={post.paidMetrics.engagementScore}
-        scoreOrganic={post.organicMetrics.engagementScore}
-        className="py-2 px-4 mb-2"
-      />
-      {postPromotable ? (
-        <PostCardToggles
-          postId={post.id}
-          togglesClassName="py-3 px-4 mb-2 last:mb-0"
-          className="mb-2"
-          conversionVisible
-          conversionDisabled
-        />
-      ) : (
-        <PostCardUnpromotable
-          className="py-3 px-4 mb-2"
-        />
-      )}
-      <PostCardActionButtons
-        post={post}
-        postPromotable={postPromotable}
-      />
       {/* LOAD TRIGGER goes here */}
       {children}
     </div>

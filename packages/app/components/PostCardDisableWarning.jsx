@@ -26,8 +26,10 @@ const PostCardDisableWarning = ({
   togglePromotion,
   postToggleSetterType,
   artistId,
+  textClassName,
   className,
 }) => {
+  console.log('postId', postId)
   const previousPromotionEnabled = usePrevious(promotionEnabled)
   const previousPromotableStatus = usePrevious(promotableStatus)
   const [cachedPromtableStatus, setCachedPromtableStatus] = React.useState()
@@ -82,16 +84,25 @@ const PostCardDisableWarning = ({
           'absolute top-0 left-0',
           'w-full h-full',
           'bg-white',
+          'flex flex-col justify-between',
           className,
         ].join(' ')}
         style={{ zIndex: 2 }}
       >
-        <MarkdownText markdown={copy.postStatusConfirmation} className="mb-8" />
+        <div
+          className={[
+            'bg-grey-1 rounded-dialogue',
+            'mb-2',
+            textClassName,
+          ].join(' ')}
+        >
+          <MarkdownText markdown={copy.postStatusConfirmation} className="mb-0" />
+        </div>
         {/* BUTTONS */}
-        <div className="flex justify-between">
+        <div className="flex w-full">
           <Button
-            className="w-24 sm:w-32"
-            version="black x-small"
+            className="h-11 w-1/2 mr-1"
+            version="black"
             onClick={() => {
               setShow(false)
               // TRACK
@@ -104,8 +115,8 @@ const PostCardDisableWarning = ({
             Ok
           </Button>
           <Button
-            className="w-24 sm:w-32"
-            version="red x-small"
+            className="h-11 w-1/2 ml-1"
+            version="red"
             onClick={() => setReverseStatus(true)}
             loading={isPending}
           >
@@ -125,11 +136,13 @@ PostCardDisableWarning.propTypes = {
   togglePromotion: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string,
   artistId: PropTypes.string.isRequired,
+  textClassName: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostCardDisableWarning.defaultProps = {
   postToggleSetterType: '',
+  textClassName: null,
   className: null,
 }
 
