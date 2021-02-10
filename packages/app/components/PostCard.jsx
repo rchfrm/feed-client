@@ -23,6 +23,8 @@ const PostCard = ({
   console.log('post', post)
   // Extract some variables
   const { postPromotable } = post
+  // Should conversionVisible be hidden
+  const conversionVisible = true
   return (
     <div
       className={[
@@ -50,10 +52,14 @@ const PostCard = ({
         {postPromotable ? (
           <PostCardToggles
             postId={post.id}
+            artistId={artistId}
             togglesClassName="py-3 px-4 mb-2 last:mb-0"
             className="mb-2"
-            conversionVisible
+            promotionEnabled={post.promotionEnabled}
+            togglePromotion={togglePromotion}
+            conversionVisible={conversionVisible}
             conversionDisabled
+            growthDisabled={false}
           />
         ) : (
           <PostCardUnpromotable

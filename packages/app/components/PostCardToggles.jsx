@@ -5,8 +5,12 @@ import PostCardToggle from '@/app/PostCardToggle'
 
 const PostCardToggles = ({
   postId,
+  artistId,
+  growthDisabled,
   conversionVisible,
   conversionDisabled,
+  promotionEnabled,
+  togglePromotion,
   togglesClassName,
   className,
 }) => {
@@ -18,17 +22,24 @@ const PostCardToggles = ({
     >
       {/* GROWTH TOGGLE */}
       <PostCardToggle
-        postId={postId}
         audienceSlug="growth"
+        postId={postId}
+        artistId={artistId}
+        promotionEnabled={promotionEnabled}
+        togglePromotion={togglePromotion}
+        disabled={growthDisabled}
         className={togglesClassName}
       />
       {/* CONVERSION TOGGLE */}
       {conversionVisible && (
         <PostCardToggle
-          postId={postId}
           audienceSlug="conversion"
-          className={togglesClassName}
+          postId={postId}
+          artistId={artistId}
+          promotionEnabled={false}
+          togglePromotion={togglePromotion}
           disabled={conversionDisabled}
+          className={togglesClassName}
         />
       )}
     </div>
