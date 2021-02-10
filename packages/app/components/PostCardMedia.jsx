@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PostImage from '@/PostImage'
+import PostCardCaption from '@/app/PostCardCaption'
 
 const PostCardMedia = ({
   media,
@@ -27,7 +28,7 @@ const PostCardMedia = ({
       <div
         className={[
           'w-full relative bg-grey-1',
-          ready ? 'opacity-1' : 'opacity-0',
+          !ready && hasMedia ? 'opacity-0' : 'opacity-1',
         ].join(' ')}
         style={{ paddingTop: '100%' }}
       >
@@ -63,6 +64,12 @@ const PostCardMedia = ({
               }}
             />
           </div>
+        )}
+        {/* POST CAPTION */}
+        {!hasMedia && (
+          <PostCardCaption
+            caption={caption}
+          />
         )}
       </div>
     </div>
