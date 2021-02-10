@@ -75,7 +75,7 @@ const PostCardDisableWarning = ({
     <CSSTransition
       in={show}
       timeout={300}
-      classNames="slide-up"
+      classNames="fade"
       unmountOnExit
     >
       <div
@@ -86,7 +86,7 @@ const PostCardDisableWarning = ({
           'flex flex-col justify-between',
           className,
         ].join(' ')}
-        style={{ zIndex: 2 }}
+        style={{ zIndex: 3 }}
       >
         <div
           className={[
@@ -116,7 +116,9 @@ const PostCardDisableWarning = ({
           <Button
             className="h-11 w-1/2 ml-1"
             version="red"
-            onClick={() => setReverseStatus(true)}
+            onClick={() => {
+              setReverseStatus(true)
+            }}
             loading={isPending}
           >
             Cancel
