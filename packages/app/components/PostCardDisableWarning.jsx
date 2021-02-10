@@ -29,7 +29,6 @@ const PostCardDisableWarning = ({
   textClassName,
   className,
 }) => {
-  console.log('postId', postId)
   const previousPromotionEnabled = usePrevious(promotionEnabled)
   const previousPromotableStatus = usePrevious(promotableStatus)
   const [cachedPromtableStatus, setCachedPromtableStatus] = React.useState()
