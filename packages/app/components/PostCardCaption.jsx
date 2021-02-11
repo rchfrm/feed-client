@@ -10,7 +10,7 @@ const PostCardCaption = ({
     <div
       className={[
         'absolute top-0 left-0 w-full h-full bg-grey-1',
-        'p-4',
+        'px-4 pt-3 pb-12',
         'font-display text-lg',
         'force--text--wrap',
         'overflow-auto',
