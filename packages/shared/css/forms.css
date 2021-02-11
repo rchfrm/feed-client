@@ -354,6 +354,11 @@ select {
     .radio--button.-highlighted & {
       border: 1px solid var(--purple);
     }
+
+    .checkbox--button.-disabled &,
+    .radio--button.-disabled & {
+      border: 1px solid var(--grey-light);
+    }
   }
 }
 
@@ -403,10 +408,14 @@ select {
       transform: scale(0.3) translate3d(0, 1px, 0);
     }
   }
+
+  .checkbox--button.-disabled & {
+    filter: grayscale(1);
+  }
 }
 
 /* CHECKBOX BUTTON ACTIVE */
-.checkbox--button_input:checked + .checkbox--button_label,
+.checkbox--button_input.-checked + .checkbox--button_label,
 .checkbox--button_label.-active {
   &::after {
     filter: none !important;
