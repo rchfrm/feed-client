@@ -26,14 +26,14 @@ function AccountPageDetailsInline({ user }) {
   const hasEmailAuth = providerIds.includes('password')
   // Get initial details from user
   const {
-    first_name: initialName,
-    last_name: initialSurname,
+    first_name: initialFirstName,
+    last_name: initialLastName,
     email: initialEmail,
     contact_email: initialContactEmail,
   } = user
 
-  const [name, setName] = React.useState('')
-  const [surname, setSurname] = React.useState('')
+  const [firstName, setFirstName] = React.useState('')
+  const [lastName, setLastName] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [emailContact, setEmailContact] = React.useState('')
   const [passwordOne, setPasswordOne] = React.useState('')
@@ -62,7 +62,7 @@ function AccountPageDetailsInline({ user }) {
     const accountDetailsChanged = (initialName !== name) || (initialSurname !== surname) || emailChanged
 
     // No name
-    if (!name || !surname) {
+    if (!firstName || !lastName) {
       setErrors([...errors, { message: 'Please provide a name and surname.' }])
       error = true
     }
@@ -110,7 +110,7 @@ function AccountPageDetailsInline({ user }) {
       })
     }
     // Update user
-    const userUpdatePromise = accountDetailsChanged ? server.updateUser(name, surname, email) : null
+    const userUpdatePromise = accountDetailsChanged ? server.patchUser({ firstName, lastName, email, emailContact }) : null
     // When all is done...
     const [accountChangedRes, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
     if (accountChangedRes) {
@@ -132,20 +132,19 @@ function AccountPageDetailsInline({ user }) {
 
   // Set initial values from user
   React.useEffect(() => {
-    setName(initialName)
-    setSurname(initialSurname)
+    setFirstName(initialFirstName)
+    setLastName(initialLastName)
     setEmail(initialEmail || '')
     setEmailContact(initialContactEmail || '')
-  }, [initialName, initialSurname, initialEmail, initialContactEmail])
+  }, [initialFirstName, initialLastName, initialEmail, initialContactEmail])
 
   // Handle Changes in the form
   const formUpdated = React.useRef(false)
   const handleChange = ({ target }) => {
     formUpdated.current = true
     const { name, value } = target
-    console.log('value', value)
-    if (name === 'name') return setName(value)
-    if (name === 'surname') return setSurname(value)
+    if (name === 'firstName') return setFirstName(value)
+    if (name === 'lastName') return setLastName(value)
     if (name === 'email') return setEmail(value)
     if (name === 'emailContact') return setEmailContact(value)
     if (name === 'passwordOne') return setPasswordOne(value)
@@ -162,12 +161,12 @@ function AccountPageDetailsInline({ user }) {
       setButtonOn(false)
       return
     }
-    if (!name || !surname || !email) {
+    if (!firstName || !lastName || !email) {
       setButtonOn(false)
       return
     }
     setButtonOn(true)
-  }, [name, email, surname, passwordOne, passwordTwo])
+  }, [firstName, email, lastName, passwordOne, passwordTwo])
 
 
   return (
@@ -187,20 +186,20 @@ function AccountPageDetailsInline({ user }) {
         />
 
         <Input
-          name="name"
+          name="firstName"
           label="Name"
           placeholder=""
-          value={name}
+          value={firstName}
           handleChange={handleChange}
           type="text"
           disabled={loading}
         />
 
         <Input
-          name="surname"
+          name="lastName"
           label="Surname"
           placeholder=""
-          value={surname}
+          value={lastName}
           handleChange={handleChange}
           type="text"
           disabled={loading}
