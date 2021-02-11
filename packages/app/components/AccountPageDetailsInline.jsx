@@ -56,7 +56,6 @@ function AccountPageDetailsInline({ user }) {
   // GET SCROLL TO FUNCTION
   const scrollTo = useAnimateScroll()
 
-
   // SUBMIT THE FORM
   const [loading, setLoading] = React.useState(false)
   const [errors, setErrors] = React.useState([])
@@ -181,7 +180,6 @@ function AccountPageDetailsInline({ user }) {
       return
     }
     if (!firstName || !lastName || !email) {
-      setButtonOn(false)
       setFormDisabled(true)
       return
     }
