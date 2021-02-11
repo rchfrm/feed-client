@@ -78,6 +78,9 @@ const PostCardToggle = ({
         >
           {audienceSlug}
         </strong>
+        {audienceSlug === 'growth' && isActive && (
+          <p className="mb-0 ml-3 bg-yellow px-2 py-1 text-xs rounded-full"><strong>running</strong></p>
+        )}
       </div>
       {/* TOGGLE SWITCH */}
       <div>
