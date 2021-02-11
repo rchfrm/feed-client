@@ -11,6 +11,7 @@ import { track } from '@/app/helpers/trackingHelpers'
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 
 import Input from '@/elements/Input'
+import CheckboxInput from '@/elements/CheckboxInput'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
@@ -24,14 +25,29 @@ function AccountPageDetailsInline({ user }) {
   const { auth: { providerIds } } = React.useContext(AuthContext)
   const hasEmailAuth = providerIds.includes('password')
   // Get initial details from user
-  const { first_name: initialName, last_name: initialSurname, email: initialEmail } = user
+  const {
+    first_name: initialName,
+    last_name: initialSurname,
+    email: initialEmail,
+    contact_email: initialContactEmail,
+  } = user
 
   const [name, setName] = React.useState('')
   const [surname, setSurname] = React.useState('')
   const [email, setEmail] = React.useState('')
+  const [emailContact, setEmailContact] = React.useState('')
   const [passwordOne, setPasswordOne] = React.useState('')
   const [passwordTwo, setPasswordTwo] = React.useState('')
   const [buttonOn, setButtonOn] = React.useState(false)
+
+  // HANDLE CONTACT EMAIL
+  const [chooseEmailContact, setChooseEmailContact] = React.useState(false)
+  React.useEffect(() => {
+    const usingContactEmail = initialContactEmail && initialContactEmail !== initialEmail
+    setChooseEmailContact(usingContactEmail)
+  // eslint-disable-next-line
+  }, [])
+
 
   // SUBMIT THE FORM
   const [loading, setLoading] = React.useState(false)
@@ -118,17 +134,20 @@ function AccountPageDetailsInline({ user }) {
   React.useEffect(() => {
     setName(initialName)
     setSurname(initialSurname)
-    setEmail(initialEmail)
-  }, [initialName, initialEmail, initialSurname])
+    setEmail(initialEmail || '')
+    setEmailContact(initialContactEmail || '')
+  }, [initialName, initialSurname, initialEmail, initialContactEmail])
 
   // Handle Changes in the form
   const formUpdated = React.useRef(false)
   const handleChange = ({ target }) => {
     formUpdated.current = true
     const { name, value } = target
+    console.log('value', value)
     if (name === 'name') return setName(value)
     if (name === 'surname') return setSurname(value)
     if (name === 'email') return setEmail(value)
+    if (name === 'emailContact') return setEmailContact(value)
     if (name === 'passwordOne') return setPasswordOne(value)
     if (name === 'passwordTwo') return setPasswordTwo(value)
   }
@@ -198,6 +217,34 @@ function AccountPageDetailsInline({ user }) {
           required
           disabled={loading}
         />
+
+        {/* CONTACT EMAIL */}
+        {hasEmailAuth && (
+          <>
+            {/* CHOOSE SAME EMAIL */}
+            <CheckboxInput
+              label="Contact email"
+              buttonLabel="Use my account email"
+              value="Y"
+              tooltipMessage="This is where you will receive important notifications from Feed."
+              checked={!chooseEmailContact}
+              required
+              onChange={() => {
+                setChooseEmailContact(!chooseEmailContact)
+              }}
+            />
+            {/* CONTACT EMAIL INPUT */}
+            <Input
+              name="emailContact"
+              // label="Contact email"
+              placeholder=""
+              value={chooseEmailContact ? emailContact : email}
+              handleChange={handleChange}
+              type="email"
+              disabled={loading || !chooseEmailContact}
+            />
+          </>
+        )}
 
         {hasEmailAuth && (
           <>
