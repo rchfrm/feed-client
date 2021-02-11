@@ -227,7 +227,7 @@ function AccountPageDetailsInline({ user }) {
 
         <Input
           name="email"
-          label="Email"
+          label={hasEmailAuth ? 'Email' : 'Contact Email'}
           tooltipMessage={!hasEmailAuth ? 'This is where you will receive important notifications from Feed.' : ''}
           placeholder=""
           value={email}
