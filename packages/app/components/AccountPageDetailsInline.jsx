@@ -190,7 +190,13 @@ function AccountPageDetailsInline({ user }) {
   return (
     <section className={styles.accountPageDetails}>
 
-      <form className={styles.accountPageDetails__form} onSubmit={handleSubmit}>
+      <form
+        className={[
+          styles.accountPageDetails__form,
+          'md:max-w-xl',
+        ].join(' ')}
+        onSubmit={handleSubmit}
+      >
 
         {errors.map((error, index) => {
           return <Error error={error} key={index} />
