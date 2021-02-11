@@ -5,6 +5,8 @@ import ToggleSwitch from '@/elements/ToggleSwitch'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
+import brandColors from '@/constants/brandColors'
+
 // CALL TO CHANGE STATE
 const runChangeState = ({ artistId, postId, promotionEnabled }) => {
   return postsHelpers.updatePost({ artistId, postId, promotionEnabled })
@@ -62,9 +64,12 @@ const PostCardToggle = ({
         <div
           className={[
             'w-4 h-4 rounded-full',
-            audienceSlug === 'growth' ? 'bg-yellow' : 'bg-red',
+            audienceSlug !== 'growth' ? 'bg-red' : null,
+            disabled ? 'opacity-50' : 'opacity-100',
           ].join(' ')}
-          style={{ opacity: disabled ? 0.5 : 1 }}
+          style={audienceSlug === 'growth' ? {
+            background: `linear-gradient(135deg, ${brandColors.blue} 0%, ${brandColors.yellow} 100%)`,
+          } : null}
         />
         {/* TITLE */}
         <strong
