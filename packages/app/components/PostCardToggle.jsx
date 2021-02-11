@@ -12,6 +12,9 @@ const runChangeState = ({ artistId, postId, promotionEnabled }) => {
   return postsHelpers.updatePost({ artistId, postId, promotionEnabled })
 }
 
+// GROWTH GRADIENT
+const growthGradient = `linear-gradient(135deg, ${brandColors.blue} 0%, ${brandColors.yellow} 100%)`
+
 const PostCardToggle = ({
   audienceSlug,
   postId,
@@ -68,7 +71,7 @@ const PostCardToggle = ({
             disabled ? 'opacity-50' : 'opacity-100',
           ].join(' ')}
           style={audienceSlug === 'growth' ? {
-            background: `linear-gradient(135deg, ${brandColors.blue} 0%, ${brandColors.yellow} 100%)`,
+            background: growthGradient,
           } : null}
         />
         {/* TITLE */}
@@ -78,8 +81,17 @@ const PostCardToggle = ({
         >
           {audienceSlug}
         </strong>
+        {/* RUNNING LABEL */}
         {audienceSlug === 'growth' && isActive && (
-          <p className="mb-0 ml-3 bg-yellow px-2 py-1 text-xs rounded-full"><strong>running</strong></p>
+          <p
+            className="mb-0 ml-3 px-2 py-1 text-xs rounded-full"
+            style={{
+              padding: '0.1rem 0.4rem',
+              background: growthGradient,
+            }}
+          >
+            <strong>running</strong>
+          </p>
         )}
       </div>
       {/* TOGGLE SWITCH */}
