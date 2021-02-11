@@ -7,6 +7,7 @@ const PostSettingsPixelSelector = ({
   className,
 }) => {
   const [activePixelId, setActivePixelId] = React.useState('')
+  const [errorFetching, setErrorFetching] = React.useState(false)
   return (
     <div
       className={[
@@ -17,9 +18,11 @@ const PostSettingsPixelSelector = ({
       <PixelSelector
         updateParentPixel={setActivePixelId}
         trackLocation="Post settings"
+        errorFetching={errorFetching}
+        setErrorFetching={setErrorFetching}
       />
       {/* SHOW RED DOT IF NO PIXEL SELECTED */}
-      {!activePixelId && (
+      {!activePixelId && !errorFetching && (
         <div
           className={[
             'absolute top-0 right-0',
