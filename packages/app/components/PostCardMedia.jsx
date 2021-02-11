@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 import PostImage from '@/PostImage'
 import PostCardCaption from '@/app/PostCardCaption'
 
+import CaptionIcon from '@/icons/CaptionIcon'
+import CloseCircle from '@/icons/CloseCircle'
+
 const PostCardMedia = ({
   media,
   thumbnails,
@@ -17,6 +20,9 @@ const PostCardMedia = ({
   React.useEffect(() => {
     setHasMedia(!!media)
   }, [media])
+
+  // TOGGLE CAPTION
+  const [isCaptionVisible, setIsCaptionVisible] = React.useState(false)
 
   return (
     <div
@@ -48,6 +54,7 @@ const PostCardMedia = ({
                 }}
               />
             )}
+            {/* THUMBNAIL */}
             <div
               className={[
                 'absolute top-0 left-0 w-full h-full',
@@ -67,10 +74,25 @@ const PostCardMedia = ({
             </div>
           </>
         )}
-        {/* POST CAPTION */}
-        {!hasMedia && (
+        {/* CAPTION BUTTON */}
+        {hasMedia && caption && (
+          <button
+            aria-label={isCaptionVisible ? 'Close Caption' : 'Show Caption'}
+            onClick={() => setIsCaptionVisible(!isCaptionVisible)}
+            className="absolute bottom-0 right-0 px-6 py-5"
+            style={{ zIndex: 3 }}
+          >
+            {isCaptionVisible ? (
+              <CloseCircle className="w-5 h-auto" />
+            ) : (
+              <CaptionIcon className="w-6 h-auto" />
+            )}
+          </button>
+        )}
+        {(!hasMedia || isCaptionVisible) && (
           <PostCardCaption
             caption={caption}
+            style={{ zIndex: 2 }}
           />
         )}
       </div>

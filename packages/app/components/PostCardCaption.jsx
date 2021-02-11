@@ -1,7 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PostCardCaption = ({ caption, className }) => {
+const PostCardCaption = ({
+  caption,
+  className,
+  style,
+}) => {
   return (
     <div
       className={[
@@ -12,6 +16,7 @@ const PostCardCaption = ({ caption, className }) => {
         'overflow-auto',
         className,
       ].join(' ')}
+      style={style}
     >
       {caption}
     </div>
@@ -20,10 +25,12 @@ const PostCardCaption = ({ caption, className }) => {
 
 PostCardCaption.propTypes = {
   className: PropTypes.string,
+  style: PropTypes.object,
 }
 
 PostCardCaption.defaultProps = {
   className: null,
+  style: null,
 }
 
 export default React.memo(PostCardCaption)
