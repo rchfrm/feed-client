@@ -16,6 +16,7 @@ const PostCardToggle = ({
   artistId,
   promotionEnabled,
   togglePromotion,
+  isActive,
   disabled,
   className,
 }) => {
@@ -57,6 +58,7 @@ const PostCardToggle = ({
       ].join(' ')}
     >
       <div className="mb-0 flex items-center">
+        {/* DOT */}
         <div
           className={[
             'w-4 h-4 rounded-full',
@@ -64,6 +66,7 @@ const PostCardToggle = ({
           ].join(' ')}
           style={{ opacity: disabled ? 0.5 : 1 }}
         />
+        {/* TITLE */}
         <strong
           className="capitalize ml-4"
           style={{ transform: 'translate(-1px, 0px)' }}
@@ -71,6 +74,7 @@ const PostCardToggle = ({
           {audienceSlug}
         </strong>
       </div>
+      {/* TOGGLE SWITCH */}
       <div>
         <ToggleSwitch
           state={currentState}
@@ -89,6 +93,7 @@ PostCardToggle.propTypes = {
   artistId: PropTypes.string.isRequired,
   promotionEnabled: PropTypes.bool.isRequired,
   togglePromotion: PropTypes.func.isRequired,
+  isActive: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
   className: PropTypes.string,
 }

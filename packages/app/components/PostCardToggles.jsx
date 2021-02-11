@@ -10,6 +10,7 @@ const PostCardToggles = ({
   conversionVisible,
   conversionDisabled,
   promotionEnabled,
+  promotionStatus,
   togglePromotion,
   togglesClassName,
   className,
@@ -28,6 +29,7 @@ const PostCardToggles = ({
         promotionEnabled={promotionEnabled}
         togglePromotion={togglePromotion}
         disabled={growthDisabled}
+        isActive={promotionStatus === 'active'}
         className={togglesClassName}
       />
       {/* CONVERSION TOGGLE */}
@@ -48,13 +50,20 @@ const PostCardToggles = ({
 
 PostCardToggles.propTypes = {
   postId: PropTypes.string.isRequired,
+  artistId: PropTypes.string.isRequired,
+  growthDisabled: PropTypes.bool,
   conversionVisible: PropTypes.bool,
   conversionDisabled: PropTypes.bool.isRequired,
+  promotionEnabled: PropTypes.bool,
+  promotionStatus: PropTypes.string.isRequired,
+  togglePromotion: PropTypes.func.isRequired,
   togglesClassName: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostCardToggles.defaultProps = {
+  growthDisabled: false,
+  promotionEnabled: false,
   conversionVisible: false,
   togglesClassName: null,
   className: null,
