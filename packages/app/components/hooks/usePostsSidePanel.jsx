@@ -2,6 +2,8 @@ import React from 'react'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
+import Button from '@/elements/Button'
+
 import PostsSettings from '@/app/PostsSettings'
 // eslint-disable-next-line
 import PostsLinks from '@/app/PostsLinks'
@@ -37,19 +39,27 @@ const usePostsSidePanel = () => {
 
   // * SINGLE POST SETTINGS
 
+  const CLOSE_BUTTON = (
+    <Button onClick={() => toggleSidePanel(false)} version="green">
+      Done
+    </Button>
+  )
+
   // SHOW POST SETTINGS
   const goToPostSettings = React.useCallback(({ post, postIndex, updateLink }) => {
-    setSidePanelButton(null)
+    setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContent(<PostCardSettings post={post} postIndex={postIndex} updateLink={updateLink} />)
     setSidePanelContentLabel('Post Settings')
     toggleSidePanel(true)
+  // eslint-disable-next-line
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
   // OPEN GLOBAL POST LINKS
   const goToPostMetrics = React.useCallback(({ metrics }) => {
-    setSidePanelButton(null)
+    setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContent(<PostCardMetrics metrics={metrics} />)
     setSidePanelContentLabel('Post Links')
     toggleSidePanel(true)
+  // eslint-disable-next-line
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
 
   return {
