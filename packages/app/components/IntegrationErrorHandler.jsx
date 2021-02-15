@@ -12,6 +12,8 @@ import IntegrationErrorContent from '@/app/IntegrationErrorContent'
 
 // RUN THIS TO FETCH ERRORS
 const fetchError = async ({ auth, user, artist, artistId }) => {
+  // Stop here if there are no arists associated with an account
+  if (!user.artists || !user.artists.length) return
   // Get any missing permissions from the FB redirect response
   const { missingScopes = [] } = auth
   // Handle missing scopes from FB
@@ -25,8 +27,6 @@ const fetchError = async ({ auth, user, artist, artistId }) => {
   }
   // Stop here if running locally
   if (process.env.build_env === 'development') return
-  // If no missing scopes from FB, get error from server...
-  if (!user.artists) return
   if (!artist || !artistId) return
   // Test whether user owns artist
   const { artists: userArtists } = user

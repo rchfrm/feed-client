@@ -200,8 +200,8 @@ export const sanitiseArtistAccountUrls = (artistAccounts) => {
  * @returns {object} integration
  */
 export const getArtistIntegrationByPlatform = (artist, platformId) => {
-  const { integrations } = artist
-  return integrations.find(({ platform }) => platform === platformId)
+  if (!artist) return null
+  return artist.integrations.find(({ platform }) => platform === platformId)
 }
 
 

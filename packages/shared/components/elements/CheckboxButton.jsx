@@ -12,6 +12,7 @@ const CheckboxButton = ({
   trackValue,
   checked,
   highlight,
+  disabled,
   onChange,
   className,
 }) => {
@@ -32,6 +33,7 @@ const CheckboxButton = ({
     <div className={[
       'checkbox--button',
       highlight ? '-highlighted' : null,
+      disabled ? '-disabled' : null,
       className,
     ].join(' ')}
     >
@@ -39,14 +41,20 @@ const CheckboxButton = ({
         id={idName}
         value={valueString}
         type="checkbox"
-        className="checkbox--button_input"
+        className={[
+          'checkbox--button_input',
+          checked ? '-checked' : null,
+        ].join(' ')}
         name={name || valueString}
         aria-checked={checked}
         defaultChecked={checked}
         onChange={handleChange}
       />
       <label
-        className="checkbox--button_label"
+        className={[
+          'checkbox--button_label',
+          disabled ? 'text-grey-2' : null,
+        ].join(' ')}
         htmlFor={idName}
       >
         {label}
@@ -71,6 +79,7 @@ CheckboxButton.propTypes = {
   trackValue: PropTypes.string,
   checked: PropTypes.bool,
   highlight: PropTypes.bool,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
@@ -83,6 +92,7 @@ CheckboxButton.defaultProps = {
   trackValue: '',
   checked: false,
   highlight: false,
+  disabled: false,
 }
 
 export default CheckboxButton
