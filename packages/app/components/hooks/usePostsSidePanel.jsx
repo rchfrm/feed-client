@@ -14,7 +14,23 @@ const usePostsSidePanel = () => {
     setSidePanelButton,
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
-  // * OPEN POST SETTINGS
+
+  // * GLOBAL POST SETTINGS
+
+  // OPEN GLOBAL POST SETTINGS
+  const goToGlobalPostSettings = React.useCallback(() => {
+    setSidePanelButton(null)
+    setSidePanelContent(<PostsSettings />)
+    setSidePanelContentLabel('Post Settings')
+    toggleSidePanel(true)
+  }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
+  // OPEN GLOBAL POST LINKS
+  const goToLinksBank = React.useCallback(({ useSelectMode = false }) => {
+    setSidePanelButton(null)
+    setSidePanelContent(<PostsLinks useSelectMode={useSelectMode} />)
+    setSidePanelContentLabel('Post Links')
+    toggleSidePanel(true)
+  }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
   const goToPostSettings = React.useCallback(() => {
     setSidePanelButton(null)
     setSidePanelContent(<PostsSettings />)
@@ -29,7 +45,7 @@ const usePostsSidePanel = () => {
     toggleSidePanel(true)
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
 
-  return { goToPostSettings, goToPostLinks }
+  return { goToGlobalPostSettings, goToLinksBank }
 }
 
 export default usePostsSidePanel
