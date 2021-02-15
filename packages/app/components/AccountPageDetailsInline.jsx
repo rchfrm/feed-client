@@ -11,8 +11,11 @@ import { track } from '@/app/helpers/trackingHelpers'
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 
 import Input from '@/elements/Input'
+import CheckboxInput from '@/elements/CheckboxInput'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
+
+import useAnimateScroll from '@/hooks/useAnimateScroll'
 
 import styles from '@/app/AccountPage.module.css'
 
@@ -24,14 +27,34 @@ function AccountPageDetailsInline({ user }) {
   const { auth: { providerIds } } = React.useContext(AuthContext)
   const hasEmailAuth = providerIds.includes('password')
   // Get initial details from user
-  const { first_name: initialName, last_name: initialSurname, email: initialEmail } = user
+  const {
+    first_name: initialFirstName,
+    last_name: initialLastName,
+    email: initialEmail,
+    contact_email: initialEmailContact,
+  } = user
 
-  const [name, setName] = React.useState('')
-  const [surname, setSurname] = React.useState('')
+  const [firstName, setFirstName] = React.useState('')
+  const [lastName, setLastName] = React.useState('')
   const [email, setEmail] = React.useState('')
+  const [emailContact, setEmailContact] = React.useState('')
   const [passwordOne, setPasswordOne] = React.useState('')
   const [passwordTwo, setPasswordTwo] = React.useState('')
-  const [buttonOn, setButtonOn] = React.useState(false)
+  const [formDisabled, setFormDisabled] = React.useState(false)
+
+  // HANDLE CONTACT EMAIL
+  const [useCustomEmailContact, setUseCustomEmailContact] = React.useState(false)
+  React.useEffect(() => {
+    // Stop here if not using email auth
+    if (!hasEmailAuth) return
+    // Check whether user has custom email set
+    const usingContactEmail = initialEmailContact && initialEmailContact !== initialEmail
+    setUseCustomEmailContact(usingContactEmail)
+  // eslint-disable-next-line
+  }, [])
+
+  // GET SCROLL TO FUNCTION
+  const scrollTo = useAnimateScroll()
 
   // SUBMIT THE FORM
   const [loading, setLoading] = React.useState(false)
@@ -39,34 +62,42 @@ function AccountPageDetailsInline({ user }) {
   const handleSubmit = async (e) => {
     if (e) e.preventDefault()
     // Clear errors
-    let error = false
-    setErrors([])
+    const newErrors = []
+    // Stop here if form is disabled
+    if (formDisabled) return
     const passwordChanged = passwordOne || passwordTwo
-    const emailChanged = email !== initialEmail
-    const accountDetailsChanged = (initialName !== name) || (initialSurname !== surname) || emailChanged
+    const emailChanged = (email !== initialEmail) || (emailContact !== initialEmailContact)
+    const accountDetailsChanged = (initialFirstName !== firstName) || (initialLastName !== lastName) || emailChanged
 
     // No name
-    if (!name || !surname) {
-      setErrors([...errors, { message: 'Please provide a name and surname.' }])
-      error = true
+    if (!firstName || !lastName) {
+      newErrors.push({ message: 'Please provide a name and surname.' })
     }
 
     // No email
     if (!email) {
-      setErrors([...errors, { message: 'Please provide an email.' }])
-      error = true
+      newErrors.push({ message: 'Please provide an email.' })
+    }
+
+    // No custom email
+    if (useCustomEmailContact && !emailContact) {
+      newErrors.push({ message: 'Please provide a contact email or choose to use your account email.' })
     }
 
     // If not matching passwords
     if (passwordChanged && passwordOne !== passwordTwo) {
-      setErrors([...errors, { message: 'Passwords do not match.' }])
-      error = true
+      newErrors.push({ message: 'Passwords do not match.' })
     }
 
-    // Stop here if errors
-    if (error) return
-    // Hide button
-    setButtonOn(false)
+    setErrors(newErrors)
+
+    // Stop here if errors and scroll to top of page
+    if (newErrors.length) {
+      scrollTo({ offset: 0 })
+      return
+    }
+    // Disable form
+    setFormDisabled(true)
     // Set loading
     setLoading(true)
     // Update password
@@ -75,9 +106,9 @@ function AccountPageDetailsInline({ user }) {
     const emailChangedRes = emailChanged && hasEmailAuth ? await firebase.doEmailUpdate(email) : null
     // Handle error in changing email
     if (emailChangedRes && emailChangedRes.error) {
-      setErrors([...errors, emailChangedRes.error])
-      error = true
+      setErrors([emailChangedRes.error])
       setLoading(false)
+      scrollTo({ offset: 0 })
       return
     }
     // TRACK
@@ -94,9 +125,12 @@ function AccountPageDetailsInline({ user }) {
       })
     }
     // Update user
-    const userUpdatePromise = accountDetailsChanged ? server.updateUser(name, surname, email) : null
+    const newEmailContact = !useCustomEmailContact || !emailContact ? null : emailContact
+    const userUpdatePromise = accountDetailsChanged ? server.patchUser({ firstName, lastName, email, emailContact: newEmailContact }) : null
     // When all is done...
     const [accountChangedRes, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
+    // Stop form disabled
+    setFormDisabled(false)
     if (accountChangedRes) {
       // Update the user details
       const updatedUser = accountChangedRes
@@ -110,25 +144,27 @@ function AccountPageDetailsInline({ user }) {
     // Handle error in changing password
     if (passwordChangedRes && passwordChangedRes.error) {
       setErrors([...errors, passwordChangedRes.error])
-      error = true
+      scrollTo({ offset: 0 })
     }
   }
 
   // Set initial values from user
   React.useEffect(() => {
-    setName(initialName)
-    setSurname(initialSurname)
-    setEmail(initialEmail)
-  }, [initialName, initialEmail, initialSurname])
+    setFirstName(initialFirstName)
+    setLastName(initialLastName)
+    setEmail(initialEmail || '')
+    setEmailContact(initialEmailContact || '')
+  }, [initialFirstName, initialLastName, initialEmail, initialEmailContact])
 
   // Handle Changes in the form
   const formUpdated = React.useRef(false)
   const handleChange = ({ target }) => {
     formUpdated.current = true
     const { name, value } = target
-    if (name === 'name') return setName(value)
-    if (name === 'surname') return setSurname(value)
+    if (name === 'firstName') return setFirstName(value)
+    if (name === 'lastName') return setLastName(value)
     if (name === 'email') return setEmail(value)
+    if (name === 'emailContact') return setEmailContact(value)
     if (name === 'passwordOne') return setPasswordOne(value)
     if (name === 'passwordTwo') return setPasswordTwo(value)
   }
@@ -140,21 +176,27 @@ function AccountPageDetailsInline({ user }) {
     if (!formUpdated.current) return
     // Set the button state
     if (passwordOne !== passwordTwo) {
-      setButtonOn(false)
+      setFormDisabled(true)
       return
     }
-    if (!name || !surname || !email) {
-      setButtonOn(false)
+    if (!firstName || !lastName || !email) {
+      setFormDisabled(true)
       return
     }
-    setButtonOn(true)
-  }, [name, email, surname, passwordOne, passwordTwo])
+    setFormDisabled(false)
+  }, [firstName, lastName, email, emailContact, passwordOne, passwordTwo])
 
 
   return (
     <section className={styles.accountPageDetails}>
 
-      <form className={styles.accountPageDetails__form} onSubmit={handleSubmit}>
+      <form
+        className={[
+          styles.accountPageDetails__form,
+          'md:max-w-xl',
+        ].join(' ')}
+        onSubmit={handleSubmit}
+      >
 
         {errors.map((error, index) => {
           return <Error error={error} key={index} />
@@ -168,20 +210,20 @@ function AccountPageDetailsInline({ user }) {
         />
 
         <Input
-          name="name"
+          name="firstName"
           label="Name"
           placeholder=""
-          value={name}
+          value={firstName}
           handleChange={handleChange}
           type="text"
           disabled={loading}
         />
 
         <Input
-          name="surname"
+          name="lastName"
           label="Surname"
           placeholder=""
-          value={surname}
+          value={lastName}
           handleChange={handleChange}
           type="text"
           disabled={loading}
@@ -189,7 +231,7 @@ function AccountPageDetailsInline({ user }) {
 
         <Input
           name="email"
-          label="Email"
+          label={hasEmailAuth ? 'Email' : 'Contact Email'}
           tooltipMessage={!hasEmailAuth ? 'This is where you will receive important notifications from Feed.' : ''}
           placeholder=""
           value={email}
@@ -198,6 +240,34 @@ function AccountPageDetailsInline({ user }) {
           required
           disabled={loading}
         />
+
+        {/* CONTACT EMAIL */}
+        {hasEmailAuth && (
+          <>
+            {/* CHOOSE SAME EMAIL */}
+            <CheckboxInput
+              label="Contact email"
+              buttonLabel="Use my account email"
+              value="Y"
+              tooltipMessage="This is where you will receive important notifications from Feed."
+              checked={!useCustomEmailContact}
+              required
+              disabled={loading}
+              onChange={() => {
+                setUseCustomEmailContact(!useCustomEmailContact)
+              }}
+            />
+            {/* CONTACT EMAIL INPUT */}
+            <Input
+              name="emailContact"
+              placeholder=""
+              value={useCustomEmailContact ? emailContact : email}
+              handleChange={handleChange}
+              type="email"
+              disabled={loading || !useCustomEmailContact}
+            />
+          </>
+        )}
 
         {hasEmailAuth && (
           <>
@@ -226,7 +296,7 @@ function AccountPageDetailsInline({ user }) {
         <Button
           className={styles.submitButton}
           type="submit"
-          disabled={!buttonOn}
+          disabled={formDisabled}
           loading={loading}
         >
           Save changes
