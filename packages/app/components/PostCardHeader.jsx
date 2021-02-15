@@ -1,0 +1,46 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import PlatformIcon from '@/icons/PlatformIcon'
+
+const PostCardHeader = ({
+  platform,
+  date,
+  permalink,
+  className,
+}) => {
+  return (
+    <div
+      className={[
+        'flex justify-between items-bottom',
+        className,
+      ].join(' ')}
+    >
+      {/* ICON */}
+      <a
+        href={permalink}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <PlatformIcon
+          className="w-4 h-auto"
+          platform={platform}
+        />
+      </a>
+      {/* DATE */}
+      <p className="mb-0 text-sm">{date}</p>
+    </div>
+  )
+}
+
+PostCardHeader.propTypes = {
+  platform: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  className: PropTypes.string,
+}
+
+PostCardHeader.defaultProps = {
+  className: null,
+}
+
+export default PostCardHeader

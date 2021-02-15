@@ -175,13 +175,13 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 
   // Define what toggled the post enabled status
   // (single or batch)
-  const [postToggleSetter, setPostToggleSetter] = React.useState('')
+  const [postToggleSetterType, setPostToggleSetterType] = React.useState('')
 
   // Define function for toggling SINGLE promotion
   const togglePromotion = React.useCallback(async (postId, promotionEnabled, promotableStatus) => {
     const indexOfId = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotionEnabled
-    setPostToggleSetter('single')
+    setPostToggleSetterType('single')
     setPosts({
       type: 'toggle-promotion',
       payload: {
@@ -204,7 +204,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   const setTogglePromotionGlobal = usePostsStore(React.useCallback(state => state.setTogglePromotionGlobal, []))
   React.useEffect(() => {
     const togglePromotionGlobal = (promotionEnabled) => {
-      setPostToggleSetter('batch')
+      setPostToggleSetterType('batch')
       setPosts({
         type: 'toggle-promotion-global',
         payload: {
@@ -315,11 +315,11 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         setVisiblePost={setVisiblePost}
         updateLink={updateLink}
         togglePromotion={togglePromotion}
-        postToggleSetter={postToggleSetter}
+        postToggleSetterType={postToggleSetterType}
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
         loadedAll={isEndOfAssets.current}
-        missingDefaultLink={artist.missingDefaultLink}
+        isMissingDefaultLink={artist.missingDefaultLink}
       />
 
       {/* Loading spinner */}
