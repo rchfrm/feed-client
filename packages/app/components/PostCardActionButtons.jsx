@@ -16,8 +16,9 @@ const PostCardActionButtons = ({
   postIndex,
   postPromotable,
   updateLink,
-  settingsIcon,
+  hidePaidMetrics,
   isMissingDefaultLink,
+  settingsIcon,
   className,
 }) => {
   // Get functions to open sidepanel
@@ -63,9 +64,10 @@ const PostCardActionButtons = ({
         version="green"
         label="View Metrix"
         onClick={() => {
+          console.log('post', post)
           const metrics = {
             organic: post.organicMetrics,
-            paid: post.paidMetrics,
+            paid: hidePaidMetrics ? null : post.paidMetrics,
           }
           goToPostMetrics({ metrics })
         }}
@@ -84,8 +86,9 @@ PostCardActionButtons.propTypes = {
   postIndex: PropTypes.number.isRequired,
   postPromotable: PropTypes.bool.isRequired,
   updateLink: PropTypes.func.isRequired,
-  settingsIcon: PropTypes.string,
+  hidePaidMetrics: PropTypes.bool.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
+  settingsIcon: PropTypes.string,
   className: PropTypes.string,
 }
 
