@@ -40,7 +40,6 @@ const PostsLinksFolder = ({
   folder,
   editModeOn,
   setEditModeOn,
-  useSelectMode,
   className,
 }) => {
   // FUNCTION FOR EDITING LINKS
@@ -98,7 +97,7 @@ const PostsLinksFolder = ({
                   <p
                     className={[
                       'flex items-baseline',
-                      useSelectMode ? 'mb-5' : 'mb-3',
+                      'mb-3',
                     ].join(' ')}
                   >
                     <span className="h-4 mr-3">
@@ -139,7 +138,6 @@ const PostsLinksFolder = ({
                       link={item}
                       editModeOn={editModeOn}
                       setEditModeOn={setEditModeOn}
-                      useSelectMode={useSelectMode}
                     />
                   )
                 })}
@@ -156,7 +154,6 @@ PostsLinksFolder.propTypes = {
   folder: PropTypes.object.isRequired,
   editModeOn: PropTypes.bool.isRequired,
   setEditModeOn: PropTypes.func.isRequired,
-  useSelectMode: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

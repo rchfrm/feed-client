@@ -25,9 +25,9 @@ const usePostsSidePanel = () => {
     toggleSidePanel(true)
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
   // OPEN GLOBAL POST LINKS
-  const goToLinksBank = React.useCallback(({ useSelectMode = false }) => {
+  const goToLinksBank = React.useCallback(() => {
     setSidePanelButton(null)
-    setSidePanelContent(<PostsLinks useSelectMode={useSelectMode} />)
+    setSidePanelContent(<PostsLinks />)
     setSidePanelContentLabel('Post Links')
     toggleSidePanel(true)
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])

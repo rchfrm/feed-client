@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import Button from '@/elements/Button'
 import PlatformIcon from '@/icons/PlatformIcon'
 import PencilIcon from '@/icons/PencilIcon'
-import RadioButton from '@/elements/RadioButton'
 import MarkdownText from '@/elements/MarkdownText'
 
 // eslint-disable-next-line
@@ -20,7 +19,6 @@ import copy from '@/app/copy/PostsPageCopy'
 const PostsLinksIntegrations = ({
   integrationLinks,
   className,
-  useSelectMode,
 }) => {
   const { goToPostLinks } = usePostsSidePanel()
   const openIntegrationsPanel = useOpenIntegrationsPanel({
@@ -39,12 +37,11 @@ const PostsLinksIntegrations = ({
         {integrationLinks.map((integration) => {
           const { platform, href, titleVerbose, isDefaultLink } = integration
           const text = titleVerbose || 'not connnected'
-          if (useSelectMode && !href) return null
           return (
             <li
               key={platform}
               className={[
-                useSelectMode ? 'mb-8' : 'mb-6',
+                'mb-6',
                 'last:mb-0',
                 !href ? 'text-grey-3' : null,
               ].join(' ')}
@@ -61,61 +58,47 @@ const PostsLinksIntegrations = ({
                     className="w-5 h-auto"
                   />
                 </span>
-                {useSelectMode ? (
-                  <RadioButton
-                    value={href}
-                    name={text}
-                    label={text}
-                    checked={false}
-                    onChange={() => {}}
-                    className="mb-0"
-                  />
-                ) : (
-                  <>
-                    <span
-                      className={[
-                        'block w-full overflow-hidden',
-                      ].join(' ')}
+
+                <span
+                  className={[
+                    'block w-full overflow-hidden',
+                  ].join(' ')}
+                >
+                  {text}
+                  {isDefaultLink && (
+                  <span className="inline-flex text-green pl-2 text-sm">
+                    <strong className="pr-1" style={{ transform: 'translateY(0.2em)' }}>*</strong>
+                    <strong>default link</strong>
+                  </span>
+                  )}
+                  {/* LINK PREVIEW */}
+                  {href ? (
+                    <a
+                      className="block pt-1 text-xs text-grey-3 truncate w-full"
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer noopener"
                     >
-                      {text}
-                      {isDefaultLink && (
-                        <span className="inline-flex text-green pl-2 text-sm">
-                          <strong className="pr-1" style={{ transform: 'translateY(0.2em)' }}>*</strong>
-                          <strong>default link</strong>
-                        </span>
-                      )}
-                      {/* LINK PREVIEW */}
-                      {href ? (
-                        <a
-                          className="block pt-1 text-xs text-grey-3 truncate w-full"
-                          href={href}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                        >
-                          {removeProtocolFromUrl(href)}
-                        </a>
-                      ) : (
-                        <span className="block pt-1 text-xs text-grey-3 truncate w-full">
-                          not connected
-                        </span>
-                      )}
+                      {removeProtocolFromUrl(href)}
+                    </a>
+                  ) : (
+                    <span className="block pt-1 text-xs text-grey-3 truncate w-full">
+                      not connected
                     </span>
-                  </>
-                )}
+                  )}
+                </span>
               </p>
             </li>
           )
         })}
       </ul>
-      {!useSelectMode && (
-        <Button
-          version="x-small green icon"
-          onClick={openIntegrationsPanel}
-        >
-          <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
-          Edit Integrations
-        </Button>
-      )}
+      <Button
+        version="x-small green icon"
+        onClick={openIntegrationsPanel}
+      >
+        <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
+        Edit Integrations
+      </Button>
     </div>
   )
 }
@@ -123,7 +106,6 @@ const PostsLinksIntegrations = ({
 PostsLinksIntegrations.propTypes = {
   integrationLinks: PropTypes.array.isRequired,
   className: PropTypes.string,
-  useSelectMode: PropTypes.bool.isRequired,
 }
 
 PostsLinksIntegrations.defaultProps = {

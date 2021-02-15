@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 import shallow from 'zustand/shallow'
 import useAsyncEffect from 'use-async-effect'
@@ -24,9 +24,7 @@ const getLinksStoreState = (state) => ({
   linkBankError: state.linkBankError,
 })
 
-const PostsLinks = ({
-  useSelectMode,
-}) => {
+const PostsLinks = () => {
   const { fetchLinks, nestedLinks, linksLoading, linkBankError } = useLinksStore(getLinksStoreState, shallow)
   const { looseLinks, linkFolders, integrationLinks } = React.useMemo(() => {
     return splitLinks(nestedLinks)
@@ -60,7 +58,6 @@ const PostsLinks = ({
             <PostsLinksList
               looseLinks={looseLinks}
               linkFolders={linkFolders}
-              useSelectMode={useSelectMode}
             />
           </section>
           {!!integrationLinks.length && (
@@ -68,7 +65,6 @@ const PostsLinks = ({
               <h3>Integration Links</h3>
               <PostsLinksIntegrations
                 integrationLinks={integrationLinks}
-                useSelectMode={useSelectMode}
               />
             </section>
           )}
@@ -79,11 +75,9 @@ const PostsLinks = ({
 }
 
 PostsLinks.propTypes = {
-  useSelectMode: PropTypes.bool,
 }
 
 PostsLinks.defaultProps = {
-  useSelectMode: false,
 }
 
 
