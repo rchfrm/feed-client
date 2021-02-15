@@ -46,9 +46,16 @@ const usePostsSidePanel = () => {
   )
 
   // SHOW POST SETTINGS
-  const goToPostSettings = React.useCallback(({ post, postIndex, updateLink }) => {
+  const goToPostSettings = React.useCallback(({ post, postIndex, updateLink, isMissingDefaultLink }) => {
     setSidePanelButton(CLOSE_BUTTON)
-    setSidePanelContent(<PostCardSettings post={post} postIndex={postIndex} updateLink={updateLink} />)
+    setSidePanelContent((
+      <PostCardSettings
+        post={post}
+        postIndex={postIndex}
+        updateLink={updateLink}
+        isMissingDefaultLink={isMissingDefaultLink}
+      />
+    ))
     setSidePanelContentLabel('Post Settings')
     toggleSidePanel(true)
   // eslint-disable-next-line

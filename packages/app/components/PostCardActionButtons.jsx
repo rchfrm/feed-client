@@ -17,6 +17,7 @@ const PostCardActionButtons = ({
   postPromotable,
   updateLink,
   settingsIcon,
+  isMissingDefaultLink,
   className,
 }) => {
   // Get functions to open sidepanel
@@ -40,6 +41,7 @@ const PostCardActionButtons = ({
             post,
             postIndex,
             updateLink,
+            isMissingDefaultLink,
           })
         }}
       >
@@ -83,6 +85,7 @@ PostCardActionButtons.propTypes = {
   postPromotable: PropTypes.bool.isRequired,
   updateLink: PropTypes.func.isRequired,
   settingsIcon: PropTypes.string,
+  isMissingDefaultLink: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

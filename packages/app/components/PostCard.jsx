@@ -72,6 +72,7 @@ const PostCard = ({
           postIndex={postIndex}
           postPromotable={postPromotable}
           updateLink={updateLink}
+          isMissingDefaultLink={isMissingDefaultLink}
           settingsIcon="link"
         />
         {/* DISABLE WARNING (usually hidden) */}
