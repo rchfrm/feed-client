@@ -70,6 +70,7 @@ const PostCard = ({
         <PostCardActionButtons
           post={post}
           postPromotable={postPromotable}
+          settingsIcon="link"
         />
         {/* DISABLE WARNING (usually hidden) */}
         <PostCardDisableWarning
