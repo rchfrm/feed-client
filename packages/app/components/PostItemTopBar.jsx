@@ -31,7 +31,7 @@ const PostItemTopBar = ({
           <PostToggleTooltip promotionStatus={promotionStatus} />
         )}
         <PostToggle
-          post={post}
+          postId={post.id}
           togglePromotion={togglePromotion}
           promotionEnabled={promotionEnabled}
           promotableStatus={promotableStatus}
