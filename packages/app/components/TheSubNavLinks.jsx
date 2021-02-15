@@ -16,7 +16,7 @@ const termsLink = 'https://tryfeed.co/legal/terms-of-service'
 const links = [
   {
     href: ACCOUNT,
-    title: 'account',
+    title: 'account settings',
   },
   {
     href: MYREFERRAL,

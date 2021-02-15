@@ -12,6 +12,7 @@ const CheckboxInput = (props) => {
     error,
     errorMessage,
     buttonLabel,
+    disabled,
     className,
   } = props
   return (
@@ -21,7 +22,12 @@ const CheckboxInput = (props) => {
       <div>
         {/* LABEL */}
         {label && (
-          <span className="inputLabel__text">
+          <span
+            className={[
+              'inputLabel__text',
+              disabled ? 'text-grey-2' : null,
+            ].join(' ')}
+          >
             <span>
               {label}
               {required && <span className="asterisk">*</span>}
