@@ -27,7 +27,7 @@ export const getErrorResponse = (error, artist) => {
   } = error
 
   // Get facebook integration
-  const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
+  const facebookIntegration = artist ? getArtistIntegrationByPlatform(artist, 'facebook') : null
 
   if (code === 'missing_permission_scope') {
     const missingPermissions = context
