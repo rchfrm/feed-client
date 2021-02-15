@@ -20,7 +20,6 @@ const PostCard = ({
   className,
   children,
 }) => {
-  console.log('post', post)
   // Extract some variables
   const { postPromotable } = post
   // Should conversionVisible be hidden
