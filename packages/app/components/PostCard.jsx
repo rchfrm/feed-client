@@ -69,7 +69,9 @@ const PostCard = ({
         )}
         <PostCardActionButtons
           post={post}
+          postIndex={postIndex}
           postPromotable={postPromotable}
+          updateLink={updateLink}
           settingsIcon="link"
         />
         {/* DISABLE WARNING (usually hidden) */}

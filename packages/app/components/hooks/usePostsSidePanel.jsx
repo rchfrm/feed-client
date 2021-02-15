@@ -6,6 +6,9 @@ import PostsSettings from '@/app/PostsSettings'
 // eslint-disable-next-line
 import PostsLinks from '@/app/PostsLinks'
 
+import PostCardSettings from '@/app/PostCardSettings'
+import PostCardMetrics from '@/app/PostCardMetrics'
+
 const usePostsSidePanel = () => {
   // SIDE PANEL context
   const {
@@ -31,21 +34,30 @@ const usePostsSidePanel = () => {
     setSidePanelContentLabel('Post Links')
     toggleSidePanel(true)
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
-  const goToPostSettings = React.useCallback(() => {
+
+  // * SINGLE POST SETTINGS
+
+  // SHOW POST SETTINGS
+  const goToPostSettings = React.useCallback(({ post, postIndex, updateLink }) => {
     setSidePanelButton(null)
-    setSidePanelContent(<PostsSettings />)
+    setSidePanelContent(<PostCardSettings post={post} postIndex={postIndex} updateLink={updateLink} />)
     setSidePanelContentLabel('Post Settings')
     toggleSidePanel(true)
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
-  // * OPEN POST LINKS
-  const goToPostLinks = React.useCallback(({ useSelectMode = false }) => {
+  // OPEN GLOBAL POST LINKS
+  const goToPostMetrics = React.useCallback(({ metrics }) => {
     setSidePanelButton(null)
-    setSidePanelContent(<PostsLinks useSelectMode={useSelectMode} />)
+    setSidePanelContent(<PostCardMetrics metrics={metrics} />)
     setSidePanelContentLabel('Post Links')
     toggleSidePanel(true)
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
 
-  return { goToGlobalPostSettings, goToLinksBank }
+  return {
+    goToGlobalPostSettings,
+    goToLinksBank,
+    goToPostSettings,
+    goToPostMetrics,
+  }
 }
 
 export default usePostsSidePanel

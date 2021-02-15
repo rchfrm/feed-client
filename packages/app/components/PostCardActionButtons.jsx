@@ -7,14 +7,21 @@ import GearIcon from '@/icons/GearIcon'
 import LinkIcon from '@/icons/LinkIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
 
+import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
+
 import brandColors from '@/constants/brandColors'
 
 const PostCardActionButtons = ({
   post,
+  postIndex,
   postPromotable,
+  updateLink,
   settingsIcon,
   className,
 }) => {
+  // Get functions to open sidepanel
+  const { goToPostSettings, goToPostMetrics } = usePostsSidePanel()
+  // RENDER
   return (
     <div
       className={[
@@ -28,6 +35,13 @@ const PostCardActionButtons = ({
         version="green"
         label="Edit Settings"
         disabled={!postPromotable}
+        onClick={() => {
+          goToPostSettings({
+            post,
+            postIndex,
+            updateLink,
+          })
+        }}
       >
         {settingsIcon === 'gear' ? (
           <GearIcon
@@ -46,6 +60,13 @@ const PostCardActionButtons = ({
         className="h-11 w-1/2 ml-1"
         version="green"
         label="View Metrix"
+        onClick={() => {
+          const metrics = {
+            organic: post.organicMetrics,
+            paid: post.paidMetrics,
+          }
+          goToPostMetrics({ metrics })
+        }}
       >
         <InsightsIcon
           className="h-5 w-auto"
@@ -58,7 +79,9 @@ const PostCardActionButtons = ({
 
 PostCardActionButtons.propTypes = {
   post: PropTypes.object.isRequired,
+  postIndex: PropTypes.number.isRequired,
   postPromotable: PropTypes.bool.isRequired,
+  updateLink: PropTypes.func.isRequired,
   settingsIcon: PropTypes.string,
   className: PropTypes.string,
 }
