@@ -1,6 +1,6 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
-import { getIntegrationInfo } from '@/app/helpers/integrationHelpers'
+import { getIntegrationInfo } from '@/helpers/integrationHelpers'
 
 export default {
   noPostsCopy: {

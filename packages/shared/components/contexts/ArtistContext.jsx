@@ -11,7 +11,7 @@ import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import calcFeedMinBudgetInfo from '@/app/helpers/budgetHelpers'
-import { formatAndFilterIntegrations } from '@/app/helpers/integrationHelpers'
+import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
 
 const initialArtistState = {
   id: '',
