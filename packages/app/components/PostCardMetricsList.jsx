@@ -65,13 +65,11 @@ PostCardMetricsList.propTypes = {
   metrics: PropTypes.object,
   metricsContent: PropTypes.array.isRequired,
   currentMetricsType: PropTypes.string,
-  setDrilldown: PropTypes.func,
 }
 
 PostCardMetricsList.defaultProps = {
   metrics: null,
   currentMetricsType: '',
-  setDrilldown: () => {},
 }
 
 
