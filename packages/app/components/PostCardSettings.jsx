@@ -6,7 +6,7 @@ import Button from '@/elements/Button'
 
 import PostsSettingsSection from '@/app/PostsSettingsSection'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
-
+// eslint-disable-next-line
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'

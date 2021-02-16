@@ -61,9 +61,9 @@ const usePostsSidePanel = () => {
   // eslint-disable-next-line
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
   // OPEN GLOBAL POST LINKS
-  const goToPostMetrics = React.useCallback(({ metrics }) => {
+  const goToPostMetrics = React.useCallback(({ metrics, postType }) => {
     setSidePanelButton(CLOSE_BUTTON)
-    setSidePanelContent(<PostCardMetrics metrics={metrics} />)
+    setSidePanelContent(<PostCardMetrics metrics={metrics} postType={postType} />)
     setSidePanelContentLabel('Post Links')
     toggleSidePanel(true)
   // eslint-disable-next-line

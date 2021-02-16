@@ -69,7 +69,8 @@ const PostCardActionButtons = ({
             organic: post.organicMetrics,
             paid: hidePaidMetrics ? null : post.paidMetrics,
           }
-          goToPostMetrics({ metrics })
+          const { postType } = post
+          goToPostMetrics({ metrics, postType })
         }}
       >
         <InsightsIcon
