@@ -13,6 +13,7 @@ const PostCardMetricsList = ({
   metrics,
   metricsContent,
   metricsType,
+  className,
 }) => {
   // CREATE ARRAY OF METRICS
   const maxMetrics = 4
@@ -33,6 +34,7 @@ const PostCardMetricsList = ({
     <ul
       className={[
         'border-solid border-2 border-green rounded-dialogue',
+        className,
       ].join(' ')}
     >
       {/* METRICS */}
@@ -65,11 +67,13 @@ PostCardMetricsList.propTypes = {
   metrics: PropTypes.object,
   metricsContent: PropTypes.array.isRequired,
   metricsType: PropTypes.string,
+  className: PropTypes.string,
 }
 
 PostCardMetricsList.defaultProps = {
   metrics: null,
   metricsType: '',
+  className: null,
 }
 
 

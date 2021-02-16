@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PostsSettingsSection from '@/app/PostsSettingsSection'
+import PostCardMetricsScore from '@/app/PostCardMetricsScore'
 import PostCardMetricsList from '@/app/PostCardMetricsList'
 
 import { getPostMetricsContent } from '@/app/helpers/postsHelpers'
@@ -18,6 +19,7 @@ const PostCardMetrics = ({
   return (
     <div
       className={[
+        'max-w-lg md:max-w-none',
         className,
       ].join(' ')}
     >
@@ -28,11 +30,27 @@ const PostCardMetrics = ({
           header="Paid Metrics"
           copy="The metrics for this post when run as an ad."
         >
-          <PostCardMetricsList
-            metrics={metrics.paid}
-            metricsContent={getPostMetricsContent('paid', postType)}
-            metricsType="paid"
-          />
+          <div
+            className="md:grid grid-cols-12 items-center pt-4"
+          >
+            <div className="col-span-4">
+              <PostCardMetricsScore
+                score={metrics.paid.engagementScore}
+                metricsType="paid"
+                className={[
+                  'mb-8 mx-auto',
+                  'sm:mx-0',
+                  'md:mb-0 md:-mt-2 md:mx-auto',
+                ].join(' ')}
+              />
+            </div>
+            <PostCardMetricsList
+              metrics={metrics.paid}
+              metricsContent={getPostMetricsContent('paid', postType)}
+              metricsType="paid"
+              className="col-span-7 col-start-6"
+            />
+          </div>
         </PostsSettingsSection>
       )}
       {/* ORGANIC METRICS */}
@@ -40,11 +58,13 @@ const PostCardMetrics = ({
         header="Organic Metrics"
         copy="The metrics for the organic post."
       >
-        <PostCardMetricsList
-          metrics={metrics.organic}
-          metricsContent={getPostMetricsContent('organic', postType)}
-          metricsType="organic"
-        />
+        <div className="md:grid grid-cols-2">
+          <PostCardMetricsList
+            metrics={metrics.organic}
+            metricsContent={getPostMetricsContent('organic', postType)}
+            metricsType="organic"
+          />
+        </div>
       </PostsSettingsSection>
     </div>
   )
