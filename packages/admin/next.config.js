@@ -5,16 +5,17 @@ const withOffline = require('next-offline')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
-// Webpack plugins
-const dotenv = require('dotenv')
-
-// Extract environment variables from local .env file
-dotenv.config()
 
 // Next phase vars
 const {
   PHASE_DEVELOPMENT_SERVER,
 } = require('next/constants')
+
+// SETUP TRANSPILE MODULES
+const sharedPath = path.resolve(__dirname, '../shared')
+const withTM = require('next-transpile-modules')([sharedPath])
+
+
 
 // NEXT CONFIG
 const nextConfig = {
@@ -29,6 +30,7 @@ const nextConfig = {
     react_app_api_url_local: process.env.REACT_APP_API_URL_LOCAL,
     build_env: process.env.BUILD_ENV || process.env.NODE_ENV,
     sentry_dsn: 'https://d3ed114866ac498da2fdd9acf2c6bd87@sentry.io/3732610',
+    mixpanel_token: process.env.MIXPANEL_TOKEN,
     release_version: process.env.RELEASE_VERSION,
   },
   // Don't show if page can be optimised automatically
@@ -45,19 +47,22 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, webpack }) => {
     // Fixes npm packages that depend on `fs` module
     if (!isServer) {
       config.node = {
         fs: 'empty',
       }
     }
+    // Reduce size of moment.js
+    config.plugins.push(
+      // Ignore all locale files of moment.js
+      // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    )
     return config
   },
 }
-
-const sharedPath = path.resolve(__dirname, '../shared')
-const withTM = require('next-transpile-modules')([sharedPath])
 
 module.exports = withPlugins([
   [withTM],
