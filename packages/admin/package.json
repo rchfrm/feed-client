@@ -4,7 +4,7 @@
   "description": "The admin panel",
   "private": true,
   "scripts": {
-    "dev": "next",
+    "dev": "next dev",
     "build": "RELEASE_VERSION=$(git rev-parse --short HEAD) next build",
     "export:staging": "rm -rf dist/ && BUILD_ENV=staging yarn build && next export -o dist/",
     "export:production": "rm -rf dist/ && BUILD_ENV=production yarn build && next export -o dist/",
