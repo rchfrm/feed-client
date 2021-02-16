@@ -9,13 +9,24 @@ import { getPostMetricsContent } from '@/app/helpers/postsHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
+const metricsType = [
+  {
+    type: 'paid',
+    header: 'Paid Metrics',
+    description: 'The metrics for this post when run as an ad.',
+  },
+  {
+    type: 'organic',
+    header: 'Organic Metrics',
+    description: 'The metrics for the organic post.',
+  },
+]
+
 const PostCardMetrics = ({
   metrics,
   postType,
   className,
 }) => {
-  console.log('metrics', metrics)
-  console.log('postType', postType)
   return (
     <div
       className={[
@@ -24,48 +35,39 @@ const PostCardMetrics = ({
       ].join(' ')}
     >
       <h2 className={sidePanelStyles.SidePanel__Header}>Post Metrics</h2>
-      {/* PAID METRICS */}
-      {metrics.paid && (
-        <PostsSettingsSection
-          header="Paid Metrics"
-          copy="The metrics for this post when run as an ad."
-        >
-          <div
-            className="md:grid grid-cols-12 items-center pt-4"
+      {metricsType.map(({ type, header, description }) => {
+        const typeMetrics = metrics[type]
+        if (!typeMetrics) return null
+        return (
+          <PostsSettingsSection
+            key={type}
+            header={header}
+            copy={description}
           >
-            <div className="col-span-4">
-              <PostCardMetricsScore
-                score={metrics.paid.engagementScore}
-                metricsType="paid"
-                className={[
-                  'mb-8 mx-auto',
-                  'sm:mx-0',
-                  'md:mb-0 md:-mt-2 md:mx-auto',
-                ].join(' ')}
+            <div
+              className="md:grid grid-cols-12 items-center pt-4"
+            >
+              <div className="col-span-4">
+                <PostCardMetricsScore
+                  score={typeMetrics.engagementScore}
+                  metricsType={type}
+                  className={[
+                    'mb-8 mx-auto',
+                    'sm:mx-0',
+                    'md:mb-0 md:-mt-2 md:mx-auto',
+                  ].join(' ')}
+                />
+              </div>
+              <PostCardMetricsList
+                metrics={typeMetrics}
+                metricsContent={getPostMetricsContent('paid', postType)}
+                metricsType={type}
+                className="col-span-7 col-start-6"
               />
             </div>
-            <PostCardMetricsList
-              metrics={metrics.paid}
-              metricsContent={getPostMetricsContent('paid', postType)}
-              metricsType="paid"
-              className="col-span-7 col-start-6"
-            />
-          </div>
-        </PostsSettingsSection>
-      )}
-      {/* ORGANIC METRICS */}
-      <PostsSettingsSection
-        header="Organic Metrics"
-        copy="The metrics for the organic post."
-      >
-        <div className="md:grid grid-cols-2">
-          <PostCardMetricsList
-            metrics={metrics.organic}
-            metricsContent={getPostMetricsContent('organic', postType)}
-            metricsType="organic"
-          />
-        </div>
-      </PostsSettingsSection>
+          </PostsSettingsSection>
+        )
+      })}
     </div>
   )
 }
