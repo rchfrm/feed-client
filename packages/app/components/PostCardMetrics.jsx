@@ -31,7 +31,7 @@ const PostCardMetrics = ({
           <PostCardMetricsList
             metrics={metrics.paid}
             metricsContent={getPostMetricsContent('paid', postType)}
-            currentMetricsType="paid"
+            metricsType="paid"
           />
         </PostsSettingsSection>
       )}
@@ -43,7 +43,7 @@ const PostCardMetrics = ({
         <PostCardMetricsList
           metrics={metrics.organic}
           metricsContent={getPostMetricsContent('organic', postType)}
-          currentMetricsType="organic"
+          metricsType="organic"
         />
       </PostsSettingsSection>
     </div>

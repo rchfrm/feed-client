@@ -12,7 +12,7 @@ import styles from '@/app/PostCardMetricsList.module.css'
 const PostCardMetricsList = ({
   metrics,
   metricsContent,
-  currentMetricsType,
+  metricsType,
 }) => {
   // CREATE ARRAY OF METRICS
   const maxMetrics = 4
@@ -49,7 +49,7 @@ const PostCardMetricsList = ({
             id={key}
             title={name}
             value={parsedValue}
-            currentMetricsType={currentMetricsType}
+            metricsType={metricsType}
             drilldownMetrics={drilldownMetrics}
             artistCurrency={artistCurrency}
             className={styles.gridCell}
@@ -64,12 +64,12 @@ const PostCardMetricsList = ({
 PostCardMetricsList.propTypes = {
   metrics: PropTypes.object,
   metricsContent: PropTypes.array.isRequired,
-  currentMetricsType: PropTypes.string,
+  metricsType: PropTypes.string,
 }
 
 PostCardMetricsList.defaultProps = {
   metrics: null,
-  currentMetricsType: '',
+  metricsType: '',
 }
 
 
