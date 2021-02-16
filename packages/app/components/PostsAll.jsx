@@ -117,26 +117,6 @@ function PostsAll({
         ].join(' ')}
         ref={intersectionRoot}
       >
-        {/* {postsWithLoadingTrigger.map((post, index) => {
-          return (
-            <PostItem
-              key={post.id}
-              index={index}
-              post={post}
-              enabled={post.promotionEnabled}
-              updateLink={updateLink}
-              singular={posts.length === 1}
-              togglePromotion={togglePromotion}
-              postToggleSetter={postToggleSetterType}
-              missingDefaultLink={isMissingDefaultLink}
-              className="col-span-12 sm:col-span-6 bmw:col-span-4"
-            >
-              {post.loadTrigger && !loadedAll && (
-              <div ref={loadTrigger} />
-              )}
-            </PostItem>
-          )
-        })} */}
         {postsWithLoadingTrigger.map((post, index) => {
           return (
             <PostCard
