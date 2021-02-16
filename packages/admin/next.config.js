@@ -15,8 +15,6 @@ const {
 const sharedPath = path.resolve(__dirname, '../shared')
 const withTM = require('next-transpile-modules')([sharedPath])
 
-
-
 // NEXT CONFIG
 const nextConfig = {
   // Save environment variables

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Shared components and configs",
   "private": true,
-  "scripts": {
+  "main": "index.js",
     "dev": "next",
     "build": "next build",
     "start": "next build && next start"
