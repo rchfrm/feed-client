@@ -12,13 +12,11 @@ const PostItemMetricsListItem = ({
 }) => {
   const drilldownMetricsFormatted = React.useMemo(() => {
     if (!drilldownMetrics) return null
-    console.log('drilldownMetrics', drilldownMetrics)
     return Object.entries(drilldownMetrics).reduce((arr, [key, value]) => {
       if (!value) return arr
       return [...arr, { key, value }]
     }, [])
   }, [drilldownMetrics])
-  console.log('drilldownMetricsFormatted', drilldownMetricsFormatted)
   return (
     <li
       className={[
