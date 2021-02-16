@@ -32,7 +32,6 @@ const PostCardMetrics = ({
             metrics={metrics.paid}
             metricsContent={getPostMetricsContent('paid', postType)}
             currentMetricsType="paid"
-            // setDrilldown={setDrilldown}
           />
         </PostsSettingsSection>
       )}

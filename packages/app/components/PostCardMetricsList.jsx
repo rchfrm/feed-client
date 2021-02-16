@@ -13,15 +13,12 @@ const PostCardMetricsList = ({
   metrics,
   metricsContent,
   currentMetricsType,
-  setDrilldown,
 }) => {
-  console.log('metricsContent', metricsContent)
   // CREATE ARRAY OF METRICS
   const maxMetrics = 4
   const metricsArray = React.useMemo(() => {
     if (!metrics) return []
     const metricsFormatted = utils.getDataArray(metricsContent, metrics, { preserveRawNumber: true })
-    console.log('metricsFormatted', metricsFormatted)
     return metricsFormatted
       // remove empty items from array
       .filter(({ value }) => value)
@@ -29,21 +26,12 @@ const PostCardMetricsList = ({
       .slice(0, maxMetrics)
   }, [metrics, metricsContent])
 
-  // // CREATE SPACERS (for preserving height)
-  // const metricsSpacers = React.useMemo(() => {
-  //   if (metricsArray.length === maxMetrics) return []
-  //   const totalSpacers = maxMetrics - metricsArray.length
-  //   return Array.from({ length: totalSpacers }, (v, i) => i)
-  // }, [metricsArray.length])
-
   // GET CURRENCY
   const { artistCurrency } = React.useContext(ArtistContext)
 
   return (
     <ul
       className={[
-        'grid',
-        'md:grid-cols-2',
         'border-solid border-2 border-green rounded-dialogue',
       ].join(' ')}
     >
@@ -63,15 +51,11 @@ const PostCardMetricsList = ({
             value={parsedValue}
             currentMetricsType={currentMetricsType}
             drilldownMetrics={drilldownMetrics}
-            setDrilldown={setDrilldown}
+            artistCurrency={artistCurrency}
             className={styles.gridCell}
           />
         )
       })}
-      {/* SPACERS */}
-      {/* {metricsSpacers.map((v) => {
-        return <li key={v} className="">&nbsp;</li>
-      })} */}
     </ul>
   )
 }
