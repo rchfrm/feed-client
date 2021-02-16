@@ -7,7 +7,6 @@ import brandColors from '@/constants/brandColors'
 
 const PostCardMetricsScore = ({
   score,
-  metricsType,
   className,
 }) => {
   return (
@@ -40,7 +39,6 @@ const PostCardMetricsScore = ({
 
 PostCardMetricsScore.propTypes = {
   score: PropTypes.number,
-  metricsType: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
