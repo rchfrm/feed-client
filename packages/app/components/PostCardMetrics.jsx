@@ -55,8 +55,8 @@ const PostCardMetrics = ({
                   metricsType={type}
                   className={[
                     'mb-8 mx-auto',
-                    'sm:mx-0',
-                    'md:mb-0 md:-mt-2 md:mx-auto',
+                    'xs:mx-0',
+                    'md:mb-0 md:-mt-2',
                   ].join(' ')}
                 />
               </div>

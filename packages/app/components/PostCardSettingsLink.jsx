@@ -41,7 +41,7 @@ const PostCardSettingsLink = ({
           selectClassName="mb-0"
         />
       ) : (
-        <div className="bg-grey-1 pt-3 p-4 rounded-dialogue">
+        <div className="bg-grey-1 pt-3 p-4 rounded-dialogue -mt-2">
           <p className="mb-0">Link not editable</p>
         </div>
       )}
