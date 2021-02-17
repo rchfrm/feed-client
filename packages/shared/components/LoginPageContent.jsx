@@ -7,7 +7,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 import Error from '@/elements/Error'
 // IMPORT COMPONENTS
 import LoginWithEmail from '@/LoginWithEmail'
-import LoginSignupButtons from '@/app/LoginSignupButtons'
+import LoginSignupButtons from '@/LoginSignupButtons'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
 import { track } from '@/app/helpers/trackingHelpers'
