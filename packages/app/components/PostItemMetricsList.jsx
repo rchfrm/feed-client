@@ -20,7 +20,6 @@ const PostItemMetricsList = ({
   const metricsArray = React.useMemo(() => {
     if (!metrics) return []
     const metricsFormatted = utils.getDataArray(metricsContent, metrics, { preserveRawNumber: true })
-    console.log('metricsFormatted', metricsFormatted)
     return metricsFormatted
       // remove empty items from array
       .filter(({ value }) => value)

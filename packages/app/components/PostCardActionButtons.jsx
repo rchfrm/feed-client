@@ -64,7 +64,6 @@ const PostCardActionButtons = ({
         version="green"
         label="View Metrix"
         onClick={() => {
-          console.log('post', post)
           const metrics = {
             organic: post.organicMetrics,
             paid: hidePaidMetrics ? null : post.paidMetrics,
