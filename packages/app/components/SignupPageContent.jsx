@@ -7,7 +7,7 @@ import Router from 'next/router'
 import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT COMPONENTS
 import SignupEmailForm from '@/app/SignupEmailForm'
-import LoginSignupButtons from '@/app/LoginSignupButtons'
+import LoginSignupButtons from '@/LoginSignupButtons'
 import SignupReferralCodeDisplay from '@/app/SignupReferralCodeDisplay'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
