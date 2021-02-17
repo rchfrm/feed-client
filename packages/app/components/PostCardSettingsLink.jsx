@@ -25,12 +25,10 @@ const PostCardSettingsLink = ({
     >
       {isLinkEditable ? (
         <PostLinksSelect
-          // selectClassName={styles.linkSelection__select}
           currentLinkId={linkId || defaultPostLinkId}
           onSelect={setPostLink}
           postItemId={postId}
           onSuccess={({ linkId: newLinkId }) => {
-            console.log('newLinkId', newLinkId)
             updateLink(postIndex, newLinkId)
             setError(null)
           }}

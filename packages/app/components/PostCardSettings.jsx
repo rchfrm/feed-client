@@ -18,7 +18,6 @@ const PostCardSettings = ({
   isMissingDefaultLink,
   className,
 }) => {
-  console.log('post', post)
   const {
     promotionStatus,
     linkId,
