@@ -11,6 +11,8 @@ import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
+import copy from '@/app/copy/PostsPageCopy'
+
 const PostCardSettings = ({
   post,
   postIndex,
@@ -57,7 +59,7 @@ const PostCardSettings = ({
           {/* SETTINGS SECTION */}
           <PostsSettingsSection
             header="Link"
-            copy="Select the link to use for this post, or use the default link."
+            copy={copy.postLinkSetting}
           >
             <PostCardSettingsLink
               postId={post.id}

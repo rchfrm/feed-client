@@ -9,16 +9,18 @@ import { getPostMetricsContent } from '@/app/helpers/postsHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
+import copy from '@/app/copy/PostsPageCopy'
+
 const metricsType = [
   {
     type: 'paid',
     header: 'Paid Metrics',
-    description: 'The metrics for this post when run as an ad.',
+    description: copy.metricsDescription.paid,
   },
   {
     type: 'organic',
     header: 'Organic Metrics',
-    description: 'The metrics for the organic post.',
+    description: copy.metricsDescription.organic,
   },
 ]
 
