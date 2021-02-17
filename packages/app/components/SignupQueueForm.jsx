@@ -10,7 +10,7 @@ import CheckboxInput from '@/elements/CheckboxInput'
 
 import { track } from '@/app/helpers/trackingHelpers'
 import { testValidUrl, testValidEmail } from '@/helpers/utils'
-import { getIntegrationRegex } from '@/app/helpers/integrationHelpers'
+import { getIntegrationRegex } from '@/helpers/integrationHelpers'
 
 const formElements = [
   {
