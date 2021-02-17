@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import PostCardLabel from '@/app/PostCardLabel'
+
 import ToggleSwitch from '@/elements/ToggleSwitch'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
@@ -83,15 +85,13 @@ const PostCardToggle = ({
         </strong>
         {/* RUNNING LABEL */}
         {audienceSlug === 'growth' && isActive && (
-          <p
-            className="mb-0 ml-3 px-2 py-1 text-xs rounded-full"
+          <PostCardLabel
+            copy="running"
+            className="font-bold"
             style={{
-              padding: '0.1rem 0.4rem',
               background: growthGradient,
             }}
-          >
-            <strong>running</strong>
-          </p>
+          />
         )}
       </div>
       {/* TOGGLE SWITCH */}

@@ -123,9 +123,13 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
     ],
   },
 
-  metricsTooltips: {
-    paid: {},
-    organic: {},
+  // SETTINGS SIDEPANEL
+  postLinkSetting: 'Which link should be used when this post is made into an ad?',
+
+  // METRICS SIDEPANEL
+  metricsDescription: {
+    paid: 'Performance data showing how well this post did as an ad. Metrics and score are aggregated across the difference audiences that see the ad.',
+    organic: 'Performance data showing how well this post performed with your existing following.',
   },
 
 
