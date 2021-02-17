@@ -12,7 +12,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/integrationsCopy'
 
 import * as utils from '@/helpers/utils'
-import { testValidIntegration } from '@/app/helpers/integrationHelpers'
+import { testValidIntegration } from '@/helpers/integrationHelpers'
 
 import useAlertStore from '@/store/alertStore'
 

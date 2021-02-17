@@ -4,35 +4,14 @@
   "description": "The admin panel",
   "private": true,
   "scripts": {
-    "dev": "next",
+    "dev": "next dev",
     "build": "RELEASE_VERSION=$(git rev-parse --short HEAD) next build",
     "export:staging": "rm -rf dist/ && BUILD_ENV=staging yarn build && next export -o dist/",
     "export:production": "rm -rf dist/ && BUILD_ENV=production yarn build && next export -o dist/",
     "analyze-bundle": "ANALYZE=true yarn build"
   },
   "dependencies": {
-    "axios": "^0.19.2",
-    "clipboard": "^2.0.6",
-    "currency-symbol-map": "^4.0.4",
-    "dotenv": "^8.2.0",
-    "firebase": "^7.15.5",
-    "firebase-admin": "^8.12.1",
     "fuzzy-search": "^3.2.1",
-    "immer": "^7.0.5",
-    "js-cookie": "^2.2.1",
-    "lodash": "^4.17.15",
-    "moment": "^2.27.0",
-    "next": "^10.0.1",
-    "next-compose-plugins": "^2.2.0",
-    "next-offline": "^5.0.2",
-    "next-page-transitions": "^1.0.0-beta.2",
-    "next-pwa": "^2.3.3",
-    "next-transpile-modules": "^4.1.0",
-    "react": "16.13.1",
-    "react-async": "^10.0.1",
-    "react-dom": "16.13.1",
-    "swr": "^0.2.3",
-    "url": "^0.11.0",
-    "use-immer": "^0.4.0"
+    "swr": "^0.2.3"
   }
 }

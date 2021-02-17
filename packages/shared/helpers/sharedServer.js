@@ -102,7 +102,7 @@ export const getArtistTournaments = async ({ artistId, expand, audienceId, offse
  * @returns {Promise<any>}
  */
 export const getTournament = async (artistId, campaignId, adsetId, tournamentId, expand) => {
-  const endpoint = `artists/${artistId}/campaigns/${campaignId}/adsets/${adsetId}/tournaments/${tournamentId}${expand && '?expand=true'}`
+  const endpoint = `artists/${artistId}/campaigns/${campaignId}/adsets/${adsetId}/tournaments/${tournamentId}${expand ? '?expand=true' : ''}`
   return api.get(endpoint)
 }
 

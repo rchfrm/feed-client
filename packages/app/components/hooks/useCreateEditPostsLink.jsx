@@ -17,7 +17,7 @@ import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 import useLinksStore from '@/app/store/linksStore'
 import { saveLink, saveFolder, setDefaultLink, usedLinkErrorCode } from '@/app/helpers/linksHelpers'
 
-import { testValidIntegration, updateIntegration } from '@/app/helpers/integrationHelpers'
+import { testValidIntegration, updateIntegration } from '@/helpers/integrationHelpers'
 
 import copy from '@/app/copy/PostsPageCopy'
 
