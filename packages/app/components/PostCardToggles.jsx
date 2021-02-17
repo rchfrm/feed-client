@@ -41,6 +41,7 @@ const PostCardToggles = ({
           promotionEnabled={false}
           togglePromotion={togglePromotion}
           disabled={conversionDisabled}
+          isActive={false}
           className={togglesClassName}
         />
       )}

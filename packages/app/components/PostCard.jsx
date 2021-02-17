@@ -21,7 +21,8 @@ const PostCard = ({
   children,
 }) => {
   // Extract some variables
-  const { postPromotable } = post
+  const { postPromotable, promotionStatus } = post
+  const hidePaidMetrics = promotionStatus === 'inactive'
   // Should conversionVisible be hidden
   const conversionVisible = true
   return (
@@ -69,7 +70,12 @@ const PostCard = ({
         )}
         <PostCardActionButtons
           post={post}
+          postIndex={postIndex}
           postPromotable={postPromotable}
+          updateLink={updateLink}
+          hidePaidMetrics={hidePaidMetrics}
+          isMissingDefaultLink={isMissingDefaultLink}
+          settingsIcon="link"
         />
         {/* DISABLE WARNING (usually hidden) */}
         <PostCardDisableWarning

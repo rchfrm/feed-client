@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import TooltipButton from '@/elements/TooltipButton'
+import PostCardLabel from '@/app/PostCardLabel'
 import StarIcon from '@/icons/StarIcon'
 
 import brandColors from '@/constants/brandColors'
-
-import copy from '@/app/copy/PostsPageCopy'
 
 const PostCardScore = ({
   scorePaid,
@@ -15,7 +13,6 @@ const PostCardScore = ({
 }) => {
   const score = scorePaid || scoreOrganic
   const scoreType = scorePaid ? 'paid' : 'organic'
-  const tooltipSlides = copy.scoreTooltip[scoreType]
   return (
     <div
       className={[
@@ -33,12 +30,10 @@ const PostCardScore = ({
         >
           Score
         </span>
-        <TooltipButton
-          slides={tooltipSlides}
-          direction="top"
-          trackLabel={`${scoreType} score`}
-          buttonClasses="ml-1"
-          buttonStyle={{ transform: 'translateY(1px)' }}
+        <PostCardLabel
+          copy={scoreType}
+          className={scoreType === 'paid' ? 'bg-green text-white font-bold' : 'bg-grey-2'}
+          style={{ transform: 'translateY(1px)' }}
         />
       </div>
       <p className="flex items-center mb-0 font-bold">
@@ -59,4 +54,4 @@ PostCardScore.defaultProps = {
   className: null,
 }
 
-export default PostCardScore
+export default React.memo(PostCardScore)
