@@ -198,7 +198,7 @@ const InitUser = ({ children }) => {
     setNoArtist()
     redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
     // TRACK
-    trackSignUp({ method: 'facebook', userId: user.id })
+    trackSignUp({ authProvider: 'facebook', userId: user.id })
   }
 
 
@@ -246,7 +246,7 @@ const InitUser = ({ children }) => {
         label: 'no artists',
       })
       // TRACK LOGIN
-      trackLogin({ method: 'facebook', userId: user.id })
+      trackLogin({ authProvider: 'facebook', userId: user.id })
       setNoArtist()
       redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
       return

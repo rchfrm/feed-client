@@ -97,14 +97,14 @@ function LoginWithEmail({ className }) {
         return
       }
       // TRACK LOGIN
-      trackLogin({ method: 'password', userId: user.id })
+      trackLogin({ authProvider: 'password', userId: user.id })
       // REDIRECT
       const initialPage = rejectedPagePath
       Router.push(initialPage || ROUTES.HOME)
     } else {
       setNoArtist()
       // TRACK LOGIN
-      trackLogin({ method: 'password', userId: user.id })
+      trackLogin({ authProvider: 'password', userId: user.id })
       // REDIRECT
       Router.push(ROUTES.SIGN_UP_CONTINUE)
     }

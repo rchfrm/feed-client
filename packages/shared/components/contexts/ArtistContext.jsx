@@ -226,11 +226,14 @@ function ArtistProvider({ children, disable }) {
     setArtistLoading(false)
     // TRACK
     const newUser = !oldUser.artists.length
-    track({
-      action: newUser ? 'create_profile' : 'add_profile',
-      category: newUser ? 'sign_up' : 'account',
-      label: updatedUser.id,
-    })
+    if (newUser) {
+      track('create_profile', null, {
+        fbProps: { action: 'CompleteRegistration' },
+        gaProps: { action: 'sign_up' },
+      })
+    } else {
+      track('add_profile')
+    }
   }
 
   const updateBudget = async (id, amount) => {

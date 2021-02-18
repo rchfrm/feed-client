@@ -28,7 +28,7 @@ export const track = (action, props, {
   const isBrowser = typeof window !== 'undefined'
   if (!isBrowser) return
 
-  // Fire mixpanel event
+  // TRACK IN MIXPANEL
   mixpanelHelpers.trackMixpanel(action, props)
 
   // HANDLE GOOGLE
@@ -47,24 +47,27 @@ export const track = (action, props, {
 // -----------------
 
 // Log in
-export const trackLogin = ({ method, userId }) => {
-  track({
-    action: 'log_in',
-    category: 'log_in',
-    label: method,
+export const trackLogin = ({ authProvider, userId }) => {
+  // Identify user in mixpanel
+  mixpanelHelpers.mixpanelIdentify(userId)
+  // Track login
+  track('log_in', {
+    authProvider,
   })
-  mixpanelHelpers.mixpanelLogin(userId)
 }
 
 // Sign up
-export const trackSignUp = ({ method, userId }) => {
-  track({
-    action: 'create_user',
-    category: 'sign_up',
-    label: method,
-    marketing: true,
-  })
+export const trackSignUp = ({ authProvider, userId }) => {
+  // Initialise user in mixpanel
   mixpanelHelpers.mixpanelSignUp(userId)
+
+  track('create_user', {
+    authProvider,
+  },
+  {
+    fbProps: { action: 'CreateUser' },
+    gaProps: { action: 'create_user' },
+  })
 }
 
 // Setup PWA install tracker

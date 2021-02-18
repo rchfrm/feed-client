@@ -166,7 +166,7 @@ const SignupEmailForm = () => {
         })
       })
     if (!user) return
-    trackSignUp({ method: 'password', userId: user.id })
+    trackSignUp({ authProvider: 'password', userId: user.id })
     Router.push(ROUTES.SIGN_UP_CONTINUE)
   }
 
