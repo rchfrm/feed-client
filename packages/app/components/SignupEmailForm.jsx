@@ -12,7 +12,7 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
-import { track, trackSignUp, fireSentryBreadcrumb } from '@/app/helpers/trackingHelpers'
+import { trackSignUp, fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/trackingHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -136,12 +136,12 @@ const SignupEmailForm = () => {
         setError(error)
         scrollTop()
         toggleGlobalLoading(false)
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'signUp() with email failed',
           description: error.message,
           label: email,
-          error: true,
         })
       })
     if (!signupRes) return
@@ -154,12 +154,12 @@ const SignupEmailForm = () => {
         setError(error)
         scrollTop()
         toggleGlobalLoading(false)
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'createUser() with password failed',
           description: error.message,
           label: email,
-          error: true,
         })
       })
     if (!user) return

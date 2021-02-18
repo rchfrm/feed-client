@@ -17,6 +17,7 @@ import {
   trackLogin,
   trackSignUp,
   fireSentryBreadcrumb,
+  fireSentryError,
 } from '@/app/helpers/trackingHelpers'
 
 // CALL REDIRECT
@@ -119,12 +120,11 @@ const InitUser = ({ children }) => {
     setAuthError({ message: decodedMessage })
     // Handle no auth error
     handleNoAuthUser()
-    // Track
-    track({
+    // Sentry error
+    fireSentryError({
       category: 'login',
       action: 'Invalid FB credential (InitUser)',
       description: decodedMessage,
-      error: true,
     })
   }
 
@@ -142,12 +142,12 @@ const InitUser = ({ children }) => {
     }
     setNoAuth(error)
     setUserLoading(false)
-    track({
+    // Sentry error
+    fireSentryError({
       category: 'sign up',
       action: 'handleNewUser',
       label: errorLabel,
       description: error.message,
-      error: true,
     })
   }
 
@@ -177,12 +177,12 @@ const InitUser = ({ children }) => {
       lastName: last_name,
     })
       .catch((error) => {
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'handleNewUser',
           label: 'Error in createUser()',
           description: error.message,
-          error: true,
         })
       })
     if (!user) return
@@ -215,14 +215,14 @@ const InitUser = ({ children }) => {
     // If it is a pre-existing user, store their profile in the user context
     const user = await storeUser()
       .catch((error) => {
-        track({
+        setAuthError({ message: 'No user was found in the database' })
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'handleExistingUser (InitUser)',
           label: 'No user returned from storeUser()',
           description: error.message,
-          error: true,
         })
-        setAuthError({ message: 'No user was found in the database' })
       })
     if (!user) return
     const { artists } = user
@@ -306,11 +306,11 @@ const InitUser = ({ children }) => {
     const authToken = await firebase.getVerifyIdToken()
       .catch((error) => {
         storeAuth({ authError: error })
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'login',
           action: 'InitUser: HANDLE INITIAL LOGGED IN TEST',
           description: `Error with firebase.getVerifyIdToken(): ${error.message}`,
-          error: true,
         })
       })
     await storeAuth({ authUser, authToken, authError })
@@ -355,12 +355,11 @@ const InitUser = ({ children }) => {
         handleFbInvalidCredential(message)
         return
       }
-      // Track
-      track({
+      // Sentry error
+      fireSentryError({
         category: 'login',
         action: 'Other FB redirect error (InitUser)',
         description: message,
-        error: true,
       })
       const customError = code === 'auth/account-exists-with-different-credential' ? {
         message: 'An account already exists with the same email address but different sign-in credentials. Please sign in using your email address',
@@ -378,21 +377,21 @@ const InitUser = ({ children }) => {
       const authToken = await firebase.getVerifyIdToken()
         .catch((error) => {
           storeAuth({ authError: error })
-          track({
+          // Sentry error
+          fireSentryError({
             category: 'login',
             action: 'InitUser: Handle REDIRECT success',
             description: `Error with firebase.getVerifyIdToken(): ${error.message}`,
-            error: true,
           })
         })
       if (!authToken) return
       // Store Firebase's auth user in context
       await storeAuth({ authUser: user, authToken })
         .catch((err) => {
-          track({
+          // Sentry error
+          fireSentryError({
             category: 'sign up',
             action: 'Error storing firebase auth with storeAuth() (InitUser)',
-            error: true,
           })
           throw (err)
         })

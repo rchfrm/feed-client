@@ -11,7 +11,7 @@ import LoginSignupButtons from '@/LoginSignupButtons'
 import SignupReferralCodeDisplay from '@/app/SignupReferralCodeDisplay'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
-import { track } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/trackingHelpers'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
@@ -50,10 +50,10 @@ const SignupPageContent = ({
     firebase.signUpWithFacebook()
       .catch((error) => {
         setError(error)
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'error clicking on FB button',
-          error: true,
         })
       })
   }

@@ -7,7 +7,7 @@ import useNotificationStore from '@/app/store/notificationsStore'
 import * as sharedServer from '@/helpers/sharedServer'
 import * as appServer from '@/app/helpers/appServer'
 import { sortUserArtists } from '@/app/helpers/userHelpers'
-import { track, updateTracking } from '@/app/helpers/trackingHelpers'
+import { fireSentryError, updateTracking } from '@/app/helpers/trackingHelpers'
 
 
 // Read from referralStore
@@ -98,11 +98,11 @@ function UserProvider({ children }) {
     setUserLoading(true)
     const user = await sharedServer.getUser()
       .catch((error) => {
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'login',
           action: 'store user',
           description: `${error.message}`,
-          error: true,
         })
         setUserLoading(false)
         throw (error)

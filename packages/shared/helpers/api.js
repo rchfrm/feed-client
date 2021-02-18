@@ -2,7 +2,7 @@ import axios from 'axios'
 import firebase from '@/helpers/firebase'
 import host from '@/helpers/host'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/trackingHelpers'
 
 const axiosInstance = axios.create()
 
@@ -180,11 +180,11 @@ export const requestWithCatch = async (requestType, url, payload = null, trackEr
       const { category, action, ignoreErrorCodes = [] } = trackError
       // Ignore error codes
       if (!ignoreErrorCodes.includes(code || message)) {
-        track({
+        // Sentry error
+        fireSentryError({
           category,
           action,
           description: message,
-          error: true,
         })
       }
     }

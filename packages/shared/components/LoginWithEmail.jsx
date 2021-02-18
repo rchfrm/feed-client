@@ -14,7 +14,7 @@ import Error from '@/elements/Error'
 
 import * as ROUTES from '@/app/constants/routes'
 
-import { track, trackLogin } from '@/app/helpers/trackingHelpers'
+import { track, trackLogin, fireSentryError } from '@/app/helpers/trackingHelpers'
 
 import styles from '@/LoginPage.module.css'
 
@@ -68,11 +68,11 @@ function LoginWithEmail({ className }) {
       return
     }
     if (tokenError) {
-      track({
+      // Sentry error
+      fireSentryError({
         category: 'login',
         label: 'failure',
         action: `no token returned from emailLogin: ${tokenError.message}`,
-        error: true,
       })
       return
     }
