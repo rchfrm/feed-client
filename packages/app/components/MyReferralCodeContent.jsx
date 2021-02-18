@@ -32,10 +32,8 @@ const MyReferralCodeContent = ({ className }) => {
             title={title}
             text={text}
             onShare={(shareType) => {
-              track({
-                action: 'share_referral_code',
-                category: 'account',
-                label: shareType === 'copy' ? 'clipboard' : 'web-share',
+              track('share_referral_code', {
+                shareType: shareType === 'copy' ? 'clipboard' : 'web-share',
               })
             }}
             className={[
