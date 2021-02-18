@@ -1,90 +1,10 @@
 import * as mixpanelHelpers from '@/app/helpers/mixpanelHelpers'
 import * as sentryHelpers from '@/app/helpers/sentryHelpers'
+import { trackGoogle } from '@/app/helpers/trackGoogleHelpers'
+import trackFacebook from '@/app/helpers/trackFacebook'
 
 let userType = null
 let userId = null
-
-// GOOGLE
-// ------------------------------
-let gtagEnabled = false
-export const enableGtag = () => {
-  gtagEnabled = true
-}
-
-const gaCrossDomains = [
-  'tryfeed.co',
-  'blog.tryfeed.co',
-  'beta.tryfeed.co',
-  'staging.tryfeed.co',
-  'getfed.app',
-  'beta.tryfeed.co',
-  'blog.getfed.app',
-]
-export const gaCrossDomainsString = gaCrossDomains.reduce((str, url, index) => {
-  if (index === 0) return `${str}'${url}'`
-  const suffix = index === gaCrossDomains.length - 1 ? ']' : ''
-  return `${str}, '${url}'${suffix}`
-}, '[')
-
-// https://developers.google.com/analytics/devguides/collection/gtagjs/pages
-export const gtagPageView = (url, gaId) => {
-  const { gtag } = window
-  if (!gtag) return
-  gtag('config', gaId, {
-    page_path: url,
-    linker: {
-      domains: gaCrossDomains,
-    },
-  })
-}
-
-// https://developers.google.com/analytics/devguides/collection/gtagjs/events
-export const fireGtagEvent = (action, payload) => {
-  const {
-    event_callback,
-  } = payload
-
-  // Stop here if sysadmin
-  if (userType === 'admin') {
-    // Log GA INFO
-    console.info('GA SEND', payload)
-  }
-
-  const { gtag } = window
-
-  if (!gtag || !gtagEnabled) {
-    // Run callback (if present)
-    if (typeof event_callback === 'function') event_callback()
-    return
-  }
-  // PAYLOAD
-  // {
-  //   'event_category': <category>,
-  //   'event_label': <label>,
-  //   'value': <value>
-  // }
-  gtag('event', action, payload)
-}
-
-
-// FACEBOOK
-// --------------------------
-export const fireFBEvent = (action, payload, customTrack) => {
-  const { fbq } = window
-  const trackType = customTrack ? 'trackCustom' : 'track'
-  if (userType === 'admin') {
-    console.group()
-    console.info('FB SEND')
-    console.info('trackType', trackType)
-    console.info('action', action)
-    console.info(payload)
-    console.groupEnd()
-    return
-  }
-  if (!fbq) return
-  fbq(trackType, action, payload)
-}
-
 
 // HELPERS
 // --------------------------
@@ -100,59 +20,26 @@ export const fireFBEvent = (action, payload, customTrack) => {
  * @param {boolean} ga
  * @param {boolean} fb
  */
-export const track = ({
-  action,
-  label,
-  category,
-  description,
-  value,
-  mixpanelProps,
-  fbTrackProps = null,
-  fbCustomTrack = true,
-  marketing = false,
-  mixpanel = true,
-  ga = true,
-  fb = true,
+export const track = (action, props, {
+  gaProps = null,
+  fbProps = null,
 }) => {
   // Stop here if not browser
   const isBrowser = typeof window !== 'undefined'
   if (!isBrowser) return
 
-  let event_label = label
-  if (description) {
-    event_label = `${event_label}, ${description}`
-  }
-
   // Fire mixpanel event
-  if (mixpanel) {
-    const payload = {
-      ...mixpanelProps,
-      ...(category && { category }),
-      ...(event_label && { label: event_label }),
-      ...(value && { value }),
-    }
-    mixpanelHelpers.mixpanelTrack(action, payload)
-  }
-  // STOP HERE if not marketing
-  if (!marketing) return false
-  // Build GA payload
-  // Send off event to GA
-  if (ga) {
-    const gaPayload = {
-      event_category: category,
-      event_label,
-      event_value: value,
-    }
-    fireGtagEvent(action, gaPayload)
+  mixpanelHelpers.mixpanelTrack(action, props)
+
+  // HANDLE GOOGLE
+  if (gaProps) {
+    const { action, ...gaPayload } = gaProps
+    trackGoogle(action, gaPayload)
   }
   // Send off events to FB
-  if (fb) {
-    const fbPayload = fbTrackProps || {
-      ...(category && { category }),
-      ...(event_label && { label: event_label }),
-      ...(value && { value }),
-    }
-    fireFBEvent(action, fbPayload, fbCustomTrack)
+  if (fbProps) {
+    const { action, ...fbProps } = gaProps
+    trackFacebook(action, fbProps)
   }
 }
 
@@ -211,7 +98,7 @@ export const setupTracking = () => {
 export const updateTracking = (user) => {
   const { role, id } = user
   userId = id
-  userType = role
+  userRole = role
   mixpanelHelpers.updateMixpanel(user)
   sentryHelpers.configureSentry(userId)
 }
