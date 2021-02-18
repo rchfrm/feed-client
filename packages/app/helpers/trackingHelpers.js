@@ -20,10 +20,10 @@ let userId = null
  * @param {boolean} ga
  * @param {boolean} fb
  */
-export const track = (action, props, {
-  gaProps = null,
-  fbProps = null,
-}) => {
+export const track = (action, props, marketingProps = {}) => {
+  const { gaProps, fbProps } = marketingProps
+  // * TEMP
+  if (typeof action !== 'string') return
   // Stop here if not browser
   const isBrowser = typeof window !== 'undefined'
   if (!isBrowser) return
@@ -38,8 +38,8 @@ export const track = (action, props, {
   }
   // Send off events to FB
   if (fbProps) {
-    const { action, ...fbProps } = gaProps
-    trackFacebook(action, fbProps)
+    const { action, ...fbPayload } = fbProps
+    trackFacebook(action, fbPayload)
   }
 }
 
@@ -101,7 +101,6 @@ export const setupTracking = () => {
 export const updateTracking = (user) => {
   const { role, id } = user
   userId = id
-  userRole = role
-  mixpanelHelpers.updateMixpanel(user)
+  mixpanelHelpers.updateMixpanel(user, role)
   sentryHelpers.configureSentry(userId)
 }
