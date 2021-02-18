@@ -12,7 +12,7 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
-import { track, trackSignUp } from '@/app/helpers/trackingHelpers'
+import { track, trackSignUp, fireSentryBreadcrumb } from '@/app/helpers/trackingHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -126,13 +126,9 @@ const SignupEmailForm = () => {
     if (!formComplete) return
     const { email, passwordOne, firstName, lastName } = signupDetails
     toggleGlobalLoading(true)
-
-    track({
+    fireSentryBreadcrumb({
       category: 'sign up',
       action: 'submit sign up form',
-      label: email,
-      breadcrumb: true,
-      ga: false,
     })
 
     const signupRes = await signUp(email, passwordOne)

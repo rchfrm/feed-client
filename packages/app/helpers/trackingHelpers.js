@@ -142,7 +142,6 @@ export const track = ({
   fbTrackProps = null,
   fbCustomTrack = true,
   error = false,
-  breadcrumb = false,
   marketing = false,
   mixpanel = true,
   ga = true,
@@ -156,12 +155,7 @@ export const track = ({
   if (description) {
     event_label = `${event_label}, ${description}`
   }
-  // Sentry breadcrumb
-  // STOP HERE
-  if (breadcrumb) {
-    fireSentryBreadcrumb({ category, action, label, description })
-    return
-  }
+
   // If error, fire in sentry
   if (error) {
     fireSentryError({ category, action, label, description })
