@@ -12,13 +12,9 @@ import * as ROUTES from '@/app/constants/routes'
 import * as queryString from 'query-string'
 import * as utils from '@/helpers/utils'
 import firebase from '@/helpers/firebase'
-import {
-  track,
-  trackLogin,
-  trackSignUp,
-  fireSentryBreadcrumb,
-  fireSentryError,
-} from '@/app/helpers/trackingHelpers'
+
+import { trackLogin, trackSignUp } from '@/app/helpers/trackingHelpers'
+import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
 // CALL REDIRECT
 let userRedirected = false

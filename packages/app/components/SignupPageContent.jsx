@@ -11,7 +11,7 @@ import LoginSignupButtons from '@/LoginSignupButtons'
 import SignupReferralCodeDisplay from '@/app/SignupReferralCodeDisplay'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
-import { fireSentryError } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'

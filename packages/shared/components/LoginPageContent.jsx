@@ -10,7 +10,7 @@ import LoginWithEmail from '@/LoginWithEmail'
 import LoginSignupButtons from '@/LoginSignupButtons'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
-import { fireSentryError } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 // IMPORT CONSTANTS
 import * as ROUTES from '@/app/constants/routes'
 // Import copy

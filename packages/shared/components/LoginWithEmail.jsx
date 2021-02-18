@@ -14,7 +14,8 @@ import Error from '@/elements/Error'
 
 import * as ROUTES from '@/app/constants/routes'
 
-import { track, trackLogin, fireSentryError } from '@/app/helpers/trackingHelpers'
+import { track, trackLogin } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import styles from '@/LoginPage.module.css'
 

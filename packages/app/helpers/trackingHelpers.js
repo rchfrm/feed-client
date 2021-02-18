@@ -1,40 +1,8 @@
-import * as Sentry from '@sentry/browser'
 import * as mixpanelHelpers from '@/app/helpers/mixpanelHelpers'
+import * as sentryHelpers from '@/app/helpers/sentryHelpers'
 
 let userType = null
 let userId = null
-
-// SENTRY
-// ------------------------------
-let sentryConfigured = false
-
-const configureSentry = (userId) => {
-  sentryConfigured = true
-  Sentry.configureScope((scope) => {
-    scope.setUser({ id: userId })
-  })
-}
-
-export const fireSentryError = ({ category, action, label, description }) => {
-  let message = ''
-  if (description) message += `${description}\n`
-  if (category) message += `Error category: ${category}\n`
-  if (action) message += `Error action: ${action}\n`
-  if (label) message += `Error label: ${label}\n`
-  Sentry.captureException(new Error(message))
-}
-
-export const fireSentryBreadcrumb = ({ category, action, label, description }) => {
-  let message = ''
-  if (description) message += `${description}\n`
-  if (action) message += `action: ${action}\n`
-  if (label) message += `label: ${label}\n`
-  Sentry.addBreadcrumb({
-    category,
-    message,
-    level: Sentry.Severity.Info,
-  })
-}
 
 // GOOGLE
 // ------------------------------
@@ -288,6 +256,5 @@ export const updateTracking = (user) => {
   userId = id
   userType = role
   mixpanelHelpers.updateMixpanel(user)
-  if (sentryConfigured) return
-  configureSentry(userId)
+  sentryHelpers.configureSentry(userId)
 }

@@ -18,7 +18,7 @@ import Error from '@/elements/Error'
 import * as ROUTES from '@/app/constants/routes'
 
 // IMPORT HELPERS
-import { fireSentryError } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import styles from '@/app/ConnectAccounts.module.css'
 import copy from '@/app/copy/connectProfilesCopy'

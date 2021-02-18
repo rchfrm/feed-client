@@ -12,7 +12,10 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
-import { trackSignUp, fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/trackingHelpers'
+
+import { trackSignUp } from '@/app/helpers/trackingHelpers'
+
+import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 

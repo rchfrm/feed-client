@@ -2,7 +2,7 @@ import produce from 'immer'
 
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
-import { fireSentryError } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 
 // BUDGET FEATURES

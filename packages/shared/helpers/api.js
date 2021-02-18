@@ -2,7 +2,7 @@ import axios from 'axios'
 import firebase from '@/helpers/firebase'
 import host from '@/helpers/host'
 
-import { fireSentryError } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 const axiosInstance = axios.create()
 
