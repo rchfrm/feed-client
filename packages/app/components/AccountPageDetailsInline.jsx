@@ -113,16 +113,10 @@ function AccountPageDetailsInline({ user }) {
     }
     // TRACK
     if (emailChanged) {
-      track({
-        action: 'update_account_email',
-        category: 'account',
-      })
+      track('update_account_email')
     }
     if (passwordChanged) {
-      track({
-        action: 'update_account_password',
-        category: 'account',
-      })
+      track('update_account_password')
     }
     // Update user
     const newEmailContact = !useCustomEmailContact || !emailContact ? null : emailContact
