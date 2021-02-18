@@ -51,8 +51,7 @@ const Button = React.forwardRef(({
 
   // ON CLICK
   const onButtonClick = React.useCallback((e) => {
-    track({
-      action: 'button_click',
+    track('button_click', {
       category: 'generic',
       label,
     })
