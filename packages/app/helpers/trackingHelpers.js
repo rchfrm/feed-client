@@ -29,7 +29,7 @@ export const track = (action, props, {
   if (!isBrowser) return
 
   // Fire mixpanel event
-  mixpanelHelpers.mixpanelTrack(action, props)
+  mixpanelHelpers.trackMixpanel(action, props)
 
   // HANDLE GOOGLE
   if (gaProps) {
