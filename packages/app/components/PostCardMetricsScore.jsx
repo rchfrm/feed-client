@@ -19,7 +19,7 @@ const PostCardMetricsScore = ({
       ].join(' ')}
     >
       <div>
-        <p className="mb-3">Score</p>
+        <p className="mb-3 text-sm">Score</p>
         <p
           className={[
             'flex items-baseline',
