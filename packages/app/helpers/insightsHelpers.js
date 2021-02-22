@@ -264,6 +264,30 @@ const getPeriodData = (dailyData, granularity) => {
   return fillInMissingData(periodData, granularity)
 }
 
+// * GET CUMULATIVE DATA
+// Return the cumulative data for each granularity period
+const getCumulativeData = (dailyData, granularity) => {
+  const cumulativeDataObject = Object.entries(dailyData).reduce((results, [date, value]) => {
+    const dateInfo = getDateInfo(date, granularity)
+    const { period, year } = dateInfo
+    const periodKey = `${period}-${year}`
+    // If data for this period already exists, update the total
+    if (results[periodKey]) {
+      results[periodKey].value += value
+      return results
+    }
+    // If no data for this period, start it
+    results[periodKey] = {
+      ...dateInfo,
+      value,
+    }
+    return results
+  }, {})
+  // Convert to array and sort by date
+  console.log('cumulativeDataObject', cumulativeDataObject)
+  return utils.sortArrayByKey(Object.values(cumulativeDataObject), 'date')
+}
+
 
 // RETURNS AN ARRAY OF DATES and their VALUES
 export const getChartData = (data, granularity) => {
