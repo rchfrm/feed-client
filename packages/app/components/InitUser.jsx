@@ -278,7 +278,7 @@ const InitUser = ({ children }) => {
     await storeArtist(selectedArtistId)
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
-    if (pathname === ROUTES.LOGIN || pathname === ROUTES.SIGN_UP) {
+    if (ROUTES.signedOutPages.includes(pathname)) {
       track({
         category: 'login',
         action: 'handleExistingUser',
@@ -287,7 +287,7 @@ const InitUser = ({ children }) => {
         ga: false,
       })
       // TRACK LOGIN
-      trackLogin({ method: 'facebook', userId: user.id })
+      trackLogin({ method: 'already logged in', userId: user.id })
       // Redirect to home page
       redirectPage(ROUTES.HOME, pathname)
     }
