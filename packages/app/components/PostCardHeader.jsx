@@ -28,7 +28,16 @@ const PostCardHeader = ({
         />
       </a>
       {/* DATE */}
-      <p className="mb-0 text-sm">{date}</p>
+      <p className="mb-0 text-sm">
+        <a
+          href={permalink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="no-underline no--hover"
+        >
+          {date}
+        </a>
+      </p>
     </div>
   )
 }
