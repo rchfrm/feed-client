@@ -214,10 +214,8 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         },
       })
       // TRACK
-      track({
-        action: 'default_post_promotion_status',
-        category: 'post_settings',
-        label: promotionEnabled ? 'opt-in' : 'opt-out',
+      track('default_post_promotion_status', {
+        status: promotionEnabled ? 'opt-in' : 'opt-out',
       })
     }
     setTogglePromotionGlobal((promotionEnabled) => {
