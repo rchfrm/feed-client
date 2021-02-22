@@ -161,9 +161,9 @@ export const afterEditDefaultLink = ({ newLink, defaultLink }) => {
 // EDIT LINK
 export const afterEditLink = ({ newLink, oldLink, nestedLinks, defaultLink }) => {
   // TRACK
-  track({
-    action: 'edit_link',
-    category: 'links',
+  const { host: linkDomain } = utils.parseUrl(newLink.href)
+  track('edit_link', {
+    linkDomain,
   })
 
   const { folder_id: newLinkFolderId, folder_name: newFolderName, id: linkId } = newLink
@@ -219,11 +219,12 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks, defaultLink }) =>
 // DELETE LINK
 export const afterDeleteLink = ({ oldLink, nestedLinks }) => {
   const { folder_id: oldFolderId } = oldLink
+  console.log('oldLink', oldLink)
+  const { host: linkDomain } = utils.parseUrl(oldLink.href)
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
   // TRACK
-  track({
-    action: 'delete_link',
-    category: 'links',
+  track('delete_link', {
+    linkDomain,
   })
   // REBUILD STATE
   const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
@@ -239,9 +240,9 @@ export const afterAddLink = ({ newLink, nestedLinks }) => {
   const { folder_id: newFolderId, folder_name: newFolderName } = newLink
   const newFolderIndex = nestedLinks.findIndex(({ id }) => id === newFolderId)
   // TRACK
-  track({
-    action: 'saved_new_link',
-    category: 'links',
+  const { host: linkDomain } = utils.parseUrl(newLink.href)
+  track('saved_new_link', {
+    linkDomain,
   })
   // REBUILD STATE
   const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
