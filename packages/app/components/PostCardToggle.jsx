@@ -81,7 +81,7 @@ const PostCardToggle = ({
           className="capitalize ml-4"
           style={{ transform: 'translate(-1px, 0px)' }}
         >
-          {audienceSlug}
+          {audienceSlug === 'growth' ? 'Promotable' : audienceSlug}
         </strong>
         {/* RUNNING LABEL */}
         {audienceSlug === 'growth' && isActive && (
