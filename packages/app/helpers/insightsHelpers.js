@@ -181,7 +181,7 @@ export const calcStartAndEnd = (granularity, earliestMoment, latestMoment) => {
   return [earliestMoment.endOf('month'), latestMoment]
 }
 
-//* Get missing data (TBC)
+//* Get missing data
 const fillInMissingData = (periodData, granularity) => {
   // Add in missing data
   return periodData.reduce((results, datum, index) => {
@@ -206,19 +206,32 @@ const fillInMissingData = (periodData, granularity) => {
   }, [])
 }
 
-// * Returns an array periods (weeks/months) covered by the data.
+// * Get info about the date
+const getDateInfo = (date, granularity) => {
+  const dateMoment = moment(date, 'YYYY-MM-DD')
+  const dateInfo = {
+    date,
+    dateMoment,
+    day: dateMoment.day(),
+    week: dateMoment.isoWeek(),
+    month: dateMoment.month(),
+    year: dateMoment.year(),
+  }
+  // Get period based off granularity
+  dateInfo.period = granularity === 'months' ? dateInfo.month
+    : granularity === 'weeks' ? dateInfo.week
+      : dateInfo.day
+  // Return info
+  return dateInfo
+}
+
+// * GET PERIOD DATA
+// Returns an array periods (weeks/months) covered by the data.
 // Each entry is an object containing the date, date value, and period index
 const getPeriodData = (dailyData, granularity) => {
   const periodData = Object.entries(dailyData).reduce((results, [date, value]) => {
-    const dateMoment = moment(date, 'YYYY-MM-DD')
-    const day = dateMoment.day()
-    const week = dateMoment.isoWeek()
-    const month = dateMoment.month()
-    const year = dateMoment.year()
-    const period = granularity === 'months' ? month
-      : granularity === 'weeks' ? week
-        : day
-    const payload = { period, week, month, year, date, value, dateMoment }
+    const dateInfo = getDateInfo(date, granularity)
+    const payload = { ...dateInfo, value }
     // Is there already data for this period and year?
     const storedDatumIndex = results.findIndex(({
       period: storedPeriod,
@@ -227,16 +240,16 @@ const getPeriodData = (dailyData, granularity) => {
       year: storedYear,
     }) => {
       // Define test for whether date is in the same period
-      const testForOverlappingPeriod = granularity === 'months' ? month === storedMonth && year === storedYear
-        : week === storedWeek && month === storedMonth && year === storedYear
+      const testForOverlappingPeriod = granularity === 'months' ? dateInfo.month === storedMonth && dateInfo.year === storedYear
+        : dateInfo.week === storedWeek && dateInfo.month === storedMonth && dateInfo.year === storedYear
       // Run same period test
-      return period === storedPeriod && testForOverlappingPeriod
+      return dateInfo.period === storedPeriod && testForOverlappingPeriod
     })
     if (storedDatumIndex > -1) {
       const { date: storedDate } = results[storedDatumIndex]
       const storedDateMoment = moment(storedDate, 'YYYY-MM-DD')
       // Check if date is more later in time
-      const isNewDateLater = dateMoment.isAfter(storedDateMoment)
+      const isNewDateLater = dateInfo.dateMoment.isAfter(storedDateMoment)
       // If new date is later, replace
       if (isNewDateLater) {
         results[storedDatumIndex] = payload
@@ -251,11 +264,35 @@ const getPeriodData = (dailyData, granularity) => {
   return fillInMissingData(periodData, granularity)
 }
 
+// * GET CUMULATIVE DATA
+// Return the cumulative data for each granularity period
+const getCumulativeData = (dailyData, granularity) => {
+  const cumulativeDataObject = Object.entries(dailyData).reduce((results, [date, value]) => {
+    const dateInfo = getDateInfo(date, granularity)
+    const { period, year } = dateInfo
+    const periodKey = `${period}-${year}`
+    // If data for this period already exists, update the total
+    if (results[periodKey]) {
+      results[periodKey].value += value
+      return results
+    }
+    // If no data for this period, start it
+    results[periodKey] = {
+      ...dateInfo,
+      value,
+    }
+    return results
+  }, {})
+  // Convert to array and sort by date
+  return utils.sortArrayByKey(Object.values(cumulativeDataObject), 'date')
+}
+
 
 // RETURNS AN ARRAY OF DATES and their VALUES
 export const getChartData = (data, granularity) => {
-  const { dailyData } = data
-  const periodData = getPeriodData(dailyData, granularity)
+  const { dailyData, dataType } = data
+  const isCumulative = dataType === 'daily' && granularity !== 'days'
+  const periodData = isCumulative ? getCumulativeData(dailyData, granularity) : getPeriodData(dailyData, granularity)
   const dates = periodData.map(({ date }) => date)
   const values = periodData.map(({ value }) => value)
   return [dates, values]
