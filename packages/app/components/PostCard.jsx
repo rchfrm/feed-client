@@ -60,7 +60,7 @@ const PostCard = ({
             togglePromotion={togglePromotion}
             conversionVisible={conversionVisible}
             conversionDisabled
-            growthDisabled={false}
+            growthDisabled={promotionStatus === 'archived'}
           />
         ) : (
           <PostCardUnpromotable
