@@ -14,7 +14,7 @@ import ChartContainer from '@/app/ChartContainer'
 import ChartBar from '@/app/ChartBar'
 // IMPORT ASSETS
 // IMPORT HELPERS
-import { formatServerData, formatProjection } from '@/app/helpers/chartHelpers'
+import { formatServerData, formatProjection } from '@/app/helpers/insightsHelpers'
 import * as server from '@/app/helpers/appServer'
 
 import styles from '@/app/InsightsPage.module.css'
