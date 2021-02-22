@@ -2,6 +2,8 @@ import React from 'react'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
+import { ArtistContext } from '@/contexts/ArtistContext'
+
 import copy from '@/app/copy/targetingPageCopy'
 import { track } from '@/app/helpers/trackingHelpers'
 
@@ -12,6 +14,7 @@ const getWarningButtons = ({
   savedState,
   onConfirm = () => {},
   closeAlert,
+  feedMinBudgetInfo,
 }) => {
   if (warningType === 'togglePause') {
     return [
@@ -28,7 +31,6 @@ const getWarningButtons = ({
     ]
   }
 
-
   if (warningType === 'saveWhenPaused') {
     return [
       {
@@ -36,15 +38,13 @@ const getWarningButtons = ({
         onClick: () => {
           saveTargetingSettings({ ...savedState, status: 1 })
           // TRACK resume spending
-          track({
-            action: 'resume_spending',
-            category: 'controls',
+          const { currencyCode, currencyOffset } = feedMinBudgetInfo
+          track('resume_spending', {
+            budget: savedState.budget / currencyOffset,
+            currencyCode,
           })
           // TRACK change settings
-          track({
-            action: 'change_targeting_default',
-            category: 'controls',
-          })
+          track('change_targeting_settings', savedState)
         },
         color: 'red',
       },
@@ -53,10 +53,7 @@ const getWarningButtons = ({
         onClick: () => {
           saveTargetingSettings(savedState)
           // TRACK change settings
-          track({
-            action: 'change_targeting_default',
-            category: 'controls',
-          })
+          track('change_targeting_settings', savedState)
         },
         color: 'green',
       },
@@ -85,6 +82,9 @@ const useSaveTargeting = ({
   spendingPaused,
   isFirstTimeUser = false,
 }) => {
+  // GET ARTIST CONTEXT
+  const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
+  const { currencyCode, currencyOffset } = feedMinBudgetInfo
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
   // SAVE FUNCTION
@@ -100,9 +100,9 @@ const useSaveTargeting = ({
       }
       saveTargetingSettings(unpausedTargetingState)
       // TRACK
-      track({
-        action: 'set_first_budget',
-        category: 'controls',
+      track('set_daily_budget', {
+        budget: savedState.budget / currencyOffset,
+        currencyCode,
       })
       return
     }
@@ -116,13 +116,14 @@ const useSaveTargeting = ({
           togglePauseCampaign()
           // TRACK
           const action = spendingPaused ? 'resume_spending' : 'pause_spending'
-          track({
-            action,
-            category: 'controls',
+          track(action, {
+            budget: savedState.budget,
+            currencyCode,
           })
         },
         isPaused: spendingPaused,
         closeAlert,
+        feedMinBudgetInfo,
       })
       showAlert({ copy: alertCopy, buttons })
       return
@@ -134,54 +135,51 @@ const useSaveTargeting = ({
         warningType: 'saveWhenPaused',
         saveTargetingSettings,
         savedState,
+        feedMinBudgetInfo,
       })
       showAlert({ copy: alertCopy, buttons })
       return
     }
     const { budget: oldBudget } = initialTargetingState
     const { budget: newBudget } = savedState
-    const budgetChangeType = oldBudget >= newBudget ? 'decrease' : 'increase'
+    const budgetChangeDirection = oldBudget > newBudget ? 'decrease' : 'increase'
     // Confirm changing settings
     if (trigger === 'settings') {
       const alertCopy = copy.saveSettingsConfirmation
       const buttons = getWarningButtons({
         warningType: 'saveSettings',
-        onConfirm: () => {
-          saveTargetingSettings(savedState)
-          // TRACK change settings
-          track({
-            action: 'change_targeting_default',
-            category: 'controls',
-          })
-          // TRACK change budget
-          if (oldBudget !== newBudget) {
-            track({
-              action: 'change_daily_budget',
-              category: 'controls',
-              label: budgetChangeType,
-              value: newBudget,
-            })
-          }
-        },
         saveTargetingSettings,
         savedState,
         closeAlert,
+        getWarningButtons,
+        onConfirm: () => {
+          saveTargetingSettings(savedState)
+          // TRACK change settings
+          track('change_targeting_settings', savedState)
+          // TRACK change budget
+          if (oldBudget !== newBudget) {
+            track('set_daily_budget', {
+              budget: savedState.budget / currencyOffset,
+              currencyCode,
+              direction: budgetChangeDirection,
+            })
+          }
+        },
       })
       showAlert({ copy: alertCopy, buttons })
       return
     }
     // TRACK BUDGET CHANGE
     if (trigger === 'budget') {
-      track({
-        action: 'change_daily_budget',
-        category: 'controls',
-        label: budgetChangeType,
-        value: newBudget,
+      track('set_daily_budget', {
+        budget: savedState.budget / currencyOffset,
+        currencyCode,
+        direction: budgetChangeDirection,
       })
     }
     // Basic save (eg when just changing budget)
     saveTargetingSettings(savedState)
-  }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser])
+  }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser, feedMinBudgetInfo])
 
   return saveTargeting
 }
