@@ -11,7 +11,7 @@ import Spinner from '@/elements/Spinner'
 import ChartBarOverlay from '@/app/ChartBarOverlay'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import * as chartHelpers from '@/app/helpers/chartHelpers'
+import * as insightsHelpers from '@/app/helpers/insightsHelpers'
 import brandColors from '@/constants/brandColors'
 // IMPORT STYLES
 import styles from '@/app/InsightsPage.module.css'
@@ -112,7 +112,7 @@ function ChartBar({
       dataArray,
       periodLabels,
       chartLimit,
-    } = chartHelpers.getDummyData()
+    } = insightsHelpers.getDummyData()
     // Setup chart
     setDateLabels(periodLabels)
     setChartLimit(chartLimit)
@@ -158,12 +158,12 @@ function ChartBar({
     const earliestMoment = moment(data.earliest.date, 'YYYY-MM-DD')
     const latestMoment = moment(data.mostRecent.date, 'YYYY-MM-DD')
     // Calculate granularity
-    const granularity = chartHelpers.calcGranularity(earliestMoment, latestMoment)
+    const granularity = insightsHelpers.calcGranularity(earliestMoment, latestMoment)
     setGranularity(granularity)
     // Get period dates and values from the data, based on the granularity
-    const [periodDates, periodValues] = chartHelpers.getChartData(data, granularity)
+    const [periodDates, periodValues] = insightsHelpers.getChartData(data, granularity)
     // Cycle through the dates and add the relevant labels
-    const periodLabels = chartHelpers.getPeriodLabels(periodDates)
+    const periodLabels = insightsHelpers.getPeriodLabels(periodDates)
     setDateLabels(periodLabels)
 
     // DEFINE THE DATASET(S) TO DISPLAY

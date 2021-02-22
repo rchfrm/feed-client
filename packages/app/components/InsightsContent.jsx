@@ -10,7 +10,7 @@ import InsightDataSelectors from '@/app/InsightDataSelectors'
 import InsightsChartLoader from '@/app/InsightsChartLoader'
 import ShowIntegrationsButton from '@/app/ShowIntegrationsButton'
 // IMPORT HELPERS
-import * as chartHelpers from '@/app/helpers/chartHelpers'
+import * as insightsHelpers from '@/app/helpers/insightsHelpers'
 // IMPORT TEXT
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/InsightPageCopy'
@@ -32,7 +32,7 @@ function InsightsContent() {
     if (!artistId || artistLoading) return []
     const { _embedded: { dataSources } } = artist
     const allSources = Object.values(dataSources).map((name) => name)
-    return chartHelpers.getAvailableSources(allSources)
+    return insightsHelpers.getAvailableSources(allSources)
   // eslint-disable-next-line
   }, [artistId, artistLoading])
 
@@ -42,8 +42,8 @@ function InsightsContent() {
   React.useEffect(() => {
     // Stop here if no data sources
     if (!availableDataSources.length) return
-    const availablePlatforms = chartHelpers.getAvailablePlatforms(availableDataSources)
-    const defaultPlatform = chartHelpers.getInitialPlatform(availablePlatforms)
+    const availablePlatforms = insightsHelpers.getAvailablePlatforms(availableDataSources)
+    const defaultPlatform = insightsHelpers.getInitialPlatform(availablePlatforms)
     setAvailablePlatforms(availablePlatforms)
     setDefaultPlatform(defaultPlatform)
   // eslint-disable-next-line
@@ -51,7 +51,7 @@ function InsightsContent() {
 
   // GET DEFAULT DATA SOURCE
   const defaultDataSource = React.useMemo(() => {
-    return chartHelpers.getInitialDataSource(availableDataSources, currentPlatform)
+    return insightsHelpers.getInitialDataSource(availableDataSources, currentPlatform)
   // eslint-disable-next-line
   }, [currentPlatform])
 
