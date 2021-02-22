@@ -23,7 +23,7 @@ const PostCardHeader = ({
         rel="noopener noreferrer"
       >
         <PlatformIcon
-          className="w-4 h-auto"
+          className="w-5 h-auto"
           platform={platform}
         />
       </a>
