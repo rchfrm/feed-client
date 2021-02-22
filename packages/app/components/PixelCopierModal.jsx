@@ -30,6 +30,7 @@ const PixelCopierModal = ({ pixelId, pixelEmbed, trackLocation }) => {
           activeOptionId={activeOptionId}
           setActiveOptionId={setActiveOptionId}
           trackLabel="Select pixel to copy"
+          trackLocation="Pixel selector"
         />
       )}
       <CopyTextButton

@@ -23,13 +23,14 @@ import ButtonPill from '@/elements/ButtonPill'
 const PillOptions = (props) => {
   const {
     label,
-    trackLabel,
     color,
     options,
     activeOption,
     setActiveOption,
     className,
     disabled,
+    trackLabel,
+    trackLocation,
     style,
   } = props
   return (
@@ -64,6 +65,7 @@ const PillOptions = (props) => {
               trackAction="pill_option_clicked"
               trackValue={title}
               trackLabel={label || trackLabel}
+              trackLocation={trackLocation}
             >
               {title}
             </ButtonPill>
@@ -76,23 +78,25 @@ const PillOptions = (props) => {
 
 PillOptions.propTypes = {
   label: PropTypes.string,
-  trackLabel: PropTypes.string,
   color: PropTypes.oneOf(['black', 'green']),
   options: PropTypes.array.isRequired,
   activeOption: PropTypes.string.isRequired,
   setActiveOption: PropTypes.func.isRequired,
   className: PropTypes.string,
   disabled: PropTypes.bool,
+  trackLabel: PropTypes.string,
+  trackLocation: PropTypes.string,
   style: PropTypes.object,
 }
 
 PillOptions.defaultProps = {
   color: 'black',
   label: '',
-  trackLabel: '',
-  className: '',
   disabled: false,
+  trackLabel: '',
+  trackLocation: '',
   style: null,
+  className: null,
 }
 
 

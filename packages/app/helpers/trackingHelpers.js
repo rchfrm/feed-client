@@ -76,17 +76,7 @@ export const trackPWA = () => {
   if (!isBrowser) return
   window.addEventListener('beforeinstallprompt', (event) => {
     event.userChoice.then((result) => {
-      if (result.outcome === 'dismissed') {
-        track({
-          action: 'decline_install_pwa',
-          category: 'pwa',
-        })
-      } else {
-        track({
-          action: 'install_pwa',
-          category: 'pwa',
-        })
-      }
+      track(result.outcome === 'dismissed' ? 'decline_install_pwa' : 'install_pwa')
     })
   })
 }
