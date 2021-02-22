@@ -8,7 +8,7 @@ body {
 
 /* Basic type styles */
 a {
-  color: var(--black);
+  color: inherit;
 
   &[href],
   &.-hover--green {
