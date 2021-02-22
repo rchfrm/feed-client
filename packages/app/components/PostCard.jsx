@@ -47,13 +47,13 @@ const PostCard = ({
         <PostCardScore
           scorePaid={post.paidMetrics.engagementScore}
           scoreOrganic={post.organicMetrics.engagementScore}
-          className="py-2 px-4 mb-2"
+          className="py-3 px-4 mb-2"
         />
         {postPromotable ? (
           <PostCardToggles
             postId={post.id}
             artistId={artistId}
-            togglesClassName="py-3 px-4 mb-2 last:mb-0"
+            togglesClassName="py-2 px-4 mb-2 last:mb-0"
             className="mb-2"
             promotionEnabled={post.promotionEnabled}
             promotionStatus={post.promotionStatus}

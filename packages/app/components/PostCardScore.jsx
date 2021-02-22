@@ -24,16 +24,10 @@ const PostCardScore = ({
     >
       <div className="flex items-center mb-0">
         <StarIcon className="h-4 w-auto" fill={brandColors.green} />
-        <span
-          className="ml-3"
-          style={{ transform: 'translateY(1px)' }}
-        >
-          Score
-        </span>
+        <span className="ml-3">Score</span>
         <PostCardLabel
           copy={scoreType}
           className={scoreType === 'paid' ? 'bg-green text-white font-bold' : 'bg-grey-2'}
-          style={{ transform: 'translateY(1px)' }}
         />
       </div>
       <p className="flex items-center mb-0 font-bold">
