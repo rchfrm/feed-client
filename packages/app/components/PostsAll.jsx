@@ -119,22 +119,25 @@ function PostsAll({
       >
         {/* {postsWithLoadingTrigger.map((post, index) => {
           return (
-            <PostItem
+            <PostCard
               key={post.id}
-              index={index}
               post={post}
-              enabled={post.promotionEnabled}
+              postIndex={index}
               updateLink={updateLink}
-              singular={posts.length === 1}
               togglePromotion={togglePromotion}
-              postToggleSetter={postToggleSetterType}
-              missingDefaultLink={isMissingDefaultLink}
-              className="col-span-12 sm:col-span-6 bmw:col-span-4"
+              postToggleSetterType={postToggleSetterType}
+              isMissingDefaultLink={isMissingDefaultLink}
+              artistId={artistId}
+              className={[
+                'mx-auto max-w-sm mb-12',
+                'sm:max-w-none sm:mx-0 sm:mb-0',
+                'col-span-12 sm:col-span-6 lg:col-span-4 bmw:col-span-3',
+              ].join(' ')}
             >
               {post.loadTrigger && !loadedAll && (
               <div ref={loadTrigger} />
               )}
-            </PostItem>
+            </PostCard>
           )
         })} */}
         {postsWithLoadingTrigger.map((post, index) => {
