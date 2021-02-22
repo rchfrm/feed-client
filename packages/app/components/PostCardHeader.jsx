@@ -21,6 +21,7 @@ const PostCardHeader = ({
         href={permalink}
         target="_blank"
         rel="noopener noreferrer"
+        style={{ paddingLeft: 1 }}
       >
         <PlatformIcon
           className="w-5 h-auto"
