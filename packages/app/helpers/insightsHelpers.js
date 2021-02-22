@@ -284,7 +284,6 @@ const getCumulativeData = (dailyData, granularity) => {
     return results
   }, {})
   // Convert to array and sort by date
-  console.log('cumulativeDataObject', cumulativeDataObject)
   return utils.sortArrayByKey(Object.values(cumulativeDataObject), 'date')
 }
 
