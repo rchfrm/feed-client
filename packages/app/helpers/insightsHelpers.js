@@ -291,8 +291,9 @@ const getCumulativeData = (dailyData, granularity) => {
 
 // RETURNS AN ARRAY OF DATES and their VALUES
 export const getChartData = (data, granularity) => {
-  const { dailyData } = data
-  const periodData = getPeriodData(dailyData, granularity)
+  const { dailyData, dataType } = data
+  const isCumulative = dataType === 'daily' && granularity !== 'days'
+  const periodData = isCumulative ? getCumulativeData(dailyData, granularity) : getPeriodData(dailyData, granularity)
   const dates = periodData.map(({ date }) => date)
   const values = periodData.map(({ value }) => value)
   return [dates, values]
