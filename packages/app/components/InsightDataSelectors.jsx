@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 // Components
 import BaseFilters from '@/BaseFilters'
 // Helpers
-import * as chartHelpers from '@/app/helpers/chartHelpers'
+import * as insightsHelpers from '@/app/helpers/insightsHelpers'
 // Constants
 import brandColors from '@/constants/brandColors'
 
@@ -21,7 +21,7 @@ const InsightDataSelectors = ({
   // Return array of data sources that match the current platform
   const platformSources = React.useMemo(() => {
     if (!currentPlatform) return availableDataSources
-    return chartHelpers.getPlatformSources(availableDataSources, currentPlatform)
+    return insightsHelpers.getPlatformSources(availableDataSources, currentPlatform)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPlatform])
 
