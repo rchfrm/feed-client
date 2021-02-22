@@ -49,12 +49,12 @@ const PostCardActionButtons = ({
         {settingsIcon === 'gear' ? (
           <GearIcon
             className="h-5 w-auto"
-            fill={brandColors.white}
+            fill={postPromotable ? brandColors.white : brandColors.greyDark}
           />
         ) : (
           <LinkIcon
             className="h-5 w-auto"
-            fill={brandColors.white}
+            fill={postPromotable ? brandColors.white : brandColors.greyDark}
           />
         )}
       </Button>
