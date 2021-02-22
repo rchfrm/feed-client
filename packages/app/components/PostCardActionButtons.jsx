@@ -62,7 +62,7 @@ const PostCardActionButtons = ({
       <Button
         className="h-11 w-1/2 ml-1"
         version="green"
-        label="View Metrix"
+        label="View Metrics"
         onClick={() => {
           const metrics = {
             organic: post.organicMetrics,
