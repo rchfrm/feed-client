@@ -16,8 +16,9 @@ import { track, trackLogin, trackSignUp } from '@/app/helpers/trackingHelpers'
 
 // CALL REDIRECT
 let userRedirected = false
-const redirectPage = (newPathname, currentPathname, fullPath) => {
-  const newPagePath = newPathname || fullPath
+const redirectPage = (newPathname, currentPathname, useRejectedPagePath = false) => {
+  const rejectedPagePath = useRejectedPagePath ? utils.getLocalStorage('rejectedPagePath') : ''
+  const newPagePath = rejectedPagePath || newPathname
   if (newPathname === currentPathname) return
   userRedirected = true
   Router.push(newPagePath)
@@ -294,7 +295,8 @@ const InitUser = ({ children }) => {
       trackLogin({ method: 'already logged in', userId: user.id })
       // Redirect to page they tried to access (or home page)
       const defaultLandingPage = ROUTES.HOME
-      redirectPage(defaultLandingPage, initialPathname, rejectedPagePath)
+      const useRejectedPagePath = true
+      redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
     }
   }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
 const initialAuthState = {
   token: '',
@@ -126,6 +127,27 @@ function AuthProvider({ children }) {
     return token
   }
 
+  // * HANDLE REJECTED PAGES
+  // (ie, a page you land on but get kicked off because you aint logged in)
+  // GET INITIAL
+  React.useEffect(() => {
+    const savedRejectedPagePath = getLocalStorage('rejectedPagePath')
+    if (savedRejectedPagePath) {
+      setRejectedPagePath(savedRejectedPagePath)
+    }
+  }, [])
+  // UPDATE
+  React.useEffect(() => {
+    // Save rejected page path in local storage when it changes
+    if (!rejectedPagePath) return
+    setLocalStorage('rejectedPagePath', rejectedPagePath)
+  }, [rejectedPagePath])
+  // CLEAR STORED REJECTED PAGE
+  const clearRejectedPathPath = React.useCallback(() => {
+    setRejectedPagePath('')
+    setLocalStorage('rejectedPagePath', '')
+  }, [])
+
   const value = {
     accessToken,
     auth,
@@ -143,6 +165,7 @@ function AuthProvider({ children }) {
     setMissingScopes,
     rejectedPagePath,
     setRejectedPagePath,
+    clearRejectedPathPath,
   }
 
   return (
