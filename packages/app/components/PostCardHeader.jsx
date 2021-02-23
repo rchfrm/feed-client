@@ -26,7 +26,7 @@ const PostCardHeader = ({
           style={{ paddingLeft: 1 }}
         >
           <PlatformIcon
-            className="w-5 h-auto"
+            className="w-4 h-auto"
             platform={platform}
           />
         </a>
