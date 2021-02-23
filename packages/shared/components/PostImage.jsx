@@ -94,10 +94,12 @@ const PostImage = ({
   mediaSrc,
   thumbnailOptions,
   title,
-  className,
   aspectRatio,
+  setSelectedThumbnail,
   onUseFallback,
+  onFinishedSelection,
   brokenImageColor,
+  className,
 }) => {
   // Remove empty and duplicate thumbnail options
   const thumbnails = React.useMemo(() => {
@@ -129,18 +131,26 @@ const PostImage = ({
     setThumbError(true)
   }, [setVideoError])
 
+  // HANDLE THE END
+  const [isFinished, setIsFinished] = React.useState(false)
+  const onFinish = React.useCallback((thumbnailUsed) => {
+    onFinishedSelection(thumbnailUsed)
+    setIsFinished(true)
+  }, [onFinishedSelection])
+
 
   // Trigger use fallback if no thumb src
   React.useEffect(() => {
     if (!thumbnailOptions.length) {
       onUseFallback()
+      onFinish()
     }
-  }, [onUseFallback, thumbnailOptions])
+  }, [onUseFallback, thumbnailOptions, onFinish])
 
   // Swap to backup thumb src if first errors
   React.useEffect(() => {
-    // Stop here if no thumb error
-    if (!thumbError) return
+    // Stop here if no thumb error or if finished
+    if (!thumbError || isFinished) return
     // Try swapping thumb src for backup
     activeThumbIndex.current += 1
     const nextThumbSrc = thumbnails[activeThumbIndex.current]
@@ -150,8 +160,9 @@ const PostImage = ({
     } else {
       // Tell parent fallback was used
       onUseFallback()
+      onFinish()
     }
-  }, [thumbError, thumbnails, setThumbError, onUseFallback])
+  }, [thumbError, thumbnails, setThumbError, onUseFallback, onFinish, isFinished])
 
   // Get the thumbnail
   const thumbnailImageSrc = React.useMemo(() => {
@@ -162,7 +173,6 @@ const PostImage = ({
     // If video with no src, then no thumbnail
     if (mediaType === 'video') return null
   }, [activeThumbSrc, mediaType, mediaSrc])
-
 
   // Test for broken videos
   const mediaTest = React.useMemo(() => {
@@ -243,10 +253,27 @@ const PostImage = ({
           alt={title}
           onError={() => handleError('thumb')}
           onLoad={({ target }) => {
-            // Handle 1px FB safe images
-            if (target.naturalHeight === 1) {
+            const {
+              src,
+              naturalHeight,
+              naturalWidth,
+            } = target
+            // 1px FB safe images count as en error
+            if (naturalHeight === 1) {
               handleError('thumb')
+              onFinish()
+              return
             }
+            // Build thumbnail object
+            const thumbnail = {
+              src,
+              width: naturalWidth,
+              height: naturalHeight,
+              ratio: naturalWidth / naturalHeight,
+            }
+            // Set selected thumbnail when loaded
+            setSelectedThumbnail(thumbnail)
+            onFinish(thumbnail)
           }}
         />
       )}
@@ -258,20 +285,24 @@ PostImage.propTypes = {
   mediaSrc: PropTypes.string,
   thumbnailOptions: PropTypes.array,
   title: PropTypes.string,
-  className: PropTypes.string,
   aspectRatio: PropTypes.string,
+  setSelectedThumbnail: PropTypes.func,
   onUseFallback: PropTypes.func,
+  onFinishedSelection: PropTypes.func,
   brokenImageColor: PropTypes.string,
+  className: PropTypes.string,
 }
 
 PostImage.defaultProps = {
   mediaSrc: '',
   thumbnailOptions: [],
   title: '',
-  className: '',
   aspectRatio: 'square',
+  setSelectedThumbnail: () => {},
   onUseFallback: () => {},
+  onFinishedSelection: () => {},
   brokenImageColor: brandColors.green,
+  className: null,
 }
 
 

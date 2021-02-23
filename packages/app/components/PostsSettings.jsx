@@ -24,7 +24,7 @@ const PostsSettings = () => {
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   return (
     <div>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Post Settings</h2>
+      <h2 className={sidePanelStyles.SidePanel__Header}>Global Post Settings</h2>
       <div className="content">
         {/* GLOBAL POST STATUS */}
         <PostsSettingsSection
