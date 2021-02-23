@@ -11,9 +11,6 @@ import PostsLinks from '@/app/PostsLinks'
 import PostCardSettings from '@/app/PostCardSettings'
 import PostCardMetrics from '@/app/PostCardMetrics'
 
-import PostCardSettings from '@/app/PostCardSettings'
-import PostCardMetrics from '@/app/PostCardMetrics'
-
 const usePostsSidePanel = () => {
   // SIDE PANEL context
   const {
