@@ -11,14 +11,17 @@ const kickToLogin = (loginPath) => Router.push(loginPath)
 
 const testPageReady = (packageType) => (Component) => {
   const PageContent = (props) => {
-    const { pathname: currentPath } = useRouter()
-    const { auth: { token: initialToken }, authLoading } = React.useContext(AuthContext)
+    const { pathname: currentPath, asPath: initialFullPath } = useRouter()
+    const { auth: { token: initialToken }, authLoading, setRejectedPagePath } = React.useContext(AuthContext)
     const ROUTES = packageType === 'app' ? ROUTES_APP : ROUTES_ADMIN
 
     React.useEffect(() => {
       if (authLoading) return
       if (!initialToken) {
-        if (currentPath !== ROUTES.LOGIN) kickToLogin(ROUTES.LOGIN)
+        if (currentPath !== ROUTES.LOGIN) {
+          setRejectedPagePath(initialFullPath)
+          kickToLogin(ROUTES.LOGIN)
+        }
         utils.clearLocalStorage()
       }
     // eslint-disable-next-line
