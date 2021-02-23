@@ -242,15 +242,3 @@ export const getPostMetricsContent = (metricsType, postType) => {
     'shares',
   ]
 }
-
-
-export const getMetricsDrilldown = (drilldownMetrics) => {
-  if (!drilldownMetrics) return null
-  const metricsEntries = Object.entries(drilldownMetrics)
-  const sentenceArray = metricsEntries.reduce((arr, [key, value]) => {
-    if (!value) return arr
-    const sentence = `${utils.capitalise(key)}: **${utils.abbreviateNumber(value)}**`
-    return [...arr, sentence]
-  }, [])
-  return sentenceArray.join('  \n')
-}

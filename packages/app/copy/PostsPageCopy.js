@@ -60,7 +60,9 @@ Do you want to continue?`,
   linkTrackingIntro: `Should UTM parameters be added automatically to the end of links?`,
 
   // Warning when turning off active post
-  postStatusConfirmation: `Ads created from this post will soon stop running to all audiences. This post will not be eligible to run as an ad in the future.`,
+  postStatusConfirmation: `Ads created from this post will soon stop running to all audiences.
+
+  This post will not be eligible to run as an ad in the future.`,
 
   defaultLinkIntro: `By default, which link should be used in ads? This determines where people go when they click one of your ads.`,
 
@@ -121,9 +123,13 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
     ],
   },
 
-  metricsTooltips: {
-    paid: {},
-    organic: {},
+  // SETTINGS SIDEPANEL
+  postLinkSetting: 'Which link should be used when this post is made into an ad?',
+
+  // METRICS SIDEPANEL
+  metricsDescription: {
+    paid: 'Performance data showing how well this post did as an ad. Metrics and score are aggregated across the difference audiences that see the ad.',
+    organic: 'Performance data showing how well this post performed with your existing following.',
   },
 
 

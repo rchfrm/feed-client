@@ -5,12 +5,8 @@ import { CSSTransition } from 'react-transition-group'
 import usePrevious from 'use-previous'
 import { useAsync } from 'react-async'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
-
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
-
-import styles from '@/app/PostItem.module.css'
 
 import copy from '@/app/copy/PostsPageCopy'
 import * as postsHelpers from '@/app/helpers/postsHelpers'
@@ -22,12 +18,16 @@ const getPromotionStatus = (promotableStatus) => {
   return null
 }
 
-const PostItemDisableWarning = ({
+
+const PostCardDisableWarning = ({
   postId,
   promotionEnabled,
   promotableStatus,
   togglePromotion,
-  postToggleSetter,
+  postToggleSetterType,
+  artistId,
+  textClassName,
+  className,
 }) => {
   const previousPromotionEnabled = usePrevious(promotionEnabled)
   const previousPromotableStatus = usePrevious(promotableStatus)
@@ -43,16 +43,15 @@ const PostItemDisableWarning = ({
     if (
       !promotionEnabled
       && previousPromotionEnabled
-      && postToggleSetter === 'single'
+      && postToggleSetterType === 'single'
     ) {
       showWarning()
     }
-  }, [promotionEnabled, previousPromotionEnabled, postToggleSetter, showWarning])
+  }, [promotionEnabled, previousPromotionEnabled, postToggleSetterType, showWarning])
 
   // REVERSE DISABLE POST
   const [reverseStatus, setReverseStatus] = React.useState(false)
   // (Set the post back to the previous enabled state)
-  const { artistId } = React.useContext(ArtistContext)
   const { isPending } = useAsync({
     promiseFn: postsHelpers.updatePost,
     watch: reverseStatus,
@@ -61,40 +60,48 @@ const PostItemDisableWarning = ({
     postId,
     promotionEnabled: getPromotionStatus(cachedPromtableStatus),
     disabled: !reverseStatus,
-    onResolve: ({ res: updatedPost, error }) => {
+    onResolve: ({ res: postUpdated, error }) => {
       // Reset reversed status
       setReverseStatus(false)
       // Hide warning
       setShow(false)
       if (error) return
       // Update post list state
-      const { promotion_enabled, promotable_status } = updatedPost
+      const { promotion_enabled, promotable_status } = postUpdated
       togglePromotion(postId, promotion_enabled, promotable_status)
     },
   })
-
   return (
     <CSSTransition
       in={show}
       timeout={300}
-      classNames="slide-up"
+      classNames="fade"
       unmountOnExit
     >
       <div
         className={[
-          styles.postSection,
           'absolute top-0 left-0',
           'w-full h-full',
-          'bg-white rounded-b-dialogue',
+          'bg-white',
+          'flex flex-col justify-between',
+          className,
         ].join(' ')}
-        style={{ zIndex: 2 }}
+        style={{ zIndex: 3 }}
       >
-        <MarkdownText markdown={copy.postStatusConfirmation} className="mb-8" />
+        <div
+          className={[
+            'bg-grey-1 rounded-dialogue',
+            'mb-2',
+            textClassName,
+          ].join(' ')}
+        >
+          <MarkdownText markdown={copy.postStatusConfirmation} className="mb-0" />
+        </div>
         {/* BUTTONS */}
-        <div className="flex justify-between pb-8">
+        <div className="flex w-full">
           <Button
-            className="w-24 sm:w-32"
-            version="black small"
+            className="h-11 w-1/2 mr-1"
+            version="black"
             onClick={() => {
               setShow(false)
               // TRACK
@@ -107,9 +114,11 @@ const PostItemDisableWarning = ({
             Ok
           </Button>
           <Button
-            className="w-24 sm:w-32 bg-red"
-            version="erd small"
-            onClick={() => setReverseStatus(true)}
+            className="h-11 w-1/2 ml-1"
+            version="red"
+            onClick={() => {
+              setReverseStatus(true)
+            }}
             loading={isPending}
           >
             Cancel
@@ -121,17 +130,21 @@ const PostItemDisableWarning = ({
   )
 }
 
-PostItemDisableWarning.propTypes = {
+PostCardDisableWarning.propTypes = {
   postId: PropTypes.string.isRequired,
   promotionEnabled: PropTypes.bool.isRequired,
   promotableStatus: PropTypes.number.isRequired,
   togglePromotion: PropTypes.func.isRequired,
-  postToggleSetter: PropTypes.string,
+  postToggleSetterType: PropTypes.string,
+  artistId: PropTypes.string.isRequired,
+  textClassName: PropTypes.string,
+  className: PropTypes.string,
 }
 
-PostItemDisableWarning.defaultProps = {
-  postToggleSetter: '',
+PostCardDisableWarning.defaultProps = {
+  postToggleSetterType: '',
+  textClassName: null,
+  className: null,
 }
 
-
-export default PostItemDisableWarning
+export default PostCardDisableWarning

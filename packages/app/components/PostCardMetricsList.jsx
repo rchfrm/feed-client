@@ -1,19 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PostItemMetricsListItem from '@/app/PostItemMetricsListItem'
+import PostCardMetricsListItem from '@/app/PostCardMetricsListItem'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 
 import * as utils from '@/helpers/utils'
 
-import styles from '@/app/PostItem.module.css'
+import styles from '@/app/PostCardMetricsList.module.css'
 
-const PostItemMetricsList = ({
+const PostCardMetricsList = ({
   metrics,
   metricsContent,
-  currentMetricsType,
-  setDrilldown,
+  metricsType,
+  className,
 }) => {
   // CREATE ARRAY OF METRICS
   const maxMetrics = 4
@@ -27,70 +27,55 @@ const PostItemMetricsList = ({
       .slice(0, maxMetrics)
   }, [metrics, metricsContent])
 
-  // CREATE SPACERS (for preserving height)
-  const metricsSpacers = React.useMemo(() => {
-    if (metricsArray.length === maxMetrics) return []
-    const totalSpacers = maxMetrics - metricsArray.length
-    return Array.from({ length: totalSpacers }, (v, i) => i)
-  }, [metricsArray.length])
-
   // GET CURRENCY
   const { artistCurrency } = React.useContext(ArtistContext)
 
   return (
-    <ul className={[
-      'grid',
-      'text-xs xxs:text-sm',
-      'grid-cols-2',
-      'col-gap-6',
-      'xxs:col-gap-12',
-      'xs:col-gap-6',
-      'sm:col-gap-8',
-      styles.postSection,
-      styles.postMetrics,
-    ].join(' ')}
+    <ul
+      className={[
+        'border-solid border-2 border-green rounded-dialogue',
+        className,
+      ].join(' ')}
     >
       {/* METRICS */}
       {metricsArray.map(({ name, key, value }) => {
         // Parse value
         const parsedValue = key === 'spend'
           ? utils.formatCurrency(value, artistCurrency)
-          : utils.abbreviateNumber(value)
+          : utils.formatNumber(value)
+        // Get drilldown metrics
         const drilldownMetrics = metrics.drilldowns ? metrics.drilldowns[key] : null
         return (
-          <PostItemMetricsListItem
+          <PostCardMetricsListItem
             key={key}
             id={key}
             title={name}
             value={parsedValue}
-            currentMetricsType={currentMetricsType}
+            metricsType={metricsType}
             drilldownMetrics={drilldownMetrics}
-            setDrilldown={setDrilldown}
+            artistCurrency={artistCurrency}
+            className={styles.gridCell}
           />
         )
-      })}
-      {/* SPACERS */}
-      {metricsSpacers.map((v) => {
-        return <li key={v} className={styles.postMetricsItem}>&nbsp;</li>
       })}
     </ul>
   )
 }
 
 
-PostItemMetricsList.propTypes = {
+PostCardMetricsList.propTypes = {
   metrics: PropTypes.object,
   metricsContent: PropTypes.array.isRequired,
-  currentMetricsType: PropTypes.string,
-  setDrilldown: PropTypes.func,
+  metricsType: PropTypes.string,
+  className: PropTypes.string,
 }
 
-PostItemMetricsList.defaultProps = {
+PostCardMetricsList.defaultProps = {
   metrics: null,
-  currentMetricsType: '',
-  setDrilldown: () => {},
+  metricsType: '',
+  className: null,
 }
 
 
 
-export default PostItemMetricsList
+export default React.memo(PostCardMetricsList)
