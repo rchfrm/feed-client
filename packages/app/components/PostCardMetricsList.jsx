@@ -42,7 +42,7 @@ const PostCardMetricsList = ({
         // Parse value
         const parsedValue = key === 'spend'
           ? utils.formatCurrency(value, artistCurrency)
-          : utils.abbreviateNumber(value)
+          : utils.formatNumber(value)
         // Get drilldown metrics
         const drilldownMetrics = metrics.drilldowns ? metrics.drilldowns[key] : null
         return (

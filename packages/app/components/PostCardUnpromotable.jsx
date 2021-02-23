@@ -6,8 +6,8 @@ const PostCardUnpromotable = ({ className, conversionVisible }) => {
     <div
       className={[
         'rounded-dialogue',
-        conversionVisible ? 'h-30' : 'h-15',
-        'bg-grey-3 text-white',
+        conversionVisible ? 'h-26' : 'h-12',
+        'bg-grey-1 text-grey-3',
         'relative text-center',
         className,
       ].join(' ')}

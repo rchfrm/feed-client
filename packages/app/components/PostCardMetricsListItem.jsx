@@ -36,7 +36,7 @@ const PostItemMetricsListItem = ({
             const title = utils.capitalise(key)
             const parsedValue = title === 'spend'
               ? utils.formatCurrency(value, artistCurrency)
-              : utils.abbreviateNumber(value)
+              : utils.formatNumber(value)
             return (
               <li
                 key={key}

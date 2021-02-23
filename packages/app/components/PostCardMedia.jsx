@@ -4,8 +4,10 @@ import PropTypes from 'prop-types'
 import PostImage from '@/PostImage'
 import PostCardCaption from '@/app/PostCardCaption'
 
-import CaptionIcon from '@/icons/CaptionIcon'
+import CommentIcon from '@/icons/CommentIcon'
 import CloseCircle from '@/icons/CloseCircle'
+
+import brandColors from '@/constants/brandColors'
 
 const PostCardMedia = ({
   media,
@@ -85,7 +87,7 @@ const PostCardMedia = ({
             {isCaptionVisible ? (
               <CloseCircle className="w-5 h-auto" />
             ) : (
-              <CaptionIcon className="w-6 h-auto" />
+              <CommentIcon className="w-6 h-auto" fillBubble={brandColors.blue} />
             )}
           </button>
         )}

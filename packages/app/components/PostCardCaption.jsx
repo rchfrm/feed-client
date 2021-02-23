@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import MarkdownText from '@/elements/MarkdownText'
+
 const PostCardCaption = ({
   caption,
   className,
@@ -18,7 +20,7 @@ const PostCardCaption = ({
       ].join(' ')}
       style={style}
     >
-      {caption}
+      <MarkdownText markdown={caption} />
     </div>
   )
 }

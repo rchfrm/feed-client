@@ -24,7 +24,7 @@ const PostCard = ({
   const { postPromotable, promotionStatus } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
   // Should conversionVisible be hidden
-  const conversionVisible = true
+  const conversionVisible = false
   return (
     <div
       className={[
@@ -35,6 +35,7 @@ const PostCard = ({
         platform={post.platform}
         date={post.publishedTime}
         permalink={post.permalinkUrl}
+        postType={post.postType}
         className="mb-2"
       />
       <PostCardMedia
@@ -47,20 +48,20 @@ const PostCard = ({
         <PostCardScore
           scorePaid={post.paidMetrics.engagementScore}
           scoreOrganic={post.organicMetrics.engagementScore}
-          className="py-2 px-4 mb-2"
+          className="py-3 px-4 mb-2"
         />
         {postPromotable ? (
           <PostCardToggles
             postId={post.id}
             artistId={artistId}
-            togglesClassName="py-3 px-4 mb-2 last:mb-0"
+            togglesClassName="py-2 px-4 mb-2 last:mb-0"
             className="mb-2"
             promotionEnabled={post.promotionEnabled}
             promotionStatus={post.promotionStatus}
             togglePromotion={togglePromotion}
             conversionVisible={conversionVisible}
             conversionDisabled
-            growthDisabled={false}
+            growthDisabled={promotionStatus === 'archived'}
           />
         ) : (
           <PostCardUnpromotable
