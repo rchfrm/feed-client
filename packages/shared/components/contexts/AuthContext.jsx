@@ -44,7 +44,7 @@ function AuthProvider({ children }) {
   const [accessToken, setAccessToken] = React.useState(null)
   const [redirectType, setRedirectType] = React.useState('')
   const [authLoading, setAuthLoading] = React.useState(false)
-  const [initialPageProps, setInitialPageProps] = React.useState(null)
+  const [rejectedPagePath, setRejectedPagePath] = React.useState('')
 
   const setMissingScopes = (scopes) => {
     setAuth({
@@ -141,8 +141,8 @@ function AuthProvider({ children }) {
     signUp,
     storeAuth,
     setMissingScopes,
-    initialPageProps,
-    setInitialPageProps,
+    rejectedPagePath,
+    setRejectedPagePath,
   }
 
   return (

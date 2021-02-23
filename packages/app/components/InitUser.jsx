@@ -16,20 +16,15 @@ import { track, trackLogin, trackSignUp } from '@/app/helpers/trackingHelpers'
 
 // CALL REDIRECT
 let userRedirected = false
-const redirectPage = (newPathname, currentPathname, newQuery) => {
+const redirectPage = (newPathname, currentPathname, fullPath) => {
+  const newPagePath = newPathname || fullPath
   if (newPathname === currentPathname) return
   userRedirected = true
-  Router.push({
-    pathname: newPathname,
-    query: newQuery,
-  })
+  Router.push(newPagePath)
 }
 
 // KICK TO LOGIN (if necessary)
-const kickToLogin = ({ initialPathname, initialQuery, setInitialPageProps }) => {
-  console.log('kick to login')
-  console.log('initialPathname', initialPathname)
-  console.log('initialQuery', initialQuery)
+const kickToLogin = ({ initialPathname, initialFullPath, setRejectedPagePath }) => {
   // If on signup email page, just go to plain signup
   if (initialPathname === ROUTES.SIGN_UP_EMAIL) {
     redirectPage(ROUTES.SIGN_UP, initialPathname)
@@ -37,7 +32,7 @@ const kickToLogin = ({ initialPathname, initialQuery, setInitialPageProps }) => 
   }
   // Only kick to login if user is on restricted page
   if (ROUTES.restrictedPages.includes(initialPathname)) {
-    setInitialPageProps({ pathname: initialPathname, fullPathname: initialFullPath })
+    setRejectedPagePath(initialFullPath)
     redirectPage(ROUTES.LOGIN, initialPathname)
   }
 }
@@ -70,8 +65,8 @@ const InitUser = ({ children }) => {
     setAuthError,
     storeAuth,
     setMissingScopes,
-    initialPageProps,
-    setInitialPageProps,
+    rejectedPagePath,
+    setRejectedPagePath,
   } = React.useContext(AuthContext)
   const { runCreateUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
   const { setNoArtist, storeArtist, setArtistLoading } = React.useContext(ArtistContext)
@@ -106,7 +101,7 @@ const InitUser = ({ children }) => {
     setNoArtist()
     // Check if the user is on an auth only page,
     // if they are push to log in page
-    kickToLogin({ initialPathname, initialFullPath, setInitialPageProps })
+    kickToLogin({ initialPathname, initialFullPath, setRejectedPagePath })
   }
 
   // HANDLE Invalid FB credential
@@ -298,9 +293,8 @@ const InitUser = ({ children }) => {
       // TRACK LOGIN
       trackLogin({ method: 'already logged in', userId: user.id })
       // Redirect to page they tried to access (or home page)
-      const redirectPagePath = initialPageProps?.pathname || ROUTES.HOME
-      const redirectPageQuery = initialPageProps?.query
-      redirectPage(redirectPagePath, initialPathname, redirectPageQuery)
+      const defaultLandingPage = ROUTES.HOME
+      redirectPage(defaultLandingPage, initialPathname, rejectedPagePath)
     }
   }
 
