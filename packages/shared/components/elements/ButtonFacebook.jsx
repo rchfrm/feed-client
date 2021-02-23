@@ -6,7 +6,7 @@ import Button from '@/elements/Button'
 import FacebookIcon from '@/icons/FacebookIcon'
 
 const ButtonFacebook = (props) => {
-  const { version, children } = props
+  const { version, children, fbButtonFallbackClassName = '' } = props
   const buttonRef = React.useRef()
 
   // Wait for a while then detect if button has been removed from DOM
@@ -25,7 +25,7 @@ const ButtonFacebook = (props) => {
   // Fallback
   if (buttonRemoved) {
     return (
-      <div className="text--block">
+      <div className={`text--block ${fbButtonFallbackClassName}`}>
         <p>Can't see the button? <a href="#" onClick={props.onClick}>Click here instead</a>.</p>
         <p>Still no button? Try disabling your ad blocker and refresh the page.</p>
         <p>If that doesn't work, email us: <a href="mailto:help@tryfeed.co">help@tryfeed.co</a></p>
