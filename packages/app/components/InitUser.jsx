@@ -16,22 +16,29 @@ import { track, trackLogin, trackSignUp } from '@/app/helpers/trackingHelpers'
 
 // CALL REDIRECT
 let userRedirected = false
-const redirectPage = (newPathname, currentPathname) => {
+const redirectPage = (newPathname, currentPathname, newQuery) => {
   if (newPathname === currentPathname) return
   userRedirected = true
-  Router.push(newPathname)
+  Router.push({
+    pathname: newPathname,
+    query: newQuery,
+  })
 }
 
 // KICK TO LOGIN (if necessary)
-const kickToLogin = (currentPathname) => {
+const kickToLogin = ({ initialPathname, initialQuery, setInitialPageProps }) => {
+  console.log('kick to login')
+  console.log('initialPathname', initialPathname)
+  console.log('initialQuery', initialQuery)
   // If on signup email page, just go to plain signup
-  if (currentPathname === ROUTES.SIGN_UP_EMAIL) {
-    redirectPage(ROUTES.SIGN_UP, currentPathname)
+  if (initialPathname === ROUTES.SIGN_UP_EMAIL) {
+    redirectPage(ROUTES.SIGN_UP, initialPathname)
     return
   }
   // Only kick to login if user is on restricted page
-  if (ROUTES.restrictedPages.includes(currentPathname)) {
-    redirectPage(ROUTES.LOGIN, currentPathname)
+  if (ROUTES.restrictedPages.includes(initialPathname)) {
+    setInitialPageProps({ pathname: initialPathname, query: initialQuery })
+    redirectPage(ROUTES.LOGIN, initialPathname)
   }
 }
 
@@ -63,6 +70,8 @@ const InitUser = ({ children }) => {
     setAuthError,
     storeAuth,
     setMissingScopes,
+    initialPageProps,
+    setInitialPageProps,
   } = React.useContext(AuthContext)
   const { runCreateUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
   const { setNoArtist, storeArtist, setArtistLoading } = React.useContext(ArtistContext)
@@ -97,7 +106,7 @@ const InitUser = ({ children }) => {
     setNoArtist()
     // Check if the user is on an auth only page,
     // if they are push to log in page
-    kickToLogin(pathname)
+    kickToLogin({ initialPathname, initialQuery, setInitialPageProps })
   }
 
   // HANDLE Invalid FB credential
@@ -191,7 +200,7 @@ const InitUser = ({ children }) => {
     }
     // As this is a new user, run setNoArtist, and push them to the Connect Artist page
     setNoArtist()
-    redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
+    redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
     // TRACK
     trackSignUp({ method: 'facebook', userId: user.id })
   }
@@ -249,7 +258,7 @@ const InitUser = ({ children }) => {
       // TRACK LOGIN
       trackLogin({ method: 'facebook', userId: user.id })
       setNoArtist()
-      redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
+      redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
       return
     }
     // If they do have artists, check for artist ID from query string parameter
@@ -278,7 +287,7 @@ const InitUser = ({ children }) => {
     await storeArtist(selectedArtistId)
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
-    if (ROUTES.signedOutPages.includes(pathname)) {
+    if (ROUTES.signedOutPages.includes(initialPathname)) {
       track({
         category: 'login',
         action: 'handleExistingUser',
@@ -288,8 +297,10 @@ const InitUser = ({ children }) => {
       })
       // TRACK LOGIN
       trackLogin({ method: 'already logged in', userId: user.id })
-      // Redirect to home page
-      redirectPage(ROUTES.HOME, pathname)
+      // Redirect to page they tried to access (or home page)
+      const redirectPagePath = initialPageProps?.pathname || ROUTES.HOME
+      const redirectPageQuery = initialPageProps?.query
+      redirectPage(redirectPagePath, initialPathname, redirectPageQuery)
     }
   }
 
