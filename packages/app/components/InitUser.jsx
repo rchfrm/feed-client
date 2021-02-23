@@ -37,7 +37,7 @@ const kickToLogin = ({ initialPathname, initialQuery, setInitialPageProps }) => 
   }
   // Only kick to login if user is on restricted page
   if (ROUTES.restrictedPages.includes(initialPathname)) {
-    setInitialPageProps({ pathname: initialPathname, query: initialQuery })
+    setInitialPageProps({ pathname: initialPathname, fullPathname: initialFullPath })
     redirectPage(ROUTES.LOGIN, initialPathname)
   }
 }
@@ -58,7 +58,7 @@ const getGetStoredReferrerCode = state => state.getStoredReferrerCode
 const InitUser = ({ children }) => {
   // Get router info
   const router = useRouter()
-  const { pathname } = router
+  const { pathname: initialPathname, asPath: initialFullPath } = router
   // Component state
   const [ready, setReady] = React.useState(false)
   const [initialUserLoading, setInitialUserLoading] = React.useState(true)
@@ -106,7 +106,7 @@ const InitUser = ({ children }) => {
     setNoArtist()
     // Check if the user is on an auth only page,
     // if they are push to log in page
-    kickToLogin({ initialPathname, initialQuery, setInitialPageProps })
+    kickToLogin({ initialPathname, initialFullPath, setInitialPageProps })
   }
 
   // HANDLE Invalid FB credential
