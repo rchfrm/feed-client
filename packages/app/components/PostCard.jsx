@@ -21,7 +21,7 @@ const PostCard = ({
   children,
 }) => {
   // Extract some variables
-  const { postPromotable, promotionStatus } = post
+  const { postPromotable, promotionStatus, postType } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
   // Should conversionVisible be hidden
   const conversionVisible = false
@@ -35,13 +35,14 @@ const PostCard = ({
         platform={post.platform}
         date={post.publishedTime}
         permalink={post.permalinkUrl}
-        postType={post.postType}
+        postType={postType}
         className="mb-2"
       />
       <PostCardMedia
         media={post.media}
         thumbnails={post.thumbnails}
         caption={post.message}
+        postType={postType}
         className="mb-2"
       />
       <div className="relative">
