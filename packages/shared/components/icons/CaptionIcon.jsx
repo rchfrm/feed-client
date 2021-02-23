@@ -31,7 +31,6 @@ const CaptionIcon = ({
       <rect fill={fillDot} x="200" y="176" width="169" height="35" rx="10" />
       <rect fill={fillDot} x="386" y="106" width="84" height="35" rx="10" />
     </svg>
-
   )
 }
 
