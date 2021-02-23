@@ -9,7 +9,8 @@ import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 
 import SignupPageContent from '@/app/SignupPageContent'
-import SignupClosedContent from '@/app/SignupClosedContent'
+// import SignupClosedContent from '@/app/SignupClosedContent'
+import SignupRedirect from '@/app/SignupRedirect'
 
 import useReferralStore from '@/app/store/referralStore'
 
@@ -85,7 +86,7 @@ const SignupPage = ({ showEmailSignup }) => {
           requireReferral
         />
       ) : (
-        <SignupClosedContent />
+        <SignupRedirect redirectTo="https://tryfeed.co/request-access" />
       )}
     </>
   )
