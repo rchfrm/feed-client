@@ -254,11 +254,6 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         linkHref,
       },
     })
-    // TRACK
-    track({
-      action: 'post_link_changed',
-      category: 'links',
-    })
   }, [setPosts])
 
   // Define function to update posts with missing links

@@ -7,7 +7,8 @@ import PostLinksSelect from '@/app/PostLinksSelect'
 import useLinksStore from '@/app/store/linksStore'
 
 import { setPostLink, defaultPostLinkId } from '@/app/helpers/linksHelpers'
-import { removeProtocolFromUrl, enforceUrlProtocol } from '@/helpers/utils'
+import { removeProtocolFromUrl, enforceUrlProtocol, parseUrl } from '@/helpers/utils'
+import { track } from '@/app/helpers/trackingHelpers'
 
 const getDefaultLink = state => state.defaultLink
 
@@ -36,9 +37,15 @@ const PostCardSettingsLink = ({
           postItemId={postId}
           onSuccess={(newLink) => {
             const { linkId, linkHref } = newLink
+            const newLinkHref = linkHref || defaultLink.href
             updateLink({ postIndex, linkId, linkHref })
             setError(null)
-            setPreviewUrl(linkHref || defaultLink.href)
+            setPreviewUrl(newLinkHref)
+            // TRACK
+            const { host: linkDomain } = parseUrl(newLinkHref) || {}
+            track('post_link_changed', {
+              linkDomain,
+            })
           }}
           onError={(error) => {
             setError(error)
