@@ -17,6 +17,7 @@ const PostCardSettingsLink = ({
   isLinkEditable,
   className,
 }) => {
+  const [previewUrl, setPreviewUrl] = React.useState(linkHref)
   return (
     <div
       className={[
@@ -28,9 +29,11 @@ const PostCardSettingsLink = ({
           currentLinkId={linkId || defaultPostLinkId}
           onSelect={setPostLink}
           postItemId={postId}
-          onSuccess={({ linkId: newLinkId }) => {
-            updateLink(postIndex, newLinkId)
+          onSuccess={(newLink) => {
+            const { linkId, linkHref } = newLink
+            updateLink({ postIndex, linkId, linkHref })
             setError(null)
+            setPreviewUrl(linkHref)
           }}
           onError={(error) => {
             setError(error)
@@ -46,7 +49,7 @@ const PostCardSettingsLink = ({
         </div>
       )}
       {/* LINK PREVIEW */}
-      {linkHref && (
+      {previewUrl && (
         <p className="flex items-center mb-0 mt-2">
           <LinkIcon className="h-3 w-auto mr-2" />
           <a
@@ -54,11 +57,11 @@ const PostCardSettingsLink = ({
             style={{
               transform: 'translateY(-0.05rem)',
             }}
-            href={enforceUrlProtocol(linkHref)}
+            href={enforceUrlProtocol(previewUrl)}
             target="_blank"
             rel="noreferrer noopener"
           >
-            {removeProtocolFromUrl(linkHref)}
+            {removeProtocolFromUrl(previewUrl)}
           </a>
         </p>
       )}
