@@ -1,24 +1,21 @@
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
-// IMPORT COMPONENTS
+
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/contexts/UserContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-// IMPORT PAGES
-// IMPORT ASSETS
 // IMPORT CONSTANTS
 import * as ROUTES from '@/app/constants/routes'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
 import { mixpanelSignOut } from '@/app/helpers/mixpanelHelpers'
-// IMPORT STYLES
 
 function SignOutLink({ className = '' }) {
-  const { setNoAuth } = React.useContext(AuthContext)
+  const { setNoAuth, clearRejectedPathPath } = React.useContext(AuthContext)
   const { setNoUser } = React.useContext(UserContext)
   const { setNoArtist } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -38,6 +35,7 @@ function SignOutLink({ className = '' }) {
 
   const signoutCallback = () => {
     Router.events.off('routeChangeComplete', clearContexts.current)
+    clearRejectedPathPath()
     mixpanelSignOut()
     setNoAuth()
     setNoUser()
