@@ -41,3 +41,13 @@ export const restrictedPages = [
   NOTIFICATIONS,
   TARGETING,
 ]
+
+export const signedOutPages = [
+  SIGN_UP,
+  SIGN_UP_EMAIL,
+  SIGN_UP_CONTINUE,
+  REFERRAL,
+  LOGIN,
+  LOGIN_EMAIL,
+  PASSWORD_FORGET,
+]
