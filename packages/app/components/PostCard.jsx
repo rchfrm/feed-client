@@ -35,6 +35,7 @@ const PostCard = ({
         platform={post.platform}
         date={post.publishedTime}
         permalink={post.permalinkUrl}
+        postType={post.postType}
         className="mb-2"
       />
       <PostCardMedia
