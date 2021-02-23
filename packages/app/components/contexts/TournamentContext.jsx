@@ -35,7 +35,7 @@ const TournamentContextProvider = ({ children }) => {
     const scoreHeight = score.offsetHeight
     const centralColumn = item.querySelector('.TournamentItemMiddleColumn')
     const centralColumnStyles = getComputedStyle(centralColumn)
-    const centralColumnWidth = centralColumn.offsetWidth + (parseInt(centralColumnStyles.marginLeft, 0) * 2)
+    const centralColumnWidth = centralColumn.offsetWidth + (parseInt(centralColumnStyles.marginLeft, 10) * 2)
     setSizes({
       itemWidth,
       itemHeight,
