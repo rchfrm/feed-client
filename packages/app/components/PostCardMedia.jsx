@@ -13,6 +13,7 @@ const PostCardMedia = ({
   media,
   thumbnails,
   caption,
+  postType,
   className,
 }) => {
   const [hasMedia, setHasMedia] = React.useState(!!media)
@@ -77,7 +78,7 @@ const PostCardMedia = ({
           </>
         )}
         {/* CAPTION BUTTON */}
-        {hasMedia && caption && (
+        {hasMedia && caption && postType !== 'story' && (
           <button
             aria-label={isCaptionVisible ? 'Close Caption' : 'Show Caption'}
             onClick={() => setIsCaptionVisible(!isCaptionVisible)}
@@ -106,6 +107,7 @@ PostCardMedia.propTypes = {
   media: PropTypes.string,
   thumbnails: PropTypes.array,
   caption: PropTypes.string,
+  postType: PropTypes.string,
   className: PropTypes.string,
 }
 
@@ -113,6 +115,7 @@ PostCardMedia.defaultProps = {
   media: '',
   thumbnails: [],
   caption: '',
+  postType: '',
   className: null,
 }
 
