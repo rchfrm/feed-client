@@ -18,25 +18,6 @@ export const extractDataSourcePlatform = string => {
 }
 
 
-// Now the rest...
-export const abbreviateNumber = (number) => {
-  if (!number) { return 0 }
-
-  if (number < 10) {
-    return number
-  }
-  if (number < 1000) {
-    return `${Math.round(Number(number))}`
-  }
-
-  if (number < 10000) {
-    return `${(number / 1000).toFixed(1)}k`
-  }
-
-  if (number >= 10000) {
-    return `${(number / 1000).toFixed(0)}k`
-  }
-}
 
 // CONVERT DATE TO n TIME AGO
 /**
@@ -290,6 +271,26 @@ export const formatCurrency = (value, currency = 'GBP', locale = navigator.langu
 export const formatNumber = (number, options = {}, locale = navigator.language) => {
   if (typeof number !== 'number') { return number }
   return new Intl.NumberFormat(locale, options).format(number)
+}
+
+// Abbreviate number
+export const abbreviateNumber = (number) => {
+  if (!number) { return 0 }
+
+  if (number < 10) {
+    return number
+  }
+  if (number < 1000) {
+    return `${Math.round(Number(number))}`
+  }
+
+  if (number < 10000) {
+    return `${(number / 1000).toFixed(1)}k`
+  }
+
+  if (number >= 10000) {
+    return `${(number / 1000).toFixed(0)}k`
+  }
 }
 
 // Use this to sort and convert an object of data into an array of

@@ -218,12 +218,12 @@ export const updateAccessToken = async (artistIds, accessToken) => {
 export const setPostLink = (artistId, assetId, linkId) => {
   const requestUrl = `/artists/${artistId}/assets/${assetId}`
   const payload = {
-    link_spec: {
+    link_spec: linkId ? {
       type: 'linkbank',
       data: {
         id: linkId,
       },
-    },
+    } : null,
   }
   const errorTracking = {
     category: 'Links',

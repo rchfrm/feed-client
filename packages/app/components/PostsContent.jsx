@@ -18,7 +18,7 @@ import styles from '@/app/PostsPage.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostsContent = () => {
-  const { goToPostSettings, goToPostLinks } = usePostsSidePanel()
+  const { goToGlobalPostSettings, goToLinksBank } = usePostsSidePanel()
 
   // Has default link been set
   const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
@@ -42,12 +42,12 @@ const PostsContent = () => {
         <PostSettingsButton
           className={styles.postsTopButton}
           missingDefaultLink={missingDefaultLink}
-          goToPostSettings={goToPostSettings}
+          goToPostSettings={goToGlobalPostSettings}
         />
         {/* LINKS BUTTON */}
         <PostLinksButton
           className={styles.postsTopButton}
-          goToPostLinks={goToPostLinks}
+          goToPostLinks={goToLinksBank}
         />
         {/* REFRESH BUTTON (desktop) */}
         {refreshPosts && (

@@ -8,7 +8,6 @@ import PostsLinksLink from '@/app/PostsLinksLink'
 const PostsLinksList = ({
   looseLinks,
   linkFolders,
-  useSelectMode,
 }) => {
   const [editModeOn, setEditModeOn] = React.useState(false)
   const mergedLinks = React.useMemo(() => {
@@ -38,7 +37,6 @@ const PostsLinksList = ({
                   link={item}
                   editModeOn={editModeOn}
                   setEditModeOn={setEditModeOn}
-                  useSelectMode={useSelectMode}
                   className="mb-5"
                 />
               )
@@ -52,7 +50,6 @@ const PostsLinksList = ({
                 folder={item}
                 editModeOn={editModeOn}
                 setEditModeOn={setEditModeOn}
-                useSelectMode={useSelectMode}
                 className="mb-5"
               />
             )
@@ -66,7 +63,6 @@ const PostsLinksList = ({
 PostsLinksList.propTypes = {
   looseLinks: PropTypes.array.isRequired,
   linkFolders: PropTypes.array.isRequired,
-  useSelectMode: PropTypes.bool.isRequired,
 }
 
 
