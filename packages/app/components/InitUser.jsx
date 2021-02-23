@@ -267,7 +267,7 @@ const InitUser = ({ children }) => {
     const hasAccess = artists.find(({ id }) => id === storedArtistId)
     // if they don't have access, clear localStorage
     if (!hasAccess) {
-      utils.clearLocalStorage()
+      utils.setLocalStorage('artistId', '')
       track({
         category: 'login',
         action: 'handleExistingUser',

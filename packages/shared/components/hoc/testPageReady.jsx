@@ -22,7 +22,7 @@ const testPageReady = (packageType) => (Component) => {
           setRejectedPagePath(initialFullPath)
           kickToLogin(ROUTES.LOGIN)
         }
-        utils.clearLocalStorage()
+        utils.setLocalStorage('artistId', '')
       }
     // eslint-disable-next-line
     }, [currentPath, initialToken, authLoading])
