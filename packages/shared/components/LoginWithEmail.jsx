@@ -21,7 +21,7 @@ import styles from '@/LoginPage.module.css'
 
 function LoginWithEmail({ className }) {
   // IMPORT CONTEXTS
-  const { emailLogin } = React.useContext(AuthContext)
+  const { emailLogin, rejectedPagePath } = React.useContext(AuthContext)
   const { storeUser, userError } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
   // GLOBAL LOADING
@@ -98,7 +98,8 @@ function LoginWithEmail({ className }) {
       // TRACK LOGIN
       trackLogin({ method: 'password', userId: user.id })
       // REDIRECT
-      Router.push(ROUTES.HOME)
+      const initialPage = rejectedPagePath
+      Router.push(initialPage || ROUTES.HOME)
     } else {
       setNoArtist()
       // TRACK LOGIN

@@ -9,26 +9,34 @@ import * as utils from '@/helpers/utils'
 
 const kickToLogin = (loginPath) => Router.push(loginPath)
 
-const testPageReady = (packageType) => (Component) => (props) => {
-  const { pathname: currentPath } = useRouter()
-  const { auth: { token: initialToken }, authLoading } = React.useContext(AuthContext)
-  const ROUTES = packageType === 'app' ? ROUTES_APP : ROUTES_ADMIN
+const testPageReady = (packageType) => (Component) => {
+  const PageContent = (props) => {
+    const { pathname: currentPath, asPath: initialFullPath } = useRouter()
+    const { auth: { token: initialToken }, authLoading, setRejectedPagePath } = React.useContext(AuthContext)
+    const ROUTES = packageType === 'app' ? ROUTES_APP : ROUTES_ADMIN
 
-  React.useEffect(() => {
-    if (authLoading) return
-    if (!initialToken) {
-      if (currentPath !== ROUTES.LOGIN) kickToLogin(ROUTES.LOGIN)
-      utils.clearLocalStorage()
-    }
-  // eslint-disable-next-line
-  }, [currentPath, initialToken, authLoading])
+    React.useEffect(() => {
+      if (authLoading) return
+      if (!initialToken) {
+        if (currentPath !== ROUTES.LOGIN) {
+          setRejectedPagePath(initialFullPath)
+          kickToLogin(ROUTES.LOGIN)
+        }
+        utils.setLocalStorage('artistId', '')
+      }
+    // eslint-disable-next-line
+    }, [currentPath, initialToken, authLoading])
 
-  // Show spinner if auth loading
-  if (authLoading) return null
-  // Show the content of the page
-  if (initialToken) return <Component {...props} />
-  // Stop flash of content if landing on page while not logged in
-  return null
+    // Show spinner if auth loading
+    if (authLoading) return null
+    // Show the content of the page
+    if (initialToken) return <Component {...props} />
+    // Stop flash of content if landing on page while not logged in
+    return null
+  }
+
+  PageContent.displayName = 'testPageReady'
+  return PageContent
 }
 
 
