@@ -149,7 +149,7 @@ export const setPostLink = async (artistId, linkId, assetId) => {
 // --------------------------
 
 // EDIT LINK
-export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
+export const afterEditLink = ({ newLink, oldLink, nestedLinks, defaultLink }) => {
   // TRACK
   track({
     action: 'edit_link',
@@ -159,21 +159,25 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
   const { folder_id: newLinkFolderId, folder_name: newFolderName, id: linkId } = newLink
   const { folder_id: oldFolderId } = oldLink
   const hasMovedFolder = newLinkFolderId !== oldFolderId
+
   // Edit link in same folder
   if (!hasMovedFolder) {
-    return produce(nestedLinks, draftNestedLinks => {
+    const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
       const folderIndex = draftNestedLinks.findIndex((folder) => folder.id === newLinkFolderId)
       const linkIndex = draftNestedLinks[folderIndex].links.findIndex((link) => link.id === linkId)
       // Update link
       draftNestedLinks[folderIndex].links[linkIndex] = newLink
     })
+
+    return { nestedLinksUpdated }
   }
+
   // Edit link in different folder...
   const { folder_id: newFolderId } = newLink
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
   const newFolderIndex = nestedLinks.findIndex(({ id }) => id === newFolderId)
   // REBUILD STATE
-  return produce(nestedLinks, draftNestedLinks => {
+  const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
     // Add to new folder (if exists)
     if (newFolderIndex > -1) {
       draftNestedLinks[newFolderIndex].links.push(newLink)
@@ -191,6 +195,8 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks }) => {
     const oldFolderLinks = draftNestedLinks[oldFolderIndex].links
     draftNestedLinks[oldFolderIndex].links = oldFolderLinks.filter(({ id }) => id !== newLink.id)
   })
+
+  return { nestedLinksUpdated }
 }
 
 // DELETE LINK
@@ -203,11 +209,12 @@ export const afterDeleteLink = ({ oldLink, nestedLinks }) => {
     category: 'links',
   })
   // REBUILD STATE
-  return produce(nestedLinks, draftNestedLinks => {
+  const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
     // Remove link from folder
     const oldFolderLinks = draftNestedLinks[oldFolderIndex].links
     draftNestedLinks[oldFolderIndex].links = oldFolderLinks.filter(({ id }) => id !== oldLink.id)
   })
+  return { nestedLinksUpdated }
 }
 
 // ADD LINK
@@ -220,7 +227,7 @@ export const afterAddLink = ({ newLink, nestedLinks }) => {
     category: 'links',
   })
   // REBUILD STATE
-  return produce(nestedLinks, draftNestedLinks => {
+  const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
     // Add to folder (if exists)
     if (newFolderIndex > -1) {
       draftNestedLinks[newFolderIndex].links.push(newLink)
@@ -234,24 +241,27 @@ export const afterAddLink = ({ newLink, nestedLinks }) => {
     }
     draftNestedLinks.push(newFolder)
   })
+  return { nestedLinksUpdated }
 }
 
 // EDIT FOLDER
 export const afterEditFolder = ({ newFolder, nestedLinks }) => {
   const { id: folderId } = newFolder
   const folderIndex = nestedLinks.findIndex(({ id }) => id === folderId)
-  return produce(nestedLinks, draftNestedLinks => {
+  const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
     // Edit folder name
     draftNestedLinks[folderIndex].name = newFolder.name
   })
+  return { nestedLinksUpdated }
 }
 
 // DELETE FOLDER
 export const afterDeleteFolder = ({ oldFolder, nestedLinks }) => {
   const { id: oldFolderId } = oldFolder
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
-  return produce(nestedLinks, draftNestedLinks => {
+  const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
     // Remove folder
     draftNestedLinks.splice(oldFolderIndex, 1)
   })
+  return { nestedLinksUpdated }
 }
