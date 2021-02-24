@@ -21,6 +21,9 @@ const getPromotionStatus = (promotableStatus) => {
 
 const PostCardDisableWarning = ({
   postId,
+  postType,
+  platform,
+  paidEs,
   promotionEnabled,
   promotableStatus,
   togglePromotion,
@@ -107,9 +110,10 @@ const PostCardDisableWarning = ({
             onClick={() => {
               setShow(false)
               // TRACK
-              track({
-                action: 'disable_active_ad',
-                category: 'post_settings',
+              track('disable_active_ad', {
+                postType,
+                platform,
+                paidEs,
               })
             }}
           >
@@ -134,6 +138,9 @@ const PostCardDisableWarning = ({
 
 PostCardDisableWarning.propTypes = {
   postId: PropTypes.string.isRequired,
+  postType: PropTypes.string.isRequired,
+  platform: PropTypes.string.isRequired,
+  paidEs: PropTypes.number,
   promotionEnabled: PropTypes.bool.isRequired,
   promotableStatus: PropTypes.number.isRequired,
   togglePromotion: PropTypes.func.isRequired,
@@ -145,6 +152,7 @@ PostCardDisableWarning.propTypes = {
 }
 
 PostCardDisableWarning.defaultProps = {
+  paidEs: null,
   postToggleSetterType: '',
   conversionVisible: true,
   textClassName: null,
