@@ -93,6 +93,7 @@ const getPopupStoreState = (state) => ({
 const PostImage = ({
   mediaSrc,
   thumbnailOptions,
+  isStory,
   title,
   aspectRatio,
   setSelectedThumbnail,
@@ -216,6 +217,7 @@ const PostImage = ({
       className={[
         'media',
         `media--${aspectRatio}`,
+        isStory ? 'media--story' : null,
         styles.figure,
         thumbError || videoError ? styles._brokenThumb : '',
         className,
@@ -284,6 +286,7 @@ const PostImage = ({
 PostImage.propTypes = {
   mediaSrc: PropTypes.string,
   thumbnailOptions: PropTypes.array,
+  isStory: PropTypes.bool,
   title: PropTypes.string,
   aspectRatio: PropTypes.string,
   setSelectedThumbnail: PropTypes.func,
@@ -296,6 +299,7 @@ PostImage.propTypes = {
 PostImage.defaultProps = {
   mediaSrc: '',
   thumbnailOptions: [],
+  isStory: false,
   title: '',
   aspectRatio: 'square',
   setSelectedThumbnail: () => {},
