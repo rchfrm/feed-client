@@ -16,22 +16,25 @@ import { track, trackLogin, trackSignUp } from '@/app/helpers/trackingHelpers'
 
 // CALL REDIRECT
 let userRedirected = false
-const redirectPage = (newPathname, currentPathname) => {
+const redirectPage = (newPathname, currentPathname, useRejectedPagePath = false) => {
+  const rejectedPagePath = useRejectedPagePath ? utils.getLocalStorage('rejectedPagePath') : ''
+  const newPagePath = rejectedPagePath || newPathname
   if (newPathname === currentPathname) return
   userRedirected = true
-  Router.push(newPathname)
+  Router.push(newPagePath)
 }
 
 // KICK TO LOGIN (if necessary)
-const kickToLogin = (currentPathname) => {
+const kickToLogin = ({ initialPathname, initialFullPath, setRejectedPagePath }) => {
   // If on signup email page, just go to plain signup
-  if (currentPathname === ROUTES.SIGN_UP_EMAIL) {
-    redirectPage(ROUTES.SIGN_UP, currentPathname)
+  if (initialPathname === ROUTES.SIGN_UP_EMAIL) {
+    redirectPage(ROUTES.SIGN_UP, initialPathname)
     return
   }
   // Only kick to login if user is on restricted page
-  if (ROUTES.restrictedPages.includes(currentPathname)) {
-    redirectPage(ROUTES.LOGIN, currentPathname)
+  if (ROUTES.restrictedPages.includes(initialPathname)) {
+    setRejectedPagePath(initialFullPath)
+    redirectPage(ROUTES.LOGIN, initialPathname)
   }
 }
 
@@ -51,7 +54,7 @@ const getGetStoredReferrerCode = state => state.getStoredReferrerCode
 const InitUser = ({ children }) => {
   // Get router info
   const router = useRouter()
-  const { pathname } = router
+  const { pathname: initialPathname, asPath: initialFullPath } = router
   // Component state
   const [ready, setReady] = React.useState(false)
   const [initialUserLoading, setInitialUserLoading] = React.useState(true)
@@ -63,6 +66,8 @@ const InitUser = ({ children }) => {
     setAuthError,
     storeAuth,
     setMissingScopes,
+    rejectedPagePath,
+    setRejectedPagePath,
   } = React.useContext(AuthContext)
   const { runCreateUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
   const { setNoArtist, storeArtist, setArtistLoading } = React.useContext(ArtistContext)
@@ -97,7 +102,7 @@ const InitUser = ({ children }) => {
     setNoArtist()
     // Check if the user is on an auth only page,
     // if they are push to log in page
-    kickToLogin(pathname)
+    kickToLogin({ initialPathname, initialFullPath, setRejectedPagePath })
   }
 
   // HANDLE Invalid FB credential
@@ -191,7 +196,7 @@ const InitUser = ({ children }) => {
     }
     // As this is a new user, run setNoArtist, and push them to the Connect Artist page
     setNoArtist()
-    redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
+    redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
     // TRACK
     trackSignUp({ method: 'facebook', userId: user.id })
   }
@@ -249,7 +254,7 @@ const InitUser = ({ children }) => {
       // TRACK LOGIN
       trackLogin({ method: 'facebook', userId: user.id })
       setNoArtist()
-      redirectPage(ROUTES.SIGN_UP_CONTINUE, pathname)
+      redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
       return
     }
     // If they do have artists, check for artist ID from query string parameter
@@ -263,7 +268,7 @@ const InitUser = ({ children }) => {
     const hasAccess = artists.find(({ id }) => id === storedArtistId)
     // if they don't have access, clear localStorage
     if (!hasAccess) {
-      utils.clearLocalStorage()
+      utils.setLocalStorage('artistId', '')
       track({
         category: 'login',
         action: 'handleExistingUser',
@@ -278,7 +283,7 @@ const InitUser = ({ children }) => {
     await storeArtist(selectedArtistId)
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
-    if (ROUTES.signedOutPages.includes(pathname)) {
+    if (ROUTES.signedOutPages.includes(initialPathname)) {
       track({
         category: 'login',
         action: 'handleExistingUser',
@@ -288,8 +293,10 @@ const InitUser = ({ children }) => {
       })
       // TRACK LOGIN
       trackLogin({ method: 'already logged in', userId: user.id })
-      // Redirect to home page
-      redirectPage(ROUTES.HOME, pathname)
+      // Redirect to page they tried to access (or home page)
+      const defaultLandingPage = ROUTES.HOME
+      const useRejectedPagePath = true
+      redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
     }
   }
 

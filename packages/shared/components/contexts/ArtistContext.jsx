@@ -98,7 +98,7 @@ function ArtistProvider({ children, disable }) {
     if (disable) return
     setArtistLoading(true)
     toggleGlobalLoading(true)
-    utils.clearLocalStorage()
+    utils.setLocalStorage('artistId', '')
     setArtist({ type: 'no-artists' })
     setArtistLoading(false)
     toggleGlobalLoading(false)

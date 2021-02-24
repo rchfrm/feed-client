@@ -88,7 +88,7 @@ const InitUser = ({ children }) => {
     const hasAccess = artists.find(({ id }) => id === storedArtistId)
     // if they don't have access, clear localStorage
     if (!hasAccess) {
-      utils.clearLocalStorage()
+      utils.setLocalStorage('artistId', '')
     }
     // If they do have access set it as the selectedArtistId,
     // otherwise use the first related artist (sorted alphabetically)
