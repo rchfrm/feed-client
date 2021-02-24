@@ -61,11 +61,6 @@ function LoginWithEmail({ className }) {
       setEmail('')
       setPassword('')
       setError(loginError)
-      track({
-        category: 'login',
-        label: 'failure',
-        action: loginError.message,
-      })
       return
     }
     if (tokenError) {
