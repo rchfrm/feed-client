@@ -41,13 +41,9 @@ const PixelCopierModal = ({ pixelId, pixelEmbed, trackLocation }) => {
         type={activeOptionId === 'id' ? 'text' : 'code'}
         onCopied={() => {
           const trackAction = activeOptionId === 'id' ? 'copy_pixel_id' : 'copy_pixel_embed'
-          track({
-            action: trackAction,
-            category: 'pixel',
-            mixpanelProps: {
-              pixelId,
-              location: trackLocation,
-            },
+          track(trackAction, {
+            pixelId,
+            location: trackLocation,
           })
         }}
         className={[
