@@ -80,16 +80,18 @@ const PostCard = ({
           settingsIcon="link"
         />
         {/* DISABLE WARNING (usually hidden) */}
-        <PostCardDisableWarning
-          postId={post.id}
-          postStatus={post.promotionStatus}
-          promotionEnabled={post.promotionEnabled}
-          promotableStatus={post.promotableStatus}
-          togglePromotion={togglePromotion}
-          postToggleSetterType={postToggleSetterType}
-          artistId={artistId}
-          textClassName="py-3 px-4"
-        />
+        {postPromotable && promotionStatus === 'active' && (
+          <PostCardDisableWarning
+            postId={post.id}
+            postStatus={post.promotionStatus}
+            promotionEnabled={post.promotionEnabled}
+            promotableStatus={post.promotableStatus}
+            togglePromotion={togglePromotion}
+            postToggleSetterType={postToggleSetterType}
+            artistId={artistId}
+            textClassName="py-3 px-4"
+          />
+        )}
       </div>
       {/* LOAD TRIGGER goes here */}
       {children}
