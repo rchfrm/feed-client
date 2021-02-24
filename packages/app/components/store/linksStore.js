@@ -248,7 +248,7 @@ const updateLinksStore = (set, get) => (action, {
   oldFolder,
 }) => {
   // UPDATE DEFAULT LINK
-  if (action === 'updateDefault') {
+  if (action === 'chooseNewDefaultLink') {
     const { nestedLinks } = get()
     const defaultLink = getDefaultLink({ artist: newArtist, linkFolders: nestedLinks })
     const updatedNestedLinks = tidyFolders(nestedLinks, defaultLink.id)
@@ -268,9 +268,10 @@ const updateLinksStore = (set, get) => (action, {
   // UPDATE STORE
   set({
     nestedLinks: nestedLinksUpdated,
-    defaultLink: defaultLinkUpdated || get().defaultLink,
     savedFolders,
     folderStates: newFolderStates,
+    // Update default link (if needed)
+    ...(defaultLinkUpdated && { defaultLink: defaultLinkUpdated }),
   })
   // UPDATE LOCAL STORAGE
   locallyStoreFolderStates(newFolderStates, artistId)

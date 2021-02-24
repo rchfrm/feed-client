@@ -32,7 +32,7 @@ const PostsSettingsDefaultLink = ({
       })
     }
     // UPDATE STORE
-    updateLinksStore('updateDefault', { newArtist })
+    updateLinksStore('chooseNewDefaultLink', { newArtist })
     // Update artist status
     const { preferences: { posts: { default_link_id } } } = newArtist
     setPostPreferences('default_link_id', default_link_id)
