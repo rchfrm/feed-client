@@ -89,6 +89,7 @@ const PostCard = ({
             togglePromotion={togglePromotion}
             postToggleSetterType={postToggleSetterType}
             artistId={artistId}
+            conversionVisible={conversionVisible}
             textClassName="py-3 px-4"
           />
         )}

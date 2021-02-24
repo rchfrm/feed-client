@@ -26,6 +26,7 @@ const PostCardDisableWarning = ({
   togglePromotion,
   postToggleSetterType,
   artistId,
+  conversionVisible,
   textClassName,
   className,
 }) => {
@@ -81,6 +82,7 @@ const PostCardDisableWarning = ({
       <div
         className={[
           'absolute top-0 left-0',
+          !conversionVisible ? '-mt-12' : null,
           'w-full h-full',
           'bg-white',
           'flex flex-col justify-between',
@@ -137,12 +139,14 @@ PostCardDisableWarning.propTypes = {
   togglePromotion: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string,
   artistId: PropTypes.string.isRequired,
+  conversionVisible: PropTypes.bool,
   textClassName: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostCardDisableWarning.defaultProps = {
   postToggleSetterType: '',
+  conversionVisible: true,
   textClassName: null,
   className: null,
 }
