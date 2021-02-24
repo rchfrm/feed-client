@@ -62,7 +62,7 @@ const PostCardMetrics = ({
               </div>
               <PostCardMetricsList
                 metrics={typeMetrics}
-                metricsContent={getPostMetricsContent('paid', postType)}
+                metricsContent={getPostMetricsContent(type, postType)}
                 metricsType={type}
                 className="col-span-7 col-start-6"
               />
