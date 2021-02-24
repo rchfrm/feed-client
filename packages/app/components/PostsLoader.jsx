@@ -181,7 +181,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 
   // Define function for toggling SINGLE promotion
   const togglePromotion = React.useCallback(async (postId, promotionEnabled, promotableStatus) => {
-    const indexOfId = posts.findIndex(({ id }) => postId === id)
+    const postIndex = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotionEnabled
     setPostToggleSetterType('single')
     setPosts({
@@ -189,14 +189,16 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       payload: {
         promotionEnabled,
         promotableStatus,
-        postIndex: indexOfId,
+        postIndex,
       },
     })
     // Track
-    track({
-      action: 'post_promotion_status',
-      category: 'post_settings',
-      label: newPromotionState ? 'eligible' : 'ineligible',
+    const { postType, platform, organicMetrics = {}, paidMetrics = {} } = posts[postIndex]
+    track('post_promotion_status', {
+      status: newPromotionState ? 'eligible' : 'ineligible',
+      postType,
+      platform,
+      es: paidMetrics.engagementScore ?? organicMetrics.engagementScore,
     })
     return newPromotionState
   }, [posts, setPosts])
