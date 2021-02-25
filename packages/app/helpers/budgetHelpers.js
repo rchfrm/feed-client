@@ -35,8 +35,8 @@ export const calcFeedMinBudgetInfo = (artist) => {
   const minHard = Math.min(calcFbMinMultiple(2), minBase * 2)
   const minReccomendedBase = Math.min(calcFbMinMultiple(3), minBase * 3)
   const minReccomendedStories = Math.min(calcFbMinMultiple(5), minBase * 5)
-  const extraCountryCost = minReccomendedBase
-  const extraCityCost = minReccomendedBase / 4
+  const extraCountryCost = minBase
+  const extraCityCost = minBase / 4
   // The values in the smallest currency unit (eg pence)
   const minorUnit = {
     minBase,
