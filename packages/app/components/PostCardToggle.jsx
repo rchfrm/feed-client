@@ -107,21 +107,16 @@ const PostCardToggle = ({
           />
         )}
       </div>
-      {/* TOGGLE SWITCH */}
-      <div className="relative">
-        <ToggleSwitch
-          state={currentState}
-          onChange={onChange}
-          isLoading={isLoading}
-          disabled={disabled}
-          style={isTeaserActive ? { opacity: 0, pointerEvents: 'none' } : null}
-        />
-        {/* CONVERSION TEASER ICON */}
-        {isTeaserActive && (
-          <PostCardToggleTeaser
-            className={[
-              'absolute right-0 top-0',
-            ].join(' ')}
+      {/* TOGGLE SWITCH or LIGHTBULB ICON */}
+      <div>
+        {isTeaserActive ? (
+          <PostCardToggleTeaser />
+        ) : (
+          <ToggleSwitch
+            state={currentState}
+            onChange={onChange}
+            isLoading={isLoading}
+            disabled={disabled}
           />
         )}
       </div>
