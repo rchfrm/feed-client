@@ -60,21 +60,6 @@ const PostCardToggle = ({
 
   // HANDLE HOVER FOR TEASER
   const isTeaserActive = audienceSlug === 'conversion' && disabled
-  const containerRef = React.useRef(null)
-  const [teaserIconVisible, setTeaserIconVisible] = React.useState(false)
-  const showTeaserIcon = () => setTeaserIconVisible(true)
-  const hideTeaserIcon = () => setTeaserIconVisible(false)
-  React.useEffect(() => {
-    if (!isTeaserActive) return
-    const { current: containerEl } = containerRef
-    containerEl.addEventListener('mouseenter', showTeaserIcon)
-    containerEl.addEventListener('mouseleave', hideTeaserIcon)
-    return () => {
-      containerEl.removeEventListener('mouseenter', showTeaserIcon)
-      containerEl.removeEventListener('mouseleave', hideTeaserIcon)
-    }
-  // eslint-disable-next-line
-  }, [])
 
   // HANDLE CLICK TO SHOW TEASER
   const WrapperTag = isTeaserActive ? 'button' : 'div'
@@ -89,7 +74,6 @@ const PostCardToggle = ({
         isTeaserActive ? 'cursor-pointer' : null,
         className,
       ].join(' ')}
-      ref={containerRef}
       aria-label={isTeaserActive ? 'What is this?' : null}
       onClick={isTeaserActive ? openConversionsInterestPanel : null}
     >
@@ -130,14 +114,13 @@ const PostCardToggle = ({
           onChange={onChange}
           isLoading={isLoading}
           disabled={disabled}
-          style={teaserIconVisible ? { opacity: 0, pointerEvents: 'none' } : null}
+          style={isTeaserActive ? { opacity: 0, pointerEvents: 'none' } : null}
         />
         {/* CONVERSION TEASER ICON */}
         {isTeaserActive && (
           <PostCardToggleTeaser
             className={[
               'absolute right-0 top-0',
-              teaserIconVisible ? 'block' : 'hidden',
             ].join(' ')}
           />
         )}
