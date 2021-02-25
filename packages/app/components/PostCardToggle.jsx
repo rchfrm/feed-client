@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import PostCardLabel from '@/app/PostCardLabel'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
+import PostCardToggleTeaser from '@/app/PostCardToggleTeaser'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
@@ -55,14 +56,34 @@ const PostCardToggle = ({
     togglePromotion(postId, promotion_enabled, promotable_status)
   }, [artistId, postId, togglePromotion])
 
+  // HANDLE HOVER FOR TEASER
+  const isTeaserActive = audienceSlug === 'conversion' && disabled
+  const containerRef = React.useRef(null)
+  const [teaserIconVisible, setTeaserIconVisible] = React.useState(false)
+  const showTeaserIcon = () => setTeaserIconVisible(true)
+  const hideTeaserIcon = () => setTeaserIconVisible(false)
+  React.useEffect(() => {
+    if (!isTeaserActive) return
+    const { current: containerEl } = containerRef
+    console.log('containerEl', containerEl)
+    containerEl.addEventListener('mouseenter', showTeaserIcon)
+    containerEl.addEventListener('mouseleave', hideTeaserIcon)
+    return () => {
+      containerEl.removeEventListener('mouseenter', showTeaserIcon)
+      containerEl.removeEventListener('mouseleave', hideTeaserIcon)
+    }
+  }, [])
+
   return (
     <div
       className={[
         'relative',
         'flex justify-between',
         'rounded-dialogue bg-grey-1',
+        isTeaserActive ? 'cursor-pointer' : null,
         className,
       ].join(' ')}
+      ref={containerRef}
     >
       <div className="mb-0 flex items-center">
         {/* DOT */}
@@ -95,13 +116,23 @@ const PostCardToggle = ({
         )}
       </div>
       {/* TOGGLE SWITCH */}
-      <div>
+      <div className="relative">
         <ToggleSwitch
           state={currentState}
           onChange={onChange}
           isLoading={isLoading}
           disabled={disabled}
+          style={teaserIconVisible ? { opacity: 0 } : null}
         />
+        {/* CONVERSION TEASER ICON */}
+        {isTeaserActive && (
+          <PostCardToggleTeaser
+            className={[
+              'absolute right-0 top-0',
+              teaserIconVisible ? 'block' : 'hidden',
+            ].join(' ')}
+          />
+        )}
       </div>
     </div>
   )
