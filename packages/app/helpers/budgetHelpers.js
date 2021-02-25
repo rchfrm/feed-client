@@ -75,21 +75,19 @@ export const calcFeedMinBudgetInfo = (artist) => {
 }
 
 export const calcLocationsCost = (budgetInfo, locationOptions) => {
-  const { minorUnit: { minBase } } = budgetInfo
+  const { minorUnit: { extraCountryCost, extraCityCost } } = budgetInfo
   // Get units for locations
-  const countryUnit = minBase
-  const cityUnit = Math.round(minBase * 0.25)
   // Calc cost of locations
   const locationOptionsArray = Object.values(locationOptions)
   const locationCost = locationOptionsArray.reduce((cost, { selected: countrySelected, totalCitiesSelected }, index) => {
     if (countrySelected) {
       // Ignore the first country
       if (index === 0) return cost
-      cost += countryUnit
+      cost += extraCountryCost
       return cost
     }
     const totalCitiesCapped = Math.min(totalCitiesSelected, 4)
-    cost += cityUnit * totalCitiesCapped
+    cost += extraCityCost * totalCitiesCapped
     return cost
   }, 0)
   return locationCost
