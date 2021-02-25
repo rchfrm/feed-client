@@ -1,6 +1,0 @@
-.gridCell {
-  border-bottom: 2px solid var(--green);
-  &:last-child {
-    border-bottom: none;
-  }
-}

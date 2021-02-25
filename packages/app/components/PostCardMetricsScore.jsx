@@ -29,7 +29,7 @@ const PostCardMetricsScore = ({
         >
           <StarIcon className="h-6 w-auto mr-2" fill={brandColors.green} />
           <span style={{ transform: 'translateY(-0.1rem)' }}>
-            {score}
+            {score || 'n/a'}
           </span>
         </p>
       </div>
@@ -43,7 +43,7 @@ PostCardMetricsScore.propTypes = {
 }
 
 PostCardMetricsScore.defaultProps = {
-  score: 0,
+  score: null,
   className: null,
 }
 
