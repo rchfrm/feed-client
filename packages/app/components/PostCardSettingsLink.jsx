@@ -45,6 +45,7 @@ const PostCardSettingsLink = ({
             const { host: linkDomain } = parseUrl(newLinkHref) || {}
             track('post_link_changed', {
               linkDomain,
+              setToDefault: !linkId,
             })
           }}
           onError={(error) => {
