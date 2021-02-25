@@ -12,7 +12,7 @@ const PostCardToggleTeaser = ({ className }) => {
         className,
       ].join(' ')}
     >
-      <LightbulbIcon className="w-4 h-auto" />
+      <LightbulbIcon className="w-3 h-auto" />
     </div>
   )
 }
