@@ -25,4 +25,4 @@ PostCardToggleTeaser.defaultProps = {
   className: null,
 }
 
-export default PostCardToggleTeaser
+export default React.memo(PostCardToggleTeaser)
