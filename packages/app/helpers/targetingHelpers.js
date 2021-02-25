@@ -54,9 +54,9 @@ const getSliderRange = (defaultMin, defaultMax, sliderStep, initialBudget) => {
   return [defaultMin, defaultMax]
 }
 
-export const calcBudgetSliderConfig = (minBase, minHardBudget, initialBudget) => {
+export const calcBudgetSliderConfig = (minBase, minHard, initialBudget) => {
   const sliderStep = Math.round(minBase / 4)
-  const defaultMin = minHardBudget
+  const defaultMin = minHard
   const defaultMax = minBase * 30
   const sliderValueRange = getSliderRange(defaultMin, defaultMax, sliderStep, initialBudget)
   return { sliderStep, sliderValueRange }
