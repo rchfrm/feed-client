@@ -9,6 +9,8 @@ import useLinksStore from '@/app/store/linksStore'
 import { setPostLink, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 import { removeProtocolFromUrl, enforceUrlProtocol } from '@/helpers/utils'
 
+import copy from '@/app/copy/PostsPageCopy'
+
 const getDefaultLink = state => state.defaultLink
 
 const PostCardSettingsLink = ({
@@ -29,6 +31,7 @@ const PostCardSettingsLink = ({
   const isPostArchived = postPromotionStatus === 'archived'
   const isLinkAdCreative = linkType === 'adcreative'
   const isLinkDisabled = isPostActive || isPostArchived || isLinkAdCreative
+  const linkDisabledReason = isLinkDisabled ? copy.getLinkDisabledReason({ isPostActive, isPostArchived, isLinkAdCreative }) : ''
   return (
     <div
       className={[
@@ -77,6 +80,10 @@ const PostCardSettingsLink = ({
             {removeProtocolFromUrl(previewUrl)}
           </a>
         </p>
+      )}
+      {/* NOT EDITABLE REASON */}
+      {linkDisabledReason && (
+        <p className="text-sm text-red pt-5">{linkDisabledReason}</p>
       )}
     </div>
   )
