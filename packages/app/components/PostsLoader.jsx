@@ -32,6 +32,7 @@ const postsReducer = (draftState, postsAction) => {
     promotionEnabled,
     promotableStatus,
     linkId,
+    linkHref,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -52,6 +53,7 @@ const postsReducer = (draftState, postsAction) => {
       break
     case 'update-link':
       draftState[postIndex].linkId = linkId
+      draftState[postIndex].linkHref = linkHref
       break
     default:
       return draftState
@@ -245,12 +247,13 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   }, [setRefreshPosts, refreshPosts])
 
   // Define function to update links
-  const updateLink = React.useCallback((postIndex, linkId) => {
+  const updateLink = React.useCallback(({ postIndex, linkId, linkHref }) => {
     setPosts({
       type: 'update-link',
       payload: {
         postIndex,
         linkId,
+        linkHref,
       },
     })
     // TRACK
