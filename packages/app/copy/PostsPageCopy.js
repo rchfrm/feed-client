@@ -151,6 +151,12 @@ If you delete it, these posts will revert to the default link. Are you sure you 
 
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
 
+  getLinkDisabledReason: ({ isPostActive, isPostArchived, isLinkAdCreative }) => {
+    if (isPostActive) return 'Link not editable because this ad is currently running.'
+    if (isPostArchived) return 'Link not editable because this ad has been turned off.'
+    if (isLinkAdCreative) return 'Link not editable because this post has been turned into an ad and will begin running soon.'
+    return ''
+  },
 
   // LINK TRACKING
   linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `UTM parameters are automatically added to the links used in your ads. This means you can track how many people Feed is sending to your website, and what they do when they get there. 
