@@ -196,14 +196,14 @@ const updateLinksWithIntegrations = (set, get) => (artist) => {
 
 // UPDATE LINKS
 const getUpdatedLinks = (set, get) => (action, { newLink, oldLink = {} }) => {
-  const { nestedLinks } = get()
+  const { nestedLinks, defaultLink } = get()
   // add link
   if (action === 'add') {
     return linksHelpers.afterAddLink({ newLink, nestedLinks })
   }
   // edit link
   if (action === 'edit') {
-    return linksHelpers.afterEditLink({ newLink, oldLink, nestedLinks })
+    return linksHelpers.afterEditLink({ newLink, oldLink, nestedLinks, defaultLink })
   }
   // delete link
   if (action === 'delete') {
@@ -248,28 +248,30 @@ const updateLinksStore = (set, get) => (action, {
   oldFolder,
 }) => {
   // UPDATE DEFAULT LINK
-  if (action === 'updateDefault') {
+  if (action === 'chooseNewDefaultLink') {
     const { nestedLinks } = get()
     const defaultLink = getDefaultLink({ artist: newArtist, linkFolders: nestedLinks })
     const updatedNestedLinks = tidyFolders(nestedLinks, defaultLink.id)
     return set({ defaultLink, nestedLinks: updatedNestedLinks })
   }
   // GET UPDATED NESTED LINKS WHEN...
-  const nestedLinks = newLink
+  const { nestedLinksUpdated, defaultLinkUpdated } = newLink
     // ...Updating link
     ? getUpdatedLinks(set, get)(action, { newLink, oldLink })
     // ...Updating folder
     : getUpdatedFolders(set, get)(action, { newFolder, oldFolder })
   // GET UPDATED SAVED FOLDERS
-  const savedFolders = getSavedFolders(nestedLinks)
+  const savedFolders = getSavedFolders(nestedLinksUpdated)
   // GET UPDATED FOLDER STATES
   const { folderStates, artistId } = get()
   const newFolderStates = buildFolderStates(savedFolders, folderStates)
   // UPDATE STORE
   set({
-    nestedLinks,
+    nestedLinks: nestedLinksUpdated,
     savedFolders,
     folderStates: newFolderStates,
+    // Update default link (if needed)
+    ...(defaultLinkUpdated && { defaultLink: defaultLinkUpdated }),
   })
   // UPDATE LOCAL STORAGE
   locallyStoreFolderStates(newFolderStates, artistId)

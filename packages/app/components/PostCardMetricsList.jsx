@@ -7,14 +7,15 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 
 import * as utils from '@/helpers/utils'
 
-import styles from '@/app/PostCardMetricsList.module.css'
-
 const PostCardMetricsList = ({
   metrics,
   metricsContent,
   metricsType,
   className,
 }) => {
+  // GET CURRENCY
+  const { artistCurrency } = React.useContext(ArtistContext)
+
   // CREATE ARRAY OF METRICS
   const maxMetrics = 4
   const metricsArray = React.useMemo(() => {
@@ -27,8 +28,20 @@ const PostCardMetricsList = ({
       .slice(0, maxMetrics)
   }, [metrics, metricsContent])
 
-  // GET CURRENCY
-  const { artistCurrency } = React.useContext(ArtistContext)
+  // HANDLE NO VALID METRICS
+  if (!metricsArray.length) {
+    return (
+      <div
+        className={[
+          'border-solid border-2 border-green rounded-dialogue',
+          'p-3',
+          className,
+        ].join(' ')}
+      >
+        <p className="mb-0">{utils.capitalise(metricsType)} metrics will appear here soon</p>
+      </div>
+    )
+  }
 
   return (
     <ul
@@ -54,7 +67,7 @@ const PostCardMetricsList = ({
             metricsType={metricsType}
             drilldownMetrics={drilldownMetrics}
             artistCurrency={artistCurrency}
-            className={styles.gridCell}
+            className="border-solid border-green border-b-2 last:border-none"
           />
         )
       })}
