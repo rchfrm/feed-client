@@ -49,6 +49,7 @@ const PostCard = ({
         <PostCardScore
           scorePaid={post.paidMetrics.engagementScore}
           scoreOrganic={post.organicMetrics.engagementScore}
+          promotionStatus={promotionStatus}
           className="py-3 px-4 mb-2"
         />
         {postPromotable ? (
@@ -80,16 +81,19 @@ const PostCard = ({
           settingsIcon="link"
         />
         {/* DISABLE WARNING (usually hidden) */}
-        <PostCardDisableWarning
-          postId={post.id}
-          postStatus={post.promotionStatus}
-          promotionEnabled={post.promotionEnabled}
-          promotableStatus={post.promotableStatus}
-          togglePromotion={togglePromotion}
-          postToggleSetterType={postToggleSetterType}
-          artistId={artistId}
-          textClassName="py-3 px-4"
-        />
+        {postPromotable && promotionStatus === 'active' && (
+          <PostCardDisableWarning
+            postId={post.id}
+            postStatus={post.promotionStatus}
+            promotionEnabled={post.promotionEnabled}
+            promotableStatus={post.promotableStatus}
+            togglePromotion={togglePromotion}
+            postToggleSetterType={postToggleSetterType}
+            artistId={artistId}
+            conversionVisible={conversionVisible}
+            textClassName="py-3 px-4"
+          />
+        )}
       </div>
       {/* LOAD TRIGGER goes here */}
       {children}

@@ -71,6 +71,7 @@ module.exports = (purgeFiles) => ({
   },
   variants: {
     margin: ['responsive', 'last', 'first'],
+    borderStyle: ['responsive', 'last', 'first'],
   },
   plugins: [],
 })

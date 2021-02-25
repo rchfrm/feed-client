@@ -61,6 +61,7 @@ const PostCardMedia = ({
             <div
               className={[
                 'absolute top-0 left-0 w-full h-full',
+                // Landscape thumb
                 selectedThumbnail.src && selectedThumbnail.ratio > 1 ? 'px-3' : null,
               ].join(' ')}
             >
@@ -69,6 +70,7 @@ const PostCardMedia = ({
                 mediaSrc={media}
                 thumbnailOptions={thumbnails}
                 title={caption}
+                isStory={postType === 'story'}
                 onFinishedSelection={(thumbnail = {}) => {
                   setSelectedThumbnail(thumbnail)
                   setReady(true)
