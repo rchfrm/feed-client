@@ -28,8 +28,20 @@ const PostCardMetricsList = ({
       .slice(0, maxMetrics)
   }, [metrics, metricsContent])
 
-  // GET CURRENCY
-  const { artistCurrency } = React.useContext(ArtistContext)
+  // HANDLE NO VALID METRICS
+  if (!metricsArray.length) {
+    return (
+      <div
+        className={[
+          'border-solid border-2 border-green rounded-dialogue',
+          'p-3',
+          className,
+        ].join(' ')}
+      >
+        <p className="mb-0">{utils.capitalise(metricsType)} metrics will appear here soon</p>
+      </div>
+    )
+  }
 
   return (
     <ul
