@@ -6,6 +6,8 @@ import PostCardLabel from '@/app/PostCardLabel'
 import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostCardToggleTeaser from '@/app/PostCardToggleTeaser'
 
+import useShowConversionsInterest from '@/app/hooks/useShowConversionsInterest'
+
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
 import brandColors from '@/constants/brandColors'
@@ -76,6 +78,7 @@ const PostCardToggle = ({
 
   // HANDLE CLICK TO SHOW TEASER
   const WrapperTag = isTeaserActive ? 'button' : 'div'
+  const openConversionsInterestPanel = useShowConversionsInterest()
 
   return (
     <WrapperTag
@@ -88,7 +91,7 @@ const PostCardToggle = ({
       ].join(' ')}
       ref={containerRef}
       aria-label={isTeaserActive ? 'What is this?' : null}
-      onClick={isTeaserActive ? () => console.log('sdfs') : null}
+      onClick={isTeaserActive ? openConversionsInterestPanel : null}
     >
       <div className="mb-0 flex items-center">
         {/* DOT */}
