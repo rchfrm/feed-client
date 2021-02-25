@@ -16,20 +16,32 @@ const PostCardSettingsLink = ({
   postIndex,
   linkId,
   linkHref,
+  postPromotionStatus,
+  linkType,
   updateLink,
   setError,
-  isLinkEditable,
   className,
 }) => {
   const defaultLink = useLinksStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
+  // TEST IF LINK IS EDITABLE
+  const isPostActive = postPromotionStatus === 'active'
+  const isPostArchived = postPromotionStatus === 'archived'
+  const isLinkAdCreative = linkType === 'adcreative'
+  const isLinkDisabled = isPostActive || isPostArchived || isLinkAdCreative
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-      {isLinkEditable ? (
+      {isLinkDisabled ? (
+        <div>
+          <div className="bg-grey-1 pt-3 p-4 rounded-dialogue -mt-2">
+            <p className="mb-0">Link not editable</p>
+          </div>
+        </div>
+      ) : (
         <PostLinksSelect
           currentLinkId={linkId || defaultPostLinkId}
           onSelect={setPostLink}
@@ -48,10 +60,6 @@ const PostCardSettingsLink = ({
           componentLocation="post"
           selectClassName="mb-0"
         />
-      ) : (
-        <div className="bg-grey-1 pt-3 p-4 rounded-dialogue -mt-2">
-          <p className="mb-0">Link not editable</p>
-        </div>
       )}
       {/* LINK PREVIEW */}
       {previewUrl && (
@@ -79,9 +87,10 @@ PostCardSettingsLink.propTypes = {
   postIndex: PropTypes.number.isRequired,
   linkId: PropTypes.string,
   linkHref: PropTypes.string,
+  postPromotionStatus: PropTypes.string.isRequired,
+  linkType: PropTypes.string.isRequired,
   updateLink: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
-  isLinkEditable: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
