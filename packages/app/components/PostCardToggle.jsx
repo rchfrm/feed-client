@@ -65,25 +65,30 @@ const PostCardToggle = ({
   React.useEffect(() => {
     if (!isTeaserActive) return
     const { current: containerEl } = containerRef
-    console.log('containerEl', containerEl)
     containerEl.addEventListener('mouseenter', showTeaserIcon)
     containerEl.addEventListener('mouseleave', hideTeaserIcon)
     return () => {
       containerEl.removeEventListener('mouseenter', showTeaserIcon)
       containerEl.removeEventListener('mouseleave', hideTeaserIcon)
     }
+  // eslint-disable-next-line
   }, [])
 
+  // HANDLE CLICK TO SHOW TEASER
+  const WrapperTag = isTeaserActive ? 'button' : 'div'
+
   return (
-    <div
+    <WrapperTag
       className={[
-        'relative',
-        'flex justify-between',
+        'relative w-full',
+        'flex justify-between items-center',
         'rounded-dialogue bg-grey-1',
         isTeaserActive ? 'cursor-pointer' : null,
         className,
       ].join(' ')}
       ref={containerRef}
+      aria-label={isTeaserActive ? 'What is this?' : null}
+      onClick={isTeaserActive ? () => console.log('sdfs') : null}
     >
       <div className="mb-0 flex items-center">
         {/* DOT */}
@@ -122,7 +127,7 @@ const PostCardToggle = ({
           onChange={onChange}
           isLoading={isLoading}
           disabled={disabled}
-          style={teaserIconVisible ? { opacity: 0 } : null}
+          style={teaserIconVisible ? { opacity: 0, pointerEvents: 'none' } : null}
         />
         {/* CONVERSION TEASER ICON */}
         {isTeaserActive && (
@@ -134,7 +139,7 @@ const PostCardToggle = ({
           />
         )}
       </div>
-    </div>
+    </WrapperTag>
   )
 }
 
