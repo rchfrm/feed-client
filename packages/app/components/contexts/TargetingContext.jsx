@@ -225,7 +225,7 @@ const TargetingContextProvider = ({ children }) => {
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
   React.useEffect(() => {
     // GET BUDGET INFO
-    const { smallestUnit: {
+    const { minorUnit: {
       minHard: minHardBudget,
     } } = feedMinBudgetInfo
     const isBudgetTooSmall = targetingState.budget < minHardBudget

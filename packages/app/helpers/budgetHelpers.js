@@ -38,7 +38,7 @@ export const calcFeedMinBudgetInfo = (artist) => {
   const extraCountryCost = minReccomendedBase
   const extraCityCost = minReccomendedBase / 4
   // The values in the smallest currency unit (eg pence)
-  const smallestUnit = {
+  const minorUnit = {
     minBase,
     minHard,
     minReccomendedBase,
@@ -47,7 +47,7 @@ export const calcFeedMinBudgetInfo = (artist) => {
     extraCityCost,
   }
   // The value in the largest currency unit (eg pound)
-  const largestUnit = {
+  const majorUnit = {
     minBase: minBase / currencyOffset,
     minHard: minHard / currencyOffset,
     minReccomendedBase: minReccomendedBase / currencyOffset,
@@ -57,17 +57,17 @@ export const calcFeedMinBudgetInfo = (artist) => {
   }
   // The value as a formatted string
   const string = {
-    minBase: utils.formatCurrency(largestUnit.minBase, currencyCode),
-    minHard: utils.formatCurrency(largestUnit.minHard, currencyCode),
-    minReccomendedBase: utils.formatCurrency(largestUnit.minReccomendedBase, currencyCode),
-    minReccomendedStories: utils.formatCurrency(largestUnit.minReccomendedStories, currencyCode),
-    extraCountryCost: utils.formatCurrency(largestUnit.extraCountryCost, currencyCode),
-    extraCityCost: utils.formatCurrency(largestUnit.extraCityCost, currencyCode),
+    minBase: utils.formatCurrency(majorUnit.minBase, currencyCode),
+    minHard: utils.formatCurrency(majorUnit.minHard, currencyCode),
+    minReccomendedBase: utils.formatCurrency(majorUnit.minReccomendedBase, currencyCode),
+    minReccomendedStories: utils.formatCurrency(majorUnit.minReccomendedStories, currencyCode),
+    extraCountryCost: utils.formatCurrency(majorUnit.extraCountryCost, currencyCode),
+    extraCityCost: utils.formatCurrency(majorUnit.extraCityCost, currencyCode),
   }
 
   return {
-    smallestUnit,
-    largestUnit,
+    minorUnit,
+    majorUnit,
     string,
     currencyCode,
     currencyOffset,
@@ -75,7 +75,7 @@ export const calcFeedMinBudgetInfo = (artist) => {
 }
 
 export const calcLocationsCost = (budgetInfo, locationOptions) => {
-  const { smallestUnit: { minBase } } = budgetInfo
+  const { minorUnit: { minBase } } = budgetInfo
   // Get units for locations
   const countryUnit = minBase
   const cityUnit = Math.round(minBase * 0.25)
@@ -96,7 +96,7 @@ export const calcLocationsCost = (budgetInfo, locationOptions) => {
 }
 
 export const calcMinReccBudget = (budgetInfo, locationOptions) => {
-  const { smallestUnit: { minReccomendedBase } } = budgetInfo
+  const { minorUnit: { minReccomendedBase } } = budgetInfo
   const locationCost = calcLocationsCost(budgetInfo, locationOptions)
   return minReccomendedBase + locationCost
 }

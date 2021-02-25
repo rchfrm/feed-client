@@ -19,7 +19,7 @@ const TargetingBudgetMobile = ({
       feedMinBudgetInfo: {
         currencyCode,
         currencyOffset,
-        smallestUnit: {
+        minorUnit: {
           minBase,
           minHard: minHardBudget,
         },

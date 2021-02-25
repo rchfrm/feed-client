@@ -63,7 +63,7 @@ const TargetingBudgetBox = React.forwardRef(({
       feedMinBudgetInfo: {
         currencyCode,
         currencyOffset,
-        smallestUnit: {
+        minorUnit: {
           minBase,
           minHard: minHardBudget,
         },
