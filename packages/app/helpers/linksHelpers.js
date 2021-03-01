@@ -219,7 +219,6 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks, defaultLink }) =>
 // DELETE LINK
 export const afterDeleteLink = ({ oldLink, nestedLinks }) => {
   const { folder_id: oldFolderId } = oldLink
-  console.log('oldLink', oldLink)
   const { host: linkDomain } = utils.parseUrl(oldLink.href)
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
   // TRACK
