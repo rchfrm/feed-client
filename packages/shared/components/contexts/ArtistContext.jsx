@@ -244,8 +244,14 @@ function ArtistProvider({ children, disable }) {
     })
   }
 
-  const updateBudget = async (id, amount) => {
-    const updatedArtist = await server.updateDailyBudget(id, amount)
+  const updateBudget = React.useCallback((majorUnitAmount) => {
+    setArtist({
+      type: 'set-budget',
+      payload: {
+        budget: majorUnitAmount,
+      },
+    })
+  }, [setArtist])
 
   const updateSpendingPaused = React.useCallback((spendingStatus) => {
     setArtist({
