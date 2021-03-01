@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import LinkIcon from '@/icons/LinkIcon'
+import CrosshairIcon from '@/icons/CrosshairIcon'
+import JigsawIcon from '@/icons/JigsawIcon'
+import MegaphoneIcon from '@/icons/MegaphoneIcon'
 
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/controlsPageCopy'
@@ -10,6 +13,9 @@ const { controlsOptions } = copy
 
 const icons = {
   link: <LinkIcon fill={brandColors.blue} className="w-6 h-auto" />,
+  crosshair: <CrosshairIcon fill={brandColors.blue} className="w-6 h-auto" />,
+  jigsaw: <JigsawIcon fill={brandColors.blue} className="w-6 h-auto" />,
+  megaphone: <MegaphoneIcon fill={brandColors.blue} className="w-6 h-auto" />,
 }
 
 const ControlsContentOptions = ({ className }) => {

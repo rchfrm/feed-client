@@ -12,7 +12,7 @@ export default {
       key: 'adSettings',
       title: 'Ad Settings',
       description: 'Default settings for Grow & Nurture ads.',
-      icon: 'rosette',
+      icon: 'megaphone',
     },
     {
       key: 'conversionsSettings',
