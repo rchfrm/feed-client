@@ -124,7 +124,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
       // Track
       fireSentryError({
         category: 'sign up',
-        action: 'No add accounts were found after running artistHelpers.getArtistOnSignUp()',
+        action: 'No ad accounts were found after running artistHelpers.getArtistOnSignUp()',
       })
       return
     }
