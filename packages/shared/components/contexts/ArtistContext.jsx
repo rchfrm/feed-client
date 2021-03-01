@@ -28,6 +28,7 @@ const initialArtistState = {
   users: {},
   min_daily_budget_info: {},
   feedMinBudgetInfo: {}, // { minRaw, minRounded, minString }
+  isSpendingPaused: false,
   missingDefaultLink: true,
   isMusician: false,
 }
@@ -50,6 +51,10 @@ const artistReducer = (draftState, action) => {
     }
     case 'set-budget': {
       draftState.daily_budget = payload.budget
+      break
+    }
+    case 'set-spending-paused': {
+      draftState.isSpendingPaused = payload.isSpendingPaused
       break
     }
     case 'set-min-budget': {
@@ -131,7 +136,7 @@ function ArtistProvider({ children, disable }) {
     if (!artist) return
 
     // Test whether artist is musician
-    const { category_list: artistCategories } = artist
+    const { category_list: artistCategories, preferences } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
 
     // Test whether default link is set
@@ -146,6 +151,9 @@ function ArtistProvider({ children, disable }) {
     // Get formatted min budget info
     const feedMinBudgetInfo = calcFeedMinBudgetInfo(artist)
 
+    // Get spending paused status
+    const isSpendingPaused = preferences?.targeting?.status === 0
+
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
       artistDraft.isMusician = isMusician
@@ -153,6 +161,7 @@ function ArtistProvider({ children, disable }) {
       artistDraft.missingDefaultLink = missingDefaultLink
       artistDraft.integrations = integrationsFormatted
       artistDraft.feedMinBudgetInfo = feedMinBudgetInfo
+      artistDraft.isSpendingPaused = isSpendingPaused
     })
 
     // Set hasBudget state
@@ -238,14 +247,14 @@ function ArtistProvider({ children, disable }) {
   const updateBudget = async (id, amount) => {
     const updatedArtist = await server.updateDailyBudget(id, amount)
 
+  const updateSpendingPaused = React.useCallback((spendingStatus) => {
     setArtist({
-      type: 'set-budget',
+      type: 'set-spending-paused',
       payload: {
-        budget: updatedArtist.daily_budget,
+        isSpendingPaused: !spendingStatus,
       },
     })
-    return updatedArtist.daily_budget
-  }
+  }, [setArtist])
 
   const setConnection = ({ platform, url }) => {
     setArtist({
@@ -299,6 +308,7 @@ function ArtistProvider({ children, disable }) {
     setPostPreferences,
     storeArtist,
     updateBudget,
+    updateSpendingPaused,
     hasBudget,
   }
 
