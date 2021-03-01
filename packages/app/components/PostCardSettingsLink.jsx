@@ -9,6 +9,8 @@ import useLinksStore from '@/app/store/linksStore'
 import { setPostLink, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 import { removeProtocolFromUrl, enforceUrlProtocol } from '@/helpers/utils'
 
+import copy from '@/app/copy/PostsPageCopy'
+
 const getDefaultLink = state => state.defaultLink
 
 const PostCardSettingsLink = ({
@@ -16,20 +18,33 @@ const PostCardSettingsLink = ({
   postIndex,
   linkId,
   linkHref,
+  postPromotionStatus,
+  linkType,
   updateLink,
   setError,
-  isLinkEditable,
   className,
 }) => {
   const defaultLink = useLinksStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
+  // TEST IF LINK IS EDITABLE
+  const isPostActive = postPromotionStatus === 'active'
+  const isPostArchived = postPromotionStatus === 'archived'
+  const isLinkAdCreative = linkType === 'adcreative'
+  const isLinkDisabled = isPostActive || isPostArchived || isLinkAdCreative
+  const linkDisabledReason = isLinkDisabled ? copy.getLinkDisabledReason({ isPostActive, isPostArchived, isLinkAdCreative }) : ''
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-      {isLinkEditable ? (
+      {isLinkDisabled ? (
+        <div>
+          <div className="bg-grey-1 pt-3 p-4 rounded-dialogue -mt-2">
+            <p className="mb-0">Link not editable</p>
+          </div>
+        </div>
+      ) : (
         <PostLinksSelect
           currentLinkId={linkId || defaultPostLinkId}
           onSelect={setPostLink}
@@ -48,10 +63,6 @@ const PostCardSettingsLink = ({
           componentLocation="post"
           selectClassName="mb-0"
         />
-      ) : (
-        <div className="bg-grey-1 pt-3 p-4 rounded-dialogue -mt-2">
-          <p className="mb-0">Link not editable</p>
-        </div>
       )}
       {/* LINK PREVIEW */}
       {previewUrl && (
@@ -70,6 +81,10 @@ const PostCardSettingsLink = ({
           </a>
         </p>
       )}
+      {/* NOT EDITABLE REASON */}
+      {linkDisabledReason && (
+        <p className="text-sm text-red pt-5">{linkDisabledReason}</p>
+      )}
     </div>
   )
 }
@@ -79,9 +94,10 @@ PostCardSettingsLink.propTypes = {
   postIndex: PropTypes.number.isRequired,
   linkId: PropTypes.string,
   linkHref: PropTypes.string,
+  postPromotionStatus: PropTypes.string.isRequired,
+  linkType: PropTypes.string.isRequired,
   updateLink: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
-  isLinkEditable: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

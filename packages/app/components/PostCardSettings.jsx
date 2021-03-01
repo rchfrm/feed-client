@@ -26,7 +26,6 @@ const PostCardSettings = ({
     linkHref,
     linkType,
   } = post
-  const isLinkEditable = promotionStatus !== 'active' && promotionStatus !== 'archived' && linkType !== 'adcreative'
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
 
@@ -67,7 +66,8 @@ const PostCardSettings = ({
               linkId={linkId}
               linkHref={linkHref}
               updateLink={updateLink}
-              isLinkEditable={isLinkEditable}
+              postPromotionStatus={promotionStatus}
+              linkType={linkType}
               setError={setError}
             />
           </PostsSettingsSection>
