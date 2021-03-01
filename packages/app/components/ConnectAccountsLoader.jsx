@@ -137,7 +137,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
       // Track
       fireSentryError({
         category: 'sign up',
-        action: 'No accounts were found after running artistHelpers.getArtistOnSignUp()',
+        action: 'No Facebook Pages were found after running artistHelpers.getArtistOnSignUp()',
       })
     }
 
