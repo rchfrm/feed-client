@@ -12,7 +12,6 @@ export const PRICING = '/pricing'
 export const CONNECT_PROFILES = '/connect-profiles'
 export const THANK_YOU = '/thank-you'
 export const POSTS = '/'
-export const CONTROLS = '/controls'
 export const INSIGHTS = '/insights'
 export const ACCOUNT = '/account'
 export const MYREFERRAL = '/my-referral-code'
@@ -22,6 +21,11 @@ export const RESULTS = '/results'
 export const TOURNAMENTS = '/results/tournaments'
 export const NOTIFICATIONS = '/notifications'
 export const TARGETING = '/targeting'
+export const CONTROLS = '/controls'
+export const CONTROLS_TARGETING = '/controls/targeting'
+export const CONTROLS_AD_SETTINGS = '/controls/ad-setttings'
+export const CONTROLS_LINKS = '/controls/links'
+export const CONTROLS_INTEGRATIONS = '/controls/integrations'
 
 export const HOME = POSTS
 
@@ -42,6 +46,7 @@ export const restrictedPages = [
   TARGETING,
 ]
 
+// Array of pages that you can access without being signed in
 export const signedOutPages = [
   SIGN_UP,
   SIGN_UP_EMAIL,
@@ -50,4 +55,12 @@ export const signedOutPages = [
   LOGIN,
   LOGIN_EMAIL,
   PASSWORD_FORGET,
+]
+
+// Array of controls sub-pages
+export const controlsPages = [
+  CONTROLS_TARGETING,
+  CONTROLS_AD_SETTINGS,
+  CONTROLS_LINKS,
+  CONTROLS_INTEGRATIONS,
 ]
