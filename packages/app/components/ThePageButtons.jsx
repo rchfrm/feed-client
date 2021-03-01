@@ -35,13 +35,27 @@ const links = [
   },
 ]
 
+const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }) => {
+  // CONTROLS PAGE
+  if (icon === 'controls') {
+    // No budget
+    if (!hasBudget && !missingDefaultLink) return true
+    // Spending paused
+    if (isSpendingPaused && !missingDefaultLink) return true
+  }
+  // POSTS PAGE
+  if (icon === 'posts' && missingDefaultLink) return true
+  // No badge
+  return false
+}
+
 const ThePageButtons = () => {
   const isLoggedIn = useLoggedInTest()
   // Get currency from artist
   const {
     artistLoading,
     hasBudget,
-    artist: { missingDefaultLink },
+    artist: { missingDefaultLink, isSpendingPaused },
   } = React.useContext(ArtistContext)
   // Don't show buttons if no logged in
   if (!isLoggedIn) return null
@@ -53,8 +67,7 @@ const ThePageButtons = () => {
     >
       <nav className={styles.inner}>
         {links.map(({ href, title, icon, matchingHrefs }) => {
-          const showBadge = (icon === 'controls' && !hasBudget && !missingDefaultLink)
-            || (icon === 'posts' && missingDefaultLink)
+          const showBadge = showBadgeTest({ icon, hasBudget, missingDefaultLink, isSpendingPaused })
           return (
             <div className={styles.link} key={href}>
               <ActiveLink href={href} activeClass={styles._active} matchingHrefs={matchingHrefs}>
