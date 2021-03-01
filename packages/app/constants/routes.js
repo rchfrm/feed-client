@@ -7,7 +7,7 @@ export const LOGIN_EMAIL = '/login/email'
 export const PASSWORD_FORGET = '/forgot-password'
 
 export const FAQ = '/faq'
-export const PRICING = '/pricing'
+export const PRICING = 'https://tryfeed.co/pricing'
 
 export const CONNECT_PROFILES = '/connect-profiles'
 export const THANK_YOU = '/thank-you'
