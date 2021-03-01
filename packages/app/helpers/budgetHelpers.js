@@ -16,9 +16,14 @@ const roundUpAmount = (amount) => {
   return Math.ceil(amount / roundTo) * roundTo
 }
 
-const getFbMinMultipleCalc = (fbMin, serviceFee) => (multiple) => {
-  return roundUpAmount((multiple * fbMin) / (1 - serviceFee))
+const getFbMinMultipleCalc = (fbMin, serviceFee) => (fbMultiple, rounded = true) => {
+  const amount = (fbMultiple * fbMin) / (1 - serviceFee)
+  if (!rounded) return amount
+  return roundUpAmount(amount)
 }
+
+// CALC MIN BUDGET PROPS
+// ---------------------
 
 export const calcFeedMinBudgetInfo = (artist) => {
   if (!artist || !artist.min_daily_budget_info) return
@@ -31,6 +36,7 @@ export const calcFeedMinBudgetInfo = (artist) => {
   } } = artist
   const calcFbMinMultiple = getFbMinMultipleCalc(fbMin, serviceFee)
   // Calc min values
+  const minBaseUnrounded = calcFbMinMultiple(1, false)
   const minBase = calcFbMinMultiple(1)
   const minHard = Math.min(calcFbMinMultiple(2), minBase * 2)
   const minReccomendedBase = Math.min(calcFbMinMultiple(3), minBase * 3)
@@ -39,6 +45,7 @@ export const calcFeedMinBudgetInfo = (artist) => {
   const extraCityCost = minBase / 4
   // The values in the smallest currency unit (eg pence)
   const minorUnit = {
+    minBaseUnrounded,
     minBase,
     minHard,
     minReccomendedBase,
@@ -48,6 +55,7 @@ export const calcFeedMinBudgetInfo = (artist) => {
   }
   // The value in the largest currency unit (eg pound)
   const majorUnit = {
+    minBaseUnrounded: minBaseUnrounded / currencyOffset,
     minBase: minBase / currencyOffset,
     minHard: minHard / currencyOffset,
     minReccomendedBase: minReccomendedBase / currencyOffset,
@@ -57,6 +65,7 @@ export const calcFeedMinBudgetInfo = (artist) => {
   }
   // The value as a formatted string
   const string = {
+    minBaseUnrounded: utils.formatCurrency(majorUnit.minBaseUnrounded, currencyCode),
     minBase: utils.formatCurrency(majorUnit.minBase, currencyCode),
     minHard: utils.formatCurrency(majorUnit.minHard, currencyCode),
     minReccomendedBase: utils.formatCurrency(majorUnit.minReccomendedBase, currencyCode),
