@@ -101,11 +101,7 @@ const SignupQueueForm = ({ className }) => {
         // Stop here if form not valid
         if (!isFormValid) return
         // TRACK
-        track({
-          action: 'join_waiting_list',
-          category: 'sign_up',
-          marketing: true,
-        })
+        track('join_waiting_list')
         // Submit form
         e.target.submit()
         // Clear values (after delay)
