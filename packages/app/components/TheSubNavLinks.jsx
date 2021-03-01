@@ -33,6 +33,7 @@ const links = [
   {
     href: PRICING,
     title: 'pricing',
+    external: true,
   },
   {
     href: termsLink,
