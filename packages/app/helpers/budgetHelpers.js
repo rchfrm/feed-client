@@ -1,6 +1,36 @@
 import * as utils from '@/helpers/utils'
 
 
+// TESTING
+// -------
+const triggerBudgetError = ({ error, value, currencyCode }) => {
+  console.error(error, value, currencyCode)
+}
+
+// This checks that the rounding has produced a reasonable budget amount
+const checkBudgetError = ({
+  minBaseUnrounded,
+  minHard,
+  minReccomendedBase,
+  minReccomendedStories,
+  currencyCode,
+}) => {
+  // Check minHard error
+  if (((minHard / minBaseUnrounded) < 2) || ((minHard / minBaseUnrounded) > 3)) {
+    return { error: 'minHard Error', value: minHard / minBaseUnrounded, currencyCode }
+  }
+  // Check minBase error
+  if (((minReccomendedBase / minBaseUnrounded) < 3) || ((minReccomendedBase / minBaseUnrounded) > 4)) {
+    return { error: 'minReccomendedBase Error', value: minReccomendedBase / minBaseUnrounded, currencyCode }
+  }
+  // Check minStories error
+  if (((minReccomendedStories / minBaseUnrounded) < 5) || ((minReccomendedStories / minBaseUnrounded) > 7)) {
+    return { error: 'minReccomendedStories Error', value: minReccomendedStories / minBaseUnrounded, currencyCode }
+  }
+  // No errors
+  return null
+}
+
 // ROUNDING
 // --------
 
@@ -73,6 +103,17 @@ export const calcFeedMinBudgetInfo = (artist) => {
     extraCountryCost: utils.formatCurrency(majorUnit.extraCountryCost, currencyCode),
     extraCityCost: utils.formatCurrency(majorUnit.extraCityCost, currencyCode),
   }
+
+  // Check for errors
+  const budgetError = checkBudgetError({
+    minBaseUnrounded,
+    minHard,
+    minReccomendedBase,
+    minReccomendedStories,
+    currencyCode,
+  })
+  // Trigger error in Sentry (if there is one)
+  if (budgetError) triggerBudgetError(budgetError)
 
   return {
     minorUnit,
