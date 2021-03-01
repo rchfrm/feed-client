@@ -79,6 +79,8 @@ const TargetingContextProvider = ({ children }) => {
         currency: { offset: currencyOffset },
       },
     },
+    updateBudget,
+    updateSpendingPaused,
   } = React.useContext(ArtistContext)
 
   // SIDE PANEL context
@@ -276,11 +278,13 @@ const TargetingContextProvider = ({ children }) => {
       setTargetingState(savedState)
       setInitialTargetingState(savedState)
       setSettingsSaved(true)
+      updateSpendingPaused(savedState.status)
+      updateBudget(savedState.budget / currencyOffset)
     }
     setSelectedCampaignRecc(null)
     setSaving(false)
     toggleGlobalLoading(false)
-  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser])
+  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget])
   // Set saved to false when going to settings view
   React.useEffect(() => {
     if (currentView === 'settings') {
@@ -298,7 +302,8 @@ const TargetingContextProvider = ({ children }) => {
       draftState.status = newPausedState
     })
     saveTargetingSettings(newSettings)
-  }, [initialTargetingState, saveTargetingSettings])
+    updateSpendingPaused(newPausedState)
+  }, [initialTargetingState, saveTargetingSettings, updateSpendingPaused])
 
 
   // RESET EVERYTHING WHEN ARTIST ID CHANGES
