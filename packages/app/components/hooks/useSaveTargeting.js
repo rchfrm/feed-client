@@ -101,7 +101,7 @@ const useSaveTargeting = ({
       saveTargetingSettings(unpausedTargetingState)
       // TRACK
       track('set_daily_budget', {
-        budget: savedState.budget / currencyOffset,
+        budget: savedState.budget / (10 ** currencyOffset),
         currencyCode,
       })
       return
