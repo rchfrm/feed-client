@@ -24,7 +24,8 @@ const PostCard = ({
   const { postPromotable, promotionStatus, postType } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
   // Should conversionVisible be hidden
-  const conversionVisible = false
+  const conversionVisible = true
+  const conversionDisabled = true
   return (
     <div
       className={[
@@ -62,7 +63,7 @@ const PostCard = ({
             promotionStatus={post.promotionStatus}
             togglePromotion={togglePromotion}
             conversionVisible={conversionVisible}
-            conversionDisabled
+            conversionDisabled={conversionDisabled}
             growthDisabled={promotionStatus === 'archived'}
           />
         ) : (

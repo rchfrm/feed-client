@@ -186,4 +186,11 @@ Do you want to add **${platformTitle}** as an integration instead?
 This way you can use the link in your ads and track follower and listener data on the Insights page?`
   },
 
+  // CONVERSIONS INTEREST
+  conversionsInterestCopy: `Are you looking for more sales of tickets, vinyl or other products and to generate a return from your Feed budget?
+
+If so, we're looking for people to join our trials for this feature and work with Nick and Joshua (the co-founders of Feed) directly on a campaign.
+  
+[Fill in this form](https://docs.google.com/forms/d/e/1FAIpQLSd4PRRgbyFc0jVYODiBMvX-e24XzFf93QhFhv5CAoGoaeIM2g/viewform) and we'll be in touch.`,
+
 }

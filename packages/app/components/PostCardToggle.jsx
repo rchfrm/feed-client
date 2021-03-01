@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 import PostCardLabel from '@/app/PostCardLabel'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
+import PostCardToggleTeaser from '@/app/PostCardToggleTeaser'
+
+import useShowConversionsInterest from '@/app/hooks/useShowConversionsInterest'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
@@ -55,14 +58,24 @@ const PostCardToggle = ({
     togglePromotion(postId, promotion_enabled, promotable_status)
   }, [artistId, postId, togglePromotion])
 
+  // HANDLE HOVER FOR TEASER
+  const isTeaserActive = audienceSlug === 'conversion' && disabled
+
+  // HANDLE CLICK TO SHOW TEASER
+  const WrapperTag = isTeaserActive ? 'button' : 'div'
+  const openConversionsInterestPanel = useShowConversionsInterest()
+
   return (
-    <div
+    <WrapperTag
       className={[
-        'relative',
-        'flex justify-between',
+        'relative w-full',
+        'flex justify-between items-center',
         'rounded-dialogue bg-grey-1',
+        isTeaserActive ? 'cursor-pointer' : null,
         className,
       ].join(' ')}
+      aria-label={isTeaserActive ? 'What is this?' : null}
+      onClick={isTeaserActive ? openConversionsInterestPanel : null}
     >
       <div className="mb-0 flex items-center">
         {/* DOT */}
@@ -94,16 +107,20 @@ const PostCardToggle = ({
           />
         )}
       </div>
-      {/* TOGGLE SWITCH */}
+      {/* TOGGLE SWITCH or LIGHTBULB ICON */}
       <div>
-        <ToggleSwitch
-          state={currentState}
-          onChange={onChange}
-          isLoading={isLoading}
-          disabled={disabled}
-        />
+        {isTeaserActive ? (
+          <PostCardToggleTeaser />
+        ) : (
+          <ToggleSwitch
+            state={currentState}
+            onChange={onChange}
+            isLoading={isLoading}
+            disabled={disabled}
+          />
+        )}
       </div>
-    </div>
+    </WrapperTag>
   )
 }
 
