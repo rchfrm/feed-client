@@ -19,7 +19,8 @@ import SetupGtag from '@/elements/SetupGtag'
 // IMPORT CONTEXTS
 import { AuthProvider } from '@/contexts/AuthContext'
 // IMPORT HELPERS
-import { trackPWA, gtagPageView, setupTracking } from '@/app/helpers/trackingHelpers'
+import { trackPWA, setupTracking } from '@/app/helpers/trackingHelpers'
+import { trackGooglePageView } from '@/app/helpers/trackGoogleHelpers'
 import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
 
 // GLOBAL STORES and DATA
@@ -91,7 +92,7 @@ function Feed({ Component, pageProps }) {
       const { pathname: previousPathname } = previousUrl.current
       // Stop here if same pathname
       if (pathname === previousPathname) return
-      gtagPageView(url, gaId)
+      trackGooglePageView(url, gaId)
       mixpanelPageView(url)
       // Store previous URL
       previousUrl.current = { pathname, queryString }

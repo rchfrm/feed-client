@@ -637,10 +637,11 @@ export const clearLocalStorage = () => {
  */
 export const parseUrl = (urlString) => {
   if (!urlString) return
-  const { pathname, query } = url.parse(urlString)
+  const { pathname, query, host } = url.parse(urlString)
   if (!query) {
     return {
       pathname,
+      host,
       queryString: '',
       query: null,
     }
@@ -655,6 +656,7 @@ export const parseUrl = (urlString) => {
   // Return result
   return {
     pathname,
+    host,
     queryString: query,
     query: queryObject,
   }

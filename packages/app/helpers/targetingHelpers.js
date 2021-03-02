@@ -2,7 +2,7 @@ import produce from 'immer'
 
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
-import { track } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 
 // BUDGET FEATURES
@@ -163,11 +163,11 @@ export const getSummary = {
 export const fetchPopularLocations = async (artistId) => {
   const { res: popularLocations, error } = await server.getTargetingPopularLocations(artistId)
   if (error) {
-    track({
+    // Sentry error
+    fireSentryError({
       category: 'Controls',
       action: 'Error fetching popular locations',
       description: error.message,
-      error: true,
     })
     return { error }
   }
@@ -288,11 +288,11 @@ export const fetchTargetingState = async (artistId, currencyOffset) => {
   const { res: settings, error } = await server.getTargetingSettings(artistId)
   // Handle error
   if (error) {
-    track({
+    // Sentry error
+    fireSentryError({
       category: 'Controls',
       action: 'Error fetching targeting settings',
       description: error.message,
-      error: true,
     })
     return { error }
   }
@@ -332,11 +332,11 @@ export const saveCampaign = async ({
   const { res: settings, error } = await server.saveTargetingSettings(artistId, payload)
   // Handle error
   if (error) {
-    track({
+    // Sentry error
+    fireSentryError({
       category: 'Controls',
       action: 'Error saving targeting settings',
       description: error.message,
-      error: true,
     })
     return { error }
   }

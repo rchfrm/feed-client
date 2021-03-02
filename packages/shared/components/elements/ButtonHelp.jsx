@@ -16,6 +16,7 @@ const ButtonHelp = React.forwardRef(({
   text,
   reverseText,
   label,
+  trackLocation,
   className,
 }, ref) => {
   const { setSidePanelContent, setSidePanelContentLabel, setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
@@ -34,12 +35,11 @@ const ButtonHelp = React.forwardRef(({
     setSidePanelContent(SidePanelContent)
     setSidePanelButton(null)
     toggleSidePanel(true)
-    track({
-      action: 'click_help_button',
+    track('click_help_button', {
       label,
-      category: 'generic',
+      location: trackLocation,
     })
-  }, [setSidePanelContent, setSidePanelContentLabel, setSidePanelButton, toggleSidePanel, SidePanelContent, label])
+  }, [setSidePanelContent, setSidePanelContentLabel, setSidePanelButton, toggleSidePanel, SidePanelContent, label, trackLocation])
 
   return (
     <button
@@ -82,6 +82,7 @@ ButtonHelp.propTypes = {
   text: PropTypes.string,
   label: PropTypes.string.isRequired,
   reverseText: PropTypes.bool,
+  trackLocation: PropTypes.string,
   className: PropTypes.string,
 }
 
@@ -89,6 +90,7 @@ ButtonHelp.defaultProps = {
   contentHeader: '',
   text: '',
   reverseText: false,
+  trackLocation: '',
   className: null,
 }
 

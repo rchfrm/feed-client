@@ -12,7 +12,10 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
-import { track, trackSignUp } from '@/app/helpers/trackingHelpers'
+
+import { trackSignUp } from '@/app/helpers/trackingHelpers'
+
+import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -126,13 +129,9 @@ const SignupEmailForm = () => {
     if (!formComplete) return
     const { email, passwordOne, firstName, lastName } = signupDetails
     toggleGlobalLoading(true)
-
-    track({
+    fireSentryBreadcrumb({
       category: 'sign up',
       action: 'submit sign up form',
-      label: email,
-      breadcrumb: true,
-      ga: false,
     })
 
     const signupRes = await signUp(email, passwordOne)
@@ -140,12 +139,12 @@ const SignupEmailForm = () => {
         setError(error)
         scrollTop()
         toggleGlobalLoading(false)
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'signUp() with email failed',
           description: error.message,
           label: email,
-          error: true,
         })
       })
     if (!signupRes) return
@@ -158,16 +157,16 @@ const SignupEmailForm = () => {
         setError(error)
         scrollTop()
         toggleGlobalLoading(false)
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'createUser() with password failed',
           description: error.message,
           label: email,
-          error: true,
         })
       })
     if (!user) return
-    trackSignUp({ method: 'password', userId: user.id })
+    trackSignUp({ authProvider: 'password', userId: user.id })
     Router.push(ROUTES.SIGN_UP_CONTINUE)
   }
 

@@ -10,7 +10,7 @@ import LoginWithEmail from '@/LoginWithEmail'
 import LoginSignupButtons from '@/LoginSignupButtons'
 // IMPORT HELPERS
 import firebase from '@/helpers/firebase'
-import { track } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 // IMPORT CONSTANTS
 import * as ROUTES from '@/app/constants/routes'
 // Import copy
@@ -44,10 +44,10 @@ function LoginPageContent({ showEmailLogin }) {
     firebase.loginWithFacebook()
       .catch((error) => {
         setError(error)
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'login',
           action: 'error clicking on FB button',
-          error: true,
         })
       })
   }

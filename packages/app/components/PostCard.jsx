@@ -85,13 +85,15 @@ const PostCard = ({
         {postPromotable && promotionStatus === 'active' && (
           <PostCardDisableWarning
             postId={post.id}
+            postType={postType}
+            platform={post.platform}
+            paidEs={post?.paidMetrics?.engagementScore}
             postStatus={post.promotionStatus}
             promotionEnabled={post.promotionEnabled}
             promotableStatus={post.promotableStatus}
             togglePromotion={togglePromotion}
             postToggleSetterType={postToggleSetterType}
             artistId={artistId}
-            conversionVisible={conversionVisible}
             textClassName="py-3 px-4"
           />
         )}

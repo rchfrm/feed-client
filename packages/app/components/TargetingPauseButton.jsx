@@ -5,6 +5,8 @@ import Button from '@/elements/Button'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
+import { TargetingContext } from '@/app/contexts/TargetingContext'
+
 const TargetingPauseButton = ({
   togglePauseCampaign,
   isPaused,
@@ -12,8 +14,9 @@ const TargetingPauseButton = ({
   className,
   buttonClass,
 }) => {
+  const { targetingState } = React.useContext(TargetingContext)
   // GOT TOGGLE FUNCTION
-  const togglePause = useSaveTargeting({ spendingPaused: isPaused, togglePauseCampaign })
+  const togglePause = useSaveTargeting({ spendingPaused: isPaused, togglePauseCampaign, targetingState })
   return (
     <div
       className={[

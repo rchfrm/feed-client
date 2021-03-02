@@ -9,6 +9,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import calcFeedMinBudgetInfo from '@/app/helpers/budgetHelpers'
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
@@ -120,13 +121,12 @@ function ArtistProvider({ children, disable }) {
     const { artist, error } = await artistHelpers.getArtist(id)
     if (error) {
       setArtistLoading(false)
-      // Track
-      track({
+      // Sentry error
+      fireSentryError({
         category: 'sign up',
         action: 'Could not get artist using artistHelpers.getArtist(id)',
         description: error.message,
         label: `artistId: ${id}`,
-        error: true,
       })
       return { error: {
         message: `Error fetching artist ID: ${id}`,
@@ -206,24 +206,22 @@ function ArtistProvider({ children, disable }) {
     // Wait to connect all artists
     await Promise.all(createAllArtists)
       .catch((error) => {
-        // Track
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'Problem creating artists in Artist context createArtist()',
           description: error.message,
-          error: true,
         })
         throw (error)
       })
     // Update user
     const updatedUser = await storeUser()
       .catch((error) => {
-        // Track
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'Problem updating user in Artist context createArtist()',
           description: error.message,
-          error: true,
         })
         throw (error)
       })
@@ -237,11 +235,14 @@ function ArtistProvider({ children, disable }) {
     setArtistLoading(false)
     // TRACK
     const newUser = !oldUser.artists.length
-    track({
-      action: newUser ? 'create_profile' : 'add_profile',
-      category: newUser ? 'sign_up' : 'account',
-      label: updatedUser.id,
-    })
+    if (newUser) {
+      track('create_profile', null, {
+        fbProps: { action: 'CompleteRegistration' },
+        gaProps: { action: 'sign_up' },
+      })
+    } else {
+      track('add_profile')
+    }
   }
 
   const updateBudget = React.useCallback((majorUnitAmount) => {

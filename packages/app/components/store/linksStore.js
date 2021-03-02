@@ -252,7 +252,8 @@ const updateLinksStore = (set, get) => (action, {
     const { nestedLinks } = get()
     const defaultLink = getDefaultLink({ artist: newArtist, linkFolders: nestedLinks })
     const updatedNestedLinks = tidyFolders(nestedLinks, defaultLink.id)
-    return set({ defaultLink, nestedLinks: updatedNestedLinks })
+    set({ defaultLink, nestedLinks: updatedNestedLinks })
+    return defaultLink
   }
   // GET UPDATED NESTED LINKS WHEN...
   const { nestedLinksUpdated, defaultLinkUpdated } = newLink

@@ -59,7 +59,7 @@ const InsightDataSelectors = ({
       querySlug={filterQuerySlug}
       trackProps={{
         action: 'adjust_filter',
-        category: 'insights',
+        page: 'insights',
       }}
     />
   )
