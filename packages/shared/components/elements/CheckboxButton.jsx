@@ -8,23 +8,23 @@ const CheckboxButton = ({
   id,
   name,
   label,
-  trackGroupLabel,
-  trackValue,
   checked,
   highlight,
   disabled,
   onChange,
+  trackGroupLabel,
+  trackValue,
+  trackLocation,
   className,
 }) => {
   const valueString = value.toString()
   const idName = id || `checkbox-${valueString}`
 
   const handleChange = () => {
-    track({
-      action: 'checkbox_button_clicked',
+    track('checkbox_button_clicked', {
       label: trackGroupLabel || label,
-      category: 'generic',
       value: trackValue || valueString,
+      location: trackLocation,
     })
     onChange(value, checked)
   }
@@ -75,24 +75,26 @@ CheckboxButton.propTypes = {
     PropTypes.string,
     PropTypes.node,
   ]).isRequired,
-  trackGroupLabel: PropTypes.string,
-  trackValue: PropTypes.string,
   checked: PropTypes.bool,
   highlight: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
+  trackGroupLabel: PropTypes.string,
+  trackValue: PropTypes.string,
+  trackLocation: PropTypes.string,
   className: PropTypes.string,
 }
 
 CheckboxButton.defaultProps = {
   id: '',
   name: '',
-  className: null,
-  trackGroupLabel: '',
-  trackValue: '',
   checked: false,
   highlight: false,
   disabled: false,
+  trackGroupLabel: '',
+  trackValue: '',
+  trackLocation: '',
+  className: null,
 }
 
 export default CheckboxButton

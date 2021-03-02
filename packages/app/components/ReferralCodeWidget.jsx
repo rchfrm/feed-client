@@ -31,10 +31,8 @@ const ReferralCodeWidget = ({
         label={label}
         size="large"
         onCopied={() => {
-          track({
-            action: 'share_referral_code',
-            category: 'account',
-            label: 'clipboard',
+          track('share_referral_code', {
+            shareType: 'clipboard',
           })
         }}
         className={[

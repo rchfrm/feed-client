@@ -18,7 +18,7 @@ import Error from '@/elements/Error'
 import * as ROUTES from '@/app/constants/routes'
 
 // IMPORT HELPERS
-import { track } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import styles from '@/app/ConnectAccounts.module.css'
 import copy from '@/app/copy/connectProfilesCopy'
@@ -93,11 +93,10 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
     const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken)
       .catch((error) => {
         // Track
-        track({
+        fireSentryError({
           category: 'sign up',
           action: 'Error with artistHelpers.getArtistOnSignUp()',
           description: error.message,
-          error: true,
         })
         if (!isMounted) return
         setErrors([error])
@@ -123,10 +122,9 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
       setPageLoading(false)
       toggleGlobalLoading(false)
       // Track
-      track({
+      fireSentryError({
         category: 'sign up',
-        action: 'No add accounts were found after running artistHelpers.getArtistOnSignUp()',
-        error: true,
+        action: 'No ad accounts were found after running artistHelpers.getArtistOnSignUp()',
       })
       return
     }
@@ -137,10 +135,9 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
       setPageLoading(false)
       toggleGlobalLoading(false)
       // Track
-      track({
+      fireSentryError({
         category: 'sign up',
-        action: 'No accounts were found after running artistHelpers.getArtistOnSignUp()',
-        error: true,
+        action: 'No Facebook Pages were found after running artistHelpers.getArtistOnSignUp()',
       })
     }
 

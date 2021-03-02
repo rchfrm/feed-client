@@ -94,14 +94,10 @@ const PixelSelector = ({
     // Reset error
     setError(null)
     // Track
-    track({
-      action: 'change_pixel',
-      category: 'pixel',
-      mixpanelProps: {
-        location: trackLocation,
-        pixelId,
-        ...(pixelId === disabledPixelId && { disabled: true }),
-      },
+    track('change_pixel', {
+      location: trackLocation,
+      pixelId,
+      ...(pixelId === disabledPixelId && { disabled: true }),
     })
   }, [artistId, onSelect, onError, onSuccess, setArtist, trackLocation])
 
@@ -115,13 +111,9 @@ const PixelSelector = ({
     // Set pixel on server
     selectPixel(id)
     // Track
-    track({
-      action: 'add_new_pixel',
-      category: 'pixel',
-      mixpanelProps: {
-        location: trackLocation,
-        pixelId: id,
-      },
+    track('add_new_pixel', {
+      location: trackLocation,
+      pixelId: id,
     })
   }
 

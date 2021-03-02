@@ -38,10 +38,7 @@ function ForgotPasswordForm({ setSuccess, setError, setEmail, email, error, isIn
     setSuccess(`Instructions for resetting your password have been sent to ${email}`)
     setEmail('')
     setLoading(false)
-    track({
-      category: 'login',
-      action: 'Requested password reset',
-    })
+    track('reset_password')
   }
 
   return (

@@ -33,6 +33,7 @@ const links = [
   {
     href: PRICING,
     title: 'pricing',
+    external: true,
   },
   {
     href: termsLink,
@@ -70,7 +71,7 @@ const TheSubNavLinks = ({ className }) => {
             return (
               <li className={[styles.linkItem].join(' ')} key={href}>
                 {external
-                  ? <a className={styles.a} href={href} target="_blank" rel="noopener noreferrer">{ titleText }</a>
+                  ? <a className={styles.a} href={href}>{ titleText }</a>
                   : <ActiveLink href={href}><a className={styles.a}>{ titleText }</a></ActiveLink>}
               </li>
             )

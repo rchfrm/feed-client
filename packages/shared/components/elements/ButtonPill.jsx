@@ -13,6 +13,7 @@ const ButtonPill = ({
   trackAction,
   trackValue,
   trackLabel,
+  trackLocation,
   style,
   className,
   children,
@@ -29,11 +30,10 @@ const ButtonPill = ({
 
   const handleClick = (e) => {
     if (trackValue || trackLabel) {
-      track({
-        action: trackAction || 'button_click',
-        category: 'generic',
+      track(trackAction || 'button_click', {
         label: trackLabel,
         value: trackValue,
+        location: trackLocation,
       })
     }
     onClick(e)
@@ -63,6 +63,7 @@ ButtonPill.propTypes = {
   trackAction: PropTypes.string,
   trackValue: PropTypes.string,
   trackLabel: PropTypes.string,
+  trackLocation: PropTypes.string,
   children: PropTypes.node.isRequired,
   style: PropTypes.object,
   className: PropTypes.string,
@@ -77,6 +78,7 @@ ButtonPill.defaultProps = {
   trackAction: '',
   trackValue: '',
   trackLabel: '',
+  trackLocation: '',
   style: {},
   className: '',
 }

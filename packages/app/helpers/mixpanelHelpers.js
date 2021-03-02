@@ -24,7 +24,7 @@ export const updateMixpanel = (user) => {
 }
 
 // TRACK MIXPANEL EVENTS
-export const mixpanelTrack = (action, payload) => {
+export const trackMixpanel = (action, payload) => {
   // Only LOG track if admin
   if (userType === 'admin') {
     console.group()
@@ -45,7 +45,7 @@ export const mixpanelSignUp = (userId) => {
 }
 
 // Log in
-export const mixpanelLogin = (userId) => {
+export const mixpanelIdentify = (userId) => {
   mixpanel.identify(userId)
 }
 
@@ -56,7 +56,7 @@ export const mixpanelSignOut = () => {
 
 // View page
 export const mixpanelPageView = (url) => {
-  mixpanelTrack('page_view', { value: url })
+  trackMixpanel('page_view', { value: url })
 }
 
 

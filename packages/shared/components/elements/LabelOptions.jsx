@@ -22,6 +22,7 @@ const LabelOptions = ({
   activeOptionId,
   setActiveOptionId,
   trackLabel,
+  trackLocation,
   className,
 }) => {
   return (
@@ -48,11 +49,10 @@ const LabelOptions = ({
               ].join(' ')}
               onClick={() => {
                 setActiveOptionId(id)
-                track({
-                  action: 'label_option_clicked',
-                  category: 'generic',
+                track('label_option_clicked', {
                   label: trackLabel,
                   value: title,
+                  location: trackLocation,
                 })
               }}
             >
@@ -70,10 +70,12 @@ LabelOptions.propTypes = {
   activeOptionId: PropTypes.string.isRequired,
   setActiveOptionId: PropTypes.func.isRequired,
   trackLabel: PropTypes.string.isRequired,
+  trackLocation: PropTypes.string,
   className: PropTypes.string,
 }
 
 LabelOptions.defaultProps = {
+  trackLocation: '',
   className: null,
 }
 

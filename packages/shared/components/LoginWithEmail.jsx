@@ -15,6 +15,7 @@ import Error from '@/elements/Error'
 import * as ROUTES from '@/app/constants/routes'
 
 import { track, trackLogin } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import styles from '@/LoginPage.module.css'
 
@@ -60,19 +61,14 @@ function LoginWithEmail({ className }) {
       setEmail('')
       setPassword('')
       setError(loginError)
-      track({
-        category: 'login',
-        label: 'failure',
-        action: loginError.message,
-      })
       return
     }
     if (tokenError) {
-      track({
+      // Sentry error
+      fireSentryError({
         category: 'login',
         label: 'failure',
         action: `no token returned from emailLogin: ${tokenError.message}`,
-        error: true,
       })
       return
     }
@@ -96,14 +92,14 @@ function LoginWithEmail({ className }) {
         return
       }
       // TRACK LOGIN
-      trackLogin({ method: 'password', userId: user.id })
+      trackLogin({ authProvider: 'password', userId: user.id })
       // REDIRECT
       const initialPage = rejectedPagePath
       Router.push(initialPage || ROUTES.HOME)
     } else {
       setNoArtist()
       // TRACK LOGIN
-      trackLogin({ method: 'password', userId: user.id })
+      trackLogin({ authProvider: 'password', userId: user.id })
       // REDIRECT
       Router.push(ROUTES.SIGN_UP_CONTINUE)
     }

@@ -27,6 +27,7 @@ const Select = ({
   loading,
   disabled,
   autoComplete,
+  trackLocation,
   className,
 }) => {
   // Define class array
@@ -54,10 +55,9 @@ const Select = ({
 
   const onChange = (e) => {
     handleChange(e)
-    track({
-      action: 'select_input_selected',
+    track('select_input_selected', {
+      location: trackLocation,
       label,
-      category: 'generic',
       value: e.target.value,
     })
   }
@@ -171,6 +171,7 @@ Select.propTypes = {
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
   autoComplete: PropTypes.bool,
+  trackLocation: PropTypes.string,
   className: PropTypes.string,
 }
 
@@ -183,9 +184,10 @@ Select.defaultProps = {
   disabled: false,
   loading: false,
   autoComplete: true,
-  className: '',
   placeholder: '',
   selectedValue: '',
+  trackLocation: '',
+  className: '',
 }
 
 export default Select
