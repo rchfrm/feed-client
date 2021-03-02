@@ -10,7 +10,7 @@ import SignupEmailForm from '@/app/SignupEmailForm'
 import LoginSignupButtons from '@/LoginSignupButtons'
 import SignupReferralCodeDisplay from '@/app/SignupReferralCodeDisplay'
 // IMPORT HELPERS
-import firebaseHelpers from '@/helpers/firebaseHelpers'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'

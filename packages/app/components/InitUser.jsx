@@ -11,7 +11,7 @@ import * as ROUTES from '@/app/constants/routes'
 
 import * as queryString from 'query-string'
 import * as utils from '@/helpers/utils'
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 
 import { trackLogin, trackSignUp } from '@/app/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
@@ -42,7 +42,7 @@ const kickToLogin = ({ initialPathname, initialFullPath, setRejectedPagePath }) 
 
 // GET MISSING SCOPES
 const getMissingScopes = (grantedScopes) => {
-  const { requiredScopes } = firebase
+  const { requiredScopes } = firebaseHelpers
   return requiredScopes.reduce((arr, scope) => {
     const scopeGranted = grantedScopes.includes(scope)
     if (scopeGranted) return arr
@@ -130,8 +130,8 @@ const InitUser = ({ children }) => {
   const rejectNewUser = async ({ errorMessage, errorLabel, redirectTo }) => {
     redirectPage(redirectTo || ROUTES.LOGIN)
     setArtistLoading(false)
-    await firebase.deleteUser()
-    await firebase.doSignOut()
+    await firebaseHelpers.deleteUser()
+    await firebaseHelpers.doSignOut()
     const error = {
       message: errorMessage,
     }
@@ -298,14 +298,14 @@ const InitUser = ({ children }) => {
     // If no auth user, handle that
     if (!authUser) return handleNoAuthUser(authError)
     // If there is, store the user in auth context
-    const authToken = await firebase.getVerifyIdToken()
+    const authToken = await firebaseHelpers.getVerifyIdToken()
       .catch((error) => {
         storeAuth({ authError: error })
         // Sentry error
         fireSentryError({
           category: 'login',
           action: 'InitUser: HANDLE INITIAL LOGGED IN TEST',
-          description: `Error with firebase.getVerifyIdToken(): ${error.message}`,
+          description: `Error with firebaseHelpers.getVerifyIdToken(): ${error.message}`,
         })
       })
     await storeAuth({ authUser, authToken, authError })
@@ -318,10 +318,10 @@ const InitUser = ({ children }) => {
       category: 'login',
       action: 'handle no FB redirect',
     })
-    const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
+    const unsubscribe = firebaseHelpers.auth.onAuthStateChanged(async (authUser) => {
       fireSentryBreadcrumb({
         category: 'login',
-        action: 'firebase.auth.onAuthStateChanged',
+        action: 'firebaseHelpers.auth.onAuthStateChanged',
       })
       await handleInitialAuthCheck(authUser, fbRedirectError)
       if (!isMounted()) return
@@ -334,7 +334,7 @@ const InitUser = ({ children }) => {
   // RUN ON INTIAL MOUNT
   useAsyncEffect(async (isMounted) => {
     // Check for the result of a redirect from Facebook
-    const redirectResult = await firebase.redirectResult()
+    const redirectResult = await firebaseHelpers.redirectResult()
     // Destructure redirect result
     const { user, error, credential, additionalUserInfo, operationType } = redirectResult
     // * Handle no redirect
@@ -369,14 +369,14 @@ const InitUser = ({ children }) => {
         category: 'login',
         action: 'Handle successful FB redirect',
       })
-      const authToken = await firebase.getVerifyIdToken()
+      const authToken = await firebaseHelpers.getVerifyIdToken()
         .catch((error) => {
           storeAuth({ authError: error })
           // Sentry error
           fireSentryError({
             category: 'login',
             action: 'InitUser: Handle REDIRECT success',
-            description: `Error with firebase.getVerifyIdToken(): ${error.message}`,
+            description: `Error with firebaseHelpers.getVerifyIdToken(): ${error.message}`,
           })
         })
       if (!authToken) return

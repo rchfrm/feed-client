@@ -2,18 +2,7 @@ import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
-const requiredScopes = [
-  'email',
-  'read_insights',
-  'pages_manage_ads',
-  'pages_manage_metadata',
-  'pages_read_engagement',
-  'pages_read_user_content',
-  'pages_show_list',
-  'ads_management',
-  'instagram_basic',
-  'instagram_manage_insights',
-]
+const fbProvider = new app.auth.FacebookAuthProvider()
 
 const config = {
   apiKey: process.env.firebase_api_key,
@@ -28,131 +17,137 @@ if (!app.apps.length) {
   app.initializeApp(config)
 }
 
-const auth = app.auth()
-const fbProvider = new app.auth.FacebookAuthProvider()
+export const auth = app.auth()
 
-// Export firebase functions
-export default {
+// USED
+export const requiredScopes = [
+  'email',
+  'read_insights',
+  'pages_manage_ads',
+  'pages_manage_metadata',
+  'pages_read_engagement',
+  'pages_read_user_content',
+  'pages_show_list',
+  'ads_management',
+  'instagram_basic',
+  'instagram_manage_insights',
+]
 
-  auth,
 
-  requiredScopes,
+export const doCreateUserWithEmailAndPassword = (email, password) => {
+  return auth.createUserWithEmailAndPassword(email, password)
+}
 
-  doCreateUserWithEmailAndPassword: (email, password) => {
-    return auth.createUserWithEmailAndPassword(email, password)
-  },
-
-  doSignInWithEmailAndPassword: async (email, password) => {
-    const res = await auth.signInWithEmailAndPassword(email, password)
-      .catch((error) => {
-        return { error }
-      })
-    if (res.error) return { error: res.error }
-    return { authUser: res }
-  },
-
-  doSignOut: () => {
-    return auth.signOut()
-  },
-
-  doPasswordReset: email => {
-    return auth.sendPasswordResetEmail(email)
-  },
-
-  doPasswordUpdate: async (password) => {
-    const res = await auth.currentUser.updatePassword(password)
-      .catch((error) => {
-        return { error }
-      })
-    if (res) return res
-  },
-
-  doEmailUpdate: async (email) => {
-    const res = await auth.currentUser.updateEmail(email)
-      .catch((error) => {
-        return { error }
-      })
-    if (res) return res
-  },
-
-  loginWithFacebook: () => {
-    return auth.signInWithRedirect(fbProvider)
-  },
-
-  signUpWithFacebook: () => {
-    requiredScopes.forEach(scope => {
-      fbProvider.addScope(scope)
+export const doSignInWithEmailAndPassword = async (email, password) => {
+  const res = await auth.signInWithEmailAndPassword(email, password)
+    .catch((error) => {
+      return { error }
     })
-    return auth.signInWithRedirect(fbProvider)
-  },
+  if (res.error) return { error: res.error }
+  return { authUser: res }
+}
 
-  /**
-  * @param {array} requestedPermissions optional array of scope requests
-  * @returns {Promise<void>}
-  */
-  linkFacebookAccount: (requestedPermissions) => {
-    const scopeRequests = requestedPermissions || requiredScopes
-    scopeRequests.forEach(scope => {
-      fbProvider.addScope(scope)
+
+export const doSignOut = () => {
+  return auth.signOut()
+}
+
+
+export const doPasswordReset = (email) => {
+  return auth.sendPasswordResetEmail(email)
+}
+
+
+export const doPasswordUpdate = async (password) => {
+  const res = await auth.currentUser.updatePassword(password)
+    .catch((error) => {
+      return { error }
     })
-    return auth.currentUser.linkWithRedirect(fbProvider)
-  },
+  if (res) return res
+}
 
-  /**
-   * @param {array} requestedPermissions optional array of scope requests
-   * @returns {Promise<void>}
-   */
-  reauthFacebook: (requestedPermissions) => {
-    const scopeRequests = requestedPermissions || requiredScopes
-    scopeRequests.forEach(scope => {
-      fbProvider.addScope(scope)
+
+export const doEmailUpdate = async (email) => {
+  const res = await auth.currentUser.updateEmail(email)
+    .catch((error) => {
+      return { error }
     })
-    fbProvider.setCustomParameters({ auth_type: 'rerequest' })
-    return auth.currentUser.reauthenticateWithRedirect(fbProvider)
-  },
+  if (res) return res
+}
 
-  redirectResult: async () => {
-    const redirectTo = await auth.getRedirectResult()
-      .catch((err) => {
-        const { message, code } = err
-        return {
-          error: {
-            message,
-            code,
-          },
-        }
-      })
-    return redirectTo
-  },
 
-  user: uid => {
-    app.db.collection('users').doc(uid)
-  },
+export const loginWithFacebook = () => {
+  return auth.signInWithRedirect(fbProvider)
+}
 
-  users: () => {
-    app.db.collection('users')
-  },
 
-  getVerifyIdToken: () => {
-    if (!auth || !auth.currentUser) return false
-    return auth.currentUser.getIdToken()
-  },
+export const signUpWithFacebook = () => {
+  requiredScopes.forEach(scope => {
+    fbProvider.addScope(scope)
+  })
+  return auth.signInWithRedirect(fbProvider)
+}
 
-  /**
+
+/**
+* @param {array} requestedPermissions optional array of scope requests
+* @returns {Promise<void>}
+*/
+export const linkFacebookAccount = (requestedPermissions) => {
+  const scopeRequests = requestedPermissions || requiredScopes
+  scopeRequests.forEach(scope => {
+    fbProvider.addScope(scope)
+  })
+  return auth.currentUser.linkWithRedirect(fbProvider)
+}
+
+
+/**
+ * @param {array} requestedPermissions optional array of scope requests
+ * @returns {Promise<void>}
+ */
+export const reauthFacebook = (requestedPermissions) => {
+  const scopeRequests = requestedPermissions || requiredScopes
+  scopeRequests.forEach(scope => {
+    fbProvider.addScope(scope)
+  })
+  fbProvider.setCustomParameters({ auth_type: 'rerequest' })
+  return auth.currentUser.reauthenticateWithRedirect(fbProvider)
+}
+
+
+export const redirectResult = async () => {
+  const redirectTo = await auth.getRedirectResult()
+    .catch((err) => {
+      const { message, code } = err
+      return {
+        error: {
+          message,
+          code,
+        },
+      }
+    })
+  return redirectTo
+}
+
+
+export const getVerifyIdToken = () => {
+  if (!auth || !auth.currentUser) return false
+  return auth.currentUser.getIdToken()
+}
+
+
+/**
    * @param boolean forceRefresh
    * @returns {Promise<string>}
    */
-  getIdTokenOrFail: (forceRefresh = false) => {
-    if (!auth || !auth.currentUser) throw new Error('no login session found')
-    return auth.currentUser.getIdToken(forceRefresh)
-  },
-
-  getVerifyIdTokenResult: () => {
-    if (!auth || !auth.currentUser) return false
-    return auth.currentUser.getIdTokenResult()
-  },
-
-  deleteUser: () => {
-    return auth.currentUser.delete()
-  },
+export const getIdTokenOrFail = (forceRefresh = false) => {
+  if (!auth || !auth.currentUser) throw new Error('no login session found')
+  return auth.currentUser.getIdToken(forceRefresh)
 }
+
+
+export const deleteUser = () => {
+  return auth.currentUser.delete()
+}
+

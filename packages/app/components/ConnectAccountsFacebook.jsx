@@ -7,7 +7,7 @@ import Error from '@/elements/Error'
 import VimeoEmbed from '@/elements/VimeoEmbed'
 import MarkdownText from '@/elements/MarkdownText'
 // IMPORT HELPERS
-import firebaseHelpers from '@/helpers/firebaseHelpers'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 // IMPORT COPY
 import copy from '@/app/copy/connectProfilesCopy'
 

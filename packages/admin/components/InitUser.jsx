@@ -8,7 +8,7 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import * as ROUTES from '@/admin/constants/routes'
 
 import * as utils from '@/helpers/utils'
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 
 // CALL REDIRECT
 let userRedirected = false
@@ -106,7 +106,7 @@ const InitUser = ({ children }) => {
     // If no auth user, handle that
     if (!authUser) return handleNoAuthUser(authError)
     // If there is, store the user in auth context
-    const authToken = await firebase.getVerifyIdToken()
+    const authToken = await firebaseHelpers.getVerifyIdToken()
       .catch((error) => {
         storeAuth({ authError: error })
       })
@@ -116,7 +116,7 @@ const InitUser = ({ children }) => {
 
 
   const detectSignedInUser = (isMounted, fbRedirectError) => {
-    const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
+    const unsubscribe = firebaseHelpers.auth.onAuthStateChanged(async (authUser) => {
       await handleInitialAuthCheck(authUser, fbRedirectError)
       if (!isMounted()) return
       showContent(isMounted)

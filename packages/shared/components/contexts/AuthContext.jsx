@@ -1,7 +1,7 @@
 import React from 'react'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
 const initialAuthState = {
@@ -89,7 +89,7 @@ function AuthProvider({ children }) {
   const relinkFacebook = async () => {
     setAuthLoading(true)
     try {
-      await firebase.reauthFacebook()
+      await firebaseHelpers.reauthFacebook()
     } catch (err) {
       setAuthLoading(false)
       throw (err)
@@ -98,7 +98,7 @@ function AuthProvider({ children }) {
 
   const emailLogin = async (email, password) => {
     setAuthLoading(true)
-    const { authUser, error: loginError } = await firebase.doSignInWithEmailAndPassword(email, password)
+    const { authUser, error: loginError } = await firebaseHelpers.doSignInWithEmailAndPassword(email, password)
     if (loginError) return { loginError }
     const { user } = authUser
     const token = await user.getIdToken()
@@ -111,7 +111,7 @@ function AuthProvider({ children }) {
 
   const signUp = async (email, password) => {
     setAuthLoading(true)
-    const authUser = await firebase.doCreateUserWithEmailAndPassword(email, password)
+    const authUser = await firebaseHelpers.doCreateUserWithEmailAndPassword(email, password)
       .catch((error) => {
         setAuthLoading(false)
         throw new Error(error.message)

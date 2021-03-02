@@ -1,5 +1,5 @@
 import axios from 'axios'
-import firebaseHelpers from '@/helpers/firebaseHelpers'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import host from '@/helpers/host'
 
 import { fireSentryError } from '@/app/helpers/sentryHelpers'

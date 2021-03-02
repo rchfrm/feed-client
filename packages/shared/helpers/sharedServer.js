@@ -1,5 +1,5 @@
 import * as api from '@/helpers/api'
-import firebaseHelpers from '@/helpers/firebaseHelpers'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 
 // GENERIC
 /**
