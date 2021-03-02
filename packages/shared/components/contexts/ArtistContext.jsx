@@ -7,7 +7,6 @@ import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'

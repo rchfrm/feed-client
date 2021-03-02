@@ -68,7 +68,6 @@ const InitUser = ({ children }) => {
     setAuthError,
     storeAuth,
     setMissingScopes,
-    rejectedPagePath,
     setRejectedPagePath,
   } = React.useContext(AuthContext)
   const { runCreateUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
