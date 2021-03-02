@@ -6,9 +6,6 @@ import { fireSentryError } from '@/app/helpers/sentryHelpers'
 // -------
 const triggerBudgetError = ({ errorMessage, value, currencyCode }) => {
   const errorDescription = `${errorMessage}\nCalculated value is ${value}, in currency ${currencyCode}`
-  console.log('********************')
-  console.log('errorDescription', errorDescription)
-  console.log('********************')
   fireSentryError({ description: errorDescription })
 }
 
