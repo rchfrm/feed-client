@@ -12,43 +12,12 @@ import * as ROUTES from '@/app/constants/routes'
 import * as queryString from 'query-string'
 import * as utils from '@/helpers/utils'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
+import * as signupHelpers from '@/app/helpers/signupHelpers'
 
 import { trackLogin, trackSignUp } from '@/app/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
-// CALL REDIRECT
 let userRedirected = false
-const redirectPage = (newPathname, currentPathname, useRejectedPagePath = false) => {
-  const rejectedPagePath = useRejectedPagePath ? utils.getLocalStorage('rejectedPagePath') : ''
-  const newPagePath = rejectedPagePath || newPathname
-  if (newPathname === currentPathname) return
-  userRedirected = true
-  Router.push(newPagePath)
-}
-
-// KICK TO LOGIN (if necessary)
-const kickToLogin = ({ initialPathname, initialFullPath, setRejectedPagePath }) => {
-  // If on signup email page, just go to plain signup
-  if (initialPathname === ROUTES.SIGN_UP_EMAIL) {
-    redirectPage(ROUTES.SIGN_UP, initialPathname)
-    return
-  }
-  // Only kick to login if user is on restricted page
-  if (ROUTES.restrictedPages.includes(initialPathname)) {
-    setRejectedPagePath(initialFullPath)
-    redirectPage(ROUTES.LOGIN, initialPathname)
-  }
-}
-
-// GET MISSING SCOPES
-const getMissingScopes = (grantedScopes) => {
-  const { requiredScopes } = firebaseHelpers
-  return requiredScopes.reduce((arr, scope) => {
-    const scopeGranted = grantedScopes.includes(scope)
-    if (scopeGranted) return arr
-    return [...arr, scope]
-  }, [])
-}
 
 // Read from referralStore
 const getGetStoredReferrerCode = state => state.getStoredReferrerCode
@@ -103,7 +72,7 @@ const InitUser = ({ children }) => {
     setNoArtist()
     // Check if the user is on an auth only page,
     // if they are push to log in page
-    kickToLogin({ initialPathname, initialFullPath, setRejectedPagePath })
+    userRedirected = signupHelpers.kickToLogin({ initialPathname, initialFullPath, setRejectedPagePath })
   }
 
   // HANDLE Invalid FB credential
@@ -128,7 +97,7 @@ const InitUser = ({ children }) => {
   // - Send back to login
   // - Show error
   const rejectNewUser = async ({ errorMessage, errorLabel, redirectTo }) => {
-    redirectPage(redirectTo || ROUTES.LOGIN)
+    userRedirected = signupHelpers.redirectPage(redirectTo || ROUTES.LOGIN)
     setArtistLoading(false)
     await firebaseHelpers.deleteUser()
     await firebaseHelpers.doSignOut()
@@ -182,7 +151,7 @@ const InitUser = ({ children }) => {
       })
     if (!user) return
     // Check whether the new user has missing scopes
-    const missingScopes = getMissingScopes(granted_scopes)
+    const missingScopes = signupHelpers.getMissingScopes(granted_scopes)
     // Set missing scopes
     if (missingScopes.length) {
       setMissingScopes(missingScopes) // from Auth context
@@ -195,7 +164,7 @@ const InitUser = ({ children }) => {
     }
     // As this is a new user, run setNoArtist, and push them to the Connect Artist page
     setNoArtist()
-    redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
+    userRedirected = signupHelpers.redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
     // TRACK
     trackSignUp({ authProvider: 'facebook', userId: user.id })
   }
@@ -225,7 +194,7 @@ const InitUser = ({ children }) => {
     if (additionalUserInfo) {
       // Check whether the new user has missing scopes
       const { profile: { granted_scopes } } = additionalUserInfo
-      const missingScopes = getMissingScopes(granted_scopes)
+      const missingScopes = signupHelpers.getMissingScopes(granted_scopes)
       // Set missing scopes
       if (missingScopes.length) {
         setMissingScopes(missingScopes) // from Auth context
@@ -247,7 +216,7 @@ const InitUser = ({ children }) => {
       // TRACK LOGIN
       trackLogin({ authProvider: 'facebook', userId: user.id })
       setNoArtist()
-      redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
+      userRedirected = signupHelpers.redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
       return
     }
     // If they do have artists, check for artist ID from query string parameter
@@ -285,7 +254,7 @@ const InitUser = ({ children }) => {
       // Redirect to page they tried to access (or home page)
       const defaultLandingPage = ROUTES.HOME
       const useRejectedPagePath = true
-      redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
+      userRedirected = signupHelpers.redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
     }
   }
 
