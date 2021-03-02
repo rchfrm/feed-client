@@ -78,6 +78,12 @@ function Feed({ Component, pageProps }) {
   const previousUrl = React.useRef({})
 
   React.useEffect(() => {
+    // Make background red if running live DB locally
+    if (process.env.show_live_warning) {
+      const htmlEl = document.getElementsByTagName('html')[0]
+      htmlEl.classList.add('_live_warning')
+    }
+
     // Setup tracking
     setupTracking()
     // Setup PWA
