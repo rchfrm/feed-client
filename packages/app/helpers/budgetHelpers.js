@@ -1,10 +1,12 @@
 import * as utils from '@/helpers/utils'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 
 // TESTING
 // -------
-const triggerBudgetError = ({ error, value, currencyCode }) => {
-  console.error(error, value, currencyCode)
+const triggerBudgetError = ({ errorMessage, value, currencyCode }) => {
+  const errorDescription = `${errorMessage}\nCalculated value is ${value}, in currency ${currencyCode}`
+  fireSentryError({ description: errorDescription })
 }
 
 // This checks that the rounding has produced a reasonable budget amount
@@ -17,15 +19,15 @@ const checkBudgetError = ({
 }) => {
   // Check minHard error
   if (((minHard / minBaseUnrounded) < 2) || ((minHard / minBaseUnrounded) > 3)) {
-    return { error: 'minHard Error', value: minHard / minBaseUnrounded, currencyCode }
+    return { errorMessage: 'minHard Error', value: minHard / minBaseUnrounded, currencyCode }
   }
   // Check minBase error
   if (((minReccomendedBase / minBaseUnrounded) < 3) || ((minReccomendedBase / minBaseUnrounded) > 4)) {
-    return { error: 'minReccomendedBase Error', value: minReccomendedBase / minBaseUnrounded, currencyCode }
+    return { errorMessage: 'minReccomendedBase Error', value: minReccomendedBase / minBaseUnrounded, currencyCode }
   }
   // Check minStories error
   if (((minReccomendedStories / minBaseUnrounded) < 5) || ((minReccomendedStories / minBaseUnrounded) > 7)) {
-    return { error: 'minReccomendedStories Error', value: minReccomendedStories / minBaseUnrounded, currencyCode }
+    return { errorMessage: 'minReccomendedStories Error', value: minReccomendedStories / minBaseUnrounded, currencyCode }
   }
   // No errors
   return null
