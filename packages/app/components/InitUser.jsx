@@ -12,7 +12,9 @@ import * as ROUTES from '@/app/constants/routes'
 import * as queryString from 'query-string'
 import * as utils from '@/helpers/utils'
 import firebase from '@/helpers/firebase'
-import { track, trackLogin, trackSignUp } from '@/app/helpers/trackingHelpers'
+
+import { trackLogin, trackSignUp } from '@/app/helpers/trackingHelpers'
+import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
 // CALL REDIRECT
 let userRedirected = false
@@ -114,12 +116,11 @@ const InitUser = ({ children }) => {
     setAuthError({ message: decodedMessage })
     // Handle no auth error
     handleNoAuthUser()
-    // Track
-    track({
+    // Sentry error
+    fireSentryError({
       category: 'login',
       action: 'Invalid FB credential (InitUser)',
       description: decodedMessage,
-      error: true,
     })
   }
 
@@ -137,12 +138,12 @@ const InitUser = ({ children }) => {
     }
     setNoAuth(error)
     setUserLoading(false)
-    track({
+    // Sentry error
+    fireSentryError({
       category: 'sign up',
       action: 'handleNewUser',
       label: errorLabel,
       description: error.message,
-      error: true,
     })
   }
 
@@ -172,12 +173,12 @@ const InitUser = ({ children }) => {
       lastName: last_name,
     })
       .catch((error) => {
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'handleNewUser',
           label: 'Error in createUser()',
           description: error.message,
-          error: true,
         })
       })
     if (!user) return
@@ -187,40 +188,37 @@ const InitUser = ({ children }) => {
     if (missingScopes.length) {
       setMissingScopes(missingScopes) // from Auth context
       // BREADCRUMB
-      track({
+      fireSentryBreadcrumb({
         category: 'sign up',
         action: 'Handle new FB user',
         label: 'missing scopes',
-        breadcrumb: true,
       })
     }
     // As this is a new user, run setNoArtist, and push them to the Connect Artist page
     setNoArtist()
     redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
     // TRACK
-    trackSignUp({ method: 'facebook', userId: user.id })
+    trackSignUp({ authProvider: 'facebook', userId: user.id })
   }
 
 
   // HANDLE EXISTING USERS
   const handleExistingUser = async (additionalUserInfo) => {
-    track({
+    fireSentryBreadcrumb({
       category: 'login',
       action: 'handleExistingUser',
-      breadcrumb: true,
-      ga: false,
     })
     // If it is a pre-existing user, store their profile in the user context
     const user = await storeUser()
       .catch((error) => {
-        track({
+        setAuthError({ message: 'No user was found in the database' })
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'handleExistingUser (InitUser)',
           label: 'No user returned from storeUser()',
           description: error.message,
-          error: true,
         })
-        setAuthError({ message: 'No user was found in the database' })
       })
     if (!user) return
     const { artists } = user
@@ -232,27 +230,23 @@ const InitUser = ({ children }) => {
       // Set missing scopes
       if (missingScopes.length) {
         setMissingScopes(missingScopes) // from Auth context
-        track({
+        fireSentryBreadcrumb({
           category: 'login',
           action: 'handleExistingUser',
           label: 'missing scopes',
-          breadcrumb: true,
-          ga: false,
         })
       }
     }
     // Check if they have artists connected to their account or not,
     // if they don't, set setNoArtist, and push them to the Connect Artist page
     if (artists.length === 0) {
-      track({
+      fireSentryBreadcrumb({
         category: 'login',
         action: 'handleExistingUser',
         label: 'no artists',
-        breadcrumb: true,
-        ga: false,
       })
       // TRACK LOGIN
-      trackLogin({ method: 'facebook', userId: user.id })
+      trackLogin({ authProvider: 'facebook', userId: user.id })
       setNoArtist()
       redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
       return
@@ -269,12 +263,10 @@ const InitUser = ({ children }) => {
     // if they don't have access, clear localStorage
     if (!hasAccess) {
       utils.setLocalStorage('artistId', '')
-      track({
+      fireSentryBreadcrumb({
         category: 'login',
         action: 'handleExistingUser',
         label: `no access to artist (id:${storedArtistId})`,
-        breadcrumb: true,
-        ga: false,
       })
     }
     // If they do have access set it as the selectedArtistId,
@@ -284,12 +276,10 @@ const InitUser = ({ children }) => {
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
     if (ROUTES.signedOutPages.includes(initialPathname)) {
-      track({
+      fireSentryBreadcrumb({
         category: 'login',
         action: 'handleExistingUser',
         label: 'go to home page',
-        breadcrumb: true,
-        ga: false,
       })
       // TRACK LOGIN
       trackLogin({ method: 'already logged in', userId: user.id })
@@ -302,11 +292,9 @@ const InitUser = ({ children }) => {
 
   // HANDLE INITIAL LOGGED IN TEST
   const handleInitialAuthCheck = async (authUser, authError) => {
-    track({
+    fireSentryBreadcrumb({
       category: 'login',
       action: 'handleInitialAuthCheck',
-      breadcrumb: true,
-      ga: false,
     })
     // If no auth user, handle that
     if (!authUser) return handleNoAuthUser(authError)
@@ -314,11 +302,11 @@ const InitUser = ({ children }) => {
     const authToken = await firebase.getVerifyIdToken()
       .catch((error) => {
         storeAuth({ authError: error })
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'login',
           action: 'InitUser: HANDLE INITIAL LOGGED IN TEST',
           description: `Error with firebase.getVerifyIdToken(): ${error.message}`,
-          error: true,
         })
       })
     await storeAuth({ authUser, authToken, authError })
@@ -327,18 +315,14 @@ const InitUser = ({ children }) => {
 
 
   const detectSignedInUser = (isMounted, fbRedirectError) => {
-    track({
+    fireSentryBreadcrumb({
       category: 'login',
       action: 'handle no FB redirect',
-      breadcrumb: true,
-      ga: false,
     })
     const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
-      track({
+      fireSentryBreadcrumb({
         category: 'login',
         action: 'firebase.auth.onAuthStateChanged',
-        breadcrumb: true,
-        ga: false,
       })
       await handleInitialAuthCheck(authUser, fbRedirectError)
       if (!isMounted()) return
@@ -367,12 +351,11 @@ const InitUser = ({ children }) => {
         handleFbInvalidCredential(message)
         return
       }
-      // Track
-      track({
+      // Sentry error
+      fireSentryError({
         category: 'login',
         action: 'Other FB redirect error (InitUser)',
         description: message,
-        error: true,
       })
       const customError = code === 'auth/account-exists-with-different-credential' ? {
         message: 'An account already exists with the same email address but different sign-in credentials. Please sign in using your email address',
@@ -383,30 +366,28 @@ const InitUser = ({ children }) => {
     }
     // * Handle REDIRECT success
     if (user) {
-      track({
+      fireSentryBreadcrumb({
         category: 'login',
         action: 'Handle successful FB redirect',
-        breadcrumb: true,
-        ga: false,
       })
       const authToken = await firebase.getVerifyIdToken()
         .catch((error) => {
           storeAuth({ authError: error })
-          track({
+          // Sentry error
+          fireSentryError({
             category: 'login',
             action: 'InitUser: Handle REDIRECT success',
             description: `Error with firebase.getVerifyIdToken(): ${error.message}`,
-            error: true,
           })
         })
       if (!authToken) return
       // Store Firebase's auth user in context
       await storeAuth({ authUser: user, authToken })
         .catch((err) => {
-          track({
+          // Sentry error
+          fireSentryError({
             category: 'sign up',
             action: 'Error storing firebase auth with storeAuth() (InitUser)',
-            error: true,
           })
           throw (err)
         })
@@ -418,20 +399,16 @@ const InitUser = ({ children }) => {
       // Handle new user
       const { isNewUser } = additionalUserInfo
       if (isNewUser) {
-        track({
+        fireSentryBreadcrumb({
           category: 'sign up',
           action: 'Handle new FB user',
-          breadcrumb: true,
-          ga: false,
         })
         await handleNewUser(additionalUserInfo)
       } else {
         // Handle existing user
-        track({
+        fireSentryBreadcrumb({
           category: 'login',
           action: 'Handle existing FB user',
-          breadcrumb: true,
-          ga: false,
         })
         await handleExistingUser(additionalUserInfo)
       }

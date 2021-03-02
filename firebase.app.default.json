@@ -44,6 +44,11 @@
         "source": "/budget",
         "destination": "/controls",
         "type": 301
+      },
+      {
+        "source": "/pricing",
+        "destination": "https://tryfeed.co/pricing",
+        "type": 301
       }
     ],
     "headers": [

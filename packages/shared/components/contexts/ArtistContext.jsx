@@ -9,6 +9,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import calcFeedMinBudgetInfo from '@/app/helpers/budgetHelpers'
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
@@ -28,6 +29,7 @@ const initialArtistState = {
   users: {},
   min_daily_budget_info: {},
   feedMinBudgetInfo: {}, // { minRaw, minRounded, minString }
+  isSpendingPaused: false,
   missingDefaultLink: true,
   isMusician: false,
 }
@@ -50,6 +52,10 @@ const artistReducer = (draftState, action) => {
     }
     case 'set-budget': {
       draftState.daily_budget = payload.budget
+      break
+    }
+    case 'set-spending-paused': {
+      draftState.isSpendingPaused = payload.isSpendingPaused
       break
     }
     case 'set-min-budget': {
@@ -115,13 +121,12 @@ function ArtistProvider({ children, disable }) {
     const { artist, error } = await artistHelpers.getArtist(id)
     if (error) {
       setArtistLoading(false)
-      // Track
-      track({
+      // Sentry error
+      fireSentryError({
         category: 'sign up',
         action: 'Could not get artist using artistHelpers.getArtist(id)',
         description: error.message,
         label: `artistId: ${id}`,
-        error: true,
       })
       return { error: {
         message: `Error fetching artist ID: ${id}`,
@@ -131,7 +136,7 @@ function ArtistProvider({ children, disable }) {
     if (!artist) return
 
     // Test whether artist is musician
-    const { category_list: artistCategories } = artist
+    const { category_list: artistCategories, preferences } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
 
     // Test whether default link is set
@@ -146,6 +151,9 @@ function ArtistProvider({ children, disable }) {
     // Get formatted min budget info
     const feedMinBudgetInfo = calcFeedMinBudgetInfo(artist)
 
+    // Get spending paused status
+    const isSpendingPaused = preferences?.targeting?.status === 0
+
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
       artistDraft.isMusician = isMusician
@@ -153,6 +161,7 @@ function ArtistProvider({ children, disable }) {
       artistDraft.missingDefaultLink = missingDefaultLink
       artistDraft.integrations = integrationsFormatted
       artistDraft.feedMinBudgetInfo = feedMinBudgetInfo
+      artistDraft.isSpendingPaused = isSpendingPaused
     })
 
     // Set hasBudget state
@@ -197,24 +206,22 @@ function ArtistProvider({ children, disable }) {
     // Wait to connect all artists
     await Promise.all(createAllArtists)
       .catch((error) => {
-        // Track
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'Problem creating artists in Artist context createArtist()',
           description: error.message,
-          error: true,
         })
         throw (error)
       })
     // Update user
     const updatedUser = await storeUser()
       .catch((error) => {
-        // Track
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
           action: 'Problem updating user in Artist context createArtist()',
           description: error.message,
-          error: true,
         })
         throw (error)
       })
@@ -228,24 +235,33 @@ function ArtistProvider({ children, disable }) {
     setArtistLoading(false)
     // TRACK
     const newUser = !oldUser.artists.length
-    track({
-      action: newUser ? 'create_profile' : 'add_profile',
-      category: newUser ? 'sign_up' : 'account',
-      label: updatedUser.id,
-    })
+    if (newUser) {
+      track('create_profile', null, {
+        fbProps: { action: 'CompleteRegistration' },
+        gaProps: { action: 'sign_up' },
+      })
+    } else {
+      track('add_profile')
+    }
   }
 
-  const updateBudget = async (id, amount) => {
-    const updatedArtist = await server.updateDailyBudget(id, amount)
-
+  const updateBudget = React.useCallback((majorUnitAmount) => {
     setArtist({
       type: 'set-budget',
       payload: {
-        budget: updatedArtist.daily_budget,
+        budget: majorUnitAmount,
       },
     })
-    return updatedArtist.daily_budget
-  }
+  }, [setArtist])
+
+  const updateSpendingPaused = React.useCallback((spendingStatus) => {
+    setArtist({
+      type: 'set-spending-paused',
+      payload: {
+        isSpendingPaused: !spendingStatus,
+      },
+    })
+  }, [setArtist])
 
   const setConnection = ({ platform, url }) => {
     setArtist({
@@ -299,6 +315,7 @@ function ArtistProvider({ children, disable }) {
     setPostPreferences,
     storeArtist,
     updateBudget,
+    updateSpendingPaused,
     hasBudget,
   }
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Script from 'react-load-script'
 
-import { gaCrossDomainsString, enableGtag } from '@/app/helpers/trackingHelpers'
+import { getCrossDomainsString, enableGtag } from '@/app/helpers/trackGoogleHelpers'
 
 const SetupGtag = ({ gaId, forceOn }) => {
   // Stop here if in dev
@@ -25,7 +25,7 @@ const SetupGtag = ({ gaId, forceOn }) => {
             gtag('config', '${gaId}', {
               page_path: window.location.pathname,
               'linker': {
-                  'domains': ${gaCrossDomainsString}
+                  'domains': ${getCrossDomainsString()}
               }
             });
           `,
