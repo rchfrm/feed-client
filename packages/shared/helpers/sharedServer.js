@@ -1,5 +1,5 @@
 import * as api from '@/helpers/api'
-import firebase from '@/helpers/firebase'
+import firebaseHelpers from '@/helpers/firebaseHelpers'
 
 // GENERIC
 /**
@@ -29,7 +29,7 @@ export const createUser = async ({
   lastName,
   referrerCode,
 }, token) => {
-  if (!token) token = await firebase.getIdTokenOrFail()
+  if (!token) token = await firebaseHelpers.getIdTokenOrFail()
   return api
     .post('/accounts/register', {
       first_name: firstName,

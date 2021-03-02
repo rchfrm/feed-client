@@ -5,7 +5,7 @@ import { UserContext } from '@/contexts/UserContext'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import * as server from '@/helpers/sharedServer'
-import firebase from '@/helpers/firebase'
+import firebaseHelpers from '@/helpers/firebaseHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
 
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
@@ -101,9 +101,9 @@ function AccountPageDetailsInline({ user }) {
     // Set loading
     setLoading(true)
     // Update password
-    const passwordUpdatePromise = passwordChanged ? firebase.doPasswordUpdate(passwordOne) : null
+    const passwordUpdatePromise = passwordChanged ? firebaseHelpers.doPasswordUpdate(passwordOne) : null
     // Update email in firebase (if using email auth)
-    const emailChangedRes = emailChanged && hasEmailAuth ? await firebase.doEmailUpdate(email) : null
+    const emailChangedRes = emailChanged && hasEmailAuth ? await firebaseHelpers.doEmailUpdate(email) : null
     // Handle error in changing email
     if (emailChangedRes && emailChangedRes.error) {
       setErrors([emailChangedRes.error])
