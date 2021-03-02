@@ -11,7 +11,6 @@ import Error from '@/elements/Error'
 import PostSettingsStatusConfirmation from '@/app/PostSettingsStatusConfirmation'
 
 import * as server from '@/app/helpers/appServer'
-import { track } from '@/app/helpers/trackingHelpers'
 
 const postSettingOptions = [
   {
