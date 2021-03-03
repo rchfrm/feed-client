@@ -57,7 +57,7 @@ const PostCardSettingsLink = ({
             setError(null)
             setPreviewUrl(newLinkHref)
             // TRACK
-            const { host: linkDomain } = parseUrl(newLinkHref) || {}
+            const { host: linkDomain = 'Default link' } = parseUrl(newLinkHref)
             track('post_link_changed', {
               linkDomain,
               setToDefault: !linkId,

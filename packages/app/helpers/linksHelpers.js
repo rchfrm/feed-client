@@ -161,7 +161,7 @@ export const afterEditDefaultLink = ({ newLink, defaultLink }) => {
 // EDIT LINK
 export const afterEditLink = ({ newLink, oldLink, nestedLinks, defaultLink }) => {
   // TRACK
-  const { host: linkDomain } = utils.parseUrl(newLink.href)
+  const { host: linkDomain = 'Default link' } = utils.parseUrl(newLink.href)
   track('edit_link', {
     linkDomain,
   })
@@ -219,7 +219,7 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks, defaultLink }) =>
 // DELETE LINK
 export const afterDeleteLink = ({ oldLink, nestedLinks }) => {
   const { folder_id: oldFolderId } = oldLink
-  const { host: linkDomain } = utils.parseUrl(oldLink.href)
+  const { host: linkDomain = 'Default link' } = utils.parseUrl(oldLink.href)
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
   // TRACK
   track('delete_link', {
