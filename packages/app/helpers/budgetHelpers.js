@@ -131,10 +131,14 @@ export const calcLocationsCost = (budgetInfo, locationOptions) => {
   // Get units for locations
   // Calc cost of locations
   const locationOptionsArray = Object.values(locationOptions)
-  const locationCost = locationOptionsArray.reduce((cost, { selected: countrySelected, totalCitiesSelected }, index) => {
+  let ignoreCountry = true
+  const locationCost = locationOptionsArray.reduce((cost, { selected: countrySelected, totalCitiesSelected }) => {
     if (countrySelected) {
       // Ignore the first country
-      if (index === 0) return cost
+      if (ignoreCountry) {
+        ignoreCountry = false
+        return cost
+      }
       cost += extraCountryCost
       return cost
     }
