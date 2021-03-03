@@ -4,17 +4,13 @@ import useAsyncEffect from 'use-async-effect'
 
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+
 import useReferralStore from '@/app/store/referralStore'
+import useLogin from '@/app/hooks/useLogin'
+import useSignup from '@/app/hooks/useSignup'
 
-import * as ROUTES from '@/app/constants/routes'
-
-import * as queryString from 'query-string'
-import * as utils from '@/helpers/utils'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import * as signupHelpers from '@/app/helpers/signupHelpers'
 
-import { trackLogin, trackSignUp } from '@/app/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
 let userRedirected = false
@@ -29,18 +25,16 @@ const InitUser = ({ children }) => {
   // Component state
   const [ready, setReady] = React.useState(false)
   const [initialUserLoading, setInitialUserLoading] = React.useState(true)
+  // READ REFERRAL CODE
+  const getStoredReferrerCode = useReferralStore(getGetStoredReferrerCode)
   // Import contexts
   const {
-    setNoAuth,
     setAccessToken,
     setRedirectType,
     setAuthError,
     storeAuth,
-    setMissingScopes,
-    setRejectedPagePath,
   } = React.useContext(AuthContext)
-  const { runCreateUser, setNoUser, storeUser, userLoading, setUserLoading } = React.useContext(UserContext)
-  const { setNoArtist, storeArtist, setArtistLoading } = React.useContext(ArtistContext)
+  const { userLoading } = React.useContext(UserContext)
 
   // After user has loaded the first time...
   React.useEffect(() => {
@@ -64,16 +58,10 @@ const InitUser = ({ children }) => {
     setReady(true)
   }
 
-  // HANDLE NO AUTH USER
-  const handleNoAuthUser = (authError) => {
-    // Reset all contexts
-    setNoAuth(authError)
-    setNoUser()
-    setNoArtist()
-    // Check if the user is on an auth only page,
-    // if they are push to log in page
-    userRedirected = signupHelpers.kickToLogin({ initialPathname, initialFullPath, setRejectedPagePath })
-  }
+  // HOOKS
+  const { handleExistingUser, handleNoAuthUser, detectSignedInUser } = useLogin(initialPathname, initialFullPath, showContent)
+  const { handleNewUser } = useSignup(initialPathname, initialFullPath)
+
 
   // HANDLE Invalid FB credential
   const handleFbInvalidCredential = (message) => {
@@ -92,214 +80,6 @@ const InitUser = ({ children }) => {
     })
   }
 
-  // REJECT NEW USER
-  // - Delete from firebase
-  // - Send back to login
-  // - Show error
-  const rejectNewUser = async ({ errorMessage, errorLabel, redirectTo }) => {
-    userRedirected = signupHelpers.redirectPage(redirectTo || ROUTES.LOGIN)
-    setArtistLoading(false)
-    await firebaseHelpers.deleteUser()
-    await firebaseHelpers.doSignOut()
-    const error = {
-      message: errorMessage,
-    }
-    setNoAuth(error)
-    setUserLoading(false)
-    // Sentry error
-    fireSentryError({
-      category: 'sign up',
-      action: 'handleNewUser',
-      label: errorLabel,
-      description: error.message,
-    })
-  }
-
-  const getStoredReferrerCode = useReferralStore(getGetStoredReferrerCode)
-
-  // HANDLE NEW USER
-  const handleNewUser = async (additionalUserInfo) => {
-    const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
-    // * REJECT If no REFERRAL CODE
-    const referrerCode = getStoredReferrerCode()
-    if (!referrerCode) {
-      const errorMessage = 'It looks like you don\'t have a referral code.'
-      const errorLabel = 'No referral code provided'
-      rejectNewUser({ errorMessage, errorLabel, redirectTo: ROUTES.SIGN_UP })
-      return
-    }
-    // * REJECT If no EMAIL...
-    if (!email) {
-      const errorMessage = 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.'
-      const errorLabel = 'No email provided from FB'
-      rejectNewUser({ errorMessage, errorLabel })
-      return
-    }
-    // If it's a new user, create their profile on the server
-    const user = await runCreateUser({
-      firstName: first_name,
-      lastName: last_name,
-    })
-      .catch((error) => {
-        // Sentry error
-        fireSentryError({
-          category: 'sign up',
-          action: 'handleNewUser',
-          label: 'Error in createUser()',
-          description: error.message,
-        })
-      })
-    if (!user) return
-    // Check whether the new user has missing scopes
-    const missingScopes = signupHelpers.getMissingScopes(granted_scopes)
-    // Set missing scopes
-    if (missingScopes.length) {
-      setMissingScopes(missingScopes) // from Auth context
-      // BREADCRUMB
-      fireSentryBreadcrumb({
-        category: 'sign up',
-        action: 'Handle new FB user',
-        label: 'missing scopes',
-      })
-    }
-    // As this is a new user, run setNoArtist, and push them to the Connect Artist page
-    setNoArtist()
-    userRedirected = signupHelpers.redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
-    // TRACK
-    trackSignUp({ authProvider: 'facebook', userId: user.id })
-  }
-
-
-  // HANDLE EXISTING USERS
-  const handleExistingUser = async (additionalUserInfo) => {
-    fireSentryBreadcrumb({
-      category: 'login',
-      action: 'handleExistingUser',
-    })
-    // If it is a pre-existing user, store their profile in the user context
-    const user = await storeUser()
-      .catch((error) => {
-        setAuthError({ message: 'No user was found in the database' })
-        // Sentry error
-        fireSentryError({
-          category: 'sign up',
-          action: 'handleExistingUser (InitUser)',
-          label: 'No user returned from storeUser()',
-          description: error.message,
-        })
-      })
-    if (!user) return
-    const { artists } = user
-    // If there is additional info from a FB redirect...
-    if (additionalUserInfo) {
-      // Check whether the new user has missing scopes
-      const { profile: { granted_scopes } } = additionalUserInfo
-      const missingScopes = signupHelpers.getMissingScopes(granted_scopes)
-      // Set missing scopes
-      if (missingScopes.length) {
-        setMissingScopes(missingScopes) // from Auth context
-        fireSentryBreadcrumb({
-          category: 'login',
-          action: 'handleExistingUser',
-          label: 'missing scopes',
-        })
-      }
-    }
-    // Check if they have artists connected to their account or not,
-    // if they don't, set setNoArtist, and push them to the Connect Artist page
-    if (artists.length === 0) {
-      fireSentryBreadcrumb({
-        category: 'login',
-        action: 'handleExistingUser',
-        label: 'no artists',
-      })
-      // TRACK LOGIN
-      trackLogin({ authProvider: 'facebook', userId: user.id })
-      setNoArtist()
-      userRedirected = signupHelpers.redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
-      return
-    }
-    // If they do have artists, check for artist ID from query string parameter
-    // or a previously selected artist ID in local storage
-    const queryStringArtistId = queryString.parse(window.location.search).artistId
-    if (queryStringArtistId) {
-      utils.setLocalStorage('artistId', queryStringArtistId)
-    }
-    const storedArtistId = utils.getLocalStorage('artistId')
-    // Check that the storedArtistId is one the user has access to...
-    const hasAccess = artists.find(({ id }) => id === storedArtistId)
-    // if they don't have access, clear localStorage
-    if (!hasAccess) {
-      utils.setLocalStorage('artistId', '')
-      fireSentryBreadcrumb({
-        category: 'login',
-        action: 'handleExistingUser',
-        label: `no access to artist (id:${storedArtistId})`,
-      })
-    }
-    // If they do have access set it as the selectedArtistId,
-    // otherwise use the first related artist (sorted alphabetically)
-    const selectedArtistId = hasAccess ? storedArtistId : artists[0].id
-    await storeArtist(selectedArtistId)
-    // Check if they are on either the log-in or sign-up page,
-    // if they are push to the home page
-    if (ROUTES.signedOutPages.includes(initialPathname)) {
-      fireSentryBreadcrumb({
-        category: 'login',
-        action: 'handleExistingUser',
-        label: 'go to home page',
-      })
-      // TRACK LOGIN
-      trackLogin({ method: 'already logged in', userId: user.id })
-      // Redirect to page they tried to access (or home page)
-      const defaultLandingPage = ROUTES.HOME
-      const useRejectedPagePath = true
-      userRedirected = signupHelpers.redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
-    }
-  }
-
-  // HANDLE INITIAL LOGGED IN TEST
-  const handleInitialAuthCheck = async (authUser, authError) => {
-    fireSentryBreadcrumb({
-      category: 'login',
-      action: 'handleInitialAuthCheck',
-    })
-    // If no auth user, handle that
-    if (!authUser) return handleNoAuthUser(authError)
-    // If there is, store the user in auth context
-    const authToken = await firebaseHelpers.getVerifyIdToken()
-      .catch((error) => {
-        storeAuth({ authError: error })
-        // Sentry error
-        fireSentryError({
-          category: 'login',
-          action: 'InitUser: HANDLE INITIAL LOGGED IN TEST',
-          description: `Error with firebaseHelpers.getVerifyIdToken(): ${error.message}`,
-        })
-      })
-    await storeAuth({ authUser, authToken, authError })
-    await handleExistingUser()
-  }
-
-
-  const detectSignedInUser = (isMounted, fbRedirectError) => {
-    fireSentryBreadcrumb({
-      category: 'login',
-      action: 'handle no FB redirect',
-    })
-    const unsubscribe = firebaseHelpers.auth.onAuthStateChanged(async (authUser) => {
-      fireSentryBreadcrumb({
-        category: 'login',
-        action: 'firebaseHelpers.auth.onAuthStateChanged',
-      })
-      await handleInitialAuthCheck(authUser, fbRedirectError)
-      if (!isMounted()) return
-      showContent(isMounted)
-      unsubscribe()
-    })
-  }
-
-
   // RUN ON INTIAL MOUNT
   useAsyncEffect(async (isMounted) => {
     // Check for the result of a redirect from Facebook
@@ -308,7 +88,7 @@ const InitUser = ({ children }) => {
     const { user, error, credential, additionalUserInfo, operationType } = redirectResult
     // * Handle no redirect
     if (!user && !error) {
-      detectSignedInUser(isMounted)
+      userRedirected = detectSignedInUser(isMounted)
       return
     }
     // * Handle REDIRECT errors
@@ -329,7 +109,7 @@ const InitUser = ({ children }) => {
         message: 'An account already exists with the same email address but different sign-in credentials. Please sign in using your email address',
       } : error
       // Detect for already logged in user
-      detectSignedInUser(isMounted, customError)
+      userRedirected = detectSignedInUser(isMounted, customError)
       return
     }
     // * Handle REDIRECT success
@@ -371,14 +151,15 @@ const InitUser = ({ children }) => {
           category: 'sign up',
           action: 'Handle new FB user',
         })
-        await handleNewUser(additionalUserInfo)
+        const referrerCode = getStoredReferrerCode()
+        userRedirected = await handleNewUser(additionalUserInfo, referrerCode)
       } else {
         // Handle existing user
         fireSentryBreadcrumb({
           category: 'login',
           action: 'Handle existing FB user',
         })
-        await handleExistingUser(additionalUserInfo)
+        userRedirected = await handleExistingUser(additionalUserInfo)
       }
     }
     // * Show content
