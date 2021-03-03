@@ -152,23 +152,22 @@ const SignupEmailForm = () => {
       })
     if (!signupRes) return
     // Create user on server
-    const user = await runCreateUser({
+    const { res: user, error } = await runCreateUser({
       firstName,
       lastName,
     })
-      .catch((error) => {
-        setError(error)
-        scrollTop()
-        toggleGlobalLoading(false)
-        // Sentry error
-        fireSentryError({
-          category: 'sign up',
-          action: 'createUser() with password failed',
-          description: error.message,
-          label: email,
-        })
+    if (error) {
+      setError(error)
+      scrollTop()
+      toggleGlobalLoading(false)
+      // Sentry error
+      fireSentryError({
+        category: 'sign up',
+        action: 'createUser() with password failed',
+        description: error.message,
+        label: email,
       })
-    if (!user) return
+    }
     trackSignUp({ authProvider: 'password', userId: user.id })
     Router.push(ROUTES.SIGN_UP_CONTINUE)
   }

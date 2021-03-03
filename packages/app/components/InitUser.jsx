@@ -165,6 +165,7 @@ const InitUser = ({ children }) => {
     }
     // * Show content
     showContent(isMounted)
+    showContent()
   }, [])
   // Show spinner while waiting
   if (!ready || initialUserLoading) return null

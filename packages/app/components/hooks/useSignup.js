@@ -31,7 +31,7 @@ const useSignup = (initialPathname) => {
   // - Send back to login
   // - Show error
   const rejectNewUser = React.useCallback(async ({ errorMessage, errorLabel, redirectTo }) => {
-    const userRedirected = signupHelpers.redirectPage(redirectTo || ROUTES.LOGIN)
+    const userRedirected = signupHelpers.redirectPage(redirectTo || ROUTES.LOGIN, initialPathname)
     setArtistLoading(false)
     await firebaseHelpers.deleteUser()
     await firebaseHelpers.doSignOut()
@@ -48,7 +48,7 @@ const useSignup = (initialPathname) => {
       description: error.message,
     })
     return userRedirected
-  }, [setArtistLoading, setNoAuth, setUserLoading])
+  }, [setArtistLoading, setNoAuth, setUserLoading, initialPathname])
 
   const handleNewUser = React.useCallback(async (additionalUserInfo, referrerCode) => {
     const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
@@ -60,21 +60,22 @@ const useSignup = (initialPathname) => {
       return userRedirected
     }
     // If it's a new user, create their profile on the server
-    const user = await runCreateUser({
+    const { res: user, error } = await runCreateUser({
       firstName: first_name,
       lastName: last_name,
     })
-      .catch((error) => {
-        // Sentry error
-        fireSentryError({
-          category: 'sign up',
-          action: 'handleNewUser',
-          label: 'Error in createUser()',
-          description: error.message,
-        })
-        return rejectNewUser({ errorMessage: error.message })
+    // Handle Error
+    if (error) {
+      // Sentry error
+      fireSentryError({
+        category: 'sign up',
+        action: 'handleNewUser',
+        label: 'Error in createUser()',
+        description: error.message,
       })
-    if (!user) return
+      const userRedirected = rejectNewUser({ errorMessage: error.message })
+      return userRedirected
+    }
     // Check whether the new user has missing scopes
     const missingScopes = signupHelpers.getMissingScopes(granted_scopes)
     // Set missing scopes

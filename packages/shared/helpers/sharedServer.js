@@ -30,13 +30,18 @@ export const createUser = async ({
   referrerCode,
 }, token) => {
   if (!token) token = await firebaseHelpers.getIdTokenOrFail()
-  return api
-    .post('/accounts/register', {
-      first_name: firstName,
-      last_name: lastName,
-      ...(referrerCode && { referrer_code: referrerCode }),
-      token,
-    }, false)
+  const requestUrl = '/accounts/register'
+  const payload = {
+    first_name: firstName,
+    last_name: lastName,
+    ...(referrerCode && { referrer_code: referrerCode }),
+    token,
+  }
+  const errorTracking = {
+    category: 'Signup',
+    action: 'Create User',
+  }
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
 /**
