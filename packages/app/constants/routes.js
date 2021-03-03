@@ -1,5 +1,6 @@
 export const SIGN_UP = '/join'
 export const SIGN_UP_EMAIL = '/join/email'
+export const SIGN_UP_CONFIRM_EMAIL = '/join/confirm-email'
 export const SIGN_UP_CONTINUE = '/join/final-step'
 export const REFERRAL = '/join/referral'
 export const LOGIN = '/login'
@@ -45,6 +46,7 @@ export const restrictedPages = [
 export const signedOutPages = [
   SIGN_UP,
   SIGN_UP_EMAIL,
+  SIGN_UP_CONFIRM_EMAIL,
   SIGN_UP_CONTINUE,
   REFERRAL,
   LOGIN,
