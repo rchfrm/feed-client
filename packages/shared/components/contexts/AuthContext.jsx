@@ -4,6 +4,8 @@ import { useImmerReducer } from 'use-immer'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
+import useReferralStore from '@/app/store/referralStore'
+
 const initialAuthState = {
   token: '',
   email: '',
@@ -36,6 +38,8 @@ const authReducer = (draftState, action) => {
   }
 }
 
+const getClearUsedReferralCode = state => state.clearUsedReferralCode
+
 const AuthContext = React.createContext(initialAuthState)
 AuthContext.displayName = 'AuthContext'
 
@@ -54,13 +58,16 @@ function AuthProvider({ children }) {
     })
   }
 
+  // Get function to clear referral code
+  const clearUsedReferralCode = useReferralStore(getClearUsedReferralCode)
+
   const setNoAuth = React.useCallback((authError = null) => {
     setAuth({ type: 'no-auth-user' })
     setAuthError(authError)
     setAuthLoading(false)
     setAccessToken(null)
-    setLocalStorage('referrer_code', '')
-  }, [setAuth])
+    clearUsedReferralCode()
+  }, [setAuth, clearUsedReferralCode])
 
   const storeAuth = async ({ authUser, authToken, authError = null }) => {
     if (authError) {
