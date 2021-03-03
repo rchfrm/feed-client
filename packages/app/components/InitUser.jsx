@@ -19,9 +19,10 @@ let userRedirected = false
 const getGetStoredReferrerCode = state => state.getStoredReferrerCode
 
 const InitUser = ({ children }) => {
-  // Get router info
+  // Get and store router info
   const router = useRouter()
-  const { pathname: initialPathname, asPath: initialFullPath } = router
+  const [initialPathname] = React.useState(router.pathname)
+  const [initialFullPath] = React.useState(router.asPath)
   // Component state
   const [ready, setReady] = React.useState(false)
   const [initialUserLoading, setInitialUserLoading] = React.useState(true)
