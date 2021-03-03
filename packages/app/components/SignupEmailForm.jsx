@@ -3,9 +3,10 @@ import Router from 'next/router'
 
 import { useImmerReducer } from 'use-immer'
 
-import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+
+import useSignup from '@/app/hooks/useSignup'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
@@ -46,7 +47,6 @@ const SignupEmailForm = () => {
   // Define component state
   const [error, setError] = React.useState(null)
   // Get contexts
-  const { signUp } = React.useContext(AuthContext)
   const { runCreateUser } = React.useContext(UserContext)
   // GLOBAL LOADING
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -122,6 +122,9 @@ const SignupEmailForm = () => {
     })
   }, [signupDetails, hasEmailError, passwordStatus.error, passwordStatus.success])
 
+  // GET SIGNUP FUNCTION
+  const { signupWithEmail } = useSignup()
+
   // * HANDLE FORM SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -134,7 +137,7 @@ const SignupEmailForm = () => {
       action: 'submit sign up form',
     })
 
-    const signupRes = await signUp(email, passwordOne)
+    const signupRes = await signupWithEmail(email, passwordOne)
       .catch((error) => {
         setError(error)
         scrollTop()
@@ -142,7 +145,7 @@ const SignupEmailForm = () => {
         // Sentry error
         fireSentryError({
           category: 'sign up',
-          action: 'signUp() with email failed',
+          action: 'useSignup.signupWithEmail() with email failed',
           description: error.message,
           label: email,
         })

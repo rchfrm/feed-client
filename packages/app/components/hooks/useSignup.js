@@ -16,6 +16,8 @@ const useSignup = (initialPathname) => {
   const {
     setNoAuth,
     setMissingScopes,
+    setAuthLoading,
+    storeAuth,
   } = React.useContext(AuthContext)
   const { runCreateUser, setUserLoading } = React.useContext(UserContext)
   const { setNoArtist, setArtistLoading } = React.useContext(ArtistContext)
@@ -92,7 +94,27 @@ const useSignup = (initialPathname) => {
     return userRedirected
   }, [initialPathname, rejectNewUser, runCreateUser, setMissingScopes, setNoArtist])
 
-  return { handleNewUser }
+
+  // * SIGNUP WITH EMAIL
+  const signupWithEmail = React.useCallback(async (email, password) => {
+    setAuthLoading(true)
+    const authUser = await firebaseHelpers.doCreateUserWithEmailAndPassword(email, password)
+      .catch((error) => {
+        setAuthLoading(false)
+        throw new Error(error.message)
+      })
+    if (!authUser) return
+    const token = await authUser.user.getIdToken()
+      .catch((error) => {
+        setAuthLoading(false)
+        throw new Error(error.message)
+      })
+    const { user } = authUser
+    storeAuth({ authUser: user, authToken: token })
+    return token
+  }, [setAuthLoading, storeAuth])
+
+  return { handleNewUser, signupWithEmail }
 }
 
 export default useSignup

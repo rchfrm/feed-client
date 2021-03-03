@@ -96,24 +96,6 @@ function AuthProvider({ children }) {
     }
   }
 
-  const signUp = async (email, password) => {
-    setAuthLoading(true)
-    const authUser = await firebaseHelpers.doCreateUserWithEmailAndPassword(email, password)
-      .catch((error) => {
-        setAuthLoading(false)
-        throw new Error(error.message)
-      })
-    if (!authUser) return
-    const token = await authUser.user.getIdToken()
-      .catch((error) => {
-        setAuthLoading(false)
-        throw new Error(error.message)
-      })
-    const { user } = authUser
-    storeAuth({ authUser: user, authToken: token })
-    return token
-  }
-
   // * HANDLE REJECTED PAGES
   // (ie, a page you land on but get kicked off because you aint logged in)
   // GET INITIAL
@@ -147,7 +129,6 @@ function AuthProvider({ children }) {
     setAccessToken,
     setAuthError,
     setAuthLoading,
-    signUp,
     storeAuth,
     setMissingScopes,
     rejectedPagePath,
