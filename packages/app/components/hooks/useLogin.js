@@ -51,7 +51,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     // If it is a pre-existing user, store their profile in the user context
     const user = await storeUser()
       .catch((error) => {
-        setAuthError({ message: 'No user was found in the database' })
+        handleNoAuthUser({ message: 'No user was found in the database' })
         // Sentry error
         fireSentryError({
           category: 'sign up',
@@ -129,7 +129,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       const userRedirected = signupHelpers.redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
       return userRedirected
     }
-  }, [setAuthError, setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname])
+  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser])
 
   // * DETECT SIGNED IN USER
   // -----------------------

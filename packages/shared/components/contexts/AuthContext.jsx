@@ -54,12 +54,12 @@ function AuthProvider({ children }) {
     })
   }
 
-  const setNoAuth = (authError = null) => {
+  const setNoAuth = React.useCallback((authError = null) => {
     setAuth({ type: 'no-auth-user' })
     setAuthError(authError)
     setAuthLoading(false)
     setAccessToken(null)
-  }
+  }, [setAuth])
 
   const storeAuth = async ({ authUser, authToken, authError = null }) => {
     if (authError) {
