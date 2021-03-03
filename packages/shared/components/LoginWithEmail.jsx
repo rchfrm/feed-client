@@ -11,10 +11,12 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
+// HOOKS
+import useLogin from '@/app/hooks/useLogin'
 
 import * as ROUTES from '@/app/constants/routes'
 
-import { track, trackLogin } from '@/app/helpers/trackingHelpers'
+import { trackLogin } from '@/app/helpers/trackingHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import styles from '@/LoginPage.module.css'
@@ -22,7 +24,7 @@ import styles from '@/LoginPage.module.css'
 
 function LoginWithEmail({ className }) {
   // IMPORT CONTEXTS
-  const { emailLogin, rejectedPagePath } = React.useContext(AuthContext)
+  const { rejectedPagePath } = React.useContext(AuthContext)
   const { storeUser, userError } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
   // GLOBAL LOADING
@@ -31,6 +33,8 @@ function LoginWithEmail({ className }) {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [error, setError] = React.useState(null)
+  // GET LOGIN FUNCTION
+  const { loginWithEmail } = useLogin()
 
   // HANDLE CHANGES IN FORM
   const handleChange = e => {
@@ -55,7 +59,7 @@ function LoginWithEmail({ className }) {
     toggleGlobalLoading(true)
 
     // Login with email
-    const { loginError, tokenError } = await emailLogin(email, password)
+    const { loginError, tokenError } = await loginWithEmail(email, password)
     if (loginError) {
       toggleGlobalLoading(false)
       setEmail('')

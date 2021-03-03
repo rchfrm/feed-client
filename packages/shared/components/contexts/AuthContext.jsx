@@ -96,19 +96,6 @@ function AuthProvider({ children }) {
     }
   }
 
-  const emailLogin = async (email, password) => {
-    setAuthLoading(true)
-    const { authUser, error: loginError } = await firebaseHelpers.doSignInWithEmailAndPassword(email, password)
-    if (loginError) return { loginError }
-    const { user } = authUser
-    const token = await user.getIdToken()
-      .catch((error) => {
-        return { error }
-      })
-    storeAuth({ authUser: user, authToken: token })
-    return { tokenError: token.error }
-  }
-
   const signUp = async (email, password) => {
     setAuthLoading(true)
     const authUser = await firebaseHelpers.doCreateUserWithEmailAndPassword(email, password)
@@ -153,13 +140,13 @@ function AuthProvider({ children }) {
     auth,
     authError,
     authLoading,
-    emailLogin,
     setNoAuth,
     relinkFacebook,
     redirectType,
     setRedirectType,
     setAccessToken,
     setAuthError,
+    setAuthLoading,
     signUp,
     storeAuth,
     setMissingScopes,

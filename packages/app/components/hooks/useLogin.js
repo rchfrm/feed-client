@@ -22,6 +22,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     storeAuth,
     setMissingScopes,
     setRejectedPagePath,
+    setAuthLoading,
   } = React.useContext(AuthContext)
   const { setNoUser, storeUser } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
@@ -173,7 +174,27 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     })
   }, [handleInitialAuthCheck, showContent])
 
-  return { handleExistingUser, handleNoAuthUser, detectSignedInUser }
+  // * EMAIL LOGIN
+  // -------------
+  const loginWithEmail = React.useCallback(async (email, password) => {
+    setAuthLoading(true)
+    const { authUser, error: loginError } = await firebaseHelpers.doSignInWithEmailAndPassword(email, password)
+    if (loginError) return { loginError }
+    const { user } = authUser
+    const token = await user.getIdToken()
+      .catch((error) => {
+        return { error }
+      })
+    storeAuth({ authUser: user, authToken: token })
+    return { tokenError: token.error }
+  }, [setAuthLoading, storeAuth])
+
+  return {
+    handleExistingUser,
+    handleNoAuthUser,
+    detectSignedInUser,
+    loginWithEmail,
+  }
 }
 
 export default useLogin
