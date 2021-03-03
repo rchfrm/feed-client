@@ -74,13 +74,18 @@ function UserProvider({ children }) {
       lastName,
       referrerCode,
     })
+    // Handle error creating user
     if (errorCreatingUser) {
-      console.log('errorCreatingUser', errorCreatingUser)
       setUserLoading(false)
       return { error: errorCreatingUser }
     }
     // Accept T&Cs
-    await appServer.acceptTerms(newUser.id)
+    const { error: errorAcceptingTerms } = await appServer.acceptTerms(newUser.id)
+    // Handle error accepting terms
+    if (errorAcceptingTerms) {
+      setUserLoading(false)
+      return { error: errorCreatingUser }
+    }
     // Sort artists
     const sortedArtistUser = sortUserArtists(newUser)
     setUser({
