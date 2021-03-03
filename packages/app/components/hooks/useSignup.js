@@ -72,6 +72,7 @@ const useSignup = (initialPathname) => {
           label: 'Error in createUser()',
           description: error.message,
         })
+        return rejectNewUser({ errorMessage: error.message })
       })
     if (!user) return
     // Check whether the new user has missing scopes
