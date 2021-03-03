@@ -164,7 +164,6 @@ const InitUser = ({ children }) => {
       }
     }
     // * Show content
-    showContent(isMounted)
     showContent()
   }, [])
   // Show spinner while waiting
