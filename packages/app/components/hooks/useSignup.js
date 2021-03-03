@@ -54,9 +54,9 @@ const useSignup = (initialPathname) => {
     const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
     // * REJECT If no REFERRAL CODE or no EMAIL...
     if (!referrerCode || !email) {
-      const errorMessage = !referrerCode ? 'It looks like you don\'t have a referral code.' : 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.'
+      const errorMessage = !referrerCode ? 'It looks like you\'re not using a referral code.' : 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.'
       const errorLabel = !referrerCode ? 'No referral code provided' : 'No email provided from FB'
-      const userRedirected = rejectNewUser({ errorMessage, errorLabel, redirectTo: !referrerCode ? ROUTES.SIGN_UP : null })
+      const userRedirected = rejectNewUser({ errorMessage, errorLabel })
       return userRedirected
     }
     // If it's a new user, create their profile on the server
