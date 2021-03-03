@@ -59,6 +59,7 @@ function AuthProvider({ children }) {
     setAuthError(authError)
     setAuthLoading(false)
     setAccessToken(null)
+    setLocalStorage('referrer_code', '')
   }, [setAuth])
 
   const storeAuth = async ({ authUser, authToken, authError = null }) => {
