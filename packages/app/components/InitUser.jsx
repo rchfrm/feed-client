@@ -160,7 +160,7 @@ const InitUser = ({ children }) => {
           category: 'login',
           action: 'Handle existing FB user',
         })
-        userRedirected = await handleExistingUser(additionalUserInfo)
+        userRedirected = await handleExistingUser({ additionalUserInfo })
       }
     }
     // * Show content

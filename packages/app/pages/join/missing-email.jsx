@@ -13,6 +13,7 @@ const Page = () => {
   return (
     <BasePage
       headerConfig={headerConfig}
+      authPage
       staticPage
     >
       <SignupMissingEmail />

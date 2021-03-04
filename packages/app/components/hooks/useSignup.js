@@ -54,12 +54,17 @@ const useSignup = (initialPathname) => {
 
   const handleNewUser = React.useCallback(async (additionalUserInfo, referrerCode) => {
     const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
-    const isMissingEmail = !email
-    // * REJECT If no REFERRAL CODE or no EMAIL...
+    // * REJECT If no REFERRAL CODE
     if (!referrerCode) {
       const errorMessage = copy.noReferralCode.message
       const errorLabel = copy.noReferralCode.label
       const userRedirected = rejectNewUser({ errorMessage, errorLabel })
+      return userRedirected
+    }
+    // If no email, ask for it
+    if (!email) {
+      const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
+      const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
       return userRedirected
     }
     // If it's a new user, create their profile on the server
@@ -96,7 +101,7 @@ const useSignup = (initialPathname) => {
     // TRACK
     trackSignUp({ authProvider: 'facebook', userId: user.id })
     // REDIRECT
-    const redirectTo = isMissingEmail ? ROUTES.SIGN_UP_MISSING_EMAIL : ROUTES.SIGN_UP_CONTINUE
+    const redirectTo = ROUTES.SIGN_UP_CONTINUE
     const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
     return userRedirected
   }, [initialPathname, rejectNewUser, runCreateUser, setMissingScopes, setNoArtist])

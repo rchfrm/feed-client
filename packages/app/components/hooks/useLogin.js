@@ -42,7 +42,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
 
   // *  HANDLE EXISTING USER
   // -----------------------
-  const handleExistingUser = React.useCallback(async (additionalUserInfo) => {
+  const handleExistingUser = React.useCallback(async ({ additionalUserInfo, authUser } = {}) => {
     fireSentryBreadcrumb({
       category: 'login',
       action: 'handleExistingUser',
@@ -158,6 +158,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       })
     await storeAuth({ authUser, authToken, authError })
     const userRedirected = await handleExistingUser()
+    const userRedirected = await handleExistingUser({ authUser })
     return userRedirected
   }, [handleExistingUser, storeAuth, handleNoAuthUser])
 
