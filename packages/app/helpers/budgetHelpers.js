@@ -126,11 +126,31 @@ export const calcFeedMinBudgetInfo = (artist) => {
   }
 }
 
+
+const testForSelectedCountries = (locationOptionsArray) => {
+  return !!locationOptionsArray.find(({ selected }) => selected)
+}
+
+const countCountriesSpannedByCities = (locationOptionsArray) => {
+  const spannedCountries = locationOptionsArray.filter(({ totalCitiesSelected }) => {
+    return totalCitiesSelected && totalCitiesSelected >= 1
+  })
+  return spannedCountries.length
+}
+
 export const calcLocationsCost = (budgetInfo, locationOptions) => {
-  const { minorUnit: { extraCountryCost, extraCityCost } } = budgetInfo
   // Get units for locations
-  // Calc cost of locations
+  const { minorUnit: { extraCountryCost, extraCityCost } } = budgetInfo
+  // Convert locations to array
   const locationOptionsArray = Object.values(locationOptions)
+  // Test if at least one country is selected
+  const hasSelectedCountry = testForSelectedCountries(locationOptionsArray)
+  // If no countries are selected, count how many countries the selected cities span
+  // (no need to do this if at least one country has been selected)
+  const countriesWithSelectedCities = !hasSelectedCountry ? countCountriesSpannedByCities(locationOptionsArray) : undefined
+  // If no country selected and selected cities span only 1 country, then no cost
+  if (!hasSelectedCountry && countriesWithSelectedCities <= 1) return 0
+  // Calc cost of locations
   let ignoreCountry = true
   const locationCost = locationOptionsArray.reduce((cost, { selected: countrySelected, totalCitiesSelected }) => {
     if (countrySelected) {
@@ -153,5 +173,6 @@ export const calcMinReccBudget = (budgetInfo, locationOptions) => {
   const { minorUnit: { minReccomendedBase } } = budgetInfo
   const locationCost = calcLocationsCost(budgetInfo, locationOptions)
   const totalMinRecc = minReccomendedBase + locationCost
+  console.log('totalMinRecc', totalMinRecc)
   return totalMinRecc
 }
