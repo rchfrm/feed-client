@@ -20,7 +20,7 @@ const Footer = () => {
   return (
     <footer className={[styles.TheFooter, isLoggedIn ? styles._loggedIn : ''].join(' ')}>
       {!isLoggedIn && (
-        <TheFooterLinks hasAuth={!!auth} />
+        <TheFooterLinks hasAuth={!!auth.token} />
       )}
 
       <p className="xsmall--p  no-margin">
