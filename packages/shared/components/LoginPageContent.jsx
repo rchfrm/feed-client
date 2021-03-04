@@ -9,7 +9,7 @@ import Error from '@/elements/Error'
 import LoginWithEmail from '@/LoginWithEmail'
 import LoginSignupButtons from '@/LoginSignupButtons'
 // IMPORT HELPERS
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 // IMPORT CONSTANTS
 import * as ROUTES from '@/app/constants/routes'
@@ -38,10 +38,10 @@ function LoginPageContent({ showEmailLogin }) {
   }, [setAuthError])
 
   // CONTINUE WITH FACEBOOK
-  // Calls firebase.loginWithFacebook using a redirect,
+  // Calls firebaseHelpers.loginWithFacebook using a redirect,
   // so that when user is returned to log in page handleRedirect is triggered
   const facebookClick = () => {
-    firebase.loginWithFacebook()
+    firebaseHelpers.loginWithFacebook()
       .catch((error) => {
         setError(error)
         // Sentry error
