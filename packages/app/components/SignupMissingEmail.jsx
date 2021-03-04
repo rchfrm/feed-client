@@ -21,31 +21,40 @@ import styles from '@/LoginPage.module.css'
 
 
 const SignupMissingEmail = ({ fbEmail, className }) => {
+  // GET AUTH and ARTIST context
+  const { auth } = React.useContext(AuthContext)
+  const { setNoArtist } = React.useContext(ArtistContext)
   const [email, setEmail] = React.useState(fbEmail)
   const [isEmailValid, setIsEmailValid] = React.useState(false)
   const [showEmailError, setShowEmailError] = React.useState(false)
+  const [firstName, setFirstName] = React.useState(auth.firstName)
+  const [lastName, setLastName] = React.useState(auth.lastName)
   const [loading, setLoading] = React.useState(false)
+  const [isFormValid, setIsFormValid] = React.useState(false)
   const [error, setError] = React.useState(null)
+  // TEST EMAIL VALIDITY
   React.useEffect(() => {
     const isEmailValid = testValidEmail(email)
     setIsEmailValid(isEmailValid)
   }, [email])
-  // GET AUTH and ARTIST context
-  const { auth } = React.useContext(AuthContext)
-  const { setNoArtist } = React.useContext(ArtistContext)
+  // TEST FORM VALIDITY
+  React.useEffect(() => {
+    const isFormValid = firstName && lastName && isEmailValid
+    setIsFormValid(isFormValid)
+  }, [firstName, lastName, isEmailValid])
   // GET USER CREATION
   const { runCreateUser, setUserLoading } = React.useContext(UserContext)
   console.log('auth', auth)
   // Submit form
   const onSubmit = async (e) => {
     e.preventDefault()
-    if (!isEmailValid) return
+    if (!isFormValid) return
     setLoading(true)
     setUserLoading(true)
     // STORE USER
     const { res: user, error } = await runCreateUser({
-      firstName: first_name,
-      lastName: last_name,
+      firstName,
+      lastName,
     })
     if (error) {
       setError(error)
@@ -72,10 +81,11 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
       <MarkdownText markdown={copy.missingFbEmail} />
       <Error error={error} />
       <form onSubmit={onSubmit}>
+        {/* EMAIL */}
         <Input
           name="emailContact"
-          // label="Contact email address"
-          placeholder="Contact email"
+          label="Contact email"
+          // placeholder="Contact email"
           value={email}
           updateValue={setEmail}
           type="email"
@@ -85,9 +95,30 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
             setShowEmailError(true)
           }}
         />
+        {/* FIRST NAME */}
+        {!auth.firstName && (
+          <Input
+            name="firstName"
+            label="First name"
+            value={firstName}
+            updateValue={setFirstName}
+            type="text"
+          />
+        )}
+        {/* LAST NAME */}
+        {!auth.lastName && (
+          <Input
+            name="lastName"
+            label="Last name"
+            value={lastName}
+            updateValue={setLastName}
+            type="text"
+          />
+        )}
+        {/* SUBMIT BUTTON */}
         <Button
           version="black wide"
-          disabled={!isEmailValid}
+          disabled={!isFormValid}
           type="sumbit"
           loading={loading}
           className="ml-auto"
