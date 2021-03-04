@@ -55,9 +55,9 @@ const useSignup = (initialPathname) => {
   const handleNewUser = React.useCallback(async (additionalUserInfo, referrerCode) => {
     const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
     // * REJECT If no REFERRAL CODE or no EMAIL...
-    if (!referrerCode || !email) {
-      const errorMessage = !referrerCode ? noReferralCode.message : 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.'
-      const errorLabel = !referrerCode ? noReferralCode.label : 'No email provided from FB'
+    if (!referrerCode) {
+      const errorMessage = noReferralCode.message
+      const errorLabel = noReferralCode.label
       const userRedirected = rejectNewUser({ errorMessage, errorLabel })
       return userRedirected
     }
