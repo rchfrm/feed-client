@@ -9,6 +9,8 @@ import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { trackSignUp } from '@/app/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
+import { noReferralCode } from '@/app/copy/signupCopy'
+
 import * as ROUTES from '@/app/constants/routes'
 
 const useSignup = (initialPathname) => {
@@ -54,8 +56,8 @@ const useSignup = (initialPathname) => {
     const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
     // * REJECT If no REFERRAL CODE or no EMAIL...
     if (!referrerCode || !email) {
-      const errorMessage = !referrerCode ? 'It looks like you\'re not using a referral code.' : 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.'
-      const errorLabel = !referrerCode ? 'No referral code provided' : 'No email provided from FB'
+      const errorMessage = !referrerCode ? noReferralCode.message : 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.'
+      const errorLabel = !referrerCode ? noReferralCode.label : 'No email provided from FB'
       const userRedirected = rejectNewUser({ errorMessage, errorLabel })
       return userRedirected
     }
