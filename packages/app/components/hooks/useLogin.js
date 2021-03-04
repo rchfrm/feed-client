@@ -23,7 +23,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     setRejectedPagePath,
     setAuthLoading,
   } = React.useContext(AuthContext)
-  const { setNoUser, storeUser } = React.useContext(UserContext)
+  const { setNoUser, storeUser, setUserLoading } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   // * HANDLE NO AUTH USER
@@ -43,20 +43,22 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
   // *  HANDLE EXISTING USER
   // -----------------------
   const handleExistingUser = React.useCallback(async ({ additionalUserInfo, authUser } = {}) => {
+    console.log('authUser', authUser)
     fireSentryBreadcrumb({
       category: 'login',
       action: 'handleExistingUser',
     })
+    // Handle auth users that exist but HAVE NO EMAIL
+    if (authUser && !authUser.email) {
+      setNoArtist()
+      setUserLoading(false)
+      const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
+      const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
+      return userRedirected
+    }
     // If it is a pre-existing user, store their profile in the user context
     const { user, error } = await storeUser()
     if (error) {
-      // Handle auth users that exist but have no email
-      if (authUser && !authUser.email) {
-        setNoArtist()
-        const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
-        const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
-        return userRedirected
-      }
       // Sentry error
       fireSentryError({
         category: 'sign up',
@@ -157,6 +159,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
           description: `Error with firebaseHelpers.getVerifyIdToken(): ${error.message}`,
         })
       })
+    // STORE AUTH
     await storeAuth({ authUser, authToken, authError })
     const userRedirected = await handleExistingUser({ authUser })
     return userRedirected
