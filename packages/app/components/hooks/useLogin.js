@@ -52,6 +52,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     if (error) {
       // Handle auth users that exist but have no email
       if (authUser && !authUser.email) {
+        setNoArtist()
         const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
         const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
         return userRedirected
