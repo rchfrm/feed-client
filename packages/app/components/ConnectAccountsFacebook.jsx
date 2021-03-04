@@ -7,7 +7,7 @@ import Error from '@/elements/Error'
 import VimeoEmbed from '@/elements/VimeoEmbed'
 import MarkdownText from '@/elements/MarkdownText'
 // IMPORT HELPERS
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 // IMPORT COPY
 import copy from '@/app/copy/connectProfilesCopy'
 
@@ -17,13 +17,13 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
   const linkFacebook = React.useCallback(() => {
     if (missingScopes.length || providerIds.includes('facebook.com')) {
       const requestedScopes = missingScopes.length ? missingScopes : null
-      firebase.reauthFacebook(requestedScopes)
+      firebaseHelpers.reauthFacebook(requestedScopes)
         .catch((error) => {
           setErrors([...errors, error])
         })
       return
     }
-    firebase.linkFacebookAccount()
+    firebaseHelpers.linkFacebookAccount()
       .catch((error) => {
         setErrors([...errors, error])
       })

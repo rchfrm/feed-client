@@ -1,8 +1,10 @@
 import React from 'react'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
+
+import useReferralStore from '@/app/store/referralStore'
 
 const initialAuthState = {
   token: '',
@@ -36,6 +38,8 @@ const authReducer = (draftState, action) => {
   }
 }
 
+const getClearUsedReferralCode = state => state.clearUsedReferralCode
+
 const AuthContext = React.createContext(initialAuthState)
 AuthContext.displayName = 'AuthContext'
 
@@ -54,12 +58,16 @@ function AuthProvider({ children }) {
     })
   }
 
-  const setNoAuth = (authError = null) => {
+  // Get function to clear referral code
+  const clearUsedReferralCode = useReferralStore(getClearUsedReferralCode)
+
+  const setNoAuth = React.useCallback((authError = null) => {
     setAuth({ type: 'no-auth-user' })
     setAuthError(authError)
     setAuthLoading(false)
     setAccessToken(null)
-  }
+    clearUsedReferralCode()
+  }, [setAuth, clearUsedReferralCode])
 
   const storeAuth = async ({ authUser, authToken, authError = null }) => {
     if (authError) {
@@ -89,42 +97,11 @@ function AuthProvider({ children }) {
   const relinkFacebook = async () => {
     setAuthLoading(true)
     try {
-      await firebase.reauthFacebook()
+      await firebaseHelpers.reauthFacebook()
     } catch (err) {
       setAuthLoading(false)
       throw (err)
     }
-  }
-
-  const emailLogin = async (email, password) => {
-    setAuthLoading(true)
-    const { authUser, error: loginError } = await firebase.doSignInWithEmailAndPassword(email, password)
-    if (loginError) return { loginError }
-    const { user } = authUser
-    const token = await user.getIdToken()
-      .catch((error) => {
-        return { error }
-      })
-    storeAuth({ authUser: user, authToken: token })
-    return { tokenError: token.error }
-  }
-
-  const signUp = async (email, password) => {
-    setAuthLoading(true)
-    const authUser = await firebase.doCreateUserWithEmailAndPassword(email, password)
-      .catch((error) => {
-        setAuthLoading(false)
-        throw new Error(error.message)
-      })
-    if (!authUser) return
-    const token = await authUser.user.getIdToken()
-      .catch((error) => {
-        setAuthLoading(false)
-        throw new Error(error.message)
-      })
-    const { user } = authUser
-    storeAuth({ authUser: user, authToken: token })
-    return token
   }
 
   // * HANDLE REJECTED PAGES
@@ -153,14 +130,13 @@ function AuthProvider({ children }) {
     auth,
     authError,
     authLoading,
-    emailLogin,
     setNoAuth,
     relinkFacebook,
     redirectType,
     setRedirectType,
     setAccessToken,
     setAuthError,
-    signUp,
+    setAuthLoading,
     storeAuth,
     setMissingScopes,
     rejectedPagePath,

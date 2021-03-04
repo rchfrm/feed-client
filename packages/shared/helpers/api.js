@@ -1,5 +1,5 @@
 import axios from 'axios'
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import host from '@/helpers/host'
 
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
@@ -77,7 +77,7 @@ export async function request(method, path, options, token) {
       throw new Error('token must be a string')
     }
   } else if (token !== false) {
-    token = await firebase.getIdTokenOrFail()
+    token = await firebaseHelpers.getIdTokenOrFail()
   }
 
   let url = path.match(/^(?:https?:)?\/\//)

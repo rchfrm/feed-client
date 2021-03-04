@@ -26,6 +26,7 @@ const getReferralStoreState = (state) => ({
   testCodeValidity: state.testCodeValidity,
   testCodeTruth: state.testCodeTruth,
   storeTrueCode: state.storeTrueCode,
+  getStoredReferrerCode: state.getStoredReferrerCode,
 })
 
 const SignupPage = ({ showEmailSignup }) => {
@@ -36,6 +37,7 @@ const SignupPage = ({ showEmailSignup }) => {
     testCodeValidity,
     testCodeTruth,
     storeTrueCode,
+    getStoredReferrerCode,
   } = useReferralStore(getReferralStoreState, shallow)
 
   // READ CODE FROM QUERY
@@ -45,18 +47,20 @@ const SignupPage = ({ showEmailSignup }) => {
   useAsyncEffect(async (isMounted) => {
     const { query } = parseUrl(urlString)
     const queryCode = query?.code
+    const localCode = getStoredReferrerCode()
+    const initialReferralCode = queryCode || localCode
     // If no code in query just behave as normal
-    if (!queryCode) {
+    if (!initialReferralCode) {
       setChecking(false)
       return
     }
-    const isValid = testCodeValidity(queryCode)
+    const isValid = testCodeValidity(initialReferralCode)
     if (!isValid) {
       setChecking(false)
       setError({ message: copy.invalidCodeCopy })
       return
     }
-    const isTrue = await testCodeTruth(queryCode)
+    const isTrue = await testCodeTruth(initialReferralCode)
     if (!isMounted()) return
     setChecking(false)
     if (!isTrue) {
@@ -65,7 +69,7 @@ const SignupPage = ({ showEmailSignup }) => {
     }
     // If reached here, code in query is valid and true
     // and has been stored in store and local storage
-    storeTrueCode(queryCode)
+    storeTrueCode(initialReferralCode)
     setError(null)
   // eslint-disable-next-line
   }, [])

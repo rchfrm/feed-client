@@ -66,31 +66,36 @@ function UserProvider({ children }) {
 
   const runCreateUser = React.useCallback(async ({ firstName, lastName }) => {
     setUserLoading(true)
-    try {
-      // Get referrer code (from local storage)
-      const referrerCode = getStoredReferrerCode()
-      // Create user in DB
-      const newUser = await sharedServer.createUser({
-        firstName,
-        lastName,
-        referrerCode,
-      })
-      // Accept T&Cs
-      await appServer.acceptTerms(newUser.id)
-      // Sort artists
-      const sortedArtistUser = sortUserArtists(newUser)
-      setUser({
-        type: 'set-user',
-        payload: {
-          user: sortedArtistUser,
-        },
-      })
+    // Get referrer code (from local storage)
+    const referrerCode = getStoredReferrerCode()
+    // Create user in DB
+    const { res: newUser, error: errorCreatingUser } = await sharedServer.createUser({
+      firstName,
+      lastName,
+      referrerCode,
+    })
+    // Handle error creating user
+    if (errorCreatingUser) {
       setUserLoading(false)
-      return newUser
-    } catch (err) {
-      setUserLoading(false)
-      throw (err)
+      return { error: errorCreatingUser }
     }
+    // Accept T&Cs
+    const { error: errorAcceptingTerms } = await appServer.acceptTerms(newUser.id)
+    // Handle error accepting terms
+    if (errorAcceptingTerms) {
+      setUserLoading(false)
+      return { error: errorCreatingUser }
+    }
+    // Sort artists
+    const sortedArtistUser = sortUserArtists(newUser)
+    setUser({
+      type: 'set-user',
+      payload: {
+        user: sortedArtistUser,
+      },
+    })
+    setUserLoading(false)
+    return { res: newUser }
   }, [setUser, getStoredReferrerCode])
 
   const setArtistsWithNotifications = useNotificationStore(getSetArtistsWithNotifications)

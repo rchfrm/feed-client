@@ -11,7 +11,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT CONSTANTS
 import * as ROUTES from '@/app/constants/routes'
 // IMPORT HELPERS
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { mixpanelSignOut } from '@/app/helpers/mixpanelHelpers'
 
 function SignOutLink({ className = '' }) {
@@ -25,7 +25,7 @@ function SignOutLink({ className = '' }) {
   const signOut = async () => {
     toggleGlobalLoading(true)
     Router.events.on('routeChangeComplete', clearContexts.current)
-    await firebase.doSignOut()
+    await firebaseHelpers.doSignOut()
       .catch((err) => {
         toggleGlobalLoading(false)
         throw (err)
