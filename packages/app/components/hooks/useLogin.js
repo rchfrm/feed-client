@@ -18,7 +18,6 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
   // Import contexts
   const {
     setNoAuth,
-    setAuthError,
     storeAuth,
     setMissingScopes,
     setRejectedPagePath,
