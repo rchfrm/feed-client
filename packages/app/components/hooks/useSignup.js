@@ -53,7 +53,8 @@ const useSignup = (initialPathname) => {
   }, [setArtistLoading, setNoAuth, setUserLoading, initialPathname])
 
   const handleNewUser = React.useCallback(async (additionalUserInfo, referrerCode) => {
-    const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
+    const { profile: authProfile } = additionalUserInfo
+    const { first_name, last_name, email, granted_scopes } = authProfile
     // * REJECT If no REFERRAL CODE
     if (!referrerCode) {
       const errorMessage = copy.noReferralCode.message
