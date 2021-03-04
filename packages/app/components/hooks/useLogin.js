@@ -49,18 +49,24 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       action: 'handleExistingUser',
     })
     // If it is a pre-existing user, store their profile in the user context
-    const user = await storeUser()
-      .catch((error) => {
-        handleNoAuthUser({ message: 'No user was found in the database' })
-        // Sentry error
-        fireSentryError({
-          category: 'sign up',
-          action: 'handleExistingUser (InitUser)',
-          label: 'No user returned from storeUser()',
-          description: error.message,
-        })
+    const { user, error } = await storeUser()
+    if (error) {
+      // Handle auth users that exist but have no email
+      if (authUser && !authUser.email) {
+        const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
+        const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
+        return userRedirected
+      }
+      // Sentry error
+      fireSentryError({
+        category: 'sign up',
+        action: 'handleExistingUser (InitUser)',
+        label: 'No user returned from storeUser()',
+        description: error.message,
       })
-    if (!user) return
+      handleNoAuthUser({ message: 'No user was found in the database' })
+      return
+    }
     const { artists } = user
     // If there is additional info from a FB redirect...
     if (additionalUserInfo) {

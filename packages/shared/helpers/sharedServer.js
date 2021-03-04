@@ -15,8 +15,13 @@ export const getEndpoint = async (endpoint) => {
 * @param {string} [verifyIdToken]
 * @returns {Promise<any>}
 */
-export const getUser = async (verifyIdToken) => {
-  return api.get('/users/me', verifyIdToken)
+export const getUser = async () => {
+  const requestUrl = '/users/me'
+  const errorTracking = {
+    category: 'Login',
+    action: 'Get User',
+  }
+  return api.requestWithCatch('get', requestUrl, null, errorTracking)
 }
 
 /**

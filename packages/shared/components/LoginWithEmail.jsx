@@ -76,14 +76,14 @@ function LoginWithEmail({ className }) {
       })
       return
     }
-    const user = await storeUser()
-      .catch((err) => {
-        toggleGlobalLoading(false)
-        setEmail('')
-        setPassword('')
-        setError(err)
-      })
-    if (!user) return
+    const { user, error } = await storeUser()
+    if (error) {
+      toggleGlobalLoading(false)
+      setEmail('')
+      setPassword('')
+      setError(error)
+      return
+    }
     if (user.artists.length > 0) {
       const selectedArtist = user.artists[0]
       const { error } = await storeArtist(selectedArtist.id)

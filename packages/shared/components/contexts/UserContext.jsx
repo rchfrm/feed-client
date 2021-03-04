@@ -102,19 +102,18 @@ function UserProvider({ children }) {
 
   const storeUser = React.useCallback(async () => {
     setUserLoading(true)
-    const user = await sharedServer.getUser()
-      .catch((error) => {
-        // Sentry error
-        fireSentryError({
-          category: 'login',
-          action: 'store user',
-          description: `${error.message}`,
-        })
-        setUserLoading(false)
-        throw (error)
+    const { res: user, error } = await sharedServer.getUser()
+    if (error) {
+      // Sentry error
+      fireSentryError({
+        category: 'login',
+        action: 'store user',
+        description: `${error.message}`,
       })
+      setUserLoading(false)
+      return { error }
+    }
     // TODO If 404, then call /accounts/register
-    if (!user) return
     const sortedArtistUser = sortUserArtists(user)
     // Store artists with notifications in Not store
     setArtistsWithNotifications(Object.values(user.artists))
@@ -128,7 +127,7 @@ function UserProvider({ children }) {
       },
     })
     setUserLoading(false)
-    return sortedArtistUser
+    return { user: sortedArtistUser }
   }, [setUser, setArtistsWithNotifications])
 
   const updateUser = React.useCallback((user) => {

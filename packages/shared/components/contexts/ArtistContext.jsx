@@ -214,19 +214,15 @@ function ArtistProvider({ children, disable }) {
         throw (error)
       })
     // Update user
-    const updatedUser = await storeUser()
-      .catch((error) => {
-        // Sentry error
-        fireSentryError({
-          category: 'sign up',
-          action: 'Problem updating user in Artist context createArtist()',
-          description: error.message,
-        })
-        throw (error)
-      })
-    // Stop here if no user returned
-    if (!updatedUser) {
+    const { user: updatedUser, error } = await storeUser()
+    if (error) {
       setArtistLoading(false)
+      // Sentry error
+      fireSentryError({
+        category: 'sign up',
+        action: 'Problem updating user in Artist context createArtist()',
+        description: error.message,
+      })
       return
     }
     const selectedArtist = updatedUser.artists[0]
