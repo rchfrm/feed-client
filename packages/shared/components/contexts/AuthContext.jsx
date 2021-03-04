@@ -9,6 +9,8 @@ import useReferralStore from '@/app/store/referralStore'
 const initialAuthState = {
   token: '',
   email: '',
+  firstName: '',
+  lastName: '',
   missingScopes: [],
   providerIds: [],
 }
@@ -16,7 +18,7 @@ const initialAuthState = {
 const authReducer = (draftState, action) => {
   const {
     type: actionType,
-    payload: { email, token, providerIds, scopes } = {},
+    payload: { email, firstName, lastName, token, providerIds, scopes } = {},
   } = action
 
   switch (actionType) {
@@ -24,6 +26,8 @@ const authReducer = (draftState, action) => {
       return initialAuthState
     case 'set-auth-user':
       draftState.email = email
+      draftState.firstName = firstName
+      draftState.lastName = lastName
       draftState.token = token
       draftState.providerIds = providerIds
       break
@@ -69,7 +73,7 @@ function AuthProvider({ children }) {
     clearUsedReferralCode()
   }, [setAuth, clearUsedReferralCode])
 
-  const storeAuth = async ({ authUser, authToken, authError = null }) => {
+  const storeAuth = async ({ authUser, authToken, authProfile = {}, authError = null }) => {
     if (authError) {
       setAuthError(authError)
       return
@@ -82,11 +86,14 @@ function AuthProvider({ children }) {
     const { email, providerData } = authUser
     // Get provider IDs
     const providerIds = providerData.map(({ providerId }) => providerId)
+    const { first_name, last_name } = authProfile
     // Set auth
     setAuth({
       type: 'set-auth-user',
       payload: {
         email,
+        firstName: first_name,
+        lastName: last_name,
         providerIds,
         token: authToken,
       },

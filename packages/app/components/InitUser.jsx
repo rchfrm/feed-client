@@ -130,8 +130,9 @@ const InitUser = ({ children }) => {
           })
         })
       if (!authToken) return
+      const { profile: authProfile } = additionalUserInfo
       // Store Firebase's auth user in context
-      await storeAuth({ authUser: user, authToken })
+      await storeAuth({ authUser: user, authToken, authProfile })
         .catch((err) => {
           // Sentry error
           fireSentryError({
