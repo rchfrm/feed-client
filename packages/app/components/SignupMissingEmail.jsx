@@ -12,7 +12,7 @@ import copy from '@/app/copy/signupCopy'
 import styles from '@/LoginPage.module.css'
 
 
-const SignupFacebookEmail = ({ fbEmail, className }) => {
+const SignupMissingEmail = ({ fbEmail, className }) => {
   const [email, setEmail] = React.useState(fbEmail)
   const [isEmailValid, setIsEmailValid] = React.useState(false)
   const [showEmailError, setShowEmailError] = React.useState(false)
@@ -65,14 +65,14 @@ const SignupFacebookEmail = ({ fbEmail, className }) => {
   )
 }
 
-SignupFacebookEmail.propTypes = {
+SignupMissingEmail.propTypes = {
   fbEmail: PropTypes.string,
   className: PropTypes.string,
 }
 
-SignupFacebookEmail.defaultProps = {
+SignupMissingEmail.defaultProps = {
   fbEmail: '',
   className: null,
 }
 
-export default SignupFacebookEmail
+export default SignupMissingEmail

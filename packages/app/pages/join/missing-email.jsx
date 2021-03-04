@@ -2,7 +2,8 @@ import React from 'react'
 // import PropTypes from 'prop-types'
 
 import BasePage from '@/app/BasePage'
-import SignupFacebookEmail from '@/app/SignupFacebookEmail'
+import testPageReady from '@/hoc/testPageReady'
+import SignupMissingEmail from '@/app/SignupMissingEmail'
 
 const headerConfig = {
   text: 'confirm email',
@@ -13,11 +14,10 @@ const Page = () => {
     <BasePage
       headerConfig={headerConfig}
       staticPage
-      authPage
     >
-      <SignupFacebookEmail />
+      <SignupMissingEmail />
     </BasePage>
   )
 }
 
-export default Page
+export default testPageReady('app')(Page)
