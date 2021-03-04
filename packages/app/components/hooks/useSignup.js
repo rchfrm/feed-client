@@ -54,6 +54,7 @@ const useSignup = (initialPathname) => {
 
   const handleNewUser = React.useCallback(async (additionalUserInfo, referrerCode) => {
     const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
+    const isMissingEmail = !email
     // * REJECT If no REFERRAL CODE or no EMAIL...
     if (!referrerCode) {
       const errorMessage = copy.noReferralCode.message
@@ -90,11 +91,13 @@ const useSignup = (initialPathname) => {
         label: 'missing scopes',
       })
     }
+    // Clear artists (beacuse new user)
+    setNoArtist()
     // TRACK
     trackSignUp({ authProvider: 'facebook', userId: user.id })
-    // As this is a new user, run setNoArtist, and push them to the Connect Artist page
-    setNoArtist()
-    const userRedirected = signupHelpers.redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
+    // REDIRECT
+    const redirectTo = isMissingEmail ? ROUTES.SIGN_UP_MISSING_EMAIL : ROUTES.SIGN_UP_CONTINUE
+    const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
     return userRedirected
   }, [initialPathname, rejectNewUser, runCreateUser, setMissingScopes, setNoArtist])
 
