@@ -173,6 +173,5 @@ export const calcMinReccBudget = (budgetInfo, locationOptions) => {
   const { minorUnit: { minReccomendedBase } } = budgetInfo
   const locationCost = calcLocationsCost(budgetInfo, locationOptions)
   const totalMinRecc = minReccomendedBase + locationCost
-  console.log('totalMinRecc', totalMinRecc)
   return totalMinRecc
 }
