@@ -9,7 +9,7 @@ import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { trackSignUp } from '@/app/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
-import { noReferralCode } from '@/app/copy/signupCopy'
+import copy from '@/app/copy/signupCopy'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -56,8 +56,8 @@ const useSignup = (initialPathname) => {
     const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
     // * REJECT If no REFERRAL CODE or no EMAIL...
     if (!referrerCode) {
-      const errorMessage = noReferralCode.message
-      const errorLabel = noReferralCode.label
+      const errorMessage = copy.noReferralCode.message
+      const errorLabel = copy.noReferralCode.label
       const userRedirected = rejectNewUser({ errorMessage, errorLabel })
       return userRedirected
     }
