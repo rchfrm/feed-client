@@ -48,17 +48,17 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       category: 'login',
       action: 'handleExistingUser',
     })
-    // Handle auth users that exist but HAVE NO EMAIL
-    if (authUser && !authUser.email) {
-      setNoArtist()
-      setUserLoading(false)
-      const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
-      const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
-      return userRedirected
-    }
     // If it is a pre-existing user, store their profile in the user context
     const { user, error } = await storeUser()
     if (error) {
+      // Handle auth users that exist but HAVE NO EMAIL
+      if (authUser && !authUser.email) {
+        setNoArtist()
+        setUserLoading(false)
+        const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
+        const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
+        return userRedirected
+      }
       // Sentry error
       fireSentryError({
         category: 'sign up',
@@ -137,7 +137,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       const userRedirected = signupHelpers.redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
       return userRedirected
     }
-  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser])
+  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser, setUserLoading])
 
   // * DETECT SIGNED IN USER
   // -----------------------
