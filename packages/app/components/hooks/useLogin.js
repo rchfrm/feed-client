@@ -158,7 +158,6 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
         })
       })
     await storeAuth({ authUser, authToken, authError })
-    const userRedirected = await handleExistingUser()
     const userRedirected = await handleExistingUser({ authUser })
     return userRedirected
   }, [handleExistingUser, storeAuth, handleNoAuthUser])
