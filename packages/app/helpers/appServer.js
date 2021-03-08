@@ -350,6 +350,17 @@ export const setLinkAsDefault = (artistId, linkId) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
+// * ACCOUNT
+// --------------------------
+export const verifyEmail = (token, useDummy) => {
+  const requestUrl = '/accounts/verify-email'
+  const payload = { token: !token && useDummy ? 'nonFalsey' : token }
+  const errorTracking = {
+    category: 'Sign Up',
+    action: 'Verify Email',
+  }
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
+}
 
 // * REFERRALS
 // --------------------------
