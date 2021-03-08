@@ -32,6 +32,7 @@ export const getUser = async () => {
 export const createUser = async ({
   firstName,
   lastName,
+  email,
   referrerCode,
 }, token) => {
   if (!token) token = await firebaseHelpers.getIdTokenOrFail()
@@ -39,6 +40,7 @@ export const createUser = async ({
   const payload = {
     first_name: firstName,
     last_name: lastName,
+    ...(email && { contact_email: email }),
     ...(referrerCode && { referrer_code: referrerCode }),
     token,
   }
