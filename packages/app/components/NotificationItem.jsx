@@ -5,6 +5,8 @@ import NotificationItemLabel from '@/app/NotificationItemLabel'
 
 import useNotificationStore from '@/app/store/notificationsStore'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 const getSetAsOpen = state => state.setAsOpen
 const getOpenedNotificationId = state => state.openedNotificationId
 
@@ -17,6 +19,7 @@ const NotificationItem = ({ notification, className }) => {
     isRead,
     isActionable,
     title,
+    topic,
     summary,
     isComplete,
   } = notification
@@ -36,6 +39,12 @@ const NotificationItem = ({ notification, className }) => {
       ].join(' ')}
       onClick={() => {
         setAsOpen(id, entityType, entityId)
+        track('open_notification', {
+          notificationName: title,
+          notificationTopic: topic,
+          isActionable,
+          isRead,
+        })
       }}
     >
       {/* OVERLINE */}
