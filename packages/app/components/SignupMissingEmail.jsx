@@ -44,7 +44,6 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
   }, [firstName, lastName, isEmailValid])
   // GET USER CREATION
   const { runCreateUser, setUserLoading } = React.useContext(UserContext)
-  console.log('auth', auth)
   // Submit form
   const onSubmit = async (e) => {
     e.preventDefault()

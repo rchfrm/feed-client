@@ -43,7 +43,6 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
   // *  HANDLE EXISTING USER
   // -----------------------
   const handleExistingUser = React.useCallback(async ({ additionalUserInfo, authUser } = {}) => {
-    console.log('authUser', authUser)
     fireSentryBreadcrumb({
       category: 'login',
       action: 'handleExistingUser',
