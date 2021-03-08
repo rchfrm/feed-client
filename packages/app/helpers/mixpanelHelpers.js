@@ -6,7 +6,6 @@ import mixpanel from 'mixpanel-browser'
 // const isProduction = process.env.NODE_ENV === 'production'
 const token = process.env.mixpanel_token
 let userType
-let userId
 
 export const initMixpanel = () => {
   mixpanel.init(
@@ -18,9 +17,8 @@ export const initMixpanel = () => {
 }
 
 export const updateMixpanel = (user) => {
-  const { role, id } = user
+  const { role } = user
   userType = role
-  userId = id
 }
 
 // TRACK MIXPANEL EVENTS
