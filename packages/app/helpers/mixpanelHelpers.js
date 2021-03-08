@@ -5,6 +5,7 @@ import mixpanel from 'mixpanel-browser'
 // ---------
 // const isProduction = process.env.NODE_ENV === 'production'
 const token = process.env.mixpanel_token
+let isMixpanelSetup = false
 let userType
 
 export const initMixpanel = () => {
@@ -12,6 +13,9 @@ export const initMixpanel = () => {
     token,
     {
       api_host: 'https://api-eu.mixpanel.com',
+      loaded: () => {
+        isMixpanelSetup = true
+      },
     },
   )
 }
@@ -57,6 +61,23 @@ export const mixpanelPageView = (url) => {
   trackMixpanel('page_view', { value: url })
 }
 
+// External link click
+export const mixpanelExternalLinkClick = ({ url, eventName = 'link_click', payload = {}, responseWait = 300 }) => {
+  // Call this to go to page
+  const goToPage = () => { window.location.href = url }
+  // If mixpanel is not setup, just go to page
+  if (!isMixpanelSetup) return goToPage()
+  // Start timer ro run page change if mixpanel is too slow
+  const waitTimer = setTimeout(goToPage, responseWait)
+  // Track click
+  trackMixpanel(eventName, { ...payload, value: url }, () => {
+    // After successful track....
+    // Stop timer
+    clearTimeout(waitTimer)
+    // Go to page after succesful track
+    goToPage()
+  })
+}
 
 // REGISTER SUPER PROPERTIES
 export const mixpanelRegister = (details) => {
