@@ -161,11 +161,19 @@ const setAsRead = (set, get) => (notificationId, entityType, entityId) => {
 
 // SET NOTIFICATION AS DISMISSED
 const setAsDismissed = (set, get) => (notificationId, entityType, entityId, isActionable) => {
-  const { openedNotificationId } = get()
+  const { openedNotificationId, notifications } = get()
+  const openedNotification = notifications.find(({ id }) => id === notificationId)
+  const { title, topic } = openedNotification
   // Hide notification
   const notificationsUpdated = updateNotification(set, get)(notificationId, 'hidden', true)
   // Update active notifications
   updateActiveNotificationsCount(set)(notificationsUpdated)
+  // Track
+  track('notification_dismissed', {
+    title,
+    topic,
+    isActionable,
+  })
   // Close notification (if currently open)
   if (notificationId === openedNotificationId) {
     closeNotification(set)()
