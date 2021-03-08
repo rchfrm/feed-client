@@ -13,7 +13,6 @@ import { requestWithCatch } from '@/helpers/api'
 
 // Convert dictionary into object keyed by error code
 export const formatDictionary = (dictionaryArray = []) => {
-  console.log('dictionaryArray', dictionaryArray)
   return dictionaryArray.reduce((dictionary, entry) => {
     const { topic } = entry
     // Handle duplicate
@@ -100,7 +99,6 @@ export const getAction = ({
 
 // FORMAT NOTIFICATIONS
 export const formatNotifications = (notificationsRaw, dictionary = {}) => {
-  console.log('notificationsRaw', notificationsRaw)
   return notificationsRaw.reduce((allNotifications, notification) => {
     const {
       id,
