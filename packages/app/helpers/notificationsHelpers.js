@@ -2,6 +2,8 @@
 
 import moment from 'moment'
 
+import { mixpanelExternalLinkClick } from '@/app/helpers/mixpanelHelpers'
+
 import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
 
@@ -30,6 +32,15 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
   if (entityType === 'organizations') return apiEndpoint.replace('${organization.id}', entityId)
 }
 
+const getExternalLinkAction = (ctaLink, trackingPayload) => {
+  // Tracks click in mixpanel and opens link
+  return () => mixpanelExternalLinkClick({
+    url: ctaLink,
+    eventName: 'notification_actioned',
+    payload: trackingPayload,
+  })
+}
+
 // GET ACTION to handle notification
 /**
  * @param {string} entityType 'users' | 'artists' | 'organizations'
@@ -39,13 +50,28 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
  * @returns {Promise<array>}
  */
 export const getAction = ({
+  ctaLink,
   apiMethod,
   apiEndpoint,
   entityType,
   entityId,
   topic,
   data,
+  title,
+  isDismissible,
+  isActionable,
 }) => {
+  // Handle no method or link
+  if (!apiEndpoint && !ctaLink) return () => {}
+  // Handle link
+  if (ctaLink) {
+    return getExternalLinkAction(ctaLink, {
+      title,
+      topic,
+      isDismissible,
+      isActionable,
+    })
+  }
   // Format endpoint
   const endpointFormatted = getEndpoint(apiEndpoint, entityType, entityId)
   // Build API request
@@ -65,6 +91,7 @@ export const getAction = ({
 
 // FORMAT NOTIFICATIONS
 export const formatNotifications = (notificationsRaw, dictionary = {}) => {
+  console.log('notificationsRaw', notificationsRaw)
   return notificationsRaw.reduce((allNotifications, notification) => {
     const {
       id,
@@ -95,6 +122,7 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       appSummary: summary,
       appMessage: description,
       ctaText,
+      ctaLink,
       apiMethod,
       apiEndpoint,
       hide = false,
@@ -104,12 +132,16 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
     const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
     // Get Action function
     const onAction = isActionable ? getAction({
+      ctaLink,
       apiMethod,
       apiEndpoint,
       entityType,
       entityId,
       topic,
       data,
+      title,
+      isDismissible,
+      isActionable,
     }) : () => {}
     // Return formatted notification
     const formattedNotification = {

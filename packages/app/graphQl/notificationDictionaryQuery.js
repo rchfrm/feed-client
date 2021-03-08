@@ -12,6 +12,7 @@ const getQuery = () => `
       appSummary
       appMessage
       ctaText
+      ctaLink
       apiMethod
       apiEndpoint
     }
