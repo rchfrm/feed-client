@@ -22,13 +22,13 @@ import styles from '@/LoginPage.module.css'
 
 const SignupMissingEmail = ({ fbEmail, className }) => {
   // GET AUTH and ARTIST context
-  const { auth } = React.useContext(AuthContext)
+  const { auth: { authProfile } } = React.useContext(AuthContext)
   const { setNoArtist } = React.useContext(ArtistContext)
   const [email, setEmail] = React.useState(fbEmail)
   const [isEmailValid, setIsEmailValid] = React.useState(false)
   const [showEmailError, setShowEmailError] = React.useState(false)
-  const [firstName, setFirstName] = React.useState(auth.firstName)
-  const [lastName, setLastName] = React.useState(auth.lastName)
+  const [firstName, setFirstName] = React.useState(authProfile.first_name)
+  const [lastName, setLastName] = React.useState(authProfile.last_name)
   const [loading, setLoading] = React.useState(false)
   const [isFormValid, setIsFormValid] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -54,9 +54,12 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
     const { res: user, error } = await runCreateUser({
       firstName,
       lastName,
+      email,
     })
     if (error) {
       setError(error)
+      setUserLoading(false)
+      setLoading(false)
       return
     }
     // Clear artists (beacuse new user)
@@ -95,7 +98,7 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
           }}
         />
         {/* FIRST NAME */}
-        {!auth.firstName && (
+        {!authProfile.first_name && (
           <Input
             name="firstName"
             label="First name"
@@ -105,7 +108,7 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
           />
         )}
         {/* LAST NAME */}
-        {!auth.lastName && (
+        {!authProfile.last_name && (
           <Input
             name="lastName"
             label="Last name"
