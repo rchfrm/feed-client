@@ -3,6 +3,7 @@
 import moment from 'moment'
 
 import { mixpanelExternalLinkClick } from '@/app/helpers/mixpanelHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
@@ -83,7 +84,15 @@ export const getAction = ({
     category: 'Notifcations',
     action: `Action ${topic}`,
   }
-  return () => requestWithCatch(apiMethod.toLowerCase(), endpointFormatted, payload, errorTracking)
+  return () => {
+    track('notification_actioned', {
+      title,
+      topic,
+      isDismissible,
+      isActionable,
+    })
+    requestWithCatch(apiMethod.toLowerCase(), endpointFormatted, payload, errorTracking)
+  }
 }
 
 // * FETCHING FROM SERVER
