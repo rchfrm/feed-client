@@ -18,6 +18,7 @@ const NotificationItem = ({ notification, className }) => {
     date,
     isRead,
     isActionable,
+    isDimissable,
     title,
     topic,
     summary,
@@ -40,9 +41,10 @@ const NotificationItem = ({ notification, className }) => {
       onClick={() => {
         setAsOpen(id, entityType, entityId)
         track('open_notification', {
-          notificationName: title,
-          notificationTopic: topic,
+          title,
+          topic,
           isActionable,
+          isDimissable,
           isRead,
         })
       }}
