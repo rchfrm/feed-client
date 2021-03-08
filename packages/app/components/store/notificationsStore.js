@@ -1,6 +1,8 @@
 import create from 'zustand'
 import produce from 'immer'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 import globalData from '@/app/tempGlobalData/globalData.json'
 
 import {
@@ -122,11 +124,24 @@ const updateNotification = (set, get) => (notificationId, prop, value) => {
 const setAsOpen = (set, get) => (notificationId, entityType, entityId) => {
   const { setAsRead, notifications } = get()
   const openedNotification = notifications.find(({ id }) => id === notificationId)
-  const { id: openedNotificationId, isRead } = openedNotification
+  const {
+    id: openedNotificationId,
+    isRead,
+    isActionable,
+    isDimissable,
+    title,
+    topic,
+  } = openedNotification
   set({ openedNotification, openedNotificationId })
   // Set notification as read (in store)
   if (!isRead) {
     setAsRead(notificationId, entityType, entityId)
+    track('notification_marked_read', {
+      title,
+      topic,
+      isActionable,
+      isDimissable,
+    })
   }
 }
 
