@@ -1,12 +1,19 @@
 import create from 'zustand'
 import produce from 'immer'
 
+import globalData from '@/app/tempGlobalData/globalData.json'
+
 import {
   fetchNotifications,
   formatNotifications,
   markAsReadOnServer,
   dismissOnServer,
+  formatDictionary,
 } from '@/app/helpers/notificationsHelpers'
+
+// GET FORMATTED DICTIONARY
+const { allNotifications } = globalData
+const dictionaryFormatted = formatDictionary(allNotifications)
 
 const initialState = {
   artistId: '',
@@ -19,7 +26,7 @@ const initialState = {
   openedNotificationId: '',
   artistsWithNotifications: [],
   notificationsError: null,
-  notificationDictionary: null,
+  notificationDictionary: dictionaryFormatted,
 }
 
 // COUNT ACTIVE NOTIFICATIONS
@@ -183,7 +190,6 @@ const useNotificationsStore = create((set, get) => ({
   setAsRead: (id, entityType, entityId) => setAsRead(set, get)(id, entityType, entityId),
   setAsOpen: (id, entityType, entityId) => setAsOpen(set, get)(id, entityType, entityId),
   setAsDismissed: (id, entityType, entityId, isActionable) => setAsDismissed(set, get)(id, entityType, entityId, isActionable),
-  setDictionary: (notificationDictionary) => set({ notificationDictionary }),
   closeNotification: () => closeNotification(set, get)(),
   completeNotification: (id) => setAsComplete(set, get)(id),
   clear: () => set(initialState),

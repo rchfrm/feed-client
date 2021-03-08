@@ -24,12 +24,7 @@ import { trackGooglePageView } from '@/app/helpers/trackGoogleHelpers'
 import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
 
 // GLOBAL STORES and DATA
-import globalData from '@/app/tempGlobalData/globalData.json'
 import { parseUrl } from '@/helpers/utils'
-import { formatDictionary } from '@/app/helpers/notificationsHelpers'
-import useNotificationStore from '@/app/store/notificationsStore'
-
-const getSetDictionary = state => state.setDictionary
 
 // TRACKING SERVICE IDS
 // Google Analytics
@@ -109,16 +104,6 @@ function Feed({ Component, pageProps }) {
     if (window.Stripe) {
       setStripe(window.Stripe(process.env.stripe_provider))
     }
-  }
-
-  // STORE DICTIONARY in GLOBAL STATE
-  const isDictionarySet = React.useRef(false)
-  const setDictionary = useNotificationStore(getSetDictionary)
-  if (!isDictionarySet.current) {
-    const { allNotifications } = globalData
-    const dictionaryFormatted = formatDictionary(allNotifications)
-    setDictionary(dictionaryFormatted)
-    isDictionarySet.current = true
   }
 
   return (

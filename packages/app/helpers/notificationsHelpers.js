@@ -10,6 +10,7 @@ import { requestWithCatch } from '@/helpers/api'
 
 // Convert dictionary into object keyed by error code
 export const formatDictionary = (dictionaryArray = []) => {
+  console.log('dictionaryArray', dictionaryArray)
   return dictionaryArray.reduce((dictionary, entry) => {
     const { topic } = entry
     // Handle duplicate
