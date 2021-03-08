@@ -1,45 +1,177 @@
 import * as utils from '@/helpers/utils'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
-const calcFeedMinBudgetInfo = (artist) => {
+
+// TESTING
+// -------
+const triggerBudgetError = ({ errorMessage, value, currencyCode }) => {
+  const errorDescription = `${errorMessage}\nCalculated value is ${value}, in currency ${currencyCode}`
+  fireSentryError({ description: errorDescription })
+}
+
+// This checks that the rounding has produced a reasonable budget amount
+const checkBudgetError = ({
+  minBaseUnrounded,
+  minHard,
+  minReccomendedBase,
+  minReccomendedStories,
+  currencyCode,
+}) => {
+  // Check minHard error
+  if (((minHard / minBaseUnrounded) < 2) || ((minHard / minBaseUnrounded) > 3)) {
+    return { errorMessage: 'minHard Error', value: minHard / minBaseUnrounded, currencyCode }
+  }
+  // Check minBase error
+  if (((minReccomendedBase / minBaseUnrounded) < 3) || ((minReccomendedBase / minBaseUnrounded) > 4)) {
+    return { errorMessage: 'minReccomendedBase Error', value: minReccomendedBase / minBaseUnrounded, currencyCode }
+  }
+  // Check minStories error
+  if (((minReccomendedStories / minBaseUnrounded) < 5) || ((minReccomendedStories / minBaseUnrounded) > 7)) {
+    return { errorMessage: 'minReccomendedStories Error', value: minReccomendedStories / minBaseUnrounded, currencyCode }
+  }
+  // No errors
+  return null
+}
+
+// ROUNDING
+// --------
+
+const getRoundingValue = (amount) => {
+  if (amount < 750) return 100
+  if (amount < 5000) return 1_000
+  if (amount < 50000) return 10_000
+  return 100_000
+}
+
+const roundUpAmount = (amount) => {
+  const roundTo = getRoundingValue(amount)
+  return Math.ceil(amount / roundTo) * roundTo
+}
+
+const getFbMinMultipleCalc = (fbMin, serviceFee) => (fbMultiple, rounded = true) => {
+  const amount = (fbMultiple * fbMin) / (1 - serviceFee)
+  if (!rounded) return amount
+  return roundUpAmount(amount)
+}
+
+// CALC MIN BUDGET PROPS
+// ---------------------
+
+export const calcFeedMinBudgetInfo = (artist) => {
   if (!artist || !artist.min_daily_budget_info) return
+  // Service Feed
+  const serviceFee = 10 / 100
   // Extra info from artist
   const { min_daily_budget_info: {
     amount: fbMin,
     currency: { code: currencyCode, offset: currencyOffset },
   } } = artist
+  const calcFbMinMultiple = getFbMinMultipleCalc(fbMin, serviceFee)
   // Calc min values
-  const minUnit = utils.roundToFactorOfTen((fbMin) / 0.9)
-  const minHard = utils.roundToFactorOfTen((2 * fbMin) / 0.9)
-  const minReccomendedBase = utils.roundToFactorOfTen((3 * fbMin) / 0.9)
-  const minReccomendedStories = utils.roundToFactorOfTen((5 * fbMin) / 0.9)
+  const minBaseUnrounded = calcFbMinMultiple(1, false)
+  const minBase = calcFbMinMultiple(1)
+  const minHard = Math.min(calcFbMinMultiple(2), minBase * 2)
+  const minReccomendedBase = Math.min(calcFbMinMultiple(3), minBase * 3)
+  const minReccomendedStories = Math.min(calcFbMinMultiple(5), minBase * 5)
+  const extraCountryCost = minBase
+  const extraCityCost = minBase / 4
   // The values in the smallest currency unit (eg pence)
-  const smallestUnit = {
-    minUnit,
+  const minorUnit = {
+    minBaseUnrounded,
+    minBase,
     minHard,
     minReccomendedBase,
     minReccomendedStories,
+    extraCountryCost,
+    extraCityCost,
   }
   // The value in the largest currency unit (eg pound)
-  const largestUnit = {
-    minUnit: minUnit / currencyOffset,
+  const majorUnit = {
+    minBaseUnrounded: minBaseUnrounded / currencyOffset,
+    minBase: minBase / currencyOffset,
     minHard: minHard / currencyOffset,
     minReccomendedBase: minReccomendedBase / currencyOffset,
     minReccomendedStories: minReccomendedStories / currencyOffset,
+    extraCountryCost: extraCountryCost / currencyOffset,
+    extraCityCost: extraCityCost / currencyOffset,
   }
-  // The value as a string
+  // The value as a formatted string
   const string = {
-    minUnit: utils.formatCurrency(largestUnit.minUnit, currencyCode),
-    minHard: utils.formatCurrency(largestUnit.minHard, currencyCode),
-    minReccomendedBase: utils.formatCurrency(largestUnit.minReccomendedBase, currencyCode),
-    minReccomendedStories: utils.formatCurrency(largestUnit.minReccomendedStories, currencyCode),
+    minBaseUnrounded: utils.formatCurrency(majorUnit.minBaseUnrounded, currencyCode),
+    minBase: utils.formatCurrency(majorUnit.minBase, currencyCode),
+    minHard: utils.formatCurrency(majorUnit.minHard, currencyCode),
+    minReccomendedBase: utils.formatCurrency(majorUnit.minReccomendedBase, currencyCode),
+    minReccomendedStories: utils.formatCurrency(majorUnit.minReccomendedStories, currencyCode),
+    extraCountryCost: utils.formatCurrency(majorUnit.extraCountryCost, currencyCode),
+    extraCityCost: utils.formatCurrency(majorUnit.extraCityCost, currencyCode),
   }
+
+  // Check for errors
+  const budgetError = checkBudgetError({
+    minBaseUnrounded,
+    minHard,
+    minReccomendedBase,
+    minReccomendedStories,
+    currencyCode,
+  })
+  // Trigger error in Sentry (if there is one)
+  if (budgetError) triggerBudgetError(budgetError)
+
   return {
-    smallestUnit,
-    largestUnit,
+    minorUnit,
+    majorUnit,
     string,
     currencyCode,
     currencyOffset,
   }
 }
 
-export default calcFeedMinBudgetInfo
+
+const testForSelectedCountries = (locationOptionsArray) => {
+  return !!locationOptionsArray.find(({ selected }) => selected)
+}
+
+const countCountriesSpannedByCities = (locationOptionsArray) => {
+  const spannedCountries = locationOptionsArray.filter(({ totalCitiesSelected }) => {
+    return totalCitiesSelected && totalCitiesSelected >= 1
+  })
+  return spannedCountries.length
+}
+
+export const calcLocationsCost = (budgetInfo, locationOptions) => {
+  // Get units for locations
+  const { minorUnit: { extraCountryCost, extraCityCost } } = budgetInfo
+  // Convert locations to array
+  const locationOptionsArray = Object.values(locationOptions)
+  // Test if at least one country is selected
+  const hasSelectedCountry = testForSelectedCountries(locationOptionsArray)
+  // If no countries are selected, count how many countries the selected cities span
+  // (no need to do this if at least one country has been selected)
+  const countriesWithSelectedCities = !hasSelectedCountry ? countCountriesSpannedByCities(locationOptionsArray) : undefined
+  // If no country selected and selected cities span only 1 country, then no cost
+  if (!hasSelectedCountry && countriesWithSelectedCities <= 1) return 0
+  // Calc cost of locations
+  let ignoreCountry = true
+  const locationCost = locationOptionsArray.reduce((cost, { selected: countrySelected, totalCitiesSelected }) => {
+    if (countrySelected) {
+      // Ignore the first country
+      if (ignoreCountry) {
+        ignoreCountry = false
+        return cost
+      }
+      cost += extraCountryCost
+      return cost
+    }
+    const totalCitiesCapped = Math.min(totalCitiesSelected, 4)
+    cost += extraCityCost * totalCitiesCapped
+    return cost
+  }, 0)
+  return locationCost
+}
+
+export const calcMinReccBudget = (budgetInfo, locationOptions) => {
+  const { minorUnit: { minReccomendedBase } } = budgetInfo
+  const locationCost = calcLocationsCost(budgetInfo, locationOptions)
+  const totalMinRecc = minReccomendedBase + locationCost
+  return totalMinRecc
+}
