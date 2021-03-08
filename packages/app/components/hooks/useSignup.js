@@ -64,6 +64,8 @@ const useSignup = (initialPathname) => {
     }
     // If no email, ask for it
     if (!email) {
+      setNoArtist()
+      setUserLoading(false)
       const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
       const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
       return userRedirected
