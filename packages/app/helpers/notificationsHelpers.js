@@ -34,11 +34,14 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
 
 const getExternalLinkAction = (ctaLink, trackingPayload) => {
   // Tracks click in mixpanel and opens link
-  return () => mixpanelExternalLinkClick({
-    url: ctaLink,
-    eventName: 'notification_actioned',
-    payload: trackingPayload,
-  })
+  return () => {
+    mixpanelExternalLinkClick({
+      url: ctaLink,
+      eventName: 'notification_actioned',
+      payload: trackingPayload,
+    })
+    return { res: 'incomplete' }
+  }
 }
 
 // GET ACTION to handle notification
