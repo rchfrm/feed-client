@@ -493,32 +493,6 @@ export const roundToFactorOfTen = (n, roundType = 'ceil') => {
   return rounded
 }
 
-/**
-* @param {number} amount
-* @param {string} currencyCode
-* @param {number} currencyOffset
-* @returns {object}
-*/
-export const getMinBudget = (amount, currencyCode, currencyOffset) => {
-  // Account for Feed fee
-  const fbMinBudgetAdjusted = (amount / currencyOffset) / 0.9
-  const fbMinFloat = Math.ceil((fbMinBudgetAdjusted + Number.EPSILON) * 100) / 100
-  const fbMinRounded = roundToFactorOfTen(fbMinFloat)
-  const fbMinBudgetString = formatCurrency(fbMinFloat, currencyCode)
-  const minBudgetFloat = ((amount / 0.9) * 2) / currencyOffset
-  const minBudgetRounded = roundToFactorOfTen(minBudgetFloat)
-  const minBudgetString = formatCurrency(minBudgetRounded, currencyCode)
-  // Format and return
-  return {
-    fbMinFloat,
-    fbMinRounded,
-    fbMinBudgetString,
-    minBudgetFloat,
-    minBudgetRounded,
-    minBudgetString,
-  }
-}
-
 
 // EXTERNAL URL helpers
 // ---------------------
@@ -636,7 +610,7 @@ export const clearLocalStorage = () => {
  * }
  */
 export const parseUrl = (urlString) => {
-  if (!urlString) return
+  if (!urlString) return {}
   const { pathname, query, host } = url.parse(urlString)
   if (!query) {
     return {

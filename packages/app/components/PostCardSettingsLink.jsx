@@ -52,15 +52,16 @@ const PostCardSettingsLink = ({
           postItemId={postId}
           onSuccess={(newLink) => {
             const { linkId, linkHref } = newLink
+            const isDefaultLink = !linkId
             const newLinkHref = linkHref || defaultLink.href
             updateLink({ postIndex, linkId, linkHref })
             setError(null)
             setPreviewUrl(newLinkHref)
             // TRACK
-            const { host: linkDomain } = parseUrl(newLinkHref) || {}
+            const { host: linkDomain } = parseUrl(newLinkHref)
             track('post_link_changed', {
               linkDomain,
-              setToDefault: !linkId,
+              isDefaultLink,
             })
           }}
           onError={(error) => {

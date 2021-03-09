@@ -4,17 +4,28 @@ import PropTypes from 'prop-types'
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 
+import { ArtistContext } from '@/contexts/ArtistContext'
+
 // Content for the side panel
 const TargetingBudgetMobile = ({
-  currency,
-  currencyOffset,
-  fbMinRounded,
   minReccBudget,
-  minHardBudget,
   initialBudget,
   targetingState,
   updateTargetingBudget,
 }) => {
+  // ARTIST context
+  const {
+    artist: {
+      feedMinBudgetInfo: {
+        currencyCode,
+        currencyOffset,
+        minorUnit: {
+          minBase,
+          minHard: minHardBudget,
+        },
+      },
+    },
+  } = React.useContext(ArtistContext)
   // TOGGLE CUSTOM BUDGET SETTER
   // Show custom budget input if budget is higher than max slider value
   // GET SLIDER SETTINGS BASED ON MIN BUDGET
@@ -32,14 +43,14 @@ const TargetingBudgetMobile = ({
             showCustomBudget={showCustomBudget}
             setShowCustomBudget={setShowCustomBudget}
             initialBudget={initialBudget}
-            fbMinRounded={fbMinRounded}
+            minBase={minBase}
             minHardBudget={minHardBudget}
           />
         </div>
         <TargetingBudgetSetter
-          currency={currency}
+          currency={currencyCode}
           currencyOffset={currencyOffset}
-          fbMinRounded={fbMinRounded}
+          minBase={minBase}
           minReccBudget={minReccBudget}
           minHardBudget={minHardBudget}
           initialBudget={initialBudget}
@@ -54,19 +65,13 @@ const TargetingBudgetMobile = ({
 }
 
 TargetingBudgetMobile.propTypes = {
-  currency: PropTypes.string,
-  currencyOffset: PropTypes.number,
-  fbMinRounded: PropTypes.number.isRequired,
   minReccBudget: PropTypes.number.isRequired,
-  minHardBudget: PropTypes.number.isRequired,
   initialBudget: PropTypes.number.isRequired,
   targetingState: PropTypes.object.isRequired,
   updateTargetingBudget: PropTypes.func.isRequired,
 }
 
 TargetingBudgetMobile.defaultProps = {
-  currency: '',
-  currencyOffset: 0,
 }
 
 
