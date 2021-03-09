@@ -39,6 +39,7 @@ const getExternalLinkAction = (ctaLink, trackingPayload) => {
       url: ctaLink,
       eventName: 'notification_actioned',
       payload: trackingPayload,
+      useNewTab: true,
     })
     return { res: 'incomplete' }
   }

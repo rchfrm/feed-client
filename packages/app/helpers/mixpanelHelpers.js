@@ -62,13 +62,23 @@ export const mixpanelPageView = (url) => {
 }
 
 // External link click
-export const mixpanelExternalLinkClick = ({ url, eventName = 'link_click', payload = {}, responseWait = 300 }) => {
+export const mixpanelExternalLinkClick = ({
+  url,
+  eventName = 'link_click',
+  payload = {},
+  responseWait = 300,
+  useNewTab = false,
+}) => {
   // Call this to go to page
-  const goToPage = () => { window.location.href = url }
+  const goToPage = () => {
+    console.log('goToPage', url)
+    if (useNewTab) return window.open(url)
+    window.location.href = url
+  }
   // If mixpanel is not setup, just go to page
   if (!isMixpanelSetup) return goToPage()
   // Start timer ro run page change if mixpanel is too slow
-  const waitTimer = setTimeout(goToPage, responseWait)
+  const waitTimer = setTimeout(goToPage, useNewTab ? 0 : responseWait)
   // Track click
   trackMixpanel(eventName, { ...payload, value: url }, () => {
     // After successful track....
