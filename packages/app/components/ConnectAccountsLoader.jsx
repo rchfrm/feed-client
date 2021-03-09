@@ -221,6 +221,14 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
 
       </div>
 
+      {/* Button to find more profiles */}
+      <ConnectAccountsFacebook
+        auth={auth}
+        errors={errors}
+        setErrors={setErrors}
+        showFindMore
+      />
+
     </div>
   )
 }

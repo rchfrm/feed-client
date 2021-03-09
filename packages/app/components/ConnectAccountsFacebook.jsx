@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import PropTypes from 'prop-types'
 // IMPORT ELEMENTS
 import MissingScopesMessage from '@/elements/MissingScopesMessage'
 import ButtonFacebook from '@/elements/ButtonFacebook'
@@ -11,7 +12,19 @@ import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 // IMPORT COPY
 import copy from '@/app/copy/connectProfilesCopy'
 
-function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
+const getIntroText = (showSignupIntro, showFindMore) => {
+  if (showSignupIntro) return copy.signupIntro
+  if (showFindMore) return copy.findMoreProfiles
+  return copy.connectProfilesIntro
+}
+
+const ConnectAccountsFacebook = ({
+  auth,
+  errors,
+  setErrors,
+  onSignUp,
+  showFindMore,
+}) => {
   const { missingScopes, providerIds } = auth
   // Define function to link facebook
   const linkFacebook = React.useCallback(() => {
@@ -32,7 +45,7 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
 
   // GET INTRO TEXT
   const showSignupIntro = (missingScopes.length === 0) && onSignUp
-  const introText = showSignupIntro ? copy.signupIntro : copy.connectProfilesIntro
+  const introText = getIntroText(showSignupIntro, showFindMore)
 
   return (
     <div>
@@ -80,5 +93,20 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
     </div>
   )
 }
+
+ConnectAccountsFacebook.propTypes = {
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.array,
+  setErrors: PropTypes.func.isRequired,
+  onSignUp: PropTypes.bool,
+  showFindMore: PropTypes.bool,
+}
+
+ConnectAccountsFacebook.defaultProps = {
+  errors: [],
+  onSignUp: false,
+  showFindMore: false,
+}
+
 
 export default ConnectAccountsFacebook
