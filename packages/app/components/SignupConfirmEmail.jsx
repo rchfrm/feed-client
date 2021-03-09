@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { useRouter } from 'next/router'
 
+import { UserContext } from '@/contexts/UserContext'
+
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
@@ -20,7 +22,10 @@ import brandColors from '@/constants/brandColors'
 import styles from '@/LoginPage.module.css'
 
 
-const SignupConfirmEmail = ({ email, className }) => {
+const SignupConfirmEmail = ({ className }) => {
+  // Get user
+  const { user: { email: authEmail, contact_email: contactEmail } } = React.useContext(UserContext)
+  const email = authEmail || contactEmail
   // Get verifaction code from URL
   const { asPath: urlString } = useRouter()
   const { query } = parseUrl(urlString)
@@ -71,47 +76,59 @@ const SignupConfirmEmail = ({ email, className }) => {
       ].join(' ')}
     >
       {/* INTRO */}
-      <MarkdownText markdown={`Please verify the email address ${email}`} />
-      <Button
-        version="x-small green icon"
-        onClick={changeEmail}
-      >
-        <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
-        Change email
-      </Button>
+      <MarkdownText markdown={`Please verify the email address **${email}**.`} />
       {/* FORM */}
       <Error error={error} />
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="mb-12">
         <Input
-          name="emailContact"
-          label="Contact email address"
+          name="verificationCode"
+          label="Verification code"
           placeholder=""
           value={verificationCode}
           updateValue={setVerificationCode}
-          type="email"
+          type="text"
           autoFocus
+          className="mb-4"
         />
         <Button
-          version="black wide"
+          version="black"
           disabled={!verificationCode}
           type="sumbit"
           loading={checking}
-          className="ml-auto"
+          className="w-full"
         >
           submit
         </Button>
       </form>
+      {/* CHANGE EMAIL */}
+      <div>
+        <p className="mb-5">Didn't receive an email?</p>
+        <div className="xxs:flex justify-between items-center">
+          <Button
+            version="x-small black icon"
+            onClick={changeEmail}
+            className="mb-5 xxs:mb-0"
+          >
+            Resend email
+          </Button>
+          <Button
+            version="x-small green icon"
+            onClick={changeEmail}
+          >
+            <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
+            Change email address
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }
 
 SignupConfirmEmail.propTypes = {
-  email: PropTypes.string,
   className: PropTypes.string,
 }
 
 SignupConfirmEmail.defaultProps = {
-  email: '',
   className: null,
 }
 
