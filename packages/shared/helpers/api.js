@@ -1,8 +1,9 @@
 import axios from 'axios'
 import firebase from '@/helpers/firebase'
-import host from '@/helpers/host'
 
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
+
+const host = process.env.react_app_api_url
 
 const axiosInstance = axios.create()
 
