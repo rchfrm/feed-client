@@ -29,6 +29,7 @@ export const HOME = POSTS
 
 // Array of RESTRICTED PAGES
 export const restrictedPages = [
+  SIGN_UP_MISSING_EMAIL,
   SIGN_UP_CONTINUE,
   SIGN_UP_CONFIRM_EMAIL,
   CONNECT_PROFILES,
@@ -44,8 +45,6 @@ export const restrictedPages = [
   TOURNAMENTS,
   NOTIFICATIONS,
   TARGETING,
-  SIGN_UP_MISSING_EMAIL,
-  SIGN_UP_CONTINUE,
 ]
 
 export const signedOutPages = [
