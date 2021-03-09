@@ -30,7 +30,9 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
   // eslint-disable-next-line
   }, [missingScopes.length, providerIds])
 
+  // GET INTRO TEXT
   const showSignupIntro = (missingScopes.length === 0) && onSignUp
+  const introText = showSignupIntro ? copy.signupIntro : copy.connectProfilesIntro
 
   return (
     <div>
@@ -39,47 +41,41 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
         return <Error error={error} messagePrefix="Error: " key={index} className="mb-10" />
       })}
       <div
-        className={['md:grid grid-cols-12 col-gap-8'].join(' ')}
+        className="lg:grid grid-cols-12 col-gap-8"
         style={{ alignItems: 'start' }}
       >
         {/* Singup intro text */}
-        {showSignupIntro ? (
-          <MarkdownText className="col-span-6 col-start-1" markdown={copy.signupIntro} />
-        ) : (
-          <MarkdownText className="col-span-6 col-start-1" markdown={copy.connectProfilesIntro} />
-        )}
-
-        {/* If missing FB permissions, show missing permissions */}
-        {missingScopes.length > 0 && (
-          <MissingScopesMessage
-            className="col-span-6 col-start-1"
-            scopes={missingScopes}
-            showButton={false}
-          />
-        )}
-
-        <ButtonFacebook
-          className={['col-span-6 mb-5', 'col-start-1'].join(' ')}
-          onClick={linkFacebook}
-        >
-          Continue with Facebook
-        </ButtonFacebook>
-
-        <p className={['xsmall--p', 'col-span-6', 'col-start-1', 'max-w-md'].join(' ')}>
-          {copy.smallLegalText}
-        </p>
+        <div className="col-span-6 col-start-1">
+          <MarkdownText className="col-span-6 col-start-1" markdown={introText} />
+          {/* If missing FB permissions, show missing permissions */}
+          {missingScopes.length > 0 && (
+            <MissingScopesMessage
+              scopes={missingScopes}
+              showButton={false}
+            />
+          )}
+          <ButtonFacebook
+            className="w-full max-w-md mb-5"
+            onClick={linkFacebook}
+          >
+            Continue with Facebook
+          </ButtonFacebook>
+          <p className={['xsmall--p', 'col-span-6', 'col-start-1', 'max-w-md'].join(' ')}>
+            {copy.smallLegalText}
+          </p>
+        </div>
 
         {/* Singup intro VIDEO */}
         {showSignupIntro && (
-          <div className="mt-5 col-span-6 col-start-7 row-start-1 md:mt-0">
-            <h4 className="md:hidden">Why we need your permissions</h4>
+          <div className="mt-12 col-span-6 col-start-7 row-start-1 lg:mt-0">
+            <h4 className="lg:hidden">Why we need your permissions</h4>
             <VimeoEmbed
               id="438511305"
               title="Why we're asking for Facebook permissions"
             />
+            <h4 className="hidden lg:block pt-2 text-center">Why we need your permissions</h4>
           </div>
         )}
-
       </div>
     </div>
   )

@@ -8,7 +8,7 @@ In order for Feed to promote your posts and show you the results, we need permis
 
 Please make sure you opt in to all permissions shown, as Feed needs them to work properly. You'll remain in control of all ads and posts.
 
-To continue, click on the button below`,
+To continue, click on the button below:`,
 
   // Text at top of page when adding additional accounts
   connectProfilesIntro: `Click the button below to add additional profiles to your Feed account.
