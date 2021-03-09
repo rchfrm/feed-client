@@ -9,6 +9,8 @@ import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { trackSignUp } from '@/app/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
+import copy from '@/app/copy/signupCopy'
+
 import * as ROUTES from '@/app/constants/routes'
 
 const useSignup = (initialPathname) => {
@@ -51,12 +53,21 @@ const useSignup = (initialPathname) => {
   }, [setArtistLoading, setNoAuth, setUserLoading, initialPathname])
 
   const handleNewUser = React.useCallback(async (additionalUserInfo, referrerCode) => {
-    const { profile: { first_name, last_name, email, granted_scopes } } = additionalUserInfo
-    // * REJECT If no REFERRAL CODE or no EMAIL...
-    if (!referrerCode || !email) {
-      const errorMessage = !referrerCode ? 'It looks like you\'re not using a referral code.' : 'Sorry, we couldn\'t access your email address. Please try again and make sure you grant Feed permission to access your email.'
-      const errorLabel = !referrerCode ? 'No referral code provided' : 'No email provided from FB'
+    const { profile: authProfile } = additionalUserInfo
+    const { first_name, last_name, email, granted_scopes } = authProfile
+    // * REJECT If no REFERRAL CODE
+    if (!referrerCode) {
+      const errorMessage = copy.noReferralCode.message
+      const errorLabel = copy.noReferralCode.label
       const userRedirected = rejectNewUser({ errorMessage, errorLabel })
+      return userRedirected
+    }
+    // If no email, ask for it
+    if (!email) {
+      setNoArtist()
+      setUserLoading(false)
+      const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
+      const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
       return userRedirected
     }
     // If it's a new user, create their profile on the server
@@ -88,11 +99,13 @@ const useSignup = (initialPathname) => {
         label: 'missing scopes',
       })
     }
+    // Clear artists (beacuse new user)
+    setNoArtist()
     // TRACK
     trackSignUp({ authProvider: 'facebook', userId: user.id })
-    // As this is a new user, run setNoArtist, and push them to the Connect Artist page
-    setNoArtist()
-    const userRedirected = signupHelpers.redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
+    // REDIRECT
+    const redirectTo = ROUTES.SIGN_UP_CONTINUE
+    const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
     return userRedirected
   }, [initialPathname, rejectNewUser, runCreateUser, setMissingScopes, setNoArtist])
 

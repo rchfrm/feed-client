@@ -18,13 +18,12 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
   // Import contexts
   const {
     setNoAuth,
-    setAuthError,
     storeAuth,
     setMissingScopes,
     setRejectedPagePath,
     setAuthLoading,
   } = React.useContext(AuthContext)
-  const { setNoUser, storeUser } = React.useContext(UserContext)
+  const { setNoUser, storeUser, setUserLoading } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   // * HANDLE NO AUTH USER
@@ -43,24 +42,32 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
 
   // *  HANDLE EXISTING USER
   // -----------------------
-  const handleExistingUser = React.useCallback(async (additionalUserInfo) => {
+  const handleExistingUser = React.useCallback(async ({ additionalUserInfo, authUser } = {}) => {
     fireSentryBreadcrumb({
       category: 'login',
       action: 'handleExistingUser',
     })
     // If it is a pre-existing user, store their profile in the user context
-    const user = await storeUser()
-      .catch((error) => {
-        handleNoAuthUser({ message: 'No user was found in the database' })
-        // Sentry error
-        fireSentryError({
-          category: 'sign up',
-          action: 'handleExistingUser (InitUser)',
-          label: 'No user returned from storeUser()',
-          description: error.message,
-        })
+    const { user, error } = await storeUser()
+    if (error) {
+      // Handle auth users that exist but HAVE NO EMAIL
+      if (authUser && !authUser.email) {
+        setNoArtist()
+        setUserLoading(false)
+        const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
+        const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
+        return userRedirected
+      }
+      // Sentry error
+      fireSentryError({
+        category: 'sign up',
+        action: 'handleExistingUser (InitUser)',
+        label: 'No user returned from storeUser()',
+        description: error.message,
       })
-    if (!user) return
+      handleNoAuthUser({ message: 'No user was found in the database' })
+      return
+    }
     const { artists } = user
     // If there is additional info from a FB redirect...
     if (additionalUserInfo) {
@@ -129,7 +136,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       const userRedirected = signupHelpers.redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
       return userRedirected
     }
-  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser])
+  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser, setUserLoading])
 
   // * DETECT SIGNED IN USER
   // -----------------------
@@ -151,8 +158,9 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
           description: `Error with firebaseHelpers.getVerifyIdToken(): ${error.message}`,
         })
       })
+    // STORE AUTH
     await storeAuth({ authUser, authToken, authError })
-    const userRedirected = await handleExistingUser()
+    const userRedirected = await handleExistingUser({ authUser })
     return userRedirected
   }, [handleExistingUser, storeAuth, handleNoAuthUser])
 

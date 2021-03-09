@@ -88,9 +88,9 @@ const InitUser = ({ children }) => {
     // Check for the result of a redirect from Facebook
     const redirectResult = await firebaseHelpers.redirectResult()
     // Destructure redirect result
-    const { user, error, credential, additionalUserInfo, operationType } = redirectResult
+    const { user: authUser, error, credential, additionalUserInfo, operationType } = redirectResult
     // * Handle no redirect
-    if (!user && !error) {
+    if (!authUser && !error) {
       userRedirected = detectSignedInUser(isMounted)
       return
     }
@@ -116,7 +116,7 @@ const InitUser = ({ children }) => {
       return
     }
     // * Handle REDIRECT success
-    if (user) {
+    if (authUser) {
       fireSentryBreadcrumb({
         category: 'login',
         action: 'Handle successful FB redirect',
@@ -132,8 +132,9 @@ const InitUser = ({ children }) => {
           })
         })
       if (!authToken) return
+      const { profile: authProfile } = additionalUserInfo
       // Store Firebase's auth user in context
-      await storeAuth({ authUser: user, authToken })
+      await storeAuth({ authUser, authToken, authProfile })
         .catch((err) => {
           // Sentry error
           fireSentryError({
@@ -162,7 +163,7 @@ const InitUser = ({ children }) => {
           category: 'login',
           action: 'Handle existing FB user',
         })
-        userRedirected = await handleExistingUser(additionalUserInfo)
+        userRedirected = await handleExistingUser({ authUser, additionalUserInfo })
       }
     }
     // * Show content
