@@ -1,16 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useAsyncEffect from 'use-async-effect'
 import { useRouter } from 'next/router'
 
-// import MarkdownText from '@/elements/MarkdownText'
+import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
+import PencilIcon from '@/icons/PencilIcon'
 
 import { parseUrl } from '@/helpers/utils'
+import { verifyEmail } from '@/app/helpers/appServer'
 
 // import copy from '@/app/copy/signupCopy'
+
+import brandColors from '@/constants/brandColors'
 
 import styles from '@/LoginPage.module.css'
 
@@ -20,30 +25,43 @@ const SignupConfirmEmail = ({ email, className }) => {
   const { asPath: urlString } = useRouter()
   const { query } = parseUrl(urlString)
   const initialVerificationCode = query?.verificationCode
-  const hasInitialVerificationCode = !!initialVerificationCode
-  //
+  const [hasInitialVerificationCode, setHasInitialVerificationCode] = React.useState(!!initialVerificationCode)
+
+  // TEST CODE
   const [verificationCode, setVerificationCode] = React.useState(initialVerificationCode)
-  const [loading, setLoading] = React.useState(false)
+  const [checkCode, setCheckCode] = React.useState(hasInitialVerificationCode)
+  const [checking, setChecking] = React.useState(false)
   const [error, setError] = React.useState(null)
-  // Test code
-  const testCode = async (code) => {
-    console.log('code', code)
-    return { res: true }
-  }
-  // Submit form
-  const onSubmit = async (e) => {
-    e.preventDefault()
-    if (!verificationCode) return
-    setLoading(true)
-    const { res, error } = await testCode(verificationCode)
+  useAsyncEffect(async (isMounted) => {
+    if (!checkCode || checking) return
+    setChecking(true)
+    const useDummy = true
+    const { res, error } = await verifyEmail(verificationCode, useDummy)
+    if (!isMounted()) return
     if (error) {
       setError(error)
+      setHasInitialVerificationCode(false)
       return
     }
     console.log('res', res)
     setError(null)
-    setLoading(false)
+    setCheckCode(false)
+    setChecking(false)
+  }, [checkCode, checking])
+
+  // SUBMIT FORM
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    if (!verificationCode) return
+    setCheckCode(true)
   }
+
+  // CHANGE CONTACT EMAIL
+  const changeEmail = React.useCallback(() => {
+    console.log('change email')
+  }, [])
+
+  // Stop here if checking code from URL query
   if (hasInitialVerificationCode) return null
   return (
     <div
@@ -52,8 +70,17 @@ const SignupConfirmEmail = ({ email, className }) => {
         className,
       ].join(' ')}
     >
+      {/* INTRO */}
+      <MarkdownText markdown={`Please verify the email address ${email}`} />
+      <Button
+        version="x-small green icon"
+        onClick={changeEmail}
+      >
+        <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
+        Change email
+      </Button>
+      {/* FORM */}
       <Error error={error} />
-      {/* <MarkdownText markdown={copy.missingFbEmail} /> */}
       <form onSubmit={onSubmit}>
         <Input
           name="emailContact"
@@ -68,7 +95,7 @@ const SignupConfirmEmail = ({ email, className }) => {
           version="black wide"
           disabled={!verificationCode}
           type="sumbit"
-          loading={loading}
+          loading={checking}
           className="ml-auto"
         >
           submit
