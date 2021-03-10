@@ -17,7 +17,7 @@ import SignupVerifyResendButton from '@/app/SignupVerifyResendButton'
 import { parseUrl } from '@/helpers/utils'
 import { verifyEmail } from '@/app/helpers/appServer'
 
-// import copy from '@/app/copy/signupCopy'
+import copy from '@/app/copy/signupCopy'
 
 import brandColors from '@/constants/brandColors'
 
@@ -78,7 +78,7 @@ const SignupVerifyEmail = ({ className }) => {
       ].join(' ')}
     >
       {/* INTRO */}
-      <MarkdownText markdown={`Please verify the email address **${email}**.`} />
+      <MarkdownText markdown={copy.emailVerify(email)} />
       {/* FORM */}
       <Error error={error} />
       <form onSubmit={onSubmit} className="mb-12">
