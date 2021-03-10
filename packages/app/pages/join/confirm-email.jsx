@@ -11,8 +11,6 @@ const Page = () => {
   return (
     <BasePage
       headerConfig={headerConfig}
-      staticPage
-      authPage
     >
       <SignupConfirmEmail />
     </BasePage>
