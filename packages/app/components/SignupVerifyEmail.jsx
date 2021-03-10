@@ -13,6 +13,7 @@ import Button from '@/elements/Button'
 import PencilIcon from '@/icons/PencilIcon'
 
 import SignupVerifyResendButton from '@/app/SignupVerifyResendButton'
+import SignupVerifyChangeEmail from '@/app/SignupVerifyChangeEmail'
 
 import { parseUrl } from '@/helpers/utils'
 import { verifyEmail } from '@/app/helpers/appServer'
@@ -56,6 +57,8 @@ const SignupVerifyEmail = ({ className }) => {
     setChecking(false)
   }, [checkCode, checking])
 
+  // CHANGE CONTACT EMAIL
+  const [isChangeEmail, setIsChangeEmail] = React.useState(false)
   // SUBMIT FORM
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -63,13 +66,22 @@ const SignupVerifyEmail = ({ className }) => {
     setCheckCode(true)
   }
 
-  // CHANGE CONTACT EMAIL
-  const changeEmail = React.useCallback(() => {
-    console.log('change email')
-  }, [])
-
   // Stop here if checking code from URL query
   if (hasInitialVerificationCode) return null
+
+  // SHOW EMAIL CHANGE FORM
+  if (isChangeEmail) {
+    return (
+      <SignupVerifyChangeEmail
+        contactEmail={contactEmail}
+        updateUser={updateUser}
+        backToVerify={() => {
+          setIsChangeEmail(false)
+        }}
+      />
+    )
+  }
+  // VERIFY CODE FORM
   return (
     <div
       className={[
@@ -112,7 +124,7 @@ const SignupVerifyEmail = ({ className }) => {
           />
           <Button
             version="x-small green icon"
-            onClick={changeEmail}
+            onClick={() => setIsChangeEmail(true)}
           >
             <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
             Change email address
