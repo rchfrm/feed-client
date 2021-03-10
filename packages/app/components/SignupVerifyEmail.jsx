@@ -59,10 +59,17 @@ const SignupVerifyEmail = ({ className }) => {
 
   // CHANGE CONTACT EMAIL
   const [isChangeEmail, setIsChangeEmail] = React.useState(false)
+
+  // HANDLE FORM
+  const [isFormValid, setIsFormValid] = React.useState(false)
+  React.useEffect(() => {
+    setIsFormValid(!!verificationCode)
+  }, [verificationCode])
+
   // SUBMIT FORM
   const onSubmit = async (e) => {
     e.preventDefault()
-    if (!verificationCode) return
+    if (!isFormValid) return
     setCheckCode(true)
   }
 
