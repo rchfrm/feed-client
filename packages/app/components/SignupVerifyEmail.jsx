@@ -12,6 +12,8 @@ import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import PencilIcon from '@/icons/PencilIcon'
 
+import SignupVerifyResendButton from '@/app/SignupVerifyResendButton'
+
 import { parseUrl } from '@/helpers/utils'
 import { verifyEmail } from '@/app/helpers/appServer'
 
@@ -104,13 +106,10 @@ const SignupVerifyEmail = ({ className }) => {
       <div>
         <p className="mb-5">Didn't receive an email?</p>
         <div className="xxs:flex justify-between items-center">
-          <Button
-            version="x-small black icon"
-            onClick={changeEmail}
-            className="mb-5 xxs:mb-0"
-          >
-            Resend email
-          </Button>
+          <SignupVerifyResendButton
+            contactEmail={contactEmail}
+            setError={setError}
+          />
           <Button
             version="x-small green icon"
             onClick={changeEmail}
