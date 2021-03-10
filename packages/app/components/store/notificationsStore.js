@@ -1,12 +1,21 @@
 import create from 'zustand'
 import produce from 'immer'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
+import globalData from '@/app/tempGlobalData/globalData.json'
+
 import {
   fetchNotifications,
   formatNotifications,
   markAsReadOnServer,
   dismissOnServer,
+  formatDictionary,
 } from '@/app/helpers/notificationsHelpers'
+
+// GET FORMATTED DICTIONARY
+const { allNotifications } = globalData
+const dictionaryFormatted = formatDictionary(allNotifications)
 
 const initialState = {
   artistId: '',
@@ -19,7 +28,7 @@ const initialState = {
   openedNotificationId: '',
   artistsWithNotifications: [],
   notificationsError: null,
-  notificationDictionary: null,
+  notificationDictionary: dictionaryFormatted,
 }
 
 // COUNT ACTIVE NOTIFICATIONS
@@ -115,11 +124,24 @@ const updateNotification = (set, get) => (notificationId, prop, value) => {
 const setAsOpen = (set, get) => (notificationId, entityType, entityId) => {
   const { setAsRead, notifications } = get()
   const openedNotification = notifications.find(({ id }) => id === notificationId)
-  const { id: openedNotificationId, isRead } = openedNotification
+  const {
+    id: openedNotificationId,
+    isRead,
+    isActionable,
+    isDimissable,
+    title,
+    topic,
+  } = openedNotification
   set({ openedNotification, openedNotificationId })
   // Set notification as read (in store)
   if (!isRead) {
     setAsRead(notificationId, entityType, entityId)
+    track('notification_marked_read', {
+      title,
+      topic,
+      isActionable,
+      isDimissable,
+    })
   }
 }
 
@@ -139,11 +161,19 @@ const setAsRead = (set, get) => (notificationId, entityType, entityId) => {
 
 // SET NOTIFICATION AS DISMISSED
 const setAsDismissed = (set, get) => (notificationId, entityType, entityId, isActionable) => {
-  const { openedNotificationId } = get()
+  const { openedNotificationId, notifications } = get()
+  const openedNotification = notifications.find(({ id }) => id === notificationId)
+  const { title, topic } = openedNotification
   // Hide notification
   const notificationsUpdated = updateNotification(set, get)(notificationId, 'hidden', true)
   // Update active notifications
   updateActiveNotificationsCount(set)(notificationsUpdated)
+  // Track
+  track('notification_dismissed', {
+    title,
+    topic,
+    isActionable,
+  })
   // Close notification (if currently open)
   if (notificationId === openedNotificationId) {
     closeNotification(set)()
@@ -183,7 +213,6 @@ const useNotificationsStore = create((set, get) => ({
   setAsRead: (id, entityType, entityId) => setAsRead(set, get)(id, entityType, entityId),
   setAsOpen: (id, entityType, entityId) => setAsOpen(set, get)(id, entityType, entityId),
   setAsDismissed: (id, entityType, entityId, isActionable) => setAsDismissed(set, get)(id, entityType, entityId, isActionable),
-  setDictionary: (notificationDictionary) => set({ notificationDictionary }),
   closeNotification: () => closeNotification(set, get)(),
   completeNotification: (id) => setAsComplete(set, get)(id),
   clear: () => set(initialState),
