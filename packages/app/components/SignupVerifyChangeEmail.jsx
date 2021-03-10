@@ -92,7 +92,7 @@ const SignupVerifyChangeEmail = ({
         <>
           {/* FORM */}
           <Error error={error} />
-          <form onSubmit={onSubmit} className="mb-12">
+          <form onSubmit={onSubmit} className="mb-6">
             <Input
               name="email"
               label="Email address"
@@ -112,6 +112,15 @@ const SignupVerifyChangeEmail = ({
               submit
             </Button>
           </form>
+          {/* BACK BUTTON */}
+          <div>
+            <Button
+              version="black x-small"
+              onClick={backToVerify}
+            >
+              Back
+            </Button>
+          </div>
         </>
       )}
     </div>
