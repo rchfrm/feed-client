@@ -53,7 +53,6 @@ const SignupVerifyChangeEmail = ({
     // Patch user
     const patchPayload = contactEmail ? { contactEmail: email } : { email }
     const { res: userUpdated, error: errorPatchingUser } = await patchUser(patchPayload)
-    console.log('userUpdated', userUpdated)
     if (!isMounted()) return
     setLoading(false)
     if (errorPatchingUser) {
