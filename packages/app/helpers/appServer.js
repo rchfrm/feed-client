@@ -352,6 +352,10 @@ export const setLinkAsDefault = (artistId, linkId) => {
 
 // * ACCOUNT
 // --------------------------
+/**
+ * @param {string} token
+ * @returns {Promise<any>}
+ */
 export const verifyEmail = (token, useDummy) => {
   const requestUrl = '/accounts/verify-email'
   const payload = { token: !token && useDummy ? 'nonFalsey' : token }
@@ -360,6 +364,19 @@ export const verifyEmail = (token, useDummy) => {
     action: 'Verify Email',
   }
   return api.requestWithCatch('post', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @param {string} emailType email | contactEmail
+ * @returns {Promise<any>}
+ */
+export const requestVerificationEmail = (emailType) => {
+  const requestUrl = `/users/me/emails/${emailType}/request_verification`
+  const errorTracking = {
+    category: 'Sign Up',
+    action: 'Request verification email',
+  }
+  return api.requestWithCatch('post', requestUrl, null, errorTracking)
 }
 
 // * REFERRALS
