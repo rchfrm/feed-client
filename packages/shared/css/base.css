@@ -11,6 +11,17 @@ body,
   background: var(--bg-color);
 }
 
+/* LIVE DB WARNING */
+html._live_warning {
+  background: #fed7d7;
+
+  body,
+  #root,
+  #__next {
+    background: #fed7d7;
+  }
+}
+
 body {
   overflow-y: scroll;
 

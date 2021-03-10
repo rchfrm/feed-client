@@ -5,22 +5,24 @@ import mixpanel from 'mixpanel-browser'
 // ---------
 // const isProduction = process.env.NODE_ENV === 'production'
 const token = process.env.mixpanel_token
+let isMixpanelSetup = false
 let userType
-let userId
 
 export const initMixpanel = () => {
   mixpanel.init(
     token,
     {
       api_host: 'https://api-eu.mixpanel.com',
+      loaded: () => {
+        isMixpanelSetup = true
+      },
     },
   )
 }
 
 export const updateMixpanel = (user) => {
-  const { role, id } = user
+  const { role } = user
   userType = role
-  userId = id
 }
 
 // TRACK MIXPANEL EVENTS
@@ -59,6 +61,33 @@ export const mixpanelPageView = (url) => {
   trackMixpanel('page_view', { value: url })
 }
 
+// External link click
+export const mixpanelExternalLinkClick = ({
+  url,
+  eventName = 'link_click',
+  payload = {},
+  responseWait = 300,
+  useNewTab = false,
+}) => {
+  // Call this to go to page
+  const goToPage = () => {
+    console.log('goToPage', url)
+    if (useNewTab) return window.open(url)
+    window.location.href = url
+  }
+  // If mixpanel is not setup, just go to page
+  if (!isMixpanelSetup) return goToPage()
+  // Start timer ro run page change if mixpanel is too slow
+  const waitTimer = setTimeout(goToPage, useNewTab ? 0 : responseWait)
+  // Track click
+  trackMixpanel(eventName, { ...payload, value: url }, () => {
+    // After successful track....
+    // Stop timer
+    clearTimeout(waitTimer)
+    // Go to page after succesful track
+    goToPage()
+  })
+}
 
 // REGISTER SUPER PROPERTIES
 export const mixpanelRegister = (details) => {

@@ -3,7 +3,6 @@ import * as sentryHelpers from '@/app/helpers/sentryHelpers'
 import { trackGoogle } from '@/app/helpers/trackGoogleHelpers'
 import trackFacebook from '@/app/helpers/trackFacebook'
 
-let userType = null
 let userId = null
 
 // HELPERS
