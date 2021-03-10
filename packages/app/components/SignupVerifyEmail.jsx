@@ -22,7 +22,7 @@ import brandColors from '@/constants/brandColors'
 import styles from '@/LoginPage.module.css'
 
 
-const SignupConfirmEmail = ({ className }) => {
+const SignupVerifyEmail = ({ className }) => {
   // Get user
   const { user: { email: authEmail, contact_email: contactEmail } } = React.useContext(UserContext)
   const email = authEmail || contactEmail
@@ -124,12 +124,12 @@ const SignupConfirmEmail = ({ className }) => {
   )
 }
 
-SignupConfirmEmail.propTypes = {
+SignupVerifyEmail.propTypes = {
   className: PropTypes.string,
 }
 
-SignupConfirmEmail.defaultProps = {
+SignupVerifyEmail.defaultProps = {
   className: null,
 }
 
-export default SignupConfirmEmail
+export default SignupVerifyEmail

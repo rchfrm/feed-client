@@ -1,7 +1,7 @@
 import React from 'react'
 
 import BasePage from '@/app/BasePage'
-import SignupConfirmEmail from '@/app/SignupConfirmEmail'
+import SignupConfirmEmail from '@/app/SignupVerifyEmail'
 
 const headerConfig = {
   text: 'confirm email',
