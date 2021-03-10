@@ -5,9 +5,7 @@ import useAsyncEffect from 'use-async-effect'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/contexts/UserContext'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
-
-import useReferralStore from '@/app/store/referralStore'
+import useReferralStore from '@/app/stores/referralStore'
 import useLogin from '@/app/hooks/useLogin'
 import useSignup from '@/app/hooks/useSignup'
 
