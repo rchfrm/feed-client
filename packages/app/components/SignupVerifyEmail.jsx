@@ -26,10 +26,22 @@ import styles from '@/LoginPage.module.css'
 
 
 const SignupVerifyEmail = ({ className }) => {
-  // Get user
-  const { user: { email: authEmail, contact_email: contactEmail } } = React.useContext(UserContext)
-  const email = authEmail || contactEmail
-  // Get verifaction code from URL
+  // GET USER CONTEXT and email
+  const {
+    updateUser,
+    userLoading,
+    user: {
+      email: authEmail,
+      pending_email: pendingEmail,
+      contact_email: contactEmail,
+      pending_contact_email: pendingContactEmail,
+      email_verified: emailVerified,
+      contact_email_verified: contactEmailVerified,
+    }, user } = React.useContext(UserContext)
+  console.log('user', user)
+  const email = pendingEmail || pendingContactEmail
+
+  // GET VERIFACTION CODE FROM URL
   const { asPath: urlString } = useRouter()
   const { query } = parseUrl(urlString)
   const initialVerificationCode = query?.verificationCode
