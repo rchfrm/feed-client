@@ -14,12 +14,11 @@ import { testValidEmail } from '@/helpers/utils'
 import { patchUser } from '@/helpers/sharedServer'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 
-import styles from '@/LoginPage.module.css'
-
 
 const SignupVerifyChangeEmail = ({
   contactEmail,
   updateUser,
+  setPendingEmail,
   backToVerify,
   className,
 }) => {
@@ -62,6 +61,7 @@ const SignupVerifyChangeEmail = ({
     }
     updateUser(userUpdated)
     setSuccess(true)
+    setPendingEmail(email)
     // Redirect to verify page, with delay
     const timer = setTimeout(() => {
       if (!isMounted()) return
@@ -81,7 +81,6 @@ const SignupVerifyChangeEmail = ({
   return (
     <div
       className={[
-        styles.container,
         className,
       ].join(' ')}
     >
@@ -128,6 +127,7 @@ const SignupVerifyChangeEmail = ({
 
 SignupVerifyChangeEmail.propTypes = {
   contactEmail: PropTypes.string,
+  setPendingEmail: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   backToVerify: PropTypes.func.isRequired,
   className: PropTypes.string,

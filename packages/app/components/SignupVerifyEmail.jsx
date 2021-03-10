@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import useAsyncEffect from 'use-async-effect'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 
 import { UserContext } from '@/contexts/UserContext'
 
@@ -14,6 +14,7 @@ import PencilIcon from '@/icons/PencilIcon'
 
 import SignupVerifyResendButton from '@/app/SignupVerifyResendButton'
 import SignupVerifyChangeEmail from '@/app/SignupVerifyChangeEmail'
+import SignupVerifyEmailSuccess from '@/app/SignupVerifyEmailSuccess'
 
 import { parseUrl } from '@/helpers/utils'
 import { verifyEmail } from '@/app/helpers/appServer'
@@ -23,6 +24,8 @@ import copy from '@/app/copy/signupCopy'
 import brandColors from '@/constants/brandColors'
 
 import styles from '@/LoginPage.module.css'
+
+import * as ROUTES from '@/app/constants/routes'
 
 
 const SignupVerifyEmail = ({ className }) => {
@@ -39,7 +42,15 @@ const SignupVerifyEmail = ({ className }) => {
       contact_email_verified: contactEmailVerified,
     }, user } = React.useContext(UserContext)
   console.log('user', user)
-  const email = pendingEmail || pendingContactEmail
+  // GET EMAIL THAT NEEDS VERIFYING
+  const [email, setEmail] = React.useState(pendingEmail || pendingContactEmail)
+
+  // HANDLE SUCCESS
+  
+  const [isSuccesful, setIsSuccesful] = React.useState(true)
+  const onSuccessContinue = React.useCallback(() => {
+    Router.push(ROUTES.HOME)
+  }, [])
 
   // GET VERIFACTION CODE FROM URL
   const { asPath: urlString } = useRouter()
@@ -88,15 +99,28 @@ const SignupVerifyEmail = ({ className }) => {
   // Stop here if checking code from URL query
   if (hasInitialVerificationCode) return null
 
+  // SHOW SUCCESS MESSAGE
+  if (isSuccesful) {
+    return (
+      <SignupVerifyEmailSuccess
+        email={email}
+        onContinue={onSuccessContinue}
+        className={styles.container}
+      />
+    )
+  }
+
   // SHOW EMAIL CHANGE FORM
   if (isChangeEmail) {
     return (
       <SignupVerifyChangeEmail
         contactEmail={contactEmail}
         updateUser={updateUser}
+        setPendingEmail={setEmail}
         backToVerify={() => {
           setIsChangeEmail(false)
         }}
+        className={styles.container}
       />
     )
   }
