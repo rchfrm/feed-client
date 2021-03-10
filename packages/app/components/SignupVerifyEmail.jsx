@@ -40,17 +40,23 @@ const SignupVerifyEmail = ({ className }) => {
       pending_contact_email: pendingContactEmail,
       email_verified: emailVerified,
       contact_email_verified: contactEmailVerified,
-    }, user } = React.useContext(UserContext)
-  console.log('user', user)
+    },
+  } = React.useContext(UserContext)
+
   // GET EMAIL THAT NEEDS VERIFYING
   const [email, setEmail] = React.useState(pendingEmail || pendingContactEmail)
 
   // HANDLE SUCCESS
-  
-  const [isSuccesful, setIsSuccesful] = React.useState(true)
+  const [isSuccesful, setIsSuccesful] = React.useState(false)
   const onSuccessContinue = React.useCallback(() => {
     Router.push(ROUTES.HOME)
   }, [])
+  // If no need to verify
+  React.useEffect(() => {
+    if (!userLoading && emailVerified && contactEmailVerified) {
+      onSuccessContinue()
+    }
+  }, [userLoading, emailVerified, contactEmailVerified, onSuccessContinue])
 
   // GET VERIFACTION CODE FROM URL
   const { asPath: urlString } = useRouter()
@@ -78,6 +84,7 @@ const SignupVerifyEmail = ({ className }) => {
     setError(null)
     setCheckCode(false)
     setChecking(false)
+    setIsSuccesful(false)
   }, [checkCode, checking])
 
   // CHANGE CONTACT EMAIL
@@ -96,8 +103,8 @@ const SignupVerifyEmail = ({ className }) => {
     setCheckCode(true)
   }
 
-  // Stop here if checking code from URL query
-  if (hasInitialVerificationCode) return null
+  // Stop here if checking code from URL query or waiting for user to load
+  if (hasInitialVerificationCode || userLoading) return null
 
   // SHOW SUCCESS MESSAGE
   if (isSuccesful) {
