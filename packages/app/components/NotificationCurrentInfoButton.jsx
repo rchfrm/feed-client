@@ -19,12 +19,12 @@ const NotificationCurrentInfoButton = ({
       return
     }
     setLoading(true)
-    const { error } = await onAction()
+    const { res, error } = await onAction() || {}
     setLoading(false)
+    // Don't complete
+    if (error || res === 'incomplete') return
     // Update notification as resolved
-    if (!error) {
-      onComplete()
-    }
+    onComplete()
   }, [isComplete, onAction, onComplete, dismissNotification])
 
   return (
