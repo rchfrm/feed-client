@@ -47,6 +47,13 @@ const SignupVerifyEmail = ({ className }) => {
     },
   } = React.useContext(UserContext)
 
+  // console.log('authEmail', authEmail)
+  // console.log('pendingEmail', pendingEmail)
+  // console.log('contactEmail', contactEmail)
+  // console.log('pendingContactEmail', pendingContactEmail)
+  // console.log('emailVerified', emailVerified)
+  // console.log('contactEmailVerified', contactEmailVerified)
+
   // GET EMAIL THAT NEEDS VERIFYING
   const [email, setEmail] = React.useState(pendingEmail || pendingContactEmail || authEmail || contactEmail)
 
