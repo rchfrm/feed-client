@@ -48,7 +48,7 @@ const SignupVerifyEmail = ({ className }) => {
   } = React.useContext(UserContext)
 
   // GET EMAIL THAT NEEDS VERIFYING
-  const [email, setEmail] = React.useState(pendingEmail || pendingContactEmail)
+  const [email, setEmail] = React.useState(pendingEmail || pendingContactEmail || authEmail || contactEmail)
 
   // HANDLE SUCCESS
   const [isSuccesful, setIsSuccesful] = React.useState(false)
@@ -57,10 +57,13 @@ const SignupVerifyEmail = ({ className }) => {
   }, [])
   // If no need to verify
   React.useEffect(() => {
-    if (!userLoading && !pendingEmail && !pendingContactEmail && !isSuccesful) {
+    // Stop here because not ready or it's manually successful
+    if (userLoading || isSuccesful) return
+    // Trigger success if no pending email and no email that's not verified
+    if (!pendingEmail && !pendingContactEmail && emailVerified && contactEmailVerified) {
       onSuccessContinue()
     }
-  }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, isSuccesful])
+  }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, emailVerified, contactEmailVerified, isSuccesful])
 
   // GET VERIFACTION CODE FROM URL
   const { asPath: urlString } = useRouter()
