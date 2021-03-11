@@ -103,7 +103,7 @@ const SignupVerifyEmail = ({ className }) => {
     setCheckCode(true)
   }
 
-  // Stop here if checking code from URL query or waiting for user to load
+  // STOP HERE if checking code from URL query or waiting for user to load
   if (hasInitialVerificationCode || userLoading) return null
 
   // SHOW SUCCESS MESSAGE
