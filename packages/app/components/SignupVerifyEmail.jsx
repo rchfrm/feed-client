@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import Router, { useRouter } from 'next/router'
 
+import useIsMounted from '@/hooks/useIsMounted'
+
 import { UserContext } from '@/contexts/UserContext'
 
 import MarkdownText from '@/elements/MarkdownText'
@@ -16,8 +18,10 @@ import SignupVerifyResendButton from '@/app/SignupVerifyResendButton'
 import SignupVerifyChangeEmail from '@/app/SignupVerifyChangeEmail'
 import SignupVerifyEmailSuccess from '@/app/SignupVerifyEmailSuccess'
 
+
 import { parseUrl } from '@/helpers/utils'
 import { verifyEmail } from '@/app/helpers/appServer'
+import { getUser } from '@/helpers/sharedServer'
 
 import copy from '@/app/copy/signupCopy'
 
@@ -53,10 +57,10 @@ const SignupVerifyEmail = ({ className }) => {
   }, [])
   // If no need to verify
   React.useEffect(() => {
-    if (!userLoading && !pendingEmail && !pendingContactEmail) {
+    if (!userLoading && !pendingEmail && !pendingContactEmail && !isSuccesful) {
       onSuccessContinue()
     }
-  }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue])
+  }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, isSuccesful])
 
   // GET VERIFACTION CODE FROM URL
   const { asPath: urlString } = useRouter()
@@ -69,22 +73,29 @@ const SignupVerifyEmail = ({ className }) => {
   const [checkCode, setCheckCode] = React.useState(hasInitialVerificationCode)
   const [checking, setChecking] = React.useState(false)
   const [error, setError] = React.useState(null)
-  useAsyncEffect(async (isMounted) => {
+  const isMounted = useIsMounted()
+  useAsyncEffect(async () => {
     if (!checkCode || checking) return
     setChecking(true)
     const useDummy = true
-    const { res, error } = await verifyEmail(verificationCode, useDummy)
-    if (!isMounted()) return
+    const { res: { success }, error } = await verifyEmail(verificationCode, useDummy)
+    if (!isMounted) return
     if (error) {
+      setCheckCode(false)
+      setChecking(false)
       setError(error)
       setHasInitialVerificationCode(false)
+      setIsSuccesful(false)
+      setVerificationCode('')
       return
     }
-    console.log('res', res)
+    if (success) {
+      const { res: userUpdated } = await getUser()
+      setIsSuccesful(true)
+      updateUser(userUpdated)
+    }
+    setIsSuccesful(true)
     setError(null)
-    setCheckCode(false)
-    setChecking(false)
-    setIsSuccesful(false)
   }, [checkCode, checking])
 
   // CHANGE CONTACT EMAIL
