@@ -53,10 +53,10 @@ const SignupVerifyEmail = ({ className }) => {
   }, [])
   // If no need to verify
   React.useEffect(() => {
-    if (!userLoading && emailVerified && contactEmailVerified) {
+    if (!userLoading && !pendingEmail && !pendingContactEmail) {
       onSuccessContinue()
     }
-  }, [userLoading, emailVerified, contactEmailVerified, onSuccessContinue])
+  }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue])
 
   // GET VERIFACTION CODE FROM URL
   const { asPath: urlString } = useRouter()
