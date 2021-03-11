@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import useAsyncEffect from 'use-async-effect'
 
+import useIsMounted from '@/hooks/useIsMounted'
+
 import { AuthContext } from '@/contexts/AuthContext'
 
 import Error from '@/elements/Error'
@@ -37,13 +39,14 @@ const SignupVerifyChangeEmail = ({
   }, [email])
 
   // RUN CHANGE EMAIL
-  useAsyncEffect(async (isMounted) => {
+  const isMounted = useIsMounted()
+  useAsyncEffect(async () => {
     if (!submitForm || loading) return
     setLoading(true)
     // Update email in firebase (if using password auth)
     const emailChangedRes = isPasswordAuth ? await firebaseHelpers.doEmailUpdate(email) : null
     // Handle error in changing firebase email
-    if (!isMounted()) return
+    if (!isMounted) return
     if (emailChangedRes && emailChangedRes.error) {
       setError(emailChangedRes.error)
       setLoading(false)
@@ -52,7 +55,7 @@ const SignupVerifyChangeEmail = ({
     // Patch user
     const patchPayload = contactEmail ? { contactEmail: email } : { email }
     const { res: userUpdated, error: errorPatchingUser } = await patchUser(patchPayload)
-    if (!isMounted()) return
+    if (!isMounted) return
     setLoading(false)
     if (errorPatchingUser) {
       setError(errorPatchingUser)
@@ -64,7 +67,7 @@ const SignupVerifyChangeEmail = ({
     setPendingEmail(email)
     // Redirect to verify page, with delay
     const timer = setTimeout(() => {
-      if (!isMounted()) return
+      if (!isMounted) return
       backToVerify()
     }, 2000)
     return () => {
