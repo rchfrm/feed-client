@@ -1,5 +1,4 @@
 import React from 'react'
-// import sysend from 'sysend'
 
 import useAsyncEffect from 'use-async-effect'
 
