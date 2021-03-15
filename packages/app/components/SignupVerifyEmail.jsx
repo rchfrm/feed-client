@@ -6,6 +6,7 @@ import Router, { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import useIsMounted from '@/hooks/useIsMounted'
+import useCrossTabCommunication from '@/app/hooks/useCrossTabCommunication'
 
 import { UserContext } from '@/contexts/UserContext'
 
@@ -53,8 +54,11 @@ const SignupVerifyEmail = ({
   // GET EMAIL THAT NEEDS VERIFYING
   const [email, setEmail] = React.useState(pendingEmail || pendingContactEmail || authEmail || contactEmail)
 
+  // SETUP CROSS TAB MESSAGING
+  const { messagePayload, broadcastMessage } = useCrossTabCommunication('emailVerified')
+
   // HANDLE SUCCESS
-  const [isSuccesful, setIsSuccesful] = React.useState(false)
+  const [isSuccessful, setIsSuccessful] = React.useState(false)
   const onSuccessContinue = React.useCallback(() => {
     const nextPage = isSignupFlow ? ROUTES.SIGN_UP_CONTINUE : ROUTES.HOME
     Router.push(nextPage)
@@ -62,16 +66,30 @@ const SignupVerifyEmail = ({
   // If no need to verify
   React.useEffect(() => {
     // Stop here because not ready or it's manually successful
-    if (userLoading || isSuccesful) return
-    // No need to verify if no pending email
-    if (!pendingEmail && !pendingContactEmail) {
-      return onSuccessContinue()
-    }
-    // Trigger success if no pending email and no email that's not verified
-    if ((pendingEmail && !emailVerified) || (pendingContactEmail && !contactEmailVerified)) {
+    if (userLoading || isSuccessful) return
+    // No need to verify if no pending emails or no non-verified emails
+    if (
+      (!pendingEmail && !pendingContactEmail)
+      || (pendingEmail && !emailVerified)
+      || (pendingContactEmail && !contactEmailVerified)
+    ) {
+      broadcastMessage({ success: true })
       onSuccessContinue()
     }
-  }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, emailVerified, contactEmailVerified, isSuccesful])
+  }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, emailVerified, contactEmailVerified, isSuccessful, broadcastMessage])
+
+  // BROADCAST SUCCESS
+  React.useEffect(() => {
+    if (isSuccessful) broadcastMessage({ success: true })
+  }, [isSuccessful, broadcastMessage])
+
+  // LISTEN FOR SUCCESS IN ANOTHER TAB
+  React.useEffect(() => {
+    if (!messagePayload) return
+    if (messagePayload.success) {
+      onSuccessContinue()
+    }
+  }, [messagePayload, onSuccessContinue])
 
   // GET VERIFACTION CODE FROM URL
   const { asPath: urlString } = useRouter()
@@ -96,16 +114,15 @@ const SignupVerifyEmail = ({
       setChecking(false)
       setError(error)
       setHasInitialVerificationCode(false)
-      setIsSuccesful(false)
+      setIsSuccessful(false)
       setVerificationCode('')
       return
     }
     if (res?.success) {
       const { res: userUpdated } = await getUser()
-      setIsSuccesful(true)
+      setIsSuccessful(true)
       updateUser(userUpdated)
     }
-    setIsSuccesful(true)
     setError(null)
   }, [checkCode, checking, isMounted])
 
@@ -113,10 +130,10 @@ const SignupVerifyEmail = ({
   const [isChangeEmail, setIsChangeEmail] = React.useState(false)
 
   // STOP HERE if checking code from URL query or waiting for user to load
-  if (!isSuccesful && (hasInitialVerificationCode || userLoading)) return null
+  if (!isSuccessful && (hasInitialVerificationCode || userLoading)) return null
 
   // SHOW SUCCESS MESSAGE
-  if (isSuccesful) {
+  if (isSuccessful) {
     return (
       <SignupVerifyEmailSuccess
         email={email}
