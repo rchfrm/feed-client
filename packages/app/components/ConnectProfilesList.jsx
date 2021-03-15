@@ -1,6 +1,5 @@
 import React from 'react'
 
-import LastItem from '@/elements/LastItem'
 import ConnectProfilesCard from '@/app/ConnectProfilesCard'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
@@ -66,8 +65,6 @@ function ConnectProfilesList({
       />
     )
   })
-
-  artistList.push(LastItem())
 
   return (
     <ul
