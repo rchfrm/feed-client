@@ -32,7 +32,6 @@ import styles from '@/LoginPage.module.css'
 
 import * as ROUTES from '@/app/constants/routes'
 
-
 const SignupVerifyEmail = ({
   isSignupFlow,
   className,
@@ -67,15 +66,13 @@ const SignupVerifyEmail = ({
   React.useEffect(() => {
     // Stop here because not ready or it's manually successful
     if (userLoading || isSuccessful) return
-    // No need to verify if no pending emails or no non-verified emails
-    if (
-      (!pendingEmail && !pendingContactEmail)
-      || (pendingEmail && !emailVerified)
-      || (pendingContactEmail && !contactEmailVerified)
-    ) {
-      broadcastMessage({ success: true })
-      onSuccessContinue()
-    }
+    // Stop here because pending email
+    if (pendingEmail || pendingContactEmail) return
+    // Stop here because one of the emails isn't verified
+    if (!emailVerified || !contactEmailVerified) return
+    // If you've reached this bit, you're successful
+    broadcastMessage({ success: true })
+    onSuccessContinue()
   }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, emailVerified, contactEmailVerified, isSuccessful, broadcastMessage])
 
   // BROADCAST SUCCESS
