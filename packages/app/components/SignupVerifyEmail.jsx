@@ -79,7 +79,7 @@ const SignupVerifyEmail = ({ className }) => {
   // GET VERIFACTION CODE FROM URL
   const { asPath: urlString } = useRouter()
   const { query } = parseUrl(urlString)
-  const initialVerificationCode = query?.verificationCode
+  const initialVerificationCode = query?.token
   const [hasInitialVerificationCode, setHasInitialVerificationCode] = React.useState(!!initialVerificationCode)
 
   // TEST CODE
@@ -92,7 +92,7 @@ const SignupVerifyEmail = ({ className }) => {
     if (!checkCode || checking) return
     setChecking(true)
     const useDummy = true
-    const { res: { success }, error } = await verifyEmail(verificationCode, useDummy)
+    const { res, error } = await verifyEmail(verificationCode, useDummy)
     if (!isMounted) return
     if (error) {
       setCheckCode(false)
@@ -103,14 +103,14 @@ const SignupVerifyEmail = ({ className }) => {
       setVerificationCode('')
       return
     }
-    if (success) {
+    if (res?.success) {
       const { res: userUpdated } = await getUser()
       setIsSuccesful(true)
       updateUser(userUpdated)
     }
     setIsSuccesful(true)
     setError(null)
-  }, [checkCode, checking])
+  }, [checkCode, checking, isMounted])
 
   // CHANGE CONTACT EMAIL
   const [isChangeEmail, setIsChangeEmail] = React.useState(false)
@@ -129,7 +129,7 @@ const SignupVerifyEmail = ({ className }) => {
   }
 
   // STOP HERE if checking code from URL query or waiting for user to load
-  if (hasInitialVerificationCode || userLoading) return null
+  if (!isSuccesful && (hasInitialVerificationCode || userLoading)) return null
 
   // SHOW SUCCESS MESSAGE
   if (isSuccesful) {
