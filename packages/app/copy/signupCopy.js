@@ -9,5 +9,5 @@ export default {
 
   missingFbEmail: `There isn't an email address associated with your Facebook account, and we need a way to keep you updated on Feed's performance. Enter one below.`,
 
-  emailVerify: (email) => `Please confirm your email address **${email}** by clicking on the link in the email we sent you, or submitting the code below.`,
+  emailVerify: (email) => `Please confirm your email address **${email}** by clicking on the link in the email we sent you.`,
 }

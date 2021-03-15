@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import useAsyncEffect from 'use-async-effect'
 import Router, { useRouter } from 'next/router'
+import Link from 'next/link'
 
 import useIsMounted from '@/hooks/useIsMounted'
 
@@ -31,7 +32,10 @@ import styles from '@/LoginPage.module.css'
 import * as ROUTES from '@/app/constants/routes'
 
 
-const SignupVerifyEmail = ({ className }) => {
+const SignupVerifyEmail = ({
+  isSignupFlow,
+  className,
+}) => {
   // GET USER CONTEXT and email
   const {
     updateUser,
@@ -163,15 +167,27 @@ const SignupVerifyEmail = ({ className }) => {
           </Button>
         </div>
       </div>
+      {/* SKIP (if part of signup flow) */}
+      {isSignupFlow && (
+        <div className="pt-12 flex justify-end">
+          <Link href={ROUTES.SIGN_UP_CONTINUE}>
+            <Button>
+              Skip for now
+            </Button>
+          </Link>
+        </div>
+      )}
     </div>
   )
 }
 
 SignupVerifyEmail.propTypes = {
+  isSignupFlow: PropTypes.bool,
   className: PropTypes.string,
 }
 
 SignupVerifyEmail.defaultProps = {
+  isSignupFlow: false,
   className: null,
 }
 
