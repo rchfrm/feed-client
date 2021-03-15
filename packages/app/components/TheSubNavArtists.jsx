@@ -10,7 +10,7 @@ import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'
 import NotificationDot from '@/elements/NotificationDot'
 
-import ConnectProfilesButton from '@/app/ConnectProfilesButton'
+import TheSubNavConnectProfiles from '@/app/TheSubNavConnectProfiles'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
@@ -71,7 +71,7 @@ const TheSubNavArtists = ({ className }) => {
   }, [user])
 
   // If no artists, don't show artist links
-  if (sortedArtists.length === 1) return <ConnectProfilesButton className="mb-5 md:mb-2" />
+  if (sortedArtists.length === 1) return <TheSubNavConnectProfiles className="mb-5 md:mb-2" />
 
   // Show select component if too many artists
   if (sortedArtists.length > maxArtists) {
@@ -87,7 +87,7 @@ const TheSubNavArtists = ({ className }) => {
           artistsWithNotifications={artistsWithNotifications}
         />
         <div className="mb-0 md:pt-3 md:mb-3 h4--text">
-          <ConnectProfilesButton />
+          <TheSubNavConnectProfiles />
         </div>
       </div>
     )
@@ -129,11 +129,11 @@ const TheSubNavArtists = ({ className }) => {
           )
         })}
         <li className="md:hidden pt-3">
-          <ConnectProfilesButton />
+          <TheSubNavConnectProfiles />
         </li>
       </ul>
       <div className="hidden md:block pt-5 pb-3">
-        <ConnectProfilesButton />
+        <TheSubNavConnectProfiles />
       </div>
     </div>
   )
