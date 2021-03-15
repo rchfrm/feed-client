@@ -34,23 +34,15 @@ function ConnectProfilesList({
     const allAccounts = Object.values(artistAccounts)
     // Test whether every account already exists
     const everyAccountExists = allAccounts.every(({ exists }) => exists)
-    // Make sure every every connected account has a country set
-    const allCountriesSet = allAccounts.every(({ country_code, connect }) => {
-      return country_code || !connect
-    })
     // Find all accounts that don't yet exist but are selected to connect
     const selectedAccounts = allAccounts.filter(({ connect, exists }) => connect && !exists)
     // Disable button if country is not set, or no selected, non-existing accounts
-    const disableButton = !allCountriesSet || (!selectedAccounts.length && !everyAccountExists)
+    const disableButton = !selectedAccounts.length && !everyAccountExists
     setButtonDisabled(disableButton)
 
     if (!disableButton) {
       setDisabledReason('')
       return
-    }
-
-    if (!allCountriesSet) {
-      setDisabledReason('Please select a country for each account')
     }
 
     if (!selectedAccounts.length) {
