@@ -1,28 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Router from 'next/router'
 import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
 
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
-import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
-import ConnectProfilesList from '@/app/ConnectProfilesList'
-import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
-// IMPORT CONSTANTS
-import * as ROUTES from '@/app/constants/routes'
+import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
+import ConnectProfilesList from '@/app/ConnectProfilesList'
+import ConnectProfilesConnectButton from '@/app/ConnectProfilesConnectButton'
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
-import styles from '@/app/ConnectProfiles.module.css'
 import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
@@ -47,8 +41,6 @@ const artistsReducer = (draftState, action) => {
 const ConnectProfilesLoader = ({ isSignupStep }) => {
   // IMPORT CONTEXTS
   const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
-  const { connectArtists, setArtistLoading } = React.useContext(ArtistContext)
-  const { user } = React.useContext(UserContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get any missing scopes
   const { missingScopes } = auth
@@ -73,7 +65,9 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}
   const [artistAccounts, setArtistAccounts] = useImmerReducer(artistsReducer, initialArtistAccountsState)
-  // Function to update artist state
+  console.log('artistAccounts', artistAccounts)
+
+  // Function to UPDATE ARTIST STATE
   const updateArtists = React.useCallback((actionType, payload) => {
     setArtistAccounts({
       type: actionType,
@@ -157,25 +151,6 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
     setErrors([authError])
   }, [authError])
 
-
-  // Run this to create artist
-  const runCreateArtist = async e => {
-    e.preventDefault()
-
-    // Santise URLs
-    const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistAccounts)
-
-    try {
-      toggleGlobalLoading(true)
-      await connectArtists(artistAccountsSanitised, accessToken, user)
-      Router.push(ROUTES.HOME)
-    } catch (err) {
-      toggleGlobalLoading(false)
-      setArtistLoading(false)
-      setErrors([err])
-    }
-  }
-
   if (pageLoading) return null
 
   // If no artists accounts, show FB BUTTON
@@ -191,7 +166,13 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
   }
 
   return (
-    <div style={{ width: '100%' }}>
+    <div>
+      {/* ERRORS */}
+      {errors.map((error, index) => {
+        return <Error error={error} key={index} />
+      })}
+
+      {/* LIST OF PROFILES */}
       <ConnectProfilesList
         artistAccounts={artistAccounts}
         updateArtists={updateArtists}
@@ -200,28 +181,16 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
         setErrors={setErrors}
       />
 
-      <div style={{ textAlign: 'right' }}>
+      {/* BUTTON TO CONNECT ACCOUNT */}
+      <ConnectProfilesConnectButton
+        artistAccounts={artistAccounts}
+        accessToken={accessToken}
+        setErrors={setErrors}
+        disabled={buttonDisabled}
+        disabledReason={disabledReason}
+      />
 
-        {/* Errors */}
-        {errors.map((error, index) => {
-          return <Error error={error} key={index} />
-        })}
-
-        {disabledReason && (
-          <p className={styles.disabledReason}>{disabledReason}</p>
-        )}
-
-        <Button
-          version="black"
-          onClick={runCreateArtist}
-          disabled={buttonDisabled}
-        >
-          next
-        </Button>
-
-      </div>
-
-      {/* Button to find more profiles */}
+      {/* BUTTON TO FIND MORE PROFILES */}
       <ConnectProfilesFacebook
         auth={auth}
         errors={errors}
