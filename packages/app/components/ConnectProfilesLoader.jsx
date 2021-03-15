@@ -12,7 +12,7 @@ import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
-import ConnectProfiles from '@/app/ConnectProfiles'
+import ConnectProfilesList from '@/app/ConnectProfilesList'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
@@ -27,7 +27,6 @@ import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
   const { type: actionType, payload } = action
-
   switch (actionType) {
     case 'add-artists':
       Object.entries(payload.artists).forEach(([key, value]) => {
@@ -193,7 +192,7 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
 
   return (
     <div style={{ width: '100%' }}>
-      <ConnectProfiles
+      <ConnectProfilesList
         artistAccounts={artistAccounts}
         updateArtists={updateArtists}
         setButtonDisabled={setButtonDisabled}

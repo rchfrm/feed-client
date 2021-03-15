@@ -14,7 +14,7 @@ const styles = {
 }
 
 
-function ConnectProfiles({
+function ConnectProfilesList({
   artistAccounts,
   updateArtists,
   setButtonDisabled,
@@ -96,4 +96,4 @@ function ConnectProfiles({
 }
 
 
-export default ConnectProfiles
+export default ConnectProfilesList
