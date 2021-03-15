@@ -5,8 +5,6 @@ import useAsyncEffect from 'use-async-effect'
 
 import useIsMounted from '@/hooks/useIsMounted'
 
-import { AuthContext } from '@/contexts/AuthContext'
-
 import Error from '@/elements/Error'
 import Success from '@/elements/Success'
 import Input from '@/elements/Input'
@@ -14,8 +12,6 @@ import Button from '@/elements/Button'
 
 import { testValidEmail } from '@/helpers/utils'
 import { patchUser } from '@/helpers/sharedServer'
-import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-
 
 const SignupVerifyChangeEmail = ({
   contactEmail,
@@ -24,9 +20,6 @@ const SignupVerifyChangeEmail = ({
   backToVerify,
   className,
 }) => {
-  const { auth: { providerIds } } = React.useContext(AuthContext)
-  const isPasswordAuth = providerIds.includes('password')
-
   const [isFormValid, setIsFormValid] = React.useState(false)
   const [email, setEmail] = React.useState('')
   const [submitForm, setSubmitForm] = React.useState(false)
@@ -43,15 +36,6 @@ const SignupVerifyChangeEmail = ({
   useAsyncEffect(async () => {
     if (!submitForm || loading) return
     setLoading(true)
-    // Update email in firebase (if using password auth)
-    const emailChangedRes = isPasswordAuth ? await firebaseHelpers.doEmailUpdate(email) : null
-    // Handle error in changing firebase email
-    if (!isMounted) return
-    if (emailChangedRes && emailChangedRes.error) {
-      setError(emailChangedRes.error)
-      setLoading(false)
-      return
-    }
     // Patch user
     const patchPayload = contactEmail ? { contactEmail: email } : { email }
     const { res: userUpdated, error: errorPatchingUser } = await patchUser(patchPayload)
@@ -76,7 +60,7 @@ const SignupVerifyChangeEmail = ({
   }, [submitForm])
 
   // HANDLE FORM
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault()
     if (!isFormValid) return
     setSubmitForm(true)
