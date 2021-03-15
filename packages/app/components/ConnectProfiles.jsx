@@ -1,20 +1,20 @@
 import React from 'react'
 
 import LastItem from '@/elements/LastItem'
-import ConnectAccountsPanel from '@/app/ConnectAccountsPanel'
+import ConnectProfilesCard from '@/app/ConnectProfilesCard'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 // IMPORT STYLES
-import connectAccountsStyles from '@/app/ConnectAccounts.module.css'
+import ConnectProfilesStyles from '@/app/ConnectProfiles.module.css'
 import postStyles from '@/app/PostsPage.module.css'
 
 const styles = {
-  ...connectAccountsStyles,
+  ...ConnectProfilesStyles,
   ...postStyles,
 }
 
 
-function ConnectAccounts({
+function ConnectProfiles({
   artistAccounts,
   updateArtists,
   setButtonDisabled,
@@ -64,7 +64,7 @@ function ConnectAccounts({
 
   const artistList = artistAccountsArray.map((artistAccount) => {
     return (
-      <ConnectAccountsPanel
+      <ConnectProfilesCard
         key={artistAccount.page_id}
         artistAccount={artistAccount}
         updateArtists={updateArtists}
@@ -96,4 +96,4 @@ function ConnectAccounts({
 }
 
 
-export default ConnectAccounts
+export default ConnectProfiles

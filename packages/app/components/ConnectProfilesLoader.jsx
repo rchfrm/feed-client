@@ -9,8 +9,8 @@ import { ArtistContext } from '@/contexts/ArtistContext'
 import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
-import ConnectAccountsFacebook from '@/app/ConnectAccountsFacebook'
-import ConnectAccounts from '@/app/ConnectAccounts'
+import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
+import ConnectProfiles from '@/app/ConnectProfiles'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
@@ -20,7 +20,7 @@ import * as ROUTES from '@/app/constants/routes'
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
-import styles from '@/app/ConnectAccounts.module.css'
+import styles from '@/app/ConnectProfiles.module.css'
 import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
@@ -43,7 +43,7 @@ const artistsReducer = (draftState, action) => {
   }
 }
 
-const ConnectAccountsLoader = ({ onSignUp }) => {
+const ConnectProfilesLoader = ({ onSignUp }) => {
   // IMPORT CONTEXTS
   const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
   const { connectArtists, setArtistLoading } = React.useContext(ArtistContext)
@@ -181,7 +181,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
   // If no artists accounts, show FB BUTTON
   if (Object.keys(artistAccounts).length === 0) {
     return (
-      <ConnectAccountsFacebook
+      <ConnectProfilesFacebook
         auth={auth}
         errors={errors}
         setErrors={setErrors}
@@ -192,7 +192,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
 
   return (
     <div style={{ width: '100%' }}>
-      <ConnectAccounts
+      <ConnectProfiles
         artistAccounts={artistAccounts}
         updateArtists={updateArtists}
         setButtonDisabled={setButtonDisabled}
@@ -222,7 +222,7 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
       </div>
 
       {/* Button to find more profiles */}
-      <ConnectAccountsFacebook
+      <ConnectProfilesFacebook
         auth={auth}
         errors={errors}
         setErrors={setErrors}
@@ -233,4 +233,4 @@ const ConnectAccountsLoader = ({ onSignUp }) => {
   )
 }
 
-export default ConnectAccountsLoader
+export default ConnectProfilesLoader

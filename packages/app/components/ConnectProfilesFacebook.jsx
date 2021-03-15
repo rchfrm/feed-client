@@ -18,7 +18,7 @@ const getIntroText = (showSignupIntro, showFindMore) => {
   return copy.connectProfilesIntro
 }
 
-const ConnectAccountsFacebook = ({
+const ConnectProfilesFacebook = ({
   auth,
   errors,
   setErrors,
@@ -94,7 +94,7 @@ const ConnectAccountsFacebook = ({
   )
 }
 
-ConnectAccountsFacebook.propTypes = {
+ConnectProfilesFacebook.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
@@ -102,11 +102,11 @@ ConnectAccountsFacebook.propTypes = {
   showFindMore: PropTypes.bool,
 }
 
-ConnectAccountsFacebook.defaultProps = {
+ConnectProfilesFacebook.defaultProps = {
   errors: [],
   onSignUp: false,
   showFindMore: false,
 }
 
 
-export default ConnectAccountsFacebook
+export default ConnectProfilesFacebook

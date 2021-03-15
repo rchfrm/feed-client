@@ -10,16 +10,16 @@ import * as utils from '@/helpers/utils'
 import countries from '@/constants/countries'
 
 // IMPORT STYLES
-import connectAccountsStyles from '@/app/ConnectAccounts.module.css'
+import ConnectProfilesStyles from '@/app/ConnectProfiles.module.css'
 import postStyles from '@/app/PostsPage.module.css'
 import brandColors from '@/constants/brandColors'
 
 const styles = {
-  ...connectAccountsStyles,
+  ...ConnectProfilesStyles,
   ...postStyles,
 }
 
-function ConnectAccountsPanel({
+function ConnectProfilesCard({
   artistAccount,
   singular,
   setErrors,
@@ -31,7 +31,7 @@ function ConnectAccountsPanel({
   const singularClass = singular ? 'singular' : ''
   const selectedClass = connect ? 'selected' : 'deselected'
   const readOnly = exists
-  const readOnlyClass = readOnly ? connectAccountsStyles.readOnly : ''
+  const readOnlyClass = readOnly ? ConnectProfilesStyles.readOnly : ''
   const id = artistAccount.page_id
 
 
@@ -307,4 +307,4 @@ function ConnectAccountsPanel({
   )
 }
 
-export default ConnectAccountsPanel
+export default ConnectProfilesCard
