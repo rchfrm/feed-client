@@ -109,7 +109,7 @@ function ArtistProvider({ children, disable }) {
     toggleGlobalLoading(false)
   }
 
-  const storeArtist = async (id) => {
+  const storeArtist = React.useCallback(async (id) => {
     // Stop here if not using
     if (disable) return {}
     // TODO : Store previously selected artists in state,
@@ -127,9 +127,9 @@ function ArtistProvider({ children, disable }) {
         description: error.message,
         label: `artistId: ${id}`,
       })
-      return { error: {
-        message: `Error fetching artist ID: ${id}`,
-      } }
+      return {
+        error: { message: `Error fetching artist ID: ${id}` },
+      }
     }
 
     if (!artist) return
@@ -174,9 +174,9 @@ function ArtistProvider({ children, disable }) {
     })
     setArtistLoading(false)
     return { artist }
-  }
+  }, [disable, setArtist, toggleGlobalLoading])
 
-  const connectArtists = async (artistAccounts, accessToken, oldUser) => {
+  const connectArtists = React.useCallback(async (artistAccounts, accessToken, oldUser) => {
     setArtistLoading(true)
     toggleGlobalLoading(true)
     // Get array of current user artist Facebook page IDs
@@ -205,6 +205,7 @@ function ArtistProvider({ children, disable }) {
           action: 'Problem creating artists in Artist context createArtist()',
           description: error.message,
         })
+        setArtistLoading(false)
         throw (error)
       })
     // Update user
@@ -232,7 +233,7 @@ function ArtistProvider({ children, disable }) {
     } else {
       track('add_profile')
     }
-  }
+  }, [storeArtist, storeUser, toggleGlobalLoading])
 
   const updateBudget = React.useCallback((majorUnitAmount) => {
     setArtist({
