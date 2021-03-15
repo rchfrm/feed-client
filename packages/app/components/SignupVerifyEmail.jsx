@@ -66,8 +66,12 @@ const SignupVerifyEmail = ({ className }) => {
   React.useEffect(() => {
     // Stop here because not ready or it's manually successful
     if (userLoading || isSuccesful) return
+    // No need to verify if no pending email
+    if (!pendingEmail && !pendingContactEmail) {
+      return onSuccessContinue()
+    }
     // Trigger success if no pending email and no email that's not verified
-    if (!pendingEmail && !pendingContactEmail && emailVerified && contactEmailVerified) {
+    if ((pendingEmail && !emailVerified) || (pendingContactEmail && !contactEmailVerified)) {
       onSuccessContinue()
     }
   }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, emailVerified, contactEmailVerified, isSuccesful])
