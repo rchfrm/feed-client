@@ -10,7 +10,6 @@ import { UserContext } from '@/contexts/UserContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
-import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import PencilIcon from '@/icons/PencilIcon'
 
@@ -108,19 +107,6 @@ const SignupVerifyEmail = ({ className }) => {
   // CHANGE CONTACT EMAIL
   const [isChangeEmail, setIsChangeEmail] = React.useState(false)
 
-  // HANDLE FORM
-  const [isFormValid, setIsFormValid] = React.useState(false)
-  React.useEffect(() => {
-    setIsFormValid(!!verificationCode)
-  }, [verificationCode])
-
-  // SUBMIT FORM
-  const onSubmit = async (e) => {
-    e.preventDefault()
-    if (!isFormValid) return
-    setCheckCode(true)
-  }
-
   // STOP HERE if checking code from URL query or waiting for user to load
   if (!isSuccesful && (hasInitialVerificationCode || userLoading)) return null
 
@@ -149,7 +135,6 @@ const SignupVerifyEmail = ({ className }) => {
       />
     )
   }
-  // VERIFY CODE FORM
   return (
     <div
       className={[
@@ -159,29 +144,8 @@ const SignupVerifyEmail = ({ className }) => {
     >
       {/* INTRO */}
       <MarkdownText markdown={copy.emailVerify(email)} />
-      {/* FORM */}
+      {/* ERROR */}
       <Error error={error} />
-      <form onSubmit={onSubmit} className="mb-12">
-        <Input
-          name="verificationCode"
-          label="Verification code"
-          placeholder=""
-          value={verificationCode}
-          updateValue={setVerificationCode}
-          type="text"
-          autoFocus
-          className="mb-4"
-        />
-        <Button
-          version="black"
-          disabled={!verificationCode}
-          type="sumbit"
-          loading={checking}
-          className="w-full"
-        >
-          submit
-        </Button>
-      </form>
       {/* CHANGE EMAIL */}
       <div>
         <p className="mb-5">Didn't receive an email?</p>
