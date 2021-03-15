@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Success from '@/elements/Success'
 import Button from '@/elements/Button'
 
-const SignupVerifyEmailSuccess = ({
+const ConfirmEmailEmailSuccess = ({
   email,
   onContinue,
   className,
@@ -29,15 +29,15 @@ const SignupVerifyEmailSuccess = ({
   )
 }
 
-SignupVerifyEmailSuccess.propTypes = {
+ConfirmEmailEmailSuccess.propTypes = {
   email: PropTypes.string.isRequired,
   onContinue: PropTypes.func,
   className: PropTypes.string,
 }
 
-SignupVerifyEmailSuccess.defaultProps = {
+ConfirmEmailEmailSuccess.defaultProps = {
   onContinue: () => {},
   className: null,
 }
 
-export default SignupVerifyEmailSuccess
+export default ConfirmEmailEmailSuccess

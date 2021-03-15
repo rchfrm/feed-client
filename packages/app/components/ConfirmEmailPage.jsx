@@ -15,9 +15,9 @@ import Error from '@/elements/Error'
 import Button from '@/elements/Button'
 import PencilIcon from '@/icons/PencilIcon'
 
-import SignupVerifyResendButton from '@/app/SignupVerifyResendButton'
-import SignupVerifyChangeEmail from '@/app/SignupVerifyChangeEmail'
-import SignupVerifyEmailSuccess from '@/app/SignupVerifyEmailSuccess'
+import SignupVerifyResendButton from '@/app/ConfirmEmailResendButton'
+import ConfirmEmailChangeEmail from '@/app/ConfirmEmailChangeEmail'
+import ConfirmEmailEmailSuccess from '@/app/ConfirmEmailEmailSuccess'
 
 
 import { parseUrl } from '@/helpers/utils'
@@ -32,7 +32,7 @@ import styles from '@/LoginPage.module.css'
 
 import * as ROUTES from '@/app/constants/routes'
 
-const SignupVerifyEmail = ({
+const ConfirmEmailPage = ({
   isSignupFlow,
   className,
 }) => {
@@ -132,7 +132,7 @@ const SignupVerifyEmail = ({
   // SHOW SUCCESS MESSAGE
   if (isSuccessful) {
     return (
-      <SignupVerifyEmailSuccess
+      <ConfirmEmailEmailSuccess
         email={email}
         onContinue={onSuccessContinue}
         className={styles.container}
@@ -143,7 +143,7 @@ const SignupVerifyEmail = ({
   // SHOW EMAIL CHANGE FORM
   if (isChangeEmail) {
     return (
-      <SignupVerifyChangeEmail
+      <ConfirmEmailChangeEmail
         contactEmail={contactEmail}
         updateUser={updateUser}
         setPendingEmail={setEmail}
@@ -196,14 +196,14 @@ const SignupVerifyEmail = ({
   )
 }
 
-SignupVerifyEmail.propTypes = {
+ConfirmEmailPage.propTypes = {
   isSignupFlow: PropTypes.bool,
   className: PropTypes.string,
 }
 
-SignupVerifyEmail.defaultProps = {
+ConfirmEmailPage.defaultProps = {
   isSignupFlow: false,
   className: null,
 }
 
-export default SignupVerifyEmail
+export default ConfirmEmailPage

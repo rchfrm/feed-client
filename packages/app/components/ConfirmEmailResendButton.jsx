@@ -6,7 +6,7 @@ import Success from '@/elements/Success'
 
 import { requestVerificationEmail } from '@/app/helpers/appServer'
 
-const SignupVerifyResendButton = ({
+const ConfirmEmailResendButton = ({
   contactEmail,
   // emailResent,
   // setEmailResent,
@@ -57,12 +57,12 @@ const SignupVerifyResendButton = ({
   )
 }
 
-SignupVerifyResendButton.propTypes = {
+ConfirmEmailResendButton.propTypes = {
   className: PropTypes.string,
 }
 
-SignupVerifyResendButton.defaultProps = {
+ConfirmEmailResendButton.defaultProps = {
   className: null,
 }
 
-export default SignupVerifyResendButton
+export default ConfirmEmailResendButton

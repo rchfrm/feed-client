@@ -13,7 +13,7 @@ import Button from '@/elements/Button'
 import { testValidEmail } from '@/helpers/utils'
 import { patchUser } from '@/helpers/sharedServer'
 
-const SignupVerifyChangeEmail = ({
+const ConfirmEmailChangeEmail = ({
   contactEmail,
   updateUser,
   setPendingEmail,
@@ -112,7 +112,7 @@ const SignupVerifyChangeEmail = ({
   )
 }
 
-SignupVerifyChangeEmail.propTypes = {
+ConfirmEmailChangeEmail.propTypes = {
   contactEmail: PropTypes.string,
   setPendingEmail: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
@@ -120,9 +120,9 @@ SignupVerifyChangeEmail.propTypes = {
   className: PropTypes.string,
 }
 
-SignupVerifyChangeEmail.defaultProps = {
+ConfirmEmailChangeEmail.defaultProps = {
   contactEmail: '',
   className: null,
 }
 
-export default SignupVerifyChangeEmail
+export default ConfirmEmailChangeEmail

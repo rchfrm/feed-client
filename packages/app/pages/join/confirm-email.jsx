@@ -1,7 +1,7 @@
 import React from 'react'
 
 import BasePage from '@/app/BasePage'
-import SignupConfirmEmail from '@/app/SignupVerifyEmail'
+import ConfirmEmailPage from '@/app/ConfirmEmailPage'
 
 const headerConfig = {
   text: 'confirm email',
@@ -12,7 +12,7 @@ const Page = () => {
     <BasePage
       headerConfig={headerConfig}
     >
-      <SignupConfirmEmail isSignupFlow />
+      <ConfirmEmailPage isSignupFlow />
     </BasePage>
   )
 }
