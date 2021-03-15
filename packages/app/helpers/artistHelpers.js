@@ -102,7 +102,13 @@ export const getSortedArtistAccountsArray = (artistAccounts) => {
  * @returns {Promise<any>}
  */
 export const getArtistOnSignUp = async (facebookAccessToken) => {
-  return api.post('/artists/available', { access_token: facebookAccessToken })
+  const requestUrl = '/artists/available'
+  const payload = { access_token: facebookAccessToken }
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Get available aritsts',
+  }
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
 

@@ -83,19 +83,12 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
     // If no access token, then there will be no way to talk to facebook
     // so don't set artists accounts
     if (!accessToken) return toggleGlobalLoading(false)
+    // START FETCHING ARTISTS
     setPageLoading(true)
-    const availableArtists = await artistHelpers.getArtistOnSignUp(accessToken)
-      .catch((error) => {
-        // Track
-        fireSentryError({
-          category: 'sign up',
-          action: 'Error with artistHelpers.getArtistOnSignUp()',
-          description: error.message,
-        })
-        if (!isMounted) return
-        setErrors([error])
-      })
-    if (!availableArtists) {
+    const { res: availableArtists, error } = await artistHelpers.getArtistOnSignUp(accessToken)
+    if (error) {
+      if (!isMounted) return
+      setErrors([error])
       setPageLoading(false)
       toggleGlobalLoading(false)
       return
