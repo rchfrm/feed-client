@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import Router from 'next/router'
 import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
@@ -43,11 +45,10 @@ const artistsReducer = (draftState, action) => {
   }
 }
 
-const ConnectProfilesLoader = ({ onSignUp }) => {
+const ConnectProfilesLoader = ({ isSignupStep }) => {
   // IMPORT CONTEXTS
   const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
   const { connectArtists, setArtistLoading } = React.useContext(ArtistContext)
-
   const { user } = React.useContext(UserContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get any missing scopes
@@ -185,7 +186,7 @@ const ConnectProfilesLoader = ({ onSignUp }) => {
         auth={auth}
         errors={errors}
         setErrors={setErrors}
-        onSignUp={onSignUp}
+        isSignupStep={isSignupStep}
       />
     )
   }
@@ -231,6 +232,14 @@ const ConnectProfilesLoader = ({ onSignUp }) => {
 
     </div>
   )
+}
+
+ConnectProfilesLoader.propTypes = {
+  isSignupStep: PropTypes.bool,
+}
+
+ConnectProfilesLoader.defaultProps = {
+  isSignupStep: false,
 }
 
 export default ConnectProfilesLoader

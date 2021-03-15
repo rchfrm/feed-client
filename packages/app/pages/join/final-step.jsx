@@ -12,7 +12,7 @@ const Page = () => (
     headerConfig={headerConfig}
     staticPage
   >
-    <ConnectProfilesLoader onSignUp />
+    <ConnectProfilesLoader isSignupStep />
   </BasePage>
 )
 

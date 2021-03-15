@@ -22,7 +22,7 @@ const ConnectProfilesFacebook = ({
   auth,
   errors,
   setErrors,
-  onSignUp,
+  isSignupStep,
   showFindMore,
 }) => {
   const { missingScopes, providerIds } = auth
@@ -44,7 +44,7 @@ const ConnectProfilesFacebook = ({
   }, [missingScopes.length, providerIds])
 
   // GET INTRO TEXT
-  const showSignupIntro = (missingScopes.length === 0) && onSignUp
+  const showSignupIntro = (missingScopes.length === 0) && isSignupStep
   const introText = getIntroText(showSignupIntro, showFindMore)
 
   return (
@@ -98,13 +98,13 @@ ConnectProfilesFacebook.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
-  onSignUp: PropTypes.bool,
+  isSignupStep: PropTypes.bool,
   showFindMore: PropTypes.bool,
 }
 
 ConnectProfilesFacebook.defaultProps = {
   errors: [],
-  onSignUp: false,
+  isSignupStep: false,
   showFindMore: false,
 }
 
