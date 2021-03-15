@@ -105,7 +105,7 @@ function LoginWithEmail({ className }) {
       // TRACK LOGIN
       trackLogin({ authProvider: 'password', userId: user.id })
       // REDIRECT
-      Router.push(ROUTES.SIGN_UP_CONTINUE)
+      Router.push(ROUTES.SIGN_UP_CONNECT_PROFILES)
     }
   }
 

@@ -59,7 +59,7 @@ const ConfirmEmailPage = ({
   // HANDLE SUCCESS
   const [isSuccessful, setIsSuccessful] = React.useState(false)
   const onSuccessContinue = React.useCallback(() => {
-    const nextPage = isSignupFlow ? ROUTES.SIGN_UP_CONTINUE : ROUTES.HOME
+    const nextPage = isSignupFlow ? ROUTES.SIGN_UP_CONNECT_PROFILES : ROUTES.HOME
     Router.push(nextPage)
   }, [isSignupFlow])
   // If no need to verify
@@ -185,7 +185,7 @@ const ConfirmEmailPage = ({
       {/* SKIP (if part of signup flow) */}
       {isSignupFlow && (
         <div className="pt-12 flex justify-end">
-          <Link href={ROUTES.SIGN_UP_CONTINUE}>
+          <Link href={ROUTES.SIGN_UP_CONNECT_PROFILES}>
             <Button>
               Skip for now
             </Button>
