@@ -56,8 +56,9 @@ const SignupVerifyEmail = ({
   // HANDLE SUCCESS
   const [isSuccesful, setIsSuccesful] = React.useState(false)
   const onSuccessContinue = React.useCallback(() => {
-    Router.push(ROUTES.HOME)
-  }, [])
+    const nextPage = isSignupFlow ? ROUTES.SIGN_UP_CONTINUE : ROUTES.HOME
+    Router.push(nextPage)
+  }, [isSignupFlow])
   // If no need to verify
   React.useEffect(() => {
     // Stop here because not ready or it's manually successful
