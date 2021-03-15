@@ -192,12 +192,6 @@ function ArtistProvider({ children, disable }) {
       setArtistLoading(false)
       return
     }
-    // Check that every account has a country set
-    newArtistAccounts.forEach(({ country_code, name }) => {
-      if (!country_code) {
-        throw new Error(`Please select a country for ${name}, or deselect that page from being added to your Feed account`)
-      }
-    })
     // Create all artists
     const createAllArtists = newArtistAccounts.map(async (artist) => {
       return artistHelpers.createArtist(artist, accessToken)
