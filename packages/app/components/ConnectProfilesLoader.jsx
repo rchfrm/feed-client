@@ -167,6 +167,7 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
         setButtonDisabled={setButtonDisabled}
         setDisabledReason={setDisabledReason}
         setErrors={setErrors}
+        className="mb-12"
       />
 
       {/* BUTTON TO CONNECT ACCOUNT */}
@@ -183,7 +184,8 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
         auth={auth}
         errors={errors}
         setErrors={setErrors}
-        showFindMore
+        isFindMore
+        className="max-w-3xl pt-16"
       />
 
     </div>

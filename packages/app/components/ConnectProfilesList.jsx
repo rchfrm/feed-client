@@ -1,15 +1,18 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import ConnectProfilesCard from '@/app/ConnectProfilesCard'
+
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
-function ConnectProfilesList({
+const ConnectProfilesList = ({
   artistAccounts,
   updateArtists,
   setButtonDisabled,
   setDisabledReason,
   setErrors,
-}) {
+  className,
+}) => {
   // Toggled button disabled based on country select OR no accounts selected
   React.useEffect(() => {
     const allAccounts = Object.values(artistAccounts)
@@ -37,7 +40,6 @@ function ConnectProfilesList({
 
   return (
     <ul
-      id="artist-integrations"
       className={[
         'grid',
         'grid-cols-12',
@@ -45,6 +47,7 @@ function ConnectProfilesList({
         'col-gap-0',
         'xs:col-gap-6',
         'sm:col-gap-8',
+        className,
       ].join(' ')}
     >
       {artistAccountsArray.map((artistAccount) => {
@@ -62,5 +65,17 @@ function ConnectProfilesList({
   )
 }
 
+ConnectProfilesList.propTypes = {
+  artistAccounts: PropTypes.object.isRequired,
+  updateArtists: PropTypes.func.isRequired,
+  setButtonDisabled: PropTypes.func.isRequired,
+  setDisabledReason: PropTypes.func.isRequired,
+  setErrors: PropTypes.func.isRequired,
+  className: PropTypes.string,
+}
+
+ConnectProfilesList.defaultProps = {
+  className: null,
+}
 
 export default ConnectProfilesList

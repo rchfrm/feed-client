@@ -44,15 +44,17 @@ const ConnectProfilesConnectButton = ({
         className,
       ].join(' ')}
     >
+      <div className="mb-4">
+        <Button
+          onClick={createArtists}
+          disabled={disabled}
+        >
+          Connect Selected Profiles
+        </Button>
+      </div>
       {disabledReason && (
-        <p>{disabledReason}</p>
+        <p className="font-bold mb-0">{disabledReason}</p>
       )}
-      <Button
-        onClick={createArtists}
-        disabled={disabled}
-      >
-        Connect Profiles
-      </Button>
     </div>
   )
 }
