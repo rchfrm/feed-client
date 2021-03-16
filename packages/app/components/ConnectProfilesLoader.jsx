@@ -185,7 +185,7 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
         errors={errors}
         setErrors={setErrors}
         isFindMore
-        className="max-w-3xl pt-16"
+        className="max-w-3xl pt-14"
       />
 
     </div>

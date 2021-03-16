@@ -52,9 +52,7 @@ const ConnectProfilesConnectButton = ({
           Connect Selected Profiles
         </Button>
       </div>
-      {disabledReason && (
-        <p className="font-bold mb-0">{disabledReason}</p>
-      )}
+      <p className={`font-bold mb-0 ${disabledReason ? 'opacity-100' : 'opacity-0'}`}>{disabledReason || '&nbsp;'}</p>
     </div>
   )
 }
