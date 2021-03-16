@@ -16,6 +16,7 @@ import ConnectProfilesConnectButton from '@/app/ConnectProfilesConnectButton'
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
+import { sortArrayByKey } from '@/helpers/utils'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import copy from '@/app/copy/connectProfilesCopy'
 
@@ -65,7 +66,6 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}
   const [artistAccounts, setArtistAccounts] = useImmerReducer(artistsReducer, initialArtistAccountsState)
-  console.log('artistAccounts', artistAccounts)
 
   // Function to UPDATE ARTIST STATE
   const updateArtists = React.useCallback((actionType, payload) => {
@@ -85,7 +85,7 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
     if (!accessToken) return toggleGlobalLoading(false)
     // START FETCHING ARTISTS
     setPageLoading(true)
-    const { res: availableArtists, error } = await artistHelpers.getArtistOnSignUp(accessToken)
+    const { res: artistsAndAccounts, error } = await artistHelpers.getArtistOnSignUp(accessToken)
     if (error) {
       if (!isMounted) return
       setErrors([error])
@@ -93,18 +93,26 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
       toggleGlobalLoading(false)
       return
     }
-    const { adaccounts } = availableArtists
-    // Sort ad accounts alphabetically
-    const availableArtistsSorted = {
-      ...availableArtists,
-      adAccounts: artistHelpers.sortArtistsAlphabetically(adaccounts),
+    const { accounts: artists, adaccounts: adAccounts } = artistsAndAccounts
+    // Error if no artist accounts
+    if (Object.keys(artists).length === 0) {
+      setErrors([...errors, { message: 'No accounts were found' }])
+      setPageLoading(false)
+      toggleGlobalLoading(false)
+      // Track
+      fireSentryError({
+        category: 'sign up',
+        action: 'No Facebook Pages were found after running artistHelpers.getArtistOnSignUp()',
+      })
     }
-    // Process the ad accounts
-    const { accounts, adAccounts } = availableArtistsSorted
-    const processedArtists = await artistHelpers.addAdAccountsToArtists({ accounts, adAccounts })
+    // Sort ad accounts
+    // Error if no artist accounts
+    const adAccountsSorted = sortArrayByKey(adAccounts, 'name')
+    // Add ad accounts to artists
+    const processedArtists = await artistHelpers.addAdAccountsToArtists({ artists, adAccounts: adAccountsSorted })
     if (!isMounted) return
     // Error if no ad accounts
-    if (!adaccounts.length) {
+    if (!adAccounts.length) {
       setErrors([...errors, { message: copy.noAdAccountsError }])
       setPageLoading(false)
       toggleGlobalLoading(false)
@@ -115,19 +123,6 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
       })
       return
     }
-
-    // Error if no artist accounts
-    if (Object.keys(accounts).length === 0) {
-      setErrors([...errors, { message: 'No accounts were found' }])
-      setPageLoading(false)
-      toggleGlobalLoading(false)
-      // Track
-      fireSentryError({
-        category: 'sign up',
-        action: 'No Facebook Pages were found after running artistHelpers.getArtistOnSignUp()',
-      })
-    }
-
     setArtistAccounts({
       type: 'add-artists',
       payload: {

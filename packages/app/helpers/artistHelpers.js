@@ -134,17 +134,16 @@ export const sortArtistsAlphabetically = (artists) => {
   })
 }
 
-export const addAdAccountsToArtists = async ({ accounts, adAccounts }) => {
-  const accountsArray = Object.values(accounts)
-  const processAccountsPromise = accountsArray.map(async (account) => {
+export const addAdAccountsToArtists = async ({ artists, adAccounts }) => {
+  const artistsProcessed = Object.values(artists).map((artist) => {
     const {
       instagram_username,
       picture,
       page_id,
       page_token,
-    } = account
+    } = artist
     // Sort the add accounts so that the last used ad for this artists account is placed first
-    const sortedAdAccounts = sortAdAccounts(account, adAccounts)
+    const sortedAdAccounts = sortAdAccounts(artist, adAccounts)
     const selectedAdAccount = sortedAdAccounts[0]
     // Get the FB page url
     const facebookPageUrl = `https://www.facebook.com/${page_token || page_id}`
@@ -152,7 +151,7 @@ export const addAdAccountsToArtists = async ({ accounts, adAccounts }) => {
     const instaPageUrl = instagram_username ? `https://www.instagram.com/${instagram_username}/` : ''
     // Return processed account
     return {
-      ...account,
+      ...artist,
       available_facebook_ad_accounts: sortedAdAccounts,
       selected_facebook_ad_account: selectedAdAccount,
       facebook_page_url: facebookPageUrl,
@@ -162,10 +161,8 @@ export const addAdAccountsToArtists = async ({ accounts, adAccounts }) => {
     }
   })
 
-  const accountsProcessed = await Promise.all(processAccountsPromise)
-
   // Convert array of accounts back into and object with IDs as keys
-  const keyedAccounts = accountsProcessed.reduce((accountObj, account) => {
+  const keyedAccounts = artistsProcessed.reduce((accountObj, account) => {
     const { page_id } = account
     return {
       ...accountObj,
