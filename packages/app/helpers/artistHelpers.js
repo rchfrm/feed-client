@@ -81,19 +81,15 @@ export const getArtist = async (artistId, accessToken) => {
 
 
 /**
- * Create array of artist accounts, sorted alphabetically
+ * Create sorted array of artist accounts
+ * First show accounts that don't already exists, then sort name alphabetically
  * @param {object} artistAccounts
  * @returns {array}
  */
 export const getSortedArtistAccountsArray = (artistAccounts) => {
-  const accountsArray = Object.values(artistAccounts)
-  // Return sorted array
-  const sortedArray = accountsArray.sort((a, b) => {
-    if (a.name < b.name) return -1
-    if (a.name > b.name) return 1
-    return 0
+  return Object.values(artistAccounts).sort((a, b) => {
+    return ((a.exists === b.exists) ? 0 : a.exists ? 1 : -1) || a.name.localeCompare(b.name)
   })
-  return sortedArray
 }
 
 /**

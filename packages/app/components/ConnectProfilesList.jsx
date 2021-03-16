@@ -3,16 +3,6 @@ import React from 'react'
 import ConnectProfilesCard from '@/app/ConnectProfilesCard'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
-// IMPORT STYLES
-import ConnectProfilesStyles from '@/app/ConnectProfiles.module.css'
-import postStyles from '@/app/PostsPage.module.css'
-
-const styles = {
-  ...ConnectProfilesStyles,
-  ...postStyles,
-}
-
-
 function ConnectProfilesList({
   artistAccounts,
   updateArtists,
@@ -20,14 +10,6 @@ function ConnectProfilesList({
   setDisabledReason,
   setErrors,
 }) {
-  // SHOW ERROR IF THE USER ATTEMPTS TO EDIT FACEBOOK PAGE OR INSTAGRAM ACCOUNT
-  const contactUs = e => {
-    setErrors([{
-      message: 'To change your connected Facebook Page or Instagram Account, contact us at support@archform.ltd',
-    }])
-    e.preventDefault()
-  }
-
   // Toggled button disabled based on country select OR no accounts selected
   React.useEffect(() => {
     const allAccounts = Object.values(artistAccounts)
@@ -53,19 +35,6 @@ function ConnectProfilesList({
     return artistHelpers.getSortedArtistAccountsArray(artistAccounts)
   }, [artistAccounts])
 
-  const artistList = artistAccountsArray.map((artistAccount) => {
-    return (
-      <ConnectProfilesCard
-        key={artistAccount.page_id}
-        artistAccount={artistAccount}
-        updateArtists={updateArtists}
-        setErrors={setErrors}
-        singular={artistAccounts.length === 1}
-        contactUs={contactUs}
-      />
-    )
-  })
-
   return (
     <ul
       id="artist-integrations"
@@ -76,10 +45,19 @@ function ConnectProfilesList({
         'col-gap-0',
         'xs:col-gap-6',
         'sm:col-gap-8',
-        styles.artistIntegrations,
       ].join(' ')}
     >
-      {artistList}
+      {artistAccountsArray.map((artistAccount) => {
+        return (
+          <ConnectProfilesCard
+            key={artistAccount.page_id}
+            artist={artistAccount}
+            updateArtists={updateArtists}
+            setErrors={setErrors}
+            className="col-span-3"
+          />
+        )
+      })}
     </ul>
   )
 }
