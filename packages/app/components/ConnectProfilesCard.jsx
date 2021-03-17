@@ -52,8 +52,7 @@ const ConnectProfilesCard = ({
   }, [artist])
 
   // HANDLE CONNECT BUTTON
-  const ConnectButtonElType = !exists ? 'button' : 'div'
-  const onConnectClick = exists ? () => {} : () => {
+  const onConnectClick = () => {
     const payload = { id: artistId }
     updateArtists('toggle-connect', payload)
   }
@@ -61,8 +60,9 @@ const ConnectProfilesCard = ({
   return (
     <li
       className={[
-        exists ? 'bg-grey-1' : 'border-solid border-black border-2',
-        'rounded-dialogue p-4',
+        'border-solid border-2',
+        exists ? 'border-black' : 'border-black',
+        'rounded-dialogue p-4 pb-5',
         className,
       ].join(' ')}
     >
@@ -89,26 +89,26 @@ const ConnectProfilesCard = ({
         className="mb-5"
       />
       {/* CONNECT BUTTON */}
-      <ConnectButtonElType
-        className={[
-          'flex items-center justify-between w-full',
-          'h-14 rounded-button px-3',
-          connect && !exists ? 'bg-green' : 'bg-grey-1',
-          exists ? 'bg-grey-2' : null,
-        ].join(' ')}
-        aria-label="Connect profile"
-        onClick={onConnectClick}
-      >
-        <p className="mb-0 font-bold">{exists ? 'Already connected' : 'Connect'}</p>
-        {!exists && (
+      <div>
+        <p className="inputLabel__text">Connect to Feed</p>
+        <button
+          className={[
+            'flex items-center justify-between w-full',
+            'h-14 rounded-button px-3',
+            connect ? 'bg-green' : 'bg-grey-1',
+          ].join(' ')}
+          aria-label="Connect profile"
+          onClick={onConnectClick}
+        >
+          <p className="mb-0 font-bold">Connect</p>
           <div className="flex bg-white rounded-button w-5 h-5 p-1">
             <TickIcon
               className={`w-full h-auto ${connect ? 'visible' : 'hidden'}`}
               fill={brandColors.green}
             />
           </div>
-        )}
-      </ConnectButtonElType>
+        </button>
+      </div>
     </li>
   )
 }
