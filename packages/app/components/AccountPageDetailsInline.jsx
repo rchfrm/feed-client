@@ -9,9 +9,9 @@ import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
 
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
+import AccountPageDetailsEmail from '@/app/AccountPageDetailsEmail'
 
 import Input from '@/elements/Input'
-import CheckboxInput from '@/elements/CheckboxInput'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
@@ -32,7 +32,10 @@ function AccountPageDetailsInline({ user }) {
     last_name: initialLastName,
     email: initialEmail,
     pending_email: pendingEmail,
+    email_verified: emailVerified,
     contact_email: initialContactEmail,
+    pending_contact_email: pendingContactEmail,
+    contact_email_verified: contactEmailVerified,
   } = user
 
   const [firstName, setFirstName] = React.useState('')
@@ -49,7 +52,7 @@ function AccountPageDetailsInline({ user }) {
     // Stop here if not using email auth
     if (!hasEmailAuth) return
     // Check whether user has custom email set
-    const usingContactEmail = initialContactEmail && initialContactEmail !== initialEmail
+    const usingContactEmail = !!(initialContactEmail && initialContactEmail !== initialEmail)
     setUseCustomContactEmail(usingContactEmail)
   // eslint-disable-next-line
   }, [])
@@ -218,45 +221,15 @@ function AccountPageDetailsInline({ user }) {
           disabled={loading}
         />
 
-        <Input
-          name="email"
-          label={hasEmailAuth ? 'Email' : 'Contact Email'}
-          tooltipMessage={!hasEmailAuth ? 'This is where you will receive important notifications from Feed.' : ''}
-          placeholder=""
-          value={email}
+        <AccountPageDetailsEmail
+          email={email}
+          contactEmail={contactEmail}
+          hasEmailAuth={hasEmailAuth}
+          useCustomContactEmail={useCustomContactEmail}
+          setUseCustomContactEmail={setUseCustomContactEmail}
           handleChange={handleChange}
-          type="email"
-          required
-          disabled={loading}
+          loading={loading}
         />
-
-        {/* CONTACT EMAIL */}
-        {hasEmailAuth && (
-          <>
-            {/* CHOOSE SAME EMAIL */}
-            <CheckboxInput
-              label="Contact email"
-              buttonLabel="Use my account email"
-              value="Y"
-              tooltipMessage="This is where you will receive important notifications from Feed."
-              checked={!useCustomContactEmail}
-              required
-              disabled={loading}
-              onChange={() => {
-                setUseCustomContactEmail(!useCustomContactEmail)
-              }}
-            />
-            {/* CONTACT EMAIL INPUT */}
-            <Input
-              name="contactEmail"
-              placeholder=""
-              value={useCustomContactEmail ? contactEmail : email}
-              handleChange={handleChange}
-              type="email"
-              disabled={loading || !useCustomContactEmail}
-            />
-          </>
-        )}
 
         {/* PASSWORD */}
         {hasEmailAuth && (
