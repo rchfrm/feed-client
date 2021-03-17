@@ -22,6 +22,12 @@ const AccountPageDetailsEmail = ({
     pending_contact_email: pendingContactEmail,
     contact_email_verified: contactEmailVerified,
   } = user
+
+  console.log('pendingEmail', pendingEmail)
+  console.log('emailVerified', emailVerified)
+  console.log('pendingContactEmail', pendingContactEmail)
+  console.log('contactEmailVerified', contactEmailVerified)
+
   return (
     <>
       <Input
@@ -35,6 +41,9 @@ const AccountPageDetailsEmail = ({
         required
         disabled={loading}
       />
+      {!emailVerified && (
+        <p className="text-sm font-bold text-red -mt-5">Waiting to verify, check your email.</p>
+      )}
       {/* CONTACT EMAIL */}
       {hasEmailAuth && (
         <>
