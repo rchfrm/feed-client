@@ -14,6 +14,7 @@ import Error from '@/elements/Error'
 import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectButton from '@/app/ConnectProfilesConnectButton'
+import ConnectProfilesNoArtists from '@/app/ConnectProfilesNoArtists'
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
@@ -53,6 +54,7 @@ const ConnectProfilesLoader = ({
 
   // DEFINE LOADING
   const [pageLoading, setPageLoading] = React.useState(false)
+  const [fetchedArtistsFinished, setFetchedArtistsFinished] = React.useState(true)
 
   // DEFINE BUTTON STATE (disabled if required fields are absent)
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
@@ -92,6 +94,7 @@ const ConnectProfilesLoader = ({
     if (!accessToken) return toggleGlobalLoading(false)
     // START FETCHING ARTISTS
     setPageLoading(true)
+    setFetchedArtistsFinished(false)
     const { res: artistsAndAccounts, error } = await artistHelpers.getArtistOnSignUp(accessToken)
     if (error) {
       if (!isMounted()) return
@@ -100,6 +103,7 @@ const ConnectProfilesLoader = ({
       toggleGlobalLoading(false)
       return
     }
+    setFetchedArtistsFinished(true)
     const { accounts: artists, adaccounts: adAccounts } = artistsAndAccounts
     // Error if no artist accounts
     if (Object.keys(artists).length === 0) {
@@ -154,6 +158,9 @@ const ConnectProfilesLoader = ({
   if (Object.keys(artistAccounts).length === 0) {
     return (
       <div className={className}>
+        {fetchedArtistsFinished && (
+          <ConnectProfilesNoArtists className="max-w-xl mb-6" />
+        )}
         <ConnectProfilesFacebook
           auth={auth}
           errors={errors}
