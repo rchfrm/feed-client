@@ -103,19 +103,6 @@ function AccountPageDetailsInline({ user }) {
     setLoading(true)
     // Update password
     const passwordUpdatePromise = passwordChanged ? firebaseHelpers.doPasswordUpdate(passwordOne) : null
-    // Update email in firebase (if using email auth)
-    const emailChangedRes = emailChanged && hasEmailAuth ? await firebaseHelpers.doEmailUpdate(email) : null
-    // Handle error in changing email
-    if (emailChangedRes && emailChangedRes.error) {
-      setErrors([emailChangedRes.error])
-      setLoading(false)
-      scrollTo({ offset: 0 })
-      return
-    }
-    // TRACK
-    if (emailChanged) {
-      track('update_account_email')
-    }
     if (passwordChanged) {
       track('update_account_password')
     }
@@ -143,6 +130,10 @@ function AccountPageDetailsInline({ user }) {
     }
     if (accountChangedError) {
       setErrors([...errors, accountChangedError])
+    }
+    // TRACK
+    if (emailChanged) {
+      track('update_account_email')
     }
   }
 
