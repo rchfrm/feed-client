@@ -10,6 +10,7 @@ import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
+import Spinner from '@/elements/Spinner'
 
 import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
@@ -152,21 +153,21 @@ const ConnectProfilesLoader = ({
     setErrors([authError])
   }, [authError])
 
-  if (pageLoading) return null
+  if (pageLoading) return <Spinner />
 
   // If no artists accounts, show FB BUTTON
   if (Object.keys(artistAccounts).length === 0) {
     return (
       <div className={className}>
-        {fetchedArtistsFinished && (
-          <ConnectProfilesNoArtists className="max-w-xl mb-6" />
-        )}
         <ConnectProfilesFacebook
           auth={auth}
           errors={errors}
           setErrors={setErrors}
           isSignupStep={isSignupStep}
         />
+        {fetchedArtistsFinished && (
+          <ConnectProfilesNoArtists className="max-w-xl mb-2 mt-6" />
+        )}
       </div>
     )
   }
