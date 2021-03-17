@@ -6,6 +6,7 @@ import useAsyncEffect from 'use-async-effect'
 
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
+import { UserContext } from '@/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
@@ -43,6 +44,7 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
   // IMPORT CONTEXTS
   const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  const { user, userLoading } = React.useContext(UserContext)
   // Get any missing scopes
   const { missingScopes } = auth
 
@@ -78,6 +80,8 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
+    // Stop here if user is loading
+    if (userLoading) return
     // If missing scopes, we need to show the connect button
     if (missingScopes.length) return toggleGlobalLoading(false)
     // If no access token, then there will be no way to talk to facebook
@@ -87,13 +91,14 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
     setPageLoading(true)
     const { res: artistsAndAccounts, error } = await artistHelpers.getArtistOnSignUp(accessToken)
     if (error) {
-      if (!isMounted) return
+      if (!isMounted()) return
       setErrors([error])
       setPageLoading(false)
       toggleGlobalLoading(false)
       return
     }
     const { accounts: artists, adaccounts: adAccounts } = artistsAndAccounts
+    console.log('artists', artists)
     // Error if no artist accounts
     if (Object.keys(artists).length === 0) {
       setErrors([...errors, { message: 'No accounts were found' }])
@@ -105,12 +110,14 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
         action: 'No Facebook Pages were found after running artistHelpers.getArtistOnSignUp()',
       })
     }
+    // Remove profiles that have already been connected
+    const userArtists = user?.artists || []
+    const artistsFiltered = !user.artists.length ? artists : artistHelpers.removeAlreadyConnectedArtists(artists, userArtists)
     // Sort ad accounts
-    // Error if no artist accounts
     const adAccountsSorted = sortArrayByKey(adAccounts, 'name')
     // Add ad accounts to artists
-    const processedArtists = await artistHelpers.addAdAccountsToArtists({ artists, adAccounts: adAccountsSorted })
-    if (!isMounted) return
+    const processedArtists = await artistHelpers.addAdAccountsToArtists({ artists: artistsFiltered, adAccounts: adAccountsSorted })
+    if (!isMounted()) return
     // Error if no ad accounts
     if (!adAccounts.length) {
       setErrors([...errors, { message: copy.noAdAccountsError }])
@@ -131,7 +138,7 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
     })
     setPageLoading(false)
     toggleGlobalLoading(false)
-  }, [])
+  }, [userLoading])
 
 
   // Set initial error (if any)

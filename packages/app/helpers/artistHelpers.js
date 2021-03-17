@@ -130,6 +130,19 @@ export const sortArtistsAlphabetically = (artists) => {
   })
 }
 
+/**
+ * @param {object} newArtists
+ * @param {array} userArtists
+ * @returns {object}
+ */
+export const removeAlreadyConnectedArtists = (newArtists, userArtists) => {
+  return produce(newArtists, draftState => {
+    userArtists.forEach(({ facebook_page_id }) => {
+      delete draftState[facebook_page_id]
+    })
+  })
+}
+
 export const addAdAccountsToArtists = async ({ artists, adAccounts }) => {
   const artistsProcessed = Object.values(artists).map((artist) => {
     const {
