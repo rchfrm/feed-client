@@ -31,25 +31,26 @@ function AccountPageDetailsInline({ user }) {
     first_name: initialFirstName,
     last_name: initialLastName,
     email: initialEmail,
-    contact_email: initialEmailContact,
+    pending_email: pendingEmail,
+    contact_email: initialContactEmail,
   } = user
 
   const [firstName, setFirstName] = React.useState('')
   const [lastName, setLastName] = React.useState('')
   const [email, setEmail] = React.useState('')
-  const [emailContact, setEmailContact] = React.useState('')
+  const [contactEmail, setContactEmail] = React.useState('')
   const [passwordOne, setPasswordOne] = React.useState('')
   const [passwordTwo, setPasswordTwo] = React.useState('')
   const [formDisabled, setFormDisabled] = React.useState(false)
 
   // HANDLE CONTACT EMAIL
-  const [useCustomEmailContact, setUseCustomEmailContact] = React.useState(false)
+  const [useCustomContactEmail, setUseCustomContactEmail] = React.useState(false)
   React.useEffect(() => {
     // Stop here if not using email auth
     if (!hasEmailAuth) return
     // Check whether user has custom email set
-    const usingContactEmail = initialEmailContact && initialEmailContact !== initialEmail
-    setUseCustomEmailContact(usingContactEmail)
+    const usingContactEmail = initialContactEmail && initialContactEmail !== initialEmail
+    setUseCustomContactEmail(usingContactEmail)
   // eslint-disable-next-line
   }, [])
 
@@ -66,7 +67,7 @@ function AccountPageDetailsInline({ user }) {
     // Stop here if form is disabled
     if (formDisabled) return
     const passwordChanged = passwordOne || passwordTwo
-    const emailChanged = (email !== initialEmail) || (emailContact !== initialEmailContact)
+    const emailChanged = (email !== initialEmail) || (contactEmail !== initialContactEmail)
     const accountDetailsChanged = (initialFirstName !== firstName) || (initialLastName !== lastName) || emailChanged
 
     // No name
@@ -80,7 +81,7 @@ function AccountPageDetailsInline({ user }) {
     }
 
     // No custom email
-    if (useCustomEmailContact && !emailContact) {
+    if (useCustomContactEmail && !contactEmail) {
       newErrors.push({ message: 'Please provide a contact email or choose to use your account email.' })
     }
 
@@ -119,7 +120,7 @@ function AccountPageDetailsInline({ user }) {
       track('update_account_password')
     }
     // Update user
-    const newContactEmail = !useCustomEmailContact || !emailContact ? null : emailContact
+    const newContactEmail = !useCustomContactEmail || !contactEmail ? null : contactEmail
     const userUpdatePromise = accountDetailsChanged ? server.patchUser({ firstName, lastName, email, contactEmail: newContactEmail }) : null
     // When all is done...
     const [{ res: accountChangedRes, error: accountChangedError }, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
@@ -150,8 +151,8 @@ function AccountPageDetailsInline({ user }) {
     setFirstName(initialFirstName)
     setLastName(initialLastName)
     setEmail(initialEmail || '')
-    setEmailContact(initialEmailContact || '')
-  }, [initialFirstName, initialLastName, initialEmail, initialEmailContact])
+    setContactEmail(initialContactEmail || '')
+  }, [initialFirstName, initialLastName, initialEmail, initialContactEmail])
 
   // Handle Changes in the form
   const formUpdated = React.useRef(false)
@@ -161,7 +162,7 @@ function AccountPageDetailsInline({ user }) {
     if (name === 'firstName') return setFirstName(value)
     if (name === 'lastName') return setLastName(value)
     if (name === 'email') return setEmail(value)
-    if (name === 'emailContact') return setEmailContact(value)
+    if (name === 'contactEmail') return setContactEmail(value)
     if (name === 'passwordOne') return setPasswordOne(value)
     if (name === 'passwordTwo') return setPasswordTwo(value)
   }
@@ -181,7 +182,7 @@ function AccountPageDetailsInline({ user }) {
       return
     }
     setFormDisabled(false)
-  }, [firstName, lastName, email, emailContact, passwordOne, passwordTwo])
+  }, [firstName, lastName, email, contactEmail, passwordOne, passwordTwo])
 
 
   return (
@@ -247,25 +248,26 @@ function AccountPageDetailsInline({ user }) {
               buttonLabel="Use my account email"
               value="Y"
               tooltipMessage="This is where you will receive important notifications from Feed."
-              checked={!useCustomEmailContact}
+              checked={!useCustomContactEmail}
               required
               disabled={loading}
               onChange={() => {
-                setUseCustomEmailContact(!useCustomEmailContact)
+                setUseCustomContactEmail(!useCustomContactEmail)
               }}
             />
             {/* CONTACT EMAIL INPUT */}
             <Input
-              name="emailContact"
+              name="contactEmail"
               placeholder=""
-              value={useCustomEmailContact ? emailContact : email}
+              value={useCustomContactEmail ? contactEmail : email}
               handleChange={handleChange}
               type="email"
-              disabled={loading || !useCustomEmailContact}
+              disabled={loading || !useCustomContactEmail}
             />
           </>
         )}
 
+        {/* PASSWORD */}
         {hasEmailAuth && (
           <>
             <Input
