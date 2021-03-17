@@ -34,7 +34,6 @@ const ConnectProfilesCard = ({
   updateArtists,
   className,
 }) => {
-  // console.log('artist', artist)
   const {
     page_id: artistId,
     exists,

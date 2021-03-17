@@ -9,7 +9,6 @@ const ConnectProfilesAlreadyConnected = ({ className }) => {
   const { user, userLoading } = React.useContext(UserContext)
   if (userLoading) return null
   const { artists: connectedArtists } = user
-  console.log('connectedArtists', connectedArtists)
   return (
     <div
       className={[

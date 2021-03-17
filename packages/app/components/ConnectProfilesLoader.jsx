@@ -101,7 +101,6 @@ const ConnectProfilesLoader = ({
       return
     }
     const { accounts: artists, adaccounts: adAccounts } = artistsAndAccounts
-    console.log('artists', artists)
     // Error if no artist accounts
     if (Object.keys(artists).length === 0) {
       setErrors([...errors, { message: 'No accounts were found' }])
