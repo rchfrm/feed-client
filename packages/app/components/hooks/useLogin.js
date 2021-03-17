@@ -95,7 +95,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       // TRACK LOGIN
       trackLogin({ authProvider: 'facebook', userId: user.id })
       setNoArtist()
-      const userRedirected = signupHelpers.redirectPage(ROUTES.SIGN_UP_CONTINUE, initialPathname)
+      const userRedirected = signupHelpers.redirectPage(ROUTES.SIGN_UP_CONNECT_PROFILES, initialPathname)
       return userRedirected
     }
     // If they do have artists, check for artist ID from query string parameter

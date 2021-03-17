@@ -9,7 +9,7 @@ const useLoggedInTest = () => {
   const { auth } = React.useContext(AuthContext)
   const { user } = React.useContext(UserContext)
   const loggedIn = React.useMemo(() => {
-    return auth.token && user.id
+    return !!(auth.token && user.id)
   }, [auth.token, user])
 
   return loggedIn

@@ -3,6 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import TickIcon from '@/icons/TickIcon'
+import MarkdownText from '@/elements/MarkdownText'
 
 import brandColors from '@/constants/brandColors'
 
@@ -15,7 +16,12 @@ const Success = ({ message, messagePrefix, className }) => {
       <span className="success-message_icon">
         <TickIcon fill={brandColors.successColor} />
       </span>
-      {fullMessage}
+      <MarkdownText
+        markdown={fullMessage}
+        disallowedTypes={['paragraph']}
+        unwrapDisallowed
+        skipTextBlock
+      />
     </p>
   )
 }
