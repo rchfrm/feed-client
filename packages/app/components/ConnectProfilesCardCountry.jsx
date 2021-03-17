@@ -20,8 +20,8 @@ const ConnectProfilesCardCountry = ({
   className,
 }) => {
   // READONLY
-  if (artist.exists) {
-    const { country_code } = artist
+  const { country_code, exists, connect } = artist
+  if (exists) {
     const { name: countryName } = countriesArr.find(({ value }) => value === country_code)
     return (
       <ConnectProfilesCardSelectPlaceholder
@@ -40,7 +40,7 @@ const ConnectProfilesCardCountry = ({
       placeholder="Select country"
       options={countriesArr}
       required
-      highlight
+      highlight={connect}
       className={className}
     />
   )
