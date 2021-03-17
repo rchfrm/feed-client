@@ -176,24 +176,28 @@ function ArtistProvider({ children, disable }) {
     return { artist }
   }, [disable, setArtist, toggleGlobalLoading])
 
+  /**
+   * @param {array} artistAccounts
+   * @param {string} accessToken
+   * @param {object} oldUser
+   * @returns {Promise<any>}
+  */
   const connectArtists = React.useCallback(async (artistAccounts, accessToken, oldUser) => {
     setArtistLoading(true)
     toggleGlobalLoading(true)
     // Get array of current user artist Facebook page IDs
     const alreadyConnectFacebookPages = oldUser.artists.map(({ facebook_page_id }) => facebook_page_id)
-    // Convert artist accounts to array
-    const artistAccountsArray = Object.values(artistAccounts)
     // Filter out non-connected artist accounts
-    const newArtistAccounts = artistAccountsArray.filter(({ page_id: facebookPageId }) => {
+    const unconnectedArtistAccounts = artistAccounts.filter(({ page_id: facebookPageId }) => {
       return !alreadyConnectFacebookPages.includes(facebookPageId)
     })
     // * STOP HERE if there are no new artist accounts
-    if (!newArtistAccounts.length) {
+    if (!unconnectedArtistAccounts.length) {
       setArtistLoading(false)
       return
     }
     // Create all artists
-    const createAllArtists = newArtistAccounts.map(async (artist) => {
+    const createAllArtists = unconnectedArtistAccounts.map(async (artist) => {
       return artistHelpers.createArtist(artist, accessToken)
     })
     // Wait to connect all artists

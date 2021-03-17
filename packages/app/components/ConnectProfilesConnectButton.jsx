@@ -25,13 +25,15 @@ const ConnectProfilesConnectButton = ({
   const { connectArtists } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
-  const createArtists = React.useCallback(async () => {
+  const runCreateArtists = React.useCallback(async () => {
     toggleGlobalLoading(true)
+    // Convert artist accounts to array, and remove the ones we don't want to connect
+    const artistAccountsFiltered = Object.values(artistAccounts).filter(({ connect }) => connect)
     // Santise URLs
-    const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistAccounts)
+    const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistAccountsFiltered)
     const { error } = await connectArtists(artistAccountsSanitised, accessToken, user) || {}
-    toggleGlobalLoading(false)
     if (error) {
+      toggleGlobalLoading(false)
       setErrors(errors => [...errors, error])
       return
     }
@@ -46,7 +48,7 @@ const ConnectProfilesConnectButton = ({
     >
       <div className="mb-4">
         <Button
-          onClick={createArtists}
+          onClick={runCreateArtists}
           disabled={disabled}
         >
           Connect Selected Profiles

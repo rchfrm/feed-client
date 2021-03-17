@@ -168,13 +168,13 @@ export const addAdAccountsToArtists = async ({ artists, adAccounts }) => {
  * Receives object of keyed artist accounts by ID
  * Converts empty strings to null
  * Returns newly formed artist account
- * @param {object} artistAccounts
+ * @param {array} artistAccounts
  * @returns {object}
  */
 export const sanitiseArtistAccountUrls = (artistAccounts) => {
-  return produce(artistAccounts, draft => {
+  return produce(artistAccounts, draftState => {
     // Loop over artists
-    Object.values(draft).forEach((artist) => {
+    draftState.forEach((artist) => {
       // Loop over artist props
       Object.entries(artist).forEach(([key, value]) => {
         if (value === '') {
@@ -182,7 +182,7 @@ export const sanitiseArtistAccountUrls = (artistAccounts) => {
         }
       })
     })
-    return draft
+    return draftState
   })
 }
 

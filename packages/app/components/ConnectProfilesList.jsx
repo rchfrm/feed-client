@@ -23,7 +23,7 @@ const ConnectProfilesList = ({
       return country_code || !connect
     })
     // Find all accounts that don't yet exist but are selected to connect
-    const selectedAccounts = allAccounts.filter(({ connect, exists }) => connect && !exists)
+    const selectedAccounts = allAccounts.filter(({ connect }) => connect)
     // Disable button if country is not set, or no selected, non-existing accounts
     const disableButton = !allCountriesSet || (!selectedAccounts.length && !everyAccountExists)
     setButtonDisabled(disableButton)
