@@ -66,7 +66,7 @@ const TheSubNavArtists = ({ className }) => {
   }, [artistsWithNotifications, artistId])
 
   const sortedArtists = React.useMemo(() => {
-    return artistHelpers.sortArtistsAlphabetically([...allArtists])
+    return artistHelpers.sortArtistsAlphabetically(allArtists)
   // eslint-disable-next-line
   }, [user])
 
@@ -93,19 +93,11 @@ const TheSubNavArtists = ({ className }) => {
     )
   }
 
-  // Move active artist to top
-  const resortedArtists = sortedArtists.sort((a, b) => {
-    // Put active on top
-    if (a.id === artistId) return -1
-    if (b.id === artistId) return 1
-    return 0
-  })
-
   // Else show more explicit selector
   return (
     <div className={[styles.artistsOuter, className].join(' ')}>
       <ul className={[styles.artistLinks, 'h4--text'].join(' ')}>
-        {resortedArtists.map(({ id, name, facebook_page_id }) => {
+        {sortedArtists.map(({ id, name, facebook_page_id }) => {
           const activeClass = id === artistId ? styles._active : ''
           const hasNotification = otherArtistNotifications.includes(id)
           return (

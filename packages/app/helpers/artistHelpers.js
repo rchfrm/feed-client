@@ -109,25 +109,7 @@ export const getArtistOnSignUp = async (facebookAccessToken) => {
 
 
 export const sortArtistsAlphabetically = (artists) => {
-  // Convert object to array
-  const artistArr = Array.isArray(artists) ? artists : Object.values(artists)
-  // Return here if empty or only one entry
-  if (artistArr.length <= 1) {
-    return artistArr
-  }
-
-  return artistArr.sort((a, b) => {
-    const lowerA = a.name.toLowerCase()
-    const lowerB = b.name.toLowerCase()
-    if (lowerA === lowerB) {
-      return 0
-    }
-    const array = [lowerA, lowerB].sort()
-    if (array[0] === lowerA) {
-      return -1
-    }
-    return 1
-  })
+  return utils.sortArrayByKey(artists, 'name')
 }
 
 /**
