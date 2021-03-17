@@ -40,7 +40,10 @@ const artistsReducer = (draftState, action) => {
   }
 }
 
-const ConnectProfilesLoader = ({ isSignupStep }) => {
+const ConnectProfilesLoader = ({
+  isSignupStep,
+  className,
+}) => {
   // IMPORT CONTEXTS
   const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -151,17 +154,19 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
   // If no artists accounts, show FB BUTTON
   if (Object.keys(artistAccounts).length === 0) {
     return (
-      <ConnectProfilesFacebook
-        auth={auth}
-        errors={errors}
-        setErrors={setErrors}
-        isSignupStep={isSignupStep}
-      />
+      <div className={className}>
+        <ConnectProfilesFacebook
+          auth={auth}
+          errors={errors}
+          setErrors={setErrors}
+          isSignupStep={isSignupStep}
+        />
+      </div>
     )
   }
 
   return (
-    <div>
+    <div className={className}>
       {/* ERRORS */}
       {errors.map((error, index) => {
         return <Error error={error} key={index} />
@@ -201,10 +206,12 @@ const ConnectProfilesLoader = ({ isSignupStep }) => {
 
 ConnectProfilesLoader.propTypes = {
   isSignupStep: PropTypes.bool,
+  className: PropTypes.string,
 }
 
 ConnectProfilesLoader.defaultProps = {
   isSignupStep: false,
+  className: null,
 }
 
 export default ConnectProfilesLoader

@@ -1,5 +1,7 @@
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
+
+import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
 import ConnectProfilesLoader from '@/app/ConnectProfilesLoader'
 
 const headerConfig = {
@@ -10,7 +12,8 @@ const Page = () => (
   <BasePage
     headerConfig={headerConfig}
   >
-    <ConnectProfilesLoader />
+    <ConnectProfilesLoader className="mb-8" />
+    <ConnectProfilesAlreadyConnected />
   </BasePage>
 )
 
