@@ -1,10 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Select from '@/elements/Select'
 import TickIcon from '@/icons/TickIcon'
 
+import ConnectProfilesCardCountry from '@/app/ConnectProfilesCardCountry'
+import ConnectProfilesCardAdAccount from '@/app/ConnectProfilesCardAdAccount'
+
 import brandColors from '@/constants/brandColors'
+
+const getUpdateArtistPayload = (e) => {
+  const { target, target: { name: field, value } } = e
+  const { selectedIndex, options } = target
+  // Country code placeholder
+  if (field === 'country_code' && value.indexOf('Choose') !== -1) {
+    return undefined
+  }
+  // Ad account
+  if (field === 'selected_facebook_ad_account') {
+    // const { selectedIndex, options } = target
+    const { text: adAccountName } = options[selectedIndex]
+    const adAccountId = value
+    return {
+      id: adAccountId,
+      name: adAccountName,
+    }
+  }
+  // DEFAULT
+  return value
+}
 
 const ConnectProfilesCard = ({
   artist,
@@ -15,30 +38,18 @@ const ConnectProfilesCard = ({
   const {
     page_id: artistId,
     exists,
-    available_facebook_ad_accounts: availableAdAccounts,
-    selected_facebook_ad_account: selectedAdAccount,
     connect,
   } = artist
 
-  // AD ACCOUNT SELECT OPTIONS
-  const adAccountOptions = availableAdAccounts.map(({ name, id: value }) => {
-    return { name, value }
-  })
-  // HANDLE ADD ACCOUNT SELECT
-  const onAdAccountSelect = React.useCallback((e) => {
-    const { value: adAccountId, selectedIndex } = e.target
-    const { name } = adAccountOptions[selectedIndex]
-    const payload = {
-      id: artistId,
-      field: 'selected_facebook_ad_account',
-      value: {
-        id: adAccountId,
-        name,
-      },
-    }
+  // HANDLE SELECT CHANGE
+  const onSelectChange = React.useCallback((e) => {
+    const { target: { name: field } } = e
+    const payloadValue = getUpdateArtistPayload(e)
+    // Update artists
+    const payload = { id: artistId, field, value: payloadValue }
     updateArtists('update-artist', payload)
   // eslint-disable-next-line
-  }, [])
+  }, [artist])
 
   // HANDLE CONNECT BUTTON
   const ConnectButtonElType = !exists ? 'button' : 'div'
@@ -66,24 +77,17 @@ const ConnectProfilesCard = ({
         />
       </div>
       {/* AD ACCOUNT */}
-      {/* Readonly if already exists */}
-      {exists ? (
-        <div className="mb-4">
-          <span className="inputLabel__text">Ad Account</span>
-          <div className="flex items-center h-14 px-3 bg-grey-2 rounded-button">
-            <span className="block w-full truncate">{selectedAdAccount.name}</span>
-          </div>
-        </div>
-      ) : (
-        <Select
-          name="selected_facebook_ad_account"
-          label="Select an ad account"
-          handleChange={onAdAccountSelect}
-          options={adAccountOptions}
-          selectedValue={selectedAdAccount.id}
-          className="mb-4"
-        />
-      )}
+      <ConnectProfilesCardAdAccount
+        artist={artist}
+        onChange={onSelectChange}
+        className="mb-5"
+      />
+      {/* COUNTRY SELECT */}
+      <ConnectProfilesCardCountry
+        artist={artist}
+        onChange={onSelectChange}
+        className="mb-5"
+      />
       {/* CONNECT BUTTON */}
       <ConnectButtonElType
         className={[
