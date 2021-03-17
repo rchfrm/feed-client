@@ -1,20 +1,18 @@
 import React from 'react'
 
 import BasePage from '@/app/BasePage'
-import SignupAddReferralCode from '@/app/SignupAddReferralCode'
+import ConfirmEmailPage from '@/app/ConfirmEmailPage'
 
 const headerConfig = {
-  text: 'sign up',
+  text: 'confirm email',
 }
 
 const Page = () => {
   return (
     <BasePage
       headerConfig={headerConfig}
-      staticPage
-      authPage
     >
-      <SignupAddReferralCode />
+      <ConfirmEmailPage isSignupFlow />
     </BasePage>
   )
 }

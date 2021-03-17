@@ -119,10 +119,10 @@ function AccountPageDetailsInline({ user }) {
       track('update_account_password')
     }
     // Update user
-    const newEmailContact = !useCustomEmailContact || !emailContact ? null : emailContact
-    const userUpdatePromise = accountDetailsChanged ? server.patchUser({ firstName, lastName, email, emailContact: newEmailContact }) : null
+    const newContactEmail = !useCustomEmailContact || !emailContact ? null : emailContact
+    const userUpdatePromise = accountDetailsChanged ? server.patchUser({ firstName, lastName, email, contactEmail: newContactEmail }) : null
     // When all is done...
-    const [accountChangedRes, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
+    const [{ res: accountChangedRes, error: accountChangedError }, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
     // Stop form disabled
     setFormDisabled(false)
     if (accountChangedRes) {
@@ -139,6 +139,9 @@ function AccountPageDetailsInline({ user }) {
     if (passwordChangedRes && passwordChangedRes.error) {
       setErrors([...errors, passwordChangedRes.error])
       scrollTo({ offset: 0 })
+    }
+    if (accountChangedError) {
+      setErrors([...errors, accountChangedError])
     }
   }
 

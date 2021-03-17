@@ -58,16 +58,20 @@ export const createUser = async ({
  * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-export const patchUser = async ({ firstName, lastName, email, emailContact }) => {
-  const hasEmailContact = typeof emailContact !== 'undefined'
+export const patchUser = async ({ firstName, lastName, email, contactEmail }) => {
+  const requestUrl = 'users/me'
+  const hasContactEmail = typeof contactEmail !== 'undefined'
   const payload = {
-    first_name: firstName,
-    last_name: lastName,
-    email,
-    ...(hasEmailContact && { contact_email: emailContact }),
+    ...(firstName && { first_name: firstName }),
+    ...(lastName && { last_name: lastName }),
+    ...(email && { email }),
+    ...(hasContactEmail && { contact_email: contactEmail }),
   }
-  return api
-    .patch('/users/me', payload)
+  const errorTracking = {
+    category: 'User',
+    action: 'Patch user',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
 

@@ -1,7 +1,8 @@
 export const SIGN_UP = '/join'
 export const SIGN_UP_EMAIL = '/join/email'
 export const SIGN_UP_MISSING_EMAIL = '/join/missing-email'
-export const SIGN_UP_CONTINUE = '/join/final-step'
+export const SIGN_UP_CONNECT_PROFILES = '/join/final-step'
+export const SIGN_UP_CONFIRM_EMAIL = '/join/confirm-email'
 export const REFERRAL = '/join/referral'
 export const LOGIN = '/login'
 export const LOGIN_EMAIL = '/login/email'
@@ -28,6 +29,9 @@ export const HOME = POSTS
 
 // Array of RESTRICTED PAGES
 export const restrictedPages = [
+  SIGN_UP_MISSING_EMAIL,
+  SIGN_UP_CONNECT_PROFILES,
+  SIGN_UP_CONFIRM_EMAIL,
   CONNECT_PROFILES,
   THANK_YOU,
   POSTS,
@@ -41,8 +45,6 @@ export const restrictedPages = [
   TOURNAMENTS,
   NOTIFICATIONS,
   TARGETING,
-  SIGN_UP_MISSING_EMAIL,
-  SIGN_UP_CONTINUE,
 ]
 
 export const signedOutPages = [
