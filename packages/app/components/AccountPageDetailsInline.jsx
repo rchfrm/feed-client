@@ -20,9 +20,9 @@ import useAnimateScroll from '@/hooks/useAnimateScroll'
 import styles from '@/app/AccountPage.module.css'
 
 
-function AccountPageDetailsInline({ user }) {
+const AccountPageDetailsInline = () => {
   // Get user context
-  const { updateUser } = React.useContext(UserContext)
+  const { user, updateUser } = React.useContext(UserContext)
   // Determine if user doesn't use email auth
   const { auth: { providerIds } } = React.useContext(AuthContext)
   const hasEmailAuth = providerIds.includes('password')
