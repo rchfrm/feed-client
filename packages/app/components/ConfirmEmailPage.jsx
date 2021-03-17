@@ -15,6 +15,7 @@ import Error from '@/elements/Error'
 import Button from '@/elements/Button'
 import PencilIcon from '@/icons/PencilIcon'
 
+
 import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
 import ConfirmEmailChangeEmail from '@/app/ConfirmEmailChangeEmail'
 import ConfirmEmailEmailSuccess from '@/app/ConfirmEmailEmailSuccess'
@@ -196,7 +197,6 @@ const ConfirmEmailPage = ({
         <p className="mb-5">Didn't receive an email?</p>
         <div className="xxs:flex justify-between items-center">
           <ConfirmEmailResendButton
-            contactEmail={contactEmail}
             emailType={emailType}
             setError={setError}
           />
