@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { UserContext } from '@/contexts/UserContext'
+
 import Input from '@/elements/Input'
 import CheckboxInput from '@/elements/CheckboxInput'
 
@@ -13,6 +15,13 @@ const AccountPageDetailsEmail = ({
   handleChange,
   loading,
 }) => {
+  const { user } = React.useContext(UserContext)
+  const {
+    pending_email: pendingEmail,
+    email_verified: emailVerified,
+    pending_contact_email: pendingContactEmail,
+    contact_email_verified: contactEmailVerified,
+  } = user
   return (
     <>
       <Input
