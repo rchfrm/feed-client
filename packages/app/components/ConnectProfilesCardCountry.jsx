@@ -21,11 +21,13 @@ const ConnectProfilesCardCountry = ({
 }) => {
   // READONLY
   if (artist.exists) {
-    <ConnectProfilesCardSelectPlaceholder
-      className="mb-4"
-      label="Your country"
-      title="United Kingdom"
-    />
+    return (
+      <ConnectProfilesCardSelectPlaceholder
+        className={className}
+        label="Your country"
+        title="United Kingdom"
+      />
+    )
   }
   return (
     <Select

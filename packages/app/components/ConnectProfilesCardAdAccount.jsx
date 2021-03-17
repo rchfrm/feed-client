@@ -18,11 +18,13 @@ const ConnectProfilesCardAdAccount = ({
   } = artist
   // READONLY
   if (exists) {
-    <ConnectProfilesCardSelectPlaceholder
-      className="mb-4"
-      label="Ad Account"
-      title={selectedAdAccount}
-    />
+    return (
+      <ConnectProfilesCardSelectPlaceholder
+        className={className}
+        label="Ad Account"
+        title={selectedAdAccount.name}
+      />
+    )
   }
   // AD ACCOUNT SELECT OPTIONS
   const adAccountOptions = availableAdAccounts.map(({ name, id: value }) => {

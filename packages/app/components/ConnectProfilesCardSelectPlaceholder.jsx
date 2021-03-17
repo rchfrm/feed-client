@@ -17,6 +17,8 @@ const ConnectProfilesCardSelectPlaceholder = ({
 }
 
 ConnectProfilesCardSelectPlaceholder.propTypes = {
+  label: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
