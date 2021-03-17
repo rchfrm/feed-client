@@ -21,11 +21,13 @@ const ConnectProfilesCardCountry = ({
 }) => {
   // READONLY
   if (artist.exists) {
+    const { country_code } = artist
+    const { name: countryName } = countriesArr.find(({ value }) => value === country_code)
     return (
       <ConnectProfilesCardSelectPlaceholder
         className={className}
         label="Your country"
-        title="United Kingdom"
+        title={countryName}
       />
     )
   }
