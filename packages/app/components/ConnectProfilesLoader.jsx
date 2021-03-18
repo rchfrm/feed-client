@@ -55,7 +55,7 @@ const ConnectProfilesLoader = ({
 
   // DEFINE LOADING
   const [pageLoading, setPageLoading] = React.useState(false)
-  const [fetchedArtistsFinished, setFetchedArtistsFinished] = React.useState(true)
+  const [fetchedArtistsFinished, setFetchedArtistsFinished] = React.useState(false)
 
   // DEFINE BUTTON STATE (disabled if required fields are absent)
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
@@ -95,7 +95,6 @@ const ConnectProfilesLoader = ({
     if (!accessToken) return toggleGlobalLoading(false)
     // START FETCHING ARTISTS
     setPageLoading(true)
-    setFetchedArtistsFinished(false)
     const { res: artistsAndAccounts, error } = await artistHelpers.getArtistOnSignUp(accessToken)
     if (error) {
       if (!isMounted()) return
