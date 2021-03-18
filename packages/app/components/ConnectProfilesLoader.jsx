@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Router from 'next/router'
+
 import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
 
@@ -21,6 +23,9 @@ import ConnectProfilesNoArtists from '@/app/ConnectProfilesNoArtists'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import { sortArrayByKey } from '@/helpers/utils'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
+
+import * as ROUTES from '@/app/constants/routes'
+
 import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
@@ -52,6 +57,14 @@ const ConnectProfilesLoader = ({
   const { user, userLoading } = React.useContext(UserContext)
   // Get any missing scopes
   const { missingScopes } = auth
+
+  // LOGIN VERSION WITH ARTISTS
+  // If accessing the login version, but this user already has artsits, go to connect profiles
+  React.useEffect(() => {
+    if (isSignupStep && user.artists && user.artists.length) {
+      Router.push(ROUTES.CONNECT_PROFILES)
+    }
+  }, [user, isSignupStep])
 
   // DEFINE LOADING
   const [pageLoading, setPageLoading] = React.useState(false)
