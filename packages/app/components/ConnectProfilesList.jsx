@@ -49,12 +49,9 @@ const ConnectProfilesList = ({
   return (
     <ul
       className={[
-        'grid',
+        'xs:grid',
         'grid-cols-12',
-        'row-gap-8',
-        'col-gap-0',
-        'xs:col-gap-6',
-        'sm:col-gap-8',
+        'gap-8',
         className,
       ].join(' ')}
     >
@@ -65,7 +62,12 @@ const ConnectProfilesList = ({
             artist={artistAccount}
             updateArtists={updateArtists}
             setErrors={setErrors}
-            className="col-span-3"
+            className={[
+              'mb-8 xs:mb-0',
+              'col-span-6',
+              'lg:col-span-4',
+              'bmw:col-span-3',
+            ].join(' ')}
           />
         )
       })}

@@ -59,21 +59,26 @@ const ConnectProfilesCard = ({
   return (
     <li
       className={[
+        'relative',
         'border-solid border-2',
         exists ? 'border-black' : 'border-black',
         'rounded-dialogue p-4 pb-5',
         className,
       ].join(' ')}
     >
-      {/* NAME */}
-      <h3 className="font-bold font-body text-md mb-4">{artist.name}</h3>
-      {/* IMAGE */}
-      <div className="media media--square mb-6">
-        <img
-          className={['center--image rounded-dialogue'].join(' ')}
-          src={artist.picture}
-          alt={`${artist.name} Facebook profile photo`}
-        />
+      <div className="flex justify-between xs:block">
+        {/* NAME */}
+        <h3 className="font-bold font-body text-md mb-4">{artist.name}</h3>
+        {/* IMAGE */}
+        <div className="w-24 xs:w-full sm:w-48 lg:w-full">
+          <div className="media media--square mb-6">
+            <img
+              className={['center--image rounded-dialogue'].join(' ')}
+              src={artist.picture}
+              alt={`${artist.name} Facebook profile photo`}
+            />
+          </div>
+        </div>
       </div>
       {/* AD ACCOUNT */}
       <ConnectProfilesCardAdAccount
