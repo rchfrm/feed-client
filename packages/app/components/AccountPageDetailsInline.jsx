@@ -81,12 +81,12 @@ const AccountPageDetailsInline = () => {
     const emailChanged = changedEmails.length
     const accountDetailsChanged = (initialFirstName !== firstName) || (initialLastName !== lastName) || emailChanged
 
-    // No name
+    // Stop here if No name
     if (!firstName || !lastName) {
       newErrors.push({ message: 'Please provide a name and surname.' })
     }
 
-    // No email
+    // Stop here if No email
     if (!email) {
       newErrors.push({ message: 'Please provide an email.' })
     }
