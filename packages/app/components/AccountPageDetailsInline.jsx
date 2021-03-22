@@ -19,6 +19,13 @@ import useAnimateScroll from '@/hooks/useAnimateScroll'
 
 import styles from '@/app/AccountPage.module.css'
 
+const getChangedEmails = ({ email, contactEmail, initialEmail, initialContactEmail }) => {
+  const changedEmails = []
+  if (email !== initialEmail) changedEmails.push('email')
+  if (contactEmail !== initialContactEmail) changedEmails.push('contactEmail')
+  return changedEmails
+}
+
 
 const AccountPageDetailsInline = () => {
   // Get user context
@@ -70,7 +77,8 @@ const AccountPageDetailsInline = () => {
     // Stop here if form is disabled
     if (formDisabled) return
     const passwordChanged = passwordOne || passwordTwo
-    const emailChanged = (email !== initialEmail) || (contactEmail !== initialContactEmail)
+    const changedEmails = getChangedEmails({ email, contactEmail, initialEmail, initialContactEmail })
+    const emailChanged = changedEmails.length
     const accountDetailsChanged = (initialFirstName !== firstName) || (initialLastName !== lastName) || emailChanged
 
     // No name
@@ -135,8 +143,11 @@ const AccountPageDetailsInline = () => {
       setErrors([...errors, accountChangedError])
     }
     // TRACK
-    if (emailChanged) {
+    if (changedEmails.includes('email')) {
       track('update_account_email')
+    }
+    if (changedEmails.includes('contactEmail')) {
+      track('update_contact_email')
     }
   }
 
