@@ -15,10 +15,9 @@ import Error from '@/elements/Error'
 import Button from '@/elements/Button'
 import PencilIcon from '@/icons/PencilIcon'
 
-import SignupVerifyResendButton from '@/app/ConfirmEmailResendButton'
+import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
 import ConfirmEmailChangeEmail from '@/app/ConfirmEmailChangeEmail'
 import ConfirmEmailEmailSuccess from '@/app/ConfirmEmailEmailSuccess'
-
 
 import { parseUrl } from '@/helpers/utils'
 import { verifyEmail } from '@/app/helpers/appServer'
@@ -169,7 +168,7 @@ const ConfirmEmailPage = ({
       <div>
         <p className="mb-5">Didn't receive an email?</p>
         <div className="xxs:flex justify-between items-center">
-          <SignupVerifyResendButton
+          <ConfirmEmailResendButton
             contactEmail={contactEmail}
             setError={setError}
           />
