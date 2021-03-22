@@ -121,7 +121,7 @@ function UserProvider({ children }) {
     // TODO If 404, then call /accounts/register
     const sortedArtistUser = sortUserArtists(user)
     // Store artists with notifications in Not store
-    setArtistsWithNotifications(Object.values(user.artists))
+    setArtistsWithNotifications(Object.values(sortedArtistUser.artists))
     // Update user type in track helpers
     updateTracking(user)
     // Update user state
