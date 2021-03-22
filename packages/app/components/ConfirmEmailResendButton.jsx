@@ -8,8 +8,7 @@ import { requestVerificationEmail } from '@/app/helpers/appServer'
 
 const ConfirmEmailResendButton = ({
   contactEmail,
-  // emailResent,
-  // setEmailResent,
+  text,
   setError,
   className,
 }) => {
@@ -50,7 +49,7 @@ const ConfirmEmailResendButton = ({
           className="mb-5 xxs:mb-0"
           loading={loading}
         >
-          Resend email
+          {text}
         </Button>
       )}
     </div>
@@ -58,10 +57,12 @@ const ConfirmEmailResendButton = ({
 }
 
 ConfirmEmailResendButton.propTypes = {
+  text: PropTypes.string,
   className: PropTypes.string,
 }
 
 ConfirmEmailResendButton.defaultProps = {
+  text: 'Resend email',
   className: null,
 }
 

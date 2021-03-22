@@ -6,6 +6,8 @@ import { UserContext } from '@/contexts/UserContext'
 import Input from '@/elements/Input'
 import CheckboxInput from '@/elements/CheckboxInput'
 
+import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
+
 const AccountPageDetailsEmail = ({
   email,
   contactEmail,
@@ -41,8 +43,13 @@ const AccountPageDetailsEmail = ({
         required
         disabled={loading}
       />
-      {!emailVerified && (
-        <p className="text-sm font-bold text-red -mt-5">Waiting to verify, check your email.</p>
+      {pendingEmail && (
+        <div className="mb-4">
+          <p className="text-sm font-bold text-red -mt-5 mb-4">
+            You need to verify {pendingEmail} before we can set it as your new account email, please check your inbox.
+          </p>
+          <ConfirmEmailResendButton text="Resend confirmation email" />
+        </div>
       )}
       {/* CONTACT EMAIL */}
       {hasEmailAuth && (
