@@ -107,7 +107,7 @@
 
   /* UI */
   --logo-ratio: 2874 / 3469;
-  --button-height: 60px;
+  --button-height: var(--sp-14);
   --button-height-small: var(--sp-12);
   --button-width-wide: 150px;
   --logo-ratio: 0.855072463768116;

@@ -1,6 +1,6 @@
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
-import ConnectAccountsLoader from '@/app/ConnectAccountsLoader'
+import ConnectProfilesLoader from '@/app/ConnectProfilesLoader'
 
 const headerConfig = {
   text: 'continue sign up',
@@ -12,7 +12,7 @@ const Page = () => (
     headerConfig={headerConfig}
     staticPage
   >
-    <ConnectAccountsLoader onSignUp />
+    <ConnectProfilesLoader isSignupStep />
   </BasePage>
 )
 

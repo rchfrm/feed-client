@@ -109,7 +109,7 @@ function ArtistProvider({ children, disable }) {
     toggleGlobalLoading(false)
   }
 
-  const storeArtist = async (id) => {
+  const storeArtist = React.useCallback(async (id) => {
     // Stop here if not using
     if (disable) return {}
     // TODO : Store previously selected artists in state,
@@ -127,9 +127,9 @@ function ArtistProvider({ children, disable }) {
         description: error.message,
         label: `artistId: ${id}`,
       })
-      return { error: {
-        message: `Error fetching artist ID: ${id}`,
-      } }
+      return {
+        error: { message: `Error fetching artist ID: ${id}` },
+      }
     }
 
     if (!artist) return
@@ -174,32 +174,30 @@ function ArtistProvider({ children, disable }) {
     })
     setArtistLoading(false)
     return { artist }
-  }
+  }, [disable, setArtist, toggleGlobalLoading])
 
-  const connectArtists = async (artistAccounts, accessToken, oldUser) => {
+  /**
+   * @param {array} artistAccounts
+   * @param {string} accessToken
+   * @param {object} oldUser
+   * @returns {Promise<any>}
+  */
+  const connectArtists = React.useCallback(async (artistAccounts, accessToken, oldUser) => {
     setArtistLoading(true)
     toggleGlobalLoading(true)
     // Get array of current user artist Facebook page IDs
     const alreadyConnectFacebookPages = oldUser.artists.map(({ facebook_page_id }) => facebook_page_id)
-    // Convert artist accounts to array
-    const artistAccountsArray = Object.values(artistAccounts)
     // Filter out non-connected artist accounts
-    const newArtistAccounts = artistAccountsArray.filter(({ page_id: facebookPageId }) => {
+    const unconnectedArtistAccounts = artistAccounts.filter(({ page_id: facebookPageId }) => {
       return !alreadyConnectFacebookPages.includes(facebookPageId)
     })
     // * STOP HERE if there are no new artist accounts
-    if (!newArtistAccounts.length) {
+    if (!unconnectedArtistAccounts.length) {
       setArtistLoading(false)
       return
     }
-    // Check that every account has a country set
-    newArtistAccounts.forEach(({ country_code, name }) => {
-      if (!country_code) {
-        throw new Error(`Please select a country for ${name}, or deselect that page from being added to your Feed account`)
-      }
-    })
     // Create all artists
-    const createAllArtists = newArtistAccounts.map(async (artist) => {
+    const createAllArtists = unconnectedArtistAccounts.map(async (artist) => {
       return artistHelpers.createArtist(artist, accessToken)
     })
     // Wait to connect all artists
@@ -211,6 +209,7 @@ function ArtistProvider({ children, disable }) {
           action: 'Problem creating artists in Artist context createArtist()',
           description: error.message,
         })
+        setArtistLoading(false)
         throw (error)
       })
     // Update user
@@ -238,7 +237,7 @@ function ArtistProvider({ children, disable }) {
     } else {
       track('add_profile')
     }
-  }
+  }, [storeArtist, storeUser, toggleGlobalLoading])
 
   const updateBudget = React.useCallback((majorUnitAmount) => {
     setArtist({
