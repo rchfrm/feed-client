@@ -64,6 +64,13 @@ const AccountPageDetailsInline = () => {
   // eslint-disable-next-line
   }, [])
 
+  // CLEAR CONTACT EMAIL if DISABLING
+  React.useEffect(() => {
+    if (!useCustomContactEmail) {
+      setContactEmail('')
+    }
+  }, [useCustomContactEmail])
+
   // GET SCROLL TO FUNCTION
   const scrollTo = useAnimateScroll()
 
