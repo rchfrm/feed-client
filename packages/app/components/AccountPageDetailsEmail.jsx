@@ -4,9 +4,31 @@ import PropTypes from 'prop-types'
 import { UserContext } from '@/contexts/UserContext'
 
 import Input from '@/elements/Input'
+import Error from '@/elements/Error'
 import CheckboxInput from '@/elements/CheckboxInput'
 
 import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
+
+const PENDING_EMAIL_NOTICE = ({
+  email,
+  emailType,
+  className,
+}) => {
+  const [resendEmailError, setResendEmailError] = React.useState(null)
+  return (
+    <div className={className}>
+      <p className="text-sm font-bold -mt-5 mb-4">
+        * You need to verify {email} before we can set it as your new {emailType}, please check your inbox.
+      </p>
+      <Error error={resendEmailError} />
+      <ConfirmEmailResendButton
+        buttonText="Resend confirmation email"
+        emailType="email"
+        setError={setResendEmailError}
+      />
+    </div>
+  )
+}
 
 const AccountPageDetailsEmail = ({
   email,
@@ -42,15 +64,11 @@ const AccountPageDetailsEmail = ({
       />
       {/* PENDING EMAIL MESSAGE */}
       {(!emailVerified || pendingEmail) && (
-        <div className="mb-4">
-          <p className="text-sm font-bold -mt-5 mb-4">
-            * You need to verify {pendingEmail || userEmail} before we can set it as your new account email, please check your inbox.
-          </p>
-          <ConfirmEmailResendButton
-            buttonText="Resend confirmation email"
-            emailType="email"
-          />
-        </div>
+        <PENDING_EMAIL_NOTICE
+          email={pendingEmail || userEmail}
+          emailType="account email"
+          className="mb-4"
+        />
       )}
       {/* CONTACT EMAIL */}
       {hasEmailAuth && (
@@ -80,15 +98,11 @@ const AccountPageDetailsEmail = ({
                 disabled={loading || !useCustomContactEmail}
               />
               {(pendingContactEmail || (!contactEmailVerified && userContactEmail)) && (
-                <div className="mb-8">
-                  <p className="text-sm font-bold -mt-5 mb-4">
-                    * You need to verify {pendingContactEmail || userContactEmail} before we can set it as your new contact email, please check your inbox.
-                  </p>
-                  <ConfirmEmailResendButton
-                    buttonText="Resend confirmation email"
-                    emailType="contactEmail"
-                  />
-                </div>
+                <PENDING_EMAIL_NOTICE
+                  email={pendingContactEmail || userContactEmail}
+                  emailType="contact email"
+                  className="mb-8"
+                />
               )}
             </>
           )}
