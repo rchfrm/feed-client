@@ -5,7 +5,7 @@ import PostLinksSelect from '@/app/PostLinksSelect'
 
 import { track } from '@/app/helpers/trackingHelpers'
 
-import useLinksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/stores/linksStore'
 
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
 import { parseUrl } from '@/helpers/utils'

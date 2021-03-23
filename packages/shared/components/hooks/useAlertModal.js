@@ -2,7 +2,7 @@ import React from 'react'
 
 import shallow from 'zustand/shallow'
 
-import useAlertStore from '@/store/alertStore'
+import useAlertStore from '@/stores/alertStore'
 
 /*
 * EXAMPLE BUTTONS

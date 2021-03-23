@@ -7,7 +7,7 @@ import shallow from 'zustand/shallow'
 import Button from '@/elements/Button'
 import TickIcon from '@/icons/TickIcon'
 
-import useReferralStore from '@/app/store/referralStore'
+import useReferralStore from '@/app/stores/referralStore'
 
 import brandColors from '@/constants/brandColors'
 

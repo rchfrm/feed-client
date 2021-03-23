@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import LinkIcon from '@/icons/LinkIcon'
 import PostLinksSelect from '@/app/PostLinksSelect'
 
-import useLinksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/stores/linksStore'
 
 import { setPostLink, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 import { removeProtocolFromUrl, enforceUrlProtocol, parseUrl } from '@/helpers/utils'
