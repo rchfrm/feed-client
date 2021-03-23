@@ -2,7 +2,7 @@ export const SIGN_UP = '/join'
 export const SIGN_UP_EMAIL = '/join/email'
 export const SIGN_UP_MISSING_EMAIL = '/join/missing-email'
 export const SIGN_UP_CONNECT_PROFILES = '/join/final-step'
-export const SIGN_UP_CONFIRM_EMAIL = '/join/confirm-email'
+export const CONFIRM_EMAIL = '/confirm-email'
 export const REFERRAL = '/join/referral'
 export const LOGIN = '/login'
 export const LOGIN_EMAIL = '/login/email'
@@ -31,7 +31,7 @@ export const HOME = POSTS
 export const restrictedPages = [
   SIGN_UP_MISSING_EMAIL,
   SIGN_UP_CONNECT_PROFILES,
-  SIGN_UP_CONFIRM_EMAIL,
+  CONFIRM_EMAIL,
   CONNECT_PROFILES,
   THANK_YOU,
   POSTS,
