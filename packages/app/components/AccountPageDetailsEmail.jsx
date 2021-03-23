@@ -25,11 +25,6 @@ const AccountPageDetailsEmail = ({
     contact_email_verified: contactEmailVerified,
   } = user
 
-  console.log('pendingEmail', pendingEmail)
-  console.log('emailVerified', emailVerified)
-  console.log('pendingContactEmail', pendingContactEmail)
-  console.log('contactEmailVerified', contactEmailVerified)
-
   return (
     <>
       <Input
@@ -43,12 +38,16 @@ const AccountPageDetailsEmail = ({
         required
         disabled={loading}
       />
-      {pendingEmail && (
+      {/* PENDING EMAIL MESSAGE */}
+      {!emailVerified && (
         <div className="mb-4">
-          <p className="text-sm font-bold text-red -mt-5 mb-4">
-            You need to verify {pendingEmail} before we can set it as your new account email, please check your inbox.
+          <p className="text-sm font-bold -mt-5 mb-4">
+            * You need to verify {pendingEmail || email} before we can set it as your new account email, please check your inbox.
           </p>
-          <ConfirmEmailResendButton text="Resend confirmation email" />
+          <ConfirmEmailResendButton
+            buttonText="Resend confirmation email"
+            emailType="email"
+          />
         </div>
       )}
       {/* CONTACT EMAIL */}
@@ -69,14 +68,27 @@ const AccountPageDetailsEmail = ({
           />
           {/* CONTACT EMAIL INPUT */}
           {useCustomContactEmail && (
-            <Input
-              name="contactEmail"
-              placeholder=""
-              value={useCustomContactEmail ? contactEmail : email}
-              handleChange={handleChange}
-              type="email"
-              disabled={loading || !useCustomContactEmail}
-            />
+            <>
+              <Input
+                name="contactEmail"
+                placeholder=""
+                value={useCustomContactEmail ? contactEmail : email}
+                handleChange={handleChange}
+                type="email"
+                disabled={loading || !useCustomContactEmail}
+              />
+              {!contactEmailVerified && (
+                <div className="mb-8">
+                  <p className="text-sm font-bold -mt-5 mb-4">
+                    * You need to verify {pendingContactEmail || contactEmail} before we can set it as your new contact email, please check your inbox.
+                  </p>
+                  <ConfirmEmailResendButton
+                    buttonText="Resend confirmation email"
+                    emailType="contactEmail"
+                  />
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
