@@ -106,12 +106,10 @@ AccountPageDetailsEmail.propTypes = {
   setUseCustomContactEmail: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  className: PropTypes.string,
 }
 
 AccountPageDetailsEmail.defaultProps = {
   loading: false,
-  className: null,
 }
 
 export default AccountPageDetailsEmail
