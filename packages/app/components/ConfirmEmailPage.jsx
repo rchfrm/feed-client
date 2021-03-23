@@ -158,6 +158,8 @@ const ConfirmEmailPage = ({
     return (
       <ConfirmEmailEmailSuccess
         email={email}
+        contactEmail={contactEmail}
+        emailType={emailType}
         onContinue={onSuccessContinue}
         className={styles.container}
       />
