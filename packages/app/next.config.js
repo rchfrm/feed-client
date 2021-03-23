@@ -24,11 +24,11 @@ const withTM = require('next-transpile-modules')([sharedPath])
 const globalDataDir = path.resolve(process.cwd(), 'tempGlobalData')
 const fs = require('fs')
 const getDatoData = require('../shared/helpers/getDatoData')
-const getQuery = require('./graphQl/notificationDictionaryQuery')
+const getQuery = require('./graphQl/globalDataQuery')
 
 const fetchGlobalData = () => {
   const query = getQuery()
-  const pageKey = 'notificationsQuery'
+  const pageKey = 'globalDataQuery'
   const forceLoad = true
   return getDatoData(query, pageKey, forceLoad).then((data) => {
     const dataString = JSON.stringify(data.data)
