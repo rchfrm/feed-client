@@ -7,8 +7,8 @@ import Success from '@/elements/Success'
 import { requestVerificationEmail } from '@/app/helpers/appServer'
 
 const ConfirmEmailResendButton = ({
-  contactEmail,
-  text,
+  emailType,
+  buttonText,
   setError,
   className,
 }) => {
@@ -16,13 +16,12 @@ const ConfirmEmailResendButton = ({
   const [loading, setLoading] = React.useState(false)
   // SEND EMAIL
   const resendEmail = React.useCallback(async () => {
-    const emailType = contactEmail ? 'contactEmail' : 'email'
     setLoading(true)
     const { error } = await requestVerificationEmail(emailType)
     setLoading(false)
     if (error) return setError(error)
     setEmailResent(true)
-  }, [setEmailResent, setError, contactEmail])
+  }, [setEmailResent, setError, emailType])
   // RESET BUTTON after 5s
   React.useEffect(() => {
     if (!emailResent) return
@@ -49,7 +48,7 @@ const ConfirmEmailResendButton = ({
           className="mb-5 xxs:mb-0"
           loading={loading}
         >
-          {text}
+          {buttonText}
         </Button>
       )}
     </div>
@@ -57,12 +56,14 @@ const ConfirmEmailResendButton = ({
 }
 
 ConfirmEmailResendButton.propTypes = {
-  text: PropTypes.string,
+  emailType: PropTypes.string.isRequired,
+  buttonText: PropTypes.string,
+  setError: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 ConfirmEmailResendButton.defaultProps = {
-  text: 'Resend email',
+  buttonText: 'Resend email',
   className: null,
 }
 
