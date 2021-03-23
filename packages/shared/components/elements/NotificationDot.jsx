@@ -9,13 +9,14 @@ const getSizeClass = (size) => {
 
 const NotificationDot = ({
   size,
+  isInline,
   className,
   style,
 }) => {
   return (
     <div
       className={[
-        'absolute',
+        !isInline ? 'absolute' : null,
         getSizeClass(size),
         'bg-red rounded-full',
         className,
@@ -30,12 +31,14 @@ const NotificationDot = ({
 
 NotificationDot.propTypes = {
   size: PropTypes.string,
+  isInline: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
 NotificationDot.defaultProps = {
   size: 'small',
+  isInline: false,
   className: null,
   style: {},
 }
