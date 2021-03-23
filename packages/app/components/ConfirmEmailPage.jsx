@@ -79,7 +79,7 @@ const ConfirmEmailPage = ({
     if (userLoading) return
     const emailType = getEmailType({ query, emailVerified, contactEmailVerified, contactEmail })
     setEmailType(emailType)
-    const isSignupFlow = userArtists && userArtists.length
+    const isSignupFlow = !userArtists || !userArtists.length
     setIsSignupFlow(isSignupFlow)
   // eslint-disable-next-line
   }, [userLoading])
