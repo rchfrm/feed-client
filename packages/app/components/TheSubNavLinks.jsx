@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 
 import useNotificationsStore from '@/app/store/notificationsStore'
 
+import { UserContext } from '@/contexts/UserContext'
+
 import SignOutLink from '@/SignOutLink'
+import NotificationDot from '@/elements/NotificationDot'
 import ActiveLink from '@/elements/ActiveLink'
 
 import styles from '@/app/TheSubNav.module.css'
@@ -58,6 +61,7 @@ const NOTIFICATION_LINK_TEXT = ({ title }) => {
 }
 
 const TheSubNavLinks = ({ className }) => {
+  const { hasPendingEmail } = React.useContext(UserContext)
   return (
     <>
       <nav className={[styles.links, className].join(' ')}>
@@ -71,8 +75,20 @@ const TheSubNavLinks = ({ className }) => {
             return (
               <li className={[styles.linkItem].join(' ')} key={href}>
                 {external
-                  ? <a className={styles.a} href={href}>{ titleText }</a>
-                  : <ActiveLink href={href}><a className={styles.a}>{ titleText }</a></ActiveLink>}
+                  ? <a className={styles.a} href={href}>{titleText}</a>
+                  : (
+                    <>
+                      <ActiveLink href={href}>
+                        <a className={['relative', styles.a].join(' ')}>
+                          {titleText}
+                          {/* PENDING EMAIL WARNING */}
+                          {href === ACCOUNT && hasPendingEmail && (
+                            <NotificationDot size="small" style={{ left: '-1.25rem', top: '0.55rem' }} />
+                          )}
+                        </a>
+                      </ActiveLink>
+                    </>
+                  )}
               </li>
             )
           })}
