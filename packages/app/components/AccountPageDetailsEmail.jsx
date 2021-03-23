@@ -53,7 +53,7 @@ const AccountPageDetailsEmail = ({
       )}
       {/* CONTACT EMAIL */}
       {hasEmailAuth && (
-        <>
+        <div className={!useCustomContactEmail ? 'mb-8' : null}>
           {/* CHOOSE SAME EMAIL */}
           <CheckboxInput
             label="Contact email"
@@ -68,15 +68,17 @@ const AccountPageDetailsEmail = ({
             }}
           />
           {/* CONTACT EMAIL INPUT */}
-          <Input
-            name="contactEmail"
-            placeholder=""
-            value={useCustomContactEmail ? contactEmail : email}
-            handleChange={handleChange}
-            type="email"
-            disabled={loading || !useCustomContactEmail}
-          />
-        </>
+          {useCustomContactEmail && (
+            <Input
+              name="contactEmail"
+              placeholder=""
+              value={useCustomContactEmail ? contactEmail : email}
+              handleChange={handleChange}
+              type="email"
+              disabled={loading || !useCustomContactEmail}
+            />
+          )}
+        </div>
       )}
     </>
   )
