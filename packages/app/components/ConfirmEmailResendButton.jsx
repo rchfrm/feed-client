@@ -16,6 +16,7 @@ const ConfirmEmailResendButton = ({
   const [loading, setLoading] = React.useState(false)
   // SEND EMAIL
   const resendEmail = React.useCallback(async () => {
+    setError(null)
     setLoading(true)
     const { error } = await requestVerificationEmail(emailType)
     setLoading(false)
