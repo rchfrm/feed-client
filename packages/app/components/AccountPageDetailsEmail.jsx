@@ -19,8 +19,10 @@ const AccountPageDetailsEmail = ({
 }) => {
   const { user } = React.useContext(UserContext)
   const {
+    email: userEmail,
     pending_email: pendingEmail,
     email_verified: emailVerified,
+    contact_email: userContactEmail,
     pending_contact_email: pendingContactEmail,
     contact_email_verified: contactEmailVerified,
   } = user
@@ -39,10 +41,10 @@ const AccountPageDetailsEmail = ({
         disabled={loading}
       />
       {/* PENDING EMAIL MESSAGE */}
-      {!emailVerified && (
+      {(!emailVerified || pendingEmail) && (
         <div className="mb-4">
           <p className="text-sm font-bold -mt-5 mb-4">
-            * You need to verify {pendingEmail || email} before we can set it as your new account email, please check your inbox.
+            * You need to verify {pendingEmail || userEmail} before we can set it as your new account email, please check your inbox.
           </p>
           <ConfirmEmailResendButton
             buttonText="Resend confirmation email"
@@ -77,10 +79,10 @@ const AccountPageDetailsEmail = ({
                 type="email"
                 disabled={loading || !useCustomContactEmail}
               />
-              {!contactEmailVerified && (
+              {(pendingContactEmail || (!contactEmailVerified && userContactEmail)) && (
                 <div className="mb-8">
                   <p className="text-sm font-bold -mt-5 mb-4">
-                    * You need to verify {pendingContactEmail || contactEmail} before we can set it as your new contact email, please check your inbox.
+                    * You need to verify {pendingContactEmail || userContactEmail} before we can set it as your new contact email, please check your inbox.
                   </p>
                   <ConfirmEmailResendButton
                     buttonText="Resend confirmation email"
