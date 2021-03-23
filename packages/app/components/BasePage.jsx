@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { UserContext } from '@/contexts/UserContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+
+import PendingEmailWarning from '@/app/PendingEmailWarning'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'
 // IMPORT COPY
@@ -63,6 +65,8 @@ const BasePage = ({
         <>
           {/* NO ARTIST COPY */}
           <MarkdownText className="h4--text" markdown={copy.noArtists} />
+          {/* UNVERIFIED EMAIL WARNING */}
+          <PendingEmailWarning user={user} isNewUser />
         </>
       ) : (
         <>
