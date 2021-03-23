@@ -46,7 +46,7 @@ Or, if the usage is more complicated, create a [Component-level CSS module](http
 
 ### Global CSS
 
-CSS files that applies to the website globally (eg font and form styling) live in `/shared/css/`. They are then imported into three parent CSS files, which are then imported in the Next.js `_app.jsx` file like this.
+CSS files that applies to the website globally (eg font and form styling) live in `/shared/css/`. They are then imported into three parent CSS files, which are then imported in the Next.js `_app.jsx` file like this:
 
 ```
 import '../../shared/css/core.css'
@@ -87,7 +87,7 @@ The default method uses locally cached responses when developing and fetches fro
 When the App's Next.js starts, a JSON file of global data in Dato is generated and saved in `packages/app/tempGlobalData/globalData.json`. This is then available to be imported anywhere withing the app. The query for fetching this global data lives in `packages/app/graphQl/globalDataQuery.js`
 
 
-## Copy
+## App Copy
 
 Any copy in that App that is longer than a few words, should be put in a file related to where that copy will go and placed in the `packages/app/copy/` directory.
 
