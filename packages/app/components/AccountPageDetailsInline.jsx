@@ -281,7 +281,7 @@ const AccountPageDetailsInline = () => {
 }
 
 AccountPageDetailsInline.propTypes = {
-  user: PropTypes.object.isRequired,
+
 }
 
 export default AccountPageDetailsInline
