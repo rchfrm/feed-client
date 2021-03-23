@@ -24,6 +24,8 @@ const PendingEmailWarning = ({
   const emailToVerify = pendingEmail || (!emailVerified && authEmail) || ''
   const contactEmailToVerify = pendingContactEmail || (!pendingContactEmail && contactEmail) || ''
   const emails = [emailToVerify, contactEmailToVerify].filter((email) => email)
+  // Stop here if no emails need verifying
+  if (!emails.length) return null
   const warningCopy = copy.unverifiedEmails(emails)
   return (
     <div
