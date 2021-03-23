@@ -8,6 +8,6 @@ export default {
   unverifiedEmails: (emails = []) => {
     return `It looks like you have ${emails.length === 1 ? `an unverified email: **${emails[0]}**` : `some unverified emails: ${emails.join(', ')}`}.
     
-Please check your inbox.`
+Please check your inbox to confirm. Or change the email address on the [Account Page](${ROUTES.ACCOUNT}).`
   },
 }

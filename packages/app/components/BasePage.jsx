@@ -62,12 +62,14 @@ const BasePage = ({
   return (
     <>
       {user.artists.length === 0 && artistRequired ? (
-        <>
+        <div>
           {/* NO ARTIST COPY */}
-          <MarkdownText className="h4--text" markdown={copy.noArtists} />
+          <div className="p-5 bg-grey-1 rounded-dialogue max-w-xl mb-4">
+            <MarkdownText className="h4--text mb-0" markdown={copy.noArtists} />
+          </div>
           {/* UNVERIFIED EMAIL WARNING */}
           <PendingEmailWarning user={user} isNewUser />
-        </>
+        </div>
       ) : (
         <>
           {/* PAGE CONTENT */}

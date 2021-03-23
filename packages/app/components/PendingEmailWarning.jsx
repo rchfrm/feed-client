@@ -28,11 +28,15 @@ const PendingEmailWarning = ({
   return (
     <div
       className={[
-        isNewUser ? 'p-5 bg-grey-1 rounded-dialogue max-w-xl mr-auto' : '',
+        isNewUser ? 'p-5 bg-grey-1 rounded-dialogue max-w-xl' : '',
         className,
       ].join(' ')}
     >
-      <MarkdownText markdown={warningCopy} className="mb-0" />
+      <MarkdownText markdown={warningCopy} className="h4--text" />
+      {/* TODO: Add resend button */}
+      <div>
+        <button>RESEND CONFIRMATION EMAIL</button>
+      </div>
     </div>
   )
 }
