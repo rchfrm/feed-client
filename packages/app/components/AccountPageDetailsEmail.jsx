@@ -66,7 +66,7 @@ const AccountPageDetailsEmail = ({
       {(!emailVerified || pendingEmail) && (
         <PENDING_EMAIL_NOTICE
           email={pendingEmail || userEmail}
-          emailType="account email"
+          emailType={hasEmailAuth ? 'account email' : 'contact email'}
           className="mb-4"
         />
       )}
