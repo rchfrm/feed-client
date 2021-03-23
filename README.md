@@ -94,7 +94,7 @@ There's a useful Tailwind cheatsheet at [https://nerdcave.com/tailwind-cheat-she
 
 ## Conventions and Styleguides
 
-For notes about conventions and coding styleguides, please read the [Conventions and Styleguides document]('/docs/conventions.md).
+For notes about conventions and coding styleguides, please read the [Conventions and Styleguides document](/docs/conventions.md).
 
 
 ## ESLint
