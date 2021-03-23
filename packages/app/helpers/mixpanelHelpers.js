@@ -73,7 +73,6 @@ export const mixpanelExternalLinkClick = ({
 }) => {
   // Call this to go to page
   const goToPage = () => {
-    console.log('goToPage', url)
     if (useNewTab) return window.open(url)
     window.location.href = url
   }
