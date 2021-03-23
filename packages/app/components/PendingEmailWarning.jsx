@@ -22,7 +22,7 @@ const PendingEmailWarning = ({
   console.log('user', user)
 
   const emailToVerify = pendingEmail || (!emailVerified && authEmail) || ''
-  const contactEmailToVerify = pendingContactEmail || (!pendingContactEmail && contactEmail) || ''
+  const contactEmailToVerify = pendingContactEmail || (!contactEmailVerified && contactEmail) || ''
   const emails = [emailToVerify, contactEmailToVerify].filter((email) => email)
   // Stop here if no emails need verifying
   if (!emails.length) return null
