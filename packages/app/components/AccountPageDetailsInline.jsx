@@ -10,6 +10,7 @@ import { track } from '@/app/helpers/trackingHelpers'
 
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 import AccountPageDetailsEmail from '@/app/AccountPageDetailsEmail'
+import PendingEmailWarning from '@/app/PendingEmailWarning'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
@@ -29,7 +30,7 @@ const getChangedEmails = ({ email, contactEmail, initialEmail, initialContactEma
 
 const AccountPageDetailsInline = () => {
   // Get user context
-  const { user, updateUser } = React.useContext(UserContext)
+  const { user, updateUser, hasPendingEmail } = React.useContext(UserContext)
   // Determine if user doesn't use email auth
   const { auth: { providerIds } } = React.useContext(AuthContext)
   const hasEmailAuth = providerIds.includes('password')
@@ -195,6 +196,10 @@ const AccountPageDetailsInline = () => {
 
   return (
     <section className={styles.accountPageDetails}>
+
+      {hasPendingEmail && (
+        <PendingEmailWarning user={user} className="mb-8" isAccountPage />
+      )}
 
       <form
         className={[
