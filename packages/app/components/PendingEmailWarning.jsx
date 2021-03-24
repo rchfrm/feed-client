@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import MarkdownText from '@/elements/MarkdownText'
+import Error from '@/elements/Error'
+
+import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
 
 import copy from '@/app/copy/global'
 
@@ -22,10 +25,16 @@ const PendingEmailWarning = ({
 
   const emailToVerify = pendingEmail || (!emailVerified && authEmail) || ''
   const contactEmailToVerify = pendingContactEmail || (!contactEmailVerified && contactEmail) || ''
-  const emails = [emailToVerify, contactEmailToVerify].filter((email) => email)
+  const emails = [
+    { type: 'email', email: emailToVerify },
+    { type: 'contactEmail', email: contactEmailToVerify },
+  ].filter(({ email }) => email)
+
+  const [resendEmailError, setResendEmailError] = React.useState(null)
+
   // Stop here if no emails need verifying
   if (!emails.length) return null
-  const warningCopy = copy.unverifiedEmails({ emails, isNewUser, isAccountPage })
+  const warningCopy = copy.unverifiedEmails({ emails: emails.map(({ email }) => email), isNewUser, isAccountPage })
   return (
     <div
       className={[
@@ -35,9 +44,19 @@ const PendingEmailWarning = ({
     >
       <MarkdownText markdown={warningCopy} className={isNewUser ? 'h4--text' : null} />
       {/* TODO: Add resend button */}
-      <div>
-        <button>RESEND CONFIRMATION EMAIL</button>
-      </div>
+      {emails.map(({ email, type }) => {
+        const buttonText = emails.length === 1 ? 'Resend confirmation email' : `Resend confirmation to ${email}`
+        return (
+          <div key={type} className="mb-4 last:mb-0">
+            <Error error={resendEmailError} />
+            <ConfirmEmailResendButton
+              buttonText={buttonText}
+              emailType={type}
+              setError={setResendEmailError}
+            />
+          </div>
+        )
+      })}
     </div>
   )
 }
