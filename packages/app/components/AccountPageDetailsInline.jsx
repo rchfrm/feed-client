@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 import { UserContext } from '@/contexts/UserContext'
 import { AuthContext } from '@/contexts/AuthContext'
@@ -38,11 +38,7 @@ const AccountPageDetailsInline = () => {
     first_name: initialFirstName,
     last_name: initialLastName,
     email: initialEmail,
-    pending_email: pendingEmail,
-    email_verified: emailVerified,
     contact_email: initialContactEmail,
-    pending_contact_email: pendingContactEmail,
-    contact_email_verified: contactEmailVerified,
   } = user
 
   const [firstName, setFirstName] = React.useState('')
