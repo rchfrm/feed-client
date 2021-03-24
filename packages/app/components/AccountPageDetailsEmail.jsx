@@ -51,6 +51,7 @@ const AccountPageDetailsEmail = ({
 
   return (
     <>
+      {/* USER EMAIL */}
       <Input
         name="email"
         label={hasEmailAuth ? 'Email' : 'Contact Email'}
