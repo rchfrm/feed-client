@@ -2,8 +2,8 @@ import React from 'react'
 
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
-import useLinksStore from '@/app/store/linksStore'
-import usePostsStore from '@/app/store/postsStore'
+import useLinksStore from '@/app/stores/linksStore'
+import usePostsStore from '@/app/stores/postsStore'
 // IMPORT COMPONENTS
 import PostsSettingsSection from '@/app/PostsSettingsSection'
 import PostsSettingsDefaultStatus from '@/app/PostsSettingsDefaultStatus'

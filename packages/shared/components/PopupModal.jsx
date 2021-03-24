@@ -9,7 +9,7 @@ import CloseCircle from '@/icons/CloseCircle'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
 
-import usePopupStore from '@/store/popupStore'
+import usePopupStore from '@/stores/popupStore'
 
 import styles from '@/PopupModal.module.css'
 import FullHeight from '@/elements/FullHeight'

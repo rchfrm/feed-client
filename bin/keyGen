@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# SOURCE: https://letsencrypt.org/docs/certificates-for-localhost/
+
 openssl req -x509 -out ./certificates/localhost.crt -keyout ./certificates/localhost.key \
   -newkey rsa:2048 -nodes -sha256 \
   -subj '/CN=localhost' -extensions EXT -config <( \

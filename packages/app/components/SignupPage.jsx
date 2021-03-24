@@ -12,7 +12,7 @@ import SignupPageContent from '@/app/SignupPageContent'
 // import SignupClosedContent from '@/app/SignupClosedContent'
 import SignupRedirect from '@/app/SignupRedirect'
 
-import useReferralStore from '@/app/store/referralStore'
+import useReferralStore from '@/app/stores/referralStore'
 
 import { parseUrl } from '@/helpers/utils'
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { UserContext } from '@/contexts/UserContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 
-import useNotificationsStore from '@/app/store/notificationsStore'
+import useNotificationsStore from '@/app/stores/notificationsStore'
 
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'

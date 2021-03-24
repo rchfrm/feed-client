@@ -14,7 +14,7 @@ import PostsLinksEditModal from '@/app/PostsLinksEditModal'
 import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 
 
-import useLinksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/stores/linksStore'
 import { saveLink, saveFolder, setDefaultLink, usedLinkErrorCode } from '@/app/helpers/linksHelpers'
 
 import { testValidIntegration, updateIntegration } from '@/helpers/integrationHelpers'

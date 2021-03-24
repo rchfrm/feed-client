@@ -4,7 +4,7 @@ import PostsContent from '@/app/PostsContent'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 
-import useLinksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/stores/linksStore'
 
 const linksStoreInit = state => state.initLinkStore
 const getUpdateLinksWithIntegrations = state => state.updateLinksWithIntegrations

@@ -8,7 +8,7 @@ import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-import usePostsStore from '@/app/store/postsStore'
+import usePostsStore from '@/app/stores/postsStore'
 // IMPORT ELEMENTS
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
