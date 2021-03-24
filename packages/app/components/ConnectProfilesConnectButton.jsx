@@ -17,6 +17,7 @@ const ConnectProfilesConnectButton = ({
   artistAccounts,
   accessToken,
   setErrors,
+  setIsConnecting,
   disabled,
   disabledReason,
   className,
@@ -27,6 +28,7 @@ const ConnectProfilesConnectButton = ({
 
   const runCreateArtists = React.useCallback(async () => {
     toggleGlobalLoading(true)
+    setIsConnecting(true)
     // Convert artist accounts to array, and remove the ones we don't want to connect
     const artistAccountsFiltered = Object.values(artistAccounts).filter(({ connect }) => connect)
     // Santise URLs
@@ -34,11 +36,12 @@ const ConnectProfilesConnectButton = ({
     const { error } = await connectArtists(artistAccountsSanitised, accessToken, user) || {}
     if (error) {
       toggleGlobalLoading(false)
+      setIsConnecting(false)
       setErrors(errors => [...errors, error])
       return
     }
     Router.push(ROUTES.HOME)
-  }, [user, artistAccounts, setErrors, toggleGlobalLoading, connectArtists, accessToken])
+  }, [user, artistAccounts, setErrors, setIsConnecting, toggleGlobalLoading, connectArtists, accessToken])
 
   return (
     <div
@@ -63,6 +66,7 @@ ConnectProfilesConnectButton.propTypes = {
   artistAccounts: PropTypes.object,
   accessToken: PropTypes.string.isRequired,
   setErrors: PropTypes.func.isRequired,
+  setIsConnecting: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   disabledReason: PropTypes.string,
   className: PropTypes.string,

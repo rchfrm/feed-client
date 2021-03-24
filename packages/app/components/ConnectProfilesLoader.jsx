@@ -66,9 +66,10 @@ const ConnectProfilesLoader = ({
     }
   }, [user, isSignupStep])
 
-  // DEFINE LOADING
+  // DEFINE LOADING VERSIONS
   const [pageLoading, setPageLoading] = React.useState(false)
   const [fetchedArtistsFinished, setFetchedArtistsFinished] = React.useState(false)
+  const [isConnecting, setIsConnecting] = React.useState(false)
 
   // DEFINE BUTTON STATE (disabled if required fields are absent)
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
@@ -99,8 +100,8 @@ const ConnectProfilesLoader = ({
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
-    // Stop here if user is loading
-    if (userLoading) return
+    // Stop here if user is loading or profiles are being connected
+    if (userLoading || isConnecting) return
     // If missing scopes, we need to show the connect button
     if (missingScopes.length) return toggleGlobalLoading(false)
     // If no access token, then there will be no way to talk to facebook
@@ -157,7 +158,7 @@ const ConnectProfilesLoader = ({
     })
     setPageLoading(false)
     toggleGlobalLoading(false)
-  }, [userLoading])
+  }, [userLoading, isConnecting])
 
 
   // Set initial error (if any)
@@ -206,6 +207,7 @@ const ConnectProfilesLoader = ({
         artistAccounts={artistAccounts}
         accessToken={accessToken}
         setErrors={setErrors}
+        setIsConnecting={setIsConnecting}
         disabled={buttonDisabled}
         disabledReason={disabledReason}
       />
