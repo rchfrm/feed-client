@@ -18,16 +18,16 @@ Run `yarn` to install all the packages for both the App and Admin Panel.
 
 ### Connecting to the API
 
-To start development you will first need to setup a connection to the API. To do this either set the `REACT_APP_API_URL_LOCAL` variable in the `.env` file to:
+To start development you will first need to setup a connection to the API. To do this either set the `REACT_APP_API_URL` variable in the `.env` file to:
 
 ```
-REACT_APP_API_URL_LOCAL=https://api-dev.getfed.app/
+REACT_APP_API_URL=https://api-dev.getfed.app/
 ```
 
-Or open a new tab in the CLI, open the *automads-server*, checkout the `staging` branch, and run `npm start`. Then set the `REACT_APP_API_URL_LOCAL` variable in the `.env` file to:
+Or open a new tab in the CLI, open the *automads-server*, checkout the `staging` branch, and run `npm start`. Then set the `REACT_APP_API_URL` variable in the `.env` file to:
 
 ```
-REACT_APP_API_URL_LOCAL=http://localhost:5000/
+REACT_APP_API_URL=http://localhost:5000/
 ```
 
 ### Developing the App
