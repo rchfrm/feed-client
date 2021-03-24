@@ -8,10 +8,10 @@ import copy from '@/app/copy/global'
 const PendingEmailWarning = ({
   user,
   isNewUser,
+  isAccountPage,
   className,
 }) => {
   const {
-    artists: userArtists,
     email: authEmail,
     pending_email: pendingEmail,
     contact_email: contactEmail,
@@ -19,22 +19,21 @@ const PendingEmailWarning = ({
     email_verified: emailVerified,
     contact_email_verified: contactEmailVerified,
   } = user
-  console.log('user', user)
 
   const emailToVerify = pendingEmail || (!emailVerified && authEmail) || ''
   const contactEmailToVerify = pendingContactEmail || (!contactEmailVerified && contactEmail) || ''
   const emails = [emailToVerify, contactEmailToVerify].filter((email) => email)
   // Stop here if no emails need verifying
   if (!emails.length) return null
-  const warningCopy = copy.unverifiedEmails(emails)
+  const warningCopy = copy.unverifiedEmails({ emails, isNewUser, isAccountPage })
   return (
     <div
       className={[
-        isNewUser ? 'p-5 bg-grey-1 rounded-dialogue max-w-xl' : '',
+        'p-5 bg-grey-1 rounded-dialogue max-w-xl',
         className,
       ].join(' ')}
     >
-      <MarkdownText markdown={warningCopy} className="h4--text" />
+      <MarkdownText markdown={warningCopy} className={isNewUser ? 'h4--text' : null} />
       {/* TODO: Add resend button */}
       <div>
         <button>RESEND CONFIRMATION EMAIL</button>
@@ -46,11 +45,13 @@ const PendingEmailWarning = ({
 PendingEmailWarning.propTypes = {
   user: PropTypes.object.isRequired,
   isNewUser: PropTypes.bool,
+  isAccountPage: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PendingEmailWarning.defaultProps = {
   isNewUser: false,
+  isAccountPage: false,
   className: null,
 }
 
