@@ -72,6 +72,7 @@ const TheSubNavLinks = ({ className }) => {
         >
           {links.map(({ href, title, external }) => {
             const titleText = title === 'notifications' ? <NOTIFICATION_LINK_TEXT title={title} /> : title
+            const showDot = href === ACCOUNT && hasPendingEmail
             return (
               <li className={[styles.linkItem].join(' ')} key={href}>
                 {external
@@ -82,7 +83,7 @@ const TheSubNavLinks = ({ className }) => {
                         <a className={['relative', styles.a].join(' ')}>
                           {titleText}
                           {/* PENDING EMAIL WARNING */}
-                          {href === ACCOUNT && hasPendingEmail && (
+                          {showDot && (
                             <NotificationDot size="small" style={{ left: '-1.25rem', top: '0.55rem' }} />
                           )}
                         </a>
