@@ -150,12 +150,13 @@ function UserProvider({ children }) {
   const [hasPendingEmail, setHasPendingEmail] = React.useState(false)
   React.useEffect(() => {
     const {
+      contact_email: contactEmail,
       pending_email: pendingEmail,
       pending_contact_email: pendingContactEmail,
       email_verified: emailVerified,
       contact_email_verified: contactEmailVerified,
     } = user
-    const hasPendingEmail = !!(pendingEmail || !emailVerified || pendingContactEmail || !contactEmailVerified)
+    const hasPendingEmail = !!(pendingEmail || !emailVerified || pendingContactEmail || (!contactEmailVerified && contactEmail))
     setHasPendingEmail(hasPendingEmail)
   }, [user])
 
