@@ -138,8 +138,8 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       apiEndpoint,
       hide = false,
     } = dictionaryEntry || {}
-    const date = moment(created_at).format('MM MMM')
-    const dateLong = moment(created_at).format('MM MMM YY')
+    const date = moment(created_at).format('DD MMM')
+    const dateLong = moment(created_at).format('DD MMM YY')
     const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
     // Get Action function
     const onAction = isActionable ? getAction({
