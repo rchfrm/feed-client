@@ -9,7 +9,7 @@ import Spinner from '@/elements/Spinner'
 import NotificationsList from '@/app/NotificationsList'
 import NotificationCurrentInfo from '@/app/NotificationCurrentInfo'
 
-import useNotificationStore from '@/app/store/notificationsStore'
+import useNotificationStore from '@/app/stores/notificationsStore'
 
 const getNotificationsStoreState = (state) => ({
   notifications: state.notifications,

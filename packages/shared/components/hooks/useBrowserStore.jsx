@@ -1,6 +1,6 @@
 import React from 'react'
 
-import browserStore from '@/store/browserStore'
+import browserStore from '@/stores/browserStore'
 
 const useBrowserStore = () => {
   // * Fetch initial state

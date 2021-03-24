@@ -8,7 +8,7 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 
-import useReferralStore from '@/app/store/referralStore'
+import useReferralStore from '@/app/stores/referralStore'
 
 import styles from '@/LoginPage.module.css'
 

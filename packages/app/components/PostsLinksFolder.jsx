@@ -17,7 +17,7 @@ import PostsLinksLink from '@/app/PostsLinksLink'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
-import useLinksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/stores/linksStore'
 
 const FOLDER_NAME = ({ name, editModeOn }) => {
   return (

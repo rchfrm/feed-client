@@ -20,14 +20,14 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    "sourceType": "module",
+    sourceType: 'module',
   },
   plugins: [
     'react',
   ],
 
   rules: {
-    'camelcase': 'off',
+    camelcase: 'off',
     'no-shadow': 'off',
     'import/no-extraneous-dependencies': 'off',
     'max-len': 'off',
@@ -41,7 +41,7 @@ module.exports = {
     'object-curly-newline': 'off',
     'implicit-arrow-linebreak': 'off',
     'no-underscore-dangle': 'off',
-    'semi': [ 2, 'never' ],
+    semi: [2, 'never'],
     'no-multiple-empty-lines': 'off',
     'unicorn/number-literal-case': 'off',
     'no-nested-ternary': 'off',
@@ -82,16 +82,16 @@ module.exports = {
           ['@/admin/helpers', './packages/admin/helpers'],
           ['@/admin', './packages/admin/components'],
           // Shared
-          ["@/elements", "./packages/shared/components/elements"],
-          ["@/icons", "./packages/shared/components/icons"],
-          ["@/hooks", "./packages/shared/components/hooks"],
-          ["@/constants", "./packages/shared/constants"],
-          ["@/helpers", "./packages/shared/helpers"],
-          ["@", "./packages/shared/components"],
-          ["~", "./packages/shared"]
+          ['@/elements', './packages/shared/components/elements'],
+          ['@/icons', './packages/shared/components/icons'],
+          ['@/hooks', './packages/shared/components/hooks'],
+          ['@/constants', './packages/shared/constants'],
+          ['@/helpers', './packages/shared/helpers'],
+          ['@', './packages/shared/components'],
+          ['~', './packages/shared'],
         ],
         extensions: ['.ts', '.js', '.jsx', '.json', '.css'],
       },
     },
   },
-};
+}

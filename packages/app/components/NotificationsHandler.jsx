@@ -1,7 +1,7 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import useNotificationsStore from '@/app/store/notificationsStore'
+import useNotificationsStore from '@/app/stores/notificationsStore'
 
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { UserContext } from '@/contexts/UserContext'

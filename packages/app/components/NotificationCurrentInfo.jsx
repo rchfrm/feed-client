@@ -9,7 +9,7 @@ import useAnimateOnMount from '@/hooks/useAnimateOnMount'
 import useDismissNotification from '@/app/hooks/useDismissNotification'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-import useNotificationStore from '@/app/store/notificationsStore'
+import useNotificationStore from '@/app/stores/notificationsStore'
 
 import NotificationCurrentInfoContent from '@/app/NotificationCurrentInfoContent'
 import NotificationCurrentInfoButton from '@/app/NotificationCurrentInfoButton'

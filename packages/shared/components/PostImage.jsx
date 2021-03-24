@@ -10,7 +10,7 @@ import MediaFallback from '@/elements/MediaFallback'
 import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
-import usePopupStore from '@/store/popupStore'
+import usePopupStore from '@/stores/popupStore'
 
 import styles from '@/PostImage.module.css'
 import popupStyles from '@/PopupModal.module.css'
