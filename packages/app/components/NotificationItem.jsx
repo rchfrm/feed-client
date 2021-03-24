@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import NotificationItemLabel from '@/app/NotificationItemLabel'
 
-import useNotificationStore from '@/app/store/notificationsStore'
+import useNotificationStore from '@/app/stores/notificationsStore'
 
 import { track } from '@/app/helpers/trackingHelpers'
 

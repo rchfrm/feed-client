@@ -4,7 +4,7 @@ import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/contexts/ArtistContext'
 
-import useNotificationsStore from '@/app/store/notificationsStore'
+import useNotificationsStore from '@/app/stores/notificationsStore'
 
 // IMPORT ELEMENTS
 import FeedLogo from '@/icons/FeedLogo'

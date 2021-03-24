@@ -1,8 +1,8 @@
 import React from 'react'
 import { useImmerReducer } from 'use-immer'
 
-import useReferralStore from '@/app/store/referralStore'
-import useNotificationStore from '@/app/store/notificationsStore'
+import useReferralStore from '@/app/stores/referralStore'
+import useNotificationStore from '@/app/stores/notificationsStore'
 // IMPORT HELPERS
 import * as sharedServer from '@/helpers/sharedServer'
 import * as appServer from '@/app/helpers/appServer'

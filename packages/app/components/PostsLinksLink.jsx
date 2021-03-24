@@ -7,7 +7,7 @@ import LinkIcon from '@/icons/LinkIcon'
 import TrashIcon from '@/icons/TrashIcon'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-import useLinksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/stores/linksStore'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 import useForceDeleteLink from '@/app/hooks/useForceDeleteLink'

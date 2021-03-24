@@ -11,7 +11,7 @@ import {
 
 import shallow from 'zustand/shallow'
 
-import useBrowserStore from '@/store/browserStore'
+import useBrowserStore from '@/stores/browserStore'
 import useOnResize from '@/hooks/useOnResize'
 
 const getBrowserStore = (state) => ({

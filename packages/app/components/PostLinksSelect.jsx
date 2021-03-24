@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import shallow from 'zustand/shallow'
 import useAsyncEffect from 'use-async-effect'
 
-import useLinksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/stores/linksStore'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 

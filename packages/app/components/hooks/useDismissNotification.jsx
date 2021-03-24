@@ -1,6 +1,6 @@
 import React from 'react'
 
-import useNotificationStore from '@/app/store/notificationsStore'
+import useNotificationStore from '@/app/stores/notificationsStore'
 
 const getSetAsDismissed = state => state.setAsDismissed
 
