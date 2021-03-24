@@ -6,16 +6,19 @@ import Button from '@/elements/Button'
 
 const ConfirmEmailEmailSuccess = ({
   email,
+  contactEmail,
+  emailType,
   onContinue,
   className,
 }) => {
+  const emailDisplay = emailType === 'contactEmail' ? contactEmail : email
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-      <Success message={`Success! Your email **${email}** has been verified!`} />
+      <Success message={`Success! Your email **${emailDisplay}** has been verified!`} />
       <div className="pt-2">
         <Button
           version="green small"
@@ -31,11 +34,14 @@ const ConfirmEmailEmailSuccess = ({
 
 ConfirmEmailEmailSuccess.propTypes = {
   email: PropTypes.string.isRequired,
+  contactEmail: PropTypes.string,
+  emailType: PropTypes.string.isRequired,
   onContinue: PropTypes.func,
   className: PropTypes.string,
 }
 
 ConfirmEmailEmailSuccess.defaultProps = {
+  contactEmail: '',
   onContinue: () => {},
   className: null,
 }

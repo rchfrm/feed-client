@@ -5,11 +5,11 @@ import AccountPageDetailsInline from '@/app/AccountPageDetailsInline'
 // IMPORT ASSETS
 // IMPORT CONSTANTS
 
-const AccountPageContent = ({ user }) => {
+const AccountPageContent = () => {
   // The content
   return (
     <>
-      <AccountPageDetailsInline user={user} />
+      <AccountPageDetailsInline />
     </>
   )
 }

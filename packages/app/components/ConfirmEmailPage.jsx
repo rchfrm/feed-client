@@ -15,10 +15,9 @@ import Error from '@/elements/Error'
 import Button from '@/elements/Button'
 import PencilIcon from '@/icons/PencilIcon'
 
-import SignupVerifyResendButton from '@/app/ConfirmEmailResendButton'
+import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
 import ConfirmEmailChangeEmail from '@/app/ConfirmEmailChangeEmail'
 import ConfirmEmailEmailSuccess from '@/app/ConfirmEmailEmailSuccess'
-
 
 import { parseUrl } from '@/helpers/utils'
 import { verifyEmail } from '@/app/helpers/appServer'
@@ -32,8 +31,16 @@ import styles from '@/LoginPage.module.css'
 
 import * as ROUTES from '@/app/constants/routes'
 
+// Get the email type that needs verifying
+const getEmailType = ({ query, emailVerified, contactEmailVerified, contactEmail }) => {
+  const queryType = query?.type
+  if (queryType) return queryType
+  if (!emailVerified) return 'email'
+  if (contactEmail && !contactEmailVerified) return 'contactEmail'
+  return 'none'
+}
+
 const ConfirmEmailPage = ({
-  isSignupFlow,
   className,
 }) => {
   // GET USER CONTEXT and email
@@ -41,6 +48,7 @@ const ConfirmEmailPage = ({
     updateUser,
     userLoading,
     user: {
+      artists: userArtists,
       email: authEmail,
       pending_email: pendingEmail,
       contact_email: contactEmail,
@@ -56,6 +64,26 @@ const ConfirmEmailPage = ({
   // SETUP CROSS TAB MESSAGING
   const { messagePayload, broadcastMessage } = useCrossTabCommunication('emailVerified')
 
+  // PARSE PAGE QUERY
+  const { asPath: urlString } = useRouter()
+  const { query } = parseUrl(urlString)
+  // GET VERIFACTION CODE FROM URL
+  const initialVerificationCode = query?.token
+  const [hasInitialVerificationCode, setHasInitialVerificationCode] = React.useState(!!initialVerificationCode)
+
+  // GET EMAIL TYPE THAT NEEDS VERIFYING
+  // & GET WHICH FLOW
+  const [emailType, setEmailType] = React.useState('')
+  const [isSignupFlow, setIsSignupFlow] = React.useState(false)
+  React.useEffect(() => {
+    if (userLoading) return
+    const emailType = getEmailType({ query, emailVerified, contactEmailVerified, contactEmail })
+    setEmailType(emailType)
+    const isSignupFlow = !userArtists || !userArtists.length
+    setIsSignupFlow(isSignupFlow)
+  // eslint-disable-next-line
+  }, [userLoading])
+
   // HANDLE SUCCESS
   const [isSuccessful, setIsSuccessful] = React.useState(false)
   const onSuccessContinue = React.useCallback(() => {
@@ -69,11 +97,13 @@ const ConfirmEmailPage = ({
     // Stop here because pending email
     if (pendingEmail || pendingContactEmail) return
     // Stop here because one of the emails isn't verified
-    if (!emailVerified || !contactEmailVerified) return
+    if (!emailVerified || (contactEmail && !contactEmailVerified)) return
+    // Stop here because don't yet know the email type
+    if (!emailType) return
     // If you've reached this bit, you're successful
     broadcastMessage({ success: true })
     onSuccessContinue()
-  }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, emailVerified, contactEmailVerified, isSuccessful, broadcastMessage])
+  }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, emailVerified, contactEmail, contactEmailVerified, emailType, isSuccessful, broadcastMessage])
 
   // BROADCAST SUCCESS
   React.useEffect(() => {
@@ -87,12 +117,6 @@ const ConfirmEmailPage = ({
       onSuccessContinue()
     }
   }, [messagePayload, onSuccessContinue])
-
-  // GET VERIFACTION CODE FROM URL
-  const { asPath: urlString } = useRouter()
-  const { query } = parseUrl(urlString)
-  const initialVerificationCode = query?.token
-  const [hasInitialVerificationCode, setHasInitialVerificationCode] = React.useState(!!initialVerificationCode)
 
   // TEST CODE
   const [verificationCode, setVerificationCode] = React.useState(initialVerificationCode)
@@ -134,6 +158,8 @@ const ConfirmEmailPage = ({
     return (
       <ConfirmEmailEmailSuccess
         email={email}
+        contactEmail={contactEmail}
+        emailType={emailType}
         onContinue={onSuccessContinue}
         className={styles.container}
       />
@@ -169,8 +195,9 @@ const ConfirmEmailPage = ({
       <div>
         <p className="mb-5">Didn't receive an email?</p>
         <div className="xxs:flex justify-between items-center">
-          <SignupVerifyResendButton
+          <ConfirmEmailResendButton
             contactEmail={contactEmail}
+            emailType={emailType}
             setError={setError}
           />
           <Button
@@ -197,12 +224,10 @@ const ConfirmEmailPage = ({
 }
 
 ConfirmEmailPage.propTypes = {
-  isSignupFlow: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ConfirmEmailPage.defaultProps = {
-  isSignupFlow: false,
   className: null,
 }
 
