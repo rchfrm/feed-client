@@ -15,7 +15,6 @@ import Error from '@/elements/Error'
 import Button from '@/elements/Button'
 import PencilIcon from '@/icons/PencilIcon'
 
-
 import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
 import ConfirmEmailChangeEmail from '@/app/ConfirmEmailChangeEmail'
 import ConfirmEmailEmailSuccess from '@/app/ConfirmEmailEmailSuccess'
