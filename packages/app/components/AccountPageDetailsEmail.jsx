@@ -12,14 +12,14 @@ import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
 const PENDING_EMAIL_NOTICE = ({
   email,
   emailType,
+  isPending,
   className,
 }) => {
   const [resendEmailError, setResendEmailError] = React.useState(null)
+  const message = `* You need to verify ${email}${isPending ? ` before we can set it as your new ${emailType}` : ''}, please check your inbox.`
   return (
     <div className={className}>
-      <p className="text-sm font-bold -mt-5 mb-4">
-        * You need to verify {email} before we can set it as your new {emailType}, please check your inbox.
-      </p>
+      <p className="text-sm font-bold -mt-5 mb-4">{message}</p>
       <Error error={resendEmailError} />
       <ConfirmEmailResendButton
         buttonText="Resend confirmation email"
@@ -66,6 +66,7 @@ const AccountPageDetailsEmail = ({
       {(!emailVerified || pendingEmail) && (
         <PENDING_EMAIL_NOTICE
           email={pendingEmail || userEmail}
+          isPending={!!pendingEmail}
           emailType={hasEmailAuth ? 'account email' : 'contact email'}
           className="mb-4"
         />
@@ -100,6 +101,7 @@ const AccountPageDetailsEmail = ({
               {(pendingContactEmail || (!contactEmailVerified && userContactEmail)) && (
                 <PENDING_EMAIL_NOTICE
                   email={pendingContactEmail || userContactEmail}
+                  isPending={!!pendingContactEmail}
                   emailType="contact email"
                   className="mb-8"
                 />
