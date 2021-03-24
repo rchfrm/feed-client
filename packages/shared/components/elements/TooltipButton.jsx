@@ -16,7 +16,8 @@ const TooltipButton = (props) => {
   }, [])
   // Toggle functions
   const buttonRef = React.useRef(null)
-  const toggleMessage = () => {
+  const toggleMessage = (e) => {
+    e.preventDefault()
     setShowMessage(!showMessage)
     track('tooltip_clicked', {
       action: !showMessage ? 'show' : 'hide',
