@@ -22,7 +22,7 @@ const BasePage = ({
   // Get interface context
   const { setHeader, toggleSubNav, toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get user context
-  const { user } = React.useContext(UserContext)
+  const { user, hasPendingEmail } = React.useContext(UserContext)
   // ON MOUNT
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => {
@@ -68,7 +68,9 @@ const BasePage = ({
             <MarkdownText className="h4--text mb-0" markdown={copy.noArtists} />
           </div>
           {/* UNVERIFIED EMAIL WARNING */}
-          <PendingEmailWarning user={user} isNewUser />
+          {hasPendingEmail && (
+            <PendingEmailWarning user={user} isNewUser />
+          )}
         </div>
       ) : (
         <>
