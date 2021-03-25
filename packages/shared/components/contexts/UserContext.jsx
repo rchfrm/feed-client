@@ -148,7 +148,7 @@ function UserProvider({ children }) {
 
   // STORE IF PENDING EMAIL
   const [hasPendingEmail, setHasPendingEmail] = React.useState(false)
-  React.useEffect(() => {
+  const testForPendingEmail = React.useCallback((user) => {
     const {
       contact_email: contactEmail,
       pending_email: pendingEmail,
@@ -156,9 +156,11 @@ function UserProvider({ children }) {
       email_verified: emailVerified,
       contact_email_verified: contactEmailVerified,
     } = user
-    const hasPendingEmail = !!(pendingEmail || !emailVerified || pendingContactEmail || (!contactEmailVerified && contactEmail))
-    setHasPendingEmail(hasPendingEmail)
-  }, [user])
+    return !!(pendingEmail || !emailVerified || pendingContactEmail || (!contactEmailVerified && contactEmail))
+  }, [])
+  React.useEffect(() => {
+    setHasPendingEmail(testForPendingEmail(user))
+  }, [user, testForPendingEmail])
 
   const value = {
     runCreateUser,
@@ -171,6 +173,7 @@ function UserProvider({ children }) {
     userError,
     userLoading,
     setUserLoading,
+    testForPendingEmail,
     hasPendingEmail,
   }
 
