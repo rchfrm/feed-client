@@ -92,6 +92,7 @@ const ConfirmEmailPage = ({
     Router.push(nextPage)
   }, [isSignupFlow])
   // If no need to verify
+  const successTriggered = React.useRef(false)
   React.useEffect(() => {
     // Stop here because not ready or it's manually successful
     if (userLoading || isSuccessful) return
@@ -102,6 +103,8 @@ const ConfirmEmailPage = ({
     // Stop here because don't yet know the email type
     if (!emailType) return
     // If you've reached this bit, you're successful
+    if (successTriggered.current) return
+    successTriggered.current = true
     broadcastMessage({ success: true })
     onSuccessContinue()
   }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, emailVerified, contactEmail, contactEmailVerified, emailType, isSuccessful, broadcastMessage])
