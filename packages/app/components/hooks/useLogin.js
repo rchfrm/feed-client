@@ -23,7 +23,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     setRejectedPagePath,
     setAuthLoading,
   } = React.useContext(AuthContext)
-  const { setNoUser, storeUser, setUserLoading } = React.useContext(UserContext)
+  const { setNoUser, storeUser, setUserLoading, testForPendingEmail } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   // * HANDLE NO AUTH USER
@@ -95,7 +95,8 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       // TRACK LOGIN
       trackLogin({ authProvider: 'facebook', userId: user.id })
       setNoArtist()
-      const redirectTo = initialPathname === ROUTES.CONFIRM_EMAIL ? ROUTES.CONFIRM_EMAIL : ROUTES.SIGN_UP_CONNECT_PROFILES
+      const hasPendingEmail = testForPendingEmail(user)
+      const redirectTo = hasPendingEmail || initialPathname === ROUTES.CONFIRM_EMAIL ? ROUTES.CONFIRM_EMAIL : ROUTES.SIGN_UP_CONNECT_PROFILES
       const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
       return userRedirected
     }
