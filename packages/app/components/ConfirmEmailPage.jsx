@@ -47,6 +47,7 @@ const ConfirmEmailPage = ({
   const {
     updateUser,
     userLoading,
+    storeUser,
     user: {
       artists: userArtists,
       email: authEmail,
@@ -115,6 +116,7 @@ const ConfirmEmailPage = ({
     if (!messagePayload) return
     if (messagePayload.success) {
       onSuccessContinue()
+      storeUser()
     }
   }, [messagePayload, onSuccessContinue])
 
