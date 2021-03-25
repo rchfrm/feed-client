@@ -128,10 +128,13 @@ const AccountPageDetailsInline = () => {
     const [{ res: accountChangedRes, error: accountChangedError }, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
     // Stop form disabled
     setFormDisabled(false)
+    // UPDATE USER and emails
     if (accountChangedRes) {
       // Update the user details
       const updatedUser = accountChangedRes
       updateUser(updatedUser)
+      setEmail(updatedUser.email)
+      setContactEmail(updatedUser.contact_email)
     }
     // Clear the passwords
     setPasswordOne('')
