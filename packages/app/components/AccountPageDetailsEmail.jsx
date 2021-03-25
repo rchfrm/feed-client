@@ -117,7 +117,7 @@ const AccountPageDetailsEmail = ({
 
 AccountPageDetailsEmail.propTypes = {
   email: PropTypes.string.isRequired,
-  contactEmail: PropTypes.string.isRequired,
+  contactEmail: PropTypes.string,
   hasEmailAuth: PropTypes.bool.isRequired,
   useCustomContactEmail: PropTypes.bool.isRequired,
   setUseCustomContactEmail: PropTypes.func.isRequired,
@@ -126,6 +126,7 @@ AccountPageDetailsEmail.propTypes = {
 }
 
 AccountPageDetailsEmail.defaultProps = {
+  contactEmail: '',
   loading: false,
 }
 
