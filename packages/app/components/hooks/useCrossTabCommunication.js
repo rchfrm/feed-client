@@ -7,6 +7,7 @@ const useCrossTabCommunication = (messageName) => {
   const [sysendLoaded, setSysendLoaded] = React.useState(false)
   const [messageBroadcast, setMessageBroadcast] = React.useState('')
   const [messagePayload, setMessagePayload] = React.useState(null)
+  const [hasBroadcasted, setHasBroadcasted] = React.useState(false)
   // LOAD SYSEND
   useAsyncEffect(async () => {
     sysendPackage.current = (await import('sysend')).default
@@ -28,10 +29,11 @@ const useCrossTabCommunication = (messageName) => {
   const broadcastMessage = React.useCallback((payload = null) => {
     if (!sysendLoaded) return
     const { current: sysend } = sysendPackage
+    setHasBroadcasted(true)
     sysend.broadcast(messageName, payload)
   }, [messageName, sysendLoaded])
 
-  return { messageBroadcast, messagePayload, broadcastMessage }
+  return { messageBroadcast, messagePayload, broadcastMessage, hasBroadcasted }
 }
 
 export default useCrossTabCommunication
