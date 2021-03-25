@@ -63,7 +63,7 @@ const ConfirmEmailPage = ({
   const [email, setEmail] = React.useState(pendingEmail || pendingContactEmail || authEmail || contactEmail)
 
   // SETUP CROSS TAB MESSAGING
-  const { messagePayload, broadcastMessage } = useCrossTabCommunication('emailVerified')
+  const { messagePayload, broadcastMessage, hasBroadcasted } = useCrossTabCommunication('emailVerified')
 
   // PARSE PAGE QUERY
   const { asPath: urlString } = useRouter()
@@ -111,17 +111,21 @@ const ConfirmEmailPage = ({
 
   // BROADCAST SUCCESS
   React.useEffect(() => {
-    if (isSuccessful) broadcastMessage({ success: true })
-  }, [isSuccessful, broadcastMessage])
+    if (isSuccessful && !hasBroadcasted) {
+      broadcastMessage({ success: true })
+    }
+  }, [isSuccessful, broadcastMessage, hasBroadcasted])
 
   // LISTEN FOR SUCCESS IN ANOTHER TAB
   React.useEffect(() => {
     if (!messagePayload) return
-    if (messagePayload.success) {
+    if (messagePayload.success && !hasBroadcasted) {
+      // Trigger success
       onSuccessContinue()
+      // Update user from server
       storeUser()
     }
-  }, [messagePayload, onSuccessContinue])
+  }, [messagePayload, onSuccessContinue, storeUser, hasBroadcasted])
 
   // TEST CODE
   const [verificationCode, setVerificationCode] = React.useState(initialVerificationCode)
