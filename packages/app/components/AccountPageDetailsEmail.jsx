@@ -69,7 +69,7 @@ const AccountPageDetailsEmail = ({
           email={pendingEmail || userEmail}
           isPending={!!pendingEmail}
           emailType={hasEmailAuth ? 'account email' : 'contact email'}
-          className="mb-4"
+          className={hasEmailAuth ? 'mb-4' : 'mb-12'}
         />
       )}
       {/* CONTACT EMAIL */}
