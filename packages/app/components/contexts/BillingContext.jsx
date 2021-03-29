@@ -17,27 +17,29 @@ const BillingContextProvider = ({ children }) => {
 
   const [loading, setLoading] = React.useState(true)
   const [organisation, setOrganisation] = React.useState({})
-  const [hasNoPaymentMethod, setHasNoPaymentMethod] = React.useState(true)
   const [billingDetails, setBillingDetails] = React.useState([])
 
-  const fetchBillingDetails = React.useCallback(async (user) => {
-    const allOrgsInfo = await paymentHelpers.getAllOrgsInfo({ user })
-    // Get the owner organisation
-    const ownerOrg = allOrgsInfo.find(({ role }) => role === 'owner')
-    setOrganisation(ownerOrg)
+  const fetchAllOrgs = async (user) => {
+    const allOrgs = await paymentHelpers.getAllOrgsInfo({ user })
+    return allOrgs
+  }
+
+  const fetchBillingDetails = async (organisation) => {
     // Set the billing details
-    const billingDetails = allOrgsInfo.map(paymentHelpers.getbillingDetails)
+    const billingDetails = paymentHelpers.getbillingDetails(organisation)
     return billingDetails
-  }, [])
+  }
 
   useAsyncEffect(async (isMounted) => {
     if (userLoading) return
-    const billingDetails = await fetchBillingDetails(user)
+    const allOrgs = await fetchAllOrgs(user)
+    const organisation = allOrgs.find(({ role }) => role === 'owner')
+    const billingDetails = await fetchBillingDetails(organisation)
     if (!isMounted()) return
+    // Set org
+    setOrganisation(organisation)
     // Set billing details
     setBillingDetails(billingDetails)
-    // Test if no payment is set on the owner's org
-    setHasNoPaymentMethod(paymentHelpers.testNoPayment(billingDetails))
     // Set Loading over
     setLoading(false)
   }, [userLoading])
@@ -47,9 +49,7 @@ const BillingContextProvider = ({ children }) => {
       value={{
         billingLoading: loading,
         organisation,
-        hasNoPaymentMethod,
         billingDetails,
-        fetchBillingDetails,
       }}
     >
       {children}
