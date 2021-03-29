@@ -2,7 +2,7 @@
 **************************
 DETAILS
 **************************/
-.accountPageDetails {
+/* .accountPageDetails {
 
   .row {
     margin-bottom: var(--sp-5);
@@ -12,15 +12,12 @@ DETAILS
   .submitButton {
     margin-top: var(--sp-5);
   }
-}
+} */
 
 .payment-details {
   width: 100%;
 }
 
-.submitButton {
-  margin-top: var(--sp-20);
-}
 
 
 /* 

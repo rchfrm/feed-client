@@ -17,9 +17,6 @@ import Error from '@/elements/Error'
 
 import useAnimateScroll from '@/hooks/useAnimateScroll'
 
-import styles from '@/app/AccountPage.module.css'
-
-
 function AccountPageDetailsInline({ user }) {
   // Get user context
   const { updateUser } = React.useContext(UserContext)
@@ -182,11 +179,10 @@ function AccountPageDetailsInline({ user }) {
 
 
   return (
-    <section className={styles.accountPageDetails}>
+    <section>
 
       <form
         className={[
-          styles.accountPageDetails__form,
           'md:max-w-xl',
         ].join(' ')}
         onSubmit={handleSubmit}
@@ -288,7 +284,7 @@ function AccountPageDetailsInline({ user }) {
         )}
 
         <Button
-          className={styles.submitButton}
+          className="mt-10"
           type="submit"
           disabled={formDisabled}
           loading={loading}
