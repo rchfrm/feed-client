@@ -1,10 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 
-import {
-  CardElement,
-  injectStripe,
-} from 'react-stripe-elements'
+import { CardElement } from '@stripe/react-stripe-js'
 
 // IMPORT ASSETS
 import StripeLogo from '@/icons/StripeLogo'
@@ -364,4 +361,4 @@ function PaymentAddForm({ setSuccess, setCardDetails, elements, stripe }) {
   )
 }
 
-export default injectStripe(PaymentAddForm)
+export default PaymentAddForm
