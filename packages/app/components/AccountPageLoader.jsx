@@ -3,7 +3,7 @@ import React from 'react'
 import { UserContext } from '@/contexts/UserContext'
 import { BillingContextProvider } from '@/app/contexts/BillingContext'
 // IMPORT COMPONENTS
-import AccountPageContent from '@/app/AccountPageContent'
+import AccountPageDetails from '@/app/AccountPageDetails'
 
 function AccountPageLoader() {
   // IMPORT USER STATE
@@ -11,7 +11,7 @@ function AccountPageLoader() {
 
   return (
     <BillingContextProvider user={user}>
-      <AccountPageContent user={user} />
+      <AccountPageDetails user={user} />
     </BillingContextProvider>
   )
 }

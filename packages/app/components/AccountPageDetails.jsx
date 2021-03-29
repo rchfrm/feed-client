@@ -17,7 +17,7 @@ import Error from '@/elements/Error'
 
 import useAnimateScroll from '@/hooks/useAnimateScroll'
 
-function AccountPageDetailsInline({ user }) {
+const AccountPageDetails = ({ user }) => {
   // Get user context
   const { updateUser } = React.useContext(UserContext)
   // Determine if user doesn't use email auth
@@ -296,8 +296,8 @@ function AccountPageDetailsInline({ user }) {
   )
 }
 
-AccountPageDetailsInline.propTypes = {
+AccountPageDetails.propTypes = {
   user: PropTypes.object.isRequired,
 }
 
-export default AccountPageDetailsInline
+export default AccountPageDetails
