@@ -17,6 +17,7 @@
     "gsap": "^3.2.6",
     "mixpanel-browser": "^2.40.0",
     "nouislider-react": "^3.3.8",
-    "react-stripe-elements": "^6.1.0"
+    "@stripe/react-stripe-js": "^1.4.0",
+    "@stripe/stripe-js": "^1.13.2"
   }
 }
