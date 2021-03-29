@@ -4,6 +4,7 @@ import React from 'react'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import { BillingContext } from '@/app/contexts/BillingContext'
 
+import BillingPaymentMethods from '@/app/BillingPaymentMethods'
 
 const BillingContent = () => {
   // SIDE PANEL
@@ -21,6 +22,7 @@ const BillingContent = () => {
   } = React.useContext(BillingContext)
 
   console.log('billingDetails', billingDetails)
+  console.log('billingDetails.allPaymentMethods', billingDetails.allPaymentMethods)
 
   if (billingLoading) return null
 
@@ -28,7 +30,7 @@ const BillingContent = () => {
     <div
       className=""
     >
-      Billing
+      <BillingPaymentMethods paymentMethods={billingDetails.allPaymentMethods} />
     </div>
   )
 }
