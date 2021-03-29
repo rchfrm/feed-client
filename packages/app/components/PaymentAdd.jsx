@@ -1,15 +1,22 @@
 // IMPORT PACKAGES
 import React from 'react'
-import { Elements } from 'react-stripe-elements'
 
-// IMPORT COMPONENTS
-import PaymentAddForm from '@/app/PaymentAddForm'
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
+
+
+import BillingAddPaymentForm from '@/app/BillingAddPaymentForm'
+// import PaymentAddForm from '@/app/PaymentAddForm_old' // OLD FORM
+
 import PaymentPageSuccess from '@/app/PaymentPageSuccess'
 
 import styles from '@/app/PaymentPage.module.css'
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const PaymentAdd = () => {
+  // Create the Stripe object yourself...
+  const stripePromise = loadStripe(process.env.stripe_provider)
+
   const [success, setSuccess] = React.useState(false)
   const [cardDetails, setCardDetails] = React.useState({})
 
@@ -23,8 +30,8 @@ const PaymentAdd = () => {
         {
           !success
             ? (
-              <Elements>
-                <PaymentAddForm
+              <Elements stripe={stripePromise}>
+                <BillingAddPaymentForm
                   setSuccess={setSuccess}
                   setCardDetails={setCardDetails}
                 />
