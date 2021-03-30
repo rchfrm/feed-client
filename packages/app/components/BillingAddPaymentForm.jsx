@@ -133,7 +133,7 @@ const FORM = ({
       {/* CARD ELEMENT
           Includes: Card number, expiry date, CVC, postal/zip
       */}
-      <InputBase label="Card details" required>
+      <InputBase label="Card details" name="card-details" required>
         <div className="border-2 border-solid border-black rounded-button px-4 py-5">
           <CardElement
             options={STRIPE_ELEMENT_OPTIONS}
