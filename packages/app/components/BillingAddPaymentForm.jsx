@@ -35,21 +35,25 @@ const STRIPE_ELEMENT_OPTIONS = {
 }
 
 // UPDATE DB
-const postPaymentMethod = async (paymentMethod, { name, postalCode }) => {
+const postPaymentMethod = async (paymentMethod, { name, setAsDefault }) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve({ paymentMethod, name, postalCode })
+      resolve({ paymentMethod, name, setAsDefault })
     }, 500)
   })
 }
 
 // THE FORM
-const FORM = ({ setSidePanelButton, setSuccess }) => {
+const FORM = ({
+  setSidePanelButton,
+  setPaymentMethod,
+  setSuccess,
+  setAsDefault,
+}) => {
   const elements = useElements()
   const stripe = useStripe()
   const [name, setName] = React.useState('')
   const [error, setError] = React.useState(null)
-  const [paymentMethod, setPaymentMethod] = React.useState(null)
 
   // FORM STATE
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -90,13 +94,17 @@ const FORM = ({ setSidePanelButton, setSuccess }) => {
       return
     }
     console.log('paymentMethod', paymentMethod)
-    const { res, error } = await postPaymentMethod(paymentMethod, { name })
+    const { res, error } = await postPaymentMethod(paymentMethod, { name, setAsDefault })
     console.log('res', res)
     setIsLoading(false)
     if (!error) {
+      setPaymentMethod({
+        ...paymentMethod,
+        setAsDefault,
+      })
       setSuccess(true)
     }
-  }, [isFormValid, isLoading, name, setSuccess, stripe, elements])
+  }, [isFormValid, isLoading, name, setAsDefault, setSuccess, setPaymentMethod, stripe, elements])
 
   // CHANGE SIDEPANEL BUTTON
   React.useEffect(() => {
@@ -126,7 +134,7 @@ const FORM = ({ setSidePanelButton, setSuccess }) => {
           Includes: Card number, expiry date, CVC, postal/zip
       */}
       <InputBase label="Card details" required>
-        <div className="border-2 border-solid border-black rounded-button p-4">
+        <div className="border-2 border-solid border-black rounded-button px-4 py-5">
           <CardElement
             options={STRIPE_ELEMENT_OPTIONS}
             onChange={(e) => {
@@ -152,14 +160,18 @@ const stripePromise = loadStripe(process.env.stripe_provider)
 
 const BillingAddPaymentForm = ({
   setSidePanelButton,
+  setPaymentMethod,
   setSuccess,
+  setAsDefault,
 }) => {
   return (
     <Elements stripe={stripePromise}>
       {/* Defined above... */}
       <FORM
         setSidePanelButton={setSidePanelButton}
+        setPaymentMethod={setPaymentMethod}
         setSuccess={setSuccess}
+        setAsDefault={setAsDefault}
       />
     </Elements>
   )
@@ -167,10 +179,13 @@ const BillingAddPaymentForm = ({
 
 BillingAddPaymentForm.propTypes = {
   setSidePanelButton: PropTypes.func.isRequired,
+  setPaymentMethod: PropTypes.func.isRequired,
   setSuccess: PropTypes.func.isRequired,
+  setAsDefault: PropTypes.bool,
 }
 
 BillingAddPaymentForm.defaultProps = {
+  setAsDefault: false,
 }
 
 export default BillingAddPaymentForm

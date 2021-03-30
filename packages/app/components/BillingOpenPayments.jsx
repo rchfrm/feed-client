@@ -9,6 +9,7 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 const BillingOpenPayments = ({
   contentType,
+  setAsDefault,
   className,
 }) => {
   // SIDE PANEL
@@ -26,10 +27,17 @@ const BillingOpenPayments = ({
 
   // OPEN ADD PAYMENT METHOD
   const openAddPaymentMethod = React.useCallback(() => {
-    setSidePanelContent(<BillingPaymentAdd toggleSidePanel={toggleSidePanel} setSidePanelButton={setSidePanelButton} />)
+    const content = (
+      <BillingPaymentAdd
+        setAsDefault={setAsDefault}
+        toggleSidePanel={toggleSidePanel}
+        setSidePanelButton={setSidePanelButton}
+      />
+    )
+    setSidePanelContent(content)
     setSidePanelContentLabel('Add payment method')
     toggleSidePanel(true)
-  }, [setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton])
+  }, [setAsDefault, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton])
   return (
     <div className={className}>
       <Button
@@ -51,10 +59,12 @@ const BillingOpenPayments = ({
 
 BillingOpenPayments.propTypes = {
   contentType: PropTypes.string.isRequired,
+  setAsDefault: PropTypes.bool,
   className: PropTypes.string,
 }
 
 BillingOpenPayments.defaultProps = {
+  setAsDefault: false,
   className: null,
 }
 

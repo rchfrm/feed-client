@@ -13,6 +13,7 @@ import sidePanelStyles from '@/app/SidePanel.module.css'
 
 
 const BillingPaymentAdd = ({
+  setAsDefault,
   setSidePanelButton,
   toggleSidePanel,
 }) => {
@@ -38,6 +39,7 @@ const BillingPaymentAdd = ({
           <BillingAddPaymentForm
             setSidePanelButton={setSidePanelButton}
             setSuccess={setSuccess}
+            setAsDefault={setAsDefault}
           />
         )}
       </div>
@@ -47,8 +49,14 @@ const BillingPaymentAdd = ({
 }
 
 BillingPaymentAdd.propTypes = {
+  setAsDefault: PropTypes.bool,
   setSidePanelButton: PropTypes.func.isRequired,
   toggleSidePanel: PropTypes.func.isRequired,
 }
+
+BillingPaymentAdd.defaultProps = {
+  setAsDefault: false,
+}
+
 
 export default BillingPaymentAdd
