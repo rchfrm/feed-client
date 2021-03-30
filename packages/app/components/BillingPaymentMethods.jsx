@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import MarkdownText from '@/elements/MarkdownText'
 
+import BillingOpenPayments from '@/app/BillingOpenPayments'
+
 import copy from '@/app/copy/billingCopy'
 
 const BillingPaymentMethods = ({
@@ -19,7 +21,10 @@ const BillingPaymentMethods = ({
       {paymentMethods.length ? (
         <div>METHODS</div>
       ) : (
-        <MarkdownText markdown={copy.noPaymentMethods} />
+        <>
+          <MarkdownText markdown={copy.noPaymentMethods} />
+          <BillingOpenPayments contentType="add-payment" />
+        </>
       )}
     </div>
   )
