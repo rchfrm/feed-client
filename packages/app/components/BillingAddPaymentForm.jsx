@@ -4,9 +4,7 @@ import PropTypes from 'prop-types'
 import { loadStripe } from '@stripe/stripe-js'
 
 import {
-  CardNumberElement,
-  CardCvcElement,
-  CardExpiryElement,
+  CardElement,
   Elements,
   useElements,
   useStripe,
@@ -15,20 +13,23 @@ import {
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
+import InputBase from '@/elements/InputBase'
 
+import brandColors from '@/constants/brandColors'
 
 const STRIPE_ELEMENT_OPTIONS = {
   style: {
     base: {
-      fontSize: '18px',
-      color: '#424770',
+      fontSize: '16px',
+      fontFamily: 'Inter, serif',
+      color: brandColors.black,
       letterSpacing: '0.025em',
       '::placeholder': {
-        color: '#aab7c4',
+        color: brandColors.grey,
       },
     },
     invalid: {
-      color: '#9e2146',
+      color: brandColors.red,
     },
   },
 }
@@ -47,7 +48,6 @@ const FORM = ({ setSidePanelButton, setSuccess }) => {
   const elements = useElements()
   const stripe = useStripe()
   const [name, setName] = React.useState('')
-  const [postalCode, setPostalCode] = React.useState('')
   const [error, setError] = React.useState(null)
   const [paymentMethod, setPaymentMethod] = React.useState(null)
 
@@ -65,39 +65,38 @@ const FORM = ({ setSidePanelButton, setSuccess }) => {
   }, [elements, stripe])
 
   // TEST FORM IS VALID
+  const [cardComplete, setCardComplete] = React.useState(false)
   React.useEffect(() => {
-    const formValid = !!(name && postalCode && elements && stripe)
+    const formValid = !!(name && elements && stripe && cardComplete)
     setIsFormValid(formValid)
-  }, [name, postalCode, elements, stripe])
+  }, [name, cardComplete, elements, stripe])
 
   // HANDLE FORM
   const onSubmit = React.useCallback(async () => {
     if (!isFormValid || isLoading) return
     setIsLoading(true)
-    const cardElement = elements.getElement(CardNumberElement)
+    const cardElement = elements.getElement(CardElement)
     const { paymentMethod, error: stripeError } = await stripe.createPaymentMethod({
       type: 'card',
       card: cardElement,
       billing_details: {
         name,
-        address: {
-          postal_code: postalCode,
-        },
       },
     })
     if (stripeError) {
       setError(stripeError)
       setIsLoading(false)
+      elements.getElement('card').focus()
       return
     }
     console.log('paymentMethod', paymentMethod)
-    const { res, error } = await postPaymentMethod(paymentMethod, { name, postalCode })
+    const { res, error } = await postPaymentMethod(paymentMethod, { name })
     console.log('res', res)
     setIsLoading(false)
     if (!error) {
       setSuccess(true)
     }
-  }, [isFormValid, isLoading, name, postalCode, setSuccess, stripe, elements])
+  }, [isFormValid, isLoading, name, setSuccess, stripe, elements])
 
   // CHANGE SIDEPANEL BUTTON
   React.useEffect(() => {
@@ -120,39 +119,24 @@ const FORM = ({ setSidePanelButton, setSuccess }) => {
         label="Full name"
         value={name}
         updateValue={setName}
+        required
       />
 
-      <label htmlFor="cardNumber">Card Number</label>
-      <CardNumberElement
-        id="cardNumber"
-        onChange={(e) => {
-          console.log('change stripe', e)
-        }}
-        options={STRIPE_ELEMENT_OPTIONS}
-      />
-      <label htmlFor="expiry">Card Expiration</label>
-      <CardExpiryElement
-        id="expiry"
-        onChange={(e) => {
-          console.log('change stripe', e)
-        }}
-        options={STRIPE_ELEMENT_OPTIONS}
-      />
-      <label htmlFor="cvc">CVC</label>
-      <CardCvcElement
-        id="cvc"
-        onChange={(e) => {
-          console.log('change stripe', e)
-        }}
-        options={STRIPE_ELEMENT_OPTIONS}
-      />
-
-      {/* POSTAL CODE */}
-      <Input
-        label="Postal Code"
-        value={postalCode}
-        updateValue={setPostalCode}
-      />
+      {/* CARD ELEMENT
+          Includes: Card number, expiry date, CVC, postal/zip
+      */}
+      <InputBase label="Card details" required>
+        <div className="border-2 border-solid border-black rounded-button p-4">
+          <CardElement
+            options={STRIPE_ELEMENT_OPTIONS}
+            onChange={(e) => {
+              const { complete } = e
+              console.log('CardElement [change]', e)
+              setCardComplete(complete)
+            }}
+          />
+        </div>
+      </InputBase>
 
       {/* HIDE BUTTON BECAUSE IT IS IN SIDEPANEL */}
       <button type="submit" disabled={!stripe} className="absolute" style={{ left: '-1000em' }}>
