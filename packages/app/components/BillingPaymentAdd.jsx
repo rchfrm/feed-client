@@ -8,7 +8,8 @@ import BillingAddPaymentForm from '@/app/BillingAddPaymentForm'
 
 import PaymentPageSuccess from '@/app/PaymentPageSuccess'
 
-import styles from '@/app/PaymentPage.module.css'
+import copy from '@/app/copy/billingCopy'
+
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
 
@@ -18,6 +19,7 @@ const BillingPaymentAdd = ({
   toggleSidePanel,
 }) => {
   // HANDLE SUCCESS
+  const [paymentMethod, setPaymentMethod] = React.useState(null)
   const [success, setSuccess] = React.useState(false)
 
   // CHANGE SIDEPANEL BUTTON on SUCCESS
@@ -30,14 +32,17 @@ const BillingPaymentAdd = ({
 
   return (
 
-    <section className={styles.PaymentAdd}>
+    <section>
 
-      <h2 className={sidePanelStyles.SidePanel__Header}>Enter your card details</h2>
+      <h2 className={sidePanelStyles.SidePanel__Header}>
+        {copy.addPaymentHeader(success)}
+      </h2>
 
       <div>
-        {success ? <PaymentPageSuccess /> : (
+        {success ? <PaymentPageSuccess paymentMethod={paymentMethod} /> : (
           <BillingAddPaymentForm
             setSidePanelButton={setSidePanelButton}
+            setPaymentMethod={setPaymentMethod}
             setSuccess={setSuccess}
             setAsDefault={setAsDefault}
           />
