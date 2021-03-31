@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import shallow from 'zustand/shallow'
 
+import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
@@ -15,6 +16,8 @@ import useBillingAddPayment from '@/app/hooks/useBillingAddPayment'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import { setPaymentAsDefault } from '@/app/helpers/billingHelpers'
+
+import copy from '@/app/copy/billingCopy'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
@@ -83,6 +86,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
       ].join(' ')}
     >
       <h2 className={sidePanelStyles.SidePanel__Header}>All Payment Methods</h2>
+      <MarkdownText markdown={copy.choosePaymentIntro} />
       <Error error={error} />
       {/* LIST CARDS */}
       {allPaymentMethods.map((method) => {
