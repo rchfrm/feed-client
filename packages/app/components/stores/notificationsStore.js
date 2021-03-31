@@ -53,10 +53,7 @@ const updateActiveNotificationsCount = (set) => (notifications) => {
 // RUN FORMAT NOTIFICATIONS
 const runFormatNotifications = (set) => (notifications, dictionary) => {
   const notificationsFormatted = formatNotifications(notifications, dictionary || {})
-  // SET
-  set({
-    notifications: notificationsFormatted,
-  })
+  set({ notifications: notificationsFormatted })
 }
 
 // FETCH NOTIFICATIONS (called whenever artist mounts)
