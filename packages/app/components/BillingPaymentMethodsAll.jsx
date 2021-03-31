@@ -14,7 +14,7 @@ import useBillingAddPayment from '@/app/hooks/useBillingAddPayment'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import { setPaymentAsDefault } from '@/app/helpers/paymentHelpers'
+import { setPaymentAsDefault } from '@/app/helpers/billingHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 

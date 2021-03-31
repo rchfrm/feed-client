@@ -7,7 +7,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/billingCopy'
 
 // PAYMENT SUCCESS
-const PaymentPageSuccess = ({ paymentMethod }) => {
+const BillingPaymentAddSuccess = ({ paymentMethod }) => {
   console.log('SUCCESS', paymentMethod)
   const {
     card,
@@ -28,4 +28,4 @@ const PaymentPageSuccess = ({ paymentMethod }) => {
   )
 }
 
-export default PaymentPageSuccess
+export default BillingPaymentAddSuccess

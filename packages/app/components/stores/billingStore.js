@@ -1,7 +1,7 @@
 import create from 'zustand'
 import produce from 'immer'
 
-import * as paymentHelpers from '@/app/helpers/paymentHelpers'
+import * as billingHelpers from '@/app/helpers/billingHelpers'
 
 const initialState = {
   loading: true,
@@ -12,7 +12,7 @@ const initialState = {
 
 // FETCH ALL ORGS the user has access to
 const fetchAllOrgs = async (user) => {
-  const allOrgs = await paymentHelpers.getAllOrgsInfo({ user })
+  const allOrgs = await billingHelpers.getAllOrgsInfo({ user })
   return allOrgs
 }
 
@@ -21,8 +21,8 @@ const fetchAllOrgs = async (user) => {
 const setupBilling = (set) => async (user) => {
   const allOrgs = await fetchAllOrgs(user)
   const organisation = allOrgs.find(({ role }) => role === 'owner')
-  const billingDetails = paymentHelpers.getbillingDetails(organisation)
-  const defaultPaymentMethod = paymentHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
+  const billingDetails = billingHelpers.getbillingDetails(organisation)
+  const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
   // SET
   set({
     organisation,

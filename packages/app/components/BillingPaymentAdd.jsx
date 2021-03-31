@@ -6,7 +6,7 @@ import Button from '@/elements/Button'
 import BillingAddPaymentForm from '@/app/BillingAddPaymentForm'
 // import PaymentAddForm from '@/app/PaymentAddForm_old' // OLD FORM
 
-import PaymentPageSuccess from '@/app/PaymentPageSuccess'
+import BillingPaymentAddSuccess from '@/app/BillingPaymentAddSuccess'
 
 import copy from '@/app/copy/billingCopy'
 
@@ -39,7 +39,7 @@ const BillingPaymentAdd = ({
       </h2>
 
       <div>
-        {success ? <PaymentPageSuccess paymentMethod={paymentMethod} /> : (
+        {success ? <BillingPaymentAddSuccess paymentMethod={paymentMethod} /> : (
           <BillingAddPaymentForm
             setSidePanelButton={setSidePanelButton}
             setSidePanelLoading={setSidePanelLoading}

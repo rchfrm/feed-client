@@ -12,7 +12,7 @@ import {
 
 import useBillingStore from '@/app/stores/billingStore'
 
-import { submitPaymentMethod } from '@/app/helpers/paymentHelpers'
+import { submitPaymentMethod } from '@/app/helpers/billingHelpers'
 
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
