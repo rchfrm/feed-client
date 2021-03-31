@@ -44,6 +44,7 @@ const getOrganisation = state => state.organisation
 // THE FORM
 const FORM = ({
   setSidePanelButton,
+  setSidePanelLoading,
   setPaymentMethod,
   setSuccess,
   setAsDefault,
@@ -59,6 +60,11 @@ const FORM = ({
   // FORM STATE
   const [isFormValid, setIsFormValid] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true)
+
+  // HANDLE LOADING
+  React.useEffect(() => {
+    setSidePanelLoading(isLoading)
+  }, [isLoading, setSidePanelLoading])
 
   // WAIT FOR STRIPE TO LOAD
   React.useEffect(() => {
@@ -170,6 +176,7 @@ const stripePromise = loadStripe(process.env.stripe_provider)
 
 const BillingAddPaymentForm = ({
   setSidePanelButton,
+  setSidePanelLoading,
   setPaymentMethod,
   setSuccess,
   setAsDefault,
@@ -179,6 +186,7 @@ const BillingAddPaymentForm = ({
       {/* Defined above... */}
       <FORM
         setSidePanelButton={setSidePanelButton}
+        setSidePanelLoading={setSidePanelLoading}
         setPaymentMethod={setPaymentMethod}
         setSuccess={setSuccess}
         setAsDefault={setAsDefault}
@@ -189,6 +197,7 @@ const BillingAddPaymentForm = ({
 
 BillingAddPaymentForm.propTypes = {
   setSidePanelButton: PropTypes.func.isRequired,
+  setSidePanelLoading: PropTypes.func.isRequired,
   setPaymentMethod: PropTypes.func.isRequired,
   setSuccess: PropTypes.func.isRequired,
   setAsDefault: PropTypes.bool,

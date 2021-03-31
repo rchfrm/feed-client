@@ -17,6 +17,7 @@ const BillingPaymentAdd = ({
   setAsDefault,
   setSidePanelButton,
   toggleSidePanel,
+  setSidePanelLoading,
 }) => {
   // HANDLE SUCCESS
   const [paymentMethod, setPaymentMethod] = React.useState(null)
@@ -42,6 +43,7 @@ const BillingPaymentAdd = ({
         {success ? <PaymentPageSuccess paymentMethod={paymentMethod} /> : (
           <BillingAddPaymentForm
             setSidePanelButton={setSidePanelButton}
+            setSidePanelLoading={setSidePanelLoading}
             setPaymentMethod={setPaymentMethod}
             setSuccess={setSuccess}
             setAsDefault={setAsDefault}
@@ -57,6 +59,7 @@ BillingPaymentAdd.propTypes = {
   setAsDefault: PropTypes.bool,
   setSidePanelButton: PropTypes.func.isRequired,
   toggleSidePanel: PropTypes.func.isRequired,
+  setSidePanelLoading: PropTypes.func.isRequired,
 }
 
 BillingPaymentAdd.defaultProps = {
