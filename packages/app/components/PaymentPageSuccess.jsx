@@ -12,19 +12,18 @@ const PaymentPageSuccess = ({ paymentMethod }) => {
   const {
     card,
     billing_details: billingDetails,
-    setAsDefault,
+    is_default,
   } = paymentMethod
   return (
     <div>
-      {/* <MarkdownText markdown={copy.addMethodSucess(paymentMethod.setAsDefault)} /> */}
-      <div className="mb-6">
+      <MarkdownText markdown={copy.addMethodSucess(is_default)} />
+      <div>
         <BillingPaymentCard
           card={card}
           billingDetails={billingDetails}
-          isDefault={setAsDefault}
+          isDefault={is_default}
         />
       </div>
-      <MarkdownText markdown={copy.addMethodSucess(paymentMethod.setAsDefault)} />
     </div>
   )
 }

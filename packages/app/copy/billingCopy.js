@@ -9,5 +9,5 @@ export default {
     if (success) return `Payment method added!`
     return `Enter your card details`
   },
-  addMethodSucess: (setAsDefault) => `You've successfully added a payment method${setAsDefault ? ' and it has been set the default.' : '.'}`,
+  addMethodSucess: (setAsDefault) => `You've successfully added a payment method${setAsDefault ? ' and it has been set the default:' : ':'}`,
 }
