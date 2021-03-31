@@ -12,7 +12,6 @@ import copy from '@/app/copy/billingCopy'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
-
 const BillingPaymentAdd = ({
   setAsDefault,
   setSidePanelButton,
