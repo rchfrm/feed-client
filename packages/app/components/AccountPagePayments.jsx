@@ -14,7 +14,7 @@ import Error from '@/elements/Error'
 
 import PaymentMethodButton from '@/app/PaymentMethodButton'
 
-import paymentHelpers from '@/app/helpers/paymentHelpers'
+import { setPaymentAsDefault } from '@/app/helpers/paymentHelpers'
 
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/AccountPageCopy'
@@ -64,7 +64,7 @@ function AccountPagePayments() {
     setError(null)
     setSidePanelLoading(true)
     // Set default
-    const updatePaymentResult = await paymentHelpers.setPaymentAsDefault(organisationId, defaultMethodId)
+    const updatePaymentResult = await setPaymentAsDefault(organisationId, defaultMethodId)
       // Handle error
       .catch((err) => {
         setError(err)

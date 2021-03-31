@@ -4,7 +4,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import { UserContext } from '@/contexts/UserContext'
 
-import paymentHelpers from '@/app/helpers/paymentHelpers'
+import * as paymentHelpers from '@/app/helpers/paymentHelpers'
 
 // CREATE CONTEXT
 const BillingContext = React.createContext({})

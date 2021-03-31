@@ -10,6 +10,8 @@ import {
   useStripe,
 } from '@stripe/react-stripe-js'
 
+import { submitPaymentMethod } from '@/app/helpers/paymentHelpers'
+
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'

@@ -2,13 +2,13 @@ import get from 'lodash/get'
 
 import * as api from '@/helpers/api'
 
-// PAYMENTS
+// SUBMIT PAYMENT
 /**
  * @param {string} organisationId
  * @param {string} paymentMethodId
  * @returns {Promise<any>}
  */
-const submitPaymentMethod = async (organisationId, paymentMethodId) => {
+export const submitPaymentMethod = async (organisationId, paymentMethodId) => {
   const payload = { token: paymentMethodId }
   const endpoint = `/organizations/${organisationId}/billing/payments`
   const errorTracking = {
@@ -18,12 +18,13 @@ const submitPaymentMethod = async (organisationId, paymentMethodId) => {
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
+// SET PAYMENT AS DEFAULT
 /**
  * @param {string} organisationId
  * @param {string} paymentId
  * @returns {Promise<any>}
  */
-const setPaymentAsDefault = async (organisationId, paymentMethodId) => {
+export const setPaymentAsDefault = async (organisationId, paymentMethodId) => {
   const payload = null
   const endpoint = `/organizations/${organisationId}/billing/payments/${paymentMethodId}/default`
   const errorTracking = {
@@ -70,7 +71,7 @@ const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
 }
 
 
-const getbillingDetails = ({ name, payment_status = 'none', billing_details: billingDetails, role }) => {
+export const getbillingDetails = ({ name, payment_status = 'none', billing_details: billingDetails, role }) => {
   // If no payment status setup
   if (payment_status === 'none' || !billingDetails) {
     return {
@@ -99,28 +100,10 @@ const getbillingDetails = ({ name, payment_status = 'none', billing_details: bil
   }
 }
 
-// Run this to test if there is no active payment method
-// returns true if no payment
-const testNoPayment = (billingDetails) => {
-  return billingDetails.some(({ defaultMethod, role }) => {
-    return !defaultMethod && role === 'owner'
-  })
-}
-
-const getAllOrgsInfo = async ({ user }) => {
+// GET ALL INFO ABOUT ALL ORGS
+export const getAllOrgsInfo = async ({ user }) => {
   const orgDetails = getOrganizationDetails(user)
   const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org))
   const allOrgsInfo = await Promise.all(fetchOrgPromises)
   return allOrgsInfo
-}
-
-
-export default {
-  submitPaymentMethod,
-  setPaymentAsDefault,
-  getOrganizationDetails,
-  fetchOrg,
-  getbillingDetails,
-  getAllOrgsInfo,
-  testNoPayment,
 }
