@@ -10,6 +10,8 @@ import {
   useStripe,
 } from '@stripe/react-stripe-js'
 
+import useBillingStore from '@/app/stores/billingStore'
+
 import { submitPaymentMethod } from '@/app/helpers/paymentHelpers'
 
 import Button from '@/elements/Button'
@@ -36,14 +38,8 @@ const STRIPE_ELEMENT_OPTIONS = {
   },
 }
 
-// UPDATE DB
-const postPaymentMethod = async (paymentMethod, { name, setAsDefault }) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ paymentMethod, name, setAsDefault })
-    }, 500)
-  })
-}
+// READ FROM STORE
+const getOrganisation = state => state.organisation
 
 // THE FORM
 const FORM = ({
@@ -56,6 +52,9 @@ const FORM = ({
   const stripe = useStripe()
   const [name, setName] = React.useState('')
   const [error, setError] = React.useState(null)
+
+  // GET ORG ID from Billing Store
+  const { id: organisationId } = useBillingStore(getOrganisation)
 
   // FORM STATE
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -81,6 +80,7 @@ const FORM = ({
   const onSubmit = React.useCallback(async () => {
     if (!isFormValid || isLoading) return
     setIsLoading(true)
+    // Create payment method with Stripe
     const cardElement = elements.getElement(CardElement)
     const { paymentMethod, error: stripeError } = await stripe.createPaymentMethod({
       type: 'card',
@@ -89,24 +89,31 @@ const FORM = ({
         name,
       },
     })
+    console.log('paymentMethod', paymentMethod)
+    // Handle Stripe error
     if (stripeError) {
       setError(stripeError)
       setIsLoading(false)
       elements.getElement('card').focus()
       return
     }
-    console.log('paymentMethod', paymentMethod)
-    const { res, error } = await postPaymentMethod(paymentMethod, { name, setAsDefault })
+    // Add payment method to DB
+    const { res, error: serverError } = await submitPaymentMethod(organisationId, paymentMethod.id)
     console.log('res', res)
     setIsLoading(false)
-    if (!error) {
-      setPaymentMethod({
-        ...paymentMethod,
-        setAsDefault,
-      })
-      setSuccess(true)
+    // Handle error adding payment to DB
+    if (serverError) {
+      setError(serverError)
+      return
     }
-  }, [isFormValid, isLoading, name, setAsDefault, setSuccess, setPaymentMethod, stripe, elements])
+    // Handle success
+    setError(null)
+    setPaymentMethod({
+      ...paymentMethod,
+      setAsDefault,
+    })
+    setSuccess(true)
+  }, [isFormValid, isLoading, name, organisationId, setAsDefault, setSuccess, setPaymentMethod, stripe, elements])
 
   // CHANGE SIDEPANEL BUTTON
   React.useEffect(() => {
