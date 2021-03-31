@@ -11,6 +11,7 @@ const BillingPaymentCard = ({
   isDefault,
   isButton,
   isSelected,
+  onClick,
   className,
 }) => {
   const { brand, exp_month, exp_year: year, last4 } = card
@@ -21,27 +22,33 @@ const BillingPaymentCard = ({
     <ElWrapper
       className={[
         'flex flex-column justify-between',
-        'max-w-md h-48',
+        'w-full max-w-md h-48',
         'bg-grey-1 rounded-dialogue p-4',
         `border-2 border-solid ${isSelected ? 'border-green' : 'border-grey-1'}`,
         className,
       ].join(' ')}
-      onClick={() => {
+      onClick={(e) => {
+        e.preventDefault()
         if (!isButton) return
-        console.log('SELECT')
+        onClick()
       }}
       aria-label={isButton ? 'Select' : null}
     >
-      <div className="flex justify-between items-center">
-        <p className="capitalize text-lg"><strong>{brand}</strong></p>
+      <div className="flex justify-between items-start w-full">
+        {/* BRAND */}
+        <p className="block capitalize text-lg mb-0"><strong>{brand}</strong></p>
+        {/* RADIO INDICATOR */}
+        {isButton && (
+          <div className={['radio--button_label -mr-3', isSelected ? '-active' : null].join(' ')} />
+        )}
       </div>
-      <div className="flex justify-between items-end">
+      <div className="flex justify-between items-end w-full">
         {/* DETAILS */}
-        <div>
+        <div className="text-left">
           {/* NAME */}
-          <p className="mb-1">{name}</p>
+          <p className="block mb-1">{name}</p>
           {/* DATE */}
-          <p className="mb-0">
+          <p className="block mb-0">
             <span>Expires </span>
             <span className="font-mono text-lg">{month}/{year}</span>
           </p>
@@ -65,6 +72,7 @@ BillingPaymentCard.propTypes = {
   isDefault: PropTypes.bool,
   isButton: PropTypes.bool,
   isSelected: PropTypes.bool,
+  onClick: PropTypes.func,
   className: PropTypes.string,
 }
 
@@ -72,6 +80,7 @@ BillingPaymentCard.defaultProps = {
   isDefault: false,
   isButton: false,
   isSelected: false,
+  onClick: () => {},
   className: null,
 }
 
