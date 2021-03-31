@@ -8,8 +8,7 @@ import BillingPaymentCard from '@/app/BillingPaymentCard'
 
 import copy from '@/app/copy/billingCopy'
 
-const BillingPaymentMethods = ({
-  paymentMethods,
+const BillingPaymentMethodsSummary = ({
   defaultPaymentMethod,
   className,
 }) => {
@@ -40,15 +39,14 @@ const BillingPaymentMethods = ({
   )
 }
 
-BillingPaymentMethods.propTypes = {
-  paymentMethods: PropTypes.array.isRequired,
+BillingPaymentMethodsSummary.propTypes = {
   defaultPaymentMethod: PropTypes.object,
   className: PropTypes.string,
 }
 
-BillingPaymentMethods.defaultProps = {
+BillingPaymentMethodsSummary.defaultProps = {
   defaultPaymentMethod: null,
   className: null,
 }
 
-export default BillingPaymentMethods
+export default BillingPaymentMethodsSummary

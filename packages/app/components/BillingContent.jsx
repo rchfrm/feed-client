@@ -8,12 +8,11 @@ import { UserContext } from '@/contexts/UserContext'
 
 import useBillingStore from '@/app/stores/billingStore'
 
-import BillingPaymentMethods from '@/app/BillingPaymentMethods'
+import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
   loading: state.loading,
-  billingDetails: state.billingDetails,
   defaultPaymentMethod: state.defaultPaymentMethod,
   setupBilling: state.setupBilling,
 })
@@ -32,7 +31,6 @@ const BillingContent = () => {
   // Read from BILLING STORE
   const {
     loading: billingLoading,
-    billingDetails,
     setupBilling,
     defaultPaymentMethod,
   } = useBillingStore(getBillingStoreState, shallow)
@@ -48,10 +46,7 @@ const BillingContent = () => {
     <div
       className=""
     >
-      <BillingPaymentMethods
-        paymentMethods={billingDetails.allPaymentMethods}
-        defaultPaymentMethod={defaultPaymentMethod}
-      />
+      <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
     </div>
   )
 }
