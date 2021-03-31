@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 
+import BillingPaymentMethodsAll from '@/app/BillingPaymentMethodsAll'
 import BillingPaymentAdd from '@/app/BillingPaymentAdd'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
@@ -23,8 +24,11 @@ const BillingOpenPayments = ({
 
   // OPEN PAYMENT METHODS
   const openPaymentMethods = React.useCallback(() => {
-    console.log('OPEN METHODS')
-  }, [])
+    const content = <BillingPaymentMethodsAll />
+    setSidePanelContent(content)
+    setSidePanelContentLabel('Show all payment methods')
+    toggleSidePanel(true)
+  }, [setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
 
   // OPEN ADD PAYMENT METHOD
   const openAddPaymentMethod = React.useCallback(() => {
