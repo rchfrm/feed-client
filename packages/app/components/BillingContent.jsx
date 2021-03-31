@@ -1,10 +1,22 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import shallow from 'zustand/shallow'
+
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-import { BillingContext } from '@/app/contexts/BillingContext'
+import { UserContext } from '@/contexts/UserContext'
+
+import useBillingStore from '@/app/stores/billingStore'
 
 import BillingPaymentMethods from '@/app/BillingPaymentMethods'
+
+// READING FROM STORE
+const getBillingStoreState = (state) => ({
+  loading: state.loading,
+  organisation: state.organisation,
+  billingDetails: state.billingDetails,
+  setupBilling: state.setupBilling,
+})
 
 const BillingContent = () => {
   // SIDE PANEL
@@ -15,14 +27,19 @@ const BillingContent = () => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  // BILLING CONTEXT
-  const {
-    billingLoading,
-    billingDetails,
-  } = React.useContext(BillingContext)
+  const { user } = React.useContext(UserContext)
 
-  console.log('billingDetails', billingDetails)
-  console.log('billingDetails.allPaymentMethods', billingDetails.allPaymentMethods)
+  // Read from BILLING STORE
+  const {
+    loading: billingLoading,
+    billingDetails,
+    setupBilling,
+  } = useBillingStore(getBillingStoreState, shallow)
+
+  // Load billing info
+  React.useEffect(() => {
+    setupBilling(user)
+  }, [user, setupBilling])
 
   if (billingLoading) return null
 
