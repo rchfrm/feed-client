@@ -3,7 +3,6 @@ import React from 'react'
 
 import shallow from 'zustand/shallow'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import { UserContext } from '@/contexts/UserContext'
 
 import useBillingStore from '@/app/stores/billingStore'
@@ -18,14 +17,6 @@ const getBillingStoreState = (state) => ({
 })
 
 const BillingContent = () => {
-  // SIDE PANEL
-  const {
-    setSidePanelContent,
-    setSidePanelContentLabel,
-    setSidePanelButton,
-    toggleSidePanel,
-  } = React.useContext(SidePanelContext)
-
   const { user } = React.useContext(UserContext)
 
   // Read from BILLING STORE
