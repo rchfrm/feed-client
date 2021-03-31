@@ -127,6 +127,7 @@ const FORM = ({
       {/* NAME */}
       <Input
         label="Full name"
+        name="name"
         value={name}
         updateValue={setName}
         required
