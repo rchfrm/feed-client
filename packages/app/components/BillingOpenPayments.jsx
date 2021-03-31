@@ -3,47 +3,16 @@ import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 
-import BillingPaymentMethodsAll from '@/app/BillingPaymentMethodsAll'
-import BillingPaymentAdd from '@/app/BillingPaymentAdd'
-
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import useBillingShowPayments from '@/app/hooks/useBillingShowPayments'
+import useBillingAddPayment from '@/app/hooks/useBillingAddPayment'
 
 const BillingOpenPayments = ({
   contentType,
   setAsDefault,
   className,
 }) => {
-  // SIDE PANEL
-  const {
-    setSidePanelContent,
-    setSidePanelContentLabel,
-    setSidePanelButton,
-    setSidePanelLoading,
-    toggleSidePanel,
-  } = React.useContext(SidePanelContext)
-
-  // OPEN PAYMENT METHODS
-  const openPaymentMethods = React.useCallback(() => {
-    const content = <BillingPaymentMethodsAll />
-    setSidePanelContent(content)
-    setSidePanelContentLabel('Show all payment methods')
-    toggleSidePanel(true)
-  }, [setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
-
-  // OPEN ADD PAYMENT METHOD
-  const openAddPaymentMethod = React.useCallback(() => {
-    const content = (
-      <BillingPaymentAdd
-        setAsDefault={setAsDefault}
-        toggleSidePanel={toggleSidePanel}
-        setSidePanelButton={setSidePanelButton}
-        setSidePanelLoading={setSidePanelLoading}
-      />
-    )
-    setSidePanelContent(content)
-    setSidePanelContentLabel('Add payment method')
-    toggleSidePanel(true)
-  }, [setAsDefault, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton, setSidePanelLoading])
+  const openAddPaymentMethod = useBillingAddPayment()
+  const openShowPaymentMethods = useBillingShowPayments()
 
   return (
     <div className={className}>
@@ -53,10 +22,10 @@ const BillingOpenPayments = ({
         onClick={(e) => {
           e.preventDefault()
           if (contentType === 'add-payment') {
-            openAddPaymentMethod()
+            openAddPaymentMethod(setAsDefault)
             return
           }
-          openPaymentMethods()
+          openShowPaymentMethods()
         }}
       >
         {contentType === 'add-payment' ? 'Add payment method' : 'Show all payment methods'}
