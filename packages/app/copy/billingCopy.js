@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import * as ROUTES from '@/app/constants/routes'
+// import * as ROUTES from '@/app/constants/routes'
 
 export default {
   // BILLING PAGE
