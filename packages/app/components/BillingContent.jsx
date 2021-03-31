@@ -13,8 +13,8 @@ import BillingPaymentMethods from '@/app/BillingPaymentMethods'
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
   loading: state.loading,
-  organisation: state.organisation,
   billingDetails: state.billingDetails,
+  defaultPaymentMethod: state.defaultPaymentMethod,
   setupBilling: state.setupBilling,
 })
 
@@ -34,6 +34,7 @@ const BillingContent = () => {
     loading: billingLoading,
     billingDetails,
     setupBilling,
+    defaultPaymentMethod,
   } = useBillingStore(getBillingStoreState, shallow)
 
   // Load billing info
@@ -47,7 +48,10 @@ const BillingContent = () => {
     <div
       className=""
     >
-      <BillingPaymentMethods paymentMethods={billingDetails.allPaymentMethods} />
+      <BillingPaymentMethods
+        paymentMethods={billingDetails.allPaymentMethods}
+        defaultPaymentMethod={defaultPaymentMethod}
+      />
     </div>
   )
 }

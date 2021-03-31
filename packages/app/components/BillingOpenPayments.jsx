@@ -17,6 +17,7 @@ const BillingOpenPayments = ({
     setSidePanelContent,
     setSidePanelContentLabel,
     setSidePanelButton,
+    setSidePanelLoading,
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
@@ -32,16 +33,19 @@ const BillingOpenPayments = ({
         setAsDefault={setAsDefault}
         toggleSidePanel={toggleSidePanel}
         setSidePanelButton={setSidePanelButton}
+        setSidePanelLoading={setSidePanelLoading}
       />
     )
     setSidePanelContent(content)
     setSidePanelContentLabel('Add payment method')
     toggleSidePanel(true)
-  }, [setAsDefault, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton])
+  }, [setAsDefault, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton, setSidePanelLoading])
+
   return (
     <div className={className}>
       <Button
-        version="green"
+        version="black small"
+        className="w-full max-w-md"
         onClick={(e) => {
           e.preventDefault()
           if (contentType === 'add-payment') {
@@ -51,7 +55,7 @@ const BillingOpenPayments = ({
           openPaymentMethods()
         }}
       >
-        {contentType === 'add-payment' ? 'Add payment method' : 'Show payment methods'}
+        {contentType === 'add-payment' ? 'Add payment method' : 'Show all payment methods'}
       </Button>
     </div>
   )

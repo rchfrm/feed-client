@@ -4,11 +4,13 @@ import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 
 import BillingOpenPayments from '@/app/BillingOpenPayments'
+import BillingPaymentCard from '@/app/BillingPaymentCard'
 
 import copy from '@/app/copy/billingCopy'
 
 const BillingPaymentMethods = ({
   paymentMethods,
+  defaultPaymentMethod,
   className,
 }) => {
   return (
@@ -18,8 +20,16 @@ const BillingPaymentMethods = ({
       ].join(' ')}
     >
       <h3>Payment Methods</h3>
-      {paymentMethods.length ? (
-        <div>METHODS</div>
+      {defaultPaymentMethod ? (
+        <>
+          <BillingPaymentCard
+            card={defaultPaymentMethod.card}
+            billingDetails={defaultPaymentMethod.billing_details}
+            isDefault
+            className="mb-6"
+          />
+          <BillingOpenPayments contentType="show-methods" />
+        </>
       ) : (
         <>
           <MarkdownText markdown={copy.noPaymentMethods} />
@@ -32,10 +42,12 @@ const BillingPaymentMethods = ({
 
 BillingPaymentMethods.propTypes = {
   paymentMethods: PropTypes.array.isRequired,
+  defaultPaymentMethod: PropTypes.object,
   className: PropTypes.string,
 }
 
 BillingPaymentMethods.defaultProps = {
+  defaultPaymentMethod: null,
   className: null,
 }
 

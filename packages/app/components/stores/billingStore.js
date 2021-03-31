@@ -1,4 +1,5 @@
 import create from 'zustand'
+import produce from 'immer'
 
 import * as paymentHelpers from '@/app/helpers/paymentHelpers'
 
@@ -6,6 +7,7 @@ const initialState = {
   loading: true,
   organisation: {},
   billingDetails: {},
+  defaultPaymentMethod: null,
 }
 
 // FETCH ALL ORGS the user has access to
@@ -20,15 +22,35 @@ const setupBilling = (set) => async (user) => {
   const allOrgs = await fetchAllOrgs(user)
   const organisation = allOrgs.find(({ role }) => role === 'owner')
   const billingDetails = paymentHelpers.getbillingDetails(organisation)
+  const defaultPaymentMethod = paymentHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
   // SET
-  set({ organisation, billingDetails, loading: false })
+  set({
+    organisation,
+    billingDetails,
+    defaultPaymentMethod,
+    loading: false,
+  })
+}
+
+// * ADD PAYMENT METHOD
+const addPaymentMethod = (set, get) => (paymentMethod) => {
+  const { billingDetails } = get()
+  const paymentMethodsUpdated = produce(billingDetails.allPaymentMethods, draftState => {
+    draftState.push(paymentMethod)
+  })
+  const billingDetailsUpdated = produce(billingDetails, draftState => {
+    draftState.allPaymentMethods = paymentMethodsUpdated
+  })
+  set({ billingDetails: billingDetailsUpdated })
 }
 
 
 const useBillingStore = create((set, get) => ({
   ...initialState,
   // GETTERS
-  setupBilling: setupBilling(set, get),
+  setupBilling: setupBilling(set),
+  // SETTERS,
+  addPaymentMethod: addPaymentMethod(set, get),
 }))
 
 export default useBillingStore

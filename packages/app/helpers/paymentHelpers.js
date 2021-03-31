@@ -70,7 +70,7 @@ const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
   return [defaultMethod, ...methodsWithoutDefault]
 }
 
-
+// GET ALL BILLING DETAILS
 export const getbillingDetails = ({ name, payment_status = 'none', billing_details: billingDetails, role }) => {
   // If no payment status setup
   if (payment_status === 'none' || !billingDetails) {
@@ -98,6 +98,12 @@ export const getbillingDetails = ({ name, payment_status = 'none', billing_detai
     allPaymentMethods: sortedPaymentMethods,
     defaultMethod,
   }
+}
+
+// GET DEFAULT PAYMENT METHOD
+export const getDefaultPaymentMethod = (allPaymentMethods = []) => {
+  if (!allPaymentMethods.length) return null
+  return allPaymentMethods.find(({ is_default }) => is_default)
 }
 
 // GET ALL INFO ABOUT ALL ORGS
