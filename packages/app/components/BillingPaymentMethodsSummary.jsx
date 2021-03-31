@@ -32,7 +32,7 @@ const BillingPaymentMethodsSummary = ({
       ) : (
         <>
           <MarkdownText markdown={copy.noPaymentMethods} />
-          <BillingOpenPayments contentType="add-payment" setAsDefault />
+          <BillingOpenPayments contentType="add-payment" shouldBeDefault />
         </>
       )}
     </div>

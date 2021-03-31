@@ -8,7 +8,7 @@ import useBillingAddPayment from '@/app/hooks/useBillingAddPayment'
 
 const BillingOpenPayments = ({
   contentType,
-  setAsDefault,
+  shouldBeDefault,
   className,
 }) => {
   const openAddPaymentMethod = useBillingAddPayment()
@@ -22,7 +22,7 @@ const BillingOpenPayments = ({
         onClick={(e) => {
           e.preventDefault()
           if (contentType === 'add-payment') {
-            openAddPaymentMethod(setAsDefault)
+            openAddPaymentMethod(shouldBeDefault)
             return
           }
           openShowPaymentMethods()
@@ -36,12 +36,12 @@ const BillingOpenPayments = ({
 
 BillingOpenPayments.propTypes = {
   contentType: PropTypes.string.isRequired,
-  setAsDefault: PropTypes.bool,
+  shouldBeDefault: PropTypes.bool,
   className: PropTypes.string,
 }
 
 BillingOpenPayments.defaultProps = {
-  setAsDefault: false,
+  shouldBeDefault: false,
   className: null,
 }
 

@@ -13,7 +13,7 @@ import copy from '@/app/copy/billingCopy'
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const BillingPaymentAdd = ({
-  setAsDefault,
+  shouldBeDefault,
   setSidePanelButton,
   toggleSidePanel,
   setSidePanelLoading,
@@ -45,7 +45,7 @@ const BillingPaymentAdd = ({
             setSidePanelLoading={setSidePanelLoading}
             setPaymentMethod={setPaymentMethod}
             setSuccess={setSuccess}
-            setAsDefault={setAsDefault}
+            shouldBeDefault={shouldBeDefault}
           />
         )}
       </div>
@@ -55,14 +55,14 @@ const BillingPaymentAdd = ({
 }
 
 BillingPaymentAdd.propTypes = {
-  setAsDefault: PropTypes.bool,
+  shouldBeDefault: PropTypes.bool,
   setSidePanelButton: PropTypes.func.isRequired,
   toggleSidePanel: PropTypes.func.isRequired,
   setSidePanelLoading: PropTypes.func.isRequired,
 }
 
 BillingPaymentAdd.defaultProps = {
-  setAsDefault: false,
+  shouldBeDefault: false,
 }
 
 

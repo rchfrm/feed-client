@@ -48,7 +48,7 @@ const FORM = ({
   setSidePanelLoading,
   setPaymentMethod,
   setSuccess,
-  setAsDefault,
+  shouldBeDefault,
 }) => {
   const elements = useElements()
   const stripe = useStripe()
@@ -121,10 +121,10 @@ const FORM = ({
     // Update local state
     setPaymentMethod({
       ...paymentMethod,
-      setAsDefault,
+      shouldBeDefault,
     })
     setSuccess(true)
-  }, [isFormValid, isLoading, name, organisationId, setAsDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
+  }, [isFormValid, isLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
 
   // CHANGE SIDEPANEL BUTTON
   React.useEffect(() => {
@@ -184,7 +184,7 @@ const BillingAddPaymentForm = ({
   setSidePanelLoading,
   setPaymentMethod,
   setSuccess,
-  setAsDefault,
+  shouldBeDefault,
 }) => {
   return (
     <Elements stripe={stripePromise}>
@@ -194,7 +194,7 @@ const BillingAddPaymentForm = ({
         setSidePanelLoading={setSidePanelLoading}
         setPaymentMethod={setPaymentMethod}
         setSuccess={setSuccess}
-        setAsDefault={setAsDefault}
+        shouldBeDefault={shouldBeDefault}
       />
     </Elements>
   )
@@ -205,11 +205,11 @@ BillingAddPaymentForm.propTypes = {
   setSidePanelLoading: PropTypes.func.isRequired,
   setPaymentMethod: PropTypes.func.isRequired,
   setSuccess: PropTypes.func.isRequired,
-  setAsDefault: PropTypes.bool,
+  shouldBeDefault: PropTypes.bool,
 }
 
 BillingAddPaymentForm.defaultProps = {
-  setAsDefault: false,
+  shouldBeDefault: false,
 }
 
 export default BillingAddPaymentForm

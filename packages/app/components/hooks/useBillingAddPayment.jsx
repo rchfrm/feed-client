@@ -14,10 +14,10 @@ const useBillingAddPayment = () => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
   // OPEN ADD PAYMENT METHOD
-  const openAddPaymentMethod = React.useCallback((setAsDefault) => {
+  const openAddPaymentMethod = React.useCallback((shouldBeDefault) => {
     const content = (
       <BillingPaymentAdd
-        setAsDefault={setAsDefault}
+        shouldBeDefault={shouldBeDefault}
         toggleSidePanel={toggleSidePanel}
         setSidePanelButton={setSidePanelButton}
         setSidePanelLoading={setSidePanelLoading}
