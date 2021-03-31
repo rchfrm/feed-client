@@ -40,6 +40,7 @@ const STRIPE_ELEMENT_OPTIONS = {
 
 // READ FROM STORE
 const getOrganisation = state => state.organisation
+const getAddPaymentMethod = state => state.addPaymentMethod
 
 // THE FORM
 const FORM = ({
@@ -54,8 +55,9 @@ const FORM = ({
   const [name, setName] = React.useState('')
   const [error, setError] = React.useState(null)
 
-  // GET ORG ID from Billing Store
+  // READ from BILLING STORE
   const { id: organisationId } = useBillingStore(getOrganisation)
+  const addPaymentMethod = useBillingStore(getAddPaymentMethod)
 
   // FORM STATE
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -104,8 +106,8 @@ const FORM = ({
       return
     }
     // Add payment method to DB
-    const { res, error: serverError } = await submitPaymentMethod(organisationId, paymentMethod.id)
-    console.log('res', res)
+    const { res: paymentMethodDb, error: serverError } = await submitPaymentMethod(organisationId, paymentMethod.id)
+    console.log('paymentMethodDb', paymentMethodDb)
     setIsLoading(false)
     // Handle error adding payment to DB
     if (serverError) {
@@ -114,12 +116,15 @@ const FORM = ({
     }
     // Handle success
     setError(null)
+    // Update store
+    addPaymentMethod(paymentMethodDb)
+    // Update local state
     setPaymentMethod({
       ...paymentMethod,
       setAsDefault,
     })
     setSuccess(true)
-  }, [isFormValid, isLoading, name, organisationId, setAsDefault, setSuccess, setPaymentMethod, stripe, elements])
+  }, [isFormValid, isLoading, name, organisationId, setAsDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
 
   // CHANGE SIDEPANEL BUTTON
   React.useEffect(() => {
