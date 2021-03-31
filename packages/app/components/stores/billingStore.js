@@ -44,6 +44,24 @@ const addPaymentMethod = (set, get) => (paymentMethod) => {
   set({ billingDetails: billingDetailsUpdated })
 }
 
+// * UPDATE DEFAULT PAYMENT
+const updateDefaultPayment = (set, get) => (defaultPaymentMethod) => {
+  const { id: newPaymentMethodId } = defaultPaymentMethod
+  // Get updated payment methods
+  const { billingDetails } = get()
+  const billingDetailsUpdated = produce(billingDetails, draftState => {
+    draftState.allPaymentMethods.forEach((method) => {
+      const isDefault = method.id === newPaymentMethodId
+      method.is_default = isDefault
+    })
+  })
+  // Update state
+  set({
+    defaultPaymentMethod,
+    billingDetails: billingDetailsUpdated,
+  })
+}
+
 
 const useBillingStore = create((set, get) => ({
   ...initialState,
@@ -51,6 +69,7 @@ const useBillingStore = create((set, get) => ({
   setupBilling: setupBilling(set),
   // SETTERS,
   addPaymentMethod: addPaymentMethod(set, get),
+  updateDefaultPayment: updateDefaultPayment(set, get),
 }))
 
 export default useBillingStore
