@@ -6,21 +6,31 @@ import * as api from '@/helpers/api'
 /**
  * @param {string} organisationId
  * @param {string} paymentMethodId
- * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-const submitPaymentMethod = async (organisationId, paymentMethodId, verifyIdToken) => {
-  return api.post(`/organizations/${organisationId}/billing/payments`, { token: paymentMethodId }, verifyIdToken)
+const submitPaymentMethod = async (organisationId, paymentMethodId) => {
+  const payload = { token: paymentMethodId }
+  const endpoint = `/organizations/${organisationId}/billing/payments`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Submit payment method',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
 /**
  * @param {string} organisationId
  * @param {string} paymentId
- * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-const setPaymentAsDefault = async (organisationId, paymentId, verifyIdToken) => {
-  return api.post(`/organizations/${organisationId}/billing/payments/${paymentId}/default`, verifyIdToken)
+const setPaymentAsDefault = async (organisationId, paymentMethodId) => {
+  const payload = null
+  const endpoint = `/organizations/${organisationId}/billing/payments/${paymentMethodId}/default`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Set payment as default',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
 
