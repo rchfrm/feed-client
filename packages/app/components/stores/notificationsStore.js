@@ -21,6 +21,8 @@ const initialState = {
   artistId: '',
   userId: '',
   organizationIds: [],
+  hasFbAuth: false,
+  missingScopes: [],
   loading: true,
   notifications: [],
   totalActiveNotifications: 0,
@@ -53,14 +55,11 @@ const updateActiveNotificationsCount = (set) => (notifications) => {
 // RUN FORMAT NOTIFICATIONS
 const runFormatNotifications = (set) => (notifications, dictionary) => {
   const notificationsFormatted = formatNotifications(notifications, dictionary || {})
-  // SET
-  set({
-    notifications: notificationsFormatted,
-  })
+  set({ notifications: notificationsFormatted })
 }
 
 // FETCH NOTIFICATIONS (called whenever artist mounts)
-const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organizationIds }) => {
+const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organizationIds, hasFbAuth, missingScopes }) => {
   set({ loading: true })
   // Else fetch notifications from server
   const { res, error } = await fetchNotifications({ artistId, userId, organizationIds })
@@ -72,23 +71,28 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
     set({ notificationsError, loading: false })
     return
   }
-  const { notifications } = res
+  const { notifications: notificationsRaw } = res
   // Format notifications
   const { notificationDictionary } = get()
-  const notificationsFormatted = formatNotifications(notifications, notificationDictionary || {})
+  const notificationsFormatted = formatNotifications({
+    notificationsRaw,
+    dictionary: notificationDictionary || {},
+    hasFbAuth,
+    missingScopes,
+  })
   // GET TOTAL ACTIVE NOTIFICATIONS
   const totalActiveNotifications = countActiveNotifications(notificationsFormatted)
   // SET
   set({
     artistId,
     userId,
+    hasFbAuth,
+    missingScopes,
     notifications: notificationsFormatted,
     totalActiveNotifications,
     notificationsError: null,
     loading: false,
   })
-  // RETURN
-  return { notifications }
 }
 
 // SET OTHER USER ARTISTS with notifications
@@ -194,17 +198,7 @@ const setAsComplete = (set, get) => (notificationId) => {
 // EXPORT
 const useNotificationsStore = create((set, get) => ({
   // STATE
-  artistId: initialState.artistId,
-  userId: initialState.userId,
-  organizationIds: initialState.organizationIds,
-  loading: initialState.loading,
-  notifications: initialState.notifications,
-  totalActiveNotifications: initialState.totalActiveNotifications,
-  openedNotification: initialState.openedNotification,
-  openedNotificationId: initialState.openedNotificationId,
-  artistsWithNotifications: initialState.artistsWithNotifications,
-  notificationsError: initialState.notificationsError,
-  notificationDictionary: initialState.notificationDictionary,
+  ...initialState,
   // GETTERS
   fetchAndSetNotifications: fetchAndSetNotifications(set, get),
   setArtistsWithNotifications: (userArtists = []) => setArtistsWithNotifications(set)(userArtists),
