@@ -60,6 +60,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     const button = (
       <NotificationCurrentInfoButton
         ctaText={openedNotification.ctaText}
+        buttonType={openedNotification.buttonType}
         isComplete={openedNotification.isComplete}
         onAction={openedNotification.onAction}
         onComplete={() => completeNotification(openedNotification.id)}

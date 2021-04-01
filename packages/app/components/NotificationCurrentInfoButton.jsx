@@ -2,10 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
+import ButtonFacebook from '@/elements/ButtonFacebook'
 
 const NotificationCurrentInfoButton = ({
   sidepanelLayout,
   ctaText,
+  buttonType,
   isComplete,
   onAction,
   onComplete,
@@ -27,6 +29,17 @@ const NotificationCurrentInfoButton = ({
     onComplete()
   }, [isComplete, onAction, onComplete, dismissNotification])
 
+  if (buttonType === 'facebook') {
+    return (
+      <ButtonFacebook
+        className={!sidepanelLayout ? 'w-full absolute left-0 bottom-0 rounded-t-none' : null}
+        onClick={onClick}
+      >
+        {ctaText}
+      </ButtonFacebook>
+    )
+  }
+
   return (
     <Button
       className={!sidepanelLayout ? 'w-full absolute left-0 bottom-0 rounded-t-none' : null}
@@ -42,6 +55,7 @@ const NotificationCurrentInfoButton = ({
 NotificationCurrentInfoButton.propTypes = {
   sidepanelLayout: PropTypes.bool.isRequired,
   ctaText: PropTypes.string.isRequired,
+  buttonType: PropTypes.string.isRequired,
   isComplete: PropTypes.bool.isRequired,
   onAction: PropTypes.func.isRequired,
   onComplete: PropTypes.func.isRequired,
