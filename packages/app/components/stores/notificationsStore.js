@@ -93,8 +93,6 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
     notificationsError: null,
     loading: false,
   })
-  // RETURN
-  return { notifications }
 }
 
 // SET OTHER USER ARTISTS with notifications
