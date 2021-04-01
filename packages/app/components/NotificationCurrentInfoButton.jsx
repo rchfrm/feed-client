@@ -33,6 +33,7 @@ const NotificationCurrentInfoButton = ({
     return (
       <ButtonFacebook
         className={!sidepanelLayout ? 'w-full absolute left-0 bottom-0 rounded-t-none' : null}
+        loading={loading}
         onClick={onClick}
       >
         {ctaText}
