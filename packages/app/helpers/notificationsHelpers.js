@@ -5,6 +5,7 @@ import moment from 'moment'
 import { mixpanelExternalLinkClick } from '@/app/helpers/mixpanelHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
 
+import firebase from '@/helpers/firebase'
 import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
 
@@ -45,6 +46,14 @@ const getExternalLinkAction = (ctaLink, trackingPayload) => {
   }
 }
 
+const getFbRelinkAction = (hasFbAuth, missingScopes) => {
+  if (hasFbAuth) {
+    firebase.reauthFacebook(missingScopes)
+  } else {
+    firebase.linkFacebookAccount()
+  }
+}
+
 // GET ACTION to handle notification
 /**
  * @param {string} entityType 'users' | 'artists' | 'organizations'
@@ -64,7 +73,13 @@ export const getAction = ({
   title,
   isDismissible,
   isActionable,
+  hasFbAuth,
+  missingScopes,
 }) => {
+  // Handle relink FB
+  if (topic === 'facebook-expired-access-token') {
+    return () => getFbRelinkAction(hasFbAuth, missingScopes)
+  }
   // Handle no method or link
   if (!apiEndpoint && !ctaLink) return () => {}
   // Handle link
@@ -102,7 +117,7 @@ export const getAction = ({
 // -----------------------
 
 // FORMAT NOTIFICATIONS
-export const formatNotifications = (notificationsRaw, dictionary = {}) => {
+export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAuth = false, missingScopes = [] }) => {
   return notificationsRaw.reduce((allNotifications, notification) => {
     const {
       id,
@@ -153,6 +168,8 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       title,
       isDismissible,
       isActionable,
+      hasFbAuth,
+      missingScopes,
     }) : () => {}
     // Return formatted notification
     const formattedNotification = {
