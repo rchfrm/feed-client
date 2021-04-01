@@ -198,17 +198,7 @@ const setAsComplete = (set, get) => (notificationId) => {
 // EXPORT
 const useNotificationsStore = create((set, get) => ({
   // STATE
-  artistId: initialState.artistId,
-  userId: initialState.userId,
-  organizationIds: initialState.organizationIds,
-  loading: initialState.loading,
-  notifications: initialState.notifications,
-  totalActiveNotifications: initialState.totalActiveNotifications,
-  openedNotification: initialState.openedNotification,
-  openedNotificationId: initialState.openedNotificationId,
-  artistsWithNotifications: initialState.artistsWithNotifications,
-  notificationsError: initialState.notificationsError,
-  notificationDictionary: initialState.notificationDictionary,
+  ...initialState,
   // GETTERS
   fetchAndSetNotifications: fetchAndSetNotifications(set, get),
   setArtistsWithNotifications: (userArtists = []) => setArtistsWithNotifications(set)(userArtists),
