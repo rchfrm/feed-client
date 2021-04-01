@@ -48,10 +48,9 @@ const getExternalLinkAction = (ctaLink, trackingPayload) => {
 
 const getFbRelinkAction = (hasFbAuth, missingScopes) => {
   if (hasFbAuth) {
-    firebase.reauthFacebook(missingScopes)
-  } else {
-    firebase.linkFacebookAccount()
+    return firebase.reauthFacebook(missingScopes)
   }
+  return firebase.linkFacebookAccount()
 }
 
 // GET ACTION to handle notification
