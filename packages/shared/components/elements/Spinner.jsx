@@ -11,22 +11,22 @@ import BrokenCircle from '@/icons/BrokenCircle'
 import brandColors from '@/constants/brandColors'
 // IMPORT HELPERS
 
-function Spinner({ width, color, className }) {
+function Spinner({ width, fill, className }) {
   return (
     <div className={['spinner', className].join(' ')}>
-      <BrokenCircle width={width} fill={color} />
+      <BrokenCircle width={width} fill={fill} />
     </div>
   )
 }
 
 Spinner.propTypes = {
-  color: PropTypes.string,
+  fill: PropTypes.string,
   width: PropTypes.number,
   className: PropTypes.string,
 }
 
 Spinner.defaultProps = {
-  color: brandColors.loaderColor,
+  fill: brandColors.loaderColor,
   width: 50,
   className: '',
 }
