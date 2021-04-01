@@ -2,6 +2,7 @@ import produce from 'immer'
 
 import copy from '@/app/copy/integrationErrorsCopy'
 
+import { sortArrayByKey } from '@/helpers/utils'
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
 export const testForMissingPages = (scopes) => {
@@ -182,9 +183,6 @@ export const formatErrors = (errors) => {
   // Remove instagram busine
   const errorsFiltered = handleInstaErrors(formattedErrors)
   // Sort error by priority
-  const sortedErrors = errorsFiltered.sort((a, b) => {
-    return a.priority - b.priority
-  })
-
+  const sortedErrors = sortArrayByKey(errorsFiltered, 'priority')
   return sortedErrors
 }

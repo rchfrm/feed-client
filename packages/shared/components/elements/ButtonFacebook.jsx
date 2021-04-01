@@ -41,6 +41,7 @@ const ButtonFacebook = (props) => {
       icon={(
         <FacebookIcon fill={brandColors.white} />
       )}
+      spinnerFill={brandColors.white}
     >
       {children}
     </Button>
