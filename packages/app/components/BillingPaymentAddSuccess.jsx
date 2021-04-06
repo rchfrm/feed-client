@@ -8,7 +8,6 @@ import copy from '@/app/copy/billingCopy'
 
 // PAYMENT SUCCESS
 const BillingPaymentAddSuccess = ({ paymentMethod }) => {
-  console.log('SUCCESS', paymentMethod)
   const {
     card,
     billing_details: billingDetails,
