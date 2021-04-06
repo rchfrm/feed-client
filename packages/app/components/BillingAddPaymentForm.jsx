@@ -97,7 +97,6 @@ const FORM = ({
         name,
       },
     })
-    console.log('paymentMethod', paymentMethod)
     // Handle Stripe error
     if (stripeError) {
       setError(stripeError)
