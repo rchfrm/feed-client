@@ -12,9 +12,6 @@ const gaCrossDomains = [
   'blog.tryfeed.co',
   'beta.tryfeed.co',
   'staging.tryfeed.co',
-  'getfed.app',
-  'beta.tryfeed.co',
-  'blog.getfed.app',
 ]
 
 export const getCrossDomainsString = () => {
