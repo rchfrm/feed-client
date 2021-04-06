@@ -158,7 +158,6 @@ const FORM = ({
             options={STRIPE_ELEMENT_OPTIONS}
             onChange={(e) => {
               const { complete } = e
-              console.log('CardElement [change]', e)
               setCardComplete(complete)
             }}
           />
