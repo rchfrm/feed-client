@@ -58,7 +58,7 @@ export const getErrorResponse = (error, artist) => {
       message: copy.ad_account_closed(facebookIntegration),
       action: 'link',
       buttonText: 'Email us',
-      href: 'mailto:help@getfed.app?subject=New ad account, old one closed',
+      href: 'mailto:help@tryfeed.co?subject=New ad account, old one closed',
       code,
     }
   }
