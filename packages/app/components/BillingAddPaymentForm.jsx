@@ -106,7 +106,6 @@ const FORM = ({
     }
     // Add payment method to DB
     const { res: paymentMethodDb, error: serverError } = await submitPaymentMethod(organisationId, paymentMethod.id)
-    console.log('paymentMethodDb', paymentMethodDb)
     setIsLoading(false)
     // Handle error adding payment to DB
     if (serverError) {
