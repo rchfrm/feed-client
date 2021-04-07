@@ -5,8 +5,7 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 import { PageTransition } from 'next-page-transitions'
-import { StripeProvider } from 'react-stripe-elements'
-import Script from 'react-load-script'
+
 import withFBQ from 'next-fbq'
 import * as Sentry from '@sentry/browser'
 // GLOBAL STYLES
@@ -68,7 +67,6 @@ if (process.env.build_env !== 'development') {
 // * THE APP
 function Feed({ Component, pageProps }) {
   const router = useRouter()
-  const [stripe, setStripe] = React.useState(null)
 
   const previousUrl = React.useRef({})
 
@@ -105,13 +103,6 @@ function Feed({ Component, pageProps }) {
     }
   }, [])
 
-  // Setup stripe to use SSR
-  const onStripeLoad = () => {
-    if (window.Stripe) {
-      setStripe(window.Stripe(process.env.stripe_provider))
-    }
-  }
-
   return (
 
     <AuthProvider>
@@ -121,23 +112,14 @@ function Feed({ Component, pageProps }) {
         <title key="meta-title">Feed</title>
       </Head>
 
-      <Script
-        url="https://js.stripe.com/v3/"
-        onLoad={onStripeLoad}
-      />
-
       {/* GTAG */}
       <SetupGtag gaId={gaId} />
 
-      <StripeProvider stripe={stripe}>
-
-        <AppContents>
-          <PageTransition timeout={300} classNames="page-transition">
-            <Component key={router.route} {...pageProps} />
-          </PageTransition>
-        </AppContents>
-
-      </StripeProvider>
+      <AppContents>
+        <PageTransition timeout={300} classNames="page-transition">
+          <Component key={router.route} {...pageProps} />
+        </PageTransition>
+      </AppContents>
 
     </AuthProvider>
   )
