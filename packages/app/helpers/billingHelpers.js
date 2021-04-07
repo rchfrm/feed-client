@@ -2,17 +2,14 @@ import get from 'lodash/get'
 
 import * as api from '@/helpers/api'
 
-// * PAYMENT
-// * --------------------
-
 // SUBMIT PAYMENT
 /**
  * @param {string} organisationId
  * @param {string} paymentMethodId
  * @returns {Promise<any>}
  */
-export const submitPaymentMethod = async ({ organisationId, paymentMethodId, currency }) => {
-  const payload = { token: paymentMethodId, currency }
+export const submitPaymentMethod = async (organisationId, paymentMethodId) => {
+  const payload = { token: paymentMethodId }
   const endpoint = `/organizations/${organisationId}/billing/payments`
   const errorTracking = {
     category: 'Billing',
@@ -37,32 +34,6 @@ export const setPaymentAsDefault = async (organisationId, paymentMethodId) => {
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
-
-// DELETE PAYMENT
-/**
- * @param {string} organisationId
- * @param {string} paymentId
- * @returns {Promise<any>}
- */
-export const deletePaymentMethod = async (organisationId, paymentMethodId) => {
-  // const payload = null
-  // const endpoint = `/organizations/${organisationId}/billing/payments/${paymentMethodId}/default`
-  // const errorTracking = {
-  //   category: 'Billing',
-  //   action: 'Set payment as default',
-  // }
-  // return api.requestWithCatch('post', endpoint, payload, errorTracking)
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const res = { organisationId, paymentMethodId }
-      resolve({ res, error: { message: 'nonon' } })
-    }, 800)
-  })
-}
-
-
-// * BILLING
-// * --------------------
 
 const getOrganizationDetails = (user) => {
   const { organizations = [] } = user
@@ -141,35 +112,4 @@ export const getAllOrgsInfo = async ({ user }) => {
   const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org))
   const allOrgsInfo = await Promise.all(fetchOrgPromises)
   return allOrgsInfo
-}
-
-
-// * REFERRALS
-// * --------------------
-export const getReferralsData = () => {
-  const data = {
-    total_referrals: 3,
-    total_referrals_complete: 2,
-    total_credits: 1000,
-    currency: 'GBP',
-    currency_offset: 100,
-    total_credits_spent: 555,
-  }
-  const dataFormatted = {
-    ...data,
-    total_credits_remaining: data.total_credits - data.total_credits_spent,
-  }
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ res: dataFormatted, error: null })
-    }, 800)
-  })
-}
-
-export const transferReferralCredits = (sourceOrgId, destOrgId) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ res: 'success', error: null })
-    }, 800)
-  })
 }

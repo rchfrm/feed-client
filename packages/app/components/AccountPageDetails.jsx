@@ -329,7 +329,6 @@ const AccountPageDetails = () => {
 }
 
 AccountPageDetails.propTypes = {
-
 }
 
 export default AccountPageDetails
