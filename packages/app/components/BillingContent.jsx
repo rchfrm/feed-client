@@ -7,6 +7,8 @@ import { UserContext } from '@/contexts/UserContext'
 
 import useBillingStore from '@/app/stores/billingStore'
 
+import Spinner from '@/elements/Spinner'
+
 import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 
@@ -34,7 +36,7 @@ const BillingContent = () => {
     setupBilling(user)
   }, [user, setupBilling])
 
-  if (billingLoading) return null
+  if (billingLoading) return <Spinner />
 
   return (
     <div
