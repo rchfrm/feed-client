@@ -7,7 +7,6 @@ const BillingInvoiceSummary = ({
   nextInvoice,
   className,
 }) => {
-  console.log('nextInvoice', nextInvoice)
   const { date, invoiceSections = [], totalFee } = nextInvoice || {}
   const header = nextInvoice ? `Next invoice: ${date}` : 'No upcoming invoice'
   return (

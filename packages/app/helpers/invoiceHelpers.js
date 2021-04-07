@@ -19,7 +19,7 @@ const dummyArchivedInvoices = [
   },
 ]
 
-export const fetchArchivedInvoices = () => {
+export const fetchArchivedInvoices = (orgId) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const res = dummyArchivedInvoices
@@ -98,7 +98,6 @@ const formatUpcomingInvoice = (invoice) => {
 }
 
 export const fetchUpcomingInvoice = (orgId) => {
-  console.log('fetch invoice for org', orgId)
   return new Promise((resolve) => {
     setTimeout(() => {
       const res = formatUpcomingInvoice(dummyUpcomingInvoice)

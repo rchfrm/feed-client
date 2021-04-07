@@ -34,6 +34,7 @@ const BillingInvoiceList = ({
     setError(null)
     setSidePanelLoading(false)
   }, [])
+
   return (
     <div>
       <h2 className={sidePanelStyles.SidePanel__Header}>Invoices</h2>
