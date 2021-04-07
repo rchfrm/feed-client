@@ -2,9 +2,6 @@ import get from 'lodash/get'
 
 import * as api from '@/helpers/api'
 
-// * PAYMENT
-// * --------------------
-
 // SUBMIT PAYMENT
 /**
  * @param {string} organisationId
@@ -13,7 +10,6 @@ import * as api from '@/helpers/api'
  */
 
 export const submitPaymentMethod = async ({ organisationId, paymentMethodId, currency, shouldBeDefault = false }) => {
-  // TODO: Ensure API accepts `currency` and `is_default`
   const payload = {
     token: paymentMethodId,
     currency,
@@ -42,6 +38,7 @@ export const setPaymentAsDefault = async (organisationId, paymentMethodId) => {
   }
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
+
 
 
 // DELETE PAYMENT
@@ -147,35 +144,4 @@ export const getAllOrgsInfo = async ({ user }) => {
   const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org))
   const allOrgsInfo = await Promise.all(fetchOrgPromises)
   return allOrgsInfo
-}
-
-
-// * REFERRALS
-// * --------------------
-export const getReferralsData = () => {
-  const data = {
-    total_referrals: 3,
-    total_referrals_complete: 2,
-    total_credits: 1000,
-    currency: 'GBP',
-    currency_offset: 100,
-    total_credits_spent: 555,
-  }
-  const dataFormatted = {
-    ...data,
-    total_credits_remaining: data.total_credits - data.total_credits_spent,
-  }
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ res: dataFormatted, error: null })
-    }, 800)
-  })
-}
-
-export const transferReferralCredits = (sourceOrgId, destOrgId) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ res: 'success', error: null })
-    }, 800)
-  })
 }
