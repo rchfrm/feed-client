@@ -7,6 +7,7 @@ import { UserContext } from '@/contexts/UserContext'
 
 import useBillingStore from '@/app/stores/billingStore'
 
+import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 
 // READING FROM STORE
@@ -14,6 +15,7 @@ const getBillingStoreState = (state) => ({
   loading: state.loading,
   defaultPaymentMethod: state.defaultPaymentMethod,
   setupBilling: state.setupBilling,
+  nextInvoice: state.nextInvoice,
 })
 
 const BillingContent = () => {
@@ -24,6 +26,7 @@ const BillingContent = () => {
     loading: billingLoading,
     setupBilling,
     defaultPaymentMethod,
+    nextInvoice,
   } = useBillingStore(getBillingStoreState, shallow)
 
   // Load billing info
@@ -37,6 +40,9 @@ const BillingContent = () => {
     <div
       className=""
     >
+      {/* INVOICES */}
+      <BillingInvoiceSummary nextInvoice={nextInvoice} />
+      {/* PAYMENT METHOD */}
       <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
     </div>
   )

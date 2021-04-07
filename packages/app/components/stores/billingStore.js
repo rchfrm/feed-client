@@ -2,11 +2,14 @@ import create from 'zustand'
 import produce from 'immer'
 
 import * as billingHelpers from '@/app/helpers/billingHelpers'
+import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
   loading: true,
+  loadingError: null,
   organisation: {},
   billingDetails: {},
+  nextInvoice: {},
   defaultPaymentMethod: null,
 }
 
@@ -17,18 +20,22 @@ const fetchAllOrgs = async (user) => {
 }
 
 // * INITIAL SETUP
-// FETCH the first organisation and set it
 const setupBilling = (set) => async (user) => {
+  // FETCH the first organisation and set it
   const allOrgs = await fetchAllOrgs(user)
   const organisation = allOrgs.find(({ role }) => role === 'owner')
   const billingDetails = billingHelpers.getbillingDetails(organisation)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
+  // Fetch next invoice
+  const { res: nextInvoice, error } = await fetchUpcomingInvoice(organisation.id)
   // SET
   set({
     organisation,
     billingDetails,
     defaultPaymentMethod,
+    nextInvoice,
     loading: false,
+    loadingError: error,
   })
 }
 
