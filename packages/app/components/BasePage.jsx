@@ -41,7 +41,7 @@ const BasePage = ({
   // Turn off global loading when
   // 1. artist finishes loading &
   // 2. page is not artist senstive &
-  // 3. It's an auth page (ie, login or signup)
+  // 3. It's not an auth page (ie, login or signup)
   // OR
   // 1a. User has no artists (ie, login or signup)
   const { artistLoading } = React.useContext(ArtistContext)
