@@ -2,25 +2,36 @@ import get from 'lodash/get'
 
 import * as api from '@/helpers/api'
 
-// PAYMENTS
+// SUBMIT PAYMENT
 /**
  * @param {string} organisationId
  * @param {string} paymentMethodId
- * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-const submitPaymentMethod = async (organisationId, paymentMethodId, verifyIdToken) => {
-  return api.post(`/organizations/${organisationId}/billing/payments`, { token: paymentMethodId }, verifyIdToken)
+export const submitPaymentMethod = async (organisationId, paymentMethodId) => {
+  const payload = { token: paymentMethodId }
+  const endpoint = `/organizations/${organisationId}/billing/payments`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Submit payment method',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
+// SET PAYMENT AS DEFAULT
 /**
  * @param {string} organisationId
  * @param {string} paymentId
- * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-const setPaymentAsDefault = async (organisationId, paymentId, verifyIdToken) => {
-  return api.post(`/organizations/${organisationId}/billing/payments/${paymentId}/default`, verifyIdToken)
+export const setPaymentAsDefault = async (organisationId, paymentMethodId) => {
+  const payload = null
+  const endpoint = `/organizations/${organisationId}/billing/payments/${paymentMethodId}/default`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Set payment as default',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
 
@@ -59,8 +70,8 @@ const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
   return [defaultMethod, ...methodsWithoutDefault]
 }
 
-
-const getbillingDetails = ({ name, payment_status = 'none', billing_details: billingDetails, role }) => {
+// GET ALL BILLING DETAILS
+export const getbillingDetails = ({ name, payment_status = 'none', billing_details: billingDetails, role }) => {
   // If no payment status setup
   if (payment_status === 'none' || !billingDetails) {
     return {
@@ -89,28 +100,16 @@ const getbillingDetails = ({ name, payment_status = 'none', billing_details: bil
   }
 }
 
-// Run this to test if there is no active payment method
-// returns true if no payment
-const testNoPayment = (billingDetails) => {
-  return billingDetails.some(({ defaultMethod, role }) => {
-    return !defaultMethod && role === 'owner'
-  })
+// GET DEFAULT PAYMENT METHOD
+export const getDefaultPaymentMethod = (allPaymentMethods = []) => {
+  if (!allPaymentMethods.length) return null
+  return allPaymentMethods.find(({ is_default }) => is_default)
 }
 
-const getAllOrgsInfo = async ({ user }) => {
+// GET ALL INFO ABOUT ALL ORGS
+export const getAllOrgsInfo = async ({ user }) => {
   const orgDetails = getOrganizationDetails(user)
   const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org))
   const allOrgsInfo = await Promise.all(fetchOrgPromises)
   return allOrgsInfo
-}
-
-
-export default {
-  submitPaymentMethod,
-  setPaymentAsDefault,
-  getOrganizationDetails,
-  fetchOrg,
-  getbillingDetails,
-  getAllOrgsInfo,
-  testNoPayment,
 }
