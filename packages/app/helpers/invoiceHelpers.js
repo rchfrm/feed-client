@@ -22,7 +22,8 @@ const dummyArchivedInvoices = [
 export const fetchArchivedInvoices = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(dummyArchivedInvoices)
+      const res = dummyArchivedInvoices
+      resolve({ res, error: null })
     }, 800)
   })
 }

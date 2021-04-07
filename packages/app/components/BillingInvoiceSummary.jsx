@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import BillingOpenInvoices from '@/app/BillingOpenInvoices'
+
 const BillingInvoiceSummary = ({
   nextInvoice,
   className,
@@ -41,6 +43,8 @@ const BillingInvoiceSummary = ({
         <span>TOTAL FEE</span>
         <strong>{totalFee}</strong>
       </p>
+      {/* BUTTON (FOR SHOW ALL) */}
+      <BillingOpenInvoices className="pt-8" />
     </div>
   )
 }

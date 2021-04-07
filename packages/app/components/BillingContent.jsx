@@ -40,12 +40,14 @@ const BillingContent = () => {
 
   return (
     <div
-      className=""
+      className="grid grid-cols-2 gap-12"
     >
       {/* INVOICES */}
-      <BillingInvoiceSummary nextInvoice={nextInvoice} />
-      {/* PAYMENT METHOD */}
-      <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
+      <div className="col-span-1">
+        <BillingInvoiceSummary nextInvoice={nextInvoice} className="mb-12" />
+        {/* PAYMENT METHOD */}
+        <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
+      </div>
     </div>
   )
 }
