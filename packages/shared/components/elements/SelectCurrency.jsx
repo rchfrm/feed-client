@@ -19,8 +19,8 @@ const selectOptionsSorted = sortArrayByKey(selectOptions, 'value')
 
 const SelectCurrency = (props) => {
   const {
-    activeOption,
-    setActiveOption,
+    value,
+    setValue,
     topChoice,
   } = props
 
@@ -43,18 +43,18 @@ const SelectCurrency = (props) => {
       {...props}
       name="currency"
       options={options}
-      value={activeOption}
-      onChange={(e) => {
+      selectedValue={value}
+      handleChange={(e) => {
         e.preventDefault()
-        setActiveOption(e.target.value)
+        setValue(e.target.value)
       }}
     />
   )
 }
 
 SelectCurrency.propTypes = {
-  activeOption: PropTypes.string.isRequired,
-  setActiveOption: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
   topChoice: PropTypes.string,
 }
 
