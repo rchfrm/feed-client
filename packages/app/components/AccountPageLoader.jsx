@@ -1,5 +1,4 @@
 import React from 'react'
-
 // IMPORT COMPONENTS
 import AccountPageDetails from '@/app/AccountPageDetails'
 
