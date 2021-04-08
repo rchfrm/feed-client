@@ -55,6 +55,8 @@ const artistsReducer = (draftState, action) => {
 }
 
 const ConnectProfilesLoader = ({
+  isConnecting,
+  setIsConnecting,
   isSignupStep,
   className,
 }) => {
@@ -76,7 +78,6 @@ const ConnectProfilesLoader = ({
   // DEFINE LOADING VERSIONS
   const [pageLoading, setPageLoading] = React.useState(false)
   const [fetchedArtistsFinished, setFetchedArtistsFinished] = React.useState(false)
-  const [isConnecting, setIsConnecting] = React.useState(false)
 
   // DEFINE BUTTON STATE (disabled if required fields are absent)
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
@@ -173,7 +174,7 @@ const ConnectProfilesLoader = ({
     setErrors([authError])
   }, [authError])
 
-  if (pageLoading) return <Spinner />
+  if (pageLoading || isConnecting) return <Spinner />
 
   // If no artists accounts, show FB BUTTON
   if (Object.keys(artistAccounts).length === 0) {
@@ -233,6 +234,8 @@ const ConnectProfilesLoader = ({
 }
 
 ConnectProfilesLoader.propTypes = {
+  isConnecting: PropTypes.bool.isRequired,
+  setIsConnecting: PropTypes.func.isRequired,
   isSignupStep: PropTypes.bool,
   className: PropTypes.string,
 }
