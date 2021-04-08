@@ -12,6 +12,7 @@ const ConnectProfilesList = ({
   setDisabledReason,
   setErrors,
   className,
+  children,
 }) => {
   // Toggled button disabled based on country select OR no accounts selected
   React.useEffect(() => {
@@ -46,6 +47,13 @@ const ConnectProfilesList = ({
     return artistHelpers.getSortedArtistAccountsArray(artistAccounts)
   }, [artistAccounts])
 
+  const cardClasses = [
+    'mb-8 xs:mb-0',
+    'col-span-6',
+    'lg:col-span-4',
+    'bmw:col-span-4',
+  ].join(' ')
+
   return (
     <ul
       className={[
@@ -62,15 +70,14 @@ const ConnectProfilesList = ({
             artist={artistAccount}
             updateArtists={updateArtists}
             setErrors={setErrors}
-            className={[
-              'mb-8 xs:mb-0',
-              'col-span-6',
-              'lg:col-span-4',
-              'bmw:col-span-3',
-            ].join(' ')}
+            className={cardClasses}
           />
         )
       })}
+      {/* CONNECT MORE BUTTON */}
+      <div className={cardClasses}>
+        {children}
+      </div>
     </ul>
   )
 }
@@ -82,6 +89,7 @@ ConnectProfilesList.propTypes = {
   setDisabledReason: PropTypes.func.isRequired,
   setErrors: PropTypes.func.isRequired,
   className: PropTypes.string,
+  children: PropTypes.node.isRequired,
 }
 
 ConnectProfilesList.defaultProps = {

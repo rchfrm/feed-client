@@ -207,7 +207,16 @@ const ConnectProfilesLoader = ({
         setDisabledReason={setDisabledReason}
         setErrors={setErrors}
         className="mb-12"
-      />
+      >
+        {/* BUTTON TO FIND MORE PROFILES */}
+        <ConnectProfilesFacebook
+          auth={auth}
+          errors={errors}
+          setErrors={setErrors}
+          isFindMore
+          className=""
+        />
+      </ConnectProfilesList>
 
       {/* BUTTON TO CONNECT ACCOUNT */}
       <ConnectProfilesConnectButton
@@ -217,15 +226,6 @@ const ConnectProfilesLoader = ({
         setIsConnecting={setIsConnecting}
         disabled={buttonDisabled}
         disabledReason={disabledReason}
-      />
-
-      {/* BUTTON TO FIND MORE PROFILES */}
-      <ConnectProfilesFacebook
-        auth={auth}
-        errors={errors}
-        setErrors={setErrors}
-        isFindMore
-        className="max-w-3xl pt-14"
       />
 
     </div>

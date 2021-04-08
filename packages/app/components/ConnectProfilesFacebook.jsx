@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 // IMPORT ELEMENTS
 import MissingScopesMessage from '@/elements/MissingScopesMessage'
 import ButtonFacebook from '@/elements/ButtonFacebook'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-import VimeoEmbed from '@/elements/VimeoEmbed'
 import MarkdownText from '@/elements/MarkdownText'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
@@ -55,7 +55,7 @@ const ConnectProfilesFacebook = ({
         return <Error error={error} messagePrefix="Error: " key={index} className="mb-10" />
       })}
       <div
-        className="lg:grid grid-cols-12 col-gap-8"
+        className={isFindMore ? 'bg-grey-1 rounded-dialogue p-4' : 'lg:grid grid-cols-12 col-gap-8'}
         style={{ alignItems: 'start' }}
       >
         {/* Singup intro text */}
@@ -68,12 +68,22 @@ const ConnectProfilesFacebook = ({
               showButton={false}
             />
           )}
-          <ButtonFacebook
-            className="w-full max-w-md mb-5"
-            onClick={linkFacebook}
-          >
-            Continue with Facebook
-          </ButtonFacebook>
+          {isFindMore ? (
+            <Button
+              version="green x-small"
+              className="w-full"
+              onClick={linkFacebook}
+            >
+              Connect more
+            </Button>
+          ) : (
+            <ButtonFacebook
+              className="w-full max-w-md mb-5"
+              onClick={linkFacebook}
+            >
+              Continue with Facebook
+            </ButtonFacebook>
+          )}
           {!isFindMore && (
             <p className={['xsmall--p', 'col-span-6', 'col-start-1', 'max-w-md'].join(' ')}>
               {copy.smallLegalText}
