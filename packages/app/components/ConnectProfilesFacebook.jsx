@@ -80,18 +80,6 @@ const ConnectProfilesFacebook = ({
             </p>
           )}
         </div>
-
-        {/* Singup intro VIDEO */}
-        {showSignupIntro && (
-          <div className="mt-12 col-span-6 col-start-7 row-start-1 lg:mt-0">
-            <h4 className="lg:hidden">Why we need your permissions</h4>
-            <VimeoEmbed
-              id="438511305"
-              title="Why we're asking for Facebook permissions"
-            />
-            <h4 className="hidden lg:block pt-2 text-center">Why we need your permissions</h4>
-          </div>
-        )}
       </div>
     </div>
   )
