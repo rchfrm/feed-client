@@ -49,13 +49,15 @@ const AccountPageDetailsEmail = ({
     contact_email_verified: contactEmailVerified,
   } = user
 
+  const contactEmailTooltipMessage = 'This is where you will receive notifications from Feed.'
+
   return (
     <>
       {/* USER EMAIL */}
       <Input
         name="email"
         label={hasEmailAuth ? 'Email' : 'Contact Email'}
-        tooltipMessage={!hasEmailAuth ? 'This is where you will receive important notifications from Feed.' : ''}
+        tooltipMessage={!hasEmailAuth ? contactEmailTooltipMessage : ''}
         placeholder=""
         value={email}
         handleChange={handleChange}
@@ -80,7 +82,7 @@ const AccountPageDetailsEmail = ({
             label="Contact email"
             buttonLabel="Use my account email"
             value="Y"
-            tooltipMessage="This is where you will receive important notifications from Feed."
+            tooltipMessage={contactEmailTooltipMessage}
             checked={!useCustomContactEmail}
             required
             disabled={loading}
