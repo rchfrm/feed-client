@@ -30,6 +30,9 @@ import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
   const { type: actionType, payload } = action
+  const artistAccount = draftState[payload.id] || {}
+  const { available_facebook_ad_accounts: availableAdAccounts } = artistAccount
+  const selectedAdAccount = actionType === 'update-artist-adaccount' ? availableAdAccounts.find(({ id }) => id === payload.value) : null
   switch (actionType) {
     case 'add-artists':
       Object.entries(payload.artists).forEach(([key, value]) => {
@@ -41,6 +44,10 @@ const artistsReducer = (draftState, action) => {
       break
     case 'update-artist':
       draftState[payload.id][payload.field] = payload.value
+      break
+    case 'update-artist-adaccount':
+      draftState[payload.id].adaccount_id = payload.value
+      draftState[payload.id].selected_facebook_ad_account = selectedAdAccount
       break
     default:
       throw new Error(`Could not find ${actionType} in artistsReducer`)

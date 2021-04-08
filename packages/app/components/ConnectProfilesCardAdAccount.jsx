@@ -5,17 +5,18 @@ import Select from '@/elements/Select'
 
 import ConnectProfilesCardSelectPlaceholder from '@/app/ConnectProfilesCardSelectPlaceholder'
 
-
 const ConnectProfilesCardAdAccount = ({
   artist,
-  onChange,
+  updateArtists,
   className,
 }) => {
   const {
     exists,
     available_facebook_ad_accounts: availableAdAccounts,
     selected_facebook_ad_account: selectedAdAccount,
+    page_id: artistId,
   } = artist
+  // console.log('selectedAdAccount', selectedAdAccount)
   // READONLY
   if (exists) {
     return (
@@ -34,8 +35,12 @@ const ConnectProfilesCardAdAccount = ({
     <Select
       name="selected_facebook_ad_account"
       label="Select an ad account"
-      handleChange={onChange}
-      selectedValue={artist.country_code}
+      handleChange={(e) => {
+        const { target: { value } } = e
+        const payload = { id: artistId, value }
+        updateArtists('update-artist-adaccount', payload)
+      }}
+      selectedValue={selectedAdAccount.id}
       options={adAccountOptions}
       required
       className={className}
@@ -45,7 +50,7 @@ const ConnectProfilesCardAdAccount = ({
 
 ConnectProfilesCardAdAccount.propTypes = {
   artist: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  updateArtists: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
