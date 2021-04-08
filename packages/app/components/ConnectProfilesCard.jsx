@@ -89,7 +89,7 @@ const ConnectProfilesCard = ({
       {/* COUNTRY SELECT */}
       <ConnectProfilesCardCountry
         artist={artist}
-        onChange={onSelectChange}
+        updateArtists={updateArtists}
         className="mb-5"
       />
       {/* CONNECT BUTTON */}

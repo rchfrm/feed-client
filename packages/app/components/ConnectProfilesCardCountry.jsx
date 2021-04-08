@@ -16,11 +16,17 @@ const countriesArr = countries.map(({ id, name }) => {
 
 const ConnectProfilesCardCountry = ({
   artist,
-  onChange,
+  updateArtists,
   className,
 }) => {
   // READONLY
-  const { country_code, exists, connect } = artist
+  const {
+    country_code,
+    exists,
+    connect,
+    page_id: artistId,
+  } = artist
+
   if (exists) {
     const { name: countryName } = countriesArr.find(({ value }) => value === country_code)
     return (
@@ -35,7 +41,14 @@ const ConnectProfilesCardCountry = ({
     <Select
       name="country_code"
       label="Your country"
-      handleChange={onChange}
+      handleChange={(e) => {
+        const { target: { name: field, value } } = e
+        // Ignore placeholder
+        if (value.indexOf('Choose') !== -1) return
+        // Update artist
+        const payload = { id: artistId, field, value }
+        updateArtists('update-artist', payload)
+      }}
       selectedValue={artist.country_code}
       placeholder="Select country"
       options={countriesArr}
@@ -48,7 +61,7 @@ const ConnectProfilesCardCountry = ({
 
 ConnectProfilesCardCountry.propTypes = {
   artist: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  updateArtists: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
