@@ -27,7 +27,7 @@ const fetchError = async ({ auth, user, artist, artistId }) => {
   }
 
   // * Stop here if running locally
-  // if (process.env.build_env === 'development') return
+  if (process.env.build_env === 'development') return
 
   if (!artist || !artistId) return
   // Test whether user owns artist
