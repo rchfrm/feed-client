@@ -5,6 +5,7 @@ import * as billingHelpers from '@/app/helpers/billingHelpers'
 import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
+  allOrgs: [],
   loading: true,
   loadingError: null,
   organisation: {},
@@ -33,6 +34,7 @@ const setupBilling = (set) => async (user) => {
   const { res: referralsDetails, error } = await billingHelpers.getReferralsData()
   // SET
   set({
+    allOrgs,
     organisation,
     billingDetails,
     referralsDetails,

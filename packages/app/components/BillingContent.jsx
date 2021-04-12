@@ -50,7 +50,7 @@ const BillingContent = () => {
         <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
       </div>
       <div className="col-span-1">
-        <BillingReferralsSummary />
+        <BillingReferralsSummary canTransferCredits />
       </div>
     </div>
   )

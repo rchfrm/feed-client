@@ -165,3 +165,11 @@ export const getReferralsData = () => {
     }, 800)
   })
 }
+
+export const transferReferralCredits = (sourceOrgId, destOrIg) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ res: 'success', error: null })
+    }, 800)
+  })
+}
