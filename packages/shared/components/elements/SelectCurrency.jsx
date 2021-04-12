@@ -25,6 +25,12 @@ const SelectCurrency = (props) => {
     placeholder,
   } = props
 
+  // Set top choice on mount
+  React.useEffect(() => {
+    if (topChoice) setValue(topChoice)
+  // eslint-disable-next-line
+  }, [])
+
   // PUT FIRST CHOICE ON TOP
   const [options, setOptions] = React.useState([])
   React.useEffect(() => {
