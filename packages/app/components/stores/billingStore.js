@@ -11,6 +11,7 @@ const initialState = {
   billingDetails: {},
   nextInvoice: {},
   defaultPaymentMethod: null,
+  referralsDetails: {},
 }
 
 // FETCH ALL ORGS the user has access to
@@ -28,10 +29,13 @@ const setupBilling = (set) => async (user) => {
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
   // Fetch next invoice
   const { res: nextInvoice, error } = await fetchUpcomingInvoice(organisation.id)
+  // Referrals data
+  const { res: referralsDetails, error } = await billingHelpers.getReferralsData()
   // SET
   set({
     organisation,
     billingDetails,
+    referralsDetails,
     defaultPaymentMethod,
     nextInvoice,
     loading: false,
