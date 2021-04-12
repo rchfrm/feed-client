@@ -114,4 +114,4 @@ BillingPaymentCard.defaultProps = {
   className: null,
 }
 
-export default BillingPaymentCard
+export default React.memo(BillingPaymentCard)
