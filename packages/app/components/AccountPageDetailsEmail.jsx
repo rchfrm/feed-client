@@ -13,18 +13,20 @@ const PENDING_EMAIL_NOTICE = ({
   email,
   emailType,
   isPending,
+  loading,
   className,
 }) => {
   const [resendEmailError, setResendEmailError] = React.useState(null)
   const message = `* You need to verify ${email}${isPending ? ` before we can set it as your new ${emailType}` : ''}, please check your inbox.`
   return (
-    <div className={className}>
+    <div className={className} style={loading ? { opacity: 0.5 } : null}>
       <p className="text-sm font-bold -mt-5 mb-4">{message}</p>
       <Error error={resendEmailError} />
       <ConfirmEmailResendButton
         buttonText="Resend confirmation email"
         emailType="email"
         setError={setResendEmailError}
+        parentLoading={loading}
       />
     </div>
   )
@@ -71,6 +73,7 @@ const AccountPageDetailsEmail = ({
           email={pendingEmail || userEmail}
           isPending={!!pendingEmail}
           emailType={hasEmailAuth ? 'account email' : 'contact email'}
+          loading={loading}
           className={hasEmailAuth ? 'mb-4' : 'mb-12'}
         />
       )}
@@ -106,6 +109,7 @@ const AccountPageDetailsEmail = ({
                   email={pendingContactEmail || userContactEmail}
                   isPending={!!pendingContactEmail}
                   emailType="contact email"
+                  loading={loading}
                   className="mb-8"
                 />
               )}

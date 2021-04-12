@@ -10,6 +10,7 @@ const ConfirmEmailResendButton = ({
   emailType,
   buttonText,
   setError,
+  parentLoading,
   className,
 }) => {
   const [emailResent, setEmailResent] = React.useState(false)
@@ -48,6 +49,7 @@ const ConfirmEmailResendButton = ({
           onClick={resendEmail}
           className="mb-5 xxs:mb-0"
           loading={loading}
+          disabled={parentLoading}
         >
           {buttonText}
         </Button>
@@ -60,11 +62,13 @@ ConfirmEmailResendButton.propTypes = {
   emailType: PropTypes.string.isRequired,
   buttonText: PropTypes.string,
   setError: PropTypes.func.isRequired,
+  parentLoading: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ConfirmEmailResendButton.defaultProps = {
   buttonText: 'Resend email',
+  parentLoading: false,
   className: null,
 }
 
