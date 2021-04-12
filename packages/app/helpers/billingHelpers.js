@@ -11,8 +11,9 @@ import * as api from '@/helpers/api'
  * @param {string} paymentMethodId
  * @returns {Promise<any>}
  */
-export const submitPaymentMethod = async (organisationId, paymentMethodId) => {
+export const submitPaymentMethod = async ({ organisationId, paymentMethodId, currencyCode }) => {
   const payload = { token: paymentMethodId }
+  const payload = { token: paymentMethodId, currency_code: currencyCode }
   const endpoint = `/organizations/${organisationId}/billing/payments`
   const errorTracking = {
     category: 'Billing',

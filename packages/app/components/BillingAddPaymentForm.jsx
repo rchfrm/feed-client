@@ -58,8 +58,7 @@ const FORM = ({
   const elements = useElements()
   const stripe = useStripe()
   const [name, setName] = React.useState('')
-  const [currency, setCurrency] = React.useState('')
-  console.log('currency', currency)
+  const [currencyCode, setCurrencyCode] = React.useState('')
   const [error, setError] = React.useState(null)
 
   // READ from BILLING STORE
@@ -91,9 +90,9 @@ const FORM = ({
   // TEST FORM IS VALID
   const [cardComplete, setCardComplete] = React.useState(false)
   React.useEffect(() => {
-    const formValid = !!(name && currency && elements && stripe && cardComplete)
+    const formValid = !!(name && currencyCode && elements && stripe && cardComplete)
     setIsFormValid(formValid)
-  }, [name, currency, cardComplete, elements, stripe])
+  }, [name, currencyCode, cardComplete, elements, stripe])
 
   // HANDLE FORM
   const onSubmit = React.useCallback(async () => {
@@ -117,7 +116,11 @@ const FORM = ({
     }
     // Add payment method to DB
     // TODO: Include the currency
-    const { res: paymentMethodDb, error: serverError } = await submitPaymentMethod(organisationId, paymentMethod.id)
+    const { res: paymentMethodDb, error: serverError } = await submitPaymentMethod({
+      organisationId,
+      paymentMethodId: paymentMethod.id,
+      currencyCode,
+    })
     setIsLoading(false)
     // Handle error adding payment to DB
     if (serverError) {
@@ -134,7 +137,7 @@ const FORM = ({
       shouldBeDefault,
     })
     setSuccess(true)
-  }, [isFormValid, isLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
+  }, [isFormValid, isLoading, name, organisationId, currencyCode, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
 
   // CHANGE SIDEPANEL BUTTON
   React.useEffect(() => {
@@ -165,8 +168,8 @@ const FORM = ({
       <SelectCurrency
         label="Payment currency"
         name="currency"
-        value={currency}
-        setValue={setCurrency}
+        value={currencyCode}
+        setValue={setCurrencyCode}
         placeholder="Select a currency"
         required
         topChoice={artistCurrency.code}
