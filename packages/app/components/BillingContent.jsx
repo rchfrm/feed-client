@@ -11,6 +11,7 @@ import Spinner from '@/elements/Spinner'
 
 import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
+import BillingReferralsSummary from '@/app/BillingReferralsSummary'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
@@ -47,6 +48,9 @@ const BillingContent = () => {
         <BillingInvoiceSummary nextInvoice={nextInvoice} className="mb-12" />
         {/* PAYMENT METHOD */}
         <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
+      </div>
+      <div className="col-span-1">
+        <BillingReferralsSummary />
       </div>
     </div>
   )
