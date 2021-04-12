@@ -10,6 +10,7 @@ import { track } from '@/app/helpers/trackingHelpers'
 
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 import AccountPageDetailsEmail from '@/app/AccountPageDetailsEmail'
+import AccountPageDetailsEmailAlert from '@/app/AccountPageDetailsEmailAlert'
 import PendingEmailWarning from '@/app/PendingEmailWarning'
 
 import Input from '@/elements/Input'
@@ -22,7 +23,7 @@ import styles from '@/app/AccountPage.module.css'
 
 const getChangedEmails = ({ email, contactEmail, initialEmail, initialContactEmail }) => {
   const changedEmails = []
-  if (email !== initialEmail) changedEmails.push('email')
+  if (email !== initialEmail) changedEmails.push('authEmail')
   if (contactEmail !== initialContactEmail && initialContactEmail) changedEmails.push('contactEmail')
   return changedEmails
 }
@@ -71,19 +72,24 @@ const AccountPageDetailsInline = () => {
   // GET SCROLL TO FUNCTION
   const scrollTo = useAnimateScroll()
 
+  // SHOW ALERT if CHANGIN AUTH EMAIL
+  // const [shouldContinueSubmit, setShouldContinueSubmit] = React.useState(false)
+  const [showEmailAlert, setShowEmailAlert] = React.useState(false)
+
   // SUBMIT THE FORM
   const [loading, setLoading] = React.useState(false)
   const [errors, setErrors] = React.useState([])
-  const handleSubmit = async (e) => {
+  const onSumbit = React.useCallback(async (e, forceSubmit) => {
     if (e) e.preventDefault()
-    // Clear errors
-    const newErrors = []
     // Stop here if form is disabled
     if (formDisabled) return
     const passwordChanged = passwordOne || passwordTwo
     const changedEmails = getChangedEmails({ email, contactEmail, initialEmail, initialContactEmail })
     const emailChanged = changedEmails.length
     const accountDetailsChanged = (initialFirstName !== firstName) || (initialLastName !== lastName) || emailChanged
+
+    // Start counting errors
+    const newErrors = []
 
     // Stop here if No name
     if (!firstName || !lastName) {
@@ -112,6 +118,13 @@ const AccountPageDetailsInline = () => {
       scrollTo({ offset: 0 })
       return
     }
+
+    // Show alert before changing email
+    if (changedEmails.includes('authEmail') && !forceSubmit) {
+      setShowEmailAlert(true)
+      return
+    }
+
     // Disable form
     setFormDisabled(true)
     // Set loading
@@ -156,7 +169,7 @@ const AccountPageDetailsInline = () => {
     if (changedEmails.includes('contactEmail')) {
       track('update_contact_email')
     }
-  }
+  }, [contactEmail, email, errors, firstName, formDisabled, initialContactEmail, initialEmail, initialFirstName, initialLastName, lastName, passwordOne, passwordTwo, scrollTo, updateUser, useCustomContactEmail])
 
   // Set initial values from user
   React.useEffect(() => {
@@ -209,7 +222,7 @@ const AccountPageDetailsInline = () => {
           styles.accountPageDetails__form,
           'md:max-w-xl',
         ].join(' ')}
-        onSubmit={handleSubmit}
+        onSubmit={onSumbit}
       >
 
         {errors.map((error, index) => {
@@ -287,6 +300,14 @@ const AccountPageDetailsInline = () => {
           Save changes
         </Button>
       </form>
+
+      {/* ALERT (for changing email) */}
+      <AccountPageDetailsEmailAlert
+        showEmailAlert={showEmailAlert}
+        setShowEmailAlert={setShowEmailAlert}
+        resubmitForm={onSumbit}
+      />
+
     </section>
   )
 }
