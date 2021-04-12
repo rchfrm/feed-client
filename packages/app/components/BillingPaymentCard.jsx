@@ -22,7 +22,7 @@ const BillingPaymentCard = ({
   className,
 }) => {
   const { brand, exp_month, exp_year: year, last4 } = card
-  const { name } = billingDetails
+  const { name, currency } = billingDetails
   const month = formatDate(exp_month)
   const ElWrapper = isButton ? 'button' : 'div'
   return (
@@ -44,10 +44,13 @@ const BillingPaymentCard = ({
       >
         <div className="flex justify-between items-start w-full">
           {/* BRAND */}
-          <p className="block capitalize text-lg mb-0"><strong>{brand}</strong></p>
+          <p className="flex items-baseline capitalize mb-0">
+            <strong className="text-lg mr-2">{brand}</strong>
+            {currency && <span>({currency})</span>}
+          </p>
           {/* RADIO INDICATOR */}
           {isButton && (
-            <div className={['radio--button_label -mr-3', isSelected ? '-active' : null].join(' ')} />
+          <div className={['radio--button_label -mr-3', isSelected ? '-active' : null].join(' ')} />
           )}
         </div>
         <div className="flex justify-between items-end w-full">
