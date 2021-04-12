@@ -23,7 +23,7 @@ import styles from '@/app/AccountPage.module.css'
 const getChangedEmails = ({ email, contactEmail, initialEmail, initialContactEmail }) => {
   const changedEmails = []
   if (email !== initialEmail) changedEmails.push('email')
-  if (contactEmail !== initialContactEmail) changedEmails.push('contactEmail')
+  if (contactEmail !== initialContactEmail && initialContactEmail) changedEmails.push('contactEmail')
   return changedEmails
 }
 
