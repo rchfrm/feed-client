@@ -142,7 +142,7 @@ const ConfirmEmailPage = ({
     if (error) {
       setCheckCode(false)
       setChecking(false)
-      setError(error)
+      setError({ message: error.message.message })
       setHasInitialVerificationCode(false)
       setIsSuccessful(false)
       setVerificationCode('')
