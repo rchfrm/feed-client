@@ -22,6 +22,7 @@ const SelectCurrency = (props) => {
     value,
     setValue,
     topChoice,
+    placeholder,
   } = props
 
   // PUT FIRST CHOICE ON TOP
@@ -41,6 +42,7 @@ const SelectCurrency = (props) => {
   return (
     <Select
       {...props}
+      placeholder={topChoice ? null : placeholder}
       name="currency"
       options={options}
       selectedValue={value}
