@@ -8,6 +8,7 @@ import { UserContext } from '@/contexts/UserContext'
 import useBillingStore from '@/app/stores/billingStore'
 
 import Spinner from '@/elements/Spinner'
+import Error from '@/elements/Error'
 
 import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
@@ -19,6 +20,7 @@ const getBillingStoreState = (state) => ({
   defaultPaymentMethod: state.defaultPaymentMethod,
   setupBilling: state.setupBilling,
   nextInvoice: state.nextInvoice,
+  loadingErrors: state.loadingErrors,
 })
 
 const BillingContent = () => {
@@ -27,6 +29,7 @@ const BillingContent = () => {
   // Read from BILLING STORE
   const {
     loading: billingLoading,
+    loadingErrors,
     setupBilling,
     defaultPaymentMethod,
     nextInvoice,
@@ -43,8 +46,10 @@ const BillingContent = () => {
     <div
       className="grid grid-cols-2 gap-12"
     >
-      {/* INVOICES */}
       <div className="col-span-1">
+        {/* ERRORS */}
+        {loadingErrors.map((error, index) => <Error key={index} error={error} />)}
+        {/* INVOICES */}
         <BillingInvoiceSummary nextInvoice={nextInvoice} className="mb-12" />
         {/* PAYMENT METHOD */}
         <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
