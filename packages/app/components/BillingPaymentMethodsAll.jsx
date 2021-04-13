@@ -27,6 +27,7 @@ const getBillingStoreState = (state) => ({
   defaultPaymentMethod: state.defaultPaymentMethod,
   organisation: state.organisation,
   updateDefaultPayment: state.updateDefaultPayment,
+  deletePaymentMethod: state.deletePaymentMethod,
 })
 
 
@@ -35,8 +36,9 @@ const BillingPaymentMethodsAll = ({ className }) => {
   const {
     billingDetails: { allPaymentMethods },
     defaultPaymentMethod,
+    deletePaymentMethod: deletePaymentMethodStore,
     organisation: { id: organisationId },
-    updateDefaultPayment,
+    updateDefaultPayment: updateDefaultPaymentStore,
   } = useBillingStore(getBillingStoreState, shallow)
 
   // SIDEPANEL CONTEXT
@@ -56,10 +58,10 @@ const BillingPaymentMethodsAll = ({ className }) => {
       return
     }
     // Update default in store
-    updateDefaultPayment(newDefaultPaymentMethod)
+    updateDefaultPaymentStore(newDefaultPaymentMethod)
     setSidePanelLoading(false)
     setError(null)
-  }, [organisationId, selectedMethodId, setSidePanelLoading, updateDefaultPayment])
+  }, [organisationId, selectedMethodId, setSidePanelLoading, updateDefaultPaymentStore])
 
   // DELETE METHOD
   const deletePaymentMethod = React.useCallback(async (paymentMethodId) => {
@@ -73,9 +75,10 @@ const BillingPaymentMethodsAll = ({ className }) => {
       return
     }
     // TODO Update default in store
+    deletePaymentMethodStore(paymentMethodId)
     setSidePanelLoading(false)
     setError(null)
-  }, [organisationId, setSidePanelLoading])
+  }, [organisationId, setSidePanelLoading, deletePaymentMethodStore])
 
   // SET SIDE PANEL BUTTON
   React.useEffect(() => {
