@@ -17,7 +17,7 @@ const PostCardMetricsList = ({
   const { artistCurrency } = React.useContext(ArtistContext)
 
   // CREATE ARRAY OF METRICS
-  const maxMetrics = 4
+  const maxMetrics = 6
   const metricsArray = React.useMemo(() => {
     if (!metrics) return []
     const metricsFormatted = utils.getDataArray(metricsContent, metrics, { preserveRawNumber: true })
