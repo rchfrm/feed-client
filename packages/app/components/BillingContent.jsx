@@ -11,6 +11,7 @@ import useBillingStore from '@/app/stores/billingStore'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
+import BillingOrganisationSelect from '@/app/BillingOrganisationSelect'
 import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 import BillingReferralsSummary from '@/app/BillingReferralsSummary'
@@ -22,6 +23,8 @@ const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
   nextInvoice: state.nextInvoice,
   loadingErrors: state.loadingErrors,
+  organisation: state.organisation,
+  allOrgs: state.allOrgs,
 })
 
 const BillingContent = () => {
@@ -35,6 +38,8 @@ const BillingContent = () => {
     setupBilling,
     defaultPaymentMethod,
     nextInvoice,
+    organisation,
+    allOrgs,
   } = useBillingStore(getBillingStoreState, shallow)
 
   // Load billing info
@@ -54,6 +59,15 @@ const BillingContent = () => {
         'pb-12',
       ].join(' ')}
     >
+      {/* SELECT ORG */}
+      {allOrgs.length >= 2 && (
+        <BillingOrganisationSelect
+          className="cols-span-2 mb-8"
+          organisation={organisation}
+          allOrgs={allOrgs}
+        />
+      )}
+      {/* LEFT COL */}
       <div className="col-span-1 mb-12 sm:mb-0">
         {/* ERRORS */}
         {loadingErrors.map((error, index) => <Error key={index} error={error} />)}
@@ -62,6 +76,7 @@ const BillingContent = () => {
         {/* PAYMENT METHOD */}
         <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
       </div>
+      {/* RIGHT COL */}
       <div className="col-span-1">
         <BillingReferralsSummary canTransferCredits />
       </div>

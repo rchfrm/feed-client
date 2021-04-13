@@ -9,6 +9,7 @@ const initialState = {
   loading: true,
   loadingErrors: [],
   organisation: {},
+  allOrgs: [],
   billingDetails: {},
   nextInvoice: {},
   artistCurrency: {},
@@ -40,6 +41,7 @@ const setupBilling = (set) => async (user, artistCurrency) => {
   set({
     allOrgs,
     organisation,
+    allOrgs,
     billingDetails,
     referralsDetails,
     defaultPaymentMethod,
