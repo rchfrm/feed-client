@@ -9,7 +9,6 @@ const headerConfig = {
 const Page = () => (
   <BasePage
     headerConfig={headerConfig}
-    staticPage
   >
     <BillingContent />
   </BasePage>

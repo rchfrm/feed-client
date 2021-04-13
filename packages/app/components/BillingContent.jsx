@@ -7,6 +7,9 @@ import { UserContext } from '@/contexts/UserContext'
 
 import useBillingStore from '@/app/stores/billingStore'
 
+import Spinner from '@/elements/Spinner'
+
+import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 
 // READING FROM STORE
@@ -14,6 +17,7 @@ const getBillingStoreState = (state) => ({
   loading: state.loading,
   defaultPaymentMethod: state.defaultPaymentMethod,
   setupBilling: state.setupBilling,
+  nextInvoice: state.nextInvoice,
 })
 
 const BillingContent = () => {
@@ -24,6 +28,7 @@ const BillingContent = () => {
     loading: billingLoading,
     setupBilling,
     defaultPaymentMethod,
+    nextInvoice,
   } = useBillingStore(getBillingStoreState, shallow)
 
   // Load billing info
@@ -31,13 +36,18 @@ const BillingContent = () => {
     setupBilling(user)
   }, [user, setupBilling])
 
-  if (billingLoading) return null
+  if (billingLoading) return <Spinner />
 
   return (
     <div
-      className=""
+      className="grid grid-cols-2 gap-12"
     >
-      <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
+      {/* INVOICES */}
+      <div className="col-span-1">
+        <BillingInvoiceSummary nextInvoice={nextInvoice} className="mb-12" />
+        {/* PAYMENT METHOD */}
+        <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
+      </div>
     </div>
   )
 }
