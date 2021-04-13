@@ -15,7 +15,7 @@ import useBillingAddPayment from '@/app/hooks/useBillingAddPayment'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import { setPaymentAsDefault } from '@/app/helpers/billingHelpers'
+import { setPaymentAsDefault, deletePaymentMethod } from '@/app/helpers/billingHelpers'
 
 import copy from '@/app/copy/billingCopy'
 
@@ -61,6 +61,22 @@ const BillingPaymentMethodsAll = ({ className }) => {
     setError(null)
   }, [organisationId, selectedMethodId, setSidePanelLoading, updateDefaultPayment])
 
+  // DELETE METHOD
+  const deletePaymentMethod = React.useCallback(async (paymentMethodId) => {
+    console.log('DELETE METHOD')
+    setSidePanelLoading(true)
+    const { res, error } = await setPaymentAsDefault(organisationId, paymentMethodId)
+    console.log('res', res)
+    // Handle error
+    if (error) {
+      setError(error)
+      return
+    }
+    // TODO Update default in store
+    setSidePanelLoading(false)
+    setError(null)
+  }, [organisationId, setSidePanelLoading])
+
   // SET SIDE PANEL BUTTON
   React.useEffect(() => {
     // Check whether the user has selected a new default card
@@ -94,14 +110,17 @@ const BillingPaymentMethodsAll = ({ className }) => {
         return (
           <BillingPaymentCard
             key={id}
+            paymentMethodId={id}
             card={card}
             billingDetails={cardBillingDetails}
             isDefault={is_default}
             isSelected={id === selectedMethodId}
             isButton
+            allowDelete
             onClick={() => {
               setSelectedMethodId(id)
             }}
+            onDelete={deletePaymentMethod}
             className="mb-6 last:mb-0"
           />
         )
