@@ -6,11 +6,16 @@ import Button from '@/elements/Button'
 import Select from '@/elements/Select'
 import brandColors from '@/constants/brandColors'
 
+import useBillingStore from '@/app/stores/billingStore'
+
+const getSelectOrganisation = state => state.selectOrganisation
+
 const BillingOrganisationSelect = ({
   organisation,
   allOrgs,
   className,
 }) => {
+  const selectOrganisation = useBillingStore(getSelectOrganisation)
   const [selectActive, setSelectActive] = React.useState(false)
   const selectOptions = React.useMemo(() => {
     return allOrgs.map(({ name, id }) => {
@@ -29,9 +34,10 @@ const BillingOrganisationSelect = ({
             <Select
               className="mb-0 mr-6"
               options={selectOptions}
-              value={organisation.id}
+              selectedValue={organisation.id}
               handleChange={({ target: { value } }) => {
-                console.log('value', value)
+                selectOrganisation(value)
+                setSelectActive(false)
               }}
             />
             <div>

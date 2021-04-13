@@ -19,6 +19,7 @@ import BillingReferralsSummary from '@/app/BillingReferralsSummary'
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
   loading: state.loading,
+  loadingErrors: state.loadingErros,
   defaultPaymentMethod: state.defaultPaymentMethod,
   setupBilling: state.setupBilling,
   nextInvoice: state.nextInvoice,
