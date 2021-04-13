@@ -18,7 +18,7 @@ const BillingPaymentMethodsSummary = ({
         className,
       ].join(' ')}
     >
-      <h3>Payment Methods</h3>
+      <h3 className="font-body font-bold mb-6">Payment Methods</h3>
       {defaultPaymentMethod ? (
         <>
           <BillingPaymentCard
