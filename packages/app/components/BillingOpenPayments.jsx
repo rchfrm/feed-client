@@ -18,7 +18,7 @@ const BillingOpenPayments = ({
     <div className={className}>
       <Button
         version="black small"
-        className="w-full max-w-md"
+        className="w-full sm:max-w-md"
         onClick={(e) => {
           e.preventDefault()
           if (contentType === 'add-payment') {

@@ -40,7 +40,7 @@ const BillingReferralsSummary = ({
       ].join(' ')}
     >
       {/* INTRO */}
-      <h3>Referrals and Credits</h3>
+      <h3 className="font-body font-bold mb-6">Referrals and Credits</h3>
       <MarkdownText markdown={copy.referralsCopy(referralsDetails)} />
       {/* SUMMARY */}
       {referralsDetails.total_referrals > 0 && (

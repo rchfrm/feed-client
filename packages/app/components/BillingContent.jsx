@@ -44,9 +44,12 @@ const BillingContent = () => {
 
   return (
     <div
-      className="grid grid-cols-2 gap-12 pb-12"
+      className={[
+        'sm:grid grid-cols-2 gap-12 md:gap-16',
+        'pb-12',
+      ].join(' ')}
     >
-      <div className="col-span-1">
+      <div className="col-span-1 mb-12 sm:mb-0">
         {/* ERRORS */}
         {loadingErrors.map((error, index) => <Error key={index} error={error} />)}
         {/* INVOICES */}
