@@ -23,7 +23,7 @@ export default {
     } = data
     // No referrals
     if (!total_referrals) return `You haven't made any referrals yet. You can get and share [your referral code here](${ROUTES.MYREFERRAL})`
-    const intro = `🤝 You've referred ${total_referrals}`
+    const intro = `🤝 You've referred ${total_referrals} people`
     // No *complete* referrals
     if (total_referrals && !total_referrals_complete) return `${intro} but none of the accounts have yet spent the required amount.`
     return `${intro} and ${total_referrals_complete} accounts have spent the required amount 🎉, earning you ${total_referrals_complete} credits 💰. Great work 👍`
