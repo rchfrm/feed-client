@@ -44,7 +44,7 @@ const BillingContent = () => {
 
   return (
     <div
-      className="grid grid-cols-2 gap-12"
+      className="grid grid-cols-2 gap-12 pb-12"
     >
       <div className="col-span-1">
         {/* ERRORS */}
