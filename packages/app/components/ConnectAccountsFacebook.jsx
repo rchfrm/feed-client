@@ -61,6 +61,7 @@ function ConnectAccountsFacebook({ auth, errors, setErrors, onSignUp }) {
         <ButtonFacebook
           className={['col-span-6 mb-5', 'col-start-1'].join(' ')}
           onClick={linkFacebook}
+          fallbackCta="Continue with Facebook"
         >
           Continue with Facebook
         </ButtonFacebook>
