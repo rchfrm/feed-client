@@ -19,5 +19,5 @@ When you enter a link, make sure it starts with "https://".
 
   More details on Feed’s pricing is [here](${ROUTES.PRICING}).`,
 
-  changeEmailAlert: `After changing your email you will be logged out of your account.`,
+  changeEmailAlert: `After changing your email you will be asked to verify it [etc etc etc etc etc etc etc etc].`,
 }
