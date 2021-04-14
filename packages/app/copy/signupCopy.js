@@ -13,7 +13,7 @@ export default {
 
   emailVerifySuccess: {
     success: (email) => `Success! Your email **${email}** has been verified!`,
-    logoutExplainer: `You will need to log out and sign in with the email you just verified.`,
-    button: `Sign out and continue`,
+    logoutExplainer: `You will now need to sign in with your new email address.`,
+    button: (isAuthEmail) => { return isAuthEmail ? `Sign in with new email` : 'Continue' },
   },
 }

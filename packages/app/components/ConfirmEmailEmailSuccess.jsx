@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 
 import Success from '@/elements/Success'
 import Button from '@/elements/Button'
+import MarkdownText from '@/elements/MarkdownText'
+
+import copy from '@/app/copy/signupCopy'
 
 const ConfirmEmailEmailSuccess = ({
   email,
@@ -12,20 +15,22 @@ const ConfirmEmailEmailSuccess = ({
   className,
 }) => {
   const emailDisplay = emailType === 'contactEmail' ? contactEmail : email
+  const { emailVerifySuccess: pageCopy } = copy
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-      <Success message={`Success! Your email **${emailDisplay}** has been verified!`} />
+      <Success message={pageCopy.success(emailDisplay)} />
+      <MarkdownText markdown={pageCopy.logoutExplainer} />
       <div className="pt-2">
         <Button
           version="green small"
           className="w-full"
           onClick={onContinue}
         >
-          Continue
+          {pageCopy.button}
         </Button>
       </div>
     </div>
