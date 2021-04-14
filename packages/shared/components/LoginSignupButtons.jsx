@@ -20,6 +20,7 @@ const LoginSignupButtons = ({
       <ButtonFacebook
         className={styles.facebookButton}
         onClick={onFacebookClick}
+        fallbackCta={`${buttonPrefix} Facebook`}
       >
         {buttonPrefix} Facebook
       </ButtonFacebook>
