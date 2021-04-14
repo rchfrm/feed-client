@@ -73,7 +73,7 @@ const AccountPageDetailsInline = () => {
   const scrollTo = useAnimateScroll()
 
   // SHOW ALERT if CHANGIN AUTH EMAIL
-  const [confirmAlert, setConfirmAlert] = React.useState(false)
+  const [confirmAlert, setConfirmAlert] = React.useState('')
 
   // SUBMIT THE FORM
   const [loading, setLoading] = React.useState(false)
