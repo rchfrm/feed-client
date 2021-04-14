@@ -160,6 +160,7 @@ export const formatPostsResponse = (posts) => {
     const paidMetrics = adsSummary ? {
       spend: adsSummaryMetrics.spend,
       reach: adsSummaryMetrics.reach,
+      impressions: adsSummaryMetrics.impressions,
       engagements: get(adsSummaryMetrics, ['actions', 'post_engagement'], null),
       clicks: getPaidClicks(adsSummaryMetrics),
       engagementScore: adsSummary.spend_adjusted_engagement_score,
@@ -239,6 +240,6 @@ export const getPostMetricsContent = (metricsType, postType) => {
     'clicks',
     'video_views',
     'engagements',
-    'shares',
+    'impressions',
   ]
 }
