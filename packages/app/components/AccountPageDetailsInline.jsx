@@ -124,12 +124,6 @@ const AccountPageDetailsInline = () => {
       return
     }
 
-    // Show alert before changing password
-    if (passwordChanged && !forceSubmit) {
-      setConfirmAlert('password')
-      return
-    }
-
     // Disable form
     setFormDisabled(true)
     // Set loading
