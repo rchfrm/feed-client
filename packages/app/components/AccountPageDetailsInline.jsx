@@ -138,7 +138,8 @@ const AccountPageDetailsInline = () => {
     const newContactEmail = !useCustomContactEmail || !contactEmail ? null : contactEmail
     const userUpdatePromise = accountDetailsChanged ? server.patchUser({ firstName, lastName, email, contactEmail: newContactEmail }) : null
     // When all is done...
-    const [{ res: accountChangedRes, error: accountChangedError }, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
+    const [userUpdateResponse, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
+    const { res: accountChangedRes, error: accountChangedError } = userUpdateResponse || {}
     // Stop form disabled
     setFormDisabled(false)
     // UPDATE USER and emails
