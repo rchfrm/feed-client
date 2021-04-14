@@ -10,7 +10,7 @@ import SignupEmailForm from '@/app/SignupEmailForm'
 import LoginSignupButtons from '@/LoginSignupButtons'
 import SignupReferralCodeDisplay from '@/app/SignupReferralCodeDisplay'
 // IMPORT HELPERS
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
@@ -44,10 +44,10 @@ const SignupPageContent = ({
     }
   }, [setAuthError])
 
-  // Calls firebase.signupWithFacebook using a redirect,
+  // Calls firebaseHelpers.signupWithFacebook using a redirect,
   // so that when user is returned to log in page handleRedirect is triggered
   const facebookSignup = async () => {
-    firebase.signUpWithFacebook()
+    firebaseHelpers.signUpWithFacebook()
       .catch((error) => {
         setError(error)
         // Sentry error

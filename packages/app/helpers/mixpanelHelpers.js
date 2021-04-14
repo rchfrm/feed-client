@@ -32,7 +32,9 @@ export const trackMixpanel = (action, payload) => {
     console.group()
     console.info('MIXPANEL SEND')
     console.info('ACTION: ', action)
-    console.info(payload)
+    if (payload) {
+      console.info(payload)
+    }
     console.groupEnd()
     return
   }

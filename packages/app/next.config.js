@@ -59,6 +59,7 @@ const nextConfig = {
     stripe_provider: process.env.STRIPE_PROVIDER,
     react_app_api_url: REACT_APP_API_URL,
     build_env,
+    isDev,
     sentry_dsn: 'https://d3ed114866ac498da2fdd9acf2c6bd87@sentry.io/3732610',
     mixpanel_token: process.env.MIXPANEL_TOKEN,
     release_version: process.env.RELEASE_VERSION,

@@ -22,6 +22,10 @@ const initialUserState = {
   first_name: '',
   last_name: '',
   email: '',
+  pending_email: '',
+  contact_email: '',
+  contact_email_verified: true,
+  email_verified: true,
   last_login: '',
   artists: [],
   organizations: {},
@@ -64,55 +68,60 @@ function UserProvider({ children }) {
   // Get Getter to read reffere code from store
   const getStoredReferrerCode = useReferralStore(getGetStoredReferrerCode)
 
-  const runCreateUser = React.useCallback(async ({ firstName, lastName }) => {
+  const runCreateUser = React.useCallback(async ({ firstName, lastName, email }) => {
     setUserLoading(true)
-    try {
-      // Get referrer code (from local storage)
-      const referrerCode = getStoredReferrerCode()
-      // Create user in DB
-      const newUser = await sharedServer.createUser({
-        firstName,
-        lastName,
-        referrerCode,
-      })
-      // Accept T&Cs
-      await appServer.acceptTerms(newUser.id)
-      // Sort artists
-      const sortedArtistUser = sortUserArtists(newUser)
-      setUser({
-        type: 'set-user',
-        payload: {
-          user: sortedArtistUser,
-        },
-      })
+    // Get referrer code (from local storage)
+    const referrerCode = getStoredReferrerCode()
+    // Create user in DB
+    const { res: newUser, error: errorCreatingUser } = await sharedServer.createUser({
+      firstName,
+      lastName,
+      ...(email && { email }),
+      referrerCode,
+    })
+    // Handle error creating user
+    if (errorCreatingUser) {
       setUserLoading(false)
-      return newUser
-    } catch (err) {
-      setUserLoading(false)
-      throw (err)
+      return { error: errorCreatingUser }
     }
+    // Accept T&Cs
+    const { error: errorAcceptingTerms } = await appServer.acceptTerms(newUser.id)
+    // Handle error accepting terms
+    if (errorAcceptingTerms) {
+      setUserLoading(false)
+      return { error: errorCreatingUser }
+    }
+    // Sort artists
+    const sortedArtistUser = sortUserArtists(newUser)
+    setUser({
+      type: 'set-user',
+      payload: {
+        user: sortedArtistUser,
+      },
+    })
+    setUserLoading(false)
+    return { res: newUser }
   }, [setUser, getStoredReferrerCode])
 
   const setArtistsWithNotifications = useNotificationStore(getSetArtistsWithNotifications)
 
   const storeUser = React.useCallback(async () => {
     setUserLoading(true)
-    const user = await sharedServer.getUser()
-      .catch((error) => {
-        // Sentry error
-        fireSentryError({
-          category: 'login',
-          action: 'store user',
-          description: `${error.message}`,
-        })
-        setUserLoading(false)
-        throw (error)
+    const { res: user, error } = await sharedServer.getUser()
+    if (error) {
+      // Sentry error
+      fireSentryError({
+        category: 'login',
+        action: 'store user',
+        description: `${error.message}`,
       })
+      setUserLoading(false)
+      return { error }
+    }
     // TODO If 404, then call /accounts/register
-    if (!user) return
     const sortedArtistUser = sortUserArtists(user)
     // Store artists with notifications in Not store
-    setArtistsWithNotifications(Object.values(user.artists))
+    setArtistsWithNotifications(Object.values(sortedArtistUser.artists))
     // Update user type in track helpers
     updateTracking(user)
     // Update user state
@@ -123,7 +132,7 @@ function UserProvider({ children }) {
       },
     })
     setUserLoading(false)
-    return sortedArtistUser
+    return { user: sortedArtistUser }
   }, [setUser, setArtistsWithNotifications])
 
   const updateUser = React.useCallback((user) => {
@@ -137,6 +146,22 @@ function UserProvider({ children }) {
     return sortedArtistUser
   }, [setUser])
 
+  // STORE IF PENDING EMAIL
+  const [hasPendingEmail, setHasPendingEmail] = React.useState(false)
+  const testForPendingEmail = React.useCallback((user) => {
+    const {
+      contact_email: contactEmail,
+      pending_email: pendingEmail,
+      pending_contact_email: pendingContactEmail,
+      email_verified: emailVerified,
+      contact_email_verified: contactEmailVerified,
+    } = user
+    return !!(pendingEmail || !emailVerified || pendingContactEmail || (!contactEmailVerified && contactEmail))
+  }, [])
+  React.useEffect(() => {
+    setHasPendingEmail(testForPendingEmail(user))
+  }, [user, testForPendingEmail])
+
   const value = {
     runCreateUser,
     setNoUser,
@@ -148,6 +173,8 @@ function UserProvider({ children }) {
     userError,
     userLoading,
     setUserLoading,
+    testForPendingEmail,
+    hasPendingEmail,
   }
 
   return (
