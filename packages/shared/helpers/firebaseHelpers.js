@@ -2,6 +2,8 @@ import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
+import produce from 'immer'
+
 const fbProvider = new app.auth.FacebookAuthProvider()
 
 const config = {
@@ -19,8 +21,8 @@ if (!app.apps.length) {
 
 export const auth = app.auth()
 
-// USED
-export const requiredScopes = [
+// The scopes required during signup
+export const requiredScopesSignup = [
   'email',
   'read_insights',
   'pages_manage_ads',
@@ -32,6 +34,12 @@ export const requiredScopes = [
   'instagram_basic',
   'instagram_manage_insights',
 ]
+
+// The scopes required after a user account has been created
+const requiredScopesAccount = produce(requiredScopesSignup, draft => {
+  const index = draft.findIndex((scope) => scope === 'email')
+  if (index !== -1) draft.splice(index, 1)
+})
 
 
 export const doCreateUserWithEmailAndPassword = (email, password) => {
@@ -82,7 +90,7 @@ export const loginWithFacebook = () => {
 
 
 export const signUpWithFacebook = () => {
-  requiredScopes.forEach(scope => {
+  requiredScopesSignup.forEach(scope => {
     fbProvider.addScope(scope)
   })
   return auth.signInWithRedirect(fbProvider)
@@ -94,7 +102,7 @@ export const signUpWithFacebook = () => {
 * @returns {Promise<void>}
 */
 export const linkFacebookAccount = (requestedPermissions) => {
-  const scopeRequests = requestedPermissions || requiredScopes
+  const scopeRequests = requestedPermissions || requiredScopesAccount
   scopeRequests.forEach(scope => {
     fbProvider.addScope(scope)
   })
@@ -107,7 +115,7 @@ export const linkFacebookAccount = (requestedPermissions) => {
  * @returns {Promise<void>}
  */
 export const reauthFacebook = (requestedPermissions) => {
-  const scopeRequests = requestedPermissions || requiredScopes
+  const scopeRequests = requestedPermissions || requiredScopesAccount
   scopeRequests.forEach(scope => {
     fbProvider.addScope(scope)
   })
