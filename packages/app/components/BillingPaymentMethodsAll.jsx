@@ -108,11 +108,12 @@ const BillingPaymentMethodsAll = ({ className }) => {
       <Error error={error} />
       {/* LIST CARDS */}
       {allPaymentMethods.map((method) => {
-        const { id, card, billing_details: cardBillingDetails, is_default } = method
+        const { id, currency, card, billing_details: cardBillingDetails, is_default } = method
         return (
           <BillingPaymentCard
             key={id}
             paymentMethodId={id}
+            currency={currency}
             card={card}
             billingDetails={cardBillingDetails}
             isDefault={is_default}

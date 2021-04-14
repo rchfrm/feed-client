@@ -73,8 +73,8 @@ const setupBilling = (set) => async (user) => {
 }
 
 // * ADD PAYMENT METHOD
-const addPaymentMethod = (set, get) => (paymentMethod, shouldBeDefault) => {
-  const setAsDefault = shouldBeDefault || paymentMethod.is_default
+const addPaymentMethod = (set, get) => (paymentMethod) => {
+  const setAsDefault = paymentMethod.is_default
   const { billingDetails } = get()
   const paymentMethodsUpdated = produce(billingDetails.allPaymentMethods, draftState => {
     draftState.push(paymentMethod)

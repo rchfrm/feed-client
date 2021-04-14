@@ -130,12 +130,9 @@ const FORM = ({
     // Handle success
     setError(null)
     // Update store
-    addPaymentMethod(paymentMethodDb, shouldBeDefault)
+    addPaymentMethod(paymentMethodDb)
     // Update local state
-    setPaymentMethod({
-      ...paymentMethod,
-      shouldBeDefault,
-    })
+    setPaymentMethod(paymentMethodDb)
     setSuccess(true)
   }, [isFormValid, isLoading, name, organisationId, currency, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
 
