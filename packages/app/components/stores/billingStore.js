@@ -5,12 +5,14 @@ import * as billingHelpers from '@/app/helpers/billingHelpers'
 import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
+  allOrgs: [],
   loading: true,
-  loadingError: null,
+  loadingErrors: [],
   organisation: {},
   billingDetails: {},
   nextInvoice: {},
   defaultPaymentMethod: null,
+  referralsDetails: {},
 }
 
 // FETCH ALL ORGS the user has access to
@@ -26,16 +28,23 @@ const setupBilling = (set) => async (user) => {
   const organisation = allOrgs.find(({ role }) => role === 'owner')
   const billingDetails = billingHelpers.getbillingDetails(organisation)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
+  const errors = []
   // Fetch next invoice
-  const { res: nextInvoice, error } = await fetchUpcomingInvoice(organisation.id)
+  const { res: nextInvoice, error: fetchInvoiceError } = await fetchUpcomingInvoice(organisation.id)
+  if (fetchInvoiceError) errors.push(fetchInvoiceError)
+  // Referrals data
+  const { res: referralsDetails, error: fetchReferralsError = null } = await billingHelpers.getReferralsData()
+  if (fetchReferralsError) errors.push(fetchReferralsError)
   // SET
   set({
+    allOrgs,
     organisation,
     billingDetails,
+    referralsDetails,
     defaultPaymentMethod,
     nextInvoice,
     loading: false,
-    loadingError: error,
+    loadingErrors: errors,
   })
 }
 
