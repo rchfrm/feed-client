@@ -119,6 +119,7 @@ const FORM = ({
       organisationId,
       paymentMethodId: paymentMethod.id,
       currency,
+      shouldBeDefault,
     })
     setIsLoading(false)
     // Handle error adding payment to DB
@@ -129,7 +130,7 @@ const FORM = ({
     // Handle success
     setError(null)
     // Update store
-    addPaymentMethod(paymentMethodDb)
+    addPaymentMethod(paymentMethodDb, shouldBeDefault)
     // Update local state
     setPaymentMethod({
       ...paymentMethod,
