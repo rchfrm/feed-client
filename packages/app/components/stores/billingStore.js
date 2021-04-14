@@ -51,6 +51,16 @@ const addPaymentMethod = (set, get) => (paymentMethod) => {
   set({ billingDetails: billingDetailsUpdated })
 }
 
+// * DELETE PAYMENT METHOD
+const deletePaymentMethod = (set, get) => (paymentMethodId) => {
+  const { billingDetails } = get()
+  const billingDetailsUpdated = produce(billingDetails, draftState => {
+    const index = draftState.allPaymentMethods.findIndex(({ id }) => id === paymentMethodId)
+    if (index !== -1) draftState.allPaymentMethods.splice(index, 1)
+  })
+  set({ billingDetails: billingDetailsUpdated })
+}
+
 // * UPDATE DEFAULT PAYMENT
 const updateDefaultPayment = (set, get) => (defaultPaymentMethod) => {
   const { id: newPaymentMethodId } = defaultPaymentMethod
@@ -76,6 +86,7 @@ const useBillingStore = create((set, get) => ({
   setupBilling: setupBilling(set),
   // SETTERS,
   addPaymentMethod: addPaymentMethod(set, get),
+  deletePaymentMethod: deletePaymentMethod(set, get),
   updateDefaultPayment: updateDefaultPayment(set, get),
 }))
 
