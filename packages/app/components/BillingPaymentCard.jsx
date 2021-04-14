@@ -30,9 +30,10 @@ const BillingPaymentCard = ({
       <ElWrapper
         className={[
           'flex flex-column justify-between',
-          'w-full h-48',
+          'w-full max-w-md iphone8:h-48',
           'bg-grey-1 rounded-dialogue p-4',
           `border-2 border-solid ${isSelected ? 'border-green' : 'border-grey-1'}`,
+          className,
         ].join(' ')}
         onClick={(e) => {
           e.preventDefault()
@@ -66,7 +67,7 @@ const BillingPaymentCard = ({
           </div>
           {/* DEFAULT LABEL */}
           {isDefault && (
-            <p className="text-green font-bold mb-0">Default</p>
+            <p className="block text-left text-green font-bold mb-0 pt-2 iphone8:pt-0">Default</p>
           )}
         </div>
       </ElWrapper>
