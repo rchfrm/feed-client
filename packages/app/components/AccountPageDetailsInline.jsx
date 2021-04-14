@@ -10,7 +10,7 @@ import { track } from '@/app/helpers/trackingHelpers'
 
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 import AccountPageDetailsEmail from '@/app/AccountPageDetailsEmail'
-import AccountPageDetailsEmailAlert from '@/app/AccountPageDetailsEmailAlert'
+import AccountPageDetailsConfirmAlert from '@/app/AccountPageDetailsConfirmAlert'
 import PendingEmailWarning from '@/app/PendingEmailWarning'
 
 import Input from '@/elements/Input'
@@ -73,8 +73,7 @@ const AccountPageDetailsInline = () => {
   const scrollTo = useAnimateScroll()
 
   // SHOW ALERT if CHANGIN AUTH EMAIL
-  // const [shouldContinueSubmit, setShouldContinueSubmit] = React.useState(false)
-  const [showEmailAlert, setShowEmailAlert] = React.useState(false)
+  const [confirmAlert, setConfirmAlert] = React.useState(false)
 
   // SUBMIT THE FORM
   const [loading, setLoading] = React.useState(false)
@@ -121,7 +120,13 @@ const AccountPageDetailsInline = () => {
 
     // Show alert before changing email
     if (changedEmails.includes('authEmail') && !forceSubmit) {
-      setShowEmailAlert(true)
+      setConfirmAlert('email')
+      return
+    }
+
+    // Show alert before changing password
+    if (passwordChanged && !forceSubmit) {
+      setConfirmAlert('password')
       return
     }
 
@@ -303,9 +308,9 @@ const AccountPageDetailsInline = () => {
       </form>
 
       {/* ALERT (for changing email) */}
-      <AccountPageDetailsEmailAlert
-        showEmailAlert={showEmailAlert}
-        setShowEmailAlert={setShowEmailAlert}
+      <AccountPageDetailsConfirmAlert
+        confirmAlert={confirmAlert}
+        setConfirmAlert={setConfirmAlert}
         resubmitForm={onSumbit}
       />
 

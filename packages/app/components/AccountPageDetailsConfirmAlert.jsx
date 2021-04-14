@@ -7,9 +7,9 @@ import useAlertModal from '@/hooks/useAlertModal'
 
 import copy from '@/app/copy/AccountPageCopy'
 
-const AccountPageDetailsEmailAlert = ({
-  showEmailAlert,
-  setShowEmailAlert,
+const AccountPageDetailsConfirmAlert = ({
+  confirmAlert,
+  setConfirmAlert,
   resubmitForm,
 }) => {
   // HANDLE ALERT
@@ -19,7 +19,7 @@ const AccountPageDetailsEmailAlert = ({
       {
         text: 'Continue',
         onClick: () => {
-          setShowEmailAlert(false)
+          setConfirmAlert('')
           resubmitForm(null, true)
         },
         color: 'green',
@@ -27,16 +27,17 @@ const AccountPageDetailsEmailAlert = ({
       {
         text: 'Cancel',
         onClick: () => {
-          setShowEmailAlert(false)
+          setConfirmAlert('')
         },
         color: 'black',
       },
     ]
-  }, [setShowEmailAlert, resubmitForm])
+  }, [setConfirmAlert, resubmitForm])
 
   React.useEffect(() => {
-    if (showEmailAlert) {
-      const alertContents = <MarkdownText markdown={copy.changeEmailAlert} className="mb-0" />
+    if (confirmAlert) {
+      const markdown = confirmAlert === 'email' ? copy.changeEmailAlert : copy.changePasswordAlert
+      const alertContents = <MarkdownText markdown={markdown} className="mb-0" />
       showAlert({
         children: alertContents,
         buttons: alertButtons,
@@ -44,20 +45,20 @@ const AccountPageDetailsEmailAlert = ({
       return
     }
     closeAlert()
-  }, [showEmailAlert, showAlert, closeAlert, alertButtons])
+  }, [confirmAlert, showAlert, closeAlert, alertButtons])
 
   return null
 }
 
-AccountPageDetailsEmailAlert.propTypes = {
-  showEmailAlert: PropTypes.bool.isRequired,
-  setShowEmailAlert: PropTypes.func.isRequired,
+AccountPageDetailsConfirmAlert.propTypes = {
+  confirmAlert: PropTypes.string.isRequired,
+  setConfirmAlert: PropTypes.func.isRequired,
   resubmitForm: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
-AccountPageDetailsEmailAlert.defaultProps = {
+AccountPageDetailsConfirmAlert.defaultProps = {
   className: null,
 }
 
-export default AccountPageDetailsEmailAlert
+export default AccountPageDetailsConfirmAlert
