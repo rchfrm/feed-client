@@ -44,7 +44,7 @@ const fetchOrganisationDetails = async (organisation) => {
 }
 
 // * INITIAL SETUP
-const setupBilling = (set) => async (user, artistCurrency, activeOrganisation) => {
+const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation }) => {
   // FETCH the first organisation and set it
   const allOrgs = activeOrganisation ? null : await fetchAllOrgs(user)
   // TODO improve selecting the org
@@ -121,7 +121,7 @@ const selectOrganisation = (set, get) => async (organisationId) => {
   set({ loading: true })
   const { allOrgs } = get()
   const organisation = allOrgs.find(({ id }) => id === organisationId)
-  await setupBilling(set)(null, organisation)
+  await setupBilling(set)({ activeOrganisation: organisation })
 }
 
 
