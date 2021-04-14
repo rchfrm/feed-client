@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
@@ -63,9 +63,9 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         const { providerIds } = auth
         // Which facebook function
         if (providerIds.includes('facebook.com')) {
-          firebase.reauthFacebook(missingPermissions)
+          firebaseHelpers.reauthFacebook(missingPermissions)
         } else {
-          firebase.linkFacebookAccount()
+          firebaseHelpers.linkFacebookAccount()
         }
       }
       return [{
@@ -83,6 +83,10 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
   }, [closeAlert, integrationError, auth])
 
   React.useEffect(() => {
+    if (!auth.token) {
+      closeAlert()
+      return
+    }
     if (showError) {
       showAlert({
         children: alertContents,
@@ -90,7 +94,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         onClose: dismiss,
       })
     }
-  }, [showError, alertContents, alertButtons, showAlert, dismiss])
+  }, [showError, alertContents, alertButtons, showAlert, closeAlert, dismiss, auth.token])
 
   return null
 }

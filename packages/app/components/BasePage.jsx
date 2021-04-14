@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { UserContext } from '@/contexts/UserContext'
 import { ArtistContext } from '@/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+
+import PendingEmailWarning from '@/app/PendingEmailWarning'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'
 // IMPORT COPY
@@ -20,7 +22,7 @@ const BasePage = ({
   // Get interface context
   const { setHeader, toggleSubNav, toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get user context
-  const { user } = React.useContext(UserContext)
+  const { user, hasPendingEmail } = React.useContext(UserContext)
   // ON MOUNT
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => {
@@ -60,10 +62,16 @@ const BasePage = ({
   return (
     <>
       {user.artists.length === 0 && artistRequired ? (
-        <>
+        <div>
           {/* NO ARTIST COPY */}
-          <MarkdownText className="h4--text" markdown={copy.noArtists} />
-        </>
+          <div className="p-5 bg-grey-1 rounded-dialogue max-w-xl mb-4">
+            <MarkdownText className="h4--text mb-0" markdown={copy.noArtists} />
+          </div>
+          {/* UNVERIFIED EMAIL WARNING */}
+          {hasPendingEmail && (
+            <PendingEmailWarning user={user} isNewUser />
+          )}
+        </div>
       ) : (
         <>
           {/* PAGE CONTENT */}

@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 import React from 'react'
+import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT COMPONENTS
 import TheFooterLinks from '@/app/TheFooterLinks'
 // IMPORT HOOKS
@@ -14,11 +15,12 @@ const thisYear = new Date().getFullYear()
 
 const Footer = () => {
   const isLoggedIn = useLoggedInTest()
+  const { auth } = React.useContext(AuthContext)
 
   return (
     <footer className={[styles.TheFooter, isLoggedIn ? styles._loggedIn : ''].join(' ')}>
       {!isLoggedIn && (
-        <TheFooterLinks />
+        <TheFooterLinks hasAuth={!!auth.token} />
       )}
 
       <p className="xsmall--p  no-margin">

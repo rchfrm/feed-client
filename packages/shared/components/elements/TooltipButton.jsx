@@ -16,7 +16,8 @@ const TooltipButton = (props) => {
   }, [])
   // Toggle functions
   const buttonRef = React.useRef(null)
-  const toggleMessage = () => {
+  const toggleMessage = (e) => {
+    e.preventDefault()
     setShowMessage(!showMessage)
     track('tooltip_clicked', {
       action: !showMessage ? 'show' : 'hide',
@@ -50,15 +51,16 @@ const TooltipButton = (props) => {
       {/* TOOLTIP TEXT */}
       {showMessage && <TooltipMessage {...props} messageRef={setMessageRef} buttonRef={buttonRef} />}
       {/* BUTTON */}
-      <button
-        className={['button', 'button--tooltip', buttonText && 'flex items-center'].join(' ')}
+      <a
+        role="button"
         onClick={toggleMessage}
         ref={buttonRef}
+        tabIndex="-1"
       >
         {/* BUTTON TEXT */}
         {buttonText && <p className="button--tooltip-text text-sm">{buttonText}</p>}
         <TooltipIcon className="button--tooltip-icon" />
-      </button>
+      </a>
     </div>
   )
 }

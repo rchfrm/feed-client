@@ -8,12 +8,15 @@ In order for Feed to promote your posts and show you the results, we need permis
 
 Please make sure you opt in to all permissions shown, as Feed needs them to work properly. You'll remain in control of all ads and posts.
 
-To continue, click on the button below`,
+To continue, click on the button below:`,
 
   // Text at top of page when adding additional accounts
   connectProfilesIntro: `Click the button below to add additional profiles to your Feed account.
 
 When you are taken to Facebook, make sure to select **'Edit Settings'** and choose the Facebook Pages and Instagram Profiles you want to connect.`,
+
+  // If profiles have already been loaded but need more
+  findMoreProfiles: `Can’t find the Facebook Page you’re looking for? Connect to Facebook again and make sure to select **'Edit Settings'** to give Feed permission to access the page.`,
 
   smallLegalText: `This allows Feed to connect to Facebook so that we can run ads and show you your data on your behalf. We'll never post anything without your approval and you remain in control at all times.`,
 

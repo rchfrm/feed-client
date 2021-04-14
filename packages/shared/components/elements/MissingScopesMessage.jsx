@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { testForMissingPages } from '@/app/helpers/integrationErrorsHelpers'
 
 import MarkdownText from '@/elements/MarkdownText'
@@ -18,7 +18,7 @@ const MissingScopesMessage = ({ scopes, showButton, className }) => {
   const markdown = copy.missing_permission_scope(scopes, hasOnlyMissingPages)
 
   const reauthFb = () => {
-    firebase.reauthFacebook(scopes)
+    firebaseHelpers.reauthFacebook(scopes)
   }
 
   return (

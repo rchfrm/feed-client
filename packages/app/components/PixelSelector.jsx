@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import useAsyncEffect from 'use-async-effect'
 
+import useIsMounted from '@/hooks/useIsMounted'
+
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
@@ -43,10 +45,11 @@ const PixelSelector = ({
 
   // LOAD AVAILABLE PIXELS
   const [availablePixels, setAvailablePixels] = React.useState([])
-  useAsyncEffect(async (isMounted) => {
+  const isMounted = useIsMounted()
+  useAsyncEffect(async () => {
     if (!artistId) return
     const { res: pixels = [], error } = await getArtistPixels(artistId)
-    if (!isMounted()) return
+    if (!isMounted) return
     setLoading(false)
     if (error) {
       const errorUpdated = { message: `Failed to fetch pixels: ${error.message}` }
