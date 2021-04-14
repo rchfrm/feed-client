@@ -63,7 +63,7 @@ const BillingContent = () => {
       {/* SELECT ORG */}
       {allOrgs.length >= 2 && (
         <BillingOrganisationSelect
-          className="cols-span-2 mb-8"
+          className="col-span-2 mb-12 sm:-mb-4"
           organisation={organisation}
           allOrgs={allOrgs}
         />

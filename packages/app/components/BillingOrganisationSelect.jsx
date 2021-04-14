@@ -28,11 +28,12 @@ const BillingOrganisationSelect = ({
         className,
       ].join(' ')}
     >
-      <div className="flex items-start h-buttonHeight">
+      <div className="sm:flex items-start sm:h-buttonHeight">
         {selectActive ? (
           <>
             <Select
-              className="mb-0 mr-6"
+              name="organisation"
+              className="mb-6 sm:mb-0 sm:mr-6"
               options={selectOptions}
               selectedValue={organisation.id}
               handleChange={({ target: { value } }) => {
@@ -54,7 +55,7 @@ const BillingOrganisationSelect = ({
           </>
         ) : (
           <>
-            <h3 className="font-display font-bold text-2xl mr-6 mb-0">{organisation.name}</h3>
+            <h3 className="font-display font-bold text-2xl mr-6 mb-6 sm:mb-0">{organisation.name}</h3>
             <div>
               <Button
                 version="green x-small"
