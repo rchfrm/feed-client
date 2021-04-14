@@ -1,17 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TrashIcon from '@/icons/TrashIcon'
+
+import brandColors from '@/constants/brandColors'
+
 const formatDate = (int) => {
   return int.toString().padStart(2, '0')
 }
 
 const BillingPaymentCard = ({
+  paymentMethodId,
   card,
   billingDetails,
   isDefault,
   isButton,
   isSelected,
+  allowDelete,
   onClick,
+  onDelete,
   className,
 }) => {
   const { brand, exp_month, exp_year: year, last4 } = card
@@ -19,67 +26,86 @@ const BillingPaymentCard = ({
   const month = formatDate(exp_month)
   const ElWrapper = isButton ? 'button' : 'div'
   return (
-    <ElWrapper
-      className={[
-        'flex flex-column justify-between',
-        'w-full max-w-md h-48',
-        'bg-grey-1 rounded-dialogue p-4',
-        `border-2 border-solid ${isSelected ? 'border-green' : 'border-grey-1'}`,
-        className,
-      ].join(' ')}
-      onClick={(e) => {
-        e.preventDefault()
-        if (!isButton) return
-        onClick()
-      }}
-      aria-label={isButton ? 'Select' : null}
-    >
-      <div className="flex justify-between items-start w-full">
-        {/* BRAND */}
-        <p className="block capitalize text-lg mb-0"><strong>{brand}</strong></p>
-        {/* RADIO INDICATOR */}
-        {isButton && (
-          <div className={['radio--button_label -mr-3', isSelected ? '-active' : null].join(' ')} />
-        )}
-      </div>
-      <div className="flex justify-between items-end w-full">
-        {/* DETAILS */}
-        <div className="text-left">
-          {/* NAME */}
-          <p className="block mb-1">{name}</p>
-          {/* DATE */}
-          <p className="block mb-0">
-            <span>Expires </span>
-            <span className="font-mono text-lg">{month}/{year}</span>
-          </p>
-          {/* NUMBER */}
-          <p className="mb-0 font-mono text-lg">
-            xxxx xxxx xxxx {last4}
-          </p>
+    <div className={`relative w-full max-w-md ${className}`}>
+      <ElWrapper
+        className={[
+          'flex flex-column justify-between',
+          'w-full h-48',
+          'bg-grey-1 rounded-dialogue p-4',
+          `border-2 border-solid ${isSelected ? 'border-green' : 'border-grey-1'}`,
+        ].join(' ')}
+        onClick={(e) => {
+          e.preventDefault()
+          if (!isButton) return
+          onClick()
+        }}
+        aria-label={isButton ? 'Select' : null}
+      >
+        <div className="flex justify-between items-start w-full">
+          {/* BRAND */}
+          <p className="block capitalize text-lg mb-0"><strong>{brand}</strong></p>
+          {/* RADIO INDICATOR */}
+          {isButton && (
+            <div className={['radio--button_label -mr-3', isSelected ? '-active' : null].join(' ')} />
+          )}
         </div>
-        {/* DEFAULT LABEL */}
-        {isDefault && (
-          <p className="text-green font-bold mb-0">Default</p>
-        )}
-      </div>
-    </ElWrapper>
+        <div className="flex justify-between items-end w-full">
+          {/* DETAILS */}
+          <div className="text-left">
+            {/* NAME */}
+            <p className="block mb-1">{name}</p>
+            {/* DATE */}
+            <p className="block mb-0">
+              <span>Expires </span>
+              <span className="font-mono text-lg">{month}/{year}</span>
+            </p>
+            {/* NUMBER */}
+            <p className="mb-0 font-mono text-lg">
+              xxxx xxxx xxxx {last4}
+            </p>
+          </div>
+          {/* DEFAULT LABEL */}
+          {isDefault && (
+            <p className="text-green font-bold mb-0">Default</p>
+          )}
+        </div>
+      </ElWrapper>
+      {/* DELETE BUTTON */}
+      {allowDelete && !isDefault && (
+        <button
+          className="absolute bottom-0 right-0 m-4 p-1 pl-2 pt-2"
+          onClick={(e) => {
+            e.preventDefault()
+            onDelete(paymentMethodId)
+          }}
+        >
+          <TrashIcon className="w-4 h-auto" fill={brandColors.red} />
+        </button>
+      )}
+    </div>
   )
 }
 
 BillingPaymentCard.propTypes = {
+  paymentMethodId: PropTypes.string,
   card: PropTypes.object.isRequired,
   billingDetails: PropTypes.object.isRequired,
   isDefault: PropTypes.bool,
   isButton: PropTypes.bool,
   isSelected: PropTypes.bool,
+  allowDelete: PropTypes.bool,
+  onDelete: PropTypes.func,
   onClick: PropTypes.func,
   className: PropTypes.string,
 }
 
 BillingPaymentCard.defaultProps = {
+  paymentMethodId: '',
   isDefault: false,
   isButton: false,
   isSelected: false,
+  allowDelete: false,
+  onDelete: () => {},
   onClick: () => {},
   className: null,
 }
