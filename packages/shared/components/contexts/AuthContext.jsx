@@ -4,7 +4,7 @@ import { useImmerReducer } from 'use-immer'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
-import useReferralStore from '@/app/store/referralStore'
+import useReferralStore from '@/app/stores/referralStore'
 
 const initialAuthState = {
   token: '',
