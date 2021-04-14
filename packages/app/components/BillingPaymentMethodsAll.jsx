@@ -15,7 +15,7 @@ import useBillingAddPayment from '@/app/hooks/useBillingAddPayment'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import { setPaymentAsDefault } from '@/app/helpers/billingHelpers'
+import { setPaymentAsDefault, deletePaymentMethod } from '@/app/helpers/billingHelpers'
 
 import copy from '@/app/copy/billingCopy'
 
@@ -27,6 +27,7 @@ const getBillingStoreState = (state) => ({
   defaultPaymentMethod: state.defaultPaymentMethod,
   organisation: state.organisation,
   updateDefaultPayment: state.updateDefaultPayment,
+  deletePaymentMethod: state.deletePaymentMethod,
 })
 
 
@@ -35,8 +36,9 @@ const BillingPaymentMethodsAll = ({ className }) => {
   const {
     billingDetails: { allPaymentMethods },
     defaultPaymentMethod,
+    deletePaymentMethod: deletePaymentMethodStore,
     organisation: { id: organisationId },
-    updateDefaultPayment,
+    updateDefaultPayment: updateDefaultPaymentStore,
   } = useBillingStore(getBillingStoreState, shallow)
 
   // SIDEPANEL CONTEXT
@@ -56,10 +58,26 @@ const BillingPaymentMethodsAll = ({ className }) => {
       return
     }
     // Update default in store
-    updateDefaultPayment(newDefaultPaymentMethod)
+    updateDefaultPaymentStore(newDefaultPaymentMethod)
     setSidePanelLoading(false)
     setError(null)
-  }, [organisationId, selectedMethodId, setSidePanelLoading, updateDefaultPayment])
+  }, [organisationId, selectedMethodId, setSidePanelLoading, updateDefaultPaymentStore])
+
+  // DELETE METHOD
+  const deletePaymentMethod = React.useCallback(async (paymentMethodId) => {
+    setSidePanelLoading(true)
+    const { res, error } = await setPaymentAsDefault(organisationId, paymentMethodId)
+    console.log('res', res)
+    // Handle error
+    if (error) {
+      setError(error)
+      return
+    }
+    // TODO Update default in store
+    deletePaymentMethodStore(paymentMethodId)
+    setSidePanelLoading(false)
+    setError(null)
+  }, [organisationId, setSidePanelLoading, deletePaymentMethodStore])
 
   // SET SIDE PANEL BUTTON
   React.useEffect(() => {
@@ -94,14 +112,17 @@ const BillingPaymentMethodsAll = ({ className }) => {
         return (
           <BillingPaymentCard
             key={id}
+            paymentMethodId={id}
             card={card}
             billingDetails={cardBillingDetails}
             isDefault={is_default}
             isSelected={id === selectedMethodId}
             isButton
+            allowDelete
             onClick={() => {
               setSelectedMethodId(id)
             }}
+            onDelete={deletePaymentMethod}
             className="mb-6 last:mb-0"
           />
         )

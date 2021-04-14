@@ -34,6 +34,28 @@ export const setPaymentAsDefault = async (organisationId, paymentMethodId) => {
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
+// DELETE PAYMENT
+/**
+ * @param {string} organisationId
+ * @param {string} paymentId
+ * @returns {Promise<any>}
+ */
+export const deletePaymentMethod = async (organisationId, paymentMethodId) => {
+  // const payload = null
+  // const endpoint = `/organizations/${organisationId}/billing/payments/${paymentMethodId}/default`
+  // const errorTracking = {
+  //   category: 'Billing',
+  //   action: 'Set payment as default',
+  // }
+  // return api.requestWithCatch('post', endpoint, payload, errorTracking)
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const res = { organisationId, paymentMethodId }
+      resolve({ res, error: { message: 'nonon' } })
+    }, 800)
+  })
+}
+
 
 const getOrganizationDetails = (user) => {
   const { organizations = [] } = user
