@@ -47,6 +47,7 @@ const ConfirmEmailPage = ({
   const {
     updateUser,
     userLoading,
+    storeUser,
     user: {
       artists: userArtists,
       email: authEmail,
@@ -62,7 +63,7 @@ const ConfirmEmailPage = ({
   const [email, setEmail] = React.useState(pendingEmail || pendingContactEmail || authEmail || contactEmail)
 
   // SETUP CROSS TAB MESSAGING
-  const { messagePayload, broadcastMessage } = useCrossTabCommunication('emailVerified')
+  const { messagePayload, broadcastMessage, hasBroadcasted } = useCrossTabCommunication('emailVerified')
 
   // PARSE PAGE QUERY
   const { asPath: urlString } = useRouter()
@@ -91,6 +92,7 @@ const ConfirmEmailPage = ({
     Router.push(nextPage)
   }, [isSignupFlow])
   // If no need to verify
+  const successTriggered = React.useRef(false)
   React.useEffect(() => {
     // Stop here because not ready or it's manually successful
     if (userLoading || isSuccessful) return
@@ -101,22 +103,29 @@ const ConfirmEmailPage = ({
     // Stop here because don't yet know the email type
     if (!emailType) return
     // If you've reached this bit, you're successful
+    if (successTriggered.current) return
+    successTriggered.current = true
     broadcastMessage({ success: true })
     onSuccessContinue()
   }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, emailVerified, contactEmail, contactEmailVerified, emailType, isSuccessful, broadcastMessage])
 
   // BROADCAST SUCCESS
   React.useEffect(() => {
-    if (isSuccessful) broadcastMessage({ success: true })
-  }, [isSuccessful, broadcastMessage])
+    if (isSuccessful && !hasBroadcasted) {
+      broadcastMessage({ success: true })
+    }
+  }, [isSuccessful, broadcastMessage, hasBroadcasted])
 
   // LISTEN FOR SUCCESS IN ANOTHER TAB
   React.useEffect(() => {
     if (!messagePayload) return
-    if (messagePayload.success) {
+    if (messagePayload.success && !hasBroadcasted) {
+      // Trigger success
       onSuccessContinue()
+      // Update user from server
+      storeUser()
     }
-  }, [messagePayload, onSuccessContinue])
+  }, [messagePayload, onSuccessContinue, storeUser, hasBroadcasted])
 
   // TEST CODE
   const [verificationCode, setVerificationCode] = React.useState(initialVerificationCode)
@@ -133,7 +142,7 @@ const ConfirmEmailPage = ({
     if (error) {
       setCheckCode(false)
       setChecking(false)
-      setError(error)
+      setError({ message: error.message.message })
       setHasInitialVerificationCode(false)
       setIsSuccessful(false)
       setVerificationCode('')
@@ -196,7 +205,6 @@ const ConfirmEmailPage = ({
         <p className="mb-5">Didn't receive an email?</p>
         <div className="xxs:flex justify-between items-center">
           <ConfirmEmailResendButton
-            contactEmail={contactEmail}
             emailType={emailType}
             setError={setError}
           />

@@ -183,8 +183,6 @@ function ArtistProvider({ children, disable }) {
    * @returns {Promise<any>}
   */
   const connectArtists = React.useCallback(async (artistAccounts, accessToken, oldUser) => {
-    setArtistLoading(true)
-    toggleGlobalLoading(true)
     // Get array of current user artist Facebook page IDs
     const alreadyConnectFacebookPages = oldUser.artists.map(({ facebook_page_id }) => facebook_page_id)
     // Filter out non-connected artist accounts
@@ -194,7 +192,7 @@ function ArtistProvider({ children, disable }) {
     // * STOP HERE if there are no new artist accounts
     if (!unconnectedArtistAccounts.length) {
       setArtistLoading(false)
-      return
+      return {}
     }
     // Create all artists
     const createAllArtists = unconnectedArtistAccounts.map(async (artist) => {

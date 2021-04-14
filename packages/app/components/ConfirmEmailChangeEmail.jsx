@@ -103,7 +103,7 @@ const ConfirmEmailChangeEmail = ({
               version="black x-small"
               onClick={backToVerify}
             >
-              Back
+              Cancel
             </Button>
           </div>
         </>

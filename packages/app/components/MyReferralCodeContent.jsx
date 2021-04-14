@@ -13,7 +13,8 @@ import { track } from '@/app/helpers/trackingHelpers'
 
 const MyReferralCodeContent = ({ className }) => {
   const { user: { referral_code } } = React.useContext(UserContext)
-  const joinUrl = `https://beta.tryfeed.co/join?code=${referral_code}`
+  const baseUrl = process.env.isDev ? 'https://localhost:3001' : 'https://beta.tryfeed.co'
+  const joinUrl = `${baseUrl}/join?code=${referral_code}`
   const title = 'Get Feed'
   const text = 'Sign up to Feed'
 

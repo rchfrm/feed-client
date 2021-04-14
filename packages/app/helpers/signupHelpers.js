@@ -1,13 +1,13 @@
 import Router from 'next/router'
 
 import * as utils from '@/helpers/utils'
-import { requiredScopes } from '@/helpers/firebaseHelpers'
+import { requiredScopesSignup } from '@/helpers/firebaseHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
 // GET MISSING SCOPES
 export const getMissingScopes = (grantedScopes) => {
-  return requiredScopes.reduce((arr, scope) => {
+  return requiredScopesSignup.reduce((arr, scope) => {
     const scopeGranted = grantedScopes.includes(scope)
     if (scopeGranted) return arr
     return [...arr, scope]

@@ -83,6 +83,10 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
   }, [closeAlert, integrationError, auth])
 
   React.useEffect(() => {
+    if (!auth.token) {
+      closeAlert()
+      return
+    }
     if (showError) {
       showAlert({
         children: alertContents,
@@ -90,7 +94,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         onClose: dismiss,
       })
     }
-  }, [showError, alertContents, alertButtons, showAlert, dismiss])
+  }, [showError, alertContents, alertButtons, showAlert, closeAlert, dismiss, auth.token])
 
   return null
 }

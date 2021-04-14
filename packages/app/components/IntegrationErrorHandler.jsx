@@ -25,8 +25,10 @@ const fetchError = async ({ auth, user, artist, artistId }) => {
     const errorResponse = integrationErrorsHelpers.getErrorResponse(error)
     return errorResponse
   }
-  // Stop here if running locally
+
+  // * Stop here if running locally
   if (process.env.build_env === 'development') return
+
   if (!artist || !artistId) return
   // Test whether user owns artist
   const { artists: userArtists } = user

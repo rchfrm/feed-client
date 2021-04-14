@@ -30,6 +30,9 @@ import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
   const { type: actionType, payload } = action
+  const artistAccount = draftState[payload.id] || {}
+  const { available_facebook_ad_accounts: availableAdAccounts } = artistAccount
+  const selectedAdAccount = actionType === 'update-artist-adaccount' ? availableAdAccounts.find(({ id }) => id === payload.value) : null
   switch (actionType) {
     case 'add-artists':
       Object.entries(payload.artists).forEach(([key, value]) => {
@@ -42,12 +45,18 @@ const artistsReducer = (draftState, action) => {
     case 'update-artist':
       draftState[payload.id][payload.field] = payload.value
       break
+    case 'update-artist-adaccount':
+      draftState[payload.id].adaccount_id = payload.value
+      draftState[payload.id].selected_facebook_ad_account = selectedAdAccount
+      break
     default:
       throw new Error(`Could not find ${actionType} in artistsReducer`)
   }
 }
 
 const ConnectProfilesLoader = ({
+  isConnecting,
+  setIsConnecting,
   isSignupStep,
   className,
 }) => {
@@ -66,7 +75,7 @@ const ConnectProfilesLoader = ({
     }
   }, [user, isSignupStep])
 
-  // DEFINE LOADING
+  // DEFINE LOADING VERSIONS
   const [pageLoading, setPageLoading] = React.useState(false)
   const [fetchedArtistsFinished, setFetchedArtistsFinished] = React.useState(false)
 
@@ -99,8 +108,8 @@ const ConnectProfilesLoader = ({
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
-    // Stop here if user is loading
-    if (userLoading) return
+    // Stop here if user is loading or profiles are being connected
+    if (userLoading || isConnecting) return
     // If missing scopes, we need to show the connect button
     if (missingScopes.length) return toggleGlobalLoading(false)
     // If no access token, then there will be no way to talk to facebook
@@ -157,7 +166,7 @@ const ConnectProfilesLoader = ({
     })
     setPageLoading(false)
     toggleGlobalLoading(false)
-  }, [userLoading])
+  }, [userLoading, isConnecting])
 
 
   // Set initial error (if any)
@@ -165,7 +174,7 @@ const ConnectProfilesLoader = ({
     setErrors([authError])
   }, [authError])
 
-  if (pageLoading) return <Spinner />
+  if (pageLoading || isConnecting) return <Spinner />
 
   // If no artists accounts, show FB BUTTON
   if (Object.keys(artistAccounts).length === 0) {
@@ -199,24 +208,25 @@ const ConnectProfilesLoader = ({
         setDisabledReason={setDisabledReason}
         setErrors={setErrors}
         className="mb-12"
-      />
+      >
+        {/* BUTTON TO FIND MORE PROFILES */}
+        <ConnectProfilesFacebook
+          auth={auth}
+          errors={errors}
+          setErrors={setErrors}
+          isFindMore
+          className=""
+        />
+      </ConnectProfilesList>
 
       {/* BUTTON TO CONNECT ACCOUNT */}
       <ConnectProfilesConnectButton
         artistAccounts={artistAccounts}
         accessToken={accessToken}
         setErrors={setErrors}
+        setIsConnecting={setIsConnecting}
         disabled={buttonDisabled}
         disabledReason={disabledReason}
-      />
-
-      {/* BUTTON TO FIND MORE PROFILES */}
-      <ConnectProfilesFacebook
-        auth={auth}
-        errors={errors}
-        setErrors={setErrors}
-        isFindMore
-        className="max-w-3xl pt-14"
       />
 
     </div>
@@ -224,6 +234,8 @@ const ConnectProfilesLoader = ({
 }
 
 ConnectProfilesLoader.propTypes = {
+  isConnecting: PropTypes.bool.isRequired,
+  setIsConnecting: PropTypes.func.isRequired,
   isSignupStep: PropTypes.bool,
   className: PropTypes.string,
 }

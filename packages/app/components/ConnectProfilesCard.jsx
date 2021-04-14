@@ -8,27 +8,6 @@ import ConnectProfilesCardAdAccount from '@/app/ConnectProfilesCardAdAccount'
 
 import brandColors from '@/constants/brandColors'
 
-const getUpdateArtistPayload = (e) => {
-  const { target, target: { name: field, value } } = e
-  const { selectedIndex, options } = target
-  // Country code placeholder
-  if (field === 'country_code' && value.indexOf('Choose') !== -1) {
-    return undefined
-  }
-  // Ad account
-  if (field === 'selected_facebook_ad_account') {
-    // const { selectedIndex, options } = target
-    const { text: adAccountName } = options[selectedIndex]
-    const adAccountId = value
-    return {
-      id: adAccountId,
-      name: adAccountName,
-    }
-  }
-  // DEFAULT
-  return value
-}
-
 const ConnectProfilesCard = ({
   artist,
   updateArtists,
@@ -39,16 +18,6 @@ const ConnectProfilesCard = ({
     exists,
     connect,
   } = artist
-
-  // HANDLE SELECT CHANGE
-  const onSelectChange = React.useCallback((e) => {
-    const { target: { name: field } } = e
-    const payloadValue = getUpdateArtistPayload(e)
-    // Update artists
-    const payload = { id: artistId, field, value: payloadValue }
-    updateArtists('update-artist', payload)
-  // eslint-disable-next-line
-  }, [artist])
 
   // HANDLE CONNECT BUTTON
   const onConnectClick = () => {
@@ -83,13 +52,13 @@ const ConnectProfilesCard = ({
       {/* AD ACCOUNT */}
       <ConnectProfilesCardAdAccount
         artist={artist}
-        onChange={onSelectChange}
+        updateArtists={updateArtists}
         className="mb-5"
       />
       {/* COUNTRY SELECT */}
       <ConnectProfilesCardCountry
         artist={artist}
-        onChange={onSelectChange}
+        updateArtists={updateArtists}
         className="mb-5"
       />
       {/* CONNECT BUTTON */}

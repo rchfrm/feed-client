@@ -40,7 +40,7 @@ export const createUser = async ({
   const payload = {
     first_name: firstName,
     last_name: lastName,
-    ...(email && { contact_email: email }),
+    ...(email && { email }),
     ...(referrerCode && { referrer_code: referrerCode }),
     token,
   }

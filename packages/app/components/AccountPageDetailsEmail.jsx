@@ -13,18 +13,20 @@ const PENDING_EMAIL_NOTICE = ({
   email,
   emailType,
   isPending,
+  loading,
   className,
 }) => {
   const [resendEmailError, setResendEmailError] = React.useState(null)
   const message = `* You need to verify ${email}${isPending ? ` before we can set it as your new ${emailType}` : ''}, please check your inbox.`
   return (
-    <div className={className}>
+    <div className={className} style={loading ? { opacity: 0.5 } : null}>
       <p className="text-sm font-bold -mt-5 mb-4">{message}</p>
       <Error error={resendEmailError} />
       <ConfirmEmailResendButton
         buttonText="Resend confirmation email"
         emailType="email"
         setError={setResendEmailError}
+        parentLoading={loading}
       />
     </div>
   )
@@ -49,12 +51,15 @@ const AccountPageDetailsEmail = ({
     contact_email_verified: contactEmailVerified,
   } = user
 
+  const contactEmailTooltipMessage = 'This is where you will receive notifications from Feed.'
+
   return (
     <>
+      {/* USER EMAIL */}
       <Input
         name="email"
         label={hasEmailAuth ? 'Email' : 'Contact Email'}
-        tooltipMessage={!hasEmailAuth ? 'This is where you will receive important notifications from Feed.' : ''}
+        tooltipMessage={!hasEmailAuth ? contactEmailTooltipMessage : ''}
         placeholder=""
         value={email}
         handleChange={handleChange}
@@ -68,7 +73,8 @@ const AccountPageDetailsEmail = ({
           email={pendingEmail || userEmail}
           isPending={!!pendingEmail}
           emailType={hasEmailAuth ? 'account email' : 'contact email'}
-          className="mb-4"
+          loading={loading}
+          className={hasEmailAuth ? 'mb-4' : 'mb-12'}
         />
       )}
       {/* CONTACT EMAIL */}
@@ -79,7 +85,7 @@ const AccountPageDetailsEmail = ({
             label="Contact email"
             buttonLabel="Use my account email"
             value="Y"
-            tooltipMessage="This is where you will receive important notifications from Feed."
+            tooltipMessage={contactEmailTooltipMessage}
             checked={!useCustomContactEmail}
             required
             disabled={loading}
@@ -103,6 +109,7 @@ const AccountPageDetailsEmail = ({
                   email={pendingContactEmail || userContactEmail}
                   isPending={!!pendingContactEmail}
                   emailType="contact email"
+                  loading={loading}
                   className="mb-8"
                 />
               )}
@@ -116,7 +123,7 @@ const AccountPageDetailsEmail = ({
 
 AccountPageDetailsEmail.propTypes = {
   email: PropTypes.string.isRequired,
-  contactEmail: PropTypes.string.isRequired,
+  contactEmail: PropTypes.string,
   hasEmailAuth: PropTypes.bool.isRequired,
   useCustomContactEmail: PropTypes.bool.isRequired,
   setUseCustomContactEmail: PropTypes.func.isRequired,
@@ -125,6 +132,7 @@ AccountPageDetailsEmail.propTypes = {
 }
 
 AccountPageDetailsEmail.defaultProps = {
+  contactEmail: '',
   loading: false,
 }
 

@@ -10,6 +10,7 @@ import { track } from '@/app/helpers/trackingHelpers'
 
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 import AccountPageDetailsEmail from '@/app/AccountPageDetailsEmail'
+import AccountPageDetailsConfirmAlert from '@/app/AccountPageDetailsConfirmAlert'
 import PendingEmailWarning from '@/app/PendingEmailWarning'
 
 import Input from '@/elements/Input'
@@ -22,8 +23,8 @@ import styles from '@/app/AccountPage.module.css'
 
 const getChangedEmails = ({ email, contactEmail, initialEmail, initialContactEmail }) => {
   const changedEmails = []
-  if (email !== initialEmail) changedEmails.push('email')
-  if (contactEmail !== initialContactEmail) changedEmails.push('contactEmail')
+  if (email !== initialEmail) changedEmails.push('authEmail')
+  if (contactEmail !== initialContactEmail && initialContactEmail) changedEmails.push('contactEmail')
   return changedEmails
 }
 
@@ -71,19 +72,23 @@ const AccountPageDetailsInline = () => {
   // GET SCROLL TO FUNCTION
   const scrollTo = useAnimateScroll()
 
+  // SHOW ALERT if CHANGIN AUTH EMAIL
+  const [confirmAlert, setConfirmAlert] = React.useState(false)
+
   // SUBMIT THE FORM
   const [loading, setLoading] = React.useState(false)
   const [errors, setErrors] = React.useState([])
-  const handleSubmit = async (e) => {
+  const onSumbit = React.useCallback(async (e, forceSubmit) => {
     if (e) e.preventDefault()
-    // Clear errors
-    const newErrors = []
     // Stop here if form is disabled
     if (formDisabled) return
     const passwordChanged = passwordOne || passwordTwo
     const changedEmails = getChangedEmails({ email, contactEmail, initialEmail, initialContactEmail })
     const emailChanged = changedEmails.length
     const accountDetailsChanged = (initialFirstName !== firstName) || (initialLastName !== lastName) || emailChanged
+
+    // Start counting errors
+    const newErrors = []
 
     // Stop here if No name
     if (!firstName || !lastName) {
@@ -112,6 +117,13 @@ const AccountPageDetailsInline = () => {
       scrollTo({ offset: 0 })
       return
     }
+
+    // Show alert before changing email
+    if (changedEmails.includes('authEmail') && !forceSubmit) {
+      setConfirmAlert('email')
+      return
+    }
+
     // Disable form
     setFormDisabled(true)
     // Set loading
@@ -125,13 +137,17 @@ const AccountPageDetailsInline = () => {
     const newContactEmail = !useCustomContactEmail || !contactEmail ? null : contactEmail
     const userUpdatePromise = accountDetailsChanged ? server.patchUser({ firstName, lastName, email, contactEmail: newContactEmail }) : null
     // When all is done...
-    const [{ res: accountChangedRes, error: accountChangedError }, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
+    const [userUpdateResponse, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
+    const { res: accountChangedRes, error: accountChangedError } = userUpdateResponse || {}
     // Stop form disabled
     setFormDisabled(false)
+    // UPDATE USER and emails
     if (accountChangedRes) {
       // Update the user details
       const updatedUser = accountChangedRes
       updateUser(updatedUser)
+      setEmail(updatedUser.email)
+      setContactEmail(updatedUser.contact_email)
     }
     // Clear the passwords
     setPasswordOne('')
@@ -153,7 +169,7 @@ const AccountPageDetailsInline = () => {
     if (changedEmails.includes('contactEmail')) {
       track('update_contact_email')
     }
-  }
+  }, [contactEmail, email, errors, firstName, formDisabled, initialContactEmail, initialEmail, initialFirstName, initialLastName, lastName, passwordOne, passwordTwo, scrollTo, updateUser, useCustomContactEmail])
 
   // Set initial values from user
   React.useEffect(() => {
@@ -206,7 +222,7 @@ const AccountPageDetailsInline = () => {
           styles.accountPageDetails__form,
           'md:max-w-xl',
         ].join(' ')}
-        onSubmit={handleSubmit}
+        onSubmit={onSumbit}
       >
 
         {errors.map((error, index) => {
@@ -284,6 +300,14 @@ const AccountPageDetailsInline = () => {
           Save changes
         </Button>
       </form>
+
+      {/* ALERT (for changing email) */}
+      <AccountPageDetailsConfirmAlert
+        confirmAlert={confirmAlert}
+        setConfirmAlert={setConfirmAlert}
+        resubmitForm={onSumbit}
+      />
+
     </section>
   )
 }

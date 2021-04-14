@@ -107,7 +107,7 @@ const useSignup = (initialPathname) => {
     const redirectTo = ROUTES.CONFIRM_EMAIL
     const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
     return userRedirected
-  }, [initialPathname, rejectNewUser, runCreateUser, setMissingScopes, setNoArtist])
+  }, [initialPathname, rejectNewUser, runCreateUser, setMissingScopes, setNoArtist, setUserLoading])
 
 
   // * SIGNUP WITH EMAIL

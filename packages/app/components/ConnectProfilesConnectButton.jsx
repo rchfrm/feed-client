@@ -17,6 +17,7 @@ const ConnectProfilesConnectButton = ({
   artistAccounts,
   accessToken,
   setErrors,
+  setIsConnecting,
   disabled,
   disabledReason,
   className,
@@ -25,20 +26,25 @@ const ConnectProfilesConnectButton = ({
   const { connectArtists } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
+  const accountsToConnect = React.useMemo(() => {
+    return Object.values(artistAccounts).filter(({ connect }) => connect)
+  }, [artistAccounts])
+
+
   const runCreateArtists = React.useCallback(async () => {
     toggleGlobalLoading(true)
-    // Convert artist accounts to array, and remove the ones we don't want to connect
-    const artistAccountsFiltered = Object.values(artistAccounts).filter(({ connect }) => connect)
+    setIsConnecting(true)
     // Santise URLs
-    const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistAccountsFiltered)
+    const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(accountsToConnect)
     const { error } = await connectArtists(artistAccountsSanitised, accessToken, user) || {}
     if (error) {
       toggleGlobalLoading(false)
+      setIsConnecting(false)
       setErrors(errors => [...errors, error])
       return
     }
     Router.push(ROUTES.HOME)
-  }, [user, artistAccounts, setErrors, toggleGlobalLoading, connectArtists, accessToken])
+  }, [user, accountsToConnect, setErrors, setIsConnecting, toggleGlobalLoading, connectArtists, accessToken])
 
   return (
     <div
@@ -51,10 +57,30 @@ const ConnectProfilesConnectButton = ({
           onClick={runCreateArtists}
           disabled={disabled}
         >
-          Connect Selected Profiles
+          Connect {accountsToConnect.length} Selected {accountsToConnect.length === 1 ? 'Profile' : 'Profiles'}
         </Button>
       </div>
-      <p className={`font-bold mb-0 ${disabledReason ? 'opacity-100' : 'opacity-0'}`}>{disabledReason || '&nbsp;'}</p>
+      {/* DISABLED REASON */}
+      {disabledReason && (
+        <p className="font-bold mb-0">{disabledReason}</p>
+      )}
+      {/* LIST OF CONNECTING PROFILES */}
+      {!disabledReason && accountsToConnect.length && (
+        <div className="text--block pt-5">
+          <p className="font-bold">This will connect:</p>
+          <ul>
+            {accountsToConnect.map((account) => {
+              return (
+                <li
+                  key={account.page_id}
+                >
+                  {account.name}
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }
@@ -63,6 +89,7 @@ ConnectProfilesConnectButton.propTypes = {
   artistAccounts: PropTypes.object,
   accessToken: PropTypes.string.isRequired,
   setErrors: PropTypes.func.isRequired,
+  setIsConnecting: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   disabledReason: PropTypes.string,
   className: PropTypes.string,
