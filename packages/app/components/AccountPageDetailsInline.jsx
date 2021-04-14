@@ -28,6 +28,18 @@ const getChangedEmails = ({ email, contactEmail, initialEmail, initialContactEma
   return changedEmails
 }
 
+const testIfDetailsChanged = ({
+  initialFirstName,
+  initialLastName,
+  firstName,
+  lastName,
+  emailChanged,
+}) => {
+  if (emailChanged) return true
+  if (initialFirstName !== firstName) return true
+  if (initialLastName !== lastName) return true
+  return false
+}
 
 const AccountPageDetailsInline = () => {
   // Get user context
@@ -85,7 +97,14 @@ const AccountPageDetailsInline = () => {
     const passwordChanged = passwordOne || passwordTwo
     const changedEmails = getChangedEmails({ email, contactEmail, initialEmail, initialContactEmail })
     const emailChanged = changedEmails.length
-    const accountDetailsChanged = (initialFirstName !== firstName) || (initialLastName !== lastName) || emailChanged
+    const accountDetailsChanged = testIfDetailsChanged({
+      initialFirstName,
+      initialLastName,
+      firstName,
+      lastName,
+      emailChanged,
+    })
+
 
     // Start counting errors
     const newErrors = []
