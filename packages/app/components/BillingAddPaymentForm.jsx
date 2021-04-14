@@ -43,8 +43,8 @@ const STRIPE_ELEMENT_OPTIONS = {
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
   organisation: state.organisation,
-  addPaymentMethod: state.defaultPaymentMethod,
   artistCurrency: state.artistCurrency,
+  addPaymentMethod: state.addPaymentMethod,
 })
 
 // THE FORM
