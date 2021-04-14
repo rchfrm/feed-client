@@ -50,15 +50,15 @@ const BillingReferralsSummary = ({
               const value = referralsDetails[slug] / currency_offset
               const valueString = formatCurrency(value, currency)
               const lastItem = index === metrics.length - 1
-              const TitleEl = lastItem ? 'strong' : 'span'
+              const TextEl = lastItem ? 'strong' : 'span'
               return (
                 <React.Fragment key={slug}>
                   {lastItem && (
                     <div className="w-full bg-black my-4" style={{ height: 1 }} />
                   )}
                   <li className="flex justify-between mb-3 last:mb-0">
-                    <TitleEl>{title}</TitleEl>
-                    <strong>{valueString}</strong>
+                    <TextEl>{title}</TextEl>
+                    <TextEl>{valueString}</TextEl>
                   </li>
                 </React.Fragment>
               )
