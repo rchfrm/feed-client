@@ -80,6 +80,7 @@ const ConnectProfilesFacebook = ({
             <ButtonFacebook
               className="w-full max-w-md mb-5"
               onClick={linkFacebook}
+              fallbackCta="Continue with Facebook"
             >
               Continue with Facebook
             </ButtonFacebook>
