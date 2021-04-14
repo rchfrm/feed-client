@@ -18,4 +18,8 @@ When you enter a link, make sure it starts with "https://".
   To keep it simple, the daily budget you set in Feed is the total amount you’ll spend each day - including our service fee. Our fee is 10% of your chosen daily budget, dropping to 5% for spend over £150 in the billing month.
 
   More details on Feed’s pricing is [here](${ROUTES.PRICING}).`,
+
+  changeEmailAlert: `You'll need to verify this new email address before we can change it, so look out for an email from us. Once the email is verified you'll need to log-in again.`,
+
+  changePasswordAlert: `XXXX COPY GOES HERE XXXX`,
 }

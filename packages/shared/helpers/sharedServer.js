@@ -1,5 +1,5 @@
 import * as api from '@/helpers/api'
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 
 // GENERIC
 /**
@@ -15,8 +15,13 @@ export const getEndpoint = async (endpoint) => {
 * @param {string} [verifyIdToken]
 * @returns {Promise<any>}
 */
-export const getUser = async (verifyIdToken) => {
-  return api.get('/users/me', verifyIdToken)
+export const getUser = async () => {
+  const requestUrl = '/users/me'
+  const errorTracking = {
+    category: 'Login',
+    action: 'Get User',
+  }
+  return api.requestWithCatch('get', requestUrl, null, errorTracking)
 }
 
 /**
@@ -27,16 +32,23 @@ export const getUser = async (verifyIdToken) => {
 export const createUser = async ({
   firstName,
   lastName,
+  email,
   referrerCode,
 }, token) => {
-  if (!token) token = await firebase.getIdTokenOrFail()
-  return api
-    .post('/accounts/register', {
-      first_name: firstName,
-      last_name: lastName,
-      ...(referrerCode && { referrer_code: referrerCode }),
-      token,
-    }, false)
+  if (!token) token = await firebaseHelpers.getIdTokenOrFail()
+  const requestUrl = '/accounts/register'
+  const payload = {
+    first_name: firstName,
+    last_name: lastName,
+    ...(email && { email }),
+    ...(referrerCode && { referrer_code: referrerCode }),
+    token,
+  }
+  const errorTracking = {
+    category: 'Signup',
+    action: 'Create User',
+  }
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
 /**
@@ -46,16 +58,20 @@ export const createUser = async ({
  * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-export const patchUser = async ({ firstName, lastName, email, emailContact }) => {
-  const hasEmailContact = typeof emailContact !== 'undefined'
+export const patchUser = async ({ firstName, lastName, email, contactEmail }) => {
+  const requestUrl = 'users/me'
+  const hasContactEmail = typeof contactEmail !== 'undefined'
   const payload = {
-    first_name: firstName,
-    last_name: lastName,
-    email,
-    ...(hasEmailContact && { contact_email: emailContact }),
+    ...(firstName && { first_name: firstName }),
+    ...(lastName && { last_name: lastName }),
+    ...(email && { email }),
+    ...(hasContactEmail && { contact_email: contactEmail }),
   }
-  return api
-    .patch('/users/me', payload)
+  const errorTracking = {
+    category: 'User',
+    action: 'Patch user',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
 

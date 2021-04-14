@@ -70,8 +70,10 @@ const Select = ({
       >
         {label && (
           <span className="inputLabel__text">
-            {label}
-            {required && <span className="asterisk">*</span>}
+            <span>
+              {label}
+              {required && <span className="asterisk">*</span>}
+            </span>
           </span>
         )}
         <div className="select--inner">

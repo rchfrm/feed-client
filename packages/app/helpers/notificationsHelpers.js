@@ -5,7 +5,7 @@ import moment from 'moment'
 import { mixpanelExternalLinkClick } from '@/app/helpers/mixpanelHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
 
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
 
@@ -48,9 +48,9 @@ const getExternalLinkAction = (ctaLink, trackingPayload) => {
 
 const getFbRelinkAction = (hasFbAuth, missingScopes) => {
   if (hasFbAuth) {
-    return firebase.reauthFacebook(missingScopes)
+    return firebaseHelpers.reauthFacebook(missingScopes)
   }
-  return firebase.linkFacebookAccount()
+  return firebaseHelpers.linkFacebookAccount()
 }
 
 // GET ACTION to handle notification

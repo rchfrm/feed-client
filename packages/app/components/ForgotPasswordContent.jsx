@@ -6,7 +6,7 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Success from '@/elements/Success'
 // IMPORT HELPERS
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
 // IMPORT STYLES
 import styles from '@/app/ForgotPasswordPage.module.css'
@@ -29,7 +29,7 @@ function ForgotPasswordForm({ setSuccess, setError, setEmail, email, error, isIn
   const onFormSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    await firebase.doPasswordReset(email)
+    await firebaseHelpers.doPasswordReset(email)
       .catch((error) => {
         setError(error)
         setLoading(false)

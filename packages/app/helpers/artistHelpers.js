@@ -81,19 +81,15 @@ export const getArtist = async (artistId, accessToken) => {
 
 
 /**
- * Create array of artist accounts, sorted alphabetically
+ * Create sorted array of artist accounts
+ * First show accounts that don't already exists, then sort name alphabetically
  * @param {object} artistAccounts
  * @returns {array}
  */
 export const getSortedArtistAccountsArray = (artistAccounts) => {
-  const accountsArray = Object.values(artistAccounts)
-  // Return sorted array
-  const sortedArray = accountsArray.sort((a, b) => {
-    if (a.name < b.name) return -1
-    if (a.name > b.name) return 1
-    return 0
+  return Object.values(artistAccounts).sort((a, b) => {
+    return ((a.exists === b.exists) ? 0 : a.exists ? 1 : -1) || a.name.localeCompare(b.name)
   })
-  return sortedArray
 }
 
 /**
@@ -102,43 +98,43 @@ export const getSortedArtistAccountsArray = (artistAccounts) => {
  * @returns {Promise<any>}
  */
 export const getArtistOnSignUp = async (facebookAccessToken) => {
-  return api.post('/artists/available', { access_token: facebookAccessToken })
+  const requestUrl = '/artists/available'
+  const payload = { access_token: facebookAccessToken }
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Get available aritsts',
+  }
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
 
 export const sortArtistsAlphabetically = (artists) => {
-  // Convert object to array
-  const artistArr = Array.isArray(artists) ? artists : Object.values(artists)
-  // Return here if empty or only one entry
-  if (artistArr.length <= 1) {
-    return artistArr
-  }
+  return utils.sortArrayByKey(artists, 'name')
+}
 
-  return artistArr.sort((a, b) => {
-    const lowerA = a.name.toLowerCase()
-    const lowerB = b.name.toLowerCase()
-    if (lowerA === lowerB) {
-      return 0
-    }
-    const array = [lowerA, lowerB].sort()
-    if (array[0] === lowerA) {
-      return -1
-    }
-    return 1
+/**
+ * @param {object} newArtists
+ * @param {array} userArtists
+ * @returns {object}
+ */
+export const removeAlreadyConnectedArtists = (newArtists, userArtists) => {
+  return produce(newArtists, draftState => {
+    userArtists.forEach(({ facebook_page_id }) => {
+      delete draftState[facebook_page_id]
+    })
   })
 }
 
-export const addAdAccountsToArtists = async ({ accounts, adAccounts }) => {
-  const accountsArray = Object.values(accounts)
-  const processAccountsPromise = accountsArray.map(async (account) => {
+export const addAdAccountsToArtists = async ({ artists, adAccounts }) => {
+  const artistsProcessed = Object.values(artists).map((artist) => {
     const {
       instagram_username,
       picture,
       page_id,
       page_token,
-    } = account
+    } = artist
     // Sort the add accounts so that the last used ad for this artists account is placed first
-    const sortedAdAccounts = sortAdAccounts(account, adAccounts)
+    const sortedAdAccounts = sortAdAccounts(artist, adAccounts)
     const selectedAdAccount = sortedAdAccounts[0]
     // Get the FB page url
     const facebookPageUrl = `https://www.facebook.com/${page_token || page_id}`
@@ -146,7 +142,7 @@ export const addAdAccountsToArtists = async ({ accounts, adAccounts }) => {
     const instaPageUrl = instagram_username ? `https://www.instagram.com/${instagram_username}/` : ''
     // Return processed account
     return {
-      ...account,
+      ...artist,
       available_facebook_ad_accounts: sortedAdAccounts,
       selected_facebook_ad_account: selectedAdAccount,
       facebook_page_url: facebookPageUrl,
@@ -156,10 +152,8 @@ export const addAdAccountsToArtists = async ({ accounts, adAccounts }) => {
     }
   })
 
-  const accountsProcessed = await Promise.all(processAccountsPromise)
-
   // Convert array of accounts back into and object with IDs as keys
-  const keyedAccounts = accountsProcessed.reduce((accountObj, account) => {
+  const keyedAccounts = artistsProcessed.reduce((accountObj, account) => {
     const { page_id } = account
     return {
       ...accountObj,
@@ -174,13 +168,13 @@ export const addAdAccountsToArtists = async ({ accounts, adAccounts }) => {
  * Receives object of keyed artist accounts by ID
  * Converts empty strings to null
  * Returns newly formed artist account
- * @param {object} artistAccounts
+ * @param {array} artistAccounts
  * @returns {object}
  */
 export const sanitiseArtistAccountUrls = (artistAccounts) => {
-  return produce(artistAccounts, draft => {
+  return produce(artistAccounts, draftState => {
     // Loop over artists
-    Object.values(draft).forEach((artist) => {
+    draftState.forEach((artist) => {
       // Loop over artist props
       Object.entries(artist).forEach(([key, value]) => {
         if (value === '') {
@@ -188,7 +182,7 @@ export const sanitiseArtistAccountUrls = (artistAccounts) => {
         }
       })
     })
-    return draft
+    return draftState
   })
 }
 

@@ -1,5 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import ActiveLink from '@/elements/ActiveLink'
+import SignOutLink from '@/SignOutLink'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -31,22 +34,38 @@ const links = [
   },
 ]
 
-const TheFooterLinks = () => {
+const TheFooterLinks = ({ hasAuth }) => {
   return (
     <nav className={styles.links}>
       <ul className={[styles.linksList, 'flex'].join(' ')}>
-        {links.map(({ href, title, external }) => {
-          return (
-            <li className={styles.linkItem} key={href}>
-              {external
-                ? <a className={styles.a} href={href} target="_blank" rel="noopener noreferrer">{ title }</a>
-                : <ActiveLink href={href}><a className={styles.a}>{ title }</a></ActiveLink>}
-            </li>
-          )
-        })}
+        {hasAuth ? (
+          <li className={styles.linkItem}>
+            <SignOutLink />
+          </li>
+        ) : (
+          <>
+            {links.map(({ href, title, external }) => {
+              return (
+                <li className={styles.linkItem} key={href}>
+                  {external
+                    ? <a className={styles.a} href={href} target="_blank" rel="noopener noreferrer">{ title }</a>
+                    : <ActiveLink href={href}><a className={styles.a}>{ title }</a></ActiveLink>}
+                </li>
+              )
+            })}
+          </>
+        )}
       </ul>
     </nav>
   )
+}
+
+TheFooterLinks.propTypes = {
+  hasAuth: PropTypes.bool,
+}
+
+TheFooterLinks.defaultProps = {
+  hasAuth: true,
 }
 
 export default TheFooterLinks
