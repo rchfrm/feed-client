@@ -11,6 +11,7 @@ const initialState = {
   organisation: {},
   billingDetails: {},
   nextInvoice: {},
+  artistCurrency: {},
   defaultPaymentMethod: null,
   referralsDetails: {},
 }
@@ -22,8 +23,8 @@ const fetchAllOrgs = async (user) => {
 }
 
 // * INITIAL SETUP
-const setupBilling = (set) => async (user) => {
-  // FETCH the first organisation and set it
+// FETCH the first organisation and set it
+const setupBilling = (set) => async (user, artistCurrency) => {
   const allOrgs = await fetchAllOrgs(user)
   const organisation = allOrgs.find(({ role }) => role === 'owner')
   const billingDetails = billingHelpers.getbillingDetails(organisation)
@@ -43,6 +44,7 @@ const setupBilling = (set) => async (user) => {
     referralsDetails,
     defaultPaymentMethod,
     nextInvoice,
+    artistCurrency,
     loading: false,
     loadingErrors: errors,
   })

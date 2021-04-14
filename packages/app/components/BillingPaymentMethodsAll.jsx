@@ -131,7 +131,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
       <div>
         <Button
           version="green x-small"
-          onClick={openAddPaymentMethod}
+          onClick={() => openAddPaymentMethod(false)}
         >
           + Add new card
         </Button>
