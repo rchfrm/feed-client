@@ -9,6 +9,7 @@ const headerConfig = {
 const Page = () => (
   <BasePage
     headerConfig={headerConfig}
+    artistRequired
   >
     <BillingContent />
   </BasePage>

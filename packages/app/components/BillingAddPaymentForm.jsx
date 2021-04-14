@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import shallow from 'zustand/shallow'
 import { loadStripe } from '@stripe/stripe-js'
-
 import {
   CardElement,
   Elements,
@@ -17,6 +17,8 @@ import { submitPaymentMethod } from '@/app/helpers/billingHelpers'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
+
+import SelectCurrency from '@/elements/SelectCurrency'
 import InputBase from '@/elements/InputBase'
 
 import brandColors from '@/constants/brandColors'
@@ -38,9 +40,12 @@ const STRIPE_ELEMENT_OPTIONS = {
   },
 }
 
-// READ FROM STORE
-const getOrganisation = state => state.organisation
-const getAddPaymentMethod = state => state.addPaymentMethod
+// READING FROM STORE
+const getBillingStoreState = (state) => ({
+  organisation: state.organisation,
+  addPaymentMethod: state.defaultPaymentMethod,
+  artistCurrency: state.artistCurrency,
+})
 
 // THE FORM
 const FORM = ({
@@ -53,11 +58,16 @@ const FORM = ({
   const elements = useElements()
   const stripe = useStripe()
   const [name, setName] = React.useState('')
+  const [currency, setCurrency] = React.useState('')
   const [error, setError] = React.useState(null)
 
   // READ from BILLING STORE
-  const { id: organisationId } = useBillingStore(getOrganisation)
-  const addPaymentMethod = useBillingStore(getAddPaymentMethod)
+  // Read from BILLING STORE
+  const {
+    organisation: { id: organisationId },
+    addPaymentMethod,
+    artistCurrency,
+  } = useBillingStore(getBillingStoreState, shallow)
 
   // FORM STATE
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -80,9 +90,9 @@ const FORM = ({
   // TEST FORM IS VALID
   const [cardComplete, setCardComplete] = React.useState(false)
   React.useEffect(() => {
-    const formValid = !!(name && elements && stripe && cardComplete)
+    const formValid = !!(name && currency && elements && stripe && cardComplete)
     setIsFormValid(formValid)
-  }, [name, cardComplete, elements, stripe])
+  }, [name, currency, cardComplete, elements, stripe])
 
   // HANDLE FORM
   const onSubmit = React.useCallback(async () => {
@@ -105,7 +115,12 @@ const FORM = ({
       return
     }
     // Add payment method to DB
-    const { res: paymentMethodDb, error: serverError } = await submitPaymentMethod(organisationId, paymentMethod.id)
+    // TODO: Include the currency
+    const { res: paymentMethodDb, error: serverError } = await submitPaymentMethod({
+      organisationId,
+      paymentMethodId: paymentMethod.id,
+      currency,
+    })
     setIsLoading(false)
     // Handle error adding payment to DB
     if (serverError) {
@@ -122,7 +137,7 @@ const FORM = ({
       shouldBeDefault,
     })
     setSuccess(true)
-  }, [isFormValid, isLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
+  }, [isFormValid, isLoading, name, organisationId, currency, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
 
   // CHANGE SIDEPANEL BUTTON
   React.useEffect(() => {
@@ -147,6 +162,17 @@ const FORM = ({
         value={name}
         updateValue={setName}
         required
+      />
+
+      {/* CURRENCY */}
+      <SelectCurrency
+        label="Payment currency"
+        name="currency"
+        value={currency}
+        setValue={setCurrency}
+        placeholder="Select a currency"
+        required
+        topChoice={artistCurrency.code}
       />
 
       {/* CARD ELEMENT

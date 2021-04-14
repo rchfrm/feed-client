@@ -4,6 +4,7 @@ import React from 'react'
 import shallow from 'zustand/shallow'
 
 import { UserContext } from '@/contexts/UserContext'
+import { ArtistContext } from '@/contexts/ArtistContext'
 
 import useBillingStore from '@/app/stores/billingStore'
 
@@ -25,6 +26,7 @@ const getBillingStoreState = (state) => ({
 
 const BillingContent = () => {
   const { user } = React.useContext(UserContext)
+  const { artistLoading, artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
 
   // Read from BILLING STORE
   const {
@@ -37,8 +39,11 @@ const BillingContent = () => {
 
   // Load billing info
   React.useEffect(() => {
-    setupBilling(user)
-  }, [user, setupBilling])
+    if (artistLoading) return
+    const { currency } = min_daily_budget_info || {}
+    setupBilling(user, currency)
+  // eslint-disable-next-line
+  }, [artistLoading, user, setupBilling])
 
   if (billingLoading) return <Spinner />
 
