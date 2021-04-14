@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import brandColors from '@/constants/brandColors'
 
@@ -6,7 +7,7 @@ import Button from '@/elements/Button'
 import FacebookIcon from '@/icons/FacebookIcon'
 
 const ButtonFacebook = (props) => {
-  const { version, children, fbButtonFallbackClassName = '' } = props
+  const { onClick, version, children, fbButtonFallbackClassName = '', fallbackCta } = props
   const buttonRef = React.useRef()
 
   // Wait for a while then detect if button has been removed from DOM
@@ -26,8 +27,18 @@ const ButtonFacebook = (props) => {
   if (buttonRemoved) {
     return (
       <div className={`text--block ${fbButtonFallbackClassName}`}>
-        <p>Can't see the button? <a href="#" onClick={props.onClick}>Click here instead</a>.</p>
-        <p>Still no button? Try disabling your ad blocker and refresh the page.</p>
+        <p>It looks like your ad-blocker removed a button.</p>
+        <p>
+          <a
+            role="button"
+            onClick={(e) => {
+              e.preventDefault()
+              onClick()
+            }}
+          >
+            Click here instead to <strong>{fallbackCta}</strong>
+          </a>.
+        </p>
         <p>If that doesn't work, email us: <a href="mailto:help@tryfeed.co">help@tryfeed.co</a></p>
       </div>
     )
@@ -46,6 +57,20 @@ const ButtonFacebook = (props) => {
       {children}
     </Button>
   )
+}
+
+ButtonFacebook.propTypes = {
+  onClick: PropTypes.func,
+  fallbackCta: PropTypes.string.isRequired,
+  version: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  fbButtonFallbackClassName: PropTypes.string,
+}
+
+ButtonFacebook.defaultProps = {
+  onClick: () => {},
+  version: null,
+  fbButtonFallbackClassName: null,
 }
 
 export default ButtonFacebook

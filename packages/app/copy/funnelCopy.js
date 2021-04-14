@@ -45,20 +45,20 @@ export default {
   // AUDIENCE TEXT
   ...audienceProps,
   // NEED HELP TEXT
-  needHelp: `Feed helps you find new audiences, develop the relationship with your fans and grow revenue from your biggest supporters.
+  needHelp: `Feed helps you find new audiences, keep your whole following engaged and ultimately grow income from your biggest supporters.
 
 This page shows what ads are currently running and to which audiences. There is a description of each audience below. 
 
 ### ${audienceProps.growA.title}
   
-People who haven’t heard of you yet, but are likely to engage. Feed grows an [audience of people who have engaged with you](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y), and over time via Nurture turns those people into followers who stream your music and buy tickets, records and merch.
+People who haven’t heard of you yet, but are likely to engage. Feed grows an [audience of people who have engaged with you](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y), and over time via Nurture turns those people into followers and drives deeper engagement.
 
 ### ${audienceProps.growB.title}
 
-People who haven’t heard about you before, but are likely to visit your website or streaming profile. People who do automatically fall into your [engaged audience](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y).
+People who haven’t heard about you before, but are likely to visit your website or an external channel/streaming profile. People who do this automatically fall into your [engaged audience](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y).
 
 ### ${audienceProps.nurture.title}
 
-Feed empowers you to invest in the relationships with your [engaged audience](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y) to create your biggest supporters. This isn’t just your followers and people you can reach organically, but anyone who has engaged with you before. Keep the conversation going, get more posts in front of your engaged audience and build followers and fans over time.`,
+Feed empowers you to invest in the relationships with your [engaged audience](${ROUTES.INSIGHTS}?dataset=instagram_engaged_1y) to create your biggest supporters. This isn’t just your followers and people you can reach organically, but anyone who has engaged with you before. Keep the conversation going and get more posts in front of your engaged audience to build followers, website visitors and customers/superfans over time.`,
 
 }
