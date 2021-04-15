@@ -1,8 +1,10 @@
+// * ADMIN VERSION
+
 import React from 'react'
 
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
-import { UserContext } from '@/app/contexts/UserContext'
+import { UserContext } from '@/admin/contexts/UserContext'
 
 const useLoggedInTest = () => {
   // Check if logged in or not

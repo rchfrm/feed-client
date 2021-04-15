@@ -5,7 +5,7 @@ import ActiveLink from '@/elements/ActiveLink'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import useLoggedInTest from '@/hooks/useLoggedInTest'
+import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 
 import styles from '@/app/ThePageButtons.module.css'
 

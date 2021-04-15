@@ -4,7 +4,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT COMPONENTS
 import TheFooterLinks from '@/app/TheFooterLinks'
 // IMPORT HOOKS
-import useLoggedInTest from '@/hooks/useLoggedInTest'
+import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 // IMPORT ELEMENTS
 import Feed from '@/elements/Feed'
 
