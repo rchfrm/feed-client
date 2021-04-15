@@ -88,7 +88,7 @@ const artistReducer = (draftState, action) => {
   }
 }
 
-function ArtistProvider({ children, disable }) {
+function ArtistProvider({ children }) {
   const { storeUser } = React.useContext(UserContext)
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -100,7 +100,6 @@ function ArtistProvider({ children, disable }) {
   const [hasBudget, setHasBudget] = React.useState(false)
 
   const setNoArtist = () => {
-    if (disable) return
     setArtistLoading(true)
     toggleGlobalLoading(true)
     utils.setLocalStorage('artistId', '')
@@ -110,8 +109,6 @@ function ArtistProvider({ children, disable }) {
   }
 
   const storeArtist = React.useCallback(async (id) => {
-    // Stop here if not using
-    if (disable) return {}
     // TODO : Store previously selected artists in state,
     //  then if the user switches back to that artist, there doesn't need to be a new server call
     setArtistLoading(true)
@@ -174,7 +171,7 @@ function ArtistProvider({ children, disable }) {
     })
     setArtistLoading(false)
     return { artist }
-  }, [disable, setArtist, toggleGlobalLoading])
+  }, [setArtist, toggleGlobalLoading])
 
   /**
    * @param {array} artistAccounts
@@ -235,7 +232,7 @@ function ArtistProvider({ children, disable }) {
     } else {
       track('add_profile')
     }
-  }, [storeArtist, storeUser, toggleGlobalLoading])
+  }, [storeArtist, storeUser])
 
   const updateBudget = React.useCallback((majorUnitAmount) => {
     setArtist({
