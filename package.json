@@ -11,6 +11,7 @@
     "lint": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/app/components",
     "lint:shared": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/shared/components",
     "lint:admin": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/app/components",
+    "lint:all": "yarn lint && yarn lint:shared && yarn lint:admin",
     "stage": "./bin/deploy app staging",
     "stage:admin": "./bin/deploy admin staging",
     "stage:both": "yarn stage && yarn stage:admin",
