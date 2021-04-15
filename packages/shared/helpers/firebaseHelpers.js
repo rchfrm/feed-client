@@ -60,12 +60,6 @@ export const doSignOut = () => {
   return auth.signOut()
 }
 
-
-export const doPasswordReset = (email) => {
-  return auth.sendPasswordResetEmail(email)
-}
-
-
 export const doPasswordUpdate = async (password) => {
   const res = await auth.currentUser.updatePassword(password)
     .catch((error) => {
@@ -159,3 +153,8 @@ export const deleteUser = () => {
   return auth.currentUser.delete()
 }
 
+// * FORGETTING PASSWORD
+// -------------------
+export const sendPasswordResetEmail = (email) => {
+  return auth.sendPasswordResetEmail(email)
+}

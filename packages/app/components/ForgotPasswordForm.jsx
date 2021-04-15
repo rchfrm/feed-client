@@ -35,7 +35,7 @@ const ForgotPasswordForm = ({ setSuccess }) => {
     if (!isFormComplete) return
     e.preventDefault()
     setLoading(true)
-    await firebaseHelpers.doPasswordReset(email)
+    await firebaseHelpers.sendPasswordResetEmail(email)
       .catch((error) => {
         setError(error)
         setLoading(false)
