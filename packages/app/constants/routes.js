@@ -9,6 +9,7 @@ export const REFERRAL = '/join/referral'
 export const LOGIN = '/login'
 export const LOGIN_EMAIL = '/login/email'
 export const PASSWORD_FORGET = '/forgot-password'
+export const PASSWORD_RESET = '/password-reset'
 
 export const FAQ = '/faq'
 export const PRICING = 'https://tryfeed.co/pricing'
@@ -49,6 +50,7 @@ export const restrictedPages = [
   TARGETING,
 ]
 
+// SIGNED OUT PAGES
 export const signedOutPages = [
   SIGN_UP,
   SIGN_UP_EMAIL,
@@ -56,4 +58,5 @@ export const signedOutPages = [
   LOGIN,
   LOGIN_EMAIL,
   PASSWORD_FORGET,
+  PASSWORD_RESET,
 ]
