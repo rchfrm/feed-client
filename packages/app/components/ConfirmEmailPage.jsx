@@ -48,6 +48,7 @@ const ConfirmEmailPage = ({
     updateUser,
     userLoading,
     storeUser,
+    user,
     user: {
       artists: userArtists,
       email: authEmail,
@@ -105,16 +106,16 @@ const ConfirmEmailPage = ({
     // If you've reached this bit, you're successful
     if (successTriggered.current) return
     successTriggered.current = true
-    broadcastMessage({ success: true })
+    broadcastMessage({ success: true, emailType, user })
     onSuccessContinue()
-  }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, emailVerified, contactEmail, contactEmailVerified, emailType, isSuccessful, broadcastMessage])
+  }, [userLoading, pendingEmail, pendingContactEmail, onSuccessContinue, emailVerified, contactEmail, contactEmailVerified, emailType, isSuccessful, broadcastMessage, user])
 
   // BROADCAST SUCCESS
   React.useEffect(() => {
     if (isSuccessful && !hasBroadcasted) {
-      broadcastMessage({ success: true })
+      broadcastMessage({ success: true, emailType, user })
     }
-  }, [isSuccessful, broadcastMessage, hasBroadcasted])
+  }, [isSuccessful, broadcastMessage, hasBroadcasted, emailType, user])
 
   // LISTEN FOR SUCCESS IN ANOTHER TAB
   React.useEffect(() => {
