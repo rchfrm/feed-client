@@ -15,6 +15,8 @@ import Error from '@/elements/Error'
 // HOOKS
 import useLogin from '@/admin/hooks/useLogin'
 
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
+
 import * as ROUTES from '@/admin/constants/routes'
 
 import styles from '@/LoginPage.module.css'
