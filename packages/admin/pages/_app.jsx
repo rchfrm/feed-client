@@ -16,38 +16,11 @@ import { AuthProvider } from '@/contexts/AuthContext'
 // IMPORT HELPERS
 import { setupTracking } from '@/app/helpers/trackingHelpers'
 
-const registerServiceWorker = () => {
-  window.addEventListener('load', () => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then((registration) => {
-          console.info('service worker registered')
-          registration.addEventListener('updatefound', () => {
-          // If updatefound is fired, it means that there's
-          // a new service worker being installed.
-            const installingWorker = registration.installing
-            console.info('A new service worker is being installed:', installingWorker)
-          // You can listen for changes to the installing service worker's
-          // state via installingWorker.onstatechange
-          })
-        })
-        .catch((error) => {
-          console.info('Service worker registration failed:', error)
-        })
-    } else {
-      console.info('Service workers are not supported.')
-    }
-  })
-}
-
 function FeedAdmin({ Component, pageProps, router }) {
   // Disable tracking
   React.useEffect(() => {
     const disabled = true
     setupTracking(disabled)
-    if (process.env.build_env !== 'development') {
-      registerServiceWorker()
-    }
   }, [])
 
   return (
