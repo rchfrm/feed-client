@@ -155,6 +155,30 @@ export const deleteUser = () => {
 
 // * FORGETTING PASSWORD
 // -------------------
+
+// Send forgot password email
 export const sendPasswordResetEmail = (email) => {
   return auth.sendPasswordResetEmail(email)
+}
+
+// Make sure reset password code is legit
+export const verifyPasswordResetCode = (code) => {
+  return auth.verifyPasswordResetCode(code)
+    .then((email) => {
+      return { res: email }
+    })
+    .catch((error = true) => {
+      return { error }
+    })
+}
+
+// Confirm password reset
+export const confirmPasswordReset = (code, newPassword) => {
+  return auth.confirmPasswordReset(code, newPassword)
+    .then(() => {
+      return { res: true }
+    })
+    .catch((error = true) => {
+      return { error }
+    })
 }
