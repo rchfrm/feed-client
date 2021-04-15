@@ -8,8 +8,8 @@ import NotificationDot from '@/elements/NotificationDot'
 
 import CloseCircle from '@/icons/CloseCircle'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
-import { UserContext } from '@/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import styles from '@/app/TheSubNavButton.module.css'
 

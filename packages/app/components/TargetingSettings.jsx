@@ -21,7 +21,7 @@ import TargetingGenderSelector from '@/app/TargetingGenderSelector'
 import TargetingPlatformsSelector from '@/app/TargetingPlatformsSelector'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import { fetchPopularLocations } from '@/app/helpers/targetingHelpers'
 

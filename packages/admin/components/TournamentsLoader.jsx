@@ -9,7 +9,7 @@ import TournamentFilters from '@/admin/TournamentFilters'
 import TournamentList from '@/admin/TournamentList'
 import TournamentNavigation from '@/admin/TournamentNavigation'
 
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/admin/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import * as server from '@/helpers/sharedServer'

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 // IMPORT CONTEXTS
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/app/contexts/UserContext'
 // IMPORT COMPONENTS
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 // IMPORT ELEMENTS

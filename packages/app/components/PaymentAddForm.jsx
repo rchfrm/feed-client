@@ -13,7 +13,7 @@ import StripeLogo from '@/icons/StripeLogo'
 import brandColors from '@/constants/brandColors'
 import countries from '@/constants/countries'
 // IMPORT CONTEXTS
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/app/contexts/UserContext'
 import { BillingContext } from '@/app/contexts/BillingContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 // IMPORT ELEMENTS

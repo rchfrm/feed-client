@@ -2,8 +2,8 @@ import React from 'react'
 // IMPORT CONTEXTS
 import { InterfaceContextProvider } from '@/contexts/InterfaceContext'
 
-import { UserProvider } from '@/contexts/UserContext'
-import { ArtistProvider } from '@/contexts/ArtistContext'
+import { UserProvider } from '@/app/contexts/UserContext'
+import { ArtistProvider } from '@/app/contexts/ArtistContext'
 
 // IMPORT COMPONENTS
 import Main from '@/app/Main'

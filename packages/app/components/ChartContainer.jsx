@@ -6,7 +6,7 @@ import moment from 'moment'
 import ChartBar from '@/app/ChartBar'
 import ChartNumber from '@/app/ChartNumber'
 import InsightsProjection from '@/app/InsightsProjection'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 // IMPORT STYLES
 import styles from '@/app/InsightsPage.module.css'
 

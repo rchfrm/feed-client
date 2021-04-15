@@ -3,7 +3,7 @@ import React from 'react'
 import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'

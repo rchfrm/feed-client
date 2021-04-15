@@ -4,8 +4,8 @@ import Router from 'next/router'
 
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
-import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 // IMPORT CONSTANTS

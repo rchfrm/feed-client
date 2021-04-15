@@ -7,8 +7,8 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import { AuthContext } from '@/contexts/AuthContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
-import { UserContext } from '@/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import { testValidEmail } from '@/helpers/utils'
 import { redirectPage } from '@/app/helpers/signupHelpers'

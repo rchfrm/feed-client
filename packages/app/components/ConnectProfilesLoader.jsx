@@ -8,7 +8,7 @@ import useAsyncEffect from 'use-async-effect'
 
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'

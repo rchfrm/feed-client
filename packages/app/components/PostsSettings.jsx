@@ -1,7 +1,7 @@
 import React from 'react'
 
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useLinksStore from '@/app/stores/linksStore'
 import usePostsStore from '@/app/stores/postsStore'
 // IMPORT COMPONENTS

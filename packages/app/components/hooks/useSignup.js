@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { AuthContext } from '@/contexts/AuthContext'
-import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
