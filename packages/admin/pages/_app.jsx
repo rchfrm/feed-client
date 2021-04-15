@@ -1,3 +1,5 @@
+// * ADMIN VERSION
+
 import React from 'react'
 import { PageTransition } from 'next-page-transitions'
 import PropTypes from 'prop-types'
@@ -12,6 +14,7 @@ import AdminContents from '@/admin/AdminContents'
 // IMPORT CONTEXTS
 import { AuthProvider } from '@/contexts/AuthContext'
 // IMPORT HELPERS
+import { setupTracking } from '@/app/helpers/trackingHelpers'
 
 const registerServiceWorker = () => {
   window.addEventListener('load', () => {
@@ -38,7 +41,10 @@ const registerServiceWorker = () => {
 }
 
 function FeedAdmin({ Component, pageProps, router }) {
+  // Disable tracking
   React.useEffect(() => {
+    const disabled = true
+    setupTracking(disabled)
     if (process.env.build_env !== 'development') {
       registerServiceWorker()
     }
