@@ -1,3 +1,5 @@
+// * APP VERSION
+
 import BasePage from '@/app/BasePage'
 import LoginPageContent from '@/app/LoginPageContent'
 

@@ -1,3 +1,5 @@
+// * ADMIN VERSION
+
 export const LOGIN = '/login'
 export const ARTISTS = '/'
 export const ARTIST = '/artist'
