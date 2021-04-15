@@ -1,5 +1,7 @@
+// * ADMIN VERSION
+
 import BasePage from '@/admin/BasePage'
-import LoginPageContent from '@/LoginPageContent'
+import LoginPageContent from '@/admin/LoginPageContent'
 
 const page = () => (
   <BasePage
@@ -7,9 +9,7 @@ const page = () => (
     staticPage
     authPage
   >
-    <LoginPageContent
-      showEmailLogin
-    />
+    <LoginPageContent />
   </BasePage>
 )
 

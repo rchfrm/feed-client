@@ -23,7 +23,7 @@ import styles from '@/LoginPage.module.css'
 function LoginWithEmail({ className }) {
   // IMPORT CONTEXTS
   const { rejectedPagePath } = React.useContext(AuthContext)
-  const { storeUser, userError, testForPendingEmail } = React.useContext(UserContext)
+  const { storeUser, userError } = React.useContext(UserContext)
   // GLOBAL LOADING
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // DEFINE PAGE STATE
