@@ -3,7 +3,7 @@ import ActiveLink from '@/elements/ActiveLink'
 import * as ROUTES from '@/admin/constants/routes'
 
 import useLoggedInTest from '@/hooks/useLoggedInTest'
-import SignOutLink from '@/SignOutLink'
+import SignOutLink from '@/admin/SignOutLink'
 
 import styles from '@/admin/TheHeader.module.css'
 
