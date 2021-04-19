@@ -19,7 +19,7 @@ const Favicons = ({ children }) => {
       <link rel="apple-touch-icon" sizes="180x180" href="/pwa/apple-touch-icon-180x180.png" />
       <link rel="apple-touch-icon" sizes="1024x1024" href="/pwa/apple-touch-icon-1024x1024.png" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="white" />
       <meta name="apple-mobile-web-app-title" content="Feed" />
       <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-640x1136.png" />
       <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-750x1334.png" />
