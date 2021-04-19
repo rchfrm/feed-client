@@ -16,9 +16,7 @@ const ForgotPasswordContent = () => {
       {success ? <Success message={success} /> : (
         <>
           <p>Enter your email address below to receive a link, and reset your password.</p>
-          <ForgotPasswordForm
-            setSuccess={setSuccess}
-          />
+          <ForgotPasswordForm setSuccess={setSuccess} />
         </>
       )}
     </div>
