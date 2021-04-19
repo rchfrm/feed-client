@@ -23,7 +23,6 @@ const getBillingStoreState = (state) => ({
   defaultPaymentMethod: state.defaultPaymentMethod,
   setupBilling: state.setupBilling,
   nextInvoice: state.nextInvoice,
-  loadingErrors: state.loadingErrors,
   organisation: state.organisation,
   allOrgs: state.allOrgs,
 })
