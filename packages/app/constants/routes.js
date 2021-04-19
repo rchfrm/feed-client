@@ -1,3 +1,5 @@
+// * APP VERSION
+
 export const SIGN_UP = '/join'
 export const SIGN_UP_EMAIL = '/join/email'
 export const SIGN_UP_MISSING_EMAIL = '/join/missing-email'

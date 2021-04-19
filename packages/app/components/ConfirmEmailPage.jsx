@@ -8,7 +8,7 @@ import Link from 'next/link'
 import useIsMounted from '@/hooks/useIsMounted'
 import useCrossTabCommunication from '@/app/hooks/useCrossTabCommunication'
 
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'

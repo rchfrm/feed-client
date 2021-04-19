@@ -8,7 +8,7 @@ import TournamentAdCreative from '@/admin/TournamentAdCreative'
 import DataDetails from '@/admin/elements/DataDetails'
 
 import * as api from '@/helpers/api'
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/admin/contexts/UserContext'
 
 const fetcher = (path) => {
   return api.get(`/${path}`)

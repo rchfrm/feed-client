@@ -82,9 +82,9 @@ export const trackPWA = () => {
 
 // INIT
 // ----------
-export const setupTracking = () => {
+export const setupTracking = (disabled) => {
   // Setup mixpanel
-  mixpanelHelpers.initMixpanel()
+  mixpanelHelpers.initMixpanel(disabled)
 }
 
 export const updateTracking = (user) => {

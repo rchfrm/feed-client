@@ -1,5 +1,5 @@
 import BasePage from '@/app/BasePage'
-import LoginPageContent from '@/LoginPageContent'
+import LoginPageContent from '@/app/LoginPageContent'
 
 const headerConfig = {
   text: 'log in',

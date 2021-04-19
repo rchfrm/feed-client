@@ -7,7 +7,7 @@ import useBrowserStore from '@/hooks/useBrowserStore'
 import useCombinedRefs from '@/hooks/useCombinedRefs'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'

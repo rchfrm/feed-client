@@ -1,11 +1,12 @@
+// * ADMIN VERSION
+
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
 
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
-import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/admin/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 // IMPORT CONSTANTS
@@ -17,7 +18,6 @@ import { mixpanelSignOut } from '@/app/helpers/mixpanelHelpers'
 function SignOutLink({ className = '' }) {
   const { setNoAuth, clearRejectedPathPath } = React.useContext(AuthContext)
   const { setNoUser } = React.useContext(UserContext)
-  const { setNoArtist } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   const clearContexts = React.useRef(null)
@@ -39,7 +39,6 @@ function SignOutLink({ className = '' }) {
     mixpanelSignOut()
     setNoAuth()
     setNoUser()
-    setNoArtist()
     toggleGlobalLoading(false)
   }
 

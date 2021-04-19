@@ -8,12 +8,14 @@ const token = process.env.mixpanel_token
 let isMixpanelSetup = false
 let userType
 
-export const initMixpanel = () => {
+export const initMixpanel = (disabled) => {
   mixpanel.init(
     token,
     {
       api_host: 'https://api-eu.mixpanel.com',
       loaded: () => {
+        // Don't set as setup if not
+        if (disabled) return
         isMixpanelSetup = true
       },
     },
@@ -27,6 +29,7 @@ export const updateMixpanel = (user) => {
 
 // TRACK MIXPANEL EVENTS
 export const trackMixpanel = (action, payload) => {
+  if (!isMixpanelSetup) return
   // Only LOG track if admin
   if (userType === 'admin') {
     console.group()
@@ -45,21 +48,25 @@ export const trackMixpanel = (action, payload) => {
 
 // Sign Up
 export const mixpanelSignUp = (userId) => {
+  if (!isMixpanelSetup) return
   mixpanel.alias(userId)
 }
 
 // Log in
 export const mixpanelIdentify = (userId) => {
+  if (!isMixpanelSetup) return
   mixpanel.identify(userId)
 }
 
 // Sign Out
 export const mixpanelSignOut = () => {
+  if (!isMixpanelSetup) return
   mixpanel.reset()
 }
 
 // View page
 export const mixpanelPageView = (url) => {
+  if (!isMixpanelSetup) return
   trackMixpanel('page_view', { value: url })
 }
 
@@ -93,5 +100,6 @@ export const mixpanelExternalLinkClick = ({
 
 // REGISTER SUPER PROPERTIES
 export const mixpanelRegister = (details) => {
+  if (!isMixpanelSetup) return
   mixpanel.register(details)
 }

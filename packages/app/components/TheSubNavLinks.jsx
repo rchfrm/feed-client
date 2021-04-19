@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 
 import useNotificationsStore from '@/app/stores/notificationsStore'
 
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
-import SignOutLink from '@/SignOutLink'
+import SignOutLink from '@/app/SignOutLink'
 import NotificationDot from '@/elements/NotificationDot'
 import ActiveLink from '@/elements/ActiveLink'
 

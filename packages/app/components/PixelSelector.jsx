@@ -10,7 +10,7 @@ import Error from '@/elements/Error'
 
 import PixelCopier from '@/app/PixelCopier'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useCreateNewPixel from '@/app/hooks/useCreateNewPixel'
 

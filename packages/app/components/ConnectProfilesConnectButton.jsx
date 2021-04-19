@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 import Router from 'next/router'
 
-import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import Button from '@/elements/Button'

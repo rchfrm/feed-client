@@ -5,7 +5,7 @@ import moment from 'moment'
 import get from 'lodash/get'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'
 import Spinner from '@/elements/Spinner'
