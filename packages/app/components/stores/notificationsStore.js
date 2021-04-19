@@ -62,7 +62,7 @@ const runFormatNotifications = (set) => (notifications, dictionary) => {
 const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organizationIds, hasFbAuth, missingScopes }) => {
   set({ loading: true })
   // Else fetch notifications from server
-  const { res, error } = await fetchNotifications({ artistId, userId, organizationIds })
+  const { res: notificationsRaw, error } = await fetchNotifications({ artistId, userId, organizationIds })
   // Stop here if error
   if (error) {
     const notificationsError = {
@@ -71,7 +71,6 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
     set({ notificationsError, loading: false })
     return
   }
-  const { notifications: notificationsRaw } = res
   // Format notifications
   const { notificationDictionary } = get()
   const notificationsFormatted = formatNotifications({
