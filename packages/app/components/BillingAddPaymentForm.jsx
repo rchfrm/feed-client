@@ -115,7 +115,6 @@ const FORM = ({
       return
     }
     // Add payment method to DB
-    // TODO: Include the currency
     const { res: paymentMethodDb, error: serverError } = await submitPaymentMethod({
       organisationId,
       paymentMethodId: paymentMethod.id,
