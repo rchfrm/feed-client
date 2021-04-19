@@ -1,11 +1,12 @@
+// * ADMIN VERSION
+
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
 
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
-import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/admin/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 // IMPORT CONSTANTS
@@ -17,12 +18,11 @@ import { mixpanelSignOut } from '@/app/helpers/mixpanelHelpers'
 const useSignOut = () => {
   const { setNoAuth, clearRejectedPathPath } = React.useContext(AuthContext)
   const { setNoUser } = React.useContext(UserContext)
-  const { setNoArtist } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   const clearContexts = React.useRef(null)
 
-  const signOut = React.useCallback(async () => {
+  const signOut = async () => {
     toggleGlobalLoading(true)
     Router.events.on('routeChangeComplete', clearContexts.current)
     await firebaseHelpers.doSignOut()
@@ -31,7 +31,7 @@ const useSignOut = () => {
         throw (err)
       })
     Router.push(ROUTES.LOGIN)
-  }, [toggleGlobalLoading])
+  }
 
   const signoutCallback = () => {
     Router.events.off('routeChangeComplete', clearContexts.current)
@@ -39,7 +39,6 @@ const useSignOut = () => {
     mixpanelSignOut()
     setNoAuth()
     setNoUser()
-    setNoArtist()
     toggleGlobalLoading(false)
   }
 

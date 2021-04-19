@@ -4,7 +4,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useSignOut from '@/hooks/useSignOut'
+import useSignOut from '@/app/hooks/useSignOut'
 
 const SignOutLink = ({ className }) => {
   const signOut = useSignOut()
