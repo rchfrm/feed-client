@@ -1,6 +1,6 @@
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
-import MyReferralCodeContent from '@/app/MyReferralCodeContent'
+import ReferralCodeContent from '@/app/ReferralCodeContent'
 
 const headerConfig = {
   text: 'my referral code',
@@ -11,7 +11,7 @@ const Page = () => (
     headerConfig={headerConfig}
     staticPage
   >
-    <MyReferralCodeContent />
+    <ReferralCodeContent />
   </BasePage>
 )
 

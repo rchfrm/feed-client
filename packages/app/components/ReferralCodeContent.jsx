@@ -11,7 +11,7 @@ import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 import copy from '@/app/copy/referralCodeCopy'
 import { track } from '@/app/helpers/trackingHelpers'
 
-const MyReferralCodeContent = ({ className }) => {
+const ReferralCodeContent = ({ className }) => {
   const { user: { referral_code } } = React.useContext(UserContext)
   const baseUrl = process.env.isDev ? 'https://localhost:3001' : 'https://beta.tryfeed.co'
   const joinUrl = `${baseUrl}/join?code=${referral_code}`
@@ -47,12 +47,12 @@ const MyReferralCodeContent = ({ className }) => {
   )
 }
 
-MyReferralCodeContent.propTypes = {
+ReferralCodeContent.propTypes = {
   className: PropTypes.string,
 }
 
-MyReferralCodeContent.defaultProps = {
+ReferralCodeContent.defaultProps = {
   className: null,
 }
 
-export default MyReferralCodeContent
+export default ReferralCodeContent
