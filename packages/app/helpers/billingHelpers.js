@@ -166,7 +166,7 @@ export const getReferralsData = () => {
   })
 }
 
-export const transferReferralCredits = (sourceOrgId, destOrIg) => {
+export const transferReferralCredits = (sourceOrgId, destOrgId) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({ res: 'success', error: null })
