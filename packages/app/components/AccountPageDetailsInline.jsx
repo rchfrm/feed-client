@@ -24,10 +24,22 @@ import styles from '@/app/AccountPage.module.css'
 const getChangedEmails = ({ email, contactEmail, initialEmail, initialContactEmail }) => {
   const changedEmails = []
   if (email !== initialEmail) changedEmails.push('authEmail')
-  if (contactEmail !== initialContactEmail && initialContactEmail) changedEmails.push('contactEmail')
+  if ((contactEmail && !initialContactEmail) || (contactEmail !== initialContactEmail && initialContactEmail)) changedEmails.push('contactEmail')
   return changedEmails
 }
 
+const testIfDetailsChanged = ({
+  initialFirstName,
+  initialLastName,
+  firstName,
+  lastName,
+  emailChanged,
+}) => {
+  if (emailChanged) return true
+  if (initialFirstName !== firstName) return true
+  if (initialLastName !== lastName) return true
+  return false
+}
 
 const AccountPageDetailsInline = () => {
   // Get user context
@@ -73,7 +85,7 @@ const AccountPageDetailsInline = () => {
   const scrollTo = useAnimateScroll()
 
   // SHOW ALERT if CHANGIN AUTH EMAIL
-  const [confirmAlert, setConfirmAlert] = React.useState(false)
+  const [confirmAlert, setConfirmAlert] = React.useState('')
 
   // SUBMIT THE FORM
   const [loading, setLoading] = React.useState(false)
@@ -85,7 +97,14 @@ const AccountPageDetailsInline = () => {
     const passwordChanged = passwordOne || passwordTwo
     const changedEmails = getChangedEmails({ email, contactEmail, initialEmail, initialContactEmail })
     const emailChanged = changedEmails.length
-    const accountDetailsChanged = (initialFirstName !== firstName) || (initialLastName !== lastName) || emailChanged
+    const accountDetailsChanged = testIfDetailsChanged({
+      initialFirstName,
+      initialLastName,
+      firstName,
+      lastName,
+      emailChanged,
+    })
+
 
     // Start counting errors
     const newErrors = []
