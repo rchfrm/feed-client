@@ -3,8 +3,8 @@ import React from 'react'
 
 import shallow from 'zustand/shallow'
 
-import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useBillingStore from '@/app/stores/billingStore'
 
