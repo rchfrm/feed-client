@@ -9,7 +9,7 @@ import Spinner from '@/elements/Spinner'
 // import ResultsSummaryText from '@/app/ResultsSummaryText'
 import FunnelView from '@/app/FunnelView'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import * as funnelHelpers from '@/app/helpers/funnelHelpers'

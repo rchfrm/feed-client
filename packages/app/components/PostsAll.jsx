@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import produce from 'immer'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import PostCard from '@/app/PostCard'
 // IMPORT ASSETS

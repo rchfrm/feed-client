@@ -2,7 +2,7 @@ import React from 'react'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import copy from '@/app/copy/targetingPageCopy'
 import { track } from '@/app/helpers/trackingHelpers'

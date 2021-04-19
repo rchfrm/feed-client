@@ -3,8 +3,8 @@ import React from 'react'
 
 import useNotificationsStore from '@/app/stores/notificationsStore'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
-import { UserContext } from '@/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import { getUserOrganizations } from '@/app/helpers/userHelpers'

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ActiveLink from '@/elements/ActiveLink'
-import SignOutLink from '@/SignOutLink'
+import SignOutLink from '@/app/SignOutLink'
 
 import * as ROUTES from '@/app/constants/routes'
 

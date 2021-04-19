@@ -1,3 +1,5 @@
+// * APP VERSION
+
 // IMPORT PACKAGES
 import React from 'react'
 import Router from 'next/router'
@@ -6,7 +8,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 // IMPORT COMPONENTS
-import LoginWithEmail from '@/LoginWithEmail'
+import LoginWithEmail from '@/app/LoginWithEmail'
 import LoginSignupButtons from '@/LoginSignupButtons'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
