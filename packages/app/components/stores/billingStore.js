@@ -2,7 +2,6 @@ import create from 'zustand'
 import produce from 'immer'
 
 import * as billingHelpers from '@/app/helpers/billingHelpers'
-<<<<<<< HEAD
 import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
@@ -15,14 +14,6 @@ const initialState = {
   artistCurrency: {},
   defaultPaymentMethod: null,
   referralsDetails: {},
-=======
-
-const initialState = {
-  loading: true,
-  organisation: {},
-  billingDetails: {},
-  defaultPaymentMethod: null,
->>>>>>> 8c17e6e (FD-402 Create Billing components (#337))
 }
 
 // FETCH ALL ORGS the user has access to
@@ -33,16 +24,11 @@ const fetchAllOrgs = async (user) => {
 
 // * INITIAL SETUP
 // FETCH the first organisation and set it
-<<<<<<< HEAD
 const setupBilling = (set) => async (user, artistCurrency) => {
-=======
-const setupBilling = (set) => async (user) => {
->>>>>>> 8c17e6e (FD-402 Create Billing components (#337))
   const allOrgs = await fetchAllOrgs(user)
   const organisation = allOrgs.find(({ role }) => role === 'owner')
   const billingDetails = billingHelpers.getbillingDetails(organisation)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
-<<<<<<< HEAD
   const errors = []
   // Fetch next invoice
   const { res: nextInvoice, error: fetchInvoiceError } = await fetchUpcomingInvoice(organisation.id)
@@ -61,14 +47,6 @@ const setupBilling = (set) => async (user) => {
     artistCurrency,
     loading: false,
     loadingErrors: errors,
-=======
-  // SET
-  set({
-    organisation,
-    billingDetails,
-    defaultPaymentMethod,
-    loading: false,
->>>>>>> 8c17e6e (FD-402 Create Billing components (#337))
   })
 }
 
@@ -90,7 +68,6 @@ const addPaymentMethod = (set, get) => (paymentMethod) => {
   })
 }
 
-<<<<<<< HEAD
 // * DELETE PAYMENT METHOD
 const deletePaymentMethod = (set, get) => (paymentMethodId) => {
   const { billingDetails } = get()
@@ -101,8 +78,6 @@ const deletePaymentMethod = (set, get) => (paymentMethodId) => {
   set({ billingDetails: billingDetailsUpdated })
 }
 
-=======
->>>>>>> 8c17e6e (FD-402 Create Billing components (#337))
 // * UPDATE DEFAULT PAYMENT
 const updateDefaultPayment = (set, get) => (defaultPaymentMethod) => {
   const { id: newPaymentMethodId } = defaultPaymentMethod
@@ -128,10 +103,7 @@ const useBillingStore = create((set, get) => ({
   setupBilling: setupBilling(set),
   // SETTERS,
   addPaymentMethod: addPaymentMethod(set, get),
-<<<<<<< HEAD
   deletePaymentMethod: deletePaymentMethod(set, get),
-=======
->>>>>>> 8c17e6e (FD-402 Create Billing components (#337))
   updateDefaultPayment: updateDefaultPayment(set, get),
 }))
 
