@@ -5,7 +5,7 @@ import Success from '@/elements/Success'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
-import useSignOut from '@/hooks/useSignOut'
+import useSignOut from '@/app/hooks/useSignOut'
 
 import pageCopy from '@/app/copy/signupCopy'
 
