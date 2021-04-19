@@ -1,5 +1,10 @@
 /* eslint-disable no-template-curly-in-string */
 
+/* *****
+* README
+* See `/docs/notifications.md` for an explanation of how this works
+*/
+
 import moment from 'moment'
 
 import { mixpanelExternalLinkClick } from '@/app/helpers/mixpanelHelpers'
