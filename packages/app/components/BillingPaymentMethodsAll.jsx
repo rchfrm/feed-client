@@ -66,16 +66,14 @@ const BillingPaymentMethodsAll = ({ className }) => {
   // DELETE METHOD
   const deleteMethod = React.useCallback(async (paymentMethodId) => {
     setSidePanelLoading(true)
-    const { res, error } = await deletePaymentMethod(organisationId, paymentMethodId)
-    console.log('res', res)
+    const { error } = await deletePaymentMethod(organisationId, paymentMethodId)
+    setSidePanelLoading(false)
     // Handle error
     if (error) {
       setError(error)
       return
     }
-    // TODO Update default in store
     deletePaymentMethodStore(paymentMethodId)
-    setSidePanelLoading(false)
     setError(null)
   }, [organisationId, setSidePanelLoading, deletePaymentMethodStore])
 
