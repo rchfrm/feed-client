@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 // Content for the side panel
 const TargetingBudgetMobile = ({

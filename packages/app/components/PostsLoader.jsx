@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
 import usePostsStore from '@/app/stores/postsStore'

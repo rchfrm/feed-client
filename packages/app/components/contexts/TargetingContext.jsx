@@ -7,7 +7,7 @@ import TargetingBudgetMobile from '@/app/TargetingBudgetMobile'
 import TargetingBudgetSaveButtonMobile from '@/app/TargetingBudgetSaveButtonMobile'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import * as utils from '@/helpers/utils'

@@ -10,7 +10,7 @@ import TargetingSummary from '@/app/TargetingSummary'
 import TargetingSettings from '@/app/TargetingSettings'
 import TargetingProgressButton from '@/app/TargetingProgressButton'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 

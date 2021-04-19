@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TournamentContextProvider } from '@/app/contexts/TournamentContext'
 
 import MarkdownText from '@/elements/MarkdownText'

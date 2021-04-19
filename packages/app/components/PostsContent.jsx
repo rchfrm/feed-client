@@ -11,7 +11,7 @@ import PostsRefreshButton from '@/app/PostsRefreshButton'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import { postTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'

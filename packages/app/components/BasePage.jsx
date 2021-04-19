@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT CONTEXTS
-import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import PendingEmailWarning from '@/app/PendingEmailWarning'

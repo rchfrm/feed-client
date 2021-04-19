@@ -3,6 +3,11 @@ import PropTypes from 'prop-types'
 
 import Success from '@/elements/Success'
 import Button from '@/elements/Button'
+import MarkdownText from '@/elements/MarkdownText'
+
+import useSignOut from '@/app/hooks/useSignOut'
+
+import pageCopy from '@/app/copy/signupCopy'
 
 const ConfirmEmailEmailSuccess = ({
   email,
@@ -11,21 +16,31 @@ const ConfirmEmailEmailSuccess = ({
   onContinue,
   className,
 }) => {
-  const emailDisplay = emailType === 'contactEmail' ? contactEmail : email
+  const isAuthEmail = emailType === 'email'
+  const emailDisplay = isAuthEmail ? email : contactEmail
+  const { emailVerifySuccess: copy } = pageCopy
+  const signOut = useSignOut()
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-      <Success message={`Success! Your email **${emailDisplay}** has been verified!`} />
+      <Success message={copy.success(emailDisplay)} />
+      {/* Explain about logging out when changing auth email */}
+      {emailType !== 'contactEmail' && (
+        <MarkdownText markdown={copy.logoutExplainer} />
+      )}
       <div className="pt-2">
         <Button
           version="green small"
           className="w-full"
-          onClick={onContinue}
+          onClick={() => {
+            if (isAuthEmail) return signOut()
+            onContinue()
+          }}
         >
-          Continue
+          {copy.button(isAuthEmail)}
         </Button>
       </div>
     </div>

@@ -3,7 +3,7 @@ import Router, { useRouter } from 'next/router'
 import useAsyncEffect from 'use-async-effect'
 
 import { AuthContext } from '@/contexts/AuthContext'
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import useReferralStore from '@/app/stores/referralStore'
 import useLogin from '@/app/hooks/useLogin'

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import PostCardMetricsListItem from '@/app/PostCardMetricsListItem'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import * as utils from '@/helpers/utils'
 

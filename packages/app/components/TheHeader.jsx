@@ -5,7 +5,7 @@ import PeekElement from 'react-peek-element'
 // IMPORT HOOKS
 import useBrowserStore from '@/hooks/useBrowserStore'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
-import useLoggedInTest from '@/hooks/useLoggedInTest'
+import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 // IMPORT CONTEXTS
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT COMPONENTS

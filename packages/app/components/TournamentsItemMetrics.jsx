@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import produce from 'immer'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import TooltipButton from '@/elements/TooltipButton'
 

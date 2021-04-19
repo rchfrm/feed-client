@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import ButtonShare from '@/elements/ButtonShare'
 import MarkdownText from '@/elements/MarkdownText'
 
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 

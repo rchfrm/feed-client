@@ -11,6 +11,9 @@ packages/admin/node_modules
 # testing
 /coverage
 
+# SSL Certificates
+certificates/
+
 # misc
 .DS_Store
 .env

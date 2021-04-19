@@ -2,8 +2,8 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/ArtistContext'
-import { UserContext } from '@/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import useNotificationsStore from '@/app/stores/notificationsStore'
 

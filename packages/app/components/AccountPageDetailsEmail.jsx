@@ -1,13 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import Input from '@/elements/Input'
 import Error from '@/elements/Error'
 import CheckboxInput from '@/elements/CheckboxInput'
 
 import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
+
+import useCrossTabCommunication from '@/app/hooks/useCrossTabCommunication'
 
 const PENDING_EMAIL_NOTICE = ({
   email,
@@ -41,7 +43,7 @@ const AccountPageDetailsEmail = ({
   handleChange,
   loading,
 }) => {
-  const { user } = React.useContext(UserContext)
+  const { user, storeUser } = React.useContext(UserContext)
   const {
     email: userEmail,
     pending_email: pendingEmail,
@@ -52,6 +54,14 @@ const AccountPageDetailsEmail = ({
   } = user
 
   const contactEmailTooltipMessage = 'This is where you will receive notifications from Feed.'
+
+  // SETUP CROSS TAB MESSAGING
+  const { messagePayload } = useCrossTabCommunication('emailVerified')
+  React.useEffect(() => {
+    if (messagePayload && messagePayload.success) {
+      storeUser(messagePayload.user)
+    }
+  }, [messagePayload, storeUser])
 
   return (
     <>
