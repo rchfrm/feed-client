@@ -86,7 +86,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   React.useEffect(() => {
     const { button, content } = infoButtonAndContent
     // CLOSE SIDEPANEL if DESKTOP
-    if (isDesktopLayout) {
+    if (isDesktopLayout && isSidepanelOpen) {
       setSidePanelContent(null)
       toggleSidePanel(false)
       setOnSidepanelClose(null)
