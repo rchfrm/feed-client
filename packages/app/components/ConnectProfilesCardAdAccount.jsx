@@ -16,7 +16,6 @@ const ConnectProfilesCardAdAccount = ({
     selected_facebook_ad_account: selectedAdAccount,
     page_id: artistId,
   } = artist
-  // console.log('selectedAdAccount', selectedAdAccount)
   // READONLY
   if (exists) {
     return (
