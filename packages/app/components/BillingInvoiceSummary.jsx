@@ -20,12 +20,19 @@ const BillingInvoiceSummary = ({
       {invoiceSections.map((section, index) => {
         return (
           <ul key={index} className="bg-grey-1 rounded-dialogue p-5 mb-5">
-            {section.map(({ slug, title, value }) => {
+            {section.map(({ slug, title, value }, index) => {
+              const lastItem = index === section.length - 1
+              const TextEl = lastItem ? 'strong' : 'span'
               return (
-                <li key={slug} className="flex justify-between mb-4 last:mb-0">
-                  <span>{title}</span>
-                  <strong>{value}</strong>
-                </li>
+                <React.Fragment key={slug}>
+                  {lastItem && (
+                    <div className="w-full bg-black my-4" style={{ height: 1 }} />
+                  )}
+                  <li key={slug} className="flex justify-between mb-3 last:mb-0">
+                    <TextEl>{title}</TextEl>
+                    <TextEl>{value}</TextEl>
+                  </li>
+                </React.Fragment>
               )
             })}
           </ul>
@@ -39,7 +46,7 @@ const BillingInvoiceSummary = ({
           'border-solid border-2 border-green rounded-dialogue',
         ].join(' ')}
       >
-        <span>TOTAL FEE</span>
+        <strong>TOTAL FEE</strong>
         <strong>{totalFee}</strong>
       </p>
       {/* BUTTON (FOR SHOW ALL) */}
