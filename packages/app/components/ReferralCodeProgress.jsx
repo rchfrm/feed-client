@@ -14,12 +14,24 @@ const ReferralCodeProgress = ({
 }) => {
   // TODO fetch this from API
   const referralsAchieved = 3
+
+  // Calc percent complete
   const totalTiers = tiers.length
   const percentComplete = tiers.reduce((percent, { referrals: referralsRequired }) => {
     if (referralsAchieved < referralsRequired) return percent
     percent += ((1 / totalTiers) * 100)
     return percent
   }, 0)
+
+  // Get footnotes
+  const footnotes = tiers.reduce((obj, { footnoteSymbol, footnote }) => {
+    if (!footnoteSymbol || obj[footnoteSymbol]) return obj
+    obj[footnoteSymbol] = {
+      symbol: footnoteSymbol,
+      footnote,
+    }
+    return obj
+  }, {})
 
   return (
     <div
@@ -30,14 +42,14 @@ const ReferralCodeProgress = ({
       {/* INTRO */}
       <MarkdownText markdown={copy.introToProgress(referralsAchieved)} className="h3--text mb-8" />
       {/* TIERS */}
-      <div className="relative">
+      <div className="relative mb-10">
         <ReferralCodeProgressBar
           percentComplete={percentComplete}
           className="hidden iphone8:block absolute top-0 left-0 h-full w-10"
         />
         <ol className="relative" style={{ zIndex: 2 }}>
           {tiers.map((tier) => {
-            const { referrals, award } = tier
+            const { referrals, award, footnoteSymbol } = tier
             const isAchieved = referralsAchieved >= referrals
 
             return (
@@ -64,13 +76,27 @@ const ReferralCodeProgress = ({
                       🥳
                     </span>
                   )}
-                  <span className={isAchieved ? 'font-bold' : null}>{award}</span>
+                  <span className={isAchieved ? 'font-bold' : null}>
+                    {award}
+                    {footnoteSymbol}
+                  </span>
                 </p>
               </li>
             )
           })}
         </ol>
       </div>
+      {/* FOOTNOTES */}
+      <ul className="text-sm">
+        {Object.values(footnotes).map(({ symbol, footnote }) => {
+          return (
+            <li key={symbol} className="flex pl-4">
+              <p className="mb-0 w-6 flex-shrink-0">{symbol}</p>
+              <p className="mb-0">{footnote}</p>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }
@@ -83,4 +109,4 @@ ReferralCodeProgress.defaultProps = {
   className: null,
 }
 
-export default ReferralCodeProgress
+export default React.memo(ReferralCodeProgress)
