@@ -1,5 +1,10 @@
 /* eslint-disable no-template-curly-in-string */
 
+/* *****
+* README
+* See `/docs/notifications.md` for an explanation of how this works
+*/
+
 import moment from 'moment'
 import Router from 'next/router'
 
@@ -207,9 +212,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
 
 // FETCH NOTIFICATIONS
 export const fetchNotifications = async ({ artistId, userId, organizationIds }) => {
-  const { res: notifications, error } = await appServer.getAllNotifications({ artistId, organizationIds, userId })
-  if (error) return { error }
-  return { res: { notifications } }
+  return appServer.getAllNotifications({ artistId, organizationIds, userId })
 }
 
 
@@ -226,9 +229,12 @@ export const fetchNotifications = async ({ artistId, userId, organizationIds }) 
  */
 export const markAsReadOnServer = async (notificationId, entityType = 'users', entityId, read = true) => {
   const endpoint = `${entityType}/${entityId}/notifications/${notificationId}`
-  const { res, error } = await appServer.markNotificationAsRead(endpoint, read)
-  if (error) return { error }
-  return { res }
+  const payload = { is_read: read }
+  const errorTracking = {
+    category: 'Notifications',
+    action: 'Mark notification as read',
+  }
+  return requestWithCatch('patch', endpoint, payload, errorTracking)
 }
 
 // DISMISS
@@ -241,7 +247,9 @@ export const markAsReadOnServer = async (notificationId, entityType = 'users', e
  */
 export const dismissOnServer = async (notificationId, entityType = 'users', entityId) => {
   const endpoint = `${entityType}/${entityId}/notifications/${notificationId}`
-  const { res, error } = await appServer.dismissNotification(endpoint)
-  if (error) return { error }
-  return { res }
+  const errorTracking = {
+    category: 'Notifications',
+    action: 'Delete/dismiss notification',
+  }
+  return requestWithCatch('delete', endpoint, null, errorTracking)
 }

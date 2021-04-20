@@ -118,6 +118,8 @@ To analyze the bundle size using [Next's bundle analyzer](https://github.com/zei
 
 ### Staging
 
+Before staging, merge the `dev` branch into the `staging` branch. Then...
+
 To deploy _The App_ to the **staging** environment run `yarn stage`
 
 To deploy _The Admin Panel_ to the **staging** environment run `yarn stage:admin`
@@ -125,6 +127,8 @@ To deploy _The Admin Panel_ to the **staging** environment run `yarn stage:admin
 To deploy _both_ to the **staging** environment run `yarn stage:both`
 
 ### Production
+
+Before deploying to production, merge the `dev` branch into the `production` branch. Then...
 
 To deploy _The App_ to the **production** environment run `yarn deploy-production`
 
