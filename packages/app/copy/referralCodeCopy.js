@@ -39,7 +39,9 @@ export default {
     },
     {
       referrals: 5,
-      award: `Access to private [Slack] and affiliate scheme*`,
+      award: `Access to private [Slack] and affiliate scheme`,
+      footnoteSymbol: '*',
+      footnote: 'Users get [10]% of the service fee and commission on sales from users they refer (excluding the first 3) for [6 months]. This is for implementation post payments, and the money earned could be paid out as cash, or used as credit for Feed.',
     },
     {
       referrals: 10,
@@ -51,11 +53,15 @@ export default {
     },
     {
       referrals: 25,
-      award: `Set your price for Feed for a year✝`,
+      award: `Set your price for Feed for a year`,
+      footnoteSymbol: '',
+      footnote: '',
     },
     {
       referrals: 50,
-      award: `Set your price for Feed for life✝`,
+      award: `Set your price for Feed for life`,
+      footnoteSymbol: '',
+      footnote: '',
     },
   ],
 }
