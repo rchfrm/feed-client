@@ -27,29 +27,29 @@ export default {
   tiers: [
     {
       referrals: 1,
-      award: `£10 credit to referrer and referee (applicable for every qualifying referral)`,
+      award: `£10 credit to referrer and referee (applicable for every qualifying referral).`,
     },
     {
       referrals: 2,
-      award: `£10 credit to referrer and referee`,
+      award: `£10 credit to referrer and referee.`,
     },
     {
       referrals: 3,
-      award: `Invitation to private Slack`,
+      award: `Invitation to private Slack.`,
     },
     {
       referrals: 5,
-      award: `30 minute marketing consultation with Feed team`,
+      award: `30 minute marketing consultation with Feed team.`,
       footnoteSymbol: '*',
       footnote: 'Users get [10]% of the service fee and commission on sales from users they refer (excluding the first 3) for [6 months]. This is for implementation post payments, and the money earned could be paid out as cash, or used as credit for Feed.',
     },
     {
       referrals: 10,
-      award: `£50 towards your advertising budget`,
+      award: `£50 towards your advertising budget.`,
     },
     {
       referrals: 20,
-      award: `Monthly marketing consultations with Feed team for a year`,
+      award: `Monthly marketing consultations with Feed team for a year.`,
     },
   ],
 }
