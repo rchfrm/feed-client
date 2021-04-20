@@ -47,13 +47,14 @@ const ReferralCodeProgress = ({
               >
                 <p
                   className={[
+                    'flex-shrink-0',
                     'mb-0 w-12 xxs:w-16 text-2xl font-bold',
                     isAchieved ? 'text-green' : null,
                   ].join(' ')}
                 >
                   {referrals}
                 </p>
-                <p className="flex mb-0">
+                <p className={`mb-0 ${isAchieved ? 'leading-loose' : null}`}>
                   {isAchieved && (
                     <span
                       role="img"
