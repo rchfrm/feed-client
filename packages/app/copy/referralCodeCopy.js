@@ -17,4 +17,45 @@ export default {
   // Explain about sharing link
   sharingLinkExplanation: `You can also share a direct link that will let others sign up using your referral code.`,
 
+  // Intro progress
+  introToProgress: (referralsAchieved) => {
+    if (!referralsAchieved) return `Refer your first friend to **Feed** to give them £10 credit and get the same for yourself!`
+    return `You've referred ${referralsAchieved} people, great work! Refer more friends to get the next benefit...`
+  },
+
+  // TIERS
+  tiers: [
+    {
+      referrals: 1,
+      award: `Give £10 credit, get £10 credit`,
+    },
+    {
+      referrals: 2,
+      award: `Another £10!`,
+    },
+    {
+      referrals: 3,
+      award: `...and another!`,
+    },
+    {
+      referrals: 5,
+      award: `Access to private [Slack] and affiliate scheme*`,
+    },
+    {
+      referrals: 10,
+      award: `£50 towards advertising budget`,
+    },
+    {
+      referrals: 15,
+      award: `1 hour marketing consultation with founder`,
+    },
+    {
+      referrals: 25,
+      award: `Set your price for Feed for a year✝`,
+    },
+    {
+      referrals: 50,
+      award: `Set your price for Feed for life✝`,
+    },
+  ],
 }
