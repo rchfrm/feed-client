@@ -10,10 +10,12 @@ import copy from '@/app/copy/referralCodeCopy'
 const tiers = [...copy.tiers].reverse()
 
 const ReferralCodeProgress = ({
+  referrals,
   className,
 }) => {
   // TODO fetch this from API
-  const referralsAchieved = 3
+  console.log('referrals', referrals)
+  const referralsAchieved = Object
 
   // Calc percent complete
   const totalTiers = tiers.length
@@ -102,6 +104,7 @@ const ReferralCodeProgress = ({
 }
 
 ReferralCodeProgress.propTypes = {
+  referrals: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 
