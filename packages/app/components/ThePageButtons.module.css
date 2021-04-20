@@ -52,6 +52,13 @@
     padding: 0;
     flex-direction: column;
   }
+
+  /* MOBILE PWA */
+  @media (display-mode: standalone) {
+    .container.ios_mobile & {
+      padding-bottom: var(--sp-8);
+    }
+  }
 }
 
 .link {
