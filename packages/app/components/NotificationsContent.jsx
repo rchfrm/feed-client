@@ -1,6 +1,6 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
-
+import { useRouter } from 'next/router'
 import shallow from 'zustand/shallow'
 
 import Error from '@/elements/Error'
@@ -11,11 +11,14 @@ import NotificationCurrentInfo from '@/app/NotificationCurrentInfo'
 
 import useNotificationStore from '@/app/stores/notificationsStore'
 
+import { parseUrl } from '@/helpers/utils'
+
 const getNotificationsStoreState = (state) => ({
   notifications: state.notifications,
   notificationsError: state.notificationsError,
   loading: state.loading,
   closeNotification: state.closeNotification,
+  setAsOpen: state.setAsOpen,
 })
 
 const NotificationsContent = () => {
@@ -27,7 +30,27 @@ const NotificationsContent = () => {
     notificationsError,
     loading,
     closeNotification,
+    setAsOpen,
   } = useNotificationStore(getNotificationsStoreState, shallow)
+
+  // PARSE PAGE QUERY
+  const { asPath: urlString } = useRouter()
+  const [initialNotificationId, setInitialNotificationId] = React.useState('')
+  React.useEffect(() => {
+    const { query } = parseUrl(urlString)
+    const id = query?.id
+    if (!id) return
+    setInitialNotificationId(id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // OPEN INITIAL NOTIFICATION
+  React.useEffect(() => {
+    if (!initialNotificationId || loading) return
+    const { id, entityType, entityId } = notifications.find(({ id }) => id === initialNotificationId)
+    setAsOpen(id, entityType, entityId)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading])
 
   // Close open notification on unmount
   React.useEffect(() => {

@@ -50,6 +50,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     setSidePanelButton,
     setOnSidepanelClose,
     toggleSidePanel,
+    sidePanelOpen: isSidepanelOpen,
   } = React.useContext(SidePanelContext)
 
   // GET DISMISS FUNCTION
@@ -94,6 +95,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     }
     // OPEN SIDEPANEL if MOBILE
     const sidepanelOpen = !!content
+    if (sidepanelOpen === isSidepanelOpen) return
     setSidePanelContent(content)
     toggleSidePanel(sidepanelOpen)
     setOnSidepanelClose(() => closeNotification)
