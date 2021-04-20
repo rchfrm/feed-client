@@ -37,7 +37,6 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
 
 const getLinkAction = (ctaLink, trackingPayload) => {
   const linkType = getLinkType(ctaLink)
-  console.log('linkType', linkType)
   // INTERNAL
   if (linkType === 'internal') {
     return () => Router.push(ctaLink)
