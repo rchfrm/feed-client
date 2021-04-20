@@ -1,9 +1,11 @@
 /* eslint-disable no-template-curly-in-string */
 
 import moment from 'moment'
+import Router from 'next/router'
 
 import { mixpanelExternalLinkClick } from '@/app/helpers/mixpanelHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
+import { getLinkType } from '@/helpers/utils'
 
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as appServer from '@/app/helpers/appServer'
@@ -33,7 +35,13 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
   if (entityType === 'organizations') return apiEndpoint.replace('${organization.id}', entityId)
 }
 
-const getExternalLinkAction = (ctaLink, trackingPayload) => {
+const getLinkAction = (ctaLink, trackingPayload) => {
+  const linkType = getLinkType(ctaLink)
+  // INTERNAL
+  if (linkType === 'internal') {
+    return () => Router.push(ctaLink)
+  }
+  // EXTERANA:
   // Tracks click in mixpanel and opens link
   return () => {
     mixpanelExternalLinkClick({
@@ -83,7 +91,7 @@ export const getAction = ({
   if (!apiEndpoint && !ctaLink) return () => {}
   // Handle link
   if (ctaLink) {
-    return getExternalLinkAction(ctaLink, {
+    return getLinkAction(ctaLink, {
       title,
       topic,
       isDismissible,
