@@ -13,7 +13,8 @@ const BAR = ({ useMask, percentComplete, style }) => {
       viewBox={`0 0 32 ${height}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="absolute top-0 left-0 mt-2 w-auto rounded-t-full rounded-b-button"
+      preserveAspectRatio="none"
+      className="absolute top-0 left-0 mt-2 w-6 xxs:w-auto rounded-t-full rounded-b-button"
       style={{
         ...style,
         height: 'calc(100% - 0.9rem)',

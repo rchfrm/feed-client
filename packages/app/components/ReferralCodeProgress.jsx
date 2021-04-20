@@ -33,7 +33,7 @@ const ReferralCodeProgress = ({
       <div className="relative">
         <ReferralCodeProgressBar
           percentComplete={percentComplete}
-          className="absolute top-0 left-0 h-full w-10"
+          className="hidden iphone8:block absolute top-0 left-0 h-full w-10"
         />
         <ol className="relative" style={{ zIndex: 2 }}>
           {tiers.map((tier) => {
@@ -43,11 +43,11 @@ const ReferralCodeProgress = ({
             return (
               <li
                 key={referrals}
-                className="relative flex items-center mb-6 last:mb-0 ml-16"
+                className="relative flex items-center mb-6 last:mb-0 iphone8:ml-12 xxs:ml-16"
               >
                 <p
                   className={[
-                    'mb-0 w-16 text-2xl font-bold',
+                    'mb-0 w-12 xxs:w-16 text-2xl font-bold',
                     isAchieved ? 'text-green' : null,
                   ].join(' ')}
                 >
@@ -58,7 +58,7 @@ const ReferralCodeProgress = ({
                     <span
                       role="img"
                       aria-label={`celebrating ${award}`}
-                      className="pr-4"
+                      className="-ml-1 xxs:ml-0 pr-4"
                     >
                       🥳
                     </span>
