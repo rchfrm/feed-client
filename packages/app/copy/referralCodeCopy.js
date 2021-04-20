@@ -27,11 +27,13 @@ export default {
   tiers: [
     {
       referrals: 1,
-      award: `£10 credit to referrer and referee (applicable for every qualifying referral).`,
+      award: `£10 credit to referrer and referee.`,
+      footnoteSymbol: '*',
+      footnote: 'Applicable for every qualifying referral.',
     },
     {
       referrals: 2,
-      award: `£10 credit to referrer and referee.`,
+      award: `Another £10 credit.`,
     },
     {
       referrals: 3,
@@ -40,8 +42,6 @@ export default {
     {
       referrals: 5,
       award: `30 minute marketing consultation with Feed team.`,
-      footnoteSymbol: '*',
-      footnote: 'Users get [10]% of the service fee and commission on sales from users they refer (excluding the first 3) for [6 months]. This is for implementation post payments, and the money earned could be paid out as cash, or used as credit for Feed.',
     },
     {
       referrals: 10,
