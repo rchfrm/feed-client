@@ -46,8 +46,12 @@ const NotificationsContent = () => {
 
   // OPEN INITIAL NOTIFICATION
   React.useEffect(() => {
+    // Stop here if no ID in URL
     if (!initialNotificationId || loading) return
-    const { id, entityType, entityId } = notifications.find(({ id }) => id === initialNotificationId)
+    const initialNotification = notifications.find(({ id }) => id === initialNotificationId)
+    // Stop here if no initial notification
+    if (!initialNotification) return
+    const { id, entityType, entityId } = initialNotification
     setAsOpen(id, entityType, entityId)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
