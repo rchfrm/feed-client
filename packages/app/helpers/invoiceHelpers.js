@@ -41,8 +41,14 @@ const dummyUpcomingInvoice = {
   currencyOffset: 100,
 }
 
+const dummyFailedInvoice = {
+  ...dummyUpcomingInvoice,
+  failed: true,
+  payment_method: { customer_id: 'cus_JDS4kPZF6VOflU', id: 'pm_1IihBFJstcmwltEQp2x2AysM', type: 'card', is_default: false, billing_details: { address: { city: null, country: null, line1: null, line2: null, postal_code: '42424', state: null }, email: null, name: 'sdfsd', phone: null }, card: { brand: 'visa', funding: 'credit', last4: '4242', exp_month: 4, exp_year: 2024, country: 'US', checks: { address_line1_check: null, address_postal_code_check: 'pass', cvc_check: 'pass' }, three_d_secure_usage: { supported: true } }, setup_intent: { customer_id: 'cus_JDS4kPZF6VOflU', payment_method_id: 'pm_1IihBFJstcmwltEQp2x2AysM', id: 'seti_1IihBHJstcmwltEQy2oGQBQP', client_secret: 'seti_1IihBHJstcmwltEQy2oGQBQP_secret_JLNxvAgAXGAwHNbRZoshi7r9EgyFT0k', status: 'succeeded' } },
+}
+
 const formatUpcomingInvoice = (invoice) => {
-  const { currency, currencyOffset } = invoice
+  const { currency, currencyOffset, payment_method, failed } = invoice
   const invoiceSections = []
   let totalFee = 0
   // Handle ad spend
@@ -91,16 +97,19 @@ const formatUpcomingInvoice = (invoice) => {
   }
   // Return data
   return {
+    paymentMethod: payment_method,
     invoiceSections,
     totalFee: formatCurrency(totalFee / currencyOffset, currency),
     date: moment(invoice.date).format('DD MMM YYYY'),
+    failed,
   }
 }
 
-export const fetchUpcomingInvoice = (orgId) => {
+export const fetchUpcomingInvoice = (orgId, forceFail) => {
+  const invoice = forceFail ? dummyFailedInvoice : dummyUpcomingInvoice
   return new Promise((resolve) => {
     setTimeout(() => {
-      const res = formatUpcomingInvoice(dummyUpcomingInvoice)
+      const res = formatUpcomingInvoice(invoice)
       resolve({ res, error: null })
     }, 800)
   })

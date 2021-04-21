@@ -29,7 +29,7 @@ const fetchOrganisationDetails = async (organisation) => {
   const billingDetails = billingHelpers.getbillingDetails(organisation)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
   // Fetch next invoice
-  const { res: nextInvoice, error: invoiceError } = await fetchUpcomingInvoice(organisation.id)
+  const { res: nextInvoice, error: invoiceError } = await fetchUpcomingInvoice(organisation.id, true)
   if (invoiceError) errors.push(invoiceError)
   // Referrals data
   const { res: referralsDetails, error: referralsError = null } = await billingHelpers.getReferralsData()
