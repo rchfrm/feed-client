@@ -45,6 +45,7 @@ const getBillingStoreState = (state) => ({
   organisation: state.organisation,
   addPaymentMethod: state.addPaymentMethod,
   artistCurrency: state.artistCurrency,
+  addPaymentMethod: state.addPaymentMethod,
 })
 
 // THE FORM
@@ -119,6 +120,7 @@ const FORM = ({
       organisationId,
       paymentMethodId: paymentMethod.id,
       currency,
+      shouldBeDefault,
     })
     setIsLoading(false)
     // Handle error adding payment to DB
@@ -131,10 +133,7 @@ const FORM = ({
     // Update store
     addPaymentMethod(paymentMethodDb)
     // Update local state
-    setPaymentMethod({
-      ...paymentMethod,
-      shouldBeDefault,
-    })
+    setPaymentMethod(paymentMethodDb)
     setSuccess(true)
   }, [isFormValid, isLoading, name, organisationId, currency, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
 

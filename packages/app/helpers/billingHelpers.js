@@ -11,8 +11,14 @@ import * as api from '@/helpers/api'
  * @param {string} paymentMethodId
  * @returns {Promise<any>}
  */
-export const submitPaymentMethod = async ({ organisationId, paymentMethodId, currency }) => {
-  const payload = { token: paymentMethodId, currency }
+
+export const submitPaymentMethod = async ({ organisationId, paymentMethodId, currency, shouldBeDefault = false }) => {
+  // TODO: Ensure API accepts `currency` and `is_default`
+  const payload = {
+    token: paymentMethodId,
+    currency,
+    is_default: shouldBeDefault,
+  }
   const endpoint = `/organizations/${organisationId}/billing/payments`
   const errorTracking = {
     category: 'Billing',
@@ -55,7 +61,7 @@ export const deletePaymentMethod = async (organisationId, paymentMethodId) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const res = { organisationId, paymentMethodId }
-      resolve({ res, error: { message: 'nonon' } })
+      resolve({ res, error: null })
     }, 800)
   })
 }
