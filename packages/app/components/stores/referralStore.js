@@ -49,6 +49,7 @@ const testCodeTruth = (set, get) => async (code) => {
   const hasTrueCode = await truthTest(code, hasValidCode)
   const usedReferralCode = hasTrueCode ? code : ''
   set({ hasTrueCode, usedReferralCode })
+  storeTrueCode(usedReferralCode)
   return hasTrueCode
 }
 
