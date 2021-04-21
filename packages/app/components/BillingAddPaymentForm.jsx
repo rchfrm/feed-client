@@ -12,7 +12,7 @@ import {
 
 import useBillingStore from '@/app/stores/billingStore'
 
-import { submitPaymentMethod } from '@/app/helpers/billingHelpers'
+import * as billingHelpers from '@/app/helpers/billingHelpers'
 
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
@@ -98,6 +98,7 @@ const FORM = ({
   // --------------
   const onSubmit = React.useCallback(async () => {
     if (!isFormValid || isLoading) return
+
     setIsLoading(true)
     // Create payment method with Stripe
     const cardElement = elements.getElement(CardElement)
@@ -115,8 +116,9 @@ const FORM = ({
       elements.getElement('card').focus()
       return
     }
+
     // Add payment method to DB
-    const { res: paymentMethodDb, error: serverError } = await submitPaymentMethod({
+    const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod({
       organisationId,
       paymentMethodId: paymentMethod.id,
       currency,
@@ -138,10 +140,25 @@ const FORM = ({
       }).catch((error) => {
         setError(error)
       })
+      // Handle failure
       if (res?.setupIntent?.status !== 'succeeded') {
         setIsLoading(false)
         // TODO REMOVE PAYMENT METHOD from DB
         return
+      }
+    }
+
+    // Set card as default (if necessary)
+    if (shouldBeDefault) {
+      const { error } = await billingHelpers.setPaymentAsDefault({
+        organisationId,
+        paymentMethodId: paymentMethod.id,
+      })
+      if (error) {
+        setIsLoading(false)
+        setError(error)
+        setIsLoading(false)
+        // TODO REMOVE PAYMENT METHOD from DB
       }
     }
 
