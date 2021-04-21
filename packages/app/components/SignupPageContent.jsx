@@ -37,7 +37,7 @@ const SignupPageContent = ({
 
   // Test for referral code
   const hasReferralCode = useReferralStore(getHasTrueCode)
-  // Change route when clicking on facebook button
+  // Change route when clicking on email button
   const goToEmailSignup = React.useCallback(() => {
     setError(null)
     Router.push(ROUTES.SIGN_UP_EMAIL)
