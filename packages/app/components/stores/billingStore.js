@@ -22,23 +22,43 @@ const fetchAllOrgs = async (user) => {
   return allOrgs
 }
 
-// * INITIAL SETUP
-// FETCH the first organisation and set it
-const setupBilling = (set) => async (user, artistCurrency) => {
-  const allOrgs = await fetchAllOrgs(user)
-  const organisation = allOrgs.find(({ role }) => role === 'owner')
+
+// FETCH BILLING DETAILS
+const fetchOrganisationDetails = async (organisation) => {
+  const errors = []
   const billingDetails = billingHelpers.getbillingDetails(organisation)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
-  const errors = []
   // Fetch next invoice
-  const { res: nextInvoice, error: fetchInvoiceError } = await fetchUpcomingInvoice(organisation.id)
-  if (fetchInvoiceError) errors.push(fetchInvoiceError)
+  const { res: nextInvoice, error: invoiceError } = await fetchUpcomingInvoice(organisation.id)
+  if (invoiceError) errors.push(invoiceError)
   // Referrals data
-  const { res: referralsDetails, error: fetchReferralsError = null } = await billingHelpers.getReferralsData()
-  if (fetchReferralsError) errors.push(fetchReferralsError)
+  const { res: referralsDetails, error: referralsError = null } = await billingHelpers.getReferralsData()
+  if (referralsError) errors.push(referralsError)
+  return {
+    nextInvoice,
+    billingDetails,
+    referralsDetails,
+    defaultPaymentMethod,
+    errors,
+  }
+}
+
+// * INITIAL SETUP
+const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation }) => {
+  // FETCH the first organisation and set it
+  const allOrgs = activeOrganisation ? null : await fetchAllOrgs(user)
+  // TODO improve selecting the org
+  const organisation = activeOrganisation || allOrgs[0]
+  const {
+    nextInvoice,
+    billingDetails,
+    referralsDetails,
+    defaultPaymentMethod,
+    errors,
+  } = await fetchOrganisationDetails(organisation)
   // SET
   set({
-    allOrgs,
+    ...(allOrgs && { allOrgs }),
     organisation,
     billingDetails,
     referralsDetails,
@@ -96,6 +116,14 @@ const updateDefaultPayment = (set, get) => (defaultPaymentMethod) => {
   })
 }
 
+// * SELECT ACTIVE ORGANISATION
+const selectOrganisation = (set, get) => async (organisationId) => {
+  set({ loading: true })
+  const { allOrgs } = get()
+  const organisation = allOrgs.find(({ id }) => id === organisationId)
+  await setupBilling(set)({ activeOrganisation: organisation })
+}
+
 
 const useBillingStore = create((set, get) => ({
   ...initialState,
@@ -105,6 +133,7 @@ const useBillingStore = create((set, get) => ({
   addPaymentMethod: addPaymentMethod(set, get),
   deletePaymentMethod: deletePaymentMethod(set, get),
   updateDefaultPayment: updateDefaultPayment(set, get),
+  selectOrganisation: selectOrganisation(set, get),
 }))
 
 export default useBillingStore

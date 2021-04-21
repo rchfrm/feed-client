@@ -11,9 +11,7 @@ import * as api from '@/helpers/api'
  * @param {string} paymentMethodId
  * @returns {Promise<any>}
  */
-
 export const submitPaymentMethod = async ({ organisationId, paymentMethodId, currency, shouldBeDefault = false }) => {
-  // TODO: Ensure API accepts `currency` and `is_default`
   const payload = {
     token: paymentMethodId,
     currency,
