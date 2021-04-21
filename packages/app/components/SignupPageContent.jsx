@@ -6,8 +6,9 @@ import Router from 'next/router'
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT COMPONENTS
-import SignupEmailForm from '@/app/SignupEmailForm'
 import LoginSignupButtons from '@/LoginSignupButtons'
+import SignupPageAddReferral from '@/app/SignupPageAddReferral'
+import SignupEmailForm from '@/app/SignupEmailForm'
 import SignupReferralCodeDisplay from '@/app/SignupReferralCodeDisplay'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
@@ -15,6 +16,8 @@ import { fireSentryError } from '@/app/helpers/sentryHelpers'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
+// Stores
+import useReferralStore from '@/app/stores/referralStore'
 // Constants
 import * as ROUTES from '@/app/constants/routes'
 // IMPORT COPY
@@ -22,15 +25,18 @@ import copy from '@/app/copy/LoginPageCopy'
 // IMPORT STYLES
 import styles from '@/LoginPage.module.css'
 
+const getHasTrueCode = state => state.hasTrueCode
 
 const SignupPageContent = ({
   showEmailSignup,
-  requireReferral,
   setChecking,
 }) => {
+  // Handle auth error
   const { authError, setAuthError } = React.useContext(AuthContext)
-  // Handle error
   const [error, setError] = React.useState(null)
+
+  // Test for referral code
+  const hasReferralCode = useReferralStore(getHasTrueCode)
   // Change route when clicking on facebook button
   const goToEmailSignup = React.useCallback(() => {
     setError(null)
@@ -75,8 +81,10 @@ const SignupPageContent = ({
             onEmailClick={goToEmailSignup}
           />
           {/* SHOW WHAT REFERRAL CODE IS BEING USED */}
-          {!error && requireReferral && (
+          {hasReferralCode ? (
             <SignupReferralCodeDisplay setChecking={setChecking} />
+          ) : (
+            <SignupPageAddReferral />
           )}
           {/* Link to login page */}
           <MarkdownText markdown={copy.loginReminder} />
@@ -90,13 +98,11 @@ const SignupPageContent = ({
 
 SignupPageContent.propTypes = {
   showEmailSignup: PropTypes.bool,
-  requireReferral: PropTypes.bool,
   setChecking: PropTypes.func.isRequired,
 }
 
 SignupPageContent.defaultProps = {
   showEmailSignup: false,
-  requireReferral: false,
 }
 
 

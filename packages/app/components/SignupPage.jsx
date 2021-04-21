@@ -9,8 +9,6 @@ import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 
 import SignupPageContent from '@/app/SignupPageContent'
-// import SignupClosedContent from '@/app/SignupClosedContent'
-import SignupRedirect from '@/app/SignupRedirect'
 
 import useReferralStore from '@/app/stores/referralStore'
 
@@ -18,11 +16,7 @@ import { parseUrl } from '@/helpers/utils'
 
 import copy from '@/app/copy/referralCodeCopy'
 
-const requireReferralCode = true
-
 const getReferralStoreState = (state) => ({
-  hasValidCode: state.hasValidCode,
-  hasTrueCode: state.hasTrueCode,
   testCodeValidity: state.testCodeValidity,
   testCodeTruth: state.testCodeTruth,
   storeTrueCode: state.storeTrueCode,
@@ -32,8 +26,6 @@ const getReferralStoreState = (state) => ({
 const SignupPage = ({ showEmailSignup }) => {
   // READ STORE
   const {
-    hasTrueCode,
-    hasValidCode,
     testCodeValidity,
     testCodeTruth,
     storeTrueCode,
@@ -74,24 +66,16 @@ const SignupPage = ({ showEmailSignup }) => {
   // eslint-disable-next-line
   }, [])
 
-  // HAS USER SUBMITTED VALID CODE?
-  const hasReferralCode = hasValidCode && hasTrueCode
-
   // STOP HERE IF CHECKING QUERY CODE
   if (checking) return <Spinner />
 
   return (
     <>
       <Error error={error} />
-      {hasReferralCode || !requireReferralCode ? (
-        <SignupPageContent
-          showEmailSignup={showEmailSignup}
-          setChecking={setChecking}
-          requireReferral
-        />
-      ) : (
-        <SignupRedirect redirectTo="https://tryfeed.co/request-access" />
-      )}
+      <SignupPageContent
+        showEmailSignup={showEmailSignup}
+        setChecking={setChecking}
+      />
     </>
   )
 }
