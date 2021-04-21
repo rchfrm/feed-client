@@ -43,6 +43,7 @@ const STRIPE_ELEMENT_OPTIONS = {
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
   organisation: state.organisation,
+  addPaymentMethod: state.addPaymentMethod,
   artistCurrency: state.artistCurrency,
   addPaymentMethod: state.addPaymentMethod,
 })
@@ -62,7 +63,6 @@ const FORM = ({
   const [error, setError] = React.useState(null)
 
   // READ from BILLING STORE
-  // Read from BILLING STORE
   const {
     organisation: { id: organisationId },
     addPaymentMethod,
@@ -94,7 +94,8 @@ const FORM = ({
     setIsFormValid(formValid)
   }, [name, currency, cardComplete, elements, stripe])
 
-  // HANDLE FORM
+  // * HANDLE FORM
+  // --------------
   const onSubmit = React.useCallback(async () => {
     if (!isFormValid || isLoading) return
     setIsLoading(true)
