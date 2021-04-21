@@ -12,6 +12,11 @@ const BillingPaymentMethodsSummary = ({
   defaultPaymentMethod,
   className,
 }) => {
+  const {
+    card,
+    currency,
+    billing_details: billingDetails,
+  } = defaultPaymentMethod
   return (
     <div
       className={[
@@ -22,8 +27,9 @@ const BillingPaymentMethodsSummary = ({
       {defaultPaymentMethod ? (
         <>
           <BillingPaymentCard
-            card={defaultPaymentMethod.card}
-            billingDetails={defaultPaymentMethod.billing_details}
+            card={card}
+            currency={currency}
+            billingDetails={billingDetails}
             isDefault
             className="mb-6"
           />

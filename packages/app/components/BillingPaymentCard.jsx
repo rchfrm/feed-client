@@ -11,6 +11,7 @@ const formatDate = (int) => {
 
 const BillingPaymentCard = ({
   paymentMethodId,
+  currency,
   card,
   billingDetails,
   isDefault,
@@ -22,7 +23,7 @@ const BillingPaymentCard = ({
   className,
 }) => {
   const { brand, exp_month, exp_year: year, last4 } = card
-  const { name, currency } = billingDetails
+  const { name } = billingDetails
   const month = formatDate(exp_month)
   const ElWrapper = isButton ? 'button' : 'div'
   return (
@@ -92,6 +93,7 @@ const BillingPaymentCard = ({
 
 BillingPaymentCard.propTypes = {
   paymentMethodId: PropTypes.string,
+  currency: PropTypes.string.isRequired,
   card: PropTypes.object.isRequired,
   billingDetails: PropTypes.object.isRequired,
   isDefault: PropTypes.bool,

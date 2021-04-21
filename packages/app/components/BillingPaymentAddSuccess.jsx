@@ -12,12 +12,14 @@ const BillingPaymentAddSuccess = ({ paymentMethod }) => {
     card,
     billing_details: billingDetails,
     is_default,
+    currency,
   } = paymentMethod
   return (
     <div>
       <MarkdownText markdown={copy.addMethodSucess(is_default)} />
       <div>
         <BillingPaymentCard
+          currency={currency}
           card={card}
           billingDetails={billingDetails}
           isDefault={is_default}
