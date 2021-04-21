@@ -15,7 +15,7 @@ const ReferralCodeProgress = ({
 }) => {
   // TODO fetch this from API
   console.log('referrals', referrals)
-  const referralsAchieved = Object
+  const referralsAchieved = 2
 
   // Calc percent complete
   const totalTiers = tiers.length
