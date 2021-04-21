@@ -122,22 +122,31 @@ const FORM = ({
       currency,
       shouldBeDefault,
     })
-    // Test payment intent
-    const { setup_intent: setupIntent } = paymentMethodDb
-    if (setupIntent.status !== 'succeeded') {
-      const setupIntentRes = await stripe.retrieveSetupIntent(setupIntent.client_secret)
-      const { next_action } = setupIntentRes
-      console.log('setupIntentRes', setupIntentRes)
-      console.log('next_action', next_action)
-    }
 
-    setIsLoading(false)
     // Handle error adding payment to DB
     if (serverError) {
       setError(serverError)
+      setIsLoading(false)
       return
     }
+
+    // Fix setup intent if not success
+    const { setup_intent: setupIntent } = paymentMethodDb
+    if (setupIntent.status !== 'succeeded') {
+      const res = await stripe.confirmCardSetup(setupIntent.client_secret, {
+        payment_method: paymentMethod.id,
+      }).catch((error) => {
+        setError(error)
+      })
+      if (res?.setupIntent?.status !== 'succeeded') {
+        setIsLoading(false)
+        // TODO REMOVE PAYMENT METHOD from DB
+        return
+      }
+    }
+
     // Handle success
+    setIsLoading(false)
     setError(null)
     // Update store
     addPaymentMethod(paymentMethodDb)
