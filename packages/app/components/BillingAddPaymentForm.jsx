@@ -122,6 +122,15 @@ const FORM = ({
       currency,
       shouldBeDefault,
     })
+    // Test payment intent
+    const { setup_intent: setupIntent } = paymentMethodDb
+    if (setupIntent.status !== 'succeeded') {
+      const setupIntentRes = await stripe.retrieveSetupIntent(setupIntent.client_secret)
+      const { next_action } = setupIntentRes
+      console.log('setupIntentRes', setupIntentRes)
+      console.log('next_action', next_action)
+    }
+
     setIsLoading(false)
     // Handle error adding payment to DB
     if (serverError) {
