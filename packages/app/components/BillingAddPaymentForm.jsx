@@ -62,7 +62,6 @@ const FORM = ({
   const [error, setError] = React.useState(null)
 
   // READ from BILLING STORE
-  // Read from BILLING STORE
   const {
     organisation: { id: organisationId },
     addPaymentMethod,
@@ -94,7 +93,8 @@ const FORM = ({
     setIsFormValid(formValid)
   }, [name, currency, cardComplete, elements, stripe])
 
-  // HANDLE FORM
+  // * HANDLE FORM
+  // --------------
   const onSubmit = React.useCallback(async () => {
     if (!isFormValid || isLoading) return
     setIsLoading(true)
