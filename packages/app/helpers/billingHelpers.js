@@ -31,7 +31,7 @@ export const submitPaymentMethod = async ({ organisationId, paymentMethodId, cur
  * @param {string} paymentId
  * @returns {Promise<any>}
  */
-export const setPaymentAsDefault = async (organisationId, paymentMethodId) => {
+export const setPaymentAsDefault = async ({ organisationId, paymentMethodId }) => {
   const payload = null
   const endpoint = `/organizations/${organisationId}/billing/payments/${paymentMethodId}/default`
   const errorTracking = {
