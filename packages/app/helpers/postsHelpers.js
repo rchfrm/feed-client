@@ -244,3 +244,13 @@ export const getPostMetricsContent = (metricsType, postType) => {
     'impressions',
   ]
 }
+
+// UPDATE CAPTION
+export const updatePostCaption = (artistId, assetId, newMessage) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const res = { artistId, assetId, newMessage }
+      resolve({ res, error: null })
+    }, 800)
+  })
+}
