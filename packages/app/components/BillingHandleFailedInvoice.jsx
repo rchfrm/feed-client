@@ -23,18 +23,19 @@ import sidePanelStyles from '@/app/SidePanel.module.css'
 const getBillingStoreState = (state) => ({
   nextInvoice: state.nextInvoice,
   defaultPaymentMethod: state.defaultPaymentMethod,
+  resolveUnpaidInvoice: state.resolveUnpaidInvoice,
   organisation: state.organisation,
 })
 
 const BillingHandleFailedInvoice = ({
   setSidePanelLoading,
-  setSidePanelButton,
 }) => {
   // Read from BILLING STORE
   const {
     nextInvoice: failedInvoice,
     defaultPaymentMethod,
     organisation,
+    resolveUnpaidInvoice,
   } = useBillingStore(getBillingStoreState, shallow)
   const { paymentMethod } = failedInvoice
   // Is the payment method on the invoice the same as the current default
@@ -55,6 +56,7 @@ const BillingHandleFailedInvoice = ({
       // Update local state
       setIsSuccess(true)
       // Update store
+      resolveUnpaidInvoice()
     }
     setSidePanelLoading(false)
   }, [failedInvoice, organisation, setSidePanelLoading])

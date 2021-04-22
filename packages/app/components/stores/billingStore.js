@@ -124,6 +124,15 @@ const selectOrganisation = (set, get) => async (organisationId) => {
   await setupBilling(set)({ activeOrganisation: organisation })
 }
 
+// * UPDATE INVOICE
+const resolveUnpaidInvoice = (set, get) => () => {
+  const { nextInvoice } = get()
+  const updatedInvoice = produce(nextInvoice, draft => {
+    draft.failed = false
+  })
+  set({ nextInvoice: updatedInvoice })
+}
+
 
 const useBillingStore = create((set, get) => ({
   ...initialState,
@@ -134,6 +143,7 @@ const useBillingStore = create((set, get) => ({
   deletePaymentMethod: deletePaymentMethod(set, get),
   updateDefaultPayment: updateDefaultPayment(set, get),
   selectOrganisation: selectOrganisation(set, get),
+  resolveUnpaidInvoice: resolveUnpaidInvoice(set, get),
 }))
 
 export default useBillingStore
