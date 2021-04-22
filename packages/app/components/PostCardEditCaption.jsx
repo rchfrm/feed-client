@@ -42,8 +42,8 @@ const PostCardEditCaption = ({
     setShowEditSaveButton(showEditSaveButton)
   }, [visibleCaption, savedNewCaption])
 
-  // UPDATE POST PAGE STATE
-  const updateMessageState = React.useCallback((newCaption) => {
+  // UPDATE LOCAL and POST PAGE STATE
+  const updateState = React.useCallback((newCaption) => {
     const payload = { postIndex, newCaption }
     setSavedNewCaption(newCaption)
     setVisibleCaption('ad')
@@ -58,22 +58,19 @@ const PostCardEditCaption = ({
     setIsLoading(true)
     // Stop here if a warning needs to be shown
     const shouldShowAlert = post.promotionStatus === 'active'
-    console.log('shouldShowAlert', shouldShowAlert)
-    console.log('forceRun', forceRun)
     if (shouldShowAlert && !forceRun) {
       setShowAlert(true)
       return
     }
-    const { res, error } = await updatePostCaption(artistId, post.id, newCaption)
-    console.log('res', res)
+    const { error } = await updatePostCaption(artistId, post.id, newCaption)
     setError(error)
     setShowAlert(false)
     if (!error) {
-      updateMessageState(newCaption)
+      updateState(newCaption)
     }
     setUseEditMode(false)
     setIsLoading(false)
-  }, [artistId, post.id, post.promotionStatus, updateMessageState, setError])
+  }, [artistId, post.id, post.promotionStatus, updateState, setError])
 
   return (
     <div>
