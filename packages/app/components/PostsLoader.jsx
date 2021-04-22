@@ -33,6 +33,7 @@ const postsReducer = (draftState, postsAction) => {
     promotableStatus,
     linkId,
     linkHref,
+    newCaption,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -54,6 +55,9 @@ const postsReducer = (draftState, postsAction) => {
     case 'update-link':
       draftState[postIndex].linkId = linkId
       draftState[postIndex].linkHref = linkHref
+      break
+    case 'update-caption':
+      draftState[postIndex].messageEdited = newCaption
       break
     default:
       return draftState
