@@ -93,7 +93,6 @@ const PostCardSettings = ({
               postIndex={postIndex}
               updatePost={updatePost}
               isEditable={!noCaptionEditExcuse}
-              setError={setError}
             />
           </PostsSettingsSection>
         </>

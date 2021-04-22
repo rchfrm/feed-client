@@ -5,6 +5,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
+import Error from '@/elements/Error'
 
 import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
 import PostCardEditCaptionAlert from '@/app/PostCardEditCaptionAlert'
@@ -22,7 +23,6 @@ const PostCardEditCaption = ({
   postIndex,
   updatePost,
   isEditable,
-  setError,
 }) => {
   const {
     message,
@@ -53,6 +53,7 @@ const PostCardEditCaption = ({
   // SAVE NEW CAPTION on DB
   const { artistId } = React.useContext(ArtistContext)
   const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
   const [showAlert, setShowAlert] = React.useState(false)
   const updatePostDb = React.useCallback(async (newCaption, forceRun = false) => {
     setIsLoading(true)
@@ -74,6 +75,7 @@ const PostCardEditCaption = ({
 
   return (
     <div>
+      <Error error={error} />
       {isEditable && (
         // TOGGLE CAPTION TYPE BUTTON
         <div className="flex items-center mb-3 h-8">
@@ -150,7 +152,6 @@ PostCardEditCaption.propTypes = {
   postIndex: PropTypes.number.isRequired,
   updatePost: PropTypes.func.isRequired,
   isEditable: PropTypes.bool.isRequired,
-  setError: PropTypes.func.isRequired,
 }
 
 PostCardEditCaption.defaultProps = {
