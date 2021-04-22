@@ -68,7 +68,7 @@ const BillingInvoiceSummary = ({
       <div className="pt-6">
         {/* BUTTON FOR HANDLING FAILED INVOICE */}
         {failed && (
-          <BillingOpenFailedInvoice className="mb-6" />
+          <BillingOpenFailedInvoice className="mb-4" />
         )}
         {/* BUTTON (FOR SHOW ALL) */}
         <BillingOpenInvoices />
