@@ -56,6 +56,7 @@ const PostCardEditCaption = ({
   const [error, setError] = React.useState(null)
   const [showAlert, setShowAlert] = React.useState(false)
   const updatePostDb = React.useCallback(async (newCaption, forceRun = false) => {
+    if (isLoading) return
     setIsLoading(true)
     // Stop here if a warning needs to be shown
     const shouldShowAlert = post.promotionStatus === 'active'
@@ -71,7 +72,7 @@ const PostCardEditCaption = ({
     }
     setUseEditMode(false)
     setIsLoading(false)
-  }, [artistId, post.id, post.promotionStatus, updateState, setError])
+  }, [isLoading, artistId, post.id, post.promotionStatus, updateState, setError])
 
   return (
     <div>
@@ -89,8 +90,10 @@ const PostCardEditCaption = ({
                 className={[
                   'capitalize no-underline mr-4 last:mr-0',
                   isActive ? 'font-bold' : 'opacity-50 hover:opacity-100',
+                  isLoading ? 'pointer-events-none' : null,
                 ].join(' ')}
                 onClick={() => {
+                  if (isLoading) return
                   setVisibleCaption(type)
                 }}
               >
@@ -106,6 +109,7 @@ const PostCardEditCaption = ({
               className="ml-auto"
               loading={isLoading}
               onClick={() => {
+                if (isLoading) return
                 if (useEditMode) {
                   updatePostDb(newCaption)
                 } else {
@@ -119,7 +123,10 @@ const PostCardEditCaption = ({
         </div>
       )}
       {/* CAPTION AND EDIT CAPTION */}
-      <div className="bg-grey-1 p-4 rounded-dialogue">
+      <div
+        className="bg-grey-1 p-4 rounded-dialogue"
+        style={isLoading ? { opacity: 0.6 } : null}
+      >
         {useEditMode ? (
           <PostCardEditCaptionMessage
             message={newCaption || originalCaption}
