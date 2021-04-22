@@ -247,6 +247,7 @@ export const getPostMetricsContent = (metricsType, postType) => {
 
 // UPDATE CAPTION
 export const updatePostCaption = (artistId, assetId, newMessage) => {
+  // TODO: update this with API
   return new Promise((resolve) => {
     setTimeout(() => {
       const res = { artistId, assetId, newMessage }
