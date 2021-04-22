@@ -75,6 +75,7 @@ const PostCardEditCaption = ({
   return (
     <div>
       {isEditable && (
+        // TOGGLE CAPTION TYPE BUTTON
         <div className="flex items-center mb-3 h-8">
           {captionTypes.map((type) => {
             if (type === 'ad' && !savedNewCaption) return null
@@ -96,6 +97,7 @@ const PostCardEditCaption = ({
             )
           })}
           {showEditSaveButton && (
+            // EDIT/SAVE BUTTON
             <Button
               label={useEditMode ? 'Save new caption' : 'Edit caption'}
               version="green x-small"
@@ -114,6 +116,7 @@ const PostCardEditCaption = ({
           )}
         </div>
       )}
+      {/* CAPTION AND EDIT CAPTION */}
       <div className="bg-grey-1 p-4 rounded-dialogue">
         {useEditMode ? (
           <PostCardEditCaptionMessage
