@@ -34,7 +34,7 @@ const PostCardSettingsLink = ({
   const isLinkDisabled = isPostActive || isPostArchived || isLinkAdCreative
   const linkDisabledReason = isLinkDisabled ? copy.getLinkDisabledReason({ isPostActive, isPostArchived, isLinkAdCreative }) : ''
 
-  const updateLink = React.useCallback(({ postIndex, linkId, linkHref }) => {
+  const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref }) => {
     const payload = {
       postIndex,
       linkId,
@@ -64,7 +64,7 @@ const PostCardSettingsLink = ({
             const { linkId, linkHref } = newLink
             const isDefaultLink = !linkId
             const newLinkHref = linkHref || defaultLink.href
-            updateLink({ postIndex, linkId, linkHref })
+            updateLinkState({ postIndex, linkId, linkHref })
             setError(null)
             setPreviewUrl(newLinkHref)
             // TRACK
