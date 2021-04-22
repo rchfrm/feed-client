@@ -7,6 +7,7 @@ import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
 import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
+import PostCardEditCaptionAlert from '@/app/PostCardEditCaptionAlert'
 
 import { updatePostCaption } from '@/app/helpers/postsHelpers'
 
@@ -26,10 +27,7 @@ const PostCardEditCaption = ({
   const {
     message,
     messageEdited = '',
-    promotionStatus,
   } = post
-
-  const shouldShowAlert = promotionStatus === 'active'
 
   // Internal state
   const captionTypes = ['ad', 'post']
@@ -44,7 +42,7 @@ const PostCardEditCaption = ({
     setShowEditSaveButton(showEditSaveButton)
   }, [visibleCaption, savedNewCaption])
 
-  // Update post page state
+  // UPDATE POST PAGE STATE
   const updateMessageState = React.useCallback((newCaption) => {
     const payload = { postIndex, newCaption }
     setSavedNewCaption(newCaption)
@@ -55,17 +53,27 @@ const PostCardEditCaption = ({
   // SAVE NEW CAPTION on DB
   const { artistId } = React.useContext(ArtistContext)
   const [isLoading, setIsLoading] = React.useState(false)
-  const updatePostDb = React.useCallback(async (newCaption) => {
+  const [showAlert, setShowAlert] = React.useState(false)
+  const updatePostDb = React.useCallback(async (newCaption, forceRun = false) => {
     setIsLoading(true)
+    // Stop here if a warning needs to be shown
+    const shouldShowAlert = post.promotionStatus === 'active'
+    console.log('shouldShowAlert', shouldShowAlert)
+    console.log('forceRun', forceRun)
+    if (shouldShowAlert && !forceRun) {
+      setShowAlert(true)
+      return
+    }
     const { res, error } = await updatePostCaption(artistId, post.id, newCaption)
     console.log('res', res)
     setError(error)
+    setShowAlert(false)
     if (!error) {
       updateMessageState(newCaption)
     }
     setUseEditMode(false)
     setIsLoading(false)
-  }, [artistId, post.id, updateMessageState, setError])
+  }, [artistId, post.id, post.promotionStatus, updateMessageState, setError])
 
   return (
     <div>
@@ -122,6 +130,17 @@ const PostCardEditCaption = ({
           />
         )}
       </div>
+      {/* ALERT */}
+      <PostCardEditCaptionAlert
+        show={showAlert}
+        newCaption={newCaption}
+        updatePostDb={updatePostDb}
+        onCancel={() => {
+          setIsLoading(false)
+          setUseEditMode(false)
+          setShowAlert(false)
+        }}
+      />
     </div>
   )
 }
