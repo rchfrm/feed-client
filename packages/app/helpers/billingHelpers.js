@@ -58,6 +58,16 @@ export const deletePaymentMethod = async (organisationId, paymentMethodId) => {
   return api.requestWithCatch('delete', endpoint, payload, errorTracking)
 }
 
+// RETRY INVOICE PAYMENT
+export const retryInvoicePayment = ({ organisationId, invoiceId, paymentMethodId }) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const res = { organisationId, paymentMethodId, invoiceId }
+      resolve({ res, error: null })
+    }, 800)
+  })
+}
+
 
 // * BILLING
 // * --------------------
