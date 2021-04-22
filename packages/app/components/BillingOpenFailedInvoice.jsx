@@ -31,6 +31,7 @@ const BillingOpenFailedInvoice = ({
   return (
     <div className={className}>
       <Button
+        label="Handle failed payment"
         version="red small"
         className="w-full"
         onClick={(e) => {
