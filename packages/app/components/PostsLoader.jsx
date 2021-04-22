@@ -246,16 +246,9 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     setRefreshPosts(() => () => refreshPosts())
   }, [setRefreshPosts, refreshPosts])
 
-  // Define function to update links
-  const updateLink = React.useCallback(({ postIndex, linkId, linkHref }) => {
-    setPosts({
-      type: 'update-link',
-      payload: {
-        postIndex,
-        linkId,
-        linkHref,
-      },
-    })
+  // Define function to update post
+  const updatePost = React.useCallback((action, payload) => {
+    setPosts({ type: action, payload })
   }, [setPosts])
 
   // Define function to update posts with missing links
@@ -311,7 +304,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         posts={posts}
         visiblePost={visiblePost}
         setVisiblePost={setVisiblePost}
-        updateLink={updateLink}
+        updatePost={updatePost}
         togglePromotion={togglePromotion}
         postToggleSetterType={postToggleSetterType}
         loadMorePosts={loadMorePosts}

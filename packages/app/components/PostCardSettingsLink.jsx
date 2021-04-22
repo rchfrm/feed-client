@@ -21,7 +21,7 @@ const PostCardSettingsLink = ({
   linkHref,
   postPromotionStatus,
   linkType,
-  updateLink,
+  updatePost,
   setError,
   className,
 }) => {
@@ -33,6 +33,16 @@ const PostCardSettingsLink = ({
   const isLinkAdCreative = linkType === 'adcreative'
   const isLinkDisabled = isPostActive || isPostArchived || isLinkAdCreative
   const linkDisabledReason = isLinkDisabled ? copy.getLinkDisabledReason({ isPostActive, isPostArchived, isLinkAdCreative }) : ''
+
+  const updateLink = React.useCallback(({ postIndex, linkId, linkHref }) => {
+    const payload = {
+      postIndex,
+      linkId,
+      linkHref,
+    }
+    updatePost('update-link', payload)
+  }, [updatePost])
+
   return (
     <div
       className={[
@@ -105,7 +115,7 @@ PostCardSettingsLink.propTypes = {
   linkHref: PropTypes.string,
   postPromotionStatus: PropTypes.string.isRequired,
   linkType: PropTypes.string.isRequired,
-  updateLink: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   className: PropTypes.string,
 }

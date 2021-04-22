@@ -16,7 +16,7 @@ import copy from '@/app/copy/PostsPageCopy'
 const PostCardSettings = ({
   post,
   postIndex,
-  updateLink,
+  updatePost,
   isMissingDefaultLink,
   className,
 }) => {
@@ -65,7 +65,7 @@ const PostCardSettings = ({
               postIndex={postIndex}
               linkId={linkId}
               linkHref={linkHref}
-              updateLink={updateLink}
+              updatePost={updatePost}
               postPromotionStatus={promotionStatus}
               linkType={linkType}
               setError={setError}
@@ -80,7 +80,7 @@ const PostCardSettings = ({
 PostCardSettings.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
-  updateLink: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }

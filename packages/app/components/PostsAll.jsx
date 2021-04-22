@@ -31,7 +31,7 @@ const getPostsWithLoadingTrigger = (posts, loadAtIndex) => {
 // Render list of posts and track the one that's currently visible
 function PostsAll({
   posts,
-  updateLink,
+  updatePost,
   togglePromotion,
   postToggleSetterType,
   loadMorePosts,
@@ -146,7 +146,7 @@ function PostsAll({
               key={post.id}
               post={post}
               postIndex={index}
-              updateLink={updateLink}
+              updatePost={updatePost}
               togglePromotion={togglePromotion}
               postToggleSetterType={postToggleSetterType}
               isMissingDefaultLink={isMissingDefaultLink}
@@ -177,7 +177,7 @@ function PostsAll({
 
 PostsAll.propTypes = {
   posts: PropTypes.array.isRequired,
-  updateLink: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
   togglePromotion: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string,
   loadMorePosts: PropTypes.func.isRequired,
