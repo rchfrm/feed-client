@@ -32,6 +32,7 @@ export const fetchArchivedInvoices = (orgId) => {
 // * UPCOMING INVOICE
 // ------------------
 const dummyUpcomingInvoice = {
+  id: '12345',
   date: '2021-04-02T14:54:21.000Z',
   ad_spend: 3450,
   ad_spend_fee: 345,
@@ -48,7 +49,7 @@ const dummyFailedInvoice = {
 }
 
 const formatUpcomingInvoice = (invoice) => {
-  const { currency, currencyOffset, payment_method, failed } = invoice
+  const { currency, currencyOffset, payment_method } = invoice
   const invoiceSections = []
   let totalFee = 0
   // Handle ad spend
@@ -97,11 +98,11 @@ const formatUpcomingInvoice = (invoice) => {
   }
   // Return data
   return {
+    ...invoice,
     paymentMethod: payment_method,
     invoiceSections,
     totalFee: formatCurrency(totalFee / currencyOffset, currency),
     date: moment(invoice.date).format('DD MMM YYYY'),
-    failed,
   }
 }
 
