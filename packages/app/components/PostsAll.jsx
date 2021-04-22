@@ -117,29 +117,6 @@ function PostsAll({
         ].join(' ')}
         ref={intersectionRoot}
       >
-        {/* {postsWithLoadingTrigger.map((post, index) => {
-          return (
-            <PostCard
-              key={post.id}
-              post={post}
-              postIndex={index}
-              updateLink={updateLink}
-              togglePromotion={togglePromotion}
-              postToggleSetterType={postToggleSetterType}
-              isMissingDefaultLink={isMissingDefaultLink}
-              artistId={artistId}
-              className={[
-                'mx-auto max-w-sm mb-12',
-                'sm:max-w-none sm:mx-0 sm:mb-0',
-                'col-span-12 sm:col-span-6 lg:col-span-4 bmw:col-span-3',
-              ].join(' ')}
-            >
-              {post.loadTrigger && !loadedAll && (
-              <div ref={loadTrigger} />
-              )}
-            </PostCard>
-          )
-        })} */}
         {postsWithLoadingTrigger.map((post, index) => {
           return (
             <PostCard
