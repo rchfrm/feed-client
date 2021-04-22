@@ -126,6 +126,9 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   // SETTINGS SIDEPANEL
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
   editCaption: `Edit the caption that's used on the ad.`,
+  confirmEditCaption: `Editing the caption will cause the ad to go back into review.
+  
+Are you sure you want to continue?`,
 
   // METRICS SIDEPANEL
   metricsDescription: {
