@@ -11,6 +11,7 @@ import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
 import PostCardEditCaptionAlert from '@/app/PostCardEditCaptionAlert'
 
 import { updatePostCaption } from '@/app/helpers/postsHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 const showEditSaveButtonTest = (visibleCaption, savedNewCaption) => {
   if (visibleCaption === 'ad') return true
@@ -72,7 +73,13 @@ const PostCardEditCaption = ({
     }
     setUseEditMode(false)
     setIsLoading(false)
-  }, [isLoading, artistId, post.id, post.promotionStatus, updateState, setError])
+    // TRACK
+    track('edit_caption_complete', {
+      postId: post.id,
+      originalCaption,
+      newCaption,
+    })
+  }, [isLoading, artistId, originalCaption, post.id, post.promotionStatus, updateState, setError])
 
   return (
     <div>
@@ -114,6 +121,11 @@ const PostCardEditCaption = ({
                   updatePostDb(newCaption)
                 } else {
                   setUseEditMode(true)
+                  // TRACK
+                  track('edit_caption_start', {
+                    postId: post.id,
+                    originalCaption,
+                  })
                 }
               }}
             >
@@ -141,8 +153,10 @@ const PostCardEditCaption = ({
       </div>
       {/* ALERT */}
       <PostCardEditCaptionAlert
+        postId={post.id}
         show={showAlert}
         newCaption={newCaption}
+        originalCaption={originalCaption}
         updatePostDb={updatePostDb}
         onCancel={() => {
           setIsLoading(false)

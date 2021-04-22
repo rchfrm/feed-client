@@ -4,12 +4,17 @@ import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 
 import useAlertModal from '@/hooks/useAlertModal'
+
+import { track } from '@/app/helpers/trackingHelpers'
+
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostCardEditCaptionAlert = ({
   show,
   newCaption,
+  originalCaption,
   updatePostDb,
+  postId,
   onCancel,
 }) => {
   // Define alert contents
@@ -32,7 +37,13 @@ const PostCardEditCaptionAlert = ({
       },
       {
         text: 'Cancel',
-        onClick: onCancel,
+        onClick: () => {
+          track('edit_caption_cancel', {
+            postId,
+            originalCaption,
+          })
+          onCancel()
+        },
         color: 'black',
       },
     ]
@@ -41,7 +52,7 @@ const PostCardEditCaptionAlert = ({
       children: alertContents,
       buttons,
     })
-  }, [show, newCaption, updatePostDb, onCancel, alertContents, closeAlert, showAlert])
+  }, [show, newCaption, updatePostDb, postId, originalCaption, onCancel, alertContents, closeAlert, showAlert])
   // NO RENDER
   return null
 }
@@ -50,6 +61,7 @@ PostCardEditCaptionAlert.propTypes = {
   show: PropTypes.bool.isRequired,
   newCaption: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
+  postId: PropTypes.string.isRequired,
   updatePostDb: PropTypes.func.isRequired,
 }
 
