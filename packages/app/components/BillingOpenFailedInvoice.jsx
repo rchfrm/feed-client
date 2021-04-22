@@ -21,7 +21,7 @@ const BillingOpenFailedInvoice = ({
   // OPEN ADD PAYMENT METHOD
   const openInvoicesSidepanel = React.useCallback(() => {
     const content = <BillingHandleFailedInvoice setSidePanelLoading={setSidePanelLoading} setSidePanelButton={setSidePanelButton} />
-    const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+    const button = <Button version="black" onClick={() => toggleSidePanel(false)}>Back</Button>
     setSidePanelContent(content)
     setSidePanelContentLabel('Inovoice list')
     toggleSidePanel(true)
