@@ -18,22 +18,13 @@ export const fetchArchivedInvoices = (organizationId) => {
 
 // * UPCOMING INVOICE
 // ------------------
-const dummyUpcomingInvoice = {
-  date: '2021-04-02T14:54:21.000Z',
-  ad_spend: 3450,
-  ad_spend_fee: 345,
-  conversion_sales: 5800,
-  conversion_sales_fee: 580,
-  currency: 'GBP',
-  currencyOffset: 100,
-}
-
 const formatUpcomingInvoice = (invoice) => {
-  const { currency, currencyOffset } = invoice
+  const { currency, exponent } = invoice
+  const currencyOffset = 10 ** exponent
   const invoiceSections = []
   let totalFee = 0
   // Handle ad spend
-  const adSpendSlug = 'ad_spend'
+  const adSpendSlug = 'ad_spend_total'
   const adSpendFeedSlug = 'ad_spend_fee'
   invoiceSections.push(
     [
@@ -54,9 +45,9 @@ const formatUpcomingInvoice = (invoice) => {
   // Update fee
   totalFee += invoice[adSpendFeedSlug]
   // Handle conversion spend
-  const conversionSaleSlug = 'conversion_sales'
-  const conversionFeeSlug = 'conversion_sales_fee'
-  if (invoice[conversionSaleSlug]) {
+  const conversionSaleSlug = 'conversions_total'
+  const conversionFeeSlug = 'conversions_fee'
+  if (typeof invoice[conversionSaleSlug] === 'number') {
     invoiceSections.push(
       [
         {
@@ -84,11 +75,17 @@ const formatUpcomingInvoice = (invoice) => {
   }
 }
 
-export const fetchUpcomingInvoice = (orgId) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const res = formatUpcomingInvoice(dummyUpcomingInvoice)
-      resolve({ res, error: null })
-    }, 800)
-  })
+export const fetchUpcomingInvoice = async (organizationId) => {
+  const payload = null
+  const endpoint = `/organizations/${organizationId}/billing/invoices/upcoming`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Fetch latest invoice',
+  }
+  const { res: invoice, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
+  if (error) return { error }
+  // Format invoice
+  console.log('invoice', invoice)
+  const res = formatUpcomingInvoice(invoice)
+  return { res }
 }
