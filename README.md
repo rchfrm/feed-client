@@ -149,3 +149,12 @@ To deploy _both_ to the **production** environment run `yarn deploy-production:b
 - **Local:** [http://localhost:3000](http://localhost:3000)
 - **Staging:** [https://feed-admin-staging-v2.firebaseapp.com](https://feed-admin-staging-v2.firebaseapp.com)
 - **Live:** [https://feed-admin-v2.firebaseapp.com](https://feed-admin-v2.firebaseapp.com)
+
+## Feature descriptions
+
+Some features have more in-depth descriptions. There is currently documentation for:
+
+- [The Signup and Login flow](/docs/signupLoginFlow.md)
+- [Global state](/docs/globalState.md)
+- [The BasePage component](/docs/basePage.md)
+- [Notifications](/docs/notifications.md)
