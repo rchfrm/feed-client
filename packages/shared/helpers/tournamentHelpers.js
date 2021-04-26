@@ -342,20 +342,26 @@ export const getAdMetrics = (dataA, dataB, isAdPair) => {
   const dataArrayOptions = { preserveRawNumber: true, showZeroValues: true }
   const detailsA = utils.getDataArray(metricsToDisplay, dataA, dataArrayOptions)
   const detailsB = dataB ? utils.getDataArray(metricsToDisplay, dataB, dataArrayOptions) : []
-  const detailsObj = detailsA.reduce((data, detailA) => {
-    const { name: nameA, value: valueA, key: keyA } = detailA
-    // Get matching data from source B (with fallbacks)
-    const detailB = detailsB.find(({ key }) => keyA === key) || {}
+  const metricKeys = [...detailsA, ...detailsB].reduce((keys, { key }) => {
+    if (keys.includes(key)) return keys
+    keys.push(key)
+    return keys
+  }, [])
+  const detailsObj = metricKeys.reduce((data, key) => {
+    // Get matching data from sources (with fallbacks)
+    const detailA = detailsA.find(({ key: detailKey }) => detailKey === key) || {}
+    const detailB = detailsB.find(({ key: detailKey }) => detailKey === key) || {}
+    const { name: nameA, value: valueA } = detailA
     const { name: nameB = nameA, value: valueB } = detailB
     // Get tooltip
-    const tooltip = metricTooltips[keyA]
+    const tooltip = metricTooltips[key]
     // Get data rows
     const [percentA, percentB] = getRelativeMetrics(valueA, valueB)
-    const aData = { name: nameA, value: valueA, percent: percentA, key: keyA }
-    const bData = isAdPair ? { name: nameB, value: valueB, percent: percentB, key: `${keyA}-b` } : null
+    const aData = { name: nameA, value: valueA, percent: percentA, key }
+    const bData = isAdPair ? { name: nameB, value: valueB, percent: percentB, key: `${key}-b` } : null
     // Set values for data type
-    data[keyA] = {
-      dataType: keyA,
+    data[key] = {
+      dataType: key,
       name: nameA,
       tooltip,
       a: aData,
