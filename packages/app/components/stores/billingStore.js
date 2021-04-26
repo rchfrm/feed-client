@@ -64,7 +64,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     referralsDetails,
     defaultPaymentMethod,
     nextInvoice,
-    artistCurrency,
+    ...(artistCurrency && { artistCurrency }),
     loading: false,
     loadingErrors: errors,
   })
