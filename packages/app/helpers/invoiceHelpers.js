@@ -1,31 +1,18 @@
 import moment from 'moment'
 
 import { formatCurrency } from '@/helpers/utils'
+import { requestWithCatch } from '@/helpers/api'
 
 // * ARCHIVED INVOICES
 // -------------------
-const dummyArchivedInvoices = [
-  {
-    date: '2020-04-02T14:54:21.000Z',
-    link: '#',
-  },
-  {
-    date: '2020-02-01T14:54:21.000Z',
-    link: '#',
-  },
-  {
-    date: '2019-03-02T14:54:21.000Z',
-    link: '#',
-  },
-]
-
-export const fetchArchivedInvoices = (orgId) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const res = dummyArchivedInvoices
-      resolve({ res, error: null })
-    }, 800)
-  })
+export const fetchArchivedInvoices = (organizationId) => {
+  const payload = null
+  const endpoint = `/organizations/${organizationId}/billing/invoices`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Fetch invoices',
+  }
+  return requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
 
