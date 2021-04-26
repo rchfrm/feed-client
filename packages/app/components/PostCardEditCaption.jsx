@@ -52,7 +52,7 @@ const PostCardEditCaption = ({
   const [error, setError] = React.useState(null)
   const [showAlert, setShowAlert] = React.useState(false)
   const updatePostDb = React.useCallback(async (newCaption, forceRun = false) => {
-    if (isLoading) return
+    if (isLoading && !forceRun) return
     setIsLoading(true)
     // Stop here if a warning needs to be shown
     const shouldShowAlert = post.promotionStatus === 'active'
