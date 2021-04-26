@@ -47,7 +47,6 @@ const PostCardEditCaptionAlert = ({
         color: 'black',
       },
     ]
-    console.log('SHOW ALERT')
     showAlert({
       children: alertContents,
       buttons,
