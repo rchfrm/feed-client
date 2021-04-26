@@ -35,7 +35,7 @@ const PostCardEditCaption = ({
   const [originalCaption] = React.useState(message)
   const [newCaption, setNewCaption] = React.useState(messageEdited)
   const [savedNewCaption, setSavedNewCaption] = React.useState(messageEdited)
-  const [visibleCaption, setVisibleCaption] = React.useState(newCaption ? 'ad' : 'post')
+  const [visibleCaption, setVisibleCaption] = React.useState('ad')
   const [useEditMode, setUseEditMode] = React.useState(false)
 
   // UPDATE LOCAL and POST PAGE STATE
