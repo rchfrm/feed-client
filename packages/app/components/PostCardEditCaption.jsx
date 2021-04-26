@@ -134,12 +134,12 @@ const PostCardEditCaption = ({
       >
         {useEditMode ? (
           <PostCardEditCaptionMessage
-            message={newCaption || originalCaption}
+            message={newCaption ?? originalCaption}
             setMessage={setNewCaption}
           />
         ) : (
           <MarkdownText
-            markdown={visibleCaption === 'ad' ? savedNewCaption : originalCaption}
+            markdown={visibleCaption === 'ad' ? savedNewCaption || originalCaption : originalCaption}
             className="mb-0"
           />
         )}
