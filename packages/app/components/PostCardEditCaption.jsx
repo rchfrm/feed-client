@@ -36,12 +36,7 @@ const PostCardEditCaption = ({
   const [newCaption, setNewCaption] = React.useState(messageEdited)
   const [savedNewCaption, setSavedNewCaption] = React.useState(messageEdited)
   const [visibleCaption, setVisibleCaption] = React.useState(newCaption ? 'ad' : 'post')
-  const [showEditSaveButton, setShowEditSaveButton] = React.useState(showEditSaveButtonTest(visibleCaption, savedNewCaption))
   const [useEditMode, setUseEditMode] = React.useState(false)
-  React.useEffect(() => {
-    const showEditSaveButton = showEditSaveButtonTest(visibleCaption, savedNewCaption)
-    setShowEditSaveButton(showEditSaveButton)
-  }, [visibleCaption, savedNewCaption])
 
   // UPDATE LOCAL and POST PAGE STATE
   const updateState = React.useCallback((newCaption) => {
@@ -88,7 +83,6 @@ const PostCardEditCaption = ({
         // TOGGLE CAPTION TYPE BUTTON
         <div className="flex items-center mb-3 h-8">
           {captionTypes.map((type) => {
-            if (type === 'ad' && !savedNewCaption) return null
             const isActive = type === visibleCaption
             return (
               <a
@@ -108,30 +102,29 @@ const PostCardEditCaption = ({
               </a>
             )
           })}
-          {showEditSaveButton && (
-            // EDIT/SAVE BUTTON
-            <Button
-              label={useEditMode ? 'Save new caption' : 'Edit caption'}
-              version="green x-small"
-              className="ml-auto"
-              loading={isLoading}
-              onClick={() => {
-                if (isLoading) return
-                if (useEditMode) {
-                  updatePostDb(newCaption)
-                } else {
-                  setUseEditMode(true)
-                  // TRACK
-                  track('edit_caption_start', {
-                    postId: post.id,
-                    originalCaption,
-                  })
-                }
-              }}
-            >
-              {useEditMode ? 'save' : 'edit'}
-            </Button>
-          )}
+          {/* EDIT/SAVE BUTTON */}
+          <Button
+            label={useEditMode ? 'Save new caption' : 'Edit caption'}
+            version="green x-small"
+            className="ml-auto"
+            loading={isLoading}
+            disabled={visibleCaption === 'post'}
+            onClick={() => {
+              if (isLoading) return
+              if (useEditMode) {
+                updatePostDb(newCaption)
+              } else {
+                setUseEditMode(true)
+                // TRACK
+                track('edit_caption_start', {
+                  postId: post.id,
+                  originalCaption,
+                })
+              }
+            }}
+          >
+            {useEditMode ? 'save' : 'edit'}
+          </Button>
         </div>
       )}
       {/* CAPTION AND EDIT CAPTION */}
