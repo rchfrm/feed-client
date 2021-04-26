@@ -53,6 +53,7 @@ const PostCardEditCaption = ({
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const [showAlert, setShowAlert] = React.useState(false)
+  const [runResetCaption, setRunResetCaption] = React.useState(false)
   const updatePostDb = React.useCallback(async (newCaption, forceRun = false) => {
     if (isLoading && !forceRun) return
     setIsLoading(true)
@@ -70,6 +71,7 @@ const PostCardEditCaption = ({
     }
     setUseEditMode(false)
     setIsLoading(false)
+    setRunResetCaption(false)
     // TRACK
     track('edit_caption_complete', {
       postId: post.id,
@@ -77,6 +79,12 @@ const PostCardEditCaption = ({
       newCaption,
     })
   }, [isLoading, artistId, originalCaption, post.id, post.promotionStatus, updateState, setError])
+
+  // RESET CAPTION TO ORIGINAL
+  const resetToOriginal = React.useCallback(async () => {
+    setRunResetCaption(true)
+    updatePostDb(null)
+  }, [updatePostDb])
 
   return (
     <div>
@@ -149,6 +157,23 @@ const PostCardEditCaption = ({
           />
         )}
       </div>
+      {/* RESET BUTTON */}
+      <p
+        className="mb-0 text-sm text-right h-8"
+      >
+        {visibleCaption === 'ad' && (
+          <a
+            role="button"
+            className="inline-block p-2 pl-0 no-underline text-grey-3 hover:text-black"
+            onClick={(e) => {
+              e.preventDefault()
+              resetToOriginal()
+            }}
+          >
+            Reset to original
+          </a>
+        )}
+      </p>
       {/* ALERT */}
       <PostCardEditCaptionAlert
         postId={post.id}
@@ -156,6 +181,7 @@ const PostCardEditCaption = ({
         newCaption={newCaption}
         originalCaption={originalCaption}
         updatePostDb={updatePostDb}
+        runResetCaption={runResetCaption}
         onCancel={() => {
           setIsLoading(false)
           setUseEditMode(false)
