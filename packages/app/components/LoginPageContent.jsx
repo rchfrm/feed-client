@@ -8,7 +8,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 // IMPORT COMPONENTS
-import LoginWithEmail from '@/app/LoginWithEmail'
+import LoginEmailForm from '@/app/LoginEmailForm'
 import LoginSignupButtons from '@/LoginSignupButtons'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
@@ -61,7 +61,7 @@ function LoginPageContent({ showEmailLogin }) {
 
       {/* Email login form */}
       {showEmailLogin ? (
-        <LoginWithEmail className={styles.form} />
+        <LoginEmailForm className={styles.form} />
       )
         : (
           <>
