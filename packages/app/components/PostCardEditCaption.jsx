@@ -86,7 +86,7 @@ const PostCardEditCaption = ({
       <Error error={error} />
       {isEditable && (
         // TOGGLE CAPTION TYPE BUTTON
-        <div className="flex items-center mb-3 h-8">
+        <div className="flex items-center mb-3">
           {captionTypes.map((type) => {
             const isActive = type === visibleCaption
             return (
