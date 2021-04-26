@@ -40,15 +40,19 @@ Lastly, whenever a new page is mounted, the authentication status is queried to 
 
 ```
 const Page = () => {
-  return (
-    <PageContent />
-  )
+  return <PageContent />
 }
 
 export default testPageReady('app')(Page)
 ```
 
 ...where 'app' is the package (`app` vs `admin`), and `Page` is the content of the page.
+
+## The components for handling auth state
+
+There are three global state components that are relevant for the login/signup flow: the `auth` state (`AuthContext`) the `user` state (`UserContext`), and the `artist` state (`ArtistContext`)
+
+You can read more about them in the [global state doc](/docs/globalState.md).
 
 ## Using Firebase
 
