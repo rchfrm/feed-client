@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import PencilIcon from '@/icons/PencilIcon'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
@@ -13,11 +14,7 @@ import PostCardEditCaptionAlert from '@/app/PostCardEditCaptionAlert'
 import { updatePostCaption } from '@/app/helpers/postsHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
 
-const showEditSaveButtonTest = (visibleCaption, savedNewCaption) => {
-  if (visibleCaption === 'ad') return true
-  if (visibleCaption === 'post' && !savedNewCaption) return true
-  return false
-}
+import brandColors from '@/constants/brandColors'
 
 const PostCardEditCaption = ({
   post,
@@ -111,7 +108,7 @@ const PostCardEditCaption = ({
           <Button
             label={useEditMode ? 'Save new caption' : 'Edit caption'}
             version="green x-small"
-            className="ml-auto"
+            className="ml-auto w-20"
             loading={isLoading}
             disabled={visibleCaption === 'post'}
             onClick={() => {
@@ -128,6 +125,9 @@ const PostCardEditCaption = ({
               }
             }}
           >
+            {!useEditMode && (
+              <PencilIcon fill={brandColors.bgColor} className="mr-1" style={{ height: '1rem' }} />
+            )}
             {useEditMode ? 'save' : 'edit'}
           </Button>
         </div>
