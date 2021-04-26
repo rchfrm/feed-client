@@ -38,6 +38,11 @@ const PostCardEditCaption = ({
   const [visibleCaption, setVisibleCaption] = React.useState('ad')
   const [useEditMode, setUseEditMode] = React.useState(false)
 
+  // Turn off edit mode when moving to post view
+  React.useEffect(() => {
+    if (visibleCaption) setUseEditMode(false)
+  }, [visibleCaption])
+
   // UPDATE LOCAL and POST PAGE STATE
   const updateState = React.useCallback((newCaption) => {
     const payload = { postIndex, newCaption }
