@@ -12,7 +12,7 @@ import {
 
 import useBillingStore from '@/app/stores/billingStore'
 
-import { submitPaymentMethod } from '@/app/helpers/billingHelpers'
+import * as billingHelpers from '@/app/helpers/billingHelpers'
 
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
@@ -45,7 +45,6 @@ const getBillingStoreState = (state) => ({
   organisation: state.organisation,
   addPaymentMethod: state.addPaymentMethod,
   artistCurrency: state.artistCurrency,
-  addPaymentMethod: state.addPaymentMethod,
 })
 
 // THE FORM
@@ -94,10 +93,12 @@ const FORM = ({
     setIsFormValid(formValid)
   }, [name, currency, cardComplete, elements, stripe])
 
+
   // * HANDLE FORM
   // --------------
   const onSubmit = React.useCallback(async () => {
     if (!isFormValid || isLoading) return
+
     setIsLoading(true)
     // Create payment method with Stripe
     const cardElement = elements.getElement(CardElement)
@@ -115,20 +116,55 @@ const FORM = ({
       elements.getElement('card').focus()
       return
     }
+
     // Add payment method to DB
-    const { res: paymentMethodDb, error: serverError } = await submitPaymentMethod({
+    const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod({
       organisationId,
       paymentMethodId: paymentMethod.id,
       currency,
       shouldBeDefault,
     })
-    setIsLoading(false)
+
     // Handle error adding payment to DB
     if (serverError) {
       setError(serverError)
+      setIsLoading(false)
       return
     }
+
+    // Fix setup intent if not success
+    const { setup_intent: setupIntent } = paymentMethodDb
+    if (setupIntent.status !== 'succeeded') {
+      const res = await stripe.confirmCardSetup(setupIntent.client_secret, {
+        payment_method: paymentMethod.id,
+      }).catch((error) => {
+        setError(error)
+      })
+      // Handle failure
+      if (res?.setupIntent?.status !== 'succeeded') {
+        // Delete payment method
+        await billingHelpers.deletePaymentMethod(organisationId, paymentMethod.id)
+        setIsLoading(false)
+        return
+      }
+    }
+
+    // Set card as default (if necessary)
+    if (shouldBeDefault) {
+      const { error } = await billingHelpers.setPaymentAsDefault({
+        organisationId,
+        paymentMethodId: paymentMethod.id,
+      })
+      if (error) {
+        await billingHelpers.deletePaymentMethod(organisationId, paymentMethod.id)
+        setError(error)
+        setIsLoading(false)
+        return
+      }
+    }
+
     // Handle success
+    setIsLoading(false)
     setError(null)
     // Update store
     addPaymentMethod(paymentMethodDb)
