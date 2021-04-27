@@ -6,6 +6,7 @@ import ActiveLink from '@/elements/ActiveLink'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
+import useBrowserStore from '@/hooks/useBrowserStore'
 
 import styles from '@/app/ThePageButtons.module.css'
 
@@ -51,6 +52,8 @@ const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }
 
 const ThePageButtons = () => {
   const isLoggedIn = useLoggedInTest()
+  const { device = {} } = useBrowserStore()
+  const { isMobile, isIOS } = device
   // Get currency from artist
   const {
     artistLoading,
@@ -63,7 +66,11 @@ const ThePageButtons = () => {
   return (
     <div
       id="ThePageButtons"
-      className={[styles.container, artistLoading ? styles._artistLoading : ''].join(' ')}
+      className={[
+        styles.container,
+        artistLoading ? styles._artistLoading : null,
+        isIOS && isMobile ? styles.ios_mobile : null,
+      ].join(' ')}
     >
       <nav className={styles.inner}>
         {links.map(({ href, title, icon, matchingHrefs }) => {

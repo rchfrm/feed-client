@@ -7,7 +7,7 @@ const TheHead = ({ siteUrl, metaDescription, noIndex, includeStripe }) => {
   return (
     <>
       <meta charSet="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       {/* PWA config and Favicons. Custom meta are children here */}
       <Favicons>
         <link rel="shortcut icon" href="/favicon.ico" />
