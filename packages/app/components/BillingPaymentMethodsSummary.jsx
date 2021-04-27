@@ -16,7 +16,7 @@ const BillingPaymentMethodsSummary = ({
     card,
     currency,
     billing_details: billingDetails,
-  } = defaultPaymentMethod
+  } = defaultPaymentMethod || {}
   return (
     <div
       className={[
