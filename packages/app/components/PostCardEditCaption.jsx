@@ -66,18 +66,20 @@ const PostCardEditCaption = ({
     const { error } = await updatePostCaption(artistId, post.id, newCaption)
     setError(error)
     setShowAlert(false)
+    // Success!
     if (!error) {
       updateState(newCaption)
+      // Track
+      track('edit_caption_complete', {
+        postId: post.id,
+        originalCaption,
+        newCaption,
+      })
     }
+    // Reset
     setUseEditMode(false)
     setIsLoading(false)
     setRunResetCaption(false)
-    // TRACK
-    track('edit_caption_complete', {
-      postId: post.id,
-      originalCaption,
-      newCaption,
-    })
   }, [isLoading, artistId, originalCaption, post.id, post.promotionStatus, updateState, setError])
 
   // RESET CAPTION TO ORIGINAL
