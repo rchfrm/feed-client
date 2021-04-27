@@ -16,6 +16,7 @@ import useBillingAddPayment from '@/app/hooks/useBillingAddPayment'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import { setPaymentAsDefault, deletePaymentMethod } from '@/app/helpers/billingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 import copy from '@/app/copy/billingCopy'
 
@@ -61,6 +62,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
     updateDefaultPaymentStore(newDefaultPaymentMethod)
     setSidePanelLoading(false)
     setError(null)
+    track('billing_set_default_payment_method', { organisationId })
   }, [organisationId, selectedMethodId, setSidePanelLoading, updateDefaultPaymentStore])
 
   // DELETE METHOD
@@ -75,6 +77,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
     }
     deletePaymentMethodStore(paymentMethodId)
     setError(null)
+    track('billing_delete_payment_method', { organisationId })
   }, [organisationId, setSidePanelLoading, deletePaymentMethodStore])
 
   // SET SIDE PANEL BUTTON
@@ -130,7 +133,10 @@ const BillingPaymentMethodsAll = ({ className }) => {
       <div>
         <Button
           version="green x-small"
-          onClick={() => openAddPaymentMethod(false)}
+          onClick={() => {
+            openAddPaymentMethod(false)
+            track('billing_start_add_payment', { organisationId })
+          }}
         >
           + Add new card
         </Button>

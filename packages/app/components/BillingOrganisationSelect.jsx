@@ -8,6 +8,8 @@ import brandColors from '@/constants/brandColors'
 
 import useBillingStore from '@/app/stores/billingStore'
 
+import { track } from '@/app/helpers/trackingHelpers'
+
 const getSelectOrganisation = state => state.selectOrganisation
 
 const BillingOrganisationSelect = ({
@@ -36,8 +38,12 @@ const BillingOrganisationSelect = ({
               className="mb-6 sm:mb-0 sm:mr-6"
               options={selectOptions}
               selectedValue={organisation.id}
-              handleChange={({ target: { value } }) => {
-                selectOrganisation(value)
+              handleChange={({ target: { value: organisationId } }) => {
+                track('billing_switch_organisation', {
+                  previousOrganisationId: organisation.id,
+                  newOrganisationId: organisationId,
+                })
+                selectOrganisation(organisationId)
                 setSelectActive(false)
               }}
             />

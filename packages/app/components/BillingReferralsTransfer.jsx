@@ -10,6 +10,7 @@ import Error from '@/elements/Error'
 import useBillingStore from '@/app/stores/billingStore'
 
 import { transferReferralCredits } from '@/app/helpers/billingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 const getOrg = state => state.organisation
 const getAllOrgs = state => state.allOrgs
@@ -37,7 +38,14 @@ const BillingReferralsTransfer = ({
     setIsLoading(false)
     setError(error)
     setUpdateTo('')
-    if (error) setSelectedOrg(previousOrg)
+    if (error) {
+      setSelectedOrg(previousOrg)
+      return
+    }
+    track('billing_transfer_credits', {
+      fromOrganisationId: organisation.id,
+      toOrganisationId: selectedOrg.id,
+    })
   }, [updateTo])
   return (
     <div

@@ -10,16 +10,17 @@ import {
   useStripe,
 } from '@stripe/react-stripe-js'
 
-import useBillingStore from '@/app/stores/billingStore'
-
-import * as billingHelpers from '@/app/helpers/billingHelpers'
-
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
 
 import SelectCurrency from '@/elements/SelectCurrency'
 import InputBase from '@/elements/InputBase'
+
+import useBillingStore from '@/app/stores/billingStore'
+
+import * as billingHelpers from '@/app/helpers/billingHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
 
 import brandColors from '@/constants/brandColors'
 
@@ -171,6 +172,8 @@ const FORM = ({
     // Update local state
     setPaymentMethod(paymentMethodDb)
     setSuccess(true)
+    // Track
+    track('billing_finish_add_payment', { organisationId, shouldBeDefault, currency })
   }, [isFormValid, isLoading, name, organisationId, currency, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
 
   // CHANGE SIDEPANEL BUTTON
