@@ -93,6 +93,7 @@ const FORM = ({
     setIsFormValid(formValid)
   }, [name, currency, cardComplete, elements, stripe])
 
+
   // * HANDLE FORM
   // --------------
   const onSubmit = React.useCallback(async () => {
@@ -141,8 +142,9 @@ const FORM = ({
       })
       // Handle failure
       if (res?.setupIntent?.status !== 'succeeded') {
+        // Delete payment method
+        await billingHelpers.deletePaymentMethod(organisationId, paymentMethod.id)
         setIsLoading(false)
-        // TODO REMOVE PAYMENT METHOD from DB
         return
       }
     }
@@ -154,10 +156,10 @@ const FORM = ({
         paymentMethodId: paymentMethod.id,
       })
       if (error) {
-        setIsLoading(false)
+        await billingHelpers.deletePaymentMethod(organisationId, paymentMethod.id)
         setError(error)
         setIsLoading(false)
-        // TODO REMOVE PAYMENT METHOD from DB
+        return
       }
     }
 
