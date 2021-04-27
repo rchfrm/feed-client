@@ -10,15 +10,15 @@ import {
 } from 'react-accessible-accordion'
 
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
-import TargetingPickerCountry from '@/app/TargetingPickerCountry'
-import TargetingPickerCities from '@/app/TargetingPickerCities'
+import TargetingLocationsCountry from '@/app/TargetingLocationsCountry'
+import TargetingLocationsCities from '@/app/TargetingLocationsCities'
 import TargetingLocationsSentence from '@/app/TargetingLocationsSentence'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import { removeArrayOverlap } from '@/helpers/utils'
 
-const TargetingPickerLocations = ({
+const TargetingLocations = ({
   initialCityKeys,
   initialCountryCodes,
   className,
@@ -109,7 +109,7 @@ const TargetingPickerLocations = ({
               uuid={code}
               className="mb-10 border-b-0 border-solid border-grey-2"
             >
-              <TargetingPickerCountry
+              <TargetingLocationsCountry
                 country={country}
                 selectedCountries={selectedCountries}
                 setSelectedCountries={updateCountries}
@@ -120,7 +120,7 @@ const TargetingPickerLocations = ({
               {/* CITIES */}
               {hasCities && (
                 <AccordionItemPanel>
-                  <TargetingPickerCities
+                  <TargetingLocationsCities
                     cities={cities}
                     selectedCities={selectedCities}
                     initialCityKeys={initialCityKeys}
@@ -136,15 +136,15 @@ const TargetingPickerLocations = ({
   )
 }
 
-TargetingPickerLocations.propTypes = {
+TargetingLocations.propTypes = {
   initialCityKeys: PropTypes.array.isRequired,
   initialCountryCodes: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
 
-TargetingPickerLocations.defaultProps = {
+TargetingLocations.defaultProps = {
   className: null,
 }
 
 
-export default TargetingPickerLocations
+export default TargetingLocations
