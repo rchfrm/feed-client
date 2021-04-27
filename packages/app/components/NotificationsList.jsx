@@ -21,7 +21,11 @@ const readNotificationsStore = (state) => ({
   closeNotification: state.closeNotification,
 })
 
-const NotificationsList = ({ notifications, hasError, className }) => {
+const NotificationsList = ({
+  notifications,
+  hasError,
+  className,
+}) => {
   const {
     openedNotification,
     openedNotificationId,

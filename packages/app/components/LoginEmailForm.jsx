@@ -24,7 +24,7 @@ import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import styles from '@/LoginPage.module.css'
 
 
-function LoginWithEmail({ className }) {
+const LoginEmailForm = ({ className }) => {
   // IMPORT CONTEXTS
   const { rejectedPagePath } = React.useContext(AuthContext)
   const { storeUser, userError, testForPendingEmail } = React.useContext(UserContext)
@@ -165,4 +165,4 @@ function LoginWithEmail({ className }) {
   )
 }
 
-export default LoginWithEmail
+export default LoginEmailForm
