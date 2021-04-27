@@ -65,13 +65,8 @@ const TargetingSettings = () => {
   // Budget box ref
   const budgetRef = React.useRef(null)
 
-  if (!settingsReady) {
-    return (
-      <div>
-        <Spinner />
-      </div>
-    )
-  }
+  // Show spinner while loading
+  if (!settingsReady) return <div><Spinner /></div>
 
   return (
     <div ref={containerRef}>
