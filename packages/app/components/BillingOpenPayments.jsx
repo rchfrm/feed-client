@@ -6,6 +6,12 @@ import Button from '@/elements/Button'
 import useBillingShowPayments from '@/app/hooks/useBillingShowPayments'
 import useBillingAddPayment from '@/app/hooks/useBillingAddPayment'
 
+import useBillingStore from '@/app/stores/billingStore'
+
+import { track } from '@/app/helpers/trackingHelpers'
+
+const getOrganisation = state => state.organisation
+
 const BillingOpenPayments = ({
   contentType,
   shouldBeDefault,
@@ -13,6 +19,8 @@ const BillingOpenPayments = ({
 }) => {
   const openAddPaymentMethod = useBillingAddPayment()
   const openShowPaymentMethods = useBillingShowPayments()
+
+  const { id: organisationId } = useBillingStore(getOrganisation)
 
   return (
     <div className={className}>
@@ -23,9 +31,12 @@ const BillingOpenPayments = ({
           e.preventDefault()
           if (contentType === 'add-payment') {
             openAddPaymentMethod(shouldBeDefault)
-            return
+            track('billing_add_first_payment_method', { organisationId })
+            track('billing_start_add_payment', { organisationId })
+          } else {
+            openShowPaymentMethods()
+            track('billing_view_payment_methods', { organisationId })
           }
-          openShowPaymentMethods()
         }}
       >
         {contentType === 'add-payment' ? 'Add payment method' : 'Show all payment methods'}
