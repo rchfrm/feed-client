@@ -36,7 +36,7 @@ const BillingOpenInvoices = ({
     setSidePanelButton(button)
     // Track
     track('billing_view_invoices', { organisationId })
-  }, [setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton, setSidePanelLoading])
+  }, [setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton, setSidePanelLoading, organisationId])
 
   return (
     <div className={className}>
