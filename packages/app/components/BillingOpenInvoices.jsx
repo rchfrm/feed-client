@@ -7,6 +7,12 @@ import Button from '@/elements/Button'
 
 import BillingInvoiceList from '@/app/BillingInvoiceList'
 
+import useBillingStore from '@/app/stores/billingStore'
+
+import { track } from '@/app/helpers/trackingHelpers'
+
+const getOrganisation = state => state.organisation
+
 const BillingOpenInvoices = ({
   className,
 }) => {
@@ -18,6 +24,8 @@ const BillingOpenInvoices = ({
     setSidePanelLoading,
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
+
+  const { id: organisationId } = useBillingStore(getOrganisation)
   // OPEN ADD PAYMENT METHOD
   const openInvoicesSidepanel = React.useCallback(() => {
     const content = <BillingInvoiceList setSidePanelLoading={setSidePanelLoading} />
@@ -26,6 +34,8 @@ const BillingOpenInvoices = ({
     setSidePanelContentLabel('Inovoice list')
     toggleSidePanel(true)
     setSidePanelButton(button)
+    // Track
+    track('billing_view_invoices', { organisationId })
   }, [setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton, setSidePanelLoading])
 
   return (
