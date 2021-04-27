@@ -45,7 +45,6 @@ const getBillingStoreState = (state) => ({
   organisation: state.organisation,
   addPaymentMethod: state.addPaymentMethod,
   artistCurrency: state.artistCurrency,
-  addPaymentMethod: state.addPaymentMethod,
 })
 
 // THE FORM
