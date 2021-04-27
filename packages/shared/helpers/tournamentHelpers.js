@@ -362,7 +362,7 @@ export const getAdMetrics = (dataA, dataB, isAdPair) => {
     // Set values for data type
     data[key] = {
       dataType: key,
-      name: nameA,
+      name: nameA || nameB,
       tooltip,
       a: aData,
       b: bData,
