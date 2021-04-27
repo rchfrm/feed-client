@@ -31,7 +31,6 @@ const BillingOpenPayments = ({
           e.preventDefault()
           if (contentType === 'add-payment') {
             openAddPaymentMethod(shouldBeDefault)
-            track('billing_add_first_payment_method', { organisationId })
             track('billing_start_add_payment', { organisationId })
           } else {
             openShowPaymentMethods()
