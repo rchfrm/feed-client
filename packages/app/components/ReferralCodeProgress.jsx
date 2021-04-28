@@ -1,26 +1,45 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import MarkdownText from '@/elements/MarkdownText'
 
 import ReferralCodeProgressBar from '@/app/ReferralCodeProgressBar'
 
+import { formatCurrency } from '@/helpers/utils'
+
 import copy from '@/app/copy/referralCodeCopy'
 
-const tiers = [...copy.tiers].reverse()
+// Use this to get the next upcoming referral award
+const getUpcomingReferralAward = (tiers, totalCompleteReferrals, minSpendString) => {
+  const nextTierIndex = tiers.findIndex(({ referrals: requiredReferrals }) => totalCompleteReferrals >= requiredReferrals)
+  // If reached the max
+  if (nextTierIndex === 0) {
+    return `another ${minSpendString} in credit`
+  }
+  // return award copy with first word in lowercase
+  const { award } = nextTierIndex === -1 ? tiers[tiers.length - 1] : tiers[nextTierIndex - 1]
+  return award.charAt(0).toLowerCase() + award.slice(1)
+}
 
 const ReferralCodeProgress = ({
-  referrals,
+  totalReferrals,
+  totalCompleteReferrals,
   className,
 }) => {
-  // TODO fetch this from API
-  console.log('referrals', referrals)
-  const referralsAchieved = 2
+  // Get referral credit amount
+  const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
+  const minSpend = feedMinBudgetInfo.majorUnit.minReccomendedStories * 2
+  const minSpendString = formatCurrency(minSpend, feedMinBudgetInfo.currencyCode, true)
+
+  // Get tiers
+  const tiers = [...copy.tiers(minSpend, feedMinBudgetInfo.currencyCode)].reverse()
 
   // Calc percent complete
   const totalTiers = tiers.length
   const percentComplete = tiers.reduce((percent, { referrals: referralsRequired }) => {
-    if (referralsAchieved < referralsRequired) return percent
+    if (totalCompleteReferrals < referralsRequired) return percent
     percent += ((1 / totalTiers) * 100)
     return percent
   }, 0)
@@ -35,6 +54,12 @@ const ReferralCodeProgress = ({
     return obj
   }, {})
 
+  // Get upcoming benefit
+  const upcomingBenefit = getUpcomingReferralAward(tiers, totalCompleteReferrals, minSpendString)
+
+  // Intro copy
+  const introCopy = copy.introToProgress(totalReferrals, totalCompleteReferrals, minSpendString, upcomingBenefit)
+
   return (
     <div
       className={[
@@ -42,7 +67,7 @@ const ReferralCodeProgress = ({
       ].join(' ')}
     >
       {/* INTRO */}
-      <MarkdownText markdown={copy.introToProgress(referralsAchieved)} className="h3--text mb-8" />
+      <MarkdownText markdown={introCopy} className="h3--text mb-8" />
       {/* TIERS */}
       <div className="relative mb-10">
         <ReferralCodeProgressBar
@@ -52,7 +77,7 @@ const ReferralCodeProgress = ({
         <ol className="relative" style={{ zIndex: 2 }}>
           {tiers.map((tier) => {
             const { referrals, award, footnoteSymbol } = tier
-            const isAchieved = referralsAchieved >= referrals
+            const isAchieved = totalCompleteReferrals >= referrals
 
             return (
               <li
@@ -79,7 +104,7 @@ const ReferralCodeProgress = ({
                     </span>
                   )}
                   <span className={isAchieved ? 'font-bold' : null}>
-                    {award}
+                    {award}.
                     {footnoteSymbol}
                   </span>
                 </p>
@@ -104,11 +129,14 @@ const ReferralCodeProgress = ({
 }
 
 ReferralCodeProgress.propTypes = {
-  referrals: PropTypes.object.isRequired,
+  totalReferrals: PropTypes.number,
+  totalCompleteReferrals: PropTypes.number,
   className: PropTypes.string,
 }
 
 ReferralCodeProgress.defaultProps = {
+  totalReferrals: 0,
+  totalCompleteReferrals: 0,
   className: null,
 }
 
