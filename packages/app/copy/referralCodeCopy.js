@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import { formatCurrency } from '@/helpers/utils'
 
 export default {
   signupClosedIntro: `**There is currently a waiting list to join the Feed beta.**`,
@@ -18,38 +19,49 @@ export default {
   sharingLinkExplanation: `You can also share a direct link that will let others sign up using your referral code.`,
 
   // Intro progress
-  introToProgress: (referralsAchieved) => {
-    if (!referralsAchieved) return `Refer your first friend to **Feed** to give them £10 credit and get the same for yourself!`
-    return `You've referred ${referralsAchieved} people, great work! Refer more friends to get the next benefit...`
+  introToProgress: (totalReferrals, totalCompleteReferrals, minSpend, upcomingBenefit) => {
+    const totalReferredText = totalReferrals === 1 ? 'someone' : `${totalReferrals} people`
+    const totalCompleteReferredText = totalCompleteReferrals === 1 ? 'someone' : `${totalCompleteReferrals} people`
+    // No referrals of any kind
+    if (!totalReferrals && !totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend ${minSpend} through the platform, you’ll both receive ${minSpend} in credit!`
+    // Only incomplete referrals
+    if (totalReferrals && !totalCompleteReferrals) return `Thank you for referring ${totalReferredText} to Feed! Once they have spent ${minSpend} through the platform, we’ll give you both ${minSpend} in credit.`
+    // Only complete referrals
+    if (!totalReferrals && totalCompleteReferrals) return `Thanks for referring ${totalCompleteReferredText} to Feed! Keep sharing your unique link to get ${upcomingBenefit}`
+    // Mix of complete and incomplete referrals
+    return `Thanks for referring ${totalCompleteReferredText} to Feed! ${totalReferrals - totalCompleteReferrals} of them haven’t yet spent ${minSpend} through the platform. Once they do, you’ll get ${upcomingBenefit}.`
   },
 
   // TIERS
-  tiers: [
-    {
-      referrals: 1,
-      award: `£10 credit to referrer and referee.`,
-      footnoteSymbol: '*',
-      footnote: 'Applicable for every qualifying referral.',
-    },
-    {
-      referrals: 2,
-      award: `Another £10 credit.`,
-    },
-    {
-      referrals: 3,
-      award: `Invitation to private Slack.`,
-    },
-    {
-      referrals: 5,
-      award: `30 minute marketing consultation with Feed team.`,
-    },
-    {
-      referrals: 10,
-      award: `£50 towards your advertising budget.`,
-    },
-    {
-      referrals: 20,
-      award: `Monthly marketing consultations with Feed team for a year.`,
-    },
-  ],
+  tiers: (creditAmount, currency) => {
+    const basicCredit = formatCurrency(creditAmount, currency, true)
+    return [
+      {
+        referrals: 1,
+        award: `${basicCredit} credit to referrer and referee`,
+        footnoteSymbol: '*',
+        footnote: 'Applicable for every qualifying referral.',
+      },
+      {
+        referrals: 2,
+        award: `Another ${basicCredit} credit`,
+      },
+      {
+        referrals: 3,
+        award: `Invitation to private Slack`,
+      },
+      {
+        referrals: 5,
+        award: `30 minute marketing consultation with Feed team`,
+      },
+      {
+        referrals: 10,
+        award: `${formatCurrency(creditAmount * 5, currency, true)} towards your advertising budget`,
+      },
+      {
+        referrals: 20,
+        award: `Monthly marketing consultations with Feed team for a year`,
+      },
+    ]
+  },
 }
