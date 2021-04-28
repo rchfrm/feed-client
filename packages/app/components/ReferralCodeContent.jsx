@@ -7,7 +7,10 @@ import ReferralCodeShare from '@/app/ReferralCodeShare'
 import ReferralCodeProgress from '@/app/ReferralCodeProgress'
 
 const ReferralCodeContent = ({ className }) => {
-  const { user: { referrals } } = React.useContext(UserContext)
+  const { user: {
+    referrals_number: totalReferrals,
+    qualifying_referrals_number: totalCompleteReferrals,
+  } } = React.useContext(UserContext)
   return (
     <div
       className={[
@@ -17,7 +20,11 @@ const ReferralCodeContent = ({ className }) => {
       ].join(' ')}
     >
       <ReferralCodeShare className="mb-12 lg:mb-0 lg:col-span-1 lg:col-start-2" />
-      <ReferralCodeProgress referrals={referrals} className="lg:col-span-1 lg:col-start-1" />
+      <ReferralCodeProgress
+        totalReferrals={totalReferrals}
+        totalCompleteReferrals={totalCompleteReferrals}
+        className="lg:col-span-1 lg:col-start-1"
+      />
     </div>
   )
 }
