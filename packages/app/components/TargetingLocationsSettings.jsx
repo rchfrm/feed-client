@@ -1,28 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TooltipButton from '@/elements/TooltipButton'
 import MarkdownText from '@/elements/MarkdownText'
-import CheckboxButtons from '@/elements/CheckboxButtons'
+import ToggleSwitch from '@/elements/ToggleSwitch'
 import Error from '@/elements/Error'
 
-import TargetingSectionHeader from '@/app/TargetingSectionHeader'
-
 import copy from '@/app/copy/targetingPageCopy'
-
-const checkboxOptions = [
-  {
-    value: 'Y',
-    name: 'apply',
-    label: 'Use geographical targeting for "Nurture" audiences',
-  },
-]
 
 const TargetingLocationsSettings = ({
   className,
 }) => {
-  const [selectedValues, setSelectedValues] = React.useState([checkboxOptions[0].value])
-  const [value] = selectedValues
-  const error = value ? { message: copy.locationSettingsWarning } : null
+  const [useGeographic, setUseGeographic] = React.useState(false)
+  const error = useGeographic ? { message: copy.locationSettingsWarning } : null
 
   return (
     <section
@@ -30,18 +20,32 @@ const TargetingLocationsSettings = ({
         className,
       ].join(' ')}
     >
-      <header>
-        <TargetingSectionHeader className="mb-5" header="Location Targeting Settings" />
-        <MarkdownText markdown={copy.locationSettingsIntro} />
-      </header>
-      <div>
-        <CheckboxButtons
-          buttonOptions={checkboxOptions}
-          selectedValues={selectedValues}
-          setSelectedValues={setSelectedValues}
-        />
+      <div
+        className={[
+          'bg-grey-1 rounded-dialogue p-4',
+          'iphone8:flex items-center justify-between',
+          'mb-4',
+        ].join(' ')}
+      >
+        <div className="flex iphone8:items-center mb-4 iphone8:mb-0">
+          {/* TOOLTIP */}
+          <TooltipButton
+            copy={copy.locationSettingsTooltip}
+            direction="right"
+            trackLabel="Geographical targeting settings"
+          />
+          {/* TEXT */}
+          <MarkdownText markdown={copy.locationSettingsIntro} className="mb-0 ml-2 iphone8:mr-4" />
+        </div>
+        {/* TOGGLE SWITCH */}
+        <div className="mb-0 pl-10 iphone8:pl-0">
+          <ToggleSwitch
+            state={useGeographic}
+            onChange={(newState) => setUseGeographic(newState)}
+          />
+        </div>
       </div>
-      <Error error={error} />
+      <Error error={error} className="mb-0" />
     </section>
   )
 }

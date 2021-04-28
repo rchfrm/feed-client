@@ -10,9 +10,10 @@ import {
 } from 'react-accessible-accordion'
 
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
+import TargetingLocationsSentence from '@/app/TargetingLocationsSentence'
+import TargetingLocationsSettings from '@/app/TargetingLocationsSettings'
 import TargetingLocationsCountry from '@/app/TargetingLocationsCountry'
 import TargetingLocationsCities from '@/app/TargetingLocationsCities'
-import TargetingLocationsSentence from '@/app/TargetingLocationsSentence'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -86,11 +87,14 @@ const TargetingLocations = ({
 
   return (
     <section className={[className].join(' ')}>
+      {/* INTRO */}
       <TargetingSectionHeader className="mb-5" header="Locations" />
       <TargetingLocationsSentence
         artistIsMusician={artistIsMusician}
         spotifyConnected={spotifyConnected}
       />
+      {/* AUDIENCE SETTINGS */}
+      <TargetingLocationsSettings className="pt-4  mb-4" />
       {/* COUNTRIES AND CITIES */}
       <Accordion
         className="pt-6"

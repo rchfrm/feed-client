@@ -15,7 +15,6 @@ import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingLocations from '@/app/TargetingLocations'
 import TargetingLocationsHelper from '@/app/TargetingLocationsHelper'
-import TargetingLocationsSettings from '@/app/TargetingLocationsSettings'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 import TargetingSettingsSaveContainer from '@/app/TargetingSettingsSaveContainer'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
@@ -139,7 +138,6 @@ const TargetingSettings = () => {
               className="mb-3"
             />
             <TargetingLocationsHelper className="mb-10" />
-            <TargetingLocationsSettings />
           </div>
         )}
         {/* BACK BUTTON (for mobile) */}
