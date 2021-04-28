@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import MarkdownText from '@/elements/MarkdownText'
 import CheckboxButtons from '@/elements/CheckboxButtons'
+import Error from '@/elements/Error'
 
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 
@@ -10,14 +11,9 @@ import copy from '@/app/copy/targetingPageCopy'
 
 const checkboxOptions = [
   {
-    value: 'growth-nurture',
-    name: 'Growth and Nurture',
-    label: 'Growth and Nurture',
-  },
-  {
-    value: 'retargeting',
-    name: 'Retargeting',
-    label: 'Retargeting',
+    value: 'Y',
+    name: 'apply',
+    label: 'Use geographical targeting for "Nurture" audiences',
   },
 ]
 
@@ -25,6 +21,9 @@ const TargetingLocationsSettings = ({
   className,
 }) => {
   const [selectedValues, setSelectedValues] = React.useState([checkboxOptions[0].value])
+  const [value] = selectedValues
+  const error = value ? { message: copy.locationSettingsWarning } : null
+
   return (
     <section
       className={[
@@ -42,6 +41,7 @@ const TargetingLocationsSettings = ({
           setSelectedValues={setSelectedValues}
         />
       </div>
+      <Error error={error} />
     </section>
   )
 }

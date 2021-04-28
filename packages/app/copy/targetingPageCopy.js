@@ -39,7 +39,8 @@ If you can't see a city but the country is shown, try targeting the country inst
   
 We are working on adding custom locations, but it would be really helpful if you could email us to let us know what you'd like to see here: [team@tryfeed.co](mailto:team@tryfeed.co)`,
 
-  locationSettingsIntro: `Select which audiences the location settings should apply to.`,
+  locationSettingsIntro: `Should geographical targeting controls also apply to Nurture (retargeting) audiences?`,
+  locationSettingsWarning: `Restricting this audience may decrease ad performance.`,
 
   successMessage: (settingsSavedInitial) => {
     if (settingsSavedInitial) {
