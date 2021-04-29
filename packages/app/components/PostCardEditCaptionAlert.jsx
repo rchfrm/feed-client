@@ -52,6 +52,11 @@ const PostCardEditCaptionAlert = ({
       buttons,
     })
   }, [show, newCaption, onAlertConfirm, postId, originalCaption, onCancel, alertContents, showAlert, closeAlert])
+
+  // HIDE ALERT WHEN UNMOUNTING
+  React.useEffect(() => {
+    return closeAlert
+  }, [closeAlert])
   // NO RENDER
   return null
 }
