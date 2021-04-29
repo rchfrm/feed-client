@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import produce from 'immer'
+
+import { TargetingContext } from '@/app/contexts/TargetingContext'
+
 import TooltipButton from '@/elements/TooltipButton'
 import MarkdownText from '@/elements/MarkdownText'
 import ToggleSwitch from '@/elements/ToggleSwitch'
@@ -11,8 +15,25 @@ import copy from '@/app/copy/targetingPageCopy'
 const TargetingLocationsSettings = ({
   className,
 }) => {
-  const [useGeographic, setUseGeographic] = React.useState(false)
+  // Fetch from targeting context
+  const {
+    targetingState,
+    setTargetingState,
+  } = React.useContext(TargetingContext)
+
+  console.log('targetingState', targetingState)
+  const propKey = 'use_location_targeting_for_remind'
+  const [useGeographic, setUseGeographic] = React.useState(targetingState[propKey])
   const error = useGeographic ? { message: copy.locationSettingsWarning } : null
+
+  // UPDATE TARGETING STATE
+  React.useEffect(() => {
+    setTargetingState((targetingState) => {
+      return produce(targetingState, draftState => {
+        draftState[propKey] = useGeographic
+      })
+    })
+  }, [useGeographic, setTargetingState])
 
   return (
     <section
