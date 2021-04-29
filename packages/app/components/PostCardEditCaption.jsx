@@ -136,6 +136,10 @@ const PostCardEditCaption = ({
                 className="w-20 mr-4"
                 onClick={() => {
                   setUseEditMode(false)
+                  track('edit_caption_cancel', {
+                    postId: post.id,
+                    originalCaption,
+                  })
                 }}
               >
                 Cancel
