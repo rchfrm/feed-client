@@ -73,6 +73,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       <NotificationCurrentInfoContent
         title={openedNotification.title}
         description={openedNotification.description}
+        descriptionHtml={openedNotification.descriptionHtml}
         date={openedNotification.dateLong}
         isComplete={openedNotification.isComplete}
         buttonEl={button}

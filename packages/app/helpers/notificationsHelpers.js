@@ -143,6 +143,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       is_actionable: isActionable,
       is_complete: isComplete,
       formatted,
+      html: descriptionHtml,
       // actioned_at,
     } = notification
     const dictionaryEntry = dictionary[topic]
@@ -196,6 +197,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       title,
       summary,
       description,
+      descriptionHtml,
       ctaText: ctaText || ctaFallback,
       buttonType,
       isActionable,

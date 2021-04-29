@@ -10,6 +10,7 @@ import brandColors from '@/constants/brandColors'
 const NotificationCurrentInfoContent = ({
   title,
   description,
+  descriptionHtml,
   date,
   isComplete,
   buttonEl,
@@ -53,7 +54,11 @@ const NotificationCurrentInfoContent = ({
         )}
         {title}
       </h3>
-      <MarkdownText markdown={copy} />
+      {descriptionHtml && !isComplete ? (
+        <div className="text--block" dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+      ) : (
+        <MarkdownText markdown={copy} />
+      )}
       {/* BUTTON (for not sidepanel layout) */}
       {hasButton && buttonEl}
     </div>
@@ -63,6 +68,7 @@ const NotificationCurrentInfoContent = ({
 NotificationCurrentInfoContent.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  descriptionHtml: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   isComplete: PropTypes.bool.isRequired,
   buttonEl: PropTypes.node,
