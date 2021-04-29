@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 
 const components = {
-  a: 'p',
+  a: 'text',
   blockquote: 'p',
   code: 'p',
-  em: 'p',
+  em: 'text',
   h1: 'p',
   h2: 'p',
   h3: 'p',
@@ -20,9 +20,14 @@ const components = {
   ol: 'p',
   p: 'p',
   pre: 'p',
-  strong: 'p',
+  strong: 'text',
   ul: 'p',
 }
+
+/* * README
+* Renders caption text into markdown by converting all block elements to paragraphs
+* and all inline elements to tags
+*/
 
 const CaptionText = ({
   caption,
@@ -33,6 +38,11 @@ const CaptionText = ({
       markdown={caption}
       components={components}
       className={className}
+      allowedElements={[
+        'paragraph',
+        'text',
+      ]}
+      unwrapDisallowed
     />
   )
 }
