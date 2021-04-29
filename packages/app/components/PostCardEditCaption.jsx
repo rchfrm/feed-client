@@ -17,26 +17,19 @@ import { track } from '@/app/helpers/trackingHelpers'
 import brandColors from '@/constants/brandColors'
 
 const PostCardEditCaption = ({
-  post,
+  post, // NB: This does not update when the `posts` array in <PostsLoader /> updates
   postIndex,
   updatePost,
   isEditable,
 }) => {
-  const {
-    message,
-    adMessageProps,
-  } = post
-
-  console.log('adMessageProps', adMessageProps)
-
-  const hasAdMessage = !!adMessageProps
-  const messageEdited = adMessageProps?.message || ''
-
   // Internal state
+  const [adMessageProps, setAdMessageProps] = React.useState(post.adMessageProps)
+  const hasAdMessage = !!adMessageProps
+  const adMessage = adMessageProps?.message || ''
   const captionTypes = ['ad', 'post']
-  const [originalCaption] = React.useState(message)
-  const [newCaption, setNewCaption] = React.useState(messageEdited)
-  const [savedNewCaption, setSavedNewCaption] = React.useState(messageEdited)
+  const [originalCaption] = React.useState(post.message)
+  const [newCaption, setNewCaption] = React.useState(adMessage)
+  const [savedNewCaption, setSavedNewCaption] = React.useState(adMessage)
   const [visibleCaption, setVisibleCaption] = React.useState('ad')
   const [useEditMode, setUseEditMode] = React.useState(false)
 
@@ -45,12 +38,16 @@ const PostCardEditCaption = ({
     if (visibleCaption) setUseEditMode(false)
   }, [visibleCaption])
 
-  // UPDATE LOCAL and POST PAGE STATE
-  const updateState = React.useCallback((adMessageProps) => {
-    const payload = { postIndex, adMessageProps }
-    const newCaption = adMessageProps?.message || ''
+  // UPDATE LOCAL and PARENT POST PAGE STATE
+  const updateState = React.useCallback((newAdMessageProps) => {
+    const payload = { postIndex, adMessageProps: newAdMessageProps }
+    const newCaption = newAdMessageProps?.message || ''
+    // Local
+    setAdMessageProps(newAdMessageProps)
+    setNewCaption(newCaption)
     setSavedNewCaption(newCaption)
     setVisibleCaption('ad')
+    // Parent
     updatePost('update-caption', payload)
   }, [postIndex, updatePost])
 
@@ -76,8 +73,13 @@ const PostCardEditCaption = ({
     const isResetCaption = newCaption === null
     const adMessageId = adMessageProps?.id
     const apiCallMethod = isResetCaption ? resetPostCaption : updatePostCaption
-    const { res: updatedAdMessageProps, error } = await apiCallMethod({ artistId, assetId: post.id, adMessageId, caption: newCaption })
-    console.log('res', updatedAdMessageProps)
+    const { res: updatedAdMessageProps = null, error } = await apiCallMethod({
+      artistId,
+      assetId: post.id,
+      adMessageId,
+      caption: newCaption,
+    })
+    // Handle response...
     setError(error)
     setShowAlert(false)
     // Success!
@@ -181,7 +183,7 @@ const PostCardEditCaption = ({
       >
         {useEditMode ? (
           <PostCardEditCaptionMessage
-            message={newCaption ?? originalCaption}
+            message={newCaption || originalCaption}
             setMessage={setNewCaption}
           />
         ) : (
