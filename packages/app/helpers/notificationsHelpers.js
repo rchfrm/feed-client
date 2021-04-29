@@ -40,8 +40,7 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
   if (entityType === 'organizations') return apiEndpoint.replace('${organization.id}', entityId)
 }
 
-const getLinkAction = (ctaLink, trackingPayload) => {
-  const linkType = getLinkType(ctaLink)
+const getLinkAction = (ctaLink, linkType, trackingPayload) => {
   // INTERNAL
   if (linkType === 'internal') {
     return () => Router.push(ctaLink)
@@ -76,6 +75,7 @@ const getFbRelinkAction = (hasFbAuth, missingScopes) => {
  */
 export const getAction = ({
   ctaLink,
+  linkType,
   apiMethod,
   apiEndpoint,
   entityType,
@@ -96,7 +96,7 @@ export const getAction = ({
   if (!apiEndpoint && !ctaLink) return () => {}
   // Handle link
   if (ctaLink) {
-    return getLinkAction(ctaLink, {
+    return getLinkAction(ctaLink, linkType, {
       title,
       topic,
       isDismissible,
@@ -170,9 +170,11 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     const date = moment(created_at).format('DD MMM')
     const dateLong = moment(created_at).format('DD MMM YY')
     const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
+    const linkType = ctaLink ? getLinkType(ctaLink) : null
     // Get Action function
     const onAction = isActionable ? getAction({
       ctaLink,
+      linkType,
       apiMethod,
       apiEndpoint,
       entityType,
@@ -200,6 +202,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       descriptionHtml,
       ctaText: ctaText || ctaFallback,
       buttonType,
+      linkType,
       isActionable,
       isDismissible,
       hidden: hide || isComplete,
