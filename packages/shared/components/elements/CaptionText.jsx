@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 
 const components = {
-  a: 'text',
+  a: 'span',
   blockquote: 'p',
   code: 'p',
-  em: 'text',
+  em: ({ node }) => `*${node.children[0].value}*`,
+  strong: ({ node }) => `**${node.children[0].value}**`,
   h1: 'p',
   h2: 'p',
   h3: 'p',
@@ -20,7 +21,6 @@ const components = {
   ol: 'p',
   p: 'p',
   pre: 'p',
-  strong: 'text',
   ul: 'p',
 }
 
@@ -40,7 +40,7 @@ const CaptionText = ({
       className={className}
       allowedElements={[
         'paragraph',
-        'text',
+        // 'span',
       ]}
       unwrapDisallowed
     />
