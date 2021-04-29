@@ -126,32 +126,48 @@ const PostCardEditCaption = ({
               </a>
             )
           })}
-          {/* EDIT/SAVE BUTTON */}
-          <Button
-            label={useEditMode ? 'Save new caption' : 'Edit caption'}
-            version="green x-small"
-            className="ml-auto w-20"
-            loading={isLoading}
-            disabled={visibleCaption === 'post'}
-            onClick={() => {
-              if (isLoading) return
-              if (useEditMode) {
-                updatePostDb(newCaption)
-              } else {
-                setUseEditMode(true)
-                // TRACK
-                track('edit_caption_start', {
-                  postId: post.id,
-                  originalCaption,
-                })
-              }
-            }}
-          >
-            {!useEditMode && (
-              <PencilIcon fill={brandColors.bgColor} className="mr-1" style={{ height: '1rem' }} />
+          {/* ACTION BUTTONS */}
+          <div className="flex ml-auto">
+            {/* CANCEL BUTTON */}
+            {useEditMode && (
+              <Button
+                label="Cancel edit caption"
+                version="black x-small"
+                className="w-20 mr-4"
+                onClick={() => {
+                  setUseEditMode(false)
+                }}
+              >
+                Cancel
+              </Button>
             )}
-            {useEditMode ? 'save' : 'edit'}
-          </Button>
+            {/* EDIT/SAVE BUTTON */}
+            <Button
+              label={useEditMode ? 'Save new caption' : 'Edit caption'}
+              version="green x-small"
+              className="ml-auto w-20"
+              loading={isLoading}
+              disabled={visibleCaption === 'post'}
+              onClick={() => {
+                if (isLoading) return
+                if (useEditMode) {
+                  updatePostDb(newCaption)
+                } else {
+                  setUseEditMode(true)
+                  // TRACK
+                  track('edit_caption_start', {
+                    postId: post.id,
+                    originalCaption,
+                  })
+                }
+              }}
+            >
+              {!useEditMode && (
+                <PencilIcon fill={brandColors.bgColor} className="mr-1" style={{ height: '1rem' }} />
+              )}
+              {useEditMode ? 'Save' : 'Edit'}
+            </Button>
+          </div>
         </div>
       )}
       {/* CAPTION AND EDIT CAPTION */}
