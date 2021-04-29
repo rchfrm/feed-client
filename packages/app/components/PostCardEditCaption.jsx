@@ -11,7 +11,7 @@ import Error from '@/elements/Error'
 import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
 import PostCardEditCaptionAlert from '@/app/PostCardEditCaptionAlert'
 
-import { updatePostCaption } from '@/app/helpers/postsHelpers'
+import { updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
 
 import brandColors from '@/constants/brandColors'
@@ -24,8 +24,13 @@ const PostCardEditCaption = ({
 }) => {
   const {
     message,
-    messageEdited = '',
+    adMessageProps,
   } = post
+
+  console.log('adMessageProps', adMessageProps)
+
+  const hasAdMessage = !!adMessageProps
+  const messageEdited = adMessageProps?.message || ''
 
   // Internal state
   const captionTypes = ['ad', 'post']
@@ -41,8 +46,9 @@ const PostCardEditCaption = ({
   }, [visibleCaption])
 
   // UPDATE LOCAL and POST PAGE STATE
-  const updateState = React.useCallback((newCaption) => {
-    const payload = { postIndex, newCaption }
+  const updateState = React.useCallback((adMessageProps) => {
+    const payload = { postIndex, adMessageProps }
+    const newCaption = adMessageProps?.message || ''
     setSavedNewCaption(newCaption)
     setVisibleCaption('ad')
     updatePost('update-caption', payload)
@@ -53,22 +59,30 @@ const PostCardEditCaption = ({
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const [showAlert, setShowAlert] = React.useState(false)
-  const [runResetCaption, setRunResetCaption] = React.useState(false)
+  const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
   const updatePostDb = React.useCallback(async (newCaption, forceRun = false) => {
     if (isLoading && !forceRun) return
     setIsLoading(true)
     // Stop here if a warning needs to be shown
     const shouldShowAlert = post.promotionStatus === 'active'
     if (shouldShowAlert && !forceRun) {
+      // Set function to run when confirming alert
+      setOnAlertConfirm(() => () => updatePostDb(newCaption, true))
+      // Show alert
       setShowAlert(true)
       return
     }
-    const { error } = await updatePostCaption(artistId, post.id, newCaption)
+    // Update the caption with the API
+    const isResetCaption = newCaption === null
+    const adMessageId = adMessageProps?.id
+    const apiCallMethod = isResetCaption ? resetPostCaption : updatePostCaption
+    const { res: updatedAdMessageProps, error } = await apiCallMethod({ artistId, assetId: post.id, adMessageId, caption: newCaption })
+    console.log('res', updatedAdMessageProps)
     setError(error)
     setShowAlert(false)
     // Success!
     if (!error) {
-      updateState(newCaption)
+      updateState(updatedAdMessageProps)
       // Track
       track('edit_caption_complete', {
         postId: post.id,
@@ -76,16 +90,14 @@ const PostCardEditCaption = ({
         newCaption,
       })
     }
-    // Reset
+    // Reset component state
     setUseEditMode(false)
     setIsLoading(false)
-    setRunResetCaption(false)
-  }, [isLoading, artistId, originalCaption, post.id, post.promotionStatus, updateState, setError])
+  }, [isLoading, artistId, originalCaption, post.id, post.promotionStatus, adMessageProps, updateState, setError])
 
   // RESET CAPTION TO ORIGINAL
   const resetToOriginal = React.useCallback(async () => {
-    setRunResetCaption(true)
-    updatePostDb(null)
+    await updatePostDb(null)
   }, [updatePostDb])
 
   return (
@@ -163,7 +175,7 @@ const PostCardEditCaption = ({
       <p
         className="mb-0 text-sm text-right h-8"
       >
-        {visibleCaption === 'ad' && (
+        {visibleCaption === 'ad' && hasAdMessage && (
           <a
             role="button"
             className="inline-block p-2 pl-0 no-underline text-grey-3 hover:text-black"
@@ -182,8 +194,7 @@ const PostCardEditCaption = ({
         show={showAlert}
         newCaption={newCaption}
         originalCaption={originalCaption}
-        updatePostDb={updatePostDb}
-        runResetCaption={runResetCaption}
+        onAlertConfirm={onAlertConfirm}
         onCancel={() => {
           setIsLoading(false)
           setUseEditMode(false)

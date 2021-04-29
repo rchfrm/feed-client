@@ -13,8 +13,7 @@ const PostCardEditCaptionAlert = ({
   show,
   newCaption,
   originalCaption,
-  updatePostDb,
-  runResetCaption,
+  onAlertConfirm,
   postId,
   onCancel,
 }) => {
@@ -31,8 +30,7 @@ const PostCardEditCaptionAlert = ({
       {
         text: 'Continue',
         onClick: () => {
-          const caption = runResetCaption ? null : newCaption
-          updatePostDb(caption, true)
+          onAlertConfirm()
           closeAlert()
         },
         color: 'green',
@@ -53,8 +51,7 @@ const PostCardEditCaptionAlert = ({
       children: alertContents,
       buttons,
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show, newCaption, updatePostDb, postId, originalCaption, onCancel])
+  }, [show, newCaption, onAlertConfirm, postId, originalCaption, onCancel, alertContents, showAlert, closeAlert])
   // NO RENDER
   return null
 }
@@ -64,13 +61,11 @@ PostCardEditCaptionAlert.propTypes = {
   newCaption: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
   postId: PropTypes.string.isRequired,
-  updatePostDb: PropTypes.func.isRequired,
-  runResetCaption: PropTypes.bool,
+  onAlertConfirm: PropTypes.func.isRequired,
 }
 
 PostCardEditCaptionAlert.defaultProps = {
   newCaption: '',
-  runResetCaption: false,
 }
 
 export default PostCardEditCaptionAlert
