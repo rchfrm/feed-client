@@ -30,7 +30,7 @@ export default {
     // Only complete referrals
     if (!totalReferrals && totalCompleteReferrals) return `Thanks for referring ${totalCompleteReferredText} to Feed! Keep sharing your unique link to get ${upcomingBenefit}`
     // Mix of complete and incomplete referrals
-    return `Thanks for referring ${totalCompleteReferredText} to Feed! There ${totalPendingReferrals === 1 ? 'is' : 'are'} also ${totalPendingReferrals} account${totalPendingReferrals > 1 ? 's' : ''} that ${totalPendingReferrals === 1 ? 'hasn\'t' : 'haven\'t'} yet spent ${minSpend} through the platform. Once they do, you’ll get ${upcomingBenefit}.`
+    return `Thanks for referring ${totalCompleteReferredText} to Feed! ${totalPendingReferrals} of them ${totalPendingReferrals === 1 ? 'hasn\'t' : 'haven\'t'} yet spent ${minSpend} through the platform. Once they do, you’ll get ${upcomingBenefit}.`
   },
 
   // TIERS
@@ -53,7 +53,7 @@ export default {
       },
       {
         referrals: 5,
-        award: `30 minute marketing consultation with Feed team`,
+        award: `A 30 minute marketing consultation with Feed team`,
       },
       {
         referrals: 10,
