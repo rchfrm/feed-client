@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import Button from '@/elements/Button'
 
 import GearIcon from '@/icons/GearIcon'
-import LinkIcon from '@/icons/LinkIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
 
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
