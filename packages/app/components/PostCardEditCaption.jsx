@@ -129,13 +129,13 @@ const PostCardEditCaption = ({
             )
           })}
           {/* ACTION BUTTONS */}
-          <div className="flex ml-auto">
+          <div className="flex items-center ml-auto">
             {/* CANCEL BUTTON */}
             {useEditMode && (
-              <Button
+              <a
+                role="button"
                 label="Cancel edit caption"
-                version="black x-small"
-                className="w-20 mr-4"
+                className="no-underline mr-4"
                 onClick={() => {
                   setUseEditMode(false)
                   track('edit_caption_cancel', {
@@ -144,8 +144,8 @@ const PostCardEditCaption = ({
                   })
                 }}
               >
-                Cancel
-              </Button>
+                cancel
+              </a>
             )}
             {/* EDIT/SAVE BUTTON */}
             <Button
