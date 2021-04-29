@@ -26,7 +26,10 @@ const components = {
 
 /* * README
 * Renders caption text into markdown by converting all block elements to paragraphs
-* and all inline elements to tags
+* and all inline elements to tags.
+*
+* A better way might be to use this approach:
+* https://github.com/remarkjs/react-markdown/issues/111
 */
 
 const CaptionText = ({
