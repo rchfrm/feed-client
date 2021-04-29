@@ -79,7 +79,6 @@ const PostCard = ({
           updatePost={updatePost}
           hidePaidMetrics={hidePaidMetrics}
           isMissingDefaultLink={isMissingDefaultLink}
-          settingsIcon="link"
         />
         {/* DISABLE WARNING (usually hidden) */}
         {postPromotable && promotionStatus === 'active' && (

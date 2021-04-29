@@ -18,7 +18,6 @@ const PostCardActionButtons = ({
   updatePost,
   hidePaidMetrics,
   isMissingDefaultLink,
-  settingsIcon,
   className,
 }) => {
   // Get functions to open sidepanel
@@ -46,17 +45,10 @@ const PostCardActionButtons = ({
           })
         }}
       >
-        {settingsIcon === 'gear' ? (
-          <GearIcon
-            className="h-5 w-auto"
-            fill={postPromotable ? brandColors.white : brandColors.greyDark}
-          />
-        ) : (
-          <LinkIcon
-            className="h-5 w-auto"
-            fill={postPromotable ? brandColors.white : brandColors.greyDark}
-          />
-        )}
+        <GearIcon
+          className="h-5 w-auto"
+          fill={postPromotable ? brandColors.white : brandColors.greyDark}
+        />
       </Button>
       {/* METRICS BUTTON */}
       <Button
@@ -88,12 +80,10 @@ PostCardActionButtons.propTypes = {
   updatePost: PropTypes.func.isRequired,
   hidePaidMetrics: PropTypes.bool.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
-  settingsIcon: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostCardActionButtons.defaultProps = {
-  settingsIcon: 'gear',
   className: null,
 }
 
