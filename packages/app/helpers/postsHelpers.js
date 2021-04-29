@@ -249,7 +249,7 @@ export const getPostMetricsContent = (metricsType, postType) => {
 // UPDATE CAPTION
 export const updatePostCaption = ({ artistId, assetId, adMessageId, caption }) => {
   const isUpdating = !!adMessageId
-  const endpointBase = `/artists/${artistId}/assets/${assetId}/adMessages`
+  const endpointBase = `/artists/${artistId}/assets/${assetId}/ad_messages`
   const requestType = isUpdating ? 'patch' : 'post'
   const endpoint = isUpdating ? `${endpointBase}/${adMessageId}` : endpointBase
   const payload = { message: caption }
@@ -262,7 +262,7 @@ export const updatePostCaption = ({ artistId, assetId, adMessageId, caption }) =
 
 // RESET CAPTION
 export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
-  const endpoint = `/artists/${artistId}/assets/${assetId}/adMessages/${adMessageId}`
+  const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages/${adMessageId}`
   const payload = null
   const errorTracking = {
     category: 'Post message',
