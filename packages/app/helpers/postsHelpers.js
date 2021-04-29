@@ -188,7 +188,7 @@ export const formatPostsResponse = (posts) => {
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
       message,
-      messageEdited: '', // TODO update this based on API
+      adMessageProps: post.ad_message,
       shortMessage,
       media,
       thumbnails,
