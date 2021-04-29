@@ -5,7 +5,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import PencilIcon from '@/icons/PencilIcon'
 import Button from '@/elements/Button'
-import MarkdownText from '@/elements/MarkdownText'
+import CaptionText from '@/elements/CaptionText'
 import Error from '@/elements/Error'
 
 import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
@@ -187,8 +187,8 @@ const PostCardEditCaption = ({
             setMessage={setNewCaption}
           />
         ) : (
-          <MarkdownText
-            markdown={visibleCaption === 'ad' ? savedNewCaption || originalCaption : originalCaption}
+          <CaptionText
+            caption={visibleCaption === 'ad' ? savedNewCaption || originalCaption : originalCaption}
             className="mb-0"
           />
         )}
