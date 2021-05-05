@@ -33,7 +33,7 @@ const PostCardEditCaptionAlert = ({
           onAlertConfirm()
           closeAlert()
         },
-        color: 'green',
+        color: 'black',
       },
       {
         text: 'Cancel',
@@ -44,7 +44,7 @@ const PostCardEditCaptionAlert = ({
           })
           onCancel()
         },
-        color: 'black',
+        color: 'red',
       },
     ]
     showAlert({
