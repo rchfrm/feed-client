@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import CheckboxButtons from '@/elements/CheckboxButtons'
 
-const TargetingPickerCities = ({
+const TargetingLocationsCities = ({
   cities,
   selectedCities,
   initialCityKeys,
@@ -44,11 +44,11 @@ const TargetingPickerCities = ({
   )
 }
 
-TargetingPickerCities.propTypes = {
+TargetingLocationsCities.propTypes = {
   cities: PropTypes.array.isRequired,
   selectedCities: PropTypes.array.isRequired,
   initialCityKeys: PropTypes.array.isRequired,
   setSelectedCities: PropTypes.func.isRequired,
 }
 
-export default TargetingPickerCities
+export default TargetingLocationsCities
