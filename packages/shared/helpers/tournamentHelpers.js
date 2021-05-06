@@ -139,7 +139,7 @@ export const getPostContent = (adCreative, adAsset = {}) => {
       ? thumbnail_url.replace(/(w|h)(=)\d+(&?)/g, '$1$2720$3') // convert 64x64 thumbnail into 720x720 thumbnail
       : ''
 
-    const thumbnailOptions = [...adsetThumbnails, imageSrc, image_url, thumbnail_url]
+    const thumbnailOptions = [...adsetThumbnails, imageSrc, image_url, thumbnail_url].filter(Boolean)
     return { ...baseContent, message: body, thumbnailOptions }
   }
 
