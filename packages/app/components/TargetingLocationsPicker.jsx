@@ -9,19 +9,16 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion'
 
-import TargetingSectionHeader from '@/app/TargetingSectionHeader'
-import TargetingPickerCountry from '@/app/TargetingPickerCountry'
-import TargetingPickerCities from '@/app/TargetingPickerCities'
-import TargetingLocationsSentence from '@/app/TargetingLocationsSentence'
-
 import { TargetingContext } from '@/app/contexts/TargetingContext'
+
+import TargetingLocationsCountry from '@/app/TargetingLocationsCountry'
+import TargetingLocationsCities from '@/app/TargetingLocationsCities'
 
 import { removeArrayOverlap } from '@/helpers/utils'
 
-const TargetingPickerLocations = ({
+const TargetingLocationsPicker = ({
   initialCityKeys,
   initialCountryCodes,
-  className,
 }) => {
   // Fetch from targeting context
   const {
@@ -30,10 +27,7 @@ const TargetingPickerLocations = ({
     setSelectedCities,
     selectedCountries,
     setSelectedCountries,
-    artistIsMusician,
-    spotifyConnected,
   } = React.useContext(TargetingContext)
-
   // BUILD ARRAY OF COUNTRIES and CITIES
   const countriesArray = React.useMemo(() => {
     return Object.values(locationOptions)
@@ -43,8 +37,6 @@ const TargetingPickerLocations = ({
       return [...arr, ...cities]
     }, [])
   }, [countriesArray])
-
-  // TOGGLE CITIES AND COUNTRIES...
 
   // Function to update selected countries
   const updateCountries = React.useCallback((selectedCountries) => {
@@ -82,69 +74,61 @@ const TargetingPickerLocations = ({
     })
     return uniq(openCountries)
   }
+
+  // Get initial open panel
   const initialOpenPanels = React.useRef(getOpenCountries())
 
   return (
-    <section className={[className].join(' ')}>
-      <TargetingSectionHeader className="mb-5" header="Locations" />
-      <TargetingLocationsSentence
-        artistIsMusician={artistIsMusician}
-        spotifyConnected={spotifyConnected}
-      />
-      {/* COUNTRIES AND CITIES */}
-      <Accordion
-        className="pt-6"
-        allowMultipleExpanded
-        allowZeroExpanded
-        preExpanded={initialOpenPanels.current}
-      >
-        {countriesArray.map((country) => {
-          const { code, cities } = country
-          const hasCities = !!cities.length
-          const initiallyPicked = initialCountryCodes.includes(code)
-          return (
-            // COUNTRY
-            <AccordionItem
-              key={code}
-              uuid={code}
-              className="mb-10 border-b-0 border-solid border-grey-2"
-            >
-              <TargetingPickerCountry
-                country={country}
-                selectedCountries={selectedCountries}
-                setSelectedCountries={updateCountries}
-                hasCities={hasCities}
-                totalCitiesSelected={locationOptions[code].totalCitiesSelected}
-                initiallyPicked={initiallyPicked}
+    <Accordion
+      className="pt-6"
+      allowMultipleExpanded
+      allowZeroExpanded
+      preExpanded={initialOpenPanels.current}
+    >
+      {countriesArray.map((country) => {
+        const { code, cities } = country
+        const hasCities = !!cities.length
+        const initiallyPicked = initialCountryCodes.includes(code)
+        return (
+        // COUNTRY
+          <AccordionItem
+            key={code}
+            uuid={code}
+            className="mb-10 border-b-0 border-solid border-grey-2"
+          >
+            <TargetingLocationsCountry
+              country={country}
+              selectedCountries={selectedCountries}
+              setSelectedCountries={updateCountries}
+              hasCities={hasCities}
+              totalCitiesSelected={locationOptions[code].totalCitiesSelected}
+              initiallyPicked={initiallyPicked}
+            />
+            {/* CITIES */}
+            {hasCities && (
+            <AccordionItemPanel>
+              <TargetingLocationsCities
+                cities={cities}
+                selectedCities={selectedCities}
+                initialCityKeys={initialCityKeys}
+                setSelectedCities={updateCities}
               />
-              {/* CITIES */}
-              {hasCities && (
-                <AccordionItemPanel>
-                  <TargetingPickerCities
-                    cities={cities}
-                    selectedCities={selectedCities}
-                    initialCityKeys={initialCityKeys}
-                    setSelectedCities={updateCities}
-                  />
-                </AccordionItemPanel>
-              )}
-            </AccordionItem>
-          )
-        })}
-      </Accordion>
-    </section>
+            </AccordionItemPanel>
+            )}
+          </AccordionItem>
+        )
+      })}
+    </Accordion>
   )
 }
 
-TargetingPickerLocations.propTypes = {
+TargetingLocationsPicker.propTypes = {
   initialCityKeys: PropTypes.array.isRequired,
   initialCountryCodes: PropTypes.array.isRequired,
-  className: PropTypes.string,
 }
 
-TargetingPickerLocations.defaultProps = {
-  className: null,
+TargetingLocationsPicker.defaultProps = {
+
 }
 
-
-export default TargetingPickerLocations
+export default TargetingLocationsPicker

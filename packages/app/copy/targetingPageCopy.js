@@ -39,6 +39,10 @@ If you can't see a city but the country is shown, try targeting the country inst
   
 We are working on adding custom locations, but it would be really helpful if you could email us to let us know what you'd like to see here: [team@tryfeed.co](mailto:team@tryfeed.co)`,
 
+  locationSettingsTooltip: `By default, Nurture (retargeting) audiences are global. This means you can reach everyone who has engaged with you before.`,
+  locationSettingsIntro: `Apply location targeting to Nurture audiences`,
+  locationSettingsWarning: `Restricting this audience may decrease ad performance.`,
+
   successMessage: (settingsSavedInitial) => {
     if (settingsSavedInitial) {
       return `Thanks! We'll be in touch shortly confirming you're all set, and your ads will start running shortly after that`
