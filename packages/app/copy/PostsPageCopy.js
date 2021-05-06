@@ -39,7 +39,7 @@ You can _**add links**_ via the Links button below and _**set a default link**_ 
   globalToggleIntro: `Should all posts be opted-in for promotion by default?`,
 
   globalConnectionsIntro: `Add the links that you'd like to use in your ads.
-  
+
 Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also enable **Feed** to track the number of followers you have on the Insights page. `,
 
   globalConnectionsTooltipSlides: [
@@ -72,7 +72,7 @@ Do you want to continue?`,
   // ----------------
   filterTooltips: {
     active: (title) => `#### ${title}
-    
+
 Posts that are currently running as ads to at least one audience.`,
 
     inactive: (title) => `#### ${title}
@@ -82,7 +82,7 @@ Posts that Feed hasn't yet made into ads. For the best results select as many as
     archived: (title) => `#### ${title}
 
 1. Posts that have run as ads previously, but are not currently running as ads.
-2. Feed turns off posts that don’t perform as well automatically. 
+2. Feed turns off posts that don’t perform as well automatically.
 3. Posts can also appear here if you stop it running manually, or if people have been shown the ad too many times.`,
   },
 
@@ -125,6 +125,16 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
 
   // SETTINGS SIDEPANEL
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
+  editCaption: `Edit the caption used in this ad.`,
+  confirmEditCaption: `**This feature is being tested!**
+
+Editing the caption will put this post back into review, and it will temporarily move to 'Inactive'.
+
+There may be a delay before this post can start running again.
+
+If you need to make sure this post starts running as soon as it's approved, [email us](mailto:help@tryfeed.co).
+
+Are you sure you want to continue?`,
 
   // METRICS SIDEPANEL
   metricsDescription: {
@@ -159,7 +169,7 @@ If you delete it, these posts will revert to the default link. Are you sure you 
   },
 
   // LINK TRACKING
-  linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `UTM parameters are automatically added to the links used in your ads. This means you can track how many people Feed is sending to your website, and what they do when they get there. 
+  linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `UTM parameters are automatically added to the links used in your ads. This means you can track how many people Feed is sending to your website, and what they do when they get there.
 
 Here's an example of what a link will look like:
 
@@ -173,14 +183,14 @@ Soon we'll be letting you track this within the Feed platform, but if you alread
     const intro = `It looks like you're trying to add an integration link.`
     if (platform === 'spotify') {
       return `${intro}
-      
+
 Do you want to add **Spotify** as an integration instead?
-      
+
 This way you can use the link in your ads, and track follower and listener data on the Insights page, and include Spotify listeners in your audience calculation on the Controls page?`
     }
     const { title: platformTitle } = getIntegrationInfo({ platform })
     return `${intro}
-    
+
 Do you want to add **${platformTitle}** as an integration instead?
 
 This way you can use the link in your ads and track follower and listener data on the Insights page?`
@@ -190,7 +200,7 @@ This way you can use the link in your ads and track follower and listener data o
   conversionsInterestCopy: `Are you looking for more sales of tickets, vinyl or other products and to generate a return from your Feed budget?
 
 If so, we're looking for people to join our trials for this feature and work with Nick and Joshua (the co-founders of Feed) directly on a campaign.
-  
+
 [Fill in this form](https://docs.google.com/forms/d/e/1FAIpQLSd4PRRgbyFc0jVYODiBMvX-e24XzFf93QhFhv5CAoGoaeIM2g/viewform) and we'll be in touch.`,
 
 }

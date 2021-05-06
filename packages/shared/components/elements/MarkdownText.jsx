@@ -1,33 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
-import ReactMarkdownWithHtml from 'react-markdown/with-html'
 
 import MarkdownLink from '@/elements/MarkdownLink'
 
 const MarkdownText = ({
   markdown,
-  allowHtml,
   skipTextBlock,
   disallowedTypes,
+  allowedElements,
   unwrapDisallowed,
+  components,
   className,
   style,
 }) => {
-  const content = allowHtml ? (
-    <ReactMarkdownWithHtml
-      renderers={{ link: MarkdownLink }}
-      disallowedTypes={disallowedTypes}
-      unwrapDisallowed={unwrapDisallowed}
-      allowDangerousHtml
-    >
-      {markdown}
-    </ReactMarkdownWithHtml>
-  ) : (
+  const content = (
     <ReactMarkdown
       renderers={{ link: MarkdownLink }}
       disallowedTypes={disallowedTypes}
+      allowedTypes={allowedElements}
       unwrapDisallowed={unwrapDisallowed}
+      components={components}
     >
       {markdown}
     </ReactMarkdown>
@@ -44,19 +37,21 @@ const MarkdownText = ({
 
 MarkdownText.propTypes = {
   markdown: PropTypes.string.isRequired,
-  allowHtml: PropTypes.bool,
   skipTextBlock: PropTypes.bool,
   disallowedTypes: PropTypes.array,
+  allowedElements: PropTypes.array,
   unwrapDisallowed: PropTypes.bool,
+  components: PropTypes.object,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
 MarkdownText.defaultProps = {
-  allowHtml: false,
   skipTextBlock: false,
-  disallowedTypes: [],
+  disallowedTypes: undefined,
+  allowedElements: undefined,
   unwrapDisallowed: false,
+  components: null,
   className: '',
   style: null,
 }
