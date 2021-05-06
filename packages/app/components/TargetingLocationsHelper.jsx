@@ -5,7 +5,7 @@ import useAlertModal from '@/hooks/useAlertModal'
 
 import copy from '@/app/copy/targetingPageCopy'
 
-const TargetingPickerHelper = ({ className }) => {
+const TargetingLocationsHelper = ({ className }) => {
   const { showAlert } = useAlertModal()
   const onClick = () => {
     showAlert({ copy: copy.locationsHelperText })
@@ -21,13 +21,13 @@ const TargetingPickerHelper = ({ className }) => {
   )
 }
 
-TargetingPickerHelper.propTypes = {
+TargetingLocationsHelper.propTypes = {
   className: PropTypes.string,
 }
 
-TargetingPickerHelper.defaultProps = {
+TargetingLocationsHelper.defaultProps = {
   className: null,
 }
 
 
-export default TargetingPickerHelper
+export default TargetingLocationsHelper
