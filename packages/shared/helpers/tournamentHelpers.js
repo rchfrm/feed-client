@@ -127,12 +127,21 @@ export const fetchTournaments = ({
   * @returns {object}
 */
 export const getPostContent = (adCreative, adAsset = {}) => {
-  const { object_type, object_story_spec, instagram_actor_id, instagram_permalink_url, image_url, thumbnail_url } = adCreative
+  const { body, object_type, object_story_spec, instagram_actor_id, instagram_permalink_url, image_url, thumbnail_url } = adCreative
   const baseContent = {
     postLink: instagram_permalink_url,
   }
 
   const adsetThumbnails = adAsset.thumbnails ? adAsset.thumbnails.map(({ url }) => url) : []
+
+  if (!object_story_spec) {
+    const imageSrc = (/(w|h)=\d+&?/).test(thumbnail_url)
+      ? thumbnail_url.replace(/(w|h)(=)\d+(&?)/g, '$1$2720$3') // convert 64x64 thumbnail into 720x720 thumbnail
+      : ''
+
+    const thumbnailOptions = [...adsetThumbnails, imageSrc, image_url, thumbnail_url]
+    return { ...baseContent, message: body, thumbnailOptions }
+  }
 
   // Insta video
   if (object_type === 'VIDEO' && instagram_actor_id) {

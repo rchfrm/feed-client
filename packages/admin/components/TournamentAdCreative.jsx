@@ -13,7 +13,17 @@ const propsToDisplay = [
 ]
 
 const getPostContent = (adCreative) => {
-  const { object_type, object_story_spec, instagram_actor_id, image_url, thumbnail_url } = adCreative
+  const { body, object_type, object_story_spec, instagram_actor_id, image_url, thumbnail_url } = adCreative
+
+  if (!object_story_spec) {
+    const imageSrc = (/(w|h)=\d+&?/).test(thumbnail_url)
+      ? thumbnail_url.replace(/(w|h)(=)\d+(&?)/g, '$1$2720$3') // convert 64x64 thumbnail into 720x720 thumbnail
+      : ''
+
+    const thumbnailOptions = [imageSrc, image_url, thumbnail_url].filter(Boolean)
+    return { message: body, thumbnailOptions }
+  }
+
   // Insta video
   if (object_type === 'VIDEO' && instagram_actor_id) {
     const { video_data: { message, image_url: imageSrc } } = object_story_spec
