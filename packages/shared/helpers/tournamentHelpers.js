@@ -217,7 +217,8 @@ const formatAdData = (streakResults) => (ad, index) => {
     streak,
     engagement_score: score,
   } = ad
-  const adCreative = Object.values(adcreatives)[0]
+  const adCreatives = Object.values(adcreatives)
+  const adCreative = adCreatives.find(adCreative => adCreative.object_story_spec) || adCreatives[0]
   const postContent = getPostContent(adCreative, asset)
   // Format score and streak
   const streakWinner = streakResults[index]
