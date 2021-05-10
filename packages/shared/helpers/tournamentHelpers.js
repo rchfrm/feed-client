@@ -136,6 +136,7 @@ export const getPostContent = (adCreative, adAsset = {}) => {
 
   if (!object_story_spec) {
     const imageSrc = (/(w|h)=\d+&?/).test(thumbnail_url)
+      // https://something.com?w=64&h=64&etc=true -> https://something.com?w=720&h=720&etc=true
       ? thumbnail_url.replace(/(w|h)(=)\d+(&?)/g, '$1$2720$3') // convert 64x64 thumbnail into 720x720 thumbnail
       : ''
 
