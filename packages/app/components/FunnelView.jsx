@@ -31,6 +31,11 @@ const FunnelView = ({
     )
   }
 
+  // Create array of <FunnelAudience /> components
+  const validAudienceTypes = activeFunnelId === 'stories'
+    ? audienceTypes.filter(audience => audience.storiesValid)
+    : audienceTypes
+
   return (
     <div
       className={[
@@ -38,9 +43,9 @@ const FunnelView = ({
       ].join(' ')}
     >
       <div className={classNameInner}>
-        {audienceTypes.map((audience, index) => {
+        {validAudienceTypes.map((audience, index) => {
           const { slug } = audience
-          const nextAudience = audienceTypes[index + 1] || {}
+          const nextAudience = validAudienceTypes[index + 1] || {}
           const { ads, status } = funnelData[slug]
           const audienceAds = ads ? Object.values(ads) : []
           return (

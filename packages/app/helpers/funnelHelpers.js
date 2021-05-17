@@ -33,6 +33,7 @@ export const audienceTypes = [
     description: copy.growA.description,
     tooltip: copy.growA.tooltip,
     color: brandColors.blue,
+    storiesValid: false,
   },
   {
     id: 'entice_traffic',
@@ -41,6 +42,7 @@ export const audienceTypes = [
     description: copy.growB.description,
     tooltip: copy.growB.tooltip,
     color: brandColors.yellow,
+    storiesValid: true,
   },
   {
     id: 'remind_traffic',
@@ -49,6 +51,7 @@ export const audienceTypes = [
     description: copy.nurture.description,
     tooltip: copy.nurture.tooltip,
     color: brandColors.red,
+    storiesValid: true,
   },
 ]
 
