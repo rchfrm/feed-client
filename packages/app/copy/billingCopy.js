@@ -27,4 +27,8 @@ export default {
     if (total_referrals && !total_referrals_complete) return `${intro} but none of the accounts have yet spent the required amount.`
     return `${intro} and ${total_referrals_complete} accounts have spent the required amount 🎉, earning you ${total_referrals_complete} credits 💰. Great work 👍`
   },
+
+  // PROFILES
+  profilesIntro: 'The following profiles are part of this billing account, and will appear on the same invoice.',
+  noProfiles: `It looks like you haven't connected any profiles to this billing account yet.`,
 }

@@ -15,6 +15,7 @@ import BillingOrganisationSelect from '@/app/BillingOrganisationSelect'
 import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 import BillingReferralsSummary from '@/app/BillingReferralsSummary'
+import BillingProfilesSummary from '@/app/BillingProfilesSummary'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
@@ -78,7 +79,10 @@ const BillingContent = () => {
       </div>
       {/* RIGHT COL */}
       <div className="col-span-1">
+        {/* REFERRALS */}
         <BillingReferralsSummary canTransferCredits />
+        {/* PROFILES */}
+        <BillingProfilesSummary organisation={organisation} />
       </div>
     </div>
   )
