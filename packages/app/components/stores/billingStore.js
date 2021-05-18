@@ -9,6 +9,7 @@ const initialState = {
   loading: true,
   loadingErrors: [],
   organisation: {},
+  organizationUsers: [],
   billingDetails: {},
   nextInvoice: {},
   artistCurrency: {},
@@ -56,10 +57,20 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     defaultPaymentMethod,
     errors,
   } = await fetchOrganisationDetails(organisation)
+
+  let organisationUsers = []
+  const { res, error } = await billingHelpers.getOrganisationUsers(organisation.id)
+  if (error) {
+    organisationUsers = Object.values((organisation || {}).users || {})
+  } else {
+    organisationUsers = res.users
+  }
+
   // SET
   set({
     ...(allOrgs && { allOrgs }),
     organisation,
+    organisationUsers,
     billingDetails,
     referralsDetails,
     defaultPaymentMethod,

@@ -172,12 +172,36 @@ export const transferReferralCredits = (sourceOrgId, destOrgId) => {
   })
 }
 
+// * PROFILE TRANSFER
+// * --------------------
 export const createArtistTransfer = async (artistId, email) => {
   const payload = { email }
   const endpoint = `/artists/${artistId}/transfer`
   const errorTracking = {
     category: 'Billing',
     action: 'Create transfer request',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
+}
+
+// * USERS AND ORGANISATION INVITES
+// * --------------------
+export const getOrganisationUsers = async (organisationId) => {
+  const payload = {}
+  const endpoint = `/organizations/${organisationId}/users`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Get organization users',
+  }
+  return api.requestWithCatch('get', endpoint, payload, errorTracking)
+}
+
+export const createOrganizationInvite = async (organisationId, email) => {
+  const payload = { email }
+  const endpoint = `/organizations/${organisationId}/invite`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Create organization invite',
   }
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }

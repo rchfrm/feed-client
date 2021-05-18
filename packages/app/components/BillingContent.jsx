@@ -16,6 +16,7 @@ import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 import BillingReferralsSummary from '@/app/BillingReferralsSummary'
 import BillingProfilesSummary from '@/app/BillingProfilesSummary'
+import BillingUsersSummary from '@/app/BillingUsersSummary'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
@@ -25,6 +26,7 @@ const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
   nextInvoice: state.nextInvoice,
   organisation: state.organisation,
+  organisationUsers: state.organisationUsers,
   allOrgs: state.allOrgs,
 })
 
@@ -40,6 +42,7 @@ const BillingContent = () => {
     defaultPaymentMethod,
     nextInvoice,
     organisation,
+    organisationUsers,
     allOrgs,
   } = useBillingStore(getBillingStoreState, shallow)
 
@@ -78,11 +81,13 @@ const BillingContent = () => {
         <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
       </div>
       {/* RIGHT COL */}
-      <div className="col-span-1">
+      <div className="col-span-1 mb-12 sm:mb-0">
         {/* REFERRALS */}
         <BillingReferralsSummary canTransferCredits />
         {/* PROFILES */}
         <BillingProfilesSummary organisation={organisation} />
+        {/* USERS */}
+        <BillingUsersSummary className="mt-10" users={organisationUsers} />
       </div>
     </div>
   )
