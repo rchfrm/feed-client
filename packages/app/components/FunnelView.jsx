@@ -33,7 +33,7 @@ const FunnelView = ({
 
   // Create array of <FunnelAudience /> components
   const validAudienceTypes = activeFunnelId === 'stories'
-    ? audienceTypes.filter(audience => audience.storiesValid)
+    ? audienceTypes.filter(audience => audience.isEligibleForStories)
     : audienceTypes
 
   return (
