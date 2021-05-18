@@ -42,7 +42,6 @@ const BillingContent = () => {
     defaultPaymentMethod,
     nextInvoice,
     organisation,
-    organisationUsers,
     allOrgs,
   } = useBillingStore(getBillingStoreState, shallow)
 
@@ -87,7 +86,7 @@ const BillingContent = () => {
         {/* PROFILES */}
         <BillingProfilesSummary organisation={organisation} />
         {/* USERS */}
-        <BillingUsersSummary className="mt-10" users={organisationUsers} />
+        <BillingUsersSummary className="mt-10" />
       </div>
     </div>
   )

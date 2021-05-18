@@ -39,4 +39,5 @@ export default {
   noUsers: `It looks like you haven't connected any users to this billing account yet.`,
   inviteHeader: 'Enter their email address:',
   inviteDescription: 'We’ll send them a link inviting them join your team on Feed and manage the billing information for the profiles you have.',
+  userDeleteAlert: 'This user is going to lose access to the billing account. Do you want to continue?',
 }

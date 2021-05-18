@@ -205,3 +205,13 @@ export const createOrganizationInvite = async (organisationId, email) => {
   }
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
+
+export const deleteOrganisationUser = async (organisationId, userId) => {
+  const payload = {}
+  const endpoint = `/organizations/${organisationId}/users/${userId}`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Delete organisation user',
+  }
+  return api.requestWithCatch('delete', endpoint, payload, errorTracking)
+}

@@ -9,7 +9,7 @@ const initialState = {
   loading: true,
   loadingErrors: [],
   organisation: {},
-  organizationUsers: [],
+  organisationUsers: [],
   billingDetails: {},
   nextInvoice: {},
   artistCurrency: {},
@@ -135,6 +135,20 @@ const selectOrganisation = (set, get) => async (organisationId) => {
   await setupBilling(set)({ activeOrganisation: organisation })
 }
 
+export const removeOrganisationUser = (set, get) => (user) => {
+  const { organisation, organisationUsers } = get()
+
+  const organisationUsersUpdated = produce(organisationUsers, draftState => {
+    return draftState.filter((u) => u.id !== user.id)
+  })
+
+  const organisationUpdated = produce(organisation, draftState => {
+    delete draftState.users[user.id]
+    return draftState
+  })
+
+  set({ organisationUsers: organisationUsersUpdated, organisation: organisationUpdated })
+}
 
 const useBillingStore = create((set, get) => ({
   ...initialState,
@@ -145,6 +159,7 @@ const useBillingStore = create((set, get) => ({
   deletePaymentMethod: deletePaymentMethod(set, get),
   updateDefaultPayment: updateDefaultPayment(set, get),
   selectOrganisation: selectOrganisation(set, get),
+  removeOrganisationUser: removeOrganisationUser(set, get),
 }))
 
 export default useBillingStore
