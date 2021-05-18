@@ -7,12 +7,6 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import Button from '@/elements/Button'
 
-import useBillingStore from '@/app/stores/billingStore'
-
-import { track } from '@/app/helpers/trackingHelpers'
-
-const getOrganisation = state => state.organisation
-
 const BillingOpenProfiles = ({
   className,
 }) => {
@@ -25,18 +19,19 @@ const BillingOpenProfiles = ({
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  const { id: organisationId } = useBillingStore(getOrganisation)
-  // OPEN ADD PAYMENT METHOD
+  // OPEN TRANSFER PROFILE SIDEPANEL
   const openTransferProfileSidepanel = React.useCallback(() => {
-    const content = <BillingTransferProfile setSidePanelLoading={setSidePanelLoading} />
-    const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Send</Button>
+    const content = (
+      <BillingTransferProfile
+        toggleSidePanel={toggleSidePanel}
+        setSidePanelButton={setSidePanelButton}
+        setSidePanelLoading={setSidePanelLoading}
+      />
+    )
     setSidePanelContent(content)
-    setSidePanelContentLabel('Profiles list')
+    setSidePanelContentLabel('Manage profiles')
     toggleSidePanel(true)
-    setSidePanelButton(button)
-    // Track
-    track('billing_view_invoices', { organisationId })
-  }, [setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton, setSidePanelLoading, organisationId])
+  }, [setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton, setSidePanelLoading])
 
   return (
     <div className={className}>

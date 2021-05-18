@@ -16,6 +16,9 @@ import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
 
+// To parse cases like {{ this }} and {{{ this }}}
+const RE_TEMPLATE = /\{?\{\{\s([a-z_]+)\s\}\}\}?/g
+
 // * DICTIONARY
 // ------------
 
@@ -125,6 +128,43 @@ export const getAction = ({
   }
 }
 
+const getKeysAndSubstringsFromTemplate = (template) => {
+  const keys = {}
+  const result = []
+
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const match = RE_TEMPLATE.exec(template)
+    if (!match) {
+      break
+    }
+
+    const substring = match[0]
+    const key = match[1]
+
+    if (key in keys) {
+      continue
+    }
+
+    result.push({ key, substring })
+    keys[key] = true
+  }
+
+  return result
+}
+
+const formatNotificationText = (text, data) => {
+  const keysAndSubstrings = getKeysAndSubstringsFromTemplate(text)
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const { key, substring } of keysAndSubstrings) {
+    // Replace all entries of '{{ profile_name }}' with data['profile_name']
+    text = text.replace(RegExp(substring, 'g'), data[key])
+  }
+
+  return text
+}
+
 // * FETCHING FROM SERVER
 // -----------------------
 
@@ -150,7 +190,6 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     // - if not in dictionary
     // - if hidden in Dato
     // - if complete
-    if (!dictionaryEntry || dictionaryEntry.hide || isComplete) return allNotifications
     // Just add notification if already formatted
     if (formatted || !dictionaryEntry) {
       return [...allNotifications, notification]
@@ -194,8 +233,8 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       date,
       dateLong,
       title,
-      summary,
-      description,
+      summary: formatNotificationText(summary, data),
+      description: formatNotificationText(description, data),
       ctaText: ctaText || ctaFallback,
       buttonType,
       isActionable,

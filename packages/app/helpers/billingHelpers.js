@@ -171,3 +171,13 @@ export const transferReferralCredits = (sourceOrgId, destOrgId) => {
     }, 800)
   })
 }
+
+export const createArtistTransfer = async (artistId, email) => {
+  const payload = { email }
+  const endpoint = `/artists/${artistId}/transfer`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Create transfer request',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
+}
