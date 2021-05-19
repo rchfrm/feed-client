@@ -255,11 +255,16 @@ export const getCurrencySymbol = (currency = 'GBP') => {
 * @param {string} locale
 * @returns {string}
 */
-export const formatCurrency = (value, currency = 'GBP', locale = navigator.language) => {
+export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
   if (value === null || typeof value === 'undefined' || Number.isNaN(value)) return
+  const locale = navigator.language
   const currencyToUse = currency === null ? 'GBP' : currency
   const valueFloat = parseFloat(value)
-  return valueFloat.toLocaleString(locale, { style: 'currency', currency: currencyToUse })
+  return valueFloat.toLocaleString(locale, {
+    style: 'currency',
+    currency: currencyToUse,
+    ...(hideMinorUnits && { maximumFractionDigits: 0 }),
+  })
 }
 
 /**
