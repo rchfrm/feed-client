@@ -15,6 +15,7 @@ const initialState = {
   artistCurrency: {},
   defaultPaymentMethod: null,
   referralsDetails: {},
+  organisationInvites: [],
 }
 
 // FETCH ALL ORGS the user has access to
@@ -59,11 +60,17 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
   } = await fetchOrganisationDetails(organisation)
 
   let organisationUsers = []
-  const { res, error } = await billingHelpers.getOrganisationUsers(organisation.id)
-  if (error) {
-    organisationUsers = Object.values((organisation || {}).users || {})
+  const organisationUsersResponse = await billingHelpers.getOrganisationUsers(organisation.id)
+  if (!organisationUsersResponse.error) {
+    organisationUsers = organisationUsersResponse.res.users
   } else {
-    organisationUsers = res.users
+    organisationUsers = Object.values((organisation || {}).users || {})
+  }
+
+  let organisationInvites = []
+  const organisationInvitesResponse = await billingHelpers.getOrganisationInvites()
+  if (!organisationInvitesResponse.error) {
+    organisationInvites = organisationInvitesResponse.res.invites
   }
 
   // SET
@@ -78,6 +85,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     artistCurrency,
     loading: false,
     loadingErrors: errors,
+    organisationInvites,
   })
 }
 
@@ -150,6 +158,16 @@ export const removeOrganisationUser = (set, get) => (user) => {
   set({ organisationUsers: organisationUsersUpdated, organisation: organisationUpdated })
 }
 
+export const removeOrganisationInvite = (set, get) => async (organisationInvite) => {
+  const { organisationInvites } = get()
+
+  const organisationInvitesUpdated = produce(organisationInvites, draftState => {
+    return draftState.filter((i) => i.token !== organisationInvite.token)
+  })
+
+  set({ organisationInvites: organisationInvitesUpdated })
+}
+
 const useBillingStore = create((set, get) => ({
   ...initialState,
   // GETTERS
@@ -160,6 +178,7 @@ const useBillingStore = create((set, get) => ({
   updateDefaultPayment: updateDefaultPayment(set, get),
   selectOrganisation: selectOrganisation(set, get),
   removeOrganisationUser: removeOrganisationUser(set, get),
+  removeOrganisationInvite: removeOrganisationInvite(set, get),
 }))
 
 export default useBillingStore

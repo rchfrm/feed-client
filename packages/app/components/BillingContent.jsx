@@ -17,6 +17,7 @@ import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 import BillingReferralsSummary from '@/app/BillingReferralsSummary'
 import BillingProfilesSummary from '@/app/BillingProfilesSummary'
 import BillingUsersSummary from '@/app/BillingUsersSummary'
+import BillingOrganisationInviteList from '@/app/BillingOrganisationInviteList'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
@@ -26,7 +27,7 @@ const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
   nextInvoice: state.nextInvoice,
   organisation: state.organisation,
-  organisationUsers: state.organisationUsers,
+  organisationInvites: state.organisationInvites,
   allOrgs: state.allOrgs,
 })
 
@@ -43,6 +44,7 @@ const BillingContent = () => {
     nextInvoice,
     organisation,
     allOrgs,
+    organisationInvites,
   } = useBillingStore(getBillingStoreState, shallow)
 
   // Load billing info
@@ -62,10 +64,16 @@ const BillingContent = () => {
         'pb-12',
       ].join(' ')}
     >
+      {/* ACCEPT / REJECT ORGANISATION INVITES */}
+      {organisationInvites.length > 0 && (
+        <BillingOrganisationInviteList
+          className="col-span-1 mb-12 sm:mb-0 rounded-dialogue border-solid border-4 border-red"
+        />
+      )}
       {/* SELECT ORG */}
       {allOrgs.length >= 2 && (
         <BillingOrganisationSelect
-          className="col-span-2 mb-12 sm:-mb-4"
+          className="col-span-1 mb-12 sm:mb-0"
           organisation={organisation}
           allOrgs={allOrgs}
         />

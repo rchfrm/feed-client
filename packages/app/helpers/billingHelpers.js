@@ -215,3 +215,33 @@ export const deleteOrganisationUser = async (organisationId, userId) => {
   }
   return api.requestWithCatch('delete', endpoint, payload, errorTracking)
 }
+
+export const getOrganisationInvites = async () => {
+  const payload = {}
+  const endpoint = '/organization_invites'
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Get organisation invites',
+  }
+  return api.requestWithCatch('get', endpoint, payload, errorTracking)
+}
+
+export const acceptOrganisationInvite = async (token) => {
+  const payload = {}
+  const endpoint = `/organization_invites/${token}/accept`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Accept organisation invite',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
+}
+
+export const rejectOrganisationInvite = async (token) => {
+  const payload = {}
+  const endpoint = `/organization_invites/${token}/reject`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Reject organisation invite',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
+}

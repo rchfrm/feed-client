@@ -40,4 +40,5 @@ export default {
   inviteHeader: 'Enter their email address:',
   inviteDescription: 'We’ll send them a link inviting them join your team on Feed and manage the billing information for the profiles you have.',
   userDeleteAlert: 'This user is going to lose access to the billing account. Do you want to continue?',
+  invited: (inviting_user_name) => `You’ve been invited to join ${inviting_user_name}'s billing account`,
 }
