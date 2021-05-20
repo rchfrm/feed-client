@@ -2,15 +2,39 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import BillingOpenProfiles from '@/app/BillingOpenProfiles'
+import BillingProfilesTransferList from '@/app/BillingProfilesTransferList'
 import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/billingCopy'
 
+import useBillingStore from '@/app/stores/billingStore'
+
+const getBillingStoreState = (state) => ({
+  organisation: state.organisation,
+  organisationArtists: state.organisationArtists,
+  transferRequests: state.transferRequests,
+  removeTransferRequest: state.removeTransferRequest,
+  updateOrganisationArtists: state.updateOrganisationArtists,
+})
+
 const BillingProfilesSummary = ({
-  organisation,
   className,
 }) => {
-  const artists = Object.values((organisation || {}).artists || {})
+  const {
+    organisation,
+    organisationArtists: artists,
+    transferRequests,
+    removeTransferRequest,
+    updateOrganisationArtists,
+  } = useBillingStore(getBillingStoreState)
+
+  const currentArtistIdsHashTable = artists.reduce((result, artist) => {
+    result[artist.id] = true
+    return result
+  }, {})
+
+  const filteredTransferRequests = transferRequests.filter(({ profile_id }) => !currentArtistIdsHashTable[profile_id])
+
   return (
     <div
       className={[
@@ -34,19 +58,26 @@ const BillingProfilesSummary = ({
           ))}
         </ul>
       )}
+      {/* TRANSFER REQUESTS */}
+      {filteredTransferRequests.length !== 0 && (
+        <BillingProfilesTransferList
+          organisationId={organisation.id}
+          transferRequests={transferRequests}
+          removeTransferRequest={removeTransferRequest}
+          updateOrganisationArtists={updateOrganisationArtists}
+        />
+      )}
       {/* BUTTON (MANAGE PROFILES) */}
-      {artists.length === 0 ? null : <BillingOpenProfiles className="pt-2" />}
+      {artists.length !== 0 && <BillingOpenProfiles className="pt-2" />}
     </div>
   )
 }
 
 BillingProfilesSummary.propTypes = {
-  organisation: PropTypes.object,
   className: PropTypes.string,
 }
 
 BillingProfilesSummary.defaultProps = {
-  organisation: null,
   className: null,
 }
 

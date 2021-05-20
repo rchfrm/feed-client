@@ -174,12 +174,52 @@ export const transferReferralCredits = (sourceOrgId, destOrgId) => {
 
 // * PROFILE TRANSFER
 // * --------------------
-export const createArtistTransfer = async (artistId, email) => {
+export const getOrganisationArtists = async (organisationId) => {
+  const payload = {}
+  const endpoint = `/organizations/${organisationId}/artists`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Get organization artists',
+  }
+  return api.requestWithCatch('get', endpoint, payload, errorTracking)
+}
+
+export const createTransferRequest = async (artistId, email) => {
   const payload = { email }
   const endpoint = `/artists/${artistId}/transfer`
   const errorTracking = {
     category: 'Billing',
     action: 'Create transfer request',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
+}
+
+export const getTransferRequests = async () => {
+  const payload = {}
+  const endpoint = '/artist_transfers'
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Get artist transfers',
+  }
+  return api.requestWithCatch('get', endpoint, payload, errorTracking)
+}
+
+export const acceptTransferRequest = async (token, organisationId) => {
+  const payload = { organization_id: organisationId }
+  const endpoint = `/artist_transfers/${token}/accept`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Accept artist transfer',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
+}
+
+export const rejectTransferRequest = async (token) => {
+  const payload = {}
+  const endpoint = `/artist_transfers/${token}/reject`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Reject artist transfer',
   }
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }

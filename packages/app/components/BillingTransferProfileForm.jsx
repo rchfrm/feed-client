@@ -12,7 +12,7 @@ import useBillingStore from '@/app/stores/billingStore'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
 
 // READING FROM STORE
-const getBillingStoreState = (state) => ({ organisation: state.organisation })
+const getBillingStoreState = (state) => ({ artists: state.organisationArtists })
 
 // THE FORM
 const FORM = ({
@@ -26,7 +26,7 @@ const FORM = ({
   const [error, setError] = React.useState(null)
 
   // READ from BILLING STORE
-  const { organisation } = useBillingStore(getBillingStoreState, shallow)
+  const { artists } = useBillingStore(getBillingStoreState, shallow)
 
   // FORM STATE
   const [isLoading, setIsLoading] = React.useState(false)
@@ -44,7 +44,7 @@ const FORM = ({
     setIsLoading(true)
 
     // SEND API REQUEST
-    const { error: serverError } = await billingHelpers.createArtistTransfer(artist.id, email)
+    const { error: serverError } = await billingHelpers.createTransferRequest(artist.id, email)
 
     // HANDLE ERROR
     if (serverError) {
@@ -64,8 +64,6 @@ const FORM = ({
     const button = <Button version="green" disabled={!artist.name || !email} onClick={onSubmit}>Send</Button>
     setSidePanelButton(button)
   }, [onSubmit, setSidePanelButton, artist, email])
-
-  const artists = Object.values((organisation || {}).artists || {})
 
   return (
     <form

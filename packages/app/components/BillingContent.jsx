@@ -67,7 +67,7 @@ const BillingContent = () => {
       {/* ACCEPT / REJECT ORGANISATION INVITES */}
       {organisationInvites.length > 0 && (
         <BillingOrganisationInviteList
-          className="col-span-1 mb-12 sm:mb-0 rounded-dialogue border-solid border-4 border-red"
+          className="col-span-1 mb-12 sm:mb-0 rounded-dialogue border-solid border-2 border-redLight"
         />
       )}
       {/* SELECT ORG */}

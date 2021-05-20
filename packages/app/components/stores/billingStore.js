@@ -10,12 +10,14 @@ const initialState = {
   loadingErrors: [],
   organisation: {},
   organisationUsers: [],
+  organisationArtists: [],
   billingDetails: {},
   nextInvoice: {},
   artistCurrency: {},
   defaultPaymentMethod: null,
   referralsDetails: {},
   organisationInvites: [],
+  transferRequests: [],
 }
 
 // FETCH ALL ORGS the user has access to
@@ -67,10 +69,24 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     organisationUsers = Object.values((organisation || {}).users || {})
   }
 
+  let organisationArtists = []
+  const organisationArtistsResponse = await billingHelpers.getOrganisationArtists(organisation.id)
+  if (!organisationArtistsResponse.error) {
+    organisationArtists = organisationArtistsResponse.res.artists
+  } else {
+    organisationArtists = Object.values((organisation || {}).artists || {})
+  }
+
   let organisationInvites = []
   const organisationInvitesResponse = await billingHelpers.getOrganisationInvites()
   if (!organisationInvitesResponse.error) {
     organisationInvites = organisationInvitesResponse.res.invites
+  }
+
+  let transferRequests = []
+  const transferRequestsResponse = await billingHelpers.getTransferRequests()
+  if (!transferRequestsResponse.error) {
+    transferRequests = transferRequestsResponse.res.transferRequests
   }
 
   // SET
@@ -78,6 +94,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     ...(allOrgs && { allOrgs }),
     organisation,
     organisationUsers,
+    organisationArtists,
     billingDetails,
     referralsDetails,
     defaultPaymentMethod,
@@ -86,6 +103,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     loading: false,
     loadingErrors: errors,
     organisationInvites,
+    transferRequests,
   })
 }
 
@@ -162,10 +180,24 @@ export const removeOrganisationInvite = (set, get) => async (organisationInvite)
   const { organisationInvites } = get()
 
   const organisationInvitesUpdated = produce(organisationInvites, draftState => {
-    return draftState.filter((i) => i.token !== organisationInvite.token)
+    return draftState.filter((oi) => oi.token !== organisationInvite.token)
   })
 
   set({ organisationInvites: organisationInvitesUpdated })
+}
+
+export const removeTransferRequest = (set, get) => async (transferRequest) => {
+  const { transferRequests } = get()
+
+  const transferRequestsUpdated = produce(transferRequests, draftState => {
+    return draftState.filter((tr) => tr.token !== transferRequest.token)
+  })
+
+  set({ transferRequests: transferRequestsUpdated })
+}
+
+export const updateOrganisationArtists = (set) => async (organisationArtists) => {
+  set({ organisationArtists })
 }
 
 const useBillingStore = create((set, get) => ({
@@ -179,6 +211,8 @@ const useBillingStore = create((set, get) => ({
   selectOrganisation: selectOrganisation(set, get),
   removeOrganisationUser: removeOrganisationUser(set, get),
   removeOrganisationInvite: removeOrganisationInvite(set, get),
+  removeTransferRequest: removeTransferRequest(set, get),
+  updateOrganisationArtists: updateOrganisationArtists(set, get),
 }))
 
 export default useBillingStore
