@@ -95,6 +95,13 @@ export const getAction = ({
   if (topic === 'facebook-expired-access-token') {
     return () => getFbRelinkAction(hasFbAuth, missingScopes)
   }
+
+  if (topic === 'organisation-invite' || topic === 'transfer-request') {
+    return () => {
+      Router.push(ctaLink)
+      return { res: 'incomplete' }
+    }
+  }
   // Handle no method or link
   if (!apiEndpoint && !ctaLink) return () => {}
   // Handle link
@@ -139,8 +146,7 @@ const getKeysAndSubstringsFromTemplate = (template) => {
       break
     }
 
-    const substring = match[0]
-    const key = match[1]
+    const [substring, key] = match
 
     if (key in keys) {
       continue
@@ -156,11 +162,10 @@ const getKeysAndSubstringsFromTemplate = (template) => {
 const formatNotificationText = (text, data) => {
   const keysAndSubstrings = getKeysAndSubstringsFromTemplate(text)
 
-  // eslint-disable-next-line no-restricted-syntax
-  for (const { key, substring } of keysAndSubstrings) {
+  keysAndSubstrings.forEach(({ key, substring }) => {
     // Replace all entries of '{{ profile_name }}' with data['profile_name']
     text = text.replace(RegExp(substring, 'g'), data[key])
-  }
+  })
 
   return text
 }
