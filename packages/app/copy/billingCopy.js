@@ -33,13 +33,13 @@ export default {
   noProfiles: `It looks like you haven't connected any profiles to this billing account yet.`,
   transferHeader: 'Transfer a profile to another billing account',
   transferDescription: `If you need to move a profile to another billing account, send a transfer request to an admin of the other billing account by entering their email address below.`,
-  resolveTransfers: 'Would you like to add the profile(s) below to your billing account?',
+  resolveTransfers: (transferRequestsNumber) => `Would you like to add the ${transferRequestsNumber > 1 ? 'profiles' : 'profile'} below to your billing account?`,
 
   // USERS & INVITES
   usersInfo: 'Manage the users that have access to the billing settings.',
   noUsers: `It looks like you haven't connected any users to this billing account yet.`,
   inviteHeader: 'Enter their email address:',
   inviteDescription: 'We’ll send them a link inviting them join your team on Feed and manage the billing information for the profiles you have.',
-  userDeleteAlert: 'This user is going to lose access to the billing account. Do you want to continue?',
+  userDeleteAlert: 'This user will lose access to the billing account. Do you want to continue?',
   invited: (inviting_user_name) => `You’ve been invited to join ${inviting_user_name}'s billing account`,
 }

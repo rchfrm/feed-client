@@ -21,7 +21,7 @@ const BillingProfilesTransferList = ({
           className,
         ].join(' ')}
       >
-        <MarkdownText className="mt-5" markdown={copy.resolveTransfers} />
+        <MarkdownText className="mt-5" markdown={copy.resolveTransfers(transferRequests.length)} />
         <div className="rounded-dialogue border-solid border-2 border-redLight mb-4">
           {transferRequests.map((transferRequest, idx) => (
             <BillingProfilesTransferItem

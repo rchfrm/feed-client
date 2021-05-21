@@ -55,9 +55,9 @@ const BillingUsersSummary = ({
   const makeDisplayName = (user) => {
     const names = []
 
-    const fistName = (user.first_name || '').trim()
-    if (fistName) {
-      names.push(fistName)
+    const firstName = (user.first_name || '').trim()
+    if (firstName) {
+      names.push(firstName)
     }
 
     const lastName = (user.last_name || '').trim()

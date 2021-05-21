@@ -53,8 +53,9 @@ const BillingOrganisationSelect = ({
                 <Button
                   version="black x-small"
                   label="Cancel switch organisation"
-                  onClick={() => {
+                  onClick={(e) => {
                     setSelectActive(false)
+                    e.currentTarget.blur() // lose focus on the button
                   }}
                 >
                   Cancel

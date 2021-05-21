@@ -28,6 +28,7 @@ const getBillingStoreState = (state) => ({
   nextInvoice: state.nextInvoice,
   organisation: state.organisation,
   organisationInvites: state.organisationInvites,
+  organisationArtists: state.organisationArtists,
   allOrgs: state.allOrgs,
 })
 
@@ -45,6 +46,7 @@ const BillingContent = () => {
     organisation,
     allOrgs,
     organisationInvites,
+    organisationArtists,
   } = useBillingStore(getBillingStoreState, shallow)
 
   // Load billing info
@@ -92,7 +94,7 @@ const BillingContent = () => {
         {/* REFERRALS */}
         <BillingReferralsSummary canTransferCredits />
         {/* PROFILES */}
-        <BillingProfilesSummary organisation={organisation} />
+        {(organisationArtists.length === 0 || organisationArtists.length > 1) && <BillingProfilesSummary />}
         {/* USERS */}
         <BillingUsersSummary className="mt-10" />
       </div>
