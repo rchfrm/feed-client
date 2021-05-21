@@ -21,16 +21,15 @@ export default {
   // Intro progress
   introToProgress: (totalReferrals, totalCompleteReferrals, minSpend, upcomingBenefit) => {
     const totalReferredText = totalReferrals === 1 ? 'someone' : `${totalReferrals} people`
-    const totalCompleteReferredText = totalCompleteReferrals === 1 ? 'someone' : `${totalCompleteReferrals} people`
     const totalPendingReferrals = totalReferrals - totalCompleteReferrals
     // No referrals of any kind
     if (!totalReferrals && !totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend ${minSpend} through the platform, you’ll both receive ${minSpend} in credit!`
     // Only incomplete referrals
     if (totalReferrals && !totalCompleteReferrals) return `Thank you for referring ${totalReferredText} to Feed! Once they have spent ${minSpend} through the platform, we’ll give you both ${minSpend} in credit.`
     // Only complete referrals
-    if (!totalReferrals && totalCompleteReferrals) return `Thanks for referring ${totalCompleteReferredText} to Feed! Keep sharing your unique link to get ${upcomingBenefit}`
+    if (totalPendingReferrals === 0) return `Thanks for referring ${totalReferredText} to Feed! Keep sharing your unique link to get ${upcomingBenefit}`
     // Mix of complete and incomplete referrals
-    return `Thanks for referring ${totalCompleteReferredText} to Feed! ${totalPendingReferrals} of them ${totalPendingReferrals === 1 ? 'hasn\'t' : 'haven\'t'} yet spent ${minSpend} through the platform. Once they do, you’ll get ${upcomingBenefit}.`
+    return `Thanks for referring ${totalReferredText} to Feed! ${totalPendingReferrals} of them ${totalPendingReferrals === 1 ? 'hasn\'t' : 'haven\'t'} yet spent ${minSpend} through the platform. Once they do, you’ll get ${upcomingBenefit}.`
   },
 
   // TIERS
