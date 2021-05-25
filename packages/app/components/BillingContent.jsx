@@ -14,7 +14,6 @@ import Error from '@/elements/Error'
 import BillingOrganisationSelect from '@/app/BillingOrganisationSelect'
 import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
-import BillingReferralsSummary from '@/app/BillingReferralsSummary'
 import BillingProfilesSummary from '@/app/BillingProfilesSummary'
 import BillingUsersSummary from '@/app/BillingUsersSummary'
 import BillingOrganisationInviteList from '@/app/BillingOrganisationInviteList'
@@ -98,7 +97,8 @@ const BillingContent = () => {
       {/* RIGHT COL */}
       <div className="col-span-1 mb-12 sm:mb-0">
         {/* REFERRALS */}
-        <BillingReferralsSummary canTransferCredits />
+        {/* SHOULD BE HIDDEN UNTIL THE BACKEND IS IMPLEMENTED */}
+        {/* <BillingReferralsSummary canTransferCredits /> */}
         {/* PROFILES */}
         {(organisationArtists.length === 0 || organisationArtists.length > 1) && <BillingProfilesSummary />}
         {/* USERS */}
