@@ -65,7 +65,7 @@ const BillingContent = () => {
 
     // SHOW PROFILES SECTION IF THERE ARE RELEVANT TRANSFER REQUESTS
     const filteredTransferRequests = transferRequests.filter(({ profile_id }) => organisationArtists[0].id !== profile_id)
-    return filteredTransferRequests > 0
+    return filteredTransferRequests.length > 0
   }
 
   // Load billing info

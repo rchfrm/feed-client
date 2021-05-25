@@ -62,7 +62,7 @@ const BillingProfilesSummary = ({
       {filteredTransferRequests.length !== 0 && (
         <BillingProfilesTransferList
           organisationId={organisation.id}
-          transferRequests={transferRequests}
+          transferRequests={filteredTransferRequests}
           removeTransferRequest={removeTransferRequest}
           updateOrganisationArtists={updateOrganisationArtists}
         />
