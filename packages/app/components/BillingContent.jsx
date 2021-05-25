@@ -52,7 +52,7 @@ const BillingContent = () => {
     updateLatestInvoice,
   } = useBillingStore(getBillingStoreState, shallow)
 
-  const getInvoiceToShow = () => (latestInvoice.failed ? latestInvoice : nextInvoice)
+  const getInvoiceToShow = () => (latestInvoice && latestInvoice.failed ? latestInvoice : nextInvoice)
 
   // Load billing info
   React.useEffect(() => {
