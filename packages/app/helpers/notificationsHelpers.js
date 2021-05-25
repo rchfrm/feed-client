@@ -17,7 +17,7 @@ import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
 
 // To parse cases like {{ this }} and {{{ this }}}
-const RE_TEMPLATE = /\{?\{\{\s([a-z_]+)\s\}\}\}?/g
+const RE_TEMPLATE = /\{?\{\{\s([a-z0-9_]+)\s\}\}\}?/g
 
 // * DICTIONARY
 // ------------

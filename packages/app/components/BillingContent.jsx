@@ -29,6 +29,7 @@ const getBillingStoreState = (state) => ({
   organisation: state.organisation,
   organisationInvites: state.organisationInvites,
   organisationArtists: state.organisationArtists,
+  transferRequests: state.transferRequests,
   allOrgs: state.allOrgs,
   updateLatestInvoice: state.updateLatestInvoice,
 })
@@ -49,10 +50,23 @@ const BillingContent = () => {
     allOrgs,
     organisationInvites,
     organisationArtists,
+    transferRequests,
     updateLatestInvoice,
   } = useBillingStore(getBillingStoreState, shallow)
 
   const getInvoiceToShow = () => (latestInvoice && latestInvoice.failed ? latestInvoice : nextInvoice)
+
+  const shouldShowProfilesSection = () => {
+    // SHOW PROFILES SECTION IF THERE ARE NO (zero) OR MULTIPLE (more than 1) PROFILES
+    if (organisationArtists.length === 0 || organisationArtists.length > 1) {
+      // RETURN EARLY TO REDUCE FUNCTION TIME COMPLEXITY
+      return true
+    }
+
+    // SHOW PROFILES SECTION IF THERE ARE RELEVANT TRANSFER REQUESTS
+    const filteredTransferRequests = transferRequests.filter(({ profile_id }) => organisationArtists[0].id !== profile_id)
+    return filteredTransferRequests > 0
+  }
 
   // Load billing info
   React.useEffect(() => {
@@ -100,7 +114,7 @@ const BillingContent = () => {
         {/* SHOULD BE HIDDEN UNTIL THE BACKEND IS IMPLEMENTED */}
         {/* <BillingReferralsSummary canTransferCredits /> */}
         {/* PROFILES */}
-        {(organisationArtists.length === 0 || organisationArtists.length > 1) && <BillingProfilesSummary />}
+        {shouldShowProfilesSection() && <BillingProfilesSummary />}
         {/* USERS */}
         <BillingUsersSummary className="mt-10" />
       </div>
