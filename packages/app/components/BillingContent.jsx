@@ -26,10 +26,12 @@ const getBillingStoreState = (state) => ({
   defaultPaymentMethod: state.defaultPaymentMethod,
   setupBilling: state.setupBilling,
   nextInvoice: state.nextInvoice,
+  latestInvoice: state.latestInvoice,
   organisation: state.organisation,
   organisationInvites: state.organisationInvites,
   organisationArtists: state.organisationArtists,
   allOrgs: state.allOrgs,
+  updateLatestInvoice: state.updateLatestInvoice,
 })
 
 const BillingContent = () => {
@@ -43,11 +45,15 @@ const BillingContent = () => {
     setupBilling,
     defaultPaymentMethod,
     nextInvoice,
+    latestInvoice,
     organisation,
     allOrgs,
     organisationInvites,
     organisationArtists,
+    updateLatestInvoice,
   } = useBillingStore(getBillingStoreState, shallow)
+
+  const getInvoiceToShow = () => (latestInvoice.failed ? latestInvoice : nextInvoice)
 
   // Load billing info
   React.useEffect(() => {
@@ -85,7 +91,7 @@ const BillingContent = () => {
         {/* ERRORS */}
         {loadingErrors.map((error, index) => <Error key={index} error={error} />)}
         {/* INVOICES */}
-        <BillingInvoiceSummary nextInvoice={nextInvoice} className="mb-12" />
+        <BillingInvoiceSummary className="mb-12" invoice={getInvoiceToShow()} organisationId={organisation.id} updateLatestInvoice={updateLatestInvoice} />
         {/* PAYMENT METHOD */}
         <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
       </div>

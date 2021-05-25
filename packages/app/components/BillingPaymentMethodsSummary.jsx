@@ -33,12 +33,12 @@ const BillingPaymentMethodsSummary = ({
             isDefault
             className="mb-6"
           />
-          <BillingOpenPayments contentType="show-methods" />
+          <BillingOpenPayments contentType="show-methods" buttonText="Show all payment methods" />
         </>
       ) : (
         <>
           <MarkdownText markdown={copy.noPaymentMethods} />
-          <BillingOpenPayments contentType="add-payment" shouldBeDefault />
+          <BillingOpenPayments contentType="add-payment" shouldBeDefault buttonText="Add payment method" />
         </>
       )}
     </div>

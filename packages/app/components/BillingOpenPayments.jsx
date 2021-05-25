@@ -15,7 +15,9 @@ const getOrganisation = state => state.organisation
 const BillingOpenPayments = ({
   contentType,
   shouldBeDefault,
+  buttonText,
   className,
+  buttonClassName,
 }) => {
   const openAddPaymentMethod = useBillingAddPayment()
   const openShowPaymentMethods = useBillingShowPayments()
@@ -26,7 +28,8 @@ const BillingOpenPayments = ({
     <div className={className}>
       <Button
         version="black small"
-        className="w-full sm:max-w-md"
+        className={buttonClassName}
+        label={buttonText}
         onClick={(e) => {
           e.preventDefault()
           if (contentType === 'add-payment') {
@@ -38,7 +41,7 @@ const BillingOpenPayments = ({
           }
         }}
       >
-        {contentType === 'add-payment' ? 'Add payment method' : 'Show all payment methods'}
+        {buttonText}
       </Button>
     </div>
   )
@@ -47,12 +50,15 @@ const BillingOpenPayments = ({
 BillingOpenPayments.propTypes = {
   contentType: PropTypes.string.isRequired,
   shouldBeDefault: PropTypes.bool,
+  buttonText: PropTypes.string.isRequired,
   className: PropTypes.string,
+  buttonClassName: PropTypes.string,
 }
 
 BillingOpenPayments.defaultProps = {
   shouldBeDefault: false,
   className: null,
+  buttonClassName: 'w-full sm:max-w-md',
 }
 
 

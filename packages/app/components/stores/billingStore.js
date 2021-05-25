@@ -2,7 +2,7 @@ import create from 'zustand'
 import produce from 'immer'
 
 import * as billingHelpers from '@/app/helpers/billingHelpers'
-import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
+import { fetchUpcomingInvoice, fetchLatestInvoice } from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
   allOrgs: [],
@@ -13,6 +13,7 @@ const initialState = {
   organisationArtists: [],
   billingDetails: {},
   nextInvoice: {},
+  latestInvoice: {},
   artistCurrency: {},
   defaultPaymentMethod: null,
   referralsDetails: {},
@@ -33,13 +34,17 @@ const fetchOrganisationDetails = async (organisation) => {
   const billingDetails = billingHelpers.getbillingDetails(organisation)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
   // Fetch next invoice
-  const { res: nextInvoice, error: invoiceError } = await fetchUpcomingInvoice(organisation.id)
-  if (invoiceError) errors.push(invoiceError)
+  const { res: nextInvoice, error: nextInvoiceError } = await fetchUpcomingInvoice(organisation.id)
+  if (nextInvoiceError) errors.push(nextInvoiceError)
+  // Fetch latest invoice
+  const { res: latestInvoice, error: latestInvoiceError } = await fetchLatestInvoice(organisation.id)
+  if (latestInvoiceError) errors.push(latestInvoiceError)
   // Referrals data
   const { res: referralsDetails, error: referralsError = null } = await billingHelpers.getReferralsData()
   if (referralsError) errors.push(referralsError)
   return {
     nextInvoice,
+    latestInvoice,
     billingDetails,
     referralsDetails,
     defaultPaymentMethod,
@@ -55,6 +60,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
   const organisation = activeOrganisation || allOrgs[0]
   const {
     nextInvoice,
+    latestInvoice,
     billingDetails,
     referralsDetails,
     defaultPaymentMethod,
@@ -99,6 +105,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     referralsDetails,
     defaultPaymentMethod,
     nextInvoice,
+    latestInvoice,
     ...(artistCurrency && { artistCurrency }),
     loading: false,
     loadingErrors: errors,
@@ -200,6 +207,11 @@ export const updateOrganisationArtists = (set) => async (organisationArtists) =>
   set({ organisationArtists })
 }
 
+const updateLatestInvoice = (set) => (latestInvoice) => {
+  set({ latestInvoice })
+}
+
+
 const useBillingStore = create((set, get) => ({
   ...initialState,
   // GETTERS
@@ -213,6 +225,7 @@ const useBillingStore = create((set, get) => ({
   removeOrganisationInvite: removeOrganisationInvite(set, get),
   removeTransferRequest: removeTransferRequest(set, get),
   updateOrganisationArtists: updateOrganisationArtists(set, get),
+  updateLatestInvoice: updateLatestInvoice(set, get),
 }))
 
 export default useBillingStore
