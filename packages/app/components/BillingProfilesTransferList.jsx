@@ -40,8 +40,8 @@ const BillingProfilesTransferList = ({
 }
 
 BillingProfilesTransferList.propTypes = {
-  organisationId: PropTypes.func.isRequired,
-  transferRequests: PropTypes.func.isRequired,
+  organisationId: PropTypes.string.isRequired,
+  transferRequests: PropTypes.array.isRequired,
   removeTransferRequest: PropTypes.func.isRequired,
   updateOrganisationArtists: PropTypes.func.isRequired,
   className: PropTypes.string,

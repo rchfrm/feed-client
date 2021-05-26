@@ -71,7 +71,7 @@ const BillingOrganisationInviteItem = ({
 }
 
 BillingOrganisationInviteItem.propTypes = {
-  organisationInvite: PropTypes.func.isRequired,
+  organisationInvite: PropTypes.object.isRequired,
   removeOrganisationInvite: PropTypes.func.isRequired,
   className: PropTypes.string,
 }

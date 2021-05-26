@@ -49,8 +49,8 @@ const BillingProfilesSummary = ({
         <span>{copy.noProfiles}</span>
       ) : (
         <ul>
-          {artists.map((artist, index) => (
-            <React.Fragment key={index}>
+          {artists.map((artist) => (
+            <React.Fragment key={artist.id}>
               <li className="flex ml-5 mb-3 last:mb-0">
                 <span>{artist.name}</span>
               </li>

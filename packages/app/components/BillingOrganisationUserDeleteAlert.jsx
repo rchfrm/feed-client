@@ -54,7 +54,7 @@ BillingOrganisationUserDeleteAlert.Types = {
   confirmAlert: PropTypes.string.isRequired,
   setConfirmAlert: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
-  user: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 

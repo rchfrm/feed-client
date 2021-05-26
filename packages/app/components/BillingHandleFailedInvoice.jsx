@@ -31,26 +31,26 @@ const BillingHandleFailedInvoice = () => {
     <div>
       {/* INTRO */}
       <h2 className={sidePanelStyles.SidePanel__Header}>Resolve unpaid invoice</h2>
-      <>
-        <MarkdownText markdown={copy.failedInvoiceIntro(failedInvoice.date)} />
+      <MarkdownText markdown={copy.failedInvoiceIntro(failedInvoice.date, !!defaultPaymentMethod)} />
+      {defaultPaymentMethod && (
         <BillingPaymentCard
           card={defaultPaymentMethod.card}
           currency={defaultPaymentMethod.currency}
           billingDetails={defaultPaymentMethod.billing_details}
           className="mb-6"
         />
-        <MarkdownText markdown={copy.failedInvoiceAction} />
-        {/* RETRY Payment */}
-        <div className="mb-4">
-          <Button
-            version="green small"
-            label={retryButtonText}
-            href={failedInvoice.hosted_invoice_url}
-          >
-            {retryButtonText}
-          </Button>
-        </div>
-      </>
+      )}
+      <MarkdownText markdown={copy.failedInvoiceAction} />
+      {/* RETRY Payment */}
+      <div className="mb-4">
+        <Button
+          version="green small"
+          label={retryButtonText}
+          href={failedInvoice.hosted_invoice_url}
+        >
+          {retryButtonText}
+        </Button>
+      </div>
     </div>
   )
 }

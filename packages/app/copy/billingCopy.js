@@ -16,7 +16,7 @@ export default {
   choosePaymentIntro: `There are the payment methods you've added so far. Choose what to use as a default or add a new method.`,
 
   // FAILED INVOICE
-  failedInvoiceIntro: (date) => `There was a problem with the payment method on your invoice from **${date}** using the payment method below:`,
+  failedInvoiceIntro: (date, hasPaymentMethod) => `There was a problem with the payment method on your invoice from **${date}** ${hasPaymentMethod ? 'using the payment method below:' : ''}`,
   failedInvoiceAction: 'Please, **retry making the payment**:',
 
   // REFERALLS

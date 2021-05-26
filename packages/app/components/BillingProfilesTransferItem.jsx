@@ -80,8 +80,8 @@ const BillingProfilesTransferItem = ({
 }
 
 BillingProfilesTransferItem.propTypes = {
-  organisationId: PropTypes.func.isRequired,
-  transferRequest: PropTypes.func.isRequired,
+  organisationId: PropTypes.string.isRequired,
+  transferRequest: PropTypes.object.isRequired,
   removeTransferRequest: PropTypes.func.isRequired,
   updateOrganisationArtists: PropTypes.func.isRequired,
   className: PropTypes.string,
