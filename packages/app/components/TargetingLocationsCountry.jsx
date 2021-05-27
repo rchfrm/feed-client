@@ -11,7 +11,7 @@ import {
   AccordionItemState,
 } from 'react-accessible-accordion'
 
-const TargetingPickerCountry = ({
+const TargetingLocationsCountry = ({
   country,
   selectedCountries,
   setSelectedCountries,
@@ -81,7 +81,7 @@ const TargetingPickerCountry = ({
   )
 }
 
-TargetingPickerCountry.propTypes = {
+TargetingLocationsCountry.propTypes = {
   country: PropTypes.object.isRequired,
   selectedCountries: PropTypes.array.isRequired,
   setSelectedCountries: PropTypes.func.isRequired,
@@ -90,4 +90,4 @@ TargetingPickerCountry.propTypes = {
   initiallyPicked: PropTypes.bool.isRequired,
 }
 
-export default TargetingPickerCountry
+export default TargetingLocationsCountry

@@ -12,7 +12,7 @@ import PostCardDisableWarning from '@/app/PostCardDisableWarning'
 const PostCard = ({
   post,
   postIndex,
-  updateLink,
+  updatePost,
   togglePromotion,
   postToggleSetterType,
   isMissingDefaultLink,
@@ -76,10 +76,9 @@ const PostCard = ({
           post={post}
           postIndex={postIndex}
           postPromotable={postPromotable}
-          updateLink={updateLink}
+          updatePost={updatePost}
           hidePaidMetrics={hidePaidMetrics}
           isMissingDefaultLink={isMissingDefaultLink}
-          settingsIcon="link"
         />
         {/* DISABLE WARNING (usually hidden) */}
         {postPromotable && promotionStatus === 'active' && (
@@ -107,7 +106,6 @@ const PostCard = ({
 PostCard.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
-  updateLink: PropTypes.func.isRequired,
   togglePromotion: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
