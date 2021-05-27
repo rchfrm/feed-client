@@ -12,6 +12,7 @@ const getHeader = (date, failed) => {
 
 const BillingInvoiceSummary = ({
   invoice,
+  isUpcoming,
   organisationId,
   updateLatestInvoice,
   className,
@@ -20,9 +21,12 @@ const BillingInvoiceSummary = ({
     date,
     invoiceSections = [],
     totalFee,
-    failed,
-  } = invoice || {}
+  } = invoice
+
+  // Upcoming invoice cannot be failed
+  const failed = !isUpcoming && invoice.failed
   const header = getHeader(date, failed)
+
   return (
     <div
       className={[
@@ -80,13 +84,14 @@ const BillingInvoiceSummary = ({
 
 BillingInvoiceSummary.propTypes = {
   invoice: PropTypes.object,
+  isUpcoming: PropTypes.bool.isRequired,
   organisationId: PropTypes.string.isRequired,
   updateLatestInvoice: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 BillingInvoiceSummary.defaultProps = {
-  invoice: null,
+  invoice: {},
   className: null,
 }
 

@@ -102,6 +102,6 @@ export const fetchLatestInvoice = async (organizationId) => {
   const { res: invoices, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
   if (error) return { error }
   // Format invoice
-  const res = formatUpcomingInvoice(invoices[0])
+  const res = invoices[0] ? formatUpcomingInvoice(invoices[0]) : {}
   return { res }
 }
