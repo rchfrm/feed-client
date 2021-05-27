@@ -1,52 +1,29 @@
 import moment from 'moment'
 
 import { formatCurrency } from '@/helpers/utils'
+import { requestWithCatch } from '@/helpers/api'
 
 // * ARCHIVED INVOICES
 // -------------------
-const dummyArchivedInvoices = [
-  {
-    date: '2020-04-02T14:54:21.000Z',
-    link: '#',
-  },
-  {
-    date: '2020-02-01T14:54:21.000Z',
-    link: '#',
-  },
-  {
-    date: '2019-03-02T14:54:21.000Z',
-    link: '#',
-  },
-]
-
-export const fetchArchivedInvoices = (orgId) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const res = dummyArchivedInvoices
-      resolve({ res, error: null })
-    }, 800)
-  })
+export const fetchArchivedInvoices = (organizationId) => {
+  const payload = null
+  const endpoint = `/organizations/${organizationId}/billing/invoices`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Fetch invoices',
+  }
+  return requestWithCatch('get', endpoint, payload, errorTracking)
 }
-
 
 // * UPCOMING INVOICE
 // ------------------
-const dummyUpcomingInvoice = {
-  date: '2021-04-02T14:54:21.000Z',
-  ad_spend: 3450,
-  ad_spend_fee: 345,
-  conversion_sales: 5800,
-  conversion_sales_fee: 580,
-  currency: 'GBP',
-  currencyOffset: 100,
-}
-
 const formatUpcomingInvoice = (invoice) => {
-  const { currency, currencyOffset } = invoice
+  const { currency, exponent } = invoice
+  const currencyOffset = 10 ** exponent
   const invoiceSections = []
   let totalFee = 0
   // Handle ad spend
-  const adSpendSlug = 'ad_spend'
+  const adSpendSlug = 'ad_spend_total'
   const adSpendFeedSlug = 'ad_spend_fee'
   invoiceSections.push(
     [
@@ -67,9 +44,9 @@ const formatUpcomingInvoice = (invoice) => {
   // Update fee
   totalFee += invoice[adSpendFeedSlug]
   // Handle conversion spend
-  const conversionSaleSlug = 'conversion_sales'
-  const conversionFeeSlug = 'conversion_sales_fee'
-  if (invoice[conversionSaleSlug]) {
+  const conversionSaleSlug = 'conversions_total'
+  const conversionFeeSlug = 'conversions_fee'
+  if (typeof invoice[conversionSaleSlug] === 'number') {
     invoiceSections.push(
       [
         {
@@ -89,19 +66,42 @@ const formatUpcomingInvoice = (invoice) => {
     // Update fee
     totalFee += invoice[conversionFeeSlug]
   }
+
   // Return data
   return {
+    ...invoice,
+    failed: !((invoice.status === 'open' && !invoice.attempted) || invoice.status === 'paid'),
     invoiceSections,
     totalFee: formatCurrency(totalFee / currencyOffset, currency),
     date: moment(invoice.date).format('DD MMM YYYY'),
   }
 }
 
-export const fetchUpcomingInvoice = (orgId) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const res = formatUpcomingInvoice(dummyUpcomingInvoice)
-      resolve({ res, error: null })
-    }, 800)
-  })
+export const fetchUpcomingInvoice = async (organizationId) => {
+  const payload = null
+  const endpoint = `/organizations/${organizationId}/billing/invoices/upcoming`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Fetch latest invoice',
+  }
+  const { res: invoice, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
+  if (error) return { error }
+  // Format invoice
+  const res = formatUpcomingInvoice(invoice)
+  return { res }
+}
+
+export const fetchLatestInvoice = async (organizationId) => {
+  const payload = null
+  const endpoint = `/organizations/${organizationId}/billing/invoices`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Fetch latest invoice',
+  }
+
+  const { res: invoices, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
+  if (error) return { error }
+  // Format invoice
+  const res = formatUpcomingInvoice(invoices[0])
+  return { res }
 }

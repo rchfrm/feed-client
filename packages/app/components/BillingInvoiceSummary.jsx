@@ -1,21 +1,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import BillingOpenFailedInvoice from '@/app/BillingOpenFailedInvoice'
 import BillingOpenInvoices from '@/app/BillingOpenInvoices'
 
+const getHeader = (date, failed) => {
+  if (!date) return 'No upcoming invoice'
+  if (failed) return 'There was a problem paying your last invoice'
+  return `Next invoice: ${date}`
+}
+
 const BillingInvoiceSummary = ({
-  nextInvoice,
+  invoice,
+  organisationId,
+  updateLatestInvoice,
   className,
 }) => {
-  const { date, invoiceSections = [], totalFee } = nextInvoice || {}
-  const header = nextInvoice ? `Next invoice: ${date}` : 'No upcoming invoice'
+  const {
+    date,
+    invoiceSections = [],
+    totalFee,
+    failed,
+  } = invoice || {}
+  const header = getHeader(date, failed)
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-      <h3 className="font-body font-bold mb-6">{header}</h3>
+      {failed && (
+        <h4 className="font-body font-bold mb-2">{date}</h4>
+      )}
+      <h3 className={`font-body font-bold mb-6 ${failed ? 'text-red' : null}`}>{header}</h3>
       {/* INVOICE SECTIONS */}
       {invoiceSections.map((section, index) => {
         return (
@@ -49,19 +66,27 @@ const BillingInvoiceSummary = ({
         <strong>TOTAL FEE</strong>
         <strong>{totalFee}</strong>
       </p>
-      {/* BUTTON (FOR SHOW ALL) */}
-      <BillingOpenInvoices className="pt-8" />
+      <div className="pt-6">
+        {/* BUTTON FOR HANDLING FAILED INVOICE */}
+        {failed && (
+          <BillingOpenFailedInvoice className="mb-4" organisationId={organisationId} updateLatestInvoice={updateLatestInvoice} />
+        )}
+        {/* BUTTON (FOR SHOW ALL) */}
+        <BillingOpenInvoices />
+      </div>
     </div>
   )
 }
 
 BillingInvoiceSummary.propTypes = {
-  nextInvoice: PropTypes.object,
+  invoice: PropTypes.object,
+  organisationId: PropTypes.string.isRequired,
+  updateLatestInvoice: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 BillingInvoiceSummary.defaultProps = {
-  nextInvoice: null,
+  invoice: null,
   className: null,
 }
 

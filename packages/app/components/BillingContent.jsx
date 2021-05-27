@@ -14,7 +14,9 @@ import Error from '@/elements/Error'
 import BillingOrganisationSelect from '@/app/BillingOrganisationSelect'
 import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
-import BillingReferralsSummary from '@/app/BillingReferralsSummary'
+import BillingProfilesSummary from '@/app/BillingProfilesSummary'
+import BillingUsersSummary from '@/app/BillingUsersSummary'
+import BillingOrganisationInviteList from '@/app/BillingOrganisationInviteList'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
@@ -23,8 +25,13 @@ const getBillingStoreState = (state) => ({
   defaultPaymentMethod: state.defaultPaymentMethod,
   setupBilling: state.setupBilling,
   nextInvoice: state.nextInvoice,
+  latestInvoice: state.latestInvoice,
   organisation: state.organisation,
+  organisationInvites: state.organisationInvites,
+  organisationArtists: state.organisationArtists,
+  transferRequests: state.transferRequests,
   allOrgs: state.allOrgs,
+  updateLatestInvoice: state.updateLatestInvoice,
 })
 
 const BillingContent = () => {
@@ -38,9 +45,28 @@ const BillingContent = () => {
     setupBilling,
     defaultPaymentMethod,
     nextInvoice,
+    latestInvoice,
     organisation,
     allOrgs,
+    organisationInvites,
+    organisationArtists,
+    transferRequests,
+    updateLatestInvoice,
   } = useBillingStore(getBillingStoreState, shallow)
+
+  const getInvoiceToShow = () => (latestInvoice && latestInvoice.failed ? latestInvoice : nextInvoice)
+
+  const shouldShowProfilesSection = () => {
+    // SHOW PROFILES SECTION IF THERE ARE NO (zero) OR MULTIPLE (more than 1) PROFILES
+    if (organisationArtists.length === 0 || organisationArtists.length > 1) {
+      // RETURN EARLY TO REDUCE FUNCTION TIME COMPLEXITY
+      return true
+    }
+
+    // SHOW PROFILES SECTION IF THERE ARE RELEVANT TRANSFER REQUESTS
+    const filteredTransferRequests = transferRequests.filter(({ profile_id }) => organisationArtists[0].id !== profile_id)
+    return filteredTransferRequests.length > 0
+  }
 
   // Load billing info
   React.useEffect(() => {
@@ -59,10 +85,16 @@ const BillingContent = () => {
         'pb-12',
       ].join(' ')}
     >
+      {/* ACCEPT / REJECT ORGANISATION INVITES */}
+      {organisationInvites.length > 0 && (
+        <BillingOrganisationInviteList
+          className="col-span-1 mb-12 sm:mb-0 rounded-dialogue border-solid border-2 border-redLight"
+        />
+      )}
       {/* SELECT ORG */}
       {allOrgs.length >= 2 && (
         <BillingOrganisationSelect
-          className="col-span-2 mb-12 sm:-mb-4"
+          className="col-span-1 mb-12 sm:mb-0"
           organisation={organisation}
           allOrgs={allOrgs}
         />
@@ -72,13 +104,19 @@ const BillingContent = () => {
         {/* ERRORS */}
         {loadingErrors.map((error, index) => <Error key={index} error={error} />)}
         {/* INVOICES */}
-        <BillingInvoiceSummary nextInvoice={nextInvoice} className="mb-12" />
+        <BillingInvoiceSummary className="mb-12" invoice={getInvoiceToShow()} organisationId={organisation.id} updateLatestInvoice={updateLatestInvoice} />
         {/* PAYMENT METHOD */}
         <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
       </div>
       {/* RIGHT COL */}
-      <div className="col-span-1">
-        <BillingReferralsSummary canTransferCredits />
+      <div className="col-span-1 mb-12 sm:mb-0">
+        {/* REFERRALS */}
+        {/* SHOULD BE HIDDEN UNTIL THE BACKEND IS IMPLEMENTED */}
+        {/* <BillingReferralsSummary canTransferCredits /> */}
+        {/* PROFILES */}
+        {shouldShowProfilesSection() && <BillingProfilesSummary />}
+        {/* USERS */}
+        <BillingUsersSummary className="mt-10" />
       </div>
     </div>
   )
