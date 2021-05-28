@@ -39,14 +39,13 @@ const fetchOrganisationDetails = async (organisation) => {
   // Fetch latest invoice
   const { res: latestInvoice, error: latestInvoiceError } = await fetchLatestInvoice(organisation.id)
   if (latestInvoiceError) errors.push(latestInvoiceError)
-  // Referrals data
-  const { res: referralsDetails, error: referralsError = null } = await billingHelpers.getReferralsData()
-  if (referralsError) errors.push(referralsError)
+  // Referrals data — not needed until the backend is implemented
+  // const { res: referralsDetails, error: referralsError = null } = await billingHelpers.getReferralsData()
+  // if (referralsError) errors.push(referralsError)
   return {
     nextInvoice,
     latestInvoice,
     billingDetails,
-    referralsDetails,
     defaultPaymentMethod,
     errors,
   }
