@@ -98,9 +98,9 @@ const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
 }
 
 // GET ALL BILLING DETAILS
-export const getbillingDetails = ({ name, payment_status = 'none', billing_details: billingDetails, role }) => {
+export const getbillingDetails = ({ name, payment_status = 'none', customer, role }) => {
   // If no payment status setup
-  if (payment_status === 'none' || !billingDetails) {
+  if (payment_status === 'none' || !customer) {
     return {
       name,
       role,
@@ -110,7 +110,7 @@ export const getbillingDetails = ({ name, payment_status = 'none', billing_detai
   }
 
   // Get default payment method
-  const { payment_methods: paymentMethods } = billingDetails
+  const { payment_methods: paymentMethods } = customer
   const paymentMethodsArray = Object.values(paymentMethods)
   // Method is the only method, or the one marked as default
   const defaultMethod = paymentMethodsArray.length === 1
