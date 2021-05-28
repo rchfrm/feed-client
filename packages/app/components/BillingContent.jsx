@@ -55,6 +55,7 @@ const BillingContent = () => {
   } = useBillingStore(getBillingStoreState, shallow)
 
   const invoice = latestInvoice && latestInvoice.failed ? latestInvoice : nextInvoice
+  const hasLatestInvoice = Object.keys(latestInvoice).length > 0
 
   const shouldShowProfilesSection = () => {
     // SHOW PROFILES SECTION IF THERE ARE NO (zero) OR MULTIPLE (more than 1) PROFILES
@@ -104,7 +105,7 @@ const BillingContent = () => {
         {/* ERRORS */}
         {loadingErrors.map((error, index) => <Error key={index} error={error} />)}
         {/* INVOICES */}
-        <BillingInvoiceSummary className="mb-12" invoice={invoice} isUpcoming={invoice.id === nextInvoice.id} organisationId={organisation.id} updateLatestInvoice={updateLatestInvoice} />
+        <BillingInvoiceSummary className="mb-12" invoice={invoice} isUpcoming={invoice.id === nextInvoice.id} hasLatestInvoice={hasLatestInvoice} organisationId={organisation.id} updateLatestInvoice={updateLatestInvoice} />
         {/* PAYMENT METHOD */}
         <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
       </div>
