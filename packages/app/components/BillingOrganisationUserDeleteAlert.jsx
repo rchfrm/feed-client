@@ -42,9 +42,7 @@ const BillingOrganisationUserDeleteAlert = ({
         children: alertContents,
         buttons: alertButtons,
       })
-      return
     }
-    closeAlert()
   }, [confirmAlert, showAlert, closeAlert, alertButtons])
 
   return null
