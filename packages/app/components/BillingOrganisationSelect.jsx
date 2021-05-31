@@ -73,7 +73,7 @@ const BillingOrganisationSelect = ({
                     setSelectActive(true)
                   }}
                 >
-                  <SwitchIcon className="h-6 w-auto mr-2" fill={brandColors.white} />
+                  <SwitchIcon className="h-4 w-auto mr-2" fill={brandColors.white} />
                   Switch
                 </Button>
               </div>
