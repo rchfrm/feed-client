@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PencilIcon from '@/icons/PencilIcon'
+import SwitchIcon from '@/icons/SwitchIcon'
 import Button from '@/elements/Button'
 import Select from '@/elements/Select'
 import brandColors from '@/constants/brandColors'
@@ -73,7 +73,7 @@ const BillingOrganisationSelect = ({
                     setSelectActive(true)
                   }}
                 >
-                  <PencilIcon className="h-5 w-auto mr-2" fill={brandColors.white} />
+                  <SwitchIcon className="h-6 w-auto mr-2" fill={brandColors.white} />
                   Switch
                 </Button>
               </div>
