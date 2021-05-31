@@ -16,9 +16,13 @@ const BillingOrganisationInviteItem = ({
   removeOrganisationInvite,
 }) => {
   const [error, setError] = React.useState(null)
+  const [loadingAccept, setLoadingAccept] = React.useState(false)
+  const [loadingReject, setLoadingReject] = React.useState(false)
 
   const handleAccept = async () => {
+    setLoadingAccept(true)
     const { error: serverError } = await billingHelpers.acceptOrganisationInvite(organisationInvite.token)
+    setLoadingAccept(false)
     if (serverError) {
       setError(serverError)
       return
@@ -29,7 +33,9 @@ const BillingOrganisationInviteItem = ({
   }
 
   const handleReject = async () => {
+    setLoadingReject(true)
     const { error: serverError } = await billingHelpers.rejectOrganisationInvite(organisationInvite.token)
+    setLoadingReject(false)
     if (serverError) {
       setError(serverError)
       return
@@ -50,19 +56,21 @@ const BillingOrganisationInviteItem = ({
         <Button
           version="green x-small"
           label="Accept"
+          loading={loadingAccept}
           className="w-1/2 mr-1 md:mr-2"
           onClick={handleAccept}
         >
-          <TickIcon className="h-5 w-auto mr-2" fill={brandColors.white} />
+          <TickIcon className="h-4 w-auto mr-2" fill={brandColors.white} />
           Accept
         </Button>
         <Button
           version="red x-small"
           label="Reject"
+          loading={loadingReject}
           className="w-1/2 ml-1 md:ml-2"
           onClick={handleReject}
         >
-          <CrossIcon className="h-6 w-auto mr-2" fill={brandColors.white} />
+          <CrossIcon className="h-5 w-auto mr-2" fill={brandColors.white} />
           Reject
         </Button>
       </div>
