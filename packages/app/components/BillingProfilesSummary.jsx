@@ -50,7 +50,7 @@ const BillingProfilesSummary = ({
         )
       ) : (
         <>
-          <MarkdownText markdown={copy.profilesInfo} />
+          <MarkdownText markdown={copy.profilesIntro} />
           <ul>
             {artists.map((artist) => (
               <React.Fragment key={artist.id}>
