@@ -45,7 +45,9 @@ const BillingProfilesSummary = ({
       <h3 className="font-body font-bold mb-6">Profiles</h3>
       {/* SUMMARY */}
       {artists.length === 0 ? (
-        <span>{copy.noProfiles}</span>
+        filteredTransferRequests.length === 0 && (
+          <span>{copy.noProfiles}</span>
+        )
       ) : (
         <>
           <MarkdownText markdown={copy.profilesInfo} />
@@ -63,7 +65,6 @@ const BillingProfilesSummary = ({
       {/* TRANSFER REQUESTS */}
       {filteredTransferRequests.length !== 0 && (
         <>
-          <MarkdownText markdown={copy.profileTransferRequests} />
           <BillingProfilesTransferList
             organisationId={organisation.id}
             transferRequests={filteredTransferRequests}
