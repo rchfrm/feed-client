@@ -64,14 +64,12 @@ const BillingProfilesSummary = ({
       )}
       {/* TRANSFER REQUESTS */}
       {filteredTransferRequests.length !== 0 && (
-        <>
-          <BillingProfilesTransferList
-            organisationId={organisation.id}
-            transferRequests={filteredTransferRequests}
-            removeTransferRequest={removeTransferRequest}
-            updateOrganisationArtists={updateOrganisationArtists}
-          />
-        </>
+        <BillingProfilesTransferList
+          organisationId={organisation.id}
+          transferRequests={filteredTransferRequests}
+          removeTransferRequest={removeTransferRequest}
+          updateOrganisationArtists={updateOrganisationArtists}
+        />
       )}
       {/* BUTTON (MANAGE PROFILES) */}
       {artists.length !== 0 && <BillingOpenProfiles className="pt-2" />}
