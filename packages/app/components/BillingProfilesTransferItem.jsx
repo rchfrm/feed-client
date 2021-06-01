@@ -75,6 +75,7 @@ const BillingProfilesTransferItem = ({
           </Button>
         </div>
       </div>
+      <Error error={error} />
     </div>
   )
 }
