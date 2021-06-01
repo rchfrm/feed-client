@@ -32,7 +32,7 @@ const BillingUsersSummary = ({
 
   const { organisation, organisationUsers: users, removeOrganisationUser } = useBillingStore(getBillingStoreState, shallow)
 
-  const handleUserDelete = async (user, forceDelete) => {
+  const handleUserDelete = React.useCallback(async (user, forceDelete) => {
     setUser(user)
 
     if (!forceDelete) {
@@ -48,7 +48,7 @@ const BillingUsersSummary = ({
 
     // UPDATE STORE
     removeOrganisationUser(user)
-  }
+  }, [organisation.id, removeOrganisationUser])
 
   const currentUserId = firebaseHelpers.auth.currentUser.uid
 

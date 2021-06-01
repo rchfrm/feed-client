@@ -14,7 +14,7 @@ const BillingOrganisationUserDeleteAlert = ({
   onConfirm,
 }) => {
   // HANDLE ALERT
-  const { showAlert, closeAlert } = useAlertModal()
+  const { showAlert } = useAlertModal()
   const alertButtons = React.useMemo(() => {
     return [
       {
@@ -43,7 +43,7 @@ const BillingOrganisationUserDeleteAlert = ({
         buttons: alertButtons,
       })
     }
-  }, [confirmAlert, showAlert, closeAlert, alertButtons])
+  }, [confirmAlert, showAlert, alertButtons])
 
   return null
 }
