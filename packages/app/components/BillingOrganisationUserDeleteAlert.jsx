@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 
 import useAlertModal from '@/hooks/useAlertModal'
+import useAlertStore from '@/stores/alertStore'
 
 import copy from '@/app/copy/billingCopy'
 
@@ -15,6 +16,7 @@ const BillingOrganisationUserDeleteAlert = ({
 }) => {
   // HANDLE ALERT
   const { showAlert } = useAlertModal()
+  const isOpen = useAlertStore(state => state.isOpen)
   const alertButtons = React.useMemo(() => {
     return [
       {
@@ -44,6 +46,13 @@ const BillingOrganisationUserDeleteAlert = ({
       })
     }
   }, [confirmAlert, showAlert, alertButtons])
+
+  // HANDLE CLOSING THE ALERT BY AN OUTSIDE CLICK
+  React.useEffect(() => {
+    if (!isOpen) {
+      setConfirmAlert('')
+    }
+  }, [setConfirmAlert, isOpen])
 
   return null
 }
