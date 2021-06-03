@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PlatformIcon from '@/icons/PlatformIcon'
+import moment from 'moment'
+
+import PostCardPriorityButton from '@/app/PostCardPriorityButton'
 
 const PostCardHeader = ({
   platform,
@@ -10,6 +12,7 @@ const PostCardHeader = ({
   postType,
   className,
 }) => {
+  const publishedDate = moment(date).format('DD MMM')
   return (
     <div
       className={[
@@ -17,34 +20,21 @@ const PostCardHeader = ({
         className,
       ].join(' ')}
     >
-      {/* ICON */}
-      <p className="flex items-center mb-0">
-        <a
-          href={permalink}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ paddingLeft: 1 }}
-        >
-          <PlatformIcon
-            className="w-4 h-auto"
-            platform={platform}
-          />
-        </a>
-        {postType === 'story' && (
-          <strong className="text-xs ml-2 text-insta">story</strong>
-        )}
-      </p>
-      {/* DATE */}
-      <p className="mb-0 text-sm">
+      {/* LINK TO THE ORIGINAL POST */}
+      <p className="flex items-center mb-0 text-sm">
         <a
           href={permalink}
           target="_blank"
           rel="noopener noreferrer"
           className="no-underline no--hover"
         >
-          {date}
+          Originally posted <strong>{publishedDate}</strong> on <span className="text-insta">{platform}</span>
         </a>
+        {postType === 'story' && (
+          <strong className="text-xs ml-2 text-insta">story</strong>
+        )}
       </p>
+      <PostCardPriorityButton priorityEnabled />
     </div>
   )
 }
