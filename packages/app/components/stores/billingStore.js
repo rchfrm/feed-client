@@ -11,6 +11,7 @@ const initialState = {
   organisation: {},
   organisationUsers: [],
   organisationArtists: [],
+  billingEnabled: false,
   billingDetails: {},
   nextInvoice: {},
   latestInvoice: {},
@@ -35,7 +36,7 @@ const fetchOrganisationDetails = async (organisation) => {
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
   // Fetch next invoice
   const { res: nextInvoice, error: nextInvoiceError } = await fetchUpcomingInvoice(organisation.id)
-  if (nextInvoiceError) errors.push(nextInvoiceError)
+  if (nextInvoiceError && nextInvoiceError.message !== 'Not Found') errors.push(nextInvoiceError)
   // Fetch latest invoice
   const { res: latestInvoice, error: latestInvoiceError } = await fetchLatestInvoice(organisation.id)
   if (latestInvoiceError) errors.push(latestInvoiceError)
@@ -65,6 +66,8 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     defaultPaymentMethod,
     errors,
   } = await fetchOrganisationDetails(organisation)
+
+  const billingEnabled = organisation.billing_enabled
 
   let organisationUsers = []
   const organisationUsersResponse = await billingHelpers.getOrganisationUsers(organisation.id)
@@ -100,6 +103,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     organisation,
     organisationUsers,
     organisationArtists,
+    billingEnabled,
     billingDetails,
     referralsDetails,
     defaultPaymentMethod,
