@@ -1,13 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import * as postsHelpers from '@/app/helpers/postsHelpers'
+
 import TooltipButton from '@/elements/TooltipButton'
 
 import ChevronDoubleUpIcon from '@/icons/ChevronDoubleUpIcon'
 
 import brandColors from '@/constants/brandColors'
 
-const PostCardPriorityButton = ({ priorityEnabled }) => {
+const PostCardPriorityButton = ({
+  postId,
+  artistId,
+  priorityEnabled,
+}) => {
   // Store INTERNAL STATE based on priorityEnabled
   const [currentState, setCurrentState] = React.useState(priorityEnabled)
   // Update internal state when outside state changes
@@ -15,8 +21,9 @@ const PostCardPriorityButton = ({ priorityEnabled }) => {
     setCurrentState(priorityEnabled)
   }, [priorityEnabled])
 
-  const handlePostPriority = () => {
-    setCurrentState(!currentState)
+  const handlePostPriority = async () => {
+    const response = await postsHelpers.updatePostPriority({ artistId, assetId: postId, priorityEnabled })
+    console.log(response)
   }
 
   return (
@@ -41,6 +48,8 @@ const PostCardPriorityButton = ({ priorityEnabled }) => {
 
 PostCardPriorityButton.propTypes = {
   priorityEnabled: PropTypes.bool.isRequired,
+  postId: PropTypes.string.isRequired,
+  artistId: PropTypes.string.isRequired,
 }
 
 PostCardPriorityButton.defaultProps = {

@@ -12,6 +12,8 @@ const PostCardHeader = ({
   date,
   permalink,
   postType,
+  postId,
+  artistId,
   className,
 }) => {
   const publishedDate = moment(date).format('DD MMM')
@@ -36,7 +38,11 @@ const PostCardHeader = ({
           <strong className="text-xs ml-2 text-insta">story</strong>
         )}
       </p>
-      <PostCardPriorityButton priorityEnabled />
+      <PostCardPriorityButton
+        postId={postId}
+        artistId={artistId}
+        priorityEnabled
+      />
     </div>
   )
 }
@@ -45,6 +51,8 @@ PostCardHeader.propTypes = {
   platform: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   postType: PropTypes.string.isRequired,
+  postId: PropTypes.string.isRequired,
+  artistId: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
