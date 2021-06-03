@@ -8,6 +8,7 @@ import TooltipButton from '@/elements/TooltipButton'
 import ChevronDoubleUpIcon from '@/icons/ChevronDoubleUpIcon'
 
 import brandColors from '@/constants/brandColors'
+import PostCardConfirmPriorityAlert from '@/app/PostCardConfirmPriorityAlert'
 
 const PostCardPriorityButton = ({
   postId,
@@ -16,6 +17,8 @@ const PostCardPriorityButton = ({
 }) => {
   // Store INTERNAL STATE based on priorityEnabled
   const [currentState, setCurrentState] = React.useState(priorityEnabled)
+  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+
   // Update internal state when outside state changes
   React.useEffect(() => {
     setCurrentState(priorityEnabled)
@@ -32,16 +35,27 @@ const PostCardPriorityButton = ({
         buttonClasses="-my-2 -mr-1"
         slides={['Some explanation about prioritising posts']}
       />
+      {/* PRIORITY BUTTON */}
       <a
         role="button"
-        onClick={handlePostPriority}
+        onClick={() => {
+          setShouldShowAlert(true)
+        }}
       >
         <ChevronDoubleUpIcon
-          fill={currentState ? brandColors.instagram.bg : 'none'}
-          stroke={currentState ? brandColors.instagram.bg : brandColors.black}
+          fill={currentState ? brandColors.red : 'none'}
+          stroke={currentState ? brandColors.red : brandColors.black}
           className="w-5 h-5"
         />
       </a>
+      {/* ALERT */}
+      <PostCardConfirmPriorityAlert
+        show={shouldShowAlert}
+        onAlertConfirm={handlePostPriority}
+        onCancel={() => {
+          setShouldShowAlert(false)
+        }}
+      />
     </div>
   )
 }
