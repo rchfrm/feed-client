@@ -270,3 +270,14 @@ export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
   }
   return requestWithCatch('delete', endpoint, payload, errorTracking)
 }
+
+// UPDATE POST PRIORITY
+export const updatePostPriority = ({ artistId, assetId, priorityEnabled }) => {
+  const endpoint = `/artists/${artistId}/assets/${assetId}`
+  const payload = { priority_enabled: priorityEnabled }
+  const errorTracking = {
+    category: 'Post priority',
+    action: 'Toggle priority enabled',
+  }
+  return requestWithCatch('patch', endpoint, payload, errorTracking)
+}
