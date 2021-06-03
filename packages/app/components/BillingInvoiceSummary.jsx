@@ -60,16 +60,18 @@ const BillingInvoiceSummary = ({
         )
       })}
       {/* TOTAL */}
-      <p
-        className={[
-          'text-lg',
-          'flex justify-between mb-0 py-3 px-5',
-          'border-solid border-2 border-green rounded-dialogue',
-        ].join(' ')}
-      >
-        <strong>TOTAL FEE</strong>
-        <strong>{totalFee}</strong>
-      </p>
+      {invoice.id && (
+        <p
+          className={[
+            'text-lg',
+            'flex justify-between mb-0 py-3 px-5',
+            'border-solid border-2 border-green rounded-dialogue',
+          ].join(' ')}
+        >
+          <strong>TOTAL FEE</strong>
+          <strong>{totalFee}</strong>
+        </p>
+      )}
       <div className="pt-6">
         {/* BUTTON FOR HANDLING FAILED INVOICE */}
         {failed && (

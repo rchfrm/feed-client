@@ -43,20 +43,24 @@ const BillingProfilesSummary = ({
     >
       {/* INTRO */}
       <h3 className="font-body font-bold mb-6">Profiles</h3>
-      <MarkdownText markdown={copy.profilesIntro} />
       {/* SUMMARY */}
       {artists.length === 0 ? (
-        <span>{copy.noProfiles}</span>
+        filteredTransferRequests.length === 0 && (
+          <span>{copy.noProfiles}</span>
+        )
       ) : (
-        <ul>
-          {artists.map((artist) => (
-            <React.Fragment key={artist.id}>
-              <li className="flex ml-5 mb-3 last:mb-0">
-                <span>{artist.name}</span>
-              </li>
-            </React.Fragment>
-          ))}
-        </ul>
+        <>
+          <MarkdownText markdown={copy.profilesIntro} />
+          <ul>
+            {artists.map((artist) => (
+              <React.Fragment key={artist.id}>
+                <li className="flex ml-5 mb-3 last:mb-0">
+                  <span>{artist.name}</span>
+                </li>
+              </React.Fragment>
+            ))}
+          </ul>
+        </>
       )}
       {/* TRANSFER REQUESTS */}
       {filteredTransferRequests.length !== 0 && (

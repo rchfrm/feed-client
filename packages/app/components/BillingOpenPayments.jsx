@@ -58,7 +58,7 @@ BillingOpenPayments.propTypes = {
 BillingOpenPayments.defaultProps = {
   shouldBeDefault: false,
   className: null,
-  buttonClassName: 'w-full sm:max-w-md',
+  buttonClassName: 'w-full',
 }
 
 
