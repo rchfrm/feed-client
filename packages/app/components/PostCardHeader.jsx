@@ -5,6 +5,8 @@ import moment from 'moment'
 
 import PostCardPriorityButton from '@/app/PostCardPriorityButton'
 
+import * as utils from '@/helpers/utils'
+
 const PostCardHeader = ({
   platform,
   date,
@@ -28,7 +30,7 @@ const PostCardHeader = ({
           rel="noopener noreferrer"
           className="no-underline no--hover"
         >
-          Originally posted <strong>{publishedDate}</strong> on <span className="text-insta">{platform}</span>
+          Originally posted <span className="font-bold">{publishedDate}</span> on <span className={`font-bold ${platform === 'facebook' ? 'text-fb' : 'text-insta'}`}>{utils.capitalise(platform)}</span>
         </a>
         {postType === 'story' && (
           <strong className="text-xs ml-2 text-insta">story</strong>
