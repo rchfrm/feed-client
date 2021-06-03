@@ -203,4 +203,9 @@ If so, we're looking for people to join our trials for this feature and work wit
 
 [Fill in this form](https://docs.google.com/forms/d/e/1FAIpQLSd4PRRgbyFc0jVYODiBMvX-e24XzFf93QhFhv5CAoGoaeIM2g/viewform) and we'll be in touch.`,
 
+  confirmPrioritisePost: `**Promote this post immediately**
+
+Marking this post a priority will cause Feed to turn it into an ad straight away. Once approved, some ads that are currently running might get turned off.
+
+Would you like to continue?`,
 }
