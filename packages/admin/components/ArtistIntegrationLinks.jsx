@@ -35,7 +35,7 @@ const ArtistIntegrationLinks = ({ artistId, integrations }) => {
       return
     }
     setError(null)
-    const fbUrl = `https://developers.facebook.com/tools/explorer/?method=GET&path=${id}&version=v5.0&access_token=${accessToken}`
+    const fbUrl = `https://developers.facebook.com/tools/explorer/?method=GET&path=${id}&version=v9.0&access_token=${accessToken}`
     window.open(fbUrl, '_blank')
   }
   // GET BUTTON LINKS
