@@ -34,6 +34,40 @@ const getBillingStoreState = (state) => ({
   updateLatestInvoice: state.updateLatestInvoice,
 })
 
+const BILLING_CONTENT_SECTIONS = ({
+  loadingErrors,
+  invoice,
+  nextInvoice,
+  organisation,
+  updateLatestInvoice,
+  defaultPaymentMethod,
+  showProfilesSection,
+}) => {
+  return (
+    <>
+      {/* LEFT COL */}
+      <div className="col-span-1 mb-12 sm:mb-0">
+        {/* ERRORS */}
+        {loadingErrors.map((error, index) => <Error key={index} error={error} />)}
+        {/* INVOICES */}
+        <BillingInvoiceSummary className="mb-12" invoice={invoice} isUpcoming={invoice?.id === nextInvoice?.id} organisationId={organisation.id} updateLatestInvoice={updateLatestInvoice} />
+        {/* PAYMENT METHOD */}
+        <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
+      </div>
+      {/* RIGHT COL */}
+      <div className="col-span-1 mb-12 sm:mb-0">
+        {/* REFERRALS */}
+        {/* SHOULD BE HIDDEN UNTIL THE BACKEND IS IMPLEMENTED */}
+        {/* <BillingReferralsSummary canTransferCredits /> */}
+        {/* PROFILES */}
+        {showProfilesSection && <BillingProfilesSummary />}
+        {/* USERS */}
+        <BillingUsersSummary className="mt-10" />
+      </div>
+    </>
+  )
+}
+
 const BillingContent = () => {
   const { user } = React.useContext(UserContext)
   const { artistLoading, artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
@@ -47,6 +81,7 @@ const BillingContent = () => {
     nextInvoice,
     latestInvoice,
     organisation,
+    billingEnabled,
     allOrgs,
     organisationInvites,
     organisationArtists,
@@ -99,25 +134,20 @@ const BillingContent = () => {
           allOrgs={allOrgs}
         />
       )}
-      {/* LEFT COL */}
-      <div className="col-span-1 mb-12 sm:mb-0">
-        {/* ERRORS */}
-        {loadingErrors.map((error, index) => <Error key={index} error={error} />)}
-        {/* INVOICES */}
-        <BillingInvoiceSummary className="mb-12" invoice={invoice} isUpcoming={invoice.id === nextInvoice.id} organisationId={organisation.id} updateLatestInvoice={updateLatestInvoice} />
-        {/* PAYMENT METHOD */}
-        <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
-      </div>
-      {/* RIGHT COL */}
-      <div className="col-span-1 mb-12 sm:mb-0">
-        {/* REFERRALS */}
-        {/* SHOULD BE HIDDEN UNTIL THE BACKEND IS IMPLEMENTED */}
-        {/* <BillingReferralsSummary canTransferCredits /> */}
-        {/* PROFILES */}
-        {shouldShowProfilesSection() && <BillingProfilesSummary />}
-        {/* USERS */}
-        <BillingUsersSummary className="mt-10" />
-      </div>
+      {/* ONLY SHOW IF BILLING IS ENABLED FOR THE ORGANISATION */}
+      {billingEnabled ? (
+        <BILLING_CONTENT_SECTIONS
+          loadingErrors={loadingErrors}
+          invoice={invoice}
+          nextInvoice={nextInvoice}
+          organisation={organisation}
+          updateLatestInvoice={updateLatestInvoice}
+          defaultPaymentMethod={defaultPaymentMethod}
+          showProfilesSection={shouldShowProfilesSection()}
+        />
+      ) : (
+        <em>Coming soon!</em>
+      )}
     </div>
   )
 }

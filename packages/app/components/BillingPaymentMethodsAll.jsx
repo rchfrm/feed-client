@@ -52,7 +52,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
   const [error, setError] = React.useState(null)
   const setMethodAsDefault = React.useCallback(async () => {
     setSidePanelLoading(true)
-    const { res: newDefaultPaymentMethod, error } = await setPaymentAsDefault(organisationId, selectedMethodId)
+    const { res: newDefaultPaymentMethod, error } = await setPaymentAsDefault({ organisationId, paymentMethodId: selectedMethodId })
     // Handle error
     if (error) {
       setError(error)
