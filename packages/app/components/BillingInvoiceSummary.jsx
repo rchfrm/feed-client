@@ -13,6 +13,7 @@ const getHeader = (date, failed) => {
 const BillingInvoiceSummary = ({
   invoice,
   isUpcoming,
+  hasLatestInvoice,
   organisationId,
   updateLatestInvoice,
   className,
@@ -78,7 +79,9 @@ const BillingInvoiceSummary = ({
           <BillingOpenFailedInvoice className="mb-4" organisationId={organisationId} updateLatestInvoice={updateLatestInvoice} />
         )}
         {/* BUTTON (FOR SHOW ALL) */}
-        <BillingOpenInvoices />
+        {hasLatestInvoice && (
+          <BillingOpenInvoices />
+        )}
       </div>
     </div>
   )
@@ -87,6 +90,7 @@ const BillingInvoiceSummary = ({
 BillingInvoiceSummary.propTypes = {
   invoice: PropTypes.object,
   isUpcoming: PropTypes.bool.isRequired,
+  hasLatestInvoice: PropTypes.bool.isRequired,
   organisationId: PropTypes.string.isRequired,
   updateLatestInvoice: PropTypes.func.isRequired,
   className: PropTypes.string,
