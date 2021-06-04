@@ -126,13 +126,11 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   // SETTINGS SIDEPANEL
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
   editCaption: `Edit the caption used in this ad.`,
-  confirmEditCaption: `**This feature is being tested!**
+  confirmEditCaption: `**Update ad caption**
 
 Editing the caption will put this post back into review, and it will temporarily move to 'Inactive'.
 
-There may be a delay before this post can start running again.
-
-If you need to make sure this post starts running as soon as it's approved, [email us](mailto:help@tryfeed.co).
+Facebook’s approval process usually takes less than 24 hours, and the post will begin to run again as soon as it’s approved.
 
 Are you sure you want to continue?`,
 
