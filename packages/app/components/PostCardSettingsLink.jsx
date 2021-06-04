@@ -10,8 +10,6 @@ import { setPostLink, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 import { removeProtocolFromUrl, enforceUrlProtocol, parseUrl } from '@/helpers/utils'
 import { track } from '@/app/helpers/trackingHelpers'
 
-import copy from '@/app/copy/PostsPageCopy'
-
 const getDefaultLink = state => state.defaultLink
 
 const PostCardSettingsLink = ({
@@ -19,20 +17,12 @@ const PostCardSettingsLink = ({
   postIndex,
   linkId,
   linkHref,
-  postPromotionStatus,
-  linkType,
   updatePost,
   setError,
   className,
 }) => {
   const defaultLink = useLinksStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
-  // TEST IF LINK IS EDITABLE
-  const isPostActive = postPromotionStatus === 'active'
-  const isPostArchived = postPromotionStatus === 'archived'
-  const isLinkAdCreative = linkType === 'adcreative'
-  const isLinkDisabled = isPostActive || isPostArchived || isLinkAdCreative
-  const linkDisabledReason = isLinkDisabled ? copy.getLinkDisabledReason({ isPostActive, isPostArchived, isLinkAdCreative }) : ''
 
   const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref }) => {
     const payload = {
@@ -49,40 +39,32 @@ const PostCardSettingsLink = ({
         className,
       ].join(' ')}
     >
-      {isLinkDisabled ? (
-        <div>
-          <div className="bg-grey-1 pt-3 p-4 rounded-dialogue -mt-2">
-            <p className="mb-0">Link not editable</p>
-          </div>
-        </div>
-      ) : (
-        <PostLinksSelect
-          currentLinkId={linkId || defaultPostLinkId}
-          onSelect={setPostLink}
-          postItemId={postId}
-          onSuccess={(newLink) => {
-            const { linkId, linkHref } = newLink
-            const isDefaultLink = !linkId
-            const newLinkHref = linkHref || defaultLink.href
-            updateLinkState({ postIndex, linkId, linkHref })
-            setError(null)
-            setPreviewUrl(newLinkHref)
-            // TRACK
-            const { host: linkDomain } = parseUrl(newLinkHref)
-            track('post_link_changed', {
-              linkDomain,
-              isDefaultLink,
-            })
-          }}
-          onError={(error) => {
-            setError(error)
-          }}
-          includeDefaultLink
-          includeAddLinkOption
-          componentLocation="post"
-          selectClassName="mb-0"
-        />
-      )}
+      <PostLinksSelect
+        currentLinkId={linkId || defaultPostLinkId}
+        onSelect={setPostLink}
+        postItemId={postId}
+        onSuccess={(newLink) => {
+          const { linkId, linkHref } = newLink
+          const isDefaultLink = !linkId
+          const newLinkHref = linkHref || defaultLink.href
+          updateLinkState({ postIndex, linkId, linkHref })
+          setError(null)
+          setPreviewUrl(newLinkHref)
+          // TRACK
+          const { host: linkDomain } = parseUrl(newLinkHref)
+          track('post_link_changed', {
+            linkDomain,
+            isDefaultLink,
+          })
+        }}
+        onError={(error) => {
+          setError(error)
+        }}
+        includeDefaultLink
+        includeAddLinkOption
+        componentLocation="post"
+        selectClassName="mb-0"
+      />
       {/* LINK PREVIEW */}
       {previewUrl && (
         <p className="flex items-center mb-0 mt-2">
@@ -100,10 +82,6 @@ const PostCardSettingsLink = ({
           </a>
         </p>
       )}
-      {/* NOT EDITABLE REASON */}
-      {linkDisabledReason && (
-        <p className="text-sm text-red pt-5">{linkDisabledReason}</p>
-      )}
     </div>
   )
 }
@@ -113,8 +91,6 @@ PostCardSettingsLink.propTypes = {
   postIndex: PropTypes.number.isRequired,
   linkId: PropTypes.string,
   linkHref: PropTypes.string,
-  postPromotionStatus: PropTypes.string.isRequired,
-  linkType: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   className: PropTypes.string,
