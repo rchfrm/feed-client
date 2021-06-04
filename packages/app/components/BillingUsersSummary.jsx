@@ -4,6 +4,7 @@ import shallow from 'zustand/shallow'
 
 import TrashIcon from '@/icons/TrashIcon'
 import MarkdownText from '@/elements/MarkdownText'
+import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/billingCopy'
@@ -29,6 +30,7 @@ const BillingUsersSummary = ({
   // INTERNAL STATE
   const [user, setUser] = React.useState(null)
   const [error, setError] = React.useState(null)
+  const [loading, setLoading] = React.useState(false)
 
   const { organisation, organisationUsers: users, removeOrganisationUser } = useBillingStore(getBillingStoreState, shallow)
 
@@ -40,7 +42,9 @@ const BillingUsersSummary = ({
       return
     }
 
+    setLoading(true)
     const { error: serverError } = await billingHelpers.deleteOrganisationUser(organisation.id, user.id)
+    setLoading(false)
     if (serverError) {
       setError(serverError)
       return
@@ -79,13 +83,18 @@ const BillingUsersSummary = ({
   const makeDeleteButton = (user) => {
     return currentUserId !== user.id && organisation.users[user.id].role !== 'owner'
       ? (
-        <div
-          role="button"
-          className="cursor-pointer"
-          onClick={() => handleUserDelete(user, false)}
-        >
-          <TrashIcon className="w-4 h-auto" fill={brandColors.red} />
-        </div>
+        loading
+          ? (
+            <Spinner width={22} className="w-auto justify-end" />
+          ) : (
+            <div
+              role="button"
+              className="cursor-pointer"
+              onClick={() => handleUserDelete(user, false)}
+            >
+              <TrashIcon className="w-4 h-auto" fill={brandColors.red} />
+            </div>
+          )
       )
       : null
   }

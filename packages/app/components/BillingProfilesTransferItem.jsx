@@ -17,9 +17,13 @@ const BillingProfilesTransferItem = ({
   className,
 }) => {
   const [error, setError] = React.useState(null)
+  const [loadingAccept, setLoadingAccept] = React.useState(false)
+  const [loadingReject, setLoadingReject] = React.useState(false)
 
   const handleAccept = async () => {
+    setLoadingAccept(true)
     const acceptTransferResponse = await billingHelpers.acceptTransferRequest(transferRequest.token, organisationId)
+    setLoadingAccept(false)
     if (acceptTransferResponse.error) {
       setError(acceptTransferResponse.error)
       return
@@ -37,7 +41,9 @@ const BillingProfilesTransferItem = ({
   }
 
   const handleReject = async () => {
+    setLoadingReject(true)
     const { error: serverError } = await billingHelpers.rejectTransferRequest(transferRequest.token)
+    setLoadingReject(false)
     if (serverError) {
       setError(serverError)
       return
@@ -52,13 +58,13 @@ const BillingProfilesTransferItem = ({
         className,
       ].join(' ')}
     >
-      <Error error={error} />
       <div className="flex items-center justify-between">
         <span className="ml-2">{transferRequest.profile_name}</span>
         <div className="flex justify-between mr-2">
           <Button
             version="green x-small"
             label="Accept"
+            loading={loadingAccept}
             className="mr-2 h-10"
             onClick={handleAccept}
           >
@@ -68,6 +74,7 @@ const BillingProfilesTransferItem = ({
           <Button
             version="red x-small"
             label="Reject"
+            loading={loadingReject}
             className="ml-2 h-10 w-10 rounded-full"
             onClick={handleReject}
           >
@@ -75,6 +82,7 @@ const BillingProfilesTransferItem = ({
           </Button>
         </div>
       </div>
+      <Error error={error} />
     </div>
   )
 }
