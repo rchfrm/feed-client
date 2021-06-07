@@ -9,7 +9,7 @@ import CaptionText from '@/elements/CaptionText'
 import Error from '@/elements/Error'
 
 import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
-import PostCardEditCaptionAlert from '@/app/PostCardEditCaptionAlert'
+import PostCardEditAlert from '@/app/PostCardEditAlert'
 
 import { updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
@@ -211,11 +211,12 @@ const PostCardEditCaption = ({
         )}
       </p>
       {/* ALERT */}
-      <PostCardEditCaptionAlert
+      <PostCardEditAlert
+        type="caption"
         postId={post.id}
         show={showAlert}
-        newCaption={newCaption}
-        originalCaption={originalCaption}
+        newValue={newCaption}
+        originalValue={originalCaption}
         onAlertConfirm={onAlertConfirm}
         onCancel={() => {
           setIsLoading(false)

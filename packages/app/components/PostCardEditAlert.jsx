@@ -10,17 +10,18 @@ import { track } from '@/app/helpers/trackingHelpers'
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostCardEditCaptionAlert = ({
+  type,
   show,
-  newCaption,
-  originalCaption,
+  newValue,
+  originalValue,
   onAlertConfirm,
   postId,
   onCancel,
 }) => {
   // Define alert contents
   const alertContents = React.useMemo(() => {
-    return <MarkdownText markdown={copy.confirmEditCaption} className="mb-0" />
-  }, [])
+    return <MarkdownText markdown={copy.confirmEdit(type)} className="mb-0" />
+  }, [type])
 
   // SHOW ALERT
   const { showAlert, closeAlert } = useAlertModal()
@@ -38,9 +39,9 @@ const PostCardEditCaptionAlert = ({
       {
         text: 'Cancel',
         onClick: () => {
-          track('edit_caption_cancel', {
+          track(`edit_${type}_cancel`, {
             postId,
-            originalCaption,
+            originalValue,
           })
           onCancel()
         },
@@ -51,7 +52,7 @@ const PostCardEditCaptionAlert = ({
       children: alertContents,
       buttons,
     })
-  }, [show, newCaption, onAlertConfirm, postId, originalCaption, onCancel, alertContents, showAlert, closeAlert])
+  }, [show, newValue, onAlertConfirm, postId, originalValue, onCancel, alertContents, showAlert, closeAlert, type])
 
   // HIDE ALERT WHEN UNMOUNTING
   React.useEffect(() => {
@@ -62,15 +63,18 @@ const PostCardEditCaptionAlert = ({
 }
 
 PostCardEditCaptionAlert.propTypes = {
+  type: PropTypes.string.isRequired,
   show: PropTypes.bool.isRequired,
-  newCaption: PropTypes.string,
+  newValue: PropTypes.string,
+  originalValue: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
   postId: PropTypes.string.isRequired,
   onAlertConfirm: PropTypes.func.isRequired,
 }
 
 PostCardEditCaptionAlert.defaultProps = {
-  newCaption: '',
+  newValue: '',
+  originalValue: '',
 }
 
 export default PostCardEditCaptionAlert

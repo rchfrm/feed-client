@@ -6,7 +6,7 @@ import shallow from 'zustand/shallow'
 import useIsMounted from '@/hooks/useIsMounted'
 import useLinksStore from '@/app/stores/linksStore'
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
-import PostCardEditCaptionAlert from '@/app/PostCardEditCaptionAlert'
+import PostCardEditAlert from '@/app/PostCardEditAlert'
 
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
@@ -199,11 +199,12 @@ const PostLinksSelect = ({
         version="box"
       />
       {/* ALERT */}
-      <PostCardEditCaptionAlert
+      <PostCardEditAlert
+        type="link"
         postId={postItemId}
         show={showAlert}
-        newCaption="none"
-        originalCaption="none"
+        newValue={selectedOptionValue}
+        originalValue={currentLinkId}
         onAlertConfirm={onAlertConfirm}
         onCancel={() => {
           setLoading(false)

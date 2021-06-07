@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
 import { getIntegrationInfo } from '@/helpers/integrationHelpers'
+import * as utils from '@/helpers/utils'
 
 export default {
   noPostsCopy: {
@@ -126,9 +127,9 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   // SETTINGS SIDEPANEL
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
   editCaption: `Edit the caption used in this ad.`,
-  confirmEditCaption: `**This feature is being tested!**
+  confirmEdit: (type) => `**${utils.capitalise(type)} Update**
 
-Editing the caption will put this post back into review, and it will temporarily move to 'Inactive'.
+Editing the ${type} will put this post back into review, and it will temporarily move to 'Inactive'.
 
 There may be a delay before this post can start running again.
 
