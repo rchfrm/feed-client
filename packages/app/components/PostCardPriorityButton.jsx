@@ -30,7 +30,7 @@ const PostCardPriorityButton = ({
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center ml-2">
       <TooltipButton
         buttonClasses="-my-2 -mr-1"
         slides={['Some explanation about prioritising posts']}

@@ -25,18 +25,18 @@ const PostCardHeader = ({
       ].join(' ')}
     >
       {/* LINK TO THE ORIGINAL POST */}
-      <p className="flex items-center mb-0 text-sm">
+      <p className="flex items-center mb-0 text-sm bmw:text-base">
         <a
           href={permalink}
           target="_blank"
           rel="noopener noreferrer"
           className="no-underline no--hover"
         >
-          Originally posted <span className="font-bold">{publishedDate}</span> on <span className={`font-bold ${platform === 'facebook' ? 'text-fb' : 'text-insta'}`}>{utils.capitalise(platform)}</span>
+          Original post: <span className="font-bold">{publishedDate}</span>, <span className={`font-bold ${platform === 'facebook' ? 'text-fb' : 'text-insta'}`}>{utils.capitalise(platform)} </span>
+          {postType === 'story' && (
+            <strong className="text-insta">Story</strong>
+          )}
         </a>
-        {postType === 'story' && (
-          <strong className="text-xs ml-2 text-insta">story</strong>
-        )}
       </p>
       <PostCardPriorityButton
         postId={postId}
