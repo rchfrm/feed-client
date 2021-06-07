@@ -17,12 +17,14 @@ const PostCardSettingsLink = ({
   postIndex,
   linkId,
   linkHref,
+  postPromotionStatus,
   updatePost,
   setError,
   className,
 }) => {
   const defaultLink = useLinksStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
+  const isPostActive = postPromotionStatus === 'active'
 
   const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref }) => {
     const payload = {
@@ -64,6 +66,7 @@ const PostCardSettingsLink = ({
         includeAddLinkOption
         componentLocation="post"
         selectClassName="mb-0"
+        isPostActive={isPostActive}
       />
       {/* LINK PREVIEW */}
       {previewUrl && (
@@ -91,6 +94,7 @@ PostCardSettingsLink.propTypes = {
   postIndex: PropTypes.number.isRequired,
   linkId: PropTypes.string,
   linkHref: PropTypes.string,
+  postPromotionStatus: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   className: PropTypes.string,
