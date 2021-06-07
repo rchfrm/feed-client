@@ -25,8 +25,16 @@ const PostCardPriorityButton = ({
   }, [priorityEnabled])
 
   const handlePostPriority = async () => {
-    const response = await postsHelpers.updatePostPriority({ artistId, assetId: postId, priorityEnabled })
-    console.log(response)
+    const { res: updatedPost, error } = await postsHelpers.updatePostPriority({ artistId, assetId: postId, priorityEnabled })
+    // Return early if erroring
+    if (error) {
+      return
+    }
+    setCurrentState(!currentState)
+    // Update post list state
+    const { priority_enabled } = updatedPost
+    // Call parent function to update posts store state
+    console.log(priority_enabled)
   }
 
   return (
