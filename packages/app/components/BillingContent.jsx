@@ -32,6 +32,7 @@ const getBillingStoreState = (state) => ({
   transferRequests: state.transferRequests,
   allOrgs: state.allOrgs,
   updateLatestInvoice: state.updateLatestInvoice,
+  billingEnabled: state.billingEnabled,
 })
 
 const BILLING_CONTENT_SECTIONS = ({
