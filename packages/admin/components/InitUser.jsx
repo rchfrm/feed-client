@@ -1,14 +1,14 @@
+// * ADMIN VERSION
+
 import React from 'react'
 import Router, { useRouter } from 'next/router'
 import useAsyncEffect from 'use-async-effect'
 
 import { AuthContext } from '@/contexts/AuthContext'
-import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/admin/contexts/UserContext'
 import * as ROUTES from '@/admin/constants/routes'
 
-import * as utils from '@/helpers/utils'
-import firebase from '@/helpers/firebase'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 
 // CALL REDIRECT
 let userRedirected = false
@@ -36,7 +36,6 @@ const InitUser = ({ children }) => {
   // Import contexts
   const { setNoAuth, setAuthError, storeAuth } = React.useContext(AuthContext)
   const { setNoUser, storeUser, userLoading } = React.useContext(UserContext)
-  const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   // After user has loaded the first time...
   React.useEffect(() => {
@@ -65,7 +64,6 @@ const InitUser = ({ children }) => {
     // Reset all contexts
     setNoAuth(authError)
     setNoUser()
-    setNoArtist()
     // Check if the user is on an auth only page,
     // if they are push to log in page
     kickToLogin(pathname)
@@ -76,24 +74,11 @@ const InitUser = ({ children }) => {
   // HANDLE EXISTING USERS
   const handleExistingUser = async () => {
     // If it is a pre-existing user, store their profile in the user context
-    const user = await storeUser()
-      .catch(() => {
-        setAuthError({ message: 'No user was found in the database' })
-      })
-    if (!user) return
-    const { artists } = user
-    // If they do have artists, check for a previously selected artist ID in local storage...
-    const storedArtistId = utils.getLocalStorage('artistId')
-    // Check that the storedArtistId is one the user has access to...
-    const hasAccess = artists.find(({ id }) => id === storedArtistId)
-    // if they don't have access, clear localStorage
-    if (!hasAccess) {
-      utils.setLocalStorage('artistId', '')
+    const { error } = await storeUser()
+    if (error) {
+      setAuthError({ message: 'No user was found in the database' })
+      return
     }
-    // If they do have access set it as the selectedArtistId,
-    // otherwise use the first related artist (sorted alphabetically)
-    const selectedArtistId = hasAccess ? storedArtistId : artists[0].id
-    await storeArtist(selectedArtistId)
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
     if (pathname === ROUTES.LOGIN) {
@@ -106,7 +91,7 @@ const InitUser = ({ children }) => {
     // If no auth user, handle that
     if (!authUser) return handleNoAuthUser(authError)
     // If there is, store the user in auth context
-    const authToken = await firebase.getVerifyIdToken()
+    const authToken = await firebaseHelpers.getVerifyIdToken()
       .catch((error) => {
         storeAuth({ authError: error })
       })
@@ -116,7 +101,7 @@ const InitUser = ({ children }) => {
 
 
   const detectSignedInUser = (isMounted, fbRedirectError) => {
-    const unsubscribe = firebase.auth.onAuthStateChanged(async (authUser) => {
+    const unsubscribe = firebaseHelpers.auth.onAuthStateChanged(async (authUser) => {
       await handleInitialAuthCheck(authUser, fbRedirectError)
       if (!isMounted()) return
       showContent(isMounted)

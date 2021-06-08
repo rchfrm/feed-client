@@ -4,33 +4,75 @@ import PropTypes from 'prop-types'
 import LinkIcon from '@/icons/LinkIcon'
 import PostLinksSelect from '@/app/PostLinksSelect'
 
+import useLinksStore from '@/app/stores/linksStore'
+
 import { setPostLink, defaultPostLinkId } from '@/app/helpers/linksHelpers'
-import { removeProtocolFromUrl, enforceUrlProtocol } from '@/helpers/utils'
+import { removeProtocolFromUrl, enforceUrlProtocol, parseUrl } from '@/helpers/utils'
+import { track } from '@/app/helpers/trackingHelpers'
+
+import copy from '@/app/copy/PostsPageCopy'
+
+const getDefaultLink = state => state.defaultLink
 
 const PostCardSettingsLink = ({
   postId,
   postIndex,
   linkId,
   linkHref,
-  updateLink,
+  postPromotionStatus,
+  linkType,
+  updatePost,
   setError,
-  isLinkEditable,
   className,
 }) => {
+  const defaultLink = useLinksStore(getDefaultLink)
+  const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
+  // TEST IF LINK IS EDITABLE
+  const isPostActive = postPromotionStatus === 'active'
+  const isPostArchived = postPromotionStatus === 'archived'
+  const isLinkAdCreative = linkType === 'adcreative'
+  const isLinkDisabled = isPostActive || isPostArchived || isLinkAdCreative
+  const linkDisabledReason = isLinkDisabled ? copy.getLinkDisabledReason({ isPostActive, isPostArchived, isLinkAdCreative }) : ''
+
+  const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref }) => {
+    const payload = {
+      postIndex,
+      linkId,
+      linkHref,
+    }
+    updatePost('update-link', payload)
+  }, [updatePost])
+
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-      {isLinkEditable ? (
+      {isLinkDisabled ? (
+        <div>
+          <div className="bg-grey-1 pt-3 p-4 rounded-dialogue -mt-2">
+            <p className="mb-0">Link not editable</p>
+          </div>
+        </div>
+      ) : (
         <PostLinksSelect
           currentLinkId={linkId || defaultPostLinkId}
           onSelect={setPostLink}
           postItemId={postId}
-          onSuccess={({ linkId: newLinkId }) => {
-            updateLink(postIndex, newLinkId)
+          onSuccess={(newLink) => {
+            const { linkId, linkHref } = newLink
+            const isDefaultLink = !linkId
+            const newLinkHref = linkHref || defaultLink.href
+            updateLinkState({ postIndex, linkId, linkHref })
             setError(null)
+            setPreviewUrl(newLinkHref)
+            // TRACK
+            const { host: linkDomain } = parseUrl(newLinkHref)
+            track('post_link_changed', {
+              linkDomain,
+              isDefaultLink,
+            })
           }}
           onError={(error) => {
             setError(error)
@@ -40,13 +82,9 @@ const PostCardSettingsLink = ({
           componentLocation="post"
           selectClassName="mb-0"
         />
-      ) : (
-        <div className="bg-grey-1 pt-3 p-4 rounded-dialogue -mt-2">
-          <p className="mb-0">Link not editable</p>
-        </div>
       )}
       {/* LINK PREVIEW */}
-      {linkHref && (
+      {previewUrl && (
         <p className="flex items-center mb-0 mt-2">
           <LinkIcon className="h-3 w-auto mr-2" />
           <a
@@ -54,13 +92,17 @@ const PostCardSettingsLink = ({
             style={{
               transform: 'translateY(-0.05rem)',
             }}
-            href={enforceUrlProtocol(linkHref)}
+            href={enforceUrlProtocol(previewUrl)}
             target="_blank"
             rel="noreferrer noopener"
           >
-            {removeProtocolFromUrl(linkHref)}
+            {removeProtocolFromUrl(previewUrl)}
           </a>
         </p>
+      )}
+      {/* NOT EDITABLE REASON */}
+      {linkDisabledReason && (
+        <p className="text-sm text-red pt-5">{linkDisabledReason}</p>
       )}
     </div>
   )
@@ -71,9 +113,10 @@ PostCardSettingsLink.propTypes = {
   postIndex: PropTypes.number.isRequired,
   linkId: PropTypes.string,
   linkHref: PropTypes.string,
-  updateLink: PropTypes.func.isRequired,
+  postPromotionStatus: PropTypes.string.isRequired,
+  linkType: PropTypes.string.isRequired,
+  updatePost: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
-  isLinkEditable: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

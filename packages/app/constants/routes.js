@@ -1,13 +1,18 @@
+// * APP VERSION
+
 export const SIGN_UP = '/join'
 export const SIGN_UP_EMAIL = '/join/email'
-export const SIGN_UP_CONTINUE = '/join/final-step'
+export const SIGN_UP_MISSING_EMAIL = '/join/missing-email'
+export const SIGN_UP_CONNECT_PROFILES = '/join/final-step'
+export const CONFIRM_EMAIL = '/confirm-email'
 export const REFERRAL = '/join/referral'
 export const LOGIN = '/login'
 export const LOGIN_EMAIL = '/login/email'
 export const PASSWORD_FORGET = '/forgot-password'
+export const PASSWORD_RESET = '/password-reset'
 
 export const FAQ = '/faq'
-export const PRICING = '/pricing'
+export const PRICING = 'https://tryfeed.co/pricing'
 
 export const CONNECT_PROFILES = '/connect-profiles'
 export const THANK_YOU = '/thank-you'
@@ -26,11 +31,15 @@ export const CONTROLS_TARGETING = '/controls/targeting'
 export const CONTROLS_AD_SETTINGS = '/controls/ad-setttings'
 export const CONTROLS_LINKS = '/controls/links'
 export const CONTROLS_INTEGRATIONS = '/controls/integrations'
+export const BILLING = '/billing'
 
 export const HOME = POSTS
 
 // Array of RESTRICTED PAGES
 export const restrictedPages = [
+  SIGN_UP_MISSING_EMAIL,
+  SIGN_UP_CONNECT_PROFILES,
+  CONFIRM_EMAIL,
   CONNECT_PROFILES,
   THANK_YOU,
   POSTS,
@@ -50,11 +59,11 @@ export const restrictedPages = [
 export const signedOutPages = [
   SIGN_UP,
   SIGN_UP_EMAIL,
-  SIGN_UP_CONTINUE,
   REFERRAL,
   LOGIN,
   LOGIN_EMAIL,
   PASSWORD_FORGET,
+  PASSWORD_RESET,
 ]
 
 // Array of controls sub-pages

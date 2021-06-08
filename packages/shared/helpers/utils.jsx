@@ -255,11 +255,16 @@ export const getCurrencySymbol = (currency = 'GBP') => {
 * @param {string} locale
 * @returns {string}
 */
-export const formatCurrency = (value, currency = 'GBP', locale = navigator.language) => {
+export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
   if (value === null || typeof value === 'undefined' || Number.isNaN(value)) return
+  const locale = navigator.language
   const currencyToUse = currency === null ? 'GBP' : currency
   const valueFloat = parseFloat(value)
-  return valueFloat.toLocaleString(locale, { style: 'currency', currency: currencyToUse })
+  return valueFloat.toLocaleString(locale, {
+    style: 'currency',
+    currency: currencyToUse,
+    ...(hideMinorUnits && { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+  })
 }
 
 /**
@@ -493,32 +498,6 @@ export const roundToFactorOfTen = (n, roundType = 'ceil') => {
   return rounded
 }
 
-/**
-* @param {number} amount
-* @param {string} currencyCode
-* @param {number} currencyOffset
-* @returns {object}
-*/
-export const getMinBudget = (amount, currencyCode, currencyOffset) => {
-  // Account for Feed fee
-  const fbMinBudgetAdjusted = (amount / currencyOffset) / 0.9
-  const fbMinFloat = Math.ceil((fbMinBudgetAdjusted + Number.EPSILON) * 100) / 100
-  const fbMinRounded = roundToFactorOfTen(fbMinFloat)
-  const fbMinBudgetString = formatCurrency(fbMinFloat, currencyCode)
-  const minBudgetFloat = ((amount / 0.9) * 2) / currencyOffset
-  const minBudgetRounded = roundToFactorOfTen(minBudgetFloat)
-  const minBudgetString = formatCurrency(minBudgetRounded, currencyCode)
-  // Format and return
-  return {
-    fbMinFloat,
-    fbMinRounded,
-    fbMinBudgetString,
-    minBudgetFloat,
-    minBudgetRounded,
-    minBudgetString,
-  }
-}
-
 
 // EXTERNAL URL helpers
 // ---------------------
@@ -636,11 +615,12 @@ export const clearLocalStorage = () => {
  * }
  */
 export const parseUrl = (urlString) => {
-  if (!urlString) return
-  const { pathname, query } = url.parse(urlString)
+  if (!urlString) return {}
+  const { pathname, query, host } = url.parse(urlString)
   if (!query) {
     return {
       pathname,
+      host,
       queryString: '',
       query: null,
     }
@@ -655,6 +635,7 @@ export const parseUrl = (urlString) => {
   // Return result
   return {
     pathname,
+    host,
     queryString: query,
     query: queryObject,
   }

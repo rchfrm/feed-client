@@ -50,11 +50,9 @@ const SidePanelContextProvider = ({ children }) => {
   const toggleSidePanel = React.useCallback((state) => {
     const newState = typeof state === 'boolean' ? state : !sidePanelOpen
     // TRACK
-    track({
-      action: 'sidepanel_toggle',
-      category: 'generic',
-      label: sidePanelContentLabel.current,
-      value: !newState ? 'close' : 'open',
+    track('sidepanel_toggle', {
+      content: sidePanelContentLabel.current,
+      action: !newState ? 'close' : 'open',
     })
     // Closing
     if (!newState) return closeSidePanel()
@@ -68,6 +66,7 @@ const SidePanelContextProvider = ({ children }) => {
     return () => {
       Router.events.off('routeChangeStart', closeSidePanel)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // DISABLE DRAGGING

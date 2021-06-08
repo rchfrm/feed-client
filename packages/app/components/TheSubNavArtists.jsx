@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import useNotificationsStore from '@/app/store/notificationsStore'
+import useNotificationsStore from '@/app/stores/notificationsStore'
 
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'
 import NotificationDot from '@/elements/NotificationDot'
 
-import ConnectProfilesButton from '@/app/ConnectProfilesButton'
+import TheSubNavConnectProfiles from '@/app/TheSubNavConnectProfiles'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
@@ -66,12 +66,12 @@ const TheSubNavArtists = ({ className }) => {
   }, [artistsWithNotifications, artistId])
 
   const sortedArtists = React.useMemo(() => {
-    return artistHelpers.sortArtistsAlphabetically([...allArtists])
+    return artistHelpers.sortArtistsAlphabetically(allArtists)
   // eslint-disable-next-line
   }, [user])
 
   // If no artists, don't show artist links
-  if (sortedArtists.length === 1) return <ConnectProfilesButton className="mb-5 md:mb-2" />
+  if (sortedArtists.length === 1) return <TheSubNavConnectProfiles className="mb-5 md:mb-2" />
 
   // Show select component if too many artists
   if (sortedArtists.length > maxArtists) {
@@ -87,25 +87,17 @@ const TheSubNavArtists = ({ className }) => {
           artistsWithNotifications={artistsWithNotifications}
         />
         <div className="mb-0 md:pt-3 md:mb-3 h4--text">
-          <ConnectProfilesButton />
+          <TheSubNavConnectProfiles />
         </div>
       </div>
     )
   }
 
-  // Move active artist to top
-  const resortedArtists = sortedArtists.sort((a, b) => {
-    // Put active on top
-    if (a.id === artistId) return -1
-    if (b.id === artistId) return 1
-    return 0
-  })
-
   // Else show more explicit selector
   return (
     <div className={[styles.artistsOuter, className].join(' ')}>
       <ul className={[styles.artistLinks, 'h4--text'].join(' ')}>
-        {resortedArtists.map(({ id, name, facebook_page_id }) => {
+        {sortedArtists.map(({ id, name, facebook_page_id }) => {
           const activeClass = id === artistId ? styles._active : ''
           const hasNotification = otherArtistNotifications.includes(id)
           return (
@@ -129,11 +121,11 @@ const TheSubNavArtists = ({ className }) => {
           )
         })}
         <li className="md:hidden pt-3">
-          <ConnectProfilesButton />
+          <TheSubNavConnectProfiles />
         </li>
       </ul>
       <div className="hidden md:block pt-5 pb-3">
-        <ConnectProfilesButton />
+        <TheSubNavConnectProfiles />
       </div>
     </div>
   )

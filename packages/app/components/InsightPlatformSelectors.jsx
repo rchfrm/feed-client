@@ -57,7 +57,7 @@ const InsightPlatformSelectors = ({
       className="items-center"
       trackProps={{
         action: 'adjust_filter',
-        category: 'insights',
+        page: 'insights',
       }}
     >
       <ShowIntegrationsButton

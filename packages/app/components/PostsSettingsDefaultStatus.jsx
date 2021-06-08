@@ -11,7 +11,6 @@ import Error from '@/elements/Error'
 import PostSettingsStatusConfirmation from '@/app/PostSettingsStatusConfirmation'
 
 import * as server from '@/app/helpers/appServer'
-import { track } from '@/app/helpers/trackingHelpers'
 
 const postSettingOptions = [
   {
@@ -79,13 +78,6 @@ const PostsSettingsDefaultStatus = ({
         setPostPreferences('promotion_enabled_default', newDefaultPostStatus)
         // Update status on all posts
         togglePromotionGlobal(newDefaultPostStatus)
-        // Track
-        const actionType = newDefaultPostStatus ? 'enabled' : 'disabled'
-        track({
-          category: 'Posts',
-          action: `Post promotion by default ${actionType}`,
-          label: `artistId: ${artistId}`,
-        })
       }
     },
   })

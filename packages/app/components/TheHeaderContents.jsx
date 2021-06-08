@@ -2,9 +2,10 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
-import useNotificationsStore from '@/app/store/notificationsStore'
+import useNotificationsStore from '@/app/stores/notificationsStore'
 
 // IMPORT ELEMENTS
 import FeedLogo from '@/icons/FeedLogo'
@@ -25,6 +26,8 @@ function TheHeaderContents({
   isLoggedIn,
   inlinePageTitle,
 }) {
+  // GET USER
+  const { user } = React.useContext(UserContext)
   // Handle flash of oversized logo
   const [logoOpacity, setLogoOpacity] = React.useState(0)
   React.useEffect(() => {
@@ -92,13 +95,13 @@ function TheHeaderContents({
       {/* Page Header */}
       {showPageTitle && <PageHeader className={styles.pageTitle} />}
       {/* Subnav button */}
-      {isLoggedIn && (
-      <TheSubNavButton
-        toggleSubNav={toggleSubNav}
-        navOpen={subNavOpen}
-        hasNotifactions={!!totalNotificationsUnread}
-        className={[styles.subNavButton].join(' ')}
-      />
+      {isLoggedIn && user?.id && (
+        <TheSubNavButton
+          toggleSubNav={toggleSubNav}
+          navOpen={subNavOpen}
+          hasNotifactions={!!totalNotificationsUnread}
+          className={[styles.subNavButton].join(' ')}
+        />
       )}
     </header>
   )

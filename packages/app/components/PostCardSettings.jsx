@@ -6,6 +6,7 @@ import Button from '@/elements/Button'
 
 import PostsSettingsSection from '@/app/PostsSettingsSection'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
+import PostCardEditCaption from '@/app/PostCardEditCaption'
 // eslint-disable-next-line
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 
@@ -13,10 +14,18 @@ import sidePanelStyles from '@/app/SidePanel.module.css'
 
 import copy from '@/app/copy/PostsPageCopy'
 
+const getCaptionNotEditableExcuse = (post) => {
+  const base = 'The caption is not editable because'
+  if (post.postType === 'story') return `${base} this is a story.`
+  if (post.promotionStatus === 'archived') return `${base} the post has been archived.`
+  if (!post.postPromotable) return `${base} the post is not promotable.`
+  return ''
+}
+
 const PostCardSettings = ({
   post,
   postIndex,
-  updateLink,
+  updatePost,
   isMissingDefaultLink,
   className,
 }) => {
@@ -26,12 +35,13 @@ const PostCardSettings = ({
     linkHref,
     linkType,
   } = post
-  const isLinkEditable = promotionStatus !== 'active' && promotionStatus !== 'archived' && linkType !== 'adcreative'
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
 
   // Go to post settings
   const { goToGlobalPostSettings } = usePostsSidePanel()
+
+  const noCaptionEditExcuse = getCaptionNotEditableExcuse(post)
 
   return (
     <div
@@ -66,9 +76,23 @@ const PostCardSettings = ({
               postIndex={postIndex}
               linkId={linkId}
               linkHref={linkHref}
-              updateLink={updateLink}
-              isLinkEditable={isLinkEditable}
+              updatePost={updatePost}
+              postPromotionStatus={promotionStatus}
+              linkType={linkType}
               setError={setError}
+            />
+          </PostsSettingsSection>
+          {/* EDIT MESSAGE */}
+          <PostsSettingsSection
+            header="Caption"
+            copy={noCaptionEditExcuse || copy.editCaption}
+            copyClassName={noCaptionEditExcuse && 'text-red'}
+          >
+            <PostCardEditCaption
+              post={post}
+              postIndex={postIndex}
+              updatePost={updatePost}
+              isEditable={!noCaptionEditExcuse}
             />
           </PostsSettingsSection>
         </>
@@ -80,7 +104,7 @@ const PostCardSettings = ({
 PostCardSettings.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
-  updateLink: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }

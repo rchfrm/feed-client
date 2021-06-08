@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Mousetrap from 'mousetrap'
 import shallow from 'zustand/shallow'
 
-import useNotificationStore from '@/app/store/notificationsStore'
+import useNotificationStore from '@/app/stores/notificationsStore'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useDismissNotification from '@/app/hooks/useDismissNotification'
@@ -21,7 +21,11 @@ const readNotificationsStore = (state) => ({
   closeNotification: state.closeNotification,
 })
 
-const NotificationsList = ({ notifications, hasError, className }) => {
+const NotificationsList = ({
+  notifications,
+  hasError,
+  className,
+}) => {
   const {
     openedNotification,
     openedNotificationId,

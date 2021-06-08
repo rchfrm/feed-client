@@ -127,12 +127,22 @@ export const fetchTournaments = ({
   * @returns {object}
 */
 export const getPostContent = (adCreative, adAsset = {}) => {
-  const { object_type, object_story_spec, instagram_actor_id, instagram_permalink_url, image_url, thumbnail_url } = adCreative
+  const { body, object_type, object_story_spec, instagram_actor_id, instagram_permalink_url, image_url, thumbnail_url } = adCreative
   const baseContent = {
     postLink: instagram_permalink_url,
   }
 
   const adsetThumbnails = adAsset.thumbnails ? adAsset.thumbnails.map(({ url }) => url) : []
+
+  if (!object_story_spec) {
+    const imageSrc = (/(w|h)=\d+&?/).test(thumbnail_url)
+      // https://something.com?w=64&h=64&etc=true -> https://something.com?w=720&h=720&etc=true
+      ? thumbnail_url.replace(/(w|h)(=)\d+(&?)/g, '$1$2720$3') // convert 64x64 thumbnail into 720x720 thumbnail
+      : ''
+
+    const thumbnailOptions = [...adsetThumbnails, imageSrc, image_url, thumbnail_url].filter(Boolean)
+    return { ...baseContent, message: body, thumbnailOptions }
+  }
 
   // Insta video
   if (object_type === 'VIDEO' && instagram_actor_id) {
@@ -207,7 +217,8 @@ const formatAdData = (streakResults) => (ad, index) => {
     streak,
     engagement_score: score,
   } = ad
-  const adCreative = Object.values(adcreatives)[0]
+  const adCreatives = Object.values(adcreatives)
+  const adCreative = adCreatives.find(adCreative => adCreative.object_story_spec) || adCreatives[0]
   const postContent = getPostContent(adCreative, asset)
   // Format score and streak
   const streakWinner = streakResults[index]
@@ -342,21 +353,26 @@ export const getAdMetrics = (dataA, dataB, isAdPair) => {
   const dataArrayOptions = { preserveRawNumber: true, showZeroValues: true }
   const detailsA = utils.getDataArray(metricsToDisplay, dataA, dataArrayOptions)
   const detailsB = dataB ? utils.getDataArray(metricsToDisplay, dataB, dataArrayOptions) : []
-  const detailsObj = detailsA.reduce((data, detailA) => {
-    const { name: nameA, value: valueA, key: keyA } = detailA
-    // Get matching data from source B (with fallbacks)
-    const detailB = detailsB.find(({ key }) => keyA === key) || {}
-    const { name: nameB = nameA, value: valueB } = detailB
+  const metricKeys = [...detailsA, ...detailsB].reduce((keys, { key }) => {
+    if (keys.includes(key)) return keys
+    keys.push(key)
+    return keys
+  }, [])
+  const detailsObj = metricKeys.reduce((data, key) => {
+    // Get matching data from sources (with fallbacks)
+    const { name: nameA, value: valueA } = detailsA.find(({ key: detailKey }) => detailKey === key) || {}
+    const { name: nameB, value: valueB } = detailsB.find(({ key: detailKey }) => detailKey === key) || {}
     // Get tooltip
-    const tooltip = metricTooltips[keyA]
+    const tooltip = metricTooltips[key]
     // Get data rows
+    const name = nameA || nameB
     const [percentA, percentB] = getRelativeMetrics(valueA, valueB)
-    const aData = { name: nameA, value: valueA, percent: percentA, key: keyA }
-    const bData = isAdPair ? { name: nameB, value: valueB, percent: percentB, key: `${keyA}-b` } : null
+    const aData = { name, value: valueA, percent: percentA, key }
+    const bData = isAdPair ? { name, value: valueB, percent: percentB, key: `${key}-b` } : null
     // Set values for data type
-    data[keyA] = {
-      dataType: keyA,
-      name: nameA,
+    data[key] = {
+      dataType: key,
+      name,
       tooltip,
       a: aData,
       b: bData,

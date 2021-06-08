@@ -1,5 +1,4 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 
 import BasePage from '@/app/BasePage'
 import SignupAddReferralCode from '@/app/SignupAddReferralCode'

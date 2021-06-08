@@ -9,7 +9,7 @@ import useAnimateOnMount from '@/hooks/useAnimateOnMount'
 import useDismissNotification from '@/app/hooks/useDismissNotification'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-import useNotificationStore from '@/app/store/notificationsStore'
+import useNotificationStore from '@/app/stores/notificationsStore'
 
 import NotificationCurrentInfoContent from '@/app/NotificationCurrentInfoContent'
 import NotificationCurrentInfoButton from '@/app/NotificationCurrentInfoButton'
@@ -50,6 +50,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     setSidePanelButton,
     setOnSidepanelClose,
     toggleSidePanel,
+    sidePanelOpen: isSidepanelOpen,
   } = React.useContext(SidePanelContext)
 
   // GET DISMISS FUNCTION
@@ -60,6 +61,8 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     const button = (
       <NotificationCurrentInfoButton
         ctaText={openedNotification.ctaText}
+        buttonType={openedNotification.buttonType}
+        linkType={openedNotification.linkType}
         isComplete={openedNotification.isComplete}
         onAction={openedNotification.onAction}
         onComplete={() => completeNotification(openedNotification.id)}
@@ -84,7 +87,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   React.useEffect(() => {
     const { button, content } = infoButtonAndContent
     // CLOSE SIDEPANEL if DESKTOP
-    if (isDesktopLayout) {
+    if (isDesktopLayout && isSidepanelOpen) {
       setSidePanelContent(null)
       toggleSidePanel(false)
       setOnSidepanelClose(null)
@@ -93,6 +96,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     }
     // OPEN SIDEPANEL if MOBILE
     const sidepanelOpen = !!content
+    if (sidepanelOpen === isSidepanelOpen) return
     setSidePanelContent(content)
     toggleSidePanel(sidepanelOpen)
     setOnSidepanelClose(() => closeNotification)

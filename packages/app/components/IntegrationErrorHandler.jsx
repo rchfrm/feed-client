@@ -4,8 +4,8 @@ import useAsyncEffect from 'use-async-effect'
 
 import * as integrationErrorsHelpers from '@/app/helpers/integrationErrorsHelpers'
 import * as server from '@/app/helpers/appServer'
-import { ArtistContext } from '@/contexts/ArtistContext'
-import { UserContext } from '@/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import IntegrationErrorContent from '@/app/IntegrationErrorContent'
@@ -25,8 +25,10 @@ const fetchError = async ({ auth, user, artist, artistId }) => {
     const errorResponse = integrationErrorsHelpers.getErrorResponse(error)
     return errorResponse
   }
-  // Stop here if running locally
+
+  // * Stop here if running locally
   if (process.env.build_env === 'development') return
+
   if (!artist || !artistId) return
   // Test whether user owns artist
   const { artists: userArtists } = user

@@ -36,10 +36,9 @@ const useEditIntegration = ({
     onSuccess(updatedArtist)
     // TRACK
     const trackAction = action === 'add' ? 'add_integration' : 'remove_integration'
-    track({
-      action: trackAction,
-      category: location,
-      label: integration.platform,
+    track(trackAction, {
+      pageName: location,
+      integrationName: integration.platform,
     })
   // eslint-disable-next-line
   }, [setSidePanelLoading, onSuccess, updateIntegration])

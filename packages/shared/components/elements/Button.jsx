@@ -5,6 +5,7 @@ import Spinner from '@/elements/Spinner'
 
 import { track } from '@/app/helpers/trackingHelpers'
 
+import brandColors from '@/constants/brandColors'
 import * as utils from '@/helpers/utils'
 
 const Button = React.forwardRef(({
@@ -13,6 +14,7 @@ const Button = React.forwardRef(({
   type,
   success,
   loading,
+  spinnerFill,
   className,
   style,
   onClick,
@@ -20,6 +22,7 @@ const Button = React.forwardRef(({
   wrapper,
   icon,
   label,
+  trackLocation,
   children,
 }, ref) => {
   const versions = version
@@ -51,13 +54,12 @@ const Button = React.forwardRef(({
 
   // ON CLICK
   const onButtonClick = React.useCallback((e) => {
-    track({
-      action: 'button_click',
-      category: 'generic',
+    track('button_click', {
       label,
+      location: trackLocation,
     })
     onClick(e)
-  }, [onClick, label])
+  }, [onClick, label, trackLocation])
 
   // OUTPUT BUTTON
   return (
@@ -73,7 +75,7 @@ const Button = React.forwardRef(({
       ref={ref}
       aria-label={label}
     >
-      {loading && <Spinner className="button--spinner" />}
+      {loading && <Spinner className="button--spinner" fill={spinnerFill} />}
       <span className="button--innerText">
         {icon ? (
           <span className="flex flex-grow text-center items-center w-full">
@@ -94,6 +96,7 @@ Button.propTypes = {
   type: PropTypes.string,
   success: PropTypes.bool,
   loading: PropTypes.bool,
+  spinnerFill: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
   onClick: PropTypes.func,
@@ -101,6 +104,7 @@ Button.propTypes = {
   wrapper: PropTypes.string,
   icon: PropTypes.node,
   label: PropTypes.string,
+  trackLocation: PropTypes.string,
   children: PropTypes.node.isRequired,
 }
 
@@ -110,12 +114,14 @@ Button.defaultProps = {
   type: 'button',
   success: false,
   loading: false,
+  spinnerFill: brandColors.white,
   style: {},
   className: '',
   href: null,
   wrapper: '',
   icon: null,
   label: '',
+  trackLocation: '',
   onClick: () => {},
 }
 

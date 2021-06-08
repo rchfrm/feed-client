@@ -61,7 +61,7 @@ const PostsFilters = ({
       querySlug="postStatus"
       trackProps={{
         action: 'adjust_filter',
-        category: 'posts',
+        page: 'posts',
       }}
     />
   )

@@ -4,6 +4,7 @@ import slugify from 'slugify'
 
 import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
+import { requestWithCatch } from '@/helpers/api'
 import brandColors from '@/constants/brandColors'
 
 // TRANSLATE PROMOTION NAME
@@ -160,6 +161,7 @@ export const formatPostsResponse = (posts) => {
     const paidMetrics = adsSummary ? {
       spend: adsSummaryMetrics.spend,
       reach: adsSummaryMetrics.reach,
+      impressions: adsSummaryMetrics.impressions,
       engagements: get(adsSummaryMetrics, ['actions', 'post_engagement'], null),
       clicks: getPaidClicks(adsSummaryMetrics),
       engagementScore: adsSummary.spend_adjusted_engagement_score,
@@ -186,6 +188,7 @@ export const formatPostsResponse = (posts) => {
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
       message,
+      adMessageProps: post.ad_message,
       shortMessage,
       media,
       thumbnails,
@@ -239,6 +242,31 @@ export const getPostMetricsContent = (metricsType, postType) => {
     'clicks',
     'video_views',
     'engagements',
-    'shares',
+    'impressions',
   ]
+}
+
+// UPDATE CAPTION
+export const updatePostCaption = ({ artistId, assetId, adMessageId, caption }) => {
+  const isUpdating = !!adMessageId
+  const endpointBase = `/artists/${artistId}/assets/${assetId}/ad_messages`
+  const requestType = isUpdating ? 'patch' : 'post'
+  const endpoint = isUpdating ? `${endpointBase}/${adMessageId}` : endpointBase
+  const payload = { message: caption }
+  const errorTracking = {
+    category: 'Post caption',
+    action: isUpdating ? 'Update post caption' : 'Set new post caption',
+  }
+  return requestWithCatch(requestType, endpoint, payload, errorTracking)
+}
+
+// RESET CAPTION
+export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
+  const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages/${adMessageId}`
+  const payload = null
+  const errorTracking = {
+    category: 'Post message',
+    action: 'Reset post caption',
+  }
+  return requestWithCatch('delete', endpoint, payload, errorTracking)
 }

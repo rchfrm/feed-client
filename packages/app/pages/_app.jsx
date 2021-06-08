@@ -1,3 +1,5 @@
+// * APP VERSION
+
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -5,8 +7,7 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 import { PageTransition } from 'next-page-transitions'
-import { StripeProvider } from 'react-stripe-elements'
-import Script from 'react-load-script'
+
 import withFBQ from 'next-fbq'
 import * as Sentry from '@sentry/browser'
 // GLOBAL STYLES
@@ -19,16 +20,12 @@ import SetupGtag from '@/elements/SetupGtag'
 // IMPORT CONTEXTS
 import { AuthProvider } from '@/contexts/AuthContext'
 // IMPORT HELPERS
-import { trackPWA, gtagPageView, setupTracking } from '@/app/helpers/trackingHelpers'
+import { trackPWA, setupTracking } from '@/app/helpers/trackingHelpers'
+import { trackGooglePageView } from '@/app/helpers/trackGoogleHelpers'
 import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
 
 // GLOBAL STORES and DATA
-import globalData from '@/app/tempGlobalData/globalData.json'
 import { parseUrl } from '@/helpers/utils'
-import { formatDictionary } from '@/app/helpers/notificationsHelpers'
-import useNotificationStore from '@/app/store/notificationsStore'
-
-const getSetDictionary = state => state.setDictionary
 
 // TRACKING SERVICE IDS
 // Google Analytics
@@ -72,11 +69,16 @@ if (process.env.build_env !== 'development') {
 // * THE APP
 function Feed({ Component, pageProps }) {
   const router = useRouter()
-  const [stripe, setStripe] = React.useState(null)
 
   const previousUrl = React.useRef({})
 
   React.useEffect(() => {
+    // Make background red if running live DB locally
+    if (process.env.show_live_warning) {
+      const htmlEl = document.getElementsByTagName('html')[0]
+      htmlEl.classList.add('_live_warning')
+    }
+
     // Setup tracking
     setupTracking()
     // Setup PWA
@@ -91,7 +93,7 @@ function Feed({ Component, pageProps }) {
       const { pathname: previousPathname } = previousUrl.current
       // Stop here if same pathname
       if (pathname === previousPathname) return
-      gtagPageView(url, gaId)
+      trackGooglePageView(url, gaId)
       mixpanelPageView(url)
       // Store previous URL
       previousUrl.current = { pathname, queryString }
@@ -103,23 +105,6 @@ function Feed({ Component, pageProps }) {
     }
   }, [])
 
-  // Setup stripe to use SSR
-  const onStripeLoad = () => {
-    if (window.Stripe) {
-      setStripe(window.Stripe(process.env.stripe_provider))
-    }
-  }
-
-  // STORE DICTIONARY in GLOBAL STATE
-  const isDictionarySet = React.useRef(false)
-  const setDictionary = useNotificationStore(getSetDictionary)
-  if (!isDictionarySet.current) {
-    const { allNotifications } = globalData
-    const dictionaryFormatted = formatDictionary(allNotifications)
-    setDictionary(dictionaryFormatted)
-    isDictionarySet.current = true
-  }
-
   return (
 
     <AuthProvider>
@@ -129,23 +114,14 @@ function Feed({ Component, pageProps }) {
         <title key="meta-title">Feed</title>
       </Head>
 
-      <Script
-        url="https://js.stripe.com/v3/"
-        onLoad={onStripeLoad}
-      />
-
       {/* GTAG */}
       <SetupGtag gaId={gaId} />
 
-      <StripeProvider stripe={stripe}>
-
-        <AppContents>
-          <PageTransition timeout={300} classNames="page-transition">
-            <Component key={router.route} {...pageProps} />
-          </PageTransition>
-        </AppContents>
-
-      </StripeProvider>
+      <AppContents>
+        <PageTransition timeout={300} classNames="page-transition">
+          <Component key={router.route} {...pageProps} />
+        </PageTransition>
+      </AppContents>
 
     </AuthProvider>
   )

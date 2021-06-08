@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import produce from 'immer'
 
 import useAlertModal from '@/hooks/useAlertModal'
-import useLinksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/stores/linksStore'
 
 import Input from '@/elements/Input'
 import Select from '@/elements/Select'

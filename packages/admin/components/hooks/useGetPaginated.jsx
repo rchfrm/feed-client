@@ -2,7 +2,7 @@ import React from 'react'
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/admin/contexts/UserContext'
 
 import * as server from '@/admin/helpers/adminServer'
 

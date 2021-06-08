@@ -6,7 +6,7 @@ import useAlertModal from '@/hooks/useAlertModal'
 import useForceDeleteLink from '@/app/hooks/useForceDeleteLink'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -14,7 +14,7 @@ import PostsLinksEditModal from '@/app/PostsLinksEditModal'
 import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 
 
-import useLinksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/stores/linksStore'
 import { saveLink, saveFolder, setDefaultLink, usedLinkErrorCode } from '@/app/helpers/linksHelpers'
 
 import { testValidIntegration, updateIntegration } from '@/helpers/integrationHelpers'

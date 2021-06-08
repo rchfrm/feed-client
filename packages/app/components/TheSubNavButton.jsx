@@ -8,7 +8,8 @@ import NotificationDot from '@/elements/NotificationDot'
 
 import CloseCircle from '@/icons/CloseCircle'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import styles from '@/app/TheSubNavButton.module.css'
 
@@ -20,6 +21,7 @@ const TheSubNavButton = ({
 }) => {
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
   const [fbPageId, setFbPageId] = React.useState('')
+  const { hasPendingEmail } = React.useContext(UserContext)
 
   React.useEffect(() => {
     const { facebook_page_id } = artist
@@ -41,7 +43,7 @@ const TheSubNavButton = ({
       className={[className, styles.button].join(' ')}
       aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
     >
-      {hasNotifactions && !navOpen && !artistLoading && (
+      {((hasNotifactions && !navOpen && !artistLoading) || hasPendingEmail) && (
         <NotificationDot size="medium" style={{ top: '-0.1rem', right: '-0.1rem', zIndex: 3 }} />
       )}
       <FlipContainer

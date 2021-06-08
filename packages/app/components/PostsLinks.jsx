@@ -12,7 +12,7 @@ import PostsLinksIntegrations from '@/app/PostsLinksIntegrations'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import useLinksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/stores/linksStore'
 import { splitLinks } from '@/app/helpers/linksHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'

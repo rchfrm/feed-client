@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import shallow from 'zustand/shallow'
 import useAsyncEffect from 'use-async-effect'
 
-import useLinksStore from '@/app/store/linksStore'
-
+import useIsMounted from '@/hooks/useIsMounted'
+import useLinksStore from '@/app/stores/linksStore'
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
 import Select from '@/elements/Select'
@@ -129,7 +129,8 @@ const PostLinksSelect = ({
   })
 
   // HANDLE SETTING SELECTED LINK
-  useAsyncEffect(async (isMounted) => {
+  const isMounted = useIsMounted()
+  useAsyncEffect(async () => {
     // Stop here if setting to same as before
     if (currentLinkId === selectedOptionValue) {
       setLoading(false)
@@ -138,7 +139,7 @@ const PostLinksSelect = ({
     setLoading(true)
     // Run server
     const { res, error } = await onSelect(artistId, selectedOptionValue, postItemId)
-    if (!isMounted()) return
+    if (!isMounted) return
     // Handle error
     if (error) {
       // Reset value if error

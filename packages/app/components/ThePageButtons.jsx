@@ -3,9 +3,10 @@ import React from 'react'
 import ThePageButtonsIcon from '@/app/ThePageButtonsIcon'
 import ActiveLink from '@/elements/ActiveLink'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import useLoggedInTest from '@/hooks/useLoggedInTest'
+import useLoggedInTest from '@/app/hooks/useLoggedInTest'
+import useBrowserStore from '@/hooks/useBrowserStore'
 
 import styles from '@/app/ThePageButtons.module.css'
 
@@ -35,13 +36,29 @@ const links = [
   },
 ]
 
+const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }) => {
+  // CONTROLS PAGE
+  if (icon === 'controls') {
+    // No budget
+    if (!hasBudget && !missingDefaultLink) return true
+    // Spending paused
+    if (isSpendingPaused && !missingDefaultLink) return true
+  }
+  // POSTS PAGE
+  if (icon === 'posts' && missingDefaultLink) return true
+  // No badge
+  return false
+}
+
 const ThePageButtons = () => {
   const isLoggedIn = useLoggedInTest()
+  const { device = {} } = useBrowserStore()
+  const { isMobile, isIOS } = device
   // Get currency from artist
   const {
     artistLoading,
     hasBudget,
-    artist: { missingDefaultLink },
+    artist: { missingDefaultLink, isSpendingPaused },
   } = React.useContext(ArtistContext)
   // Don't show buttons if no logged in
   if (!isLoggedIn) return null
@@ -49,12 +66,15 @@ const ThePageButtons = () => {
   return (
     <div
       id="ThePageButtons"
-      className={[styles.container, artistLoading ? styles._artistLoading : ''].join(' ')}
+      className={[
+        styles.container,
+        artistLoading ? styles._artistLoading : null,
+        isIOS && isMobile ? styles.ios_mobile : null,
+      ].join(' ')}
     >
       <nav className={styles.inner}>
         {links.map(({ href, title, icon, matchingHrefs }) => {
-          const showBadge = (icon === 'controls' && !hasBudget && !missingDefaultLink)
-            || (icon === 'posts' && missingDefaultLink)
+          const showBadge = showBadgeTest({ icon, hasBudget, missingDefaultLink, isSpendingPaused })
           return (
             <div className={styles.link} key={href}>
               <ActiveLink href={href} activeClass={styles._active} matchingHrefs={matchingHrefs}>

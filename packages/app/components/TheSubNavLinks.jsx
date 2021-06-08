@@ -1,9 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useNotificationsStore from '@/app/store/notificationsStore'
+import useNotificationsStore from '@/app/stores/notificationsStore'
 
-import SignOutLink from '@/SignOutLink'
+import { UserContext } from '@/app/contexts/UserContext'
+
+import SignOutLink from '@/app/SignOutLink'
+import NotificationDot from '@/elements/NotificationDot'
 import ActiveLink from '@/elements/ActiveLink'
 
 import styles from '@/app/TheSubNav.module.css'
@@ -11,7 +14,7 @@ import styles from '@/app/TheSubNav.module.css'
 import * as ROUTES from '@/app/constants/routes'
 
 
-const { ACCOUNT, MYREFERRAL, PRICING, FAQ, NOTIFICATIONS } = ROUTES
+const { ACCOUNT, MYREFERRAL, PRICING, FAQ, NOTIFICATIONS, BILLING } = ROUTES
 const termsLink = 'https://tryfeed.co/legal/terms-of-service'
 const links = [
   {
@@ -27,12 +30,17 @@ const links = [
     title: 'notifications',
   },
   {
+    href: BILLING,
+    title: 'billing',
+  },
+  {
     href: FAQ,
     title: 'FAQs',
   },
   {
     href: PRICING,
     title: 'pricing',
+    external: true,
   },
   {
     href: termsLink,
@@ -57,6 +65,7 @@ const NOTIFICATION_LINK_TEXT = ({ title }) => {
 }
 
 const TheSubNavLinks = ({ className }) => {
+  const { hasPendingEmail } = React.useContext(UserContext)
   return (
     <>
       <nav className={[styles.links, className].join(' ')}>
@@ -67,11 +76,24 @@ const TheSubNavLinks = ({ className }) => {
         >
           {links.map(({ href, title, external }) => {
             const titleText = title === 'notifications' ? <NOTIFICATION_LINK_TEXT title={title} /> : title
+            const showDot = href === ACCOUNT && hasPendingEmail
             return (
               <li className={[styles.linkItem].join(' ')} key={href}>
                 {external
-                  ? <a className={styles.a} href={href} target="_blank" rel="noopener noreferrer">{ titleText }</a>
-                  : <ActiveLink href={href}><a className={styles.a}>{ titleText }</a></ActiveLink>}
+                  ? <a className={styles.a} href={href}>{titleText}</a>
+                  : (
+                    <>
+                      <ActiveLink href={href}>
+                        <a className={['relative', styles.a].join(' ')}>
+                          {titleText}
+                          {/* PENDING EMAIL WARNING */}
+                          {showDot && (
+                            <NotificationDot size="small" style={{ left: '-1.25rem', top: '0.55rem' }} />
+                          )}
+                        </a>
+                      </ActiveLink>
+                    </>
+                  )}
               </li>
             )
           })}

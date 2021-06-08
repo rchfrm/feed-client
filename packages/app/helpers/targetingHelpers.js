@@ -2,7 +2,7 @@ import produce from 'immer'
 
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
-import { track } from '@/app/helpers/trackingHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 
 // BUDGET FEATURES
@@ -32,24 +32,6 @@ export const getNextBudgetUpgrade = (currentBudget) => {
   return availableUpgrades[0]
 }
 
-// Calc hard min budget
-export const calcMinBudget = (minBudgetInfo, type) => {
-  const {
-    amount,
-    currency: {
-      code: currencyCode,
-      offset: currencyOffset,
-    },
-  } = minBudgetInfo
-  const {
-    fbMinFloat,
-    fbMinRounded,
-    minBudgetRounded,
-  } = utils.getMinBudget(amount, currencyCode, currencyOffset)
-  if (type === 'fbMin') return fbMinFloat * currencyOffset
-  if (type === 'fbMinRounded') return fbMinRounded * currencyOffset
-  return minBudgetRounded * currencyOffset
-}
 
 // Get slider config
 const getSliderRange = (defaultMin, defaultMax, sliderStep, initialBudget) => {
@@ -72,35 +54,14 @@ const getSliderRange = (defaultMin, defaultMax, sliderStep, initialBudget) => {
   return [defaultMin, defaultMax]
 }
 
-export const calcBudgetSliderConfig = (fbMinRounded, minHardBudget, initialBudget) => {
-  const sliderStep = fbMinRounded / 4
-  const defaultMin = minHardBudget
-  const defaultMax = fbMinRounded * 30
+export const calcBudgetSliderConfig = (minBase, minHard, initialBudget) => {
+  const sliderStep = Math.round(minBase / 4)
+  const defaultMin = minHard
+  const defaultMax = minBase * 30
   const sliderValueRange = getSliderRange(defaultMin, defaultMax, sliderStep, initialBudget)
   return { sliderStep, sliderValueRange }
 }
 
-// Calc min recc budget
-export const calcMinReccBudget = ({ minBudgetInfo, locationOptions }) => {
-  const cityUnit = 0.25
-  const countryUnit = 1
-  const fbMinRounded = calcMinBudget(minBudgetInfo, 'fbMinRounded')
-  const baseBudget = calcMinBudget(minBudgetInfo, 'base')
-  const locationOptionsArray = Object.values(locationOptions)
-  const minRecc = locationOptionsArray.reduce((budget, { selected: countrySelected, totalCitiesSelected }, index) => {
-    if (countrySelected) {
-      // Ignore the first country
-      if (index !== 0) {
-        budget += (fbMinRounded * countryUnit)
-      }
-      return budget
-    }
-    const cappedCities = Math.min(totalCitiesSelected, 4)
-    budget += (fbMinRounded * (cityUnit * cappedCities))
-    return budget
-  }, baseBudget + fbMinRounded)
-  return minRecc
-}
 
 export const getSaveDisabledReason = (reason) => {
   if (reason === 'budget') return 'Budget is too small'
@@ -163,11 +124,11 @@ export const getSummary = {
 export const fetchPopularLocations = async (artistId) => {
   const { res: popularLocations, error } = await server.getTargetingPopularLocations(artistId)
   if (error) {
-    track({
+    // Sentry error
+    fireSentryError({
       category: 'Controls',
       action: 'Error fetching popular locations',
       description: error.message,
-      error: true,
     })
     return { error }
   }
@@ -288,11 +249,11 @@ export const fetchTargetingState = async (artistId, currencyOffset) => {
   const { res: settings, error } = await server.getTargetingSettings(artistId)
   // Handle error
   if (error) {
-    track({
+    // Sentry error
+    fireSentryError({
       category: 'Controls',
       action: 'Error fetching targeting settings',
       description: error.message,
-      error: true,
     })
     return { error }
   }
@@ -316,27 +277,23 @@ export const saveCampaign = async ({
       }, 1000)
     })
   }
-  const { age_min, age_max, budget, genders, platforms, status } = newSettings
+
   const payload = {
-    age_min,
-    age_max,
-    budget: budget / currencyOffset,
-    genders,
-    platforms,
+    ...newSettings,
+    budget: newSettings.budget / currencyOffset,
     geo_locations: {
       cities: selectedCities,
       countries: selectedCountries,
     },
-    status,
   }
   const { res: settings, error } = await server.saveTargetingSettings(artistId, payload)
   // Handle error
   if (error) {
-    track({
+    // Sentry error
+    fireSentryError({
       category: 'Controls',
       action: 'Error saving targeting settings',
       description: error.message,
-      error: true,
     })
     return { error }
   }

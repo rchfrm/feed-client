@@ -10,7 +10,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import ButtonFacebook from '@/elements/ButtonFacebook'
 
-import useAlertStore from '@/store/alertStore'
+import useAlertStore from '@/stores/alertStore'
 
 import styles from '@/AlertModal.module.css'
 

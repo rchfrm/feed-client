@@ -1,9 +1,23 @@
 /* eslint-disable no-template-curly-in-string */
 
-import moment from 'moment'
+/* *****
+* README
+* See `/docs/notifications.md` for an explanation of how this works
+*/
 
+import moment from 'moment'
+import Router from 'next/router'
+
+import { mixpanelExternalLinkClick } from '@/app/helpers/mixpanelHelpers'
+import { track } from '@/app/helpers/trackingHelpers'
+import { getLinkType } from '@/helpers/utils'
+
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
+
+// To parse cases like {{ this }} and {{{ this }}}
+const RE_TEMPLATE = /\{?\{\{\s([a-z0-9_]+)\s\}\}\}?/g
 
 // * DICTIONARY
 // ------------
@@ -29,6 +43,31 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
   if (entityType === 'organizations') return apiEndpoint.replace('${organization.id}', entityId)
 }
 
+const getLinkAction = (ctaLink, linkType, trackingPayload) => {
+  // INTERNAL
+  if (linkType === 'internal') {
+    return () => Router.push(ctaLink)
+  }
+  // EXTERANA:
+  // Tracks click in mixpanel and opens link
+  return () => {
+    mixpanelExternalLinkClick({
+      url: ctaLink,
+      eventName: 'notification_actioned',
+      payload: trackingPayload,
+      useNewTab: true,
+    })
+    return { res: 'incomplete' }
+  }
+}
+
+const getFbRelinkAction = (hasFbAuth, missingScopes) => {
+  if (hasFbAuth) {
+    return firebaseHelpers.reauthFacebook(missingScopes)
+  }
+  return firebaseHelpers.linkFacebookAccount()
+}
+
 // GET ACTION to handle notification
 /**
  * @param {string} entityType 'users' | 'artists' | 'organizations'
@@ -38,13 +77,36 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
  * @returns {Promise<array>}
  */
 export const getAction = ({
+  ctaLink,
+  linkType,
   apiMethod,
   apiEndpoint,
   entityType,
   entityId,
   topic,
   data,
+  title,
+  isDismissible,
+  isActionable,
+  hasFbAuth,
+  missingScopes,
 }) => {
+  // Handle relink FB
+  if (topic === 'facebook-expired-access-token') {
+    return () => getFbRelinkAction(hasFbAuth, missingScopes)
+  }
+
+  // Handle no method or link
+  if (!apiEndpoint && !ctaLink) return () => {}
+  // Handle link
+  if (ctaLink) {
+    return getLinkAction(ctaLink, linkType, {
+      title,
+      topic,
+      isDismissible,
+      isActionable,
+    })
+  }
   // Format endpoint
   const endpointFormatted = getEndpoint(apiEndpoint, entityType, entityId)
   // Build API request
@@ -56,14 +118,57 @@ export const getAction = ({
     category: 'Notifcations',
     action: `Action ${topic}`,
   }
-  return () => requestWithCatch(apiMethod.toLowerCase(), endpointFormatted, payload, errorTracking)
+  return () => {
+    track('notification_actioned', {
+      title,
+      topic,
+      isDismissible,
+      isActionable,
+    })
+    requestWithCatch(apiMethod.toLowerCase(), endpointFormatted, payload, errorTracking)
+  }
+}
+
+const getKeysAndSubstringsFromTemplate = (template) => {
+  const keys = {}
+  const result = []
+
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const match = RE_TEMPLATE.exec(template)
+    if (!match) {
+      break
+    }
+
+    const [substring, key] = match
+
+    if (key in keys) {
+      continue
+    }
+
+    result.push({ key, substring })
+    keys[key] = true
+  }
+
+  return result
+}
+
+const formatNotificationText = (text, data) => {
+  const keysAndSubstrings = getKeysAndSubstringsFromTemplate(text)
+
+  keysAndSubstrings.forEach(({ key, substring }) => {
+    // Replace all entries of '{{ profile_name }}' with data['profile_name']
+    text = text.replace(RegExp(substring, 'g'), data[key])
+  })
+
+  return text
 }
 
 // * FETCHING FROM SERVER
 // -----------------------
 
 // FORMAT NOTIFICATIONS
-export const formatNotifications = (notificationsRaw, dictionary = {}) => {
+export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAuth = false, missingScopes = [] }) => {
   return notificationsRaw.reduce((allNotifications, notification) => {
     const {
       id,
@@ -84,7 +189,6 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
     // - if not in dictionary
     // - if hidden in Dato
     // - if complete
-    if (!dictionaryEntry || dictionaryEntry.hide || isComplete) return allNotifications
     // Just add notification if already formatted
     if (formatted || !dictionaryEntry) {
       return [...allNotifications, notification]
@@ -94,21 +198,31 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       appSummary: summary,
       appMessage: description,
       ctaText,
+      ctaLink,
+      buttonType,
       apiMethod,
       apiEndpoint,
       hide = false,
     } = dictionaryEntry || {}
-    const date = moment(created_at).format('MM MMM')
-    const dateLong = moment(created_at).format('MM MMM YY')
+    const date = moment(created_at).format('DD MMM')
+    const dateLong = moment(created_at).format('DD MMM YY')
     const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
+    const linkType = ctaLink ? getLinkType(ctaLink) : null
     // Get Action function
     const onAction = isActionable ? getAction({
+      ctaLink,
+      linkType,
       apiMethod,
       apiEndpoint,
       entityType,
       entityId,
       topic,
       data,
+      title,
+      isDismissible,
+      isActionable,
+      hasFbAuth,
+      missingScopes,
     }) : () => {}
     // Return formatted notification
     const formattedNotification = {
@@ -120,9 +234,11 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
       date,
       dateLong,
       title,
-      summary,
-      description,
+      summary: formatNotificationText(summary, data),
+      description: formatNotificationText(description, data),
       ctaText: ctaText || ctaFallback,
+      buttonType,
+      linkType,
       isActionable,
       isDismissible,
       hidden: hide || isComplete,
@@ -137,9 +253,7 @@ export const formatNotifications = (notificationsRaw, dictionary = {}) => {
 
 // FETCH NOTIFICATIONS
 export const fetchNotifications = async ({ artistId, userId, organizationIds }) => {
-  const { res: notifications, error } = await appServer.getAllNotifications({ artistId, organizationIds, userId })
-  if (error) return { error }
-  return { res: { notifications } }
+  return appServer.getAllNotifications({ artistId, organizationIds, userId })
 }
 
 
@@ -156,9 +270,12 @@ export const fetchNotifications = async ({ artistId, userId, organizationIds }) 
  */
 export const markAsReadOnServer = async (notificationId, entityType = 'users', entityId, read = true) => {
   const endpoint = `${entityType}/${entityId}/notifications/${notificationId}`
-  const { res, error } = await appServer.markNotificationAsRead(endpoint, read)
-  if (error) return { error }
-  return { res }
+  const payload = { is_read: read }
+  const errorTracking = {
+    category: 'Notifications',
+    action: 'Mark notification as read',
+  }
+  return requestWithCatch('patch', endpoint, payload, errorTracking)
 }
 
 // DISMISS
@@ -171,7 +288,9 @@ export const markAsReadOnServer = async (notificationId, entityType = 'users', e
  */
 export const dismissOnServer = async (notificationId, entityType = 'users', entityId) => {
   const endpoint = `${entityType}/${entityId}/notifications/${notificationId}`
-  const { res, error } = await appServer.dismissNotification(endpoint)
-  if (error) return { error }
-  return { res }
+  const errorTracking = {
+    category: 'Notifications',
+    action: 'Delete/dismiss notification',
+  }
+  return requestWithCatch('delete', endpoint, null, errorTracking)
 }

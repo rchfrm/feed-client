@@ -1,0 +1,60 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import Select from '@/elements/Select'
+
+import ConnectProfilesCardSelectPlaceholder from '@/app/ConnectProfilesCardSelectPlaceholder'
+
+const ConnectProfilesCardAdAccount = ({
+  artist,
+  updateArtists,
+  className,
+}) => {
+  const {
+    exists,
+    available_facebook_ad_accounts: availableAdAccounts,
+    selected_facebook_ad_account: selectedAdAccount,
+    page_id: artistId,
+  } = artist
+  // READONLY
+  if (exists) {
+    return (
+      <ConnectProfilesCardSelectPlaceholder
+        className={className}
+        label="Ad Account"
+        title={selectedAdAccount.name}
+      />
+    )
+  }
+  // AD ACCOUNT SELECT OPTIONS
+  const adAccountOptions = availableAdAccounts.map(({ name, id: value }) => {
+    return { name, value }
+  })
+  return (
+    <Select
+      name="selected_facebook_ad_account"
+      label="Select an ad account"
+      handleChange={(e) => {
+        const { target: { value } } = e
+        const payload = { id: artistId, value }
+        updateArtists('update-artist-adaccount', payload)
+      }}
+      selectedValue={selectedAdAccount.id}
+      options={adAccountOptions}
+      required
+      className={className}
+    />
+  )
+}
+
+ConnectProfilesCardAdAccount.propTypes = {
+  artist: PropTypes.object.isRequired,
+  updateArtists: PropTypes.func.isRequired,
+  className: PropTypes.string,
+}
+
+ConnectProfilesCardAdAccount.defaultProps = {
+  className: null,
+}
+
+export default ConnectProfilesCardAdAccount

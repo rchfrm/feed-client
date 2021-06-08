@@ -21,11 +21,15 @@ const getPromotionStatus = (promotableStatus) => {
 
 const PostCardDisableWarning = ({
   postId,
+  postType,
+  platform,
+  paidEs,
   promotionEnabled,
   promotableStatus,
   togglePromotion,
   postToggleSetterType,
   artistId,
+  conversionVisible,
   textClassName,
   className,
 }) => {
@@ -81,6 +85,7 @@ const PostCardDisableWarning = ({
       <div
         className={[
           'absolute top-0 left-0',
+          !conversionVisible ? '-mt-12' : null,
           'w-full h-full',
           'bg-white',
           'flex flex-col justify-between',
@@ -105,9 +110,10 @@ const PostCardDisableWarning = ({
             onClick={() => {
               setShow(false)
               // TRACK
-              track({
-                action: 'disable_active_ad',
-                category: 'post_settings',
+              track('disable_active_ad', {
+                postType,
+                platform,
+                paidEs,
               })
             }}
           >
@@ -132,17 +138,23 @@ const PostCardDisableWarning = ({
 
 PostCardDisableWarning.propTypes = {
   postId: PropTypes.string.isRequired,
+  postType: PropTypes.string.isRequired,
+  platform: PropTypes.string.isRequired,
+  paidEs: PropTypes.number,
   promotionEnabled: PropTypes.bool.isRequired,
   promotableStatus: PropTypes.number.isRequired,
   togglePromotion: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string,
   artistId: PropTypes.string.isRequired,
+  conversionVisible: PropTypes.bool,
   textClassName: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostCardDisableWarning.defaultProps = {
+  paidEs: null,
   postToggleSetterType: '',
+  conversionVisible: true,
   textClassName: null,
   className: null,
 }

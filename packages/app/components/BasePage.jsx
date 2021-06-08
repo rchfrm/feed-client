@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT CONTEXTS
-import { UserContext } from '@/contexts/UserContext'
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+
+import PendingEmailWarning from '@/app/PendingEmailWarning'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'
 // IMPORT COPY
@@ -20,7 +22,7 @@ const BasePage = ({
   // Get interface context
   const { setHeader, toggleSubNav, toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get user context
-  const { user } = React.useContext(UserContext)
+  const { user, hasPendingEmail } = React.useContext(UserContext)
   // ON MOUNT
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => {
@@ -41,7 +43,7 @@ const BasePage = ({
   // Turn off global loading when
   // 1. artist finishes loading &
   // 2. page is not artist senstive &
-  // 3. It's an auth page (ie, login or signup)
+  // 3. It's not an auth page (ie, login or signup)
   // OR
   // 1a. User has no artists (ie, login or signup)
   const { artistLoading } = React.useContext(ArtistContext)
@@ -60,10 +62,16 @@ const BasePage = ({
   return (
     <>
       {user.artists.length === 0 && artistRequired ? (
-        <>
+        <div>
           {/* NO ARTIST COPY */}
-          <MarkdownText className="h4--text" markdown={copy.noArtists} />
-        </>
+          <div className="p-5 bg-grey-1 rounded-dialogue max-w-xl mb-4">
+            <MarkdownText className="h4--text mb-0" markdown={copy.noArtists} />
+          </div>
+          {/* UNVERIFIED EMAIL WARNING */}
+          {hasPendingEmail && (
+            <PendingEmailWarning user={user} isNewUser />
+          )}
+        </div>
       ) : (
         <>
           {/* PAGE CONTENT */}

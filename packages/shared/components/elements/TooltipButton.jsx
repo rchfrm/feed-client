@@ -7,7 +7,7 @@ import TooltipMessage from '@/elements/TooltipMessage'
 import { track } from '@/app/helpers/trackingHelpers'
 
 const TooltipButton = (props) => {
-  const { buttonClasses, buttonStyle, buttonText, trackLabel } = props
+  const { buttonClasses, buttonStyle, buttonText, trackLabel, trackLocation } = props
   const [showMessage, setShowMessage] = React.useState(false)
   // Get ref to message
   const messageRef = React.useRef(null)
@@ -16,13 +16,13 @@ const TooltipButton = (props) => {
   }, [])
   // Toggle functions
   const buttonRef = React.useRef(null)
-  const toggleMessage = () => {
+  const toggleMessage = (e) => {
+    e.preventDefault()
     setShowMessage(!showMessage)
-    track({
-      action: 'tooltip_clicked',
-      category: 'generic',
-      value: !showMessage ? 'show' : 'hide',
+    track('tooltip_clicked', {
+      action: !showMessage ? 'show' : 'hide',
       label: trackLabel,
+      location: trackLocation,
     })
   }
   const closeMessage = ({ target }) => {
@@ -51,15 +51,16 @@ const TooltipButton = (props) => {
       {/* TOOLTIP TEXT */}
       {showMessage && <TooltipMessage {...props} messageRef={setMessageRef} buttonRef={buttonRef} />}
       {/* BUTTON */}
-      <button
-        className={['button', 'button--tooltip', buttonText && 'flex items-center'].join(' ')}
+      <a
+        role="button"
         onClick={toggleMessage}
         ref={buttonRef}
+        tabIndex="-1"
       >
         {/* BUTTON TEXT */}
         {buttonText && <p className="button--tooltip-text text-sm">{buttonText}</p>}
         <TooltipIcon className="button--tooltip-icon" />
-      </button>
+      </a>
     </div>
   )
 }
@@ -68,12 +69,16 @@ TooltipButton.propTypes = {
   buttonClasses: PropTypes.string,
   buttonStyle: PropTypes.object,
   buttonText: PropTypes.string,
+  trackLabel: PropTypes.string,
+  trackLocation: PropTypes.string,
 }
 
 TooltipButton.defaultProps = {
   buttonClasses: '',
   buttonStyle: null,
   buttonText: '',
+  trackLabel: '',
+  trackLocation: '',
 }
 
 

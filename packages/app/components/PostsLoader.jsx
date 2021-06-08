@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 import { useAsync } from 'react-async'
 import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT HOOKS
-import usePostsStore from '@/app/store/postsStore'
+import usePostsStore from '@/app/stores/postsStore'
 // IMPORT ELEMENTS
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
@@ -32,6 +32,8 @@ const postsReducer = (draftState, postsAction) => {
     promotionEnabled,
     promotableStatus,
     linkId,
+    linkHref,
+    adMessageProps,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -52,6 +54,10 @@ const postsReducer = (draftState, postsAction) => {
       break
     case 'update-link':
       draftState[postIndex].linkId = linkId
+      draftState[postIndex].linkHref = linkHref
+      break
+    case 'update-caption':
+      draftState[postIndex].adMessageProps = adMessageProps
       break
     default:
       return draftState
@@ -179,7 +185,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 
   // Define function for toggling SINGLE promotion
   const togglePromotion = React.useCallback(async (postId, promotionEnabled, promotableStatus) => {
-    const indexOfId = posts.findIndex(({ id }) => postId === id)
+    const postIndex = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotionEnabled
     setPostToggleSetterType('single')
     setPosts({
@@ -187,14 +193,16 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       payload: {
         promotionEnabled,
         promotableStatus,
-        postIndex: indexOfId,
+        postIndex,
       },
     })
     // Track
-    track({
-      action: 'post_promotion_status',
-      category: 'post_settings',
-      label: newPromotionState ? 'eligible' : 'ineligible',
+    const { postType, platform, organicMetrics = {}, paidMetrics = {} } = posts[postIndex]
+    track('post_promotion_status', {
+      status: newPromotionState ? 'eligible' : 'ineligible',
+      postType,
+      platform,
+      es: paidMetrics.engagementScore ?? organicMetrics.engagementScore,
     })
     return newPromotionState
   }, [posts, setPosts])
@@ -212,10 +220,8 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         },
       })
       // TRACK
-      track({
-        action: 'default_post_promotion_status',
-        category: 'post_settings',
-        label: promotionEnabled ? 'opt-in' : 'opt-out',
+      track('default_post_promotion_status', {
+        status: promotionEnabled ? 'opt-in' : 'opt-out',
       })
     }
     setTogglePromotionGlobal((promotionEnabled) => {
@@ -244,20 +250,9 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     setRefreshPosts(() => () => refreshPosts())
   }, [setRefreshPosts, refreshPosts])
 
-  // Define function to update links
-  const updateLink = React.useCallback((postIndex, linkId) => {
-    setPosts({
-      type: 'update-link',
-      payload: {
-        postIndex,
-        linkId,
-      },
-    })
-    // TRACK
-    track({
-      action: 'post_link_changed',
-      category: 'links',
-    })
+  // Define function to update post
+  const updatePost = React.useCallback((action, payload) => {
+    setPosts({ type: action, payload })
   }, [setPosts])
 
   // Define function to update posts with missing links
@@ -313,7 +308,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         posts={posts}
         visiblePost={visiblePost}
         setVisiblePost={setVisiblePost}
-        updateLink={updateLink}
+        updatePost={updatePost}
         togglePromotion={togglePromotion}
         postToggleSetterType={postToggleSetterType}
         loadMorePosts={loadMorePosts}

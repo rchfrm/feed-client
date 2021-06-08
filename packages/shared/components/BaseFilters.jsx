@@ -131,9 +131,10 @@ const BaseFilters = ({
   const trackFilter = React.useCallback((activeOptionId) => {
     if (!trackProps) return
     const filterName = useSlug ? getSlugFromId(options, activeOptionId) : activeOptionId
-    track({
-      ...trackProps,
-      label: filterName,
+    const { action, ...props } = trackProps
+    track(action, {
+      ...props,
+      selection: filterName,
     })
   }, [trackProps, options, useSlug])
 

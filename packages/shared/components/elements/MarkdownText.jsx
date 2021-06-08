@@ -1,47 +1,59 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
-import ReactMarkdownWithHtml from 'react-markdown/with-html'
 
 import MarkdownLink from '@/elements/MarkdownLink'
 
 const MarkdownText = ({
   markdown,
-  allowHtml,
+  skipTextBlock,
+  disallowedTypes,
+  allowedElements,
+  unwrapDisallowed,
+  components,
   className,
   style,
 }) => {
+  const content = (
+    <ReactMarkdown
+      renderers={{ link: MarkdownLink }}
+      disallowedTypes={disallowedTypes}
+      allowedTypes={allowedElements}
+      unwrapDisallowed={unwrapDisallowed}
+      components={components}
+    >
+      {markdown}
+    </ReactMarkdown>
+  )
+  // PLAIN MARKDOWN
+  if (skipTextBlock) return content
+  // MARKDOWN IN TEXT BLOCK
   return (
     <div className={['text--block', className].join(' ')} style={style}>
-      {allowHtml ? (
-        <ReactMarkdownWithHtml
-          renderers={{ link: MarkdownLink }}
-          allowDangerousHtml
-        >
-          {markdown}
-        </ReactMarkdownWithHtml>
-      ) : (
-        <ReactMarkdown
-          renderers={{ link: MarkdownLink }}
-        >
-          {markdown}
-        </ReactMarkdown>
-      )}
+      {content}
     </div>
   )
 }
 
 MarkdownText.propTypes = {
   markdown: PropTypes.string.isRequired,
-  allowHtml: PropTypes.bool,
+  skipTextBlock: PropTypes.bool,
+  disallowedTypes: PropTypes.array,
+  allowedElements: PropTypes.array,
+  unwrapDisallowed: PropTypes.bool,
+  components: PropTypes.object,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
 MarkdownText.defaultProps = {
-  allowHtml: false,
+  skipTextBlock: false,
+  disallowedTypes: undefined,
+  allowedElements: undefined,
+  unwrapDisallowed: false,
+  components: null,
   className: '',
   style: null,
 }
 
-export default MarkdownText
+export default React.memo(MarkdownText)

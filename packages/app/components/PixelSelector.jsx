@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 
 import useAsyncEffect from 'use-async-effect'
 
+import useIsMounted from '@/hooks/useIsMounted'
+
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
 import PixelCopier from '@/app/PixelCopier'
 
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useCreateNewPixel from '@/app/hooks/useCreateNewPixel'
 
@@ -43,10 +45,11 @@ const PixelSelector = ({
 
   // LOAD AVAILABLE PIXELS
   const [availablePixels, setAvailablePixels] = React.useState([])
-  useAsyncEffect(async (isMounted) => {
+  const isMounted = useIsMounted()
+  useAsyncEffect(async () => {
     if (!artistId) return
     const { res: pixels = [], error } = await getArtistPixels(artistId)
-    if (!isMounted()) return
+    if (!isMounted) return
     setLoading(false)
     if (error) {
       const errorUpdated = { message: `Failed to fetch pixels: ${error.message}` }
@@ -94,14 +97,10 @@ const PixelSelector = ({
     // Reset error
     setError(null)
     // Track
-    track({
-      action: 'change_pixel',
-      category: 'pixel',
-      mixpanelProps: {
-        location: trackLocation,
-        pixelId,
-        ...(pixelId === disabledPixelId && { disabled: true }),
-      },
+    track('change_pixel', {
+      location: trackLocation,
+      pixelId,
+      ...(pixelId === disabledPixelId && { disabled: true }),
     })
   }, [artistId, onSelect, onError, onSuccess, setArtist, trackLocation])
 
@@ -115,13 +114,9 @@ const PixelSelector = ({
     // Set pixel on server
     selectPixel(id)
     // Track
-    track({
-      action: 'add_new_pixel',
-      category: 'pixel',
-      mixpanelProps: {
-        location: trackLocation,
-        pixelId: id,
-      },
+    track('add_new_pixel', {
+      location: trackLocation,
+      pixelId: id,
     })
   }
 

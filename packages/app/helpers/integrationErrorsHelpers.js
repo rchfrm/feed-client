@@ -2,6 +2,7 @@ import produce from 'immer'
 
 import copy from '@/app/copy/integrationErrorsCopy'
 
+import { sortArrayByKey } from '@/helpers/utils'
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
 export const testForMissingPages = (scopes) => {
@@ -57,7 +58,7 @@ export const getErrorResponse = (error, artist) => {
       message: copy.ad_account_closed(facebookIntegration),
       action: 'link',
       buttonText: 'Email us',
-      href: 'mailto:help@getfed.app?subject=New ad account, old one closed',
+      href: 'mailto:help@tryfeed.co?subject=New ad account, old one closed',
       code,
     }
   }
@@ -182,9 +183,6 @@ export const formatErrors = (errors) => {
   // Remove instagram busine
   const errorsFiltered = handleInstaErrors(formattedErrors)
   // Sort error by priority
-  const sortedErrors = errorsFiltered.sort((a, b) => {
-    return a.priority - b.priority
-  })
-
+  const sortedErrors = sortArrayByKey(errorsFiltered, 'priority')
   return sortedErrors
 }

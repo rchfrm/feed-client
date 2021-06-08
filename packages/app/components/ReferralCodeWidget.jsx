@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import CopyTextButton from '@/elements/CopyTextButton'
 import MarkdownText from '@/elements/MarkdownText'
 
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import copy from '@/app/copy/referralCodeCopy'
 import { track } from '@/app/helpers/trackingHelpers'
@@ -31,10 +31,8 @@ const ReferralCodeWidget = ({
         label={label}
         size="large"
         onCopied={() => {
-          track({
-            action: 'share_referral_code',
-            category: 'account',
-            label: 'clipboard',
+          track('share_referral_code', {
+            shareType: 'clipboard',
           })
         }}
         className={[

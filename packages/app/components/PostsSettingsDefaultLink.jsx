@@ -5,9 +5,10 @@ import PostLinksSelect from '@/app/PostLinksSelect'
 
 import { track } from '@/app/helpers/trackingHelpers'
 
-import useLinksStore from '@/app/store/linksStore'
+import useLinksStore from '@/app/stores/linksStore'
 
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
+import { parseUrl } from '@/helpers/utils'
 
 const PostsSettingsDefaultLink = ({
   defaultLink,
@@ -19,25 +20,17 @@ const PostsSettingsDefaultLink = ({
   const hasDefaultLink = !!defaultLinkId
 
   const onSuccess = React.useCallback((newArtist) => {
-    // TRACK
-    if (!hasDefaultLink) {
-      track({
-        action: 'set_default_link',
-        category: 'links',
-      })
-    } else {
-      track({
-        action: 'change_default_link',
-        category: 'links',
-      })
-    }
     // UPDATE STORE
-    updateLinksStore('updateDefault', { newArtist })
+    const newDefaultLink = updateLinksStore('chooseNewDefaultLink', { newArtist })
     // Update artist status
     const { preferences: { posts: { default_link_id } } } = newArtist
     setPostPreferences('default_link_id', default_link_id)
+    // TRACK
+    const { host: linkDomain } = parseUrl(newDefaultLink.href)
+    track('set_default_link', { linkDomain })
   // eslint-disable-next-line
   }, [updateLinksStore, setPostPreferences, defaultLink])
+
   return (
     <div
       className={[

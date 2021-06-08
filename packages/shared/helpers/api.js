@@ -1,8 +1,9 @@
 import axios from 'axios'
-import firebase from '@/helpers/firebase'
-import host from '@/helpers/host'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
+
+const host = process.env.react_app_api_url
 
 const axiosInstance = axios.create()
 
@@ -77,7 +78,7 @@ export async function request(method, path, options, token) {
       throw new Error('token must be a string')
     }
   } else if (token !== false) {
-    token = await firebase.getIdTokenOrFail()
+    token = await firebaseHelpers.getIdTokenOrFail()
   }
 
   let url = path.match(/^(?:https?:)?\/\//)
@@ -152,6 +153,16 @@ export function post(path, data, token) {
   return request('POST', path, options, token || tokenAlt)
 }
 
+/**
+ * @param {string} path
+ * @param {object|string|false} data
+ * @param {string|false} [token]
+ * @returns {Promise<any>}
+ */
+export function deleteRequest(path, data, token) {
+  const { options, tokenAlt } = getOptionsAndToken(data, 'data', token)
+  return request('DELETE', path, options, token || tokenAlt)
+}
 
 
 
@@ -168,7 +179,7 @@ export function post(path, data, token) {
 export const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
   if (!requestType) return console.error('Please include a request type')
   if (!url) return console.error('Please include a url')
-  const requestTypes = { get, patch, post }
+  const requestTypes = { get, patch, post, delete: deleteRequest }
   const res = await requestTypes[requestType](url, payload, token)
     .catch((error) => { return { error } })
   if (res.error) {
@@ -180,11 +191,11 @@ export const requestWithCatch = async (requestType, url, payload = null, trackEr
       const { category, action, ignoreErrorCodes = [] } = trackError
       // Ignore error codes
       if (!ignoreErrorCodes.includes(code || message)) {
-        track({
+        // Sentry error
+        fireSentryError({
           category,
           action,
           description: message,
-          error: true,
         })
       }
     }

@@ -3,16 +3,20 @@ import Router from 'next/router'
 
 import { useImmerReducer } from 'use-immer'
 
-import { AuthContext } from '@/contexts/AuthContext'
-import { UserContext } from '@/contexts/UserContext'
+import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+
+import useSignup from '@/app/hooks/useSignup'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
-import { track, trackSignUp } from '@/app/helpers/trackingHelpers'
+
+import { trackSignUp } from '@/app/helpers/trackingHelpers'
+
+import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -43,7 +47,6 @@ const SignupEmailForm = () => {
   // Define component state
   const [error, setError] = React.useState(null)
   // Get contexts
-  const { signUp } = React.useContext(AuthContext)
   const { runCreateUser } = React.useContext(UserContext)
   // GLOBAL LOADING
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -119,6 +122,9 @@ const SignupEmailForm = () => {
     })
   }, [signupDetails, hasEmailError, passwordStatus.error, passwordStatus.success])
 
+  // GET SIGNUP FUNCTION
+  const { signupWithEmail } = useSignup()
+
   // * HANDLE FORM SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -126,49 +132,44 @@ const SignupEmailForm = () => {
     if (!formComplete) return
     const { email, passwordOne, firstName, lastName } = signupDetails
     toggleGlobalLoading(true)
-
-    track({
+    fireSentryBreadcrumb({
       category: 'sign up',
       action: 'submit sign up form',
-      label: email,
-      breadcrumb: true,
-      ga: false,
     })
 
-    const signupRes = await signUp(email, passwordOne)
+    const signupRes = await signupWithEmail(email, passwordOne)
       .catch((error) => {
         setError(error)
         scrollTop()
         toggleGlobalLoading(false)
-        track({
+        // Sentry error
+        fireSentryError({
           category: 'sign up',
-          action: 'signUp() with email failed',
+          action: 'useSignup.signupWithEmail() with email failed',
           description: error.message,
           label: email,
-          error: true,
         })
       })
     if (!signupRes) return
     // Create user on server
-    const user = await runCreateUser({
+    const { res: user, error } = await runCreateUser({
       firstName,
       lastName,
     })
-      .catch((error) => {
-        setError(error)
-        scrollTop()
-        toggleGlobalLoading(false)
-        track({
-          category: 'sign up',
-          action: 'createUser() with password failed',
-          description: error.message,
-          label: email,
-          error: true,
-        })
+    if (error) {
+      setError(error)
+      scrollTop()
+      toggleGlobalLoading(false)
+      // Sentry error
+      fireSentryError({
+        category: 'sign up',
+        action: 'createUser() with password failed',
+        description: error.message,
+        label: email,
       })
-    if (!user) return
-    trackSignUp({ method: 'password', userId: user.id })
-    Router.push(ROUTES.SIGN_UP_CONTINUE)
+    }
+    trackSignUp({ authProvider: 'password', userId: user.id })
+    Router.push(ROUTES.CONFIRM_EMAIL)
   }
 
   return (

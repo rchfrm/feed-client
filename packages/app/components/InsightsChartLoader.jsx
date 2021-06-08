@@ -5,7 +5,7 @@ import { useAsync } from 'react-async'
 import moment from 'moment'
 // IMPORT COMPONENTS
 // IMPORT CONTEXTS
-import { ArtistContext } from '@/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
