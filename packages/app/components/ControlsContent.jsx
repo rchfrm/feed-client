@@ -8,7 +8,7 @@ const ControlsContent = ({ activeSlug }) => {
   return (
     <div className="md:grid grid-cols-12 gap-4">
       <ControlsContentOptions
-        className="col-span-5"
+        className="col-span-6"
       />
     </div>
   )

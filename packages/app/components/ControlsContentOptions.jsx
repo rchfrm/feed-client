@@ -18,19 +18,24 @@ const ControlsContentOptions = ({ className }) => {
         if (option.hidden) return null
         const { key, title, description } = option
         const isActive = key === activeOptionKey
-        console.log(isActive)
         return (
           <a
             key={key}
             role="button"
             className={[
-              'flex no-underline',
+              'flex items-center no-underline',
               'py-4',
               'border-solid border-green border-b-2',
             ].join(' ')}
             onClick={() => setActiveOptionKey(key)}
           >
             {/* TITLE */}
+            <div className={[
+              'w-8 h-8',
+              'mr-4',
+              'rounded-full',
+              isActive ? 'bg-green' : 'bg-grey-1'].join(' ')}
+            />
             <div>
               <p className="font-bold mb-2">{title}</p>
               <p className="mb-0">{description}</p>
