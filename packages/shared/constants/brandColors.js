@@ -5,6 +5,7 @@ const purple = '#CC7CFD'
 const yellow = '#FDE74C'
 const blue = '#5BC0EB'
 const red = '#FA5450'
+const redLight = '#E75A7C'
 const greyLight = '#E7E9E8'
 const grey = '#C8CBCA'
 const greyDark = '#7F8382'
@@ -18,6 +19,7 @@ const brandColors = {
   yellow,
   blue,
   red,
+  redLight,
   greyLight,
   grey,
   greyDark,

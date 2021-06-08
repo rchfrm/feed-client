@@ -16,6 +16,9 @@ import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
 
+// To parse cases like {{ this }} and {{{ this }}}
+const RE_TEMPLATE = /\{?\{\{\s([a-z0-9_]+)\s\}\}\}?/g
+
 // * DICTIONARY
 // ------------
 
@@ -40,8 +43,7 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
   if (entityType === 'organizations') return apiEndpoint.replace('${organization.id}', entityId)
 }
 
-const getLinkAction = (ctaLink, trackingPayload) => {
-  const linkType = getLinkType(ctaLink)
+const getLinkAction = (ctaLink, linkType, trackingPayload) => {
   // INTERNAL
   if (linkType === 'internal') {
     return () => Router.push(ctaLink)
@@ -76,6 +78,7 @@ const getFbRelinkAction = (hasFbAuth, missingScopes) => {
  */
 export const getAction = ({
   ctaLink,
+  linkType,
   apiMethod,
   apiEndpoint,
   entityType,
@@ -92,11 +95,12 @@ export const getAction = ({
   if (topic === 'facebook-expired-access-token') {
     return () => getFbRelinkAction(hasFbAuth, missingScopes)
   }
+
   // Handle no method or link
   if (!apiEndpoint && !ctaLink) return () => {}
   // Handle link
   if (ctaLink) {
-    return getLinkAction(ctaLink, {
+    return getLinkAction(ctaLink, linkType, {
       title,
       topic,
       isDismissible,
@@ -125,6 +129,41 @@ export const getAction = ({
   }
 }
 
+const getKeysAndSubstringsFromTemplate = (template) => {
+  const keys = {}
+  const result = []
+
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const match = RE_TEMPLATE.exec(template)
+    if (!match) {
+      break
+    }
+
+    const [substring, key] = match
+
+    if (key in keys) {
+      continue
+    }
+
+    result.push({ key, substring })
+    keys[key] = true
+  }
+
+  return result
+}
+
+const formatNotificationText = (text, data) => {
+  const keysAndSubstrings = getKeysAndSubstringsFromTemplate(text)
+
+  keysAndSubstrings.forEach(({ key, substring }) => {
+    // Replace all entries of '{{ profile_name }}' with data['profile_name']
+    text = text.replace(RegExp(substring, 'g'), data[key])
+  })
+
+  return text
+}
+
 // * FETCHING FROM SERVER
 // -----------------------
 
@@ -150,7 +189,6 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     // - if not in dictionary
     // - if hidden in Dato
     // - if complete
-    if (!dictionaryEntry || dictionaryEntry.hide || isComplete) return allNotifications
     // Just add notification if already formatted
     if (formatted || !dictionaryEntry) {
       return [...allNotifications, notification]
@@ -169,9 +207,11 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     const date = moment(created_at).format('DD MMM')
     const dateLong = moment(created_at).format('DD MMM YY')
     const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
+    const linkType = ctaLink ? getLinkType(ctaLink) : null
     // Get Action function
     const onAction = isActionable ? getAction({
       ctaLink,
+      linkType,
       apiMethod,
       apiEndpoint,
       entityType,
@@ -194,10 +234,11 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       date,
       dateLong,
       title,
-      summary,
-      description,
+      summary: formatNotificationText(summary, data),
+      description: formatNotificationText(description, data),
       ctaText: ctaText || ctaFallback,
       buttonType,
+      linkType,
       isActionable,
       isDismissible,
       hidden: hide || isComplete,
