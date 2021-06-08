@@ -1,17 +1,17 @@
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
-import ReferralCodeContent from '@/app/ReferralCodeContent'
+import BillingContent from '@/app/BillingContent'
 
 const headerConfig = {
-  text: 'my referral code',
+  text: 'billing',
 }
 
 const Page = () => (
   <BasePage
     headerConfig={headerConfig}
-    staticPage
+    artistRequired
   >
-    <ReferralCodeContent />
+    <BillingContent />
   </BasePage>
 )
 

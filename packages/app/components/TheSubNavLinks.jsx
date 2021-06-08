@@ -14,7 +14,7 @@ import styles from '@/app/TheSubNav.module.css'
 import * as ROUTES from '@/app/constants/routes'
 
 
-const { ACCOUNT, MYREFERRAL, PRICING, FAQ, NOTIFICATIONS } = ROUTES
+const { ACCOUNT, MYREFERRAL, PRICING, FAQ, NOTIFICATIONS, BILLING } = ROUTES
 const termsLink = 'https://tryfeed.co/legal/terms-of-service'
 const links = [
   {
@@ -28,6 +28,10 @@ const links = [
   {
     href: NOTIFICATIONS,
     title: 'notifications',
+  },
+  {
+    href: BILLING,
+    title: 'billing',
   },
   {
     href: FAQ,

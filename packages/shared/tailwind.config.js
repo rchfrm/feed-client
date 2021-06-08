@@ -15,6 +15,7 @@ module.exports = (purgeFiles) => ({
     fontFamily: {
       display: ['SpaceGrotesk', 'sans-serif'],
       body: ['Inter', 'serif'],
+      mono: ['monospace'],
     },
     borderRadius: {
       none: '0',
@@ -31,6 +32,7 @@ module.exports = (purgeFiles) => ({
         black: '#0D1311',
         green: '#03D8B2',
         red: '#FA5450',
+        redLight: '#E75A7C',
         yellow: '#FDE74C',
         blue: '#5BC0EB',
         purple: '#CC7CFD',

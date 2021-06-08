@@ -27,6 +27,7 @@ export const RESULTS = '/results'
 export const TOURNAMENTS = '/results/tournaments'
 export const NOTIFICATIONS = '/notifications'
 export const TARGETING = '/targeting'
+export const BILLING = '/billing'
 
 export const HOME = POSTS
 
