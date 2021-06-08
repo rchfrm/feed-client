@@ -14,6 +14,9 @@ const PostCardHeader = ({
   postType,
   postId,
   artistId,
+  priorityEnabled,
+  updatePost,
+  postIndex,
   className,
 }) => {
   const publishedDate = moment(date).format('DD MMM')
@@ -41,7 +44,9 @@ const PostCardHeader = ({
       <PostCardPriorityButton
         postId={postId}
         artistId={artistId}
-        priorityEnabled
+        priorityEnabled={priorityEnabled}
+        updatePost={updatePost}
+        postIndex={postIndex}
       />
     </div>
   )
@@ -53,6 +58,9 @@ PostCardHeader.propTypes = {
   postType: PropTypes.string.isRequired,
   postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
+  priorityEnabled: PropTypes.bool.isRequired,
+  updatePost: PropTypes.func.isRequired,
+  postIndex: PropTypes.number.isRequired,
   className: PropTypes.string,
 }
 

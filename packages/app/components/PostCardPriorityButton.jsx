@@ -14,6 +14,8 @@ const PostCardPriorityButton = ({
   postId,
   artistId,
   priorityEnabled,
+  updatePost,
+  postIndex,
 }) => {
   // Store INTERNAL STATE based on priorityEnabled
   const [currentState, setCurrentState] = React.useState(priorityEnabled)
@@ -25,16 +27,15 @@ const PostCardPriorityButton = ({
   }, [priorityEnabled])
 
   const handlePostPriority = async () => {
-    const { res: updatedPost, error } = await postsHelpers.updatePostPriority({ artistId, assetId: postId, priorityEnabled })
+    const { res: updatedPost, error } = await postsHelpers.setPostPriority({ artistId, assetId: postId, priorityEnabled })
     // Return early if erroring
     if (error) {
       return
     }
-    setCurrentState(!currentState)
     // Update post list state
     const { priority_enabled } = updatedPost
-    // Call parent function to update posts store state
-    console.log(priority_enabled)
+    const payload = { postIndex, priorityEnabled: priority_enabled }
+    updatePost('toggle-priority', payload)
   }
 
   return (
@@ -72,6 +73,8 @@ PostCardPriorityButton.propTypes = {
   priorityEnabled: PropTypes.bool.isRequired,
   postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
+  updatePost: PropTypes.func.isRequired,
+  postIndex: PropTypes.number.isRequired,
 }
 
 PostCardPriorityButton.defaultProps = {

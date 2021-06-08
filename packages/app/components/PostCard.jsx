@@ -39,6 +39,9 @@ const PostCard = ({
         postType={postType}
         postId={post.id}
         artistId={artistId}
+        priorityEnabled={post.priorityEnabled}
+        updatePost={updatePost}
+        postIndex={postIndex}
         className="mb-2"
       />
       <PostCardMedia

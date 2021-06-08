@@ -184,6 +184,7 @@ export const formatPostsResponse = (posts) => {
       linkId,
       linkHref,
       linkType,
+      priorityEnabled: post.priority_enabled,
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
@@ -272,12 +273,13 @@ export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
 }
 
 // UPDATE POST PRIORITY
-export const updatePostPriority = ({ artistId, assetId, priorityEnabled }) => {
-  const endpoint = `/artists/${artistId}/assets/${assetId}`
-  const payload = { priority_enabled: priorityEnabled }
+export const setPostPriority = ({ artistId, assetId, priorityEnabled }) => {
+  const action = priorityEnabled ? 'deprioritize' : 'prioritize'
+  const endpoint = `/artists/${artistId}/assets/${assetId}/${action}`
+  const payload = null
   const errorTracking = {
     category: 'Post priority',
-    action: 'Toggle priority enabled',
+    action: `${utils.capitalise(action)} post`,
   }
-  return requestWithCatch('patch', endpoint, payload, errorTracking)
+  return requestWithCatch('post', endpoint, payload, errorTracking)
 }
