@@ -2,18 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ControlsTargeting from '@/app/ControlsTargeting'
+import ControlsConversions from '@/app/ControlsConversions'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-const SettingsComponent = {
+const ControlsComponent = {
   targeting: <ControlsTargeting />,
   links: <h2>Links</h2>,
   integrations: <h2>Integrations</h2>,
   ads: <h2>Ads</h2>,
-  conversions: <h2>Conversions</h2>,
+  conversions: <ControlsConversions />,
 }
 
-const ControlsSettingsLoader = ({ activeSlug, className }) => {
+const ControlsContentView = ({ activeSlug, className }) => {
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   // TURN OFF GLOBAL LOADING
@@ -23,18 +24,18 @@ const ControlsSettingsLoader = ({ activeSlug, className }) => {
 
   return (
     <div className={className}>
-      {SettingsComponent[activeSlug]}
+      {ControlsComponent[activeSlug]}
     </div>
   )
 }
 
-ControlsSettingsLoader.propTypes = {
+ControlsContentView.propTypes = {
   activeSlug: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
-ControlsSettingsLoader.defaultProps = {
+ControlsContentView.defaultProps = {
   className: '',
 }
 
-export default ControlsSettingsLoader
+export default ControlsContentView

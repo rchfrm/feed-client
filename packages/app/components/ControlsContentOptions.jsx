@@ -8,6 +8,15 @@ const { controlsOptions } = copy
 
 const ControlsContentOptions = ({ className, activeSlug }) => {
   const [activeOptionKey, setActiveOptionKey] = React.useState(activeSlug)
+
+  const goToSpecificSetting = (key) => {
+    setActiveOptionKey(key)
+    Router.push({
+      pathname: '/controls/[slug]',
+      query: { slug: key },
+    })
+  }
+
   return (
     <div
       className={[
@@ -28,13 +37,7 @@ const ControlsContentOptions = ({ className, activeSlug }) => {
               'py-4',
               'border-solid border-green border-b-2',
             ].join(' ')}
-            onClick={() => {
-              setActiveOptionKey(key)
-              Router.push({
-                pathname: '/controls/[slug]',
-                query: { slug: key },
-              })
-            }}
+            onClick={() => goToSpecificSetting(key)}
           >
             {/* TITLE */}
             <div className={[

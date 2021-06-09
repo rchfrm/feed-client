@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ControlsContentOptions from '@/app/ControlsContentOptions'
-import ControlsSettingsLoader from '@/app/ControlsSettingsLoader'
+import ControlsContentView from '@/app/ControlsContentView'
 
 const ControlsContent = ({ activeSlug }) => {
   return (
@@ -13,7 +13,7 @@ const ControlsContent = ({ activeSlug }) => {
         className="col-span-6 col-start-1"
       />
       {/* SETTINGS VIEW */}
-      <ControlsSettingsLoader
+      <ControlsContentView
         activeSlug={activeSlug}
         className="col-span-6 col-start-7"
       />
