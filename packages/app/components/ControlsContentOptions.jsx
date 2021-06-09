@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
 import copy from '@/app/copy/controlsPageCopy'
 
 const { controlsOptions } = copy
 
-const ControlsContentOptions = ({ className }) => {
-  const [activeOptionKey, setActiveOptionKey] = React.useState(controlsOptions[0].key)
+const ControlsContentOptions = ({ className, activeSlug }) => {
+  const [activeOptionKey, setActiveOptionKey] = React.useState(activeSlug)
   return (
     <div
       className={[
@@ -27,7 +28,13 @@ const ControlsContentOptions = ({ className }) => {
               'py-4',
               'border-solid border-green border-b-2',
             ].join(' ')}
-            onClick={() => setActiveOptionKey(key)}
+            onClick={() => {
+              setActiveOptionKey(key)
+              Router.push({
+                pathname: '/controls/[slug]',
+                query: { slug: key },
+              })
+            }}
           >
             {/* TITLE */}
             <div className={[
@@ -49,6 +56,7 @@ const ControlsContentOptions = ({ className }) => {
 
 ControlsContentOptions.propTypes = {
   className: PropTypes.string,
+  activeSlug: PropTypes.string.isRequired,
 }
 
 ControlsContentOptions.defaultProps = {

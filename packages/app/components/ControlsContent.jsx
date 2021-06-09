@@ -2,13 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ControlsContentOptions from '@/app/ControlsContentOptions'
+import ControlsSettingsLoader from '@/app/ControlsSettingsLoader'
 
 const ControlsContent = ({ activeSlug }) => {
-  console.log('activeSlug', activeSlug)
   return (
-    <div className="md:grid grid-cols-12 gap-4">
+    <div className="md:grid grid-cols-12 gap-8">
+      {/* SETTINGS MENU */}
       <ControlsContentOptions
-        className="col-span-6"
+        activeSlug={activeSlug}
+        className="col-span-6 col-start-1"
+      />
+      {/* SETTINGS VIEW */}
+      <ControlsSettingsLoader
+        activeSlug={activeSlug}
+        className="col-span-6 col-start-7"
       />
     </div>
   )
@@ -19,8 +26,7 @@ ControlsContent.propTypes = {
 }
 
 ControlsContent.defaultProps = {
-  activeSlug: '',
+  activeSlug: 'targeting',
 }
-
 
 export default ControlsContent
