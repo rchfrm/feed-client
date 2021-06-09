@@ -44,7 +44,7 @@ const ControlsContentOptions = ({ className, activeSlug }) => {
               'w-8 h-8',
               'mr-4',
               'rounded-full',
-              isActive ? 'bg-green' : 'bg-grey-1'].join(' ')}
+              isActive ? 'bg-green' : 'bg-grey-2'].join(' ')}
             />
             <div>
               <p className="font-bold mb-2">{title}</p>

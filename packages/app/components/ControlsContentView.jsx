@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ControlsTargeting from '@/app/ControlsTargeting'
 import ControlsConversions from '@/app/ControlsConversions'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 const ControlsComponent = {
-  targeting: <ControlsTargeting />,
+  targeting: <h2>Targeting</h2>,
   links: <h2>Links</h2>,
   integrations: <h2>Integrations</h2>,
   ads: <h2>Ads</h2>,
@@ -20,7 +19,7 @@ const ControlsContentView = ({ activeSlug, className }) => {
   // TURN OFF GLOBAL LOADING
   React.useEffect(() => {
     toggleGlobalLoading(false)
-  }, [toggleGlobalLoading, activeSlug])
+  }, [activeSlug, toggleGlobalLoading])
 
   return (
     <div className={className}>
