@@ -19,7 +19,7 @@ const links = [
     icon: 'posts',
   },
   {
-    href: ROUTES.CONTROLS,
+    href: ROUTES.CONTROLS_TARGETING,
     title: 'controls',
     icon: 'controls',
   },
