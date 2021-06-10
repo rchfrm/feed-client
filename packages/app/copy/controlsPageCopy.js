@@ -29,4 +29,7 @@ export default {
       hidden: false,
     },
   ],
+  conversionsTitle: '## Conversions Defaults',
+  conversionsDescription: `These are the settings used as defaults for Conversion audiences.
+Each post can override these settings.`,
 }
