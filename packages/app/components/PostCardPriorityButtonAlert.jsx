@@ -11,11 +11,13 @@ const PostCardPriorityButtonAlert = ({
   show,
   onAlertConfirm,
   onCancel,
+  isPostPrioritized,
+  isPostArchived,
 }) => {
   // Define alert contents
   const alertContents = React.useMemo(() => {
-    return <MarkdownText markdown={copy.confirmPrioritisePost} className="mb-0" />
-  }, [])
+    return <MarkdownText markdown={copy.confirmPrioritisePost(isPostPrioritized, isPostArchived)} className="mb-0" />
+  }, [isPostPrioritized, isPostArchived])
 
   // SHOW ALERT
   const { showAlert, closeAlert } = useAlertModal()
@@ -57,6 +59,8 @@ PostCardPriorityButtonAlert.propTypes = {
   show: PropTypes.bool.isRequired,
   onAlertConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  isPostPrioritized: PropTypes.bool.isRequired,
+  isPostArchived: PropTypes.bool.isRequired,
 }
 
 PostCardPriorityButtonAlert.defaultProps = {

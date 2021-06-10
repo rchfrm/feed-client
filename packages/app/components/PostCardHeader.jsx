@@ -18,6 +18,7 @@ const PostCardHeader = ({
   updatePost,
   postIndex,
   className,
+  promotionStatus,
 }) => {
   const publishedDate = moment(date).format('DD MMM')
   return (
@@ -47,6 +48,7 @@ const PostCardHeader = ({
         priorityEnabled={priorityEnabled}
         updatePost={updatePost}
         postIndex={postIndex}
+        promotionStatus={promotionStatus}
       />
     </div>
   )
@@ -61,6 +63,7 @@ PostCardHeader.propTypes = {
   priorityEnabled: PropTypes.bool.isRequired,
   updatePost: PropTypes.func.isRequired,
   postIndex: PropTypes.number.isRequired,
+  promotionStatus: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 

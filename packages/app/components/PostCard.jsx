@@ -42,6 +42,7 @@ const PostCard = ({
         priorityEnabled={post.priorityEnabled}
         updatePost={updatePost}
         postIndex={postIndex}
+        promotionStatus={promotionStatus}
         className="mb-2"
       />
       <PostCardMedia

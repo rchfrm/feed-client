@@ -203,9 +203,27 @@ If so, we're looking for people to join our trials for this feature and work wit
 
 [Fill in this form](https://docs.google.com/forms/d/e/1FAIpQLSd4PRRgbyFc0jVYODiBMvX-e24XzFf93QhFhv5CAoGoaeIM2g/viewform) and we'll be in touch.`,
 
-  confirmPrioritisePost: `**Promote this post immediately**
+  confirmPrioritisePost: (isPrioritized, isArchived) => {
+    if (isPrioritized) {
+      return `**Remove priority status from this post?**
 
-Marking this post a priority will cause Feed to turn it into an ad straight away. Once approved, some ads that are currently running might get turned off.
+This post may stop running if outperformed by a non-priority post.
 
-Would you like to continue?`,
+Would you like to continue?`
+    }
+
+    if (isArchived) {
+      return `**Make this a priority post?**
+
+Feed will run this post again straight away. Once it has been approved, some ads that are currently running might get turned off.
+
+Would you like to continue?`
+    }
+
+    return `**Make this a priority post?**
+
+Feed will turn this post into an ad straight away. Once it has been approved, some ads that are currently running might get turned off.
+
+Would you like to continue?`
+  },
 }

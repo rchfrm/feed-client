@@ -16,10 +16,12 @@ const PostCardPriorityButton = ({
   priorityEnabled,
   updatePost,
   postIndex,
+  promotionStatus,
 }) => {
   // Store INTERNAL STATE based on priorityEnabled
   const [currentState, setCurrentState] = React.useState(priorityEnabled)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+  const isPostArchived = promotionStatus === 'archived'
 
   // Update internal state when outside state changes
   React.useEffect(() => {
@@ -64,6 +66,8 @@ const PostCardPriorityButton = ({
         onCancel={() => {
           setShouldShowAlert(false)
         }}
+        isPostPrioritized={currentState}
+        isPostArchived={isPostArchived}
       />
     </div>
   )
@@ -75,6 +79,7 @@ PostCardPriorityButton.propTypes = {
   artistId: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   postIndex: PropTypes.number.isRequired,
+  promotionStatus: PropTypes.string.isRequired,
 }
 
 PostCardPriorityButton.defaultProps = {
