@@ -203,7 +203,7 @@ If so, we're looking for people to join our trials for this feature and work wit
 
 [Fill in this form](https://docs.google.com/forms/d/e/1FAIpQLSd4PRRgbyFc0jVYODiBMvX-e24XzFf93QhFhv5CAoGoaeIM2g/viewform) and we'll be in touch.`,
 
-  confirmPrioritisePost: (isPrioritized, isArchived) => {
+  confirmPrioritizePost: (isPrioritized, isArchived) => {
     if (isPrioritized) {
       return `**Remove priority status from this post?**
 
@@ -226,4 +226,8 @@ Feed will turn this post into an ad straight away. Once it has been approved, so
 
 Would you like to continue?`
   },
+  prioritizeTooltipSlides: [
+    'By marking this post as a priority post, you can start it running straight away (unless two priority posts are already running).',
+    'You can remove priority status from the post or stop it running at any time.',
+  ],
 }

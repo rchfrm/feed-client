@@ -7,6 +7,8 @@ import TooltipButton from '@/elements/TooltipButton'
 
 import ChevronDoubleUpIcon from '@/icons/ChevronDoubleUpIcon'
 
+import copy from '@/app/copy/PostsPageCopy'
+
 import brandColors from '@/constants/brandColors'
 import PostCardPriorityButtonAlert from '@/app/PostCardPriorityButtonAlert'
 
@@ -22,6 +24,7 @@ const PostCardPriorityButton = ({
   const [currentState, setCurrentState] = React.useState(priorityEnabled)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   const isPostArchived = promotionStatus === 'archived'
+  const slides = copy.prioritizeTooltipSlides
 
   // Update internal state when outside state changes
   React.useEffect(() => {
@@ -44,7 +47,7 @@ const PostCardPriorityButton = ({
     <div className="flex items-center ml-2">
       <TooltipButton
         buttonClasses="-my-2 -mr-1"
-        slides={['Some explanation about prioritising posts']}
+        slides={slides}
       />
       {/* PRIORITY BUTTON */}
       <a

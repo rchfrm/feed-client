@@ -16,7 +16,7 @@ const PostCardPriorityButtonAlert = ({
 }) => {
   // Define alert contents
   const alertContents = React.useMemo(() => {
-    return <MarkdownText markdown={copy.confirmPrioritisePost(isPostPrioritized, isPostArchived)} className="mb-0" />
+    return <MarkdownText markdown={copy.confirmPrioritizePost(isPostPrioritized, isPostArchived)} className="mb-0" />
   }, [isPostPrioritized, isPostArchived])
 
   // SHOW ALERT
