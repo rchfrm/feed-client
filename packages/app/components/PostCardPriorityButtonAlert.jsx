@@ -7,7 +7,7 @@ import useAlertModal from '@/hooks/useAlertModal'
 
 import copy from '@/app/copy/PostsPageCopy'
 
-const PostCardConfirmPriorityAlert = ({
+const PostCardPriorityButtonAlert = ({
   show,
   onAlertConfirm,
   onCancel,
@@ -53,13 +53,13 @@ const PostCardConfirmPriorityAlert = ({
   return null
 }
 
-PostCardConfirmPriorityAlert.propTypes = {
+PostCardPriorityButtonAlert.propTypes = {
   show: PropTypes.bool.isRequired,
   onAlertConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 }
 
-PostCardConfirmPriorityAlert.defaultProps = {
+PostCardPriorityButtonAlert.defaultProps = {
 }
 
-export default PostCardConfirmPriorityAlert
+export default PostCardPriorityButtonAlert

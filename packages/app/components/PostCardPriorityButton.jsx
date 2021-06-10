@@ -8,7 +8,7 @@ import TooltipButton from '@/elements/TooltipButton'
 import ChevronDoubleUpIcon from '@/icons/ChevronDoubleUpIcon'
 
 import brandColors from '@/constants/brandColors'
-import PostCardConfirmPriorityAlert from '@/app/PostCardConfirmPriorityAlert'
+import PostCardPriorityButtonAlert from '@/app/PostCardPriorityButtonAlert'
 
 const PostCardPriorityButton = ({
   postId,
@@ -58,7 +58,7 @@ const PostCardPriorityButton = ({
         />
       </a>
       {/* ALERT */}
-      <PostCardConfirmPriorityAlert
+      <PostCardPriorityButtonAlert
         show={shouldShowAlert}
         onAlertConfirm={handlePostPriority}
         onCancel={() => {
