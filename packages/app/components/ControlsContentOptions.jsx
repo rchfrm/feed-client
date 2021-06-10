@@ -4,10 +4,13 @@ import Router from 'next/router'
 
 import copy from '@/app/copy/controlsPageCopy'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 const { controlsOptions } = copy
 
 const ControlsContentOptions = ({ className, activeSlug }) => {
   const [activeOptionKey, setActiveOptionKey] = React.useState(activeSlug)
+  const isDesktopLayout = useBreakpointTest('md')
 
   const goToSpecificSetting = (key) => {
     setActiveOptionKey(key)
@@ -15,6 +18,11 @@ const ControlsContentOptions = ({ className, activeSlug }) => {
       pathname: '/controls/[slug]',
       query: { slug: key },
     })
+
+    // Open content in side-panel if mobile
+    if (!isDesktopLayout) {
+      console.log('open side-panel')
+    }
   }
 
   return (
