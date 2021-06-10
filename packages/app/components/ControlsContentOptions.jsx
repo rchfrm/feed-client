@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import copy from '@/app/copy/controlsPageCopy'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
@@ -11,6 +13,8 @@ const { controlsOptions } = copy
 const ControlsContentOptions = ({ className, activeSlug }) => {
   const [activeOptionKey, setActiveOptionKey] = React.useState(activeSlug)
   const isDesktopLayout = useBreakpointTest('md')
+
+  const { artist: { conversions_enabled: conversionsEnabled } } = React.useContext(ArtistContext)
 
   const goToSpecificSetting = (key) => {
     setActiveOptionKey(key)
@@ -33,7 +37,7 @@ const ControlsContentOptions = ({ className, activeSlug }) => {
       ].join(' ')}
     >
       {controlsOptions.map((option) => {
-        if (option.hidden) return null
+        if (option.key === 'conversions' && !conversionsEnabled) return null
         const { key, title, description } = option
         const isActive = key === activeOptionKey
         return (
