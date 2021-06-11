@@ -55,6 +55,7 @@ const ControlsContentOptions = ({ className, activeSlug }) => {
             <div className={[
               'w-8 h-8',
               'mr-4',
+              'flex-shrink-0',
               'rounded-full',
               isActive ? 'bg-green' : 'bg-grey-2'].join(' ')}
             />
