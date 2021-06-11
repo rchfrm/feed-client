@@ -26,7 +26,6 @@ export default {
       key: 'conversions',
       title: 'Conversion Defaults',
       description: 'Settings specific to conversion campaigns.',
-      hidden: false,
     },
   ],
 }
