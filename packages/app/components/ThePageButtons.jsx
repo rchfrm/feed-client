@@ -22,6 +22,7 @@ const links = [
     href: ROUTES.CONTROLS_TARGETING,
     title: 'controls',
     icon: 'controls',
+    matchingHrefs: ROUTES.controlsPages,
   },
   {
     href: ROUTES.RESULTS,
