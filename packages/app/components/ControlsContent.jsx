@@ -28,10 +28,11 @@ const ControlsContent = ({ activeSlug }) => {
 }
 
 ControlsContent.propTypes = {
-  activeSlug: PropTypes.string.isRequired,
+  activeSlug: PropTypes.string,
 }
 
 ControlsContent.defaultProps = {
+  activeSlug: '',
 }
 
 export default ControlsContent
