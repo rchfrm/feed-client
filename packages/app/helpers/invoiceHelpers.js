@@ -67,11 +67,15 @@ const formatUpcomingInvoice = (invoice) => {
     totalFee += invoice[conversionFeeSlug]
   }
 
+  const serviceFeePlusAdSpend = invoice[adSpendFeedSlug] + invoice[adSpendSlug]
+
   // Return data
   return {
     ...invoice,
     failed: !((invoice.status === 'open' && !invoice.attempted) || invoice.status === 'paid'),
     invoiceSections,
+    serviceFeePlusAdSpend,
+    formatServiceFeePlusAdSpend: formatCurrency(serviceFeePlusAdSpend / currencyOffset, currency),
     totalFee: formatCurrency(totalFee / currencyOffset, currency),
     date: moment(invoice.date).format('DD MMM YYYY'),
   }

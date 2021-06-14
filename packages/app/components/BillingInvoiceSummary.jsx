@@ -28,6 +28,7 @@ const BillingInvoiceSummary = ({
   const failed = !isUpcoming && invoice.failed
   const header = getHeader(date, failed)
 
+
   return (
     <div
       className={[
