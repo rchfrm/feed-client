@@ -1,8 +1,15 @@
 import React from 'react'
 
+import MarkdownText from '@/elements/MarkdownText'
+
+import copy from '@/app/copy/controlsPageCopy'
+
 const ConversionsSettings = () => {
   return (
-    <h2>Conversions Settings</h2>
+    <div className="mb-12">
+      <MarkdownText markdown={copy.conversionsTitle} />
+      <MarkdownText markdown={copy.conversionsDescription} />
+    </div>
   )
 }
 
