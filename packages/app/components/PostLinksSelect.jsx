@@ -164,6 +164,20 @@ const PostLinksSelect = ({
     setLoading(false)
   }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId])
 
+  const handleChange = (e) => {
+    const { target: { value } } = e
+    // Do nothing if value is current value
+    if (value === currentLinkId) return
+    // Handle adding new link
+    if (value === '_new') {
+      setLoading(true)
+      showAddLinkModal()
+      return
+    }
+    setSelectedOptionValue(value)
+    updatePostLink(value)
+  }
+
   return (
     <div>
       {error && (
@@ -172,19 +186,7 @@ const PostLinksSelect = ({
       <Select
         loading={loading}
         className={selectClassName}
-        handleChange={(e) => {
-          const { target: { value } } = e
-          // Do nothing if value is current value
-          if (value === currentLinkId) return
-          // Handle adding new link
-          if (value === '_new') {
-            setLoading(true)
-            showAddLinkModal()
-            return
-          }
-          setSelectedOptionValue(value)
-          updatePostLink(value)
-        }}
+        handleChange={handleChange}
         name="Choose link"
         options={selectOptions}
         placeholder={currentLinkId === defaultPostLinkId ? placeholderText : null}
