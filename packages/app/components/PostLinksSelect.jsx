@@ -192,19 +192,21 @@ const PostLinksSelect = ({
         version="box"
       />
       {/* ALERT */}
-      <PostCardEditAlert
-        type="link"
-        postId={postItemId}
-        show={showAlert}
-        newValue={selectedOptionValue}
-        originalValue={currentLinkId}
-        onAlertConfirm={onAlertConfirm}
-        onCancel={() => {
-          setLoading(false)
-          setShowAlert(false)
-          setSelectedOptionValue(currentLinkId)
-        }}
-      />
+      {showAlert && (
+        <PostCardEditAlert
+          type="link"
+          postId={postItemId}
+          show={showAlert}
+          newValue={selectedOptionValue}
+          originalValue={currentLinkId}
+          onAlertConfirm={onAlertConfirm}
+          onCancel={() => {
+            setLoading(false)
+            setShowAlert(false)
+            setSelectedOptionValue(currentLinkId)
+          }}
+        />
+      )}
     </div>
   )
 }
