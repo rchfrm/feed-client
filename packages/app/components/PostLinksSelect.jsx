@@ -147,6 +147,7 @@ const PostLinksSelect = ({
     const { res, error } = await onSelect(artistId, selectedOptionValue, postItemId)
     if (!isMounted) return
     // Handle error
+    setShowAlert(false)
     if (error) {
       // Reset value if error
       setSelectedOptionValue(currentLinkId)
@@ -162,15 +163,6 @@ const PostLinksSelect = ({
     setError(null)
     setLoading(false)
   }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId])
-
-  React.useEffect(() => {
-    // Stop here if setting to same as before
-    if (currentLinkId === selectedOptionValue) {
-      setLoading(false)
-      return
-    }
-    updatePostLink(selectedOptionValue)
-  }, [currentLinkId, selectedOptionValue, updatePostLink])
 
   return (
     <div>
@@ -191,6 +183,7 @@ const PostLinksSelect = ({
             return
           }
           setSelectedOptionValue(value)
+          updatePostLink(value)
         }}
         name="Choose link"
         options={selectOptions}
