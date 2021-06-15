@@ -35,6 +35,25 @@ const PostCardSettingsLink = ({
     updatePost('update-link', payload)
   }, [updatePost])
 
+  const handleSuccess = (newLink) => {
+    const { linkId, linkHref } = newLink
+    const isDefaultLink = !linkId
+    const newLinkHref = linkHref || defaultLink.href
+    updateLinkState({ postIndex, linkId, linkHref })
+    setError(null)
+    setPreviewUrl(newLinkHref)
+    // TRACK
+    const { host: linkDomain } = parseUrl(newLinkHref)
+    track('post_link_changed', {
+      linkDomain,
+      isDefaultLink,
+    })
+  }
+
+  const handleError = (error) => {
+    setError(error)
+  }
+
   return (
     <div
       className={[
@@ -45,23 +64,8 @@ const PostCardSettingsLink = ({
         currentLinkId={linkId || defaultPostLinkId}
         onSelect={setPostLink}
         postItemId={postId}
-        onSuccess={(newLink) => {
-          const { linkId, linkHref } = newLink
-          const isDefaultLink = !linkId
-          const newLinkHref = linkHref || defaultLink.href
-          updateLinkState({ postIndex, linkId, linkHref })
-          setError(null)
-          setPreviewUrl(newLinkHref)
-          // TRACK
-          const { host: linkDomain } = parseUrl(newLinkHref)
-          track('post_link_changed', {
-            linkDomain,
-            isDefaultLink,
-          })
-        }}
-        onError={(error) => {
-          setError(error)
-        }}
+        onSuccess={handleSuccess}
+        onError={handleError}
         includeDefaultLink
         includeAddLinkOption
         componentLocation="post"
