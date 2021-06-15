@@ -1,15 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PlatformIcon from '@/icons/PlatformIcon'
+import moment from 'moment'
+
+import PostCardPriorityButton from '@/app/PostCardPriorityButton'
+
+import * as utils from '@/helpers/utils'
 
 const PostCardHeader = ({
   platform,
   date,
   permalink,
   postType,
+  postId,
+  artistId,
+  priorityEnabled,
+  updatePost,
+  postIndex,
   className,
+  promotionStatus,
 }) => {
+  const publishedDate = moment(date).format('DD MMM')
   return (
     <div
       className={[
@@ -17,34 +28,28 @@ const PostCardHeader = ({
         className,
       ].join(' ')}
     >
-      {/* ICON */}
-      <p className="flex items-center mb-0">
-        <a
-          href={permalink}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ paddingLeft: 1 }}
-        >
-          <PlatformIcon
-            className="w-4 h-auto"
-            platform={platform}
-          />
-        </a>
-        {postType === 'story' && (
-          <strong className="text-xs ml-2 text-insta">story</strong>
-        )}
-      </p>
-      {/* DATE */}
-      <p className="mb-0 text-sm">
+      {/* LINK TO THE ORIGINAL POST */}
+      <p className="flex items-center mb-0 text-sm bmw:text-base">
         <a
           href={permalink}
           target="_blank"
           rel="noopener noreferrer"
           className="no-underline no--hover"
         >
-          {date}
+          Original post: <span className="font-bold">{publishedDate}</span>, <span className={`font-bold ${platform === 'facebook' ? 'text-fb' : 'text-insta'}`}>{utils.capitalise(platform)} </span>
+          {postType === 'story' && (
+            <strong className="text-insta">Story</strong>
+          )}
         </a>
       </p>
+      <PostCardPriorityButton
+        postId={postId}
+        artistId={artistId}
+        priorityEnabled={priorityEnabled}
+        updatePost={updatePost}
+        postIndex={postIndex}
+        promotionStatus={promotionStatus}
+      />
     </div>
   )
 }
@@ -53,6 +58,12 @@ PostCardHeader.propTypes = {
   platform: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   postType: PropTypes.string.isRequired,
+  postId: PropTypes.string.isRequired,
+  artistId: PropTypes.string.isRequired,
+  priorityEnabled: PropTypes.bool.isRequired,
+  updatePost: PropTypes.func.isRequired,
+  postIndex: PropTypes.number.isRequired,
+  promotionStatus: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 

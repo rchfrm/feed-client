@@ -184,6 +184,7 @@ export const formatPostsResponse = (posts) => {
       linkId,
       linkHref,
       linkType,
+      priorityEnabled: post.priority_enabled,
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
@@ -269,4 +270,16 @@ export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
     action: 'Reset post caption',
   }
   return requestWithCatch('delete', endpoint, payload, errorTracking)
+}
+
+// UPDATE POST PRIORITY
+export const setPostPriority = ({ artistId, assetId, priorityEnabled }) => {
+  const action = priorityEnabled ? 'deprioritize' : 'prioritize'
+  const endpoint = `/artists/${artistId}/assets/${assetId}/${action}`
+  const payload = null
+  const errorTracking = {
+    category: 'Post priority',
+    action: `${utils.capitalise(action)} post`,
+  }
+  return requestWithCatch('post', endpoint, payload, errorTracking)
 }

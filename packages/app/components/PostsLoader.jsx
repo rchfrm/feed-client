@@ -34,6 +34,7 @@ const postsReducer = (draftState, postsAction) => {
     linkId,
     linkHref,
     adMessageProps,
+    priorityEnabled,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -58,6 +59,9 @@ const postsReducer = (draftState, postsAction) => {
       break
     case 'update-caption':
       draftState[postIndex].adMessageProps = adMessageProps
+      break
+    case 'toggle-priority':
+      draftState[postIndex].priorityEnabled = priorityEnabled
       break
     default:
       return draftState
