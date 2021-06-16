@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import ConversionsWizardStartingStep from '@/app/ConversionsWizardStartingStep'
 import ConversionsWizardBudgetStep from '@/app/ConversionsWizardBudgetStep'
@@ -10,38 +11,20 @@ import ConversionsWizardFacebookPixelEventStep from '@/app/ConversionsWizardFace
 import ConversionsWizardCallToActionStep from '@/app/ConversionsWizardCallToActionStep'
 import ConversionsWizardPostOptInStep from '@/app/ConversionsWizardPostOptInStep'
 
-const steps = [
-  {
-    id: 0,
-    shouldSkip: false,
-  },
-  {
-    id: 1,
-    shouldSkip: false,
-  },
-  {
-    id: 2,
-    shouldSkip: false,
-  },
-  {
-    id: 3,
-    shouldSkip: false,
-  },
-  {
-    id: 4,
-    shouldSkip: false,
-  },
-  {
-    id: 5,
-    shouldSkip: false,
-  },
-  {
-    id: 6,
-    shouldSkip: false,
-  },
-]
-
 const ConversionsWizard = () => {
+  const { artist } = React.useContext(ArtistContext)
+  const facebookPixelId = artist.integrations.find(integration => integration.platform === 'facebook').pixel_id
+
+  const steps = [
+    { id: 0, shouldSkip: false },
+    { id: 1, shouldSkip: artist.daily_budget >= 5 },
+    { id: 2, shouldSkip: false },
+    { id: 3, shouldSkip: Boolean(!facebookPixelId) },
+    { id: 4, shouldSkip: false },
+    { id: 5, shouldSkip: false },
+    { id: 6, shouldSkip: false },
+  ]
+
   return (
     <div>
       <WizardContextProvider steps={steps}>
