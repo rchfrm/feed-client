@@ -1,43 +1,45 @@
 import React from 'react'
+import useAsyncEffect from 'use-async-effect'
 
 import Button from '@/elements/Button'
 import Select from '@/elements/Select'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
+import { getFacebookPixelEvents, updateFacebookPixelEvent } from '@/app/helpers/conversionsHelpers'
+
+import { WizardContext } from '@/app/contexts/WizardContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import brandColors from '@/constants/brandColors'
 
-import { WizardContext } from './contexts/WizardContext'
-
 const ConversionsWizardFacebookPixelEventStep = () => {
-  // HANDLE SELECT
-  const pixelEventOptions = React.useMemo(() => [
-    {
-      name: 'Facebook Pixel Event Name',
-      value: 'facebook_pixel_event_name',
-      serverFunction: () => {},
-    },
-  ], [])
-  const [pixelEventOption, setPixelEventOption] = React.useState(pixelEventOptions[0])
+  const [facebookPixelEventOptions, setFacebookPixelEventOptions] = React.useState([])
+  const [facebookPixelEventOption, setFacebookPixelEventOption] = React.useState({ name: '', value: '' })
   const [isLoading, setIsLoading] = React.useState(false)
   const { next } = React.useContext(WizardContext)
+  const { artist } = React.useContext(ArtistContext)
+
+  useAsyncEffect(async () => {
+    const { res: events } = await getFacebookPixelEvents()
+    const options = events.map(({ id, name }) => ({ name, value: id }))
+    setFacebookPixelEventOptions(options)
+    setFacebookPixelEventOption(options[0])
+  }, [])
 
   const handleSelect = React.useCallback((e) => {
-    const pixelEventOption = pixelEventOptions.find(({ value }) => value === e.target.value)
-    setPixelEventOption(pixelEventOption)
-  }, [pixelEventOptions])
+    const facebookPixelEventOption = facebookPixelEventOptions.find(({ value }) => value === e.target.value)
+    setFacebookPixelEventOption(facebookPixelEventOption)
+  }, [facebookPixelEventOptions])
 
-  const saveFacebookPixel = () => {
-    return new Promise((res) => setTimeout(() => {
-      console.log('Save Facebook Pixel')
-      res('resolve')
-    }, 1000))
+  const saveFaceBookPixelEvent = () => {
+    return updateFacebookPixelEvent(artist.id, facebookPixelEventOption.value)
   }
 
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    await saveFacebookPixel()
+    await saveFaceBookPixelEvent()
     setIsLoading(false)
     next()
   }
@@ -51,13 +53,12 @@ const ConversionsWizardFacebookPixelEventStep = () => {
           handleChange={handleSelect}
           name="facebook_pixel_event"
           label="Facebook Pixel Event"
-          selectedValue={pixelEventOption.value}
-          options={pixelEventOptions}
+          selectedValue={facebookPixelEventOption.value}
+          options={facebookPixelEventOptions}
         />
         <Button
           type="submit"
           version="green icon"
-          onClick={onSubmit}
           loading={isLoading}
           className="w-full"
         >

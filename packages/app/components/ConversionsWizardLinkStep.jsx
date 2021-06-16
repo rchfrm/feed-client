@@ -1,7 +1,10 @@
 import React from 'react'
 
 import Button from '@/elements/Button'
-import Select from '@/elements/Select'
+
+import { setDefaultLink } from '@/app/helpers/linksHelpers'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import PostLinksSelect from '@/app/PostLinksSelect'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
@@ -10,34 +13,20 @@ import brandColors from '@/constants/brandColors'
 import { WizardContext } from './contexts/WizardContext'
 
 const ConversionsWizardLinkStep = () => {
-  // HANDLE SELECT
-  const linkOptions = React.useMemo(() => [
-    {
-      name: 'Use Default Link (v2)',
-      value: 'default_link_v2',
-      serverFunction: () => {},
-    },
-  ], [])
-  const [linkOption, setLinkOption] = React.useState(linkOptions[0])
+  const [link, setLink] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const { next } = React.useContext(WizardContext)
+  const { artist } = React.useContext(ArtistContext)
+  const linkType = 'conversions'
 
-  const handleSelect = React.useCallback((e) => {
-    const patchOption = linkOptions.find(({ value }) => value === e.target.value)
-    setLinkOption(patchOption)
-  }, [linkOptions])
-
-  const saveLink = () => {
-    return new Promise((res) => setTimeout(() => {
-      console.log('Save Link')
-      res('resolve')
-    }, 1000))
+  const saveDefaultLink = () => {
+    return setDefaultLink(artist.id, link, linkType)
   }
 
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    await saveLink()
+    await saveDefaultLink()
     setIsLoading(false)
     next()
   }
@@ -47,17 +36,17 @@ const ConversionsWizardLinkStep = () => {
       <h2>Default Link</h2>
       <p>Some text about default link will be placed here</p>
       <form onSubmit={onSubmit}>
-        <Select
-          handleChange={handleSelect}
-          name="link"
-          label="Default link"
-          selectedValue={linkOption.value}
-          options={linkOptions}
+        <PostLinksSelect
+          componentLocation="defaultLink"
+          includeAddLinkOption
+          currentLinkId={artist.preferences.conversions.default_link_id}
+          linkType="conversions"
+          updateParentLink={setLink}
+          shouldSaveOnChange={false}
         />
         <Button
           type="submit"
           version="green icon"
-          onClick={onSubmit}
           loading={isLoading}
           className="w-full"
         >

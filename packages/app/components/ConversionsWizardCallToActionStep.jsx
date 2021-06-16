@@ -1,37 +1,39 @@
 import React from 'react'
+import useAsyncEffect from 'use-async-effect'
 
 import Button from '@/elements/Button'
 import Select from '@/elements/Select'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
+import { getCallToActions, updateCallToAction } from '@/app/helpers/conversionsHelpers'
+
+import { WizardContext } from '@/app/contexts/WizardContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import brandColors from '@/constants/brandColors'
 
-import { WizardContext } from './contexts/WizardContext'
-
 const ConversionsWizardCallToActionStep = () => {
-  // HANDLE SELECT
-  const callToActionOptions = React.useMemo(() => [
-    {
-      name: 'Buy now',
-      value: 'buy_now',
-      serverFunction: () => {},
-    },
-  ], [])
-  const [callToActionOption, setCallToActionOption] = React.useState(callToActionOptions[0])
+  const [callToActionOptions, setCallToActionOptions] = React.useState([])
+  const [callToActionOption, setCallToActionOption] = React.useState({ name: '', value: '' })
   const [isLoading, setIsLoading] = React.useState(false)
   const { next } = React.useContext(WizardContext)
+  const { artist } = React.useContext(ArtistContext)
+
+  useAsyncEffect(async () => {
+    const { res: callToActions } = await getCallToActions()
+    const options = callToActions.map(({ id, name }) => ({ name, value: id }))
+    setCallToActionOptions(options)
+    setCallToActionOption(options[0])
+  }, [])
 
   const handleSelect = React.useCallback((e) => {
     const callToActionOption = callToActionOptions.find(({ value }) => value === e.target.value)
     setCallToActionOption(callToActionOption)
   }, [callToActionOptions])
 
-  const saveCallToAction = () => {
-    return new Promise((res) => setTimeout(() => {
-      console.log('Save Call to Action')
-      res('resolve')
-    }, 1000))
+  const saveCallToAction = async () => {
+    return updateCallToAction(artist.id, callToActionOption.value)
   }
 
   const onSubmit = async (e) => {
@@ -57,7 +59,6 @@ const ConversionsWizardCallToActionStep = () => {
         <Button
           type="submit"
           version="green icon"
-          onClick={onSubmit}
           loading={isLoading}
           className="w-full"
         >
