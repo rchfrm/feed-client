@@ -77,6 +77,7 @@ const PixelSelector = ({
   // SELECT PIXEL
   const selectPixel = React.useCallback(async (pixelId) => {
     if (!shouldSaveOnChange) {
+      setActivePixelId(pixelId)
       return
     }
     setLoading(true)
@@ -106,7 +107,7 @@ const PixelSelector = ({
       pixelId,
       ...(pixelId === disabledPixelId && { disabled: true }),
     })
-  }, [artistId, onSelect, onError, onSuccess, setArtist, trackLocation])
+  }, [artistId, onSelect, onError, onSuccess, setArtist, trackLocation, shouldSaveOnChange])
 
   // ON CREATE NEW PIXEL
   const onCreateNewPixel = (pixel) => {
