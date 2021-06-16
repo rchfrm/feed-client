@@ -3,14 +3,14 @@ import React from 'react'
 import Button from '@/elements/Button'
 
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostLinksSelect from '@/app/PostLinksSelect'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { WizardContext } from '@/app/contexts/WizardContext'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import brandColors from '@/constants/brandColors'
 
-import { WizardContext } from './contexts/WizardContext'
 
 const ConversionsWizardLinkStep = () => {
   const [link, setLink] = React.useState('')

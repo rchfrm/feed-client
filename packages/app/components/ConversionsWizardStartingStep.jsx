@@ -3,9 +3,9 @@ import React from 'react'
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
-import brandColors from '@/constants/brandColors'
+import { WizardContext } from '@/app/contexts/WizardContext'
 
-import { WizardContext } from './contexts/WizardContext'
+import brandColors from '@/constants/brandColors'
 
 const ConversionsWizardStartingStep = () => {
   const { next } = React.useContext(WizardContext)

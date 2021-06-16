@@ -5,7 +5,6 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import PixelSelector from '@/app/PixelSelector'
 import { setPixel } from '@/app/helpers/settingsHelpers'
-
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 

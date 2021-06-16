@@ -13,7 +13,6 @@ import copy from '@/app/copy/controlsPageCopy'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-
 const { controlsOptions } = copy
 
 const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) => {

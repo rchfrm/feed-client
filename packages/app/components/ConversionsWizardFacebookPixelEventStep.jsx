@@ -7,7 +7,6 @@ import Select from '@/elements/Select'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { getFacebookPixelEvents, updateFacebookPixelEvent } from '@/app/helpers/conversionsHelpers'
-
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
