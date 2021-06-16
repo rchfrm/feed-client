@@ -1,5 +1,15 @@
 import * as api from '@/helpers/api'
 
+export const updateDefaultConversionsLink = (artistId, linkId) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = { preferences: { converions: { default_link_id: linkId } } }
+  const errorTracking = {
+    category: 'Links',
+    action: 'Set link as conversions default',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
 export const getFacebookPixelEvents = async () => {
   const endpoint = '/preferences/facebook_pixel_events'
   const payload = {}

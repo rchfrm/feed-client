@@ -2,7 +2,7 @@ import React from 'react'
 
 import Button from '@/elements/Button'
 
-import { setDefaultLink } from '@/app/helpers/linksHelpers'
+import { updateDefaultConversionsLink } from '@/app/helpers/conversionsHelpers'
 import PostLinksSelect from '@/app/PostLinksSelect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
@@ -17,10 +17,9 @@ const ConversionsWizardLinkStep = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
-  const linkType = 'conversions'
 
   const saveDefaultLink = () => {
-    return setDefaultLink(artist.id, link, linkType)
+    return updateDefaultConversionsLink(artist.id, link)
   }
 
   const onSubmit = async (e) => {
@@ -40,7 +39,6 @@ const ConversionsWizardLinkStep = () => {
           componentLocation="defaultLink"
           includeAddLinkOption
           currentLinkId={artist.preferences.conversions.default_link_id}
-          linkType="conversions"
           updateParentLink={setLink}
           shouldSaveOnChange={false}
         />

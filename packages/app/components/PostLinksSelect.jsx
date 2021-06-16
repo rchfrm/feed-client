@@ -29,7 +29,6 @@ const PostLinksSelect = ({
   includeDefaultLink,
   includeAddLinkOption,
   componentLocation,
-  linkType,
   updateParentLink,
   shouldSaveOnChange,
 }) => {
@@ -145,7 +144,7 @@ const PostLinksSelect = ({
     }
     setLoading(true)
     // Run server
-    const { res, error } = await onSelect(artistId, selectedOptionValue, linkType, postItemId)
+    const { res, error } = await onSelect(artistId, selectedOptionValue, postItemId)
     if (!isMounted) return
     // Handle error
     if (error) {
@@ -204,7 +203,6 @@ PostLinksSelect.propTypes = {
   includeDefaultLink: PropTypes.bool,
   includeAddLinkOption: PropTypes.bool,
   componentLocation: PropTypes.string.isRequired,
-  linkType: PropTypes.string.isRequired,
   updateParentLink: PropTypes.func,
   shouldSaveOnChange: PropTypes.bool,
 }

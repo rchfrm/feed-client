@@ -340,9 +340,9 @@ export const updateFolder = (artistId, folder, action, force) => {
 * @param {string} linkId
 * @returns {Promise<object>} { res, error }
 */
-export const setLinkAsDefault = (artistId, linkId, linkType) => {
+export const setLinkAsDefault = (artistId, linkId) => {
   const requestUrl = `/artists/${artistId}`
-  const payload = { preferences: { [linkType]: { default_link_id: linkId } } }
+  const payload = { preferences: { posts: { default_link_id: linkId } } }
   const errorTracking = {
     category: 'Links',
     action: 'Set link as default',
