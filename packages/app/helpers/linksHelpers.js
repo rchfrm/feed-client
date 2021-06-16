@@ -122,8 +122,8 @@ export const saveLink = async (artistId, link, savedFolders, action = 'add', for
  * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setDefaultLink = async (artistId, linkId) => {
-  return server.setLinkAsDefault(artistId, linkId)
+export const setDefaultLink = async (artistId, linkId, linkType) => {
+  return server.setLinkAsDefault(artistId, linkId, linkType)
 }
 
 
@@ -132,7 +132,7 @@ export const setDefaultLink = async (artistId, linkId) => {
  * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setPostLink = async (artistId, linkId, assetId) => {
+export const setPostLink = async (artistId, linkId, linkType, assetId) => {
   // Handle choosing "Use default" from post link
   if (linkId === '_default') {
     linkId = null
