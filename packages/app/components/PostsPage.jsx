@@ -34,12 +34,6 @@ const PostsPage = () => {
   // eslint-disable-next-line
   }, [artist.integrations])
 
-  // CLEAR STORE WHEN PAGE UNMOUNT
-  React.useEffect(() => {
-    return clearLinkStore
-  // eslint-disable-next-line
-  }, [clearLinkStore])
-
   return <PostsContent />
 }
 
