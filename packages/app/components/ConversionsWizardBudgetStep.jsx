@@ -24,14 +24,13 @@ const ConversionsWizardBudgetStep = () => {
 
   const handleNext = async () => {
     setIsLoading(true)
-    const { res: settings, error } = await setBudgetToFivePound()
+    const { res, error } = await setBudgetToFivePound()
     setIsLoading(false)
 
     if (error) {
       setError({ message: error.message })
       return
     }
-    console.log(settings)
     next()
   }
 

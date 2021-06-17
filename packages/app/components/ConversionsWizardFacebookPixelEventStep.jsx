@@ -2,6 +2,7 @@ import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 
 import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 import Select from '@/elements/Select'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -16,6 +17,7 @@ const ConversionsWizardFacebookPixelEventStep = () => {
   const [facebookPixelEventOptions, setFacebookPixelEventOptions] = React.useState([])
   const [facebookPixelEventOption, setFacebookPixelEventOption] = React.useState({ name: '', value: '' })
   const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
 
@@ -38,8 +40,13 @@ const ConversionsWizardFacebookPixelEventStep = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    await saveFaceBookPixelEvent()
+    const { res, error } = await saveFaceBookPixelEvent()
     setIsLoading(false)
+
+    if (error) {
+      setError({ message: error.message })
+      return
+    }
     next()
   }
 
@@ -47,6 +54,7 @@ const ConversionsWizardFacebookPixelEventStep = () => {
     <>
       <h2>Facebook Pixel Event</h2>
       <p>Some text about Facebook Pixel Event will be placed here</p>
+      <Error error={error} />
       <form onSubmit={onSubmit}>
         <Select
           handleChange={handleSelect}

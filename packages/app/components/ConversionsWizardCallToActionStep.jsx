@@ -2,6 +2,7 @@ import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 
 import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 import Select from '@/elements/Select'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -16,6 +17,7 @@ const ConversionsWizardCallToActionStep = () => {
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
   const [callToActionOption, setCallToActionOption] = React.useState({ name: '', value: '' })
   const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
 
@@ -38,8 +40,13 @@ const ConversionsWizardCallToActionStep = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    await saveCallToAction()
+    const { res, error } = await saveCallToAction()
     setIsLoading(false)
+
+    if (error) {
+      setError({ message: error.message })
+      return
+    }
     next()
   }
 
@@ -47,6 +54,7 @@ const ConversionsWizardCallToActionStep = () => {
     <>
       <h2>Call to Action</h2>
       <p>Some text about Call to Action will be placed here</p>
+      <Error error={error} />
       <form onSubmit={onSubmit}>
         <Select
           handleChange={handleSelect}

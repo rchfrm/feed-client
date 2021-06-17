@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 
 import { updateDefaultConversionsLink } from '@/app/helpers/conversionsHelpers'
 import { defaultPostLinkId } from '@/app/helpers/linksHelpers'
@@ -13,10 +14,10 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import brandColors from '@/constants/brandColors'
 
-
 const ConversionsWizardLinkStep = () => {
   const [link, setLink] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
 
@@ -27,8 +28,13 @@ const ConversionsWizardLinkStep = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    await saveDefaultLink()
+    const { res, error } = await saveDefaultLink()
     setIsLoading(false)
+
+    if (error) {
+      setError({ message: error.message })
+      return
+    }
     next()
   }
 
@@ -36,6 +42,7 @@ const ConversionsWizardLinkStep = () => {
     <>
       <h2>Default Link</h2>
       <p>Some text about default link will be placed here</p>
+      <Error error={error} />
       <form onSubmit={onSubmit}>
         <PostLinksSelect
           currentLinkId={artist.preferences.conversions.default_link_id || defaultPostLinkId}

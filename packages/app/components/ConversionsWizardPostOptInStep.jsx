@@ -27,7 +27,6 @@ const ConversionsWizardOptInStep = () => {
       setError({ message: error.message })
       return
     }
-    console.log(res)
     Router.push(ROUTES.HOME)
   }
 

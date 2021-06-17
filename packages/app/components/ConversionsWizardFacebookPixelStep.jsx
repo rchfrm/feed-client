@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import PixelSelector from '@/app/PixelSelector'
@@ -13,6 +14,7 @@ import brandColors from '@/constants/brandColors'
 const ConversionsWizardFacebookPixelStep = () => {
   const [facebookPixel, setFacebookPixel] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
 
@@ -23,8 +25,13 @@ const ConversionsWizardFacebookPixelStep = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    await saveFacebookPixel()
+    const { res, error } = await saveFacebookPixel()
     setIsLoading(false)
+
+    if (error) {
+      setError({ message: error.message })
+      return
+    }
     next()
   }
 
@@ -32,6 +39,7 @@ const ConversionsWizardFacebookPixelStep = () => {
     <>
       <h2>Facebook Pixel </h2>
       <p>Some text about Facebook Pixel will be placed here</p>
+      <Error error={error} />
       <form onSubmit={onSubmit}>
         <PixelSelector
           updateParentPixel={setFacebookPixel}
