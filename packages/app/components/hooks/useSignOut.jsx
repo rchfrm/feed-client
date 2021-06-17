@@ -9,12 +9,15 @@ import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+import useLinksStore from '@/app/stores/linksStore'
 
 // IMPORT CONSTANTS
 import * as ROUTES from '@/app/constants/routes'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { mixpanelSignOut } from '@/app/helpers/mixpanelHelpers'
+
+const linksStoreClearAll = state => state.clearAll
 
 const useSignOut = () => {
   const { setNoAuth, clearRejectedPathPath } = React.useContext(AuthContext)
@@ -23,6 +26,7 @@ const useSignOut = () => {
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   const clearContexts = React.useRef(null)
+  const clearLinkStore = useLinksStore(linksStoreClearAll)
 
   const signOut = React.useCallback(async () => {
     toggleGlobalLoading(true)

@@ -1,6 +1,6 @@
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
-import PostsPage from '@/app/PostsPage'
+import PostsContent from '@/app/PostsContent'
 
 const headerConfig = {
   text: 'review posts',
@@ -11,7 +11,7 @@ const Page = () => (
     headerConfig={headerConfig}
     artistRequired
   >
-    <PostsPage />
+    <PostsContent />
   </BasePage>
 )
 
