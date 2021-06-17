@@ -43,6 +43,7 @@ const useSignOut = () => {
     setNoUser()
     setNoArtist()
     toggleGlobalLoading(false)
+    clearLinkStore()
   }
 
   React.useEffect(() => {
