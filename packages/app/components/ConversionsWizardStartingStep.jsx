@@ -1,9 +1,13 @@
 import React from 'react'
 
 import Button from '@/elements/Button'
+import MarkdownText from '@/elements/MarkdownText'
+
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
+
+import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
@@ -17,7 +21,7 @@ const ConversionsWizardStartingStep = () => {
   return (
     <>
       <h2>Set up Conversions</h2>
-      <p>Looks like you haven't set up conversions yet. Start running conversions by clicking the button below.</p>
+      <MarkdownText markdown={copy.startingStepDescription} />
       <Button
         version="green icon"
         onClick={handleNext}

@@ -4,12 +4,15 @@ import useAsyncEffect from 'use-async-effect'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Select from '@/elements/Select'
+import MarkdownText from '@/elements/MarkdownText'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { getCallToActions, updateCallToAction } from '@/app/helpers/conversionsHelpers'
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
@@ -55,7 +58,7 @@ const ConversionsWizardCallToActionStep = () => {
   return (
     <>
       <h2>Call to Action</h2>
-      <p>Some text about Call to Action will be placed here</p>
+      <MarkdownText markdown={copy.callToActionStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>
         <Select

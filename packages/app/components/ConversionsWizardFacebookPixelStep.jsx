@@ -3,11 +3,15 @@ import React from 'react'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import MarkdownText from '@/elements/MarkdownText'
 
 import PixelSelector from '@/app/PixelSelector'
 import { setPixel } from '@/app/helpers/settingsHelpers'
+
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
@@ -39,7 +43,7 @@ const ConversionsWizardFacebookPixelStep = () => {
   return (
     <>
       <h2>Facebook Pixel </h2>
-      <p>Some text about Facebook Pixel will be placed here</p>
+      <MarkdownText markdown={copy.pixelStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>
         {/* Select element */}

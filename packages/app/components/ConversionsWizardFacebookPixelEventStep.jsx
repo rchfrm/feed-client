@@ -4,12 +4,16 @@ import useAsyncEffect from 'use-async-effect'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Select from '@/elements/Select'
+import MarkdownText from '@/elements/MarkdownText'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { getFacebookPixelEvents, updateFacebookPixelEvent } from '@/app/helpers/conversionsHelpers'
+
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
@@ -55,7 +59,7 @@ const ConversionsWizardFacebookPixelEventStep = () => {
   return (
     <>
       <h2>Facebook Pixel Event</h2>
-      <p>Some text about Facebook Pixel Event will be placed here</p>
+      <MarkdownText markdown={copy.pixelEventStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>
         <Select

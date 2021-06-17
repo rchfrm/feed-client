@@ -4,10 +4,14 @@ import * as server from '@/app/helpers/appServer'
 
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
+
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
@@ -39,7 +43,7 @@ const ConversionsWizardBudgetStep = () => {
   return (
     <>
       <h2>Budget</h2>
-      <p>To run conversions you must have a budget of at least £5.00</p>
+      <MarkdownText markdown={copy.budgetStepDescription} />
       <Error error={error} />
       <Button
         version="green icon"

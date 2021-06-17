@@ -2,6 +2,9 @@ import React from 'react'
 
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
+
+import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { updateDefaultConversionsLink } from '@/app/helpers/conversionsHelpers'
 import { defaultPostLinkId } from '@/app/helpers/linksHelpers'
@@ -10,7 +13,7 @@ import PostLinksSelect from '@/app/PostLinksSelect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
 
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
@@ -42,7 +45,7 @@ const ConversionsWizardLinkStep = () => {
   return (
     <>
       <h2>Default Link</h2>
-      <p>Some text about default link will be placed here</p>
+      <MarkdownText markdown={copy.linkStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>
         {/* Select element */}

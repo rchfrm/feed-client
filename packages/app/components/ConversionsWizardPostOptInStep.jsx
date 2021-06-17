@@ -7,9 +7,13 @@ import { enableConversions } from '@/app/helpers/conversionsHelpers'
 
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
+
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
@@ -34,7 +38,7 @@ const ConversionsWizardOptInStep = () => {
   return (
     <>
       <h2>Get going</h2>
-      <p>All set! Only thing left is to select which posts you’d like to use for conversion campaigns from the posts page. Once opted-in Feed will create ads straight away.</p>
+      <MarkdownText markdown={copy.postOptInStepDescription} />
       <Error error={error} />
       <Button
         version="green icon"
