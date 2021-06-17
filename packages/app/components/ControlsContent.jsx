@@ -7,6 +7,7 @@ import ControlsContentOptions from '@/app/ControlsContentOptions'
 import ControlsContentView from '@/app/ControlsContentView'
 import ConversionsContent from '@/app/ConversionsContent'
 
+// One of these components will be shown based on the activeSlug
 const controlsComponents = {
   targeting: <h2>Targeting</h2>,
   links: <h2>Link bank</h2>,

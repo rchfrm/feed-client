@@ -21,6 +21,7 @@ const ConversionsWizardFacebookPixelEventStep = () => {
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
 
+  // Get all Facebook Pixel Events on first load and convert them to the correct select options object shape
   useAsyncEffect(async () => {
     const { res: events } = await getFacebookPixelEvents()
     const options = events.map(({ id, name }) => ({ name, value: id }))
@@ -37,6 +38,7 @@ const ConversionsWizardFacebookPixelEventStep = () => {
     return updateFacebookPixelEvent(artist.id, facebookPixelEventOption.value)
   }
 
+  // Handle API request and navigate to the next step
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)

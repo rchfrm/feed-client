@@ -1,5 +1,11 @@
 import * as api from '@/helpers/api'
 
+// UPDATE CONVERSIONS LINK
+/**
+ * @param {string} artistId
+ * @param {string} linkId
+ * @returns {Promise<any>}
+ */
 export const updateDefaultConversionsLink = (artistId, linkId) => {
   const requestUrl = `/artists/${artistId}`
   const payload = { preferences: { converions: { default_link_id: linkId } } }
@@ -10,6 +16,10 @@ export const updateDefaultConversionsLink = (artistId, linkId) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
+// GET FACEBOOK PIXEL EVENTS
+/**
+ * @returns {Promise<any>}
+ */
 export const getFacebookPixelEvents = async () => {
   const endpoint = '/preferences/facebook_pixel_events'
   const payload = {}
@@ -20,6 +30,12 @@ export const getFacebookPixelEvents = async () => {
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
+// UPDATE FACEBOOK PIXEL EVENT
+/**
+ * @param {string} artistId
+ * @param {string} event
+ * @returns {Promise<any>}
+ */
 export const updateFacebookPixelEvent = async (artistId, event) => {
   const endpoint = `/artists/${artistId}`
   const payload = { preferences: { conversions: { facebook_pixel_event: event } } }
@@ -30,6 +46,10 @@ export const updateFacebookPixelEvent = async (artistId, event) => {
   return api.requestWithCatch('patch', endpoint, payload, errorTracking)
 }
 
+// GET CALL TO ACTIONS
+/**
+ * @returns {Promise<any>}
+ */
 export const getCallToActions = async () => {
   const endpoint = '/preferences/call_to_actions'
   const payload = {}
@@ -40,6 +60,12 @@ export const getCallToActions = async () => {
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
+// UPDATE CALL TO ACTION
+/**
+ * @param {string} artistId
+ * @param {string} callToAction
+ * @returns {Promise<any>}
+ */
 export const updateCallToAction = async (artistId, callToAction) => {
   const endpoint = `/artists/${artistId}`
   const payload = { preferences: { conversions: { call_to_action: callToAction } } }
@@ -50,6 +76,11 @@ export const updateCallToAction = async (artistId, callToAction) => {
   return api.requestWithCatch('patch', endpoint, payload, errorTracking)
 }
 
+// ENABLE CONVERSIONS
+/**
+ * @param {string} artistId
+ * @returns {Promise<any>}
+ */
 export const enableConversions = async (artistId) => {
   const endpoint = `/artists/${artistId}`
   const payload = { conversions_enabled: true }

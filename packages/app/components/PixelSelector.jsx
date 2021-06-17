@@ -76,6 +76,7 @@ const PixelSelector = ({
 
   // SELECT PIXEL
   const selectPixel = React.useCallback(async (pixelId) => {
+    // Skip API request and only update parent pixel value
     if (!shouldSaveOnChange) {
       setActivePixelId(pixelId)
       return

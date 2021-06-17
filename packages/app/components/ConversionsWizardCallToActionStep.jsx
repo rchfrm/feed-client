@@ -21,6 +21,7 @@ const ConversionsWizardCallToActionStep = () => {
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
 
+  // Get all call to actions and convert them to the correct select options object shape
   useAsyncEffect(async () => {
     const { res: callToActions } = await getCallToActions()
     const options = callToActions.map(({ id, name }) => ({ name, value: id }))
@@ -37,6 +38,7 @@ const ConversionsWizardCallToActionStep = () => {
     return updateCallToAction(artist.id, callToActionOption.value)
   }
 
+  // Handle API request and navigate to the next step
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)

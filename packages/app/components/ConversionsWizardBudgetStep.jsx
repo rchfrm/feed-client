@@ -17,11 +17,13 @@ const ConversionsWizardBudgetStep = () => {
   const { next } = React.useContext(WizardContext)
   const { artist: { id: artistId } } = React.useContext(ArtistContext)
 
+  // Minimum budget to be able to run conversion campaigns is 5 pound
   const setBudgetToFivePound = () => {
     const payload = { budget: 5 }
     return server.saveTargetingSettings(artistId, payload)
   }
 
+  // Handle API request and navigate to the next step
   const handleNext = async () => {
     setIsLoading(true)
     const { res, error } = await setBudgetToFivePound()

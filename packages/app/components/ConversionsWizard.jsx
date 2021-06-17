@@ -15,6 +15,7 @@ const ConversionsWizard = () => {
   const { artist } = React.useContext(ArtistContext)
   const facebookPixelId = artist.integrations.find(integration => integration.platform === 'facebook').pixel_id
 
+  // Steps array which includes logic to skip a wizard step
   const steps = [
     { id: 0, shouldSkip: false },
     { id: 1, shouldSkip: artist.daily_budget >= 5 },
@@ -28,6 +29,7 @@ const ConversionsWizard = () => {
   return (
     <div>
       <WizardContextProvider steps={steps}>
+        {/* All Wizard steps */}
         <ConversionsWizardStartingStep />
         <ConversionsWizardBudgetStep />
         <ConversionsWizardLinkStep />

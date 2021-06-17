@@ -22,6 +22,7 @@ const ConversionsWizardFacebookPixelStep = () => {
     return setPixel(artist.id, facebookPixel)
   }
 
+  // Handle API request and navigate to the next step
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
@@ -41,6 +42,7 @@ const ConversionsWizardFacebookPixelStep = () => {
       <p>Some text about Facebook Pixel will be placed here</p>
       <Error error={error} />
       <form onSubmit={onSubmit}>
+        {/* Select element */}
         <PixelSelector
           updateParentPixel={setFacebookPixel}
           trackLocation="Conversions settings"

@@ -7,6 +7,7 @@ import ConversionsWizard from '@/app/ConversionsWizard'
 
 const ConversionsContent = () => {
   const { artist: { preferences } } = React.useContext(ArtistContext)
+  // Check if conversions link, pixel event and call to action are all set
   const hasSetUpConversions = Object.values(preferences.conversions).every(Boolean)
   return (
     <>

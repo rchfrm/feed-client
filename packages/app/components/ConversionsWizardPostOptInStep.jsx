@@ -18,6 +18,7 @@ const ConversionsWizardOptInStep = () => {
   const [error, setError] = React.useState(null)
   const { artist: { id: artistId } } = React.useContext(ArtistContext)
 
+  // Handle API request and navigate to the posts page
   const updateConversions = async () => {
     setIsLoading(true)
     const { res, error } = await enableConversions(artistId)
