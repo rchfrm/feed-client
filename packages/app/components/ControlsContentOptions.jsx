@@ -38,7 +38,7 @@ const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) =
 
     // Open content in side-panel if mobile
     const content = controlsComponents[key]
-    const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+    const button = key === 'conversions' ? null : <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
 
     setSidePanelContent(content)
     setSidePanelContentLabel(`controls ${key}`)
