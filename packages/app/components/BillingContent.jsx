@@ -55,8 +55,6 @@ const BILLING_CONTENT_SECTIONS = ({
           className="mb-12"
           latestInvoice={latestInvoice}
           upcomingInvoice={upcomingInvoice}
-          organisationId={organisation.id}
-          updateLatestInvoice={updateLatestInvoice}
         />
         {/* PAYMENT METHOD */}
         <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />

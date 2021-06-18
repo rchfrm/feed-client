@@ -4,7 +4,6 @@ import moment from 'moment'
 
 import Button from '@/elements/Button'
 
-import BillingOpenFailedInvoice from '@/app/BillingOpenFailedInvoice'
 import BillingOpenInvoices from '@/app/BillingOpenInvoices'
 
 const formatDate = date => moment(date).format('DD MMMM YYYY')
@@ -25,7 +24,7 @@ const BILLING_INVOICE_SUMMARY_HEADER = ({
     if (latestInvoicePaymentStatus === 'failed') {
       return 'Invoice overdue'
     }
-    if (upcomingInvoiceSpendAndFee === 0) {
+    if (!upcomingInvoiceSpendAndFee) {
       return 'Nothing to pay!'
     }
     if (latestInvoicePaymentStatus === 'paid') {
@@ -90,7 +89,11 @@ const SELECTED_INVOICE = ({
   noLatestInvoiceOrIsPaid,
   upcomingInvoiceSpendAndFee,
 }) => {
-  if (noLatestInvoiceOrIsPaid && !upcomingInvoiceSpendAndFee) return <></>
+  if (noLatestInvoiceOrIsPaid && !upcomingInvoiceSpendAndFee) {
+    return (
+      <p className="text-center">Start reaching new audiences by setting a budget from the <a href="/controls" target="_self">controls page</a>!</p>
+    )
+  }
   const sections = invoice.invoiceSections
   return (
     <>
@@ -107,6 +110,7 @@ const SELECTED_INVOICE = ({
       </div>
       <div className="p-3 mb-6 rounded-dialogue bg-grey-1">
         {sections.map(section => {
+          // TODO: Breakdown invoice by spend by profiles in organisation, relevant data needed from api
           return (
             <div key={section.slug} className="flex justify-between">
               <p className="mb-5">{section.title}</p>
@@ -128,6 +132,7 @@ const INVOICE_SUMMARY_BUTTON = ({
   spending,
 }) => {
   // Button to pay outstanding invoice
+  // TODO: Use BillingOpenFailedInvoice component to handle payment failures in app
   if (outstandingAmount && latestInvoiceSelected) {
     return (
       <Button
@@ -140,7 +145,7 @@ const INVOICE_SUMMARY_BUTTON = ({
     )
   }
   // Button to show historical invoices
-  if (latestInvoice) {
+  if (latestInvoice.paymentStatus) {
     return (
       <BillingOpenInvoices />
     )
@@ -184,8 +189,8 @@ const BillingInvoiceSummary = ({
 
       <BILLING_PERIOD_OPTIONS
         noLatestInvoiceOrIsPaid={noLatestInvoiceOrIsPaid}
-        latestInvoicePeriod={{ start: latestInvoice.period_start, end: latestInvoice.period_end}}
-        upcomingInvoicePeriod={{ start: upcomingInvoice.period_start, end: upcomingInvoice.period_end}}
+        latestInvoicePeriod={{ start: latestInvoice.period_start, end: latestInvoice.period_end }}
+        upcomingInvoicePeriod={{ start: upcomingInvoice.period_start, end: upcomingInvoice.period_end }}
         upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
         selectedInvoiceName={selectedInvoiceName}
         setSelectedInvoiceName={setSelectedInvoiceName}
