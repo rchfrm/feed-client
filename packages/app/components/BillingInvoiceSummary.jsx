@@ -4,6 +4,7 @@ import moment from 'moment'
 
 import BillingOpenFailedInvoice from '@/app/BillingOpenFailedInvoice'
 import BillingOpenInvoices from '@/app/BillingOpenInvoices'
+import Button from '@/elements/Button'
 
 const getHeader = (date, failed) => {
   if (!date) return 'No upcoming invoice'
@@ -43,38 +44,58 @@ const BILLING_INVOICE_SUMMARY_HEADER = ({
 
 const BILLING_PERIOD_OPTIONS = ({
   noLatestInvoiceOrIsPaid,
-  latestInvoiceId,
   latestInvoicePeriod,
-  upcomingInvoiceId,
   upcomingInvoicePeriod,
   upcomingInvoiceSpendAndFee,
-  selectedInvoiceId,
+  selectedInvoiceName,
+  setSelectedInvoiceName,
 }) => {
+  noLatestInvoiceOrIsPaid = true
   if (noLatestInvoiceOrIsPaid && upcomingInvoiceSpendAndFee === 0) return <></>
 
   const LATEST = () => {
     if (noLatestInvoiceOrIsPaid) return <></>
-    const selected = selectedInvoiceId === latestInvoiceId
+    const selected = selectedInvoiceName === 'latest'
     return (
-      <p className={`mb-0 pr-3 ${selected && 'font-bold black--underline'}`}>
+      <button
+        className={`mb-0 pr-3 ${selected ? 'font-bold black--underline' : 'text-grey-3'}`}
+        onClick={() => setSelectedInvoiceName('latest')}
+      >
         {formatDateRange(latestInvoicePeriod.start, latestInvoicePeriod.end)}
-      </p>
+      </button>
     )
   }
   const UPCOMING = () => {
-    const selected = selectedInvoiceId === upcomingInvoiceId
+    const selected = selectedInvoiceName === 'upcoming'
     return (
-      <p className={`mb-0 ${selected && 'font-bold'} ${!noLatestInvoiceOrIsPaid && 'black--underline'}`}>
+      <button
+        className={`
+        mb-0
+        ${selected ? 'font-bold' : 'text-grey-3'}
+        ${selected && !noLatestInvoiceOrIsPaid && 'black--underline'}
+        ${noLatestInvoiceOrIsPaid && 'cursor-text'}
+        `}
+        onClick={() => setSelectedInvoiceName('upcoming')}
+        disabled={noLatestInvoiceOrIsPaid}
+      >
         {formatDateRange(upcomingInvoicePeriod.start, upcomingInvoicePeriod.end)}
-      </p>
+      </button>
     )
   }
   return (
-    <div className="flex">
+    <div className="flex pb-5">
       <p className="mb-0 pr-3">Billing period:</p>
       <LATEST />
       <UPCOMING />
     </div>
+  )
+}
+
+const SELECTED_INVOICE = ({
+  selectedInvoiceName,
+}) => {
+  return (
+    `SELECTED_INVOICE ${selectedInvoiceName}`
   )
 }
 
@@ -86,6 +107,8 @@ const BillingInvoiceSummary = ({
   updateLatestInvoice,
   className,
 }) => {
+  const initSelectedInvoiceName = upcomingInvoice && upcomingInvoice.paymentStatus !== 'paid' ? 'upcoming' : 'latest'
+  const [selectedInvoiceName, setSelectedInvoiceName] = React.useState(initSelectedInvoiceName)
   return (
     <div
       className={[
@@ -102,14 +125,16 @@ const BillingInvoiceSummary = ({
 
       <BILLING_PERIOD_OPTIONS
         noLatestInvoiceOrIsPaid={!latestInvoice || latestInvoice.paymentStatus === 'paid'}
-        latestInvoiceId={latestInvoice.id}
         latestInvoicePeriod={{ start: latestInvoice.period_start, end: latestInvoice.period_end}}
-        upcomingInvoiceId={upcomingInvoice.id}
         upcomingInvoicePeriod={{ start: upcomingInvoice.period_start, end: upcomingInvoice.period_end}}
         upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
-        selectedInvoiceId={upcomingInvoice.id}
+        selectedInvoiceName={selectedInvoiceName}
+        setSelectedInvoiceName={setSelectedInvoiceName}
       />
 
+      <SELECTED_INVOICE
+        selectedInvoiceName={selectedInvoiceName}
+      />
 
       {/*{failed && (*/}
       {/*  <h4 className="font-body font-bold mb-2">{date}</h4>*/}
