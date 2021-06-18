@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
 import BillingOpenFailedInvoice from '@/app/BillingOpenFailedInvoice'
 import BillingOpenInvoices from '@/app/BillingOpenInvoices'
@@ -10,6 +11,73 @@ const getHeader = (date, failed) => {
   return `Next invoice: ${date}`
 }
 
+const formatDate = date => moment(date).format('DD MMMM YYYY')
+
+const formatDateRange = (startDate, endDate) => {
+  startDate = moment(startDate).format('D')
+  endDate = moment(endDate).format('D MMM YY')
+  return `${startDate} - ${endDate}`
+}
+
+const BILLING_INVOICE_SUMMARY_HEADER = ({
+  latestInvoicePaymentStatus,
+  latestInvoiceDueDate,
+  upcomingInvoiceDueDate,
+  upcomingInvoiceSpendAndFee,
+}) => {
+  const getHeader = () => {
+    if (latestInvoicePaymentStatus === 'failed') {
+      return 'Invoice overdue'
+    }
+    if (upcomingInvoiceSpendAndFee === 0) {
+      return 'Nothing to pay!'
+    }
+    if (latestInvoicePaymentStatus === 'paid') {
+      return `Next payment: ${formatDate(upcomingInvoiceDueDate)}`
+    }
+    return `Next payment: ${formatDate(latestInvoiceDueDate)}`
+  }
+
+  return <h3 className="font-body font-bold mb-6">{getHeader()}</h3>
+}
+
+const BILLING_PERIOD_OPTIONS = ({
+  noLatestInvoiceOrIsPaid,
+  latestInvoiceId,
+  latestInvoicePeriod,
+  upcomingInvoiceId,
+  upcomingInvoicePeriod,
+  upcomingInvoiceSpendAndFee,
+  selectedInvoiceId,
+}) => {
+  if (noLatestInvoiceOrIsPaid && upcomingInvoiceSpendAndFee === 0) return <></>
+
+  const LATEST = () => {
+    if (noLatestInvoiceOrIsPaid) return <></>
+    const selected = selectedInvoiceId === latestInvoiceId
+    return (
+      <p className={`mb-0 pr-3 ${selected && 'font-bold black--underline'}`}>
+        {formatDateRange(latestInvoicePeriod.start, latestInvoicePeriod.end)}
+      </p>
+    )
+  }
+  const UPCOMING = () => {
+    const selected = selectedInvoiceId === upcomingInvoiceId
+    return (
+      <p className={`mb-0 ${selected && 'font-bold'} ${!noLatestInvoiceOrIsPaid && 'black--underline'}`}>
+        {formatDateRange(upcomingInvoicePeriod.start, upcomingInvoicePeriod.end)}
+      </p>
+    )
+  }
+  return (
+    <div className="flex">
+      <p className="mb-0 pr-3">Billing period:</p>
+      <LATEST />
+      <UPCOMING />
+    </div>
+  )
+}
+
 const BillingInvoiceSummary = ({
   latestInvoice,
   upcomingInvoice,
@@ -18,23 +86,29 @@ const BillingInvoiceSummary = ({
   updateLatestInvoice,
   className,
 }) => {
-  // const {
-  //   date,
-  //   invoiceSections = [],
-  //   totalFee,
-  // } = invoice
-
-  // Upcoming invoice cannot be failed
-  // const failed = !isUpcoming && invoice.failed
-  // const header = getHeader(date, failed)
-
-
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
+
+      <BILLING_INVOICE_SUMMARY_HEADER
+        latestInvoicePaymentStatus={latestInvoice.paymentStatus}
+        latestInvoiceDueDate={moment(latestInvoice.period_end).add(2, 'day')}
+        upcomingInvoiceDueDate={moment(upcomingInvoice.period_end).add(2, 'day')}
+        upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
+      />
+
+      <BILLING_PERIOD_OPTIONS
+        noLatestInvoiceOrIsPaid={!latestInvoice || latestInvoice.paymentStatus === 'paid'}
+        latestInvoiceId={latestInvoice.id}
+        latestInvoicePeriod={{ start: latestInvoice.period_start, end: latestInvoice.period_end}}
+        upcomingInvoiceId={upcomingInvoice.id}
+        upcomingInvoicePeriod={{ start: upcomingInvoice.period_start, end: upcomingInvoice.period_end}}
+        upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
+        selectedInvoiceId={upcomingInvoice.id}
+      />
 
 
       {/*{failed && (*/}
@@ -91,16 +165,16 @@ const BillingInvoiceSummary = ({
 }
 
 BillingInvoiceSummary.propTypes = {
-  invoice: PropTypes.object,
-  isUpcoming: PropTypes.bool.isRequired,
-  hasLatestInvoice: PropTypes.bool.isRequired,
+  upcomingInvoice: PropTypes.object,
+  latestInvoice: PropTypes.object,
   organisationId: PropTypes.string.isRequired,
   updateLatestInvoice: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 BillingInvoiceSummary.defaultProps = {
-  invoice: {},
+  upcomingInvoice: {},
+  latestInvoice: {},
   className: null,
 }
 
