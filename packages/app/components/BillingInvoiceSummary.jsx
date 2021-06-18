@@ -4,8 +4,6 @@ import moment from 'moment'
 
 import BillingOpenFailedInvoice from '@/app/BillingOpenFailedInvoice'
 import BillingOpenInvoices from '@/app/BillingOpenInvoices'
-import Button from '@/elements/Button'
-import ButtonPill from '@/elements/ButtonPill'
 
 const getHeader = (date, failed) => {
   if (!date) return 'No upcoming invoice'
@@ -94,7 +92,17 @@ const BILLING_PERIOD_OPTIONS = ({
 const SELECTED_INVOICE = ({ invoice }) => {
   return (
     <>
-      <span className={`py-2 px-4 rounded-full ${invoice.paymentStatus === 'failed' ? 'text-white bg-red font-bold' : 'bg-grey-2'}`}>{invoice.paymentStatus}</span>
+      <p className={`inline-block py-2 px-4 mb-5 rounded-full ${invoice.paymentStatus === 'failed' ? 'text-white bg-red font-bold' : 'bg-grey-2'}`}>{invoice.paymentStatus}</p>
+      <div className="border-solid border-2 p-3 border-green rounded-dialogue">
+        <div className="flex justify-between font-bold">
+          <p className="mb-3">Total spent</p>
+          <p className="mb-3">{invoice.formatServiceFeePlusAdSpend}</p>
+        </div>
+        <div className="flex justify-between">
+          <p className="mb-0">of which, Feed service fee</p>
+          <p className="mb-0">{invoice.totalFee}</p>
+        </div>
+      </div>
     </>
   )
 }
