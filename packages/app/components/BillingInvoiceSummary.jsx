@@ -182,6 +182,7 @@ const BillingInvoiceSummary = ({
 
       <BILLING_INVOICE_SUMMARY_HEADER
         latestInvoicePaymentStatus={latestInvoice.paymentStatus}
+        {/* TODO: Use the due_date field returned by api */}
         latestInvoiceDueDate={moment(latestInvoice.period_end).add(2, 'day')}
         upcomingInvoiceDueDate={moment(upcomingInvoice.period_end).add(2, 'day')}
         upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
