@@ -40,7 +40,6 @@ const BILLING_CONTENT_SECTIONS = ({
   latestInvoice,
   upcomingInvoice,
   organisation,
-  hasLatestInvoice,
   updateLatestInvoice,
   defaultPaymentMethod,
   showProfilesSection,
@@ -56,7 +55,6 @@ const BILLING_CONTENT_SECTIONS = ({
           className="mb-12"
           latestInvoice={latestInvoice}
           upcomingInvoice={upcomingInvoice}
-          hasLatestInvoice={hasLatestInvoice}
           organisationId={organisation.id}
           updateLatestInvoice={updateLatestInvoice}
         />
@@ -97,8 +95,6 @@ const BillingContent = () => {
     transferRequests,
     updateLatestInvoice,
   } = useBillingStore(getBillingStoreState, shallow)
-
-  const hasLatestInvoice = Object.keys(latestInvoice).length > 0
 
   const shouldShowProfilesSection = () => {
     // SHOW PROFILES SECTION IF THERE ARE NO (zero) OR MULTIPLE (more than 1) PROFILES
@@ -150,7 +146,6 @@ const BillingContent = () => {
           latestInvoice={latestInvoice}
           upcomingInvoice={upcomingInvoice}
           organisation={organisation}
-          hasLatestInvoice={hasLatestInvoice}
           updateLatestInvoice={updateLatestInvoice}
           defaultPaymentMethod={defaultPaymentMethod}
           showProfilesSection={shouldShowProfilesSection()}

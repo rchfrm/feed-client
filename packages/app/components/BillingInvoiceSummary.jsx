@@ -5,6 +5,7 @@ import moment from 'moment'
 import BillingOpenFailedInvoice from '@/app/BillingOpenFailedInvoice'
 import BillingOpenInvoices from '@/app/BillingOpenInvoices'
 import Button from '@/elements/Button'
+import ButtonPill from '@/elements/ButtonPill'
 
 const getHeader = (date, failed) => {
   if (!date) return 'No upcoming invoice'
@@ -50,7 +51,6 @@ const BILLING_PERIOD_OPTIONS = ({
   selectedInvoiceName,
   setSelectedInvoiceName,
 }) => {
-  noLatestInvoiceOrIsPaid = true
   if (noLatestInvoiceOrIsPaid && upcomingInvoiceSpendAndFee === 0) return <></>
 
   const LATEST = () => {
@@ -58,7 +58,7 @@ const BILLING_PERIOD_OPTIONS = ({
     const selected = selectedInvoiceName === 'latest'
     return (
       <button
-        className={`mb-0 pr-3 ${selected ? 'font-bold black--underline' : 'text-grey-3'}`}
+        className={`mb-0 mr-3 ${selected ? 'font-bold black--underline' : 'text-grey-3'}`}
         onClick={() => setSelectedInvoiceName('latest')}
       >
         {formatDateRange(latestInvoicePeriod.start, latestInvoicePeriod.end)}
@@ -84,25 +84,41 @@ const BILLING_PERIOD_OPTIONS = ({
   }
   return (
     <div className="flex pb-5">
-      <p className="mb-0 pr-3">Billing period:</p>
+      <p className="mb-0 mr-3">Billing period:</p>
       <LATEST />
       <UPCOMING />
     </div>
   )
 }
 
-const SELECTED_INVOICE = ({
-  selectedInvoiceName,
+const SELECTED_INVOICE = ({ invoice }) => {
+  return (
+    <>
+      <span className={`py-2 px-4 rounded-full ${invoice.paymentStatus === 'failed' ? 'text-white bg-red font-bold' : 'bg-grey-2'}`}>{invoice.paymentStatus}</span>
+    </>
+  )
+}
+
+const INVOICE_SUMMARY_BUTTON = ({
+  latestInvoice,
 }) => {
   return (
-    `SELECTED_INVOICE ${selectedInvoiceName}`
+    <div className="pt-6">
+      {/* BUTTON FOR HANDLING FAILED INVOICE */}
+      {/*{failed && (*/}
+      {/*  <BillingOpenFailedInvoice className="mb-4" organisationId={organisationId} updateLatestInvoice={updateLatestInvoice} />*/}
+      {/*)}*/}
+      {/* BUTTON (FOR SHOW ALL) */}
+      {latestInvoice && (
+        <BillingOpenInvoices />
+      )}
+    </div>
   )
 }
 
 const BillingInvoiceSummary = ({
   latestInvoice,
   upcomingInvoice,
-  hasLatestInvoice,
   organisationId,
   updateLatestInvoice,
   className,
@@ -133,58 +149,13 @@ const BillingInvoiceSummary = ({
       />
 
       <SELECTED_INVOICE
-        selectedInvoiceName={selectedInvoiceName}
+        invoice={selectedInvoiceName === 'upcoming' ? upcomingInvoice : latestInvoice}
       />
 
-      {/*{failed && (*/}
-      {/*  <h4 className="font-body font-bold mb-2">{date}</h4>*/}
-      {/*)}*/}
-      {/*<h3 className={`font-body font-bold mb-6 ${failed ? 'text-red' : null}`}>{header}</h3>*/}
-      {/*/!* INVOICE SECTIONS *!/*/}
-      {/*{invoiceSections.map((section, index) => {*/}
-      {/*  return (*/}
-      {/*    <ul key={index} className="bg-grey-1 rounded-dialogue p-5 mb-5">*/}
-      {/*      {section.map(({ slug, title, value }, index) => {*/}
-      {/*        const lastItem = index === section.length - 1*/}
-      {/*        const TextEl = lastItem ? 'strong' : 'span'*/}
-      {/*        return (*/}
-      {/*          <React.Fragment key={slug}>*/}
-      {/*            {lastItem && (*/}
-      {/*              <div className="w-full bg-black my-4" style={{ height: 1 }} />*/}
-      {/*            )}*/}
-      {/*            <li key={slug} className="flex justify-between mb-3 last:mb-0">*/}
-      {/*              <TextEl>{title}</TextEl>*/}
-      {/*              <TextEl>{value}</TextEl>*/}
-      {/*            </li>*/}
-      {/*          </React.Fragment>*/}
-      {/*        )*/}
-      {/*      })}*/}
-      {/*    </ul>*/}
-      {/*  )*/}
-      {/*})}*/}
-      {/*/!* TOTAL *!/*/}
-      {/*{invoice.id && (*/}
-      {/*  <p*/}
-      {/*    className={[*/}
-      {/*      'text-lg',*/}
-      {/*      'flex justify-between mb-0 py-3 px-5',*/}
-      {/*      'border-solid border-2 border-green rounded-dialogue',*/}
-      {/*    ].join(' ')}*/}
-      {/*  >*/}
-      {/*    <strong>TOTAL FEE</strong>*/}
-      {/*    <strong>{totalFee}</strong>*/}
-      {/*  </p>*/}
-      {/*)}*/}
-      {/*<div className="pt-6">*/}
-      {/*  /!* BUTTON FOR HANDLING FAILED INVOICE *!/*/}
-      {/*  {failed && (*/}
-      {/*    <BillingOpenFailedInvoice className="mb-4" organisationId={organisationId} updateLatestInvoice={updateLatestInvoice} />*/}
-      {/*  )}*/}
-      {/*  /!* BUTTON (FOR SHOW ALL) *!/*/}
-      {/*  {hasLatestInvoice && (*/}
-      {/*    <BillingOpenInvoices />*/}
-      {/*  )}*/}
-      {/*</div>*/}
+      <INVOICE_SUMMARY_BUTTON
+        latestInvoice={latestInvoice}
+      />
+
     </div>
   )
 }
