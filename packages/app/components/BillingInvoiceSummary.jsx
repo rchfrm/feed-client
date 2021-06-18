@@ -5,12 +5,6 @@ import moment from 'moment'
 import BillingOpenFailedInvoice from '@/app/BillingOpenFailedInvoice'
 import BillingOpenInvoices from '@/app/BillingOpenInvoices'
 
-const getHeader = (date, failed) => {
-  if (!date) return 'No upcoming invoice'
-  if (failed) return 'There was a problem paying your last invoice'
-  return `Next invoice: ${date}`
-}
-
 const formatDate = date => moment(date).format('DD MMMM YYYY')
 
 const formatDateRange = (startDate, endDate) => {
@@ -106,14 +100,14 @@ const SELECTED_INVOICE = ({ invoice }) => {
       </div>
       <div className="p-3 rounded-dialogue bg-grey-1">
         {sections.map(section => {
-          console.log(section.title)
           return (
             <div key={section.slug} className="flex justify-between">
-              <p className="mb-3">{section.title}</p>
-              <p className="mb-3">{section.value}</p>
+              <p className="mb-5">{section.title}</p>
+              <p className="mb-5">{section.value}</p>
             </div>
           )
         })}
+        <p className="small--p italic mb-0">You will receive a separate invoice directly from Facebook for the ad spend.</p>
       </div>
     </>
   )
