@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
+import Button from '@/elements/Button'
+
 import BillingOpenFailedInvoice from '@/app/BillingOpenFailedInvoice'
 import BillingOpenInvoices from '@/app/BillingOpenInvoices'
 
@@ -75,7 +77,7 @@ const BILLING_PERIOD_OPTIONS = ({
     )
   }
   return (
-    <div className="flex pb-5">
+    <div className="flex pb-6">
       <p className="mb-0 mr-3">Billing period:</p>
       <LATEST />
       <UPCOMING />
@@ -87,8 +89,8 @@ const SELECTED_INVOICE = ({ invoice }) => {
   const sections = invoice.invoiceSections
   return (
     <>
-      <p className={`inline-block py-2 px-4 mb-5 rounded-full ${invoice.paymentStatus === 'failed' ? 'text-white bg-red font-bold' : 'bg-grey-2'}`}>{invoice.paymentStatus}</p>
-      <div className="border-solid border-2 mb-5 p-3 border-green rounded-dialogue">
+      <p className={`inline-block py-2 px-4 mb-6 rounded-full ${invoice.paymentStatus === 'failed' ? 'text-white bg-red font-bold' : 'bg-grey-2'}`}>{invoice.paymentStatus}</p>
+      <div className="border-solid border-2 mb-6 p-3 border-green rounded-dialogue">
         <div className="flex justify-between font-bold">
           <p className="mb-3">Total spent</p>
           <p className="mb-3">{invoice.formatServiceFeePlusAdSpend}</p>
@@ -98,7 +100,7 @@ const SELECTED_INVOICE = ({ invoice }) => {
           <p className="mb-0">{invoice.totalFee}</p>
         </div>
       </div>
-      <div className="p-3 rounded-dialogue bg-grey-1">
+      <div className="p-3 mb-6 rounded-dialogue bg-grey-1">
         {sections.map(section => {
           return (
             <div key={section.slug} className="flex justify-between">
@@ -115,9 +117,23 @@ const SELECTED_INVOICE = ({ invoice }) => {
 
 const INVOICE_SUMMARY_BUTTON = ({
   latestInvoice,
+  latestInvoiceSelected,
+  outstandingAmount,
+  invoiceUrl,
 }) => {
+  if (outstandingAmount && latestInvoiceSelected) {
+    return (
+      <Button
+        version="black small"
+        className="bg-red"
+        href={invoiceUrl}
+      >
+        Pay {outstandingAmount}
+      </Button>
+    )
+  }
   return (
-    <div className="pt-6">
+    <div>
       {/* BUTTON FOR HANDLING FAILED INVOICE */}
       {/*{failed && (*/}
       {/*  <BillingOpenFailedInvoice className="mb-4" organisationId={organisationId} updateLatestInvoice={updateLatestInvoice} />*/}
@@ -168,6 +184,9 @@ const BillingInvoiceSummary = ({
 
       <INVOICE_SUMMARY_BUTTON
         latestInvoice={latestInvoice}
+        latestInvoiceSelected={selectedInvoiceName === 'latest'}
+        outstandingAmount={latestInvoice.paymentStatus === 'failed' && latestInvoice.totalFee}
+        invoiceUrl={latestInvoice.invoiceUrl}
       />
 
     </div>

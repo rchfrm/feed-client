@@ -18,7 +18,7 @@ export const fetchArchivedInvoices = (organizationId) => {
 // * UPCOMING INVOICE
 // ------------------
 const formatUpcomingInvoice = (invoice) => {
-  const { currency, exponent } = invoice
+  const { currency, exponent, hosted_invoice_url: invoiceUrl } = invoice
   const currencyOffset = 10 ** exponent
   let invoiceSections = []
   let totalFee = 0
@@ -82,6 +82,7 @@ const formatUpcomingInvoice = (invoice) => {
   // Return data
   return {
     ...invoice,
+    invoiceUrl,
     paymentStatus,
     invoiceSections,
     serviceFeePlusAdSpend,
