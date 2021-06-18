@@ -45,7 +45,7 @@ const BILLING_PERIOD_OPTIONS = ({
   selectedInvoiceName,
   setSelectedInvoiceName,
 }) => {
-  if (noLatestInvoiceOrIsPaid && upcomingInvoiceSpendAndFee === 0) return <></>
+  if (noLatestInvoiceOrIsPaid && !upcomingInvoiceSpendAndFee) return <></>
 
   const LATEST = () => {
     if (noLatestInvoiceOrIsPaid) return <></>
@@ -85,7 +85,12 @@ const BILLING_PERIOD_OPTIONS = ({
   )
 }
 
-const SELECTED_INVOICE = ({ invoice }) => {
+const SELECTED_INVOICE = ({
+  invoice,
+  noLatestInvoiceOrIsPaid,
+  upcomingInvoiceSpendAndFee,
+}) => {
+  if (noLatestInvoiceOrIsPaid && !upcomingInvoiceSpendAndFee) return <></>
   const sections = invoice.invoiceSections
   return (
     <>
@@ -162,6 +167,7 @@ const BillingInvoiceSummary = ({
 }) => {
   const initSelectedInvoiceName = upcomingInvoice && upcomingInvoice.paymentStatus !== 'paid' ? 'upcoming' : 'latest'
   const [selectedInvoiceName, setSelectedInvoiceName] = React.useState(initSelectedInvoiceName)
+  const noLatestInvoiceOrIsPaid = !latestInvoice.paymentStatus || latestInvoice.paymentStatus === 'paid'
   return (
     <div
       className={[
@@ -177,7 +183,7 @@ const BillingInvoiceSummary = ({
       />
 
       <BILLING_PERIOD_OPTIONS
-        noLatestInvoiceOrIsPaid={!latestInvoice || latestInvoice.paymentStatus === 'paid'}
+        noLatestInvoiceOrIsPaid={noLatestInvoiceOrIsPaid}
         latestInvoicePeriod={{ start: latestInvoice.period_start, end: latestInvoice.period_end}}
         upcomingInvoicePeriod={{ start: upcomingInvoice.period_start, end: upcomingInvoice.period_end}}
         upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
@@ -187,6 +193,8 @@ const BillingInvoiceSummary = ({
 
       <SELECTED_INVOICE
         invoice={selectedInvoiceName === 'upcoming' ? upcomingInvoice : latestInvoice}
+        noLatestInvoiceOrIsPaid={noLatestInvoiceOrIsPaid}
+        upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
       />
 
       <INVOICE_SUMMARY_BUTTON
