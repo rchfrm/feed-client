@@ -120,7 +120,9 @@ const INVOICE_SUMMARY_BUTTON = ({
   latestInvoiceSelected,
   outstandingAmount,
   invoiceUrl,
+  spending,
 }) => {
+  // Button to pay outstanding invoice
   if (outstandingAmount && latestInvoiceSelected) {
     return (
       <Button
@@ -132,25 +134,30 @@ const INVOICE_SUMMARY_BUTTON = ({
       </Button>
     )
   }
-  return (
-    <div>
-      {/* BUTTON FOR HANDLING FAILED INVOICE */}
-      {/*{failed && (*/}
-      {/*  <BillingOpenFailedInvoice className="mb-4" organisationId={organisationId} updateLatestInvoice={updateLatestInvoice} />*/}
-      {/*)}*/}
-      {/* BUTTON (FOR SHOW ALL) */}
-      {latestInvoice && (
-        <BillingOpenInvoices />
-      )}
-    </div>
-  )
+  // Button to show historical invoices
+  if (latestInvoice) {
+    return (
+      <BillingOpenInvoices />
+    )
+  }
+  // Ask user to set a budget if there are no historical invoices
+  // and there is no spend on the "upcoming" invoice
+  if (!spending) {
+    return (
+      <Button
+        version="black small"
+        href="/controls"
+      >
+        Set a budget
+      </Button>
+    )
+  }
+  return <></>
 }
 
 const BillingInvoiceSummary = ({
   latestInvoice,
   upcomingInvoice,
-  organisationId,
-  updateLatestInvoice,
   className,
 }) => {
   const initSelectedInvoiceName = upcomingInvoice && upcomingInvoice.paymentStatus !== 'paid' ? 'upcoming' : 'latest'
@@ -187,6 +194,7 @@ const BillingInvoiceSummary = ({
         latestInvoiceSelected={selectedInvoiceName === 'latest'}
         outstandingAmount={latestInvoice.paymentStatus === 'failed' && latestInvoice.totalFee}
         invoiceUrl={latestInvoice.invoiceUrl}
+        spending={upcomingInvoice.serviceFeePlusAdSpend > 0}
       />
 
     </div>
@@ -196,8 +204,6 @@ const BillingInvoiceSummary = ({
 BillingInvoiceSummary.propTypes = {
   upcomingInvoice: PropTypes.object,
   latestInvoice: PropTypes.object,
-  organisationId: PropTypes.string.isRequired,
-  updateLatestInvoice: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
