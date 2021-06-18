@@ -90,10 +90,11 @@ const BILLING_PERIOD_OPTIONS = ({
 }
 
 const SELECTED_INVOICE = ({ invoice }) => {
+  const sections = invoice.invoiceSections
   return (
     <>
       <p className={`inline-block py-2 px-4 mb-5 rounded-full ${invoice.paymentStatus === 'failed' ? 'text-white bg-red font-bold' : 'bg-grey-2'}`}>{invoice.paymentStatus}</p>
-      <div className="border-solid border-2 p-3 border-green rounded-dialogue">
+      <div className="border-solid border-2 mb-5 p-3 border-green rounded-dialogue">
         <div className="flex justify-between font-bold">
           <p className="mb-3">Total spent</p>
           <p className="mb-3">{invoice.formatServiceFeePlusAdSpend}</p>
@@ -102,6 +103,17 @@ const SELECTED_INVOICE = ({ invoice }) => {
           <p className="mb-0">of which, Feed service fee</p>
           <p className="mb-0">{invoice.totalFee}</p>
         </div>
+      </div>
+      <div className="p-3 rounded-dialogue bg-grey-1">
+        {sections.map(section => {
+          console.log(section.title)
+          return (
+            <div key={section.slug} className="flex justify-between">
+              <p className="mb-3">{section.title}</p>
+              <p className="mb-3">{section.value}</p>
+            </div>
+          )
+        })}
       </div>
     </>
   )

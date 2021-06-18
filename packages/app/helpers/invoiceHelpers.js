@@ -20,49 +20,47 @@ export const fetchArchivedInvoices = (organizationId) => {
 const formatUpcomingInvoice = (invoice) => {
   const { currency, exponent } = invoice
   const currencyOffset = 10 ** exponent
-  const invoiceSections = []
+  let invoiceSections = []
   let totalFee = 0
   // Handle ad spend
   const adSpendSlug = 'ad_spend_total'
   const adSpendFeedSlug = 'ad_spend_fee'
-  invoiceSections.push(
-    [
-      {
-        slug: adSpendSlug,
-        value: formatCurrency(invoice[adSpendSlug] / currencyOffset, currency),
-        valueRaw: invoice[adSpendSlug],
-        title: 'Total ad spend',
-      },
-      {
-        slug: adSpendFeedSlug,
-        value: formatCurrency(invoice[adSpendFeedSlug] / currencyOffset, currency),
-        valueRaw: invoice[adSpendFeedSlug],
-        title: 'Feed fee on ad spend',
-      },
-    ],
-  )
+  invoiceSections = [
+    ...invoiceSections,
+    {
+      slug: adSpendFeedSlug,
+      value: formatCurrency(invoice[adSpendFeedSlug] / currencyOffset, currency),
+      valueRaw: invoice[adSpendFeedSlug],
+      title: 'Feed service fee',
+    },
+    {
+      slug: adSpendSlug,
+      value: formatCurrency(invoice[adSpendSlug] / currencyOffset, currency),
+      valueRaw: invoice[adSpendSlug],
+      title: 'Facebook ad spend',
+    },
+  ]
   // Update fee
   totalFee += invoice[adSpendFeedSlug]
   // Handle conversion spend
   const conversionSaleSlug = 'conversions_total'
   const conversionFeeSlug = 'conversions_fee'
-  if (typeof invoice[conversionSaleSlug] === 'number') {
-    invoiceSections.push(
-      [
-        {
-          slug: conversionSaleSlug,
-          value: formatCurrency(invoice[conversionSaleSlug] / currencyOffset, currency),
-          valueRaw: invoice[conversionSaleSlug],
-          title: 'Conversion sales',
-        },
-        {
-          slug: conversionFeeSlug,
-          value: formatCurrency(invoice[conversionFeeSlug] / currencyOffset, currency),
-          valueRaw: invoice[conversionFeeSlug],
-          title: 'Feed fee on conversions',
-        },
-      ],
-    )
+  if (invoice[conversionSaleSlug] > 0) {
+    invoiceSections = [
+      ...invoiceSections,
+      {
+        slug: conversionSaleSlug,
+        value: formatCurrency(invoice[conversionSaleSlug] / currencyOffset, currency),
+        valueRaw: invoice[conversionSaleSlug],
+        title: 'Conversion sales',
+      },
+      {
+        slug: conversionFeeSlug,
+        value: formatCurrency(invoice[conversionFeeSlug] / currencyOffset, currency),
+        valueRaw: invoice[conversionFeeSlug],
+        title: 'Feed fee on conversions',
+      },
+    ]
     // Update fee
     totalFee += invoice[conversionFeeSlug]
   }
