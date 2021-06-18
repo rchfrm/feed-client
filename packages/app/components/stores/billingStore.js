@@ -2,7 +2,7 @@ import create from 'zustand'
 import produce from 'immer'
 
 import * as billingHelpers from '@/app/helpers/billingHelpers'
-import { fetchUpcomingInvoice, fetchLatestInvoice } from '@/app/helpers/invoiceHelpers'
+import {fetchLatestInvoice, fetchUpcomingInvoice} from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
   allOrgs: [],
@@ -13,7 +13,7 @@ const initialState = {
   organisationArtists: [],
   billingEnabled: false,
   billingDetails: {},
-  nextInvoice: {},
+  upcomingInvoice: {},
   latestInvoice: {},
   artistCurrency: {},
   defaultPaymentMethod: null,
@@ -35,8 +35,8 @@ const fetchOrganisationDetails = async (organisation) => {
   const billingDetails = billingHelpers.getbillingDetails(organisation)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
   // Fetch next invoice
-  const { res: nextInvoice, error: nextInvoiceError } = await fetchUpcomingInvoice(organisation.id)
-  if (nextInvoiceError && nextInvoiceError.message !== 'Not Found') errors.push(nextInvoiceError)
+  const { res: upcomingInvoice, error: upcomingInvoiceError } = await fetchUpcomingInvoice(organisation.id)
+  if (upcomingInvoiceError && upcomingInvoiceError.message !== 'Not Found') errors.push(upcomingInvoiceError)
   // Fetch latest invoice
   const { res: latestInvoice, error: latestInvoiceError } = await fetchLatestInvoice(organisation.id)
   if (latestInvoiceError) errors.push(latestInvoiceError)
@@ -44,7 +44,7 @@ const fetchOrganisationDetails = async (organisation) => {
   // const { res: referralsDetails, error: referralsError = null } = await billingHelpers.getReferralsData()
   // if (referralsError) errors.push(referralsError)
   return {
-    nextInvoice,
+    upcomingInvoice,
     latestInvoice,
     billingDetails,
     defaultPaymentMethod,
@@ -59,7 +59,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
   // TODO improve selecting the org
   const organisation = activeOrganisation || allOrgs[0]
   const {
-    nextInvoice,
+    upcomingInvoice,
     latestInvoice,
     billingDetails,
     referralsDetails,
@@ -107,7 +107,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     billingDetails,
     referralsDetails,
     defaultPaymentMethod,
-    nextInvoice,
+    upcomingInvoice,
     latestInvoice,
     ...(artistCurrency && { artistCurrency }),
     loading: false,
@@ -152,8 +152,7 @@ const updateDefaultPayment = (set, get) => (defaultPaymentMethod) => {
   const { billingDetails } = get()
   const billingDetailsUpdated = produce(billingDetails, draftState => {
     draftState.allPaymentMethods.forEach((method) => {
-      const isDefault = method.id === newPaymentMethodId
-      method.is_default = isDefault
+      method.is_default = method.id === newPaymentMethodId
     })
   })
   // Update state
@@ -210,6 +209,10 @@ export const updateOrganisationArtists = (set) => async (organisationArtists) =>
   set({ organisationArtists })
 }
 
+const updateUpcomingInvoice = (set) => (upcomingInvoice) => {
+  set({ upcomingInvoice })
+}
+
 const updateLatestInvoice = (set) => (latestInvoice) => {
   set({ latestInvoice })
 }
@@ -228,6 +231,7 @@ const useBillingStore = create((set, get) => ({
   removeOrganisationInvite: removeOrganisationInvite(set, get),
   removeTransferRequest: removeTransferRequest(set, get),
   updateOrganisationArtists: updateOrganisationArtists(set, get),
+  updateUpcomingInvoice: updateUpcomingInvoice(set, get),
   updateLatestInvoice: updateLatestInvoice(set, get),
 }))
 

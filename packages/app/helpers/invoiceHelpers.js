@@ -69,10 +69,22 @@ const formatUpcomingInvoice = (invoice) => {
 
   const serviceFeePlusAdSpend = invoice[adSpendFeedSlug] + invoice[adSpendSlug]
 
+  const today = moment()
+  let paymentStatus
+  if (moment(invoice.period_end).isSameOrAfter(today, 'day')) {
+    paymentStatus = 'upcoming'
+  } else if (invoice.status === 'draft' && !invoice.attempted && !invoice.paid) {
+    paymentStatus = 'draft'
+  } else if (invoice.paid) {
+    paymentStatus = 'paid'
+  } else {
+    paymentStatus = 'failed'
+  }
+
   // Return data
   return {
     ...invoice,
-    failed: !((invoice.status === 'open' && !invoice.attempted) || invoice.status === 'paid'),
+    paymentStatus,
     invoiceSections,
     serviceFeePlusAdSpend,
     formatServiceFeePlusAdSpend: formatCurrency(serviceFeePlusAdSpend / currencyOffset, currency),
