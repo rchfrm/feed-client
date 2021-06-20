@@ -11,8 +11,8 @@ const initialState = {
   artistId: '',
   isMusician: false,
   defaultLink: {},
-  posts: {},
-  conversions: {},
+  postsPreferences: {},
+  conversionsPreferences: {},
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
@@ -184,8 +184,8 @@ const fetchLinks = (set, get) => async (action, artist) => {
     linkBankError: null,
     folderStates,
     defaultLink,
-    posts,
-    conversions,
+    postsPreferences: posts,
+    conversionsPreferences: conversions,
   })
 }
 
@@ -303,8 +303,8 @@ const useControlsStore = create((set, get) => ({
   artistId: initialState.artistId,
   isMusician: initialState.isMusician,
   defaultLink: initialState.defaultLink,
-  posts: initialState.posts,
-  conversions: initialState.conversions,
+  postsPreferences: initialState.postsPreferences,
+  conversionsPreferences: initialState.conversionsPreferences,
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
