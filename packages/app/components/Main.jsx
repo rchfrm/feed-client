@@ -12,7 +12,7 @@ import NotificationsHandler from '@/app/NotificationsHandler'
 // // IMPORT STORES
 import useControlsStore from '@/app/stores/controlsStore'
 
-const controlsStoreInit = state => state.initLinkStore
+const controlsStoreInit = state => state.initControlsStore
 const getUpdateLinksWithIntegrations = state => state.updateLinksWithIntegrations
 const controlsStoreClearAll = state => state.clearAll
 
@@ -24,10 +24,10 @@ function Main({ children }) {
 
   // SETUP POSTS STORE WHEN ARTIST CHANGES
   const setupControlsStore = useControlsStore(controlsStoreInit)
-  const clearLinkStore = useControlsStore(controlsStoreClearAll)
+  const clearControlsStore = useControlsStore(controlsStoreClearAll)
   React.useEffect(() => {
     if (!artistId) return
-    clearLinkStore()
+    clearControlsStore()
     setupControlsStore(artist, 'fetchLinks')
   // eslint-disable-next-line
   }, [artistId])

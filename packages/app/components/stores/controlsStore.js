@@ -299,7 +299,7 @@ const useControlsStore = create((set, get) => ({
   updateFolderStates: updateFolderStates(set, get),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
-  initLinkStore: async (artist, action = 'clearLinks') => {
+  initControlsStore: async (artist, action = 'clearLinks') => {
     // Set artist details
     set({
       artistId: artist.id,

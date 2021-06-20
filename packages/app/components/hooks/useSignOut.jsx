@@ -26,7 +26,7 @@ const useSignOut = () => {
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   const clearContexts = React.useRef(null)
-  const clearLinkStore = useControlsStore(controlsStoreClearAll)
+  const clearControlsStore = useControlsStore(controlsStoreClearAll)
 
   const signOut = React.useCallback(async () => {
     toggleGlobalLoading(true)
@@ -47,7 +47,7 @@ const useSignOut = () => {
     setNoUser()
     setNoArtist()
     toggleGlobalLoading(false)
-    clearLinkStore()
+    clearControlsStore()
   }
 
   React.useEffect(() => {
