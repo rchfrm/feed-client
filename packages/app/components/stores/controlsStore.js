@@ -121,7 +121,7 @@ const fetchIntegrations = ({ artist, folders }) => {
 
 // * DEFAULT LINK
 const getDefaultLink = ({ linkFolders, artist, linkId }) => {
-  const { default_link_id: defaultLink } = getPreferences(artist, 'posts')
+  const { defaultLink } = getPreferences(artist, 'posts')
   const defaultLinkId = linkId || defaultLink
   return linksHelpers.getLinkById(linkFolders, defaultLinkId) || {}
 }
@@ -166,7 +166,8 @@ const fetchLinks = (set, get) => async (action, artist) => {
   }
   const { folders } = res
   // Get posts preferences and conversions preferences
-  const { posts, conversions } = getPreferences(artist)
+  const posts = getPreferences(artist, 'posts')
+  const conversions = getPreferences(artist, 'conversions')
   // Create array of links in folders for display
   const { defaultLinkId } = posts
   const nestedLinks = formatServerLinks({ folders, defaultLinkId, artist })
@@ -195,7 +196,7 @@ const fetchLinks = (set, get) => async (action, artist) => {
 const updateLinksWithIntegrations = (set, get) => (artist) => {
   const { nestedLinks } = get()
   if (!nestedLinks.length) return
-  const { default_link_id: defaultLinkId } = getPreferences(artist, 'posts')
+  const { defaultLinkId } = getPreferences(artist, 'posts')
   // Get updated nested links
   const nestedLinksUpdated = formatServerLinks({ folders: nestedLinks, defaultLinkId, artist })
   set({ nestedLinks: nestedLinksUpdated })
