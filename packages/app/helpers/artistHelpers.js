@@ -318,3 +318,13 @@ export const testIfSpotifyConnected = (integrations) => {
 export const getDefaultLinkId = (artist) => {
   return get(artist, ['preferences', 'posts', 'default_link_id'], '')
 }
+
+/**
+ * Gets the preferences from the artist
+ * @param {object} artist
+ * @returns {object}
+ */
+export const getPreferences = (artist, type) => {
+  const { preferences } = artist
+  return type ? preferences[type] || {} : preferences || {}
+}

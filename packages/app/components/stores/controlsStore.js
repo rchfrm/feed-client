@@ -2,7 +2,7 @@ import create from 'zustand'
 import produce from 'immer'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
-import { getDefaultLinkId } from '@/app/helpers/artistHelpers'
+import { getPreferences } from '@/app/helpers/artistHelpers'
 import { getLocalStorage, setLocalStorage, removeProtocolFromUrl } from '@/helpers/utils'
 
 const { integrationsFolderId, folderStatesStorageKey } = linksHelpers
@@ -11,6 +11,8 @@ const initialState = {
   artistId: '',
   isMusician: false,
   defaultLink: {},
+  posts: {},
+  conversions: {},
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
@@ -119,7 +121,8 @@ const fetchIntegrations = ({ artist, folders }) => {
 
 // * DEFAULT LINK
 const getDefaultLink = ({ linkFolders, artist, linkId }) => {
-  const defaultLinkId = linkId || getDefaultLinkId(artist)
+  const { default_link_id: defaultLink } = getPreferences(artist, 'posts')
+  const defaultLinkId = linkId || defaultLink
   return linksHelpers.getLinkById(linkFolders, defaultLinkId) || {}
 }
 
@@ -162,8 +165,10 @@ const fetchLinks = (set, get) => async (action, artist) => {
     return { error }
   }
   const { folders } = res
-  const defaultLinkId = getDefaultLinkId(artist)
+  // Get posts preferences and conversions preferences
+  const { posts, conversions } = getPreferences(artist)
   // Create array of links in folders for display
+  const { defaultLinkId } = posts
   const nestedLinks = formatServerLinks({ folders, defaultLinkId, artist })
   // Get default link
   const defaultLink = getDefaultLink({ artist, linkFolders: nestedLinks, linkId: defaultLinkId })
@@ -179,6 +184,8 @@ const fetchLinks = (set, get) => async (action, artist) => {
     linkBankError: null,
     folderStates,
     defaultLink,
+    posts,
+    conversions,
   })
 }
 
@@ -188,7 +195,7 @@ const fetchLinks = (set, get) => async (action, artist) => {
 const updateLinksWithIntegrations = (set, get) => (artist) => {
   const { nestedLinks } = get()
   if (!nestedLinks.length) return
-  const defaultLinkId = getDefaultLinkId(artist)
+  const { default_link_id: defaultLinkId } = getPreferences(artist, 'posts')
   // Get updated nested links
   const nestedLinksUpdated = formatServerLinks({ folders: nestedLinks, defaultLinkId, artist })
   set({ nestedLinks: nestedLinksUpdated })
@@ -285,6 +292,8 @@ const useControlsStore = create((set, get) => ({
   artistId: initialState.artistId,
   isMusician: initialState.isMusician,
   defaultLink: initialState.defaultLink,
+  posts: initialState.posts,
+  conversions: initialState.conversions,
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
