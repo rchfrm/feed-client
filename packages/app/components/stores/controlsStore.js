@@ -246,7 +246,18 @@ const updateFolderStates = (set, get) => (folderId, isOpen = true) => {
   locallyStoreFolderStates(newState, artistId)
 }
 
-// UNIVERSAL UPDATE LINK STORE
+// UPDATE POSTS OR CONVERSIONS PREFERENCES
+const updatePreferences = (set, get) => (type, preferences) => {
+  const controlsStore = get()
+  const newState = produce(controlsStore[type], draftState => {
+    Object.entries(preferences).forEach(([key, value]) => {
+      draftState[key] = value
+    })
+  })
+  set({ [type]: newState })
+}
+
+// UNIVERSAL UPDATE CONTROLS STORE
 const updateControlsStore = (set, get) => (action, {
   newArtist,
   newLink,
@@ -306,6 +317,7 @@ const useControlsStore = create((set, get) => ({
   updateLinksWithIntegrations: (artist) => updateLinksWithIntegrations(set, get)(artist),
   updateControlsStore: updateControlsStore(set, get),
   updateFolderStates: updateFolderStates(set, get),
+  updatePreferences: updatePreferences(set, get),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
   initControlsStore: async (artist, action = 'clearLinks') => {

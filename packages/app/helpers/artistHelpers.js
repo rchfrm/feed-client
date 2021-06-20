@@ -326,5 +326,5 @@ export const getDefaultLinkId = (artist) => {
  */
 export const getPreferences = (artist, type) => {
   const { preferences } = artist
-  return type ? preferences[type] || {} : preferences || {}
+  return type ? preferences[type] : preferences
 }
