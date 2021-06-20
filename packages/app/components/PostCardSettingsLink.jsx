@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import LinkIcon from '@/icons/LinkIcon'
 import PostLinksSelect from '@/app/PostLinksSelect'
 
-import useLinksStore from '@/app/stores/linksStore'
+import useControlsStore from '@/app/stores/controlsStore'
 
 import { setPostLink, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 import { removeProtocolFromUrl, enforceUrlProtocol, parseUrl } from '@/helpers/utils'
@@ -25,7 +25,7 @@ const PostCardSettingsLink = ({
   setError,
   className,
 }) => {
-  const defaultLink = useLinksStore(getDefaultLink)
+  const defaultLink = useControlsStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
   // TEST IF LINK IS EDITABLE
   const isPostActive = postPromotionStatus === 'active'

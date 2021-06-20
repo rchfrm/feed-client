@@ -240,7 +240,7 @@ const updateFolderStates = (set, get) => (folderId, isOpen = true) => {
 }
 
 // UNIVERSAL UPDATE LINK STORE
-const updateLinksStore = (set, get) => (action, {
+const updateControlsStore = (set, get) => (action, {
   newArtist,
   newLink,
   oldLink,
@@ -280,7 +280,7 @@ const updateLinksStore = (set, get) => (action, {
 
 
 // EXPORT STORE
-const useLinksStore = create((set, get) => ({
+const useControlsStore = create((set, get) => ({
   // STATE
   artistId: initialState.artistId,
   isMusician: initialState.isMusician,
@@ -295,7 +295,7 @@ const useLinksStore = create((set, get) => ({
   fetchLinks: fetchLinks(set, get),
   // SETTERS
   updateLinksWithIntegrations: (artist) => updateLinksWithIntegrations(set, get)(artist),
-  updateLinksStore: updateLinksStore(set, get),
+  updateControlsStore: updateControlsStore(set, get),
   updateFolderStates: updateFolderStates(set, get),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
@@ -316,4 +316,4 @@ const useLinksStore = create((set, get) => ({
   clearAll: () => set(initialState),
 }))
 
-export default useLinksStore
+export default useControlsStore

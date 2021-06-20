@@ -10,11 +10,11 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import IntegrationErrorHandler from '@/app/IntegrationErrorHandler'
 import NotificationsHandler from '@/app/NotificationsHandler'
 // // IMPORT STORES
-import useLinksStore from '@/app/stores/linksStore'
+import useControlsStore from '@/app/stores/controlsStore'
 
-const linksStoreInit = state => state.initLinkStore
+const controlsStoreInit = state => state.initLinkStore
 const getUpdateLinksWithIntegrations = state => state.updateLinksWithIntegrations
-const linksStoreClearAll = state => state.clearAll
+const controlsStoreClearAll = state => state.clearAll
 
 function Main({ children }) {
   const {
@@ -23,17 +23,17 @@ function Main({ children }) {
   } = React.useContext(ArtistContext)
 
   // SETUP POSTS STORE WHEN ARTIST CHANGES
-  const setupLinksStore = useLinksStore(linksStoreInit)
-  const clearLinkStore = useLinksStore(linksStoreClearAll)
+  const setupControlsStore = useControlsStore(controlsStoreInit)
+  const clearLinkStore = useControlsStore(controlsStoreClearAll)
   React.useEffect(() => {
     if (!artistId) return
     clearLinkStore()
-    setupLinksStore(artist, 'fetchLinks')
+    setupControlsStore(artist, 'fetchLinks')
   // eslint-disable-next-line
   }, [artistId])
 
   // UPDATE INTEGRATIONS when they change on artist
-  const updateLinksWithIntegrations = useLinksStore(getUpdateLinksWithIntegrations)
+  const updateLinksWithIntegrations = useControlsStore(getUpdateLinksWithIntegrations)
   React.useEffect(() => {
     if (Array.isArray(artist.integrations)) updateLinksWithIntegrations(artist)
   // eslint-disable-next-line

@@ -5,7 +5,7 @@ import shallow from 'zustand/shallow'
 import useAsyncEffect from 'use-async-effect'
 
 import useIsMounted from '@/hooks/useIsMounted'
-import useLinksStore from '@/app/stores/linksStore'
+import useControlsStore from '@/app/stores/controlsStore'
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 
 import Select from '@/elements/Select'
@@ -13,7 +13,7 @@ import Error from '@/elements/Error'
 
 import { splitLinks, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 
-const getLinksStoreState = (state) => ({
+const getControlsStoreState = (state) => ({
   artistId: state.artistId,
   defaultLink: state.defaultLink,
   nestedLinks: state.nestedLinks,
@@ -37,7 +37,7 @@ const PostLinksSelect = ({
     artistId,
     defaultLink,
     nestedLinks,
-  } = useLinksStore(getLinksStoreState, shallow)
+  } = useControlsStore(getControlsStoreState, shallow)
 
   // PLACEHOLDER TEXT (if no default link)
   const placeholderText = componentLocation === 'post' ? 'No default link set' : 'Select a default link'
