@@ -86,7 +86,7 @@ const formatUpcomingInvoice = (invoice) => {
     paymentStatus,
     invoiceSections,
     serviceFeePlusAdSpend,
-    formatServiceFeePlusAdSpend: formatCurrency(serviceFeePlusAdSpend / currencyOffset, currency),
+    formattedServiceFeePlusAdSpend: formatCurrency(serviceFeePlusAdSpend / currencyOffset, currency),
     totalFee: formatCurrency(totalFee / currencyOffset, currency),
     date: moment(invoice.date).format('DD MMM YYYY'),
   }

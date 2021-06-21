@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import MarkdownText from '@/elements/MarkdownText'
+
+import copy from '@/app/copy/billingCopy'
+
 const BillingInvoiceSummarySelectedInvoice = ({
   invoice,
   noLatestInvoiceOrIsPaid,
@@ -18,7 +22,7 @@ const BillingInvoiceSummarySelectedInvoice = ({
       <div className="border-solid border-2 mb-6 p-3 border-green rounded-dialogue">
         <div className="flex justify-between font-bold">
           <p className="mb-3">Total spent</p>
-          <p className="mb-3">{invoice.formatServiceFeePlusAdSpend}</p>
+          <p className="mb-3">{invoice.formattedServiceFeePlusAdSpend}</p>
         </div>
         <div className="flex justify-between">
           <p className="mb-0">of which, Feed service fee</p>
@@ -35,7 +39,7 @@ const BillingInvoiceSummarySelectedInvoice = ({
             </div>
           )
         })}
-        <p className="small--p italic mb-0">You will receive a separate invoice directly from Facebook for the ad spend.</p>
+        <MarkdownText className="small--p italic mb-0" markdown={copy.facebookInvoice} />
       </div>
     </>
   )
