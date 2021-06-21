@@ -2,7 +2,7 @@ import create from 'zustand'
 import produce from 'immer'
 
 import * as billingHelpers from '@/app/helpers/billingHelpers'
-import {fetchLatestInvoice, fetchUpcomingInvoice} from '@/app/helpers/invoiceHelpers'
+import { fetchLatestInvoice, fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
   allOrgs: [],

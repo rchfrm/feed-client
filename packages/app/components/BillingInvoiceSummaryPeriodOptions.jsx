@@ -18,7 +18,7 @@ const BillingInvoiceSummaryPeriodOptions = ({
     return `${startDate} - ${endDate}`
   }
 
-  const LATEST = () => {
+  const LATEST_PERIOD_OPTION = () => {
     if (noLatestInvoiceOrIsPaid) return null
     const selected = selectedInvoiceName === 'latest'
     return (
@@ -30,7 +30,7 @@ const BillingInvoiceSummaryPeriodOptions = ({
       </button>
     )
   }
-  const UPCOMING = () => {
+  const UPCOMING_PERIOD_OPTION = () => {
     const selected = selectedInvoiceName === 'upcoming'
     return (
       <button
@@ -50,8 +50,8 @@ const BillingInvoiceSummaryPeriodOptions = ({
   return (
     <div className="flex pb-6">
       <p className="mb-0 mr-3">Billing period:</p>
-      <LATEST />
-      <UPCOMING />
+      <LATEST_PERIOD_OPTION />
+      <UPCOMING_PERIOD_OPTION />
     </div>
   )
 }
