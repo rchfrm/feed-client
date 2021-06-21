@@ -71,14 +71,14 @@ const ConversionsWizardFacebookPixelEventStep = () => {
         />
         <Button
           type="submit"
-          version="green icon"
+          version="outline icon"
           loading={isLoading}
+          spinnerFill={brandColors.black}
           className="w-full"
         >
           Continue
           <ArrowAltIcon
             className="ml-3"
-            fill={brandColors.white}
             direction="right"
           />
         </Button>
