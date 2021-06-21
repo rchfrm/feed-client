@@ -32,7 +32,10 @@ const ConversionsWizardOptInStep = () => {
       setError({ message: error.message })
       return
     }
-    Router.push(ROUTES.HOME)
+    Router.push({
+      pathname: ROUTES.HOME,
+      query: { postStatus: 'not-run' },
+    })
   }
 
   return (
