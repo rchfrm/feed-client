@@ -22,7 +22,7 @@ function Main({ children }) {
     artist,
   } = React.useContext(ArtistContext)
 
-  // SETUP POSTS STORE WHEN ARTIST CHANGES
+  // SETUP CONTROLS STORE WHEN ARTIST CHANGES
   const setupControlsStore = useControlsStore(controlsStoreInit)
   const clearControlsStore = useControlsStore(controlsStoreClearAll)
   React.useEffect(() => {

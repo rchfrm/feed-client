@@ -3,6 +3,7 @@ import produce from 'immer'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { getPreferences } from '@/app/helpers/artistHelpers'
+
 import { getLocalStorage, setLocalStorage, removeProtocolFromUrl } from '@/helpers/utils'
 
 const { integrationsFolderId, folderStatesStorageKey } = linksHelpers
@@ -14,6 +15,7 @@ const initialState = {
   postsPreferences: {},
   conversionsPreferences: {},
   conversionsEnabled: false,
+  budget: 0,
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
@@ -123,8 +125,10 @@ const fetchIntegrations = ({ artist, folders }) => {
 // * CONVERSIONS
 
 const canRunConversionCampaigns = (set, get) => () => {
-  const { conversionsPreferences } = get()
-  return Object.values(conversionsPreferences).every(Boolean)
+  const { conversionsPreferences, budget } = get()
+  const hasConversionsSetUpCorrectly = Object.values(conversionsPreferences).every(Boolean)
+  const hasSufficientBudget = budget >= 5
+  return hasConversionsSetUpCorrectly && hasSufficientBudget
 }
 
 // * DEFAULT LINK
@@ -319,6 +323,7 @@ const useControlsStore = create((set, get) => ({
   postsPreferences: initialState.postsPreferences,
   conversionsPreferences: initialState.conversionsPreferences,
   conversionsEnabled: initialState.conversionsEnabled,
+  budget: initialState.budget,
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
@@ -333,6 +338,7 @@ const useControlsStore = create((set, get) => ({
   updateControlsStore: updateControlsStore(set, get),
   updateFolderStates: updateFolderStates(set, get),
   updatePreferences: updatePreferences(set, get),
+  setBudget: (budget) => set({ budget }),
   setConversionsEnabled: (conversionsEnabled) => set({ conversionsEnabled }),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
@@ -345,6 +351,11 @@ const useControlsStore = create((set, get) => ({
     // Fetch links
     if (action === 'fetchLinks') {
       await get().fetchLinks('force', artist)
+
+      // Set budget and conversions details
+      const { canRunConversionCampaigns } = get()
+      set({ budget: artist.daily_budget })
+      set({ conversionsEnabled: canRunConversionCampaigns() })
       return
     }
     // Clear links
