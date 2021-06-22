@@ -13,14 +13,22 @@ import PostLinksSelect from '@/app/PostLinksSelect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
+const getControlsStoreState = (state) => ({
+  defaultLinkId: state.conversionsPreferences.defaultLinkId,
+  updatePreferences: state.updatePreferences,
+})
+
 const ConversionsWizardLinkStep = () => {
+  const { defaultLinkId, updatePreferences } = useControlsStore(getControlsStoreState)
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
-  const [link, setLink] = React.useState(artist.preferences.conversions.default_link_id || defaultPostLinkId)
+  const [link, setLink] = React.useState(defaultLinkId || defaultPostLinkId)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
@@ -32,13 +40,18 @@ const ConversionsWizardLinkStep = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const { res, error } = await saveDefaultLink()
+    const { res: artist, error } = await saveDefaultLink()
     setIsLoading(false)
 
     if (error) {
       setError({ message: error.message })
       return
     }
+    // Update global store value
+    updatePreferences(
+      'conversionsPreferences',
+      { defaultLinkId: artist.preferences.conversions.default_link_id },
+    )
     next()
   }
 
