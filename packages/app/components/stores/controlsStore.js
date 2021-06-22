@@ -13,6 +13,7 @@ const initialState = {
   defaultLink: {},
   postsPreferences: {},
   conversionsPreferences: {},
+  hasConversionsEnabled: false,
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
@@ -117,6 +118,13 @@ const fetchIntegrations = ({ artist, folders }) => {
       name: artistIntegration.titleVerbose,
     }
   })
+}
+
+// * CONVERSIONS
+
+const canRunConversionCampaigns = (set, get) => () => {
+  const { conversionsPreferences } = get()
+  return Object.values(conversionsPreferences).every(Boolean)
 }
 
 // * DEFAULT LINK
@@ -256,6 +264,7 @@ const updatePreferences = (set, get) => (type, preferences) => {
     })
   })
   set({ [type]: newState })
+  set({ hasConversionsEnabled: canRunConversionCampaigns() })
 }
 
 // UNIVERSAL UPDATE CONTROLS STORE
@@ -306,6 +315,7 @@ const useControlsStore = create((set, get) => ({
   defaultLink: initialState.defaultLink,
   postsPreferences: initialState.postsPreferences,
   conversionsPreferences: initialState.conversionsPreferences,
+  hasConversionsEnabled: initialState.hasConversionsEnabled,
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
@@ -314,11 +324,13 @@ const useControlsStore = create((set, get) => ({
   linkBankError: initialState.linkBankError,
   // GETTERS
   fetchLinks: fetchLinks(set, get),
+  canRunConversionCampaigns: canRunConversionCampaigns(set, get),
   // SETTERS
   updateLinksWithIntegrations: (artist) => updateLinksWithIntegrations(set, get)(artist),
   updateControlsStore: updateControlsStore(set, get),
   updateFolderStates: updateFolderStates(set, get),
   updatePreferences: updatePreferences(set, get),
+  setHasConversionsEnabled: (hasConversionsEnabled) => set({ hasConversionsEnabled }),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
   initControlsStore: async (artist, action = 'clearLinks') => {

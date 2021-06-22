@@ -329,7 +329,6 @@ export const getPreferences = (artist, type) => {
   const formattedPreferencesResponse = {
     defaultLinkId: preferences[type].default_link_id,
     callToAction: preferences[type].call_to_action,
-    ...(type === 'posts' && { promotionEnabled: preferences[type].promotion_enabled_default }),
     ...(type === 'conversions' && { facebookPixelEvent: preferences[type].facebook_pixel_event }),
   }
   return formattedPreferencesResponse
