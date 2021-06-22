@@ -38,7 +38,7 @@ const ConversionsWizardCallToActionStep = () => {
     const options = callToActions.map(({ id, name }) => ({ name, value: id }))
     const selectedCallToAction = options.find(cta => cta.value === callToAction)
     setCallToActionOptions(options)
-    setCallToActionOption(selectedCallToAction)
+    setCallToActionOption(selectedCallToAction || options[0])
   }, [])
 
   const handleSelect = React.useCallback((e) => {

@@ -1,14 +1,16 @@
 import React from 'react'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
+import useControlsStore from '@/app/stores/controlsStore'
 
 import ConversionsSettings from '@/app/ConversionsSettings'
 import ConversionsWizard from '@/app/ConversionsWizard'
 
+const getConversionsPreferences = state => state.conversionsPreferences
+
 const ConversionsContent = () => {
-  const { artist: { preferences } } = React.useContext(ArtistContext)
+  const conversionsPreferences = useControlsStore(getConversionsPreferences)
   // Check if conversions link, pixel event and call to action are all set
-  const hasSetUpConversions = Object.values(preferences.conversions).every(Boolean)
+  const hasSetUpConversions = Object.values(conversionsPreferences).every(Boolean)
   return (
     <>
       {hasSetUpConversions

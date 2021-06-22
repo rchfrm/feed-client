@@ -39,7 +39,7 @@ const ConversionsWizardFacebookPixelEventStep = () => {
     const options = events.map(({ id, name }) => ({ name, value: id }))
     const selectedPixelEvent = options.find(event => event.value === facebookPixelEvent)
     setFacebookPixelEventOptions(options)
-    setFacebookPixelEventOption(selectedPixelEvent)
+    setFacebookPixelEventOption(selectedPixelEvent || options[0])
   }, [])
 
   const handleSelect = React.useCallback((e) => {
