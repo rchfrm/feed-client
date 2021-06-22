@@ -46,15 +46,15 @@ const ConversionsWizardBudgetStep = () => {
       <MarkdownText markdown={copy.budgetStepDescription} />
       <Error error={error} />
       <Button
-        version="green icon"
+        version="outline icon"
         onClick={handleNext}
         loading={isLoading}
+        spinnerFill={brandColors.black}
         className="w-full"
       >
         Set budget to £5.00
         <ArrowAltIcon
           className="ml-3"
-          fill={brandColors.white}
           direction="right"
         />
       </Button>
