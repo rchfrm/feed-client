@@ -13,7 +13,7 @@ const initialState = {
   defaultLink: {},
   postsPreferences: {},
   conversionsPreferences: {},
-  hasConversionsEnabled: false,
+  conversionsEnabled: false,
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
@@ -258,13 +258,16 @@ const updateFolderStates = (set, get) => (folderId, isOpen = true) => {
 // UPDATE POSTS OR CONVERSIONS PREFERENCES
 const updatePreferences = (set, get) => (type, preferences) => {
   const controlsStore = get()
+  const { canRunConversionCampaigns } = controlsStore
   const newState = produce(controlsStore[type], draftState => {
     Object.entries(preferences).forEach(([key, value]) => {
       draftState[key] = value
     })
   })
   set({ [type]: newState })
-  set({ hasConversionsEnabled: canRunConversionCampaigns() })
+  if (type === 'conversionsPreferences') {
+    set({ conversionsEnabled: canRunConversionCampaigns() })
+  }
 }
 
 // UNIVERSAL UPDATE CONTROLS STORE
@@ -315,7 +318,7 @@ const useControlsStore = create((set, get) => ({
   defaultLink: initialState.defaultLink,
   postsPreferences: initialState.postsPreferences,
   conversionsPreferences: initialState.conversionsPreferences,
-  hasConversionsEnabled: initialState.hasConversionsEnabled,
+  conversionsEnabled: initialState.conversionsEnabled,
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
@@ -330,7 +333,7 @@ const useControlsStore = create((set, get) => ({
   updateControlsStore: updateControlsStore(set, get),
   updateFolderStates: updateFolderStates(set, get),
   updatePreferences: updatePreferences(set, get),
-  setHasConversionsEnabled: (hasConversionsEnabled) => set({ hasConversionsEnabled }),
+  setConversionsEnabled: (conversionsEnabled) => set({ conversionsEnabled }),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
   initControlsStore: async (artist, action = 'clearLinks') => {
