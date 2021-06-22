@@ -27,10 +27,15 @@ const BillingInvoiceSummaryHeader = ({
 }
 
 BillingInvoiceSummaryHeader.propTypes = {
-  latestInvoicePaymentStatus: PropTypes.string.isRequired,
+  latestInvoicePaymentStatus: PropTypes.string,
   latestInvoiceDueDate: PropTypes.object.isRequired,
   upcomingInvoiceDueDate: PropTypes.object.isRequired,
-  upcomingInvoiceSpendAndFee: PropTypes.string.isRequired,
+  upcomingInvoiceSpendAndFee: PropTypes.string,
+}
+
+BillingInvoiceSummaryHeader.defaultProps = {
+  latestInvoicePaymentStatus: '',
+  upcomingInvoiceSpendAndFee: '',
 }
 
 export default BillingInvoiceSummaryHeader

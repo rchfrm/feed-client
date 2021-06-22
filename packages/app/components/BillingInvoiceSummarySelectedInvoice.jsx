@@ -48,7 +48,11 @@ const BillingInvoiceSummarySelectedInvoice = ({
 BillingInvoiceSummarySelectedInvoice.propTypes = {
   invoice: PropTypes.object.isRequired,
   noLatestInvoiceOrIsPaid: PropTypes.bool.isRequired,
-  upcomingInvoiceSpendAndFee: PropTypes.string.isRequired,
+  upcomingInvoiceSpendAndFee: PropTypes.string,
+}
+
+BillingInvoiceSummarySelectedInvoice.defaultProps = {
+  upcomingInvoiceSpendAndFee: '',
 }
 
 export default BillingInvoiceSummarySelectedInvoice

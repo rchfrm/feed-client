@@ -60,9 +60,13 @@ BillingInvoiceSummaryPeriodOptions.propTypes = {
   noLatestInvoiceOrIsPaid: PropTypes.bool.isRequired,
   latestInvoicePeriod: PropTypes.object.isRequired,
   upcomingInvoicePeriod: PropTypes.object.isRequired,
-  upcomingInvoiceSpendAndFee: PropTypes.string.isRequired,
+  upcomingInvoiceSpendAndFee: PropTypes.string,
   selectedInvoiceName: PropTypes.string.isRequired,
   setSelectedInvoiceName: PropTypes.func.isRequired,
+}
+
+BillingInvoiceSummaryPeriodOptions.defaultProps = {
+  upcomingInvoiceSpendAndFee: '',
 }
 
 export default BillingInvoiceSummaryPeriodOptions

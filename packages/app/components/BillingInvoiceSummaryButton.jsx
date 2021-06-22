@@ -49,9 +49,13 @@ const BillingInvoiceSummaryButton = ({
 BillingInvoiceSummaryButton.propTypes = {
   latestInvoice: PropTypes.object.isRequired,
   latestInvoiceSelected: PropTypes.bool.isRequired,
-  outstandingAmount: PropTypes.string.isRequired,
-  invoiceUrl: PropTypes.string.isRequired,
+  outstandingAmount: PropTypes.bool.isRequired,
+  invoiceUrl: PropTypes.string,
   spending: PropTypes.bool.isRequired,
+}
+
+BillingInvoiceSummaryButton.defaultProps = {
+  invoiceUrl: '',
 }
 
 export default BillingInvoiceSummaryButton
