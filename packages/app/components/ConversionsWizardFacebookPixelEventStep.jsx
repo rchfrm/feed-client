@@ -2,8 +2,9 @@ import React from 'react'
 
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-import PixelEventSelector from '@/app/PixelEventSelector'
 import MarkdownText from '@/elements/MarkdownText'
+
+import PixelEventSelector from '@/app/PixelEventSelector'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 

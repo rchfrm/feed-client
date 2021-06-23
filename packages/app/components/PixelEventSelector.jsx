@@ -12,15 +12,19 @@ const getControlsStoreState = (state) => ({
   facebookPixelEvent: state.conversionsPreferences.facebookPixelEvent,
 })
 
-const PixelEventSelector = ({ pixelEvent, setPixelEvent }) => {
-  const { facebookPixelEvent } = useControlsStore(getControlsStoreState)
+const PixelEventSelector = ({
+  pixelEvent,
+  setPixelEvent,
+  className,
+}) => {
+  const { facebookPixelEvent: currentFacebookPixelEvent } = useControlsStore(getControlsStoreState)
   const [facebookPixelEventOptions, setFacebookPixelEventOptions] = React.useState([])
 
   // Get all Facebook Pixel Events on first load and convert them to the correct select options object shape
   useAsyncEffect(async () => {
     const { res: events } = await getFacebookPixelEvents()
     const options = events.map(({ id, name }) => ({ name, value: id }))
-    const selectedPixelEvent = options.find(event => event.value === facebookPixelEvent)
+    const selectedPixelEvent = options.find(event => event.value === currentFacebookPixelEvent)
     setFacebookPixelEventOptions(options)
     setPixelEvent(selectedPixelEvent || options[0])
   }, [])
@@ -32,19 +36,26 @@ const PixelEventSelector = ({ pixelEvent, setPixelEvent }) => {
   }, [facebookPixelEventOptions, setPixelEvent])
 
   return (
-    <Select
-      handleChange={handleSelect}
-      name="facebook_pixel_event"
-      label="Facebook Pixel Event"
-      selectedValue={pixelEvent?.value}
-      options={facebookPixelEventOptions}
-    />
+    <div className={className}>
+      <Select
+        handleChange={handleSelect}
+        name="facebook_pixel_event"
+        label="Facebook Pixel Event"
+        selectedValue={pixelEvent?.value}
+        options={facebookPixelEventOptions}
+      />
+    </div>
   )
 }
 
 PixelEventSelector.propTypes = {
   pixelEvent: PropTypes.object.isRequired,
   setPixelEvent: PropTypes.func.isRequired,
+  className: PropTypes.string,
+}
+
+PixelEventSelector.defaultProps = {
+  className: '',
 }
 
 export default PixelEventSelector

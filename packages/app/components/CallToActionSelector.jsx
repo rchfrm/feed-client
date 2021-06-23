@@ -12,7 +12,11 @@ const getControlsStoreState = (state) => ({
   callToAction: state.conversionsPreferences.callToAction,
 })
 
-const CallToActionSelector = ({ callToAction, setCallToAction }) => {
+const CallToActionSelector = ({
+  callToAction,
+  setCallToAction,
+  className,
+}) => {
   const { callToAction: currentCallToAction } = useControlsStore(getControlsStoreState)
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
 
@@ -32,19 +36,26 @@ const CallToActionSelector = ({ callToAction, setCallToAction }) => {
   }, [callToActionOptions, setCallToAction])
 
   return (
-    <Select
-      handleChange={handleSelect}
-      name="call_to_Action"
-      label="Call to Action"
-      selectedValue={callToAction?.value}
-      options={callToActionOptions}
-    />
+    <div className={className}>
+      <Select
+        handleChange={handleSelect}
+        name="call_to_Action"
+        label="Call to Action"
+        selectedValue={callToAction?.value}
+        options={callToActionOptions}
+      />
+    </div>
   )
 }
 
 CallToActionSelector.propTypes = {
   callToAction: PropTypes.object.isRequired,
   setCallToAction: PropTypes.func.isRequired,
+  className: PropTypes.string,
+}
+
+CallToActionSelector.defaultProps = {
+  className: '',
 }
 
 export default CallToActionSelector

@@ -1,14 +1,14 @@
 import React from 'react'
-import useAsyncEffect from 'use-async-effect'
 
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-import Select from '@/elements/Select'
 import MarkdownText from '@/elements/MarkdownText'
+
+import CallToActionSelector from '@/app/CallToActionSelector'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
-import { getCallToActions, updateCallToAction } from '@/app/helpers/conversionsHelpers'
+import { updateCallToAction } from '@/app/helpers/conversionsHelpers'
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -19,35 +19,19 @@ import copy from '@/app/copy/controlsPageCopy'
 import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
-  callToAction: state.conversionsPreferences.callToAction,
   updatePreferences: state.updatePreferences,
 })
 
 const ConversionsWizardCallToActionStep = () => {
-  const { callToAction, updatePreferences } = useControlsStore(getControlsStoreState)
-  const [callToActionOptions, setCallToActionOptions] = React.useState([])
-  const [callToActionOption, setCallToActionOption] = React.useState(null)
+  const { updatePreferences } = useControlsStore(getControlsStoreState)
+  const [callToAction, setCallToAction] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
 
-  // Get all call to actions and convert them to the correct select options object shape
-  useAsyncEffect(async () => {
-    const { res: callToActions } = await getCallToActions()
-    const options = callToActions.map(({ id, name }) => ({ name, value: id }))
-    const selectedCallToAction = options.find(cta => cta.value === callToAction)
-    setCallToActionOptions(options)
-    setCallToActionOption(selectedCallToAction || options[0])
-  }, [])
-
-  const handleSelect = React.useCallback((e) => {
-    const callToActionOption = callToActionOptions.find(({ value }) => value === e.target.value)
-    setCallToActionOption(callToActionOption)
-  }, [callToActionOptions])
-
   const saveCallToAction = async () => {
-    return updateCallToAction(artist.id, callToActionOption.value)
+    return updateCallToAction(artist.id, callToAction.value)
   }
 
   // Handle API request and navigate to the next step
@@ -75,12 +59,9 @@ const ConversionsWizardCallToActionStep = () => {
       <MarkdownText markdown={copy.callToActionStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>
-        <Select
-          handleChange={handleSelect}
-          name="call_to_Action"
-          label="Call to Action"
-          selectedValue={callToActionOption?.value}
-          options={callToActionOptions}
+        <CallToActionSelector
+          callToAction={callToAction}
+          setCallToAction={setCallToAction}
         />
         <Button
           type="submit"

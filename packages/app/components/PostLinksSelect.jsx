@@ -32,6 +32,7 @@ const PostLinksSelect = ({
   updateParentLink,
   shouldSaveOnChange,
   label,
+  className,
 }) => {
   // READ FROM LINKS STORE
   const {
@@ -166,7 +167,7 @@ const PostLinksSelect = ({
   }, [selectedOptionValue])
 
   return (
-    <div>
+    <div className={className}>
       {error && (
         <Error error={error} />
       )}
@@ -220,6 +221,7 @@ PostLinksSelect.propTypes = {
   updateParentLink: PropTypes.func,
   shouldSaveOnChange: PropTypes.bool,
   label: PropTypes.string,
+  className: PropTypes.string,
 }
 
 PostLinksSelect.defaultProps = {
@@ -234,7 +236,7 @@ PostLinksSelect.defaultProps = {
   updateParentLink: () => {},
   shouldSaveOnChange: true,
   label: '',
+  className: '',
 }
-
 
 export default PostLinksSelect

@@ -4,6 +4,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
 import PixelEventSelector from '@/app/PixelEventSelector'
+import CallToActionSelector from '@/app/CallToActionSelector'
 
 import { defaultPostLinkId } from '@/app/helpers/linksHelpers'
 
@@ -19,17 +20,12 @@ const ConversionsSettings = () => {
   const { defaultLinkId } = useControlsStore(getControlsStoreState)
   const [link, setLink] = React.useState(defaultLinkId || defaultPostLinkId)
   const [pixelEvent, setPixelEvent] = React.useState(null)
+  const [callToAction, setCallToAction] = React.useState(null)
 
   return (
     <div className="mb-12">
       <MarkdownText markdown={copy.conversionsTitle} />
       <MarkdownText markdown={copy.conversionsDescription} />
-
-      <PixelEventSelector
-        pixelEvent={pixelEvent}
-        setPixelEvent={setPixelEvent}
-      />
-
       <PostLinksSelect
         currentLinkId={link}
         updateParentLink={setLink}
@@ -38,13 +34,20 @@ const ConversionsSettings = () => {
         includeAddLinkOption
         componentLocation="post"
         label="Default link"
+        className="mb-12"
+      />
+      <PixelEventSelector
+        pixelEvent={pixelEvent}
+        setPixelEvent={setPixelEvent}
+        className="mb-12"
+      />
+      <CallToActionSelector
+        callToAction={callToAction}
+        setCallToAction={setCallToAction}
+        className="mb-12"
       />
     </div>
   )
-}
-
-ConversionsSettings.propTypes = {
-
 }
 
 export default ConversionsSettings
