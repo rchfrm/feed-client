@@ -8,16 +8,14 @@ import { getCallToActions } from '@/app/helpers/conversionsHelpers'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-const getControlsStoreState = (state) => ({
-  callToAction: state.conversionsPreferences.callToAction,
-})
+const getCallToAction = state => state.conversionsPreferences.callToAction
 
 const CallToActionSelector = ({
   callToAction,
   setCallToAction,
   className,
 }) => {
-  const { callToAction: currentCallToAction } = useControlsStore(getControlsStoreState)
+  const { callToAction: currentCallToAction } = useControlsStore(getCallToAction)
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
 
   // Get all call to actions and convert them to the correct select options object shape
