@@ -31,6 +31,7 @@ const PostLinksSelect = ({
   componentLocation,
   updateParentLink,
   shouldSaveOnChange,
+  label,
 }) => {
   // READ FROM LINKS STORE
   const {
@@ -169,27 +170,39 @@ const PostLinksSelect = ({
       {error && (
         <Error error={error} />
       )}
-      <Select
-        loading={loading}
-        className={selectClassName}
-        handleChange={(e) => {
-          const { target: { value } } = e
-          // Do nothing if value is current value
-          if (value === currentLinkId) return
-          // Handle adding new link
-          if (value === '_new') {
-            setLoading(true)
-            showAddLinkModal()
-            return
-          }
-          setSelectedOptionValue(value)
-        }}
-        name="Choose link"
-        options={selectOptions}
-        placeholder={currentLinkId === defaultPostLinkId ? placeholderText : null}
-        selectedValue={selectedOptionValue}
-        version="box"
-      />
+      <label
+        className="inputLabel"
+        htmlFor="Choose link"
+      >
+        {label && (
+          <span className="inputLabel__text">
+            <span>
+              {label}
+            </span>
+          </span>
+        )}
+        <Select
+          loading={loading}
+          className={selectClassName}
+          handleChange={(e) => {
+            const { target: { value } } = e
+            // Do nothing if value is current value
+            if (value === currentLinkId) return
+            // Handle adding new link
+            if (value === '_new') {
+              setLoading(true)
+              showAddLinkModal()
+              return
+            }
+            setSelectedOptionValue(value)
+          }}
+          name="Choose link"
+          options={selectOptions}
+          placeholder={currentLinkId === defaultPostLinkId ? placeholderText : null}
+          selectedValue={selectedOptionValue}
+          version="box"
+        />
+      </label>
     </div>
   )
 }
@@ -206,6 +219,7 @@ PostLinksSelect.propTypes = {
   componentLocation: PropTypes.string.isRequired,
   updateParentLink: PropTypes.func,
   shouldSaveOnChange: PropTypes.bool,
+  label: PropTypes.string,
 }
 
 PostLinksSelect.defaultProps = {
@@ -219,6 +233,7 @@ PostLinksSelect.defaultProps = {
   includeAddLinkOption: false,
   updateParentLink: () => {},
   shouldSaveOnChange: true,
+  label: '',
 }
 
 
