@@ -8,14 +8,15 @@ import ConversionsWizard from '@/app/ConversionsWizard'
 const getConversionsPreferences = state => state.conversionsPreferences
 
 const ConversionsContent = () => {
+  const [isWizardActive, setIsWizardActive] = React.useState(false)
   const conversionsPreferences = useControlsStore(getConversionsPreferences)
   // Check if conversions link, pixel event and call to action are all set
   const hasSetUpConversions = Object.values(conversionsPreferences).every(Boolean)
   return (
     <>
-      {hasSetUpConversions
+      {hasSetUpConversions && !isWizardActive
         ? <ConversionsSettings />
-        : <ConversionsWizard />}
+        : <ConversionsWizard setIsWizardActive={setIsWizardActive} />}
     </>
   )
 }

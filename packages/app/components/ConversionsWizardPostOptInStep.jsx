@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Router from 'next/router'
 
 import * as ROUTES from '@/app/constants/routes'
@@ -12,7 +13,7 @@ import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
-const ConversionsWizardOptInStep = () => {
+const ConversionsWizardOptInStep = ({ setIsWizardActive }) => {
   // Navigate to the posts page
   const goToPostsPage = async () => {
     Router.push({
@@ -20,6 +21,10 @@ const ConversionsWizardOptInStep = () => {
       query: { postStatus: 'not-run' },
     })
   }
+
+  React.useEffect(() => {
+    return () => setIsWizardActive(false)
+  })
 
   return (
     <>
@@ -39,6 +44,10 @@ const ConversionsWizardOptInStep = () => {
       </Button>
     </>
   )
+}
+
+ConversionsWizardOptInStep.propTypes = {
+  setIsWizardActive: PropTypes.func.isRequired,
 }
 
 export default ConversionsWizardOptInStep

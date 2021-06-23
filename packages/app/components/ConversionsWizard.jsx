@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -11,7 +12,7 @@ import ConversionsWizardFacebookPixelEventStep from '@/app/ConversionsWizardFace
 import ConversionsWizardCallToActionStep from '@/app/ConversionsWizardCallToActionStep'
 import ConversionsWizardPostOptInStep from '@/app/ConversionsWizardPostOptInStep'
 
-const ConversionsWizard = () => {
+const ConversionsWizard = ({ setIsWizardActive }) => {
   const { artist } = React.useContext(ArtistContext)
   const facebookPixelId = artist.integrations.find(integration => integration.platform === 'facebook').pixel_id
 
@@ -30,20 +31,20 @@ const ConversionsWizard = () => {
     <div>
       <WizardContextProvider steps={steps}>
         {/* All Wizard steps */}
-        <ConversionsWizardStartingStep />
+        <ConversionsWizardStartingStep setIsWizardActive={setIsWizardActive} />
         <ConversionsWizardBudgetStep />
         <ConversionsWizardLinkStep />
         <ConversionsWizardFacebookPixelStep />
         <ConversionsWizardFacebookPixelEventStep />
         <ConversionsWizardCallToActionStep />
-        <ConversionsWizardPostOptInStep />
+        <ConversionsWizardPostOptInStep setIsWizardActive={setIsWizardActive} />
       </WizardContextProvider>
     </div>
   )
 }
 
 ConversionsWizard.propTypes = {
-
+  setIsWizardActive: PropTypes.func.isRequired,
 }
 
 export default ConversionsWizard
