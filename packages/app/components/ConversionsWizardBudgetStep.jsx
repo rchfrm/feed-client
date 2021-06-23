@@ -10,6 +10,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -20,6 +21,7 @@ const ConversionsWizardBudgetStep = () => {
   const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
   const { artist: { id: artistId } } = React.useContext(ArtistContext)
+  const { updateTargetingBudget } = React.useContext(TargetingContext)
 
   // Minimum budget to be able to run conversion campaigns is 5 pound
   const setBudgetToFivePound = () => {
@@ -30,13 +32,14 @@ const ConversionsWizardBudgetStep = () => {
   // Handle API request and navigate to the next step
   const handleNext = async () => {
     setIsLoading(true)
-    const { res, error } = await setBudgetToFivePound()
+    const { res: targeting, error } = await setBudgetToFivePound()
     setIsLoading(false)
-
     if (error) {
       setError({ message: error.message })
       return
     }
+    // Update global targeting state
+    updateTargetingBudget(targeting.budget)
     next()
   }
 
