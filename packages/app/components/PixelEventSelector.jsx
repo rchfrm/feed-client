@@ -49,12 +49,13 @@ const PixelEventSelector = ({
 }
 
 PixelEventSelector.propTypes = {
-  pixelEvent: PropTypes.object.isRequired,
+  pixelEvent: PropTypes.object,
   setPixelEvent: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 PixelEventSelector.defaultProps = {
+  pixelEvent: null,
   className: '',
 }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import MarkdownText from '@/elements/MarkdownText'
+import ToggleSwitch from '@/elements/ToggleSwitch'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
 import PixelEventSelector from '@/app/PixelEventSelector'
@@ -14,10 +15,16 @@ import copy from '@/app/copy/controlsPageCopy'
 
 const getControlsStoreState = (state) => ({
   defaultLinkId: state.conversionsPreferences.defaultLinkId,
+  conversionsEnabled: state.conversionsEnabled,
+  setConversionsEnabled: state.setConversionsEnabled,
 })
 
 const ConversionsSettings = () => {
-  const { defaultLinkId } = useControlsStore(getControlsStoreState)
+  const {
+    defaultLinkId,
+    conversionsEnabled,
+    setConversionsEnabled,
+  } = useControlsStore(getControlsStoreState)
   const [link, setLink] = React.useState(defaultLinkId || defaultPostLinkId)
   const [pixelEvent, setPixelEvent] = React.useState(null)
   const [callToAction, setCallToAction] = React.useState(null)
@@ -25,7 +32,14 @@ const ConversionsSettings = () => {
   return (
     <div className="mb-12">
       <MarkdownText markdown={copy.conversionsTitle} />
-      <MarkdownText markdown={copy.conversionsDescription} />
+      <MarkdownText markdown={copy.conversionsDescription} className="mb-12" />
+      <div className="flex items-center justify-between rounded-dialogue bg-grey-1 px-3 py-2 mb-12">
+        <p className="font-bold mb-0">Enable Conversions</p>
+        <ToggleSwitch
+          state={conversionsEnabled}
+          onChange={() => setConversionsEnabled(!conversionsEnabled)}
+        />
+      </div>
       <PostLinksSelect
         currentLinkId={link}
         updateParentLink={setLink}

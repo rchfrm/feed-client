@@ -49,12 +49,13 @@ const CallToActionSelector = ({
 }
 
 CallToActionSelector.propTypes = {
-  callToAction: PropTypes.object.isRequired,
+  callToAction: PropTypes.object,
   setCallToAction: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 CallToActionSelector.defaultProps = {
+  callToAction: null,
   className: '',
 }
 

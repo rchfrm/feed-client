@@ -30,6 +30,7 @@ export default {
   ],
   conversionsTitle: '## Conversions Defaults',
   conversionsDescription: `These are the settings used as defaults for Conversion audiences.
+
 Each post can override these settings.`,
   startingStepDescription: 'Looks like you haven\'t set up conversions yet. Start running conversions by clicking the button below.',
   budgetStepDescription: 'To run conversions you must have a budget of at least £5.00.',
