@@ -19,7 +19,6 @@ export const fetchArchivedInvoices = (organizationId) => {
 // ------------------
 // Invoices are not finalised until 2 days after the end of the billing period to allow for
 // correction in the Facebook ad spend data. See feed-api/config/stripe.ts:9
-const finalizeInvoiceAfterDays = 2
 const formatUpcomingInvoice = (invoice) => {
   const { currency, exponent, hosted_invoice_url: invoiceUrl } = invoice
   const currencyOffset = 10 ** exponent
@@ -72,7 +71,7 @@ const formatUpcomingInvoice = (invoice) => {
 
   const today = moment()
   let paymentStatus
-  if (moment(invoice.period_end).isSameOrAfter(today, 'day')) {
+  if (moment(invoice.date_due).isSameOrAfter(today, 'day')) {
     paymentStatus = 'upcoming'
   } else if (invoice.status === 'draft' && !invoice.attempted && !invoice.paid) {
     paymentStatus = 'draft'
@@ -91,7 +90,7 @@ const formatUpcomingInvoice = (invoice) => {
     serviceFeePlusAdSpend,
     formattedServiceFeePlusAdSpend: formatCurrency(serviceFeePlusAdSpend / currencyOffset, currency),
     totalFee: formatCurrency(totalFee / currencyOffset, currency),
-    date: moment(invoice.period_end).add(finalizeInvoiceAfterDays, 'days').format('DD MMM YYYY'),
+    date: moment(invoice.date_due).format('DD MMM YYYY'),
   }
 }
 
