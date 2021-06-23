@@ -5,8 +5,6 @@ import MarkdownText from '@/elements/MarkdownText'
 import PostLinksSelect from '@/app/PostLinksSelect'
 import PixelEventSelector from '@/app/PixelEventSelector'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import { defaultPostLinkId } from '@/app/helpers/linksHelpers'
 
 import useControlsStore from '@/app/stores/controlsStore'
@@ -20,12 +18,18 @@ const getControlsStoreState = (state) => ({
 const ConversionsSettings = () => {
   const { defaultLinkId } = useControlsStore(getControlsStoreState)
   const [link, setLink] = React.useState(defaultLinkId || defaultPostLinkId)
-  const { artist } = React.useContext(ArtistContext)
+  const [pixelEvent, setPixelEvent] = React.useState(null)
 
   return (
     <div className="mb-12">
       <MarkdownText markdown={copy.conversionsTitle} />
       <MarkdownText markdown={copy.conversionsDescription} />
+
+      <PixelEventSelector
+        pixelEvent={pixelEvent}
+        setPixelEvent={setPixelEvent}
+      />
+
       <PostLinksSelect
         currentLinkId={link}
         updateParentLink={setLink}
