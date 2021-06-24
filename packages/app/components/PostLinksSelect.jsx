@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import shallow from 'zustand/shallow'
-import useAsyncEffect from 'use-async-effect'
 
 import useIsMounted from '@/hooks/useIsMounted'
 import useLinksStore from '@/app/stores/linksStore'
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
+import PostCardEditAlert from '@/app/PostCardEditAlert'
 
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
@@ -29,6 +29,7 @@ const PostLinksSelect = ({
   includeDefaultLink,
   includeAddLinkOption,
   componentLocation,
+  isPostActive,
 }) => {
   // READ FROM LINKS STORE
   const {
@@ -36,6 +37,11 @@ const PostLinksSelect = ({
     defaultLink,
     nestedLinks,
   } = useLinksStore(getLinksStoreState, shallow)
+  const [showAlert, setShowAlert] = React.useState(false)
+  const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
+  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
+  const isMounted = useIsMounted()
 
   // PLACEHOLDER TEXT (if no default link)
   const placeholderText = componentLocation === 'post' ? 'No default link set' : 'Select a default link'
@@ -109,9 +115,6 @@ const PostLinksSelect = ({
     return baseOptions
   }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption])
 
-  const [loading, setLoading] = React.useState(false)
-  const [error, setError] = React.useState(null)
-
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({
     action: 'add',
@@ -129,18 +132,22 @@ const PostLinksSelect = ({
   })
 
   // HANDLE SETTING SELECTED LINK
-  const isMounted = useIsMounted()
-  useAsyncEffect(async () => {
-    // Stop here if setting to same as before
-    if (currentLinkId === selectedOptionValue) {
-      setLoading(false)
+  const updatePostLink = React.useCallback(async (selectedOptionValue, forceRun = false) => {
+    if (loading && !forceRun) return
+    setLoading(true)
+
+    if (isPostActive && !forceRun) {
+      // Set function to run when confirming alert
+      setOnAlertConfirm(() => () => updatePostLink(selectedOptionValue, true))
+      // Show alert
+      setShowAlert(true)
       return
     }
-    setLoading(true)
     // Run server
     const { res, error } = await onSelect(artistId, selectedOptionValue, postItemId)
     if (!isMounted) return
     // Handle error
+    setShowAlert(false)
     if (error) {
       // Reset value if error
       setSelectedOptionValue(currentLinkId)
@@ -155,7 +162,21 @@ const PostLinksSelect = ({
     onSuccess(res)
     setError(null)
     setLoading(false)
-  }, [selectedOptionValue])
+  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId])
+
+  const handleChange = (e) => {
+    const { target: { value } } = e
+    // Do nothing if value is current value
+    if (value === currentLinkId) return
+    // Handle adding new link
+    if (value === '_new') {
+      setLoading(true)
+      showAddLinkModal()
+      return
+    }
+    setSelectedOptionValue(value)
+    updatePostLink(value)
+  }
 
   return (
     <div>
@@ -165,24 +186,29 @@ const PostLinksSelect = ({
       <Select
         loading={loading}
         className={selectClassName}
-        handleChange={(e) => {
-          const { target: { value } } = e
-          // Do nothing if value is current value
-          if (value === currentLinkId) return
-          // Handle adding new link
-          if (value === '_new') {
-            setLoading(true)
-            showAddLinkModal()
-            return
-          }
-          setSelectedOptionValue(value)
-        }}
+        handleChange={handleChange}
         name="Choose link"
         options={selectOptions}
         placeholder={currentLinkId === defaultPostLinkId ? placeholderText : null}
         selectedValue={selectedOptionValue}
         version="box"
       />
+      {/* ALERT */}
+      {showAlert && (
+        <PostCardEditAlert
+          type="link"
+          postId={postItemId}
+          show={showAlert}
+          newValue={selectedOptionValue}
+          originalValue={currentLinkId}
+          onAlertConfirm={onAlertConfirm}
+          onCancel={() => {
+            setLoading(false)
+            setShowAlert(false)
+            setSelectedOptionValue(currentLinkId)
+          }}
+        />
+      )}
     </div>
   )
 }
@@ -197,6 +223,7 @@ PostLinksSelect.propTypes = {
   includeDefaultLink: PropTypes.bool,
   includeAddLinkOption: PropTypes.bool,
   componentLocation: PropTypes.string.isRequired,
+  isPostActive: PropTypes.bool.isRequired,
 }
 
 PostLinksSelect.defaultProps = {

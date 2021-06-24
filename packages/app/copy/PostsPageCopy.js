@@ -126,13 +126,11 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   // SETTINGS SIDEPANEL
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
   editCaption: `Edit the caption used in this ad.`,
-  confirmEditCaption: `**This feature is being tested!**
+  confirmEdit: (type) => `**Update ${type}**
 
-Editing the caption will put this post back into review, and it will temporarily move to 'Inactive'.
+Editing the ${type} will put this post back into review, and it will temporarily move to 'Inactive'.
 
-There may be a delay before this post can start running again.
-
-If you need to make sure this post starts running as soon as it's approved, [email us](mailto:help@tryfeed.co).
+Facebook’s approval process usually takes less than 24 hours, and the post will begin to run again as soon as it’s approved.
 
 Are you sure you want to continue?`,
 
@@ -160,13 +158,6 @@ If you delete it, these posts will revert to the default link. Are you sure you 
   },
 
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-
-  getLinkDisabledReason: ({ isPostActive, isPostArchived, isLinkAdCreative }) => {
-    if (isPostActive) return 'Link not editable because this ad is currently running.'
-    if (isPostArchived) return 'Link not editable because this ad has been turned off.'
-    if (isLinkAdCreative) return 'Link not editable because this post has been turned into an ad and will begin running soon.'
-    return ''
-  },
 
   // LINK TRACKING
   linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `UTM parameters are automatically added to the links used in your ads. This means you can track how many people Feed is sending to your website, and what they do when they get there.
