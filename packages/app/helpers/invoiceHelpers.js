@@ -71,7 +71,7 @@ const formatUpcomingInvoice = (invoice) => {
 
   const today = moment()
   let paymentStatus
-  if (moment(invoice.date_due).isSameOrAfter(today, 'day')) {
+  if (moment(invoice.period_end).isSameOrAfter(today, 'day')) {
     paymentStatus = 'upcoming'
   } else if (invoice.status === 'draft' && !invoice.attempted && !invoice.paid) {
     paymentStatus = 'draft'
