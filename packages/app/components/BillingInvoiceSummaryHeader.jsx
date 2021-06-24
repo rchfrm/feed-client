@@ -30,12 +30,12 @@ BillingInvoiceSummaryHeader.propTypes = {
   latestInvoicePaymentStatus: PropTypes.string,
   latestInvoiceDueDate: PropTypes.object.isRequired,
   upcomingInvoiceDueDate: PropTypes.object.isRequired,
-  upcomingInvoiceSpendAndFee: PropTypes.string,
+  upcomingInvoiceSpendAndFee: PropTypes.number,
 }
 
 BillingInvoiceSummaryHeader.defaultProps = {
   latestInvoicePaymentStatus: '',
-  upcomingInvoiceSpendAndFee: '',
+  upcomingInvoiceSpendAndFee: 0,
 }
 
 export default BillingInvoiceSummaryHeader
