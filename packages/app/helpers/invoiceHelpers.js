@@ -73,8 +73,8 @@ const formatUpcomingInvoice = (invoice) => {
   let paymentStatus
   if (moment(invoice.period_end).isSameOrAfter(today, 'day')) {
     paymentStatus = 'upcoming'
-  } else if (invoice.status === 'draft' && !invoice.attempted && !invoice.paid) {
-    paymentStatus = 'draft'
+  } else if (!invoice.attempted && !invoice.paid) {
+    paymentStatus = 'pending'
   } else if (invoice.paid) {
     paymentStatus = 'paid'
   } else {
