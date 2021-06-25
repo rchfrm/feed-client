@@ -152,9 +152,11 @@ Deleting a folder will delete all the links inside it.`,
 
 If you delete it, the post will revert to using the default link. Are you sure you want to continue?`
     }
-    return `**This link is currently selected on at least one post that hasn't yet run as an ad ('Not Run').**
+    return `**This link is currently selected on at least one post.**
 
-If you delete it, these posts will revert to the default link. Are you sure you want to continue?`
+    If you delete it, Running and Inactive posts with this link will continue to use it. Not Run posts using this link will revert to the default link.
+    
+    Are you sure you want to continue?`
   },
 
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
