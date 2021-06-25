@@ -126,7 +126,7 @@ const getNestedMetric = (post, metric) => {
 // Get post link data
 export const getPostLinkData = (post) => {
   const { type: linkType = '', data: linkData = {} } = post.link_spec || {}
-  const linkId = linkData.id || ''
+  const linkId = linkData.id || linkData.link_spec?.data?.id || ''
   const linkHref = linkData.href || ''
   return { linkType, linkId, linkHref }
 }
