@@ -15,7 +15,7 @@ const CallToActionSelector = ({
   setCallToAction,
   className,
 }) => {
-  const { callToAction: currentCallToAction } = useControlsStore(getCallToAction)
+  const currentCallToAction = useControlsStore(getCallToAction)
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
 
   // Get all call to actions and convert them to the correct select options object shape

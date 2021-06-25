@@ -15,7 +15,7 @@ const PixelEventSelector = ({
   setPixelEvent,
   className,
 }) => {
-  const { facebookPixelEvent: currentFacebookPixelEvent } = useControlsStore(getFacebookPixelEvent)
+  const currentFacebookPixelEvent = useControlsStore(getFacebookPixelEvent)
   const [facebookPixelEventOptions, setFacebookPixelEventOptions] = React.useState([])
 
   // Get all Facebook Pixel Events on first load and convert them to the correct select options object shape
