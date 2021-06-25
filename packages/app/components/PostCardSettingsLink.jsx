@@ -25,6 +25,8 @@ const PostCardSettingsLink = ({
   const defaultLink = useLinksStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
   const isPostActive = postPromotionStatus === 'active'
+  const isPostArchived = postPromotionStatus === 'archived'
+  const currentLinkId = linkId || ((isPostActive || isPostArchived) ? '' : defaultPostLinkId)
 
   const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref }) => {
     const payload = {
@@ -61,7 +63,7 @@ const PostCardSettingsLink = ({
       ].join(' ')}
     >
       <PostLinksSelect
-        currentLinkId={linkId || defaultPostLinkId}
+        currentLinkId={currentLinkId}
         onSelect={setPostLink}
         postItemId={postId}
         onSuccess={handleSuccess}
@@ -71,6 +73,7 @@ const PostCardSettingsLink = ({
         componentLocation="post"
         selectClassName="mb-0"
         isPostActive={isPostActive}
+        isPostArchived={isPostArchived}
       />
       {/* LINK PREVIEW */}
       {previewUrl && (
