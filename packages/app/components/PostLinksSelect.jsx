@@ -30,6 +30,7 @@ const PostLinksSelect = ({
   includeAddLinkOption,
   componentLocation,
   isPostActive,
+  isPostArchived,
 }) => {
   // READ FROM LINKS STORE
   const {
@@ -41,6 +42,7 @@ const PostLinksSelect = ({
   const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const [postLinkId, setPostLinkId] = React.useState(currentLinkId)
   const isMounted = useIsMounted()
 
   // PLACEHOLDER TEXT (if no default link)
@@ -48,6 +50,7 @@ const PostLinksSelect = ({
 
   // STORE INTERNAL LINK
   const [selectedOptionValue, setSelectedOptionValue] = React.useState(currentLinkId)
+
   React.useEffect(() => {
     if (currentLinkId === selectedOptionValue) return
     setSelectedOptionValue(currentLinkId)
@@ -78,6 +81,15 @@ const PostLinksSelect = ({
     })
     if (looseLinkOptions.length) {
       baseOptions.unshift(...looseLinkOptions)
+    }
+    // Add 'Deleted from link bank' select option if a post is active or achived and the link id doesn't exist in the linkbank anymore
+    if (isPostActive || isPostArchived) {
+      const activeIntegrationLinks = integrationLinks.filter(link => link.href)
+      const linkBankIds = [...looseLinks, ...activeIntegrationLinks].map((link) => link.id)
+      if (!linkBankIds.includes(postLinkId)) {
+        const option = { name: 'Deleted from link bank', value: '' }
+        baseOptions.push(option)
+      }
     }
     // Add INTEGRATIONS as group
     const integrationsGroup = {
@@ -113,7 +125,7 @@ const PostLinksSelect = ({
     // Add other options
     baseOptions.push(otherOptionsGroup)
     return baseOptions
-  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption])
+  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, postLinkId, isPostActive, isPostArchived])
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({
@@ -144,7 +156,7 @@ const PostLinksSelect = ({
       return
     }
     // Run server
-    const { res, error } = await onSelect(artistId, selectedOptionValue, postItemId)
+    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId)
     if (!isMounted) return
     // Handle error
     setShowAlert(false)
@@ -159,7 +171,8 @@ const PostLinksSelect = ({
       return
     }
     // Success
-    onSuccess(res)
+    setPostLinkId(postLink.linkId)
+    onSuccess(postLink)
     setError(null)
     setLoading(false)
   }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId])
@@ -224,6 +237,7 @@ PostLinksSelect.propTypes = {
   includeAddLinkOption: PropTypes.bool,
   componentLocation: PropTypes.string.isRequired,
   isPostActive: PropTypes.bool.isRequired,
+  isPostArchived: PropTypes.bool.isRequired,
 }
 
 PostLinksSelect.defaultProps = {
