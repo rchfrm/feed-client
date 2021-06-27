@@ -87,7 +87,7 @@ const PostLinksSelect = ({
       const activeIntegrationLinks = integrationLinks.filter(link => link.href)
       const linkBankIds = [...looseLinks, ...activeIntegrationLinks].map((link) => link.id)
       if (!linkBankIds.includes(postLinkId)) {
-        const option = { name: 'Deleted from link bank', value: '' }
+        const option = { name: 'Deleted from link bank', value: postLinkId }
         baseOptions.push(option)
       }
     }
