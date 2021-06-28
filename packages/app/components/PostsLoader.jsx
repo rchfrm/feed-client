@@ -265,6 +265,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
           const { linkId } = post
           if (linkId && missingLinkIds.includes(linkId)) {
             post.linkId = null
+            post.linkHref = null
           }
         })
       })
