@@ -318,3 +318,18 @@ export const testIfSpotifyConnected = (integrations) => {
 export const getDefaultLinkId = (artist) => {
   return get(artist, ['preferences', 'posts', 'default_link_id'], '')
 }
+
+/**
+ * Gets the preferences from the artist
+ * @param {object} artist
+ * @returns {object}
+ */
+export const getPreferences = (artist, type) => {
+  const { preferences } = artist
+  const formattedPreferencesResponse = {
+    defaultLinkId: preferences[type].default_link_id,
+    callToAction: preferences[type].call_to_action,
+    ...(type === 'conversions' && { facebookPixelEvent: preferences[type].facebook_pixel_event }),
+  }
+  return formattedPreferencesResponse
+}

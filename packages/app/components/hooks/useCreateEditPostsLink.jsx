@@ -14,18 +14,18 @@ import PostsLinksEditModal from '@/app/PostsLinksEditModal'
 import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
 
 
-import useLinksStore from '@/app/stores/linksStore'
+import useControlsStore from '@/app/stores/controlsStore'
 import { saveLink, saveFolder, setDefaultLink, usedLinkErrorCode } from '@/app/helpers/linksHelpers'
 
 import { testValidIntegration, updateIntegration } from '@/helpers/integrationHelpers'
 
 import copy from '@/app/copy/PostsPageCopy'
 
-const getLinksStoreState = (state) => ({
+const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
   artistId: state.artistId,
   savedFolders: state.savedFolders,
-  updateLinksStore: state.updateLinksStore,
+  updateControlsStore: state.updateControlsStore,
   setLinkBankError: state.setLinkBankError,
 })
 
@@ -48,9 +48,9 @@ const useCreateEditPostsLink = ({
     defaultLink,
     artistId,
     savedFolders,
-    updateLinksStore,
+    updateControlsStore,
     setLinkBankError,
-  } = useLinksStore(getLinksStoreState, shallow)
+  } = useControlsStore(getControlsStoreState, shallow)
 
   // TEST IF FOLDER CONTAINS DEFAULT LINK
   const testFolderContainsDefault = React.useCallback((folder) => {
@@ -80,7 +80,7 @@ const useCreateEditPostsLink = ({
       return { error }
     }
     // Update store
-    updateLinksStore(action, { newLink: savedLink, oldLink })
+    updateControlsStore(action, { newLink: savedLink, oldLink })
     // If created from default link selector, set as default
     if (location === 'defaultLink') {
       const { res: newArtist, error } = await setDefaultLink(artistId, savedLink.id)
@@ -118,7 +118,7 @@ const useCreateEditPostsLink = ({
       return
     }
     // Update store
-    updateLinksStore(action, { newFolder: savedFolder, oldFolder })
+    updateControlsStore(action, { newFolder: savedFolder, oldFolder })
     // Success
     onSave(savedFolder)
     setSidePanelLoading(false)

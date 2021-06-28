@@ -7,7 +7,7 @@ import LinkIcon from '@/icons/LinkIcon'
 import TrashIcon from '@/icons/TrashIcon'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-import useLinksStore from '@/app/stores/linksStore'
+import useControlsStore from '@/app/stores/controlsStore'
 
 import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
 import useForceDeleteLink from '@/app/hooks/useForceDeleteLink'
@@ -16,10 +16,10 @@ import { removeProtocolFromUrl, enforceUrlProtocol } from '@/helpers/utils'
 import { saveLink, usedLinkErrorCode } from '@/app/helpers/linksHelpers'
 import brandColors from '@/constants/brandColors'
 
-const getLinksStoreState = (state) => ({
+const getControlsStoreState = (state) => ({
   artistId: state.artistId,
   savedFolders: state.savedFolders,
-  updateLinksStore: state.updateLinksStore,
+  updateControlsStore: state.updateControlsStore,
   setLinkBankError: state.setLinkBankError,
 })
 
@@ -41,9 +41,9 @@ const PostsLinksLink = ({
   const {
     artistId,
     savedFolders,
-    updateLinksStore,
+    updateControlsStore,
     setLinkBankError,
-  } = useLinksStore(getLinksStoreState, shallow)
+  } = useControlsStore(getControlsStoreState, shallow)
   // DELETE LINK
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   const showForceDeleteModal = useForceDeleteLink()
@@ -64,7 +64,7 @@ const PostsLinksLink = ({
       setLinkBankError(linkBankError)
       return
     }
-    updateLinksStore(action, { newLink: savedLink, oldLink: link })
+    updateControlsStore(action, { newLink: savedLink, oldLink: link })
     setLinkBankError(null)
     return { savedLink }
   }, [])

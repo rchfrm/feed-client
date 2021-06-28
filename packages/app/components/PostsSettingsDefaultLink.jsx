@@ -5,7 +5,7 @@ import PostLinksSelect from '@/app/PostLinksSelect'
 
 import { track } from '@/app/helpers/trackingHelpers'
 
-import useLinksStore from '@/app/stores/linksStore'
+import useControlsStore from '@/app/stores/controlsStore'
 
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
 import { parseUrl } from '@/helpers/utils'
@@ -15,13 +15,13 @@ const PostsSettingsDefaultLink = ({
   setPostPreferences,
   className,
 }) => {
-  const updateLinksStore = useLinksStore(state => state.updateLinksStore)
+  const updateControlsStore = useControlsStore(state => state.updateControlsStore)
   const { id: defaultLinkId } = defaultLink
   const hasDefaultLink = !!defaultLinkId
 
   const onSuccess = React.useCallback((newArtist) => {
     // UPDATE STORE
-    const newDefaultLink = updateLinksStore('chooseNewDefaultLink', { newArtist })
+    const newDefaultLink = updateControlsStore('chooseNewDefaultLink', { newArtist })
     // Update artist status
     const { preferences: { posts: { default_link_id } } } = newArtist
     setPostPreferences('default_link_id', default_link_id)
@@ -29,7 +29,7 @@ const PostsSettingsDefaultLink = ({
     const { host: linkDomain } = parseUrl(newDefaultLink.href)
     track('set_default_link', { linkDomain })
   // eslint-disable-next-line
-  }, [updateLinksStore, setPostPreferences, defaultLink])
+  }, [updateControlsStore, setPostPreferences, defaultLink])
 
   return (
     <div

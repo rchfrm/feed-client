@@ -2,7 +2,8 @@ import create from 'zustand'
 import produce from 'immer'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
-import { getDefaultLinkId } from '@/app/helpers/artistHelpers'
+import { getPreferences } from '@/app/helpers/artistHelpers'
+
 import { getLocalStorage, setLocalStorage, removeProtocolFromUrl } from '@/helpers/utils'
 
 const { integrationsFolderId, folderStatesStorageKey } = linksHelpers
@@ -11,6 +12,10 @@ const initialState = {
   artistId: '',
   isMusician: false,
   defaultLink: {},
+  postsPreferences: {},
+  conversionsPreferences: {},
+  conversionsEnabled: false,
+  budget: 0,
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
@@ -117,9 +122,19 @@ const fetchIntegrations = ({ artist, folders }) => {
   })
 }
 
+// * CONVERSIONS
+
+const canRunConversionCampaigns = (set, get) => () => {
+  const { conversionsPreferences, budget } = get()
+  const hasConversionsSetUpCorrectly = Object.values(conversionsPreferences).every(Boolean)
+  const hasSufficientBudget = budget >= 5
+  return hasConversionsSetUpCorrectly && hasSufficientBudget
+}
+
 // * DEFAULT LINK
 const getDefaultLink = ({ linkFolders, artist, linkId }) => {
-  const defaultLinkId = linkId || getDefaultLinkId(artist)
+  const { defaultLink } = getPreferences(artist, 'posts')
+  const defaultLinkId = linkId || defaultLink
   return linksHelpers.getLinkById(linkFolders, defaultLinkId) || {}
 }
 
@@ -162,8 +177,11 @@ const fetchLinks = (set, get) => async (action, artist) => {
     return { error }
   }
   const { folders } = res
-  const defaultLinkId = getDefaultLinkId(artist)
+  // Get posts preferences and conversions preferences
+  const posts = getPreferences(artist, 'posts')
+  const conversions = getPreferences(artist, 'conversions')
   // Create array of links in folders for display
+  const { defaultLinkId } = posts
   const nestedLinks = formatServerLinks({ folders, defaultLinkId, artist })
   // Get default link
   const defaultLink = getDefaultLink({ artist, linkFolders: nestedLinks, linkId: defaultLinkId })
@@ -179,6 +197,8 @@ const fetchLinks = (set, get) => async (action, artist) => {
     linkBankError: null,
     folderStates,
     defaultLink,
+    postsPreferences: posts,
+    conversionsPreferences: conversions,
   })
 }
 
@@ -188,7 +208,7 @@ const fetchLinks = (set, get) => async (action, artist) => {
 const updateLinksWithIntegrations = (set, get) => (artist) => {
   const { nestedLinks } = get()
   if (!nestedLinks.length) return
-  const defaultLinkId = getDefaultLinkId(artist)
+  const { defaultLinkId } = getPreferences(artist, 'posts')
   // Get updated nested links
   const nestedLinksUpdated = formatServerLinks({ folders: nestedLinks, defaultLinkId, artist })
   set({ nestedLinks: nestedLinksUpdated })
@@ -239,8 +259,23 @@ const updateFolderStates = (set, get) => (folderId, isOpen = true) => {
   locallyStoreFolderStates(newState, artistId)
 }
 
-// UNIVERSAL UPDATE LINK STORE
-const updateLinksStore = (set, get) => (action, {
+// UPDATE POSTS OR CONVERSIONS PREFERENCES
+const updatePreferences = (set, get) => (type, preferences) => {
+  const controlsStore = get()
+  const { canRunConversionCampaigns } = controlsStore
+  const newState = produce(controlsStore[type], draftState => {
+    Object.entries(preferences).forEach(([key, value]) => {
+      draftState[key] = value
+    })
+  })
+  set({ [type]: newState })
+  if (type === 'conversionsPreferences') {
+    set({ conversionsEnabled: canRunConversionCampaigns() })
+  }
+}
+
+// UNIVERSAL UPDATE CONTROLS STORE
+const updateControlsStore = (set, get) => (action, {
   newArtist,
   newLink,
   oldLink,
@@ -280,11 +315,15 @@ const updateLinksStore = (set, get) => (action, {
 
 
 // EXPORT STORE
-const useLinksStore = create((set, get) => ({
+const useControlsStore = create((set, get) => ({
   // STATE
   artistId: initialState.artistId,
   isMusician: initialState.isMusician,
   defaultLink: initialState.defaultLink,
+  postsPreferences: initialState.postsPreferences,
+  conversionsPreferences: initialState.conversionsPreferences,
+  conversionsEnabled: initialState.conversionsEnabled,
+  budget: initialState.budget,
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
@@ -293,13 +332,17 @@ const useLinksStore = create((set, get) => ({
   linkBankError: initialState.linkBankError,
   // GETTERS
   fetchLinks: fetchLinks(set, get),
+  canRunConversionCampaigns: canRunConversionCampaigns(set, get),
   // SETTERS
   updateLinksWithIntegrations: (artist) => updateLinksWithIntegrations(set, get)(artist),
-  updateLinksStore: updateLinksStore(set, get),
+  updateControlsStore: updateControlsStore(set, get),
   updateFolderStates: updateFolderStates(set, get),
+  updatePreferences: updatePreferences(set, get),
+  setBudget: (budget) => set({ budget }),
+  setConversionsEnabled: (conversionsEnabled) => set({ conversionsEnabled }),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
-  initLinkStore: async (artist, action = 'clearLinks') => {
+  initControlsStore: async (artist, action = 'clearLinks') => {
     // Set artist details
     set({
       artistId: artist.id,
@@ -308,6 +351,11 @@ const useLinksStore = create((set, get) => ({
     // Fetch links
     if (action === 'fetchLinks') {
       await get().fetchLinks('force', artist)
+
+      // Set budget and conversions details
+      const { canRunConversionCampaigns } = get()
+      set({ budget: artist.daily_budget })
+      set({ conversionsEnabled: canRunConversionCampaigns() })
       return
     }
     // Clear links
@@ -316,4 +364,4 @@ const useLinksStore = create((set, get) => ({
   clearAll: () => set(initialState),
 }))
 
-export default useLinksStore
+export default useControlsStore

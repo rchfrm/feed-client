@@ -3,6 +3,8 @@ import produce from 'immer'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import TargetingBudgetMobile from '@/app/TargetingBudgetMobile'
 import TargetingBudgetSaveButtonMobile from '@/app/TargetingBudgetSaveButtonMobile'
 
@@ -13,6 +15,9 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import * as utils from '@/helpers/utils'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import * as budgetHelpers from '@/app/helpers/budgetHelpers'
+
+// Read from controls store
+const setBudget = state => state.setBudget
 
 const initialState = {
   targetingState: {},
@@ -81,6 +86,9 @@ const TargetingContextProvider = ({ children }) => {
     updateSpendingPaused,
   } = React.useContext(ArtistContext)
 
+  // Get Setter to set budget in the controls store
+  const setBudgetInControlsStore = useControlsStore(setBudget)
+
   // SIDE PANEL context
   const { sidePanelContent, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
 
@@ -128,7 +136,8 @@ const TargetingContextProvider = ({ children }) => {
         draftState.budget = budget
       })
     })
-  }, [])
+    setBudgetInControlsStore(budget)
+  }, [setBudgetInControlsStore])
 
   // // UPDATE BUDGET IF RECC IS MORE THAN CURRENT
   // React.useEffect(() => {

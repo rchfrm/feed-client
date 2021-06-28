@@ -16,7 +16,6 @@ const { controlsOptions } = copy
 const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) => {
   const [activeOptionKey, setActiveOptionKey] = React.useState(activeSlug)
   const isDesktopLayout = useBreakpointTest('md')
-
   const { artist: { conversions_enabled: conversionsEnabled } } = React.useContext(ArtistContext)
 
   // SIDE PANEL

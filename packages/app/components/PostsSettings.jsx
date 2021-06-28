@@ -2,7 +2,7 @@ import React from 'react'
 
 // IMPORT CONTEXTS
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import useLinksStore from '@/app/stores/linksStore'
+import useControlsStore from '@/app/stores/controlsStore'
 import usePostsStore from '@/app/stores/postsStore'
 // IMPORT COMPONENTS
 import PostsSettingsSection from '@/app/PostsSettingsSection'
@@ -20,7 +20,7 @@ const getTogglePromotionGlobal = state => state.togglePromotionGlobal
 const PostsSettings = () => {
   // GET CONTEXTS
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
-  const defaultLink = useLinksStore(React.useCallback((state) => state.defaultLink, []))
+  const defaultLink = useControlsStore(React.useCallback((state) => state.defaultLink, []))
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   return (
     <div>
