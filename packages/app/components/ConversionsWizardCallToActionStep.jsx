@@ -12,13 +12,21 @@ import { getCallToActions, updateCallToAction } from '@/app/helpers/conversionsH
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
+const getControlsStoreState = (state) => ({
+  callToAction: state.conversionsPreferences.callToAction,
+  updatePreferences: state.updatePreferences,
+})
+
 const ConversionsWizardCallToActionStep = () => {
+  const { callToAction, updatePreferences } = useControlsStore(getControlsStoreState)
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
-  const [callToActionOption, setCallToActionOption] = React.useState({ name: '', value: '' })
+  const [callToActionOption, setCallToActionOption] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
@@ -28,8 +36,9 @@ const ConversionsWizardCallToActionStep = () => {
   useAsyncEffect(async () => {
     const { res: callToActions } = await getCallToActions()
     const options = callToActions.map(({ id, name }) => ({ name, value: id }))
+    const selectedCallToAction = options.find(cta => cta.value === callToAction)
     setCallToActionOptions(options)
-    setCallToActionOption(options[0])
+    setCallToActionOption(selectedCallToAction || options[0])
   }, [])
 
   const handleSelect = React.useCallback((e) => {
@@ -45,13 +54,18 @@ const ConversionsWizardCallToActionStep = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const { res, error } = await saveCallToAction()
+    const { res: artist, error } = await saveCallToAction()
     setIsLoading(false)
 
     if (error) {
       setError({ message: error.message })
       return
     }
+    // Update global store value
+    updatePreferences(
+      'conversionsPreferences',
+      { callToAction: artist.preferences.conversions.call_to_action },
+    )
     next()
   }
 
@@ -65,7 +79,7 @@ const ConversionsWizardCallToActionStep = () => {
           handleChange={handleSelect}
           name="call_to_Action"
           label="Call to Action"
-          selectedValue={callToActionOption.value}
+          selectedValue={callToActionOption?.value}
           options={callToActionOptions}
         />
         <Button

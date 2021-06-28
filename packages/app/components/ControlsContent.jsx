@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
+import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
+
 import ControlsContentOptions from '@/app/ControlsContentOptions'
 import ControlsContentView from '@/app/ControlsContentView'
 import ConversionsContent from '@/app/ConversionsContent'
@@ -20,22 +22,24 @@ const ControlsContent = ({ activeSlug }) => {
   const isDesktopLayout = useBreakpointTest('md')
 
   return (
-    <div className="md:grid grid-cols-12 gap-8">
-      {/* SETTINGS MENU */}
-      <ControlsContentOptions
-        activeSlug={activeSlug}
-        className="col-span-6 col-start-1"
-        controlsComponents={controlsComponents}
-      />
-      {/* SETTINGS VIEW */}
-      {isDesktopLayout && (
-        <ControlsContentView
+    <TargetingContextProvider>
+      <div className="md:grid grid-cols-12 gap-8">
+        {/* SETTINGS MENU */}
+        <ControlsContentOptions
           activeSlug={activeSlug}
-          className="col-span-6 col-start-7"
+          className="col-span-6 col-start-1"
           controlsComponents={controlsComponents}
         />
-      )}
-    </div>
+        {/* SETTINGS VIEW */}
+        {isDesktopLayout && (
+          <ControlsContentView
+            activeSlug={activeSlug}
+            className="col-span-6 col-start-7"
+            controlsComponents={controlsComponents}
+          />
+        )}
+      </div>
+    </TargetingContextProvider>
   )
 }
 

@@ -13,13 +13,21 @@ import { getFacebookPixelEvents, updateFacebookPixelEvent } from '@/app/helpers/
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
+const getControlsStoreState = (state) => ({
+  facebookPixelEvent: state.conversionsPreferences.facebookPixelEvent,
+  updatePreferences: state.updatePreferences,
+})
+
 const ConversionsWizardFacebookPixelEventStep = () => {
+  const { facebookPixelEvent, updatePreferences } = useControlsStore(getControlsStoreState)
   const [facebookPixelEventOptions, setFacebookPixelEventOptions] = React.useState([])
-  const [facebookPixelEventOption, setFacebookPixelEventOption] = React.useState({ name: '', value: '' })
+  const [facebookPixelEventOption, setFacebookPixelEventOption] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
@@ -29,8 +37,9 @@ const ConversionsWizardFacebookPixelEventStep = () => {
   useAsyncEffect(async () => {
     const { res: events } = await getFacebookPixelEvents()
     const options = events.map(({ id, name }) => ({ name, value: id }))
+    const selectedPixelEvent = options.find(event => event.value === facebookPixelEvent)
     setFacebookPixelEventOptions(options)
-    setFacebookPixelEventOption(options[0])
+    setFacebookPixelEventOption(selectedPixelEvent || options[0])
   }, [])
 
   const handleSelect = React.useCallback((e) => {
@@ -46,13 +55,18 @@ const ConversionsWizardFacebookPixelEventStep = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const { res, error } = await saveFaceBookPixelEvent()
+    const { res: artist, error } = await saveFaceBookPixelEvent()
     setIsLoading(false)
 
     if (error) {
       setError({ message: error.message })
       return
     }
+    // Update global store value
+    updatePreferences(
+      'conversionsPreferences',
+      { facebookPixelEvent: artist.preferences.conversions.facebook_pixel_event },
+    )
     next()
   }
 
@@ -66,7 +80,7 @@ const ConversionsWizardFacebookPixelEventStep = () => {
           handleChange={handleSelect}
           name="facebook_pixel_event"
           label="Facebook Pixel Event"
-          selectedValue={facebookPixelEventOption.value}
+          selectedValue={facebookPixelEventOption?.value}
           options={facebookPixelEventOptions}
         />
         <Button
