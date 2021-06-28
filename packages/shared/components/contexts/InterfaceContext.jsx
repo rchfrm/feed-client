@@ -4,6 +4,7 @@ import Router, { useRouter } from 'next/router'
 import { useImmerReducer } from 'use-immer'
 
 import * as utils from '@/helpers/utils'
+import { controlsPages } from '@/app/constants/routes'
 
 const initialState = {
   subNavOpen: false,
@@ -114,6 +115,8 @@ const InterfaceContextProvider = ({ children }) => {
     toggleRouteChanging(true)
     // Don't trigger loading if nav-ing to query path
     if (newUrl.includes('?')) return
+    // Don't trigger loading if nav-ing to one of the control pages
+    if (controlsPages.includes(newUrl)) return
     // close sub nav
     toggleSubNav(false)
     // If same page, no loading

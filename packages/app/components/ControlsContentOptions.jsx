@@ -1,25 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
-import LinkIcon from '@/icons/LinkIcon'
-import CrosshairIcon from '@/icons/CrosshairIcon'
-import JigsawIcon from '@/icons/JigsawIcon'
-import MegaphoneIcon from '@/icons/MegaphoneIcon'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/controlsPageCopy'
+
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 const { controlsOptions } = copy
 
-const icons = {
-  link: <LinkIcon fill={brandColors.blue} className="w-6 h-auto" />,
-  crosshair: <CrosshairIcon fill={brandColors.blue} className="w-6 h-auto" />,
-  jigsaw: <JigsawIcon fill={brandColors.blue} className="w-6 h-auto" />,
-  megaphone: <MegaphoneIcon fill={brandColors.blue} className="w-6 h-auto" />,
-}
+const ControlsContentOptions = ({ className, activeSlug }) => {
+  const [activeOptionKey, setActiveOptionKey] = React.useState(activeSlug)
+  const isDesktopLayout = useBreakpointTest('md')
 
-const ControlsContentOptions = ({ className }) => {
-  const [activeOptionKey, setActiveOptionKey] = React.useState(controlsOptions[0].key)
+  const { artist: { conversions_enabled: conversionsEnabled } } = React.useContext(ArtistContext)
+
+  const goToSpecificSetting = (key) => {
+    setActiveOptionKey(key)
+    Router.push({
+      pathname: '/controls/[slug]',
+      query: { slug: key },
+    })
+
+    // Open content in side-panel if mobile
+    if (!isDesktopLayout) {
+      console.log('open side-panel')
+    }
+  }
+
   return (
     <div
       className={[
@@ -28,30 +37,28 @@ const ControlsContentOptions = ({ className }) => {
       ].join(' ')}
     >
       {controlsOptions.map((option) => {
-        if (option.hidden) return null
-        const { key, title, description, icon: iconSlug } = option
-        const Icon = icons[iconSlug] || null
+        if (option.key === 'conversions' && !conversionsEnabled) return null
+        const { key, title, description } = option
         const isActive = key === activeOptionKey
         return (
           <a
             key={key}
             role="button"
             className={[
-              'flex no-underline',
+              'flex items-center no-underline',
               'py-4',
               'border-solid border-green border-b-2',
             ].join(' ')}
-            onClick={() => setActiveOptionKey(key)}
+            onClick={() => goToSpecificSetting(key)}
           >
-            {/* ICON */}
-            <div className="mr-5" style={{ opacity: isActive ? 1 : 1 }}>
-              <div
-                // className="w-8 h-8 rounded-full flex items-center justify-center"
-              >
-                {Icon}
-              </div>
-            </div>
             {/* TITLE */}
+            <div className={[
+              'w-8 h-8',
+              'mr-4',
+              'flex-shrink-0',
+              'rounded-full',
+              isActive ? 'bg-green' : 'bg-grey-2'].join(' ')}
+            />
             <div>
               <p className="font-bold mb-2">{title}</p>
               <p className="mb-0">{description}</p>
@@ -65,6 +72,7 @@ const ControlsContentOptions = ({ className }) => {
 
 ControlsContentOptions.propTypes = {
   className: PropTypes.string,
+  activeSlug: PropTypes.string.isRequired,
 }
 
 ControlsContentOptions.defaultProps = {

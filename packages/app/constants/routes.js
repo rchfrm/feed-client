@@ -28,9 +28,10 @@ export const NOTIFICATIONS = '/notifications'
 export const TARGETING = '/targeting'
 export const CONTROLS = '/controls'
 export const CONTROLS_TARGETING = '/controls/targeting'
-export const CONTROLS_AD_SETTINGS = '/controls/ad-setttings'
 export const CONTROLS_LINKS = '/controls/links'
 export const CONTROLS_INTEGRATIONS = '/controls/integrations'
+export const CONTROLS_ADS = '/controls/ads'
+export const CONTROLS_CONVERSIONS = '/controls/conversions'
 export const BILLING = '/billing'
 
 export const HOME = POSTS
@@ -69,7 +70,8 @@ export const signedOutPages = [
 // Array of controls sub-pages
 export const controlsPages = [
   CONTROLS_TARGETING,
-  CONTROLS_AD_SETTINGS,
   CONTROLS_LINKS,
   CONTROLS_INTEGRATIONS,
+  CONTROLS_ADS,
+  CONTROLS_CONVERSIONS,
 ]
