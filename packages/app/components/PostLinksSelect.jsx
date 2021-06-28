@@ -43,6 +43,7 @@ const PostLinksSelect = ({
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const [postLinkId, setPostLinkId] = React.useState(currentLinkId)
+  const [isDeletedLink, setIsDeletedLink] = React.useState(false)
   const isMounted = useIsMounted()
 
   // PLACEHOLDER TEXT (if no default link)
@@ -87,6 +88,7 @@ const PostLinksSelect = ({
       const activeIntegrationLinks = integrationLinks.filter(link => link.href)
       const linkBankIds = [...looseLinks, ...activeIntegrationLinks].map((link) => link.id)
       if (!linkBankIds.includes(postLinkId)) {
+        setIsDeletedLink(true)
         const option = { name: 'Deleted from link bank', value: postLinkId }
         baseOptions.push(option)
       }
@@ -181,6 +183,8 @@ const PostLinksSelect = ({
     const { target: { value } } = e
     // Do nothing if value is current value
     if (value === currentLinkId) return
+    // Reset deleted link state
+    setIsDeletedLink(false)
     // Handle adding new link
     if (value === '_new') {
       setLoading(true)
@@ -198,7 +202,10 @@ const PostLinksSelect = ({
       )}
       <Select
         loading={loading}
-        className={selectClassName}
+        className={[
+          selectClassName,
+          isDeletedLink ? 'text-red' : '',
+        ].join(' ')}
         handleChange={handleChange}
         name="Choose link"
         options={selectOptions}
