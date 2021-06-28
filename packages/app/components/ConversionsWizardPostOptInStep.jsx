@@ -24,7 +24,7 @@ const ConversionsWizardOptInStep = ({ setIsWizardActive }) => {
 
   React.useEffect(() => {
     return () => setIsWizardActive(false)
-  })
+  }, [setIsWizardActive])
 
   return (
     <>
