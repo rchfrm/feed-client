@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
 
-import * as ROUTES from '@/app/constants/routes'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
@@ -18,7 +16,6 @@ const { controlsOptions } = copy
 const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) => {
   const [activeOptionKey, setActiveOptionKey] = React.useState(activeSlug)
   const isDesktopLayout = useBreakpointTest('md')
-
   const { artist: { conversions_enabled: conversionsEnabled } } = React.useContext(ArtistContext)
 
   // SIDE PANEL
@@ -32,10 +29,12 @@ const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) =
   const goToSpecificSetting = (key) => {
     setActiveOptionKey(key)
     if (isDesktopLayout) {
-      Router.push(`${ROUTES.CONTROLS}/${key}`)
+      Router.push({
+        pathname: '/controls/[slug]',
+        query: { slug: key },
+      })
       return
     }
-
     // Open content in side-panel if mobile
     const content = controlsComponents[key]
     // Don't set a sidepanel button for the conversions settings
