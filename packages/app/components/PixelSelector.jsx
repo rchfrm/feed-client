@@ -28,12 +28,13 @@ const PixelSelector = ({
   onSelect,
   onSuccess,
   onError,
-  updateParentPixel,
   errorFetching,
   setErrorFetching,
   trackLocation,
   className,
   selectClassName,
+  updateParentPixel,
+  shouldSaveOnChange,
 }) => {
   const { artist, artistId, setArtist } = React.useContext(ArtistContext)
 
@@ -75,6 +76,11 @@ const PixelSelector = ({
 
   // SELECT PIXEL
   const selectPixel = React.useCallback(async (pixelId) => {
+    // Skip API request and only update parent pixel value
+    if (!shouldSaveOnChange) {
+      setActivePixelId(pixelId)
+      return
+    }
     setLoading(true)
     onSelect(pixelId)
     const { newPixelId, newIntegrations, error } = await setPixel(artistId, pixelId)
@@ -102,7 +108,7 @@ const PixelSelector = ({
       pixelId,
       ...(pixelId === disabledPixelId && { disabled: true }),
     })
-  }, [artistId, onSelect, onError, onSuccess, setArtist, trackLocation])
+  }, [artistId, onSelect, onError, onSuccess, setArtist, trackLocation, shouldSaveOnChange])
 
   // ON CREATE NEW PIXEL
   const onCreateNewPixel = (pixel) => {
@@ -209,24 +215,26 @@ PixelSelector.propTypes = {
   onSelect: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  updateParentPixel: PropTypes.func,
   trackLocation: PropTypes.string,
   errorFetching: PropTypes.bool,
   setErrorFetching: PropTypes.func,
   className: PropTypes.string,
   selectClassName: PropTypes.string,
+  updateParentPixel: PropTypes.func,
+  shouldSaveOnChange: PropTypes.bool,
 }
 
 PixelSelector.defaultProps = {
   onSelect: () => {},
   onSuccess: () => {},
   onError: () => {},
-  updateParentPixel: () => {},
   trackLocation: '',
   errorFetching: false,
   setErrorFetching: () => {},
   className: null,
   selectClassName: null,
+  updateParentPixel: () => {},
+  shouldSaveOnChange: true,
 }
 
 export default PixelSelector
