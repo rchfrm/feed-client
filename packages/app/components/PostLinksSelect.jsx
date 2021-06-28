@@ -21,6 +21,7 @@ const getLinksStoreState = (state) => ({
 
 const PostLinksSelect = ({
   currentLinkId,
+  linkType,
   selectClassName,
   onSelect,
   onSuccess,
@@ -30,7 +31,6 @@ const PostLinksSelect = ({
   includeAddLinkOption,
   componentLocation,
   isPostActive,
-  isPostArchived,
 }) => {
   // READ FROM LINKS STORE
   const {
@@ -83,8 +83,8 @@ const PostLinksSelect = ({
     if (looseLinkOptions.length) {
       baseOptions.unshift(...looseLinkOptions)
     }
-    // Add 'Deleted from link bank' select option if a post is active or achived and the link id doesn't exist in the linkbank anymore
-    if (isPostActive || isPostArchived) {
+    // Add 'Deleted from link bank' select option if a post is an adcreative and the link id doesn't exist in the linkbank anymore
+    if (linkType === 'adcreate') {
       const activeIntegrationLinks = integrationLinks.filter(link => link.href)
       const linkBankIds = [...looseLinks, ...activeIntegrationLinks].map((link) => link.id)
       if (!linkBankIds.includes(postLinkId)) {
@@ -127,7 +127,7 @@ const PostLinksSelect = ({
     // Add other options
     baseOptions.push(otherOptionsGroup)
     return baseOptions
-  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, postLinkId, isPostActive, isPostArchived])
+  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, postLinkId, linkType])
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({
@@ -235,6 +235,7 @@ const PostLinksSelect = ({
 
 PostLinksSelect.propTypes = {
   currentLinkId: PropTypes.string,
+  linkType: PropTypes.string,
   selectClassName: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   onSuccess: PropTypes.func,
@@ -244,11 +245,11 @@ PostLinksSelect.propTypes = {
   includeAddLinkOption: PropTypes.bool,
   componentLocation: PropTypes.string.isRequired,
   isPostActive: PropTypes.bool.isRequired,
-  isPostArchived: PropTypes.bool.isRequired,
 }
 
 PostLinksSelect.defaultProps = {
   currentLinkId: defaultPostLinkId,
+  linkType: '',
   onSuccess: () => {},
   onError: null,
   postItemId: '',

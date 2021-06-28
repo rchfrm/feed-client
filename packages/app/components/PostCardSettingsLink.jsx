@@ -17,6 +17,7 @@ const PostCardSettingsLink = ({
   postIndex,
   linkId,
   linkHref,
+  linkType,
   postPromotionStatus,
   updatePost,
   setError,
@@ -25,8 +26,7 @@ const PostCardSettingsLink = ({
   const defaultLink = useLinksStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
   const isPostActive = postPromotionStatus === 'active'
-  const isPostArchived = postPromotionStatus === 'archived'
-  const currentLinkId = linkId || ((isPostActive || isPostArchived) ? '' : defaultPostLinkId)
+  const currentLinkId = linkId || ((linkType === 'adcreative') ? '' : defaultPostLinkId)
 
   const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref }) => {
     const payload = {
@@ -64,6 +64,7 @@ const PostCardSettingsLink = ({
     >
       <PostLinksSelect
         currentLinkId={currentLinkId}
+        linkType={linkType}
         onSelect={setPostLink}
         postItemId={postId}
         onSuccess={handleSuccess}
@@ -73,7 +74,6 @@ const PostCardSettingsLink = ({
         componentLocation="post"
         selectClassName="mb-0"
         isPostActive={isPostActive}
-        isPostArchived={isPostArchived}
       />
       {/* LINK PREVIEW */}
       {previewUrl && (
@@ -101,6 +101,7 @@ PostCardSettingsLink.propTypes = {
   postIndex: PropTypes.number.isRequired,
   linkId: PropTypes.string,
   linkHref: PropTypes.string,
+  linkType: PropTypes.string.isRequired,
   postPromotionStatus: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
