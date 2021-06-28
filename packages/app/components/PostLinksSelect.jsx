@@ -84,7 +84,7 @@ const PostLinksSelect = ({
       baseOptions.unshift(...looseLinkOptions)
     }
     // Add 'Deleted from link bank' select option if a post is an adcreative and the link id doesn't exist in the linkbank anymore
-    if (linkType === 'adcreate') {
+    if (linkType === 'adcreative') {
       const activeIntegrationLinks = integrationLinks.filter(link => link.href)
       const linkBankIds = [...looseLinks, ...activeIntegrationLinks].map((link) => link.id)
       if (!linkBankIds.includes(postLinkId)) {

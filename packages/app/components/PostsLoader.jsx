@@ -263,7 +263,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       const updatedPosts = produce(posts, draftPosts => {
         draftPosts.forEach((post) => {
           const { linkId } = post
-          if (linkId && missingLinkIds.includes(linkId)) {
+          if (linkId && missingLinkIds.includes(linkId) && post.linkType !== 'adcreative') {
             post.linkId = null
             post.linkHref = null
           }

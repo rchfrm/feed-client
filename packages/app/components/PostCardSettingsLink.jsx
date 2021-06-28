@@ -26,7 +26,7 @@ const PostCardSettingsLink = ({
   const defaultLink = useLinksStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
   const isPostActive = postPromotionStatus === 'active'
-  const currentLinkId = linkId || ((linkType === 'adcreative') ? '' : defaultPostLinkId)
+  const currentLinkId = linkId || defaultPostLinkId
 
   const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref }) => {
     const payload = {
