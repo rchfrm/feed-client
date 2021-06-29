@@ -28,20 +28,21 @@ const PostCardSettingsLink = ({
   const isPostActive = postPromotionStatus === 'active'
   const currentLinkId = linkId || defaultPostLinkId
 
-  const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref }) => {
+  const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref, linkType }) => {
     const payload = {
       postIndex,
       linkId,
       linkHref,
+      linkType,
     }
     updatePost('update-link', payload)
   }, [updatePost])
 
   const handleSuccess = (newLink) => {
-    const { linkId, linkHref } = newLink
+    const { linkId, linkHref, linkType } = newLink
     const isDefaultLink = !linkId
     const newLinkHref = linkHref || defaultLink.href
-    updateLinkState({ postIndex, linkId, linkHref })
+    updateLinkState({ postIndex, linkId, linkHref, linkType })
     setError(null)
     setPreviewUrl(newLinkHref)
     // TRACK

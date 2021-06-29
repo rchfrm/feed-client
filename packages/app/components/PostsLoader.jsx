@@ -33,6 +33,7 @@ const postsReducer = (draftState, postsAction) => {
     promotableStatus,
     linkId,
     linkHref,
+    linkType,
     adMessageProps,
   } = payload
   switch (actionType) {
@@ -55,6 +56,7 @@ const postsReducer = (draftState, postsAction) => {
     case 'update-link':
       draftState[postIndex].linkId = linkId
       draftState[postIndex].linkHref = linkHref
+      draftState[postIndex].linkType = linkType
       break
     case 'update-caption':
       draftState[postIndex].adMessageProps = adMessageProps
