@@ -25,8 +25,8 @@ const PostCardSettingsLink = ({
 }) => {
   const defaultLink = useLinksStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
+  const [currentLinkId, setCurrentLinkId] = React.useState(linkId || defaultPostLinkId)
   const isPostActive = postPromotionStatus === 'active'
-  const currentLinkId = linkId || defaultPostLinkId
 
   const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref, linkType }) => {
     const payload = {
@@ -41,10 +41,12 @@ const PostCardSettingsLink = ({
   const handleSuccess = (newLink) => {
     const { linkId, linkHref, linkType } = newLink
     const isDefaultLink = !linkId
+    const newLinkId = linkId || defaultPostLinkId
     const newLinkHref = linkHref || defaultLink.href
     updateLinkState({ postIndex, linkId, linkHref, linkType })
     setError(null)
     setPreviewUrl(newLinkHref)
+    setCurrentLinkId(newLinkId)
     // TRACK
     const { host: linkDomain } = parseUrl(newLinkHref)
     track('post_link_changed', {

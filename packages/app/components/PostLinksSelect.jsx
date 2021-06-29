@@ -42,7 +42,6 @@ const PostLinksSelect = ({
   const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
-  const [postLinkId, setPostLinkId] = React.useState(currentLinkId)
   const [isDeletedLink, setIsDeletedLink] = React.useState(false)
   const isMounted = useIsMounted()
 
@@ -51,12 +50,6 @@ const PostLinksSelect = ({
 
   // STORE INTERNAL LINK
   const [selectedOptionValue, setSelectedOptionValue] = React.useState(currentLinkId)
-
-  React.useEffect(() => {
-    if (currentLinkId === selectedOptionValue) return
-    setSelectedOptionValue(currentLinkId)
-  // eslint-disable-next-line
-  }, [currentLinkId])
 
   // CONVERT LINK OPTIONS TO FIT SELECT COMPONENT
   const selectOptions = React.useMemo(() => {
@@ -93,9 +86,9 @@ const PostLinksSelect = ({
         return result
       }, {})
 
-      if (!linkBankIds[postLinkId]) {
+      if (!linkBankIds[currentLinkId]) {
         setIsDeletedLink(true)
-        const option = { name: 'Deleted from link bank', value: postLinkId }
+        const option = { name: 'Deleted from link bank', value: currentLinkId }
         baseOptions.push(option)
       }
     }
@@ -134,7 +127,7 @@ const PostLinksSelect = ({
     // Add other options
     baseOptions.push(otherOptionsGroup)
     return baseOptions
-  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, postLinkId, linkType])
+  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, currentLinkId, linkType])
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({
@@ -180,18 +173,17 @@ const PostLinksSelect = ({
       return
     }
     // Success
-    setPostLinkId(postLink.linkId)
     onSuccess(postLink)
     setError(null)
     setLoading(false)
+    // Reset deleted link state
+    setIsDeletedLink(false)
   }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId])
 
   const handleChange = (e) => {
     const { target: { value } } = e
     // Do nothing if value is current value
     if (value === currentLinkId) return
-    // Reset deleted link state
-    setIsDeletedLink(false)
     // Handle adding new link
     if (value === '_new') {
       setLoading(true)
