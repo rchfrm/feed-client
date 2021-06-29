@@ -85,14 +85,21 @@ const PostLinksSelect = ({
     }
     // Add 'Deleted from link bank' select option if a post is an adcreative and the link id doesn't exist in the linkbank anymore
     if (linkType === 'adcreative') {
-      const activeIntegrationLinks = integrationLinks.filter(link => link.href)
-      const linkBankIds = [...looseLinks, ...activeIntegrationLinks].map((link) => link.id)
-      if (!linkBankIds.includes(postLinkId)) {
+      const linkBankIds = nestedLinks.reduce((result, { links }) => {
+        const activeLinks = links.filter(link => link.href)
+        activeLinks.forEach(activeLink => {
+          result[activeLink.id] = true
+        })
+        return result
+      }, {})
+
+      if (!linkBankIds[postLinkId]) {
         setIsDeletedLink(true)
         const option = { name: 'Deleted from link bank', value: postLinkId }
         baseOptions.push(option)
       }
     }
+
     // Add INTEGRATIONS as group
     const integrationsGroup = {
       type: 'group',
