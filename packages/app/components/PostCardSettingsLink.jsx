@@ -17,6 +17,7 @@ const PostCardSettingsLink = ({
   postIndex,
   linkId,
   linkHref,
+  linkType,
   postPromotionStatus,
   updatePost,
   setError,
@@ -24,24 +25,28 @@ const PostCardSettingsLink = ({
 }) => {
   const defaultLink = useLinksStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
+  const [currentLinkId, setCurrentLinkId] = React.useState(linkId || defaultPostLinkId)
   const isPostActive = postPromotionStatus === 'active'
 
-  const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref }) => {
+  const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref, linkType }) => {
     const payload = {
       postIndex,
       linkId,
       linkHref,
+      linkType,
     }
     updatePost('update-link', payload)
   }, [updatePost])
 
   const handleSuccess = (newLink) => {
-    const { linkId, linkHref } = newLink
+    const { linkId, linkHref, linkType } = newLink
     const isDefaultLink = !linkId
+    const newLinkId = linkId || defaultPostLinkId
     const newLinkHref = linkHref || defaultLink.href
-    updateLinkState({ postIndex, linkId, linkHref })
+    updateLinkState({ postIndex, linkId, linkHref, linkType })
     setError(null)
     setPreviewUrl(newLinkHref)
+    setCurrentLinkId(newLinkId)
     // TRACK
     const { host: linkDomain } = parseUrl(newLinkHref)
     track('post_link_changed', {
@@ -61,7 +66,8 @@ const PostCardSettingsLink = ({
       ].join(' ')}
     >
       <PostLinksSelect
-        currentLinkId={linkId || defaultPostLinkId}
+        currentLinkId={currentLinkId}
+        linkType={linkType}
         onSelect={setPostLink}
         postItemId={postId}
         onSuccess={handleSuccess}
@@ -98,6 +104,7 @@ PostCardSettingsLink.propTypes = {
   postIndex: PropTypes.number.isRequired,
   linkId: PropTypes.string,
   linkHref: PropTypes.string,
+  linkType: PropTypes.string.isRequired,
   postPromotionStatus: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,

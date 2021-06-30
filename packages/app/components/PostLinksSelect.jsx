@@ -21,6 +21,7 @@ const getLinksStoreState = (state) => ({
 
 const PostLinksSelect = ({
   currentLinkId,
+  linkType,
   selectClassName,
   onSelect,
   onSuccess,
@@ -41,6 +42,7 @@ const PostLinksSelect = ({
   const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const [isDeletedLink, setIsDeletedLink] = React.useState(false)
   const isMounted = useIsMounted()
 
   // PLACEHOLDER TEXT (if no default link)
@@ -48,11 +50,6 @@ const PostLinksSelect = ({
 
   // STORE INTERNAL LINK
   const [selectedOptionValue, setSelectedOptionValue] = React.useState(currentLinkId)
-  React.useEffect(() => {
-    if (currentLinkId === selectedOptionValue) return
-    setSelectedOptionValue(currentLinkId)
-  // eslint-disable-next-line
-  }, [currentLinkId])
 
   // CONVERT LINK OPTIONS TO FIT SELECT COMPONENT
   const selectOptions = React.useMemo(() => {
@@ -79,6 +76,23 @@ const PostLinksSelect = ({
     if (looseLinkOptions.length) {
       baseOptions.unshift(...looseLinkOptions)
     }
+    // Add 'Deleted from link bank' select option if a post is an adcreative and the link id doesn't exist in the linkbank anymore
+    if (linkType === 'adcreative') {
+      const linkBankIds = nestedLinks.reduce((result, { links }) => {
+        const activeLinks = links.filter(link => link.href)
+        activeLinks.forEach(activeLink => {
+          result[activeLink.id] = true
+        })
+        return result
+      }, {})
+
+      if (!linkBankIds[currentLinkId]) {
+        setIsDeletedLink(true)
+        const option = { name: 'Deleted from link bank', value: currentLinkId }
+        baseOptions.push(option)
+      }
+    }
+
     // Add INTEGRATIONS as group
     const integrationsGroup = {
       type: 'group',
@@ -113,7 +127,7 @@ const PostLinksSelect = ({
     // Add other options
     baseOptions.push(otherOptionsGroup)
     return baseOptions
-  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption])
+  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, currentLinkId, linkType])
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditPostsLink({
@@ -144,7 +158,7 @@ const PostLinksSelect = ({
       return
     }
     // Run server
-    const { res, error } = await onSelect(artistId, selectedOptionValue, postItemId)
+    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId)
     if (!isMounted) return
     // Handle error
     setShowAlert(false)
@@ -159,9 +173,11 @@ const PostLinksSelect = ({
       return
     }
     // Success
-    onSuccess(res)
+    onSuccess(postLink)
     setError(null)
     setLoading(false)
+    // Reset deleted link state
+    setIsDeletedLink(false)
   }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId])
 
   const handleChange = (e) => {
@@ -185,7 +201,10 @@ const PostLinksSelect = ({
       )}
       <Select
         loading={loading}
-        className={selectClassName}
+        className={[
+          selectClassName,
+          isDeletedLink ? 'text-red' : '',
+        ].join(' ')}
         handleChange={handleChange}
         name="Choose link"
         options={selectOptions}
@@ -215,6 +234,7 @@ const PostLinksSelect = ({
 
 PostLinksSelect.propTypes = {
   currentLinkId: PropTypes.string,
+  linkType: PropTypes.string,
   selectClassName: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   onSuccess: PropTypes.func,
@@ -228,6 +248,7 @@ PostLinksSelect.propTypes = {
 
 PostLinksSelect.defaultProps = {
   currentLinkId: defaultPostLinkId,
+  linkType: '',
   onSuccess: () => {},
   onError: null,
   postItemId: '',
