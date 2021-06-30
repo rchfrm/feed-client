@@ -8,6 +8,7 @@ import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
 import ControlsContentOptions from '@/app/ControlsContentOptions'
 import ControlsContentView from '@/app/ControlsContentView'
 import ConversionsContent from '@/app/ConversionsContent'
+import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 
 // One of these components will be shown based on the activeSlug
 const controlsComponents = {
@@ -24,12 +25,17 @@ const ControlsContent = ({ activeSlug }) => {
   return (
     <TargetingContextProvider>
       <div className="md:grid grid-cols-12 gap-8">
-        {/* SETTINGS MENU */}
-        <ControlsContentOptions
-          activeSlug={activeSlug}
-          className="col-span-6 col-start-1"
-          controlsComponents={controlsComponents}
-        />
+        <div className="col-span-6 col-start-1">
+          {/* BUDGET BOX */}
+          <TargetingBudgetBox
+            className="mb-8"
+          />
+          {/* SETTINGS MENU */}
+          <ControlsContentOptions
+            activeSlug={activeSlug}
+            controlsComponents={controlsComponents}
+          />
+        </div>
         {/* SETTINGS VIEW */}
         {isDesktopLayout && (
           <ControlsContentView
