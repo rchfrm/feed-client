@@ -19,8 +19,6 @@ import Error from '@/elements/Error'
 
 import useAnimateScroll from '@/hooks/useAnimateScroll'
 
-import styles from '@/app/AccountPage.module.css'
-
 const getChangedEmails = ({ email, contactEmail, initialEmail, initialContactEmail }) => {
   const changedEmails = []
   if (email !== initialEmail) changedEmails.push('authEmail')
@@ -41,7 +39,7 @@ const testIfDetailsChanged = ({
   return false
 }
 
-const AccountPageDetailsInline = () => {
+const AccountPageDetails = () => {
   // Get user context
   const { user, updateUser, hasPendingEmail } = React.useContext(UserContext)
   // Determine if user doesn't use email auth
@@ -230,7 +228,7 @@ const AccountPageDetailsInline = () => {
 
 
   return (
-    <section className={styles.accountPageDetails}>
+    <section>
 
       {hasPendingEmail && (
         <PendingEmailWarning user={user} className="mb-8" isAccountPage />
@@ -238,7 +236,6 @@ const AccountPageDetailsInline = () => {
 
       <form
         className={[
-          styles.accountPageDetails__form,
           'md:max-w-xl',
         ].join(' ')}
         onSubmit={onSumbit}
@@ -311,7 +308,7 @@ const AccountPageDetailsInline = () => {
         )}
 
         <Button
-          className={styles.submitButton}
+          className="mt-10"
           type="submit"
           disabled={formDisabled}
           loading={loading}
@@ -331,8 +328,7 @@ const AccountPageDetailsInline = () => {
   )
 }
 
-AccountPageDetailsInline.propTypes = {
-
+AccountPageDetails.propTypes = {
 }
 
-export default AccountPageDetailsInline
+export default AccountPageDetails

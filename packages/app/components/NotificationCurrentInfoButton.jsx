@@ -8,6 +8,7 @@ const NotificationCurrentInfoButton = ({
   sidepanelLayout,
   ctaText,
   buttonType,
+  linkType,
   isComplete,
   onAction,
   onComplete,
@@ -22,12 +23,14 @@ const NotificationCurrentInfoButton = ({
     }
     setLoading(true)
     const { res, error } = await onAction() || {}
+    // Stop here if navigating to new page
+    if (linkType === 'internal') return
     setLoading(false)
     // Don't complete
     if (error || res === 'incomplete') return
     // Update notification as resolved
     onComplete()
-  }, [isComplete, onAction, onComplete, dismissNotification])
+  }, [linkType, isComplete, onAction, onComplete, dismissNotification])
 
   if (buttonType === 'facebook') {
     return (
@@ -58,10 +61,16 @@ NotificationCurrentInfoButton.propTypes = {
   sidepanelLayout: PropTypes.bool.isRequired,
   ctaText: PropTypes.string.isRequired,
   buttonType: PropTypes.string.isRequired,
+  linkType: PropTypes.string,
   isComplete: PropTypes.bool.isRequired,
   onAction: PropTypes.func.isRequired,
   onComplete: PropTypes.func.isRequired,
   dismissNotification: PropTypes.func.isRequired,
 }
+
+NotificationCurrentInfoButton.defaultProps = {
+  linkType: null,
+}
+
 
 export default NotificationCurrentInfoButton

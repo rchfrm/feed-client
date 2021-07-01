@@ -49,7 +49,7 @@ const Button = React.forwardRef(({
   const Wrapper = wrapper || (href ? 'a' : 'button')
   // Handle hrefs
   const linkType = href ? utils.getLinkType(href) : null
-  const target = linkType === 'external' ? '_blank' : 'self'
+  const target = linkType === 'external' ? '_blank' : '_self'
   const rel = linkType === 'external' ? 'noopener noreferrer' : null
 
   // ON CLICK

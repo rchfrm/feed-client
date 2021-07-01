@@ -1,14 +1,14 @@
 import React from 'react'
 
-function CrossIcon({ data, width, fill }) {
+function CrossIcon({ fill, className }) {
   const name = 'Cross'
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      data-name={name}
-      data-item={data}
-      width={width}
+      width="416"
+      height="367"
       viewBox="0 0 600 600"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <title>{name}</title>
       <rect
@@ -17,7 +17,6 @@ function CrossIcon({ data, width, fill }) {
         width="600"
         height="60"
         transform="translate(300 724.264)rotate(-135)"
-        data-item={data}
       />
       <rect
         fill={fill}
@@ -25,7 +24,6 @@ function CrossIcon({ data, width, fill }) {
         width="600"
         height="60"
         transform="translate(-124.264 300)rotate(-45)"
-        data-item={data}
       />
     </svg>
   )

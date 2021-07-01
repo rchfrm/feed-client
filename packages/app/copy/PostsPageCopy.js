@@ -126,9 +126,9 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   // SETTINGS SIDEPANEL
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
   editCaption: `Edit the caption used in this ad.`,
-  confirmEditCaption: `**Update ad caption**
+  confirmEdit: (type) => `**Update ${type}**
 
-Editing the caption will put this post back into review, and it will temporarily move to 'Inactive'.
+Editing the ${type} will put this post back into review, and it will temporarily move to 'Inactive'.
 
 Facebook’s approval process usually takes less than 24 hours, and the post will begin to run again as soon as it’s approved.
 
@@ -152,19 +152,14 @@ Deleting a folder will delete all the links inside it.`,
 
 If you delete it, the post will revert to using the default link. Are you sure you want to continue?`
     }
-    return `**This link is currently selected on at least one post that hasn't yet run as an ad ('Not Run').**
+    return `**This link is currently selected on at least one post.**
 
-If you delete it, these posts will revert to the default link. Are you sure you want to continue?`
+    If you delete it, Running and Inactive posts with this link will continue to use it. Not Run posts using this link will revert to the default link.
+    
+    Are you sure you want to continue?`
   },
 
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-
-  getLinkDisabledReason: ({ isPostActive, isPostArchived, isLinkAdCreative }) => {
-    if (isPostActive) return 'Link not editable because this ad is currently running.'
-    if (isPostArchived) return 'Link not editable because this ad has been turned off.'
-    if (isLinkAdCreative) return 'Link not editable because this post has been turned into an ad and will begin running soon.'
-    return ''
-  },
 
   // LINK TRACKING
   linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `UTM parameters are automatically added to the links used in your ads. This means you can track how many people Feed is sending to your website, and what they do when they get there.

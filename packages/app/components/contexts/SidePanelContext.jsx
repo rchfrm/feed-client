@@ -66,6 +66,7 @@ const SidePanelContextProvider = ({ children }) => {
     return () => {
       Router.events.off('routeChangeStart', closeSidePanel)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // DISABLE DRAGGING
