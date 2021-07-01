@@ -79,6 +79,7 @@ const TargetingBudgetSetter = ({
                 onChange={(budget) => {
                   setBudget(budget)
                 }}
+                budget={targetingState.budget}
               />
             )}
           </CSSTransition>

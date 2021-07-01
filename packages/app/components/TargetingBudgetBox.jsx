@@ -10,8 +10,9 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
-import TargetingSectionHeader from '@/app/TargetingSectionHeader'
+import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
+import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
 
 const TargetingBudgetBox = React.forwardRef(({
   isFixed,
@@ -55,6 +56,10 @@ const TargetingBudgetBox = React.forwardRef(({
     targetingState,
     initialTargetingState,
     updateTargetingBudget,
+    saveTargetingSettings,
+    togglePauseCampaign,
+    disableSaving,
+    isFirstTimeUser,
   } = React.useContext(TargetingContext)
 
   // ARTIST context
@@ -78,24 +83,24 @@ const TargetingBudgetBox = React.forwardRef(({
     <section
       ref={budgetRef}
       className={[
-        isFixed ? 'fixed opacity-0' : 'relative',
+        'relative',
         'rounded-dialogue',
-        'p-4 sm:p-5 bg-grey-1',
-        isSummaryVersion ? 'pt-14 sm:pt-14' : null,
+        'p-4 bg-grey-1',
+        'pt-20',
         className,
       ].join(' ')}
+      style={{ height: '252px' }}
     >
-      {/* HEADER */}
-      {!isSummaryVersion && (
-        <header className="flex justify-between mb-3">
-          <TargetingSectionHeader header="Daily Budget" />
-        </header>
-      )}
+      {/* PAUSE OR RESUME SPENDING */}
+      <TargetingBudgetPauseButton
+        togglePauseCampaign={togglePauseCampaign}
+        isPaused={initialTargetingState.status}
+      />
       {/* TOGGLE CUSTOM BUDGET */}
       <TargetingCustomBudgetButton
         className={[
           'absolute top-0 right-0',
-          'mr-6 sm:mr-7 mt-5',
+          'mr-6 sm:mr-5 mt-5',
         ].join(' ')}
         style={{ zIndex: 2 }}
         showCustomBudget={showCustomBudget}
@@ -119,6 +124,14 @@ const TargetingBudgetBox = React.forwardRef(({
           showCustomBudget={showCustomBudget}
         />
       </div>
+      <TargetingBudgetButtons
+        targetingState={targetingState}
+        initialTargetingState={initialTargetingState}
+        updateTargetingBudget={updateTargetingBudget}
+        saveTargetingSettings={saveTargetingSettings}
+        disableSaving={disableSaving}
+        isFirstTimeUser={isFirstTimeUser}
+      />
     </section>
   )
 })
