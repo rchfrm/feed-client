@@ -71,6 +71,7 @@ const ControlsAll = ({ activeSlug }) => {
   return (
     <div className="md:grid grid-cols-12 gap-8">
       <div className="col-span-6 col-start-1">
+        <h2>Budget</h2>
         {/* BUDGET BOX */}
         <TargetingBudgetBox
           className="mb-8"
