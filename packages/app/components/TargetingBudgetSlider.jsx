@@ -17,6 +17,7 @@ const TargetingBudgetSlider = ({
   currency,
   currencyOffset,
   onChange,
+  budget,
   mobileVersion,
 }) => {
   // SHOW BUDGET FEATURES
@@ -52,6 +53,7 @@ const TargetingBudgetSlider = ({
   const startingBudget = !initialBudget ? minReccBudget : Math.round(initialBudget)
   const startValue = React.useRef(startingBudget)
   const initialMarkerPosition = React.useRef(null)
+  const [sliderInstance, setSliderInstance] = React.useState(null)
 
   // DEFINE RANGE
   const valueRange = React.useMemo(() => {
@@ -70,6 +72,13 @@ const TargetingBudgetSlider = ({
       max: [max, sliderStep],
     }
   }, [sliderValueRange, sliderStep])
+
+  React.useEffect(() => {
+    if (budget === initialBudget) {
+      if (!sliderInstance) return
+      sliderInstance.noUiSlider.reset(budget)
+    }
+  }, [initialBudget, budget, sliderInstance])
 
   return (
     <div className={['pl-0'].join(' ')} ref={containerRef}>
@@ -101,6 +110,7 @@ const TargetingBudgetSlider = ({
           },
         ]}
         ghosts={startValue.current ? [initialMarkerPosition.current] : []}
+        setSliderInstance={setSliderInstance}
       >
         {/* Only show marker if min recc is greater than min slider range */}
         {sliderValueRange[0] < minReccBudget && (
@@ -123,6 +133,7 @@ TargetingBudgetSlider.propTypes = {
   currency: PropTypes.string,
   currencyOffset: PropTypes.number,
   onChange: PropTypes.func.isRequired,
+  budget: PropTypes.number.isRequired,
   mobileVersion: PropTypes.bool,
 }
 
