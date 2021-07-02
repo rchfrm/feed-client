@@ -25,14 +25,14 @@ const getControlsStoreState = (state) => ({
 
 const ConversionsWizardFacebookPixelEventStep = () => {
   const { updatePreferences } = useControlsStore(getControlsStoreState)
-  const [pixelEvent, setPixelEvent] = React.useState(null)
+  const [pixelEvent, setPixelEvent] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
 
   const saveFaceBookPixelEvent = () => {
-    return updateFacebookPixelEvent(artist.id, pixelEvent.value)
+    return updateFacebookPixelEvent(artist.id, pixelEvent)
   }
 
   // Handle API request and navigate to the next step

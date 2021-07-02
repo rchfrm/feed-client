@@ -22,16 +22,18 @@ const CallToActionSelector = ({
   useAsyncEffect(async () => {
     const { res: callToActions } = await getCallToActions()
     const options = callToActions.map(({ id, name }) => ({ name, value: id }))
-    const selectedCallToAction = options.find(cta => cta.value === currentCallToAction)
     setCallToActionOptions(options)
-    setCallToAction(selectedCallToAction || options[0])
   }, [])
 
   const handleSelect = React.useCallback((e) => {
     const callToActionOption = callToActionOptions.find(({ value }) => value === e.target.value)
     // Set state in parent component
-    setCallToAction(callToActionOption)
+    setCallToAction(callToActionOption.value)
   }, [callToActionOptions, setCallToAction])
+
+  React.useEffect(() => {
+    setCallToAction(currentCallToAction || callToActionOptions[0]?.value)
+  }, [currentCallToAction, setCallToAction, callToActionOptions])
 
   return (
     <div className={className}>
@@ -39,7 +41,7 @@ const CallToActionSelector = ({
         handleChange={handleSelect}
         name="call_to_Action"
         label="Call to Action"
-        selectedValue={callToAction?.value}
+        selectedValue={callToAction}
         options={callToActionOptions}
       />
     </div>
@@ -47,13 +49,13 @@ const CallToActionSelector = ({
 }
 
 CallToActionSelector.propTypes = {
-  callToAction: PropTypes.object,
+  callToAction: PropTypes.string,
   setCallToAction: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 CallToActionSelector.defaultProps = {
-  callToAction: null,
+  callToAction: '',
   className: '',
 }
 

@@ -22,16 +22,18 @@ const PixelEventSelector = ({
   useAsyncEffect(async () => {
     const { res: events } = await getFacebookPixelEvents()
     const options = events.map(({ id, name }) => ({ name, value: id }))
-    const selectedPixelEvent = options.find(event => event.value === currentFacebookPixelEvent)
     setFacebookPixelEventOptions(options)
-    setPixelEvent(selectedPixelEvent || options[0])
   }, [])
 
   const handleSelect = React.useCallback((e) => {
     const facebookPixelEventOption = facebookPixelEventOptions.find(({ value }) => value === e.target.value)
     // Set state in parent component
-    setPixelEvent(facebookPixelEventOption)
+    setPixelEvent(facebookPixelEventOption.value)
   }, [facebookPixelEventOptions, setPixelEvent])
+
+  React.useEffect(() => {
+    setPixelEvent(currentFacebookPixelEvent || facebookPixelEventOptions[0]?.value)
+  }, [currentFacebookPixelEvent, setPixelEvent, facebookPixelEventOptions])
 
   return (
     <div className={className}>
@@ -39,7 +41,7 @@ const PixelEventSelector = ({
         handleChange={handleSelect}
         name="facebook_pixel_event"
         label="Facebook Pixel Event"
-        selectedValue={pixelEvent?.value}
+        selectedValue={pixelEvent}
         options={facebookPixelEventOptions}
       />
     </div>
@@ -47,13 +49,13 @@ const PixelEventSelector = ({
 }
 
 PixelEventSelector.propTypes = {
-  pixelEvent: PropTypes.object,
+  pixelEvent: PropTypes.string,
   setPixelEvent: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 PixelEventSelector.defaultProps = {
-  pixelEvent: null,
+  pixelEvent: '',
   className: '',
 }
 
