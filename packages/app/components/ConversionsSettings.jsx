@@ -8,7 +8,6 @@ import PostLinksSelect from '@/app/PostLinksSelect'
 import PixelEventSelector from '@/app/PixelEventSelector'
 import CallToActionSelector from '@/app/CallToActionSelector'
 
-import { defaultPostLinkId } from '@/app/helpers/linksHelpers'
 import { updateConversionsPreferences } from '@/app/helpers/conversionsHelpers'
 
 import useControlsStore from '@/app/stores/controlsStore'
@@ -60,11 +59,8 @@ const ConversionsSettings = () => {
     )
   }
 
-  console.log(conversionsEnabled)
-
   // On changing the toggle switch
   const onChange = React.useCallback(() => {
-    console.log(conversionsEnabled)
     setConversionsEnabled(!conversionsEnabled)
   }, [conversionsEnabled, setConversionsEnabled])
 
