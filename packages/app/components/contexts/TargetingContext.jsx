@@ -17,7 +17,7 @@ import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import * as budgetHelpers from '@/app/helpers/budgetHelpers'
 
 // Read from controls store
-const setBudget = state => state.setBudget
+const setBudget = state => state.updateBudget
 
 const initialState = {
   targetingState: {},

@@ -274,6 +274,12 @@ const updatePreferences = (set, get) => (type, preferences) => {
   }
 }
 
+const updateBudget = (set, get) => (budget) => {
+  const { canRunConversionCampaigns } = get()
+  set({ budget })
+  set({ conversionsEnabled: canRunConversionCampaigns() })
+}
+
 // UNIVERSAL UPDATE CONTROLS STORE
 const updateControlsStore = (set, get) => (action, {
   newArtist,
@@ -338,7 +344,7 @@ const useControlsStore = create((set, get) => ({
   updateControlsStore: updateControlsStore(set, get),
   updateFolderStates: updateFolderStates(set, get),
   updatePreferences: updatePreferences(set, get),
-  setBudget: (budget) => set({ budget }),
+  updateBudget: updateBudget(set, get),
   setConversionsEnabled: (conversionsEnabled) => set({ conversionsEnabled }),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
@@ -353,9 +359,8 @@ const useControlsStore = create((set, get) => ({
       await get().fetchLinks('force', artist)
 
       // Set budget and conversions details
-      const { canRunConversionCampaigns } = get()
-      set({ budget: artist.daily_budget })
-      set({ conversionsEnabled: canRunConversionCampaigns() })
+      const { updateBudget } = get()
+      updateBudget(artist.daily_budget)
       return
     }
     // Clear links
