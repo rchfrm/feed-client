@@ -60,18 +60,26 @@ const ConversionsSettings = () => {
     )
   }
 
+  console.log(conversionsEnabled)
+
+  // On changing the toggle switch
+  const onChange = React.useCallback(() => {
+    console.log(conversionsEnabled)
+    setConversionsEnabled(!conversionsEnabled)
+  }, [conversionsEnabled, setConversionsEnabled])
+
   return (
     <div className="mb-12">
       <MarkdownText markdown={copy.conversionsTitle} />
       <MarkdownText markdown={copy.conversionsDescription} className="mb-12" />
+      <div className="flex items-center justify-between rounded-dialogue bg-grey-1 px-3 py-2 mb-12">
+        <p className="font-bold mb-0">Enable Conversions</p>
+        <ToggleSwitch
+          state={conversionsEnabled}
+          onChange={onChange}
+        />
+      </div>
       <form onSubmit={onSubmit}>
-        <div className="flex items-center justify-between rounded-dialogue bg-grey-1 px-3 py-2 mb-12">
-          <p className="font-bold mb-0">Enable Conversions</p>
-          <ToggleSwitch
-            state={conversionsEnabled}
-            onChange={() => setConversionsEnabled(!conversionsEnabled)}
-          />
-        </div>
         <PostLinksSelect
           currentLinkId={defaultLinkId}
           updateParentLink={setDefaultLinkId}
@@ -81,22 +89,26 @@ const ConversionsSettings = () => {
           componentLocation="post"
           label="Default link"
           className="mb-12"
+          disabled={!conversionsEnabled}
         />
         <PixelEventSelector
           pixelEvent={facebookPixelEvent}
           setPixelEvent={setFacebookPixelEvent}
           className="mb-12"
+          disabled={!conversionsEnabled}
         />
         <CallToActionSelector
           callToAction={callToAction}
           setCallToAction={setCallToAction}
           className="mb-12"
+          disabled={!conversionsEnabled}
         />
         <Button
           type="submit"
           version="green"
           className="w-full"
           loading={isLoading}
+          disabled={!conversionsEnabled}
         >
           Save Conversions Settings
         </Button>

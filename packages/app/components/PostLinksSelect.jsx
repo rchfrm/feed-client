@@ -33,6 +33,7 @@ const PostLinksSelect = ({
   shouldSaveOnChange,
   label,
   className,
+  disabled,
 }) => {
   // READ FROM LINKS STORE
   const {
@@ -202,6 +203,7 @@ const PostLinksSelect = ({
           placeholder={currentLinkId === defaultPostLinkId ? placeholderText : null}
           selectedValue={selectedOptionValue}
           version="box"
+          disabled={disabled}
         />
       </label>
     </div>
@@ -222,6 +224,7 @@ PostLinksSelect.propTypes = {
   shouldSaveOnChange: PropTypes.bool,
   label: PropTypes.string,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
 }
 
 PostLinksSelect.defaultProps = {
@@ -237,6 +240,7 @@ PostLinksSelect.defaultProps = {
   shouldSaveOnChange: true,
   label: '',
   className: '',
+  disabled: false,
 }
 
 export default PostLinksSelect

@@ -10,6 +10,7 @@ const CallToActionSelector = ({
   callToAction,
   setCallToAction,
   className,
+  disabled,
 }) => {
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
 
@@ -40,6 +41,7 @@ const CallToActionSelector = ({
         label="Call to Action"
         selectedValue={callToAction}
         options={callToActionOptions}
+        disabled={disabled}
       />
     </div>
   )
@@ -49,11 +51,13 @@ CallToActionSelector.propTypes = {
   callToAction: PropTypes.string,
   setCallToAction: PropTypes.func.isRequired,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
 }
 
 CallToActionSelector.defaultProps = {
   callToAction: '',
   className: '',
+  disabled: false,
 }
 
 export default CallToActionSelector
