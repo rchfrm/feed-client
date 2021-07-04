@@ -87,7 +87,7 @@ const TargetingContextProvider = ({ children }) => {
   } = React.useContext(ArtistContext)
 
   // Get Setter to set budget in the controls store
-  const setBudgetInControlsStore = useControlsStore(setBudget)
+  const updateControlsStoreBudget = useControlsStore(setBudget)
 
   // SIDE PANEL context
   const { sidePanelContent, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
@@ -136,8 +136,7 @@ const TargetingContextProvider = ({ children }) => {
         draftState.budget = budget
       })
     })
-    setBudgetInControlsStore(budget)
-  }, [setBudgetInControlsStore])
+  }, [])
 
   // // UPDATE BUDGET IF RECC IS MORE THAN CURRENT
   // React.useEffect(() => {
@@ -279,11 +278,12 @@ const TargetingContextProvider = ({ children }) => {
       setSettingsSaved(true)
       updateSpendingPaused(savedState.status)
       updateBudget(savedState.budget / currencyOffset)
+      updateControlsStoreBudget(savedState.budget / currencyOffset)
     }
     setSelectedCampaignRecc(null)
     setSaving(false)
     toggleGlobalLoading(false)
-  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget])
+  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget, updateControlsStoreBudget])
   // Set saved to false when going to settings view
   React.useEffect(() => {
     if (currentView === 'settings') {
