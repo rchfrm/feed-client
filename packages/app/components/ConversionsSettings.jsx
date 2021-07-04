@@ -18,23 +18,22 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import copy from '@/app/copy/controlsPageCopy'
 
 const getControlsStoreState = (state) => ({
-  defaultLinkId: state.conversionsPreferences.defaultLinkId,
   conversionsEnabled: state.conversionsEnabled,
-  setConversionsEnabled: state.setConversionsEnabled,
   conversionsPreferences: state.conversionsPreferences,
+  setConversionsEnabled: state.setConversionsEnabled,
   updatePreferences: state.updatePreferences,
 })
 
 const ConversionsSettings = () => {
   const {
-    defaultLinkId: linkId,
     conversionsEnabled,
+    conversionsPreferences,
     setConversionsEnabled,
     updatePreferences,
   } = useControlsStore(getControlsStoreState)
-  const [defaultLinkId, setDefaultLinkId] = React.useState('')
-  const [facebookPixelEvent, setFacebookPixelEvent] = React.useState('')
-  const [callToAction, setCallToAction] = React.useState('')
+  const [defaultLinkId, setDefaultLinkId] = React.useState(conversionsPreferences.defaultLinkId)
+  const [facebookPixelEvent, setFacebookPixelEvent] = React.useState(conversionsPreferences.facebookPixelEvent)
+  const [callToAction, setCallToAction] = React.useState(conversionsPreferences.callToAction)
   const [isLoading, setIsLoading] = React.useState(false)
   const { artist } = React.useContext(ArtistContext)
 
@@ -74,7 +73,7 @@ const ConversionsSettings = () => {
           />
         </div>
         <PostLinksSelect
-          currentLinkId={linkId || defaultPostLinkId}
+          currentLinkId={defaultLinkId}
           updateParentLink={setDefaultLinkId}
           shouldSaveOnChange={false}
           includeDefaultLink

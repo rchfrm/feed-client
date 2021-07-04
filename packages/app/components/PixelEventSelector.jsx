@@ -6,16 +6,11 @@ import Select from '@/elements/Select'
 
 import { getFacebookPixelEvents } from '@/app/helpers/conversionsHelpers'
 
-import useControlsStore from '@/app/stores/controlsStore'
-
-const getFacebookPixelEvent = state => state.conversionsPreferences.facebookPixelEvent
-
 const PixelEventSelector = ({
   pixelEvent,
   setPixelEvent,
   className,
 }) => {
-  const currentFacebookPixelEvent = useControlsStore(getFacebookPixelEvent)
   const [facebookPixelEventOptions, setFacebookPixelEventOptions] = React.useState([])
 
   // Get all Facebook Pixel Events on first load and convert them to the correct select options object shape
@@ -32,8 +27,10 @@ const PixelEventSelector = ({
   }, [facebookPixelEventOptions, setPixelEvent])
 
   React.useEffect(() => {
-    setPixelEvent(currentFacebookPixelEvent || facebookPixelEventOptions[0]?.value)
-  }, [currentFacebookPixelEvent, setPixelEvent, facebookPixelEventOptions])
+    if (!pixelEvent) {
+      setPixelEvent(facebookPixelEventOptions[0]?.value)
+    }
+  }, [pixelEvent, setPixelEvent, facebookPixelEventOptions])
 
   return (
     <div className={className}>

@@ -6,16 +6,11 @@ import Select from '@/elements/Select'
 
 import { getCallToActions } from '@/app/helpers/conversionsHelpers'
 
-import useControlsStore from '@/app/stores/controlsStore'
-
-const getCallToAction = state => state.conversionsPreferences.callToAction
-
 const CallToActionSelector = ({
   callToAction,
   setCallToAction,
   className,
 }) => {
-  const currentCallToAction = useControlsStore(getCallToAction)
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
 
   // Get all call to actions and convert them to the correct select options object shape
@@ -32,8 +27,10 @@ const CallToActionSelector = ({
   }, [callToActionOptions, setCallToAction])
 
   React.useEffect(() => {
-    setCallToAction(currentCallToAction || callToActionOptions[0]?.value)
-  }, [currentCallToAction, setCallToAction, callToActionOptions])
+    if (!callToAction) {
+      setCallToAction(callToActionOptions[0]?.value)
+    }
+  }, [callToAction, setCallToAction, callToActionOptions])
 
   return (
     <div className={className}>
