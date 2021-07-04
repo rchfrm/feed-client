@@ -24,14 +24,14 @@ const getControlsStoreState = (state) => ({
 
 const ConversionsWizardCallToActionStep = () => {
   const { updatePreferences } = useControlsStore(getControlsStoreState)
-  const [callToAction, setCallToAction] = React.useState(null)
+  const [callToAction, setCallToAction] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
 
   const saveCallToAction = async () => {
-    return updateCallToAction(artist.id, callToAction.value)
+    return updateCallToAction(artist.id, callToAction)
   }
 
   // Handle API request and navigate to the next step
