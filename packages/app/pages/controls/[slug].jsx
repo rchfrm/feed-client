@@ -18,6 +18,7 @@ const Page = () => {
     <BasePage
       headerConfig={headerConfig}
       artistRequired
+      controlsRequired
     >
       <ControlsContent activeSlug={slug} />
     </BasePage>

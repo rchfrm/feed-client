@@ -20,14 +20,13 @@ const controlsStoreClearAll = state => state.clearAll
 
 function Main({ children }) {
   const { artistId, artist } = React.useContext(ArtistContext)
-  const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   // SETUP CONTROLS STORE WHEN ARTIST CHANGES
   const setupControlsStore = useControlsStore(controlsStoreInit)
   const clearControlsStore = useControlsStore(controlsStoreClearAll)
   useAsyncEffect(async () => {
     if (!artistId) return
-    toggleGlobalLoading(true)
     clearControlsStore()
     await setupControlsStore(artist, 'fetchLinks')
     toggleGlobalLoading(false)
@@ -44,7 +43,7 @@ function Main({ children }) {
     <main id="page--container">
       <SidePanelContextProvider>
         <InitUser>
-          {!globalLoading && children}
+          {children}
           <IntegrationErrorHandler />
           <NotificationsHandler />
         </InitUser>
