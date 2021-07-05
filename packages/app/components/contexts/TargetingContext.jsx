@@ -17,7 +17,7 @@ import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import * as budgetHelpers from '@/app/helpers/budgetHelpers'
 
 // Read from controls store
-const setBudget = state => state.updateBudget
+const setSpending = state => state.updateSpending
 
 const initialState = {
   targetingState: {},
@@ -87,7 +87,7 @@ const TargetingContextProvider = ({ children }) => {
   } = React.useContext(ArtistContext)
 
   // Get Setter to set budget in the controls store
-  const updateControlsStoreBudget = useControlsStore(setBudget)
+  const updateSpending = useControlsStore(setSpending)
 
   // SIDE PANEL context
   const { sidePanelContent, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
@@ -278,12 +278,12 @@ const TargetingContextProvider = ({ children }) => {
       setSettingsSaved(true)
       updateSpendingPaused(savedState.status)
       updateBudget(savedState.budget / currencyOffset)
-      updateControlsStoreBudget(savedState.budget / currencyOffset)
+      updateSpending(savedState.budget / currencyOffset, !savedState.status)
     }
     setSelectedCampaignRecc(null)
     setSaving(false)
     toggleGlobalLoading(false)
-  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget, updateControlsStoreBudget])
+  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget, updateSpending])
   // Set saved to false when going to settings view
   React.useEffect(() => {
     if (currentView === 'settings') {

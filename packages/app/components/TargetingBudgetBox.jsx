@@ -94,7 +94,7 @@ const TargetingBudgetBox = React.forwardRef(({
       {/* PAUSE OR RESUME SPENDING */}
       <TargetingBudgetPauseButton
         togglePauseCampaign={togglePauseCampaign}
-        isPaused={initialTargetingState.status}
+        isPaused={!targetingState.status}
       />
       {/* TOGGLE CUSTOM BUDGET */}
       <TargetingCustomBudgetButton

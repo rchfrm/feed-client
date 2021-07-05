@@ -14,8 +14,10 @@ const initialState = {
   defaultLink: {},
   postsPreferences: {},
   conversionsPreferences: {},
-  conversionsEnabled: false,
   budget: 0,
+  isSpendingPaused: false,
+  canRunConversions: false,
+  conversionsEnabled: false,
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
@@ -125,10 +127,10 @@ const fetchIntegrations = ({ artist, folders }) => {
 // * CONVERSIONS
 
 const canRunConversionCampaigns = (set, get) => () => {
-  const { conversionsPreferences, budget } = get()
+  const { conversionsPreferences, budget, isSpendingPaused } = get()
   const hasConversionsSetUpCorrectly = Object.values(conversionsPreferences).every(Boolean)
   const hasSufficientBudget = budget >= 5
-  return hasConversionsSetUpCorrectly && hasSufficientBudget
+  return hasConversionsSetUpCorrectly && hasSufficientBudget && !isSpendingPaused
 }
 
 // * DEFAULT LINK
@@ -274,10 +276,11 @@ const updatePreferences = (set, get) => (type, preferences) => {
   }
 }
 
-const updateBudget = (set, get) => (budget) => {
+const updateSpending = (set, get) => (budget, status) => {
   const { canRunConversionCampaigns } = get()
   set({ budget })
-  set({ conversionsEnabled: canRunConversionCampaigns() })
+  set({ isSpendingPaused: status })
+  set({ canRunConversions: canRunConversionCampaigns() })
 }
 
 // UNIVERSAL UPDATE CONTROLS STORE
@@ -328,8 +331,10 @@ const useControlsStore = create((set, get) => ({
   defaultLink: initialState.defaultLink,
   postsPreferences: initialState.postsPreferences,
   conversionsPreferences: initialState.conversionsPreferences,
-  conversionsEnabled: initialState.conversionsEnabled,
   budget: initialState.budget,
+  isSpendingPaused: initialState.isSpendingPaused,
+  canRunConversions: initialState.canRunConversions,
+  conversionsEnabled: initialState.conversionsEnabled,
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
@@ -344,7 +349,7 @@ const useControlsStore = create((set, get) => ({
   updateControlsStore: updateControlsStore(set, get),
   updateFolderStates: updateFolderStates(set, get),
   updatePreferences: updatePreferences(set, get),
-  updateBudget: updateBudget(set, get),
+  updateSpending: updateSpending(set, get),
   setConversionsEnabled: (conversionsEnabled) => set({ conversionsEnabled }),
   setLinkBankError: (error) => set({ linkBankError: error }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
@@ -358,9 +363,9 @@ const useControlsStore = create((set, get) => ({
     if (action === 'fetchLinks') {
       await get().fetchLinks('force', artist)
 
-      // Set budget and conversions details
-      const { updateBudget } = get()
-      updateBudget(artist.daily_budget)
+      // Set budget and spending status
+      const { updateSpending } = get()
+      updateSpending(artist.daily_budget, artist.isSpendingPaused)
       return
     }
     // Clear links

@@ -17,24 +17,32 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import copy from '@/app/copy/controlsPageCopy'
 
 const getControlsStoreState = (state) => ({
-  conversionsEnabled: state.conversionsEnabled,
   conversionsPreferences: state.conversionsPreferences,
-  setConversionsEnabled: state.setConversionsEnabled,
   updatePreferences: state.updatePreferences,
+  budget: state.budget,
+  isSpendingPaused: state.isSpendingPaused,
+  canRunConversions: state.canRunConversions,
+  setConversionsEnabled: state.setConversionsEnabled,
+  conversionsEnabled: state.conversionsEnabled,
 })
 
 const ConversionsSettings = () => {
   const {
-    conversionsEnabled,
     conversionsPreferences,
-    setConversionsEnabled,
     updatePreferences,
+    budget,
+    isSpendingPaused,
+    canRunConversions,
+    setConversionsEnabled,
+    conversionsEnabled,
   } = useControlsStore(getControlsStoreState)
   const [defaultLinkId, setDefaultLinkId] = React.useState(conversionsPreferences.defaultLinkId)
   const [facebookPixelEvent, setFacebookPixelEvent] = React.useState(conversionsPreferences.facebookPixelEvent)
   const [callToAction, setCallToAction] = React.useState(conversionsPreferences.callToAction)
   const [isLoading, setIsLoading] = React.useState(false)
   const { artist } = React.useContext(ArtistContext)
+  const hasSufficientBudget = budget >= 5
+  const disabled = !conversionsEnabled || !canRunConversions
 
   // Handle API request and navigate to the next step
   const onSubmit = async (e) => {
@@ -68,13 +76,24 @@ const ConversionsSettings = () => {
     <div className="mb-12">
       <MarkdownText markdown={copy.conversionsTitle} />
       <MarkdownText markdown={copy.conversionsDescription} className="mb-12" />
-      <div className="flex items-center justify-between rounded-dialogue bg-grey-1 px-3 py-2 mb-12">
+      <div
+        className={[
+          'flex items-center justify-between',
+          'rounded-dialogue bg-grey-1',
+          'px-3 py-2',
+          (!hasSufficientBudget || isSpendingPaused) ? 'border-solid border-2 border-red mb-2' : 'mb-12',
+        ].join(' ')}
+      >
         <p className="font-bold mb-0">Enable Conversions</p>
         <ToggleSwitch
           state={conversionsEnabled}
           onChange={onChange}
+          disabled={!canRunConversions}
         />
       </div>
+      {(isSpendingPaused || !hasSufficientBudget) && (
+        <MarkdownText markdown={copy.toggleWarning(isSpendingPaused, hasSufficientBudget)} className="text-red font-semibold mb-10" />
+      )}
       <form onSubmit={onSubmit}>
         <PostLinksSelect
           currentLinkId={defaultLinkId}
@@ -85,26 +104,26 @@ const ConversionsSettings = () => {
           componentLocation="post"
           label="Default link"
           className="mb-12"
-          disabled={!conversionsEnabled}
+          disabled={disabled}
         />
         <PixelEventSelector
           pixelEvent={facebookPixelEvent}
           setPixelEvent={setFacebookPixelEvent}
           className="mb-12"
-          disabled={!conversionsEnabled}
+          disabled={disabled}
         />
         <CallToActionSelector
           callToAction={callToAction}
           setCallToAction={setCallToAction}
           className="mb-12"
-          disabled={!conversionsEnabled}
+          disabled={disabled}
         />
         <Button
           type="submit"
           version="green"
           className="w-full"
           loading={isLoading}
-          disabled={!conversionsEnabled}
+          disabled={disabled}
         >
           Save Conversions Settings
         </Button>
