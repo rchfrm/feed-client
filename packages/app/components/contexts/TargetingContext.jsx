@@ -278,7 +278,7 @@ const TargetingContextProvider = ({ children }) => {
       setSettingsSaved(true)
       updateSpendingPaused(savedState.status)
       updateBudget(savedState.budget / currencyOffset)
-      updateSpending(savedState.budget / currencyOffset, !savedState.status)
+      updateSpending((savedState.budget / currencyOffset), !savedState.status)
     }
     setSelectedCampaignRecc(null)
     setSaving(false)
