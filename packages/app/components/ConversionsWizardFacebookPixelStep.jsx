@@ -22,15 +22,11 @@ const ConversionsWizardFacebookPixelStep = () => {
   const { next } = React.useContext(WizardContext)
   const { artist } = React.useContext(ArtistContext)
 
-  const saveFacebookPixel = () => {
-    return setPixel(artist.id, facebookPixel)
-  }
-
   // Handle API request and navigate to the next step
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const { res, error } = await saveFacebookPixel()
+    const { res, error } = await setPixel(artist.id, facebookPixel)
     setIsLoading(false)
 
     if (error) {

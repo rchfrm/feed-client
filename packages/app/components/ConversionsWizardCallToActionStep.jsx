@@ -28,17 +28,13 @@ const ConversionsWizardCallToActionStep = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
-  const { artist } = React.useContext(ArtistContext)
-
-  const saveCallToAction = async () => {
-    return updateCallToAction(artist.id, callToAction)
-  }
+  const { artist: { id: artistId } } = React.useContext(ArtistContext)
 
   // Handle API request and navigate to the next step
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const { res: artist, error } = await saveCallToAction()
+    const { res: artist, error } = await updateCallToAction(artistId, callToAction)
     setIsLoading(false)
 
     if (error) {

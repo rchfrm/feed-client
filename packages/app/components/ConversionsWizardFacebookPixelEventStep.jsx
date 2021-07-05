@@ -29,17 +29,13 @@ const ConversionsWizardFacebookPixelEventStep = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
-  const { artist } = React.useContext(ArtistContext)
-
-  const saveFaceBookPixelEvent = () => {
-    return updateFacebookPixelEvent(artist.id, pixelEvent)
-  }
+  const { artist: { id: artistId } } = React.useContext(ArtistContext)
 
   // Handle API request and navigate to the next step
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const { res: artist, error } = await saveFaceBookPixelEvent()
+    const { res: artist, error } = await updateFacebookPixelEvent(artistId, pixelEvent)
     setIsLoading(false)
 
     if (error) {

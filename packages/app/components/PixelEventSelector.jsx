@@ -15,7 +15,8 @@ const PixelEventSelector = ({
   const [facebookPixelEventOptions, setFacebookPixelEventOptions] = React.useState([])
 
   // Get all Facebook Pixel Events on first load and convert them to the correct select options object shape
-  useAsyncEffect(async () => {
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted()) return
     const { res: events } = await getFacebookPixelEvents()
     const options = events.map(({ id, name }) => ({ name, value: id }))
     setFacebookPixelEventOptions(options)

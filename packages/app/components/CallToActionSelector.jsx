@@ -15,7 +15,8 @@ const CallToActionSelector = ({
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
 
   // Get all call to actions and convert them to the correct select options object shape
-  useAsyncEffect(async () => {
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted()) return
     const { res: callToActions } = await getCallToActions()
     const options = callToActions.map(({ id, name }) => ({ name, value: id }))
     setCallToActionOptions(options)
