@@ -63,6 +63,8 @@ const initialState = {
   setSelectedCountries: () => {},
   errorFetchingSettings: null,
   initPage: () => {},
+  targetingLoading: false,
+  setTargetingLoading: () => {},
 }
 
 const TargetingContext = React.createContext(initialState)
@@ -85,6 +87,9 @@ const TargetingContextProvider = ({ children }) => {
     updateBudget,
     updateSpendingPaused,
   } = React.useContext(ArtistContext)
+
+  // Targeting loading state
+  const [targetingLoading, setTargetingLoading] = React.useState(false)
 
   // Get Setter to set budget in the controls store
   const updateSpending = useControlsStore(setSpending)
@@ -250,14 +255,13 @@ const TargetingContextProvider = ({ children }) => {
   const [settingsSaved, setSettingsSaved] = React.useState(initialState.settingsSaved)
   const [settingsSavedInitial, setSettingsSavedInitial] = React.useState(initialState.settingsSavedInitial)
   const [errorUpdatingSettings, setErrorUpdatingSettings] = React.useState(null)
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const [saving, setSaving] = React.useState(false)
   const saveTargetingSettings = React.useCallback(async (settings) => {
     // Close side panel
     toggleSidePanel(false)
     // Start saving
     setSaving(true)
-    toggleGlobalLoading(true)
+    setTargetingLoading(true)
     // Reset to summary view
     setCurrentView(initialState.currentView)
     // Save to server
@@ -282,8 +286,8 @@ const TargetingContextProvider = ({ children }) => {
     }
     setSelectedCampaignRecc(null)
     setSaving(false)
-    toggleGlobalLoading(false)
-  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget, updateSpending])
+    setTargetingLoading(false)
+  }, [artistId, setTargetingLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget, updateSpending])
   // Set saved to false when going to settings view
   React.useEffect(() => {
     if (currentView === 'settings') {
@@ -414,6 +418,7 @@ const TargetingContextProvider = ({ children }) => {
         setSelectedCountries,
         errorFetchingSettings,
         initPage,
+        targetingLoading,
       }}
     >
       {children}
