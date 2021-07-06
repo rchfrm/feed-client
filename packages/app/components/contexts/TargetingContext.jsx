@@ -5,11 +5,7 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import TargetingBudgetMobile from '@/app/TargetingBudgetMobile'
-import TargetingBudgetSaveButtonMobile from '@/app/TargetingBudgetSaveButtonMobile'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import * as utils from '@/helpers/utils'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
@@ -25,15 +21,10 @@ const initialState = {
   setInitialTargetingState: {},
   saveTargetingSettings: () => {},
   togglePauseCampaign: () => {},
-  cancelUpdateSettings: () => {},
   saving: false,
   settingsSaved: false,
   settingsSavedInitial: false,
   errorUpdatingSettings: null,
-  currentView: 'summary',
-  setCurrentView: () => {},
-  isAnimatingView: false,
-  setIsAnimatingView: () => {},
   selectedCampaignRecc: null,
   setSelectedCampaignRecc: () => {},
   selectedCampaignType: '',
@@ -50,8 +41,6 @@ const initialState = {
   budgetFormatted: '',
   desktopLayoutWidth: 'md',
   isDesktopLayout: false,
-  toggleMobileBudget: () => {},
-  mobileBudgetOpen: false,
   settingsReady: false,
   setSettingsReady: () => {},
   createLocationOptions: () => {},
@@ -94,13 +83,6 @@ const TargetingContextProvider = ({ children }) => {
 
   // Get Setter to set budget in the controls store
   const updateSpending = useControlsStore(setSpending)
-
-  // SIDE PANEL context
-  const { sidePanelContent, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
-
-  // CAMPAIGN SETTINGS VIEW ('summary' | 'settings')
-  const [currentView, setCurrentView] = React.useState(initialState.currentView)
-  const [isAnimatingView, setIsAnimatingView] = React.useState(initialState.isAnimatingView)
 
   // TARGETING STATE
   const [targetingState, setTargetingState] = React.useState(initialState.targetingState)
@@ -199,24 +181,6 @@ const TargetingContextProvider = ({ children }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCountries.length, selectedCities.length])
 
-  // CANCEL UPDATE SETTINGS
-  const cancelUpdateSettings = React.useCallback(() => {
-    // Set view to summary
-    setCurrentView('summary')
-    // Set targeting state to initial state (except budget)
-    const { budget } = targetingState
-    const resetState = {
-      ...initialTargetingState,
-      budget,
-    }
-    setTargetingState(resetState)
-    // Reset selected locations
-    // Set inital countries  (to trigger min budget)
-    const { cityKeys, countryCodes } = resetState
-    updateLocationsArrays({ cityKeys, countryCodes })
-  }, [targetingState, initialTargetingState])
-
-
   // INIT TARGETING PAGE
   const [errorFetchingSettings, setErrorFetchingSettings] = React.useState(null)
   const initPage = React.useCallback((targetingState, error) => {
@@ -262,13 +226,9 @@ const TargetingContextProvider = ({ children }) => {
   const [errorUpdatingSettings, setErrorUpdatingSettings] = React.useState(null)
   const [saving, setSaving] = React.useState(false)
   const saveTargetingSettings = React.useCallback(async (settings) => {
-    // Close side panel
-    toggleSidePanel(false)
     // Start saving
     setSaving(true)
     setTargetingLoading(true)
-    // Reset to summary view
-    setCurrentView(initialState.currentView)
     // Save to server
     const savedState = await targetingHelpers.saveCampaign({
       artistId,
@@ -292,14 +252,7 @@ const TargetingContextProvider = ({ children }) => {
     setSelectedCampaignRecc(null)
     setSaving(false)
     setTargetingLoading(false)
-  }, [artistId, setTargetingLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget, updateSpending])
-  // Set saved to false when going to settings view
-  React.useEffect(() => {
-    if (currentView === 'settings') {
-      setSettingsSaved(false)
-      setSettingsSaved(false)
-    }
-  }, [currentView])
+  }, [artistId, setTargetingLoading, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget, updateSpending])
 
   // PAUSE CAMPAIGN
   const togglePauseCampaign = React.useCallback(() => {
@@ -320,7 +273,6 @@ const TargetingContextProvider = ({ children }) => {
     setSettingsReady(false)
     setLocationOptions({})
     setSelectedCampaignRecc(null)
-    setCurrentView(initialState.currentView)
     // RESET locations
     setSelectedCities(initialState.selectedCities)
     setSelectedCountries(initialState.selectedCountries)
@@ -332,54 +284,6 @@ const TargetingContextProvider = ({ children }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artistId])
 
-  // MOBILE BUDGET SIDEPANEL
-  const [mobileBudgetOpen, setMobileBudgetOpen] = React.useState(initialState.mobileBudgetOpen)
-  // Get budget content
-  const getBudgetSidePanelContent = (state = true) => {
-    const content = state ? (
-      <TargetingBudgetMobile
-        minReccBudget={minReccBudget}
-        initialBudget={initialTargetingState.budget}
-        targetingState={targetingState}
-        updateTargetingBudget={updateTargetingBudget}
-      />
-    ) : null
-    const button = state ? (
-      <TargetingBudgetSaveButtonMobile
-        initialTargetingState={initialTargetingState}
-        targetingState={targetingState}
-        saveTargetingSettings={saveTargetingSettings}
-        disableSaving={!!disableSaving}
-        isFirstTimeUser={isFirstTimeUser}
-      />
-    ) : null
-    return { content, button }
-  }
-  // Toggle budget sidepanel
-  const toggleMobileBudget = React.useCallback((state = true) => {
-    const { content, button } = getBudgetSidePanelContent(state)
-    setSidePanelContent(content)
-    setSidePanelContentLabel('Mobile Budget Setter')
-    setSidePanelButton(button)
-    toggleSidePanel(state)
-    setMobileBudgetOpen(state)
-    // Hide progress button
-    setSelectedCampaignRecc(null)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setSidePanelButton, toggleSidePanel, targetingState, minReccBudget, budgetFormatted, updateTargetingBudget, isFirstTimeUser])
-
-  React.useEffect(() => {
-    if (!mobileBudgetOpen) return
-    const { button } = getBudgetSidePanelContent()
-    setSidePanelButton(button)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [budgetFormatted, disableSaving, mobileBudgetOpen])
-
-  // Set budget open to false when closing sidepanel
-  React.useEffect(() => {
-    if (!sidePanelContent) setMobileBudgetOpen(false)
-  }, [sidePanelContent])
-
   return (
     <TargetingContext.Provider
       value={{
@@ -389,15 +293,10 @@ const TargetingContextProvider = ({ children }) => {
         setInitialTargetingState,
         saveTargetingSettings,
         togglePauseCampaign,
-        cancelUpdateSettings,
         saving,
         settingsSaved,
         settingsSavedInitial,
         errorUpdatingSettings,
-        currentView,
-        setCurrentView,
-        isAnimatingView,
-        setIsAnimatingView,
         selectedCampaignRecc,
         setSelectedCampaignRecc,
         selectedCampaignType,
@@ -413,8 +312,6 @@ const TargetingContextProvider = ({ children }) => {
         budgetFormatted,
         desktopLayoutWidth,
         isDesktopLayout,
-        toggleMobileBudget,
-        mobileBudgetOpen,
         settingsReady,
         setSettingsReady,
         createLocationOptions,
