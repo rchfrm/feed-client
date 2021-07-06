@@ -38,6 +38,7 @@ const TargetingSettings = () => {
     disableSaving,
     saveTargetingSettings,
     isFirstTimeUser,
+    targetingLoading,
   } = React.useContext(TargetingContext)
 
   // Fetch locations options
@@ -56,7 +57,7 @@ const TargetingSettings = () => {
   }, [])
 
   // Show spinner while loading
-  if (!settingsReady) return <div><Spinner /></div>
+  if (!settingsReady || targetingLoading) return <div className="h-full flex"><Spinner width="36" /></div>
 
   return (
     <div>
@@ -73,10 +74,6 @@ const TargetingSettings = () => {
             'mb-12',
           ].join(' ')}
         />
-        {/* HELP (mobile) */}
-        {!isDesktopLayout && (
-          <TargetingSettingsHelp />
-        )}
         {/* AGE */}
         <TargetingAgeSlider
           className="pb-20"
@@ -129,17 +126,15 @@ const TargetingSettings = () => {
         )}
       </div>
       {/* DESKTOP BUDGET SETTER */}
-      {isDesktopLayout && (
-        <TargetingSettingsSaveContainer
-          disableSaving={disableSaving}
-          initialTargetingState={initialTargetingState}
-          targetingState={targetingState}
-          saveTargetingSettings={saveTargetingSettings}
-          isFirstTimeUser={isFirstTimeUser}
-        >
-          <TargetingSettingsHelp desktopVersion />
-        </TargetingSettingsSaveContainer>
-      )}
+      <TargetingSettingsSaveContainer
+        disableSaving={disableSaving}
+        initialTargetingState={initialTargetingState}
+        targetingState={targetingState}
+        saveTargetingSettings={saveTargetingSettings}
+        isFirstTimeUser={isFirstTimeUser}
+      >
+        <TargetingSettingsHelp desktopVersion />
+      </TargetingSettingsSaveContainer>
     </div>
   )
 }
