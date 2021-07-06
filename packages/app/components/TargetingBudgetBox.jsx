@@ -63,6 +63,8 @@ const TargetingBudgetBox = React.forwardRef(({
     disableSaving,
     isFirstTimeUser,
     targetingLoading,
+    budgetSlider,
+    setBudgetSlider,
   } = React.useContext(TargetingContext)
 
   // ARTIST context
@@ -129,6 +131,7 @@ const TargetingBudgetBox = React.forwardRef(({
               targetingState={targetingState}
               updateTargetingBudget={updateTargetingBudget}
               showCustomBudget={showCustomBudget}
+              setBudgetSlider={setBudgetSlider}
             />
           </div>
           <TargetingBudgetButtons
@@ -138,6 +141,7 @@ const TargetingBudgetBox = React.forwardRef(({
             saveTargetingSettings={saveTargetingSettings}
             disableSaving={disableSaving}
             isFirstTimeUser={isFirstTimeUser}
+            budgetSlider={budgetSlider}
           />
         </>
       )}

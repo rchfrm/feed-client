@@ -64,6 +64,8 @@ const initialState = {
   initPage: () => {},
   targetingLoading: false,
   setTargetingLoading: () => {},
+  budgetSlider: {},
+  setBudgetSlider: () => {},
 }
 
 const TargetingContext = React.createContext(initialState)
@@ -163,6 +165,10 @@ const TargetingContextProvider = ({ children }) => {
   // * Selected cities and countries
   const [selectedCities, setSelectedCities] = React.useState(initialState.selectedCities)
   const [selectedCountries, setSelectedCountries] = React.useState(initialState.selectedCountries)
+
+  // Budget slider instance (can be used to get, set and reset the slider value from outside of the Slider component)
+  const [budgetSlider, setBudgetSlider] = React.useState(null)
+
   // * Function to set selected cities and countries
   const updateLocationsArrays = ({ cityKeys = [], countryCodes = [] }) => {
     setSelectedCities(cityKeys)
@@ -321,6 +327,8 @@ const TargetingContextProvider = ({ children }) => {
     // RESET Targeting state
     setInitialTargetingState(initialState.targetingState)
     setTargetingState(initialState.targetingState)
+    // Reset budget slider instance
+    setBudgetSlider(initialState.budgetSlider)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artistId])
 
@@ -418,6 +426,8 @@ const TargetingContextProvider = ({ children }) => {
         errorFetchingSettings,
         initPage,
         targetingLoading,
+        budgetSlider,
+        setBudgetSlider,
       }}
     >
       {children}

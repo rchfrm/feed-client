@@ -17,6 +17,7 @@ const TargetingSummaryButtons = ({
   updateTargetingBudget,
   disableSaving,
   isFirstTimeUser,
+  budgetSlider,
 }) => {
   // GET SAVING FUNCTION
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser })
@@ -27,6 +28,7 @@ const TargetingSummaryButtons = ({
   // Reset budget
   const resetBudget = () => {
     updateTargetingBudget(initialTargetingState.budget)
+    budgetSlider.noUiSlider.reset(initialTargetingState.budget)
   }
   // ANIMATE
   // Define animation config
