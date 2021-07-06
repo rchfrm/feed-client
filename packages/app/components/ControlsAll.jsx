@@ -6,9 +6,9 @@ import Error from '@/elements/Error'
 
 import ControlsContentOptions from '@/app/ControlsContentOptions'
 import ControlsContentView from '@/app/ControlsContentView'
+import ControlsBudgetBox from '@/app/ControlsBudgetBox'
 import ControlsConversions from '@/app/ControlsConversions'
 import ControlsTargeting from '@/app/ControlsTargeting'
-import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -74,7 +74,7 @@ const ControlsAll = ({ activeSlug }) => {
       <div className="col-span-6 col-start-1">
         <h2>Budget</h2>
         {/* BUDGET BOX */}
-        <TargetingBudgetBox
+        <ControlsBudgetBox
           className="mb-8"
         />
         {/* SETTINGS MENU */}

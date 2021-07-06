@@ -11,7 +11,7 @@ import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
 
-const TargetingBudgetBox = ({
+const ControlsBudgetBox = ({
   className,
 }) => {
   // GET TARGETING CONTEXT
@@ -109,15 +109,15 @@ const TargetingBudgetBox = ({
   )
 }
 
-TargetingBudgetBox.displayName = 'TargetingBudgetBox'
+ControlsBudgetBox.displayName = 'TargetingBudgetBox'
 
-TargetingBudgetBox.propTypes = {
+ControlsBudgetBox.propTypes = {
   className: PropTypes.string,
 }
 
-TargetingBudgetBox.defaultProps = {
+ControlsBudgetBox.defaultProps = {
   className: null,
 }
 
 
-export default TargetingBudgetBox
+export default ControlsBudgetBox
