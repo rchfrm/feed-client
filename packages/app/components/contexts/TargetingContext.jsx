@@ -8,7 +8,6 @@ import useControlsStore from '@/app/stores/controlsStore'
 import TargetingBudgetMobile from '@/app/TargetingBudgetMobile'
 import TargetingBudgetSaveButtonMobile from '@/app/TargetingBudgetSaveButtonMobile'
 
-import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
