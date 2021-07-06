@@ -172,40 +172,29 @@ const PostLinksSelect = ({
       {error && (
         <Error error={error} />
       )}
-      <label
-        className="inputLabel"
-        htmlFor="Choose link"
-      >
-        {label && (
-          <span className="inputLabel__text">
-            <span>
-              {label}
-            </span>
-          </span>
-        )}
-        <Select
-          loading={loading}
-          className={selectClassName}
-          handleChange={(e) => {
-            const { target: { value } } = e
-            // Do nothing if value is current value
-            if (value === currentLinkId) return
-            // Handle adding new link
-            if (value === '_new') {
-              setLoading(true)
-              showAddLinkModal()
-              return
-            }
-            setSelectedOptionValue(value)
-          }}
-          name="Choose link"
-          options={selectOptions}
-          placeholder={currentLinkId === defaultPostLinkId ? placeholderText : null}
-          selectedValue={selectedOptionValue}
-          version="box"
-          disabled={disabled}
-        />
-      </label>
+      <Select
+        loading={loading}
+        className={selectClassName}
+        handleChange={(e) => {
+          const { target: { value } } = e
+          // Do nothing if value is current value
+          if (value === currentLinkId) return
+          // Handle adding new link
+          if (value === '_new') {
+            setLoading(true)
+            showAddLinkModal()
+            return
+          }
+          setSelectedOptionValue(value)
+        }}
+        name="Choose link"
+        label={label}
+        options={selectOptions}
+        placeholder={currentLinkId === defaultPostLinkId ? placeholderText : null}
+        selectedValue={selectedOptionValue}
+        version="box"
+        disabled={disabled}
+      />
     </div>
   )
 }
