@@ -8,14 +8,12 @@ import useAsyncEffect from 'use-async-effect'
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
-import Button from '@/elements/Button'
 
 import TargetingSettingsHelp from '@/app/TargetingSettingsHelp'
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingLocations from '@/app/TargetingLocations'
 import TargetingLocationsHelper from '@/app/TargetingLocationsHelper'
-import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 import TargetingSettingsSaveContainer from '@/app/TargetingSettingsSaveContainer'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
 import TargetingPlatformsSelector from '@/app/TargetingPlatformsSelector'
@@ -62,19 +60,17 @@ const TargetingSettings = () => {
 
   return (
     <div>
-      <div className="relative md:w-1/2 pt-5 xxs:pt-0">
+      <div className="relative pt-5 xxs:pt-0">
         {/* Anchor for resizing desktop budget */}
         <div
           className="absolute top-0 left-0 h-10 w-full invisible bg-red pointer-events-none"
         />
         {/* INTRO */}
+        <h2>Targeting</h2>
         <MarkdownText
           markdown={copy.settingsIntro}
           className={[
-            '-mt-6 mb-12',
-            'xxs:mt-0',
-            'minContent:-mt-6 minContent:mb-16',
-            'md:mb-10',
+            'mb-12',
           ].join(' ')}
         />
         {/* HELP (mobile) */}
@@ -134,18 +130,15 @@ const TargetingSettings = () => {
       </div>
       {/* DESKTOP BUDGET SETTER */}
       {isDesktopLayout && (
-        <>
-          <TargetingBudgetBox />
-          <TargetingSettingsSaveContainer
-            disableSaving={disableSaving}
-            initialTargetingState={initialTargetingState}
-            targetingState={targetingState}
-            saveTargetingSettings={saveTargetingSettings}
-            isFirstTimeUser={isFirstTimeUser}
-          >
-            <TargetingSettingsHelp desktopVersion />
-          </TargetingSettingsSaveContainer>
-        </>
+        <TargetingSettingsSaveContainer
+          disableSaving={disableSaving}
+          initialTargetingState={initialTargetingState}
+          targetingState={targetingState}
+          saveTargetingSettings={saveTargetingSettings}
+          isFirstTimeUser={isFirstTimeUser}
+        >
+          <TargetingSettingsHelp desktopVersion />
+        </TargetingSettingsSaveContainer>
       )}
     </div>
   )
