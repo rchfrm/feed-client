@@ -39,7 +39,6 @@ const TargetingSettings = () => {
     setSettingsReady,
     disableSaving,
     saveTargetingSettings,
-    cancelUpdateSettings,
     isFirstTimeUser,
   } = React.useContext(TargetingContext)
 
@@ -58,22 +57,14 @@ const TargetingSettings = () => {
     setSettingsReady(true)
   }, [])
 
-  // Desktop Budget anchor
-  const containerRef = React.useRef(null)
-  const columnRef = React.useRef(null)
-
-  // Budget box ref
-  const budgetRef = React.useRef(null)
-
   // Show spinner while loading
   if (!settingsReady) return <div><Spinner /></div>
 
   return (
-    <div ref={containerRef}>
+    <div>
       <div className="relative md:w-1/2 pt-5 xxs:pt-0">
         {/* Anchor for resizing desktop budget */}
         <div
-          ref={columnRef}
           className="absolute top-0 left-0 h-10 w-full invisible bg-red pointer-events-none"
         />
         {/* INTRO */}
@@ -140,35 +131,16 @@ const TargetingSettings = () => {
             <TargetingLocationsHelper className="mb-10" />
           </div>
         )}
-        {/* BACK BUTTON (for mobile) */}
-        {!isDesktopLayout && (
-          <div className="pt-5 pb-20">
-            <Button
-              className="w-40"
-              version="black small"
-              onClick={cancelUpdateSettings}
-            >
-              Back
-            </Button>
-          </div>
-        )}
       </div>
       {/* DESKTOP BUDGET SETTER */}
       {isDesktopLayout && (
         <>
-          <TargetingBudgetBox
-            ref={budgetRef}
-            isFixed
-            containerRef={containerRef}
-            columnRef={columnRef}
-          />
+          <TargetingBudgetBox />
           <TargetingSettingsSaveContainer
             disableSaving={disableSaving}
             initialTargetingState={initialTargetingState}
             targetingState={targetingState}
             saveTargetingSettings={saveTargetingSettings}
-            cancelUpdateSettings={cancelUpdateSettings}
-            budgetRef={budgetRef}
             isFirstTimeUser={isFirstTimeUser}
           >
             <TargetingSettingsHelp desktopVersion />

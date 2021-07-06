@@ -1,11 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { gsap } from 'gsap'
-
-import useBrowserStore from '@/hooks/useBrowserStore'
-import useCombinedRefs from '@/hooks/useCombinedRefs'
-
 import Spinner from '@/elements/Spinner'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
@@ -16,42 +11,9 @@ import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
 
-const TargetingBudgetBox = React.forwardRef(({
-  isFixed,
-  isSummaryVersion,
-  containerRef,
-  columnRef,
+const TargetingBudgetBox = ({
   className,
-}, ref) => {
-  const { width: windowWidth } = useBrowserStore()
-
-  const elRef = React.useRef(ref)
-  const budgetRef = useCombinedRefs(ref, elRef)
-
-  // RESIZE AND POSITION
-  React.useEffect(() => {
-    if (!isFixed) return
-    const { current: containerEl } = containerRef
-    const { current: columnEl } = columnRef
-    if (!columnEl) return
-    const containerProps = containerEl.getBoundingClientRect()
-    const columnProps = columnEl.getBoundingClientRect()
-    const scrollTop = window.scrollY
-    // Calc postiion props
-    const gap = columnProps.height
-    const left = columnProps.right + gap
-    const positionProps = {
-      top: containerProps.top + scrollTop,
-      left,
-      width: containerProps.width - columnProps.width - gap,
-      opacity: 1,
-    }
-    // Set position
-    const { current: budgetEl } = budgetRef
-    gsap.set(budgetEl, positionProps)
-  // eslint-disable-next-line
-  }, [isFixed, containerRef, columnRef, windowWidth])
-
+}) => {
   // GET TARGETING CONTEXT
   const {
     minReccBudget,
@@ -86,7 +48,6 @@ const TargetingBudgetBox = React.forwardRef(({
 
   return (
     <section
-      ref={budgetRef}
       className={[
         'relative',
         'rounded-dialogue',
@@ -121,7 +82,6 @@ const TargetingBudgetBox = React.forwardRef(({
           {/* BUDGET SETTER */}
           <div className="px-2">
             <TargetingBudgetSetter
-              isSummaryVersion={isSummaryVersion}
               currency={currencyCode}
               currencyOffset={currencyOffset}
               minBase={minBase}
@@ -147,23 +107,15 @@ const TargetingBudgetBox = React.forwardRef(({
       )}
     </section>
   )
-})
+}
 
 TargetingBudgetBox.displayName = 'TargetingBudgetBox'
 
 TargetingBudgetBox.propTypes = {
-  isFixed: PropTypes.bool,
-  isSummaryVersion: PropTypes.bool,
-  containerRef: PropTypes.object,
-  columnRef: PropTypes.object,
   className: PropTypes.string,
 }
 
 TargetingBudgetBox.defaultProps = {
-  isFixed: false,
-  isSummaryVersion: false,
-  containerRef: {},
-  columnRef: {},
   className: null,
 }
 
