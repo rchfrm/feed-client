@@ -139,6 +139,7 @@ const TargetingBudgetBox = React.forwardRef(({
             disableSaving={disableSaving}
             isFirstTimeUser={isFirstTimeUser}
             budgetSlider={budgetSlider}
+            showCustomBudget={showCustomBudget}
           />
         </>
       )}
