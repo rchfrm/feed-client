@@ -25,6 +25,7 @@ const PostCardPriorityButton = ({
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   const isPostActive = promotionStatus === 'active'
   const isPostArchived = promotionStatus === 'archived'
+  const isDisabled = isPostActive && !currentState
   const slides = copy.prioritizeTooltipSlides
 
   // Update internal state when outside state changes
@@ -56,8 +57,8 @@ const PostCardPriorityButton = ({
         onClick={() => {
           setShouldShowAlert(true)
         }}
-        className={isPostActive ? 'opacity-25 cursor-default' : ''}
-        disabled={isPostActive}
+        className={isDisabled ? 'opacity-25 cursor-default' : ''}
+        disabled={isDisabled}
       >
         <ChevronDoubleUpIcon
           fill={currentState ? brandColors.red : 'none'}
