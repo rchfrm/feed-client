@@ -17,7 +17,6 @@ const PixelEventSelector = ({
   const [facebookPixelEventOptions, setFacebookPixelEventOptions] = React.useState([])
   const { artist } = React.useContext(ArtistContext)
   const pixelId = artist.integrations.find(integration => integration.platform === 'facebook').pixel_id
-  console.log(pixelId)
 
   // Get all Facebook Pixel Events on first load and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
