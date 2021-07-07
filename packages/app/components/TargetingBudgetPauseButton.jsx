@@ -19,15 +19,16 @@ const TargetingBudgetSpendingButton = ({
         'flex items-center',
         'no-underline',
         'px-3 py-1',
-        'bg-red text-white button--red',
+        'text-white',
         'rounded-full',
+        isPaused ? 'bg-green button--green' : 'bg-red button--red',
       ].join(' ')}
       style={{ paddingBottom: '0.3rem' }}
       role="button"
       onClick={togglePause}
     >
       <strong>
-        {isPaused ? 'Resume Spending' : 'Pause Spending'}
+        {isPaused ? 'Resume' : 'Pause'}
       </strong>
     </a>
   )

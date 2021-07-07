@@ -30,67 +30,39 @@ const TargetingSummaryButtons = ({
     updateTargetingBudget(initialTargetingState.budget)
     budgetSlider.noUiSlider.reset(initialTargetingState.budget)
   }
-  // ANIMATE
-  // Define animation config
-  const animateToFrom = {
-    opacity: { from: 0, to: 1 },
-  }
-  // Setup animation hook
-  const animatedDiv = useAnimateOnMount({
-    animateToFrom,
-    animationOptions: {
-      duration: [0.4, 0.2],
-      ease: ['back.out(2)', 'power1.out'],
-    },
-    initial: 'hidden',
-  })
-  // Trigger animation
-  React.useEffect(() => {
-    // SHOW BUTTON
-    if (showBudgetSave) {
-      animatedDiv.showPresence()
-      return
-    }
-    // HIDE BUTTON
-    animatedDiv.hidePresence()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showBudgetSave])
+  const isDisabled = !!disableSaving || !showBudgetSave
 
   return (
     <div className="flex justify-between items-end w-full">
-      {animatedDiv.isRendered && (
-        <>
-          <Button
-            version="black small"
-            className={[
-              'w-8 h-8 p-0',
-              'flex-shrink-0',
-              'rounded-full',
-            ].join(' ')}
-            onClick={resetBudget}
-            disabled={!!disableSaving}
-            ref={animatedDiv.ref}
-          >
-            <RefreshIcon
-              className={['w-4 h-auto'].join(' ')}
-              fill={brandColors.white}
-              style={{ marginRight: 0 }}
-            />
-          </Button>
-          <Button
-            version="green small"
-            className={[
-              'h-8',
-              'rounded-full',
-            ].join(' ')}
-            onClick={() => saveTargeting('budget')}
-            disabled={!!disableSaving}
-            ref={animatedDiv.ref}
-          >
-            Save
-          </Button>
-        </>
-      )}
+      <Button
+        version="black small"
+        className={[
+          'w-8 h-8 p-0',
+          'flex-shrink-0',
+          'rounded-full',
+          isDisabled ? 'bg-grey-2 pointer-events-none' : '',
+        ].join(' ')}
+        onClick={resetBudget}
+        // disabled={isDisabled}
+      >
+        <RefreshIcon
+          className={['w-4 h-auto'].join(' ')}
+          fill={brandColors.white}
+          style={{ marginRight: 0 }}
+        />
+      </Button>
+      <Button
+        version="green small"
+        className={[
+          'h-8',
+          'rounded-full',
+          isDisabled ? 'bg-grey-2 pointer-events-none' : '',
+        ].join(' ')}
+        onClick={() => saveTargeting('budget')}
+        // disabled={isDisabled}
+      >
+        Save
+      </Button>
     </div>
   )
 }

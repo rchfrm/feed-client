@@ -93,6 +93,7 @@ const TargetingBudgetBox = React.forwardRef(({
         'p-6 bg-grey-1',
         className,
       ].join(' ')}
+      style={{ height: '240px' }}
     >
       {targetingLoading ? (
         <Spinner width={36} />
