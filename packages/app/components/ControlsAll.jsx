@@ -8,6 +8,7 @@ import ControlsContentOptions from '@/app/ControlsContentOptions'
 import ControlsContentView from '@/app/ControlsContentView'
 import ConversionsContent from '@/app/ConversionsContent'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
+import IntegrationsPanel from '@/app/IntegrationsPanel'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -23,7 +24,7 @@ const fetchState = ({ artistId, currencyOffset }) => {
 const controlsComponents = {
   targeting: <h2>Targeting</h2>,
   links: <h2>Link bank</h2>,
-  integrations: <h2>Integrations</h2>,
+  integrations: <IntegrationsPanel />,
   ads: <h2>Ad Defaults</h2>,
   conversions: <ConversionsContent />,
 }
