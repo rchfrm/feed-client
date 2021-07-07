@@ -17,8 +17,6 @@ const TargetingBudgetSpendingButton = ({
     <a
       className={[
         'flex items-center',
-        'absolute top-0 left-0',
-        'ml-6 mt-5',
         'no-underline',
         'px-3 py-1',
         'bg-red text-white button--red',

@@ -78,10 +78,10 @@ const TargetingSummaryButtons = ({
             />
           </Button>
           <Button
-            version="black small"
+            version="green small"
             className={[
-              'w-full mb-5',
-              'iphone8:w-auto iphone8:mb-0',
+              'h-8',
+              'rounded-full',
             ].join(' ')}
             onClick={() => saveTargeting('budget')}
             disabled={!!disableSaving}
