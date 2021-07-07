@@ -107,10 +107,6 @@ const TargetingBudgetBox = React.forwardRef(({
             />
             {/* TOGGLE CUSTOM BUDGET */}
             <TargetingCustomBudgetButton
-              className={[
-                '',
-                '',
-              ].join(' ')}
               style={{ zIndex: 2 }}
               showCustomBudget={showCustomBudget}
               setShowCustomBudget={setShowCustomBudget}
