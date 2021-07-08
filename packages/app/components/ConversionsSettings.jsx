@@ -40,7 +40,7 @@ const ConversionsSettings = () => {
   const [facebookPixelEvent, setFacebookPixelEvent] = React.useState(conversionsPreferences.facebookPixelEvent)
   const [callToAction, setCallToAction] = React.useState(conversionsPreferences.callToAction)
   const [isLoading, setIsLoading] = React.useState(false)
-  const { artist } = React.useContext(ArtistContext)
+  const { artistId } = React.useContext(ArtistContext)
   const hasSufficientBudget = budget >= 5
   const disabled = !conversionsEnabled || !canRunConversions
 
@@ -48,7 +48,7 @@ const ConversionsSettings = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const { res: { preferences }, error } = await updateConversionsPreferences(artist.id, {
+    const { res: { preferences }, error } = await updateConversionsPreferences(artistId, {
       defaultLinkId,
       facebookPixelEvent,
       callToAction,
