@@ -56,6 +56,7 @@ const TargetingSettings = () => {
     setSettingsReady(true)
   }, [])
 
+  // Handle missing default link
   if (missingDefaultLink) return <TargetingNoDefaultLink />
 
   // Show spinner while loading
@@ -71,7 +72,7 @@ const TargetingSettings = () => {
         {/* INTRO */}
         <h2>Targeting</h2>
         <MarkdownText
-          markdown={copy.settingsIntro}
+          markdown={copy.settingsIntro(isFirstTimeUser)}
           className={[
             'mb-12',
           ].join(' ')}
