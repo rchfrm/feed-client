@@ -29,8 +29,8 @@ const ConversionsWizard = ({ setIsWizardActive }) => {
   const steps = [
     { id: 0, shouldSkip: false },
     { id: 1, shouldSkip: budget >= 5 },
-    { id: 2, shouldSkip: Boolean(defaultLinkId) },
-    { id: 3, shouldSkip: Boolean(!facebookPixelId) },
+    { id: 2, shouldSkip: Boolean(facebookPixelId) },
+    { id: 3, shouldSkip: Boolean(defaultLinkId) },
     { id: 4, shouldSkip: Boolean(facebookPixelEvent) },
     { id: 5, shouldSkip: Boolean(callToAction) },
     { id: 6, shouldSkip: false },
@@ -42,8 +42,8 @@ const ConversionsWizard = ({ setIsWizardActive }) => {
         {/* All Wizard steps */}
         <ConversionsWizardStartingStep setIsWizardActive={setIsWizardActive} />
         <ConversionsWizardBudgetStep />
-        <ConversionsWizardLinkStep />
         <ConversionsWizardFacebookPixelStep />
+        <ConversionsWizardLinkStep />
         <ConversionsWizardFacebookPixelEventStep />
         <ConversionsWizardCallToActionStep />
         <ConversionsWizardPostOptInStep setIsWizardActive={setIsWizardActive} />
