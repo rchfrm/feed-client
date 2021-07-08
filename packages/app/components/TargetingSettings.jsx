@@ -17,6 +17,7 @@ import TargetingLocationsHelper from '@/app/TargetingLocationsHelper'
 import TargetingSettingsSaveContainer from '@/app/TargetingSettingsSaveContainer'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
 import TargetingPlatformsSelector from '@/app/TargetingPlatformsSelector'
+import TargetingNoDefaultLink from '@/app/TargetingNoDefaultLink'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -28,7 +29,6 @@ import copy from '@/app/copy/targetingPageCopy'
 const TargetingSettings = () => {
   // Fetch from targeting context
   const {
-    isDesktopLayout,
     targetingState,
     initialTargetingState,
     setTargetingState,
@@ -43,7 +43,7 @@ const TargetingSettings = () => {
 
   // Fetch locations options
   const [errorFetchingLocations, setErrorFetchingLocations] = React.useState(null)
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist: { missingDefaultLink } } = React.useContext(ArtistContext)
   useAsyncEffect(async (isMounted) => {
     const { popularLocations, error } = await fetchPopularLocations(artistId)
     if (!isMounted()) return
@@ -55,6 +55,8 @@ const TargetingSettings = () => {
     }
     setSettingsReady(true)
   }, [])
+
+  if (missingDefaultLink) return <TargetingNoDefaultLink />
 
   // Show spinner while loading
   if (!settingsReady || targetingLoading) return <div className="h-full flex"><Spinner width="36" /></div>

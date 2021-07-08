@@ -12,7 +12,7 @@ export default {
 
   noDefaultLinkCopy: `Before you can start running any ads, you need to choose a link for the ads to use.
   
-**Please set a default link on the [Posts page](${ROUTES.POSTS}).**`,
+**Please set a default link in the [Ad Defaults settings](${ROUTES.CONTROLS_ADS}).**`,
 
   pausedWarning: `Spending is currently paused and no ads are running. You can still edit your settings.`,
 
