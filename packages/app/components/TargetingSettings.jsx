@@ -39,6 +39,7 @@ const TargetingSettings = () => {
     saveTargetingSettings,
     isFirstTimeUser,
     targetingLoading,
+    cancelUpdateSettings,
   } = React.useContext(TargetingContext)
 
   // Fetch locations options
@@ -56,11 +57,16 @@ const TargetingSettings = () => {
     setSettingsReady(true)
   }, [])
 
+  React.useEffect(() => {
+    return () => cancelUpdateSettings()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   // Handle missing default link
   if (missingDefaultLink) return <TargetingNoDefaultLink />
 
   // Show spinner while loading
-  if (!settingsReady || targetingLoading) return <div className="h-full flex"><Spinner width="36" /></div>
+  if (!settingsReady || targetingLoading) return <div className="h-full flex"><Spinner width={36} /></div>
 
   return (
     <div>

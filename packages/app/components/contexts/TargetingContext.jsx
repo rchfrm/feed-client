@@ -21,6 +21,7 @@ const initialState = {
   setInitialTargetingState: {},
   saveTargetingSettings: () => {},
   togglePauseCampaign: () => {},
+  cancelUpdateSettings: () => {},
   saving: false,
   settingsSaved: false,
   settingsSavedInitial: false,
@@ -181,6 +182,21 @@ const TargetingContextProvider = ({ children }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCountries.length, selectedCities.length])
 
+  // CANCEL UPDATE SETTINGS
+  const cancelUpdateSettings = React.useCallback(() => {
+    // Set targeting state to initial state (except budget)
+    const { budget } = targetingState
+    const resetState = {
+      ...initialTargetingState,
+      budget,
+    }
+    setTargetingState(resetState)
+    // Reset selected locations
+    // Set inital countries  (to trigger min budget)
+    const { cityKeys, countryCodes } = resetState
+    updateLocationsArrays({ cityKeys, countryCodes })
+  }, [targetingState, initialTargetingState])
+
   // INIT TARGETING PAGE
   const [errorFetchingSettings, setErrorFetchingSettings] = React.useState(null)
   const initPage = React.useCallback((targetingState, error) => {
@@ -293,6 +309,7 @@ const TargetingContextProvider = ({ children }) => {
         setInitialTargetingState,
         saveTargetingSettings,
         togglePauseCampaign,
+        cancelUpdateSettings,
         saving,
         settingsSaved,
         settingsSavedInitial,
