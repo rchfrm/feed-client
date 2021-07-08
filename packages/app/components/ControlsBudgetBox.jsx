@@ -56,7 +56,7 @@ const ControlsBudgetBox = ({
       ].join(' ')}
       style={{ height: '240px' }}
     >
-      {targetingLoading ? (
+      {targetingLoading && (targetingState.budget !== initialTargetingState.budget) ? (
         <Spinner width={36} />
       ) : (
         <>
