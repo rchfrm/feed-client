@@ -49,36 +49,33 @@ const ControlsBudgetBox = ({
   return (
     <section
       className={[
-        'relative',
+        'flex flex-column justify-between',
         'rounded-dialogue',
-        'p-4 bg-grey-1',
-        targetingLoading ? 'flex pt-4' : 'pt-20',
+        'p-6 bg-grey-1',
         className,
       ].join(' ')}
-      style={{ height: '252px' }}
+      style={{ height: '240px' }}
     >
       {targetingLoading ? (
-        <Spinner width={36} className="w-auto items-center justify-center" />
+        <Spinner width={36} />
       ) : (
         <>
-          {/* PAUSE OR RESUME SPENDING */}
-          <TargetingBudgetPauseButton
-            togglePauseCampaign={togglePauseCampaign}
-            isPaused={!targetingState.status}
-          />
-          {/* TOGGLE CUSTOM BUDGET */}
-          <TargetingCustomBudgetButton
-            className={[
-              'absolute top-0 right-0',
-              'mr-6 sm:mr-5 mt-5',
-            ].join(' ')}
-            style={{ zIndex: 2 }}
-            showCustomBudget={showCustomBudget}
-            setShowCustomBudget={setShowCustomBudget}
-            initialBudget={initialTargetingState.budget}
-            minBase={minBase}
-            minHardBudget={minHardBudget}
-          />
+          <div className="flex justify-between mb-6">
+            {/* PAUSE OR RESUME SPENDING */}
+            <TargetingBudgetPauseButton
+              togglePauseCampaign={togglePauseCampaign}
+              isPaused={!targetingState.status}
+            />
+            {/* TOGGLE CUSTOM BUDGET */}
+            <TargetingCustomBudgetButton
+              style={{ zIndex: 2 }}
+              showCustomBudget={showCustomBudget}
+              setShowCustomBudget={setShowCustomBudget}
+              initialBudget={initialTargetingState.budget}
+              minBase={minBase}
+              minHardBudget={minHardBudget}
+            />
+          </div>
           {/* BUDGET SETTER */}
           <div className="px-2">
             <TargetingBudgetSetter
@@ -102,6 +99,7 @@ const ControlsBudgetBox = ({
             disableSaving={disableSaving}
             isFirstTimeUser={isFirstTimeUser}
             budgetSlider={budgetSlider}
+            showCustomBudget={showCustomBudget}
           />
         </>
       )}

@@ -20,8 +20,8 @@ export const updateDefaultConversionsLink = (artistId, linkId) => {
 /**
  * @returns {Promise<any>}
  */
-export const getFacebookPixelEvents = async () => {
-  const endpoint = '/preferences/facebook_pixel_events'
+export const getFacebookPixelEvents = async (artistId, pixelId) => {
+  const endpoint = `/artists/${artistId}/pixels/${pixelId}/stats`
   const payload = {}
   const errorTracking = {
     category: 'Conversions',
