@@ -1,5 +1,5 @@
 import React from 'react'
-import Router, { useRouter } from 'next/router'
+import Router from 'next/router'
 
 import SidePanel from '@/app/SidePanel'
 

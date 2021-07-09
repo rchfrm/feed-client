@@ -75,7 +75,6 @@ const ControlsAll = ({ activeSlug }) => {
         {/* BUDGET BOX */}
         <TargetingBudgetBox
           className="mb-8"
-          isSummaryVersion
         />
         {/* SETTINGS MENU */}
         <ControlsContentOptions
