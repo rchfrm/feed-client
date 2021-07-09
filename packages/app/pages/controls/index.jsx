@@ -13,6 +13,7 @@ const Page = () => {
     <BasePage
       headerConfig={headerConfig}
       artistRequired
+      controlsRequired
     >
       <ControlsContent />
     </BasePage>

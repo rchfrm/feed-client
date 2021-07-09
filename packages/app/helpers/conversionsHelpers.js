@@ -20,8 +20,8 @@ export const updateDefaultConversionsLink = (artistId, linkId) => {
 /**
  * @returns {Promise<any>}
  */
-export const getFacebookPixelEvents = async () => {
-  const endpoint = '/preferences/facebook_pixel_events'
+export const getFacebookPixelEvents = async (artistId, pixelId) => {
+  const endpoint = `/artists/${artistId}/pixels/${pixelId}/stats`
   const payload = {}
   const errorTracking = {
     category: 'Conversions',
@@ -89,4 +89,25 @@ export const enableConversions = async (artistId) => {
     action: 'Enable conversions',
   }
   return api.requestWithCatch('patch', endpoint, payload, errorTracking)
+}
+
+// UPDATE CONVERSIONS PREFERENCES
+/**
+ * @param {string} artistId
+ * @param {object} preferences
+ * @returns {Promise<any>}
+ */
+export const updateConversionsPreferences = (artistId, { defaultLinkId, facebookPixelEvent, callToAction }) => {
+  const requestUrl = `/artists/${artistId}`
+  const conversions = {
+    default_link_id: defaultLinkId,
+    facebook_pixel_event: facebookPixelEvent,
+    call_to_action: callToAction,
+  }
+  const payload = { preferences: { conversions } }
+  const errorTracking = {
+    category: 'Conversions',
+    action: 'Set conversions preferences',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }

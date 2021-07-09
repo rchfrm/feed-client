@@ -18,6 +18,7 @@ const TargetingBudgetSlider = ({
   currencyOffset,
   onChange,
   mobileVersion,
+  setBudgetSlider,
 }) => {
   // SHOW BUDGET FEATURES
   // const budgetUpgrade = React.useMemo(() => {
@@ -101,6 +102,7 @@ const TargetingBudgetSlider = ({
           },
         ]}
         ghosts={startValue.current ? [initialMarkerPosition.current] : []}
+        setSliderInstance={setBudgetSlider}
       >
         {/* Only show marker if min recc is greater than min slider range */}
         {sliderValueRange[0] < minReccBudget && (
@@ -124,6 +126,7 @@ TargetingBudgetSlider.propTypes = {
   currencyOffset: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,
+  setBudgetSlider: PropTypes.func.isRequired,
 }
 
 TargetingBudgetSlider.defaultProps = {

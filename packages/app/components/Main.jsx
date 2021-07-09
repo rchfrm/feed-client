@@ -1,11 +1,13 @@
 // IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
+import useAsyncEffect from 'use-async-effect'
 // IMPORT COMPONENTS
 import InitUser from '@/app/InitUser'
 // IMPORT CONTEXTS
 import { SidePanelContextProvider } from '@/app/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import IntegrationErrorHandler from '@/app/IntegrationErrorHandler'
 import NotificationsHandler from '@/app/NotificationsHandler'
@@ -17,19 +19,17 @@ const getUpdateLinksWithIntegrations = state => state.updateLinksWithIntegration
 const controlsStoreClearAll = state => state.clearAll
 
 function Main({ children }) {
-  const {
-    artistId,
-    artist,
-  } = React.useContext(ArtistContext)
+  const { artistId, artist } = React.useContext(ArtistContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   // SETUP CONTROLS STORE WHEN ARTIST CHANGES
   const setupControlsStore = useControlsStore(controlsStoreInit)
   const clearControlsStore = useControlsStore(controlsStoreClearAll)
-  React.useEffect(() => {
+  useAsyncEffect(async () => {
     if (!artistId) return
     clearControlsStore()
-    setupControlsStore(artist, 'fetchLinks')
-  // eslint-disable-next-line
+    await setupControlsStore(artist, 'fetchLinks')
+    toggleGlobalLoading(false)
   }, [artistId])
 
   // UPDATE INTEGRATIONS when they change on artist

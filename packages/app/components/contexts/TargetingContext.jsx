@@ -8,7 +8,6 @@ import useControlsStore from '@/app/stores/controlsStore'
 import TargetingBudgetMobile from '@/app/TargetingBudgetMobile'
 import TargetingBudgetSaveButtonMobile from '@/app/TargetingBudgetSaveButtonMobile'
 
-import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
@@ -17,7 +16,7 @@ import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import * as budgetHelpers from '@/app/helpers/budgetHelpers'
 
 // Read from controls store
-const setBudget = state => state.setBudget
+const setSpending = state => state.updateSpending
 
 const initialState = {
   targetingState: {},
@@ -63,6 +62,10 @@ const initialState = {
   setSelectedCountries: () => {},
   errorFetchingSettings: null,
   initPage: () => {},
+  targetingLoading: false,
+  setTargetingLoading: () => {},
+  budgetSlider: {},
+  setBudgetSlider: () => {},
 }
 
 const TargetingContext = React.createContext(initialState)
@@ -86,8 +89,11 @@ const TargetingContextProvider = ({ children }) => {
     updateSpendingPaused,
   } = React.useContext(ArtistContext)
 
+  // Targeting loading state
+  const [targetingLoading, setTargetingLoading] = React.useState(false)
+
   // Get Setter to set budget in the controls store
-  const setBudgetInControlsStore = useControlsStore(setBudget)
+  const updateSpending = useControlsStore(setSpending)
 
   // SIDE PANEL context
   const { sidePanelContent, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
@@ -136,8 +142,7 @@ const TargetingContextProvider = ({ children }) => {
         draftState.budget = budget
       })
     })
-    setBudgetInControlsStore(budget)
-  }, [setBudgetInControlsStore])
+  }, [])
 
   // // UPDATE BUDGET IF RECC IS MORE THAN CURRENT
   // React.useEffect(() => {
@@ -160,6 +165,10 @@ const TargetingContextProvider = ({ children }) => {
   // * Selected cities and countries
   const [selectedCities, setSelectedCities] = React.useState(initialState.selectedCities)
   const [selectedCountries, setSelectedCountries] = React.useState(initialState.selectedCountries)
+
+  // Budget slider instance (can be used to get, set and reset the slider value from outside of the Slider component)
+  const [budgetSlider, setBudgetSlider] = React.useState(null)
+
   // * Function to set selected cities and countries
   const updateLocationsArrays = ({ cityKeys = [], countryCodes = [] }) => {
     setSelectedCities(cityKeys)
@@ -251,14 +260,13 @@ const TargetingContextProvider = ({ children }) => {
   const [settingsSaved, setSettingsSaved] = React.useState(initialState.settingsSaved)
   const [settingsSavedInitial, setSettingsSavedInitial] = React.useState(initialState.settingsSavedInitial)
   const [errorUpdatingSettings, setErrorUpdatingSettings] = React.useState(null)
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const [saving, setSaving] = React.useState(false)
   const saveTargetingSettings = React.useCallback(async (settings) => {
     // Close side panel
     toggleSidePanel(false)
     // Start saving
     setSaving(true)
-    toggleGlobalLoading(true)
+    setTargetingLoading(true)
     // Reset to summary view
     setCurrentView(initialState.currentView)
     // Save to server
@@ -279,11 +287,12 @@ const TargetingContextProvider = ({ children }) => {
       setSettingsSaved(true)
       updateSpendingPaused(savedState.status)
       updateBudget(savedState.budget / currencyOffset)
+      updateSpending((savedState.budget / currencyOffset), !savedState.status)
     }
     setSelectedCampaignRecc(null)
     setSaving(false)
-    toggleGlobalLoading(false)
-  }, [artistId, toggleGlobalLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget])
+    setTargetingLoading(false)
+  }, [artistId, setTargetingLoading, toggleSidePanel, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget, updateSpending])
   // Set saved to false when going to settings view
   React.useEffect(() => {
     if (currentView === 'settings') {
@@ -318,6 +327,8 @@ const TargetingContextProvider = ({ children }) => {
     // RESET Targeting state
     setInitialTargetingState(initialState.targetingState)
     setTargetingState(initialState.targetingState)
+    // Reset budget slider instance
+    setBudgetSlider(initialState.budgetSlider)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artistId])
 
@@ -414,6 +425,9 @@ const TargetingContextProvider = ({ children }) => {
         setSelectedCountries,
         errorFetchingSettings,
         initPage,
+        targetingLoading,
+        budgetSlider,
+        setBudgetSlider,
       }}
     >
       {children}

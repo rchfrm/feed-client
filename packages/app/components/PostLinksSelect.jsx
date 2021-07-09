@@ -31,6 +31,9 @@ const PostLinksSelect = ({
   componentLocation,
   updateParentLink,
   shouldSaveOnChange,
+  label,
+  className,
+  disabled,
 }) => {
   // READ FROM LINKS STORE
   const {
@@ -165,7 +168,7 @@ const PostLinksSelect = ({
   }, [selectedOptionValue])
 
   return (
-    <div>
+    <div className={className}>
       {error && (
         <Error error={error} />
       )}
@@ -185,10 +188,12 @@ const PostLinksSelect = ({
           setSelectedOptionValue(value)
         }}
         name="Choose link"
+        label={label}
         options={selectOptions}
         placeholder={currentLinkId === defaultPostLinkId ? placeholderText : null}
         selectedValue={selectedOptionValue}
         version="box"
+        disabled={disabled}
       />
     </div>
   )
@@ -206,6 +211,9 @@ PostLinksSelect.propTypes = {
   componentLocation: PropTypes.string.isRequired,
   updateParentLink: PropTypes.func,
   shouldSaveOnChange: PropTypes.bool,
+  label: PropTypes.string,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
 }
 
 PostLinksSelect.defaultProps = {
@@ -219,7 +227,9 @@ PostLinksSelect.defaultProps = {
   includeAddLinkOption: false,
   updateParentLink: () => {},
   shouldSaveOnChange: true,
+  label: '',
+  className: '',
+  disabled: false,
 }
-
 
 export default PostLinksSelect

@@ -5,20 +5,16 @@ import TargetingPausedWarning from '@/app/TargetingPausedWarning'
 import TargetingSuccessMessage from '@/app/TargetingSuccessMessage'
 import TargetingSummaryList from '@/app/TargetingSummaryList'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
-import TargetingSummaryButtons from '@/app/TargetingSummaryButtons'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 const TargetingSummary = () => {
   const {
-    targetingState,
     initialTargetingState,
-    saveTargetingSettings,
     togglePauseCampaign,
     setCurrentView,
     settingsSaved,
     settingsSavedInitial,
-    disableSaving,
     isFirstTimeUser,
   } = React.useContext(TargetingContext)
 
@@ -52,17 +48,6 @@ const TargetingSummary = () => {
           className="mb-8"
           isSummaryVersion
         />
-        {/* SAVE BUDGET & PAUSE/RESUME BUTTON */}
-        <div className="mb-10 md:mb-0">
-          <TargetingSummaryButtons
-            targetingState={targetingState}
-            initialTargetingState={initialTargetingState}
-            saveTargetingSettings={saveTargetingSettings}
-            togglePauseCampaign={togglePauseCampaign}
-            disableSaving={disableSaving}
-            isFirstTimeUser={isFirstTimeUser}
-          />
-        </div>
       </div>
       {/* SETTINGS */}
       <div className="col-span-6 col-start-1">
