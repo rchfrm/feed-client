@@ -1,16 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
 
-import Button from '@/elements/Button'
 import PlatformIcon from '@/icons/PlatformIcon'
-import PencilIcon from '@/icons/PencilIcon'
 import MarkdownText from '@/elements/MarkdownText'
 
 import { removeProtocolFromUrl } from '@/helpers/utils'
-
-import * as ROUTES from '@/app/constants/routes'
-import brandColors from '@/constants/brandColors'
 
 import copy from '@/app/copy/PostsPageCopy'
 
