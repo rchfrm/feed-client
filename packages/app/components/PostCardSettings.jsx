@@ -17,7 +17,6 @@ import copy from '@/app/copy/PostsPageCopy'
 const getCaptionNotEditableExcuse = (post) => {
   const base = 'The caption is not editable because'
   if (post.postType === 'story') return `${base} this is a story.`
-  if (post.promotionStatus === 'archived') return `${base} the post has been archived.`
   if (!post.postPromotable) return `${base} the post is not promotable.`
   return ''
 }
