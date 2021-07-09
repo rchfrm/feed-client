@@ -44,11 +44,6 @@ const PostsContent = () => {
           missingDefaultLink={missingDefaultLink}
           goToPostSettings={goToGlobalPostSettings}
         />
-        {/* LINKS BUTTON */}
-        <PostLinksButton
-          className={styles.postsTopButton}
-          goToPostLinks={goToLinksBank}
-        />
         {/* REFRESH BUTTON (desktop) */}
         {refreshPosts && (
           <PostsRefreshButton
