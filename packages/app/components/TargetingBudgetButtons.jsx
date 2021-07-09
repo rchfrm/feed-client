@@ -41,7 +41,7 @@ const TargetingSummaryButtons = ({
             'w-8 h-8 p-0',
             'flex-shrink-0',
             'rounded-full',
-            isDisabled ? 'bg-grey-2 pointer-events-none' : '',
+            isDisabled ? 'bg-grey-2 focus:bg-grey-2 pointer-events-none' : '',
           ].join(' ')}
           onClick={resetBudget}
         >
