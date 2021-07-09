@@ -15,13 +15,13 @@ const PixelEventSelector = ({
   disabled,
 }) => {
   const [facebookPixelEventOptions, setFacebookPixelEventOptions] = React.useState([])
-  const { artist } = React.useContext(ArtistContext)
+  const { artist, artistId } = React.useContext(ArtistContext)
   const pixelId = artist.integrations.find(integration => integration.platform === 'facebook').pixel_id
 
   // Get all Facebook Pixel Events on first load and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
     if (!isMounted()) return
-    const { res: { event_total_counts: events } } = await getFacebookPixelEvents(artist.id, pixelId)
+    const { res: { event_total_counts: events } } = await getFacebookPixelEvents(artistId, pixelId)
     const sortedEvents = events.sort((a, b) => b.count - a.count)
     const options = sortedEvents.map(({ value, count }) => ({
       name: `${value} (${count})`,
