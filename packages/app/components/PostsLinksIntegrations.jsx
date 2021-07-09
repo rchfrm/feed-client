@@ -1,17 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
 import Button from '@/elements/Button'
 import PlatformIcon from '@/icons/PlatformIcon'
 import PencilIcon from '@/icons/PencilIcon'
 import MarkdownText from '@/elements/MarkdownText'
 
-// eslint-disable-next-line
-import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
-import useOpenIntegrationsPanel from '@/app/hooks/useOpenIntegrationsPanel'
-
 import { removeProtocolFromUrl } from '@/helpers/utils'
 
+import * as ROUTES from '@/app/constants/routes'
 import brandColors from '@/constants/brandColors'
 
 import copy from '@/app/copy/PostsPageCopy'
@@ -20,11 +18,9 @@ const PostsLinksIntegrations = ({
   integrationLinks,
   className,
 }) => {
-  const { goToPostLinks } = usePostsSidePanel()
-  const openIntegrationsPanel = useOpenIntegrationsPanel({
-    goBack: goToPostLinks,
-    location: 'links',
-  })
+  const goToIntegrations = () => {
+    Router.push(ROUTES.CONTROLS_INTEGRATIONS)
+  }
   return (
     <div>
       <MarkdownText markdown={copy.integrationLinksIntro} />
@@ -94,7 +90,7 @@ const PostsLinksIntegrations = ({
       </ul>
       <Button
         version="x-small green icon"
-        onClick={openIntegrationsPanel}
+        onClick={goToIntegrations}
       >
         <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
         Edit Integrations
