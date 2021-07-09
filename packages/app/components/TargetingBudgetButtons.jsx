@@ -36,10 +36,11 @@ const TargetingSummaryButtons = ({
     <div className="flex justify-between items-end w-full">
       {!showCustomBudget && (
         <Button
-          version="black small"
+          version="small"
           className={[
             'w-8 h-8 p-0',
             'flex-shrink-0',
+            'bg-black',
             'rounded-full',
             isDisabled ? 'bg-grey-2 pointer-events-none' : '',
           ].join(' ')}
