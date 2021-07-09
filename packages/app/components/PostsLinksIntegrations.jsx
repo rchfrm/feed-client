@@ -18,9 +18,6 @@ const PostsLinksIntegrations = ({
   integrationLinks,
   className,
 }) => {
-  const goToIntegrations = () => {
-    Router.push(ROUTES.CONTROLS_INTEGRATIONS)
-  }
   return (
     <div>
       <MarkdownText markdown={copy.integrationLinksIntro} />
@@ -88,13 +85,6 @@ const PostsLinksIntegrations = ({
           )
         })}
       </ul>
-      <Button
-        version="x-small green icon"
-        onClick={goToIntegrations}
-      >
-        <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
-        Edit Integrations
-      </Button>
     </div>
   )
 }
