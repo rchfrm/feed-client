@@ -8,7 +8,6 @@ import useAsyncEffect from 'use-async-effect'
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
-import Button from '@/elements/Button'
 
 import TargetingSettingsHelp from '@/app/TargetingSettingsHelp'
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
