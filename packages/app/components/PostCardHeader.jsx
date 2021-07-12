@@ -5,6 +5,8 @@ import moment from 'moment'
 
 import PostCardPriorityButton from '@/app/PostCardPriorityButton'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import * as utils from '@/helpers/utils'
 
 const PostCardHeader = ({
@@ -21,6 +23,7 @@ const PostCardHeader = ({
   promotionStatus,
 }) => {
   const publishedDate = moment(date).format('DD MMM')
+  const { priorityEnabled: priorityFeatureEnabled } = React.useContext(ArtistContext)
   return (
     <div
       className={[
@@ -42,14 +45,16 @@ const PostCardHeader = ({
           )}
         </a>
       </p>
-      <PostCardPriorityButton
-        postId={postId}
-        artistId={artistId}
-        priorityEnabled={priorityEnabled}
-        updatePost={updatePost}
-        postIndex={postIndex}
-        promotionStatus={promotionStatus}
-      />
+      {priorityFeatureEnabled && (
+        <PostCardPriorityButton
+          postId={postId}
+          artistId={artistId}
+          priorityEnabled={priorityEnabled}
+          updatePost={updatePost}
+          postIndex={postIndex}
+          promotionStatus={promotionStatus}
+        />
+      )}
     </div>
   )
 }
