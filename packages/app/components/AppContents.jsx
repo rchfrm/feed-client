@@ -4,7 +4,6 @@ import { InterfaceContextProvider } from '@/contexts/InterfaceContext'
 
 import { UserProvider } from '@/app/contexts/UserContext'
 import { ArtistProvider } from '@/app/contexts/ArtistContext'
-import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
 
 // IMPORT COMPONENTS
 import Main from '@/app/Main'
@@ -23,23 +22,21 @@ const AppContents = ({ children }) => {
       <InterfaceContextProvider>
         <UserProvider>
           <ArtistProvider>
-            <TargetingContextProvider>
-              <TheHeader />
+            <TheHeader />
 
-              <TheLoadingOverlay />
+            <TheLoadingOverlay />
 
-              <Main>
-                {children}
-              </Main>
+            <Main>
+              {children}
+            </Main>
 
-              <ThePageButtons />
+            <ThePageButtons />
 
-              {/* SITEWIDE MODALS */}
-              <PopupModal />
-              <AlertModal />
+            {/* SITEWIDE MODALS */}
+            <PopupModal />
+            <AlertModal />
 
-              <TheFooter />
-            </TargetingContextProvider>
+            <TheFooter />
           </ArtistProvider>
         </UserProvider>
       </InterfaceContextProvider>
