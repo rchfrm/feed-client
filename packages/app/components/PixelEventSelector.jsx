@@ -4,6 +4,8 @@ import useAsyncEffect from 'use-async-effect'
 
 import Select from '@/elements/Select'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import { getFacebookPixelEvents } from '@/app/helpers/conversionsHelpers'
 
 const PixelEventSelector = ({
@@ -13,12 +15,19 @@ const PixelEventSelector = ({
   disabled,
 }) => {
   const [facebookPixelEventOptions, setFacebookPixelEventOptions] = React.useState([])
+  const { artist, artistId } = React.useContext(ArtistContext)
+  const pixelId = artist.integrations.find(integration => integration.platform === 'facebook').pixel_id
 
   // Get all Facebook Pixel Events on first load and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
     if (!isMounted()) return
-    const { res: events } = await getFacebookPixelEvents()
-    const options = events.map(({ id, name }) => ({ name, value: id }))
+    const { res: { event_total_counts: events } } = await getFacebookPixelEvents(artistId, pixelId)
+    const sortedEvents = events.sort((a, b) => b.count - a.count)
+    const options = sortedEvents.map(({ value, count }) => ({
+      name: `${value} (${count})`,
+      value,
+      disabled: count < 1,
+    }))
     setFacebookPixelEventOptions(options)
   }, [])
 

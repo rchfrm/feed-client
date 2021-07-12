@@ -27,13 +27,13 @@ const getControlsStoreState = (state) => ({
 const ConversionsWizardLinkStep = () => {
   const { defaultLinkId, updatePreferences } = useControlsStore(getControlsStoreState)
   const { next } = React.useContext(WizardContext)
-  const { artist } = React.useContext(ArtistContext)
+  const { artistId } = React.useContext(ArtistContext)
   const [link, setLink] = React.useState(defaultLinkId || defaultPostLinkId)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const saveDefaultLink = () => {
-    return updateDefaultConversionsLink(artist.id, link)
+    return updateDefaultConversionsLink(artistId, link)
   }
 
   // Handle API request and navigate to the next step
