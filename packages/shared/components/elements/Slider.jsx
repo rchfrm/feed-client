@@ -114,7 +114,11 @@ Slider.propTypes = {
   trackColor: PropTypes.string,
   hasMarkers: PropTypes.bool,
   ghosts: PropTypes.array,
+<<<<<<< HEAD
   setSliderInstance: PropTypes.func,
+=======
+  setSliderInstance: PropTypes.func.isRequired,
+>>>>>>> Conversions
   className: PropTypes.string,
   children: PropTypes.node,
 }

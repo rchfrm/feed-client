@@ -36,12 +36,13 @@ const TargetingBudgetButtons = ({
     <div className="flex justify-between items-end w-full">
       {!showCustomBudget && (
         <Button
-          version="black small"
+          version="small"
           className={[
             'w-8 h-8 p-0',
             'flex-shrink-0',
+            'bg-black',
             'rounded-full',
-            isDisabled ? 'bg-grey-2 pointer-events-none' : '',
+            isDisabled ? 'bg-grey-2 focus:bg-grey-2 pointer-events-none' : '',
           ].join(' ')}
           onClick={resetBudget}
         >
@@ -80,6 +81,4 @@ TargetingBudgetButtons.defaultProps = {
   disableSaving: '',
 }
 
-
 export default TargetingBudgetButtons
-
