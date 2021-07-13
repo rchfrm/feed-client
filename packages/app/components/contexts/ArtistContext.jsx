@@ -282,7 +282,7 @@ function ArtistProvider({ children }) {
     setArtistId(id)
     // Set currency
     setArtistCurrency(currency)
-    // set priority post enabled
+    // Set priority post feature flag value
     setPriorityEnabled(priority_enabled)
   }, [artist])
 
