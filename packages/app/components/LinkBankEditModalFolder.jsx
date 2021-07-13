@@ -10,7 +10,7 @@ import Error from '@/elements/Error'
 
 import copy from '@/app/copy/PostsPageCopy'
 
-const PostsLinksEditModalFolder = ({
+const LinkBankEditModalFolder = ({
   folder,
   modalButtons,
   action,
@@ -99,7 +99,7 @@ const PostsLinksEditModalFolder = ({
   )
 }
 
-PostsLinksEditModalFolder.propTypes = {
+LinkBankEditModalFolder.propTypes = {
   folder: PropTypes.object.isRequired,
   modalButtons: PropTypes.array.isRequired,
   action: PropTypes.string.isRequired,
@@ -108,10 +108,10 @@ PostsLinksEditModalFolder.propTypes = {
   error: PropTypes.object,
 }
 
-PostsLinksEditModalFolder.defaultProps = {
+LinkBankEditModalFolder.defaultProps = {
   error: null,
 }
 
 
 
-export default PostsLinksEditModalFolder
+export default LinkBankEditModalFolder

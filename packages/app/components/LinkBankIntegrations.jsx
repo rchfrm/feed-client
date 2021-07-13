@@ -8,7 +8,7 @@ import { removeProtocolFromUrl } from '@/helpers/utils'
 
 import copy from '@/app/copy/PostsPageCopy'
 
-const PostsLinksIntegrations = ({
+const LinkBankIntegrations = ({
   integrationLinks,
   className,
 }) => {
@@ -83,14 +83,14 @@ const PostsLinksIntegrations = ({
   )
 }
 
-PostsLinksIntegrations.propTypes = {
+LinkBankIntegrations.propTypes = {
   integrationLinks: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
 
-PostsLinksIntegrations.defaultProps = {
+LinkBankIntegrations.defaultProps = {
   className: null,
 }
 
 
-export default PostsLinksIntegrations
+export default LinkBankIntegrations

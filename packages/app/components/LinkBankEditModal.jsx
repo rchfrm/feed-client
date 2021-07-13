@@ -13,7 +13,7 @@ import Error from '@/elements/Error'
 import * as utils from '@/helpers/utils'
 import { defaultFolderId } from '@/app/helpers/linksHelpers'
 
-const PostsLinksEditModal = ({
+const LinkBankEditModal = ({
   link,
   modalButtons,
   action,
@@ -221,7 +221,7 @@ const PostsLinksEditModal = ({
   )
 }
 
-PostsLinksEditModal.propTypes = {
+LinkBankEditModal.propTypes = {
   link: PropTypes.object,
   modalButtons: PropTypes.array.isRequired,
   action: PropTypes.string.isRequired,
@@ -231,10 +231,10 @@ PostsLinksEditModal.propTypes = {
   isPostLink: PropTypes.bool.isRequired,
 }
 
-PostsLinksEditModal.defaultProps = {
+LinkBankEditModal.defaultProps = {
   link: null,
   error: null,
 }
 
 
-export default PostsLinksEditModal
+export default LinkBankEditModal
