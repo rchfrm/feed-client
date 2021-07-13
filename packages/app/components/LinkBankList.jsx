@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PostsLinksListButtons from '@/app/PostsLinksListButtons'
-import PostsLinksFolder from '@/app/PostsLinksFolder'
-import PostsLinksLink from '@/app/PostsLinksLink'
+import LinkBankListButtons from '@/app/LinkBankListButtons'
+import LinkBankFolder from '@/app/LinkBankFolder'
+import LinkBankLink from '@/app/LinkBankLink'
 
-const PostsLinksList = ({
+const LinkBankList = ({
   looseLinks,
   linkFolders,
 }) => {
@@ -18,7 +18,7 @@ const PostsLinksList = ({
       {!mergedLinks.length && (
         <p className="pb-2 text-lg">You don't have any links saved yet.</p>
       )}
-      <PostsLinksListButtons
+      <LinkBankListButtons
         className="mb-8"
         editModeOn={editModeOn}
         setEditModeOn={setEditModeOn}
@@ -32,7 +32,7 @@ const PostsLinksList = ({
             // LINK
             if (type === 'link') {
               return (
-                <PostsLinksLink
+                <LinkBankLink
                   key={id}
                   link={item}
                   editModeOn={editModeOn}
@@ -45,7 +45,7 @@ const PostsLinksList = ({
             // Don't show if empty
             if (!links.length) return null
             return (
-              <PostsLinksFolder
+              <LinkBankFolder
                 key={id}
                 folder={item}
                 editModeOn={editModeOn}
@@ -60,10 +60,10 @@ const PostsLinksList = ({
   )
 }
 
-PostsLinksList.propTypes = {
+LinkBankList.propTypes = {
   looseLinks: PropTypes.array.isRequired,
   linkFolders: PropTypes.array.isRequired,
 }
 
 
-export default PostsLinksList
+export default LinkBankList

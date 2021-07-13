@@ -10,8 +10,8 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import PostsLinksEditModal from '@/app/PostsLinksEditModal'
-import PostsLinksEditModalFolder from '@/app/PostsLinksEditModalFolder'
+import LinkBankEditModal from '@/app/LinkBankEditModal'
+import LinkBankEditModalFolder from '@/app/LinkBankEditModalFolder'
 
 
 import useControlsStore from '@/app/stores/controlsStore'
@@ -29,7 +29,7 @@ const getControlsStoreState = (state) => ({
   setLinkBankError: state.setLinkBankError,
 })
 
-const useCreateEditPostsLink = ({
+const useCreateEditLinkBankLink = ({
   action = 'add',
   itemType = 'link',
   onSave = () => {},
@@ -229,7 +229,7 @@ const useCreateEditPostsLink = ({
       })
     }
     const children = itemType === 'folder' ? (
-      <PostsLinksEditModalFolder
+      <LinkBankEditModalFolder
         folder={item}
         modalButtons={buttons}
         action={action}
@@ -238,7 +238,7 @@ const useCreateEditPostsLink = ({
         error={error}
       />
     ) : (
-      <PostsLinksEditModal
+      <LinkBankEditModal
         link={item}
         modalButtons={buttons}
         action={action}
@@ -254,4 +254,4 @@ const useCreateEditPostsLink = ({
   return openLink
 }
 
-export default useCreateEditPostsLink
+export default useCreateEditLinkBankLink

@@ -6,18 +6,18 @@ import PencilIcon from '@/icons/PencilIcon'
 import PlusIcon from '@/icons/PlusIcon'
 import TickIcon from '@/icons/TickIcon'
 
-import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
+import useCreateEditLinkBankLink from '@/app/hooks/useCreateEditLinkBankLink'
 
 import brandColors from '@/constants/brandColors'
 
-const PostsLinksListButtons = ({
+const LinkBankListButtons = ({
   editModeOn,
   setEditModeOn,
   totalLinks,
   className,
 }) => {
   // FUNCTION FOR EDITING LINKS
-  const addLink = useCreateEditPostsLink({
+  const addLink = useCreateEditLinkBankLink({
     action: 'add',
   })
   return (
@@ -63,16 +63,16 @@ const PostsLinksListButtons = ({
   )
 }
 
-PostsLinksListButtons.propTypes = {
+LinkBankListButtons.propTypes = {
   editModeOn: PropTypes.bool.isRequired,
   setEditModeOn: PropTypes.func.isRequired,
   totalLinks: PropTypes.number.isRequired,
   className: PropTypes.string,
 }
 
-PostsLinksListButtons.defaultProps = {
+LinkBankListButtons.defaultProps = {
   className: null,
 }
 
 
-export default PostsLinksListButtons
+export default LinkBankListButtons

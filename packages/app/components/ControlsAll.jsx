@@ -8,6 +8,7 @@ import ControlsContentOptions from '@/app/ControlsContentOptions'
 import ControlsContentView from '@/app/ControlsContentView'
 import ConversionsContent from '@/app/ConversionsContent'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
+import LinkBank from '@/app/LinkBank'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -22,7 +23,7 @@ const fetchState = ({ artistId, currencyOffset }) => {
 // One of these components will be shown based on the activeSlug
 const controlsComponents = {
   targeting: <h2>Targeting</h2>,
-  links: <h2>Link bank</h2>,
+  links: <LinkBank />,
   integrations: <h2>Integrations</h2>,
   ads: <h2>Ad Defaults</h2>,
   conversions: <ConversionsContent />,
