@@ -42,15 +42,15 @@ function Main({ children }) {
 
   return (
     <main id="page--container">
-      <InitUser>
-        <TargetingContextProvider>
-          <SidePanelContextProvider>
+      <TargetingContextProvider>
+        <SidePanelContextProvider>
+          <InitUser>
             {children}
             <IntegrationErrorHandler />
             <NotificationsHandler />
-          </SidePanelContextProvider>
-        </TargetingContextProvider>
-      </InitUser>
+          </InitUser>
+        </SidePanelContextProvider>
+      </TargetingContextProvider>
     </main>
   )
 }

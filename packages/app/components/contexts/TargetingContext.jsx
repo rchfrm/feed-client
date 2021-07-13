@@ -225,7 +225,7 @@ const TargetingContextProvider = ({ children }) => {
     // GET BUDGET INFO
     const { minorUnit: {
       minHard: minHardBudget,
-    } } = feedMinBudgetInfo
+    } = {} } = feedMinBudgetInfo
     const isBudgetTooSmall = targetingState.budget < minHardBudget
     const noLocations = !selectedCountries.length && !selectedCities.length
     // Disable with budget reason
