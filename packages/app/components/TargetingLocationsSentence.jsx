@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import useOpenIntegrationsPanel from '@/app/hooks/useOpenIntegrationsPanel'
+import * as ROUTES from '@/app/constants/routes'
 
 import copy from '@/app/copy/targetingPageCopy'
 
@@ -12,7 +13,9 @@ const TargetingLocationsSentence = ({
   spotifyConnected,
   className,
 }) => {
-  const openIntegrationsPanel = useOpenIntegrationsPanel({})
+  const goToIntegrations = () => {
+    Router.push(ROUTES.CONTROLS_INTEGRATIONS)
+  }
   return (
     <div className={[className].join(' ')}>
       <MarkdownText markdown={copy.locationsDescription(artistIsMusician, spotifyConnected)} />
@@ -24,7 +27,7 @@ const TargetingLocationsSentence = ({
             <a
               role="button"
               style={{ color: 'inherit' }}
-              onClick={openIntegrationsPanel}
+              onClick={goToIntegrations}
             >
               <strong>Integrations</strong>
             </a>
