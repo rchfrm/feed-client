@@ -15,7 +15,7 @@ a {
     @mixin canHover {
       &:not(.button):hover {
         color: var(--green);
-      } 
+      }
     }
   }
 
@@ -172,4 +172,9 @@ p,
   display: inline-block;
   border-bottom: 2px solid var(--green);
   margin-bottom: 4px;
+}
+
+.black--underline {
+  display: inline-block;
+  border-bottom: 2px solid var(--black);
 }

@@ -91,7 +91,7 @@ body {
     @media (--bmw) {
       left: 50%;
       margin-left: calc(-0.5 * var(--bmw));
-    } 
+    }
   }
 }
 
