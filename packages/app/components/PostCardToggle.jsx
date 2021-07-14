@@ -17,7 +17,6 @@ const runChangeState = ({ artistId, postId, promotionEnabled }) => {
   return postsHelpers.updatePost({ artistId, postId, promotionEnabled })
 }
 
-
 // LABEL GRADIENTS
 const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
 const growthGradient = createGradient(brandColors.blue)
@@ -31,6 +30,7 @@ const PostCardToggle = ({
   togglePromotion,
   isActive,
   disabled,
+  isFeatureEnabled,
   className,
 }) => {
   // Store INTERNAL STATE based on promotionEnabled
@@ -62,7 +62,7 @@ const PostCardToggle = ({
   }, [artistId, postId, togglePromotion])
 
   // HANDLE HOVER FOR TEASER
-  const isTeaserActive = audienceSlug === 'conversion' && disabled
+  const isTeaserActive = audienceSlug === 'conversion' && isFeatureEnabled
 
   // HANDLE CLICK TO SHOW TEASER
   const WrapperTag = isTeaserActive ? 'button' : 'div'
@@ -135,12 +135,14 @@ PostCardToggle.propTypes = {
   togglePromotion: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
+  isFeatureEnabled: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostCardToggle.defaultProps = {
   disabled: false,
   className: null,
+  isFeatureEnabled: false,
 }
 
 export default PostCardToggle

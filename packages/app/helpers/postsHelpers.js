@@ -181,6 +181,7 @@ export const formatPostsResponse = (posts) => {
       platform: post.platform,
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
+      conversionsEnabled: post.conversions_enabled,
       linkId,
       linkHref,
       linkType,

@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import useControlsStore from '@/app/stores/controlsStore'
+
 import PostCardHeader from '@/app/PostCardHeader'
 import PostCardMedia from '@/app/PostCardMedia'
 import PostCardScore from '@/app/PostCardScore'
@@ -8,6 +12,11 @@ import PostCardToggles from '@/app/PostCardToggles'
 import PostCardUnpromotable from '@/app/PostCardUnpromotable'
 import PostCardActionButtons from '@/app/PostCardActionButtons'
 import PostCardDisableWarning from '@/app/PostCardDisableWarning'
+
+const getControlsStoreState = (state) => ({
+  canRunConversions: state.canRunConversions,
+  conversionsEnabled: state.conversionsEnabled,
+})
 
 const PostCard = ({
   post,
@@ -23,7 +32,10 @@ const PostCard = ({
   // Extract some variables
   const { postPromotable, promotionStatus, postType } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
-  const conversionDisabled = true
+  // Get conversions feature flag value
+  const { artist: { conversions_enabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
+  // Get conversions store values
+  const { canRunConversions, conversionsEnabled } = useControlsStore(getControlsStoreState)
   return (
     <div
       className={[
@@ -66,7 +78,8 @@ const PostCard = ({
             promotionEnabled={post.promotionEnabled}
             promotionStatus={post.promotionStatus}
             togglePromotion={togglePromotion}
-            conversionDisabled={conversionDisabled}
+            conversionsDisabled={!conversionsEnabled || !canRunConversions}
+            conversionsFeatureEnabled={conversionsFeatureEnabled}
             growthDisabled={promotionStatus === 'archived'}
           />
         ) : (
