@@ -126,13 +126,11 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   // SETTINGS SIDEPANEL
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
   editCaption: `Edit the caption used in this ad.`,
-  confirmEditCaption: `**This feature is being tested!**
+  confirmEdit: (type) => `**Update ${type}**
 
-Editing the caption will put this post back into review, and it will temporarily move to 'Inactive'.
+Editing the ${type} will put this post back into review, and it will temporarily move to 'Inactive'.
 
-There may be a delay before this post can start running again.
-
-If you need to make sure this post starts running as soon as it's approved, [email us](mailto:help@tryfeed.co).
+Facebook’s approval process usually takes less than 24 hours, and the post will begin to run again as soon as it’s approved.
 
 Are you sure you want to continue?`,
 
@@ -154,19 +152,14 @@ Deleting a folder will delete all the links inside it.`,
 
 If you delete it, the post will revert to using the default link. Are you sure you want to continue?`
     }
-    return `**This link is currently selected on at least one post that hasn't yet run as an ad ('Not Run').**
+    return `**This link is currently selected on at least one post.**
 
-If you delete it, these posts will revert to the default link. Are you sure you want to continue?`
+    If you delete it, Running and Inactive posts with this link will continue to use it. Not Run posts using this link will revert to the default link.
+    
+    Are you sure you want to continue?`
   },
 
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-
-  getLinkDisabledReason: ({ isPostActive, isPostArchived, isLinkAdCreative }) => {
-    if (isPostActive) return 'Link not editable because this ad is currently running.'
-    if (isPostArchived) return 'Link not editable because this ad has been turned off.'
-    if (isLinkAdCreative) return 'Link not editable because this post has been turned into an ad and will begin running soon.'
-    return ''
-  },
 
   // LINK TRACKING
   linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `UTM parameters are automatically added to the links used in your ads. This means you can track how many people Feed is sending to your website, and what they do when they get there.
@@ -203,4 +196,31 @@ If so, we're looking for people to join our trials for this feature and work wit
 
 [Fill in this form](https://docs.google.com/forms/d/e/1FAIpQLSd4PRRgbyFc0jVYODiBMvX-e24XzFf93QhFhv5CAoGoaeIM2g/viewform) and we'll be in touch.`,
 
+  confirmPrioritizePost: (isPrioritized, isArchived) => {
+    if (isPrioritized) {
+      return `**Remove priority status from this post?**
+
+This post may stop running if outperformed by a non-priority post.
+
+Would you like to continue?`
+    }
+
+    if (isArchived) {
+      return `**Make this a priority post?**
+
+Feed will run this post again straight away. Once it has been approved, some ads that are currently running might get turned off.
+
+Would you like to continue?`
+    }
+
+    return `**Make this a priority post?**
+
+Feed will turn this post into an ad straight away. Once it has been approved, some ads that are currently running might get turned off.
+
+Would you like to continue?`
+  },
+  prioritizeTooltipSlides: [
+    'By marking this post as a priority post, you can start it running straight away (unless two priority posts are already running).',
+    'You can remove priority status from the post or stop it running at any time.',
+  ],
 }

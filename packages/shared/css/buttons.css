@@ -19,14 +19,14 @@ a[type=button] {
   position: relative;
   padding: 0;
   border: none;
-  border-radius: var(--button-radius);
+  border-radius: var(--dialogue-radius);
   align-items: center;
   white-space: nowrap;
 
   font-family: var(--font);
   font-size: 1.1rem;
   text-decoration: none;
-  
+
   &:disabled,
   &[disabled] {
     color: var(--disabled-color-text);

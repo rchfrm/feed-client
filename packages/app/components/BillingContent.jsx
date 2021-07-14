@@ -24,7 +24,7 @@ const getBillingStoreState = (state) => ({
   loadingErrors: state.loadingErrors,
   defaultPaymentMethod: state.defaultPaymentMethod,
   setupBilling: state.setupBilling,
-  nextInvoice: state.nextInvoice,
+  upcomingInvoice: state.upcomingInvoice,
   latestInvoice: state.latestInvoice,
   organisation: state.organisation,
   organisationInvites: state.organisationInvites,
@@ -37,10 +37,9 @@ const getBillingStoreState = (state) => ({
 
 const BILLING_CONTENT_SECTIONS = ({
   loadingErrors,
-  invoice,
-  nextInvoice,
+  latestInvoice,
+  upcomingInvoice,
   organisation,
-  hasLatestInvoice,
   updateLatestInvoice,
   defaultPaymentMethod,
   showProfilesSection,
@@ -54,11 +53,8 @@ const BILLING_CONTENT_SECTIONS = ({
         {/* INVOICES */}
         <BillingInvoiceSummary
           className="mb-12"
-          invoice={invoice}
-          isUpcoming={invoice?.id === nextInvoice?.id}
-          hasLatestInvoice={hasLatestInvoice}
-          organisationId={organisation.id}
-          updateLatestInvoice={updateLatestInvoice}
+          latestInvoice={latestInvoice}
+          upcomingInvoice={upcomingInvoice}
         />
         {/* PAYMENT METHOD */}
         <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />
@@ -87,7 +83,7 @@ const BillingContent = () => {
     loadingErrors,
     setupBilling,
     defaultPaymentMethod,
-    nextInvoice,
+    upcomingInvoice,
     latestInvoice,
     organisation,
     billingEnabled,
@@ -97,9 +93,6 @@ const BillingContent = () => {
     transferRequests,
     updateLatestInvoice,
   } = useBillingStore(getBillingStoreState, shallow)
-
-  const hasLatestInvoice = Object.keys(latestInvoice).length > 0
-  const invoice = hasLatestInvoice && latestInvoice.failed ? latestInvoice : nextInvoice
 
   const shouldShowProfilesSection = () => {
     // SHOW PROFILES SECTION IF THERE ARE NO (zero) OR MULTIPLE (more than 1) PROFILES
@@ -148,10 +141,9 @@ const BillingContent = () => {
       {billingEnabled ? (
         <BILLING_CONTENT_SECTIONS
           loadingErrors={loadingErrors}
-          invoice={invoice}
-          nextInvoice={nextInvoice}
+          latestInvoice={latestInvoice}
+          upcomingInvoice={upcomingInvoice}
           organisation={organisation}
-          hasLatestInvoice={hasLatestInvoice}
           updateLatestInvoice={updateLatestInvoice}
           defaultPaymentMethod={defaultPaymentMethod}
           showProfilesSection={shouldShowProfilesSection()}

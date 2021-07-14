@@ -33,7 +33,9 @@ const postsReducer = (draftState, postsAction) => {
     promotableStatus,
     linkId,
     linkHref,
+    linkType,
     adMessageProps,
+    priorityEnabled,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -55,9 +57,13 @@ const postsReducer = (draftState, postsAction) => {
     case 'update-link':
       draftState[postIndex].linkId = linkId
       draftState[postIndex].linkHref = linkHref
+      draftState[postIndex].linkType = linkType
       break
     case 'update-caption':
       draftState[postIndex].adMessageProps = adMessageProps
+      break
+    case 'toggle-priority':
+      draftState[postIndex].priorityEnabled = priorityEnabled
       break
     default:
       return draftState
@@ -263,8 +269,9 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       const updatedPosts = produce(posts, draftPosts => {
         draftPosts.forEach((post) => {
           const { linkId } = post
-          if (linkId && missingLinkIds.includes(linkId)) {
+          if (linkId && missingLinkIds.includes(linkId) && post.linkType !== 'adcreative') {
             post.linkId = null
+            post.linkHref = null
           }
         })
       })

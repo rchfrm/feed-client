@@ -27,11 +27,11 @@ const BillingPaymentCard = ({
   const month = formatDate(exp_month)
   const ElWrapper = isButton ? 'button' : 'div'
   return (
-    <div className={`relative w-full max-w-md ${className}`}>
+    <div className={`relative w-full ${className}`}>
       <ElWrapper
         className={[
           'flex flex-column justify-between',
-          'w-full max-w-md iphone8:h-48',
+          'w-full iphone8:h-48',
           'bg-grey-1 rounded-dialogue p-4',
           `border-2 border-solid ${isSelected ? 'border-green' : 'border-grey-1'}`,
           className,

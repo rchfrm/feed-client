@@ -281,7 +281,7 @@ select {
 .select--arrow {
   right: var(--sp-5);
   transform: translateY(50%);
-  width: 0.45em;
+  width: 0.8em;
   .select--white + & {
     path {
       fill: var(--white);
