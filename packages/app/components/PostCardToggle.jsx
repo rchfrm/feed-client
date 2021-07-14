@@ -62,7 +62,7 @@ const PostCardToggle = ({
   }, [artistId, postId, toggleCampaign, audienceSlug])
 
   // HANDLE HOVER FOR TEASER
-  const isTeaserActive = audienceSlug === 'earn' && isFeatureEnabled
+  const isTeaserActive = audienceSlug === 'earn' && !isFeatureEnabled
 
   // HANDLE CLICK TO SHOW TEASER
   const WrapperTag = isTeaserActive ? 'button' : 'div'
