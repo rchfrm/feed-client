@@ -17,8 +17,11 @@ const runChangeState = ({ artistId, postId, promotionEnabled }) => {
   return postsHelpers.updatePost({ artistId, postId, promotionEnabled })
 }
 
-// GROWTH GRADIENT
-const growthGradient = `linear-gradient(135deg, ${brandColors.blue} 0%, ${brandColors.yellow} 100%)`
+
+// LABEL GRADIENTS
+const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
+const growthGradient = createGradient(brandColors.blue)
+const earnGradient = createGradient(brandColors.red)
 
 const PostCardToggle = ({
   audienceSlug,
@@ -85,24 +88,24 @@ const PostCardToggle = ({
             audienceSlug !== 'growth' ? 'bg-red' : null,
             disabled ? 'opacity-50' : 'opacity-100',
           ].join(' ')}
-          style={audienceSlug === 'growth' ? {
-            background: growthGradient,
-          } : null}
+          style={{
+            background: audienceSlug === 'growth' ? growthGradient : earnGradient,
+          }}
         />
         {/* TITLE */}
         <strong
           className="capitalize ml-4"
           style={{ transform: 'translate(-1px, 0px)' }}
         >
-          {audienceSlug === 'growth' ? 'Promotable' : 'Conversions'}
+          {audienceSlug === 'growth' ? 'Grow & Nurture' : 'Earn'}
         </strong>
         {/* RUNNING LABEL */}
-        {audienceSlug === 'growth' && isActive && (
+        {isActive && (
           <PostCardLabel
             copy="running"
             className="font-bold"
             style={{
-              background: growthGradient,
+              background: audienceSlug === 'growth' ? growthGradient : earnGradient,
             }}
           />
         )}
