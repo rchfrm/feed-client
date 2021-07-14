@@ -37,6 +37,12 @@ const PostCard = ({
         date={post.publishedTime}
         permalink={post.permalinkUrl}
         postType={postType}
+        postId={post.id}
+        artistId={artistId}
+        priorityEnabled={post.priorityEnabled}
+        updatePost={updatePost}
+        postIndex={postIndex}
+        promotionStatus={promotionStatus}
         className="mb-2"
       />
       <PostCardMedia

@@ -67,7 +67,7 @@ const LinkBankLink = ({
     updateControlsStore(action, { newLink: savedLink, oldLink: link })
     setLinkBankError(null)
     return { savedLink }
-  }, [])
+  }, [savedFolders])
 
   const { isDefaultLink } = link
 

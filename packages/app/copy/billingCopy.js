@@ -4,6 +4,7 @@ import * as ROUTES from '@/app/constants/routes'
 export default {
   // BILLING PAGE
   noPaymentMethods: `It looks like you haven't set up a payment method.`,
+  facebookInvoice: `You will receive a separate invoice directly from Facebook for the ad spend.`,
 
   // ADD PAYMENT METHODS
   addPaymentHeader: (success) => {
