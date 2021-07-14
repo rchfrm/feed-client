@@ -23,8 +23,6 @@ const PostCard = ({
   // Extract some variables
   const { postPromotable, promotionStatus, postType } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
-  // Should conversionVisible be hidden
-  const conversionVisible = true
   const conversionDisabled = true
   return (
     <div
@@ -68,14 +66,12 @@ const PostCard = ({
             promotionEnabled={post.promotionEnabled}
             promotionStatus={post.promotionStatus}
             togglePromotion={togglePromotion}
-            conversionVisible={conversionVisible}
             conversionDisabled={conversionDisabled}
             growthDisabled={promotionStatus === 'archived'}
           />
         ) : (
           <PostCardUnpromotable
             className="py-3 px-4 mb-2"
-            conversionVisible={conversionVisible}
           />
         )}
         <PostCardActionButtons
