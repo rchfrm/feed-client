@@ -30,7 +30,7 @@ const controlsComponents = {
   conversions: <ConversionsContent />,
 }
 
-const ControlsAll = ({ activeSlug }) => {
+const ControlsContent = ({ activeSlug }) => {
   // DESTRUCTURE CONTEXTS
   const { artistId } = React.useContext(ArtistContext)
   const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
@@ -96,12 +96,12 @@ const ControlsAll = ({ activeSlug }) => {
   )
 }
 
-ControlsAll.propTypes = {
+ControlsContent.propTypes = {
   activeSlug: PropTypes.string,
 }
 
-ControlsAll.defaultProps = {
+ControlsContent.defaultProps = {
   activeSlug: '',
 }
 
-export default ControlsAll
+export default ControlsContent
