@@ -9,7 +9,7 @@ import TrashIcon from '@/icons/TrashIcon'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import useControlsStore from '@/app/stores/controlsStore'
 
-import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
+import useCreateEditLinkBankLink from '@/app/hooks/useCreateEditLinkBankLink'
 import useForceDeleteLink from '@/app/hooks/useForceDeleteLink'
 
 import { removeProtocolFromUrl, enforceUrlProtocol } from '@/helpers/utils'
@@ -23,7 +23,7 @@ const getControlsStoreState = (state) => ({
   setLinkBankError: state.setLinkBankError,
 })
 
-const PostsLinksLink = ({
+const LinkBankLink = ({
   link,
   editModeOn,
   setEditModeOn,
@@ -31,7 +31,7 @@ const PostsLinksLink = ({
   style,
 }) => {
   // FUNCTION FOR EDITING LINKS
-  const editLink = useCreateEditPostsLink({
+  const editLink = useCreateEditLinkBankLink({
     action: 'edit',
     itemType: 'link',
     onSave: () => setEditModeOn(false),
@@ -138,7 +138,7 @@ const PostsLinksLink = ({
   )
 }
 
-PostsLinksLink.propTypes = {
+LinkBankLink.propTypes = {
   link: PropTypes.object.isRequired,
   editModeOn: PropTypes.bool.isRequired,
   setEditModeOn: PropTypes.func.isRequired,
@@ -146,10 +146,10 @@ PostsLinksLink.propTypes = {
   style: PropTypes.object,
 }
 
-PostsLinksLink.defaultProps = {
+LinkBankLink.defaultProps = {
   className: null,
   style: {},
 }
 
 
-export default PostsLinksLink
+export default LinkBankLink

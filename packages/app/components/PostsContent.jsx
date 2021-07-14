@@ -6,7 +6,6 @@ import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
 import PostSettingsButton from '@/app/PostSettingsButton'
-import PostLinksButton from '@/app/PostLinksButton'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 
 import MarkdownText from '@/elements/MarkdownText'
@@ -18,7 +17,7 @@ import styles from '@/app/PostsPage.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostsContent = () => {
-  const { goToGlobalPostSettings, goToLinksBank } = usePostsSidePanel()
+  const { goToGlobalPostSettings } = usePostsSidePanel()
 
   // Has default link been set
   const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
@@ -43,11 +42,6 @@ const PostsContent = () => {
           className={styles.postsTopButton}
           missingDefaultLink={missingDefaultLink}
           goToPostSettings={goToGlobalPostSettings}
-        />
-        {/* LINKS BUTTON */}
-        <PostLinksButton
-          className={styles.postsTopButton}
-          goToPostLinks={goToLinksBank}
         />
         {/* REFRESH BUTTON (desktop) */}
         {refreshPosts && (
