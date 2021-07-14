@@ -32,7 +32,7 @@ Been waiting a while? Check you have posts opted in for promotion in the _${inac
 
   noDefaultLinkWarning: `**You need to set the default link used in your ads before they can run.**
 
-You can _**add links**_ via the Links button below and _**set a default link**_ in Settings`,
+You can _**set a default link**_ and _**add links**_ on the [Controls](${ROUTES.CONTROLS}) page`,
 
   // POST SETTINGS
   // --------------

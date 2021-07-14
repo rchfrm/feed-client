@@ -6,8 +6,6 @@ import Button from '@/elements/Button'
 
 import PostsSettings from '@/app/PostsSettings'
 // eslint-disable-next-line
-import PostsLinks from '@/app/PostsLinks'
-// eslint-disable-next-line
 import PostCardSettings from '@/app/PostCardSettings'
 import PostCardMetrics from '@/app/PostCardMetrics'
 
@@ -27,13 +25,6 @@ const usePostsSidePanel = () => {
     setSidePanelButton(null)
     setSidePanelContent(<PostsSettings />)
     setSidePanelContentLabel('Post Settings')
-    toggleSidePanel(true)
-  }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
-  // OPEN GLOBAL POST LINKS
-  const goToLinksBank = React.useCallback(() => {
-    setSidePanelButton(null)
-    setSidePanelContent(<PostsLinks />)
-    setSidePanelContentLabel('Post Links')
     toggleSidePanel(true)
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
 
@@ -71,7 +62,6 @@ const usePostsSidePanel = () => {
 
   return {
     goToGlobalPostSettings,
-    goToLinksBank,
     goToPostSettings,
     goToPostMetrics,
   }

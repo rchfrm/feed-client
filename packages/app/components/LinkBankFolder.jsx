@@ -13,9 +13,9 @@ import {
 import FolderIcon from '@/icons/FolderIcon'
 import ArrowHeadIcon from '@/icons/ArrowHeadIcon'
 
-import PostsLinksLink from '@/app/PostsLinksLink'
+import LinkBankLink from '@/app/LinkBankLink'
 
-import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
+import useCreateEditLinkBankLink from '@/app/hooks/useCreateEditLinkBankLink'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -36,14 +36,14 @@ const FOLDER_NAME = ({ name, editModeOn }) => {
 const getLinkFolderState = (state) => state.folderStates
 const getUpdateFolderStates = (state) => state.updateFolderStates
 
-const PostsLinksFolder = ({
+const LinkBankFolder = ({
   folder,
   editModeOn,
   setEditModeOn,
   className,
 }) => {
   // FUNCTION FOR EDITING LINKS
-  const editFolder = useCreateEditPostsLink({
+  const editFolder = useCreateEditLinkBankLink({
     action: 'edit',
     itemType: 'folder',
     onSave: () => setEditModeOn(false),
@@ -131,7 +131,7 @@ const PostsLinksFolder = ({
                   const { id } = item
                   // LINK
                   return (
-                    <PostsLinksLink
+                    <LinkBankLink
                       className="ml-8 mb-3 last:mb-0"
                       style={{ paddingLeft: '0.1rem' }}
                       key={id}
@@ -150,16 +150,16 @@ const PostsLinksFolder = ({
   )
 }
 
-PostsLinksFolder.propTypes = {
+LinkBankFolder.propTypes = {
   folder: PropTypes.object.isRequired,
   editModeOn: PropTypes.bool.isRequired,
   setEditModeOn: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
-PostsLinksFolder.defaultProps = {
+LinkBankFolder.defaultProps = {
   className: null,
 }
 
 
-export default PostsLinksFolder
+export default LinkBankFolder

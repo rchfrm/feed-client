@@ -6,9 +6,9 @@ import useAsyncEffect from 'use-async-effect'
 
 import Error from '@/elements/Error'
 
-import PostsLinksList from '@/app/PostsLinksList'
+import LinkBankList from '@/app/LinkBankList'
 // eslint-disable-next-line
-import PostsLinksIntegrations from '@/app/PostsLinksIntegrations'
+import LinkBankIntegrations from '@/app/LinkBankIntegrations'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
@@ -24,7 +24,7 @@ const getControlsStoreState = (state) => ({
   linkBankError: state.linkBankError,
 })
 
-const PostsLinks = () => {
+const LinkBank = () => {
   const { fetchLinks, nestedLinks, linksLoading, linkBankError } = useControlsStore(getControlsStoreState, shallow)
   const { looseLinks, linkFolders, integrationLinks } = React.useMemo(() => {
     return splitLinks(nestedLinks)
@@ -55,7 +55,7 @@ const PostsLinks = () => {
       {!!nestedLinks.length && (
         <div>
           <section className="mb-10">
-            <PostsLinksList
+            <LinkBankList
               looseLinks={looseLinks}
               linkFolders={linkFolders}
             />
@@ -63,7 +63,7 @@ const PostsLinks = () => {
           {!!integrationLinks.length && (
             <section>
               <h3>Integration Links</h3>
-              <PostsLinksIntegrations
+              <LinkBankIntegrations
                 integrationLinks={integrationLinks}
               />
             </section>
@@ -74,11 +74,11 @@ const PostsLinks = () => {
   )
 }
 
-PostsLinks.propTypes = {
+LinkBank.propTypes = {
 }
 
-PostsLinks.defaultProps = {
+LinkBank.defaultProps = {
 }
 
 
-export default PostsLinks
+export default LinkBank

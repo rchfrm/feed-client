@@ -6,7 +6,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import useIsMounted from '@/hooks/useIsMounted'
 import useControlsStore from '@/app/stores/controlsStore'
-import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
+import useCreateEditLinkBankLink from '@/app/hooks/useCreateEditLinkBankLink'
 
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
@@ -118,7 +118,7 @@ const PostLinksSelect = ({
   const [error, setError] = React.useState(null)
 
   // SHOW ADD LINK MODAL
-  const showAddLinkModal = useCreateEditPostsLink({
+  const showAddLinkModal = useCreateEditLinkBankLink({
     action: 'add',
     location: componentLocation,
     // Set link as post link when added
