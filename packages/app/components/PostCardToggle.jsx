@@ -26,19 +26,19 @@ const PostCardToggle = ({
   audienceSlug,
   postId,
   artistId,
-  promotionEnabled,
-  togglePromotion,
+  isEnabled,
+  togglePostState,
   isActive,
   disabled,
   isFeatureEnabled,
   className,
 }) => {
   // Store INTERNAL STATE based on promotionEnabled
-  const [currentState, setCurrentState] = React.useState(promotionEnabled)
+  const [currentState, setCurrentState] = React.useState(isEnabled)
   // Update internal state when outside state changes
   React.useEffect(() => {
-    setCurrentState(promotionEnabled)
-  }, [promotionEnabled])
+    setCurrentState(isEnabled)
+  }, [isEnabled])
 
   // UPDATE ON SERVER
   const [isLoading, setIsLoading] = React.useState(false)
@@ -58,8 +58,8 @@ const PostCardToggle = ({
     // Update post list state
     const { promotion_enabled, promotable_status } = updatedPost
     // Update post list state
-    togglePromotion(postId, promotion_enabled, promotable_status, audienceSlug)
-  }, [artistId, postId, togglePromotion, audienceSlug])
+    togglePostState(postId, promotion_enabled, promotable_status, audienceSlug)
+  }, [artistId, postId, togglePostState, audienceSlug])
 
   // HANDLE HOVER FOR TEASER
   const isTeaserActive = audienceSlug === 'earn' && isFeatureEnabled
@@ -130,8 +130,8 @@ PostCardToggle.propTypes = {
   audienceSlug: PropTypes.string.isRequired,
   postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
-  promotionEnabled: PropTypes.bool.isRequired,
-  togglePromotion: PropTypes.func.isRequired,
+  isEnabled: PropTypes.bool.isRequired,
+  togglePostState: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
   isFeatureEnabled: PropTypes.bool,
