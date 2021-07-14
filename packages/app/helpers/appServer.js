@@ -147,9 +147,10 @@ export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }
  * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-export const togglePromotionEnabled = async (artistId, postId, promotionEnabled) => {
+export const togglePromotionEnabled = async (artistId, postId, promotionEnabled, audienceSlug) => {
+  console.log('toggle promotion enabled')
   const requestUrl = `/artists/${artistId}/assets/${postId}`
-  const payload = { promotion_enabled: promotionEnabled }
+  const payload = { [audienceSlug === 'growth' ? 'promotion_enabled' : 'conversions_enabled']: promotionEnabled }
   const errorTracking = {
     category: 'Posts',
     action: 'Toggle promotion enabled',

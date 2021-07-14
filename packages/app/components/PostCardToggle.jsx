@@ -13,8 +13,8 @@ import * as postsHelpers from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
 
 // CALL TO CHANGE STATE
-const runChangeState = ({ artistId, postId, promotionEnabled }) => {
-  return postsHelpers.updatePost({ artistId, postId, promotionEnabled })
+const runChangeState = ({ artistId, postId, promotionEnabled, audienceSlug }) => {
+  return postsHelpers.updatePost({ artistId, postId, promotionEnabled, audienceSlug })
 }
 
 // LABEL GRADIENTS
@@ -48,7 +48,7 @@ const PostCardToggle = ({
     setIsLoading(true)
     // Update state passed to toggle component
     setCurrentState(newState)
-    const { res: updatedPost, error } = await runChangeState({ artistId, postId, promotionEnabled: newState })
+    const { res: updatedPost, error } = await runChangeState({ artistId, postId, promotionEnabled: newState, audienceSlug })
     setIsLoading(false)
     // Return to previous value if erroring
     if (error) {
@@ -58,11 +58,11 @@ const PostCardToggle = ({
     // Update post list state
     const { promotion_enabled, promotable_status } = updatedPost
     // Update post list state
-    togglePromotion(postId, promotion_enabled, promotable_status)
-  }, [artistId, postId, togglePromotion])
+    togglePromotion(postId, promotion_enabled, promotable_status, audienceSlug)
+  }, [artistId, postId, togglePromotion, audienceSlug])
 
   // HANDLE HOVER FOR TEASER
-  const isTeaserActive = audienceSlug === 'conversion' && isFeatureEnabled
+  const isTeaserActive = audienceSlug === 'earn' && isFeatureEnabled
 
   // HANDLE CLICK TO SHOW TEASER
   const WrapperTag = isTeaserActive ? 'button' : 'div'
@@ -85,7 +85,6 @@ const PostCardToggle = ({
         <div
           className={[
             'w-4 h-4 rounded-full',
-            audienceSlug !== 'growth' ? 'bg-red' : null,
             disabled ? 'opacity-50' : 'opacity-100',
           ].join(' ')}
           style={{

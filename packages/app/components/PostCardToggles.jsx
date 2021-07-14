@@ -7,8 +7,9 @@ const PostCardToggles = ({
   postId,
   artistId,
   growthDisabled,
-  conversionsDisabled,
   conversionsFeatureEnabled,
+  conversionsToggleDisabled,
+  conversionsEnabled,
   promotionEnabled,
   promotionStatus,
   togglePromotion,
@@ -34,12 +35,12 @@ const PostCardToggles = ({
       />
       {/* CONVERSION TOGGLE */}
       <PostCardToggle
-        audienceSlug="conversion"
+        audienceSlug="earn"
         postId={postId}
         artistId={artistId}
-        promotionEnabled={false}
+        promotionEnabled={conversionsEnabled}
         togglePromotion={togglePromotion}
-        disabled={conversionsDisabled}
+        disabled={conversionsToggleDisabled}
         isFeatureEnabled={conversionsFeatureEnabled}
         isActive={false}
         className={togglesClassName}
@@ -52,8 +53,9 @@ PostCardToggles.propTypes = {
   postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
   growthDisabled: PropTypes.bool,
-  conversionsDisabled: PropTypes.bool.isRequired,
+  conversionsToggleDisabled: PropTypes.bool.isRequired,
   conversionsFeatureEnabled: PropTypes.bool.isRequired,
+  conversionsEnabled: PropTypes.bool.isRequired,
   promotionEnabled: PropTypes.bool,
   promotionStatus: PropTypes.string.isRequired,
   togglePromotion: PropTypes.func.isRequired,

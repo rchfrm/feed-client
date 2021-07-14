@@ -49,6 +49,10 @@ const postsReducer = (draftState, postsAction) => {
       draftState[postIndex].promotionEnabled = promotionEnabled
       draftState[postIndex].promotableStatus = promotableStatus
       break
+    case 'toggle-conversion':
+      draftState[postIndex].conversionEnabled = promotionEnabled
+      draftState[postIndex].conversionStatus = promotableStatus
+      break
     case 'toggle-promotion-global':
       draftState.forEach((post) => {
         post.promotionEnabled = promotionEnabled
@@ -190,12 +194,12 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   const [postToggleSetterType, setPostToggleSetterType] = React.useState('')
 
   // Define function for toggling SINGLE promotion
-  const togglePromotion = React.useCallback(async (postId, promotionEnabled, promotableStatus) => {
+  const togglePromotion = React.useCallback(async (postId, promotionEnabled, promotableStatus, audienceSlug) => {
     const postIndex = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotionEnabled
     setPostToggleSetterType('single')
     setPosts({
-      type: 'toggle-promotion',
+      type: audienceSlug === 'growth' ? 'toggle-promotion' : 'toggle-conversion',
       payload: {
         promotionEnabled,
         promotableStatus,

@@ -77,10 +77,11 @@ const PostCard = ({
             className="mb-2"
             promotionEnabled={post.promotionEnabled}
             promotionStatus={post.promotionStatus}
-            togglePromotion={togglePromotion}
-            conversionsDisabled={!conversionsEnabled || !canRunConversions}
-            conversionsFeatureEnabled={conversionsFeatureEnabled}
             growthDisabled={promotionStatus === 'archived'}
+            conversionsFeatureEnabled={conversionsFeatureEnabled}
+            conversionsToggleDisabled={!conversionsEnabled || !canRunConversions}
+            conversionsEnabled={post.conversionsEnabled}
+            togglePromotion={togglePromotion}
           />
         ) : (
           <PostCardUnpromotable
