@@ -27,7 +27,7 @@ const PostCardToggle = ({
   postId,
   artistId,
   isEnabled,
-  togglePostState,
+  toggleCampaign,
   isActive,
   disabled,
   isFeatureEnabled,
@@ -58,8 +58,8 @@ const PostCardToggle = ({
     // Update post list state
     const { promotion_enabled, promotable_status } = updatedPost
     // Update post list state
-    togglePostState(postId, promotion_enabled, promotable_status, audienceSlug)
-  }, [artistId, postId, togglePostState, audienceSlug])
+    toggleCampaign(postId, promotion_enabled, promotable_status, audienceSlug)
+  }, [artistId, postId, toggleCampaign, audienceSlug])
 
   // HANDLE HOVER FOR TEASER
   const isTeaserActive = audienceSlug === 'earn' && isFeatureEnabled
@@ -131,7 +131,7 @@ PostCardToggle.propTypes = {
   postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
-  togglePostState: PropTypes.func.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
   isFeatureEnabled: PropTypes.bool,

@@ -26,7 +26,7 @@ const PostCardDisableWarning = ({
   paidEs,
   promotionEnabled,
   promotableStatus,
-  togglePromotion,
+  toggleCampaign,
   postToggleSetterType,
   artistId,
   textClassName,
@@ -71,7 +71,7 @@ const PostCardDisableWarning = ({
       if (error) return
       // Update post list state
       const { promotion_enabled, promotable_status } = postUpdated
-      togglePromotion(postId, promotion_enabled, promotable_status)
+      toggleCampaign(postId, promotion_enabled, promotable_status)
     },
   })
   return (
@@ -142,7 +142,7 @@ PostCardDisableWarning.propTypes = {
   paidEs: PropTypes.number,
   promotionEnabled: PropTypes.bool.isRequired,
   promotableStatus: PropTypes.number.isRequired,
-  togglePromotion: PropTypes.func.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string,
   artistId: PropTypes.string.isRequired,
   textClassName: PropTypes.string,

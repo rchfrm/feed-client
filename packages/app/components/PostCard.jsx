@@ -13,7 +13,7 @@ const PostCard = ({
   post,
   postIndex,
   updatePost,
-  togglePromotion,
+  toggleCampaign,
   postToggleSetterType,
   isMissingDefaultLink,
   artistId,
@@ -62,7 +62,7 @@ const PostCard = ({
             post={post}
             togglesClassName="py-2 px-4 mb-2 last:mb-0"
             className="mb-2"
-            togglePromotion={togglePromotion}
+            toggleCampaign={toggleCampaign}
           />
         ) : (
           <PostCardUnpromotable
@@ -87,7 +87,7 @@ const PostCard = ({
             postStatus={post.promotionStatus}
             promotionEnabled={post.promotionEnabled}
             promotableStatus={post.promotableStatus}
-            togglePromotion={togglePromotion}
+            toggleCampaign={toggleCampaign}
             postToggleSetterType={postToggleSetterType}
             artistId={artistId}
             textClassName="py-3 px-4"
@@ -103,7 +103,7 @@ const PostCard = ({
 PostCard.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
-  togglePromotion: PropTypes.func.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
   artistId: PropTypes.string.isRequired,

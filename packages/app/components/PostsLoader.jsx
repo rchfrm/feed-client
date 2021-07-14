@@ -193,8 +193,8 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   // (single or batch)
   const [postToggleSetterType, setPostToggleSetterType] = React.useState('')
 
-  // Define function for toggling SINGLE promotion
-  const togglePromotion = React.useCallback(async (postId, promotionEnabled, promotableStatus, audienceSlug) => {
+  // Define function for toggling SINGLE promotion campaign or conversions campaign
+  const toggleCampaign = React.useCallback(async (postId, promotionEnabled, promotableStatus, audienceSlug = 'growth') => {
     const postIndex = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotionEnabled
     setPostToggleSetterType('single')
@@ -212,6 +212,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       status: newPromotionState ? 'eligible' : 'ineligible',
       postType,
       platform,
+      audienceSlug,
       es: paidMetrics.engagementScore ?? organicMetrics.engagementScore,
     })
     return newPromotionState
@@ -320,7 +321,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         visiblePost={visiblePost}
         setVisiblePost={setVisiblePost}
         updatePost={updatePost}
-        togglePromotion={togglePromotion}
+        toggleCampaign={toggleCampaign}
         postToggleSetterType={postToggleSetterType}
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}

@@ -16,7 +16,7 @@ const getControlsStoreState = (state) => ({
 const PostCardToggles = ({
   artistId,
   post,
-  togglePromotion,
+  toggleCampaign,
   togglesClassName,
   className,
 }) => {
@@ -43,7 +43,7 @@ const PostCardToggles = ({
         postId={postId}
         artistId={artistId}
         isEnabled={promotionEnabled}
-        togglePostState={togglePromotion}
+        toggleCampaign={toggleCampaign}
         disabled={promotionStatus === 'archived'}
         isActive={promotionStatus === 'active'}
         className={togglesClassName}
@@ -54,7 +54,7 @@ const PostCardToggles = ({
         postId={postId}
         artistId={artistId}
         isEnabled={conversionsEnabled}
-        togglePostState={togglePromotion}
+        toggleCampaign={toggleCampaign}
         disabled={!globalConversionsEnabled || !canRunConversions || 'archived'}
         isActive={promotionStatus === 'active'}
         className={togglesClassName}
@@ -67,7 +67,7 @@ const PostCardToggles = ({
 PostCardToggles.propTypes = {
   artistId: PropTypes.string.isRequired,
   post: PropTypes.string.isRequired,
-  togglePromotion: PropTypes.func.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   togglesClassName: PropTypes.string,
   className: PropTypes.string,
 }
