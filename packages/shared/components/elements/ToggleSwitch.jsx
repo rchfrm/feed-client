@@ -31,6 +31,7 @@ const ToggleSwitch = ({
   const cssSetter = React.useRef(null)
   const dragBoundaries = React.useRef({})
 
+  // Setup sizes on mount but await dimensions changes which might cause miscalculations
   const observer = React.useRef(
     new ResizeObserver(entries => {
       const { width: containerWidth } = entries[0].contentRect
@@ -47,10 +48,16 @@ const ToggleSwitch = ({
     }),
   )
 
+  // Start observing container and switch element dimension changes
   React.useEffect(() => {
+    const observerRef = observer.current
+    const refElements = [containerEl.current, switchEl.current]
+
     if (containerEl.current && switchEl.current) {
-      observer.current.observe(containerEl.current)
-      observer.current.observe(switchEl.current)
+      refElements.forEach((refElement) => observerRef.observe(refElement))
+    }
+    return () => {
+      refElements.forEach((refElement) => observerRef.unobserve(refElement))
     }
   }, [observer])
 
