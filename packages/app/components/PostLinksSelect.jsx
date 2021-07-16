@@ -261,7 +261,7 @@ PostLinksSelect.propTypes = {
   label: PropTypes.string,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  isPostActive: PropTypes.bool.isRequired,
+  isPostActive: PropTypes.bool,
 }
 
 PostLinksSelect.defaultProps = {
@@ -279,6 +279,7 @@ PostLinksSelect.defaultProps = {
   label: '',
   className: '',
   disabled: false,
+  isPostActive: false,
 }
 
 export default PostLinksSelect

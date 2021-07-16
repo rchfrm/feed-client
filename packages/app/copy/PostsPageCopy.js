@@ -36,8 +36,6 @@ You can _**set a default link**_ and _**add links**_ on the [Controls](${ROUTES.
 
   // POST SETTINGS
   // --------------
-  globalToggleIntro: `Should all posts be opted-in for promotion by default?`,
-
   globalConnectionsIntro: `Add the links that you'd like to use in your ads.
 
 Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also enable **Feed** to track the number of followers you have on the Insights page. `,
@@ -63,10 +61,6 @@ Do you want to continue?`,
   postStatusConfirmation: `Ads created from this post will soon stop running to all audiences.
 
   This post will not be eligible to run as an ad in the future.`,
-
-  defaultLinkIntro: `By default, which link should be used in ads? This determines where people go when they click one of your ads.`,
-
-  facebookPixelIntro: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,
 
   // FILTER TOOLTIPS
   // ----------------
@@ -158,19 +152,6 @@ If you delete it, the post will revert to using the default link. Are you sure y
     
     Are you sure you want to continue?`
   },
-
-  integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-
-  // LINK TRACKING
-  linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `UTM parameters are automatically added to the links used in your ads. This means you can track how many people Feed is sending to your website, and what they do when they get there.
-
-Here's an example of what a link will look like:
-
-> _${defaultLink}?utm_source=feed&utm_medium=social_
-
-Soon we'll be letting you track this within the Feed platform, but if you already have access to Google Analytics for the website(s) your ads link to, you can view information about the people visiting via Feed's ads by going to Acquisition > All Traffic > Source/Medium.
-`,
-
 
   checkSaveAsIntegration: (platform) => {
     const intro = `It looks like you're trying to add an integration link.`

@@ -58,6 +58,7 @@ const ConversionsWizardCallToActionStep = () => {
         <CallToActionSelector
           callToAction={callToAction}
           setCallToAction={setCallToAction}
+          label="Call to Action"
         />
         <Button
           type="submit"
