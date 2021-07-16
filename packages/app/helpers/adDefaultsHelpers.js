@@ -16,7 +16,7 @@ export const getCallToActions = async () => {
 
 // CALL TO ACTION
 /**
- * @param {string} linartistId
+ * @param {string} artistId
  * @param {string} callToAction
  * @returns {Promise<any>}
  */
