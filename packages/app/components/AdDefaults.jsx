@@ -9,8 +9,8 @@ import AdSettingsSection from '@/app/AdSettingsSection'
 import AdDefaultsStatus from '@/app/AdDefaultsStatus'
 import AdDefaultsLink from '@/app/AdDefaultsLink'
 import AdDefaultsLinkTracking from '@/app/AdDefaultsLinkTracking'
+import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
 import CallToActionSelector from '@/app/CallToActionSelector'
-import PostSettingsPixelSelector from '@/app/PostSettingsPixelSelector'
 // IMPORT COPY
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -26,7 +26,7 @@ const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
 })
 
-const PostsSettings = () => {
+const AdDefaults = () => {
   // Get context values
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
   // Get store values
@@ -90,7 +90,7 @@ const PostsSettings = () => {
           header="Facebook Pixel"
           copy={copy.facebookPixelIntro}
         >
-          <PostSettingsPixelSelector />
+          <AdDefaultsPixelSelector />
         </AdSettingsSection>
         {/* LINK TRACKING */}
         <AdSettingsSection
@@ -103,4 +103,4 @@ const PostsSettings = () => {
   )
 }
 
-export default PostsSettings
+export default AdDefaults

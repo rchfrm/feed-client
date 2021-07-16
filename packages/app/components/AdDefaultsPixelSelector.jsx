@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import PixelSelector from '@/app/PixelSelector'
 
-const PostSettingsPixelSelector = ({
+const AdDefaultsPixelSelector = ({
   className,
 }) => {
   const [activePixelId, setActivePixelId] = React.useState('')
@@ -36,12 +36,12 @@ const PostSettingsPixelSelector = ({
   )
 }
 
-PostSettingsPixelSelector.propTypes = {
+AdDefaultsPixelSelector.propTypes = {
   className: PropTypes.string,
 }
 
-PostSettingsPixelSelector.defaultProps = {
+AdDefaultsPixelSelector.defaultProps = {
   className: null,
 }
 
-export default PostSettingsPixelSelector
+export default AdDefaultsPixelSelector

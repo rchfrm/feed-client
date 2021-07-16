@@ -7,7 +7,7 @@ import { removeProtocolFromUrl } from '@/helpers/utils'
 
 import copy from '@/app/copy/controlsPageCopy'
 
-const PostsSettingsLinkTracking = ({ defaultLink }) => {
+const adDefaultsLinkTracking = ({ defaultLink }) => {
   const { href: defaultLinkHref = '' } = defaultLink
   const previewLink = defaultLinkHref ? removeProtocolFromUrl(defaultLinkHref) : 'example.com'
   return (
@@ -15,13 +15,13 @@ const PostsSettingsLinkTracking = ({ defaultLink }) => {
   )
 }
 
-PostsSettingsLinkTracking.propTypes = {
+adDefaultsLinkTracking.propTypes = {
   defaultLink: PropTypes.object,
 }
 
-PostsSettingsLinkTracking.defaultProps = {
+adDefaultsLinkTracking.defaultProps = {
   defaultLink: {},
 }
 
 
-export default PostsSettingsLinkTracking
+export default adDefaultsLinkTracking

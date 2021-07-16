@@ -10,7 +10,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
 import { parseUrl } from '@/helpers/utils'
 
-const PostsSettingsDefaultLink = ({
+const AdDefaultsLink = ({
   defaultLink,
   setPostPreferences,
   className,
@@ -59,15 +59,15 @@ const PostsSettingsDefaultLink = ({
   )
 }
 
-PostsSettingsDefaultLink.propTypes = {
+AdDefaultsLink.propTypes = {
   defaultLink: PropTypes.object.isRequired,
   setPostPreferences: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
-PostsSettingsDefaultLink.defaultProps = {
+AdDefaultsLink.defaultProps = {
   className: null,
 }
 
 
-export default PostsSettingsDefaultLink
+export default AdDefaultsLink
