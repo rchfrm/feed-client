@@ -20,17 +20,31 @@ import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const getTogglePromotionGlobal = state => state.togglePromotionGlobal
 
+const getControlsStoreState = (state) => ({
+  defaultLink: state.defaultLink,
+  postsPreferences: state.postsPreferences,
+  updatePreferences: state.updatePreferences,
+})
+
 const PostsSettings = () => {
-  // GET CONTEXTS
-  const [callToAction, setCallToAction] = React.useState('')
+  // Get context values
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
-  const defaultLink = useControlsStore(React.useCallback((state) => state.defaultLink, []))
+  // Get store values
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
+  const { defaultLink, postsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
+  const { callToAction: currentCallToAction } = postsPreferences
+  // Set local state
+  const [callToAction, setCallToAction] = React.useState(currentCallToAction)
 
   const handleSuccess = (newCallToAction) => {
-    // Update state
-    console.log(newCallToAction)
+    setCallToAction(newCallToAction)
+    // Update store value
+    updatePreferences(
+      'postsPreferences',
+      { callToAction: newCallToAction },
+    )
   }
+
   return (
     <div>
       <h2 className={sidePanelStyles.SidePanel__Header}>Ad Defaults</h2>

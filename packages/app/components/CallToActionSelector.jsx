@@ -20,7 +20,7 @@ const CallToActionSelector = ({
   shouldSaveOnChange,
 }) => {
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
   const { artistId } = React.useContext(ArtistContext)
 
@@ -30,6 +30,7 @@ const CallToActionSelector = ({
     const { res: callToActions } = await getCallToActions()
     const options = callToActions.map(({ id, name }) => ({ name, value: id }))
     setCallToActionOptions(options)
+    setLoading(false)
   }, [])
 
   const handleSelect = React.useCallback(async (e) => {
@@ -40,21 +41,17 @@ const CallToActionSelector = ({
       return
     }
     setLoading(true)
-    // Run server
+    // Make API request
     const { res: { preferences }, error } = await onSelect(artistId, selectedOptionValue)
     // Handle error
     if (error) {
-      // Reset value if error
-      // setSelectedOptionValue(currentLinkId)
       setError(error)
       return
     }
-    // Success
+    // Handle success
     onSuccess(preferences.posts.call_to_action)
     setError(null)
     setLoading(false)
-    // Set state in parent component
-    setCallToAction(preferences.posts.call_to_action)
   }, [callToActionOptions, setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess])
 
   React.useEffect(() => {

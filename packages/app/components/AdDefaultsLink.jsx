@@ -34,7 +34,7 @@ const PostsSettingsDefaultLink = ({
   return (
     <div
       className={[
-        'block relative pr-3',
+        'block relative',
         className,
       ].join(' ')}
     >

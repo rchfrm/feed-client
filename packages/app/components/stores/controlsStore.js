@@ -271,8 +271,8 @@ const updatePreferences = (set, get) => (type, preferences) => {
     })
   })
   set({ [type]: newState })
-  set({ canRunConversions: canRunConversionCampaigns() })
   if (type === 'conversionsPreferences') {
+    set({ canRunConversions: canRunConversionCampaigns() })
     set({ conversionsEnabled: canRunConversionCampaigns() })
   }
 }
