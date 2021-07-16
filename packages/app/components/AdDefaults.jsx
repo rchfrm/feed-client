@@ -14,16 +14,23 @@ import PostSettingsPixelSelector from '@/app/PostSettingsPixelSelector'
 // IMPORT COPY
 import copy from '@/app/copy/controlsPageCopy'
 
+import { setDefaultCallToAction } from '@/app/helpers/linksHelpers'
+
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const getTogglePromotionGlobal = state => state.togglePromotionGlobal
 
 const PostsSettings = () => {
   // GET CONTEXTS
+  const [callToAction, setCallToAction] = React.useState('')
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
   const defaultLink = useControlsStore(React.useCallback((state) => state.defaultLink, []))
-  const [callToAction, setCallToAction] = React.useState('')
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
+
+  const handleSuccess = (newCallToAction) => {
+    // Update state
+    console.log(newCallToAction)
+  }
   return (
     <div>
       <h2 className={sidePanelStyles.SidePanel__Header}>Ad Defaults</h2>
@@ -57,8 +64,11 @@ const PostsSettings = () => {
           copy={copy.defaultCallToActionIntro}
         >
           <CallToActionSelector
+            onSelect={setDefaultCallToAction}
+            onSuccess={handleSuccess}
             callToAction={callToAction}
             setCallToAction={setCallToAction}
+            shouldSaveOnChange
           />
         </AdSettingsSection>
         {/* FB PIXEL */}

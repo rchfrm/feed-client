@@ -4,6 +4,7 @@ import * as utils from '@/helpers/utils'
 import { getPostLinkData } from '@/app/helpers/postsHelpers'
 import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
+import * as api from '@/helpers/api'
 
 // * UTILS
 // ------------
@@ -126,6 +127,21 @@ export const setDefaultLink = async (artistId, linkId) => {
   return server.setLinkAsDefault(artistId, linkId)
 }
 
+// CALL TO ACTION
+/**
+ * @param {string} linartistId
+ * @param {string} callToAction
+ * @returns {Promise<any>}
+ */
+export const setDefaultCallToAction = async (artistId, callToAction) => {
+  const endpoint = `/artists/${artistId}`
+  const payload = { preferences: { posts: { call_to_action: callToAction } } }
+  const errorTracking = {
+    category: 'Ad Defaults',
+    action: 'Set global call to action',
+  }
+  return api.requestWithCatch('patch', endpoint, payload, errorTracking)
+}
 
 // LINKS ON A POST
 /**

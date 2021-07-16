@@ -3,17 +3,26 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import Select from '@/elements/Select'
+import Error from '@/elements/Error'
+
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import { getCallToActions } from '@/app/helpers/conversionsHelpers'
 
 const CallToActionSelector = ({
+  onSelect,
+  onSuccess,
   callToAction,
   setCallToAction,
   className,
   label,
   disabled,
+  shouldSaveOnChange,
 }) => {
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
+  const { artistId } = React.useContext(ArtistContext)
 
   // Get all call to actions and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
@@ -23,11 +32,30 @@ const CallToActionSelector = ({
     setCallToActionOptions(options)
   }, [])
 
-  const handleSelect = React.useCallback((e) => {
-    const callToActionOption = callToActionOptions.find(({ value }) => value === e.target.value)
+  const handleSelect = React.useCallback(async (e) => {
+    const selectedOptionValue = callToActionOptions.find(({ value }) => value === e.target.value).value
+    // Skip API request and only update parent call to action value
+    if (!shouldSaveOnChange) {
+      setCallToAction(selectedOptionValue)
+      return
+    }
+    setLoading(true)
+    // Run server
+    const { res: { preferences }, error } = await onSelect(artistId, selectedOptionValue)
+    // Handle error
+    if (error) {
+      // Reset value if error
+      // setSelectedOptionValue(currentLinkId)
+      setError(error)
+      return
+    }
+    // Success
+    onSuccess(preferences.posts.call_to_action)
+    setError(null)
+    setLoading(false)
     // Set state in parent component
-    setCallToAction(callToActionOption.value)
-  }, [callToActionOptions, setCallToAction])
+    setCallToAction(preferences.posts.call_to_action)
+  }, [callToActionOptions, setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess])
 
   React.useEffect(() => {
     if (!callToAction) {
@@ -37,7 +65,11 @@ const CallToActionSelector = ({
 
   return (
     <div className={className}>
+      {error && (
+        <Error error={error} />
+      )}
       <Select
+        loading={loading}
         handleChange={handleSelect}
         name="call_to_Action"
         label={label}
@@ -50,18 +82,24 @@ const CallToActionSelector = ({
 }
 
 CallToActionSelector.propTypes = {
+  onSelect: PropTypes.func,
+  onSuccess: PropTypes.func,
   callToAction: PropTypes.string,
   setCallToAction: PropTypes.func.isRequired,
   className: PropTypes.string,
   label: PropTypes.string,
   disabled: PropTypes.bool,
+  shouldSaveOnChange: PropTypes.bool,
 }
 
 CallToActionSelector.defaultProps = {
+  onSelect: () => {},
+  onSuccess: () => {},
   callToAction: '',
   className: '',
   label: '',
   disabled: false,
+  shouldSaveOnChange: false,
 }
 
 export default CallToActionSelector
