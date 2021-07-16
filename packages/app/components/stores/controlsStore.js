@@ -135,8 +135,8 @@ const canRunConversionCampaigns = (set, get) => () => {
 
 // * DEFAULT LINK
 const getDefaultLink = ({ linkFolders, artist, linkId }) => {
-  const { defaultLink } = getPreferences(artist, 'posts')
-  const defaultLinkId = linkId || defaultLink
+  const { defaultLinkId: id } = getPreferences(artist, 'posts')
+  const defaultLinkId = linkId || id
   return linksHelpers.getLinkById(linkFolders, defaultLinkId) || {}
 }
 

@@ -35,7 +35,7 @@ const PostsContent = () => {
         />
       )}
       {/* BUTTONS */}
-      <div className="relative iphone8:flex justify-start mb-6 iphone8:mb-10">
+      <div className="relative iphone8:flex justify-start">
         {/* REFRESH BUTTON (desktop) */}
         {refreshPosts && (
           <PostsRefreshButton
@@ -45,7 +45,7 @@ const PostsContent = () => {
               'absolute right-0 bottom-0 mb-8',
               'iphone8:static iphone8:-mb-1',
             ].join(' ')}
-            style={{ transform: 'translateY(5rem)' }}
+            style={{ transform: 'translateY(1.5rem)' }}
           />
         )}
       </div>

@@ -10,20 +10,29 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
 import { parseUrl } from '@/helpers/utils'
 
+const getControlsStoreState = (state) => ({
+  updateControlsStore: state.updateControlsStore,
+  updatePreferences: state.updatePreferences,
+})
+
 const AdDefaultsLink = ({
   defaultLink,
   setPostPreferences,
   className,
 }) => {
-  const updateControlsStore = useControlsStore(state => state.updateControlsStore)
+  const { updateControlsStore, updatePreferences } = useControlsStore(getControlsStoreState)
   const { id: defaultLinkId } = defaultLink
   const hasDefaultLink = !!defaultLinkId
 
   const onSuccess = React.useCallback((newArtist) => {
-    // UPDATE STORE
-    const newDefaultLink = updateControlsStore('chooseNewDefaultLink', { newArtist })
-    // Update artist status
     const { preferences: { posts: { default_link_id } } } = newArtist
+    // Update controls store
+    const newDefaultLink = updateControlsStore('chooseNewDefaultLink', { newArtist })
+    updatePreferences(
+      'postsPreferences',
+      { defaultLinkId: default_link_id },
+    )
+    // Update artist status
     setPostPreferences('default_link_id', default_link_id)
     // TRACK
     const { host: linkDomain } = parseUrl(newDefaultLink.href)
