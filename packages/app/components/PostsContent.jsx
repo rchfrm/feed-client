@@ -5,7 +5,6 @@ import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
-import PostSettingsButton from '@/app/PostSettingsButton'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 
 import MarkdownText from '@/elements/MarkdownText'
@@ -37,12 +36,6 @@ const PostsContent = () => {
       )}
       {/* BUTTONS */}
       <div className="relative iphone8:flex justify-start mb-6 iphone8:mb-10">
-        {/* POST SETTINGS BUTTON */}
-        <PostSettingsButton
-          className={styles.postsTopButton}
-          missingDefaultLink={missingDefaultLink}
-          goToPostSettings={goToGlobalPostSettings}
-        />
         {/* REFRESH BUTTON (desktop) */}
         {refreshPosts && (
           <PostsRefreshButton

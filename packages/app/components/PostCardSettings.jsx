@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Error from '@/elements/Error'
 import Button from '@/elements/Button'
 
-import PostsSettingsSection from '@/app/PostsSettingsSection'
+import AdSettingsSection from '@/app/AdSettingsSection'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
 import PostCardEditCaption from '@/app/PostCardEditCaption'
 // eslint-disable-next-line
@@ -66,7 +66,7 @@ const PostCardSettings = ({
           {/* ERROR */}
           <Error error={error} />
           {/* SETTINGS SECTION */}
-          <PostsSettingsSection
+          <AdSettingsSection
             header="Link"
             copy={copy.postLinkSetting}
           >
@@ -80,9 +80,9 @@ const PostCardSettings = ({
               linkType={linkType}
               setError={setError}
             />
-          </PostsSettingsSection>
+          </AdSettingsSection>
           {/* EDIT MESSAGE */}
-          <PostsSettingsSection
+          <AdSettingsSection
             header="Caption"
             copy={noCaptionEditExcuse || copy.editCaption}
             copyClassName={noCaptionEditExcuse && 'text-red'}
@@ -93,7 +93,7 @@ const PostCardSettings = ({
               updatePost={updatePost}
               isEditable={!noCaptionEditExcuse}
             />
-          </PostsSettingsSection>
+          </AdSettingsSection>
         </>
       )}
     </div>

@@ -5,10 +5,10 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
 import usePostsStore from '@/app/stores/postsStore'
 // IMPORT COMPONENTS
-import PostsSettingsSection from '@/app/PostsSettingsSection'
-import PostsSettingsDefaultStatus from '@/app/PostsSettingsDefaultStatus'
-import PostsSettingsDefaultLink from '@/app/PostsSettingsDefaultLink'
-import PostsSettingsLinkTracking from '@/app/PostsSettingsLinkTracking'
+import AdSettingsSection from '@/app/AdSettingsSection'
+import AdDefaultsStatus from '@/app/AdDefaultsStatus'
+import AdDefaultsLink from '@/app/AdDefaultsLink'
+import AdDefaultsLinkTracking from '@/app/AdDefaultsLinkTracking'
 import PostSettingsPixelSelector from '@/app/PostSettingsPixelSelector'
 // IMPORT COPY
 import copy from '@/app/copy/PostsPageCopy'
@@ -24,44 +24,44 @@ const PostsSettings = () => {
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   return (
     <div>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Global Post Settings</h2>
+      <h2 className={sidePanelStyles.SidePanel__Header}>Ad Defaults</h2>
       <div className="content">
         {/* GLOBAL POST STATUS */}
-        <PostsSettingsSection
+        <AdSettingsSection
           header="Default Status"
           copy={copy.globalToggleIntro}
         >
-          <PostsSettingsDefaultStatus
+          <AdDefaultsStatus
             artist={artist}
             artistId={artistId}
             setPostPreferences={setPostPreferences}
             togglePromotionGlobal={togglePromotionGlobal}
           />
-        </PostsSettingsSection>
+        </AdSettingsSection>
         {/* DEFAULT LINK */}
-        <PostsSettingsSection
+        <AdSettingsSection
           header="Default Link"
           copy={copy.defaultLinkIntro}
         >
-          <PostsSettingsDefaultLink
+          <AdDefaultsLink
             className="mb-8"
             defaultLink={defaultLink}
             setPostPreferences={setPostPreferences}
           />
-        </PostsSettingsSection>
+        </AdSettingsSection>
         {/* FB PIXEL */}
-        <PostsSettingsSection
+        <AdSettingsSection
           header="Facebook Pixel"
           copy={copy.facebookPixelIntro}
         >
           <PostSettingsPixelSelector />
-        </PostsSettingsSection>
+        </AdSettingsSection>
         {/* LINK TRACKING */}
-        <PostsSettingsSection
+        <AdSettingsSection
           header="UTM parameters & tracking"
         >
-          <PostsSettingsLinkTracking defaultLink={defaultLink} />
-        </PostsSettingsSection>
+          <AdDefaultsLinkTracking defaultLink={defaultLink} />
+        </AdSettingsSection>
       </div>
     </div>
   )

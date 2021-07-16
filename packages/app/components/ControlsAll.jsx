@@ -10,6 +10,7 @@ import ConversionsContent from '@/app/ConversionsContent'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 import IntegrationsPanel from '@/app/IntegrationsPanel'
 import LinkBank from '@/app/LinkBank'
+import AdDefaults from '@/app/AdDefaults'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -26,7 +27,7 @@ const controlsComponents = {
   targeting: <h2>Targeting</h2>,
   links: <LinkBank />,
   integrations: <IntegrationsPanel />,
-  ads: <h2>Ad Defaults</h2>,
+  ads: <AdDefaults />,
   conversions: <ConversionsContent />,
 }
 
