@@ -7,7 +7,7 @@ import Error from '@/elements/Error'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { getCallToActions } from '@/app/helpers/conversionsHelpers'
+import { getCallToActions } from '@/app/helpers/adDefaultsHelpers'
 
 const CallToActionSelector = ({
   onSelect,

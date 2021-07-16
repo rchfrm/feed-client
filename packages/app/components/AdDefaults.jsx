@@ -14,7 +14,7 @@ import CallToActionSelector from '@/app/CallToActionSelector'
 // IMPORT COPY
 import copy from '@/app/copy/controlsPageCopy'
 
-import { setDefaultCallToAction } from '@/app/helpers/linksHelpers'
+import { setDefaultCallToAction } from '@/app/helpers/adDefaultsHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 

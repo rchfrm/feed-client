@@ -127,22 +127,6 @@ export const setDefaultLink = async (artistId, linkId) => {
   return server.setLinkAsDefault(artistId, linkId)
 }
 
-// CALL TO ACTION
-/**
- * @param {string} linartistId
- * @param {string} callToAction
- * @returns {Promise<any>}
- */
-export const setDefaultCallToAction = async (artistId, callToAction) => {
-  const endpoint = `/artists/${artistId}`
-  const payload = { preferences: { posts: { call_to_action: callToAction } } }
-  const errorTracking = {
-    category: 'Ad Defaults',
-    action: 'Set global call to action',
-  }
-  return api.requestWithCatch('patch', endpoint, payload, errorTracking)
-}
-
 // LINKS ON A POST
 /**
  * @param {string} linkId
