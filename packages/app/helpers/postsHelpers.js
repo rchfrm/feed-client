@@ -284,3 +284,19 @@ export const setPostPriority = ({ artistId, assetId, priorityEnabled }) => {
   }
   return requestWithCatch('post', endpoint, payload, errorTracking)
 }
+
+// UPDATE POST CALL TO ACTION
+export const setPostCallToAction = (artistId, callToAction, assetId, campaignType) => {
+  const endpoint = `/artists/${artistId}/assets/${assetId}/call_to_actions`
+  const payload = {
+    call_to_action: callToAction,
+    options: campaignType ? {
+      campaign_group_type: campaignType,
+    } : null,
+  }
+  const errorTracking = {
+    category: 'Post call to action',
+    action: 'Set link as post link',
+  }
+  return requestWithCatch('patch', endpoint, payload, errorTracking)
+}

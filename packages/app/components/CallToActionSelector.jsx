@@ -14,6 +14,8 @@ const CallToActionSelector = ({
   onSuccess,
   callToAction,
   setCallToAction,
+  postId,
+  campaignType,
   className,
   label,
   disabled,
@@ -42,7 +44,7 @@ const CallToActionSelector = ({
     }
     setLoading(true)
     // Make API request
-    const { res: { preferences }, error } = await onSelect(artistId, selectedOptionValue)
+    const { res: { preferences }, error } = await onSelect(artistId, selectedOptionValue, postId, campaignType)
     // Handle error
     if (error) {
       setError(error)
@@ -52,7 +54,7 @@ const CallToActionSelector = ({
     onSuccess(preferences.posts.call_to_action)
     setError(null)
     setLoading(false)
-  }, [callToActionOptions, setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess])
+  }, [callToActionOptions, setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess, postId, campaignType])
 
   React.useEffect(() => {
     if (!callToAction) {
@@ -83,6 +85,8 @@ CallToActionSelector.propTypes = {
   onSuccess: PropTypes.func,
   callToAction: PropTypes.string,
   setCallToAction: PropTypes.func.isRequired,
+  postId: PropTypes.string,
+  campaignType: PropTypes.string,
   className: PropTypes.string,
   label: PropTypes.string,
   disabled: PropTypes.bool,
@@ -93,6 +97,8 @@ CallToActionSelector.defaultProps = {
   onSelect: () => {},
   onSuccess: () => {},
   callToAction: '',
+  postId: '',
+  campaignType: '',
   className: '',
   label: '',
   disabled: false,

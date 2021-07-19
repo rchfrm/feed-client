@@ -1,8 +1,6 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
-
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
@@ -16,8 +14,6 @@ import styles from '@/app/PostsPage.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostsContent = () => {
-  const { goToGlobalPostSettings } = usePostsSidePanel()
-
   // Has default link been set
   const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
 

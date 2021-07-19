@@ -3,31 +3,47 @@ import PropTypes from 'prop-types'
 
 import CallToActionSelector from '@/app/CallToActionSelector'
 
-const PostCardSettingsCallToAction = ({ post }) => {
-  const [callToAction, setCallToAction] = React.useState('')
-  console.log(post)
+import { setPostCallToAction } from '@/app/helpers/postsHelpers'
 
-  const handleSuccess = () => {
-    console.log('handle success')
-  }
+import useControlsStore from '@/app/stores/controlsStore'
 
-  const handleSelect = () => {
-    console.log('set')
+const getPostsPreferences = state => state.postsPreferences
+
+const PostCardSettingsCallToAction = ({
+  postId,
+  postIndex,
+  updatePost,
+  campaignType,
+}) => {
+  const postsPreferences = useControlsStore(getPostsPreferences)
+  const [callToAction, setCallToAction] = React.useState(postsPreferences.callToAction)
+
+  const handleSuccess = ({ callToAction }) => {
+    const payload = {
+      postIndex,
+      callToAction,
+    }
+    updatePost('update-call-to-action', payload)
   }
 
   return (
     <CallToActionSelector
-      onSelect={handleSelect}
+      onSelect={setPostCallToAction}
       onSuccess={handleSuccess}
       callToAction={callToAction}
       setCallToAction={setCallToAction}
+      postId={postId}
+      campaignType={campaignType}
       shouldSaveOnChange
     />
   )
 }
 
 PostCardSettingsCallToAction.propTypes = {
-  post: PropTypes.object.isRequired,
+  postId: PropTypes.string.isRequired,
+  postIndex: PropTypes.number.isRequired,
+  updatePost: PropTypes.func.isRequired,
+  campaignType: PropTypes.string.isRequired,
 }
 
 PostCardSettingsCallToAction.defaultProps = {

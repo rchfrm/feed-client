@@ -37,6 +37,7 @@ const PostCardSettings = ({
   } = post
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
+  const [currentView, setCurrentView] = React.useState('conversions')
 
   // Go to post settings
   const { goToGlobalPostSettings } = usePostsSidePanel()
@@ -87,7 +88,10 @@ const PostCardSettings = ({
             copy={copy.postCallToActionSetting}
           >
             <PostCardSettingsCallToAction
-              post={post}
+              postId={post.id}
+              postIndex={postIndex}
+              updatePost={updatePost}
+              campaignType={currentView}
             />
           </AdSettingsSection>
           {/* EDIT MESSAGE */}
