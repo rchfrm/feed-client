@@ -8,19 +8,12 @@ import PostCardToggleTeaser from '@/app/PostCardToggleTeaser'
 
 import useShowConversionsInterest from '@/app/hooks/useShowConversionsInterest'
 
-import * as postsHelpers from '@/app/helpers/postsHelpers'
-
-import brandColors from '@/constants/brandColors'
+import { updatePost, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
 // CALL TO CHANGE STATE
 const runChangeState = ({ artistId, postId, promotionEnabled, audienceSlug }) => {
-  return postsHelpers.updatePost({ artistId, postId, promotionEnabled, audienceSlug })
+  return updatePost({ artistId, postId, promotionEnabled, audienceSlug })
 }
-
-// LABEL GRADIENTS
-const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
-const growthGradient = createGradient(brandColors.blue)
-const earnGradient = createGradient(brandColors.red)
 
 const PostCardToggle = ({
   audienceSlug,
@@ -88,7 +81,7 @@ const PostCardToggle = ({
             disabled ? 'opacity-50' : 'opacity-100',
           ].join(' ')}
           style={{
-            background: audienceSlug === 'growth' ? growthGradient : earnGradient,
+            background: audienceSlug === 'growth' ? growthGradient : conversionsGradient,
           }}
         />
         {/* TITLE */}
@@ -104,7 +97,7 @@ const PostCardToggle = ({
             copy="running"
             className="font-bold"
             style={{
-              background: audienceSlug === 'growth' ? growthGradient : earnGradient,
+              background: audienceSlug === 'growth' ? growthGradient : conversionsGradient,
             }}
           />
         )}

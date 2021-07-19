@@ -60,6 +60,23 @@ export const postTypes = [
   },
 ]
 
+// CAMPAIGN TYPES
+export const campaignTypes = [
+  {
+    title: 'Grow & Nurture',
+    slug: 'all',
+  },
+  {
+    title: 'Earn',
+    slug: 'conversions',
+  },
+]
+
+// CAMPAIGN TYPE GRADIENTS
+const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
+export const growthGradient = createGradient(brandColors.blue)
+export const conversionsGradient = createGradient(brandColors.red)
+
 export const getPostTypesTitle = (id) => {
   const { title } = postTypes.find(({ id: typeId }) => id === typeId) || {}
   return title
