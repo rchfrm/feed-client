@@ -6,7 +6,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { removeProtocolFromUrl } from '@/helpers/utils'
 
-import copy from '@/app/copy/PostsPageCopy'
+import copy from '@/app/copy/controlsPageCopy'
 
 const LinkBankIntegrations = ({
   integrationLinks,

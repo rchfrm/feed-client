@@ -8,13 +8,11 @@ import usePostsStore from '@/app/stores/postsStore'
 import AdSettingsSection from '@/app/AdSettingsSection'
 import AdDefaultsStatus from '@/app/AdDefaultsStatus'
 import AdDefaultsLink from '@/app/AdDefaultsLink'
+import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
 import AdDefaultsLinkTracking from '@/app/AdDefaultsLinkTracking'
 import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
-import CallToActionSelector from '@/app/CallToActionSelector'
 // IMPORT COPY
 import copy from '@/app/copy/controlsPageCopy'
-
-import { setDefaultCallToAction } from '@/app/helpers/adDefaultsHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
@@ -32,18 +30,7 @@ const AdDefaults = () => {
   // Get store values
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   const { defaultLink, postsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
-  const { callToAction: currentCallToAction } = postsPreferences
-  // Set local state
-  const [callToAction, setCallToAction] = React.useState(currentCallToAction)
-
-  const handleSuccess = (newCallToAction) => {
-    setCallToAction(newCallToAction)
-    // Update store value
-    updatePreferences(
-      'postsPreferences',
-      { callToAction: newCallToAction },
-    )
-  }
+  const { callToAction: defaultCallToAction } = postsPreferences
 
   return (
     <div>
@@ -77,12 +64,10 @@ const AdDefaults = () => {
           header="Call to Action"
           copy={copy.defaultCallToActionIntro}
         >
-          <CallToActionSelector
-            onSelect={setDefaultCallToAction}
-            onSuccess={handleSuccess}
-            callToAction={callToAction}
-            setCallToAction={setCallToAction}
-            shouldSaveOnChange
+          <AdDefaultsCallToAction
+            className="mb-8"
+            defaultCallToAction={defaultCallToAction}
+            updatePreferences={updatePreferences}
           />
         </AdSettingsSection>
         {/* FB PIXEL */}
