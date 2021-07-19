@@ -6,6 +6,7 @@ import Button from '@/elements/Button'
 
 import AdSettingsSection from '@/app/AdSettingsSection'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
+import PostCardSettingsCallToAction from '@/app/PostCardSettingsCallToAction'
 import PostCardEditCaption from '@/app/PostCardEditCaption'
 // eslint-disable-next-line
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
@@ -79,6 +80,14 @@ const PostCardSettings = ({
               postPromotionStatus={promotionStatus}
               linkType={linkType}
               setError={setError}
+            />
+          </AdSettingsSection>
+          <AdSettingsSection
+            header="Call to Action"
+            copy={copy.postCallToActionSetting}
+          >
+            <PostCardSettingsCallToAction
+              post={post}
             />
           </AdSettingsSection>
           {/* EDIT MESSAGE */}
