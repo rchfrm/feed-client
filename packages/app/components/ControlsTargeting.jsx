@@ -1,15 +1,11 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import TargetingContent from '@/app/TargetingContent'
-
-import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
+import TargetingSettings from '@/app/TargetingSettings'
 
 const ControlsTargeting = () => {
   return (
-    <TargetingContextProvider>
-      <TargetingContent />
-    </TargetingContextProvider>
+    <TargetingSettings />
   )
 }
 

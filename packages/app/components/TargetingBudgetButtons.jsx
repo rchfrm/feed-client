@@ -9,7 +9,7 @@ import RefreshIcon from '@/icons/RefreshIcon'
 
 import brandColors from '@/constants/brandColors'
 
-const TargetingSummaryButtons = ({
+const TargetingBudgetButtons = ({
   targetingState,
   initialTargetingState,
   saveTargetingSettings,
@@ -68,7 +68,7 @@ const TargetingSummaryButtons = ({
   )
 }
 
-TargetingSummaryButtons.propTypes = {
+TargetingBudgetButtons.propTypes = {
   targetingState: PropTypes.object.isRequired,
   initialTargetingState: PropTypes.object.isRequired,
   updateTargetingBudget: PropTypes.func.isRequired,
@@ -77,10 +77,8 @@ TargetingSummaryButtons.propTypes = {
   showCustomBudget: PropTypes.bool.isRequired,
 }
 
-TargetingSummaryButtons.defaultProps = {
+TargetingBudgetButtons.defaultProps = {
   disableSaving: '',
 }
 
-
-export default TargetingSummaryButtons
-
+export default TargetingBudgetButtons
