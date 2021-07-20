@@ -148,6 +148,16 @@ export const getPostLinkData = (post) => {
   return { linkType, linkId, linkHref }
 }
 
+// Get post link data
+export const getPostCallToActionData = (post) => {
+  const {
+    id,
+    call_to_action: value,
+    options: { campaign_type: campaignType },
+  } = post || {}
+  return { id, value, campaignType }
+}
+
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
@@ -186,6 +196,12 @@ export const formatPostsResponse = (posts) => {
         engagements: getPaidEngagementsDrilldown(adsSummaryMetrics),
       },
     } : null
+    // Call to Actions
+    const callToActions = post.call_to_actions.map((callToAction) => ({
+      id: callToAction.id,
+      value: callToAction.call_to_action,
+      campaignType: callToAction.options.campaign_type,
+    }))
     // Published date
     const publishedTime = formatPublishedTime(post.published_time)
     // Ad dates
@@ -206,6 +222,8 @@ export const formatPostsResponse = (posts) => {
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
+      callToActions,
+      adMessages: post.ad_messages,
       message,
       adMessageProps: post.ad_message,
       shortMessage,
@@ -303,17 +321,23 @@ export const setPostPriority = ({ artistId, assetId, priorityEnabled }) => {
 }
 
 // UPDATE POST CALL TO ACTION
-export const setPostCallToAction = (artistId, callToAction, assetId, campaignType) => {
-  const endpoint = `/artists/${artistId}/assets/${assetId}/call_to_actions`
+export const setPostCallToAction = async (artistId, callToAction, assetId, campaignType, callToActionId) => {
+  const isUpdating = !!callToActionId
+  const endpointBase = `/artists/${artistId}/assets/${assetId}/call_to_actions`
+  const requestType = isUpdating ? 'patch' : 'post'
+  const endpoint = isUpdating ? `${endpointBase}/${callToActionId}` : endpointBase
   const payload = {
     call_to_action: callToAction,
-    options: campaignType ? {
-      campaign_group_type: campaignType,
-    } : null,
+    options: {
+      campaign_type: campaignType,
+    },
   }
   const errorTracking = {
     category: 'Post call to action',
-    action: 'Set link as post link',
+    action: 'Set post call to action',
   }
-  return requestWithCatch('patch', endpoint, payload, errorTracking)
+  const { res: newCta, error } = await requestWithCatch(requestType, endpoint, payload, errorTracking)
+  if (error) return { error }
+  const res = getPostCallToActionData(newCta)
+  return { res }
 }

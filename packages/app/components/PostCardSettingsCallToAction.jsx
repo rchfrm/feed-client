@@ -1,37 +1,64 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import produce from 'immer'
 
 import CallToActionSelector from '@/app/CallToActionSelector'
 
 import { setPostCallToAction } from '@/app/helpers/postsHelpers'
 
-import useControlsStore from '@/app/stores/controlsStore'
-
-const getPostsPreferences = state => state.postsPreferences
-
 const PostCardSettingsCallToAction = ({
   postId,
   postIndex,
+  postCallToActions,
   updatePost,
   campaignType,
 }) => {
-  const postsPreferences = useControlsStore(getPostsPreferences)
-  const [callToAction, setCallToAction] = React.useState(postsPreferences.callToAction)
+  // Get initial call to action value and id
+  const { id = '', value = '' } = postCallToActions[0] || {}
+  // Manage local state
+  const [callToActions, setCallToActions] = React.useState(postCallToActions)
+  const [selectedCallToAction, setSelectedCallToAction] = React.useState(value)
+  const [callToActionId, setCallToActionId] = React.useState(id)
 
-  const handleSuccess = ({ callToAction }) => {
+  const handleSuccess = (callToAction) => {
+    // Check if call to action already exists for the selected campaign type
+    const index = callToActions.findIndex(({ campaignType }) => campaignType === callToAction.campaignType)
+    // Update local state
+    const updatedCallToActions = produce(callToActions, draftState => {
+      // If the call to action exists, only update it's value
+      if (index !== -1) {
+        draftState[index].value = callToAction.value
+        return
+      }
+      // Otherwise push the new call to action object to the array
+      draftState.push(callToAction)
+    })
+    setCallToActions(updatedCallToActions)
+    setSelectedCallToAction(callToAction.value)
+
+    // Update global posts list state
     const payload = {
       postIndex,
       callToAction,
+      callToActionIndex: index,
     }
     updatePost('update-call-to-action', payload)
   }
+
+  React.useEffect(() => {
+    // Set the selected call to action value and id again based on changed campaign type view
+    const { id = '', value = '' } = callToActions.find((callToAction) => callToAction.campaignType === campaignType) || {}
+    setSelectedCallToAction(value)
+    setCallToActionId(id)
+  }, [campaignType, callToActions])
 
   return (
     <CallToActionSelector
       onSelect={setPostCallToAction}
       onSuccess={handleSuccess}
-      callToAction={callToAction}
-      setCallToAction={setCallToAction}
+      callToAction={selectedCallToAction}
+      setCallToAction={setSelectedCallToAction}
+      callToActionId={callToActionId}
       postId={postId}
       campaignType={campaignType}
       shouldSaveOnChange
@@ -42,6 +69,7 @@ const PostCardSettingsCallToAction = ({
 PostCardSettingsCallToAction.propTypes = {
   postId: PropTypes.string.isRequired,
   postIndex: PropTypes.number.isRequired,
+  postCallToActions: PropTypes.arrayOf(PropTypes.object).isRequired,
   updatePost: PropTypes.func.isRequired,
   campaignType: PropTypes.string.isRequired,
 }

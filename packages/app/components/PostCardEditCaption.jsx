@@ -116,7 +116,7 @@ const PostCardEditCaption = ({
                 role="button"
                 className={[
                   'capitalize no-underline mr-4 last:mr-0',
-                  isActive ? 'font-bold' : 'opacity-50 hover:opacity-100',
+                  isActive ? 'font-bold border-solid border-black border-b-2' : 'opacity-50 hover:opacity-100',
                   isLoading ? 'pointer-events-none' : null,
                 ].join(' ')}
                 onClick={() => {

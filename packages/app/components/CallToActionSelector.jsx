@@ -14,6 +14,7 @@ const CallToActionSelector = ({
   onSuccess,
   callToAction,
   setCallToAction,
+  callToActionId,
   postId,
   campaignType,
   className,
@@ -44,17 +45,17 @@ const CallToActionSelector = ({
     }
     setLoading(true)
     // Make API request
-    const { res: { preferences }, error } = await onSelect(artistId, selectedOptionValue, postId, campaignType)
+    const { res, error } = await onSelect(artistId, selectedOptionValue, postId, campaignType, callToActionId)
     // Handle error
     if (error) {
       setError(error)
       return
     }
     // Handle success
-    onSuccess(preferences.posts.call_to_action)
+    onSuccess(res)
     setError(null)
     setLoading(false)
-  }, [callToActionOptions, setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess, postId, campaignType])
+  }, [callToActionOptions, setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess, postId, campaignType, callToActionId])
 
   React.useEffect(() => {
     if (!callToAction) {
@@ -70,7 +71,7 @@ const CallToActionSelector = ({
       <Select
         loading={loading}
         handleChange={handleSelect}
-        name="call_to_Action"
+        name="call_to_action"
         label={label}
         selectedValue={callToAction}
         options={callToActionOptions}
@@ -85,6 +86,7 @@ CallToActionSelector.propTypes = {
   onSuccess: PropTypes.func,
   callToAction: PropTypes.string,
   setCallToAction: PropTypes.func.isRequired,
+  callToActionId: PropTypes.string,
   postId: PropTypes.string,
   campaignType: PropTypes.string,
   className: PropTypes.string,
@@ -97,6 +99,7 @@ CallToActionSelector.defaultProps = {
   onSelect: () => {},
   onSuccess: () => {},
   callToAction: '',
+  callToActionId: '',
   postId: '',
   campaignType: '',
   className: '',

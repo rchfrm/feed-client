@@ -37,6 +37,7 @@ const PostCardSettings = ({
     linkId,
     linkHref,
     linkType,
+    callToActions,
   } = post
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
@@ -126,6 +127,7 @@ const PostCardSettings = ({
             <PostCardSettingsCallToAction
               postId={post.id}
               postIndex={postIndex}
+              postCallToActions={callToActions}
               updatePost={updatePost}
               campaignType={currentView}
             />

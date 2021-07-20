@@ -37,6 +37,7 @@ const postsReducer = (draftState, postsAction) => {
     adMessageProps,
     priorityEnabled,
     callToAction,
+    callToActionIndex,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -65,7 +66,11 @@ const postsReducer = (draftState, postsAction) => {
       draftState[postIndex].linkType = linkType
       break
     case 'update-call-to-action':
-      draftState[postIndex].callToAction = callToAction
+      if (callToActionIndex !== -1) {
+        draftState[postIndex].callToActions[callToActionIndex].value = callToAction.value
+        break
+      }
+      draftState[postIndex].callToActions.push(callToAction)
       break
     case 'update-caption':
       draftState[postIndex].adMessageProps = adMessageProps
