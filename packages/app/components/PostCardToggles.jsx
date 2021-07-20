@@ -6,7 +6,6 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import PostCardToggle from '@/app/PostCardToggle'
-import { post } from '../../shared/helpers/api'
 
 const getControlsStoreState = (state) => ({
   canRunConversions: state.canRunConversions,

@@ -6,6 +6,7 @@ import Error from '@/elements/Error'
 import Button from '@/elements/Button'
 
 import AdSettingsSection from '@/app/AdSettingsSection'
+import PostCardSettingsToggle from '@/app/PostCardSettingsToggle'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
 import PostCardSettingsCallToAction from '@/app/PostCardSettingsCallToAction'
 import PostCardEditCaption from '@/app/PostCardEditCaption'
@@ -105,6 +106,7 @@ const PostCardSettings = ({
           {/* ERROR */}
           <Error error={error} />
           {/* SETTINGS SECTION */}
+          <PostCardSettingsToggle />
           <AdSettingsSection
             header="Link"
             copy={copy.postLinkSetting}
