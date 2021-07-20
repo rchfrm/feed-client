@@ -21,6 +21,7 @@ const initialState = {
   setInitialTargetingState: {},
   saveTargetingSettings: () => {},
   togglePauseCampaign: () => {},
+  cancelUpdateSettings: () => {},
   saving: false,
   settingsSaved: false,
   settingsSavedInitial: false,
@@ -209,7 +210,7 @@ const TargetingContextProvider = ({ children }) => {
     // GET BUDGET INFO
     const { minorUnit: {
       minHard: minHardBudget,
-    } } = feedMinBudgetInfo
+    } = {} } = feedMinBudgetInfo
     const isBudgetTooSmall = targetingState.budget < minHardBudget
     const noLocations = !selectedCountries.length && !selectedCities.length
     // Disable with budget reason
@@ -221,7 +222,7 @@ const TargetingContextProvider = ({ children }) => {
   }, [targetingState.budget, feedMinBudgetInfo, currencyOffset, selectedCountries, selectedCities])
 
   // SAVE CAMPAIGN
-  const [settingsSaved, setSettingsSaved] = React.useState(initialState.settingsSaved)
+  const settingsSaved = React.useRef(initialState.settingsSaved)
   const [settingsSavedInitial, setSettingsSavedInitial] = React.useState(initialState.settingsSavedInitial)
   const [errorUpdatingSettings, setErrorUpdatingSettings] = React.useState(null)
   const [saving, setSaving] = React.useState(false)
@@ -241,10 +242,10 @@ const TargetingContextProvider = ({ children }) => {
       setErrorUpdatingSettings(savedState.error)
     } else {
       // Update state
+      settingsSaved.current = true
       setSettingsSavedInitial(isFirstTimeUser)
       setTargetingState(savedState)
       setInitialTargetingState(savedState)
-      setSettingsSaved(true)
       updateSpendingPaused(savedState.status)
       updateBudget(savedState.budget / currencyOffset)
       updateSpending((savedState.budget / currencyOffset), !savedState.status)
@@ -265,6 +266,25 @@ const TargetingContextProvider = ({ children }) => {
     saveTargetingSettings(newSettings)
     updateSpendingPaused(newPausedState)
   }, [initialTargetingState, saveTargetingSettings, updateSpendingPaused])
+
+  // CANCEL UPDATE SETTINGS
+  const cancelUpdateSettings = React.useCallback(() => {
+    if (settingsSaved.current) {
+      settingsSaved.current = false
+      return
+    }
+    // Set targeting state to initial state (except budget)
+    const { budget } = targetingState
+    const resetState = {
+      ...initialTargetingState,
+      budget,
+    }
+    setTargetingState(resetState)
+    // Reset selected locations
+    // Set inital countries  (to trigger min budget)
+    const { cityKeys, countryCodes } = resetState
+    updateLocationsArrays({ cityKeys, countryCodes })
+  }, [targetingState, initialTargetingState])
 
 
   // RESET EVERYTHING WHEN ARTIST ID CHANGES
@@ -293,6 +313,7 @@ const TargetingContextProvider = ({ children }) => {
         setInitialTargetingState,
         saveTargetingSettings,
         togglePauseCampaign,
+        cancelUpdateSettings,
         saving,
         settingsSaved,
         settingsSavedInitial,

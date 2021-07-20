@@ -44,7 +44,7 @@ const PostCardToggles = ({
         isEnabled={promotionEnabled}
         toggleCampaign={toggleCampaign}
         disabled={promotionStatus === 'archived'}
-        isActive={promotionStatus === 'active'}
+        isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
       />
       {/* EARN TOGGLE */}
@@ -55,7 +55,7 @@ const PostCardToggles = ({
         isEnabled={conversionsEnabled}
         toggleCampaign={toggleCampaign}
         disabled={!globalConversionsEnabled || !canRunConversions || 'archived'}
-        isActive={promotionStatus === 'active'}
+        isActive={promotionStatus === 'active' && conversionsEnabled}
         className={togglesClassName}
         isFeatureEnabled={conversionsFeatureEnabled}
       />
