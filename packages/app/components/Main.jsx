@@ -8,6 +8,7 @@ import InitUser from '@/app/InitUser'
 import { SidePanelContextProvider } from '@/app/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
 // IMPORT ELEMENTS
 import IntegrationErrorHandler from '@/app/IntegrationErrorHandler'
 import NotificationsHandler from '@/app/NotificationsHandler'
@@ -41,13 +42,15 @@ function Main({ children }) {
 
   return (
     <main id="page--container">
-      <SidePanelContextProvider>
-        <InitUser>
-          {children}
-          <IntegrationErrorHandler />
-          <NotificationsHandler />
-        </InitUser>
-      </SidePanelContextProvider>
+      <TargetingContextProvider>
+        <SidePanelContextProvider>
+          <InitUser>
+            {children}
+            <IntegrationErrorHandler />
+            <NotificationsHandler />
+          </InitUser>
+        </SidePanelContextProvider>
+      </TargetingContextProvider>
     </main>
   )
 }
