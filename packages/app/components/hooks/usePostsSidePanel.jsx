@@ -20,7 +20,11 @@ const usePostsSidePanel = () => {
   // * SINGLE POST SETTINGS
 
   const CLOSE_BUTTON = (
-    <Button onClick={() => toggleSidePanel(false)} version="green">
+    <Button
+      onClick={() => toggleSidePanel(false)}
+      version="green"
+      className="border-solid border-0 border-t-4"
+    >
       Done
     </Button>
   )
