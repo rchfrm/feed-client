@@ -39,14 +39,13 @@ const PostCardSettingsCallToAction = ({
     // Update global posts list state
     const payload = {
       postIndex,
-      callToAction,
-      callToActionIndex: index,
+      callToActions: updatedCallToActions,
     }
     updatePost('update-call-to-action', payload)
   }
 
   React.useEffect(() => {
-    // Set the selected call to action value and id again based on changed campaign type view
+    // When the campaign type view changes .. set the selected call to action value and id again
     const { id = '', value = '' } = callToActions.find((callToAction) => callToAction.campaignType === campaignType) || {}
     setSelectedCallToAction(value)
     setCallToActionId(id)

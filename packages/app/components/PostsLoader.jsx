@@ -36,8 +36,7 @@ const postsReducer = (draftState, postsAction) => {
     linkType,
     adMessageProps,
     priorityEnabled,
-    callToAction,
-    callToActionIndex,
+    callToActions,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -66,11 +65,7 @@ const postsReducer = (draftState, postsAction) => {
       draftState[postIndex].linkType = linkType
       break
     case 'update-call-to-action':
-      if (callToActionIndex !== -1) {
-        draftState[postIndex].callToActions[callToActionIndex].value = callToAction.value
-        break
-      }
-      draftState[postIndex].callToActions.push(callToAction)
+      draftState[postIndex].callToActions = callToActions
       break
     case 'update-caption':
       draftState[postIndex].adMessageProps = adMessageProps
@@ -82,7 +77,6 @@ const postsReducer = (draftState, postsAction) => {
       return draftState
   }
 }
-
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
 const fetchPosts = async ({ promotionStatus, artistId, limit, isEndOfAssets, cursor }) => {
