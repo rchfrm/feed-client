@@ -7,7 +7,7 @@ import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingSettingsHelp = ({ desktopVersion }) => {
   return (
-    <div className={[!desktopVersion ? 'mb-12 minContent:-mt-5' : 'absolute w-full bottom-0 left-0 mt-10 flex justify-end'].join(' ')}>
+    <div className={['w-full mt-10 flex justify-end'].join(' ')}>
       <ButtonHelp
         content={copy.helpText}
         text="Need help with this page?"
