@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import produce from 'immer'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -21,17 +22,19 @@ const PostCardEditCaption = ({
   postIndex,
   updatePost,
   isEditable,
+  campaignType,
 }) => {
   // Internal state
-  const [adMessageProps, setAdMessageProps] = React.useState(post.adMessageProps)
-  const hasAdMessage = !!adMessageProps
-  const adMessage = adMessageProps?.message || ''
+  const { id = '', message = '' } = post.adMessages[0] || {}
   const captionTypes = ['ad', 'post']
   const [originalCaption] = React.useState(post.message)
-  const [newCaption, setNewCaption] = React.useState(adMessage)
-  const [savedNewCaption, setSavedNewCaption] = React.useState(adMessage)
   const [visibleCaption, setVisibleCaption] = React.useState('ad')
   const [useEditMode, setUseEditMode] = React.useState(false)
+  const [adMessages, setAdMessages] = React.useState(post.adMessages)
+  const hasAdMessage = !!adMessages
+  const [newCaption, setNewCaption] = React.useState(message)
+  const [adMessageId, setAdMessageId] = React.useState(id)
+  const [savedNewCaption, setSavedNewCaption] = React.useState(message)
 
   // Turn off edit mode when moving to post view
   React.useEffect(() => {
@@ -39,17 +42,31 @@ const PostCardEditCaption = ({
   }, [visibleCaption])
 
   // UPDATE LOCAL and PARENT POST PAGE STATE
-  const updateState = React.useCallback((newAdMessageProps) => {
-    const payload = { postIndex, adMessageProps: newAdMessageProps }
-    const newCaption = newAdMessageProps?.message || ''
-    // Local
-    setAdMessageProps(newAdMessageProps)
+  const updateState = React.useCallback((newAdMessages) => {
+    const newCaption = newAdMessages?.message || ''
+    // Update local state
     setNewCaption(newCaption)
     setSavedNewCaption(newCaption)
     setVisibleCaption('ad')
+    // Check if caption already exists for the selected campaign type
+    const index = adMessages.findIndex(({ campaignType }) => campaignType === newAdMessages.campaignType)
+    const updatedCaptions = produce(adMessages, draftState => {
+      // If the caption exists, only update it's value
+      if (index !== -1) {
+        draftState[index].message = newCaption
+        return
+      }
+      // Otherwise push the new caption object to the array
+      draftState.push(newAdMessages)
+    })
+    setAdMessages(updatedCaptions)
     // Parent
-    updatePost('update-caption', payload)
-  }, [postIndex, updatePost])
+    const payload = {
+      postIndex,
+      adMessages: updatedCaptions,
+    }
+    updatePost('update-captions', payload)
+  }, [postIndex, updatePost, adMessages])
 
   // SAVE NEW CAPTION on DB
   const { artistId } = React.useContext(ArtistContext)
@@ -71,12 +88,12 @@ const PostCardEditCaption = ({
     }
     // Update the caption with the API
     const isResetCaption = newCaption === null
-    const adMessageId = adMessageProps?.id
     const apiCallMethod = isResetCaption ? resetPostCaption : updatePostCaption
-    const { res: updatedAdMessageProps = null, error } = await apiCallMethod({
+    const { res: updatedAdMessages = null, error } = await apiCallMethod({
       artistId,
       assetId: post.id,
       adMessageId,
+      campaignType,
       caption: newCaption,
     })
     // Handle response...
@@ -84,7 +101,7 @@ const PostCardEditCaption = ({
     setShowAlert(false)
     // Success!
     if (!error) {
-      updateState(updatedAdMessageProps)
+      updateState(updatedAdMessages)
       // Track
       track('edit_caption_complete', {
         postId: post.id,
@@ -95,12 +112,19 @@ const PostCardEditCaption = ({
     // Reset component state
     setUseEditMode(false)
     setIsLoading(false)
-  }, [isLoading, artistId, originalCaption, post.id, post.promotionStatus, adMessageProps, updateState, setError])
+  }, [isLoading, artistId, originalCaption, post.id, post.promotionStatus, updateState, setError, campaignType, adMessageId])
 
   // RESET CAPTION TO ORIGINAL
   const resetToOriginal = React.useCallback(async () => {
     await updatePostDb(null)
   }, [updatePostDb])
+
+  React.useEffect(() => {
+    const { id = '', message = '' } = adMessages.find((caption) => caption.campaignType === campaignType) || {}
+    setNewCaption(message)
+    setAdMessageId(id)
+    setSavedNewCaption(message)
+  }, [campaignType, adMessages])
 
   return (
     <div>
@@ -233,6 +257,7 @@ PostCardEditCaption.propTypes = {
   postIndex: PropTypes.number.isRequired,
   updatePost: PropTypes.func.isRequired,
   isEditable: PropTypes.bool.isRequired,
+  campaignType: PropTypes.string.isRequired,
 }
 
 PostCardEditCaption.defaultProps = {

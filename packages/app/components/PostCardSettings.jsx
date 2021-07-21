@@ -131,6 +131,7 @@ const PostCardSettings = ({
               postIndex={postIndex}
               updatePost={updatePost}
               isEditable={!noCaptionEditExcuse}
+              campaignType={campaignType}
             />
           </AdSettingsSection>
         </>

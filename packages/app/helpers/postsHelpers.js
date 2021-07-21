@@ -158,6 +158,16 @@ export const getPostCallToActionData = (post) => {
   return { id, value, campaignType }
 }
 
+// Get post ad message data
+export const getPostAdMessageData = (post) => {
+  const {
+    id,
+    message,
+    options: { campaign_type: campaignType },
+  } = post || {}
+  return { id, message, campaignType }
+}
+
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
@@ -202,6 +212,12 @@ export const formatPostsResponse = (posts) => {
       value: callToAction.call_to_action,
       campaignType: callToAction.options.campaign_type,
     }))
+    // Ad messages
+    const adMessages = post.ad_messages.map((adMessage) => ({
+      id: adMessage.id,
+      message: adMessage.message,
+      campaignType: adMessage.options.campaign_type,
+    }))
     // Published date
     const publishedTime = formatPublishedTime(post.published_time)
     // Ad dates
@@ -223,7 +239,7 @@ export const formatPostsResponse = (posts) => {
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
       callToActions,
-      adMessages: post.ad_messages,
+      adMessages,
       message,
       adMessageProps: post.ad_message,
       shortMessage,
@@ -284,23 +300,35 @@ export const getPostMetricsContent = (metricsType, postType) => {
 }
 
 // UPDATE CAPTION
-export const updatePostCaption = ({ artistId, assetId, adMessageId, caption }) => {
+export const updatePostCaption = async ({ artistId, assetId, adMessageId, campaignType, caption }) => {
   const isUpdating = !!adMessageId
   const endpointBase = `/artists/${artistId}/assets/${assetId}/ad_messages`
   const requestType = isUpdating ? 'patch' : 'post'
   const endpoint = isUpdating ? `${endpointBase}/${adMessageId}` : endpointBase
-  const payload = { message: caption }
+  const payload = {
+    message: caption,
+    options: {
+      campaign_type: campaignType,
+    },
+  }
   const errorTracking = {
     category: 'Post caption',
     action: isUpdating ? 'Update post caption' : 'Set new post caption',
   }
-  return requestWithCatch(requestType, endpoint, payload, errorTracking)
+  const { res: newAdMessage, error } = await requestWithCatch(requestType, endpoint, payload, errorTracking)
+  if (error) return { error }
+  const res = getPostAdMessageData(newAdMessage)
+  return { res }
 }
 
 // RESET CAPTION
-export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
+export const resetPostCaption = ({ artistId, assetId, adMessageId, campaignType }) => {
   const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages/${adMessageId}`
-  const payload = null
+  const payload = {
+    options: {
+      campaign_type: campaignType,
+    },
+  }
   const errorTracking = {
     category: 'Post message',
     action: 'Reset post caption',

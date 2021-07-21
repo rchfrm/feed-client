@@ -52,7 +52,7 @@ const PostCardSettingsCallToAction = ({
       postIndex,
       callToActions: updatedCallToActions,
     }
-    updatePost('update-call-to-action', payload)
+    updatePost('update-call-to-actions', payload)
   }
 
   React.useEffect(() => {
