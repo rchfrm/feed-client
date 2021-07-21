@@ -7,14 +7,13 @@ import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
 import AdSettingsSection from '@/app/AdSettingsSection'
+import PostCardSettingsTabs from '@/app/PostCardSettingsTabs'
 import PostCardSettingsToggle from '@/app/PostCardSettingsToggle'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
 import PostCardSettingsCallToAction from '@/app/PostCardSettingsCallToAction'
 import PostCardEditCaption from '@/app/PostCardEditCaption'
 
 import * as ROUTES from '@/app/constants/routes'
-
-import { campaignTypes, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
@@ -64,38 +63,6 @@ const PostCardSettings = ({
     >
       {/* HEADER */}
       <h2 className={sidePanelStyles.SidePanel__Header}>Post Settings</h2>
-      {/* CAMPAIGN TYPE TABS */}
-      <div className="flex mb-6 text-lg text-grey-3">
-        {campaignTypes.map(({ title, slug }) => {
-          const isActive = campaignType === slug
-          return (
-            <div
-              key={slug}
-              className={[
-                'flex items-center',
-                'mr-5',
-                isActive ? 'text-black border-solid border-black border-b-2' : '',
-              ].join(' ')}
-            >
-              <span
-                className="w-4 h-4 rounded-full mr-1"
-                style={{
-                  background: slug === 'all' ? growthGradient : conversionsGradient,
-                }}
-              />
-              <button
-                type="button"
-                className={[
-                  isActive ? 'font-bold' : '',
-                ].join(' ')}
-                onClick={() => setCampaignType(slug)}
-              >
-                {title}
-              </button>
-            </div>
-          )
-        })}
-      </div>
       {/* STOP HERE IF NO DEFAULT LINK IS SET */}
       {isMissingDefaultLink ? (
         <div className="bg-grey-1 px-5 py-4 rounded-dialogue">
@@ -109,6 +76,11 @@ const PostCardSettings = ({
         </div>
       ) : (
         <>
+          {/* CAMPAIGN TYPE TABS */}
+          <PostCardSettingsTabs
+            campaignType={campaignType}
+            setCampaignType={setCampaignType}
+          />
           {/* ERROR */}
           <Error error={error} />
           {/* SETTINGS SECTION */}
