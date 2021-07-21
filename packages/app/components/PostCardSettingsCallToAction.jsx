@@ -2,9 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import produce from 'immer'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import CallToActionSelector from '@/app/CallToActionSelector'
 
 import { setPostCallToAction } from '@/app/helpers/postsHelpers'
+
+const getControlsStoreState = (state) => ({
+  postsPreferences: state.postsPreferences,
+  conversionsPreferences: state.conversionsPreferences,
+})
 
 const PostCardSettingsCallToAction = ({
   postId,
@@ -19,6 +26,10 @@ const PostCardSettingsCallToAction = ({
   const [callToActions, setCallToActions] = React.useState(postCallToActions)
   const [selectedCallToAction, setSelectedCallToAction] = React.useState(value)
   const [callToActionId, setCallToActionId] = React.useState(id)
+  // Get global default call to actions for both campaign types from store
+  const { postsPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
+  const { callToAction: defaultPostsCallToAction } = postsPreferences
+  const { callToAction: defaultConversionsCallToAction } = conversionsPreferences
 
   const handleSuccess = (callToAction) => {
     // Check if call to action already exists for the selected campaign type
@@ -47,9 +58,11 @@ const PostCardSettingsCallToAction = ({
   React.useEffect(() => {
     // When the campaign type view changes .. set the selected call to action value and id again
     const { id = '', value = '' } = callToActions.find((callToAction) => callToAction.campaignType === campaignType) || {}
-    setSelectedCallToAction(value)
+    const defaultCallToAction = campaignType === 'all' ? defaultPostsCallToAction : defaultConversionsCallToAction || defaultPostsCallToAction
+    // Use post level call to action value, if it doesnt exist use default call to action value, otherwise set empty string
+    setSelectedCallToAction(value || defaultCallToAction || '')
     setCallToActionId(id)
-  }, [campaignType, callToActions])
+  }, [campaignType, callToActions, defaultPostsCallToAction, defaultConversionsCallToAction])
 
   return (
     <CallToActionSelector

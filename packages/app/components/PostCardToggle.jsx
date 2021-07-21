@@ -50,7 +50,6 @@ const PostCardToggle = ({
     }
     // Update post list state
     const { promotion_enabled, promotable_status } = updatedPost
-    // Update post list state
     toggleCampaign(postId, promotion_enabled, promotable_status, campaignType)
   }, [artistId, postId, toggleCampaign, campaignType])
 

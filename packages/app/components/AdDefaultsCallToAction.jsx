@@ -13,12 +13,13 @@ const AdDefaultsCallToAction = ({
   // Set local state
   const [callToAction, setCallToAction] = React.useState(defaultCallToAction)
 
-  const handleSuccess = (newCallToAction) => {
-    setCallToAction(newCallToAction)
+  const handleSuccess = ({ preferences }) => {
+    const { posts: { call_to_action: callToAction } } = preferences
+    setCallToAction(callToAction)
     // Update store value
     updatePreferences(
       'postsPreferences',
-      { callToAction: newCallToAction },
+      { callToAction },
     )
   }
 
