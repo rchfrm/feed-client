@@ -135,8 +135,8 @@ const canRunConversionCampaigns = (set, get) => () => {
 
 // * DEFAULT LINK
 const getDefaultLink = ({ linkFolders, artist, linkId }) => {
-  const { defaultLink } = getPreferences(artist, 'posts')
-  const defaultLinkId = linkId || defaultLink
+  const { defaultLinkId: id } = getPreferences(artist, 'posts')
+  const defaultLinkId = linkId || id
   return linksHelpers.getLinkById(linkFolders, defaultLinkId) || {}
 }
 
@@ -271,8 +271,8 @@ const updatePreferences = (set, get) => (type, preferences) => {
     })
   })
   set({ [type]: newState })
-  set({ canRunConversions: canRunConversionCampaigns() })
   if (type === 'conversionsPreferences') {
+    set({ canRunConversions: canRunConversionCampaigns() })
     set({ conversionsEnabled: canRunConversionCampaigns() })
   }
 }

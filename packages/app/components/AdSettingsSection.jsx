@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-const PostsSettingsSection = ({
+const AdSettingsSection = ({
   header,
   copy,
   copyClassName,
@@ -18,17 +18,17 @@ const PostsSettingsSection = ({
   )
 }
 
-PostsSettingsSection.propTypes = {
+AdSettingsSection.propTypes = {
   header: PropTypes.string.isRequired,
   copy: PropTypes.string,
   copyClassName: PropTypes.string,
   children: PropTypes.node.isRequired,
 }
 
-PostsSettingsSection.defaultProps = {
+AdSettingsSection.defaultProps = {
   copy: '',
   copyClassName: null,
 }
 
 
-export default PostsSettingsSection
+export default AdSettingsSection

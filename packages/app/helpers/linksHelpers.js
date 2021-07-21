@@ -4,6 +4,7 @@ import * as utils from '@/helpers/utils'
 import { getPostLinkData } from '@/app/helpers/postsHelpers'
 import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
+import * as api from '@/helpers/api'
 
 // * UTILS
 // ------------
@@ -125,7 +126,6 @@ export const saveLink = async (artistId, link, savedFolders, action = 'add', for
 export const setDefaultLink = async (artistId, linkId) => {
   return server.setLinkAsDefault(artistId, linkId)
 }
-
 
 // LINKS ON A POST
 /**

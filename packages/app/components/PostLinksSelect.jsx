@@ -45,7 +45,7 @@ const PostLinksSelect = ({
   } = useControlsStore(getControlsStoreState, shallow)
   const [showAlert, setShowAlert] = React.useState(false)
   const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
   const [isDeletedLink, setIsDeletedLink] = React.useState(false)
   const isMounted = useIsMounted()
@@ -131,6 +131,7 @@ const PostLinksSelect = ({
     }
     // Add other options
     baseOptions.push(otherOptionsGroup)
+    setLoading(false)
     return baseOptions
   }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, currentLinkId, linkType])
 
@@ -261,7 +262,7 @@ PostLinksSelect.propTypes = {
   label: PropTypes.string,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  isPostActive: PropTypes.bool.isRequired,
+  isPostActive: PropTypes.bool,
 }
 
 PostLinksSelect.defaultProps = {
@@ -279,6 +280,7 @@ PostLinksSelect.defaultProps = {
   label: '',
   className: '',
   disabled: false,
+  isPostActive: false,
 }
 
 export default PostLinksSelect

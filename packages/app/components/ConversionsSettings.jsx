@@ -116,6 +116,7 @@ const ConversionsSettings = () => {
           callToAction={callToAction}
           setCallToAction={setCallToAction}
           className="mb-12"
+          label="Call to Action"
           disabled={disabled}
         />
         <Button

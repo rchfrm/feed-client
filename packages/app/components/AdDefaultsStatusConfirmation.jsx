@@ -16,8 +16,7 @@ function CONFIRMATION_CONTENT() {
   )
 }
 
-
-const PostSettingsStatusConfirmation = ({
+const AdDefaultsStatusConfirmation = ({
   triggerStatusUpdate,
   confirmationOpen,
   dismissConfirmation,
@@ -57,10 +56,10 @@ const PostSettingsStatusConfirmation = ({
   return null
 }
 
-PostSettingsStatusConfirmation.propTypes = {
+AdDefaultsStatusConfirmation.propTypes = {
   triggerStatusUpdate: PropTypes.func.isRequired,
   confirmationOpen: PropTypes.bool.isRequired,
   dismissConfirmation: PropTypes.func.isRequired,
 }
 
-export default PostSettingsStatusConfirmation
+export default AdDefaultsStatusConfirmation

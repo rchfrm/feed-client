@@ -8,7 +8,7 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import RadioButtons from '@/elements/RadioButtons'
 import Error from '@/elements/Error'
 
-import PostSettingsStatusConfirmation from '@/app/PostSettingsStatusConfirmation'
+import AdDefaultsStatusConfirmation from '@/app/AdDefaultsStatusConfirmation'
 
 import * as server from '@/app/helpers/appServer'
 
@@ -36,8 +36,7 @@ const updatePostSettings = async ({ updatePostStatus, artistId, pendingDefaultPo
   return pendingDefaultPostStatus
 }
 
-
-const PostsSettingsDefaultStatus = ({
+const AdDefaultsStatus = ({
   artist,
   artistId,
   setPostPreferences,
@@ -99,7 +98,7 @@ const PostsSettingsDefaultStatus = ({
         selectedValue={defaultPostStatus}
         trackGroupLabel="Posts Default Status"
       />
-      <PostSettingsStatusConfirmation
+      <AdDefaultsStatusConfirmation
         triggerStatusUpdate={triggerStatusUpdate}
         confirmationOpen={showPostStatusConfirmation}
         dismissConfirmation={() => setShowPostStatusConfirmation(false)}
@@ -108,11 +107,11 @@ const PostsSettingsDefaultStatus = ({
   )
 }
 
-PostsSettingsDefaultStatus.propTypes = {
+AdDefaultsStatus.propTypes = {
   artist: PropTypes.object.isRequired,
   artistId: PropTypes.string.isRequired,
   setPostPreferences: PropTypes.func.isRequired,
   togglePromotionGlobal: PropTypes.func.isRequired,
 }
 
-export default PostsSettingsDefaultStatus
+export default AdDefaultsStatus
