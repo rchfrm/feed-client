@@ -9,7 +9,6 @@ import AdSettingsSection from '@/app/AdSettingsSection'
 import AdDefaultsStatus from '@/app/AdDefaultsStatus'
 import AdDefaultsLink from '@/app/AdDefaultsLink'
 import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
-import AdDefaultsLinkTracking from '@/app/AdDefaultsLinkTracking'
 import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
 // IMPORT COPY
 import copy from '@/app/copy/controlsPageCopy'
@@ -76,12 +75,6 @@ const AdDefaults = () => {
           copy={copy.facebookPixelIntro}
         >
           <AdDefaultsPixelSelector />
-        </AdSettingsSection>
-        {/* LINK TRACKING */}
-        <AdSettingsSection
-          header="UTM parameters & tracking"
-        >
-          <AdDefaultsLinkTracking defaultLink={defaultLink} />
         </AdSettingsSection>
       </div>
     </div>
