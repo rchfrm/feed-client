@@ -26,10 +26,9 @@ const PostCardDisableWarning = ({
   paidEs,
   promotionEnabled,
   promotableStatus,
-  togglePromotion,
+  toggleCampaign,
   postToggleSetterType,
   artistId,
-  conversionVisible,
   textClassName,
   className,
 }) => {
@@ -72,7 +71,7 @@ const PostCardDisableWarning = ({
       if (error) return
       // Update post list state
       const { promotion_enabled, promotable_status } = postUpdated
-      togglePromotion(postId, promotion_enabled, promotable_status)
+      toggleCampaign(postId, promotion_enabled, promotable_status)
     },
   })
   return (
@@ -85,7 +84,7 @@ const PostCardDisableWarning = ({
       <div
         className={[
           'absolute top-0 left-0',
-          !conversionVisible ? '-mt-12' : null,
+          '-mt-12',
           'w-full h-full',
           'bg-white',
           'flex flex-col justify-between',
@@ -143,10 +142,9 @@ PostCardDisableWarning.propTypes = {
   paidEs: PropTypes.number,
   promotionEnabled: PropTypes.bool.isRequired,
   promotableStatus: PropTypes.number.isRequired,
-  togglePromotion: PropTypes.func.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string,
   artistId: PropTypes.string.isRequired,
-  conversionVisible: PropTypes.bool,
   textClassName: PropTypes.string,
   className: PropTypes.string,
 }
@@ -154,7 +152,6 @@ PostCardDisableWarning.propTypes = {
 PostCardDisableWarning.defaultProps = {
   paidEs: null,
   postToggleSetterType: '',
-  conversionVisible: true,
   textClassName: null,
   className: null,
 }

@@ -13,7 +13,7 @@ const PostCard = ({
   post,
   postIndex,
   updatePost,
-  togglePromotion,
+  toggleCampaign,
   postToggleSetterType,
   isMissingDefaultLink,
   artistId,
@@ -23,9 +23,6 @@ const PostCard = ({
   // Extract some variables
   const { postPromotable, promotionStatus, postType } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
-  // Should conversionVisible be hidden
-  const conversionVisible = true
-  const conversionDisabled = true
   return (
     <div
       className={[
@@ -61,21 +58,16 @@ const PostCard = ({
         />
         {postPromotable ? (
           <PostCardToggles
-            postId={post.id}
             artistId={artistId}
+            post={post}
             togglesClassName="py-2 px-4 mb-2 last:mb-0"
             className="mb-2"
-            promotionEnabled={post.promotionEnabled}
-            promotionStatus={post.promotionStatus}
-            togglePromotion={togglePromotion}
-            conversionVisible={conversionVisible}
-            conversionDisabled={conversionDisabled}
-            growthDisabled={promotionStatus === 'archived'}
+            toggleCampaign={toggleCampaign}
+            priorityEnabled={post.priorityEnabled}
           />
         ) : (
           <PostCardUnpromotable
             className="py-3 px-4 mb-2"
-            conversionVisible={conversionVisible}
           />
         )}
         <PostCardActionButtons
@@ -96,7 +88,7 @@ const PostCard = ({
             postStatus={post.promotionStatus}
             promotionEnabled={post.promotionEnabled}
             promotableStatus={post.promotableStatus}
-            togglePromotion={togglePromotion}
+            toggleCampaign={toggleCampaign}
             postToggleSetterType={postToggleSetterType}
             artistId={artistId}
             textClassName="py-3 px-4"
@@ -112,7 +104,7 @@ const PostCard = ({
 PostCard.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
-  togglePromotion: PropTypes.func.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
   artistId: PropTypes.string.isRequired,

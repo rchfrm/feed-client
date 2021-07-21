@@ -32,7 +32,7 @@ const getPostsWithLoadingTrigger = (posts, loadAtIndex) => {
 function PostsAll({
   posts,
   updatePost,
-  togglePromotion,
+  toggleCampaign,
   postToggleSetterType,
   loadMorePosts,
   loadingMore,
@@ -124,7 +124,7 @@ function PostsAll({
               post={post}
               postIndex={index}
               updatePost={updatePost}
-              togglePromotion={togglePromotion}
+              toggleCampaign={toggleCampaign}
               postToggleSetterType={postToggleSetterType}
               isMissingDefaultLink={isMissingDefaultLink}
               artistId={artistId}
@@ -155,7 +155,7 @@ function PostsAll({
 PostsAll.propTypes = {
   posts: PropTypes.array.isRequired,
   updatePost: PropTypes.func.isRequired,
-  togglePromotion: PropTypes.func.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string,
   loadMorePosts: PropTypes.func.isRequired,
   loadingMore: PropTypes.bool,

@@ -13,29 +13,32 @@ import * as postsHelpers from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
 
 // CALL TO CHANGE STATE
-const runChangeState = ({ artistId, postId, promotionEnabled }) => {
-  return postsHelpers.updatePost({ artistId, postId, promotionEnabled })
+const runChangeState = ({ artistId, postId, promotionEnabled, audienceSlug }) => {
+  return postsHelpers.updatePost({ artistId, postId, promotionEnabled, audienceSlug })
 }
 
-// GROWTH GRADIENT
-const growthGradient = `linear-gradient(135deg, ${brandColors.blue} 0%, ${brandColors.yellow} 100%)`
+// LABEL GRADIENTS
+const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
+const growthGradient = createGradient(brandColors.blue)
+const earnGradient = createGradient(brandColors.red)
 
 const PostCardToggle = ({
   audienceSlug,
   postId,
   artistId,
-  promotionEnabled,
-  togglePromotion,
+  isEnabled,
+  toggleCampaign,
   isActive,
   disabled,
+  isFeatureEnabled,
   className,
 }) => {
   // Store INTERNAL STATE based on promotionEnabled
-  const [currentState, setCurrentState] = React.useState(promotionEnabled)
+  const [currentState, setCurrentState] = React.useState(isEnabled)
   // Update internal state when outside state changes
   React.useEffect(() => {
-    setCurrentState(promotionEnabled)
-  }, [promotionEnabled])
+    setCurrentState(isEnabled)
+  }, [isEnabled])
 
   // UPDATE ON SERVER
   const [isLoading, setIsLoading] = React.useState(false)
@@ -45,7 +48,7 @@ const PostCardToggle = ({
     setIsLoading(true)
     // Update state passed to toggle component
     setCurrentState(newState)
-    const { res: updatedPost, error } = await runChangeState({ artistId, postId, promotionEnabled: newState })
+    const { res: updatedPost, error } = await runChangeState({ artistId, postId, promotionEnabled: newState, audienceSlug })
     setIsLoading(false)
     // Return to previous value if erroring
     if (error) {
@@ -55,11 +58,11 @@ const PostCardToggle = ({
     // Update post list state
     const { promotion_enabled, promotable_status } = updatedPost
     // Update post list state
-    togglePromotion(postId, promotion_enabled, promotable_status)
-  }, [artistId, postId, togglePromotion])
+    toggleCampaign(postId, promotion_enabled, promotable_status, audienceSlug)
+  }, [artistId, postId, toggleCampaign, audienceSlug])
 
   // HANDLE HOVER FOR TEASER
-  const isTeaserActive = audienceSlug === 'conversion' && disabled
+  const isTeaserActive = audienceSlug === 'earn' && !isFeatureEnabled
 
   // HANDLE CLICK TO SHOW TEASER
   const WrapperTag = isTeaserActive ? 'button' : 'div'
@@ -82,27 +85,26 @@ const PostCardToggle = ({
         <div
           className={[
             'w-4 h-4 rounded-full',
-            audienceSlug !== 'growth' ? 'bg-red' : null,
             disabled ? 'opacity-50' : 'opacity-100',
           ].join(' ')}
-          style={audienceSlug === 'growth' ? {
-            background: growthGradient,
-          } : null}
+          style={{
+            background: audienceSlug === 'growth' ? growthGradient : earnGradient,
+          }}
         />
         {/* TITLE */}
         <strong
           className="capitalize ml-4"
           style={{ transform: 'translate(-1px, 0px)' }}
         >
-          {audienceSlug === 'growth' ? 'Promotable' : 'Conversions'}
+          {audienceSlug === 'growth' ? 'Grow & Nurture' : 'Earn'}
         </strong>
         {/* RUNNING LABEL */}
-        {audienceSlug === 'growth' && isActive && (
+        {isActive && (
           <PostCardLabel
             copy="running"
             className="font-bold"
             style={{
-              background: growthGradient,
+              background: audienceSlug === 'growth' ? growthGradient : earnGradient,
             }}
           />
         )}
@@ -128,16 +130,18 @@ PostCardToggle.propTypes = {
   audienceSlug: PropTypes.string.isRequired,
   postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
-  promotionEnabled: PropTypes.bool.isRequired,
-  togglePromotion: PropTypes.func.isRequired,
+  isEnabled: PropTypes.bool.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
+  isFeatureEnabled: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostCardToggle.defaultProps = {
   disabled: false,
   className: null,
+  isFeatureEnabled: false,
 }
 
 export default PostCardToggle

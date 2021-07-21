@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PostCardUnpromotable = ({ className, conversionVisible }) => {
+const PostCardUnpromotable = ({ className }) => {
   return (
     <div
       className={[
         'rounded-dialogue',
-        conversionVisible ? 'h-26' : 'h-12',
+        'h-12',
         'bg-grey-1 text-grey-3',
         'relative text-center',
         className,
@@ -19,12 +19,10 @@ const PostCardUnpromotable = ({ className, conversionVisible }) => {
 
 PostCardUnpromotable.propTypes = {
   className: PropTypes.string,
-  conversionVisible: PropTypes.bool,
 }
 
 PostCardUnpromotable.defaultProps = {
   className: null,
-  conversionVisible: false,
 }
 
 export default PostCardUnpromotable
