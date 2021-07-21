@@ -16,6 +16,7 @@ const PostCardToggles = ({
   artistId,
   post,
   toggleCampaign,
+  priorityEnabled,
   togglesClassName,
   className,
 }) => {
@@ -43,7 +44,7 @@ const PostCardToggles = ({
         artistId={artistId}
         isEnabled={promotionEnabled}
         toggleCampaign={toggleCampaign}
-        disabled={promotionStatus === 'archived'}
+        disabled={promotionStatus === 'archived' && !priorityEnabled}
         isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
       />
@@ -54,7 +55,7 @@ const PostCardToggles = ({
         artistId={artistId}
         isEnabled={conversionsEnabled}
         toggleCampaign={toggleCampaign}
-        disabled={!globalConversionsEnabled || !canRunConversions || 'archived'}
+        disabled={!globalConversionsEnabled || !canRunConversions || (promotionStatus === 'archived' && !priorityEnabled)}
         isActive={promotionStatus === 'active' && conversionsEnabled}
         className={togglesClassName}
         isFeatureEnabled={conversionsFeatureEnabled}
@@ -67,6 +68,7 @@ PostCardToggles.propTypes = {
   artistId: PropTypes.string.isRequired,
   post: PropTypes.string.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
+  priorityEnabled: PropTypes.bool.isRequired,
   togglesClassName: PropTypes.string,
   className: PropTypes.string,
 }
