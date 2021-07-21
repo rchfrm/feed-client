@@ -56,7 +56,7 @@ const PostCardToggles = ({
         artistId={artistId}
         isEnabled={conversionsEnabled}
         toggleCampaign={toggleCampaign}
-        disabled={!globalConversionsEnabled || !canRunConversions || ('archived' && !priorityEnabled)}
+        disabled={!globalConversionsEnabled || !canRunConversions || (promotionStatus === 'archived' && !priorityEnabled)}
         isActive={promotionStatus === 'active' && conversionsEnabled}
         className={togglesClassName}
         isFeatureEnabled={conversionsFeatureEnabled}
