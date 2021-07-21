@@ -4,6 +4,7 @@ import Router from 'next/router'
 
 import Error from '@/elements/Error'
 import Button from '@/elements/Button'
+import MarkdownText from '@/elements/MarkdownText'
 
 import AdSettingsSection from '@/app/AdSettingsSection'
 import PostCardSettingsToggle from '@/app/PostCardSettingsToggle'
@@ -30,19 +31,24 @@ const PostCardSettings = ({
   post,
   postIndex,
   updatePost,
+  artistId,
+  toggleCampaign,
   isMissingDefaultLink,
   className,
 }) => {
   const {
+    promotionEnabled,
+    conversionsEnabled,
     promotionStatus,
     linkId,
     linkHref,
     linkType,
     callToActions,
+    id: postId,
   } = post
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
-  const [currentView, setCurrentView] = React.useState('all')
+  const [campaignType, setCampaignType] = React.useState('all')
 
   const noCaptionEditExcuse = getCaptionNotEditableExcuse(post)
 
@@ -61,7 +67,7 @@ const PostCardSettings = ({
       {/* CAMPAIGN TYPE TABS */}
       <div className="flex mb-6 text-lg text-grey-3">
         {campaignTypes.map(({ title, slug }) => {
-          const isActive = currentView === slug
+          const isActive = campaignType === slug
           return (
             <div
               key={slug}
@@ -82,7 +88,7 @@ const PostCardSettings = ({
                 className={[
                   isActive ? 'font-bold' : '',
                 ].join(' ')}
-                onClick={() => setCurrentView(slug)}
+                onClick={() => setCampaignType(slug)}
               >
                 {title}
               </button>
@@ -106,7 +112,15 @@ const PostCardSettings = ({
           {/* ERROR */}
           <Error error={error} />
           {/* SETTINGS SECTION */}
-          <PostCardSettingsToggle />
+          <MarkdownText markdown={copy.postSettingsIntro} />
+          <PostCardSettingsToggle
+            promotionEnabled={promotionEnabled}
+            conversionsEnabled={conversionsEnabled}
+            campaignType={campaignType}
+            postId={postId}
+            artistId={artistId}
+            toggleCampaign={toggleCampaign}
+          />
           <AdSettingsSection
             header="Link"
             copy={copy.postLinkSetting}
@@ -131,7 +145,7 @@ const PostCardSettings = ({
               postIndex={postIndex}
               postCallToActions={callToActions}
               updatePost={updatePost}
-              campaignType={currentView}
+              campaignType={campaignType}
             />
           </AdSettingsSection>
           {/* EDIT MESSAGE */}
@@ -157,6 +171,8 @@ PostCardSettings.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
   updatePost: PropTypes.func.isRequired,
+  artistId: PropTypes.string.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }

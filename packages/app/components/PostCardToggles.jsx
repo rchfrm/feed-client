@@ -38,7 +38,7 @@ const PostCardToggles = ({
     >
       {/* GROWTH TOGGLE */}
       <PostCardToggle
-        audienceSlug="growth"
+        campaignType="all"
         postId={postId}
         artistId={artistId}
         isEnabled={promotionEnabled}
@@ -49,7 +49,7 @@ const PostCardToggles = ({
       />
       {/* EARN TOGGLE */}
       <PostCardToggle
-        audienceSlug="earn"
+        campaignType="conversions"
         postId={postId}
         artistId={artistId}
         isEnabled={conversionsEnabled}

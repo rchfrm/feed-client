@@ -30,13 +30,22 @@ const usePostsSidePanel = () => {
   )
 
   // SHOW POST SETTINGS
-  const goToPostSettings = React.useCallback(({ post, postIndex, updatePost, isMissingDefaultLink }) => {
+  const goToPostSettings = React.useCallback(({
+    post,
+    postIndex,
+    updatePost,
+    artistId,
+    toggleCampaign,
+    isMissingDefaultLink,
+  }) => {
     setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContent((
       <PostCardSettings
         post={post}
         postIndex={postIndex}
         updatePost={updatePost}
+        artistId={artistId}
+        toggleCampaign={toggleCampaign}
         isMissingDefaultLink={isMissingDefaultLink}
       />
     ))

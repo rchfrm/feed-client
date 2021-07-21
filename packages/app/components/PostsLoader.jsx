@@ -197,12 +197,12 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   const [postToggleSetterType, setPostToggleSetterType] = React.useState('')
 
   // Define function for toggling SINGLE promotion campaign or conversions campaign
-  const toggleCampaign = React.useCallback(async (postId, promotionEnabled, promotableStatus, audienceSlug = 'growth') => {
+  const toggleCampaign = React.useCallback(async (postId, promotionEnabled, promotableStatus, campaignType = 'all') => {
     const postIndex = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotionEnabled
     setPostToggleSetterType('single')
     setPosts({
-      type: audienceSlug === 'growth' ? 'toggle-promotion' : 'toggle-conversion',
+      type: campaignType === 'all' ? 'toggle-promotion' : 'toggle-conversion',
       payload: {
         promotionEnabled,
         promotableStatus,
@@ -215,7 +215,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       status: newPromotionState ? 'eligible' : 'ineligible',
       postType,
       platform,
-      audienceSlug,
+      campaignType,
       es: paidMetrics.engagementScore ?? organicMetrics.engagementScore,
     })
     return newPromotionState

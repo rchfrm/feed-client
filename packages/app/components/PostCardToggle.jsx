@@ -11,12 +11,12 @@ import useShowConversionsInterest from '@/app/hooks/useShowConversionsInterest'
 import { updatePost, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
 // CALL TO CHANGE STATE
-const runChangeState = ({ artistId, postId, promotionEnabled, audienceSlug }) => {
-  return updatePost({ artistId, postId, promotionEnabled, audienceSlug })
+const runChangeState = ({ artistId, postId, promotionEnabled, campaignType }) => {
+  return updatePost({ artistId, postId, promotionEnabled, campaignType })
 }
 
 const PostCardToggle = ({
-  audienceSlug,
+  campaignType,
   postId,
   artistId,
   isEnabled,
@@ -41,7 +41,7 @@ const PostCardToggle = ({
     setIsLoading(true)
     // Update state passed to toggle component
     setCurrentState(newState)
-    const { res: updatedPost, error } = await runChangeState({ artistId, postId, promotionEnabled: newState, audienceSlug })
+    const { res: updatedPost, error } = await runChangeState({ artistId, postId, promotionEnabled: newState, campaignType })
     setIsLoading(false)
     // Return to previous value if erroring
     if (error) {
@@ -51,11 +51,11 @@ const PostCardToggle = ({
     // Update post list state
     const { promotion_enabled, promotable_status } = updatedPost
     // Update post list state
-    toggleCampaign(postId, promotion_enabled, promotable_status, audienceSlug)
-  }, [artistId, postId, toggleCampaign, audienceSlug])
+    toggleCampaign(postId, promotion_enabled, promotable_status, campaignType)
+  }, [artistId, postId, toggleCampaign, campaignType])
 
   // HANDLE HOVER FOR TEASER
-  const isTeaserActive = audienceSlug === 'earn' && !isFeatureEnabled
+  const isTeaserActive = campaignType === 'conversions' && !isFeatureEnabled
 
   // HANDLE CLICK TO SHOW TEASER
   const WrapperTag = isTeaserActive ? 'button' : 'div'
@@ -81,7 +81,7 @@ const PostCardToggle = ({
             disabled ? 'opacity-50' : 'opacity-100',
           ].join(' ')}
           style={{
-            background: audienceSlug === 'growth' ? growthGradient : conversionsGradient,
+            background: campaignType === 'all' ? growthGradient : conversionsGradient,
           }}
         />
         {/* TITLE */}
@@ -89,7 +89,7 @@ const PostCardToggle = ({
           className="capitalize ml-4"
           style={{ transform: 'translate(-1px, 0px)' }}
         >
-          {audienceSlug === 'growth' ? 'Grow & Nurture' : 'Earn'}
+          {campaignType === 'all' ? 'Grow & Nurture' : 'Earn'}
         </strong>
         {/* RUNNING LABEL */}
         {isActive && (
@@ -97,7 +97,7 @@ const PostCardToggle = ({
             copy="running"
             className="font-bold"
             style={{
-              background: audienceSlug === 'growth' ? growthGradient : conversionsGradient,
+              background: campaignType === 'all' ? growthGradient : conversionsGradient,
             }}
           />
         )}
@@ -120,7 +120,7 @@ const PostCardToggle = ({
 }
 
 PostCardToggle.propTypes = {
-  audienceSlug: PropTypes.string.isRequired,
+  campaignType: PropTypes.string.isRequired,
   postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
