@@ -54,14 +54,6 @@ Each post can override these settings.`,
   defaultCallToActionIntro: `By default, which call to action should appear on your ads?`,
   facebookPixelIntro: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-  linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `UTM parameters are automatically added to the links used in your ads. This means you can track how many people Feed is sending to your website, and what they do when they get there.
-
-Here's an example of what a link will look like:
-
-> _${defaultLink}?utm_source=feed&utm_medium=social_
-
-Soon we'll be letting you track this within the Feed platform, but if you already have access to Google Analytics for the website(s) your ads link to, you can view information about the people visiting via Feed's ads by going to Acquisition > All Traffic > Source/Medium.
-`,
 
   // CONVERSIONS WIZARD
   // ----------------

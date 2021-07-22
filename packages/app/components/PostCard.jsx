@@ -63,6 +63,7 @@ const PostCard = ({
             togglesClassName="py-2 px-4 mb-2 last:mb-0"
             className="mb-2"
             toggleCampaign={toggleCampaign}
+            priorityEnabled={post.priorityEnabled}
           />
         ) : (
           <PostCardUnpromotable
