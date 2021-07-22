@@ -31,12 +31,10 @@ const postsReducer = (draftState, postsAction) => {
     postIndex,
     promotionEnabled,
     promotableStatus,
-    linkId,
-    linkHref,
-    linkType,
+    linkSpecs,
     adMessages,
-    priorityEnabled,
     callToActions,
+    priorityEnabled,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -59,10 +57,8 @@ const postsReducer = (draftState, postsAction) => {
         post.promotionEnabled = promotionEnabled
       })
       break
-    case 'update-link':
-      draftState[postIndex].linkId = linkId
-      draftState[postIndex].linkHref = linkHref
-      draftState[postIndex].linkType = linkType
+    case 'update-link-specs':
+      draftState[postIndex].linkSpecs = linkSpecs
       break
     case 'update-call-to-actions':
       draftState[postIndex].callToActions = callToActions

@@ -39,9 +39,7 @@ const PostCardSettings = ({
     promotionEnabled,
     conversionsEnabled,
     promotionStatus,
-    linkId,
-    linkHref,
-    linkType,
+    linkSpecs,
     callToActions,
     id: postId,
   } = post
@@ -100,12 +98,11 @@ const PostCardSettings = ({
             <PostCardSettingsLink
               postId={post.id}
               postIndex={postIndex}
-              linkId={linkId}
-              linkHref={linkHref}
               updatePost={updatePost}
               postPromotionStatus={promotionStatus}
-              linkType={linkType}
               setError={setError}
+              linkSpecs={linkSpecs}
+              campaignType={campaignType}
             />
           </AdSettingsSection>
           <AdSettingsSection

@@ -15,35 +15,34 @@ const getDefaultLink = state => state.defaultLink
 const PostCardSettingsLink = ({
   postId,
   postIndex,
-  linkId,
-  linkHref,
-  linkType,
+  linkSpecs,
   postPromotionStatus,
   updatePost,
   setError,
+  campaignType,
   className,
 }) => {
+  const { linkId, linkHref, linkType } = linkSpecs[campaignType] || {}
   const defaultLink = useControlsStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
   const [currentLinkId, setCurrentLinkId] = React.useState(linkId || defaultPostLinkId)
+  const [currentLinkType, setCurrentLinkType] = React.useState(linkType)
   const isPostActive = postPromotionStatus === 'active'
 
-  const updateLinkState = React.useCallback(({ postIndex, linkId, linkHref, linkType }) => {
+  const updateLinkState = React.useCallback(({ postIndex, linkSpecs }) => {
     const payload = {
       postIndex,
-      linkId,
-      linkHref,
-      linkType,
+      linkSpecs,
     }
-    updatePost('update-link', payload)
+    updatePost('update-link-specs', payload)
   }, [updatePost])
 
-  const handleSuccess = (newLink) => {
-    const { linkId, linkHref, linkType } = newLink
+  const handleSuccess = (newLinkSpecs) => {
+    const { linkId, linkHref } = newLinkSpecs[campaignType]
     const isDefaultLink = !linkId
     const newLinkId = linkId || defaultPostLinkId
     const newLinkHref = linkHref || defaultLink.href
-    updateLinkState({ postIndex, linkId, linkHref, linkType })
+    updateLinkState({ postIndex, linkSpecs: newLinkSpecs })
     setError(null)
     setPreviewUrl(newLinkHref)
     setCurrentLinkId(newLinkId)
@@ -59,6 +58,13 @@ const PostCardSettingsLink = ({
     setError(error)
   }
 
+  React.useEffect(() => {
+    const { linkId, linkHref, linkType } = linkSpecs[campaignType] || {}
+    setCurrentLinkId(linkId)
+    setPreviewUrl(linkHref)
+    setCurrentLinkType(linkType)
+  }, [campaignType, linkSpecs])
+
   return (
     <div
       className={[
@@ -67,7 +73,7 @@ const PostCardSettingsLink = ({
     >
       <PostLinksSelect
         currentLinkId={currentLinkId}
-        linkType={linkType}
+        linkType={currentLinkType}
         onSelect={setPostLink}
         postItemId={postId}
         onSuccess={handleSuccess}
@@ -77,6 +83,7 @@ const PostCardSettingsLink = ({
         componentLocation="post"
         selectClassName="mb-0"
         isPostActive={isPostActive}
+        campaignType={campaignType}
       />
       {/* LINK PREVIEW */}
       {previewUrl && (
@@ -102,18 +109,15 @@ const PostCardSettingsLink = ({
 PostCardSettingsLink.propTypes = {
   postId: PropTypes.string.isRequired,
   postIndex: PropTypes.number.isRequired,
-  linkId: PropTypes.string,
-  linkHref: PropTypes.string,
-  linkType: PropTypes.string.isRequired,
+  linkSpecs: PropTypes.object.isRequired,
   postPromotionStatus: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
+  campaignType: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
 PostCardSettingsLink.defaultProps = {
-  linkId: '',
-  linkHref: '',
   className: null,
 }
 

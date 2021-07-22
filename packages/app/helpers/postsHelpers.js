@@ -140,12 +140,18 @@ const getNestedMetric = (post, metric) => {
   return Object.values(metricValues)[0]
 }
 
-// Get post link data
-export const getPostLinkData = (post) => {
-  const { type: linkType = '', data: linkData = {} } = post.link_spec || {}
-  const linkId = linkData.id || linkData.link_spec?.data?.id || ''
-  const linkHref = linkData.href || ''
-  return { linkType, linkId, linkHref }
+// Get post link specs
+export const getPostLinkSpecData = (post) => {
+  return Object.entries(post.link_specs).reduce((newObject, [key, value]) => {
+    const { type: linkType = '', data: linkData = {} } = value || {}
+    const linkId = linkData.id || linkData.link_spec?.data?.id || ''
+    const linkHref = linkData.href || ''
+    newObject[key] = {}
+    newObject[key].linkType = linkType
+    newObject[key].linkId = linkId
+    newObject[key].linkHref = linkHref
+    return newObject
+  }, {})
 }
 
 // Get post link data
@@ -222,8 +228,8 @@ export const formatPostsResponse = (posts) => {
     const publishedTime = formatPublishedTime(post.published_time)
     // Ad dates
     const [firstRan, lastRan] = getPostAdDates(ads)
-    // Link type
-    const { linkType, linkId, linkHref } = getPostLinkData(post)
+    // Link specs
+    const linkSpecs = getPostLinkSpecData(post)
     return {
       id: post.id,
       postType: post.subtype || post.type,
@@ -231,13 +237,11 @@ export const formatPostsResponse = (posts) => {
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
       conversionsEnabled: post.conversions_enabled,
-      linkId,
-      linkHref,
-      linkType,
       priorityEnabled: post.priority_enabled,
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
+      linkSpecs,
       callToActions,
       adMessages,
       message,

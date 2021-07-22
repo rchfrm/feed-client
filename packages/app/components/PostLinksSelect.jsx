@@ -36,6 +36,7 @@ const PostLinksSelect = ({
   className,
   disabled,
   isPostActive,
+  campaignType,
 }) => {
   // READ FROM LINKS STORE
   const {
@@ -170,7 +171,7 @@ const PostLinksSelect = ({
     }
     setLoading(true)
     // Run server
-    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId)
+    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId, campaignType)
     if (!isMounted) return
     // Handle error
     setShowAlert(false)
@@ -190,7 +191,7 @@ const PostLinksSelect = ({
     setLoading(false)
     // Reset deleted link state
     setIsDeletedLink(false)
-  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink])
+  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink, campaignType])
 
   const handleChange = (e) => {
     const { target: { value } } = e
@@ -205,6 +206,10 @@ const PostLinksSelect = ({
     setSelectedOptionValue(value)
     updatePostLink(value)
   }
+
+  React.useEffect(() => {
+    setSelectedOptionValue(currentLinkId)
+  }, [currentLinkId])
 
   return (
     <div className={className}>
@@ -263,6 +268,7 @@ PostLinksSelect.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   isPostActive: PropTypes.bool,
+  campaignType: PropTypes.string,
 }
 
 PostLinksSelect.defaultProps = {
@@ -281,6 +287,7 @@ PostLinksSelect.defaultProps = {
   className: '',
   disabled: false,
   isPostActive: false,
+  campaignType: '',
 }
 
 export default PostLinksSelect
