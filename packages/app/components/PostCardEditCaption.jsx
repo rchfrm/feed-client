@@ -57,6 +57,11 @@ const PostCardEditCaption = ({
         draftState[index].message = newCaption
         return
       }
+      // An empty caption means we did a reset to the original, so remove it from the array
+      if (!newCaption) {
+        draftState.splice(index, 1)
+        return
+      }
       // Otherwise push the new caption object to the array
       draftState.push(newAdMessages)
     })
