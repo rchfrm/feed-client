@@ -23,6 +23,7 @@ const PostCardEditCaption = ({
   updatePost,
   isEditable,
   campaignType,
+  isDisabled,
 }) => {
   // Internal state
   const { id = '', message = '' } = post.adMessages[0] || {}
@@ -142,6 +143,7 @@ const PostCardEditCaption = ({
                   'capitalize no-underline mr-4 last:mr-0',
                   isActive ? 'font-bold border-solid border-black border-b-2' : 'opacity-50 hover:opacity-100',
                   isLoading ? 'pointer-events-none' : null,
+                  isDisabled ? 'pointer-events-none text-grey-2 border-grey-2' : null,
                 ].join(' ')}
                 onClick={() => {
                   if (isLoading) return
@@ -172,31 +174,33 @@ const PostCardEditCaption = ({
               </a>
             )}
             {/* EDIT/SAVE BUTTON */}
-            <Button
-              label={useEditMode ? 'Save new caption' : 'Edit caption'}
-              version="green x-small"
-              className="ml-auto w-20"
-              loading={isLoading}
-              disabled={visibleCaption === 'post'}
-              onClick={() => {
-                if (isLoading) return
-                if (useEditMode) {
-                  updatePostDb(newCaption)
-                } else {
-                  setUseEditMode(true)
-                  // TRACK
-                  track('edit_caption_start', {
-                    postId: post.id,
-                    originalCaption,
-                  })
-                }
-              }}
-            >
-              {!useEditMode && (
-                <PencilIcon fill={brandColors.bgColor} className="mr-1" style={{ height: '1rem' }} />
-              )}
-              {useEditMode ? 'Save' : 'Edit'}
-            </Button>
+            {!isDisabled && (
+              <Button
+                label={useEditMode ? 'Save new caption' : 'Edit caption'}
+                version="green x-small"
+                className="ml-auto w-20"
+                loading={isLoading}
+                disabled={visibleCaption === 'post'}
+                onClick={() => {
+                  if (isLoading) return
+                  if (useEditMode) {
+                    updatePostDb(newCaption)
+                  } else {
+                    setUseEditMode(true)
+                    // TRACK
+                    track('edit_caption_start', {
+                      postId: post.id,
+                      originalCaption,
+                    })
+                  }
+                }}
+              >
+                {!useEditMode && (
+                  <PencilIcon fill={brandColors.bgColor} className="mr-1" style={{ height: '1rem' }} />
+                )}
+                {useEditMode ? 'Save' : 'Edit'}
+              </Button>
+            )}
           </div>
         </div>
       )}
@@ -213,7 +217,10 @@ const PostCardEditCaption = ({
         ) : (
           <CaptionText
             caption={visibleCaption === 'ad' ? savedNewCaption || originalCaption : originalCaption}
-            className="mb-0"
+            className={[
+              'mb-0',
+              isDisabled ? 'text-grey-3' : null,
+            ].join(' ')}
           />
         )}
       </div>
@@ -224,7 +231,10 @@ const PostCardEditCaption = ({
         {visibleCaption === 'ad' && hasAdMessage && (
           <a
             role="button"
-            className="inline-block p-2 pl-0 no-underline text-grey-3 hover:text-black"
+            className={[
+              'inline-block p-2 pl-0 no-underline text-grey-3 hover:text-black',
+              isDisabled ? 'pointer-events-none' : null,
+            ].join(' ')}
             onClick={(e) => {
               e.preventDefault()
               resetToOriginal()
@@ -258,6 +268,7 @@ PostCardEditCaption.propTypes = {
   updatePost: PropTypes.func.isRequired,
   isEditable: PropTypes.bool.isRequired,
   campaignType: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 PostCardEditCaption.defaultProps = {

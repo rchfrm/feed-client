@@ -20,6 +20,7 @@ const PostCardSettingsCallToAction = ({
   updatePost,
   campaignType,
   postPromotionStatus,
+  isDisabled,
 }) => {
   // Get initial call to action value and id
   const { id = '', value = '' } = postCallToActions[0] || {}
@@ -78,6 +79,7 @@ const PostCardSettingsCallToAction = ({
       isPostActive={isPostActive}
       campaignType={campaignType}
       shouldSaveOnChange
+      disabled={isDisabled}
     />
   )
 }
@@ -88,6 +90,7 @@ PostCardSettingsCallToAction.propTypes = {
   postCallToActions: PropTypes.arrayOf(PropTypes.object).isRequired,
   updatePost: PropTypes.func.isRequired,
   campaignType: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 PostCardSettingsCallToAction.defaultProps = {

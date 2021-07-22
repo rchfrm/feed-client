@@ -46,6 +46,7 @@ const PostCardSettings = ({
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
   const [campaignType, setCampaignType] = React.useState('all')
+  const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
 
   const noCaptionEditExcuse = getCaptionNotEditableExcuse(post)
 
@@ -90,10 +91,13 @@ const PostCardSettings = ({
             postId={postId}
             artistId={artistId}
             toggleCampaign={toggleCampaign}
+            isEnabled={isEnabled}
+            setIsEnabled={setIsEnabled}
           />
           <AdSettingsSection
             header="Link"
             copy={copy.postLinkSetting}
+            isDisabled={!isEnabled}
           >
             <PostCardSettingsLink
               postId={post.id}
@@ -103,11 +107,13 @@ const PostCardSettings = ({
               setError={setError}
               linkSpecs={linkSpecs}
               campaignType={campaignType}
+              isDisabled={!isEnabled}
             />
           </AdSettingsSection>
           <AdSettingsSection
             header="Call to Action"
             copy={copy.postCallToActionSetting}
+            isDisabled={!isEnabled}
           >
             <PostCardSettingsCallToAction
               postId={post.id}
@@ -116,6 +122,7 @@ const PostCardSettings = ({
               updatePost={updatePost}
               campaignType={campaignType}
               postPromotionStatus={promotionStatus}
+              isDisabled={!isEnabled}
             />
           </AdSettingsSection>
           {/* EDIT MESSAGE */}
@@ -123,6 +130,7 @@ const PostCardSettings = ({
             header="Caption"
             copy={noCaptionEditExcuse || copy.editCaption}
             copyClassName={noCaptionEditExcuse && 'text-red'}
+            isDisabled={!isEnabled}
           >
             <PostCardEditCaption
               post={post}
@@ -130,6 +138,7 @@ const PostCardSettings = ({
               updatePost={updatePost}
               isEditable={!noCaptionEditExcuse}
               campaignType={campaignType}
+              isDisabled={!isEnabled}
             />
           </AdSettingsSection>
         </>

@@ -12,8 +12,9 @@ const PostCardSettingsToggle = ({
   toggleCampaign,
   postId,
   artistId,
+  isEnabled,
+  setIsEnabled,
 }) => {
-  const [currentState, setCurrentState] = React.useState(promotionEnabled)
   const [isPromotionEnabled, setIsPromotionEnabled] = React.useState(promotionEnabled)
   const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
 
@@ -23,7 +24,7 @@ const PostCardSettingsToggle = ({
     // Start loading
     setIsLoading(true)
     // Update state passed to toggle component
-    setCurrentState(newState)
+    setIsEnabled(newState)
     if (campaignType === 'all') {
       setIsPromotionEnabled(newState)
     } else {
@@ -33,17 +34,17 @@ const PostCardSettingsToggle = ({
     setIsLoading(false)
     // Return to previous value if erroring
     if (error) {
-      setCurrentState(!newState)
+      setIsEnabled(!newState)
       return
     }
     // Update post list state
     const { promotion_enabled, promotable_status } = updatedPost
     toggleCampaign(postId, promotion_enabled, promotable_status, campaignType)
-  }, [artistId, postId, toggleCampaign, campaignType])
+  }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled])
 
   React.useEffect(() => {
-    setCurrentState(campaignType === 'all' ? isPromotionEnabled : isConversionsEnabled)
-  }, [campaignType, isPromotionEnabled, isConversionsEnabled])
+    setIsEnabled(campaignType === 'all' ? isPromotionEnabled : isConversionsEnabled)
+  }, [campaignType, isPromotionEnabled, isConversionsEnabled, setIsEnabled])
 
   return (
     <div
@@ -54,12 +55,12 @@ const PostCardSettingsToggle = ({
       ].join(' ')}
     >
       <ToggleSwitch
-        state={currentState}
+        state={isEnabled}
         onChange={onChange}
         isLoading={isLoading}
         className="mr-4"
       />
-      <p className="font-bold mb-0">{`Promotion ${currentState ? 'enabled' : 'disabled'}`}</p>
+      <p className="font-bold mb-0">{`Promotion ${isEnabled ? 'enabled' : 'disabled'}`}</p>
     </div>
   )
 }

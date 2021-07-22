@@ -9,6 +9,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { setPostLink, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 import { removeProtocolFromUrl, enforceUrlProtocol, parseUrl } from '@/helpers/utils'
 import { track } from '@/app/helpers/trackingHelpers'
+import brandColors from '../../shared/constants/brandColors'
 
 const getDefaultLink = state => state.defaultLink
 
@@ -20,6 +21,7 @@ const PostCardSettingsLink = ({
   updatePost,
   setError,
   campaignType,
+  isDisabled,
   className,
 }) => {
   const { linkId, linkHref, linkType } = linkSpecs[campaignType] || {}
@@ -84,13 +86,17 @@ const PostCardSettingsLink = ({
         selectClassName="mb-0"
         isPostActive={isPostActive}
         campaignType={campaignType}
+        disabled={isDisabled}
       />
       {/* LINK PREVIEW */}
       {previewUrl && (
         <p className="flex items-center mb-0 mt-2">
-          <LinkIcon className="h-3 w-auto mr-2" />
+          <LinkIcon className="h-3 w-auto mr-2" fill={isDisabled ? brandColors.grey : brandColors.textColor} />
           <a
-            className="block pt-1 text-xs text-grey-3 truncate w-full"
+            className={[
+              'block pt-1 text-xs truncate w-full text-red',
+              isDisabled ? 'text-grey-2 pointer-events-none' : 'text-grey-3',
+            ].join(' ')}
             style={{
               transform: 'translateY(-0.05rem)',
             }}
@@ -114,6 +120,7 @@ PostCardSettingsLink.propTypes = {
   updatePost: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   campaignType: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
