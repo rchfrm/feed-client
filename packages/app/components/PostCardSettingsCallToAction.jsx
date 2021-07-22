@@ -19,6 +19,7 @@ const PostCardSettingsCallToAction = ({
   postCallToActions,
   updatePost,
   campaignType,
+  postPromotionStatus,
 }) => {
   // Get initial call to action value and id
   const { id = '', value = '' } = postCallToActions[0] || {}
@@ -30,6 +31,8 @@ const PostCardSettingsCallToAction = ({
   const { postsPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultPostsCallToAction } = postsPreferences
   const { callToAction: defaultConversionsCallToAction } = conversionsPreferences
+
+  const isPostActive = postPromotionStatus === 'active'
 
   const handleSuccess = (callToAction) => {
     // Check if call to action already exists for the selected campaign type
@@ -72,6 +75,7 @@ const PostCardSettingsCallToAction = ({
       setCallToAction={setSelectedCallToAction}
       callToActionId={callToActionId}
       postId={postId}
+      isPostActive={isPostActive}
       campaignType={campaignType}
       shouldSaveOnChange
     />

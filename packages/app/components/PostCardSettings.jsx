@@ -115,6 +115,7 @@ const PostCardSettings = ({
               postCallToActions={callToActions}
               updatePost={updatePost}
               campaignType={campaignType}
+              postPromotionStatus={promotionStatus}
             />
           </AdSettingsSection>
           {/* EDIT MESSAGE */}
