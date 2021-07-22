@@ -272,11 +272,12 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     const updatePostsWithMissingLinks = (missingLinkIds = []) => {
       const updatedPosts = produce(posts, draftPosts => {
         draftPosts.forEach((post) => {
-          const { linkId } = post
-          if (linkId && missingLinkIds.includes(linkId) && post.linkType !== 'adcreative') {
-            post.linkId = null
-            post.linkHref = null
-          }
+          Object.values(post.linkSpecs).forEach((linkSpec, index) => {
+            const { linkId } = linkSpec
+            if (linkId && missingLinkIds.includes(linkId) && post.linkType !== 'adcreative') {
+              delete post.linkSpecs[index]
+            }
+          })
         })
       })
       setPosts({
