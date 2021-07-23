@@ -66,7 +66,7 @@ const PostCardToggles = ({
 
 PostCardToggles.propTypes = {
   artistId: PropTypes.string.isRequired,
-  post: PropTypes.string.isRequired,
+  post: PropTypes.object.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
   priorityEnabled: PropTypes.bool.isRequired,
   togglesClassName: PropTypes.string,

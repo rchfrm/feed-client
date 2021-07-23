@@ -122,9 +122,9 @@ PostCardToggle.propTypes = {
   campaignType: PropTypes.string.isRequired,
   postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
-  isEnabled: PropTypes.bool.isRequired,
+  isEnabled: PropTypes.bool,
   toggleCampaign: PropTypes.func.isRequired,
-  isActive: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool,
   disabled: PropTypes.bool,
   isFeatureEnabled: PropTypes.bool,
   className: PropTypes.string,
@@ -134,6 +134,8 @@ PostCardToggle.defaultProps = {
   disabled: false,
   className: null,
   isFeatureEnabled: false,
+  isEnabled: false,
+  isActive: false,
 }
 
 export default PostCardToggle
