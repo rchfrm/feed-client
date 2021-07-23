@@ -57,10 +57,10 @@ const PostCardSettings = ({
   const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
   const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
 
-  const isArchivedAndNotPrioritized = promotionStatus === 'archived' && !priorityEnabled
+  const isPostArchivedAndNotPrioritized = promotionStatus === 'archived' && !priorityEnabled
   const isToggleDisabled = campaignType === 'all'
-    ? isArchivedAndNotPrioritized
-    : isArchivedAndNotPrioritized || !globalConversionsEnabled || !canRunConversions
+    ? isPostArchivedAndNotPrioritized
+    : isPostArchivedAndNotPrioritized || !globalConversionsEnabled || !canRunConversions
   const isSectionDisabled = campaignType === 'all'
     ? !isEnabled
     : !isEnabled || !globalConversionsEnabled || !canRunConversions
