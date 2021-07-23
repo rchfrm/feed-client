@@ -7,7 +7,7 @@ import MarkdownLink from '@/elements/MarkdownLink'
 const MarkdownText = ({
   markdown,
   skipTextBlock,
-  disallowedTypes,
+  disallowedElements,
   allowedElements,
   unwrapDisallowed,
   components,
@@ -17,8 +17,8 @@ const MarkdownText = ({
   const content = (
     <ReactMarkdown
       renderers={{ link: MarkdownLink }}
-      disallowedTypes={disallowedTypes}
-      allowedTypes={allowedElements}
+      disallowedElements={disallowedElements}
+      allowedElements={allowedElements}
       unwrapDisallowed={unwrapDisallowed}
       components={components}
     >
@@ -38,7 +38,7 @@ const MarkdownText = ({
 MarkdownText.propTypes = {
   markdown: PropTypes.string.isRequired,
   skipTextBlock: PropTypes.bool,
-  disallowedTypes: PropTypes.array,
+  disallowedElements: PropTypes.array,
   allowedElements: PropTypes.array,
   unwrapDisallowed: PropTypes.bool,
   components: PropTypes.object,
@@ -48,7 +48,7 @@ MarkdownText.propTypes = {
 
 MarkdownText.defaultProps = {
   skipTextBlock: false,
-  disallowedTypes: undefined,
+  disallowedElements: undefined,
   allowedElements: undefined,
   unwrapDisallowed: false,
   components: null,
