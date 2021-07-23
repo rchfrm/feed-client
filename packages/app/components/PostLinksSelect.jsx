@@ -136,22 +136,6 @@ const PostLinksSelect = ({
     return baseOptions
   }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, currentLinkId, linkType])
 
-  // SHOW ADD LINK MODAL
-  const showAddLinkModal = useCreateEditLinkBankLink({
-    action: 'add',
-    location: componentLocation,
-    // Set link as post link when added
-    onSave: (savedLink, newArtist) => {
-      if (componentLocation === 'defaultLink' && newArtist) {
-        onSuccess(newArtist)
-      }
-      const { id: linkId } = savedLink
-      setSelectedOptionValue(linkId)
-      setLoading(false)
-    },
-    onCancel: () => setLoading(false),
-  })
-
   // HANDLE SETTING SELECTED LINK
   const updatePostLink = React.useCallback(async (selectedOptionValue, forceRun = false) => {
     if (loading && !forceRun) return
@@ -192,6 +176,23 @@ const PostLinksSelect = ({
     // Reset deleted link state
     setIsDeletedLink(false)
   }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink, campaignType])
+
+  // SHOW ADD LINK MODAL
+  const showAddLinkModal = useCreateEditLinkBankLink({
+    action: 'add',
+    location: componentLocation,
+    // Set link as post link when added
+    onSave: (savedLink, newArtist) => {
+      if (componentLocation === 'defaultLink' && newArtist) {
+        onSuccess(newArtist)
+      }
+      const { id: linkId } = savedLink
+      setSelectedOptionValue(linkId)
+      updatePostLink(linkId)
+      setLoading(false)
+    },
+    onCancel: () => setLoading(false),
+  })
 
   const handleChange = (e) => {
     const { target: { value } } = e
