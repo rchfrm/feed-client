@@ -17,6 +17,8 @@ import * as ROUTES from '@/app/constants/routes'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import useControlsStore from '@/app/stores/controlsStore'
 
 import copy from '@/app/copy/PostsPageCopy'
@@ -51,11 +53,14 @@ const PostCardSettings = ({
     id: postId,
     priorityEnabled,
   } = post
+  // Get conversions feature flag value
+  const { artist: { conversions_enabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
   const [campaignType, setCampaignType] = React.useState('all')
   const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
   const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
+
 
   const isPostArchivedAndNotPrioritized = promotionStatus === 'archived' && !priorityEnabled
   const isToggleDisabled = campaignType === 'all'
@@ -93,10 +98,12 @@ const PostCardSettings = ({
       ) : (
         <>
           {/* CAMPAIGN TYPE TABS */}
-          <PostCardSettingsTabs
-            campaignType={campaignType}
-            setCampaignType={setCampaignType}
-          />
+          {conversionsFeatureEnabled && (
+            <PostCardSettingsTabs
+              campaignType={campaignType}
+              setCampaignType={setCampaignType}
+            />
+          )}
           {/* ERROR */}
           <Error error={error} />
           {/* SETTINGS SECTION */}

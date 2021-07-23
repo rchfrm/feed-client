@@ -54,8 +54,7 @@ const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) =
       ].join(' ')}
     >
       {controlsOptions.map((option) => {
-        // Disable feature flag check for now
-        // if (option.key === 'conversions' && !conversionsEnabled) return null
+        if (option.key === 'conversions' && !conversionsEnabled) return null
         const { key, title, description } = option
         const isActive = key === activeOptionKey
         return (
