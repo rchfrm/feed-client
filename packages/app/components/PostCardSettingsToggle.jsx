@@ -14,6 +14,7 @@ const PostCardSettingsToggle = ({
   artistId,
   isEnabled,
   setIsEnabled,
+  isDisabled,
 }) => {
   const [isPromotionEnabled, setIsPromotionEnabled] = React.useState(promotionEnabled)
   const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
@@ -59,6 +60,7 @@ const PostCardSettingsToggle = ({
         onChange={onChange}
         isLoading={isLoading}
         className="mr-4"
+        disabled={isDisabled}
       />
       <p className="font-bold mb-0">{`Promotion ${isEnabled ? 'enabled' : 'disabled'}`}</p>
     </div>
@@ -72,6 +74,7 @@ PostCardSettingsToggle.propTypes = {
   toggleCampaign: PropTypes.func.isRequired,
   postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 PostCardSettingsToggle.defaultProps = {

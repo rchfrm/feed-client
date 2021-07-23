@@ -17,7 +17,14 @@ import * as ROUTES from '@/app/constants/routes'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import copy from '@/app/copy/PostsPageCopy'
+
+const getControlsStoreState = (state) => ({
+  canRunConversions: state.canRunConversions,
+  conversionsEnabled: state.conversionsEnabled,
+})
 
 const getCaptionNotEditableExcuse = (post) => {
   const base = 'The caption is not editable because'
@@ -42,11 +49,21 @@ const PostCardSettings = ({
     linkSpecs,
     callToActions,
     id: postId,
+    priorityEnabled,
   } = post
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
   const [campaignType, setCampaignType] = React.useState('all')
   const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
+  const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
+
+  const isArchivedAndNotPrioritized = promotionStatus === 'archived' && !priorityEnabled
+  const isToggleDisabled = campaignType === 'all'
+    ? isArchivedAndNotPrioritized
+    : isArchivedAndNotPrioritized || !globalConversionsEnabled || !canRunConversions
+  const isSectionDisabled = campaignType === 'all'
+    ? !isEnabled
+    : !isEnabled || !globalConversionsEnabled || !canRunConversions
 
   const noCaptionEditExcuse = getCaptionNotEditableExcuse(post)
 
@@ -93,11 +110,12 @@ const PostCardSettings = ({
             toggleCampaign={toggleCampaign}
             isEnabled={isEnabled}
             setIsEnabled={setIsEnabled}
+            isDisabled={isToggleDisabled}
           />
           <AdSettingsSection
             header="Link"
             copy={copy.postLinkSetting}
-            isDisabled={!isEnabled}
+            isDisabled={isSectionDisabled}
           >
             <PostCardSettingsLink
               postId={post.id}
@@ -107,13 +125,13 @@ const PostCardSettings = ({
               setError={setError}
               linkSpecs={linkSpecs}
               campaignType={campaignType}
-              isDisabled={!isEnabled}
+              isDisabled={isSectionDisabled}
             />
           </AdSettingsSection>
           <AdSettingsSection
             header="Call to Action"
             copy={copy.postCallToActionSetting}
-            isDisabled={!isEnabled}
+            isDisabled={isSectionDisabled}
           >
             <PostCardSettingsCallToAction
               postId={post.id}
@@ -122,7 +140,7 @@ const PostCardSettings = ({
               updatePost={updatePost}
               campaignType={campaignType}
               postPromotionStatus={promotionStatus}
-              isDisabled={!isEnabled}
+              isDisabled={isSectionDisabled}
             />
           </AdSettingsSection>
           {/* EDIT MESSAGE */}
@@ -130,7 +148,7 @@ const PostCardSettings = ({
             header="Caption"
             copy={noCaptionEditExcuse || copy.editCaption}
             copyClassName={noCaptionEditExcuse && 'text-red'}
-            isDisabled={!isEnabled}
+            isDisabled={isSectionDisabled}
           >
             <PostCardEditCaption
               post={post}
@@ -138,7 +156,7 @@ const PostCardSettings = ({
               updatePost={updatePost}
               isEditable={!noCaptionEditExcuse}
               campaignType={campaignType}
-              isDisabled={!isEnabled}
+              isDisabled={isSectionDisabled}
             />
           </AdSettingsSection>
         </>
