@@ -3,16 +3,15 @@ import testPageReady from '@/hoc/testPageReady'
 import BasePage from '@/admin/BasePage'
 import OrganisationsLoader from '@/admin/OrganisationsLoader'
 
-const Organisation = ({ router: { query } }) => {
-  const { orgId } = query
+const Organisations = () => {
   return (
     <BasePage
-      headerConfig="organistion"
+      headerConfig="organistions"
       staticPage
     >
-      {orgId ? <OrganisationsLoader orgId={orgId} /> : 'No ID'}
+      <OrganisationsLoader />
     </BasePage>
   )
 }
 
-export default testPageReady('admin')(withRouter(Organisation))
+export default testPageReady('admin')(withRouter(Organisations))
