@@ -16,11 +16,13 @@ const MarkdownText = ({
 }) => {
   const content = (
     <ReactMarkdown
-      renderers={{ link: MarkdownLink }}
       disallowedElements={disallowedElements}
       allowedElements={allowedElements}
       unwrapDisallowed={unwrapDisallowed}
-      components={components}
+      components={{
+        a: MarkdownLink,
+        ...components,
+      }}
     >
       {markdown}
     </ReactMarkdown>

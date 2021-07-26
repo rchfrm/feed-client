@@ -20,7 +20,7 @@ const convertInternalLink = (href) => {
 }
 
 const MarkdownLink = ({ href, children }) => {
-  const { props: { value: linkText } } = children[0]
+  const linkText = children[0]
   const formattedLink = convertInternalLink(href)
   const linkType = utils.getLinkType(formattedLink)
   // INTERNAL LINK

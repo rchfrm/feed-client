@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Link from 'next/link'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -12,7 +13,7 @@ const BillingInvoiceSummarySelectedInvoice = ({
 }) => {
   if (noLatestInvoiceOrIsPaid && !upcomingInvoiceSpendAndFee) {
     return (
-      <p className="text-center">Start reaching new audiences by setting a budget from the <a href="/controls" target="_self">controls page</a>!</p>
+      <p className="text-center">Start reaching new audiences by setting a budget from the <Link href="/controls" target="_self">controls page</Link>!</p>
     )
   }
   const sections = invoice.invoiceSections
