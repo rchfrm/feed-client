@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import Error from '@/elements/Error'
 import ArtistsFilters from '@/admin/ArtistsFilters'
 import ListSearch from '@/admin/elements/ListSearch'
-import ArtistsList from '@/admin/ArtistsList'
+import EntityList from '@/admin/EntityList'
 
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
 
@@ -77,10 +77,10 @@ const ArtistsLoader = ({ artistId }) => {
         </>
       )}
       {artistsArray && (
-        <ArtistsList
-          artists={artistsArray}
+        <EntityList
+          entities={artistsArray}
           propsToDisplay={propsToDisplay}
-          isSingleArtist={isSingleArtist}
+          isSingleEntity={isSingleArtist}
         />
       )}
     </section>

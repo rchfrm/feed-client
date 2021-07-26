@@ -1,25 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useGetPaginated from '@/admin/hooks/useGetPaginated'
+import EntityList from '@/admin/EntityList'
 
 const OrganisationsLoader = ({ orgId }) => {
-  const [loading, setLoading] = React.useState(true)
-  if (loading) {
+  const isSingleOrg = !!orgId
+
+  const serverFunction = isSingleOrg ? 'getOrganisation' : 'getAllOrganisations'
+  const serverFunctionArgs = isSingleOrg ? [orgId] : []
+
+  const { data: organisations, error, finishedLoading } = useGetPaginated(serverFunction, serverFunctionArgs)
+
+  if (!finishedLoading) {
     return (
       <section>
         Loading...
       </section>
     )
   }
-  if (orgId) {
+  if (error) {
     return (
       <section>
-        {orgId}
+        Failed to fetch organisations.
       </section>
     )
   }
   return (
     <section>
-      Organisations...
+      <EntityList entities={organisations} propsToDisplay={[]} isSingleEntity={isSingleOrg} />
     </section>
   )
 }

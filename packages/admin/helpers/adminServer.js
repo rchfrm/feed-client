@@ -131,3 +131,32 @@ export const getAllUsers = async (cursor, requestProps = {}) => {
   const endpointWithProps = getEndpointWithRequestProps(endpoint, requestPropsWithCursor)
   return api.get(endpointWithProps)
 }
+
+// ORGANISATIONS
+// -----------------------
+
+/**
+ * @param {string} [token]
+ * @returns {Promise<array>}
+ */
+export const getOrganisation = async (cursor, orgId, requestProps = {}) => {
+  const endpoint = `organizations/${orgId}`
+  // Add request props
+  const endpointWithProps = getEndpointWithRequestProps(endpoint, requestProps)
+  const organization = await api.get(endpointWithProps)
+  return [organization]
+}
+
+/**
+ * @param {string} [token]
+ * @param {string} [cursor]
+ * @returns {Promise<any>}
+ */
+export const getAllOrganisations = async (cursor, requestProps = {}) => {
+  const endpoint = 'organizations/all'
+  // Add cursor to request props
+  const requestPropsWithCursor = cursor ? { ...requestProps, after: cursor } : requestProps
+  // Add request props
+  const endpointWithProps = getEndpointWithRequestProps(endpoint, requestPropsWithCursor)
+  return api.get(endpointWithProps)
+}

@@ -11,7 +11,7 @@ import DataDetails from '@/admin/elements/DataDetails'
 import * as ROUTES from '@/admin/constants/routes'
 
 const UserOverview = ({ user, propsToDisplay }) => {
-  const userName = `${user.first_name} ${user.last_name}`
+  // const userName = `${user.first_name} ${user.last_name}`
   const userArtists = Object.values(user.artists)
   const userOrgs = Object.values(user.organizations)
   return (

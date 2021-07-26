@@ -8,6 +8,7 @@ import UsersList from '@/admin/UsersList'
 import UsersFilters from '@/admin/UsersFilters'
 import ListSearch from '@/admin/elements/ListSearch'
 import ListSort from '@/admin/elements/ListSort'
+import EntityList from '@/admin/EntityList'
 
 const UsersLoader = ({ userId }) => {
   const isSingleUser = !!userId
@@ -88,7 +89,7 @@ const UsersLoader = ({ userId }) => {
         </>
       )}
       {/* LIST */}
-      {usersArray && <UsersList users={usersArray} propsToDisplay={propsToDisplay} />}
+      {usersArray && <EntityList entities={usersArray} propsToDisplay={propsToDisplay} isSingleEntity={isSingleUser} />}
     </section>
   )
 }
