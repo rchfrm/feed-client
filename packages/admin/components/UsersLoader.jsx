@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
 
 import Error from '@/elements/Error'
-import UsersList from '@/admin/UsersList'
 import UsersFilters from '@/admin/UsersFilters'
 import ListSearch from '@/admin/elements/ListSearch'
 import ListSort from '@/admin/elements/ListSort'

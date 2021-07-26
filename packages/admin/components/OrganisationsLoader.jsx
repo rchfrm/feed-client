@@ -3,8 +3,16 @@ import PropTypes from 'prop-types'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
 import EntityList from '@/admin/EntityList'
 
+// TODO Enable limits on organizations/all endpoint
 const OrganisationsLoader = ({ orgId }) => {
   const isSingleOrg = !!orgId
+
+  const propsToDisplay = [
+    'billing_enabled',
+    'created_at',
+    'payment_status',
+    'updated_at',
+  ]
 
   const serverFunction = isSingleOrg ? 'getOrganisation' : 'getAllOrganisations'
   const serverFunctionArgs = isSingleOrg ? [orgId] : []
@@ -27,7 +35,7 @@ const OrganisationsLoader = ({ orgId }) => {
   }
   return (
     <section>
-      <EntityList entities={organisations} propsToDisplay={[]} isSingleEntity={isSingleOrg} />
+      <EntityList entities={organisations} propsToDisplay={propsToDisplay} isSingleEntity={isSingleOrg} />
     </section>
   )
 }
