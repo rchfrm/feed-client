@@ -7,13 +7,17 @@ import DataDetail from '@/admin/elements/DataDetail'
 import * as ROUTES from '@/admin/constants/routes'
 
 const EntityConnections = ({ connections, connectionType }) => {
+  // Hide or show the list of connected entities
   const [showConnections, setShowConnections] = React.useState(false)
   const toggleConnections = () => setShowConnections(!showConnections)
+  // Set query parameter based on entity type
   const queryId = connectionType === 'User' ? 'userId' : connectionType === 'Artist' ? 'artistId' : 'orgId'
+  // Pluralise connection type if there is more than 1
+  const type = connections.length > 1 ? `${connectionType}s` : connectionType
   return (
     <div>
       <p>
-        <span>{connectionType} ({connections.length})</span>
+        <span>{type} ({connections.length})</span>
         <button className="ml-2 pl-2 text-lg" aria-label="Toggle Users" onClick={toggleConnections}>
           {showConnections ? '↓' : '→'}
         </button>
