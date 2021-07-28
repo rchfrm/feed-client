@@ -34,7 +34,7 @@ const PostCard = ({
     >
       <PostCardHeader
         platform={post.platform}
-        date={post.publishedTime}
+        publishedDate={post.publishedTime}
         permalink={post.permalinkUrl}
         postType={postType}
         postId={post.id}

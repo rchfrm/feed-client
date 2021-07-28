@@ -111,7 +111,7 @@ const formatPublishedTime = (time) => {
   const publishedMoment = moment(time)
   const publishedYear = publishedMoment.format('Y')
   const currentYear = moment().format('Y')
-  const publishedFormat = publishedYear === currentYear ? 'D MMMM' : 'D MMM YYYY'
+  const publishedFormat = publishedYear === currentYear ? 'D MMM' : 'D MMM YYYY'
   return publishedMoment.format(publishedFormat)
 }
 
