@@ -215,6 +215,7 @@ export const formatPostsResponse = (posts) => {
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
       conversionsEnabled: post.conversions_enabled,
+      isRunningInConversions: post.is_running_in_conversions,
       linkId,
       linkHref,
       linkType,
