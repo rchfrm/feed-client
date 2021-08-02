@@ -7,7 +7,6 @@ import PostCardScore from '@/app/PostCardScore'
 import PostCardToggles from '@/app/PostCardToggles'
 import PostCardUnpromotable from '@/app/PostCardUnpromotable'
 import PostCardActionButtons from '@/app/PostCardActionButtons'
-import PostCardDisableWarning from '@/app/PostCardDisableWarning'
 
 const PostCard = ({
   post,
@@ -23,6 +22,7 @@ const PostCard = ({
   // Extract some variables
   const { postPromotable, promotionStatus, postType } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
+
   return (
     <div
       className={[
@@ -60,10 +60,11 @@ const PostCard = ({
           <PostCardToggles
             artistId={artistId}
             post={post}
-            togglesClassName="py-2 px-4 mb-2 last:mb-0"
-            className="mb-2"
+            postToggleSetterType={postToggleSetterType}
             toggleCampaign={toggleCampaign}
             priorityEnabled={post.priorityEnabled}
+            togglesClassName="py-2 px-4 mb-2 last:mb-0"
+            className="mb-2"
           />
         ) : (
           <PostCardUnpromotable
@@ -74,28 +75,13 @@ const PostCard = ({
           post={post}
           postIndex={postIndex}
           postPromotable={postPromotable}
+          postToggleSetterType={postToggleSetterType}
           artistId={artistId}
           toggleCampaign={toggleCampaign}
           updatePost={updatePost}
           hidePaidMetrics={hidePaidMetrics}
           isMissingDefaultLink={isMissingDefaultLink}
         />
-        {/* DISABLE WARNING (usually hidden) */}
-        {postPromotable && promotionStatus === 'active' && (
-          <PostCardDisableWarning
-            postId={post.id}
-            postType={postType}
-            platform={post.platform}
-            paidEs={post?.paidMetrics?.engagementScore}
-            postStatus={post.promotionStatus}
-            promotionEnabled={post.promotionEnabled}
-            promotableStatus={post.promotableStatus}
-            toggleCampaign={toggleCampaign}
-            postToggleSetterType={postToggleSetterType}
-            artistId={artistId}
-            textClassName="py-3 px-4"
-          />
-        )}
       </div>
       {/* LOAD TRIGGER goes here */}
       {children}
