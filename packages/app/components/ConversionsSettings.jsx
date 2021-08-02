@@ -57,6 +57,9 @@ const ConversionsSettings = () => {
       facebookPixelEvent,
       callToAction,
     })
+    if (error) {
+      return
+    }
     setIsLoading(false)
 
     // Update global store value
