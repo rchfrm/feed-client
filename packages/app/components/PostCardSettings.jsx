@@ -1,18 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
 import Error from '@/elements/Error'
 import Button from '@/elements/Button'
+import MarkdownText from '@/elements/MarkdownText'
 
 import AdSettingsSection from '@/app/AdSettingsSection'
+import PostCardSettingsTabs from '@/app/PostCardSettingsTabs'
+import PostCardSettingsToggle from '@/app/PostCardSettingsToggle'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
+import PostCardSettingsCallToAction from '@/app/PostCardSettingsCallToAction'
 import PostCardEditCaption from '@/app/PostCardEditCaption'
-// eslint-disable-next-line
-import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
+
+import * as ROUTES from '@/app/constants/routes'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import copy from '@/app/copy/PostsPageCopy'
+
+const getControlsStoreState = (state) => ({
+  canRunConversions: state.canRunConversions,
+  conversionsEnabled: state.conversionsEnabled,
+})
 
 const getCaptionNotEditableExcuse = (post) => {
   const base = 'The caption is not editable because'
@@ -25,22 +37,39 @@ const PostCardSettings = ({
   post,
   postIndex,
   updatePost,
+  artistId,
+  toggleCampaign,
   isMissingDefaultLink,
   className,
 }) => {
   const {
+    promotionEnabled,
+    conversionsEnabled,
     promotionStatus,
-    linkId,
-    linkHref,
-    linkType,
+    linkSpecs,
+    callToActions,
+    id: postId,
+    priorityEnabled,
   } = post
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
+  const [campaignType, setCampaignType] = React.useState('all')
+  const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
+  const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
 
-  // Go to post settings
-  const { goToGlobalPostSettings } = usePostsSidePanel()
+  const isPostArchivedAndNotPrioritized = promotionStatus === 'archived' && !priorityEnabled
+  const isToggleDisabled = campaignType === 'all'
+    ? isPostArchivedAndNotPrioritized
+    : isPostArchivedAndNotPrioritized || !globalConversionsEnabled || !canRunConversions
+  const isSectionDisabled = campaignType === 'all'
+    ? !isEnabled
+    : !isEnabled || !globalConversionsEnabled || !canRunConversions
 
   const noCaptionEditExcuse = getCaptionNotEditableExcuse(post)
+
+  const goToGlobalPostSettings = () => {
+    Router.push(ROUTES.CONTROLS_ADS)
+  }
 
   return (
     <div
@@ -63,22 +92,55 @@ const PostCardSettings = ({
         </div>
       ) : (
         <>
+          {/* CAMPAIGN TYPE TABS */}
+          <PostCardSettingsTabs
+            campaignType={campaignType}
+            setCampaignType={setCampaignType}
+          />
           {/* ERROR */}
           <Error error={error} />
           {/* SETTINGS SECTION */}
+          <MarkdownText markdown={copy.postSettingsIntro} />
+          <PostCardSettingsToggle
+            promotionEnabled={promotionEnabled}
+            conversionsEnabled={conversionsEnabled}
+            campaignType={campaignType}
+            postId={postId}
+            artistId={artistId}
+            toggleCampaign={toggleCampaign}
+            isEnabled={isEnabled}
+            setIsEnabled={setIsEnabled}
+            isDisabled={isToggleDisabled}
+          />
           <AdSettingsSection
             header="Link"
             copy={copy.postLinkSetting}
+            isDisabled={isSectionDisabled}
           >
             <PostCardSettingsLink
               postId={post.id}
               postIndex={postIndex}
-              linkId={linkId}
-              linkHref={linkHref}
               updatePost={updatePost}
               postPromotionStatus={promotionStatus}
-              linkType={linkType}
               setError={setError}
+              linkSpecs={linkSpecs}
+              campaignType={campaignType}
+              isDisabled={isSectionDisabled}
+            />
+          </AdSettingsSection>
+          <AdSettingsSection
+            header="Call to Action"
+            copy={copy.postCallToActionSetting}
+            isDisabled={isSectionDisabled}
+          >
+            <PostCardSettingsCallToAction
+              postId={post.id}
+              postIndex={postIndex}
+              postCallToActions={callToActions}
+              updatePost={updatePost}
+              campaignType={campaignType}
+              postPromotionStatus={promotionStatus}
+              isDisabled={isSectionDisabled}
             />
           </AdSettingsSection>
           {/* EDIT MESSAGE */}
@@ -86,12 +148,15 @@ const PostCardSettings = ({
             header="Caption"
             copy={noCaptionEditExcuse || copy.editCaption}
             copyClassName={noCaptionEditExcuse && 'text-red'}
+            isDisabled={isSectionDisabled}
           >
             <PostCardEditCaption
               post={post}
               postIndex={postIndex}
               updatePost={updatePost}
               isEditable={!noCaptionEditExcuse}
+              campaignType={campaignType}
+              isDisabled={isSectionDisabled}
             />
           </AdSettingsSection>
         </>
@@ -104,6 +169,8 @@ PostCardSettings.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
   updatePost: PropTypes.func.isRequired,
+  artistId: PropTypes.string.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }

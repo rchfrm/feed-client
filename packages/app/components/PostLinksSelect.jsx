@@ -36,6 +36,7 @@ const PostLinksSelect = ({
   className,
   disabled,
   isPostActive,
+  campaignType,
 }) => {
   // READ FROM LINKS STORE
   const {
@@ -135,22 +136,6 @@ const PostLinksSelect = ({
     return baseOptions
   }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, currentLinkId, linkType])
 
-  // SHOW ADD LINK MODAL
-  const showAddLinkModal = useCreateEditLinkBankLink({
-    action: 'add',
-    location: componentLocation,
-    // Set link as post link when added
-    onSave: (savedLink, newArtist) => {
-      if (componentLocation === 'defaultLink' && newArtist) {
-        onSuccess(newArtist)
-      }
-      const { id: linkId } = savedLink
-      setSelectedOptionValue(linkId)
-      setLoading(false)
-    },
-    onCancel: () => setLoading(false),
-  })
-
   // HANDLE SETTING SELECTED LINK
   const updatePostLink = React.useCallback(async (selectedOptionValue, forceRun = false) => {
     if (loading && !forceRun) return
@@ -168,9 +153,8 @@ const PostLinksSelect = ({
       updateParentLink(selectedOptionValue)
       return
     }
-    setLoading(true)
     // Run server
-    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId)
+    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId, campaignType)
     if (!isMounted) return
     // Handle error
     setShowAlert(false)
@@ -190,7 +174,24 @@ const PostLinksSelect = ({
     setLoading(false)
     // Reset deleted link state
     setIsDeletedLink(false)
-  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink])
+  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink, campaignType])
+
+  // SHOW ADD LINK MODAL
+  const showAddLinkModal = useCreateEditLinkBankLink({
+    action: 'add',
+    location: componentLocation,
+    // Set link as post link when added
+    onSave: (savedLink, newArtist) => {
+      if (componentLocation === 'defaultLink' && newArtist) {
+        onSuccess(newArtist)
+      }
+      const { id: linkId } = savedLink
+      setSelectedOptionValue(linkId)
+      updatePostLink(linkId)
+      setLoading(false)
+    },
+    onCancel: () => setLoading(false),
+  })
 
   const handleChange = (e) => {
     const { target: { value } } = e
@@ -205,6 +206,10 @@ const PostLinksSelect = ({
     setSelectedOptionValue(value)
     updatePostLink(value)
   }
+
+  React.useEffect(() => {
+    setSelectedOptionValue(currentLinkId)
+  }, [currentLinkId])
 
   return (
     <div className={className}>
@@ -263,6 +268,7 @@ PostLinksSelect.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   isPostActive: PropTypes.bool,
+  campaignType: PropTypes.string,
 }
 
 PostLinksSelect.defaultProps = {
@@ -281,6 +287,7 @@ PostLinksSelect.defaultProps = {
   className: '',
   disabled: false,
   isPostActive: false,
+  campaignType: '',
 }
 
 export default PostLinksSelect

@@ -20,19 +20,32 @@ const usePostsSidePanel = () => {
   // * SINGLE POST SETTINGS
 
   const CLOSE_BUTTON = (
-    <Button onClick={() => toggleSidePanel(false)} version="green">
+    <Button
+      onClick={() => toggleSidePanel(false)}
+      version="green"
+      className="border-solid border-0 border-t-4"
+    >
       Done
     </Button>
   )
 
   // SHOW POST SETTINGS
-  const goToPostSettings = React.useCallback(({ post, postIndex, updatePost, isMissingDefaultLink }) => {
+  const goToPostSettings = React.useCallback(({
+    post,
+    postIndex,
+    updatePost,
+    artistId,
+    toggleCampaign,
+    isMissingDefaultLink,
+  }) => {
     setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContent((
       <PostCardSettings
         post={post}
         postIndex={postIndex}
         updatePost={updatePost}
+        artistId={artistId}
+        toggleCampaign={toggleCampaign}
         isMissingDefaultLink={isMissingDefaultLink}
       />
     ))

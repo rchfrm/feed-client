@@ -147,9 +147,9 @@ export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }
  * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-export const togglePromotionEnabled = async (artistId, postId, promotionEnabled, audienceSlug) => {
+export const togglePromotionEnabled = async (artistId, postId, promotionEnabled, campaignType) => {
   const requestUrl = `/artists/${artistId}/assets/${postId}`
-  const payload = { [audienceSlug === 'growth' ? 'promotion_enabled' : 'conversions_enabled']: promotionEnabled }
+  const payload = { [campaignType === 'all' ? 'promotion_enabled' : 'conversions_enabled']: promotionEnabled }
   const errorTracking = {
     category: 'Posts',
     action: 'Toggle promotion enabled',
@@ -215,13 +215,15 @@ export const updateAccessToken = async (artistIds, accessToken) => {
 * @param {string} linkId
 * @returns {Promise<object>} { res, error }
 */
-export const setPostLink = (artistId, assetId, linkId) => {
+export const setPostLink = (artistId, assetId, linkId, campaignType) => {
   const requestUrl = `/artists/${artistId}/assets/${assetId}`
   const payload = {
-    link_spec: linkId ? {
-      type: 'linkbank',
-      data: {
-        id: linkId,
+    link_specs: linkId ? {
+      [campaignType]: {
+        type: 'linkbank',
+        data: {
+          id: linkId,
+        },
       },
     } : null,
   }

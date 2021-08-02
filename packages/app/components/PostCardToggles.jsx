@@ -6,7 +6,6 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import PostCardToggle from '@/app/PostCardToggle'
-import { post } from '../../shared/helpers/api'
 
 const getControlsStoreState = (state) => ({
   canRunConversions: state.canRunConversions,
@@ -30,6 +29,7 @@ const PostCardToggles = ({
     promotionStatus,
     promotionEnabled,
     conversionsEnabled,
+    isRunningInConversions,
   } = post
 
   return (
@@ -40,7 +40,7 @@ const PostCardToggles = ({
     >
       {/* GROWTH TOGGLE */}
       <PostCardToggle
-        audienceSlug="growth"
+        campaignType="all"
         postId={postId}
         artistId={artistId}
         isEnabled={promotionEnabled}
@@ -51,13 +51,13 @@ const PostCardToggles = ({
       />
       {/* EARN TOGGLE */}
       <PostCardToggle
-        audienceSlug="earn"
+        campaignType="conversions"
         postId={postId}
         artistId={artistId}
         isEnabled={conversionsEnabled}
         toggleCampaign={toggleCampaign}
         disabled={!globalConversionsEnabled || !canRunConversions || (promotionStatus === 'archived' && !priorityEnabled)}
-        isActive={promotionStatus === 'active' && conversionsEnabled}
+        isActive={isRunningInConversions}
         className={togglesClassName}
         isFeatureEnabled={conversionsFeatureEnabled}
       />
@@ -67,7 +67,7 @@ const PostCardToggles = ({
 
 PostCardToggles.propTypes = {
   artistId: PropTypes.string.isRequired,
-  post: PropTypes.string.isRequired,
+  post: PropTypes.object.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
   priorityEnabled: PropTypes.bool.isRequired,
   togglesClassName: PropTypes.string,

@@ -31,10 +31,9 @@ const postsReducer = (draftState, postsAction) => {
     postIndex,
     promotionEnabled,
     promotableStatus,
-    linkId,
-    linkHref,
-    linkType,
-    adMessageProps,
+    linkSpecs,
+    adMessages,
+    callToActions,
     priorityEnabled,
   } = payload
   switch (actionType) {
@@ -50,7 +49,7 @@ const postsReducer = (draftState, postsAction) => {
       draftState[postIndex].promotableStatus = promotableStatus
       break
     case 'toggle-conversion':
-      draftState[postIndex].conversionEnabled = promotionEnabled
+      draftState[postIndex].conversionsEnabled = promotionEnabled
       draftState[postIndex].promotableStatus = promotableStatus
       break
     case 'toggle-promotion-global':
@@ -58,13 +57,14 @@ const postsReducer = (draftState, postsAction) => {
         post.promotionEnabled = promotionEnabled
       })
       break
-    case 'update-link':
-      draftState[postIndex].linkId = linkId
-      draftState[postIndex].linkHref = linkHref
-      draftState[postIndex].linkType = linkType
+    case 'update-link-specs':
+      draftState[postIndex].linkSpecs = linkSpecs
       break
-    case 'update-caption':
-      draftState[postIndex].adMessageProps = adMessageProps
+    case 'update-call-to-actions':
+      draftState[postIndex].callToActions = callToActions
+      break
+    case 'update-captions':
+      draftState[postIndex].adMessages = adMessages
       break
     case 'toggle-priority':
       draftState[postIndex].priorityEnabled = priorityEnabled
@@ -73,7 +73,6 @@ const postsReducer = (draftState, postsAction) => {
       return draftState
   }
 }
-
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
 const fetchPosts = async ({ promotionStatus, artistId, limit, isEndOfAssets, cursor }) => {
@@ -194,12 +193,12 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
   const [postToggleSetterType, setPostToggleSetterType] = React.useState('')
 
   // Define function for toggling SINGLE promotion campaign or conversions campaign
-  const toggleCampaign = React.useCallback(async (postId, promotionEnabled, promotableStatus, audienceSlug = 'growth') => {
+  const toggleCampaign = React.useCallback(async (postId, promotionEnabled, promotableStatus, campaignType = 'all') => {
     const postIndex = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotionEnabled
     setPostToggleSetterType('single')
     setPosts({
-      type: audienceSlug === 'growth' ? 'toggle-promotion' : 'toggle-conversion',
+      type: campaignType === 'all' ? 'toggle-promotion' : 'toggle-conversion',
       payload: {
         promotionEnabled,
         promotableStatus,
@@ -212,7 +211,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       status: newPromotionState ? 'eligible' : 'ineligible',
       postType,
       platform,
-      audienceSlug,
+      campaignType,
       es: paidMetrics.engagementScore ?? organicMetrics.engagementScore,
     })
     return newPromotionState
@@ -273,11 +272,12 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     const updatePostsWithMissingLinks = (missingLinkIds = []) => {
       const updatedPosts = produce(posts, draftPosts => {
         draftPosts.forEach((post) => {
-          const { linkId } = post
-          if (linkId && missingLinkIds.includes(linkId) && post.linkType !== 'adcreative') {
-            post.linkId = null
-            post.linkHref = null
-          }
+          Object.values(post.linkSpecs).forEach((linkSpec, index) => {
+            const { linkId } = linkSpec
+            if (linkId && missingLinkIds.includes(linkId) && post.linkType !== 'adcreative') {
+              delete post.linkSpecs[index]
+            }
+          })
         })
       })
       setPosts({

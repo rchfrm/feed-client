@@ -31,7 +31,7 @@ const PostCard = ({
     >
       <PostCardHeader
         platform={post.platform}
-        date={post.publishedTime}
+        publishedDate={post.publishedTime}
         permalink={post.permalinkUrl}
         postType={postType}
         postId={post.id}
@@ -74,6 +74,8 @@ const PostCard = ({
           post={post}
           postIndex={postIndex}
           postPromotable={postPromotable}
+          artistId={artistId}
+          toggleCampaign={toggleCampaign}
           updatePost={updatePost}
           hidePaidMetrics={hidePaidMetrics}
           isMissingDefaultLink={isMissingDefaultLink}

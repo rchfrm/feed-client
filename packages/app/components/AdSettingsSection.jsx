@@ -8,9 +8,14 @@ const AdSettingsSection = ({
   copy,
   copyClassName,
   children,
+  isDisabled,
 }) => {
   return (
-    <section className="mb-10 last:mb-0">
+    <section className={[
+      'mb-10 last:mb-0',
+      isDisabled ? 'text-grey-2' : null,
+    ].join(' ')}
+    >
       <h3 className="font-body font-bold text-lg mb-3">{header}</h3>
       {copy && <MarkdownText markdown={copy} className={copyClassName} />}
       {children}
@@ -22,12 +27,14 @@ AdSettingsSection.propTypes = {
   header: PropTypes.string.isRequired,
   copy: PropTypes.string,
   copyClassName: PropTypes.string,
+  isDisabled: PropTypes.bool,
   children: PropTypes.node.isRequired,
 }
 
 AdSettingsSection.defaultProps = {
   copy: '',
   copyClassName: null,
+  isDisabled: false,
 }
 
 

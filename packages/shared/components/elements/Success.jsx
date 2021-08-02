@@ -18,7 +18,7 @@ const Success = ({ message, messagePrefix, className }) => {
       </span>
       <MarkdownText
         markdown={fullMessage}
-        disallowedTypes={['paragraph']}
+        disallowedElements={['paragraph']}
         unwrapDisallowed
         skipTextBlock
       />

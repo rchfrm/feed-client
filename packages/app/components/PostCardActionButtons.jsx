@@ -14,6 +14,8 @@ const PostCardActionButtons = ({
   post,
   postIndex,
   postPromotable,
+  artistId,
+  toggleCampaign,
   updatePost,
   hidePaidMetrics,
   isMissingDefaultLink,
@@ -40,6 +42,8 @@ const PostCardActionButtons = ({
             post,
             postIndex,
             updatePost,
+            artistId,
+            toggleCampaign,
             isMissingDefaultLink,
           })
         }}
@@ -76,6 +80,8 @@ PostCardActionButtons.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
   postPromotable: PropTypes.bool.isRequired,
+  artistId: PropTypes.string.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   updatePost: PropTypes.func.isRequired,
   hidePaidMetrics: PropTypes.bool.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
