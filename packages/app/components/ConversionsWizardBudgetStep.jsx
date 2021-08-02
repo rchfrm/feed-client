@@ -16,14 +16,16 @@ import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
-import { formatCurrency } from '@/helpers/utils'
+const getControlsStoreState = (state) => ({
+  minConversionsBudget: state.minConversionsBudget,
+  formattedMinConversionsBudget: state.formattedMinConversionsBudget,
+})
 
 const ConversionsWizardBudgetStep = () => {
   const { next } = React.useContext(WizardContext)
-  const { minConversionsBudget } = useControlsStore(getControlsStoreState)
-  const { updateTargetingBudget, initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser, currency } = React.useContext(TargetingContext)
+  const { minConversionsBudget, formattedMinConversionsBudget } = useControlsStore(getControlsStoreState)
+  const { updateTargetingBudget, initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser } = React.useContext(TargetingContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser })
-  const formattedMinConversionsBudget = formatCurrency(minConversionsBudget / 100, currency)
 
   // Update targeting budget state
   const setBudget = () => {

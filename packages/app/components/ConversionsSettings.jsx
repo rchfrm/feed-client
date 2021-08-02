@@ -14,8 +14,6 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { formatCurrency } from '@/helpers/utils'
-
 import copy from '@/app/copy/controlsPageCopy'
 
 const getControlsStoreState = (state) => ({
@@ -27,6 +25,7 @@ const getControlsStoreState = (state) => ({
   setConversionsEnabled: state.setConversionsEnabled,
   conversionsEnabled: state.conversionsEnabled,
   minConversionsBudget: state.minConversionsBudget,
+  formattedMinConversionsBudget: state.formattedMinConversionsBudget,
 })
 
 const ConversionsSettings = () => {
@@ -39,14 +38,14 @@ const ConversionsSettings = () => {
     setConversionsEnabled,
     conversionsEnabled,
     minConversionsBudget,
+    formattedMinConversionsBudget,
   } = useControlsStore(getControlsStoreState)
   const [defaultLinkId, setDefaultLinkId] = React.useState(conversionsPreferences.defaultLinkId)
   const [facebookPixelEvent, setFacebookPixelEvent] = React.useState(conversionsPreferences.facebookPixelEvent)
   const [callToAction, setCallToAction] = React.useState(conversionsPreferences.callToAction)
   const [isLoading, setIsLoading] = React.useState(false)
-  const { artistId, currency } = React.useContext(ArtistContext)
+  const { artistId } = React.useContext(ArtistContext)
   const hasSufficientBudget = budget >= minConversionsBudget
-  const formattedMinConversionsBudget = formatCurrency(minConversionsBudget / 100, currency)
   const disabled = !conversionsEnabled || !canRunConversions
 
   // Handle API request and navigate to the next step
