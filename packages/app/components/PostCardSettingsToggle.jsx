@@ -1,24 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import PostCardDisableHandler from '@/app/PostCardDisableHandler'
+
 import ToggleSwitch from '@/elements/ToggleSwitch'
 
 import { updatePost } from '@/app/helpers/postsHelpers'
 
 const PostCardSettingsToggle = ({
-  promotionEnabled,
-  conversionsEnabled,
+  post,
+  postId,
+  postToggleSetterType,
   campaignType,
   toggleCampaign,
-  postId,
   artistId,
   isEnabled,
   setIsEnabled,
   isDisabled,
 }) => {
-  const [isPromotionEnabled, setIsPromotionEnabled] = React.useState(promotionEnabled)
-  const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
-
+  const { postPromotable, promotionStatus } = post
   const [isLoading, setIsLoading] = React.useState(false)
   const isConversionsCampaign = campaignType === 'conversions'
 
@@ -27,11 +27,6 @@ const PostCardSettingsToggle = ({
     setIsLoading(true)
     // Update state passed to toggle component
     setIsEnabled(newState)
-    if (!isConversionsCampaign) {
-      setIsPromotionEnabled(newState)
-    } else {
-      setIsConversionsEnabled(newState)
-    }
     const { res: updatedPost, error } = await updatePost({ artistId, postId, promotionEnabled: newState, campaignType })
     setIsLoading(false)
     // Return to previous value if erroring
@@ -43,10 +38,6 @@ const PostCardSettingsToggle = ({
     const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
     toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
   }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled, isConversionsCampaign])
-
-  React.useEffect(() => {
-    setIsEnabled(!isConversionsCampaign ? isPromotionEnabled : isConversionsEnabled)
-  }, [campaignType, isPromotionEnabled, isConversionsEnabled, setIsEnabled, isConversionsCampaign])
 
   return (
     <div
@@ -64,17 +55,30 @@ const PostCardSettingsToggle = ({
         disabled={isDisabled}
       />
       <p className="font-bold mb-0">{`Promotion ${isEnabled ? 'enabled' : 'disabled'}`}</p>
+      {postPromotable && promotionStatus === 'active' && (
+        <PostCardDisableHandler
+          post={post}
+          postToggleSetterType={postToggleSetterType}
+          artistId={artistId}
+          toggleCampaign={toggleCampaign}
+          isEnabled={isEnabled}
+          setIsEnabled={setIsEnabled}
+          campaignType={campaignType}
+        />
+      )}
     </div>
   )
 }
 
 PostCardSettingsToggle.propTypes = {
-  promotionEnabled: PropTypes.bool.isRequired,
-  conversionsEnabled: PropTypes.bool.isRequired,
+  post: PropTypes.object.isRequired,
+  postId: PropTypes.string.isRequired,
+  postToggleSetterType: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
-  postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
+  isEnabled: PropTypes.bool.isRequired,
+  setIsEnabled: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
 }
 
