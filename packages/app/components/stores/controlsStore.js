@@ -3,6 +3,7 @@ import produce from 'immer'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { getPreferences } from '@/app/helpers/artistHelpers'
+import { getMinBudgets } from '@/app/helpers/budgetHelpers'
 
 import { getLocalStorage, setLocalStorage, removeProtocolFromUrl } from '@/helpers/utils'
 
@@ -15,6 +16,7 @@ const initialState = {
   postsPreferences: {},
   conversionsPreferences: {},
   budget: 0,
+  minConversionsBudget: 0,
   isSpendingPaused: false,
   canRunConversions: false,
   conversionsEnabled: false,
@@ -127,9 +129,9 @@ const fetchIntegrations = ({ artist, folders }) => {
 // * CONVERSIONS
 
 const canRunConversionCampaigns = (set, get) => () => {
-  const { conversionsPreferences, budget, isSpendingPaused } = get()
+  const { conversionsPreferences, budget, isSpendingPaused, minConversionsBudget } = get()
   const hasConversionsSetUpCorrectly = Object.values(conversionsPreferences).every(Boolean)
-  const hasSufficientBudget = budget >= 5
+  const hasSufficientBudget = budget >= minConversionsBudget
   return hasConversionsSetUpCorrectly && hasSufficientBudget && !isSpendingPaused
 }
 
@@ -179,6 +181,8 @@ const fetchLinks = (set, get) => async (action, artist) => {
     return { error }
   }
   const { folders } = res
+  // Get minimium conversions budget
+  const { res: { min_recommended_stories_rounded: minConversionsBudget } } = await getMinBudgets(artist.id)
   // Get posts preferences and conversions preferences
   const posts = getPreferences(artist, 'posts')
   const conversions = getPreferences(artist, 'conversions')
@@ -201,6 +205,7 @@ const fetchLinks = (set, get) => async (action, artist) => {
     defaultLink,
     postsPreferences: posts,
     conversionsPreferences: conversions,
+    minConversionsBudget: minConversionsBudget * 100,
   })
 }
 
@@ -333,6 +338,7 @@ const useControlsStore = create((set, get) => ({
   postsPreferences: initialState.postsPreferences,
   conversionsPreferences: initialState.conversionsPreferences,
   budget: initialState.budget,
+  minConversionsBudget: initialState.minConversionsBudget,
   isSpendingPaused: initialState.isSpendingPaused,
   canRunConversions: initialState.canRunConversions,
   conversionsEnabled: initialState.conversionsEnabled,
@@ -366,7 +372,7 @@ const useControlsStore = create((set, get) => ({
 
       // Set budget and spending status
       const { updateSpending } = get()
-      updateSpending(artist.daily_budget, artist.isSpendingPaused)
+      updateSpending(artist.daily_budget * 100, artist.isSpendingPaused)
       return
     }
     // Clear links

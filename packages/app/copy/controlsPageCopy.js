@@ -37,13 +37,13 @@ export default {
   conversionsDescription: `These are the settings used as defaults for Conversion audiences.
 
 Each post can override these settings.`,
-  toggleWarning: (isSpendingPaused, hasSufficientBudget) => {
+  toggleWarning: (isSpendingPaused, hasSufficientBudget, minConversionsBudget) => {
     if (isSpendingPaused) {
       return 'Resume spending to enable conversions.'
     }
 
     if (!hasSufficientBudget) {
-      return 'Budget must be at least £5.00 to enable conversions.'
+      return `Budget must be at least ${minConversionsBudget} to enable conversions.`
     }
   },
 
