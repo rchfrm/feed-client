@@ -128,7 +128,7 @@ const formatPublishedTime = (time) => {
   const publishedMoment = moment(time)
   const publishedYear = publishedMoment.format('Y')
   const currentYear = moment().format('Y')
-  const publishedFormat = publishedYear === currentYear ? 'D MMMM' : 'D MMM YYYY'
+  const publishedFormat = publishedYear === currentYear ? 'D MMM' : 'D MMM YYYY'
   return publishedMoment.format(publishedFormat)
 }
 
@@ -237,6 +237,7 @@ export const formatPostsResponse = (posts) => {
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
       conversionsEnabled: post.conversions_enabled,
+      isRunningInConversions: post.is_running_in_conversions,
       priorityEnabled: post.priority_enabled,
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,

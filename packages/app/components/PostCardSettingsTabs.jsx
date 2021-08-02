@@ -12,24 +12,24 @@ const PostCardSettingsTabs = ({ campaignType, setCampaignType }) => {
           <div
             key={slug}
             className={[
-              'flex items-center',
               'mr-5',
               isActive ? 'text-black border-solid border-black border-b-2' : '',
             ].join(' ')}
           >
-            <span
-              className="w-4 h-4 rounded-full mr-1"
-              style={{
-                background: slug === 'all' ? growthGradient : conversionsGradient,
-              }}
-            />
             <button
               type="button"
               className={[
+                'flex items-center',
                 isActive ? 'font-bold' : '',
               ].join(' ')}
               onClick={() => setCampaignType(slug)}
             >
+              <span
+                className="w-4 h-4 rounded-full mr-1"
+                style={{
+                  background: slug === 'all' ? growthGradient : conversionsGradient,
+                }}
+              />
               {title}
             </button>
           </div>
