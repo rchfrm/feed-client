@@ -49,7 +49,7 @@ const postsReducer = (draftState, postsAction) => {
       draftState[postIndex].promotableStatus = promotableStatus
       break
     case 'toggle-conversion':
-      draftState[postIndex].conversionEnabled = promotionEnabled
+      draftState[postIndex].conversionsEnabled = promotionEnabled
       draftState[postIndex].promotableStatus = promotableStatus
       break
     case 'toggle-promotion-global':

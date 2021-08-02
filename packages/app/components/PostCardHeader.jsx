@@ -11,7 +11,7 @@ import * as utils from '@/helpers/utils'
 
 const PostCardHeader = ({
   platform,
-  date,
+  publishedDate,
   permalink,
   postType,
   postId,
@@ -22,7 +22,6 @@ const PostCardHeader = ({
   className,
   promotionStatus,
 }) => {
-  const publishedDate = moment(date).format('DD MMM')
   const { priorityEnabled: priorityFeatureEnabled } = React.useContext(ArtistContext)
   return (
     <div
@@ -61,7 +60,7 @@ const PostCardHeader = ({
 
 PostCardHeader.propTypes = {
   platform: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
+  publishedDate: PropTypes.string.isRequired,
   postType: PropTypes.string.isRequired,
   postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,

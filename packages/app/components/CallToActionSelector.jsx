@@ -44,6 +44,8 @@ const CallToActionSelector = ({
 
   const updateCallToAction = React.useCallback(async (selectedOptionValue, forceRun = false) => {
     if (loading && !forceRun) return
+    setLoading(true)
+
     if (isPostActive && !forceRun) {
       // Set function to run when confirming alert
       setOnAlertConfirm(() => () => updateCallToAction(selectedOptionValue, true))
@@ -56,9 +58,9 @@ const CallToActionSelector = ({
       setCallToAction(selectedOptionValue)
       return
     }
-    setLoading(true)
     // Make API request
     const { res, error } = await onSelect(artistId, selectedOptionValue, postId, campaignType, callToActionId)
+    setShowAlert(false)
     // Handle error
     if (error) {
       setError(error)

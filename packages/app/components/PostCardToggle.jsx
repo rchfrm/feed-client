@@ -28,6 +28,7 @@ const PostCardToggle = ({
 }) => {
   // Store INTERNAL STATE based on promotionEnabled
   const [currentState, setCurrentState] = React.useState(isEnabled)
+  const isConversionsCampaign = campaignType === 'conversions'
   // Update internal state when outside state changes
   React.useEffect(() => {
     setCurrentState(isEnabled)
@@ -49,12 +50,12 @@ const PostCardToggle = ({
       return
     }
     // Update post list state
-    const { promotion_enabled, promotable_status } = updatedPost
-    toggleCampaign(postId, promotion_enabled, promotable_status, campaignType)
-  }, [artistId, postId, toggleCampaign, campaignType])
+    const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
+    toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
+  }, [artistId, postId, toggleCampaign, campaignType, isConversionsCampaign])
 
   // HANDLE HOVER FOR TEASER
-  const isTeaserActive = campaignType === 'conversions' && !isFeatureEnabled
+  const isTeaserActive = isConversionsCampaign && !isFeatureEnabled
 
   // HANDLE CLICK TO SHOW TEASER
   const WrapperTag = isTeaserActive ? 'button' : 'div'
@@ -80,7 +81,7 @@ const PostCardToggle = ({
             disabled ? 'opacity-50' : 'opacity-100',
           ].join(' ')}
           style={{
-            background: campaignType === 'all' ? growthGradient : conversionsGradient,
+            background: !isConversionsCampaign ? growthGradient : conversionsGradient,
           }}
         />
         {/* TITLE */}
@@ -88,7 +89,7 @@ const PostCardToggle = ({
           className="capitalize ml-4"
           style={{ transform: 'translate(-1px, 0px)' }}
         >
-          {campaignType === 'all' ? 'Grow & Nurture' : 'Earn'}
+          {!isConversionsCampaign ? 'Grow & Nurture' : 'Earn'}
         </strong>
         {/* RUNNING LABEL */}
         {isActive && (
@@ -96,7 +97,7 @@ const PostCardToggle = ({
             copy="running"
             className="font-bold"
             style={{
-              background: campaignType === 'all' ? growthGradient : conversionsGradient,
+              background: !isConversionsCampaign ? growthGradient : conversionsGradient,
             }}
           />
         )}

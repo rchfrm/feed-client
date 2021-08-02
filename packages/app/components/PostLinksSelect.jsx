@@ -153,7 +153,6 @@ const PostLinksSelect = ({
       updateParentLink(selectedOptionValue)
       return
     }
-    setLoading(true)
     // Run server
     const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId, campaignType)
     if (!isMounted) return
