@@ -140,12 +140,18 @@ const getNestedMetric = (post, metric) => {
   return Object.values(metricValues)[0]
 }
 
-// Get post link data
-export const getPostLinkData = (post) => {
-  const { type: linkType = '', data: linkData = {} } = post.link_spec || {}
-  const linkId = linkData.id || linkData.link_spec?.data?.id || ''
-  const linkHref = linkData.href || ''
-  return { linkType, linkId, linkHref }
+// Get post link specs
+export const getPostLinkSpecData = (post) => {
+  return Object.entries(post.link_specs).reduce((newObject, [key, value]) => {
+    const { type: linkType = '', data: linkData = {} } = value || {}
+    const linkId = linkData.id || linkData.link_spec?.data?.id || ''
+    const linkHref = linkData.href || ''
+    newObject[key] = {}
+    newObject[key].linkType = linkType
+    newObject[key].linkId = linkId
+    newObject[key].linkHref = linkHref
+    return newObject
+  }, {})
 }
 
 // Get post link data
@@ -156,6 +162,16 @@ export const getPostCallToActionData = (post) => {
     options: { campaign_type: campaignType },
   } = post || {}
   return { id, value, campaignType }
+}
+
+// Get post ad message data
+export const getPostAdMessageData = (post) => {
+  const {
+    id,
+    message,
+    options: { campaign_type: campaignType },
+  } = post || {}
+  return { id, message, campaignType }
 }
 
 // FORMAT POST RESPONSES
@@ -202,12 +218,18 @@ export const formatPostsResponse = (posts) => {
       value: callToAction.call_to_action,
       campaignType: callToAction.options.campaign_type,
     }))
+    // Ad messages
+    const adMessages = post.ad_messages.map((adMessage) => ({
+      id: adMessage.id,
+      message: adMessage.message,
+      campaignType: adMessage.options.campaign_type,
+    }))
     // Published date
     const publishedTime = formatPublishedTime(post.published_time)
     // Ad dates
     const [firstRan, lastRan] = getPostAdDates(ads)
-    // Link type
-    const { linkType, linkId, linkHref } = getPostLinkData(post)
+    // Link specs
+    const linkSpecs = getPostLinkSpecData(post)
     return {
       id: post.id,
       postType: post.subtype || post.type,
@@ -216,15 +238,13 @@ export const formatPostsResponse = (posts) => {
       promotionEnabled: post.promotion_enabled,
       conversionsEnabled: post.conversions_enabled,
       isRunningInConversions: post.is_running_in_conversions,
-      linkId,
-      linkHref,
-      linkType,
       priorityEnabled: post.priority_enabled,
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
+      linkSpecs,
       callToActions,
-      adMessages: post.ad_messages,
+      adMessages,
       message,
       adMessageProps: post.ad_message,
       shortMessage,
@@ -285,23 +305,35 @@ export const getPostMetricsContent = (metricsType, postType) => {
 }
 
 // UPDATE CAPTION
-export const updatePostCaption = ({ artistId, assetId, adMessageId, caption }) => {
+export const updatePostCaption = async ({ artistId, assetId, adMessageId, campaignType, caption }) => {
   const isUpdating = !!adMessageId
   const endpointBase = `/artists/${artistId}/assets/${assetId}/ad_messages`
   const requestType = isUpdating ? 'patch' : 'post'
   const endpoint = isUpdating ? `${endpointBase}/${adMessageId}` : endpointBase
-  const payload = { message: caption }
+  const payload = {
+    message: caption,
+    options: {
+      campaign_type: campaignType,
+    },
+  }
   const errorTracking = {
     category: 'Post caption',
     action: isUpdating ? 'Update post caption' : 'Set new post caption',
   }
-  return requestWithCatch(requestType, endpoint, payload, errorTracking)
+  const { res: newAdMessage, error } = await requestWithCatch(requestType, endpoint, payload, errorTracking)
+  if (error) return { error }
+  const res = getPostAdMessageData(newAdMessage)
+  return { res }
 }
 
 // RESET CAPTION
-export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
+export const resetPostCaption = ({ artistId, assetId, adMessageId, campaignType }) => {
   const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages/${adMessageId}`
-  const payload = null
+  const payload = {
+    options: {
+      campaign_type: campaignType,
+    },
+  }
   const errorTracking = {
     category: 'Post message',
     action: 'Reset post caption',

@@ -1,7 +1,7 @@
 import produce from 'immer'
 
 import * as utils from '@/helpers/utils'
-import { getPostLinkData } from '@/app/helpers/postsHelpers'
+import { getPostLinkSpecData } from '@/app/helpers/postsHelpers'
 import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
 import * as api from '@/helpers/api'
@@ -132,15 +132,15 @@ export const setDefaultLink = async (artistId, linkId) => {
  * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setPostLink = async (artistId, linkId, assetId) => {
+export const setPostLink = async (artistId, linkId, assetId, campaignType) => {
   // Handle choosing "Use default" from post link
   if (linkId === '_default') {
     linkId = null
   }
-  const { res: newPost, error } = await server.setPostLink(artistId, assetId, linkId)
+  const { res: newPost, error } = await server.setPostLink(artistId, assetId, linkId, campaignType)
   if (error) return { error }
-  // Get new link ID from response
-  const linkData = getPostLinkData(newPost)
+  // Get new link spec data from response
+  const linkData = getPostLinkSpecData(newPost)
   return { res: linkData }
 }
 

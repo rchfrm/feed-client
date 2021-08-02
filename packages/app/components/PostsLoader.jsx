@@ -31,12 +31,10 @@ const postsReducer = (draftState, postsAction) => {
     postIndex,
     promotionEnabled,
     promotableStatus,
-    linkId,
-    linkHref,
-    linkType,
-    adMessageProps,
-    priorityEnabled,
+    linkSpecs,
+    adMessages,
     callToActions,
+    priorityEnabled,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -51,7 +49,7 @@ const postsReducer = (draftState, postsAction) => {
       draftState[postIndex].promotableStatus = promotableStatus
       break
     case 'toggle-conversion':
-      draftState[postIndex].conversionEnabled = promotionEnabled
+      draftState[postIndex].conversionsEnabled = promotionEnabled
       draftState[postIndex].promotableStatus = promotableStatus
       break
     case 'toggle-promotion-global':
@@ -59,16 +57,14 @@ const postsReducer = (draftState, postsAction) => {
         post.promotionEnabled = promotionEnabled
       })
       break
-    case 'update-link':
-      draftState[postIndex].linkId = linkId
-      draftState[postIndex].linkHref = linkHref
-      draftState[postIndex].linkType = linkType
+    case 'update-link-specs':
+      draftState[postIndex].linkSpecs = linkSpecs
       break
-    case 'update-call-to-action':
+    case 'update-call-to-actions':
       draftState[postIndex].callToActions = callToActions
       break
-    case 'update-caption':
-      draftState[postIndex].adMessageProps = adMessageProps
+    case 'update-captions':
+      draftState[postIndex].adMessages = adMessages
       break
     case 'toggle-priority':
       draftState[postIndex].priorityEnabled = priorityEnabled
@@ -276,11 +272,12 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     const updatePostsWithMissingLinks = (missingLinkIds = []) => {
       const updatedPosts = produce(posts, draftPosts => {
         draftPosts.forEach((post) => {
-          const { linkId } = post
-          if (linkId && missingLinkIds.includes(linkId) && post.linkType !== 'adcreative') {
-            post.linkId = null
-            post.linkHref = null
-          }
+          Object.values(post.linkSpecs).forEach((linkSpec, index) => {
+            const { linkId } = linkSpec
+            if (linkId && missingLinkIds.includes(linkId) && post.linkType !== 'adcreative') {
+              delete post.linkSpecs[index]
+            }
+          })
         })
       })
       setPosts({

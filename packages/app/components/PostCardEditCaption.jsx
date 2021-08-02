@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import produce from 'immer'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -21,17 +22,20 @@ const PostCardEditCaption = ({
   postIndex,
   updatePost,
   isEditable,
+  campaignType,
+  isDisabled,
 }) => {
   // Internal state
-  const [adMessageProps, setAdMessageProps] = React.useState(post.adMessageProps)
-  const hasAdMessage = !!adMessageProps
-  const adMessage = adMessageProps?.message || ''
+  const { id = '', message = '' } = post.adMessages[0] || {}
   const captionTypes = ['ad', 'post']
   const [originalCaption] = React.useState(post.message)
-  const [newCaption, setNewCaption] = React.useState(adMessage)
-  const [savedNewCaption, setSavedNewCaption] = React.useState(adMessage)
   const [visibleCaption, setVisibleCaption] = React.useState('ad')
   const [useEditMode, setUseEditMode] = React.useState(false)
+  const [adMessages, setAdMessages] = React.useState(post.adMessages)
+  const hasAdMessage = !!adMessages
+  const [newCaption, setNewCaption] = React.useState(message)
+  const [adMessageId, setAdMessageId] = React.useState(id)
+  const [savedNewCaption, setSavedNewCaption] = React.useState(message)
 
   // Turn off edit mode when moving to post view
   React.useEffect(() => {
@@ -39,17 +43,36 @@ const PostCardEditCaption = ({
   }, [visibleCaption])
 
   // UPDATE LOCAL and PARENT POST PAGE STATE
-  const updateState = React.useCallback((newAdMessageProps) => {
-    const payload = { postIndex, adMessageProps: newAdMessageProps }
-    const newCaption = newAdMessageProps?.message || ''
-    // Local
-    setAdMessageProps(newAdMessageProps)
+  const updateState = React.useCallback((newAdMessages) => {
+    const newCaption = newAdMessages?.message || ''
+    // Update local state
     setNewCaption(newCaption)
     setSavedNewCaption(newCaption)
     setVisibleCaption('ad')
+    // Check if caption already exists for the selected campaign type
+    const index = adMessages.findIndex(({ campaignType }) => campaignType === newAdMessages.campaignType)
+    const updatedCaptions = produce(adMessages, draftState => {
+      // If the caption exists, only update it's value
+      if (index !== -1) {
+        draftState[index].message = newCaption
+        return
+      }
+      // An empty caption means we did a reset to the original, so remove it from the array
+      if (!newCaption) {
+        draftState.splice(index, 1)
+        return
+      }
+      // Otherwise push the new caption object to the array
+      draftState.push(newAdMessages)
+    })
+    setAdMessages(updatedCaptions)
     // Parent
-    updatePost('update-caption', payload)
-  }, [postIndex, updatePost])
+    const payload = {
+      postIndex,
+      adMessages: updatedCaptions,
+    }
+    updatePost('update-captions', payload)
+  }, [postIndex, updatePost, adMessages])
 
   // SAVE NEW CAPTION on DB
   const { artistId } = React.useContext(ArtistContext)
@@ -71,12 +94,12 @@ const PostCardEditCaption = ({
     }
     // Update the caption with the API
     const isResetCaption = newCaption === null
-    const adMessageId = adMessageProps?.id
     const apiCallMethod = isResetCaption ? resetPostCaption : updatePostCaption
-    const { res: updatedAdMessageProps = null, error } = await apiCallMethod({
+    const { res: updatedAdMessages = null, error } = await apiCallMethod({
       artistId,
       assetId: post.id,
       adMessageId,
+      campaignType,
       caption: newCaption,
     })
     // Handle response...
@@ -84,7 +107,7 @@ const PostCardEditCaption = ({
     setShowAlert(false)
     // Success!
     if (!error) {
-      updateState(updatedAdMessageProps)
+      updateState(updatedAdMessages)
       // Track
       track('edit_caption_complete', {
         postId: post.id,
@@ -95,12 +118,19 @@ const PostCardEditCaption = ({
     // Reset component state
     setUseEditMode(false)
     setIsLoading(false)
-  }, [isLoading, artistId, originalCaption, post.id, post.promotionStatus, adMessageProps, updateState, setError])
+  }, [isLoading, artistId, originalCaption, post.id, post.promotionStatus, updateState, setError, campaignType, adMessageId])
 
   // RESET CAPTION TO ORIGINAL
   const resetToOriginal = React.useCallback(async () => {
     await updatePostDb(null)
   }, [updatePostDb])
+
+  React.useEffect(() => {
+    const { id = '', message = '' } = adMessages.find((caption) => caption.campaignType === campaignType) || {}
+    setNewCaption(message)
+    setAdMessageId(id)
+    setSavedNewCaption(message)
+  }, [campaignType, adMessages])
 
   return (
     <div>
@@ -118,6 +148,7 @@ const PostCardEditCaption = ({
                   'capitalize no-underline mr-4 last:mr-0',
                   isActive ? 'font-bold border-solid border-black border-b-2' : 'opacity-50 hover:opacity-100',
                   isLoading ? 'pointer-events-none' : null,
+                  isDisabled ? 'pointer-events-none text-grey-2 border-grey-2' : null,
                 ].join(' ')}
                 onClick={() => {
                   if (isLoading) return
@@ -148,31 +179,33 @@ const PostCardEditCaption = ({
               </a>
             )}
             {/* EDIT/SAVE BUTTON */}
-            <Button
-              label={useEditMode ? 'Save new caption' : 'Edit caption'}
-              version="green x-small"
-              className="ml-auto w-20"
-              loading={isLoading}
-              disabled={visibleCaption === 'post'}
-              onClick={() => {
-                if (isLoading) return
-                if (useEditMode) {
-                  updatePostDb(newCaption)
-                } else {
-                  setUseEditMode(true)
-                  // TRACK
-                  track('edit_caption_start', {
-                    postId: post.id,
-                    originalCaption,
-                  })
-                }
-              }}
-            >
-              {!useEditMode && (
-                <PencilIcon fill={brandColors.bgColor} className="mr-1" style={{ height: '1rem' }} />
-              )}
-              {useEditMode ? 'Save' : 'Edit'}
-            </Button>
+            {!isDisabled && (
+              <Button
+                label={useEditMode ? 'Save new caption' : 'Edit caption'}
+                version="green x-small"
+                className="ml-auto w-20"
+                loading={isLoading}
+                disabled={visibleCaption === 'post'}
+                onClick={() => {
+                  if (isLoading) return
+                  if (useEditMode) {
+                    updatePostDb(newCaption)
+                  } else {
+                    setUseEditMode(true)
+                    // TRACK
+                    track('edit_caption_start', {
+                      postId: post.id,
+                      originalCaption,
+                    })
+                  }
+                }}
+              >
+                {!useEditMode && (
+                  <PencilIcon fill={brandColors.bgColor} className="mr-1" style={{ height: '1rem' }} />
+                )}
+                {useEditMode ? 'Save' : 'Edit'}
+              </Button>
+            )}
           </div>
         </div>
       )}
@@ -189,7 +222,10 @@ const PostCardEditCaption = ({
         ) : (
           <CaptionText
             caption={visibleCaption === 'ad' ? savedNewCaption || originalCaption : originalCaption}
-            className="mb-0"
+            className={[
+              'mb-0',
+              isDisabled ? 'text-grey-3' : null,
+            ].join(' ')}
           />
         )}
       </div>
@@ -200,7 +236,10 @@ const PostCardEditCaption = ({
         {visibleCaption === 'ad' && hasAdMessage && (
           <a
             role="button"
-            className="inline-block p-2 pl-0 no-underline text-grey-3 hover:text-black"
+            className={[
+              'inline-block p-2 pl-0 no-underline text-grey-3 hover:text-black',
+              isDisabled ? 'pointer-events-none' : null,
+            ].join(' ')}
             onClick={(e) => {
               e.preventDefault()
               resetToOriginal()
@@ -233,6 +272,8 @@ PostCardEditCaption.propTypes = {
   postIndex: PropTypes.number.isRequired,
   updatePost: PropTypes.func.isRequired,
   isEditable: PropTypes.bool.isRequired,
+  campaignType: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 PostCardEditCaption.defaultProps = {
