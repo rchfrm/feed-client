@@ -19,6 +19,8 @@ const PostCardSettingsCallToAction = ({
   postCallToActions,
   updatePost,
   campaignType,
+  postPromotionStatus,
+  isDisabled,
 }) => {
   // Get initial call to action value and id
   const { id = '', value = '' } = postCallToActions[0] || {}
@@ -30,6 +32,8 @@ const PostCardSettingsCallToAction = ({
   const { postsPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultPostsCallToAction } = postsPreferences
   const { callToAction: defaultConversionsCallToAction } = conversionsPreferences
+
+  const isPostActive = postPromotionStatus === 'active'
 
   const handleSuccess = (callToAction) => {
     // Check if call to action already exists for the selected campaign type
@@ -52,7 +56,7 @@ const PostCardSettingsCallToAction = ({
       postIndex,
       callToActions: updatedCallToActions,
     }
-    updatePost('update-call-to-action', payload)
+    updatePost('update-call-to-actions', payload)
   }
 
   React.useEffect(() => {
@@ -72,8 +76,10 @@ const PostCardSettingsCallToAction = ({
       setCallToAction={setSelectedCallToAction}
       callToActionId={callToActionId}
       postId={postId}
+      isPostActive={isPostActive}
       campaignType={campaignType}
       shouldSaveOnChange
+      disabled={isDisabled}
     />
   )
 }
@@ -84,6 +90,7 @@ PostCardSettingsCallToAction.propTypes = {
   postCallToActions: PropTypes.arrayOf(PropTypes.object).isRequired,
   updatePost: PropTypes.func.isRequired,
   campaignType: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 PostCardSettingsCallToAction.defaultProps = {
