@@ -21,7 +21,7 @@ const ArtistsLoader = ({ artistId }) => {
     'daily_budget',
   ]
   // Define fields
-  const extraFields = ['users', 'status', 'integrations']
+  const extraFields = ['users', 'status', 'integrations', 'organization']
   const fields = [...propsToDisplay, ...extraFields]
   // Make request
   const serverFunction = isSingleArtist ? 'getArtist' : 'getAllArtists'

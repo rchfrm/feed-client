@@ -13,7 +13,8 @@ const EntityConnections = ({ connections, connectionType }) => {
   // Set query parameter based on entity type
   const queryId = connectionType === 'User' ? 'userId' : connectionType === 'Artist' ? 'artistId' : 'orgId'
   // Pluralise connection type if there is more than 1
-  const type = connections.length > 1 ? `${connectionType}s` : connectionType
+  const type = connections.length === 1 ? connectionType : `${connectionType}s`
+
   return (
     <div>
       <p>
@@ -29,12 +30,12 @@ const EntityConnections = ({ connections, connectionType }) => {
           showConnections ? '' : 'hidden',
         ].join(' ')}
       >
-        {connections.map(({ id }, index) => {
+        {connections.map(({ id, name }, index) => {
           return (
             <li className="pl-3" key={id}>
               <p>
                 <strong>
-                  Name
+                  {name}
                   {index !== connections.length - 1 ? ', ' : ''}
                 </strong>
               </p>

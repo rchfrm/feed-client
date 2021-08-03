@@ -21,12 +21,27 @@ const getUsersData = (users = {}) => {
   })
 }
 
+const getEntityType = entity => {
+  if (entity?.payment_status) {
+    return 'organisation'
+  } if (entity?.first_name) {
+    return 'user'
+  }
+  return 'artist'
+}
+
 const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
   const name = entity.name ? entity.name : `${entity.first_name} ${entity.last_name}`
+  const entityType = getEntityType(entity)
   const users = entity.users && Object.values(entity.users)
   const artists = entity.artists && Object.values(entity.artists)
   // TODO Get artists to return organisations
-  const organisations = entity.organizations && Object.values(entity.organizations)
+  let organisations = []
+  if (entity?.organization) {
+    organisations.push(entity.organization)
+  } else if (entity?.organizations) {
+    organisations = Object.values(entity.organizations)
+  }
 
   // const [artistStatus, setArtistsStatus] = React.useState(entity.status)
 
@@ -39,7 +54,7 @@ const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
       {/* Artists */}
       {entity.artists && <EntityConnections connections={artists} connectionType="Artist" />}
       {/* Organisations */}
-      {entity.organizations && <EntityConnections connections={organisations} connectionType="Organisation" />}
+      {organisations && <EntityConnections connections={organisations} connectionType="Organisation" />}
 
       <DataDetails propsToDisplay={propsToDisplay} data={entity} />
       {/* /!* Status state and button *!/ */}
