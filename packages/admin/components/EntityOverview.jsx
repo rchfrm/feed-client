@@ -54,7 +54,7 @@ const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
       {/* Artists */}
       {entity.artists && <EntityConnections connections={artists} connectionType="Artist" />}
       {/* Organisations */}
-      {organisations && <EntityConnections connections={organisations} connectionType="Organisation" />}
+      {organisations.length > 0 && <EntityConnections connections={organisations} connectionType="Organisation" />}
 
       <DataDetails propsToDisplay={propsToDisplay} data={entity} />
       {/* /!* Status state and button *!/ */}

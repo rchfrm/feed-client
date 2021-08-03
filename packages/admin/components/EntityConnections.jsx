@@ -62,7 +62,7 @@ const EntityConnections = ({ connections, connectionType }) => {
 
 EntityConnections.propTypes = {
   connections: PropTypes.array.isRequired,
-  connectionType: PropTypes.bool.isRequired,
+  connectionType: PropTypes.string.isRequired,
 }
 
 export default EntityConnections

@@ -14,14 +14,14 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 const ArtistsLoader = ({ artistId }) => {
   const isSingleArtist = !!artistId
   const propsToDisplay = [
-    'name',
     'created_at',
     'currency',
     'country_code',
     'daily_budget',
+    'last_ad_spend_date',
   ]
   // Define fields
-  const extraFields = ['users', 'status', 'integrations', 'organization']
+  const extraFields = ['name', 'users', 'status', 'integrations', 'organization', 'preferences']
   const fields = [...propsToDisplay, ...extraFields]
   // Make request
   const serverFunction = isSingleArtist ? 'getArtist' : 'getAllArtists'
