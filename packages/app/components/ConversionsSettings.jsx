@@ -7,6 +7,7 @@ import Button from '@/elements/Button'
 import PostLinksSelect from '@/app/PostLinksSelect'
 import PixelEventSelector from '@/app/PixelEventSelector'
 import CallToActionSelector from '@/app/CallToActionSelector'
+import DefaultSettingsSavedAlert from '@/app/DefaultSettingsSavedAlert'
 
 import { updateConversionsPreferences } from '@/app/helpers/conversionsHelpers'
 
@@ -43,6 +44,7 @@ const ConversionsSettings = () => {
   const [facebookPixelEvent, setFacebookPixelEvent] = React.useState(conversionsPreferences.facebookPixelEvent)
   const [callToAction, setCallToAction] = React.useState(conversionsPreferences.callToAction)
   const [isLoading, setIsLoading] = React.useState(false)
+  const [showAlert, setShowAlert] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
   const hasSufficientBudget = budget >= 5
   const disabled = !conversionsEnabled || !canRunConversions
@@ -72,6 +74,7 @@ const ConversionsSettings = () => {
         defaultLinkId: conversions.default_link_id,
       },
     )
+    setShowAlert(true)
   }, [artistId, callToAction, facebookPixelEvent, defaultLinkId, updatePreferences])
 
   // On changing the toggle switch
@@ -150,6 +153,13 @@ const ConversionsSettings = () => {
         />
         {!isMobileAndIsSidePanelOpen && saveButton}
       </form>
+      {/* ALERT */}
+      {showAlert && (
+        <DefaultSettingsSavedAlert
+          show={showAlert}
+          setShowAlert={setShowAlert}
+        />
+      )}
     </div>
   )
 }
