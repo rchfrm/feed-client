@@ -4,6 +4,7 @@ import useGetPaginated from '@/admin/hooks/useGetPaginated'
 import EntityList from '@/admin/EntityList'
 
 // TODO Enable limits on organizations/all endpoint
+// TODO Add filters to ORGANISATIONS page
 const OrganisationsLoader = ({ orgId }) => {
   const isSingleOrg = !!orgId
 
