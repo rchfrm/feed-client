@@ -6,6 +6,7 @@ import AdminGridItem from '@/admin/elements/AdminGridItem'
 import EntityOverview from '@/admin/EntityOverview'
 
 const EntityList = ({ entities, propsToDisplay, isSingleEntity }) => {
+  // TODO Create single entity page
   return (
     <AdminGrid>
       {entities.map((entity) => {
