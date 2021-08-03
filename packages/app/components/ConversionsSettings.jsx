@@ -12,7 +12,10 @@ import { updateConversionsPreferences } from '@/app/helpers/conversionsHelpers'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -44,8 +47,12 @@ const ConversionsSettings = () => {
   const hasSufficientBudget = budget >= 5
   const disabled = !conversionsEnabled || !canRunConversions
 
+  const { setSidePanelButton, sidePanelOpen: isSidepanelOpen } = React.useContext(SidePanelContext)
+  const isDesktopLayout = useBreakpointTest('md')
+  const isMobileAndIsSidePanelOpen = !isDesktopLayout && isSidepanelOpen
+
   // Handle API request and navigate to the next step
-  const onSubmit = async (e) => {
+  const saveSettings = React.useCallback(() => async (e) => {
     e.preventDefault()
     setIsLoading(true)
     const { res: { preferences }, error } = await updateConversionsPreferences(artistId, {
@@ -65,12 +72,34 @@ const ConversionsSettings = () => {
         defaultLinkId: conversions.default_link_id,
       },
     )
-  }
+  }, [artistId, callToAction, facebookPixelEvent, defaultLinkId, updatePreferences])
 
   // On changing the toggle switch
   const onChange = React.useCallback(() => {
     setConversionsEnabled(!conversionsEnabled)
   }, [conversionsEnabled, setConversionsEnabled])
+
+  const saveButton = React.useMemo(() => (
+    <Button
+      type="button"
+      version="green"
+      onClick={saveSettings}
+      className={[
+        'w-full',
+        isMobileAndIsSidePanelOpen ? 'border-white border-solid border-0 border-t-4' : null,
+      ].join(' ')}
+      loading={isLoading}
+      disabled={disabled}
+    >
+      Save Conversions Settings
+    </Button>
+  ), [disabled, isLoading, saveSettings, isMobileAndIsSidePanelOpen])
+
+  React.useEffect(() => {
+    if (isMobileAndIsSidePanelOpen) {
+      setSidePanelButton(saveButton)
+    }
+  }, [isMobileAndIsSidePanelOpen, setSidePanelButton, saveButton])
 
   return (
     <div className="mb-12">
@@ -94,7 +123,7 @@ const ConversionsSettings = () => {
       {(isSpendingPaused || !hasSufficientBudget) && (
         <MarkdownText markdown={copy.toggleWarning(isSpendingPaused, hasSufficientBudget)} className="text-red font-semibold mb-10" />
       )}
-      <form onSubmit={onSubmit}>
+      <form>
         <PostLinksSelect
           currentLinkId={defaultLinkId}
           updateParentLink={setDefaultLinkId}
@@ -119,15 +148,7 @@ const ConversionsSettings = () => {
           label="Call to Action"
           disabled={disabled}
         />
-        <Button
-          type="submit"
-          version="green"
-          className="w-full"
-          loading={isLoading}
-          disabled={disabled}
-        >
-          Save Conversions Settings
-        </Button>
+        {!isMobileAndIsSidePanelOpen && saveButton}
       </form>
     </div>
   )
