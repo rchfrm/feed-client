@@ -52,7 +52,7 @@ const ConversionsSettings = () => {
   const isMobileAndIsSidePanelOpen = !isDesktopLayout && isSidepanelOpen
 
   // Handle API request and navigate to the next step
-  const saveSettings = React.useCallback(() => async (e) => {
+  const saveSettings = React.useCallback(async (e) => {
     e.preventDefault()
     setIsLoading(true)
     const { res: { preferences }, error } = await updateConversionsPreferences(artistId, {
