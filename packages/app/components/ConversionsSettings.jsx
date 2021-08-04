@@ -126,40 +126,31 @@ const ConversionsSettings = () => {
       {(isSpendingPaused || !hasSufficientBudget) && (
         <MarkdownText markdown={copy.toggleWarning(isSpendingPaused, hasSufficientBudget)} className="text-red font-semibold mb-10" />
       )}
-      <form>
-        <PostLinksSelect
-          currentLinkId={defaultLinkId}
-          updateParentLink={setDefaultLinkId}
-          shouldSaveOnChange={false}
-          includeDefaultLink
-          includeAddLinkOption
-          componentLocation="post"
-          label="Default link"
-          className="mb-12"
-          disabled={disabled}
-        />
-        <PixelEventSelector
-          pixelEvent={facebookPixelEvent}
-          setPixelEvent={setFacebookPixelEvent}
-          className="mb-12"
-          disabled={disabled}
-        />
-        <CallToActionSelector
-          callToAction={callToAction}
-          setCallToAction={setCallToAction}
-          className="mb-12"
-          label="Call to Action"
-          disabled={disabled}
-        />
-        {!isMobileAndIsSidePanelOpen && saveButton}
-      </form>
-      {/* ALERT */}
-      {showAlert && (
-        <DefaultSettingsSavedAlert
-          show={showAlert}
-          setShowAlert={setShowAlert}
-        />
-      )}
+      <PostLinksSelect
+        currentLinkId={defaultLinkId}
+        updateParentLink={setDefaultLinkId}
+        shouldSaveOnChange={false}
+        includeDefaultLink
+        includeAddLinkOption
+        componentLocation="post"
+        label="Default link"
+        className="mb-12"
+        disabled={disabled}
+      />
+      <PixelEventSelector
+        pixelEvent={facebookPixelEvent}
+        setPixelEvent={setFacebookPixelEvent}
+        className="mb-12"
+        disabled={disabled}
+      />
+      <CallToActionSelector
+        callToAction={callToAction}
+        setCallToAction={setCallToAction}
+        className="mb-12"
+        label="Call to Action"
+        disabled={disabled}
+      />
+      {!isMobileAndIsSidePanelOpen && saveButton}
     </div>
   )
 }
