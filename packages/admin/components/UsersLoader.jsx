@@ -8,6 +8,7 @@ import UsersFilters from '@/admin/UsersFilters'
 import ListSearch from '@/admin/elements/ListSearch'
 import ListSort from '@/admin/elements/ListSort'
 import EntityList from '@/admin/EntityList'
+import Entity from '@/admin/Entity'
 
 const UsersLoader = ({ userId }) => {
   const isSingleUser = !!userId
@@ -56,39 +57,64 @@ const UsersLoader = ({ userId }) => {
   // GET DATA ARRAY BASED ON PAGE TYPE
   const usersArray = isSingleUser ? users : sortedUsers
 
+  if (!usersArray) {
+    return (
+      <section className="content">
+        <p>Loading...</p>
+      </section>
+    )
+  }
+
+  if (error) {
+    return (
+      <section className="content">
+        <p>Failed to fetch artists.</p>
+        <Error error={error} />
+      </section>
+    )
+  }
+
+  if (isSingleUser && usersArray.length === 1) {
+    return (
+      <section className="content">
+        <Entity
+          entity={usersArray[0]}
+          propsToDisplay={propsToDisplay}
+        />
+      </section>
+    )
+  }
+
   return (
     <section>
-      {error && <div>Failed to fetch users</div>}
-      <Error error={error} />
       {finishedLoading || error ? <p>Finished loading</p> : <p>Loading...</p>}
-      {!isSingleUser && (
-        <>
-          <p>Total loaded: {users.length}</p>
-          <p>Total filtered & searched: {sortedUsers.length}</p>
-          {/* FILTERS */}
-          <h4><strong>Filters</strong></h4>
-          <UsersFilters
-            setFilteredUsers={setFilteredUsers}
-            users={usersWithFullName}
-          />
-          {/* SEARCH */}
-          <ListSearch
-            className="pt-2"
-            fullList={filteredUsers}
-            updateList={setSearchedUsers}
-            searchBy={['full_name', 'id']}
-          />
-          {/* SORT */}
-          <h4><strong>Sort</strong></h4>
-          <ListSort
-            fullList={searchedUsers}
-            updateList={setSortedUsers}
-            sortOptions={['full_name', 'created_at']}
-          />
-        </>
-      )}
+      <p>Total loaded: {users.length}</p>
+      <p>Total filtered & searched: {sortedUsers.length}</p>
+      {/* FILTERS */}
+      <h4><strong>Filters</strong></h4>
+      <UsersFilters
+        setFilteredUsers={setFilteredUsers}
+        users={usersWithFullName}
+      />
+      {/* SEARCH */}
+      <ListSearch
+        className="pt-2"
+        fullList={filteredUsers}
+        updateList={setSearchedUsers}
+        searchBy={['full_name', 'id']}
+      />
+      {/* SORT */}
+      <h4><strong>Sort</strong></h4>
+      <ListSort
+        fullList={searchedUsers}
+        updateList={setSortedUsers}
+        sortOptions={['full_name', 'created_at']}
+      />
       {/* LIST */}
-      {usersArray && <EntityList entities={usersArray} propsToDisplay={propsToDisplay} isSingleEntity={isSingleUser} />}
+      <EntityList
+        entities={usersArray}
+        propsToDisplay={propsToDisplay}
+      />
     </section>
   )
 }
