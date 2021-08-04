@@ -26,7 +26,6 @@ const PixelEventSelector = ({
     const options = sortedEvents.map(({ value, count }) => ({
       name: `${value} (${count})`,
       value,
-      disabled: count < 1,
     }))
     setFacebookPixelEventOptions(options)
   }, [])
