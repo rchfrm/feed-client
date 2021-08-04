@@ -151,6 +151,13 @@ const ConversionsSettings = () => {
         disabled={disabled}
       />
       {!isMobileAndIsSidePanelOpen && saveButton}
+      {/* ALERT */}
+      {showAlert && (
+        <DefaultSettingsSavedAlert
+          show={showAlert}
+          setShowAlert={setShowAlert}
+        />
+      )}
     </div>
   )
 }
