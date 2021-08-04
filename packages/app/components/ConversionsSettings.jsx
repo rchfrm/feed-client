@@ -85,7 +85,7 @@ const ConversionsSettings = () => {
     setIsToggleLoading(true)
     // Update state passed to toggle component
     setIsConversionsEnabled(newState)
-    const { res: artist, error } = await toggleConversionsEnabled(artistId, !isConversionsEnabled)
+    const { res: artist, error } = await toggleConversionsEnabled(artistId, newState)
     setIsToggleLoading(false)
     // Return to previous value if erroring
     if (error) {
@@ -94,7 +94,7 @@ const ConversionsSettings = () => {
     }
     // Update global store state
     setConversionsEnabled(artist.conversions_enabled)
-  }, [isConversionsEnabled, setConversionsEnabled, artistId])
+  }, [artistId, setConversionsEnabled])
 
   const saveButton = React.useMemo(() => (
     <Button
