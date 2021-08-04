@@ -5,8 +5,6 @@ import EntityList from '@/admin/EntityList'
 import Entity from '@/admin/Entity'
 import ListSearch from '@/admin/elements/ListSearch'
 
-// TODO Enable limits on organizations/all endpoint
-// TODO Add filters to ORGANISATIONS page
 const OrganisationsLoader = ({ orgId }) => {
   const isSingleOrg = !!orgId
 

@@ -24,7 +24,7 @@ const getUsersData = (users = {}) => {
 export const getEntityInfo = entity => {
   if (entity?.payment_status) {
     return {
-      type: 'organisation',
+      type: 'organization',
       queryId: 'orgId',
     }
   } if (entity?.first_name) {
