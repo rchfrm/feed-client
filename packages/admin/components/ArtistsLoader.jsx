@@ -70,7 +70,10 @@ const ArtistsLoader = ({ artistId }) => {
   if (isSingleArtist && artistsArray.length === 1) {
     return (
       <section className="content">
-        <Entity entity={artistsArray[0]} />
+        <Entity
+          entity={artistsArray[0]}
+          propsToDisplay={propsToDisplay}
+        />
       </section>
     )
   }
@@ -102,7 +105,6 @@ const ArtistsLoader = ({ artistId }) => {
       <EntityList
         entities={artistsArray}
         propsToDisplay={propsToDisplay}
-        isSingleEntity={isSingleArtist}
       />
     </section>
   )

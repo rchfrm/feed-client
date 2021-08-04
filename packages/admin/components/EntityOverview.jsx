@@ -21,7 +21,7 @@ const getUsersData = (users = {}) => {
   })
 }
 
-const getEntityInfo = entity => {
+export const getEntityInfo = entity => {
   if (entity?.payment_status) {
     return {
       type: 'organisation',
@@ -93,46 +93,6 @@ const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
           <a className="capitalize">{entityInfo.type} Page</a>
         </Link>
       )}
-      {/* /!* Artist links *!/ */}
-      {/* <nav className="pt-5"> */}
-      {/*  <h4><strong>Links</strong></h4> */}
-      {/*  /!* SINGLE ARTIST PAGE LINK *!/ */}
-      {/*  {!isSingleEntity && ( */}
-      {/*    <p> */}
-      {/*      <Link */}
-      {/*        href={{ */}
-      {/*          pathname: ROUTES.ARTIST, */}
-      {/*          query: { artistId: entity.id }, */}
-      {/*        }} */}
-      {/*      > */}
-      {/*        <a>Artist Page</a> */}
-      {/*      </Link> */}
-      {/*    </p> */}
-      {/*  )} */}
-      {/*  /!* TOURNAMENT LINK *!/ */}
-      {/*  <p> */}
-      {/*    <TournamentLink */}
-      {/*      artistId={entity.id} */}
-      {/*      buttonText="Artist Tournaments" */}
-      {/*      buttonClass="w-40" */}
-      {/*      overviewLink */}
-      {/*      linkType="anchor" */}
-      {/*    /> */}
-      {/*  </p> */}
-      {/*  /!* INTEGRATION LINKS *!/ */}
-      {/*  <ArtistIntegrationLinks */}
-      {/*    artistId={entity.id} */}
-      {/*    integrations={entity.integrations} */}
-      {/*  /> */}
-      {/* </nav> */}
-      {/* /!* PATCH *!/ */}
-      {/* {isSingleEntity && ( */}
-      {/*  <PatchArtist */}
-      {/*    artistId={entity.id} */}
-      {/*    artistName={entity.name} */}
-      {/*    integrations={entity.integrations} */}
-      {/*  /> */}
-      {/* )} */}
     </>
   )
 }

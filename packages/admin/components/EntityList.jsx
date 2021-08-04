@@ -4,9 +4,8 @@ import PropTypes from 'prop-types'
 import AdminGrid from '@/admin/elements/AdminGrid'
 import AdminGridItem from '@/admin/elements/AdminGridItem'
 import EntityOverview from '@/admin/EntityOverview'
-import Entity from '@/admin/Entity'
 
-const EntityList = ({ entities, propsToDisplay, isSingleEntity }) => {
+const EntityList = ({ entities, propsToDisplay }) => {
   return (
     <AdminGrid>
       {entities.map((entity) => {
@@ -16,7 +15,7 @@ const EntityList = ({ entities, propsToDisplay, isSingleEntity }) => {
               entity={entity}
               key={entity.id}
               propsToDisplay={propsToDisplay}
-              isSingleEntity={isSingleEntity}
+              isSingleEntity={false}
             />
           </AdminGridItem>
         )
@@ -28,7 +27,6 @@ const EntityList = ({ entities, propsToDisplay, isSingleEntity }) => {
 EntityList.propTypes = {
   entities: PropTypes.array.isRequired,
   propsToDisplay: PropTypes.array.isRequired,
-  isSingleEntity: PropTypes.bool.isRequired,
 }
 
 export default EntityList
