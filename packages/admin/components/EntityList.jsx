@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import AdminGrid from '@/admin/elements/AdminGrid'
 import AdminGridItem from '@/admin/elements/AdminGridItem'
 import EntityOverview from '@/admin/EntityOverview'
+import Entity from '@/admin/Entity'
 
 const EntityList = ({ entities, propsToDisplay, isSingleEntity }) => {
-  // TODO Create single entity page
   return (
     <AdminGrid>
       {entities.map((entity) => {

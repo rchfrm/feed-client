@@ -10,6 +10,7 @@ import EntityList from '@/admin/EntityList'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+import Entity from '@/admin/Entity'
 
 const ArtistsLoader = ({ artistId }) => {
   const isSingleArtist = !!artistId
@@ -49,40 +50,60 @@ const ArtistsLoader = ({ artistId }) => {
   // GET DATA ARRAY BASED ON PAGE TYPE
   const artistsArray = isSingleArtist ? artists : searchedArtists
 
+  if (!artistsArray) {
+    return (
+      <section className="content">
+        <p>Loading...</p>
+      </section>
+    )
+  }
+
+  if (error) {
+    return (
+      <section className="content">
+        <p>Failed to fetch artists.</p>
+        <Error error={error} />
+      </section>
+    )
+  }
+
+  if (isSingleArtist && artistsArray.length === 1) {
+    return (
+      <section className="content">
+        <Entity entity={artistsArray[0]} />
+      </section>
+    )
+  }
+
   return (
     <section className="content">
-      {error && <div>Failed to fetch artists</div>}
-      <Error error={error} />
       {!finishedLoading ? <p>Loading...</p> : <p>Finished loading all artists</p>}
-      {!isSingleArtist && (
-        <>
-          <p>Total loaded: {artists.length}</p>
-          <p>Total filtered & searched: {searchedArtists.length}</p>
-          {/* FILTERS */}
-          <h4>
-            <strong>Filters</strong>
-          </h4>
-          <ArtistsFilters
-            setFilteredArtists={setFilteredArtists}
-            artists={artists}
-          />
-          {/* SEARCH */}
-          {!!artists.length && (
-            <ListSearch
-              className="pt-2"
-              fullList={filteredArtists}
-              updateList={setSearchedArtists}
-            />
-          )}
-        </>
+      <p>Total loaded: {artists.length}</p>
+      <p>Total filtered & searched: {searchedArtists.length}</p>
+
+      {/* FILTERS */}
+      <h4>
+        <strong>Filters</strong>
+      </h4>
+      <ArtistsFilters
+        setFilteredArtists={setFilteredArtists}
+        artists={artists}
+      />
+
+      {/* SEARCH */}
+      {!!artists.length && (
+      <ListSearch
+        className="pt-2"
+        fullList={filteredArtists}
+        updateList={setSearchedArtists}
+      />
       )}
-      {artistsArray && (
-        <EntityList
-          entities={artistsArray}
-          propsToDisplay={propsToDisplay}
-          isSingleEntity={isSingleArtist}
-        />
-      )}
+      {/* ARTISTS */}
+      <EntityList
+        entities={artistsArray}
+        propsToDisplay={propsToDisplay}
+        isSingleEntity={isSingleArtist}
+      />
     </section>
   )
 }
