@@ -359,6 +359,7 @@ const useControlsStore = create((set, get) => ({
     set({
       artistId: artist.id,
       linksLoading: false,
+      conversionsEnabled: artist.conversions_enabled
     })
     // Fetch links
     if (action === 'fetchLinks') {

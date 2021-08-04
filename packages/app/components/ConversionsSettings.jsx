@@ -9,7 +9,7 @@ import PixelEventSelector from '@/app/PixelEventSelector'
 import CallToActionSelector from '@/app/CallToActionSelector'
 import DefaultSettingsSavedAlert from '@/app/DefaultSettingsSavedAlert'
 
-import { updateConversionsPreferences } from '@/app/helpers/conversionsHelpers'
+import { updateConversionsPreferences, toggleConversionsEnabled } from '@/app/helpers/conversionsHelpers'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -40,14 +40,16 @@ const ConversionsSettings = () => {
     setConversionsEnabled,
     conversionsEnabled,
   } = useControlsStore(getControlsStoreState)
+  const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
   const [defaultLinkId, setDefaultLinkId] = React.useState(conversionsPreferences.defaultLinkId)
   const [facebookPixelEvent, setFacebookPixelEvent] = React.useState(conversionsPreferences.facebookPixelEvent)
   const [callToAction, setCallToAction] = React.useState(conversionsPreferences.callToAction)
   const [isLoading, setIsLoading] = React.useState(false)
+  const [isToggleLoading, setIsToggleLoading] = React.useState(false)
   const [showAlert, setShowAlert] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
   const hasSufficientBudget = budget >= 5
-  const disabled = !conversionsEnabled || !canRunConversions
+  const disabled = !isConversionsEnabled || !canRunConversions
 
   const { setSidePanelButton, sidePanelOpen: isSidepanelOpen } = React.useContext(SidePanelContext)
   const isDesktopLayout = useBreakpointTest('md')
@@ -78,9 +80,21 @@ const ConversionsSettings = () => {
   }, [artistId, callToAction, facebookPixelEvent, defaultLinkId, updatePreferences])
 
   // On changing the toggle switch
-  const onChange = React.useCallback(() => {
-    setConversionsEnabled(!conversionsEnabled)
-  }, [conversionsEnabled, setConversionsEnabled])
+  const onChange = React.useCallback(async (newState) => {
+    // Start loading
+    setIsToggleLoading(true)
+    // Update state passed to toggle component
+    setIsConversionsEnabled(newState)
+    const { res: artist, error } = await toggleConversionsEnabled(artistId, !isConversionsEnabled)
+    setIsToggleLoading(false)
+    // Return to previous value if erroring
+    if (error) {
+      setIsConversionsEnabled(!newState)
+      return
+    }
+    // Update global store state
+    setConversionsEnabled(artist.conversions_enabled)
+  }, [isConversionsEnabled, setConversionsEnabled, artistId])
 
   const saveButton = React.useMemo(() => (
     <Button
@@ -118,9 +132,10 @@ const ConversionsSettings = () => {
       >
         <p className="font-bold mb-0">Enable Conversions</p>
         <ToggleSwitch
-          state={conversionsEnabled}
+          state={isConversionsEnabled}
           onChange={onChange}
           disabled={!canRunConversions}
+          isLoading={isToggleLoading}
         />
       </div>
       {(isSpendingPaused || !hasSufficientBudget) && (
