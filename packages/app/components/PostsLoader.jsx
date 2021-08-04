@@ -190,7 +190,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 
   // Define what toggled the post enabled status
   // (single or batch)
-  const [postToggleSetterType, setPostToggleSetterType] = React.useState('')
+  const [postToggleSetterType, setPostToggleSetterType] = React.useState('single')
 
   // Define function for toggling SINGLE promotion campaign or conversions campaign
   const toggleCampaign = React.useCallback(async (postId, promotionEnabled, promotableStatus, campaignType = 'all') => {

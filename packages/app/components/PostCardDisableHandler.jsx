@@ -73,10 +73,8 @@ const PostCardDisableHandler = ({
   }, [previousPromotableStatus])
 
   React.useEffect(() => {
-    if (postToggleSetterType === 'single') {
-      if (!isEnabled && previousEnabled) {
-        showAlert()
-      }
+    if (postToggleSetterType === 'single' && !isEnabled && previousEnabled) {
+      showAlert()
     }
   }, [isEnabled, previousEnabled, postToggleSetterType, showAlert])
 
