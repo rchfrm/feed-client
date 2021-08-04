@@ -22,7 +22,7 @@ const PostCardHeader = ({
   className,
   promotionStatus,
 }) => {
-  const { priorityEnabled: priorityFeatureEnabled } = React.useContext(ArtistContext)
+  const { featureFlags: { priorityEnabled: priorityFeatureEnabled } } = React.useContext(ArtistContext)
   return (
     <div
       className={[

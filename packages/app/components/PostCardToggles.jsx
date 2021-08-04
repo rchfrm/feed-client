@@ -21,7 +21,7 @@ const PostCardToggles = ({
   className,
 }) => {
   // Get conversions feature flag value
-  const { artist: { conversions_enabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
+  const { featureFlags: { conversionsEnabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
   // Get conversions store values
   const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
   const {

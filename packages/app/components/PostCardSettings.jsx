@@ -54,7 +54,7 @@ const PostCardSettings = ({
     priorityEnabled,
   } = post
   // Get conversions feature flag value
-  const { artist: { conversions_enabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
+  const { featureFlags: { conversionsEnabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
   const [campaignType, setCampaignType] = React.useState('all')
