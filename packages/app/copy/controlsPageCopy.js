@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import * as ROUTES from '@/app/constants/routes'
 
 export default {
   // CONTROLS OPTIONS
@@ -46,6 +47,9 @@ Each post can override these settings.`,
       return 'Budget must be at least £5.00 to enable conversions.'
     }
   },
+  settingsSaved: `Default settings saved! You can override these defaults for specific posts on the posts page.
+
+  N.B. Ads that are currently running will not be updated. To edit active ads, head to the [Running section of posts page](${ROUTES.HOME}?postStatus=running).`,
 
   // AD DEFAULTS
   // ----------------
