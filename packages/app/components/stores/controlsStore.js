@@ -208,7 +208,7 @@ const fetchLinks = (set, get) => async (action, artist) => {
     defaultLink,
     postsPreferences: posts,
     conversionsPreferences: conversions,
-    minConversionsBudget: minConversionsBudget * 100,
+    minConversionsBudget,
     formattedMinConversionsBudget,
   })
 }
@@ -379,7 +379,7 @@ const useControlsStore = create((set, get) => ({
 
       // Set budget and spending status
       const { updateSpending } = get()
-      updateSpending(artist.daily_budget * 100, artist.isSpendingPaused)
+      updateSpending(artist.daily_budget, artist.isSpendingPaused)
       return
     }
     // Clear links

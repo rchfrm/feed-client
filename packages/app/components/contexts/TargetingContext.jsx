@@ -202,8 +202,8 @@ const TargetingContextProvider = ({ children }) => {
     // Set targeting state
     setInitialTargetingState(targetingState)
     setTargetingState(targetingState)
-    updateSpending(targetingState.budget, !targetingState.status)
-  }, [feedMinBudgetInfo, createLocationOptions, updateSpending])
+    updateSpending((targetingState.budget / currencyOffset), !targetingState.status)
+  }, [feedMinBudgetInfo, createLocationOptions, updateSpending, currencyOffset])
 
   // DISABLE SAVING (eg if budget is too small)
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
@@ -249,7 +249,7 @@ const TargetingContextProvider = ({ children }) => {
       setInitialTargetingState(savedState)
       updateSpendingPaused(savedState.status)
       updateBudget(savedState.budget / currencyOffset)
-      updateSpending(savedState.budget, !savedState.status)
+      updateSpending((savedState.budget / currencyOffset), !savedState.status)
     }
     setSelectedCampaignRecc(null)
     setSaving(false)
