@@ -13,8 +13,17 @@ import brandColors from '@/constants/brandColors'
 
 import copy from '@/app/copy/controlsPageCopy'
 
-const ControlsWizardLinkStep = () => {
+const ControlsWizardLinkStep = ({ setIsWizardActive }) => {
+  const [defaultLink, setDefaultLink] = React.useState('')
   const { next } = React.useContext(WizardContext)
+
+  React.useEffect(() => {
+    setIsWizardActive(true)
+  }, [setIsWizardActive])
+
+  const handleChange = (e) => {
+    setDefaultLink(e.target.value)
+  }
 
   return (
     <>
@@ -24,7 +33,8 @@ const ControlsWizardLinkStep = () => {
         type="url"
         version="box"
         name="link-url"
-        value=""
+        value={defaultLink}
+        handleChange={handleChange}
       />
       <Button
         version="green icon"

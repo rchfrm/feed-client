@@ -1,5 +1,7 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import Router from 'next/router'
+
+import * as ROUTES from '@/app/constants/routes'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 
@@ -12,15 +14,27 @@ import brandColors from '@/constants/brandColors'
 
 import copy from '@/app/copy/controlsPageCopy'
 
-const ControlsWizardReviewStep = () => {
+const ControlsWizardReviewStep = ({ setIsWizardActive }) => {
   const { next } = React.useContext(WizardContext)
+
+  // Navigate to the posts page
+  const goToPostsPage = async () => {
+    Router.push({
+      pathname: ROUTES.HOME,
+      query: { postStatus: 'running' },
+    })
+  }
+
+  React.useEffect(() => {
+    return () => setIsWizardActive(false)
+  }, [setIsWizardActive])
 
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardReviewStepIntro} />
       <Button
         version="green icon"
-        onClick={next}
+        onClick={goToPostsPage}
         spinnerFill={brandColors.white}
         className="w-full"
       >

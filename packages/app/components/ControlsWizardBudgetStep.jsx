@@ -62,7 +62,7 @@ const ControlsWizardBudgetStep = () => {
         />
       </div>
       <Button
-        version="outline icon"
+        version="outline-green icon"
         onClick={next}
         spinnerFill={brandColors.black}
         className="w-full mb-6"

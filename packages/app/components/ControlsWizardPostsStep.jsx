@@ -6,7 +6,8 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import CloseCircle from '@/icons/CloseCircle'
+import TickCircleIcon from '@/icons/TickCircleIcon'
 
 import brandColors from '@/constants/brandColors'
 
@@ -18,18 +19,29 @@ const ControlsWizardPostsStep = () => {
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardPostsStepIntro} />
-      <Button
-        version="outline icon"
-        onClick={next}
-        spinnerFill={brandColors.black}
-        className="w-full mb-10"
-      >
-        Next
-        <ArrowAltIcon
-          className="ml-3"
-          direction="right"
-        />
-      </Button>
+      <div className="flex mb-10">
+        <Button
+          version="outline-black small"
+          onClick={next}
+          className="mr-6 border-black"
+        >
+          <CloseCircle
+            fill={brandColors.red}
+            className="w-6 h-6 mr-2"
+          />
+          No
+        </Button>
+        <Button
+          version="outline-black small"
+          onClick={next}
+          className="border-black"
+        >
+          <TickCircleIcon
+            className="w-6 h-6 mr-2"
+          />
+          Yes
+        </Button>
+      </div>
     </>
   )
 }

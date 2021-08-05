@@ -9,7 +9,7 @@ import ControlsWizardReviewStep from '@/app/ControlsWizardReviewStep'
 
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
 
-const ControlsWizard = () => {
+const ControlsWizard = ({ setIsWizardActive }) => {
   const steps = [
     { id: 0, title: 'Welcome to Feed!', shouldSkip: false },
     { id: 1, title: 'Posts become ads', shouldSkip: false },
@@ -22,11 +22,11 @@ const ControlsWizard = () => {
     <div className="flex flex-col h-full">
       <WizardContextProvider steps={steps} hasNavigation>
         {/* All Wizard steps */}
-        <ControlsWizardLinkStep />
+        <ControlsWizardLinkStep setIsWizardActive={setIsWizardActive} />
         <ControlsWizardPostsStep />
         <ControlsWizardBudgetStep />
         <ControlsWizardPaymentStep />
-        <ControlsWizardReviewStep />
+        <ControlsWizardReviewStep setIsWizardActive={setIsWizardActive} />
       </WizardContextProvider>
     </div>
   )

@@ -34,11 +34,10 @@ const controlsComponents = {
 }
 
 const ControlsContent = ({ activeSlug }) => {
+  const [isWizardActive, setIsWizardActive] = React.useState(true)
   // DESTRUCTURE CONTEXTS
   const { artistId } = React.useContext(ArtistContext)
   const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
-  let { isFirstTimeUser } = React.useContext(TargetingContext)
-  isFirstTimeUser = true
   // Fetch from targeting context
   const {
     targetingState,
@@ -46,6 +45,7 @@ const ControlsContent = ({ activeSlug }) => {
     initPage,
     errorFetchingSettings,
     currencyOffset,
+    isFirstTimeUser,
   } = React.useContext(TargetingContext)
 
   // LOAD AND SET INITIAL TARGETING STATE
@@ -73,13 +73,14 @@ const ControlsContent = ({ activeSlug }) => {
     )
   }
 
+
   if (globalLoading || !Object.keys(targetingState).length) return null
 
   return (
     <div className="md:grid grid-cols-12 gap-8">
-      {isFirstTimeUser ? (
+      {isFirstTimeUser && isWizardActive ? (
         <div className="col-span-6 col-start-1">
-          <ControlsWizard />
+          <ControlsWizard setIsWizardActive={setIsWizardActive} />
         </div>
       ) : (
         <>
