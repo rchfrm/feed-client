@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import * as ROUTES from '@/app/constants/routes'
 
 export default {
   // CONTROLS OPTIONS
@@ -54,6 +55,26 @@ Each post can override these settings.`,
   defaultCallToActionIntro: `By default, which call to action should appear on your ads?`,
   facebookPixelIntro: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
+
+  // CONTROLS WIZARD
+  // ----------------
+  controlsWizardLinkStepIntro: `Set-up will only take a minute, first...
+
+  **Where can people go to find out more about what you’re working on?**`,
+  controlsWizardLinkStepOutro: 'This link will be used on ads Feed creates by default, but you’ll be able to override this on specific posts.',
+  controlsWizardPostsStepIntro: `You never know what is going to catch someone’s attention!
+
+  So, for best performance, Feed makes all posts in the last 28 days promotable by default.
+  
+  **Keep recent posts promotable by default?**`,
+  controlsWizardBudgetStepQuestion: '**How much would you like to spend per day?**',
+  controlsWizardBudgetRecommendation: 'We recommend you set an amount that you can sustain for a long time.',
+  controlsWizardPaymentStepIntro: 'The penultimate step! Feed will charge 10% of your daily budget each week that you run ads through the platform.',
+  controlsWizardReviewStepIntro: `Starting with your most engaging posts from the last 28 days, Feed has now started setting up your ads.
+
+  Once they’re approved you’ll begin to see results coming through!
+  
+  Review your running posts [here](${ROUTES.HOME}?postStatus=running).`,
 
   // CONVERSIONS WIZARD
   // ----------------
