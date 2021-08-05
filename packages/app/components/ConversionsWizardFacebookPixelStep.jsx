@@ -26,7 +26,7 @@ const ConversionsWizardFacebookPixelStep = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const { res, error } = await setPixel(artistId, facebookPixel)
+    const { error } = await setPixel(artistId, facebookPixel)
     setIsLoading(false)
 
     if (error) {

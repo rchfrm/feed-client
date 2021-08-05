@@ -4,7 +4,6 @@ import * as utils from '@/helpers/utils'
 import { getPostLinkSpecData } from '@/app/helpers/postsHelpers'
 import * as server from '@/app/helpers/appServer'
 import { track } from '@/app/helpers/trackingHelpers'
-import * as api from '@/helpers/api'
 
 // * UTILS
 // ------------

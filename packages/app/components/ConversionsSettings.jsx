@@ -28,6 +28,8 @@ const getControlsStoreState = (state) => ({
   canRunConversions: state.canRunConversions,
   setConversionsEnabled: state.setConversionsEnabled,
   conversionsEnabled: state.conversionsEnabled,
+  minConversionsBudget: state.minConversionsBudget,
+  formattedMinConversionsBudget: state.formattedMinConversionsBudget,
 })
 
 const ConversionsSettings = () => {
@@ -39,6 +41,8 @@ const ConversionsSettings = () => {
     canRunConversions,
     setConversionsEnabled,
     conversionsEnabled,
+    minConversionsBudget,
+    formattedMinConversionsBudget,
   } = useControlsStore(getControlsStoreState)
   const [defaultLinkId, setDefaultLinkId] = React.useState(conversionsPreferences.defaultLinkId)
   const [facebookPixelEvent, setFacebookPixelEvent] = React.useState(conversionsPreferences.facebookPixelEvent)
@@ -46,7 +50,7 @@ const ConversionsSettings = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [showAlert, setShowAlert] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
-  const hasSufficientBudget = budget >= 5
+  const hasSufficientBudget = budget >= minConversionsBudget
   const disabled = !conversionsEnabled || !canRunConversions
 
   const { setSidePanelButton, sidePanelOpen: isSidepanelOpen } = React.useContext(SidePanelContext)
@@ -62,6 +66,9 @@ const ConversionsSettings = () => {
       facebookPixelEvent,
       callToAction,
     })
+    if (error) {
+      return
+    }
     setIsLoading(false)
 
     // Update global store value
@@ -124,7 +131,7 @@ const ConversionsSettings = () => {
         />
       </div>
       {(isSpendingPaused || !hasSufficientBudget) && (
-        <MarkdownText markdown={copy.toggleWarning(isSpendingPaused, hasSufficientBudget)} className="text-red font-semibold mb-10" />
+        <MarkdownText markdown={copy.toggleWarning(isSpendingPaused, hasSufficientBudget, formattedMinConversionsBudget)} className="text-red font-semibold mb-10" />
       )}
       <PostLinksSelect
         currentLinkId={defaultLinkId}

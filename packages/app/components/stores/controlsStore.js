@@ -3,8 +3,9 @@ import produce from 'immer'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { getPreferences } from '@/app/helpers/artistHelpers'
+import { getMinBudgets } from '@/app/helpers/budgetHelpers'
 
-import { getLocalStorage, setLocalStorage, removeProtocolFromUrl } from '@/helpers/utils'
+import { getLocalStorage, setLocalStorage, removeProtocolFromUrl, formatCurrency } from '@/helpers/utils'
 
 const { integrationsFolderId, folderStatesStorageKey } = linksHelpers
 
@@ -14,7 +15,10 @@ const initialState = {
   defaultLink: {},
   postsPreferences: {},
   conversionsPreferences: {},
+  currency: '',
   budget: 0,
+  minConversionsBudget: 0,
+  formattedMinConversionsBudget: '',
   isSpendingPaused: false,
   canRunConversions: false,
   conversionsEnabled: false,
@@ -127,9 +131,9 @@ const fetchIntegrations = ({ artist, folders }) => {
 // * CONVERSIONS
 
 const canRunConversionCampaigns = (set, get) => () => {
-  const { conversionsPreferences, budget, isSpendingPaused } = get()
+  const { conversionsPreferences, budget, isSpendingPaused, minConversionsBudget } = get()
   const hasConversionsSetUpCorrectly = Object.values(conversionsPreferences).every(Boolean)
-  const hasSufficientBudget = budget >= 5
+  const hasSufficientBudget = budget >= minConversionsBudget
   return hasConversionsSetUpCorrectly && hasSufficientBudget && !isSpendingPaused
 }
 
@@ -162,7 +166,7 @@ const formatServerLinks = ({ folders, defaultLinkId, artist }) => {
 
 // Fetch links from server and update store (or return cached links)
 const fetchLinks = (set, get) => async (action, artist) => {
-  const { savedLinks, linksLoading, artistId } = get()
+  const { savedLinks, linksLoading, artistId, currency } = get()
   // Stop here if links are already loading
   if (linksLoading) return
   set({ linksLoading: true })
@@ -179,6 +183,9 @@ const fetchLinks = (set, get) => async (action, artist) => {
     return { error }
   }
   const { folders } = res
+  // Get minimium conversions budget
+  const { res: { min_recommended_stories_rounded: minConversionsBudget } } = await getMinBudgets(artist.id)
+  const formattedMinConversionsBudget = formatCurrency(minConversionsBudget, currency)
   // Get posts preferences and conversions preferences
   const posts = getPreferences(artist, 'posts')
   const conversions = getPreferences(artist, 'conversions')
@@ -201,6 +208,8 @@ const fetchLinks = (set, get) => async (action, artist) => {
     defaultLink,
     postsPreferences: posts,
     conversionsPreferences: conversions,
+    minConversionsBudget,
+    formattedMinConversionsBudget,
   })
 }
 
@@ -332,7 +341,10 @@ const useControlsStore = create((set, get) => ({
   defaultLink: initialState.defaultLink,
   postsPreferences: initialState.postsPreferences,
   conversionsPreferences: initialState.conversionsPreferences,
+  currency: initialState.currency,
   budget: initialState.budget,
+  minConversionsBudget: initialState.minConversionsBudget,
+  formattedMinConversionsBudget: initialState.formattedMinConversionsBudget,
   isSpendingPaused: initialState.isSpendingPaused,
   canRunConversions: initialState.canRunConversions,
   conversionsEnabled: initialState.conversionsEnabled,
@@ -358,6 +370,7 @@ const useControlsStore = create((set, get) => ({
     // Set artist details
     set({
       artistId: artist.id,
+      currency: artist.currency,
       linksLoading: false,
     })
     // Fetch links

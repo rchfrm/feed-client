@@ -39,8 +39,6 @@ const BILLING_CONTENT_SECTIONS = ({
   loadingErrors,
   latestInvoice,
   upcomingInvoice,
-  organisation,
-  updateLatestInvoice,
   defaultPaymentMethod,
   showProfilesSection,
 }) => {
