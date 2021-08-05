@@ -17,18 +17,19 @@ import ConversionsWizardPostOptInStep from '@/app/ConversionsWizardPostOptInStep
 const getControlsStoreState = (state) => ({
   conversionsPreferences: state.conversionsPreferences,
   budget: state.budget,
+  minConversionsBudget: state.minConversionsBudget,
 })
 
 const ConversionsWizard = ({ setIsWizardActive }) => {
   const { artist } = React.useContext(ArtistContext)
-  const { conversionsPreferences, budget } = useControlsStore(getControlsStoreState)
+  const { conversionsPreferences, budget, minConversionsBudget } = useControlsStore(getControlsStoreState)
   const { callToAction, defaultLinkId, facebookPixelEvent } = conversionsPreferences
   const facebookPixelId = artist.integrations.find(integration => integration.platform === 'facebook').pixel_id
 
   // Steps array which includes logic to skip a wizard step
   const steps = [
     { id: 0, shouldSkip: false },
-    { id: 1, shouldSkip: budget >= 5 },
+    { id: 1, shouldSkip: budget >= minConversionsBudget },
     { id: 2, shouldSkip: Boolean(facebookPixelId) },
     { id: 3, shouldSkip: Boolean(defaultLinkId) },
     { id: 4, shouldSkip: Boolean(facebookPixelEvent) },

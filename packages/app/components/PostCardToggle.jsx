@@ -5,6 +5,9 @@ import PostCardLabel from '@/app/PostCardLabel'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostCardToggleTeaser from '@/app/PostCardToggleTeaser'
+import PostCardDisableHandler from '@/app/PostCardDisableHandler'
+
+import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import useShowConversionsInterest from '@/app/hooks/useShowConversionsInterest'
 
@@ -16,8 +19,9 @@ const runChangeState = ({ artistId, postId, promotionEnabled, campaignType }) =>
 }
 
 const PostCardToggle = ({
+  post,
+  postToggleSetterType,
   campaignType,
-  postId,
   artistId,
   isEnabled,
   toggleCampaign,
@@ -29,6 +33,8 @@ const PostCardToggle = ({
   // Store INTERNAL STATE based on promotionEnabled
   const [currentState, setCurrentState] = React.useState(isEnabled)
   const isConversionsCampaign = campaignType === 'conversions'
+  const { sidePanelOpen } = React.useContext(SidePanelContext)
+  const { id: postId, postPromotable, promotionStatus } = post
   // Update internal state when outside state changes
   React.useEffect(() => {
     setCurrentState(isEnabled)
@@ -115,13 +121,26 @@ const PostCardToggle = ({
           />
         )}
       </div>
+      {/* DISABLE ALERT */}
+      {!sidePanelOpen && postPromotable && promotionStatus === 'active' && (
+        <PostCardDisableHandler
+          post={post}
+          postToggleSetterType={postToggleSetterType}
+          artistId={artistId}
+          toggleCampaign={toggleCampaign}
+          isEnabled={currentState}
+          setIsEnabled={setCurrentState}
+          campaignType={campaignType}
+        />
+      )}
     </WrapperTag>
   )
 }
 
 PostCardToggle.propTypes = {
+  post: PropTypes.object.isRequired,
+  postToggleSetterType: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
-  postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool,
   toggleCampaign: PropTypes.func.isRequired,

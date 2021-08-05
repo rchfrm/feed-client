@@ -1,6 +1,6 @@
 import * as utils from '@/helpers/utils'
+import * as api from '@/helpers/api'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
-
 
 // TESTING
 // -------
@@ -174,4 +174,19 @@ export const calcMinReccBudget = (budgetInfo, locationOptions) => {
   const locationCost = calcLocationsCost(budgetInfo, locationOptions)
   const totalMinRecc = minReccomendedBase + locationCost
   return totalMinRecc
+}
+
+// GET MIN BUDGETS
+/**
+* @param {string} artistId
+* @returns {Promise<any>}
+*/
+export const getMinBudgets = async (artistId) => {
+  const endpoint = `artists/${artistId}/min_budgets`
+  const payload = {}
+  const errorTracking = {
+    category: 'Budgets',
+    action: 'Get min budgets',
+  }
+  return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
