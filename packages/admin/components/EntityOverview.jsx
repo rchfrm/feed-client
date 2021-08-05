@@ -27,7 +27,7 @@ export const getEntityInfo = entity => {
       type: 'organization',
       queryId: 'orgId',
     }
-  } if (entity?.first_name) {
+  } if (entity?.full_name) {
     return {
       type: 'user',
       queryId: 'userId',
@@ -43,7 +43,7 @@ const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
   const entityInfo = getEntityInfo(entity)
   const entityRoute = entityInfo.type.toUpperCase()
   // Concatenate first and last name if entity is a user
-  const name = entityInfo.type === 'user' ? `${entity.first_name} ${entity.last_name}` : entity.name
+  const name = entityInfo.type === 'user' ? entity.full_name : entity.name
   // Array of users with access to the artist or organisation
   const users = entity.users && Object.values(entity.users)
   // Array of artists connected to user or organisation

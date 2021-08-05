@@ -12,6 +12,7 @@ const EntityConnections = ({ connections, connectionType }) => {
   const toggleConnections = () => setShowConnections(!showConnections)
   // Set query parameter based on entity type
   const queryId = connectionType === 'User' ? 'userId' : connectionType === 'Artist' ? 'artistId' : 'orgId'
+  const entityRoute = connectionType.toUpperCase()
   // Pluralise connection type if there is more than 1
   const type = connections.length === 1 ? connectionType : `${connectionType}s`
 
@@ -42,7 +43,8 @@ const EntityConnections = ({ connections, connectionType }) => {
               <p>
                 <Link
                   href={{
-                    pathname: ROUTES.USER,
+                    // eslint-disable-next-line import/namespace
+                    pathname: ROUTES[entityRoute],
                     query: { [queryId]: id },
                   }}
                 >
