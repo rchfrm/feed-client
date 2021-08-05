@@ -4,6 +4,7 @@ import { useAsync } from 'react-async'
 
 import Error from '@/elements/Error'
 
+import ControlsWizard from '@/app/ControlsWizard'
 import ControlsContentOptions from '@/app/ControlsContentOptions'
 import ControlsContentView from '@/app/ControlsContentView'
 import ConversionsContent from '@/app/ConversionsContent'
@@ -36,6 +37,8 @@ const ControlsContent = ({ activeSlug }) => {
   // DESTRUCTURE CONTEXTS
   const { artistId } = React.useContext(ArtistContext)
   const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
+  let { isFirstTimeUser } = React.useContext(TargetingContext)
+  isFirstTimeUser = true
   // Fetch from targeting context
   const {
     targetingState,
@@ -74,25 +77,33 @@ const ControlsContent = ({ activeSlug }) => {
 
   return (
     <div className="md:grid grid-cols-12 gap-8">
-      <div className="col-span-6 col-start-1">
-        <h2>Budget</h2>
-        {/* BUDGET BOX */}
-        <TargetingBudgetBox
-          className="mb-8"
-        />
-        {/* SETTINGS MENU */}
-        <ControlsContentOptions
-          activeSlug={activeSlug}
-          controlsComponents={controlsComponents}
-        />
-      </div>
-      {/* SETTINGS VIEW */}
-      {isDesktopLayout && (
-        <ControlsContentView
-          activeSlug={activeSlug}
-          className="col-span-6 col-start-7"
-          controlsComponents={controlsComponents}
-        />
+      {isFirstTimeUser ? (
+        <div className="col-span-6 col-start-1">
+          <ControlsWizard />
+        </div>
+      ) : (
+        <>
+          <div className="col-span-6 col-start-1">
+            <h2>Budget</h2>
+            {/* BUDGET BOX */}
+            <TargetingBudgetBox
+              className="mb-8"
+            />
+            {/* SETTINGS MENU */}
+            <ControlsContentOptions
+              activeSlug={activeSlug}
+              controlsComponents={controlsComponents}
+            />
+          </div>
+          {/* SETTINGS VIEW */}
+          {isDesktopLayout && (
+            <ControlsContentView
+              activeSlug={activeSlug}
+              className="col-span-6 col-start-7"
+              controlsComponents={controlsComponents}
+            />
+          )}
+        </>
       )}
     </div>
   )

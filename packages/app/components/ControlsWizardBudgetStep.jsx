@@ -73,7 +73,7 @@ const ControlsWizardBudgetStep = () => {
           direction="right"
         />
       </Button>
-      <MarkdownText markdown={copy.controlsWizardBudgetRecommendation} />
+      <MarkdownText markdown={copy.controlsWizardBudgetRecommendation} className="mb-10" />
     </>
   )
 }

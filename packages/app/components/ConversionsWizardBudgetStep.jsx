@@ -16,8 +16,8 @@ import brandColors from '@/constants/brandColors'
 
 const ConversionsWizardBudgetStep = () => {
   const { next } = React.useContext(WizardContext)
-  const { updateTargetingBudget, initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser } = React.useContext(TargetingContext)
-  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser })
+  const { updateTargetingBudget, initialTargetingState, targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
+  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
   const minBudget = 500
 
   // Update targeting budget state

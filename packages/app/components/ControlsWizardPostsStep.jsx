@@ -22,7 +22,7 @@ const ControlsWizardPostsStep = () => {
         version="outline icon"
         onClick={next}
         spinnerFill={brandColors.black}
-        className="w-full"
+        className="w-full mb-10"
       >
         Next
         <ArrowAltIcon

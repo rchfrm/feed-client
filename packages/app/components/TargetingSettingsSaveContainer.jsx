@@ -14,11 +14,10 @@ const TargetingSettingsSaveContainer = ({
   initialTargetingState,
   targetingState,
   saveTargetingSettings,
-  isFirstTimeUser,
   children,
 }) => {
   // GET SAVE FUNCTION
-  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser })
+  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
   return (
     <div
       className={[
@@ -35,7 +34,7 @@ const TargetingSettingsSaveContainer = ({
         >
           {disableSaving ? (
             getSaveDisabledReason(disableSaving)
-          ) : copy.saveSettingsButton(isFirstTimeUser)}
+          ) : copy.saveSettingsButton}
         </Button>
       </div>
       {/* EXTRA CONTENT */}
@@ -49,7 +48,6 @@ TargetingSettingsSaveContainer.propTypes = {
   initialTargetingState: PropTypes.object.isRequired,
   targetingState: PropTypes.object.isRequired,
   saveTargetingSettings: PropTypes.func.isRequired,
-  isFirstTimeUser: PropTypes.bool.isRequired,
   children: PropTypes.node,
 }
 
