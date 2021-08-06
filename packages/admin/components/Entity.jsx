@@ -29,44 +29,62 @@ const Category = ({ entityType, id }) => {
     promiseFn: getCategoryOptions,
     entityType,
   })
-  const handleChange = React.useCallback(e => {
-    const { target: { value, name } } = e
-    console.log('value', value)
-    console.log('name', name)
-  }, [])
+  // Store current category information for entity in state
+  const [selectedCategoryType, setSelectedCategoryType] = React.useState()
+  const [selectedCategoryIndustry, setSelectedCategoryIndustry] = React.useState()
+
+
+  const handleTypeChange = e => {
+    setSelectedCategoryType(e.target.value)
+  }
+
+  const handleIndustryChange = e => {
+    setSelectedCategoryIndustry(e.target.value)
+  }
+
+  // Loading and error state
   if (categoryIsPending || optionsArePending) {
     return <CategoryWrapper entityType={entityType}><p>Loading...</p></CategoryWrapper>
   }
   if (categoryError || optionsError) {
     return <CategoryWrapper entityType={entityType}><p>{categoryError.message}</p></CategoryWrapper>
   }
-  // TODO Display category information
-  // TODO Add ability to update category information
-  const categoryBreakdowns = Object.keys(options)
+  const typeSelectOptions = options.type.map(option => {
+    return {
+      name: option,
+      value: option,
+    }
+  })
+  typeSelectOptions.unshift({
+    name: '---',
+    value: 'none',
+  })
+  const industrySelectOptions = options.industry.map(option => {
+    return {
+      name: option,
+      value: option,
+    }
+  })
+  industrySelectOptions.unshift({
+    name: '---',
+    value: 'none',
+  })
   return (
     <CategoryWrapper entityType={entityType}>
-      {categoryBreakdowns.map(breakdown => {
-        let breakdownOptions = options[breakdown].map(option => ({ name: option, value: option }))
-        if (!category[breakdown]) {
-          breakdownOptions = [{
-            value: 'no-choice',
-            name: '---',
-          }, ...breakdownOptions]
-        }
-
-        return (
-          <>
-            <h5 className="font-normal">{capitalise(breakdown)}:</h5>
-            <Select
-              key={breakdown}
-              options={breakdownOptions}
-              selectedValue={category[breakdown]}
-              name={breakdown}
-              handleChange={handleChange}
-            />
-          </>
-        )
-      })}
+      <h5 className="font-normal">Type:</h5>
+      <Select
+        options={typeSelectOptions}
+        selectedValue={selectedCategoryType}
+        name="type"
+        handleChange={handleTypeChange}
+      />
+      <h5 className="font-normal">Industry:</h5>
+      <Select
+        options={industrySelectOptions}
+        selectedValue={selectedCategoryIndustry}
+        name="industry"
+        handleChange={handleIndustryChange}
+      />
     </CategoryWrapper>
   )
 }
