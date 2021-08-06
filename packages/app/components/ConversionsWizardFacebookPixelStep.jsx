@@ -50,7 +50,7 @@ const ConversionsWizardFacebookPixelStep = () => {
         />
         <Button
           type="submit"
-          version="outline icon"
+          version="outline-green icon"
           loading={isLoading}
           spinnerFill={brandColors.black}
           className="mt-6 w-full"

@@ -38,7 +38,7 @@ const ConversionsWizardBudgetStep = () => {
       <h2>Budget</h2>
       <MarkdownText markdown={copy.budgetStepDescription} />
       <Button
-        version="outline icon"
+        version="outline-green icon"
         onClick={setBudget}
         spinnerFill={brandColors.black}
         className="w-full"
