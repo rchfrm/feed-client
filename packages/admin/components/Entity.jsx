@@ -4,9 +4,11 @@ import TournamentLink from '@/admin/TournamentLink'
 import ArtistIntegrationLinks from '@/admin/ArtistIntegrationLinks'
 import PatchArtist from '@/admin/PatchArtist'
 import { useAsync } from 'react-async'
-import { getCategoryOptions, getEntityCategory } from '@/admin/helpers/adminServer'
+import { getCategoryOptions, getEntityCategory, saveEntityCategory } from '@/admin/helpers/adminServer'
 import Select from '@/elements/Select'
 import { capitalise } from '@/helpers/utils'
+import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 
 const CategoryWrapper = ({ entityType, children }) => {
   return (
@@ -32,6 +34,14 @@ const Category = ({ entityType, id }) => {
   // Store current category information for entity in state
   const [selectedCategoryType, setSelectedCategoryType] = React.useState()
   const [selectedCategoryIndustry, setSelectedCategoryIndustry] = React.useState()
+  const [error, setError] = React.useState()
+
+  React.useEffect(() => {
+    if (!categoryIsPending) {
+      setSelectedCategoryType(category.type || undefined)
+      setSelectedCategoryIndustry(category.industry || undefined)
+    }
+  }, [category, categoryIsPending])
 
 
   const handleTypeChange = e => {
@@ -40,6 +50,23 @@ const Category = ({ entityType, id }) => {
 
   const handleIndustryChange = e => {
     setSelectedCategoryIndustry(e.target.value)
+  }
+
+  const handleClick = async e => {
+    e.preventDefault()
+    if (
+      !selectedCategoryType
+      || selectedCategoryType === 'none'
+      || !selectedCategoryIndustry
+      || selectedCategoryIndustry === 'none'
+    ) {
+      setError({ message: 'Select a Type and Industry' })
+      return
+    }
+    await saveEntityCategory(entityType, id, {
+      type: selectedCategoryType,
+      industry: selectedCategoryIndustry,
+    }).catch(error => setError(error))
   }
 
   // Loading and error state
@@ -55,20 +82,24 @@ const Category = ({ entityType, id }) => {
       value: option,
     }
   })
-  typeSelectOptions.unshift({
-    name: '---',
-    value: 'none',
-  })
+  if (!category.type) {
+    typeSelectOptions.unshift({
+      name: '---',
+      value: 'none',
+    })
+  }
   const industrySelectOptions = options.industry.map(option => {
     return {
       name: option,
       value: option,
     }
   })
-  industrySelectOptions.unshift({
-    name: '---',
-    value: 'none',
-  })
+  if (!category.industry) {
+    industrySelectOptions.unshift({
+      name: '---',
+      value: 'none',
+    })
+  }
   return (
     <CategoryWrapper entityType={entityType}>
       <h5 className="font-normal">Type:</h5>
@@ -85,6 +116,13 @@ const Category = ({ entityType, id }) => {
         name="industry"
         handleChange={handleIndustryChange}
       />
+      <Button
+        version="green"
+        onClick={handleClick}
+      >
+        Save
+      </Button>
+      <Error error={error} />
     </CategoryWrapper>
   )
 }

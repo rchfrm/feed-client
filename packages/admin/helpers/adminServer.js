@@ -22,18 +22,27 @@ export const getEndpoint = async (endpoint) => {
   return api.get(endpoint)
 }
 
-export const getEntityCategory = async ({ entityType, entityId }) => {
+const isValidEntityType = entityType => {
   const allowedEntityTypes = ['artist', 'user', 'organization']
   if (!allowedEntityTypes.includes(entityType)) throw new Error('Invalid entity type provided')
+}
+
+export const getEntityCategory = async ({ entityType, entityId }) => {
+  isValidEntityType(entityType)
   const endpoint = `${entityType}s/${entityId}/category`
   return api.get(endpoint)
 }
 
 export const getCategoryOptions = async ({ entityType }) => {
-  const allowedEntityTypes = ['artist', 'user', 'organization']
-  if (!allowedEntityTypes.includes(entityType)) throw new Error('Invalid entity type provided')
+  isValidEntityType(entityType)
   const endpoint = `${entityType}s/categories`
   return api.get(endpoint)
+}
+
+export const saveEntityCategory = async (entityType, entityId, categoryInfo) => {
+  isValidEntityType(entityType)
+  const endpoint = `${entityType}s/${entityId}/category`
+  return api.patch(endpoint, categoryInfo)
 }
 
 // ARTISTS
