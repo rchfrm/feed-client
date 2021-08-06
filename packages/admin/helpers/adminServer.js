@@ -23,11 +23,16 @@ export const getEndpoint = async (endpoint) => {
 }
 
 export const getEntityCategory = async ({ entityType, entityId }) => {
-  console.log('entityType', entityType)
-  console.log('entityId', entityId)
   const allowedEntityTypes = ['artist', 'user', 'organization']
   if (!allowedEntityTypes.includes(entityType)) throw new Error('Invalid entity type provided')
   const endpoint = `${entityType}s/${entityId}/category`
+  return api.get(endpoint)
+}
+
+export const getCategoryOptions = async ({ entityType }) => {
+  const allowedEntityTypes = ['artist', 'user', 'organization']
+  if (!allowedEntityTypes.includes(entityType)) throw new Error('Invalid entity type provided')
+  const endpoint = `${entityType}s/categories`
   return api.get(endpoint)
 }
 

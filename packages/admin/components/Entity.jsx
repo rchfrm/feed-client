@@ -4,23 +4,71 @@ import TournamentLink from '@/admin/TournamentLink'
 import ArtistIntegrationLinks from '@/admin/ArtistIntegrationLinks'
 import PatchArtist from '@/admin/PatchArtist'
 import { useAsync } from 'react-async'
-import { getEntityCategory } from '@/admin/helpers/adminServer'
+import { getCategoryOptions, getEntityCategory } from '@/admin/helpers/adminServer'
+import Select from '@/elements/Select'
+import { capitalise } from '@/helpers/utils'
+
+const CategoryWrapper = ({ entityType, children }) => {
+  return (
+    <>
+      <h4 className="strong">{capitalise(entityType)} Category</h4>
+      {children}
+    </>
+  )
+}
 
 const Category = ({ entityType, id }) => {
-  const { data, error, isPending } = useAsync({
+  // Get current category information for entity, if it exists
+  const { data: category, error: categoryError, isPending: categoryIsPending } = useAsync({
     promiseFn: getEntityCategory,
     entityType,
     entityId: id,
   })
-  if (isPending) {
-    return <p>Loading...</p>
+  // Get category information options
+  const { data: options, error: optionsError, isPending: optionsArePending } = useAsync({
+    promiseFn: getCategoryOptions,
+    entityType,
+  })
+  const handleChange = React.useCallback(e => {
+    const { target: { value, name } } = e
+    console.log('value', value)
+    console.log('name', name)
+  }, [])
+  if (categoryIsPending || optionsArePending) {
+    return <CategoryWrapper entityType={entityType}><p>Loading...</p></CategoryWrapper>
   }
-  if (error) {
-    return <p>{error.message}</p>
+  if (categoryError || optionsError) {
+    return <CategoryWrapper entityType={entityType}><p>{categoryError.message}</p></CategoryWrapper>
   }
   // TODO Display category information
   // TODO Add ability to update category information
-  return <p>{id}</p>
+  const categoryBreakdowns = Object.keys(options)
+  return (
+    <CategoryWrapper entityType={entityType}>
+      {categoryBreakdowns.map(breakdown => {
+        let breakdownOptions = options[breakdown].map(option => ({ name: option, value: option }))
+        if (!category[breakdown]) {
+          breakdownOptions = [{
+            value: 'no-choice',
+            name: '---',
+          }, ...breakdownOptions]
+        }
+
+        return (
+          <>
+            <h5 className="font-normal">{capitalise(breakdown)}:</h5>
+            <Select
+              key={breakdown}
+              options={breakdownOptions}
+              selectedValue={category[breakdown]}
+              name={breakdown}
+              handleChange={handleChange}
+            />
+          </>
+        )
+      })}
+    </CategoryWrapper>
+  )
 }
 
 const Entity = ({ entity, propsToDisplay }) => {
@@ -28,7 +76,8 @@ const Entity = ({ entity, propsToDisplay }) => {
   return (
     <>
       <EntityOverview entity={entity} propsToDisplay={propsToDisplay} isSingleEntity />
-      <Category entityType={entityInfo.type} id={entity.id} />
+      {entityInfo.type === 'organization'
+        && <Category entityType={entityInfo.type} id={entity.id} />}
       {entityInfo.type === 'artist' && (
         <>
           {/* LINKS */}

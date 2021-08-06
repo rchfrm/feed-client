@@ -7,13 +7,8 @@ import SectionHeader from '@/admin/elements/SectionHeader'
 import DataDetails from '@/admin/elements/DataDetails'
 import DataDetail from '@/admin/elements/DataDetail'
 import EntityConnections from '@/admin/EntityConnections'
-import ArtistStatusButton from '@/admin/ArtistStatusButton'
-import TournamentLink from '@/admin/TournamentLink'
-import ArtistIntegrationLinks from '@/admin/ArtistIntegrationLinks'
-import PatchArtist from '@/admin/PatchArtist'
 
 import * as ROUTES from '@/admin/constants/routes'
-import UserArtists from '@/admin/UserArtists'
 
 const getUsersData = (users = {}) => {
   return Object.values(users).map(({ id, name, role }) => {
