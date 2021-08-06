@@ -282,7 +282,6 @@ const updatePreferences = (set, get) => (type, preferences) => {
   set({ [type]: newState })
   if (type === 'conversionsPreferences') {
     set({ canRunConversions: canRunConversionCampaigns() })
-    set({ conversionsEnabled: canRunConversionCampaigns() })
   }
 }
 
@@ -372,6 +371,7 @@ const useControlsStore = create((set, get) => ({
       artistId: artist.id,
       currency: artist.currency,
       linksLoading: false,
+      conversionsEnabled: artist.conversions_enabled
     })
     // Fetch links
     if (action === 'fetchLinks') {

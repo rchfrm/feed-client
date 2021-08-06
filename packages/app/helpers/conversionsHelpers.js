@@ -81,9 +81,9 @@ export const updateCallToAction = async (artistId, callToAction) => {
  * @param {string} artistId
  * @returns {Promise<any>}
  */
-export const enableConversions = async (artistId) => {
+export const toggleConversionsEnabled = async (artistId, conversionsEnabled) => {
   const endpoint = `/artists/${artistId}`
-  const payload = { conversions_enabled: true }
+  const payload = { conversions_enabled: conversionsEnabled }
   const errorTracking = {
     category: 'Conversions',
     action: 'Enable conversions',
