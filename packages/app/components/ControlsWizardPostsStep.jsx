@@ -1,7 +1,10 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
+
+import useControlsStore from '@/app/stores/controlsStore'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
@@ -13,8 +16,35 @@ import brandColors from '@/constants/brandColors'
 
 import copy from '@/app/copy/controlsPageCopy'
 
+import * as server from '@/app/helpers/appServer'
+
+const getControlsStoreState = (state) => ({
+  updatePreferences: state.updatePreferences,
+})
+
 const ControlsWizardPostsStep = () => {
+  const [isLoading, setIsLoading] = React.useState(false)
+  const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { next } = React.useContext(WizardContext)
+  const { updatePreferences } = useControlsStore(getControlsStoreState)
+  const [isEnabled, setIsEnabled] = React.useState(false)
+
+  // Call the server with the new post status
+  const savePromotableDefaultStatus = React.useCallback(async (isDefaultPromotionEnabled) => {
+    setIsEnabled(isDefaultPromotionEnabled)
+    setIsLoading(true)
+    // Batch toggle all posts on server
+    const { success } = await server.toggleDefaultPromotionStatus(artistId, isDefaultPromotionEnabled)
+    if (!success) return
+    // Patch artist post preferences
+    const { preferences: { posts: { promotion_enabled_default: defaultPromotionEnabled } } } = await server.patchArtistPromotionStatus(artistId, isDefaultPromotionEnabled)
+    setIsLoading(false)
+    // Update artist context status
+    setPostPreferences('promotion_enabled_default', isDefaultPromotionEnabled)
+    // Update posts preferences in controls store
+    updatePreferences('postsPreferences', { defaultPromotionEnabled })
+    next()
+  }, [artistId, next, setPostPreferences, updatePreferences])
 
   return (
     <>
@@ -22,8 +52,10 @@ const ControlsWizardPostsStep = () => {
       <div className="flex mb-10">
         <Button
           version="outline-black small"
-          onClick={next}
+          onClick={() => savePromotableDefaultStatus(false)}
           className="mr-6 border-black"
+          spinnerFill={brandColors.black}
+          loading={isLoading && !isEnabled}
         >
           <CloseCircle
             fill={brandColors.red}
@@ -33,8 +65,10 @@ const ControlsWizardPostsStep = () => {
         </Button>
         <Button
           version="outline-black small"
-          onClick={next}
+          onClick={() => savePromotableDefaultStatus(true)}
           className="border-black"
+          spinnerFill={brandColors.black}
+          loading={isLoading && isEnabled}
         >
           <TickCircleIcon
             className="w-6 h-6 mr-2"

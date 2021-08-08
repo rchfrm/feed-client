@@ -28,6 +28,7 @@ const getControlsStoreState = (state) => ({
 const ControlsWizardLinkStep = ({ setIsWizardActive }) => {
   const [link, setLink] = React.useState({ name: 'Default link', href: '' })
   const [error, setError] = React.useState('')
+  const [isLoading, setIsLoading] = React.useState(false)
   const { next } = React.useContext(WizardContext)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { savedFolders, updateControlsStore, updatePreferences } = useControlsStore(getControlsStoreState)
@@ -41,14 +42,17 @@ const ControlsWizardLinkStep = ({ setIsWizardActive }) => {
   }
 
   const save = async () => {
+    setIsLoading(true)
     const { res: savedLink, error } = await saveLink(artistId, link, savedFolders)
     if (error) {
       const saveLinkError = `Error saving link: ${error.message}`
       setError({ message: saveLinkError })
+      setIsLoading(false)
       return
     }
     if (savedLink) {
       const { res: newArtist, error } = await setDefaultLink(artistId, savedLink.id)
+      setIsLoading(false)
       if (error) {
         const setDefaultLinkError = `Error setting link as default: ${error.message}`
         setError({ message: setDefaultLinkError })
@@ -87,6 +91,7 @@ const ControlsWizardLinkStep = ({ setIsWizardActive }) => {
         version="green icon"
         onClick={save}
         className="w-full mb-6"
+        loading={isLoading}
       >
         Next
         <ArrowAltIcon

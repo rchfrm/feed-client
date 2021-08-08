@@ -48,7 +48,7 @@ const ConversionsSettings = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const { res: { preferences }, error } = await updateConversionsPreferences(artistId, {
+    const { res: { preferences } } = await updateConversionsPreferences(artistId, {
       defaultLinkId,
       facebookPixelEvent,
       callToAction,
