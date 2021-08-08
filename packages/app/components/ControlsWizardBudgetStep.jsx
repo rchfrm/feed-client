@@ -5,6 +5,8 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import useSaveTargeting from '@/app/hooks/useSaveTargeting'
+
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 
 import Button from '@/elements/Button'
@@ -19,7 +21,14 @@ import copy from '@/app/copy/controlsPageCopy'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 const ControlsWizardBudgetStep = () => {
-  const { targetingState } = React.useContext(TargetingContext)
+  const {
+    targetingState,
+    initialTargetingState,
+    updateTargetingBudget,
+    saveTargetingSettings,
+    targetingLoading,
+  } = React.useContext(TargetingContext)
+
   const {
     artist: {
       feedMinBudgetInfo: {
@@ -35,6 +44,7 @@ const ControlsWizardBudgetStep = () => {
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const { next } = React.useContext(WizardContext)
+  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
 
   // GET SLIDER SETTINGS BASED ON MIN BUDGET
   const { sliderStep, sliderValueRange } = React.useMemo(() => {
@@ -42,8 +52,14 @@ const ControlsWizardBudgetStep = () => {
   }, [minBase, minHardBudget, targetingState.initialBudget])
 
   React.useEffect(() => {
-    console.log(budget)
-  }, [budget])
+    if (typeof budget !== 'number') return
+    updateTargetingBudget(budget)
+  }, [budget, updateTargetingBudget])
+
+  const saveBudget = async () => {
+    await saveTargeting('settings')
+    next()
+  }
 
   return (
     <>
@@ -52,7 +68,7 @@ const ControlsWizardBudgetStep = () => {
         <TargetingBudgetSlider
           sliderStep={sliderStep}
           sliderValueRange={sliderValueRange}
-          initialBudget={targetingState.initialBudget}
+          initialBudget={initialTargetingState.budget}
           onChange={(budget) => {
             setBudget(budget)
           }}
@@ -63,9 +79,10 @@ const ControlsWizardBudgetStep = () => {
       </div>
       <Button
         version="outline-green icon"
-        onClick={next}
+        onClick={saveBudget}
         spinnerFill={brandColors.black}
         className="w-full mb-6"
+        loading={targetingLoading}
       >
         Next
         <ArrowAltIcon

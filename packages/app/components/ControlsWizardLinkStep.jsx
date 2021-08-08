@@ -41,7 +41,7 @@ const ControlsWizardLinkStep = ({ setIsWizardActive }) => {
     setLink({ ...link, href: e.target.value })
   }
 
-  const save = async () => {
+  const saveDefaultLink = async () => {
     setIsLoading(true)
     const { res: savedLink, error } = await saveLink(artistId, link, savedFolders)
     if (error) {
@@ -89,7 +89,7 @@ const ControlsWizardLinkStep = ({ setIsWizardActive }) => {
       <Error error={error} />
       <Button
         version="green icon"
-        onClick={save}
+        onClick={saveDefaultLink}
         className="w-full mb-6"
         loading={isLoading}
       >

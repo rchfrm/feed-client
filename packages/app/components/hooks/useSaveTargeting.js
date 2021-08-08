@@ -88,7 +88,7 @@ const useSaveTargeting = ({
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
   // SAVE FUNCTION
-  const saveTargeting = React.useCallback((trigger, newState = null) => {
+  const saveTargeting = React.useCallback(async (trigger, newState = null) => {
     const { status } = targetingState
     const isPaused = status === 0
     const savedState = newState || targetingState
@@ -98,13 +98,12 @@ const useSaveTargeting = ({
         ...savedState,
         status: 1,
       }
-      saveTargetingSettings(unpausedTargetingState)
       // TRACK
       track('set_daily_budget', {
         budget: savedState.budget / currencyOffset,
         currencyCode,
       })
-      return
+      return saveTargetingSettings(unpausedTargetingState)
     }
     // Warn about toggling paused
     if (togglePauseCampaign) {
@@ -178,7 +177,7 @@ const useSaveTargeting = ({
       })
     }
     // Basic save (eg when just changing budget)
-    saveTargetingSettings(savedState)
+    return saveTargetingSettings(savedState)
   }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser, feedMinBudgetInfo])
 
   return saveTargeting
