@@ -25,11 +25,11 @@ const getControlsStoreState = (state) => ({
 
 const AdDefaults = () => {
   // Get context values
-  const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
+  const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   // Get store values
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   const { defaultLink, postsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
-  const { callToAction: defaultCallToAction } = postsPreferences
+  const { callToAction: defaultCallToAction, defaultPromotionEnabled } = postsPreferences
 
   return (
     <div>
@@ -41,10 +41,11 @@ const AdDefaults = () => {
           copy={copy.globalToggleIntro}
         >
           <AdDefaultsStatus
-            artist={artist}
             artistId={artistId}
             setPostPreferences={setPostPreferences}
             togglePromotionGlobal={togglePromotionGlobal}
+            defaultPromotionEnabled={defaultPromotionEnabled}
+            updatePreferences={updatePreferences}
           />
         </AdSettingsSection>
         {/* DEFAULT LINK */}

@@ -37,17 +37,16 @@ const updatePostSettings = async ({ updatePostStatus, artistId, pendingDefaultPo
 }
 
 const AdDefaultsStatus = ({
-  artist,
   artistId,
   setPostPreferences,
   togglePromotionGlobal,
+  defaultPromotionEnabled,
+  updatePreferences,
 }) => {
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
-  // DEFINE INITIAL POST SETTINGS
-  const { promotion_enabled_default: initialPostSettings } = artist.preferences.posts
   // UPDATE POST STATUS SETTINGS
-  const [defaultPostStatus, setDefaultPostStatus] = React.useState(initialPostSettings)
-  const [pendingDefaultPostStatus, setPendingDefaultPostStatus] = React.useState(initialPostSettings)
+  const [defaultPostStatus, setDefaultPostStatus] = React.useState(defaultPromotionEnabled)
+  const [pendingDefaultPostStatus, setPendingDefaultPostStatus] = React.useState(defaultPromotionEnabled)
   const [updatePostStatus, triggerStatusUpdate] = React.useState(false)
   const [showPostStatusConfirmation, setShowPostStatusConfirmation] = React.useState(false)
   // Call this from the radio buttons...
@@ -75,6 +74,8 @@ const AdDefaultsStatus = ({
         setDefaultPostStatus(newDefaultPostStatus)
         // Update artist status
         setPostPreferences('promotion_enabled_default', newDefaultPostStatus)
+        // Update controls store
+        updatePreferences('postsPreferences', { defaultPromotionEnabled: newDefaultPostStatus })
         // Update status on all posts
         togglePromotionGlobal(newDefaultPostStatus)
       }
@@ -108,7 +109,6 @@ const AdDefaultsStatus = ({
 }
 
 AdDefaultsStatus.propTypes = {
-  artist: PropTypes.object.isRequired,
   artistId: PropTypes.string.isRequired,
   setPostPreferences: PropTypes.func.isRequired,
   togglePromotionGlobal: PropTypes.func.isRequired,
