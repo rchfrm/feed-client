@@ -77,9 +77,10 @@ const Category = ({ entityType, id }) => {
     return <CategoryWrapper entityType={entityType}><p>{categoryError.message}</p></CategoryWrapper>
   }
   const typeSelectOptions = options.type.map(option => {
+    const { name, id } = option
     return {
-      name: option,
-      value: option,
+      name,
+      value: id,
     }
   })
   if (!category.type) {
@@ -89,9 +90,10 @@ const Category = ({ entityType, id }) => {
     })
   }
   const industrySelectOptions = options.industry.map(option => {
+    const { name, id } = option
     return {
-      name: option,
-      value: option,
+      name,
+      value: id,
     }
   })
   if (!category.industry) {

@@ -67,7 +67,7 @@ const ArtistsLoader = ({ artistId }) => {
     )
   }
 
-  if (isSingleArtist && artistsArray.length === 1) {
+  if (isSingleArtist) {
     return (
       <section className="content">
         <Entity

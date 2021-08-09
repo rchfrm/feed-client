@@ -56,7 +56,7 @@ const OrganisationsLoader = ({ orgId }) => {
       </section>
     )
   }
-  if (isSingleOrg && orgArray.length === 1) {
+  if (isSingleOrg) {
     return (
       <section className="content">
         <Entity

@@ -74,7 +74,7 @@ const UsersLoader = ({ userId }) => {
     )
   }
 
-  if (isSingleUser && usersArray.length === 1) {
+  if (isSingleUser) {
     return (
       <section className="content">
         <Entity
