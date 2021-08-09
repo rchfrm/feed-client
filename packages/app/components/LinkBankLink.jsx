@@ -19,7 +19,7 @@ import brandColors from '@/constants/brandColors'
 const getControlsStoreState = (state) => ({
   artistId: state.artistId,
   savedFolders: state.savedFolders,
-  updateControlsStore: state.updateControlsStore,
+  updateLinks: state.updateLinks,
   setLinkBankError: state.setLinkBankError,
 })
 
@@ -41,7 +41,7 @@ const LinkBankLink = ({
   const {
     artistId,
     savedFolders,
-    updateControlsStore,
+    updateLinks,
     setLinkBankError,
   } = useControlsStore(getControlsStoreState, shallow)
   // DELETE LINK
@@ -64,7 +64,7 @@ const LinkBankLink = ({
       setLinkBankError(linkBankError)
       return
     }
-    updateControlsStore(action, { newLink: savedLink, oldLink: link })
+    updateLinks(action, { newLink: savedLink, oldLink: link })
     setLinkBankError(null)
     return { savedLink }
   }, [savedFolders])

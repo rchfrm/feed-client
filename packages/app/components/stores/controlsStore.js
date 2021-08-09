@@ -26,7 +26,7 @@ const initialState = {
   savedFolders: [],
   nestedLinks: [],
   folderStates: [], // are folders open or not
-  linksLoading: false,
+  isControlsLoading: false,
   linkBankError: null,
 }
 
@@ -164,22 +164,22 @@ const formatServerLinks = ({ folders, defaultLinkId, artist }) => {
   return tidyFolders(foldersUpdatedIntegrations, defaultLinkId)
 }
 
-// Fetch links from server and update store (or return cached links)
-const fetchLinks = (set, get) => async (action, artist) => {
-  const { savedLinks, linksLoading, artistId, currency } = get()
-  // Stop here if links are already loading
-  if (linksLoading) return
-  set({ linksLoading: true })
+// Fetch data from server and update store (or return cached data)
+const fetchData = (set, get) => async (action, artist) => {
+  const { savedLinks, isControlsLoading, artistId, currency } = get()
+  // Stop here if data is already loading
+  if (isControlsLoading) return
+  set({ isControlsLoading: true })
   // If there already are links and we not force, no need to reset data
   if (savedLinks.length && action !== 'force') return
-  // Set links as loading
-  set({ linksLoading: true })
+  // Set data as loading
+  set({ isControlsLoading: true })
   // Else fetch links from server
   const { res, error } = await linksHelpers.fetchSavedLinks(artistId)
   // Handle error
   if (error) {
     const linkBankError = { message: `Error fetching links. ${error.message}` }
-    set({ linkBankError, linksLoading: false })
+    set({ linkBankError, isControlsLoading: false })
     return { error }
   }
   const { folders } = res
@@ -202,7 +202,7 @@ const fetchLinks = (set, get) => async (action, artist) => {
   set({
     savedFolders,
     nestedLinks,
-    linksLoading: false,
+    isControlsLoading: false,
     linkBankError: null,
     folderStates,
     defaultLink,
@@ -292,8 +292,8 @@ const updateSpending = (set, get) => (budget, status) => {
   set({ canRunConversions: canRunConversionCampaigns() })
 }
 
-// UNIVERSAL UPDATE CONTROLS STORE
-const updateControlsStore = (set, get) => (action, {
+// UPDATE LINKS
+const updateLinks = (set, get) => (action, {
   newArtist,
   newLink,
   oldLink,
@@ -351,14 +351,14 @@ const useControlsStore = create((set, get) => ({
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
   folderStates: initialState.folderStates,
-  linksLoading: initialState.linksLoading,
+  isControlsLoading: initialState.isControlsLoading,
   linkBankError: initialState.linkBankError,
   // GETTERS
-  fetchLinks: fetchLinks(set, get),
+  fetchData: fetchData(set, get),
   canRunConversionCampaigns: canRunConversionCampaigns(set, get),
   // SETTERS
   updateLinksWithIntegrations: (artist) => updateLinksWithIntegrations(set, get)(artist),
-  updateControlsStore: updateControlsStore(set, get),
+  updateLinks: updateLinks(set, get),
   updateFolderStates: updateFolderStates(set, get),
   updatePreferences: updatePreferences(set, get),
   updateSpending: updateSpending(set, get),
@@ -370,12 +370,12 @@ const useControlsStore = create((set, get) => ({
     set({
       artistId: artist.id,
       currency: artist.currency,
-      linksLoading: false,
-      conversionsEnabled: artist.conversions_enabled
+      isControlsLoading: false,
+      conversionsEnabled: artist.conversions_enabled,
     })
-    // Fetch links
-    if (action === 'fetchLinks') {
-      await get().fetchLinks('force', artist)
+    // Fetch data
+    if (action === 'fetchData') {
+      await get().fetchData('force', artist)
 
       // Set budget and spending status
       const { updateSpending } = get()

@@ -11,7 +11,7 @@ import { setDefaultLink } from '@/app/helpers/linksHelpers'
 import { parseUrl } from '@/helpers/utils'
 
 const getControlsStoreState = (state) => ({
-  updateControlsStore: state.updateControlsStore,
+  updateLinks: state.updateLinks,
   updatePreferences: state.updatePreferences,
 })
 
@@ -20,14 +20,14 @@ const AdDefaultsLink = ({
   setPostPreferences,
   className,
 }) => {
-  const { updateControlsStore, updatePreferences } = useControlsStore(getControlsStoreState)
+  const { updateLinks, updatePreferences } = useControlsStore(getControlsStoreState)
   const { id: defaultLinkId } = defaultLink
   const hasDefaultLink = !!defaultLinkId
 
   const onSuccess = React.useCallback((newArtist) => {
     const { preferences: { posts: { default_link_id } } } = newArtist
     // Update controls store
-    const newDefaultLink = updateControlsStore('chooseNewDefaultLink', { newArtist })
+    const newDefaultLink = updateLinks('chooseNewDefaultLink', { newArtist })
     updatePreferences(
       'postsPreferences',
       { defaultLinkId: default_link_id },
@@ -38,7 +38,7 @@ const AdDefaultsLink = ({
     const { host: linkDomain } = parseUrl(newDefaultLink.href)
     track('set_default_link', { linkDomain })
   // eslint-disable-next-line
-  }, [updateControlsStore, setPostPreferences, defaultLink])
+  }, [updateLinks, setPostPreferences, defaultLink])
 
   return (
     <div
