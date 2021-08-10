@@ -28,7 +28,7 @@ const ProgressBar = ({ percentage, className }) => {
       className={['relative w-full h-7 border border-solid overflow-hidden', className].join(' ')}
       style={{
         borderRadius: '25px',
-        backgroundImage: 'url(/images/gradient.png)',
+        backgroundImage: 'url(/images/progress_bar_gradient.png)',
         backgroundSize: 'cover',
       }}
     >
