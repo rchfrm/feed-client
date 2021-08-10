@@ -18,11 +18,23 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
+import useBillingStore from '@/app/stores/billingStore'
+import useControlsStore from '@/app/stores/controlsStore'
+
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 const fetchState = ({ artistId, currencyOffset }) => {
   return targetingHelpers.fetchTargetingState(artistId, currencyOffset)
 }
+
+const getBillingStoreState = (state) => ({
+  defaultPaymentMethod: state.defaultPaymentMethod,
+})
+
+const getControlsStoreState = (state) => ({
+  postsPreferences: state.postsPreferences,
+  budget: state.budget,
+})
 
 // One of these components will be shown based on the activeSlug
 const controlsComponents = {
@@ -35,7 +47,7 @@ const controlsComponents = {
 
 const ControlsContent = ({ activeSlug }) => {
   const [isWizardActive, setIsWizardActive] = React.useState(true)
-  // DESTRUCTURE CONTEXTS
+  // Destructure context
   const { artistId } = React.useContext(ArtistContext)
   const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
   // Fetch from targeting context
@@ -45,8 +57,17 @@ const ControlsContent = ({ activeSlug }) => {
     initPage,
     errorFetchingSettings,
     currencyOffset,
-    isFirstTimeUser,
   } = React.useContext(TargetingContext)
+
+  // Get store values
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+  const { postsPreferences, budget } = useControlsStore(getControlsStoreState)
+  const { defaultLinkId, defaultPromotionEnabled } = postsPreferences
+
+  const hasSetUpControls = defaultLinkId
+    && defaultPromotionEnabled !== null
+    && budget
+    && defaultPaymentMethod
 
   // LOAD AND SET INITIAL TARGETING STATE
   const { isPending } = useAsync({
@@ -73,14 +94,19 @@ const ControlsContent = ({ activeSlug }) => {
     )
   }
 
-
   if (globalLoading || !Object.keys(targetingState).length) return null
 
   return (
     <div className="md:grid grid-cols-12 gap-8">
-      {isFirstTimeUser && isWizardActive ? (
+      {!hasSetUpControls && isWizardActive ? (
         <div className="col-span-6 col-start-1">
-          <ControlsWizard setIsWizardActive={setIsWizardActive} />
+          <ControlsWizard
+            setIsWizardActive={setIsWizardActive}
+            defaultLinkId={defaultLinkId}
+            defaultPromotionEnabled={defaultPromotionEnabled}
+            budget={budget}
+            defaultPaymentMethod={defaultPaymentMethod}
+          />
         </div>
       ) : (
         <>
