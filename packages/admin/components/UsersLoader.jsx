@@ -68,7 +68,7 @@ const UsersLoader = ({ userId }) => {
   if (error) {
     return (
       <section className="content">
-        <p>Failed to fetch artists.</p>
+        <p>Failed to fetch users.</p>
         <Error error={error} />
       </section>
     )
