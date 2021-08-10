@@ -41,12 +41,12 @@ const STRIPE_ELEMENT_OPTIONS = {
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
-  organisation: state.organisation,
   addPaymentMethod: state.addPaymentMethod,
 })
 
 // THE FORM
 const FORM = ({
+  organisationId,
   setPaymentMethod,
   setSuccess,
   shouldBeDefault,
@@ -62,10 +62,7 @@ const FORM = ({
   const [error, setError] = React.useState(null)
 
   // READ from BILLING STORE
-  const {
-    organisation: { id: organisationId },
-    addPaymentMethod,
-  } = useBillingStore(getBillingStoreState, shallow)
+  const { addPaymentMethod } = useBillingStore(getBillingStoreState, shallow)
 
   // WAIT FOR STRIPE TO LOAD
   React.useEffect(() => {
@@ -211,6 +208,7 @@ const FORM = ({
 const stripePromise = loadStripe(process.env.stripe_provider)
 
 const AddPaymentForm = ({
+  organisationId,
   setPaymentMethod,
   setSuccess,
   shouldBeDefault,
@@ -224,6 +222,7 @@ const AddPaymentForm = ({
     <Elements stripe={stripePromise}>
       {/* Defined above... */}
       <FORM
+        organisationId={organisationId}
         setAddPaymentMethod={setAddPaymentMethod}
         setPaymentMethod={setPaymentMethod}
         setSuccess={setSuccess}

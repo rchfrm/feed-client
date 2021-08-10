@@ -9,7 +9,13 @@ import BillingPaymentAddSuccess from '@/app/BillingPaymentAddSuccess'
 
 import copy from '@/app/copy/billingCopy'
 
+import useBillingStore from '@/app/stores/billingStore'
+
 import sidePanelStyles from '@/app/SidePanel.module.css'
+
+const getBillingStoreState = (state) => ({
+  organisation: state.organisation,
+})
 
 const BillingPaymentAdd = ({
   shouldBeDefault,
@@ -20,9 +26,11 @@ const BillingPaymentAdd = ({
 }) => {
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
+  const { organisation: { id: organisationId } } = useBillingStore(getBillingStoreState)
   // HANDLE SUCCESS
   const [paymentMethod, setPaymentMethod] = React.useState(null)
   const [success, setSuccess] = React.useState(false)
+
 
   // CHANGE SIDEPANEL BUTTON on MOUNT
   React.useEffect(() => {
@@ -49,6 +57,7 @@ const BillingPaymentAdd = ({
       <div>
         {success ? <BillingPaymentAddSuccess paymentMethod={paymentMethod} /> : (
           <AddPaymentForm
+            organisationId={organisationId}
             setAddPaymentMethod={setAddPaymentMethod}
             setPaymentMethod={setPaymentMethod}
             setSuccess={setSuccess}

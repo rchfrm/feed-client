@@ -6,6 +6,8 @@ import AddPaymentForm from '@/app/AddPaymentForm'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
+import { UserContext } from '@/app/contexts/UserContext'
+
 import copy from '@/app/copy/controlsPageCopy'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -19,6 +21,9 @@ const ControlsWizardPaymentStep = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [success, setSuccess] = React.useState(false)
 
+  const { user: { organizations } } = React.useContext(UserContext)
+  const organisationId = Object.keys(organizations)[0]
+
   // GO TO NEXT STEP on SUCCESS
   React.useEffect(() => {
     if (success) {
@@ -30,6 +35,7 @@ const ControlsWizardPaymentStep = () => {
     <>
       <MarkdownText markdown={copy.controlsWizardPaymentStepIntro} />
       <AddPaymentForm
+        organisationId={organisationId}
         setAddPaymentMethod={setAddPaymentMethod}
         setSuccess={setSuccess}
         shouldBeDefault
