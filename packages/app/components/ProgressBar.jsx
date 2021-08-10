@@ -5,16 +5,6 @@ import { gsap, Power2 } from 'gsap'
 
 import brandColors from '@/constants/brandColors'
 
-const fullSpectrumGradient = `linear-gradient(to right, 
-  rgb(255,   0,   0) 0%,
-  rgb(255, 255,   0) 16.67%,
-  rgb(  0, 255,   0) 33.33%,
-  rgb(  0, 255, 255) 50%,
-  rgb(  0,   0, 255) 66.67%,
-  rgb(255,   0, 255) 83.33%,
-  rgb(255,   0,   0) 100%
-)`
-
 const ProgressBar = ({ percentage, className }) => {
   const maskRef = React.useRef(null)
   const { current: maskRefEl } = maskRef
@@ -37,8 +27,9 @@ const ProgressBar = ({ percentage, className }) => {
     <div
       className={['relative w-full h-7 border border-solid overflow-hidden', className].join(' ')}
       style={{
-        background: fullSpectrumGradient,
         borderRadius: '25px',
+        backgroundImage: 'url(/images/gradient.png)',
+        backgroundSize: 'cover',
       }}
     >
       <div
