@@ -6,8 +6,8 @@ import ArtistsLoader from '@/admin/ArtistsLoader'
 import PageQuerySetter from '@/admin/PageQuerySetter'
 
 const Artist = ({ router: { pathname, query } }) => {
-  const { artistId } = query
-  const pageRequiresLoading = !!(artistId)
+  const { id } = query
+  const pageRequiresLoading = !!(id)
   return (
     <BasePage
       headerConfig="Artist"
@@ -15,7 +15,7 @@ const Artist = ({ router: { pathname, query } }) => {
     >
       {pageRequiresLoading ? (
         <ArtistsLoader
-          artistId={artistId}
+          id={id}
         />
       ) : (
         <PageQuerySetter
@@ -27,7 +27,7 @@ const Artist = ({ router: { pathname, query } }) => {
               queryName: 'artistId',
             },
           ]}
-          filledQueries={[artistId]}
+          filledQueries={[id]}
         />
       )}
     </BasePage>
