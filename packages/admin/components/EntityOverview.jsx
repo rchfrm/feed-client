@@ -16,7 +16,8 @@ export const getEntityInfo = entity => {
       type: 'organization',
       queryId: 'orgId',
     }
-  } if (entity?.full_name) {
+  }
+  if (entity?.full_name) {
     return {
       type: 'user',
       queryId: 'userId',
