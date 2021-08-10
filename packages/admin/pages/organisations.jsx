@@ -4,13 +4,13 @@ import BasePage from '@/admin/BasePage'
 import OrganisationsLoader from '@/admin/OrganisationsLoader'
 
 const Organisations = ({ router: { query } }) => {
-  const { orgId } = query
+  const { id } = query
   return (
     <BasePage
       headerConfig="organistions"
       staticPage
     >
-      <OrganisationsLoader orgId={orgId} />
+      <OrganisationsLoader id={id} />
     </BasePage>
   )
 }

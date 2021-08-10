@@ -12,8 +12,8 @@ import useGetPaginated from '@/admin/hooks/useGetPaginated'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import Entity from '@/admin/Entity'
 
-const ArtistsLoader = ({ artistId }) => {
-  const isSingleArtist = !!artistId
+const ArtistsLoader = ({ id }) => {
+  const isSingleArtist = !!id
   const propsToDisplay = [
     'created_at',
     'currency',
@@ -30,7 +30,7 @@ const ArtistsLoader = ({ artistId }) => {
     limit: 100,
     fields: fields.join(','),
   }
-  const serverFunctionArgs = isSingleArtist ? [artistId, requestProps] : [requestProps]
+  const serverFunctionArgs = isSingleArtist ? [id, requestProps] : [requestProps]
   const { data: artists, error, finishedLoading } = useGetPaginated(serverFunction, serverFunctionArgs)
 
   // Turn off global loading when finished
@@ -111,11 +111,11 @@ const ArtistsLoader = ({ artistId }) => {
 }
 
 ArtistsLoader.propTypes = {
-  artistId: PropTypes.string,
+  id: PropTypes.string,
 }
 
 ArtistsLoader.defaultProps = {
-  artistId: '',
+  id: '',
 }
 
 export default ArtistsLoader

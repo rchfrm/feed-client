@@ -45,7 +45,7 @@ const EntityConnections = ({ connections, connectionType }) => {
                   href={{
                     // eslint-disable-next-line import/namespace
                     pathname: ROUTES[entityRoute],
-                    query: { [queryId]: id },
+                    query: { id },
                   }}
                 >
                   <a>{connectionType} Page</a>

@@ -6,8 +6,8 @@ import UsersLoader from '@/admin/UsersLoader'
 import PageQuerySetter from '@/admin/PageQuerySetter'
 
 const User = ({ router: { pathname, query } }) => {
-  const { userId } = query
-  const pageRequiresLoading = !!(userId)
+  const { id } = query
+  const pageRequiresLoading = !!(id)
   return (
     <BasePage
       headerConfig="User"
@@ -15,7 +15,7 @@ const User = ({ router: { pathname, query } }) => {
     >
       {pageRequiresLoading ? (
         <UsersLoader
-          userId={userId}
+          id={id}
         />
       ) : (
         <PageQuerySetter
@@ -27,7 +27,7 @@ const User = ({ router: { pathname, query } }) => {
               queryName: 'userId',
             },
           ]}
-          filledQueries={[userId]}
+          filledQueries={[id]}
         />
       )}
     </BasePage>

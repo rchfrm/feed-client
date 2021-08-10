@@ -77,7 +77,7 @@ const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
           href={{
             // eslint-disable-next-line import/namespace
             pathname: ROUTES[entityRoute],
-            query: { [entityInfo.queryId]: entity.id },
+            query: { id: entity.id },
           }}
         >
           <a className="capitalize">{entityInfo.type} Page</a>

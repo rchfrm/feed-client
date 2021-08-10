@@ -131,38 +131,41 @@ const Category = ({ entityType, id }) => {
 
 const Entity = ({ entity, propsToDisplay }) => {
   const entityInfo = getEntityInfo(entity)
+  if (!entity) {
+    return null
+  }
   return (
     <>
       <EntityOverview entity={entity} propsToDisplay={propsToDisplay} isSingleEntity />
       {entityInfo.type === 'organization'
         && <Category entityType={entityInfo.type} id={entity.id} />}
       {entityInfo.type === 'artist' && (
-        <>
-          {/* LINKS */}
-          <h4><strong>Links</strong></h4>
+      <>
+        {/* LINKS */}
+        <h4><strong>Links</strong></h4>
 
-          {/* TOURNAMENTS */}
-          <TournamentLink
-            artistId={entity.id}
-            buttonText="Artist Tournaments"
-            buttonClass="w-40"
-            overviewLink
-            linkType="anchor"
-          />
+        {/* TOURNAMENTS */}
+        <TournamentLink
+          artistId={entity.id}
+          buttonText="Artist Tournaments"
+          buttonClass="w-40"
+          overviewLink
+          linkType="anchor"
+        />
 
-          {/* INTEGRATIONS */}
-          <ArtistIntegrationLinks
-            artistId={entity.id}
-            integrations={entity.integrations}
-          />
+        {/* INTEGRATIONS */}
+        <ArtistIntegrationLinks
+          artistId={entity.id}
+          integrations={entity.integrations}
+        />
 
-          {/* PATCH INSTAGRAM BUSINESS ID */}
-          <PatchArtist
-            artistId={entity.id}
-            artistName={entity.name}
-            integrations={entity.integrations}
-          />
-        </>
+        {/* PATCH INSTAGRAM BUSINESS ID */}
+        <PatchArtist
+          artistId={entity.id}
+          artistName={entity.name}
+          integrations={entity.integrations}
+        />
+      </>
       )}
     </>
   )

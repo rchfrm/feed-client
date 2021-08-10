@@ -5,8 +5,8 @@ import EntityList from '@/admin/EntityList'
 import Entity from '@/admin/Entity'
 import ListSearch from '@/admin/elements/ListSearch'
 
-const OrganisationsLoader = ({ orgId }) => {
-  const isSingleOrg = !!orgId
+const OrganisationsLoader = ({ id }) => {
+  const isSingleOrg = !!id
 
   const propsToDisplay = [
     'billing_enabled',
@@ -28,7 +28,7 @@ const OrganisationsLoader = ({ orgId }) => {
     limit: 100,
     fields: fields.join(','),
   }
-  const serverFunctionArgs = isSingleOrg ? [orgId, requestProps] : [requestProps]
+  const serverFunctionArgs = isSingleOrg ? [id, requestProps] : [requestProps]
   const { data: organisations, error, finishedLoading } = useGetPaginated(serverFunction, serverFunctionArgs)
 
   // FILTER
@@ -88,11 +88,11 @@ const OrganisationsLoader = ({ orgId }) => {
 }
 
 OrganisationsLoader.propTypes = {
-  orgId: PropTypes.string,
+  id: PropTypes.string,
 }
 
 OrganisationsLoader.defaultProps = {
-  orgId: '',
+  id: '',
 }
 
 export default OrganisationsLoader

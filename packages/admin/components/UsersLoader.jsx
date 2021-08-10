@@ -9,9 +9,10 @@ import ListSearch from '@/admin/elements/ListSearch'
 import ListSort from '@/admin/elements/ListSort'
 import EntityList from '@/admin/EntityList'
 import Entity from '@/admin/Entity'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-const UsersLoader = ({ userId }) => {
-  const isSingleUser = !!userId
+const UsersLoader = ({ id }) => {
+  const isSingleUser = !!id
 
   const propsToDisplay = [
     'email',
@@ -34,21 +35,20 @@ const UsersLoader = ({ userId }) => {
     limit: 100,
     fields: fields.join(','),
   }
-  const serverFunctionArgs = isSingleUser ? [userId, requestProps] : [requestProps]
+  const serverFunctionArgs = isSingleUser ? [id, requestProps] : [requestProps]
   const { data: users, error, finishedLoading } = useGetPaginated(serverFunction, serverFunctionArgs)
 
-  // UPDATE USERS TO INCLUDE FULL NAME KEY
-  const usersWithFullName = React.useMemo(() => {
-    return users.map((user) => {
-      const { first_name, last_name } = user
-      const full_name = `${first_name} ${last_name}`
-      return { ...user, full_name }
-    })
-  }, [users])
+  // Turn off global loading when finished
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  React.useEffect(() => {
+    if (finishedLoading) {
+      toggleGlobalLoading(false)
+    }
+  }, [finishedLoading, toggleGlobalLoading])
 
   // FILTER
   // Filtered List
-  const [filteredUsers, setFilteredUsers] = React.useState(usersWithFullName)
+  const [filteredUsers, setFilteredUsers] = React.useState(users)
   // Search state
   const [searchedUsers, setSearchedUsers] = React.useState(filteredUsers)
   // Sorted state
@@ -94,7 +94,7 @@ const UsersLoader = ({ userId }) => {
       <h4><strong>Filters</strong></h4>
       <UsersFilters
         setFilteredUsers={setFilteredUsers}
-        users={usersWithFullName}
+        users={users}
       />
       {/* SEARCH */}
       <ListSearch
@@ -120,11 +120,11 @@ const UsersLoader = ({ userId }) => {
 }
 
 UsersLoader.propTypes = {
-  userId: PropTypes.string,
+  id: PropTypes.string,
 }
 
 UsersLoader.defaultProps = {
-  userId: '',
+  id: '',
 }
 
 export default UsersLoader
