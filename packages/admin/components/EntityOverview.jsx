@@ -10,12 +10,6 @@ import EntityConnections from '@/admin/EntityConnections'
 
 import * as ROUTES from '@/admin/constants/routes'
 
-const getUsersData = (users = {}) => {
-  return Object.values(users).map(({ id, name, role }) => {
-    return { id, name, role }
-  })
-}
-
 export const getEntityInfo = entity => {
   if (entity?.payment_status) {
     return {
