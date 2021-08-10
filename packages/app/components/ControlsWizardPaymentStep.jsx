@@ -11,23 +11,36 @@ import copy from '@/app/copy/controlsPageCopy'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import brandColors from '@/constants/brandColors'
+import next from 'next'
 
 const ControlsWizardPaymentStep = () => {
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
+  const [isFormValid, setIsFormValid] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
+  const [success, setSuccess] = React.useState(false)
 
-  const savePaymentMethod = async () => {
-    setIsLoading(true)
-    await addPaymentMethod()
-    setIsLoading(false)
-  }
+  // GO TO NEXT STEP on SUCCESS
+  React.useEffect(() => {
+    if (success) {
+      next()
+    }
+  }, [success])
+
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardPaymentStepIntro} />
-      <AddPaymentForm setAddPaymentMethod={setAddPaymentMethod} />
+      <AddPaymentForm
+        setAddPaymentMethod={setAddPaymentMethod}
+        setSuccess={setSuccess}
+        shouldBeDefault
+        isFormValid={isFormValid}
+        setIsFormValid={setIsFormValid}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+      />
       <Button
         version="outline-green icon"
-        onClick={savePaymentMethod}
+        onClick={addPaymentMethod}
         spinnerFill={brandColors.black}
         className="w-full mb-10"
         loading={isLoading}

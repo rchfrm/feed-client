@@ -51,6 +51,10 @@ const FORM = ({
   setSuccess,
   shouldBeDefault,
   setAddPaymentMethod,
+  isFormValid,
+  setIsFormValid,
+  isLoading,
+  setIsLoading,
 }) => {
   const elements = useElements()
   const stripe = useStripe()
@@ -63,10 +67,6 @@ const FORM = ({
     addPaymentMethod,
   } = useBillingStore(getBillingStoreState, shallow)
 
-  // FORM STATE
-  const [isFormValid, setIsFormValid] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(true)
-
   // WAIT FOR STRIPE TO LOAD
   React.useEffect(() => {
     if (!stripe || !elements) {
@@ -74,14 +74,14 @@ const FORM = ({
       return
     }
     setIsLoading(false)
-  }, [elements, stripe])
+  }, [elements, stripe, setIsLoading])
 
   // TEST FORM IS VALID
   const [cardComplete, setCardComplete] = React.useState(false)
   React.useEffect(() => {
     const formValid = !!(name && elements && stripe && cardComplete)
     setIsFormValid(formValid)
-  }, [name, cardComplete, elements, stripe])
+  }, [name, cardComplete, elements, stripe, setIsFormValid])
 
 
   // * HANDLE FORM
@@ -162,7 +162,7 @@ const FORM = ({
     setSuccess(true)
     // Track
     track('billing_finish_add_payment', { organisationId, shouldBeDefault })
-  }, [isFormValid, isLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
+  }, [isFormValid, isLoading, setIsLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
 
   React.useEffect(() => {
     setAddPaymentMethod(() => onSubmit)
@@ -215,15 +215,23 @@ const AddPaymentForm = ({
   setSuccess,
   shouldBeDefault,
   setAddPaymentMethod,
+  isFormValid,
+  setIsFormValid,
+  isLoading,
+  setIsLoading,
 }) => {
   return (
     <Elements stripe={stripePromise}>
       {/* Defined above... */}
       <FORM
+        setAddPaymentMethod={setAddPaymentMethod}
         setPaymentMethod={setPaymentMethod}
         setSuccess={setSuccess}
         shouldBeDefault={shouldBeDefault}
-        setAddPaymentMethod={setAddPaymentMethod}
+        isFormValid={isFormValid}
+        setIsFormValid={setIsFormValid}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
     </Elements>
   )
@@ -234,6 +242,10 @@ AddPaymentForm.propTypes = {
   setSuccess: PropTypes.func,
   shouldBeDefault: PropTypes.bool,
   setAddPaymentMethod: PropTypes.func.isRequired,
+  isFormValid: PropTypes.bool.isRequired,
+  setIsFormValid: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  setIsLoading: PropTypes.func.isRequired,
 }
 
 AddPaymentForm.defaultProps = {
