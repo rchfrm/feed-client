@@ -16,12 +16,10 @@ const initialContext = {
 
 const WizardContext = React.createContext(initialContext)
 
-const WizardContextProvider = ({ steps, children, hasNavigation }) => {
+const WizardContextProvider = ({ steps, children, hasBackButton }) => {
   const [currentStep, setCurrentStep] = React.useState(0)
   const totalSteps = steps.length - 1
-  const shouldSkipStep = steps[currentStep].shouldSkip
   const isFirstStep = currentStep === 0
-  const isLastStep = currentStep === steps.length - 1
 
   const next = React.useCallback(() => {
     if (currentStep === totalSteps) return
@@ -32,10 +30,6 @@ const WizardContextProvider = ({ steps, children, hasNavigation }) => {
     if (currentStep === 0) return
     setCurrentStep(currentStep - 1)
   }
-
-  React.useEffect(() => {
-    if (shouldSkipStep) next()
-  }, [shouldSkipStep, currentStep, next])
 
   return (
     <WizardContext.Provider
@@ -48,9 +42,9 @@ const WizardContextProvider = ({ steps, children, hasNavigation }) => {
     >
       <h1>{steps[currentStep].title}</h1>
       <ProgressBar percentage={((currentStep + 1) / (totalSteps + 1)) * 100} className="mb-6" />
-      {!shouldSkipStep && children[currentStep]}
-      {(hasNavigation && !isFirstStep && !isLastStep) ? (
-        <div className="w-full flex justify-between mt-auto">
+      {children[currentStep]}
+      {(hasBackButton && !isFirstStep) ? (
+        <div className="w-full mt-auto">
           <a
             role="button"
             onClick={back}
@@ -62,18 +56,6 @@ const WizardContextProvider = ({ steps, children, hasNavigation }) => {
               fill={brandColors.grey}
             />
             Back
-          </a>
-          <a
-            role="button"
-            onClick={next}
-            className="flex text-grey-2 no-underline"
-          >
-            Skip
-            <ArrowAltIcon
-              className="w-3 ml-3"
-              direction="right"
-              fill={brandColors.grey}
-            />
           </a>
         </div>
       ) : null}
@@ -88,11 +70,11 @@ WizardContextProvider.propTypes = {
       shouldSkip: PropTypes.bool.isRequired,
     }),
   ).isRequired,
-  hasNavigation: PropTypes.bool,
+  hasBackButton: PropTypes.bool,
 }
 
 WizardContextProvider.defaultProps = {
-  hasNavigation: false,
+  hasBackButton: false,
 }
 
 export { WizardContext, WizardContextProvider }

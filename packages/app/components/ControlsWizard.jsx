@@ -12,28 +12,55 @@ import { WizardContextProvider } from '@/app/contexts/WizardContext'
 const ControlsWizard = ({
   setIsWizardActive,
   defaultLinkId,
-  defaultPromotionEnabled,
   budget,
   defaultPaymentMethod,
 }) => {
-  const steps = [
-    { id: 0, title: 'Welcome to Feed!', shouldSkip: Boolean(defaultLinkId) },
-    { id: 1, title: 'Posts become ads', shouldSkip: defaultPromotionEnabled !== 'null' },
-    { id: 2, title: 'Budget', shouldSkip: Boolean(budget) },
-    { id: 3, title: 'Payment method', shouldSkip: Boolean(defaultPaymentMethod) },
-    { id: 4, title: 'All set!', shouldSkip: false },
-  ]
+  const [steps, setSteps] = React.useState([])
+  const initialSteps = React.useMemo(() => [
+    {
+      id: 0,
+      title: 'Welcome to Feed!',
+      component: <ControlsWizardLinkStep setIsWizardActive={setIsWizardActive} />,
+      shouldSkip: Boolean(defaultLinkId),
+    },
+    {
+      id: 1,
+      title: 'Posts become ads',
+      component: <ControlsWizardPostsStep />,
+      shouldSkip: false,
+    },
+    {
+      id: 2,
+      title: 'Budget',
+      component: <ControlsWizardBudgetStep />,
+      shouldSkip: Boolean(budget),
+    },
+    {
+      id: 3,
+      title: 'Payment method',
+      component: <ControlsWizardPaymentStep />,
+      shouldSkip: Boolean(defaultPaymentMethod),
+    },
+    {
+      id: 4,
+      title: 'All set!',
+      component: <ControlsWizardReviewStep setIsWizardActive={setIsWizardActive} />,
+      shouldSkip: false,
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [])
+
+  React.useEffect(() => {
+    setSteps(initialSteps.filter((step) => !step.shouldSkip))
+  }, [initialSteps])
 
   return (
     <div className="flex flex-col h-full">
-      <WizardContextProvider steps={steps} hasNavigation>
-        {/* All Wizard steps */}
-        <ControlsWizardLinkStep setIsWizardActive={setIsWizardActive} />
-        <ControlsWizardPostsStep />
-        <ControlsWizardBudgetStep />
-        <ControlsWizardPaymentStep />
-        <ControlsWizardReviewStep setIsWizardActive={setIsWizardActive} />
-      </WizardContextProvider>
+      {steps.length && (
+        <WizardContextProvider steps={steps} hasBackButton>
+          {steps.map((step) => step.component)}
+        </WizardContextProvider>
+      )}
     </div>
   )
 }
@@ -41,7 +68,6 @@ const ControlsWizard = ({
 ControlsWizard.propTypes = {
   setIsWizardActive: PropTypes.func.isRequired,
   defaultLinkId: PropTypes.string.isRequired,
-  defaultPromotionEnabled: PropTypes.bool.isRequired,
   budget: PropTypes.number.isRequired,
   defaultPaymentMethod: PropTypes.object,
 }

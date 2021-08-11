@@ -22,7 +22,7 @@ const ControlsWizardPaymentStep = () => {
   const [success, setSuccess] = React.useState(false)
 
   const { user: { organizations } } = React.useContext(UserContext)
-  const organisationId = Object.keys(organizations)[0]
+  const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
 
   // GO TO NEXT STEP on SUCCESS
   React.useEffect(() => {

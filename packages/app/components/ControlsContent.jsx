@@ -62,10 +62,9 @@ const ControlsContent = ({ activeSlug }) => {
   // Get store values
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
   const { postsPreferences, budget } = useControlsStore(getControlsStoreState)
-  const { defaultLinkId, defaultPromotionEnabled } = postsPreferences
+  const { defaultLinkId } = postsPreferences
 
   const hasSetUpControls = defaultLinkId
-    && defaultPromotionEnabled !== null
     && budget
     && defaultPaymentMethod
 
@@ -103,7 +102,6 @@ const ControlsContent = ({ activeSlug }) => {
           <ControlsWizard
             setIsWizardActive={setIsWizardActive}
             defaultLinkId={defaultLinkId}
-            defaultPromotionEnabled={defaultPromotionEnabled}
             budget={budget}
             defaultPaymentMethod={defaultPaymentMethod}
           />
