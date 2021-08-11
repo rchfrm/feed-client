@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
@@ -22,29 +22,38 @@ const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
 })
 
-const ControlsWizardPostsStep = () => {
+const ControlsWizardPostsStep = ({ defaultPromotionEnabled }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { next } = React.useContext(WizardContext)
   const { updatePreferences } = useControlsStore(getControlsStoreState)
   const [isEnabled, setIsEnabled] = React.useState(false)
 
+  React.useEffect(() => {
+    console.log(defaultPromotionEnabled)
+  }, [defaultPromotionEnabled])
+
   // Call the server with the new post status
   const savePromotableDefaultStatus = React.useCallback(async (isDefaultPromotionEnabled) => {
+    // Skip doing API request if the new value is equal to the current value
+    if (isDefaultPromotionEnabled === defaultPromotionEnabled) {
+      next()
+      return
+    }
     setIsEnabled(isDefaultPromotionEnabled)
     setIsLoading(true)
     // Batch toggle all posts on server
     const { success } = await server.toggleDefaultPromotionStatus(artistId, isDefaultPromotionEnabled)
     if (!success) return
     // Patch artist post preferences
-    const { preferences: { posts: { promotion_enabled_default: defaultPromotionEnabled } } } = await server.patchArtistPromotionStatus(artistId, isDefaultPromotionEnabled)
+    const { preferences: { posts: { promotion_enabled_default } } } = await server.patchArtistPromotionStatus(artistId, isDefaultPromotionEnabled)
     setIsLoading(false)
     // Update artist context status
-    setPostPreferences('promotion_enabled_default', isDefaultPromotionEnabled)
+    setPostPreferences('promotion_enabled_default', promotion_enabled_default)
     // Update posts preferences in controls store
-    updatePreferences('postsPreferences', { defaultPromotionEnabled })
+    updatePreferences('postsPreferences', { defaultPromotionEnabled: promotion_enabled_default })
     next()
-  }, [artistId, next, setPostPreferences, updatePreferences])
+  }, [artistId, next, setPostPreferences, updatePreferences, defaultPromotionEnabled])
 
   return (
     <>
@@ -81,6 +90,7 @@ const ControlsWizardPostsStep = () => {
 }
 
 ControlsWizardPostsStep.propTypes = {
+  defaultPromotionEnabled: PropTypes.bool.isRequired,
 }
 
 export default ControlsWizardPostsStep

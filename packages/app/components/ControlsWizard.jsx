@@ -12,6 +12,7 @@ import { WizardContextProvider } from '@/app/contexts/WizardContext'
 const ControlsWizard = ({
   setIsWizardActive,
   defaultLinkId,
+  defaultPromotionEnabled,
   budget,
   defaultPaymentMethod,
 }) => {
@@ -26,7 +27,7 @@ const ControlsWizard = ({
     {
       id: 1,
       title: 'Posts become ads',
-      component: <ControlsWizardPostsStep />,
+      component: <ControlsWizardPostsStep defaultPromotionEnabled={defaultPromotionEnabled} />,
       shouldSkip: false,
     },
     {
@@ -48,7 +49,7 @@ const ControlsWizard = ({
       shouldSkip: false,
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [])
+  ], [defaultPromotionEnabled, setIsWizardActive])
 
   React.useEffect(() => {
     setSteps(initialSteps.filter((step) => !step.shouldSkip))
@@ -68,6 +69,7 @@ const ControlsWizard = ({
 ControlsWizard.propTypes = {
   setIsWizardActive: PropTypes.func.isRequired,
   defaultLinkId: PropTypes.string.isRequired,
+  defaultPromotionEnabled: PropTypes.bool.isRequired,
   budget: PropTypes.number.isRequired,
   defaultPaymentMethod: PropTypes.object,
 }
