@@ -31,7 +31,6 @@ const initialArtistState = {
   isSpendingPaused: false,
   missingDefaultLink: true,
   isMusician: false,
-  priorityEnabled: false,
 }
 
 const ArtistContext = React.createContext(initialArtistState)
@@ -99,7 +98,6 @@ function ArtistProvider({ children }) {
   const [artistCurrency, setArtistCurrency] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
   const [hasBudget, setHasBudget] = React.useState(false)
-  const [priorityEnabled, setPriorityEnabled] = React.useState(false)
 
   const setNoArtist = () => {
     setArtistLoading(true)
@@ -277,13 +275,11 @@ function ArtistProvider({ children }) {
   // Update artist ID
   React.useEffect(() => {
     if (!artist || !artist.id) return
-    const { id, currency, priority_enabled } = artist
+    const { id, currency } = artist
     // Set artist
     setArtistId(id)
     // Set currency
     setArtistCurrency(currency)
-    // Set priority post feature flag value
-    setPriorityEnabled(priority_enabled)
   }, [artist])
 
   // WHEN ARTIST CHANGES...
@@ -310,7 +306,6 @@ function ArtistProvider({ children }) {
     updateBudget,
     updateSpendingPaused,
     hasBudget,
-    priorityEnabled,
   }
 
   return (
