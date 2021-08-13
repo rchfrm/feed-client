@@ -29,10 +29,6 @@ const ControlsWizardPostsStep = ({ defaultPromotionEnabled }) => {
   const { updatePreferences } = useControlsStore(getControlsStoreState)
   const [isEnabled, setIsEnabled] = React.useState(false)
 
-  React.useEffect(() => {
-    console.log(defaultPromotionEnabled)
-  }, [defaultPromotionEnabled])
-
   // Call the server with the new post status
   const savePromotableDefaultStatus = React.useCallback(async (isDefaultPromotionEnabled) => {
     // Skip doing API request if the new value is equal to the current value

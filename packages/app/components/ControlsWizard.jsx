@@ -59,7 +59,7 @@ const ControlsWizard = ({
     <div className="flex flex-col h-full">
       {steps.length && (
         <WizardContextProvider steps={steps} hasBackButton>
-          {steps.map((step) => step.component)}
+          {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
         </WizardContextProvider>
       )}
     </div>

@@ -23,15 +23,17 @@ const getControlsStoreState = (state) => ({
   savedFolders: state.savedFolders,
   updateControlsStore: state.updateControlsStore,
   updatePreferences: state.updatePreferences,
+  defaultLink: state.defaultLink,
 })
 
 const ControlsWizardLinkStep = ({ setIsWizardActive }) => {
-  const [link, setLink] = React.useState({ name: 'Default link', href: '' })
+  const { savedFolders, updateControlsStore, updatePreferences, defaultLink } = useControlsStore(getControlsStoreState)
+  const { href } = defaultLink || {}
+  const [link, setLink] = React.useState({ name: 'Default link', href })
   const [error, setError] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const { next } = React.useContext(WizardContext)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
-  const { savedFolders, updateControlsStore, updatePreferences } = useControlsStore(getControlsStoreState)
 
   React.useEffect(() => {
     setIsWizardActive(true)
