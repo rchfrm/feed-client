@@ -46,7 +46,7 @@ const controlsComponents = {
 }
 
 const ControlsContent = ({ activeSlug }) => {
-  const [isWizardActive, setIsWizardActive] = React.useState(true)
+  const [isWizardActive, setIsWizardActive] = React.useState(false)
   // Destructure context
   const { artistId } = React.useContext(ArtistContext)
   const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
@@ -64,9 +64,9 @@ const ControlsContent = ({ activeSlug }) => {
   const { postsPreferences, budget } = useControlsStore(getControlsStoreState)
   const { defaultLinkId, defaultPromotionEnabled } = postsPreferences
 
-  const hasSetUpControls = defaultLinkId
+  const hasSetUpControls = Boolean(defaultLinkId
     && budget
-    && defaultPaymentMethod
+    && defaultPaymentMethod)
 
   // LOAD AND SET INITIAL TARGETING STATE
   const { isPending } = useAsync({
@@ -97,7 +97,7 @@ const ControlsContent = ({ activeSlug }) => {
 
   return (
     <div className="md:grid grid-cols-12 gap-8">
-      {!hasSetUpControls && isWizardActive ? (
+      {!hasSetUpControls || isWizardActive ? (
         <div className="col-span-6 col-start-1">
           <ControlsWizard
             setIsWizardActive={setIsWizardActive}

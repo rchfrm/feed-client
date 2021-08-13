@@ -12,7 +12,6 @@ import { WizardContextProvider } from '@/app/contexts/WizardContext'
 const ControlsWizard = ({
   setIsWizardActive,
   defaultLinkId,
-  defaultPromotionEnabled,
   budget,
   defaultPaymentMethod,
 }) => {
@@ -21,13 +20,13 @@ const ControlsWizard = ({
     {
       id: 0,
       title: 'Welcome to Feed!',
-      component: <ControlsWizardLinkStep setIsWizardActive={setIsWizardActive} />,
+      component: <ControlsWizardLinkStep />,
       shouldSkip: Boolean(defaultLinkId),
     },
     {
       id: 1,
       title: 'Posts become ads',
-      component: <ControlsWizardPostsStep defaultPromotionEnabled={defaultPromotionEnabled} />,
+      component: <ControlsWizardPostsStep />,
       shouldSkip: false,
     },
     {
@@ -49,11 +48,15 @@ const ControlsWizard = ({
       shouldSkip: false,
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [defaultPromotionEnabled, setIsWizardActive])
+  ], [])
 
   React.useEffect(() => {
     setSteps(initialSteps.filter((step) => !step.shouldSkip))
   }, [initialSteps])
+
+  React.useEffect(() => {
+    setIsWizardActive(true)
+  }, [])
 
   return (
     <div className="flex flex-col h-full">
@@ -69,7 +72,6 @@ const ControlsWizard = ({
 ControlsWizard.propTypes = {
   setIsWizardActive: PropTypes.func.isRequired,
   defaultLinkId: PropTypes.string.isRequired,
-  defaultPromotionEnabled: PropTypes.bool.isRequired,
   budget: PropTypes.number.isRequired,
   defaultPaymentMethod: PropTypes.object,
 }

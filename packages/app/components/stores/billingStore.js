@@ -121,7 +121,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
 const addPaymentMethod = (set, get) => (paymentMethod) => {
   const setAsDefault = paymentMethod.is_default
   const { billingDetails } = get()
-  const paymentMethodsUpdated = produce(billingDetails.allPaymentMethods, draftState => {
+  const paymentMethodsUpdated = produce(billingDetails?.allPaymentMethods || [], draftState => {
     draftState.push(paymentMethod)
   })
   const billingDetailsUpdated = produce(billingDetails, draftState => {

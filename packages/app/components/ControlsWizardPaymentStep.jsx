@@ -5,15 +5,22 @@ import AddPaymentForm from '@/app/AddPaymentForm'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
+import Input from '@/elements/Input'
 
+import { WizardContext } from '@/app/contexts/WizardContext'
 import { UserContext } from '@/app/contexts/UserContext'
+
+import useBillingStore from '@/app/stores/billingStore'
 
 import copy from '@/app/copy/controlsPageCopy'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import brandColors from '@/constants/brandColors'
-import next from 'next'
+
+const getBillingStoreState = (state) => ({
+  defaultPaymentMethod: state.defaultPaymentMethod,
+})
 
 const ControlsWizardPaymentStep = () => {
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
@@ -22,31 +29,58 @@ const ControlsWizardPaymentStep = () => {
   const [success, setSuccess] = React.useState(false)
 
   const { user: { organizations } } = React.useContext(UserContext)
+  const { next } = React.useContext(WizardContext)
   const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+
+  const { billing_details, card } = defaultPaymentMethod || {}
+
+  const savePaymentMethod = () => {
+    if (defaultPaymentMethod) {
+      next()
+      return
+    }
+    addPaymentMethod()
+  }
 
   // GO TO NEXT STEP on SUCCESS
   React.useEffect(() => {
     if (success) {
       next()
     }
-  }, [success])
+  }, [success, next])
 
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardPaymentStepIntro} />
-      <AddPaymentForm
-        organisationId={organisationId}
-        setAddPaymentMethod={setAddPaymentMethod}
-        setSuccess={setSuccess}
-        shouldBeDefault
-        isFormValid={isFormValid}
-        setIsFormValid={setIsFormValid}
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-      />
+      {defaultPaymentMethod ? (
+        <>
+          <Input
+            label="Name on card"
+            value={billing_details?.name}
+            disabled
+          />
+          <Input
+            label="Card details"
+            value={`xxxx xxxx xxxx ${card?.last4}`}
+            disabled
+          />
+        </>
+      ) : (
+        <AddPaymentForm
+          organisationId={organisationId}
+          setAddPaymentMethod={setAddPaymentMethod}
+          setSuccess={setSuccess}
+          shouldBeDefault
+          isFormValid={isFormValid}
+          setIsFormValid={setIsFormValid}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
+      )}
       <Button
         version="outline-green icon"
-        onClick={addPaymentMethod}
+        onClick={savePaymentMethod}
         spinnerFill={brandColors.black}
         className="w-full mb-10"
         loading={isLoading}

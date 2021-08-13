@@ -26,7 +26,7 @@ const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
 })
 
-const ControlsWizardLinkStep = ({ setIsWizardActive }) => {
+const ControlsWizardLinkStep = () => {
   const { savedFolders, updateControlsStore, updatePreferences, defaultLink } = useControlsStore(getControlsStoreState)
   const { href } = defaultLink || {}
   const [link, setLink] = React.useState({ name: 'Default link', href })
@@ -34,10 +34,6 @@ const ControlsWizardLinkStep = ({ setIsWizardActive }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { next } = React.useContext(WizardContext)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
-
-  React.useEffect(() => {
-    setIsWizardActive(true)
-  }, [setIsWizardActive])
 
   const handleChange = (e) => {
     setLink({ ...link, href: e.target.value })

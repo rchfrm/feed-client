@@ -20,13 +20,15 @@ import * as server from '@/app/helpers/appServer'
 
 const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
+  postsPreferences: state.postsPreferences,
 })
 
-const ControlsWizardPostsStep = ({ defaultPromotionEnabled }) => {
+const ControlsWizardPostsStep = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { next } = React.useContext(WizardContext)
-  const { updatePreferences } = useControlsStore(getControlsStoreState)
+  const { updatePreferences, postsPreferences } = useControlsStore(getControlsStoreState)
+  const { defaultPromotionEnabled } = postsPreferences
   const [isEnabled, setIsEnabled] = React.useState(false)
 
   // Call the server with the new post status
@@ -86,7 +88,6 @@ const ControlsWizardPostsStep = ({ defaultPromotionEnabled }) => {
 }
 
 ControlsWizardPostsStep.propTypes = {
-  defaultPromotionEnabled: PropTypes.bool.isRequired,
 }
 
 export default ControlsWizardPostsStep
