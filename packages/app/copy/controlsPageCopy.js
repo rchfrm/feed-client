@@ -1,5 +1,4 @@
 /* eslint-disable quotes */
-import * as ROUTES from '@/app/constants/routes'
 
 export default {
   // CONTROLS OPTIONS
@@ -64,17 +63,17 @@ Each post can override these settings.`,
   controlsWizardLinkStepOutro: 'This link will be used on ads Feed creates by default, but you’ll be able to override this on specific posts.',
   controlsWizardPostsStepIntro: `You never know what is going to catch someone’s attention!
 
-  So, for best performance, Feed makes all posts in the last 28 days promotable by default.
-  
-  **Keep recent posts promotable by default?**`,
-  controlsWizardBudgetStepQuestion: '**How much would you like to spend per day?**',
-  controlsWizardBudgetRecommendation: 'We recommend you set an amount that you can sustain for a long time.',
-  controlsWizardPaymentStepIntro: 'The penultimate step! Feed will charge 10% of your daily budget each week that you run ads through the platform.',
-  controlsWizardReviewStepIntro: `Starting with your most engaging posts from the last 28 days, Feed has now started setting up your ads.
+  So, for best performance, Feed makes all posts in the last 28 days promotable by default. You can still opt out posts you don't want Feed to promote.
 
-  Once they’re approved you’ll begin to see results coming through!
-  
-  Review your running posts [here](${ROUTES.HOME}?postStatus=running).`,
+  **Keep recent posts promotable by default?**`,
+  controlsWizardBudgetStepQuestion: '**How much would you like to spend per day in total?**',
+  controlsWizardBudgetRecommendation: 'We recommend you set an amount that you can sustain for a long time.',
+  controlsWizardPaymentStepIntro: `Almost there! Feed charges a service fee of 10% of the budget you spend through the platform.
+
+  This service fee is included in the budget you set in the last step, not in addition to it..`,
+  controlsWizardReviewStepIntro: `Feed will soon start setting up your ads, starting with your most engaging posts. Once they're approved you'll begin to see results coming through!
+
+  After a period of testing, Feed will start trying out more posts. It automatically puts budget behind the posts that get the best response and switches off those that don't do as well.`,
 
   // CONVERSIONS WIZARD
   // ----------------

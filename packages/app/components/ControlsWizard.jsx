@@ -25,7 +25,7 @@ const ControlsWizard = ({
     },
     {
       id: 1,
-      title: 'Posts become ads',
+      title: 'Promoting posts',
       component: <ControlsWizardPostsStep />,
       shouldSkip: false,
     },
