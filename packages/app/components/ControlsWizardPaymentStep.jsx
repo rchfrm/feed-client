@@ -2,6 +2,7 @@ import React from 'react'
 // import PropTypes from 'prop-types'
 
 import AddPaymentForm from '@/app/AddPaymentForm'
+import BillingPaymentCard from '@/app/BillingPaymentCard'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
@@ -33,7 +34,12 @@ const ControlsWizardPaymentStep = () => {
   const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
 
-  const { billing_details, card } = defaultPaymentMethod || {}
+  const {
+    card,
+    billing_details: billingDetails,
+    is_default,
+    currency,
+  } = defaultPaymentMethod || {}
 
   const savePaymentMethod = () => {
     if (defaultPaymentMethod) {
@@ -55,15 +61,13 @@ const ControlsWizardPaymentStep = () => {
       <MarkdownText markdown={copy.controlsWizardPaymentStepIntro} />
       {defaultPaymentMethod ? (
         <>
-          <Input
-            label="Name on card"
-            value={billing_details?.name}
-            disabled
-          />
-          <Input
-            label="Card details"
-            value={`xxxx xxxx xxxx ${card?.last4}`}
-            disabled
+          <strong className="mb-4">You've added this payment method:</strong>
+          <BillingPaymentCard
+            currency={currency}
+            card={card}
+            billingDetails={billingDetails}
+            isDefault={is_default}
+            className="mb-4 max-w-sm"
           />
         </>
       ) : (
