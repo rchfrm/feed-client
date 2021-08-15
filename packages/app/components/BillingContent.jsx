@@ -110,7 +110,7 @@ const BillingContent = () => {
   React.useEffect(() => {
     if (artistLoading) return
     const { currency: artistCurrency } = min_daily_budget_info || {}
-    setupBilling({ user, artistCurrency, action: 'fetchInvoices' })
+    setupBilling({ user, artistCurrency, shouldFetchInvoices: true })
   // eslint-disable-next-line
   }, [artistLoading, user, setupBilling])
 

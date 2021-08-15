@@ -60,8 +60,7 @@ const fetchInvoices = async (organisation) => {
 }
 
 // * INITIAL SETUP
-const setupBilling = (set) => async ({ user, artistCurrency, action, activeOrganisation }) => {
-  console.log('setup billing')
+const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchInvoices = false, activeOrganisation }) => {
   // FETCH the first organisation and set it
   const allOrgs = activeOrganisation ? null : await fetchAllOrgs(user)
   // TODO improve selecting the org
@@ -102,7 +101,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, action, activeOrgan
     transferRequests = transferRequestsResponse.res.transferRequests
   }
 
-  if (action === 'fetchInvoices') {
+  if (shouldFetchInvoices) {
     const {
       upcomingInvoice,
       latestInvoice,

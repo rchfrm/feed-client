@@ -15,11 +15,11 @@ import copy from '@/app/copy/controlsPageCopy'
 const ControlsWizardReviewStep = ({ setIsWizardActive }) => {
   // Navigate to the posts page
   const goToPostsPage = async () => {
-    setIsWizardActive(false)
     Router.push({
       pathname: ROUTES.HOME,
       query: { postStatus: 'running' },
     })
+    setIsWizardActive(false)
   }
 
   return (

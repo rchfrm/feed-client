@@ -56,6 +56,7 @@ const ControlsWizard = ({
 
   React.useEffect(() => {
     setIsWizardActive(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
