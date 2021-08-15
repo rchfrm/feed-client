@@ -71,13 +71,14 @@ const ControlsWizard = ({
 
 ControlsWizard.propTypes = {
   setIsWizardActive: PropTypes.func.isRequired,
-  defaultLinkId: PropTypes.string.isRequired,
+  defaultLinkId: PropTypes.string,
   budget: PropTypes.number.isRequired,
   defaultPaymentMethod: PropTypes.object,
 }
 
 ControlsWizard.defaultProps = {
   defaultPaymentMethod: null,
+  defaultLinkId: '',
 }
 
 export default ControlsWizard

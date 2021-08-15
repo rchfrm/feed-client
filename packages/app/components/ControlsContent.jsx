@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useAsync } from 'react-async'
 
+import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
 import ControlsWizard from '@/app/ControlsWizard'
@@ -17,6 +18,7 @@ import AdDefaults from '@/app/AdDefaults'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import useBillingStore from '@/app/stores/billingStore'
 import useControlsStore from '@/app/stores/controlsStore'
@@ -28,7 +30,9 @@ const fetchState = ({ artistId, currencyOffset }) => {
 }
 
 const getBillingStoreState = (state) => ({
+  setupBilling: state.setupBilling,
   defaultPaymentMethod: state.defaultPaymentMethod,
+  loading: state.loading,
 })
 
 const getControlsStoreState = (state) => ({
@@ -48,7 +52,8 @@ const controlsComponents = {
 const ControlsContent = ({ activeSlug }) => {
   const [isWizardActive, setIsWizardActive] = React.useState(false)
   // Destructure context
-  const { artistId } = React.useContext(ArtistContext)
+  const { user } = React.useContext(UserContext)
+  const { artistId, artistLoading, artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
   const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
   // Fetch from targeting context
   const {
@@ -60,7 +65,7 @@ const ControlsContent = ({ activeSlug }) => {
   } = React.useContext(TargetingContext)
 
   // Get store values
-  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+  const { setupBilling, defaultPaymentMethod, loading: billingLoading } = useBillingStore(getBillingStoreState)
   const { postsPreferences, budget } = useControlsStore(getControlsStoreState)
   const { defaultLinkId, defaultPromotionEnabled } = postsPreferences
 
@@ -68,7 +73,15 @@ const ControlsContent = ({ activeSlug }) => {
     && budget
     && defaultPaymentMethod)
 
-  // LOAD AND SET INITIAL TARGETING STATE
+  // Set-up billing store
+  React.useEffect(() => {
+    if (artistLoading) return
+    const { currency: artistCurrency } = min_daily_budget_info || {}
+    setupBilling({ user, artistCurrency })
+  // eslint-disable-next-line
+  }, [artistLoading, user, setupBilling])
+
+  // Load and set initial targeting state
   const { isPending } = useAsync({
     promiseFn: fetchState,
     watch: artistId,
@@ -93,7 +106,8 @@ const ControlsContent = ({ activeSlug }) => {
     )
   }
 
-  if (globalLoading || !Object.keys(targetingState).length) return null
+  if (!Object.keys(targetingState)) return null
+  if (globalLoading || billingLoading) return <Spinner />
 
   return (
     <div className="md:grid grid-cols-12 gap-8">

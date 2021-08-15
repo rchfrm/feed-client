@@ -31,9 +31,18 @@ const fetchAllOrgs = async (user) => {
 
 // FETCH BILLING DETAILS
 const fetchOrganisationDetails = async (organisation) => {
-  const errors = []
   const billingDetails = billingHelpers.getbillingDetails(organisation)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
+
+  return {
+    billingDetails,
+    defaultPaymentMethod,
+  }
+}
+
+const fetchInvoices = async (organisation) => {
+  console.log('fetch invoices')
+  const errors = []
   // Fetch next invoice
   const { res: upcomingInvoice, error: upcomingInvoiceError } = await fetchUpcomingInvoice(organisation.id)
   if (upcomingInvoiceError && upcomingInvoiceError.message !== 'Not Found') errors.push(upcomingInvoiceError)
@@ -46,25 +55,21 @@ const fetchOrganisationDetails = async (organisation) => {
   return {
     upcomingInvoice,
     latestInvoice,
-    billingDetails,
-    defaultPaymentMethod,
     errors,
   }
 }
 
 // * INITIAL SETUP
-const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation }) => {
+const setupBilling = (set) => async ({ user, artistCurrency, action, activeOrganisation }) => {
+  console.log('setup billing')
   // FETCH the first organisation and set it
   const allOrgs = activeOrganisation ? null : await fetchAllOrgs(user)
   // TODO improve selecting the org
   const organisation = activeOrganisation || allOrgs[0]
   const {
-    upcomingInvoice,
-    latestInvoice,
     billingDetails,
     referralsDetails,
     defaultPaymentMethod,
-    errors,
   } = await fetchOrganisationDetails(organisation)
 
   const billingEnabled = organisation.billing_enabled
@@ -97,6 +102,20 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     transferRequests = transferRequestsResponse.res.transferRequests
   }
 
+  if (action === 'fetchInvoices') {
+    const {
+      upcomingInvoice,
+      latestInvoice,
+      errors,
+    } = await fetchInvoices(organisation)
+
+    set({
+      upcomingInvoice,
+      latestInvoice,
+      loadingErrors: errors,
+    })
+  }
+
   // SET
   set({
     ...(allOrgs && { allOrgs }),
@@ -107,11 +126,8 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     billingDetails,
     referralsDetails,
     defaultPaymentMethod,
-    upcomingInvoice,
-    latestInvoice,
     ...(artistCurrency && { artistCurrency }),
     loading: false,
-    loadingErrors: errors,
     organisationInvites,
     transferRequests,
   })
