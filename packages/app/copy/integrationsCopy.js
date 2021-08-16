@@ -10,12 +10,9 @@ const getConfirmationText = (platform) => {
 
 export default {
   // SIDEPANEL INTRO
-  sidepanelIntro: `Integrations are what Feed uses to connect with other platforms. They are used to:
+  sidepanelIntro: `Integrations let Feed connect to other platforms, and are used to track your audience data on the Insights page.
 
-- track your audience data on the Insights page (all integrations)
-- create your audience breakdown for geographic targeting options on the Controls page (Spotify only).
-
-When you add a new integration, audience data will appear on the Insights page within 24 hours.`,
+  When you add a new integration, audience data will appear within 24 hours.`,
 
   // MODAL COPY
   cannotDelete: (platformTitle) => `It's currently not possible to disconnect or edit your ${platformTitle} integration.

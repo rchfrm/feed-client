@@ -67,7 +67,7 @@ export const campaignTypes = [
     slug: 'all',
   },
   {
-    title: 'Earn',
+    title: 'Convert',
     slug: 'conversions',
   },
 ]

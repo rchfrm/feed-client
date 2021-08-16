@@ -95,7 +95,7 @@ const PostCardToggle = ({
           className="capitalize ml-4"
           style={{ transform: 'translate(-1px, 0px)' }}
         >
-          {!isConversionsCampaign ? 'Grow & Nurture' : 'Earn'}
+          {!isConversionsCampaign ? 'Grow & Nurture' : 'Convert'}
         </strong>
         {/* RUNNING LABEL */}
         {isActive && (
