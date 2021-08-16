@@ -17,7 +17,7 @@ const ControlsWizardReviewStep = () => {
   const goToPostsPage = async () => {
     Router.push({
       pathname: ROUTES.HOME,
-      query: { postStatus: 'running' },
+      query: { postStatus: 'not-run' },
     })
   }
 
