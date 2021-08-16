@@ -13,7 +13,7 @@ import MarkdownText from '@/elements/MarkdownText'
 // IMPORT COPY
 import copy from '@/app/copy/global'
 
-const getLinksLoading = state => state.linksLoading
+const getControlsLoading = state => state.isControlsLoading
 
 const BasePage = ({
   headerConfig, // heading and punctuation
@@ -45,7 +45,7 @@ const BasePage = ({
     toggleSubNav(false)
   }, [toggleSubNav, mounted])
   const { artistLoading } = React.useContext(ArtistContext)
-  const linksLoading = useControlsStore(getLinksLoading)
+  const controlsLoading = useControlsStore(getControlsLoading)
   React.useEffect(() => {
     const hasArtists = user.artists.length
     // Turn off global loading when:
@@ -60,10 +60,10 @@ const BasePage = ({
       toggleGlobalLoading(false)
     }
     // Page is controls sensitive and links have been loaded
-    if (controlsRequired && !linksLoading) {
+    if (controlsRequired && !controlsLoading) {
       toggleGlobalLoading(false)
     }
-  }, [artistLoading, artistRequired, authPage, toggleGlobalLoading, user, controlsRequired, linksLoading])
+  }, [artistLoading, artistRequired, authPage, toggleGlobalLoading, user, controlsRequired, controlsLoading])
 
   return (
     <>

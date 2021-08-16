@@ -29,7 +29,7 @@ function Main({ children }) {
   useAsyncEffect(async () => {
     if (!artistId) return
     clearControlsStore()
-    await setupControlsStore(artist, 'fetchLinks')
+    await setupControlsStore(artist, 'fetchData')
     toggleGlobalLoading(false)
   }, [artistId])
 
