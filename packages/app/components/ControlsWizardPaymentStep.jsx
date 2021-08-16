@@ -72,9 +72,7 @@ const ControlsWizardPaymentStep = () => {
           />
           <Button
             version="green x-small"
-            onClick={() => {
-              setPaymentMethod(null)
-            }}
+            onClick={() => setPaymentMethod(null)}
             className="mb-8"
           >
             + Add new default card

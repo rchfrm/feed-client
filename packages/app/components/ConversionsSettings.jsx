@@ -63,7 +63,7 @@ const ConversionsSettings = () => {
   const saveSettings = React.useCallback(async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const { res: { preferences } } = await updateConversionsPreferences(artistId, {
+    const { res: { preferences }, error } = await updateConversionsPreferences(artistId, {
       defaultLinkId,
       facebookPixelEvent,
       callToAction,
