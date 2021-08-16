@@ -41,7 +41,6 @@ const fetchOrganisationDetails = async (organisation) => {
 }
 
 const fetchInvoices = async (organisation) => {
-  console.log('fetch invoices')
   const errors = []
   // Fetch next invoice
   const { res: upcomingInvoice, error: upcomingInvoiceError } = await fetchUpcomingInvoice(organisation.id)
