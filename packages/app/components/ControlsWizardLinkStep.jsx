@@ -21,13 +21,13 @@ import copy from '@/app/copy/controlsPageCopy'
 const getControlsStoreState = (state) => ({
   artistId: state.artistId,
   savedFolders: state.savedFolders,
-  updateControlsStore: state.updateControlsStore,
+  updateLinks: state.updateLinks,
   updatePreferences: state.updatePreferences,
   defaultLink: state.defaultLink,
 })
 
 const ControlsWizardLinkStep = () => {
-  const { savedFolders, updateControlsStore, updatePreferences, defaultLink } = useControlsStore(getControlsStoreState)
+  const { savedFolders, updateLinks, updatePreferences, defaultLink } = useControlsStore(getControlsStoreState)
   const { href } = defaultLink || {}
   const [link, setLink] = React.useState({ name: 'Default link', href })
   const [error, setError] = React.useState(null)
@@ -59,9 +59,9 @@ const ControlsWizardLinkStep = () => {
       // Update controls store
       const { preferences: { posts: { default_link_id } } } = newArtist
       // Add the new link to the controls store
-      updateControlsStore('add', { newLink: savedLink })
+      updateLinks('add', { newLink: savedLink })
       // Set the new link as the default link
-      updateControlsStore('chooseNewDefaultLink', { newArtist, newLink: savedLink })
+      updateLinks('chooseNewDefaultLink', { newArtist, newLink: savedLink })
       // Update the post preferences object
       updatePreferences(
         'postsPreferences',

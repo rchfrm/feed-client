@@ -6,7 +6,6 @@ import BillingPaymentCard from '@/app/BillingPaymentCard'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
-import Input from '@/elements/Input'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { UserContext } from '@/app/contexts/UserContext'
@@ -41,8 +40,10 @@ const ControlsWizardPaymentStep = () => {
     currency,
   } = defaultPaymentMethod || {}
 
+  const [paymentMethod, setPaymentMethod] = React.useState(defaultPaymentMethod)
+
   const savePaymentMethod = () => {
-    if (defaultPaymentMethod) {
+    if (paymentMethod) {
       next()
       return
     }
@@ -59,9 +60,9 @@ const ControlsWizardPaymentStep = () => {
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardPaymentStepIntro} />
-      {defaultPaymentMethod ? (
-        <>
-          <strong className="mb-4">You've added this payment method:</strong>
+      {paymentMethod ? (
+        <div>
+          <p className="mb-4 font-bold">Your current default card:</p>
           <BillingPaymentCard
             currency={currency}
             card={card}
@@ -69,7 +70,16 @@ const ControlsWizardPaymentStep = () => {
             isDefault={is_default}
             className="mb-4 max-w-sm"
           />
-        </>
+          <Button
+            version="green x-small"
+            onClick={() => {
+              setPaymentMethod(null)
+            }}
+            className="mb-8"
+          >
+            + Add new default card
+          </Button>
+        </div>
       ) : (
         <AddPaymentForm
           organisationId={organisationId}
