@@ -56,6 +56,7 @@ const CallToActionSelector = ({
     // Skip API request and only update parent call to action value
     if (!shouldSaveOnChange) {
       setCallToAction(selectedOptionValue)
+      setLoading(false)
       return
     }
     // Make API request
@@ -64,6 +65,7 @@ const CallToActionSelector = ({
     // Handle error
     if (error) {
       setError(error)
+      setLoading(false)
       return
     }
     // Handle success
