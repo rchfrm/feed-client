@@ -17,11 +17,12 @@ import ConversionsWizardPostOptInStep from '@/app/ConversionsWizardPostOptInStep
 const getControlsStoreState = (state) => ({
   conversionsPreferences: state.conversionsPreferences,
   budget: state.budget,
+  minConversionsBudget: state.minConversionsBudget,
 })
 
 const ConversionsWizard = ({ setIsWizardActive }) => {
   const { artist } = React.useContext(ArtistContext)
-  const { conversionsPreferences, budget } = useControlsStore(getControlsStoreState)
+  const { conversionsPreferences, budget, minConversionsBudget } = useControlsStore(getControlsStoreState)
   const { callToAction, defaultLinkId, facebookPixelEvent } = conversionsPreferences
   const facebookPixelId = artist.integrations.find(integration => integration.platform === 'facebook').pixel_id
 
@@ -37,7 +38,7 @@ const ConversionsWizard = ({ setIsWizardActive }) => {
     { id: 1,
       title: 'Budget',
       component: <ConversionsWizardBudgetStep />,
-      shouldSkip: budget >= 5,
+      shouldSkip: budget >= minConversionsBudget,
     },
     {
       id: 2,

@@ -38,6 +38,7 @@ const getCaptionNotEditableExcuse = (post) => {
 const PostCardSettings = ({
   post,
   postIndex,
+  postToggleSetterType,
   updatePost,
   artistId,
   toggleCampaign,
@@ -54,20 +55,24 @@ const PostCardSettings = ({
     priorityEnabled,
   } = post
   // Get conversions feature flag value
-  const { artist: { conversions_enabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
+  const { featureFlags: { conversionsEnabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
   const [campaignType, setCampaignType] = React.useState('all')
-  const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
+
+  const [isPromotionEnabled, setIsPromotionEnabled] = React.useState(promotionEnabled)
+  const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
+
   const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
+  const isConversionsCampaign = campaignType === 'conversions'
 
   const isPostArchivedAndNotPrioritized = promotionStatus === 'archived' && !priorityEnabled
   const isToggleDisabled = campaignType === 'all'
     ? isPostArchivedAndNotPrioritized
     : isPostArchivedAndNotPrioritized || !globalConversionsEnabled || !canRunConversions
   const isSectionDisabled = campaignType === 'all'
-    ? !isEnabled
-    : !isEnabled || !globalConversionsEnabled || !canRunConversions
+    ? !isPromotionEnabled
+    : !isConversionsEnabled || !globalConversionsEnabled || !canRunConversions
 
   const noCaptionEditExcuse = getCaptionNotEditableExcuse(post)
 
@@ -108,14 +113,14 @@ const PostCardSettings = ({
           {/* SETTINGS SECTION */}
           <MarkdownText markdown={copy.postSettingsIntro} />
           <PostCardSettingsToggle
-            promotionEnabled={promotionEnabled}
-            conversionsEnabled={conversionsEnabled}
-            campaignType={campaignType}
+            post={post}
             postId={postId}
+            postToggleSetterType={postToggleSetterType}
+            campaignType={campaignType}
             artistId={artistId}
             toggleCampaign={toggleCampaign}
-            isEnabled={isEnabled}
-            setIsEnabled={setIsEnabled}
+            isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
+            setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
             isDisabled={isToggleDisabled}
           />
           <AdSettingsSection
@@ -174,6 +179,7 @@ const PostCardSettings = ({
 PostCardSettings.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
+  postToggleSetterType: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   artistId: PropTypes.string.isRequired,
   toggleCampaign: PropTypes.func.isRequired,

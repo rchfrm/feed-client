@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import * as ROUTES from '@/app/constants/routes'
 
 export default {
   // CONTROLS OPTIONS
@@ -37,15 +38,18 @@ export default {
   conversionsDescription: `These are the settings used as defaults for Conversion audiences.
 
 Each post can override these settings.`,
-  toggleWarning: (isSpendingPaused, hasSufficientBudget) => {
+  toggleWarning: (isSpendingPaused, hasSufficientBudget, minConversionsBudget) => {
     if (isSpendingPaused) {
       return 'Resume spending to enable conversions.'
     }
 
     if (!hasSufficientBudget) {
-      return 'Budget must be at least £5.00 to enable conversions.'
+      return `Budget must be at least ${minConversionsBudget} to enable conversions.`
     }
   },
+  settingsSaved: `Default settings saved! You can override these defaults for specific posts on the posts page.
+
+  N.B. Ads that are currently running will not be updated. To edit active ads, head to the [Running section of posts page](${ROUTES.HOME}?postStatus=running).`,
 
   // AD DEFAULTS
   // ----------------
@@ -78,7 +82,7 @@ Each post can override these settings.`,
   // CONVERSIONS WIZARD
   // ----------------
   startingStepDescription: 'Looks like you haven\'t set up conversions yet. Start running conversions by clicking the button below.',
-  budgetStepDescription: 'To run conversions you must have a budget of at least £5.00.',
+  budgetStepDescription: (minBudget) => `To run conversions you must have a budget of at least ${minBudget}.`,
   linkStepDescription: 'Some text about the conversions link will be placed here.',
   pixelStepDescription: 'Some text about the Facebook Pixel will be placed here.',
   pixelEventStepDescription: 'Some text about the Facebook Pixel Events will be placed here.',

@@ -33,6 +33,7 @@ const usePostsSidePanel = () => {
   const goToPostSettings = React.useCallback(({
     post,
     postIndex,
+    postToggleSetterType,
     updatePost,
     artistId,
     toggleCampaign,
@@ -43,6 +44,7 @@ const usePostsSidePanel = () => {
       <PostCardSettings
         post={post}
         postIndex={postIndex}
+        postToggleSetterType={postToggleSetterType}
         updatePost={updatePost}
         artistId={artistId}
         toggleCampaign={toggleCampaign}

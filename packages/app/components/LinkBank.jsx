@@ -18,33 +18,33 @@ import { splitLinks } from '@/app/helpers/linksHelpers'
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const getControlsStoreState = (state) => ({
-  fetchLinks: state.fetchLinks,
+  fetchData: state.fetchData,
   nestedLinks: state.nestedLinks,
-  linksLoading: state.linksLoading,
+  isControlsLoading: state.isControlsLoading,
   linkBankError: state.linkBankError,
 })
 
 const LinkBank = () => {
-  const { fetchLinks, nestedLinks, linksLoading, linkBankError } = useControlsStore(getControlsStoreState, shallow)
+  const { fetchData, nestedLinks, isControlsLoading, linkBankError } = useControlsStore(getControlsStoreState, shallow)
   const { looseLinks, linkFolders, integrationLinks } = React.useMemo(() => {
     return splitLinks(nestedLinks)
   }, [nestedLinks])
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
   // Set to loading on mount
   React.useEffect(() => {
-    if (linksLoading) {
+    if (isControlsLoading) {
       setSidePanelLoading(true)
     }
-  }, [setSidePanelLoading, linksLoading])
+  }, [setSidePanelLoading, isControlsLoading])
   // Load links on mount
   useAsyncEffect(async () => {
-    if (!linksLoading) return
+    if (!isControlsLoading) return
     setSidePanelLoading(true)
-    await fetchLinks()
+    await fetchData()
     setSidePanelLoading(false)
-  }, [linksLoading])
+  }, [isControlsLoading])
 
-  if (linksLoading && !linkBankError) return null
+  if (isControlsLoading && !linkBankError) return null
 
   return (
     <section>

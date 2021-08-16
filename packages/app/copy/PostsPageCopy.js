@@ -58,9 +58,7 @@ Do you want to continue?`,
   linkTrackingIntro: `Should UTM parameters be added automatically to the end of links?`,
 
   // Warning when turning off active post
-  postStatusConfirmation: `Ads created from this post will soon stop running to all audiences.
-
-  This post will not be eligible to run as an ad in the future.`,
+  postStatusConfirmation: (campaignType) => `Ads created from this post will soon stop running to ${campaignType === 'all' ? 'Grow & Nurture' : 'Convert'} audiences.`,
 
   // FILTER TOOLTIPS
   // ----------------

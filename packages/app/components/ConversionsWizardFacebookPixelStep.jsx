@@ -46,6 +46,7 @@ const ConversionsWizardFacebookPixelStep = () => {
           updateParentPixel={setFacebookPixel}
           trackLocation="Conversions settings"
           shouldSaveOnChange={false}
+          hasNoPixelOption={false}
         />
         <Button
           type="submit"

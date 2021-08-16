@@ -2,8 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import Button from '@/elements/Button'
+
+import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import { getSaveDisabledReason } from '@/app/helpers/targetingHelpers'
 
@@ -16,8 +19,36 @@ const TargetingSettingsSaveContainer = ({
   saveTargetingSettings,
   children,
 }) => {
+  const { setSidePanelButton, sidePanelOpen: isSidepanelOpen } = React.useContext(SidePanelContext)
+  const isDesktopLayout = useBreakpointTest('md')
+  const isMobileAndIsSidePanelOpen = !isDesktopLayout && isSidepanelOpen
   // GET SAVE FUNCTION
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
+
+  const saveButton = React.useMemo(() => (
+    <Button
+      version="green"
+      className={[
+        'w-full',
+        isMobileAndIsSidePanelOpen ? 'border-white border-solid border-0 border-t-4' : null,
+      ].join(' ')}
+      onClick={() => saveTargeting('settings')}
+      disabled={!!disableSaving}
+    >
+      {disableSaving ? (
+        getSaveDisabledReason(disableSaving)
+      ) : copy.saveSettingsButton}
+    </Button>
+  ), [disableSaving, saveTargeting, isMobileAndIsSidePanelOpen])
+
+  React.useEffect(() => {
+    if (isMobileAndIsSidePanelOpen) {
+      setSidePanelButton(saveButton)
+    }
+  }, [isMobileAndIsSidePanelOpen, setSidePanelButton, saveButton])
+
+  if (isMobileAndIsSidePanelOpen) return null
+
   return (
     <div
       className={[
@@ -26,16 +57,7 @@ const TargetingSettingsSaveContainer = ({
       ].join(' ')}
     >
       <div className="mb-5">
-        <Button
-          version="green"
-          className="w-full"
-          onClick={() => saveTargeting('settings')}
-          disabled={!!disableSaving}
-        >
-          {disableSaving ? (
-            getSaveDisabledReason(disableSaving)
-          ) : copy.saveSettingsButton}
-        </Button>
+        {saveButton}
       </div>
       {/* EXTRA CONTENT */}
       {children}

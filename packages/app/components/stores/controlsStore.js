@@ -3,8 +3,9 @@ import produce from 'immer'
 
 import * as linksHelpers from '@/app/helpers/linksHelpers'
 import { getPreferences } from '@/app/helpers/artistHelpers'
+import { getMinBudgets } from '@/app/helpers/budgetHelpers'
 
-import { getLocalStorage, setLocalStorage, removeProtocolFromUrl } from '@/helpers/utils'
+import { getLocalStorage, setLocalStorage, removeProtocolFromUrl, formatCurrency } from '@/helpers/utils'
 
 const { integrationsFolderId, folderStatesStorageKey } = linksHelpers
 
@@ -14,7 +15,10 @@ const initialState = {
   defaultLink: {},
   postsPreferences: {},
   conversionsPreferences: {},
+  currency: '',
   budget: 0,
+  minConversionsBudget: 0,
+  formattedMinConversionsBudget: '',
   isSpendingPaused: false,
   canRunConversions: false,
   conversionsEnabled: false,
@@ -22,7 +26,7 @@ const initialState = {
   savedFolders: [],
   nestedLinks: [],
   folderStates: [], // are folders open or not
-  linksLoading: false,
+  isControlsLoading: false,
   linkBankError: null,
 }
 
@@ -127,9 +131,9 @@ const fetchIntegrations = ({ artist, folders }) => {
 // * CONVERSIONS
 
 const canRunConversionCampaigns = (set, get) => () => {
-  const { conversionsPreferences, budget, isSpendingPaused } = get()
+  const { conversionsPreferences, budget, isSpendingPaused, minConversionsBudget } = get()
   const hasConversionsSetUpCorrectly = Object.values(conversionsPreferences).every(Boolean)
-  const hasSufficientBudget = budget >= 5
+  const hasSufficientBudget = budget >= minConversionsBudget
   return hasConversionsSetUpCorrectly && hasSufficientBudget && !isSpendingPaused
 }
 
@@ -160,25 +164,28 @@ const formatServerLinks = ({ folders, defaultLinkId, artist }) => {
   return tidyFolders(foldersUpdatedIntegrations, defaultLinkId)
 }
 
-// Fetch links from server and update store (or return cached links)
-const fetchLinks = (set, get) => async (action, artist) => {
-  const { savedLinks, linksLoading, artistId } = get()
-  // Stop here if links are already loading
-  if (linksLoading) return
-  set({ linksLoading: true })
+// Fetch data from server and update store (or return cached data)
+const fetchData = (set, get) => async (action, artist) => {
+  const { savedLinks, isControlsLoading, artistId, currency } = get()
+  // Stop here if data is already loading
+  if (isControlsLoading) return
+  set({ isControlsLoading: true })
   // If there already are links and we not force, no need to reset data
   if (savedLinks.length && action !== 'force') return
-  // Set links as loading
-  set({ linksLoading: true })
+  // Set data as loading
+  set({ isControlsLoading: true })
   // Else fetch links from server
   const { res, error } = await linksHelpers.fetchSavedLinks(artistId)
   // Handle error
   if (error) {
     const linkBankError = { message: `Error fetching links. ${error.message}` }
-    set({ linkBankError, linksLoading: false })
+    set({ linkBankError, isControlsLoading: false })
     return { error }
   }
   const { folders } = res
+  // Get minimium conversions budget
+  const { res: { min_recommended_stories_rounded: minConversionsBudget } } = await getMinBudgets(artist.id)
+  const formattedMinConversionsBudget = formatCurrency(minConversionsBudget, currency)
   // Get posts preferences and conversions preferences
   const posts = getPreferences(artist, 'posts')
   const conversions = getPreferences(artist, 'conversions')
@@ -195,12 +202,14 @@ const fetchLinks = (set, get) => async (action, artist) => {
   set({
     savedFolders,
     nestedLinks,
-    linksLoading: false,
+    isControlsLoading: false,
     linkBankError: null,
     folderStates,
     defaultLink,
     postsPreferences: posts,
     conversionsPreferences: conversions,
+    minConversionsBudget,
+    formattedMinConversionsBudget,
   })
 }
 
@@ -273,7 +282,6 @@ const updatePreferences = (set, get) => (type, preferences) => {
   set({ [type]: newState })
   if (type === 'conversionsPreferences') {
     set({ canRunConversions: canRunConversionCampaigns() })
-    set({ conversionsEnabled: canRunConversionCampaigns() })
   }
 }
 
@@ -284,8 +292,8 @@ const updateSpending = (set, get) => (budget, status) => {
   set({ canRunConversions: canRunConversionCampaigns() })
 }
 
-// UNIVERSAL UPDATE CONTROLS STORE
-const updateControlsStore = (set, get) => (action, {
+// UPDATE LINKS
+const updateLinks = (set, get) => (action, {
   newArtist,
   newLink,
   oldLink,
@@ -332,7 +340,10 @@ const useControlsStore = create((set, get) => ({
   defaultLink: initialState.defaultLink,
   postsPreferences: initialState.postsPreferences,
   conversionsPreferences: initialState.conversionsPreferences,
+  currency: initialState.currency,
   budget: initialState.budget,
+  minConversionsBudget: initialState.minConversionsBudget,
+  formattedMinConversionsBudget: initialState.formattedMinConversionsBudget,
   isSpendingPaused: initialState.isSpendingPaused,
   canRunConversions: initialState.canRunConversions,
   conversionsEnabled: initialState.conversionsEnabled,
@@ -340,14 +351,14 @@ const useControlsStore = create((set, get) => ({
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
   folderStates: initialState.folderStates,
-  linksLoading: initialState.linksLoading,
+  isControlsLoading: initialState.isControlsLoading,
   linkBankError: initialState.linkBankError,
   // GETTERS
-  fetchLinks: fetchLinks(set, get),
+  fetchData: fetchData(set, get),
   canRunConversionCampaigns: canRunConversionCampaigns(set, get),
   // SETTERS
   updateLinksWithIntegrations: (artist) => updateLinksWithIntegrations(set, get)(artist),
-  updateControlsStore: updateControlsStore(set, get),
+  updateLinks: updateLinks(set, get),
   updateFolderStates: updateFolderStates(set, get),
   updatePreferences: updatePreferences(set, get),
   updateSpending: updateSpending(set, get),
@@ -358,11 +369,13 @@ const useControlsStore = create((set, get) => ({
     // Set artist details
     set({
       artistId: artist.id,
-      linksLoading: false,
+      currency: artist.currency,
+      isControlsLoading: false,
+      conversionsEnabled: artist.conversions_enabled,
     })
-    // Fetch links
-    if (action === 'fetchLinks') {
-      await get().fetchLinks('force', artist)
+    // Fetch data
+    if (action === 'fetchData') {
+      await get().fetchData('force', artist)
 
       // Set budget and spending status
       const { updateSpending } = get()

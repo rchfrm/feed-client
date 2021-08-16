@@ -16,7 +16,7 @@ const { controlsOptions } = copy
 const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) => {
   const [activeOptionKey, setActiveOptionKey] = React.useState(activeSlug)
   const isDesktopLayout = useBreakpointTest('md')
-  const { artist: { conversions_enabled: conversionsEnabled } } = React.useContext(ArtistContext)
+  const { featureFlags: { conversionsEnabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
 
   // SIDE PANEL
   const {
@@ -37,8 +37,9 @@ const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) =
     }
     // Open content in side-panel if mobile
     const content = controlsComponents[key]
-    // Don't set a sidepanel button for the conversions settings
-    const button = key === 'conversions' ? null : <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+    // Don't set a sidepanel button for the targeting and conversions settings
+    const excludedSlugs = ['conversions', 'targeting']
+    const button = excludedSlugs.includes(key) ? null : <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
 
     setSidePanelContent(content)
     setSidePanelContentLabel(`controls ${key}`)
@@ -54,7 +55,7 @@ const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) =
       ].join(' ')}
     >
       {controlsOptions.map((option) => {
-        if (option.key === 'conversions' && !conversionsEnabled) return null
+        if (option.key === 'conversions' && !conversionsFeatureEnabled) return null
         const { key, title, description } = option
         const isActive = key === activeOptionKey
         return (

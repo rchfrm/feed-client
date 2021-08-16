@@ -14,6 +14,7 @@ const PostCardActionButtons = ({
   post,
   postIndex,
   postPromotable,
+  postToggleSetterType,
   artistId,
   toggleCampaign,
   updatePost,
@@ -41,6 +42,7 @@ const PostCardActionButtons = ({
           goToPostSettings({
             post,
             postIndex,
+            postToggleSetterType,
             updatePost,
             artistId,
             toggleCampaign,
@@ -80,6 +82,7 @@ PostCardActionButtons.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
   postPromotable: PropTypes.bool.isRequired,
+  postToggleSetterType: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
   updatePost: PropTypes.func.isRequired,

@@ -15,17 +15,17 @@ const getControlsStoreState = (state) => ({
 const PostCardToggles = ({
   artistId,
   post,
+  postToggleSetterType,
   toggleCampaign,
   priorityEnabled,
   togglesClassName,
   className,
 }) => {
   // Get conversions feature flag value
-  const { artist: { conversions_enabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
+  const { featureFlags: { conversionsEnabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
   // Get conversions store values
   const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
   const {
-    id: postId,
     promotionStatus,
     promotionEnabled,
     conversionsEnabled,
@@ -40,8 +40,9 @@ const PostCardToggles = ({
     >
       {/* GROWTH TOGGLE */}
       <PostCardToggle
+        post={post}
+        postToggleSetterType={postToggleSetterType}
         campaignType="all"
-        postId={postId}
         artistId={artistId}
         isEnabled={promotionEnabled}
         toggleCampaign={toggleCampaign}
@@ -51,8 +52,9 @@ const PostCardToggles = ({
       />
       {/* EARN TOGGLE */}
       <PostCardToggle
+        post={post}
+        postToggleSetterType={postToggleSetterType}
         campaignType="conversions"
-        postId={postId}
         artistId={artistId}
         isEnabled={conversionsEnabled}
         toggleCampaign={toggleCampaign}
@@ -68,6 +70,7 @@ const PostCardToggles = ({
 PostCardToggles.propTypes = {
   artistId: PropTypes.string.isRequired,
   post: PropTypes.object.isRequired,
+  postToggleSetterType: PropTypes.string.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
   priorityEnabled: PropTypes.bool.isRequired,
   togglesClassName: PropTypes.string,

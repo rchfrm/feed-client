@@ -25,7 +25,7 @@ const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
   artistId: state.artistId,
   savedFolders: state.savedFolders,
-  updateControlsStore: state.updateControlsStore,
+  updateLinks: state.updateLinks,
   setLinkBankError: state.setLinkBankError,
 })
 
@@ -48,7 +48,7 @@ const useCreateEditLinkBankLink = ({
     defaultLink,
     artistId,
     savedFolders,
-    updateControlsStore,
+    updateLinks,
     setLinkBankError,
   } = useControlsStore(getControlsStoreState, shallow)
 
@@ -80,7 +80,7 @@ const useCreateEditLinkBankLink = ({
       return { error }
     }
     // Update store
-    updateControlsStore(action, { newLink: savedLink, oldLink })
+    updateLinks(action, { newLink: savedLink, oldLink })
     // If created from default link selector, set as default
     if (location === 'defaultLink') {
       const { res: newArtist, error } = await setDefaultLink(artistId, savedLink.id)
@@ -118,7 +118,7 @@ const useCreateEditLinkBankLink = ({
       return
     }
     // Update store
-    updateControlsStore(action, { newFolder: savedFolder, oldFolder })
+    updateLinks(action, { newFolder: savedFolder, oldFolder })
     // Success
     onSave(savedFolder)
     setSidePanelLoading(false)
