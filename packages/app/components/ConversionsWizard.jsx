@@ -66,7 +66,7 @@ const ConversionsWizard = ({ setIsWizardActive }) => {
     {
       id: 6,
       title: 'Get going',
-      component: <ConversionsWizardPostOptInStep setIsWizardActive={setIsWizardActive} />,
+      component: <ConversionsWizardPostOptInStep />,
       shouldSkip: false,
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

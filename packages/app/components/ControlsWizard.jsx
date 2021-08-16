@@ -44,7 +44,7 @@ const ControlsWizard = ({
     {
       id: 4,
       title: 'All set!',
-      component: <ControlsWizardReviewStep setIsWizardActive={setIsWizardActive} />,
+      component: <ControlsWizardReviewStep />,
       shouldSkip: false,
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

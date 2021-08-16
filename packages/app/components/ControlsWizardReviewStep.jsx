@@ -12,14 +12,13 @@ import brandColors from '@/constants/brandColors'
 
 import copy from '@/app/copy/controlsPageCopy'
 
-const ControlsWizardReviewStep = ({ setIsWizardActive }) => {
+const ControlsWizardReviewStep = () => {
   // Navigate to the posts page
   const goToPostsPage = async () => {
     Router.push({
       pathname: ROUTES.HOME,
       query: { postStatus: 'running' },
     })
-    setIsWizardActive(false)
   }
 
   return (
