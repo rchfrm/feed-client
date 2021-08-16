@@ -40,7 +40,7 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
         setCurrentStep,
       }}
     >
-      <h1>{steps[currentStep].title}</h1>
+      <h2>{steps[currentStep].title}</h2>
       <ProgressBar percentage={((currentStep + 1) / (totalSteps + 1)) * 100} className="mb-6" />
       {children[currentStep]}
       {(hasBackButton && !isFirstStep) ? (

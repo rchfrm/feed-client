@@ -51,7 +51,6 @@ const ConversionsWizardCallToActionStep = () => {
 
   return (
     <>
-      <h2>Call to Action</h2>
       <MarkdownText markdown={copy.callToActionStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>

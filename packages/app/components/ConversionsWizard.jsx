@@ -25,29 +25,70 @@ const ConversionsWizard = ({ setIsWizardActive }) => {
   const { callToAction, defaultLinkId, facebookPixelEvent } = conversionsPreferences
   const facebookPixelId = artist.integrations.find(integration => integration.platform === 'facebook').pixel_id
 
+  const [steps, setSteps] = React.useState([])
   // Steps array which includes logic to skip a wizard step
-  const steps = [
-    { id: 0, shouldSkip: false },
-    { id: 1, shouldSkip: budget >= 5 },
-    { id: 2, shouldSkip: Boolean(facebookPixelId) },
-    { id: 3, shouldSkip: Boolean(defaultLinkId) },
-    { id: 4, shouldSkip: Boolean(facebookPixelEvent) },
-    { id: 5, shouldSkip: Boolean(callToAction) },
-    { id: 6, shouldSkip: false },
-  ]
+  const initialSteps = React.useMemo(() => [
+    {
+      id: 0,
+      title: 'Set up Conversions',
+      component: <ConversionsWizardStartingStep />,
+      shouldSkip: false,
+    },
+    { id: 1,
+      title: 'Budget',
+      component: <ConversionsWizardBudgetStep />,
+      shouldSkip: budget >= 5,
+    },
+    {
+      id: 2,
+      title: 'Facebook Pixel',
+      component: <ConversionsWizardFacebookPixelStep />,
+      shouldSkip: facebookPixelId && facebookPixelId !== '-1',
+    },
+    {
+      id: 3,
+      title: 'Default Link',
+      component: <ConversionsWizardLinkStep />,
+      shouldSkip: Boolean(defaultLinkId),
+    },
+    { id: 4,
+      title: 'Facebook Pixel Event',
+      component: <ConversionsWizardFacebookPixelEventStep />,
+      shouldSkip: Boolean(facebookPixelEvent),
+    },
+    {
+      id: 5,
+      title: 'Call to Action',
+      component: <ConversionsWizardCallToActionStep />,
+      shouldSkip: Boolean(callToAction),
+    },
+    {
+      id: 6,
+      title: 'Get going',
+      component: <ConversionsWizardPostOptInStep setIsWizardActive={setIsWizardActive} />,
+      shouldSkip: false,
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [])
+
+  React.useEffect(() => {
+    // Filter out the steps that should be skipped
+    setSteps(initialSteps.filter((step) => !step.shouldSkip))
+  }, [initialSteps])
+
+  React.useEffect(() => {
+    setIsWizardActive(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div>
-      <WizardContextProvider steps={steps}>
-        {/* All Wizard steps */}
-        <ConversionsWizardStartingStep setIsWizardActive={setIsWizardActive} />
-        <ConversionsWizardBudgetStep />
-        <ConversionsWizardFacebookPixelStep />
-        <ConversionsWizardLinkStep />
-        <ConversionsWizardFacebookPixelEventStep />
-        <ConversionsWizardCallToActionStep />
-        <ConversionsWizardPostOptInStep setIsWizardActive={setIsWizardActive} />
-      </WizardContextProvider>
+      {steps.length && (
+        <WizardContextProvider steps={steps}>
+          {/* All Wizard steps */}
+          {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
+        </WizardContextProvider>
+      )}
     </div>
   )
 }

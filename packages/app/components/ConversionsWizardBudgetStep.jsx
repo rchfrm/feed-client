@@ -35,7 +35,6 @@ const ConversionsWizardBudgetStep = () => {
 
   return (
     <>
-      <h2>Budget</h2>
       <MarkdownText markdown={copy.budgetStepDescription} />
       <Button
         version="outline-green icon"

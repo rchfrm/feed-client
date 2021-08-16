@@ -52,7 +52,6 @@ const ConversionsWizardFacebookPixelEventStep = () => {
 
   return (
     <>
-      <h2>Facebook Pixel Event</h2>
       <MarkdownText markdown={copy.pixelEventStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>

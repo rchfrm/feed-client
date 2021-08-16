@@ -57,7 +57,6 @@ const ConversionsWizardLinkStep = () => {
 
   return (
     <>
-      <h2>Default Link</h2>
       <MarkdownText markdown={copy.linkStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>

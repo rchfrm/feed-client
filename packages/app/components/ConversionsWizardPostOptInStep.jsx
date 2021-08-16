@@ -28,7 +28,6 @@ const ConversionsWizardOptInStep = ({ setIsWizardActive }) => {
 
   return (
     <>
-      <h2>Get going</h2>
       <MarkdownText markdown={copy.postOptInStepDescription} />
       <Button
         version="green icon"

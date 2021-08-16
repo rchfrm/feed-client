@@ -51,6 +51,7 @@ const ControlsWizard = ({
   ], [])
 
   React.useEffect(() => {
+    // Filter out the steps that should be skipped
     setSteps(initialSteps.filter((step) => !step.shouldSkip))
   }, [initialSteps])
 
