@@ -35,7 +35,7 @@ export default {
   // CONVERSION DEFAULTS
   // ----------------
   conversionsTitle: '## Conversions Defaults',
-  conversionsDescription: `These are the settings used as defaults for Conversion audiences.
+  conversionsDescription: `These are the settings used as defaults for Conversion campaigns.
 
 Each post can override these settings.`,
   toggleWarning: (isSpendingPaused, hasSufficientBudget, minConversionsBudget) => {
