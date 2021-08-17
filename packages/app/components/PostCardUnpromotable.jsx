@@ -6,7 +6,7 @@ const PostCardUnpromotable = ({ className }) => {
     <div
       className={[
         'rounded-dialogue',
-        'h-12',
+        'h-26',
         'bg-grey-1 text-grey-3',
         'relative text-center',
         className,
