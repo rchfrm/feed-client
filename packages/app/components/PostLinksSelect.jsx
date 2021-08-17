@@ -126,7 +126,7 @@ const PostLinksSelect = ({
     // Add DEFAULT link if needed
     if (includeDefaultLink && defaultLink.name) {
       let { name } = defaultLink
-      if (campaignType === 'conversions' && defaultConversionsLinkId !== '_default') {
+      if (campaignType === 'conversions' && defaultConversionsLinkId && defaultConversionsLinkId !== '_default') {
         name = getLinkById(nestedLinks, defaultConversionsLinkId)?.name
       }
       // const defaultLinkOption
