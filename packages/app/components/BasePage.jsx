@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+// IMPORT STORES
+import useControlsStore from '@/app/stores/controlsStore'
 
 import PendingEmailWarning from '@/app/PendingEmailWarning'
 // IMPORT ELEMENTS
@@ -11,16 +13,18 @@ import MarkdownText from '@/elements/MarkdownText'
 // IMPORT COPY
 import copy from '@/app/copy/global'
 
+const getControlsLoading = state => state.isControlsLoading
 
 const BasePage = ({
   headerConfig, // heading and punctuation
   artistRequired,
+  controlsRequired,
   staticPage,
   authPage,
   children,
 }) => {
   // Get interface context
-  const { setHeader, toggleSubNav, toggleGlobalLoading } = React.useContext(InterfaceContext)
+  const { setHeader, toggleSubNav, toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
   // Get user context
   const { user, hasPendingEmail } = React.useContext(UserContext)
   // ON MOUNT
@@ -40,24 +44,26 @@ const BasePage = ({
     if (mounted) return
     toggleSubNav(false)
   }, [toggleSubNav, mounted])
-  // Turn off global loading when
-  // 1. artist finishes loading &
-  // 2. page is not artist senstive &
-  // 3. It's not an auth page (ie, login or signup)
-  // OR
-  // 1a. User has no artists (ie, login or signup)
   const { artistLoading } = React.useContext(ArtistContext)
+  const controlsLoading = useControlsStore(getControlsLoading)
   React.useEffect(() => {
     const hasArtists = user.artists.length
+    // Turn off global loading when:
+    // User has no artists (ie, login or signup)
     if (user.artists && !hasArtists) return toggleGlobalLoading(false)
-    if (!artistLoading && !artistRequired && !authPage) {
+    // Page is not artist sensitive and page is not controls sensitive and it's not an auth page (ie, login or signup)
+    if (!artistRequired && !controlsRequired && !authPage) {
       toggleGlobalLoading(false)
     }
-    if (artistRequired && !artistLoading) {
+    // Page is artist sensitive and artist has been loaded and page is not controls sensitive
+    if (artistRequired && !artistLoading && !controlsRequired) {
       toggleGlobalLoading(false)
     }
-  }, [artistLoading, artistRequired, authPage, toggleGlobalLoading, user])
-
+    // Page is controls sensitive and links have been loaded
+    if (controlsRequired && !controlsLoading) {
+      toggleGlobalLoading(false)
+    }
+  }, [artistLoading, artistRequired, authPage, toggleGlobalLoading, user, controlsRequired, controlsLoading])
 
   return (
     <>
@@ -73,10 +79,12 @@ const BasePage = ({
           )}
         </div>
       ) : (
-        <>
-          {/* PAGE CONTENT */}
-          {children}
-        </>
+        !globalLoading && (
+          <>
+            {/* PAGE CONTENT */}
+            {children}
+          </>
+        )
       )}
     </>
   )
@@ -85,6 +93,7 @@ const BasePage = ({
 BasePage.propTypes = {
   headerConfig: PropTypes.object,
   artistRequired: PropTypes.bool,
+  controlsRequired: PropTypes.bool,
   staticPage: PropTypes.bool,
   authPage: PropTypes.bool,
   children: PropTypes.node.isRequired,
@@ -95,6 +104,7 @@ BasePage.defaultProps = {
   staticPage: false,
   authPage: false,
   artistRequired: false,
+  controlsRequired: false,
 }
 
 

@@ -32,12 +32,10 @@ Been waiting a while? Check you have posts opted in for promotion in the _${inac
 
   noDefaultLinkWarning: `**You need to set the default link used in your ads before they can run.**
 
-You can _**add links**_ via the Links button below and _**set a default link**_ in Settings`,
+You can _**set a default link**_ and _**add links**_ on the [Controls](${ROUTES.CONTROLS}) page`,
 
   // POST SETTINGS
   // --------------
-  globalToggleIntro: `Should all posts be opted-in for promotion by default?`,
-
   globalConnectionsIntro: `Add the links that you'd like to use in your ads.
 
 Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also enable **Feed** to track the number of followers you have on the Insights page. `,
@@ -60,13 +58,7 @@ Do you want to continue?`,
   linkTrackingIntro: `Should UTM parameters be added automatically to the end of links?`,
 
   // Warning when turning off active post
-  postStatusConfirmation: `Ads created from this post will soon stop running to all audiences.
-
-  This post will not be eligible to run as an ad in the future.`,
-
-  defaultLinkIntro: `By default, which link should be used in ads? This determines where people go when they click one of your ads.`,
-
-  facebookPixelIntro: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,
+  postStatusConfirmation: (campaignType) => `Ads created from this post will soon stop running to ${campaignType === 'all' ? 'Grow & Nurture' : 'Convert'} audiences.`,
 
   // FILTER TOOLTIPS
   // ----------------
@@ -124,7 +116,9 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   },
 
   // SETTINGS SIDEPANEL
+  postSettingsIntro: (campaignType) => `Settings for the ${campaignType === 'all' ? '"Grow & Nurture"' : '"Convert"'} part of the funnel. Here you can decide whether to enable this post for ${campaignType === 'all' ? 'grow & nurture' : 'conversions'} campaigns, and which link, call to action and caption to use.`,
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
+  postCallToActionSetting: 'Which call to action should be used when this post is made into an ad?',
   editCaption: `Edit the caption used in this ad.`,
   confirmEdit: (type) => `**Update ${type}**
 
@@ -158,19 +152,6 @@ If you delete it, the post will revert to using the default link. Are you sure y
     
     Are you sure you want to continue?`
   },
-
-  integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-
-  // LINK TRACKING
-  linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `UTM parameters are automatically added to the links used in your ads. This means you can track how many people Feed is sending to your website, and what they do when they get there.
-
-Here's an example of what a link will look like:
-
-> _${defaultLink}?utm_source=feed&utm_medium=social_
-
-Soon we'll be letting you track this within the Feed platform, but if you already have access to Google Analytics for the website(s) your ads link to, you can view information about the people visiting via Feed's ads by going to Acquisition > All Traffic > Source/Medium.
-`,
-
 
   checkSaveAsIntegration: (platform) => {
     const intro = `It looks like you're trying to add an integration link.`

@@ -9,8 +9,8 @@ import brandColors from '@/constants/brandColors'
 
 import { track } from '@/app/helpers/trackingHelpers'
 
-const OPTION = ({ name, value }) => {
-  return <option key={value} value={value}>{name}</option>
+const OPTION = ({ name, value, disabled }) => {
+  return <option key={value} value={value} disabled={disabled}>{name}</option>
 }
 
 const Select = ({
@@ -93,19 +93,19 @@ const Select = ({
             )}
             {/* OPTIONS */}
             {options.map((optionItem) => {
-              const { value, name, type, options } = optionItem
+              const { value, name, type, disabled, options } = optionItem
               const isOptionGroup = type === 'group'
               // Option group
               if (isOptionGroup) {
                 return (
                   <optgroup label={name} key={value || name}>
                     {options.map(({ name, value }) => {
-                      return <OPTION key={value} name={name} value={value} />
+                      return <OPTION key={value} name={name} value={value} disabled={disabled} />
                     })}
                   </optgroup>
                 )
               }
-              return <OPTION key={value} name={name} value={value} />
+              return <OPTION key={value} name={name} value={value} disabled={disabled} />
             })}
           </select>
           {/* Arrow Icon */}
@@ -150,6 +150,7 @@ Select.propTypes = {
       type: PropTypes.oneOfType([
         PropTypes.string,
       ]),
+      disabled: PropTypes.boolean,
     }),
   ).isRequired,
 

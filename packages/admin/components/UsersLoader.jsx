@@ -4,13 +4,15 @@ import PropTypes from 'prop-types'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
 
 import Error from '@/elements/Error'
-import UsersList from '@/admin/UsersList'
 import UsersFilters from '@/admin/UsersFilters'
 import ListSearch from '@/admin/elements/ListSearch'
 import ListSort from '@/admin/elements/ListSort'
+import EntityList from '@/admin/EntityList'
+import Entity from '@/admin/Entity'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-const UsersLoader = ({ userId }) => {
-  const isSingleUser = !!userId
+const UsersLoader = ({ id }) => {
+  const isSingleUser = !!id
 
   const propsToDisplay = [
     'email',
@@ -33,21 +35,20 @@ const UsersLoader = ({ userId }) => {
     limit: 100,
     fields: fields.join(','),
   }
-  const serverFunctionArgs = isSingleUser ? [userId, requestProps] : [requestProps]
+  const serverFunctionArgs = isSingleUser ? [id, requestProps] : [requestProps]
   const { data: users, error, finishedLoading } = useGetPaginated(serverFunction, serverFunctionArgs)
 
-  // UPDATE USERS TO INCLUDE FULL NAME KEY
-  const usersWithFullName = React.useMemo(() => {
-    return users.map((user) => {
-      const { first_name, last_name } = user
-      const full_name = `${first_name} ${last_name}`
-      return { ...user, full_name }
-    })
-  }, [users])
+  // Turn off global loading when finished
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  React.useEffect(() => {
+    if (finishedLoading) {
+      toggleGlobalLoading(false)
+    }
+  }, [finishedLoading, toggleGlobalLoading])
 
   // FILTER
   // Filtered List
-  const [filteredUsers, setFilteredUsers] = React.useState(usersWithFullName)
+  const [filteredUsers, setFilteredUsers] = React.useState(users)
   // Search state
   const [searchedUsers, setSearchedUsers] = React.useState(filteredUsers)
   // Sorted state
@@ -56,49 +57,74 @@ const UsersLoader = ({ userId }) => {
   // GET DATA ARRAY BASED ON PAGE TYPE
   const usersArray = isSingleUser ? users : sortedUsers
 
+  if (!usersArray) {
+    return (
+      <section className="content">
+        <p>Loading...</p>
+      </section>
+    )
+  }
+
+  if (error) {
+    return (
+      <section className="content">
+        <p>Failed to fetch users.</p>
+        <Error error={error} />
+      </section>
+    )
+  }
+
+  if (isSingleUser) {
+    return (
+      <section className="content">
+        <Entity
+          entity={usersArray[0]}
+          propsToDisplay={propsToDisplay}
+        />
+      </section>
+    )
+  }
+
   return (
     <section>
-      {error && <div>Failed to fetch users</div>}
-      <Error error={error} />
       {finishedLoading || error ? <p>Finished loading</p> : <p>Loading...</p>}
-      {!isSingleUser && (
-        <>
-          <p>Total loaded: {users.length}</p>
-          <p>Total filtered & searched: {sortedUsers.length}</p>
-          {/* FILTERS */}
-          <h4><strong>Filters</strong></h4>
-          <UsersFilters
-            setFilteredUsers={setFilteredUsers}
-            users={usersWithFullName}
-          />
-          {/* SEARCH */}
-          <ListSearch
-            className="pt-2"
-            fullList={filteredUsers}
-            updateList={setSearchedUsers}
-            searchBy={['full_name', 'id']}
-          />
-          {/* SORT */}
-          <h4><strong>Sort</strong></h4>
-          <ListSort
-            fullList={searchedUsers}
-            updateList={setSortedUsers}
-            sortOptions={['full_name', 'created_at']}
-          />
-        </>
-      )}
+      <p>Total loaded: {users.length}</p>
+      <p>Total filtered & searched: {sortedUsers.length}</p>
+      {/* FILTERS */}
+      <h4><strong>Filters</strong></h4>
+      <UsersFilters
+        setFilteredUsers={setFilteredUsers}
+        users={users}
+      />
+      {/* SEARCH */}
+      <ListSearch
+        className="pt-2"
+        fullList={filteredUsers}
+        updateList={setSearchedUsers}
+        searchBy={['full_name', 'id']}
+      />
+      {/* SORT */}
+      <h4><strong>Sort</strong></h4>
+      <ListSort
+        fullList={searchedUsers}
+        updateList={setSortedUsers}
+        sortOptions={['full_name', 'created_at']}
+      />
       {/* LIST */}
-      {usersArray && <UsersList users={usersArray} propsToDisplay={propsToDisplay} />}
+      <EntityList
+        entities={usersArray}
+        propsToDisplay={propsToDisplay}
+      />
     </section>
   )
 }
 
 UsersLoader.propTypes = {
-  userId: PropTypes.string,
+  id: PropTypes.string,
 }
 
 UsersLoader.defaultProps = {
-  userId: '',
+  id: '',
 }
 
 export default UsersLoader

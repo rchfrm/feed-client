@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 
 import brandColors from '@/constants/brandColors'
 
-const LinkIcon = ({ fill, className }) => {
+const LinkIcon = ({ fill, className, style }) => {
   return (
     <svg
-      className={className}
       width="11"
       height="10"
       viewBox="0 0 11 10"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      style={style}
     >
       <path
         fill={fill}
@@ -28,11 +29,13 @@ const LinkIcon = ({ fill, className }) => {
 LinkIcon.propTypes = {
   fill: PropTypes.string,
   className: PropTypes.string,
+  style: PropTypes.object,
 }
 
 LinkIcon.defaultProps = {
   fill: brandColors.textColor,
-  className: '',
+  className: null,
+  style: null,
 }
 
 

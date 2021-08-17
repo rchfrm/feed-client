@@ -22,35 +22,55 @@ const ToggleSwitch = ({
   // Elements
   const switchEl = React.useRef(null)
   const containerEl = React.useRef(null)
+  const [containerElWidth, setContainerElWidth] = React.useState(0)
+  const [switchElWidth, setSwitchElWidth] = React.useState(0)
 
   // * ANIMATING
   // -----------
-  const containerWidth = React.useRef(0)
-  const switchWidth = React.useRef(0)
   // Setup GSP setter
   const cssSetter = React.useRef(null)
   const dragBoundaries = React.useRef({})
-  // Setup sizes on mount
+
+  // Setup sizes on mount but await dimensions changes which might cause miscalculations
+  const observer = React.useRef(
+    new ResizeObserver(entries => {
+      const { width: containerWidth } = entries[0].contentRect
+      const { width: switchWidth } = entries[1].contentRect
+      setContainerElWidth(containerWidth)
+      setSwitchElWidth(switchWidth)
+
+      cssSetter.current = gsap.quickSetter(switchEl.current, 'x', 'px')
+      const maxMove = ((containerWidth - switchWidth) / 2) - 5
+      dragBoundaries.current = {
+        min: -maxMove,
+        max: maxMove,
+      }
+    }),
+  )
+
+  // Start observing container and switch element dimension changes
   React.useEffect(() => {
-    cssSetter.current = gsap.quickSetter(switchEl.current, 'x', 'px')
-    containerWidth.current = containerEl.current.offsetWidth
-    switchWidth.current = switchEl.current.offsetWidth
-    const maxMove = ((containerWidth.current - switchWidth.current) / 2) - 5
-    dragBoundaries.current = {
-      min: -maxMove,
-      max: maxMove,
+    const observerRef = observer.current
+    const refElements = [containerEl.current, switchEl.current]
+
+    if (containerEl.current && switchEl.current) {
+      refElements.forEach((refElement) => observerRef.observe(refElement))
     }
-  }, [])
+    return () => {
+      refElements.forEach((refElement) => observerRef.unobserve(refElement))
+    }
+  }, [observer])
 
   const animateSwitch = React.useCallback((forceState) => {
+    if (!containerElWidth || !switchElWidth) return
     const newState = typeof forceState === 'boolean' ? forceState : !state
     const { current: switchCircle } = switchEl
-    const maxMove = ((containerWidth.current - switchWidth.current) / 2) - 5
+    const maxMove = ((containerElWidth - switchElWidth) / 2) - 5
     const xDirection = newState ? 1 : -1
     const x = maxMove * xDirection
     const duration = 0.2
     gsap.to(switchCircle, { x, duration, ease: Power1.easeOut })
-  }, [state])
+  }, [state, containerElWidth, switchElWidth])
 
   // * DRAGGING
   // ----------

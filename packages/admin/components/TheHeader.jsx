@@ -10,7 +10,7 @@ import styles from '@/admin/TheHeader.module.css'
 const links = [
   'ARTISTS',
   'USERS',
-  'ORGANISATION',
+  'ORGANISATIONS',
   'TOURNAMENTS',
 ]
 

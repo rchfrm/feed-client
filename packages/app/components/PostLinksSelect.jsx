@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import shallow from 'zustand/shallow'
 
 import useIsMounted from '@/hooks/useIsMounted'
-import useLinksStore from '@/app/stores/linksStore'
-import useCreateEditPostsLink from '@/app/hooks/useCreateEditPostsLink'
+import useControlsStore from '@/app/stores/controlsStore'
+import useCreateEditLinkBankLink from '@/app/hooks/useCreateEditLinkBankLink'
 import PostCardEditAlert from '@/app/PostCardEditAlert'
 
 import Select from '@/elements/Select'
@@ -13,7 +13,7 @@ import Error from '@/elements/Error'
 
 import { splitLinks, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 
-const getLinksStoreState = (state) => ({
+const getControlsStoreState = (state) => ({
   artistId: state.artistId,
   defaultLink: state.defaultLink,
   nestedLinks: state.nestedLinks,
@@ -30,17 +30,23 @@ const PostLinksSelect = ({
   includeDefaultLink,
   includeAddLinkOption,
   componentLocation,
+  updateParentLink,
+  shouldSaveOnChange,
+  label,
+  className,
+  disabled,
   isPostActive,
+  campaignType,
 }) => {
   // READ FROM LINKS STORE
   const {
     artistId,
     defaultLink,
     nestedLinks,
-  } = useLinksStore(getLinksStoreState, shallow)
+  } = useControlsStore(getControlsStoreState, shallow)
   const [showAlert, setShowAlert] = React.useState(false)
   const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
   const [isDeletedLink, setIsDeletedLink] = React.useState(false)
   const isMounted = useIsMounted()
@@ -126,24 +132,9 @@ const PostLinksSelect = ({
     }
     // Add other options
     baseOptions.push(otherOptionsGroup)
+    setLoading(false)
     return baseOptions
   }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, currentLinkId, linkType])
-
-  // SHOW ADD LINK MODAL
-  const showAddLinkModal = useCreateEditPostsLink({
-    action: 'add',
-    location: componentLocation,
-    // Set link as post link when added
-    onSave: (savedLink, newArtist) => {
-      if (componentLocation === 'defaultLink' && newArtist) {
-        onSuccess(newArtist)
-      }
-      const { id: linkId } = savedLink
-      setSelectedOptionValue(linkId)
-      setLoading(false)
-    },
-    onCancel: () => setLoading(false),
-  })
 
   // HANDLE SETTING SELECTED LINK
   const updatePostLink = React.useCallback(async (selectedOptionValue, forceRun = false) => {
@@ -157,8 +148,13 @@ const PostLinksSelect = ({
       setShowAlert(true)
       return
     }
+    // Skip API request and only update parent link value
+    if (!shouldSaveOnChange) {
+      updateParentLink(selectedOptionValue)
+      return
+    }
     // Run server
-    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId)
+    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId, campaignType)
     if (!isMounted) return
     // Handle error
     setShowAlert(false)
@@ -178,7 +174,24 @@ const PostLinksSelect = ({
     setLoading(false)
     // Reset deleted link state
     setIsDeletedLink(false)
-  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId])
+  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink, campaignType])
+
+  // SHOW ADD LINK MODAL
+  const showAddLinkModal = useCreateEditLinkBankLink({
+    action: 'add',
+    location: componentLocation,
+    // Set link as post link when added
+    onSave: (savedLink, newArtist) => {
+      if (componentLocation === 'defaultLink' && newArtist) {
+        onSuccess(newArtist)
+      }
+      const { id: linkId } = savedLink
+      setSelectedOptionValue(linkId)
+      updatePostLink(linkId)
+      setLoading(false)
+    },
+    onCancel: () => setLoading(false),
+  })
 
   const handleChange = (e) => {
     const { target: { value } } = e
@@ -194,8 +207,12 @@ const PostLinksSelect = ({
     updatePostLink(value)
   }
 
+  React.useEffect(() => {
+    setSelectedOptionValue(currentLinkId)
+  }, [currentLinkId])
+
   return (
-    <div>
+    <div className={className}>
       {error && (
         <Error error={error} />
       )}
@@ -207,10 +224,12 @@ const PostLinksSelect = ({
         ].join(' ')}
         handleChange={handleChange}
         name="Choose link"
+        label={label}
         options={selectOptions}
         placeholder={currentLinkId === defaultPostLinkId ? placeholderText : null}
         selectedValue={selectedOptionValue}
         version="box"
+        disabled={disabled}
       />
       {/* ALERT */}
       {showAlert && (
@@ -236,18 +255,25 @@ PostLinksSelect.propTypes = {
   currentLinkId: PropTypes.string,
   linkType: PropTypes.string,
   selectClassName: PropTypes.string,
-  onSelect: PropTypes.func.isRequired,
+  onSelect: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   postItemId: PropTypes.string,
   includeDefaultLink: PropTypes.bool,
   includeAddLinkOption: PropTypes.bool,
   componentLocation: PropTypes.string.isRequired,
-  isPostActive: PropTypes.bool.isRequired,
+  updateParentLink: PropTypes.func,
+  shouldSaveOnChange: PropTypes.bool,
+  label: PropTypes.string,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  isPostActive: PropTypes.bool,
+  campaignType: PropTypes.string,
 }
 
 PostLinksSelect.defaultProps = {
   currentLinkId: defaultPostLinkId,
+  onSelect: () => {},
   linkType: '',
   onSuccess: () => {},
   onError: null,
@@ -255,7 +281,13 @@ PostLinksSelect.defaultProps = {
   selectClassName: null,
   includeDefaultLink: false,
   includeAddLinkOption: false,
+  updateParentLink: () => {},
+  shouldSaveOnChange: true,
+  label: '',
+  className: '',
+  disabled: false,
+  isPostActive: false,
+  campaignType: '',
 }
-
 
 export default PostLinksSelect

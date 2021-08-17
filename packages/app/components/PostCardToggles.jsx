@@ -1,20 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import useControlsStore from '@/app/stores/controlsStore'
+
 import PostCardToggle from '@/app/PostCardToggle'
 
+const getControlsStoreState = (state) => ({
+  canRunConversions: state.canRunConversions,
+  conversionsEnabled: state.conversionsEnabled,
+})
+
 const PostCardToggles = ({
-  postId,
   artistId,
-  growthDisabled,
-  conversionVisible,
-  conversionDisabled,
-  promotionEnabled,
-  promotionStatus,
-  togglePromotion,
+  post,
+  postToggleSetterType,
+  toggleCampaign,
+  priorityEnabled,
   togglesClassName,
   className,
 }) => {
+  // Get conversions feature flag value
+  const { featureFlags: { conversionsEnabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
+  // Get conversions store values
+  const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
+  const {
+    promotionStatus,
+    promotionEnabled,
+    conversionsEnabled,
+    isRunningInConversions,
+  } = post
+
   return (
     <div
       className={[
@@ -23,49 +40,44 @@ const PostCardToggles = ({
     >
       {/* GROWTH TOGGLE */}
       <PostCardToggle
-        audienceSlug="growth"
-        postId={postId}
+        post={post}
+        postToggleSetterType={postToggleSetterType}
+        campaignType="all"
         artistId={artistId}
-        promotionEnabled={promotionEnabled}
-        togglePromotion={togglePromotion}
-        disabled={growthDisabled}
-        isActive={promotionStatus === 'active'}
+        isEnabled={promotionEnabled}
+        toggleCampaign={toggleCampaign}
+        disabled={promotionStatus === 'archived' && !priorityEnabled}
+        isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
       />
-      {/* CONVERSION TOGGLE */}
-      {conversionVisible && (
-        <PostCardToggle
-          audienceSlug="conversion"
-          postId={postId}
-          artistId={artistId}
-          promotionEnabled={false}
-          togglePromotion={togglePromotion}
-          disabled={conversionDisabled}
-          isActive={false}
-          className={togglesClassName}
-        />
-      )}
+      {/* CONVERT TOGGLE */}
+      <PostCardToggle
+        post={post}
+        postToggleSetterType={postToggleSetterType}
+        campaignType="conversions"
+        artistId={artistId}
+        isEnabled={conversionsEnabled}
+        toggleCampaign={toggleCampaign}
+        disabled={!globalConversionsEnabled || !canRunConversions || (promotionStatus === 'archived' && !priorityEnabled)}
+        isActive={isRunningInConversions}
+        className={togglesClassName}
+        isFeatureEnabled={conversionsFeatureEnabled}
+      />
     </div>
   )
 }
 
 PostCardToggles.propTypes = {
-  postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
-  growthDisabled: PropTypes.bool,
-  conversionVisible: PropTypes.bool,
-  conversionDisabled: PropTypes.bool.isRequired,
-  promotionEnabled: PropTypes.bool,
-  promotionStatus: PropTypes.string.isRequired,
-  togglePromotion: PropTypes.func.isRequired,
+  post: PropTypes.object.isRequired,
+  postToggleSetterType: PropTypes.string.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
+  priorityEnabled: PropTypes.bool.isRequired,
   togglesClassName: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostCardToggles.defaultProps = {
-  growthDisabled: false,
-  promotionEnabled: false,
-  conversionVisible: false,
   togglesClassName: null,
   className: null,
 }
