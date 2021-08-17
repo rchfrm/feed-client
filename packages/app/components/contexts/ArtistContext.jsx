@@ -277,7 +277,7 @@ function ArtistProvider({ children }) {
   // Update artist ID
   React.useEffect(() => {
     if (!artist || !artist.id) return
-    const { id, currency, feature_flags: { conversions_enabled, priority_enabled } } = artist
+    const { id, currency, feature_flags: { conversions_enabled } } = artist
     // Set artist
     setArtistId(id)
     // Set currency
@@ -285,7 +285,6 @@ function ArtistProvider({ children }) {
     // Set feature flags value
     setFeatureFlags({
       conversionsEnabled: conversions_enabled,
-      priorityEnabled: priority_enabled,
     })
   }, [artist])
 
