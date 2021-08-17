@@ -28,12 +28,14 @@ const PixelSelector = ({
   onSelect,
   onSuccess,
   onError,
-  updateParentPixel,
   errorFetching,
   setErrorFetching,
   trackLocation,
   className,
   selectClassName,
+  updateParentPixel,
+  shouldSaveOnChange,
+  hasNoPixelOption,
 }) => {
   const { artist, artistId, setArtist } = React.useContext(ArtistContext)
 
@@ -75,6 +77,11 @@ const PixelSelector = ({
 
   // SELECT PIXEL
   const selectPixel = React.useCallback(async (pixelId) => {
+    // Skip API request and only update parent pixel value
+    if (!shouldSaveOnChange) {
+      setActivePixelId(pixelId)
+      return
+    }
     setLoading(true)
     onSelect(pixelId)
     const { newPixelId, newIntegrations, error } = await setPixel(artistId, pixelId)
@@ -102,7 +109,7 @@ const PixelSelector = ({
       pixelId,
       ...(pixelId === disabledPixelId && { disabled: true }),
     })
-  }, [artistId, onSelect, onError, onSuccess, setArtist, trackLocation])
+  }, [artistId, onSelect, onError, onSuccess, setArtist, trackLocation, shouldSaveOnChange])
 
   // ON CREATE NEW PIXEL
   const onCreateNewPixel = (pixel) => {
@@ -146,12 +153,15 @@ const PixelSelector = ({
   }, [selectPixel, activePixelId, openNewPixelModal])
 
   // CREATE SELECT OPTIONS
-  const noPixelOptions = [
-    {
+  const noPixelOptions = []
+
+  // Add "Don't use a pixel" option if hasNoPixelOption is true
+  if (hasNoPixelOption) {
+    noPixelOptions.push({
       value: disabledPixelId,
       name: 'Don\'t use a pixel',
-    },
-  ]
+    })
+  }
 
   // Add "create new" option if there are no active pixels
   if (!availablePixels.length && !loading) {
@@ -161,19 +171,26 @@ const PixelSelector = ({
     })
   }
 
-  const selectOptions = availablePixels.length ? [
-    {
+  const selectOptions = []
+
+  // Add all available pixels to the select options if there are any
+  if (availablePixels.length) {
+    selectOptions.push({
       type: 'group',
       name: 'Available pixels',
       options: availablePixels,
 
-    },
-    {
+    })
+  }
+
+  // Add all no pixel options to the select options if there are any
+  if (noPixelOptions.length) {
+    selectOptions.push({
       type: 'group',
       name: 'Other options',
       options: noPixelOptions,
-    },
-  ] : noPixelOptions
+    })
+  }
 
   return (
     <div className={className}>
@@ -187,7 +204,7 @@ const PixelSelector = ({
           handleChange={handleChange}
           name="Choose link"
           options={selectOptions}
-          placeholder={!activePixelId || loading ? 'Choose a pixel to use' : null}
+          placeholder={!activePixelId || loading || (!hasNoPixelOption && activePixelId === '-1') ? 'Choose a pixel to use' : null}
           selectedValue={activePixelId}
           version="box"
         />
@@ -209,24 +226,28 @@ PixelSelector.propTypes = {
   onSelect: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
-  updateParentPixel: PropTypes.func,
   trackLocation: PropTypes.string,
   errorFetching: PropTypes.bool,
   setErrorFetching: PropTypes.func,
   className: PropTypes.string,
   selectClassName: PropTypes.string,
+  updateParentPixel: PropTypes.func,
+  shouldSaveOnChange: PropTypes.bool,
+  hasNoPixelOption: PropTypes.bool,
 }
 
 PixelSelector.defaultProps = {
   onSelect: () => {},
   onSuccess: () => {},
   onError: () => {},
-  updateParentPixel: () => {},
   trackLocation: '',
   errorFetching: false,
   setErrorFetching: () => {},
   className: null,
   selectClassName: null,
+  updateParentPixel: () => {},
+  shouldSaveOnChange: true,
+  hasNoPixelOption: true,
 }
 
 export default PixelSelector

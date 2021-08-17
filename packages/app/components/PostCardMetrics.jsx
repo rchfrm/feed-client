@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PostsSettingsSection from '@/app/PostsSettingsSection'
+import AdSettingsSection from '@/app/AdSettingsSection'
 import PostCardMetricsScore from '@/app/PostCardMetricsScore'
 import PostCardMetricsList from '@/app/PostCardMetricsList'
 
@@ -41,7 +41,7 @@ const PostCardMetrics = ({
         const typeMetrics = metrics[type]
         if (!typeMetrics) return null
         return (
-          <PostsSettingsSection
+          <AdSettingsSection
             key={type}
             header={header}
             copy={description}
@@ -67,7 +67,7 @@ const PostCardMetrics = ({
                 className="col-span-7 col-start-6"
               />
             </div>
-          </PostsSettingsSection>
+          </AdSettingsSection>
         )
       })}
     </div>

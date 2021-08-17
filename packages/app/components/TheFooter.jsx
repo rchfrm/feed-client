@@ -29,8 +29,6 @@ const Footer = () => {
         {thisYear}
         {' '}
         <Feed />
-        {' '}
-        is an archForm product.
       </p>
 
     </footer>

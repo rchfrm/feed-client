@@ -21,7 +21,6 @@ const TargetingLocationsSettings = ({
     setTargetingState,
   } = React.useContext(TargetingContext)
 
-  console.log('targetingState', targetingState)
   const propKey = 'use_location_targeting_for_remind'
   const [useGeographic, setUseGeographic] = React.useState(targetingState[propKey])
   const error = useGeographic ? { message: copy.locationSettingsWarning } : null

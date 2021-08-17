@@ -142,7 +142,6 @@ a[type=button] {
   }
 }
 
-
 .button--cross,
 .button--toggle,
 .button--close {
@@ -222,7 +221,6 @@ a[type=button] {
   }
 }
 
-
 .button--text {
   display: inline;
   font-size: inherit;
@@ -257,6 +255,18 @@ a[type=button] {
 
   .button--innerText {
     width: 100%;
+  }
+}
+
+.button--outline {
+  color: var(--black);
+  border: 3px solid var(--success-color);
+  font-weight: normal;
+
+  @mixin canHover {
+    &:hover {
+      border: 3px solid var(--green-hover);
+    }
   }
 }
 

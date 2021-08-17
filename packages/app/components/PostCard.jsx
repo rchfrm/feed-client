@@ -7,13 +7,12 @@ import PostCardScore from '@/app/PostCardScore'
 import PostCardToggles from '@/app/PostCardToggles'
 import PostCardUnpromotable from '@/app/PostCardUnpromotable'
 import PostCardActionButtons from '@/app/PostCardActionButtons'
-import PostCardDisableWarning from '@/app/PostCardDisableWarning'
 
 const PostCard = ({
   post,
   postIndex,
   updatePost,
-  togglePromotion,
+  toggleCampaign,
   postToggleSetterType,
   isMissingDefaultLink,
   artistId,
@@ -23,9 +22,7 @@ const PostCard = ({
   // Extract some variables
   const { postPromotable, promotionStatus, postType } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
-  // Should conversionVisible be hidden
-  const conversionVisible = true
-  const conversionDisabled = true
+
   return (
     <div
       className={[
@@ -61,47 +58,30 @@ const PostCard = ({
         />
         {postPromotable ? (
           <PostCardToggles
-            postId={post.id}
             artistId={artistId}
+            post={post}
+            postToggleSetterType={postToggleSetterType}
+            toggleCampaign={toggleCampaign}
+            priorityEnabled={post.priorityEnabled}
             togglesClassName="py-2 px-4 mb-2 last:mb-0"
             className="mb-2"
-            promotionEnabled={post.promotionEnabled}
-            promotionStatus={post.promotionStatus}
-            togglePromotion={togglePromotion}
-            conversionVisible={conversionVisible}
-            conversionDisabled={conversionDisabled}
-            growthDisabled={promotionStatus === 'archived'}
           />
         ) : (
           <PostCardUnpromotable
             className="py-3 px-4 mb-2"
-            conversionVisible={conversionVisible}
           />
         )}
         <PostCardActionButtons
           post={post}
           postIndex={postIndex}
           postPromotable={postPromotable}
+          postToggleSetterType={postToggleSetterType}
+          artistId={artistId}
+          toggleCampaign={toggleCampaign}
           updatePost={updatePost}
           hidePaidMetrics={hidePaidMetrics}
           isMissingDefaultLink={isMissingDefaultLink}
         />
-        {/* DISABLE WARNING (usually hidden) */}
-        {postPromotable && promotionStatus === 'active' && (
-          <PostCardDisableWarning
-            postId={post.id}
-            postType={postType}
-            platform={post.platform}
-            paidEs={post?.paidMetrics?.engagementScore}
-            postStatus={post.promotionStatus}
-            promotionEnabled={post.promotionEnabled}
-            promotableStatus={post.promotableStatus}
-            togglePromotion={togglePromotion}
-            postToggleSetterType={postToggleSetterType}
-            artistId={artistId}
-            textClassName="py-3 px-4"
-          />
-        )}
       </div>
       {/* LOAD TRIGGER goes here */}
       {children}
@@ -112,7 +92,7 @@ const PostCard = ({
 PostCard.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
-  togglePromotion: PropTypes.func.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
   artistId: PropTypes.string.isRequired,

@@ -308,7 +308,7 @@ export const abbreviateNumber = (number) => {
 */
 export const getDataArray = (propsToDisplay, data, options = {}) => {
   const { preserveRawNumber, showZeroValues } = options
-  const dateKeys = ['created_at', 'updated_at', 'start_time', 'stop_time']
+  const dateKeys = ['created_at', 'updated_at', 'start_time', 'stop_time', 'last_ad_spend_date']
   return propsToDisplay.reduce((arr, detailName) => {
     const detailKeys = detailName.split('.')
     const rawValue = get(data, detailKeys, null)

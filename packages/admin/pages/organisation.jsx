@@ -1,16 +1,16 @@
 import { withRouter } from 'next/router'
 import testPageReady from '@/hoc/testPageReady'
 import BasePage from '@/admin/BasePage'
-import OrganisationLoader from '@/admin/OrganisationLoader'
+import OrganisationsLoader from '@/admin/OrganisationsLoader'
 
 const Organisation = ({ router: { query } }) => {
-  const { orgId } = query
+  const { id } = query
   return (
     <BasePage
-      headerConfig="organistion"
+      headerConfig="organisation"
       staticPage
     >
-      {orgId ? <OrganisationLoader orgId={orgId} /> : 'No ID'}
+      {id ? <OrganisationsLoader id={id} /> : 'No ID'}
     </BasePage>
   )
 }

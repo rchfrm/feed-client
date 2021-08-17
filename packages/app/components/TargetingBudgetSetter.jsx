@@ -21,6 +21,7 @@ const TargetingBudgetSetter = ({
   isSummaryVersion,
   mobileVersion,
   showCustomBudget,
+  setBudgetSlider,
 }) => {
   // UPDATE TARGETING STATE when BUDGET changes
   const [budget, setBudget] = React.useState(targetingState.budget)
@@ -79,6 +80,7 @@ const TargetingBudgetSetter = ({
                 onChange={(budget) => {
                   setBudget(budget)
                 }}
+                setBudgetSlider={setBudgetSlider}
               />
             )}
           </CSSTransition>
@@ -100,6 +102,7 @@ TargetingBudgetSetter.propTypes = {
   isSummaryVersion: PropTypes.bool,
   mobileVersion: PropTypes.bool,
   showCustomBudget: PropTypes.bool.isRequired,
+  setBudgetSlider: PropTypes.func.isRequired,
 }
 
 TargetingBudgetSetter.defaultProps = {
