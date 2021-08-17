@@ -26,19 +26,20 @@ const ConversionsWizardBudgetStep = () => {
   const { minConversionsBudget, formattedMinConversionsBudget } = useControlsStore(getControlsStoreState)
   const { updateTargetingBudget, initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser } = React.useContext(TargetingContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser })
+  const minConversionsBudgetInMayorUnits = minConversionsBudget * 100
 
   // Update targeting budget state
   const setBudget = () => {
-    updateTargetingBudget(minConversionsBudget)
+    updateTargetingBudget(minConversionsBudgetInMayorUnits)
   }
 
   // Save targeting settings and go to next step
   React.useEffect(() => {
-    if (targetingState.budget === minConversionsBudget) {
+    if (targetingState.budget === minConversionsBudgetInMayorUnits) {
       saveTargeting('budget')
       next()
     }
-  }, [targetingState.budget, saveTargeting, minConversionsBudget, next])
+  }, [targetingState.budget, saveTargeting, minConversionsBudgetInMayorUnits, next])
 
   return (
     <>
