@@ -35,8 +35,8 @@ const ProgressBar = ({ percentage, className }) => {
       <div
         className="w-full h-full absolute"
         style={{
-          width: '112%',
-          right: '-6%',
+          width: '116%',
+          right: '-8%',
         }}
       >
         <div
