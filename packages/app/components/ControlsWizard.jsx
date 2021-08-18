@@ -19,27 +19,28 @@ const ControlsWizard = ({
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
-      title: 'Choose a call to action',
-      component: <ControlsWizardLinkStep />,
-      shouldSkip: Boolean(defaultLinkId),
-    },
-    {
-      id: 1,
       title: 'Promotable posts',
       component: <ControlsWizardPostsStep />,
       shouldSkip: false,
+      hasSkipButton: true,
     },
     {
-      id: 2,
+      id: 1,
       title: 'Budget',
       component: <ControlsWizardBudgetStep />,
       shouldSkip: Boolean(budget),
     },
     {
-      id: 3,
+      id: 2,
       title: 'Payment method',
       component: <ControlsWizardPaymentStep />,
       shouldSkip: Boolean(defaultPaymentMethod),
+    },
+    {
+      id: 3,
+      title: 'Choose a link',
+      component: <ControlsWizardLinkStep />,
+      shouldSkip: Boolean(defaultLinkId),
     },
     {
       id: 4,

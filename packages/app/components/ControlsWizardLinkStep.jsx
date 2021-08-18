@@ -73,6 +73,14 @@ const ControlsWizardLinkStep = () => {
     next()
   }
 
+  const handleNext = () => {
+    if (link.href === href) {
+      next()
+      return
+    }
+    saveDefaultLink()
+  }
+
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardLinkStepIntro} />
@@ -87,7 +95,7 @@ const ControlsWizardLinkStep = () => {
       <Error error={error} />
       <Button
         version="green icon"
-        onClick={saveDefaultLink}
+        onClick={handleNext}
         className="w-full mb-6"
         loading={isLoading}
       >

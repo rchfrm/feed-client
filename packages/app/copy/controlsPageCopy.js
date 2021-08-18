@@ -61,7 +61,7 @@ Each post can override these settings.`,
 
   // CONTROLS WIZARD
   // ----------------
-  controlsWizardLinkStepIntro: `Set-up will only take a minute. First off, let’s set your default CTA.
+  controlsWizardLinkStepIntro: `Set-up will only take a minute. First off, let’s set your default link.
 
   **Where should people go when they click your ads?**`,
   controlsWizardLinkStepOutro: 'You will be able to change the default link or set different links on specific posts later on.',

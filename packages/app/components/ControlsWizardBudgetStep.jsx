@@ -61,6 +61,14 @@ const ControlsWizardBudgetStep = () => {
     next()
   }
 
+  const handleNext = () => {
+    if (budget === initialTargetingState.budget) {
+      next()
+      return
+    }
+    saveBudget()
+  }
+
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardBudgetStepQuestion} />
@@ -79,7 +87,7 @@ const ControlsWizardBudgetStep = () => {
       </div>
       <Button
         version="outline-green icon"
-        onClick={saveBudget}
+        onClick={handleNext}
         spinnerFill={brandColors.black}
         className="w-full mb-6"
         loading={targetingLoading}

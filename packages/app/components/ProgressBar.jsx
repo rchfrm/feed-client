@@ -35,8 +35,8 @@ const ProgressBar = ({ percentage, className }) => {
       <div
         className="w-full h-full absolute"
         style={{
-          width: '110%',
-          right: '-5%',
+          width: '112%',
+          right: '-6%',
         }}
       >
         <div
@@ -46,9 +46,9 @@ const ProgressBar = ({ percentage, className }) => {
           <span
             className="absolute"
             style={{
-              left: '-16px',
-              borderLeft: '16px solid transparent',
-              borderRight: '16px solid transparent',
+              left: '-32px',
+              borderLeft: '32px solid transparent',
+              borderRight: '0px solid transparent',
               borderBottom: `26px solid ${brandColors.white}`,
             }}
           />

@@ -18,6 +18,7 @@ const WizardContext = React.createContext(initialContext)
 
 const WizardContextProvider = ({ steps, children, hasBackButton }) => {
   const [currentStep, setCurrentStep] = React.useState(0)
+  const { hasSkipButton = false } = steps[currentStep]
   const totalSteps = steps.length - 1
   const isFirstStep = currentStep === 0
 
@@ -43,8 +44,8 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
       <h2>{steps[currentStep].title}</h2>
       <ProgressBar percentage={((currentStep + 1) / (totalSteps + 1)) * 100} className="mb-6" />
       {children[currentStep]}
-      {(hasBackButton && !isFirstStep) ? (
-        <div className="w-full mt-auto">
+      <div className="w-full mt-auto flex justify-between">
+        {(hasBackButton && !isFirstStep) ? (
           <a
             role="button"
             onClick={back}
@@ -57,8 +58,22 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
             />
             Back
           </a>
-        </div>
-      ) : null}
+        ) : null}
+        {hasSkipButton && (
+          <a
+            role="button"
+            onClick={next}
+            className="flex text-grey-2 no-underline ml-auto"
+          >
+            Skip
+            <ArrowAltIcon
+              className="w-3 ml-3"
+              direction="right"
+              fill={brandColors.grey}
+            />
+          </a>
+        )}
+      </div>
     </WizardContext.Provider>
   )
 }
