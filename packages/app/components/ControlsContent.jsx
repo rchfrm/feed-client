@@ -77,7 +77,7 @@ const ControlsContent = ({ activeSlug }) => {
   React.useEffect(() => {
     if (artistLoading) return
     const { currency: artistCurrency } = min_daily_budget_info || {}
-    setupBilling({ user, artistCurrency })
+    setupBilling({ user, artistCurrency, shouldFetchOrganisationDetailsOnly: true })
   // eslint-disable-next-line
   }, [artistLoading, user, setupBilling])
 

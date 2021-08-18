@@ -59,7 +59,7 @@ const fetchInvoices = async (organisation) => {
 }
 
 // * INITIAL SETUP
-const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchInvoices = false, activeOrganisation }) => {
+const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisationDetailsOnly = false, activeOrganisation }) => {
   // FETCH the first organisation and set it
   const allOrgs = activeOrganisation ? null : await fetchAllOrgs(user)
   // TODO improve selecting the org
@@ -69,6 +69,24 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchInvoices
     referralsDetails,
     defaultPaymentMethod,
   } = await fetchOrganisationDetails(organisation)
+
+  if (shouldFetchOrganisationDetailsOnly) {
+    set({
+      ...(allOrgs && { allOrgs }),
+      organisation,
+      billingDetails,
+      defaultPaymentMethod,
+      ...(artistCurrency && { artistCurrency }),
+      loading: false,
+    })
+    return
+  }
+
+  const {
+    upcomingInvoice,
+    latestInvoice,
+    errors,
+  } = await fetchInvoices(organisation)
 
   const billingEnabled = organisation.billing_enabled
 
@@ -100,20 +118,6 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchInvoices
     transferRequests = transferRequestsResponse.res.transferRequests
   }
 
-  if (shouldFetchInvoices) {
-    const {
-      upcomingInvoice,
-      latestInvoice,
-      errors,
-    } = await fetchInvoices(organisation)
-
-    set({
-      upcomingInvoice,
-      latestInvoice,
-      loadingErrors: errors,
-    })
-  }
-
   // SET
   set({
     ...(allOrgs && { allOrgs }),
@@ -124,6 +128,9 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchInvoices
     billingDetails,
     referralsDetails,
     defaultPaymentMethod,
+    upcomingInvoice,
+    latestInvoice,
+    loadingErrors: errors,
     ...(artistCurrency && { artistCurrency }),
     loading: false,
     organisationInvites,
