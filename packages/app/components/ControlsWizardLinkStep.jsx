@@ -13,6 +13,7 @@ import Input from '@/elements/Input'
 import Error from '@/elements/Error'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import PencilIcon from '@/icons/PencilIcon'
 
 import brandColors from '@/constants/brandColors'
 
@@ -29,6 +30,7 @@ const getControlsStoreState = (state) => ({
 const ControlsWizardLinkStep = () => {
   const { savedFolders, updateLinks, updatePreferences, defaultLink } = useControlsStore(getControlsStoreState)
   const { href } = defaultLink || {}
+  const [isEditMode, setIsEditMode] = React.useState(!href)
   const [link, setLink] = React.useState({ name: 'Default link', href })
   const [error, setError] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
@@ -84,14 +86,28 @@ const ControlsWizardLinkStep = () => {
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardLinkStepIntro} />
-      <Input
-        placeholder="https://"
-        type="url"
-        version="box"
-        name="link-url"
-        value={link.href}
-        handleChange={handleChange}
-      />
+      {isEditMode ? (
+        <Input
+          placeholder="https://"
+          type="url"
+          version="box"
+          name="link-url"
+          value={link.href}
+          handleChange={handleChange}
+        />
+      ) : (
+        <div className="flex justify-between items-center mb-8">
+          <p className="mb-0">{href}</p>
+          <Button
+            version="green small icon"
+            className="h-8 ml-3 rounded-full"
+            onClick={() => setIsEditMode(true)}
+          >
+            <PencilIcon fill={brandColors.white} />
+            Edit
+          </Button>
+        </div>
+      )}
       <Error error={error} />
       <Button
         version="green icon"
