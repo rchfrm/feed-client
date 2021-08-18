@@ -61,23 +61,25 @@ Each post can override these settings.`,
 
   // CONTROLS WIZARD
   // ----------------
-  controlsWizardLinkStepIntro: `Set-up will only take a minute, first...
+  controlsWizardLinkStepIntro: `Set-up will only take a minute. First off, let’s set your default CTA.
 
-  **Where can people go to find out more about what you’re working on?**`,
-  controlsWizardLinkStepOutro: 'This link will be used on ads Feed creates by default, but you’ll be able to override this on specific posts.',
+  **Where should people go when they click your ads?**`,
+  controlsWizardLinkStepOutro: 'You will be able to change the default link or set different links on specific posts later on.',
   controlsWizardPostsStepIntro: `You never know what is going to catch someone’s attention!
 
-  So, for best performance, Feed makes all posts in the last 28 days promotable by default. You can still opt out posts you don't want Feed to promote.
+  That’s why Feed makes posts in the last 28 days promotable by default.
+
+  You can still opt out specific posts you don't want Feed to promote.
 
   **Keep recent posts promotable by default?**`,
   controlsWizardBudgetStepQuestion: '**How much would you like to spend per day in total?**',
-  controlsWizardBudgetRecommendation: 'We recommend you set an amount that you can sustain for a long time.',
-  controlsWizardPaymentStepIntro: `Almost there! Feed charges a service fee of 10% of the budget you spend through the platform.
+  controlsWizardBudgetRecommendation: 'This amount includes our 10% service fee. We recommend you set an amount that you can sustain over longer periods.',
+  controlsWizardPaymentStepIntro: `Almost there!
 
-  This service fee is included in the budget you set in the last step, not in addition to it..`,
-  controlsWizardReviewStepIntro: `Feed will soon start setting up your ads, starting with your most engaging posts. Once they're approved you'll begin to see results coming through!
+  Feed charges a 10% service fee on the budget you spend through the platform. The fee is included in the budget you set in the last step, not in addition to it.`,
+  controlsWizardReviewStepIntro: `Feed will soon begin creating your ads, starting with your most popular posts. Once approved by Facebook they’ll start running and you’ll see results coming through.
 
-  After a period of testing, Feed will start trying out more posts. It automatically puts budget behind the posts that get the best response and switches off those that don't do as well.`,
+  After an initial testing period, Feed will try out more posts. It automatically allocates budget to posts that get the best response and switches off those that don't do as well.`,
 
   // CONVERSIONS WIZARD
   // ----------------

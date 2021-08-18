@@ -19,13 +19,13 @@ const ControlsWizard = ({
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
-      title: 'Welcome to Feed!',
+      title: 'Choose a call to action',
       component: <ControlsWizardLinkStep />,
       shouldSkip: Boolean(defaultLinkId),
     },
     {
       id: 1,
-      title: 'Promoting posts',
+      title: 'Promotable posts',
       component: <ControlsWizardPostsStep />,
       shouldSkip: false,
     },
