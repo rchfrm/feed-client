@@ -48,7 +48,6 @@ export const getInitialPlatform = (availablePlatforms) => {
 
 export const getAvailableSources = (allSources) => {
   const sources = allSources.reduce((sources, { name: sourceName }) => {
-    console.log(sourceName)
     const {
       name,
       title,
