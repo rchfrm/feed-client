@@ -48,6 +48,28 @@ export default {
     currency: true,
   },
 
+  facebook_conversion_event_audience_180d: {
+    name: 'facebook_conversion_event_audience_180d',
+    platform: 'facebook',
+    visible: true,
+    breakdown: false,
+    title: 'conversion events',
+    subtitle: 'in the last 6 months',
+    period: 'biannually',
+    dataType: 'biannually',
+  },
+
+  facebook_website_visitors_180d: {
+    name: 'facebook_website_visitors_180d',
+    platform: 'facebook',
+    visible: true,
+    breakdown: false,
+    title: 'website visitors',
+    subtitle: 'in the last 6 months',
+    period: 'biannually',
+    dataType: 'biannually',
+  },
+
   facebook_engaged_1y: {
     name: 'facebook_engaged_1y',
     platform: 'facebook',
