@@ -29,6 +29,7 @@ const PostLinksSelect = ({
   postItemId,
   includeDefaultLink,
   includeAddLinkOption,
+  includeIntegrationLinks,
   componentLocation,
   updateParentLink,
   shouldSaveOnChange,
@@ -98,21 +99,25 @@ const PostLinksSelect = ({
         baseOptions.push(option)
       }
     }
-
     // Add INTEGRATIONS as group
-    const integrationsGroup = {
-      type: 'group',
-      name: 'Integrations',
-      value: '_integrations',
-      options: integrationLinks.reduce((arr, { href, titleVerbose, id }) => {
-        if (!href) return arr
-        const option = { name: titleVerbose, value: id }
-        return [...arr, option]
-      }, []),
+    if (includeIntegrationLinks) {
+      const integrationsGroup = {
+        type: 'group',
+        name: 'Integrations',
+        value: '_integrations',
+        options: integrationLinks.reduce((arr, { href, titleVerbose, id }) => {
+          if (!href) return arr
+          const option = { name: titleVerbose, value: id }
+          return [...arr, option]
+        }, []),
+      }
+      baseOptions.push(integrationsGroup)
     }
-    baseOptions.push(integrationsGroup)
     // If no DEFAULT or no NEW LINK, stop here
-    if (!includeDefaultLink && !includeAddLinkOption) return baseOptions
+    if (!includeDefaultLink && !includeAddLinkOption) {
+      setLoading(false)
+      return baseOptions
+    }
     // Start other options group
     const otherOptionsGroup = {
       type: 'group',
@@ -261,6 +266,7 @@ PostLinksSelect.propTypes = {
   postItemId: PropTypes.string,
   includeDefaultLink: PropTypes.bool,
   includeAddLinkOption: PropTypes.bool,
+  includeIntegrationLinks: PropTypes.bool,
   componentLocation: PropTypes.string.isRequired,
   updateParentLink: PropTypes.func,
   shouldSaveOnChange: PropTypes.bool,
@@ -281,6 +287,7 @@ PostLinksSelect.defaultProps = {
   selectClassName: null,
   includeDefaultLink: false,
   includeAddLinkOption: false,
+  includeIntegrationLinks: false,
   updateParentLink: () => {},
   shouldSaveOnChange: true,
   label: '',
