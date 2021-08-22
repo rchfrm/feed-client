@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import PostCardPriorityButton from '@/app/PostCardPriorityButton'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import * as utils from '@/helpers/utils'
 
 const PostCardHeader = ({
@@ -20,7 +18,6 @@ const PostCardHeader = ({
   className,
   promotionStatus,
 }) => {
-  const { featureFlags: { priorityEnabled: priorityFeatureEnabled } } = React.useContext(ArtistContext)
   return (
     <div
       className={[
@@ -42,16 +39,14 @@ const PostCardHeader = ({
           )}
         </a>
       </p>
-      {priorityFeatureEnabled && (
-        <PostCardPriorityButton
-          postId={postId}
-          artistId={artistId}
-          priorityEnabled={priorityEnabled}
-          updatePost={updatePost}
-          postIndex={postIndex}
-          promotionStatus={promotionStatus}
-        />
-      )}
+      <PostCardPriorityButton
+        postId={postId}
+        artistId={artistId}
+        priorityEnabled={priorityEnabled}
+        updatePost={updatePost}
+        postIndex={postIndex}
+        promotionStatus={promotionStatus}
+      />
     </div>
   )
 }

@@ -50,7 +50,7 @@ const PostCardToggles = ({
         isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
       />
-      {/* EARN TOGGLE */}
+      {/* CONVERT TOGGLE */}
       <PostCardToggle
         post={post}
         postToggleSetterType={postToggleSetterType}

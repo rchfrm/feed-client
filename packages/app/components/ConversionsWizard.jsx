@@ -44,7 +44,7 @@ const ConversionsWizard = ({ setIsWizardActive }) => {
       id: 2,
       title: 'Facebook Pixel',
       component: <ConversionsWizardFacebookPixelStep />,
-      shouldSkip: facebookPixelId && facebookPixelId !== '-1',
+      shouldSkip: Boolean(facebookPixelId && facebookPixelId !== '-1'),
     },
     {
       id: 3,

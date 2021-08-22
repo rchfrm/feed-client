@@ -111,7 +111,7 @@ const PostCardSettings = ({
           {/* ERROR */}
           <Error error={error} />
           {/* SETTINGS SECTION */}
-          <MarkdownText markdown={copy.postSettingsIntro} />
+          <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />
           <PostCardSettingsToggle
             post={post}
             postId={postId}

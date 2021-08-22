@@ -11,12 +11,13 @@ import PostCardEditAlert from '@/app/PostCardEditAlert'
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
-import { splitLinks, defaultPostLinkId } from '@/app/helpers/linksHelpers'
+import { splitLinks, defaultPostLinkId, getLinkById } from '@/app/helpers/linksHelpers'
 
 const getControlsStoreState = (state) => ({
   artistId: state.artistId,
   defaultLink: state.defaultLink,
   nestedLinks: state.nestedLinks,
+  conversionsPreferences: state.conversionsPreferences,
 })
 
 const PostLinksSelect = ({
@@ -44,7 +45,9 @@ const PostLinksSelect = ({
     artistId,
     defaultLink,
     nestedLinks,
+    conversionsPreferences,
   } = useControlsStore(getControlsStoreState, shallow)
+  const { defaultLinkId: defaultConversionsLinkId } = conversionsPreferences
   const [showAlert, setShowAlert] = React.useState(false)
   const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
   const [loading, setLoading] = React.useState(true)
@@ -127,7 +130,10 @@ const PostLinksSelect = ({
     }
     // Add DEFAULT link if needed
     if (includeDefaultLink && defaultLink.name) {
-      const { name } = defaultLink
+      let { name } = defaultLink
+      if (campaignType === 'conversions' && defaultConversionsLinkId && defaultConversionsLinkId !== '_default') {
+        name = getLinkById(nestedLinks, defaultConversionsLinkId)?.name
+      }
       // const defaultLinkOption
       otherOptionsGroup.options.push({ name: `Use Default Link (${name})`, value: defaultPostLinkId })
     }
@@ -139,7 +145,7 @@ const PostLinksSelect = ({
     baseOptions.push(otherOptionsGroup)
     setLoading(false)
     return baseOptions
-  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, currentLinkId, linkType])
+  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, currentLinkId, linkType, campaignType, defaultConversionsLinkId])
 
   // HANDLE SETTING SELECTED LINK
   const updatePostLink = React.useCallback(async (selectedOptionValue, forceRun = false) => {

@@ -20,11 +20,13 @@ const PostCardSettingsToggle = ({
 }) => {
   const { postPromotable, promotionStatus } = post
   const [isLoading, setIsLoading] = React.useState(false)
+  const [hasChanged, setHasChanged] = React.useState(false)
   const isConversionsCampaign = campaignType === 'conversions'
 
   const onChange = React.useCallback(async (newState) => {
     // Start loading
     setIsLoading(true)
+    setHasChanged(true)
     // Update state passed to toggle component
     setIsEnabled(newState)
     const { res: updatedPost, error } = await updatePost({ artistId, postId, promotionEnabled: newState, campaignType })
@@ -38,6 +40,10 @@ const PostCardSettingsToggle = ({
     const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
     toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
   }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled, isConversionsCampaign])
+
+  React.useEffect(() => {
+    setHasChanged(false)
+  }, [campaignType])
 
   return (
     <div
@@ -55,7 +61,7 @@ const PostCardSettingsToggle = ({
         disabled={isDisabled}
       />
       <p className="font-bold mb-0">{`Promotion ${isEnabled ? 'enabled' : 'disabled'}`}</p>
-      {postPromotable && promotionStatus === 'active' && (
+      {postPromotable && promotionStatus === 'active' && hasChanged && (
         <PostCardDisableHandler
           post={post}
           postToggleSetterType={postToggleSetterType}

@@ -116,7 +116,7 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   },
 
   // SETTINGS SIDEPANEL
-  postSettingsIntro: 'Settings for the “Earn” part of the funnel. Here you can decide whether to enable this post for conversion campaigns, and which link, call to action and caption to use.',
+  postSettingsIntro: (campaignType) => `Settings for the ${campaignType === 'all' ? '"Grow & Nurture"' : '"Convert"'} part of the funnel. Here you can decide whether to enable this post for ${campaignType === 'all' ? 'grow & nurture' : 'conversions'} campaigns, and which link, call to action and caption to use.`,
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
   postCallToActionSetting: 'Which call to action should be used when this post is made into an ad?',
   editCaption: `Edit the caption used in this ad.`,

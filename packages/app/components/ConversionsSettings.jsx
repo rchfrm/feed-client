@@ -45,7 +45,7 @@ const ConversionsSettings = () => {
     formattedMinConversionsBudget,
   } = useControlsStore(getControlsStoreState)
   const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
-  const [defaultLinkId, setDefaultLinkId] = React.useState(conversionsPreferences.defaultLinkId)
+  const [defaultLinkId, setDefaultLinkId] = React.useState(conversionsPreferences.defaultLinkId || '')
   const [facebookPixelEvent, setFacebookPixelEvent] = React.useState(conversionsPreferences.facebookPixelEvent)
   const [callToAction, setCallToAction] = React.useState(conversionsPreferences.callToAction)
   const [isLoading, setIsLoading] = React.useState(false)

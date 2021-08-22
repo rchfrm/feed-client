@@ -67,15 +67,17 @@ const PostCardPriorityButton = ({
         />
       </button>
       {/* ALERT */}
-      <PostCardPriorityButtonAlert
-        show={shouldShowAlert}
-        onAlertConfirm={handlePostPriority}
-        onCancel={() => {
-          setShouldShowAlert(false)
-        }}
-        isPostPrioritized={currentState}
-        isPostArchived={isPostArchived}
-      />
+      {shouldShowAlert && (
+        <PostCardPriorityButtonAlert
+          show={shouldShowAlert}
+          onAlertConfirm={handlePostPriority}
+          onCancel={() => {
+            setShouldShowAlert(false)
+          }}
+          isPostPrioritized={currentState}
+          isPostArchived={isPostArchived}
+        />
+      )}
     </div>
   )
 }
