@@ -106,7 +106,7 @@ const ControlsContent = ({ activeSlug }) => {
     )
   }
 
-  if (!Object.keys(targetingState)) return null
+  if (!Object.keys(targetingState).length > 0) return null
   if (globalLoading || billingLoading) return <Spinner />
 
   return (
