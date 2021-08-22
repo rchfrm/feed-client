@@ -30,7 +30,7 @@ const ConversionsWizard = ({ setIsWizardActive }) => {
   const steps = [
     { id: 0, shouldSkip: false },
     { id: 1, shouldSkip: budget >= minConversionsBudget },
-    { id: 2, shouldSkip: facebookPixelId && facebookPixelId !== '-1' },
+    { id: 2, shouldSkip: Boolean(facebookPixelId && facebookPixelId !== '-1') },
     { id: 3, shouldSkip: Boolean(defaultLinkId) },
     { id: 4, shouldSkip: Boolean(facebookPixelEvent) },
     { id: 5, shouldSkip: Boolean(callToAction) },

@@ -364,6 +364,7 @@ const useControlsStore = create((set, get) => ({
   updateSpending: updateSpending(set, get),
   setConversionsEnabled: (conversionsEnabled) => set({ conversionsEnabled }),
   setLinkBankError: (error) => set({ linkBankError: error }),
+  setIsControlsLoading: (isControlsLoading) => set({ isControlsLoading }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
   initControlsStore: async (artist, action = 'clearLinks') => {
     // Set artist details
