@@ -19,10 +19,9 @@ const ControlsWizard = ({
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
-      title: 'Promotable posts',
-      component: <ControlsWizardPostsStep />,
-      shouldSkip: false,
-      hasSkipButton: true,
+      title: 'Choose a link',
+      component: <ControlsWizardLinkStep />,
+      shouldSkip: Boolean(defaultLinkId),
     },
     {
       id: 1,
@@ -38,9 +37,10 @@ const ControlsWizard = ({
     },
     {
       id: 3,
-      title: 'Choose a link',
-      component: <ControlsWizardLinkStep />,
-      shouldSkip: Boolean(defaultLinkId),
+      title: 'Promotable posts',
+      component: <ControlsWizardPostsStep />,
+      shouldSkip: false,
+      hasSkipButton: true,
     },
     {
       id: 4,
