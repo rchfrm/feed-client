@@ -70,7 +70,7 @@ const ControlsContent = ({ activeSlug }) => {
     )
   }
 
-  if (globalLoading || !Object.keys(targetingState).length) return null
+  if (globalLoading || !Object.keys(targetingState).length > 0) return null
 
   return (
     <div className="md:grid grid-cols-12 gap-8">
