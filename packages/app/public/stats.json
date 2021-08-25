@@ -1,0 +1,57 @@
+{
+  "artist_id": "MWQyNTuYYEm05X1kc2vs",
+  "date_from": "2021-07-26T00:00:00.000Z",
+  "date_to": "2021-08-24T00:00:00.000Z",
+  "summary": {
+     "on_platform": {
+        "organic_reach": {
+           "total": 2,
+           "proportion": 0.0005,
+           "average": 1
+        },
+        "audience_size": {
+           "curr_period": 2000,
+           "growth": {
+              "percentage": 1,
+              "absolute": 1000
+           },
+           "prev_period": 1000
+        },
+        "ads_reach": {
+           "average": 20,
+           "total": 200,
+           "proportion": 0.01
+        },
+        "asset": {
+           "id": "896t8bcjxczbkjh",
+           "reach": 1000,
+           "permalink_url": "https://www.instagram.com/p/media-id/"
+        }
+     },
+     "unaware": {
+        "engaged": {
+           "prev_period": 41,
+           "curr_period": 56,
+           "growth": {
+              "absolute": 15,
+              "percentage": 0.3659
+           }
+        },
+        "reach": {
+           "prev_period": 239,
+           "growth": {
+              "absolute": 272,
+              "percentage": 1.1381
+           },
+           "curr_period": 511
+        },
+        "asset": {
+           "id": "hfshkh4948hhf9",
+           "engaged": 1000,
+           "permalink_url": "https://www.instagram.com/p/media-id/"
+        }
+     }
+  },
+  "is_skipped": false,
+  "is_latest": true
+}
