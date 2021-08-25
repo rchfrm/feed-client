@@ -81,7 +81,8 @@ export async function request(method, path, options, token) {
     token = await firebaseHelpers.getIdTokenOrFail()
   }
 
-  let url = path.match(/^(?:https?:)?\/\//)
+  // TODO: Remove http from regex when results summary back-end is ready
+  let url = path.match(/^(?:http|https?:)?\/\//)
     ? path
     : `${host.replace(/\/$/, '')}/${path.replace(/^\//, '')}`
 
