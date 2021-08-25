@@ -102,9 +102,7 @@ const PostCardToggle = ({
           <PostCardLabel
             copy="running"
             className="font-bold"
-            style={{
-              background: !isConversionsCampaign ? growthGradient : conversionsGradient,
-            }}
+            campaignType={campaignType}
           />
         )}
       </div>
