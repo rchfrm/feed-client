@@ -3,6 +3,7 @@ import React from 'react'
 import ResultsOnPlatformAudienceStats from '@/app/ResultsOnPlatformAudienceStats'
 import ResultsUnawareAudienceStats from '@/app/ResultsUnawareAudienceStats'
 import ResultsPostStats from '@/app/ResultsPostStats'
+import ResultsConversionsTeaser from '@/app/ResultsConversionsTeaser'
 
 const ResultsContent = ({ data }) => {
   return (
@@ -29,7 +30,6 @@ const ResultsContent = ({ data }) => {
                 'order-2',
               ].join(' ')}
             />
-            <h2 className="col-span-12 my-10 order-3 hidden sm:block">The posts currently getting the best results...</h2>
             {data.posts.map((post, index) => (
               <ResultsPostStats
                 key={post.id}
@@ -44,7 +44,9 @@ const ResultsContent = ({ data }) => {
             ))}
           </div>
         </div>
-        <div className="col-span-12 sm:col-span-4 h-48 sm:h-auto bg-grey-1" />
+        <ResultsConversionsTeaser
+          className="col-span-12 sm:col-span-4 flex flex-col items-center"
+        />
       </div>
     </div>
   )
