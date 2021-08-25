@@ -28,7 +28,6 @@ const links = [
     href: ROUTES.RESULTS,
     title: 'results',
     icon: 'results',
-    matchingHrefs: [ROUTES.TOURNAMENTS],
   },
   {
     href: ROUTES.INSIGHTS,
