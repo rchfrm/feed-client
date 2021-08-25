@@ -2,7 +2,7 @@ import brandColors from '@/constants/brandColors'
 
 export const postResultsConfig = [
   {
-    type: 'engage',
+    type: 'growth',
     color: brandColors.blue,
   },
   {
@@ -20,7 +20,7 @@ export default {
   reachDescription: (adsValue, organicValue) => `Feed’s ads reached upto **${adsValue}%** of your audience,
   compared with organic reach of upto **${organicValue}%**.`,
   postDescription: (type, [valueA, valueB]) => {
-    if (type === 'engage') {
+    if (type === 'growth') {
       return `The most engaging post added
       **${valueA} new people** to your audience.`
     }
@@ -28,7 +28,7 @@ export default {
     audience by one post alone.`
   },
   postDescriptionMobile: (type, [valueA]) => {
-    if (type === 'engage') {
+    if (type === 'growth') {
       return `**${valueA}** new people engaged`
     }
     return `**${valueA}** people reached`

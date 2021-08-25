@@ -22,16 +22,16 @@ const ResultsPostStats = ({
   const { ads_reach: adsReach } = data
   const isDesktopLayout = useBreakpointTest('sm')
   const imageHeight = isDesktopLayout ? '176px' : '100px'
-  const values = type === 'engage' ? [post.reach] : [post.engaged, (adsReach.proportion * 100)]
+  const values = type === 'growth' ? [post.reach] : [post.engaged, (adsReach.proportion * 100)]
   return (
     <div
       className={[className].join(' ')}
     >
       <p className="w-full text-bold text-lg sm:hidden">Most effective post</p>
       <div className="flex flex-row sm:flex-col items-center">
-        <MarkdownText markdown={copy.postDescription(type, values)} className="hidden sm:block text-center" />
+        <MarkdownText markdown={copy.postDescription(type, values)} className="hidden sm:block text-center sm:px-9" />
         <div
-          className="relative sm:mb-8 mr-3 sm:mr-0"
+          className="relative sm:mb-6 mr-3 sm:mr-0"
           style={{ height: imageHeight, width: imageHeight }}
         >
           <MediaFallback brokenImageColor={brandColors.green} />
@@ -39,7 +39,7 @@ const ResultsPostStats = ({
         <div className="flex flex-col items-start justify-center sm:items-center">
           <PostCardLabel
             copy="running"
-            className="font-bold mb-4 hidden sm:block"
+            className="font-bold mb-6 hidden sm:block"
             campaignType="all"
           />
           <MarkdownText markdown={copy.postDescriptionMobile(type, values)} className="sm:hidden" />

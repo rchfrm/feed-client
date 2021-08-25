@@ -1,7 +1,7 @@
 import React from 'react'
 
-import ResultsOnPlatformAudienceSizeStats from '@/app/ResultsOnPlatformAudienceSizeStats'
-import ResultsOnPlatformReachStats from '@/app/ResultsOnPlatformReachStats'
+import ResultsGrowthStats from '@/app/ResultsGrowthStats'
+import ResultsReachStats from '@/app/ResultsReachStats'
 import ResultsPostStats from '@/app/ResultsPostStats'
 import ResultsConversionsTeaser from '@/app/ResultsConversionsTeaser'
 
@@ -13,10 +13,10 @@ const ResultsContent = ({ data }) => {
       <div className="inline-block px-4 py-3 rounded-button bg-grey-1 mb-12">
         In the last <strong>30 days</strong>
       </div>
-      <div className="grid grid-cols-12 col-gap-6">
+      <div className="grid grid-cols-12 col-gap-12">
         <div className="col-span-12 sm:col-span-8">
-          <div className="grid grid-cols-12 col-gap-6">
-            <ResultsOnPlatformAudienceSizeStats
+          <div className="grid grid-cols-12 col-gap-12 row-gap-8">
+            <ResultsGrowthStats
               data={data}
               className={[
                 'col-span-12 sm:col-span-6',
@@ -24,7 +24,7 @@ const ResultsContent = ({ data }) => {
                 'order-1',
               ].join(' ')}
             />
-            <ResultsOnPlatformReachStats
+            <ResultsReachStats
               data={data.on_platform}
               className={[
                 'col-span-12 sm:col-span-6',

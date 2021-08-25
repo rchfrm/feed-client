@@ -1,24 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import ResultsGrowthStatsChart from '@/app/ResultsGrowthStatsChart'
+
 import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsOnPlatformAudienceSizeStats = ({ data, className }) => {
+const ResultsGrowthStats = ({ data, className }) => {
   const { on_platform: { audience_size: audienceSize } } = data
   return (
     <div
       className={[
         className,
+        'mb-10',
       ].join(' ')}
     >
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">New people</p>
       <MarkdownText
         markdown={copy.audienceSizeDescription(audienceSize.growth.percentage * 100)}
-        className="mr-auto sm:mr-0 sm:text-center"
+        className="sm:px-4 mr-auto sm:mr-0 sm:text-center"
       />
       <p
         className="text-6xl font-bold hidden sm:block"
@@ -27,17 +30,18 @@ const ResultsOnPlatformAudienceSizeStats = ({ data, className }) => {
         <span style={{ color: brandColors.blue }}>+</span>
         {audienceSize.growth.absolute}
       </p>
+      <ResultsGrowthStatsChart />
     </div>
   )
 }
 
-ResultsOnPlatformAudienceSizeStats.propTypes = {
+ResultsGrowthStats.propTypes = {
   data: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 
-ResultsOnPlatformAudienceSizeStats.defaultProps = {
+ResultsGrowthStats.defaultProps = {
   className: '',
 }
 
-export default ResultsOnPlatformAudienceSizeStats
+export default ResultsGrowthStats
