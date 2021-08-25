@@ -3,6 +3,8 @@ import React from 'react'
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
 
+import ResultsLoader from '@/app/ResultsLoader'
+
 const headerConfig = {
   text: 'results',
 }
@@ -14,7 +16,7 @@ const Page = () => {
       noArtistHeader={headerConfig}
       artistRequired
     >
-      <p>New results page</p>
+      <ResultsLoader />
     </BasePage>
   )
 }
