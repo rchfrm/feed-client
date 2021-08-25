@@ -7,7 +7,7 @@ import copy from '@/app/copy/ResultsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsOnPlatformAudienceStats = ({ data, className }) => {
+const ResultsOnPlatformReachStats = ({ data, className }) => {
   const { ads_reach: adsReach, organic_reach: organicReach } = data
   const adsReachProportion = adsReach.proportion * 100
   const organicReachProportion = organicReach.proportion * 100
@@ -19,7 +19,7 @@ const ResultsOnPlatformAudienceStats = ({ data, className }) => {
     >
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">Existing audiences</p>
       <MarkdownText
-        markdown={copy.onPlatformAudienceDescription(adsReachProportion, organicReachProportion)}
+        markdown={copy.reachDescription(adsReachProportion, organicReachProportion)}
         className="mr-auto sm:mr-0 sm:text-center"
       />
       <p
@@ -32,13 +32,13 @@ const ResultsOnPlatformAudienceStats = ({ data, className }) => {
   )
 }
 
-ResultsOnPlatformAudienceStats.propTypes = {
+ResultsOnPlatformReachStats.propTypes = {
   data: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 
-ResultsOnPlatformAudienceStats.defaultProps = {
+ResultsOnPlatformReachStats.defaultProps = {
   className: '',
 }
 
-export default ResultsOnPlatformAudienceStats
+export default ResultsOnPlatformReachStats

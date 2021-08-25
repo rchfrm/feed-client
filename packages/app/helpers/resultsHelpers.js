@@ -1,15 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 import * as api from '@/helpers/api'
-import copy from '@/app/copy/ResultsPageCopy'
 
 const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
     const { asset, ...stats } = value
-    const [postKey, postValue] = Object.entries(asset)[1]
 
     newObject[key] = stats
     newObject.posts.push({
-      text: `${postValue} ${copy.popularPostDescription(postKey)}`,
       ...value.asset,
     })
     return newObject

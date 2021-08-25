@@ -1,9 +1,11 @@
 import React from 'react'
 
-import ResultsOnPlatformAudienceStats from '@/app/ResultsOnPlatformAudienceStats'
-import ResultsUnawareAudienceStats from '@/app/ResultsUnawareAudienceStats'
+import ResultsOnPlatformAudienceSizeStats from '@/app/ResultsOnPlatformAudienceSizeStats'
+import ResultsOnPlatformReachStats from '@/app/ResultsOnPlatformReachStats'
 import ResultsPostStats from '@/app/ResultsPostStats'
 import ResultsConversionsTeaser from '@/app/ResultsConversionsTeaser'
+
+import { postResultsConfig } from '@/app/copy/ResultsPageCopy'
 
 const ResultsContent = ({ data }) => {
   return (
@@ -14,15 +16,15 @@ const ResultsContent = ({ data }) => {
       <div className="grid grid-cols-12 col-gap-6">
         <div className="col-span-12 sm:col-span-8">
           <div className="grid grid-cols-12 col-gap-6">
-            <ResultsUnawareAudienceStats
-              data={data.unaware}
+            <ResultsOnPlatformAudienceSizeStats
+              data={data}
               className={[
                 'col-span-12 sm:col-span-6',
                 'flex flex-col items-center',
                 'order-1',
               ].join(' ')}
             />
-            <ResultsOnPlatformAudienceStats
+            <ResultsOnPlatformReachStats
               data={data.on_platform}
               className={[
                 'col-span-12 sm:col-span-6',
@@ -34,6 +36,8 @@ const ResultsContent = ({ data }) => {
               <ResultsPostStats
                 key={post.id}
                 post={post}
+                data={data.on_platform}
+                config={postResultsConfig[index]}
                 className={[
                   'col-span-12 sm:col-span-6',
                   'flex flex-col sm:items-center',

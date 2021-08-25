@@ -7,8 +7,8 @@ import copy from '@/app/copy/ResultsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsUnawareAudienceStats = ({ data, className }) => {
-  const { engaged } = data
+const ResultsOnPlatformAudienceSizeStats = ({ data, className }) => {
+  const { on_platform: { audience_size: audienceSize } } = data
   return (
     <div
       className={[
@@ -17,7 +17,7 @@ const ResultsUnawareAudienceStats = ({ data, className }) => {
     >
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">New people</p>
       <MarkdownText
-        markdown={copy.unawareAudienceDescription(engaged.growth.absolute)}
+        markdown={copy.audienceSizeDescription(audienceSize.growth.percentage * 100)}
         className="mr-auto sm:mr-0 sm:text-center"
       />
       <p
@@ -25,19 +25,19 @@ const ResultsUnawareAudienceStats = ({ data, className }) => {
         style={{ color: brandColors.blue }}
       >
         <span style={{ color: brandColors.blue }}>+</span>
-        {engaged.growth.absolute}
+        {audienceSize.growth.absolute}
       </p>
     </div>
   )
 }
 
-ResultsUnawareAudienceStats.propTypes = {
+ResultsOnPlatformAudienceSizeStats.propTypes = {
   data: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 
-ResultsUnawareAudienceStats.defaultProps = {
+ResultsOnPlatformAudienceSizeStats.defaultProps = {
   className: '',
 }
 
-export default ResultsUnawareAudienceStats
+export default ResultsOnPlatformAudienceSizeStats
