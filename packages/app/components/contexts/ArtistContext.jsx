@@ -5,6 +5,8 @@ import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+// IMPORT STORES
+import useControlsStore from '@/app/stores/controlsStore'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
 import { track } from '@/app/helpers/trackingHelpers'
@@ -12,6 +14,8 @@ import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { calcFeedMinBudgetInfo } from '@/app/helpers/budgetHelpers'
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
+
+const updateIsControlsLoading = state => state.setIsControlsLoading
 
 const initialArtistState = {
   id: '',
@@ -91,6 +95,7 @@ const artistReducer = (draftState, action) => {
 
 function ArtistProvider({ children }) {
   const { storeUser } = React.useContext(UserContext)
+  const setIsControlsLoading = useControlsStore(updateIsControlsLoading)
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
@@ -114,6 +119,7 @@ function ArtistProvider({ children }) {
     // TODO : Store previously selected artists in state,
     //  then if the user switches back to that artist, there doesn't need to be a new server call
     setArtistLoading(true)
+    setIsControlsLoading(true)
     toggleGlobalLoading(true)
     // Get artist information from server
     const { artist, error } = await artistHelpers.getArtist(id)
@@ -173,7 +179,7 @@ function ArtistProvider({ children }) {
     })
     setArtistLoading(false)
     return { artist }
-  }, [setArtist, toggleGlobalLoading])
+  }, [setArtist, toggleGlobalLoading, setIsControlsLoading])
 
   /**
    * @param {array} artistAccounts
