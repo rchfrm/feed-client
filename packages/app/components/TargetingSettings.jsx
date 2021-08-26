@@ -37,7 +37,6 @@ const TargetingSettings = () => {
     setSettingsReady,
     disableSaving,
     saveTargetingSettings,
-    isFirstTimeUser,
     targetingLoading,
     cancelUpdateSettings,
   } = React.useContext(TargetingContext)
@@ -78,7 +77,7 @@ const TargetingSettings = () => {
         {/* INTRO */}
         <h2>Targeting</h2>
         <MarkdownText
-          markdown={copy.settingsIntro(isFirstTimeUser)}
+          markdown={copy.settingsIntro}
           className={[
             'mb-12',
           ].join(' ')}
@@ -140,7 +139,6 @@ const TargetingSettings = () => {
         initialTargetingState={initialTargetingState}
         targetingState={targetingState}
         saveTargetingSettings={saveTargetingSettings}
-        isFirstTimeUser={isFirstTimeUser}
       >
         <TargetingSettingsHelp desktopVersion />
       </TargetingSettingsSaveContainer>

@@ -31,9 +31,17 @@ const fetchAllOrgs = async (user) => {
 
 // FETCH BILLING DETAILS
 const fetchOrganisationDetails = async (organisation) => {
-  const errors = []
   const billingDetails = billingHelpers.getbillingDetails(organisation)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
+
+  return {
+    billingDetails,
+    defaultPaymentMethod,
+  }
+}
+
+const fetchInvoices = async (organisation) => {
+  const errors = []
   // Fetch next invoice
   const { res: upcomingInvoice, error: upcomingInvoiceError } = await fetchUpcomingInvoice(organisation.id)
   if (upcomingInvoiceError && upcomingInvoiceError.message !== 'Not Found') errors.push(upcomingInvoiceError)
@@ -46,26 +54,39 @@ const fetchOrganisationDetails = async (organisation) => {
   return {
     upcomingInvoice,
     latestInvoice,
-    billingDetails,
-    defaultPaymentMethod,
     errors,
   }
 }
 
 // * INITIAL SETUP
-const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation }) => {
+const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisationDetailsOnly = false, activeOrganisation }) => {
   // FETCH the first organisation and set it
   const allOrgs = activeOrganisation ? null : await fetchAllOrgs(user)
   // TODO improve selecting the org
   const organisation = activeOrganisation || allOrgs[0]
   const {
-    upcomingInvoice,
-    latestInvoice,
     billingDetails,
     referralsDetails,
     defaultPaymentMethod,
-    errors,
   } = await fetchOrganisationDetails(organisation)
+
+  if (shouldFetchOrganisationDetailsOnly) {
+    set({
+      ...(allOrgs && { allOrgs }),
+      organisation,
+      billingDetails,
+      defaultPaymentMethod,
+      ...(artistCurrency && { artistCurrency }),
+      loading: false,
+    })
+    return
+  }
+
+  const {
+    upcomingInvoice,
+    latestInvoice,
+    errors,
+  } = await fetchInvoices(organisation)
 
   const billingEnabled = organisation.billing_enabled
 
@@ -109,9 +130,9 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
     defaultPaymentMethod,
     upcomingInvoice,
     latestInvoice,
+    loadingErrors: errors,
     ...(artistCurrency && { artistCurrency }),
     loading: false,
-    loadingErrors: errors,
     organisationInvites,
     transferRequests,
   })
@@ -121,7 +142,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation 
 const addPaymentMethod = (set, get) => (paymentMethod) => {
   const setAsDefault = paymentMethod.is_default
   const { billingDetails } = get()
-  const paymentMethodsUpdated = produce(billingDetails.allPaymentMethods, draftState => {
+  const paymentMethodsUpdated = produce(billingDetails?.allPaymentMethods || [], draftState => {
     draftState.push(paymentMethod)
   })
   const billingDetailsUpdated = produce(billingDetails, draftState => {

@@ -15,12 +15,11 @@ const TargetingBudgetButtons = ({
   saveTargetingSettings,
   updateTargetingBudget,
   disableSaving,
-  isFirstTimeUser,
   budgetSlider,
   showCustomBudget,
 }) => {
   // GET SAVING FUNCTION
-  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser })
+  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
   // SHOW SAVE BUTTON
   const showBudgetSave = React.useMemo(() => {
     return targetingState.budget !== initialTargetingState.budget

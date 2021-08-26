@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Router from 'next/router'
 import useAsyncEffect from 'use-async-effect'
 
@@ -26,7 +25,7 @@ const getControlsStoreState = (state) => ({
   setConversionsEnabled: state.setConversionsEnabled,
 })
 
-const ConversionsWizardOptInStep = ({ setIsWizardActive }) => {
+const ConversionsWizardOptInStep = () => {
   const { artistId } = React.useContext(ArtistContext)
   const { conversionsPreferences, setConversionsEnabled } = useControlsStore(getControlsStoreState)
   const hasSetUpConversions = Object.values(conversionsPreferences).every(Boolean)
@@ -52,13 +51,8 @@ const ConversionsWizardOptInStep = ({ setIsWizardActive }) => {
     })
   }
 
-  React.useEffect(() => {
-    return () => setIsWizardActive(false)
-  }, [setIsWizardActive])
-
   return (
     <>
-      <h2>Get going</h2>
       <MarkdownText markdown={copy.postOptInStepDescription} />
       <Button
         version="green icon"
@@ -77,7 +71,6 @@ const ConversionsWizardOptInStep = ({ setIsWizardActive }) => {
 }
 
 ConversionsWizardOptInStep.propTypes = {
-  setIsWizardActive: PropTypes.func.isRequired,
 }
 
 export default ConversionsWizardOptInStep

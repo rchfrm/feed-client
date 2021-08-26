@@ -52,7 +52,6 @@ const ConversionsWizardFacebookPixelEventStep = () => {
 
   return (
     <>
-      <h2>Facebook Pixel Event</h2>
       <MarkdownText markdown={copy.pixelEventStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>
@@ -62,7 +61,7 @@ const ConversionsWizardFacebookPixelEventStep = () => {
         />
         <Button
           type="submit"
-          version="outline icon"
+          version="outline-green icon"
           loading={isLoading}
           spinnerFill={brandColors.black}
           className="w-full"

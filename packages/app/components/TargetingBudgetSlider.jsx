@@ -126,7 +126,7 @@ TargetingBudgetSlider.propTypes = {
   currencyOffset: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,
-  setBudgetSlider: PropTypes.func.isRequired,
+  setBudgetSlider: PropTypes.func,
 }
 
 TargetingBudgetSlider.defaultProps = {
@@ -135,6 +135,7 @@ TargetingBudgetSlider.defaultProps = {
   currency: null,
   currencyOffset: 0,
   mobileVersion: false,
+  setBudgetSlider: () => {},
 }
 
 

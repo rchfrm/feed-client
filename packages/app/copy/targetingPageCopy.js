@@ -16,10 +16,7 @@ export default {
 
   pausedWarning: `Spending is currently paused and no ads are running. You can still edit your settings.`,
 
-  settingsIntro: (isFirstTimeUser) => {
-    if (isFirstTimeUser) return `Welcome to Feed! Let's get started by setting up your targeting preferences.`
-    return `Changes to these settings may cause your ads to go back into review, but once approved they will continue with the new settings applied.`
-  },
+  settingsIntro: `Changes to these settings may cause your ads to go back into review, but once approved they will continue with the new settings applied.`,
 
   saveSettingsConfirmation: `**This may cause your ads to go back into review, however once approved they will run with the targeting settings you've selected.**
 
@@ -54,15 +51,7 @@ We are working on adding custom locations, but it would be really helpful if you
   },
 
   // BUTTON TEXT
-  saveSettingsButton: (isFirstTimeUser) => {
-    if (isFirstTimeUser) return `Start Running Ads`
-    return `Save Targeting Settings`
-  },
-
-  saveSettingsButtonMobile: (isFirstTimeUser) => {
-    if (isFirstTimeUser) return `Start Running Ads`
-    return `Save Settings and Budget`
-  },
+  saveSettingsButton: `Save Targeting Settings`,
 
   // PLATFORM SELECT DESCRIPTION
   platformSelectDescription: `Select the platform(s) your ads will appear on. This does not affect which posts can be used as ads.`,
