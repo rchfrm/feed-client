@@ -141,7 +141,7 @@ const BaseFilters = ({
   if (!options.length) return null
 
   return (
-    <div className={['breakout--width'].join(' ')}>
+    <div className={['breakout--width', className].join(' ')}>
       <div className={['inputLabel__text', styles.label].join(' ')}>
         <span className="flex items-center">
           {labelText}

@@ -1,6 +1,7 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import PostsSorter from '@/app/PostsSorter'
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
@@ -19,6 +20,7 @@ const PostsContent = () => {
 
   const allFilter = postTypes.find(({ id }) => id === 'all')
   const [currentPostType, setCurrentPostType] = React.useState('')
+  const [currentSortValue, setCurrentSortValue] = React.useState('')
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
@@ -45,13 +47,23 @@ const PostsContent = () => {
           />
         )}
       </div>
-      {/* FILTERS */}
-      <PostsFilters
-        postTypes={postTypes}
-        currentPostType={currentPostType}
-        setCurrentPostType={setCurrentPostType}
-        defaultPostState={allFilter.id}
-      />
+      <div className="grid grid-cols-12 col-gap-6">
+        <PostsSorter
+          currentSortValue={currentSortValue}
+          setCurrentSortValue={setCurrentSortValue}
+          defaultPostState="score"
+          className="col-span-4"
+        />
+        {/* FILTERS */}
+        <PostsFilters
+          postTypes={postTypes}
+          currentPostType={currentPostType}
+          setCurrentPostType={setCurrentPostType}
+          defaultPostState={allFilter.id}
+          className="col-span-8"
+        />
+      </div>
+      {/* SORT */}
       {/* LOAD POSTS */}
       {currentPostType && (
         <PostsLoader

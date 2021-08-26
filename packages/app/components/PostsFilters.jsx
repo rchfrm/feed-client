@@ -17,6 +17,7 @@ const PostsFilters = ({
   currentPostType,
   defaultPostState,
   setCurrentPostType,
+  className,
 }) => {
   // Build options array for base filters
   const baseFiltersOptions = React.useMemo(() => {
@@ -63,6 +64,7 @@ const PostsFilters = ({
         action: 'adjust_filter',
         page: 'posts',
       }}
+      className={className}
     />
   )
 }
@@ -72,6 +74,11 @@ PostsFilters.propTypes = {
   currentPostType: PropTypes.string.isRequired,
   defaultPostState: PropTypes.string.isRequired,
   setCurrentPostType: PropTypes.func.isRequired,
+  className: PropTypes.string,
+}
+
+PostsFilters.defaultProps = {
+  className: PropTypes.string,
 }
 
 export default PostsFilters
