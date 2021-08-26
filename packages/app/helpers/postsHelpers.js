@@ -63,15 +63,15 @@ export const postTypes = [
 // POST SORT TYPES
 export const sortTypes = [
   {
-    id: 'publish-date',
-    slug: 'publish-date',
+    id: 'published_time',
+    slug: 'published_time',
     title: 'Publish Date',
     color: brandColors.black,
     activeTextColor: 'white',
   },
   {
-    id: 'score',
-    slug: 'score',
+    id: 'engagement_score',
+    slug: 'engagement_score',
     title: 'Score',
     color: brandColors.greyDark,
     activeTextColor: 'white',

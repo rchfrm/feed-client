@@ -19,8 +19,9 @@ const PostsContent = () => {
   const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
 
   const allFilter = postTypes.find(({ id }) => id === 'all')
+  const sortDefault = sortTypes.find(({ id }) => id === 'published_time')
   const [currentPostType, setCurrentPostType] = React.useState('')
-  const [currentSortType, setCurrentSortType] = React.useState('')
+  const [sortBy, setSortBy] = React.useState('')
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
@@ -50,9 +51,9 @@ const PostsContent = () => {
       <div className="grid grid-cols-12 col-gap-6">
         <PostsSorter
           sortTypes={sortTypes}
-          currentSortType={currentSortType}
-          setCurrentSortType={setCurrentSortType}
-          defaultPostState="score"
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          defaultSortState={sortDefault}
           className="col-span-4"
         />
         {/* FILTERS */}
@@ -70,7 +71,7 @@ const PostsContent = () => {
         <PostsLoader
           setRefreshPosts={setRefreshPosts}
           promotionStatus={currentPostType}
-          sortStatus={currentSortType}
+          sortBy={sortBy}
         />
       )}
     </div>

@@ -5,17 +5,17 @@ import BaseFilters from '@/BaseFilters'
 
 const PostsSorter = ({
   sortTypes,
-  currentSortType,
-  setCurrentSortType,
-  defaultPostState,
+  sortBy,
+  setSortBy,
+  defaultSortState,
   className,
 }) => {
   return (
     <BaseFilters
       options={sortTypes}
-      activeOptionId={currentSortType}
-      defaultOptionId={defaultPostState}
-      setActiveOptionId={setCurrentSortType}
+      activeOptionId={sortBy}
+      defaultOptionId={defaultSortState}
+      setActiveOptionId={setSortBy}
       labelText="Sort"
       useSetQuery
       useSetLocalStorage
@@ -32,9 +32,9 @@ const PostsSorter = ({
 }
 
 PostsSorter.propTypes = {
-  currentSortType: PropTypes.string.isRequired,
-  setCurrentSortType: PropTypes.func.isRequired,
-  defaultPostState: PropTypes.string.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  setSortBy: PropTypes.func.isRequired,
+  defaultSortState: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
