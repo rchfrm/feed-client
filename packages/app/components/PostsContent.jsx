@@ -10,7 +10,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { postTypes } from '@/app/helpers/postsHelpers'
+import { postTypes, sortTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -20,7 +20,7 @@ const PostsContent = () => {
 
   const allFilter = postTypes.find(({ id }) => id === 'all')
   const [currentPostType, setCurrentPostType] = React.useState('')
-  const [currentSortValue, setCurrentSortValue] = React.useState('')
+  const [currentSortType, setCurrentSortType] = React.useState('')
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
@@ -49,8 +49,9 @@ const PostsContent = () => {
       </div>
       <div className="grid grid-cols-12 col-gap-6">
         <PostsSorter
-          currentSortValue={currentSortValue}
-          setCurrentSortValue={setCurrentSortValue}
+          sortTypes={sortTypes}
+          currentSortType={currentSortType}
+          setCurrentSortType={setCurrentSortType}
           defaultPostState="score"
           className="col-span-4"
         />
@@ -69,6 +70,7 @@ const PostsContent = () => {
         <PostsLoader
           setRefreshPosts={setRefreshPosts}
           promotionStatus={currentPostType}
+          sortStatus={currentSortType}
         />
       )}
     </div>

@@ -3,38 +3,19 @@ import PropTypes from 'prop-types'
 
 import BaseFilters from '@/BaseFilters'
 
-import brandColors from '@/constants/brandColors'
-
 const PostsSorter = ({
-  currentSortValue,
-  setCurrentSortValue,
+  sortTypes,
+  currentSortType,
+  setCurrentSortType,
   defaultPostState,
   className,
 }) => {
-  // Options array for base filters
-  const baseFiltersOptions = [
-    {
-      id: 'publish-date',
-      slug: 'publish-date',
-      title: 'Publish Date',
-      color: brandColors.black,
-      activeTextColor: 'white',
-    },
-    {
-      id: 'score',
-      slug: 'score',
-      title: 'Score',
-      color: brandColors.greyDark,
-      activeTextColor: 'white',
-    },
-  ]
-
   return (
     <BaseFilters
-      options={baseFiltersOptions}
-      activeOptionId={currentSortValue}
+      options={sortTypes}
+      activeOptionId={currentSortType}
       defaultOptionId={defaultPostState}
-      setActiveOptionId={setCurrentSortValue}
+      setActiveOptionId={setCurrentSortType}
       labelText="Sort"
       useSetQuery
       useSetLocalStorage
@@ -51,8 +32,8 @@ const PostsSorter = ({
 }
 
 PostsSorter.propTypes = {
-  currentSortValue: PropTypes.string.isRequired,
-  setCurrentSortValue: PropTypes.func.isRequired,
+  currentSortType: PropTypes.string.isRequired,
+  setCurrentSortType: PropTypes.func.isRequired,
   defaultPostState: PropTypes.string.isRequired,
   className: PropTypes.string,
 }

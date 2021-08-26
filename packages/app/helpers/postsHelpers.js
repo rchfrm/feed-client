@@ -60,6 +60,24 @@ export const postTypes = [
   },
 ]
 
+// POST SORT TYPES
+export const sortTypes = [
+  {
+    id: 'publish-date',
+    slug: 'publish-date',
+    title: 'Publish Date',
+    color: brandColors.black,
+    activeTextColor: 'white',
+  },
+  {
+    id: 'score',
+    slug: 'score',
+    title: 'Score',
+    color: brandColors.greyDark,
+    activeTextColor: 'white',
+  },
+]
+
 // CAMPAIGN TYPES
 export const campaignTypes = [
   {
