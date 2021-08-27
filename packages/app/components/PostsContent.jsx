@@ -19,7 +19,7 @@ const PostsContent = () => {
   const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
 
   const allFilter = postTypes.find(({ id }) => id === 'all')
-  const sortDefault = sortTypes.find(({ id }) => id === 'published_time')
+  const defaultSortBy = sortTypes.find(({ id }) => id === 'published_time').id
   const [currentPostType, setCurrentPostType] = React.useState('')
   const [sortBy, setSortBy] = React.useState('')
   // GET REFRESH POSTS FUNCTION
@@ -53,7 +53,7 @@ const PostsContent = () => {
           sortTypes={sortTypes}
           sortBy={sortBy}
           setSortBy={setSortBy}
-          defaultSortState={sortDefault}
+          defaultSortState={defaultSortBy}
           className="col-span-4"
         />
         {/* FILTERS */}

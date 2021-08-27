@@ -300,6 +300,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus, sortBy }) {
       <PostsNone
         refreshPosts={refreshPosts}
         promotionStatus={promotionStatus}
+        sortBy={sortBy}
         artist={artist}
       />
     )
@@ -347,6 +348,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus, sortBy }) {
 PostsLoader.propTypes = {
   setRefreshPosts: PropTypes.func.isRequired,
   promotionStatus: PropTypes.string.isRequired,
+  sortBy: PropTypes.string.isRequired,
 }
 
 export default PostsLoader
