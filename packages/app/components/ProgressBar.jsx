@@ -21,7 +21,7 @@ const ProgressBar = ({ percentage, className }) => {
 
   React.useEffect(() => {
     animateMask(percentage)
-  }, [percentage, animateMask])
+  }, [percentage, animateMask, maskRefEl])
 
   return (
     <div
