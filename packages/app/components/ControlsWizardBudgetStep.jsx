@@ -7,6 +7,8 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 
 import Button from '@/elements/Button'
@@ -42,7 +44,12 @@ const ControlsWizardBudgetStep = () => {
     },
   } = React.useContext(ArtistContext)
 
+  const getControlsStoreState = (state) => ({
+    minConversionsBudget: state.minConversionsBudget,
+  })
+
   const [budget, setBudget] = React.useState(targetingState.budget)
+  const { minConversionsBudget } = useControlsStore(getControlsStoreState)
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
 
@@ -76,7 +83,7 @@ const ControlsWizardBudgetStep = () => {
         <TargetingBudgetSlider
           sliderStep={sliderStep}
           sliderValueRange={sliderValueRange}
-          initialBudget={initialTargetingState.budget}
+          initialBudget={initialTargetingState.budget || (minConversionsBudget * currencyOffset)}
           onChange={(budget) => {
             setBudget(budget)
           }}
