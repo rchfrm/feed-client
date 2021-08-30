@@ -112,6 +112,7 @@ const ControlsWizardLinkStep = () => {
     if (link.id) action = 'edit'
 
     if (hasLooseLinks) {
+      if (!link.id) return
       // Skip api request if the link hasn't changed
       if (link.id === defaultLink.id) {
         next()
@@ -124,12 +125,14 @@ const ControlsWizardLinkStep = () => {
     }
 
     // Skip api request if the link hasn't changed
-    if (link.href === defaultLink.href) {
+    if (link.href && (link.href === defaultLink.href)) {
       next()
       return
     }
     // Add the link to the linkbank or edit the linkbank link based on the action parameter
     const savedLink = await saveLinkToLinkBank(action)
+    if (!savedLink) return
+
     if (action === 'add' || hasSingleLooseLink) {
       await saveAsDefaultLink(savedLink.id, savedLink)
     }
