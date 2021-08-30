@@ -49,14 +49,6 @@ const PostsContent = () => {
         )}
       </div>
       <div className="grid grid-cols-12 col-gap-6">
-        {/* FILTERS */}
-        <PostsFilters
-          postTypes={postTypes}
-          currentPostType={currentPostType}
-          setCurrentPostType={setCurrentPostType}
-          defaultPostState={allFilter.id}
-          className="col-span-12 sm:col-span-8"
-        />
         {/* SORT */}
         <PostsSorter
           sortTypes={sortTypes}
@@ -64,6 +56,14 @@ const PostsContent = () => {
           setSortBy={setSortBy}
           defaultSortState={defaultSortBy}
           className="col-span-12 sm:col-span-4"
+        />
+        {/* FILTERS */}
+        <PostsFilters
+          postTypes={postTypes}
+          currentPostType={currentPostType}
+          setCurrentPostType={setCurrentPostType}
+          defaultPostState={allFilter.id}
+          className="col-span-12 sm:col-span-8"
         />
       </div>
       {/* LOAD POSTS */}
