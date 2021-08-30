@@ -143,7 +143,7 @@ const BaseFilters = ({
   return (
     <div className={['breakout--width', className].join(' ')}>
       <div className={['inputLabel__text', styles.label].join(' ')}>
-        <span className="flex items-center">
+        <span className="flex items-center h-8">
           {labelText}
           {/* LABEL TOOLTIP */}
           {tooltipSlides && (

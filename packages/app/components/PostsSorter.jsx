@@ -20,7 +20,6 @@ const PostsSorter = ({
       useSetQuery
       useSetLocalStorage
       useSlug
-      tooltipSlides={[]}
       querySlug="sortBy"
       trackProps={{
         action: 'adjust_sort',
