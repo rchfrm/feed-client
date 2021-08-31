@@ -23,7 +23,6 @@ export const MYREFERRAL = '/my-referral-code'
 export const PAYMENT = '/account?add-payment'
 export const CONNECTIONS = '/account?connections'
 export const RESULTS = '/results'
-export const TOURNAMENTS = '/results/tournaments'
 export const NOTIFICATIONS = '/notifications'
 export const TARGETING = '/targeting'
 export const CONTROLS = '/controls'
@@ -51,7 +50,6 @@ export const restrictedPages = [
   PAYMENT,
   CONNECTIONS,
   RESULTS,
-  TOURNAMENTS,
   NOTIFICATIONS,
   TARGETING,
 ]
