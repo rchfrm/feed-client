@@ -1,14 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
+
+import * as ROUTES from '@/app/constants/routes'
 
 import NoDataBlock from '@/app/NoDataBlock'
 
-import LightbulbIcon from '@/icons/LightbulbIcon'
+import JoystickIcon from '@/icons/JoystickIcon'
 
-import useShowConversionsInterest from '@/app/hooks/useShowConversionsInterest'
+import brandColors from '@/constants/brandColors'
 
 const ResultsConversionTeaser = ({ className }) => {
-  const openConversionsInterestPanel = useShowConversionsInterest()
+  const goToControlsConversionsPage = () => {
+    Router.push({
+      pathname: ROUTES.CONTROLS,
+      query: { slug: 'conversions' },
+    })
+  }
 
   return (
     <div className={[
@@ -16,21 +24,22 @@ const ResultsConversionTeaser = ({ className }) => {
     ].join('')}
     >
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">Sales &amp; Sign-ups</p>
-      <p className="mr-auto sm:mr-0 sm:text-center sm:mb-15">Coming soon!</p>
+      <p className="mr-auto sm:mr-0 sm:text-center sm:mb-15">Use Feed to generate sales or sign-ups outside Facebook &amp; Instagram.</p>
       <button
         className="w-full h-48 sm:h-full"
-        onClick={openConversionsInterestPanel}
+        onClick={goToControlsConversionsPage}
       >
         <NoDataBlock>
           <div
             className={[
               'flex justify-center items-center',
-              'w-14 h-14 bg-yellow rounded-full mb-2',
+              'w-14 h-14 rounded-full mb-2',
             ].join(' ')}
+            style={{ backgroundColor: brandColors.instagram.bg }}
           >
-            <LightbulbIcon className="w-5 h-auto" />
+            <JoystickIcon className="w-5 h-auto" fill="white" />
           </div>
-          <p className="text-center mb-0">Conversion ads<br />coming soon!</p>
+          <p className="text-center px-8 mb-0">Get started with generating sales or sign-ups!</p>
         </NoDataBlock>
       </button>
     </div>

@@ -19,13 +19,13 @@ export default {
   audienceSizeDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
   reachDescription: (adsValue, organicValue) => `Feed’s ads reached upto **${adsValue}%** of your audience,
   compared with organic reach of upto **${organicValue}%**.`,
-  postDescription: (type, [valueA, valueB]) => {
+  postDescription: (type) => {
     if (type === 'growth') {
-      return `The most engaging post added
-      **${valueA} new people** to your audience.`
+      return `The post that engaged the
+      most new people:`
     }
-    return `**${valueA} people reached**, ${valueB}% of your
-    audience by one post alone.`
+    return `The post that reached the most people
+    from your existing audience:`
   },
   postDescriptionMobile: (type, [valueA]) => {
     if (type === 'growth') {
@@ -33,4 +33,7 @@ export default {
     }
     return `**${valueA}** people reached`
   },
+  postsStatsNoData: `Once you’ve been using Feed for a few weeks,
+  your most effective ads, and a month to month
+  comparison will appear here.`,
 }

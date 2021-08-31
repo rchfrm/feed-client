@@ -1,51 +1,29 @@
 import React from 'react'
 
-import ResultsGrowthStats from '@/app/ResultsGrowthStats'
-import ResultsReachStats from '@/app/ResultsReachStats'
-import ResultsPostStats from '@/app/ResultsPostStats'
+import ResultsStats from '@/app/ResultsStats'
+import ResultsPostsStats from '@/app/ResultsPostsStats'
 import ResultsConversionsTeaser from '@/app/ResultsConversionsTeaser'
-
-import { postResultsConfig } from '@/app/copy/ResultsPageCopy'
+// import ResultsConversionsActivator from '@/app/ResultsConversionsActivator'
+import ResultsSpendingPausedWarning from '@/app/ResultsSpendingPausedWarning'
 
 const ResultsContent = ({ data }) => {
   return (
     <div>
-      <div className="inline-block px-4 py-3 rounded-button bg-grey-1 mb-12">
-        In the last <strong>30 days</strong>
+      <div className="flex justify-between items-center mb-12">
+        <div className="inline-block px-4 py-3 rounded-button bg-grey-1">
+          In the last <strong>30 days</strong>
+        </div>
+        <ResultsSpendingPausedWarning />
       </div>
       <div className="grid grid-cols-12 col-gap-12">
         <div className="col-span-12 sm:col-span-8">
           <div className="grid grid-cols-12 col-gap-12 row-gap-8">
-            <ResultsGrowthStats
+            <ResultsStats
               data={data}
-              className={[
-                'col-span-12 sm:col-span-6',
-                'flex flex-col items-center',
-                'order-1',
-              ].join(' ')}
             />
-            <ResultsReachStats
-              data={data.on_platform}
-              className={[
-                'col-span-12 sm:col-span-6',
-                'flex flex-col items-center',
-                'order-2',
-              ].join(' ')}
+            <ResultsPostsStats
+              data={data}
             />
-            {data.posts.map((post, index) => (
-              <ResultsPostStats
-                key={post.id}
-                post={post}
-                data={data.on_platform}
-                config={postResultsConfig[index]}
-                className={[
-                  'col-span-12 sm:col-span-6',
-                  'flex flex-col sm:items-center',
-                  'mb-10',
-                  `order-${index + 1} sm:order-${index + 4}`,
-                ].join(' ')}
-              />
-            ))}
           </div>
         </div>
         <ResultsConversionsTeaser

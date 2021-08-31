@@ -7,8 +7,9 @@ import Button from '@/elements/Button'
 import MediaFallback from '@/elements/MediaFallback'
 import MarkdownText from '@/elements/MarkdownText'
 
-import PostCardLabel from '@/app/PostCardLabel'
 import copy from '@/app/copy/ResultsPageCopy'
+
+import { abbreviateNumber } from '@/helpers/utils'
 
 import brandColors from '@/constants/brandColors'
 
@@ -31,25 +32,32 @@ const ResultsPostStats = ({
       <div className="flex flex-row sm:flex-col items-center">
         <MarkdownText markdown={copy.postDescription(type, values)} className="hidden sm:block text-center sm:px-9" />
         <div
-          className="relative sm:mb-6 mr-3 sm:mr-0"
+          className="relative mr-3 sm:mr-0"
           style={{ height: imageHeight, width: imageHeight }}
         >
           <MediaFallback brokenImageColor={brandColors.green} />
         </div>
+        <div
+          className={[
+            'hidden',
+            'sm:flex flex-column items-center',
+            '-mt-5 mb-6 px-6 py-1 z-10',
+            'text-white rounded-full',
+          ].join(' ')}
+          style={{ backgroundColor: color }}
+        >
+          {abbreviateNumber(values[0])}
+          <span className="text-xs -mt-1">{type === 'growth' ? 'engaged' : 'reached'}</span>
+        </div>
         <div className="flex flex-col items-start justify-center sm:items-center">
-          <PostCardLabel
-            copy="running"
-            className="font-bold mb-6 hidden sm:block"
-            campaignType="all"
-          />
           <MarkdownText markdown={copy.postDescriptionMobile(type, values)} className="sm:hidden" />
           <Button
-            version="small"
+            version="small outline"
             className={[
               'h-8',
               'rounded-full',
+              'border-black border-2',
             ].join(' ')}
-            style={{ backgroundColor: color }}
             onClick={() => console.log('View more')}
           >
             View more

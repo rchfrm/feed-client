@@ -7,6 +7,8 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
+import { abbreviateNumber } from '@/helpers/utils'
+
 import brandColors from '@/constants/brandColors'
 
 const ResultsGrowthStats = ({ data, className }) => {
@@ -27,8 +29,8 @@ const ResultsGrowthStats = ({ data, className }) => {
         className="text-6xl font-bold hidden sm:block"
         style={{ color: brandColors.blue }}
       >
-        <span style={{ color: brandColors.blue }}>+</span>
-        {audienceSize.growth.absolute}
+        <span style={{ color: brandColors.facebook.bg }}>+</span>
+        {abbreviateNumber(audienceSize.growth.absolute)}
       </p>
       <ResultsGrowthStatsChart />
     </div>
