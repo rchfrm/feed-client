@@ -7,21 +7,20 @@ import brandColors from '@/constants/brandColors'
 
 const ProgressBar = ({ percentage, className }) => {
   const maskRef = React.useRef(null)
-  const { current: maskRefEl } = maskRef
 
   const animateMask = React.useCallback(() => {
-    if (maskRefEl) {
+    if (maskRef.current) {
       const ease = Power2.easeOut
       const duration = 0.5
       const width = `${100 - percentage}%`
 
-      gsap.to(maskRefEl, { width, ease, duration })
+      gsap.to(maskRef.current, { width, ease, duration })
     }
-  }, [percentage, maskRefEl])
+  }, [percentage, maskRef])
 
   React.useEffect(() => {
     animateMask(percentage)
-  }, [percentage, animateMask, maskRefEl])
+  }, [percentage, animateMask, maskRef])
 
   return (
     <div
