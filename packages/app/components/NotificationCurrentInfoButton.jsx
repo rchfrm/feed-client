@@ -63,6 +63,7 @@ NotificationCurrentInfoButton.propTypes = {
   ctaText: PropTypes.string,
   buttonType: PropTypes.string.isRequired,
   linkType: PropTypes.string,
+  isActionable: PropTypes.bool.isRequired,
   isComplete: PropTypes.bool.isRequired,
   onAction: PropTypes.func.isRequired,
   onComplete: PropTypes.func.isRequired,
@@ -71,6 +72,7 @@ NotificationCurrentInfoButton.propTypes = {
 
 NotificationCurrentInfoButton.defaultProps = {
   linkType: null,
+  ctaText: null,
 }
 
 
