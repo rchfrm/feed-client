@@ -6,7 +6,7 @@
      "on_platform": {
         "organic_reach": {
            "total": 2,
-           "proportion": 0.0005,
+           "proportion": 0.05,
            "average": 1
         },
         "audience_size": {
@@ -20,7 +20,7 @@
         "ads_reach": {
            "average": 20,
            "total": 200,
-           "proportion": 0.01
+           "proportion": 0.20
         },
         "asset": {
            "id": "896t8bcjxczbkjh",

@@ -30,7 +30,7 @@ const ResultsReachStats = ({ data, className }) => {
       >
         {adsReachProportion}%
       </p>
-      <ResultsReachStatsChart />
+      <ResultsReachStatsChart adsReachProportion={adsReachProportion} organicReachProportion={organicReachProportion} />
     </div>
   )
 }
