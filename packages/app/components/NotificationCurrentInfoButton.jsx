@@ -17,8 +17,10 @@ const NotificationCurrentInfoButton = ({
 }) => {
   const [loading, setLoading] = React.useState(false)
 
+  const canDismiss = !isActionable || (isActionable && isComplete)
+
   const onClick = React.useCallback(async () => {
-    if (!isActionable || (isActionable && isComplete)) {
+    if (canDismiss) {
       dismissNotification()
       return
     }
@@ -53,7 +55,7 @@ const NotificationCurrentInfoButton = ({
       loading={loading}
       onClick={onClick}
     >
-      {isActionable ? ctaText : 'Dismiss'}
+      {canDismiss ? 'Dismiss' : ctaText}
     </Button>
   )
 }
