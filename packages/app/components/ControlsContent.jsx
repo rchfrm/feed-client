@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useAsync } from 'react-async'
 
+import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
+import ControlsWizard from '@/app/ControlsWizard'
 import ControlsContentOptions from '@/app/ControlsContentOptions'
 import ControlsContentView from '@/app/ControlsContentView'
 import ConversionsContent from '@/app/ConversionsContent'
@@ -16,12 +18,27 @@ import AdDefaults from '@/app/AdDefaults'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
+import { UserContext } from '@/app/contexts/UserContext'
+
+import useBillingStore from '@/app/stores/billingStore'
+import useControlsStore from '@/app/stores/controlsStore'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 const fetchState = ({ artistId, currencyOffset }) => {
   return targetingHelpers.fetchTargetingState(artistId, currencyOffset)
 }
+
+const getBillingStoreState = (state) => ({
+  setupBilling: state.setupBilling,
+  defaultPaymentMethod: state.defaultPaymentMethod,
+  loading: state.loading,
+})
+
+const getControlsStoreState = (state) => ({
+  postsPreferences: state.postsPreferences,
+  budget: state.budget,
+})
 
 // One of these components will be shown based on the activeSlug
 const controlsComponents = {
@@ -33,8 +50,10 @@ const controlsComponents = {
 }
 
 const ControlsContent = ({ activeSlug }) => {
-  // DESTRUCTURE CONTEXTS
-  const { artistId } = React.useContext(ArtistContext)
+  const [isWizardActive, setIsWizardActive] = React.useState(false)
+  // Destructure context
+  const { user } = React.useContext(UserContext)
+  const { artistId, artistLoading, artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
   const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
   // Fetch from targeting context
   const {
@@ -45,7 +64,24 @@ const ControlsContent = ({ activeSlug }) => {
     currencyOffset,
   } = React.useContext(TargetingContext)
 
-  // LOAD AND SET INITIAL TARGETING STATE
+  // Get store values
+  const { setupBilling, defaultPaymentMethod, loading: billingLoading } = useBillingStore(getBillingStoreState)
+  const { postsPreferences, budget } = useControlsStore(getControlsStoreState)
+  const { defaultLinkId, defaultPromotionEnabled } = postsPreferences
+
+  const hasSetUpControls = Boolean(defaultLinkId
+    && budget
+    && defaultPaymentMethod)
+
+  // Set-up billing store
+  React.useEffect(() => {
+    if (artistLoading) return
+    const { currency: artistCurrency } = min_daily_budget_info || {}
+    setupBilling({ user, artistCurrency, shouldFetchOrganisationDetailsOnly: true })
+  // eslint-disable-next-line
+  }, [artistLoading, user, setupBilling])
+
+  // Load and set initial targeting state
   const { isPending } = useAsync({
     promiseFn: fetchState,
     watch: artistId,
@@ -70,29 +106,44 @@ const ControlsContent = ({ activeSlug }) => {
     )
   }
 
-  if (globalLoading || !Object.keys(targetingState).length > 0) return null
+  if (!Object.keys(targetingState).length > 0) return null
+  if (globalLoading || billingLoading) return <Spinner />
 
   return (
     <div className="md:grid grid-cols-12 gap-8">
-      <div className="col-span-6 col-start-1">
-        <h2>Budget</h2>
-        {/* BUDGET BOX */}
-        <TargetingBudgetBox
-          className="mb-8"
-        />
-        {/* SETTINGS MENU */}
-        <ControlsContentOptions
-          activeSlug={activeSlug}
-          controlsComponents={controlsComponents}
-        />
-      </div>
-      {/* SETTINGS VIEW */}
-      {isDesktopLayout && (
-        <ControlsContentView
-          activeSlug={activeSlug}
-          className="col-span-6 col-start-7"
-          controlsComponents={controlsComponents}
-        />
+      {!hasSetUpControls || isWizardActive ? (
+        <div className="col-span-6 col-start-1">
+          <ControlsWizard
+            setIsWizardActive={setIsWizardActive}
+            defaultLinkId={defaultLinkId}
+            defaultPromotionEnabled={defaultPromotionEnabled}
+            budget={budget}
+            defaultPaymentMethod={defaultPaymentMethod}
+          />
+        </div>
+      ) : (
+        <>
+          <div className="col-span-6 col-start-1">
+            <h2>Budget</h2>
+            {/* BUDGET BOX */}
+            <TargetingBudgetBox
+              className="mb-8"
+            />
+            {/* SETTINGS MENU */}
+            <ControlsContentOptions
+              activeSlug={activeSlug}
+              controlsComponents={controlsComponents}
+            />
+          </div>
+          {/* SETTINGS VIEW */}
+          {isDesktopLayout && (
+            <ControlsContentView
+              activeSlug={activeSlug}
+              className="col-span-6 col-start-7"
+              controlsComponents={controlsComponents}
+            />
+          )}
+        </>
       )}
     </div>
   )

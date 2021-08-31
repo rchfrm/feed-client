@@ -51,7 +51,6 @@ const ConversionsWizardCallToActionStep = () => {
 
   return (
     <>
-      <h2>Call to Action</h2>
       <MarkdownText markdown={copy.callToActionStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>
@@ -62,7 +61,7 @@ const ConversionsWizardCallToActionStep = () => {
         />
         <Button
           type="submit"
-          version="outline icon"
+          version="outline-green icon"
           loading={isLoading}
           spinnerFill={brandColors.black}
           className="w-full"

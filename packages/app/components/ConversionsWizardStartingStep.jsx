@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
@@ -12,12 +11,8 @@ import copy from '@/app/copy/controlsPageCopy'
 
 import brandColors from '@/constants/brandColors'
 
-const ConversionsWizardStartingStep = ({ setIsWizardActive }) => {
+const ConversionsWizardStartingStep = () => {
   const { next } = React.useContext(WizardContext)
-
-  React.useEffect(() => {
-    setIsWizardActive(true)
-  }, [setIsWizardActive])
 
   const handleNext = async () => {
     next()
@@ -25,7 +20,6 @@ const ConversionsWizardStartingStep = ({ setIsWizardActive }) => {
 
   return (
     <>
-      <h2>Set up Conversions</h2>
       <MarkdownText markdown={copy.startingStepDescription} />
       <Button
         version="green icon"
@@ -41,10 +35,6 @@ const ConversionsWizardStartingStep = ({ setIsWizardActive }) => {
       </Button>
     </>
   )
-}
-
-ConversionsWizardStartingStep.propTypes = {
-  setIsWizardActive: PropTypes.func.isRequired,
 }
 
 export default ConversionsWizardStartingStep

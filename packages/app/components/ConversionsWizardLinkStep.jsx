@@ -57,7 +57,6 @@ const ConversionsWizardLinkStep = () => {
 
   return (
     <>
-      <h2>Default Link</h2>
       <MarkdownText markdown={copy.linkStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>
@@ -68,11 +67,12 @@ const ConversionsWizardLinkStep = () => {
           shouldSaveOnChange={false}
           includeDefaultLink
           includeAddLinkOption
+          includeIntegrationLinks
           componentLocation="post"
         />
         <Button
           type="submit"
-          version="outline icon"
+          version="outline-green icon"
           loading={isLoading}
           spinnerFill={brandColors.black}
           className="w-full"

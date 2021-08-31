@@ -17,14 +17,13 @@ const TargetingSettingsSaveContainer = ({
   initialTargetingState,
   targetingState,
   saveTargetingSettings,
-  isFirstTimeUser,
   children,
 }) => {
   const { setSidePanelButton, sidePanelOpen: isSidepanelOpen } = React.useContext(SidePanelContext)
   const isDesktopLayout = useBreakpointTest('md')
   const isMobileAndIsSidePanelOpen = !isDesktopLayout && isSidepanelOpen
   // GET SAVE FUNCTION
-  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser })
+  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
 
   const saveButton = React.useMemo(() => (
     <Button
@@ -38,9 +37,9 @@ const TargetingSettingsSaveContainer = ({
     >
       {disableSaving ? (
         getSaveDisabledReason(disableSaving)
-      ) : copy.saveSettingsButton(isFirstTimeUser)}
+      ) : copy.saveSettingsButton}
     </Button>
-  ), [disableSaving, saveTargeting, isFirstTimeUser, isMobileAndIsSidePanelOpen])
+  ), [disableSaving, saveTargeting, isMobileAndIsSidePanelOpen])
 
   React.useEffect(() => {
     if (isMobileAndIsSidePanelOpen) {
@@ -71,7 +70,6 @@ TargetingSettingsSaveContainer.propTypes = {
   initialTargetingState: PropTypes.object.isRequired,
   targetingState: PropTypes.object.isRequired,
   saveTargetingSettings: PropTypes.func.isRequired,
-  isFirstTimeUser: PropTypes.bool.isRequired,
   children: PropTypes.node,
 }
 
