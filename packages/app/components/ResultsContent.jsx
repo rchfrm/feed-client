@@ -9,8 +9,8 @@ import ResultsSpendingPausedWarning from '@/app/ResultsSpendingPausedWarning'
 const ResultsContent = ({ data }) => {
   return (
     <div>
-      <div className="flex justify-between items-center mb-12">
-        <div className="inline-block px-4 py-3 rounded-button bg-grey-1">
+      <div className="flex flex-column sm:flex-row justify-between sm:items-center mb-12">
+        <div className="inline-block px-4 py-3 mb-6 sm:mb-0 rounded-button bg-grey-1">
           In the last <strong>30 days</strong>
         </div>
         <ResultsSpendingPausedWarning />

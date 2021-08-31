@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 const ResultsReachStatsChart = ({ adsReachProportion, organicReachProportion }) => {
   return (
     <div className="relative h-12 w-full">
-      <div className="relative h-full w-full border-solid border-green border-2 rounded-full overflow-hidden">
+      <div className="absolute h-full w-full border-solid border-green border-2 rounded-full" />
+      <div className="relative h-full w-full rounded-full overflow-hidden">
         <div
           className="absolute h-12 left-0 bg-green"
           style={{ top: '-2px', width: `${adsReachProportion}%` }}

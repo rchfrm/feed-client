@@ -14,7 +14,7 @@ const ResultsGrowthStatsChart = ({ audienceSize }) => {
       >
         {audienceSize.prev_period}
       </div>
-      <span className="z-10 -mx-3 text-blue font-light" style={{ fontSize: '3rem', color: brandColors.facebook.bg }}>+</span>
+      <span className="z-10 -mx-3 text-blue font-light -mt-2" style={{ fontSize: '3rem', color: brandColors.facebook.bg }}>+</span>
       <div
         className="flex items-center justify-center h-full bg-blue rounded-full"
         style={{ width: `${currentPeriodProportion}%` }}
