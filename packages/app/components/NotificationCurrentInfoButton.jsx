@@ -9,6 +9,7 @@ const NotificationCurrentInfoButton = ({
   ctaText,
   buttonType,
   linkType,
+  isActionable,
   isComplete,
   onAction,
   onComplete,
@@ -17,7 +18,7 @@ const NotificationCurrentInfoButton = ({
   const [loading, setLoading] = React.useState(false)
 
   const onClick = React.useCallback(async () => {
-    if (isComplete) {
+    if (!isActionable) {
       dismissNotification()
       return
     }
@@ -30,7 +31,7 @@ const NotificationCurrentInfoButton = ({
     if (error || res === 'incomplete') return
     // Update notification as resolved
     onComplete()
-  }, [linkType, isComplete, onAction, onComplete, dismissNotification])
+  }, [linkType, isActionable, onAction, onComplete, dismissNotification])
 
   if (buttonType === 'facebook') {
     return (
@@ -52,7 +53,7 @@ const NotificationCurrentInfoButton = ({
       loading={loading}
       onClick={onClick}
     >
-      {isComplete ? 'Dismiss' : ctaText}
+      {isActionable ? ctaText : 'Dismiss'}
     </Button>
   )
 }

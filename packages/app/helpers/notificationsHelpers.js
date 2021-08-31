@@ -206,7 +206,6 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     } = dictionaryEntry || {}
     const date = moment(created_at).format('DD MMM')
     const dateLong = moment(created_at).format('DD MMM YY')
-    const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
     const linkType = ctaLink ? getLinkType(ctaLink) : null
     // Get Action function
     const onAction = isActionable ? getAction({
@@ -236,7 +235,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       title,
       summary: formatNotificationText(summary, data),
       description: formatNotificationText(description, data),
-      ctaText: ctaText || ctaFallback,
+      ctaText,
       buttonType,
       linkType,
       isActionable,
