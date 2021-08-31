@@ -190,7 +190,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     // - if hidden in Dato
     // - if complete
     // Just add notification if already formatted
-    if (formatted || !dictionaryEntry) {
+    if (formatted) {
       return [...allNotifications, notification]
     }
     const {
