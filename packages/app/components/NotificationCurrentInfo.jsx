@@ -56,14 +56,20 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   // GET DISMISS FUNCTION
   const dismissNotification = useDismissNotification(openedNotification)
 
+  const { isActionable } = openedNotification
+  let { ctaText } = openedNotification
+  if (!ctaText && isActionable) {
+    ctaText = 'Ok'
+  }
+
   const infoButtonAndContent = React.useMemo(() => {
     if (!openedNotification) return {}
     const button = (
       <NotificationCurrentInfoButton
-        ctaText={openedNotification.ctaText}
+        ctaText={ctaText}
         buttonType={openedNotification.buttonType}
         linkType={openedNotification.linkType}
-        isActionable={openedNotification.isActionable}
+        isActionable={isActionable}
         isComplete={openedNotification.isComplete}
         onAction={openedNotification.onAction}
         onComplete={() => completeNotification(openedNotification.id)}

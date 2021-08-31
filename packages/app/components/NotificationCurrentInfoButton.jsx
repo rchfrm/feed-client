@@ -18,7 +18,7 @@ const NotificationCurrentInfoButton = ({
   const [loading, setLoading] = React.useState(false)
 
   const onClick = React.useCallback(async () => {
-    if (!isActionable) {
+    if (!isActionable || (isActionable && isComplete)) {
       dismissNotification()
       return
     }
@@ -31,7 +31,7 @@ const NotificationCurrentInfoButton = ({
     if (error || res === 'incomplete') return
     // Update notification as resolved
     onComplete()
-  }, [linkType, isActionable, onAction, onComplete, dismissNotification])
+  }, [linkType, isActionable, isComplete, onAction, onComplete, dismissNotification])
 
   if (buttonType === 'facebook') {
     return (
@@ -60,7 +60,7 @@ const NotificationCurrentInfoButton = ({
 
 NotificationCurrentInfoButton.propTypes = {
   sidepanelLayout: PropTypes.bool.isRequired,
-  ctaText: PropTypes.string.isRequired,
+  ctaText: PropTypes.string,
   buttonType: PropTypes.string.isRequired,
   linkType: PropTypes.string,
   isComplete: PropTypes.bool.isRequired,
