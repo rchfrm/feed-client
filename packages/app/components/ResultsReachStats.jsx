@@ -22,7 +22,7 @@ const ResultsReachStats = ({ data, className }) => {
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">Existing audiences</p>
       <MarkdownText
         markdown={copy.reachDescription(adsReachProportion, organicReachProportion)}
-        className="sm:px-4 mr-auto sm:mr-0 sm:text-center"
+        className="sm:px-2 mr-auto sm:mr-0 sm:text-center"
       />
       <p
         className="text-6xl font-bold hidden sm:block"

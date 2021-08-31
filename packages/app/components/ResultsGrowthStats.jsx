@@ -23,7 +23,7 @@ const ResultsGrowthStats = ({ data, className }) => {
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">New people</p>
       <MarkdownText
         markdown={copy.audienceSizeDescription(audienceSize.growth.percentage * 100)}
-        className="sm:px-4 mr-auto sm:mr-0 sm:text-center"
+        className="sm:px-2 mr-auto sm:mr-0 sm:text-center"
       />
       <p
         className="text-6xl font-bold hidden sm:block"
@@ -32,7 +32,7 @@ const ResultsGrowthStats = ({ data, className }) => {
         <span style={{ color: brandColors.facebook.bg }}>+</span>
         {abbreviateNumber(audienceSize.growth.absolute)}
       </p>
-      <ResultsGrowthStatsChart />
+      <ResultsGrowthStatsChart audienceSize={audienceSize} />
     </div>
   )
 }

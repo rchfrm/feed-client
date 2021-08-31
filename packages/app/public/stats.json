@@ -10,12 +10,12 @@
            "average": 1
         },
         "audience_size": {
-           "curr_period": 2000,
+           "curr_period": 3000,
            "growth": {
-              "percentage": 1,
+              "percentage": 0.33,
               "absolute": 1000
            },
-           "prev_period": 1000
+           "prev_period": 2000
         },
         "ads_reach": {
            "average": 20,
