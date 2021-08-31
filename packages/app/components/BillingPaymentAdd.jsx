@@ -3,24 +3,40 @@ import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 
-import BillingAddPaymentForm from '@/app/BillingAddPaymentForm'
-// import PaymentAddForm from '@/app/PaymentAddForm_old' // OLD FORM
+import AddPaymentForm from '@/app/AddPaymentForm'
 
 import BillingPaymentAddSuccess from '@/app/BillingPaymentAddSuccess'
 
 import copy from '@/app/copy/billingCopy'
 
+import useBillingStore from '@/app/stores/billingStore'
+
 import sidePanelStyles from '@/app/SidePanel.module.css'
+
+const getBillingStoreState = (state) => ({
+  organisation: state.organisation,
+})
 
 const BillingPaymentAdd = ({
   shouldBeDefault,
-  setSidePanelButton,
   toggleSidePanel,
+  setSidePanelButton,
   setSidePanelLoading,
+  sidePanelLoading,
 }) => {
+  const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
+  const [isFormValid, setIsFormValid] = React.useState(false)
+  const { organisation: { id: organisationId } } = useBillingStore(getBillingStoreState)
   // HANDLE SUCCESS
   const [paymentMethod, setPaymentMethod] = React.useState(null)
   const [success, setSuccess] = React.useState(false)
+
+
+  // CHANGE SIDEPANEL BUTTON on MOUNT
+  React.useEffect(() => {
+    const button = <Button version="green" disabled={!isFormValid} onClick={addPaymentMethod}>Submit</Button>
+    setSidePanelButton(button)
+  }, [isFormValid, addPaymentMethod, setSidePanelButton])
 
   // CHANGE SIDEPANEL BUTTON on SUCCESS
   React.useEffect(() => {
@@ -40,12 +56,16 @@ const BillingPaymentAdd = ({
 
       <div>
         {success ? <BillingPaymentAddSuccess paymentMethod={paymentMethod} /> : (
-          <BillingAddPaymentForm
-            setSidePanelButton={setSidePanelButton}
-            setSidePanelLoading={setSidePanelLoading}
+          <AddPaymentForm
+            organisationId={organisationId}
+            setAddPaymentMethod={setAddPaymentMethod}
             setPaymentMethod={setPaymentMethod}
             setSuccess={setSuccess}
             shouldBeDefault={shouldBeDefault}
+            isFormValid={isFormValid}
+            setIsFormValid={setIsFormValid}
+            isLoading={sidePanelLoading}
+            setIsLoading={setSidePanelLoading}
           />
         )}
       </div>
@@ -58,7 +78,6 @@ BillingPaymentAdd.propTypes = {
   shouldBeDefault: PropTypes.bool,
   setSidePanelButton: PropTypes.func.isRequired,
   toggleSidePanel: PropTypes.func.isRequired,
-  setSidePanelLoading: PropTypes.func.isRequired,
 }
 
 BillingPaymentAdd.defaultProps = {

@@ -10,11 +10,9 @@ import {
   useStripe,
 } from '@stripe/react-stripe-js'
 
-import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
 
-import SelectCurrency from '@/elements/SelectCurrency'
 import InputBase from '@/elements/InputBase'
 
 import useBillingStore from '@/app/stores/billingStore'
@@ -43,40 +41,28 @@ const STRIPE_ELEMENT_OPTIONS = {
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
-  organisation: state.organisation,
   addPaymentMethod: state.addPaymentMethod,
-  artistCurrency: state.artistCurrency,
 })
 
 // THE FORM
 const FORM = ({
-  setSidePanelButton,
-  setSidePanelLoading,
+  organisationId,
   setPaymentMethod,
   setSuccess,
   shouldBeDefault,
+  setAddPaymentMethod,
+  isFormValid,
+  setIsFormValid,
+  isLoading,
+  setIsLoading,
 }) => {
   const elements = useElements()
   const stripe = useStripe()
   const [name, setName] = React.useState('')
-  const [currency, setCurrency] = React.useState('')
   const [error, setError] = React.useState(null)
 
   // READ from BILLING STORE
-  const {
-    organisation: { id: organisationId },
-    addPaymentMethod,
-    artistCurrency,
-  } = useBillingStore(getBillingStoreState, shallow)
-
-  // FORM STATE
-  const [isFormValid, setIsFormValid] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(true)
-
-  // HANDLE LOADING
-  React.useEffect(() => {
-    setSidePanelLoading(isLoading)
-  }, [isLoading, setSidePanelLoading])
+  const { addPaymentMethod } = useBillingStore(getBillingStoreState, shallow)
 
   // WAIT FOR STRIPE TO LOAD
   React.useEffect(() => {
@@ -85,14 +71,14 @@ const FORM = ({
       return
     }
     setIsLoading(false)
-  }, [elements, stripe])
+  }, [elements, stripe, setIsLoading])
 
   // TEST FORM IS VALID
   const [cardComplete, setCardComplete] = React.useState(false)
   React.useEffect(() => {
-    const formValid = !!(name && currency && elements && stripe && cardComplete)
+    const formValid = !!(name && elements && stripe && cardComplete)
     setIsFormValid(formValid)
-  }, [name, currency, cardComplete, elements, stripe])
+  }, [name, cardComplete, elements, stripe, setIsFormValid])
 
 
   // * HANDLE FORM
@@ -122,7 +108,6 @@ const FORM = ({
     const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod({
       organisationId,
       paymentMethodId: paymentMethod.id,
-      currency,
       shouldBeDefault,
     })
 
@@ -173,14 +158,12 @@ const FORM = ({
     setPaymentMethod(paymentMethodDb)
     setSuccess(true)
     // Track
-    track('billing_finish_add_payment', { organisationId, shouldBeDefault, currency })
-  }, [isFormValid, isLoading, name, organisationId, currency, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
+    track('billing_finish_add_payment', { organisationId, shouldBeDefault })
+  }, [isFormValid, isLoading, setIsLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
 
-  // CHANGE SIDEPANEL BUTTON
   React.useEffect(() => {
-    const button = <Button version="green" disabled={!isFormValid} onClick={onSubmit}>Submit</Button>
-    setSidePanelButton(button)
-  }, [isFormValid, onSubmit, setSidePanelButton])
+    setAddPaymentMethod(() => onSubmit)
+  }, [setAddPaymentMethod, onSubmit])
 
   return (
     <form
@@ -195,21 +178,11 @@ const FORM = ({
       {/* NAME */}
       <Input
         label="Full name"
+        placeholder="Name on card"
         name="name"
         value={name}
         updateValue={setName}
         required
-      />
-
-      {/* CURRENCY */}
-      <SelectCurrency
-        label="Payment currency"
-        name="currency"
-        value={currency}
-        setValue={setCurrency}
-        placeholder="Select a currency"
-        required
-        topChoice={artistCurrency.code}
       />
 
       {/* CARD ELEMENT
@@ -226,11 +199,6 @@ const FORM = ({
           />
         </div>
       </InputBase>
-
-      {/* HIDE BUTTON BECAUSE IT IS IN SIDEPANEL */}
-      <button type="submit" disabled={!stripe} className="absolute" style={{ left: '-1000em' }}>
-        Pay
-      </button>
     </form>
   )
 }
@@ -239,37 +207,50 @@ const FORM = ({
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe(process.env.stripe_provider)
 
-const BillingAddPaymentForm = ({
-  setSidePanelButton,
-  setSidePanelLoading,
+const AddPaymentForm = ({
+  organisationId,
   setPaymentMethod,
   setSuccess,
   shouldBeDefault,
+  setAddPaymentMethod,
+  isFormValid,
+  setIsFormValid,
+  isLoading,
+  setIsLoading,
 }) => {
   return (
     <Elements stripe={stripePromise}>
       {/* Defined above... */}
       <FORM
-        setSidePanelButton={setSidePanelButton}
-        setSidePanelLoading={setSidePanelLoading}
+        organisationId={organisationId}
+        setAddPaymentMethod={setAddPaymentMethod}
         setPaymentMethod={setPaymentMethod}
         setSuccess={setSuccess}
         shouldBeDefault={shouldBeDefault}
+        isFormValid={isFormValid}
+        setIsFormValid={setIsFormValid}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
     </Elements>
   )
 }
 
-BillingAddPaymentForm.propTypes = {
-  setSidePanelButton: PropTypes.func.isRequired,
-  setSidePanelLoading: PropTypes.func.isRequired,
-  setPaymentMethod: PropTypes.func.isRequired,
-  setSuccess: PropTypes.func.isRequired,
+AddPaymentForm.propTypes = {
+  setPaymentMethod: PropTypes.func,
+  setSuccess: PropTypes.func,
   shouldBeDefault: PropTypes.bool,
+  setAddPaymentMethod: PropTypes.func.isRequired,
+  isFormValid: PropTypes.bool.isRequired,
+  setIsFormValid: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  setIsLoading: PropTypes.func.isRequired,
 }
 
-BillingAddPaymentForm.defaultProps = {
+AddPaymentForm.defaultProps = {
   shouldBeDefault: false,
+  setPaymentMethod: () => {},
+  setSuccess: () => {},
 }
 
-export default BillingAddPaymentForm
+export default AddPaymentForm

@@ -258,15 +258,35 @@ a[type=button] {
   }
 }
 
-.button--outline {
+.button--outline-black {
+  color: var(--black);
+  border: 3px solid var(--black);
+  font-weight: normal;
+
+  @mixin canHover {
+    &:hover {
+      border-color: var(--black-hover);
+    }
+  }
+
+  &:focus {
+    border-color: var(--black-hover);
+  }
+}
+
+.button--outline-green {
   color: var(--black);
   border: 3px solid var(--success-color);
   font-weight: normal;
 
   @mixin canHover {
     &:hover {
-      border: 3px solid var(--green-hover);
+      border-color: var(--green-hover);
     }
+  }
+
+  &:focus {
+    border-color: var(--green-hover);
   }
 }
 
