@@ -38,7 +38,7 @@ const NotificationCurrentInfoButton = ({
     onComplete()
   }, [linkType, canDismiss, onAction, onComplete, dismissNotification])
 
-  if (buttonType === 'facebook') {
+  if (buttonType === 'facebook' && !isComplete) {
     return (
       <ButtonFacebook
         className={!sidepanelLayout ? 'w-full absolute left-0 bottom-0 rounded-t-none' : null}

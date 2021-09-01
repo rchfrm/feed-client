@@ -16,7 +16,6 @@ const NotificationCurrentInfoContent = ({
   sidepanelLayout,
 }) => {
   const hasButton = !sidepanelLayout
-  // TODO Display 'Thanks' instead of description if notification is complete and actionable
   return (
     <div className={hasButton ? 'pb-12' : null}>
       {!sidepanelLayout && isComplete && (
