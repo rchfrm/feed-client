@@ -34,8 +34,8 @@ const ToggleSwitch = ({
   // Setup sizes on mount but await dimensions changes which might cause miscalculations
   const observer = React.useRef(
     new ResizeObserver(entries => {
-      const { width: containerWidth } = entries[0].contentRect
-      const { width: switchWidth } = entries[1].contentRect
+      const { width: containerWidth } = entries[0]?.contentRect
+      const { width: switchWidth } = entries[1]?.contentRect
       setContainerElWidth(containerWidth)
       setSwitchElWidth(switchWidth)
 
