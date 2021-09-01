@@ -92,7 +92,10 @@ export const getAction = ({
   missingScopes,
 }) => {
   // Handle relink FB
-  if (topic === 'facebook-expired-access-token') {
+  if (
+    topic === 'facebook-expired-access-token'
+    || topic === 'facebook-missing-permissions'
+  ) {
     return () => getFbRelinkAction(hasFbAuth, missingScopes)
   }
 

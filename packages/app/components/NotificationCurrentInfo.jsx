@@ -70,6 +70,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
         buttonType={openedNotification.buttonType}
         linkType={openedNotification.linkType}
         isActionable={isActionable}
+        isDismissible={openedNotification.isDismissible}
         isComplete={openedNotification.isComplete}
         onAction={openedNotification.onAction}
         onComplete={() => completeNotification(openedNotification.id)}

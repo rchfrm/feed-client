@@ -11,13 +11,16 @@ const NotificationCurrentInfoButton = ({
   linkType,
   isActionable,
   isComplete,
+  isDismissible,
   onAction,
   onComplete,
   dismissNotification,
 }) => {
   const [loading, setLoading] = React.useState(false)
 
-  const canDismiss = !isActionable || (isActionable && isComplete)
+  // Notifications should be either dismissible or actionable, not both.
+  // Once an actionable notification is complete, it can be dismissed.
+  const canDismiss = (isActionable && isComplete) || isDismissible
 
   const onClick = React.useCallback(async () => {
     if (canDismiss) {
@@ -33,7 +36,7 @@ const NotificationCurrentInfoButton = ({
     if (error || res === 'incomplete') return
     // Update notification as resolved
     onComplete()
-  }, [linkType, isActionable, isComplete, onAction, onComplete, dismissNotification])
+  }, [linkType, canDismiss, onAction, onComplete, dismissNotification])
 
   if (buttonType === 'facebook') {
     return (
