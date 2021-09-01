@@ -126,7 +126,7 @@ const BaseFilters = ({
       utils.setLocalStorage(querySlug, filterName)
     }
   // eslint-disable-next-line
-  }, [activeOptionId])
+  }, [activeOptionId, router])
 
   const trackFilter = React.useCallback((activeOptionId) => {
     if (!trackProps) return
