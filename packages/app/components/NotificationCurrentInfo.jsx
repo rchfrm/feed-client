@@ -59,6 +59,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
 
   const infoButtonAndContent = React.useMemo(() => {
     if (!openedNotification) return {}
+    // Fallback to 'Ok' if a notification is actionable but no ctaText is provided by Dato
     const { isActionable } = openedNotification
     let { ctaText } = openedNotification
     if (!ctaText && isActionable) {
@@ -104,7 +105,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     }
     // OPEN SIDEPANEL if MOBILE
     const sidepanelOpen = !!content
-    if (sidepanelOpen === isSidepanelOpen || isDesktopLayout) return
+    if (sidepanelOpen === isSidepanelOpen) return
     setSidePanelContent(content)
     toggleSidePanel(sidepanelOpen)
     setOnSidepanelClose(() => closeNotification)
