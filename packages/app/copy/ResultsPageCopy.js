@@ -1,20 +1,3 @@
-import brandColors from '@/constants/brandColors'
-
-export const postResultsConfig = [
-  {
-    type: 'growth',
-    color: brandColors.blue,
-  },
-  {
-    type: 'reach',
-    color: brandColors.green,
-  },
-  {
-    type: 'convert',
-    color: brandColors.redLight,
-  },
-]
-
 export default {
   audienceSizeDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
   reachDescription: (adsValue, organicValue) => `Feed reached **${adsValue}%** of your audience, versus your

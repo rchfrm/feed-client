@@ -54,8 +54,8 @@ const ResultsReachStatsChart = ({ adsReachProportion, organicReachProportion }) 
 }
 
 ResultsReachStatsChart.propTypes = {
-  adsReachProportion: PropTypes.number.isRequired,
-  organicReachProportion: PropTypes.number.isRequired,
+  adsReachProportion: PropTypes.string.isRequired,
+  organicReachProportion: PropTypes.string.isRequired,
 }
 
 export default ResultsReachStatsChart

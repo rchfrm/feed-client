@@ -5,7 +5,9 @@ import NoDataBlock from '@/app/NoDataBlock'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import copy, { postResultsConfig } from '@/app/copy/ResultsPageCopy'
+import copy from '@/app/copy/ResultsPageCopy'
+import { postResultsConfig } from '@/app/helpers/resultsHelpers'
+
 
 const ResultsPostsStats = ({ data }) => {
   return (

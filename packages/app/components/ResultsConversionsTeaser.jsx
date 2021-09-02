@@ -16,7 +16,9 @@ const ResultsConversionTeaser = ({ className }) => {
     ].join('')}
     >
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">Sales &amp; Sign-ups</p>
-      <p className="mr-auto sm:mr-0 sm:text-center sm:mb-15">Coming soon!</p>
+      <div className="flex items-center sm:mb-5" style={{ minHeight: '88px' }}>
+        <p className="mr-auto sm:mr-0 mb-0 sm:text-center">Coming soon!</p>
+      </div>
       <button
         className="w-full h-48 sm:h-full"
         onClick={openConversionsInterestPanel}

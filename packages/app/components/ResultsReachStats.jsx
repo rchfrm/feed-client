@@ -11,8 +11,8 @@ import brandColors from '@/constants/brandColors'
 
 const ResultsReachStats = ({ data, className }) => {
   const { ads_reach: adsReach, organic_reach: organicReach } = data
-  const adsReachProportion = adsReach.proportion * 100
-  const organicReachProportion = organicReach.proportion * 100
+  const adsReachProportion = (adsReach.proportion * 100).toFixed(2)
+  const organicReachProportion = (organicReach.proportion * 100).toFixed(2)
   return (
     <div
       className={[
@@ -22,10 +22,12 @@ const ResultsReachStats = ({ data, className }) => {
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">Existing audiences</p>
       {data ? (
         <>
-          <MarkdownText
-            markdown={copy.reachDescription(adsReachProportion, organicReachProportion)}
-            className="sm:px-1 mr-auto sm:mr-0 sm:text-center"
-          />
+          <div className="flex items-center" style={{ minHeight: '88px' }}>
+            <MarkdownText
+              markdown={copy.reachDescription(adsReachProportion, organicReachProportion)}
+              className="sm:px-1 mr-auto sm:mr-0 mb-0 sm:text-center"
+            />
+          </div>
           <p
             className="text-6xl font-bold hidden sm:block"
             style={{ color: brandColors.green }}

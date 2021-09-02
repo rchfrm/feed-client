@@ -1,14 +1,32 @@
 /* eslint-disable import/prefer-default-export */
 import * as api from '@/helpers/api'
+import brandColors from '@/constants/brandColors'
+
+export const postResultsConfig = [
+  {
+    type: 'growth',
+    color: brandColors.blue,
+  },
+  {
+    type: 'reach',
+    color: brandColors.green,
+  },
+  {
+    type: 'convert',
+    color: brandColors.redLight,
+  },
+]
 
 const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
     const { asset, ...stats } = value
 
-    newObject[key] = stats
-    newObject.posts.push({
-      ...value.asset,
-    })
+    if (key === 'on_platform' || key === 'unaware') {
+      newObject[key] = stats
+      newObject.posts.push({
+        ...value.asset,
+      })
+    }
     return newObject
   }, { posts: [] })
 

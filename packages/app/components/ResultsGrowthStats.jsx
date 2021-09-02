@@ -23,10 +23,12 @@ const ResultsGrowthStats = ({ data, className }) => {
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">New people</p>
       {data ? (
         <>
-          <MarkdownText
-            markdown={copy.audienceSizeDescription(audienceSize.growth.percentage * 100)}
-            className="sm:px-1 mr-auto sm:mr-0 sm:text-center"
-          />
+          <div className="flex items-center" style={{ minHeight: '88px' }}>
+            <MarkdownText
+              markdown={copy.audienceSizeDescription(audienceSize.growth.percentage * 100)}
+              className="sm:px-1 mr-auto sm:mr-0 mb-0 sm:text-center"
+            />
+          </div>
           <p
             className="text-6xl font-bold hidden sm:block"
             style={{ color: brandColors.blue }}

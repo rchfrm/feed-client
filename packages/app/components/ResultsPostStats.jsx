@@ -23,7 +23,7 @@ const ResultsPostStats = ({
   const { ads_reach: adsReach } = data
   const isDesktopLayout = useBreakpointTest('sm')
   const imageHeight = isDesktopLayout ? '176px' : '100px'
-  const values = type === 'growth' ? [post.reach] : [post.engaged, (adsReach.proportion * 100)]
+  const values = type === 'growth' ? [post.engaged, (adsReach.proportion * 100)] : [post.reach]
   return (
     <div
       className={[className].join(' ')}
