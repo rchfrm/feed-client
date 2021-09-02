@@ -133,7 +133,7 @@ export const getPosts = async ({ limit = 10, artistId, promotionStatus, sortBy, 
     // Filter by promotion status if not "all"
     ...(promotionStatus && promotionStatus !== 'all')
     && { promotion_status: promotionStatus },
-    // Sort by sort status if defined
+    // Sort by 'sort by' if defined
     ...(sortBy && { order_by: sortBy }),
     // Hide non-promotable posts if showing inactive
     ...(promotionStatus === 'inactive') && { is_promotable: 1 },

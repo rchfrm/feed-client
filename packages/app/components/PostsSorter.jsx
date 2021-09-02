@@ -31,6 +31,7 @@ const PostsSorter = ({
 }
 
 PostsSorter.propTypes = {
+  sortTypes: PropTypes.array.isRequired,
   sortBy: PropTypes.string.isRequired,
   setSortBy: PropTypes.func.isRequired,
   defaultSortState: PropTypes.string.isRequired,

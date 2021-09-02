@@ -78,7 +78,7 @@ PostsFilters.propTypes = {
 }
 
 PostsFilters.defaultProps = {
-  className: PropTypes.string,
+  className: null,
 }
 
 export default PostsFilters
