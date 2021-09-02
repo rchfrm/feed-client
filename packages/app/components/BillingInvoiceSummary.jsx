@@ -12,7 +12,7 @@ const BillingInvoiceSummary = ({
   upcomingInvoice,
   className,
 }) => {
-  const initSelectedInvoiceName = upcomingInvoice && upcomingInvoice.paymentStatus !== 'paid' ? 'upcoming' : 'latest'
+  const initSelectedInvoiceName = upcomingInvoice.paymentStatus && upcomingInvoice.paymentStatus !== 'paid' ? 'upcoming' : 'latest'
   const [selectedInvoiceName, setSelectedInvoiceName] = React.useState(initSelectedInvoiceName)
   const noLatestInvoiceOrIsPaid = !latestInvoice.paymentStatus || latestInvoice.paymentStatus === 'paid'
   return (
@@ -24,8 +24,8 @@ const BillingInvoiceSummary = ({
 
       <BillingInvoiceSummaryHeader
         latestInvoicePaymentStatus={latestInvoice.paymentStatus}
-        latestInvoiceDueDate={moment(latestInvoice.date_due)}
-        upcomingInvoiceDueDate={moment(upcomingInvoice.date_due)}
+        latestInvoiceDueDate={latestInvoice.date_due && moment(latestInvoice.date_due)}
+        upcomingInvoiceDueDate={upcomingInvoice.date_due && moment(upcomingInvoice.date_due)}
         upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
       />
 

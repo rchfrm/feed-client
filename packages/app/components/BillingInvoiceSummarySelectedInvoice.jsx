@@ -17,6 +17,9 @@ const BillingInvoiceSummarySelectedInvoice = ({
     )
   }
   const sections = invoice.invoiceSections
+  if (!sections) {
+    return null
+  }
   return (
     <>
       <p className={`inline-block py-2 px-4 mb-6 rounded-full ${invoice.paymentStatus === 'failed' ? 'text-white bg-red font-bold' : 'bg-grey-2'}`}>{invoice.paymentStatus}</p>

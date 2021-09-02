@@ -17,7 +17,7 @@ const BillingInvoiceSummaryHeader = ({
     if (!upcomingInvoiceSpendAndFee) {
       return 'Nothing to pay!'
     }
-    if (latestInvoicePaymentStatus === 'paid') {
+    if (latestInvoicePaymentStatus === 'paid' && upcomingInvoiceDueDate) {
       return `Next payment: ${formatDate(upcomingInvoiceDueDate)}`
     }
     return `Next payment: ${formatDate(latestInvoiceDueDate)}`
@@ -28,14 +28,16 @@ const BillingInvoiceSummaryHeader = ({
 
 BillingInvoiceSummaryHeader.propTypes = {
   latestInvoicePaymentStatus: PropTypes.string,
-  latestInvoiceDueDate: PropTypes.object.isRequired,
-  upcomingInvoiceDueDate: PropTypes.object.isRequired,
+  latestInvoiceDueDate: PropTypes.object,
+  upcomingInvoiceDueDate: PropTypes.object,
   upcomingInvoiceSpendAndFee: PropTypes.number,
 }
 
 BillingInvoiceSummaryHeader.defaultProps = {
   latestInvoicePaymentStatus: '',
   upcomingInvoiceSpendAndFee: 0,
+  latestInvoiceDueDate: undefined,
+  upcomingInvoiceDueDate: undefined,
 }
 
 export default BillingInvoiceSummaryHeader

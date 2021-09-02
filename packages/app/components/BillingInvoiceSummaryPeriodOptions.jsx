@@ -31,6 +31,7 @@ const BillingInvoiceSummaryPeriodOptions = ({
     )
   }
   const UPCOMING_PERIOD_OPTION = () => {
+    if (!upcomingInvoiceSpendAndFee) return null
     const selected = selectedInvoiceName === 'upcoming'
     return (
       <button
