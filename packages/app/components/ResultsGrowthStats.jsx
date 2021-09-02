@@ -21,18 +21,22 @@ const ResultsGrowthStats = ({ data, className }) => {
       ].join(' ')}
     >
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">New people</p>
-      <MarkdownText
-        markdown={copy.audienceSizeDescription(audienceSize.growth.percentage * 100)}
-        className="sm:px-2 mr-auto sm:mr-0 sm:text-center"
-      />
-      <p
-        className="text-6xl font-bold hidden sm:block"
-        style={{ color: brandColors.blue }}
-      >
-        <span style={{ color: brandColors.facebook.bg }}>+</span>
-        {abbreviateNumber(audienceSize.growth.absolute)}
-      </p>
-      <ResultsGrowthStatsChart audienceSize={audienceSize} />
+      {data ? (
+        <>
+          <MarkdownText
+            markdown={copy.audienceSizeDescription(audienceSize.growth.percentage * 100)}
+            className="sm:px-1 mr-auto sm:mr-0 sm:text-center"
+          />
+          <p
+            className="text-6xl font-bold hidden sm:block"
+            style={{ color: brandColors.blue }}
+          >
+            <span style={{ color: brandColors.facebook.bg }}>+</span>
+            {abbreviateNumber(audienceSize.growth.absolute)}
+          </p>
+          <ResultsGrowthStatsChart audienceSize={audienceSize} />
+        </>
+      ) : <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-blue" />}
     </div>
   )
 }

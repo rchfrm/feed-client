@@ -20,17 +20,21 @@ const ResultsReachStats = ({ data, className }) => {
       ].join(' ')}
     >
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">Existing audiences</p>
-      <MarkdownText
-        markdown={copy.reachDescription(adsReachProportion, organicReachProportion)}
-        className="sm:px-2 mr-auto sm:mr-0 sm:text-center"
-      />
-      <p
-        className="text-6xl font-bold hidden sm:block"
-        style={{ color: brandColors.green }}
-      >
-        {adsReachProportion}%
-      </p>
-      <ResultsReachStatsChart adsReachProportion={adsReachProportion} organicReachProportion={organicReachProportion} />
+      {data ? (
+        <>
+          <MarkdownText
+            markdown={copy.reachDescription(adsReachProportion, organicReachProportion)}
+            className="sm:px-1 mr-auto sm:mr-0 sm:text-center"
+          />
+          <p
+            className="text-6xl font-bold hidden sm:block"
+            style={{ color: brandColors.green }}
+          >
+            {adsReachProportion}%
+          </p>
+          <ResultsReachStatsChart adsReachProportion={adsReachProportion} organicReachProportion={organicReachProportion} />
+        </>
+      ) : <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-green" />}
     </div>
   )
 }

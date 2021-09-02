@@ -56,7 +56,7 @@ const ResultsPostStats = ({
             className={[
               'h-8',
               'rounded-full',
-              'border-black border-2',
+              'border-solid border-black border-2 text-black',
             ].join(' ')}
             onClick={() => console.log('View more')}
           >

@@ -17,8 +17,9 @@ export const postResultsConfig = [
 
 export default {
   audienceSizeDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
-  reachDescription: (adsValue, organicValue) => `Feed’s ads reached upto **${adsValue}%** of your audience,
-  compared with organic reach of upto **${organicValue}%**.`,
+  reachDescription: (adsValue, organicValue) => `Feed reached **${adsValue}%** of your audience, versus your
+  organic posts which reached **${organicValue}%** on average.`,
+
   postDescription: (type) => {
     if (type === 'growth') {
       return `The post that engaged the
@@ -33,6 +34,7 @@ export default {
     }
     return `**${valueA}** people reached`
   },
+  statsNoData: 'Feed is setting up your ads',
   postsStatsNoData: `Once you’ve been using Feed for a few weeks,
   your most effective ads, and a month to month
   comparison will appear here.`,
