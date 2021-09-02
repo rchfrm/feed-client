@@ -21,8 +21,8 @@ const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
     const { asset, ...stats } = value
 
+    newObject[key] = stats
     if (key === 'on_platform' || key === 'unaware') {
-      newObject[key] = stats
       newObject.posts.push({
         ...value.asset,
       })
