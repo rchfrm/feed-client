@@ -103,7 +103,14 @@ export const getAction = ({
   if (!apiEndpoint && !ctaLink) return () => {}
   // Handle link
   if (ctaLink) {
-    return getLinkAction(ctaLink, linkType, {
+    let link = ctaLink
+    // Check if link uses a variable, if it does extract the correct link from the data object
+    const match = RE_TEMPLATE.exec(ctaLink)
+    if (match) {
+      const [, variable] = match
+      link = data[variable]
+    }
+    return getLinkAction(link, linkType, {
       title,
       topic,
       isDismissible,
