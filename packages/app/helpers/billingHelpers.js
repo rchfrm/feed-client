@@ -137,12 +137,7 @@ export const getDefaultPaymentMethod = (allPaymentMethods = []) => {
 export const getAllOrgsInfo = async ({ user }) => {
   const orgDetails = getOrganizationDetails(user)
   const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org))
-  let allOrgsInfo
-  if (user.role === 'admin') {
-    allOrgsInfo = await api.get('/organizations/all')
-  } else {
-    allOrgsInfo = await Promise.all(fetchOrgPromises)
-  }
+  const allOrgsInfo = await Promise.all(fetchOrgPromises)
   return allOrgsInfo
 }
 
