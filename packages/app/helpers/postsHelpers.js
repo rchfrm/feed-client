@@ -374,3 +374,21 @@ export const setPostCallToAction = async (artistId, callToAction, assetId, campa
   const res = getPostCallToActionData(newCta)
   return { res }
 }
+
+// GET SINGLE POST
+/**
+ * @param {string} artistId
+ * @param {string} assetId
+ * @returns {Promise<any>}
+ */
+export const getPostById = async (artistId, assetId) => {
+  const endpoint = `/artists/${artistId}/assets/${assetId}`
+  const payload = null
+  const errorTracking = {
+    category: 'Post',
+    action: 'Get single post by id',
+  }
+  const { res, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
+  const [formattedPost] = formatPostsResponse([res])
+  return { res: formattedPost, error }
+}

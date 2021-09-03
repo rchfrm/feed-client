@@ -1,7 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useAsyncEffect from 'use-async-effect'
+
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 
 import Button from '@/elements/Button'
 import MediaFallback from '@/elements/MediaFallback'
@@ -10,6 +14,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/ResultsPageCopy'
 
 import { abbreviateNumber } from '@/helpers/utils'
+import { getPostById } from '@/app/helpers/postsHelpers'
 
 import brandColors from '@/constants/brandColors'
 
@@ -19,11 +24,31 @@ const ResultsPostStats = ({
   config,
   className,
 }) => {
+  const [postData, setPostsData] = React.useState(null)
+  const { artistId } = React.useContext(ArtistContext)
+
   const { type, color } = config
   const { ads_reach: adsReach } = data
   const isDesktopLayout = useBreakpointTest('sm')
   const imageHeight = isDesktopLayout ? '176px' : '100px'
   const values = type === 'growth' ? [post.engaged, (adsReach.proportion * 100)] : [post.reach]
+  const { goToPostMetrics } = usePostsSidePanel()
+
+  const metrics = {
+    organic: postData.organicMetrics,
+    paid: postData.paidMetrics,
+  }
+  const { postType } = postData
+
+  useAsyncEffect(async (isMounted) => {
+    const { res, error } = await getPostById(artistId, post.id)
+    if (!isMounted()) return
+    if (error) {
+      return
+    }
+    setPostsData(res)
+  }, [])
+
   return (
     <div
       className={[className].join(' ')}
@@ -58,7 +83,7 @@ const ResultsPostStats = ({
               'rounded-full',
               'border-solid border-black border-2 text-black',
             ].join(' ')}
-            onClick={() => console.log('View more')}
+            onClick={() => goToPostMetrics({ metrics, postType })}
           >
             View more
           </Button>
