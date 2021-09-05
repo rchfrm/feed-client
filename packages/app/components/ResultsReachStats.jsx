@@ -11,8 +11,8 @@ import brandColors from '@/constants/brandColors'
 
 const ResultsReachStats = ({ data, className }) => {
   const { ads_reach: adsReach, organic_reach: organicReach } = data
-  const adsReachProportion = (adsReach.proportion * 100).toFixed(2)
-  const organicReachProportion = (organicReach.proportion * 100).toFixed(2)
+  const adsReachProportion = +(adsReach.proportion * 100).toFixed(2)
+  const organicReachProportion = +(organicReach.proportion * 100).toFixed(2)
   return (
     <div
       className={[

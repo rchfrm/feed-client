@@ -33,6 +33,34 @@ const formatResultsData = (data) => {
   return formattedData
 }
 
+export const convertChartValues = (adsReachProportion, organicReachProportion) => {
+  const highestValue = Math.max(adsReachProportion, organicReachProportion)
+  let multiplier = 1
+  let maxValue = 100
+
+  if (highestValue < 25 && highestValue >= 10) {
+    multiplier = 2
+    maxValue = 50
+  }
+
+  if (highestValue < 10 && highestValue >= 1) {
+    multiplier = 4
+    maxValue = 25
+  }
+
+  if (highestValue < 1) {
+    multiplier = 40
+    maxValue = 2.5
+  }
+
+  return {
+    adsReachWidth: adsReachProportion * multiplier,
+    organicReachWidth: organicReachProportion * multiplier,
+    maxValue,
+    highestValue,
+  }
+}
+
 // GET AD RESULTS SUMMARY
 /**
  * @param {string} artistId

@@ -10,15 +10,12 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 
 import Button from '@/elements/Button'
-import MediaFallback from '@/elements/MediaFallback'
 import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
 import { abbreviateNumber } from '@/helpers/utils'
 import { getPostById } from '@/app/helpers/postsHelpers'
-
-import brandColors from '@/constants/brandColors'
 
 const ResultsPostStats = ({
   post,
