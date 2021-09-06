@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import { gsap, Power2 } from 'gsap'
 
+import { formatNumber } from '@/helpers/utils'
+
 const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
   const [lowestValueProportion, setLowestValueProportion] = React.useState(0)
   const prevPeriodChartRef = React.useRef(null)
@@ -50,7 +52,7 @@ const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
             index === 0 ? 'z-10' : null,
           ].join(' ')}
         >
-          {value}
+          {formatNumber(value)}
         </div>
       ))}
     </div>

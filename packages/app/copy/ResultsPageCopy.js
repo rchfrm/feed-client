@@ -1,9 +1,11 @@
+import { formatNumber } from '@/helpers/utils'
+
 export default {
   newAudienceOnPlatformDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
-  newAudienceUnawareEngagedDouble: (currValue, prevValue) => `**${currValue} engaged** with your posts, versus ${prevValue} last month.`,
-  newAudienceUnawareReachDouble: (currValue, prevValue) => `**${currValue} saw your posts**, versus ${prevValue} last month.`,
-  newAudienceUnawareEngagedSingle: (currValue) => `**${currValue} engaged** with your posts.`,
-  newAudienceUnawareReachSingle: (currValue) => `**${currValue} saw your posts.**`,
+  newAudienceUnawareEngagedDouble: (currValue, prevValue) => `**${formatNumber(currValue)} engaged** with your posts, versus ${formatNumber(prevValue)} last month.`,
+  newAudienceUnawareReachDouble: (currValue, prevValue) => `**${formatNumber(currValue)} saw your posts**, versus ${formatNumber(prevValue)} last month.`,
+  newAudienceUnawareEngagedSingle: (currValue) => `**${formatNumber(currValue)} engaged** with your posts.`,
+  newAudienceUnawareReachSingle: (currValue) => `**${formatNumber(currValue)} saw your posts.**`,
   existingAudienceDescription: (adsValue, organicValue) => `Feed reached **${adsValue}%** of your audience, versus your
   organic posts which reached **${organicValue}%** on average.`,
 
