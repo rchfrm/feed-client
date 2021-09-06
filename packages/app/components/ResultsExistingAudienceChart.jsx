@@ -7,7 +7,7 @@ import { convertChartValues } from '@/app/helpers/resultsHelpers'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsReachStatsChart = ({ adsReachProportion, organicReachProportion }) => {
+const ResultsExistingAudienceChart = ({ adsReachProportion, organicReachProportion }) => {
   const [chartValues, setChartValues] = React.useState(null)
   const {
     adsReachWidth,
@@ -82,9 +82,9 @@ const ResultsReachStatsChart = ({ adsReachProportion, organicReachProportion }) 
   )
 }
 
-ResultsReachStatsChart.propTypes = {
+ResultsExistingAudienceChart.propTypes = {
   adsReachProportion: PropTypes.number.isRequired,
   organicReachProportion: PropTypes.number.isRequired,
 }
 
-export default ResultsReachStatsChart
+export default ResultsExistingAudienceChart

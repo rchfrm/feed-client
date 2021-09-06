@@ -7,9 +7,9 @@ import { formatNumber } from '@/helpers/utils'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsGrowthStatsAudienceChart = ({ audienceSize }) => {
-  const prevPeriodProportion = (audienceSize.prev_period / audienceSize.curr_period) * 100
-  const currentPeriodProportion = (audienceSize.growth.absolute / audienceSize.curr_period) * 100
+const ResultsNewAudienceOnPlatformChart = ({ onPlatformData }) => {
+  const prevPeriodProportion = (onPlatformData.prev_period / onPlatformData.curr_period) * 100
+  const currentPeriodProportion = (onPlatformData.growth.absolute / onPlatformData.curr_period) * 100
 
   const prevPeriodChartRef = React.useRef(null)
   const nextPeriodChartRef = React.useRef(null)
@@ -38,7 +38,7 @@ const ResultsGrowthStatsAudienceChart = ({ audienceSize }) => {
         className="flex items-center justify-center h-full bg-blue opacity-50 rounded-full"
         style={{ width: `${prevPeriodProportion}%`, transform: 'scale(0)' }}
       >
-        {formatNumber(audienceSize.prev_period)}
+        {formatNumber(onPlatformData.prev_period)}
       </div>
       <span className="z-10 -mx-3 text-blue font-light -mt-2" style={{ fontSize: '3rem', color: brandColors.facebook.bg }}>+</span>
       <div
@@ -46,14 +46,14 @@ const ResultsGrowthStatsAudienceChart = ({ audienceSize }) => {
         className="flex items-center justify-center h-full bg-blue rounded-full"
         style={{ width: `${currentPeriodProportion}%`, transform: 'scale(0)' }}
       >
-        {formatNumber(audienceSize.growth.absolute)}
+        {formatNumber(onPlatformData.growth.absolute)}
       </div>
     </div>
   )
 }
 
-ResultsGrowthStatsAudienceChart.propTypes = {
-  audienceSize: PropTypes.object.isRequired,
+ResultsNewAudienceOnPlatformChart.propTypes = {
+  onPlatformData: PropTypes.object.isRequired,
 }
 
-export default ResultsGrowthStatsAudienceChart
+export default ResultsNewAudienceOnPlatformChart

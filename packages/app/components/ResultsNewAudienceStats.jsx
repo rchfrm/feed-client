@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsGrowthStatsAudienceChart from '@/app/ResultsGrowthStatsAudienceChart'
-import ResultsGrowthStatsUnawareChart from '@/app/ResultsGrowthStatsUnawareChart'
+import ResultsNewAudienceOnPlatformChart from '@/app/ResultsNewAudienceOnPlatformChart'
+import ResultsNewAudienceUnawareChart from '@/app/ResultsNewAudienceUnawareChart'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -12,9 +12,9 @@ import { abbreviateNumber } from '@/helpers/utils'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsGrowthStats = ({ data, className }) => {
+const ResultsNewAudienceStats = ({ data, className }) => {
   const { unaware, on_platform: { audience_size: audienceSize } } = data
-  const hasNoticeableGrowth = audienceSize.growth.percentage >= 1
+  const hasNoticeableOnPlatformGrowth = audienceSize.growth.percentage >= 1
 
   return (
     <div
@@ -28,7 +28,7 @@ const ResultsGrowthStats = ({ data, className }) => {
         <>
           <div className="flex items-center" style={{ minHeight: '88px' }}>
             <MarkdownText
-              markdown={copy.audienceSizeDescription(audienceSize.growth.percentage * 100)}
+              markdown={copy.newAudienceOnPlatformDescription(audienceSize.growth.percentage * 100)}
               className="sm:px-1 mr-auto sm:mr-0 mb-0 sm:text-center"
             />
           </div>
@@ -39,10 +39,10 @@ const ResultsGrowthStats = ({ data, className }) => {
             <span style={{ color: brandColors.facebook.bg }}>+</span>
             {abbreviateNumber(audienceSize.growth.absolute)}
           </p>
-          {hasNoticeableGrowth ? (
-            <ResultsGrowthStatsAudienceChart audienceSize={audienceSize} />
+          {hasNoticeableOnPlatformGrowth ? (
+            <ResultsNewAudienceOnPlatformChart onPlatformData={audienceSize} />
           ) : (
-            <ResultsGrowthStatsUnawareChart unawareData={unaware} />
+            <ResultsNewAudienceUnawareChart unawareData={unaware} />
           )}
         </>
       ) : <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-blue" />}
@@ -50,13 +50,13 @@ const ResultsGrowthStats = ({ data, className }) => {
   )
 }
 
-ResultsGrowthStats.propTypes = {
+ResultsNewAudienceStats.propTypes = {
   data: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 
-ResultsGrowthStats.defaultProps = {
+ResultsNewAudienceStats.defaultProps = {
   className: '',
 }
 
-export default ResultsGrowthStats
+export default ResultsNewAudienceStats

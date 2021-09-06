@@ -5,7 +5,7 @@ import { gsap, Power2 } from 'gsap'
 
 import { getChartValues } from '@/app/helpers/resultsHelpers'
 
-const ResultsGrowthStatsUnawareChart = ({ unawareData }) => {
+const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
   const [chartValues, setChartValues] = React.useState([])
   const [lowestValueProportion, setLowestValueProportion] = React.useState(0)
 
@@ -28,7 +28,7 @@ const ResultsGrowthStatsUnawareChart = ({ unawareData }) => {
     }
   }, [chartValues])
 
-  const animateChart = React.useCallback((ref, chartValue, index) => {
+  const animateChart = React.useCallback((ref, index) => {
     if (ref) {
       const ease = Power2.easeOut
       const delay = index === 0 && 0.1
@@ -40,8 +40,8 @@ const ResultsGrowthStatsUnawareChart = ({ unawareData }) => {
   }, [lowestValueProportion])
 
   React.useEffect(() => {
-    chartValues.map((chartValue, index) => animateChart(chartRefs[index].current, chartValue, index))
-  }, [animateChart, chartValues, chartRefs])
+    chartRefs.map((ref, index) => animateChart(ref.current, index))
+  }, [animateChart, chartRefs])
 
   return (
     <div className="relative flex w-full h-12 items-center text-white">
@@ -64,8 +64,8 @@ const ResultsGrowthStatsUnawareChart = ({ unawareData }) => {
   )
 }
 
-ResultsGrowthStatsUnawareChart.propTypes = {
+ResultsNewAudienceUnawareChart.propTypes = {
   unawareData: PropTypes.object.isRequired,
 }
 
-export default ResultsGrowthStatsUnawareChart
+export default ResultsNewAudienceUnawareChart

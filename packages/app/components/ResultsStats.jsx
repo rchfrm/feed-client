@@ -1,12 +1,12 @@
 import React from 'react'
 
-import ResultsGrowthStats from '@/app/ResultsGrowthStats'
-import ResultsReachStats from '@/app/ResultsReachStats'
+import ResultsNewAudienceStats from '@/app/ResultsNewAudienceStats'
+import ResultsExistingAudienceStats from '@/app/ResultsExistingAudienceStats'
 
 const ResultsStats = ({ data }) => {
   return (
     <>
-      <ResultsGrowthStats
+      <ResultsNewAudienceStats
         data={data}
         className={[
           'col-span-12 sm:col-span-6',
@@ -14,7 +14,7 @@ const ResultsStats = ({ data }) => {
           'order-1',
         ].join(' ')}
       />
-      <ResultsReachStats
+      <ResultsExistingAudienceStats
         data={data.on_platform}
         className={[
           'col-span-12 sm:col-span-6',
