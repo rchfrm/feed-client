@@ -1,9 +1,9 @@
 export default {
   newAudienceOnPlatformDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
-  newAudienceUnawareEngagedDouble: '14.6k engaged with your posts, versus 2.8k last month.',
-  newAudienceUnawareReachDouble: '14.9k saw your posts, versus 20.5k last month.',
-  newAudienceUnawareEngagedSingle: '14.6k engaged with your posts.',
-  newAudienceUnawareReachSingle: '14.9k saw your posts.',
+  newAudienceUnawareEngagedDouble: (currValue, prevValue) => `**${currValue} engaged** with your posts, versus ${prevValue} last month.`,
+  newAudienceUnawareReachDouble: (currValue, prevValue) => `**${currValue} saw your posts**, versus ${prevValue} last month.`,
+  newAudienceUnawareEngagedSingle: (currValue) => `**${currValue} engaged** with your posts.`,
+  newAudienceUnawareReachSingle: (currValue) => `**${currValue} saw your posts.**`,
   existingAudienceDescription: (adsValue, organicValue) => `Feed reached **${adsValue}%** of your audience, versus your
   organic posts which reached **${organicValue}%** on average.`,
 

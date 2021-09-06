@@ -8,8 +8,11 @@ import { formatNumber } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
 const ResultsNewAudienceOnPlatformChart = ({ onPlatformData }) => {
-  const prevPeriodProportion = (onPlatformData.prev_period / onPlatformData.curr_period) * 100
-  const currentPeriodProportion = (onPlatformData.growth.absolute / onPlatformData.curr_period) * 100
+  const prevPeriod = onPlatformData.find((o) => o.type === 'prev').value
+  const currPeriod = onPlatformData.find((o) => o.type === 'curr').value
+  const absoluteGrowth = currPeriod - prevPeriod
+  const prevPeriodProportion = (prevPeriod / currPeriod) * 100
+  const currentPeriodProportion = (absoluteGrowth / currPeriod) * 100
 
   const prevPeriodChartRef = React.useRef(null)
   const nextPeriodChartRef = React.useRef(null)
@@ -38,7 +41,7 @@ const ResultsNewAudienceOnPlatformChart = ({ onPlatformData }) => {
         className="flex items-center justify-center h-full bg-blue opacity-50 rounded-full"
         style={{ width: `${prevPeriodProportion}%`, transform: 'scale(0)' }}
       >
-        {formatNumber(onPlatformData.prev_period)}
+        {formatNumber(prevPeriod)}
       </div>
       <span className="z-10 -mx-3 text-blue font-light -mt-2" style={{ fontSize: '3rem', color: brandColors.facebook.bg }}>+</span>
       <div
@@ -46,14 +49,14 @@ const ResultsNewAudienceOnPlatformChart = ({ onPlatformData }) => {
         className="flex items-center justify-center h-full bg-blue rounded-full"
         style={{ width: `${currentPeriodProportion}%`, transform: 'scale(0)' }}
       >
-        {formatNumber(onPlatformData.growth.absolute)}
+        {formatNumber(absoluteGrowth)}
       </div>
     </div>
   )
 }
 
 ResultsNewAudienceOnPlatformChart.propTypes = {
-  onPlatformData: PropTypes.object.isRequired,
+  onPlatformData: PropTypes.array.isRequired,
 }
 
 export default ResultsNewAudienceOnPlatformChart

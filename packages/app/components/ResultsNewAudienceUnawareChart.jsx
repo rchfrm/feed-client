@@ -3,14 +3,11 @@ import PropTypes from 'prop-types'
 
 import { gsap, Power2 } from 'gsap'
 
-import { getChartValues } from '@/app/helpers/resultsHelpers'
-
 const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
-  const [chartValues, setChartValues] = React.useState([])
   const [lowestValueProportion, setLowestValueProportion] = React.useState(0)
-
   const prevPeriodChartRef = React.useRef(null)
   const currPeriodChartRef = React.useRef(null)
+
   const chartRefs = React.useMemo(() => {
     return [
       prevPeriodChartRef,
@@ -19,14 +16,10 @@ const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
   }, [])
 
   React.useEffect(() => {
-    setChartValues(getChartValues(unawareData))
-  }, [unawareData])
-
-  React.useEffect(() => {
-    if (chartValues.length) {
-      setLowestValueProportion(+((chartValues[0].value / chartValues[1].value) * 100).toFixed(2))
+    if (unawareData.length) {
+      setLowestValueProportion((unawareData[0].value / unawareData[1].value) * 100)
     }
-  }, [chartValues])
+  }, [unawareData])
 
   const animateChart = React.useCallback((ref, index) => {
     if (ref) {
@@ -45,7 +38,7 @@ const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
 
   return (
     <div className="relative flex w-full h-12 items-center text-white">
-      {chartValues.map(({ type, value }, index) => (
+      {unawareData.map(({ type, value }, index) => value && (
         <div
           key={type}
           ref={chartRefs[index]}
@@ -65,7 +58,7 @@ const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
 }
 
 ResultsNewAudienceUnawareChart.propTypes = {
-  unawareData: PropTypes.object.isRequired,
+  unawareData: PropTypes.array.isRequired,
 }
 
 export default ResultsNewAudienceUnawareChart

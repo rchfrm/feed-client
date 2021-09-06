@@ -9,12 +9,19 @@ import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/ResultsPageCopy'
 
 import { abbreviateNumber } from '@/helpers/utils'
+import { getNewAudienceData } from '@/app/helpers/resultsHelpers'
 
 import brandColors from '@/constants/brandColors'
 
 const ResultsNewAudienceStats = ({ data, className }) => {
-  const { unaware, on_platform: { audience_size: audienceSize } } = data
-  const hasNoticeableOnPlatformGrowth = audienceSize.growth.percentage >= 1
+  const [newAudienceData, setNewAudienceData] = React.useState(null)
+  const mainValue = newAudienceData?.isOnPlatform
+    ? newAudienceData?.chartData[1].value - newAudienceData?.chartData[0].value
+    : newAudienceData?.chartData.find((o) => o.type === 'curr').value
+
+  React.useEffect(() => {
+    setNewAudienceData(getNewAudienceData(data))
+  }, [data])
 
   return (
     <div
@@ -24,11 +31,11 @@ const ResultsNewAudienceStats = ({ data, className }) => {
       ].join(' ')}
     >
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">New people</p>
-      {data ? (
+      {newAudienceData ? (
         <>
           <div className="flex items-center" style={{ minHeight: '88px' }}>
             <MarkdownText
-              markdown={copy.newAudienceOnPlatformDescription(audienceSize.growth.percentage * 100)}
+              markdown={newAudienceData.copy || ''}
               className="sm:px-1 mr-auto sm:mr-0 mb-0 sm:text-center"
             />
           </div>
@@ -37,12 +44,12 @@ const ResultsNewAudienceStats = ({ data, className }) => {
             style={{ color: brandColors.blue }}
           >
             <span style={{ color: brandColors.facebook.bg }}>+</span>
-            {abbreviateNumber(audienceSize.growth.absolute)}
+            {abbreviateNumber(mainValue)}
           </p>
-          {hasNoticeableOnPlatformGrowth ? (
-            <ResultsNewAudienceOnPlatformChart onPlatformData={audienceSize} />
+          {newAudienceData.isOnPlatform ? (
+            <ResultsNewAudienceOnPlatformChart onPlatformData={newAudienceData.chartData} />
           ) : (
-            <ResultsNewAudienceUnawareChart unawareData={unaware} />
+            <ResultsNewAudienceUnawareChart unawareData={newAudienceData.chartData} />
           )}
         </>
       ) : <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-blue" />}

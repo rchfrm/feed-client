@@ -1,6 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import * as api from '@/helpers/api'
+
 import brandColors from '@/constants/brandColors'
+import resultsCopy from '@/app/copy/ResultsPageCopy'
 
 export const postResultsConfig = [
   {
@@ -33,17 +35,6 @@ const formatResultsData = (data) => {
   return formattedData
 }
 
-const formatAndSortValues = (chartValues) => {
-  const formattedValues = Object.entries(chartValues).reduce((array, [key, value]) => {
-    array.push({
-      type: key,
-      value,
-    })
-    return array.sort((a, b) => a.value - b.value)
-  }, [])
-  return formattedValues
-}
-
 export const convertChartValues = (adsReachProportion, organicReachProportion) => {
   const highestValue = Math.max(adsReachProportion, organicReachProportion)
   let multiplier = 1
@@ -72,34 +63,60 @@ export const convertChartValues = (adsReachProportion, organicReachProportion) =
   }
 }
 
-export const getChartValues = (unawareData) => {
-  let currPeriod
-  let prevPeriod
+export const getNewAudienceData = (data) => {
+  let isOnPlatform = false
+  let prevPeriod = 0
+  let currPeriod = 0
+  let copy = ''
 
-  const { engaged, reach } = unawareData
+  const {
+    on_platform: { audience_size: audienceSize },
+    unaware: { engaged, reach },
+  } = data
 
-  if (engaged.curr_period >= 250 && engaged.prev_period) {
-    currPeriod = engaged.curr_period
-    prevPeriod = engaged.prev_period
+  if (!data) return null
+
+  if (!(audienceSize.growth.percentage * 100) >= 1) {
+    isOnPlatform = true
+    prevPeriod = audienceSize.prev_period
+    currPeriod = audienceSize.curr_period
+    copy = resultsCopy.newAudienceOnPlatformDescription(audienceSize.growth.percentage * 100)
   }
 
-  if (engaged.curr_period < 250 && reach.prev_period) {
-    currPeriod = reach.curr_period
-    prevPeriod = reach.prev_period
+  if (!isOnPlatform) {
+    if (engaged.curr_period >= 250 && engaged.prev_period) {
+      prevPeriod = engaged.prev_period
+      currPeriod = engaged.curr_period
+      copy = resultsCopy.newAudienceUnawareEngagedDouble(engaged.curr_period, engaged.prev_period)
+    }
+
+    if (engaged.curr_period < 250 && reach.prev_period) {
+      prevPeriod = reach.prev_period
+      currPeriod = reach.curr_period
+      copy = resultsCopy.newAudienceUnawareReachDouble(reach.curr_period, reach.prev_period)
+    }
+
+    if (engaged.curr_period >= 250 && !engaged.prev_period) {
+      currPeriod = engaged.curr_period
+      copy = resultsCopy.newAudienceUnawareEngagedSingle(engaged.curr_period)
+    }
+
+    if (engaged.curr_period < 250 && !reach.prev_period) {
+      currPeriod = reach.curr_period
+      copy = resultsCopy.newAudienceUnawareReachSingle(reach.curr_period)
+    }
   }
 
-  if (engaged.curr_period >= 250 && !engaged.prev_period) {
-    currPeriod = engaged.curr_period
+  const newAudienceData = {
+    isOnPlatform,
+    copy,
+    chartData: [
+      { type: 'prev', value: prevPeriod },
+      { type: 'curr', value: currPeriod },
+    ]
+      .sort((a, b) => a.value - b.value),
   }
-
-  if (engaged.curr_period < 250 && !reach.prev_period) {
-    currPeriod = reach.curr_period
-  }
-
-  return formatAndSortValues({
-    curr: currPeriod,
-    prev: prevPeriod,
-  })
+  return newAudienceData
 }
 
 // GET AD RESULTS SUMMARY
