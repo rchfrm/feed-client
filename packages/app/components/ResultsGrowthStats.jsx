@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsGrowthStatsChart from '@/app/ResultsGrowthStatsChart'
+import ResultsGrowthStatsAudienceChart from '@/app/ResultsGrowthStatsAudienceChart'
+import ResultsGrowthStatsUnawareChart from '@/app/ResultsGrowthStatsUnawareChart'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -12,7 +13,9 @@ import { abbreviateNumber } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
 const ResultsGrowthStats = ({ data, className }) => {
-  const { on_platform: { audience_size: audienceSize } } = data
+  const { unaware, on_platform: { audience_size: audienceSize } } = data
+  const hasNoticeableGrowth = audienceSize.growth.percentage >= 1
+
   return (
     <div
       className={[
@@ -36,7 +39,11 @@ const ResultsGrowthStats = ({ data, className }) => {
             <span style={{ color: brandColors.facebook.bg }}>+</span>
             {abbreviateNumber(audienceSize.growth.absolute)}
           </p>
-          <ResultsGrowthStatsChart audienceSize={audienceSize} />
+          {hasNoticeableGrowth ? (
+            <ResultsGrowthStatsAudienceChart audienceSize={audienceSize} />
+          ) : (
+            <ResultsGrowthStatsUnawareChart unawareData={unaware} />
+          )}
         </>
       ) : <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-blue" />}
     </div>

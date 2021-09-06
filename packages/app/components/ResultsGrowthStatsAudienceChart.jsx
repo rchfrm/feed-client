@@ -7,7 +7,7 @@ import { formatNumber } from '@/helpers/utils'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsGrowthStatsChart = ({ audienceSize }) => {
+const ResultsGrowthStatsAudienceChart = ({ audienceSize }) => {
   const prevPeriodProportion = (audienceSize.prev_period / audienceSize.curr_period) * 100
   const currentPeriodProportion = (audienceSize.growth.absolute / audienceSize.curr_period) * 100
 
@@ -52,8 +52,8 @@ const ResultsGrowthStatsChart = ({ audienceSize }) => {
   )
 }
 
-ResultsGrowthStatsChart.propTypes = {
+ResultsGrowthStatsAudienceChart.propTypes = {
   audienceSize: PropTypes.object.isRequired,
 }
 
-export default ResultsGrowthStatsChart
+export default ResultsGrowthStatsAudienceChart
