@@ -33,6 +33,17 @@ const formatResultsData = (data) => {
   return formattedData
 }
 
+const formatAndSortValues = (chartValues) => {
+  const formattedValues = Object.entries(chartValues).reduce((array, [key, value]) => {
+    array.push({
+      type: key,
+      value,
+    })
+    return array.sort((a, b) => a.value - b.value)
+  }, [])
+  return formattedValues
+}
+
 export const convertChartValues = (adsReachProportion, organicReachProportion) => {
   const highestValue = Math.max(adsReachProportion, organicReachProportion)
   let multiplier = 1
@@ -59,6 +70,36 @@ export const convertChartValues = (adsReachProportion, organicReachProportion) =
     maxValue,
     highestValue,
   }
+}
+
+export const getChartValues = (unawareData) => {
+  let currPeriod
+  let prevPeriod
+
+  const { engaged, reach } = unawareData
+
+  if (engaged.curr_period >= 250 && engaged.prev_period) {
+    currPeriod = engaged.curr_period
+    prevPeriod = engaged.prev_period
+  }
+
+  if (engaged.curr_period < 250 && reach.prev_period) {
+    currPeriod = reach.curr_period
+    prevPeriod = reach.prev_period
+  }
+
+  if (engaged.curr_period >= 250 && !engaged.prev_period) {
+    currPeriod = engaged.curr_period
+  }
+
+  if (engaged.curr_period < 250 && !reach.prev_period) {
+    currPeriod = reach.curr_period
+  }
+
+  return formatAndSortValues({
+    curr: currPeriod,
+    prev: prevPeriod,
+  })
 }
 
 // GET AD RESULTS SUMMARY
