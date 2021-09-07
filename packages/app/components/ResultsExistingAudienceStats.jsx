@@ -17,7 +17,6 @@ const ResultsExistingAudienceStats = ({ data, className }) => {
     <div
       className={[
         className,
-        'sm:mb-10',
       ].join(' ')}
     >
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">Existing audiences</p>
@@ -26,7 +25,7 @@ const ResultsExistingAudienceStats = ({ data, className }) => {
           <div className="flex items-center" style={{ minHeight: '88px' }}>
             <MarkdownText
               markdown={copy.existingAudienceDescription(adsReachProportion, organicReachProportion)}
-              className="sm:px-1 mr-auto sm:mr-0 mb-0 sm:text-center"
+              className="sm:px-1 mr-auto sm:mr-0 mb-6 sm:mb-0 sm:text-center"
             />
           </div>
           <p

@@ -10,7 +10,7 @@ const ResultsStats = ({ data }) => {
         data={data}
         className={[
           'col-span-12 sm:col-span-6',
-          'flex flex-col items-center',
+          'flex flex-col sm:items-center',
           'order-1',
         ].join(' ')}
       />
@@ -18,7 +18,7 @@ const ResultsStats = ({ data }) => {
         data={data.on_platform}
         className={[
           'col-span-12 sm:col-span-6',
-          'flex flex-col items-center',
+          'flex flex-col sm:items-center',
           'order-2',
         ].join(' ')}
       />

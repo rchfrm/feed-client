@@ -27,7 +27,6 @@ const ResultsNewAudienceStats = ({ data, className }) => {
     <div
       className={[
         className,
-        'sm:mb-10',
       ].join(' ')}
     >
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">New people</p>

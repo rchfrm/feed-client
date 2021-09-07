@@ -23,8 +23,8 @@ const ResultsPostsStats = ({ data }) => {
               className={[
                 'col-span-12 sm:col-span-6',
                 'flex flex-col sm:items-center',
-                'mb-10',
                 `order-${index + 1} sm:order-${index + 4}`,
+                'mb-6 sm:mb-0',
               ].join(' ')}
             />
           ))}

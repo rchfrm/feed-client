@@ -27,4 +27,6 @@ export default {
   postsStatsNoData: `Once you’ve been using Feed for a few weeks,
   your most effective ads, and a month to month
   comparison will appear here.`,
+  conversionsActivatorTitle: 'Use Feed to generate sales or sign-ups outside Facebook & Instagram.',
+  conversionsActivatorDescription: 'Get started with generating sales or sign-ups!',
 }

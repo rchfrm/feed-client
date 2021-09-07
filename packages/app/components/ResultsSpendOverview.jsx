@@ -10,7 +10,7 @@ const ResultsSpendOverview = ({ spending }) => {
 
   return (
     <div>
-      <p className="font-bold">Spend</p>
+      <p className="text-xl font-bold sm:mb-10">Spend</p>
       <p>Total spent - {valueString}</p>
       <div className="hidden sm:flex">
         {Object.entries(dailyData).map(([key, value]) => (

@@ -7,7 +7,7 @@ const NoDataBlock = ({ className, children }) => {
       className,
       'w-full h-full',
       'flex flex-column items-center justify-center',
-      'px-20',
+      'px-10',
       'bg-grey-1',
     ].join(' ')}
     >
