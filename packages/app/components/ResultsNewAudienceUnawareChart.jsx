@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { gsap, Power2 } from 'gsap'
 
 import { formatNumber } from '@/helpers/utils'
+import brandColors from '../../shared/constants/brandColors'
 
 const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
   const [lowestValueProportion, setLowestValueProportion] = React.useState(0)
@@ -45,14 +46,23 @@ const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
           key={type}
           ref={chartRefs[index]}
           className={[
-            'absolute flex items-center justify-center',
+            'absolute flex items-center',
             'h-full',
-            'rounded-full',
+            'rounded-full text-xs',
             type === 'prev' ? 'bg-blueLight' : 'bg-blue',
-            index === 0 ? 'z-10' : null,
+            index === 0 ? 'justify-center z-10' : null,
           ].join(' ')}
         >
-          {formatNumber(value)}
+          <span
+            className="relative"
+            style={index === 1 ? {
+              ...(lowestValueProportion < 82
+                ? { left: `${lowestValueProportion + 2}%` }
+                : { position: 'absolute', right: 0, top: '-16px', color: brandColors.blue, fontSize: '12px' }),
+            } : null}
+          >
+            {formatNumber(value)}
+          </span>
         </div>
       ))}
     </div>

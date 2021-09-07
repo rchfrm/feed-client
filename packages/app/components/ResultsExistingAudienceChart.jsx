@@ -59,8 +59,11 @@ const ResultsExistingAudienceChart = ({ adsReachProportion, organicReachProporti
             style={{ top: '-2px' }}
           >
             <div
-              className="absolute right-0 z-10 ml-2 text-green text-xs"
-              style={{ top: '50%', left: '100%', transform: 'translateY(-50%)' }}
+              className="absolute transform -translate-y-1/2 z-10 ml-2 text-green text-xs"
+              style={{
+                ...(adsReachProportion > 85 ? { right: '10px', color: brandColors.white } : { left: '100%' }),
+                top: '50%',
+              }}
             >
               {adsReachProportion}%
             </div>
@@ -70,7 +73,7 @@ const ResultsExistingAudienceChart = ({ adsReachProportion, organicReachProporti
             className="absolute h-12 w-1 top-0 bg-grey-3"
           />
         </div>
-        <span className="absolute text-grey-3 text-xs" style={{ left: `${organicReachWidth}%`, bottom: '100%' }}>
+        <span className="absolute left-0 text-grey-3 text-xs" style={{ bottom: '100%' }}>
           {organicReachProportion}%
         </span>
         <span className="absolute text-green text-xs" style={{ bottom: '100%', right: '5px' }}>
