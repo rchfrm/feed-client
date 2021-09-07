@@ -30,8 +30,7 @@ const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) =
     setActiveOptionKey(key)
     if (isDesktopLayout) {
       Router.push({
-        pathname: '/controls/[slug]',
-        query: { slug: key },
+        pathname: `/controls/${key}`,
       })
       return
     }
