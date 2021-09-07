@@ -26,8 +26,8 @@ const ResultsConversionTeaser = ({ className }) => {
       className,
     ].join('')}
     >
-      <p className="font-bold text-xl text-left mr-auto sm:mr-0">Sales &amp; Sign-ups</p>
-      <div className="flex items-center sm:mb-5" style={{ minHeight: '88px' }}>
+      <p className="hidden sm:block font-bold text-xl text-left mr-auto sm:mr-0">Sales &amp; Sign-ups</p>
+      <div className="hidden sm:block flex items-center sm:mb-5" style={{ minHeight: '88px' }}>
         <MarkdownText className="mb-0 mr-auto sm:mr-0 sm:text-center" markdown={copy.conversionsActivatorTitle} />
       </div>
       <button

@@ -18,7 +18,7 @@ const ResultsContent = ({ data }) => {
       </div>
       <div className="grid grid-cols-12 sm:col-gap-12 mb-8">
         <div className="col-span-12 sm:col-span-8">
-          <div className="grid grid-cols-12 sm:col-gap-12 row-gap-8 sm:row-gap-16 mb-10 sm:mb-0">
+          <div className="grid grid-cols-12 sm:col-gap-12 row-gap-8 sm:row-gap-16 mb-8 sm:mb-0">
             <ResultsStats
               data={data}
             />
