@@ -63,7 +63,7 @@ const ResultsPostStats = ({
             media={postData.media}
             thumbnails={postData.thumbnails}
             postType={postData.postType}
-            className="mb-2"
+            className="mb-2 mr-4 sm:mr-0"
             style={{ height: imageHeight, width: imageHeight }}
           />
           <div

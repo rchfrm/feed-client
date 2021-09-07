@@ -12,7 +12,7 @@ const ResultsSpendOverview = ({ spending }) => {
     <div>
       <p className="font-bold">Spend</p>
       <p>Total spent - {valueString}</p>
-      <div className="flex">
+      <div className="hidden sm:flex">
         {Object.entries(dailyData).map(([key, value]) => (
           <ResultsSpendBlock
             key={key}
