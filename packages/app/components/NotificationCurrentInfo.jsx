@@ -96,7 +96,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     }
     // OPEN SIDEPANEL if MOBILE
     const sidepanelOpen = !!content
-    if (sidepanelOpen === isSidepanelOpen) return
+    if (sidepanelOpen === isSidepanelOpen || isDesktopLayout) return
     setSidePanelContent(content)
     toggleSidePanel(sidepanelOpen)
     setOnSidepanelClose(() => closeNotification)

@@ -38,7 +38,6 @@ const ConversionsWizardFacebookPixelStep = () => {
 
   return (
     <>
-      <h2>Facebook Pixel </h2>
       <MarkdownText markdown={copy.pixelStepDescription} />
       <Error error={error} />
       <form onSubmit={onSubmit}>
@@ -51,7 +50,7 @@ const ConversionsWizardFacebookPixelStep = () => {
         />
         <Button
           type="submit"
-          version="outline icon"
+          version="outline-green icon"
           loading={isLoading}
           spinnerFill={brandColors.black}
           className="mt-6 w-full"

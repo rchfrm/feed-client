@@ -23,7 +23,6 @@ const TargetingBudgetBox = ({
     saveTargetingSettings,
     togglePauseCampaign,
     disableSaving,
-    isFirstTimeUser,
     targetingLoading,
     budgetSlider,
     setBudgetSlider,
@@ -97,7 +96,6 @@ const TargetingBudgetBox = ({
             updateTargetingBudget={updateTargetingBudget}
             saveTargetingSettings={saveTargetingSettings}
             disableSaving={disableSaving}
-            isFirstTimeUser={isFirstTimeUser}
             budgetSlider={budgetSlider}
             showCustomBudget={showCustomBudget}
           />
