@@ -56,13 +56,22 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   // GET DISMISS FUNCTION
   const dismissNotification = useDismissNotification(openedNotification)
 
+
   const infoButtonAndContent = React.useMemo(() => {
     if (!openedNotification) return {}
+    // Fallback to 'Ok' if a notification is actionable but no ctaText is provided by Dato
+    const { isActionable } = openedNotification
+    let { ctaText } = openedNotification
+    if (!ctaText && isActionable) {
+      ctaText = 'Ok'
+    }
     const button = (
       <NotificationCurrentInfoButton
-        ctaText={openedNotification.ctaText}
+        ctaText={ctaText}
         buttonType={openedNotification.buttonType}
         linkType={openedNotification.linkType}
+        isActionable={isActionable}
+        isDismissible={openedNotification.isDismissible}
         isComplete={openedNotification.isComplete}
         onAction={openedNotification.onAction}
         onComplete={() => completeNotification(openedNotification.id)}
