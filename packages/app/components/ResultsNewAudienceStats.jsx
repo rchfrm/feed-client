@@ -5,6 +5,7 @@ import ResultsNewAudienceOnPlatformChart from '@/app/ResultsNewAudienceOnPlatfor
 import ResultsNewAudienceUnawareChart from '@/app/ResultsNewAudienceUnawareChart'
 
 import MarkdownText from '@/elements/MarkdownText'
+import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
@@ -15,9 +16,11 @@ import brandColors from '@/constants/brandColors'
 
 const ResultsNewAudienceStats = ({ data, className }) => {
   const [newAudienceData, setNewAudienceData] = React.useState(null)
+  const currValue = newAudienceData?.chartData.find((o) => o.type === 'curr').value
+  const prevValue = newAudienceData?.chartData.find((o) => o.type === 'prev').value
   const mainValue = newAudienceData?.isOnPlatform
     ? newAudienceData?.chartData[1].value - newAudienceData?.chartData[0].value
-    : newAudienceData?.chartData.find((o) => o.type === 'curr').value
+    : currValue
 
   React.useEffect(() => {
     setNewAudienceData(getNewAudienceData(data))
@@ -38,13 +41,19 @@ const ResultsNewAudienceStats = ({ data, className }) => {
               className="sm:px-1 mr-auto sm:mr-0 mb-0 sm:text-center"
             />
           </div>
-          <p
-            className="text-6xl font-bold hidden sm:block"
-            style={{ color: brandColors.blue }}
-          >
-            <span style={{ color: brandColors.facebook.bg }}>+</span>
-            {abbreviateNumber(mainValue)}
-          </p>
+          <div className="flex flex-row items-center">
+            {newAudienceData?.isOnPlatform ? (
+              <span style={{ color: brandColors.facebook.bg }}>+</span>
+            ) : (
+              currValue > prevValue && <ArrowAltIcon className="h-8 w-8 mb-4 hidden sm:block" fill={brandColors.facebook.bg} direction="up" />
+            )}
+            <p
+              className="flex text-6xl font-bold hidden sm:block"
+              style={{ color: brandColors.blue }}
+            >
+              {abbreviateNumber(mainValue)}
+            </p>
+          </div>
           {newAudienceData.isOnPlatform ? (
             <ResultsNewAudienceOnPlatformChart onPlatformData={newAudienceData.chartData} />
           ) : (
