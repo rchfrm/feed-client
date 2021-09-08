@@ -11,8 +11,8 @@ const ResultsNewAudienceOnPlatformChart = ({ onPlatformData }) => {
   const prevPeriod = onPlatformData.find((o) => o.type === 'prev').value
   const currPeriod = onPlatformData.find((o) => o.type === 'curr').value
   const absoluteGrowth = currPeriod - prevPeriod
-  const prevPeriodProportion = (prevPeriod / currPeriod) * 100
-  const currentPeriodProportion = (absoluteGrowth / currPeriod) * 100
+  const currentPeriodProportion = (absoluteGrowth / currPeriod) * 100 > 25 ? (absoluteGrowth / currPeriod) * 100 : 25
+  const prevPeriodProportion = currentPeriodProportion > 25 ? 100 - currentPeriodProportion : 75
 
   const prevPeriodChartRef = React.useRef(null)
   const nextPeriodChartRef = React.useRef(null)
