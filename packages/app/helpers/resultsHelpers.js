@@ -21,6 +21,7 @@ export const postResultsConfig = [
 
 const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
+    if (!value) return newObject
     const { asset, ...stats } = value
 
     newObject[key] = stats
@@ -70,13 +71,13 @@ export const getNewAudienceData = (data) => {
   let copy = ''
 
   const {
-    on_platform: { audience_size: audienceSize },
-    unaware: { engaged, reach },
+    on_platform: { audience_size: audienceSize } = {},
+    unaware: { engaged, reach } = {},
   } = data
 
   if (!data) return null
 
-  if ((audienceSize.growth.percentage * 100) >= 1) {
+  if ((audienceSize?.growth?.percentage * 100) >= 1) {
     isOnPlatform = true
     prevPeriod = audienceSize.prev_period
     currPeriod = audienceSize.curr_period

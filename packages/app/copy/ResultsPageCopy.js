@@ -17,11 +17,11 @@ export default {
     return `The post that reached the most people
     from your existing audience:`
   },
-  postDescriptionMobile: (type, [valueA]) => {
+  postDescriptionMobile: (type, value) => {
     if (type === 'growth') {
-      return `**${valueA}** new people engaged`
+      return `**${value}** new people engaged`
     }
-    return `**${valueA}** people reached`
+    return `**${value}** people reached`
   },
   statsNoData: 'Feed is setting up your ads',
   postsStatsNoData: `Once you’ve been using Feed for a few weeks,

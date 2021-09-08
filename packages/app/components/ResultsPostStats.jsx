@@ -19,7 +19,6 @@ import { getPostById } from '@/app/helpers/postsHelpers'
 
 const ResultsPostStats = ({
   post,
-  data,
   config,
   className,
 }) => {
@@ -27,10 +26,9 @@ const ResultsPostStats = ({
   const { artistId } = React.useContext(ArtistContext)
 
   const { type, color } = config
-  const { ads_reach: adsReach } = data
   const isDesktopLayout = useBreakpointTest('sm')
   const imageHeight = isDesktopLayout ? '176px' : '100px'
-  const values = type === 'growth' ? [post.engaged, (adsReach.proportion * 100)] : [post.reach]
+  const value = type === 'growth' ? post.engaged : post.reach
   const { goToPostMetrics } = usePostsSidePanel()
 
   const openPostMetricsSidePanel = () => {
@@ -59,7 +57,7 @@ const ResultsPostStats = ({
         <p className="w-full text-bold text-lg sm:hidden">Most effective post</p>
         <div className="flex flex-row sm:flex-col items-center">
           <div className="flex items-center" style={{ minHeight: '88px' }}>
-            <MarkdownText markdown={copy.postDescription(type, values)} className="hidden sm:block text-center sm:px-9" />
+            <MarkdownText markdown={copy.postDescription(type)} className="hidden sm:block text-center sm:px-9" />
           </div>
           <PostCardMedia
             media={postData.media}
@@ -77,11 +75,11 @@ const ResultsPostStats = ({
             ].join(' ')}
             style={{ backgroundColor: color }}
           >
-            {abbreviateNumber(values[0])}
+            {abbreviateNumber(value)}
             <span className="text-xs -mt-1">{type === 'growth' ? 'engaged' : 'reached'}</span>
           </div>
           <div className="flex flex-col items-start justify-center sm:items-center">
-            <MarkdownText markdown={copy.postDescriptionMobile(type, values)} className="sm:hidden" />
+            <MarkdownText markdown={copy.postDescriptionMobile(type, value)} className="sm:hidden" />
             <Button
               version="small outline"
               className={[
@@ -102,7 +100,6 @@ const ResultsPostStats = ({
 
 ResultsPostStats.propTypes = {
   post: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
   className: PropTypes.string,
 }

@@ -8,62 +8,45 @@ import MarkdownText from '@/elements/MarkdownText'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import PlusIcon from '@/icons/PlusIcon'
 
-import copy from '@/app/copy/ResultsPageCopy'
-
 import { abbreviateNumber } from '@/helpers/utils'
-import { getNewAudienceData } from '@/app/helpers/resultsHelpers'
 
 import brandColors from '@/constants/brandColors'
 
 const ResultsNewAudienceStats = ({ data, className }) => {
-  const [newAudienceData, setNewAudienceData] = React.useState(null)
-  const currValue = newAudienceData?.chartData.find((o) => o.type === 'curr').value
-  const prevValue = newAudienceData?.chartData.find((o) => o.type === 'prev').value
-  const mainValue = newAudienceData?.isOnPlatform
-    ? newAudienceData?.chartData[1].value - newAudienceData?.chartData[0].value
+  const { chartData, isOnPlatform } = data
+  const currValue = chartData.find((o) => o.type === 'curr').value
+  const prevValue = chartData.find((o) => o.type === 'prev').value
+  const mainValue = isOnPlatform
+    ? chartData[1].value - chartData[0].value
     : currValue
 
-  React.useEffect(() => {
-    if (data) {
-      setNewAudienceData(getNewAudienceData(data))
-    }
-  }, [data])
-
   return (
-    <div
-      className={[
-        className,
-      ].join(' ')}
-    >
+    <div className={[className].join(' ')}>
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">New people</p>
-      {newAudienceData ? (
-        <>
-          <div className="flex items-center" style={{ minHeight: '88px' }}>
-            <MarkdownText
-              markdown={newAudienceData.copy || ''}
-              className="sm:px-1 mr-auto sm:mr-0 mb-0 sm:text-center"
-            />
-          </div>
-          <div className="flex flex-row items-center">
-            {newAudienceData?.isOnPlatform ? (
-              <PlusIcon className="h-8 w-8 mr-1 mb-4 hidden sm:block" fill={brandColors.facebook.bg} />
-            ) : (
-              currValue > prevValue && <ArrowAltIcon className="h-8 w-8 mb-4 hidden sm:block" fill={brandColors.facebook.bg} direction="up" />
-            )}
-            <p
-              className="flex text-6xl font-bold hidden sm:block"
-              style={{ color: brandColors.blue }}
-            >
-              {abbreviateNumber(mainValue)}
-            </p>
-          </div>
-          {newAudienceData.isOnPlatform ? (
-            <ResultsNewAudienceOnPlatformChart onPlatformData={newAudienceData.chartData} />
-          ) : (
-            <ResultsNewAudienceUnawareChart unawareData={newAudienceData.chartData} />
-          )}
-        </>
-      ) : <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-blue" />}
+      <div className="flex items-center" style={{ minHeight: '88px' }}>
+        <MarkdownText
+          markdown={data.copy || ''}
+          className="sm:px-1 mr-auto sm:mr-0 mb-0 sm:text-center"
+        />
+      </div>
+      <div className="flex flex-row items-center justify-center">
+        {isOnPlatform ? (
+          <PlusIcon className="h-8 w-8 mr-1 mb-4 hidden sm:block" fill={brandColors.facebook.bg} />
+        ) : (
+          currValue > prevValue && <ArrowAltIcon className="h-8 w-8 mb-4 hidden sm:block" fill={brandColors.facebook.bg} direction="up" />
+        )}
+        <p
+          className="text-6xl font-bold hidden sm:block"
+          style={{ color: brandColors.blue }}
+        >
+          {abbreviateNumber(mainValue)}
+        </p>
+      </div>
+      {isOnPlatform ? (
+        <ResultsNewAudienceOnPlatformChart onPlatformData={chartData} />
+      ) : (
+        <ResultsNewAudienceUnawareChart unawareData={chartData} />
+      )}
     </div>
   )
 }

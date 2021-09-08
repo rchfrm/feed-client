@@ -18,7 +18,6 @@ const ResultsPostsStats = ({ data }) => {
             <ResultsPostStats
               key={post.id}
               post={post}
-              data={data.on_platform}
               config={postResultsConfig[index]}
               className={[
                 'col-span-12 sm:col-span-6',
