@@ -125,9 +125,7 @@ export const getNewAudienceData = (data) => {
  * @returns {Promise<any>}
  */
 export const getAdResultsSummary = async (artistId) => {
-  // TODO: Switch endpoint when back-end is ready
-  // const endpoint = `/artists/${artistId}/ad_results_summary`
-  const endpoint = 'http://localhost:3000/stats.json'
+  const endpoint = `/artists/${artistId}/ad_results_summary`
   const payload = {}
   const errorTracking = {
     category: 'Results',
