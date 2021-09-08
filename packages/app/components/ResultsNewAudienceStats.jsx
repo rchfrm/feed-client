@@ -6,6 +6,7 @@ import ResultsNewAudienceUnawareChart from '@/app/ResultsNewAudienceUnawareChart
 
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import PlusIcon from '@/icons/PlusIcon'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
@@ -43,7 +44,7 @@ const ResultsNewAudienceStats = ({ data, className }) => {
           </div>
           <div className="flex flex-row items-center">
             {newAudienceData?.isOnPlatform ? (
-              <span style={{ color: brandColors.facebook.bg }}>+</span>
+              <PlusIcon className="h-8 w-8 mr-1 mb-4 hidden sm:block" fill={brandColors.facebook.bg} />
             ) : (
               currValue > prevValue && <ArrowAltIcon className="h-8 w-8 mb-4 hidden sm:block" fill={brandColors.facebook.bg} direction="up" />
             )}
