@@ -65,7 +65,7 @@ export const sortTypes = [
   {
     id: 'published_time',
     slug: 'published_time',
-    title: 'Publish Date',
+    title: 'Date',
     color: brandColors.black,
     activeTextColor: 'white',
   },
@@ -73,7 +73,7 @@ export const sortTypes = [
     id: 'engagement_score',
     slug: 'engagement_score',
     title: 'Score',
-    color: brandColors.greyDark,
+    color: brandColors.black,
     activeTextColor: 'white',
   },
 ]
