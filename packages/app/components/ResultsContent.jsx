@@ -3,11 +3,15 @@ import React from 'react'
 import ResultsStats from '@/app/ResultsStats'
 import ResultsPostsStats from '@/app/ResultsPostsStats'
 import ResultsConversionsTeaser from '@/app/ResultsConversionsTeaser'
-// import ResultsConversionsActivator from '@/app/ResultsConversionsActivator'
+import ResultsConversionsActivator from '@/app/ResultsConversionsActivator'
 import ResultsSpendingPausedWarning from '@/app/ResultsSpendingPausedWarning'
 import ResultsSpendOverview from '@/app/ResultsSpendOverview'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 const ResultsContent = ({ data }) => {
+  const { featureFlags: { conversionsEnabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
+
   return (
     <div>
       <div className="flex flex-column sm:flex-row justify-between sm:items-center mb-6 sm:mb-12">
@@ -27,9 +31,15 @@ const ResultsContent = ({ data }) => {
             />
           </div>
         </div>
-        <ResultsConversionsTeaser
-          className="col-span-12 sm:col-span-4 flex flex-col sm:items-center"
-        />
+        {conversionsFeatureEnabled ? (
+          <ResultsConversionsActivator
+            className="col-span-12 sm:col-span-4 flex flex-col sm:items-center"
+          />
+        ) : (
+          <ResultsConversionsTeaser
+            className="col-span-12 sm:col-span-4 flex flex-col sm:items-center"
+          />
+        )}
       </div>
       <ResultsSpendOverview spending={data.spend} />
     </div>

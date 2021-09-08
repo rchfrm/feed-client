@@ -24,7 +24,9 @@ const ResultsNewAudienceStats = ({ data, className }) => {
     : currValue
 
   React.useEffect(() => {
-    setNewAudienceData(getNewAudienceData(data))
+    if (data) {
+      setNewAudienceData(getNewAudienceData(data))
+    }
   }, [data])
 
   return (
