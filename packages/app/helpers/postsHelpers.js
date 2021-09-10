@@ -201,8 +201,16 @@ export const formatPostsResponse = (posts) => {
     // Get thumbnails
     const thumbnailSrc = post._metadata.thumbnail_url || utils.findPostThumbnail(firstAttachment)
     const initialThumbnails = post.thumbnails.map(({ url }) => url)
-    const thumbnails = [...initialThumbnails, thumbnailSrc]
+    const storyThumbs = post.advideo?.thumbnails.data.map((thumbnail) => thumbnail.uri)
+    const thumbnails = [
+      ...initialThumbnails,
+      post.advideo?.picture,
+      post.adimage?.permalink_url,
+      ...(storyThumbs || []),
+      thumbnailSrc,
+    ]
     const media = utils.findPostMedia(firstAttachment) || thumbnails[0]
+    const mediaFallback = post.advideo?.source
     // Organic metrics
     const organicMetrics = {
       comments: post.comments,
@@ -268,6 +276,7 @@ export const formatPostsResponse = (posts) => {
       shortMessage,
       media,
       thumbnails,
+      mediaFallback,
       organicMetrics,
       paidMetrics,
       publishedTime,

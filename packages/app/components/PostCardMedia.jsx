@@ -12,6 +12,7 @@ import brandColors from '@/constants/brandColors'
 const PostCardMedia = ({
   media,
   thumbnails,
+  mediaFallback,
   caption,
   postType,
   className,
@@ -69,6 +70,7 @@ const PostCardMedia = ({
                 className="h-full"
                 mediaSrc={media}
                 thumbnailOptions={thumbnails}
+                mediaFallback={mediaFallback}
                 title={caption}
                 isStory={postType === 'story'}
                 onFinishedSelection={(thumbnail = {}) => {
@@ -108,6 +110,7 @@ const PostCardMedia = ({
 PostCardMedia.propTypes = {
   media: PropTypes.string,
   thumbnails: PropTypes.array,
+  mediaFallback: PropTypes.string,
   caption: PropTypes.string,
   postType: PropTypes.string,
   className: PropTypes.string,
@@ -116,6 +119,7 @@ PostCardMedia.propTypes = {
 PostCardMedia.defaultProps = {
   media: '',
   thumbnails: [],
+  mediaFallback: '',
   caption: '',
   postType: '',
   className: null,

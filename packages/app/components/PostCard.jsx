@@ -45,6 +45,7 @@ const PostCard = ({
       <PostCardMedia
         media={post.media}
         thumbnails={post.thumbnails}
+        mediaFallback={post.mediaFallback}
         caption={post.message}
         postType={postType}
         className="mb-2"

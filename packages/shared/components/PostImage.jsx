@@ -93,6 +93,7 @@ const getPopupStoreState = (state) => ({
 const PostImage = ({
   mediaSrc,
   thumbnailOptions,
+  mediaFallback,
   isStory,
   title,
   aspectRatio,
@@ -114,11 +115,12 @@ const PostImage = ({
   // Get active thumb src
   const activeThumbIndex = React.useRef(0)
   const [activeThumbSrc, setActiveThumbSrc] = React.useState(thumbnails[activeThumbIndex.current])
+  const [activeMediaSrc, setActiveMediaSrc] = React.useState(mediaSrc)
 
   // Define media type
   const mediaType = React.useMemo(() => {
-    return utils.getPostMediaType(mediaSrc || activeThumbSrc)
-  }, [mediaSrc, activeThumbSrc])
+    return utils.getPostMediaType(activeMediaSrc || activeThumbSrc)
+  }, [activeMediaSrc, activeThumbSrc])
 
   // Handle media error
   const [videoError, setVideoError] = React.useState(false)
@@ -165,21 +167,32 @@ const PostImage = ({
     }
   }, [thumbError, thumbnails, setThumbError, onUseFallback, onFinish, isFinished])
 
+  // Swap to backup video src if first errors
+  React.useEffect(() => {
+    // Stop here if no video error or if finished
+    if (!videoError) return
+    // Try swapping media src for backup
+    if (mediaFallback) {
+      setActiveMediaSrc(mediaFallback)
+      setVideoError(false)
+    }
+  }, [videoError, setVideoError, mediaFallback])
+
   // Get the thumbnail
   const thumbnailImageSrc = React.useMemo(() => {
     // If there is a thumbnail src, use that
     if (activeThumbSrc) return activeThumbSrc
     // If youtube, get youtube thumb
-    if (mediaType === 'youtube_embed') return utils.getVideoThumb(mediaSrc)
+    if (mediaType === 'youtube_embed') return utils.getVideoThumb(activeMediaSrc)
     // If video with no src, then no thumbnail
     if (mediaType === 'video') return null
-  }, [activeThumbSrc, mediaType, mediaSrc])
+  }, [activeThumbSrc, mediaType, activeMediaSrc])
 
   // Test for broken videos
   const mediaTest = React.useMemo(() => {
     if (mediaType !== 'video' || videoError) return null
-    return getMediaTest({ mediaSrc, handleError })
-  }, [mediaType, mediaSrc, videoError, handleError])
+    return getMediaTest({ mediaSrc: activeMediaSrc, handleError })
+  }, [mediaType, activeMediaSrc, videoError, handleError])
 
   // Define play icon
   const playIcon = React.useMemo(() => {
@@ -201,11 +214,11 @@ const PostImage = ({
   } = usePopupStore(getPopupStoreState, shallow)
 
   const enlargeMedia = React.useCallback(() => {
-    const popupContents = getPopupMedia({ mediaSrc, mediaType, thumbnailSrc: thumbnailImageSrc, closePopup, title })
+    const popupContents = getPopupMedia({ mediaSrc: activeMediaSrc, mediaType, thumbnailSrc: thumbnailImageSrc, closePopup, title })
     setPopupContents(popupContents)
     setPopupCaption(title)
     setPopupContentType(mediaType)
-  }, [mediaSrc, thumbnailImageSrc, mediaType, title, setPopupContents, setPopupCaption, setPopupContentType, closePopup])
+  }, [activeMediaSrc, thumbnailImageSrc, mediaType, title, setPopupContents, setPopupCaption, setPopupContentType, closePopup])
 
   // Close popup when unmounts
   React.useEffect(() => {
@@ -286,6 +299,7 @@ const PostImage = ({
 PostImage.propTypes = {
   mediaSrc: PropTypes.string,
   thumbnailOptions: PropTypes.array,
+  mediaFallback: PropTypes.string,
   isStory: PropTypes.bool,
   title: PropTypes.string,
   aspectRatio: PropTypes.string,
@@ -299,6 +313,7 @@ PostImage.propTypes = {
 PostImage.defaultProps = {
   mediaSrc: '',
   thumbnailOptions: [],
+  mediaFallback: '',
   isStory: false,
   title: '',
   aspectRatio: 'square',
