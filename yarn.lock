@@ -12758,10 +12758,10 @@ react-number-format@^4.4.1:
   dependencies:
     prop-types "^15.7.2"
 
-react-peek-element@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/react-peek-element/-/react-peek-element-1.1.2.tgz#112099a080ad38b2369cee664a40a1c983570d19"
-  integrity sha512-pTbRtjjnkAZ+6qORartC+AYZe1OOlTHKk4ISauCVH5k5nwG/3d+OaOSEw9isfv4uj1jRtrr7F9q9drM4VTbyWA==
+react-peek-element@^2.0.11:
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/react-peek-element/-/react-peek-element-2.0.11.tgz#0441931d76b2e51e93fe72ace70a2cee29d0e2cf"
+  integrity sha512-gngCom+xygOjXqv3WgkMGm5CxH7wUR6h51TNMf2Yb5QktpIaX1Pr04qb8OMExSa74qOI6f46o3Gt7AW+7xaSNQ==
   dependencies:
     resize-observer-polyfill "^1.5.1"
 
