@@ -169,7 +169,7 @@ const PostImage = ({
 
   // Swap to backup video src if first errors
   React.useEffect(() => {
-    // Stop here if no video error or if finished
+    // Stop here if no video error
     if (!videoError) return
     // Try swapping media src for backup
     if (mediaFallback) {
