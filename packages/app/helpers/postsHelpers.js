@@ -203,9 +203,9 @@ export const formatPostsResponse = (posts) => {
     const initialThumbnails = post.thumbnails.map(({ url }) => url)
     const storyThumbnails = post.advideo?.thumbnails?.data.map((thumbnail) => thumbnail.uri)
     const thumbnails = [
-      ...initialThumbnails,
       post.advideo?.picture,
       post.adimage?.permalink_url,
+      ...initialThumbnails,
       ...(storyThumbnails || []),
       thumbnailSrc,
     ]
