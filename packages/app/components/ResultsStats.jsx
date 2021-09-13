@@ -37,10 +37,10 @@ const ResultsStats = ({ data }) => {
           'order-2',
         ].join(' ')}
       >
-        {adsReach && organicReach ? (
-          <ResultsExistingAudienceStats className="flex flex-col sm:items-center" adsReach={adsReach} organicReach={organicReach} />
-        ) : (
+        {(!adsReach?.value || !organicReach?.value) ? (
           <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-green" />
+        ) : (
+          <ResultsExistingAudienceStats className="flex flex-col sm:items-center" adsReach={adsReach} organicReach={organicReach} />
         )}
       </div>
     </>

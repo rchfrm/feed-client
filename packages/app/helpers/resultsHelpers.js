@@ -21,11 +21,10 @@ export const postResultsConfig = [
 
 const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
-    if (!value) return newObject
     const { asset, ...stats } = value
 
     newObject[key] = stats
-    if (key === 'on_platform' || key === 'unaware') {
+    if (value?.asset && (key === 'on_platform' || key === 'unaware')) {
       newObject.posts.push({
         ...value.asset,
       })
@@ -107,6 +106,8 @@ export const getNewAudienceData = (data) => {
       copy = resultsCopy.newAudienceUnawareReachSingle(reach.curr_period)
     }
   }
+
+  if (!prevPeriod || !currPeriod) return null
 
   const newAudienceData = {
     isOnPlatform,
