@@ -125,7 +125,7 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
 * @param {string} [cursor]
 * @returns {Promise<any>}
 */
-export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }) => {
+export const getPosts = async ({ limit = 10, artistId, promotionStatus, sortBy, cursor }) => {
   const queryParams = {
     limit,
     // add cursor if defined
@@ -133,6 +133,8 @@ export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }
     // Filter by promotion status if not "all"
     ...(promotionStatus && promotionStatus !== 'all')
     && { promotion_status: promotionStatus },
+    // Sort by 'sort by' if defined
+    ...(sortBy && { order_by: sortBy }),
     // Hide non-promotable posts if showing inactive
     ...(promotionStatus === 'inactive') && { is_promotable: 1 },
   }

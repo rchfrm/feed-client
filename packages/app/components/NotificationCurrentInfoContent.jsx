@@ -16,7 +16,6 @@ const NotificationCurrentInfoContent = ({
   sidepanelLayout,
 }) => {
   const hasButton = !sidepanelLayout
-  const copy = isComplete ? 'Thanks!' : description
   return (
     <div className={hasButton ? 'pb-12' : null}>
       {!sidepanelLayout && isComplete && (
@@ -53,7 +52,7 @@ const NotificationCurrentInfoContent = ({
         )}
         {title}
       </h3>
-      <MarkdownText markdown={copy} />
+      <MarkdownText markdown={description} />
       {/* BUTTON (for not sidepanel layout) */}
       {hasButton && buttonEl}
     </div>
