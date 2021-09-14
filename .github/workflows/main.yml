@@ -24,8 +24,8 @@ jobs:
           node-version: ${{ env.PRIMARY_NODE_VERSION }}
 
       - name: Install dependencies
-        run: npm
+        run: npm ci
 
-      - name: Run ESLint pull request
+      - name: Run ESLint
         run: npm lint:all
 
