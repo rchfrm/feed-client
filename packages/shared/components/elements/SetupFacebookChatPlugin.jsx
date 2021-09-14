@@ -5,7 +5,7 @@ import Script from 'next/script'
 
 const SetupFacebookChatPlugin = ({ pageId }) => {
   // Stop here if in dev
-  // if (process.env.build_env === 'staging') return null
+  if (process.env.build_env === 'development') return null
   // Render
   return (
     <>
