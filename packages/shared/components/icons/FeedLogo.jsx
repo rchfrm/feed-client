@@ -19,13 +19,11 @@ const FeedLogo = ({ className, style }) => {
 FeedLogo.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  textColor: PropTypes.string,
 }
 
 FeedLogo.defaultProps = {
   className: '',
   style: {},
-  textColor: black,
 }
 
 
