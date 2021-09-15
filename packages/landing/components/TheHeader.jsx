@@ -11,6 +11,8 @@ import FeedLogo from '@/landing/elements/FeedLogo'
 import FeedWordmark from '@/landing/elements/FeedWordmark'
 
 import * as styles from '@/landing/TheHeader.module.css'
+import Button from '@/elements/Button'
+import brandColors from '@/constants/brandColors'
 
 export default function TheHeader() {
   // const { pathname } = useRouter()
@@ -71,6 +73,14 @@ export default function TheHeader() {
               className={[styles.logIn, styles.navLink].join(' ')}
               trackLocation="header"
             />
+
+            <Button
+              version="black"
+              onClick={() => console.log('Click')}
+            >
+              Sign up
+            </Button>
+
           </div>
           {/* HAMBURGER */}
           {/* <TheHeaderHamburger */}

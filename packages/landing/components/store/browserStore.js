@@ -1,6 +1,6 @@
 import create from 'zustand'
 
-import tailwindConfig from '~/tailwind.config'
+import tailwindConfig from '../../tailwind.config'
 
 // GET BREAKPOINTS
 const { theme: { screens } } = tailwindConfig
