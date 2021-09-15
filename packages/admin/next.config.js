@@ -44,6 +44,10 @@ const nextConfig = {
       },
     ],
   },
+  eslint: {
+    // Don't run eslint during build, CI/CD pipeline handles this
+    ignoreDuringBuilds: true,
+  },
   webpack: (config, { webpack }) => {
     // Reduce size of moment.js
     config.plugins.push(

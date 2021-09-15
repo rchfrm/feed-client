@@ -10,8 +10,6 @@ const EntityConnections = ({ connections, connectionType }) => {
   // Hide or show the list of connected entities
   const [showConnections, setShowConnections] = React.useState(false)
   const toggleConnections = () => setShowConnections(!showConnections)
-  // Set query parameter based on entity type
-  const queryId = connectionType === 'User' ? 'userId' : connectionType === 'Artist' ? 'artistId' : 'orgId'
   const entityRoute = connectionType.toUpperCase()
   // Pluralise connection type if there is more than 1
   const type = connections.length === 1 ? connectionType : `${connectionType}s`

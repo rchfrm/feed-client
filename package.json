@@ -10,7 +10,7 @@
     "ssl": "dev-proxy --proxy 3000:3001 --key ./certificates/localhost.key --cert ./certificates/localhost.crt",
     "lint": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/app",
     "lint:shared": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/shared",
-    "lint:admin": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/app",
+    "lint:admin": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/admin",
     "lint:all": "yarn lint && yarn lint:shared && yarn lint:admin",
     "stage": "./bin/deploy app staging",
     "stage:admin": "./bin/deploy admin staging",

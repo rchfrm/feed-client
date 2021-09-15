@@ -93,6 +93,10 @@ const nextConfig = {
     }
     return config
   },
+  eslint: {
+    // Don't run eslint during build, CI/CD pipeline handles this
+    ignoreDuringBuilds: true,
+  },
   // Build static data
   // NOTE: This can go in any async config func.
   // You really just need it to await before Next starts the dev server.

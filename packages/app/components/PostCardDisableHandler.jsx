@@ -44,7 +44,7 @@ const PostCardDisableHandler = ({
   }, [])
 
   // REVERSE DISABLE POST (Set the post back to the previous enabled state)
-  const { isPending } = useAsync({
+  useAsync({
     promiseFn: postsHelpers.updatePost,
     watch: reverseStatus,
     // The variable(s) to pass to promiseFn
