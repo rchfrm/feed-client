@@ -29,9 +29,9 @@ const getControlsStoreState = (state) => ({
 
 const ControlsWizardLinkStep = () => {
   const { nestedLinks, updateLinks, updatePreferences, defaultLink } = useControlsStore(getControlsStoreState)
-  const [link, setLink] = React.useState(null)
+  const [link, setLink] = React.useState(defaultLink)
   const [linkId, setLinkId] = React.useState(defaultLink?.id)
-  const [isEditMode, setIsEditMode] = React.useState(!link)
+  const [isEditMode, setIsEditMode] = React.useState(!defaultLink?.id)
   const [error, setError] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
   const { next } = React.useContext(WizardContext)
