@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import InputBase from '@/elements/InputBase'
+import InputBase from '@/landing/elements/InputBase'
 
 const Input = ({
   El,
@@ -78,7 +78,7 @@ const Input = ({
       disabled={disabled}
     >
       {!!prefix && (
-        <div className={[ 'input--prefix', 'h-auto' ].join(' ')}>
+        <div className={['input--prefix', 'h-auto'].join(' ')}>
           <span>{prefix}</span>
         </div>
       )}

@@ -1,9 +1,9 @@
-import SeoTagsDato from '@/elements/SeoTagsDato'
-import BlogArticle from '@/BlogArticle'
+import SeoTagsDato from '@/landing/elements/SeoTagsDato'
+import BlogArticle from '@/landing/BlogArticle'
 
 // Dato data
-import { getLinksQuery, getArticleQuery } from '@/graphQl/blogArticlesQueries'
-import getDatoData from '@/helpers/getDatoData'
+import { getLinksQuery, getArticleQuery } from '@/landing/graphQl/blogArticlesQueries'
+import getDatoData from '@/landing/helpers/getDatoData'
 
 export default function BlogArticlePage({ pageData }) {
   const { _seoMetaTags: metaTags } = pageData

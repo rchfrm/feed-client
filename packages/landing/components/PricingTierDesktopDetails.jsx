@@ -1,9 +1,9 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import TickIcon from '@/icons/TickIcon'
+import TickIcon from '@/landing/icons/TickIcon'
 
-import PricingTierCost from '@/PricingTierCost'
+import PricingTierCost from '@/landing/PricingTierCost'
 
 const PRICING_ITEM = ({ id, tier }) => {
   const value = tier[id]

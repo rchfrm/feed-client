@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Head from 'next/head'
 
-import { siteTitle, metaDescription } from '@/TheHead'
+import { siteTitle, metaDescription } from '@/landing/TheHead'
 
 import { renderMetaTags } from 'react-datocms'
 

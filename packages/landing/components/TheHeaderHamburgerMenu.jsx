@@ -6,7 +6,7 @@ import Router from 'next/router'
 import { Transition } from 'react-transition-group'
 import { gsap } from 'gsap'
 
-import * as styles from '@/TheHeader.module.css'
+import * as styles from '@/landing/TheHeader.module.css'
 
 const TheHeaderHamburgerMenu = ({ linksOpen, toggleLinks, children }) => {
   // WHEN PATH CHANGES, CLOSE HAMBURGER

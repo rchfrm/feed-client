@@ -1,6 +1,6 @@
 // DOCS: https://developer.mixpanel.com/docs/javascript
 import mixpanel from 'mixpanel-browser'
-import { parseUrl } from '@/helpers/utils'
+import { parseUrl } from '@/landing/helpers/utils'
 
 // INIT
 // ---------

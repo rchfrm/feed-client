@@ -11,8 +11,8 @@ import {
 
 import shallow from 'zustand/shallow'
 
-import useBrowserStore from '@/store/browserStore'
-import useOnResize from '@/hooks/useOnResize'
+import useBrowserStore from '@/landing/store/browserStore'
+import useOnResize from '@/landing/hooks/useOnResize'
 
 const getBrowserStore = (state) => ({
   setDevice: state.setDevice,

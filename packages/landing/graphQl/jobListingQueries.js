@@ -1,4 +1,4 @@
-import { image, seo } from '@/graphQl/querySnippets'
+import { image, seo } from '@/landing/graphQl/querySnippets'
 
 export const jobIntro = () => `
   id
@@ -34,7 +34,7 @@ query {
     headlineSkills
     theRole
     yourSkills
-    ourOffer    
+    ourOffer
     ${seo()}
   }
   jobsInfo {

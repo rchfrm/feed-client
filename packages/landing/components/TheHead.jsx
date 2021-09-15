@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 
-import Favicons from '@/Favicons'
+import Favicons from '@/landing/Favicons'
 
 const siteUrl = 'https://tryfeed.co'
 export const titleDescription = 'Grow your creative business with automated Facebook & Instagram ads.'

@@ -3,14 +3,14 @@ import { useRouter } from 'next/router'
 
 import withFBQ from 'next-fbq'
 
-import * as trackingHelpers from '@/helpers/trackingHelpers'
-import { mixpanelPageView } from '@/helpers/mixpanelHelpers'
+import * as trackingHelpers from '@/landing/helpers/trackingHelpers'
+import { mixpanelPageView } from '@/landing/helpers/mixpanelHelpers'
 
-import TheHead from '@/TheHead'
-import SetupGtag from '@/SetupGtag'
-import TheHeader from '@/TheHeader'
-import TheFooter from '@/TheFooter'
-import BrowserStoreSetup from '@/BrowserStoreSetup'
+import TheHead from '@/landing/TheHead'
+import SetupGtag from '@/landing/SetupGtag'
+import TheHeader from '@/landing/TheHeader'
+import TheFooter from '@/landing/TheFooter'
+import BrowserStoreSetup from '@/landing/BrowserStoreSetup'
 
 // Stylesheets
 import '../assets/styles/core.css'

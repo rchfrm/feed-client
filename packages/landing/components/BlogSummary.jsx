@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import BlogSummaryItem from '@/BlogSummaryItem'
+import BlogSummaryItem from '@/landing/BlogSummaryItem'
 
-import * as blogHelpers from '@/helpers/blogHelpers'
+import * as blogHelpers from '@/landing/helpers/blogHelpers'
 
-import * as styles from '@/BlogSummary.module.css'
+import * as styles from '@/landing/BlogSummary.module.css'
 
 const BlogSummary = ({
   featuredBlogArticles,

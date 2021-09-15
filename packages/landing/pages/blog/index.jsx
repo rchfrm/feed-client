@@ -1,9 +1,9 @@
-import SeoTagsDato from '@/elements/SeoTagsDato'
-import BlogSummary from '@/BlogSummary'
+import SeoTagsDato from '@/landing/elements/SeoTagsDato'
+import BlogSummary from '@/landing/BlogSummary'
 
 // Dato data
-import { getOverviewQuery } from '@/graphQl/blogArticlesQueries'
-import getDatoData from '@/helpers/getDatoData'
+import { getOverviewQuery } from '@/landing/graphQl/blogArticlesQueries'
+import getDatoData from '@/landing/helpers/getDatoData'
 
 export default function BlogOverview({ pageData }) {
   return (

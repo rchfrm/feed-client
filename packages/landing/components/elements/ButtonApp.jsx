@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Spinner from '@/elements/Spinner'
+import Spinner from '@/landing/elements/Spinner'
 
-import { track } from '@/helpers/trackingHelpers'
+import { track } from '@/landing/helpers/trackingHelpers'
 
-import { getLinkType } from '@/helpers/utils'
+import { getLinkType } from '@/landing/helpers/utils'
 
 const ButtonApp = React.forwardRef(({
   version,

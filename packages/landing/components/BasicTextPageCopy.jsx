@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import MarkdownText from '@/elements/MarkdownText'
+import MarkdownText from '@/landing/elements/MarkdownText'
 
 const BasicTextPageCopy = ({ copy, className }) => {
   return (

@@ -1,9 +1,9 @@
 import React from 'react'
 
-import PricingTiersMobile from '@/PricingTiersMobile'
-import PricingTiersDesktop from '@/PricingTiersDesktop'
+import PricingTiersMobile from '@/landing/PricingTiersMobile'
+import PricingTiersDesktop from '@/landing/PricingTiersDesktop'
 
-import useBreakpointTest from '@/hooks/useBreakpointTest'
+import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 
 const PricingPageTiers = ({ pageData }) => {
   const isDesktopLayout = useBreakpointTest('sm')

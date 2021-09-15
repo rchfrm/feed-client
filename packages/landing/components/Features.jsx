@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import FeatureItem from '@/FeatureItem'
+import FeatureItem from '@/landing/FeatureItem'
 
 import * as styles from './Features.module.css'
 

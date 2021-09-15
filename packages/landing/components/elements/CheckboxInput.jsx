@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import CheckboxButton from '@/elements/CheckboxButton'
+import CheckboxButton from '@/landing/elements/CheckboxButton'
 
 const CheckboxInput = (props) => {
   const {

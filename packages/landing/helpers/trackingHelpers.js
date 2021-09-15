@@ -1,4 +1,4 @@
-import * as mixpanelHelpers from '@/helpers/mixpanelHelpers'
+import * as mixpanelHelpers from '@/landing/helpers/mixpanelHelpers'
 
 // GOOGLE
 // ------------------------------

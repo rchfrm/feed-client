@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 
 import Link from 'next/link'
 
-import Button from '@/elements/Button'
-import brandColors from '@/constants/brandColors'
-import copy from '@/copy/LandingPageCopy'
+import Button from '@/landing/elements/Button'
+import brandColors from '@/landing/constants/brandColors'
+import copy from '@/landing/copy/LandingPageCopy'
 
 // Global info store
-import useGlobalInfoStore from '@/store/globalInfoStore'
+import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
-import { mixpanelInternalLinkClick } from '@/helpers/mixpanelHelpers'
+import { mixpanelInternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 
 const getJoinLink = state => state.joinLink
 export default function HeroCTA({ classes }) {

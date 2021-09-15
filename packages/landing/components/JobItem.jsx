@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 
 import Link from 'next/link'
 
-import Button from '@/elements/Button'
+import Button from '@/landing/elements/Button'
 
-import { jobSlug } from '@/copy/LandingPageCopy'
+import { jobSlug } from '@/landing/copy/LandingPageCopy'
 
-import * as styles from '@/./JobsSummary.module.css'
+import * as styles from '@/landing/./JobsSummary.module.css'
 import { Image } from 'react-datocms'
-import Anchor from '@/elements/Anchor'
+import Anchor from '@/landing/elements/Anchor'
 
 
 const Status = ({ open }) => {

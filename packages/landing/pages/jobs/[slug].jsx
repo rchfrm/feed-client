@@ -1,9 +1,9 @@
-import SeoTagsDato from '@/elements/SeoTagsDato'
-import JobDetails from '@/JobDetails'
+import SeoTagsDato from '@/landing/elements/SeoTagsDato'
+import JobDetails from '@/landing/JobDetails'
 
 // Dato data
-import { getLinksQuery, getArticleQuery } from '@/graphQl/jobListingQueries'
-import getDatoData from '@/helpers/getDatoData'
+import { getLinksQuery, getArticleQuery } from '@/landing/graphQl/jobListingQueries'
+import getDatoData from '@/landing/helpers/getDatoData'
 
 export default function JobListing({ pageData }) {
   const { _seoMetaTags: metaTags } = pageData

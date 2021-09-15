@@ -1,6 +1,6 @@
 import create from 'zustand'
 // Built in next.config.js
-import globalInfo from '@/tempData/globalInfo.json'
+import globalInfo from '@/landing/tempData/globalInfo.json'
 
 // EXPORT
 const useGlobalInfoStore = create((set) => ({

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Input from '@/elements/Input'
+import Input from '@/landing/elements/Input'
 
 const TextArea = (props) => {
   return (

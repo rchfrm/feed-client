@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 
-import MarkdownText from '@/elements/MarkdownText'
+import MarkdownText from '@/landing/elements/MarkdownText'
 
-import * as styles from '@/TheFooter.module.css'
+import * as styles from '@/landing/TheFooter.module.css'
 
 export default function TheFooterNavigationItem({ copy }) {
   return (

@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-import { sortArrayByKey } from '@/helpers/utils'
+import { sortArrayByKey } from '@/landing/helpers/utils'
 
 // GET PUBLISHED DATE OF BLOG
 export const getArticleDates = (article) => {

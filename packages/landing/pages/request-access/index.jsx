@@ -1,12 +1,12 @@
-import BasicTextPage from '@/BasicTextPage'
-import RequestAccessForm from '@/RequestAccessForm'
-import RequestAccessIntro from '@/RequestAccessIntro'
+import BasicTextPage from '@/landing/BasicTextPage'
+import RequestAccessForm from '@/landing/RequestAccessForm'
+import RequestAccessIntro from '@/landing/RequestAccessIntro'
 
-import SeoTagsDato from '@/elements/SeoTagsDato'
+import SeoTagsDato from '@/landing/elements/SeoTagsDato'
 
 // Dato data
-import getQuery from '@/graphQl/landingTextPageQuery'
-import getDatoData from '@/helpers/getDatoData'
+import getQuery from '@/landing/graphQl/landingTextPageQuery'
+import getDatoData from '@/landing/helpers/getDatoData'
 
 const pageSlug = 'request-access'
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Script from 'react-load-script'
 
-import { gaCrossDomainsString, enableGtag } from '@/helpers/trackingHelpers'
+import { gaCrossDomainsString, enableGtag } from '@/landing/helpers/trackingHelpers'
 
 const SetupGtag = ({ gaId, forceOn }) => {
   // Stop here if in dev

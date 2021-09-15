@@ -1,4 +1,4 @@
-import MarkdownText from '@/elements/MarkdownText'
+import MarkdownText from '@/landing/elements/MarkdownText'
 
 const PricingPageDescription = ({ copy }) => {
   return (

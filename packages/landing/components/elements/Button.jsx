@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import brandColors from '@/constants/brandColors'
-import * as utils from '@/helpers/utils'
+import brandColors from '@/landing/constants/brandColors'
+import * as utils from '@/landing/helpers/utils'
 
 const Button = React.forwardRef(({
   children,

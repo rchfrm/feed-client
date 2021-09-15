@@ -1,4 +1,4 @@
-import PricingTierMobile from '@/PricingTierMobile'
+import PricingTierMobile from '@/landing/PricingTierMobile'
 
 const placeInLowestTier = (functions, tierId) => {
   return functions.reduce((acc, cur) => {

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import BasicTextPage from '@/BasicTextPage'
+import BasicTextPage from '@/landing/BasicTextPage'
 
 const PageNotFound = () => {
   return (

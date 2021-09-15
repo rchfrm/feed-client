@@ -3,15 +3,15 @@ import PropTypes from 'prop-types'
 
 import Link from 'next/link'
 
-import Button from '@/elements/Button'
+import Button from '@/landing/elements/Button'
 
 // Global info store
-import useGlobalInfoStore from '@/store/globalInfoStore'
+import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
-import { mixpanelInternalLinkClick } from '@/helpers/mixpanelHelpers'
+import { mixpanelInternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 
-import brandColors from '@/constants/brandColors'
-import * as styles from '@/PrimaryCTA.module.css'
+import brandColors from '@/landing/constants/brandColors'
+import * as styles from '@/landing/PrimaryCTA.module.css'
 
 const getJoinLink = state => state.joinLink
 

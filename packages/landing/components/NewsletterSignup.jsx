@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import MailchimpForm from '@/elements/MailchimpForm'
+import MailchimpForm from '@/landing/elements/MailchimpForm'
 
-import styles from '@/NewsletterSignup.module.css'
+import styles from '@/landing/NewsletterSignup.module.css'
 
 const NewsletterSignup = ({
   header,

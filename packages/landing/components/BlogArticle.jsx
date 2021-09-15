@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import BasicTextPage from '@/BasicTextPage'
-import TertiaryCTA from '@/TertiaryCTA'
-import NewsletterScrollButton from '@/NewsletterScrollButton'
+import BasicTextPage from '@/landing/BasicTextPage'
+import TertiaryCTA from '@/landing/TertiaryCTA'
+import NewsletterScrollButton from '@/landing/NewsletterScrollButton'
 
-import useBreakpointTest from '@/hooks/useBreakpointTest'
+import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 
-import * as blogHelpers from '@/helpers/blogHelpers'
+import * as blogHelpers from '@/landing/helpers/blogHelpers'
 
 const BlogArticle = ({
   article,

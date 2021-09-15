@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import NewsletterSignup from '@/NewsletterSignup'
+import NewsletterSignup from '@/landing/NewsletterSignup'
 
 const DIVIDER = ({ pos }) => {
   const mY = pos === 'top' ? 'mb-10' : 'mt-10'

@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import copy from '@/copy/LandingPageCopy'
-import Button from '@/elements/Button'
+import copy from '@/landing/copy/LandingPageCopy'
+import Button from '@/landing/elements/Button'
 
-import { mixpanelExternalLinkClick } from '@/helpers/mixpanelHelpers'
+import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 
 // Global info store
-import useGlobalInfoStore from '@/store/globalInfoStore'
+import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
 const getLoginLink = state => state.loginLink
 

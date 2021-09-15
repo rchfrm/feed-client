@@ -2,10 +2,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import TickIcon from '@/icons/TickIcon'
-import FacebookIcon from '@/icons/FacebookIcon'
-import InstagramIcon from '@/icons/InstagramIcon'
-import brandColors from '@/constants/brandColors'
+import TickIcon from '@/landing/icons/TickIcon'
+import FacebookIcon from '@/landing/icons/FacebookIcon'
+import InstagramIcon from '@/landing/icons/InstagramIcon'
+import brandColors from '@/landing/constants/brandColors'
 
 const getIconEl = (icon, success) => {
   if (success) {

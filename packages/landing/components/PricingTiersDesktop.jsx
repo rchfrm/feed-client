@@ -1,25 +1,25 @@
 import React from 'react'
 
-import PricingTierDesktopDetails from '@/PricingTierDesktopDetails'
-import PricingTierCost from '@/PricingTierCost'
+import PricingTierDesktopDetails from '@/landing/PricingTierDesktopDetails'
+// import PricingTierCost from '@/landing/PricingTierCost'
 
-const MANAGED_TIER = ({ tiers }) => {
-  const managed = tiers.find(el => el.tierId === 'managed')
-  const value = managed.subscription
-  const id = 'subscription'
-  return (
-    <div
-      className={[
-        'row-span-4',
-        'col-span-3',
-        'self-center',
-        'h3',
-      ].join(' ')}
-    >
-      <PricingTierCost value={value} id={id} />
-    </div>
-  )
-}
+// const MANAGED_TIER = ({ tiers }) => {
+//   const managed = tiers.find(el => el.tierId === 'managed')
+//   const value = managed.subscription
+//   const id = 'subscription'
+//   return (
+//     <div
+//       className={[
+//         'row-span-4',
+//         'col-span-3',
+//         'self-center',
+//         'h3',
+//       ].join(' ')}
+//     >
+//       <PricingTierCost value={value} id={id} />
+//     </div>
+//   )
+// }
 
 const PricingTiersDesktop = ({ pageData }) => {
   const { tiers: pricingTiers, pricingStructure, adNetworks, functions } = pageData
@@ -48,7 +48,7 @@ const PricingTiersDesktop = ({ pageData }) => {
         )
       })}
 
-      {/*<MANAGED_TIER tiers={pricingTiers} />*/}
+      {/* <MANAGED_TIER tiers={pricingTiers} /> */}
 
       {/*  Pricing structure for each tier */}
       <PricingTierDesktopDetails headers={pricingStructure} tiers={pricingTiers} pricing />

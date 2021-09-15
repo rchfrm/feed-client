@@ -26,7 +26,7 @@ const useOnScroll = ({
     props.current.delta = 0
   }
 
-  const calcDelta = (scrollTop) => {
+  const calcDelta = React.useCallback((scrollTop) => {
     props.current.newScroll = scrollTop
     if (props.current.lastScrollDelta !== null) {
       props.current.delta = props.current.newScroll - props.current.lastScrollDelta
@@ -35,18 +35,18 @@ const useOnScroll = ({
     clearTimeout(props.current.timer)
     props.current.timer = setTimeout(clear, throttle / 2)
     return props.current.delta
-  }
+  }, [throttle])
 
-  const calcDirection = (scrollTop) => {
+  const calcDirection = React.useCallback((scrollTop) => {
     if (scrollTop > props.current.lastScrollDirection) {
       props.current.lastScrollDirection = sanitiseScroll(scrollTop)
       return 'down'
     }
     props.current.lastScrollDirection = sanitiseScroll(scrollTop)
     return 'up'
-  }
+  }, [])
 
-  const getScrollProps = () => {
+  const getScrollProps = React.useCallback(() => {
     const scrollTop = isClient ? sanitiseScroll(window.scrollY) : undefined
     return {
       scrollTop,
@@ -54,7 +54,7 @@ const useOnScroll = ({
       delta: getDelta && isClient ? calcDelta(scrollTop) : undefined,
       direction: getDirection && isClient ? calcDirection(scrollTop) : undefined,
     }
-  }
+  }, [calcDelta, calcDirection, getDelta, getDirection, isClient])
 
   const [scrollProps, setScrollProps] = React.useState(getScrollProps())
   React.useEffect(() => {
@@ -72,7 +72,7 @@ const useOnScroll = ({
       window.removeEventListener('scroll', debouncedCallback, { passive: true })
       debouncedCallback.cancel()
     }
-  }, [throttle])
+  }, [getScrollProps, throttle])
 
   return scrollProps
 }

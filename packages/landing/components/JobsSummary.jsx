@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JobItem from '@/JobItem'
+import JobItem from '@/landing/JobItem'
 
-import * as styles from '@/BlogSummary.module.css'
+import * as styles from '@/landing/BlogSummary.module.css'
 
 const JobsSummary = ({ featuredJobListings }) => {
   // Format data from Dato

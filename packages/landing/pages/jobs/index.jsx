@@ -1,9 +1,9 @@
-import SeoTagsDato from '@/elements/SeoTagsDato'
-import JobsSummary from '@/JobsSummary'
+import SeoTagsDato from '@/landing/elements/SeoTagsDato'
+import JobsSummary from '@/landing/JobsSummary'
 
 // Dato data
-import { getOverviewQuery } from '@/graphQl/jobListingQueries'
-import getDatoData from '@/helpers/getDatoData'
+import { getOverviewQuery } from '@/landing/graphQl/jobListingQueries'
+import getDatoData from '@/landing/helpers/getDatoData'
 
 export default function Jobs({ pageData }) {
   return (

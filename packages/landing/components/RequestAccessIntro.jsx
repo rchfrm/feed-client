@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import MarkdownText from '@/elements/MarkdownText'
-import ButtonApp from '@/elements/ButtonApp'
+import MarkdownText from '@/landing/elements/MarkdownText'
+import ButtonApp from '@/landing/elements/ButtonApp'
 
-import { mixpanelExternalLinkClick } from '@/helpers/mixpanelHelpers'
+import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 
-import copy from '@/copy/requestAccessCopy'
+import copy from '@/landing/copy/requestAccessCopy'
 
 const { signupClosedIntro, signupClosedReferral, signupClosedOutro } = copy
 

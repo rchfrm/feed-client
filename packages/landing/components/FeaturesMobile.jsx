@@ -1,4 +1,4 @@
-import TickIcon from '@/icons/TickIcon'
+import TickIcon from '@/landing/icons/TickIcon'
 
 const FeaturesMobile = ({ features }) => {
   if (features.length === 0) return null

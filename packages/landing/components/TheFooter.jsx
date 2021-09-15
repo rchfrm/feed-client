@@ -1,12 +1,12 @@
-import TheFooterNavigationItem from '@/TheFooterNavigationItem'
-import TheFooterSocialLink from '@/TheFooterSocialLink'
-import TheFooterColophon from '@/TheFooterColophon'
+import TheFooterNavigationItem from '@/landing/TheFooterNavigationItem'
+import TheFooterSocialLink from '@/landing/TheFooterSocialLink'
+import TheFooterColophon from '@/landing/TheFooterColophon'
 
-import copy from '@/copy/LandingPageCopy'
-import * as styles from '@/TheFooter.module.css'
+import copy from '@/landing/copy/LandingPageCopy'
+import * as styles from '@/landing/TheFooter.module.css'
 
 // Global info store
-import useGlobalInfoStore from '@/store/globalInfoStore'
+import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
 const getGlobalInfo = state => state
 

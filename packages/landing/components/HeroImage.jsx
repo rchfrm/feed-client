@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { detect } from 'detect-browser'
 import { Image } from 'react-datocms'
 
-import useOnResize from '@/hooks/useOnResize'
+import useOnResize from '@/landing/hooks/useOnResize'
 
-import * as styles from '@/Hero.module.css'
+import * as styles from '@/landing/Hero.module.css'
 
 export default function HeroImage({
   imageMobile,

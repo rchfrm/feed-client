@@ -1,10 +1,10 @@
-import SeoTagsDato from '@/elements/SeoTagsDato'
-import BasicTextPage from '@/BasicTextPage'
+import SeoTagsDato from '@/landing/elements/SeoTagsDato'
+import BasicTextPage from '@/landing/BasicTextPage'
 
 // Dato data
-import getLegalPagesQuery from '@/graphQl/getLegalPagesQuery'
-import getContentQuery from '@/graphQl/landingTextPageQuery'
-import getDatoData from '@/helpers/getDatoData'
+import getLegalPagesQuery from '@/landing/graphQl/getLegalPagesQuery'
+import getContentQuery from '@/landing/graphQl/landingTextPageQuery'
+import getDatoData from '@/landing/helpers/getDatoData'
 
 export default function About({ pageData }) {
   const { _seoMetaTags: metaTags } = pageData

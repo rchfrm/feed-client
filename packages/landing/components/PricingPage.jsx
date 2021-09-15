@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import BannerBase from '@/elements/BannerBase'
-import BasicTextPage from '@/BasicTextPage'
+import BannerBase from '@/landing/elements/BannerBase'
+import BasicTextPage from '@/landing/BasicTextPage'
 
 
-import PricingPageTiers from '@/PricingPageTiers'
-import PricingPageDescription from '@/PricingPageDescription'
-import PrimaryCTA from '@/PrimaryCTA'
+import PricingPageTiers from '@/landing/PricingPageTiers'
+import PricingPageDescription from '@/landing/PricingPageDescription'
+import PrimaryCTA from '@/landing/PrimaryCTA'
 
 const PricingPage = ({ pageData }) => {
   const { promoBanner, pricingCopy } = pageData

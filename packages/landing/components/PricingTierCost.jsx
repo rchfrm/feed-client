@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Anchor from '@/elements/Anchor'
+import Anchor from '@/landing/elements/Anchor'
 
 const PricingTierCost = ({ value, id }) => {
   // NO VALUE

@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import BannerBase from '@/elements/BannerBase'
-import CrowdCubeIcon from '@/icons/CrowdCubeIcon'
+import BannerBase from '@/landing/elements/BannerBase'
+import CrowdCubeIcon from '@/landing/icons/CrowdCubeIcon'
 
 const CrowdCubeBanner = () => {
   const copy = `**We're crowdfunding!** Own a part of Feed. Capital at Risk.`

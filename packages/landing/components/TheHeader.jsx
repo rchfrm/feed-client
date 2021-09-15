@@ -1,35 +1,31 @@
 import React from 'react'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 
 import Link from 'next/link'
 
-import useBreakpointTest from '@/hooks/useBreakpointTest'
+// import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 
-import Login from '@/Login'
-import TryFeed from '@/TryFeed'
-import TheHeaderPageLinks from '@/TheHeaderPageLinks'
-import TheHeaderHamburgerMenu from '@/TheHeaderHamburgerMenu'
-import TheHeaderHamburger from '@/TheHeaderHamburger'
+import Login from '@/landing/Login'
 
-import FeedLogo from '@/elements/FeedLogo'
-import FeedWordmark from '@/elements/FeedWordmark'
+import FeedLogo from '@/landing/elements/FeedLogo'
+import FeedWordmark from '@/landing/elements/FeedWordmark'
 
-import * as styles from '@/TheHeader.module.css'
+import * as styles from '@/landing/TheHeader.module.css'
 
 export default function TheHeader() {
-  const { pathname } = useRouter()
-  const onHomePage = pathname === '/'
+  // const { pathname } = useRouter()
+  // const onHomePage = pathname === '/'
 
   // For mobile hamburger menu
-  const hamburgerBreakpoint = 'sm'
-  const [linksOpen, setLinksOpen] = React.useState(false)
-  const toggleLinks = React.useCallback((newState) => {
-    const state = typeof newState === 'boolean' ? newState : !linksOpen
-    setLinksOpen(state)
-  }, [linksOpen])
+  // const hamburgerBreakpoint = 'sm'
+  // const [linksOpen, setLinksOpen] = React.useState(false)
+  // const toggleLinks = React.useCallback((newState) => {
+  //   const state = typeof newState === 'boolean' ? newState : !linksOpen
+  //   setLinksOpen(state)
+  // }, [linksOpen])
 
   // GET DESKTOP LAYOUT TEST
-  const isDesktopLayout = useBreakpointTest(hamburgerBreakpoint)
+  // const isDesktopLayout = useBreakpointTest(hamburgerBreakpoint)
 
   return (
     <header id="header" className={styles.theHeader}>
@@ -55,33 +51,33 @@ export default function TheHeader() {
         </div>
         <div className={styles.theHeaderNav}>
           {/* NAV LINKS */}
-          {/*{isDesktopLayout ? (*/}
-          {/*  <nav className="flex">*/}
-          {/*    <TheHeaderPageLinks onHomePage={onHomePage} />*/}
-          {/*  </nav>*/}
-          {/*) : (*/}
-          {/*  <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}>*/}
-          {/*    <TheHeaderPageLinks onHomePage={onHomePage} toggleLinks={toggleLinks} />*/}
-          {/*  </TheHeaderHamburgerMenu>*/}
-          {/*)}*/}
+          {/* {isDesktopLayout ? ( */}
+          {/*  <nav className="flex"> */}
+          {/*    <TheHeaderPageLinks onHomePage={onHomePage} /> */}
+          {/*  </nav> */}
+          {/* ) : ( */}
+          {/*  <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}> */}
+          {/*    <TheHeaderPageLinks onHomePage={onHomePage} toggleLinks={toggleLinks} /> */}
+          {/*  </TheHeaderHamburgerMenu> */}
+          {/* )} */}
           {/* SIGNUP LINKS */}
           <div className={styles.signupLinks}>
-            {/*<TryFeed*/}
-            {/*  className={[styles.tryFeed, styles.navLink].join(' ')}*/}
-            {/*  buttonText="Join"*/}
-            {/*  trackLocation="header"*/}
-            {/*/>*/}
+            {/* <TryFeed */}
+            {/*  className={[styles.tryFeed, styles.navLink].join(' ')} */}
+            {/*  buttonText="Join" */}
+            {/*  trackLocation="header" */}
+            {/* /> */}
             <Login
               className={[styles.logIn, styles.navLink].join(' ')}
               trackLocation="header"
             />
           </div>
           {/* HAMBURGER */}
-          {/*<TheHeaderHamburger*/}
-          {/*  linksOpen={linksOpen}*/}
-          {/*  toggleLinks={toggleLinks}*/}
-          {/*  className={['sm:hidden'].join(' ')}*/}
-          {/*/>*/}
+          {/* <TheHeaderHamburger */}
+          {/*  linksOpen={linksOpen} */}
+          {/*  toggleLinks={toggleLinks} */}
+          {/*  className={['sm:hidden'].join(' ')} */}
+          {/* /> */}
         </div>
       </div>
     </header>

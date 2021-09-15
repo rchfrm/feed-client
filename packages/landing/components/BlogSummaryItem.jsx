@@ -5,13 +5,13 @@ import Link from 'next/link'
 
 import { Image } from 'react-datocms'
 
-import MarkdownText from '@/elements/MarkdownText'
-import Anchor from '@/elements/Anchor'
-import Button from '@/elements/Button'
+import MarkdownText from '@/landing/elements/MarkdownText'
+import Anchor from '@/landing/elements/Anchor'
+import Button from '@/landing/elements/Button'
 
-import { blogSlug } from '@/copy/LandingPageCopy'
+import { blogSlug } from '@/landing/copy/LandingPageCopy'
 
-import * as styles from '@/BlogSummary.module.css'
+import * as styles from '@/landing/BlogSummary.module.css'
 
 const BlogSummaryItem = ({ blog, className }) => {
   const { title, slug, image, excerpt, publishDate, author } = blog

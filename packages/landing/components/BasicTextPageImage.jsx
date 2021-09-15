@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Image } from 'react-datocms'
 
-import styles from '@/BasicTextPage.module.css'
+import styles from '@/landing/BasicTextPage.module.css'
 
 const BasicTextPageCopy = ({ image, breakoutWidth, className }) => {
   return (

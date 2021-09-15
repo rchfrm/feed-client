@@ -168,7 +168,7 @@ const useAnimateOnMount = ({
       debug(debugName, 'Rendered', devMode)
       didRender.current = true
     }
-  }, [isVisible, debugName])
+  }, [isVisible, debugName, devMode])
 
   // EXPORT
   return {

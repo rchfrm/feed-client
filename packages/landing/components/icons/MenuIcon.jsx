@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import brandColors from '@/constants/brandColors'
+import brandColors from '@/landing/constants/brandColors'
 
 export default function MenuIcon({ fill, className }) {
   return (

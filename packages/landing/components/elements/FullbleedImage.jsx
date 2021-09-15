@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Image } from 'react-datocms'
 
-import useOnResize from '@/hooks/useOnResize'
+import useOnResize from '@/landing/hooks/useOnResize'
 
 const FullbleedImage = ({
   image,

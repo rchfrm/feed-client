@@ -1,4 +1,4 @@
-import { image, contentBlocks, seo } from '@/graphQl/querySnippets'
+import { image, contentBlocks, seo } from '@/landing/graphQl/querySnippets'
 
 const getQuery = (slug) => `
 query {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Image } from 'react-datocms'
 
-import * as styles from '@/Testimonies.module.css'
+import * as styles from '@/landing/Testimonies.module.css'
 
 const TestimonyItem = ({ testimony, className }) => {
   const {

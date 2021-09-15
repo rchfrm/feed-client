@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import styles from '@/TheHeaderHamburger.module.scss'
+import styles from '@/landing/TheHeaderHamburger.module.scss'
 
 const TheHeaderHamburger = ({ linksOpen, toggleLinks, className }) => {
   return (

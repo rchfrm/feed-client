@@ -1,4 +1,4 @@
-import useBrowserStore from '@/hooks/useBrowserStore'
+import useBrowserStore from '@/landing/hooks/useBrowserStore'
 
 /*
 * USE EXAMPLE:

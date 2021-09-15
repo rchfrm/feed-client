@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Anchor from '@/elements/Anchor'
+import Anchor from '@/landing/elements/Anchor'
 
-import copy from '@/copy/LandingPageCopy'
+import copy from '@/landing/copy/LandingPageCopy'
 
-import * as styles from '@/TheHeader.module.css'
+import * as styles from '@/landing/TheHeader.module.css'
 
 const TheHeaderPageLinks = ({ onHomePage, toggleLinks }) => {
   const { navigation: { headerLinks } } = copy

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 
 import Swiper from 'swiper'
 
-import TestimonyItem from '@/TestimonyItem'
+import TestimonyItem from '@/landing/TestimonyItem'
 
-import * as styles from '@/Testimonies.module.css'
+import * as styles from '@/landing/Testimonies.module.css'
 
 const Testimonies = ({
   testimonies,

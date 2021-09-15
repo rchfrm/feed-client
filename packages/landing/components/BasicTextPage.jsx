@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import MarkdownText from '@/elements/MarkdownText'
+import MarkdownText from '@/landing/elements/MarkdownText'
 
-import BasicTextPageHeader from '@/BasicTextPageHeader'
-import BasicTextPageCopy from '@/BasicTextPageCopy'
-import BasicTextPageImage from '@/BasicTextPageImage'
-import BasicTextPageEmbed from '@/BasicTextPageEmbed'
-import BasicTextPageNewsletter from '@/BasicTextPageNewsletter'
+import BasicTextPageHeader from '@/landing/BasicTextPageHeader'
+import BasicTextPageCopy from '@/landing/BasicTextPageCopy'
+import BasicTextPageImage from '@/landing/BasicTextPageImage'
+import BasicTextPageEmbed from '@/landing/BasicTextPageEmbed'
+import BasicTextPageNewsletter from '@/landing/BasicTextPageNewsletter'
 
 const BasicTextPage = ({
   startContent,

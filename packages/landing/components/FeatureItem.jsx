@@ -2,9 +2,9 @@ import PropTypes from 'prop-types'
 
 import { Image } from 'react-datocms'
 
-import MarkdownText from '@/elements/MarkdownText'
+import MarkdownText from '@/landing/elements/MarkdownText'
 
-import * as styles from '@/Features.module.css'
+import * as styles from '@/landing/Features.module.css'
 
 const FeatureItem = ({
   header,

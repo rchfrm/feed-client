@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import NewsletterSignup from '@/NewsletterSignup'
+import NewsletterSignup from '@/landing/NewsletterSignup'
 
-import * as primaryStyles from '@/PrimaryCTA.module.css'
+import * as primaryStyles from '@/landing/PrimaryCTA.module.css'
 
 const TertiaryCTA = React.forwardRef(({
   header,

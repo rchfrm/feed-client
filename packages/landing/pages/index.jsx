@@ -1,9 +1,9 @@
-import Hero from '@/Hero'
-import Testimonies from '@/Testimonies'
+import Hero from '@/landing/Hero'
+import Testimonies from '@/landing/Testimonies'
 
 // Dato data
-import getQuery from '@/graphQl/homePageQuery'
-import getDatoData from '@/helpers/getDatoData'
+import getQuery from '@/landing/graphQl/homePageQuery'
+import getDatoData from '@/landing/helpers/getDatoData'
 
 export default function Landing({ pageData }) {
   const {
@@ -13,9 +13,9 @@ export default function Landing({ pageData }) {
     heroImageMobile,
     heroImageDesktop,
     testimonialList,
-    partnerLogoList,
-    featureList: features,
-    featuredBlogArticles,
+    // partnerLogoList,
+    // featureList: features,
+    // featuredBlogArticles,
   } = pageData
   return (
     <>
@@ -27,10 +27,10 @@ export default function Landing({ pageData }) {
         heroImageDesktop={heroImageDesktop}
       />
       <Testimonies testimonies={testimonialList} />
-      {/*<Features features={features} />*/}
-      {/*<PrimaryCTA />*/}
-      {/*<BlogSummary featuredBlogArticles={featuredBlogArticles} />*/}
-      {/*<TertiaryCTA trackLocation="homepage" />*/}
+      {/* <Features features={features} /> */}
+      {/* <PrimaryCTA /> */}
+      {/* <BlogSummary featuredBlogArticles={featuredBlogArticles} /> */}
+      {/* <TertiaryCTA trackLocation="homepage" /> */}
     </>
   )
 }

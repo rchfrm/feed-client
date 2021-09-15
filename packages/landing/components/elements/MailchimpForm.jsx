@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import MarkdownText from '@/elements/MarkdownText'
-import CheckboxInput from '@/elements/CheckboxInput'
+import MarkdownText from '@/landing/elements/MarkdownText'
+import CheckboxInput from '@/landing/elements/CheckboxInput'
 
-import copy from '@/copy/LandingPageCopy'
-import { track } from '@/helpers/trackingHelpers'
+import copy from '@/landing/copy/LandingPageCopy'
+import { track } from '@/landing/helpers/trackingHelpers'
 
 const { mailchimp: mailchimpCopy } = copy
 

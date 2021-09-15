@@ -1,6 +1,6 @@
 import React from 'react'
 
-import PricingTierCost from '@/PricingTierCost'
+import PricingTierCost from '@/landing/PricingTierCost'
 
 
 const PricingStructureMobile = ({ tier, costs }) => {

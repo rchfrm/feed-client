@@ -1,9 +1,9 @@
-import SeoTagsDato from '@/elements/SeoTagsDato'
-import PricingPage from '@/PricingPage'
+import SeoTagsDato from '@/landing/elements/SeoTagsDato'
+import PricingPage from '@/landing/PricingPage'
 
 // Dato data
-import getQuery from '@/graphQl/pricingPageQuery'
-import getDatoData from '@/helpers/getDatoData'
+import getQuery from '@/landing/graphQl/pricingPageQuery'
+import getDatoData from '@/landing/helpers/getDatoData'
 
 export default function Pricing({ pageData }) {
   return (

@@ -1,4 +1,4 @@
-import { parseUrl } from '@/helpers/utils'
+import { parseUrl } from '@/landing/helpers/utils'
 
 const sizes = {
   portrait_lazy: { w: 12, h: 16, fit: 'crop', blur: true },

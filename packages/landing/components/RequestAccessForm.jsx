@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 
 import produce from 'immer'
 
-import Input from '@/elements/Input'
-import TextArea from '@/elements/TextArea'
-import ButtonApp from '@/elements/ButtonApp'
-import CheckboxInput from '@/elements/CheckboxInput'
+import Input from '@/landing/elements/Input'
+import TextArea from '@/landing/elements/TextArea'
+import ButtonApp from '@/landing/elements/ButtonApp'
+import CheckboxInput from '@/landing/elements/CheckboxInput'
 
-import { track } from '@/helpers/trackingHelpers'
-import { testValidUrl, testValidEmail, getIntegrationRegex } from '@/helpers/utils'
+import { track } from '@/landing/helpers/trackingHelpers'
+import { testValidUrl, testValidEmail, getIntegrationRegex } from '@/landing/helpers/utils'
 
 const formElements = [
   {
@@ -96,7 +96,7 @@ const RequestAccessForm = ({ className, emailOnly }) => {
       className={[
         'relative',
         className,
-        emailOnly && 'grid', 'grid-cols-12', 'xs:gap-4', 'lg:z-10'
+        emailOnly && 'grid', 'grid-cols-12', 'xs:gap-4', 'lg:z-10',
       ].join(' ')}
       onSubmit={(e) => {
         e.preventDefault()
@@ -115,7 +115,7 @@ const RequestAccessForm = ({ className, emailOnly }) => {
           action: 'join_waiting_list',
           category: 'sign_up',
           marketing: true,
-          fb: false
+          fb: false,
         })
         // Submit form
         e.target.submit()
@@ -173,12 +173,12 @@ const RequestAccessForm = ({ className, emailOnly }) => {
             autoCapitalize={autoCapitalize}
             autoCorrect={autoCorrect}
             className={[
-              emailOnly && 'col-span-12', 'xs:col-span-8', 'sm:col-span-8', 'lg:col-span-5'
+              emailOnly && 'col-span-12', 'xs:col-span-8', 'sm:col-span-8', 'lg:col-span-5',
             ].join(' ')}
             name={name || id}
             id={id}
             value={value}
-            label={!emailOnly && label}
+            label={!emailOnly ? label : ''}
             prefix={prefix}
             regexReplace={regexReplace}
             placeholder={emailOnly ? 'Enter your email' : placeholder}
@@ -235,14 +235,15 @@ const RequestAccessForm = ({ className, emailOnly }) => {
       <div className={[
         // 'sm:flex',
         // 'justify-end',
-        emailOnly && 'col-span-12', 'xs:col-span-4', 'sm:col-span-4', 'lg:col-span-3'
-      ].join(' ')}>
+        emailOnly && 'col-span-12', 'xs:col-span-4', 'sm:col-span-4', 'lg:col-span-3',
+      ].join(' ')}
+      >
         <ButtonApp
           type="submit"
           className={[
             'w-full',
             'h-16',
-            'text-xl'
+            'text-xl',
           ].join(' ')}
           version="pink"
           disabled={!isFormValid}

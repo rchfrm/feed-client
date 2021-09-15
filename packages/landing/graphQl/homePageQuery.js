@@ -1,5 +1,5 @@
-import { image } from '@/graphQl/querySnippets'
-import { blogIntro } from '@/graphQl/blogArticlesQueries'
+import { image } from '@/landing/graphQl/querySnippets'
+import { blogIntro } from '@/landing/graphQl/blogArticlesQueries'
 
 /* INCLUDES
  - Hero content

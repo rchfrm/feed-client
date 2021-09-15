@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useScrollToEl from '@/hooks/useScrollToEl'
-import useAnimateOnMount from '@/hooks/useAnimateOnMount'
-import useOnScroll from '@/hooks/useOnScroll'
+import useScrollToEl from '@/landing/hooks/useScrollToEl'
+import useAnimateOnMount from '@/landing/hooks/useAnimateOnMount'
+import useOnScroll from '@/landing/hooks/useOnScroll'
 
 const NewsletterScrollButton = ({
   newsletterEl,

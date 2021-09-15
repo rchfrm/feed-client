@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import BasicTextPageHeader from '@/BasicTextPageHeader'
-import BasicTextPageCopy from '@/BasicTextPageCopy'
+import BasicTextPageHeader from '@/landing/BasicTextPageHeader'
+import BasicTextPageCopy from '@/landing/BasicTextPageCopy'
 
 const JobDetails = ({ pageData }) => {
   const { jobTitle, theRole, yourSkills, location, headlineSkills, ourOffer } = pageData.data.jobListing

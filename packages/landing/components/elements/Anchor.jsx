@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ActiveLink from '@/elements/ActiveLink'
+import ActiveLink from '@/landing/elements/ActiveLink'
 
-import useScrollToSection from '@/hooks/useScrollToSection'
+import useScrollToSection from '@/landing/hooks/useScrollToSection'
 
-import { mixpanelInternalLinkClick } from '@/helpers/mixpanelHelpers'
+import { mixpanelInternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 
-import * as utils from '@/helpers/utils'
+import * as utils from '@/landing/helpers/utils'
 
 const Anchor = ({
   className,

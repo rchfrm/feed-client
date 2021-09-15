@@ -1,6 +1,6 @@
 import React from 'react'
 
-import useAnimateScroll from '@/hooks/useAnimateScroll'
+import useAnimateScroll from '@/landing/hooks/useAnimateScroll'
 
 const useScrollToEl = () => {
   // Import animate scroll hook

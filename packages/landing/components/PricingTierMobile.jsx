@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import PricingStructureMobile from '@/PricingStructureMobile'
-import FeaturesMobile from '@/FeaturesMobile'
+import PricingStructureMobile from '@/landing/PricingStructureMobile'
+import FeaturesMobile from '@/landing/FeaturesMobile'
 
 
 const getFeaturesTitle = (tierId) => {

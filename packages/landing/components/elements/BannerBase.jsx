@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import MarkdownText from '@/elements/MarkdownText'
+import MarkdownText from '@/landing/elements/MarkdownText'
 
-import styles from '@/elements/BannerBase.module.css'
+import styles from '@/landing/elements/BannerBase.module.css'
 
 const BannerBase = ({
   copy,
