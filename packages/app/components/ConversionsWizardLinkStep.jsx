@@ -67,7 +67,6 @@ const ConversionsWizardLinkStep = () => {
           shouldSaveOnChange={false}
           includeDefaultLink
           includeAddLinkOption
-          includeIntegrationLinks
           componentLocation="post"
         />
         <Button
