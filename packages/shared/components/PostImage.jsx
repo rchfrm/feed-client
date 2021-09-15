@@ -92,8 +92,9 @@ const getPopupStoreState = (state) => ({
 
 const PostImage = ({
   mediaSrc,
+  mediaType: currentMediaType,
+  videoFallback,
   thumbnailOptions,
-  mediaFallback,
   isStory,
   title,
   aspectRatio,
@@ -119,8 +120,11 @@ const PostImage = ({
 
   // Define media type
   const mediaType = React.useMemo(() => {
-    return utils.getPostMediaType(activeMediaSrc || activeThumbSrc)
-  }, [activeMediaSrc, activeThumbSrc])
+    if (currentMediaType === 'video') {
+      return utils.getPostMediaType(activeMediaSrc || activeThumbSrc)
+    }
+    return currentMediaType
+  }, [activeMediaSrc, activeThumbSrc, currentMediaType])
 
   // Handle media error
   const [videoError, setVideoError] = React.useState(false)
@@ -172,11 +176,11 @@ const PostImage = ({
     // Stop here if no video error
     if (!videoError) return
     // Try swapping media src for backup
-    if (mediaFallback) {
-      setActiveMediaSrc(mediaFallback)
+    if (videoFallback && (activeMediaSrc !== videoFallback)) {
+      setActiveMediaSrc(videoFallback)
       setVideoError(false)
     }
-  }, [videoError, setVideoError, mediaFallback])
+  }, [videoError, setVideoError, videoFallback, activeMediaSrc])
 
   // Get the thumbnail
   const thumbnailImageSrc = React.useMemo(() => {
@@ -299,7 +303,7 @@ const PostImage = ({
 PostImage.propTypes = {
   mediaSrc: PropTypes.string,
   thumbnailOptions: PropTypes.array,
-  mediaFallback: PropTypes.string,
+  videoFallback: PropTypes.string,
   isStory: PropTypes.bool,
   title: PropTypes.string,
   aspectRatio: PropTypes.string,
@@ -313,7 +317,7 @@ PostImage.propTypes = {
 PostImage.defaultProps = {
   mediaSrc: '',
   thumbnailOptions: [],
-  mediaFallback: '',
+  videoFallback: '',
   isStory: false,
   title: '',
   aspectRatio: 'square',
