@@ -12,14 +12,17 @@ const ResultsSpendOverview = ({ spending }) => {
     <div>
       <p className="text-xl font-bold sm:mb-10">Spend</p>
       <p>Total spent - {valueString}</p>
-      <div className="hidden sm:flex">
-        {Object.entries(dailyData).map(([key, value]) => (
-          <ResultsSpendBlock
-            key={key}
-            value={value}
-            currency={currency}
-          />
-        ))}
+      <div className="hidden sm:flex flex-wrap lg:justify-around w-full">
+        {Object.entries(dailyData).sort().map(([key, value]) => {
+          return (
+            <ResultsSpendBlock
+              key={key}
+              value={value}
+              currency={currency}
+              date={key}
+            />
+          )
+        })}
       </div>
     </div>
   )
