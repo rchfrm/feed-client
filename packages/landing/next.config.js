@@ -22,12 +22,11 @@ const nextConfig = {
   devIndicators: {
     autoPrerender: false,
   },
-  webpack: (config, { isServer, webpack }) => {
+  webpack: (config, { webpack }) => {
     // Fixes npm packages that depend on `fs` module
-    if (!isServer) {
-      config.node = {
-        fs: 'empty',
-      }
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
     }
     // Reduce size of moment.js
     config.plugins.push(
