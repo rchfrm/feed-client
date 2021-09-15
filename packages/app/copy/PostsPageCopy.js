@@ -32,14 +32,12 @@ Been waiting a while? Check you have posts opted in for promotion in the _${inac
 
   noDefaultLinkWarning: `**You need to set the default link used in your ads before they can run.**
 
-You can _**add links**_ via the Links button below and _**set a default link**_ in Settings`,
+You can _**set a default link**_ and _**add links**_ on the [Controls](${ROUTES.CONTROLS}) page`,
 
   // POST SETTINGS
   // --------------
-  globalToggleIntro: `Should all posts be opted-in for promotion by default?`,
-
   globalConnectionsIntro: `Add the links that you'd like to use in your ads.
-  
+
 Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also enable **Feed** to track the number of followers you have on the Insights page. `,
 
   globalConnectionsTooltipSlides: [
@@ -60,19 +58,13 @@ Do you want to continue?`,
   linkTrackingIntro: `Should UTM parameters be added automatically to the end of links?`,
 
   // Warning when turning off active post
-  postStatusConfirmation: `Ads created from this post will soon stop running to all audiences.
-
-  This post will not be eligible to run as an ad in the future.`,
-
-  defaultLinkIntro: `By default, which link should be used in ads? This determines where people go when they click one of your ads.`,
-
-  facebookPixelIntro: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,
+  postStatusConfirmation: (campaignType) => `Ads created from this post will soon stop running to ${campaignType === 'all' ? 'Grow & Nurture' : 'Convert'} audiences.`,
 
   // FILTER TOOLTIPS
   // ----------------
   filterTooltips: {
     active: (title) => `#### ${title}
-    
+
 Posts that are currently running as ads to at least one audience.`,
 
     inactive: (title) => `#### ${title}
@@ -82,7 +74,7 @@ Posts that Feed hasn't yet made into ads. For the best results select as many as
     archived: (title) => `#### ${title}
 
 1. Posts that have run as ads previously, but are not currently running as ads.
-2. Feed turns off posts that don’t perform as well automatically. 
+2. Feed turns off posts that don’t perform as well automatically.
 3. Posts can also appear here if you stop it running manually, or if people have been shown the ad too many times.`,
   },
 
@@ -124,7 +116,17 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   },
 
   // SETTINGS SIDEPANEL
+  postSettingsIntro: (campaignType) => `Settings for the ${campaignType === 'all' ? '"Grow & Nurture"' : '"Convert"'} part of the funnel. Here you can decide whether to enable this post for ${campaignType === 'all' ? 'grow & nurture' : 'conversions'} campaigns, and which link, call to action and caption to use.`,
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
+  postCallToActionSetting: 'Which call to action should be used when this post is made into an ad?',
+  editCaption: `Edit the caption used in this ad.`,
+  confirmEdit: (type) => `**Update ${type}**
+
+Editing the ${type} will put this post back into review, and it will temporarily move to 'Inactive'.
+
+Facebook’s approval process usually takes less than 24 hours, and the post will begin to run again as soon as it’s approved.
+
+Are you sure you want to continue?`,
 
   // METRICS SIDEPANEL
   metricsDescription: {
@@ -144,43 +146,25 @@ Deleting a folder will delete all the links inside it.`,
 
 If you delete it, the post will revert to using the default link. Are you sure you want to continue?`
     }
-    return `**This link is currently selected on at least one post that hasn't yet run as an ad ('Not Run').**
+    return `**This link is currently selected on at least one post.**
 
-If you delete it, these posts will revert to the default link. Are you sure you want to continue?`
+    If you delete it, Running and Inactive posts with this link will continue to use it. Not Run posts using this link will revert to the default link.
+    
+    Are you sure you want to continue?`
   },
-
-  integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-
-  getLinkDisabledReason: ({ isPostActive, isPostArchived, isLinkAdCreative }) => {
-    if (isPostActive) return 'Link not editable because this ad is currently running.'
-    if (isPostArchived) return 'Link not editable because this ad has been turned off.'
-    if (isLinkAdCreative) return 'Link not editable because this post has been turned into an ad and will begin running soon.'
-    return ''
-  },
-
-  // LINK TRACKING
-  linkTrackingExplanation: (defaultLink = 'www.artistname.com') => `UTM parameters are automatically added to the links used in your ads. This means you can track how many people Feed is sending to your website, and what they do when they get there. 
-
-Here's an example of what a link will look like:
-
-> _${defaultLink}?utm_source=feed&utm_medium=social_
-
-Soon we'll be letting you track this within the Feed platform, but if you already have access to Google Analytics for the website(s) your ads link to, you can view information about the people visiting via Feed's ads by going to Acquisition > All Traffic > Source/Medium.
-`,
-
 
   checkSaveAsIntegration: (platform) => {
     const intro = `It looks like you're trying to add an integration link.`
     if (platform === 'spotify') {
       return `${intro}
-      
+
 Do you want to add **Spotify** as an integration instead?
-      
+
 This way you can use the link in your ads, and track follower and listener data on the Insights page, and include Spotify listeners in your audience calculation on the Controls page?`
     }
     const { title: platformTitle } = getIntegrationInfo({ platform })
     return `${intro}
-    
+
 Do you want to add **${platformTitle}** as an integration instead?
 
 This way you can use the link in your ads and track follower and listener data on the Insights page?`
@@ -190,7 +174,34 @@ This way you can use the link in your ads and track follower and listener data o
   conversionsInterestCopy: `Are you looking for more sales of tickets, vinyl or other products and to generate a return from your Feed budget?
 
 If so, we're looking for people to join our trials for this feature and work with Nick and Joshua (the co-founders of Feed) directly on a campaign.
-  
+
 [Fill in this form](https://docs.google.com/forms/d/e/1FAIpQLSd4PRRgbyFc0jVYODiBMvX-e24XzFf93QhFhv5CAoGoaeIM2g/viewform) and we'll be in touch.`,
 
+  confirmPrioritizePost: (isPrioritized, isArchived) => {
+    if (isPrioritized) {
+      return `**Remove priority status from this post?**
+
+This post may stop running if outperformed by a non-priority post.
+
+Would you like to continue?`
+    }
+
+    if (isArchived) {
+      return `**Make this a priority post?**
+
+Feed will run this post again straight away. Once it has been approved, some ads that are currently running might get turned off.
+
+Would you like to continue?`
+    }
+
+    return `**Make this a priority post?**
+
+Feed will turn this post into an ad straight away. Once it has been approved, some ads that are currently running might get turned off.
+
+Would you like to continue?`
+  },
+  prioritizeTooltipSlides: [
+    'By marking this post as a priority post, you can start it running straight away (unless two priority posts are already running).',
+    'You can remove priority status from the post or stop it running at any time.',
+  ],
 }

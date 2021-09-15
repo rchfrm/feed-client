@@ -50,17 +50,28 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     setSidePanelButton,
     setOnSidepanelClose,
     toggleSidePanel,
+    sidePanelOpen: isSidepanelOpen,
   } = React.useContext(SidePanelContext)
 
   // GET DISMISS FUNCTION
   const dismissNotification = useDismissNotification(openedNotification)
 
+
   const infoButtonAndContent = React.useMemo(() => {
     if (!openedNotification) return {}
+    // Fallback to 'Ok' if a notification is actionable but no ctaText is provided by Dato
+    const { isActionable } = openedNotification
+    let { ctaText } = openedNotification
+    if (!ctaText && isActionable) {
+      ctaText = 'Ok'
+    }
     const button = (
       <NotificationCurrentInfoButton
-        ctaText={openedNotification.ctaText}
+        ctaText={ctaText}
         buttonType={openedNotification.buttonType}
+        linkType={openedNotification.linkType}
+        isActionable={isActionable}
+        isDismissible={openedNotification.isDismissible}
         isComplete={openedNotification.isComplete}
         onAction={openedNotification.onAction}
         onComplete={() => completeNotification(openedNotification.id)}
@@ -85,7 +96,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   React.useEffect(() => {
     const { button, content } = infoButtonAndContent
     // CLOSE SIDEPANEL if DESKTOP
-    if (isDesktopLayout) {
+    if (isDesktopLayout && isSidepanelOpen) {
       setSidePanelContent(null)
       toggleSidePanel(false)
       setOnSidepanelClose(null)
@@ -94,6 +105,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     }
     // OPEN SIDEPANEL if MOBILE
     const sidepanelOpen = !!content
+    if (sidepanelOpen === isSidepanelOpen || isDesktopLayout) return
     setSidePanelContent(content)
     toggleSidePanel(sidepanelOpen)
     setOnSidepanelClose(() => closeNotification)

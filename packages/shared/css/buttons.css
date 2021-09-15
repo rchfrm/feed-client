@@ -19,14 +19,14 @@ a[type=button] {
   position: relative;
   padding: 0;
   border: none;
-  border-radius: var(--button-radius);
+  border-radius: var(--dialogue-radius);
   align-items: center;
   white-space: nowrap;
 
   font-family: var(--font);
   font-size: 1.1rem;
   text-decoration: none;
-  
+
   &:disabled,
   &[disabled] {
     color: var(--disabled-color-text);
@@ -142,7 +142,6 @@ a[type=button] {
   }
 }
 
-
 .button--cross,
 .button--toggle,
 .button--close {
@@ -222,7 +221,6 @@ a[type=button] {
   }
 }
 
-
 .button--text {
   display: inline;
   font-size: inherit;
@@ -257,6 +255,38 @@ a[type=button] {
 
   .button--innerText {
     width: 100%;
+  }
+}
+
+.button--outline-black {
+  color: var(--black);
+  border: 3px solid var(--black);
+  font-weight: normal;
+
+  @mixin canHover {
+    &:hover {
+      border-color: var(--black-hover);
+    }
+  }
+
+  &:focus {
+    border-color: var(--black-hover);
+  }
+}
+
+.button--outline-green {
+  color: var(--black);
+  border: 3px solid var(--success-color);
+  font-weight: normal;
+
+  @mixin canHover {
+    &:hover {
+      border-color: var(--green-hover);
+    }
+  }
+
+  &:focus {
+    border-color: var(--green-hover);
   }
 }
 

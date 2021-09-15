@@ -153,6 +153,16 @@ export function post(path, data, token) {
   return request('POST', path, options, token || tokenAlt)
 }
 
+/**
+ * @param {string} path
+ * @param {object|string|false} data
+ * @param {string|false} [token]
+ * @returns {Promise<any>}
+ */
+export function deleteRequest(path, data, token) {
+  const { options, tokenAlt } = getOptionsAndToken(data, 'data', token)
+  return request('DELETE', path, options, token || tokenAlt)
+}
 
 
 
@@ -169,7 +179,7 @@ export function post(path, data, token) {
 export const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
   if (!requestType) return console.error('Please include a request type')
   if (!url) return console.error('Please include a url')
-  const requestTypes = { get, patch, post }
+  const requestTypes = { get, patch, post, delete: deleteRequest }
   const res = await requestTypes[requestType](url, payload, token)
     .catch((error) => { return { error } })
   if (res.error) {

@@ -1,30 +1,27 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
-
+import PostsSorter from '@/app/PostsSorter'
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
-import PostSettingsButton from '@/app/PostSettingsButton'
-import PostLinksButton from '@/app/PostLinksButton'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 
 import MarkdownText from '@/elements/MarkdownText'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { postTypes } from '@/app/helpers/postsHelpers'
+import { postTypes, sortTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostsContent = () => {
-  const { goToGlobalPostSettings, goToLinksBank } = usePostsSidePanel()
-
   // Has default link been set
   const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
 
   const allFilter = postTypes.find(({ id }) => id === 'all')
+  const defaultSortBy = sortTypes.find(({ id }) => id === 'published_time').id
   const [currentPostType, setCurrentPostType] = React.useState('')
+  const [sortBy, setSortBy] = React.useState('')
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
@@ -37,18 +34,7 @@ const PostsContent = () => {
         />
       )}
       {/* BUTTONS */}
-      <div className="relative iphone8:flex justify-start mb-6 iphone8:mb-10">
-        {/* POST SETTINGS BUTTON */}
-        <PostSettingsButton
-          className={styles.postsTopButton}
-          missingDefaultLink={missingDefaultLink}
-          goToPostSettings={goToGlobalPostSettings}
-        />
-        {/* LINKS BUTTON */}
-        <PostLinksButton
-          className={styles.postsTopButton}
-          goToPostLinks={goToLinksBank}
-        />
+      <div className="relative iphone8:flex justify-start">
         {/* REFRESH BUTTON (desktop) */}
         {refreshPosts && (
           <PostsRefreshButton
@@ -58,22 +44,34 @@ const PostsContent = () => {
               'absolute right-0 bottom-0 mb-8',
               'iphone8:static iphone8:-mb-1',
             ].join(' ')}
-            style={{ transform: 'translateY(5rem)' }}
+            style={{ transform: 'translateY(1.5rem)' }}
           />
         )}
       </div>
-      {/* FILTERS */}
-      <PostsFilters
-        postTypes={postTypes}
-        currentPostType={currentPostType}
-        setCurrentPostType={setCurrentPostType}
-        defaultPostState={allFilter.id}
-      />
+      <div className="grid grid-cols-12 col-gap-6">
+        {/* SORT */}
+        <PostsSorter
+          sortTypes={sortTypes}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          defaultSortState={defaultSortBy}
+          className="col-span-12 sm:col-span-4"
+        />
+        {/* FILTERS */}
+        <PostsFilters
+          postTypes={postTypes}
+          currentPostType={currentPostType}
+          setCurrentPostType={setCurrentPostType}
+          defaultPostState={allFilter.id}
+          className="col-span-12 sm:col-span-8"
+        />
+      </div>
       {/* LOAD POSTS */}
       {currentPostType && (
         <PostsLoader
           setRefreshPosts={setRefreshPosts}
           promotionStatus={currentPostType}
+          sortBy={sortBy}
         />
       )}
     </div>

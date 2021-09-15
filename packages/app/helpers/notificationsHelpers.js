@@ -1,13 +1,23 @@
 /* eslint-disable no-template-curly-in-string */
 
+/* *****
+* README
+* See `/docs/notifications.md` for an explanation of how this works
+*/
+
 import moment from 'moment'
+import Router from 'next/router'
 
 import { mixpanelExternalLinkClick } from '@/app/helpers/mixpanelHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
+import { getLinkType } from '@/helpers/utils'
 
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
+
+// To parse cases like {{ this }} and {{{ this }}}
+const RE_TEMPLATE = /\{?\{\{\s([a-z0-9_]+)\s\}\}\}?/g
 
 // * DICTIONARY
 // ------------
@@ -33,7 +43,12 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
   if (entityType === 'organizations') return apiEndpoint.replace('${organization.id}', entityId)
 }
 
-const getExternalLinkAction = (ctaLink, trackingPayload) => {
+const getLinkAction = (ctaLink, linkType, trackingPayload) => {
+  // INTERNAL
+  if (linkType === 'internal') {
+    return () => Router.push(ctaLink)
+  }
+  // EXTERANA:
   // Tracks click in mixpanel and opens link
   return () => {
     mixpanelExternalLinkClick({
@@ -63,6 +78,7 @@ const getFbRelinkAction = (hasFbAuth, missingScopes) => {
  */
 export const getAction = ({
   ctaLink,
+  linkType,
   apiMethod,
   apiEndpoint,
   entityType,
@@ -76,14 +92,25 @@ export const getAction = ({
   missingScopes,
 }) => {
   // Handle relink FB
-  if (topic === 'facebook-expired-access-token') {
+  if (
+    topic === 'facebook-expired-access-token'
+    || topic === 'facebook-missing-permissions'
+  ) {
     return () => getFbRelinkAction(hasFbAuth, missingScopes)
   }
+
   // Handle no method or link
   if (!apiEndpoint && !ctaLink) return () => {}
   // Handle link
   if (ctaLink) {
-    return getExternalLinkAction(ctaLink, {
+    let link = ctaLink
+    // Check if link uses a variable, if it does extract the correct link from the data object
+    const match = RE_TEMPLATE.exec(ctaLink)
+    if (match) {
+      const [, variable] = match
+      link = data[variable]
+    }
+    return getLinkAction(link, linkType, {
       title,
       topic,
       isDismissible,
@@ -112,6 +139,41 @@ export const getAction = ({
   }
 }
 
+const getKeysAndSubstringsFromTemplate = (template) => {
+  const keys = {}
+  const result = []
+
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const match = RE_TEMPLATE.exec(template)
+    if (!match) {
+      break
+    }
+
+    const [substring, key] = match
+
+    if (key in keys) {
+      continue
+    }
+
+    result.push({ key, substring })
+    keys[key] = true
+  }
+
+  return result
+}
+
+const formatNotificationText = (text, data) => {
+  const keysAndSubstrings = getKeysAndSubstringsFromTemplate(text)
+
+  keysAndSubstrings.forEach(({ key, substring }) => {
+    // Replace all entries of '{{ profile_name }}' with data['profile_name']
+    text = text.replace(RegExp(substring, 'g'), data[key])
+  })
+
+  return text
+}
+
 // * FETCHING FROM SERVER
 // -----------------------
 
@@ -137,9 +199,8 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     // - if not in dictionary
     // - if hidden in Dato
     // - if complete
-    if (!dictionaryEntry || dictionaryEntry.hide || isComplete) return allNotifications
     // Just add notification if already formatted
-    if (formatted || !dictionaryEntry) {
+    if (formatted) {
       return [...allNotifications, notification]
     }
     const {
@@ -155,10 +216,11 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     } = dictionaryEntry || {}
     const date = moment(created_at).format('DD MMM')
     const dateLong = moment(created_at).format('DD MMM YY')
-    const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
+    const linkType = ctaLink ? getLinkType(ctaLink) : null
     // Get Action function
     const onAction = isActionable ? getAction({
       ctaLink,
+      linkType,
       apiMethod,
       apiEndpoint,
       entityType,
@@ -181,10 +243,11 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       date,
       dateLong,
       title,
-      summary,
-      description,
-      ctaText: ctaText || ctaFallback,
+      summary: formatNotificationText(summary, data),
+      description: formatNotificationText(description, data),
+      ctaText,
       buttonType,
+      linkType,
       isActionable,
       isDismissible,
       hidden: hide || isComplete,
@@ -199,9 +262,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
 
 // FETCH NOTIFICATIONS
 export const fetchNotifications = async ({ artistId, userId, organizationIds }) => {
-  const { res: notifications, error } = await appServer.getAllNotifications({ artistId, organizationIds, userId })
-  if (error) return { error }
-  return { res: { notifications } }
+  return appServer.getAllNotifications({ artistId, organizationIds, userId })
 }
 
 
@@ -218,9 +279,12 @@ export const fetchNotifications = async ({ artistId, userId, organizationIds }) 
  */
 export const markAsReadOnServer = async (notificationId, entityType = 'users', entityId, read = true) => {
   const endpoint = `${entityType}/${entityId}/notifications/${notificationId}`
-  const { res, error } = await appServer.markNotificationAsRead(endpoint, read)
-  if (error) return { error }
-  return { res }
+  const payload = { is_read: read }
+  const errorTracking = {
+    category: 'Notifications',
+    action: 'Mark notification as read',
+  }
+  return requestWithCatch('patch', endpoint, payload, errorTracking)
 }
 
 // DISMISS
@@ -233,7 +297,9 @@ export const markAsReadOnServer = async (notificationId, entityType = 'users', e
  */
 export const dismissOnServer = async (notificationId, entityType = 'users', entityId) => {
   const endpoint = `${entityType}/${entityId}/notifications/${notificationId}`
-  const { res, error } = await appServer.dismissNotification(endpoint)
-  if (error) return { error }
-  return { res }
+  const errorTracking = {
+    category: 'Notifications',
+    action: 'Delete/dismiss notification',
+  }
+  return requestWithCatch('delete', endpoint, null, errorTracking)
 }

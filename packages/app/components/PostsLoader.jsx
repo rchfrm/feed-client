@@ -16,7 +16,6 @@ import Error from '@/elements/Error'
 import PostsAll from '@/app/PostsAll'
 import PostsNone from '@/app/PostsNone'
 // IMPORT HELPERS
-import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
@@ -31,8 +30,10 @@ const postsReducer = (draftState, postsAction) => {
     postIndex,
     promotionEnabled,
     promotableStatus,
-    linkId,
-    linkHref,
+    linkSpecs,
+    adMessages,
+    callToActions,
+    priorityEnabled,
   } = payload
   switch (actionType) {
     case 'replace-posts':
@@ -46,45 +47,56 @@ const postsReducer = (draftState, postsAction) => {
       draftState[postIndex].promotionEnabled = promotionEnabled
       draftState[postIndex].promotableStatus = promotableStatus
       break
+    case 'toggle-conversion':
+      draftState[postIndex].conversionsEnabled = promotionEnabled
+      draftState[postIndex].promotableStatus = promotableStatus
+      break
     case 'toggle-promotion-global':
       draftState.forEach((post) => {
         post.promotionEnabled = promotionEnabled
       })
       break
-    case 'update-link':
-      draftState[postIndex].linkId = linkId
-      draftState[postIndex].linkHref = linkHref
+    case 'update-link-specs':
+      draftState[postIndex].linkSpecs = linkSpecs
+      break
+    case 'update-call-to-actions':
+      draftState[postIndex].callToActions = callToActions
+      break
+    case 'update-captions':
+      draftState[postIndex].adMessages = adMessages
+      break
+    case 'toggle-priority':
+      draftState[postIndex].priorityEnabled = priorityEnabled
       break
     default:
       return draftState
   }
 }
 
-
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-const fetchPosts = async ({ promotionStatus, artistId, limit, isEndOfAssets, cursor }) => {
+const fetchPosts = async ({ promotionStatus, sortBy, artistId, limit, isEndOfAssets, cursor }) => {
   if (!artistId) return
   // Stop here if at end of posts
   if (isEndOfAssets.current) return
   // Get posts
-  const posts = await server.getPosts({ limit, artistId, promotionStatus, cursor: cursor.current })
-  // Sort the returned posts chronologically, latest first
-  return utils.sortAssetsChronologically(Object.values(posts))
+  const posts = await server.getPosts({ limit, artistId, promotionStatus, sortBy, cursor: cursor.current })
+  return posts
 }
 
 // WHEN TO UPDATE POSTS
 const updateDataConditions = (newProps, oldProps) => {
-  const { artistId: newArtistId, promotionStatus: newpromotionStatus, loadingMore } = newProps
-  const { artistId: oldArtistId, promotionStatus: oldPromotionStatus, loadingMore: alreadyLoadingMore } = oldProps
+  const { artistId: newArtistId, promotionStatus: newpromotionStatus, sortBy: newSortBy, loadingMore } = newProps
+  const { artistId: oldArtistId, promotionStatus: oldPromotionStatus, sortBy: oldSortBy, loadingMore: alreadyLoadingMore } = oldProps
   if (loadingMore && !alreadyLoadingMore) return true
   if (newArtistId !== oldArtistId) return true
   if (newpromotionStatus !== oldPromotionStatus) return true
+  if (newSortBy !== oldSortBy) return true
   return false
 }
 
 // THE COMPONENT
 // ------------------
-function PostsLoader({ setRefreshPosts, promotionStatus }) {
+function PostsLoader({ setRefreshPosts, promotionStatus, sortBy }) {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
@@ -109,7 +121,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     cursor.current = null
     // Update end of assets state
     isEndOfAssets.current = false
-  }, [artistId, promotionStatus])
+  }, [artistId, promotionStatus, sortBy])
 
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({
@@ -122,6 +134,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     loadingMore,
     cursor,
     promotionStatus,
+    sortBy,
     // When fetch finishes
     onResolve: (posts) => {
       // Turn off global loading
@@ -177,15 +190,15 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 
   // Define what toggled the post enabled status
   // (single or batch)
-  const [postToggleSetterType, setPostToggleSetterType] = React.useState('')
+  const [postToggleSetterType, setPostToggleSetterType] = React.useState('single')
 
-  // Define function for toggling SINGLE promotion
-  const togglePromotion = React.useCallback(async (postId, promotionEnabled, promotableStatus) => {
+  // Define function for toggling SINGLE promotion campaign or conversions campaign
+  const toggleCampaign = React.useCallback(async (postId, promotionEnabled, promotableStatus, campaignType = 'all') => {
     const postIndex = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotionEnabled
     setPostToggleSetterType('single')
     setPosts({
-      type: 'toggle-promotion',
+      type: campaignType === 'all' ? 'toggle-promotion' : 'toggle-conversion',
       payload: {
         promotionEnabled,
         promotableStatus,
@@ -198,6 +211,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       status: newPromotionState ? 'eligible' : 'ineligible',
       postType,
       platform,
+      campaignType,
       es: paidMetrics.engagementScore ?? organicMetrics.engagementScore,
     })
     return newPromotionState
@@ -246,16 +260,9 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     setRefreshPosts(() => () => refreshPosts())
   }, [setRefreshPosts, refreshPosts])
 
-  // Define function to update links
-  const updateLink = React.useCallback(({ postIndex, linkId, linkHref }) => {
-    setPosts({
-      type: 'update-link',
-      payload: {
-        postIndex,
-        linkId,
-        linkHref,
-      },
-    })
+  // Define function to update post
+  const updatePost = React.useCallback((action, payload) => {
+    setPosts({ type: action, payload })
   }, [setPosts])
 
   // Define function to update posts with missing links
@@ -265,10 +272,12 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     const updatePostsWithMissingLinks = (missingLinkIds = []) => {
       const updatedPosts = produce(posts, draftPosts => {
         draftPosts.forEach((post) => {
-          const { linkId } = post
-          if (linkId && missingLinkIds.includes(linkId)) {
-            post.linkId = null
-          }
+          Object.values(post.linkSpecs).forEach((linkSpec, index) => {
+            const { linkId } = linkSpec
+            if (linkId && missingLinkIds.includes(linkId) && post.linkType !== 'adcreative') {
+              delete post.linkSpecs[index]
+            }
+          })
         })
       })
       setPosts({
@@ -291,6 +300,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       <PostsNone
         refreshPosts={refreshPosts}
         promotionStatus={promotionStatus}
+        sortBy={sortBy}
         artist={artist}
       />
     )
@@ -311,8 +321,8 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
         posts={posts}
         visiblePost={visiblePost}
         setVisiblePost={setVisiblePost}
-        updateLink={updateLink}
-        togglePromotion={togglePromotion}
+        updatePost={updatePost}
+        toggleCampaign={toggleCampaign}
         postToggleSetterType={postToggleSetterType}
         loadMorePosts={loadMorePosts}
         loadingMore={loadingMore}
@@ -338,6 +348,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 PostsLoader.propTypes = {
   setRefreshPosts: PropTypes.func.isRequired,
   promotionStatus: PropTypes.string.isRequired,
+  sortBy: PropTypes.string.isRequired,
 }
 
 export default PostsLoader

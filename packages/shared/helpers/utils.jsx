@@ -255,11 +255,16 @@ export const getCurrencySymbol = (currency = 'GBP') => {
 * @param {string} locale
 * @returns {string}
 */
-export const formatCurrency = (value, currency = 'GBP', locale = navigator.language) => {
+export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
   if (value === null || typeof value === 'undefined' || Number.isNaN(value)) return
+  const locale = navigator.language
   const currencyToUse = currency === null ? 'GBP' : currency
   const valueFloat = parseFloat(value)
-  return valueFloat.toLocaleString(locale, { style: 'currency', currency: currencyToUse })
+  return valueFloat.toLocaleString(locale, {
+    style: 'currency',
+    currency: currencyToUse,
+    ...(hideMinorUnits && { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+  })
 }
 
 /**
@@ -303,7 +308,7 @@ export const abbreviateNumber = (number) => {
 */
 export const getDataArray = (propsToDisplay, data, options = {}) => {
   const { preserveRawNumber, showZeroValues } = options
-  const dateKeys = ['created_at', 'updated_at', 'start_time', 'stop_time']
+  const dateKeys = ['created_at', 'updated_at', 'start_time', 'stop_time', 'last_ad_spend_date']
   return propsToDisplay.reduce((arr, detailName) => {
     const detailKeys = detailName.split('.')
     const rawValue = get(data, detailKeys, null)

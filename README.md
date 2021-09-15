@@ -118,6 +118,8 @@ To analyze the bundle size using [Next's bundle analyzer](https://github.com/zei
 
 ### Staging
 
+Before staging, merge the `dev` branch into the `staging` branch. Then...
+
 To deploy _The App_ to the **staging** environment run `yarn stage`
 
 To deploy _The Admin Panel_ to the **staging** environment run `yarn stage:admin`
@@ -125,6 +127,8 @@ To deploy _The Admin Panel_ to the **staging** environment run `yarn stage:admin
 To deploy _both_ to the **staging** environment run `yarn stage:both`
 
 ### Production
+
+Before deploying to production, merge the `dev` branch into the `production` branch. Then...
 
 To deploy _The App_ to the **production** environment run `yarn deploy-production`
 
@@ -145,3 +149,12 @@ To deploy _both_ to the **production** environment run `yarn deploy-production:b
 - **Local:** [http://localhost:3000](http://localhost:3000)
 - **Staging:** [https://feed-admin-staging-v2.firebaseapp.com](https://feed-admin-staging-v2.firebaseapp.com)
 - **Live:** [https://feed-admin-v2.firebaseapp.com](https://feed-admin-v2.firebaseapp.com)
+
+## Feature descriptions
+
+Some features have more in-depth descriptions. There is currently documentation for:
+
+- [The Signup and Login flow](/docs/signupLoginFlow.md)
+- [Global state](/docs/globalState.md)
+- [The BasePage component](/docs/basePage.md)
+- [Notifications](/docs/notifications.md)

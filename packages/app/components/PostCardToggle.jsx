@@ -5,37 +5,40 @@ import PostCardLabel from '@/app/PostCardLabel'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostCardToggleTeaser from '@/app/PostCardToggleTeaser'
+import PostCardDisableHandler from '@/app/PostCardDisableHandler'
+
+import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import useShowConversionsInterest from '@/app/hooks/useShowConversionsInterest'
 
-import * as postsHelpers from '@/app/helpers/postsHelpers'
-
-import brandColors from '@/constants/brandColors'
+import { updatePost, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
 // CALL TO CHANGE STATE
-const runChangeState = ({ artistId, postId, promotionEnabled }) => {
-  return postsHelpers.updatePost({ artistId, postId, promotionEnabled })
+const runChangeState = ({ artistId, postId, promotionEnabled, campaignType }) => {
+  return updatePost({ artistId, postId, promotionEnabled, campaignType })
 }
 
-// GROWTH GRADIENT
-const growthGradient = `linear-gradient(135deg, ${brandColors.blue} 0%, ${brandColors.yellow} 100%)`
-
 const PostCardToggle = ({
-  audienceSlug,
-  postId,
+  post,
+  postToggleSetterType,
+  campaignType,
   artistId,
-  promotionEnabled,
-  togglePromotion,
+  isEnabled,
+  toggleCampaign,
   isActive,
   disabled,
+  isFeatureEnabled,
   className,
 }) => {
   // Store INTERNAL STATE based on promotionEnabled
-  const [currentState, setCurrentState] = React.useState(promotionEnabled)
+  const [currentState, setCurrentState] = React.useState(isEnabled)
+  const isConversionsCampaign = campaignType === 'conversions'
+  const { sidePanelOpen } = React.useContext(SidePanelContext)
+  const { id: postId, postPromotable, promotionStatus } = post
   // Update internal state when outside state changes
   React.useEffect(() => {
-    setCurrentState(promotionEnabled)
-  }, [promotionEnabled])
+    setCurrentState(isEnabled)
+  }, [isEnabled])
 
   // UPDATE ON SERVER
   const [isLoading, setIsLoading] = React.useState(false)
@@ -45,7 +48,7 @@ const PostCardToggle = ({
     setIsLoading(true)
     // Update state passed to toggle component
     setCurrentState(newState)
-    const { res: updatedPost, error } = await runChangeState({ artistId, postId, promotionEnabled: newState })
+    const { res: updatedPost, error } = await runChangeState({ artistId, postId, promotionEnabled: newState, campaignType })
     setIsLoading(false)
     // Return to previous value if erroring
     if (error) {
@@ -53,13 +56,12 @@ const PostCardToggle = ({
       return
     }
     // Update post list state
-    const { promotion_enabled, promotable_status } = updatedPost
-    // Update post list state
-    togglePromotion(postId, promotion_enabled, promotable_status)
-  }, [artistId, postId, togglePromotion])
+    const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
+    toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
+  }, [artistId, postId, toggleCampaign, campaignType, isConversionsCampaign])
 
   // HANDLE HOVER FOR TEASER
-  const isTeaserActive = audienceSlug === 'conversion' && disabled
+  const isTeaserActive = isConversionsCampaign && !isFeatureEnabled
 
   // HANDLE CLICK TO SHOW TEASER
   const WrapperTag = isTeaserActive ? 'button' : 'div'
@@ -82,27 +84,26 @@ const PostCardToggle = ({
         <div
           className={[
             'w-4 h-4 rounded-full',
-            audienceSlug !== 'growth' ? 'bg-red' : null,
             disabled ? 'opacity-50' : 'opacity-100',
           ].join(' ')}
-          style={audienceSlug === 'growth' ? {
-            background: growthGradient,
-          } : null}
+          style={{
+            background: !isConversionsCampaign ? growthGradient : conversionsGradient,
+          }}
         />
         {/* TITLE */}
         <strong
           className="capitalize ml-4"
           style={{ transform: 'translate(-1px, 0px)' }}
         >
-          {audienceSlug === 'growth' ? 'Promotable' : 'Conversions'}
+          {!isConversionsCampaign ? 'Grow & Nurture' : 'Convert'}
         </strong>
         {/* RUNNING LABEL */}
-        {audienceSlug === 'growth' && isActive && (
+        {isActive && (
           <PostCardLabel
             copy="running"
             className="font-bold"
             style={{
-              background: growthGradient,
+              background: !isConversionsCampaign ? growthGradient : conversionsGradient,
             }}
           />
         )}
@@ -120,24 +121,41 @@ const PostCardToggle = ({
           />
         )}
       </div>
+      {/* DISABLE ALERT */}
+      {!sidePanelOpen && postPromotable && promotionStatus === 'active' && (
+        <PostCardDisableHandler
+          post={post}
+          postToggleSetterType={postToggleSetterType}
+          artistId={artistId}
+          toggleCampaign={toggleCampaign}
+          isEnabled={currentState}
+          setIsEnabled={setCurrentState}
+          campaignType={campaignType}
+        />
+      )}
     </WrapperTag>
   )
 }
 
 PostCardToggle.propTypes = {
-  audienceSlug: PropTypes.string.isRequired,
-  postId: PropTypes.string.isRequired,
+  post: PropTypes.object.isRequired,
+  postToggleSetterType: PropTypes.string.isRequired,
+  campaignType: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
-  promotionEnabled: PropTypes.bool.isRequired,
-  togglePromotion: PropTypes.func.isRequired,
-  isActive: PropTypes.bool.isRequired,
+  isEnabled: PropTypes.bool,
+  toggleCampaign: PropTypes.func.isRequired,
+  isActive: PropTypes.bool,
   disabled: PropTypes.bool,
+  isFeatureEnabled: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostCardToggle.defaultProps = {
   disabled: false,
   className: null,
+  isFeatureEnabled: false,
+  isEnabled: false,
+  isActive: false,
 }
 
 export default PostCardToggle

@@ -21,15 +21,14 @@ const TargetingCustomBudgetButton = ({
   // eslint-disable-next-line
   }, [])
 
-
-
   return (
     <a
       className={[
         'flex items-center',
         'no-underline',
         'px-3 py-1',
-        'bg-green text-white button--green',
+        'text-white',
+        showCustomBudget ? 'bg-green button-green' : 'bg-black button--black',
         'rounded-full',
         className,
       ].join(' ')}

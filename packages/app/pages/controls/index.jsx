@@ -2,12 +2,10 @@ import React from 'react'
 
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
-import TargetingContent from '@/app/TargetingContent'
-
-import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
+import ControlsContent from '@/app/ControlsContent'
 
 const headerConfig = {
-  text: 'targeting controls',
+  text: 'controls',
 }
 
 const Page = () => {
@@ -15,10 +13,9 @@ const Page = () => {
     <BasePage
       headerConfig={headerConfig}
       artistRequired
+      controlsRequired
     >
-      <TargetingContextProvider>
-        <TargetingContent />
-      </TargetingContextProvider>
+      <ControlsContent />
     </BasePage>
   )
 }

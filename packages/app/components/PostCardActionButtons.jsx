@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import Button from '@/elements/Button'
 
 import GearIcon from '@/icons/GearIcon'
-import LinkIcon from '@/icons/LinkIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
 
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
@@ -15,10 +14,12 @@ const PostCardActionButtons = ({
   post,
   postIndex,
   postPromotable,
-  updateLink,
+  postToggleSetterType,
+  artistId,
+  toggleCampaign,
+  updatePost,
   hidePaidMetrics,
   isMissingDefaultLink,
-  settingsIcon,
   className,
 }) => {
   // Get functions to open sidepanel
@@ -41,22 +42,18 @@ const PostCardActionButtons = ({
           goToPostSettings({
             post,
             postIndex,
-            updateLink,
+            postToggleSetterType,
+            updatePost,
+            artistId,
+            toggleCampaign,
             isMissingDefaultLink,
           })
         }}
       >
-        {settingsIcon === 'gear' ? (
-          <GearIcon
-            className="h-5 w-auto"
-            fill={postPromotable ? brandColors.white : brandColors.greyDark}
-          />
-        ) : (
-          <LinkIcon
-            className="h-5 w-auto"
-            fill={postPromotable ? brandColors.white : brandColors.greyDark}
-          />
-        )}
+        <GearIcon
+          className="h-5 w-auto"
+          fill={postPromotable ? brandColors.white : brandColors.greyDark}
+        />
       </Button>
       {/* METRICS BUTTON */}
       <Button
@@ -85,15 +82,16 @@ PostCardActionButtons.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
   postPromotable: PropTypes.bool.isRequired,
-  updateLink: PropTypes.func.isRequired,
+  postToggleSetterType: PropTypes.string.isRequired,
+  artistId: PropTypes.string.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
   hidePaidMetrics: PropTypes.bool.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
-  settingsIcon: PropTypes.string,
   className: PropTypes.string,
 }
 
 PostCardActionButtons.defaultProps = {
-  settingsIcon: 'gear',
   className: null,
 }
 

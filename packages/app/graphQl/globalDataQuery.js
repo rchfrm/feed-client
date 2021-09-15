@@ -1,6 +1,6 @@
 const getQuery = () => `
   query {
-    allNotifications {
+    allNotifications(first: 100) {
       id
       topic
       code

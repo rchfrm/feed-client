@@ -4,6 +4,7 @@ import slugify from 'slugify'
 
 import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
+import { requestWithCatch } from '@/helpers/api'
 import brandColors from '@/constants/brandColors'
 
 // TRANSLATE PROMOTION NAME
@@ -59,15 +60,50 @@ export const postTypes = [
   },
 ]
 
+// POST SORT TYPES
+export const sortTypes = [
+  {
+    id: 'published_time',
+    slug: 'published_time',
+    title: 'Date',
+    color: brandColors.black,
+    activeTextColor: 'white',
+  },
+  {
+    id: 'engagement_score',
+    slug: 'engagement_score',
+    title: 'Score',
+    color: brandColors.black,
+    activeTextColor: 'white',
+  },
+]
+
+// CAMPAIGN TYPES
+export const campaignTypes = [
+  {
+    title: 'Grow & Nurture',
+    slug: 'all',
+  },
+  {
+    title: 'Convert',
+    slug: 'conversions',
+  },
+]
+
+// CAMPAIGN TYPE GRADIENTS
+const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
+export const growthGradient = createGradient(brandColors.blue)
+export const conversionsGradient = createGradient(brandColors.red)
+
 export const getPostTypesTitle = (id) => {
   const { title } = postTypes.find(({ id: typeId }) => id === typeId) || {}
   return title
 }
 
 // TOGGLE POST STATUS ON SERVER
-export const updatePost = async ({ artistId, postId, promotionEnabled, disabled = false }) => {
+export const updatePost = async ({ artistId, postId, promotionEnabled, disabled = false, campaignType }) => {
   if (disabled) return
-  return server.togglePromotionEnabled(artistId, postId, promotionEnabled)
+  return server.togglePromotionEnabled(artistId, postId, promotionEnabled, campaignType)
 }
 
 const getPaidClicks = (adsSummaryMetrics) => {
@@ -110,7 +146,7 @@ const formatPublishedTime = (time) => {
   const publishedMoment = moment(time)
   const publishedYear = publishedMoment.format('Y')
   const currentYear = moment().format('Y')
-  const publishedFormat = publishedYear === currentYear ? 'D MMMM' : 'D MMM YYYY'
+  const publishedFormat = publishedYear === currentYear ? 'D MMM' : 'D MMM YYYY'
   return publishedMoment.format(publishedFormat)
 }
 
@@ -122,12 +158,38 @@ const getNestedMetric = (post, metric) => {
   return Object.values(metricValues)[0]
 }
 
+// Get post link specs
+export const getPostLinkSpecData = (post) => {
+  return Object.entries(post.link_specs).reduce((newObject, [key, value]) => {
+    const { type: linkType = '', data: linkData = {} } = value || {}
+    const linkId = linkData.id || linkData.link_spec?.data?.id || ''
+    const linkHref = linkData.href || ''
+    newObject[key] = {}
+    newObject[key].linkType = linkType
+    newObject[key].linkId = linkId
+    newObject[key].linkHref = linkHref
+    return newObject
+  }, {})
+}
+
 // Get post link data
-export const getPostLinkData = (post) => {
-  const { type: linkType = '', data: linkData = {} } = post.link_spec || {}
-  const linkId = linkData.id || ''
-  const linkHref = linkData.href || ''
-  return { linkType, linkId, linkHref }
+export const getPostCallToActionData = (post) => {
+  const {
+    id,
+    call_to_action: value,
+    options: { campaign_type: campaignType },
+  } = post || {}
+  return { id, value, campaignType }
+}
+
+// Get post ad message data
+export const getPostAdMessageData = (post) => {
+  const {
+    id,
+    message,
+    options: { campaign_type: campaignType },
+  } = post || {}
+  return { id, message, campaignType }
 }
 
 // FORMAT POST RESPONSES
@@ -168,25 +230,41 @@ export const formatPostsResponse = (posts) => {
         engagements: getPaidEngagementsDrilldown(adsSummaryMetrics),
       },
     } : null
+    // Call to Actions
+    const callToActions = post.call_to_actions.map((callToAction) => ({
+      id: callToAction.id,
+      value: callToAction.call_to_action,
+      campaignType: callToAction.options.campaign_type,
+    }))
+    // Ad messages
+    const adMessages = post.ad_messages.map((adMessage) => ({
+      id: adMessage.id,
+      message: adMessage.message,
+      campaignType: adMessage.options.campaign_type,
+    }))
     // Published date
     const publishedTime = formatPublishedTime(post.published_time)
     // Ad dates
     const [firstRan, lastRan] = getPostAdDates(ads)
-    // Link type
-    const { linkType, linkId, linkHref } = getPostLinkData(post)
+    // Link specs
+    const linkSpecs = getPostLinkSpecData(post)
     return {
       id: post.id,
       postType: post.subtype || post.type,
       platform: post.platform,
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
-      linkId,
-      linkHref,
-      linkType,
+      conversionsEnabled: post.conversions_enabled,
+      isRunningInConversions: post.is_running_in_conversions,
+      priorityEnabled: post.priority_enabled,
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
+      linkSpecs,
+      callToActions,
+      adMessages,
       message,
+      adMessageProps: post.ad_message,
       shortMessage,
       media,
       thumbnails,
@@ -242,4 +320,75 @@ export const getPostMetricsContent = (metricsType, postType) => {
     'engagements',
     'impressions',
   ]
+}
+
+// UPDATE CAPTION
+export const updatePostCaption = async ({ artistId, assetId, adMessageId, campaignType, caption }) => {
+  const isUpdating = !!adMessageId
+  const endpointBase = `/artists/${artistId}/assets/${assetId}/ad_messages`
+  const requestType = isUpdating ? 'patch' : 'post'
+  const endpoint = isUpdating ? `${endpointBase}/${adMessageId}` : endpointBase
+  const payload = {
+    message: caption,
+    options: {
+      campaign_type: campaignType,
+    },
+  }
+  const errorTracking = {
+    category: 'Post caption',
+    action: isUpdating ? 'Update post caption' : 'Set new post caption',
+  }
+  const { res: newAdMessage, error } = await requestWithCatch(requestType, endpoint, payload, errorTracking)
+  if (error) return { error }
+  const res = getPostAdMessageData(newAdMessage)
+  return { res }
+}
+
+// RESET CAPTION
+export const resetPostCaption = ({ artistId, assetId, adMessageId, campaignType }) => {
+  const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages/${adMessageId}`
+  const payload = {
+    options: {
+      campaign_type: campaignType,
+    },
+  }
+  const errorTracking = {
+    category: 'Post message',
+    action: 'Reset post caption',
+  }
+  return requestWithCatch('delete', endpoint, payload, errorTracking)
+}
+
+// UPDATE POST PRIORITY
+export const setPostPriority = ({ artistId, assetId, priorityEnabled }) => {
+  const action = priorityEnabled ? 'deprioritize' : 'prioritize'
+  const endpoint = `/artists/${artistId}/assets/${assetId}/${action}`
+  const payload = null
+  const errorTracking = {
+    category: 'Post priority',
+    action: `${utils.capitalise(action)} post`,
+  }
+  return requestWithCatch('post', endpoint, payload, errorTracking)
+}
+
+// UPDATE POST CALL TO ACTION
+export const setPostCallToAction = async (artistId, callToAction, assetId, campaignType, callToActionId) => {
+  const isUpdating = !!callToActionId
+  const endpointBase = `/artists/${artistId}/assets/${assetId}/call_to_actions`
+  const requestType = isUpdating ? 'patch' : 'post'
+  const endpoint = isUpdating ? `${endpointBase}/${callToActionId}` : endpointBase
+  const payload = {
+    call_to_action: callToAction,
+    options: {
+      campaign_type: campaignType,
+    },
+  }
+  const errorTracking = {
+    category: 'Post call to action',
+    action: 'Set post call to action',
+  }
+  const { res: newCta, error } = await requestWithCatch(requestType, endpoint, payload, errorTracking)
+  if (error) return { error }
+  const res = getPostCallToActionData(newCta)
+  return { res }
 }

@@ -125,7 +125,7 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
 * @param {string} [cursor]
 * @returns {Promise<any>}
 */
-export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }) => {
+export const getPosts = async ({ limit = 10, artistId, promotionStatus, sortBy, cursor }) => {
   const queryParams = {
     limit,
     // add cursor if defined
@@ -133,6 +133,8 @@ export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }
     // Filter by promotion status if not "all"
     ...(promotionStatus && promotionStatus !== 'all')
     && { promotion_status: promotionStatus },
+    // Sort by 'sort by' if defined
+    ...(sortBy && { order_by: sortBy }),
     // Hide non-promotable posts if showing inactive
     ...(promotionStatus === 'inactive') && { is_promotable: 1 },
   }
@@ -147,9 +149,9 @@ export const getPosts = async ({ limit = 10, artistId, promotionStatus, cursor }
  * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-export const togglePromotionEnabled = async (artistId, postId, promotionEnabled) => {
+export const togglePromotionEnabled = async (artistId, postId, promotionEnabled, campaignType) => {
   const requestUrl = `/artists/${artistId}/assets/${postId}`
-  const payload = { promotion_enabled: promotionEnabled }
+  const payload = { [campaignType === 'all' ? 'promotion_enabled' : 'conversions_enabled']: promotionEnabled }
   const errorTracking = {
     category: 'Posts',
     action: 'Toggle promotion enabled',
@@ -215,15 +217,17 @@ export const updateAccessToken = async (artistIds, accessToken) => {
 * @param {string} linkId
 * @returns {Promise<object>} { res, error }
 */
-export const setPostLink = (artistId, assetId, linkId) => {
+export const setPostLink = (artistId, assetId, linkId, campaignType) => {
   const requestUrl = `/artists/${artistId}/assets/${assetId}`
   const payload = {
-    link_spec: linkId ? {
-      type: 'linkbank',
-      data: {
-        id: linkId,
-      },
-    } : null,
+    link_specs: {
+      [campaignType]: linkId ? {
+        type: 'linkbank',
+        data: {
+          id: linkId,
+        },
+      } : null,
+    },
   }
   const errorTracking = {
     category: 'Links',
@@ -461,33 +465,4 @@ export const getAllNotifications = async (ids) => {
     return { error: notificationGroups.error }
   }
   return { res: flatten(notificationGroups) }
-}
-
-// MARK NOTIFICATION AS READ
-/**
- * @param {string} endpoint
- * @param {boolean} read
- * @returns {Promise<array>}
- */
-export const markNotificationAsRead = async (endpoint, read = true) => {
-  const payload = { is_read: read }
-  const errorTracking = {
-    category: 'Notifications',
-    action: 'Mark notification as read',
-  }
-  return api.requestWithCatch('patch', endpoint, payload, errorTracking)
-}
-
-// DISMISS NOTIFICATION
-/**
- * @param {string} endpoint
- * @param {boolean} read
- * @returns {Promise<array>}
- */
-export const dismissNotification = async (endpoint) => {
-  const errorTracking = {
-    category: 'Notifications',
-    action: 'Delete/dismiss notification',
-  }
-  return api.requestWithCatch('delete', endpoint, null, errorTracking)
 }

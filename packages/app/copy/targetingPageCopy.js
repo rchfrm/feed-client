@@ -12,7 +12,7 @@ export default {
 
   noDefaultLinkCopy: `Before you can start running any ads, you need to choose a link for the ads to use.
   
-**Please set a default link on the [Posts page](${ROUTES.POSTS}).**`,
+**Please set a default link in the [Ad Defaults settings](${ROUTES.CONTROLS_ADS}).**`,
 
   pausedWarning: `Spending is currently paused and no ads are running. You can still edit your settings.`,
 
@@ -39,6 +39,10 @@ If you can't see a city but the country is shown, try targeting the country inst
   
 We are working on adding custom locations, but it would be really helpful if you could email us to let us know what you'd like to see here: [team@tryfeed.co](mailto:team@tryfeed.co)`,
 
+  locationSettingsTooltip: `By default, Nurture (retargeting) audiences are global. This means you can reach everyone who has engaged with you before.`,
+  locationSettingsIntro: `Apply location targeting to Nurture audiences`,
+  locationSettingsWarning: `Restricting this audience may decrease ad performance.`,
+
   successMessage: (settingsSavedInitial) => {
     if (settingsSavedInitial) {
       return `Thanks! We'll be in touch shortly confirming you're all set, and your ads will start running shortly after that`
@@ -46,20 +50,8 @@ We are working on adding custom locations, but it would be really helpful if you
     return `Your settings have been saved. Any changes may take up to 15 minutes to update.`
   },
 
-  noBudgetIntro: `## Welcome to Feed!
-  
-### Let's get started by setting up your targeting preferences.`,
-
   // BUTTON TEXT
-  saveSettingsButton: (isFirstTimeUser) => {
-    if (isFirstTimeUser) return `Start Running Ads`
-    return `Save Targeting Settings`
-  },
-
-  saveSettingsButtonMobile: (isFirstTimeUser) => {
-    if (isFirstTimeUser) return `Start Running Ads`
-    return `Save Settings and Budget`
-  },
+  saveSettingsButton: `Save Targeting Settings`,
 
   // PLATFORM SELECT DESCRIPTION
   platformSelectDescription: `Select the platform(s) your ads will appear on. This does not affect which posts can be used as ads.`,

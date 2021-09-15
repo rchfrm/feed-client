@@ -4,9 +4,6 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import Button from '@/elements/Button'
 
-import PostsSettings from '@/app/PostsSettings'
-// eslint-disable-next-line
-import PostsLinks from '@/app/PostsLinks'
 // eslint-disable-next-line
 import PostCardSettings from '@/app/PostCardSettings'
 import PostCardMetrics from '@/app/PostCardMetrics'
@@ -20,39 +17,37 @@ const usePostsSidePanel = () => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  // * GLOBAL POST SETTINGS
-
-  // OPEN GLOBAL POST SETTINGS
-  const goToGlobalPostSettings = React.useCallback(() => {
-    setSidePanelButton(null)
-    setSidePanelContent(<PostsSettings />)
-    setSidePanelContentLabel('Post Settings')
-    toggleSidePanel(true)
-  }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
-  // OPEN GLOBAL POST LINKS
-  const goToLinksBank = React.useCallback(() => {
-    setSidePanelButton(null)
-    setSidePanelContent(<PostsLinks />)
-    setSidePanelContentLabel('Post Links')
-    toggleSidePanel(true)
-  }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
-
   // * SINGLE POST SETTINGS
 
   const CLOSE_BUTTON = (
-    <Button onClick={() => toggleSidePanel(false)} version="green">
+    <Button
+      onClick={() => toggleSidePanel(false)}
+      version="green"
+      className="border-solid border-0 border-t-4"
+    >
       Done
     </Button>
   )
 
   // SHOW POST SETTINGS
-  const goToPostSettings = React.useCallback(({ post, postIndex, updateLink, isMissingDefaultLink }) => {
+  const goToPostSettings = React.useCallback(({
+    post,
+    postIndex,
+    postToggleSetterType,
+    updatePost,
+    artistId,
+    toggleCampaign,
+    isMissingDefaultLink,
+  }) => {
     setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContent((
       <PostCardSettings
         post={post}
         postIndex={postIndex}
-        updateLink={updateLink}
+        postToggleSetterType={postToggleSetterType}
+        updatePost={updatePost}
+        artistId={artistId}
+        toggleCampaign={toggleCampaign}
         isMissingDefaultLink={isMissingDefaultLink}
       />
     ))
@@ -70,8 +65,6 @@ const usePostsSidePanel = () => {
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
 
   return {
-    goToGlobalPostSettings,
-    goToLinksBank,
     goToPostSettings,
     goToPostMetrics,
   }

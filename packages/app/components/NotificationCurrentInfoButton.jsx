@@ -8,28 +8,37 @@ const NotificationCurrentInfoButton = ({
   sidepanelLayout,
   ctaText,
   buttonType,
+  linkType,
+  isActionable,
   isComplete,
+  isDismissible,
   onAction,
   onComplete,
   dismissNotification,
 }) => {
   const [loading, setLoading] = React.useState(false)
 
+  // Notifications should be either dismissible or actionable, not both.
+  // Once an actionable notification is complete, it can be dismissed.
+  const canDismiss = (isActionable && isComplete) || isDismissible
+
   const onClick = React.useCallback(async () => {
-    if (isComplete) {
+    if (canDismiss) {
       dismissNotification()
       return
     }
     setLoading(true)
     const { res, error } = await onAction() || {}
+    // Stop here if navigating to new page
+    if (linkType === 'internal') return
     setLoading(false)
     // Don't complete
     if (error || res === 'incomplete') return
     // Update notification as resolved
     onComplete()
-  }, [isComplete, onAction, onComplete, dismissNotification])
+  }, [linkType, canDismiss, onAction, onComplete, dismissNotification])
 
-  if (buttonType === 'facebook') {
+  if (buttonType === 'facebook' && !isComplete) {
     return (
       <ButtonFacebook
         className={!sidepanelLayout ? 'w-full absolute left-0 bottom-0 rounded-t-none' : null}
@@ -49,19 +58,27 @@ const NotificationCurrentInfoButton = ({
       loading={loading}
       onClick={onClick}
     >
-      {isComplete ? 'Dismiss' : ctaText}
+      {canDismiss ? 'Dismiss' : ctaText}
     </Button>
   )
 }
 
 NotificationCurrentInfoButton.propTypes = {
   sidepanelLayout: PropTypes.bool.isRequired,
-  ctaText: PropTypes.string.isRequired,
+  ctaText: PropTypes.string,
   buttonType: PropTypes.string.isRequired,
+  linkType: PropTypes.string,
+  isActionable: PropTypes.bool.isRequired,
   isComplete: PropTypes.bool.isRequired,
   onAction: PropTypes.func.isRequired,
   onComplete: PropTypes.func.isRequired,
   dismissNotification: PropTypes.func.isRequired,
 }
+
+NotificationCurrentInfoButton.defaultProps = {
+  linkType: null,
+  ctaText: null,
+}
+
 
 export default NotificationCurrentInfoButton

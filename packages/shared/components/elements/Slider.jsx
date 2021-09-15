@@ -28,6 +28,8 @@ const Slider = ({
   ghosts,
   // Child nodes
   children,
+  // Slider instance setter
+  setSliderInstance,
 }) => {
   const sliderRef = React.useRef(null)
   const hasGhosts = !!ghosts.length
@@ -82,6 +84,7 @@ const Slider = ({
           instanceRef={instance => {
             if (instance && !sliderRef.current) {
               sliderRef.current = instance
+              if (setSliderInstance) setSliderInstance(instance)
             }
           }}
         />
@@ -111,6 +114,7 @@ Slider.propTypes = {
   trackColor: PropTypes.string,
   hasMarkers: PropTypes.bool,
   ghosts: PropTypes.array,
+  setSliderInstance: PropTypes.func,
   className: PropTypes.string,
   children: PropTypes.node,
 }
@@ -128,6 +132,7 @@ Slider.defaultProps = {
   trackColor: null,
   hasMarkers: false,
   ghosts: [],
+  setSliderInstance: null,
   className: null,
   children: null,
 }
