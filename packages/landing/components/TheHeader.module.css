@@ -1,0 +1,162 @@
+.theHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+
+
+  background-color: var(--white);
+  box-shadow: 0 -5px 15px 0 rgba(0,0,0,.4);
+
+  @media(--sm) {
+    height: var(--header-height);
+  }
+}
+
+.theHeaderInner {
+  display: flex;
+  justify-content: space-between;
+
+  padding: var(--sp-5) var(--sp-5);
+
+  @media (--xs) {
+    padding: var(--sp-5) var(--sp-8);
+  }
+}
+
+.theHeaderLogoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.theHeaderLogo {
+  width: var(--sp-10);
+}
+
+.theHeaderWordmark {
+  height: 1.76rem;
+  margin-left: var(--sp-4);
+
+  @media (--sm) {
+    display: block;
+  }
+
+  svg {
+    height: 100%;
+    width: auto;
+  }
+}
+
+.theHeaderNav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-left: var(--sp-8);
+  flex-grow: 1;
+
+  @media (--sm) {
+    justify-content: flex-end;
+  }
+
+  @media (--sm) {
+    justify-content: flex-start;
+    padding-left: var(--sp-12);
+  }
+}
+
+.navLink {
+  white-space: nowrap;
+  flex: 0;
+}
+
+.hamburgerMenu {
+  display: none;
+  position: absolute;
+  top: var(--header-height-mobile);
+  left: 0;
+  width: 100%;
+  padding: var(--sp-5) 0;
+  background-color: var(--bg-color);
+  box-shadow: 0 17px 15px 0 rgba(0,0,0,.2);
+
+  text-align: center;
+
+  will-change: transform;
+  transform: scaleY(0);
+  transform-origin: center top;
+
+  p {
+    opacity: 0;
+    will-change: opacity;
+    margin-bottom: var(--sp-5);
+  }
+
+  a {
+    display: inline;
+  }
+}
+
+.navPageLink {
+
+  margin-bottom: var(--sp-5) !important;
+
+  @media (--sm) {
+    margin-bottom: 0 !important;
+  }
+
+  &::after {
+    background-color: transparent !important;
+  }
+
+  &:hover {
+    &::after {
+      background-color: var(--green) !important;
+    }
+  }
+
+  &._active {
+    &::after {
+      background-color: var(--green) !important;
+    }
+  }
+}
+
+.signupLinks {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+
+  @media (--sm) {
+    margin-left: auto;
+    flex-direction: row;
+  }
+}
+
+.tryFeed {
+  @media (--smMax) {
+    margin-right: 1rem !important;
+  }
+}
+
+.logIn {
+  @media (--sm) {
+    margin-right: 0 !important;
+  }
+}
+
+
+.menu {
+  grid-column-start: 6;
+  justify-self: end;
+  align-self: center;
+  width: 66% !important;
+
+  @media (--xs) {
+    grid-column-start: 12;
+  }
+
+  @media (--md) {
+    display: none;
+  }
+}

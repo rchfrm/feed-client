@@ -1,0 +1,7 @@
+
+/**
+* Tailwind components
+* Tailwind utilities
+*/
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";

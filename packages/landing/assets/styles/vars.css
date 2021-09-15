@@ -1,0 +1,150 @@
+/* ------------------------------------ *\
+  #Global Variables
+\* ------------------------------------ */
+
+:root {
+  /* Color Palette */
+  --white: #F4F4F4;
+  --black: #0D1311;
+  --black-hover: #343434;
+  --green: #03D8B2;
+  --green-hover: #05C7A4;
+  --red: #FA5450;
+  --red-hover: #F73F3B;
+  --yellow: #FDE74C;
+  --yellow-hover: #FFDA1A;
+  --blue: #5BC0EB;
+  --grey-light: #E7E9E8;
+  --grey: #C8CBCA;
+  --grey-dark: #7F8382;
+  --purple: #CC7CFD;
+  /* SM Palette */
+  --color-fb: #26547C;
+  --color-insta: #E75A7C;
+  --color-twitter: #5BC0EB;
+  --color-sc: var(--yellow);
+  /* APP COLORS */
+  --bg-color: var(--white);
+  --text-color: var(--black);
+  --success-color: var(--green);
+  --error-color: var(--red);
+  --loader-color: var(--green);
+  --disabled-color-bg: var(--grey-light);
+  --disabled-color-text: var(--grey-dark);
+  --placeholder-color-text: var(--grey-dark);
+  --color-fb-button: var(--color-fb);
+
+  /* Font */
+  --font: 'Inter', serif;
+  --font-display: 'SpaceGrotesk', serif;
+  --base-font-size: 15px;
+  --bold: 600;
+  --bold-display: 600;
+  --normal-text: 1rem;
+  --small-text: 0.75rem;
+  --header-text-four: 1.2rem;
+  --header-height-mobile: 94px;
+
+    /* Base Spacing Units */
+  /* https://tailwindcss.com/docs/customizing-spacing/#default-spacing-scale */
+  --sp-1:	0.25rem; /* 4px */
+  --sp-2:	0.5rem; /* 8px */
+  --sp-3:	0.75rem; /* 12px */
+  --sp-4:	1rem; /* 16px */
+  --sp-5:	1.25rem; /* 20px */
+  --sp-6:	1.5rem; /* 24px */
+  --sp-7:	1.75rem; /* 28px */
+  --sp-8:	2rem; /* 32px */
+  --sp-9:	2.25rem; /* 36px */
+  --sp-10: 2.5rem; /* 40px */
+  --sp-12: 3rem; /* 48px */
+  --sp-14: 3.5rem; /* 56px */
+  --sp-16: 4rem; /* 64px */
+  --sp-20: 5rem; /* 80px */
+  --sp-24: 6rem; /* 96px */
+  --sp-25: 6.25rem; /* 82px */
+  --sp-26: 6.5rem; /* 104px */
+  --sp-28: 7rem; /* 112px */
+  --sp-32: 8rem; /* 128px */
+  --sp-36: 9rem; /* 144px */
+  --sp-40: 10rem; /* 160px */
+  --sp-48: 12rem; /* 192px */
+  --sp-56: 14rem; /* 224px */
+  --sp-64: 16rem; /* 256px */
+  --sp-72: 18rem; /* 288px */
+  --sp-80: 20rem; /* 320px */
+  --sp-96: 24rem; /* 384px */
+  --sp-112: 28rem; /* 448px */
+  --sp-128: 32rem; /* 512px */
+  --side-padding: 70px;
+  --page-buttons-height: 70px;
+
+  /* Scaffold */
+  --gutter: 20px;
+  --column: 60px;
+  --columnInner: calc(1 / 16 * 100%);
+  --max-width: 750px;
+  --bmw: 1440px;
+
+  /* Border radius */
+  --button-radius: 3px;
+  --dialogue-radius: 6px;
+  --pill-radius: 30px;
+  --full-radius: 9999px;
+
+  /* Transitions */
+  --trans: 0.25s ease;
+
+  /* UI */
+  --header-height-mobile: 94px;
+  --header-height: 80px;
+  --button-height: 60px;
+  --button-height-small: 48px;
+  --button-width-wide: 150px;
+  --logo-ratio: 0.855072463768116;
+
+  /* Layout columns */
+  --6col-width: 12.916vw;
+  --6col-margin: 5vw;
+  --6col-gutter: 2.5vw;
+
+  --12col-width: 6.6375vw;
+  --12col-margin: 2.75vw;
+  --12col-gutter: 1.35vw;
+
+  --18col-width: 4.6875vw;
+  --18col-margin: 2.5vw;
+  --18col-gutter: 0.625vw;
+}
+
+/**
+ * Breakpoints.
+ */
+
+@custom-media --iphone6 (width >= 320px);
+@custom-media --xxsMax (width < 450px);
+@custom-media --xxs    (width >= 450px);
+@custom-media --min-content (width >= 520px);
+
+@custom-media --xsMax  (width < 600px);
+@custom-media --xs     (width >= 600px);
+
+@custom-media --smMax  (width < 800px);
+@custom-media --sm     (width >= 800px);
+
+@custom-media --mdMax  (width < 992px);
+@custom-media --md     (width >= 992px);
+
+@custom-media --lgMax  (width < 1200px);
+@custom-media --lg     (width >= 1200px);
+
+@custom-media --bmwMax (width < 1440px);
+@custom-media --bmw    (width >= 1440px);
+/* Breakpoints Heights */
+@custom-media --xxsHeight (height < 440px);
+@custom-media --xsHeight (height < 700px);
+@custom-media --smHeight (height < 800px);
+@custom-media --mdHeight (height < 992px);
+@custom-media --lgHeight (height < 1200px);
+
+@custom-media --xl     (width >= 1600px);

@@ -1,0 +1,5 @@
+.banner {
+  a:hover {
+    color: var(--yellow) !important;
+  }
+}
