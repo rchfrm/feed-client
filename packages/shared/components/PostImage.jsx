@@ -302,6 +302,7 @@ const PostImage = ({
 
 PostImage.propTypes = {
   mediaSrc: PropTypes.string,
+  mediaType: PropTypes.string.isRequired,
   thumbnailOptions: PropTypes.array,
   videoFallback: PropTypes.string,
   isStory: PropTypes.bool,

@@ -111,6 +111,7 @@ const PostCardMedia = ({
 
 PostCardMedia.propTypes = {
   media: PropTypes.string,
+  mediaType: PropTypes.string.isRequired,
   thumbnails: PropTypes.array,
   videoFallback: PropTypes.string,
   caption: PropTypes.string,
