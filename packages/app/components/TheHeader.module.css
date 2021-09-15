@@ -45,7 +45,7 @@
 .background,
 .logoContainer {
   left: 0;
-  width: calc(var(--sp-10) / 0.82);
+  width: var(--sp-10);
 
   @media (--md) {
     left: var(--sp-6);

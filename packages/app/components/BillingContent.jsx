@@ -86,8 +86,6 @@ const BillingContent = () => {
     billingEnabled,
     allOrgs,
     organisationInvites,
-    organisationArtists,
-    transferRequests,
     updateLatestInvoice,
   } = useBillingStore(getBillingStoreState, shallow)
 
