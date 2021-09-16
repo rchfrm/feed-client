@@ -5,12 +5,11 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
 
-import { saveLink, setDefaultLink, splitLinks, getLinkById } from '@/app/helpers/linksHelpers'
+import { setDefaultLink, getLinkById } from '@/app/helpers/linksHelpers'
 import PostLinksSelect from '@/app/PostLinksSelect'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
-import Input from '@/elements/Input'
 import Error from '@/elements/Error'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -29,43 +28,26 @@ const getControlsStoreState = (state) => ({
 })
 
 const ControlsWizardLinkStep = () => {
-  const { savedFolders, nestedLinks, updateLinks, updatePreferences, defaultLink } = useControlsStore(getControlsStoreState)
-  const [link, setLink] = React.useState(defaultLink || {})
-  const [isEditMode, setIsEditMode] = React.useState(!link.href)
-  const [hasLooseLinks, setHasLooseLinks] = React.useState(false)
-  const [hasSingleLooseLink, setHasSingleLooseLink] = React.useState(false)
+  const { nestedLinks, updateLinks, updatePreferences, defaultLink } = useControlsStore(getControlsStoreState)
+  const [link, setLink] = React.useState(defaultLink)
+  const [linkId, setLinkId] = React.useState(defaultLink?.id)
+  const [isEditMode, setIsEditMode] = React.useState(!defaultLink?.id)
   const [error, setError] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
   const { next } = React.useContext(WizardContext)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
 
+  // Set link id on select change
+  const updateLink = (linkId) => {
+    setLinkId(linkId)
+  }
+
+  // Update the link object on link id change
   React.useEffect(() => {
-    const { looseLinks } = splitLinks(nestedLinks)
-    // Render either a text input field or select element based on this boolean
-    setHasLooseLinks(looseLinks.length > 1)
-
-    // If there's no default link and only 1 loose link, prefill the text field with this value
-    if (Object.keys(defaultLink).length === 0 && looseLinks.length === 1) {
-      setLink(looseLinks[0])
-      setHasSingleLooseLink(true)
-    }
-  }, [nestedLinks, defaultLink])
-
-  // On text input change update the link object with a name and href
-  const handleChange = (e) => {
-    setLink({ ...link, name: 'default link', href: e.target.value })
-  }
-
-  // On select change update the link object
-  const updateLink = (linkId, link) => {
-    if (link) {
-      setLink(link)
-      return
-    }
     setLink(getLinkById(nestedLinks, linkId))
-  }
+  }, [nestedLinks, linkId])
 
-  const saveAsDefaultLink = async (newLinkId, newLink) => {
+  const saveAsDefaultLink = async (newLinkId) => {
     if (newLinkId) {
       setIsLoading(true)
       const { res: newArtist, error } = await setDefaultLink(artistId, newLinkId)
@@ -78,7 +60,7 @@ const ControlsWizardLinkStep = () => {
       // Update controls store
       const { preferences: { posts: { default_link_id } } } = newArtist
       // Set the new link as the default link
-      updateLinks('chooseNewDefaultLink', { newArtist, newLink })
+      updateLinks('chooseNewDefaultLink', { newArtist })
       // Update the post preferences object
       updatePreferences(
         'postsPreferences',
@@ -90,52 +72,15 @@ const ControlsWizardLinkStep = () => {
     }
   }
 
-  const saveLinkToLinkBank = async (action) => {
-    setIsLoading(true)
-    const { res: savedLink, error } = await saveLink(artistId, link, savedFolders, action)
-    if (error) {
-      const saveLinkError = `Error saving link: ${error.message}`
-      setError({ message: saveLinkError })
-      setIsLoading(false)
-      return
-    }
-    // Add the new link to the controls store
-    updateLinks(action, { newLink: savedLink, oldLink: link })
-    // Update local state
-    updateLink(savedLink.id, savedLink)
-    setIsLoading(false)
-    return savedLink
-  }
-
   const handleNext = async () => {
-    let action = 'add'
-    if (link.id) action = 'edit'
-
-    if (hasLooseLinks) {
-      if (!link.id) return
-      // Skip api request if the link hasn't changed
-      if (link.id === defaultLink.id) {
-        next()
-        return
-      }
-      // Otherwise save the link as default link
-      saveAsDefaultLink(link.id)
-      next()
-      return
-    }
-
+    if (!linkId) return
     // Skip api request if the link hasn't changed
-    if (link.href && (link.href === defaultLink.href)) {
+    if (linkId === defaultLink.id) {
       next()
       return
     }
-    // Add the link to the linkbank or edit the linkbank link based on the action parameter
-    const savedLink = await saveLinkToLinkBank(action)
-    if (!savedLink) return
-
-    if (action === 'add' || hasSingleLooseLink) {
-      await saveAsDefaultLink(savedLink.id, savedLink)
-    }
+    // Otherwise save the link as default link
+    await saveAsDefaultLink(linkId)
     next()
   }
 
@@ -143,25 +88,15 @@ const ControlsWizardLinkStep = () => {
     <>
       <MarkdownText markdown={copy.controlsWizardLinkStepIntro} />
       {isEditMode
-        ? hasLooseLinks
-          ? (
-            <PostLinksSelect
-              currentLinkId={link.id}
-              updateParentLink={updateLink}
-              shouldSaveOnChange={false}
-              componentLocation="defaultLink"
-            />
-          ) : (
-            <Input
-              placeholder="https://"
-              type="url"
-              version="box"
-              name="link-url"
-              value={link.href}
-              handleChange={handleChange}
-            />
-          )
-        : (
+        ? (
+          <PostLinksSelect
+            currentLinkId={linkId}
+            updateParentLink={updateLink}
+            shouldSaveOnChange={false}
+            componentLocation="defaultLink"
+            includeAddLinkOption
+          />
+        ) : (
           <div className="flex justify-between items-center mb-8">
             <p className="break-all mb-0">{link.href}</p>
             <Button

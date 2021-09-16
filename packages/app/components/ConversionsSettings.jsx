@@ -154,7 +154,6 @@ const ConversionsSettings = () => {
         shouldSaveOnChange={false}
         includeDefaultLink
         includeAddLinkOption
-        includeIntegrationLinks
         componentLocation="post"
         label="Default link"
         className="mb-12"
