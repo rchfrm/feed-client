@@ -1,74 +1,8 @@
-module.exports = {
-  purge: [
-    './components/**/*.jsx',
-    './pages/**/*.jsx',
-  ],
-  theme: {
-    screens: {
-      iphone6: '320px',
-      xxs: '450px',
-      xs: '600px',
-      sm: '800px',
-      md: '992px',
-      lg: '1200px',
-      bmw: '1440px',
-      xl: '1600px',
-    },
-    fontFamily: {
-      display: ['SpaceGrotesk', 'sans-serif'],
-      body: ['Inter', 'serif'],
-    },
-    borderRadius: {
-      none: '0',
-      sm: '0.125rem',
-      button: '3px',
-      dialogue: '6px',
-      pill: '30px',
-      lg: '0.5rem',
-      full: '9999px',
-    },
-    extend: {
-      colors: {
-        white: '#F4F4F4',
-        black: '#0D1311',
-        green: '#03D8B2',
-        red: '#FA5450',
-        yellow: '#FDE74C',
-        blue: '#5BC0EB',
-        purple: '#CC7CFD',
-        blackHover: '#343434',
-        greenHover: '#05C7A4',
-        redHover: '#F73F3B',
-        yellowHover: '#FFDA1A',
-        grey: {
-          1: '#E7E9E8',
-          2: '#C8CBCA',
-          3: '#7F8382',
-        },
-        fb: '#26547C',
-        insta: '#E75A7C',
-        twitter: '#5BC0EB',
-        sc: '#FDE74C',
-      },
-      spacing: {
-        7: '1.75rem',
-        9: '2.25rem',
-        14: '3.5rem',
-        25: '6.25rem',
-        26: '6.5rem',
-        28: '7rem',
-        36: '9rem',
-        72: '18rem',
-        80: '20rem',
-        96: '24rem',
-        112: '28rem',
-        128: '32rem',
-      },
-    },
-  },
-  variants: {
-    margin: ['responsive', 'last', 'first'],
-    borderStyle: ['responsive', 'last', 'first'],
-  },
-  plugins: [],
-}
+const config = require('../shared/tailwind.config.js')
+
+const purgeFiles = [
+  './components/**/*.jsx',
+  './pages/**/*.jsx',
+  '../shared/components/**/*.jsx',
+]
+module.exports = config(purgeFiles)

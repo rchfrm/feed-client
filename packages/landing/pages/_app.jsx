@@ -13,10 +13,9 @@ import TheFooter from '@/landing/TheFooter'
 import BrowserStoreSetup from '@/landing/BrowserStoreSetup'
 
 // Stylesheets
-import '../assets/styles/core.css'
-import '../assets/styles/app.css'
-import '../assets/styles/thirdParty.css'
-import '../assets/styles/utils.css'
+import '../../shared/css/core.css'
+import '../../shared/css/app.css'
+import '../../shared/css/utilities.css'
 
 // TRACKING SERVICE IDS
 // Google Analytics
