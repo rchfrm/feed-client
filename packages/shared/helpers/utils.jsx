@@ -195,17 +195,13 @@ export const findPostThumbnail = (attachments) => {
 }
 
 export const getPostMediaType = (src) => {
-  let type
+  let type = 'video'
 
   if (src) {
-    if (src.indexOf('.mp4') >= 0) {
-      type = 'video'
-    } else if (src.indexOf('youtube.com/embed/') >= 0) {
+    if (src.indexOf('youtube.com/embed/') >= 0) {
       const videoIdIndex = src.indexOf('youtube.com/embed/') + 18
       src = src.slice(videoIdIndex, videoIdIndex + 11)
       type = 'iframe'
-    } else {
-      type = 'image'
     }
   }
 
