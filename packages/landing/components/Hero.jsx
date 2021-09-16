@@ -1,10 +1,6 @@
 import PropTypes from 'prop-types'
 
 import HeroImage from '@/landing/HeroImage'
-import MarkdownText from '@/landing/elements/MarkdownText'
-
-import * as styles from '@/landing/Hero.module.css'
-import ButtonFacebook from '@/elements/ButtonFacebook'
 import HeroStrapline from '@/landing/HeroStrapline'
 import HeroDescription from '@/landing/HeroDescription'
 import HeroSignUp from '@/landing/HeroSignUp'

@@ -1,6 +1,25 @@
+import React from 'react'
 import ButtonFacebook from 'shared/components/elements/ButtonFacebook'
+import * as firebaseHelpers from 'shared/helpers/firebaseHelpers'
+import { fireSentryError } from 'app/helpers/sentryHelpers'
+import Error from 'shared/components/elements/Error'
+import { Link } from 'react-router-dom'
 
 export default function HeroSignUp() {
+  const [error, setError] = React.useState(null)
+  // Calls firebaseHelpers.signupWithFacebook using a redirect,
+  // so that when user is returned to log in page handleRedirect is triggered
+  const facebookSignup = async () => {
+    firebaseHelpers.signUpWithFacebook()
+      .catch((error) => {
+        setError(error)
+        // Sentry error
+        fireSentryError({
+          category: 'sign up',
+          action: 'error clicking on FB button',
+        })
+      })
+  }
   return (
     <div
       className={[
@@ -21,6 +40,7 @@ export default function HeroSignUp() {
       ].join(' ')}
     >
       <ButtonFacebook
+        onClick={facebookSignup}
         className={[
           'w-full',
           'xs:w-auto',
@@ -33,7 +53,8 @@ export default function HeroSignUp() {
       >
         Sign up with Facebook
       </ButtonFacebook>
-      <p
+      <a
+        href="https://app.tryfeed.co/join/email"
         className={[
           'mt-2',
           'mb-0',
@@ -48,7 +69,8 @@ export default function HeroSignUp() {
         ].join(' ')}
       >
         or email.
-      </p>
+      </a>
+      <Error error={error} />
     </div>
   )
 }
