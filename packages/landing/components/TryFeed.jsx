@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Link from 'next/link'
 
-import Button from '@/landing/elements/Button'
+import Button from '@/elements/Button'
 import copy from '@/landing/copy/LandingPageCopy'
 import brandColors from '@/landing/constants/brandColors'
 
@@ -22,8 +22,7 @@ export default function TryFeed({ className, buttonText, trackLocation }) {
     <div className={className}>
       <Link href={joinLink}>
         <Button
-          color={brandColors.white}
-          bgColor={brandColors.instagram.bg}
+          version="pink"
           onClick={() => {
             mixpanelInternalLinkClick(joinLink, { location: trackLocation })
           }}

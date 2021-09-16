@@ -56,27 +56,27 @@ export default function TheHeader() {
         <div className={styles.theHeaderNav}>
           {/* NAV LINKS */}
           {isDesktopLayout ? (
-            <nav className="flex">
-              <TheHeaderPageLinks onHomePage={onHomePage} />
-            </nav>
+            <>
+              <nav className="flex">
+                <TheHeaderPageLinks onHomePage={onHomePage} />
+              </nav>
+              {/* SIGNUP LINKS */}
+              <div className={styles.signupLinks}>
+                <Login
+                  className="pr-8"
+                  trackLocation="header"
+                />
+                <TryFeed
+                  buttonText="Sign Up"
+                  trackLocation="header"
+                />
+              </div>
+            </>
           ) : (
             <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}>
               <TheHeaderPageLinks onHomePage={onHomePage} toggleLinks={toggleLinks} />
             </TheHeaderHamburgerMenu>
           )}
-          {/* SIGNUP LINKS */}
-          <div className={styles.signupLinks}>
-            <Login
-              className={[styles.logIn, styles.navLink].join(' ')}
-              trackLocation="header"
-            />
-            <TryFeed
-              className={[styles.tryFeed, styles.navLink].join(' ')}
-              buttonText="Join"
-              trackLocation="header"
-            />
-
-          </div>
           {/* HAMBURGER */}
           <TheHeaderHamburger
             linksOpen={linksOpen}

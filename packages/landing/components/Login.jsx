@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import copy from '@/landing/copy/LandingPageCopy'
-import Button from '@/landing/elements/Button'
+import Button from '@/elements/Button'
 
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 
@@ -18,7 +18,6 @@ export default function Login({ className, trackLocation }) {
     <div className={className}>
       <Button
         version="text"
-        isExternalLink
         onClick={() => {
           mixpanelExternalLinkClick(loginLink, { location: trackLocation })
         }}

@@ -128,18 +128,6 @@
   }
 }
 
-.tryFeed {
-  @media (--smMax) {
-    margin-right: 1rem !important;
-  }
-}
-
-.logIn {
-  @media (--sm) {
-    margin-right: 0 !important;
-  }
-}
-
 
 .menu {
   grid-column-start: 6;
