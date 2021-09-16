@@ -7,7 +7,7 @@ import Button from '@/elements/Button'
 import copy from '@/landing/copy/LandingPageCopy'
 import brandColors from '@/landing/constants/brandColors'
 
-import { mixpanelInternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
+import { mixpanelExternalLinkClick, mixpanelInternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 
 // Global info store
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
@@ -24,7 +24,7 @@ export default function TryFeed({ className, buttonText, trackLocation }) {
         <Button
           version="pink"
           onClick={() => {
-            mixpanelInternalLinkClick(joinLink, { location: trackLocation })
+            mixpanelExternalLinkClick(joinLink, { location: trackLocation })
           }}
         >
           {buttonText}
