@@ -3,15 +3,17 @@ import PropTypes from 'prop-types'
 
 const NoDataBlock = ({ className, children }) => {
   return (
-    <div className={[
-      className,
-      'w-full h-full',
-      'flex flex-column items-center justify-center',
-      'px-10',
-      'bg-grey-1',
-    ].join(' ')}
+    <div
+      className={[
+        className,
+        'relative w-full',
+        'bg-grey-1',
+      ].join(' ')}
+      style={{ paddingBottom: '150%' }}
     >
-      {children}
+      <div className="absolute w-full min-h-full flex flex-column items-center justify-center">
+        {children}
+      </div>
     </div>
   )
 }

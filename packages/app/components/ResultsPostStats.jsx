@@ -56,7 +56,7 @@ const ResultsPostStats = ({
       >
         <p className="w-full text-bold text-lg sm:hidden">Most effective post</p>
         <div className="flex flex-row sm:flex-col items-center">
-          <div className="flex items-center" style={{ minHeight: '88px' }}>
+          <div className="flex items-center" style={{ minHeight: '108px' }}>
             <MarkdownText markdown={copy.postDescription(type)} className="hidden sm:block text-center sm:px-9" />
           </div>
           <PostCardMedia

@@ -31,7 +31,7 @@ const ResultsConversionTeaser = ({ className }) => {
         <MarkdownText className="mb-0 mr-auto sm:mr-0 sm:text-center" markdown={copy.conversionsActivatorTitle} />
       </div>
       <button
-        className="w-full h-48 sm:h-full"
+        className="w-full"
         onClick={goToControlsConversionsPage}
       >
         <NoDataBlock>

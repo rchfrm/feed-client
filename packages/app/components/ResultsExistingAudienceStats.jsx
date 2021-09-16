@@ -10,8 +10,8 @@ import copy from '@/app/copy/ResultsPageCopy'
 import brandColors from '@/constants/brandColors'
 
 const ResultsExistingAudienceStats = ({ adsReach, organicReach, className }) => {
-  const adsReachProportion = +(adsReach.proportion * 100).toFixed(2)
-  const organicReachProportion = +(organicReach.proportion * 100).toFixed(2)
+  const adsReachProportion = +(adsReach.proportion * 100).toFixed(1)
+  const organicReachProportion = +(organicReach.proportion * 100).toFixed(1)
   return (
     <div className={[className].join(' ')}>
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">Existing audiences</p>

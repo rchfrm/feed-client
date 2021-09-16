@@ -20,7 +20,7 @@ const ResultsConversionTeaser = ({ className }) => {
         <p className="mr-auto sm:mr-0 mb-0 sm:text-center">Coming soon!</p>
       </div>
       <button
-        className="w-full h-48 sm:h-full"
+        className="w-full"
         onClick={openConversionsInterestPanel}
       >
         <NoDataBlock>
