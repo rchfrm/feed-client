@@ -9,9 +9,8 @@ import useOnResize from '@/landing/hooks/useOnResize'
 import * as styles from '@/landing/Hero.module.css'
 
 export default function HeroImage({
-  imageMobile,
-  imageDesktop,
-  className,
+  mobile,
+  desktop,
 }) {
   const [isChrome, setIsChrome] = React.useState(false)
   React.useEffect(() => {
@@ -26,13 +25,29 @@ export default function HeroImage({
 
   const image = React.useMemo(() => {
     const isMobile = width < 600
-    return isMobile ? imageMobile : imageDesktop
-  }, [width, imageDesktop, imageMobile])
+    return isMobile ? mobile : desktop
+  }, [width, desktop, mobile])
 
   return (
     <figure
       className={[
-        className,
+        styles.heroImage,
+        'col-span-12',
+        'hidden',
+
+        'xs:block',
+
+        'sm:col-span-10',
+        'sm:col-start-3',
+
+        'md:col-span-8',
+        'md:col-start-5',
+        'md:row-start-3',
+        'md:row-span-2',
+
+        'lg:row-start-2',
+        'lg:row-end-5',
+
         styles.heroFigure,
         isChrome ? styles._isChrome : null,
       ].join(' ')}
@@ -48,11 +63,6 @@ export default function HeroImage({
 }
 
 HeroImage.propTypes = {
-  imageMobile: PropTypes.object.isRequired,
-  imageDesktop: PropTypes.object.isRequired,
-  className: PropTypes.string,
-}
-
-HeroImage.defaultProps = {
-  className: '',
+  mobile: PropTypes.object.isRequired,
+  desktop: PropTypes.object.isRequired,
 }

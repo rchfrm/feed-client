@@ -3,11 +3,7 @@
     font-size: 8vw;
 
     @media (--xs) {
-      font-size: 7.2vw;
-    }
-
-    @media (--sm) {
-      font-size: 4.7vw;
+      font-size: 4.5vw;
     }
 
     @media (--md) {
@@ -28,28 +24,6 @@
   }
 }
 
-.description {
-  position: relative;
-  z-index: 2;
-  p {
-    font-size: 1.333rem;
-    font-family: var(--font-display);
-    font-feature-settings: "ss01";
-
-    @media (--sm) {
-      font-size: 1.5rem;
-    }
-  }
-
-  @media (--md) {
-    padding-right: var(--sp-4);
-  }
-
-  @media (--lg) {
-    padding-right: 0;
-  }
-}
-
 .heroCTA {
   position: relative;
   z-index: 2;
@@ -59,32 +33,6 @@
   @media (--sm) {
     padding-top: var(--sp-8);
     padding-bottom: var(--sp-8);
-  }
-}
-
-.heroImage {
-  position: relative;
-  z-index: 1;
-  margin-top: var(--sp-6);
-  margin-bottom: var(--sp-5);
-
-  @media (--xs) {
-    order: 1;
-    /*padding-left: var(--sp-20);*/
-    /*margin-top: calc(-1 * var(--sp-16));*/
-    margin-bottom: calc(-1 * var(--sp-3));
-  }
-
-  @media (--sm) {
-    /*margin-top: calc(-1 * var(--sp-24));*/
-  }
-
-  @media (--md) {
-    margin-top: -13rem;
-  }
-
-  @media (--lg) {
-    margin-top: -18rem;
   }
 }
 

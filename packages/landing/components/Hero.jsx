@@ -4,7 +4,10 @@ import HeroImage from '@/landing/HeroImage'
 import MarkdownText from '@/landing/elements/MarkdownText'
 
 import * as styles from '@/landing/Hero.module.css'
-import RequestAccessForm from '@/landing/RequestAccessForm'
+import ButtonFacebook from '@/elements/ButtonFacebook'
+import HeroStrapline from '@/landing/HeroStrapline'
+import HeroDescription from '@/landing/HeroDescription'
+import HeroSignUp from '@/landing/HeroSignUp'
 
 const Hero = ({
   heroStraplineA,
@@ -15,76 +18,11 @@ const Hero = ({
 }) => {
   return (
     <section className="section--padding  bmw">
-      <div
-        className={[
-          'grid',
-          'grid-cols-12',
-          'xs:gap-4',
-        ].join(' ')}
-      >
-        {/* Strapline */}
-        <div
-          className={[
-            styles.strapline,
-            'col-span-12',
-            'pb-16',
-
-            'xs:col-span-10',
-
-            'sm:col-span-12',
-            'sm:col-start-0',
-
-            'md:col-span-11',
-            'md:col-start-1',
-          ].join(' ')}
-        >
-          <h1 className={['mb-0', 'font-normal'].join(' ')}>{heroStraplineA}</h1>
-          <h2><strong>{heroStraplineB}</strong></h2>
-        </div>
-        <RequestAccessForm
-          className={[
-            'col-span-12',
-            'pb-8',
-          ].join(' ')}
-          emailOnly
-        />
-        {/* Description */}
-        <MarkdownText
-          className={[
-            styles.description,
-            'col-span-12',
-
-            'xs:col-span-11',
-            'xs:col-start-1',
-
-            'sm:col-span-8',
-            'sm:col-start-1',
-
-            'md:col-span-7',
-            'md:col-start-0',
-
-            'lg:col-span-6',
-            'lg:col-start-1',
-          ].join(' ')}
-          markdown={heroCopy}
-        />
-        <HeroImage
-          imageMobile={heroImageMobile}
-          imageDesktop={heroImageDesktop}
-          className={[
-            styles.heroImage,
-            'col-span-12',
-            'hidden',
-
-            'xs:block',
-
-            'sm:col-span-10',
-            'sm:col-start-3',
-
-            'md:col-span-8',
-            'md:col-start-5',
-          ].join(' ')}
-        />
+      <div className={['grid', 'grid-cols-12', 'xs:gap-4'].join(' ')}>
+        <HeroStrapline partA={heroStraplineA} partB={heroStraplineB} />
+        <HeroSignUp />
+        <HeroDescription description={heroCopy} />
+        <HeroImage mobile={heroImageMobile} desktop={heroImageDesktop} />
       </div>
     </section>
   )
