@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types'
 
 import HeroImage from '@/landing/HeroImage'
-// import HeroCTA from '@/landing/HeroCTA'
 import MarkdownText from '@/landing/elements/MarkdownText'
 
 import * as styles from '@/landing/Hero.module.css'
 import RequestAccessForm from '@/landing/RequestAccessForm'
-import HeroCTA from '@/landing/HeroCTA'
 
 const Hero = ({
   heroStraplineA,
@@ -19,7 +17,6 @@ const Hero = ({
     <section className="section--padding  bmw">
       <div
         className={[
-          styles.Hero,
           'grid',
           'grid-cols-12',
           'xs:gap-4',
@@ -41,7 +38,7 @@ const Hero = ({
             'md:col-start-1',
           ].join(' ')}
         >
-          <h1 className="mb-0">{heroStraplineA}</h1>
+          <h1 className={['mb-0', 'font-normal'].join(' ')}>{heroStraplineA}</h1>
           <h2><strong>{heroStraplineB}</strong></h2>
         </div>
         <RequestAccessForm
@@ -50,31 +47,6 @@ const Hero = ({
             'pb-8',
           ].join(' ')}
           emailOnly
-        />
-        <HeroCTA
-          classes={{
-            container: [
-              'col-span-12',
-              'grid',
-              'grid-cols-12',
-              'gap-4',
-              styles.heroCTA,
-            ].join(' '),
-            buttonWrapper: [
-              'col-span-12',
-
-              'xxs:col-span-10',
-              'xxs:col-start-2',
-
-              'xs:col-span-6',
-
-              'sm:col-span-5',
-              'sm:col-start-1',
-
-              'md:col-span-4',
-              'md:col-start-1',
-            ].join(' '),
-          }}
         />
         {/* Description */}
         <MarkdownText

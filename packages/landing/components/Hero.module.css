@@ -1,25 +1,6 @@
-.Hero {
-  position: relative;
-
-  @media (--xxsMax) {
-    margin-top: calc(-1 * var(--sp-5));
-  }
-
-  @media (--md) {
-    margin-top: calc(-1 * var(--sp-5));
-  }
-
-  @media (--lg) {
-    margin-top: calc(-1 * var(--sp-10));
-  }
-}
-
 .strapline {
   * {
     font-size: 8vw;
-    font-family: var(--font-display);
-    font-feature-settings: "ss01";
-    font-weight: normal;
 
     @media (--xs) {
       font-size: 7.2vw;
@@ -44,7 +25,6 @@
 
   strong {
     border-bottom: 3px solid var(--green);
-    font-weight: var(--bold-display);
   }
 }
 
