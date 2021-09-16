@@ -15,11 +15,22 @@ const TheHeaderPageLinks = ({ onHomePage, toggleLinks }) => {
       newHref = `/${href}`
     }
     return (
-      <p key={index} className={[styles.navLink, 'TheHeaderPageLink'].join(' ')}>
+      <p
+        key={index}
+        className={[
+          'whitespace-nowrap',
+          'flex-initial',
+          'mb-5',
+          'sm:mb-0',
+          'sm:pr-5',
+          'TheHeaderPageLink',
+        ].join(' ')}
+      >
         <Anchor
           className={[
             'button button--text',
-            styles.navPageLink,
+            'mb-5',
+            'sm:mb-0',
           ].join(' ')}
           href={newHref}
           activeClass={styles._active}

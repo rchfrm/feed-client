@@ -7,7 +7,7 @@ import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 
 import Login from '@/landing/Login'
 
-import FeedLogo from '@/landing/elements/FeedLogo'
+import FeedLogo from '@/icons/FeedLogo'
 import FeedWordmark from '@/landing/elements/FeedWordmark'
 
 import * as styles from '@/landing/TheHeader.module.css'
@@ -37,19 +37,18 @@ export default function TheHeader() {
       <div className={['bmw', styles.theHeaderInner].join(' ')}>
         <div className={styles.theHeaderLogoContainer}>
           <Link href="/">
-            <a
-              title="home"
-              aria-label="Go Home"
-            >
-              <FeedLogo className={styles.theHeaderLogo} />
+            <a title="home" aria-label="Go Home">
+              <FeedLogo
+                className={styles.theHeaderLogo}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                }}
+              />
             </a>
           </Link>
           <Link href="/">
-            <a
-              title="home"
-              aria-label="Go Home"
-              className="hidden xs:inline"
-            >
+            <a title="home" aria-label="Go Home" className="hidden xs:inline">
               <FeedWordmark className={styles.theHeaderWordmark} />
             </a>
           </Link>
@@ -67,13 +66,13 @@ export default function TheHeader() {
           )}
           {/* SIGNUP LINKS */}
           <div className={styles.signupLinks}>
+            <Login
+              className={[styles.logIn, styles.navLink].join(' ')}
+              trackLocation="header"
+            />
             <TryFeed
               className={[styles.tryFeed, styles.navLink].join(' ')}
               buttonText="Join"
-              trackLocation="header"
-            />
-            <Login
-              className={[styles.logIn, styles.navLink].join(' ')}
               trackLocation="header"
             />
 
