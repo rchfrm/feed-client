@@ -1,8 +1,0 @@
-.swiper-pagination-bullet {
-  margin-right: 8px;
-  background-color: var(--black);
-
-  &:last-child {
-    margin-right: 0;
-  }
-}
