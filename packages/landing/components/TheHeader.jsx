@@ -3,7 +3,7 @@ import React from 'react'
 
 import Link from 'next/link'
 
-// import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
+import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 
 import Login from '@/landing/Login'
 
@@ -11,23 +11,26 @@ import FeedLogo from '@/landing/elements/FeedLogo'
 import FeedWordmark from '@/landing/elements/FeedWordmark'
 
 import * as styles from '@/landing/TheHeader.module.css'
-import Button from '@/elements/Button'
-import brandColors from '@/constants/brandColors'
+import { useRouter } from 'next/router'
+import TheHeaderPageLinks from '@/landing/TheHeaderPageLinks'
+import TheHeaderHamburgerMenu from '@/landing/TheHeaderHamburgerMenu'
+import TryFeed from '@/landing/TryFeed'
+import TheHeaderHamburger from '@/landing/TheHeaderHamburger'
 
 export default function TheHeader() {
-  // const { pathname } = useRouter()
-  // const onHomePage = pathname === '/'
+  const { pathname } = useRouter()
+  const onHomePage = pathname === '/'
 
   // For mobile hamburger menu
-  // const hamburgerBreakpoint = 'sm'
-  // const [linksOpen, setLinksOpen] = React.useState(false)
-  // const toggleLinks = React.useCallback((newState) => {
-  //   const state = typeof newState === 'boolean' ? newState : !linksOpen
-  //   setLinksOpen(state)
-  // }, [linksOpen])
+  const hamburgerBreakpoint = 'sm'
+  const [linksOpen, setLinksOpen] = React.useState(false)
+  const toggleLinks = React.useCallback((newState) => {
+    const state = typeof newState === 'boolean' ? newState : !linksOpen
+    setLinksOpen(state)
+  }, [linksOpen])
 
   // GET DESKTOP LAYOUT TEST
-  // const isDesktopLayout = useBreakpointTest(hamburgerBreakpoint)
+  const isDesktopLayout = useBreakpointTest(hamburgerBreakpoint)
 
   return (
     <header id="header" className={styles.theHeader}>
@@ -45,7 +48,7 @@ export default function TheHeader() {
             <a
               title="home"
               aria-label="Go Home"
-              // className="hidden xs:inline"
+              className="hidden xs:inline"
             >
               <FeedWordmark className={styles.theHeaderWordmark} />
             </a>
@@ -53,41 +56,34 @@ export default function TheHeader() {
         </div>
         <div className={styles.theHeaderNav}>
           {/* NAV LINKS */}
-          {/* {isDesktopLayout ? ( */}
-          {/*  <nav className="flex"> */}
-          {/*    <TheHeaderPageLinks onHomePage={onHomePage} /> */}
-          {/*  </nav> */}
-          {/* ) : ( */}
-          {/*  <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}> */}
-          {/*    <TheHeaderPageLinks onHomePage={onHomePage} toggleLinks={toggleLinks} /> */}
-          {/*  </TheHeaderHamburgerMenu> */}
-          {/* )} */}
+          {isDesktopLayout ? (
+            <nav className="flex">
+              <TheHeaderPageLinks onHomePage={onHomePage} />
+            </nav>
+          ) : (
+            <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}>
+              <TheHeaderPageLinks onHomePage={onHomePage} toggleLinks={toggleLinks} />
+            </TheHeaderHamburgerMenu>
+          )}
           {/* SIGNUP LINKS */}
           <div className={styles.signupLinks}>
-            {/* <TryFeed */}
-            {/*  className={[styles.tryFeed, styles.navLink].join(' ')} */}
-            {/*  buttonText="Join" */}
-            {/*  trackLocation="header" */}
-            {/* /> */}
+            <TryFeed
+              className={[styles.tryFeed, styles.navLink].join(' ')}
+              buttonText="Join"
+              trackLocation="header"
+            />
             <Login
               className={[styles.logIn, styles.navLink].join(' ')}
               trackLocation="header"
             />
 
-            <Button
-              version="black"
-              onClick={() => console.log('Click')}
-            >
-              Sign up
-            </Button>
-
           </div>
           {/* HAMBURGER */}
-          {/* <TheHeaderHamburger */}
-          {/*  linksOpen={linksOpen} */}
-          {/*  toggleLinks={toggleLinks} */}
-          {/*  className={['sm:hidden'].join(' ')} */}
-          {/* /> */}
+          <TheHeaderHamburger
+            linksOpen={linksOpen}
+            toggleLinks={toggleLinks}
+            className={['sm:hidden'].join(' ')}
+          />
         </div>
       </div>
     </header>

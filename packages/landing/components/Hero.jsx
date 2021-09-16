@@ -6,6 +6,7 @@ import MarkdownText from '@/landing/elements/MarkdownText'
 
 import * as styles from '@/landing/Hero.module.css'
 import RequestAccessForm from '@/landing/RequestAccessForm'
+import HeroCTA from '@/landing/HeroCTA'
 
 const Hero = ({
   heroStraplineA,
@@ -35,9 +36,9 @@ const Hero = ({
 
             'sm:col-span-12',
             'sm:col-start-0',
-            //
-            // 'md:col-span-11',
-            // 'md:col-start-1',
+
+            'md:col-span-11',
+            'md:col-start-1',
           ].join(' ')}
         >
           <h1>{heroStraplineA}</h1>
@@ -50,48 +51,48 @@ const Hero = ({
           ].join(' ')}
           emailOnly
         />
-        {/* <HeroCTA */}
-        {/*  classes={{ */}
-        {/*    container: [ */}
-        {/*      'col-span-12', */}
-        {/*      'grid', */}
-        {/*      'grid-cols-12', */}
-        {/*      'gap-4', */}
-        {/*      styles.heroCTA, */}
-        {/*    ].join(' '), */}
-        {/*    buttonWrapper: [ */}
-        {/*      'col-span-12', */}
+        <HeroCTA
+          classes={{
+            container: [
+              'col-span-12',
+              'grid',
+              'grid-cols-12',
+              'gap-4',
+              styles.heroCTA,
+            ].join(' '),
+            buttonWrapper: [
+              'col-span-12',
 
-        {/*      'xxs:col-span-10', */}
-        {/*      'xxs:col-start-2', */}
+              'xxs:col-span-10',
+              'xxs:col-start-2',
 
-        {/*      'xs:col-span-6', */}
+              'xs:col-span-6',
 
-        {/*      'sm:col-span-5', */}
-        {/*      'sm:col-start-1', */}
+              'sm:col-span-5',
+              'sm:col-start-1',
 
-        {/*      'md:col-span-4', */}
-        {/*      'md:col-start-1', */}
-        {/*    ].join(' '), */}
-        {/*  }} */}
-        {/* /> */}
+              'md:col-span-4',
+              'md:col-start-1',
+            ].join(' '),
+          }}
+        />
         {/* Description */}
         <MarkdownText
           className={[
             styles.description,
             'col-span-12',
 
-            // 'xs:col-span-11',
-            // 'xs:col-start-1',
-            //
-            // 'sm:col-span-8',
-            // 'sm:col-start-1',
-            //
+            'xs:col-span-11',
+            'xs:col-start-1',
+
+            'sm:col-span-8',
+            'sm:col-start-1',
+
             'md:col-span-7',
             'md:col-start-0',
-            //
-            // 'lg:col-span-6',
-            // 'lg:col-start-1',
+
+            'lg:col-span-6',
+            'lg:col-start-1',
           ].join(' ')}
           markdown={heroCopy}
         />

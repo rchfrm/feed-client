@@ -31,7 +31,7 @@
 }
 
 .theHeaderLogo {
-  width: var(--sp-10);
+  width: var(--sp-14);
 }
 
 .theHeaderWordmark {
@@ -73,7 +73,7 @@
 .hamburgerMenu {
   display: none;
   position: absolute;
-  top: var(--header-height-mobile);
+  top: var(--sp-24);
   left: 0;
   width: 100%;
   padding: var(--sp-5) 0;
