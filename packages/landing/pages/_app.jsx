@@ -54,11 +54,11 @@ const FeedLanding = ({ Component, pageProps }) => {
     <>
       <TheHead />
 
-      <div id="container">
+      <div id="container-landing">
 
         <TheHeader />
 
-        <main className="main">
+        <main id="page--container-landing">
           <Component {...pageProps} />
         </main>
 
