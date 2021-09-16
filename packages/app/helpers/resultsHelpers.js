@@ -40,17 +40,17 @@ export const convertChartValues = (adsReachProportion, organicReachProportion) =
   let multiplier = 1
   let maxValue = 100
 
-  if (highestValue < 25 && highestValue >= 10) {
+  if (highestValue < 50 && highestValue >= 25) {
     multiplier = 2
     maxValue = 50
   }
 
-  if (highestValue < 10 && highestValue >= 1) {
+  if (highestValue < 25 && highestValue >= 2.5) {
     multiplier = 4
     maxValue = 25
   }
 
-  if (highestValue < 1) {
+  if (highestValue < 2.5) {
     multiplier = 40
     maxValue = 2.5
   }
