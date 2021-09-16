@@ -41,7 +41,7 @@ const Hero = ({
             'md:col-start-1',
           ].join(' ')}
         >
-          <h1>{heroStraplineA}</h1>
+          <h1 className="mb-0">{heroStraplineA}</h1>
           <h2><strong>{heroStraplineB}</strong></h2>
         </div>
         <RequestAccessForm
