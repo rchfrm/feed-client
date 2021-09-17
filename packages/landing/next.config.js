@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 // Next plugins
 const withPlugins = require('next-compose-plugins')
 const withOffline = require('next-offline')
@@ -78,6 +79,10 @@ const nextConfig = {
   },
   async redirects() {
     // FETCH GLOBAL DATA
+    const cacheDirExists = fs.existsSync('./tempData')
+    if (!cacheDirExists) {
+      await fs.mkdirSync('./tempData')
+    }
     await fetchGlobalInfo()
     // HANDLE REDIRECTS
     return [
