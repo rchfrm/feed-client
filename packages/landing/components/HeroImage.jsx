@@ -24,7 +24,7 @@ export default function HeroImage({
   const { width } = useOnResize()
 
   const image = React.useMemo(() => {
-    const isMobile = width < 600
+    const isMobile = width < 992
     return isMobile ? mobile : desktop
   }, [width, desktop, mobile])
 
