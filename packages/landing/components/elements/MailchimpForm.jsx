@@ -97,7 +97,17 @@ const MailchimpForm = ({
           {/* Real people should not fill this in and expect good things - do not remove this or risk form bot signups */}
           <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true"><input type="text" name="b_9169a3b18daa59e77067e959e_58bf5eac4b" tabIndex="-1" value="" readOnly /></div>
           <div className={submitClass}>
-            <input type="submit" value={ctaText} name="subscribe" id="mc-embedded-subscribe" className="button--large" />
+            <input
+              type="submit"
+              value={ctaText}
+              name="subscribe"
+              id="mc-embedded-subscribe"
+              className={[
+                'button',
+                'button--basic',
+                'button--green',
+              ].join(' ')}
+            />
           </div>
           <div className={['small--p', disclaimerClass].join(' ')}>
             <MarkdownText markdown={mailchimpCopy.unsubscribe} />

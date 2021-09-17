@@ -70,16 +70,8 @@ export default function PrimaryCTA({
               mixpanelExternalLinkClick(joinLink, { location: trackingLocation })
             }}
           >
-            Sign Up
+            Get started
           </Button>
-          {/* <Button */}
-          {/*  bgColor={brandColors.white} */}
-          {/*  color={brandColors.green} */}
-          {/*  border={brandColors.green} */}
-          {/*  version="large" */}
-          {/* > */}
-          {/*  Request Access */}
-          {/* </Button> */}
         </Link>
       </div>
     </section>
