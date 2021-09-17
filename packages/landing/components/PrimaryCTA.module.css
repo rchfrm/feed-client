@@ -19,8 +19,6 @@
   }
 }
 
-.primaryCTAButton {
-  width: 100%;
-  max-width: var(--sp-80);
-  margin: 0 auto !important;
+.ctaShadow {
+  box-shadow: black 3px 3px 0px 0px;
 }
