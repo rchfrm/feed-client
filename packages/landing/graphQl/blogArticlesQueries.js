@@ -17,7 +17,9 @@ export const blogIntro = () => `
 // Get overview of blog articles from blog index page
 export const getOverviewQuery = (count = 30, skip = 0) => `
 query {
-  allBlogArticles(first: "${count}", skip: "${skip}") {
+  allBlogArticles(first: "${count}", skip: "${skip}", filter: {
+    showInArticleList: {eq:true}
+  }) {
     ${blogIntro()}
   }
 }
