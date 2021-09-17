@@ -34,7 +34,7 @@ export default function Landing({ pageData }) {
       <Features features={features} />
       <PrimaryCTA />
       <BlogSummary featuredBlogArticles={featuredBlogArticles} />
-      <TertiaryCTA trackLocation="homepage" />
+      <TertiaryCTA trackLocation="feed-landing" />
     </>
   )
 }
