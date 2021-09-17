@@ -4,8 +4,6 @@ import { Image } from 'react-datocms'
 
 import MarkdownText from '@/landing/elements/MarkdownText'
 
-import * as styles from '@/landing/Features.module.css'
-
 const FeatureItem = ({
   header,
   copy,

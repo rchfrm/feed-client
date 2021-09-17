@@ -2,8 +2,6 @@ import PropTypes from 'prop-types'
 
 import FeatureItem from '@/landing/FeatureItem'
 
-import * as styles from './Features.module.css'
-
 const Features = ({ features }) => {
   return (
     <section
@@ -15,7 +13,10 @@ const Features = ({ features }) => {
     >
       <ul
         className={[
-          styles.featuresList,
+          'text-xl',
+          'sm:text-base',
+          'md:p-5',
+          'md:text-xl',
         ].join(' ')}
       >
         {features.map((feature) => {
