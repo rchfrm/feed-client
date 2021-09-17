@@ -27,7 +27,16 @@ const Features = ({ features }) => {
               copy={copy}
               image={image}
               className={[
-                styles.featureItem,
+                'mb-16',
+                'flex',
+                'flex-col',
+                'items-center',
+                'xs:px-8',
+                'sm:flex-row',
+                'sm:even:flex-row-reverse',
+                'sm:p-0',
+                'sm:justify-evenly',
+                'sm:last:mb-0',
               ].join(' ')}
             />
           )

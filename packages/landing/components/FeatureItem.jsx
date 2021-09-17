@@ -22,16 +22,45 @@ const FeatureItem = ({
   const isSvg = mimeType === 'image/svg+xml'
   return (
     <li className={className}>
-      <div className={[styles.text].join(' ')}>
-        <div className={styles.textInner}>
-          <h3 className={styles.header}>{header}</h3>
-          <MarkdownText markdown={copy} className={styles.description} />
-        </div>
+      <div
+        className={[
+          'w-full',
+          'mb-10',
+          'sm:w-2/4',
+          'sm:max-w-md',
+        ].join(' ')}
+      >
+        <h3
+          className={[
+            'border-b-2',
+            'border-green',
+            'border-solid',
+            'mb-4',
+            'text-green',
+            'w-fit',
+          ].join(' ')}
+        >
+          {header}
+        </h3>
+        <MarkdownText markdown={copy} />
       </div>
       {imageSrc && (
-        <figure className={[styles.image].join(' ')}>
+        <>
           {isSvg ? (
-            <img src={imageSrc} alt={header} width={width} height={height} />
+            <img
+              className={[
+                'inline',
+                'w-full',
+                'h-auto',
+                'max-w-xs',
+                'sm:w-2/4',
+                'md:max-w-sm',
+              ].join(' ')}
+              src={imageSrc}
+              alt={header}
+              width={width}
+              height={height}
+            />
           ) : (
             <Image
               data={{
@@ -41,7 +70,7 @@ const FeatureItem = ({
               fadeInDuration={1}
             />
           )}
-        </figure>
+        </>
       )}
     </li>
   )
