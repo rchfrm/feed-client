@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsNewAudienceOnPlatformChart from '@/app/ResultsNewAudienceOnPlatformChart'
-import ResultsNewAudienceUnawareChart from '@/app/ResultsNewAudienceUnawareChart'
+import ResultsNewAudienceChart from '@/app/ResultsNewAudienceChart'
+import ResultsFallbackChart from '@/app/ResultsFallbackChart'
 
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -13,10 +13,10 @@ import { abbreviateNumber } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
 const ResultsNewAudienceStats = ({ data, className }) => {
-  const { chartData, isOnPlatform } = data
+  const { chartData, isMainChart } = data
   const currValue = chartData.find((o) => o.type === 'curr').value
   const prevValue = chartData.find((o) => o.type === 'prev').value
-  const mainValue = isOnPlatform
+  const mainValue = isMainChart
     ? chartData[1].value - chartData[0].value
     : currValue
 
@@ -30,7 +30,7 @@ const ResultsNewAudienceStats = ({ data, className }) => {
         />
       </div>
       <div className="flex flex-row items-center justify-center">
-        {isOnPlatform ? (
+        {isMainChart ? (
           <PlusIcon className="h-8 w-8 mr-1 mb-4 hidden sm:block" fill={brandColors.facebook.bg} />
         ) : (
           currValue > prevValue && <ArrowAltIcon className="h-8 w-8 mb-4 hidden sm:block" fill={brandColors.facebook.bg} direction="up" />
@@ -42,10 +42,10 @@ const ResultsNewAudienceStats = ({ data, className }) => {
           {abbreviateNumber(mainValue)}
         </p>
       </div>
-      {isOnPlatform ? (
-        <ResultsNewAudienceOnPlatformChart onPlatformData={chartData} />
+      {isMainChart ? (
+        <ResultsNewAudienceChart onPlatformData={chartData} />
       ) : (
-        <ResultsNewAudienceUnawareChart unawareData={chartData} />
+        <ResultsFallbackChart data={chartData} />
       )}
     </div>
   )

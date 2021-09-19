@@ -5,9 +5,9 @@ import { gsap, Power2 } from 'gsap'
 
 import { formatNumber } from '@/helpers/utils'
 
-const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
-  const prevPeriod = unawareData.find((o) => o.type === 'prev').value
-  const currPeriod = unawareData.find((o) => o.type === 'curr').value
+const ResultsFallbackChart = ({ data }) => {
+  const prevPeriod = data.find((o) => o.type === 'prev').value
+  const currPeriod = data.find((o) => o.type === 'curr').value
   const total = prevPeriod + currPeriod
 
   const prevPeriodChartRef = React.useRef(null)
@@ -25,11 +25,11 @@ const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
       const ease = Power2.easeOut
       const delay = index === 0 && 0.1
       const duration = 0.5
-      const width = `${(unawareData[index].value / total) * 100}%`
+      const width = `${(data[index].value / total) * 100}%`
 
       gsap.to(ref, { width, ease, duration, delay })
     }
-  }, [unawareData, total])
+  }, [data, total])
 
   React.useEffect(() => {
     chartRefs.map((ref, index) => animateChart(ref.current, index))
@@ -37,7 +37,7 @@ const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
 
   return (
     <div className="relative flex w-full h-12 items-center text-white rounded-full overflow-hidden">
-      {unawareData.map(({ type, value }, index) => value && (
+      {data.map(({ type, value }, index) => value && (
         <div
           key={type}
           ref={chartRefs[index]}
@@ -55,8 +55,8 @@ const ResultsNewAudienceUnawareChart = ({ unawareData }) => {
   )
 }
 
-ResultsNewAudienceUnawareChart.propTypes = {
-  unawareData: PropTypes.array.isRequired,
+ResultsFallbackChart.propTypes = {
+  data: PropTypes.array.isRequired,
 }
 
-export default ResultsNewAudienceUnawareChart
+export default ResultsFallbackChart

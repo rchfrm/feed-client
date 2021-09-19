@@ -64,7 +64,7 @@ export const convertChartValues = (adsReachProportion, organicReachProportion) =
 }
 
 export const getNewAudienceData = (data) => {
-  let isOnPlatform = false
+  let isMainChart = false
   let prevPeriod = 0
   let currPeriod = 0
   let copy = ''
@@ -77,13 +77,13 @@ export const getNewAudienceData = (data) => {
   if (!data) return null
 
   if ((audienceSize?.growth?.percentage * 100) >= 1) {
-    isOnPlatform = true
+    isMainChart = true
     prevPeriod = audienceSize.prev_period
     currPeriod = audienceSize.curr_period
     copy = resultsCopy.newAudienceOnPlatformDescription(audienceSize.growth.percentage * 100)
   }
 
-  if (!isOnPlatform) {
+  if (!isMainChart) {
     if (engaged.curr_period >= 250 && engaged.prev_period) {
       prevPeriod = engaged.prev_period
       currPeriod = engaged.curr_period
@@ -110,7 +110,7 @@ export const getNewAudienceData = (data) => {
   if (!prevPeriod || !currPeriod) return null
 
   const newAudienceData = {
-    isOnPlatform,
+    isMainChart,
     copy,
     chartData: [
       { type: 'prev', value: prevPeriod },
