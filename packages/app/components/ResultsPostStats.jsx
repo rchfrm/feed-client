@@ -50,51 +50,49 @@ const ResultsPostStats = ({
   }, [])
 
   return (
-    postData && (
-      <div
-        className={[className].join(' ')}
-      >
-        <p className="w-full text-bold text-lg sm:hidden">Most effective post</p>
-        <div className="flex flex-row sm:flex-col items-center">
-          <div className="flex items-center" style={{ minHeight: '108px' }}>
-            <MarkdownText markdown={copy.postDescription(type)} className="hidden sm:block text-center sm:px-9" />
-          </div>
-          <PostCardMedia
-            media={postData.media}
-            thumbnails={postData.thumbnails}
-            postType={postData.postType}
-            className="mb-2 mr-4 sm:mr-0"
-            style={{ height: imageHeight, width: imageHeight }}
-          />
-          <div
+    <div
+      className={[className].join(' ')}
+    >
+      <p className="w-full text-bold text-lg sm:hidden">Most effective post</p>
+      <div className="flex flex-row sm:flex-col items-center">
+        <div className="flex items-center" style={{ minHeight: '108px' }}>
+          <MarkdownText markdown={copy.postDescription(type)} className="hidden sm:block text-center sm:px-9" />
+        </div>
+        <PostCardMedia
+          media={postData.media}
+          thumbnails={postData.thumbnails}
+          postType={postData.postType}
+          className="mb-2 mr-4 sm:mr-0"
+          style={{ height: imageHeight, width: imageHeight }}
+        />
+        <div
+          className={[
+            'hidden',
+            'sm:flex flex-column items-center',
+            '-mt-5 mb-6 px-6 py-1 z-10',
+            'text-white rounded-full',
+          ].join(' ')}
+          style={{ backgroundColor: color }}
+        >
+          {abbreviateNumber(value)}
+          <span className="text-xs -mt-1">{type === 'growth' ? 'engaged' : 'reached'}</span>
+        </div>
+        <div className="flex flex-col items-start justify-center sm:items-center">
+          <MarkdownText markdown={copy.postDescriptionMobile(type, value)} className="sm:hidden" />
+          <Button
+            version="small outline"
             className={[
-              'hidden',
-              'sm:flex flex-column items-center',
-              '-mt-5 mb-6 px-6 py-1 z-10',
-              'text-white rounded-full',
+              'h-8',
+              'rounded-full',
+              'border-solid border-black border-2 text-black',
             ].join(' ')}
-            style={{ backgroundColor: color }}
+            onClick={openPostMetricsSidePanel}
           >
-            {abbreviateNumber(value)}
-            <span className="text-xs -mt-1">{type === 'growth' ? 'engaged' : 'reached'}</span>
-          </div>
-          <div className="flex flex-col items-start justify-center sm:items-center">
-            <MarkdownText markdown={copy.postDescriptionMobile(type, value)} className="sm:hidden" />
-            <Button
-              version="small outline"
-              className={[
-                'h-8',
-                'rounded-full',
-                'border-solid border-black border-2 text-black',
-              ].join(' ')}
-              onClick={openPostMetricsSidePanel}
-            >
-              View more
-            </Button>
-          </div>
+            View more
+          </Button>
         </div>
       </div>
-    )
+    </div>
   )
 }
 

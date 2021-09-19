@@ -43,7 +43,7 @@ const ResultsNewAudienceStats = ({ data, className }) => {
         </p>
       </div>
       {isMainChart ? (
-        <ResultsNewAudienceChart onPlatformData={chartData} />
+        <ResultsNewAudienceChart data={chartData} />
       ) : (
         <ResultsFallbackChart data={chartData} />
       )}

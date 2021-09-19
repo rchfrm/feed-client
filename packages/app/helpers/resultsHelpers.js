@@ -63,47 +63,38 @@ export const convertChartValues = (adsReachProportion, organicReachProportion) =
   }
 }
 
-export const getNewAudienceData = (data) => {
+export const getExistingAudienceData = (data) => {
   let isMainChart = false
-  let prevPeriod = 0
-  let currPeriod = 0
+  const prevPeriod = null
+  let currPeriod = null
   let copy = ''
 
   const {
-    on_platform: { audience_size: audienceSize } = {},
-    unaware: { engaged, reach } = {},
+    on_platform: {
+      ads_reach: { proportion: adsReachProportion, value: adsReachValue },
+      organic_reach: { proportion: organicReachProportion },
+    },
   } = data
 
-  if (!data) return null
-
-  if ((audienceSize?.growth?.percentage * 100) >= 1) {
+  if (adsReachProportion && organicReachProportion && (adsReachProportion > organicReachProportion)) {
+    const roundedAdsReachProportion = +(adsReachProportion * 100).toFixed(1)
+    const roundedOrganicReachProportion = +(organicReachProportion * 100).toFixed(1)
     isMainChart = true
-    prevPeriod = audienceSize.prev_period
-    currPeriod = audienceSize.curr_period
-    copy = resultsCopy.newAudienceOnPlatformDescription(audienceSize.growth.percentage * 100)
+
+    return {
+      isMainChart,
+      copy: resultsCopy.existingAudienceMainDescription(roundedAdsReachProportion, roundedOrganicReachProportion),
+      chartData: {
+        adsReachProportion: roundedAdsReachProportion,
+        organicReachProportion: roundedOrganicReachProportion,
+      },
+    }
   }
 
   if (!isMainChart) {
-    if (engaged.curr_period >= 250 && engaged.prev_period) {
-      prevPeriod = engaged.prev_period
-      currPeriod = engaged.curr_period
-      copy = resultsCopy.newAudienceUnawareEngagedDouble(engaged.curr_period, engaged.prev_period)
-    }
-
-    if (engaged.curr_period < 250 && reach.prev_period) {
-      prevPeriod = reach.prev_period
-      currPeriod = reach.curr_period
-      copy = resultsCopy.newAudienceUnawareReachDouble(reach.curr_period, reach.prev_period)
-    }
-
-    if (engaged.curr_period >= 250 && !engaged.prev_period) {
-      currPeriod = engaged.curr_period
-      copy = resultsCopy.newAudienceUnawareEngagedSingle(engaged.curr_period)
-    }
-
-    if (engaged.curr_period < 250 && !reach.prev_period) {
-      currPeriod = reach.curr_period
-      copy = resultsCopy.newAudienceUnawareReachSingle(reach.curr_period)
+    if (adsReachValue) {
+      currPeriod = adsReachValue
+      copy = resultsCopy.existingAudienceFallbackSingle(adsReachValue)
     }
   }
 
@@ -113,8 +104,64 @@ export const getNewAudienceData = (data) => {
     isMainChart,
     copy,
     chartData: [
-      { type: 'prev', value: prevPeriod },
-      { type: 'curr', value: currPeriod },
+      { type: 'prev', color: brandColors.green, value: prevPeriod },
+      { type: 'curr', color: brandColors.redLight, value: currPeriod },
+    ]
+      .sort((a, b) => a.value - b.value),
+  }
+  return newAudienceData
+}
+
+export const getNewAudienceData = (data) => {
+  let isMainChart = false
+  let prevPeriod = null
+  let currPeriod = null
+  let copy = ''
+
+  const {
+    on_platform: { audience_size: audienceSize } = {},
+    unaware: { engaged, reach } = {},
+  } = data
+
+  if ((audienceSize?.growth?.percentage * 100) >= 1) {
+    isMainChart = true
+    prevPeriod = audienceSize.prev_period
+    currPeriod = audienceSize.curr_period
+    copy = resultsCopy.newAudienceOnPlatformMainDescription(audienceSize.growth.percentage * 100)
+  }
+
+  if (!isMainChart) {
+    if (engaged.curr_period >= 250 && engaged.prev_period) {
+      prevPeriod = engaged.prev_period
+      currPeriod = engaged.curr_period
+      copy = resultsCopy.newAudienceUnawareFallbackEngagedDouble(engaged.curr_period, engaged.prev_period)
+    }
+
+    if (engaged.curr_period < 250 && reach.prev_period) {
+      prevPeriod = reach.prev_period
+      currPeriod = reach.curr_period
+      copy = resultsCopy.newAudienceUnawareFallbackReachDouble(reach.curr_period, reach.prev_period)
+    }
+
+    if (engaged.curr_period >= 250 && !engaged.prev_period) {
+      currPeriod = engaged.curr_period
+      copy = resultsCopy.newAudienceUnawareFallbackEngagedSingle(engaged.curr_period)
+    }
+
+    if (engaged.curr_period < 250 && !reach.prev_period) {
+      currPeriod = reach.curr_period
+      copy = resultsCopy.newAudienceUnawareFallbackReachSingle(reach.curr_period)
+    }
+  }
+
+  if (!prevPeriod || !currPeriod) return null
+
+  const newAudienceData = {
+    isMainChart,
+    copy,
+    chartData: [
+      { type: 'prev', color: brandColors.blue, value: prevPeriod },
+      { type: 'curr', color: brandColors.blueLight, value: currPeriod },
     ]
       .sort((a, b) => a.value - b.value),
   }

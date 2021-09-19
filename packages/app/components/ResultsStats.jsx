@@ -5,16 +5,17 @@ import ResultsExistingAudienceStats from '@/app/ResultsExistingAudienceStats'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import { getNewAudienceData } from '@/app/helpers/resultsHelpers'
+import { getNewAudienceData, getExistingAudienceData } from '@/app/helpers/resultsHelpers'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsStats = ({ data }) => {
-  const { on_platform: { ads_reach: adsReach, organic_reach: organicReach } = {} } = data
   const [newAudienceData, setNewAudienceData] = React.useState(null)
+  const [existingAudienceData, setExistingAudienceData] = React.useState(null)
 
   React.useEffect(() => {
     setNewAudienceData(getNewAudienceData(data))
+    setExistingAudienceData(getExistingAudienceData(data))
   }, [data])
 
   return (
@@ -37,10 +38,10 @@ const ResultsStats = ({ data }) => {
           'order-2',
         ].join(' ')}
       >
-        {(!adsReach?.value || !organicReach?.value) ? (
-          <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-green" />
+        {existingAudienceData ? (
+          <ResultsExistingAudienceStats className="flex flex-col sm:items-center" data={existingAudienceData} />
         ) : (
-          <ResultsExistingAudienceStats className="flex flex-col sm:items-center" adsReach={adsReach} organicReach={organicReach} />
+          <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-green" />
         )}
       </div>
     </>

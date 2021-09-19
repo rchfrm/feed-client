@@ -37,16 +37,16 @@ const ResultsFallbackChart = ({ data }) => {
 
   return (
     <div className="relative flex w-full h-12 items-center text-white rounded-full overflow-hidden">
-      {data.map(({ type, value }, index) => value && (
+      {data.map(({ color, value }, index) => value && (
         <div
-          key={type}
+          key={value}
           ref={chartRefs[index]}
           className={[
             'flex items-center justify-center',
             'h-full',
             'text-xs',
-            type === 'prev' ? 'bg-blueLight' : 'bg-blue',
           ].join(' ')}
+          style={{ backgroundColor: color }}
         >
           {formatNumber(value)}
         </div>

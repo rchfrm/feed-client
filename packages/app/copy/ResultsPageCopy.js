@@ -1,13 +1,15 @@
 import { formatNumber } from '@/helpers/utils'
 
 export default {
-  newAudienceOnPlatformDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
-  newAudienceUnawareEngagedDouble: (currValue, prevValue) => `**${formatNumber(currValue)} engaged** with your posts, versus ${formatNumber(prevValue)} last month.`,
-  newAudienceUnawareReachDouble: (currValue, prevValue) => `**${formatNumber(currValue)} saw your posts**, versus ${formatNumber(prevValue)} last month.`,
-  newAudienceUnawareEngagedSingle: (currValue) => `**${formatNumber(currValue)} engaged** with your posts.`,
-  newAudienceUnawareReachSingle: (currValue) => `**${formatNumber(currValue)} saw your posts.**`,
-  existingAudienceDescription: (adsValue, organicValue) => `Feed reached **${adsValue}%** of your audience, versus your
+  newAudienceOnPlatformMainDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
+  newAudienceUnawareFallbackEngagedDouble: (currValue, prevValue) => `**${formatNumber(currValue)} engaged** with your posts, versus ${formatNumber(prevValue)} last month.`,
+  newAudienceUnawareFallbackReachDouble: (currValue, prevValue) => `**${formatNumber(currValue)} saw your posts**, versus ${formatNumber(prevValue)} last month.`,
+  newAudienceUnawareFallbackEngagedSingle: (currValue) => `**${formatNumber(currValue)} engaged** with your posts.`,
+  newAudienceUnawareFallbackReachSingle: (currValue) => `**${formatNumber(currValue)} saw your posts.**`,
+  existingAudienceMainDescription: (adsValue, organicValue) => `Feed reached **${adsValue}%** of your audience, versus your
   organic posts which reached **${organicValue}%** on average.`,
+  existingAudienceFallbackSingle: (currValue) => `Feed has reached **${formatNumber(currValue)}** within your existing audience.`,
+  existingAudienceFallbackDouble: (currValue, prevValue) => `Feed has reached **${formatNumber(currValue)}** within your existing audience, versus **${formatNumber(prevValue)}** last month.`,
 
   postDescription: (type) => {
     if (type === 'growth') {

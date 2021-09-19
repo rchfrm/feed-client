@@ -8,7 +8,6 @@ import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/ResultsPageCopy'
 import { postResultsConfig } from '@/app/helpers/resultsHelpers'
 
-
 const ResultsPostsStats = ({ data }) => {
   return (
     <>

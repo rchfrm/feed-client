@@ -7,9 +7,9 @@ import { formatNumber } from '@/helpers/utils'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsNewAudienceOnPlatformChart = ({ onPlatformData }) => {
-  const prevPeriod = onPlatformData.find((o) => o.type === 'prev').value
-  const currPeriod = onPlatformData.find((o) => o.type === 'curr').value
+const ResultsNewAudienceOnPlatformChart = ({ data }) => {
+  const prevPeriod = data.find((o) => o.type === 'prev').value
+  const currPeriod = data.find((o) => o.type === 'curr').value
   const absoluteGrowth = currPeriod - prevPeriod
   const currentPeriodProportion = (absoluteGrowth / currPeriod) * 100 > 25 ? (absoluteGrowth / currPeriod) * 100 : 25
   const prevPeriodProportion = currentPeriodProportion > 25 ? 100 - currentPeriodProportion : 75
@@ -56,7 +56,7 @@ const ResultsNewAudienceOnPlatformChart = ({ onPlatformData }) => {
 }
 
 ResultsNewAudienceOnPlatformChart.propTypes = {
-  onPlatformData: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
 }
 
 export default ResultsNewAudienceOnPlatformChart
