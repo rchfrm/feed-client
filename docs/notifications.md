@@ -15,3 +15,18 @@ Each notification has a "topic" which can have a corresponding entry in Dato tha
 Assuming the notification topic has a corresponding entry in Dato, and it is not hidden, then it will be handled by the `formatNotifications()` function in `packages/app/helpers/notificationsHelpers.js`.
 
 This function pairs each notification with copy (for the title, button CTA, message etc) and an `onAction` function to handle the CTA button. The `onAction` function can either be a URL to another page (internal or external), an API call, or a firebase action.
+
+## Handling notifications
+
+Notifications can be either dismissible, actionable or hidden.
+
+### Dismissible
+These convey information such as successful payments, and profile transfers between organisations.
+
+### Actionable
+This should be restricted to notifications about issues preventing Feed from running ads. For example, failed payment or Facebook integration errors.
+
+It will often not be possible to complete the action within the notifcation itself, either because the user needs to make a chance on another page, or in their Facebook ad account. To account for this the Feed back-end will detect the change and mark the notification is complete. The notification can then be dismissed from the front-end.
+
+### Hidden
+Notifications should be hidden if they are intended to only be sent as emails.

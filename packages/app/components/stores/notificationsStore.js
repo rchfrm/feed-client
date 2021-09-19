@@ -3,6 +3,7 @@ import produce from 'immer'
 
 import { track } from '@/app/helpers/trackingHelpers'
 
+// eslint-disable-next-line import/no-unresolved
 import globalData from '@/app/tempGlobalData/globalData.json'
 
 import {

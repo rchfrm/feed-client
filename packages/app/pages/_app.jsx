@@ -17,6 +17,7 @@ import '../../shared/css/utilities.css'
 // IMPORT COMPONENTS
 import AppContents from '@/app/AppContents'
 import SetupGtag from '@/elements/SetupGtag'
+import SetupFacebookChatPlugin from '@/elements/SetupFacebookChatPlugin'
 // IMPORT CONTEXTS
 import { AuthProvider } from '@/contexts/AuthContext'
 // IMPORT HELPERS
@@ -32,6 +33,8 @@ import { parseUrl } from '@/helpers/utils'
 const gaId = 'UA-162381148-2'
 // Facebook pixel
 const fbqId = '226820538468408'
+// Facebook page id
+const fbPageId = '110394157234637'
 
 const registerServiceWorker = () => {
   window.addEventListener('load', () => {
@@ -116,6 +119,8 @@ function Feed({ Component, pageProps }) {
 
       {/* GTAG */}
       <SetupGtag gaId={gaId} />
+      {/* FACEBOOK CHAT */}
+      <SetupFacebookChatPlugin pageId={fbPageId} />
 
       <AppContents>
         <PageTransition timeout={300} classNames="page-transition">
