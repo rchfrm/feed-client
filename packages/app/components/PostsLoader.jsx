@@ -16,7 +16,6 @@ import Error from '@/elements/Error'
 import PostsAll from '@/app/PostsAll'
 import PostsNone from '@/app/PostsNone'
 // IMPORT HELPERS
-import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
@@ -75,29 +74,29 @@ const postsReducer = (draftState, postsAction) => {
 }
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-const fetchPosts = async ({ promotionStatus, artistId, limit, isEndOfAssets, cursor }) => {
+const fetchPosts = async ({ promotionStatus, sortBy, artistId, limit, isEndOfAssets, cursor }) => {
   if (!artistId) return
   // Stop here if at end of posts
   if (isEndOfAssets.current) return
   // Get posts
-  const posts = await server.getPosts({ limit, artistId, promotionStatus, cursor: cursor.current })
-  // Sort the returned posts chronologically, latest first
-  return utils.sortAssetsChronologically(Object.values(posts))
+  const posts = await server.getPosts({ limit, artistId, promotionStatus, sortBy, cursor: cursor.current })
+  return posts
 }
 
 // WHEN TO UPDATE POSTS
 const updateDataConditions = (newProps, oldProps) => {
-  const { artistId: newArtistId, promotionStatus: newpromotionStatus, loadingMore } = newProps
-  const { artistId: oldArtistId, promotionStatus: oldPromotionStatus, loadingMore: alreadyLoadingMore } = oldProps
+  const { artistId: newArtistId, promotionStatus: newpromotionStatus, sortBy: newSortBy, loadingMore } = newProps
+  const { artistId: oldArtistId, promotionStatus: oldPromotionStatus, sortBy: oldSortBy, loadingMore: alreadyLoadingMore } = oldProps
   if (loadingMore && !alreadyLoadingMore) return true
   if (newArtistId !== oldArtistId) return true
   if (newpromotionStatus !== oldPromotionStatus) return true
+  if (newSortBy !== oldSortBy) return true
   return false
 }
 
 // THE COMPONENT
 // ------------------
-function PostsLoader({ setRefreshPosts, promotionStatus }) {
+function PostsLoader({ setRefreshPosts, promotionStatus, sortBy }) {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
@@ -122,7 +121,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     cursor.current = null
     // Update end of assets state
     isEndOfAssets.current = false
-  }, [artistId, promotionStatus])
+  }, [artistId, promotionStatus, sortBy])
 
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({
@@ -135,6 +134,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
     loadingMore,
     cursor,
     promotionStatus,
+    sortBy,
     // When fetch finishes
     onResolve: (posts) => {
       // Turn off global loading
@@ -300,6 +300,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
       <PostsNone
         refreshPosts={refreshPosts}
         promotionStatus={promotionStatus}
+        sortBy={sortBy}
         artist={artist}
       />
     )
@@ -347,6 +348,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus }) {
 PostsLoader.propTypes = {
   setRefreshPosts: PropTypes.func.isRequired,
   promotionStatus: PropTypes.string.isRequired,
+  sortBy: PropTypes.string.isRequired,
 }
 
 export default PostsLoader

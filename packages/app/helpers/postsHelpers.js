@@ -60,6 +60,24 @@ export const postTypes = [
   },
 ]
 
+// POST SORT TYPES
+export const sortTypes = [
+  {
+    id: 'published_time',
+    slug: 'published_time',
+    title: 'Date',
+    color: brandColors.black,
+    activeTextColor: 'white',
+  },
+  {
+    id: 'engagement_score',
+    slug: 'engagement_score',
+    title: 'Score',
+    color: brandColors.black,
+    activeTextColor: 'white',
+  },
+]
+
 // CAMPAIGN TYPES
 export const campaignTypes = [
   {
@@ -178,13 +196,19 @@ export const getPostAdMessageData = (post) => {
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
     const { message, ads_summary: adsSummary = {}, ads } = post
-    const firstAttachment = post.attachments[0]
     const shortMessage = utils.abbreviatePostText(message)
-    // Get thumbnails
-    const thumbnailSrc = post._metadata.thumbnail_url || utils.findPostThumbnail(firstAttachment)
-    const initialThumbnails = post.thumbnails.map(({ url }) => url)
-    const thumbnails = [...initialThumbnails, thumbnailSrc]
-    const media = utils.findPostMedia(firstAttachment) || thumbnails[0]
+    const mediaType = post.display?.type
+    const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
+    const videoFallback = mediaType === 'video' ? post.display?.media?.media_library?.source : ''
+    const thumbnailUrls = post.display?.thumbnails?.map((thumbnail) => thumbnail.url)
+    const thumbnails = [
+      ...(mediaType === 'video'
+        ? [post.display?.media?.original?.picture, post.display?.media?.media_library?.picture]
+        : [post.display?.media?.media_library?.source]
+      ),
+      post.display?.thumbnail_url,
+      ...thumbnailUrls,
+    ]
     // Organic metrics
     const organicMetrics = {
       comments: post.comments,
@@ -249,6 +273,8 @@ export const formatPostsResponse = (posts) => {
       adMessageProps: post.ad_message,
       shortMessage,
       media,
+      mediaType,
+      videoFallback,
       thumbnails,
       organicMetrics,
       paidMetrics,

@@ -33,7 +33,7 @@ const BillingReferralsTransfer = ({
   useAsyncEffect(async (isMounted) => {
     if (!updateTo) return
     setIsLoading(true)
-    const { res, error = null } = await transferReferralCredits(previousOrg, selectedOrg)
+    const { error = null } = await transferReferralCredits(previousOrg, selectedOrg)
     if (!isMounted()) return
     setIsLoading(false)
     setError(error)

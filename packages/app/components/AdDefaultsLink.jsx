@@ -52,7 +52,6 @@ const AdDefaultsLink = ({
         onSelect={setDefaultLink}
         onSuccess={onSuccess}
         includeAddLinkOption
-        includeIntegrationLinks
         componentLocation="defaultLink"
       />
       {!hasDefaultLink && (

@@ -164,7 +164,8 @@ export const getReferralsData = () => {
   })
 }
 
-export const transferReferralCredits = (sourceOrgId, destOrgId) => {
+export const transferReferralCredits = () => {
+  // Todo: Pass sourceOrgId and destOrgId as parameters
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({ res: 'success', error: null })

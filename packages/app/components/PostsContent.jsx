@@ -1,6 +1,7 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import PostsSorter from '@/app/PostsSorter'
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
@@ -9,7 +10,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { postTypes } from '@/app/helpers/postsHelpers'
+import { postTypes, sortTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -18,7 +19,9 @@ const PostsContent = () => {
   const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
 
   const allFilter = postTypes.find(({ id }) => id === 'all')
+  const defaultSortBy = sortTypes.find(({ id }) => id === 'published_time').id
   const [currentPostType, setCurrentPostType] = React.useState('')
+  const [sortBy, setSortBy] = React.useState('')
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
@@ -45,18 +48,30 @@ const PostsContent = () => {
           />
         )}
       </div>
-      {/* FILTERS */}
-      <PostsFilters
-        postTypes={postTypes}
-        currentPostType={currentPostType}
-        setCurrentPostType={setCurrentPostType}
-        defaultPostState={allFilter.id}
-      />
+      <div className="grid grid-cols-12 col-gap-6">
+        {/* SORT */}
+        <PostsSorter
+          sortTypes={sortTypes}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          defaultSortState={defaultSortBy}
+          className="col-span-12 sm:col-span-4"
+        />
+        {/* FILTERS */}
+        <PostsFilters
+          postTypes={postTypes}
+          currentPostType={currentPostType}
+          setCurrentPostType={setCurrentPostType}
+          defaultPostState={allFilter.id}
+          className="col-span-12 sm:col-span-8"
+        />
+      </div>
       {/* LOAD POSTS */}
       {currentPostType && (
         <PostsLoader
           setRefreshPosts={setRefreshPosts}
           promotionStatus={currentPostType}
+          sortBy={sortBy}
         />
       )}
     </div>

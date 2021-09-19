@@ -92,7 +92,10 @@ export const getAction = ({
   missingScopes,
 }) => {
   // Handle relink FB
-  if (topic === 'facebook-expired-access-token') {
+  if (
+    topic === 'facebook-expired-access-token'
+    || topic === 'facebook-missing-permissions'
+  ) {
     return () => getFbRelinkAction(hasFbAuth, missingScopes)
   }
 
@@ -100,7 +103,14 @@ export const getAction = ({
   if (!apiEndpoint && !ctaLink) return () => {}
   // Handle link
   if (ctaLink) {
-    return getLinkAction(ctaLink, linkType, {
+    let link = ctaLink
+    // Check if link uses a variable, if it does extract the correct link from the data object
+    const match = RE_TEMPLATE.exec(ctaLink)
+    if (match) {
+      const [, variable] = match
+      link = data[variable]
+    }
+    return getLinkAction(link, linkType, {
       title,
       topic,
       isDismissible,
@@ -190,7 +200,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     // - if hidden in Dato
     // - if complete
     // Just add notification if already formatted
-    if (formatted || !dictionaryEntry) {
+    if (formatted) {
       return [...allNotifications, notification]
     }
     const {
@@ -206,7 +216,6 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     } = dictionaryEntry || {}
     const date = moment(created_at).format('DD MMM')
     const dateLong = moment(created_at).format('DD MMM YY')
-    const ctaFallback = isDismissible ? 'Ok' : 'Resolve'
     const linkType = ctaLink ? getLinkType(ctaLink) : null
     // Get Action function
     const onAction = isActionable ? getAction({
@@ -236,7 +245,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       title,
       summary: formatNotificationText(summary, data),
       description: formatNotificationText(description, data),
-      ctaText: ctaText || ctaFallback,
+      ctaText,
       buttonType,
       linkType,
       isActionable,

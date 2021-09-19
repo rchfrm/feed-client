@@ -44,6 +44,8 @@ const PostCard = ({
       />
       <PostCardMedia
         media={post.media}
+        mediaType={post.mediaType}
+        videoFallback={post.videoFallback}
         thumbnails={post.thumbnails}
         caption={post.message}
         postType={postType}
@@ -51,9 +53,7 @@ const PostCard = ({
       />
       <div className="relative">
         <PostCardScore
-          scorePaid={post.paidMetrics.engagementScore}
           scoreOrganic={post.organicMetrics.engagementScore}
-          promotionStatus={promotionStatus}
           className="py-3 px-4 mb-2"
         />
         {postPromotable ? (
