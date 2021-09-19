@@ -20,10 +20,10 @@ const ResultsConversionTeaser = ({ className }) => {
         <p className="mr-auto sm:mr-0 mb-0 sm:text-center">Coming soon!</p>
       </div>
       <button
-        className="w-full"
+        className="flex-1 w-full"
         onClick={openConversionsInterestPanel}
       >
-        <NoDataBlock>
+        <NoDataBlock className="mb-4 sm:mb-0">
           <div
             className={[
               'flex justify-center items-center',

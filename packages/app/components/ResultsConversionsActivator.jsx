@@ -31,10 +31,10 @@ const ResultsConversionTeaser = ({ className }) => {
         <MarkdownText className="mb-0 mr-auto sm:mr-0 sm:text-center" markdown={copy.conversionsActivatorTitle} />
       </div>
       <button
-        className="w-full"
+        className="flex-1 w-full"
         onClick={goToControlsConversionsPage}
       >
-        <NoDataBlock>
+        <NoDataBlock className="mb-4 sm:mb-0">
           <div
             className={[
               'flex justify-center items-center',

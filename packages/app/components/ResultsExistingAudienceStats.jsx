@@ -8,9 +8,12 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { abbreviateNumber } from '@/helpers/utils'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import brandColors from '@/constants/brandColors'
 
 const ResultsExistingAudienceStats = ({ data, className }) => {
+  const isDesktopLayout = useBreakpointTest('sm')
   const { chartData, isMainChart } = data
   const mainValue = isMainChart
     ? `${chartData.adsReachProportion}%`
@@ -19,10 +22,10 @@ const ResultsExistingAudienceStats = ({ data, className }) => {
   return (
     <div className={[className].join(' ')}>
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">Existing audiences</p>
-      <div className="flex items-center" style={{ minHeight: '88px' }}>
+      <div className="flex items-center" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
         <MarkdownText
           markdown={data.copy || ''}
-          className="sm:px-1 mr-auto sm:mr-0 mb-6 sm:mb-0 sm:text-center"
+          className="sm:px-1 mr-auto sm:mr-0 mb-10 sm:mb-0 sm:text-center"
         />
       </div>
       <p

@@ -28,8 +28,8 @@ const ResultsPostsStats = ({ data }) => {
           ))}
         </>
       ) : (
-        <div className="col-span-12 sm:col-start-3 sm:col-span-8 order-2 h-56">
-          <NoDataBlock className="text-grey-3" sizeRatio={1 / 1.5}>
+        <div className="col-span-12 sm:col-start-3 sm:col-span-8 order-2">
+          <NoDataBlock className="mb-4 sm:mb-0 text-grey-3" sizeRatio={1 / 2}>
             <MarkdownText className="mb-0 px-8 text-center" markdown={copy.postsStatsNoData} />
           </NoDataBlock>
         </div>

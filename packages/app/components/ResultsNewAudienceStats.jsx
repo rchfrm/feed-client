@@ -10,9 +10,12 @@ import PlusIcon from '@/icons/PlusIcon'
 
 import { abbreviateNumber } from '@/helpers/utils'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import brandColors from '@/constants/brandColors'
 
 const ResultsNewAudienceStats = ({ data, className }) => {
+  const isDesktopLayout = useBreakpointTest('sm')
   const { chartData, isMainChart } = data
   const currValue = chartData.find((o) => o.type === 'curr').value
   const prevValue = chartData.find((o) => o.type === 'prev').value
@@ -23,10 +26,10 @@ const ResultsNewAudienceStats = ({ data, className }) => {
   return (
     <div className={[className].join(' ')}>
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">New people</p>
-      <div className="flex items-center" style={{ minHeight: '88px' }}>
+      <div className="flex items-center" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
         <MarkdownText
           markdown={data.copy || ''}
-          className="sm:px-1 mr-auto sm:mr-0 mb-0 sm:text-center"
+          className="sm:px-1 mr-auto sm:mr-0 mb-6 sm:mb-0 sm:text-center"
         />
       </div>
       <div className="flex flex-row items-center justify-center">

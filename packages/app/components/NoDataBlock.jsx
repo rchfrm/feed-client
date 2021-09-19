@@ -1,15 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 const NoDataBlock = ({ className, children, sizeRatio }) => {
+  const isDesktopLayout = useBreakpointTest('md')
+
   return (
     <div
       className={[
         className,
-        'relative w-full',
+        'relative w-full h-full',
         'bg-grey-1',
       ].join(' ')}
-      style={{ paddingBottom: `${sizeRatio * 100}%` }}
+      style={{ paddingBottom: isDesktopLayout ? `${sizeRatio * 100}%` : '50%' }}
     >
       <div className="absolute w-full h-full flex flex-column items-center justify-center">
         {children}
