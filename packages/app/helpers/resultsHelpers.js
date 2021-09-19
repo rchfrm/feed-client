@@ -65,13 +65,13 @@ export const convertChartValues = (adsReachProportion, organicReachProportion) =
 
 export const getExistingAudienceData = (data) => {
   let isMainChart = false
-  const prevPeriod = null
+  let prevPeriod = null
   let currPeriod = null
   let copy = ''
 
   const {
     on_platform: {
-      ads_reach: { proportion: adsReachProportion, value: adsReachValue },
+      ads_reach: { proportion: adsReachProportion, prev_period: adsReachPrevValue, curr_period: adsReachCurrValue },
       organic_reach: { proportion: organicReachProportion },
     },
   } = data
@@ -91,16 +91,20 @@ export const getExistingAudienceData = (data) => {
     }
   }
 
-  if (!isMainChart) {
-    if (adsReachValue) {
-      currPeriod = adsReachValue
-      copy = resultsCopy.existingAudienceFallbackSingle(adsReachValue)
-    }
+  if (adsReachPrevValue && adsReachCurrValue) {
+    prevPeriod = adsReachPrevValue
+    currPeriod = adsReachCurrValue
+    copy = resultsCopy.existingAudienceFallbackDouble(adsReachPrevValue, adsReachCurrValue)
   }
 
-  if (!prevPeriod || !currPeriod) return null
+  if (!adsReachPrevValue && adsReachCurrValue) {
+    currPeriod = adsReachCurrValue
+    copy = resultsCopy.existingAudienceFallbackSingle(adsReachCurrValue)
+  }
 
-  const newAudienceData = {
+  if (!currPeriod) return null
+
+  return {
     isMainChart,
     copy,
     chartData: [
@@ -109,7 +113,6 @@ export const getExistingAudienceData = (data) => {
     ]
       .sort((a, b) => a.value - b.value),
   }
-  return newAudienceData
 }
 
 export const getNewAudienceData = (data) => {
@@ -130,33 +133,31 @@ export const getNewAudienceData = (data) => {
     copy = resultsCopy.newAudienceOnPlatformMainDescription(audienceSize.growth.percentage * 100)
   }
 
-  if (!isMainChart) {
-    if (engaged.curr_period >= 250 && engaged.prev_period) {
-      prevPeriod = engaged.prev_period
-      currPeriod = engaged.curr_period
-      copy = resultsCopy.newAudienceUnawareFallbackEngagedDouble(engaged.curr_period, engaged.prev_period)
-    }
-
-    if (engaged.curr_period < 250 && reach.prev_period) {
-      prevPeriod = reach.prev_period
-      currPeriod = reach.curr_period
-      copy = resultsCopy.newAudienceUnawareFallbackReachDouble(reach.curr_period, reach.prev_period)
-    }
-
-    if (engaged.curr_period >= 250 && !engaged.prev_period) {
-      currPeriod = engaged.curr_period
-      copy = resultsCopy.newAudienceUnawareFallbackEngagedSingle(engaged.curr_period)
-    }
-
-    if (engaged.curr_period < 250 && !reach.prev_period) {
-      currPeriod = reach.curr_period
-      copy = resultsCopy.newAudienceUnawareFallbackReachSingle(reach.curr_period)
-    }
+  if (engaged.curr_period >= 250 && engaged.prev_period) {
+    prevPeriod = engaged.prev_period
+    currPeriod = engaged.curr_period
+    copy = resultsCopy.newAudienceUnawareFallbackEngagedDouble(engaged.curr_period, engaged.prev_period)
   }
 
-  if (!prevPeriod || !currPeriod) return null
+  if (engaged.curr_period < 250 && reach.prev_period) {
+    prevPeriod = reach.prev_period
+    currPeriod = reach.curr_period
+    copy = resultsCopy.newAudienceUnawareFallbackReachDouble(reach.curr_period, reach.prev_period)
+  }
 
-  const newAudienceData = {
+  if (engaged.curr_period >= 250 && !engaged.prev_period) {
+    currPeriod = engaged.curr_period
+    copy = resultsCopy.newAudienceUnawareFallbackEngagedSingle(engaged.curr_period)
+  }
+
+  if (engaged.curr_period < 250 && !reach.prev_period) {
+    currPeriod = reach.curr_period
+    copy = resultsCopy.newAudienceUnawareFallbackReachSingle(reach.curr_period)
+  }
+
+  if (!currPeriod) return null
+
+  return {
     isMainChart,
     copy,
     chartData: [
@@ -165,7 +166,13 @@ export const getNewAudienceData = (data) => {
     ]
       .sort((a, b) => a.value - b.value),
   }
-  return newAudienceData
+}
+
+export const getStatsData = (data) => {
+  return {
+    newAudienceData: getNewAudienceData(data),
+    existingAudienceData: getExistingAudienceData(data),
+  }
 }
 
 // GET AD RESULTS SUMMARY

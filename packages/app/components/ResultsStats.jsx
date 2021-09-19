@@ -5,7 +5,7 @@ import ResultsExistingAudienceStats from '@/app/ResultsExistingAudienceStats'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import { getNewAudienceData, getExistingAudienceData } from '@/app/helpers/resultsHelpers'
+import { getStatsData } from '@/app/helpers/resultsHelpers'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
@@ -14,8 +14,13 @@ const ResultsStats = ({ data }) => {
   const [existingAudienceData, setExistingAudienceData] = React.useState(null)
 
   React.useEffect(() => {
-    setNewAudienceData(getNewAudienceData(data))
-    setExistingAudienceData(getExistingAudienceData(data))
+    const {
+      newAudienceData,
+      existingAudienceData,
+    } = getStatsData(data)
+
+    setNewAudienceData(newAudienceData)
+    setExistingAudienceData(existingAudienceData)
   }, [data])
 
   return (
