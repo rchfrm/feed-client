@@ -45,7 +45,7 @@ const ResultsNewAudienceStats = ({ data, className }) => {
       {isMainChart ? (
         <ResultsNewAudienceChart data={chartData} />
       ) : (
-        <ResultsFallbackChart data={chartData} />
+        <ResultsFallbackChart data={chartData} color={brandColors.blue} />
       )}
     </div>
   )

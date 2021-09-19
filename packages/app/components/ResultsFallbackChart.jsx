@@ -5,7 +5,7 @@ import { gsap, Power2 } from 'gsap'
 
 import { formatNumber } from '@/helpers/utils'
 
-const ResultsFallbackChart = ({ data }) => {
+const ResultsFallbackChart = ({ data, color }) => {
   const prevPeriod = data.find((o) => o.type === 'prev').value
   const currPeriod = data.find((o) => o.type === 'curr').value
   const total = prevPeriod + currPeriod
@@ -37,7 +37,7 @@ const ResultsFallbackChart = ({ data }) => {
 
   return (
     <div className="relative flex w-full h-12 items-center text-white rounded-full overflow-hidden">
-      {data.map(({ color, value }, index) => value && (
+      {data.map(({ value }, index) => value && (
         <div
           key={value}
           ref={chartRefs[index]}
@@ -45,6 +45,7 @@ const ResultsFallbackChart = ({ data }) => {
             'flex items-center justify-center',
             'h-full',
             'text-xs',
+            index === 0 ? 'opacity-50' : null,
           ].join(' ')}
           style={{ backgroundColor: color }}
         >
@@ -57,6 +58,7 @@ const ResultsFallbackChart = ({ data }) => {
 
 ResultsFallbackChart.propTypes = {
   data: PropTypes.array.isRequired,
+  color: PropTypes.string.isRequired,
 }
 
 export default ResultsFallbackChart

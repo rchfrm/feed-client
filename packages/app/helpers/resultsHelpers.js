@@ -104,8 +104,8 @@ export const getExistingAudienceData = (data) => {
     isMainChart,
     copy,
     chartData: [
-      { type: 'prev', color: brandColors.green, value: prevPeriod },
-      { type: 'curr', color: brandColors.redLight, value: currPeriod },
+      { type: 'prev', value: prevPeriod },
+      { type: 'curr', value: currPeriod },
     ]
       .sort((a, b) => a.value - b.value),
   }
@@ -160,8 +160,8 @@ export const getNewAudienceData = (data) => {
     isMainChart,
     copy,
     chartData: [
-      { type: 'prev', color: brandColors.blue, value: prevPeriod },
-      { type: 'curr', color: brandColors.blueLight, value: currPeriod },
+      { type: 'prev', value: prevPeriod },
+      { type: 'curr', value: currPeriod },
     ]
       .sort((a, b) => a.value - b.value),
   }
