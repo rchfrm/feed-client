@@ -33,7 +33,10 @@ const ResultsLoader = () => {
   if (error) <Error />
 
   return (
-    adResultsData && <ResultsContent data={adResultsData} />
+    <>
+      {adResultsData && <ResultsContent data={adResultsData} />}
+      {(!adResultsData && !isLoading) && <p>There is currently no results data available.</p>}
+    </>
   )
 }
 

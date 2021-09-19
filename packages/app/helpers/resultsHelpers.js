@@ -134,6 +134,6 @@ export const getAdResultsSummary = async (artistId) => {
     action: 'Get ad results summary',
   }
   const { res } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
-  const formattedData = formatResultsData(res.summary)
+  const formattedData = res.summary ? formatResultsData(res.summary) : null
   return formattedData
 }
