@@ -6,7 +6,7 @@ import resultsCopy from '@/app/copy/ResultsPageCopy'
 
 export const postResultsConfig = [
   {
-    type: 'growth',
+    type: 'engaged',
     color: brandColors.blue,
   },
   {

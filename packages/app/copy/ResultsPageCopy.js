@@ -12,7 +12,7 @@ export default {
   existingAudienceFallbackDouble: (currValue, prevValue) => `Feed has reached **${formatNumber(currValue)}** within your existing audience, versus **${formatNumber(prevValue)}** last month.`,
 
   postDescription: (type) => {
-    if (type === 'growth') {
+    if (type === 'engaged') {
       return `The post that engaged the
       most new people:`
     }
@@ -20,7 +20,7 @@ export default {
     from your existing audience:`
   },
   postDescriptionMobile: (type, value) => {
-    if (type === 'growth') {
+    if (type === 'engaged') {
       return `**${value}** new people engaged`
     }
     return `**${value}** people reached`

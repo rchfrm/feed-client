@@ -9,11 +9,13 @@ import copy from '@/app/copy/ResultsPageCopy'
 import { postResultsConfig } from '@/app/helpers/resultsHelpers'
 
 const ResultsPostsStats = ({ data }) => {
+  const sortedPosts = postResultsConfig.map((x) => data.posts.find((element) => element[x.type])).filter(Boolean)
+
   return (
     <>
-      {data.posts.length ? (
+      {sortedPosts.length ? (
         <>
-          {data.posts.map((post, index) => (
+          {sortedPosts.map((post, index) => (
             <ResultsPostStats
               key={post.id}
               post={post}

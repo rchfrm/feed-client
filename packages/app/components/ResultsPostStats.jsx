@@ -24,9 +24,9 @@ const ResultsPostStats = ({
 }) => {
   const [postData, setPostsData] = React.useState(null)
   const { artistId } = React.useContext(ArtistContext)
-  const [value, setValue] = React.useState(0)
 
   const { type, color } = config
+  const value = type === 'engaged' ? post.engaged : post.reach
   const isDesktopLayout = useBreakpointTest('sm')
   const imageHeight = isDesktopLayout ? '176px' : '100px'
   const { goToPostMetrics } = usePostsSidePanel()
@@ -48,14 +48,6 @@ const ResultsPostStats = ({
     }
     setPostsData(res)
   }, [])
-
-  React.useEffect(() => {
-    if (post) {
-      const value = type === 'growth' ? post.engaged : post.reach
-      setValue(value)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [post, config])
 
   return (
     postData && (
@@ -84,7 +76,7 @@ const ResultsPostStats = ({
             style={{ backgroundColor: color }}
           >
             {abbreviateNumber(value)}
-            <span className="text-xs -mt-1">{type === 'growth' ? 'engaged' : 'reached'}</span>
+            <span className="text-xs -mt-1">{type === 'engaged' ? 'engaged' : 'reached'}</span>
           </div>
           <div className="flex flex-col items-start justify-center sm:items-center">
             <MarkdownText markdown={copy.postDescriptionMobile(type, value)} className="sm:hidden" />
