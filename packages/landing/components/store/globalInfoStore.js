@@ -1,5 +1,6 @@
 import create from 'zustand'
 // Built in next.config.js
+// eslint-disable-next-line import/no-unresolved
 import globalInfo from '@/landing/tempData/globalInfo.json'
 
 // EXPORT

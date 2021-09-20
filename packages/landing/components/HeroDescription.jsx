@@ -1,4 +1,3 @@
-import * as styles from '@/landing/Hero.module.css'
 import MarkdownText from '@/landing/elements/MarkdownText'
 
 export default function HeroDescription({ description }) {

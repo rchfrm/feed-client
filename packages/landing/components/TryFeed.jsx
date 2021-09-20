@@ -5,9 +5,8 @@ import Link from 'next/link'
 
 import Button from '@/elements/Button'
 import copy from '@/landing/copy/LandingPageCopy'
-import brandColors from '@/landing/constants/brandColors'
 
-import { mixpanelExternalLinkClick, mixpanelInternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
+import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 
 // Global info store
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'

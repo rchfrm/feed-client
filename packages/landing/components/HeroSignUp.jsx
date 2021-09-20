@@ -1,7 +1,6 @@
 import React from 'react'
 import Button from '@/elements/Button'
-import Error from 'shared/components/elements/Error'
-import { mixpanelExternalLinkClick, mixpanelInternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
+import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 import * as styles from '@/landing/PrimaryCTA.module.css'
 

@@ -13,7 +13,7 @@
     "lint:shared": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/shared",
     "lint:admin": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/admin",
     "lint:landing": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/landing",
-    "lint:all": "yarn lint && yarn lint:shared && yarn lint:admin",
+    "lint:all": "yarn lint && yarn lint:shared && yarn lint:admin && yarn lint:landing",
     "stage": "./bin/deploy app staging",
     "stage:admin": "./bin/deploy admin staging",
     "stage:landing": "./bin/deploy landing staging",

@@ -17,7 +17,6 @@ export default function Landing({ pageData }) {
     heroImageMobile,
     heroImageDesktop,
     testimonialList,
-    partnerLogoList,
     featureList: features,
     featuredBlogArticles,
   } = pageData
