@@ -28,7 +28,7 @@ if [[ "$product" == "app" ]]; then
   if [[ "$environment" == "production" ]]; then
     project="archform-1"
     site_name="feed-prod"
-  # APP staging 
+  # APP staging
   else
     project="archform-1-dev"
     site_name="scaler-staging"
@@ -54,12 +54,12 @@ else
   firebaseConfigFile="firebase.landing.default.json"
   # LANDING production
   if [[ "$environment" == "production" ]]; then
-    project=""
-    site_name=""
+    project="feed-landing"
+    site_name="feed-landing"
   # LANDING staging
   else
-    project=""
-    site_name=""
+    project="feed-landing"
+    site_name="feed-landing--staging"
   fi
 fi
 
@@ -85,7 +85,7 @@ if [[ -f "$product_path/.env.bak" ]]; then
     mv "$product_path/.env.bak" "$product_path/.env"
 fi
 
-# Configure deplopy environment
+# Configure deploy environment
 firebase use "$project"
 
 # Deploy
