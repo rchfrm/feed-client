@@ -77,6 +77,10 @@ const nextConfig = {
     }
     return config
   },
+  eslint: {
+    // Don't run eslint during build, CI/CD pipeline handles this
+    ignoreDuringBuilds: true,
+  },
   async redirects() {
     // FETCH GLOBAL DATA
     const cacheDirExists = fs.existsSync('./tempData')
