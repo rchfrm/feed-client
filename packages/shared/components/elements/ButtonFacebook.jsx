@@ -6,8 +6,14 @@ import brandColors from '@/constants/brandColors'
 import Button from '@/elements/Button'
 import FacebookIcon from '@/icons/FacebookIcon'
 
-const ButtonFacebook = (props) => {
-  const { onClick, version, children, fbButtonFallbackClassName = '', fallbackCta } = props
+const ButtonFacebook = ({
+  className,
+  onClick,
+  version,
+  children,
+  fbButtonFallbackClassName,
+  fallbackCta,
+}) => {
   const buttonRef = React.useRef()
 
   // Wait for a while then detect if button has been removed from DOM
@@ -46,7 +52,8 @@ const ButtonFacebook = (props) => {
 
   return (
     <Button
-      {...props}
+      onClick={onClick}
+      className={className}
       version={['facebook', 'icon', version].join(' ')}
       ref={buttonRef}
       icon={(
@@ -60,6 +67,7 @@ const ButtonFacebook = (props) => {
 }
 
 ButtonFacebook.propTypes = {
+  className: PropTypes.string,
   onClick: PropTypes.func,
   fallbackCta: PropTypes.string.isRequired,
   version: PropTypes.string,
@@ -68,9 +76,10 @@ ButtonFacebook.propTypes = {
 }
 
 ButtonFacebook.defaultProps = {
+  className: '',
   onClick: () => {},
   version: null,
-  fbButtonFallbackClassName: null,
+  fbButtonFallbackClassName: '',
 }
 
 export default ButtonFacebook

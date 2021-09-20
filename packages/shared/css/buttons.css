@@ -142,6 +142,20 @@ a[type=button] {
   }
 }
 
+.button--pink {
+  background-color: var(--pink);
+
+  @mixin canHover {
+    &:hover {
+      background-color: var(--pink-hover);
+    }
+  }
+
+  &:focus {
+    background-color: var(--pink-hover);
+  }
+}
+
 .button--cross,
 .button--toggle,
 .button--close {
@@ -222,8 +236,15 @@ a[type=button] {
 }
 
 .button--text {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--black);
   display: inline;
-  font-size: inherit;
+  font-size: 1em;
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
   text-decoration: underline;
 }
 
@@ -341,20 +362,6 @@ a[type=button] {
   &:hover {
     text-decoration: none;
   }
-}
-
-
-.button_text {
-  background-color: transparent;
-  display: inline;
-  color: var(--black);
-  border: none;
-  font-weight: normal;
-  font-size: 1em;
-  padding: 0;
-  margin: 0;
-  text-decoration: underline;
-  cursor: pointer;
 }
 
 /* Copy text button */

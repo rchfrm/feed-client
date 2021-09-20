@@ -1,0 +1,58 @@
+.mailchimp {
+  background-color: var(--white);
+  border: 2px solid var(--green);
+  border-radius: var(--dialogue-radius);
+  padding: var(--sp-8);
+
+  @media (--xs) {
+    padding: var(--sp-10);
+  }
+
+  
+  @media (--md) {
+    padding: var(--sp-12);
+  }
+}
+
+.emailInput,
+.emailSubmit {
+  font-family: var(--font-display);
+  font-feature-settings: "ss01";
+}
+
+.emailInput {
+  width: 100%;
+  background-color: var(--white);
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px solid var(--green);
+  padding-bottom: 0.2em;
+  margin-bottom: 1em;
+}
+
+.emailInput,
+.emailSubmit {
+  font-size: 1.5rem !important;
+}
+
+.emailCheckbox {
+  padding-bottom: 1em;
+}
+
+.emailSubmit {
+  display: flex;
+  place-content: center;
+  width: 100%;
+
+  input {
+    background-color: var(--green);
+    color: var(--white);
+    font-weight: var(--bold-display);
+    width: var(--sp-48);
+  }
+}
+
+.emailLegal {
+  display: none;
+}

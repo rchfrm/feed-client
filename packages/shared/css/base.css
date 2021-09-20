@@ -31,11 +31,16 @@ body {
 }
 
 #container,
-#container-admin {
+#container-admin,
+#container-landing {
   display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: 100vh;
-  flex-direction: column;
+}
+
+#container,
+#container-admin {
   padding-bottom: var(--page-buttons-height);
   padding-top: 0;
 
@@ -69,6 +74,22 @@ body {
   padding-bottom: var(--sp-10) !important;
 }
 
+#page--container-landing {
+  display: block;
+  flex: auto;
+  width: 100%;
+  margin-top: var(--sp-20);
+
+  @media(--sm) {
+    margin-top: var(--sp-24);
+  }
+}
+
+.bmw {
+  width: 100%;
+  max-width: var(--bmw);
+  margin: 0 auto;
+}
 
 .page--content {
   max-width: var(--bmw);
@@ -118,6 +139,28 @@ body {
   justify-content: space-between;
   flex: 1;
   width: 100%;
+}
+
+.section--padding,
+.section--padding-small {
+  padding: var(--sp-16) var(--sp-5);
+
+  @media (--xs) {
+    padding: var(--sp-20) var(--sp-8);
+  }
+
+  &:not(.section--padding-small) {
+    @media (--md) {
+      padding-top: var(--sp-24);
+      padding-bottom: var(--sp-24);
+  }
+
+    @media (--lg) {
+      padding-top: var(--sp-32);
+      padding-bottom: var(--sp-32);
+    }
+  }
+
 }
 
 .hidden {

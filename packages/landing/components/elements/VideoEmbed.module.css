@@ -1,0 +1,6 @@
+.vimeoEmbed {
+  iframe {
+    height: 100%;
+    width: auto;
+  }
+}

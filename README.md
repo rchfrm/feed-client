@@ -1,11 +1,10 @@
 # FEED CLIENT APP
 
-
 ## Initial setup
 
 ### ENV files
 
-In both the `packages/admin/` `packages/app/` directories, duplicate the `.env.example` as `.env` and fill in the variables.
+In both all of `packages/admin/`, `packages/app/` and `packages/landing`, duplicate the `.env.example` as `.env` and fill in the variables.
 
 In order to stage the site you will need a `.env.staging` file. In order to deploy the site to production you will need a `.env.live` file. Ignore the `.env.production` file, this is auto-generated during deployment.
 
@@ -13,12 +12,11 @@ In order to stage the site you will need a `.env.staging` file. In order to depl
 
 Run `yarn` to install all the packages for both the App and Admin Panel.
 
-
 ## Running things locally
 
 ### Connecting to the API
 
-To start development you will first need to setup a connection to the API. To do this either set the `REACT_APP_API_URL` variable in the `.env` file to:
+To start development you will first need to set up a connection to the API. To do this either set the `REACT_APP_API_URL` variable in the `.env` file to:
 
 ```
 REACT_APP_API_URL=https://api-dev.tryfeed.co/
@@ -158,3 +156,48 @@ Some features have more in-depth descriptions. There is currently documentation 
 - [Global state](/docs/globalState.md)
 - [The BasePage component](/docs/basePage.md)
 - [Notifications](/docs/notifications.md)
+
+# Landing Page
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+yarn dev:landing
+```
+
+Open [http://localhost:4000](http://localhost:4000) with your browser to see the result.
+
+You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+
+## Deploying
+
+To **stage** the app at [feed-landing--staging.web.app](https://feed-landing--staging.web.app), run:
+
+```bash
+yarn stage:landing
+```
+
+To **deploy** the app at [feed-landing.web.app](https://feed-landing.web.app), run:
+
+```bash
+yarn deploy-production:landing
+```
+
+## Icons
+
+To build the icons, run:
+
+```bash
+yarn pwa
+```
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/) - your feedback and contributions are welcome!

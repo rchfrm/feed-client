@@ -1,0 +1,12 @@
+[build]
+  environment = { BUILD_ENV = 'staging' }
+[context.production] # 'production' is a branch name
+  environment = { BUILD_ENV = 'production' }
+[[plugins]]
+  package = "netlify-plugin-cache-nextjs"
+[[redirects]]
+  from = "/post/*"
+  to = "/blog/:splat"
+[[redirects]]
+  from = "/blog/post/*"
+  to = "/blog/:splat"
