@@ -9,8 +9,6 @@ import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { trackSignUp } from '@/app/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
-import copy from '@/app/copy/signupCopy'
-
 import * as ROUTES from '@/app/constants/routes'
 
 const useSignup = (initialPathname) => {
@@ -52,7 +50,7 @@ const useSignup = (initialPathname) => {
     return userRedirected
   }, [setArtistLoading, setNoAuth, setUserLoading, initialPathname])
 
-  const handleNewUser = React.useCallback(async (additionalUserInfo, referrerCode) => {
+  const handleNewUser = React.useCallback(async (additionalUserInfo) => {
     const { profile: authProfile } = additionalUserInfo
     const { first_name, last_name, email, granted_scopes } = authProfile
     // If no email, ask for it
