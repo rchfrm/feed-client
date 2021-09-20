@@ -57,9 +57,7 @@ const useSignup = (initialPathname) => {
     if (!email) {
       setNoArtist()
       setUserLoading(false)
-      const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
-      const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
-      return userRedirected
+      return signupHelpers.redirectPage(ROUTES.SIGN_UP_MISSING_EMAIL, initialPathname)
     }
     // If it's a new user, create their profile on the server
     const { res: user, error } = await runCreateUser({
@@ -75,8 +73,7 @@ const useSignup = (initialPathname) => {
         label: 'Error in createUser()',
         description: error.message,
       })
-      const userRedirected = rejectNewUser({ errorMessage: error.message })
-      return userRedirected
+      return rejectNewUser({ errorMessage: error.message })
     }
     // Check whether the new user has missing scopes
     const missingScopes = signupHelpers.getMissingScopes(granted_scopes)
@@ -90,14 +87,12 @@ const useSignup = (initialPathname) => {
         label: 'missing scopes',
       })
     }
-    // Clear artists (beacuse new user)
+    // Clear artists (because new user)
     setNoArtist()
     // TRACK
     trackSignUp({ authProvider: 'facebook', userId: user.id })
     // REDIRECT
-    const redirectTo = ROUTES.CONFIRM_EMAIL
-    const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
-    return userRedirected
+    return signupHelpers.redirectPage(ROUTES.CONFIRM_EMAIL, initialPathname)
   }, [initialPathname, rejectNewUser, runCreateUser, setMissingScopes, setNoArtist, setUserLoading])
 
 
