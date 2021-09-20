@@ -1,11 +1,9 @@
 const white = '#F4F4F4'
 const black = '#0D1311'
 const green = '#03D8B2'
-const greenLight = '#03D8B2'
 const purple = '#CC7CFD'
 const yellow = '#FDE74C'
 const blue = '#5BC0EB'
-const blueLight = '#A1D4E9'
 const red = '#FA5450'
 const redLight = '#E75A7C'
 const greyLight = '#E7E9E8'
@@ -17,11 +15,9 @@ const brandColors = {
   white,
   black,
   green,
-  greenLight,
   purple,
   yellow,
   blue,
-  blueLight,
   red,
   redLight,
   greyLight,
