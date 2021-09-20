@@ -7,7 +7,7 @@ product="${1:-}"
 environment="${2:-}"
 
 # Stop if not the right product is defined
-if [[ "$product" != "app" ]] && [[ "$product" != "admin" ]]; then
+if [[ "$product" != "app" ]] && [[ "$product" != "admin" ]] && [[ "$product" != "landing" ]]; then
     echo "Usage: ./$(basename "$0") <product>" >&2
     echo "product $product was not understood" >&2
     exit 1
@@ -34,7 +34,7 @@ if [[ "$product" == "app" ]]; then
     site_name="scaler-staging"
   fi
 # ADMIN
-else
+elif [[ "$product" == "admin" ]]; then
   product_path="./packages/admin"
   workspace="admin"
   firebaseConfigFile="firebase.admin.default.json"
@@ -47,8 +47,21 @@ else
     project="archform-1-dev"
     site_name="feed-admin-staging-v2"
   fi
+# LANDING
+else
+  product_path="./packages/landing"
+  workspace="landing"
+  firebaseConfigFile="firebase.landing.default.json"
+  # LANDING production
+  if [[ "$environment" == "production" ]]; then
+    project=""
+    site_name=""
+  # LANDING staging
+  else
+    project=""
+    site_name=""
+  fi
 fi
-
 
 if [[ "$environment" == "production" ]]; then
     env_file="$product_path/.env.live"
