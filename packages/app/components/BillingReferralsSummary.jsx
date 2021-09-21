@@ -4,9 +4,7 @@ import PropTypes from 'prop-types'
 import useBillingStore from '@/app/stores/billingStore'
 
 import MarkdownText from '@/elements/MarkdownText'
-// import BillingReferralsTransfer from '@/app/BillingReferralsTransfer'
-
-import Button from '@/elements/Button'
+import BillingOpenReferralsTransfer from '@/app/BillingOpenReferralsTransfer'
 
 import { formatCurrency } from '@/helpers/utils'
 
@@ -43,7 +41,7 @@ const BillingReferralsSummary = ({
       ].join(' ')}
     >
       {/* INTRO */}
-      <h3 className="font-body font-bold mb-6">Credits</h3>
+      <h3 className="font-body font-bold mb-6">Referrals and Credits</h3>
       <MarkdownText markdown={copy.referralsCopy(referralsDetails)} />
       {/* SUMMARY */}
       {referralsDetails.total_referrals > 0 && (
@@ -71,15 +69,7 @@ const BillingReferralsSummary = ({
       )}
       {/* MOVE CREDITS */}
       {canTransferCredits && total_credits_remaining > 0 && (
-        <Button
-          version="black small"
-          className="w-full"
-          onClick={(e) => {
-            e.preventDefault()
-          }}
-        >
-          Transfer credits
-        </Button>
+        <BillingOpenReferralsTransfer />
       )}
     </div>
   )

@@ -53,9 +53,9 @@ const BillingReferralsTransfer = ({
         className,
       ].join(' ')}
     >
+      <h2>Transfer credits</h2>
       <Error error={error} />
       <Select
-        label="Spend credits on..."
         name="transfer-credits"
         options={selectOptions}
         selectedValue={selectedOrg}
