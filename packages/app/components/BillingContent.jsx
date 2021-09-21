@@ -16,6 +16,7 @@ import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 import BillingProfilesSummary from '@/app/BillingProfilesSummary'
 import BillingUsersSummary from '@/app/BillingUsersSummary'
+import BillingReferralsSummary from '@/app/BillingReferralsSummary'
 import BillingOrganisationInviteList from '@/app/BillingOrganisationInviteList'
 
 // READING FROM STORE
@@ -59,8 +60,7 @@ const BILLING_CONTENT_SECTIONS = ({
       {/* RIGHT COL */}
       <div className="col-span-1 mb-12 sm:mb-0">
         {/* REFERRALS */}
-        {/* SHOULD BE HIDDEN UNTIL THE BACKEND IS IMPLEMENTED */}
-        {/* <BillingReferralsSummary canTransferCredits /> */}
+        <BillingReferralsSummary canTransferCredits />
         {/* PROFILES */}
         <BillingProfilesSummary />
         {/* USERS */}

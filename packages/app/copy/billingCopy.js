@@ -1,5 +1,6 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
+import { formatCurrency } from '@/helpers/utils'
 
 export default {
   // BILLING PAGE
@@ -25,13 +26,16 @@ export default {
     const {
       total_referrals,
       total_referrals_complete,
+      total_credits,
+      curreny,
+      currency_offset,
     } = data
     // No referrals
     if (!total_referrals) return `You haven't made any referrals yet. You can get and share [your referral code here](${ROUTES.MYREFERRAL})`
-    const intro = `🤝 You've referred ${total_referrals} people`
+    const intro = `🤝  Referring ${total_referrals} people to Feed`
     // No *complete* referrals
     if (total_referrals && !total_referrals_complete) return `${intro} but none of the accounts have yet spent the required amount.`
-    return `${intro} and ${total_referrals_complete} accounts have spent the required amount 🎉, earning you ${total_referrals_complete} credits 💰. Great work 👍`
+    return `${intro} meant you have earnt ${formatCurrency((total_credits / currency_offset), curreny)} in credits💰! Great work 👍`
   },
 
   // PROFILES

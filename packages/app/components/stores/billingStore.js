@@ -48,12 +48,13 @@ const fetchInvoices = async (organisation) => {
   // Fetch latest invoice
   const { res: latestInvoice, error: latestInvoiceError } = await fetchLatestInvoice(organisation.id)
   if (latestInvoiceError) errors.push(latestInvoiceError)
-  // Referrals data — not needed until the backend is implemented
-  // const { res: referralsDetails, error: referralsError = null } = await billingHelpers.getReferralsData()
-  // if (referralsError) errors.push(referralsError)
+  // Referrals data
+  const { res: referralsDetails, error: referralsError = null } = await billingHelpers.getReferralsData()
+  if (referralsError) errors.push(referralsError)
   return {
     upcomingInvoice,
     latestInvoice,
+    referralsDetails,
     errors,
   }
 }
@@ -66,7 +67,6 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisa
   const organisation = activeOrganisation || allOrgs[0]
   const {
     billingDetails,
-    referralsDetails,
     defaultPaymentMethod,
   } = await fetchOrganisationDetails(organisation)
 
@@ -86,6 +86,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisa
     upcomingInvoice,
     latestInvoice,
     errors,
+    referralsDetails,
   } = await fetchInvoices(organisation)
 
   const billingEnabled = organisation.billing_enabled
