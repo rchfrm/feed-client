@@ -1,6 +1,4 @@
 /* eslint-disable quotes */
-import * as ROUTES from '@/app/constants/routes'
-import { formatCurrency } from '@/helpers/utils'
 
 export default {
   // BILLING PAGE
@@ -22,20 +20,15 @@ export default {
   failedInvoiceAction: 'Please, **retry making the payment**:',
 
   // REFERALLS
-  referralsCopy: (data) => {
-    const {
-      total_referrals,
-      total_referrals_complete,
-      total_credits,
-      curreny,
-      currency_offset,
-    } = data
+  referralsCopy: (totalReferrals, totalCredits) => {
     // No referrals
-    if (!total_referrals) return `You haven't made any referrals yet. You can get and share [your referral code here](${ROUTES.MYREFERRAL})`
-    const intro = `🤝  Referring ${total_referrals} people to Feed`
+    if (!totalReferrals) {
+      return `🤝 Referring ${totalReferrals} people to Feed has meant you have earnt ${totalCredits} in credits💰 ! Great work 👍`
+    }
     // No *complete* referrals
-    if (total_referrals && !total_referrals_complete) return `${intro} but none of the accounts have yet spent the required amount.`
-    return `${intro} meant you have earnt ${formatCurrency((total_credits / currency_offset), curreny)} in credits💰! Great work 👍`
+    return `🤝 Refer people to Feed to earn credits💰!
+
+  Share your unique link with someone who could use **Feed**!`
   },
   transferCreditsDescription: (amount) => `You can transfer your credits to another billing account, so that they can be applied to another invoice.
 

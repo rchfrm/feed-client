@@ -9,6 +9,8 @@ import Error from '@/elements/Error'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
+// import { UserContext } from '@/app/contexts/UserContext'
+
 import useBillingStore from '@/app/stores/billingStore'
 
 import { transferReferralCredits } from '@/app/helpers/billingHelpers'
@@ -22,6 +24,8 @@ const getAllOrgs = state => state.allOrgs
 const BillingReferralsTransfer = ({
   className,
 }) => {
+  // const { user: { organizations } } = React.useContext(UserContext)
+  // const allOrgs = Object.values(organizations).filter((organization) => !organization.apply_referral_credit)
   const allOrgs = useBillingStore(getAllOrgs)
   const organisation = useBillingStore(getOrg)
   const [selectedOrg, setSelectedOrg] = React.useState(organisation.id)
@@ -40,7 +44,7 @@ const BillingReferralsTransfer = ({
   const transferCredits = React.useCallback(async () => {
     if (!selectedOrg) return
     setIsLoading(true)
-    const { error = null } = await transferReferralCredits(previousOrg, selectedOrg)
+    const { error = null } = await transferReferralCredits(selectedOrg)
     setIsLoading(false)
     setError(error)
     if (error) {

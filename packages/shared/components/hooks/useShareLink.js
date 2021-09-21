@@ -10,7 +10,7 @@ const useShareLink = ({
   onSuccess = () => {},
   onError = () => {},
 }) => {
-  const [isShareSupported, setIsShareSupported] = React.useState(false)
+  const [isShareSupported, setIsShareSupported] = React.useState(null)
 
   // Test if share is support
   React.useEffect(() => {

@@ -1,10 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import useBillingStore from '@/app/stores/billingStore'
 
 import MarkdownText from '@/elements/MarkdownText'
+
 import BillingOpenReferralsTransfer from '@/app/BillingOpenReferralsTransfer'
+import BillingCopyReferralsCode from '@/app/BillingCopyReferralsCode'
 
 import { formatCurrency } from '@/helpers/utils'
 
@@ -15,15 +19,19 @@ const getReferralsDetails = state => state.referralsDetails
 const metrics = [
   {
     title: 'Total credits earnt',
-    slug: 'total_credits',
+    slug: 'earned',
   },
   {
     title: 'Credits spent',
-    slug: 'total_credits_spent',
+    slug: 'spent',
+  },
+  {
+    title: 'Credits expired',
+    slug: 'expired',
   },
   {
     title: 'Credits remaining',
-    slug: 'total_credits_remaining',
+    slug: 'balance',
   },
 ]
 
@@ -32,25 +40,31 @@ const BillingReferralsSummary = ({
   className,
 }) => {
   const referralsDetails = useBillingStore(getReferralsDetails)
-  const { currency, currency_offset, total_credits_remaining } = referralsDetails
+  const { balance, earned, referrals_number } = referralsDetails
+  const { artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
+  const { currency:
+    { code: currency, offset: currencyOffset },
+  } = min_daily_budget_info || {}
+  const totalEarnedString = formatCurrency((earned / currencyOffset), currency)
   return (
     <div
       className={[
-        className,
         'mb-12',
+        className,
       ].join(' ')}
     >
       {/* INTRO */}
       <h3 className="font-body font-bold mb-6">Referrals and Credits</h3>
-      <MarkdownText markdown={copy.referralsCopy(referralsDetails)} />
+      <MarkdownText markdown={copy.referralsCopy(referrals_number, totalEarnedString)} />
       {/* SUMMARY */}
-      {referralsDetails.total_referrals > 0 && (
+      {referralsDetails.referrals_number > 0 && (
         <div className="bg-grey-1 rounded-dialogue p-5 mb-6">
           <ul className="mb-0">
             {metrics.map(({ title, slug }, index) => {
-              const value = referralsDetails[slug] / currency_offset
+              const value = referralsDetails[slug] / currencyOffset
               const valueString = formatCurrency(value, currency)
               const lastItem = index === metrics.length - 1
+              const isSpentOrExpired = slug === 'expired' || slug === 'spent'
               const TextEl = lastItem ? 'strong' : 'span'
               return (
                 <React.Fragment key={slug}>
@@ -59,7 +73,7 @@ const BillingReferralsSummary = ({
                   )}
                   <li className="flex justify-between mb-3 last:mb-0">
                     <TextEl>{title}</TextEl>
-                    <TextEl>{valueString}</TextEl>
+                    <TextEl>{isSpentOrExpired && '-'} {valueString}</TextEl>
                   </li>
                 </React.Fragment>
               )
@@ -68,8 +82,10 @@ const BillingReferralsSummary = ({
         </div>
       )}
       {/* MOVE CREDITS */}
-      {canTransferCredits && total_credits_remaining > 0 && (
+      {canTransferCredits && balance > 0 ? (
         <BillingOpenReferralsTransfer />
+      ) : (
+        <BillingCopyReferralsCode />
       )}
     </div>
   )
