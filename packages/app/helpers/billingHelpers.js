@@ -145,23 +145,6 @@ export const getAllOrgsInfo = async ({ user }) => {
 // * REFERRALS
 // * --------------------
 export const getReferralsData = async (organizationId) => {
-  // const data = {
-  //   total_referrals: 3,
-  //   total_referrals_complete: 2,
-  //   total_credits: 1000,
-  //   currency: 'GBP',
-  //   currency_offset: 100,
-  //   total_credits_spent: 555,
-  // }
-  // const dataFormatted = {
-  //   ...data,
-  //   total_credits_remaining: data.total_credits - data.total_credits_spent,
-  // }
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve({ res: dataFormatted, error: null })
-  //   }, 800)
-  // })
   const payload = {}
   const endpoint = `/organizations/${organizationId}/referral_stats`
   const errorTracking = {

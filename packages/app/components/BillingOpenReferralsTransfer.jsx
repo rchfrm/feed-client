@@ -59,5 +59,4 @@ BillingOpenReferralsTransfer.defaultProps = {
   className: null,
 }
 
-
 export default BillingOpenReferralsTransfer

@@ -34,10 +34,11 @@ const BillingReferralsTransfer = ({
   }, [allOrgs])
 
   // SIDE PANEL
-  const { setSidePanelButton } = React.useContext(SidePanelContext)
+  const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
 
   // SUBMIT
   const [isLoading, setIsLoading] = React.useState(false)
+  const [success, setSuccess] = React.useState(false)
   const previousOrg = usePrevious(selectedOrg)
   const [error, setError] = React.useState(null)
 
@@ -55,13 +56,22 @@ const BillingReferralsTransfer = ({
       fromOrganisationId: organisation.id,
       toOrganisationId: selectedOrg,
     })
+    setSuccess(true)
   }, [organisation.id, previousOrg, selectedOrg])
 
-  // CHANGE SIDEPANEL BUTTON
+  // SET INITIAL SIDEPANEL BUTTON
   React.useEffect(() => {
-    const button = <Button version="green" onClick={() => transferCredits()}>Transfer</Button>
+    const button = <Button version="green" onClick={transferCredits}>Transfer</Button>
     setSidePanelButton(button)
   }, [setSidePanelButton, transferCredits])
+
+  // CHANGE SIDEPANEL BUTTON on SUCCESS
+  React.useEffect(() => {
+    if (success) {
+      const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+      setSidePanelButton(button)
+    }
+  }, [success, setSidePanelButton, toggleSidePanel])
 
   return (
     <div
