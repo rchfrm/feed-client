@@ -25,9 +25,9 @@ export default {
     ],
     options: [
       `[What's Feed?](#features)`,
-      // '[Pricing](/pricing)',
-      `[Blog](https://blog.tryfeed.co)`,
-      // '[About us](/about-us)'
+      '[Pricing](/pricing)',
+      `[Blog](/blog)`,
+      '[About us](/blog/why-we-are-building-feed)',
     ],
     primaryCTAText,
     secondaryCTAText: `Log in`,
@@ -47,14 +47,6 @@ export default {
         name: `Instagram`,
         href: `https://instagram.com/feed.hq`,
       },
-      // {
-      //   name: `YouTube`,
-      //   href: `https://www.youtube.com/channel/UCLRbczvqyzgS_3vb3W1ZY6A?sub_confirmation=1`,
-      // },
-      // {
-      //   name: `Facebook`,
-      //   href: `https://www.facebook.com/feed.hq`,
-      // },
       {
         name: `LinkedIn`,
         href: `https://www.linkedin.com/company/feedhq/`,
