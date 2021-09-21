@@ -37,6 +37,9 @@ export default {
     if (total_referrals && !total_referrals_complete) return `${intro} but none of the accounts have yet spent the required amount.`
     return `${intro} meant you have earnt ${formatCurrency((total_credits / currency_offset), curreny)} in credits💰! Great work 👍`
   },
+  transferCreditsDescription: (amount) => `You can transfer your credits to another billing account, so that they can be applied to another invoice.
+
+  All of your remaining credits (${amount}) will be transferred.`,
 
   // PROFILES
   profilesIntro: 'The following profiles are part of this billing account, and appear on the same invoice.',

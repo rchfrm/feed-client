@@ -1,16 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useAsyncEffect from 'use-async-effect'
+import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import usePrevious from 'use-previous'
 
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
+import Button from '@/elements/Button'
+import MarkdownText from '@/elements/MarkdownText'
 
 import useBillingStore from '@/app/stores/billingStore'
 
 import { transferReferralCredits } from '@/app/helpers/billingHelpers'
 import { track } from '@/app/helpers/trackingHelpers'
+
+import copy from '@/app/copy/billingCopy'
 
 const getOrg = state => state.organisation
 const getAllOrgs = state => state.allOrgs
@@ -25,28 +29,36 @@ const BillingReferralsTransfer = ({
     return allOrgs.map(({ id: value, name }) => { return { value, name } })
   }, [allOrgs])
 
+  // SIDE PANEL
+  const { setSidePanelButton } = React.useContext(SidePanelContext)
+
   // SUBMIT
-  const [updateTo, setUpdateTo] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const previousOrg = usePrevious(selectedOrg)
   const [error, setError] = React.useState(null)
-  useAsyncEffect(async (isMounted) => {
-    if (!updateTo) return
+
+  const transferCredits = React.useCallback(async () => {
+    if (!selectedOrg) return
     setIsLoading(true)
     const { error = null } = await transferReferralCredits(previousOrg, selectedOrg)
-    if (!isMounted()) return
     setIsLoading(false)
     setError(error)
-    setUpdateTo('')
     if (error) {
       setSelectedOrg(previousOrg)
       return
     }
     track('billing_transfer_credits', {
       fromOrganisationId: organisation.id,
-      toOrganisationId: selectedOrg.id,
+      toOrganisationId: selectedOrg,
     })
-  }, [updateTo])
+  }, [organisation.id, previousOrg, selectedOrg])
+
+  // CHANGE SIDEPANEL BUTTON
+  React.useEffect(() => {
+    const button = <Button version="green" onClick={() => transferCredits()}>Transfer</Button>
+    setSidePanelButton(button)
+  }, [setSidePanelButton, transferCredits])
+
   return (
     <div
       className={[
@@ -54,6 +66,7 @@ const BillingReferralsTransfer = ({
       ].join(' ')}
     >
       <h2>Transfer credits</h2>
+      <MarkdownText markdown={copy.transferCreditsDescription(20)} className="mb-12" />
       <Error error={error} />
       <Select
         name="transfer-credits"
@@ -62,7 +75,6 @@ const BillingReferralsTransfer = ({
         loading={isLoading}
         handleChange={(e) => {
           setSelectedOrg(e.target.value)
-          setUpdateTo(e.target.value)
         }}
       />
     </div>
