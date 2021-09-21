@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Router from 'next/router'
 import shallow from 'zustand/shallow'
 
 import Button from '@/elements/Button'
@@ -11,29 +10,19 @@ import useReferralStore from '@/app/stores/referralStore'
 
 import brandColors from '@/constants/brandColors'
 
-import * as ROUTES from '@/app/constants/routes'
-
 const getReferralStoreState = (state) => ({
   clearUsedReferralCode: state.clearUsedReferralCode,
   usedReferralCode: state.usedReferralCode,
 })
 
-const SignupReferralCodeDisplay = ({ className, setChecking }) => {
+const SignupReferralCodeDisplay = ({ className }) => {
   // READ STORE
   const {
     clearUsedReferralCode,
     usedReferralCode,
   } = useReferralStore(getReferralStoreState, shallow)
+
   const usedCode = React.useRef(usedReferralCode)
-  // CANCEL USE OF REFERRAL CODE
-  const clearReferralCode = React.useCallback(() => {
-    // Set login page to loading
-    setChecking(true)
-    // Redirect to add code page
-    Router.push(ROUTES.REFERRAL)
-    // Clear code
-    clearUsedReferralCode()
-  }, [clearUsedReferralCode, setChecking])
 
   return (
     <div
@@ -53,7 +42,7 @@ const SignupReferralCodeDisplay = ({ className, setChecking }) => {
           'bg-white text-black border-solid border border-black',
           'iphone8:ml-3',
         ].join(' ')}
-        onClick={clearReferralCode}
+        onClick={clearUsedReferralCode}
       >
         {usedCode.current}
         <strong
@@ -69,7 +58,6 @@ const SignupReferralCodeDisplay = ({ className, setChecking }) => {
 
 SignupReferralCodeDisplay.propTypes = {
   className: PropTypes.string,
-  setChecking: PropTypes.func.isRequired,
 }
 
 SignupReferralCodeDisplay.defaultProps = {

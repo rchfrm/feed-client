@@ -1,0 +1,43 @@
+.strapline {
+  * {
+    font-size: 8vw;
+
+    @media (--xs) {
+      font-size: 4.5vw;
+    }
+
+    @media (--md) {
+      font-size: 4.5vw;
+    }
+
+    @media (--lg) {
+      font-size: 4vw;
+    }
+
+    @media (--bmw) {
+      font-size: 56px;
+    }
+  }
+
+  strong {
+    border-bottom: 3px solid var(--green);
+  }
+}
+
+.heroCTA {
+  position: relative;
+  z-index: 2;
+  padding-top: var(--sp-10);
+  padding-bottom: var(--sp-10);
+
+  @media (--sm) {
+    padding-top: var(--sp-8);
+    padding-bottom: var(--sp-8);
+  }
+}
+
+.heroFigure._isChrome {
+  img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}

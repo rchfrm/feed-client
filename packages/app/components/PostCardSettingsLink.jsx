@@ -82,7 +82,6 @@ const PostCardSettingsLink = ({
         onError={handleError}
         includeDefaultLink
         includeAddLinkOption
-        includeIntegrationLinks
         componentLocation="post"
         selectClassName="mb-0"
         isPostActive={isPostActive}

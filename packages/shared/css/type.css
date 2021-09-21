@@ -178,3 +178,9 @@ p,
   display: inline-block;
   border-bottom: 2px solid var(--black);
 }
+
+/* SELECTED TEXT COLOR */
+::selection {
+  color: var(--text-color);
+  background: var(--yellow);
+}

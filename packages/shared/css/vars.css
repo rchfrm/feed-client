@@ -18,9 +18,11 @@
   --grey: #C8CBCA;
   --grey-dark: #7F8382;
   --purple: #CC7CFD;
+  --pink: #E75A7C;
+  --pink-hover: #D34A6B;
   /* SM Palette */
   --color-fb: #26547C;
-  --color-insta: #E75A7C;
+  --color-insta: var(--pink);
   --color-twitter: var(--blue);
   --color-sc: var(--yellow);
   /* APP COLORS */

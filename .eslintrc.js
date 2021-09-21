@@ -81,6 +81,16 @@ module.exports = {
           ['@/admin/constants', './packages/admin/constants'],
           ['@/admin/helpers', './packages/admin/helpers'],
           ['@/admin', './packages/admin/components'],
+          // The landing page
+          ['@/landing/assets', './packages/landing/assets'],
+          ['@/landing/constants', './packages/landing/constants'],
+          ['@/landing/copy', './packages/landing/copy'],
+          ['@/landing/graphQl', './packages/landing/graphQl'],
+          ['@/landing/helpers', './packages/landing/helpers'],
+          ['@/landing/pages', './packages/landing/pages'],
+          ['@/landing/tasks', './packages/landing/tasks'],
+          ['@/landing/tempData', './packages/landing/tempData'],
+          ['@/landing', './packages/landing/components'],
           // Shared
           ['@/elements', './packages/shared/components/elements'],
           ['@/icons', './packages/shared/components/icons'],

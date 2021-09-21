@@ -69,11 +69,16 @@ module.exports = (purgeFiles) => ({
         buttonHeight: '3.5rem',
         buttonWidthWide: '150px',
       },
+      width: {
+        fit: 'fit-content',
+      },
     },
   },
   variants: {
-    margin: ['responsive', 'last', 'first'],
+    margin: ['responsive', 'last', 'first', 'odd', 'even'],
+    padding: ['responsive', 'odd', 'even'],
     borderStyle: ['responsive', 'last', 'first'],
+    flexDirection: ['responsive', 'even'],
   },
   plugins: [],
 })

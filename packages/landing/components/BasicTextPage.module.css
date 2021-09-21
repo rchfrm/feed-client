@@ -1,0 +1,26 @@
+.image {
+  width: calc(100% + (2 * var(--sp-5)));
+  margin-left: calc(-1 * var(--sp-5));
+
+  @media (--xs) {
+    width: calc(100% + (2 * var(--sp-8)));
+    margin-left: calc(-1 * var(--sp-8));
+  }
+
+  @media (--sm) {
+    width: 100%;
+    margin-left: 0;
+
+    &._breakoutWidth {
+      width: calc(100% + (2 * var(--sp-8)));
+      margin-left: calc(-1 * var(--sp-8));
+    }
+  }
+
+  @media (--md) {
+    &._breakoutWidth {
+      width: calc(100% + (2 * var(--sp-10)));
+      margin-left: calc(-1 * var(--sp-10));
+    }
+  }
+}

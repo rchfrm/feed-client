@@ -5,6 +5,7 @@ node_modules
 packages/app/node_modules
 packages/shared/node_modules
 packages/admin/node_modules
+packages/landing/node_modules
 /.pnp
 .pnp.js
 
@@ -42,19 +43,23 @@ notes.txt
 # Next build
 .next
 
+#production
 out/
 dist/
+build/
 
 # PWA generated things
 packages/app/public/pwa/*
 packages/admin/public/pwa/*
+packages/landing/public/pwa/*
 
 # Cached dato data
 packages/shared/tempData/*
 !packages/shared/tempData/.gitkeep
 packages/app/tempGlobalData/*
 !packages/app/tempGlobalData/.gitkeep
-
+packages/landing/tempData/*
+!packages/landing/tempGlobalData/.gitkeep
 
 # Service workers
 /public/workbox-*.js
@@ -64,5 +69,8 @@ packages/app/tempGlobalData/*
 .firebase
 .firebase/
 firebase.json
-
 firebase-debug.log
+
+# next.js
+/.next/
+/out/
