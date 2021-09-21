@@ -29,8 +29,8 @@ export default function Landing({ pageData }) {
         heroImageMobile={heroImageMobile}
         heroImageDesktop={heroImageDesktop}
       />
-      <Testimonies testimonies={testimonialList} />
       <Features features={features} />
+      <Testimonies testimonies={testimonialList} />
       <PrimaryCTA />
       <BlogSummary featuredBlogArticles={featuredBlogArticles} />
       <TertiaryCTA trackLocation="feed-landing" />
