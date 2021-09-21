@@ -7,8 +7,6 @@ import Vimeo from '@u-wave/react-vimeo'
 import ResponsiveEmbed from '@/landing/elements/ResponsiveEmbed'
 import FacebookVideo from '@/landing/elements/FacebookVideo'
 
-import styles from '@/landing/elements/VideoEmbed.module.css'
-
 import { track } from '@/landing/helpers/trackingHelpers'
 
 const VideoEmbed = ({
@@ -59,12 +57,8 @@ const VideoEmbed = ({
           )}
           {videoProvider === 'vimeo' && (
             <Vimeo
-              className={[
-                'flex justify-center',
-                'absolute top-0 left-0 w-full h-full',
-                styles.vimeoEmbed,
-              ].join(' ')}
               video={videoId}
+              responsive
               onReady={readied}
               onPlay={played}
               onEnd={ended}
