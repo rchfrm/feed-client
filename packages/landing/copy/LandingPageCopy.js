@@ -12,7 +12,7 @@ export default {
       },
       {
         text: `About Us`,
-        href: `/about`,
+        href: `/blog/why-we-are-building-feed`,
       },
       {
         text: `Blog`,
