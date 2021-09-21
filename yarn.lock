@@ -2968,7 +2968,7 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
-"@u-wave/react-vimeo@^0.9.2":
+"@u-wave/react-vimeo@^0.9.5":
   version "0.9.5"
   resolved "https://registry.yarnpkg.com/@u-wave/react-vimeo/-/react-vimeo-0.9.5.tgz#70838aa187c333e16031481d2b6d7f8c98073ef2"
   integrity sha512-dPJ/lbBu4PI3fVrpauFuLheG7Pc6kJVRpt+DA0qCHY9nfSGL2vmN/JONFc9LkqkAEnFocf00+ytg9BK+GWGtzg==
