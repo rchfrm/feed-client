@@ -45,7 +45,8 @@ const BillingReferralsSummary = ({
   const { currency:
     { code: currency, offset: currencyOffset },
   } = min_daily_budget_info || {}
-  const totalEarnedString = formatCurrency((earned / currencyOffset), currency)
+  const totalEarnedStringValue = formatCurrency((earned / currencyOffset), currency)
+  const currentCreditsStringValue = formatCurrency((balance / currencyOffset), currency)
   return (
     <div
       className={[
@@ -55,7 +56,7 @@ const BillingReferralsSummary = ({
     >
       {/* INTRO */}
       <h3 className="font-body font-bold mb-6">Referrals and Credits</h3>
-      <MarkdownText markdown={copy.referralsCopy(referrals_number, totalEarnedString)} />
+      <MarkdownText markdown={copy.referralsCopy(referrals_number, totalEarnedStringValue)} />
       {/* SUMMARY */}
       {referralsDetails.referrals_number > 0 && (
         <div className="bg-grey-1 rounded-dialogue p-5 mb-6">
@@ -83,7 +84,7 @@ const BillingReferralsSummary = ({
       )}
       {/* MOVE CREDITS */}
       {canTransferCredits && balance > 0 ? (
-        <BillingOpenReferralsTransfer />
+        <BillingOpenReferralsTransfer currentCredits={currentCreditsStringValue} />
       ) : (
         <BillingCopyReferralsCode />
       )}

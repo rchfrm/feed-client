@@ -14,6 +14,7 @@ import { track } from '@/app/helpers/trackingHelpers'
 const getOrganisation = state => state.organisation
 
 const BillingOpenReferralsTransfer = ({
+  currentCredits,
   className,
 }) => {
   // SIDE PANEL
@@ -27,13 +28,13 @@ const BillingOpenReferralsTransfer = ({
   const { id: organisationId } = useBillingStore(getOrganisation)
   // OPEN TRANSFER CREDITS PANEL
   const openReferralsTransferSidepanel = React.useCallback(() => {
-    const content = <BillingReferralsTransfer setSidePanelLoading={setSidePanelLoading} />
+    const content = <BillingReferralsTransfer currentCredits={currentCredits} setSidePanelLoading={setSidePanelLoading} />
     setSidePanelContent(content)
     setSidePanelContentLabel('Transfer credits')
     toggleSidePanel(true)
     // Track
     track('billing_transfer_credits', { organisationId })
-  }, [setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelLoading, organisationId])
+  }, [setSidePanelContent, setSidePanelContentLabel, toggleSidePanel, setSidePanelLoading, organisationId, currentCredits])
 
   return (
     <div className={className}>
@@ -52,6 +53,7 @@ const BillingOpenReferralsTransfer = ({
 }
 
 BillingOpenReferralsTransfer.propTypes = {
+  currentCredits: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 

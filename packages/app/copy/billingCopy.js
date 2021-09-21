@@ -30,9 +30,9 @@ export default {
 
   Share your unique link with someone who could use **Feed**!`
   },
-  transferCreditsDescription: (amount) => `You can transfer your credits to another billing account, so that they can be applied to another invoice.
+  transferCreditsDescription: (remainingCredits) => `You can transfer your credits to another billing account, so that they can be applied to another invoice.
 
-  All of your remaining credits (${amount}) will be transferred.`,
+  All of your remaining credits (${remainingCredits}) will be transferred.`,
 
   // PROFILES
   profilesIntro: 'The following profiles are part of this billing account, and appear on the same invoice.',

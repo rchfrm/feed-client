@@ -22,6 +22,7 @@ const getOrg = state => state.organisation
 const getAllOrgs = state => state.allOrgs
 
 const BillingReferralsTransfer = ({
+  currentCredits,
   className,
 }) => {
   // const { user: { organizations } } = React.useContext(UserContext)
@@ -80,7 +81,7 @@ const BillingReferralsTransfer = ({
       ].join(' ')}
     >
       <h2>Transfer credits</h2>
-      <MarkdownText markdown={copy.transferCreditsDescription(20)} className="mb-12" />
+      <MarkdownText markdown={copy.transferCreditsDescription(currentCredits)} className="mb-12" />
       <Error error={error} />
       <Select
         name="transfer-credits"
@@ -96,6 +97,7 @@ const BillingReferralsTransfer = ({
 }
 
 BillingReferralsTransfer.propTypes = {
+  currentCredits: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
