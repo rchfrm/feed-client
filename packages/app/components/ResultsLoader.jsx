@@ -30,7 +30,7 @@ const ResultsLoader = () => {
   }, [])
 
   if (isLoading) <Spinner />
-  if (error) <Error />
+  if (error) <Error error={error} />
 
   return (
     <>
