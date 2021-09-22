@@ -6,7 +6,7 @@ import getLegalPagesQuery from '@/landing/graphQl/getLegalPagesQuery'
 import getContentQuery from '@/landing/graphQl/landingTextPageQuery'
 import getDatoData from '@/landing/helpers/getDatoData'
 
-export default function About({ pageData }) {
+export default function Legal({ pageData }) {
   const { _seoMetaTags: metaTags } = pageData
   return (
     <>

@@ -31,19 +31,14 @@ export default function HeroImage({
   return (
     <figure
       className={[
-        styles.heroImage,
         'col-span-12',
-        'hidden',
 
         'xs:block',
 
-        'sm:col-span-10',
-        'sm:col-start-3',
-
-        'md:col-span-8',
-        'md:col-start-5',
-        'md:row-start-3',
-        'md:row-span-2',
+        'md:col-start-1',
+        'md:col-end-13',
+        'md:row-start-2',
+        'md:row-end-5',
 
         'lg:row-start-2',
         'lg:row-end-5',

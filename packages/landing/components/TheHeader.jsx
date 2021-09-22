@@ -1,5 +1,4 @@
 import React from 'react'
-// import { useRouter } from 'next/router'
 
 import Link from 'next/link'
 
@@ -8,7 +7,6 @@ import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 import Login from '@/landing/Login'
 
 import FeedLogo from '@/icons/FeedLogo'
-import FeedWordmark from '@/landing/elements/FeedWordmark'
 
 import * as styles from '@/landing/TheHeader.module.css'
 import { useRouter } from 'next/router'
@@ -33,27 +31,56 @@ export default function TheHeader() {
   const isDesktopLayout = useBreakpointTest(hamburgerBreakpoint)
 
   return (
-    <header id="header" className={styles.theHeader}>
-      <div className={['bmw', styles.theHeaderInner].join(' ')}>
-        <div className={styles.theHeaderLogoContainer}>
+    <header
+      id="header"
+      className={[
+        'fixed',
+        'top-0',
+        'left-0',
+        'z-50',
+        'w-full',
+        'bg-white',
+        styles.theHeader,
+      ].join(' ')}
+    >
+      <div className={[
+        'bmw',
+        'flex',
+        'justify-between',
+        'p-5',
+        'xs:px-8',
+      ].join(' ')}
+      >
+        <div className={[
+          'flex',
+          'items-center',
+        ].join(' ')}
+        >
           <Link href="/">
             <a title="home" aria-label="Go Home">
               <FeedLogo
-                className={styles.theHeaderLogo}
+                className={[
+                  'w-40',
+                ].join(' ')}
                 style={{
                   width: '100%',
                   height: 'auto',
                 }}
+                showWordmark
               />
             </a>
           </Link>
-          <Link href="/">
-            <a title="home" aria-label="Go Home" className="hidden xs:inline">
-              <FeedWordmark className={styles.theHeaderWordmark} />
-            </a>
-          </Link>
         </div>
-        <div className={styles.theHeaderNav}>
+        <div className={[
+          'flex',
+          'items-center',
+          'justify-end',
+          'pl-8',
+          'flex-grow',
+          'sm:justify-start',
+          'sm:pl-12',
+        ].join(' ')}
+        >
           {/* NAV LINKS */}
           {isDesktopLayout ? (
             <>

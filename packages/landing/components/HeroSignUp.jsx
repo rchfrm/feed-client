@@ -3,6 +3,8 @@ import Button from '@/elements/Button'
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 import * as styles from '@/landing/PrimaryCTA.module.css'
+import brandColors from 'shared/constants/brandColors'
+import ArrowAltIcon from 'shared/components/icons/ArrowAltIcon'
 
 const getJoinLink = state => state.joinLink
 
@@ -38,6 +40,7 @@ export default function HeroSignUp() {
           'pt-2',
           'px-8',
           'pb-2',
+          'mb-6',
           'text-insta',
           'text-3xl',
           'bg-white',
@@ -47,11 +50,17 @@ export default function HeroSignUp() {
           'hover:bg-white',
           'focus:bg-white',
           'focus:shadow-none',
+          'xs:mb-4',
           styles.ctaShadow,
         ].join(' ')}
         fallbackCta="Sign up"
       >
         Get started
+        <ArrowAltIcon
+          className="ml-3 h-6"
+          fill={brandColors.instagram.bg}
+          direction="right"
+        />
       </Button>
     </div>
   )

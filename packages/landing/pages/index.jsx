@@ -8,6 +8,7 @@ import Features from '@/landing/Features'
 import PrimaryCTA from '@/landing/PrimaryCTA'
 import BlogSummary from '@/landing/BlogSummary'
 import TertiaryCTA from '@/landing/TertiaryCTA'
+import IntroVideo from '@/landing/IntroVideo'
 
 export default function Landing({ pageData }) {
   const {
@@ -29,8 +30,9 @@ export default function Landing({ pageData }) {
         heroImageMobile={heroImageMobile}
         heroImageDesktop={heroImageDesktop}
       />
-      <Testimonies testimonies={testimonialList} />
+      <IntroVideo />
       <Features features={features} />
+      <Testimonies testimonies={testimonialList} />
       <PrimaryCTA />
       <BlogSummary featuredBlogArticles={featuredBlogArticles} />
       <TertiaryCTA trackLocation="feed-landing" />

@@ -9,6 +9,7 @@ export const enableGtag = () => {
 // CROSS DOMAINS
 const gaCrossDomains = [
   'tryfeed.co',
+  'app.tryfeed.co',
   'blog.tryfeed.co',
   'beta.tryfeed.co',
   'staging.tryfeed.co',
