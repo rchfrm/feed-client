@@ -8,15 +8,23 @@ import ResultsSpendingPausedWarning from '@/app/ResultsSpendingPausedWarning'
 import ResultsSpendOverview from '@/app/ResultsSpendOverview'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import moment from 'moment'
 
 const ResultsContent = ({ data }) => {
   const { featureFlags: { conversionsEnabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
+  const { dateRange } = data
+  const yesterday = moment().subtract(1, 'day')
+  const isLast30Days = moment(dateRange.to).isSame(yesterday, 'day')
 
   return (
     <div>
       <div className="flex flex-column sm:flex-row justify-between sm:items-center mb-6 sm:mb-12">
         <div className="inline-block px-4 py-3 mb-6 sm:mb-0 rounded-button bg-grey-1">
-          In the last <strong>30 days</strong>
+          {isLast30Days ? (
+            <span>In the last <strong>30 days</strong></span>
+          ) : (
+            <strong>{moment(dateRange.from).format('DD MMM')} to {moment(dateRange.to).format('DD MMM YYYY')}</strong>
+          )}
         </div>
         <ResultsSpendingPausedWarning />
       </div>
