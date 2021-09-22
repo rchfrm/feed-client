@@ -23,7 +23,9 @@ const ResultsContent = ({ data }) => {
           {isLast30Days ? (
             <span>In the last <strong>30 days</strong></span>
           ) : (
-            <strong>{moment(dateRange.from).format('DD MMM')} to {moment(dateRange.to).format('DD MMM YYYY')}</strong>
+            <span>
+              <strong>{moment(dateRange.from).format('DD MMM')}</strong> to <strong>{moment(dateRange.to).format('DD MMM YYYY')}</strong>
+            </span>
           )}
         </div>
         <ResultsSpendingPausedWarning />
