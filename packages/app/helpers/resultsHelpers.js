@@ -189,9 +189,11 @@ export const getAdResultsSummary = async (artistId) => {
   }
   const { res } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
   const formattedData = res.summary ? formatResultsData(res.summary) : null
-  formattedData.dateRange = {
-    from: res.date_from,
-    to: res.date_to,
+  if (formattedData) {
+    formattedData.dateRange = {
+      from: res.date_from,
+      to: res.date_to,
+    }
   }
   return formattedData
 }
