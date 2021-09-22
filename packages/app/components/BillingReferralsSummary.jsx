@@ -53,36 +53,40 @@ const BillingReferralsSummary = ({
     >
       {/* INTRO */}
       <h3 className="font-body font-bold mb-6">Referrals and Credits</h3>
-      <MarkdownText markdown={copy.referralsCopy(referrals_number, totalEarnedStringValue)} />
       {/* SUMMARY */}
-      {referralsDetails.referrals_number > 0 && (
-        <div className="bg-grey-1 rounded-dialogue p-5 mb-6">
-          <ul className="mb-0">
-            {metrics.map(({ title, slug }, index) => {
-              const value = referralsDetails[slug] / currencyOffset
-              const valueString = formatCurrency(value, currency)
-              const lastItem = index === metrics.length - 1
-              const isSpentOrExpired = slug === 'expired' || slug === 'spent'
-              const TextEl = lastItem ? 'strong' : 'span'
-              return (
-                <React.Fragment key={slug}>
-                  {lastItem && (
-                    <div className="w-full bg-black my-4" style={{ height: 1 }} />
-                  )}
-                  <li className="flex justify-between mb-3 last:mb-0">
-                    <TextEl>{title}</TextEl>
-                    <TextEl>{isSpentOrExpired && '-'} {valueString}</TextEl>
-                  </li>
-                </React.Fragment>
-              )
-            })}
-          </ul>
+      {referralsDetails.referrals_number > 0 ? (
+        <>
+          <MarkdownText markdown={copy.referralsTitle(referrals_number, totalEarnedStringValue)} />
+          <div className="bg-grey-1 rounded-dialogue p-5 mb-6">
+            <ul className="mb-0">
+              {metrics.map(({ title, slug }, index) => {
+                const value = referralsDetails[slug] / currencyOffset
+                const valueString = formatCurrency(value, currency)
+                const lastItem = index === metrics.length - 1
+                const isSpentOrExpired = slug === 'expired' || slug === 'spent'
+                const TextEl = lastItem ? 'strong' : 'span'
+                return (
+                  <React.Fragment key={slug}>
+                    {lastItem && (
+                      <div className="w-full bg-black my-4" style={{ height: 1 }} />
+                    )}
+                    <li className="flex justify-between mb-3 last:mb-0">
+                      <TextEl>{title}</TextEl>
+                      <TextEl>{isSpentOrExpired && '-'} {valueString}</TextEl>
+                    </li>
+                  </React.Fragment>
+                )
+              })}
+            </ul>
+          </div>
+        </>
+      ) : (
+        <div>
+          <MarkdownText markdown={copy.noReferralsTitle} />
+          <MarkdownText markdown={copy.noReferralsDescription} className="text-center italic" />
         </div>
       )}
-      {/* MOVE CREDITS */}
-      {referralsDetails.referrals_number === 0 && (
-        <BillingCopyReferralsCode />
-      )}
+      <BillingCopyReferralsCode />
     </div>
   )
 }

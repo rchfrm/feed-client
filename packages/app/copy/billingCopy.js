@@ -20,19 +20,10 @@ export default {
   failedInvoiceAction: 'Please, **retry making the payment**:',
 
   // REFERALLS
-  referralsCopy: (totalReferrals, totalCredits) => {
-    // No referrals
-    if (totalReferrals) {
-      return `🤝 You have earnt ${totalCredits} in credits by referring ${totalReferrals} to Feed💰! Great work 👍 These will be applied to future invoices.`
-    }
-    // No *complete* referrals
-    return `🤝 Refer people to Feed to earn credits💰!
-
-  Share your unique link with someone who could use **Feed**!`
-  },
-  transferCreditsDescription: (remainingCredits) => `You can transfer your credits to another billing account, so that they can be applied to another invoice.
-
-  All of your remaining credits (${remainingCredits}) will be transferred.`,
+  referralsTitle: (totalReferrals, totalCredits) => `🤝 You have earnt ${totalCredits} in credits by referring ${totalReferrals} to Feed💰! Great work 👍 These will be applied to future invoices.`,
+  noReferralsTitle: `🤝 Refer people to Feed to earn credits💰!`,
+  noReferralsDescription: `Share your unique link with someone  
+  who could use **Feed**!`,
 
   // PROFILES
   profilesIntro: 'The following profiles are part of this billing account, and appear on the same invoice.',
