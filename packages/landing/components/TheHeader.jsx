@@ -1,5 +1,4 @@
 import React from 'react'
-// import { useRouter } from 'next/router'
 
 import Link from 'next/link'
 
@@ -8,7 +7,6 @@ import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 import Login from '@/landing/Login'
 
 import FeedLogo from '@/icons/FeedLogo'
-import FeedWordmark from '@/landing/elements/FeedWordmark'
 
 import * as styles from '@/landing/TheHeader.module.css'
 import { useRouter } from 'next/router'
