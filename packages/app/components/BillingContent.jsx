@@ -60,7 +60,7 @@ const BILLING_CONTENT_SECTIONS = ({
       {/* RIGHT COL */}
       <div className="col-span-1 mb-12 sm:mb-0">
         {/* REFERRALS */}
-        <BillingReferralsSummary canTransferCredits />
+        <BillingReferralsSummary />
         {/* PROFILES */}
         <BillingProfilesSummary />
         {/* USERS */}

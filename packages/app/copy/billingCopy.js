@@ -23,7 +23,7 @@ export default {
   referralsCopy: (totalReferrals, totalCredits) => {
     // No referrals
     if (totalReferrals) {
-      return `🤝 Referring ${totalReferrals} people to Feed has meant you have earnt ${totalCredits} in credits💰 ! Great work 👍`
+      return `🤝 You have earnt ${totalCredits} in credits by referring ${totalReferrals} to Feed💰! Great work 👍 These will be applied to future invoices.`
     }
     // No *complete* referrals
     return `🤝 Refer people to Feed to earn credits💰!

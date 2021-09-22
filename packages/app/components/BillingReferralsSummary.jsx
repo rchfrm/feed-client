@@ -7,7 +7,6 @@ import useBillingStore from '@/app/stores/billingStore'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import BillingOpenReferralsTransfer from '@/app/BillingOpenReferralsTransfer'
 import BillingCopyReferralsCode from '@/app/BillingCopyReferralsCode'
 
 import { formatCurrency } from '@/helpers/utils'
@@ -36,17 +35,15 @@ const metrics = [
 ]
 
 const BillingReferralsSummary = ({
-  canTransferCredits,
   className,
 }) => {
   const referralsDetails = useBillingStore(getReferralsDetails)
-  const { balance, earned, referrals_number } = referralsDetails
+  const { earned, referrals_number } = referralsDetails
   const { artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
   const { currency:
     { code: currency, offset: currencyOffset },
   } = min_daily_budget_info || {}
   const totalEarnedStringValue = formatCurrency((earned / currencyOffset), currency)
-  const currentCreditsStringValue = formatCurrency((balance / currencyOffset), currency)
   return (
     <div
       className={[
@@ -83,9 +80,7 @@ const BillingReferralsSummary = ({
         </div>
       )}
       {/* MOVE CREDITS */}
-      {canTransferCredits && balance > 0 ? (
-        <BillingOpenReferralsTransfer currentCredits={currentCreditsStringValue} />
-      ) : (
+      {referralsDetails.referrals_number === 0 && (
         <BillingCopyReferralsCode />
       )}
     </div>
@@ -93,12 +88,10 @@ const BillingReferralsSummary = ({
 }
 
 BillingReferralsSummary.propTypes = {
-  canTransferCredits: PropTypes.bool,
   className: PropTypes.string,
 }
 
 BillingReferralsSummary.defaultProps = {
-  canTransferCredits: false,
   className: null,
 }
 
