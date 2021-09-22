@@ -154,18 +154,6 @@ export const getReferralsData = async (organizationId) => {
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
-export const transferReferralCredits = (destOrgId) => {
-  const payload = {
-    organization_id: destOrgId,
-  }
-  const endpoint = '/users/me/nominate_referrals_organization'
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Transfer credits',
-  }
-  return api.requestWithCatch('post', endpoint, payload, errorTracking)
-}
-
 // * PROFILE TRANSFER
 // * --------------------
 export const getOrganisationArtists = async (organisationId) => {
