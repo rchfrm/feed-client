@@ -40,6 +40,7 @@ export default function HeroSignUp() {
           'pt-2',
           'px-8',
           'pb-2',
+          'mb-6',
           'text-insta',
           'text-3xl',
           'bg-white',
@@ -49,6 +50,7 @@ export default function HeroSignUp() {
           'hover:bg-white',
           'focus:bg-white',
           'focus:shadow-none',
+          'xs:mb-4',
           styles.ctaShadow,
         ].join(' ')}
         fallbackCta="Sign up"
