@@ -9,13 +9,16 @@ export default function HeroDescription({ description }) {
         'col-span-12',
         'row-start-3',
         'col-start-1',
+        'mb-12',
+        'bg-white',
 
         'sm:text-2xl',
 
-        'mb-12',
-
+        'md:text-xl',
         'md:z-10',
-        'md:col-end-8',
+        'md:col-end-7',
+
+        'lg:text-2xl',
       ].join(' ')}
       markdown={description}
     />
