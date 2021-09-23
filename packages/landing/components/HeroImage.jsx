@@ -13,6 +13,7 @@ export default function HeroImage({
   desktop,
 }) {
   const [isChrome, setIsChrome] = React.useState(false)
+  const [responsiveImage, setResponsiveImage] = React.useState(null)
   React.useEffect(() => {
     const browser = detect()
     if (browser && browser.name === 'chrome') {
@@ -28,32 +29,36 @@ export default function HeroImage({
     return isMobile ? mobile : desktop
   }, [width, desktop, mobile])
 
+  React.useEffect(() => {
+    if (image) {
+      setResponsiveImage(image.responsiveImage)
+    }
+  }, [image])
+
   return (
-    <figure
-      className={[
-        'col-span-12',
-
-        'xs:block',
-
-        'md:col-start-1',
-        'md:col-end-13',
-        'md:row-start-2',
-        'md:row-end-5',
-
-        'lg:row-start-2',
-        'lg:row-end-5',
-
-        styles.heroFigure,
-        isChrome ? styles._isChrome : null,
-      ].join(' ')}
-    >
-      <Image
-        data={image.responsiveImage}
-        style={{
-          imageRendering: isChrome ? '-webkit-optimize-contrast' : '',
-        }}
-      />
-    </figure>
+    responsiveImage && (
+      <figure
+        className={[
+          'col-span-12',
+          'xs:block',
+          'md:col-start-1',
+          'md:col-end-13',
+          'md:row-start-2',
+          'md:row-end-5',
+          'lg:row-start-2',
+          'lg:row-end-5',
+          styles.heroFigure,
+          isChrome ? 'styles._isChrome' : '',
+        ].join(' ')}
+      >
+        <Image
+          data={responsiveImage}
+          style={{
+            imageRendering: isChrome ? '-webkit-optimize-contrast' : 'auto',
+          }}
+        />
+      </figure>
+    )
   )
 }
 
