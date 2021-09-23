@@ -11,6 +11,7 @@ const isDevelopment = process.env.NODE_ENV === 'development'
 
 const gaCrossDomains = [
   'tryfeed.co',
+  'app.tryfeed.co',
   'blog.tryfeed.co',
   'beta.tryfeed.co',
   'staging.tryfeed.co',
