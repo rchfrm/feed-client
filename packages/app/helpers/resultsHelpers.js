@@ -133,26 +133,28 @@ export const getNewAudienceData = (data) => {
     copy = resultsCopy.newAudienceOnPlatformMainDescription(audienceSize.growth.percentage * 100)
   }
 
-  if (engaged.curr_period >= 250 && engaged.prev_period) {
-    prevPeriod = engaged.prev_period
-    currPeriod = engaged.curr_period
-    copy = resultsCopy.newAudienceUnawareFallbackEngagedDouble(engaged.curr_period, engaged.prev_period)
-  }
+  if (!isMainChart) {
+    if (engaged.curr_period >= 250 && engaged.prev_period) {
+      prevPeriod = engaged.prev_period
+      currPeriod = engaged.curr_period
+      copy = resultsCopy.newAudienceUnawareFallbackEngagedDouble(engaged.curr_period, engaged.prev_period)
+    }
 
-  if (engaged.curr_period < 250 && reach.prev_period) {
-    prevPeriod = reach.prev_period
-    currPeriod = reach.curr_period
-    copy = resultsCopy.newAudienceUnawareFallbackReachDouble(reach.curr_period, reach.prev_period)
-  }
+    if (engaged.curr_period < 250 && reach.prev_period) {
+      prevPeriod = reach.prev_period
+      currPeriod = reach.curr_period
+      copy = resultsCopy.newAudienceUnawareFallbackReachDouble(reach.curr_period, reach.prev_period)
+    }
 
-  if (engaged.curr_period >= 250 && !engaged.prev_period) {
-    currPeriod = engaged.curr_period
-    copy = resultsCopy.newAudienceUnawareFallbackEngagedSingle(engaged.curr_period)
-  }
+    if (engaged.curr_period >= 250 && !engaged.prev_period) {
+      currPeriod = engaged.curr_period
+      copy = resultsCopy.newAudienceUnawareFallbackEngagedSingle(engaged.curr_period)
+    }
 
-  if (engaged.curr_period < 250 && !reach.prev_period) {
-    currPeriod = reach.curr_period
-    copy = resultsCopy.newAudienceUnawareFallbackReachSingle(reach.curr_period)
+    if (engaged.curr_period < 250 && !reach.prev_period) {
+      currPeriod = reach.curr_period
+      copy = resultsCopy.newAudienceUnawareFallbackReachSingle(reach.curr_period)
+    }
   }
 
   if (!currPeriod) return null
