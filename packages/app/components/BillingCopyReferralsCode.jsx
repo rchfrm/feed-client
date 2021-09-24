@@ -13,6 +13,7 @@ const BillingCopyReferralsCode = () => {
     <ButtonShare
       url={joinUrl}
       copyText={copyText}
+      title="Get Feed"
       className="w-full"
       useCopyFallback
     />
