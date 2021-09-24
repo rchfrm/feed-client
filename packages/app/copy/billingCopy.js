@@ -1,5 +1,4 @@
 /* eslint-disable quotes */
-import * as ROUTES from '@/app/constants/routes'
 
 export default {
   // BILLING PAGE
@@ -21,18 +20,10 @@ export default {
   failedInvoiceAction: 'Please, **retry making the payment**:',
 
   // REFERALLS
-  referralsCopy: (data) => {
-    const {
-      total_referrals,
-      total_referrals_complete,
-    } = data
-    // No referrals
-    if (!total_referrals) return `You haven't made any referrals yet. You can get and share [your referral code here](${ROUTES.MYREFERRAL})`
-    const intro = `🤝 You've referred ${total_referrals} people`
-    // No *complete* referrals
-    if (total_referrals && !total_referrals_complete) return `${intro} but none of the accounts have yet spent the required amount.`
-    return `${intro} and ${total_referrals_complete} accounts have spent the required amount 🎉, earning you ${total_referrals_complete} credits 💰. Great work 👍`
-  },
+  referralsTitle: (totalReferrals, totalCredits) => `🤝 You have earnt ${totalCredits} in credits by referring ${totalReferrals} people to Feed💰! Great work 👍 These will be applied to future invoices.`,
+  noReferralsTitle: `🤝 Refer people to Feed to earn credits💰!`,
+  noReferralsDescription: `Share your unique link with someone  
+  who could use **Feed**!`,
 
   // PROFILES
   profilesIntro: 'The following profiles are part of this billing account, and appear on the same invoice.',
