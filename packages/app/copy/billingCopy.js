@@ -20,7 +20,7 @@ export default {
   failedInvoiceAction: 'Please, **retry making the payment**:',
 
   // REFERALLS
-  referralsTitle: (totalReferrals, totalCredits) => `🤝 You have earnt ${totalCredits} in credits by referring ${totalReferrals} to Feed💰! Great work 👍 These will be applied to future invoices.`,
+  referralsTitle: (totalReferrals, totalCredits) => `🤝 You have earnt ${totalCredits} in credits by referring ${totalReferrals} people to Feed💰! Great work 👍 These will be applied to future invoices.`,
   noReferralsTitle: `🤝 Refer people to Feed to earn credits💰!`,
   noReferralsDescription: `Share your unique link with someone  
   who could use **Feed**!`,
