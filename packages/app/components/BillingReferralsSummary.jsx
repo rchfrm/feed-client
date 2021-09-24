@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import shallow from 'zustand/shallow'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -13,7 +14,10 @@ import { formatCurrency } from '@/helpers/utils'
 
 import copy from '@/app/copy/billingCopy'
 
-const getReferralsDetails = state => state.referralsDetails
+const getBillingStoreState = (state) => ({
+  referralsDetails: state.referralsDetails,
+  defaultPaymentMethod: state.defaultPaymentMethod,
+})
 
 const metrics = [
   {
@@ -37,12 +41,11 @@ const metrics = [
 const BillingReferralsSummary = ({
   className,
 }) => {
-  const referralsDetails = useBillingStore(getReferralsDetails)
+  const { referralsDetails, defaultPaymentMethod } = useBillingStore(getBillingStoreState, shallow)
+  const currency = defaultPaymentMethod?.currency || 'GBP'
   const { earned, referrals_number } = referralsDetails
   const { artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
-  const { currency:
-    { code: currency, offset: currencyOffset },
-  } = min_daily_budget_info || {}
+  const { currency: { offset: currencyOffset } } = min_daily_budget_info || {}
   const totalEarnedStringValue = formatCurrency((earned / currencyOffset), currency)
   return (
     <div
@@ -65,6 +68,7 @@ const BillingReferralsSummary = ({
                 const lastItem = index === metrics.length - 1
                 const isSpentOrExpired = slug === 'expired' || slug === 'spent'
                 const TextEl = lastItem ? 'strong' : 'span'
+                if (!value && isSpentOrExpired) return
                 return (
                   <React.Fragment key={slug}>
                     {lastItem && (
