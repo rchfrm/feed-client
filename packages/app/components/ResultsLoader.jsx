@@ -38,7 +38,7 @@ const ResultsLoader = () => {
     <>
       {adResultsData && <ResultsContent data={adResultsData} />}
       {(!adResultsData && !isLoading) && (
-      <MarkdownText markdown={copy.noResultsData} />
+        <MarkdownText markdown={copy.noResultsData} />
       )}
     </>
   )
