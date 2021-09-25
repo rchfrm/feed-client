@@ -37,7 +37,7 @@ const AdDefaults = () => {
       <div className="content">
         {/* GLOBAL POST STATUS */}
         <AdSettingsSection
-          header="Automated post selection "
+          header="Automated post selection"
           copy={copy.globalToggleIntro}
         >
           <AdDefaultsStatus
