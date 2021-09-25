@@ -3,8 +3,10 @@ import useAsyncEffect from 'use-async-effect'
 
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
 
 import ResultsContent from '@/app/ResultsContent'
+import copy from '@/app/copy/ResultsPageCopy'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -35,7 +37,9 @@ const ResultsLoader = () => {
   return (
     <>
       {adResultsData && <ResultsContent data={adResultsData} />}
-      {(!adResultsData && !isLoading) && <p>There is currently no results data available.</p>}
+      {(!adResultsData && !isLoading) && (
+      <MarkdownText markdown={copy.noResultsData} />
+      )}
     </>
   )
 }

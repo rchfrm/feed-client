@@ -1,5 +1,6 @@
 import React from 'react'
 
+import ResultsPeriod from '@/app/ResultsPeriod'
 import ResultsStats from '@/app/ResultsStats'
 import ResultsPostsStats from '@/app/ResultsPostsStats'
 import ResultsConversionsTeaser from '@/app/ResultsConversionsTeaser'
@@ -15,19 +16,13 @@ const ResultsContent = ({ data }) => {
   const { dateRange } = data
   const yesterday = moment().subtract(1, 'day')
   const isLast30Days = moment(dateRange.to).isSame(yesterday, 'day')
+  const dateFrom = moment(dateRange.from).format('DD MMM')
+  const dateTo = moment(dateRange.to).format('DD MMM')
 
   return (
     <div>
       <div className="flex flex-column sm:flex-row justify-between sm:items-center mb-6 sm:mb-12">
-        <div className="inline-block px-4 py-3 mb-6 sm:mb-0 rounded-button bg-grey-1">
-          {isLast30Days ? (
-            <span>In the last <strong>30 days</strong></span>
-          ) : (
-            <span>
-              <strong>{moment(dateRange.from).format('DD MMM')}</strong> to <strong>{moment(dateRange.to).format('DD MMM YYYY')}</strong>
-            </span>
-          )}
-        </div>
+        <ResultsPeriod isLast30Days={isLast30Days} dateFrom={dateFrom} dateTo={dateTo} />
         <ResultsSpendingPausedWarning />
       </div>
       <div className="grid grid-cols-12 sm:col-gap-12 mb-8">
@@ -43,11 +38,11 @@ const ResultsContent = ({ data }) => {
         </div>
         {conversionsFeatureEnabled ? (
           <ResultsConversionsActivator
-            className="col-span-12 sm:col-span-4 flex flex-col sm:items-center"
+            className="hidden col-span-12 sm:col-span-4 sm:flex flex-col sm:items-center"
           />
         ) : (
           <ResultsConversionsTeaser
-            className="col-span-12 sm:col-span-4 flex flex-col sm:items-center"
+            className="hidden col-span-12 sm:col-span-4 sm:flex flex-col sm:items-center"
           />
         )}
       </div>

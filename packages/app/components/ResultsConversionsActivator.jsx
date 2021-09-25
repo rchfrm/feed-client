@@ -16,8 +16,7 @@ import brandColors from '@/constants/brandColors'
 const ResultsConversionTeaser = ({ className }) => {
   const goToControlsConversionsPage = () => {
     Router.push({
-      pathname: ROUTES.CONTROLS,
-      query: { slug: 'conversions' },
+      pathname: ROUTES.CONTROLS_CONVERSIONS,
     })
   }
 

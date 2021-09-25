@@ -1,3 +1,4 @@
+import * as ROUTES from '@/app/constants/routes'
 import { formatNumber } from '@/helpers/utils'
 
 export default {
@@ -31,4 +32,5 @@ export default {
   comparison will appear here.`,
   conversionsActivatorTitle: 'Use Feed to generate sales or sign-ups outside Facebook & Instagram.',
   conversionsActivatorDescription: 'Get started with generating sales or sign-ups!',
+  noResultsData: `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS})!`,
 }

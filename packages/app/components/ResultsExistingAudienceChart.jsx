@@ -62,7 +62,7 @@ const ResultsExistingAudienceChart = ({ data }) => {
             <div
               className="absolute transform -translate-y-1/2 z-10 ml-2 text-green text-xs"
               style={{
-                ...(adsReachProportion > 85 ? { right: '10px', color: brandColors.white } : { left: '100%' }),
+                ...(adsReachWidth > 85 ? { right: '10px', color: brandColors.white } : { left: '100%' }),
                 top: '50%',
               }}
             >
@@ -80,7 +80,7 @@ const ResultsExistingAudienceChart = ({ data }) => {
         <span className="absolute text-green text-xs" style={{ bottom: '100%', right: '5px' }}>
           {maxValue}%
         </span>
-        {highestValue < 25 && <span className="absolute right-0 bottom-0 h-16" style={{ borderRight: `2px dashed ${brandColors.green}`, width: '2px' }} />}
+        {highestValue < 25 && <span className="absolute right-0 bottom-0 h-16 bg-white" style={{ borderRight: `2px dashed ${brandColors.green}`, width: '2px' }} />}
       </div>
     )
   )

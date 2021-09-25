@@ -101,7 +101,7 @@ const PostCardToggle = ({
         {isActive && (
           <PostCardLabel
             copy="running"
-            className="font-bold"
+            className="text-black"
             campaignType={campaignType}
           />
         )}

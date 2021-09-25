@@ -110,8 +110,7 @@ export const getExistingAudienceData = (data) => {
     chartData: [
       { type: 'prev', value: prevPeriod },
       { type: 'curr', value: currPeriod },
-    ]
-      .sort((a, b) => a.value - b.value),
+    ],
   }
 }
 
@@ -130,7 +129,7 @@ export const getNewAudienceData = (data) => {
     isMainChart = true
     prevPeriod = audienceSize.prev_period
     currPeriod = audienceSize.curr_period
-    copy = resultsCopy.newAudienceOnPlatformMainDescription(audienceSize.growth.percentage * 100)
+    copy = resultsCopy.newAudienceOnPlatformMainDescription(+(audienceSize.growth.percentage * 100).toFixed(1))
   }
 
   if (!isMainChart) {
@@ -165,8 +164,7 @@ export const getNewAudienceData = (data) => {
     chartData: [
       { type: 'prev', value: prevPeriod },
       { type: 'curr', value: currPeriod },
-    ]
-      .sort((a, b) => a.value - b.value),
+    ],
   }
 }
 
