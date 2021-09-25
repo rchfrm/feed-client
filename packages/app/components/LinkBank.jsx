@@ -48,7 +48,7 @@ const LinkBank = () => {
 
   return (
     <section>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Links</h2>
+      <h2 className={sidePanelStyles.SidePanel__Header}>Link Bank</h2>
       {linkBankError && (
         <Error error={linkBankError} className="mb-8" />
       )}

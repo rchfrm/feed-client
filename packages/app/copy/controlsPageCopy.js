@@ -8,12 +8,12 @@ export default {
     {
       key: 'targeting',
       title: 'Targeting',
-      description: 'Control who sees your ads.',
+      description: 'Set age range, locations, platforms.',
     },
     {
       key: 'links',
-      title: 'Links',
-      description: 'Add and edit the links that are used in your ads.',
+      title: 'Link Bank',
+      description: 'Add and edit the links used in your ads.',
     },
     {
       key: 'integrations',
@@ -22,13 +22,13 @@ export default {
     },
     {
       key: 'ads',
-      title: 'Ad Defaults',
-      description: 'Control the global settings of your ads.',
+      title: 'Grow & Nurture Defaults',
+      description: 'Default link, CTA, FB Pixel, promotion settings',
     },
     {
       key: 'conversions',
       title: 'Conversion Defaults',
-      description: 'Settings specific to conversion campaigns.',
+      description: 'Default link, pixel event, CTA',
     },
   ],
 
@@ -37,7 +37,7 @@ export default {
   conversionsTitle: '## Conversions Defaults',
   conversionsDescription: `These are the settings used as defaults for Conversion campaigns.
 
-Each post can override these settings.`,
+  You can override these settings for specific posts on the posts page.`,
   toggleWarning: (isSpendingPaused, hasSufficientBudget, minConversionsBudget) => {
     if (isSpendingPaused) {
       return 'Resume spending to enable conversions.'
@@ -53,7 +53,9 @@ Each post can override these settings.`,
 
   // AD DEFAULTS
   // ----------------
-  globalToggleIntro: `Should all posts be opted-in for promotion by default?`,
+  globalToggleIntro: `Can Feed automatically select which recent posts (last 28 days) are promoted? You can still opt out specific posts from the posts page.
+
+  If you choose “No”, you’ll need to manually select posts for Feed to test.`,
   defaultLinkIntro: `By default, which link should be used in ads? This determines where people go when they click one of your ads.`,
   defaultCallToActionIntro: `By default, which call to action should appear on your ads?`,
   facebookPixelIntro: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,

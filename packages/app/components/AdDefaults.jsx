@@ -33,11 +33,11 @@ const AdDefaults = () => {
 
   return (
     <div>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Ad Defaults</h2>
+      <h2 className={sidePanelStyles.SidePanel__Header}>Grow &amp; Nurture Defaults</h2>
       <div className="content">
         {/* GLOBAL POST STATUS */}
         <AdSettingsSection
-          header="Default Status"
+          header="Automated post selection "
           copy={copy.globalToggleIntro}
         >
           <AdDefaultsStatus
