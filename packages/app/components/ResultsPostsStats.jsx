@@ -1,15 +1,18 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import ResultsPostStats from '@/app/ResultsPostStats'
-import NoDataBlock from '@/app/NoDataBlock'
+import ResultsPostsNoData from '@/app/ResultsPostsNoData'
 
-import MarkdownText from '@/elements/MarkdownText'
-
-import copy from '@/app/copy/ResultsPageCopy'
 import { postResultsConfig } from '@/app/helpers/resultsHelpers'
 
-const ResultsPostsStats = ({ data }) => {
+const ResultsPostsStats = ({
+  data,
+  hasSpendFor30Days,
+  isLast30Days,
+}) => {
   const sortedPosts = postResultsConfig.map((x) => data.posts.find((element) => element[x.type])).filter(Boolean)
+  const isSpendingPaused = hasSpendFor30Days || !isLast30Days
 
   return (
     sortedPosts.length ? (
@@ -27,17 +30,15 @@ const ResultsPostsStats = ({ data }) => {
         />
       ))
     ) : (
-      <div className="hidden sm:block col-span-12 sm:col-start-3 sm:col-span-8 order-2">
-        <NoDataBlock className="mb-4 sm:mb-0 text-grey-3" sizeRatio={1 / 2}>
-          <MarkdownText className="mb-0 px-8 text-center" markdown={copy.postsStatsNoData} />
-        </NoDataBlock>
-      </div>
+      <ResultsPostsNoData isSpendingPaused={isSpendingPaused} />
     )
   )
 }
 
 ResultsPostsStats.propTypes = {
-
+  data: PropTypes.object.isRequired,
+  hasSpendFor30Days: PropTypes.bool.isRequired,
+  isLast30Days: PropTypes.bool.isRequired,
 }
 
 export default ResultsPostsStats

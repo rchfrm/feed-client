@@ -16,6 +16,7 @@ const ResultsContent = ({ data }) => {
   const { dateRange } = data
   const yesterday = moment().subtract(1, 'day')
   const isLast30Days = moment(dateRange.to).isSame(yesterday, 'day')
+  const hasSpendFor30Days = moment(dateRange.to).diff(moment((dateRange.from)).startOf('day'), 'days') >= 30
   const dateFrom = moment(dateRange.from).format('DD MMM')
   const dateTo = moment(dateRange.to).format('DD MMM')
 
@@ -33,6 +34,8 @@ const ResultsContent = ({ data }) => {
             />
             <ResultsPostsStats
               data={data}
+              hasSpendFor30Days={hasSpendFor30Days}
+              isLast30Days={isLast30Days}
             />
           </div>
         </div>
