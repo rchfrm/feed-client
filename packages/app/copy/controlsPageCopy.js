@@ -67,11 +67,9 @@ export default {
 
   **Where should people go when they click your ads?**`,
   controlsWizardLinkStepOutro: 'You will be able to change the default link or set different links on specific posts later on.',
-  controlsWizardPostsStepIntro: `You never know what is going to catch someone’s attention!
+  controlsWizardPostsStepIntro: `Can Feed automatically select which recent posts (last 28 days) are promoted? You can still opt out specific posts from the posts page.
 
-  That’s why Feed makes posts in the last 28 days promotable by default.
-
-  You can still opt out specific posts you don't want Feed to promote.
+  If you choose “No”, you’ll need to manually select posts for Feed to test.
 
   **Keep recent posts promotable by default?**`,
   controlsWizardBudgetStepQuestion: '**How much would you like to spend per day in total?**',
