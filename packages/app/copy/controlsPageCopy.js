@@ -38,6 +38,7 @@ export default {
   conversionsDescription: `These are the settings used as defaults for Conversion campaigns.
 
   You can override these settings for specific posts on the posts page.`,
+  conversionsPixelEventDescription: `Select an event to optimise for. The number in brackets shows how many times each event was triggered in the past 7 days.`,
   toggleWarning: (isSpendingPaused, hasSufficientBudget, minConversionsBudget) => {
     if (isSpendingPaused) {
       return 'Resume spending to enable conversions.'

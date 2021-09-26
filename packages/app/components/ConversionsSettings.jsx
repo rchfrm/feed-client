@@ -166,7 +166,7 @@ const ConversionsSettings = () => {
       </AdSettingsSection>
       <AdSettingsSection
         header="Facebook Pixel event"
-        copy="Select an event to optimise for. The number in brackets shows how many times each event was triggered in the past 7 days."
+        copy={copy.conversionsPixelEventDescription}
         isDisabled={disabled}
       >
         <PixelEventSelector
