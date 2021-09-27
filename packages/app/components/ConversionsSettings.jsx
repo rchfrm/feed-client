@@ -165,7 +165,7 @@ const ConversionsSettings = () => {
         />
       </AdSettingsSection>
       <AdSettingsSection
-        header="Facebook Pixel event"
+        header="Facebook Pixel Event"
         copy={copy.conversionsPixelEventDescription}
         isDisabled={disabled}
       >
