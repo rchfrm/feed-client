@@ -22,6 +22,36 @@ export const postResultsConfig = [
   },
 ]
 
+export const optimisationsEvents = {
+  lead: {
+    name: 'Leads',
+    key: 'lead',
+    event: 'leads',
+    detail: 'a lead generation ad',
+  },
+  omni_complete_registration: {
+    name: 'Registrations',
+    key: 'omni_complete_registration',
+    event: 'registrations',
+    detail: 'an ad about registering',
+  },
+  contact_total: {
+    name: 'Contacts',
+    event: 'new contacts',
+    detail: 'an ad about getting in contact',
+  },
+  subscribe_total: {
+    name: 'Subscribers',
+    event: 'subscribers',
+    detail: 'an ad about subscribing',
+  },
+  omni_purchase: {
+    name: 'Sales',
+    event: 'sales',
+    detail: 'a sales ad',
+  },
+}
+
 const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
     const { asset, ...stats } = value
@@ -171,63 +201,89 @@ export const getNewAudienceData = (data) => {
   }
 }
 
-export const getConversionData = () => {
-  const chartType = 'optimisationEvents'
-  const prevPeriod = 35
-  const currPeriod = 75
-  const copy = resultsCopy.conversionMainDescription
+const getOptimisationsEvents = (data) => {
+  return Object.entries(data).reduce((object, [key, value]) => {
+    if (!value?.curr_period?.count) return object
+    return { ...object, [key]: value }
+  }, {})
+}
 
-  /*
+export const getConversionData = (data) => {
+  let chartType = 'fallback'
+  let prevPeriod = 0
+  let currPeriod = 0
+  let copy = ''
+
+  const optimisationsEvents = getOptimisationsEvents(data.conversions)
+  const hasGeneratedOptimisationEvents = Object.keys(optimisationsEvents).length > 0
+  const hasPurchaseOptimisationEvent = Object.keys(optimisationsEvents).includes('omni_purchase')
+
+  const {
+    conversions: {
+      omni_purchase,
+      spend,
+      landing_page_views,
+      unique_outbound_clicks,
+      reach,
+    },
+  } = data
+  const roas = omni_purchase.curr_period.value / spend.curr_period
+
   if (roas > 1) {
     chartType = 'main'
-    copy = resultsCopy.conversionMainDescription()
+    prevPeriod = spend.curr_period
+    currPeriod = omni_purchase.curr_period.value
+    copy = resultsCopy.conversionMainDescription(roas)
   }
 
-  if (roas <= 1 && prev_period) {
-    prevPeriod =
-    currPeriod =
-    copy = resultsCopy.conversionFallbackSalesDouble()
+  if (roas <= 1 && omni_purchase.prev_period) {
+    prevPeriod = omni_purchase.prev_period.value
+    currPeriod = omni_purchase.curr_period.value
+    copy = resultsCopy.conversionFallbackSalesDouble(omni_purchase.prev_period.value, omni_purchase.curr_period.value)
   }
 
-  if (roas <= 1 && !prev_period) {
-    currPeriod =
-    copy = resultsCopy.conversionFallbackSalesSingle()
+  if (roas <= 1 && !omni_purchase.prev_period) {
+    currPeriod = omni_purchase.curr_period.value
+    copy = resultsCopy.conversionFallbackSalesSingle(omni_purchase.curr_period.value)
   }
 
-  if (optimisation_events !== 'purchase') {
+  if (!hasPurchaseOptimisationEvent && hasGeneratedOptimisationEvents) {
     chartType = 'optimisationEvents'
     copy = resultsCopy.conversionFallbackOptimisationEvents()
   }
 
-  if (!optimisation_events && landing_page_views.prev_period) {
-    prevPeriod =
-    currPeriod =
-    copy = resultsCopy.conversionFallbackLandingPageViews()
+  if (!hasGeneratedOptimisationEvents && landing_page_views.prev_period) {
+    prevPeriod = landing_page_views.prev_period
+    currPeriod = landing_page_views.curr_period
+    copy = resultsCopy.conversionFallbackLandingPageViews(landing_page_views.curr_period)
   }
 
-  if (!optimisation_events && !landing_page_views.prev_period) {
-    currPeriod =
-    copy = resultsCopy.conversionFallbackLandingPageViews()
+  if (!hasGeneratedOptimisationEvents && !landing_page_views.prev_period) {
+    currPeriod = landing_page_views.curr_period
+    copy = resultsCopy.conversionFallbackLandingPageViews(landing_page_views.curr_period)
   }
-  if (outbound_clicks && outbound_clicks.prev_period) {
-    prevPeriod =
-    currPeriod =
-    copy = resultsCopy.conversionFallbackOutboundClicks()
+
+  if (unique_outbound_clicks.curr_period && unique_outbound_clicks.prev_period) {
+    prevPeriod = unique_outbound_clicks.curr_period
+    currPeriod = unique_outbound_clicks.prev_period
+    copy = resultsCopy.conversionFallbackOutboundClicks(unique_outbound_clicks.curr_period)
   }
-  if (outbound_clicks && !outbound_clicks.prev_period) {
-    currPeriod =
-    copy = resultsCopy.conversionFallbackOutboundClicks()
+
+  if (unique_outbound_clicks.curr_period && !unique_outbound_clicks.prev_period) {
+    currPeriod = unique_outbound_clicks.curr_period
+    copy = resultsCopy.conversionFallbackOutboundClicks(unique_outbound_clicks.curr_period)
   }
-  if (reach && reach.prev_period) {
-    prevPeriod =
-    currPeriod =
-    copy = resultsCopy.conversionFallbackReach()
+
+  if (reach.curr_period && reach.prev_period) {
+    prevPeriod = reach.prev_period
+    currPeriod = reach.curr_period
+    copy = resultsCopy.conversionFallbackReach(reach.prev_period, reach.curr_period)
   }
-  if (reach && !reach.prev_period) {
-    currPeriod =
-    copy = resultsCopy.conversionFallbackReach()
+
+  if (reach.curr_period && !reach.prev_period) {
+    currPeriod = reach.curr_period
+    copy = resultsCopy.conversionFallbackReach(reach.curr_period)
   }
-  */
 
   return {
     chartType,
