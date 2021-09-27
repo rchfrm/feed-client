@@ -58,6 +58,7 @@ const ConversionsWizardFacebookPixelEventStep = () => {
         <PixelEventSelector
           pixelEvent={pixelEvent}
           setPixelEvent={setPixelEvent}
+          label="Facebook Pixel Event"
         />
         <Button
           type="submit"
