@@ -19,7 +19,7 @@ export default {
   conversionFallbackOutboundClicks: '56 people clicked through to your website as a result of seeing [optimisation event detail].',
   conversionFallbackReach: '789 people saw [optimisation event detail].',
   postDescription: (type) => {
-    if (type === 'engaged') {
+    if (type === 'engage') {
       return `The post that engaged the
       most new people:`
     }
@@ -30,11 +30,23 @@ export default {
     return `The post that generated the
     most sales:`
   },
+  postLabelText: (type) => {
+    if (type === 'engage') {
+      return 'engaged'
+    }
+    if (type === 'reach') {
+      return 'reached'
+    }
+    return 'in sales'
+  },
   postDescriptionMobile: (type, value) => {
-    if (type === 'engaged') {
+    if (type === 'engage') {
       return `**${value}** new people engaged`
     }
-    return `**${value}** people reached`
+    if (type === 'reach') {
+      return `**${value}** people reached`
+    }
+    return `**${value}** in sales`
   },
   statsNoData: 'Feed is setting up your ads',
   postsStatsNoData: (isSpendingPaused) => {

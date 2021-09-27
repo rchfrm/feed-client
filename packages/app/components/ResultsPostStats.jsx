@@ -25,8 +25,8 @@ const ResultsPostStats = ({
   const [postData, setPostsData] = React.useState(null)
   const { artistId } = React.useContext(ArtistContext)
 
-  const { type, color } = config
-  const value = post[type]
+  const { type, key, color } = config
+  const value = post[key]
   const isDesktopLayout = useBreakpointTest('sm')
   const imageHeight = isDesktopLayout ? '176px' : '100px'
   const { goToPostMetrics } = usePostsSidePanel()
@@ -76,7 +76,7 @@ const ResultsPostStats = ({
             style={{ backgroundColor: color }}
           >
             {abbreviateNumber(value)}
-            <span className="text-xs -mt-1">{type === 'engaged' ? 'engaged' : 'reached'}</span>
+            <MarkdownText markdown={copy.postLabelText(type)} className="text-xs -mt-1 mb-0" />
           </div>
           <div className="flex flex-col items-start justify-center sm:items-center">
             <MarkdownText markdown={copy.postDescriptionMobile(type, value)} className="sm:hidden" />

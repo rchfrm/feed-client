@@ -27,7 +27,7 @@ const ResultsConversionStats = ({ data, className }) => {
   return (
     <div className={[className].join(' ')}>
       <p className="font-bold text-xl text-left mr-auto sm:mr-0">Sales</p>
-      <div className="flex items-center" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
+      <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
         <MarkdownText
           markdown={data.copy || ''}
           className="sm:px-1 mr-auto sm:mr-0 mb-6 sm:mb-0 sm:text-center"

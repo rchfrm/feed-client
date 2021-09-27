@@ -6,15 +6,18 @@ import resultsCopy from '@/app/copy/ResultsPageCopy'
 
 export const postResultsConfig = [
   {
-    type: 'engaged',
+    type: 'engage',
+    key: 'engaged',
     color: brandColors.blue,
   },
   {
     type: 'reach',
+    key: 'reach',
     color: brandColors.green,
   },
   {
     type: 'convert',
+    key: 'sales_value',
     color: brandColors.redLight,
   },
 ]

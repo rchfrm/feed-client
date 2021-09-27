@@ -12,7 +12,7 @@ const ResultsPostsStats = ({
   isLast30Days,
   className,
 }) => {
-  const sortedPosts = postResultsConfig.map((x) => data.posts.find((element) => element[x.type])).filter(Boolean)
+  const sortedPosts = postResultsConfig.map((x) => data.posts.find((element) => element[x.key])).filter(Boolean)
   const isSpendingPaused = hasSpendFor30Days || !isLast30Days
 
   return (
