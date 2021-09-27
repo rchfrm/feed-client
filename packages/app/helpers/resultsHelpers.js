@@ -172,7 +172,7 @@ export const getConversionData = () => {
   const isMainChart = true
   const prevPeriod = 35
   const currPeriod = 75
-  const copy = ''
+  const copy = resultsCopy.conversionMainDescription
 
   /*
   if (roas > 1) {

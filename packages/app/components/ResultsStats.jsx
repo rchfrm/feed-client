@@ -60,7 +60,7 @@ const ResultsStats = ({ data, hasConversionColumn, className }) => {
         <div
           className={[
             'col-span-12',
-            'order-2',
+            'order-3',
             className,
           ].join(' ')}
         >
