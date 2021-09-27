@@ -33,7 +33,7 @@ const ResultsConversionTeaser = ({ className }) => {
         className="flex-1 w-full"
         onClick={goToControlsConversionsPage}
       >
-        <NoDataBlock className="mb-4 sm:mb-0">
+        <NoDataBlock>
           <div
             className={[
               'flex justify-center items-center',
