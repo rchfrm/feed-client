@@ -24,7 +24,7 @@ const formatResultsData = (data) => {
     const { asset, ...stats } = value
 
     newObject[key] = stats
-    if (value?.asset && (key === 'on_platform' || key === 'unaware')) {
+    if (value?.asset && (key !== 'spend')) {
       newObject.posts.push({
         ...value.asset,
       })
@@ -168,10 +168,22 @@ export const getNewAudienceData = (data) => {
   }
 }
 
+export const getConversionData = () => {
+  return {
+    isMainChart: true,
+    copy: 'Feed’s conversion ads generated 2.1x more in sales than was spent.',
+    chartData: [
+      { type: 'prev', value: 200 },
+      { type: 'curr', value: 400 },
+    ],
+  }
+}
+
 export const getStatsData = (data) => {
   return {
     newAudienceData: getNewAudienceData(data),
     existingAudienceData: getExistingAudienceData(data),
+    conversionData: getConversionData(data),
   }
 }
 
