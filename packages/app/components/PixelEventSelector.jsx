@@ -12,6 +12,7 @@ const PixelEventSelector = ({
   pixelEvent,
   setPixelEvent,
   className,
+  label,
   disabled,
 }) => {
   const [facebookPixelEventOptions, setFacebookPixelEventOptions] = React.useState([])
@@ -47,7 +48,7 @@ const PixelEventSelector = ({
       <Select
         handleChange={handleSelect}
         name="facebook_pixel_event"
-        label="Facebook Pixel Event"
+        label={label}
         selectedValue={pixelEvent}
         options={facebookPixelEventOptions}
         disabled={disabled}
@@ -60,12 +61,14 @@ PixelEventSelector.propTypes = {
   pixelEvent: PropTypes.string,
   setPixelEvent: PropTypes.func.isRequired,
   className: PropTypes.string,
+  label: PropTypes.string,
   disabled: PropTypes.bool,
 }
 
 PixelEventSelector.defaultProps = {
   pixelEvent: '',
   className: '',
+  label: '',
   disabled: false,
 }
 

@@ -8,6 +8,7 @@ import PostLinksSelect from '@/app/PostLinksSelect'
 import PixelEventSelector from '@/app/PixelEventSelector'
 import CallToActionSelector from '@/app/CallToActionSelector'
 import DefaultSettingsSavedAlert from '@/app/DefaultSettingsSavedAlert'
+import AdSettingsSection from '@/app/AdSettingsSection'
 
 import { updateConversionsPreferences, toggleConversionsEnabled } from '@/app/helpers/conversionsHelpers'
 
@@ -148,30 +149,44 @@ const ConversionsSettings = () => {
       {(isSpendingPaused || !hasSufficientBudget) && (
         <MarkdownText markdown={copy.toggleWarning(isSpendingPaused, hasSufficientBudget, formattedMinConversionsBudget)} className="text-red font-semibold mb-10" />
       )}
-      <PostLinksSelect
-        currentLinkId={defaultLinkId}
-        updateParentLink={setDefaultLinkId}
-        shouldSaveOnChange={false}
-        includeDefaultLink
-        includeAddLinkOption
-        componentLocation="post"
-        label="Default link"
-        className="mb-12"
-        disabled={disabled}
-      />
-      <PixelEventSelector
-        pixelEvent={facebookPixelEvent}
-        setPixelEvent={setFacebookPixelEvent}
-        className="mb-12"
-        disabled={disabled}
-      />
-      <CallToActionSelector
-        callToAction={callToAction}
-        setCallToAction={setCallToAction}
-        className="mb-12"
-        label="Call to Action"
-        disabled={disabled}
-      />
+      <AdSettingsSection
+        header="Default link"
+        isDisabled={disabled}
+      >
+        <PostLinksSelect
+          currentLinkId={defaultLinkId}
+          updateParentLink={setDefaultLinkId}
+          shouldSaveOnChange={false}
+          includeDefaultLink
+          includeAddLinkOption
+          componentLocation="post"
+          className="mb-12"
+          disabled={disabled}
+        />
+      </AdSettingsSection>
+      <AdSettingsSection
+        header="Facebook Pixel Event"
+        copy={copy.conversionsPixelEventDescription}
+        isDisabled={disabled}
+      >
+        <PixelEventSelector
+          pixelEvent={facebookPixelEvent}
+          setPixelEvent={setFacebookPixelEvent}
+          className="mb-12"
+          disabled={disabled}
+        />
+      </AdSettingsSection>
+      <AdSettingsSection
+        header="Call to Action"
+        isDisabled={disabled}
+      >
+        <CallToActionSelector
+          callToAction={callToAction}
+          setCallToAction={setCallToAction}
+          className="mb-12"
+          disabled={disabled}
+        />
+      </AdSettingsSection>
       {!isMobileAndIsSidePanelOpen && saveButton}
       {/* ALERT */}
       {showAlert && (
