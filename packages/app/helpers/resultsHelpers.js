@@ -169,12 +169,69 @@ export const getNewAudienceData = (data) => {
 }
 
 export const getConversionData = () => {
+  const isMainChart = true
+  const prevPeriod = 35
+  const currPeriod = 75
+  const copy = ''
+
+  /*
+  if (roas > 1) {
+    isMainChart = true
+    copy = resultsCopy.conversionMainDescription()
+  }
+
+  if (roas <= 1 && prev_period) {
+    prevPeriod =
+    currPeriod =
+    copy = resultsCopy.conversionFallbackSalesDouble()
+  }
+
+  if (roas <= 1 && !prev_period) {
+    currPeriod =
+    copy = resultsCopy.conversionFallbackSalesSingle()
+  }
+
+  if (optimisation_events !== 'purchase') {
+    events =
+    copy = resultsCopy.conversionFallbackOptimisationEvents()
+  }
+
+  if (!optimisation_events && landing_page_views.prev_period) {
+    prevPeriod =
+    currPeriod =
+    copy = resultsCopy.conversionFallbackLandingPageViews()
+  }
+
+  if (!optimisation_events && !landing_page_views.prev_period) {
+    currPeriod =
+    copy = resultsCopy.conversionFallbackLandingPageViews()
+  }
+  if (outbound_clicks && outbound_clicks.prev_period) {
+    prevPeriod =
+    currPeriod =
+    copy = resultsCopy.conversionFallbackOutboundClicks()
+  }
+  if (outbound_clicks && !outbound_clicks.prev_period) {
+    currPeriod =
+    copy = resultsCopy.conversionFallbackOutboundClicks()
+  }
+  if (reach && reach.prev_period) {
+    prevPeriod =
+    currPeriod =
+    copy = resultsCopy.conversionFallbackReach()
+  }
+  if (reach && !reach.prev_period) {
+    currPeriod =
+    copy = resultsCopy.conversionFallbackReach()
+  }
+  */
+
   return {
-    isMainChart: true,
-    copy: 'Feed’s conversion ads generated 2.1x more in sales than was spent.',
+    isMainChart,
+    copy,
     chartData: [
-      { type: 'prev', value: 35 },
-      { type: 'curr', value: 73.50 },
+      { type: 'prev', value: prevPeriod },
+      { type: 'curr', value: currPeriod },
     ],
   }
 }

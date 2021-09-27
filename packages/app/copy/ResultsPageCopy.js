@@ -11,14 +11,24 @@ export default {
   organic posts which reached **${organicValue}%** on average.`,
   existingAudienceFallbackSingle: (currValue) => `Feed has reached **${formatNumber(currValue)}** within your existing audience.`,
   existingAudienceFallbackDouble: (currValue, prevValue) => `Feed has reached **${formatNumber(currValue)}** within your existing audience, versus **${formatNumber(prevValue)}** last month.`,
-
+  conversionMainDescription: 'Feed’s conversion ads generated 2.1x more in sales than was spent.',
+  conversionFallbackSalesDouble: 'Feed’s conversion ads generated £24.50 in sales versus £34 last month.',
+  conversionFallbackSalesSingle: 'Feed’s conversion ads generated £24.50 in sales.',
+  conversionFallbackOptimisationEvents: 'Feed’s conversion ads generated 68 [optimisation events].',
+  conversionFallbackLandingPageViews: '32 people have visited your website as a result of seeing [optimisation event detail].',
+  conversionFallbackOutboundClicks: '56 people clicked through to your website as a result of seeing [optimisation event detail].',
+  conversionFallbackReach: '789 people saw [optimisation event detail].',
   postDescription: (type) => {
     if (type === 'engaged') {
       return `The post that engaged the
       most new people:`
     }
-    return `The post that reached the most people
-    from your existing audience:`
+    if (type === 'reach') {
+      return `The post that reached the most people
+      from your existing audience:`
+    }
+    return `The post that generated the
+    most sales:`
   },
   postDescriptionMobile: (type, value) => {
     if (type === 'engaged') {
