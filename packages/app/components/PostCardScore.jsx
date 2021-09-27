@@ -24,7 +24,7 @@ const PostCardScore = ({
         <span className="ml-3" style={{ transform: 'translateY(-1px)' }}>Score</span>
         <PostCardLabel
           copy="organic"
-          className="bg-green text-white font-bold"
+          className="bg-green"
         />
       </div>
       <p className="flex items-center mb-0 font-bold">

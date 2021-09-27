@@ -17,6 +17,7 @@ const PostCardMedia = ({
   caption,
   postType,
   className,
+  style,
 }) => {
   const [hasMedia, setHasMedia] = React.useState(!!media)
   const [selectedThumbnail, setSelectedThumbnail] = React.useState({})
@@ -35,6 +36,7 @@ const PostCardMedia = ({
         'relative rounded-dialogue overflow-hidden',
         className,
       ].join(' ')}
+      style={style}
     >
       <div
         className={[
