@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import ResultsAbsoluteChart from '@/app/ResultsAbsoluteChart.jsx'
 import ResultsFallbackChart from '@/app/ResultsFallbackChart'
+import ResultsConversionsOptimisationEventsChart from '@/app/ResultsConversionsOptimisationEventsChart'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -14,7 +15,10 @@ import brandColors from '@/constants/brandColors'
 
 const ResultsConversionStats = ({ data, className }) => {
   const isDesktopLayout = useBreakpointTest('sm')
-  const { chartData, isMainChart } = data
+  const { chartData, chartType } = data
+  const isMainChart = chartType === 'main'
+  const isFallbackChart = chartType === 'fallback'
+  const isOptimisationEventsChart = chartType === 'optimisationEvents'
   const currValue = chartData.find((o) => o.type === 'curr').value
   const mainValue = isMainChart
     ? chartData[1].value - chartData[0].value
@@ -37,10 +41,14 @@ const ResultsConversionStats = ({ data, className }) => {
           {abbreviateNumber(mainValue)}
         </p>
       </div>
-      {isMainChart ? (
+      {isMainChart && (
         <ResultsAbsoluteChart data={chartData} color={brandColors.instagram.bg} icon="arrow" />
-      ) : (
+      )}
+      {isFallbackChart && (
         <ResultsFallbackChart data={chartData} color={brandColors.instagram.bg} />
+      )}
+      {isOptimisationEventsChart && (
+        <ResultsConversionsOptimisationEventsChart data={chartData} />
       )}
     </div>
   )

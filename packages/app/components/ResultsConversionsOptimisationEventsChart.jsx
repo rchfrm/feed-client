@@ -1,18 +1,16 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
-const ResultsConversionsOptimisationEventsChart = () => {
-  const data = {
-    value: 5,
-  }
-  const { value } = data
+const ResultsConversionsOptimisationEventsChart = ({ data }) => {
+  const currPeriod = data.find((o) => o.type === 'curr').value
+
 
   return (
     <div
-      className="grid gap-1 justify-around"
-      style={{ gridTemplateColumns: `repeat(auto-fit, minmax(13px, ${value <= 6 ? '48px' : '1fr'}))` }}
+      className="grid gap-1 justify-around w-full"
+      style={{ gridTemplateColumns: `repeat(auto-fit, minmax(13px, ${currPeriod <= 6 ? '48px' : '1fr'}))` }}
     >
-      {Array.from(Array(value), (_, index) => (
+      {Array.from(Array(currPeriod), (_, index) => (
         <div
           key={index}
           className="relative"
@@ -34,7 +32,7 @@ const ResultsConversionsOptimisationEventsChart = () => {
 }
 
 ResultsConversionsOptimisationEventsChart.propTypes = {
-  // data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 }
 
 export default ResultsConversionsOptimisationEventsChart

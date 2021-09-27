@@ -169,14 +169,14 @@ export const getNewAudienceData = (data) => {
 }
 
 export const getConversionData = () => {
-  const isMainChart = true
+  const chartType = 'optimisationEvents'
   const prevPeriod = 35
   const currPeriod = 75
   const copy = resultsCopy.conversionMainDescription
 
   /*
   if (roas > 1) {
-    isMainChart = true
+    chartType = 'main'
     copy = resultsCopy.conversionMainDescription()
   }
 
@@ -192,7 +192,7 @@ export const getConversionData = () => {
   }
 
   if (optimisation_events !== 'purchase') {
-    events =
+    chartType = 'optimisationEvents'
     copy = resultsCopy.conversionFallbackOptimisationEvents()
   }
 
@@ -227,7 +227,7 @@ export const getConversionData = () => {
   */
 
   return {
-    isMainChart,
+    chartType,
     copy,
     chartData: [
       { type: 'prev', value: prevPeriod },
