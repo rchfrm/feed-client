@@ -3,11 +3,17 @@ import PropTypes from 'prop-types'
 
 import { gsap, Power2 } from 'gsap'
 
+import PlusIcon from '@/icons/PlusIcon'
+import ArrowAltIcon from '@/icons/ArrowAltIcon'
+
 import { formatNumber } from '@/helpers/utils'
 
-import brandColors from '@/constants/brandColors'
-
-const ResultsNewAudienceOnPlatformChart = ({ data }) => {
+const ResultsAbsoluteChart = ({ data, color, icon }) => {
+  const icons = {
+    plus: PlusIcon,
+    arrow: ArrowAltIcon,
+  }
+  const ChartIcon = icons[icon]
   const prevPeriod = data.find((o) => o.type === 'prev').value
   const currPeriod = data.find((o) => o.type === 'curr').value
   const absoluteGrowth = currPeriod - prevPeriod
@@ -39,15 +45,15 @@ const ResultsNewAudienceOnPlatformChart = ({ data }) => {
       <div
         ref={prevPeriodChartRef}
         className="flex items-center justify-center h-full bg-blue opacity-50 rounded-full"
-        style={{ width: `${prevPeriodProportion}%`, transform: 'scale(0)' }}
+        style={{ backgroundColor: color, width: `${prevPeriodProportion}%`, transform: 'scale(0)' }}
       >
         {formatNumber(prevPeriod)}
       </div>
-      <span className="z-10 -mx-3 text-blue font-light -mt-2" style={{ fontSize: '3rem', color: brandColors.facebook.bg }}>+</span>
+      <ChartIcon className="h-6 w-6 -mx-2 z-10" fill={color} direction="right" style={{ filter: 'brightness(75%)' }} />
       <div
         ref={nextPeriodChartRef}
-        className="flex items-center justify-center h-full bg-blue rounded-full"
-        style={{ width: `${currentPeriodProportion}%`, transform: 'scale(0)' }}
+        className="flex items-center justify-center h-full rounded-full"
+        style={{ backgroundColor: color, width: `${currentPeriodProportion}%`, transform: 'scale(0)' }}
       >
         {formatNumber(absoluteGrowth)}
       </div>
@@ -55,8 +61,10 @@ const ResultsNewAudienceOnPlatformChart = ({ data }) => {
   )
 }
 
-ResultsNewAudienceOnPlatformChart.propTypes = {
+ResultsAbsoluteChart.propTypes = {
   data: PropTypes.array.isRequired,
+  color: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
 }
 
-export default ResultsNewAudienceOnPlatformChart
+export default ResultsAbsoluteChart

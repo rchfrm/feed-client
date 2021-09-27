@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsNewAudienceChart from '@/app/ResultsNewAudienceChart'
+import ResultsAbsoluteChart from '@/app/ResultsAbsoluteChart.jsx'
 import ResultsFallbackChart from '@/app/ResultsFallbackChart'
 
 import MarkdownText from '@/elements/MarkdownText'
@@ -46,7 +46,7 @@ const ResultsNewAudienceStats = ({ data, className }) => {
         </p>
       </div>
       {isMainChart ? (
-        <ResultsNewAudienceChart data={chartData} />
+        <ResultsAbsoluteChart data={chartData} color={brandColors.blue} icon="plus" />
       ) : (
         <ResultsFallbackChart data={chartData} color={brandColors.blue} />
       )}

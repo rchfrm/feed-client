@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsNewAudienceChart from '@/app/ResultsNewAudienceChart'
+import ResultsAbsoluteChart from '@/app/ResultsAbsoluteChart.jsx'
 import ResultsFallbackChart from '@/app/ResultsFallbackChart'
 
 import MarkdownText from '@/elements/MarkdownText'
@@ -32,13 +32,13 @@ const ResultsConversionStats = ({ data, className }) => {
       <div className="flex flex-row items-center justify-center">
         <p
           className="text-6xl font-bold hidden sm:block"
-          style={{ color: brandColors.blue }}
+          style={{ color: brandColors.instagram.bg }}
         >
           {abbreviateNumber(mainValue)}
         </p>
       </div>
       {isMainChart ? (
-        <ResultsNewAudienceChart data={chartData} />
+        <ResultsAbsoluteChart data={chartData} color={brandColors.instagram.bg} icon="arrow" />
       ) : (
         <ResultsFallbackChart data={chartData} color={brandColors.blue} />
       )}

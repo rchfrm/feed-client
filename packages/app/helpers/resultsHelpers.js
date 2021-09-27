@@ -173,8 +173,8 @@ export const getConversionData = () => {
     isMainChart: true,
     copy: 'Feed’s conversion ads generated 2.1x more in sales than was spent.',
     chartData: [
-      { type: 'prev', value: 200 },
-      { type: 'curr', value: 400 },
+      { type: 'prev', value: 35 },
+      { type: 'curr', value: 73.50 },
     ],
   }
 }
