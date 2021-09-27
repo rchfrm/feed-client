@@ -44,7 +44,7 @@ const ResultsAbsoluteChart = ({ data, color, icon }) => {
     <div className="flex w-full h-12 items-center text-white">
       <div
         ref={prevPeriodChartRef}
-        className="flex items-center justify-center h-full bg-blue opacity-50 rounded-full"
+        className="flex items-center justify-center h-full text-xs bg-blue opacity-50 rounded-full"
         style={{ backgroundColor: color, width: `${prevPeriodProportion}%`, transform: 'scale(0)' }}
       >
         {formatNumber(prevPeriod)}
@@ -52,7 +52,7 @@ const ResultsAbsoluteChart = ({ data, color, icon }) => {
       <ChartIcon className="h-6 w-6 -mx-2 z-10" fill={color} direction="right" style={{ filter: 'brightness(75%)' }} />
       <div
         ref={nextPeriodChartRef}
-        className="flex items-center justify-center h-full rounded-full"
+        className="flex items-center justify-center h-full text-xs font-bold rounded-full"
         style={{ backgroundColor: color, width: `${currentPeriodProportion}%`, transform: 'scale(0)' }}
       >
         {formatNumber(absoluteGrowth)}

@@ -26,7 +26,7 @@ const ResultsPostStats = ({
   const { artistId } = React.useContext(ArtistContext)
 
   const { type, color } = config
-  const value = type === 'engaged' ? post.engaged : post.reach
+  const value = post[type]
   const isDesktopLayout = useBreakpointTest('sm')
   const imageHeight = isDesktopLayout ? '176px' : '100px'
   const { goToPostMetrics } = usePostsSidePanel()

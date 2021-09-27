@@ -40,7 +40,7 @@ const ResultsConversionStats = ({ data, className }) => {
       {isMainChart ? (
         <ResultsAbsoluteChart data={chartData} color={brandColors.instagram.bg} icon="arrow" />
       ) : (
-        <ResultsFallbackChart data={chartData} color={brandColors.blue} />
+        <ResultsFallbackChart data={chartData} color={brandColors.instagram.bg} />
       )}
     </div>
   )

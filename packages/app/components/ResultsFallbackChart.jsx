@@ -45,7 +45,7 @@ const ResultsFallbackChart = ({ data, color }) => {
             'flex items-center justify-center',
             'h-full',
             'text-xs',
-            index === 0 ? 'opacity-50' : null,
+            index === 0 ? 'opacity-50' : 'font-bold',
           ].join(' ')}
           style={{ backgroundColor: color }}
         >
