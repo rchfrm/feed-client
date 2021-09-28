@@ -210,7 +210,7 @@ export const getConversionData = (data) => {
     facebookPixelEvent,
     currency,
   } = data
-  const roas = omni_purchase.curr_period.value / spend.curr_period
+  const roas = +(omni_purchase.curr_period.value / spend.curr_period).toFixed(1)
 
   if (roas > 1) {
     chartType = 'main'

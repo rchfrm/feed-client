@@ -96,7 +96,7 @@ export default {
       description: `**${currValue} people** saw ${detail}.`,
     }
   },
-  postDescription: (type) => {
+  postDescription: (type, isSales) => {
     if (type === 'engage') {
       return `The post that engaged the
       most new people:`
@@ -105,26 +105,31 @@ export default {
       return `The post that reached the most people
       from your existing audience:`
     }
-    return `The post that generated the
-    most sales:`
+    return isSales ? (
+      `The post that generated the
+      most sales:`
+    ) : (
+      `The post that triggered the
+      most pixel events:`
+    )
   },
-  postLabelText: (type) => {
+  postLabelText: (type, isSales) => {
     if (type === 'engage') {
       return 'engaged'
     }
     if (type === 'reach') {
       return 'reached'
     }
-    return 'in sales'
+    return isSales ? 'in sales' : 'events'
   },
-  postDescriptionMobile: (type, value) => {
+  postDescriptionMobile: (type, value, isSales) => {
     if (type === 'engage') {
       return `**${value}** new people engaged`
     }
     if (type === 'reach') {
       return `**${value}** people reached`
     }
-    return `**${value}** in sales`
+    return `**${value}** ${isSales ? 'in sales' : 'pixel events triggered'}`
   },
   statsNoData: 'Feed is setting up your ads',
   postsStatsNoData: (isSpendingPaused) => {
