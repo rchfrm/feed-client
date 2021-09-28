@@ -6,9 +6,9 @@ import { gsap, Power2 } from 'gsap'
 import PlusIcon from '@/icons/PlusIcon'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
-import { formatNumber } from '@/helpers/utils'
+import { formatNumber, formatCurrency } from '@/helpers/utils'
 
-const ResultsAbsoluteChart = ({ data, color, icon }) => {
+const ResultsAbsoluteChart = ({ data, color, icon, currency }) => {
   const icons = {
     plus: PlusIcon,
     arrow: ArrowAltIcon,
@@ -47,7 +47,7 @@ const ResultsAbsoluteChart = ({ data, color, icon }) => {
         className="flex items-center justify-center h-full text-xs bg-blue opacity-50 rounded-full"
         style={{ backgroundColor: color, width: `${prevPeriodProportion}%`, transform: 'scale(0)' }}
       >
-        {formatNumber(prevPeriod)}
+        {currency ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}
       </div>
       <ChartIcon className="h-6 w-6 -mx-2 z-10" fill={color} direction="right" style={{ filter: 'brightness(75%)' }} />
       <div
@@ -55,7 +55,7 @@ const ResultsAbsoluteChart = ({ data, color, icon }) => {
         className="flex items-center justify-center h-full text-xs font-bold rounded-full"
         style={{ backgroundColor: color, width: `${currentPeriodProportion}%`, transform: 'scale(0)' }}
       >
-        {formatNumber(absoluteGrowth)}
+        {currency ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}
       </div>
     </div>
   )
@@ -65,6 +65,11 @@ ResultsAbsoluteChart.propTypes = {
   data: PropTypes.array.isRequired,
   color: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
+  currency: PropTypes.string,
+}
+
+ResultsAbsoluteChart.defaultProps = {
+  currency: '',
 }
 
 export default ResultsAbsoluteChart

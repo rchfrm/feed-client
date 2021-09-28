@@ -7,13 +7,13 @@ import ResultsConversionsOptimisationEventsChart from '@/app/ResultsConversionsO
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import { abbreviateNumber } from '@/helpers/utils'
+import { abbreviateNumber, formatCurrency } from '@/helpers/utils'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsConversionStats = ({ data, className }) => {
+const ResultsConversionStats = ({ data, className, currency }) => {
   const isDesktopLayout = useBreakpointTest('sm')
   const { chartType, chartData, copy } = data
   const currValue = chartData.find((o) => o.type === 'curr').value
@@ -35,14 +35,14 @@ const ResultsConversionStats = ({ data, className }) => {
           className="text-6xl font-bold hidden sm:block"
           style={{ color: brandColors.instagram.bg }}
         >
-          {abbreviateNumber(currValue)}
+          {currency ? formatCurrency(currValue, currency) : abbreviateNumber(currValue)}
         </p>
       </div>
       {isMainChart && (
-        <ResultsAbsoluteChart data={chartData} color={brandColors.instagram.bg} icon="arrow" />
+        <ResultsAbsoluteChart data={chartData} color={brandColors.instagram.bg} icon="arrow" currency={currency} />
       )}
       {isFallbackChart && (
-        <ResultsFallbackChart data={chartData} color={brandColors.instagram.bg} />
+        <ResultsFallbackChart data={chartData} color={brandColors.instagram.bg} currency={currency} />
       )}
       {isOptimisationEventsChart && (
         <ResultsConversionsOptimisationEventsChart data={chartData} />
@@ -54,6 +54,7 @@ const ResultsConversionStats = ({ data, className }) => {
 ResultsConversionStats.propTypes = {
   data: PropTypes.object.isRequired,
   className: PropTypes.string,
+  currency: PropTypes.string.isRequired,
 }
 
 ResultsConversionStats.defaultProps = {

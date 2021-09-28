@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 
 import { gsap, Power2 } from 'gsap'
 
-import { formatNumber } from '@/helpers/utils'
+import { formatNumber, formatCurrency } from '@/helpers/utils'
 
-const ResultsFallbackChart = ({ data, color }) => {
+const ResultsFallbackChart = ({ data, color, currency }) => {
   const prevPeriod = data.find((o) => o.type === 'prev').value
   const currPeriod = data.find((o) => o.type === 'curr').value
   const total = prevPeriod + currPeriod
@@ -49,7 +49,7 @@ const ResultsFallbackChart = ({ data, color }) => {
           ].join(' ')}
           style={{ backgroundColor: color }}
         >
-          {formatNumber(value)}
+          {currency ? formatCurrency(value, currency) : formatNumber(value)}
         </div>
       ))}
     </div>

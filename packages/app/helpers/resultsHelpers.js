@@ -3,6 +3,7 @@ import * as api from '@/helpers/api'
 
 import brandColors from '@/constants/brandColors'
 import resultsCopy from '@/app/copy/ResultsPageCopy'
+import { formatCurrency } from '@/helpers/utils'
 
 export const postResultsConfig = [
   {
@@ -189,7 +190,7 @@ export const makeStatsObject = ({ chartType, prevPeriod = null, currPeriod = nul
   }
 }
 
-export const getConversionData = (data, facebookPixelEvent) => {
+export const getConversionData = (data) => {
   let chartType = 'fallback'
   let prevPeriod = 0
   let currPeriod = 0
@@ -206,6 +207,8 @@ export const getConversionData = (data, facebookPixelEvent) => {
       unique_outbound_clicks,
       reach,
     },
+    facebookPixelEvent,
+    currency,
   } = data
   const roas = omni_purchase.curr_period.value / spend.curr_period
 
@@ -219,14 +222,14 @@ export const getConversionData = (data, facebookPixelEvent) => {
 
   if (!omni_purchase.prev_period.value && omni_purchase.curr_period.value) {
     currPeriod = omni_purchase.curr_period.value
-    copy = resultsCopy.conversionFallbackSalesSingle(currPeriod)
+    copy = resultsCopy.conversionFallbackSalesSingle(formatCurrency(currPeriod, currency))
     return makeStatsObject({ chartType, currPeriod, copy })
   }
 
   if (omni_purchase.prev_period.value && omni_purchase.curr_period.value) {
     prevPeriod = omni_purchase.prev_period.value
     currPeriod = omni_purchase.curr_period.value
-    copy = resultsCopy.conversionFallbackSalesDouble(prevPeriod, currPeriod)
+    copy = resultsCopy.conversionFallbackSalesDouble(formatCurrency(prevPeriod, currency), formatCurrency(currPeriod, currency))
     return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
   }
 
@@ -279,11 +282,11 @@ export const getConversionData = (data, facebookPixelEvent) => {
   return null
 }
 
-export const getStatsData = (data, facebookPixelEvent) => {
+export const getStatsData = (data) => {
   return {
     newAudienceData: getNewAudienceData(data),
     existingAudienceData: getExistingAudienceData(data),
-    conversionData: getConversionData(data, facebookPixelEvent),
+    conversionData: getConversionData(data),
   }
 }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import ResultsNewAudienceStats from '@/app/ResultsNewAudienceStats'
 import ResultsExistingAudienceStats from '@/app/ResultsExistingAudienceStats'
@@ -16,6 +17,9 @@ import copy from '@/app/copy/ResultsPageCopy'
 const getConversionsPreferences = state => state.conversionsPreferences
 
 const ResultsStats = ({ data, hasConversionColumn, className }) => {
+  const { artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
+  const { currency: { code: currency } } = min_daily_budget_info || {}
+
   const [newAudienceData, setNewAudienceData] = React.useState(null)
   const [existingAudienceData, setExistingAudienceData] = React.useState(null)
   const [conversionData, setConversionData] = React.useState(null)
@@ -26,12 +30,16 @@ const ResultsStats = ({ data, hasConversionColumn, className }) => {
       newAudienceData,
       existingAudienceData,
       conversionData,
-    } = getStatsData(data, facebookPixelEvent)
+    } = getStatsData({
+      ...data,
+      facebookPixelEvent,
+      currency,
+    })
 
     setNewAudienceData(newAudienceData)
     setExistingAudienceData(existingAudienceData)
     setConversionData(conversionData)
-  }, [data, facebookPixelEvent])
+  }, [data, facebookPixelEvent, currency])
 
   return (
     <>
@@ -70,7 +78,7 @@ const ResultsStats = ({ data, hasConversionColumn, className }) => {
           ].join(' ')}
         >
           {conversionData ? (
-            <ResultsConversionStats className="flex flex-col sm:items-center" data={conversionData} />
+            <ResultsConversionStats className="flex flex-col sm:items-center" data={conversionData} currency={currency} />
           ) : (
             <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-insta" />
           )}
