@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import ResultsNewAudienceStats from '@/app/ResultsNewAudienceStats'
 import ResultsExistingAudienceStats from '@/app/ResultsExistingAudienceStats'
 import ResultsConversionStats from '@/app/ResultsConversionStats'
@@ -11,22 +13,25 @@ import { getStatsData } from '@/app/helpers/resultsHelpers'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
+const getConversionsPreferences = state => state.conversionsPreferences
+
 const ResultsStats = ({ data, hasConversionColumn, className }) => {
   const [newAudienceData, setNewAudienceData] = React.useState(null)
   const [existingAudienceData, setExistingAudienceData] = React.useState(null)
   const [conversionData, setConversionData] = React.useState(null)
+  const { facebookPixelEvent } = useControlsStore(getConversionsPreferences)
 
   React.useEffect(() => {
     const {
       newAudienceData,
       existingAudienceData,
       conversionData,
-    } = getStatsData(data)
+    } = getStatsData(data, facebookPixelEvent)
 
     setNewAudienceData(newAudienceData)
     setExistingAudienceData(existingAudienceData)
     setConversionData(conversionData)
-  }, [data])
+  }, [data, facebookPixelEvent])
 
   return (
     <>

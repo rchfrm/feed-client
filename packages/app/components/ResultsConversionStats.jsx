@@ -15,21 +15,18 @@ import brandColors from '@/constants/brandColors'
 
 const ResultsConversionStats = ({ data, className }) => {
   const isDesktopLayout = useBreakpointTest('sm')
-  const { chartData, chartType } = data
+  const { chartType, chartData, copy } = data
+  const currValue = chartData.find((o) => o.type === 'curr').value
   const isMainChart = chartType === 'main'
   const isFallbackChart = chartType === 'fallback'
   const isOptimisationEventsChart = chartType === 'optimisationEvents'
-  const currValue = chartData.find((o) => o.type === 'curr').value
-  const mainValue = isMainChart
-    ? chartData[1].value - chartData[0].value
-    : currValue
 
   return (
     <div className={[className].join(' ')}>
-      <p className="font-bold text-xl text-left mr-auto sm:mr-0">Sales</p>
+      <p className="font-bold text-xl text-left mr-auto sm:mr-0">{copy.title}</p>
       <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
         <MarkdownText
-          markdown={data.copy || ''}
+          markdown={copy.description || ''}
           className="sm:px-1 mr-auto sm:mr-0 mb-6 sm:mb-0 sm:text-center"
         />
       </div>
@@ -38,7 +35,7 @@ const ResultsConversionStats = ({ data, className }) => {
           className="text-6xl font-bold hidden sm:block"
           style={{ color: brandColors.instagram.bg }}
         >
-          {abbreviateNumber(mainValue)}
+          {abbreviateNumber(currValue)}
         </p>
       </div>
       {isMainChart && (
