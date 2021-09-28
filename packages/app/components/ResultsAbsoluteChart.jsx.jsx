@@ -17,7 +17,10 @@ const ResultsAbsoluteChart = ({ data, color, icon, currency }) => {
   const prevPeriod = data.find((o) => o.type === 'prev').value
   const currPeriod = data.find((o) => o.type === 'curr').value
   const absoluteGrowth = currPeriod - prevPeriod
-  const currentPeriodProportion = (absoluteGrowth / currPeriod) * 100 > 25 ? (absoluteGrowth / currPeriod) * 100 : 25
+  const total = prevPeriod + currPeriod
+
+  const percentage = currency ? currPeriod / total : absoluteGrowth / currPeriod
+  const currentPeriodProportion = percentage * 100 > 25 ? percentage * 100 : 25
   const prevPeriodProportion = currentPeriodProportion > 25 ? 100 - currentPeriodProportion : 75
 
   const prevPeriodChartRef = React.useRef(null)
