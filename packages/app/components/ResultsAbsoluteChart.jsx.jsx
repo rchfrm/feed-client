@@ -8,7 +8,13 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { formatNumber, formatCurrency } from '@/helpers/utils'
 
-const ResultsAbsoluteChart = ({ data, color, icon, currency }) => {
+const ResultsAbsoluteChart = ({
+  data,
+  color,
+  isPurchase,
+  icon,
+  currency,
+}) => {
   const icons = {
     plus: PlusIcon,
     arrow: ArrowAltIcon,
@@ -19,7 +25,7 @@ const ResultsAbsoluteChart = ({ data, color, icon, currency }) => {
   const absoluteGrowth = currPeriod - prevPeriod
   const total = prevPeriod + currPeriod
 
-  const percentage = currency ? currPeriod / total : absoluteGrowth / currPeriod
+  const percentage = isPurchase ? currPeriod / total : absoluteGrowth / currPeriod
   const currentPeriodProportion = percentage * 100 > 25 ? percentage * 100 : 25
   const prevPeriodProportion = currentPeriodProportion > 25 ? 100 - currentPeriodProportion : 75
 
@@ -50,7 +56,7 @@ const ResultsAbsoluteChart = ({ data, color, icon, currency }) => {
         className="flex items-center justify-center h-full text-xs bg-blue opacity-50 rounded-full"
         style={{ backgroundColor: color, width: `${prevPeriodProportion}%`, transform: 'scale(0)' }}
       >
-        {currency ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}
+        {isPurchase ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}
       </div>
       <ChartIcon className="h-6 w-6 -mx-2 z-10" fill={color} direction="right" style={{ filter: 'brightness(75%)' }} />
       <div
@@ -58,7 +64,7 @@ const ResultsAbsoluteChart = ({ data, color, icon, currency }) => {
         className="flex items-center justify-center h-full text-xs font-bold rounded-full"
         style={{ backgroundColor: color, width: `${currentPeriodProportion}%`, transform: 'scale(0)' }}
       >
-        {currency ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}
+        {isPurchase ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}
       </div>
     </div>
   )
@@ -67,12 +73,14 @@ const ResultsAbsoluteChart = ({ data, color, icon, currency }) => {
 ResultsAbsoluteChart.propTypes = {
   data: PropTypes.array.isRequired,
   color: PropTypes.string.isRequired,
+  isPurchase: PropTypes.bool,
   icon: PropTypes.string.isRequired,
   currency: PropTypes.string,
 }
 
 ResultsAbsoluteChart.defaultProps = {
   currency: '',
+  isPurchase: false,
 }
 
 export default ResultsAbsoluteChart

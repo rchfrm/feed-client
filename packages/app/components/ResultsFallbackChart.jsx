@@ -5,7 +5,12 @@ import { gsap, Power2 } from 'gsap'
 
 import { formatNumber, formatCurrency } from '@/helpers/utils'
 
-const ResultsFallbackChart = ({ data, color, currency }) => {
+const ResultsFallbackChart = ({
+  data,
+  color,
+  isPurchase,
+  currency,
+}) => {
   const prevPeriod = data.find((o) => o.type === 'prev').value
   const currPeriod = data.find((o) => o.type === 'curr').value
   const total = prevPeriod + currPeriod
@@ -49,7 +54,7 @@ const ResultsFallbackChart = ({ data, color, currency }) => {
           ].join(' ')}
           style={{ backgroundColor: color }}
         >
-          {currency ? formatCurrency(value, currency) : formatNumber(value)}
+          {isPurchase ? formatCurrency(value, currency) : formatNumber(value)}
         </div>
       ))}
     </div>
@@ -59,6 +64,13 @@ const ResultsFallbackChart = ({ data, color, currency }) => {
 ResultsFallbackChart.propTypes = {
   data: PropTypes.array.isRequired,
   color: PropTypes.string.isRequired,
+  isPurchase: PropTypes.bool,
+  currency: PropTypes.string,
+}
+
+ResultsFallbackChart.defaultProps = {
+  currency: '',
+  isPurchase: false,
 }
 
 export default ResultsFallbackChart

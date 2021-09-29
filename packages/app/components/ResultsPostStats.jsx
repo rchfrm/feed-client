@@ -24,8 +24,8 @@ const ResultsPostStats = ({
 }) => {
   const { type, key, color } = config
   const [postData, setPostsData] = React.useState(null)
-  const [isSales, setIsSales] = React.useState(false)
-  const [value, setValue] = React.useState(post[key])
+  const [isPurchase, setIsPurchase] = React.useState(false)
+  const [value, setValue] = React.useState(post[key] || post[key[0]])
   const { artistId, artist: { min_daily_budget_info: { currency: { code: currency } } } } = React.useContext(ArtistContext)
 
   const isDesktopLayout = useBreakpointTest('sm')
@@ -34,12 +34,12 @@ const ResultsPostStats = ({
 
   React.useEffect(() => {
     if (type === 'convert') {
-      const highestValue = Math.max(post.sales_value, post.events_count)
+      const highestValue = Math.max(post[key[0]], post[key[1]])
       const highestValueKey = Object.keys(post).find(key => post[key] === highestValue)
-      setIsSales(highestValueKey === 'sales_value')
-      setValue(highestValueKey === 'sales_value' ? formatCurrency(highestValue, currency) : highestValue)
+      setIsPurchase(highestValueKey === key[0])
+      setValue(highestValueKey === key[0] ? formatCurrency(highestValue, currency) : highestValue)
     }
-  }, [setIsSales, post, type, currency])
+  }, [setIsPurchase, post, type, currency, key])
 
   const openPostMetricsSidePanel = () => {
     const metrics = {
@@ -67,7 +67,7 @@ const ResultsPostStats = ({
         <p className="w-full text-bold text-lg sm:hidden">Most effective post</p>
         <div className="flex flex-row sm:flex-col items-center">
           <div className="flex items-center" style={{ minHeight: '108px' }}>
-            <MarkdownText markdown={copy.postDescription(type, isSales)} className="hidden sm:block text-center sm:px-9" />
+            <MarkdownText markdown={copy.postDescription(type, isPurchase)} className="hidden sm:block text-center sm:px-9" />
           </div>
           <PostCardMedia
             media={postData?.media}
@@ -85,11 +85,11 @@ const ResultsPostStats = ({
             ].join(' ')}
             style={{ backgroundColor: color }}
           >
-            {isSales ? value : abbreviateNumber(value)}
-            <MarkdownText markdown={copy.postLabelText(type, isSales)} className="text-xs -mt-1 mb-0" />
+            {isPurchase ? value : abbreviateNumber(value)}
+            <MarkdownText markdown={copy.postLabelText(type, isPurchase)} className="text-xs -mt-1 mb-0" />
           </div>
           <div className="flex flex-col items-start justify-center sm:items-center">
-            <MarkdownText markdown={copy.postDescriptionMobile(type, value, isSales)} className="sm:hidden" />
+            <MarkdownText markdown={copy.postDescriptionMobile(type, value, isPurchase)} className="sm:hidden" />
             <Button
               version="small outline"
               className={[

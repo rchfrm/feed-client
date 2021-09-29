@@ -18,7 +18,7 @@ export const postResultsConfig = [
   },
   {
     type: 'convert',
-    key: 'sales_value',
+    key: ['sales_value', 'events_count'],
     color: brandColors.redLight,
   },
 ]
@@ -179,9 +179,10 @@ export const getOptimisationsEvents = (data) => {
   }, [])
 }
 
-export const makeStatsObject = ({ chartType, prevPeriod = null, currPeriod = null, copy }) => {
+export const makeStatsObject = ({ chartType, isPurchase = false, prevPeriod = null, currPeriod = null, copy }) => {
   return {
     chartType,
+    isPurchase,
     chartData: [
       { type: 'prev', value: prevPeriod },
       { type: 'curr', value: currPeriod },
@@ -195,6 +196,7 @@ export const getConversionData = (data) => {
   let prevPeriod = 0
   let currPeriod = 0
   let copy = ''
+  let isPurchase = false
 
   const optimisationsEvents = getOptimisationsEvents(data.conversions)
   const currentOptimisationEvent = optimisationsEvents.sort((a, b) => b.curr_period.count - a.curr_period.count)[0]
@@ -214,23 +216,26 @@ export const getConversionData = (data) => {
 
   if (roas > 1) {
     chartType = 'main'
+    isPurchase = true
     prevPeriod = spend.curr_period
     currPeriod = omni_purchase.curr_period.value
     copy = resultsCopy.conversionMainDescription(roas)
-    return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
+    return makeStatsObject({ chartType, isPurchase, prevPeriod, currPeriod, copy })
   }
 
   if (!omni_purchase.prev_period.value && omni_purchase.curr_period.value) {
+    isPurchase = true
     currPeriod = omni_purchase.curr_period.value
     copy = resultsCopy.conversionFallbackSalesSingle(formatCurrency(currPeriod, currency))
-    return makeStatsObject({ chartType, currPeriod, copy })
+    return makeStatsObject({ chartType, isPurchase, currPeriod, copy })
   }
 
   if (omni_purchase.prev_period.value && omni_purchase.curr_period.value) {
+    isPurchase = true
     prevPeriod = omni_purchase.prev_period.value
     currPeriod = omni_purchase.curr_period.value
     copy = resultsCopy.conversionFallbackSalesDouble(formatCurrency(prevPeriod, currency), formatCurrency(currPeriod, currency))
-    return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
+    return makeStatsObject({ chartType, isPurchase, prevPeriod, currPeriod, copy })
   }
 
   if (optimisationsEvents.length > 0) {

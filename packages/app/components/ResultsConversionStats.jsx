@@ -15,7 +15,7 @@ import brandColors from '@/constants/brandColors'
 
 const ResultsConversionStats = ({ data, className, currency }) => {
   const isDesktopLayout = useBreakpointTest('sm')
-  const { chartType, chartData, copy } = data
+  const { chartType, isPurchase, chartData, copy } = data
   const currValue = chartData.find((o) => o.type === 'curr').value
   const isMainChart = chartType === 'main'
   const isFallbackChart = chartType === 'fallback'
@@ -35,14 +35,25 @@ const ResultsConversionStats = ({ data, className, currency }) => {
           className="text-6xl font-bold hidden sm:block"
           style={{ color: brandColors.instagram.bg }}
         >
-          {currency ? formatCurrency(currValue, currency) : abbreviateNumber(currValue)}
+          {isPurchase ? formatCurrency(currValue, currency) : abbreviateNumber(currValue)}
         </p>
       </div>
       {isMainChart && (
-        <ResultsAbsoluteChart data={chartData} color={brandColors.instagram.bg} icon="arrow" currency={currency} />
+        <ResultsAbsoluteChart
+          data={chartData}
+          color={brandColors.instagram.bg}
+          icon="arrow"
+          isPurchase={isPurchase}
+          currency={currency}
+        />
       )}
       {isFallbackChart && (
-        <ResultsFallbackChart data={chartData} color={brandColors.instagram.bg} currency={currency} />
+        <ResultsFallbackChart
+          data={chartData}
+          color={brandColors.instagram.bg}
+          isPurchase={isPurchase}
+          currency={currency}
+        />
       )}
       {isOptimisationEventsChart && (
         <ResultsConversionsOptimisationEventsChart data={chartData} />
