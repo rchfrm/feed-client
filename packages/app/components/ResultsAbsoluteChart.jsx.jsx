@@ -26,8 +26,8 @@ const ResultsAbsoluteChart = ({
   const total = prevPeriod + currPeriod
 
   const percentage = isPurchase ? currPeriod / total : absoluteGrowth / currPeriod
-  const currentPeriodProportion = percentage * 100 > 25 ? percentage * 100 : 25
-  const prevPeriodProportion = currentPeriodProportion > 25 ? 100 - currentPeriodProportion : 75
+  const currentPeriodProportion = (percentage * 100) > 25 ? percentage * 100 : 25
+  const prevPeriodProportion = (100 - currentPeriodProportion) > 25 ? 100 - currentPeriodProportion : 25
 
   const prevPeriodChartRef = React.useRef(null)
   const nextPeriodChartRef = React.useRef(null)
