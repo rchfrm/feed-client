@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsAbsoluteChart from '@/app/ResultsAbsoluteChart.jsx'
+import ResultsAbsoluteChart from '@/app/ResultsAbsoluteChart'
 import ResultsFallbackChart from '@/app/ResultsFallbackChart'
 
 import MarkdownText from '@/elements/MarkdownText'
