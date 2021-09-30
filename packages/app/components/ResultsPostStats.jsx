@@ -25,7 +25,7 @@ const ResultsPostStats = ({
   const { type, key, color } = config
   const [postData, setPostsData] = React.useState(null)
   const [isPurchase, setIsPurchase] = React.useState(false)
-  const [value, setValue] = React.useState(post[key] || post[key[0]])
+  const [value, setValue] = React.useState(Array.isArray(key) ? post[key[0]] : post[key])
   const { artistId, artist: { min_daily_budget_info: { currency: { code: currency } } } } = React.useContext(ArtistContext)
 
   const isDesktopLayout = useBreakpointTest('sm')

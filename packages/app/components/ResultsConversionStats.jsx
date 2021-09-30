@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsAbsoluteChart from '@/app/ResultsAbsoluteChart.jsx'
+import ResultsAbsoluteChart from '@/app/ResultsAbsoluteChart'
 import ResultsFallbackChart from '@/app/ResultsFallbackChart'
 import ResultsConversionsOptimisationEventsChart from '@/app/ResultsConversionsOptimisationEventsChart'
 
@@ -23,7 +23,6 @@ const ResultsConversionStats = ({ data, className, currency }) => {
 
   return (
     <div className={[className].join(' ')}>
-      <p className="font-bold text-xl text-left mr-auto sm:mr-0">{copy.title}</p>
       <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
         <MarkdownText
           markdown={copy.description || ''}

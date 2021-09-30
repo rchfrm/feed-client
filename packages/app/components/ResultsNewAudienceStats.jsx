@@ -25,7 +25,6 @@ const ResultsNewAudienceStats = ({ data, className }) => {
 
   return (
     <div className={[className].join(' ')}>
-      <p className="font-bold text-xl text-left mr-auto sm:mr-0">New people</p>
       <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
         <MarkdownText
           markdown={data.copy || ''}

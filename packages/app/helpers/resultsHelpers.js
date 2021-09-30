@@ -226,7 +226,7 @@ export const getConversionData = (data) => {
   if (!omni_purchase.prev_period.value && omni_purchase.curr_period.value) {
     isPurchase = true
     currPeriod = omni_purchase.curr_period.value
-    copy = resultsCopy.conversionFallbackSalesSingle(formatCurrency(currPeriod, currency))
+    copy = resultsCopy.conversionFallbackSales(formatCurrency(currPeriod, currency))
     return makeStatsObject({ chartType, isPurchase, currPeriod, copy })
   }
 
@@ -234,14 +234,15 @@ export const getConversionData = (data) => {
     isPurchase = true
     prevPeriod = omni_purchase.prev_period.value
     currPeriod = omni_purchase.curr_period.value
-    copy = resultsCopy.conversionFallbackSalesDouble(formatCurrency(prevPeriod, currency), formatCurrency(currPeriod, currency))
+    copy = resultsCopy.conversionFallbackSales(formatCurrency(currPeriod, currency), formatCurrency(prevPeriod, currency))
     return makeStatsObject({ chartType, isPurchase, prevPeriod, currPeriod, copy })
   }
 
   if (optimisationsEvents.length > 0) {
     chartType = 'optimisationEvents'
+    prevPeriod = currentOptimisationEvent.prev_period.count
     currPeriod = currentOptimisationEvent.curr_period.count
-    copy = resultsCopy.conversionFallbackOptimisationEvents(currPeriod, currentOptimisationEvent.event)
+    copy = resultsCopy.conversionFallbackOptimisationEvents(currPeriod, currentOptimisationEvent.event, prevPeriod)
     return makeStatsObject({ chartType, currPeriod, copy })
   }
 
@@ -254,7 +255,7 @@ export const getConversionData = (data) => {
   if (landing_page_views.prev_period && landing_page_views.curr_period) {
     prevPeriod = landing_page_views.prev_period
     currPeriod = landing_page_views.curr_period
-    copy = resultsCopy.conversionFallbackLandingPageViews(currPeriod, facebookPixelEvent)
+    copy = resultsCopy.conversionFallbackLandingPageViews(currPeriod, facebookPixelEvent, prevPeriod)
     return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
   }
 
@@ -267,14 +268,14 @@ export const getConversionData = (data) => {
   if (unique_outbound_clicks.curr_period && unique_outbound_clicks.prev_period) {
     prevPeriod = unique_outbound_clicks.prev_period
     currPeriod = unique_outbound_clicks.curr_period
-    copy = resultsCopy.conversionFallbackOutboundClicks(currPeriod, facebookPixelEvent)
+    copy = resultsCopy.conversionFallbackOutboundClicks(currPeriod, facebookPixelEvent, prevPeriod)
     return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
   }
 
   if (reach.curr_period && reach.prev_period) {
     prevPeriod = reach.prev_period
     currPeriod = reach.curr_period
-    copy = resultsCopy.conversionFallbackReach(currPeriod, facebookPixelEvent)
+    copy = resultsCopy.conversionFallbackReach(currPeriod, facebookPixelEvent, prevPeriod)
     return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
   }
 

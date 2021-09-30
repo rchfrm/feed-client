@@ -50,10 +50,11 @@ const ResultsStats = ({ data, hasConversionColumn, className }) => {
           className,
         ].join(' ')}
       >
+        <p className="font-bold text-xl sm:text-center">New people</p>
         {newAudienceData ? (
           <ResultsNewAudienceStats className="flex flex-col sm:items-center" data={newAudienceData} />
         ) : (
-          <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-blue" />
+          <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-blue" />
         )}
       </div>
       <div
@@ -63,10 +64,11 @@ const ResultsStats = ({ data, hasConversionColumn, className }) => {
           className,
         ].join(' ')}
       >
+        <p className="font-bold text-xl sm:text-center">Existing audiences</p>
         {existingAudienceData ? (
           <ResultsExistingAudienceStats className="flex flex-col sm:items-center" data={existingAudienceData} />
         ) : (
-          <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-green" />
+          <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-green" />
         )}
       </div>
       {hasConversionColumn && (
@@ -77,10 +79,11 @@ const ResultsStats = ({ data, hasConversionColumn, className }) => {
             className,
           ].join(' ')}
         >
+          <p className="font-bold text-xl sm:text-center">{conversionData?.copy?.title || 'Sales'}</p>
           {conversionData ? (
             <ResultsConversionStats className="flex flex-col sm:items-center" data={conversionData} currency={currency} />
           ) : (
-            <MarkdownText markdown={copy.statsNoData} className="mt-10 px-16 text-center text-xl text-insta" />
+            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-insta" />
           )}
         </div>
       )}
