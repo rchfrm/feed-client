@@ -14,7 +14,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
-import { abbreviateNumber } from '@/helpers/utils'
+import { abbreviateNumber, formatCurrency } from '@/helpers/utils'
 import { getPostById } from '@/app/helpers/postsHelpers'
 
 const ResultsPostStats = ({
@@ -22,14 +22,24 @@ const ResultsPostStats = ({
   config,
   className,
 }) => {
+  const { type, key, color } = config
   const [postData, setPostsData] = React.useState(null)
-  const { artistId } = React.useContext(ArtistContext)
+  const [isPurchase, setIsPurchase] = React.useState(false)
+  const [value, setValue] = React.useState(Array.isArray(key) ? post[key[0]] : post[key])
+  const { artistId, artist: { min_daily_budget_info: { currency: { code: currency } } } } = React.useContext(ArtistContext)
 
-  const { type, color } = config
-  const value = type === 'engaged' ? post.engaged : post.reach
   const isDesktopLayout = useBreakpointTest('sm')
   const imageHeight = isDesktopLayout ? '176px' : '100px'
   const { goToPostMetrics } = usePostsSidePanel()
+
+  React.useEffect(() => {
+    if (type === 'convert') {
+      const highestValue = Math.max(post[key[0]], post[key[1]])
+      const highestValueKey = Object.keys(post).find(key => post[key] === highestValue)
+      setIsPurchase(highestValueKey === key[0])
+      setValue(highestValueKey === key[0] ? formatCurrency(highestValue, currency) : highestValue)
+    }
+  }, [setIsPurchase, post, type, currency, key])
 
   const openPostMetricsSidePanel = () => {
     const metrics = {
@@ -57,7 +67,7 @@ const ResultsPostStats = ({
         <p className="w-full text-bold text-lg sm:hidden">Most effective post</p>
         <div className="flex flex-row sm:flex-col items-center">
           <div className="flex items-center" style={{ minHeight: '108px' }}>
-            <MarkdownText markdown={copy.postDescription(type)} className="hidden sm:block text-center sm:px-9" />
+            <MarkdownText markdown={copy.postDescription(type, isPurchase)} className="hidden sm:block text-center sm:px-9" />
           </div>
           <PostCardMedia
             media={postData?.media}
@@ -75,11 +85,11 @@ const ResultsPostStats = ({
             ].join(' ')}
             style={{ backgroundColor: color }}
           >
-            {abbreviateNumber(value)}
-            <span className="text-xs -mt-1">{type === 'engaged' ? 'engaged' : 'reached'}</span>
+            {isPurchase ? value : abbreviateNumber(value)}
+            <MarkdownText markdown={copy.postLabelText(type, isPurchase)} className="text-xs -mt-1 mb-0" />
           </div>
           <div className="flex flex-col items-start justify-center sm:items-center">
-            <MarkdownText markdown={copy.postDescriptionMobile(type, value)} className="sm:hidden" />
+            <MarkdownText markdown={copy.postDescriptionMobile(type, value, isPurchase)} className="sm:hidden" />
             <Button
               version="small outline"
               className={[

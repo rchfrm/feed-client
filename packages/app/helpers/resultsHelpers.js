@@ -3,18 +3,22 @@ import * as api from '@/helpers/api'
 
 import brandColors from '@/constants/brandColors'
 import resultsCopy from '@/app/copy/ResultsPageCopy'
+import { formatCurrency } from '@/helpers/utils'
 
 export const postResultsConfig = [
   {
-    type: 'engaged',
+    type: 'engage',
+    key: 'engaged',
     color: brandColors.blue,
   },
   {
     type: 'reach',
+    key: 'reach',
     color: brandColors.green,
   },
   {
     type: 'convert',
+    key: ['sales_value', 'events_count'],
     color: brandColors.redLight,
   },
 ]
@@ -24,7 +28,7 @@ const formatResultsData = (data) => {
     const { asset, ...stats } = value
 
     newObject[key] = stats
-    if (value?.asset && (key === 'on_platform' || key === 'unaware')) {
+    if (value?.asset && (key !== 'spend')) {
       newObject.posts.push({
         ...value.asset,
       })
@@ -168,10 +172,127 @@ export const getNewAudienceData = (data) => {
   }
 }
 
+export const getOptimisationsEvents = (data) => {
+  return Object.entries(data).reduce((array, [key, value]) => {
+    if (!value?.curr_period?.count) return array
+    return [...array, { ...value, event: key }]
+  }, [])
+}
+
+export const makeStatsObject = ({ chartType, isPurchase = false, prevPeriod = null, currPeriod = null, copy }) => {
+  return {
+    chartType,
+    isPurchase,
+    chartData: [
+      { type: 'prev', value: prevPeriod },
+      { type: 'curr', value: currPeriod },
+    ],
+    copy,
+  }
+}
+
+export const getConversionData = (data) => {
+  let chartType = 'fallback'
+  let prevPeriod = 0
+  let currPeriod = 0
+  let copy = ''
+  let isPurchase = false
+
+  const optimisationsEvents = getOptimisationsEvents(data.conversions)
+  const currentOptimisationEvent = optimisationsEvents.sort((a, b) => b.curr_period.count - a.curr_period.count)[0]
+
+  const {
+    conversions: {
+      omni_purchase,
+      spend,
+      landing_page_views,
+      unique_outbound_clicks,
+      reach,
+    },
+    facebookPixelEvent,
+    currency,
+  } = data
+  const roas = +(omni_purchase.curr_period.value / spend.curr_period).toFixed(1)
+
+  if (roas > 1) {
+    chartType = 'main'
+    isPurchase = true
+    prevPeriod = spend.curr_period
+    currPeriod = omni_purchase.curr_period.value
+    copy = resultsCopy.conversionMainDescription(roas)
+    return makeStatsObject({ chartType, isPurchase, prevPeriod, currPeriod, copy })
+  }
+
+  if (!omni_purchase.prev_period.value && omni_purchase.curr_period.value) {
+    isPurchase = true
+    currPeriod = omni_purchase.curr_period.value
+    copy = resultsCopy.conversionFallbackSales(formatCurrency(currPeriod, currency))
+    return makeStatsObject({ chartType, isPurchase, currPeriod, copy })
+  }
+
+  if (omni_purchase.prev_period.value && omni_purchase.curr_period.value) {
+    isPurchase = true
+    prevPeriod = omni_purchase.prev_period.value
+    currPeriod = omni_purchase.curr_period.value
+    copy = resultsCopy.conversionFallbackSales(formatCurrency(currPeriod, currency), formatCurrency(prevPeriod, currency))
+    return makeStatsObject({ chartType, isPurchase, prevPeriod, currPeriod, copy })
+  }
+
+  if (optimisationsEvents.length > 0) {
+    chartType = 'optimisationEvents'
+    prevPeriod = currentOptimisationEvent.prev_period.count
+    currPeriod = currentOptimisationEvent.curr_period.count
+    copy = resultsCopy.conversionFallbackOptimisationEvents(currPeriod, currentOptimisationEvent.event, prevPeriod)
+    return makeStatsObject({ chartType, currPeriod, copy })
+  }
+
+  if (!landing_page_views.prev_period && landing_page_views.curr_period) {
+    currPeriod = landing_page_views.curr_period
+    copy = resultsCopy.conversionFallbackLandingPageViews(currPeriod, facebookPixelEvent)
+    return makeStatsObject({ chartType, currPeriod, copy })
+  }
+
+  if (landing_page_views.prev_period && landing_page_views.curr_period) {
+    prevPeriod = landing_page_views.prev_period
+    currPeriod = landing_page_views.curr_period
+    copy = resultsCopy.conversionFallbackLandingPageViews(currPeriod, facebookPixelEvent, prevPeriod)
+    return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
+  }
+
+  if (!unique_outbound_clicks.prev_period && unique_outbound_clicks.curr_period) {
+    currPeriod = unique_outbound_clicks.curr_period
+    copy = resultsCopy.conversionFallbackOutboundClicks(currPeriod, facebookPixelEvent)
+    return makeStatsObject({ chartType, currPeriod, copy })
+  }
+
+  if (unique_outbound_clicks.curr_period && unique_outbound_clicks.prev_period) {
+    prevPeriod = unique_outbound_clicks.prev_period
+    currPeriod = unique_outbound_clicks.curr_period
+    copy = resultsCopy.conversionFallbackOutboundClicks(currPeriod, facebookPixelEvent, prevPeriod)
+    return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
+  }
+
+  if (reach.curr_period && reach.prev_period) {
+    prevPeriod = reach.prev_period
+    currPeriod = reach.curr_period
+    copy = resultsCopy.conversionFallbackReach(currPeriod, facebookPixelEvent, prevPeriod)
+    return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
+  }
+
+  if (reach.curr_period && !reach.prev_period) {
+    currPeriod = reach.curr_period
+    copy = resultsCopy.conversionFallbackReach(currPeriod, facebookPixelEvent)
+    return makeStatsObject({ chartType, currPeriod, copy })
+  }
+
+  return null
+}
+
 export const getStatsData = (data) => {
   return {
     newAudienceData: getNewAudienceData(data),
     existingAudienceData: getExistingAudienceData(data),
+    conversionData: getConversionData(data),
   }
 }
 

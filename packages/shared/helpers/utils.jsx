@@ -638,3 +638,7 @@ export const parseUrl = (urlString) => {
 }
 
 export const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+export const getNestedObjectByValue = (object, value) => {
+  return Object.keys(object).find(key => Object.values(object[key]).includes(value))
+}

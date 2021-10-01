@@ -3,9 +3,14 @@ import PropTypes from 'prop-types'
 
 import { gsap, Power2 } from 'gsap'
 
-import { formatNumber } from '@/helpers/utils'
+import { formatNumber, formatCurrency } from '@/helpers/utils'
 
-const ResultsFallbackChart = ({ data, color }) => {
+const ResultsFallbackChart = ({
+  data,
+  color,
+  isPurchase,
+  currency,
+}) => {
   const prevPeriod = data.find((o) => o.type === 'prev').value
   const currPeriod = data.find((o) => o.type === 'curr').value
   const total = prevPeriod + currPeriod
@@ -45,11 +50,11 @@ const ResultsFallbackChart = ({ data, color }) => {
             'flex items-center justify-center',
             'h-full',
             'text-xs',
-            index === 0 ? 'opacity-50' : null,
+            index === 0 ? 'opacity-50' : 'font-bold',
           ].join(' ')}
           style={{ backgroundColor: color }}
         >
-          {formatNumber(value)}
+          {isPurchase ? formatCurrency(value, currency) : formatNumber(value)}
         </div>
       ))}
     </div>
@@ -59,6 +64,13 @@ const ResultsFallbackChart = ({ data, color }) => {
 ResultsFallbackChart.propTypes = {
   data: PropTypes.array.isRequired,
   color: PropTypes.string.isRequired,
+  isPurchase: PropTypes.bool,
+  currency: PropTypes.string,
+}
+
+ResultsFallbackChart.defaultProps = {
+  currency: '',
+  isPurchase: false,
 }
 
 export default ResultsFallbackChart

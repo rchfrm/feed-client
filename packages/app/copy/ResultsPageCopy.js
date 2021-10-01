@@ -1,5 +1,40 @@
 import * as ROUTES from '@/app/constants/routes'
-import { formatNumber } from '@/helpers/utils'
+import { formatNumber, getNestedObjectByValue } from '@/helpers/utils'
+
+const optimisationsEventsDictionary = {
+  omni_purchase: {
+    name: 'Sales',
+    fbEventName: 'Purchase',
+    event: 'sale',
+    detail: 'a sales ad',
+  },
+  lead: {
+    name: 'Leads',
+    fbEventName: 'Lead',
+    event: 'lead',
+    detail: 'a lead generation ad',
+  },
+  omni_complete_registration: {
+    name: 'Registrations',
+    fbEventName: 'CompleteRegistration',
+    event: 'registrations',
+    detail: 'an ad about registering',
+  },
+  contact_total: {
+    name: 'Contacts',
+    fbEventName: 'Contact',
+    event: 'new contact',
+    detail: 'an ad about getting in contact',
+  },
+  subscribe_total: {
+    name: 'Subscribers',
+    fbEventName: 'Subscribe',
+    event: 'subscriber',
+    detail: 'an ad about subscribing',
+  },
+}
+
+const versusLastMonth = (prevValue) => `, versus ${prevValue} last month`
 
 export default {
   newAudienceOnPlatformMainDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
@@ -10,21 +45,86 @@ export default {
   existingAudienceMainDescription: (adsValue, organicValue) => `Feed reached **${adsValue}%** of your audience, versus your
   organic posts which reached **${organicValue}%** on average.`,
   existingAudienceFallbackSingle: (currValue) => `Feed has reached **${formatNumber(currValue)}** within your existing audience.`,
-  existingAudienceFallbackDouble: (currValue, prevValue) => `Feed has reached **${formatNumber(currValue)}** within your existing audience, versus **${formatNumber(prevValue)}** last month.`,
-
-  postDescription: (type) => {
-    if (type === 'engaged') {
+  existingAudienceFallbackDouble: (prevValue, currValue) => `Feed has reached **${formatNumber(currValue)}** within your existing audience, versus **${formatNumber(prevValue)}** last month.`,
+  conversionMainDescription: (roas) => {
+    const { name } = optimisationsEventsDictionary.omni_purchase
+    return {
+      title: name,
+      description: `Feed’s conversion ads generated **${roas}x** more in sales than was spent.`,
+    }
+  },
+  conversionFallbackSales: (currValue, prevValue) => {
+    const { name } = optimisationsEventsDictionary.omni_purchase
+    return {
+      title: name,
+      description: `Feed’s conversion ads generated **${currValue}** in sales${prevValue ? versusLastMonth(prevValue) : ''}.`,
+    }
+  },
+  conversionFallbackOptimisationEvents: (eventCount, optimisationsEvent, prevValue) => {
+    const { name, event } = optimisationsEventsDictionary[optimisationsEvent]
+    return {
+      title: name,
+      description: `Feed’s conversion ads generated **${eventCount} ${eventCount === 1 ? event : `${event}s`}**${prevValue ? versusLastMonth(prevValue) : ''}.`,
+    }
+  },
+  conversionFallbackLandingPageViews: (currValue, facebookPixelEvent, prevValue) => {
+    const optimisationsEvent = getNestedObjectByValue(optimisationsEventsDictionary, facebookPixelEvent)
+    const { name, detail } = optimisationsEventsDictionary[optimisationsEvent]
+    return {
+      title: name,
+      description: `**${currValue} people** have visited your website as a result of seeing ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
+    }
+  },
+  conversionFallbackOutboundClicks: (currValue, facebookPixelEvent, prevValue) => {
+    const optimisationsEvent = getNestedObjectByValue(optimisationsEventsDictionary, facebookPixelEvent)
+    const { name, detail } = optimisationsEventsDictionary[optimisationsEvent]
+    return {
+      title: name,
+      description: `**${currValue} people** clicked through to your website as a result of seeing ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
+    }
+  },
+  conversionFallbackReach: (currValue, facebookPixelEvent, prevValue) => {
+    const optimisationsEvent = getNestedObjectByValue(optimisationsEventsDictionary, facebookPixelEvent)
+    const { name, detail } = optimisationsEventsDictionary[optimisationsEvent]
+    return {
+      title: name,
+      description: `**${currValue} people** saw ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
+    }
+  },
+  postDescription: (type, isPurchase) => {
+    if (type === 'engage') {
       return `The post that engaged the
       most new people:`
     }
-    return `The post that reached the most people
-    from your existing audience:`
+    if (type === 'reach') {
+      return `The post that reached the most people
+      from your existing audience:`
+    }
+    return isPurchase ? (
+      `The post that generated the
+      most sales:`
+    ) : (
+      `The post that triggered the
+      most pixel events:`
+    )
   },
-  postDescriptionMobile: (type, value) => {
-    if (type === 'engaged') {
+  postLabelText: (type, isPurchase) => {
+    if (type === 'engage') {
+      return 'engaged'
+    }
+    if (type === 'reach') {
+      return 'reached'
+    }
+    return isPurchase ? 'in sales' : 'events'
+  },
+  postDescriptionMobile: (type, value, isPurchase) => {
+    if (type === 'engage') {
       return `**${value}** new people engaged`
     }
-    return `**${value}** people reached`
+    if (type === 'reach') {
+      return `**${value}** people reached`
+    }
+    return `**${value}** ${isPurchase ? 'in sales' : 'pixel events triggered'}`
   },
   statsNoData: 'Feed is setting up your ads',
   postsStatsNoData: (isSpendingPaused) => {

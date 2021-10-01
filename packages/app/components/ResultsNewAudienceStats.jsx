@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsNewAudienceChart from '@/app/ResultsNewAudienceChart'
+import ResultsAbsoluteChart from '@/app/ResultsAbsoluteChart'
 import ResultsFallbackChart from '@/app/ResultsFallbackChart'
 
 import MarkdownText from '@/elements/MarkdownText'
@@ -25,7 +25,6 @@ const ResultsNewAudienceStats = ({ data, className }) => {
 
   return (
     <div className={[className].join(' ')}>
-      <p className="font-bold text-xl text-left mr-auto sm:mr-0">New people</p>
       <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
         <MarkdownText
           markdown={data.copy || ''}
@@ -46,7 +45,7 @@ const ResultsNewAudienceStats = ({ data, className }) => {
         </p>
       </div>
       {isMainChart ? (
-        <ResultsNewAudienceChart data={chartData} />
+        <ResultsAbsoluteChart data={chartData} color={brandColors.blue} icon="plus" />
       ) : (
         <ResultsFallbackChart data={chartData} color={brandColors.blue} />
       )}
