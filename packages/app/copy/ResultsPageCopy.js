@@ -17,7 +17,7 @@ const optimisationsEventsDictionary = {
   omni_complete_registration: {
     name: 'Registrations',
     fbEventName: 'CompleteRegistration',
-    event: 'registrations',
+    event: 'registration',
     detail: 'an ad about registering',
   },
   contact_total: {
