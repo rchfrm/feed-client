@@ -242,7 +242,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       data,
       date,
       dateLong,
-      title,
+      title: formatNotificationText(title, data),
       summary: formatNotificationText(summary, data),
       description: formatNotificationText(description, data),
       ctaText,
