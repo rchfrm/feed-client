@@ -16,9 +16,10 @@ import brandColors from '@/constants/brandColors'
 
 const ResultsNewAudienceStats = ({ data, className }) => {
   const isDesktopLayout = useBreakpointTest('sm')
-  const { chartData, isMainChart } = data
+  const { chartData, chartType } = data
   const currValue = chartData.find((o) => o.type === 'curr').value
   const prevValue = chartData.find((o) => o.type === 'prev').value
+  const isMainChart = chartType === 'main'
   const mainValue = isMainChart
     ? chartData[1].value - chartData[0].value
     : currValue

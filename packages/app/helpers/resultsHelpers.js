@@ -67,8 +67,20 @@ export const convertChartValues = (adsReachProportion, organicReachProportion) =
   }
 }
 
+export const makeStatsObject = ({ chartType, isPurchase = false, prevPeriod = null, currPeriod = null, copy }) => {
+  return {
+    chartType,
+    isPurchase,
+    chartData: [
+      { type: 'prev', value: prevPeriod },
+      { type: 'curr', value: currPeriod },
+    ],
+    copy,
+  }
+}
+
 export const getExistingAudienceData = (data) => {
-  let isMainChart = false
+  let chartType = 'fallback'
   let prevPeriod = null
   let currPeriod = null
   let copy = ''
@@ -83,10 +95,10 @@ export const getExistingAudienceData = (data) => {
   if (adsReachProportion && organicReachProportion && (adsReachProportion > organicReachProportion)) {
     const roundedAdsReachProportion = +(adsReachProportion * 100).toFixed(1)
     const roundedOrganicReachProportion = +(organicReachProportion * 100).toFixed(1)
-    isMainChart = true
+    chartType = 'main'
 
     return {
-      isMainChart,
+      chartType,
       copy: resultsCopy.existingAudienceMainDescription(roundedAdsReachProportion, roundedOrganicReachProportion),
       chartData: {
         adsReachProportion: roundedAdsReachProportion,
@@ -98,28 +110,21 @@ export const getExistingAudienceData = (data) => {
   if (adsReachPrevValue && adsReachCurrValue) {
     prevPeriod = adsReachPrevValue
     currPeriod = adsReachCurrValue
-    copy = resultsCopy.existingAudienceFallbackDouble(adsReachPrevValue, adsReachCurrValue)
+    copy = resultsCopy.existingAudienceFallback(adsReachCurrValue, adsReachPrevValue)
   }
 
   if (!adsReachPrevValue && adsReachCurrValue) {
     currPeriod = adsReachCurrValue
-    copy = resultsCopy.existingAudienceFallbackSingle(adsReachCurrValue)
+    copy = resultsCopy.existingAudienceFallback(adsReachCurrValue)
   }
 
   if (!currPeriod) return null
 
-  return {
-    isMainChart,
-    copy,
-    chartData: [
-      { type: 'prev', value: prevPeriod },
-      { type: 'curr', value: currPeriod },
-    ],
-  }
+  return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
 }
 
 export const getNewAudienceData = (data) => {
-  let isMainChart = false
+  let chartType = 'fallback'
   let prevPeriod = null
   let currPeriod = null
   let copy = ''
@@ -130,46 +135,39 @@ export const getNewAudienceData = (data) => {
   } = data
 
   if ((audienceSize?.growth?.percentage * 100) >= 1) {
-    isMainChart = true
+    chartType = 'main'
     prevPeriod = audienceSize.prev_period
     currPeriod = audienceSize.curr_period
     copy = resultsCopy.newAudienceOnPlatformMainDescription(+(audienceSize.growth.percentage * 100).toFixed(1))
   }
 
-  if (!isMainChart) {
+  if (chartType !== 'main') {
     if (engaged.curr_period >= 250 && engaged.prev_period) {
       prevPeriod = engaged.prev_period
       currPeriod = engaged.curr_period
-      copy = resultsCopy.newAudienceUnawareFallbackEngagedDouble(engaged.curr_period, engaged.prev_period)
+      copy = resultsCopy.newAudienceUnawareFallbackEngaged(engaged.curr_period, engaged.prev_period)
     }
 
     if (engaged.curr_period < 250 && reach.prev_period) {
       prevPeriod = reach.prev_period
       currPeriod = reach.curr_period
-      copy = resultsCopy.newAudienceUnawareFallbackReachDouble(reach.curr_period, reach.prev_period)
+      copy = resultsCopy.newAudienceUnawareFallbackReach(reach.curr_period, reach.prev_period)
     }
 
     if (engaged.curr_period >= 250 && !engaged.prev_period) {
       currPeriod = engaged.curr_period
-      copy = resultsCopy.newAudienceUnawareFallbackEngagedSingle(engaged.curr_period)
+      copy = resultsCopy.newAudienceUnawareFallbackEngaged(engaged.curr_period)
     }
 
     if (engaged.curr_period < 250 && !reach.prev_period) {
       currPeriod = reach.curr_period
-      copy = resultsCopy.newAudienceUnawareFallbackReachSingle(reach.curr_period)
+      copy = resultsCopy.newAudienceUnawareFallbackReach(reach.curr_period)
     }
   }
 
   if (!currPeriod) return null
 
-  return {
-    isMainChart,
-    copy,
-    chartData: [
-      { type: 'prev', value: prevPeriod },
-      { type: 'curr', value: currPeriod },
-    ],
-  }
+  return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
 }
 
 export const getOptimisationsEvents = (data) => {
@@ -177,18 +175,6 @@ export const getOptimisationsEvents = (data) => {
     if (!value?.curr_period?.count) return array
     return [...array, { ...value, event: key }]
   }, [])
-}
-
-export const makeStatsObject = ({ chartType, isPurchase = false, prevPeriod = null, currPeriod = null, copy }) => {
-  return {
-    chartType,
-    isPurchase,
-    chartData: [
-      { type: 'prev', value: prevPeriod },
-      { type: 'curr', value: currPeriod },
-    ],
-    copy,
-  }
 }
 
 export const getConversionData = (data) => {

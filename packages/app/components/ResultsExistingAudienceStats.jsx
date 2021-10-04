@@ -14,7 +14,8 @@ import brandColors from '@/constants/brandColors'
 
 const ResultsExistingAudienceStats = ({ data, className }) => {
   const isDesktopLayout = useBreakpointTest('sm')
-  const { chartData, isMainChart } = data
+  const { chartData, chartType } = data
+  const isMainChart = chartType === 'main'
   const mainValue = isMainChart
     ? `${chartData.adsReachProportion}%`
     : abbreviateNumber(chartData.find((o) => o.type === 'curr')?.value)
