@@ -43,7 +43,7 @@ const useControlsWizard = () => {
 
   const hasSetUpControls = Boolean(defaultLinkId
     && budget
-    && defaultPaymentMethod)
+    && (!isProfilePartOfOrganisation || defaultPaymentMethod))
 
   return {
     isLoading: billingLoading || artistLoading,
