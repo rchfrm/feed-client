@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "baseUrl": "../",
+    "paths": {
+      // The app
+      "@/app/copy/*": ["app/copy/*"],
+      "@/app/constants/*": ["app/constants/*"],
+      "@/app/helpers/*": ["app/helpers/*"],
+      "@/app/graphQl/*": ["app/graphQl/*"],
+      "@/app/tempGlobalData/*": ["app/tempGlobalData/*"],
+      "@/app/*": ["app/components/*"],
+      // The admin
+      "@/admin/copy/*": ["admin/copy/*"],
+      "@/admin/constants/*": ["admin/constants/*"],
+      "@/admin/helpers/*": ["admin/helpers/*"],
+      "@/admin/*": ["admin/components/*"],
+      // The landing page
+      "@/landing/constants/*": ["landing/constants/*"],
+      "@/landing/copy/*": ["landing/copy/*"],
+      "@/landing/tempData/*": ["landing/tempData/*"],
+      "@/landing/helpers/*": ["landing/helpers/*"],
+      "@/landing/graphQl/*": ["landing/graphQl/*"],
+      "@/landing/*": ["landing/components/*"],
+      // Shared
+      "@/elements/*": ["shared/components/elements/*"],
+      "@/icons/*": ["shared/components/icons/*"],
+      "@/hooks/*": ["shared/components/hooks/*"],
+      "@/constants/*": ["shared/constants/*"],
+      "@/helpers/*": ["shared/helpers/*"],
+      "@/*": ["shared/components/*"],
+      "~/*": ["shared/*"]
+    }
+  },
+  "exclude": [
+    "**/node_modules/*",
+    "**/test/*",
+    "**/.vscode/*",
+    "**/.next/*",
+    "**/.git/*",
+    "**/.firebase/*",
+    "**/out/*",
+    "**/tempData/*"
+  ]
+}

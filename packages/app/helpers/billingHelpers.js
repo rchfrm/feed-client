@@ -144,33 +144,14 @@ export const getAllOrgsInfo = async ({ user }) => {
 
 // * REFERRALS
 // * --------------------
-export const getReferralsData = () => {
-  const data = {
-    total_referrals: 3,
-    total_referrals_complete: 2,
-    total_credits: 1000,
-    currency: 'GBP',
-    currency_offset: 100,
-    total_credits_spent: 555,
+export const getReferralsData = async (organizationId) => {
+  const payload = {}
+  const endpoint = `/organizations/${organizationId}/referral_stats`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Get referrals data',
   }
-  const dataFormatted = {
-    ...data,
-    total_credits_remaining: data.total_credits - data.total_credits_spent,
-  }
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ res: dataFormatted, error: null })
-    }, 800)
-  })
-}
-
-export const transferReferralCredits = () => {
-  // Todo: Pass sourceOrgId and destOrgId as parameters
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ res: 'success', error: null })
-    }, 800)
-  })
+  return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
 // * PROFILE TRANSFER

@@ -13,11 +13,12 @@ const AdSettingsSection = ({
   return (
     <section className={[
       'mb-10 last:mb-0',
-      isDisabled ? 'text-grey-2' : null,
     ].join(' ')}
     >
-      <h3 className="font-body font-bold text-lg mb-3">{header}</h3>
-      {copy && <MarkdownText markdown={copy} className={copyClassName} />}
+      <div className={isDisabled ? 'text-grey-2' : null}>
+        <h3 className="font-body font-bold text-lg mb-3">{header}</h3>
+        {copy && <MarkdownText markdown={copy} className={copyClassName} />}
+      </div>
       {children}
     </section>
   )

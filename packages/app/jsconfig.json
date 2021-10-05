@@ -14,6 +14,13 @@
       "@/admin/constants/*": ["admin/constants/*"],
       "@/admin/helpers/*": ["admin/helpers/*"],
       "@/admin/*": ["admin/components/*"],
+      // The landing page
+      "@/landing/constants/*": ["landing/constants/*"],
+      "@/landing/copy/*": ["landing/copy/*"],
+      "@/landing/tempData/*": ["landing/tempData/*"],
+      "@/landing/helpers/*": ["landing/helpers/*"],
+      "@/landing/graphQl/*": ["landing/graphQl/*"],
+      "@/landing/*": ["landing/components/*"],
       // Shared
       "@/elements/*": ["shared/components/elements/*"],
       "@/icons/*": ["shared/components/icons/*"],
@@ -21,11 +28,11 @@
       "@/constants/*": ["shared/constants/*"],
       "@/helpers/*": ["shared/helpers/*"],
       "@/*": ["shared/components/*"],
-      "~/*": ["shared/*"],
+      "~/*": ["shared/*"]
     }
   },
   "exclude": [
     "app/dist",
-    "dist",
-  ],
+    "dist"
+  ]
 }

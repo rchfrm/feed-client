@@ -46,6 +46,7 @@ const ControlsContent = ({ activeSlug }) => {
     defaultPromotionEnabled,
     budget,
     defaultPaymentMethod,
+    isProfilePartOfOrganisation,
   } = useControlsWizard()
 
   // Destructure context
@@ -99,6 +100,7 @@ const ControlsContent = ({ activeSlug }) => {
             defaultPromotionEnabled={defaultPromotionEnabled}
             budget={budget}
             defaultPaymentMethod={defaultPaymentMethod}
+            isProfilePartOfOrganisation={isProfilePartOfOrganisation}
           />
         </div>
       ) : (

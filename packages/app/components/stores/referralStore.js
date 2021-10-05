@@ -27,7 +27,7 @@ const getStoredReferrerCode = () => {
 const validityTest = (code) => {
   const codeRegexShort = /^[A-Z]{2}[0-9]{3}$/
   const regexTestShort = new RegExp(codeRegexShort)
-  return code.match(regexTestShort)
+  return regexTestShort.test(code)
 }
 
 // Query API if code is valid
@@ -49,6 +49,7 @@ const testCodeTruth = (set, get) => async (code) => {
   const hasTrueCode = await truthTest(code, hasValidCode)
   const usedReferralCode = hasTrueCode ? code : ''
   set({ hasTrueCode, usedReferralCode })
+  storeTrueCode(usedReferralCode)
   return hasTrueCode
 }
 

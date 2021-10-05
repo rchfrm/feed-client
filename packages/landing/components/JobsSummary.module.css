@@ -1,0 +1,32 @@
+.applicationStatus {
+  padding-top: 0.125rem;
+  border-radius: var(--dialogue-radius);
+  color: var(--white);
+}
+
+.openJob {
+  background-color: var(--green);
+}
+
+.closedJob {
+  background-color: var(--red);
+}
+
+.jobFigure {
+  padding-bottom: 50%;
+  margin-bottom: var(--sp-5);
+  overflow: hidden;
+  border-radius: var(--dialogue-radius);
+
+  @media (--sm) {
+    padding-bottom: 65%;
+  }
+}
+
+.jobImage {
+  border-radius: var(--dialogue-radius);
+}
+
+.jobTitle {
+  background-color: var(--white);
+}
