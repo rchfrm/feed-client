@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import ResultsPostStats from '@/app/ResultsPostStats'
 import ResultsPostsNoData from '@/app/ResultsPostsNoData'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import { postResultsConfig } from '@/app/helpers/resultsHelpers'
 
 const ResultsPostsStats = ({
@@ -17,6 +19,7 @@ const ResultsPostsStats = ({
     return element[key]
   })).filter(Boolean)
   const isSpendingPaused = hasSpendFor30Days || !isLast30Days
+  const isDesktopLayout = useBreakpointTest('sm')
 
   return (
     sortedPosts.length ? (
@@ -29,7 +32,7 @@ const ResultsPostsStats = ({
             'col-span-12',
             className,
             'flex flex-col sm:items-center',
-            `order-${index + 1} sm:order-${index + 4}`,
+            isDesktopLayout ? 'order-4' : `order-${index + 1}`,
             'mb-6 sm:mb-0',
           ].join(' ')}
         />
