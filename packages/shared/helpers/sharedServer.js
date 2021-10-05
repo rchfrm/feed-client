@@ -74,7 +74,6 @@ export const patchUser = async ({ firstName, lastName, email, contactEmail }) =>
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
-
 // TOURNAMENTS
 // -----------------------
 /**

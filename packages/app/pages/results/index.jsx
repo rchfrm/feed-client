@@ -3,7 +3,7 @@ import React from 'react'
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
 
-import FunnelsContent from '@/app/FunnelsContent'
+import ResultsPage from '@/app/ResultsPage'
 
 const headerConfig = {
   text: 'results',
@@ -15,8 +15,9 @@ const Page = () => {
       headerConfig={headerConfig}
       noArtistHeader={headerConfig}
       artistRequired
+      controlsRequired
     >
-      <FunnelsContent />
+      <ResultsPage />
     </BasePage>
   )
 }

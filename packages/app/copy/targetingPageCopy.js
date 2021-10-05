@@ -1,8 +1,6 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
 
-import funnelCopy from '@/app/copy/funnelCopy'
-
 const getListOfSources = (isMusician, hasSpotify) => {
   if (!hasSpotify || !isMusician) return 'Facebook and Instagram followers'
   return 'Facebook and Instagram followers and Spotify listeners'
@@ -78,6 +76,6 @@ Any questions, feel free to email us [help@tryfeed.co](mailto:help@tryfeed.co)
   
 The suggested budget makes sure you're spending enough relative to the size of audience you'll be targeting.
   
-It also means that Feed can reach new people (${funnelCopy.growA.title} audiences) and retarget people who have engaged with you before, but not recently (${funnelCopy.nurture.title} audiences), and over time convert them into followers, fans and customers.`,
+It also means that Feed can reach new people (Grow A audiences) and retarget people who have engaged with you before, but not recently (Nurture audiences), and over time convert them into followers, fans and customers.`,
 
 }

@@ -14,6 +14,7 @@ const ControlsWizard = ({
   defaultLinkId,
   budget,
   defaultPaymentMethod,
+  isProfilePartOfOrganisation,
 }) => {
   const [steps, setSteps] = React.useState([])
   const initialSteps = React.useMemo(() => [
@@ -33,7 +34,7 @@ const ControlsWizard = ({
       id: 2,
       title: 'Payment method',
       component: <ControlsWizardPaymentStep />,
-      shouldSkip: Boolean(defaultPaymentMethod),
+      shouldSkip: !isProfilePartOfOrganisation || Boolean(defaultPaymentMethod),
     },
     {
       id: 3,
@@ -77,11 +78,13 @@ ControlsWizard.propTypes = {
   defaultLinkId: PropTypes.string,
   budget: PropTypes.number.isRequired,
   defaultPaymentMethod: PropTypes.object,
+  isProfilePartOfOrganisation: PropTypes.bool,
 }
 
 ControlsWizard.defaultProps = {
   defaultPaymentMethod: null,
   defaultLinkId: '',
+  isProfilePartOfOrganisation: false,
 }
 
 export default ControlsWizard
