@@ -78,12 +78,13 @@ ControlsWizard.propTypes = {
   defaultLinkId: PropTypes.string,
   budget: PropTypes.number.isRequired,
   defaultPaymentMethod: PropTypes.object,
-  isProfilePartOfOrganisation: PropTypes.bool.isRequired,
+  isProfilePartOfOrganisation: PropTypes.bool,
 }
 
 ControlsWizard.defaultProps = {
   defaultPaymentMethod: null,
   defaultLinkId: '',
+  isProfilePartOfOrganisation: false,
 }
 
 export default ControlsWizard
