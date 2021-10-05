@@ -27,11 +27,11 @@ const useControlsWizard = () => {
   } = useBillingStore(getBillingStoreState)
   const { postsPreferences, budget } = useControlsStore(getControlsStoreState)
   const { defaultLinkId, defaultPromotionEnabled } = postsPreferences
+  const { artistId, artistLoading, artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
+  const { user } = React.useContext(UserContext)
+
   const currentUserOrganisation = allOrgs.find(organisation => organisation.role === 'owner')
   const isProfilePartOfOrganisation = Object.keys(currentUserOrganisation?.artists || {}).includes(artistId)
-
-  const { artistLoading, artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
-  const { user } = React.useContext(UserContext)
 
   // Set-up organisation part of billing store
   React.useEffect(() => {
