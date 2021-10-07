@@ -1,26 +1,5 @@
 import * as mixpanelHelpers from '@/landing/helpers/mixpanelHelpers'
 
-const isDevelopment = process.env.NODE_ENV === 'development'
-
-// FACEBOOK
-// --------------------------
-export const fireFBEvent = (action, payload, customTrack) => {
-  const { fbq } = window
-  const trackType = customTrack ? 'trackCustom' : 'track'
-  if (isDevelopment) {
-    console.group()
-    console.info('FB SEND')
-    console.info('trackType', trackType)
-    console.info('action', action)
-    console.info(payload)
-    console.groupEnd()
-    return
-  }
-  if (!fbq) return
-  fbq(trackType, action, payload)
-}
-
-
 // HELPERS
 // --------------------------
 /**
@@ -32,8 +11,6 @@ export const fireFBEvent = (action, payload, customTrack) => {
  * @param {string} value
  * @param {boolean} breadcrumb
  * @param {boolean} error
- * @param {boolean} ga
- * @param {boolean} fb
  */
 export const track = ({
   action,
@@ -43,12 +20,8 @@ export const track = ({
   location,
   value,
   mixpanelProps,
-  fbTrackProps = null,
-  fbCustomTrack = true,
   error = false,
-  marketing = false,
   mixpanel = true,
-  fb = true,
 }) => {
   // Stop here if not browser
   const isBrowser = typeof window !== 'undefined'
@@ -69,17 +42,6 @@ export const track = ({
       ...(error && { error: true }),
     }
     mixpanelHelpers.mixpanelTrack(action, payload)
-  }
-  // STOP HERE if not marketing
-  if (!marketing) return false
-  // Send off events to FB
-  if (fb) {
-    const fbPayload = fbTrackProps || {
-      ...(category && { category }),
-      ...(event_label && { label: event_label }),
-      ...(value && { value }),
-    }
-    fireFBEvent(action, fbPayload, fbCustomTrack)
   }
 }
 

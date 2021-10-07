@@ -103,19 +103,9 @@ const RequestAccessForm = ({ className, emailOnly }) => {
         // Stop here if form not valid
         if (!isFormValid) return
         // TRACK
-        // Send a 'Lead' event to Facebook, and a 'join_waiting_list' event to Google Analytics and Mixpanel
-        track({
-          action: 'Lead',
-          fbCustomTrack: false,
-          mixpanel: false,
-          ga: false,
-          marketing: true,
-        })
         track({
           action: 'join_waiting_list',
           category: 'sign_up',
-          marketing: true,
-          fb: false,
         })
         // Submit form
         e.target.submit()

@@ -59,7 +59,6 @@ const MailchimpForm = ({
           track({
             action: 'join_newsletter',
             category: 'newsletter',
-            marketing: true,
             location: trackLocation,
           })
         }}
