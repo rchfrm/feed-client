@@ -8,7 +8,6 @@ import * as trackingHelpers from '@/landing/helpers/trackingHelpers'
 import { mixpanelPageView } from '@/landing/helpers/mixpanelHelpers'
 
 import TheHead from '@/landing/TheHead'
-import SetupGtag from '@/landing/SetupGtag'
 import TheHeader from '@/landing/TheHeader'
 import TheFooter from '@/landing/TheFooter'
 import BrowserStoreSetup from '@/landing/BrowserStoreSetup'
@@ -20,7 +19,7 @@ import '../../shared/css/utilities.css'
 
 // TRACKING SERVICE IDS
 // Google Analytics
-const gaId = 'UA-162381148-2'
+// const gaId = 'UA-162381148-2'
 // Facebook pixel
 const fbqId = '226820538468408'
 
@@ -42,7 +41,6 @@ const FeedLanding = ({ Component, pageProps }) => {
 
     // Trigger page view event
     const handleRouteChange = (url) => {
-      trackingHelpers.gtagPageView(url, gaId)
       mixpanelPageView(url)
     }
     // TRIGGER PAGE VIEW WHEN ROUTE CHANGES
@@ -76,9 +74,6 @@ const FeedLanding = ({ Component, pageProps }) => {
 
       {/* Setup browser store */}
       <BrowserStoreSetup />
-
-      {/* GTAG */}
-      <SetupGtag gaId={gaId} />
     </>
   )
 }
