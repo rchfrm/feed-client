@@ -83,31 +83,6 @@ export const track = ({
   }
 }
 
-// SPECIAL TRACKING
-// -----------------
-
-// Setup PWA install tracker
-export const trackPWA = () => {
-  const isBrowser = typeof window !== 'undefined'
-  if (!isBrowser) return
-  window.addEventListener('beforeinstallprompt', (event) => {
-    event.userChoice.then((result) => {
-      if (result.outcome === 'dismissed') {
-        track({
-          action: 'decline_install_pwa',
-          category: 'pwa',
-        })
-      } else {
-        track({
-          action: 'install_pwa',
-          category: 'pwa',
-        })
-      }
-    })
-  })
-}
-
-
 // INIT
 // ----------
 export const setupTracking = () => {
