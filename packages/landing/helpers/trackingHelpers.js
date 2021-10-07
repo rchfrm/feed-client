@@ -1,69 +1,6 @@
 import * as mixpanelHelpers from '@/landing/helpers/mixpanelHelpers'
 
-// GOOGLE
-// ------------------------------
-let gtagEnabled = false
-export const enableGtag = () => {
-  gtagEnabled = true
-}
-
 const isDevelopment = process.env.NODE_ENV === 'development'
-
-const gaCrossDomains = [
-  'tryfeed.co',
-  'app.tryfeed.co',
-  'blog.tryfeed.co',
-  'beta.tryfeed.co',
-  'staging.tryfeed.co',
-  'getfed.app',
-  'blog.getfed.app',
-]
-export const gaCrossDomainsString = gaCrossDomains.reduce((str, url, index) => {
-  if (index === 0) return `${str}'${url}'`
-  const suffix = index === gaCrossDomains.length - 1 ? ']' : ''
-  return `${str}, '${url}'${suffix}`
-}, '[')
-
-// https://developers.google.com/analytics/devguides/collection/gtagjs/pages
-export const gtagPageView = (url, gaId) => {
-  const { gtag } = window
-  if (!gtag) return
-  gtag('config', gaId, {
-    page_path: url,
-    linker: {
-      domains: gaCrossDomains,
-    },
-  })
-}
-
-// https://developers.google.com/analytics/devguides/collection/gtagjs/events
-export const fireGtagEvent = (action, payload) => {
-  const {
-    event_callback,
-  } = payload
-
-  // Stop here if not in dev
-  if (isDevelopment) {
-    // Log GA INFO
-    console.info('GA SEND', payload)
-  }
-
-  const { gtag } = window
-
-  if (!gtag || !gtagEnabled) {
-    // Run callback (if present)
-    if (typeof event_callback === 'function') event_callback()
-    return
-  }
-  // PAYLOAD
-  // {
-  //   'event_category': <category>,
-  //   'event_label': <label>,
-  //   'value': <value>
-  // }
-  gtag('event', action, payload)
-}
-
 
 // FACEBOOK
 // --------------------------
@@ -111,7 +48,6 @@ export const track = ({
   error = false,
   marketing = false,
   mixpanel = true,
-  ga = true,
   fb = true,
 }) => {
   // Stop here if not browser
@@ -136,16 +72,6 @@ export const track = ({
   }
   // STOP HERE if not marketing
   if (!marketing) return false
-  // Build GA payload
-  // Send off event to GA
-  if (ga) {
-    const gaPayload = {
-      event_category: error ? 'Error' : category,
-      event_label,
-      event_value: value,
-    }
-    fireGtagEvent(action, gaPayload)
-  }
   // Send off events to FB
   if (fb) {
     const fbPayload = fbTrackProps || {
@@ -193,7 +119,6 @@ export const trackOutbound = ({
   url,
   label,
   category = 'outbound',
-  ga = true,
   fb = true,
 }) => {
   // Require URL
@@ -203,13 +128,6 @@ export const trackOutbound = ({
   // Stop here if not browser
   const isBrowser = typeof window !== 'undefined'
   if (!isBrowser) return
-  // Send off event to GA
-  const gaPayload = {
-    event_category: category,
-    event_label: label || url,
-    transport_type: 'beacon',
-    event_callback: () => { document.location = url },
-  }
   const fbPayload = {
     category,
     label: label || url,
@@ -217,9 +135,6 @@ export const trackOutbound = ({
   // Send off events to FB
   if (fb) {
     fireFBEvent('OutboundClick', fbPayload)
-  }
-  if (ga) {
-    fireGtagEvent('OutboundClick', gaPayload)
   }
 }
 
