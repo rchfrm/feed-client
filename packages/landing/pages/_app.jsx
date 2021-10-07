@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import TagManager from 'react-gtm-module'
 
 import withFBQ from 'next-fbq'
 
@@ -25,6 +26,13 @@ const fbqId = '226820538468408'
 
 const FeedLanding = ({ Component, pageProps }) => {
   // SETUP TRACKING
+  React.useEffect(() => {
+    TagManager.initialize({
+      gtmId: process.env.gtm_id,
+      auth: process.env.gtm_auth,
+      preview: process.env.gtm_preview,
+    })
+  }, [])
   const router = useRouter()
   const isTrackingSetup = React.useRef(false)
   React.useEffect(() => {
