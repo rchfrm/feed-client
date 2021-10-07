@@ -2,8 +2,6 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import TagManager from 'react-gtm-module'
 
-import withFBQ from 'next-fbq'
-
 import * as trackingHelpers from '@/landing/helpers/trackingHelpers'
 import { mixpanelPageView } from '@/landing/helpers/mixpanelHelpers'
 
@@ -16,12 +14,6 @@ import BrowserStoreSetup from '@/landing/BrowserStoreSetup'
 import '../../shared/css/core.css'
 import '../../shared/css/app.css'
 import '../../shared/css/utilities.css'
-
-// TRACKING SERVICE IDS
-// Google Analytics
-// const gaId = 'UA-162381148-2'
-// Facebook pixel
-const fbqId = '226820538468408'
 
 const FeedLanding = ({ Component, pageProps }) => {
   // SETUP TRACKING
@@ -79,4 +71,4 @@ const FeedLanding = ({ Component, pageProps }) => {
 }
 
 // Export App with Facebook pixel
-export default withFBQ(fbqId)(FeedLanding)
+export default FeedLanding
