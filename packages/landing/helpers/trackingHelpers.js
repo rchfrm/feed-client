@@ -107,37 +107,6 @@ export const trackPWA = () => {
   })
 }
 
-// Tracks click and then redirects page
-/**
- * @param {string} url
- * @param {string} label
- * @param {string} category
- * @param {boolean} ga
- * @param {boolean} fb
- */
-export const trackOutbound = ({
-  url,
-  label,
-  category = 'outbound',
-  fb = true,
-}) => {
-  // Require URL
-  if (!url) {
-    console.error('Track outbound requires a URL')
-  }
-  // Stop here if not browser
-  const isBrowser = typeof window !== 'undefined'
-  if (!isBrowser) return
-  const fbPayload = {
-    category,
-    label: label || url,
-  }
-  // Send off events to FB
-  if (fb) {
-    fireFBEvent('OutboundClick', fbPayload)
-  }
-}
-
 
 // INIT
 // ----------
