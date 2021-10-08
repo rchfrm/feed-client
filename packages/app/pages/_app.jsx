@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { PageTransition } from 'next-page-transitions'
 import * as Sentry from '@sentry/browser'
-import withFBQ from 'next-fbq'
 import TagManager from 'react-gtm-module'
 
 import '../../shared/css/core.css'
@@ -12,7 +11,6 @@ import '../../shared/css/app.css'
 import '../../shared/css/utilities.css'
 import Head from 'next/head'
 import AppContents from '@/app/AppContents'
-import SetupGtag from '@/elements/SetupGtag'
 import SetupFacebookChatPlugin from '@/elements/SetupFacebookChatPlugin'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { trackPWA, setupTracking } from '@/app/helpers/trackingHelpers'
@@ -22,11 +20,6 @@ import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
 // GLOBAL STORES and DATA
 import { parseUrl } from '@/helpers/utils'
 
-// TRACKING SERVICE IDS
-// Google Analytics
-const gaId = 'UA-162381148-2'
-// Facebook pixel
-const fbqId = '226820538468408'
 // Facebook page id
 const fbPageId = '110394157234637'
 
@@ -120,8 +113,6 @@ function Feed({ Component, pageProps }) {
         <title key="meta-title">Feed</title>
       </Head>
 
-      {/* GTAG */}
-      <SetupGtag gaId={gaId} />
       {/* FACEBOOK CHAT */}
       <SetupFacebookChatPlugin pageId={fbPageId} />
 
@@ -135,7 +126,7 @@ function Feed({ Component, pageProps }) {
   )
 }
 
-export default withFBQ(fbqId)(Feed)
+export default Feed
 
 Feed.propTypes = {
   Component: PropTypes.elementType.isRequired,

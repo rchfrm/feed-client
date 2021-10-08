@@ -233,9 +233,8 @@ function ArtistProvider({ children }) {
     // TRACK
     const newUser = !oldUser.artists.length
     if (newUser) {
-      track('create_profile', null, {
-        fbProps: { action: 'CompleteRegistration' },
-      })
+      // TODO Trigger custom GTM event OR use path to trigger Facebook and Google events
+      track('create_profile', null)
     } else {
       track('add_profile')
     }

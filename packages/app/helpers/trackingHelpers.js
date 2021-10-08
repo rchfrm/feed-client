@@ -1,24 +1,15 @@
 import * as mixpanelHelpers from '@/app/helpers/mixpanelHelpers'
 import * as sentryHelpers from '@/app/helpers/sentryHelpers'
-import trackFacebook from '@/app/helpers/trackFacebook'
 
 let userId = null
 
 // HELPERS
 // --------------------------
 /**
- * @param {string} category
  * @param {string} action
- * @param {string} label
- * @param {string} description
- * @param {string} location
- * @param {string} value
- * @param {boolean} breadcrumb
- * @param {boolean} error
- * @param {boolean} fb
+ * @param props
  */
-export const track = (action, props, marketingProps = {}) => {
-  const { fbProps } = marketingProps
+export const track = (action, props) => {
   // * TEMP
   if (typeof action !== 'string') return
   // Stop here if not browser
@@ -27,12 +18,6 @@ export const track = (action, props, marketingProps = {}) => {
 
   // TRACK IN MIXPANEL
   mixpanelHelpers.trackMixpanel(action, props)
-
-  // Send off events to FB
-  if (fbProps) {
-    const { action, ...fbPayload } = fbProps
-    trackFacebook(action, fbPayload)
-  }
 }
 
 // SPECIAL TRACKING
@@ -53,12 +38,8 @@ export const trackSignUp = ({ authProvider, userId }) => {
   // Initialise user in mixpanel
   mixpanelHelpers.mixpanelSignUp(userId)
 
-  track('create_user', {
-    authProvider,
-  },
-  {
-    fbProps: { action: 'CreateUser' },
-  })
+  // TODO Trigger custom GTM event OR use path to trigger Facebook and Google events
+  track('create_user', { authProvider })
 }
 
 // Setup PWA install tracker
