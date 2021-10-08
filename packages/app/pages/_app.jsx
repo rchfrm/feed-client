@@ -13,9 +13,9 @@ import Head from 'next/head'
 import AppContents from '@/app/AppContents'
 import SetupFacebookChatPlugin from '@/elements/SetupFacebookChatPlugin'
 import { AuthProvider } from '@/contexts/AuthContext'
-import { trackPWA, setupTracking } from '@/app/helpers/trackingHelpers'
-import { trackGooglePageView } from '@/app/helpers/trackGoogleHelpers'
-import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
+import { trackPWA, setupTracking } from '@/helpers/trackingHelpers'
+import { trackGooglePageView } from '@/helpers/trackGoogleHelpers'
+import { mixpanelPageView } from '@/helpers/mixpanelHelpers'
 
 // GLOBAL STORES and DATA
 import { parseUrl } from '@/helpers/utils'

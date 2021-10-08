@@ -1,5 +1,5 @@
-import * as mixpanelHelpers from '@/app/helpers/mixpanelHelpers'
 import * as sentryHelpers from '@/app/helpers/sentryHelpers'
+import * as mixpanelHelpers from '~/helpers/mixpanelHelpers'
 
 let userId = null
 

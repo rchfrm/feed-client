@@ -11,7 +11,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import * as utils from '@/helpers/utils'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import { trackLogin } from '@/app/helpers/trackingHelpers'
+import { trackLogin } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import * as ROUTES from '@/app/constants/routes'

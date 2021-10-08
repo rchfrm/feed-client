@@ -12,7 +12,7 @@ import { UserContext } from '@/app/contexts/UserContext'
 
 import { testValidEmail } from '@/helpers/utils'
 import { redirectPage } from '@/app/helpers/signupHelpers'
-import { trackSignUp } from '@/app/helpers/trackingHelpers'
+import { trackSignUp } from '@/helpers/trackingHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/signupCopy'

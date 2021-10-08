@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Spinner from '@/elements/Spinner'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 import brandColors from '@/constants/brandColors'
 import * as utils from '@/helpers/utils'

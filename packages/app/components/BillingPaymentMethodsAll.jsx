@@ -16,7 +16,7 @@ import useBillingAddPayment from '@/app/hooks/useBillingAddPayment'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import { setPaymentAsDefault, deletePaymentMethod } from '@/app/helpers/billingHelpers'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 import copy from '@/app/copy/billingCopy'
 

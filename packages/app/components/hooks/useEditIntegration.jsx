@@ -7,7 +7,7 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import IntegrationsEditModal from '@/app/IntegrationsEditModal'
 
 import { updateIntegration } from '@/helpers/integrationHelpers'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 
 const useEditIntegration = ({

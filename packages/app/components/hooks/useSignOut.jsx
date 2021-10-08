@@ -15,7 +15,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import * as ROUTES from '@/app/constants/routes'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import { mixpanelSignOut } from '@/app/helpers/mixpanelHelpers'
+import { mixpanelSignOut } from '@/helpers/mixpanelHelpers'
 
 const controlsStoreClearAll = state => state.clearAll
 

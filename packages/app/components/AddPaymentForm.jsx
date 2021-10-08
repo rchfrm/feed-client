@@ -18,7 +18,7 @@ import InputBase from '@/elements/InputBase'
 import useBillingStore from '@/app/stores/billingStore'
 
 import * as billingHelpers from '@/app/helpers/billingHelpers'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 import brandColors from '@/constants/brandColors'
 
