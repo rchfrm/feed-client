@@ -1,26 +1,20 @@
 // * APP VERSION
-
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { useRouter } from 'next/router'
-import Head from 'next/head'
-
 import { PageTransition } from 'next-page-transitions'
-
-import withFBQ from 'next-fbq'
 import * as Sentry from '@sentry/browser'
-// GLOBAL STYLES
+import withFBQ from 'next-fbq'
+import TagManager from 'react-gtm-module'
+
 import '../../shared/css/core.css'
 import '../../shared/css/app.css'
 import '../../shared/css/utilities.css'
-// IMPORT COMPONENTS
+import Head from 'next/head'
 import AppContents from '@/app/AppContents'
 import SetupGtag from '@/elements/SetupGtag'
 import SetupFacebookChatPlugin from '@/elements/SetupFacebookChatPlugin'
-// IMPORT CONTEXTS
 import { AuthProvider } from '@/contexts/AuthContext'
-// IMPORT HELPERS
 import { trackPWA, setupTracking } from '@/app/helpers/trackingHelpers'
 import { trackGooglePageView } from '@/app/helpers/trackGoogleHelpers'
 import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
@@ -71,8 +65,16 @@ if (process.env.build_env !== 'development') {
 
 // * THE APP
 function Feed({ Component, pageProps }) {
-  const router = useRouter()
+  // Set-up Google Tag Manager
+  React.useEffect(() => {
+    TagManager.initialize({
+      gtmId: process.env.gtm_id,
+      auth: process.env.gtm_auth,
+      preview: process.env.gtm_preview,
+    })
+  }, [])
 
+  const router = useRouter()
   const previousUrl = React.useRef({})
 
   React.useEffect(() => {
