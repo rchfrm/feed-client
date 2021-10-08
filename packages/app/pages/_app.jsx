@@ -98,7 +98,8 @@ function Feed({ Component, pageProps }) {
       const { pathname: previousPathname } = previousUrl.current
       // Stop here if same pathname
       if (pathname === previousPathname) return
-      trackGooglePageView(url, gaId)
+      // TODO Manually push a page view to the GTM data layer to track navigation
+      trackGooglePageView(pathname)
       mixpanelPageView(url)
       // Store previous URL
       previousUrl.current = { pathname, queryString }

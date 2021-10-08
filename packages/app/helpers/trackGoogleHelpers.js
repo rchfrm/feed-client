@@ -24,14 +24,12 @@ export const getCrossDomainsString = () => {
 }
 
 // PAGE VIEW
-export const trackGooglePageView = (url, gaId) => {
-  const { gtag } = window
-  if (!gtag) return
-  gtag('config', gaId, {
-    page_path: url,
-    linker: {
-      domains: gaCrossDomains,
-    },
+export const trackGooglePageView = (pathname) => {
+  const { dataLayer } = window
+  if (!dataLayer) return
+  dataLayer.push({
+    event: 'customPageView',
+    customPath: pathname === '/' ? '/posts' : pathname,
   })
 }
 

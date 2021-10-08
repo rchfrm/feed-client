@@ -33,6 +33,8 @@ const FeedLanding = ({ Component, pageProps }) => {
 
     // Trigger page view event
     const handleRouteChange = (url) => {
+      // TODO Pass (some) query parameters to mixpanel to remove [slug] from cleaned url
+      // https://www.analyticsmania.com/post/single-page-web-app-with-google-tag-manager/#developers-help
       mixpanelPageView(url)
     }
     // TRIGGER PAGE VIEW WHEN ROUTE CHANGES
