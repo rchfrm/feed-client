@@ -1,6 +1,5 @@
 import * as mixpanelHelpers from '@/app/helpers/mixpanelHelpers'
 import * as sentryHelpers from '@/app/helpers/sentryHelpers'
-import { trackGoogle } from '@/app/helpers/trackGoogleHelpers'
 import trackFacebook from '@/app/helpers/trackFacebook'
 
 let userId = null
@@ -16,11 +15,10 @@ let userId = null
  * @param {string} value
  * @param {boolean} breadcrumb
  * @param {boolean} error
- * @param {boolean} ga
  * @param {boolean} fb
  */
 export const track = (action, props, marketingProps = {}) => {
-  const { gaProps, fbProps } = marketingProps
+  const { fbProps } = marketingProps
   // * TEMP
   if (typeof action !== 'string') return
   // Stop here if not browser
@@ -30,11 +28,6 @@ export const track = (action, props, marketingProps = {}) => {
   // TRACK IN MIXPANEL
   mixpanelHelpers.trackMixpanel(action, props)
 
-  // HANDLE GOOGLE
-  if (gaProps) {
-    const { action, ...gaPayload } = gaProps
-    trackGoogle(action, gaPayload)
-  }
   // Send off events to FB
   if (fbProps) {
     const { action, ...fbPayload } = fbProps
@@ -65,7 +58,6 @@ export const trackSignUp = ({ authProvider, userId }) => {
   },
   {
     fbProps: { action: 'CreateUser' },
-    gaProps: { action: 'create_user' },
   })
 }
 

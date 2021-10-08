@@ -235,7 +235,6 @@ function ArtistProvider({ children }) {
     if (newUser) {
       track('create_profile', null, {
         fbProps: { action: 'CompleteRegistration' },
-        gaProps: { action: 'sign_up' },
       })
     } else {
       track('add_profile')
