@@ -15,3 +15,11 @@ export const trackGoogleUserCreated = () => {
     event: 'user_created',
   })
 }
+
+export const trackGoogleProfileCreated = () => {
+  const { dataLayer } = window
+  if (!dataLayer) return
+  dataLayer.push({
+    event: 'profile_created',
+  })
+}

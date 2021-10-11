@@ -14,6 +14,7 @@ import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { calcFeedMinBudgetInfo } from '@/app/helpers/budgetHelpers'
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
+import { trackGoogleProfileCreated } from 'shared/helpers/trackGoogleHelpers'
 
 const updateIsControlsLoading = state => state.setIsControlsLoading
 
@@ -233,8 +234,8 @@ function ArtistProvider({ children }) {
     // TRACK
     const newUser = !oldUser.artists.length
     if (newUser) {
-      // TODO Trigger custom GTM event OR use path to trigger Facebook and Google events
       track('create_profile', null)
+      trackGoogleProfileCreated()
     } else {
       track('add_profile')
     }

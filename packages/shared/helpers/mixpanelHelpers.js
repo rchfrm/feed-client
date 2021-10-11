@@ -27,7 +27,6 @@ export const updateMixpanel = (user) => {
 
 // TRACK MIXPANEL EVENTS
 export const trackMixpanel = (action, payload) => {
-  console.log('trackMixpanel')
   if (!isMixpanelSetup) return
   // Only LOG track if admin
   if (userType === 'admin') {
@@ -41,7 +40,6 @@ export const trackMixpanel = (action, payload) => {
     // return
   }
   mixpanel.track(action, payload)
-  console.log('mixpanel.track')
 }
 
 // SPECIAL EVENTS

@@ -44,7 +44,6 @@ export const trackSignUp = ({ authProvider, userId }) => {
   // Initialise user in mixpanel
   mixpanelHelpers.mixpanelSignUp(userId)
 
-  // TODO Trigger custom GTM event OR use path to trigger Facebook and Google events
   track('create_user', { authProvider })
   trackGoogleUserCreated()
 }
