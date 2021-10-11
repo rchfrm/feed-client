@@ -7,3 +7,11 @@ export const trackGooglePageView = (pathname) => {
     customPath: pathname === '/' ? '/posts' : pathname,
   })
 }
+
+export const trackGoogleUserCreated = () => {
+  const { dataLayer } = window
+  if (!dataLayer) return
+  dataLayer.push({
+    event: 'user_created',
+  })
+}

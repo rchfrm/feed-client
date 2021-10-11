@@ -13,8 +13,8 @@ import Head from 'next/head'
 import AppContents from '@/app/AppContents'
 import SetupFacebookChatPlugin from '@/elements/SetupFacebookChatPlugin'
 import { AuthProvider } from '@/contexts/AuthContext'
-import { trackPWA, setupTracking } from '@/helpers/trackingHelpers'
-import { trackGooglePageView } from '@/helpers/trackGoogleHelpers'
+import { trackPWA, setupTracking, trackPageView } from '@/helpers/trackingHelpers'
+import { trackGooglePageView, trackGoogleUserCreated } from '@/helpers/trackGoogleHelpers'
 import { mixpanelPageView } from '@/helpers/mixpanelHelpers'
 
 // GLOBAL STORES and DATA
@@ -92,8 +92,7 @@ function Feed({ Component, pageProps }) {
       // Stop here if same pathname
       if (pathname === previousPathname) return
       // TODO Manually push a page view to the GTM data layer to track navigation
-      trackGooglePageView(pathname)
-      mixpanelPageView(url)
+      trackPageView(url, pathname)
       // Store previous URL
       previousUrl.current = { pathname, queryString }
     }

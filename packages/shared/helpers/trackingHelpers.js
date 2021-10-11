@@ -1,5 +1,7 @@
 import * as sentryHelpers from '@/app/helpers/sentryHelpers'
 import * as mixpanelHelpers from '~/helpers/mixpanelHelpers'
+import { trackGooglePageView, trackGoogleUserCreated } from '~/helpers/trackGoogleHelpers'
+import { mixpanelPageView } from '~/helpers/mixpanelHelpers'
 
 let userId = null
 
@@ -23,14 +25,18 @@ export const track = (action, props) => {
 // SPECIAL TRACKING
 // -----------------
 
+// Page view
+export const trackPageView = (url, path) => {
+  trackGooglePageView(path)
+  mixpanelPageView(url)
+}
+
 // Log in
 export const trackLogin = ({ authProvider, userId }) => {
   // Identify user in mixpanel
   mixpanelHelpers.mixpanelIdentify(userId)
   // Track login
-  track('log_in', {
-    authProvider,
-  })
+  track('log_in', { authProvider })
 }
 
 // Sign up
@@ -40,6 +46,7 @@ export const trackSignUp = ({ authProvider, userId }) => {
 
   // TODO Trigger custom GTM event OR use path to trigger Facebook and Google events
   track('create_user', { authProvider })
+  trackGoogleUserCreated()
 }
 
 // Setup PWA install tracker
