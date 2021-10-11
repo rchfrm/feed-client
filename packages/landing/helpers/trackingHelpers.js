@@ -44,10 +44,3 @@ export const track = ({
     mixpanelHelpers.mixpanelTrack(action, payload)
   }
 }
-
-// INIT
-// ----------
-export const setupTracking = () => {
-  // Setup mixpanel
-  mixpanelHelpers.initMixpanel()
-}

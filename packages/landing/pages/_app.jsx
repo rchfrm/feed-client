@@ -1,9 +1,4 @@
 import React from 'react'
-import { useRouter } from 'next/router'
-import TagManager from 'react-gtm-module'
-
-import * as trackingHelpers from '@/landing/helpers/trackingHelpers'
-import { mixpanelPageView } from '@/landing/helpers/mixpanelHelpers'
 
 import TheHead from '@/landing/TheHead'
 import TheHeader from '@/landing/TheHeader'
@@ -14,9 +9,7 @@ import BrowserStoreSetup from '@/landing/BrowserStoreSetup'
 import '../../shared/css/core.css'
 import '../../shared/css/app.css'
 import '../../shared/css/utilities.css'
-import { setupTracking, trackPageView } from 'shared/helpers/trackingHelpers'
-import { parseUrl } from 'shared/helpers/utils'
-import { pathify } from 'next/dist/server/lib/squoosh/emscripten-utils'
+import { setupTracking, trackPageView } from '@/helpers/trackingHelpers'
 
 const FeedLanding = ({ Component, pageProps }) => {
   // SETUP TRACKING
