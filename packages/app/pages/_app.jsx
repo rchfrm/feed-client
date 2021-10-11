@@ -58,15 +58,6 @@ if (process.env.build_env !== 'development') {
 
 // * THE APP
 function Feed({ Component, pageProps }) {
-  // Set-up Google Tag Manager
-  React.useEffect(() => {
-    TagManager.initialize({
-      gtmId: process.env.gtm_id,
-      auth: process.env.gtm_auth,
-      preview: process.env.gtm_preview,
-    })
-  }, [])
-
   const router = useRouter()
   const previousUrl = React.useRef({})
 

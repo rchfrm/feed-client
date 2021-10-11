@@ -234,7 +234,7 @@ function ArtistProvider({ children }) {
     // TRACK
     const newUser = !oldUser.artists.length
     if (newUser) {
-      track('create_profile', null)
+      track('create_profile')
       trackGoogleProfileCreated()
     } else {
       track('add_profile')
