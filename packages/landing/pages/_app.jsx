@@ -14,41 +14,29 @@ import BrowserStoreSetup from '@/landing/BrowserStoreSetup'
 import '../../shared/css/core.css'
 import '../../shared/css/app.css'
 import '../../shared/css/utilities.css'
+import { setupTracking, trackPageView } from 'shared/helpers/trackingHelpers'
+import { parseUrl } from 'shared/helpers/utils'
+import { pathify } from 'next/dist/server/lib/squoosh/emscripten-utils'
 
 const FeedLanding = ({ Component, pageProps }) => {
   // SETUP TRACKING
-  React.useEffect(() => {
-    TagManager.initialize({
-      gtmId: process.env.gtm_id,
-      auth: process.env.gtm_auth,
-      preview: process.env.gtm_preview,
-    })
-  }, [])
-  const router = useRouter()
   const isTrackingSetup = React.useRef(false)
   React.useEffect(() => {
-    if (isTrackingSetup.current) return
-    // Setup tracking
-    trackingHelpers.setupTracking()
-
-    // Trigger page view event
-    const handleRouteChange = (url) => {
-      // TODO Pass (some) query parameters to mixpanel to remove [slug] from cleaned url
-      // https://www.analyticsmania.com/post/single-page-web-app-with-google-tag-manager/#developers-help
-      mixpanelPageView(url)
-    }
-    // TRIGGER PAGE VIEW WHEN ROUTE CHANGES
-    router.events.on('routeChangeComplete', handleRouteChange)
-    // TRIGGER INITIAL PAGE VIEW
-    handleRouteChange(router.pathname)
-
+    setupTracking()
     isTrackingSetup.current = true
-
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
-    }
-  // eslint-disable-next-line
   }, [])
+
+  // TRACK PAGE VIEWS
+  const previousPathname = React.useRef(null)
+  React.useEffect(() => {
+    if (!isTrackingSetup.current) return
+    const { pathname } = new URL(window.location.href)
+    const pathChanged = !previousPathname || previousPathname.current !== pathname
+    if (pathChanged) {
+      trackPageView(pathname)
+      previousPathname.current = pathname
+    }
+  })
 
   return (
     <>

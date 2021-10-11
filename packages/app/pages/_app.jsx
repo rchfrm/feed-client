@@ -91,7 +91,7 @@ function Feed({ Component, pageProps }) {
       const { pathname: previousPathname } = previousUrl.current
       // Stop here if same pathname
       if (pathname === previousPathname) return
-      trackPageView(url, pathname)
+      trackPageView(pathname === '/' ? '/posts' : pathname)
       // Store previous URL
       previousUrl.current = { pathname, queryString }
     }

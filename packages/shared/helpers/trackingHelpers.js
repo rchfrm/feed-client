@@ -1,4 +1,5 @@
 import * as sentryHelpers from '@/app/helpers/sentryHelpers'
+import TagManager from 'react-gtm-module'
 import * as mixpanelHelpers from '~/helpers/mixpanelHelpers'
 import { trackGooglePageView, trackGoogleUserCreated } from '~/helpers/trackGoogleHelpers'
 import { mixpanelPageView } from '~/helpers/mixpanelHelpers'
@@ -26,9 +27,9 @@ export const track = (action, props) => {
 // -----------------
 
 // Page view
-export const trackPageView = (url, path) => {
-  trackGooglePageView(path)
-  mixpanelPageView(url)
+export const trackPageView = (pathname) => {
+  trackGooglePageView(pathname)
+  mixpanelPageView(pathname)
 }
 
 // Log in
@@ -64,6 +65,12 @@ export const trackPWA = () => {
 export const setupTracking = (disabled) => {
   // Setup mixpanel
   mixpanelHelpers.initMixpanel(disabled)
+  // Setup Google Tag Manager
+  TagManager.initialize({
+    gtmId: process.env.gtm_id,
+    auth: process.env.gtm_auth,
+    preview: process.env.gtm_preview,
+  })
 }
 
 export const updateTracking = (user) => {

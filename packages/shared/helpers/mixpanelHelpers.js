@@ -63,10 +63,10 @@ export const mixpanelSignOut = () => {
 }
 
 // View page
-export const mixpanelPageView = (url) => {
-  console.log('mixpanelPageView')
+export const mixpanelPageView = (path) => {
   if (!isMixpanelSetup) return
-  trackMixpanel('page_view', { value: url })
+  trackMixpanel('page_view', { path })
+  console.log('Tracked Mixpanel page view', path, new Date())
 }
 
 // External link click
