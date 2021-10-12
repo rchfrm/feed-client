@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { track } from '@/landing/helpers/trackingHelpers'
+import track from '@/landing/helpers/trackingHelpers'
 
 const CheckboxButton = ({
   value,

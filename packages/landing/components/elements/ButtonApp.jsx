@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Spinner from '@/landing/elements/Spinner'
 
-import { track } from '@/landing/helpers/trackingHelpers'
+import track from '@/landing/helpers/trackingHelpers'
 
 import { getLinkType } from '@/landing/helpers/utils'
 

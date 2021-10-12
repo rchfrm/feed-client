@@ -12,7 +12,7 @@ import * as mixpanelHelpers from '@/landing/helpers/mixpanelHelpers'
  * @param {boolean} breadcrumb
  * @param {boolean} error
  */
-export const track = ({
+export default function track({
   action,
   label,
   category,
@@ -22,7 +22,9 @@ export const track = ({
   mixpanelProps,
   error = false,
   mixpanel = true,
-}) => {
+}) {
+  console.log('action', action)
+  console.log('category', category)
   // Stop here if not browser
   const isBrowser = typeof window !== 'undefined'
   if (!isBrowser) return
