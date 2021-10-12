@@ -87,8 +87,20 @@ export const getExistingAudienceData = (data) => {
 
   const {
     on_platform: {
-      ads_reach: { proportion: adsReachProportion, prev_period: adsReachPrevValue, curr_period: adsReachCurrValue },
-      organic_reach: { proportion: organicReachProportion },
+      ads_reach: {
+        prev_period: {
+          value: adsReachPrevValue,
+        },
+        curr_period: {
+          proportion: adsReachProportion,
+          value: adsReachCurrValue,
+        },
+      },
+      organic_reach: {
+        curr_period: {
+          proportion: organicReachProportion,
+        },
+      },
     },
   } = data
 
