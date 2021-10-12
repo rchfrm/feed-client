@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { PageTransition } from 'next-page-transitions'
 import * as Sentry from '@sentry/browser'
-import TagManager from 'react-gtm-module'
 
 import '../../shared/css/core.css'
 import '../../shared/css/app.css'
@@ -14,8 +13,6 @@ import AppContents from '@/app/AppContents'
 import SetupFacebookChatPlugin from '@/elements/SetupFacebookChatPlugin'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { trackPWA, setupTracking, trackPageView } from '@/helpers/trackingHelpers'
-import { trackGooglePageView, trackGoogleProfileCreated, trackGoogleUserCreated } from '@/helpers/trackGoogleHelpers'
-import { mixpanelPageView } from '@/helpers/mixpanelHelpers'
 
 // GLOBAL STORES and DATA
 import { parseUrl } from '@/helpers/utils'
