@@ -103,7 +103,6 @@ export const getExistingAudienceData = (data) => {
       },
     },
   } = data
-  console.log('data', data)
 
   if (adsReachProportion && organicReachProportion && (adsReachProportion > organicReachProportion)) {
     const roundedAdsReachProportion = +(adsReachProportion * 100).toFixed(1)
