@@ -14,6 +14,9 @@ const ResultsFallbackChart = ({
   const prevPeriod = data.find((o) => o.type === 'prev').value
   const currPeriod = data.find((o) => o.type === 'curr').value
   const total = prevPeriod + currPeriod
+  console.log('prevPeriod', prevPeriod)
+  console.log('currPeriod', currPeriod)
+  console.log('total', total)
 
   const prevPeriodChartRef = React.useRef(null)
   const currPeriodChartRef = React.useRef(null)
