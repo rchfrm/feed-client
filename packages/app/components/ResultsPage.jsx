@@ -16,6 +16,7 @@ const ResultsPage = () => {
     defaultPromotionEnabled,
     budget,
     defaultPaymentMethod,
+    isProfilePartOfOrganisation,
   } = useControlsWizard()
 
   if (isLoading) return <Spinner />
@@ -30,6 +31,7 @@ const ResultsPage = () => {
             defaultPromotionEnabled={defaultPromotionEnabled}
             budget={budget}
             defaultPaymentMethod={defaultPaymentMethod}
+            isProfilePartOfOrganisation={isProfilePartOfOrganisation}
           />
         </div>
       </div>
