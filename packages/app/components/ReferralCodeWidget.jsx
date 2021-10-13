@@ -7,7 +7,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import { UserContext } from '@/app/contexts/UserContext'
 
 import copy from '@/app/copy/referralCodeCopy'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const ReferralCodeWidget = ({
   label,

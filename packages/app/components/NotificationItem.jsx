@@ -5,7 +5,7 @@ import NotificationItemLabel from '@/app/NotificationItemLabel'
 
 import useNotificationStore from '@/app/stores/notificationsStore'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const getSetAsOpen = state => state.setAsOpen
 const getOpenedNotificationId = state => state.openedNotificationId

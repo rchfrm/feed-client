@@ -12,7 +12,7 @@ import useScrollToButton from '@/hooks/useScrollToButton'
 import styles from '@/BaseFilters.module.css'
 // Utils
 import * as utils from '@/helpers/utils'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 // * ******
 // * README

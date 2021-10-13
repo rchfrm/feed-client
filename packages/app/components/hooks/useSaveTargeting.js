@@ -5,7 +5,7 @@ import useAlertModal from '@/hooks/useAlertModal'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import copy from '@/app/copy/targetingPageCopy'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const getWarningButtons = ({
   warningType,

@@ -18,7 +18,7 @@ import useLogin from '@/app/hooks/useLogin'
 
 import * as ROUTES from '@/app/constants/routes'
 
-import { trackLogin } from '@/app/helpers/trackingHelpers'
+import { trackLogin } from '@/helpers/trackingHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import styles from '@/LoginPage.module.css'

@@ -7,7 +7,7 @@ import ArrowIcon from '@/icons/ArrowIcon'
 import Spinner from '@/elements/Spinner'
 import brandColors from '@/constants/brandColors'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const OPTION = ({ name, value, disabled }) => {
   return <option key={value} value={value} disabled={disabled}>{name}</option>

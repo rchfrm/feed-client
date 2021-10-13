@@ -2,8 +2,6 @@
 import mixpanel from 'mixpanel-browser'
 
 // INIT
-// ---------
-// const isProduction = process.env.NODE_ENV === 'production'
 const token = process.env.mixpanel_token
 let isMixpanelSetup = false
 let userType
@@ -30,7 +28,7 @@ export const updateMixpanel = (user) => {
 // TRACK MIXPANEL EVENTS
 export const trackMixpanel = (action, payload) => {
   if (!isMixpanelSetup) return
-  // Only LOG track if admin
+  // Also LOG track if admin
   if (userType === 'admin') {
     console.group()
     console.info('MIXPANEL SEND')
@@ -39,7 +37,6 @@ export const trackMixpanel = (action, payload) => {
       console.info(payload)
     }
     console.groupEnd()
-    return
   }
   mixpanel.track(action, payload)
 }
@@ -65,9 +62,9 @@ export const mixpanelSignOut = () => {
 }
 
 // View page
-export const mixpanelPageView = (url) => {
+export const mixpanelPageView = (path) => {
   if (!isMixpanelSetup) return
-  trackMixpanel('page_view', { value: url })
+  trackMixpanel('page_view', { path })
 }
 
 // External link click

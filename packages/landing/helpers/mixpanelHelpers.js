@@ -1,6 +1,5 @@
 // DOCS: https://developer.mixpanel.com/docs/javascript
 import mixpanel from 'mixpanel-browser'
-import { parseUrl } from '@/landing/helpers/utils'
 
 // INIT
 // ---------
@@ -38,11 +37,6 @@ export const mixpanelTrack = (action, payload, callback = () => {}) => {
 
 // SPECIAL EVENTS
 
-// Sign Up
-export const mixpanelSignUp = (userId) => {
-  mixpanel.alias(userId)
-}
-
 // Log in
 export const mixpanelLogin = (userId) => {
   mixpanel.identify(userId)
@@ -51,12 +45,6 @@ export const mixpanelLogin = (userId) => {
 // Sign Out
 export const mixpanelSignOut = () => {
   mixpanel.reset()
-}
-
-// Page view
-export const mixpanelPageView = (url) => {
-  const { pathname: current_url_cleaned } = parseUrl(`${window.location.origin}${url}`)
-  mixpanelTrack('page_view', { current_url_cleaned })
 }
 
 // Internal link click

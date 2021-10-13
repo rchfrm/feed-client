@@ -14,7 +14,7 @@ import AdminContents from '@/admin/AdminContents'
 // IMPORT CONTEXTS
 import { AuthProvider } from '@/contexts/AuthContext'
 // IMPORT HELPERS
-import { setupTracking } from '@/app/helpers/trackingHelpers'
+import { setupTracking } from '@/helpers/trackingHelpers'
 
 function FeedAdmin({ Component, pageProps, router }) {
   // Disable tracking
