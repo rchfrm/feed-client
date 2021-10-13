@@ -4,7 +4,7 @@ export const trackGooglePageView = (pathname) => {
   if (!dataLayer) return
   dataLayer.push({
     event: 'customPageView',
-    customPath: pathname === '/' ? '/posts' : pathname,
+    customPath: pathname,
   })
 }
 
