@@ -20,7 +20,7 @@ import {
   setPixel,
 } from '@/app/helpers/settingsHelpers'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const disabledPixelId = '-1'
 

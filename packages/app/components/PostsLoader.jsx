@@ -18,7 +18,7 @@ import PostsNone from '@/app/PostsNone'
 // IMPORT HELPERS
 import * as server from '@/app/helpers/appServer'
 import * as postsHelpers from '@/app/helpers/postsHelpers'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 import produce from 'immer'
 
 // Define initial state and reducer for posts

@@ -9,7 +9,7 @@ import BillingInvoiceList from '@/app/BillingInvoiceList'
 
 import useBillingStore from '@/app/stores/billingStore'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const getOrganisation = state => state.organisation
 

@@ -8,7 +8,7 @@ import brandColors from '@/constants/brandColors'
 
 import useBillingStore from '@/app/stores/billingStore'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const getSelectOrganisation = state => state.selectOrganisation
 

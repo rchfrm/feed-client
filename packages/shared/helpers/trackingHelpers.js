@@ -1,26 +1,18 @@
-import * as mixpanelHelpers from '@/app/helpers/mixpanelHelpers'
 import * as sentryHelpers from '@/app/helpers/sentryHelpers'
-import { trackGoogle } from '@/app/helpers/trackGoogleHelpers'
-import trackFacebook from '@/app/helpers/trackFacebook'
+import TagManager from 'react-gtm-module'
+import * as mixpanelHelpers from '~/helpers/mixpanelHelpers'
+import { trackGooglePageView, trackGoogleUserCreated } from '~/helpers/trackGoogleHelpers'
+import { mixpanelPageView } from '~/helpers/mixpanelHelpers'
 
 let userId = null
 
 // HELPERS
 // --------------------------
 /**
- * @param {string} category
  * @param {string} action
- * @param {string} label
- * @param {string} description
- * @param {string} location
- * @param {string} value
- * @param {boolean} breadcrumb
- * @param {boolean} error
- * @param {boolean} ga
- * @param {boolean} fb
+ * @param props
  */
-export const track = (action, props, marketingProps = {}) => {
-  const { gaProps, fbProps } = marketingProps
+export const track = (action, props) => {
   // * TEMP
   if (typeof action !== 'string') return
   // Stop here if not browser
@@ -29,30 +21,23 @@ export const track = (action, props, marketingProps = {}) => {
 
   // TRACK IN MIXPANEL
   mixpanelHelpers.trackMixpanel(action, props)
-
-  // HANDLE GOOGLE
-  if (gaProps) {
-    const { action, ...gaPayload } = gaProps
-    trackGoogle(action, gaPayload)
-  }
-  // Send off events to FB
-  if (fbProps) {
-    const { action, ...fbPayload } = fbProps
-    trackFacebook(action, fbPayload)
-  }
 }
 
 // SPECIAL TRACKING
 // -----------------
+
+// Page view
+export const trackPageView = (pathname) => {
+  trackGooglePageView(pathname)
+  mixpanelPageView(pathname)
+}
 
 // Log in
 export const trackLogin = ({ authProvider, userId }) => {
   // Identify user in mixpanel
   mixpanelHelpers.mixpanelIdentify(userId)
   // Track login
-  track('log_in', {
-    authProvider,
-  })
+  track('log_in', { authProvider })
 }
 
 // Sign up
@@ -60,13 +45,8 @@ export const trackSignUp = ({ authProvider, userId }) => {
   // Initialise user in mixpanel
   mixpanelHelpers.mixpanelSignUp(userId)
 
-  track('create_user', {
-    authProvider,
-  },
-  {
-    fbProps: { action: 'CreateUser' },
-    gaProps: { action: 'create_user' },
-  })
+  track('create_user', { authProvider })
+  trackGoogleUserCreated()
 }
 
 // Setup PWA install tracker
@@ -85,6 +65,12 @@ export const trackPWA = () => {
 export const setupTracking = (disabled) => {
   // Setup mixpanel
   mixpanelHelpers.initMixpanel(disabled)
+  // Setup Google Tag Manager
+  TagManager.initialize({
+    gtmId: process.env.gtm_id,
+    auth: process.env.gtm_auth,
+    preview: process.env.gtm_preview,
+  })
 }
 
 export const updateTracking = (user) => {

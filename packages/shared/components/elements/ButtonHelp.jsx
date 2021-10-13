@@ -6,7 +6,7 @@ import LightbulbIcon from '@/icons/LightbulbIcon'
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import MarkdownText from '@/elements/MarkdownText'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 

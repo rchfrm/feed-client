@@ -3,7 +3,7 @@ import Router from 'next/router'
 
 import SidePanel from '@/app/SidePanel'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const initialContext = {
   sidePanelContent: null,

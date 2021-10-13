@@ -7,7 +7,7 @@ import useNotificationStore from '@/app/stores/notificationsStore'
 import * as sharedServer from '@/helpers/sharedServer'
 import * as appServer from '@/app/helpers/appServer'
 import { sortUserArtists } from '@/app/helpers/userHelpers'
-import { updateTracking } from '@/app/helpers/trackingHelpers'
+import { updateTracking } from '@/helpers/trackingHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 

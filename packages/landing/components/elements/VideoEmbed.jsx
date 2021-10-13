@@ -7,7 +7,7 @@ import Vimeo from '@u-wave/react-vimeo'
 import ResponsiveEmbed from '@/landing/elements/ResponsiveEmbed'
 import FacebookVideo from '@/landing/elements/FacebookVideo'
 
-import { track } from '@/landing/helpers/trackingHelpers'
+import track from '@/landing/helpers/trackingHelpers'
 
 const VideoEmbed = ({
   video,

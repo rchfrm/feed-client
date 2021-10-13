@@ -9,7 +9,7 @@ import { UserContext } from '@/app/contexts/UserContext'
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 
 import copy from '@/app/copy/referralCodeCopy'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const ReferralCodeShare = ({
   className,

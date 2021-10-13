@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import LabelOptions from '@/elements/LabelOptions'
 import CopyTextButton from '@/elements/CopyTextButton'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const PixelCopierModal = ({ pixelId, pixelEmbed, trackLocation }) => {
   // SHOULD WE SHOW TWO OPTIONS?

@@ -9,11 +9,12 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import useControlsStore from '@/app/stores/controlsStore'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { calcFeedMinBudgetInfo } from '@/app/helpers/budgetHelpers'
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
+import { trackGoogleProfileCreated } from 'shared/helpers/trackGoogleHelpers'
 
 const updateIsControlsLoading = state => state.setIsControlsLoading
 
@@ -233,10 +234,8 @@ function ArtistProvider({ children }) {
     // TRACK
     const newUser = !oldUser.artists.length
     if (newUser) {
-      track('create_profile', null, {
-        fbProps: { action: 'CompleteRegistration' },
-        gaProps: { action: 'sign_up' },
-      })
+      track('create_profile')
+      trackGoogleProfileCreated()
     } else {
       track('add_profile')
     }
