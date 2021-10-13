@@ -23,8 +23,6 @@ export default function track({
   error = false,
   mixpanel = true,
 }) {
-  console.log('action', action)
-  console.log('category', category)
   // Stop here if not browser
   const isBrowser = typeof window !== 'undefined'
   if (!isBrowser) return
