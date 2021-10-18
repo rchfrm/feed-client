@@ -136,6 +136,10 @@ p,
   h2, h3, h4 {
     padding-top: var(--sp-2);
   }
+
+  p {
+    display: block;
+  }
 }
 
 /* Global para styles inside .text-block containers */
