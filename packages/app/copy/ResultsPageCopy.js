@@ -138,6 +138,6 @@ export default {
   conversionsTeaserTitle: 'Request access now',
   conversionsTeaserDescription: `Click to request access to conversion ads!
 
-We’ll be in touch to check if conversion ads are right for you.`,
+We’ll be in touch shortly after with more information.`,
   noResultsData: `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS})!`,
 }
