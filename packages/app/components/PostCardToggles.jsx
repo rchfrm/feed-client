@@ -58,7 +58,7 @@ const PostCardToggles = ({
         artistId={artistId}
         isEnabled={promotionEnabled}
         toggleCampaign={toggleCampaign}
-        disabled={promotionStatus === 'archived' && !priorityEnabled && !isEligibleForGrowAndNurture}
+        disabled={!isEligibleForGrowAndNurture && !priorityEnabled}
         isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
       />
@@ -70,7 +70,7 @@ const PostCardToggles = ({
         artistId={artistId}
         isEnabled={conversionsEnabled}
         toggleCampaign={toggleCampaign}
-        disabled={!globalConversionsEnabled || !canRunConversions || (promotionStatus === 'archived' && !isEligibleForConversions && !priorityEnabled)}
+        disabled={!globalConversionsEnabled || !canRunConversions || (!isEligibleForConversions && !priorityEnabled)}
         isActive={isRunningInConversions}
         className={togglesClassName}
         isFeatureEnabled={conversionsFeatureEnabled}
