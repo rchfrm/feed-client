@@ -31,7 +31,7 @@ if [[ "$product" == "app" ]]; then
   # APP staging
   else
     project="archform-1-dev"
-    site_name="scaler-staging"
+    site_name="archform-1-dev"
   fi
 # ADMIN
 elif [[ "$product" == "admin" ]]; then
