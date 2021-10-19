@@ -6,7 +6,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 
 import * as server from '@/helpers/sharedServer'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 import AccountPageDetailsEmail from '@/app/AccountPageDetailsEmail'

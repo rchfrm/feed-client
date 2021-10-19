@@ -6,7 +6,7 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 import { testValidEmail } from '@/helpers/utils'
 // IMPORT STYLES
 

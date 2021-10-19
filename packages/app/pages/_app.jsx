@@ -1,38 +1,22 @@
 // * APP VERSION
-
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { useRouter } from 'next/router'
-import Head from 'next/head'
-
 import { PageTransition } from 'next-page-transitions'
-
-import withFBQ from 'next-fbq'
 import * as Sentry from '@sentry/browser'
-// GLOBAL STYLES
+
 import '../../shared/css/core.css'
 import '../../shared/css/app.css'
 import '../../shared/css/utilities.css'
-// IMPORT COMPONENTS
+import Head from 'next/head'
 import AppContents from '@/app/AppContents'
-import SetupGtag from '@/elements/SetupGtag'
 import SetupFacebookChatPlugin from '@/elements/SetupFacebookChatPlugin'
-// IMPORT CONTEXTS
 import { AuthProvider } from '@/contexts/AuthContext'
-// IMPORT HELPERS
-import { trackPWA, setupTracking } from '@/app/helpers/trackingHelpers'
-import { trackGooglePageView } from '@/app/helpers/trackGoogleHelpers'
-import { mixpanelPageView } from '@/app/helpers/mixpanelHelpers'
+import { trackPWA, setupTracking, trackPageView } from '@/helpers/trackingHelpers'
 
 // GLOBAL STORES and DATA
 import { parseUrl } from '@/helpers/utils'
 
-// TRACKING SERVICE IDS
-// Google Analytics
-const gaId = 'UA-162381148-2'
-// Facebook pixel
-const fbqId = '226820538468408'
 // Facebook page id
 const fbPageId = '110394157234637'
 
@@ -72,7 +56,6 @@ if (process.env.build_env !== 'development') {
 // * THE APP
 function Feed({ Component, pageProps }) {
   const router = useRouter()
-
   const previousUrl = React.useRef({})
 
   React.useEffect(() => {
@@ -96,8 +79,7 @@ function Feed({ Component, pageProps }) {
       const { pathname: previousPathname } = previousUrl.current
       // Stop here if same pathname
       if (pathname === previousPathname) return
-      trackGooglePageView(url, gaId)
-      mixpanelPageView(url)
+      trackPageView(pathname === '/' ? '/posts' : pathname)
       // Store previous URL
       previousUrl.current = { pathname, queryString }
     }
@@ -117,8 +99,6 @@ function Feed({ Component, pageProps }) {
         <title key="meta-title">Feed</title>
       </Head>
 
-      {/* GTAG */}
-      <SetupGtag gaId={gaId} />
       {/* FACEBOOK CHAT */}
       <SetupFacebookChatPlugin pageId={fbPageId} />
 
@@ -132,7 +112,7 @@ function Feed({ Component, pageProps }) {
   )
 }
 
-export default withFBQ(fbqId)(Feed)
+export default Feed
 
 Feed.propTypes = {
   Component: PropTypes.elementType.isRequired,

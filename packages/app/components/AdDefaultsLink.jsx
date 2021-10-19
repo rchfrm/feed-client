@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 import useControlsStore from '@/app/stores/controlsStore'
 

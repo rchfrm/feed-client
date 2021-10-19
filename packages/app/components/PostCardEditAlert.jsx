@@ -5,7 +5,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 import copy from '@/app/copy/PostsPageCopy'
 

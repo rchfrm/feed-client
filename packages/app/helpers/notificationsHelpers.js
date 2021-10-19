@@ -8,8 +8,8 @@
 import moment from 'moment'
 import Router from 'next/router'
 
-import { mixpanelExternalLinkClick } from '@/app/helpers/mixpanelHelpers'
-import { track } from '@/app/helpers/trackingHelpers'
+import { mixpanelExternalLinkClick } from '@/helpers/mixpanelHelpers'
+import { track } from '@/helpers/trackingHelpers'
 import { getLinkType } from '@/helpers/utils'
 
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'

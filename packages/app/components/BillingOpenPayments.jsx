@@ -8,7 +8,7 @@ import useBillingAddPayment from '@/app/hooks/useBillingAddPayment'
 
 import useBillingStore from '@/app/stores/billingStore'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const getOrganisation = state => state.organisation
 

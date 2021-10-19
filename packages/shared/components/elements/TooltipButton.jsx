@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import TooltipIcon from '@/icons/TooltipIcon'
 import TooltipMessage from '@/elements/TooltipMessage'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const TooltipButton = (props) => {
   const { buttonClasses, buttonStyle, buttonText, trackLabel, trackLocation } = props

@@ -13,7 +13,7 @@ import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
 import PostCardEditAlert from '@/app/PostCardEditAlert'
 
 import { updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 import brandColors from '@/constants/brandColors'
 

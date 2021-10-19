@@ -8,7 +8,7 @@ import TextArea from '@/elements/TextArea'
 import Button from '@/elements/Button'
 import CheckboxInput from '@/elements/CheckboxInput'
 
-import { track } from '@/app/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 import { testValidUrl, testValidEmail } from '@/helpers/utils'
 import { getIntegrationRegex } from '@/helpers/integrationHelpers'
 

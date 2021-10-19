@@ -5,7 +5,7 @@ import MarkdownText from '@/landing/elements/MarkdownText'
 import CheckboxInput from '@/landing/elements/CheckboxInput'
 
 import copy from '@/landing/copy/LandingPageCopy'
-import { track } from '@/landing/helpers/trackingHelpers'
+import track from '@/landing/helpers/trackingHelpers'
 
 const { mailchimp: mailchimpCopy } = copy
 
@@ -59,7 +59,6 @@ const MailchimpForm = ({
           track({
             action: 'join_newsletter',
             category: 'newsletter',
-            marketing: true,
             location: trackLocation,
           })
         }}

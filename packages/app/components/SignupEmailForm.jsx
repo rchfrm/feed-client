@@ -14,7 +14,7 @@ import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
 
-import { trackSignUp } from '@/app/helpers/trackingHelpers'
+import { trackSignUp } from '@/helpers/trackingHelpers'
 
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
