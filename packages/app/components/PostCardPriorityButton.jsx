@@ -12,11 +12,14 @@ import copy from '@/app/copy/PostsPageCopy'
 import brandColors from '@/constants/brandColors'
 import PostCardPriorityButtonAlert from '@/app/PostCardPriorityButtonAlert'
 
+import { updatePost } from '@/app/helpers/postsHelpers'
+
 const PostCardPriorityButton = ({
   postId,
   artistId,
   priorityEnabled,
-  updatePost,
+  updatePost: updatePostsState,
+  toggleCampaign,
   postIndex,
   promotionStatus,
 }) => {
@@ -33,6 +36,23 @@ const PostCardPriorityButton = ({
     setCurrentState(priorityEnabled)
   }, [priorityEnabled])
 
+  const checkAndOptIn = React.useCallback(async ({
+    promotable_status,
+    promotion_enabled,
+    is_running_in_conversions,
+    priority_enabled,
+  }) => {
+    const campaignType = 'all'
+    // Opt in post for Grow & Nurture if prioritized and Grow & Nurture and Conversions are both opted out
+    if (priority_enabled && !(promotable_status === 'active' && promotion_enabled) && !is_running_in_conversions) {
+      const { res: updatedPost } = await updatePost({ artistId, postId, promotionEnabled: true, campaignType })
+
+      // Update post list state
+      const { promotion_enabled, promotable_status } = updatedPost
+      toggleCampaign(postId, promotion_enabled, promotable_status, campaignType)
+    }
+  }, [artistId, postId, toggleCampaign])
+
   const handlePostPriority = async () => {
     const { res: updatedPost, error } = await postsHelpers.setPostPriority({ artistId, assetId: postId, priorityEnabled })
     // Return early if erroring
@@ -42,7 +62,8 @@ const PostCardPriorityButton = ({
     // Update post list state
     const { priority_enabled } = updatedPost
     const payload = { postIndex, priorityEnabled: priority_enabled }
-    updatePost('toggle-priority', payload)
+    updatePostsState('toggle-priority', payload)
+    checkAndOptIn(updatedPost)
   }
 
   return (
@@ -87,6 +108,7 @@ PostCardPriorityButton.propTypes = {
   postId: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   postIndex: PropTypes.number.isRequired,
   promotionStatus: PropTypes.string.isRequired,
 }

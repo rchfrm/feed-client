@@ -38,6 +38,7 @@ const PostCard = ({
         artistId={artistId}
         priorityEnabled={post.priorityEnabled}
         updatePost={updatePost}
+        toggleCampaign={toggleCampaign}
         postIndex={postIndex}
         promotionStatus={promotionStatus}
         className="mb-2"
