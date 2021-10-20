@@ -200,7 +200,7 @@ export const formatPostsResponse = (posts) => {
     const mediaType = post.display?.type
     const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
     const videoFallback = mediaType === 'video' ? post.display?.media?.media_library?.source : ''
-    const thumbnailUrls = post.display?.thumbnails?.map((thumbnail) => thumbnail.url)
+    const thumbnailUrls = post.display?.thumbnails?.map((thumbnail) => thumbnail.url) || []
     const thumbnails = [
       ...(mediaType === 'video'
         ? [post.display?.media?.original?.picture, post.display?.media?.media_library?.picture]
