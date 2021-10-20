@@ -61,7 +61,9 @@ const PostCard = ({
             artistId={artistId}
             post={post}
             postToggleSetterType={postToggleSetterType}
+            postIndex={postIndex}
             toggleCampaign={toggleCampaign}
+            updatePost={updatePost}
             priorityEnabled={post.priorityEnabled}
             togglesClassName="py-2 px-4 mb-2 last:mb-0"
             className="mb-2"
@@ -92,6 +94,7 @@ const PostCard = ({
 PostCard.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
+  updatePost: PropTypes.func.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
