@@ -5,20 +5,24 @@ import ResultsPostStats from '@/app/ResultsPostStats'
 import ResultsPostsNoData from '@/app/ResultsPostsNoData'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import useControlsStore from '@/app/stores/controlsStore'
 
 import { postResultsConfig } from '@/app/helpers/resultsHelpers'
 
+const getControlsStoreState = (state) => ({
+  isSpendingPaused: state.isSpendingPaused,
+})
+
 const ResultsPostsStats = ({
   data,
-  hasSpendFor30Days,
-  isLast30Days,
   className,
 }) => {
   const sortedPosts = postResultsConfig.map((x) => data.posts.find((element) => {
     const key = Array.isArray(x.key) ? x.key[0] : x.key
     return element[key]
   })).filter(Boolean)
-  const isSpendingPaused = hasSpendFor30Days || !isLast30Days
+
+  const { isSpendingPaused } = useControlsStore(getControlsStoreState)
   const isDesktopLayout = useBreakpointTest('sm')
 
   return (
@@ -45,8 +49,6 @@ const ResultsPostsStats = ({
 
 ResultsPostsStats.propTypes = {
   data: PropTypes.object.isRequired,
-  hasSpendFor30Days: PropTypes.bool.isRequired,
-  isLast30Days: PropTypes.bool.isRequired,
 }
 
 export default ResultsPostsStats
