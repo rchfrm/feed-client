@@ -37,14 +37,13 @@ const PostCardPriorityButton = ({
   }, [priorityEnabled])
 
   const checkAndOptIn = React.useCallback(async ({
-    promotable_status,
     promotion_enabled,
-    is_running_in_conversions,
+    conversions_enabled,
     priority_enabled,
   }) => {
     const campaignType = 'all'
     // Opt in post for Grow & Nurture if prioritized and Grow & Nurture and Conversions are both opted out
-    if (priority_enabled && !(promotable_status === 'active' && promotion_enabled) && !is_running_in_conversions) {
+    if (priority_enabled && !promotion_enabled && !conversions_enabled) {
       const { res: updatedPost } = await updatePost({ artistId, postId, promotionEnabled: true, campaignType })
 
       // Update post list state

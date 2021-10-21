@@ -46,12 +46,11 @@ const PostCardToggle = ({
   const [isLoading, setIsLoading] = React.useState(false)
 
   const checkAndDeprioritize = React.useCallback(async ({
-    promotable_status,
     promotion_enabled,
-    is_running_in_conversions,
+    conversions_enabled,
   }) => {
     // Deprioritize post if opted out for Grow & Nurture and Conversions and post is prioritized
-    if (priorityEnabled && !(promotable_status === 'active' && promotion_enabled) && !is_running_in_conversions) {
+    if (priorityEnabled && !promotion_enabled && !conversions_enabled) {
       const { res: updatedPost } = await setPostPriority({ artistId, assetId: postId, priorityEnabled })
 
       // Update post list state
