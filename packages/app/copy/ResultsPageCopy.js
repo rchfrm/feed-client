@@ -139,5 +139,10 @@ export default {
   conversionsTeaserDescription: `Click to request access to conversion ads!
 
 We’ll be in touch shortly after with more information.`,
-  noResultsData: `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS})!`,
+  noResultsData: (isSpendingPaused) => {
+    if (isSpendingPaused) {
+      return `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS})!`
+    }
+    return 'Your results will appear here soon (within 24 hours of starting ads).'
+  },
 }
