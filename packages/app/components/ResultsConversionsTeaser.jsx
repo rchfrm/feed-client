@@ -5,6 +5,9 @@ import NoDataBlock from '@/app/NoDataBlock'
 
 import LightbulbIcon from '@/icons/LightbulbIcon'
 
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/app/copy/ResultsPageCopy'
+
 import useShowConversionsInterest from '@/app/hooks/useShowConversionsInterest'
 
 const ResultsConversionTeaser = ({ className }) => {
@@ -17,7 +20,7 @@ const ResultsConversionTeaser = ({ className }) => {
     >
       <p className="hidden sm:block font-bold text-xl text-left mr-auto sm:mr-0">Sales &amp; Sign-ups</p>
       <div className="hidden sm:block flex items-center sm:mb-5" style={{ minHeight: '88px' }}>
-        <p className="mr-auto sm:mr-0 mb-0 sm:text-center">Coming soon!</p>
+        <MarkdownText className="mb-0 mr-auto sm:mr-0 sm:text-center" markdown={copy.conversionsTeaserTitle} />
       </div>
       <button
         className="flex-1 w-full"
@@ -32,7 +35,7 @@ const ResultsConversionTeaser = ({ className }) => {
           >
             <LightbulbIcon className="w-5 h-auto" />
           </div>
-          <p className="text-center mb-0">Conversion ads<br />coming soon!</p>
+          <MarkdownText className="text-center px-8 mb-0" markdown={copy.conversionsTeaserDescription} />
         </NoDataBlock>
       </button>
     </div>

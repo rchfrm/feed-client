@@ -7,16 +7,23 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import ResultsContent from '@/app/ResultsContent'
 import copy from '@/app/copy/ResultsPageCopy'
+import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import { getAdResultsSummary } from '@/app/helpers/resultsHelpers'
+
+const getControlsStoreState = (state) => ({
+  isSpendingPaused: state.isSpendingPaused,
+})
 
 const ResultsLoader = () => {
   const { artistId } = React.useContext(ArtistContext)
   const [adResultsData, setAdResultsData] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
+
+  const { isSpendingPaused } = useControlsStore(getControlsStoreState)
 
   useAsyncEffect(async (isMounted) => {
     setIsLoading(true)
@@ -38,7 +45,7 @@ const ResultsLoader = () => {
     <>
       {adResultsData && <ResultsContent data={adResultsData} />}
       {(!adResultsData && !isLoading) && (
-        <MarkdownText markdown={copy.noResultsData} />
+        <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
       )}
     </>
   )

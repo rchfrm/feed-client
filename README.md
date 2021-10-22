@@ -139,7 +139,7 @@ To deploy _both_ to the **production** environment run `yarn deploy-production:b
 #### The App
 
 - **Local:** [http://localhost:3000](http://localhost:3000)
-- **Staging:** [https://scaler-staging.firebaseapp.com](https://scaler-staging.firebaseapp.com)
+- **Staging:** [https://archform-1-dev.firebaseapp.com](https://archform-1-dev.firebaseapp.com)
 - **Live:** [https://beta.tryfeed.co](https://beta.tryfeed.co)
 
 #### The Admin Panel

@@ -28,9 +28,21 @@ const PostCardToggles = ({
   const {
     promotionStatus,
     promotionEnabled,
+    promotionEligibility,
     conversionsEnabled,
     isRunningInConversions,
   } = post
+
+  const {
+    enticeEngage,
+    remindTraffic,
+    enticeTraffic,
+    offPlatformConversions,
+    remindConversions,
+  } = promotionEligibility
+
+  const isEligibleForGrowAndNurture = [enticeEngage, remindTraffic, enticeTraffic].some(Boolean)
+  const isEligibleForConversions = [offPlatformConversions, remindConversions].some(Boolean)
 
   return (
     <div
@@ -46,7 +58,7 @@ const PostCardToggles = ({
         artistId={artistId}
         isEnabled={promotionEnabled}
         toggleCampaign={toggleCampaign}
-        disabled={promotionStatus === 'archived' && !priorityEnabled}
+        disabled={!isEligibleForGrowAndNurture && !priorityEnabled}
         isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
       />
@@ -58,7 +70,7 @@ const PostCardToggles = ({
         artistId={artistId}
         isEnabled={conversionsEnabled}
         toggleCampaign={toggleCampaign}
-        disabled={!globalConversionsEnabled || !canRunConversions || (promotionStatus === 'archived' && !priorityEnabled)}
+        disabled={!globalConversionsEnabled || !canRunConversions || (!isEligibleForConversions && !priorityEnabled)}
         isActive={isRunningInConversions}
         className={togglesClassName}
         isFeatureEnabled={conversionsFeatureEnabled}

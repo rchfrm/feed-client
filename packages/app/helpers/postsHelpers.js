@@ -200,7 +200,7 @@ export const formatPostsResponse = (posts) => {
     const mediaType = post.display?.type
     const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
     const videoFallback = mediaType === 'video' ? post.display?.media?.media_library?.source : ''
-    const thumbnailUrls = post.display?.thumbnails?.map((thumbnail) => thumbnail.url)
+    const thumbnailUrls = post.display?.thumbnails?.map((thumbnail) => thumbnail.url) || []
     const thumbnails = [
       ...(mediaType === 'video'
         ? [post.display?.media?.original?.picture, post.display?.media?.media_library?.picture]
@@ -254,6 +254,14 @@ export const formatPostsResponse = (posts) => {
     const [firstRan, lastRan] = getPostAdDates(ads)
     // Link specs
     const linkSpecs = getPostLinkSpecData(post)
+    // Promotion eligibility
+    const promotionEligibility = {
+      enticeEngage: post.promotion_eligibility.entice_engage,
+      remindTraffic: post.promotion_eligibility.remind_traffic,
+      enticeTraffic: post.promotion_eligibility.entice_traffic,
+      offPlatformConversions: post.promotion_eligibility.off_platform_conversions,
+      remindConversions: post.promotion_eligibility.remind_conversions,
+    }
     return {
       id: post.id,
       postType: post.subtype || post.type,
@@ -266,6 +274,7 @@ export const formatPostsResponse = (posts) => {
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
+      promotionEligibility,
       linkSpecs,
       callToActions,
       adMessages,

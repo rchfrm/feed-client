@@ -21,7 +21,7 @@ const useShowConversionsInterest = () => {
   // CONTENT
   const CONTENT = (
     <section>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Conversion Trials</h2>
+      <h2 className={sidePanelStyles.SidePanel__Header}>Conversion ads</h2>
       <MarkdownText markdown={copy.conversionsInterestCopy} />
     </section>
   )

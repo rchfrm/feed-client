@@ -49,6 +49,7 @@ const PostCardSettings = ({
     promotionEnabled,
     conversionsEnabled,
     promotionStatus,
+    promotionEligibility,
     linkSpecs,
     callToActions,
     id: postId,
@@ -66,10 +67,20 @@ const PostCardSettings = ({
   const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
   const isConversionsCampaign = campaignType === 'conversions'
 
-  const isPostArchivedAndNotPrioritized = promotionStatus === 'archived' && !priorityEnabled
+  const {
+    enticeEngage,
+    remindTraffic,
+    enticeTraffic,
+    offPlatformConversions,
+    remindConversions,
+  } = promotionEligibility
+
+  const isEligibleForGrowAndNurture = [enticeEngage, remindTraffic, enticeTraffic].some(Boolean)
+  const isEligibleForConversions = [offPlatformConversions, remindConversions].some(Boolean)
+
   const isToggleDisabled = campaignType === 'all'
-    ? isPostArchivedAndNotPrioritized
-    : isPostArchivedAndNotPrioritized || !globalConversionsEnabled || !canRunConversions
+    ? !isEligibleForGrowAndNurture && !priorityEnabled
+    : (!isEligibleForConversions && !priorityEnabled) || !globalConversionsEnabled || !canRunConversions
   const isSectionDisabled = campaignType === 'all'
     ? !isPromotionEnabled
     : !isConversionsEnabled || !globalConversionsEnabled || !canRunConversions
