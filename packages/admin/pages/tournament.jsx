@@ -10,7 +10,7 @@ const Tournament = ({ router: { pathname, query } }) => {
   const pageRequiresLoading = !!(artistId && tournamentId && campaignId && adsetId)
   return (
     <BasePage
-      headerConfig="tournament"
+      header="tournament"
       staticPage={!pageRequiresLoading}
     >
       {pageRequiresLoading ? (

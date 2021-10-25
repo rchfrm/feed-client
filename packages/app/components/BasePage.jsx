@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Head from 'next/head'
+import { capitalise } from '@/helpers/utils'
 // IMPORT CONTEXTS
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -67,6 +69,9 @@ const BasePage = ({
 
   return (
     <>
+      <Head>
+        <meta property="og:title" content={`Feed | ${capitalise(headerConfig.text)}`} />
+      </Head>
       {user.artists.length === 0 && artistRequired ? (
         <div>
           {/* NO ARTIST COPY */}

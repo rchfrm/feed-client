@@ -32,7 +32,7 @@
     }
   },
   "exclude": [
-    "admin/dist"
+    "admin/dist",
     "dist"
   ],
 }

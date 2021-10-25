@@ -5,7 +5,7 @@ import ArtistsLoader from '@/admin/ArtistsLoader'
 const Home = () => {
   return (
     <BasePage
-      headerConfig="artists"
+      header="artists"
       staticPage
     >
       <ArtistsLoader />
