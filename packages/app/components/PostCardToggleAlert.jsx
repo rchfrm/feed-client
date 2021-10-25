@@ -1,17 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import MarkdownText from '@/elements/MarkdownText'
 import useAlertModal from '@/hooks/useAlertModal'
+
+import useControlsStore from '@/app/stores/controlsStore'
+
+import copy from '@/app/copy/PostsPageCopy'
+
+const getControlsStoreState = (state) => ({
+  canRunConversions: state.canRunConversions,
+  conversionsEnabled: state.conversionsEnabled,
+})
 
 const PostCardToggleAlert = ({
   show,
   onAlertConfirm,
   onCancel,
 }) => {
+  const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
   // Define alert contents
   const alertContents = React.useMemo(() => {
-    return <p>Would you like to set-up conversion campaigns now?</p>
-  }, [])
+    return <MarkdownText markdown={copy.conversionsToggleAlert(canRunConversions, globalConversionsEnabled)} />
+  }, [canRunConversions, globalConversionsEnabled])
 
   // SHOW ALERT
   const { showAlert, closeAlert } = useAlertModal()

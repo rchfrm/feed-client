@@ -39,15 +39,6 @@ export default {
 
   You can override these settings for specific posts on the posts page.`,
   conversionsPixelEventDescription: `Select an event to optimise for. The number in brackets shows how many times each event was triggered in the past 7 days.`,
-  toggleWarning: (isSpendingPaused, hasSufficientBudget, minConversionsBudget) => {
-    if (isSpendingPaused) {
-      return 'Resume spending to enable conversions.'
-    }
-
-    if (!hasSufficientBudget) {
-      return `Budget must be at least ${minConversionsBudget} to enable conversions.`
-    }
-  },
   settingsSaved: `Default settings saved! You can override these defaults for specific posts on the posts page.
 
   N.B. Ads that are currently running will not be updated. To edit active ads, head to the [Running section of posts page](${ROUTES.HOME}?postStatus=running).`,
