@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+import Head from 'next/head'
+import { capitalise } from '@/helpers/utils'
 
 const BasePage = ({
-  header, // heading and punctuation
+  header,
   staticPage,
   children,
 }) => {
@@ -22,7 +24,10 @@ const BasePage = ({
 
   return (
     <>
-      <h1>{header}</h1>
+      <Head>
+        <meta property="og:title" content={`Feed | ${capitalise(header)}`} />
+      </Head>
+      <h1>{capitalise(header)}</h1>
       {children}
     </>
   )

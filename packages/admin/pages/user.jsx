@@ -10,7 +10,7 @@ const User = ({ router: { pathname, query } }) => {
   const pageRequiresLoading = !!(id)
   return (
     <BasePage
-      headerConfig="User"
+      header="user"
       staticPage={!pageRequiresLoading}
     >
       {pageRequiresLoading ? (
