@@ -70,9 +70,10 @@ const PostCardToggles = ({
         artistId={artistId}
         isEnabled={conversionsEnabled}
         toggleCampaign={toggleCampaign}
-        disabled={!globalConversionsEnabled || !canRunConversions || (!isEligibleForConversions && !priorityEnabled)}
+        disabled={!isEligibleForConversions && !priorityEnabled}
         isActive={isRunningInConversions}
         className={togglesClassName}
+        showAlertModal={!globalConversionsEnabled || !canRunConversions}
         isFeatureEnabled={conversionsFeatureEnabled}
       />
     </div>

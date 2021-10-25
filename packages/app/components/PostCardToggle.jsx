@@ -1,11 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
+
+import * as ROUTES from '@/app/constants/routes'
 
 import PostCardLabel from '@/app/PostCardLabel'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostCardToggleTeaser from '@/app/PostCardToggleTeaser'
 import PostCardDisableHandler from '@/app/PostCardDisableHandler'
+import PostCardToggleAlert from '@/app/PostCardToggleAlert'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
@@ -28,6 +32,7 @@ const PostCardToggle = ({
   isActive,
   disabled,
   isFeatureEnabled,
+  showAlertModal,
   className,
 }) => {
   // Store INTERNAL STATE based on promotionEnabled
@@ -35,6 +40,7 @@ const PostCardToggle = ({
   const isConversionsCampaign = campaignType === 'conversions'
   const { sidePanelOpen } = React.useContext(SidePanelContext)
   const { id: postId, postPromotable, promotionStatus } = post
+  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   // Update internal state when outside state changes
   React.useEffect(() => {
     setCurrentState(isEnabled)
@@ -44,6 +50,10 @@ const PostCardToggle = ({
   const [isLoading, setIsLoading] = React.useState(false)
   // ON CHANGING THE TOGGLE SWITCH
   const onChange = React.useCallback(async (newState) => {
+    if (showAlertModal) {
+      setShouldShowAlert(true)
+      return
+    }
     // Start loading
     setIsLoading(true)
     // Update state passed to toggle component
@@ -58,7 +68,13 @@ const PostCardToggle = ({
     // Update post list state
     const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
     toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
-  }, [artistId, postId, toggleCampaign, campaignType, isConversionsCampaign])
+  }, [artistId, postId, toggleCampaign, campaignType, isConversionsCampaign, showAlertModal])
+
+  const goToControlsConversionsPage = () => {
+    Router.push({
+      pathname: ROUTES.CONTROLS_CONVERSIONS,
+    })
+  }
 
   // HANDLE HOVER FOR TEASER
   const isTeaserActive = isConversionsCampaign && !isFeatureEnabled
@@ -74,6 +90,7 @@ const PostCardToggle = ({
         'flex justify-between items-center',
         'rounded-dialogue bg-grey-1',
         isTeaserActive ? 'cursor-pointer' : null,
+        showAlertModal ? 'border-2 border-solid border-red' : null,
         className,
       ].join(' ')}
       aria-label={isTeaserActive ? 'What is this?' : null}
@@ -130,6 +147,16 @@ const PostCardToggle = ({
           campaignType={campaignType}
         />
       )}
+      {/* TOGGLE ALERT */}
+      {shouldShowAlert && (
+        <PostCardToggleAlert
+          show={shouldShowAlert}
+          onAlertConfirm={goToControlsConversionsPage}
+          onCancel={() => {
+            setShouldShowAlert(false)
+          }}
+        />
+      )}
     </WrapperTag>
   )
 }
@@ -144,6 +171,7 @@ PostCardToggle.propTypes = {
   isActive: PropTypes.bool,
   disabled: PropTypes.bool,
   isFeatureEnabled: PropTypes.bool,
+  showAlertModal: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -153,6 +181,7 @@ PostCardToggle.defaultProps = {
   isFeatureEnabled: false,
   isEnabled: false,
   isActive: false,
+  showAlertModal: false,
 }
 
 export default PostCardToggle
