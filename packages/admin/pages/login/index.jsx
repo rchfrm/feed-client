@@ -5,7 +5,7 @@ import LoginPageContent from '@/admin/LoginPageContent'
 
 const page = () => (
   <BasePage
-    headerConfig="login"
+    header="login"
     staticPage
     authPage
   >
