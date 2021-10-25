@@ -7,7 +7,7 @@ const Organisations = ({ router: { query } }) => {
   const { id } = query
   return (
     <BasePage
-      headerConfig="organistions"
+      header="organisations"
       staticPage
     >
       <OrganisationsLoader id={id} />

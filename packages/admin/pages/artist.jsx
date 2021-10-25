@@ -10,7 +10,7 @@ const Artist = ({ router: { pathname, query } }) => {
   const pageRequiresLoading = !!(id)
   return (
     <BasePage
-      headerConfig="Artist"
+      header="artist"
       staticPage={!pageRequiresLoading}
     >
       {pageRequiresLoading ? (

@@ -6,7 +6,7 @@ import UsersLoader from '@/admin/UsersLoader'
 const Users = () => {
   return (
     <BasePage
-      headerConfig="tournamenmts"
+      header="users"
       staticPage
     >
       <UsersLoader />

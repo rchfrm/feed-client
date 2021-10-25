@@ -9,7 +9,7 @@ const Tournaments = ({ router: { pathname, query } }) => {
   const pageRequiresLoading = !!artistId
   return (
     <BasePage
-      headerConfig="tournaments"
+      header="tournaments"
       staticPage={!pageRequiresLoading}
     >
       {pageRequiresLoading
