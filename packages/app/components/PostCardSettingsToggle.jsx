@@ -1,7 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
+
+import * as ROUTES from '@/app/constants/routes'
 
 import PostCardDisableHandler from '@/app/PostCardDisableHandler'
+import PostCardToggleAlert from '@/app/PostCardToggleAlert'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
 
@@ -17,13 +21,19 @@ const PostCardSettingsToggle = ({
   isEnabled,
   setIsEnabled,
   isDisabled,
+  showAlertModal,
 }) => {
   const { postPromotable, promotionStatus } = post
   const [isLoading, setIsLoading] = React.useState(false)
   const [hasChanged, setHasChanged] = React.useState(false)
+  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   const isConversionsCampaign = campaignType === 'conversions'
 
   const onChange = React.useCallback(async (newState) => {
+    if (showAlertModal) {
+      setShouldShowAlert(true)
+      return
+    }
     // Start loading
     setIsLoading(true)
     setHasChanged(true)
@@ -39,7 +49,13 @@ const PostCardSettingsToggle = ({
     // Update post list state
     const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
     toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
-  }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled, isConversionsCampaign])
+  }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled, isConversionsCampaign, showAlertModal])
+
+  const goToControlsConversionsPage = () => {
+    Router.push({
+      pathname: ROUTES.CONTROLS_CONVERSIONS,
+    })
+  }
 
   React.useEffect(() => {
     setHasChanged(false)
@@ -51,6 +67,7 @@ const PostCardSettingsToggle = ({
         'flex items-center',
         'rounded-dialogue bg-grey-1',
         'mb-10 p-3',
+        showAlertModal ? 'border-2 border-solid border-red' : null,
       ].join(' ')}
     >
       <ToggleSwitch
@@ -72,6 +89,16 @@ const PostCardSettingsToggle = ({
           campaignType={campaignType}
         />
       )}
+      {/* TOGGLE ALERT */}
+      {shouldShowAlert && (
+        <PostCardToggleAlert
+          show={shouldShowAlert}
+          onAlertConfirm={goToControlsConversionsPage}
+          onCancel={() => {
+            setShouldShowAlert(false)
+          }}
+        />
+      )}
     </div>
   )
 }
@@ -86,10 +113,11 @@ PostCardSettingsToggle.propTypes = {
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
+  showAlertModal: PropTypes.bool,
 }
 
 PostCardSettingsToggle.defaultProps = {
-
+  showAlertModal: false,
 }
 
 export default PostCardSettingsToggle
