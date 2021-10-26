@@ -642,3 +642,25 @@ export const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 
 export const getNestedObjectByValue = (object, value) => {
   return Object.keys(object).find(key => Object.values(object[key]).includes(value))
 }
+
+export const getStringFromChildrenProp = (children) => {
+  if (!children) {
+    return ''
+  }
+
+  if (typeof children === 'string') {
+    return children
+  }
+
+  const getString = (children) => children.filter(child => typeof child === 'string').join('')
+
+  if (children.props?.children) {
+    return getString(children.props.children)
+  }
+
+  if (Array.isArray(children)) {
+    return getString(children)
+  }
+
+  return ''
+}
