@@ -24,18 +24,24 @@ import copy from '@/app/copy/controlsPageCopy'
 const getControlsStoreState = (state) => ({
   conversionsPreferences: state.conversionsPreferences,
   updatePreferences: state.updatePreferences,
+  budget: state.budget,
   canRunConversions: state.canRunConversions,
   setConversionsEnabled: state.setConversionsEnabled,
   conversionsEnabled: state.conversionsEnabled,
+  minConversionsBudget: state.minConversionsBudget,
+  formattedMinConversionsBudget: state.formattedMinConversionsBudget,
 })
 
 const ConversionsSettings = () => {
   const {
     conversionsPreferences,
     updatePreferences,
+    budget,
     canRunConversions,
     setConversionsEnabled,
     conversionsEnabled,
+    minConversionsBudget,
+    formattedMinConversionsBudget,
   } = useControlsStore(getControlsStoreState)
   const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
   const [defaultLinkId, setDefaultLinkId] = React.useState(conversionsPreferences.defaultLinkId || '')
@@ -45,6 +51,7 @@ const ConversionsSettings = () => {
   const [isToggleLoading, setIsToggleLoading] = React.useState(false)
   const [showAlert, setShowAlert] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
+  const hasSufficientBudget = budget >= minConversionsBudget
   const disabled = !isConversionsEnabled || !canRunConversions
 
   const { setSidePanelButton, sidePanelOpen: isSidepanelOpen } = React.useContext(SidePanelContext)
@@ -125,7 +132,8 @@ const ConversionsSettings = () => {
         className={[
           'flex items-center justify-between',
           'rounded-dialogue bg-grey-1',
-          'mb-12 px-3 py-2',
+          !hasSufficientBudget ? 'border-solid border-2 border-red mb-2' : 'mb-12',
+          'px-3 py-2',
         ].join(' ')}
       >
         <p className="font-bold mb-0">Enable Conversions</p>
@@ -136,6 +144,9 @@ const ConversionsSettings = () => {
           isLoading={isToggleLoading}
         />
       </div>
+      {!hasSufficientBudget && (
+        <MarkdownText markdown={copy.toggleWarning(formattedMinConversionsBudget)} className="text-red font-semibold mb-10" />
+      )}
       <AdSettingsSection
         header="Default link"
         isDisabled={disabled}
