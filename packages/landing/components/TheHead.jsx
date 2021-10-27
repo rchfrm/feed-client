@@ -4,8 +4,8 @@ import Head from 'next/head'
 import Favicons from '@/landing/Favicons'
 
 const siteUrl = 'https://tryfeed.co'
-export const titleDescription = 'The simplest way to run great Facebook & Instagram ads'
-export const metaDescription = 'Create an account, set a budget and let Feed increase your reach.'
+export const titleDescription = 'Make Facebook & Instagram work harder for your business'
+export const metaDescription = 'Feed is the automated advertising tool that keeps up with you. Using your best performing Facebook & Instagram posts to create targeted ads that engage new people, reach more of your existing audience and drive sales.'
 export const siteTitle = `Feed | ${titleDescription}`
 
 const TheHead = () => {
