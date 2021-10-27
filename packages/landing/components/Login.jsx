@@ -21,6 +21,7 @@ export default function Login({ className, trackLocation }) {
         onClick={() => {
           mixpanelExternalLinkClick(loginLink, { location: trackLocation })
         }}
+        trackComponentName="Login"
       >
         {copy.navigation.secondaryCTAText}
       </Button>

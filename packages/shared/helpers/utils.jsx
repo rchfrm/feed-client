@@ -652,9 +652,13 @@ export const getStringFromChildrenProp = (children) => {
     return children
   }
 
+  if (typeof children?.props?.children === 'string') {
+    return children.props.children
+  }
+
   const getString = (children) => children.filter(child => typeof child === 'string').join('')
 
-  if (children.props?.children) {
+  if (children?.props?.children && Array.isArray(children?.props?.children)) {
     return getString(children.props.children)
   }
 
