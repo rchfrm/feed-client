@@ -16,7 +16,9 @@ const PostCardToggles = ({
   artistId,
   post,
   postToggleSetterType,
+  postIndex,
   toggleCampaign,
+  updatePost,
   priorityEnabled,
   togglesClassName,
   className,
@@ -54,10 +56,12 @@ const PostCardToggles = ({
       <PostCardToggle
         post={post}
         postToggleSetterType={postToggleSetterType}
+        postIndex={postIndex}
         campaignType="all"
         artistId={artistId}
         isEnabled={promotionEnabled}
         toggleCampaign={toggleCampaign}
+        updatePost={updatePost}
         disabled={!isEligibleForGrowAndNurture && !priorityEnabled}
         isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
@@ -66,11 +70,13 @@ const PostCardToggles = ({
       <PostCardToggle
         post={post}
         postToggleSetterType={postToggleSetterType}
+        postIndex={postIndex}
         campaignType="conversions"
         artistId={artistId}
         isEnabled={conversionsEnabled}
         toggleCampaign={toggleCampaign}
         disabled={!isEligibleForConversions && !priorityEnabled}
+        updatePost={updatePost}
         isActive={isRunningInConversions}
         className={togglesClassName}
         showAlertModal={conversionsFeatureEnabled && (!globalConversionsEnabled || !canRunConversions)}
@@ -84,7 +90,9 @@ PostCardToggles.propTypes = {
   artistId: PropTypes.string.isRequired,
   post: PropTypes.object.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
+  postIndex: PropTypes.number.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
   priorityEnabled: PropTypes.bool.isRequired,
   togglesClassName: PropTypes.string,
   className: PropTypes.string,
