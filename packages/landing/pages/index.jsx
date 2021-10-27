@@ -43,8 +43,9 @@ export default function Landing({ pageData }) {
 export async function getStaticProps() {
   const pageSlug = 'home'
   const query = getQuery(pageSlug)
-  const forceLoad = false
+  const forceLoad = true
   const { data } = await getDatoData(query, pageSlug, forceLoad)
+  console.log(data)
   return {
     props: {
       pageData: data.home,
