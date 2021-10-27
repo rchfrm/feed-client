@@ -73,7 +73,7 @@ const PostCardToggles = ({
         disabled={!isEligibleForConversions && !priorityEnabled}
         isActive={isRunningInConversions}
         className={togglesClassName}
-        showAlertModal={!globalConversionsEnabled || !canRunConversions}
+        showAlertModal={conversionsFeatureEnabled && (!globalConversionsEnabled || !canRunConversions)}
         isFeatureEnabled={conversionsFeatureEnabled}
       />
     </div>
