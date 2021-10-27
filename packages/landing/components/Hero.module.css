@@ -2,20 +2,16 @@
   * {
     font-size: 8vw;
 
-    @media (--xs) {
-      font-size: 4.5vw;
-    }
-
-    @media (--md) {
-      font-size: 4.5vw;
+    @media (--sm) {
+      font-size: 4.3vw;
     }
 
     @media (--lg) {
-      font-size: 4vw;
+      font-size: 4.4vw;
     }
 
     @media (--bmw) {
-      font-size: 56px;
+      font-size: 64px;
     }
   }
 
