@@ -29,9 +29,8 @@ const PillOptions = (props) => {
     setActiveOption,
     className,
     disabled,
-    trackLabel,
-    trackLocation,
     style,
+    trackComponentName,
   } = props
   return (
     <div
@@ -63,9 +62,7 @@ const PillOptions = (props) => {
               className={['pill--option'].join(' ')}
               onClick={() => setActiveOption(id)}
               trackAction="pill_option_clicked"
-              trackValue={title}
-              trackLabel={label || trackLabel}
-              trackLocation={trackLocation}
+              trackComponentName={trackComponentName}
             >
               {title}
             </ButtonPill>
@@ -87,6 +84,7 @@ PillOptions.propTypes = {
   trackLabel: PropTypes.string,
   trackLocation: PropTypes.string,
   style: PropTypes.object,
+  trackComponentName: PropTypes.string,
 }
 
 PillOptions.defaultProps = {
@@ -97,6 +95,7 @@ PillOptions.defaultProps = {
   trackLocation: '',
   style: null,
   className: null,
+  trackComponentName: '',
 }
 
 

@@ -32,6 +32,7 @@ const LinkBankListButtons = ({
         version="x-small black icon"
         className="mr-5"
         onClick={() => addLink()}
+        trackComponentName="LinkBankListButtons"
       >
         <PlusIcon style={{ height: '0.75rem' }} fill={brandColors.bgColor} />
         {totalLinks > 0 ? 'Add' : 'Add a link'}
@@ -45,6 +46,7 @@ const LinkBankListButtons = ({
               return !isOn
             })
           }}
+          trackComponentName="LinkBankListButtons"
         >
           {editModeOn ? (
             <>

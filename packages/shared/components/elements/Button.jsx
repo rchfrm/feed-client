@@ -22,7 +22,7 @@ const Button = React.forwardRef(({
   wrapper,
   icon,
   label,
-  trackComponent,
+  trackComponentName,
   children,
 }, ref) => {
   const versions = version
@@ -58,10 +58,10 @@ const Button = React.forwardRef(({
 
     track('button_click', {
       buttonText,
-      trackComponent,
+      trackComponentName,
     })
     onClick(e)
-  }, [onClick, children, trackComponent])
+  }, [onClick, children, trackComponentName])
 
   // OUTPUT BUTTON
   return (
@@ -106,7 +106,7 @@ Button.propTypes = {
   wrapper: PropTypes.string,
   icon: PropTypes.node,
   label: PropTypes.string,
-  trackComponent: PropTypes.string,
+  trackComponentName: PropTypes.string,
   children: PropTypes.node.isRequired,
 }
 
@@ -123,7 +123,7 @@ Button.defaultProps = {
   wrapper: '',
   icon: null,
   label: '',
-  trackComponent: '',
+  trackComponentName: '',
   onClick: () => {},
 }
 

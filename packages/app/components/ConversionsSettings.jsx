@@ -115,6 +115,7 @@ const ConversionsSettings = () => {
       ].join(' ')}
       loading={isLoading}
       disabled={disabled}
+      trackComponentName="ConversionsSettings"
     >
       Save Conversions Settings
     </Button>

@@ -124,6 +124,7 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
           type="sumbit"
           loading={loading}
           className="ml-auto"
+          trackComponentName="SignupMissingEmail"
         >
           submit
         </Button>

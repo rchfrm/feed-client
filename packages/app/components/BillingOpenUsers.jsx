@@ -42,6 +42,7 @@ const BillingOpenUsers = ({
           e.preventDefault()
           openTransferProfileSidepanel()
         }}
+        trackComponentName="BillingOpenUsers"
       >
         Send an invite
       </Button>

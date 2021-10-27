@@ -76,11 +76,11 @@ const TargetingPlatformsSelector = ({
         activeOption={activeOption}
         setActiveOption={setOption}
         size="small"
-        trackLabel="Target Platforms"
         style={{
           width: '101%',
           transform: 'translateX(-0.5%)',
         }}
+        trackComponentName="TargetingPlatformsSelector"
       />
       {/* WARNING */}
       {warningCopy && (

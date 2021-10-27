@@ -21,6 +21,7 @@ const LoginSignupButtons = ({
         className={styles.facebookButton}
         onClick={onFacebookClick}
         fallbackCta={`${buttonPrefix} Facebook`}
+        trackComponentName="LoginSignupButtons"
       >
         {buttonPrefix} Facebook
       </ButtonFacebook>
@@ -34,6 +35,7 @@ const LoginSignupButtons = ({
             style={{ width: '1.25rem', height: 'auto' }}
           />
         )}
+        trackComponentName="LoginSignupButtons"
       >
         {buttonPrefix} email
       </Button>
