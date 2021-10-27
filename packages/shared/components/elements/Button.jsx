@@ -58,7 +58,7 @@ const Button = React.forwardRef(({
 
     track('button_click', {
       buttonText,
-      trackComponentName,
+      componentName: trackComponentName,
     })
     onClick(e)
   }, [onClick, children, trackComponentName])
