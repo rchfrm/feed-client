@@ -106,7 +106,7 @@ Button.propTypes = {
   wrapper: PropTypes.string,
   icon: PropTypes.node,
   label: PropTypes.string,
-  trackComponentName: PropTypes.string,
+  trackComponentName: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 }
 
@@ -123,7 +123,6 @@ Button.defaultProps = {
   wrapper: '',
   icon: null,
   label: '',
-  trackComponentName: '',
   onClick: () => {},
 }
 
