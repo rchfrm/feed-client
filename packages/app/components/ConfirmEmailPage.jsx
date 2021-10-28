@@ -212,7 +212,7 @@ const ConfirmEmailPage = ({
           <Button
             version="x-small green icon"
             onClick={() => setIsChangeEmail(true)}
-            trackComponentName="ConfirmEmailEmailSuccess"
+            trackComponentName="ConfirmEmailPage"
           >
             <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
             Change email address
