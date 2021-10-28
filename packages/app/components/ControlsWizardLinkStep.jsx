@@ -103,7 +103,7 @@ const ControlsWizardLinkStep = () => {
               version="green small icon"
               className="h-8 ml-3 rounded-full"
               onClick={() => setIsEditMode(true)}
-              trackComponentName="ControlsWizardBudgetStep"
+              trackComponentName="ControlsWizardLinkStep"
             >
               <PencilIcon fill={brandColors.white} />
               Edit
@@ -116,7 +116,7 @@ const ControlsWizardLinkStep = () => {
         onClick={handleNext}
         className="w-full mb-6"
         loading={isLoading}
-        trackComponentName="ControlsWizardBudgetStep"
+        trackComponentName="ControlsWizardLinkStep"
       >
         Next
         <ArrowAltIcon
