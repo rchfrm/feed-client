@@ -80,10 +80,8 @@ const PostCardSettings = ({
 
   const isToggleDisabled = campaignType === 'all'
     ? !isEligibleForGrowAndNurture && !priorityEnabled
-    : (!isEligibleForConversions && !priorityEnabled) || !globalConversionsEnabled || !canRunConversions
-  const isSectionDisabled = campaignType === 'all'
-    ? !isPromotionEnabled
-    : !isConversionsEnabled || !globalConversionsEnabled || !canRunConversions
+    : (!isEligibleForConversions && !priorityEnabled)
+  const isSectionDisabled = campaignType === 'all' ? !isPromotionEnabled : !isConversionsEnabled
 
   const noCaptionEditExcuse = getCaptionNotEditableExcuse(post)
 
@@ -133,6 +131,7 @@ const PostCardSettings = ({
             isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
             setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
             isDisabled={isToggleDisabled}
+            showAlertModal={isConversionsCampaign && (!globalConversionsEnabled || !canRunConversions)}
           />
           <AdSettingsSection
             header="Link"
