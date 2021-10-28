@@ -14,6 +14,7 @@ const PostCardHeader = ({
   artistId,
   priorityEnabled,
   updatePost,
+  toggleCampaign,
   postIndex,
   className,
   promotionStatus,
@@ -44,6 +45,7 @@ const PostCardHeader = ({
         artistId={artistId}
         priorityEnabled={priorityEnabled}
         updatePost={updatePost}
+        toggleCampaign={toggleCampaign}
         postIndex={postIndex}
         promotionStatus={promotionStatus}
       />
@@ -59,6 +61,7 @@ PostCardHeader.propTypes = {
   artistId: PropTypes.string.isRequired,
   priorityEnabled: PropTypes.bool.isRequired,
   updatePost: PropTypes.func.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
   postIndex: PropTypes.number.isRequired,
   promotionStatus: PropTypes.string.isRequired,
   className: PropTypes.string,
