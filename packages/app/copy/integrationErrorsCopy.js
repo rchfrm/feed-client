@@ -67,6 +67,10 @@ Click ‘Continue with Facebook’ to grant those permissions.`
 
   instagram_page_not_linked: () => `Your Facebook page and Instagram account are not quite fully linked. It’s a quick fix, and you can [add your Instagram account to your Facebook page](https://www.facebook.com/business/help/898752960195806) in just a few minutes.`,
 
+  non_discrimination_policy_not_accepted: () => `Please accept Facebook's Non-Discrimination Policies.
+
+  You'll need to do this before Feed can start running your ads.`,
+
   custom_audience_tos_not_accepted: () => `Please accept Facebook's Custom Audience Terms of Service.
 
   You'll need to do this before Feed can start running your ads.`,

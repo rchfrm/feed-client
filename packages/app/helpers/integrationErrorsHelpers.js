@@ -119,6 +119,17 @@ export const getErrorResponse = (error, artist) => {
       code,
     }
   }
+  if (code === 'non_discrimination_policy_not_accepted') {
+    return {
+      message: copy[code](),
+      action: 'link',
+      buttonText: 'Accept on Facebook',
+      href: 'https://www.facebook.com/certification/nondiscrimination',
+      fbLink: true,
+      hidden,
+      code,
+    }
+  }
   if (code === 'custom_audience_tos_not_accepted') {
     const adAccountId = context.ad_account_id.replace('act_', '')
     return {
@@ -172,7 +183,8 @@ const getIntegrationErrorPriority = (error) => {
   if (code === 'instagram_id' && subcode === 'missing_field') return 5
   if (code === 'ad_account_no_funding_source') return 6
   if (code === 'instagram_page_not_linked') return 7
-  if (code === 'custom_audience_tos_not_accepted') return 8
+  if (code === 'non_discrimination_policy_not_accepted') return 8
+  if (code === 'custom_audience_tos_not_accepted') return 9
   return 999
 }
 
