@@ -107,9 +107,7 @@ const LoginEmailForm = ({ className }) => {
       // TRACK LOGIN
       trackLogin({ authProvider: 'password', userId: user.id })
       // REDIRECT
-      const hasPendingEmail = testForPendingEmail(user)
-      const redirectTo = hasPendingEmail ? ROUTES.CONFIRM_EMAIL : ROUTES.SIGN_UP_CONNECT_PROFILES
-      Router.push(redirectTo)
+      Router.push(ROUTES.SIGN_UP_CONNECT_PROFILES)
     }
   }
 
