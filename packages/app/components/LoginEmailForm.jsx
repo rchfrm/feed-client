@@ -107,7 +107,7 @@ const LoginEmailForm = ({ className }) => {
       // TRACK LOGIN
       trackLogin({ authProvider: 'password', userId: user.id })
       // REDIRECT
-      Router.push(ROUTES.SIGN_UP_CONNECT_PROFILES)
+      Router.push(ROUTES.POSTS)
     }
   }
 
