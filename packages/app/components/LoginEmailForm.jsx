@@ -27,7 +27,7 @@ import styles from '@/LoginPage.module.css'
 const LoginEmailForm = ({ className }) => {
   // IMPORT CONTEXTS
   const { rejectedPagePath } = React.useContext(AuthContext)
-  const { storeUser, userError, testForPendingEmail } = React.useContext(UserContext)
+  const { storeUser, userError } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
   // GLOBAL LOADING
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
