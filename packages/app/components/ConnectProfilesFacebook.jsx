@@ -12,17 +12,10 @@ import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 // IMPORT COPY
 import copy from '@/app/copy/connectProfilesCopy'
 
-const getIntroText = (showSignupIntro, isFindMore) => {
-  if (showSignupIntro) return copy.signupIntro
-  if (isFindMore) return copy.findMoreProfiles
-  return copy.connectProfilesIntro
-}
-
 const ConnectProfilesFacebook = ({
   auth,
   errors,
   setErrors,
-  isSignupStep,
   isFindMore,
   className,
 }) => {
@@ -44,10 +37,6 @@ const ConnectProfilesFacebook = ({
   // eslint-disable-next-line
   }, [missingScopes.length, providerIds])
 
-  // GET INTRO TEXT
-  const showSignupIntro = (missingScopes.length === 0) && isSignupStep
-  const introText = getIntroText(showSignupIntro, isFindMore)
-
   return (
     <div className={className}>
       {/* Errors */}
@@ -60,7 +49,7 @@ const ConnectProfilesFacebook = ({
       >
         {/* Singup intro text */}
         <div className="col-span-6 col-start-1">
-          <MarkdownText className="col-span-6 col-start-1" markdown={introText} />
+          <MarkdownText className="col-span-6 col-start-1 mb-8" markdown={copy.connectProfilesIntro} />
           {/* If missing FB permissions, show missing permissions */}
           {missingScopes.length > 0 && (
             <MissingScopesMessage
@@ -78,18 +67,14 @@ const ConnectProfilesFacebook = ({
             </Button>
           ) : (
             <ButtonFacebook
-              className="w-full max-w-md mb-5"
+              className="w-full max-w-md mb-12"
               onClick={linkFacebook}
               fallbackCta="Continue with Facebook"
             >
               Continue with Facebook
             </ButtonFacebook>
           )}
-          {!isFindMore && (
-            <p className={['xsmall--p', 'col-span-6', 'col-start-1', 'max-w-md'].join(' ')}>
-              {copy.smallLegalText}
-            </p>
-          )}
+          <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription} />
         </div>
       </div>
     </div>
@@ -100,17 +85,14 @@ ConnectProfilesFacebook.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
-  isSignupStep: PropTypes.bool,
   isFindMore: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ConnectProfilesFacebook.defaultProps = {
   errors: [],
-  isSignupStep: false,
   isFindMore: false,
   className: null,
 }
-
 
 export default ConnectProfilesFacebook

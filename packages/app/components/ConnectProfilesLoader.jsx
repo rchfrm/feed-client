@@ -18,13 +18,12 @@ import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectButton from '@/app/ConnectProfilesConnectButton'
 import ConnectProfilesNoArtists from '@/app/ConnectProfilesNoArtists'
+import ButtonHelp from '@/elements/ButtonHelp'
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import { sortArrayByKey } from '@/helpers/utils'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
-
-import * as ROUTES from '@/app/constants/routes'
 
 import copy from '@/app/copy/connectProfilesCopy'
 
@@ -57,7 +56,6 @@ const artistsReducer = (draftState, action) => {
 const ConnectProfilesLoader = ({
   isConnecting,
   setIsConnecting,
-  isSignupStep,
   className,
 }) => {
   // IMPORT CONTEXTS
@@ -66,14 +64,6 @@ const ConnectProfilesLoader = ({
   const { user, userLoading } = React.useContext(UserContext)
   // Get any missing scopes
   const { missingScopes } = auth
-
-  // LOGIN VERSION WITH ARTISTS
-  // If accessing the login version, but this user already has artsits, go to connect profiles
-  React.useEffect(() => {
-    if (isSignupStep && user.artists && user.artists.length) {
-      Router.push(ROUTES.CONNECT_PROFILES)
-    }
-  }, [user, isSignupStep])
 
   // DEFINE LOADING VERSIONS
   const [pageLoading, setPageLoading] = React.useState(false)
@@ -184,7 +174,11 @@ const ConnectProfilesLoader = ({
           auth={auth}
           errors={errors}
           setErrors={setErrors}
-          isSignupStep={isSignupStep}
+        />
+        <ButtonHelp
+          content="test"
+          text="Need help?"
+          label="Connect accounts help"
         />
         {fetchedArtistsFinished && (
           <ConnectProfilesNoArtists className="max-w-xl mb-2 mt-6" />
@@ -228,7 +222,6 @@ const ConnectProfilesLoader = ({
         disabled={buttonDisabled}
         disabledReason={disabledReason}
       />
-
     </div>
   )
 }
@@ -236,12 +229,10 @@ const ConnectProfilesLoader = ({
 ConnectProfilesLoader.propTypes = {
   isConnecting: PropTypes.bool.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
-  isSignupStep: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ConnectProfilesLoader.defaultProps = {
-  isSignupStep: false,
   className: null,
 }
 

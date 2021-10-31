@@ -7,7 +7,7 @@ import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnect
 import ConnectProfilesLoader from '@/app/ConnectProfilesLoader'
 
 const headerConfig = {
-  text: 'connect profiles',
+  text: 'connect accounts',
 }
 
 const Page = () => {
