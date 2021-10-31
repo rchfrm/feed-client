@@ -47,7 +47,6 @@ const ConnectProfilesFacebook = ({
         className={isFindMore ? 'bg-grey-1 rounded-dialogue p-4' : 'lg:grid grid-cols-12 col-gap-8'}
         style={{ alignItems: 'start' }}
       >
-        {/* Singup intro text */}
         <div className="col-span-6 col-start-1">
           <MarkdownText className="col-span-6 col-start-1 mb-8" markdown={copy.connectProfilesIntro} />
           {/* If missing FB permissions, show missing permissions */}

@@ -176,7 +176,7 @@ const ConnectProfilesLoader = ({
           setErrors={setErrors}
         />
         <ButtonHelp
-          content="test"
+          content={copy.helpText}
           text="Need help?"
           label="Connect accounts help"
         />
