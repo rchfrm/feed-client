@@ -107,6 +107,7 @@ const nextConfig = {
     await fetchGlobalData()
     return []
   },
+  experimental: { esmExternals: true },
 }
 
 module.exports = withPlugins([
