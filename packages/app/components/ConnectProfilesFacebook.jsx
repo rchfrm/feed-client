@@ -7,6 +7,7 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
+import VideoEmbed from '@/elements/VideoEmbed'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 // IMPORT COPY
@@ -74,6 +75,15 @@ const ConnectProfilesFacebook = ({
             </ButtonFacebook>
           )}
           <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription} />
+        </div>
+        <div className="hidden lg:block col-span-6">
+          <VideoEmbed
+            video={{
+              provider: 'youtube',
+              providerUid: 'qMJ6CVH6tLs',
+              url: 'https://youtu.be/qMJ6CVH6tLs',
+            }}
+          />
         </div>
       </div>
     </div>

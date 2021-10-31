@@ -1,4 +1,4 @@
-import VideoEmbed from '@/landing/elements/VideoEmbed'
+import VideoEmbed from '@/elements/VideoEmbed'
 
 const IntroVideo = () => {
   return (
