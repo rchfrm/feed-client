@@ -3,7 +3,6 @@ import { useState } from 'react'
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
 
-import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
 import ConnectProfilesLoader from '@/app/ConnectProfilesLoader'
 
 const headerConfig = {
@@ -21,9 +20,6 @@ const Page = () => {
         setIsConnecting={setIsConnecting}
         className="mb-8"
       />
-      {!isConnecting && (
-        <ConnectProfilesAlreadyConnected />
-      )}
     </BasePage>
   )
 }

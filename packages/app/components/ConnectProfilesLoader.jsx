@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Router from 'next/router'
-
 import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
 
@@ -18,7 +16,6 @@ import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectButton from '@/app/ConnectProfilesConnectButton'
 import ConnectProfilesNoArtists from '@/app/ConnectProfilesNoArtists'
-import ButtonHelp from '@/elements/ButtonHelp'
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
@@ -94,7 +91,6 @@ const ConnectProfilesLoader = ({
       payload,
     })
   }, [setArtistAccounts])
-
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
@@ -174,11 +170,8 @@ const ConnectProfilesLoader = ({
           auth={auth}
           errors={errors}
           setErrors={setErrors}
-        />
-        <ButtonHelp
-          content={copy.helpText}
-          text="Need help?"
-          label="Connect accounts help"
+          isFindMore={user?.artists.length > 0}
+          isConnecting={isConnecting}
         />
         {fetchedArtistsFinished && (
           <ConnectProfilesNoArtists className="max-w-xl mb-2 mt-6" />
