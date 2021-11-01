@@ -34,14 +34,14 @@ const BillingPaymentAdd = ({
 
   // CHANGE SIDEPANEL BUTTON on MOUNT
   React.useEffect(() => {
-    const button = <Button version="green" disabled={!isFormValid} onClick={addPaymentMethod}>Submit</Button>
+    const button = <Button version="green" disabled={!isFormValid} onClick={addPaymentMethod} trackComponentName="BillingPaymentAdd">Submit</Button>
     setSidePanelButton(button)
   }, [isFormValid, addPaymentMethod, setSidePanelButton])
 
   // CHANGE SIDEPANEL BUTTON on SUCCESS
   React.useEffect(() => {
     if (success) {
-      const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+      const button = <Button version="green" onClick={() => toggleSidePanel(false)} trackComponentName="BillingPaymentAdd">Done</Button>
       setSidePanelButton(button)
     }
   }, [success, setSidePanelButton, toggleSidePanel])

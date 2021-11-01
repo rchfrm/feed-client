@@ -201,6 +201,7 @@ const SignupEmailForm = () => {
         version="black  wide"
         disabled={!formComplete}
         type="sumbit"
+        trackComponentName="SignupEmailForm"
       >
         sign up
       </Button>

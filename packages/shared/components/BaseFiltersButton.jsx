@@ -58,6 +58,7 @@ const BaseFiltersButton = ({
         }}
         hasIcon
         active={active}
+        trackComponentName="BaseFiltersButton"
       >
         {icon}
         {title}

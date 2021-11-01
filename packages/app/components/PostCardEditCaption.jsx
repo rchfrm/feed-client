@@ -199,6 +199,7 @@ const PostCardEditCaption = ({
                     })
                   }
                 }}
+                trackComponentName="PostCardEditCaption"
               >
                 {!useEditMode && (
                   <PencilIcon fill={brandColors.bgColor} className="mr-1" style={{ height: '1rem' }} />

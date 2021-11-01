@@ -39,6 +39,7 @@ const PixelCopier = ({
         version="x-small green icon"
         onClick={openModal}
         disabled={isLoading}
+        trackComponentName="PixelCopier"
       >
         Copy pixel
       </Button>

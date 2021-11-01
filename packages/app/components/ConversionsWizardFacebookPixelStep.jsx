@@ -54,6 +54,7 @@ const ConversionsWizardFacebookPixelStep = () => {
           loading={isLoading}
           spinnerFill={brandColors.black}
           className="mt-6 w-full"
+          trackComponentName="ConversionsWizardFacebookPixelStep"
         >
           Continue
           <ArrowAltIcon

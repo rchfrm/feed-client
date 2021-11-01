@@ -83,6 +83,7 @@ const ConnectProfilesConnectButton = ({
           version="green"
           onClick={runCreateArtists}
           disabled={disabled}
+          trackComponentName="ConnectProfilesConnectButton"
         >
           Save
           <ArrowAltIcon

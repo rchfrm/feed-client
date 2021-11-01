@@ -33,7 +33,7 @@ const BillingOpenFailedInvoice = ({
     }
 
     const content = <BillingHandleFailedInvoice />
-    const button = <Button version="black" onClick={handleSidepanelClose}>Back</Button>
+    const button = <Button version="black" onClick={handleSidepanelClose} trackComponentName="BillingOpenFailedInvoice">Back</Button>
     setSidePanelContent(content)
     setSidePanelContentLabel('Inovoice list')
     toggleSidePanel(true)
@@ -50,6 +50,7 @@ const BillingOpenFailedInvoice = ({
           e.preventDefault()
           openInvoicesSidepanel()
         }}
+        trackComponentName="BillingOpenFailedInvoice"
       >
         Handle failed payment
       </Button>

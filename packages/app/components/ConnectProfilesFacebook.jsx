@@ -71,6 +71,7 @@ const ConnectProfilesFacebook = ({
                 className="w-full max-w-md mb-12"
                 onClick={linkFacebook}
                 fallbackCta="Connect more pages"
+                trackComponentName="ConnectProfilesFacebook"
               >
                 Connect more pages
               </ButtonFacebook>
@@ -81,6 +82,7 @@ const ConnectProfilesFacebook = ({
                 className="w-full max-w-md mb-12"
                 onClick={linkFacebook}
                 fallbackCta="Continue with Facebook"
+                trackComponentName="ConnectProfilesFacebook"
               >
                 Continue with Facebook
               </ButtonFacebook>

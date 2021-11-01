@@ -17,6 +17,7 @@ const TournamentFilters = ({ statusTypes, activeFilter, setActiveFilter }) => {
               <ButtonPill
                 active={active}
                 onClick={() => setActiveFilter(filter)}
+                trackComponentName="TournamentFilters"
               >
                 {filter}
               </ButtonPill>

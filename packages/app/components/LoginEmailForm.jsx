@@ -155,6 +155,7 @@ const LoginEmailForm = ({ className }) => {
         disabled={false}
         onClick={onFormSubmit}
         type="input"
+        trackComponentName="LoginEmailForm"
       >
         log in.
       </Button>

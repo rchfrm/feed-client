@@ -121,6 +121,7 @@ const Category = ({ entityType, id }) => {
       <Button
         version="green"
         onClick={handleClick}
+        trackComponentName="Entity"
       >
         Save
       </Button>

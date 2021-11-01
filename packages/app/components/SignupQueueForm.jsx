@@ -217,6 +217,7 @@ const SignupQueueForm = ({ className }) => {
           type="submit"
           className="w-full sm:w-auto"
           disabled={!isFormValid}
+          trackComponentName="SignupQueueForm"
         >
           Join the queue
         </Button>

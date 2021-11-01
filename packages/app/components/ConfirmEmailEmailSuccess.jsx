@@ -5,6 +5,8 @@ import Success from '@/elements/Success'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
+import { AuthContext } from '@/contexts/AuthContext'
+
 import useSignOut from '@/app/hooks/useSignOut'
 
 import pageCopy from '@/app/copy/signupCopy'
@@ -17,6 +19,8 @@ const ConfirmEmailEmailSuccess = ({
   className,
 }) => {
   const isAuthEmail = emailType === 'email'
+  const { auth: { email: signedInEmail } } = React.useContext(AuthContext)
+  const hasAuthEmailChanged = isAuthEmail && (email !== signedInEmail)
   const emailDisplay = isAuthEmail ? email : contactEmail
   const { emailVerifySuccess: copy } = pageCopy
   const signOut = useSignOut()
@@ -28,7 +32,7 @@ const ConfirmEmailEmailSuccess = ({
     >
       <Success message={copy.success(emailDisplay)} />
       {/* Explain about logging out when changing auth email */}
-      {emailType !== 'contactEmail' && (
+      {hasAuthEmailChanged && (
         <MarkdownText markdown={copy.logoutExplainer} />
       )}
       <div className="pt-2">
@@ -36,11 +40,12 @@ const ConfirmEmailEmailSuccess = ({
           version="green small"
           className="w-full"
           onClick={() => {
-            if (isAuthEmail) return signOut()
+            if (hasAuthEmailChanged) return signOut()
             onContinue()
           }}
+          trackComponentName="ConfirmEmailEmailSuccess"
         >
-          {copy.button(isAuthEmail)}
+          {copy.button(hasAuthEmailChanged)}
         </Button>
       </div>
     </div>

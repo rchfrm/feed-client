@@ -66,11 +66,11 @@ const TargetingGenderSelector = ({
         activeOption={activeOption}
         setActiveOption={setOption}
         size="small"
-        trackLabel="Target Genders"
         style={{
           width: '101%',
           transform: 'translateX(-0.5%)',
         }}
+        trackComponentName="TargetingGenderSelector"
       />
     </section>
   )

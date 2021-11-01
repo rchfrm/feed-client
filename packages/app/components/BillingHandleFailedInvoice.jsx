@@ -47,6 +47,7 @@ const BillingHandleFailedInvoice = () => {
           version="green small"
           label={retryButtonText}
           href={failedInvoice.hosted_invoice_url}
+          trackComponentName="BillingHandleFailedInvoice"
         >
           {retryButtonText}
         </Button>

@@ -93,6 +93,7 @@ const ConfirmEmailChangeEmail = ({
               type="sumbit"
               loading={loading}
               className="w-full"
+              trackComponentName="ConfirmEmailChangeEmail"
             >
               submit
             </Button>
@@ -102,6 +103,7 @@ const ConfirmEmailChangeEmail = ({
             <Button
               version="black x-small"
               onClick={backToVerify}
+              trackComponentName="ConfirmEmailChangeEmail"
             >
               Cancel
             </Button>

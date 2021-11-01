@@ -48,6 +48,7 @@ const ArtistStatusButton = ({ artistId, artistStatus, setArtistsStatus }) => {
         version="black small"
         loading={loading}
         onClick={() => updateStatus(artistId, buttonProps.action)}
+        trackComponentName="ArtistStatusButton"
       >
         {buttonProps.text}
       </Button>

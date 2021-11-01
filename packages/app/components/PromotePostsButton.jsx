@@ -35,6 +35,7 @@ function PromotePostsButton({
       <Button
         version="black full"
         onClick={handleClick}
+        trackComponentName="PromotePostsButton"
       >
         {linkText}
       </Button>

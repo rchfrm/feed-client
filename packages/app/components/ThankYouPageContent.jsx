@@ -30,7 +30,7 @@ function ThankYouPageContent() {
       </div>
 
       <div className="flex justify-end">
-        <Button version="black" onClick={goToHomePage}>done.</Button>
+        <Button version="black" onClick={goToHomePage} trackComponentName="ThankYouPageContent">done.</Button>
       </div>
     </>
 
