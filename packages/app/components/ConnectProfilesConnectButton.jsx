@@ -8,6 +8,11 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import Button from '@/elements/Button'
+import MarkdownText from '@/elements/MarkdownText'
+import ArrowAltIcon from '@/icons/ArrowAltIcon'
+
+import brandColors from '@/constants/brandColors'
+import copy from '@/app/copy/connectProfilesCopy'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
@@ -52,35 +57,42 @@ const ConnectProfilesConnectButton = ({
         className,
       ].join(' ')}
     >
-      <div className="mb-4">
+      <div className="mb-12">
+        <MarkdownText markdown={copy.confirmAccounts} />
+        {/* LIST OF CONNECTING PROFILES */}
+        {!disabledReason && accountsToConnect.length && (
+          <div className="text--block">
+            <p>{`You have selected ${accountsToConnect.length} ${accountsToConnect.length === 1 ? 'page' : 'pages'}: `}
+              {accountsToConnect.map((account) => {
+                return (
+                  <span
+                    key={account.page_id}
+                    className="font-bold"
+                  >
+                    {account.name}
+                  </span>
+                )
+              })}
+            </p>
+          </div>
+        )}
+        {/* DISABLED REASON */}
+        {disabledReason && (
+          <p className="font-bold mb-6">{disabledReason}</p>
+        )}
         <Button
+          version="green"
           onClick={runCreateArtists}
           disabled={disabled}
         >
-          Connect {accountsToConnect.length} Selected {accountsToConnect.length === 1 ? 'Profile' : 'Profiles'}
+          Save
+          <ArrowAltIcon
+            className="ml-3"
+            fill={disabled ? brandColors.greyDark : brandColors.white}
+            direction="right"
+          />
         </Button>
       </div>
-      {/* DISABLED REASON */}
-      {disabledReason && (
-        <p className="font-bold mb-0">{disabledReason}</p>
-      )}
-      {/* LIST OF CONNECTING PROFILES */}
-      {!disabledReason && accountsToConnect.length && (
-        <div className="text--block pt-5">
-          <p className="font-bold">This will connect:</p>
-          <ul>
-            {accountsToConnect.map((account) => {
-              return (
-                <li
-                  key={account.page_id}
-                >
-                  {account.name}
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      )}
     </div>
   )
 }

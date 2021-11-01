@@ -21,6 +21,7 @@ export default {
 
   Please make sure you opt in to all permissions shown, as Feed needs them to work properly. You'll remain in control of all ads and posts.`
   },
+  confirmAccounts: 'Confirm the Facebook and Instagram accounts that should be connected to Feed, which country they are based in and the ad account to use.',
   noAdAccountsError: `No ad accounts were found, and one is needed to use Feed. Please log in to Facebook to create one.
 
   There's more information about how to do this [here](https://www.facebook.com/business/help/910137316041095?id=420299598837059).`,

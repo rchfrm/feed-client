@@ -88,22 +88,13 @@ const ConnectProfilesFacebook = ({
               <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
             </>
           )}
-          {!isConnecting && (
+          {!isConnecting && isFindMore && (
             <ConnectProfilesAlreadyConnected className="mb-12" />
           )}
           <ButtonHelp
             content={copy.helpText}
             text="Need help?"
             label="Connect accounts help"
-          />
-        </div>
-        <div className="hidden lg:block col-span-6">
-          <VideoEmbed
-            video={{
-              provider: 'youtube',
-              providerUid: 'qMJ6CVH6tLs',
-              url: 'https://youtu.be/qMJ6CVH6tLs',
-            }}
           />
         </div>
       </div>

@@ -187,25 +187,6 @@ const ConnectProfilesLoader = ({
         return <Error error={error} key={index} />
       })}
 
-      {/* LIST OF PROFILES */}
-      <ConnectProfilesList
-        artistAccounts={artistAccounts}
-        updateArtists={updateArtists}
-        setButtonDisabled={setButtonDisabled}
-        setDisabledReason={setDisabledReason}
-        setErrors={setErrors}
-        className="mb-12"
-      >
-        {/* BUTTON TO FIND MORE PROFILES */}
-        <ConnectProfilesFacebook
-          auth={auth}
-          errors={errors}
-          setErrors={setErrors}
-          isFindMore
-          className=""
-        />
-      </ConnectProfilesList>
-
       {/* BUTTON TO CONNECT ACCOUNT */}
       <ConnectProfilesConnectButton
         artistAccounts={artistAccounts}
@@ -214,6 +195,16 @@ const ConnectProfilesLoader = ({
         setIsConnecting={setIsConnecting}
         disabled={buttonDisabled}
         disabledReason={disabledReason}
+      />
+
+      {/* LIST OF PROFILES */}
+      <ConnectProfilesList
+        artistAccounts={artistAccounts}
+        updateArtists={updateArtists}
+        setButtonDisabled={setButtonDisabled}
+        setDisabledReason={setDisabledReason}
+        setErrors={setErrors}
+        className="mb-12"
       />
     </div>
   )
