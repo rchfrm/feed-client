@@ -59,8 +59,7 @@ const IntegrationsPanelIntegration = ({
         }}
         hasIcon
         active={isPopulated}
-        trackValue={buttonText}
-        trackLabel="Integration button"
+        trackComponentName="IntegrationsPanelIntegration"
       >
         <PlatformIcon
           platform={platform}

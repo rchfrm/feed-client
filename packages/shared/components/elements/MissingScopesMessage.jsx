@@ -28,6 +28,7 @@ const MissingScopesMessage = ({ scopes, showButton, className }) => {
         <ButtonFacebook
           onClick={reauthFb}
           fallbackCta="Continue with Facebook"
+          trackComponentName="MissingScopesMessage"
         >
           Continue with Facebook
         </ButtonFacebook>

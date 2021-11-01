@@ -59,6 +59,7 @@ const BillingOrganisationInviteItem = ({
           loading={loadingAccept}
           className="w-1/2 mr-1 md:mr-2"
           onClick={handleAccept}
+          trackComponentName="BillingOrganisationInviteItem"
         >
           <TickIcon className="h-4 w-auto mr-2" fill={brandColors.white} />
           Accept
@@ -69,6 +70,7 @@ const BillingOrganisationInviteItem = ({
           loading={loadingReject}
           className="w-1/2 ml-1 md:ml-2"
           onClick={handleReject}
+          trackComponentName="BillingOrganisationInviteItem"
         >
           <CrossIcon className="h-5 w-auto mr-2" fill={brandColors.white} />
           Reject

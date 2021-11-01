@@ -104,6 +104,7 @@ const PostCardSettings = ({
           <Button
             onClick={goToGlobalPostSettings}
             version="green x-small"
+            trackComponentName="PostCardSettings"
           >
             Go to Global Post Settings
           </Button>

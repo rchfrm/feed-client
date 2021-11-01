@@ -74,6 +74,7 @@ const SignupPageAddReferral = ({
             version="green x-small"
             loading={isLoading}
             disabled={!hasValidCode}
+            trackComponentName="SignupPageAddReferral"
           >
             Submit
           </Button>

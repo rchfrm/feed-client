@@ -59,7 +59,7 @@ const FORM = ({
 
   // CHANGE SIDEPANEL BUTTON
   React.useEffect(() => {
-    const button = <Button version="green" disabled={!email} onClick={onSubmit}>Send</Button>
+    const button = <Button version="green" disabled={!email} onClick={onSubmit} trackComponentName="BillingOrganisationInviteForm">Send</Button>
     setSidePanelButton(button)
   }, [onSubmit, setSidePanelButton, email])
 

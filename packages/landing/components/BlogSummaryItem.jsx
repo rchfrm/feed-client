@@ -7,7 +7,7 @@ import { Image } from 'react-datocms'
 
 import MarkdownText from '@/landing/elements/MarkdownText'
 import Anchor from '@/landing/elements/Anchor'
-import Button from '@/landing/elements/Button'
+import Button from '@/elements/Button'
 
 import { blogSlug } from '@/landing/copy/LandingPageCopy'
 
@@ -45,7 +45,13 @@ const BlogSummaryItem = ({ blog, className }) => {
         <MarkdownText className={styles.blogExcerpt} markdown={excerpt} />
       )}
       <Link href={link}>
-        <Button version="text" href={link} label={`Read more about ${title}`}>
+        <Button
+          version="text"
+          href={link}
+          label={`Read more about ${title}`}
+          className="inline-block h-auto"
+          trackComponentName="BlogSummaryItem"
+        >
           <strong>Read more</strong>
         </Button>
       </Link>

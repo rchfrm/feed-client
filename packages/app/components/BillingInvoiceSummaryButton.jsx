@@ -20,6 +20,7 @@ const BillingInvoiceSummaryButton = ({
         version="black small"
         className="bg-red"
         href={invoiceUrl}
+        trackComponentName="BillingInvoiceSummaryButton"
       >
         Pay {outstandingAmount}
       </Button>
@@ -38,6 +39,7 @@ const BillingInvoiceSummaryButton = ({
       <Button
         version="black small"
         href="/controls"
+        trackComponentName="BillingInvoiceSummaryButton"
       >
         Set a budget
       </Button>

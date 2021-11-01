@@ -65,6 +65,7 @@ const ConversionsWizardCallToActionStep = () => {
           loading={isLoading}
           spinnerFill={brandColors.black}
           className="w-full"
+          trackComponentName="ConversionsWizardCallToActionStep"
         >
           Continue
           <ArrowAltIcon

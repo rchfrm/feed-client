@@ -32,7 +32,7 @@ const BillingOrganisationInvite = ({
   // CHANGE SIDEPANEL BUTTON on SUCCESS
   React.useEffect(() => {
     if (success) {
-      const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+      const button = <Button version="green" onClick={() => toggleSidePanel(false)} trackComponentName="BillingOrganisationInvite">Done</Button>
       setSidePanelButton(button)
     }
   }, [success, setSidePanelButton, toggleSidePanel])
