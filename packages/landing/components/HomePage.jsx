@@ -1,5 +1,6 @@
 import Hero from '@/landing/Hero'
 import PropTypes from 'prop-types'
+import IntroVideo from '@/landing/IntroVideo'
 
 export default function HomePage({ pageData }) {
   const {
@@ -18,6 +19,7 @@ export default function HomePage({ pageData }) {
         heroImageMobile={mobileImage}
         heroStraplineB={straplineB}
       />
+      <IntroVideo />
     </>
   )
 }
