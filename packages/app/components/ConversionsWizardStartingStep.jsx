@@ -25,6 +25,7 @@ const ConversionsWizardStartingStep = () => {
         version="green icon"
         onClick={handleNext}
         className="w-full"
+        trackComponentName="ConversionsWizardStartingStep"
       >
         Start Running Conversions
         <ArrowAltIcon

@@ -61,7 +61,7 @@ const FORM = ({
 
   // CHANGE SIDEPANEL BUTTON
   React.useEffect(() => {
-    const button = <Button version="green" disabled={!artist.name || !email} onClick={onSubmit}>Send</Button>
+    const button = <Button version="green" disabled={!artist.name || !email} onClick={onSubmit} trackComponentName="BillingTransferProfileForm">Send</Button>
     setSidePanelButton(button)
   }, [onSubmit, setSidePanelButton, artist, email])
 

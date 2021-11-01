@@ -56,6 +56,7 @@ const ConnectProfilesConnectButton = ({
         <Button
           onClick={runCreateArtists}
           disabled={disabled}
+          trackComponentName="ConnectProfilesConnectButton"
         >
           Connect {accountsToConnect.length} Selected {accountsToConnect.length === 1 ? 'Profile' : 'Profiles'}
         </Button>

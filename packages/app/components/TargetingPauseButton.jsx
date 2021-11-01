@@ -28,6 +28,7 @@ const TargetingPauseButton = ({
         version="red small"
         onClick={togglePause}
         className={buttonClass}
+        trackComponentName="TargetingPauseButton"
       >
         {isPaused ? 'Resume Spending' : 'Pause Spending'}
       </Button>

@@ -75,6 +75,7 @@ const ConversionsWizardLinkStep = () => {
           loading={isLoading}
           spinnerFill={brandColors.black}
           className="w-full"
+          trackComponentName="ConversionsWizardLinkStep"
         >
           Continue
           <ArrowAltIcon

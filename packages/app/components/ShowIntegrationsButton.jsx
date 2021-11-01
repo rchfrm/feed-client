@@ -33,6 +33,7 @@ const ShowIntegrationsButton = ({
           className={[className].join(' ')}
           version="small black"
           onClick={openIntegrationsPanel}
+          trackComponentName="ShowIntegrationsButton"
         >
           {text}
         </Button>

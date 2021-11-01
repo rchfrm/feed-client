@@ -67,6 +67,7 @@ const BillingProfilesTransferItem = ({
             loading={loadingAccept}
             className="mr-2 h-10"
             onClick={handleAccept}
+            trackComponentName="BillingProfilesTransferItem"
           >
             <TickIcon className="h-4 w-auto mr-2" fill={brandColors.white} />
             Yes
@@ -77,6 +78,7 @@ const BillingProfilesTransferItem = ({
             loading={loadingReject}
             className="ml-2 h-10 w-10 rounded-full"
             onClick={handleReject}
+            trackComponentName="BillingProfilesTransferItem"
           >
             <CrossIcon className="h-5 w-auto" fill={brandColors.white} />
           </Button>

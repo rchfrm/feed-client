@@ -132,6 +132,7 @@ function LoginWithEmail({ className }) {
         disabled={false}
         onClick={onFormSubmit}
         type="input"
+        trackComponentName="LoginWithEmail"
       >
         log in.
       </Button>

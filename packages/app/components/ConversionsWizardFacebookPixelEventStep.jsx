@@ -66,6 +66,7 @@ const ConversionsWizardFacebookPixelEventStep = () => {
           loading={isLoading}
           spinnerFill={brandColors.black}
           className="w-full"
+          trackComponentName="ConversionsWizardFacebookPixelEventStep"
         >
           Continue
           <ArrowAltIcon

@@ -39,6 +39,7 @@ const ConfirmEmailEmailSuccess = ({
             if (isAuthEmail) return signOut()
             onContinue()
           }}
+          trackComponentName="ConfirmEmailEmailSuccess"
         >
           {copy.button(isAuthEmail)}
         </Button>

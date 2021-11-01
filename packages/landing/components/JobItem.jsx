@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Link from 'next/link'
 
-import Button from '@/landing/elements/Button'
+import Button from '@/elements/Button'
 
 import { jobSlug } from '@/landing/copy/LandingPageCopy'
 
@@ -73,7 +73,13 @@ const JobItem = ({ job, className }) => {
         Applications: <Status open={open} />
       </p>
       <Link href={link}>
-        <Button version="text" href={link} label={label}>
+        <Button
+          version="text"
+          href={link}
+          label={label}
+          className="inline-block h-auto"
+          trackComponentName="JobItem"
+        >
           <strong>View details</strong>
         </Button>
       </Link>

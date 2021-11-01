@@ -48,7 +48,14 @@ const PageQuerySetter = ({
           />
         )
       })}
-      <Button type="submit" className="mb-0" disabled={!typedQueries.length === queries.length}>{submitText}</Button>
+      <Button
+        type="submit"
+        className="mb-0"
+        disabled={!typedQueries.length === queries.length}
+        trackComponentName="PageQuerySetter"
+      >
+        {submitText}
+      </Button>
     </form>
   )
 }
