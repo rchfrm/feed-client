@@ -172,6 +172,7 @@ const ConnectProfilesLoader = ({
           setErrors={setErrors}
           isFindMore={user?.artists.length > 0}
           isConnecting={isConnecting}
+          className="col-span-6"
         />
         {fetchedArtistsFinished && (
           <ConnectProfilesNoArtists className="max-w-xl mb-2 mt-6" />
@@ -195,17 +196,19 @@ const ConnectProfilesLoader = ({
         setIsConnecting={setIsConnecting}
         disabled={buttonDisabled}
         disabledReason={disabledReason}
-        className="grid grid-cols-12 mb-12"
+        className="col-span-8 mb-12"
       />
 
       {/* LIST OF PROFILES */}
       <ConnectProfilesList
+        auth={auth}
         artistAccounts={artistAccounts}
         updateArtists={updateArtists}
         setButtonDisabled={setButtonDisabled}
         setDisabledReason={setDisabledReason}
+        errors={errors}
         setErrors={setErrors}
-        className="mb-12"
+        className="col-span-12 mb-12"
       />
     </div>
   )

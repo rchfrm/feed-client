@@ -51,53 +51,48 @@ const ConnectProfilesFacebook = ({
       {errors.map((error, index) => {
         return <Error error={error} messagePrefix="Error: " key={index} className="mb-10" />
       })}
-      <div
-        className="lg:grid grid-cols-12 col-gap-8"
-        style={{ alignItems: 'start' }}
-      >
-        <div className="col-span-6 col-start-1">
-          <MarkdownText className="col-span-6 col-start-1 mb-8" markdown={introText} />
-          {/* If missing FB permissions, show missing permissions */}
-          {missingScopes.length > 0 && (
-            <MissingScopesMessage
-              scopes={missingScopes}
-              showButton={false}
-            />
-          )}
-          {isFindMore ? (
-            <>
-              <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
-              <ButtonFacebook
-                className="w-full max-w-md mb-12"
-                onClick={linkFacebook}
-                fallbackCta="Connect more pages"
-                trackComponentName="ConnectProfilesFacebook"
-              >
-                Connect more pages
-              </ButtonFacebook>
-            </>
-          ) : (
-            <>
-              <ButtonFacebook
-                className="w-full max-w-md mb-12"
-                onClick={linkFacebook}
-                fallbackCta="Continue with Facebook"
-                trackComponentName="ConnectProfilesFacebook"
-              >
-                Continue with Facebook
-              </ButtonFacebook>
-              <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
-            </>
-          )}
-          {!isConnecting && isFindMore && (
-            <ConnectProfilesAlreadyConnected className="mb-12" />
-          )}
-          <ButtonHelp
-            content={copy.helpText}
-            text="Need help?"
-            label="Connect accounts help"
+      <div>
+        <MarkdownText markdown={introText} />
+        {/* If missing FB permissions, show missing permissions */}
+        {missingScopes.length > 0 && (
+          <MissingScopesMessage
+            scopes={missingScopes}
+            showButton={false}
           />
-        </div>
+        )}
+        {isFindMore ? (
+          <>
+            <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
+            <ButtonFacebook
+              className="w-full max-w-md mb-12"
+              onClick={linkFacebook}
+              fallbackCta="Connect more pages"
+              trackComponentName="ConnectProfilesFacebook"
+            >
+              Connect more pages
+            </ButtonFacebook>
+          </>
+        ) : (
+          <>
+            <ButtonFacebook
+              className="w-full max-w-md mb-12"
+              onClick={linkFacebook}
+              fallbackCta="Continue with Facebook"
+              trackComponentName="ConnectProfilesFacebook"
+            >
+              Continue with Facebook
+            </ButtonFacebook>
+            <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
+          </>
+        )}
+        {!isConnecting && isFindMore && (
+          <ConnectProfilesAlreadyConnected className="mb-12" />
+        )}
+        <ButtonHelp
+          content={copy.helpText}
+          text="Need help?"
+          label="Connect accounts help"
+        />
       </div>
     </div>
   )

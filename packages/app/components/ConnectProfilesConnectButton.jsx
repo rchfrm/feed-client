@@ -64,11 +64,15 @@ const ConnectProfilesConnectButton = ({
           <div className="text--block">
             <p>{`You have selected ${accountsToConnect.length} ${accountsToConnect.length === 1 ? 'page' : 'pages'}: `}
               {accountsToConnect.map((account, index) => {
+                const isLast = index + 1 === accountsToConnect.length
+                const isNextToLast = index + 1 === accountsToConnect.length - 1
                 return (
                   <span
                     key={account.page_id}
                   >
-                    <span className="font-bold">{account.name}</span> {index + 1 !== accountsToConnect.length ? 'and ' : ''}
+                    <span className="font-bold">{account.name}</span>
+                    {!isLast && !isNextToLast && ', '}
+                    {isNextToLast && ' and '}
                   </span>
                 )
               })}

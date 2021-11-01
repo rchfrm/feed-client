@@ -2,14 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ConnectProfilesCard from '@/app/ConnectProfilesCard'
+import ConnectProfilesFacebookConnectCard from '@/app/ConnectProfilesFacebookConnectCard'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 const ConnectProfilesList = ({
+  auth,
   artistAccounts,
   updateArtists,
   setButtonDisabled,
   setDisabledReason,
+  errors,
   setErrors,
   className,
 }) => {
@@ -58,43 +61,64 @@ const ConnectProfilesList = ({
     'mb-8 xs:mb-0',
     'col-span-6',
     'lg:col-span-4',
-    'bmw:col-span-4',
   ].join(' ')
 
   return (
     <ul
       className={[
         'xs:grid',
+        'grid-flow-row',
         'grid-cols-12',
         'gap-8',
         className,
       ].join(' ')}
     >
-      {artistAccountsArray.map((artistAccount) => {
+      {artistAccountsArray.map((artistAccount, index) => {
         return (
-          <ConnectProfilesCard
-            key={artistAccount.page_id}
-            artist={artistAccount}
-            updateArtists={updateArtists}
-            setErrors={setErrors}
-            className={cardClasses}
-          />
+          <>
+            {index === 2 && (
+              <ConnectProfilesFacebookConnectCard
+                auth={auth}
+                errors={errors}
+                setErrors={setErrors}
+                className={cardClasses}
+              />
+            )}
+            <ConnectProfilesCard
+              key={artistAccount.page_id}
+              artist={artistAccount}
+              updateArtists={updateArtists}
+              setErrors={setErrors}
+              className={cardClasses}
+            />
+          </>
         )
       })}
+      {artistAccountsArray.length < 3 && (
+        <ConnectProfilesFacebookConnectCard
+          auth={auth}
+          errors={errors}
+          setErrors={setErrors}
+          className={cardClasses}
+        />
+      )}
     </ul>
   )
 }
 
 ConnectProfilesList.propTypes = {
+  auth: PropTypes.object.isRequired,
   artistAccounts: PropTypes.object.isRequired,
   updateArtists: PropTypes.func.isRequired,
   setButtonDisabled: PropTypes.func.isRequired,
   setDisabledReason: PropTypes.func.isRequired,
+  errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 ConnectProfilesList.defaultProps = {
+  errors: [],
   className: null,
 }
 
