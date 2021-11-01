@@ -45,6 +45,8 @@ const ConnectProfilesFacebook = ({
   }, [missingScopes.length, providerIds])
 
   const introText = getIntroText(isFindMore)
+  const buttonText = isFindMore ? 'Connect more pages' : 'Continue with Facebook'
+
   return (
     <div className={className}>
       {/* Errors */}
@@ -60,30 +62,20 @@ const ConnectProfilesFacebook = ({
             showButton={false}
           />
         )}
-        {isFindMore ? (
-          <>
-            <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
-            <ButtonFacebook
-              className="w-full max-w-md mb-12"
-              onClick={linkFacebook}
-              fallbackCta="Connect more pages"
-              trackComponentName="ConnectProfilesFacebook"
-            >
-              Connect more pages
-            </ButtonFacebook>
-          </>
-        ) : (
-          <>
-            <ButtonFacebook
-              className="w-full max-w-md mb-12"
-              onClick={linkFacebook}
-              fallbackCta="Continue with Facebook"
-              trackComponentName="ConnectProfilesFacebook"
-            >
-              Continue with Facebook
-            </ButtonFacebook>
-            <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
-          </>
+        {isFindMore && (
+          <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
+        )}
+        <ButtonFacebook
+          className="w-full max-w-md mb-12"
+          onClick={linkFacebook}
+          fallbackCta={buttonText}
+          trackComponentName="ConnectProfilesFacebook"
+        >
+          {buttonText}
+        </ButtonFacebook>
+        {!isFindMore && (
+          <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
+
         )}
         {!isConnecting && isFindMore && (
           <ConnectProfilesAlreadyConnected className="mb-12" />
