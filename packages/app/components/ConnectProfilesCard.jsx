@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import TickIcon from '@/icons/TickIcon'
+import ToggleSwitch from '@/elements/ToggleSwitch'
 
 import ConnectProfilesCardCountry from '@/app/ConnectProfilesCardCountry'
 import ConnectProfilesCardAdAccount from '@/app/ConnectProfilesCardAdAccount'
-
-import brandColors from '@/constants/brandColors'
 
 const ConnectProfilesCard = ({
   artist,
@@ -15,7 +13,6 @@ const ConnectProfilesCard = ({
 }) => {
   const {
     page_id: artistId,
-    exists,
     connect,
   } = artist
 
@@ -29,18 +26,15 @@ const ConnectProfilesCard = ({
     <li
       className={[
         'relative',
-        'border-solid border-2',
-        exists ? 'border-black' : 'border-black',
-        'rounded-dialogue p-4 pb-5',
         className,
       ].join(' ')}
     >
-      <div className="flex justify-between xs:block">
+      <div className="flex justify-between flex-column">
         {/* NAME */}
-        <h3 className="font-bold font-body text-md mb-4">{artist.name}</h3>
+        <p className="font-bold font-body text-md mb-2">{artist.name}</p>
         {/* IMAGE */}
-        <div className="w-24 xs:w-full sm:w-48 lg:w-full">
-          <div className="media media--square mb-6">
+        <div className="w-full">
+          <div className="media media--square mb-4">
             <img
               className={['center--image rounded-dialogue'].join(' ')}
               src={artist.picture}
@@ -49,38 +43,31 @@ const ConnectProfilesCard = ({
           </div>
         </div>
       </div>
-      {/* AD ACCOUNT */}
-      <ConnectProfilesCardAdAccount
-        artist={artist}
-        updateArtists={updateArtists}
-        className="mb-5"
-      />
       {/* COUNTRY SELECT */}
       <ConnectProfilesCardCountry
         artist={artist}
         updateArtists={updateArtists}
-        className="mb-5"
+        className="mb-4"
+      />
+      {/* AD ACCOUNT */}
+      <ConnectProfilesCardAdAccount
+        artist={artist}
+        updateArtists={updateArtists}
+        className="mb-4"
       />
       {/* CONNECT BUTTON */}
-      <div>
-        <p className="inputLabel__text">Connect to Feed</p>
-        <button
-          className={[
-            'flex items-center justify-between w-full',
-            'h-14 rounded-button px-3',
-            connect ? 'bg-green' : 'bg-grey-1',
-          ].join(' ')}
-          aria-label="Connect profile"
-          onClick={onConnectClick}
-        >
-          <p className="mb-0 font-bold">Connect</p>
-          <div className="flex bg-white rounded-button w-5 h-5 p-1">
-            <TickIcon
-              className={`w-full h-auto ${connect ? 'visible' : 'hidden'}`}
-              fill={brandColors.green}
-            />
-          </div>
-        </button>
+      <div
+        className={[
+          'flex items-center justify-between w-full',
+          'h-14 rounded-button px-4',
+          'bg-grey-1',
+        ].join(' ')}
+      >
+        <p className="mb-0 font-bold">Connect</p>
+        <ToggleSwitch
+          state={connect}
+          onChange={onConnectClick}
+        />
       </div>
     </li>
   )

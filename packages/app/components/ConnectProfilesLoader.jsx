@@ -195,6 +195,7 @@ const ConnectProfilesLoader = ({
         setIsConnecting={setIsConnecting}
         disabled={buttonDisabled}
         disabledReason={disabledReason}
+        className="grid grid-cols-12 mb-12"
       />
 
       {/* LIST OF PROFILES */}

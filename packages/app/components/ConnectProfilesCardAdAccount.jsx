@@ -12,8 +12,10 @@ const ConnectProfilesCardAdAccount = ({
 }) => {
   const {
     exists,
+    adaccount_id: adAccountId,
     available_facebook_ad_accounts: availableAdAccounts,
     selected_facebook_ad_account: selectedAdAccount,
+    connect,
     page_id: artistId,
   } = artist
   // READONLY
@@ -33,15 +35,18 @@ const ConnectProfilesCardAdAccount = ({
   return (
     <Select
       name="selected_facebook_ad_account"
-      label="Select an ad account"
+      label="Ad account"
       handleChange={(e) => {
         const { target: { value } } = e
+        // Ignore placeholder
+        if (value.indexOf('Choose') !== -1) return
         const payload = { id: artistId, value }
         updateArtists('update-artist-adaccount', payload)
       }}
-      selectedValue={selectedAdAccount.id}
+      selectedValue={adAccountId}
+      placeholder="Select ad account"
       options={adAccountOptions}
-      required
+      highlight={connect}
       className={className}
     />
   )

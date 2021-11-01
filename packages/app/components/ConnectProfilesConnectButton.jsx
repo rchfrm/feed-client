@@ -57,7 +57,7 @@ const ConnectProfilesConnectButton = ({
         className,
       ].join(' ')}
     >
-      <div className="mb-12">
+      <div className="col-span-8">
         <MarkdownText markdown={copy.confirmAccounts} />
         {/* LIST OF CONNECTING PROFILES */}
         {!disabledReason && accountsToConnect.length && (

@@ -32,7 +32,7 @@ const ConnectProfilesCardCountry = ({
     return (
       <ConnectProfilesCardSelectPlaceholder
         className={className}
-        label="Your country"
+        label="Country"
         title={countryName}
       />
     )
@@ -40,7 +40,7 @@ const ConnectProfilesCardCountry = ({
   return (
     <Select
       name="country_code"
-      label="Your country"
+      label="Country"
       handleChange={(e) => {
         const { target: { name: field, value } } = e
         // Ignore placeholder
@@ -52,7 +52,6 @@ const ConnectProfilesCardCountry = ({
       selectedValue={artist.country_code}
       placeholder="Select country"
       options={countriesArr}
-      required
       highlight={connect}
       className={className}
     />

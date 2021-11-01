@@ -6,7 +6,6 @@ import MissingScopesMessage from '@/elements/MissingScopesMessage'
 import ButtonFacebook from '@/elements/ButtonFacebook'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
-import VideoEmbed from '@/elements/VideoEmbed'
 import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
 import ButtonHelp from '@/elements/ButtonHelp'
 // IMPORT HELPERS
