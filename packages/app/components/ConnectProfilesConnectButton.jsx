@@ -63,13 +63,12 @@ const ConnectProfilesConnectButton = ({
         {!disabledReason && accountsToConnect.length && (
           <div className="text--block">
             <p>{`You have selected ${accountsToConnect.length} ${accountsToConnect.length === 1 ? 'page' : 'pages'}: `}
-              {accountsToConnect.map((account) => {
+              {accountsToConnect.map((account, index) => {
                 return (
                   <span
                     key={account.page_id}
-                    className="font-bold"
                   >
-                    {account.name}
+                    <span className="font-bold">{account.name}</span> {index + 1 !== accountsToConnect.length ? 'and ' : ''}
                   </span>
                 )
               })}
