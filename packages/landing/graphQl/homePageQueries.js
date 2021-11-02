@@ -37,6 +37,13 @@ const queries = {
         description
         ${image('mobileImage')}
         ${image('desktopImage')}
+        testimonies {
+          id
+          handle
+          quote
+          bio
+          ${image({ imgixParams: 'q: "50", auto: format, w: "600", h: "600", fit: crop', sizes: '10vw' })}
+        }
       }
     }
   `,
@@ -66,12 +73,20 @@ const queries = {
         description
         ${image('mobileImage')}
         ${image('desktopImage')}
+        testimonies {
+          id
+          handle
+          quote
+          bio
+          ${image({ imgixParams: 'q: "50", auto: format, w: "600", h: "600", fit: crop', sizes: '10vw' })}
+        }
       }
     }
   `,
 }
 
 function getQuery(page) {
+  if (!page) return queries.default
   return queries[page]
 }
 
