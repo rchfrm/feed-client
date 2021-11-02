@@ -7,21 +7,6 @@ export default function Landing({ pageData }) {
     <HomePage
       pageData={pageData}
     />
-    // <>
-    //   <Hero
-    //     heroStraplineA={heroStraplineA}
-    //     heroStraplineB={heroStraplineB}
-    //     heroCopy={heroCopy}
-    //     heroImageMobile={heroImageMobile}
-    //     heroImageDesktop={heroImageDesktop}
-    //   />
-    //   <IntroVideo />
-    //   <Features features={features} />
-    //   <Testimonies testimonies={testimonialList} />
-    //   <PrimaryCTA />
-    //   <BlogSummary featuredBlogArticles={featuredBlogArticles} />
-    //   <TertiaryCTA trackLocation="feed-landing" />
-    // </>
   )
 }
 
