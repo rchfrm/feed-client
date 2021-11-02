@@ -32,6 +32,9 @@ const queries = {
           copy
           ${image({ imgixParams: 'q: "75", auto: format, w: "800"', sizes: '50vw' })}
         }
+        featuredArticles {
+          ${blogIntro()}
+        }
       }
     }
   `,
@@ -56,6 +59,9 @@ const queries = {
           copy
           ${image({ imgixParams: 'q: "75", auto: format, w: "800"', sizes: '50vw' })}
         }
+        featuredArticles {
+          ${blogIntro()}
+        }
       }
     }
   `,
@@ -79,6 +85,9 @@ const queries = {
           header
           copy
           ${image({ imgixParams: 'q: "75", auto: format, w: "800"', sizes: '50vw' })}
+        }
+        featuredArticles {
+          ${blogIntro()}
         }
       }
     }

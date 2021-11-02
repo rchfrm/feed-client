@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import IntroVideo from '@/landing/IntroVideo'
 import Testimonies from '@/landing/Testimonies'
 import Features from '@/landing/Features'
+import PrimaryCTA from '@/landing/PrimaryCTA'
+import BlogSummary from '@/landing/BlogSummary'
+import TertiaryCTA from '@/landing/TertiaryCTA'
 
 export default function HomePage({ pageData }) {
   const {
@@ -13,9 +16,11 @@ export default function HomePage({ pageData }) {
     desktopImage,
     testimonies,
     features,
+    featuredArticles,
   } = pageData
   const hasTestimonies = !!testimonies && testimonies.length > 0
   const hasFeatures = !!features && features.length > 0
+  const hasFeaturedArticles = !!featuredArticles && featuredArticles.length > 0
   return (
     <>
       <Hero
@@ -26,8 +31,15 @@ export default function HomePage({ pageData }) {
         heroStraplineB={straplineB}
       />
       <IntroVideo />
-      {hasTestimonies && <Testimonies testimonies={testimonies} />}
       {hasFeatures && <Features features={features} />}
+      {hasTestimonies && <Testimonies testimonies={testimonies} />}
+      <PrimaryCTA />
+      {hasFeaturedArticles && (
+        <>
+          <BlogSummary featuredBlogArticles={featuredArticles} />
+          <TertiaryCTA trackLocation="feed-landing" />
+        </>
+      )}
     </>
   )
 }
