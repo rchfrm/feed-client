@@ -1,13 +1,6 @@
 import { image } from '@/landing/graphQl/querySnippets'
 import { blogIntro } from '@/landing/graphQl/blogArticlesQueries'
 
-/* INCLUDES
- - Hero content
- - Testimonials
- - Features
- - Blog previews
-*/
-
 const queries = {
   home: `
     query {
@@ -55,6 +48,13 @@ const queries = {
         description
         ${image('mobileImage')}
         ${image('desktopImage')}
+        testimonies {
+          id
+          handle
+          quote
+          bio
+          ${image({ imgixParams: 'q: "50", auto: format, w: "600", h: "600", fit: crop', sizes: '10vw' })}
+        }
       }
     }
   `,
