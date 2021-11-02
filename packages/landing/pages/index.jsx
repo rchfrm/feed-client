@@ -1,7 +1,3 @@
-import Hero from '@/landing/Hero'
-import Testimonies from '@/landing/Testimonies'
-
-// Dato data
 import getQuery from '@/landing/graphQl/homePageQueries'
 import getDatoData from '@/landing/helpers/getDatoData'
 import HomePage from '@/landing/HomePage'
