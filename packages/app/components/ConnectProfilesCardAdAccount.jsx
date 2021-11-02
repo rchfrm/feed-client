@@ -43,7 +43,7 @@ const ConnectProfilesCardAdAccount = ({
         const payload = { id: artistId, value }
         updateArtists('update-artist-adaccount', payload)
       }}
-      selectedValue={adAccountId}
+      selectedValue={adAccountId || ''}
       placeholder="Select ad account"
       options={adAccountOptions}
       highlight={connect}

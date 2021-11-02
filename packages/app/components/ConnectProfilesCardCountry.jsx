@@ -49,7 +49,7 @@ const ConnectProfilesCardCountry = ({
         const payload = { id: artistId, field, value }
         updateArtists('update-artist', payload)
       }}
-      selectedValue={artist.country_code}
+      selectedValue={artist.country_code || ''}
       placeholder="Select country"
       options={countriesArr}
       highlight={connect}

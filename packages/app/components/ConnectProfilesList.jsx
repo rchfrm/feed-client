@@ -75,7 +75,7 @@ const ConnectProfilesList = ({
     >
       {artistAccountsArray.map((artistAccount, index) => {
         return (
-          <>
+          <React.Fragment key={artistAccount.page_id}>
             {index === 2 && (
               <ConnectProfilesFacebookConnectCard
                 auth={auth}
@@ -85,13 +85,12 @@ const ConnectProfilesList = ({
               />
             )}
             <ConnectProfilesCard
-              key={artistAccount.page_id}
               artist={artistAccount}
               updateArtists={updateArtists}
               setErrors={setErrors}
               className={cardClasses}
             />
-          </>
+          </React.Fragment>
         )
       })}
       {artistAccountsArray.length < 3 && (

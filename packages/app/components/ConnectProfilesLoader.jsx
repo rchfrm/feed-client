@@ -11,11 +11,13 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
+import ButtonHelp from '@/elements/ButtonHelp'
 
 import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectButton from '@/app/ConnectProfilesConnectButton'
 import ConnectProfilesNoArtists from '@/app/ConnectProfilesNoArtists'
+import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
@@ -166,17 +168,26 @@ const ConnectProfilesLoader = ({
   if (Object.keys(artistAccounts).length === 0) {
     return (
       <div className={className}>
-        <ConnectProfilesFacebook
-          auth={auth}
-          errors={errors}
-          setErrors={setErrors}
-          isFindMore={user?.artists.length > 0}
-          isConnecting={isConnecting}
-          className="col-span-6"
-        />
-        {fetchedArtistsFinished && (
-          <ConnectProfilesNoArtists className="max-w-xl mb-2 mt-6" />
-        )}
+        <div className="col-span-6">
+          <ConnectProfilesFacebook
+            auth={auth}
+            errors={errors}
+            setErrors={setErrors}
+            isFindMore={user?.artists.length > 0}
+            isConnecting={isConnecting}
+          />
+          {fetchedArtistsFinished && (
+            <ConnectProfilesNoArtists className="max-w-xl mb-8" />
+          )}
+          {!isConnecting && (
+            <ConnectProfilesAlreadyConnected className="mb-12" />
+          )}
+          <ButtonHelp
+            content={copy.helpText}
+            text="Need help?"
+            label="Connect accounts help"
+          />
+        </div>
       </div>
     )
   }

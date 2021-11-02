@@ -6,8 +6,6 @@ import MissingScopesMessage from '@/elements/MissingScopesMessage'
 import ButtonFacebook from '@/elements/ButtonFacebook'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
-import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
-import ButtonHelp from '@/elements/ButtonHelp'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 // IMPORT COPY
@@ -23,7 +21,6 @@ const ConnectProfilesFacebook = ({
   errors,
   setErrors,
   isFindMore,
-  isConnecting,
   className,
 }) => {
   const { missingScopes, providerIds } = auth
@@ -75,16 +72,7 @@ const ConnectProfilesFacebook = ({
         </ButtonFacebook>
         {!isFindMore && (
           <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
-
         )}
-        {!isConnecting && isFindMore && (
-          <ConnectProfilesAlreadyConnected className="mb-12" />
-        )}
-        <ButtonHelp
-          content={copy.helpText}
-          text="Need help?"
-          label="Connect accounts help"
-        />
       </div>
     </div>
   )

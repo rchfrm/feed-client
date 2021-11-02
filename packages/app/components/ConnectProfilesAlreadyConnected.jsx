@@ -7,8 +7,10 @@ import ArtistImage from '@/elements/ArtistImage'
 
 const ConnectProfilesAlreadyConnected = ({ className }) => {
   const { user, userLoading } = React.useContext(UserContext)
-  if (userLoading) return null
   const { artists: connectedArtists } = user
+
+  if (userLoading || !connectedArtists.length) return null
+
   return (
     <div
       className={[
