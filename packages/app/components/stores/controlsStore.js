@@ -131,10 +131,9 @@ const fetchIntegrations = ({ artist, folders }) => {
 // * CONVERSIONS
 
 const canRunConversionCampaigns = (set, get) => () => {
-  const { conversionsPreferences, budget, isSpendingPaused, minConversionsBudget } = get()
+  const { conversionsPreferences } = get()
   const hasConversionsSetUpCorrectly = Object.values(conversionsPreferences).every(Boolean)
-  const hasSufficientBudget = budget >= minConversionsBudget
-  return hasConversionsSetUpCorrectly && hasSufficientBudget && !isSpendingPaused
+  return hasConversionsSetUpCorrectly
 }
 
 // * DEFAULT LINK

@@ -57,6 +57,7 @@ const BillingOrganisationSelect = ({
                     setSelectActive(false)
                     e.currentTarget.blur() // lose focus on the button
                   }}
+                  trackComponentName="BillingOrganisationSelect"
                 >
                   Cancel
                 </Button>
@@ -72,6 +73,7 @@ const BillingOrganisationSelect = ({
                   onClick={() => {
                     setSelectActive(true)
                   }}
+                  trackComponentName="BillingOrganisationSelect"
                 >
                   <SwitchIcon className="h-4 w-auto mr-2" fill={brandColors.white} />
                   Switch

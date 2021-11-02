@@ -33,7 +33,7 @@ const TournamentLink = ({
       {linkType === 'anchor' ? (
         <a>{buttonText}</a>
       ) : (
-        <Button className={buttonClass} version="black small" wrapper="a">
+        <Button className={buttonClass} version="black small" wrapper="a" trackComponentName="TournamentLink">
           {buttonText}
         </Button>
       )}

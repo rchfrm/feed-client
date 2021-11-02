@@ -40,6 +40,7 @@ const BillingOpenPayments = ({
             track('billing_view_payment_methods', { organisationId })
           }
         }}
+        trackComponentName="BillingOpenPayments"
       >
         {buttonText}
       </Button>

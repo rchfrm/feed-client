@@ -34,6 +34,7 @@ const TargetingSettingsSaveContainer = ({
       ].join(' ')}
       onClick={() => saveTargeting('settings')}
       disabled={!!disableSaving}
+      trackComponentName="TargetingSettingsSaveContainer"
     >
       {disableSaving ? (
         getSaveDisabledReason(disableSaving)

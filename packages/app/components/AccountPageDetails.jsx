@@ -312,6 +312,7 @@ const AccountPageDetails = () => {
           type="submit"
           disabled={formDisabled}
           loading={loading}
+          trackComponentName="AccountPageDetails"
         >
           Save changes
         </Button>

@@ -87,6 +87,7 @@ const ControlsWizardPaymentStep = () => {
         spinnerFill={brandColors.black}
         className="w-full mb-10"
         loading={isLoading}
+        trackComponentName="ControlsWizardPaymentStep"
       >
         Next
         <ArrowAltIcon

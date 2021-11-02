@@ -86,12 +86,12 @@ const BillingPaymentMethodsAll = ({ className }) => {
     const hasDefaultSelectionChanged = selectedMethodId !== defaultPaymentMethod.id
     // Update default
     if (hasDefaultSelectionChanged) {
-      const button = <Button version="green" onClick={setMethodAsDefault}>Save</Button>
+      const button = <Button version="green" onClick={setMethodAsDefault} trackComponentName="BillingPaymentMethodsAll">Save</Button>
       setSidePanelButton(button)
       return
     }
     // JUST CLOSE DEFAULT SIDEPANEL
-    const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+    const button = <Button version="green" onClick={() => toggleSidePanel(false)} trackComponentName="BillingPaymentMethodsAll">Done</Button>
     setSidePanelButton(button)
   }, [setSidePanelButton, toggleSidePanel, selectedMethodId, defaultPaymentMethod, setMethodAsDefault])
 

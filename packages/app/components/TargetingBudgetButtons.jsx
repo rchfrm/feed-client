@@ -44,6 +44,7 @@ const TargetingBudgetButtons = ({
             isDisabled ? 'bg-grey-2 focus:bg-grey-2 pointer-events-none' : '',
           ].join(' ')}
           onClick={resetBudget}
+          trackComponentName="TargetingBudgetButtons"
         >
           <RefreshIcon
             className={['w-4 h-auto'].join(' ')}
@@ -60,6 +61,7 @@ const TargetingBudgetButtons = ({
           isDisabled ? 'bg-grey-2 pointer-events-none' : '',
         ].join(' ')}
         onClick={() => saveTargeting('budget')}
+        trackComponentName="TargetingBudgetButtons"
       >
         Save
       </Button>

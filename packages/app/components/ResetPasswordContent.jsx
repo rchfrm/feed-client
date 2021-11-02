@@ -96,6 +96,7 @@ const ResetPasswordContent = () => {
                 type="submit"
                 disabled={!password}
                 loading={isSubmitting}
+                trackComponentName="ResetPasswordContent"
               >
                 Submit
               </Button>
@@ -113,6 +114,7 @@ const ResetPasswordContent = () => {
                 version="green x-small"
                 wrapper="a"
                 className="w-full"
+                trackComponentName="ResetPasswordContent"
               >
                 Login
               </Button>

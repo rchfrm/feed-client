@@ -42,6 +42,7 @@ const BillingOpenProfiles = ({
           e.preventDefault()
           openTransferProfileSidepanel()
         }}
+        trackComponentName="BillingOpenProfiles"
       >
         Manage profiles
       </Button>

@@ -98,6 +98,7 @@ const ControlsWizardBudgetStep = () => {
         spinnerFill={brandColors.black}
         className="w-full mb-6"
         loading={targetingLoading}
+        trackComponentName="ControlsWizardBudgetStep"
       >
         Next
         <ArrowAltIcon

@@ -13,6 +13,7 @@ const ButtonFacebook = ({
   children,
   fbButtonFallbackClassName,
   fallbackCta,
+  trackComponentName,
 }) => {
   const buttonRef = React.useRef()
 
@@ -60,6 +61,7 @@ const ButtonFacebook = ({
         <FacebookIcon fill={brandColors.white} />
       )}
       spinnerFill={brandColors.white}
+      trackComponentName={trackComponentName}
     >
       {children}
     </Button>
@@ -73,6 +75,7 @@ ButtonFacebook.propTypes = {
   version: PropTypes.string,
   children: PropTypes.node.isRequired,
   fbButtonFallbackClassName: PropTypes.string,
+  trackComponentName: PropTypes.string,
 }
 
 ButtonFacebook.defaultProps = {
@@ -80,6 +83,7 @@ ButtonFacebook.defaultProps = {
   onClick: () => {},
   version: null,
   fbButtonFallbackClassName: '',
+  trackComponentName: '',
 }
 
 export default ButtonFacebook

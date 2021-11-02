@@ -25,6 +25,7 @@ const ButtonShare = ({
   useCopyFallback,
   onShare,
   className,
+  trackComponentName,
 }) => {
   const button = React.useRef(null)
   const [success, setSuccess] = React.useState(false)
@@ -68,7 +69,8 @@ const ButtonShare = ({
             />
           )}
         </>
-          )}
+      )}
+      trackComponentName={trackComponentName}
     >
       {getButtonText(isShareSupported, success, shareText, copyText)}
     </Button>
@@ -84,6 +86,7 @@ ButtonShare.propTypes = {
   useCopyFallback: PropTypes.bool,
   onShare: PropTypes.func,
   className: PropTypes.string,
+  trackComponentName: PropTypes.string,
 }
 
 ButtonShare.defaultProps = {
@@ -93,6 +96,7 @@ ButtonShare.defaultProps = {
   useCopyFallback: true,
   onShare: () => {},
   className: null,
+  trackComponentName: '',
 }
 
 export default ButtonShare

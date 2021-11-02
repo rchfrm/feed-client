@@ -51,6 +51,7 @@ const IntegrationsPanel = ({
             version="x-small black icon"
             className="mr-5"
             onClick={goBack}
+            trackComponentName="IntegrationsPanel"
           >
             <ArrowIcon
               fill={brandColors.bgColor}

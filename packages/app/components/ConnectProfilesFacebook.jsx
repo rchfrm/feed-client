@@ -73,6 +73,7 @@ const ConnectProfilesFacebook = ({
               version="green x-small"
               className="w-full"
               onClick={linkFacebook}
+              trackComponentName="ConnectProfilesFacebook"
             >
               Connect more
             </Button>
@@ -81,6 +82,7 @@ const ConnectProfilesFacebook = ({
               className="w-full max-w-md mb-5"
               onClick={linkFacebook}
               fallbackCta="Continue with Facebook"
+              trackComponentName="ConnectProfilesFacebook"
             >
               Continue with Facebook
             </ButtonFacebook>

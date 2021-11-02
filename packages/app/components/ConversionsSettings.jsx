@@ -25,7 +25,6 @@ const getControlsStoreState = (state) => ({
   conversionsPreferences: state.conversionsPreferences,
   updatePreferences: state.updatePreferences,
   budget: state.budget,
-  isSpendingPaused: state.isSpendingPaused,
   canRunConversions: state.canRunConversions,
   setConversionsEnabled: state.setConversionsEnabled,
   conversionsEnabled: state.conversionsEnabled,
@@ -38,7 +37,6 @@ const ConversionsSettings = () => {
     conversionsPreferences,
     updatePreferences,
     budget,
-    isSpendingPaused,
     canRunConversions,
     setConversionsEnabled,
     conversionsEnabled,
@@ -115,6 +113,7 @@ const ConversionsSettings = () => {
       ].join(' ')}
       loading={isLoading}
       disabled={disabled}
+      trackComponentName="ConversionsSettings"
     >
       Save Conversions Settings
     </Button>
@@ -134,8 +133,8 @@ const ConversionsSettings = () => {
         className={[
           'flex items-center justify-between',
           'rounded-dialogue bg-grey-1',
+          !hasSufficientBudget ? 'border-solid border-2 border-red mb-2' : 'mb-12',
           'px-3 py-2',
-          (!hasSufficientBudget || isSpendingPaused) ? 'border-solid border-2 border-red mb-2' : 'mb-12',
         ].join(' ')}
       >
         <p className="font-bold mb-0">Enable Conversions</p>
@@ -146,8 +145,8 @@ const ConversionsSettings = () => {
           isLoading={isToggleLoading}
         />
       </div>
-      {(isSpendingPaused || !hasSufficientBudget) && (
-        <MarkdownText markdown={copy.toggleWarning(isSpendingPaused, hasSufficientBudget, formattedMinConversionsBudget)} className="text-red font-semibold mb-10" />
+      {!hasSufficientBudget && (
+        <MarkdownText markdown={copy.toggleWarning(formattedMinConversionsBudget)} className="text-red font-semibold mb-10" />
       )}
       <AdSettingsSection
         header="Default link"

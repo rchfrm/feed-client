@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { useRouter } from 'next/router'
+import * as ROUTES from '@/app/constants/routes'
 
 // Components
 import TooltipButton from '@/elements/TooltipButton'
@@ -113,8 +114,11 @@ const BaseFilters = ({
   }, [])
 
   // * ON OPTION CHANGE
-  // UPDATE QUERY AND LOCAL STORAATE when active option changes
+  // UPDATE QUERY AND LOCAL STORAGE when active option changes
   React.useEffect(() => {
+    const paths = [ROUTES.POSTS, ROUTES.INSIGHTS]
+    if (!paths.includes(router.pathname)) return
+
     if (!activeOptionId) return
     const filterName = useSlug ? getSlugFromId(options, activeOptionId) : activeOptionId
     const currentFilterQuery = router.query[querySlug]

@@ -29,6 +29,7 @@ const ControlsWizardReviewStep = () => {
         onClick={goToPostsPage}
         spinnerFill={brandColors.white}
         className="w-full mb-10"
+        trackComponentName="ControlsWizardReviewStep"
       >
         Review Posts
         <ArrowAltIcon
