@@ -54,6 +54,7 @@ export default function HeroSignUp() {
           styles.ctaShadow,
         ].join(' ')}
         fallbackCta="Sign up"
+        trackComponentName="HeroSignUp"
       >
         Get started
         <ArrowAltIcon

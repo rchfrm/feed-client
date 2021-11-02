@@ -58,6 +58,7 @@ const ConversionsWizardOptInStep = () => {
         version="green icon"
         onClick={goToPostsPage}
         className="w-full"
+        trackComponentName="ConversionsWizardPostOptInStep"
       >
         Opt in posts
         <ArrowAltIcon

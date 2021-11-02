@@ -71,7 +71,7 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
     // TRACK
     trackSignUp({ authProvider: 'facebook', userId: user.id })
     // REDIRECT
-    redirectPage(ROUTES.CONFIRM_EMAIL)
+    redirectPage(ROUTES.POSTS)
   }
   return (
     <div
@@ -124,6 +124,7 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
           type="sumbit"
           loading={loading}
           className="ml-auto"
+          trackComponentName="SignupMissingEmail"
         >
           submit
         </Button>

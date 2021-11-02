@@ -49,6 +49,7 @@ const PostCardActionButtons = ({
             isMissingDefaultLink,
           })
         }}
+        trackComponentName="PostCardActionButtons"
       >
         <GearIcon
           className="h-5 w-auto"
@@ -68,6 +69,7 @@ const PostCardActionButtons = ({
           const { postType } = post
           goToPostMetrics({ metrics, postType })
         }}
+        trackComponentName="PostCardActionButtons"
       >
         <InsightsIcon
           className="h-5 w-auto"

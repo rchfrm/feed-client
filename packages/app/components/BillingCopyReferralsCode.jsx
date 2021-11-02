@@ -16,6 +16,7 @@ const BillingCopyReferralsCode = () => {
       title="Get Feed"
       className="w-full"
       useCopyFallback
+      trackComponentName="BillingCopyReferralsCode"
     />
   )
 }

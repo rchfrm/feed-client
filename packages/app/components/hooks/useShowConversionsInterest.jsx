@@ -28,7 +28,7 @@ const useShowConversionsInterest = () => {
 
   // CLOSE BUTTON
   const CLOSE_BUTTON = (
-    <Button onClick={() => toggleSidePanel(false)} version="green">
+    <Button onClick={() => toggleSidePanel(false)} version="green" trackComponentName="useShowConversionsInterest">
       Done
     </Button>
   )

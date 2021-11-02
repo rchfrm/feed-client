@@ -50,6 +50,7 @@ const ConfirmEmailResendButton = ({
           className="mb-5 xxs:mb-0"
           loading={loading}
           disabled={parentLoading}
+          trackComponentName="ConfirmEmailResendButton"
         >
           {buttonText}
         </Button>

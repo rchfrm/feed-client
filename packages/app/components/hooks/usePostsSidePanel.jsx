@@ -24,6 +24,7 @@ const usePostsSidePanel = () => {
       onClick={() => toggleSidePanel(false)}
       version="green"
       className="border-solid border-0 border-t-4"
+      trackComponentName="usePostsSidePanel"
     >
       Done
     </Button>

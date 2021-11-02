@@ -63,6 +63,7 @@ const ControlsWizardPostsStep = () => {
           className="mr-6 border-black"
           spinnerFill={brandColors.black}
           loading={isLoading && !isEnabled}
+          trackComponentName="ControlsWizardPostsStep"
         >
           <CloseCircle
             fill={brandColors.red}
@@ -76,6 +77,7 @@ const ControlsWizardPostsStep = () => {
           className="border-black"
           spinnerFill={brandColors.black}
           loading={isLoading && isEnabled}
+          trackComponentName="ControlsWizardPostsStep"
         >
           <TickCircleIcon
             className="w-6 h-6 mr-2"

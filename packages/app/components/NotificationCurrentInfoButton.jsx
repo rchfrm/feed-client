@@ -45,6 +45,7 @@ const NotificationCurrentInfoButton = ({
         loading={loading}
         onClick={onClick}
         fallbackCta={ctaText}
+        trackComponentName="NotificationCurrentInfoButton"
       >
         {ctaText}
       </ButtonFacebook>
@@ -57,6 +58,7 @@ const NotificationCurrentInfoButton = ({
       version="green"
       loading={loading}
       onClick={onClick}
+      trackComponentName="NotificationCurrentInfoButton"
     >
       {canDismiss ? 'Dismiss' : ctaText}
     </Button>

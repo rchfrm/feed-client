@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { track } from '@/helpers/trackingHelpers'
+import * as utils from '@/helpers/utils'
 
 const ButtonPill = ({
   active,
@@ -11,12 +12,10 @@ const ButtonPill = ({
   size,
   onClick,
   trackAction,
-  trackValue,
-  trackLabel,
-  trackLocation,
   style,
   className,
   children,
+  trackComponentName,
 }) => {
   const classes = [
     'button--pill',
@@ -29,11 +28,12 @@ const ButtonPill = ({
   ]
 
   const handleClick = (e) => {
-    if (trackValue || trackLabel) {
+    if (trackComponentName) {
+      const buttonText = utils.getStringFromChildrenProp(children)
+
       track(trackAction || 'button_click', {
-        label: trackLabel,
-        value: trackValue,
-        location: trackLocation,
+        buttonText,
+        componentName: trackComponentName,
       })
     }
     onClick(e)
@@ -61,12 +61,10 @@ ButtonPill.propTypes = {
   size: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   trackAction: PropTypes.string,
-  trackValue: PropTypes.string,
-  trackLabel: PropTypes.string,
-  trackLocation: PropTypes.string,
   children: PropTypes.node.isRequired,
   style: PropTypes.object,
   className: PropTypes.string,
+  trackComponentName: PropTypes.string,
 }
 
 ButtonPill.defaultProps = {
@@ -76,11 +74,9 @@ ButtonPill.defaultProps = {
   hasIcon: false,
   size: 'regular',
   trackAction: '',
-  trackValue: '',
-  trackLabel: '',
-  trackLocation: '',
   style: {},
   className: '',
+  trackComponentName: '',
 }
 
 

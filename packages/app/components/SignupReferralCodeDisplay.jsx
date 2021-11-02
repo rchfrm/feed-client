@@ -43,6 +43,7 @@ const SignupReferralCodeDisplay = ({ className }) => {
           'iphone8:ml-3',
         ].join(' ')}
         onClick={clearUsedReferralCode}
+        trackComponentName="SignupReferralCodeDisplay"
       >
         {usedCode.current}
         <strong

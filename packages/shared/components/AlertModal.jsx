@@ -160,6 +160,7 @@ const AlertModal = () => {
                       href={href}
                       disabled={disabled}
                       fbButtonFallbackClassName="p-4 text-white mb-0"
+                      trackComponentName="AlertModal"
                     >
                       {text}
                     </ButtonType>

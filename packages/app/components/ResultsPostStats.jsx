@@ -98,6 +98,7 @@ const ResultsPostStats = ({
                 'border-solid border-black border-2 text-black',
               ].join(' ')}
               onClick={openPostMetricsSidePanel}
+              trackComponentName="ResultsPostStats"
             >
               View more
             </Button>

@@ -28,7 +28,7 @@ const BillingOpenInvoices = ({
   const { id: organisationId } = useBillingStore(getOrganisation)
   // OPEN ADD PAYMENT METHOD
   const openInvoicesSidepanel = React.useCallback(() => {
-    const content = <BillingInvoiceList setSidePanelLoading={setSidePanelLoading} />
+    const content = <BillingInvoiceList setSidePanelLoading={setSidePanelLoading} trackComponentName="BillingOpenInvoices" />
     const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
     setSidePanelContent(content)
     setSidePanelContentLabel('Inovoice list')
@@ -47,6 +47,7 @@ const BillingOpenInvoices = ({
           e.preventDefault()
           openInvoicesSidepanel()
         }}
+        trackComponentName="BillingOpenInvoices"
       >
         View historic invoices
       </Button>

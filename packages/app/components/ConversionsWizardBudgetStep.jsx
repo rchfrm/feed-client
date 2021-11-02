@@ -49,6 +49,7 @@ const ConversionsWizardBudgetStep = () => {
         onClick={setBudget}
         spinnerFill={brandColors.black}
         className="w-full"
+        trackComponentName="ConversionsWizardBudgetStep"
       >
         Set budget to {formattedMinConversionsBudget}
         <ArrowAltIcon

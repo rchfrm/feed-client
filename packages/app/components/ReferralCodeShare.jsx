@@ -40,6 +40,7 @@ const ReferralCodeShare = ({
           className={[
             'w-full xs:w-48',
           ].join(' ')}
+          trackComponentName="ReferralCodeShare"
         />
       </div>
     </div>

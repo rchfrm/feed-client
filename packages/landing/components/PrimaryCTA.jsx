@@ -69,6 +69,7 @@ export default function PrimaryCTA({
             onClick={() => {
               mixpanelExternalLinkClick(joinLink, { location: trackingLocation })
             }}
+            trackComponentName="PrimaryCTA"
           >
             Get started
           </Button>

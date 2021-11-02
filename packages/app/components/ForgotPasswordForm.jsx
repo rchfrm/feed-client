@@ -69,6 +69,7 @@ const ForgotPasswordForm = ({ setSuccess }) => {
           version="black"
           type="input"
           loading={loading}
+          trackComponentName="ForgotPasswordForm"
         >
           Submit
         </Button>
