@@ -168,7 +168,7 @@ const ConnectProfilesLoader = ({
   if (Object.keys(artistAccounts).length === 0) {
     return (
       <div className={className}>
-        <div className="col-span-6">
+        <div className="col-span-12 sm:col-span-6">
           <ConnectProfilesFacebook
             auth={auth}
             errors={errors}
@@ -207,7 +207,7 @@ const ConnectProfilesLoader = ({
         setIsConnecting={setIsConnecting}
         disabled={buttonDisabled}
         disabledReason={disabledReason}
-        className="col-span-8 mb-12"
+        className="col-span-12 sm:col-span-8 mb-12"
       />
 
       {/* LIST OF PROFILES */}
