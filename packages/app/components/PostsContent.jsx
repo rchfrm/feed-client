@@ -5,10 +5,12 @@ import PostsSorter from '@/app/PostsSorter'
 import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
+import PostsNoArtists from '@/app/PostsNoArtists'
 
 import MarkdownText from '@/elements/MarkdownText'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import { postTypes, sortTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
@@ -17,17 +19,19 @@ import copy from '@/app/copy/PostsPageCopy'
 const PostsContent = () => {
   // Has default link been set
   const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
+  const { user } = React.useContext(UserContext)
 
   const allFilter = postTypes.find(({ id }) => id === 'all')
   const defaultSortBy = sortTypes.find(({ id }) => id === 'published_time').id
   const [currentPostType, setCurrentPostType] = React.useState('')
   const [sortBy, setSortBy] = React.useState('')
+  const hasArtists = user.artists.length > 0
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
     <div className="relative">
       {/* NO DEFAULT LINK WARNING */}
-      {missingDefaultLink && (
+      {missingDefaultLink && hasArtists && (
         <MarkdownText
           className={['pb-5', styles.noDefaultLinkWarning].join(' ')}
           markdown={copy.noDefaultLinkWarning}
@@ -67,12 +71,14 @@ const PostsContent = () => {
         />
       </div>
       {/* LOAD POSTS */}
-      {currentPostType && (
+      {hasArtists && currentPostType ? (
         <PostsLoader
           setRefreshPosts={setRefreshPosts}
           promotionStatus={currentPostType}
           sortBy={sortBy}
         />
+      ) : (
+        <PostsNoArtists />
       )}
     </div>
   )

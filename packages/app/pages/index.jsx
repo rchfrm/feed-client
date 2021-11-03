@@ -3,13 +3,14 @@ import testPageReady from '@/hoc/testPageReady'
 import PostsContent from '@/app/PostsContent'
 
 const headerConfig = {
-  text: 'review posts',
+  text: 'posts',
 }
 
 const Page = () => (
   <BasePage
     headerConfig={headerConfig}
     artistRequired
+    hasCustomNoProfilesPage
   >
     <PostsContent />
   </BasePage>
