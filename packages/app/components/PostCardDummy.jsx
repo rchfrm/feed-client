@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 
 import Button from '@/elements/Button'
 import ToggleSwitch from '@/elements/ToggleSwitch'
@@ -11,7 +12,14 @@ import brandColors from '@/constants/brandColors'
 
 import { growthGradient } from '@/app/helpers/postsHelpers'
 
-const PostCardDummy = () => {
+const PostCardDummy = ({ post }) => {
+  const {
+    publishedTime,
+    platform,
+    image,
+    score,
+  } = post
+
   return (
     <div
       className={[
@@ -23,8 +31,8 @@ const PostCardDummy = () => {
     >
       {/* HEADER */}
       <div className="flex justify-between">
-        <p className="text-sm bmw:text-base">
-          Original post: <span className="font-bold">19 Oct</span>, <span className="font-bold text-insta"> Instagram </span>
+        <p className="text-sm bmw:text-base mb-2">
+          Original post: <span className="font-bold">{moment(publishedTime).format('D MMM')}</span>, <span className={`font-bold ${platform === 'Facebook' ? 'text-fb' : 'text-insta'}`}>{platform}</span>
         </p>
         <ChevronDoubleUpIcon
           fill="none"
@@ -33,7 +41,9 @@ const PostCardDummy = () => {
         />
       </div>
       {/* IMAGE */}
-      <div className="w-full relative bg-grey-1 opacity-1 mb-2 rounded-dialogue" style={{ paddingTop: '100%' }} />
+      <div className="w-full relative bg-grey-1 opacity-1 mb-2 rounded-dialogue" style={{ paddingTop: '100%' }}>
+        <img src={image} className="absolute w-full h-full top-0" alt="" />
+      </div>
       {/* SCORE */}
       <div
         className={[
@@ -47,7 +57,7 @@ const PostCardDummy = () => {
           <StarIcon className="h-4 w-auto" fill={brandColors.green} style={{ transform: 'translateY(-1px)' }} />
           <span className="ml-3 text-grey-2" style={{ transform: 'translateY(-1px)' }}>Score</span>
         </div>
-        <p className="flex items-center mb-0 font-bold text-grey-2">8.1</p>
+        <p className="flex items-center mb-0 font-bold text-grey-2">{score}</p>
       </div>
       {/* PROMOTABLE TOGGLE */}
       <div
@@ -75,12 +85,14 @@ const PostCardDummy = () => {
           <GearIcon
             className="h-5 w-auto"
             fill={brandColors.white}
+            trackComponentName=""
           />
         </Button>
         <Button className="h-11 w-1/2 ml-1" version="green">
           <InsightsIcon
             className="h-5 w-auto"
             fill={brandColors.white}
+            trackComponentName=""
           />
         </Button>
       </div>

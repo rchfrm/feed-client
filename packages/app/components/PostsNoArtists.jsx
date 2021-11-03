@@ -1,6 +1,9 @@
 import React from 'react'
 
 import PostCardDummy from '@/app/PostCardDummy'
+import PostCardFacebookConnect from '@/app/PostCardFacebookConnect'
+
+import { dummyPosts } from '@/app/helpers/postsHelpers'
 
 const PostsNoArtists = () => {
   return (
@@ -13,9 +16,12 @@ const PostsNoArtists = () => {
         'grid-flow-row-dense',
       ].join(' ')}
     >
-      {[...Array(6)].map((index) => {
+      {dummyPosts.map((post, index) => {
         return (
-          <PostCardDummy key={index} />
+          <>
+            {index === 1 && <PostCardFacebookConnect key={index + dummyPosts.length} />}
+            <PostCardDummy post={post} key={index} />
+          </>
         )
       })}
     </ul>
