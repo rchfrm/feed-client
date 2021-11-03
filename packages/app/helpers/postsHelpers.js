@@ -294,7 +294,6 @@ export const formatPostsResponse = (posts) => {
   })
 }
 
-
 // GET POST CURSOR
 export const getCursor = (post = {}) => {
   const { _links: { after = {} } } = post

@@ -17,6 +17,7 @@ const PostsFilters = ({
   currentPostType,
   defaultPostState,
   setCurrentPostType,
+  disabled,
   className,
 }) => {
   // Build options array for base filters
@@ -64,6 +65,7 @@ const PostsFilters = ({
         action: 'adjust_filter',
         page: 'posts',
       }}
+      disabled={disabled}
       className={className}
     />
   )
@@ -74,10 +76,12 @@ PostsFilters.propTypes = {
   currentPostType: PropTypes.string.isRequired,
   defaultPostState: PropTypes.string.isRequired,
   setCurrentPostType: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostsFilters.defaultProps = {
+  disabled: PropTypes.false,
   className: null,
 }
 

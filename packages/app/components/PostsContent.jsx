@@ -59,6 +59,7 @@ const PostsContent = () => {
           sortBy={sortBy}
           setSortBy={setSortBy}
           defaultSortState={defaultSortBy}
+          disabled={!hasArtists}
           className="col-span-12 sm:col-span-4"
         />
         {/* FILTERS */}
@@ -67,6 +68,7 @@ const PostsContent = () => {
           currentPostType={currentPostType}
           setCurrentPostType={setCurrentPostType}
           defaultPostState={allFilter.id}
+          disabled={!hasArtists}
           className="col-span-12 sm:col-span-8"
         />
       </div>
