@@ -8,11 +8,13 @@ import * as styles from '@/landing/Testimonies.module.css'
 const TestimonyItem = ({ testimony, className }) => {
   const {
     bio,
+    quote,
     copy,
     handle,
     image,
   } = testimony
   const link = `https://instagram.com/${handle}`
+  const text = copy || quote
   return (
     <li className={className}>
       <div className={styles.singleTestimony}>
@@ -30,7 +32,7 @@ const TestimonyItem = ({ testimony, className }) => {
         </figure>
         <div className={styles.testimonyText}>
           {/* QUOTE */}
-          <p className="mb-0 pb-3"><em>{copy}</em></p>
+          <p className="mb-0 pb-3"><em>{text}</em></p>
           {/* HANDLE */}
           <p className="mb-2">
             <a href={link} target="_blank" rel="noopener noreferrer">
