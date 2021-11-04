@@ -5,32 +5,6 @@ import get from 'lodash/get'
 import * as utils from '@/helpers/utils'
 import * as api from '@/helpers/api'
 
-// Sort Ad accounts so the previously used one is on top
-const sortAdAccounts = (account, adAccounts) => {
-  // Get Ad account ID used in the account
-  const { adaccount_id: adId } = account
-  // If the Facebook page hasn't been promoted by an ad account before,
-  // return the array of ad accounts unchanged
-  if (!adId) {
-    return adAccounts
-  }
-
-  // Find the index of the ad account that has been used to promote the Facebook page before
-  const indexOfUsedAdAccount = adAccounts.findIndex(adAccount => adAccount.id === adId)
-  // If the ad account has not been used in main account, return unsorted
-  if (indexOfUsedAdAccount === -1) {
-    return adAccounts
-  }
-
-  // Remove the ad account that has been used before from the list of ad accounts
-  // and put it at front of list
-  const usedAccount = adAccounts[indexOfUsedAdAccount]
-  return produce(adAccounts, draft => {
-    draft.splice(indexOfUsedAdAccount, 1)
-    draft.unshift(usedAccount)
-  })
-}
-
 /**
  * @param {string} artist
  * @param {string} accessToken
@@ -133,9 +107,7 @@ export const addAdAccountsToArtists = async ({ artists, adAccounts }) => {
       page_id,
       page_token,
     } = artist
-    // Sort the add accounts so that the last used ad for this artists account is placed first
-    const sortedAdAccounts = sortAdAccounts(artist, adAccounts)
-    const selectedAdAccount = sortedAdAccounts[0]
+    const selectedAdAccount = adAccounts[0]
     // Get the FB page url
     const facebookPageUrl = `https://www.facebook.com/${page_token || page_id}`
     // Get the Insta page url
@@ -143,7 +115,7 @@ export const addAdAccountsToArtists = async ({ artists, adAccounts }) => {
     // Return processed account
     return {
       ...artist,
-      available_facebook_ad_accounts: sortedAdAccounts,
+      available_facebook_ad_accounts: adAccounts,
       selected_facebook_ad_account: selectedAdAccount,
       facebook_page_url: facebookPageUrl,
       instagram_url: instaPageUrl,
