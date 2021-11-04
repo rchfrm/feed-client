@@ -26,7 +26,7 @@ const PostCardConnectAccounts = () => {
       <FacebookIcon className="h-8 mb-6" fill={brandColors.facebook.bg} />
       <div className="flex flex-column mb-6">
         <span className="mb-1 text-xl font-bold underline">Connect your pages</span>
-        <span className="text-lg">to see your Facebook and Instagram posts</span>
+        <span className="text-lg">to see your Facebook and Instagram posts.</span>
       </div>
       <InstagramIcon className="h-8 mb-6" fill={brandColors.instagram.bg} />
     </button>
