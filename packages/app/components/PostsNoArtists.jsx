@@ -18,7 +18,7 @@ const PostsNoArtists = () => {
           'row-gap-10',
           'col-gap-6',
           'grid-flow-row-dense',
-          'mb-30',
+          'pt-6 mb-30',
         ].join(' ')}
       >
         {dummyPosts.map((post, index) => {

@@ -25,7 +25,7 @@ const PostsFilters = ({
     return postTypes.map(({ id, slug, title, color, activeTextColor }) => {
       // Get icon color
       const backgroundColor = id === currentPostType ? brandColors.white : color
-      const icon = id === 'all' ? null : <FILTER_BUTTON_ICON backgroundColor={backgroundColor} />
+      const icon = id === 'all' ? null : <FILTER_BUTTON_ICON backgroundColor={disabled ? brandColors.black : backgroundColor} />
       return {
         id,
         slug,
