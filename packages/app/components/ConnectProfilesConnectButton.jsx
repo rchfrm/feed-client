@@ -81,7 +81,7 @@ const ConnectProfilesConnectButton = ({
         )}
         {/* DISABLED REASON */}
         {disabledReason && (
-          <p className="font-bold mb-6">{disabledReason}</p>
+          <p className="text-red font-bold mb-6">{disabledReason}</p>
         )}
         <Button
           version="green"
