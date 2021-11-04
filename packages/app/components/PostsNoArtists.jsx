@@ -3,6 +3,7 @@ import React from 'react'
 import PostCardDummy from '@/app/PostCardDummy'
 import PostCardConnectAccounts from '@/app/PostCardConnectAccounts'
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
+import Error from '@/elements/Error'
 
 import { dummyPosts } from '@/app/helpers/postsHelpers'
 
@@ -11,6 +12,9 @@ const PostsNoArtists = () => {
 
   return (
     <>
+      {errors.map((error, index) => {
+        return <Error error={error} key={index} />
+      })}
       <ul
         className={[
           'sm:grid',
@@ -21,14 +25,12 @@ const PostsNoArtists = () => {
           'pt-6 mb-30',
         ].join(' ')}
       >
-        {dummyPosts.map((post, index) => {
-          return (
-            <>
-              {index === 1 && <PostCardConnectAccounts key={index + dummyPosts.length} />}
-              <PostCardDummy post={post} key={index} />
-            </>
-          )
-        })}
+        {dummyPosts.map((post, index) => (
+          <React.Fragment key={index}>
+            {index === 1 && <PostCardConnectAccounts />}
+            <PostCardDummy post={post} />
+          </React.Fragment>
+        ))}
       </ul>
       <div className="grid grid-cols-12">
         <ConnectFacebookButton

@@ -81,18 +81,16 @@ const PostCardDummy = ({ post }) => {
       </div>
       {/* ACTION BUTTONS */}
       <div className="flex">
-        <Button className="h-11 w-1/2 ml-1" version="green">
+        <Button className="h-11 w-1/2 ml-1" version="green" trackComponentName="PostCardDummy">
           <GearIcon
             className="h-5 w-auto"
             fill={brandColors.white}
-            trackComponentName=""
           />
         </Button>
-        <Button className="h-11 w-1/2 ml-1" version="green">
+        <Button className="h-11 w-1/2 ml-1" version="green" trackComponentName="PostCardDummy">
           <InsightsIcon
             className="h-5 w-auto"
             fill={brandColors.white}
-            trackComponentName=""
           />
         </Button>
       </div>
