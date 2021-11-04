@@ -12,6 +12,8 @@ const ConnectProfilesCard = ({
   className,
 }) => {
   const {
+    name,
+    instagram_username,
     page_id: artistId,
     connect,
   } = artist
@@ -31,7 +33,9 @@ const ConnectProfilesCard = ({
     >
       <div className="flex justify-between flex-column">
         {/* NAME */}
-        <p className="font-bold font-body text-md mb-2">{artist.name}</p>
+        <p className="font-bold font-body text-md mb-2">{name}
+          {instagram_username && <span className="font-normal"> (@{instagram_username})</span>}
+        </p>
         {/* IMAGE */}
         <div className="w-full">
           <div className="media media--square mb-4">
