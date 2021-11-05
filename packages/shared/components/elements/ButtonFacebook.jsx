@@ -8,6 +8,7 @@ import FacebookIcon from '@/icons/FacebookIcon'
 
 const ButtonFacebook = ({
   className,
+  href,
   onClick,
   version,
   children,
@@ -54,6 +55,7 @@ const ButtonFacebook = ({
   return (
     <Button
       onClick={onClick}
+      href={href}
       className={className}
       version={['facebook', 'icon', version].join(' ')}
       ref={buttonRef}
@@ -71,6 +73,7 @@ const ButtonFacebook = ({
 ButtonFacebook.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
+  href: PropTypes.string,
   fallbackCta: PropTypes.string.isRequired,
   version: PropTypes.string,
   children: PropTypes.node.isRequired,
@@ -81,6 +84,7 @@ ButtonFacebook.propTypes = {
 ButtonFacebook.defaultProps = {
   className: '',
   onClick: () => {},
+  href: '',
   version: null,
   fbButtonFallbackClassName: '',
   trackComponentName: '',
