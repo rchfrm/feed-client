@@ -10,7 +10,7 @@ const Page = () => (
   <BasePage
     headerConfig={headerConfig}
     artistRequired
-    hasCustomNoProfilesPage
+    hasNoProfilesPage
   >
     <PostsContent />
   </BasePage>
