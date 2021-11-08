@@ -32,12 +32,12 @@
       },
       {
         "source": "/connect-artists",
-        "destination": "/connect-profiles",
+        "destination": "/connect-accounts",
         "type": 301
       },
       {
-        "source": "/connect-accounts",
-        "destination": "/connect-profiles",
+        "source": "/connect-profiles",
+        "destination": "/connect-accounts",
         "type": 301
       },
       {

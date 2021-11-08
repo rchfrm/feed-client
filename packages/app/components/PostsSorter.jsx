@@ -8,6 +8,7 @@ const PostsSorter = ({
   sortBy,
   setSortBy,
   defaultSortState,
+  disabled,
   className,
 }) => {
   return (
@@ -25,6 +26,7 @@ const PostsSorter = ({
         action: 'adjust_sort',
         page: 'posts',
       }}
+      disabled={disabled}
       className={className}
     />
   )
@@ -35,10 +37,12 @@ PostsSorter.propTypes = {
   sortBy: PropTypes.string.isRequired,
   setSortBy: PropTypes.func.isRequired,
   defaultSortState: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostsSorter.defaultProps = {
+  disabled: false,
   className: null,
 }
 
