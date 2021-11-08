@@ -64,7 +64,7 @@ const TheSubNavButton = ({
         )}
         backContent={(
           <div className={styles.backIcon_inner}>
-            <CloseCircle />
+            <CloseCircle fill={brandColors.black} />
           </div>
         )}
         containerClass={[styles.container].join(' ')}
@@ -72,7 +72,7 @@ const TheSubNavButton = ({
         innerClass={styles.inner}
         frontClass={[
           styles.frontIcon,
-          !artistId ? 'bg-black rounded-full' : null,
+          !artistId && !artistLoading ? 'bg-black rounded-full' : null,
         ].join(' ')}
         backClass={styles.backIcon}
       />

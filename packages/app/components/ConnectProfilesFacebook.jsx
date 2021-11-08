@@ -3,11 +3,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // IMPORT ELEMENTS
 import MissingScopesMessage from '@/elements/MissingScopesMessage'
-import ButtonFacebook from '@/elements/ButtonFacebook'
+import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
-// IMPORT HELPERS
-import * as firebaseHelpers from '@/helpers/firebaseHelpers'
+
 // IMPORT COPY
 import copy from '@/app/copy/connectProfilesCopy'
 
@@ -23,24 +22,7 @@ const ConnectProfilesFacebook = ({
   isFindMore,
   className,
 }) => {
-  const { missingScopes, providerIds } = auth
-  // Define function to link facebook
-  const linkFacebook = React.useCallback(() => {
-    if (missingScopes.length || providerIds.includes('facebook.com')) {
-      const requestedScopes = missingScopes.length ? missingScopes : null
-      firebaseHelpers.reauthFacebook(requestedScopes)
-        .catch((error) => {
-          setErrors([...errors, error])
-        })
-      return
-    }
-    firebaseHelpers.linkFacebookAccount()
-      .catch((error) => {
-        setErrors([...errors, error])
-      })
-  // eslint-disable-next-line
-  }, [missingScopes.length, providerIds])
-
+  const { missingScopes } = auth
   const introText = getIntroText(isFindMore)
   const buttonText = isFindMore ? 'Connect more pages' : 'Continue with Facebook'
 
@@ -62,14 +44,13 @@ const ConnectProfilesFacebook = ({
         {isFindMore && (
           <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
         )}
-        <ButtonFacebook
+        <ConnectFacebookButton
+          errors={errors}
+          setErrors={setErrors}
+          buttonText={buttonText}
           className="w-full max-w-md mb-12"
-          onClick={linkFacebook}
-          fallbackCta={buttonText}
           trackComponentName="ConnectProfilesFacebook"
-        >
-          {buttonText}
-        </ButtonFacebook>
+        />
         {!isFindMore && (
           <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
         )}

@@ -56,6 +56,7 @@ const BaseFilters = ({
   querySlug,
   useSlug,
   trackProps,
+  disabled,
   className,
   children,
 }) => {
@@ -117,7 +118,7 @@ const BaseFilters = ({
   // UPDATE QUERY AND LOCAL STORAGE when active option changes
   React.useEffect(() => {
     const paths = [ROUTES.POSTS, ROUTES.INSIGHTS]
-    if (!paths.includes(router.pathname)) return
+    if (!paths.includes(router.pathname) || disabled) return
 
     if (!activeOptionId) return
     const filterName = useSlug ? getSlugFromId(options, activeOptionId) : activeOptionId
@@ -145,7 +146,12 @@ const BaseFilters = ({
   if (!options.length) return null
 
   return (
-    <div className={['breakout--width', className].join(' ')}>
+    <div className={[
+      'breakout--width',
+      disabled ? 'opacity-50 pointer-events-none' : null,
+      className,
+    ].join(' ')}
+    >
       <div className={['inputLabel__text', styles.label].join(' ')}>
         <span className="flex items-center h-8">
           {labelText}
@@ -212,6 +218,7 @@ BaseFilters.propTypes = {
   },
   useSlug: PropTypes.bool,
   trackProps: PropTypes.object,
+  disabled: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.node,
 }
@@ -227,6 +234,7 @@ BaseFilters.defaultProps = {
   querySlug: '',
   useSlug: false,
   trackProps: null,
+  disabled: false,
   className: '',
   children: null,
 }
