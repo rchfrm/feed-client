@@ -71,7 +71,7 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
     // TRACK
     trackSignUp({ authProvider: 'facebook', userId: user.id })
     // REDIRECT
-    redirectPage(ROUTES.POSTS)
+    redirectPage(ROUTES.CONFIRM_EMAIL)
   }
   return (
     <div

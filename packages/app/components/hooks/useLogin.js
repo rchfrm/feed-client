@@ -25,7 +25,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     setRejectedPagePath,
     setAuthLoading,
   } = React.useContext(AuthContext)
-  const { setNoUser, storeUser, setUserLoading } = React.useContext(UserContext)
+  const { setNoUser, storeUser, setUserLoading, testForPendingEmail } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   // * HANDLE NO AUTH USER
