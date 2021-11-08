@@ -92,7 +92,7 @@ const useSignup = (initialPathname) => {
     // TRACK
     trackSignUp({ authProvider: 'facebook', userId: user.id })
     // REDIRECT
-    return signupHelpers.redirectPage(ROUTES.POSTS, initialPathname)
+    return signupHelpers.redirectPage(ROUTES.CONFIRM_EMAIL, initialPathname)
   }, [initialPathname, rejectNewUser, runCreateUser, setMissingScopes, setNoArtist, setUserLoading])
 
 

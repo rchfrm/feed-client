@@ -27,7 +27,7 @@ import styles from '@/LoginPage.module.css'
 const LoginEmailForm = ({ className }) => {
   // IMPORT CONTEXTS
   const { rejectedPagePath } = React.useContext(AuthContext)
-  const { storeUser, userError } = React.useContext(UserContext)
+  const { storeUser, userError, testForPendingEmail } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
   // GLOBAL LOADING
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -107,7 +107,9 @@ const LoginEmailForm = ({ className }) => {
       // TRACK LOGIN
       trackLogin({ authProvider: 'password', userId: user.id })
       // REDIRECT
-      Router.push(ROUTES.POSTS)
+      const hasPendingEmail = testForPendingEmail(user)
+      const redirectTo = hasPendingEmail ? ROUTES.CONFIRM_EMAIL : ROUTES.CONNECT_ACCOUNTS
+      Router.push(redirectTo)
     }
   }
 
