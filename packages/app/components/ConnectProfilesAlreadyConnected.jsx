@@ -7,15 +7,17 @@ import ArtistImage from '@/elements/ArtistImage'
 
 const ConnectProfilesAlreadyConnected = ({ className }) => {
   const { user, userLoading } = React.useContext(UserContext)
-  if (userLoading) return null
   const { artists: connectedArtists } = user
+
+  if (userLoading || !connectedArtists.length) return null
+
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-      <h2>Already Connected to Feed</h2>
+      <h2>Already Connected</h2>
       <ul>
         {connectedArtists.map((artist) => {
           const { id, name, role, facebook_page_id } = artist

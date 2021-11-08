@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import VideoEmbed from '@/landing/elements/VideoEmbed'
+import VideoEmbed from '@/elements/VideoEmbed'
 
 const BasicTextPageEmbed = ({
   externalVideo,

@@ -2,11 +2,11 @@ import { useState } from 'react'
 
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
+
 import ConnectProfilesLoader from '@/app/ConnectProfilesLoader'
 
 const headerConfig = {
-  text: 'continue sign up',
-  punctuation: ',',
+  text: 'connect accounts',
 }
 
 const Page = () => {
@@ -14,16 +14,14 @@ const Page = () => {
   return (
     <BasePage
       headerConfig={headerConfig}
-      staticPage
     >
       <ConnectProfilesLoader
         isConnecting={isConnecting}
         setIsConnecting={setIsConnecting}
-        isSignupStep
+        className="grid grid-cols-12"
       />
     </BasePage>
   )
 }
-
 
 export default testPageReady('app')(Page)

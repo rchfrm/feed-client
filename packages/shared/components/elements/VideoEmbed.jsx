@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import YouTube from 'react-youtube'
 import Vimeo from '@u-wave/react-vimeo'
 
-import ResponsiveEmbed from '@/landing/elements/ResponsiveEmbed'
-import FacebookVideo from '@/landing/elements/FacebookVideo'
+import ResponsiveEmbed from '@/elements/ResponsiveEmbed'
+import FacebookVideo from '@/elements/FacebookVideo'
 
-import track from '@/landing/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 
 const VideoEmbed = ({
   video,

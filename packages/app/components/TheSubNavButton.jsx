@@ -7,11 +7,13 @@ import ArtistImage from '@/elements/ArtistImage'
 import NotificationDot from '@/elements/NotificationDot'
 
 import CloseCircle from '@/icons/CloseCircle'
+import HamburgerIcon from '@/icons/HamburgerIcon'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
 import styles from '@/app/TheSubNavButton.module.css'
+import brandColors from '@/constants/brandColors'
 
 const TheSubNavButton = ({
   toggleSubNav,
@@ -51,10 +53,13 @@ const TheSubNavButton = ({
           <figure className={styles.image}>
             {artistLoading ? (
               <Spinner className={styles.spinner} />
-            )
-              : (
+            ) : (
+              artistId ? (
                 <ArtistImage pageId={fbPageId} name={artist.name} />
-              )}
+              ) : (
+                <HamburgerIcon fill={brandColors.white} />
+              )
+            )}
           </figure>
         )}
         backContent={(
@@ -65,7 +70,10 @@ const TheSubNavButton = ({
         containerClass={[styles.container].join(' ')}
         isFlipped={navOpen}
         innerClass={styles.inner}
-        frontClass={styles.frontIcon}
+        frontClass={[
+          styles.frontIcon,
+          !artistId ? 'bg-black rounded-full' : null,
+        ].join(' ')}
         backClass={styles.backIcon}
       />
       <p className={styles.buttonTitle}>{navOpen ? 'close' : 'menu'}</p>
