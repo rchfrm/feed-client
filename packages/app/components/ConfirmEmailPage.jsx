@@ -158,7 +158,7 @@ const ConfirmEmailPage = ({
   }, [checkCode, checking, isMounted])
 
   // CHANGE CONTACT EMAIL
-  const [isChangeEmail, setIsChangeEmail] = React.useState(false)
+  const [isChangeEmail, setIsChangeEmail] = React.useState(Boolean(query?.isEdit))
 
   // STOP HERE if checking code from URL query or waiting for user to load
   if (!isSuccessful && (hasInitialVerificationCode || userLoading)) return null

@@ -10,6 +10,9 @@ import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import useAlertModal from '@/hooks/useAlertModal'
+import Router from 'next/router'
+
+import * as ROUTES from '@/app/constants/routes'
 
 const IntegrationErrorContent = ({ integrationError, dismiss, networkError, showError }) => {
   // IMPORT AUTH AND AUTH ERROR
@@ -80,12 +83,15 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       const resendConfirmationLink = async () => {
         await requestVerificationEmail('email')
       }
+      const goToConfirmEmailPage = async () => {
+        Router.push(`${ROUTES.CONFIRM_EMAIL}/?isEdit=true`)
+        closeAlert()
+      }
       return [
         {
           text: buttonText,
-          onClick: () => {},
+          onClick: goToConfirmEmailPage,
           color: 'green',
-          href,
         },
         {
           text: 'Resend link',

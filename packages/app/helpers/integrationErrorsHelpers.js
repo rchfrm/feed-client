@@ -1,5 +1,4 @@
 import produce from 'immer'
-import * as ROUTES from '@/app/constants/routes'
 
 import copy from '@/app/copy/integrationErrorsCopy'
 
@@ -148,7 +147,6 @@ export const getErrorResponse = (error, user, artist) => {
       message: copy[code](user.email),
       action: 'email_confirmation',
       buttonText: 'Edit email',
-      href: ROUTES.CONFIRM_EMAIL,
       hidden,
       code,
     }

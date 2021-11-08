@@ -21,6 +21,7 @@ const IntegrationErrorHandler = () => {
   const [isPending, setIsPending] = React.useState(false)
   const [hasFetchedArtistErrors, setHasFetchedArtistErrors] = React.useState(false)
   const isLoggedIn = useLoggedInTest()
+  const isDevelopment = process.env.NODE_ENV === 'development'
   // Import artist context
   const {
     artist,
@@ -44,11 +45,11 @@ const IntegrationErrorHandler = () => {
         context: missingScopes,
       }
       const errorResponse = integrationErrorsHelpers.getErrorResponse(error)
-      return { errorResponse, networkError: null }
+      return errorResponse
     }
 
     // * Stop here if running locally
-    if (process.env.build_env === 'development') return
+    if (isDevelopment) return
 
     if (!artist || !artistId) return
     // Test whether user owns artist
@@ -85,6 +86,8 @@ const IntegrationErrorHandler = () => {
   }, [artistId])
 
   const checkAndShowUserError = () => {
+    if (!user.artists || !user.artists.length) return
+
     // Handle email not confirmed
     if (!integrationError && !user.email_verified) {
       const error = {
@@ -96,9 +99,10 @@ const IntegrationErrorHandler = () => {
   }
 
   React.useEffect(() => {
-    if (isLoggedIn && !globalLoading && hasFetchedArtistErrors) {
-      checkAndShowUserError()
+    if (isDevelopment || !isLoggedIn || globalLoading || !hasFetchedArtistErrors) {
+      return
     }
+    checkAndShowUserError()
   // eslint-disable-next-line
   }, [isLoggedIn, globalLoading, hasFetchedArtistErrors])
 
