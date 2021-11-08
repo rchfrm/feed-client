@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
+import { requestVerificationEmail } from '@/app/helpers/appServer'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
@@ -73,6 +74,25 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         onClick,
         facebookButton: true,
       }]
+    }
+    // Edit email and email confirmation buttons
+    if (action === 'email_confirmation') {
+      const resendConfirmationLink = async () => {
+        await requestVerificationEmail('email')
+      }
+      return [
+        {
+          text: buttonText,
+          onClick: () => {},
+          color: 'green',
+          href,
+        },
+        {
+          text: 'Resend link',
+          onClick: resendConfirmationLink,
+          color: 'black',
+        },
+      ]
     }
     // Default
     return [{

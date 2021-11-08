@@ -1,4 +1,5 @@
 import produce from 'immer'
+import * as ROUTES from '@/app/constants/routes'
 
 import copy from '@/app/copy/integrationErrorsCopy'
 
@@ -16,7 +17,7 @@ export const testForMissingPages = (scopes) => {
   return false
 }
 
-export const getErrorResponse = (error, artist) => {
+export const getErrorResponse = (error, user, artist) => {
   if (!error) return
   const {
     code,
@@ -138,6 +139,16 @@ export const getErrorResponse = (error, artist) => {
       buttonText: 'Accept Terms on Facebook',
       href: `https://www.facebook.com/customaudiences/app/tos/?act=${adAccountId}`,
       fbLink: true,
+      hidden,
+      code,
+    }
+  }
+  if (code === 'email_not_confirmed') {
+    return {
+      message: copy[code](user.email),
+      action: 'email_confirmation',
+      buttonText: 'Edit email',
+      href: ROUTES.CONFIRM_EMAIL,
       hidden,
       code,
     }
