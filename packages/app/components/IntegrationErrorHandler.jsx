@@ -30,7 +30,6 @@ const IntegrationErrorHandler = () => {
   const { user } = React.useContext(UserContext)
   // Import Auth context
   const { auth, accessToken, redirectType } = React.useContext(AuthContext)
-
   const { globalLoading } = React.useContext(InterfaceContext)
 
   const fetchError = async () => {
@@ -49,7 +48,7 @@ const IntegrationErrorHandler = () => {
     }
 
     // * Stop here if running locally
-    // if (process.env.build_env === 'development') return
+    if (process.env.build_env === 'development') return
 
     if (!artist || !artistId) return
     // Test whether user owns artist
