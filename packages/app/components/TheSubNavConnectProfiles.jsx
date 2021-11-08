@@ -11,12 +11,12 @@ const TheSubNavConnectProfiles = ({ className }) => {
       <p className={['mb-0'].join(' ')}>
         <Link
           href={{
-            pathname: ROUTES.CONNECT_PROFILES,
+            pathname: ROUTES.CONNECT_ACCOUNTS,
           }}
         >
           <a className="inline-flex">
             <strong className="pr-2" style={{ transform: 'translateY(0.095rem)' }}>+ </strong>
-            <strong>connect more profiles</strong>
+            <strong>connect more accounts</strong>
           </a>
         </Link>
       </p>

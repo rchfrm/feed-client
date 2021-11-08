@@ -105,8 +105,22 @@ const nextConfig = {
   // You really just need it to await before Next starts the dev server.
   async redirects() {
     await fetchGlobalData()
-    return []
+
+    // HANDLE REDIRECTS
+    return [
+      {
+        source: '/connect-profiles',
+        destination: '/connect-accounts',
+        permanent: true,
+      },
+      {
+        source: '/join/final-step',
+        destination: '/connect-accounts',
+        permanent: true,
+      },
+    ]
   },
+  experimental: { esmExternals: true },
 }
 
 module.exports = withPlugins([

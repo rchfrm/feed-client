@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Router from 'next/router'
-
 import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
 
@@ -13,18 +11,18 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
+import ButtonHelp from '@/elements/ButtonHelp'
 
 import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectButton from '@/app/ConnectProfilesConnectButton'
 import ConnectProfilesNoArtists from '@/app/ConnectProfilesNoArtists'
+import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import { sortArrayByKey } from '@/helpers/utils'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
-
-import * as ROUTES from '@/app/constants/routes'
 
 import copy from '@/app/copy/connectProfilesCopy'
 
@@ -57,7 +55,6 @@ const artistsReducer = (draftState, action) => {
 const ConnectProfilesLoader = ({
   isConnecting,
   setIsConnecting,
-  isSignupStep,
   className,
 }) => {
   // IMPORT CONTEXTS
@@ -66,14 +63,6 @@ const ConnectProfilesLoader = ({
   const { user, userLoading } = React.useContext(UserContext)
   // Get any missing scopes
   const { missingScopes } = auth
-
-  // LOGIN VERSION WITH ARTISTS
-  // If accessing the login version, but this user already has artsits, go to connect profiles
-  React.useEffect(() => {
-    if (isSignupStep && user.artists && user.artists.length) {
-      Router.push(ROUTES.CONNECT_PROFILES)
-    }
-  }, [user, isSignupStep])
 
   // DEFINE LOADING VERSIONS
   const [pageLoading, setPageLoading] = React.useState(false)
@@ -104,7 +93,6 @@ const ConnectProfilesLoader = ({
       payload,
     })
   }, [setArtistAccounts])
-
 
   // * GET INITIAL DATA FROM SERVER
   useAsyncEffect(async (isMounted) => {
@@ -180,15 +168,26 @@ const ConnectProfilesLoader = ({
   if (Object.keys(artistAccounts).length === 0) {
     return (
       <div className={className}>
-        <ConnectProfilesFacebook
-          auth={auth}
-          errors={errors}
-          setErrors={setErrors}
-          isSignupStep={isSignupStep}
-        />
-        {fetchedArtistsFinished && (
-          <ConnectProfilesNoArtists className="max-w-xl mb-2 mt-6" />
-        )}
+        <div className="col-span-12 sm:col-span-6">
+          <ConnectProfilesFacebook
+            auth={auth}
+            errors={errors}
+            setErrors={setErrors}
+            isFindMore={user?.artists.length > 0}
+            isConnecting={isConnecting}
+          />
+          {fetchedArtistsFinished && (
+            <ConnectProfilesNoArtists className="max-w-xl mb-8" />
+          )}
+          {!isConnecting && (
+            <ConnectProfilesAlreadyConnected className="mb-12" />
+          )}
+          <ButtonHelp
+            content={copy.helpText}
+            text="Need help?"
+            label="Connect accounts help"
+          />
+        </div>
       </div>
     )
   }
@@ -200,25 +199,6 @@ const ConnectProfilesLoader = ({
         return <Error error={error} key={index} />
       })}
 
-      {/* LIST OF PROFILES */}
-      <ConnectProfilesList
-        artistAccounts={artistAccounts}
-        updateArtists={updateArtists}
-        setButtonDisabled={setButtonDisabled}
-        setDisabledReason={setDisabledReason}
-        setErrors={setErrors}
-        className="mb-12"
-      >
-        {/* BUTTON TO FIND MORE PROFILES */}
-        <ConnectProfilesFacebook
-          auth={auth}
-          errors={errors}
-          setErrors={setErrors}
-          isFindMore
-          className=""
-        />
-      </ConnectProfilesList>
-
       {/* BUTTON TO CONNECT ACCOUNT */}
       <ConnectProfilesConnectButton
         artistAccounts={artistAccounts}
@@ -227,8 +207,20 @@ const ConnectProfilesLoader = ({
         setIsConnecting={setIsConnecting}
         disabled={buttonDisabled}
         disabledReason={disabledReason}
+        className="col-span-12 sm:col-span-8 mb-12"
       />
 
+      {/* LIST OF PROFILES */}
+      <ConnectProfilesList
+        auth={auth}
+        artistAccounts={artistAccounts}
+        updateArtists={updateArtists}
+        setButtonDisabled={setButtonDisabled}
+        setDisabledReason={setDisabledReason}
+        errors={errors}
+        setErrors={setErrors}
+        className="col-span-12 mb-12"
+      />
     </div>
   )
 }
@@ -236,12 +228,10 @@ const ConnectProfilesLoader = ({
 ConnectProfilesLoader.propTypes = {
   isConnecting: PropTypes.bool.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
-  isSignupStep: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ConnectProfilesLoader.defaultProps = {
-  isSignupStep: false,
   className: null,
 }
 

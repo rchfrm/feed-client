@@ -5,6 +5,9 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
+    "@u-wave/react-vimeo": "^0.9.5",
+    "react-player": "^2.8.1",
+    "react-youtube": "^7.13.1"
   },
   "devDependencies": {
   }

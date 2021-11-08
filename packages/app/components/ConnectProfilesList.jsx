@@ -2,19 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ConnectProfilesCard from '@/app/ConnectProfilesCard'
+import ConnectProfilesFacebookConnectCard from '@/app/ConnectProfilesFacebookConnectCard'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 const ConnectProfilesList = ({
+  auth,
   artistAccounts,
   updateArtists,
   setButtonDisabled,
   setDisabledReason,
+  errors,
   setErrors,
   className,
-  children,
 }) => {
-  // Toggled button disabled based on country select OR no accounts selected
+  // Toggled button disabled based on country select OR ad account select OR no accounts selected
   React.useEffect(() => {
     const allAccounts = Object.values(artistAccounts)
     // Test whether every account already exists
@@ -23,15 +25,23 @@ const ConnectProfilesList = ({
     const allCountriesSet = allAccounts.every(({ country_code, connect }) => {
       return country_code || !connect
     })
+    // Make sure every every connected account has an ad account set
+    const allAdAccountsSet = allAccounts.every(({ adaccount_id, connect }) => {
+      return adaccount_id || !connect
+    })
     // Find all accounts that don't yet exist but are selected to connect
     const selectedAccounts = allAccounts.filter(({ connect }) => connect)
-    // Disable button if country is not set, or no selected, non-existing accounts
-    const disableButton = !allCountriesSet || (!selectedAccounts.length && !everyAccountExists)
+    // Disable button if country is not set, ad account is not set, or no selected, non-existing accounts
+    const disableButton = !allCountriesSet || !allAdAccountsSet || (!selectedAccounts.length && !everyAccountExists)
     setButtonDisabled(disableButton)
 
     if (!disableButton) {
       setDisabledReason('')
       return
+    }
+
+    if (!allAdAccountsSet) {
+      setDisabledReason('Please select an ad account for each account you want to connect.')
     }
 
     if (!allCountriesSet) {
@@ -51,48 +61,63 @@ const ConnectProfilesList = ({
     'mb-8 xs:mb-0',
     'col-span-6',
     'lg:col-span-4',
-    'bmw:col-span-4',
   ].join(' ')
 
   return (
     <ul
       className={[
         'xs:grid',
+        'grid-flow-row',
         'grid-cols-12',
         'gap-8',
         className,
       ].join(' ')}
     >
-      {artistAccountsArray.map((artistAccount) => {
+      {artistAccountsArray.map((artistAccount, index) => {
         return (
-          <ConnectProfilesCard
-            key={artistAccount.page_id}
-            artist={artistAccount}
-            updateArtists={updateArtists}
-            setErrors={setErrors}
-            className={cardClasses}
-          />
+          <React.Fragment key={artistAccount.page_id}>
+            {index === 2 && (
+              <ConnectProfilesFacebookConnectCard
+                auth={auth}
+                errors={errors}
+                setErrors={setErrors}
+                className={cardClasses}
+              />
+            )}
+            <ConnectProfilesCard
+              artist={artistAccount}
+              updateArtists={updateArtists}
+              setErrors={setErrors}
+              className={cardClasses}
+            />
+          </React.Fragment>
         )
       })}
-      {/* CONNECT MORE BUTTON */}
-      <div className={cardClasses}>
-        {children}
-      </div>
+      {artistAccountsArray.length < 3 && (
+        <ConnectProfilesFacebookConnectCard
+          auth={auth}
+          errors={errors}
+          setErrors={setErrors}
+          className={cardClasses}
+        />
+      )}
     </ul>
   )
 }
 
 ConnectProfilesList.propTypes = {
+  auth: PropTypes.object.isRequired,
   artistAccounts: PropTypes.object.isRequired,
   updateArtists: PropTypes.func.isRequired,
   setButtonDisabled: PropTypes.func.isRequired,
   setDisabledReason: PropTypes.func.isRequired,
+  errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
   className: PropTypes.string,
-  children: PropTypes.node.isRequired,
 }
 
 ConnectProfilesList.defaultProps = {
+  errors: [],
   className: null,
 }
 

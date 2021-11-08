@@ -3,7 +3,6 @@
 export const SIGN_UP = '/join'
 export const SIGN_UP_EMAIL = '/join/email'
 export const SIGN_UP_MISSING_EMAIL = '/join/missing-email'
-export const SIGN_UP_CONNECT_PROFILES = '/join/final-step'
 export const CONFIRM_EMAIL = '/confirm-email'
 export const REFERRAL = '/join/referral'
 export const LOGIN = '/login'
@@ -14,7 +13,7 @@ export const PASSWORD_RESET = '/password-reset'
 export const FAQ = '/faq'
 export const PRICING = 'https://tryfeed.co/pricing'
 
-export const CONNECT_PROFILES = '/connect-profiles'
+export const CONNECT_ACCOUNTS = '/connect-accounts'
 export const THANK_YOU = '/thank-you'
 export const POSTS = '/'
 export const INSIGHTS = '/insights'
@@ -38,9 +37,8 @@ export const HOME = POSTS
 // Array of RESTRICTED PAGES
 export const restrictedPages = [
   SIGN_UP_MISSING_EMAIL,
-  SIGN_UP_CONNECT_PROFILES,
   CONFIRM_EMAIL,
-  CONNECT_PROFILES,
+  CONNECT_ACCOUNTS,
   THANK_YOU,
   POSTS,
   CONTROLS,
