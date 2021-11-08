@@ -21,6 +21,7 @@ const BasePage = ({
   headerConfig, // heading and punctuation
   artistRequired,
   controlsRequired,
+  hasNoProfilesPage,
   staticPage,
   authPage,
   children,
@@ -72,7 +73,7 @@ const BasePage = ({
       <Head>
         <meta property="og:title" content={`Feed | ${capitalise(headerConfig.text)}`} />
       </Head>
-      {user.artists.length === 0 && artistRequired ? (
+      {user.artists.length === 0 && artistRequired && !hasNoProfilesPage ? (
         <div>
           {/* NO ARTIST COPY */}
           <div className="p-5 bg-grey-1 rounded-dialogue max-w-xl mb-4">
@@ -99,6 +100,7 @@ BasePage.propTypes = {
   headerConfig: PropTypes.object,
   artistRequired: PropTypes.bool,
   controlsRequired: PropTypes.bool,
+  hasNoProfilesPage: PropTypes.bool,
   staticPage: PropTypes.bool,
   authPage: PropTypes.bool,
   children: PropTypes.node.isRequired,
@@ -110,6 +112,7 @@ BasePage.defaultProps = {
   authPage: false,
   artistRequired: false,
   controlsRequired: false,
+  hasNoProfilesPage: false,
 }
 
 
