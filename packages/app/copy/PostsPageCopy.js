@@ -211,5 +211,6 @@ Would you like to continue?`
       return 'Would you like to enable conversion campaigns now?'
     }
   },
-  connectWithFacebook: "See your most engaging Facebook and Instagram posts and start running ads.",
+  connectWithFacebookCard: "See your most engaging Facebook and Instagram posts and start running ads.",
+  connectWithFacebookBlock: "Connect to Facebook & Instagram to see your most engaging posts and start running ads.",
 }

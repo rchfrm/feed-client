@@ -29,60 +29,60 @@ const PostsContent = () => {
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
-    <div className="relative">
-      {/* NO DEFAULT LINK WARNING */}
-      {missingDefaultLink && hasArtists && (
-        <MarkdownText
-          className={['pb-5', styles.noDefaultLinkWarning].join(' ')}
-          markdown={copy.noDefaultLinkWarning}
-        />
-      )}
-      {/* BUTTONS */}
-      <div className="relative iphone8:flex justify-start">
-        {/* REFRESH BUTTON (desktop) */}
-        {refreshPosts && (
-          <PostsRefreshButton
-            refreshPosts={refreshPosts}
-            className={[
-              'ml-auto',
-              'absolute right-0 bottom-0 mb-8',
-              'iphone8:static iphone8:-mb-1',
-            ].join(' ')}
-            style={{ transform: 'translateY(1.5rem)' }}
+    // LOAD POSTS
+    hasArtists && currentPostType ? (
+      <div className="relative">
+        {/* NO DEFAULT LINK WARNING */}
+        {missingDefaultLink && hasArtists && (
+          <MarkdownText
+            className={['pb-5', styles.noDefaultLinkWarning].join(' ')}
+            markdown={copy.noDefaultLinkWarning}
           />
         )}
-      </div>
-      <div className="grid grid-cols-12 col-gap-6">
-        {/* SORT */}
-        <PostsSorter
-          sortTypes={sortTypes}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          defaultSortState={defaultSortBy}
-          disabled={!hasArtists}
-          className="col-span-12 sm:col-span-4"
-        />
-        {/* FILTERS */}
-        <PostsFilters
-          postTypes={postTypes}
-          currentPostType={currentPostType}
-          setCurrentPostType={setCurrentPostType}
-          defaultPostState={allFilter.id}
-          disabled={!hasArtists}
-          className="col-span-12 sm:col-span-8"
-        />
-      </div>
-      {/* LOAD POSTS */}
-      {hasArtists && currentPostType ? (
+        {/* BUTTONS */}
+        <div className="relative iphone8:flex justify-start">
+          {/* REFRESH BUTTON (desktop) */}
+          {refreshPosts && (
+            <PostsRefreshButton
+              refreshPosts={refreshPosts}
+              className={[
+                'ml-auto',
+                'absolute right-0 bottom-0 mb-8',
+                'iphone8:static iphone8:-mb-1',
+              ].join(' ')}
+              style={{ transform: 'translateY(1.5rem)' }}
+            />
+          )}
+        </div>
+        <div className="grid grid-cols-12 col-gap-6">
+          {/* SORT */}
+          <PostsSorter
+            sortTypes={sortTypes}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            defaultSortState={defaultSortBy}
+            disabled={!hasArtists}
+            className="col-span-12 sm:col-span-4"
+          />
+          {/* FILTERS */}
+          <PostsFilters
+            postTypes={postTypes}
+            currentPostType={currentPostType}
+            setCurrentPostType={setCurrentPostType}
+            defaultPostState={allFilter.id}
+            disabled={!hasArtists}
+            className="col-span-12 sm:col-span-8"
+          />
+        </div>
         <PostsLoader
           setRefreshPosts={setRefreshPosts}
           promotionStatus={currentPostType}
           sortBy={sortBy}
         />
-      ) : (
-        <PostsNoArtists />
-      )}
-    </div>
+      </div>
+    ) : (
+      <PostsNoArtists />
+    )
   )
 }
 

@@ -1,11 +1,13 @@
 import React from 'react'
 
-import PostCardDummy from '@/app/PostCardDummy'
-import PostCardConnectAccounts from '@/app/PostCardConnectAccounts'
+import PostsNoArtistsConnectAccountsBlock from '@/app/PostsNoArtistsConnectAccountsBlock'
+import PostsSorter from '@/app/PostsSorter'
+import PostsFilters from '@/app/PostsFilters'
+import PostsNoArtistsDummyAll from '@/app/PostsNoArtistsDummyAll'
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 import Error from '@/elements/Error'
 
-import { dummyPosts } from '@/app/helpers/postsHelpers'
+import { postTypes, sortTypes } from '@/app/helpers/postsHelpers'
 
 const PostsNoArtists = () => {
   const [errors, setErrors] = React.useState([])
@@ -15,37 +17,52 @@ const PostsNoArtists = () => {
       {errors.map((error, index) => {
         return <Error error={error} key={index} />
       })}
-      <ul
-        className={[
-          'sm:grid',
-          'grid-cols-12',
-          'row-gap-10',
-          'col-gap-6',
-          'grid-flow-row-dense',
-          'pt-6 mb-30',
-        ].join(' ')}
-      >
-        {dummyPosts.map((post, index) => (
-          <React.Fragment key={index}>
-            {index === 1 && <PostCardConnectAccounts />}
-            <PostCardDummy post={post} />
-          </React.Fragment>
-        ))}
+      <div className="grid grid-cols-12 col-gap-6 mb-10">
+        <PostsNoArtistsConnectAccountsBlock
+          className="col-span-12 sm:col-span-6 lg:col-span-4 p-6 bg-grey-1"
+        />
+      </div>
+      <div className="relative mb-20">
+        <div className="grid grid-cols-12 col-gap-6">
+          {/* SORT */}
+          <PostsSorter
+            sortTypes={sortTypes}
+            sortBy="published_time"
+            setSortBy={() => {}}
+            defaultSortState=""
+            disabled
+            className="col-start-1 col-span-12 sm:col-span-4"
+          />
+          {/* FILTERS */}
+          <PostsFilters
+            postTypes={postTypes}
+            currentPostType="all"
+            setCurrentPostType={() => {}}
+            defaultPostState=""
+            disabled
+            className="row-span-1 col-span-12 sm:col-span-8"
+          />
+        </div>
+        <PostsNoArtistsDummyAll
+          errors={errors}
+          setErrors={setErrors}
+        />
         <div
           className="absolute bg-black z-10 opacity-50"
-          style={{ top: '-20px', left: '-20px', right: '-20px', bottom: '154px' }}
+          style={{ top: '-20px', left: '-20px', right: '-20px', bottom: '-20px' }}
         />
-      </ul>
-      <div className="grid grid-cols-12">
+      </div>
+      <div className="grid grid-cols-12 col-gap-6">
         <ConnectFacebookButton
           errors={errors}
           setErrors={setErrors}
-          buttonText="Connect your Facebook &amp; Instagram"
+          buttonText="Continue with Facebook"
           trackComponentName="PostsNoArtists"
           className={[
             'col-span-12 sm:col-span-6 sm:col-start-4',
             'lg:col-span-4 lg:col-start-5',
             'sm:max-w-none mx-auto max-w-sm',
+            'text-sm',
           ].join(' ')}
         />
       </div>

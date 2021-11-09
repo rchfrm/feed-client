@@ -1,31 +1,28 @@
 import React from 'react'
-import Router from 'next/router'
+import PropTypes from 'prop-types'
 
 import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
+
 import MarkdownText from '@/elements/MarkdownText'
-import ButtonFacebook from '@/elements/ButtonFacebook'
+import ButtonHelp from '@/elements/ButtonHelp'
+import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 
 import brandColors from '@/constants/brandColors'
 
-import * as ROUTES from '@/app/constants/routes'
-import copy from '@/app/copy/PostsPageCopy'
+import postsPageCopy from '@/app/copy/PostsPageCopy'
+import copy from '@/app/copy/connectProfilesCopy'
 
-const PostCardConnectAccounts = () => {
-  const goToConnectAccountsPage = () => {
-    Router.push(ROUTES.CONNECT_ACCOUNTS)
-  }
-
+const PostCardConnectAccounts = ({ errors, setErrors }) => {
   return (
-    <button
+    <div
       className={[
-        'mx-auto max-w-sm mb-12',
+        'relative mx-auto max-w-sm mb-12',
         'sm:max-w-none sm:mx-0 sm:mb-0',
         'col-span-12 sm:col-span-6 lg:col-span-4',
         'flex flex-column justify-center items-center',
         'z-20 bg-white rounded-dialogue p-12 text-center',
       ].join(' ')}
-      onClick={goToConnectAccountsPage}
     >
       <div className="flex mb-6">
         <div className="flex items-center justify-center h-9 w-9 mr-5 rounded-full bg-fb">
@@ -35,23 +32,31 @@ const PostCardConnectAccounts = () => {
           <InstagramIcon className="h-4" fill={brandColors.white} />
         </div>
       </div>
-      <MarkdownText markdown={copy.connectWithFacebook} />
-      <ButtonFacebook
-        className="font-normal text-sm"
-        onClick={() => {}}
-        fallbackCta="Continue with Facebook"
+      <MarkdownText markdown={postsPageCopy.connectWithFacebookCard} />
+      <ConnectFacebookButton
+        errors={errors}
+        setErrors={setErrors}
+        buttonText="Continue with Facebook"
         trackComponentName="PostCardConnectAccounts"
-      >
-        Continue with Facebook
-      </ButtonFacebook>
-    </button>
+        className="mb-6 text-sm"
+      />
+      <ButtonHelp
+        content={copy.helpText}
+        text="Permissions"
+        label="Facebook permissions"
+        className="transform scale-75 text-md font-normal"
+      />
+    </div>
   )
 }
 
 PostCardConnectAccounts.propTypes = {
+  errors: PropTypes.array,
+  setErrors: PropTypes.func.isRequired,
 }
 
 PostCardConnectAccounts.defaultProps = {
+  errors: [],
 }
 
 export default PostCardConnectAccounts
