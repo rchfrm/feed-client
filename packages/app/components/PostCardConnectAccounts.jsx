@@ -19,7 +19,8 @@ const PostCardConnectAccounts = () => {
         'mx-auto max-w-sm mb-12',
         'sm:max-w-none sm:mx-0 sm:mb-0',
         'col-span-12 sm:col-span-6 lg:col-span-4',
-        'flex flex-column justify-center items-center p-12 text-center',
+        'flex flex-column justify-center items-center',
+        'z-20 bg-white p-12 text-center',
       ].join(' ')}
       onClick={goToConnectAccountsPage}
     >

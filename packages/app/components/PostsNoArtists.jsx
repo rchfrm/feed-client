@@ -31,6 +31,10 @@ const PostsNoArtists = () => {
             <PostCardDummy post={post} />
           </React.Fragment>
         ))}
+        <div
+          className="absolute bg-black z-10 opacity-50"
+          style={{ top: '-20px', left: '-20px', right: '-20px', bottom: '154px' }}
+        />
       </ul>
       <div className="grid grid-cols-12">
         <ConnectFacebookButton
