@@ -8,17 +8,15 @@ const headerConfig = {
   text: 'posts',
 }
 
-const Page = ({ allDummyPosts }) => {
-  return (
-    <BasePage
-      headerConfig={headerConfig}
-      artistRequired
-      hasNoProfilesPage
-    >
-      <PostsContent dummyPostsImages={allDummyPosts} />
-    </BasePage>
-  )
-}
+const Page = ({ allDummyPosts }) => (
+  <BasePage
+    headerConfig={headerConfig}
+    artistRequired
+    hasNoProfilesPage
+  >
+    <PostsContent dummyPostsImages={allDummyPosts} />
+  </BasePage>
+)
 
 export async function getStaticProps() {
   const forceLoad = false
