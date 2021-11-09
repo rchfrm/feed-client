@@ -83,7 +83,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       const resendConfirmationLink = async () => {
         await requestVerificationEmail('email')
       }
-      const goToConfirmEmailPage = async () => {
+      const goToConfirmEmailPage = () => {
         Router.push(`${ROUTES.CONFIRM_EMAIL}/?isEdit=true`)
         closeAlert()
       }

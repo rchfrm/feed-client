@@ -44,8 +44,7 @@ const IntegrationErrorHandler = () => {
         code: 'missing_permission_scope',
         context: missingScopes,
       }
-      const errorResponse = integrationErrorsHelpers.getErrorResponse(error)
-      return errorResponse
+      return integrationErrorsHelpers.getErrorResponse(error)
     }
 
     // * Stop here if running locally
@@ -68,9 +67,8 @@ const IntegrationErrorHandler = () => {
 
     const formattedErrors = integrationErrorsHelpers.formatErrors(errors)
     const [firstError] = formattedErrors
-    const errorResponse = integrationErrorsHelpers.getErrorResponse(firstError, user, artist)
 
-    return errorResponse
+    return integrationErrorsHelpers.getErrorResponse(firstError, user, artist)
   }
 
   // Run async request for artist errors
