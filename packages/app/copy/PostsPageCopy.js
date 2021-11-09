@@ -211,4 +211,5 @@ Would you like to continue?`
       return 'Would you like to enable conversion campaigns now?'
     }
   },
+  connectWithFacebook: "See your most engaging Facebook and Instagram posts and start running ads.",
 }

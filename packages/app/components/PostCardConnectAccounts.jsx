@@ -3,10 +3,13 @@ import Router from 'next/router'
 
 import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
+import MarkdownText from '@/elements/MarkdownText'
+import ButtonFacebook from '@/elements/ButtonFacebook'
 
 import brandColors from '@/constants/brandColors'
 
 import * as ROUTES from '@/app/constants/routes'
+import copy from '@/app/copy/PostsPageCopy'
 
 const PostCardConnectAccounts = () => {
   const goToConnectAccountsPage = () => {
@@ -20,16 +23,27 @@ const PostCardConnectAccounts = () => {
         'sm:max-w-none sm:mx-0 sm:mb-0',
         'col-span-12 sm:col-span-6 lg:col-span-4',
         'flex flex-column justify-center items-center',
-        'z-20 bg-white p-12 text-center',
+        'z-20 bg-white rounded-dialogue p-12 text-center',
       ].join(' ')}
       onClick={goToConnectAccountsPage}
     >
-      <FacebookIcon className="h-8 mb-6" fill={brandColors.facebook.bg} />
-      <div className="flex flex-column mb-6">
-        <span className="mb-1 text-xl font-bold underline">Connect your pages</span>
-        <span className="text-lg">to see your Facebook and Instagram posts.</span>
+      <div className="flex mb-6">
+        <div className="flex items-center justify-center h-9 w-9 mr-5 rounded-full bg-fb">
+          <FacebookIcon className="h-4" fill={brandColors.white} />
+        </div>
+        <div className="flex items-center justify-center h-9 w-9 rounded-full bg-insta">
+          <InstagramIcon className="h-4" fill={brandColors.white} />
+        </div>
       </div>
-      <InstagramIcon className="h-8 mb-6" fill={brandColors.instagram.bg} />
+      <MarkdownText markdown={copy.connectWithFacebook} />
+      <ButtonFacebook
+        className="font-normal text-sm"
+        onClick={() => {}}
+        fallbackCta="Continue with Facebook"
+        trackComponentName="PostCardConnectAccounts"
+      >
+        Continue with Facebook
+      </ButtonFacebook>
     </button>
   )
 }
