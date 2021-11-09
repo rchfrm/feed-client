@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import Button from '@/elements/Button'
@@ -12,11 +13,10 @@ import brandColors from '@/constants/brandColors'
 
 import { growthGradient } from '@/app/helpers/postsHelpers'
 
-const PostCardDummy = ({ post }) => {
+const PostCardDummy = ({ post, imageUrl }) => {
   const {
     publishedTime,
     platform,
-    image,
     score,
   } = post
 
@@ -42,7 +42,7 @@ const PostCardDummy = ({ post }) => {
       </div>
       {/* IMAGE */}
       <div className="w-full relative bg-grey-1 opacity-1 mb-2 rounded-dialogue" style={{ paddingTop: '100%' }}>
-        <img src={image} className="absolute w-full h-full top-0" alt="" />
+        <img src={imageUrl} className="absolute w-full h-full top-0" alt="" />
       </div>
       {/* SCORE */}
       <div
@@ -99,6 +99,12 @@ const PostCardDummy = ({ post }) => {
 }
 
 PostCardDummy.propTypes = {
+  post: PropTypes.shape({
+    publishedTime: PropTypes.instanceOf(moment),
+    platform: PropTypes.string,
+    score: PropTypes.number,
+  }).isRequired,
+  imageUrl: PropTypes.string.isRequired,
 }
 
 PostCardDummy.defaultProps = {

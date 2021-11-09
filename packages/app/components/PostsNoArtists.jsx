@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import PostCardDummy from '@/app/PostCardDummy'
 import PostCardConnectAccounts from '@/app/PostCardConnectAccounts'
@@ -7,7 +8,7 @@ import Error from '@/elements/Error'
 
 import { dummyPosts } from '@/app/helpers/postsHelpers'
 
-const PostsNoArtists = () => {
+const PostsNoArtists = ({ dummyPostsImages }) => {
   const [errors, setErrors] = React.useState([])
 
   return (
@@ -25,12 +26,16 @@ const PostsNoArtists = () => {
           'pt-6 mb-30',
         ].join(' ')}
       >
-        {dummyPosts.map((post, index) => (
-          <React.Fragment key={index}>
-            {index === 1 && <PostCardConnectAccounts />}
-            <PostCardDummy post={post} />
-          </React.Fragment>
-        ))}
+        {dummyPosts.map((post, index) => {
+          const { image: { url } } = dummyPostsImages[index]
+
+          return (
+            <React.Fragment key={index}>
+              {index === 1 && <PostCardConnectAccounts />}
+              <PostCardDummy post={post} imageUrl={url} />
+            </React.Fragment>
+          )
+        })}
       </ul>
       <div className="grid grid-cols-12">
         <ConnectFacebookButton
@@ -50,6 +55,13 @@ const PostsNoArtists = () => {
 }
 
 PostsNoArtists.propTypes = {
+  dummyPostsImages: PropTypes.arrayOf(
+    PropTypes.shape({
+      image: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+      }),
+    }),
+  ).isRequired,
 }
 
 PostsNoArtists.defaultProps = {
