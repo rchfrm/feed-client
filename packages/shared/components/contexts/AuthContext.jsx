@@ -75,6 +75,9 @@ function AuthProvider({ children }) {
     if (authError) {
       setAuthError(authError)
 
+      /* A redirect from Facebook might return an auth internal-error when Facebook detects an insecure connection to transfer information.
+      Facebook ensures a connection is private by forcing to use a valid SSL. Mainly happens when running the app on localhost without SSL mode.
+      In this scenario don’t log the user out, but try to continue the auth flow. https://firebase.google.com/docs/auth/admin/errors */
       if (authError.code !== 'auth/internal-error') {
         return
       }
