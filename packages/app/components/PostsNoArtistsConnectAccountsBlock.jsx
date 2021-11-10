@@ -13,7 +13,7 @@ const PostsNoArtistsConnectAccountsBlock = ({ errors, setErrors, className }) =>
         errors={errors}
         setErrors={setErrors}
         buttonText="Continue with Facebook"
-        trackComponentName="PostsNoArtists"
+        trackComponentName="PostsNoArtistsConnectAccountsBlock"
         className="w-full text-sm"
       />
     </div>
