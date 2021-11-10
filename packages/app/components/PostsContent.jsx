@@ -30,7 +30,7 @@ const PostsContent = () => {
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
     // LOAD POSTS
-    hasArtists && currentPostType ? (
+    hasArtists ? (
       <div className="relative">
         {/* NO DEFAULT LINK WARNING */}
         {missingDefaultLink && hasArtists && (
@@ -74,11 +74,13 @@ const PostsContent = () => {
             className="col-span-12 sm:col-span-8"
           />
         </div>
-        <PostsLoader
-          setRefreshPosts={setRefreshPosts}
-          promotionStatus={currentPostType}
-          sortBy={sortBy}
-        />
+        {currentPostType && (
+          <PostsLoader
+            setRefreshPosts={setRefreshPosts}
+            promotionStatus={currentPostType}
+            sortBy={sortBy}
+          />
+        )}
       </div>
     ) : (
       <PostsNoArtists />
