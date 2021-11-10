@@ -17,7 +17,7 @@ const PostsNoArtists = () => {
       {errors.map((error, index) => {
         return <Error error={error} key={index} />
       })}
-      <div className="grid grid-cols-12 col-gap-6 mb-10">
+      <div className="grid grid-cols-12 col-gap-6 mb-12">
         <PostsNoArtistsConnectAccountsBlock
           className="col-span-12 sm:col-span-6 lg:col-span-4 p-6 bg-grey-1"
         />
@@ -49,7 +49,7 @@ const PostsNoArtists = () => {
         />
         <div
           className="absolute bg-black z-10 opacity-50"
-          style={{ top: '-20px', left: '-20px', right: '-20px', bottom: '-20px' }}
+          style={{ top: '-25px', left: '-25px', right: '-25px', bottom: '-25px' }}
         />
       </div>
       <div className="grid grid-cols-12 col-gap-6">
