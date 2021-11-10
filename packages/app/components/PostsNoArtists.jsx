@@ -34,6 +34,8 @@ const PostsNoArtists = () => {
       })}
       <div className="grid grid-cols-12 col-gap-6 mb-10">
         <PostsNoArtistsConnectAccountsBlock
+          errors={errors}
+          setErrors={setErrors}
           className="col-span-12 sm:col-span-6 lg:col-span-4 p-6 bg-grey-1"
         />
       </div>
