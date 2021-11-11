@@ -1,5 +1,6 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
+import { useRouter } from 'next/router'
 
 import * as integrationErrorsHelpers from '@/app/helpers/integrationErrorsHelpers'
 import * as server from '@/app/helpers/appServer'
@@ -10,6 +11,9 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import IntegrationErrorContent from '@/app/IntegrationErrorContent'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
+import useUnconfirmedEmails from '@/app/hooks/useUnconfirmedEmails'
+
+import * as ROUTES from '@/app/constants/routes'
 
 // THE COMPONENT
 const IntegrationErrorHandler = () => {
@@ -28,10 +32,12 @@ const IntegrationErrorHandler = () => {
     artistId,
   } = React.useContext(ArtistContext)
   // Import user context
-  const { user } = React.useContext(UserContext)
+  const { user, hasPendingEmail } = React.useContext(UserContext)
   // Import Auth context
   const { auth, accessToken, redirectType } = React.useContext(AuthContext)
   const { globalLoading } = React.useContext(InterfaceContext)
+  const unconfirmedEmails = useUnconfirmedEmails(user)
+  const router = useRouter()
 
   const fetchError = async () => {
     // Stop here if there are no artists associated with an account
@@ -44,7 +50,7 @@ const IntegrationErrorHandler = () => {
         code: 'missing_permission_scope',
         context: missingScopes,
       }
-      return integrationErrorsHelpers.getErrorResponse(error)
+      return integrationErrorsHelpers.getErrorResponse({ error })
     }
 
     // * Stop here if running locally
@@ -66,9 +72,9 @@ const IntegrationErrorHandler = () => {
     }
 
     const formattedErrors = integrationErrorsHelpers.formatErrors(errors)
-    const [firstError] = formattedErrors
+    const [error] = formattedErrors
 
-    return integrationErrorsHelpers.getErrorResponse(firstError, user, artist)
+    return integrationErrorsHelpers.getErrorResponse({ error, artist })
   }
 
   // Run async request for artist errors
@@ -84,15 +90,16 @@ const IntegrationErrorHandler = () => {
   }, [artistId])
 
   const checkAndShowUserError = () => {
-    if (!user.artists || !user.artists.length) return
+    if (!user.artists || !user.artists.length || router.pathname === ROUTES.CONFIRM_EMAIL) return
 
     // Handle email not confirmed
-    if (!integrationError && !user.email_verified) {
+    if (!integrationError && hasPendingEmail && unconfirmedEmails.length) {
+      const email = unconfirmedEmails[0]
       const error = {
         message: 'User email has not been confirmed',
         code: 'email_not_confirmed',
       }
-      setIntegrationError(integrationErrorsHelpers.getErrorResponse(error, user))
+      setIntegrationError(integrationErrorsHelpers.getErrorResponse({ error, email }))
     }
   }
 

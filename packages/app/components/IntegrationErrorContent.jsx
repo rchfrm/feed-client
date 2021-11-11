@@ -80,11 +80,13 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     }
     // Edit email and email confirmation buttons
     if (action === 'email_confirmation') {
+      const { emailType } = integrationError
+
       const resendConfirmationLink = async () => {
-        await requestVerificationEmail('email')
+        await requestVerificationEmail(emailType)
       }
       const goToConfirmEmailPage = () => {
-        Router.push(`${ROUTES.CONFIRM_EMAIL}/?isEdit=true`)
+        Router.push(`${ROUTES.CONFIRM_EMAIL}/?type=${emailType}&isEdit=true`)
         closeAlert()
       }
       return [

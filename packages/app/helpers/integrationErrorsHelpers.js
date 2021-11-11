@@ -16,7 +16,7 @@ export const testForMissingPages = (scopes) => {
   return false
 }
 
-export const getErrorResponse = (error, user, artist) => {
+export const getErrorResponse = ({ error, artist, email }) => {
   if (!error) return
   const {
     code,
@@ -144,9 +144,10 @@ export const getErrorResponse = (error, user, artist) => {
   }
   if (code === 'email_not_confirmed') {
     return {
-      message: copy[code](user.email),
+      message: copy[code](email.email),
       action: 'email_confirmation',
       buttonText: 'Edit email',
+      emailType: email.type,
       hidden,
       code,
     }

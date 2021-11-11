@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 
 import useAsyncEffect from 'use-async-effect'
 import Router, { useRouter } from 'next/router'
-import Link from 'next/link'
 
 import useIsMounted from '@/hooks/useIsMounted'
 import useCrossTabCommunication from '@/app/hooks/useCrossTabCommunication'
+import useUnconfirmedEmails from '@/app/hooks/useUnconfirmedEmails'
 
 import { UserContext } from '@/app/contexts/UserContext'
 
@@ -50,8 +50,6 @@ const ConfirmEmailPage = ({
     storeUser,
     user,
     user: {
-      artists: userArtists,
-      email: authEmail,
       pending_email: pendingEmail,
       contact_email: contactEmail,
       pending_contact_email: pendingContactEmail,
@@ -61,7 +59,9 @@ const ConfirmEmailPage = ({
   } = React.useContext(UserContext)
 
   // GET EMAIL THAT NEEDS VERIFYING
-  const [email, setEmail] = React.useState(pendingEmail || pendingContactEmail || authEmail || contactEmail)
+  const unconfirmedEmails = useUnconfirmedEmails(user)
+
+  const [email, setEmail] = React.useState('')
 
   // SETUP CROSS TAB MESSAGING
   const { messagePayload, broadcastMessage, hasBroadcasted } = useCrossTabCommunication('emailVerified')
@@ -76,22 +76,20 @@ const ConfirmEmailPage = ({
   // GET EMAIL TYPE THAT NEEDS VERIFYING
   // & GET WHICH FLOW
   const [emailType, setEmailType] = React.useState('')
-  const [isSignupFlow, setIsSignupFlow] = React.useState(false)
   React.useEffect(() => {
     if (userLoading) return
     const emailType = getEmailType({ query, emailVerified, contactEmailVerified, contactEmail })
+    const { email } = unconfirmedEmails.find((email) => email.type === emailType) || {}
+    setEmail(email)
     setEmailType(emailType)
-    const isSignupFlow = !userArtists || !userArtists.length
-    setIsSignupFlow(isSignupFlow)
   // eslint-disable-next-line
   }, [userLoading])
 
   // HANDLE SUCCESS
   const [isSuccessful, setIsSuccessful] = React.useState(false)
   const onSuccessContinue = React.useCallback(() => {
-    const nextPage = isSignupFlow ? ROUTES.CONNECT_ACCOUNTS : ROUTES.HOME
-    Router.push(nextPage)
-  }, [isSignupFlow])
+    Router.push(ROUTES.HOME)
+  }, [])
   // If no need to verify
   const successTriggered = React.useRef(false)
   React.useEffect(() => {
@@ -219,16 +217,6 @@ const ConfirmEmailPage = ({
           </Button>
         </div>
       </div>
-      {/* SKIP (if part of signup flow) */}
-      {isSignupFlow && (
-        <div className="pt-12 flex justify-end">
-          <Link href={ROUTES.CONNECT_ACCOUNTS}>
-            <Button>
-              Skip for now
-            </Button>
-          </Link>
-        </div>
-      )}
     </div>
   )
 }
