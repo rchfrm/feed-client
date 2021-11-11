@@ -27,7 +27,7 @@ const PostCardDummy = ({ post, image }) => {
         'mx-auto max-w-sm mb-12',
         'sm:max-w-none sm:mx-0 sm:mb-0',
         'col-span-12 sm:col-span-6 lg:col-span-4',
-        'pointer-events-none opacity-50',
+        'pointer-events-none',
       ].join(' ')}
     >
       {/* HEADER */}
