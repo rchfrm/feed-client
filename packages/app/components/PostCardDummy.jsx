@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import { Image } from 'react-datocms'
 
 import Button from '@/elements/Button'
 import ToggleSwitch from '@/elements/ToggleSwitch'
@@ -13,7 +14,7 @@ import brandColors from '@/constants/brandColors'
 
 import { growthGradient } from '@/app/helpers/postsHelpers'
 
-const PostCardDummy = ({ post, imageUrl }) => {
+const PostCardDummy = ({ post, image }) => {
   const {
     publishedTime,
     platform,
@@ -42,7 +43,9 @@ const PostCardDummy = ({ post, imageUrl }) => {
       </div>
       {/* IMAGE */}
       <div className="w-full relative bg-grey-1 opacity-1 mb-2 rounded-dialogue" style={{ paddingTop: '100%' }}>
-        <img src={imageUrl} className="absolute w-full h-full top-0" alt="" />
+        <div className="absolute w-full h-full top-0">
+          <Image data={image.responsiveImage} />
+        </div>
       </div>
       {/* SCORE */}
       <div
@@ -104,7 +107,7 @@ PostCardDummy.propTypes = {
     platform: PropTypes.string,
     score: PropTypes.number,
   }).isRequired,
-  imageUrl: PropTypes.string.isRequired,
+  image: PropTypes.object.isRequired,
 }
 
 PostCardDummy.defaultProps = {

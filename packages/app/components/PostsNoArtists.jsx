@@ -27,12 +27,12 @@ const PostsNoArtists = ({ dummyPostsImages }) => {
         ].join(' ')}
       >
         {dummyPosts.map((post, index) => {
-          const { image: { url } } = dummyPostsImages[index]
+          const { image } = dummyPostsImages[index]
 
           return (
             <React.Fragment key={index}>
               {index === 1 && <PostCardConnectAccounts />}
-              <PostCardDummy post={post} imageUrl={url} />
+              <PostCardDummy post={post} image={image} />
             </React.Fragment>
           )
         })}
