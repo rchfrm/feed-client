@@ -61,15 +61,14 @@ const ButtonHelp = React.forwardRef(({
           'flex items-center',
           'w-12 h-12',
           'rounded-full bg-sc',
+          reverseText ? 'ml-2' : 'mr-2',
           className,
         ].join(' ')}
       >
         <LightbulbIcon className="h-6 w-auto mx-auto" />
       </div>
       {text && (
-        <strong className={reverseText ? 'mr-5' : 'ml-5'}>
-          {text}
-        </strong>
+        text
       )}
     </button>
   )
