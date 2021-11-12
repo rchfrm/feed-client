@@ -20,7 +20,7 @@ CloseCircle.propTypes = {
 
 CloseCircle.defaultProps = {
   className: null,
-  fill: brandColors.bgColor,
+  fill: brandColors.textColor,
 }
 
 export default CloseCircle
