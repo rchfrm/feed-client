@@ -62,7 +62,7 @@ function TheHeader() {
           <PeekElement
             usePlaceHolder
             config={{
-              childProps: { style: { zIndex: 28 }, className: 'peek-element' },
+              childProps: { style: { zIndex: 28, transform: subNavOpen ? 'none' : null }, className: 'peek-element' },
             }}
           >
             {headerContents}
