@@ -1,77 +1,115 @@
 import React from 'react'
-import { useAsync } from 'react-async'
 import useAsyncEffect from 'use-async-effect'
+import { useRouter } from 'next/router'
 
 import * as integrationErrorsHelpers from '@/app/helpers/integrationErrorsHelpers'
 import * as server from '@/app/helpers/appServer'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { AuthContext } from '@/contexts/AuthContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import IntegrationErrorContent from '@/app/IntegrationErrorContent'
+import useLoggedInTest from '@/app/hooks/useLoggedInTest'
+import useUnconfirmedEmails from '@/app/hooks/useUnconfirmedEmails'
 
-// RUN THIS TO FETCH ERRORS
-const fetchError = async ({ auth, user, artist, artistId }) => {
-  // Stop here if there are no arists associated with an account
-  if (!user.artists || !user.artists.length) return
-  // Get any missing permissions from the FB redirect response
-  const { missingScopes = [] } = auth
-  // Handle missing scopes from FB
-  if (missingScopes.length) {
-    const error = {
-      code: 'missing_permission_scope',
-      context: missingScopes,
-    }
-    const errorResponse = integrationErrorsHelpers.getErrorResponse(error)
-    return errorResponse
-  }
-
-  // * Stop here if running locally
-  if (process.env.build_env === 'development') return
-
-  if (!artist || !artistId) return
-  // Test whether user owns artist
-  const { artists: userArtists } = user
-  const { role: artistRole } = userArtists.find(({ id }) => id === artistId) || {}
-  const artistOwned = artistRole === 'owner' || artistRole === 'sysadmin' || artistRole === 'collaborator'
-  // Stop here if artist is not owned
-  if (!artistOwned) return
-  // Fetch errors from server
-  const errors = await server.getIntegrationErrors(artistId)
-    .catch((err) => {
-      throw (err)
-    })
-  const formattedErrors = integrationErrorsHelpers.formatErrors(errors)
-  const [firstError] = formattedErrors
-  const errorResponse = integrationErrorsHelpers.getErrorResponse(firstError, artist)
-  return errorResponse
-}
+import * as ROUTES from '@/app/constants/routes'
 
 // THE COMPONENT
 const IntegrationErrorHandler = () => {
   // Handle showing error
   const [patchError, setPatchError] = React.useState(null)
   const [showError, setShowError] = React.useState(false)
+  const [integrationError, setIntegrationError] = React.useState(null)
+  const [networkError, setNetworkError] = React.useState(null)
+  const [isPending, setIsPending] = React.useState(false)
+  const [hasFetchedArtistErrors, setHasFetchedArtistErrors] = React.useState(false)
+  const isLoggedIn = useLoggedInTest()
+  const isDevelopment = process.env.NODE_ENV === 'development'
   // Import artist context
   const {
     artist,
     artistId,
   } = React.useContext(ArtistContext)
   // Import user context
-  const { user } = React.useContext(UserContext)
+  const { user, hasPendingEmail } = React.useContext(UserContext)
   // Import Auth context
   const { auth, accessToken, redirectType } = React.useContext(AuthContext)
-  // Run async request for errors
-  const { data: integrationError, error: networkError, isPending } = useAsync({
-    promiseFn: fetchError,
-    watch: artistId,
-    // Vars to pass to promiseFn
-    auth,
-    user,
-    artist,
-    artistId,
-    accessToken,
-  })
+  const { globalLoading } = React.useContext(InterfaceContext)
+  const unconfirmedEmails = useUnconfirmedEmails(user)
+  const router = useRouter()
+
+  const fetchError = async () => {
+    // Stop here if there are no artists associated with an account
+    if (!user.artists || !user.artists.length) return
+    // Get any missing permissions from the FB redirect response
+    const { missingScopes = [] } = auth
+    // Handle missing scopes from FB
+    if (missingScopes.length) {
+      const error = {
+        code: 'missing_permission_scope',
+        context: missingScopes,
+      }
+      return integrationErrorsHelpers.getErrorResponse({ error })
+    }
+
+    // * Stop here if running locally
+    if (isDevelopment) return
+
+    if (!artist || !artistId) return
+    // Test whether user owns artist
+    const { artists: userArtists } = user
+    const { role: artistRole } = userArtists.find(({ id }) => id === artistId) || {}
+    const artistOwned = artistRole === 'owner' || artistRole === 'sysadmin' || artistRole === 'collaborator'
+    // Stop here if artist is not owned
+    if (!artistOwned) return
+    // Fetch errors from server
+    const { res: errors, error: networkError } = await server.getIntegrationErrors(artistId)
+
+    if (networkError) {
+      setNetworkError(networkError)
+      return
+    }
+
+    const formattedErrors = integrationErrorsHelpers.formatErrors(errors)
+    const [error] = formattedErrors
+
+    return integrationErrorsHelpers.getErrorResponse({ error, artist })
+  }
+
+  // Run async request for artist errors
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted()) return
+
+    setIsPending(true)
+    const errorResponse = await fetchError()
+
+    setIntegrationError(errorResponse)
+    setIsPending(false)
+    setHasFetchedArtistErrors(true)
+  }, [artistId])
+
+  const checkAndShowUserError = () => {
+    if (!user.artists || !user.artists.length || router.pathname === ROUTES.CONFIRM_EMAIL) return
+
+    // Handle email not confirmed
+    if (!integrationError && hasPendingEmail && unconfirmedEmails.length) {
+      const email = unconfirmedEmails[0]
+      const error = {
+        message: 'User email has not been confirmed',
+        code: 'email_not_confirmed',
+      }
+      setIntegrationError(integrationErrorsHelpers.getErrorResponse({ error, email }))
+    }
+  }
+
+  React.useEffect(() => {
+    if (isDevelopment || !isLoggedIn || globalLoading || !hasFetchedArtistErrors) {
+      return
+    }
+    checkAndShowUserError()
+  // eslint-disable-next-line
+  }, [isLoggedIn, globalLoading, hasFetchedArtistErrors])
 
   const hasErrorWithAccessToken = React.useMemo(() => {
     if (!integrationError) return false
