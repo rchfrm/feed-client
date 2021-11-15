@@ -47,7 +47,7 @@ const IntegrationErrorHandler = () => {
     // Handle missing scopes from FB
     if (missingScopes.length) {
       const error = {
-        topic: 'missing_permission_scope',
+        topic: 'facebook_missing_permissions',
         context: missingScopes,
       }
       return integrationErrorsHelpers.getErrorResponse({ error })
@@ -106,14 +106,14 @@ const IntegrationErrorHandler = () => {
 
   const hasErrorWithAccessToken = React.useMemo(() => {
     if (!integrationError) return false
-    const { code: errorCode } = integrationError
-    return errorCode === 'expired_access_token'
+    const { topic } = integrationError
+    return topic === 'facebook_expired_access_token'
   }, [integrationError])
 
   const errorRequiresReAuth = React.useMemo(() => {
     if (!integrationError) return false
-    const { action: errorAction } = integrationError
-    return errorAction === 'fb_reauth'
+    const { action } = integrationError
+    return action === 'fb_reauth'
   }, [integrationError])
 
   // Decide whether to show integration error

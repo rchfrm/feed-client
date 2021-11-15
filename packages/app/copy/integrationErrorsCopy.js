@@ -22,9 +22,9 @@ const getMissingPermissionsList = (missingPermissions) => {
 const getMissingPagesCopy = () => `It might also be that you don't have any pages on Facebook yet, create those first and come back to Feed in order to connect them.`
 
 export default {
-  expired_access_token: () => 'We need to relink your Facebook account, click ‘Relink Facebook’ to get started.',
+  facebook_expired_access_token: () => 'We need to relink your Facebook account, click ‘Relink Facebook’ to get started.',
 
-  missing_permission_scope: (missingPermissions, hasOnlyMissingPages) => {
+  facebook_missing_permissions: (missingPermissions, hasOnlyMissingPages) => {
     const permissionList = getMissingPermissionsList(missingPermissions, hasOnlyMissingPages)
     const missingPagesText = hasOnlyMissingPages ? getMissingPagesCopy() : ''
     return `In order to promote your posts, we need the following permissions from Facebook...
@@ -39,7 +39,7 @@ Click ‘Continue with Facebook’ to grant those permissions.`
   },
 
 
-  ad_account_closed: (facebookIntegration) => `Your ad account (with the ID ${facebookIntegration.adaccount_id}) is marked as closed. So that Feed can promote your posts, you’ll need to create a new ad account on Facebook.
+  facebook_ad_account_closed: (facebookIntegration) => `Your ad account (with the ID ${facebookIntegration.adaccount_id}) is marked as closed. So that Feed can promote your posts, you’ll need to create a new ad account on Facebook.
 
   First, if you haven’t done so already, set up [Facebook Business Manager](https://www.facebook.com/business/help/1710077379203657?id=180505742745347).
 
@@ -52,7 +52,7 @@ Click ‘Continue with Facebook’ to grant those permissions.`
   If you have any issues at all, also please send us an email and we’ll do all we can to help!`,
 
 
-  ad_account_disabled: (facebookIntegration) => `Your ad account (with the ID ${facebookIntegration.adaccount_id}) is marked as disabled. So that Feed can promote your posts, you’ll need to login to Facebook and follow the instructions to re-enable your ad account.
+  facebook_ad_account_disabled: (facebookIntegration) => `Your ad account (with the ID ${facebookIntegration.adaccount_id}) is marked as disabled. So that Feed can promote your posts, you’ll need to login to Facebook and follow the instructions to re-enable your ad account.
 
   Visit [Ads Manager](https://www.facebook.com/adsmanager/manage/) and follow the instructions in the red box at the top of the page.`,
 
@@ -61,17 +61,17 @@ Click ‘Continue with Facebook’ to grant those permissions.`
 
   Visit the [Billing section](https://www.facebook.com/ads/manager/billing/) of Ads Manager to pay now.`,
 
-  ad_account_no_funding_source: (facebookIntegration) => `There are no payment details on your ad account (with the ID ${facebookIntegration.adaccount_id}). So that Feed can promote your posts, click ‘Add payment details’ below to add a card or another method of payment to your Facebook ad account.`,
+  facebook_ad_account_no_funding_source: (facebookIntegration) => `There are no payment details on your ad account (with the ID ${facebookIntegration.adaccount_id}). So that Feed can promote your posts, click ‘Add payment details’ below to add a card or another method of payment to your Facebook ad account.`,
 
-  no_instagram_business: () => `There is no Instagram business ID associated with this account`,
+  instagram_business_not_connected: () => `There is no Instagram business ID associated with this account`,
 
   instagram_page_not_linked: () => `Your Facebook page and Instagram account are not quite fully linked. It’s a quick fix, and you can [add your Instagram account to your Facebook page](https://www.facebook.com/business/help/898752960195806) in just a few minutes.`,
 
-  non_discrimination_policy_not_accepted: () => `Please accept Facebook's Non-Discrimination Policies.
+  facebook_non_discrimination_policy: () => `Please accept Facebook's Non-Discrimination Policies.
 
   You'll need to do this before Feed can start running your ads.`,
 
-  custom_audience_tos_not_accepted: () => `Please accept Facebook's Custom Audience Terms of Service.
+  facebook_custom_audience_tos: () => `Please accept Facebook's Custom Audience Terms of Service.
 
   You'll need to do this before Feed can start running your ads.`,
 
