@@ -192,6 +192,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       is_actionable: isActionable,
       is_complete: isComplete,
       formatted,
+      type,
       // actioned_at,
     } = notification
     const dictionaryEntry = dictionary[topic]
@@ -255,6 +256,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       isRead,
       onAction,
       formatted: true,
+      type,
     }
     return [...allNotifications, formattedNotification]
   }, [])

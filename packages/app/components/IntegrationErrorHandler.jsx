@@ -1,6 +1,8 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
+
 import { useRouter } from 'next/router'
+import shallow from 'zustand/shallow'
 
 import * as integrationErrorsHelpers from '@/app/helpers/integrationErrorsHelpers'
 import * as server from '@/app/helpers/appServer'
@@ -13,47 +15,45 @@ import IntegrationErrorContent from '@/app/IntegrationErrorContent'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useUnconfirmedEmails from '@/app/hooks/useUnconfirmedEmails'
 
+import useNotificationStore from '@/app/stores/notificationsStore'
+
 import * as ROUTES from '@/app/constants/routes'
 
-// THE COMPONENT
+const getNotificationsStoreState = (state) => ({
+  notifications: state.notifications,
+})
+
 const IntegrationErrorHandler = () => {
-  // Handle showing error
-  const [patchError, setPatchError] = React.useState(null)
   const [showError, setShowError] = React.useState(false)
-  const [integrationError, setIntegrationError] = React.useState(null)
   const [networkError, setNetworkError] = React.useState(null)
-  const [isPending, setIsPending] = React.useState(false)
-  const [hasFetchedArtistErrors, setHasFetchedArtistErrors] = React.useState(false)
+  const [integrationError, setIntegrationError] = React.useState(null)
+  const [hasCheckedArtistErrors, setHasCheckedArtistErrors] = React.useState(false)
   const isLoggedIn = useLoggedInTest()
   const isDevelopment = process.env.NODE_ENV === 'development'
-  // Import artist context
-  const {
-    artist,
-    artistId,
-  } = React.useContext(ArtistContext)
-  // Import user context
+
+  const { notifications } = useNotificationStore(getNotificationsStoreState, shallow)
+  const { artist, artistId } = React.useContext(ArtistContext)
   const { user, hasPendingEmail } = React.useContext(UserContext)
-  // Import Auth context
   const { auth, accessToken, redirectType } = React.useContext(AuthContext)
   const { globalLoading } = React.useContext(InterfaceContext)
   const unconfirmedEmails = useUnconfirmedEmails(user)
   const router = useRouter()
 
-  const fetchError = async () => {
+  const getError = React.useCallback((integrationErrors) => {
     // Stop here if there are no artists associated with an account
-    if (!user.artists || !user.artists.length) return
+    if (!user.artists || !user.artists.length || !integrationErrors.length) return
     // Get any missing permissions from the FB redirect response
     const { missingScopes = [] } = auth
     // Handle missing scopes from FB
     if (missingScopes.length) {
       const error = {
-        code: 'missing_permission_scope',
+        topic: 'missing_permission_scope',
         context: missingScopes,
       }
       return integrationErrorsHelpers.getErrorResponse({ error })
     }
 
-    // * Stop here if running locally
+    // Stop here if running locally
     if (isDevelopment) return
 
     if (!artist || !artistId) return
@@ -63,31 +63,24 @@ const IntegrationErrorHandler = () => {
     const artistOwned = artistRole === 'owner' || artistRole === 'sysadmin' || artistRole === 'collaborator'
     // Stop here if artist is not owned
     if (!artistOwned) return
-    // Fetch errors from server
-    const { res: errors, error: networkError } = await server.getIntegrationErrors(artistId)
 
-    if (networkError) {
-      setNetworkError(networkError)
-      return
-    }
-
-    const formattedErrors = integrationErrorsHelpers.formatErrors(errors)
+    // Format and grab highest priority error
+    const formattedErrors = integrationErrorsHelpers.formatErrors(integrationErrors)
     const [error] = formattedErrors
 
     return integrationErrorsHelpers.getErrorResponse({ error, artist })
-  }
+  }, [auth, artist, artistId, user, isDevelopment])
 
-  // Run async request for artist errors
-  useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
+  React.useEffect(() => {
+    if (notifications.length) {
+      const integrationErrors = notifications.filter(({ type }) => type === 'alert')
 
-    setIsPending(true)
-    const errorResponse = await fetchError()
-
-    setIntegrationError(errorResponse)
-    setIsPending(false)
-    setHasFetchedArtistErrors(true)
-  }, [artistId])
+      if (integrationErrors.length) {
+        setIntegrationError(getError(integrationErrors))
+        setHasCheckedArtistErrors(true)
+      }
+    }
+  }, [notifications, getError])
 
   const checkAndShowUserError = () => {
     if (!user.artists || !user.artists.length || router.pathname === ROUTES.CONFIRM_EMAIL) return
@@ -96,20 +89,20 @@ const IntegrationErrorHandler = () => {
     if (!integrationError && hasPendingEmail && unconfirmedEmails.length) {
       const email = unconfirmedEmails[0]
       const error = {
-        message: 'User email has not been confirmed',
-        code: 'email_not_confirmed',
+        topic: 'email_not_confirmed',
+        description: 'User email has not been confirmed',
       }
       setIntegrationError(integrationErrorsHelpers.getErrorResponse({ error, email }))
     }
   }
 
   React.useEffect(() => {
-    if (isDevelopment || !isLoggedIn || globalLoading || !hasFetchedArtistErrors) {
+    if (isDevelopment || !isLoggedIn || globalLoading || !hasCheckedArtistErrors) {
       return
     }
     checkAndShowUserError()
   // eslint-disable-next-line
-  }, [isLoggedIn, globalLoading, hasFetchedArtistErrors])
+  }, [isLoggedIn, globalLoading, integrationError, hasCheckedArtistErrors])
 
   const hasErrorWithAccessToken = React.useMemo(() => {
     if (!integrationError) return false
@@ -137,22 +130,20 @@ const IntegrationErrorHandler = () => {
 
   // Show error if there are network errors
   React.useEffect(() => {
-    const showError = !!(patchError || networkError)
+    const showError = !!(networkError)
     setShowError(showError)
-  }, [patchError, networkError])
+  }, [networkError])
 
   // Store new access token when coming back from a redirect
   const accessTokenUpdated = React.useRef(false)
   useAsyncEffect(async () => {
     // DO NOT UPDATE ACCESS TOKEN if there is:
-    // Still loading going on, or
     // The redirect is from a sign in, or
     // The error does not require a reauth,
     // No new access token, or
     // It's already run once.
     if (
-      isPending
-      || redirectType === 'signIn'
+      redirectType === 'signIn'
       || !errorRequiresReAuth
       || !accessToken
       || accessTokenUpdated.current
@@ -160,26 +151,26 @@ const IntegrationErrorHandler = () => {
       return
     }
     // Update access token
-    setPatchError(null)
+    setNetworkError(null)
     accessTokenUpdated.current = true
     const artistIds = user.artists.map(({ id }) => id)
     const { error } = await server.updateAccessToken(artistIds, accessToken)
     if (error) {
-      setPatchError(error)
+      setNetworkError(error)
     }
-  }, [isPending, redirectType, errorRequiresReAuth, accessToken, hasErrorWithAccessToken, artistId])
+  }, [redirectType, errorRequiresReAuth, accessToken, hasErrorWithAccessToken, artistId])
 
   // Function to hide integration error
   const hideIntegrationErrors = React.useCallback(() => {
     setShowError(false)
   }, [])
 
-  if (isPending || !showError) return null
+  if (!showError) return null
 
   return (
     <IntegrationErrorContent
       integrationError={integrationError}
-      networkError={networkError || patchError}
+      networkError={networkError}
       showError={showError}
       dismiss={hideIntegrationErrors}
     />

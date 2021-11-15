@@ -19,63 +19,63 @@ export const testForMissingPages = (scopes) => {
 export const getErrorResponse = ({ error, artist, email }) => {
   if (!error) return
   const {
-    code,
-    subcode, message:
-    defaultMessage,
+    topic,
+    description,
     hidden,
-    context,
-    field,
   } = error
+
+  const context = ''
+  const subcode = ''
 
   // Get facebook integration
   const facebookIntegration = artist ? getArtistIntegrationByPlatform(artist, 'facebook') : null
 
-  if (code === 'missing_permission_scope') {
+  if (topic === 'missing_permission_scope') {
     const missingPermissions = context
     const hasOnlyMissingPages = testForMissingPages(missingPermissions)
     return {
-      message: copy[code](missingPermissions, hasOnlyMissingPages),
+      message: copy[topic](missingPermissions, hasOnlyMissingPages),
       action: 'fb_reauth',
       buttonText: 'Continue with Facebook',
       missingPermissions,
       hidden,
-      code,
+      topic,
     }
   }
 
-  if (code === 'expired_access_token' || code === 'page_permission_error') {
+  if (topic === 'facebook-expired-access-token' || topic === 'page_permission_error') {
     return {
       message: copy.expired_access_token(),
       action: 'fb_reauth',
       buttonText: 'Relink Facebook',
       hidden,
-      code,
+      topic,
     }
   }
 
-  if (code === 'ad_account_error' && subcode === 'CLOSED') {
+  if (topic === 'ad_account_error' && subcode === 'CLOSED') {
     return {
       message: copy.ad_account_closed(facebookIntegration),
       action: 'link',
       buttonText: 'Email us',
       href: 'mailto:help@tryfeed.co?subject=New ad account, old one closed',
-      code,
+      topic,
     }
   }
 
-  if (code === 'ad_account_disabled') {
+  if (topic === 'ad_account_disabled') {
     return {
-      message: copy[code](facebookIntegration),
+      message: copy[topic](facebookIntegration),
       action: 'link',
       buttonText: 'Facebook Ads Manager',
       href: 'https://facebook.com/adsmanager/manage/',
       fbLink: true,
       hidden,
-      code,
+      topic,
     }
   }
 
-  if (code === 'ad_account_error' && subcode === 'UNSETTLED') {
+  if (topic === 'ad_account_error' && subcode === 'UNSETTLED') {
     return {
       message: copy.unpaid_invoice(facebookIntegration),
       action: 'link',
@@ -83,85 +83,88 @@ export const getErrorResponse = ({ error, artist, email }) => {
       href: 'https://www.facebook.com/ads/manager/billing/',
       fbLink: true,
       hidden,
-      code,
+      topic,
     }
   }
 
-  if (code === 'ad_account_no_funding_source') {
+  if (topic === 'ad_account_no_funding_source') {
     return {
-      message: copy[code](facebookIntegration),
+      message: copy[topic](facebookIntegration),
       action: 'link',
       buttonText: 'Add payment details',
       href: 'https://www.facebook.com/ads/manager/billing/',
       fbLink: true,
       hidden,
-      code,
+      topic,
     }
   }
 
-  if (code === 'missing_field' && field === 'instagram_id') {
+  if (topic === 'missing_field' && topic === 'instagram_id') {
     return {
       message: copy.no_instagram_business(),
       action: 'dismiss',
       buttonText: 'Ok',
       hidden: true,
-      code,
+      topic,
     }
   }
-  if (code === 'instagram_page_not_linked') {
+
+  if (topic === 'instagram_page_not_linked') {
     return {
-      message: copy[code](),
+      message: copy[topic](),
       action: 'link',
       buttonText: 'Link Instagram Account',
       href: 'https://www.facebook.com/business/help/898752960195806',
       fbLink: true,
       hidden,
-      code,
+      topic,
     }
   }
-  if (code === 'non_discrimination_policy_not_accepted') {
+
+  if (topic === 'non_discrimination_policy_not_accepted') {
     return {
-      message: copy[code](),
+      message: copy[topic](),
       action: 'link',
       buttonText: 'Accept on Facebook',
       href: 'https://www.facebook.com/certification/nondiscrimination',
       fbLink: true,
       hidden,
-      code,
+      topic,
     }
   }
-  if (code === 'custom_audience_tos_not_accepted') {
+
+  if (topic === 'custom_audience_tos_not_accepted') {
     const adAccountId = context.ad_account_id.replace('act_', '')
     return {
-      message: copy[code](),
+      message: copy[topic](),
       action: 'link',
       buttonText: 'Accept Terms on Facebook',
       href: `https://www.facebook.com/customaudiences/app/tos/?act=${adAccountId}`,
       fbLink: true,
       hidden,
-      code,
+      topic,
     }
   }
-  if (code === 'email_not_confirmed') {
+
+  if (topic === 'email_not_confirmed') {
     return {
-      message: copy[code](email.email),
+      message: copy[topic](email.email),
       action: 'email_confirmation',
       buttonText: 'Edit email',
       emailType: email.type,
       hidden,
-      code,
+      topic,
     }
   }
 
   return {
-    message: defaultMessage,
+    message: description,
     action: 'dismiss',
     buttonText: 'Ok',
     hidden,
-    code,
+    topic,
   }
 }
-
 
 const handleInstaErrors = (errors) => {
   const missingInstaBusinessIndex = errors.findIndex(({ code, field }) => code === 'missing_field' && field === 'instagram_id')
@@ -184,37 +187,31 @@ const handleInstaErrors = (errors) => {
 }
 
 const getIntegrationErrorPriority = (error) => {
-  const { code, subcode } = error
-  if (code === 'expired_access_token') return 0
-  if (code === 'missing_permission_scope') return 1
-  if (code === 'ad_account_error' && subcode === 'CLOSED') return 2
-  if (code === 'ad_account_disabled') return 3
-  if (code === 'ad_account_error' && subcode === 'UNSETTLED') return 4
-  if (code === 'instagram_id' && subcode === 'missing_field') return 5
-  if (code === 'ad_account_no_funding_source') return 6
-  if (code === 'instagram_page_not_linked') return 7
-  if (code === 'non_discrimination_policy_not_accepted') return 8
-  if (code === 'custom_audience_tos_not_accepted') return 9
+  const { topic, subcode = '' } = error
+  if (topic === 'facebook-expired-access-token') return 0
+  if (topic === 'missing_permission_scope') return 1
+  if (topic === 'ad_account_error' && subcode === 'CLOSED') return 2
+  if (topic === 'ad_account_disabled') return 3
+  if (topic === 'ad_account_error' && subcode === 'UNSETTLED') return 4
+  if (topic === 'instagram_id' && subcode === 'missing_field') return 5
+  if (topic === 'ad_account_no_funding_source') return 6
+  if (topic === 'instagram_page_not_linked') return 7
+  if (topic === 'non_discrimination_policy_not_accepted') return 8
+  if (topic === 'custom_audience_tos_not_accepted') return 9
   return 999
 }
 
-// Converts integration errors into an array of errors
-// with the platform as part of the error
 export const formatErrors = (errors) => {
-  // Loop through all platform error types
-  const formattedErrors = Object.entries(errors).reduce((acc, [platform, platformErrors]) => {
-    // Loop through each error in the platform
-    const errorsWithPlatform = platformErrors.map((error) => {
-      const priority = getIntegrationErrorPriority(error)
-      return {
-        ...error,
-        platform,
-        priority,
-        hidden: false,
-      }
-    })
-    return [...acc, ...errorsWithPlatform]
-  }, [])
+  // Loop through and format all errors
+  const formattedErrors = errors.map((error) => {
+    const priority = getIntegrationErrorPriority(error)
+
+    return {
+      ...error,
+      priority,
+      hidden: false,
+    }
+  })
   // Remove instagram busine
   const errorsFiltered = handleInstaErrors(formattedErrors)
   // Sort error by priority
