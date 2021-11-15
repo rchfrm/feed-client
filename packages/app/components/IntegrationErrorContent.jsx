@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
+import { requestVerificationEmail } from '@/app/helpers/appServer'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
@@ -9,6 +10,9 @@ import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import useAlertModal from '@/hooks/useAlertModal'
+import Router from 'next/router'
+
+import * as ROUTES from '@/app/constants/routes'
 
 const IntegrationErrorContent = ({ integrationError, dismiss, networkError, showError }) => {
   // IMPORT AUTH AND AUTH ERROR
@@ -73,6 +77,30 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         onClick,
         facebookButton: true,
       }]
+    }
+    // Edit email and email confirmation buttons
+    if (action === 'email_confirmation') {
+      const { emailType } = integrationError
+
+      const resendConfirmationLink = async () => {
+        await requestVerificationEmail(emailType)
+      }
+      const goToConfirmEmailPage = () => {
+        Router.push(`${ROUTES.CONFIRM_EMAIL}/?type=${emailType}&isEdit=true`)
+        closeAlert()
+      }
+      return [
+        {
+          text: buttonText,
+          onClick: goToConfirmEmailPage,
+          color: 'green',
+        },
+        {
+          text: 'Resend link',
+          onClick: resendConfirmationLink,
+          color: 'black',
+        },
+      ]
     }
     // Default
     return [{

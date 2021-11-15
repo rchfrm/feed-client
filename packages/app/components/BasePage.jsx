@@ -9,7 +9,6 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT STORES
 import useControlsStore from '@/app/stores/controlsStore'
 
-import PendingEmailWarning from '@/app/PendingEmailWarning'
 // IMPORT ELEMENTS
 import MarkdownText from '@/elements/MarkdownText'
 // IMPORT COPY
@@ -29,7 +28,7 @@ const BasePage = ({
   // Get interface context
   const { setHeader, toggleSubNav, toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
   // Get user context
-  const { user, hasPendingEmail } = React.useContext(UserContext)
+  const { user } = React.useContext(UserContext)
   // ON MOUNT
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => {
@@ -79,10 +78,6 @@ const BasePage = ({
           <div className="p-5 bg-grey-1 rounded-dialogue max-w-xl mb-4">
             <MarkdownText className="h4--text mb-0" markdown={copy.noArtists} />
           </div>
-          {/* UNVERIFIED EMAIL WARNING */}
-          {hasPendingEmail && (
-            <PendingEmailWarning user={user} isNewUser />
-          )}
         </div>
       ) : (
         !globalLoading && (

@@ -16,7 +16,7 @@ export const testForMissingPages = (scopes) => {
   return false
 }
 
-export const getErrorResponse = (error, artist) => {
+export const getErrorResponse = ({ error, artist, email }) => {
   if (!error) return
   const {
     code,
@@ -138,6 +138,16 @@ export const getErrorResponse = (error, artist) => {
       buttonText: 'Accept Terms on Facebook',
       href: `https://www.facebook.com/customaudiences/app/tos/?act=${adAccountId}`,
       fbLink: true,
+      hidden,
+      code,
+    }
+  }
+  if (code === 'email_not_confirmed') {
+    return {
+      message: copy[code](email.email),
+      action: 'email_confirmation',
+      buttonText: 'Edit email',
+      emailType: email.type,
       hidden,
       code,
     }
