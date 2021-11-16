@@ -20,12 +20,11 @@ export const getErrorResponse = ({ error, artist, email }) => {
   if (!error) return
   const {
     topic,
+    subcode = '',
+    context = '',
     description,
     hidden,
   } = error
-
-  const context = ''
-  const subcode = ''
 
   // Get facebook integration
   const facebookIntegration = artist ? getArtistIntegrationByPlatform(artist, 'facebook') : null
@@ -87,7 +86,7 @@ export const getErrorResponse = ({ error, artist, email }) => {
     }
   }
 
-  if (topic === 'facebook_ad_account_no_funding-source') {
+  if (topic === 'facebook_ad_account_no_funding_source') {
     return {
       message: copy[topic](facebookIntegration),
       action: 'link',
@@ -167,8 +166,8 @@ export const getErrorResponse = ({ error, artist, email }) => {
 }
 
 const handleInstaErrors = (errors) => {
-  const missingInstaBusinessIndex = errors.findIndex(({ topic }) => topic === 'instagram-business-not-connected')
-  const missingInstaIdIndex = errors.findIndex(({ topic }) => topic === 'instagram-page-not-linked')
+  const missingInstaBusinessIndex = errors.findIndex(({ topic }) => topic === 'instagram_business_not_connected')
+  const missingInstaIdIndex = errors.findIndex(({ topic }) => topic === 'instagram_page_not_linked')
   // If no missing insta business, just hide no insta account error
   if (missingInstaIdIndex > -1 && missingInstaBusinessIndex === -1) {
     return produce(errors, draftErrors => {
@@ -213,7 +212,7 @@ export const formatErrors = (errors) => {
       hidden: false,
     }
   })
-  // Remove instagram busine
+  // Remove instagram business
   const errorsFiltered = handleInstaErrors(formattedErrors)
   // Sort error by priority
   const sortedErrors = sortArrayByKey(errorsFiltered, 'priority')
