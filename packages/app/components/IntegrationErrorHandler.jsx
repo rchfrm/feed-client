@@ -73,7 +73,7 @@ const IntegrationErrorHandler = () => {
 
   React.useEffect(() => {
     if (notifications.length) {
-      const integrationErrors = notifications.filter(({ type }) => type === 'alert')
+      const integrationErrors = notifications.filter(({ isComplete, type }) => type === 'alert' && !isComplete)
 
       if (integrationErrors.length) {
         setIntegrationError(getError(integrationErrors))
