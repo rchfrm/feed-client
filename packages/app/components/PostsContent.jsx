@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import PostsSorter from '@/app/PostsSorter'
 import PostsFilters from '@/app/PostsFilters'
@@ -16,7 +16,7 @@ import { postTypes, sortTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
-const PostsContent = () => {
+const PostsContent = ({ dummyPostsImages }) => {
   // Has default link been set
   const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
@@ -83,9 +83,15 @@ const PostsContent = () => {
         )}
       </div>
     ) : (
-      <PostsNoArtists />
+      <PostsNoArtists dummyPostsImages={dummyPostsImages} />
     )
   )
+}
+
+PostsContent.propTypes = {
+  dummyPostsImages: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
 }
 
 export default PostsContent

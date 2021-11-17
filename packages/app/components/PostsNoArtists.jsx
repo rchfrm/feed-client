@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
@@ -11,7 +12,7 @@ import Error from '@/elements/Error'
 
 import { postTypes, sortTypes } from '@/app/helpers/postsHelpers'
 
-const PostsNoArtists = () => {
+const PostsNoArtists = ({ dummyPostsImages }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
   const [errors, setErrors] = React.useState([authError])
 
@@ -61,6 +62,7 @@ const PostsNoArtists = () => {
           />
         </div>
         <PostsNoArtistsDummyAll
+          dummyPostsImages={dummyPostsImages}
           errors={errors}
           setErrors={setErrors}
         />
@@ -88,6 +90,9 @@ const PostsNoArtists = () => {
 }
 
 PostsNoArtists.propTypes = {
+  dummyPostsImages: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
 }
 
 PostsNoArtists.defaultProps = {

@@ -1,4 +1,4 @@
-import { image } from '@/landing/graphQl/querySnippets'
+import { image } from '@/graphQl/querySnippets'
 import { blogIntro } from '@/landing/graphQl/blogArticlesQueries'
 
 function getFilter(page) {
