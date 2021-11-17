@@ -1,4 +1,4 @@
-import { image, seo } from '@/landing/graphQl/querySnippets'
+import { image, seo } from '@/graphQl/querySnippets'
 
 export const jobIntro = () => `
   id

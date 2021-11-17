@@ -6,7 +6,7 @@ import PostCardConnectAccounts from '@/app/PostCardConnectAccounts'
 
 import { dummyPosts } from '@/app/helpers/postsHelpers'
 
-const PostsNoArtistsDummyAll = ({ errors, setErrors }) => {
+const PostsNoArtistsDummyAll = ({ dummyPostsImages, errors, setErrors }) => {
   return (
     <ul
       className={[
@@ -18,17 +18,24 @@ const PostsNoArtistsDummyAll = ({ errors, setErrors }) => {
         'pt-6',
       ].join(' ')}
     >
-      {dummyPosts.map((post, index) => (
-        <React.Fragment key={index}>
-          {index === 1 && <PostCardConnectAccounts errors={errors} setErrors={setErrors} />}
-          <PostCardDummy post={post} />
-        </React.Fragment>
-      ))}
+      {dummyPosts.map((post, index) => {
+        const { image } = dummyPostsImages[index]
+
+        return (
+          <React.Fragment key={index}>
+            {index === 1 && <PostCardConnectAccounts errors={errors} setErrors={setErrors} />}
+            <PostCardDummy post={post} image={image} />
+          </React.Fragment>
+        )
+      })}
     </ul>
   )
 }
 
 PostsNoArtistsDummyAll.propTypes = {
+  dummyPostsImages: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
   errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
 }
