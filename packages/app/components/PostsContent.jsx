@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import PostsSorter from '@/app/PostsSorter'
 import PostsFilters from '@/app/PostsFilters'
@@ -16,7 +16,7 @@ import { postTypes, sortTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
-const PostsContent = () => {
+const PostsContent = ({ dummyPostsImages }) => {
   // Has default link been set
   const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
@@ -29,61 +29,69 @@ const PostsContent = () => {
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
   return (
-    <div className="relative">
-      {/* NO DEFAULT LINK WARNING */}
-      {missingDefaultLink && hasArtists && (
-        <MarkdownText
-          className={['pb-5', styles.noDefaultLinkWarning].join(' ')}
-          markdown={copy.noDefaultLinkWarning}
-        />
-      )}
-      {/* BUTTONS */}
-      <div className="relative iphone8:flex justify-start">
-        {/* REFRESH BUTTON (desktop) */}
-        {refreshPosts && (
-          <PostsRefreshButton
-            refreshPosts={refreshPosts}
-            className={[
-              'ml-auto',
-              'absolute right-0 bottom-0 mb-8',
-              'iphone8:static iphone8:-mb-1',
-            ].join(' ')}
-            style={{ transform: 'translateY(1.5rem)' }}
+    // LOAD POSTS
+    hasArtists ? (
+      <div className="relative">
+        {/* NO DEFAULT LINK WARNING */}
+        {missingDefaultLink && hasArtists && (
+          <MarkdownText
+            className={['pb-5', styles.noDefaultLinkWarning].join(' ')}
+            markdown={copy.noDefaultLinkWarning}
+          />
+        )}
+        {/* BUTTONS */}
+        <div className="relative iphone8:flex justify-start">
+          {/* REFRESH BUTTON (desktop) */}
+          {refreshPosts && (
+            <PostsRefreshButton
+              refreshPosts={refreshPosts}
+              className={[
+                'ml-auto',
+                'absolute right-0 bottom-0 mb-8',
+                'iphone8:static iphone8:-mb-1',
+              ].join(' ')}
+              style={{ transform: 'translateY(1.5rem)' }}
+            />
+          )}
+        </div>
+        <div className="grid grid-cols-12 col-gap-6">
+          {/* SORT */}
+          <PostsSorter
+            sortTypes={sortTypes}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            defaultSortState={defaultSortBy}
+            disabled={!hasArtists}
+            className="col-span-12 sm:col-span-4"
+          />
+          {/* FILTERS */}
+          <PostsFilters
+            postTypes={postTypes}
+            currentPostType={currentPostType}
+            setCurrentPostType={setCurrentPostType}
+            defaultPostState={allFilter.id}
+            disabled={!hasArtists}
+            className="col-span-12 sm:col-span-8"
+          />
+        </div>
+        {currentPostType && (
+          <PostsLoader
+            setRefreshPosts={setRefreshPosts}
+            promotionStatus={currentPostType}
+            sortBy={sortBy}
           />
         )}
       </div>
-      <div className="grid grid-cols-12 col-gap-6">
-        {/* SORT */}
-        <PostsSorter
-          sortTypes={sortTypes}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          defaultSortState={defaultSortBy}
-          disabled={!hasArtists}
-          className="col-span-12 sm:col-span-4"
-        />
-        {/* FILTERS */}
-        <PostsFilters
-          postTypes={postTypes}
-          currentPostType={currentPostType}
-          setCurrentPostType={setCurrentPostType}
-          defaultPostState={allFilter.id}
-          disabled={!hasArtists}
-          className="col-span-12 sm:col-span-8"
-        />
-      </div>
-      {/* LOAD POSTS */}
-      {hasArtists && currentPostType ? (
-        <PostsLoader
-          setRefreshPosts={setRefreshPosts}
-          promotionStatus={currentPostType}
-          sortBy={sortBy}
-        />
-      ) : (
-        <PostsNoArtists />
-      )}
-    </div>
+    ) : (
+      <PostsNoArtists dummyPostsImages={dummyPostsImages} />
+    )
   )
+}
+
+PostsContent.propTypes = {
+  dummyPostsImages: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
 }
 
 export default PostsContent

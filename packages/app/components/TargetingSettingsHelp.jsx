@@ -13,6 +13,7 @@ const TargetingSettingsHelp = ({ desktopVersion }) => {
         text="Need help with this page?"
         reverseText={desktopVersion}
         label="Targeting help"
+        className="font-bold"
       />
     </div>
   )

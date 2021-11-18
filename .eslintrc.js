@@ -97,6 +97,7 @@ module.exports = {
           ['@/hooks', './packages/shared/components/hooks'],
           ['@/constants', './packages/shared/constants'],
           ['@/helpers', './packages/shared/helpers'],
+          ['@/graphQl', './packages/shared/graphQl'],
           ['@', './packages/shared/components'],
           ['~', './packages/shared'],
         ],

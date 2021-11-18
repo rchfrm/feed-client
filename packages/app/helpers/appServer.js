@@ -407,15 +407,13 @@ export const testReferralCode = async (code) => {
 
 /**
  * @param {string} artistId
- * @param {string} postId
- * @param {string} link
- * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
 export const getIntegrationErrors = async (artistId) => {
-  return api.get(`/artists/${artistId}/integrations/errors`)
-}
+  const requestUrl = `/artists/${artistId}/integrations/errors`
 
+  return api.requestWithCatch('get', requestUrl, null)
+}
 
 // * NOTIFICATIONS
 // --------------------------

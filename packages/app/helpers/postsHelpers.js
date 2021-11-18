@@ -95,31 +95,26 @@ export const dummyPosts = [
   {
     publishedTime: moment(),
     platform: 'Instagram',
-    image: '/images/dummyPostImages/adrian-hernandez.png',
     score: 9.2,
   },
   {
     publishedTime: moment().subtract(2, 'd'),
     platform: 'Instagram',
-    image: '/images/dummyPostImages/james-owen.png',
     score: 8.1,
   },
   {
     publishedTime: moment().subtract(4, 'd'),
     platform: 'Facebook',
-    image: '/images/dummyPostImages/lt-ngema.png',
     score: 7.6,
   },
   {
     publishedTime: moment().subtract(8, 'd'),
     platform: 'Instagram',
-    image: '/images/dummyPostImages/erik-mclean.png',
     score: 8.1,
   },
   {
     publishedTime: moment().subtract(12, 'd'),
     platform: 'Facebook',
-    image: '/images/dummyPostImages/dolo-iglesias.png',
     score: 8.1,
   },
 ]

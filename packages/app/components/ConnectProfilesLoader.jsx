@@ -186,6 +186,7 @@ const ConnectProfilesLoader = ({
             content={copy.helpText}
             text="Need help?"
             label="Connect accounts help"
+            className="font-bold"
           />
         </div>
       </div>

@@ -12,7 +12,7 @@ const Page = () => {
     <BasePage
       headerConfig={headerConfig}
     >
-      <ConfirmEmailPage isSignupFlow />
+      <ConfirmEmailPage />
     </BasePage>
   )
 }

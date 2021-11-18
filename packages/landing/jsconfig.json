@@ -27,6 +27,7 @@
       "@/hooks/*": ["shared/components/hooks/*"],
       "@/constants/*": ["shared/constants/*"],
       "@/helpers/*": ["shared/helpers/*"],
+      "@/graphQl/*": ["shared/graphQl/*"],
       "@/*": ["shared/components/*"],
       "~/*": ["shared/*"]
     }

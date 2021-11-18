@@ -5,6 +5,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
+import useUnconfirmedEmails from '@/app/hooks/useUnconfirmedEmails'
 
 import copy from '@/app/copy/global'
 
@@ -14,27 +15,12 @@ const PendingEmailWarning = ({
   isAccountPage,
   className,
 }) => {
-  const {
-    email: authEmail,
-    pending_email: pendingEmail,
-    contact_email: contactEmail,
-    pending_contact_email: pendingContactEmail,
-    email_verified: emailVerified,
-    contact_email_verified: contactEmailVerified,
-  } = user
-
-  const emailToVerify = pendingEmail || (!emailVerified && authEmail) || ''
-  const contactEmailToVerify = pendingContactEmail || (!contactEmailVerified && contactEmail) || ''
-  const emails = [
-    { type: 'email', email: emailToVerify },
-    { type: 'contactEmail', email: contactEmailToVerify },
-  ].filter(({ email }) => email)
-
   const [resendEmailError, setResendEmailError] = React.useState(null)
+  const unconfirmedEmails = useUnconfirmedEmails(user)
 
   // Stop here if no emails need verifying
-  if (!emails.length) return null
-  const warningCopy = copy.unverifiedEmails({ emails: emails.map(({ email }) => email), isNewUser, isAccountPage })
+  if (!unconfirmedEmails.length) return null
+  const warningCopy = copy.unverifiedEmails({ emails: unconfirmedEmails.map(({ email }) => email), isNewUser, isAccountPage })
   return (
     <div
       className={[
@@ -44,8 +30,8 @@ const PendingEmailWarning = ({
     >
       <MarkdownText markdown={warningCopy} className={isNewUser ? 'h4--text' : null} />
       {/* TODO: Add resend button */}
-      {emails.map(({ email, type }) => {
-        const buttonText = emails.length === 1 ? 'Resend confirmation email' : `Resend confirmation to ${email}`
+      {unconfirmedEmails.map(({ email, type }) => {
+        const buttonText = unconfirmedEmails.length === 1 ? 'Resend confirmation email' : `Resend confirmation to ${email}`
         return (
           <div key={type} className="mb-4 last:mb-0">
             <Error error={resendEmailError} />

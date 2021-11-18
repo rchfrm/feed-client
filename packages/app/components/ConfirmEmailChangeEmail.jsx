@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useRouter } from 'next/router'
 
 import useAsyncEffect from 'use-async-effect'
 
@@ -26,6 +27,8 @@ const ConfirmEmailChangeEmail = ({
   const [loading, setLoading] = React.useState(false)
   const [success, setSuccess] = React.useState(false)
   const [error, setError] = React.useState(null)
+
+  const router = useRouter()
 
   React.useEffect(() => {
     setIsFormValid(testValidEmail(email))
@@ -65,6 +68,17 @@ const ConfirmEmailChangeEmail = ({
     if (!isFormValid) return
     setSubmitForm(true)
   }
+
+  React.useEffect(() => {
+    return () => {
+      if (router.query?.isEdit) {
+        delete router.query?.isEdit
+        router.replace(router.pathname, { query: router.query })
+      }
+    }
+    // eslint-disable-next-line
+  }, [])
+
   return (
     <div
       className={[
