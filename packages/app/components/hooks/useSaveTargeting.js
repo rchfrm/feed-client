@@ -6,6 +6,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import copy from '@/app/copy/targetingPageCopy'
 import { track } from '@/helpers/trackingHelpers'
+import { trackGoogleBudgetSet } from 'shared/helpers/trackGoogleHelpers'
 
 const getWarningButtons = ({
   warningType,
@@ -103,6 +104,7 @@ const useSaveTargeting = ({
         budget: savedState.budget / currencyOffset,
         currencyCode,
       })
+      trackGoogleBudgetSet()
       return saveTargetingSettings(unpausedTargetingState)
     }
     // Warn about toggling paused
