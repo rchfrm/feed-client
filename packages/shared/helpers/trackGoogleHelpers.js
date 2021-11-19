@@ -23,3 +23,11 @@ export const trackGoogleProfileCreated = () => {
     event: 'profile_created',
   })
 }
+
+export const trackGoogleBudgetSet = () => {
+  const { dataLayer } = window
+  if (!dataLayer) return
+  dataLayer.push({
+    event: 'first_budget_set',
+  })
+}
