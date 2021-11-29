@@ -39,15 +39,15 @@ const IntegrationErrorHandler = () => {
   const unconfirmedEmails = useUnconfirmedEmails(user)
   const router = useRouter()
 
-  const getError = React.useCallback((integrationErrors) => {
+  const getError = React.useCallback((integrationError) => {
     // Stop here if there are no artists associated with an account
-    if (!user.artists || !user.artists.length || !integrationErrors.length) return
+    if (!user.artists || !user.artists.length || !integrationError) return
     // Get any missing permissions from the FB redirect response
     const { missingScopes = [] } = auth
     // Handle missing scopes from FB
     if (missingScopes.length) {
       const error = {
-        topic: 'facebook_missing_permissions',
+        topic: 'facebook-missing-permissions',
         context: missingScopes,
       }
       return integrationErrorsHelpers.getErrorResponse({ error })
@@ -64,19 +64,15 @@ const IntegrationErrorHandler = () => {
     // Stop here if artist is not owned
     if (!artistOwned) return
 
-    // Format and grab highest priority error
-    const formattedErrors = integrationErrorsHelpers.formatErrors(integrationErrors)
-    const [error] = formattedErrors
-
-    return integrationErrorsHelpers.getErrorResponse({ error, artist })
+    return integrationErrorsHelpers.getErrorResponse({ error: integrationError, artist })
   }, [auth, artist, artistId, user, isDevelopment])
 
   React.useEffect(() => {
     if (notifications.length) {
-      const integrationErrors = notifications.filter(({ isComplete, type }) => type === 'alert' && !isComplete)
+      const [integrationError] = notifications.filter(({ isComplete, type }) => type === 'alert' && !isComplete)
 
-      if (integrationErrors.length) {
-        setIntegrationError(getError(integrationErrors))
+      if (integrationError) {
+        setIntegrationError(getError(integrationError))
         setHasCheckedArtistErrors(true)
       }
     }
@@ -107,7 +103,7 @@ const IntegrationErrorHandler = () => {
   const hasErrorWithAccessToken = React.useMemo(() => {
     if (!integrationError) return false
     const { topic } = integrationError
-    return topic === 'facebook_expired_access_token'
+    return topic === 'facebook-expired-access-token'
   }, [integrationError])
 
   const errorRequiresReAuth = React.useMemo(() => {
