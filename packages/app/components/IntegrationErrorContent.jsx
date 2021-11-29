@@ -1,10 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import shallow from 'zustand/shallow'
 
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { requestVerificationEmail } from '@/app/helpers/appServer'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { AuthContext } from '@/contexts/AuthContext'
+import useNotificationStore from '@/app/stores/notificationsStore'
 
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
@@ -14,9 +17,15 @@ import Router from 'next/router'
 
 import * as ROUTES from '@/app/constants/routes'
 
+const getNotificationsStore = (state) => ({
+  setAsDismissed: state.setAsDismissed,
+})
+
 const IntegrationErrorContent = ({ integrationError, dismiss, networkError, showError }) => {
   // IMPORT AUTH AND AUTH ERROR
   const { auth, authError } = React.useContext(AuthContext)
+  const { artistId } = React.useContext(ArtistContext)
+  const { setAsDismissed } = useNotificationStore(getNotificationsStore, shallow)
 
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
@@ -76,6 +85,16 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         text: buttonText,
         onClick,
         facebookButton: true,
+      }]
+    }
+    // Dismiss button
+    if (action === 'dismiss') {
+      const { id } = integrationError
+
+      return [{
+        text: buttonText,
+        onClick: () => setAsDismissed(id, 'artists', artistId, false),
+        color: 'green',
       }]
     }
     // Edit email and email confirmation buttons

@@ -15,6 +15,7 @@ export const testForMissingPages = (scopes) => {
 export const getErrorResponse = ({ error, artist, email }) => {
   if (!error) return
   const {
+    id,
     topic,
     description,
     hidden,
@@ -79,6 +80,7 @@ export const getErrorResponse = ({ error, artist, email }) => {
 
   if (topic === 'instagram-business-not-connected') {
     return {
+      id,
       message: description,
       action: 'dismiss',
       buttonText: 'Ok',
