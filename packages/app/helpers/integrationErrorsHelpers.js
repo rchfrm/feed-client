@@ -22,7 +22,7 @@ export const getErrorResponse = ({ error, artist, email }) => {
   } = error
 
   // Get facebook integration
-  const facebookIntegration = artist ? getArtistIntegrationByPlatform(artist, 'facebook') : null
+  const { accountId } = artist ? getArtistIntegrationByPlatform(artist, 'facebook') : null
 
   if (topic === 'facebook-missing-permissions') {
     return {
@@ -78,6 +78,18 @@ export const getErrorResponse = ({ error, artist, email }) => {
     }
   }
 
+  if (topic === 'facebook-spending-limit') {
+    return {
+      message: description,
+      action: 'link',
+      buttonText: 'Remove spend cap',
+      href: `https://www.facebook.com/ads/manager/account_settings/account_billing/?act=${accountId}`,
+      fbLink: true,
+      hidden,
+      topic,
+    }
+  }
+
   if (topic === 'instagram-business-not-connected') {
     return {
       id,
@@ -106,7 +118,7 @@ export const getErrorResponse = ({ error, artist, email }) => {
       message: description,
       action: 'link',
       buttonText: 'Accept Terms on Facebook',
-      href: `https://www.facebook.com/customaudiences/app/tos/?act=${facebookIntegration?.accountId}`,
+      href: `https://www.facebook.com/customaudiences/app/tos/?act=${accountId}`,
       fbLink: true,
       hidden,
       topic,
