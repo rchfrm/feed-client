@@ -79,11 +79,12 @@ export const getErrorResponse = ({ error, artist, email }) => {
   }
 
   if (topic === 'facebook-spending-limit') {
+    const adAccountId = accountId.replace('act_', '')
     return {
       message: description,
       action: 'link',
       buttonText: 'Remove spend cap',
-      href: `https://www.facebook.com/ads/manager/account_settings/account_billing/?act=${accountId}`,
+      href: `https://www.facebook.com/ads/manager/account_settings/account_billing/?act=${adAccountId}`,
       fbLink: true,
       hidden,
       topic,
@@ -114,11 +115,12 @@ export const getErrorResponse = ({ error, artist, email }) => {
   }
 
   if (topic === 'facebook-custom-audience-tos') {
+    const adAccountId = accountId.replace('act_', '')
     return {
       message: description,
       action: 'link',
       buttonText: 'Accept Terms on Facebook',
-      href: `https://www.facebook.com/customaudiences/app/tos/?act=${accountId}`,
+      href: `https://www.facebook.com/customaudiences/app/tos/?act=${adAccountId}`,
       fbLink: true,
       hidden,
       topic,

@@ -127,7 +127,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       onClick: closeAlert,
       color: 'black',
     }]
-  }, [closeAlert, integrationError, auth])
+  }, [closeAlert, integrationError, auth, artistId, setAsDismissed])
 
   React.useEffect(() => {
     if (!auth.token) {
