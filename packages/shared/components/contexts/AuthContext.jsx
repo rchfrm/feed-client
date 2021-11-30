@@ -74,7 +74,10 @@ function AuthProvider({ children }) {
   const storeAuth = async ({ authUser, authToken, authProfile = {}, authError = null }) => {
     if (authError) {
       setAuthError(authError)
-      return
+
+      if (!authUser) {
+        return
+      }
     }
     if (!authToken) {
       console.error('Missing auth token')
