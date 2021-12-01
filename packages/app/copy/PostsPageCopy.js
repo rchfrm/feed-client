@@ -27,6 +27,8 @@ Been waiting a while? Check you have posts opted in for promotion in the _${inac
     allOldUser: () => `Looks like you haven’t posted on Facebook or Instagram yet. When you do start posting, your posts will appear here.`,
   },
 
+  importingPosts: 'Gathering your recent posts from Facebook & Instagram...',
+
   noDefaultLinkWarning: `**You need to set the default link used in your ads before they can run.**
 
 You can _**set a default link**_ and _**add links**_ on the [Controls](${ROUTES.CONTROLS}) page`,
