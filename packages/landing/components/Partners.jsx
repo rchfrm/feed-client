@@ -4,7 +4,7 @@ const Partners = () => {
   return (
     <section className="p-12 sm:p-24 bg-grey-1">
       <ul className="grid grid-cols-12 col-span-12 gap-8 mb-0">
-        {[...Array(8)].map((i) => (
+        {[...Array(8)].map((_, index) => (
           <li
             className={[
               'col-span-6 sm:col-span-3',
@@ -12,7 +12,7 @@ const Partners = () => {
               'text-grey-3 text-xs',
               'bg-white rounded-dialogue h-20',
             ].join(' ')}
-            key={i}
+            key={index}
           >
             Partner Logo
           </li>

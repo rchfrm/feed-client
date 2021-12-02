@@ -1,9 +1,9 @@
 .strapline {
   * {
-    font-size: 6vw;
+    font-size: 8vw;
 
     @media (--sm) {
-      font-size: 3.5vw;
+      font-size: 4.3vw;
     }
 
     @media (--bmw) {

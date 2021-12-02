@@ -5,6 +5,9 @@ import Swiper from 'swiper'
 
 import TestimonyItem from '@/landing/TestimonyItem'
 
+import useOnResize from '@/landing/hooks/useOnResize'
+import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
+
 import * as styles from '@/landing/Testimonies.module.css'
 
 const Testimonies = ({
@@ -13,8 +16,13 @@ const Testimonies = ({
   // Setup swiper
   const swiperContainer = React.useRef(null)
   const swiperPagination = React.useRef(null)
-  React.useEffect(() => {
-    const mySwiper = new Swiper(swiperContainer.current, {
+  const [mySwiper, setMySwiper] = React.useState(null)
+  const [isSwiperActive, setIsSwiperActive] = React.useState(true)
+  const { width } = useOnResize()
+  const isDesktopLayout = useBreakpointTest('md')
+
+  const initiateSwiper = () => {
+    const swiper = new Swiper(swiperContainer.current, {
       // Optional parameters
       loop: true,
       centeredSlides: true,
@@ -37,53 +45,67 @@ const Testimonies = ({
           slidesPerView: 2,
           spaceBetween: 20,
         },
-        992: {
-          slidesPerView: 2,
-          spaceBetween: 256,
-        },
-        1200: {
-          slidesPerView: 2.5,
-          spaceBetween: 256,
-        },
-        1440: {
-          slidesPerView: 3,
-          spaceBetween: 256,
-        },
-        2000: {
-          slidesPerView: 3.2,
-          spaceBetween: 200,
-        },
       },
     })
+    setMySwiper(swiper)
+  }
 
-    return () => {
-      mySwiper.destroy()
+  const destroySwiper = () => {
+    if (mySwiper) {
+      mySwiper.destroy(true, true)
     }
+    setIsSwiperActive(false)
+  }
+
+  React.useEffect(() => {
+    if (!isDesktopLayout && testimonies.length > 4) {
+      setIsSwiperActive(true)
+    } else {
+      destroySwiper()
+    }
+    // eslint-disable-next-line
+  }, [width, testimonies.length, isDesktopLayout])
+
+  React.useEffect(() => {
+    if (isSwiperActive) {
+      initiateSwiper()
+    }
+  }, [isSwiperActive])
+
+  React.useEffect(() => {
+    return () => destroySwiper()
+    // eslint-disable-next-line
   }, [])
 
   return (
     <section className={['section--padding', styles.testimoniesSection].join(' ')}>
       <div ref={swiperContainer} className="swiper-container">
-        <ul className={[styles.testimoniesList, 'swiper-wrapper'].join(' ')}>
+        <ul className={[
+          isSwiperActive ? 'swiper-wrapper' : 'grid grid-cols-12 col-span-12 gap-10 px-10 mb-0',
+        ].join(' ')}
+        >
           {testimonies.map((testimony) => {
             const { id } = testimony
             return (
               <TestimonyItem
                 key={id}
                 testimony={testimony}
-                className="swiper-slide"
+                isSwiperActive={isSwiperActive}
+                className={isSwiperActive ? 'swiper-slide' : null}
               />
             )
           })}
         </ul>
       </div>
-      <div
-        ref={swiperPagination}
-        className={[
-          'swiper-pagination',
-          styles.pagination,
-        ].join(' ')}
-      />
+      {isSwiperActive && (
+        <div
+          ref={swiperPagination}
+          className={[
+            'swiper-pagination',
+            styles.pagination,
+          ].join(' ')}
+        />
+      )}
     </section>
   )
 }
