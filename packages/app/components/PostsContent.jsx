@@ -7,16 +7,14 @@ import PostsFilters from '@/app/PostsFilters'
 import PostsLoader from '@/app/PostsLoader'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 import PostsNoArtists from '@/app/PostsNoArtists'
+import PostsInitialImport from '@/app/PostsInitialImport'
 
 import MarkdownText from '@/elements/MarkdownText'
-import Spinner from '@/elements/Spinner'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
-import useIsMounted from '@/hooks/useIsMounted'
-
-import { postTypes, sortTypes, getInitialPostsImportStatus } from '@/app/helpers/postsHelpers'
+import { postTypes, sortTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -29,11 +27,8 @@ const PostsContent = ({ dummyPostsImages }) => {
   const defaultSortBy = sortTypes.find(({ id }) => id === 'published_time').id
   const [currentPostType, setCurrentPostType] = React.useState('')
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
-  const [initialLoading, setInitialLoading] = React.useState(true)
-  const [intervalId, setIntervalId] = React.useState(null)
   const [sortBy, setSortBy] = React.useState('')
   const hasArtists = user.artists.length > 0
-  const isMounted = useIsMounted()
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
 
@@ -50,40 +45,11 @@ const PostsContent = ({ dummyPostsImages }) => {
     return testNewUser(user)
   }, [user])
 
-  const checkInitialPostsImportStatus = async () => {
-    if (!isMounted) return
-
-    const { res, error } = await getInitialPostsImportStatus(artistId)
-
-    if (initialLoading) setInitialLoading(false)
-
-    if (error) {
-      clearInterval(intervalId)
-      return
-    }
-
-    if (res.last_update_completed_at) {
+  React.useEffect(() => {
+    if (!isNewUser) {
       setCanLoadPosts(true)
-      clearInterval(intervalId)
     }
-  }
-
-  React.useEffect(() => {
-    if (isNewUser && hasArtists) {
-      checkInitialPostsImportStatus()
-      setIntervalId(setInterval(checkInitialPostsImportStatus, 2000))
-      return
-    }
-    setCanLoadPosts(true)
-    setInitialLoading(false)
-    // eslint-disable-next-line
-  }, [])
-
-  React.useEffect(() => {
-    return () => clearInterval(intervalId)
-  }, [intervalId])
-
-  if (initialLoading) return null
+  }, [isNewUser])
 
   return (
     // LOAD POSTS
@@ -141,14 +107,10 @@ const PostsContent = ({ dummyPostsImages }) => {
           )}
         </div>
       ) : (
-        <div className="flex flex-1 flex-column justify-center items-center">
-          <Spinner className="flex-none mb-10" />
-          <MarkdownText
-            className="max-w-xs text-center"
-            markdown={copy.importingPosts}
-          />
-        </div>
-
+        <PostsInitialImport
+          artistId={artistId}
+          setCanLoadPosts={setCanLoadPosts}
+        />
       )
     ) : (
       <PostsNoArtists dummyPostsImages={dummyPostsImages} />
