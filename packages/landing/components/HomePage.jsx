@@ -30,9 +30,10 @@ export default function HomePage({ pageData }) {
         heroImageMobile={mobileImage}
         heroStraplineB={straplineB}
       />
-      <IntroVideo />
-      {hasFeatures && <Features features={features} />}
       {hasTestimonies && <Testimonies testimonies={testimonies} />}
+      <IntroVideo />
+      {hasTestimonies && <Testimonies testimonies={testimonies} />}
+      {hasFeatures && <Features features={features} />}
       <PrimaryCTA />
       {hasFeaturedArticles && (
         <>
