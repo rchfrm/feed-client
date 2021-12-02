@@ -41,8 +41,8 @@ export default function HeroImage({
         className={[
           'col-span-12',
           'xs:block',
-          'md:col-start-1',
-          'md:col-end-13',
+          'md:col-start-2',
+          'md:col-end-12',
           'md:row-start-2',
           'md:row-end-5',
           'lg:row-start-2',

@@ -10,6 +10,7 @@ export default function HeroDescription({ description }) {
         'row-start-3',
         'col-start-1',
         'mb-12',
+        'md:pb-6',
         'bg-white',
 
         'sm:text-2xl',

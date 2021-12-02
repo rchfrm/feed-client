@@ -3,15 +3,15 @@
     font-size: 8vw;
 
     @media (--sm) {
-      font-size: 4.3vw;
+      font-size: 3.5vw;
     }
 
     @media (--lg) {
-      font-size: 4.4vw;
+      font-size: 4vw;
     }
 
     @media (--bmw) {
-      font-size: 64px;
+      font-size: 50px;
     }
   }
 
