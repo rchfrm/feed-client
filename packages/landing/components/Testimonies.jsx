@@ -6,7 +6,6 @@ import Swiper from 'swiper'
 import TestimonyItem from '@/landing/TestimonyItem'
 
 import useOnResize from '@/landing/hooks/useOnResize'
-import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 
 import * as styles from '@/landing/Testimonies.module.css'
 
@@ -17,9 +16,8 @@ const Testimonies = ({
   const swiperContainer = React.useRef(null)
   const swiperPagination = React.useRef(null)
   const [mySwiper, setMySwiper] = React.useState(null)
-  const [isSwiperActive, setIsSwiperActive] = React.useState(true)
+  const [isSwiperActive, setIsSwiperActive] = React.useState(false)
   const { width } = useOnResize()
-  const isDesktopLayout = useBreakpointTest('md')
 
   const initiateSwiper = () => {
     const swiper = new Swiper(swiperContainer.current, {
@@ -58,13 +56,13 @@ const Testimonies = ({
   }
 
   React.useEffect(() => {
-    if (!isDesktopLayout && testimonies.length > 4) {
+    if (width <= 992 && testimonies.length > 4) {
       setIsSwiperActive(true)
     } else {
       destroySwiper()
     }
     // eslint-disable-next-line
-  }, [width, testimonies.length, isDesktopLayout])
+  }, [width, testimonies.length])
 
   React.useEffect(() => {
     if (isSwiperActive) {
