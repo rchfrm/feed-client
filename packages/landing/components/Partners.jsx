@@ -23,7 +23,8 @@ const Partners = ({ partners }) => {
     >
       <div ref={swiperContainer} className="swiper-container">
         <ul className={[
-          isSwiperActive ? 'swiper-wrapper' : 'grid grid-cols-12 col-span-12 gap-8 px-0 md:px-40 mb-0',
+          'swiper-wrapper',
+          !isSwiperActive ? 'grid grid-cols-12 col-span-12 gap-8 px-0 md:px-40 mb-0 box-border' : null,
         ].join(' ')}
         >
           {partners.map((partner) => {
@@ -33,22 +34,21 @@ const Partners = ({ partners }) => {
                 key={website}
                 partner={partner}
                 isSwiperActive={isSwiperActive}
-                className={isSwiperActive ? 'swiper-slide' : null}
+                className="swiper-slide"
               />
             )
           })}
         </ul>
       </div>
-      {isSwiperActive && (
-        <div
-          ref={swiperPagination}
-          className={[
-            'swiper-pagination',
-            'absolute bottom-4 transform -translate-x-1/2',
-          ].join(' ')}
-          style={{ left: '50%' }}
-        />
-      )}
+      <div
+        ref={swiperPagination}
+        className={[
+          'swiper-pagination',
+          'absolute bottom-4 transform -translate-x-1/2',
+          !isSwiperActive ? 'hidden' : null,
+        ].join(' ')}
+        style={{ left: '50%' }}
+      />
     </section>
   )
 }

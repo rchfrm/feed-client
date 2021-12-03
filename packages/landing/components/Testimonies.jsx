@@ -5,14 +5,13 @@ import TestimonyItem from '@/landing/TestimonyItem'
 
 import useSwiperForBreakpoint from '@/landing/hooks/useSwiperForBreakpoint'
 
-import * as styles from '@/landing/Testimonies.module.css'
-
 const Testimonies = ({
   testimonies,
 }) => {
   // Setup swiper
   const swiperContainer = React.useRef(null)
   const swiperPagination = React.useRef(null)
+  const swiperSlide = React.useRef(null)
   const isSwiperActive = useSwiperForBreakpoint({
     breakpoint: 992,
     items: testimonies,
@@ -21,10 +20,15 @@ const Testimonies = ({
   })
 
   return (
-    <section className={['section--padding', styles.testimoniesSection].join(' ')}>
+    <section className={[
+      'relative bg-grey-1',
+      isSwiperActive ? 'py-20' : 'py-10 sm:py-20',
+    ].join(' ')}
+    >
       <div ref={swiperContainer} className="swiper-container">
         <ul className={[
-          isSwiperActive ? 'swiper-wrapper' : 'grid grid-cols-12 col-span-12 gap-10 px-10 mb-0',
+          'swiper-wrapper',
+          !isSwiperActive ? 'grid grid-cols-12 col-span-12 gap-10 box-border px-10 mb-0' : null,
         ].join(' ')}
         >
           {testimonies.map((testimony) => {
@@ -34,21 +38,22 @@ const Testimonies = ({
                 key={id}
                 testimony={testimony}
                 isSwiperActive={isSwiperActive}
-                className={isSwiperActive ? 'swiper-slide' : null}
+                className="swiper-slide"
+                swiperSlide={swiperSlide}
               />
             )
           })}
         </ul>
       </div>
-      {isSwiperActive && (
-        <div
-          ref={swiperPagination}
-          className={[
-            'swiper-pagination',
-            styles.pagination,
-          ].join(' ')}
-        />
-      )}
+      <div
+        ref={swiperPagination}
+        className={[
+          'swiper-pagination',
+          'absolute bottom-4 transform -translate-x-1/2',
+          !isSwiperActive ? 'hidden' : null,
+        ].join(' ')}
+        style={{ left: '50%' }}
+      />
     </section>
   )
 }
