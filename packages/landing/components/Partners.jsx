@@ -17,7 +17,8 @@ const Partners = ({ partners }) => {
 
   return (
     <section className={[
-      'relative bg-grey-1 py-20',
+      'relative bg-grey-1',
+      isSwiperActive ? 'py-20' : 'py-10 sm:py-20',
     ].join(' ')}
     >
       <div ref={swiperContainer} className="swiper-container">
