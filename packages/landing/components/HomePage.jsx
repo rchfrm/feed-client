@@ -35,7 +35,7 @@ export default function HomePage({ pageData }) {
       />
       {hasTestimonies && <Testimonies testimonies={testimonies} />}
       <IntroVideo />
-      {!hasPartners && <Partners />}
+      {hasPartners && <Partners partners={partners} />}
       {hasFeatures && <Features features={features} />}
       <PrimaryCTA />
       {hasFeaturedArticles && (

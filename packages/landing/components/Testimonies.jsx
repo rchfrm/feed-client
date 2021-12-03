@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Swiper from 'swiper'
-
 import TestimonyItem from '@/landing/TestimonyItem'
 
-import useOnResize from '@/landing/hooks/useOnResize'
+import useSwiperForBreakpoint from '@/landing/hooks/useSwiperForBreakpoint'
 
 import * as styles from '@/landing/Testimonies.module.css'
 
@@ -15,65 +13,12 @@ const Testimonies = ({
   // Setup swiper
   const swiperContainer = React.useRef(null)
   const swiperPagination = React.useRef(null)
-  const [mySwiper, setMySwiper] = React.useState(null)
-  const [isSwiperActive, setIsSwiperActive] = React.useState(false)
-  const { width } = useOnResize()
-
-  const initiateSwiper = () => {
-    const swiper = new Swiper(swiperContainer.current, {
-      // Optional parameters
-      loop: true,
-      centeredSlides: true,
-      // If we need pagination
-      pagination: {
-        el: swiperPagination.current,
-      },
-      autoplay: {
-        delay: 5000,
-      },
-      breakpoints: {
-        // when window width is >= 320px
-        320: {
-          slidesPerView: 1,
-        },
-        450: {
-          slidesPerView: 2,
-        },
-        600: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-      },
-    })
-    setMySwiper(swiper)
-  }
-
-  const destroySwiper = () => {
-    if (mySwiper) {
-      mySwiper.destroy(true, true)
-    }
-    setIsSwiperActive(false)
-  }
-
-  React.useEffect(() => {
-    if (width <= 992 && testimonies.length > 4) {
-      setIsSwiperActive(true)
-    } else {
-      destroySwiper()
-    }
-    // eslint-disable-next-line
-  }, [width, testimonies.length])
-
-  React.useEffect(() => {
-    if (isSwiperActive) {
-      initiateSwiper()
-    }
-  }, [isSwiperActive])
-
-  React.useEffect(() => {
-    return () => destroySwiper()
-    // eslint-disable-next-line
-  }, [])
+  const isSwiperActive = useSwiperForBreakpoint({
+    breakpoint: 992,
+    items: testimonies,
+    containerEl: swiperContainer.current,
+    paginationEl: swiperPagination.current,
+  })
 
   return (
     <section className={['section--padding', styles.testimoniesSection].join(' ')}>
