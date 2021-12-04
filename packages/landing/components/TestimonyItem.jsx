@@ -20,7 +20,7 @@ const TestimonyItem = ({ testimony, isSwiperActive, className }) => {
         className,
         'col-span-6 sm:col-span-4 flex',
         'text-grey-3 text-xs',
-        isSwiperActive ? 'flex-column justify-center' : '',
+        isSwiperActive ? 'flex-column justify-center' : null,
       ].join(' ')}
     >
       <div className={isSwiperActive ? 'px-8' : 'flex'}>

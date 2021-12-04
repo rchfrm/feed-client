@@ -23,7 +23,7 @@ const useSwiperWithBreakpoint = ({ containerEl, paginationEl, breakpoint, items 
         breakpoints: {
           // when window width is >= 320px
           320: {
-            slidesPerView: 2,
+            slidesPerView: 1,
           },
           450: {
             slidesPerView: 2,
