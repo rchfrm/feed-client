@@ -3,7 +3,7 @@ import React from 'react'
 import Swiper from 'swiper'
 import useOnResize from '@/landing/hooks/useOnResize'
 
-const useSwiperForBreakpoint = ({ containerEl, paginationEl, breakpoint, items }) => {
+const useSwiperWithBreakpoint = ({ containerEl, paginationEl, breakpoint, items }) => {
   const [mySwiper, setMySwiper] = React.useState(null)
   const { width } = useOnResize()
 
@@ -66,4 +66,4 @@ const useSwiperForBreakpoint = ({ containerEl, paginationEl, breakpoint, items }
   return Boolean(mySwiper)
 }
 
-export default useSwiperForBreakpoint
+export default useSwiperWithBreakpoint

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import TestimonyItem from '@/landing/TestimonyItem'
 
-import useSwiperForBreakpoint from '@/landing/hooks/useSwiperForBreakpoint'
+import useSwiperWithBreakpoint from '@/landing/hooks/useSwiperWithBreakpoint'
 
 const Testimonies = ({
   testimonies,
@@ -12,7 +12,7 @@ const Testimonies = ({
   const swiperContainer = React.useRef(null)
   const swiperPagination = React.useRef(null)
   const swiperSlide = React.useRef(null)
-  const isSwiperActive = useSwiperForBreakpoint({
+  const isSwiperActive = useSwiperWithBreakpoint({
     breakpoint: 992,
     items: testimonies,
     containerEl: swiperContainer.current,
