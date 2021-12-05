@@ -21,6 +21,7 @@ const getButtonColor = (color) => {
 }
 
 const getButtonVersion = (color) => {
+  if (color === 'facebook') return 'facebook'
   if (color === 'green') return 'green'
   if (color === 'red') return 'red'
   return 'black'

@@ -44,7 +44,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         {
           text: ctaText,
           onClick: () => {},
-          color: 'green',
+          color: facebookButton ? 'facebook' : 'green',
           href: ctaLink,
           facebookButton,
         },

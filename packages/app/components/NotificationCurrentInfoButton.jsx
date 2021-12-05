@@ -22,6 +22,7 @@ const NotificationCurrentInfoButton = ({
   // Notifications should be either dismissible, dismissible with CTA or actionable, but never dismissible and actionable.
   // Once an actionable notification is complete, it can be dismissed.
   const canDismiss = (isActionable && isComplete) || isDismissible
+  const isFacebookButton = buttonType === 'facebook' && !isComplete
 
   const onClick = React.useCallback(async () => {
     setLoading(true)
@@ -35,39 +36,31 @@ const NotificationCurrentInfoButton = ({
     onComplete()
   }, [actionType, onAction, onComplete])
 
+  const ButtonType = isFacebookButton ? ButtonFacebook : Button
+
   return (
     <div className="mt-auto">
-      {isDismissible && ctaLink && (
-        <Button
+      {(isActionable && !isComplete) || (isDismissible && ctaLink) ? (
+        <ButtonType
           className={!sidepanelLayout ? 'w-full rounded-none' : null}
-          version="black"
+          version={isFacebookButton ? null : 'green'}
           loading={loading}
           onClick={onClick}
+          fallbackCta={isFacebookButton ? ctaText : null}
           trackComponentName="NotificationCurrentInfoButton"
         >
           {ctaText}
-        </Button>
-      )}
+        </ButtonType>
+      ) : null}
 
-      {buttonType === 'facebook' && !isComplete ? (
-        <ButtonFacebook
-          className={!sidepanelLayout ? 'w-full rounded-t-none' : null}
-          loading={loading}
-          onClick={onClick}
-          fallbackCta={ctaText}
-          trackComponentName="NotificationCurrentInfoButton"
-        >
-          {ctaText}
-        </ButtonFacebook>
-      ) : (
+      {canDismiss && (
         <Button
           className={!sidepanelLayout ? 'w-full rounded-t-none' : null}
-          version="green"
-          loading={canDismiss ? false : loading}
-          onClick={canDismiss ? dismissNotification : onClick}
+          version="black"
+          onClick={dismissNotification}
           trackComponentName="NotificationCurrentInfoButton"
         >
-          {canDismiss ? 'Dismiss' : ctaText}
+          Dismiss
         </Button>
       )}
     </div>
