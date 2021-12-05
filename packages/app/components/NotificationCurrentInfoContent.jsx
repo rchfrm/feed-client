@@ -17,42 +17,44 @@ const NotificationCurrentInfoContent = ({
 }) => {
   const hasButton = !sidepanelLayout
   return (
-    <div className={hasButton ? 'pb-12' : null}>
+    <div className="flex flex-column">
       {!sidepanelLayout && isComplete && (
         <TickIcon
           className="absolute top-0 right-0 h-4 w-auto mr-5 mt-4"
           fill={brandColors.green}
         />
       )}
-      <p
-        className={[
-          'text-sm text-grey-3',
-          'mb-3',
-          sidepanelLayout ? 'mt-3' : null,
-        ].join(' ')}
-      >
-        {date}
-      </p>
-      <h3
-        className={[
-          sidepanelLayout ? 'h2' : null,
-        ].join(' ')}
-      >
-        {sidepanelLayout && isComplete && (
-          <TickIcon
-            fill={brandColors.green}
-            style={{
-              height: '0.5em',
-              width: 'auto',
-              marginRight: '0.5em',
-              display: 'inline-block',
-              transform: 'translateY(-0.1em)',
-            }}
-          />
-        )}
-        {title}
-      </h3>
-      <MarkdownText markdown={description} />
+      <div className="p-4 sm:p-5">
+        <p
+          className={[
+            'text-sm text-grey-3',
+            'mb-3',
+            sidepanelLayout ? 'mt-3' : null,
+          ].join(' ')}
+        >
+          {date}
+        </p>
+        <h3
+          className={[
+            sidepanelLayout ? 'h2' : null,
+          ].join(' ')}
+        >
+          {sidepanelLayout && isComplete && (
+            <TickIcon
+              fill={brandColors.green}
+              style={{
+                height: '0.5em',
+                width: 'auto',
+                marginRight: '0.5em',
+                display: 'inline-block',
+                transform: 'translateY(-0.1em)',
+              }}
+            />
+          )}
+          {title}
+        </h3>
+        <MarkdownText markdown={description} />
+      </div>
       {/* BUTTON (for not sidepanel layout) */}
       {hasButton && buttonEl}
     </div>

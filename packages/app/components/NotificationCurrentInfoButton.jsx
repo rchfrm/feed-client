@@ -7,8 +7,9 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 const NotificationCurrentInfoButton = ({
   sidepanelLayout,
   ctaText,
+  ctaLink,
+  actionType,
   buttonType,
-  linkType,
   isActionable,
   isComplete,
   isDismissible,
@@ -18,58 +19,64 @@ const NotificationCurrentInfoButton = ({
 }) => {
   const [loading, setLoading] = React.useState(false)
 
-  // Notifications should be either dismissible or actionable, not both.
+  // Notifications should be either dismissible, dismissible with CTA or actionable, but never dismissible and actionable.
   // Once an actionable notification is complete, it can be dismissed.
   const canDismiss = (isActionable && isComplete) || isDismissible
+  const isFacebookButton = buttonType === 'facebook' && !isComplete
 
   const onClick = React.useCallback(async () => {
-    if (canDismiss) {
+    if (canDismiss && !ctaLink) {
       dismissNotification()
       return
     }
     setLoading(true)
     const { res, error } = await onAction() || {}
     // Stop here if navigating to new page
-    if (linkType === 'internal') return
+    if (actionType === 'link_int') return
     setLoading(false)
     // Don't complete
     if (error || res === 'incomplete') return
     // Update notification as resolved
     onComplete()
-  }, [linkType, canDismiss, onAction, onComplete, dismissNotification])
+  }, [actionType, ctaLink, canDismiss, onAction, onComplete, dismissNotification])
 
-  if (buttonType === 'facebook' && !isComplete) {
-    return (
-      <ButtonFacebook
-        className={!sidepanelLayout ? 'w-full absolute left-0 bottom-0 rounded-t-none' : null}
-        loading={loading}
-        onClick={onClick}
-        fallbackCta={ctaText}
-        trackComponentName="NotificationCurrentInfoButton"
-      >
-        {ctaText}
-      </ButtonFacebook>
-    )
-  }
+  const NotificationButton = isFacebookButton ? ButtonFacebook : Button
 
   return (
-    <Button
-      className={!sidepanelLayout ? 'w-full absolute left-0 bottom-0 rounded-t-none' : null}
-      version="green"
-      loading={loading}
-      onClick={onClick}
-      trackComponentName="NotificationCurrentInfoButton"
-    >
-      {canDismiss ? 'Dismiss' : ctaText}
-    </Button>
+    <div className="mt-auto">
+      {isDismissible && ctaLink ? (
+        <NotificationButton
+          className={!sidepanelLayout ? 'w-full rounded-none' : null}
+          version={isFacebookButton ? null : 'black'}
+          loading={loading}
+          onClick={onClick}
+          fallbackCta={isFacebookButton ? ctaText : null}
+          trackComponentName="NotificationCurrentInfoButton"
+        >
+          {ctaText}
+        </NotificationButton>
+      ) : null}
+
+      <NotificationButton
+        className={!sidepanelLayout ? 'w-full rounded-t-none' : null}
+        version={isFacebookButton ? null : 'green'}
+        loading={canDismiss ? false : loading}
+        onClick={canDismiss ? dismissNotification : onClick}
+        fallbackCta={isFacebookButton ? ctaText : null}
+        trackComponentName="NotificationCurrentInfoButton"
+      >
+        {canDismiss ? 'Dismiss' : ctaText}
+      </NotificationButton>
+    </div>
   )
 }
 
 NotificationCurrentInfoButton.propTypes = {
   sidepanelLayout: PropTypes.bool.isRequired,
   ctaText: PropTypes.string,
+  ctaLink: PropTypes.string,
+  actionType: PropTypes.string,
   buttonType: PropTypes.string.isRequired,
-  linkType: PropTypes.string,
   isActionable: PropTypes.bool.isRequired,
   isComplete: PropTypes.bool.isRequired,
   onAction: PropTypes.func.isRequired,
@@ -78,8 +85,9 @@ NotificationCurrentInfoButton.propTypes = {
 }
 
 NotificationCurrentInfoButton.defaultProps = {
-  linkType: null,
+  actionType: null,
   ctaText: null,
+  ctaLink: null,
 }
 
 

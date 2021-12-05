@@ -42,12 +42,12 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
   if (entityType === 'organizations') return apiEndpoint.replace('${organization.id}', entityId)
 }
 
-const getLinkAction = (ctaLink, actionType, trackingPayload) => {
+const getLinkAction = (actionType, ctaLink, trackingPayload) => {
   // INTERNAL
   if (actionType === 'link_int') {
     return () => Router.push(ctaLink)
   }
-  // EXTERANA:
+  // EXTERNAL:
   // Tracks click in mixpanel and opens link
   return () => {
     mixpanelExternalLinkClick({
@@ -109,7 +109,7 @@ export const getAction = ({
       const [, variable] = match
       link = data[variable]
     }
-    return getLinkAction(link, actionType, {
+    return getLinkAction(actionType, link, {
       title,
       topic,
       isDismissible,
@@ -218,7 +218,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     const date = moment(created_at).format('DD MMM')
     const dateLong = moment(created_at).format('DD MMM YY')
     // Get Action function
-    const onAction = isActionable ? getAction({
+    const onAction = getAction({
       ctaLink,
       actionType,
       apiMethod,
@@ -232,7 +232,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       isActionable,
       hasFbAuth,
       missingScopes,
-    }) : () => {}
+    })
     // Return formatted notification
     const formattedNotification = {
       id,

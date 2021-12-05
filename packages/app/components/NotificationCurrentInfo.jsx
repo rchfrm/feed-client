@@ -56,7 +56,6 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   // GET DISMISS FUNCTION
   const dismissNotification = useDismissNotification(openedNotification)
 
-
   const infoButtonAndContent = React.useMemo(() => {
     if (!openedNotification) return {}
     // Fallback to 'Ok' if a notification is actionable but no ctaText is provided by Dato
@@ -68,8 +67,9 @@ const NotificationCurrentInfo = ({ containerRef }) => {
     const button = (
       <NotificationCurrentInfoButton
         ctaText={ctaText}
+        ctaLink={openedNotification.ctaLink}
+        actionType={openedNotification.actionType}
         buttonType={openedNotification.buttonType}
-        linkType={openedNotification.linkType}
         isActionable={isActionable}
         isDismissible={openedNotification.isDismissible}
         isComplete={openedNotification.isComplete}
@@ -161,7 +161,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
           ref={animatedDiv.ref}
           className={[
             'rounded-dialogue',
-            'p-4 sm:p-5 bg-grey-1',
+            'bg-grey-1',
           ].join(' ')}
           style={{
             marginTop: -1,
